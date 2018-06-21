@@ -43,12 +43,15 @@ public class DiscoveryClientDecorator implements DiscoveryClient {
 
     @Override
     public List<ServiceInstance> getInstances(String serviceId) {
-        String applicationName = environment.getProperty(DiscoveryPluginConstant.SPRING_APPLICATION_NAME);
-
         List<ServiceInstance> instances = discoveryClient.getInstances(serviceId);
 
-        VersionStrategy versionStrategy = applicationContext.getBean(VersionStrategy.class);
-        versionStrategy.apply(applicationName, serviceId, instances);
+        boolean discoveryVersionEnabled = Boolean.valueOf(environment.getProperty(DiscoveryPluginConstant.SPRING_APPLICATION_DISCOVERY_VERSION_ENABLED));
+        if (discoveryVersionEnabled) {
+            String applicationName = environment.getProperty(DiscoveryPluginConstant.SPRING_APPLICATION_NAME);
+
+            VersionStrategy versionStrategy = applicationContext.getBean(VersionStrategy.class);
+            versionStrategy.apply(applicationName, serviceId, instances);
+        }
 
         return instances;
     }
