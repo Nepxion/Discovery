@@ -24,10 +24,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
+import com.nepxion.discovery.plugin.config.DiscoveryPluginConfigPublisher;
 import com.nepxion.discovery.plugin.loader.AbstractFileLoader;
 import com.nepxion.discovery.plugin.loader.FileLoader;
-import com.nepxion.eventbus.core.Event;
-import com.nepxion.eventbus.core.EventControllerFactory;
 
 @Component
 public class DiscoveryPluginSimulator {
@@ -54,7 +53,7 @@ public class DiscoveryPluginSimulator {
 
     // 模拟每隔15秒通过事件总线接收远程配置中心推送过来的配置更新
     @Autowired
-    private EventControllerFactory eventControllerFactory;
+    private DiscoveryPluginConfigPublisher discoveryPluginConfigPublisher;
 
     @PostConstruct
     public void initialize() {
@@ -66,7 +65,7 @@ public class DiscoveryPluginSimulator {
                 // 本地文件模拟代替远程文件，随机读取
                 int index = threadLocalRandom.nextInt(3) + 1;
                 InputStream inputStream = createInputStream("src/main/resources/discovery" + index + ".xml");
-                eventControllerFactory.getAsyncController().post(new Event(inputStream));
+                discoveryPluginConfigPublisher.publish(inputStream);
             }
         }, 0L, 15000L);
     }

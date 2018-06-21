@@ -62,7 +62,7 @@ public class DiscoveryPluginConfigLoader {
     }
 
     @Subscribe
-    public void refresh(Event event) {
+    public void subscribe(Event event) {
         if (!remoteConfigEnabled) {
             return;
         }

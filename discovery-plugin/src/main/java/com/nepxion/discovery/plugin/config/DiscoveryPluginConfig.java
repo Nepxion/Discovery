@@ -37,6 +37,11 @@ public class DiscoveryPluginConfig {
     }
 
     @Bean
+    public DiscoveryPluginConfigPublisher discoveryPluginConfigPublisher() {
+        return new DiscoveryPluginConfigPublisher();
+    }
+
+    @Bean
     public DiscoveryEntity discoveryEntity() {
         return new DiscoveryEntity();
     }
