@@ -9,7 +9,7 @@ package com.nepxion.discovery.plugin.config;
  * @version 1.0
  */
 
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.annotation.PostConstruct;
 
@@ -47,8 +47,8 @@ public class DiscoveryPluginConfig {
     }
 
     @Bean
-    public ReentrantLock reentrantLock() {
-        return new ReentrantLock();
+    public ReentrantReadWriteLock reentrantReadWriteLock() {
+        return new ReentrantReadWriteLock();
     }
 
     @Bean

@@ -10,6 +10,7 @@ package com.nepxion.discovery.plugin.strategy;
  */
 
 import java.util.Map;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +24,23 @@ public class FilterStrategy {
     @Autowired
     private DiscoveryEntity discoveryEntity;
 
-    public void apply(String serviceId, String ipAddress) {
-        FilterEntity filterEntity = discoveryEntity.getFilterEntity();
-        String globalFilterValue = filterEntity.getFilterValue();
-        validate(globalFilterValue, ipAddress);
+    @Autowired
+    private ReentrantReadWriteLock reentrantReadWriteLock;
 
-        Map<String, String> filterMap = filterEntity.getFilterMap();
-        String filterValue = filterMap.get(serviceId);
-        validate(filterValue, ipAddress);
+    public void apply(String serviceId, String ipAddress) {
+        try {
+            reentrantReadWriteLock.readLock().lock();
+
+            FilterEntity filterEntity = discoveryEntity.getFilterEntity();
+            String globalFilterValue = filterEntity.getFilterValue();
+            validate(globalFilterValue, ipAddress);
+
+            Map<String, String> filterMap = filterEntity.getFilterMap();
+            String filterValue = filterMap.get(serviceId);
+            validate(filterValue, ipAddress);
+        } finally {
+            reentrantReadWriteLock.readLock().unlock();
+        }
     }
 
     private void validate(String filterValue, String ipAddress) {

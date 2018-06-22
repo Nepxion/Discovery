@@ -41,7 +41,7 @@ public class DiscoveryPluginConfigSimulator {
                 InputStream inputStream = getInputStream("src/main/resources/discovery" + index + ".xml");
                 discoveryPluginConfigPublisher.publish(inputStream);
             }
-        }, 0L, 15000L);
+        }, 10000L, 15000L);
     }
 
     private InputStream getInputStream(String fileName) {

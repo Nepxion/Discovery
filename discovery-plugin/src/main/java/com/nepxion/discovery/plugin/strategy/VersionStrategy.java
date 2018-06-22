@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +29,11 @@ public class VersionStrategy {
     private DiscoveryEntity discoveryEntity;
 
     @Autowired
-    private ReentrantLock reentrantLock;
+    private ReentrantReadWriteLock reentrantReadWriteLock;
 
     public void apply(String consumerServiceId, String providerServiceId, List<ServiceInstance> instances) {
         try {
-            reentrantLock.lock();
+            reentrantReadWriteLock.readLock().lock();
 
             VersionEntity versionEntity = discoveryEntity.getVersionEntity();
             ConsumerEntity consumerEntity = getConsumerEntity(consumerServiceId, versionEntity);
@@ -52,7 +52,7 @@ public class VersionStrategy {
                 }
             }
         } finally {
-            reentrantLock.unlock();
+            reentrantReadWriteLock.readLock().unlock();
         }
     }
 

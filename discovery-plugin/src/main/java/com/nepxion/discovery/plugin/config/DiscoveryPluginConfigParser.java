@@ -12,7 +12,7 @@ package com.nepxion.discovery.plugin.config;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Attribute;
@@ -37,7 +37,7 @@ public class DiscoveryPluginConfigParser extends Dom4JParser {
     private DiscoveryEntity discoveryEntity;
 
     @Autowired
-    private ReentrantLock reentrantLock;
+    private ReentrantReadWriteLock reentrantReadWriteLock;
 
     @SuppressWarnings("rawtypes")
     @Override
@@ -70,12 +70,12 @@ public class DiscoveryPluginConfigParser extends Dom4JParser {
         }
 
         try {
-            reentrantLock.lock();
+            reentrantReadWriteLock.writeLock().lock();
 
             discoveryEntity.setFilterEntity(filterEntity);
             discoveryEntity.setVersionEntity(versionEntity);
         } finally {
-            reentrantLock.unlock();
+            reentrantReadWriteLock.writeLock().unlock();
         }
 
         LOG.info("Discovery entity is {}", discoveryEntity);
