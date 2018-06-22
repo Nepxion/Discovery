@@ -7,7 +7,7 @@
     <packaging>jar</packaging>
     <modelVersion>4.0.0</modelVersion>
     <version>1.0.0</version>
-    <description>Nepxion Discovery is</description>
+    <description>Nepxion Discovery is an enhancement for Spring Cloud Discovery</description>
     <url>http://www.nepxion.com</url>
 
     <parent>
