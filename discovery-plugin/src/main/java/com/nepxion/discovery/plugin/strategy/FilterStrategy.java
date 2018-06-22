@@ -30,12 +30,14 @@ public class FilterStrategy {
 
         Map<String, String> filterMap = filterEntity.getFilterMap();
         String filterValue = filterMap.get(serviceId);
-        if (StringUtils.isNotEmpty(filterValue)) {
-            validate(filterValue, ipAddress);
-        }
+        validate(filterValue, ipAddress);
     }
 
     private void validate(String filterValue, String ipAddress) {
+        if (StringUtils.isEmpty(filterValue)) {
+            return;
+        }
+
         String[] filterArray = StringUtils.split(filterValue, DiscoveryPluginConstant.SEPARATE);
         for (String filter : filterArray) {
             if (ipAddress.startsWith(filter)) {

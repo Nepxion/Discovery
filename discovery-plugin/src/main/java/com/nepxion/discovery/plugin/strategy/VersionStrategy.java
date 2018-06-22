@@ -40,16 +40,14 @@ public class VersionStrategy {
             if (consumerEntity != null) {
                 Map<String, String> providerMap = consumerEntity.getProviderMap();
                 String version = providerMap.get(providerServiceId);
-                if (StringUtils.isNotEmpty(version)) {
-                    String[] versionArray = StringUtils.split(version, DiscoveryPluginConstant.SEPARATE);
-                    List<String> versionList = Arrays.asList(versionArray);
-                    Iterator<ServiceInstance> iterator = instances.iterator();
-                    while (iterator.hasNext()) {
-                        ServiceInstance serviceInstance = iterator.next();
-                        String metaDataVersion = serviceInstance.getMetadata().get(DiscoveryPluginConstant.EUREKA_METADATA_VERSION);
-                        if (!versionList.contains(metaDataVersion)) {
-                            iterator.remove();
-                        }
+                String[] versionArray = StringUtils.split(version, DiscoveryPluginConstant.SEPARATE);
+                List<String> versionList = Arrays.asList(versionArray);
+                Iterator<ServiceInstance> iterator = instances.iterator();
+                while (iterator.hasNext()) {
+                    ServiceInstance serviceInstance = iterator.next();
+                    String metaDataVersion = serviceInstance.getMetadata().get(DiscoveryPluginConstant.EUREKA_METADATA_VERSION);
+                    if (!versionList.contains(metaDataVersion)) {
+                        iterator.remove();
                     }
                 }
             }
