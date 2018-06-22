@@ -44,16 +44,16 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
     <!-- 服务注册的黑/白名单过滤。白名单表示只允许指定IP地址前缀注册，黑名单表示不允许指定IP地址前缀注册。每个服务只能同时开启要么白名单，要么黑名单 -->
     <!-- filter-type，可选值BLACKLIST/WHITELIST，表示白名单或者黑名单 -->
     <!-- service-name，表示服务名 -->
-    <!-- filter-value，表示黑/白名单的IP地址列表。IP地址一般用前缀来表示，如果多个用“;”分隔 -->
+    <!-- filter-value，表示黑/白名单的IP地址列表。IP地址一般用前缀来表示，如果多个用“,”分隔 -->
     <!-- 表示下面所有服务，不允许10.10和11.11为前缀的IP地址注册（全局过滤） -->
-    <register filter-type="BLACKLIST" filter-value="10.10;11.11">
+    <register filter-type="BLACKLIST" filter-value="10.10,11.11">
         <!-- 表示下面服务，不允许172.16和10.10和11.11为前缀的IP地址注册 -->
         <service service-name="discovery-springcloud-example-a" filter-value="172.16"/>
     </register>
 
     <!-- 服务发现下，服务多版本调用的控制 -->
     <!-- service-name，表示服务名 -->
-    <!-- version-value，表示可供访问的版本，如果多个用“;”分隔 -->
+    <!-- version-value，表示可供访问的版本，如果多个用“,”分隔 -->
     <discovery>
         <!-- 下面三种情况视作不会灰度版本做控制： -->
         <!-- 1. 版本值不配置（即xxx-version-value属性缺失） -->
@@ -61,7 +61,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
         <!-- 3. 版本对应关系不配置（即<service .../>不存在） -->
         <!-- 表示消费端服务a的任何版本，允许访问提供端服务b的任何版本 -->
         <!-- 表示消费端服务a的1.0，允许访问提供端服务b的1.0和1.1版本 -->
-        <service consumer-service-name="discovery-springcloud-example-a" provider-service-name="discovery-springcloud-example-b" consumer-version-value="1.0" provider-version-value="1.0;1.1"/>
+        <service consumer-service-name="discovery-springcloud-example-a" provider-service-name="discovery-springcloud-example-b" consumer-version-value="1.0" provider-version-value="1.0,1.1"/>
     </discovery>
 </rule>
 ```
