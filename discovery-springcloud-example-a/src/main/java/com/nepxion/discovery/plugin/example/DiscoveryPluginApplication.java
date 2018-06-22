@@ -12,11 +12,25 @@ package com.nepxion.discovery.plugin.example;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.context.annotation.Bean;
+
+import com.nepxion.discovery.plugin.example.impl.DiscoveryPluginConfigSimulator;
+import com.nepxion.discovery.plugin.example.impl.DiscoveryPluginFileLoader;
 
 @SpringBootApplication
 @EnableDiscoveryClient
 public class DiscoveryPluginApplication {
     public static void main(String[] args) {
         new SpringApplicationBuilder(DiscoveryPluginApplication.class).web(true).run(args);
+    }
+
+    @Bean
+    public DiscoveryPluginFileLoader discoveryPluginFileLoader() {
+        return new DiscoveryPluginFileLoader();
+    }
+
+    @Bean
+    public DiscoveryPluginConfigSimulator discoveryPluginConfigSimulator() {
+        return new DiscoveryPluginConfigSimulator();
     }
 }

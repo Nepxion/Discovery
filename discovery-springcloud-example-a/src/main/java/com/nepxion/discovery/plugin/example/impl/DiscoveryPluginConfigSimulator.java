@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.example;
+package com.nepxion.discovery.plugin.example.impl;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -12,7 +12,6 @@ package com.nepxion.discovery.plugin.example;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -21,37 +20,11 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 
 import com.nepxion.discovery.plugin.config.DiscoveryPluginConfigPublisher;
-import com.nepxion.discovery.plugin.loader.AbstractFileLoader;
-import com.nepxion.discovery.plugin.loader.FileLoader;
 
-@Component
-public class DiscoveryPluginSimulator {
-    // 模拟从本地配置和远程配置获取discovery.xml
-    @Bean
-    public FileLoader fileLoader() {
-        return new AbstractFileLoader() {
-            @Override
-            public InputStream getRemoteInputStream() throws IOException {
-                // 本地文件模拟代替远程文件
-                return createInputStream("src/main/resources/discovery1.xml");
-            }
-
-            @Override
-            protected String getLocalContextPath() {
-                // 配置文件放在resources目录下
-                return "classpath:discovery1.xml";
-
-                // 配置文件放在工程根目录下
-                // return "file:discovery.xml";
-            }
-        };
-    }
-
-    // 模拟每隔15秒通过事件总线接收远程配置中心推送过来的配置更新
+// 模拟从远程配置中心接受配置更新
+public class DiscoveryPluginConfigSimulator {
     @Autowired
     private DiscoveryPluginConfigPublisher discoveryPluginConfigPublisher;
 
@@ -59,11 +32,12 @@ public class DiscoveryPluginSimulator {
     public void initialize() {
         ThreadLocalRandom threadLocalRandom = ThreadLocalRandom.current();
 
+        // 模拟每隔15秒通过EventBus接收远程配置中心推送过来的配置更新
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
                 // 本地文件模拟代替远程文件，随机读取
-                int index = threadLocalRandom.nextInt(3) + 1;
+                int index = threadLocalRandom.nextInt(4) + 1;
                 InputStream inputStream = createInputStream("src/main/resources/discovery" + index + ".xml");
                 discoveryPluginConfigPublisher.publish(inputStream);
             }
