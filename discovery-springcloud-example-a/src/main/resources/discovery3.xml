@@ -4,12 +4,12 @@
     <!-- filter-type，可选值BLACKLIST/WHITELIST，表示白名单或者黑名单 -->  
     <!-- service-name，表示服务名 -->
     <!-- filter-value，表示黑/白名单的IP地址列表。IP地址一般用前缀来表示，如果多个用“;”分隔 -->
-    <!-- 表示下面所有服务，不允许192.168和192.168为前缀的IP地址注册（全局过滤） -->
-    <filter filter-type="BLACKLIST" filter-value="192.168;172.16">
-        <!-- 表示下面服务，不允许10.10和192.168和172.16为前缀的IP地址注册 -->
-        <service service-name="discovery-springcloud-example" filter-value="10.10"/>
-        <!-- 表示下面服务，不允许11.11和192.168和172.16为前缀的IP地址注册 -->
-        <service service-name="my-springcloud-example" filter-value="11.11"/>
+    <!-- 表示下面所有服务，不允许10.10和11.11为前缀的IP地址注册（全局过滤） -->
+    <filter filter-type="BLACKLIST" filter-value="10.10;11.11">
+        <!-- 表示下面服务，不允许172.16和10.10和11.11为前缀的IP地址注册 -->
+        <service service-name="discovery-springcloud-example" filter-value="172.16"/>
+        <!-- 表示下面服务，不允许173.16和10.10和11.11为前缀的IP地址注册 -->
+        <service service-name="my-springcloud-example" filter-value="173.16"/>
     </filter>
 
     <!-- 服务注册下，服务多版本调用的控制 -->

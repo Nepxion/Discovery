@@ -60,4 +60,8 @@ public class DiscoveryClientDecorator implements DiscoveryClient {
     public List<String> getServices() {
         return discoveryClient.getServices();
     }
+
+    public ConfigurableEnvironment getEnvironment() {
+        return environment;
+    }
 }

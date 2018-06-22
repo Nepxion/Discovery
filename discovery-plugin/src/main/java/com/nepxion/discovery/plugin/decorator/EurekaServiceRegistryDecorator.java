@@ -15,7 +15,6 @@ import org.springframework.cloud.netflix.eureka.serviceregistry.EurekaServiceReg
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
-import com.nepxion.discovery.plugin.constant.DiscoveryPluginConstant;
 import com.nepxion.discovery.plugin.strategy.FilterStrategy;
 
 public class EurekaServiceRegistryDecorator extends EurekaServiceRegistry {
@@ -31,20 +30,13 @@ public class EurekaServiceRegistryDecorator extends EurekaServiceRegistry {
 
     @Override
     public void register(EurekaRegistration registration) {
-        boolean discoveryFilterEnabled = Boolean.valueOf(environment.getProperty(DiscoveryPluginConstant.SPRING_APPLICATION_DISCOVERY_FILTER_ENABLED));
-        if (discoveryFilterEnabled) {
-            discoveryFilterEnabled(registration);
-        }
-
-        serviceRegistry.register(registration);
-    }
-
-    private void discoveryFilterEnabled(EurekaRegistration registration) {
         String serviceId = registration.getServiceId();
         String ipAddress = registration.getInstanceConfig().getIpAddress();
 
         FilterStrategy filterStrategy = applicationContext.getBean(FilterStrategy.class);
         filterStrategy.apply(serviceId, ipAddress);
+
+        serviceRegistry.register(registration);
     }
 
     @Override
@@ -65,5 +57,9 @@ public class EurekaServiceRegistryDecorator extends EurekaServiceRegistry {
     @Override
     public Object getStatus(EurekaRegistration registration) {
         return serviceRegistry.getStatus(registration);
+    }
+
+    public ConfigurableEnvironment getEnvironment() {
+        return environment;
     }
 }

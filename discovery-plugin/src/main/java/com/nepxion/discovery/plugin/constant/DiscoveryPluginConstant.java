@@ -10,7 +10,6 @@ package com.nepxion.discovery.plugin.constant;
  */
 
 public class DiscoveryPluginConstant {
-    public static final String SPRING_APPLICATION_DISCOVERY_FILTER_ENABLED = "spring.application.discovery.filter.enabled";
     public static final String SPRING_APPLICATION_DISCOVERY_VERSION_ENABLED = "spring.application.discovery.version.enabled";
     public static final String SPRING_APPLICATION_DISCOVERY_REMOTE_CONFIG_ENABLED = "spring.application.discovery.remote.config.enabled";
 
