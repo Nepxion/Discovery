@@ -30,7 +30,9 @@ public class FilterStrategy {
 
         Map<String, String> filterMap = filterEntity.getFilterMap();
         String filterValue = filterMap.get(serviceId);
-        validate(filterValue, ipAddress);
+        if (StringUtils.isNotEmpty(filterValue)) {
+            validate(filterValue, ipAddress);
+        }
     }
 
     private void validate(String filterValue, String ipAddress) {

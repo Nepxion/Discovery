@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.commons.lang3.StringUtils;
+import org.dom4j.Attribute;
 import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,12 +46,12 @@ public class DiscoveryPluginConfigParser extends Dom4JParser {
 
         int filterElementCount = element.elements(DiscoveryPluginConstant.FILTER_ELEMENT_NAME).size();
         if (filterElementCount > 1) {
-            throw new DiscoveryPluginException("The count of element [" + DiscoveryPluginConstant.FILTER_ELEMENT_NAME + "] can't be more than 1");
+            throw new DiscoveryPluginException("The count of element[" + DiscoveryPluginConstant.FILTER_ELEMENT_NAME + "] can't be more than 1");
         }
 
         int versionElementCount = element.elements(DiscoveryPluginConstant.VERSION_ELEMENT_NAME).size();
         if (versionElementCount > 1) {
-            throw new DiscoveryPluginException("The count of element [" + DiscoveryPluginConstant.VERSION_ELEMENT_NAME + "] can't be more than 1");
+            throw new DiscoveryPluginException("The count of element[" + DiscoveryPluginConstant.VERSION_ELEMENT_NAME + "] can't be more than 1");
         }
 
         FilterEntity filterEntity = new FilterEntity();
@@ -76,16 +77,24 @@ public class DiscoveryPluginConfigParser extends Dom4JParser {
         } finally {
             reentrantLock.unlock();
         }
-        
+
         LOG.info("Discovery entity is {}", discoveryEntity);
     }
 
     @SuppressWarnings("rawtypes")
     private void parseFilter(Element element, FilterEntity filterEntity) {
-        String filterType = element.attribute(DiscoveryPluginConstant.FILTER_TYPE_ATTRIBUTE_NAME).getData().toString().trim();
-        String globalFilterValue = element.attribute(DiscoveryPluginConstant.FILTER_VALUE_ATTRIBUTE_NAME).getData().toString().trim();
+        Attribute filterTypeAttribute = element.attribute(DiscoveryPluginConstant.FILTER_TYPE_ATTRIBUTE_NAME);
+        if (filterTypeAttribute == null) {
+            throw new DiscoveryPluginException("Attribute[" + DiscoveryPluginConstant.FILTER_TYPE_ATTRIBUTE_NAME + "] in element[" + element.getName() + "] is missing");
+        }
+        String filterType = filterTypeAttribute.getData().toString().trim();
         filterEntity.setFilterType(FilterType.fromString(filterType));
-        filterEntity.setFilterValue(globalFilterValue);
+
+        Attribute globalFilterAttribute = element.attribute(DiscoveryPluginConstant.FILTER_VALUE_ATTRIBUTE_NAME);
+        if (globalFilterAttribute != null) {
+            String globalFilterValue = globalFilterAttribute.getData().toString().trim();
+            filterEntity.setFilterValue(globalFilterValue);
+        }
 
         Map<String, String> filterMap = filterEntity.getFilterMap();
 
@@ -94,9 +103,17 @@ public class DiscoveryPluginConfigParser extends Dom4JParser {
             if (childElementObject instanceof Element) {
                 Element childElement = (Element) childElementObject;
 
-                String serviceName = childElement.attribute(DiscoveryPluginConstant.SERVICE_NAME_ATTRIBUTE_NAME).getData().toString().trim();
-                String filterValue = childElement.attribute(DiscoveryPluginConstant.FILTER_VALUE_ATTRIBUTE_NAME).getData().toString().trim();
+                Attribute serviceNameAttribute = childElement.attribute(DiscoveryPluginConstant.SERVICE_NAME_ATTRIBUTE_NAME);
+                if (serviceNameAttribute == null) {
+                    throw new DiscoveryPluginException("Attribute[" + DiscoveryPluginConstant.SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                }
+                String serviceName = serviceNameAttribute.getData().toString().trim();
 
+                Attribute filterValueAttribute = childElement.attribute(DiscoveryPluginConstant.FILTER_VALUE_ATTRIBUTE_NAME);
+                String filterValue = null;
+                if (filterValueAttribute != null) {
+                    filterValue = filterValueAttribute.getData().toString().trim();
+                }
                 filterMap.put(serviceName, filterValue);
             }
         }
@@ -111,7 +128,11 @@ public class DiscoveryPluginConfigParser extends Dom4JParser {
                 Element childElement = (Element) childElementObject;
 
                 ConsumerEntity consumerEntity = new ConsumerEntity();
-                String serviceName = childElement.attribute(DiscoveryPluginConstant.SERVICE_NAME_ATTRIBUTE_NAME).getData().toString().trim();
+                Attribute serviceNameAttribute = childElement.attribute(DiscoveryPluginConstant.SERVICE_NAME_ATTRIBUTE_NAME);
+                if (serviceNameAttribute == null) {
+                    throw new DiscoveryPluginException("Attribute[" + DiscoveryPluginConstant.SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                }
+                String serviceName = serviceNameAttribute.getData().toString().trim();
                 consumerEntity.setServiceName(serviceName);
 
                 parseConsumer(childElement, consumerEntity);
@@ -129,8 +150,17 @@ public class DiscoveryPluginConfigParser extends Dom4JParser {
             if (childElementObject instanceof Element) {
                 Element childElement = (Element) childElementObject;
 
-                String serviceName = childElement.attribute(DiscoveryPluginConstant.SERVICE_NAME_ATTRIBUTE_NAME).getData().toString().trim();
-                String versionValue = childElement.attribute(DiscoveryPluginConstant.VERSION_VALUE_NAME_ATTRIBUTE_NAME).getData().toString().trim();
+                Attribute serviceNameAttribute = childElement.attribute(DiscoveryPluginConstant.SERVICE_NAME_ATTRIBUTE_NAME);
+                if (serviceNameAttribute == null) {
+                    throw new DiscoveryPluginException("Attribute[" + DiscoveryPluginConstant.SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                }
+                String serviceName = serviceNameAttribute.getData().toString().trim();
+
+                Attribute versionValueAttribute = childElement.attribute(DiscoveryPluginConstant.VERSION_VALUE_NAME_ATTRIBUTE_NAME);
+                if (versionValueAttribute == null) {
+                    throw new DiscoveryPluginException("Attribute[" + DiscoveryPluginConstant.VERSION_VALUE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                }
+                String versionValue = versionValueAttribute.getData().toString().trim();
 
                 providerMap.put(serviceName, versionValue);
             }
