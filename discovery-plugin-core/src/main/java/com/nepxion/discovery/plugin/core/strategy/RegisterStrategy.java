@@ -51,29 +51,29 @@ public class RegisterStrategy {
         Map<String, String> filterMap = registerEntity.getFilterMap();
         String filterValue = filterMap.get(serviceId);
 
-        String allFilterValue = "";
+        String allFilterIpAddress = "";
         if (StringUtils.isNotEmpty(globalFilterValue)) {
-            allFilterValue += globalFilterValue;
+            allFilterIpAddress += globalFilterValue;
         }
 
         if (StringUtils.isNotEmpty(filterValue)) {
-            allFilterValue += StringUtils.isEmpty(allFilterValue) ? filterValue : PluginConstant.SEPARATE + filterValue;
+            allFilterIpAddress += StringUtils.isEmpty(allFilterIpAddress) ? filterValue : PluginConstant.SEPARATE + filterValue;
         }
 
         switch (filterType) {
             case BLACKLIST:
-                validateBlacklist(allFilterValue, ipAddress);
+                validateBlacklist(allFilterIpAddress, ipAddress);
                 break;
             case WHITELIST:
-                validateWhitelist(allFilterValue, ipAddress);
+                validateWhitelist(allFilterIpAddress, ipAddress);
                 break;
         }
     }
 
-    private void validateBlacklist(String filterValue, String ipAddress) {
-        LOG.info("********** IP address blacklist={}, current ip address={} **********", filterValue, ipAddress);
+    private void validateBlacklist(String filterIpAddress, String ipAddress) {
+        LOG.info("********** IP address blacklist={}, current ip address={} **********", filterIpAddress, ipAddress);
 
-        String[] filterArray = StringUtils.split(filterValue, PluginConstant.SEPARATE);
+        String[] filterArray = StringUtils.split(filterIpAddress, PluginConstant.SEPARATE);
         for (String filter : filterArray) {
             if (ipAddress.startsWith(filter)) {
                 throw new PluginException(ipAddress + " isn't allowed to register to Eureka server, because it is in blacklist");
@@ -81,11 +81,11 @@ public class RegisterStrategy {
         }
     }
 
-    private void validateWhitelist(String filterValue, String ipAddress) {
-        LOG.info("********** IP address whitelist={}, current ip address={} **********", filterValue, ipAddress);
+    private void validateWhitelist(String filterIpAddress, String ipAddress) {
+        LOG.info("********** IP address whitelist={}, current ip address={} **********", filterIpAddress, ipAddress);
 
         boolean valid = false;
-        String[] filterArray = StringUtils.split(filterValue, PluginConstant.SEPARATE);
+        String[] filterArray = StringUtils.split(filterIpAddress, PluginConstant.SEPARATE);
         for (String filter : filterArray) {
             if (ipAddress.startsWith(filter)) {
                 valid = true;
