@@ -8,8 +8,6 @@
     <filter filter-type="BLACKLIST" filter-value="10.10;11.11">
         <!-- 表示下面服务，不允许172.16和10.10和11.11为前缀的IP地址注册 -->
         <service service-name="discovery-springcloud-example" filter-value="172.16"/>
-        <!-- 表示下面服务，不允许173.16和10.10和11.11为前缀的IP地址注册 -->
-        <service service-name="my-springcloud-example" filter-value="173.16"/>
     </filter>
 
     <!-- 服务注册下，服务多版本调用的控制 -->
