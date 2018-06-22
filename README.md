@@ -81,16 +81,16 @@ eureka.instance.metadataMap.version=1.0
 
 # Multi-versions control
 spring.application.discovery.version.enabled=true
-# Get remote config
+# Get remote config. If false, get local config
 spring.application.discovery.remote.config.enabled=true
 ```
-因为本中间件不跟任何远程配置中心系统绑定（需要使用者自行实现跟远程配置中心对接），故通过定时方式模拟获取远程配置内容的更新推送，参考DiscoveryPluginFileLoader.java和DiscoveryPluginConfigSimulator.java
+因为本中间件不跟任何远程配置中心系统绑定（需要使用者自行实现跟远程配置中心对接），故通过定时方式模拟获取远程配置内容的更新推送，参考DiscoveryConfigurationLoader.java和DiscoveryConfigurationSimulator.java
 
 #### 黑/白名单的IP地址过滤运行效果
-启动DiscoveryPluginApplication.java的时候，如果IP地址被过滤，那么程序将抛出无法注册到服务注册发现中心的异常，并终止程序
+启动discovery-springcloud-example-a/DiscoveryApplication.java的时候，如果IP地址被过滤，那么程序将抛出无法注册到服务注册发现中心的异常，并终止程序
 
 #### 多版本配置实现灰度访问控制运行效果
-先运行DiscoveryPluginApplicationB1.java和DiscoveryPluginApplicationB2.java，再运行DiscoveryPluginApplication.java，通过Postman访问
+先运行discovery-springcloud-example-b1/DiscoveryApplication.java和discovery-springcloud-example-b2/DiscoveryApplication.java，再运行discovery-springcloud-example-a/DiscoveryApplication.java，通过Postman访问
 ```xml
 http://localhost:4321/instances
 ```
