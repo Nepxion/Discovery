@@ -38,21 +38,19 @@ public class DiscoveryPluginConfigSimulator {
             public void run() {
                 // 本地文件模拟代替远程文件，随机读取
                 int index = threadLocalRandom.nextInt(4) + 1;
-                InputStream inputStream = createInputStream("src/main/resources/discovery" + index + ".xml");
+                InputStream inputStream = getInputStream("src/main/resources/discovery" + index + ".xml");
                 discoveryPluginConfigPublisher.publish(inputStream);
             }
         }, 0L, 15000L);
     }
 
-    private InputStream createInputStream(String fileName) {
-        File file = new File(fileName);
-        InputStream inputStream = null;
+    private InputStream getInputStream(String fileName) {
         try {
-            inputStream = new FileInputStream(file);
+            return new FileInputStream(new File(fileName));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
-        return inputStream;
+        return null;
     }
 }

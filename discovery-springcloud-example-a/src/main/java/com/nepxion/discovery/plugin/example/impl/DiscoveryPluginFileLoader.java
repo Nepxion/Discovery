@@ -22,7 +22,7 @@ public class DiscoveryPluginFileLoader extends AbstractFileLoader {
     @Override
     public InputStream getRemoteInputStream() throws IOException {
         // 本地文件模拟代替远程文件
-        return createInputStream("src/main/resources/discovery1.xml");
+        return getInputStream("src/main/resources/discovery1.xml");
     }
 
     @Override
@@ -31,18 +31,16 @@ public class DiscoveryPluginFileLoader extends AbstractFileLoader {
         return "classpath:discovery1.xml";
 
         // 配置文件放在工程根目录下
-        // return "file:discovery.xml";
+        // return "file:discovery1.xml";
     }
 
-    private InputStream createInputStream(String fileName) {
-        File file = new File(fileName);
-        InputStream inputStream = null;
+    private InputStream getInputStream(String fileName) {
         try {
-            inputStream = new FileInputStream(file);
+            return new FileInputStream(new File(fileName));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
-        return inputStream;
+        return null;
     }
 }
