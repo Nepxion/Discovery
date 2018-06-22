@@ -70,6 +70,7 @@ eureka.instance.metadataMap.version=1.0
 
 #### A服务实现
 A服务需要引入discovery-plugin-starter，参考discovery-springcloud-example-a工程
+
 application.properties
 ```xml
 # Spring cloud config
@@ -89,4 +90,8 @@ spring.application.discovery.remote.config.enabled=true
 启动DiscoveryPluginApplication.java的时候，如果IP地址被过滤，那么程序将抛出无法注册到服务注册发现中心的异常，并终止程序
 
 #### 多版本配置实现灰度访问控制运行效果
-先运行DiscoveryPluginApplicationB1.java和DiscoveryPluginApplicationB2.java，再运行DiscoveryPluginApplication.java，通过Postman访问http://localhost:4321/instances，你可以看到通过A服务去获取B服务的被过滤的实例列表，虽然A服务定时器会更新不不同的配置，获取到的实例列表也随着变更
+先运行DiscoveryPluginApplicationB1.java和DiscoveryPluginApplicationB2.java，再运行DiscoveryPluginApplication.java，通过Postman访问
+```xml
+http://localhost:4321/instances
+```
+你可以看到通过A服务去获取B服务的被过滤的实例列表，虽然A服务定时器会更新不不同的配置，获取到的实例列表也随着变更
