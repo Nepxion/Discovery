@@ -15,7 +15,7 @@ import org.springframework.cloud.netflix.eureka.serviceregistry.EurekaServiceReg
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
-import com.nepxion.discovery.plugin.core.strategy.FilterStrategy;
+import com.nepxion.discovery.plugin.core.strategy.RegisterStrategy;
 
 public class EurekaServiceRegistryDecorator extends EurekaServiceRegistry {
     private ServiceRegistry<EurekaRegistration> serviceRegistry;
@@ -33,8 +33,8 @@ public class EurekaServiceRegistryDecorator extends EurekaServiceRegistry {
         String serviceId = registration.getServiceId();
         String ipAddress = registration.getInstanceConfig().getIpAddress();
 
-        FilterStrategy filterStrategy = applicationContext.getBean(FilterStrategy.class);
-        filterStrategy.apply(serviceId, ipAddress);
+        RegisterStrategy registerStrategy = applicationContext.getBean(RegisterStrategy.class);
+        registerStrategy.apply(serviceId, ipAddress);
 
         serviceRegistry.register(registration);
     }

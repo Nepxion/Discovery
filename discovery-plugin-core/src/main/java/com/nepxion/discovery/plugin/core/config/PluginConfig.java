@@ -14,15 +14,15 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.nepxion.discovery.plugin.core.entity.DiscoveryEntity;
-import com.nepxion.discovery.plugin.core.strategy.FilterStrategy;
-import com.nepxion.discovery.plugin.core.strategy.VersionStrategy;
+import com.nepxion.discovery.plugin.core.entity.PluginEntity;
+import com.nepxion.discovery.plugin.core.strategy.RegisterStrategy;
+import com.nepxion.discovery.plugin.core.strategy.DiscoveryStrategy;
 
 @Configuration
 public class PluginConfig {
     @Bean
-    public DiscoveryEntity discoveryEntity() {
-        return new DiscoveryEntity();
+    public PluginEntity pluginEntity() {
+        return new PluginEntity();
     }
 
     @Bean
@@ -31,12 +31,12 @@ public class PluginConfig {
     }
 
     @Bean
-    public FilterStrategy filterStrategy() {
-        return new FilterStrategy();
+    public RegisterStrategy registerStrategy() {
+        return new RegisterStrategy();
     }
 
     @Bean
-    public VersionStrategy versionStrategy() {
-        return new VersionStrategy();
+    public DiscoveryStrategy discoveryStrategy() {
+        return new DiscoveryStrategy();
     }
 }

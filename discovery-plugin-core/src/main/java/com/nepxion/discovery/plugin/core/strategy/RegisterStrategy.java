@@ -18,16 +18,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.plugin.core.constant.PluginConstant;
-import com.nepxion.discovery.plugin.core.entity.DiscoveryEntity;
-import com.nepxion.discovery.plugin.core.entity.FilterEntity;
+import com.nepxion.discovery.plugin.core.entity.PluginEntity;
+import com.nepxion.discovery.plugin.core.entity.RegisterEntity;
 import com.nepxion.discovery.plugin.core.entity.FilterType;
 import com.nepxion.discovery.plugin.core.exception.PluginException;
 
-public class FilterStrategy {
-    private static final Logger LOG = LoggerFactory.getLogger(FilterStrategy.class);
+public class RegisterStrategy {
+    private static final Logger LOG = LoggerFactory.getLogger(RegisterStrategy.class);
 
     @Autowired
-    private DiscoveryEntity discoveryEntity;
+    private PluginEntity pluginEntity;
 
     @Autowired
     private ReentrantReadWriteLock reentrantReadWriteLock;
@@ -36,29 +36,29 @@ public class FilterStrategy {
         try {
             reentrantReadWriteLock.readLock().lock();
 
-            FilterEntity filterEntity = discoveryEntity.getFilterEntity();
-            FilterType filterType = filterEntity.getFilterType();
+            RegisterEntity registerEntity = pluginEntity.getRegisterEntity();
+            FilterType filterType = registerEntity.getFilterType();
 
-            String globalFilterValue = filterEntity.getFilterValue();
+            String globalFilterValue = registerEntity.getFilterValue();
 
-            Map<String, String> filterMap = filterEntity.getFilterMap();
+            Map<String, String> filterMap = registerEntity.getFilterMap();
             String filterValue = filterMap.get(serviceId);
 
-            String allFilter = "";
+            String allFilterValue = "";
             if (StringUtils.isNotEmpty(globalFilterValue)) {
-                allFilter += globalFilterValue;
+                allFilterValue += globalFilterValue;
             }
 
             if (StringUtils.isNotEmpty(filterValue)) {
-                allFilter += StringUtils.isEmpty(allFilter) ? filterValue : PluginConstant.SEPARATE + filterValue;
+                allFilterValue += StringUtils.isEmpty(allFilterValue) ? filterValue : PluginConstant.SEPARATE + filterValue;
             }
 
             switch (filterType) {
                 case BLACKLIST:
-                    validateBlacklist(allFilter, ipAddress);
+                    validateBlacklist(allFilterValue, ipAddress);
                     break;
                 case WHITELIST:
-                    validateWhitelist(allFilter, ipAddress);
+                    validateWhitelist(allFilterValue, ipAddress);
                     break;
             }
 

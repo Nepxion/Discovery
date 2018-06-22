@@ -24,17 +24,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.nepxion.discovery.plugin.configuration.constant.ConfigurationConstant;
 import com.nepxion.discovery.plugin.configuration.xml.Dom4JParser;
 import com.nepxion.discovery.plugin.core.entity.ConsumerEntity;
-import com.nepxion.discovery.plugin.core.entity.DiscoveryEntity;
-import com.nepxion.discovery.plugin.core.entity.FilterEntity;
+import com.nepxion.discovery.plugin.core.entity.PluginEntity;
+import com.nepxion.discovery.plugin.core.entity.RegisterEntity;
 import com.nepxion.discovery.plugin.core.entity.FilterType;
-import com.nepxion.discovery.plugin.core.entity.VersionEntity;
+import com.nepxion.discovery.plugin.core.entity.DiscoveryEntity;
 import com.nepxion.discovery.plugin.core.exception.PluginException;
 
 public class ConfigurationParser extends Dom4JParser {
     private static final Logger LOG = LoggerFactory.getLogger(ConfigurationParser.class);
 
     @Autowired
-    private DiscoveryEntity discoveryEntity;
+    private PluginEntity pluginEntity;
 
     @Autowired
     private ReentrantReadWriteLock reentrantReadWriteLock;
@@ -42,29 +42,29 @@ public class ConfigurationParser extends Dom4JParser {
     @SuppressWarnings("rawtypes")
     @Override
     protected void parseRoot(Element element) {
-        LOG.info("Start to parse xml...");
+        LOG.info("Start to parse plugin xml...");
 
-        int filterElementCount = element.elements(ConfigurationConstant.FILTER_ELEMENT_NAME).size();
-        if (filterElementCount > 1) {
-            throw new PluginException("The count of element[" + ConfigurationConstant.FILTER_ELEMENT_NAME + "] can't be more than 1");
+        int registerElementCount = element.elements(ConfigurationConstant.REGISTER_ELEMENT_NAME).size();
+        if (registerElementCount > 1) {
+            throw new PluginException("The count of element[" + ConfigurationConstant.REGISTER_ELEMENT_NAME + "] can't be more than 1");
         }
 
-        int versionElementCount = element.elements(ConfigurationConstant.VERSION_ELEMENT_NAME).size();
-        if (versionElementCount > 1) {
-            throw new PluginException("The count of element[" + ConfigurationConstant.VERSION_ELEMENT_NAME + "] can't be more than 1");
+        int discoveryElementCount = element.elements(ConfigurationConstant.DISCOVERY_ELEMENT_NAME).size();
+        if (discoveryElementCount > 1) {
+            throw new PluginException("The count of element[" + ConfigurationConstant.DISCOVERY_ELEMENT_NAME + "] can't be more than 1");
         }
 
-        FilterEntity filterEntity = new FilterEntity();
-        VersionEntity versionEntity = new VersionEntity();
+        RegisterEntity registerEntity = new RegisterEntity();
+        DiscoveryEntity discoveryEntity = new DiscoveryEntity();
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
             if (childElementObject instanceof Element) {
                 Element childElement = (Element) childElementObject;
 
-                if (StringUtils.equals(childElement.getName(), ConfigurationConstant.FILTER_ELEMENT_NAME)) {
-                    parseFilter(childElement, filterEntity);
-                } else if (StringUtils.equals(childElement.getName(), ConfigurationConstant.VERSION_ELEMENT_NAME)) {
-                    parseVersion(childElement, versionEntity);
+                if (StringUtils.equals(childElement.getName(), ConfigurationConstant.REGISTER_ELEMENT_NAME)) {
+                    parseRegister(childElement, registerEntity);
+                } else if (StringUtils.equals(childElement.getName(), ConfigurationConstant.DISCOVERY_ELEMENT_NAME)) {
+                    parseDiscovery(childElement, discoveryEntity);
                 }
             }
         }
@@ -72,31 +72,31 @@ public class ConfigurationParser extends Dom4JParser {
         try {
             reentrantReadWriteLock.writeLock().lock();
 
-            discoveryEntity.setFilterEntity(filterEntity);
-            discoveryEntity.setVersionEntity(versionEntity);
+            pluginEntity.setRegisterEntity(registerEntity);
+            pluginEntity.setDiscoveryEntity(discoveryEntity);
         } finally {
             reentrantReadWriteLock.writeLock().unlock();
         }
 
-        LOG.info("Discovery entity is {}", discoveryEntity);
+        LOG.info("Plugin entity is {}", pluginEntity);
     }
 
     @SuppressWarnings("rawtypes")
-    private void parseFilter(Element element, FilterEntity filterEntity) {
+    private void parseRegister(Element element, RegisterEntity registerEntity) {
         Attribute filterTypeAttribute = element.attribute(ConfigurationConstant.FILTER_TYPE_ATTRIBUTE_NAME);
         if (filterTypeAttribute == null) {
             throw new PluginException("Attribute[" + ConfigurationConstant.FILTER_TYPE_ATTRIBUTE_NAME + "] in element[" + element.getName() + "] is missing");
         }
         String filterType = filterTypeAttribute.getData().toString().trim();
-        filterEntity.setFilterType(FilterType.fromString(filterType));
+        registerEntity.setFilterType(FilterType.fromString(filterType));
 
         Attribute globalFilterAttribute = element.attribute(ConfigurationConstant.FILTER_VALUE_ATTRIBUTE_NAME);
         if (globalFilterAttribute != null) {
             String globalFilterValue = globalFilterAttribute.getData().toString().trim();
-            filterEntity.setFilterValue(globalFilterValue);
+            registerEntity.setFilterValue(globalFilterValue);
         }
 
-        Map<String, String> filterMap = filterEntity.getFilterMap();
+        Map<String, String> filterMap = registerEntity.getFilterMap();
 
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
@@ -120,8 +120,8 @@ public class ConfigurationParser extends Dom4JParser {
     }
 
     @SuppressWarnings("rawtypes")
-    private void parseVersion(Element element, VersionEntity versionEntity) {
-        List<ConsumerEntity> consumerEntityList = versionEntity.getConsumerEntityList();
+    private void parseDiscovery(Element element, DiscoveryEntity discoveryEntity) {
+        List<ConsumerEntity> consumerEntityList = discoveryEntity.getConsumerEntityList();
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
             if (childElementObject instanceof Element) {

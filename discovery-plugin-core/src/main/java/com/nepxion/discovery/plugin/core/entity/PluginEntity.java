@@ -10,29 +10,32 @@ package com.nepxion.discovery.plugin.core.entity;
  */
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class VersionEntity implements Serializable {
-    private static final long serialVersionUID = 6281838121286637807L;
+public class PluginEntity implements Serializable {
+    private static final long serialVersionUID = 7079024435084528751L;
 
-    private List<ConsumerEntity> consumerEntityList = new ArrayList<ConsumerEntity>();
+    private RegisterEntity registerEntity;
+    private DiscoveryEntity discoveryEntity;
 
-    public VersionEntity() {
-
+    public RegisterEntity getRegisterEntity() {
+        return registerEntity;
     }
 
-    public List<ConsumerEntity> getConsumerEntityList() {
-        return consumerEntityList;
+    public void setRegisterEntity(RegisterEntity registerEntity) {
+        this.registerEntity = registerEntity;
     }
 
-    public void setConsumerEntityList(List<ConsumerEntity> consumerEntityList) {
-        this.consumerEntityList = consumerEntityList;
+    public DiscoveryEntity getDiscoveryEntity() {
+        return discoveryEntity;
+    }
+
+    public void setDiscoveryEntity(DiscoveryEntity discoveryEntity) {
+        this.discoveryEntity = discoveryEntity;
     }
 
     @Override

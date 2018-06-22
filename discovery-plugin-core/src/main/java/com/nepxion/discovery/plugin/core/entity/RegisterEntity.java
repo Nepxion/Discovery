@@ -18,14 +18,14 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class FilterEntity implements Serializable {
+public class RegisterEntity implements Serializable {
     private static final long serialVersionUID = -2097322826969006191L;
 
     private FilterType filterType;
     private String filterValue;
     private Map<String, String> filterMap = new LinkedHashMap<String, String>();
 
-    public FilterEntity() {
+    public RegisterEntity() {
 
     }
 

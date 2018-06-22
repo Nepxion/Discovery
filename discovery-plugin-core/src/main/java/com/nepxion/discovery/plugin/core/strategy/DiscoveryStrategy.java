@@ -21,12 +21,12 @@ import org.springframework.cloud.client.ServiceInstance;
 
 import com.nepxion.discovery.plugin.core.constant.PluginConstant;
 import com.nepxion.discovery.plugin.core.entity.ConsumerEntity;
+import com.nepxion.discovery.plugin.core.entity.PluginEntity;
 import com.nepxion.discovery.plugin.core.entity.DiscoveryEntity;
-import com.nepxion.discovery.plugin.core.entity.VersionEntity;
 
-public class VersionStrategy {
+public class DiscoveryStrategy {
     @Autowired
-    private DiscoveryEntity discoveryEntity;
+    private PluginEntity pluginEntity;
 
     @Autowired
     private ReentrantReadWriteLock reentrantReadWriteLock;
@@ -35,8 +35,8 @@ public class VersionStrategy {
         try {
             reentrantReadWriteLock.readLock().lock();
 
-            VersionEntity versionEntity = discoveryEntity.getVersionEntity();
-            ConsumerEntity consumerEntity = getConsumerEntity(consumerServiceId, versionEntity);
+            DiscoveryEntity discoveryEntity = pluginEntity.getDiscoveryEntity();
+            ConsumerEntity consumerEntity = getConsumerEntity(consumerServiceId, discoveryEntity);
             if (consumerEntity != null) {
                 Map<String, String> providerMap = consumerEntity.getProviderMap();
                 String version = providerMap.get(providerServiceId);
@@ -56,8 +56,8 @@ public class VersionStrategy {
         }
     }
 
-    private ConsumerEntity getConsumerEntity(String consumerServiceId, VersionEntity versionEntity) {
-        List<ConsumerEntity> consumerEntityList = versionEntity.getConsumerEntityList();
+    private ConsumerEntity getConsumerEntity(String consumerServiceId, DiscoveryEntity discoveryEntity) {
+        List<ConsumerEntity> consumerEntityList = discoveryEntity.getConsumerEntityList();
         for (ConsumerEntity consumerEntity : consumerEntityList) {
             String serviceName = consumerEntity.getServiceName();
             if (StringUtils.equals(consumerServiceId, serviceName)) {

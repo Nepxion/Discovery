@@ -17,7 +17,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.plugin.core.constant.PluginConstant;
-import com.nepxion.discovery.plugin.core.strategy.VersionStrategy;
+import com.nepxion.discovery.plugin.core.strategy.DiscoveryStrategy;
 
 public class DiscoveryClientDecorator implements DiscoveryClient {
     private DiscoveryClient discoveryClient;
@@ -49,8 +49,8 @@ public class DiscoveryClientDecorator implements DiscoveryClient {
         if (discoveryVersionEnabled) {
             String applicationName = environment.getProperty(PluginConstant.SPRING_APPLICATION_NAME);
 
-            VersionStrategy versionStrategy = applicationContext.getBean(VersionStrategy.class);
-            versionStrategy.apply(applicationName, serviceId, instances);
+            DiscoveryStrategy discoveryStrategy = applicationContext.getBean(DiscoveryStrategy.class);
+            discoveryStrategy.apply(applicationName, serviceId, instances);
         }
 
         return instances;
