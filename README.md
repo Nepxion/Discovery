@@ -16,7 +16,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
     5. 实现支持本地配置和远程配置的可选
 
 ## 鸣谢
-感谢Spring Cloud中国社区刘石明提供代码支持和建议，他具有部分代码的所有权
+感谢Spring Cloud中国社区刘石明提供代码支持和建议
 
 ## 依赖
 ```xml
