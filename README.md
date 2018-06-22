@@ -34,14 +34,13 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
        开发环境的本地服务（例如IP地址为172.16.0.8）不小心注册到测试环境的服务注册发现中心，会导致调用出现问题，那么可以在配置中心维护一个黑/白名单的IP地址过滤（支持全局和局部的过滤）
        我们可以在远程配置中心配置对该服务名所对应的IP地址列表，包含前缀172.16，当是黑名单的时候，表示包含在IP地址列表里的所有服务都禁止注册到服务注册发现中心；当是白名单的时候，表示包含在IP地址列表里的所有服务都允许注册到服务注册发现中心
     2. 多版本配置实现灰度访问控制
-       A服务调用B服务，而B服务有两个实例（B1和B2），虽然B1和B2是相同的服务名，但功能上有差异，需求是在某个时刻，A服务只能调用B1，禁止调用B2。在此场景下，我们在application.properties里为B1维护一个版本为1.0，为B2维护一个版本为1.1
+       A服务调用B服务，而B服务有两个实例（B1、B2和B3），虽然三者相同的服务名，但功能上有差异，需求是在某个时刻，A服务只能调用B1，禁止调用B2和B3。在此场景下，我们在application.properties里为B1维护一个版本为1.0，为B2维护一个版本为1.1，以此类推
        我们可以在远程配置中心配置对于A服务调用某个版本的B服务，达到某种意义上的灰度控制，切换版本的时候，我们只需要改相关的远程配置中心的配置即可
 
 ### 配置文件
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml version="1.0" encoding="UTF-8"?>
-<plugin>
+<rule>
     <!-- 服务注册的黑/白名单过滤。白名单表示只允许指定IP地址前缀注册，黑名单表示不允许指定IP地址前缀注册。每个服务只能同时开启要么白名单，要么黑名单 -->
     <!-- filter-type，可选值BLACKLIST/WHITELIST，表示白名单或者黑名单 -->
     <!-- service-name，表示服务名 -->
@@ -56,17 +55,20 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
     <!-- service-name，表示服务名 -->
     <!-- version-value，表示可供访问的版本，如果多个用“;”分隔 -->
     <discovery>
-        <!-- 表示消费端服务a，允许访问提供端服务b的1.0版本-->
-        <consumer service-name="discovery-springcloud-example-a">
-            <provider service-name="discovery-springcloud-example-b" version-value="1.0"/>
-        </consumer>
+        <!-- 下面三种情况视作不会灰度版本做控制： -->
+        <!-- 1. 版本值不配置（即xxx-version-value属性缺失） -->
+        <!-- 2. 版本值空字符串（即xxx-version-value=""） -->
+        <!-- 3. 版本对应关系不配置（即<service .../>不存在） -->
+        <!-- 表示消费端服务a的任何版本，允许访问提供端服务b的任何版本 -->
+        <!-- 表示消费端服务a的1.0，允许访问提供端服务b的1.0和1.1版本 -->
+        <service consumer-service-name="discovery-springcloud-example-a" provider-service-name="discovery-springcloud-example-b" consumer-version-value="1.0" provider-version-value="1.0;1.1"/>
     </discovery>
-</plugin>
+</rule>
 ```
 
 ### 代码示例
 #### B服务实现
-B服务的两个实例B1和B2采用标准的Spring Cloud入口，参考discovery-springcloud-example-b1和discovery-springcloud-example-b2工程
+B服务的两个实例B1和B2采用标准的Spring Cloud入口，参考discovery-springcloud-example-b1、discovery-springcloud-example-b2和discovery-springcloud-example-b3工程
 唯一需要做的是在applicaiton.properties维护版本号，如下
 ```xml
 eureka.instance.metadataMap.version=1.0
@@ -94,7 +96,7 @@ spring.application.discovery.remote.config.enabled=true
 启动discovery-springcloud-example-a/DiscoveryApplication.java的时候，如果IP地址被过滤，那么程序将抛出无法注册到服务注册发现中心的异常，并终止程序
 
 #### 多版本配置实现灰度访问控制运行效果
-先运行discovery-springcloud-example-b1/DiscoveryApplication.java和discovery-springcloud-example-b2/DiscoveryApplication.java，再运行discovery-springcloud-example-a/DiscoveryApplication.java，通过Postman访问
+先运行discovery-springcloud-example-b1、discovery-springcloud-example-b2和discovery-springcloud-example-b3下的DiscoveryApplication.java，再运行discovery-springcloud-example-a/DiscoveryApplication.java，通过Postman访问
 ```xml
 http://localhost:4321/instances
 ```
