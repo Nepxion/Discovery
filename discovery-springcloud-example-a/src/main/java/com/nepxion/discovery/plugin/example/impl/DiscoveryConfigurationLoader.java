@@ -22,13 +22,13 @@ public class DiscoveryConfigurationLoader extends AbstractConfigurationLoader {
     @Override
     public InputStream getRemoteInputStream() throws IOException {
         // 本地文件模拟代替远程文件
-        return getInputStream("src/main/resources/plugin1.xml");
+        return getInputStream("src/main/resources/rule1.xml");
     }
 
     @Override
     protected String getLocalContextPath() {
         // 配置文件放在resources目录下
-        return "classpath:plugin1.xml";
+        return "classpath:rule1.xml";
 
         // 配置文件放在工程根目录下
         // return "file:plugin1.xml";

@@ -18,6 +18,7 @@
         <module>discovery-springcloud-example-a</module>
         <module>discovery-springcloud-example-b1</module>
         <module>discovery-springcloud-example-b2</module>
+        <module>discovery-springcloud-example-b3</module>
     </modules>
 
     <properties>

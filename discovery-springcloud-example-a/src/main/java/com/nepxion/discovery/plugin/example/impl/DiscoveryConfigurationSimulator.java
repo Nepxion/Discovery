@@ -38,7 +38,8 @@ public class DiscoveryConfigurationSimulator {
             public void run() {
                 // 本地文件模拟代替远程文件，随机读取
                 int index = threadLocalRandom.nextInt(5) + 1;
-                InputStream inputStream = getInputStream("src/main/resources/plugin" + index + ".xml");
+                System.out.println("-------------------- rule" + index + ".xml is loaded --------------------" );
+                InputStream inputStream = getInputStream("src/main/resources/rule" + index + ".xml");
                 configurationPublisher.publish(inputStream);
             }
         }, 10000L, 15000L);

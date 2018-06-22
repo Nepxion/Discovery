@@ -14,7 +14,7 @@
     <!-- service-name，表示服务名 -->
     <!-- version-value，表示可供访问的版本，如果多个用“;”分隔 -->
     <discovery>
-        <!-- 表示消费端服务a的1.0，允许访问提供端服务b的1.0版本 -->
-        <service consumer-service-name="discovery-springcloud-example-a" provider-service-name="discovery-springcloud-example-b" consumer-version-value="1.0" provider-version-value="1.0"/>
+        <!-- 表示消费端服务a的1.0，允许访问提供端服务b的1.0和1.1版本 -->
+        <service consumer-service-name="discovery-springcloud-example-a" provider-service-name="discovery-springcloud-example-b" consumer-version-value="1.0" provider-version-value="1.0;1.1"/>
     </discovery>
 </rule>
