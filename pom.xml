@@ -11,7 +11,8 @@
     <url>http://www.nepxion.com</url>
 
     <modules>
-        <module>discovery-plugin</module>
+        <module>discovery-plugin-core</module>
+        <module>discovery-plugin-configuration</module>
         <module>discovery-plugin-starter</module>
         <module>discovery-springcloud-example-a</module>
         <module>discovery-springcloud-example-b1</module>
@@ -35,7 +36,13 @@
         <dependencies>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>discovery-plugin</artifactId>
+                <artifactId>discovery-plugin-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-configuration</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

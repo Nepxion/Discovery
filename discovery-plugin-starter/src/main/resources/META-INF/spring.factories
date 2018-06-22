@@ -1,5 +1,6 @@
 org.springframework.context.ApplicationContextInitializer=\
-com.nepxion.discovery.plugin.context.DiscoveryApplicationContextInitializer
+com.nepxion.discovery.plugin.core.context.PluginApplicationContextInitializer
 
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.nepxion.discovery.plugin.config.DiscoveryPluginConfig
+com.nepxion.discovery.plugin.core.config.PluginConfig,\
+com.nepxion.discovery.plugin.configuration.config.ConfigurationConfig
