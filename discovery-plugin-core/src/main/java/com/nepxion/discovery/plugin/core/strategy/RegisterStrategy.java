@@ -18,9 +18,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.plugin.core.constant.PluginConstant;
+import com.nepxion.discovery.plugin.core.entity.RegisterFilterType;
 import com.nepxion.discovery.plugin.core.entity.PluginEntity;
 import com.nepxion.discovery.plugin.core.entity.RegisterEntity;
-import com.nepxion.discovery.plugin.core.entity.FilterType;
 import com.nepxion.discovery.plugin.core.exception.PluginException;
 
 public class RegisterStrategy {
@@ -36,34 +36,37 @@ public class RegisterStrategy {
         try {
             reentrantReadWriteLock.readLock().lock();
 
-            RegisterEntity registerEntity = pluginEntity.getRegisterEntity();
-            FilterType filterType = registerEntity.getFilterType();
-
-            String globalFilterValue = registerEntity.getFilterValue();
-
-            Map<String, String> filterMap = registerEntity.getFilterMap();
-            String filterValue = filterMap.get(serviceId);
-
-            String allFilterValue = "";
-            if (StringUtils.isNotEmpty(globalFilterValue)) {
-                allFilterValue += globalFilterValue;
-            }
-
-            if (StringUtils.isNotEmpty(filterValue)) {
-                allFilterValue += StringUtils.isEmpty(allFilterValue) ? filterValue : PluginConstant.SEPARATE + filterValue;
-            }
-
-            switch (filterType) {
-                case BLACKLIST:
-                    validateBlacklist(allFilterValue, ipAddress);
-                    break;
-                case WHITELIST:
-                    validateWhitelist(allFilterValue, ipAddress);
-                    break;
-            }
-
+            applyIpAddressFilter(serviceId, ipAddress);
         } finally {
             reentrantReadWriteLock.readLock().unlock();
+        }
+    }
+
+    private void applyIpAddressFilter(String serviceId, String ipAddress) {
+        RegisterEntity registerEntity = pluginEntity.getRegisterEntity();
+        RegisterFilterType filterType = registerEntity.getFilterType();
+
+        String globalFilterValue = registerEntity.getFilterValue();
+
+        Map<String, String> filterMap = registerEntity.getFilterMap();
+        String filterValue = filterMap.get(serviceId);
+
+        String allFilterValue = "";
+        if (StringUtils.isNotEmpty(globalFilterValue)) {
+            allFilterValue += globalFilterValue;
+        }
+
+        if (StringUtils.isNotEmpty(filterValue)) {
+            allFilterValue += StringUtils.isEmpty(allFilterValue) ? filterValue : PluginConstant.SEPARATE + filterValue;
+        }
+
+        switch (filterType) {
+            case BLACKLIST:
+                validateBlacklist(allFilterValue, ipAddress);
+                break;
+            case WHITELIST:
+                validateWhitelist(allFilterValue, ipAddress);
+                break;
         }
     }
 

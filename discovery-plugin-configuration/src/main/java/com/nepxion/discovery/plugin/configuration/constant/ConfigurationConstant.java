@@ -19,7 +19,8 @@ public class ConfigurationConstant {
     public static final String FILTER_VALUE_ATTRIBUTE_NAME = "filter-value";
     public static final String SERVICE_NAME_ATTRIBUTE_NAME = "service-name";
     public static final String DISCOVERY_ELEMENT_NAME = "discovery";
-    public static final String CONSUMER_ELEMENT_NAME = "consumer";
-    public static final String PROVIDER_ELEMENT_NAME = "provider";
-    public static final String VERSION_VALUE_NAME_ATTRIBUTE_NAME = "version-value";
+    public static final String CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME = "consumer-service-name";
+    public static final String PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME = "provider-service-name";
+    public static final String CONSUMER_VERSION_VALUE_ATTRIBUTE_NAME = "consumer-version-value";
+    public static final String PROVIDER_VERSION_VALUE_ATTRIBUTE_NAME = "provider-version-value";
 }

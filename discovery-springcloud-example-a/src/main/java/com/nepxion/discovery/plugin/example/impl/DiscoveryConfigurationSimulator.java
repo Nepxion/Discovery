@@ -37,7 +37,7 @@ public class DiscoveryConfigurationSimulator {
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
                 // 本地文件模拟代替远程文件，随机读取
-                int index = threadLocalRandom.nextInt(4) + 1;
+                int index = threadLocalRandom.nextInt(5) + 1;
                 InputStream inputStream = getInputStream("src/main/resources/plugin" + index + ".xml");
                 configurationPublisher.publish(inputStream);
             }

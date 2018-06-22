@@ -10,8 +10,9 @@ package com.nepxion.discovery.plugin.core.entity;
  */
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -21,18 +22,18 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class DiscoveryEntity implements Serializable {
     private static final long serialVersionUID = 6281838121286637807L;
 
-    private List<ConsumerEntity> consumerEntityList = new ArrayList<ConsumerEntity>();
+    private Map<String, List<DiscoveryServiceEntity>> serviceEntityMap = new LinkedHashMap<String, List<DiscoveryServiceEntity>>();
 
     public DiscoveryEntity() {
 
     }
 
-    public List<ConsumerEntity> getConsumerEntityList() {
-        return consumerEntityList;
+    public Map<String, List<DiscoveryServiceEntity>> getServiceEntityMap() {
+        return serviceEntityMap;
     }
 
-    public void setConsumerEntityList(List<ConsumerEntity> consumerEntityList) {
-        this.consumerEntityList = consumerEntityList;
+    public void setServiceEntityMap(Map<String, List<DiscoveryServiceEntity>> serviceEntityMap) {
+        this.serviceEntityMap = serviceEntityMap;
     }
 
     @Override

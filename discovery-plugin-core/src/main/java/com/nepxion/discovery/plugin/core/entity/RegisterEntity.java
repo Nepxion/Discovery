@@ -21,7 +21,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class RegisterEntity implements Serializable {
     private static final long serialVersionUID = -2097322826969006191L;
 
-    private FilterType filterType;
+    private RegisterFilterType filterType;
     private String filterValue;
     private Map<String, String> filterMap = new LinkedHashMap<String, String>();
 
@@ -29,11 +29,11 @@ public class RegisterEntity implements Serializable {
 
     }
 
-    public FilterType getFilterType() {
+    public RegisterFilterType getFilterType() {
         return filterType;
     }
 
-    public void setFilterType(FilterType filterType) {
+    public void setFilterType(RegisterFilterType filterType) {
         this.filterType = filterType;
     }
 
