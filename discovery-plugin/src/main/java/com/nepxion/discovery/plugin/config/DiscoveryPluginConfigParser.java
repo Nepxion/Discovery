@@ -42,7 +42,7 @@ public class DiscoveryPluginConfigParser extends Dom4JParser {
     @SuppressWarnings("rawtypes")
     @Override
     protected void parseRoot(Element element) {
-        LOG.info("Start to parse discovery.xml...");
+        LOG.info("Start to parse xml...");
 
         int filterElementCount = element.elements(DiscoveryPluginConstant.FILTER_ELEMENT_NAME).size();
         if (filterElementCount > 1) {

@@ -13,14 +13,19 @@ import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.plugin.constant.DiscoveryPluginConstant;
 import com.nepxion.discovery.plugin.entity.DiscoveryEntity;
 import com.nepxion.discovery.plugin.entity.FilterEntity;
+import com.nepxion.discovery.plugin.entity.FilterType;
 import com.nepxion.discovery.plugin.exception.DiscoveryPluginException;
 
 public class FilterStrategy {
+    private static final Logger LOG = LoggerFactory.getLogger(FilterStrategy.class);
+
     @Autowired
     private DiscoveryEntity discoveryEntity;
 
@@ -32,27 +37,61 @@ public class FilterStrategy {
             reentrantReadWriteLock.readLock().lock();
 
             FilterEntity filterEntity = discoveryEntity.getFilterEntity();
+            FilterType filterType = filterEntity.getFilterType();
+
             String globalFilterValue = filterEntity.getFilterValue();
-            validate(globalFilterValue, ipAddress);
 
             Map<String, String> filterMap = filterEntity.getFilterMap();
             String filterValue = filterMap.get(serviceId);
-            validate(filterValue, ipAddress);
+
+            String allFilter = "";
+            if (StringUtils.isNotEmpty(globalFilterValue)) {
+                allFilter += globalFilterValue;
+            }
+
+            if (StringUtils.isNotEmpty(filterValue)) {
+                allFilter += StringUtils.isEmpty(allFilter) ? filterValue : DiscoveryPluginConstant.SEPARATE + filterValue;
+            }
+
+            switch (filterType) {
+                case BLACKLIST:
+                    validateBlacklist(allFilter, ipAddress);
+                    break;
+                case WHITELIST:
+                    validateWhitelist(allFilter, ipAddress);
+                    break;
+            }
+
         } finally {
             reentrantReadWriteLock.readLock().unlock();
         }
     }
 
-    private void validate(String filterValue, String ipAddress) {
-        if (StringUtils.isEmpty(filterValue)) {
-            return;
-        }
+    private void validateBlacklist(String filterValue, String ipAddress) {
+        LOG.info("********** IP address blacklist={}, current ip address={} **********", filterValue, ipAddress);
 
         String[] filterArray = StringUtils.split(filterValue, DiscoveryPluginConstant.SEPARATE);
         for (String filter : filterArray) {
             if (ipAddress.startsWith(filter)) {
-                throw new DiscoveryPluginException(ipAddress + " isn't allowed to register to Eureka server");
+                throw new DiscoveryPluginException(ipAddress + " isn't allowed to register to Eureka server, because it is in blacklist");
             }
+        }
+    }
+
+    private void validateWhitelist(String filterValue, String ipAddress) {
+        LOG.info("********** IP address whitelist={}, current ip address={} **********", filterValue, ipAddress);
+
+        boolean valid = false;
+        String[] filterArray = StringUtils.split(filterValue, DiscoveryPluginConstant.SEPARATE);
+        for (String filter : filterArray) {
+            if (ipAddress.startsWith(filter)) {
+                valid = true;
+                break;
+            }
+        }
+
+        if (!valid) {
+            throw new DiscoveryPluginException(ipAddress + " isn't allowed to register to Eureka server, because it isn't in whitelist");
         }
     }
 }
