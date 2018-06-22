@@ -14,15 +14,21 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.nepxion.discovery.plugin.core.cache.PluginCache;
 import com.nepxion.discovery.plugin.core.entity.PluginEntity;
-import com.nepxion.discovery.plugin.core.strategy.RegisterStrategy;
 import com.nepxion.discovery.plugin.core.strategy.DiscoveryStrategy;
+import com.nepxion.discovery.plugin.core.strategy.RegisterStrategy;
 
 @Configuration
 public class PluginConfig {
     @Bean
     public PluginEntity pluginEntity() {
         return new PluginEntity();
+    }
+
+    @Bean
+    public PluginCache pluginCache() {
+        return new PluginCache();
     }
 
     @Bean

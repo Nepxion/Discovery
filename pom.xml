@@ -12,6 +12,7 @@
 
     <modules>
         <module>discovery-plugin-core</module>
+        <module>discovery-plugin-actuator</module>
         <module>discovery-plugin-configuration</module>
         <module>discovery-plugin-starter</module>
         <module>discovery-springcloud-example-a</module>
@@ -26,6 +27,7 @@
         <commons.io.version>2.5</commons.io.version>
         <dom4j.version>1.6.1</dom4j.version>
         <spring.cloud.version>Dalston.SR4</spring.cloud.version>
+        <spring.boot.version>1.5.8.RELEASE</spring.boot.version>
         <disruptor.version>3.3.7</disruptor.version>
         <log4j.version>2.9.1</log4j.version>
         <java.version>1.8</java.version>
@@ -37,6 +39,12 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-actuator</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -86,6 +94,14 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
