@@ -67,6 +67,11 @@ public class DiscoveryControlStrategy {
     }
 
     private void applyVersionFilter(String consumerServiceId, String consumerServiceVersion, String providerServiceId, List<ServiceInstance> instances) {
+        // 如果消费端未配置版本号，那么它可以调用提供端所有服务，需要符合规范，极力避免该情况发生
+        if (StringUtils.isEmpty(consumerServiceVersion)) {
+            return;
+        }
+
         DiscoveryEntity discoveryEntity = pluginEntity.getDiscoveryEntity();
         if (discoveryEntity == null) {
             return;
@@ -82,7 +87,7 @@ public class DiscoveryControlStrategy {
             return;
         }
 
-        // 当前版本的消费者所能调用提供者的版本列表
+        // 当前版本的消费端所能调用提供端的版本号列表
         List<String> allFilterVersions = new ArrayList<String>();
         for (DiscoveryServiceEntity serviceEntity : serviceEntityList) {
             String providerServiceName = serviceEntity.getProviderServiceName();
@@ -93,7 +98,7 @@ public class DiscoveryControlStrategy {
                 List<String> consumerVersionList = getVersionList(consumerVersionValue);
                 List<String> providerVersionList = getVersionList(providerVersionValue);
 
-                // 判断consumer-version-value值是否包含当前消费者的版本号
+                // 判断consumer-version-value值是否包含当前消费端的版本号
                 if (CollectionUtils.isNotEmpty(consumerVersionList) && consumerVersionList.contains(consumerServiceVersion)) {
                     if (CollectionUtils.isNotEmpty(providerVersionList)) {
                         allFilterVersions.addAll(providerVersionList);
