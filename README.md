@@ -83,12 +83,15 @@ application.properties
 spring.application.name=discovery-springcloud-example-a
 server.port=4321
 eureka.client.serviceUrl.defaultZone=http://10.0.75.1:9528/eureka/
+eureka.instance.preferIpAddress=true
 eureka.instance.metadataMap.version=1.0
 
-# Multi-versions control
+# Gray version control
 spring.application.discovery.version.enabled=true
-# Get remote config. If false, get local config
+# Get remote or config
 spring.application.discovery.remote.config.enabled=true
+
+management.security.enabled=false
 ```
 因为本中间件不跟任何远程配置中心系统绑定（需要使用者自行实现跟远程配置中心对接），故通过定时方式模拟获取远程配置内容的更新推送，参考DiscoveryConfigurationLoader.java和DiscoveryConfigurationSimulator.java
 
