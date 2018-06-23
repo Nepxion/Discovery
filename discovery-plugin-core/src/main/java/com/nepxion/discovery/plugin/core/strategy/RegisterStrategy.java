@@ -18,9 +18,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.plugin.core.constant.PluginConstant;
-import com.nepxion.discovery.plugin.core.entity.RegisterFilterType;
 import com.nepxion.discovery.plugin.core.entity.PluginEntity;
 import com.nepxion.discovery.plugin.core.entity.RegisterEntity;
+import com.nepxion.discovery.plugin.core.entity.RegisterFilterType;
 import com.nepxion.discovery.plugin.core.exception.PluginException;
 
 public class RegisterStrategy {
@@ -44,6 +44,10 @@ public class RegisterStrategy {
 
     private void applyIpAddressFilter(String serviceId, String ipAddress) {
         RegisterEntity registerEntity = pluginEntity.getRegisterEntity();
+        if (registerEntity == null) {
+            return;
+        }
+
         RegisterFilterType filterType = registerEntity.getFilterType();
 
         String globalFilterValue = registerEntity.getFilterValue();

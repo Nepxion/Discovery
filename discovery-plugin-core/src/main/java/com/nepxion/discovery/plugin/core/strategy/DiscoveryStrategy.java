@@ -42,21 +42,42 @@ public class DiscoveryStrategy {
         try {
             reentrantReadWriteLock.readLock().lock();
 
+            applyIpAddressFilter(providerServiceId, instances);
+
             applyVersionFilter(consumerServiceId, consumerServiceVersion, providerServiceId, instances);
         } finally {
             reentrantReadWriteLock.readLock().unlock();
         }
     }
 
+    private void applyIpAddressFilter(String providerServiceId, List<ServiceInstance> instances) {
+        String ipAddress = pluginCache.get(providerServiceId);
+        if (StringUtils.isNotEmpty(ipAddress)) {
+            String[] filterArray = StringUtils.split(ipAddress, PluginConstant.SEPARATE);
+            List<String> filterList = Arrays.asList(filterArray);
+            Iterator<ServiceInstance> iterator = instances.iterator();
+            while (iterator.hasNext()) {
+                ServiceInstance serviceInstance = iterator.next();
+                String host = serviceInstance.getHost();
+                if (filterList.contains(host)) {
+                    iterator.remove();
+                }
+            }
+        }
+    }
+
     private void applyVersionFilter(String consumerServiceId, String consumerServiceVersion, String providerServiceId, List<ServiceInstance> instances) {
         DiscoveryEntity discoveryEntity = pluginEntity.getDiscoveryEntity();
+        if (discoveryEntity == null) {
+            return;
+        }
+
         Map<String, List<DiscoveryServiceEntity>> serviceEntityMap = discoveryEntity.getServiceEntityMap();
-        // 未找到相应的版本定义或者未定义
         if (MapUtils.isEmpty(serviceEntityMap)) {
             return;
         }
+
         List<DiscoveryServiceEntity> serviceEntityList = serviceEntityMap.get(consumerServiceId);
-        // 未找到相应的版本定义或者未定义
         if (CollectionUtils.isEmpty(serviceEntityList)) {
             return;
         }

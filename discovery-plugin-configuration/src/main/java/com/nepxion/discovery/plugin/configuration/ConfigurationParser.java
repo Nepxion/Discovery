@@ -55,16 +55,18 @@ public class ConfigurationParser extends Dom4JParser {
             throw new PluginException("The count of element[" + ConfigurationConstant.DISCOVERY_ELEMENT_NAME + "] can't be more than 1");
         }
 
-        RegisterEntity registerEntity = new RegisterEntity();
-        DiscoveryEntity discoveryEntity = new DiscoveryEntity();
+        RegisterEntity registerEntity = null;
+        DiscoveryEntity discoveryEntity = null;
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
             if (childElementObject instanceof Element) {
                 Element childElement = (Element) childElementObject;
 
                 if (StringUtils.equals(childElement.getName(), ConfigurationConstant.REGISTER_ELEMENT_NAME)) {
+                    registerEntity = new RegisterEntity();
                     parseRegister(childElement, registerEntity);
                 } else if (StringUtils.equals(childElement.getName(), ConfigurationConstant.DISCOVERY_ELEMENT_NAME)) {
+                    discoveryEntity = new DiscoveryEntity();
                     parseDiscovery(childElement, discoveryEntity);
                 }
             }
