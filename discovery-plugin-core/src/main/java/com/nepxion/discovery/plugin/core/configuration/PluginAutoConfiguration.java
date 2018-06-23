@@ -20,7 +20,7 @@ import com.nepxion.discovery.plugin.core.strategy.DiscoveryStrategy;
 import com.nepxion.discovery.plugin.core.strategy.RegisterStrategy;
 
 @Configuration
-public class PluginConfiguration {
+public class PluginAutoConfiguration {
     @Bean
     public PluginEntity pluginEntity() {
         return new PluginEntity();
