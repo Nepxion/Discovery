@@ -24,7 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.nepxion.discovery.plugin.configcenter.ConfigPublisher;
 
 // 模拟从远程配置中心接受配置更新
-public class DiscoveryConfigSimulator {
+public class DiscoveryConfigSubscriber {
     @Autowired
     private ConfigPublisher configPublisher;
 

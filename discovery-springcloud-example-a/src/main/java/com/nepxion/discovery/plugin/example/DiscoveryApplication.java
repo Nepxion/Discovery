@@ -14,7 +14,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 
-import com.nepxion.discovery.plugin.example.impl.DiscoveryConfigSimulator;
+import com.nepxion.discovery.plugin.example.impl.DiscoveryConfigSubscriber;
 import com.nepxion.discovery.plugin.example.impl.DiscoveryConfigLoader;
 
 @SpringBootApplication
@@ -30,7 +30,7 @@ public class DiscoveryApplication {
     }
 
     @Bean
-    public DiscoveryConfigSimulator discoveryConfigSimulator() {
-        return new DiscoveryConfigSimulator();
+    public DiscoveryConfigSubscriber discoveryConfigSubscriber() {
+        return new DiscoveryConfigSubscriber();
     }
 }

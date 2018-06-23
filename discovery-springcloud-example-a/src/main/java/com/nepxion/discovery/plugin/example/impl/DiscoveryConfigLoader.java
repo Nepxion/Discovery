@@ -30,7 +30,7 @@ public class DiscoveryConfigLoader extends AbstractConfigLoader {
         return "classpath:rule1.xml";
 
         // 配置文件放在工程根目录下
-        // return "file:plugin1.xml";
+        // return "file:rule1.xml";
     }
 
     private InputStream getInputStream(String fileName) {
