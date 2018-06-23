@@ -23,7 +23,7 @@ public class DiscoveryController {
     @Autowired
     private DiscoveryClient discoveryClient;
 
-    @RequestMapping(value = "/instances", method = RequestMethod.GET)
+    @RequestMapping(path = "/instances", method = RequestMethod.GET)
     public List<ServiceInstance> instances() {
         return discoveryClient.getInstances("discovery-springcloud-example-b");
     }

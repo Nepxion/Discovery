@@ -50,7 +50,7 @@ public class PluginCache {
         }
     }
 
-    public boolean remove(String key) {
+    public boolean clear(String key) {
         loadingCache.invalidate(key);
 
         return Boolean.TRUE;

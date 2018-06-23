@@ -29,8 +29,9 @@ public class AdminAutoConfiguration {
         @Autowired(required = false)
         private Registration registration;
 
+        @SuppressWarnings("rawtypes")
         @Bean
-        public AdminEndpoint adminEndpoint(ServiceRegistry<?> serviceRegistry) {
+        public AdminEndpoint adminEndpoint(ServiceRegistry serviceRegistry) {
             AdminEndpoint adminEndpoint = new AdminEndpoint(serviceRegistry);
             adminEndpoint.setRegistration(registration);
 
