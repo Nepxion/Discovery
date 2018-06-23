@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.actuator.configuration;
+package com.nepxion.discovery.plugin.admincenter.configuration;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -12,11 +12,11 @@ package com.nepxion.discovery.plugin.actuator.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.nepxion.discovery.plugin.actuator.endpoint.ActuatorEndpoint;
+import com.nepxion.discovery.plugin.admincenter.endpoint.AdminEndpoint;
 
 @Configuration
 //@ConditionalOnProperty(value = "com.bkjk.platform.restclient.enabled", matchIfMissing = true)
-public class ActuatorAutoConfiguration {
+public class AdminAutoConfiguration {
 //
 //    @ConditionalOnBean(ServiceRegistry.class)
 //    @ConditionalOnClass(Endpoint.class)
@@ -33,7 +33,7 @@ public class ActuatorAutoConfiguration {
 //    }
     
     @Bean
-    public ActuatorEndpoint actuatorEndpoint() {
-        return new ActuatorEndpoint();
+    public AdminEndpoint actuatorEndpoint() {
+        return new AdminEndpoint();
     }
 }

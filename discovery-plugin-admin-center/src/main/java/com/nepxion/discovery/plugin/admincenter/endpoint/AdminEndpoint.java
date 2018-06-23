@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.actuator.endpoint;
+package com.nepxion.discovery.plugin.admincenter.endpoint;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.nepxion.discovery.plugin.framework.cache.PluginCache;
 
 @ManagedResource(description = "Discovery endpoint")
-public class ActuatorEndpoint implements MvcEndpoint, ApplicationContextAware, EnvironmentAware {
+public class AdminEndpoint implements MvcEndpoint, ApplicationContextAware, EnvironmentAware {
     private ConfigurableApplicationContext context;
     private Environment environment;
 

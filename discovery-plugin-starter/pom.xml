@@ -22,7 +22,7 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>discovery-plugin-actuator</artifactId>
+            <artifactId>discovery-plugin-admin-center</artifactId>
         </dependency>
     </dependencies>
 </project>

@@ -12,8 +12,8 @@
 
     <modules>
         <module>discovery-plugin-framework</module>
-        <module>discovery-plugin-actuator</module>
         <module>discovery-plugin-config-center</module>
+        <module>discovery-plugin-admin-center</module>
         <module>discovery-plugin-starter</module>
         <module>discovery-springcloud-example-a</module>
         <module>discovery-springcloud-example-b1</module>
@@ -45,13 +45,13 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>discovery-plugin-actuator</artifactId>
+                <artifactId>discovery-plugin-config-center</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>discovery-plugin-config-center</artifactId>
+                <artifactId>discovery-plugin-admin-center</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
