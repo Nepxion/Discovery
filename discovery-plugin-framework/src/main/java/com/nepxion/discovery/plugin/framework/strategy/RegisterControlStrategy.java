@@ -23,8 +23,8 @@ import com.nepxion.discovery.plugin.framework.entity.RegisterEntity;
 import com.nepxion.discovery.plugin.framework.entity.RegisterFilterType;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
-public class RegisterStrategy {
-    private static final Logger LOG = LoggerFactory.getLogger(RegisterStrategy.class);
+public class RegisterControlStrategy {
+    private static final Logger LOG = LoggerFactory.getLogger(RegisterControlStrategy.class);
 
     @Autowired
     private RuleEntity ruleEntity;

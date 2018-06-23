@@ -17,7 +17,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
-import com.nepxion.discovery.plugin.framework.strategy.DiscoveryStrategy;
+import com.nepxion.discovery.plugin.framework.strategy.DiscoveryControlStrategy;
 
 public class DiscoveryClientDecorator implements DiscoveryClient {
     private DiscoveryClient discoveryClient;
@@ -45,13 +45,13 @@ public class DiscoveryClientDecorator implements DiscoveryClient {
     public List<ServiceInstance> getInstances(String serviceId) {
         List<ServiceInstance> instances = discoveryClient.getInstances(serviceId);
 
-        boolean discoveryVersionEnabled = Boolean.valueOf(environment.getProperty(PluginConstant.SPRING_APPLICATION_DISCOVERY_VERSION_ENABLED));
-        if (discoveryVersionEnabled) {
+        Boolean discoveryControlEnabled = environment.getProperty(PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED, Boolean.class);
+        if (discoveryControlEnabled) {
             String applicationName = environment.getProperty(PluginConstant.SPRING_APPLICATION_NAME);
             String metadataVersion = environment.getProperty(PluginConstant.EUREKA_METADATA_VERSION);
 
-            DiscoveryStrategy discoveryStrategy = applicationContext.getBean(DiscoveryStrategy.class);
-            discoveryStrategy.apply(applicationName, metadataVersion, serviceId, instances);
+            DiscoveryControlStrategy discoveryControlStrategy = applicationContext.getBean(DiscoveryControlStrategy.class);
+            discoveryControlStrategy.apply(applicationName, metadataVersion, serviceId, instances);
         }
 
         return instances;

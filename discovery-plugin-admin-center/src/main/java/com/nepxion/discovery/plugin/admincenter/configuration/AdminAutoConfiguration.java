@@ -9,31 +9,32 @@ package com.nepxion.discovery.plugin.admincenter.configuration;
  * @version 1.0
  */
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.endpoint.Endpoint;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.cloud.client.serviceregistry.Registration;
+import org.springframework.cloud.client.serviceregistry.ServiceRegistry;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.nepxion.discovery.plugin.admincenter.endpoint.AdminEndpoint;
 
 @Configuration
-//@ConditionalOnProperty(value = "com.bkjk.platform.restclient.enabled", matchIfMissing = true)
+// @ConditionalOnProperty(value = "spring.application.discovery.admin.enabled", matchIfMissing = true)
 public class AdminAutoConfiguration {
-//
-//    @ConditionalOnBean(ServiceRegistry.class)
-//    @ConditionalOnClass(Endpoint.class)
-//    protected static class EurekaMgmtEndpointConfiguration {
-//        @Autowired(required = false)
-//        private Registration registration;
-//
-//        @Bean
-//        public EurekaMgmtEndpoint serviceDiscoveryMgmtEndpoint(ServiceRegistry serviceRegistry) {
-//            EurekaMgmtEndpoint endpoint = new EurekaMgmtEndpoint(serviceRegistry);
-//            endpoint.setRegistration(registration);
-//            return endpoint;
-//        }
-//    }
-    
-    @Bean
-    public AdminEndpoint actuatorEndpoint() {
-        return new AdminEndpoint();
+    @ConditionalOnBean(ServiceRegistry.class)
+    @ConditionalOnClass(Endpoint.class)
+    protected static class AdminEndpointConfiguration {
+        @Autowired(required = false)
+        private Registration registration;
+
+        @Bean
+        public AdminEndpoint adminEndpoint(ServiceRegistry<?> serviceRegistry) {
+            AdminEndpoint adminEndpoint = new AdminEndpoint(serviceRegistry);
+            adminEndpoint.setRegistration(registration);
+
+            return adminEndpoint;
+        }
     }
 }

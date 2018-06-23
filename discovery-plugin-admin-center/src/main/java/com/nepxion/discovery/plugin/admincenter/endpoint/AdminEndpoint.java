@@ -9,10 +9,14 @@ package com.nepxion.discovery.plugin.admincenter.endpoint;
  * @version 1.0
  */
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.Endpoint;
 import org.springframework.boot.actuate.endpoint.mvc.MvcEndpoint;
+import org.springframework.cloud.client.serviceregistry.Registration;
+import org.springframework.cloud.client.serviceregistry.ServiceRegistry;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -26,18 +30,31 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nepxion.discovery.plugin.framework.cache.PluginCache;
 
-@ManagedResource(description = "Discovery endpoint")
+@ManagedResource(description = "Admin endpoint")
 public class AdminEndpoint implements MvcEndpoint, ApplicationContextAware, EnvironmentAware {
+    private static final Logger LOG = LoggerFactory.getLogger(AdminEndpoint.class);
+
     private ConfigurableApplicationContext context;
     private Environment environment;
+    private ServiceRegistry<?> serviceRegistry;
+    private Registration registration;
 
     @Autowired
     private PluginCache pluginCache;
+
+    public AdminEndpoint(ServiceRegistry<?> serviceRegistry) {
+        this.serviceRegistry = serviceRegistry;
+    }
+
+    public void setRegistration(Registration registration) {
+        this.registration = registration;
+    }
 
     @RequestMapping(path = "filter", method = RequestMethod.GET)
     @ManagedOperation
     public Object filter(@RequestParam("serviceId") String serviceId, @RequestParam("ip") String ip) {
         pluginCache.put(serviceId, ip);
+
         return "success";
     }
 

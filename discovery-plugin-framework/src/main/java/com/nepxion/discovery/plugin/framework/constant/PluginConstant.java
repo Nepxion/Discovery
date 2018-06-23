@@ -10,7 +10,8 @@ package com.nepxion.discovery.plugin.framework.constant;
  */
 
 public class PluginConstant {
-    public static final String SPRING_APPLICATION_DISCOVERY_VERSION_ENABLED = "spring.application.discovery.version.enabled";
+    public static final String SPRING_APPLICATION_REGISTER_CONTROL_ENABLED = "spring.application.register.control.enabled";
+    public static final String SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED = "spring.application.discovery.control.enabled";
 
     public static final String SPRING_APPLICATION_NAME = "spring.application.name";
     public static final String EUREKA_METADATA_VERSION = "eureka.instance.metadataMap.version";

@@ -16,8 +16,8 @@ import org.springframework.context.annotation.Configuration;
 
 import com.nepxion.discovery.plugin.framework.cache.PluginCache;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
-import com.nepxion.discovery.plugin.framework.strategy.DiscoveryStrategy;
-import com.nepxion.discovery.plugin.framework.strategy.RegisterStrategy;
+import com.nepxion.discovery.plugin.framework.strategy.DiscoveryControlStrategy;
+import com.nepxion.discovery.plugin.framework.strategy.RegisterControlStrategy;
 
 @Configuration
 public class PluginAutoConfiguration {
@@ -37,12 +37,12 @@ public class PluginAutoConfiguration {
     }
 
     @Bean
-    public RegisterStrategy registerStrategy() {
-        return new RegisterStrategy();
+    public RegisterControlStrategy registerControlStrategy() {
+        return new RegisterControlStrategy();
     }
 
     @Bean
-    public DiscoveryStrategy discoveryStrategy() {
-        return new DiscoveryStrategy();
+    public DiscoveryControlStrategy discoveryControlStrategy() {
+        return new DiscoveryControlStrategy();
     }
 }

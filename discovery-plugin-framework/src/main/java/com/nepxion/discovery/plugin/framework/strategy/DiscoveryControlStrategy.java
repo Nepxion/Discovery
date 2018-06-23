@@ -28,7 +28,7 @@ import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryServiceEntity;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 
-public class DiscoveryStrategy {
+public class DiscoveryControlStrategy {
     @Autowired
     private RuleEntity pluginEntity;
 
