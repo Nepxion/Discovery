@@ -29,8 +29,8 @@ import com.nepxion.eventbus.annotation.EventBus;
 import com.nepxion.eventbus.core.Event;
 
 @EventBus
-public class ConfigRetriever {
-    private static final Logger LOG = LoggerFactory.getLogger(ConfigRetriever.class);
+public class ConfigSubscriber {
+    private static final Logger LOG = LoggerFactory.getLogger(ConfigSubscriber.class);
 
     @Value("${" + ConfigConstant.SPRING_APPLICATION_DISCOVERY_REMOTE_CONFIG_ENABLED + ":false}")
     private Boolean remoteConfigEnabled;
@@ -42,26 +42,16 @@ public class ConfigRetriever {
     private ConfigParser configParser;
 
     @PostConstruct
-    public void initialize() throws PluginException {
+    public void initialize() {
         LOG.info("********** {} config starts to initialize **********", remoteConfigEnabled ? "Remote" : "Local");
 
         InputStream inputStream = null;
-        try {
-            if (remoteConfigEnabled) {
-                inputStream = configLoader.getRemoteInputStream();
-            } else {
-                inputStream = configLoader.getLocalInputStream();
-            }
-            parse(inputStream);
-        } catch (IOException e) {
-            throw new PluginException(e);
-        } catch (DocumentException e) {
-            throw new PluginException(e);
-        } finally {
-            if (inputStream != null) {
-                IOUtils.closeQuietly(inputStream);
-            }
+        if (remoteConfigEnabled) {
+            inputStream = configLoader.getRemoteInputStream();
+        } else {
+            inputStream = configLoader.getLocalInputStream();
         }
+        parse(inputStream);
     }
 
     @Subscribe
@@ -73,8 +63,16 @@ public class ConfigRetriever {
         LOG.info("********** Remote config change has been retrieved **********");
 
         InputStream inputStream = (InputStream) event.getSource();
+        parse(inputStream);
+    }
+
+    private void parse(InputStream inputStream) {
+        if (inputStream == null) {
+            throw new PluginException("Failed to load " + (remoteConfigEnabled ? "remote" : "local") + " config, no input stream returns");
+        }
+
         try {
-            parse(inputStream);
+            configParser.parse(inputStream);
         } catch (IOException e) {
             throw new PluginException(e);
         } catch (DocumentException e) {
@@ -84,13 +82,5 @@ public class ConfigRetriever {
                 IOUtils.closeQuietly(inputStream);
             }
         }
-    }
-
-    private void parse(InputStream inputStream) throws DocumentException, IOException {
-        if (inputStream == null) {
-            throw new PluginException("Failed to load " + (remoteConfigEnabled ? "remote" : "local") + " config, no input stream returns");
-        }
-
-        configParser.parse(inputStream);
     }
 }

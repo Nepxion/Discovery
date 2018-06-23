@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.nepxion.discovery.plugin.configcenter.ConfigParser;
 import com.nepxion.discovery.plugin.configcenter.ConfigPublisher;
-import com.nepxion.discovery.plugin.configcenter.ConfigRetriever;
+import com.nepxion.discovery.plugin.configcenter.ConfigSubscriber;
 
 @Configuration
 public class ConfigAutoConfiguration {
@@ -24,8 +24,8 @@ public class ConfigAutoConfiguration {
     }
 
     @Bean
-    public ConfigRetriever configRetriever() {
-        return new ConfigRetriever();
+    public ConfigSubscriber configSubscriber() {
+        return new ConfigSubscriber();
     }
 
     @Bean

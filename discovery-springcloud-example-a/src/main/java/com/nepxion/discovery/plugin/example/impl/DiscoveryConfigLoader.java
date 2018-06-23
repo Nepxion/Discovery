@@ -12,7 +12,6 @@ package com.nepxion.discovery.plugin.example.impl;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 
 import com.nepxion.discovery.plugin.configcenter.loader.AbstractConfigLoader;
@@ -20,7 +19,7 @@ import com.nepxion.discovery.plugin.configcenter.loader.AbstractConfigLoader;
 // 模拟从本地配置或远程配置中心获取配置
 public class DiscoveryConfigLoader extends AbstractConfigLoader {
     @Override
-    public InputStream getRemoteInputStream() throws IOException {
+    public InputStream getRemoteInputStream() {
         // 本地文件模拟代替远程文件
         return getInputStream("src/main/resources/rule1.xml");
     }

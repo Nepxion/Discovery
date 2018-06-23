@@ -9,11 +9,10 @@ package com.nepxion.discovery.plugin.configcenter.loader;
  * @version 1.0
  */
 
-import java.io.IOException;
 import java.io.InputStream;
 
 public interface ConfigLoader {
-    InputStream getLocalInputStream() throws IOException;
+    InputStream getLocalInputStream();
 
-    InputStream getRemoteInputStream() throws IOException;
+    InputStream getRemoteInputStream();
 }

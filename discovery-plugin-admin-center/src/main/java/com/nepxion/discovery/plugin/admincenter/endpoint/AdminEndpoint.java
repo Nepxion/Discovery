@@ -60,7 +60,7 @@ public class AdminEndpoint implements MvcEndpoint, ApplicationContextAware, Envi
     public Object filter(@RequestParam("serviceId") String serviceId, @RequestParam("ip") String ip) {
         Boolean discoveryControlEnabled = environment.getProperty(PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED, Boolean.class);
         if (!discoveryControlEnabled) {
-            return new ResponseEntity<>(Collections.singletonMap("Message", "Admin endpoint is disabled"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(Collections.singletonMap("Message", "Discovery control is disabled"), HttpStatus.NOT_FOUND);
         }
 
         pluginCache.put(serviceId, ip);

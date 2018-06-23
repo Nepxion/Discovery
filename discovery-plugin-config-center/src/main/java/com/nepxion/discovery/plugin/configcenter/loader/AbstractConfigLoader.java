@@ -16,12 +16,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
+import com.nepxion.discovery.plugin.framework.exception.PluginException;
+
 public abstract class AbstractConfigLoader implements ConfigLoader {
     @Autowired
     private ApplicationContext applicationContext;
 
     @Override
-    public InputStream getLocalInputStream() throws IOException {
+    public InputStream getLocalInputStream() {
         String localContextPath = getLocalContextPath();
         if (StringUtils.isEmpty(localContextPath)) {
             return null;
@@ -29,7 +31,11 @@ public abstract class AbstractConfigLoader implements ConfigLoader {
 
         String localFilePath = applicationContext.getEnvironment().resolvePlaceholders(localContextPath);
 
-        return applicationContext.getResource(localFilePath).getInputStream();
+        try {
+            return applicationContext.getResource(localFilePath).getInputStream();
+        } catch (IOException e) {
+            throw new PluginException(e);
+        }
     }
 
     protected abstract String getLocalContextPath();
