@@ -26,11 +26,11 @@ import com.nepxion.discovery.plugin.framework.cache.PluginCache;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryServiceEntity;
-import com.nepxion.discovery.plugin.framework.entity.PluginEntity;
+import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 
 public class DiscoveryStrategy {
     @Autowired
-    private PluginEntity pluginEntity;
+    private RuleEntity pluginEntity;
 
     @Autowired
     private PluginCache pluginCache;

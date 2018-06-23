@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
-import com.nepxion.discovery.plugin.framework.entity.PluginEntity;
+import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.entity.RegisterEntity;
 import com.nepxion.discovery.plugin.framework.entity.RegisterFilterType;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
@@ -27,7 +27,7 @@ public class RegisterStrategy {
     private static final Logger LOG = LoggerFactory.getLogger(RegisterStrategy.class);
 
     @Autowired
-    private PluginEntity pluginEntity;
+    private RuleEntity ruleEntity;
 
     @Autowired
     private ReentrantReadWriteLock reentrantReadWriteLock;
@@ -43,7 +43,7 @@ public class RegisterStrategy {
     }
 
     private void applyIpAddressFilter(String serviceId, String ipAddress) {
-        RegisterEntity registerEntity = pluginEntity.getRegisterEntity();
+        RegisterEntity registerEntity = ruleEntity.getRegisterEntity();
         if (registerEntity == null) {
             return;
         }

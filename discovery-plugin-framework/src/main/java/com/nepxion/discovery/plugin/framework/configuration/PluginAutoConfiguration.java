@@ -15,15 +15,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.nepxion.discovery.plugin.framework.cache.PluginCache;
-import com.nepxion.discovery.plugin.framework.entity.PluginEntity;
+import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.strategy.DiscoveryStrategy;
 import com.nepxion.discovery.plugin.framework.strategy.RegisterStrategy;
 
 @Configuration
 public class PluginAutoConfiguration {
     @Bean
-    public PluginEntity pluginEntity() {
-        return new PluginEntity();
+    public RuleEntity ruleEntity() {
+        return new RuleEntity();
     }
 
     @Bean

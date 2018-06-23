@@ -26,7 +26,7 @@ import com.nepxion.discovery.plugin.configcenter.constant.ConfigConstant;
 import com.nepxion.discovery.plugin.configcenter.xml.Dom4JParser;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryServiceEntity;
-import com.nepxion.discovery.plugin.framework.entity.PluginEntity;
+import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.entity.RegisterEntity;
 import com.nepxion.discovery.plugin.framework.entity.RegisterFilterType;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
@@ -35,7 +35,7 @@ public class ConfigParser extends Dom4JParser {
     private static final Logger LOG = LoggerFactory.getLogger(ConfigParser.class);
 
     @Autowired
-    private PluginEntity pluginEntity;
+    private RuleEntity ruleEntity;
 
     @Autowired
     private ReentrantReadWriteLock reentrantReadWriteLock;
@@ -75,13 +75,13 @@ public class ConfigParser extends Dom4JParser {
         try {
             reentrantReadWriteLock.writeLock().lock();
 
-            pluginEntity.setRegisterEntity(registerEntity);
-            pluginEntity.setDiscoveryEntity(discoveryEntity);
+            ruleEntity.setRegisterEntity(registerEntity);
+            ruleEntity.setDiscoveryEntity(discoveryEntity);
         } finally {
             reentrantReadWriteLock.writeLock().unlock();
         }
 
-        LOG.info("Plugin entity is {}", pluginEntity);
+        LOG.info("Rule entity is {}", ruleEntity);
     }
 
     @SuppressWarnings("rawtypes")
