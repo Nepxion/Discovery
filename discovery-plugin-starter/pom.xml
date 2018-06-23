@@ -17,7 +17,12 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>discovery-plugin-configuration</artifactId>
+            <artifactId>discovery-plugin-config-center</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>discovery-plugin-actuator</artifactId>
         </dependency>
     </dependencies>
 </project>
