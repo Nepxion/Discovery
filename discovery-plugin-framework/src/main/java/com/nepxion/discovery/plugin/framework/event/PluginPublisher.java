@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.configcenter;
+package com.nepxion.discovery.plugin.framework.event;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -9,18 +9,16 @@ package com.nepxion.discovery.plugin.configcenter;
  * @version 1.0
  */
 
-import java.io.InputStream;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.eventbus.core.Event;
 import com.nepxion.eventbus.core.EventControllerFactory;
 
-public class ConfigPublisher {
+public class PluginPublisher {
     @Autowired
     private EventControllerFactory eventControllerFactory;
 
-    public void publish(InputStream inputStream) {
-        eventControllerFactory.getAsyncController().post(new Event(inputStream));
+    public void publish(Object object) {
+        eventControllerFactory.getAsyncController().post(new Event(object));
     }
 }

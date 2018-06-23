@@ -9,8 +9,11 @@ package com.nepxion.discovery.plugin.admincenter.endpoint;
  * @version 1.0
  */
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collections;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -33,12 +36,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.nepxion.discovery.plugin.framework.cache.PluginCache;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
+import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
 @ManagedResource(description = "Admin Endpoint")
 @SuppressWarnings("unchecked")
 public class AdminEndpoint extends AbstractMvcEndpoint implements ApplicationContextAware {
     private static final Logger LOG = LoggerFactory.getLogger(AdminEndpoint.class);
+
+    private static final String ENCODING_UTF_8 = "UTF-8";
 
     private ConfigurableApplicationContext applicationContext;
     @SuppressWarnings("rawtypes")
@@ -47,6 +53,9 @@ public class AdminEndpoint extends AbstractMvcEndpoint implements ApplicationCon
 
     @Autowired
     private PluginCache pluginCache;
+
+    @Autowired
+    private PluginPublisher pluginPublisher;
 
     @SuppressWarnings("rawtypes")
     public AdminEndpoint(ServiceRegistry serviceRegistry) {
@@ -57,6 +66,31 @@ public class AdminEndpoint extends AbstractMvcEndpoint implements ApplicationCon
 
     public void setRegistration(Registration registration) {
         this.registration = registration;
+    }
+
+    @RequestMapping(path = "config", method = RequestMethod.POST)
+    @ResponseBody
+    @ManagedOperation
+    public Object config(@RequestBody String config) {
+        Boolean discoveryControlEnabled = getEnvironment().getProperty(PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED, Boolean.class, Boolean.TRUE);
+        if (!discoveryControlEnabled) {
+            return new ResponseEntity<>(Collections.singletonMap("Message", "Discovery control is disabled"), HttpStatus.NOT_FOUND);
+        }
+
+        if (registration == null) {
+            throw new PluginException("No registration found");
+        }
+
+        try {
+            InputStream inputStream = IOUtils.toInputStream(config, ENCODING_UTF_8);
+            pluginPublisher.publish(inputStream);
+        } catch (IOException e) {
+            throw new PluginException("To input stream failed", e);
+        }
+
+        LOG.info("receive config successfully");
+
+        return "success";
     }
 
     @RequestMapping(path = "blacklist", method = RequestMethod.GET)

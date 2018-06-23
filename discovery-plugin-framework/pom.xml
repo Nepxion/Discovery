@@ -34,5 +34,10 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-eureka</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>eventbus-aop-starter</artifactId>
+        </dependency>
     </dependencies>
 </project>

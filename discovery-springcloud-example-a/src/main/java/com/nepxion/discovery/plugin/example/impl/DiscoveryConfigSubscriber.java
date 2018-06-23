@@ -21,12 +21,12 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.plugin.configcenter.ConfigPublisher;
+import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
 
 // 模拟从远程配置中心接受配置更新
 public class DiscoveryConfigSubscriber {
     @Autowired
-    private ConfigPublisher configPublisher;
+    private PluginPublisher pluginPublisher;
 
     @PostConstruct
     public void initialize() {
@@ -40,7 +40,7 @@ public class DiscoveryConfigSubscriber {
                 int index = threadLocalRandom.nextInt(5) + 1;
                 System.out.println("-------------------- rule" + index + ".xml is loaded --------------------");
                 InputStream inputStream = getInputStream("src/main/resources/rule" + index + ".xml");
-                configPublisher.publish(inputStream);
+                pluginPublisher.publish(inputStream);
             }
         }, 10000L, 15000L);
     }

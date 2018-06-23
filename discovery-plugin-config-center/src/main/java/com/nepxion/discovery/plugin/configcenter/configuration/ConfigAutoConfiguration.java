@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.nepxion.discovery.plugin.configcenter.ConfigParser;
-import com.nepxion.discovery.plugin.configcenter.ConfigPublisher;
 import com.nepxion.discovery.plugin.configcenter.ConfigSubscriber;
 
 @Configuration
@@ -26,10 +25,5 @@ public class ConfigAutoConfiguration {
     @Bean
     public ConfigSubscriber configSubscriber() {
         return new ConfigSubscriber();
-    }
-
-    @Bean
-    public ConfigPublisher configPublisher() {
-        return new ConfigPublisher();
     }
 }

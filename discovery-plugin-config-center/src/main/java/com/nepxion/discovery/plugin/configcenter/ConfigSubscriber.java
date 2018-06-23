@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Value;
 import com.google.common.eventbus.Subscribe;
 import com.nepxion.discovery.plugin.configcenter.constant.ConfigConstant;
 import com.nepxion.discovery.plugin.configcenter.loader.ConfigLoader;
+import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
 import com.nepxion.eventbus.annotation.EventBus;
 import com.nepxion.eventbus.core.Event;
@@ -31,6 +32,9 @@ import com.nepxion.eventbus.core.Event;
 @EventBus
 public class ConfigSubscriber {
     private static final Logger LOG = LoggerFactory.getLogger(ConfigSubscriber.class);
+
+    @Value("${" + PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED + ":true}")
+    private Boolean discoveryControlEnabled;
 
     @Value("${" + ConfigConstant.SPRING_APPLICATION_DISCOVERY_REMOTE_CONFIG_ENABLED + ":true}")
     private Boolean remoteConfigEnabled;
@@ -56,14 +60,25 @@ public class ConfigSubscriber {
 
     @Subscribe
     public void subscribe(Event event) {
-        if (!remoteConfigEnabled) {
+        if (!discoveryControlEnabled) {
+            LOG.info("********** Discovery control is disabled, reject to accept remote push **********");
+
             return;
         }
 
-        LOG.info("********** Remote config change has been retrieved **********");
+        if (!remoteConfigEnabled) {
+            LOG.info("********** Remote config is disabled, reject to accept remote push **********");
 
-        InputStream inputStream = (InputStream) event.getSource();
-        parse(inputStream);
+            return;
+        }
+
+        Object object = event.getSource();
+        if (object instanceof InputStream) {
+            LOG.info("********** Remote config change has been retrieved **********");
+
+            InputStream inputStream = (InputStream) object;
+            parse(inputStream);
+        }
     }
 
     private void parse(InputStream inputStream) {
