@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.core.config;
+package com.nepxion.discovery.plugin.core.configuration;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -20,7 +20,7 @@ import com.nepxion.discovery.plugin.core.strategy.DiscoveryStrategy;
 import com.nepxion.discovery.plugin.core.strategy.RegisterStrategy;
 
 @Configuration
-public class PluginConfig {
+public class PluginConfiguration {
     @Bean
     public PluginEntity pluginEntity() {
         return new PluginEntity();
