@@ -55,6 +55,14 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
     <!-- service-name，表示服务名 -->
     <!-- version-value，表示可供访问的版本，如果多个用“,”分隔 -->
     <discovery>
+        <!-- 表示消费端服务a的1.0，允许访问提供端服务b的1.0和1.1版本 -->
+        <service consumer-service-name="discovery-springcloud-example-a" provider-service-name="discovery-springcloud-example-b" consumer-version-value="1.0" provider-version-value="1.0,1.1"/>
+    </discovery>
+</rule>
+```
+
+### 配置策略
+```xml
         <!-- 配置策略介绍 -->
         <!-- 1. 标准配置，举例如下 -->
         <!--    <service consumer-service-name="a" provider-service-name="b" consumer-version-value="1.0" provider-version-value="1.0,1.1"/> 表示消费端1.0版本，允许访问提供端1.0和1.1版本 -->
@@ -70,11 +78,6 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
         <!-- 特殊情况处理，在使用上需要极力避免该情况发生 -->		
         <!-- 1. 消费端的application.properties未定义版本号（即eureka.instance.metadataMap.version不存在），则该消费端可以访问提供端任何版本 -->
         <!-- 2. 提供端的application.properties未定义版本号（即eureka.instance.metadataMap.version不存在），当消费端在xml里不做任何版本配置，才可以访问该提供端 -->
-
-        <!-- 表示消费端服务a的1.0，允许访问提供端服务b的1.0和1.1版本 -->
-        <service consumer-service-name="discovery-springcloud-example-a" provider-service-name="discovery-springcloud-example-b" consumer-version-value="1.0" provider-version-value="1.0,1.1"/>
-    </discovery>
-</rule>
 ```
 
 ### 代码示例
