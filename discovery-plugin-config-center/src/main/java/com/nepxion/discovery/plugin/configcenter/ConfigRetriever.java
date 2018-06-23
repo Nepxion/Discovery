@@ -12,6 +12,8 @@ package com.nepxion.discovery.plugin.configcenter;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.io.IOUtils;
 import org.dom4j.DocumentException;
 import org.slf4j.Logger;
@@ -39,6 +41,7 @@ public class ConfigRetriever {
     @Autowired
     private ConfigParser configParser;
 
+    @PostConstruct
     public void initialize() throws PluginException {
         LOG.info("********** {} config starts to initialize **********", remoteConfigEnabled ? "Remote" : "Local");
 

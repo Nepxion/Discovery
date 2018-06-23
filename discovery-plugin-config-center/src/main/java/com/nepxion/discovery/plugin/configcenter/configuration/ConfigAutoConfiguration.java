@@ -9,9 +9,6 @@ package com.nepxion.discovery.plugin.configcenter.configuration;
  * @version 1.0
  */
 
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -21,9 +18,6 @@ import com.nepxion.discovery.plugin.configcenter.ConfigRetriever;
 
 @Configuration
 public class ConfigAutoConfiguration {
-    @Autowired
-    private ConfigRetriever configRetriever;
-
     @Bean
     public ConfigParser configParser() {
         return new ConfigParser();
@@ -37,10 +31,5 @@ public class ConfigAutoConfiguration {
     @Bean
     public ConfigPublisher configPublisher() {
         return new ConfigPublisher();
-    }
-
-    @PostConstruct
-    public void initialize() {
-        configRetriever.initialize();
     }
 }
