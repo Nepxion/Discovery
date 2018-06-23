@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.configuration.loader;
+package com.nepxion.discovery.plugin.configcenter.loader;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -16,7 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
-public abstract class AbstractConfigurationLoader implements ConfigurationLoader {
+public abstract class AbstractConfigLoader implements ConfigLoader {
     @Autowired
     private ApplicationContext applicationContext;
 

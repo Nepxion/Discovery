@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.configuration.constant;
+package com.nepxion.discovery.plugin.configcenter.constant;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -9,7 +9,7 @@ package com.nepxion.discovery.plugin.configuration.constant;
  * @version 1.0
  */
 
-public class ConfigurationConstant {
+public class ConfigConstant {
     public static final String SPRING_APPLICATION_DISCOVERY_REMOTE_CONFIG_ENABLED = "spring.application.discovery.remote.config.enabled";
 
     public static final String RULE_ELEMENT_NAME = "rule";

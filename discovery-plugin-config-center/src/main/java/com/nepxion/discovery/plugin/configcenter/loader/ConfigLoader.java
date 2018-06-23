@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.configuration.loader;
+package com.nepxion.discovery.plugin.configcenter.loader;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -12,7 +12,7 @@ package com.nepxion.discovery.plugin.configuration.loader;
 import java.io.IOException;
 import java.io.InputStream;
 
-public interface ConfigurationLoader {
+public interface ConfigLoader {
     InputStream getLocalInputStream() throws IOException;
 
     InputStream getRemoteInputStream() throws IOException;

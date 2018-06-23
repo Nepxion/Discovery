@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.configuration;
+package com.nepxion.discovery.plugin.configcenter;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -20,24 +20,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.google.common.eventbus.Subscribe;
-import com.nepxion.discovery.plugin.configuration.constant.ConfigurationConstant;
-import com.nepxion.discovery.plugin.configuration.loader.ConfigurationLoader;
+import com.nepxion.discovery.plugin.configcenter.constant.ConfigConstant;
+import com.nepxion.discovery.plugin.configcenter.loader.ConfigLoader;
 import com.nepxion.discovery.plugin.core.exception.PluginException;
 import com.nepxion.eventbus.annotation.EventBus;
 import com.nepxion.eventbus.core.Event;
 
 @EventBus
-public class ConfigurationRetriever {
-    private static final Logger LOG = LoggerFactory.getLogger(ConfigurationRetriever.class);
+public class ConfigRetriever {
+    private static final Logger LOG = LoggerFactory.getLogger(ConfigRetriever.class);
 
-    @Value("${" + ConfigurationConstant.SPRING_APPLICATION_DISCOVERY_REMOTE_CONFIG_ENABLED + ":false}")
+    @Value("${" + ConfigConstant.SPRING_APPLICATION_DISCOVERY_REMOTE_CONFIG_ENABLED + ":false}")
     private Boolean remoteConfigEnabled;
 
     @Autowired
-    private ConfigurationLoader configurationLoader;
+    private ConfigLoader configLoader;
 
     @Autowired
-    private ConfigurationParser configurationParser;
+    private ConfigParser configParser;
 
     public void initialize() throws PluginException {
         LOG.info("********** {} config starts to initialize **********", remoteConfigEnabled ? "Remote" : "Local");
@@ -45,9 +45,9 @@ public class ConfigurationRetriever {
         InputStream inputStream = null;
         try {
             if (remoteConfigEnabled) {
-                inputStream = configurationLoader.getRemoteInputStream();
+                inputStream = configLoader.getRemoteInputStream();
             } else {
-                inputStream = configurationLoader.getLocalInputStream();
+                inputStream = configLoader.getLocalInputStream();
             }
             parse(inputStream);
         } catch (IOException e) {
@@ -88,6 +88,6 @@ public class ConfigurationRetriever {
             throw new PluginException("Failed to load " + (remoteConfigEnabled ? "remote" : "local") + " config, no input stream returns");
         }
 
-        configurationParser.parse(inputStream);
+        configParser.parse(inputStream);
     }
 }

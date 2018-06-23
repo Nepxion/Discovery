@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.configuration;
+package com.nepxion.discovery.plugin.configcenter;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -22,8 +22,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.plugin.configuration.constant.ConfigurationConstant;
-import com.nepxion.discovery.plugin.configuration.xml.Dom4JParser;
+import com.nepxion.discovery.plugin.configcenter.constant.ConfigConstant;
+import com.nepxion.discovery.plugin.configcenter.xml.Dom4JParser;
 import com.nepxion.discovery.plugin.core.entity.DiscoveryEntity;
 import com.nepxion.discovery.plugin.core.entity.DiscoveryServiceEntity;
 import com.nepxion.discovery.plugin.core.entity.PluginEntity;
@@ -31,8 +31,8 @@ import com.nepxion.discovery.plugin.core.entity.RegisterEntity;
 import com.nepxion.discovery.plugin.core.entity.RegisterFilterType;
 import com.nepxion.discovery.plugin.core.exception.PluginException;
 
-public class ConfigurationParser extends Dom4JParser {
-    private static final Logger LOG = LoggerFactory.getLogger(ConfigurationParser.class);
+public class ConfigParser extends Dom4JParser {
+    private static final Logger LOG = LoggerFactory.getLogger(ConfigParser.class);
 
     @Autowired
     private PluginEntity pluginEntity;
@@ -45,14 +45,14 @@ public class ConfigurationParser extends Dom4JParser {
     protected void parseRoot(Element element) {
         LOG.info("Start to parse plugin xml...");
 
-        int registerElementCount = element.elements(ConfigurationConstant.REGISTER_ELEMENT_NAME).size();
+        int registerElementCount = element.elements(ConfigConstant.REGISTER_ELEMENT_NAME).size();
         if (registerElementCount > 1) {
-            throw new PluginException("The count of element[" + ConfigurationConstant.REGISTER_ELEMENT_NAME + "] can't be more than 1");
+            throw new PluginException("The count of element[" + ConfigConstant.REGISTER_ELEMENT_NAME + "] can't be more than 1");
         }
 
-        int discoveryElementCount = element.elements(ConfigurationConstant.DISCOVERY_ELEMENT_NAME).size();
+        int discoveryElementCount = element.elements(ConfigConstant.DISCOVERY_ELEMENT_NAME).size();
         if (discoveryElementCount > 1) {
-            throw new PluginException("The count of element[" + ConfigurationConstant.DISCOVERY_ELEMENT_NAME + "] can't be more than 1");
+            throw new PluginException("The count of element[" + ConfigConstant.DISCOVERY_ELEMENT_NAME + "] can't be more than 1");
         }
 
         RegisterEntity registerEntity = null;
@@ -62,10 +62,10 @@ public class ConfigurationParser extends Dom4JParser {
             if (childElementObject instanceof Element) {
                 Element childElement = (Element) childElementObject;
 
-                if (StringUtils.equals(childElement.getName(), ConfigurationConstant.REGISTER_ELEMENT_NAME)) {
+                if (StringUtils.equals(childElement.getName(), ConfigConstant.REGISTER_ELEMENT_NAME)) {
                     registerEntity = new RegisterEntity();
                     parseRegister(childElement, registerEntity);
-                } else if (StringUtils.equals(childElement.getName(), ConfigurationConstant.DISCOVERY_ELEMENT_NAME)) {
+                } else if (StringUtils.equals(childElement.getName(), ConfigConstant.DISCOVERY_ELEMENT_NAME)) {
                     discoveryEntity = new DiscoveryEntity();
                     parseDiscovery(childElement, discoveryEntity);
                 }
@@ -86,14 +86,14 @@ public class ConfigurationParser extends Dom4JParser {
 
     @SuppressWarnings("rawtypes")
     private void parseRegister(Element element, RegisterEntity registerEntity) {
-        Attribute filterTypeAttribute = element.attribute(ConfigurationConstant.FILTER_TYPE_ATTRIBUTE_NAME);
+        Attribute filterTypeAttribute = element.attribute(ConfigConstant.FILTER_TYPE_ATTRIBUTE_NAME);
         if (filterTypeAttribute == null) {
-            throw new PluginException("Attribute[" + ConfigurationConstant.FILTER_TYPE_ATTRIBUTE_NAME + "] in element[" + element.getName() + "] is missing");
+            throw new PluginException("Attribute[" + ConfigConstant.FILTER_TYPE_ATTRIBUTE_NAME + "] in element[" + element.getName() + "] is missing");
         }
         String filterType = filterTypeAttribute.getData().toString().trim();
         registerEntity.setFilterType(RegisterFilterType.fromString(filterType));
 
-        Attribute globalFilterAttribute = element.attribute(ConfigurationConstant.FILTER_VALUE_ATTRIBUTE_NAME);
+        Attribute globalFilterAttribute = element.attribute(ConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME);
         if (globalFilterAttribute != null) {
             String globalFilterValue = globalFilterAttribute.getData().toString().trim();
             registerEntity.setFilterValue(globalFilterValue);
@@ -106,13 +106,13 @@ public class ConfigurationParser extends Dom4JParser {
             if (childElementObject instanceof Element) {
                 Element childElement = (Element) childElementObject;
 
-                Attribute serviceNameAttribute = childElement.attribute(ConfigurationConstant.SERVICE_NAME_ATTRIBUTE_NAME);
+                Attribute serviceNameAttribute = childElement.attribute(ConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME);
                 if (serviceNameAttribute == null) {
-                    throw new PluginException("Attribute[" + ConfigurationConstant.SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                    throw new PluginException("Attribute[" + ConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                 }
                 String serviceName = serviceNameAttribute.getData().toString().trim();
 
-                Attribute filterValueAttribute = childElement.attribute(ConfigurationConstant.FILTER_VALUE_ATTRIBUTE_NAME);
+                Attribute filterValueAttribute = childElement.attribute(ConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME);
                 String filterValue = null;
                 if (filterValueAttribute != null) {
                     filterValue = filterValueAttribute.getData().toString().trim();
@@ -132,27 +132,27 @@ public class ConfigurationParser extends Dom4JParser {
 
                 DiscoveryServiceEntity serviceEntity = new DiscoveryServiceEntity();
 
-                Attribute consumerServiceNameAttribute = childElement.attribute(ConfigurationConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME);
+                Attribute consumerServiceNameAttribute = childElement.attribute(ConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME);
                 if (consumerServiceNameAttribute == null) {
-                    throw new PluginException("Attribute[" + ConfigurationConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                    throw new PluginException("Attribute[" + ConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                 }
                 String consumerServiceName = consumerServiceNameAttribute.getData().toString().trim();
                 serviceEntity.setConsumerServiceName(consumerServiceName);
 
-                Attribute providerServiceNameAttribute = childElement.attribute(ConfigurationConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME);
+                Attribute providerServiceNameAttribute = childElement.attribute(ConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME);
                 if (providerServiceNameAttribute == null) {
-                    throw new PluginException("Attribute[" + ConfigurationConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                    throw new PluginException("Attribute[" + ConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                 }
                 String providerServiceName = providerServiceNameAttribute.getData().toString().trim();
                 serviceEntity.setProviderServiceName(providerServiceName);
 
-                Attribute consumerVersionValueAttribute = childElement.attribute(ConfigurationConstant.CONSUMER_VERSION_VALUE_ATTRIBUTE_NAME);
+                Attribute consumerVersionValueAttribute = childElement.attribute(ConfigConstant.CONSUMER_VERSION_VALUE_ATTRIBUTE_NAME);
                 if (consumerVersionValueAttribute != null) {
                     String consumerVersionValue = consumerVersionValueAttribute.getData().toString().trim();
                     serviceEntity.setConsumerVersionValue(consumerVersionValue);
                 }
 
-                Attribute providerVersionValueAttribute = childElement.attribute(ConfigurationConstant.PROVIDER_VERSION_VALUE_ATTRIBUTE_NAME);
+                Attribute providerVersionValueAttribute = childElement.attribute(ConfigConstant.PROVIDER_VERSION_VALUE_ATTRIBUTE_NAME);
                 if (providerVersionValueAttribute != null) {
                     String providerVersionValue = providerVersionValueAttribute.getData().toString().trim();
                     serviceEntity.setProviderVersionValue(providerVersionValue);

@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.configuration.xml;
+package com.nepxion.discovery.plugin.configcenter.xml;
 
 /**
  * <p>Title: Nepxion Discovery</p>

@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.configuration;
+package com.nepxion.discovery.plugin.configcenter;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.nepxion.eventbus.core.Event;
 import com.nepxion.eventbus.core.EventControllerFactory;
 
-public class ConfigurationPublisher {
+public class ConfigPublisher {
     @Autowired
     private EventControllerFactory eventControllerFactory;
 

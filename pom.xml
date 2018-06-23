@@ -13,7 +13,7 @@
     <modules>
         <module>discovery-plugin-core</module>
         <module>discovery-plugin-actuator</module>
-        <module>discovery-plugin-configuration</module>
+        <module>discovery-plugin-config-center</module>
         <module>discovery-plugin-starter</module>
         <module>discovery-springcloud-example-a</module>
         <module>discovery-springcloud-example-b1</module>
@@ -22,7 +22,7 @@
     </modules>
 
     <properties>
-        <eventbus.version>1.0.6</eventbus.version>
+        <eventbus.version>1.0.8</eventbus.version>
         <commons.lang3.version>3.6</commons.lang3.version>
         <commons.collections4.version>4.1</commons.collections4.version>
         <commons.io.version>2.5</commons.io.version>
@@ -51,7 +51,7 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>discovery-plugin-configuration</artifactId>
+                <artifactId>discovery-plugin-config-center</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -63,7 +63,7 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>eventbus-aop</artifactId>
+                <artifactId>eventbus-aop-starter</artifactId>
                 <version>${eventbus.version}</version>
             </dependency>
 
