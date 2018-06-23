@@ -9,22 +9,20 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
 ## 简介
 支持如下功能
 
-    1. 实现采用黑/白名单的IP地址过滤机制实现对客户端的禁止注册
-    2. 实现通过多版本配置实现灰度访问控制
-    3. 实现通过远程配置中心控制黑/白名单和灰度版本，实现动态通知
+    1. 实现服务注册层面的控制，基于黑/白名单的IP地址过滤机制实现禁止对相应的微服务在服务注册发现中心注册
+    2. 实现服务发现层面的控制，通过对消费端和提供端可访问版本对应关系的配置，实现多版本灰度访问控制；实现动态屏蔽指定IP地址的服务实例被发现
+    3. 实现通过远程配置中心的订阅功能，动态改变上述两种方式控制
     4. 实现通过事件总线机制异步对接远程配置中心，提供使用者实现和扩展
-    5. 实现支持本地配置和远程配置的选择
-    6. 实现根据服务实例的IP地址，屏蔽服务实例被发现
 
 ## 场景
 
-    1. 黑/白名单的IP地址过滤
+    1. 黑/白名单的IP地址注册的过滤
        开发环境的本地服务（例如IP地址为172.16.0.8）不小心注册到测试环境的服务注册发现中心，会导致调用出现问题，那么可以在配置中心维护一个黑/白名单的IP地址过滤（支持全局和局部的过滤）
        我们可以在远程配置中心配置对该服务名所对应的IP地址列表，包含前缀172.16，当是黑名单的时候，表示包含在IP地址列表里的所有服务都禁止注册到服务注册发现中心；当是白名单的时候，表示包含在IP地址列表里的所有服务都允许注册到服务注册发现中心
-    2. 多版本配置实现灰度访问控制
+    2. 多版本灰度访问控制
        A服务调用B服务，而B服务有两个实例（B1、B2和B3），虽然三者相同的服务名，但功能上有差异，需求是在某个时刻，A服务只能调用B1，禁止调用B2和B3。在此场景下，我们在application.properties里为B1维护一个版本为1.0，为B2维护一个版本为1.1，以此类推
        我们可以在远程配置中心配置对于A服务调用某个版本的B服务，达到某种意义上的灰度控制，切换版本的时候，我们只需要改相关的远程配置中心的配置即可
-    3. 屏蔽服务实例被发现
+    3. 屏蔽指定IP地址的服务实例被发现
        [待完成]
 
 ## 依赖
@@ -142,10 +140,8 @@ eureka.instance.metadataMap.version=1.0
 # Plugin config
 # 开启和关闭服务注册层面的控制。一旦关闭，服务注册的黑/白名单过滤功能将失效。缺失则默认为true
 spring.application.register.control.enabled=true
-
-# 开启和关闭服务发现层面的控制。一旦关闭，服务多版本调用的控制功能将失效，动态屏蔽指定IP地址的服务示例功能将失效。缺失则默认为true
+# 开启和关闭服务发现层面的控制。一旦关闭，服务多版本调用的控制功能将失效，动态屏蔽指定IP地址的服务实例被发现的功能将失效。缺失则默认为true
 spring.application.discovery.control.enabled=true
-
 # 开启和关闭远程配置中心规则配置文件读取。一旦关闭，默认读取本地规则配置文件（例如：rule.xml）。缺失则默认为true
 spring.application.discovery.remote.config.enabled=true
 
@@ -158,19 +154,24 @@ management.security.enabled=false
 ```
 
 ### 运行效果
-黑/白名单的IP地址过滤
+黑/白名单的IP地址注册的过滤
 ```xml
 1. 首先在rule1.xml把本地IP地址写入
 2. 启动discovery-springcloud-example-a/DiscoveryApplication.java
 3. 抛出禁止注册的异常，本机不会注册到服务注册发现中心
 ```
 
-多版本配置实现灰度访问控制
+多版本灰度访问控制
 ```xml
 1. 运行discovery-springcloud-example-b1、discovery-springcloud-example-b2和discovery-springcloud-example-b3下的DiscoveryApplication.java，
 2. 运行discovery-springcloud-example-a/DiscoveryApplication.java
 3. 通过Postman或者浏览器，访问http://localhost:4321/instances
 4. 可以观察到通过A服务去获取B服务的被过滤的实例列表，随着A服务定时器会更新不不同的配置，获取到的实例列表也随着变更
+```
+
+屏蔽指定IP地址的服务实例被发现
+```xml
+[待完成]
 ```
 
 ## 鸣谢
