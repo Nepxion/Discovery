@@ -175,4 +175,4 @@ management.security.enabled=false
 ```
 
 ## 鸣谢
-感谢Spring Cloud中国社区刘石明提供代码支持和建议
+感谢Spring Cloud中国社区刘石明提供支持
