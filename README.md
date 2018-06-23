@@ -14,6 +14,18 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
     3. 实现通过远程配置中心控制黑/白名单和灰度版本，实现动态通知
     4. 实现通过事件总线机制异步对接远程配置中心，提供使用者实现和扩展
     5. 实现支持本地配置和远程配置的选择
+    6. 实现根据服务实例的IP地址，屏蔽服务实例被发现
+
+## 场景
+
+    1. 黑/白名单的IP地址过滤
+       开发环境的本地服务（例如IP地址为172.16.0.8）不小心注册到测试环境的服务注册发现中心，会导致调用出现问题，那么可以在配置中心维护一个黑/白名单的IP地址过滤（支持全局和局部的过滤）
+       我们可以在远程配置中心配置对该服务名所对应的IP地址列表，包含前缀172.16，当是黑名单的时候，表示包含在IP地址列表里的所有服务都禁止注册到服务注册发现中心；当是白名单的时候，表示包含在IP地址列表里的所有服务都允许注册到服务注册发现中心
+    2. 多版本配置实现灰度访问控制
+       A服务调用B服务，而B服务有两个实例（B1、B2和B3），虽然三者相同的服务名，但功能上有差异，需求是在某个时刻，A服务只能调用B1，禁止调用B2和B3。在此场景下，我们在application.properties里为B1维护一个版本为1.0，为B2维护一个版本为1.1，以此类推
+       我们可以在远程配置中心配置对于A服务调用某个版本的B服务，达到某种意义上的灰度控制，切换版本的时候，我们只需要改相关的远程配置中心的配置即可
+    3. 屏蔽服务实例被发现
+       [待完成]
 
 ## 依赖
 ```xml
@@ -24,17 +36,8 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
 </dependency>
 ```
 
-## 示例
-### 场景示例
-
-    1. 黑/白名单的IP地址过滤
-       开发环境的本地服务（例如IP地址为172.16.0.8）不小心注册到测试环境的服务注册发现中心，会导致调用出现问题，那么可以在配置中心维护一个黑/白名单的IP地址过滤（支持全局和局部的过滤）
-       我们可以在远程配置中心配置对该服务名所对应的IP地址列表，包含前缀172.16，当是黑名单的时候，表示包含在IP地址列表里的所有服务都禁止注册到服务注册发现中心；当是白名单的时候，表示包含在IP地址列表里的所有服务都允许注册到服务注册发现中心
-    2. 多版本配置实现灰度访问控制
-       A服务调用B服务，而B服务有两个实例（B1、B2和B3），虽然三者相同的服务名，但功能上有差异，需求是在某个时刻，A服务只能调用B1，禁止调用B2和B3。在此场景下，我们在application.properties里为B1维护一个版本为1.0，为B2维护一个版本为1.1，以此类推
-       我们可以在远程配置中心配置对于A服务调用某个版本的B服务，达到某种意义上的灰度控制，切换版本的时候，我们只需要改相关的远程配置中心的配置即可
-
-### 配置文件
+## 规则配置
+### 规则示例
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
@@ -77,7 +80,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
 2. 提供端的application.properties未定义版本号（即eureka.instance.metadataMap.version不存在），当消费端在xml里不做任何版本配置，才可以访问该提供端
 ```
 
-### 跟远程配置中心整合
+## 跟远程配置中心整合
 使用者可以跟携程Apollo，百度DisConf等远程配置中心整合
 
 继承AbstractConfigLoader.java，实现配置文件获取的对接
@@ -115,15 +118,15 @@ public class DiscoveryConfigSubscriber {
 }
 ```
 
-### 代码示例
-#### B服务实现
-B服务的两个实例B1和B2采用标准的Spring Cloud入口，参考discovery-springcloud-example-b1、discovery-springcloud-example-b2和discovery-springcloud-example-b3工程
+## 示例
+### B服务实现
+B服务的两个实例B1、B2和B3采用标准的Spring Cloud入口，参考discovery-springcloud-example-b1、discovery-springcloud-example-b2和discovery-springcloud-example-b3工程
 唯一需要做的是在applicaiton.properties维护版本号，如下
 ```xml
 eureka.instance.metadataMap.version=[version]
 ```
 
-#### A服务实现
+### A服务实现
 A服务需要引入discovery-plugin-starter，参考discovery-springcloud-example-a工程
 
 application.properties
