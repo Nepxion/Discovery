@@ -21,7 +21,7 @@ import org.springframework.context.annotation.Configuration;
 import com.nepxion.discovery.plugin.admincenter.endpoint.AdminEndpoint;
 
 @Configuration
-// @ConditionalOnProperty(value = "spring.application.discovery.admin.enabled", matchIfMissing = true)
+// @ConditionalOnProperty(value = PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED, matchIfMissing = true)
 public class AdminAutoConfiguration {
     @ConditionalOnBean(ServiceRegistry.class)
     @ConditionalOnClass(Endpoint.class)

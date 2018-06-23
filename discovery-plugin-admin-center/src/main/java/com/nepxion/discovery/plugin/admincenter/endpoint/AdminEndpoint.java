@@ -9,6 +9,8 @@ package com.nepxion.discovery.plugin.admincenter.endpoint;
  * @version 1.0
  */
 
+import java.util.Collections;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -22,6 +24,8 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nepxion.discovery.plugin.framework.cache.PluginCache;
+import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 
 @ManagedResource(description = "Admin endpoint")
 public class AdminEndpoint implements MvcEndpoint, ApplicationContextAware, EnvironmentAware {
@@ -53,6 +58,11 @@ public class AdminEndpoint implements MvcEndpoint, ApplicationContextAware, Envi
     @RequestMapping(path = "filter", method = RequestMethod.GET)
     @ManagedOperation
     public Object filter(@RequestParam("serviceId") String serviceId, @RequestParam("ip") String ip) {
+        Boolean discoveryControlEnabled = environment.getProperty(PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED, Boolean.class);
+        if (!discoveryControlEnabled) {
+            return new ResponseEntity<>(Collections.singletonMap("Message", "Admin endpoint is disabled"), HttpStatus.NOT_FOUND);
+        }
+
         pluginCache.put(serviceId, ip);
 
         return "success";
