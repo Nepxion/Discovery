@@ -22,7 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import com.google.common.eventbus.Subscribe;
 import com.nepxion.discovery.plugin.configcenter.constant.ConfigConstant;
 import com.nepxion.discovery.plugin.configcenter.loader.ConfigLoader;
-import com.nepxion.discovery.plugin.core.exception.PluginException;
+import com.nepxion.discovery.plugin.framework.exception.PluginException;
 import com.nepxion.eventbus.annotation.EventBus;
 import com.nepxion.eventbus.core.Event;
 

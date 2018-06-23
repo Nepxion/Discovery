@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.nepxion.discovery.plugin.core.cache.PluginCache;
+import com.nepxion.discovery.plugin.framework.cache.PluginCache;
 
 @ManagedResource(description = "Discovery endpoint")
 public class ActuatorEndpoint implements MvcEndpoint, ApplicationContextAware, EnvironmentAware {

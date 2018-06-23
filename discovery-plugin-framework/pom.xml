@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <artifactId>discovery-plugin-config-center</artifactId>
-    <name>Nepxion Discovery Plugin Config Center</name>
+    <artifactId>discovery-plugin-framework</artifactId>
+    <name>Nepxion Discovery Plugin Framework</name>
     <packaging>jar</packaging>
     <modelVersion>4.0.0</modelVersion>
     <description>Nepxion Discovery is an enhancement for Spring Cloud Discovery</description>
@@ -16,18 +16,23 @@
 
     <dependencies>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>discovery-plugin-framework</artifactId>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>eventbus-aop-starter</artifactId>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>dom4j</groupId>
-            <artifactId>dom4j</artifactId>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-eureka</artifactId>
         </dependency>
     </dependencies>
 </project>

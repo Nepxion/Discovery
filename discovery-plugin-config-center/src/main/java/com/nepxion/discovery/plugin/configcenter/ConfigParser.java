@@ -24,12 +24,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.plugin.configcenter.constant.ConfigConstant;
 import com.nepxion.discovery.plugin.configcenter.xml.Dom4JParser;
-import com.nepxion.discovery.plugin.core.entity.DiscoveryEntity;
-import com.nepxion.discovery.plugin.core.entity.DiscoveryServiceEntity;
-import com.nepxion.discovery.plugin.core.entity.PluginEntity;
-import com.nepxion.discovery.plugin.core.entity.RegisterEntity;
-import com.nepxion.discovery.plugin.core.entity.RegisterFilterType;
-import com.nepxion.discovery.plugin.core.exception.PluginException;
+import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
+import com.nepxion.discovery.plugin.framework.entity.DiscoveryServiceEntity;
+import com.nepxion.discovery.plugin.framework.entity.PluginEntity;
+import com.nepxion.discovery.plugin.framework.entity.RegisterEntity;
+import com.nepxion.discovery.plugin.framework.entity.RegisterFilterType;
+import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
 public class ConfigParser extends Dom4JParser {
     private static final Logger LOG = LoggerFactory.getLogger(ConfigParser.class);

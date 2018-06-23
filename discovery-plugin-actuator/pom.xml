@@ -17,7 +17,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>discovery-plugin-core</artifactId>
+            <artifactId>discovery-plugin-framework</artifactId>
         </dependency>
 
         <dependency>

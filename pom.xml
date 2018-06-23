@@ -11,7 +11,7 @@
     <url>http://www.nepxion.com</url>
 
     <modules>
-        <module>discovery-plugin-core</module>
+        <module>discovery-plugin-framework</module>
         <module>discovery-plugin-actuator</module>
         <module>discovery-plugin-config-center</module>
         <module>discovery-plugin-starter</module>
@@ -39,7 +39,7 @@
         <dependencies>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>discovery-plugin-core</artifactId>
+                <artifactId>discovery-plugin-framework</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
