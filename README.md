@@ -121,7 +121,8 @@ public class DiscoveryConfigSubscriber {
 ## 示例
 ### B服务实现
 B服务的两个实例B1、B2和B3采用标准的Spring Cloud入口，参考discovery-springcloud-example-b1、discovery-springcloud-example-b2和discovery-springcloud-example-b3工程
-唯一需要做的是在applicaiton.properties维护版本号，如下
+
+配置applicaiton.properties
 ```xml
 eureka.instance.metadataMap.version=[version]
 ```
@@ -129,7 +130,7 @@ eureka.instance.metadataMap.version=[version]
 ### A服务实现
 A服务需要引入discovery-plugin-starter，参考discovery-springcloud-example-a工程
 
-application.properties
+配置application.properties
 ```xml
 # Spring cloud config
 spring.application.name=discovery-springcloud-example-a
@@ -150,7 +151,11 @@ spring.application.discovery.remote.config.enabled=true
 
 management.security.enabled=false
 ```
-因为本中间件不跟任何远程配置中心系统绑定（需要使用者自行实现跟远程配置中心对接），故通过定时方式模拟获取远程配置内容的更新推送，参考DiscoveryConfigurationLoader.java和DiscoveryConfigurationSimulator.java
+
+模拟实现跟远程配置中心整合
+```xml
+参考DiscoveryConfigLoader.java和DiscoveryConfigSubscriber.java
+```
 
 #### 黑/白名单的IP地址过滤运行效果
 启动discovery-springcloud-example-a/DiscoveryApplication.java的时候，如果IP地址被过滤，那么程序将抛出无法注册到服务注册发现中心的异常，并终止程序
