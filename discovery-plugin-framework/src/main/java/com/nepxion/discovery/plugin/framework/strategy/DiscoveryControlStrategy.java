@@ -51,19 +51,29 @@ public class DiscoveryControlStrategy {
     }
 
     private void applyIpAddressFilter(String providerServiceId, List<ServiceInstance> instances) {
-        String ipAddress = pluginCache.get(providerServiceId);
-        if (StringUtils.isNotEmpty(ipAddress)) {
-            String[] filterArray = StringUtils.split(ipAddress, PluginConstant.SEPARATE);
-            List<String> filterList = Arrays.asList(filterArray);
+        String filterIpAddress = pluginCache.get(providerServiceId);
+        if (StringUtils.isNotEmpty(filterIpAddress)) {
             Iterator<ServiceInstance> iterator = instances.iterator();
             while (iterator.hasNext()) {
                 ServiceInstance serviceInstance = iterator.next();
                 String host = serviceInstance.getHost();
-                if (filterList.contains(host)) {
+                boolean valid = validateBlacklist(filterIpAddress, host);
+                if (valid) {
                     iterator.remove();
                 }
             }
         }
+    }
+
+    private boolean validateBlacklist(String filterIpAddress, String ipAddress) {
+        String[] filterArray = StringUtils.split(ipAddress, PluginConstant.SEPARATE);
+        for (String filter : filterArray) {
+            if (ipAddress.startsWith(filter)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void applyVersionFilter(String consumerServiceId, String consumerServiceVersion, String providerServiceId, List<ServiceInstance> instances) {
