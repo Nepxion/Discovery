@@ -157,15 +157,21 @@ management.security.enabled=false
 参考DiscoveryConfigLoader.java和DiscoveryConfigSubscriber.java
 ```
 
-#### 黑/白名单的IP地址过滤运行效果
-启动discovery-springcloud-example-a/DiscoveryApplication.java的时候，如果IP地址被过滤，那么程序将抛出无法注册到服务注册发现中心的异常，并终止程序
-
-#### 多版本配置实现灰度访问控制运行效果
-先运行discovery-springcloud-example-b1、discovery-springcloud-example-b2和discovery-springcloud-example-b3下的DiscoveryApplication.java，再运行discovery-springcloud-example-a/DiscoveryApplication.java，通过Postman访问
+### 运行效果
+黑/白名单的IP地址过滤
 ```xml
-http://localhost:4321/instances
+1. 首先在rule1.xml把本地IP地址写入
+2. 启动discovery-springcloud-example-a/DiscoveryApplication.java
+3. 抛出禁止注册的异常，本机不会注册到服务注册发现中心
 ```
-你可以看到通过A服务去获取B服务的被过滤的实例列表，虽然A服务定时器会更新不不同的配置，获取到的实例列表也随着变更
+
+多版本配置实现灰度访问控制
+```xml
+1. 运行discovery-springcloud-example-b1、discovery-springcloud-example-b2和discovery-springcloud-example-b3下的DiscoveryApplication.java，
+2. 运行discovery-springcloud-example-a/DiscoveryApplication.java
+3. 通过Postman或者浏览器，访问http://localhost:4321/instances
+4. 可以观察到通过A服务去获取B服务的被过滤的实例列表，随着A服务定时器会更新不不同的配置，获取到的实例列表也随着变更
+```
 
 ## 鸣谢
 感谢Spring Cloud中国社区刘石明提供代码支持和建议
