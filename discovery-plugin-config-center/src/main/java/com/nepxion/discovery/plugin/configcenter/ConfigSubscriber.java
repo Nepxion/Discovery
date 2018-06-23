@@ -32,7 +32,7 @@ import com.nepxion.eventbus.core.Event;
 public class ConfigSubscriber {
     private static final Logger LOG = LoggerFactory.getLogger(ConfigSubscriber.class);
 
-    @Value("${" + ConfigConstant.SPRING_APPLICATION_DISCOVERY_REMOTE_CONFIG_ENABLED + ":false}")
+    @Value("${" + ConfigConstant.SPRING_APPLICATION_DISCOVERY_REMOTE_CONFIG_ENABLED + ":true}")
     private Boolean remoteConfigEnabled;
 
     @Autowired

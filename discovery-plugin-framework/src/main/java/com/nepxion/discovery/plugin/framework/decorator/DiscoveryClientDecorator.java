@@ -45,7 +45,7 @@ public class DiscoveryClientDecorator implements DiscoveryClient {
     public List<ServiceInstance> getInstances(String serviceId) {
         List<ServiceInstance> instances = discoveryClient.getInstances(serviceId);
 
-        Boolean discoveryControlEnabled = environment.getProperty(PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED, Boolean.class);
+        Boolean discoveryControlEnabled = environment.getProperty(PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED, Boolean.class, Boolean.TRUE);
         if (discoveryControlEnabled) {
             String applicationName = environment.getProperty(PluginConstant.SPRING_APPLICATION_NAME);
             String metadataVersion = environment.getProperty(PluginConstant.EUREKA_METADATA_VERSION);

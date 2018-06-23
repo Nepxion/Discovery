@@ -58,7 +58,7 @@ public class AdminEndpoint implements MvcEndpoint, ApplicationContextAware, Envi
     @RequestMapping(path = "filter", method = RequestMethod.GET)
     @ManagedOperation
     public Object filter(@RequestParam("serviceId") String serviceId, @RequestParam("ip") String ip) {
-        Boolean discoveryControlEnabled = environment.getProperty(PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED, Boolean.class);
+        Boolean discoveryControlEnabled = environment.getProperty(PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED, Boolean.class, Boolean.TRUE);
         if (!discoveryControlEnabled) {
             return new ResponseEntity<>(Collections.singletonMap("Message", "Discovery control is disabled"), HttpStatus.NOT_FOUND);
         }

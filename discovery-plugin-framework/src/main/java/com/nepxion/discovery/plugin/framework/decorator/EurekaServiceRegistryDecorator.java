@@ -31,7 +31,7 @@ public class EurekaServiceRegistryDecorator extends EurekaServiceRegistry {
 
     @Override
     public void register(EurekaRegistration registration) {
-        Boolean registerControlEnabled = environment.getProperty(PluginConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED, Boolean.class);
+        Boolean registerControlEnabled = environment.getProperty(PluginConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED, Boolean.class, Boolean.TRUE);
         if (registerControlEnabled) {
             String serviceId = registration.getServiceId();
             String ipAddress = registration.getInstanceConfig().getIpAddress();
