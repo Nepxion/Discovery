@@ -72,9 +72,47 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
    <service consumer-service-name="a" provider-service-name="b" consumer-version-value="1.0" provider-version-value=""/> 表示消费端1.0版本，允许访问提供端任何版本
    <service consumer-service-name="a" provider-service-name="b" consumer-version-value="" provider-version-value=""/> 表示消费端任何版本，允许访问提供端任何版本
 4. 版本对应关系未定义，默认消费端任何版本，允许访问提供端任何版本
-特殊情况处理，在使用上需要极力避免该情况发生		
+特殊情况处理，在使用上需要极力避免该情况发生
 1. 消费端的application.properties未定义版本号（即eureka.instance.metadataMap.version不存在），则该消费端可以访问提供端任何版本
 2. 提供端的application.properties未定义版本号（即eureka.instance.metadataMap.version不存在），当消费端在xml里不做任何版本配置，才可以访问该提供端
+```
+
+### 跟远程配置中心整合
+使用者可以跟携程Apollo，百度DisConf等远程配置中心整合
+
+继承AbstractConfigLoader.java，实现配置文件获取的对接
+```java
+public class DiscoveryConfigLoader extends AbstractConfigLoader {
+    // 通过application.properties里的spring.application.discovery.remote.config.enabled=true，来决定走远程配置中心，还是本地
+    // 从远程配置中心获取XML内容
+    @Override
+    public InputStream getRemoteInputStream() {
+        return null;
+    }
+
+    // 从本地获取XML内容
+    @Override
+    protected String getLocalContextPath() {
+        // 配置文件放在resources目录下
+        return "classpath:rule1.xml";
+
+        // 配置文件放在工程根目录下
+        // return "file:rule1.xml";
+    }
+}
+```
+
+实现接收远程配置中心推送过来的配置更新
+```java
+public class DiscoveryConfigSubscriber {
+    @Autowired
+    private ConfigPublisher configPublisher;
+
+    public void subscribe() {
+        // 订阅远程推送内容，再通过内置的发布订阅机制异步推送给缓存
+        configPublisher.publish(inputStream);
+    }
+}
 ```
 
 ### 代码示例
@@ -82,7 +120,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
 B服务的两个实例B1和B2采用标准的Spring Cloud入口，参考discovery-springcloud-example-b1、discovery-springcloud-example-b2和discovery-springcloud-example-b3工程
 唯一需要做的是在applicaiton.properties维护版本号，如下
 ```xml
-eureka.instance.metadataMap.version=1.0
+eureka.instance.metadataMap.version=[version]
 ```
 
 #### A服务实现
