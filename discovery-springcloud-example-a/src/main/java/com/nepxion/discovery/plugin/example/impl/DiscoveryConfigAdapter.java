@@ -59,7 +59,6 @@ public class DiscoveryConfigAdapter extends ConfigAdapter {
             public void run() {
                 // 本地文件模拟代替远程文件，随机读取
                 int index = threadLocalRandom.nextInt(5) + 1;
-                System.out.println("-------------------- rule" + index + ".xml is loaded --------------------");
                 try {
                     InputStream inputStream = FileUtils.openInputStream(new File("src/main/resources/rule" + index + ".xml"));
                     publish(inputStream);
