@@ -77,16 +77,18 @@ public class ConfigParser extends Dom4JParser {
             }
         }
 
+        String text = getText();
         try {
             reentrantReadWriteLock.writeLock().lock();
 
             ruleEntity.setRegisterEntity(registerEntity);
             ruleEntity.setDiscoveryEntity(discoveryEntity);
+            ruleEntity.setContent(text);
         } finally {
             reentrantReadWriteLock.writeLock().unlock();
         }
 
-        LOG.info("Rule entity=\n{}", ruleEntity);
+        LOG.info("Rule xml=\n{}", text);
     }
 
     @SuppressWarnings("rawtypes")

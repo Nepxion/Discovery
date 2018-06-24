@@ -19,8 +19,14 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 
 public abstract class Dom4JParser {
+    private String text;
+    private File file;
+    private InputStream inputStream;
+
     public void parse(String text) throws DocumentException {
         Document document = Dom4JReader.getDocument(text);
+
+        this.text = text;
 
         parse(document);
     }
@@ -28,11 +34,15 @@ public abstract class Dom4JParser {
     public void parseFormat(String text) throws DocumentException, UnsupportedEncodingException {
         Document document = Dom4JReader.getFormatDocument(text);
 
+        this.text = text;
+
         parse(document);
     }
 
     public void parse(File file) throws DocumentException, IOException, UnsupportedEncodingException {
         Document document = Dom4JReader.getDocument(file);
+
+        this.file = file;
 
         parse(document);
     }
@@ -40,17 +50,23 @@ public abstract class Dom4JParser {
     public void parseFormat(File file) throws DocumentException, IOException, UnsupportedEncodingException {
         Document document = Dom4JReader.getFormatDocument(file);
 
+        this.file = file;
+
         parse(document);
     }
 
     public void parse(InputStream inputStream) throws DocumentException, IOException {
         Document document = Dom4JReader.getDocument(inputStream);
 
+        this.inputStream = inputStream;
+
         parse(document);
     }
 
     public void parseFormat(InputStream inputStream) throws DocumentException, IOException, UnsupportedEncodingException {
         Document document = Dom4JReader.getFormatDocument(inputStream);
+
+        this.inputStream = inputStream;
 
         parse(document);
     }
@@ -59,6 +75,18 @@ public abstract class Dom4JParser {
         Element rootElement = document.getRootElement();
 
         parseRoot(rootElement);
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public File getFile() {
+        return file;
+    }
+
+    public InputStream getInputStream() {
+        return inputStream;
     }
 
     protected abstract void parseRoot(Element element);

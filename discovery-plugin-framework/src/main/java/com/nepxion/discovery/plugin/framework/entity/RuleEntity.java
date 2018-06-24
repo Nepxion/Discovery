@@ -21,6 +21,7 @@ public class RuleEntity implements Serializable {
 
     private RegisterEntity registerEntity;
     private DiscoveryEntity discoveryEntity;
+    private String content;
 
     public RegisterEntity getRegisterEntity() {
         return registerEntity;
@@ -36,6 +37,14 @@ public class RuleEntity implements Serializable {
 
     public void setDiscoveryEntity(DiscoveryEntity discoveryEntity) {
         this.discoveryEntity = discoveryEntity;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     @Override

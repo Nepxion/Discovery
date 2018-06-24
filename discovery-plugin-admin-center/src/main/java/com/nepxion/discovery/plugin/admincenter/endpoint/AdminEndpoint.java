@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
+import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
@@ -49,6 +50,9 @@ public class AdminEndpoint extends AbstractMvcEndpoint implements ApplicationCon
 
     @Autowired
     private PluginPublisher pluginPublisher;
+
+    @Autowired
+    private RuleEntity ruleEntity;
 
     @SuppressWarnings("rawtypes")
     public AdminEndpoint(ServiceRegistry serviceRegistry) {
@@ -82,6 +86,17 @@ public class AdminEndpoint extends AbstractMvcEndpoint implements ApplicationCon
         }
 
         return "success";
+    }
+
+    @RequestMapping(path = "view", method = RequestMethod.GET)
+    @ResponseBody
+    @ManagedOperation
+    public Object view() {
+        if (registration == null) {
+            throw new PluginException("No registration found");
+        }
+
+        return ruleEntity.getContent();
     }
 
     @RequestMapping(path = "status", method = RequestMethod.POST)

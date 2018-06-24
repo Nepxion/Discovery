@@ -102,7 +102,9 @@ public class ConfigSubscriber {
         }
 
         try {
-            configParser.parse(inputStream);
+            String content = IOUtils.toString(inputStream, PluginConstant.ENCODING_UTF_8);
+
+            configParser.parse(content);
         } catch (IOException e) {
             throw new PluginException(e);
         } catch (DocumentException e) {

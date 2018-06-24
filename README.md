@@ -152,6 +152,12 @@ public class DiscoveryConfigSubscriber {
 利用Post执行http://IP:PORT/admin/config，发送的内容即规则XML
 ```
 
+## 查看配置
+使用者可以通过Rest方式主动向一个微服务推送配置信息，但该方式只能每次推送到一个微服务上
+```xml
+利用Get执行http://IP:PORT/admin/view
+```
+
 ## 示例
 ### B服务实现
 B服务的两个实例B1、B2和B3采用标准的Spring Cloud入口，参考discovery-springcloud-example-b1、discovery-springcloud-example-b2和discovery-springcloud-example-b3工程
