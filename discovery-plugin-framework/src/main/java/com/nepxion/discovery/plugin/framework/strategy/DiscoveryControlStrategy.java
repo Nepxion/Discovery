@@ -25,12 +25,14 @@ import com.nepxion.discovery.plugin.framework.cache.PluginCache;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryServiceEntity;
+import com.nepxion.discovery.plugin.framework.entity.FilterEntity;
+import com.nepxion.discovery.plugin.framework.entity.FilterType;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.entity.VersionEntity;
 
 public class DiscoveryControlStrategy {
     @Autowired
-    private RuleEntity pluginEntity;
+    private RuleEntity ruleEntity;
 
     @Autowired
     private PluginCache pluginCache;
@@ -51,29 +53,70 @@ public class DiscoveryControlStrategy {
     }
 
     private void applyIpAddressFilter(String providerServiceId, List<ServiceInstance> instances) {
-        String filterIpAddress = pluginCache.get(providerServiceId);
-        if (StringUtils.isNotEmpty(filterIpAddress)) {
-            Iterator<ServiceInstance> iterator = instances.iterator();
-            while (iterator.hasNext()) {
-                ServiceInstance serviceInstance = iterator.next();
-                String host = serviceInstance.getHost();
-                boolean valid = validateBlacklist(filterIpAddress, host);
-                if (valid) {
-                    iterator.remove();
-                }
+        DiscoveryEntity discoveryEntity = ruleEntity.getDiscoveryEntity();
+        if (discoveryEntity == null) {
+            return;
+        }
+
+        FilterEntity filterEntity = discoveryEntity.getFilterEntity();
+        if (filterEntity == null) {
+            return;
+        }
+
+        FilterType filterType = filterEntity.getFilterType();
+
+        List<String> globalFilterValueList = filterEntity.getFilterValueList();
+        Map<String, List<String>> filterMap = filterEntity.getFilterMap();
+        List<String> filterValueList = filterMap.get(providerServiceId);
+
+        List<String> allFilterValueList = new ArrayList<String>();
+        if (CollectionUtils.isNotEmpty(globalFilterValueList)) {
+            allFilterValueList.addAll(globalFilterValueList);
+        }
+
+        if (CollectionUtils.isNotEmpty(filterValueList)) {
+            allFilterValueList.addAll(filterValueList);
+        }
+
+        Iterator<ServiceInstance> iterator = instances.iterator();
+        while (iterator.hasNext()) {
+            ServiceInstance serviceInstance = iterator.next();
+            String host = serviceInstance.getHost();
+            switch (filterType) {
+                case BLACKLIST:
+                    if (validateBlacklist(allFilterValueList, host)) {
+                        iterator.remove();
+                    }
+                    break;
+                case WHITELIST:
+                    if (validateWhitelist(allFilterValueList, host)) {
+                        iterator.remove();
+                    }
+                    break;
             }
         }
     }
 
-    private boolean validateBlacklist(String filterIpAddress, String ipAddress) {
-        String[] filterArray = StringUtils.split(ipAddress, PluginConstant.SEPARATE);
-        for (String filter : filterArray) {
-            if (ipAddress.startsWith(filter)) {
+    private boolean validateBlacklist(List<String> allFilterValueList, String ipAddress) {
+        for (String filterValue : allFilterValueList) {
+            if (ipAddress.startsWith(filterValue)) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    private boolean validateWhitelist(List<String> allFilterValueList, String ipAddress) {
+        boolean matched = true;
+        for (String filterValue : allFilterValueList) {
+            if (ipAddress.startsWith(filterValue)) {
+                matched = false;
+                break;
+            }
+        }
+
+        return matched;
     }
 
     private void applyVersionFilter(String consumerServiceId, String consumerServiceVersion, String providerServiceId, List<ServiceInstance> instances) {
@@ -82,7 +125,7 @@ public class DiscoveryControlStrategy {
             return;
         }
 
-        DiscoveryEntity discoveryEntity = pluginEntity.getDiscoveryEntity();
+        DiscoveryEntity discoveryEntity = ruleEntity.getDiscoveryEntity();
         if (discoveryEntity == null) {
             return;
         }

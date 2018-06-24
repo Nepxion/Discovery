@@ -83,8 +83,8 @@ public class RegisterControlStrategy {
     private void validateBlacklist(List<String> allFilterValueList, String ipAddress) {
         LOG.info("********** IP address blacklist={}, current ip address={} **********", allFilterValueList, ipAddress);
 
-        for (String filter : allFilterValueList) {
-            if (ipAddress.startsWith(filter)) {
+        for (String filterValue : allFilterValueList) {
+            if (ipAddress.startsWith(filterValue)) {
                 throw new PluginException(ipAddress + " isn't allowed to register to Eureka server, because it is in blacklist");
             }
         }
@@ -93,15 +93,15 @@ public class RegisterControlStrategy {
     private void validateWhitelist(List<String> allFilterValueList, String ipAddress) {
         LOG.info("********** IP address whitelist={}, current ip address={} **********", allFilterValueList, ipAddress);
 
-        boolean valid = false;
-        for (String filter : allFilterValueList) {
-            if (ipAddress.startsWith(filter)) {
-                valid = true;
+        boolean matched = true;
+        for (String filterValue : allFilterValueList) {
+            if (ipAddress.startsWith(filterValue)) {
+                matched = false;
                 break;
             }
         }
 
-        if (!valid) {
+        if (matched) {
             throw new PluginException(ipAddress + " isn't allowed to register to Eureka server, because it isn't in whitelist");
         }
     }
