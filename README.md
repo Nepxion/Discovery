@@ -37,7 +37,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
 ```
 
 ## 规则配置
-### 规则示例
+### 规则示例（请不要被吓到，我只是把注释写的很详细而已，里面配置没几行）
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
