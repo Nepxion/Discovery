@@ -9,22 +9,23 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
 ## 简介
 支持如下功能
 
-    1. 实现服务注册层面的控制，基于黑/白名单的IP地址过滤机制实现禁止对相应的微服务在服务注册发现中心注册
-    2. 实现服务发现层面的控制，通过对消费端和提供端可访问版本对应关系的配置，实现多版本灰度访问控制；实现动态屏蔽指定IP地址的服务实例被发现
-    3. 实现通过远程配置中心的订阅功能或者Rest主动推送配置信息方式，动态改变上述两种方式控制
-    4. 实现通过事件总线机制（EventBus）异步对接远程配置中心，提供使用者实现和扩展
+    1. 实现服务注册层面的控制，基于黑/白名单的IP地址过滤机制禁止对相应的微服务进行注册
+    2. 实现服务发现层面的控制，基于黑/白名单的IP地址过滤机制禁止对相应的微服务被发现；通过对消费端和提供端可访问版本对应关系的配置，进行多版本灰度访问控制
+    3. 实现通过下面两种推送方式，动态改变“服务发现层面的控制”
+    4. 实现通过事件总线机制（EventBus）异步对接远程配置中心，接受远程配置中心主动推送配置信息
     5. 实现通过事件总线机制（EventBus）异步接受Rest主动推送配置信息
 
 ## 场景
 
     1. 黑/白名单的IP地址注册的过滤
-       开发环境的本地服务（例如IP地址为172.16.0.8）不小心注册到测试环境的服务注册发现中心，会导致调用出现问题，那么可以在配置中心维护一个黑/白名单的IP地址过滤（支持全局和局部的过滤）
-       我们可以在远程配置中心配置对该服务名所对应的IP地址列表，包含前缀172.16，当是黑名单的时候，表示包含在IP地址列表里的所有服务都禁止注册到服务注册发现中心；当是白名单的时候，表示包含在IP地址列表里的所有服务都允许注册到服务注册发现中心
+       开发环境的本地服务（例如IP地址为172.16.0.8）不希望被注册到测试环境的服务注册发现中心，那么可以在配置中心维护一个黑/白名单的IP地址过滤（支持全局和局部的过滤）
+       我们可以通过提供一份黑/白名单达到该效果
+    2. 黑/白名单的IP地址发现的过滤
+       开发环境的本地服务（例如IP地址为172.16.0.8）已经注册到测试环境的服务注册发现中心，那么可以在配置中心维护一个黑/白名单的IP地址过滤（支持全局和局部的过滤），该本地服务不会被其他测试环境的服务所调用
+       我们可以通过推送一份黑/白名单达到该效果
     2. 多版本灰度访问控制
        A服务调用B服务，而B服务有两个实例（B1、B2和B3），虽然三者相同的服务名，但功能上有差异，需求是在某个时刻，A服务只能调用B1，禁止调用B2和B3。在此场景下，我们在application.properties里为B1维护一个版本为1.0，为B2维护一个版本为1.1，以此类推
-       我们可以在远程配置中心配置对于A服务调用某个版本的B服务，达到某种意义上的灰度控制，切换版本的时候，我们只需要改相关的远程配置中心的配置即可
-    3. 屏蔽指定IP地址的服务实例被发现
-       通过执行URL REST请求，发送指定的IP前缀列表，达到屏蔽的目的；也可以清除屏蔽
+       我们可以通过推送A服务调用某个版本的B服务对应关系的配置，达到某种意义上的灰度控制，切换版本的时候，我们只需要再次推送即可
 
 ## 依赖
 ```xml
@@ -40,27 +41,57 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
-    <!-- 服务注册的黑/白名单过滤。白名单表示只允许指定IP地址前缀注册，黑名单表示不允许指定IP地址前缀注册。每个服务只能同时开启要么白名单，要么黑名单 -->
-    <!-- filter-type，可选值BLACKLIST/WHITELIST，表示白名单或者黑名单 -->
-    <!-- service-name，表示服务名 -->
-    <!-- filter-value，表示黑/白名单的IP地址列表。IP地址一般用前缀来表示，如果多个用“,”分隔，不允许出现空格 -->
-    <!-- 表示下面所有服务，不允许10.10和11.11为前缀的IP地址注册（全局过滤） -->
-    <register filter-type="BLACKLIST" filter-value="10.10,11.11">
-        <!-- 表示下面服务，不允许172.16和10.10和11.11为前缀的IP地址注册 -->
-        <service service-name="discovery-springcloud-example-a" filter-value="172.16"/>
+    <register>
+        <!-- 服务注册的黑/白名单注册过滤，只在服务启动的时候生效。白名单表示只允许指定IP地址前缀注册，黑名单表示不允许指定IP地址前缀注册。每个服务只能同时开启要么白名单，要么黑名单 -->
+        <!-- filter-type，可选值BLACKLIST/WHITELIST，表示白名单或者黑名单 -->
+        <!-- service-name，表示服务名 -->
+        <!-- filter-value，表示黑/白名单的IP地址列表。IP地址一般用前缀来表示，如果多个用“,”分隔，不允许出现空格 -->
+        <!-- 表示下面所有服务，不允许10.10和11.11为前缀的IP地址注册（全局过滤） -->
+        <blacklist filter-value="10.10,11.11">
+            <!-- 表示下面服务，不允许172.16和10.10和11.11为前缀的IP地址注册 -->
+            <service service-name="discovery-springcloud-example-a" filter-value="172.16"/>
+        </blacklist>
+
+        <!-- <whitelist filter-value="">
+            <service service-name="" filter-value=""/>
+        </whitelist>  -->
     </register>
 
-    <!-- 服务发现下，服务多版本调用的控制 -->
-    <!-- service-name，表示服务名 -->
-    <!-- version-value，表示可供访问的版本，如果多个用“,”分隔，不允许出现空格 -->
     <discovery>
-        <!-- 表示消费端服务a的1.0，允许访问提供端服务b的1.0和1.1版本 -->
-        <service consumer-service-name="discovery-springcloud-example-a" provider-service-name="discovery-springcloud-example-b" consumer-version-value="1.0" provider-version-value="1.0,1.1"/>
+        <!-- 服务发现的黑/白名单发现过滤，使用方式跟“服务注册的黑/白名单过滤”一致 -->
+        <!-- 表示下面所有服务，不允许10.10和11.11为前缀的IP地址被发现（全局过滤） -->
+        <blacklist filter-value="10.10,11.11">
+            <!-- 表示下面服务，不允许172.16和10.10和11.11为前缀的IP地址被发现 -->
+            <service service-name="discovery-springcloud-example-b" filter-value="172.16"/>
+        </blacklist>
+
+        <!-- 服务发现的多版本灰度访问控制 -->
+        <!-- service-name，表示服务名 -->
+        <!-- version-value，表示可供访问的版本，如果多个用“,”分隔，不允许出现空格 -->
+        <!-- 配置策略介绍 -->
+        <!-- 1. 标准配置，举例如下 -->
+        <!--    <service consumer-service-name="a" provider-service-name="b" consumer-version-value="1.0" provider-version-value="1.0,1.1"/> 表示消费端1.0版本，允许访问提供端1.0和1.1版本 -->
+        <!-- 2. 版本值不配置，举例如下 -->
+        <!--    <service consumer-service-name="a" provider-service-name="b" provider-version-value="1.0,1.1"/> 表示消费端任何版本，允许访问提供端1.0和1.1版本 -->
+        <!--    <service consumer-service-name="a" provider-service-name="b" consumer-version-value="1.0"/> 表示消费端1.0版本，允许访问提供端任何版本 -->
+        <!--    <service consumer-service-name="a" provider-service-name="b"/> 表示消费端任何版本，允许访问提供端任何版本 -->
+        <!-- 3. 版本值空字符串，举例如下 -->
+        <!--    <service consumer-service-name="a" provider-service-name="b" consumer-version-value="" provider-version-value="1.0,1.1"/> 表示消费端任何版本，允许访问提供端1.0和1.1版本 -->
+        <!--    <service consumer-service-name="a" provider-service-name="b" consumer-version-value="1.0" provider-version-value=""/> 表示消费端1.0版本，允许访问提供端任何版本 -->
+        <!--    <service consumer-service-name="a" provider-service-name="b" consumer-version-value="" provider-version-value=""/> 表示消费端任何版本，允许访问提供端任何版本 -->
+        <!-- 4. 版本对应关系未定义，默认消费端任何版本，允许访问提供端任何版本 -->
+        <!-- 特殊情况处理，在使用上需要极力避免该情况发生 -->
+        <!-- 1. 消费端的application.properties未定义版本号（即eureka.instance.metadataMap.version不存在），则该消费端可以访问提供端任何版本 -->
+        <!-- 2. 提供端的application.properties未定义版本号（即eureka.instance.metadataMap.version不存在），当消费端在xml里不做任何版本配置，才可以访问该提供端 -->
+        <version>
+            <!-- 表示消费端服务a的1.0，允许访问提供端服务b的1.0和1.1版本 -->
+            <service consumer-service-name="discovery-springcloud-example-a" provider-service-name="discovery-springcloud-example-b" consumer-version-value="1.0" provider-version-value="1.0,1.1"/>
+        </version>
     </discovery>
 </rule>
 ```
 
-### 配置策略
+### 多版本灰度配置策略
 ```xml
 配置策略介绍
 1. 标准配置，举例如下
@@ -80,7 +111,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
 ```
 
 ## 跟远程配置中心整合
-使用者可以跟携程Apollo，百度DisConf等远程配置中心整合，需要实现两个功能
+使用者可以跟携程Apollo，百度DisConf等远程配置中心整合
 ```xml
 1. 主动从本地或远程配置中心获取配置
 2. 订阅远程配置中心的配置更新
@@ -129,8 +160,8 @@ public class DiscoveryConfigSubscriber {
 }
 ```
 
-##
-使用者也可以通过Rest方式主动向一个微服务推送配置信息
+## 不整合远程配置中心
+使用者可以通过Rest方式主动向一个微服务推送配置信息，但该方式只能每次推送到一个微服务上
 ```xml
 利用Post执行http://IP:PORT/admin/config，发送的内容即规则XML
 ```
@@ -180,18 +211,13 @@ management.security.enabled=false
 3. 抛出禁止注册的异常，本机不会注册到服务注册发现中心
 ```
 
-多版本灰度访问控制
+黑/白名单的IP地址发现的过滤，多版本灰度访问控制
 ```xml
 1. 运行discovery-springcloud-example-b1、discovery-springcloud-example-b2和discovery-springcloud-example-b3下的DiscoveryApplication.java，
 2. 运行discovery-springcloud-example-a/DiscoveryApplication.java
 3. 通过Postman或者浏览器，访问http://localhost:4321/instances
-4. 可以观察到通过A服务去获取B服务的被过滤的实例列表，随着A服务定时器会更新不不同的配置，获取到的实例列表也随着变更
-```
-
-屏蔽指定IP地址的服务实例被发现
-```xml
-1. 执行GET http://localhost:5432/admin/blacklist?serviceId=discovery-springcloud-example-b&ip=192.168,172.16，动态屏蔽
-2. 执行GET http://localhost:5432/admin/clear?serviceId=discovery-springcloud-example-b，动态取消屏蔽
+4. 通过模拟定时更新，或者执行POST http://localhost:5432/admin/config，发送的内容即规则XML
+5. 可以观察到通过A服务去获取B服务的被过滤的实例列表会在不同的配置下有相应改变
 ```
 
 ## 鸣谢
