@@ -10,8 +10,7 @@ package com.nepxion.discovery.plugin.example.impl;
  */
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -19,6 +18,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
@@ -39,19 +39,14 @@ public class DiscoveryConfigSubscriber {
                 // 本地文件模拟代替远程文件，随机读取
                 int index = threadLocalRandom.nextInt(5) + 1;
                 System.out.println("-------------------- rule" + index + ".xml is loaded --------------------");
-                InputStream inputStream = getInputStream("src/main/resources/rule" + index + ".xml");
-                pluginPublisher.publish(inputStream);
+                try {
+                    InputStream inputStream = FileUtils.openInputStream(new File("src/main/resources/rule" + index + ".xml"));
+                    pluginPublisher.publish(inputStream);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
         }, 10000L, 15000L);
-    }
-
-    private InputStream getInputStream(String fileName) {
-        try {
-            return new FileInputStream(new File(fileName));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        return null;
     }
 }

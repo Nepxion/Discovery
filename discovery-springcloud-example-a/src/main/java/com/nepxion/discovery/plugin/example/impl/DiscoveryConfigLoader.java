@@ -10,9 +10,10 @@ package com.nepxion.discovery.plugin.example.impl;
  */
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+
+import org.apache.commons.io.FileUtils;
 
 import com.nepxion.discovery.plugin.configcenter.loader.AbstractConfigLoader;
 
@@ -21,7 +22,13 @@ public class DiscoveryConfigLoader extends AbstractConfigLoader {
     @Override
     public InputStream getRemoteInputStream() {
         // 本地文件模拟代替远程文件
-        return getInputStream("src/main/resources/rule1.xml");
+        try {
+            return FileUtils.openInputStream(new File("src/main/resources/rule1.xml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     @Override
@@ -31,15 +38,5 @@ public class DiscoveryConfigLoader extends AbstractConfigLoader {
 
         // 配置文件放在工程根目录下
         // return "file:rule1.xml";
-    }
-
-    private InputStream getInputStream(String fileName) {
-        try {
-            return new FileInputStream(new File(fileName));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        return null;
     }
 }
