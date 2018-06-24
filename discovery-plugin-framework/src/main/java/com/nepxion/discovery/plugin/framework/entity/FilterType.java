@@ -9,14 +9,14 @@ package com.nepxion.discovery.plugin.framework.entity;
  * @version 1.0
  */
 
-public enum RegisterFilterType {
-    BLACKLIST("BLACKLIST", "黑名单"),
-    WHITELIST("WHITELIST", "白名单");
+public enum FilterType {
+    BLACKLIST("blacklist", "黑名单"),
+    WHITELIST("whitelist", "白名单");
 
     private String value;
     private String description;
 
-    private RegisterFilterType(String value, String description) {
+    private FilterType(String value, String description) {
         this.value = value;
         this.description = description;
     }
@@ -29,8 +29,8 @@ public enum RegisterFilterType {
         return description;
     }
 
-    public static RegisterFilterType fromString(String value) {
-        for (RegisterFilterType type : RegisterFilterType.values()) {
+    public static FilterType fromString(String value) {
+        for (FilterType type : FilterType.values()) {
             if (type.getValue().equalsIgnoreCase(value)) {
                 return type;
             }

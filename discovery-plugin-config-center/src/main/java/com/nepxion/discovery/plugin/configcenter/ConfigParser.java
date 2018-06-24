@@ -28,9 +28,12 @@ import com.nepxion.discovery.plugin.configcenter.xml.Dom4JParser;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryServiceEntity;
+import com.nepxion.discovery.plugin.framework.entity.FilterEntity;
+import com.nepxion.discovery.plugin.framework.entity.FilterHolderEntity;
+import com.nepxion.discovery.plugin.framework.entity.FilterType;
 import com.nepxion.discovery.plugin.framework.entity.RegisterEntity;
-import com.nepxion.discovery.plugin.framework.entity.RegisterFilterType;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
+import com.nepxion.discovery.plugin.framework.entity.VersionEntity;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
 public class ConfigParser extends Dom4JParser {
@@ -83,27 +86,61 @@ public class ConfigParser extends Dom4JParser {
             reentrantReadWriteLock.writeLock().unlock();
         }
 
-        LOG.info("Rule entity is {}", ruleEntity);
+        LOG.info("Rule entity=\n{}", ruleEntity);
     }
 
     @SuppressWarnings("rawtypes")
     private void parseRegister(Element element, RegisterEntity registerEntity) {
-        Attribute filterTypeAttribute = element.attribute(ConfigConstant.FILTER_TYPE_ATTRIBUTE_NAME);
-        if (filterTypeAttribute == null) {
-            throw new PluginException("Attribute[" + ConfigConstant.FILTER_TYPE_ATTRIBUTE_NAME + "] in element[" + element.getName() + "] is missing");
+        for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
+            Object childElementObject = elementIterator.next();
+            if (childElementObject instanceof Element) {
+                Element childElement = (Element) childElementObject;
+
+                if (StringUtils.equals(childElement.getName(), ConfigConstant.BLACKLIST_ELEMENT_NAME)) {
+                    parseFilter(childElement, ConfigConstant.BLACKLIST_ELEMENT_NAME, registerEntity);
+                } else if (StringUtils.equals(childElement.getName(), ConfigConstant.WHITELIST_ELEMENT_NAME)) {
+                    parseFilter(childElement, ConfigConstant.WHITELIST_ELEMENT_NAME, registerEntity);
+                }
+            }
         }
-        String filterType = filterTypeAttribute.getData().toString().trim();
-        registerEntity.setFilterType(RegisterFilterType.fromString(filterType));
+    }
+
+    @SuppressWarnings("rawtypes")
+    private void parseDiscovery(Element element, DiscoveryEntity discoveryEntity) {
+        for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
+            Object childElementObject = elementIterator.next();
+            if (childElementObject instanceof Element) {
+                Element childElement = (Element) childElementObject;
+
+                if (StringUtils.equals(childElement.getName(), ConfigConstant.BLACKLIST_ELEMENT_NAME)) {
+                    parseFilter(childElement, ConfigConstant.BLACKLIST_ELEMENT_NAME, discoveryEntity);
+                } else if (StringUtils.equals(childElement.getName(), ConfigConstant.WHITELIST_ELEMENT_NAME)) {
+                    parseFilter(childElement, ConfigConstant.WHITELIST_ELEMENT_NAME, discoveryEntity);
+                } else if (StringUtils.equals(childElement.getName(), ConfigConstant.VERSION_ELEMENT_NAME)) {
+                    parseVersion(childElement, discoveryEntity);
+                }
+            }
+        }
+    }
+
+    @SuppressWarnings("rawtypes")
+    private void parseFilter(Element element, String filterTypeValue, FilterHolderEntity filterHolderEntity) {
+        FilterEntity filterEntity = filterHolderEntity.getFilterEntity();
+        if (filterEntity != null) {
+            throw new PluginException("Filter[" + filterEntity.getFilterType() + "] has been configed, only one filter element exists");
+        }
+
+        filterEntity = new FilterEntity();
+        filterEntity.setFilterType(FilterType.fromString(filterTypeValue));
 
         Attribute globalFilterAttribute = element.attribute(ConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME);
         if (globalFilterAttribute != null) {
             String globalFilterValue = globalFilterAttribute.getData().toString().trim();
             List<String> globalFilterValueList = parseList(globalFilterValue);
-            registerEntity.setFilterValueList(globalFilterValueList);
+            filterEntity.setFilterValueList(globalFilterValueList);
         }
 
-        Map<String, List<String>> filterMap = registerEntity.getFilterMap();
-
+        Map<String, List<String>> filterMap = filterEntity.getFilterMap();
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
             if (childElementObject instanceof Element) {
@@ -124,11 +161,20 @@ public class ConfigParser extends Dom4JParser {
                 filterMap.put(serviceName, filterValueList);
             }
         }
+
+        filterHolderEntity.setFilterEntity(filterEntity);
     }
 
     @SuppressWarnings("rawtypes")
-    private void parseDiscovery(Element element, DiscoveryEntity discoveryEntity) {
-        Map<String, List<DiscoveryServiceEntity>> serviceEntityMap = discoveryEntity.getServiceEntityMap();
+    private void parseVersion(Element element, DiscoveryEntity discoveryEntity) {
+        VersionEntity versionEntity = discoveryEntity.getVersionEntity();
+        if (versionEntity != null) {
+            throw new PluginException("Version has been configed, only one version element exists");
+        }
+
+        versionEntity = new VersionEntity();
+
+        Map<String, List<DiscoveryServiceEntity>> serviceEntityMap = versionEntity.getServiceEntityMap();
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
             if (childElementObject instanceof Element) {
@@ -173,6 +219,8 @@ public class ConfigParser extends Dom4JParser {
                 serviceEntityList.add(serviceEntity);
             }
         }
+
+        discoveryEntity.setVersionEntity(versionEntity);
     }
 
     private List<String> parseList(String value) {

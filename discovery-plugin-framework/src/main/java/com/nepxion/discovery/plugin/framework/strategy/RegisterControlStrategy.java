@@ -19,8 +19,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.nepxion.discovery.plugin.framework.entity.FilterEntity;
+import com.nepxion.discovery.plugin.framework.entity.FilterType;
 import com.nepxion.discovery.plugin.framework.entity.RegisterEntity;
-import com.nepxion.discovery.plugin.framework.entity.RegisterFilterType;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
@@ -49,9 +50,15 @@ public class RegisterControlStrategy {
             return;
         }
 
-        RegisterFilterType filterType = registerEntity.getFilterType();
-        List<String> globalFilterValueList = registerEntity.getFilterValueList();
-        Map<String, List<String>> filterMap = registerEntity.getFilterMap();
+        FilterEntity filterEntity = registerEntity.getFilterEntity();
+        if (filterEntity == null) {
+            return;
+        }
+
+        FilterType filterType = filterEntity.getFilterType();
+
+        List<String> globalFilterValueList = filterEntity.getFilterValueList();
+        Map<String, List<String>> filterMap = filterEntity.getFilterMap();
         List<String> filterValueList = filterMap.get(serviceId);
 
         List<String> allFilterValueList = new ArrayList<String>();

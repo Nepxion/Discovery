@@ -26,6 +26,7 @@ import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryServiceEntity;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
+import com.nepxion.discovery.plugin.framework.entity.VersionEntity;
 
 public class DiscoveryControlStrategy {
     @Autowired
@@ -86,7 +87,12 @@ public class DiscoveryControlStrategy {
             return;
         }
 
-        Map<String, List<DiscoveryServiceEntity>> serviceEntityMap = discoveryEntity.getServiceEntityMap();
+        VersionEntity versionEntity = discoveryEntity.getVersionEntity();
+        if (versionEntity == null) {
+            return;
+        }
+
+        Map<String, List<DiscoveryServiceEntity>> serviceEntityMap = versionEntity.getServiceEntityMap();
         if (MapUtils.isEmpty(serviceEntityMap)) {
             return;
         }

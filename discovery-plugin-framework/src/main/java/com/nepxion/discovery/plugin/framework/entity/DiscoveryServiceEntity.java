@@ -18,7 +18,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 public class DiscoveryServiceEntity implements Serializable {
-    private static final long serialVersionUID = -2976565258172148792L;
+    private static final long serialVersionUID = 9074414583796627542L;
 
     private String consumerServiceName;
     private String providerServiceName;
