@@ -31,7 +31,7 @@ public class PluginAutoConfiguration {
         System.out.println("╚═══╩╩══╩══╩══╝╚╝╚══╩╝╚═╗╔╝");
         System.out.println("                      ╔═╝║");
         System.out.println("                      ╚══╝");
-        System.out.println("Nepxion Discovery  v1.0.1");
+        System.out.println("Nepxion Discovery  v2.0.0");
         System.out.println("");
     }
 
