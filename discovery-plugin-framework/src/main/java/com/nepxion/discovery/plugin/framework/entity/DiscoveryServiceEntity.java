@@ -10,6 +10,7 @@ package com.nepxion.discovery.plugin.framework.entity;
  */
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -21,8 +22,8 @@ public class DiscoveryServiceEntity implements Serializable {
 
     private String consumerServiceName;
     private String providerServiceName;
-    private String consumerVersionValue;
-    private String providerVersionValue;
+    private List<String> consumerVersionValueList;
+    private List<String> providerVersionValueList;
 
     public DiscoveryServiceEntity() {
 
@@ -44,20 +45,20 @@ public class DiscoveryServiceEntity implements Serializable {
         this.providerServiceName = providerServiceName;
     }
 
-    public String getConsumerVersionValue() {
-        return consumerVersionValue;
+    public List<String> getConsumerVersionValueList() {
+        return consumerVersionValueList;
     }
 
-    public void setConsumerVersionValue(String consumerVersionValue) {
-        this.consumerVersionValue = consumerVersionValue;
+    public void setConsumerVersionValueList(List<String> consumerVersionValueList) {
+        this.consumerVersionValueList = consumerVersionValueList;
     }
 
-    public String getProviderVersionValue() {
-        return providerVersionValue;
+    public List<String> getProviderVersionValueList() {
+        return providerVersionValueList;
     }
 
-    public void setProviderVersionValue(String providerVersionValue) {
-        this.providerVersionValue = providerVersionValue;
+    public void setProviderVersionValueList(List<String> providerVersionValueList) {
+        this.providerVersionValueList = providerVersionValueList;
     }
 
     @Override

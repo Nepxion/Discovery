@@ -9,18 +9,19 @@ package com.nepxion.discovery.plugin.framework.strategy;
  * @version 1.0
  */
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
-import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.entity.RegisterEntity;
 import com.nepxion.discovery.plugin.framework.entity.RegisterFilterType;
+import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
 public class RegisterControlStrategy {
@@ -49,48 +50,44 @@ public class RegisterControlStrategy {
         }
 
         RegisterFilterType filterType = registerEntity.getFilterType();
+        List<String> globalFilterValueList = registerEntity.getFilterValueList();
+        Map<String, List<String>> filterMap = registerEntity.getFilterMap();
+        List<String> filterValueList = filterMap.get(serviceId);
 
-        String globalFilterValue = registerEntity.getFilterValue();
-
-        Map<String, String> filterMap = registerEntity.getFilterMap();
-        String filterValue = filterMap.get(serviceId);
-
-        String allFilterIpAddress = "";
-        if (StringUtils.isNotEmpty(globalFilterValue)) {
-            allFilterIpAddress += globalFilterValue;
+        List<String> allFilterValueList = new ArrayList<String>();
+        if (CollectionUtils.isNotEmpty(globalFilterValueList)) {
+            allFilterValueList.addAll(globalFilterValueList);
         }
 
-        if (StringUtils.isNotEmpty(filterValue)) {
-            allFilterIpAddress += StringUtils.isEmpty(allFilterIpAddress) ? filterValue : PluginConstant.SEPARATE + filterValue;
+        if (CollectionUtils.isNotEmpty(filterValueList)) {
+            allFilterValueList.addAll(filterValueList);
         }
 
         switch (filterType) {
             case BLACKLIST:
-                validateBlacklist(allFilterIpAddress, ipAddress);
+                validateBlacklist(allFilterValueList, ipAddress);
                 break;
             case WHITELIST:
-                validateWhitelist(allFilterIpAddress, ipAddress);
+                validateWhitelist(allFilterValueList, ipAddress);
                 break;
         }
     }
 
-    private void validateBlacklist(String filterIpAddress, String ipAddress) {
-        LOG.info("********** IP address blacklist={}, current ip address={} **********", filterIpAddress, ipAddress);
+    private void validateBlacklist(List<String> allFilterValueList, String ipAddress) {
+        LOG.info("********** IP address blacklist={}, current ip address={} **********", allFilterValueList, ipAddress);
 
-        String[] filterArray = StringUtils.split(filterIpAddress, PluginConstant.SEPARATE);
-        for (String filter : filterArray) {
+        for (String filter : allFilterValueList) {
             if (ipAddress.startsWith(filter)) {
                 throw new PluginException(ipAddress + " isn't allowed to register to Eureka server, because it is in blacklist");
             }
         }
     }
 
-    private void validateWhitelist(String filterIpAddress, String ipAddress) {
-        LOG.info("********** IP address whitelist={}, current ip address={} **********", filterIpAddress, ipAddress);
+    private void validateWhitelist(List<String> allFilterValueList, String ipAddress) {
+        LOG.info("********** IP address whitelist={}, current ip address={} **********", allFilterValueList, ipAddress);
 
         boolean valid = false;
-        String[] filterArray = StringUtils.split(filterIpAddress, PluginConstant.SEPARATE);
-        for (String filter : filterArray) {
+        for (String filter : allFilterValueList) {
             if (ipAddress.startsWith(filter)) {
                 valid = true;
                 break;

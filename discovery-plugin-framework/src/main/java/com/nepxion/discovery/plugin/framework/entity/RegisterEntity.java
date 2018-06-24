@@ -11,6 +11,7 @@ package com.nepxion.discovery.plugin.framework.entity;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -22,8 +23,8 @@ public class RegisterEntity implements Serializable {
     private static final long serialVersionUID = -2097322826969006191L;
 
     private RegisterFilterType filterType;
-    private String filterValue;
-    private Map<String, String> filterMap = new LinkedHashMap<String, String>();
+    private List<String> filterValueList;
+    private Map<String, List<String>> filterMap = new LinkedHashMap<String, List<String>>();
 
     public RegisterEntity() {
 
@@ -37,19 +38,19 @@ public class RegisterEntity implements Serializable {
         this.filterType = filterType;
     }
 
-    public String getFilterValue() {
-        return filterValue;
+    public List<String> getFilterValueList() {
+        return filterValueList;
     }
 
-    public void setFilterValue(String filterValue) {
-        this.filterValue = filterValue;
+    public void setFilterValueList(List<String> filterValueList) {
+        this.filterValueList = filterValueList;
     }
 
-    public Map<String, String> getFilterMap() {
+    public Map<String, List<String>> getFilterMap() {
         return filterMap;
     }
 
-    public void setFilterMap(Map<String, String> filterMap) {
+    public void setFilterMap(Map<String, List<String>> filterMap) {
         this.filterMap = filterMap;
     }
 

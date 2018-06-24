@@ -10,6 +10,7 @@ package com.nepxion.discovery.plugin.configcenter;
  */
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -24,11 +25,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.plugin.configcenter.constant.ConfigConstant;
 import com.nepxion.discovery.plugin.configcenter.xml.Dom4JParser;
+import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryServiceEntity;
-import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.entity.RegisterEntity;
 import com.nepxion.discovery.plugin.framework.entity.RegisterFilterType;
+import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
 public class ConfigParser extends Dom4JParser {
@@ -43,7 +45,7 @@ public class ConfigParser extends Dom4JParser {
     @SuppressWarnings("rawtypes")
     @Override
     protected void parseRoot(Element element) {
-        LOG.info("Start to parse plugin xml...");
+        LOG.info("Start to parse rule xml...");
 
         int registerElementCount = element.elements(ConfigConstant.REGISTER_ELEMENT_NAME).size();
         if (registerElementCount > 1) {
@@ -96,10 +98,11 @@ public class ConfigParser extends Dom4JParser {
         Attribute globalFilterAttribute = element.attribute(ConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME);
         if (globalFilterAttribute != null) {
             String globalFilterValue = globalFilterAttribute.getData().toString().trim();
-            registerEntity.setFilterValue(globalFilterValue);
+            List<String> globalFilterValueList = parseList(globalFilterValue);
+            registerEntity.setFilterValueList(globalFilterValueList);
         }
 
-        Map<String, String> filterMap = registerEntity.getFilterMap();
+        Map<String, List<String>> filterMap = registerEntity.getFilterMap();
 
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
@@ -113,11 +116,12 @@ public class ConfigParser extends Dom4JParser {
                 String serviceName = serviceNameAttribute.getData().toString().trim();
 
                 Attribute filterValueAttribute = childElement.attribute(ConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME);
-                String filterValue = null;
+                List<String> filterValueList = null;
                 if (filterValueAttribute != null) {
-                    filterValue = filterValueAttribute.getData().toString().trim();
+                    String filterValue = filterValueAttribute.getData().toString().trim();
+                    filterValueList = parseList(filterValue);
                 }
-                filterMap.put(serviceName, filterValue);
+                filterMap.put(serviceName, filterValueList);
             }
         }
     }
@@ -149,13 +153,15 @@ public class ConfigParser extends Dom4JParser {
                 Attribute consumerVersionValueAttribute = childElement.attribute(ConfigConstant.CONSUMER_VERSION_VALUE_ATTRIBUTE_NAME);
                 if (consumerVersionValueAttribute != null) {
                     String consumerVersionValue = consumerVersionValueAttribute.getData().toString().trim();
-                    serviceEntity.setConsumerVersionValue(consumerVersionValue);
+                    List<String> consumerVersionValueList = parseList(consumerVersionValue);
+                    serviceEntity.setConsumerVersionValueList(consumerVersionValueList);
                 }
 
                 Attribute providerVersionValueAttribute = childElement.attribute(ConfigConstant.PROVIDER_VERSION_VALUE_ATTRIBUTE_NAME);
                 if (providerVersionValueAttribute != null) {
                     String providerVersionValue = providerVersionValueAttribute.getData().toString().trim();
-                    serviceEntity.setProviderVersionValue(providerVersionValue);
+                    List<String> providerVersionValueList = parseList(providerVersionValue);
+                    serviceEntity.setProviderVersionValueList(providerVersionValueList);
                 }
 
                 List<DiscoveryServiceEntity> serviceEntityList = serviceEntityMap.get(consumerServiceName);
@@ -167,5 +173,15 @@ public class ConfigParser extends Dom4JParser {
                 serviceEntityList.add(serviceEntity);
             }
         }
+    }
+
+    private List<String> parseList(String value) {
+        if (StringUtils.isEmpty(value)) {
+            return null;
+        }
+
+        String[] valueArray = StringUtils.split(value, PluginConstant.SEPARATE);
+
+        return Arrays.asList(valueArray);
     }
 }

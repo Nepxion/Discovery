@@ -10,7 +10,6 @@ package com.nepxion.discovery.plugin.framework.strategy;
  */
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -98,27 +97,24 @@ public class DiscoveryControlStrategy {
         }
 
         // 当前版本的消费端所能调用提供端的版本号列表
-        List<String> allFilterVersions = new ArrayList<String>();
+        List<String> allFilterValueList = new ArrayList<String>();
         for (DiscoveryServiceEntity serviceEntity : serviceEntityList) {
             String providerServiceName = serviceEntity.getProviderServiceName();
             if (StringUtils.equals(providerServiceName, providerServiceId)) {
-                String consumerVersionValue = serviceEntity.getConsumerVersionValue();
-                String providerVersionValue = serviceEntity.getProviderVersionValue();
-
-                List<String> consumerVersionList = getVersionList(consumerVersionValue);
-                List<String> providerVersionList = getVersionList(providerVersionValue);
+                List<String> consumerVersionValueList = serviceEntity.getConsumerVersionValueList();
+                List<String> providerVersionValueList = serviceEntity.getProviderVersionValueList();
 
                 // 判断consumer-version-value值是否包含当前消费端的版本号
-                if (CollectionUtils.isNotEmpty(consumerVersionList) && consumerVersionList.contains(consumerServiceVersion)) {
-                    if (CollectionUtils.isNotEmpty(providerVersionList)) {
-                        allFilterVersions.addAll(providerVersionList);
+                if (CollectionUtils.isNotEmpty(consumerVersionValueList) && consumerVersionValueList.contains(consumerServiceVersion)) {
+                    if (CollectionUtils.isNotEmpty(providerVersionValueList)) {
+                        allFilterValueList.addAll(providerVersionValueList);
                     }
                 }
             }
         }
 
         // 未找到相应的版本定义或者未定义
-        if (CollectionUtils.isEmpty(allFilterVersions)) {
+        if (CollectionUtils.isEmpty(allFilterValueList)) {
             return;
         }
 
@@ -126,19 +122,9 @@ public class DiscoveryControlStrategy {
         while (iterator.hasNext()) {
             ServiceInstance serviceInstance = iterator.next();
             String metaDataVersion = serviceInstance.getMetadata().get(PluginConstant.VRESION);
-            if (!allFilterVersions.contains(metaDataVersion)) {
+            if (!allFilterValueList.contains(metaDataVersion)) {
                 iterator.remove();
             }
         }
-    }
-
-    private List<String> getVersionList(String versionValue) {
-        if (StringUtils.isEmpty(versionValue)) {
-            return null;
-        }
-
-        String[] versionArray = StringUtils.split(versionValue, PluginConstant.SEPARATE);
-
-        return Arrays.asList(versionArray);
     }
 }
