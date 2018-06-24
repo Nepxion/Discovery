@@ -21,7 +21,7 @@
         <!-- 表示下面所有服务，不允许10.10和11.11为前缀的IP地址被发现（全局过滤） -->
         <blacklist filter-value="10.10,11.11">
             <!-- 表示下面服务，不允许172.16和10.10和11.11为前缀的IP地址被发现 -->
-            <service service-name="discovery-springcloud-example-a" filter-value="172.16"/>
+            <service service-name="discovery-springcloud-example-b" filter-value="172.16"/>
         </blacklist>
 
         <!-- 服务发现的多版本灰度访问控制 -->

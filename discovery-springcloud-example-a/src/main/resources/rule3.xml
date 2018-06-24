@@ -8,7 +8,7 @@
 
     <discovery>
         <blacklist filter-value="10.10,11.11">
-            <service service-name="discovery-springcloud-example-a" filter-value="172.16"/>
+            <service service-name="discovery-springcloud-example-b" filter-value="172.16"/>
         </blacklist>
 
         <version>
