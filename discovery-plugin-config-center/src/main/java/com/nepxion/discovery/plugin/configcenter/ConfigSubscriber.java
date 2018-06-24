@@ -33,13 +33,16 @@ import com.nepxion.eventbus.core.Event;
 public class ConfigSubscriber {
     private static final Logger LOG = LoggerFactory.getLogger(ConfigSubscriber.class);
 
+    @Value("${" + PluginConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED + ":true}")
+    private Boolean registerControlEnabled;
+
     @Value("${" + PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED + ":true}")
     private Boolean discoveryControlEnabled;
 
     @Value("${" + ConfigConstant.SPRING_APPLICATION_DISCOVERY_REMOTE_CONFIG_ENABLED + ":true}")
     private Boolean remoteConfigEnabled;
 
-    @Autowired
+    @Autowired(required = false)
     private ConfigLoader configLoader;
 
     @Autowired
@@ -47,6 +50,18 @@ public class ConfigSubscriber {
 
     @PostConstruct
     public void initialize() {
+        if (!registerControlEnabled && !discoveryControlEnabled) {
+            LOG.info("********** Register and Discovery controls are all disabled, ignore to initialize **********");
+
+            return;
+        }
+
+        if (configLoader == null) {
+            LOG.info("********** ConfigLoader isn't provided, ignore to initialize **********");
+
+            return;
+        }
+
         LOG.info("********** {} config starts to initialize **********", remoteConfigEnabled ? "Remote" : "Local");
 
         InputStream inputStream = null;
