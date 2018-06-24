@@ -22,6 +22,20 @@ import com.nepxion.discovery.plugin.framework.strategy.RegisterControlStrategy;
 
 @Configuration
 public class PluginAutoConfiguration {
+    static {
+        System.out.println("");
+        System.out.println("╔═══╗");
+        System.out.println("╚╗╔╗║");
+        System.out.println(" ║║║╠╦══╦══╦══╦╗╔╦══╦═╦╗ ╔╗");
+        System.out.println(" ║║║╠╣══╣╔═╣╔╗║╚╝║║═╣╔╣║ ║║");
+        System.out.println("╔╝╚╝║╠══║╚═╣╚╝╠╗╔╣║═╣║║╚═╝║");
+        System.out.println("╚═══╩╩══╩══╩══╝╚╝╚══╩╝╚═╗╔╝");
+        System.out.println("                      ╔═╝║");
+        System.out.println("                      ╚══╝");
+        System.out.println("Nepxion Discovery  v1.0.1");
+        System.out.println("");
+    }
+
     @Bean
     public RuleEntity ruleEntity() {
         return new RuleEntity();
