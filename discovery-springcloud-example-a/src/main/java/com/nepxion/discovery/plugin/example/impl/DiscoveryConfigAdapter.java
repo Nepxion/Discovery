@@ -19,14 +19,31 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.io.FileUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
+import com.nepxion.discovery.plugin.configcenter.ConfigAdapter;
 
-// 模拟从远程配置中心接受配置更新
-public class DiscoveryConfigSubscriber {
-    @Autowired
-    private PluginPublisher pluginPublisher;
+// 模拟从本地配置或远程配置中心获取配置，订阅配置更新
+public class DiscoveryConfigAdapter extends ConfigAdapter {
+    @Override
+    public InputStream getRemoteInputStream() {
+        // 本地文件模拟代替远程文件
+        try {
+            return FileUtils.openInputStream(new File("src/main/resources/rule1.xml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    @Override
+    protected String getLocalContextPath() {
+        // 配置文件放在resources目录下
+        return "classpath:rule1.xml";
+
+        // 配置文件放在工程根目录下
+        // return "file:rule1.xml";
+    }
 
     @PostConstruct
     public void initialize() {
@@ -41,7 +58,7 @@ public class DiscoveryConfigSubscriber {
                 System.out.println("-------------------- rule" + index + ".xml is loaded --------------------");
                 try {
                     InputStream inputStream = FileUtils.openInputStream(new File("src/main/resources/rule" + index + ".xml"));
-                    pluginPublisher.publish(inputStream);
+                    publish(inputStream);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
