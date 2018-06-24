@@ -31,10 +31,8 @@ import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.nepxion.discovery.plugin.framework.cache.PluginCache;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
@@ -50,9 +48,6 @@ public class AdminEndpoint extends AbstractMvcEndpoint implements ApplicationCon
     @SuppressWarnings("rawtypes")
     private ServiceRegistry serviceRegistry;
     private Registration registration;
-
-    @Autowired
-    private PluginCache pluginCache;
 
     @Autowired
     private PluginPublisher pluginPublisher;
@@ -87,48 +82,6 @@ public class AdminEndpoint extends AbstractMvcEndpoint implements ApplicationCon
         } catch (IOException e) {
             throw new PluginException("To input stream failed", e);
         }
-
-        LOG.info("receive config successfully");
-
-        return "success";
-    }
-
-    @RequestMapping(path = "blacklist", method = RequestMethod.GET)
-    @ResponseBody
-    @ManagedOperation
-    public Object blacklist(@RequestParam("serviceId") String serviceId, @RequestParam("ip") String ip) {
-        Boolean discoveryControlEnabled = getEnvironment().getProperty(PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED, Boolean.class, Boolean.TRUE);
-        if (!discoveryControlEnabled) {
-            return new ResponseEntity<>(Collections.singletonMap("Message", "Discovery control is disabled"), HttpStatus.NOT_FOUND);
-        }
-
-        if (registration == null) {
-            throw new PluginException("No registration found");
-        }
-
-        pluginCache.put(serviceId, ip);
-
-        LOG.info("Add blacklist for serviceId={}, ip={} successfully", serviceId, ip);
-
-        return "success";
-    }
-
-    @RequestMapping(path = "clear", method = RequestMethod.GET)
-    @ResponseBody
-    @ManagedOperation
-    public Object clear(@RequestParam("serviceId") String serviceId) {
-        Boolean discoveryControlEnabled = getEnvironment().getProperty(PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED, Boolean.class, Boolean.TRUE);
-        if (!discoveryControlEnabled) {
-            return new ResponseEntity<>(Collections.singletonMap("Message", "Discovery control is disabled"), HttpStatus.NOT_FOUND);
-        }
-
-        if (registration == null) {
-            throw new PluginException("No registration found");
-        }
-
-        pluginCache.clear(serviceId);
-
-        LOG.info("Clear blacklist for serviceId={} successfully", serviceId);
 
         return "success";
     }

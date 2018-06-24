@@ -21,7 +21,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 
-import com.nepxion.discovery.plugin.framework.cache.PluginCache;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryServiceEntity;
@@ -33,9 +32,6 @@ import com.nepxion.discovery.plugin.framework.entity.VersionEntity;
 public class DiscoveryControlStrategy {
     @Autowired
     private RuleEntity ruleEntity;
-
-    @Autowired
-    private PluginCache pluginCache;
 
     @Autowired
     private ReentrantReadWriteLock reentrantReadWriteLock;
