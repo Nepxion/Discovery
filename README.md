@@ -80,26 +80,38 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
 ```
 
 ## 跟远程配置中心整合
-使用者可以跟携程Apollo，百度DisConf等远程配置中心整合
-
-继承AbstractConfigLoader.java，实现配置文件获取的对接
-```java
-public class DiscoveryConfigLoader extends AbstractConfigLoader {
-    // 通过application.properties里的spring.application.discovery.remote.config.enabled=true，来决定走远程配置中心，还是本地
-    // 从远程配置中心获取XML内容
-    @Override
-    public InputStream getRemoteInputStream() {
-        return null;
-    }
-
-    // 从本地获取XML内容
+使用者可以跟携程Apollo，百度DisConf等远程配置中心整合，需要实现两个功能
+```xml
+1. 主动从本地或远程配置中心获取配置
+2. 订阅远程配置中心的配置更新
+```
+继承ConfigAdapter.java
+public class DiscoveryConfigAdapter extends ConfigAdapter {
+    // 通过application.properties里的spring.application.discovery.remote.config.enabled=true，来决定主动从本地，还是远程配置中心获取配置
+    // 从本地获取配置
     @Override
     protected String getLocalContextPath() {
         // 配置文件放在resources目录下
-        return "classpath:rule1.xml";
+        return "classpath:rule.xml";
 
         // 配置文件放在工程根目录下
-        // return "file:rule1.xml";
+        // return "file:rule.xml";
+    }
+
+    // 从远程配置中心获取配置
+    @Override
+    public InputStream getRemoteInputStream() {
+        InputStream inputStream = ...;
+
+        return inputStream;
+    }
+
+    // 订阅远程配置中心的配置更新
+    @PostConstruct
+    public void initialize() {
+       InputStream inputStream = ...;
+
+       publish(inputStream);
     }
 }
 ```

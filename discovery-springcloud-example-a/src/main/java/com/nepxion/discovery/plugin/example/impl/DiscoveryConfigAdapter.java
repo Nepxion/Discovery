@@ -22,20 +22,11 @@ import org.apache.commons.io.FileUtils;
 
 import com.nepxion.discovery.plugin.configcenter.ConfigAdapter;
 
-// 模拟从本地配置或远程配置中心获取配置，订阅配置更新
+// 模拟主动从本地或远程配置中心获取配置
+// 模拟订阅远程配置中心的配置更新
 public class DiscoveryConfigAdapter extends ConfigAdapter {
-    @Override
-    public InputStream getRemoteInputStream() {
-        // 本地文件模拟代替远程文件
-        try {
-            return FileUtils.openInputStream(new File("src/main/resources/rule1.xml"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
+    // 通过application.properties里的spring.application.discovery.remote.config.enabled=true，来决定主动从本地，还是远程配置中心获取配置
+    // 从本地获取配置
     @Override
     protected String getLocalContextPath() {
         // 配置文件放在resources目录下
@@ -45,6 +36,19 @@ public class DiscoveryConfigAdapter extends ConfigAdapter {
         // return "file:rule1.xml";
     }
 
+    // 从远程配置中心获取配置
+    @Override
+    public InputStream getRemoteInputStream() {
+        try {
+            return FileUtils.openInputStream(new File("src/main/resources/rule1.xml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    // 订阅远程配置中心的配置更新
     @PostConstruct
     public void initialize() {
         ThreadLocalRandom threadLocalRandom = ThreadLocalRandom.current();
