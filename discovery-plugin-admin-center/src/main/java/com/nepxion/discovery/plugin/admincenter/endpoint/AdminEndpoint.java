@@ -42,8 +42,6 @@ import com.nepxion.discovery.plugin.framework.exception.PluginException;
 public class AdminEndpoint extends AbstractMvcEndpoint implements ApplicationContextAware {
     private static final Logger LOG = LoggerFactory.getLogger(AdminEndpoint.class);
 
-    private static final String ENCODING_UTF_8 = "UTF-8";
-
     private ConfigurableApplicationContext applicationContext;
     @SuppressWarnings("rawtypes")
     private ServiceRegistry serviceRegistry;
@@ -77,7 +75,7 @@ public class AdminEndpoint extends AbstractMvcEndpoint implements ApplicationCon
         }
 
         try {
-            InputStream inputStream = IOUtils.toInputStream(config, ENCODING_UTF_8);
+            InputStream inputStream = IOUtils.toInputStream(config, PluginConstant.ENCODING_UTF_8);
             pluginPublisher.publish(inputStream);
         } catch (IOException e) {
             throw new PluginException("To input stream failed", e);

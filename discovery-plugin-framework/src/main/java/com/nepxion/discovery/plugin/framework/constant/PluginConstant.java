@@ -17,5 +17,6 @@ public class PluginConstant {
     public static final String EUREKA_METADATA_VERSION = "eureka.instance.metadataMap.version";
     public static final String VRESION = "version";
 
+    public static final String ENCODING_UTF_8 = "UTF-8";
     public static final String SEPARATE = ",";
 }
