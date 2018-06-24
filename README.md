@@ -169,7 +169,7 @@ management.security.enabled=false
 
 模拟实现跟远程配置中心整合
 ```xml
-参考DiscoveryConfigLoader.java和DiscoveryConfigSubscriber.java
+参考DiscoveryConfigAdapter.java
 ```
 
 ### 运行效果
