@@ -207,10 +207,21 @@ management.security.enabled=false
 ```xml
 1. 运行discovery-springcloud-example-b1、discovery-springcloud-example-b2和discovery-springcloud-example-b3下的DiscoveryApplication.java，
 2. 运行discovery-springcloud-example-a/DiscoveryApplication.java
-3. 通过Postman或者浏览器，访问http://localhost:4321/instances
-4. 通过模拟定时更新，或者执行POST http://localhost:5432/admin/config，发送的内容即规则XML
-5. 可以观察到通过A服务去获取B服务的被过滤的实例列表会在不同的配置下有相应改变
+3. 通过Postman或者浏览器，访问http://localhost:4321/instances，看到当前时刻，A服务可访问B服务的列表，如图1
+4. 通过模拟定时更新，或者执行POST http://localhost:5432/admin/config，发送的内容即规则XML，更改相关规则，如图2
+5. 通过Postman或者浏览器，访问http://localhost:4321/admin/view，看到当前时刻，在A服务已经生效的规则，如图3
 ```
+图1
+
+![Alt text](https://github.com/Nepxion/Discovery/blob/master/discovery-plugin-doc/Postman1.jpg)
+
+图2
+
+![Alt text](https://github.com/Nepxion/Discovery/blob/master/discovery-plugin-doc/Postman2.jpg)
+
+图3
+
+![Alt text](https://github.com/Nepxion/Discovery/blob/master/discovery-plugin-doc/Postman3.jpg)
 
 ## 鸣谢
 感谢Spring Cloud中国社区刘石明提供支持
