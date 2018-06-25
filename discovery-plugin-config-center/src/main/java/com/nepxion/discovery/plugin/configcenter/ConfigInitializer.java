@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import com.nepxion.discovery.plugin.configcenter.constant.ConfigConstant;
 import com.nepxion.discovery.plugin.configcenter.loader.ConfigLoader;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 
@@ -31,7 +30,7 @@ public class ConfigInitializer {
     @Value("${" + PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED + ":true}")
     private Boolean discoveryControlEnabled;
 
-    @Value("${" + ConfigConstant.SPRING_APPLICATION_DISCOVERY_REMOTE_CONFIG_ENABLED + ":true}")
+    @Value("${" + PluginConstant.SPRING_APPLICATION_DISCOVERY_REMOTE_CONFIG_ENABLED + ":true}")
     private Boolean remoteConfigEnabled;
 
     @Autowired(required = false)

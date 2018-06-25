@@ -10,8 +10,6 @@ package com.nepxion.discovery.plugin.configcenter.constant;
  */
 
 public class ConfigConstant {
-    public static final String SPRING_APPLICATION_DISCOVERY_REMOTE_CONFIG_ENABLED = "spring.application.discovery.remote.config.enabled";
-
     public static final String RULE_ELEMENT_NAME = "rule";
     public static final String REGISTER_ELEMENT_NAME = "register";
     public static final String DISCOVERY_ELEMENT_NAME = "discovery";

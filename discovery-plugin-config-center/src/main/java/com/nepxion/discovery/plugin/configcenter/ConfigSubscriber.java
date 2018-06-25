@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.google.common.eventbus.Subscribe;
-import com.nepxion.discovery.plugin.configcenter.constant.ConfigConstant;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.eventbus.annotation.EventBus;
 import com.nepxion.eventbus.core.Event;
@@ -29,7 +28,7 @@ public class ConfigSubscriber {
     @Value("${" + PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED + ":true}")
     private Boolean discoveryControlEnabled;
 
-    @Value("${" + ConfigConstant.SPRING_APPLICATION_DISCOVERY_REMOTE_CONFIG_ENABLED + ":true}")
+    @Value("${" + PluginConstant.SPRING_APPLICATION_DISCOVERY_REMOTE_CONFIG_ENABLED + ":true}")
     private Boolean remoteConfigEnabled;
 
     @Autowired
