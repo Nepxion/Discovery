@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -24,6 +25,10 @@ public abstract class Dom4JParser {
     private InputStream inputStream;
 
     public void parse(String text) throws DocumentException {
+        if (StringUtils.isEmpty(text)) {
+            throw new IllegalArgumentException("The text is empty");
+        }
+
         Document document = Dom4JReader.getDocument(text);
 
         this.text = text;
@@ -32,6 +37,10 @@ public abstract class Dom4JParser {
     }
 
     public void parseFormat(String text) throws DocumentException, UnsupportedEncodingException {
+        if (StringUtils.isEmpty(text)) {
+            throw new IllegalArgumentException("The text is empty");
+        }
+
         Document document = Dom4JReader.getFormatDocument(text);
 
         this.text = text;
@@ -40,6 +49,10 @@ public abstract class Dom4JParser {
     }
 
     public void parse(File file) throws DocumentException, IOException, UnsupportedEncodingException {
+        if (file == null) {
+            throw new IllegalArgumentException("The file is null");
+        }
+
         Document document = Dom4JReader.getDocument(file);
 
         this.file = file;
@@ -48,6 +61,10 @@ public abstract class Dom4JParser {
     }
 
     public void parseFormat(File file) throws DocumentException, IOException, UnsupportedEncodingException {
+        if (file == null) {
+            throw new IllegalArgumentException("The file is null");
+        }
+
         Document document = Dom4JReader.getFormatDocument(file);
 
         this.file = file;
@@ -56,6 +73,10 @@ public abstract class Dom4JParser {
     }
 
     public void parse(InputStream inputStream) throws DocumentException, IOException {
+        if (inputStream == null) {
+            throw new IllegalArgumentException("The input stream is null");
+        }
+
         Document document = Dom4JReader.getDocument(inputStream);
 
         this.inputStream = inputStream;
@@ -64,6 +85,10 @@ public abstract class Dom4JParser {
     }
 
     public void parseFormat(InputStream inputStream) throws DocumentException, IOException, UnsupportedEncodingException {
+        if (inputStream == null) {
+            throw new IllegalArgumentException("The input stream is null");
+        }
+
         Document document = Dom4JReader.getFormatDocument(inputStream);
 
         this.inputStream = inputStream;

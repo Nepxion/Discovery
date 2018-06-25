@@ -9,6 +9,8 @@ package com.nepxion.discovery.plugin.configcenter;
  * @version 1.0
  */
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -16,8 +18,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Attribute;
+import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +48,23 @@ public class ConfigParser extends Dom4JParser {
 
     @Autowired
     private ReentrantReadWriteLock reentrantReadWriteLock;
+
+    @Override
+    public void parse(InputStream inputStream) {
+        try {
+            String text = IOUtils.toString(inputStream, PluginConstant.ENCODING_UTF_8);
+
+            super.parse(text);
+        } catch (IOException e) {
+            throw new PluginException(e);
+        } catch (DocumentException e) {
+            throw new PluginException(e);
+        } finally {
+            if (inputStream != null) {
+                IOUtils.closeQuietly(inputStream);
+            }
+        }
+    }
 
     @SuppressWarnings("rawtypes")
     @Override

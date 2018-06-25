@@ -9,13 +9,10 @@ package com.nepxion.discovery.plugin.configcenter;
  * @version 1.0
  */
 
-import java.io.IOException;
 import java.io.InputStream;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.commons.io.IOUtils;
-import org.dom4j.DocumentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +22,6 @@ import com.google.common.eventbus.Subscribe;
 import com.nepxion.discovery.plugin.configcenter.constant.ConfigConstant;
 import com.nepxion.discovery.plugin.configcenter.loader.ConfigLoader;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
-import com.nepxion.discovery.plugin.framework.exception.PluginException;
 import com.nepxion.eventbus.annotation.EventBus;
 import com.nepxion.eventbus.core.Event;
 
@@ -70,7 +66,7 @@ public class ConfigSubscriber {
         } else {
             inputStream = configLoader.getLocalInputStream();
         }
-        parse(inputStream);
+        configParser.parse(inputStream);
     }
 
     @Subscribe
@@ -92,27 +88,7 @@ public class ConfigSubscriber {
             LOG.info("********** Remote config change has been retrieved **********");
 
             InputStream inputStream = (InputStream) object;
-            parse(inputStream);
-        }
-    }
-
-    private void parse(InputStream inputStream) {
-        if (inputStream == null) {
-            throw new PluginException("Failed to load " + (remoteConfigEnabled ? "remote" : "local") + " config, no input stream returns");
-        }
-
-        try {
-            String content = IOUtils.toString(inputStream, PluginConstant.ENCODING_UTF_8);
-
-            configParser.parse(content);
-        } catch (IOException e) {
-            throw new PluginException(e);
-        } catch (DocumentException e) {
-            throw new PluginException(e);
-        } finally {
-            if (inputStream != null) {
-                IOUtils.closeQuietly(inputStream);
-            }
+            configParser.parse(inputStream);
         }
     }
 }
