@@ -16,22 +16,15 @@ import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 
 import com.nepxion.discovery.plugin.configcenter.loader.ConfigLoader;
-import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
+import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 
 public class ConfigInitializer {
     private static final Logger LOG = LoggerFactory.getLogger(ConfigInitializer.class);
 
-    @Value("${" + PluginConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED + ":true}")
-    private Boolean registerControlEnabled;
-
-    @Value("${" + PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED + ":true}")
-    private Boolean discoveryControlEnabled;
-
-    @Value("${" + PluginConstant.SPRING_APPLICATION_DISCOVERY_REMOTE_CONFIG_ENABLED + ":true}")
-    private Boolean remoteConfigEnabled;
+    @Autowired
+    private PluginContextAware pluginContextAware;
 
     @Autowired(required = false)
     private ConfigLoader configLoader;
@@ -41,6 +34,10 @@ public class ConfigInitializer {
 
     @PostConstruct
     public void initialize() {
+        Boolean registerControlEnabled = pluginContextAware.isRegisterControlEnabled();
+        Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
+        Boolean remoteConfigEnabled = pluginContextAware.isRemoteConfigEnabled();
+
         if (!registerControlEnabled && !discoveryControlEnabled) {
             LOG.info("********** Register and Discovery controls are all disabled, ignore to initialize **********");
 

@@ -16,14 +16,10 @@ import java.util.Collections;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.mvc.AbstractMvcEndpoint;
 import org.springframework.cloud.client.serviceregistry.Registration;
 import org.springframework.cloud.client.serviceregistry.ServiceRegistry;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jmx.export.annotation.ManagedOperation;
@@ -34,19 +30,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
+import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
 @ManagedResource(description = "Admin Endpoint")
 @SuppressWarnings("unchecked")
-public class AdminEndpoint extends AbstractMvcEndpoint implements ApplicationContextAware {
+public class AdminEndpoint extends AbstractMvcEndpoint {
     private static final Logger LOG = LoggerFactory.getLogger(AdminEndpoint.class);
 
-    private ConfigurableApplicationContext applicationContext;
     @SuppressWarnings("rawtypes")
     private ServiceRegistry serviceRegistry;
     private Registration registration;
+
+    @Autowired
+    private PluginContextAware pluginContextAware;
 
     @Autowired
     private PluginPublisher pluginPublisher;
@@ -69,7 +68,7 @@ public class AdminEndpoint extends AbstractMvcEndpoint implements ApplicationCon
     @ResponseBody
     @ManagedOperation
     public Object config(@RequestBody String config) {
-        Boolean discoveryControlEnabled = getEnvironment().getProperty(PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED, Boolean.class, Boolean.TRUE);
+        Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         if (!discoveryControlEnabled) {
             return new ResponseEntity<>(Collections.singletonMap("Message", "Discovery control is disabled"), HttpStatus.NOT_FOUND);
         }
@@ -103,7 +102,7 @@ public class AdminEndpoint extends AbstractMvcEndpoint implements ApplicationCon
     @ResponseBody
     @ManagedOperation
     public Object status(@RequestBody String status) {
-        Boolean discoveryControlEnabled = getEnvironment().getProperty(PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED, Boolean.class, Boolean.TRUE);
+        Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         if (!discoveryControlEnabled) {
             return new ResponseEntity<>(Collections.singletonMap("Message", "Discovery control is disabled"), HttpStatus.NOT_FOUND);
         }
@@ -123,7 +122,7 @@ public class AdminEndpoint extends AbstractMvcEndpoint implements ApplicationCon
     @ResponseBody
     @ManagedOperation
     public Object deregister() {
-        Boolean discoveryControlEnabled = getEnvironment().getProperty(PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED, Boolean.class, Boolean.TRUE);
+        Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         if (!discoveryControlEnabled) {
             return new ResponseEntity<>(Collections.singletonMap("Message", "Discovery control is disabled"), HttpStatus.NOT_FOUND);
         }
@@ -137,16 +136,5 @@ public class AdminEndpoint extends AbstractMvcEndpoint implements ApplicationCon
         LOG.info("Deregister for serviceId={} successfully", registration.getServiceId());
 
         return "success";
-    }
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        if (applicationContext instanceof ConfigurableApplicationContext) {
-            this.applicationContext = (ConfigurableApplicationContext) applicationContext;
-        }
-    }
-
-    public ConfigurableApplicationContext getApplicationContext() {
-        return applicationContext;
     }
 }

@@ -14,10 +14,9 @@ import java.io.InputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 
 import com.google.common.eventbus.Subscribe;
-import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
+import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.eventbus.annotation.EventBus;
 import com.nepxion.eventbus.core.Event;
 
@@ -25,17 +24,17 @@ import com.nepxion.eventbus.core.Event;
 public class ConfigSubscriber {
     private static final Logger LOG = LoggerFactory.getLogger(ConfigSubscriber.class);
 
-    @Value("${" + PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED + ":true}")
-    private Boolean discoveryControlEnabled;
-
-    @Value("${" + PluginConstant.SPRING_APPLICATION_DISCOVERY_REMOTE_CONFIG_ENABLED + ":true}")
-    private Boolean remoteConfigEnabled;
+    @Autowired
+    private PluginContextAware pluginContextAware;
 
     @Autowired
     private ConfigParser configParser;
 
     @Subscribe
     public void subscribe(Event event) {
+        Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
+        Boolean remoteConfigEnabled = pluginContextAware.isRemoteConfigEnabled();
+
         if (!discoveryControlEnabled) {
             LOG.info("********** Discovery control is disabled, reject to accept remote push **********");
 

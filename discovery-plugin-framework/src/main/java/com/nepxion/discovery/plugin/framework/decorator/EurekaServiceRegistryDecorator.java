@@ -15,7 +15,7 @@ import org.springframework.cloud.netflix.eureka.serviceregistry.EurekaServiceReg
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
-import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
+import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.strategy.RegisterControlStrategy;
 
 public class EurekaServiceRegistryDecorator extends EurekaServiceRegistry {
@@ -31,7 +31,7 @@ public class EurekaServiceRegistryDecorator extends EurekaServiceRegistry {
 
     @Override
     public void register(EurekaRegistration registration) {
-        Boolean registerControlEnabled = environment.getProperty(PluginConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED, Boolean.class, Boolean.TRUE);
+        Boolean registerControlEnabled = PluginContextAware.isRegisterControlEnabled(environment);
         if (registerControlEnabled) {
             String serviceId = registration.getServiceId();
             String ipAddress = registration.getInstanceConfig().getIpAddress();
