@@ -36,20 +36,20 @@ public class ConfigSubscriber {
         Boolean remoteConfigEnabled = pluginContextAware.isRemoteConfigEnabled();
 
         if (!discoveryControlEnabled) {
-            LOG.info("********** Discovery control is disabled, reject to accept remote push **********");
+            LOG.info("********** Discovery control is disabled, ignore to subscribe **********");
 
             return;
         }
 
         if (!remoteConfigEnabled) {
-            LOG.info("********** Remote config is disabled, reject to accept remote push **********");
+            LOG.info("********** Remote config is disabled, ignore to subscribe **********");
 
             return;
         }
 
         Object object = event.getSource();
         if (object instanceof InputStream) {
-            LOG.info("********** Remote config change has been retrieved **********");
+            LOG.info("********** Remote config change has been subscribed **********");
 
             InputStream inputStream = (InputStream) object;
             configParser.parse(inputStream);
