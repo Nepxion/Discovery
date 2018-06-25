@@ -12,11 +12,6 @@ package com.nepxion.discovery.plugin.example.impl;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.ThreadLocalRandom;
-
-import javax.annotation.PostConstruct;
 
 import org.apache.commons.io.FileUtils;
 
@@ -49,8 +44,8 @@ public class DiscoveryConfigAdapter extends ConfigAdapter {
     }
 
     // 订阅远程配置中心的配置更新
-    @PostConstruct
-    public void initialize() {
+    /*@PostConstruct
+    public void publish() {
         ThreadLocalRandom threadLocalRandom = ThreadLocalRandom.current();
 
         // 模拟每隔15秒通过EventBus接收远程配置中心推送过来的配置更新
@@ -68,5 +63,5 @@ public class DiscoveryConfigAdapter extends ConfigAdapter {
 
             }
         }, 10000L, 15000L);
-    }
+    }*/
 }

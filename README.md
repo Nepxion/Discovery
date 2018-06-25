@@ -125,7 +125,7 @@ public class DiscoveryConfigAdapter extends ConfigAdapter {
 
     // 订阅远程配置中心的配置更新
     @PostConstruct
-    public void initialize() {
+    public void publish() {
        InputStream inputStream = ...;
 
        publish(inputStream);
@@ -207,9 +207,9 @@ management.security.enabled=false
 ```xml
 1. 运行discovery-springcloud-example-b1、discovery-springcloud-example-b2和discovery-springcloud-example-b3下的DiscoveryApplication.java，
 2. 运行discovery-springcloud-example-a/DiscoveryApplication.java
-3. 通过Postman或者浏览器，访问http://localhost:4321/instances，看到当前时刻，A服务可访问B服务的列表，如图1
-4. 通过模拟定时更新，或者执行POST http://localhost:5432/admin/config，发送的内容即规则XML，更改相关规则，如图2
-5. 通过Postman或者浏览器，访问http://localhost:4321/admin/view，看到当前时刻，在A服务已经生效的规则，如图3
+3. 通过Postman或者浏览器，执行GET  http://localhost:4321/instances，看到当前时刻，A服务可访问B服务的列表，如图1
+4. 通过Postman或者浏览器，执行POST http://localhost:5432/admin/config，发送的内容即规则XML，更改相关规则，如图2
+5. 通过Postman或者浏览器，执行GET  http://localhost:4321/admin/view，看到当前时刻，在A服务已经生效的规则，如图3
 ```
 图1
 
