@@ -21,6 +21,6 @@ public abstract class ConfigAdapter extends AbstractConfigLoader {
     private PluginPublisher pluginPublisher;
 
     public void publish(InputStream inputStream) {
-        pluginPublisher.publish(inputStream);
+        pluginPublisher.asyncPublish(inputStream);
     }
 }

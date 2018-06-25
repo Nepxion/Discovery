@@ -79,7 +79,7 @@ public class AdminEndpoint extends AbstractMvcEndpoint {
 
         try {
             InputStream inputStream = IOUtils.toInputStream(config, PluginConstant.ENCODING_UTF_8);
-            pluginPublisher.publish(inputStream);
+            pluginPublisher.asyncPublish(inputStream);
         } catch (IOException e) {
             throw new PluginException("To input stream failed", e);
         }

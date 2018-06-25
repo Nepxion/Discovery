@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.google.common.eventbus.Subscribe;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.eventbus.annotation.EventBus;
-import com.nepxion.eventbus.core.Event;
 
 @EventBus
 public class ConfigSubscriber {
@@ -31,7 +30,7 @@ public class ConfigSubscriber {
     private ConfigParser configParser;
 
     @Subscribe
-    public void subscribe(Event event) {
+    public void subscribe(InputStream inputStream) {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         Boolean remoteConfigEnabled = pluginContextAware.isRemoteConfigEnabled();
 
@@ -47,12 +46,8 @@ public class ConfigSubscriber {
             return;
         }
 
-        Object object = event.getSource();
-        if (object instanceof InputStream) {
-            LOG.info("********** Remote config change has been subscribed **********");
+        LOG.info("********** Remote config change has been subscribed **********");
 
-            InputStream inputStream = (InputStream) object;
-            configParser.parse(inputStream);
-        }
+        configParser.parse(inputStream);
     }
 }

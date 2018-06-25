@@ -11,14 +11,17 @@ package com.nepxion.discovery.plugin.framework.event;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.eventbus.core.Event;
 import com.nepxion.eventbus.core.EventControllerFactory;
 
 public class PluginPublisher {
     @Autowired
     private EventControllerFactory eventControllerFactory;
 
-    public void publish(Object object) {
-        eventControllerFactory.getAsyncController().post(new Event(object));
+    public void asyncPublish(Object object) {
+        eventControllerFactory.getAsyncController().post(object);
+    }
+
+    public void syncPublish(Object object) {
+        eventControllerFactory.getSyncController().post(object);
     }
 }
