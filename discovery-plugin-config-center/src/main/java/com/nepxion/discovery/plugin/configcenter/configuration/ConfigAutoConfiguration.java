@@ -12,11 +12,17 @@ package com.nepxion.discovery.plugin.configcenter.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.nepxion.discovery.plugin.configcenter.ConfigInitializer;
 import com.nepxion.discovery.plugin.configcenter.ConfigParser;
 import com.nepxion.discovery.plugin.configcenter.ConfigSubscriber;
 
 @Configuration
 public class ConfigAutoConfiguration {
+    @Bean
+    public ConfigInitializer configInitializer() {
+        return new ConfigInitializer();
+    }
+
     @Bean
     public ConfigParser configParser() {
         return new ConfigParser();
