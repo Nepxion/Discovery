@@ -27,7 +27,8 @@
         <commons.collections4.version>4.1</commons.collections4.version>
         <commons.io.version>2.5</commons.io.version>
         <dom4j.version>1.6.1</dom4j.version>
-        <spring.cloud.version>Dalston.SR4</spring.cloud.version>
+        <spring.cloud.version>Dalston.SR5</spring.cloud.version>
+        <!-- <spring.cloud.version>Edgware.SR3</spring.cloud.version> -->
         <spring.boot.version>1.5.8.RELEASE</spring.boot.version>
         <disruptor.version>3.3.7</disruptor.version>
         <log4j.version>2.9.1</log4j.version>
