@@ -14,6 +14,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
     3. 实现通过下面两种推送方式，动态改变“服务发现层面的控制”
     4. 实现通过事件总线机制（EventBus）异步对接远程配置中心，接受远程配置中心主动推送配置信息
     5. 实现通过事件总线机制（EventBus）异步接受Rest主动推送配置信息
+    6. 实现通过Listener机制便于使用者扩展更多过滤条件，也可以利用Listener实现服务注册发现核心事件的监听
 
 ## 场景
 
@@ -156,6 +157,13 @@ public class DiscoveryConfigSubscriber {
 使用者可以通过Rest方式主动向一个微服务推送配置信息，但该方式只能每次推送到一个微服务上
 ```xml
 利用Get执行http://IP:PORT/admin/view
+```
+
+## 扩展过滤条件监听
+使用者可以继承如下类
+```xml
+AbstractRegisterListener，实现服务注册的扩展和监听
+AbstractDiscoveryListener，实现服务发现的扩展和监听
 ```
 
 ## 示例
