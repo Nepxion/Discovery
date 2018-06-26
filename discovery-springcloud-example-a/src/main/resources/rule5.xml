@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
     <register>
-        <blacklist filter-value="10.10,11.11">
+        <blacklist filter-value="10.10;11.11">
             <service service-name="discovery-springcloud-example-a" filter-value="172.16"/>
         </blacklist>
     </register>
 
     <discovery>
-        <blacklist filter-value="10.10,11.11">
+        <blacklist filter-value="10.10;11.11">
             <service service-name="discovery-springcloud-example-b" filter-value="172.16"/>
         </blacklist>
 

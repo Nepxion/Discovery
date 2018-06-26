@@ -43,11 +43,11 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
 <rule>
     <register>
         <!-- 服务注册的黑/白名单注册过滤，只在服务启动的时候生效。白名单表示只允许指定IP地址前缀注册，黑名单表示不允许指定IP地址前缀注册。每个服务只能同时开启要么白名单，要么黑名单 -->
-        <!-- filter-type，可选值BLACKLIST/WHITELIST，表示白名单或者黑名单 -->
+        <!-- filter-type，可选值blacklist/whitelist，表示白名单或者黑名单 -->
         <!-- service-name，表示服务名 -->
-        <!-- filter-value，表示黑/白名单的IP地址列表。IP地址一般用前缀来表示，如果多个用“,”分隔，不允许出现空格 -->
+        <!-- filter-value，表示黑/白名单的IP地址列表。IP地址一般用前缀来表示，如果多个用“;”分隔，不允许出现空格 -->
         <!-- 表示下面所有服务，不允许10.10和11.11为前缀的IP地址注册（全局过滤） -->
-        <blacklist filter-value="10.10,11.11">
+        <blacklist filter-value="10.10;11.11">
             <!-- 表示下面服务，不允许172.16和10.10和11.11为前缀的IP地址注册 -->
             <service service-name="discovery-springcloud-example-a" filter-value="172.16"/>
         </blacklist>
@@ -60,17 +60,17 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
     <discovery>
         <!-- 服务发现的黑/白名单发现过滤，使用方式跟“服务注册的黑/白名单过滤”一致 -->
         <!-- 表示下面所有服务，不允许10.10和11.11为前缀的IP地址被发现（全局过滤） -->
-        <blacklist filter-value="10.10,11.11">
+        <blacklist filter-value="10.10;11.11">
             <!-- 表示下面服务，不允许172.16和10.10和11.11为前缀的IP地址被发现 -->
             <service service-name="discovery-springcloud-example-b" filter-value="172.16"/>
         </blacklist>
 
         <!-- 服务发现的多版本灰度访问控制 -->
         <!-- service-name，表示服务名 -->
-        <!-- version-value，表示可供访问的版本，如果多个用“,”分隔，不允许出现空格 -->
+        <!-- version-value，表示可供访问的版本，如果多个用“;”分隔，不允许出现空格 -->
         <version>
             <!-- 表示消费端服务a的1.0，允许访问提供端服务b的1.0和1.1版本 -->
-            <service consumer-service-name="discovery-springcloud-example-a" provider-service-name="discovery-springcloud-example-b" consumer-version-value="1.0" provider-version-value="1.0,1.1"/>
+            <service consumer-service-name="discovery-springcloud-example-a" provider-service-name="discovery-springcloud-example-b" consumer-version-value="1.0" provider-version-value="1.0;1.1"/>
         </version>
     </discovery>
 </rule>
