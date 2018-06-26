@@ -13,9 +13,9 @@ import java.util.List;
 
 import org.springframework.cloud.client.ServiceInstance;
 
-import com.nepxion.discovery.plugin.framework.strategy.AbstractDiscoveryStrategy;
+import com.nepxion.discovery.plugin.framework.listener.AbstractDiscoveryListener;
 
-public class MyDiscoveryStrategy extends AbstractDiscoveryStrategy {
+public class MyDiscoveryListener extends AbstractDiscoveryListener {
     @Override
     public void fireGetInstances(String serviceId, List<ServiceInstance> instances) {
         System.out.println("========== getInstances() 被触发：serviceId=" + serviceId + " instances=" + instances + " ==========");

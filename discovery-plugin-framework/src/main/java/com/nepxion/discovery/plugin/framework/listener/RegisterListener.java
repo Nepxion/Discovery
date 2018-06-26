@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.strategy;
+package com.nepxion.discovery.plugin.framework.listener;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -11,7 +11,7 @@ package com.nepxion.discovery.plugin.framework.strategy;
 
 import org.springframework.cloud.client.serviceregistry.Registration;
 
-public interface RegisterStrategy extends Strategy {
+public interface RegisterListener extends Listener {
     void fireRegister(Registration registration);
 
     void fireDeregister(Registration registration);

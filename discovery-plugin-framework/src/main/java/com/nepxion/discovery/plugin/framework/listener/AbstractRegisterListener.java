@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.strategy;
+package com.nepxion.discovery.plugin.framework.listener;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -12,7 +12,7 @@ package com.nepxion.discovery.plugin.framework.strategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.serviceregistry.ServiceRegistry;
 
-public abstract class AbstractRegisterStrategy extends BasicStrategy implements RegisterStrategy {
+public abstract class AbstractRegisterListener extends BasicListener implements RegisterListener {
     @Autowired
     protected ServiceRegistry<?> serviceRegistry;
 

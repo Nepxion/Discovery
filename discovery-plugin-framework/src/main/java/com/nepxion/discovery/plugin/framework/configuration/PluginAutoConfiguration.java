@@ -17,11 +17,11 @@ import org.springframework.context.annotation.Configuration;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
-import com.nepxion.discovery.plugin.framework.strategy.DiscoveryStrategyExecutor;
-import com.nepxion.discovery.plugin.framework.strategy.RegisterStrategyExecutor;
-import com.nepxion.discovery.plugin.framework.strategy.impl.IpAddressFilterDiscoveryStrategy;
-import com.nepxion.discovery.plugin.framework.strategy.impl.IpAddressFilterRegisterStrategy;
-import com.nepxion.discovery.plugin.framework.strategy.impl.VersionFilterDiscoveryStrategy;
+import com.nepxion.discovery.plugin.framework.listener.DiscoveryListenerExecutor;
+import com.nepxion.discovery.plugin.framework.listener.RegisterListenerExecutor;
+import com.nepxion.discovery.plugin.framework.listener.impl.IpAddressFilterDiscoveryListener;
+import com.nepxion.discovery.plugin.framework.listener.impl.IpAddressFilterRegisterListener;
+import com.nepxion.discovery.plugin.framework.listener.impl.VersionFilterDiscoveryListener;
 
 @Configuration
 public class PluginAutoConfiguration {
@@ -60,27 +60,27 @@ public class PluginAutoConfiguration {
     }
 
     @Bean
-    public RegisterStrategyExecutor registerStrategyExecutor() {
-        return new RegisterStrategyExecutor();
+    public RegisterListenerExecutor registerListenerExecutor() {
+        return new RegisterListenerExecutor();
     }
 
     @Bean
-    public DiscoveryStrategyExecutor discoveryStrategyExecutor() {
-        return new DiscoveryStrategyExecutor();
+    public DiscoveryListenerExecutor discoveryListenerExecutor() {
+        return new DiscoveryListenerExecutor();
     }
 
     @Bean
-    public IpAddressFilterRegisterStrategy ipAddressFilterRegisterStrategy() {
-        return new IpAddressFilterRegisterStrategy();
+    public IpAddressFilterRegisterListener ipAddressFilterRegisterListener() {
+        return new IpAddressFilterRegisterListener();
     }
 
     @Bean
-    public IpAddressFilterDiscoveryStrategy ipAddressFilterDiscoveryStrategy() {
-        return new IpAddressFilterDiscoveryStrategy();
+    public IpAddressFilterDiscoveryListener ipAddressFilterDiscoveryListener() {
+        return new IpAddressFilterDiscoveryListener();
     }
 
     @Bean
-    public VersionFilterDiscoveryStrategy versionFilterDiscoveryStrategy() {
-        return new VersionFilterDiscoveryStrategy();
+    public VersionFilterDiscoveryListener versionFilterDiscoveryListener() {
+        return new VersionFilterDiscoveryListener();
     }
 }

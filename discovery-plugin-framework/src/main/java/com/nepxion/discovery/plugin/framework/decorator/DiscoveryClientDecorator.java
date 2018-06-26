@@ -17,7 +17,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
-import com.nepxion.discovery.plugin.framework.strategy.DiscoveryStrategyExecutor;
+import com.nepxion.discovery.plugin.framework.listener.DiscoveryListenerExecutor;
 
 public class DiscoveryClientDecorator implements DiscoveryClient {
     private DiscoveryClient discoveryClient;
@@ -36,8 +36,8 @@ public class DiscoveryClientDecorator implements DiscoveryClient {
 
         Boolean discoveryControlEnabled = PluginContextAware.isDiscoveryControlEnabled(environment);
         if (discoveryControlEnabled) {
-            DiscoveryStrategyExecutor discoveryStrategyExecutor = applicationContext.getBean(DiscoveryStrategyExecutor.class);
-            discoveryStrategyExecutor.fireGetInstances(serviceId, instances);
+            DiscoveryListenerExecutor discoveryListenerExecutor = applicationContext.getBean(DiscoveryListenerExecutor.class);
+            discoveryListenerExecutor.fireGetInstances(serviceId, instances);
         }
 
         return instances;
@@ -49,8 +49,8 @@ public class DiscoveryClientDecorator implements DiscoveryClient {
 
         Boolean discoveryControlEnabled = PluginContextAware.isDiscoveryControlEnabled(environment);
         if (discoveryControlEnabled) {
-            DiscoveryStrategyExecutor discoveryStrategyExecutor = applicationContext.getBean(DiscoveryStrategyExecutor.class);
-            discoveryStrategyExecutor.fireGetServices(services);
+            DiscoveryListenerExecutor discoveryListenerExecutor = applicationContext.getBean(DiscoveryListenerExecutor.class);
+            discoveryListenerExecutor.fireGetServices(services);
         }
 
         return services;

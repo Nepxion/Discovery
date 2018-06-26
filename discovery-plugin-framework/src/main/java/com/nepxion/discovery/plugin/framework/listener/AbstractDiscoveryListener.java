@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.strategy;
+package com.nepxion.discovery.plugin.framework.listener;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -12,7 +12,7 @@ package com.nepxion.discovery.plugin.framework.strategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 
-public abstract class AbstractDiscoveryStrategy extends BasicStrategy implements DiscoveryStrategy {
+public abstract class AbstractDiscoveryListener extends BasicListener implements DiscoveryListener {
     @Autowired
     protected DiscoveryClient discoveryClient;
 

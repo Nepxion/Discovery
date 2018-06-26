@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.strategy.impl;
+package com.nepxion.discovery.plugin.framework.listener.impl;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -25,10 +25,10 @@ import com.nepxion.discovery.plugin.framework.entity.FilterType;
 import com.nepxion.discovery.plugin.framework.entity.RegisterEntity;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
-import com.nepxion.discovery.plugin.framework.strategy.AbstractRegisterStrategy;
+import com.nepxion.discovery.plugin.framework.listener.AbstractRegisterListener;
 
-public class IpAddressFilterRegisterStrategy extends AbstractRegisterStrategy {
-    private static final Logger LOG = LoggerFactory.getLogger(IpAddressFilterRegisterStrategy.class);
+public class IpAddressFilterRegisterListener extends AbstractRegisterListener {
+    private static final Logger LOG = LoggerFactory.getLogger(IpAddressFilterRegisterListener.class);
 
     @Autowired
     private RuleEntity ruleEntity;

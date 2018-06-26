@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.strategy.impl;
+package com.nepxion.discovery.plugin.framework.listener.impl;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -25,9 +25,9 @@ import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryServiceEntity;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.entity.VersionEntity;
-import com.nepxion.discovery.plugin.framework.strategy.AbstractDiscoveryStrategy;
+import com.nepxion.discovery.plugin.framework.listener.AbstractDiscoveryListener;
 
-public class VersionFilterDiscoveryStrategy extends AbstractDiscoveryStrategy {
+public class VersionFilterDiscoveryListener extends AbstractDiscoveryListener {
     @Autowired
     private RuleEntity ruleEntity;
 

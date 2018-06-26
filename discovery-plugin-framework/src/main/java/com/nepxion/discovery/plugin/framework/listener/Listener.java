@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.strategy;
+package com.nepxion.discovery.plugin.framework.listener;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -12,7 +12,7 @@ package com.nepxion.discovery.plugin.framework.strategy;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
-public interface Strategy {
+public interface Listener {
     ConfigurableApplicationContext getApplicationContext();
 
     ConfigurableEnvironment getEnvironment();

@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.strategy;
+package com.nepxion.discovery.plugin.framework.listener;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
-public class BasicStrategy implements Strategy {
+public class BasicListener implements Listener {
     @Autowired
     protected ConfigurableApplicationContext applicationContext;
 

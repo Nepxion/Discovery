@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.strategy;
+package com.nepxion.discovery.plugin.framework.listener;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -13,7 +13,7 @@ import java.util.List;
 
 import org.springframework.cloud.client.ServiceInstance;
 
-public interface DiscoveryStrategy extends Strategy {
+public interface DiscoveryListener extends Listener {
     void fireGetInstances(String serviceId, List<ServiceInstance> instances);
 
     void fireGetServices(List<String> services);
