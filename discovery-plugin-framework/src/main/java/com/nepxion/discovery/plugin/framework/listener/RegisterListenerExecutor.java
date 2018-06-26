@@ -28,49 +28,49 @@ public class RegisterListenerExecutor {
     @Autowired
     private ReentrantReadWriteLock reentrantReadWriteLock;
 
-    public void fireRegister(Registration registration) {
+    public void onRegister(Registration registration) {
         try {
             reentrantReadWriteLock.readLock().lock();
 
             for (RegisterListener registerListener : registerListenerList) {
                 if (registerListener != ipAddressFilterRegisterListener) {
-                    registerListener.fireRegister(registration);
+                    registerListener.onRegister(registration);
                 }
             }
 
-            ipAddressFilterRegisterListener.fireRegister(registration);
+            ipAddressFilterRegisterListener.onRegister(registration);
         } finally {
             reentrantReadWriteLock.readLock().unlock();
         }
     }
 
-    public void fireDeregister(Registration registration) {
+    public void onDeregister(Registration registration) {
         for (RegisterListener registerListener : registerListenerList) {
             if (registerListener != ipAddressFilterRegisterListener) {
-                registerListener.fireDeregister(registration);
+                registerListener.onDeregister(registration);
             }
         }
 
-        ipAddressFilterRegisterListener.fireDeregister(registration);
+        ipAddressFilterRegisterListener.onDeregister(registration);
     }
 
-    public void fireSetStatus(Registration registration, String status) {
+    public void onSetStatus(Registration registration, String status) {
         for (RegisterListener registerListener : registerListenerList) {
             if (registerListener != ipAddressFilterRegisterListener) {
-                registerListener.fireSetStatus(registration, status);
+                registerListener.onSetStatus(registration, status);
             }
         }
 
-        ipAddressFilterRegisterListener.fireSetStatus(registration, status);
+        ipAddressFilterRegisterListener.onSetStatus(registration, status);
     }
 
-    public void fireClose() {
+    public void onClose() {
         for (RegisterListener registerListener : registerListenerList) {
             if (registerListener != ipAddressFilterRegisterListener) {
-                registerListener.fireClose();
+                registerListener.onClose();
             }
         }
 
-        ipAddressFilterRegisterListener.fireClose();
+        ipAddressFilterRegisterListener.onClose();
     }
 }

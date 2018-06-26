@@ -32,16 +32,16 @@ public class DiscoveryListenerExecutor {
     @Autowired
     private ReentrantReadWriteLock reentrantReadWriteLock;
 
-    public void fireGetInstances(String serviceId, List<ServiceInstance> instances) {
+    public void onGetInstances(String serviceId, List<ServiceInstance> instances) {
         try {
             reentrantReadWriteLock.readLock().lock();
 
-            ipAddressFilterDiscoveryListener.fireGetInstances(serviceId, instances);
-            versionFilterDiscoveryListener.fireGetInstances(serviceId, instances);
+            ipAddressFilterDiscoveryListener.onGetInstances(serviceId, instances);
+            versionFilterDiscoveryListener.onGetInstances(serviceId, instances);
 
             for (DiscoveryListener discoveryListener : discoveryListenerList) {
                 if (discoveryListener != ipAddressFilterDiscoveryListener && discoveryListener != versionFilterDiscoveryListener) {
-                    discoveryListener.fireGetInstances(serviceId, instances);
+                    discoveryListener.onGetInstances(serviceId, instances);
                 }
             }
         } finally {
@@ -49,13 +49,13 @@ public class DiscoveryListenerExecutor {
         }
     }
 
-    public void fireGetServices(List<String> services) {
-        ipAddressFilterDiscoveryListener.fireGetServices(services);
-        versionFilterDiscoveryListener.fireGetServices(services);
+    public void onGetServices(List<String> services) {
+        ipAddressFilterDiscoveryListener.onGetServices(services);
+        versionFilterDiscoveryListener.onGetServices(services);
 
         for (DiscoveryListener discoveryListener : discoveryListenerList) {
             if (discoveryListener != ipAddressFilterDiscoveryListener && discoveryListener != versionFilterDiscoveryListener) {
-                discoveryListener.fireGetServices(services);
+                discoveryListener.onGetServices(services);
             }
         }
     }

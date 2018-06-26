@@ -34,7 +34,7 @@ public class IpAddressFilterRegisterListener extends AbstractRegisterListener {
     private RuleEntity ruleEntity;
 
     @Override
-    public void fireRegister(Registration registration) {
+    public void onRegister(Registration registration) {
         String serviceId = registration.getServiceId();
         String ipAddress = null;
 
@@ -109,17 +109,17 @@ public class IpAddressFilterRegisterListener extends AbstractRegisterListener {
     }
 
     @Override
-    public void fireDeregister(Registration registration) {
+    public void onDeregister(Registration registration) {
 
     }
 
     @Override
-    public void fireSetStatus(Registration registration, String status) {
+    public void onSetStatus(Registration registration, String status) {
 
     }
 
     @Override
-    public void fireClose() {
+    public void onClose() {
 
     }
 }

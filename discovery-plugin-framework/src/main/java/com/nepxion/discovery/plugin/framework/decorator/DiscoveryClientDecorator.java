@@ -37,7 +37,7 @@ public class DiscoveryClientDecorator implements DiscoveryClient {
         Boolean discoveryControlEnabled = PluginContextAware.isDiscoveryControlEnabled(environment);
         if (discoveryControlEnabled) {
             DiscoveryListenerExecutor discoveryListenerExecutor = applicationContext.getBean(DiscoveryListenerExecutor.class);
-            discoveryListenerExecutor.fireGetInstances(serviceId, instances);
+            discoveryListenerExecutor.onGetInstances(serviceId, instances);
         }
 
         return instances;
@@ -50,7 +50,7 @@ public class DiscoveryClientDecorator implements DiscoveryClient {
         Boolean discoveryControlEnabled = PluginContextAware.isDiscoveryControlEnabled(environment);
         if (discoveryControlEnabled) {
             DiscoveryListenerExecutor discoveryListenerExecutor = applicationContext.getBean(DiscoveryListenerExecutor.class);
-            discoveryListenerExecutor.fireGetServices(services);
+            discoveryListenerExecutor.onGetServices(services);
         }
 
         return services;

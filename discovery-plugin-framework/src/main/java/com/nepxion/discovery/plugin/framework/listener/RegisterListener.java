@@ -12,11 +12,11 @@ package com.nepxion.discovery.plugin.framework.listener;
 import org.springframework.cloud.client.serviceregistry.Registration;
 
 public interface RegisterListener extends Listener {
-    void fireRegister(Registration registration);
+    void onRegister(Registration registration);
 
-    void fireDeregister(Registration registration);
+    void onDeregister(Registration registration);
 
-    void fireSetStatus(Registration registration, String status);
+    void onSetStatus(Registration registration, String status);
 
-    void fireClose();
+    void onClose();
 }

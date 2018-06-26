@@ -29,7 +29,7 @@ public class IpAddressFilterDiscoveryListener extends AbstractDiscoveryListener 
     private RuleEntity ruleEntity;
 
     @Override
-    public void fireGetInstances(String serviceId, List<ServiceInstance> instances) {
+    public void onGetInstances(String serviceId, List<ServiceInstance> instances) {
         applyIpAddressFilter(serviceId, instances);
     }
 
@@ -101,7 +101,7 @@ public class IpAddressFilterDiscoveryListener extends AbstractDiscoveryListener 
     }
 
     @Override
-    public void fireGetServices(List<String> services) {
+    public void onGetServices(List<String> services) {
 
     }
 }

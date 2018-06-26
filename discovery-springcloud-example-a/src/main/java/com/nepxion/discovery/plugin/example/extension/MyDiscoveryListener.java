@@ -17,12 +17,12 @@ import com.nepxion.discovery.plugin.framework.listener.AbstractDiscoveryListener
 
 public class MyDiscoveryListener extends AbstractDiscoveryListener {
     @Override
-    public void fireGetInstances(String serviceId, List<ServiceInstance> instances) {
+    public void onGetInstances(String serviceId, List<ServiceInstance> instances) {
         System.out.println("========== getInstances() 被触发：serviceId=" + serviceId + " instances=" + instances + " ==========");
     }
 
     @Override
-    public void fireGetServices(List<String> services) {
+    public void onGetServices(List<String> services) {
         System.out.println("========== getServices() 被触发：services=" + services + " ==========");
     }
 }

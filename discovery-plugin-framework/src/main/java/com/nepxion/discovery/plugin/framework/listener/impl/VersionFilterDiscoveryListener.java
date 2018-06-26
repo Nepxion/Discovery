@@ -32,7 +32,7 @@ public class VersionFilterDiscoveryListener extends AbstractDiscoveryListener {
     private RuleEntity ruleEntity;
 
     @Override
-    public void fireGetInstances(String serviceId, List<ServiceInstance> instances) {
+    public void onGetInstances(String serviceId, List<ServiceInstance> instances) {
         String consumerServiceId = environment.getProperty(PluginConstant.SPRING_APPLICATION_NAME);
         String consumerServiceVersion = environment.getProperty(PluginConstant.EUREKA_METADATA_VERSION);
 
@@ -98,7 +98,7 @@ public class VersionFilterDiscoveryListener extends AbstractDiscoveryListener {
     }
 
     @Override
-    public void fireGetServices(List<String> services) {
+    public void onGetServices(List<String> services) {
 
     }
 }

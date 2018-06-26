@@ -16,22 +16,22 @@ import com.nepxion.discovery.plugin.framework.listener.AbstractRegisterListener;
 public class MyRegisterListener extends AbstractRegisterListener {
 
     @Override
-    public void fireRegister(Registration registration) {
+    public void onRegister(Registration registration) {
         System.out.println("========== register() 被触发：serviceId=" + registration.getServiceId());
     }
 
     @Override
-    public void fireDeregister(Registration registration) {
+    public void onDeregister(Registration registration) {
         System.out.println("========== deregister() 被触发：serviceId=" + registration.getServiceId());
     }
 
     @Override
-    public void fireSetStatus(Registration registration, String status) {
+    public void onSetStatus(Registration registration, String status) {
         System.out.println("========== setStatus() 被触发：serviceId=" + registration.getServiceId() + " status=" + status);
     }
 
     @Override
-    public void fireClose() {
+    public void onClose() {
         System.out.println("========== close() 被触发 ==========");
     }
 }

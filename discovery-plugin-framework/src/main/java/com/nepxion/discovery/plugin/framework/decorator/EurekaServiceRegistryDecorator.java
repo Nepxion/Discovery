@@ -34,7 +34,7 @@ public class EurekaServiceRegistryDecorator extends EurekaServiceRegistry {
         Boolean registerControlEnabled = PluginContextAware.isRegisterControlEnabled(environment);
         if (registerControlEnabled) {
             RegisterListenerExecutor registerListenerExecutor = applicationContext.getBean(RegisterListenerExecutor.class);
-            registerListenerExecutor.fireRegister(registration);
+            registerListenerExecutor.onRegister(registration);
         }
 
         serviceRegistry.register(registration);
@@ -45,7 +45,7 @@ public class EurekaServiceRegistryDecorator extends EurekaServiceRegistry {
         Boolean registerControlEnabled = PluginContextAware.isRegisterControlEnabled(environment);
         if (registerControlEnabled) {
             RegisterListenerExecutor registerListenerExecutor = applicationContext.getBean(RegisterListenerExecutor.class);
-            registerListenerExecutor.fireDeregister(registration);
+            registerListenerExecutor.onDeregister(registration);
         }
 
         serviceRegistry.deregister(registration);
@@ -56,7 +56,7 @@ public class EurekaServiceRegistryDecorator extends EurekaServiceRegistry {
         Boolean registerControlEnabled = PluginContextAware.isRegisterControlEnabled(environment);
         if (registerControlEnabled) {
             RegisterListenerExecutor registerListenerExecutor = applicationContext.getBean(RegisterListenerExecutor.class);
-            registerListenerExecutor.fireSetStatus(registration, status);
+            registerListenerExecutor.onSetStatus(registration, status);
         }
 
         serviceRegistry.setStatus(registration, status);
@@ -72,7 +72,7 @@ public class EurekaServiceRegistryDecorator extends EurekaServiceRegistry {
         Boolean registerControlEnabled = PluginContextAware.isRegisterControlEnabled(environment);
         if (registerControlEnabled) {
             RegisterListenerExecutor registerListenerExecutor = applicationContext.getBean(RegisterListenerExecutor.class);
-            registerListenerExecutor.fireClose();
+            registerListenerExecutor.onClose();
         }
 
         serviceRegistry.close();
