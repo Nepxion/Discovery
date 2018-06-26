@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.strategy;
+package com.nepxion.discovery.plugin.framework.strategy.impl;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
@@ -24,95 +23,20 @@ import org.springframework.cloud.client.ServiceInstance;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryServiceEntity;
-import com.nepxion.discovery.plugin.framework.entity.FilterEntity;
-import com.nepxion.discovery.plugin.framework.entity.FilterType;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.entity.VersionEntity;
+import com.nepxion.discovery.plugin.framework.strategy.AbstractDiscoveryStrategy;
 
-public class DiscoveryControlStrategy {
+public class VersionFilterDiscoveryStrategy extends AbstractDiscoveryStrategy {
     @Autowired
     private RuleEntity ruleEntity;
 
-    @Autowired
-    private ReentrantReadWriteLock reentrantReadWriteLock;
+    @Override
+    public void fireGetInstances(String serviceId, List<ServiceInstance> instances) {
+        String consumerServiceId = environment.getProperty(PluginConstant.SPRING_APPLICATION_NAME);
+        String consumerServiceVersion = environment.getProperty(PluginConstant.EUREKA_METADATA_VERSION);
 
-    public void apply(String consumerServiceId, String consumerServiceVersion, String providerServiceId, List<ServiceInstance> instances) {
-        try {
-            reentrantReadWriteLock.readLock().lock();
-
-            applyIpAddressFilter(providerServiceId, instances);
-
-            applyVersionFilter(consumerServiceId, consumerServiceVersion, providerServiceId, instances);
-        } finally {
-            reentrantReadWriteLock.readLock().unlock();
-        }
-    }
-
-    private void applyIpAddressFilter(String providerServiceId, List<ServiceInstance> instances) {
-        DiscoveryEntity discoveryEntity = ruleEntity.getDiscoveryEntity();
-        if (discoveryEntity == null) {
-            return;
-        }
-
-        FilterEntity filterEntity = discoveryEntity.getFilterEntity();
-        if (filterEntity == null) {
-            return;
-        }
-
-        FilterType filterType = filterEntity.getFilterType();
-
-        List<String> globalFilterValueList = filterEntity.getFilterValueList();
-        Map<String, List<String>> filterMap = filterEntity.getFilterMap();
-        List<String> filterValueList = filterMap.get(providerServiceId);
-
-        List<String> allFilterValueList = new ArrayList<String>();
-        if (CollectionUtils.isNotEmpty(globalFilterValueList)) {
-            allFilterValueList.addAll(globalFilterValueList);
-        }
-
-        if (CollectionUtils.isNotEmpty(filterValueList)) {
-            allFilterValueList.addAll(filterValueList);
-        }
-
-        Iterator<ServiceInstance> iterator = instances.iterator();
-        while (iterator.hasNext()) {
-            ServiceInstance serviceInstance = iterator.next();
-            String host = serviceInstance.getHost();
-            switch (filterType) {
-                case BLACKLIST:
-                    if (validateBlacklist(allFilterValueList, host)) {
-                        iterator.remove();
-                    }
-                    break;
-                case WHITELIST:
-                    if (validateWhitelist(allFilterValueList, host)) {
-                        iterator.remove();
-                    }
-                    break;
-            }
-        }
-    }
-
-    private boolean validateBlacklist(List<String> allFilterValueList, String ipAddress) {
-        for (String filterValue : allFilterValueList) {
-            if (ipAddress.startsWith(filterValue)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private boolean validateWhitelist(List<String> allFilterValueList, String ipAddress) {
-        boolean matched = true;
-        for (String filterValue : allFilterValueList) {
-            if (ipAddress.startsWith(filterValue)) {
-                matched = false;
-                break;
-            }
-        }
-
-        return matched;
+        applyVersionFilter(consumerServiceId, consumerServiceVersion, serviceId, instances);
     }
 
     private void applyVersionFilter(String consumerServiceId, String consumerServiceVersion, String providerServiceId, List<ServiceInstance> instances) {
@@ -171,5 +95,10 @@ public class DiscoveryControlStrategy {
                 iterator.remove();
             }
         }
+    }
+
+    @Override
+    public void fireGetServices(List<String> services) {
+
     }
 }

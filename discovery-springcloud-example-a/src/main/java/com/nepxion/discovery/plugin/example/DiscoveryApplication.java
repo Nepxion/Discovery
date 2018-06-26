@@ -14,6 +14,8 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 
+import com.nepxion.discovery.plugin.example.extension.MyDiscoveryStrategy;
+import com.nepxion.discovery.plugin.example.extension.MyRegisterStrategy;
 import com.nepxion.discovery.plugin.example.impl.DiscoveryConfigAdapter;
 
 @SpringBootApplication
@@ -26,5 +28,15 @@ public class DiscoveryApplication {
     @Bean
     public DiscoveryConfigAdapter discoveryConfigLoader() {
         return new DiscoveryConfigAdapter();
+    }
+
+    @Bean
+    public MyRegisterStrategy myRegisterStrategy() {
+        return new MyRegisterStrategy();
+    }
+
+    @Bean
+    public MyDiscoveryStrategy myDiscoveryStrategy() {
+        return new MyDiscoveryStrategy();
     }
 }

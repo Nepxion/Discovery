@@ -17,8 +17,11 @@ import org.springframework.context.annotation.Configuration;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
-import com.nepxion.discovery.plugin.framework.strategy.DiscoveryControlStrategy;
-import com.nepxion.discovery.plugin.framework.strategy.RegisterControlStrategy;
+import com.nepxion.discovery.plugin.framework.strategy.DiscoveryStrategyExecutor;
+import com.nepxion.discovery.plugin.framework.strategy.RegisterStrategyExecutor;
+import com.nepxion.discovery.plugin.framework.strategy.impl.IpAddressFilterDiscoveryStrategy;
+import com.nepxion.discovery.plugin.framework.strategy.impl.IpAddressFilterRegisterStrategy;
+import com.nepxion.discovery.plugin.framework.strategy.impl.VersionFilterDiscoveryStrategy;
 
 @Configuration
 public class PluginAutoConfiguration {
@@ -57,12 +60,27 @@ public class PluginAutoConfiguration {
     }
 
     @Bean
-    public RegisterControlStrategy registerControlStrategy() {
-        return new RegisterControlStrategy();
+    public RegisterStrategyExecutor registerStrategyExecutor() {
+        return new RegisterStrategyExecutor();
     }
 
     @Bean
-    public DiscoveryControlStrategy discoveryControlStrategy() {
-        return new DiscoveryControlStrategy();
+    public DiscoveryStrategyExecutor discoveryStrategyExecutor() {
+        return new DiscoveryStrategyExecutor();
+    }
+
+    @Bean
+    public IpAddressFilterRegisterStrategy ipAddressFilterRegisterStrategy() {
+        return new IpAddressFilterRegisterStrategy();
+    }
+
+    @Bean
+    public IpAddressFilterDiscoveryStrategy ipAddressFilterDiscoveryStrategy() {
+        return new IpAddressFilterDiscoveryStrategy();
+    }
+
+    @Bean
+    public VersionFilterDiscoveryStrategy versionFilterDiscoveryStrategy() {
+        return new VersionFilterDiscoveryStrategy();
     }
 }

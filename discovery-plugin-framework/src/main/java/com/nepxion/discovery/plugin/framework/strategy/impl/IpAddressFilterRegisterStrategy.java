@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.strategy;
+package com.nepxion.discovery.plugin.framework.strategy.impl;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -12,36 +12,38 @@ package com.nepxion.discovery.plugin.framework.strategy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.serviceregistry.Registration;
+import org.springframework.cloud.netflix.eureka.serviceregistry.EurekaRegistration;
 
 import com.nepxion.discovery.plugin.framework.entity.FilterEntity;
 import com.nepxion.discovery.plugin.framework.entity.FilterType;
 import com.nepxion.discovery.plugin.framework.entity.RegisterEntity;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
+import com.nepxion.discovery.plugin.framework.strategy.AbstractRegisterStrategy;
 
-public class RegisterControlStrategy {
-    private static final Logger LOG = LoggerFactory.getLogger(RegisterControlStrategy.class);
+public class IpAddressFilterRegisterStrategy extends AbstractRegisterStrategy {
+    private static final Logger LOG = LoggerFactory.getLogger(IpAddressFilterRegisterStrategy.class);
 
     @Autowired
     private RuleEntity ruleEntity;
 
-    @Autowired
-    private ReentrantReadWriteLock reentrantReadWriteLock;
+    @Override
+    public void fireRegister(Registration registration) {
+        String serviceId = registration.getServiceId();
+        String ipAddress = null;
 
-    public void apply(String serviceId, String ipAddress) {
-        try {
-            reentrantReadWriteLock.readLock().lock();
-
-            applyIpAddressFilter(serviceId, ipAddress);
-        } finally {
-            reentrantReadWriteLock.readLock().unlock();
+        if (registration instanceof EurekaRegistration) {
+            EurekaRegistration eurekaRegistration = (EurekaRegistration) registration;
+            ipAddress = eurekaRegistration.getInstanceConfig().getIpAddress();
         }
+
+        applyIpAddressFilter(serviceId, ipAddress);
     }
 
     private void applyIpAddressFilter(String serviceId, String ipAddress) {
@@ -104,5 +106,20 @@ public class RegisterControlStrategy {
         if (matched) {
             throw new PluginException(ipAddress + " isn't allowed to register to Eureka server, because it isn't in whitelist");
         }
+    }
+
+    @Override
+    public void fireDeregister(Registration registration) {
+
+    }
+
+    @Override
+    public void fireSetStatus(Registration registration, String status) {
+
+    }
+
+    @Override
+    public void fireClose() {
+
     }
 }

@@ -16,9 +16,8 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
-import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
-import com.nepxion.discovery.plugin.framework.strategy.DiscoveryControlStrategy;
+import com.nepxion.discovery.plugin.framework.strategy.DiscoveryStrategyExecutor;
 
 public class DiscoveryClientDecorator implements DiscoveryClient {
     private DiscoveryClient discoveryClient;
@@ -32,8 +31,29 @@ public class DiscoveryClientDecorator implements DiscoveryClient {
     }
 
     @Override
-    public String description() {
-        return discoveryClient.description();
+    public List<ServiceInstance> getInstances(String serviceId) {
+        List<ServiceInstance> instances = discoveryClient.getInstances(serviceId);
+
+        Boolean discoveryControlEnabled = PluginContextAware.isDiscoveryControlEnabled(environment);
+        if (discoveryControlEnabled) {
+            DiscoveryStrategyExecutor discoveryStrategyExecutor = applicationContext.getBean(DiscoveryStrategyExecutor.class);
+            discoveryStrategyExecutor.fireGetInstances(serviceId, instances);
+        }
+
+        return instances;
+    }
+
+    @Override
+    public List<String> getServices() {
+        List<String> services = discoveryClient.getServices();
+
+        Boolean discoveryControlEnabled = PluginContextAware.isDiscoveryControlEnabled(environment);
+        if (discoveryControlEnabled) {
+            DiscoveryStrategyExecutor discoveryStrategyExecutor = applicationContext.getBean(DiscoveryStrategyExecutor.class);
+            discoveryStrategyExecutor.fireGetServices(services);
+        }
+
+        return services;
     }
 
     @Deprecated
@@ -43,24 +63,8 @@ public class DiscoveryClientDecorator implements DiscoveryClient {
     }
 
     @Override
-    public List<ServiceInstance> getInstances(String serviceId) {
-        List<ServiceInstance> instances = discoveryClient.getInstances(serviceId);
-
-        Boolean discoveryControlEnabled = PluginContextAware.isDiscoveryControlEnabled(environment);
-        if (discoveryControlEnabled) {
-            String applicationName = environment.getProperty(PluginConstant.SPRING_APPLICATION_NAME);
-            String metadataVersion = environment.getProperty(PluginConstant.EUREKA_METADATA_VERSION);
-
-            DiscoveryControlStrategy discoveryControlStrategy = applicationContext.getBean(DiscoveryControlStrategy.class);
-            discoveryControlStrategy.apply(applicationName, metadataVersion, serviceId, instances);
-        }
-
-        return instances;
-    }
-
-    @Override
-    public List<String> getServices() {
-        return discoveryClient.getServices();
+    public String description() {
+        return discoveryClient.description();
     }
 
     public ConfigurableEnvironment getEnvironment() {

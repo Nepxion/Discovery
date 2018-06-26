@@ -16,7 +16,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
-import com.nepxion.discovery.plugin.framework.strategy.RegisterControlStrategy;
+import com.nepxion.discovery.plugin.framework.strategy.RegisterStrategyExecutor;
 
 public class EurekaServiceRegistryDecorator extends EurekaServiceRegistry {
     private ServiceRegistry<EurekaRegistration> serviceRegistry;
@@ -33,11 +33,8 @@ public class EurekaServiceRegistryDecorator extends EurekaServiceRegistry {
     public void register(EurekaRegistration registration) {
         Boolean registerControlEnabled = PluginContextAware.isRegisterControlEnabled(environment);
         if (registerControlEnabled) {
-            String serviceId = registration.getServiceId();
-            String ipAddress = registration.getInstanceConfig().getIpAddress();
-
-            RegisterControlStrategy registerControlStrategy = applicationContext.getBean(RegisterControlStrategy.class);
-            registerControlStrategy.apply(serviceId, ipAddress);
+            RegisterStrategyExecutor registerStrategyExecutor = applicationContext.getBean(RegisterStrategyExecutor.class);
+            registerStrategyExecutor.fireRegister(registration);
         }
 
         serviceRegistry.register(registration);
@@ -45,22 +42,40 @@ public class EurekaServiceRegistryDecorator extends EurekaServiceRegistry {
 
     @Override
     public void deregister(EurekaRegistration registration) {
+        Boolean registerControlEnabled = PluginContextAware.isRegisterControlEnabled(environment);
+        if (registerControlEnabled) {
+            RegisterStrategyExecutor registerStrategyExecutor = applicationContext.getBean(RegisterStrategyExecutor.class);
+            registerStrategyExecutor.fireDeregister(registration);
+        }
+
         serviceRegistry.deregister(registration);
     }
 
     @Override
-    public void close() {
-        serviceRegistry.close();
-    }
-
-    @Override
     public void setStatus(EurekaRegistration registration, String status) {
+        Boolean registerControlEnabled = PluginContextAware.isRegisterControlEnabled(environment);
+        if (registerControlEnabled) {
+            RegisterStrategyExecutor registerStrategyExecutor = applicationContext.getBean(RegisterStrategyExecutor.class);
+            registerStrategyExecutor.fireSetStatus(registration, status);
+        }
+
         serviceRegistry.setStatus(registration, status);
     }
 
     @Override
     public Object getStatus(EurekaRegistration registration) {
         return serviceRegistry.getStatus(registration);
+    }
+
+    @Override
+    public void close() {
+        Boolean registerControlEnabled = PluginContextAware.isRegisterControlEnabled(environment);
+        if (registerControlEnabled) {
+            RegisterStrategyExecutor registerStrategyExecutor = applicationContext.getBean(RegisterStrategyExecutor.class);
+            registerStrategyExecutor.fireClose();
+        }
+
+        serviceRegistry.close();
     }
 
     public ConfigurableEnvironment getEnvironment() {
