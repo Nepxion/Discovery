@@ -84,7 +84,7 @@ public class AdminEndpoint extends AbstractMvcEndpoint {
             throw new PluginException("To input stream failed", e);
         }
 
-        return "Send config successfully";
+        return "success";
     }
 
     @RequestMapping(path = "view", method = RequestMethod.GET)
@@ -115,7 +115,7 @@ public class AdminEndpoint extends AbstractMvcEndpoint {
 
         LOG.info("Deregister for serviceId={} successfully", registration.getServiceId());
 
-        return "Deregister successfully";
+        return "success";
     }
 
     @RequestMapping(path = "status", method = RequestMethod.POST)
@@ -135,6 +135,6 @@ public class AdminEndpoint extends AbstractMvcEndpoint {
 
         LOG.info("Set status for serviceId={} status={} successfully", registration.getServiceId(), status);
 
-        return "Set status successfully";
+        return "success";
     }
 }
