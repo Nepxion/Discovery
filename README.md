@@ -188,6 +188,7 @@ AbstractDiscoveryListener，实现服务发现的扩展和监听
 ![Alt text](https://github.com/Nepxion/Discovery/blob/master/discovery-plugin-doc/Version.jpg)
 
 上述服务分别见discovery-springcloud-example-xx字样的6个工程，对应的版本，端口号如下表
+
 | 服务 | 服务端口 | 管理端口 | 版本 |
 | --- | --- | --- | --- |
 | A | 1100 | 8100 | 1.0 |
