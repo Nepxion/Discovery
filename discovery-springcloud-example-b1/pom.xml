@@ -19,6 +19,7 @@
     <properties>
         <spring.cloud.version>Dalston.SR5</spring.cloud.version>
         <!-- <spring.cloud.version>Edgware.SR3</spring.cloud.version> -->
+        <discovery.plugin.version>2.0.9</discovery.plugin.version>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -36,6 +37,12 @@
     </dependencyManagement>
 
     <dependencies>
+        <dependency>
+            <groupId>com.nepxion</groupId>
+            <artifactId>discovery-plugin-starter</artifactId>
+            <version>${discovery.plugin.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-eureka</artifactId>
