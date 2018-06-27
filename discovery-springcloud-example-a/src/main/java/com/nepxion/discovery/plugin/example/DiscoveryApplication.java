@@ -26,7 +26,7 @@ public class DiscoveryApplication {
     }
 
     @Bean
-    public DiscoveryConfigAdapter discoveryConfigLoader() {
+    public DiscoveryConfigAdapter discoveryConfigAdapter() {
         return new DiscoveryConfigAdapter();
     }
 
