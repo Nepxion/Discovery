@@ -4,7 +4,7 @@
 [![Javadocs](http://www.javadoc.io/badge/com.nepxion/discovery-plugin.svg)](http://www.javadoc.io/doc/com.nepxion/discovery-plugin)
 [![Build Status](https://travis-ci.org/Nepxion/Discovery.svg?branch=master)](https://travis-ci.org/Nepxion/Discovery)
 
-Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件，目前暂时只支持Eureka。现在Spring Cloud服务可以方便引入该插件，不需要对业务代码做任何修改，只需要修改配置即可
+Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件，目前暂时只支持Eureka。现在Spring Cloud服务可以方便引入该插件，不需要对业务代码做任何修改，只需要修改规则（XML）即可
 
 ## 简介
 支持如下功能
@@ -12,17 +12,18 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
     1. 实现服务注册层面的控制，基于黑/白名单的IP地址过滤机制禁止对相应的微服务进行注册
     2. 实现服务发现层面的控制，基于黑/白名单的IP地址过滤机制禁止对相应的微服务被发现；通过对消费端和提供端可访问版本对应关系的配置，进行多版本灰度访问控制
     3. 实现通过下面两种推送方式，动态改变“服务发现层面的控制”
-    4. 实现通过事件总线机制（EventBus）异步对接远程配置中心，接受远程配置中心主动推送配置信息
-    5. 实现通过事件总线机制（EventBus）异步接受Rest主动推送配置信息
-    6. 实现通过Listener机制便于使用者扩展更多过滤条件，也可以利用Listener实现服务注册发现核心事件的监听
+    4. 实现通过XML进行规则定义
+    5. 实现通过事件总线机制（EventBus）异步对接远程配置中心，接受远程配置中心主动推送规则信息
+    6. 实现通过事件总线机制（EventBus）异步接受Rest主动推送规则信息
+    7. 实现通过Listener机制便于使用者扩展更多过滤条件，也可以利用Listener实现服务注册发现核心事件的监听
 
 ## 场景
 
     1. 黑/白名单的IP地址注册的过滤
-       开发环境的本地服务（例如IP地址为172.16.0.8）不希望被注册到测试环境的服务注册发现中心，那么可以在配置中心维护一个黑/白名单的IP地址过滤（支持全局和局部的过滤）
+       开发环境的本地服务（例如IP地址为172.16.0.8）不希望被注册到测试环境的服务注册发现中心，那么可以在配置中心维护一个黑/白名单的IP地址过滤（支持全局和局部的过滤）的规则
        我们可以通过提供一份黑/白名单达到该效果
     2. 黑/白名单的IP地址发现的过滤
-       开发环境的本地服务（例如IP地址为172.16.0.8）已经注册到测试环境的服务注册发现中心，那么可以在配置中心维护一个黑/白名单的IP地址过滤（支持全局和局部的过滤），该本地服务不会被其他测试环境的服务所调用
+       开发环境的本地服务（例如IP地址为172.16.0.8）已经注册到测试环境的服务注册发现中心，那么可以在配置中心维护一个黑/白名单的IP地址过滤（支持全局和局部的过滤）的规则，该本地服务不会被其他测试环境的服务所调用
        我们可以通过推送一份黑/白名单达到该效果
     3. 多版本灰度访问控制
        A服务调用B服务，而B服务有两个实例（B1、B2和B3），虽然三者相同的服务名，但功能上有差异，需求是在某个时刻，A服务只能调用B1，禁止调用B2和B3。在此场景下，我们在application.properties里为B1维护一个版本为1.0，为B2维护一个版本为1.1，以此类推
@@ -77,9 +78,9 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
 </rule>
 ```
 
-### 多版本灰度配置策略
+### 多版本灰度规则策略
 ```xml
-配置策略介绍
+规则策略介绍
 1. 标准配置，举例如下
    <service consumer-service-name="a" provider-service-name="b" consumer-version-value="1.0" provider-version-value="1.0,1.1"/> 表示消费端1.0版本，允许访问提供端1.0和1.1版本
 2. 版本值不配置，举例如下
@@ -99,24 +100,24 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
 ## 跟远程配置中心整合
 使用者可以跟携程Apollo，百度DisConf等远程配置中心整合
 ```xml
-1. 主动从本地或远程配置中心获取配置
-2. 订阅远程配置中心的配置更新
+1. 主动从本地或远程配置中心获取规则
+2. 订阅远程配置中心的规则更新
 ```
 继承ConfigAdapter.java
 ```java
 public class DiscoveryConfigAdapter extends ConfigAdapter {
-    // 通过application.properties里的spring.application.discovery.remote.config.enabled=true，来决定主动从本地，还是远程配置中心获取配置
-    // 从本地获取配置
+    // 通过application.properties里的spring.application.discovery.remote.config.enabled=true，来决定主动从本地，还是远程配置中心获取规则
+    // 从本地获取规则
     @Override
     protected String getLocalContextPath() {
-        // 配置文件放在resources目录下
+        // 规则文件放在resources目录下
         return "classpath:rule.xml";
 
-        // 配置文件放在工程根目录下
+        // 规则文件放在工程根目录下
         // return "file:rule.xml";
     }
 
-    // 从远程配置中心获取配置
+    // 从远程配置中心获取规则
     @Override
     public InputStream getRemoteInputStream() {
         InputStream inputStream = ...;
@@ -124,7 +125,7 @@ public class DiscoveryConfigAdapter extends ConfigAdapter {
         return inputStream;
     }
 
-    // 订阅远程配置中心的配置更新
+    // 订阅远程配置中心的规则更新
     @PostConstruct
     public void publish() {
        InputStream inputStream = ...;
@@ -134,7 +135,7 @@ public class DiscoveryConfigAdapter extends ConfigAdapter {
 }
 ```
 
-实现接收远程配置中心推送过来的配置更新
+实现接收远程配置中心推送过来的规则更新
 ```java
 public class DiscoveryConfigSubscriber {
     @Autowired
@@ -148,13 +149,13 @@ public class DiscoveryConfigSubscriber {
 ```
 
 ## 不整合远程配置中心
-使用者可以通过Rest方式主动向一个微服务推送配置信息，但该方式只能每次推送到一个微服务上
+使用者可以通过Rest方式主动向一个微服务推送规则信息，但该方式只能每次推送到一个微服务上
 ```xml
 利用Post执行http://IP:PORT/admin/config，发送的内容即规则XML
 ```
 
-## 查看配置
-使用者可以通过Rest方式主动向一个微服务推送配置信息，但该方式只能每次推送到一个微服务上
+## 查看当前生效的规则
+使用者可以通过Rest方式主动请求某个微服务当前生效的规则
 ```xml
 利用Get执行http://IP:PORT/admin/view
 ```
@@ -192,7 +193,7 @@ eureka.instance.metadataMap.version=1.0
 spring.application.register.control.enabled=true
 # 开启和关闭服务发现层面的控制。一旦关闭，服务多版本调用的控制功能将失效，动态屏蔽指定IP地址的服务实例被发现的功能将失效。缺失则默认为true
 spring.application.discovery.control.enabled=true
-# 开启和关闭远程配置中心规则配置文件读取。一旦关闭，默认读取本地规则配置文件（例如：rule.xml）。缺失则默认为true
+# 开启和关闭远程配置中心规则规则文件读取。一旦关闭，默认读取本地规则规则文件（例如：rule.xml）。缺失则默认为true
 spring.application.discovery.remote.config.enabled=true
 
 management.security.enabled=false
