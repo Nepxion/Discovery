@@ -6,7 +6,7 @@
     <name>Nepxion Discovery Spring Cloud Example B1</name>
     <packaging>jar</packaging>
     <modelVersion>4.0.0</modelVersion>
-    <version>${revision}</version>
+    <version>1.0.0</version>
     <description>Nepxion Discovery is an enhancement for Spring Cloud Discovery</description>
     <url>http://www.nepxion.com</url>
 
@@ -17,7 +17,6 @@
     </parent>
 
     <properties>
-        <revision>1.0.0</revision>
         <spring.cloud.version>Dalston.SR5</spring.cloud.version>
         <!-- <spring.cloud.version>Edgware.SR3</spring.cloud.version> -->
         <java.version>1.8</java.version>
