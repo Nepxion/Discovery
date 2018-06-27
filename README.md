@@ -203,9 +203,9 @@ AbstractDiscoveryListener，实现服务发现的扩展和监听
 2. 通过Postman或者浏览器，执行GET  http://localhost:1200/instances，查看当前B1服务可访问C服务的列表，如图2
 3. 通过Postman或者浏览器，执行GET  http://localhost:1201/instances，查看当前B2服务可访问C服务的列表，如图3
 4. 通过Postman或者浏览器，执行POST http://localhost:8200/admin/config，发送新的规则XML，那么在B1服务上将会运行新的规则，再运行上述步骤，查看服务列表
-4. 通过Postman或者浏览器，执行POST http://localhost:8201/admin/config，发送同样的规则XML，那么在B1服务上将会运行新的规则，再运行上述步骤，查看服务列表
-5. 通过Postman或者浏览器，执行GET  http://localhost:8200/admin/view，查看当前在B1服务已经生效的规则
-5. 通过Postman或者浏览器，执行GET  http://localhost:8201/admin/view，查看当前在B2服务已经生效的规则
+5. 通过Postman或者浏览器，执行POST http://localhost:8201/admin/config，发送同样的规则XML，那么在B1服务上将会运行新的规则，再运行上述步骤，查看服务列表
+6. 通过Postman或者浏览器，执行GET  http://localhost:8200/admin/view，查看当前在B1服务已经生效的规则
+7. 通过Postman或者浏览器，执行GET  http://localhost:8201/admin/view，查看当前在B2服务已经生效的规则
 ```
 图2
 
