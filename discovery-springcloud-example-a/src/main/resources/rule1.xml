@@ -27,7 +27,7 @@
         <!-- 服务发现的多版本灰度访问控制 -->
         <!-- service-name，表示服务名 -->
         <!-- version-value，表示可供访问的版本，如果多个用“;”分隔，不允许出现空格 -->
-        <!-- 配置策略介绍 -->
+        <!-- 版本策略介绍 -->
         <!-- 1. 标准配置，举例如下 -->
         <!--    <service consumer-service-name="a" provider-service-name="b" consumer-version-value="1.0" provider-version-value="1.0;1.1"/> 表示消费端1.0版本，允许访问提供端1.0和1.1版本 -->
         <!-- 2. 版本值不配置，举例如下 -->

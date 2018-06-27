@@ -80,7 +80,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
 
 ### 多版本灰度规则策略
 ```xml
-规则策略介绍
+版本策略介绍
 1. 标准配置，举例如下
    <service consumer-service-name="a" provider-service-name="b" consumer-version-value="1.0" provider-version-value="1.0,1.1"/> 表示消费端1.0版本，允许访问提供端1.0和1.1版本
 2. 版本值不配置，举例如下
@@ -193,9 +193,10 @@ eureka.instance.metadataMap.version=1.0
 spring.application.register.control.enabled=true
 # 开启和关闭服务发现层面的控制。一旦关闭，服务多版本调用的控制功能将失效，动态屏蔽指定IP地址的服务实例被发现的功能将失效。缺失则默认为true
 spring.application.discovery.control.enabled=true
-# 开启和关闭远程配置中心规则规则文件读取。一旦关闭，默认读取本地规则规则文件（例如：rule.xml）。缺失则默认为true
+# 开启和关闭远程配置中心规则文件读取。一旦关闭，默认读取本地规则文件（例如：rule.xml）。缺失则默认为true
 spring.application.discovery.remote.config.enabled=true
 
+management.port=5432
 management.security.enabled=false
 ```
 

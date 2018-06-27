@@ -17,21 +17,21 @@ import org.apache.commons.io.FileUtils;
 
 import com.nepxion.discovery.plugin.configcenter.ConfigAdapter;
 
-// 模拟主动从本地或远程配置中心获取配置
-// 模拟订阅远程配置中心的配置更新
+// 模拟主动从本地或远程配置中心获取规则
+// 模拟订阅远程配置中心的规则更新
 public class DiscoveryConfigAdapter extends ConfigAdapter {
-    // 通过application.properties里的spring.application.discovery.remote.config.enabled=true，来决定主动从本地，还是远程配置中心获取配置
-    // 从本地获取配置
+    // 通过application.properties里的spring.application.discovery.remote.config.enabled=true，来决定主动从本地，还是远程配置中心获取规则
+    // 从本地获取规则
     @Override
     protected String getLocalContextPath() {
-        // 配置文件放在resources目录下
+        // 规则文件放在resources目录下
         return "classpath:rule1.xml";
 
-        // 配置文件放在工程根目录下
+        // 规则文件放在工程根目录下
         // return "file:rule1.xml";
     }
 
-    // 从远程配置中心获取配置
+    // 从远程配置中心获取规则
     @Override
     public InputStream getRemoteInputStream() {
         try {
@@ -43,12 +43,12 @@ public class DiscoveryConfigAdapter extends ConfigAdapter {
         return null;
     }
 
-    // 订阅远程配置中心的配置更新
+    // 订阅远程配置中心的规则更新
     /*@PostConstruct
     public void publish() {
         ThreadLocalRandom threadLocalRandom = ThreadLocalRandom.current();
 
-        // 模拟每隔15秒通过EventBus接收远程配置中心推送过来的配置更新
+        // 模拟每隔15秒通过EventBus接收远程配置中心推送过来的规则更新
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
