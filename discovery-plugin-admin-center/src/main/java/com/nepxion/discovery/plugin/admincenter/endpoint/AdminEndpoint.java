@@ -84,7 +84,7 @@ public class AdminEndpoint extends AbstractMvcEndpoint {
             throw new PluginException("To input stream failed", e);
         }
 
-        return "success";
+        return "Send config successfully";
     }
 
     @RequestMapping(path = "view", method = RequestMethod.GET)
@@ -96,26 +96,6 @@ public class AdminEndpoint extends AbstractMvcEndpoint {
         }
 
         return ruleEntity.getContent();
-    }
-
-    @RequestMapping(path = "status", method = RequestMethod.POST)
-    @ResponseBody
-    @ManagedOperation
-    public Object status(@RequestBody String status) {
-        Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
-        if (!discoveryControlEnabled) {
-            return new ResponseEntity<>(Collections.singletonMap("Message", "Discovery control is disabled"), HttpStatus.NOT_FOUND);
-        }
-
-        if (registration == null) {
-            throw new PluginException("No registration found");
-        }
-
-        serviceRegistry.setStatus(registration, status);
-
-        LOG.info("Set status for serviceId={} status={} successfully", registration.getServiceId(), status);
-
-        return "success";
     }
 
     @RequestMapping(path = "deregister", method = RequestMethod.POST)
@@ -135,6 +115,26 @@ public class AdminEndpoint extends AbstractMvcEndpoint {
 
         LOG.info("Deregister for serviceId={} successfully", registration.getServiceId());
 
-        return "success";
+        return "Deregister successfully";
+    }
+
+    @RequestMapping(path = "status", method = RequestMethod.POST)
+    @ResponseBody
+    @ManagedOperation
+    public Object status(@RequestBody String status) {
+        Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
+        if (!discoveryControlEnabled) {
+            return new ResponseEntity<>(Collections.singletonMap("Message", "Discovery control is disabled"), HttpStatus.NOT_FOUND);
+        }
+
+        if (registration == null) {
+            throw new PluginException("No registration found");
+        }
+
+        serviceRegistry.setStatus(registration, status);
+
+        LOG.info("Set status for serviceId={} status={} successfully", registration.getServiceId(), status);
+
+        return "Set status successfully";
     }
 }
