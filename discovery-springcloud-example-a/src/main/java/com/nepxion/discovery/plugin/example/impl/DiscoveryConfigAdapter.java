@@ -43,7 +43,7 @@ public class DiscoveryConfigAdapter extends ConfigAdapter {
         return null;
     }
 
-    // 订阅远程配置中心的规则更新
+    // 订阅远程配置中心的规则更新（推送策略自己决定，可以所有服务都只对应一个规则信息，也可以根据服务名获取对应的规则信息）
     /*@PostConstruct
     public void publish() {
         ThreadLocalRandom threadLocalRandom = ThreadLocalRandom.current();
