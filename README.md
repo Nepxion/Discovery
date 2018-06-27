@@ -142,19 +142,6 @@ public class DiscoveryConfigAdapter extends ConfigAdapter {
 }
 ```
 
-实现接收远程配置中心推送过来的规则更新
-```java
-public class DiscoveryConfigSubscriber {
-    @Autowired
-    private ConfigPublisher configPublisher;
-
-    public void subscribe() {
-        // 订阅远程推送内容，再通过内置的发布订阅机制异步推送给缓存
-        configPublisher.publish(inputStream);
-    }
-}
-```
-
 ### 单独推送规则信息
 使用者可以通过Rest方式主动向一个微服务推送规则信息，但该方式只能每次推送到一个微服务上
 ```xml
