@@ -15,8 +15,13 @@ public class PluginConstant {
     public static final String SPRING_APPLICATION_DISCOVERY_REMOTE_CONFIG_ENABLED = "spring.application.discovery.remote.config.enabled";
 
     public static final String SPRING_APPLICATION_NAME = "spring.application.name";
-    public static final String EUREKA_METADATA_VERSION = "eureka.instance.metadataMap.version"; 
+    public static final String EUREKA_METADATA_VERSION = "eureka.instance.metadataMap.version";
+    public static final String SERVICE_ID = "serviceId";
     public static final String VERSION = "version";
+    public static final String METADATA = "metadata";
+    public static final String HOST = "host";
+    public static final String PORT = "port";
+    public static final String INSTANCES = "instances";
 
     public static final String ENCODING_UTF_8 = "UTF-8";
     public static final String SEPARATE = ";";
