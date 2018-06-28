@@ -233,7 +233,7 @@ AbstractDiscoveryListener，实现服务发现的扩展和监听
 图1
 ![Alt text](https://github.com/Nepxion/Discovery/blob/master/discovery-plugin-doc/Version.jpg)
 
-上述服务分别见discovery-springcloud-example-xx字样的2个工程，对应的版本，端口号如下表
+上述服务分别见discovery-springcloud-example-xx字样的3个工程，对应的版本，端口号如下表
 
 | 服务 | 服务端口 | 管理端口 | 版本 |
 | --- | --- | --- | --- |
@@ -245,7 +245,7 @@ AbstractDiscoveryListener，实现服务发现的扩展和监听
 | C3 | 1302 | 无 | 1.2 |
 
 ```xml
-自行搭建Eureka服务，并在2个example工程中application.properties的Eureka地址替换掉
+把discovery-springcloud-example-eureka，并在3个discovery-springcloud-example-xx工程中application.properties的Eureka地址替换掉本地地址
 ```
 
 ### 运行效果
@@ -258,7 +258,7 @@ AbstractDiscoveryListener，实现服务发现的扩展和监听
 
 黑/白名单的IP地址发现的过滤，多版本灰度访问控制（单个微服务需要推送多次，如果是远程配置中心，则推送一次够了）
 ```xml
-1. 启动2个工程共6个Application
+1. 启动3个工程共6个Application
 2. 通过Postman或者浏览器，执行GET  http://localhost:1100/instances，查看当前A服务可访问B服务的列表
 3. 通过Postman或者浏览器，执行GET  http://localhost:1200/instances，查看当前B1服务可访问C服务的列表
 4. 通过Postman或者浏览器，执行GET  http://localhost:1201/instances，查看当前B2服务可访问C服务的列表
