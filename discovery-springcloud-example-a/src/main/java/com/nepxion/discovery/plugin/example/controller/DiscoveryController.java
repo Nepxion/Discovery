@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
@@ -51,22 +52,35 @@ public class DiscoveryController {
         // 获取B服务的实例列表
         List<ServiceInstance> bInstances = instances();
 
-        // 获取C服务的实例列表
-        List<Map<String, ?>> cInstances = restTemplate.getForEntity("http://discovery-springcloud-example-b/instances", List.class).getBody();
-
         String aInfo = aServiceId.toLowerCase() + "[" + aEurekaVersion + "]";
-        for (ServiceInstance bInstance : bInstances) {
-            String bServiceId = bInstance.getServiceId().toLowerCase();
-            String bEurekaVersion = bInstance.getMetadata().get(PluginConstant.VERSION);
-            String bInfo = bServiceId + "[" + bEurekaVersion + "]";
-            for (Map<String, ?> cInstance : cInstances) {
-                String cServiceId = cInstance.get("serviceId").toString().toLowerCase();
-                String cEurekaVersion = ((Map<String, String>) cInstance.get("metadata")).get(PluginConstant.VERSION);
-                String cInfo = cServiceId + "[" + cEurekaVersion + "]";
+        if (CollectionUtils.isNotEmpty(bInstances)) {
+            for (ServiceInstance bInstance : bInstances) {
+                String bServiceId = bInstance.getServiceId().toLowerCase();
+                String bEurekaVersion = bInstance.getMetadata().get(PluginConstant.VERSION);
+                String bInfo = bServiceId + "[" + bEurekaVersion + "]";
+                String bHost = bInstance.getHost();
+                int bPort = bInstance.getPort();
 
-                StringBuilder stringBuilder = new StringBuilder();
-                routes.add(stringBuilder.append(aInfo).append("->").append(bInfo).append("->").append(cInfo).toString());
+                // 获取C服务的实例列表
+                List<Map<String, ?>> cInstances = restTemplate.getForEntity("http://" + bHost + ":" + bPort + "/instances", List.class).getBody();
+
+                if (CollectionUtils.isNotEmpty(cInstances)) {
+                    for (Map<String, ?> cInstance : cInstances) {
+                        String cServiceId = cInstance.get("serviceId").toString().toLowerCase();
+                        String cEurekaVersion = ((Map<String, String>) cInstance.get("metadata")).get(PluginConstant.VERSION);
+                        String cInfo = cServiceId + "[" + cEurekaVersion + "]";
+
+                        StringBuilder stringBuilder = new StringBuilder();
+                        routes.add(stringBuilder.append(aInfo).append("->").append(bInfo).append("->").append(cInfo).toString());
+                    }
+                } else {
+                    StringBuilder stringBuilder = new StringBuilder();
+                    routes.add(stringBuilder.append(aInfo).append("->").append(bInfo).toString());
+                }
             }
+        } else {
+            StringBuilder stringBuilder = new StringBuilder();
+            routes.add(stringBuilder.append(aInfo).toString());
         }
 
         return routes;
