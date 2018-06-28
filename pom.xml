@@ -16,6 +16,7 @@
         <module>discovery-plugin-admin-center</module>
         <module>discovery-plugin-router-center</module>
         <module>discovery-plugin-starter</module>
+        <module>discovery-springcloud-example-eureka</module>
         <module>discovery-springcloud-example-a</module>
         <module>discovery-springcloud-example-b</module>
         <module>discovery-springcloud-example-c</module>
