@@ -111,8 +111,8 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
 继承ConfigAdapter.java
 ```java
 public class DiscoveryConfigAdapter extends ConfigAdapter {
-    // 通过application.properties里的spring.application.discovery.remote.config.enabled=true，来决定主动从本地，还是远程配置中心获取规则
     // 从本地获取规则
+    // 通过application.properties里的spring.application.discovery.remote.config.enabled=true，来决定主动从本地，还是远程配置中心获取规则
     @Override
     protected String getLocalContextPath() {
         // 规则文件放在resources目录下
