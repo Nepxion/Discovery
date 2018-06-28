@@ -149,7 +149,7 @@ public class PluginRouterController {
             String serviceId = instance.get(PluginConstant.SERVICE_ID).toString().toLowerCase();
             String version = ((Map<String, String>) instance.get(PluginConstant.METADATA)).get(PluginConstant.VERSION);
             String host = instance.get(PluginConstant.HOST).toString();
-            int port = (int) instance.get(PluginConstant.PORT);
+            Integer port = (Integer) instance.get(PluginConstant.PORT);
 
             RouteEntity routeEntity = new RouteEntity();
             routeEntity.setServiceId(serviceId);
