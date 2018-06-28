@@ -74,7 +74,13 @@ public class VersionFilterDiscoveryListener extends AbstractDiscoveryListener {
                 List<String> providerVersionValueList = serviceEntity.getProviderVersionValueList();
 
                 // 判断consumer-version-value值是否包含当前消费端的版本号
-                if (CollectionUtils.isNotEmpty(consumerVersionValueList) && consumerVersionValueList.contains(consumerServiceVersion)) {
+                if (CollectionUtils.isNotEmpty(consumerVersionValueList)) {
+                    if (consumerVersionValueList.contains(consumerServiceVersion)) {
+                        if (CollectionUtils.isNotEmpty(providerVersionValueList)) {
+                            allFilterValueList.addAll(providerVersionValueList);
+                        }
+                    }
+                } else {
                     if (CollectionUtils.isNotEmpty(providerVersionValueList)) {
                         allFilterValueList.addAll(providerVersionValueList);
                     }
