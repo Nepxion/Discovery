@@ -12,7 +12,9 @@ package com.nepxion.discovery.plugin.example;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.plugin.example.extension.MyDiscoveryListener;
 import com.nepxion.discovery.plugin.example.extension.MyRegisterListener;
@@ -23,6 +25,12 @@ import com.nepxion.discovery.plugin.example.impl.DiscoveryConfigAdapter;
 public class DiscoveryApplication {
     public static void main(String[] args) {
         new SpringApplicationBuilder(DiscoveryApplication.class).web(true).run(args);
+    }
+
+    @Bean
+    @LoadBalanced
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 
     @Bean
