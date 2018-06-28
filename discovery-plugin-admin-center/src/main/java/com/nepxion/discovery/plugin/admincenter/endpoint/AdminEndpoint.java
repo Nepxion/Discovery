@@ -64,6 +64,7 @@ public class AdminEndpoint extends AbstractMvcEndpoint {
         this.registration = registration;
     }
 
+    // 发送规则配置信息
     @RequestMapping(path = "config", method = RequestMethod.POST)
     @ResponseBody
     @ManagedOperation
@@ -71,10 +72,6 @@ public class AdminEndpoint extends AbstractMvcEndpoint {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         if (!discoveryControlEnabled) {
             return new ResponseEntity<>(Collections.singletonMap("Message", "Discovery control is disabled"), HttpStatus.NOT_FOUND);
-        }
-
-        if (registration == null) {
-            throw new PluginException("No registration found");
         }
 
         try {
@@ -87,14 +84,11 @@ public class AdminEndpoint extends AbstractMvcEndpoint {
         return "success";
     }
 
+    // 查看当前生效的规则配置信息
     @RequestMapping(path = "view", method = RequestMethod.GET)
     @ResponseBody
     @ManagedOperation
-    public Object view() {
-        if (registration == null) {
-            throw new PluginException("No registration found");
-        }
-
+    public String view() {
         return ruleEntity.getContent();
     }
 
@@ -102,11 +96,6 @@ public class AdminEndpoint extends AbstractMvcEndpoint {
     @ResponseBody
     @ManagedOperation
     public Object deregister() {
-        Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
-        if (!discoveryControlEnabled) {
-            return new ResponseEntity<>(Collections.singletonMap("Message", "Discovery control is disabled"), HttpStatus.NOT_FOUND);
-        }
-
         if (registration == null) {
             throw new PluginException("No registration found");
         }
@@ -122,11 +111,6 @@ public class AdminEndpoint extends AbstractMvcEndpoint {
     @ResponseBody
     @ManagedOperation
     public Object status(@RequestBody String status) {
-        Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
-        if (!discoveryControlEnabled) {
-            return new ResponseEntity<>(Collections.singletonMap("Message", "Discovery control is disabled"), HttpStatus.NOT_FOUND);
-        }
-
         if (registration == null) {
             throw new PluginException("No registration found");
         }
