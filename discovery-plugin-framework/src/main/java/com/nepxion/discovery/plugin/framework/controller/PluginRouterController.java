@@ -184,7 +184,7 @@ public class PluginRouterController {
             if (previousServiceId == null) {
                 routeFirst(firstRouteEntity, serviceId);
 
-                retrieveRouteEntityList(routeEntityMap, serviceId).addAll(firstRouteEntity.getChildRouteEntityList());
+                retrieveRouteEntityList(routeEntityMap, serviceId).addAll(firstRouteEntity.getNexts());
             } else {
                 List<RouteEntity> routeEntityList = retrieveRouteEntityList(routeEntityMap, previousServiceId);
                 for (RouteEntity routeEntity : routeEntityList) {
@@ -193,7 +193,7 @@ public class PluginRouterController {
 
                     route(routeEntity, serviceId, routeHost, routePort);
 
-                    retrieveRouteEntityList(routeEntityMap, serviceId).addAll(routeEntity.getChildRouteEntityList());
+                    retrieveRouteEntityList(routeEntityMap, serviceId).addAll(routeEntity.getNexts());
                 }
             }
 
@@ -206,14 +206,14 @@ public class PluginRouterController {
     private void routeFirst(RouteEntity routeEntity, String routeServiceId) {
         List<RouteEntity> routeEntityList = getRouteEntityList(routeServiceId);
         if (CollectionUtils.isNotEmpty(routeEntityList)) {
-            routeEntity.getChildRouteEntityList().addAll(routeEntityList);
+            routeEntity.getNexts().addAll(routeEntityList);
         }
     }
 
     private void route(RouteEntity routeEntity, String routeServiceId, String routeHost, int routePort) {
         List<RouteEntity> routeEntityList = getRouteEntityList(routeServiceId, routeHost, routePort);
         if (CollectionUtils.isNotEmpty(routeEntityList)) {
-            routeEntity.getChildRouteEntityList().addAll(routeEntityList);
+            routeEntity.getNexts().addAll(routeEntityList);
         }
     }
 

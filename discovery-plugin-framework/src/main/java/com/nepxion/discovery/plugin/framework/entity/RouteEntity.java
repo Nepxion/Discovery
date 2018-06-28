@@ -28,7 +28,7 @@ public class RouteEntity implements Serializable {
     private String host;
     private int port;
 
-    private List<RouteEntity> childRouteEntityList = new ArrayList<RouteEntity>();
+    private List<RouteEntity> nexts = new ArrayList<RouteEntity>();
 
     public String getServiceId() {
         return serviceId;
@@ -62,12 +62,12 @@ public class RouteEntity implements Serializable {
         this.port = port;
     }
 
-    public List<RouteEntity> getChildRouteEntityList() {
-        return childRouteEntityList;
+    public List<RouteEntity> getNexts() {
+        return nexts;
     }
 
-    public void setChildRouteEntityList(List<RouteEntity> childRouteEntityList) {
-        this.childRouteEntityList = childRouteEntityList;
+    public void setNexts(List<RouteEntity> nexts) {
+        this.nexts = nexts;
     }
 
     public String toInfo() {
