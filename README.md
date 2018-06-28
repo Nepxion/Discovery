@@ -101,9 +101,9 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
 2. 提供端的application.properties未定义版本号（即eureka.instance.metadataMap.version不存在），当消费端在xml里不做任何版本配置，才可以访问该提供端
 ```
 
-## 规则读取和订阅
+## 配置中心
 ### 跟远程配置中心整合
-使用者可以跟携程Apollo，百度DisConf等远程配置中心整合
+使用者可以跟携程Apollo，百度DisConf等远程配置中心整合，实现规则读取和订阅
 ```xml
 1. 主动从本地或远程配置中心获取规则
 2. 订阅远程配置中心的规则更新
@@ -139,16 +139,78 @@ public class DiscoveryConfigAdapter extends ConfigAdapter {
 }
 ```
 
+## 管理中心
 ### 单独推送规则信息
-使用者可以通过Rest方式主动向一个微服务推送规则信息，但该方式只能每次推送到一个微服务上
-```xml
-利用Post执行http://IP:PORT/admin/config，发送的内容即规则XML
+使用者可以通过Rest方式主动向一个微服务推送规则信息，但该方式只能每次推送到一个微服务上（注意：端口号为management.port的值）
+```java
+Java：
+@RequestMapping(path = "config", method = RequestMethod.POST)
+public Object config(@RequestBody String config)
+
+Url:
+http://IP:[management.port]/admin/config
 ```
 
 ### 查看当前生效的规则信息
-使用者可以通过Rest方式主动请求某个微服务当前生效的规则
-```xml
-利用Get执行http://IP:PORT/admin/view
+使用者可以通过Rest方式主动请求某个微服务当前生效的规则（注意：端口号为management.port的值）
+```java
+Java：
+@RequestMapping(path = "view", method = RequestMethod.GET)
+public String view()
+
+Url:
+http://IP:[management.port]/admin/view
+```
+
+## 路由中心
+### 获取本地节点可访问其他节点（根据服务名）的实例列表
+```java
+Java：
+@RequestMapping(path = "/instances/{serviceId}", method = RequestMethod.GET)
+public List<ServiceInstance> instances(@PathVariable(value = "serviceId") String serviceId)
+
+Url:
+http://IP:[server.port]/instances/{serviceId}
+```
+
+### 获取本地节点的路由信息（只显示当前节点的简单信息，不包含下级路由）
+```java
+Java：
+@RequestMapping(path = "/info", method = RequestMethod.GET)
+public RouterEntity info()
+
+Url:
+http://IP:[server.port]/info
+```
+
+### 获取本地节点可访问其他节点（根据服务名）的路由信息列表
+```java
+Java：
+@RequestMapping(path = "/route/{routeServiceId}", method = RequestMethod.GET)
+public List<RouterEntity> route(@PathVariable(value = "routeServiceId") String routeServiceId)
+
+Url:
+http://IP:[server.port]/route/{routeServiceId}
+```
+
+### 获取指定节点（根据IP和端口）可访问其他节点（根据服务名）的路由信息列表
+```java
+Java：
+@RequestMapping(path = "/route/{routeServiceId}/{routeHost}/{routePort}", method = RequestMethod.GET)
+public List<RouterEntity> route(@PathVariable(value = "routeServiceId") String routeServiceId, @PathVariable(value = "routeHost") String routeHost, @PathVariable(value = "routePort") int routePort)
+
+Url:
+http://IP:[server.port]/route/{routeServiceId}/{routeHost}/{routePort}
+```
+
+### 获取全路径的路由信息（serviceIds按调用服务名的前后次序排列，起始节点的服务名不能加上去。如果多个用“;”分隔，不允许出现空格）
+```java
+Java：
+@RequestMapping(path = "/routeAll", method = RequestMethod.POST)
+public RouterEntity routeAll(@RequestBody String serviceIds)
+	
+Url:
+http://IP:[server.port]/routeAll
 ```
 
 ## 扩展和自定义更多规则或者监听
@@ -171,7 +233,7 @@ AbstractDiscoveryListener，实现服务发现的扩展和监听
 图1
 ![Alt text](https://github.com/Nepxion/Discovery/blob/master/discovery-plugin-doc/Version.jpg)
 
-上述服务分别见discovery-springcloud-example-xx字样的6个工程，对应的版本，端口号如下表
+上述服务分别见discovery-springcloud-example-xx字样的2个工程，对应的版本，端口号如下表
 
 | 服务 | 服务端口 | 管理端口 | 版本 |
 | --- | --- | --- | --- |
@@ -183,7 +245,7 @@ AbstractDiscoveryListener，实现服务发现的扩展和监听
 | C3 | 1302 | 无 | 1.2 |
 
 ```xml
-自行搭建Eureka服务，并在6个示例中application.properties的Eureka地址替换掉
+自行搭建Eureka服务，并在2个example工程中application.properties的Eureka地址替换掉
 ```
 
 ### 运行效果
@@ -196,21 +258,20 @@ AbstractDiscoveryListener，实现服务发现的扩展和监听
 
 黑/白名单的IP地址发现的过滤，多版本灰度访问控制（单个微服务需要推送多次，如果是远程配置中心，则推送一次够了）
 ```xml
-1. 启动6个工程的Application
-2. 通过Postman或者浏览器，执行GET  http://localhost:1200/instances，查看当前B1服务可访问C服务的列表，如图2
-3. 通过Postman或者浏览器，执行GET  http://localhost:1201/instances，查看当前B2服务可访问C服务的列表，如图3
-4. 通过Postman或者浏览器，执行POST http://localhost:8200/admin/config，发送新的规则XML，那么在B1服务上将会运行新的规则，再运行上述步骤，查看服务列表
-5. 通过Postman或者浏览器，执行POST http://localhost:8201/admin/config，发送同样的规则XML，那么在B1服务上将会运行新的规则，再运行上述步骤，查看服务列表
-6. 通过Postman或者浏览器，执行GET  http://localhost:8200/admin/view，查看当前在B1服务已经生效的规则
-7. 通过Postman或者浏览器，执行GET  http://localhost:8201/admin/view，查看当前在B2服务已经生效的规则
+1. 启动2个工程共6个Application
+2. 通过Postman或者浏览器，执行GET  http://localhost:1100/instances，查看当前A服务可访问B服务的列表
+3. 通过Postman或者浏览器，执行GET  http://localhost:1200/instances，查看当前B1服务可访问C服务的列表
+4. 通过Postman或者浏览器，执行GET  http://localhost:1201/instances，查看当前B2服务可访问C服务的列表
+5. 通过Postman或者浏览器，执行POST http://localhost:1100/routeAll/，填入discovery-springcloud-example-b;discovery-springcloud-example-c，可以看到路由全路径，如图2
+6. 通过Postman或者浏览器，执行POST http://localhost:8200/admin/config，发送新的规则XML，那么在B1服务上将会运行新的规则，再运行上述步骤，查看服务列表
+7. 通过Postman或者浏览器，执行POST http://localhost:8201/admin/config，发送同样的规则XML，那么在B1服务上将会运行新的规则，再运行上述步骤，查看服务列表
+8. 通过Postman或者浏览器，执行GET  http://localhost:8200/admin/view，查看当前在B1服务已经生效的规则
+9. 通过Postman或者浏览器，执行GET  http://localhost:8201/admin/view，查看当前在B2服务已经生效的规则
+10.再执行步骤5，可以看到路由全路径将发生变化
 ```
 图2
 
-![Alt text](https://github.com/Nepxion/Discovery/blob/master/discovery-plugin-doc/Result1.jpg)
-
-图3
-
-![Alt text](https://github.com/Nepxion/Discovery/blob/master/discovery-plugin-doc/Result2.jpg)
+![Alt text](https://github.com/Nepxion/Discovery/blob/master/discovery-plugin-doc/Result.jpg)
 
 ## 鸣谢
 感谢Spring Cloud中国社区刘石明提供支持

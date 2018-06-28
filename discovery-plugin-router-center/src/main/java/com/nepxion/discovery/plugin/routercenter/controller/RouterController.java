@@ -54,28 +54,28 @@ public class RouterController {
         return getInstanceList(serviceId);
     }
 
-    // 获取本地节点的路由信息
+    // 获取本地节点的路由信息（只显示当前节点的简单信息，不包含下级路由）
     @RequestMapping(path = "/info", method = RequestMethod.GET)
     public RouterEntity info() {
         return getRouterEntity();
     }
 
     // 获取本地节点可访问其他节点（根据服务名）的路由信息列表
-    @RequestMapping(path = "/routes/{routeServiceId}", method = RequestMethod.GET)
-    public List<RouterEntity> routes(@PathVariable(value = "routeServiceId") String routeServiceId) {
+    @RequestMapping(path = "/route/{routeServiceId}", method = RequestMethod.GET)
+    public List<RouterEntity> route(@PathVariable(value = "routeServiceId") String routeServiceId) {
         return getRouterEntityList(routeServiceId);
     }
 
     // 获取指定节点（根据IP和端口）可访问其他节点（根据服务名）的路由信息列表
-    @RequestMapping(path = "/routes/{routeServiceId}/{routeHost}/{routePort}", method = RequestMethod.GET)
-    public List<RouterEntity> routes(@PathVariable(value = "routeServiceId") String routeServiceId, @PathVariable(value = "routeHost") String routeHost, @PathVariable(value = "routePort") int routePort) {
+    @RequestMapping(path = "/route/{routeServiceId}/{routeHost}/{routePort}", method = RequestMethod.GET)
+    public List<RouterEntity> route(@PathVariable(value = "routeServiceId") String routeServiceId, @PathVariable(value = "routeHost") String routeHost, @PathVariable(value = "routePort") int routePort) {
         return getRouterEntityList(routeServiceId, routeHost, routePort);
     }
 
-    // 获取全路径的路由信息
+    // 获取全路径的路由信息（serviceIds按调用服务名的前后次序排列，起始节点的服务名不能加上去。如果多个用“;”分隔，不允许出现空格）
     @RequestMapping(path = "/routeAll", method = RequestMethod.POST)
     public RouterEntity routeAll(@RequestBody String serviceIds) {
-        return route(serviceIds);
+        return executeRouteAll(serviceIds);
     }
 
     public List<ServiceInstance> getInstanceList(String serviceId) {
@@ -163,7 +163,7 @@ public class RouterController {
         return routerEntityList;
     }
 
-    public RouterEntity route(String serviceIds) {
+    public RouterEntity executeRouteAll(String serviceIds) {
         if (StringUtils.isEmpty(serviceIds)) {
             throw new PluginException("Service ids is empty");
         }
