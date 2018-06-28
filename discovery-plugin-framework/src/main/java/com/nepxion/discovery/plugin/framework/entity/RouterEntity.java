@@ -20,7 +20,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 
-public class RouteEntity implements Serializable {
+public class RouterEntity implements Serializable {
     private static final long serialVersionUID = -4480475963615166799L;
 
     private String serviceId;
@@ -28,7 +28,7 @@ public class RouteEntity implements Serializable {
     private String host;
     private int port;
 
-    private List<RouteEntity> nexts = new ArrayList<RouteEntity>();
+    private List<RouterEntity> nexts = new ArrayList<RouterEntity>();
 
     public String getServiceId() {
         return serviceId;
@@ -62,11 +62,11 @@ public class RouteEntity implements Serializable {
         this.port = port;
     }
 
-    public List<RouteEntity> getNexts() {
+    public List<RouterEntity> getNexts() {
         return nexts;
     }
 
-    public void setNexts(List<RouteEntity> nexts) {
+    public void setNexts(List<RouterEntity> nexts) {
         this.nexts = nexts;
     }
 
