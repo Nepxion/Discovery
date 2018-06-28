@@ -143,7 +143,7 @@ public class DiscoveryConfigAdapter extends ConfigAdapter {
 ### 单独推送规则信息
 使用者可以通过Rest方式主动向一个微服务推送规则信息，但该方式只能每次推送到一个微服务上（注意：端口号为management.port的值）
 ```java
-Java：
+Java:
 @RequestMapping(path = "config", method = RequestMethod.POST)
 public Object config(@RequestBody String config)
 
@@ -154,7 +154,7 @@ http://IP:[management.port]/admin/config
 ### 查看当前生效的规则信息
 使用者可以通过Rest方式主动请求某个微服务当前生效的规则（注意：端口号为management.port的值）
 ```java
-Java：
+Java:
 @RequestMapping(path = "view", method = RequestMethod.GET)
 public String view()
 
@@ -165,7 +165,7 @@ http://IP:[management.port]/admin/view
 ## 路由中心
 ### 获取本地节点可访问其他节点（根据服务名）的实例列表
 ```java
-Java：
+Java:
 @RequestMapping(path = "/instances/{serviceId}", method = RequestMethod.GET)
 public List<ServiceInstance> instances(@PathVariable(value = "serviceId") String serviceId)
 
@@ -175,7 +175,7 @@ http://IP:[server.port]/instances/{serviceId}
 
 ### 获取本地节点的路由信息（只显示当前节点的简单信息，不包含下级路由）
 ```java
-Java：
+Java:
 @RequestMapping(path = "/info", method = RequestMethod.GET)
 public RouterEntity info()
 
@@ -185,7 +185,7 @@ http://IP:[server.port]/info
 
 ### 获取本地节点可访问其他节点（根据服务名）的路由信息列表
 ```java
-Java：
+Java:
 @RequestMapping(path = "/route/{routeServiceId}", method = RequestMethod.GET)
 public List<RouterEntity> route(@PathVariable(value = "routeServiceId") String routeServiceId)
 
@@ -195,7 +195,7 @@ http://IP:[server.port]/route/{routeServiceId}
 
 ### 获取指定节点（根据IP和端口）可访问其他节点（根据服务名）的路由信息列表
 ```java
-Java：
+Java:
 @RequestMapping(path = "/route/{routeServiceId}/{routeHost}/{routePort}", method = RequestMethod.GET)
 public List<RouterEntity> route(@PathVariable(value = "routeServiceId") String routeServiceId, @PathVariable(value = "routeHost") String routeHost, @PathVariable(value = "routePort") int routePort)
 
@@ -205,10 +205,10 @@ http://IP:[server.port]/route/{routeServiceId}/{routeHost}/{routePort}
 
 ### 获取全路径的路由信息（serviceIds按调用服务名的前后次序排列，起始节点的服务名不能加上去。如果多个用“;”分隔，不允许出现空格）
 ```java
-Java：
+Java:
 @RequestMapping(path = "/routeAll", method = RequestMethod.POST)
 public RouterEntity routeAll(@RequestBody String serviceIds)
-	
+
 Url:
 http://IP:[server.port]/routeAll
 ```
@@ -272,6 +272,3 @@ AbstractDiscoveryListener，实现服务发现的扩展和监听
 图2
 
 ![Alt text](https://github.com/Nepxion/Discovery/blob/master/discovery-plugin-doc/Result.jpg)
-
-## 鸣谢
-感谢Spring Cloud中国社区刘石明提供支持
