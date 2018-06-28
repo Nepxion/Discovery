@@ -90,7 +90,7 @@ public class VersionFilterDiscoveryListener extends AbstractDiscoveryListener {
         Iterator<ServiceInstance> iterator = instances.iterator();
         while (iterator.hasNext()) {
             ServiceInstance serviceInstance = iterator.next();
-            String metaDataVersion = serviceInstance.getMetadata().get(PluginConstant.VRESION);
+            String metaDataVersion = serviceInstance.getMetadata().get(PluginConstant.VERSION);
             if (!allFilterValueList.contains(metaDataVersion)) {
                 iterator.remove();
             }
