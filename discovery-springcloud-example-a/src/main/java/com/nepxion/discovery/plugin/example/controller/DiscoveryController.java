@@ -11,6 +11,7 @@ package com.nepxion.discovery.plugin.example.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,10 +33,10 @@ public class DiscoveryController {
     private RestTemplate restTemplate;
 
     @Value("${" + PluginConstant.SPRING_APPLICATION_NAME + "}")
-    private String serviceId;
+    private String aServiceId;
 
     @Value("${" + PluginConstant.EUREKA_METADATA_VERSION + "}")
-    private String eurekaVersion;
+    private String aEurekaVersion;
 
     @RequestMapping(path = "/instances", method = RequestMethod.GET)
     public List<ServiceInstance> instances() {
@@ -51,13 +52,18 @@ public class DiscoveryController {
         List<ServiceInstance> bInstances = instances();
 
         // 获取C服务的实例列表
-        List<ServiceInstance> cInstances = (List<ServiceInstance>) restTemplate.getForEntity("http://discovery-springcloud-example-b/instances", List.class);
+        List<Map<String, ?>> cInstances = restTemplate.getForEntity("http://discovery-springcloud-example-b/instances", List.class).getBody();
 
+        String aInfo = aServiceId.toLowerCase() + "[" + aEurekaVersion + "]";
         for (ServiceInstance bInstance : bInstances) {
-            String aInfo = serviceId + "[" + eurekaVersion + "]";
-            String bInfo = bInstance.getServiceId() + "[" + bInstance.getMetadata().get(PluginConstant.EUREKA_METADATA_VERSION) + "]";
-            for (ServiceInstance cInstance : cInstances) {
-                String cInfo = cInstance.getServiceId() + "[" + cInstance.getMetadata().get(PluginConstant.EUREKA_METADATA_VERSION) + "]";
+            String bServiceId = bInstance.getServiceId().toLowerCase();
+            String bEurekaVersion = bInstance.getMetadata().get(PluginConstant.VERSION);
+            String bInfo = bServiceId + "[" + bEurekaVersion + "]";
+            for (Map<String, ?> cInstance : cInstances) {
+                String cServiceId = cInstance.get("serviceId").toString().toLowerCase();
+                String cEurekaVersion = ((Map<String, String>) cInstance.get("metadata")).get(PluginConstant.VERSION);
+                String cInfo = cServiceId + "[" + cEurekaVersion + "]";
+
                 StringBuilder stringBuilder = new StringBuilder();
                 routes.add(stringBuilder.append(aInfo).append("->").append(bInfo).append("->").append(cInfo).toString());
             }
