@@ -44,7 +44,7 @@ public class RouterController {
     private PluginAdapter pluginAdapter;
 
     @Autowired
-    protected ConfigurableEnvironment environment;
+    private ConfigurableEnvironment environment;
 
     @Autowired
     private RestTemplate routerRestTemplate;

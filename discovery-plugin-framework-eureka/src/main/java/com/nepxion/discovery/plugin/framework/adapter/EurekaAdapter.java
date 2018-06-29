@@ -19,7 +19,7 @@ import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
 public class EurekaAdapter implements PluginAdapter {
     @Autowired
-    protected ConfigurableEnvironment environment;
+    private ConfigurableEnvironment environment;
 
     @Override
     public String getIpAddress(Registration registration) {
