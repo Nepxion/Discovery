@@ -118,7 +118,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
 ```xml
 eureka.instance.metadataMap.version=1.0
 
-# 奇葩的Consule配置（参考https://springcloud.cc/spring-cloud-consul.html - 元数据和Consul标签）
+# 奇葩的Consul配置（参考https://springcloud.cc/spring-cloud-consul.html - 元数据和Consul标签）
 spring.cloud.consul.discovery.tags=version=1.0
 
 spring.cloud.zookeeper.discovery.metadata.version=1.0
