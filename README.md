@@ -290,10 +290,6 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 | C2 | 1301 | 无 | 1.1 |
 | C3 | 1302 | 无 | 1.2 |
 
-```xml
-把discovery-springcloud-example-eureka，并在3个discovery-springcloud-example-xx工程中application.properties的Eureka地址替换掉本地地址
-```
-
 ### 运行效果
 黑/白名单的IP地址注册的过滤
 ```xml
