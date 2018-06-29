@@ -23,6 +23,6 @@ public class MyDiscoveryListener extends AbstractDiscoveryListener {
 
     @Override
     public void onGetServices(List<String> services) {
-        System.out.println("========== getServices() 被触发：services=" + services + " ==========");
+        // System.out.println("========== getServices() 被触发：services=" + services + " ==========");
     }
 }
