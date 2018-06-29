@@ -303,21 +303,21 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 图2结果
 ```xml
 {
-    "serviceId": "discovery-springcloud-example-b",
+    "serviceId": "discovery-springcloud-example-a",
     "version": "1.0",
     "host": "192.168.0.107",
-    "port": 1200,
+    "port": 1100,
     "nexts": [
         {
             "serviceId": "discovery-springcloud-example-b",
             "version": "1.0",
-            "host": "localhost",
+            "host": "192.168.0.107",
             "port": 1200,
             "nexts": [
                 {
                     "serviceId": "discovery-springcloud-example-c",
                     "version": "1.0",
-                    "host": "localhost",
+                    "host": "192.168.0.107",
                     "port": 1300,
                     "nexts": []
                 },
