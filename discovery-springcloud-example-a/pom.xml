@@ -39,7 +39,7 @@
     <dependencies>
         <dependency>
             <groupId>com.nepxion</groupId>
-            <artifactId>discovery-plugin-starter</artifactId>
+            <artifactId>discovery-plugin-starter-eureka</artifactId>
             <version>${discovery.plugin.version}</version>
         </dependency>
     </dependencies>

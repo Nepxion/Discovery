@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,9 +28,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.context.PluginContainerInitializedHandler;
-import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.entity.RouterEntity;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
 import com.nepxion.eventbus.util.HostUtil;
@@ -40,7 +41,10 @@ public class RouterController {
     private PluginContainerInitializedHandler pluginContainerInitializedHandler;
 
     @Autowired
-    private PluginContextAware pluginContextAware;
+    private PluginAdapter pluginAdapter;
+
+    @Autowired
+    protected ConfigurableEnvironment environment;
 
     @Autowired
     private RestTemplate routerRestTemplate;
@@ -83,8 +87,8 @@ public class RouterController {
     }
 
     public RouterEntity getRouterEntity() {
-        String serviceId = pluginContextAware.getEnvironment().getProperty(PluginConstant.SPRING_APPLICATION_NAME);
-        String version = pluginContextAware.getEnvironment().getProperty(PluginConstant.EUREKA_METADATA_VERSION);
+        String serviceId = environment.getProperty(PluginConstant.SPRING_APPLICATION_NAME);
+        String version = pluginAdapter.getVersion();
         String host = HostUtil.getLocalhost();
         int port = pluginContainerInitializedHandler.getPort();
 

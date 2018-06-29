@@ -20,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 
+import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryServiceEntity;
@@ -31,10 +32,13 @@ public class VersionFilterDiscoveryListener extends AbstractDiscoveryListener {
     @Autowired
     private RuleEntity ruleEntity;
 
+    @Autowired
+    private PluginAdapter pluginAdapter;
+
     @Override
     public void onGetInstances(String serviceId, List<ServiceInstance> instances) {
         String consumerServiceId = environment.getProperty(PluginConstant.SPRING_APPLICATION_NAME);
-        String consumerServiceVersion = environment.getProperty(PluginConstant.EUREKA_METADATA_VERSION);
+        String consumerServiceVersion = pluginAdapter.getVersion();
 
         applyVersionFilter(consumerServiceId, consumerServiceVersion, serviceId, instances);
     }

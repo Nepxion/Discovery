@@ -12,10 +12,11 @@
 
     <modules>
         <module>discovery-plugin-framework</module>
+        <module>discovery-plugin-framework-eureka</module>
         <module>discovery-plugin-config-center</module>
         <module>discovery-plugin-admin-center</module>
         <module>discovery-plugin-router-center</module>
-        <module>discovery-plugin-starter</module>
+        <module>discovery-plugin-starter-eureka</module>
         <module>discovery-springcloud-example-eureka</module>
         <module>discovery-springcloud-example-a</module>
         <module>discovery-springcloud-example-b</module>
@@ -47,6 +48,12 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-framework-eureka</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-config-center</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -65,7 +72,7 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>discovery-plugin-starter</artifactId>
+                <artifactId>discovery-plugin-starter-eureka</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

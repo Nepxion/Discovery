@@ -46,8 +46,4 @@ public class PluginContextAware implements ApplicationContextAware {
     public static Boolean isRemoteConfigEnabled(Environment environment) {
         return environment.getProperty(PluginConstant.SPRING_APPLICATION_DISCOVERY_REMOTE_CONFIG_ENABLED, Boolean.class, Boolean.TRUE);
     }
-
-    public Environment getEnvironment() {
-        return environment;
-    }
 }

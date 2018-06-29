@@ -18,8 +18,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.serviceregistry.Registration;
-import org.springframework.cloud.netflix.eureka.serviceregistry.EurekaRegistration;
 
+import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.entity.FilterEntity;
 import com.nepxion.discovery.plugin.framework.entity.FilterType;
 import com.nepxion.discovery.plugin.framework.entity.RegisterEntity;
@@ -33,15 +33,13 @@ public class IpAddressFilterRegisterListener extends AbstractRegisterListener {
     @Autowired
     private RuleEntity ruleEntity;
 
+    @Autowired
+    private PluginAdapter pluginAdapter;
+
     @Override
     public void onRegister(Registration registration) {
         String serviceId = registration.getServiceId();
-        String ipAddress = null;
-
-        if (registration instanceof EurekaRegistration) {
-            EurekaRegistration eurekaRegistration = (EurekaRegistration) registration;
-            ipAddress = eurekaRegistration.getInstanceConfig().getIpAddress();
-        }
+        String ipAddress = pluginAdapter.getIpAddress(registration);
 
         applyIpAddressFilter(serviceId, ipAddress);
     }
@@ -87,7 +85,7 @@ public class IpAddressFilterRegisterListener extends AbstractRegisterListener {
 
         for (String filterValue : allFilterValueList) {
             if (ipAddress.startsWith(filterValue)) {
-                throw new PluginException(ipAddress + " isn't allowed to register to Eureka server, because it is in blacklist");
+                throw new PluginException(ipAddress + " isn't allowed to register to Discovery server, because it is in blacklist");
             }
         }
     }
@@ -104,7 +102,7 @@ public class IpAddressFilterRegisterListener extends AbstractRegisterListener {
         }
 
         if (matched) {
-            throw new PluginException(ipAddress + " isn't allowed to register to Eureka server, because it isn't in whitelist");
+            throw new PluginException(ipAddress + " isn't allowed to register to Discovery server, because it isn't in whitelist");
         }
     }
 
