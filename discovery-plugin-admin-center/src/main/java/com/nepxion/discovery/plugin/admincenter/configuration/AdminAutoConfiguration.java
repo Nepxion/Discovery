@@ -11,7 +11,6 @@ package com.nepxion.discovery.plugin.admincenter.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.Endpoint;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.cloud.client.serviceregistry.Registration;
 import org.springframework.cloud.client.serviceregistry.ServiceRegistry;
@@ -23,7 +22,8 @@ import com.nepxion.discovery.plugin.admincenter.endpoint.AdminEndpoint;
 @Configuration
 // @ConditionalOnProperty(value = PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED, matchIfMissing = true)
 public class AdminAutoConfiguration {
-    @ConditionalOnBean(ServiceRegistry.class)
+    // 在Consul下，@ConditionalOnBean(ServiceRegistry.class)为false，估计跟装载顺序有关，装载AdminEndpointConfiguration的时候，ServiceRegistry Bean还没产生
+    // @ConditionalOnBean(ServiceRegistry.class)
     @ConditionalOnClass(Endpoint.class)
     protected static class AdminEndpointConfiguration {
         @Autowired(required = false)
