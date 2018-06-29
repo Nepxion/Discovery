@@ -279,21 +279,21 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 图1
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Version.jpg)
 
-上述服务分别见discovery-springcloud-example-xx字样的3个工程，对应的版本，端口号如下表
+上述服务分别见discovery-springcloud-example字样的6个DiscoveryApplication，分别对应各自的application.properties。这6个应用，对应的版本和端口号如下表
 
 | 服务 | 服务端口 | 管理端口 | 版本 |
 | --- | --- | --- | --- |
-| A | 1100 | 8100 | 1.0 |
-| B1 | 1200 | 8200 | 1.0 |
-| B2 | 1201 | 8201 | 1.1 |
-| C1 | 1300 | 无 | 1.0 |
-| C2 | 1301 | 无 | 1.1 |
-| C3 | 1302 | 无 | 1.2 |
+| A1 | 1100 | 5100 | 1.0 |
+| B1 | 1200 | 5200 | 1.0 |
+| B2 | 1201 | 5201 | 1.1 |
+| C1 | 1300 | 5300 | 1.0 |
+| C2 | 1301 | 5301 | 1.1 |
+| C3 | 1302 | 5302 | 1.2 |
 
 ### 运行效果
 黑/白名单的IP地址注册的过滤
 ```xml
-1. 首先example-a或example-b在rule.xml把本地IP地址写入
+1. 首先在rule.xml把本地IP地址写入
 2. 启动Application
 3. 抛出禁止注册的异常，即本机不会注册到服务注册发现中心
 ```
@@ -305,10 +305,10 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 3. 通过Postman或者浏览器，执行GET  http://localhost:1200/instances/discovery-springcloud-example-c，查看当前B1服务可访问C服务的列表
 4. 通过Postman或者浏览器，执行GET  http://localhost:1201/instances/discovery-springcloud-example-c，查看当前B2服务可访问C服务的列表
 5. 通过Postman或者浏览器，执行POST http://localhost:1100/routeAll/，填入discovery-springcloud-example-b;discovery-springcloud-example-c，可以看到路由全路径，如图2结果
-6. 通过Postman或者浏览器，执行POST http://localhost:8200/admin/config，发送新的规则XML，那么在B1服务上将会运行新的规则，再运行上述步骤，查看服务列表
-7. 通过Postman或者浏览器，执行POST http://localhost:8201/admin/config，发送同样的规则XML，那么在B1服务上将会运行新的规则，再运行上述步骤，查看服务列表
-8. 通过Postman或者浏览器，执行GET  http://localhost:8200/admin/view，查看当前在B1服务已经生效的规则
-9. 通过Postman或者浏览器，执行GET  http://localhost:8201/admin/view，查看当前在B2服务已经生效的规则
+6. 通过Postman或者浏览器，执行POST http://localhost:5200/admin/config，发送新的规则XML，那么在B1服务上将会运行新的规则，再运行上述步骤，查看服务列表
+7. 通过Postman或者浏览器，执行POST http://localhost:5201/admin/config，发送同样的规则XML，那么在B1服务上将会运行新的规则，再运行上述步骤，查看服务列表
+8. 通过Postman或者浏览器，执行GET  http://localhost:5200/admin/view，查看当前在B1服务已经生效的规则
+9. 通过Postman或者浏览器，执行GET  http://localhost:5201/admin/view，查看当前在B2服务已经生效的规则
 10.再执行步骤5，可以看到路由全路径将发生变化
 ```
 图2结果
