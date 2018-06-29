@@ -4,7 +4,7 @@
 [![Javadocs](http://www.javadoc.io/badge/com.nepxion/discovery-plugin.svg)](http://www.javadoc.io/doc/com.nepxion/discovery-plugin)
 [![Build Status](https://travis-ci.org/Nepxion/Discovery.svg?branch=master)](https://travis-ci.org/Nepxion/Discovery)
 
-Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件，目前暂时只支持Eureka。现在Spring Cloud服务可以方便引入该插件，不需要对业务代码做任何修改，只需要修改规则（XML）即可
+Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件，支持Eureka、Consul和Zookeeper。现在Spring Cloud服务可以方便引入该插件，不需要对业务代码做任何修改，只需要修改规则（XML）即可
 
 ## 简介
 支持如下功能
@@ -31,10 +31,23 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
 
 ## 依赖
 ```xml
+选择相应的插件引入
 <dependency>
-  <groupId>com.nepxion</groupId>
-  <artifactId>discovery-plugin-starter</artifactId>
-  <version>${discovery.plugin.version}</version>
+    <groupId>com.nepxion</groupId>
+    <artifactId>discovery-plugin-starter-eureka</artifactId>
+    <version>${discovery.plugin.version}</version>
+</dependency>
+
+<dependency>
+    <groupId>com.nepxion</groupId>
+    <artifactId>discovery-plugin-starter-consul</artifactId>
+    <version>${discovery.plugin.version}</version>
+</dependency>
+
+<dependency>
+    <groupId>com.nepxion</groupId>
+    <artifactId>discovery-plugin-starter-zookeeper</artifactId>
+    <version>${discovery.plugin.version}</version>
 </dependency>
 ```
 
@@ -259,16 +272,65 @@ AbstractDiscoveryListener，实现服务发现的扩展和监听
 黑/白名单的IP地址发现的过滤，多版本灰度访问控制（单个微服务需要推送多次，如果是远程配置中心，则推送一次够了）
 ```xml
 1. 启动3个工程共6个Application
-2. 通过Postman或者浏览器，执行GET  http://localhost:1100/instances，查看当前A服务可访问B服务的列表
-3. 通过Postman或者浏览器，执行GET  http://localhost:1200/instances，查看当前B1服务可访问C服务的列表
-4. 通过Postman或者浏览器，执行GET  http://localhost:1201/instances，查看当前B2服务可访问C服务的列表
-5. 通过Postman或者浏览器，执行POST http://localhost:1100/routeAll/，填入discovery-springcloud-example-b;discovery-springcloud-example-c，可以看到路由全路径，如图2
+2. 通过Postman或者浏览器，执行GET  http://localhost:1100/instances/discovery-springcloud-example-b，查看当前A服务可访问B服务的列表
+3. 通过Postman或者浏览器，执行GET  http://localhost:1200/instances/discovery-springcloud-example-c，查看当前B1服务可访问C服务的列表
+4. 通过Postman或者浏览器，执行GET  http://localhost:1201/instances/discovery-springcloud-example-c，查看当前B2服务可访问C服务的列表
+5. 通过Postman或者浏览器，执行POST http://localhost:1100/routeAll/，填入discovery-springcloud-example-b;discovery-springcloud-example-c，可以看到路由全路径，如图2结果
 6. 通过Postman或者浏览器，执行POST http://localhost:8200/admin/config，发送新的规则XML，那么在B1服务上将会运行新的规则，再运行上述步骤，查看服务列表
 7. 通过Postman或者浏览器，执行POST http://localhost:8201/admin/config，发送同样的规则XML，那么在B1服务上将会运行新的规则，再运行上述步骤，查看服务列表
 8. 通过Postman或者浏览器，执行GET  http://localhost:8200/admin/view，查看当前在B1服务已经生效的规则
 9. 通过Postman或者浏览器，执行GET  http://localhost:8201/admin/view，查看当前在B2服务已经生效的规则
 10.再执行步骤5，可以看到路由全路径将发生变化
 ```
+图2结果
+```xml
+{
+    "serviceId": "discovery-springcloud-example-b",
+    "version": "1.0",
+    "host": "192.168.0.107",
+    "port": 1200,
+    "nexts": [
+        {
+            "serviceId": "discovery-springcloud-example-b",
+            "version": "1.0",
+            "host": "localhost",
+            "port": 1200,
+            "nexts": [
+                {
+                    "serviceId": "discovery-springcloud-example-c",
+                    "version": "1.0",
+                    "host": "localhost",
+                    "port": 1300,
+                    "nexts": []
+                },
+                {
+                    "serviceId": "discovery-springcloud-example-c",
+                    "version": "1.1",
+                    "host": "localhost",
+                    "port": 1301,
+                    "nexts": []
+                }
+            ]
+        },
+        {
+            "serviceId": "discovery-springcloud-example-b",
+            "version": "1.1",
+            "host": "localhost",
+            "port": 1201,
+            "nexts": [
+                {
+                    "serviceId": "discovery-springcloud-example-c",
+                    "version": "1.2",
+                    "host": "192.168.0.107",
+                    "port": 1302,
+                    "nexts": []
+                }
+            ]
+        }
+    ]
+}
+```
+
 图2
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Result.jpg)
