@@ -233,6 +233,14 @@ AbstractRegisterListener，实现服务注册的扩展和监听
 AbstractDiscoveryListener，实现服务发现的扩展和监听
 ```
 
+## Spring Cloud引入Consul的坑
+```xml
+spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-api-1.2.2版本，它不兼容Consul的1.0.0以上的服务器，原因是服务的deregister在consul-api-1.2.2中是执行GET方法，而Consul的1.0.0以上的服务器对应的是PUT方法
+解决办法，二选一
+1. 选用1.0.0以下的服务器，从https://releases.hashicorp.com/consul/0.9.3/获取
+2. 或者，spring-cloud-consul中consul-api-1.2.2.jar替换到最新的版本
+```
+
 ## 示例
 ### 场景描述
 本例将模拟一个较为复杂的场景，如图1
