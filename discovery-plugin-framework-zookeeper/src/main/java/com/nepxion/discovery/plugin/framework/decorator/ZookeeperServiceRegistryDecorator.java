@@ -9,27 +9,29 @@ package com.nepxion.discovery.plugin.framework.decorator;
  * @version 1.0
  */
 
-import org.springframework.cloud.netflix.eureka.serviceregistry.EurekaRegistration;
-import org.springframework.cloud.netflix.eureka.serviceregistry.EurekaServiceRegistry;
+import org.springframework.cloud.zookeeper.serviceregistry.ZookeeperRegistration;
+import org.springframework.cloud.zookeeper.serviceregistry.ZookeeperServiceRegistry;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.listener.RegisterListenerExecutor;
 
-public class EurekaServiceRegistryDecorator extends EurekaServiceRegistry {
-    private EurekaServiceRegistry serviceRegistry;
+public class ZookeeperServiceRegistryDecorator extends ZookeeperServiceRegistry {
+    private ZookeeperServiceRegistry serviceRegistry;
     private ConfigurableApplicationContext applicationContext;
     private ConfigurableEnvironment environment;
 
-    public EurekaServiceRegistryDecorator(EurekaServiceRegistry serviceRegistry, ConfigurableApplicationContext applicationContext) {
+    public ZookeeperServiceRegistryDecorator(ZookeeperServiceRegistry serviceRegistry, ConfigurableApplicationContext applicationContext) {
+        super(null);
+
         this.serviceRegistry = serviceRegistry;
         this.applicationContext = applicationContext;
         this.environment = applicationContext.getEnvironment();
     }
 
     @Override
-    public void register(EurekaRegistration registration) {
+    public void register(ZookeeperRegistration registration) {
         Boolean registerControlEnabled = PluginContextAware.isRegisterControlEnabled(environment);
         if (registerControlEnabled) {
             RegisterListenerExecutor registerListenerExecutor = applicationContext.getBean(RegisterListenerExecutor.class);
@@ -40,7 +42,7 @@ public class EurekaServiceRegistryDecorator extends EurekaServiceRegistry {
     }
 
     @Override
-    public void deregister(EurekaRegistration registration) {
+    public void deregister(ZookeeperRegistration registration) {
         Boolean registerControlEnabled = PluginContextAware.isRegisterControlEnabled(environment);
         if (registerControlEnabled) {
             RegisterListenerExecutor registerListenerExecutor = applicationContext.getBean(RegisterListenerExecutor.class);
@@ -51,7 +53,7 @@ public class EurekaServiceRegistryDecorator extends EurekaServiceRegistry {
     }
 
     @Override
-    public void setStatus(EurekaRegistration registration, String status) {
+    public void setStatus(ZookeeperRegistration registration, String status) {
         Boolean registerControlEnabled = PluginContextAware.isRegisterControlEnabled(environment);
         if (registerControlEnabled) {
             RegisterListenerExecutor registerListenerExecutor = applicationContext.getBean(RegisterListenerExecutor.class);
@@ -62,7 +64,7 @@ public class EurekaServiceRegistryDecorator extends EurekaServiceRegistry {
     }
 
     @Override
-    public Object getStatus(EurekaRegistration registration) {
+    public Object getStatus(ZookeeperRegistration registration) {
         return serviceRegistry.getStatus(registration);
     }
 
@@ -75,6 +77,11 @@ public class EurekaServiceRegistryDecorator extends EurekaServiceRegistry {
         }
 
         serviceRegistry.close();
+    }
+
+    @Override
+    public void afterSingletonsInstantiated() {
+        serviceRegistry.afterSingletonsInstantiated();
     }
 
     public ConfigurableEnvironment getEnvironment() {
