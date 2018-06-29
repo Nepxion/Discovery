@@ -110,8 +110,18 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
    <service consumer-service-name="a" provider-service-name="b" consumer-version-value="" provider-version-value=""/> 表示消费端任何版本，允许访问提供端任何版本
 4. 版本对应关系未定义，默认消费端任何版本，允许访问提供端任何版本
 特殊情况处理，在使用上需要极力避免该情况发生
-1. 消费端的application.properties未定义版本号（即eureka.instance.metadataMap.version不存在），则该消费端可以访问提供端任何版本
-2. 提供端的application.properties未定义版本号（即eureka.instance.metadataMap.version不存在），当消费端在xml里不做任何版本配置，才可以访问该提供端
+1. 消费端的application.properties未定义版本号，则该消费端可以访问提供端任何版本
+2. 提供端的application.properties未定义版本号，当消费端在xml里不做任何版本配置，才可以访问该提供端
+```
+
+不同的服务注册发现组件对应的版本配置值
+```xml
+eureka.instance.metadataMap.version=1.0
+
+# 奇葩的Consule配置（参考https://springcloud.cc/spring-cloud-consul.html - 元数据和Consul标签）
+spring.cloud.consul.discovery.tags=version=1.0
+
+spring.cloud.zookeeper.discovery.metadata.version=1.0
 ```
 
 ## 配置中心
