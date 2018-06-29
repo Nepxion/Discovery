@@ -290,6 +290,18 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 | C2 | 1301 | 5301 | 1.1 |
 | C3 | 1302 | 5302 | 1.2 |
 
+### 切换服务注册组件
+在discovery-springcloud-example/pom.xml进行切换
+```xml
+<dependency>
+    <groupId>com.nepxion</groupId>
+    <artifactId>discovery-plugin-starter-eureka</artifactId>
+    <!-- <artifactId>discovery-plugin-starter-consul</artifactId> -->
+    <!-- <artifactId>discovery-plugin-starter-zookeeper</artifactId> -->
+    <version>${discovery.plugin.version}</version>
+</dependency>
+```
+
 ### 运行效果
 黑/白名单的IP地址注册的过滤
 ```xml
