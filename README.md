@@ -51,6 +51,21 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
 </dependency>
 ```
 
+## 工程
+
+| 工程名 | 描述 |
+| --- | --- | 
+| discovery-plugin-framework | 核心框架 |
+| discovery-plugin-framework-consul | 核心框架的Consul扩展 |
+| discovery-plugin-framework-eureka | 核心框架的Eureka扩展 |
+| discovery-plugin-framework-zookeeper | 核心框架的Zookeeper扩展 |
+| discovery-plugin-config-center | 配置中心实现 |
+| discovery-plugin-router-center | 路由中心实现 |
+| discovery-plugin-admin-center | 管理中心实现 |
+| discovery-plugin-starter-consul | Consul Starter |
+| discovery-plugin-starter-eureka | Eureka Starter |
+| discovery-plugin-starter-zookeeper | Zookeeper Starter |
+
 ## 规则配置
 ### 规则示例（请不要被吓到，我只是把注释写的很详细而已，里面配置没几行）
 ```xml
