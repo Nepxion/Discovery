@@ -40,7 +40,8 @@
         <dependency>
             <groupId>com.nepxion</groupId>
             <!-- <artifactId>discovery-plugin-starter-eureka</artifactId> -->
-            <artifactId>discovery-plugin-starter-zookeeper</artifactId>
+            <artifactId>discovery-plugin-starter-consul</artifactId>
+            <!-- <artifactId>discovery-plugin-starter-zookeeper</artifactId> -->
             <version>${discovery.plugin.version}</version>
         </dependency>
     </dependencies>
