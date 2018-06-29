@@ -42,11 +42,6 @@
             <artifactId>discovery-plugin-starter</artifactId>
             <version>${discovery.plugin.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-eureka</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
