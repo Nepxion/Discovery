@@ -34,6 +34,6 @@ public class ConsulAdapter implements PluginAdapter {
 
     @Override
     public String getVersion() {
-        return environment.getProperty(ConsulConstant.CONSUL_METADATA_VERSION);
+        return environment.getProperty(ConsulConstant.METADATA_VERSION);
     }
 }

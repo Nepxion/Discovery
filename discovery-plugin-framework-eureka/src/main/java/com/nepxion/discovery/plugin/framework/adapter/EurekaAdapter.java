@@ -34,6 +34,6 @@ public class EurekaAdapter implements PluginAdapter {
 
     @Override
     public String getVersion() {
-        return environment.getProperty(EurekaConstant.EUREKA_METADATA_VERSION);
+        return environment.getProperty(EurekaConstant.METADATA_VERSION);
     }
 }

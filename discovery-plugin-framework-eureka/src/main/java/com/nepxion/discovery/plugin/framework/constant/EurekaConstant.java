@@ -10,5 +10,5 @@ package com.nepxion.discovery.plugin.framework.constant;
  */
 
 public class EurekaConstant {
-    public static final String EUREKA_METADATA_VERSION = "eureka.instance.metadataMap.version";
+    public static final String METADATA_VERSION = "eureka.instance.metadataMap.version";
 }

@@ -34,6 +34,6 @@ public class ZookeeperAdapter implements PluginAdapter {
 
     @Override
     public String getVersion() {
-        return environment.getProperty(ZookeeperConstant.ZOOKEEPER_METADATA_VERSION);
+        return environment.getProperty(ZookeeperConstant.METADATA_VERSION);
     }
 }
