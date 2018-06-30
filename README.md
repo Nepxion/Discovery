@@ -14,8 +14,9 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
     3. 实现通过下面两种推送方式，动态改变“服务发现层面的控制”
     4. 实现通过XML进行规则定义
     5. 实现通过事件总线机制（EventBus）异步对接远程配置中心，接受远程配置中心主动推送规则信息
-    6. 实现通过事件总线机制（EventBus）异步接受Rest主动推送规则信息
+    6. 实现通过事件总线机制（EventBus）和Spring Boot Actuator，异步接受Rest主动推送规则信息
     7. 实现通过Listener机制便于使用者扩展更多过滤条件，也可以利用Listener实现服务注册发现核心事件的监听
+    8. 实现通过Spring Boot Actuator的集成，提供健康检查功能
 
 ## 场景
 
@@ -255,8 +256,11 @@ http://IP:[server.port]/routeAll
 使用者可以继承如下类
 ```xml
 AbstractRegisterListener，实现服务注册的扩展和监听
-AbstractDiscoveryListener，实现服务发现的扩展和监听
+AbstractDiscoveryListener，实现服务发现的扩展和监听，注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断，见图1
 ```
+
+图1，集成了健康检查的Consul控制台
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Consul.jpg)
 
 ## Spring Cloud引入Consul的坑
 ```xml
@@ -268,7 +272,7 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 
 ## 示例
 ### 场景描述
-本例将模拟一个较为复杂的场景，如图1
+本例将模拟一个较为复杂的场景，如图2
 ```xml
 1. 调用关系服务A->服务B->服务C
 2. 服务A一个实例，服务B两个实例，服务C三个实例
@@ -276,7 +280,7 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 4. 当一切就绪后，动态切换规则，改变调用的版本对应关系
 ```
 
-图1
+图2
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Version.jpg)
 
 上述服务分别见discovery-springcloud-example字样的6个DiscoveryApplication，分别对应各自的application.properties。这6个应用，对应的版本和端口号如下表
@@ -316,14 +320,14 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 2. 通过Postman或者浏览器，执行GET  http://localhost:1100/instances/discovery-springcloud-example-b，查看当前A服务可访问B服务的列表
 3. 通过Postman或者浏览器，执行GET  http://localhost:1200/instances/discovery-springcloud-example-c，查看当前B1服务可访问C服务的列表
 4. 通过Postman或者浏览器，执行GET  http://localhost:1201/instances/discovery-springcloud-example-c，查看当前B2服务可访问C服务的列表
-5. 通过Postman或者浏览器，执行POST http://localhost:1100/routeAll/，填入discovery-springcloud-example-b;discovery-springcloud-example-c，可以看到路由全路径，如图2结果
+5. 通过Postman或者浏览器，执行POST http://localhost:1100/routeAll/，填入discovery-springcloud-example-b;discovery-springcloud-example-c，可以看到路由全路径，如图3结果
 6. 通过Postman或者浏览器，执行POST http://localhost:5200/config/send，发送新的规则XML，那么在B1服务上将会运行新的规则，再运行上述步骤，查看服务列表
 7. 通过Postman或者浏览器，执行POST http://localhost:5201/config/send，发送同样的规则XML，那么在B1服务上将会运行新的规则，再运行上述步骤，查看服务列表
 8. 通过Postman或者浏览器，执行GET  http://localhost:5200/config/view，查看当前在B1服务已经生效的规则
 9. 通过Postman或者浏览器，执行GET  http://localhost:5201/config/view，查看当前在B2服务已经生效的规则
 10.再执行步骤5，可以看到路由全路径将发生变化
 ```
-图2结果
+图3结果
 ```xml
 {
     "serviceId": "discovery-springcloud-example-a",
@@ -372,6 +376,6 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 }
 ```
 
-图2
+图3
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Result.jpg)
