@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 
 import com.nepxion.discovery.plugin.example.extension.MyDiscoveryListener;
 import com.nepxion.discovery.plugin.example.extension.MyRegisterListener;
+import com.nepxion.discovery.plugin.example.extension.MySubscriber;
 import com.nepxion.discovery.plugin.example.impl.DiscoveryConfigAdapter;
 
 @SpringBootApplication
@@ -40,5 +41,10 @@ public class DiscoveryApplicationA1 {
     @Bean
     public MyDiscoveryListener myDiscoveryListener() {
         return new MyDiscoveryListener();
+    }
+
+    @Bean
+    public MySubscriber mySubscriber() {
+        return new MySubscriber();
     }
 }

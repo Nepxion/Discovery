@@ -14,5 +14,7 @@ import org.springframework.cloud.client.serviceregistry.Registration;
 public interface PluginAdapter {
     String getIpAddress(Registration registration);
 
+    int getPort(Registration registration);
+
     String getVersion();
 }

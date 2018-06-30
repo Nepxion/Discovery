@@ -18,7 +18,7 @@ import com.nepxion.discovery.plugin.framework.listener.AbstractDiscoveryListener
 public class MyDiscoveryListener extends AbstractDiscoveryListener {
     @Override
     public void onGetInstances(String serviceId, List<ServiceInstance> instances) {
-        System.out.println("========== getInstances() 被触发：serviceId=" + serviceId + " instances=" + instances + " ==========");
+        System.out.println("========== getInstances() 被触发：serviceId=" + serviceId + ", instances=" + instances + " ==========");
     }
 
     @Override

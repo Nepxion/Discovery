@@ -33,6 +33,17 @@ public class ZookeeperAdapter implements PluginAdapter {
     }
 
     @Override
+    public int getPort(Registration registration) {
+        if (registration instanceof ZookeeperRegistration) {
+            ZookeeperRegistration zookeeperRegistration = (ZookeeperRegistration) registration;
+
+            return zookeeperRegistration.getServiceInstance().getPort();
+        }
+
+        throw new PluginException("Registration instance isn't the type of Zookeeper");
+    }
+
+    @Override
     public String getVersion() {
         return environment.getProperty(ZookeeperConstant.METADATA_VERSION);
     }

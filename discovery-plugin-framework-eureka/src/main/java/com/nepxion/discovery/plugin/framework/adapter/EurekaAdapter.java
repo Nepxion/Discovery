@@ -33,6 +33,17 @@ public class EurekaAdapter implements PluginAdapter {
     }
 
     @Override
+    public int getPort(Registration registration) {
+        if (registration instanceof EurekaRegistration) {
+            EurekaRegistration eurekaRegistration = (EurekaRegistration) registration;
+
+            return eurekaRegistration.getInstanceConfig().getNonSecurePort();
+        }
+
+        throw new PluginException("Registration instance isn't the type of Eureka");
+    }
+
+    @Override
     public String getVersion() {
         return environment.getProperty(EurekaConstant.METADATA_VERSION);
     }

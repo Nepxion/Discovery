@@ -14,7 +14,6 @@ import org.springframework.cloud.client.serviceregistry.Registration;
 import com.nepxion.discovery.plugin.framework.listener.AbstractRegisterListener;
 
 public class MyRegisterListener extends AbstractRegisterListener {
-
     @Override
     public void onRegister(Registration registration) {
         System.out.println("========== register() 被触发：serviceId=" + registration.getServiceId());
@@ -27,7 +26,7 @@ public class MyRegisterListener extends AbstractRegisterListener {
 
     @Override
     public void onSetStatus(Registration registration, String status) {
-        System.out.println("========== setStatus() 被触发：serviceId=" + registration.getServiceId() + " status=" + status);
+        System.out.println("========== setStatus() 被触发：serviceId=" + registration.getServiceId() + ", status=" + status);
     }
 
     @Override

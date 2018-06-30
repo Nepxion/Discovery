@@ -65,6 +65,17 @@ public class ConsulAdapter implements PluginAdapter {
     }
 
     @Override
+    public int getPort(Registration registration) {
+        if (registration instanceof ConsulRegistration) {
+            ConsulRegistration consulRegistration = (ConsulRegistration) registration;
+
+            return consulRegistration.getService().getPort();
+        }
+
+        throw new PluginException("Registration instance isn't the type of Consul");
+    }
+
+    @Override
     public String getVersion() {
         return version;
     }
