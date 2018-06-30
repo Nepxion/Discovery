@@ -17,9 +17,8 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.endpoint.mvc.AbstractMvcEndpoint;
-import org.springframework.cloud.client.serviceregistry.Registration;
-import org.springframework.cloud.client.serviceregistry.ServiceRegistry;
+import org.springframework.boot.actuate.endpoint.Endpoint;
+import org.springframework.boot.actuate.endpoint.mvc.MvcEndpoint;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jmx.export.annotation.ManagedOperation;
@@ -33,16 +32,11 @@ import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
-import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
-@ManagedResource(description = "Admin Endpoint")
-@SuppressWarnings("unchecked")
-public class AdminEndpoint extends AbstractMvcEndpoint {
-    private static final Logger LOG = LoggerFactory.getLogger(AdminEndpoint.class);
-
-    @SuppressWarnings("rawtypes")
-    private ServiceRegistry serviceRegistry;
-    private Registration registration;
+// 用法参照ServiceRegistryEndpoint和ServiceRegistryAutoConfiguration
+@ManagedResource(description = "Config Endpoint")
+public class ConfigEndpoint implements MvcEndpoint {
+    private static final Logger LOG = LoggerFactory.getLogger(ConfigEndpoint.class);
 
     @Autowired
     private PluginContextAware pluginContextAware;
@@ -53,22 +47,11 @@ public class AdminEndpoint extends AbstractMvcEndpoint {
     @Autowired
     private RuleEntity ruleEntity;
 
-    @SuppressWarnings("rawtypes")
-    public AdminEndpoint(ServiceRegistry serviceRegistry) {
-        super("/admin", true, true);
-
-        this.serviceRegistry = serviceRegistry;
-    }
-
-    public void setRegistration(Registration registration) {
-        this.registration = registration;
-    }
-
     // 发送规则配置信息
-    @RequestMapping(path = "config", method = RequestMethod.POST)
+    @RequestMapping(path = "send", method = RequestMethod.POST)
     @ResponseBody
     @ManagedOperation
-    public Object config(@RequestBody String config) {
+    public ResponseEntity<?> send(@RequestBody String config) {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         if (!discoveryControlEnabled) {
             return new ResponseEntity<>(Collections.singletonMap("Message", "Discovery control is disabled"), HttpStatus.NOT_FOUND);
@@ -78,47 +61,38 @@ public class AdminEndpoint extends AbstractMvcEndpoint {
             InputStream inputStream = IOUtils.toInputStream(config, PluginConstant.ENCODING_UTF_8);
             pluginPublisher.asyncPublish(inputStream);
         } catch (IOException e) {
-            throw new PluginException("To input stream failed", e);
+            LOG.error("Publish config failed", e);
+
+            return new ResponseEntity<>(Collections.singletonMap("Message", "Send config failed"), HttpStatus.OK);
         }
 
-        return "success";
+        // return ResponseEntity.ok().build();
+
+        return ResponseEntity.ok().body("OK");
     }
 
     // 查看当前生效的规则配置信息
     @RequestMapping(path = "view", method = RequestMethod.GET)
     @ResponseBody
     @ManagedOperation
-    public String view() {
-        return ruleEntity.getContent();
+    public ResponseEntity<String> view() {
+        String content = ruleEntity.getContent();
+
+        return ResponseEntity.ok().body(content);
     }
 
-    @RequestMapping(path = "deregister", method = RequestMethod.POST)
-    @ResponseBody
-    @ManagedOperation
-    public Object deregister() {
-        if (registration == null) {
-            throw new PluginException("No registration found");
-        }
-
-        serviceRegistry.deregister(registration);
-
-        LOG.info("Deregister for serviceId={} successfully", registration.getServiceId());
-
-        return "success";
+    @Override
+    public String getPath() {
+        return "/config";
     }
 
-    @RequestMapping(path = "status", method = RequestMethod.POST)
-    @ResponseBody
-    @ManagedOperation
-    public Object status(@RequestBody String status) {
-        if (registration == null) {
-            throw new PluginException("No registration found");
-        }
+    @Override
+    public boolean isSensitive() {
+        return true;
+    }
 
-        serviceRegistry.setStatus(registration, status);
-
-        LOG.info("Set status for serviceId={} status={} successfully", registration.getServiceId(), status);
-
-        return "success";
+    @Override
+    public Class<? extends Endpoint<?>> getEndpointType() {
+        return null;
     }
 }
