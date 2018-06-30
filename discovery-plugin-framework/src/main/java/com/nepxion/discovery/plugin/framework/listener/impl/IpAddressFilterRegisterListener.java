@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.serviceregistry.Registration;
 
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
+import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.entity.FilterEntity;
 import com.nepxion.discovery.plugin.framework.entity.FilterType;
 import com.nepxion.discovery.plugin.framework.entity.RegisterEntity;
@@ -113,7 +114,10 @@ public class IpAddressFilterRegisterListener extends AbstractRegisterListener {
     }
 
     private void onRegisterFaiure(FilterType filterType, String serviceId, String ipAddress, int port) {
-        pluginPublisher.asyncPublish(new RegisterFaiureEvent(filterType, serviceId, ipAddress, port));
+        Boolean registerFailureEventEnabled = environment.getProperty(PluginConstant.SPRING_APPLICATION_REGISTER_FAILURE_EVENT_ENABLED, Boolean.class, Boolean.FALSE);
+        if (registerFailureEventEnabled) {
+            pluginPublisher.asyncPublish(new RegisterFaiureEvent(filterType, serviceId, ipAddress, port));
+        }
 
         throw new PluginException(ipAddress + " isn't allowed to register to Discovery server, because it is in blacklist");
     }
