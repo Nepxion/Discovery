@@ -186,7 +186,7 @@ Java:
 public Object config(@RequestBody String config)
 
 Url:
-http://IP:[management.port]/admin/config
+http://IP:[management.port]/config/send
 ```
 
 ### 查看当前生效的规则信息
@@ -197,7 +197,7 @@ Java:
 public String view()
 
 Url:
-http://IP:[management.port]/admin/view
+http://IP:[management.port]/config/view
 ```
 
 ## 路由中心
@@ -317,10 +317,10 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 3. 通过Postman或者浏览器，执行GET  http://localhost:1200/instances/discovery-springcloud-example-c，查看当前B1服务可访问C服务的列表
 4. 通过Postman或者浏览器，执行GET  http://localhost:1201/instances/discovery-springcloud-example-c，查看当前B2服务可访问C服务的列表
 5. 通过Postman或者浏览器，执行POST http://localhost:1100/routeAll/，填入discovery-springcloud-example-b;discovery-springcloud-example-c，可以看到路由全路径，如图2结果
-6. 通过Postman或者浏览器，执行POST http://localhost:5200/admin/config，发送新的规则XML，那么在B1服务上将会运行新的规则，再运行上述步骤，查看服务列表
-7. 通过Postman或者浏览器，执行POST http://localhost:5201/admin/config，发送同样的规则XML，那么在B1服务上将会运行新的规则，再运行上述步骤，查看服务列表
-8. 通过Postman或者浏览器，执行GET  http://localhost:5200/admin/view，查看当前在B1服务已经生效的规则
-9. 通过Postman或者浏览器，执行GET  http://localhost:5201/admin/view，查看当前在B2服务已经生效的规则
+6. 通过Postman或者浏览器，执行POST http://localhost:5200/config/send，发送新的规则XML，那么在B1服务上将会运行新的规则，再运行上述步骤，查看服务列表
+7. 通过Postman或者浏览器，执行POST http://localhost:5201/config/send，发送同样的规则XML，那么在B1服务上将会运行新的规则，再运行上述步骤，查看服务列表
+8. 通过Postman或者浏览器，执行GET  http://localhost:5200/config/view，查看当前在B1服务已经生效的规则
+9. 通过Postman或者浏览器，执行GET  http://localhost:5201/config/view，查看当前在B2服务已经生效的规则
 10.再执行步骤5，可以看到路由全路径将发生变化
 ```
 图2结果
