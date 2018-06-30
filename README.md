@@ -4,7 +4,11 @@
 [![Javadocs](http://www.javadoc.io/badge/com.nepxion/discovery-plugin.svg)](http://www.javadoc.io/doc/com.nepxion/discovery-plugin)
 [![Build Status](https://travis-ci.org/Nepxion/Discovery.svg?branch=master)](https://travis-ci.org/Nepxion/Discovery)
 
-Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件，支持Eureka、Consul和Zookeeper。现在Spring Cloud服务可以方便引入该插件，不需要对业务代码做任何修改，只需要修改规则（XML）即可
+Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件，支持Eureka、Consul和Zookeeper。现有的Spring Cloud服务可以方便引入该插件，使用者不需要对业务代码做任何修改，只需要做三个非常容易的事情
+
+    1. 引入Plugin的相关依赖到pom.xml
+    2. 为服务定义一个版本号在application.properties里，相信很多使用者本身就已经这么做了
+    3. 如果采用了远程配置中心集成的话，那么只需要在那里修改规则（XML），触发推送；如果未集成，可以通过客户端工具（例如Postman）推送修改的规则（XML）
 
 ## 简介
 支持如下功能
