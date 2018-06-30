@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.serviceregistry.Registration;
 
@@ -31,8 +29,6 @@ import com.nepxion.discovery.plugin.framework.exception.PluginException;
 import com.nepxion.discovery.plugin.framework.listener.AbstractRegisterListener;
 
 public class IpAddressFilterRegisterListener extends AbstractRegisterListener {
-    private static final Logger LOG = LoggerFactory.getLogger(IpAddressFilterRegisterListener.class);
-
     @Autowired
     private RuleEntity ruleEntity;
 
