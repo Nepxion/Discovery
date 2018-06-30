@@ -6,7 +6,7 @@
 
 Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件，支持Eureka、Consul和Zookeeper。现有的Spring Cloud服务可以方便引入该插件，使用者不需要对业务代码做任何修改，只需要做三个非常容易的事情
 
-    1. 引入Plugin的相关依赖到pom.xml
+    1. 引入Plugin Starter依赖到pom.xml
     2. 为服务定义一个版本号在application.properties里，相信很多使用者本身就已经这么做了
     3. 如果采用了远程配置中心集成的话，那么只需要在那里修改规则（XML），触发推送；如果未集成，可以通过客户端工具（例如Postman）推送修改的规则（XML）
 
@@ -35,8 +35,8 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
        我们可以通过推送A服务调用某个版本的B服务对应关系的配置，达到某种意义上的灰度控制，切换版本的时候，我们只需要再次推送即可
 
 ## 依赖
-```xml
 选择相应的插件引入
+```xml
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-starter-eureka</artifactId>
