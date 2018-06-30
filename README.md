@@ -19,7 +19,6 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
     4. 如果你是测试负责人，希望对服务做A/B测试
 
 ## 简介
-支持如下功能
 
     1. 实现服务注册层面的控制，基于黑/白名单的IP地址过滤机制禁止对相应的微服务进行注册
     2. 实现服务发现层面的控制，基于黑/白名单的IP地址过滤机制禁止对相应的微服务被发现；通过对消费端和提供端可访问版本对应关系的配置，进行多版本灰度访问控制
@@ -79,7 +78,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
 | discovery-plugin-starter-eureka | Eureka Starter |
 | discovery-plugin-starter-zookeeper | Zookeeper Starter |
 
-## 规则配置
+## 规则
 ### 规则示例（请不要被吓到，我只是把注释写的很详细而已，里面配置没几行）
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
