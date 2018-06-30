@@ -10,13 +10,13 @@ package com.nepxion.discovery.plugin.example.extension;
  */
 
 import com.google.common.eventbus.Subscribe;
-import com.nepxion.discovery.plugin.framework.event.RegisterFaiureEvent;
+import com.nepxion.discovery.plugin.framework.event.RegisterFailureEvent;
 import com.nepxion.eventbus.annotation.EventBus;
 
 @EventBus
 public class MySubscriber {
     @Subscribe
-    public void subscribeRegisterFaiure(RegisterFaiureEvent registerFaiureEvent) {
-        System.out.println("========== 注册失败：filterType=" + registerFaiureEvent.getFilterType() + ", serviceId=" + registerFaiureEvent.getServiceId() + ", ipAddress=" + registerFaiureEvent.getIpAddress() + ", port=" + registerFaiureEvent.getPort());
+    public void subscribeRegisterFailure(RegisterFailureEvent registerFailureEvent) {
+        System.out.println("========== 注册失败：eventType=" + registerFailureEvent.getEventType() + ", serviceId=" + registerFailureEvent.getServiceId() + ", ipAddress=" + registerFailureEvent.getIpAddress() + ", port=" + registerFailureEvent.getPort());
     }
 }

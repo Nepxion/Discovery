@@ -32,7 +32,7 @@ public class DiscoveryClientDecorator implements DiscoveryClient {
 
     @Override
     public List<ServiceInstance> getInstances(String serviceId) {
-        List<ServiceInstance> instances = discoveryClient.getInstances(serviceId);
+        List<ServiceInstance> instances = getRealInstances(serviceId);
 
         Boolean discoveryControlEnabled = PluginContextAware.isDiscoveryControlEnabled(environment);
         if (discoveryControlEnabled) {
@@ -43,9 +43,13 @@ public class DiscoveryClientDecorator implements DiscoveryClient {
         return instances;
     }
 
+    public List<ServiceInstance> getRealInstances(String serviceId) {
+        return discoveryClient.getInstances(serviceId);
+    }
+
     @Override
     public List<String> getServices() {
-        List<String> services = discoveryClient.getServices();
+        List<String> services = getRealServices();
 
         Boolean discoveryControlEnabled = PluginContextAware.isDiscoveryControlEnabled(environment);
         if (discoveryControlEnabled) {
@@ -54,6 +58,10 @@ public class DiscoveryClientDecorator implements DiscoveryClient {
         }
 
         return services;
+    }
+
+    public List<String> getRealServices() {
+        return discoveryClient.getServices();
     }
 
     @Deprecated

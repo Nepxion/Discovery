@@ -24,7 +24,7 @@ import com.nepxion.discovery.plugin.framework.entity.FilterType;
 import com.nepxion.discovery.plugin.framework.entity.RegisterEntity;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
-import com.nepxion.discovery.plugin.framework.event.RegisterFaiureEvent;
+import com.nepxion.discovery.plugin.framework.event.RegisterFailureEvent;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
 import com.nepxion.discovery.plugin.framework.listener.AbstractRegisterListener;
 
@@ -86,7 +86,7 @@ public class IpAddressFilterRegisterListener extends AbstractRegisterListener {
     private void validateBlacklist(FilterType filterType, List<String> allFilterValueList, String serviceId, String ipAddress, int port) {
         for (String filterValue : allFilterValueList) {
             if (ipAddress.startsWith(filterValue)) {
-                onRegisterFaiure(filterType, allFilterValueList, serviceId, ipAddress, port);
+                onRegisterFailure(filterType, allFilterValueList, serviceId, ipAddress, port);
             }
         }
     }
@@ -101,14 +101,14 @@ public class IpAddressFilterRegisterListener extends AbstractRegisterListener {
         }
 
         if (matched) {
-            onRegisterFaiure(filterType, allFilterValueList, serviceId, ipAddress, port);
+            onRegisterFailure(filterType, allFilterValueList, serviceId, ipAddress, port);
         }
     }
 
-    private void onRegisterFaiure(FilterType filterType, List<String> allFilterValueList, String serviceId, String ipAddress, int port) {
+    private void onRegisterFailure(FilterType filterType, List<String> allFilterValueList, String serviceId, String ipAddress, int port) {
         Boolean registerFailureEventEnabled = environment.getProperty(PluginConstant.SPRING_APPLICATION_REGISTER_FAILURE_EVENT_ENABLED, Boolean.class, Boolean.FALSE);
         if (registerFailureEventEnabled) {
-            pluginPublisher.asyncPublish(new RegisterFaiureEvent(filterType, serviceId, ipAddress, port));
+            pluginPublisher.asyncPublish(new RegisterFailureEvent(filterType.toString(), serviceId, ipAddress, port));
         }
 
         throw new PluginException(ipAddress + " isn't allowed to register to Register server, not match IP address " + filterType + "=" + allFilterValueList);

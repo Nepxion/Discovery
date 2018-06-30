@@ -11,36 +11,34 @@ package com.nepxion.discovery.plugin.framework.event;
 
 import java.io.Serializable;
 
-import com.nepxion.discovery.plugin.framework.entity.FilterType;
-
-public class RegisterFaiureEvent implements Serializable {
+public class RegisterFailureEvent implements Serializable {
     private static final long serialVersionUID = -1343084923958294246L;
 
-    private FilterType filterType;
+    private String eventType;
     private String serviceId;
     private String ipAddress;
     private int port;
 
-    public RegisterFaiureEvent(FilterType filterType, String serviceId, String ipAddress, int port) {
-        this.filterType = filterType;
+    public RegisterFailureEvent(String eventType, String serviceId, String ipAddress, int port) {
+        this.eventType = eventType;
         this.serviceId = serviceId;
         this.ipAddress = ipAddress;
         this.port = port;
     }
 
-    public String getIpAddress() {
-        return ipAddress;
+    public String getEventType() {
+        return eventType;
     }
 
     public String getServiceId() {
         return serviceId;
     }
 
-    public int getPort() {
-        return port;
+    public String getIpAddress() {
+        return ipAddress;
     }
 
-    public FilterType getFilterType() {
-        return filterType;
+    public int getPort() {
+        return port;
     }
 }
