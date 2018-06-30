@@ -79,27 +79,23 @@ public class IpAddressFilterRegisterListener extends AbstractRegisterListener {
 
         switch (filterType) {
             case BLACKLIST:
-                validateBlacklist(allFilterValueList, serviceId, ipAddress, port);
+                validateBlacklist(filterType, allFilterValueList, serviceId, ipAddress, port);
                 break;
             case WHITELIST:
-                validateWhitelist(allFilterValueList, serviceId, ipAddress, port);
+                validateWhitelist(filterType, allFilterValueList, serviceId, ipAddress, port);
                 break;
         }
     }
 
-    private void validateBlacklist(List<String> allFilterValueList, String serviceId, String ipAddress, int port) {
-        LOG.info("********** IP address blacklist={}, current ip address={} **********", allFilterValueList, ipAddress);
-
+    private void validateBlacklist(FilterType filterType, List<String> allFilterValueList, String serviceId, String ipAddress, int port) {
         for (String filterValue : allFilterValueList) {
             if (ipAddress.startsWith(filterValue)) {
-                onRegisterFaiure(FilterType.BLACKLIST, serviceId, ipAddress, port);
+                onRegisterFaiure(filterType, allFilterValueList, serviceId, ipAddress, port);
             }
         }
     }
 
-    private void validateWhitelist(List<String> allFilterValueList, String serviceId, String ipAddress, int port) {
-        LOG.info("********** IP address whitelist={}, current ip address={} **********", allFilterValueList, ipAddress);
-
+    private void validateWhitelist(FilterType filterType, List<String> allFilterValueList, String serviceId, String ipAddress, int port) {
         boolean matched = true;
         for (String filterValue : allFilterValueList) {
             if (ipAddress.startsWith(filterValue)) {
@@ -109,17 +105,17 @@ public class IpAddressFilterRegisterListener extends AbstractRegisterListener {
         }
 
         if (matched) {
-            onRegisterFaiure(FilterType.WHITELIST, serviceId, ipAddress, port);
+            onRegisterFaiure(filterType, allFilterValueList, serviceId, ipAddress, port);
         }
     }
 
-    private void onRegisterFaiure(FilterType filterType, String serviceId, String ipAddress, int port) {
+    private void onRegisterFaiure(FilterType filterType, List<String> allFilterValueList, String serviceId, String ipAddress, int port) {
         Boolean registerFailureEventEnabled = environment.getProperty(PluginConstant.SPRING_APPLICATION_REGISTER_FAILURE_EVENT_ENABLED, Boolean.class, Boolean.FALSE);
         if (registerFailureEventEnabled) {
             pluginPublisher.asyncPublish(new RegisterFaiureEvent(filterType, serviceId, ipAddress, port));
         }
 
-        throw new PluginException(ipAddress + " isn't allowed to register to Discovery server, because it is in blacklist");
+        throw new PluginException(ipAddress + " isn't allowed to register to Register server, not match IP address " + filterType + "=" + allFilterValueList);
     }
 
     @Override
