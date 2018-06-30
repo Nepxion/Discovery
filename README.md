@@ -137,6 +137,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
    <service consumer-service-name="a" provider-service-name="b" consumer-version-value="1.0" provider-version-value=""/> 表示消费端1.0版本，允许访问提供端任何版本
    <service consumer-service-name="a" provider-service-name="b" consumer-version-value="" provider-version-value=""/> 表示消费端任何版本，允许访问提供端任何版本
 4. 版本对应关系未定义，默认消费端任何版本，允许访问提供端任何版本
+
 特殊情况处理，在使用上需要极力避免该情况发生
 1. 消费端的application.properties未定义版本号，则该消费端可以访问提供端任何版本
 2. 提供端的application.properties未定义版本号，当消费端在xml里不做任何版本配置，才可以访问该提供端
@@ -152,7 +153,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
 ### 黑/白名单的IP地址发现的过滤规则策略
 服务启动的时候，禁止指定的IP地址被服务发现。它使用的方式和“黑/白名单的IP地址注册的过滤”一致
 
-### 版本配置值
+### 版本属性字段定义策略
 不同的服务注册发现组件对应的版本配置值
 ```xml
 eureka.instance.metadataMap.version=1.0
