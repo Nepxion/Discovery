@@ -15,12 +15,15 @@ public class RegisterFailureEvent implements Serializable {
     private static final long serialVersionUID = -1343084923958294246L;
 
     private String eventType;
+    private String eventDescription;
+
     private String serviceId;
     private String ipAddress;
     private int port;
 
-    public RegisterFailureEvent(String eventType, String serviceId, String ipAddress, int port) {
+    public RegisterFailureEvent(String eventType, String eventDescription, String serviceId, String ipAddress, int port) {
         this.eventType = eventType;
+        this.eventDescription = eventDescription;
         this.serviceId = serviceId;
         this.ipAddress = ipAddress;
         this.port = port;
@@ -28,6 +31,10 @@ public class RegisterFailureEvent implements Serializable {
 
     public String getEventType() {
         return eventType;
+    }
+
+    public String getEventDescription() {
+        return eventDescription;
     }
 
     public String getServiceId() {

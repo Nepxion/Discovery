@@ -16,6 +16,7 @@ public class ConfigConstant {
     public static final String SERVICE_ELEMENT_NAME = "service";
     public static final String BLACKLIST_ELEMENT_NAME = "blacklist";
     public static final String WHITELIST_ELEMENT_NAME = "whitelist";
+    public static final String COUNT_ELEMENT_NAME = "count";
     public static final String VERSION_ELEMENT_NAME = "version";
     public static final String FILTER_VALUE_ATTRIBUTE_NAME = "filter-value";
     public static final String SERVICE_NAME_ATTRIBUTE_NAME = "service-name";

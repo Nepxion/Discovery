@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.nepxion.discovery.plugin.configcenter.constant.ConfigConstant;
 import com.nepxion.discovery.plugin.configcenter.xml.Dom4JParser;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
+import com.nepxion.discovery.plugin.framework.entity.CountEntity;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryServiceEntity;
 import com.nepxion.discovery.plugin.framework.entity.FilterEntity;
@@ -71,12 +72,12 @@ public class ConfigParser extends Dom4JParser {
 
         int registerElementCount = element.elements(ConfigConstant.REGISTER_ELEMENT_NAME).size();
         if (registerElementCount > 1) {
-            throw new PluginException("The count of element[" + ConfigConstant.REGISTER_ELEMENT_NAME + "] can't be more than 1");
+            throw new PluginException("Allow only one element[" + ConfigConstant.REGISTER_ELEMENT_NAME + "] to be configed");
         }
 
         int discoveryElementCount = element.elements(ConfigConstant.DISCOVERY_ELEMENT_NAME).size();
         if (discoveryElementCount > 1) {
-            throw new PluginException("The count of element[" + ConfigConstant.DISCOVERY_ELEMENT_NAME + "] can't be more than 1");
+            throw new PluginException("Allow only one element[" + ConfigConstant.DISCOVERY_ELEMENT_NAME + "] to be configed");
         }
 
         RegisterEntity registerEntity = null;
@@ -107,7 +108,7 @@ public class ConfigParser extends Dom4JParser {
             reentrantReadWriteLock.writeLock().unlock();
         }
 
-        LOG.info("Rule xml=\n{}", text);
+        LOG.info("Rule entity=\n{}", ruleEntity);
     }
 
     @SuppressWarnings("rawtypes")
@@ -121,6 +122,8 @@ public class ConfigParser extends Dom4JParser {
                     parseFilter(childElement, ConfigConstant.BLACKLIST_ELEMENT_NAME, registerEntity);
                 } else if (StringUtils.equals(childElement.getName(), ConfigConstant.WHITELIST_ELEMENT_NAME)) {
                     parseFilter(childElement, ConfigConstant.WHITELIST_ELEMENT_NAME, registerEntity);
+                } else if (StringUtils.equals(childElement.getName(), ConfigConstant.COUNT_ELEMENT_NAME)) {
+                    parseCount(childElement, registerEntity);
                 }
             }
         }
@@ -148,7 +151,7 @@ public class ConfigParser extends Dom4JParser {
     private void parseFilter(Element element, String filterTypeValue, FilterHolderEntity filterHolderEntity) {
         FilterEntity filterEntity = filterHolderEntity.getFilterEntity();
         if (filterEntity != null) {
-            throw new PluginException("Filter[" + filterEntity.getFilterType() + "] has been configed, only one filter element exists");
+            throw new PluginException("Allow only one filter element to be configed, [" + ConfigConstant.BLACKLIST_ELEMENT_NAME + "] or [" + ConfigConstant.WHITELIST_ELEMENT_NAME + "]");
         }
 
         filterEntity = new FilterEntity();
@@ -187,10 +190,65 @@ public class ConfigParser extends Dom4JParser {
     }
 
     @SuppressWarnings("rawtypes")
+    private void parseCount(Element element, RegisterEntity registerEntity) {
+        CountEntity countEntity = registerEntity.getCountEntity();
+        if (countEntity != null) {
+            throw new PluginException("Allow only one element[" + ConfigConstant.COUNT_ELEMENT_NAME + "] to be configed");
+        }
+
+        countEntity = new CountEntity();
+
+        Attribute globalFilterAttribute = element.attribute(ConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME);
+        if (globalFilterAttribute != null) {
+            String globalFilterValue = globalFilterAttribute.getData().toString().trim();
+            if (StringUtils.isNotEmpty(globalFilterValue)) {
+                Integer globalValue = null;
+                try {
+                    globalValue = Integer.valueOf(globalFilterValue);
+                } catch (NumberFormatException e) {
+                    throw new PluginException("Attribute[" + ConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME + "] value in element[" + element.getName() + "] is invalid, must be int type", e);
+                }
+                countEntity.setFilterValue(globalValue);
+            }
+        }
+
+        Map<String, Integer> filterMap = countEntity.getFilterMap();
+        for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
+            Object childElementObject = elementIterator.next();
+            if (childElementObject instanceof Element) {
+                Element childElement = (Element) childElementObject;
+
+                Attribute serviceNameAttribute = childElement.attribute(ConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME);
+                if (serviceNameAttribute == null) {
+                    throw new PluginException("Attribute[" + ConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                }
+                String serviceName = serviceNameAttribute.getData().toString().trim();
+
+                Integer value = null;
+                Attribute filterValueAttribute = childElement.attribute(ConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME);
+                if (filterValueAttribute != null) {
+                    String filterValue = filterValueAttribute.getData().toString().trim();
+                    if (StringUtils.isNotEmpty(filterValue)) {
+                        try {
+                            value = Integer.valueOf(filterValue);
+                        } catch (NumberFormatException e) {
+                            throw new PluginException("Attribute[" + ConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME + "] value in element[" + childElement.getName() + "] is invalid, must be int type", e);
+                        }
+                    }
+                }
+
+                filterMap.put(serviceName, value);
+            }
+        }
+
+        registerEntity.setCountEntity(countEntity);
+    }
+
+    @SuppressWarnings("rawtypes")
     private void parseVersion(Element element, DiscoveryEntity discoveryEntity) {
         VersionEntity versionEntity = discoveryEntity.getVersionEntity();
         if (versionEntity != null) {
-            throw new PluginException("Version has been configed, only one version element exists");
+            throw new PluginException("Allow only one element[" + ConfigConstant.VERSION_ELEMENT_NAME + "] to be configed");
         }
 
         versionEntity = new VersionEntity();

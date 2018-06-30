@@ -106,12 +106,14 @@ public class IpAddressFilterRegisterListener extends AbstractRegisterListener {
     }
 
     private void onRegisterFailure(FilterType filterType, List<String> allFilterValueList, String serviceId, String ipAddress, int port) {
+        String description = ipAddress + " isn't allowed to register to Register server, not match IP address " + filterType + "=" + allFilterValueList;
+
         Boolean registerFailureEventEnabled = environment.getProperty(PluginConstant.SPRING_APPLICATION_REGISTER_FAILURE_EVENT_ENABLED, Boolean.class, Boolean.FALSE);
         if (registerFailureEventEnabled) {
-            pluginPublisher.asyncPublish(new RegisterFailureEvent(filterType.toString(), serviceId, ipAddress, port));
+            pluginPublisher.asyncPublish(new RegisterFailureEvent(filterType.toString(), description, serviceId, ipAddress, port));
         }
 
-        throw new PluginException(ipAddress + " isn't allowed to register to Register server, not match IP address " + filterType + "=" + allFilterValueList);
+        throw new PluginException(description);
     }
 
     @Override

@@ -20,6 +20,7 @@ import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
 import com.nepxion.discovery.plugin.framework.listener.DiscoveryListenerExecutor;
 import com.nepxion.discovery.plugin.framework.listener.RegisterListenerExecutor;
+import com.nepxion.discovery.plugin.framework.listener.impl.CountFilterRegisterListener;
 import com.nepxion.discovery.plugin.framework.listener.impl.IpAddressFilterDiscoveryListener;
 import com.nepxion.discovery.plugin.framework.listener.impl.IpAddressFilterRegisterListener;
 import com.nepxion.discovery.plugin.framework.listener.impl.VersionFilterDiscoveryListener;
@@ -78,6 +79,11 @@ public class PluginAutoConfiguration {
     @Bean
     public IpAddressFilterRegisterListener ipAddressFilterRegisterListener() {
         return new IpAddressFilterRegisterListener();
+    }
+
+    @Bean
+    public CountFilterRegisterListener countFilterRegisterListener() {
+        return new CountFilterRegisterListener();
     }
 
     @Bean
