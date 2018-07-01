@@ -17,4 +17,10 @@ public interface PluginAdapter {
     int getPort(Registration registration);
 
     String getVersion();
+
+    String getLocalVersion();
+
+    String getDynamicVersion();
+
+    void setDynamicVersion(String version);
 }

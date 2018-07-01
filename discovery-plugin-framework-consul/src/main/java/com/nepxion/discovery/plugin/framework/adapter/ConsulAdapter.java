@@ -22,7 +22,7 @@ import com.nepxion.discovery.plugin.framework.constant.ConsulConstant;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
-public class ConsulAdapter implements PluginAdapter {
+public class ConsulAdapter extends AbstractPluginAdapter {
     @Autowired
     private ConfigurableEnvironment environment;
 
@@ -76,7 +76,7 @@ public class ConsulAdapter implements PluginAdapter {
     }
 
     @Override
-    public String getVersion() {
+    public String getLocalVersion() {
         return version;
     }
 }

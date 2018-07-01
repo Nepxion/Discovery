@@ -14,6 +14,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.nepxion.discovery.plugin.framework.cache.PluginCache;
 import com.nepxion.discovery.plugin.framework.context.PluginContainerInitializedHandler;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
@@ -54,6 +55,11 @@ public class PluginAutoConfiguration {
     @Bean
     public PluginPublisher pluginPublisher() {
         return new PluginPublisher();
+    }
+
+    @Bean
+    public PluginCache pluginCache() {
+        return new PluginCache();
     }
 
     @Bean

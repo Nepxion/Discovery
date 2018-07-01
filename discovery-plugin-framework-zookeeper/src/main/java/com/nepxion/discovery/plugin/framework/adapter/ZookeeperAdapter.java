@@ -17,7 +17,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import com.nepxion.discovery.plugin.framework.constant.ZookeeperConstant;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
-public class ZookeeperAdapter implements PluginAdapter {
+public class ZookeeperAdapter extends AbstractPluginAdapter {
     @Autowired
     private ConfigurableEnvironment environment;
 
@@ -44,7 +44,7 @@ public class ZookeeperAdapter implements PluginAdapter {
     }
 
     @Override
-    public String getVersion() {
+    public String getLocalVersion() {
         return environment.getProperty(ZookeeperConstant.METADATA_VERSION);
     }
 }

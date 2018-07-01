@@ -24,7 +24,7 @@ public class PluginCache {
     public PluginCache() {
         loadingCache = CacheBuilder.newBuilder()
                 .concurrencyLevel(8)
-                .expireAfterWrite(1, TimeUnit.DAYS)
+                .expireAfterWrite(365 * 100, TimeUnit.DAYS)
                 .initialCapacity(10)
                 .maximumSize(100)
                 .recordStats()

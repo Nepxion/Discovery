@@ -17,7 +17,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import com.nepxion.discovery.plugin.framework.constant.EurekaConstant;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
-public class EurekaAdapter implements PluginAdapter {
+public class EurekaAdapter extends AbstractPluginAdapter {
     @Autowired
     private ConfigurableEnvironment environment;
 
@@ -44,7 +44,7 @@ public class EurekaAdapter implements PluginAdapter {
     }
 
     @Override
-    public String getVersion() {
+    public String getLocalVersion() {
         return environment.getProperty(EurekaConstant.METADATA_VERSION);
     }
 }

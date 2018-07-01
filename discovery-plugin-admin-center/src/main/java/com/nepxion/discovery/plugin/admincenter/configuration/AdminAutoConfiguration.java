@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.nepxion.discovery.plugin.admincenter.endpoint.ConfigEndpoint;
+import com.nepxion.discovery.plugin.admincenter.endpoint.VersionEndpoint;
 
 @Configuration
 public class AdminAutoConfiguration {
@@ -23,6 +24,11 @@ public class AdminAutoConfiguration {
         @Bean
         public ConfigEndpoint configEndpoint() {
             return new ConfigEndpoint();
+        }
+
+        @Bean
+        public VersionEndpoint versionEndpoint() {
+            return new VersionEndpoint();
         }
     }
 }
