@@ -52,7 +52,22 @@ public class VersionEndpoint implements MvcEndpoint {
         return ResponseEntity.ok().body("OK");
     }
 
-    // 查看当前服务的动态版本和动态版本
+    // 清除当前服务的动态版本
+    @RequestMapping(path = "clear", method = RequestMethod.GET)
+    @ResponseBody
+    @ManagedOperation
+    public ResponseEntity<?> clear() {
+        Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
+        if (!discoveryControlEnabled) {
+            return new ResponseEntity<>(Collections.singletonMap("Message", "Discovery control is disabled"), HttpStatus.NOT_FOUND);
+        }
+
+        pluginAdapter.clearDynamicVersion();
+
+        return ResponseEntity.ok().body("OK");
+    }
+
+    // 查看当前服务的本地版本和动态版本
     @RequestMapping(path = "view", method = RequestMethod.GET)
     @ResponseBody
     @ManagedOperation

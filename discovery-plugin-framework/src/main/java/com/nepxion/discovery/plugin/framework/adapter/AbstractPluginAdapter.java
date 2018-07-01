@@ -38,4 +38,9 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     public void setDynamicVersion(String version) {
         pluginCache.put(PluginConstant.VERSION, version);
     }
+
+    @Override
+    public void clearDynamicVersion() {
+        pluginCache.clear(PluginConstant.VERSION);
+    }
 }

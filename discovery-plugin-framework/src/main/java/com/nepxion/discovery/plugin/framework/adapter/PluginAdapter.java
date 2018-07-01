@@ -23,4 +23,6 @@ public interface PluginAdapter {
     String getDynamicVersion();
 
     void setDynamicVersion(String version);
+
+    void clearDynamicVersion();
 }
