@@ -304,7 +304,7 @@ http://IP:[management.port]/version/clear
 ```java
 Java:
 @RequestMapping(path = "view", method = RequestMethod.GET)
- public ResponseEntity<List<String>> view()
+public ResponseEntity<List<String>> view()
 
 Url:
 http://IP:[management.port]/version/view
@@ -382,18 +382,36 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 2. 或者，spring-cloud-consul中consul-api-1.2.2.jar替换到最新的版本
 ```
 
-## 示例
+## 示例演示
 ### 场景描述
 本例将模拟一个较为复杂的场景，如图2
+图2
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Version.jpg
 ```xml
 1. 微服务集群部署了3个，分别是A服务集群、B服务集群、C服务集群，分别对应的实例数为1、2、3
 2. 微服务集群的调用关系为服务A->服务B->服务C
-3. 规则为服务A只能只能调用服务B的1.0和1.1版本，服务B的1.0版本只能调用服务C的1.0和1.1版本，服务B的1.1版本只能调用服务C的1.2版本
-4. 当一切就绪后，动态切换规则，改变调用的版本对应关系
+3. 服务A1.0版本只能调用服务B的1.0，服务A1.1版本只能调用服务B的1.1版本，服务B的1.0版本只能调用服务C的1.0和1.1版本，服务B的1.1版本只能调用服务C的1.2版本
+4. 服务A启动时候为1.0版本，然后运行后，动态切换成1.1版本，那么调用路径从如下图所示实线调用，改成虚线调用的灰度方式
+5. 推送服务B1和B2的版本对应关系，从规则上改变调用方式
 ```
-
-图2
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Version.jpg)
+用规则来表述上述关系
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <discovery>
+        <version>
+            <!-- 表示消费端服务a的1.0，允许访问提供端服务b的1.0版本 -->
+            <service consumer-service-name="discovery-springcloud-example-a" provider-service-name="discovery-springcloud-example-b" consumer-version-value="1.0" provider-version-value="1.0"/>
+            <!-- 表示消费端服务a的1.1，允许访问提供端服务b的1.1版本 -->
+            <service consumer-service-name="discovery-springcloud-example-a" provider-service-name="discovery-springcloud-example-b" consumer-version-value="1.1" provider-version-value="1.1"/>
+            <!-- 表示消费端服务b的1.0，允许访问提供端服务c的1.0和1.1版本 -->
+            <service consumer-service-name="discovery-springcloud-example-b" provider-service-name="discovery-springcloud-example-c" consumer-version-value="1.0" provider-version-value="1.0;1.1"/>
+            <!-- 表示消费端服务b的1.1，允许访问提供端服务c的1.2版本 -->
+            <service consumer-service-name="discovery-springcloud-example-b" provider-service-name="discovery-springcloud-example-c" consumer-version-value="1.1" provider-version-value="1.2"/>
+        </version>
+    </discovery>
+</rule>
+```
 
 上述微服务分别见discovery-springcloud-example字样的6个DiscoveryApplication，分别对应各自的application.properties。这6个应用，对应的版本和端口号如下表
 
@@ -406,8 +424,66 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 | C2 | 1301 | 5301 | 1.1 |
 | C3 | 1302 | 5302 | 1.2 |
 
+### 示例操作过程和效果
+黑/白名单的IP地址注册的过滤
+```xml
+1. 在rule.xml把本地IP地址写入到相应地方
+2. 启动DiscoveryApplicationA1.java
+3. 抛出禁止注册的异常，即本地服务受限于黑名单，不会注册到服务注册发现中心；黑名单操作也是如此
+```
+
+最大注册数的限制的过滤
+```xml
+1. 在rule.xml修改最大注册数为0
+2. 启动DiscoveryApplicationA1.java
+3. 抛出禁止注册的异常，即本地服务受限于最大注册数，不会注册到服务注册发现中心
+```
+
+黑/白名单的IP地址发现的过滤
+```xml
+1. 在rule.xml把本地IP地址写入到相应地方
+2. 启动DiscoveryApplicationA1.java和DiscoveryApplicationB1.java、DiscoveryApplicationB2.java
+3. 你会发现A服务无法获取B服务的任何实例
+```
+
+多版本灰度访问控制
+```xml
+1. 启动discovery-springcloud-example字样的6个DiscoveryApplication，无先后顺序，等待全部启动完毕
+2. 验证以下服务访问是否正确
+   2.1 通过Postman或者浏览器，执行GET  http://localhost:1100/instances/discovery-springcloud-example-b，查看当前A服务可访问B服务的列表
+   2.2 通过Postman或者浏览器，执行GET  http://localhost:1200/instances/discovery-springcloud-example-c，查看当前B1服务可访问C服务的列表
+   2.3 通过Postman或者浏览器，执行GET  http://localhost:1201/instances/discovery-springcloud-example-c，查看当前B2服务可访问C服务的列表
+3. 灰度版本切换
+   3.1 通过Postman或者浏览器，执行POST http://localhost:1100/routeAll/，填入discovery-springcloud-example-b;discovery-springcloud-example-c，查看路由路径，如图3，可以看到符合图2的实线调用路径
+   3.2 通过Postman或者浏览器，执行POST http://localhost:5100/version/send，填入1.1，动态把服务A的版本从1.0切换到1.1
+   3.3 再执行3.1步骤，如图4，可以看到符合图2的虚线调用路径，符合逻辑，灰度版本切换成功
+4. 灰度版本控制
+   4.1 通过Postman或者浏览器，执行POST http://localhost:5200/config/send，发送新的规则XML（内容见下面），表示B服务的所有版本都只能访问C服务3.0版本，而本例中C服务3.0版本是不存在的，意味着B服务不能访问C服务
+   4.2 访问http://localhost:5201/config/send，重复4.1步骤
+   4.3 重复3.1步骤，发现调用路径只有A服务->B服务，符合逻辑，灰度版本控制成功
+5. 其它更多操作，请参考“管理中心”和“路由中心”，不一一阐述了
+```
+
+新XML规则
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <discovery>
+        <version>
+            <service consumer-service-name="discovery-springcloud-example-b" provider-service-name="discovery-springcloud-example-c" consumer-version-value="" provider-version-value="3.0"/>
+        </version>
+    </discovery>
+</rule>
+```
+图3
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Result1.jpg)
+图4
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Result2.jpg)
+图5
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Result3.jpg)
+
 ### 切换服务注册组件
-在discovery-springcloud-example/pom.xml进行切换
+如果使用者想改变服务注册组件，请在discovery-springcloud-example/pom.xml进行切换
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -417,77 +493,3 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
     <version>${discovery.plugin.version}</version>
 </dependency>
 ```
-
-### 运行效果
-黑/白名单的IP地址注册的过滤 & 最大注册数的限制的过滤
-```xml
-1. 首先在rule.xml把本地IP地址写入，或者修改最大注册数为0
-2. 启动Application
-3. 抛出禁止注册的异常，即本机不会注册到服务注册发现中心
-```
-
-黑/白名单的IP地址发现的过滤 & 多版本灰度访问控制（单个微服务需要推送多次，如果是远程配置中心，则推送一次够了）
-```xml
-1. 启动3个工程共6个Application
-2. 通过Postman或者浏览器，执行GET  http://localhost:1100/instances/discovery-springcloud-example-b，查看当前A服务可访问B服务的列表
-3. 通过Postman或者浏览器，执行GET  http://localhost:1200/instances/discovery-springcloud-example-c，查看当前B1服务可访问C服务的列表
-4. 通过Postman或者浏览器，执行GET  http://localhost:1201/instances/discovery-springcloud-example-c，查看当前B2服务可访问C服务的列表
-5. 通过Postman或者浏览器，执行POST http://localhost:1100/routeAll/，填入discovery-springcloud-example-b;discovery-springcloud-example-c，可以看到路由全路径，如图3结果
-6. 通过Postman或者浏览器，执行POST http://localhost:5200/config/send，发送新的规则XML，那么在B1服务上将会运行新的规则，再运行上述步骤，查看服务列表
-7. 通过Postman或者浏览器，执行POST http://localhost:5201/config/send，发送同样的规则XML，那么在B1服务上将会运行新的规则，再运行上述步骤，查看服务列表
-8. 通过Postman或者浏览器，执行GET  http://localhost:5200/config/view，查看当前在B1服务已经生效的规则
-9. 通过Postman或者浏览器，执行GET  http://localhost:5201/config/view，查看当前在B2服务已经生效的规则
-10.再执行步骤5，可以看到路由全路径将发生变化
-```
-图3结果
-```xml
-{
-    "serviceId": "discovery-springcloud-example-a",
-    "version": "1.0",
-    "host": "192.168.0.107",
-    "port": 1100,
-    "nexts": [
-        {
-            "serviceId": "discovery-springcloud-example-b",
-            "version": "1.0",
-            "host": "192.168.0.107",
-            "port": 1200,
-            "nexts": [
-                {
-                    "serviceId": "discovery-springcloud-example-c",
-                    "version": "1.0",
-                    "host": "192.168.0.107",
-                    "port": 1300,
-                    "nexts": []
-                },
-                {
-                    "serviceId": "discovery-springcloud-example-c",
-                    "version": "1.1",
-                    "host": "localhost",
-                    "port": 1301,
-                    "nexts": []
-                }
-            ]
-        },
-        {
-            "serviceId": "discovery-springcloud-example-b",
-            "version": "1.1",
-            "host": "localhost",
-            "port": 1201,
-            "nexts": [
-                {
-                    "serviceId": "discovery-springcloud-example-c",
-                    "version": "1.2",
-                    "host": "192.168.0.107",
-                    "port": 1302,
-                    "nexts": []
-                }
-            ]
-        }
-    ]
-}
-```
-
-图3
-
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Result.jpg)
