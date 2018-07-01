@@ -209,10 +209,9 @@ spring.application.discovery.remote.config.enabled=true
 ## 配置中心
 ### 跟远程配置中心整合
 使用者可以跟携程Apollo，百度DisConf等远程配置中心整合，实现规则读取和订阅
-```xml
-1. 主动从本地或远程配置中心获取规则
-2. 订阅远程配置中心的规则更新
-```
+- 主动从本地或远程配置中心获取规则
+- 订阅远程配置中心的规则更新
+
 继承ConfigAdapter.java
 ```java
 public class DiscoveryConfigAdapter extends ConfigAdapter {
@@ -245,7 +244,7 @@ public class DiscoveryConfigAdapter extends ConfigAdapter {
 ```
 
 ## 管理中心
-注意：端口号为management.port的值
+> 端口号为management.port的值
 ### 推送规则配置信息
 使用者可以通过Rest方式向一个微服务推送规则信息，但该方式只能每次推送到一个微服务上
 ```java
@@ -302,7 +301,7 @@ http://IP:[management.port]/version/view
 ```
 
 ## 路由中心
-注意：端口号为server.port的值
+> 端口号为server.port的值
 ### 获取本地节点可访问其他节点（根据服务名）的实例列表
 ```java
 Java:
@@ -357,21 +356,17 @@ http://IP:[server.port]/routeAll
 
 ## 扩展和自定义更多规则或者监听
 使用者可以继承如下类
-```xml
-1. AbstractRegisterListener，实现服务注册的扩展和监听
-2. AbstractDiscoveryListener，实现服务发现的扩展和监听，注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断，见图1
-```
+- AbstractRegisterListener，实现服务注册的扩展和监听
+- AbstractDiscoveryListener，实现服务发现的扩展和监听，注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断，见图1
 
 图1，集成了健康检查的Consul控制台
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Consul.jpg)
 
 ## Spring Cloud引入Consul的坑
-```xml
 spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-api-1.2.2版本，它不兼容Consul的1.0.0以上的服务器，原因是服务的deregister在consul-api-1.2.2中是执行GET方法，而Consul的1.0.0以上的服务器对应的是PUT方法
 解决办法，二选一
-1. 选用1.0.0以下的服务器，从https://releases.hashicorp.com/consul/0.9.3/获取
-2. 或者，spring-cloud-consul中consul-api-1.2.2.jar替换到最新的版本
-```
+- 选用1.0.0以下的服务器，从https://releases.hashicorp.com/consul/0.9.3/获取
+- 或者，spring-cloud-consul中consul-api-1.2.2.jar替换到最新的版本
 
 ## 示例演示
 ### 场景描述
@@ -380,13 +375,12 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 图2
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Version.jpg)
 
-```xml
-1. 微服务集群部署了3个，分别是A服务集群、B服务集群、C服务集群，分别对应的实例数为1、2、3
-2. 微服务集群的调用关系为服务A->服务B->服务C
-3. 服务A1.0版本只能调用服务B的1.0，服务A1.1版本只能调用服务B的1.1版本，服务B的1.0版本只能调用服务C的1.0和1.1版本，服务B的1.1版本只能调用服务C的1.2版本
-4. 服务A启动时候为1.0版本，然后运行后，动态切换成1.1版本，那么调用路径从如下图所示实线调用，改成虚线调用的灰度方式
-5. 推送服务B1和B2的版本对应关系，从规则上改变调用方式
-```
+- 微服务集群部署了3个，分别是A服务集群、B服务集群、C服务集群，分别对应的实例数为1、2、3
+- 微服务集群的调用关系为服务A->服务B->服务C
+- 服务A1.0版本只能调用服务B的1.0，服务A1.1版本只能调用服务B的1.1版本，服务B的1.0版本只能调用服务C的1.0和1.1版本，服务B的1.1版本只能调用服务C的1.2版本
+- 服务A启动时候为1.0版本，然后运行后，动态切换成1.1版本，那么调用路径从如下图所示实线调用，改成虚线调用的灰度方式
+- 推送服务B1和B2的版本对应关系，从规则上改变调用方式
+
 用规则来表述上述关系
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
