@@ -363,8 +363,7 @@ http://IP:[server.port]/routeAll
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Consul.jpg)
 
 ## Spring Cloud引入Consul的坑
-spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-api-1.2.2版本，它不兼容Consul的1.0.0以上的服务器，原因是服务的deregister在consul-api-1.2.2中是执行GET方法，而Consul的1.0.0以上的服务器对应的是PUT方法
-解决办法，二选一
+spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-api-1.2.2版本，它不兼容Consul的1.0.0以上的服务器，原因是服务的deregister在consul-api-1.2.2中是执行GET方法，而Consul的1.0.0以上的服务器对应的是PUT方法。解决方案，二选一
 - 选用1.0.0以下的服务器，从https://releases.hashicorp.com/consul/0.9.3/获取
 - 或者，spring-cloud-consul中consul-api-1.2.2.jar替换到最新的版本
 
@@ -413,43 +412,35 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 
 ### 示例操作过程和效果
 黑/白名单的IP地址注册的过滤
-```xml
-1. 在rule.xml把本地IP地址写入到相应地方
-2. 启动DiscoveryApplicationA1.java
-3. 抛出禁止注册的异常，即本地服务受限于黑名单，不会注册到服务注册发现中心；黑名单操作也是如此
-```
+- 在rule.xml把本地IP地址写入到相应地方
+- 启动DiscoveryApplicationA1.java
+- 抛出禁止注册的异常，即本地服务受限于黑名单，不会注册到服务注册发现中心；黑名单操作也是如此
 
 最大注册数的限制的过滤
-```xml
-1. 在rule.xml修改最大注册数为0
-2. 启动DiscoveryApplicationA1.java
-3. 抛出禁止注册的异常，即本地服务受限于最大注册数，不会注册到服务注册发现中心
-```
+- 在rule.xml修改最大注册数为0
+- 启动DiscoveryApplicationA1.java
+- 抛出禁止注册的异常，即本地服务受限于最大注册数，不会注册到服务注册发现中心
 
 黑/白名单的IP地址发现的过滤
-```xml
-1. 在rule.xml把本地IP地址写入到相应地方
-2. 启动DiscoveryApplicationA1.java和DiscoveryApplicationB1.java、DiscoveryApplicationB2.java
-3. 你会发现A服务无法获取B服务的任何实例
-```
+- 在rule.xml把本地IP地址写入到相应地方
+- 启动DiscoveryApplicationA1.java和DiscoveryApplicationB1.java、DiscoveryApplicationB2.java
+- 你会发现A服务无法获取B服务的任何实例
 
 多版本灰度访问控制
-```xml
-1. 启动discovery-springcloud-example字样的6个DiscoveryApplication，无先后顺序，等待全部启动完毕
-2. 验证以下服务访问是否正确
-   2.1 通过Postman或者浏览器，执行GET  http://localhost:1100/instances/discovery-springcloud-example-b，查看当前A服务可访问B服务的列表
-   2.2 通过Postman或者浏览器，执行GET  http://localhost:1200/instances/discovery-springcloud-example-c，查看当前B1服务可访问C服务的列表
-   2.3 通过Postman或者浏览器，执行GET  http://localhost:1201/instances/discovery-springcloud-example-c，查看当前B2服务可访问C服务的列表
-3. 灰度版本切换
-   3.1 通过Postman或者浏览器，执行POST http://localhost:1100/routeAll/，填入discovery-springcloud-example-b;discovery-springcloud-example-c，查看路由路径，如图3，可以看到符合图2的实线调用路径
-   3.2 通过Postman或者浏览器，执行POST http://localhost:5100/version/send，填入1.1，动态把服务A的版本从1.0切换到1.1
-   3.3 再执行3.1步骤，如图4，可以看到符合图2的虚线调用路径，符合逻辑，灰度版本切换成功
-4. 灰度版本控制
-   4.1 通过Postman或者浏览器，执行POST http://localhost:5200/config/send，发送新的规则XML（内容见下面），表示B服务的所有版本都只能访问C服务3.0版本，而本例中C服务3.0版本是不存在的，意味着B服务不能访问C服务
-   4.2 访问http://localhost:5201/config/send，重复4.1步骤
-   4.3 重复3.1步骤，发现调用路径只有A服务->B服务，符合逻辑，灰度版本控制成功
-5. 其它更多操作，请参考“管理中心”和“路由中心”，不一一阐述了
-```
+- 启动discovery-springcloud-example字样的6个DiscoveryApplication，无先后顺序，等待全部启动完毕
+- 验证以下服务访问是否正确
+  - 通过Postman或者浏览器，执行GET  http://localhost:1100/instances/discovery-springcloud-example-b，查看当前A服务可访问B服务的列表
+  - 通过Postman或者浏览器，执行GET  http://localhost:1200/instances/discovery-springcloud-example-c，查看当前B1服务可访问C服务的列表
+  - 通过Postman或者浏览器，执行GET  http://localhost:1201/instances/discovery-springcloud-example-c，查看当前B2服务可访问C服务的列表
+- 灰度版本切换
+  - 通过Postman或者浏览器，执行POST http://localhost:1100/routeAll/，填入discovery-springcloud-example-b;discovery-springcloud-example-c，查看路由路径，如图3，可以看到符合图2的实线调用路径
+  - 通过Postman或者浏览器，执行POST http://localhost:5100/version/send，填入1.1，动态把服务A的版本从1.0切换到1.1
+  - 再执行3.1步骤，如图4，可以看到符合图2的虚线调用路径，符合逻辑，灰度版本切换成功
+- 灰度版本控制
+  - 通过Postman或者浏览器，执行POST http://localhost:5200/config/send，发送新的规则XML（内容见下面），表示B服务的所有版本都只能访问C服务3.0版本，而本例中C服务3.0版本是不存在的，意味着B服务不能访问C服务
+  - 访问http://localhost:5201/config/send，重复4.1步骤
+  - 重复3.1步骤，发现调用路径只有A服务->B服务，符合逻辑，灰度版本控制成功
+- 其它更多操作，请参考“管理中心”和“路由中心”，不一一阐述了
 
 新XML规则
 ```xml
