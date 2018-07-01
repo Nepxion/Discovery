@@ -47,7 +47,7 @@ public class ConfigEndpoint implements MvcEndpoint {
     @Autowired
     private RuleEntity ruleEntity;
 
-    // 发送规则配置信息
+    // 推送规则配置信息
     @RequestMapping(path = "send", method = RequestMethod.POST)
     @ResponseBody
     @ManagedOperation

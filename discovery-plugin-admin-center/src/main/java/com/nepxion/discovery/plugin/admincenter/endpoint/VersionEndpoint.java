@@ -37,7 +37,7 @@ public class VersionEndpoint implements MvcEndpoint {
     @Autowired
     private PluginAdapter pluginAdapter;
 
-    // 发送当前服务的动态版本
+    // 设置服务的动态版本
     @RequestMapping(path = "send", method = RequestMethod.POST)
     @ResponseBody
     @ManagedOperation
@@ -52,7 +52,7 @@ public class VersionEndpoint implements MvcEndpoint {
         return ResponseEntity.ok().body("OK");
     }
 
-    // 清除当前服务的动态版本
+    // 清除服务的动态版本
     @RequestMapping(path = "clear", method = RequestMethod.GET)
     @ResponseBody
     @ManagedOperation
@@ -67,7 +67,7 @@ public class VersionEndpoint implements MvcEndpoint {
         return ResponseEntity.ok().body("OK");
     }
 
-    // 查看当前服务的本地版本和动态版本
+    // 查看服务的本地版本和动态版本
     @RequestMapping(path = "view", method = RequestMethod.GET)
     @ResponseBody
     @ManagedOperation

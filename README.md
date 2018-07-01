@@ -252,29 +252,64 @@ public class DiscoveryConfigAdapter extends ConfigAdapter {
 ```
 
 ## 管理中心
-### 单独推送规则信息
-使用者可以通过Rest方式主动向一个微服务推送规则信息，但该方式只能每次推送到一个微服务上（注意：端口号为management.port的值）
+注意：端口号为management.port的值
+### 推送规则配置信息
+使用者可以通过Rest方式向一个微服务推送规则信息，但该方式只能每次推送到一个微服务上
 ```java
 Java:
-@RequestMapping(path = "config", method = RequestMethod.POST)
-public Object config(@RequestBody String config)
+@RequestMapping(path = "send", method = RequestMethod.POST)
+public ResponseEntity<?> send(@RequestBody String config)
 
 Url:
 http://IP:[management.port]/config/send
 ```
 
-### 查看当前生效的规则信息
-使用者可以通过Rest方式主动请求某个微服务当前生效的规则（注意：端口号为management.port的值）
+### 查看当前生效的规则配置信息
+使用者可以通过Rest方式查看某个微服务当前生效的规则
 ```java
 Java:
 @RequestMapping(path = "view", method = RequestMethod.GET)
-public String view()
+public ResponseEntity<String> view()
 
 Url:
 http://IP:[management.port]/config/view
 ```
 
+### 设置服务的动态版本
+使用者可以通过Rest方式设置某个微服务的动态版本
+```java
+Java:
+@RequestMapping(path = "send", method = RequestMethod.POST)
+public ResponseEntity<?> send(@RequestBody String version)
+
+Url:
+http://IP:[management.port]/version/send
+```
+
+### 清除服务的动态版本
+使用者可以通过Rest方式清除某个微服务的动态版本
+```java
+Java:
+@RequestMapping(path = "clear", method = RequestMethod.GET)
+public ResponseEntity<?> clear()
+
+Url:
+http://IP:[management.port]/version/clear
+```
+
+### 查看服务的本地版本和动态版本
+使用者可以通过Rest方式查看服务的本地版本和动态版本
+```java
+Java:
+@RequestMapping(path = "view", method = RequestMethod.GET)
+ public ResponseEntity<List<String>> view()
+
+Url:
+http://IP:[management.port]/version/view
+```
+
 ## 路由中心
+注意：端口号为server.port的值
 ### 获取本地节点可访问其他节点（根据服务名）的实例列表
 ```java
 Java:
@@ -317,11 +352,11 @@ http://IP:[server.port]/route/{routeServiceId}/{routeHost}/{routePort}
 ```
 
 ### 获取全路径的路由信息
-serviceIds按调用服务名的前后次序排列，起始节点的服务名不能加上去。如果多个用“;”分隔，不允许出现空格
+routeServiceIds按调用服务名的前后次序排列，起始节点的服务名不能加上去。如果多个用“;”分隔，不允许出现空格
 ```java
 Java:
 @RequestMapping(path = "/routeAll", method = RequestMethod.POST)
-public RouterEntity routeAll(@RequestBody String serviceIds)
+public RouterEntity routeAll(@RequestBody String routeServiceIds)
 
 Url:
 http://IP:[server.port]/routeAll
