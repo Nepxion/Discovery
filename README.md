@@ -13,12 +13,9 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
 ## 痛点
 现有Spring Cloud的痛点
 
-    1. 如果你是运维负责人，是否会经常发现，你掌管的测试环境中的服务注册中心，被一些不负责的开发人员把他本地开发环境注册上来，造成测
-       试人员测试失败。你希望可以把本地开发环境注册给屏蔽掉，不让注册
-    2. 如果你是运维负责人，生产环境的某个微服务集群下的某个实例，暂时出了问题，但又不希望它下线。你希望可以把该实例给屏蔽掉，暂时不
-       让被调用
-    3. 如果你是业务负责人，鉴于业务服务的快速迭代性，微服务集群下的实例发布不同的版本。你希望根据版本管理策略进行路由，提供给下游微
-       服务区别调用，达到多版本灰度访问控制
+    1. 如果你是运维负责人，是否会经常发现，你掌管的测试环境中的服务注册中心，被一些不负责的开发人员把他本地开发环境注册上来，造成测试人员测试失败。你希望可以把本地开发环境注册给屏蔽掉，不让注册
+    2. 如果你是运维负责人，生产环境的某个微服务集群下的某个实例，暂时出了问题，但又不希望它下线。你希望可以把该实例给屏蔽掉，暂时不让被调用
+    3. 如果你是业务负责人，鉴于业务服务的快速迭代性，微服务集群下的实例发布不同的版本。你希望根据版本管理策略进行路由，提供给下游微服务区别调用，达到多版本灰度访问控制
     4. 如果你是测试负责人，希望对服务做A/B测试
 
 ## 简介
@@ -43,18 +40,15 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
 ## 场景
 
     1. 黑/白名单的IP地址注册的过滤
-       开发环境的本地服务（例如IP地址为172.16.0.8）不希望被注册到测试环境的服务注册发现中心，那么可以在配置中心维护一个黑/白名单的
-       IP地址过滤（支持全局和局部的过滤）的规则
+       开发环境的本地服务（例如IP地址为172.16.0.8）不希望被注册到测试环境的服务注册发现中心，那么可以在配置中心维护一个黑/白名单的IP地址过滤（支持全局和局部的过滤）的规则
        我们可以通过提供一份黑/白名单达到该效果
     2. 最大注册数的限制的过滤
        当某个微服务注册数目已经达到上限（例如10个），那么后面起来的微服务，将再也不能注册上去
     3. 黑/白名单的IP地址发现的过滤
-       开发环境的本地服务（例如IP地址为172.16.0.8）已经注册到测试环境的服务注册发现中心，那么可以在配置中心维护一个黑/白名单的IP地
-       址过滤（支持全局和局部的过滤）的规则，该本地服务不会被其他测试环境的服务所调用
+       开发环境的本地服务（例如IP地址为172.16.0.8）已经注册到测试环境的服务注册发现中心，那么可以在配置中心维护一个黑/白名单的IP地址过滤（支持全局和局部的过滤）的规则，该本地服务不会被其他测试环境的服务所调用
        我们可以通过推送一份黑/白名单达到该效果
     4. 多版本灰度访问控制
-       A服务调用B服务，而B服务有两个实例（B1、B2），虽然三者相同的服务名，但功能上有差异，需求是在某个时刻，A服务只能调用B1，禁止调
-       用B2。在此场景下，我们在application.properties里为B1维护一个版本为1.0，为B2维护一个版本为1.1
+       A服务调用B服务，而B服务有两个实例（B1、B2），虽然三者相同的服务名，但功能上有差异，需求是在某个时刻，A服务只能调用B1，禁止调用B2。在此场景下，我们在application.properties里为B1维护一个版本为1.0，为B2维护一个版本为1.1
        我们可以通过推送A服务调用某个版本的B服务对应关系的配置，达到某种意义上的灰度控制，切换版本的时候，我们只需要再次推送即可
 
 ## 依赖
@@ -172,8 +166,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
 ### 黑/白名单的IP地址注册的过滤规则策略
 服务启动的时候，禁止指定的IP地址注册到服务注册发现中心。支持黑/白名单，白名单表示只允许指定IP地址前缀注册，黑名单表示不允许指定IP地址前缀注册
 ```xml
-1. 全局过滤，指注册到服务注册发现中心的所有服务，只有IP地址包含在全局过滤字段的前缀中，都允许注册（对于白名单而言），或者不允许注册（
-   对于黑名单而言）
+1. 全局过滤，指注册到服务注册发现中心的所有服务，只有IP地址包含在全局过滤字段的前缀中，都允许注册（对于白名单而言），或者不允许注册（对于黑名单而言）
 2. 局部过滤，指专门针对某个服务而言，那么真正的过滤条件是全局过滤+局部过滤结合在一起
 ```
 
@@ -313,8 +306,7 @@ http://IP:[server.port]/routeAll
 使用者可以继承如下类
 ```xml
 1. AbstractRegisterListener，实现服务注册的扩展和监听
-2. AbstractDiscoveryListener，实现服务发现的扩展和监听，注意，在Consul下，同时会触发service和management两个实例的事件，需要
-   区别判断，见图1
+2. AbstractDiscoveryListener，实现服务发现的扩展和监听，注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断，见图1
 ```
 
 图1，集成了健康检查的Consul控制台
@@ -322,8 +314,7 @@ http://IP:[server.port]/routeAll
 
 ## Spring Cloud引入Consul的坑
 ```xml
-spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-api-1.2.2版本，它不兼容Consul的1.0.0以上的服务器，原因是
-服务的deregister在consul-api-1.2.2中是执行GET方法，而Consul的1.0.0以上的服务器对应的是PUT方法
+spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-api-1.2.2版本，它不兼容Consul的1.0.0以上的服务器，原因是服务的deregister在consul-api-1.2.2中是执行GET方法，而Consul的1.0.0以上的服务器对应的是PUT方法
 解决办法，二选一
 1. 选用1.0.0以下的服务器，从https://releases.hashicorp.com/consul/0.9.3/获取
 2. 或者，spring-cloud-consul中consul-api-1.2.2.jar替换到最新的版本
@@ -376,18 +367,13 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 黑/白名单的IP地址发现的过滤 & 多版本灰度访问控制（单个微服务需要推送多次，如果是远程配置中心，则推送一次够了）
 ```xml
 1. 启动3个工程共6个Application
-2. 通过Postman或者浏览器，执行GET  http://localhost:1100/instances/discovery-springcloud-example-b，查看当前A服务可访问B
-   服务的列表
-3. 通过Postman或者浏览器，执行GET  http://localhost:1200/instances/discovery-springcloud-example-c，查看当前B1服务可访问
-   C服务的列表
-4. 通过Postman或者浏览器，执行GET  http://localhost:1201/instances/discovery-springcloud-example-c，查看当前B2服务可访问
-   C服务的列表
+2. 通过Postman或者浏览器，执行GET  http://localhost:1100/instances/discovery-springcloud-example-b，查看当前A服务可访问B服务的列表
+3. 通过Postman或者浏览器，执行GET  http://localhost:1200/instances/discovery-springcloud-example-c，查看当前B1服务可访问C服务的列表
+4. 通过Postman或者浏览器，执行GET  http://localhost:1201/instances/discovery-springcloud-example-c，查看当前B2服务可访问C服务的列表
 5. 通过Postman或者浏览器，执行POST http://localhost:1100/routeAll/，填入
    discovery-springcloud-example-b;discovery-springcloud-example-c，可以看到路由全路径，如图3结果
-6. 通过Postman或者浏览器，执行POST http://localhost:5200/config/send，发送新的规则XML，那么在B1服务上将会运行新的规则，再
-   运行上述步骤，查看服务列表
-7. 通过Postman或者浏览器，执行POST http://localhost:5201/config/send，发送同样的规则XML，那么在B1服务上将会运行新的规则，
-   再运行上述步骤，查看服务列表
+6. 通过Postman或者浏览器，执行POST http://localhost:5200/config/send，发送新的规则XML，那么在B1服务上将会运行新的规则，再运行上述步骤，查看服务列表
+7. 通过Postman或者浏览器，执行POST http://localhost:5201/config/send，发送同样的规则XML，那么在B1服务上将会运行新的规则，再运行上述步骤，查看服务列表
 8. 通过Postman或者浏览器，执行GET  http://localhost:5200/config/view，查看当前在B1服务已经生效的规则
 9. 通过Postman或者浏览器，执行GET  http://localhost:5201/config/view，查看当前在B2服务已经生效的规则
 10.再执行步骤5，可以看到路由全路径将发生变化
