@@ -372,7 +372,6 @@ http://IP:[server.port]/routeAll
 ```
 
 图1，集成了健康检查的Consul控制台
-
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Consul.jpg)
 
 ## Spring Cloud引入Consul的坑
@@ -388,7 +387,6 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 本例将模拟一个较为复杂的场景，如图2
 
 图2
-
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Version.jpg)
 
 ```xml
@@ -481,15 +479,12 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 ```
 
 图3
-
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Result1.jpg)
 
 图4
-
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Result2.jpg)
 
 图5
-
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Result3.jpg)
 
 ### 切换服务注册组件
