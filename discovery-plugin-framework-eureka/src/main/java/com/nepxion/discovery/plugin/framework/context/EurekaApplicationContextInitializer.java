@@ -10,7 +10,6 @@ package com.nepxion.discovery.plugin.framework.context;
  */
 
 import org.springframework.beans.BeansException;
-import org.springframework.cloud.netflix.eureka.EurekaInstanceConfigBean;
 import org.springframework.cloud.netflix.eureka.serviceregistry.EurekaServiceRegistry;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -23,11 +22,11 @@ public class EurekaApplicationContextInitializer extends PluginApplicationContex
             EurekaServiceRegistry eurekaServiceRegistry = (EurekaServiceRegistry) bean;
 
             return new EurekaServiceRegistryDecorator(eurekaServiceRegistry, applicationContext);
-        } else if (bean instanceof EurekaInstanceConfigBean) {
-            EurekaInstanceConfigBean instanceConfig = (EurekaInstanceConfigBean) bean;
-            instanceConfig.setPreferIpAddress(true);
+        /*} else if (bean instanceof EurekaInstanceConfigBean) {
+            EurekaInstanceConfigBean eurekaInstanceConfig = (EurekaInstanceConfigBean) bean;
+            eurekaInstanceConfig.setPreferIpAddress(true);
 
-            return bean;
+            return bean;*/
         } else {
             return bean;
         }

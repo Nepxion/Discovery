@@ -22,6 +22,11 @@ public class ZookeeperApplicationContextInitializer extends PluginApplicationCon
             ZookeeperServiceRegistry zookeeperServiceRegistry = (ZookeeperServiceRegistry) bean;
 
             return new ZookeeperServiceRegistryDecorator(zookeeperServiceRegistry, applicationContext);
+        /*} else if (bean instanceof ZookeeperDiscoveryProperties) {
+            ZookeeperDiscoveryProperties zookeeperDiscoveryProperties = (ZookeeperDiscoveryProperties) bean;
+            zookeeperDiscoveryProperties.setPreferIpAddress(true);
+
+            return bean;*/
         } else {
             return bean;
         }

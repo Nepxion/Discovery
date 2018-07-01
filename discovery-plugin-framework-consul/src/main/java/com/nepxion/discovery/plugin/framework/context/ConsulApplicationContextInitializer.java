@@ -22,6 +22,11 @@ public class ConsulApplicationContextInitializer extends PluginApplicationContex
             ConsulServiceRegistry consulServiceRegistry = (ConsulServiceRegistry) bean;
 
             return new ConsulServiceRegistryDecorator(consulServiceRegistry, applicationContext);
+        /*} else if (bean instanceof ConsulDiscoveryProperties) {
+            ConsulDiscoveryProperties consulDiscoveryProperties = (ConsulDiscoveryProperties) bean;
+            consulDiscoveryProperties.setPreferIpAddress(true);
+
+            return bean;*/
         } else {
             return bean;
         }
