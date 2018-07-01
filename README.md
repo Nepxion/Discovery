@@ -200,8 +200,10 @@ eureka.instance.metadataMap.version=1.0
 spring.cloud.consul.discovery.tags=version=1.0
 
 spring.cloud.zookeeper.discovery.metadata.version=1.0
+```
 
-# Plugin config
+### 功能开关策略
+```xml
 # 开启和关闭服务注册层面的控制。一旦关闭，服务注册的黑/白名单过滤功能将失效。缺失则默认为true
 spring.application.register.control.enabled=true
 # 开启和关闭禁止注册后发送异步事件通知。一旦关闭，禁止注册后，不会发送异步事件通知。缺失则默认为false
