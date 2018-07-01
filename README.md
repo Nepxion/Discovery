@@ -166,7 +166,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
 2. 提供端的application.properties未定义版本号，当消费端在xml里不做任何版本配置，才可以访问该提供端
 ```
 
-### 动态改变版本的规则策略
+### 动态改变版本规则策略
 微服务启动的时候，由于版本已经写死在application.properties里，使用者希望改变一下版本，而不重启微服务，达到访问版本的路径改变 
 ```xml
 1. 版本分为本地版本和动态版本
@@ -285,7 +285,8 @@ Url:
 http://IP:[server.port]/instances/{serviceId}
 ```
 
-### 获取本地节点的路由信息（只显示当前节点的简单信息，不包含下级路由）
+### 获取本地节点的路由信息
+只显示当前节点的简单信息，不包含下级路由
 ```java
 Java:
 @RequestMapping(path = "/info", method = RequestMethod.GET)
@@ -315,7 +316,8 @@ Url:
 http://IP:[server.port]/route/{routeServiceId}/{routeHost}/{routePort}
 ```
 
-### 获取全路径的路由信息（serviceIds按调用服务名的前后次序排列，起始节点的服务名不能加上去。如果多个用“;”分隔，不允许出现空格）
+### 获取全路径的路由信息
+serviceIds按调用服务名的前后次序排列，起始节点的服务名不能加上去。如果多个用“;”分隔，不允许出现空格
 ```java
 Java:
 @RequestMapping(path = "/routeAll", method = RequestMethod.POST)
