@@ -429,28 +429,28 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 | C3 | 1302 | 5302 | 1.2 |
 
 ### 示例操作过程和效果
-#### 黑/白名单的IP地址注册的过滤
+黑/白名单的IP地址注册的过滤
 ```xml
 1. 在rule.xml把本地IP地址写入到相应地方
 2. 启动DiscoveryApplicationA1.java
 3. 抛出禁止注册的异常，即本地服务受限于黑名单，不会注册到服务注册发现中心；黑名单操作也是如此
 ```
 
-#### 最大注册数的限制的过滤
+最大注册数的限制的过滤
 ```xml
 1. 在rule.xml修改最大注册数为0
 2. 启动DiscoveryApplicationA1.java
 3. 抛出禁止注册的异常，即本地服务受限于最大注册数，不会注册到服务注册发现中心
 ```
 
-#### 黑/白名单的IP地址发现的过滤
+黑/白名单的IP地址发现的过滤
 ```xml
 1. 在rule.xml把本地IP地址写入到相应地方
 2. 启动DiscoveryApplicationA1.java和DiscoveryApplicationB1.java、DiscoveryApplicationB2.java
 3. 你会发现A服务无法获取B服务的任何实例
 ```
 
-#### 多版本灰度访问控制
+多版本灰度访问控制
 ```xml
 1. 启动discovery-springcloud-example字样的6个DiscoveryApplication，无先后顺序，等待全部启动完毕
 2. 验证以下服务访问是否正确
