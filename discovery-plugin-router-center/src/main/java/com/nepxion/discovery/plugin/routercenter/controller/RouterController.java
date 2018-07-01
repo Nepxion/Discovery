@@ -76,10 +76,10 @@ public class RouterController {
         return getRouterEntityList(routeServiceId, routeHost, routePort);
     }
 
-    // 获取全路径的路由信息（serviceIds按调用服务名的前后次序排列，起始节点的服务名不能加上去。如果多个用“;”分隔，不允许出现空格）
+    // 获取全路径的路由信息（routeServiceIds按调用服务名的前后次序排列，起始节点的服务名不能加上去。如果多个用“;”分隔，不允许出现空格）
     @RequestMapping(path = "/routeAll", method = RequestMethod.POST)
-    public RouterEntity routeAll(@RequestBody String serviceIds) {
-        return executeRouteAll(serviceIds);
+    public RouterEntity routeAll(@RequestBody String routeServiceIds) {
+        return executeRouteAll(routeServiceIds);
     }
 
     public List<ServiceInstance> getInstanceList(String serviceId) {
@@ -107,7 +107,7 @@ public class RouterController {
         try {
             instanceList = getInstanceList(routeServiceId);
         } catch (Exception e) {
-            throw new PluginException("Get instance list for serviceId=" + routeServiceId + " failed", e);
+            throw new PluginException("Get instance list for route serviceId=" + routeServiceId + " failed", e);
         }
 
         if (CollectionUtils.isEmpty(instanceList)) {
@@ -141,7 +141,7 @@ public class RouterController {
         try {
             instanceList = routerRestTemplate.getForEntity(url, List.class).getBody();
         } catch (RestClientException e) {
-            throw new PluginException("Get instance list for serviceId=" + routeServiceId + " with url=" + url + " failed", e);
+            throw new PluginException("Get instance list for route serviceId=" + routeServiceId + " with url=" + url + " failed", e);
         }
 
         if (CollectionUtils.isEmpty(instanceList)) {
@@ -167,16 +167,16 @@ public class RouterController {
         return routerEntityList;
     }
 
-    public RouterEntity executeRouteAll(String serviceIds) {
-        if (StringUtils.isEmpty(serviceIds)) {
-            throw new PluginException("Service ids is empty");
+    public RouterEntity executeRouteAll(String routeServiceIds) {
+        if (StringUtils.isEmpty(routeServiceIds)) {
+            throw new PluginException("Route serviceIds is empty");
         }
 
         String[] serviceIdArray = null;
         try {
-            serviceIdArray = StringUtils.split(serviceIds, PluginConstant.SEPARATE);
+            serviceIdArray = StringUtils.split(routeServiceIds, PluginConstant.SEPARATE);
         } catch (Exception e) {
-            throw new PluginException("Service ids must be separated with '" + PluginConstant.SEPARATE + "'", e);
+            throw new PluginException("Route serviceIds must be separated with '" + PluginConstant.SEPARATE + "'", e);
         }
 
         RouterEntity firstRouterEntity = getRouterEntity();
