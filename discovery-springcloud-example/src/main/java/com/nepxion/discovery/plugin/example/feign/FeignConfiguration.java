@@ -12,12 +12,10 @@ package com.nepxion.discovery.plugin.example.feign;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.nepxion.discovery.plugin.framework.context.PluginFeignBeanFactoryPostProcessor;
-
 @Configuration
 public class FeignConfiguration {
     @Bean
-    public PluginFeignBeanFactoryPostProcessor pluginFeignBeanFactoryPostProcessor() {
-        return new PluginFeignBeanFactoryPostProcessor();
+    public FeignBeanFactoryPostProcessor feignBeanFactoryPostProcessor() {
+        return new FeignBeanFactoryPostProcessor();
     }
 }

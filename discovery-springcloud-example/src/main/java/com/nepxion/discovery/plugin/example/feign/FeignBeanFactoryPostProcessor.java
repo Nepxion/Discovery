@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.context;
+package com.nepxion.discovery.plugin.example.feign;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -15,7 +15,7 @@ import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 
 // 参考：https://github.com/spring-cloud/spring-cloud-netflix/issues/1952, https://github.com/spring-cloud/spring-cloud-netflix/issues/1064
-public class PluginFeignBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
+public class FeignBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
         BeanDefinition definition = beanFactory.getBeanDefinition("feignContext");
