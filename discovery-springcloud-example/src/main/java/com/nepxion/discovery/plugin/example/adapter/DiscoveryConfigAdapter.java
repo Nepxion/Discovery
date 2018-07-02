@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.example.impl;
+package com.nepxion.discovery.plugin.example.adapter;
 
 /**
  * <p>Title: Nepxion Discovery</p>

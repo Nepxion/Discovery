@@ -12,12 +12,14 @@ package com.nepxion.discovery.plugin.example;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 
-import com.nepxion.discovery.plugin.example.impl.DiscoveryConfigAdapter;
+import com.nepxion.discovery.plugin.example.adapter.DiscoveryConfigAdapter;
 
 @SpringBootApplication
 @EnableDiscoveryClient
+@EnableFeignClients
 public class DiscoveryApplicationB2 {
     public static void main(String[] args) {
         System.setProperty("spring.profiles.active", "b2");
