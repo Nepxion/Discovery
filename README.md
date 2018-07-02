@@ -364,7 +364,7 @@ http://IP:[server.port]/routeAll
 
 ## Spring Cloud引入Consul的坑
 spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-api-1.2.2版本，它不兼容Consul的1.0.0以上的服务器，原因是服务的deregister在consul-api-1.2.2中是执行GET方法，而Consul的1.0.0以上的服务器对应的是PUT方法。解决方案，二选一
-- 选用1.0.0以下的服务器，从https://releases.hashicorp.com/consul/0.9.3/获取
+- 选用1.0.0以下的服务器，从[https://releases.hashicorp.com/consul/0.9.3/](https://releases.hashicorp.com/consul/0.9.3/)获取
 - 或者，spring-cloud-consul中consul-api-1.2.2.jar替换到最新的版本
 
 ## 示例演示
