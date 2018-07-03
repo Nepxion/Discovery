@@ -18,7 +18,6 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.ServiceInstance;
 
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
@@ -26,9 +25,9 @@ import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryServiceEntity;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.entity.VersionEntity;
-import com.nepxion.discovery.plugin.framework.listener.AbstractDiscoveryListener;
+import com.netflix.loadbalancer.Server;
 
-public class VersionFilterDiscoveryListener extends AbstractDiscoveryListener {
+public class VersionFilterLoadBalanceListener extends AbstractLoadBalanceListener {
     @Autowired
     private RuleEntity ruleEntity;
 
@@ -36,14 +35,14 @@ public class VersionFilterDiscoveryListener extends AbstractDiscoveryListener {
     private PluginAdapter pluginAdapter;
 
     @Override
-    public void onGetInstances(String serviceId, List<ServiceInstance> instances) {
+    public void onGetServers(String serviceId, List<? extends Server> servers) {
         String consumerServiceId = environment.getProperty(PluginConstant.SPRING_APPLICATION_NAME);
         String consumerServiceVersion = pluginAdapter.getVersion();
 
-        applyVersionFilter(consumerServiceId, consumerServiceVersion, serviceId, instances);
+        applyVersionFilter(consumerServiceId, consumerServiceVersion, serviceId, servers);
     }
 
-    private void applyVersionFilter(String consumerServiceId, String consumerServiceVersion, String providerServiceId, List<ServiceInstance> instances) {
+    private void applyVersionFilter(String consumerServiceId, String consumerServiceVersion, String providerServiceId, List<? extends Server> servers) {
         // 如果消费端未配置版本号，那么它可以调用提供端所有服务，需要符合规范，极力避免该情况发生
         if (StringUtils.isEmpty(consumerServiceVersion)) {
             return;
@@ -97,18 +96,13 @@ public class VersionFilterDiscoveryListener extends AbstractDiscoveryListener {
             return;
         }
 
-        Iterator<ServiceInstance> iterator = instances.iterator();
+        Iterator<? extends Server> iterator = servers.iterator();
         while (iterator.hasNext()) {
-            ServiceInstance serviceInstance = iterator.next();
-            String metaDataVersion = serviceInstance.getMetadata().get(PluginConstant.VERSION);
+            Server server = iterator.next();
+            String metaDataVersion = pluginAdapter.getServerVersion(server);
             if (!allFilterValueList.contains(metaDataVersion)) {
                 iterator.remove();
             }
         }
-    }
-
-    @Override
-    public void onGetServices(List<String> services) {
-
     }
 }

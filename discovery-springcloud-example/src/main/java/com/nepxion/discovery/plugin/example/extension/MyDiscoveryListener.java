@@ -13,7 +13,7 @@ import java.util.List;
 
 import org.springframework.cloud.client.ServiceInstance;
 
-import com.nepxion.discovery.plugin.framework.listener.AbstractDiscoveryListener;
+import com.nepxion.discovery.plugin.framework.listener.discovery.AbstractDiscoveryListener;
 
 public class MyDiscoveryListener extends AbstractDiscoveryListener {
     @Override

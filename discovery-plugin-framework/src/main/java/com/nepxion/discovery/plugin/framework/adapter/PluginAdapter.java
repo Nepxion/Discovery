@@ -11,10 +11,14 @@ package com.nepxion.discovery.plugin.framework.adapter;
 
 import org.springframework.cloud.client.serviceregistry.Registration;
 
+import com.netflix.loadbalancer.Server;
+
 public interface PluginAdapter {
     String getIpAddress(Registration registration);
 
     int getPort(Registration registration);
+
+    String getServerVersion(Server server);
 
     String getVersion();
 

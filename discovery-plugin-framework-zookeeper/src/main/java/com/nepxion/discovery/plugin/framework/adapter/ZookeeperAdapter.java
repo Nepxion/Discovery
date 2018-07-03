@@ -11,11 +11,14 @@ package com.nepxion.discovery.plugin.framework.adapter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.serviceregistry.Registration;
+import org.springframework.cloud.zookeeper.discovery.ZookeeperServer;
 import org.springframework.cloud.zookeeper.serviceregistry.ZookeeperRegistration;
 import org.springframework.core.env.ConfigurableEnvironment;
 
+import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.constant.ZookeeperConstant;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
+import com.netflix.loadbalancer.Server;
 
 public class ZookeeperAdapter extends AbstractPluginAdapter {
     @Autowired
@@ -29,7 +32,7 @@ public class ZookeeperAdapter extends AbstractPluginAdapter {
             return zookeeperRegistration.getServiceInstance().getAddress();
         }
 
-        throw new PluginException("Registration instance isn't the type of Zookeeper");
+        throw new PluginException("Registration instance isn't the type of ZookeeperRegistration");
     }
 
     @Override
@@ -40,7 +43,18 @@ public class ZookeeperAdapter extends AbstractPluginAdapter {
             return zookeeperRegistration.getServiceInstance().getPort();
         }
 
-        throw new PluginException("Registration instance isn't the type of Zookeeper");
+        throw new PluginException("Registration instance isn't the type of ZookeeperRegistration");
+    }
+
+    @Override
+    public String getServerVersion(Server server) {
+        if (server instanceof ZookeeperServer) {
+            ZookeeperServer zookeeperServer = (ZookeeperServer) server;
+
+            return zookeeperServer.getInstance().getPayload().getMetadata().get(PluginConstant.VERSION);
+        }
+
+        throw new PluginException("Server instance isn't the type of ZookeeperServer");
     }
 
     @Override

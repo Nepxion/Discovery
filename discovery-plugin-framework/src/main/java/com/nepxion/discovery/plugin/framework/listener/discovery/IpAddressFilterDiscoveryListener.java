@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.listener.impl;
+package com.nepxion.discovery.plugin.framework.listener.discovery;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -22,7 +22,6 @@ import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
 import com.nepxion.discovery.plugin.framework.entity.FilterEntity;
 import com.nepxion.discovery.plugin.framework.entity.FilterType;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
-import com.nepxion.discovery.plugin.framework.listener.AbstractDiscoveryListener;
 
 public class IpAddressFilterDiscoveryListener extends AbstractDiscoveryListener {
     @Autowired

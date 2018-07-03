@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.listener;
+package com.nepxion.discovery.plugin.framework.listener.register;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -10,6 +10,8 @@ package com.nepxion.discovery.plugin.framework.listener;
  */
 
 import org.springframework.cloud.client.serviceregistry.Registration;
+
+import com.nepxion.discovery.plugin.framework.listener.Listener;
 
 public interface RegisterListener extends Listener {
     void onRegister(Registration registration);

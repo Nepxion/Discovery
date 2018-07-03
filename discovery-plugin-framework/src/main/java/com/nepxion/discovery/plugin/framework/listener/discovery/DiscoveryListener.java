@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.listener;
+package com.nepxion.discovery.plugin.framework.listener.discovery;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -12,6 +12,8 @@ package com.nepxion.discovery.plugin.framework.listener;
 import java.util.List;
 
 import org.springframework.cloud.client.ServiceInstance;
+
+import com.nepxion.discovery.plugin.framework.listener.Listener;
 
 public interface DiscoveryListener extends Listener {
     void onGetInstances(String serviceId, List<ServiceInstance> instances);

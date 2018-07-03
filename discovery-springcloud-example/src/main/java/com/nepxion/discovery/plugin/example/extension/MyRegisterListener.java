@@ -11,7 +11,7 @@ package com.nepxion.discovery.plugin.example.extension;
 
 import org.springframework.cloud.client.serviceregistry.Registration;
 
-import com.nepxion.discovery.plugin.framework.listener.AbstractRegisterListener;
+import com.nepxion.discovery.plugin.framework.listener.register.AbstractRegisterListener;
 
 public class MyRegisterListener extends AbstractRegisterListener {
     @Override

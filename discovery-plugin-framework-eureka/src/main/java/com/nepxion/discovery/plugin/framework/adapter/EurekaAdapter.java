@@ -15,7 +15,10 @@ import org.springframework.cloud.netflix.eureka.serviceregistry.EurekaRegistrati
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.plugin.framework.constant.EurekaConstant;
+import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
+import com.netflix.loadbalancer.Server;
+import com.netflix.niws.loadbalancer.DiscoveryEnabledServer;
 
 public class EurekaAdapter extends AbstractPluginAdapter {
     @Autowired
@@ -29,7 +32,7 @@ public class EurekaAdapter extends AbstractPluginAdapter {
             return eurekaRegistration.getInstanceConfig().getIpAddress();
         }
 
-        throw new PluginException("Registration instance isn't the type of Eureka");
+        throw new PluginException("Registration instance isn't the type of EurekaRegistration");
     }
 
     @Override
@@ -40,7 +43,18 @@ public class EurekaAdapter extends AbstractPluginAdapter {
             return eurekaRegistration.getInstanceConfig().getNonSecurePort();
         }
 
-        throw new PluginException("Registration instance isn't the type of Eureka");
+        throw new PluginException("Registration instance isn't the type of EurekaRegistration");
+    }
+
+    @Override
+    public String getServerVersion(Server server) {
+        if (server instanceof DiscoveryEnabledServer) {
+            DiscoveryEnabledServer discoveryEnabledServer = (DiscoveryEnabledServer) server;
+
+            return discoveryEnabledServer.getInstanceInfo().getMetadata().get(PluginConstant.VERSION);
+        }
+
+        throw new PluginException("Server instance isn't the type of DiscoveryEnabledServer");
     }
 
     @Override

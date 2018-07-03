@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.listener;
+package com.nepxion.discovery.plugin.framework.listener.register;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -14,9 +14,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.serviceregistry.Registration;
-
-import com.nepxion.discovery.plugin.framework.listener.impl.CountFilterRegisterListener;
-import com.nepxion.discovery.plugin.framework.listener.impl.IpAddressFilterRegisterListener;
 
 // 因为内置监听触发的时候，会抛异常处理，所以逆序执行
 public class RegisterListenerExecutor {

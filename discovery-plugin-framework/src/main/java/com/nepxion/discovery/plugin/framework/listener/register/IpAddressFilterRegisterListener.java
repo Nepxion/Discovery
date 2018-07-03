@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.listener.impl;
+package com.nepxion.discovery.plugin.framework.listener.register;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -26,7 +26,6 @@ import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
 import com.nepxion.discovery.plugin.framework.event.RegisterFailureEvent;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
-import com.nepxion.discovery.plugin.framework.listener.AbstractRegisterListener;
 
 public class IpAddressFilterRegisterListener extends AbstractRegisterListener {
     @Autowired

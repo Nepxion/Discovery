@@ -19,29 +19,18 @@ import com.nepxion.discovery.plugin.framework.context.PluginContainerInitialized
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
-import com.nepxion.discovery.plugin.framework.listener.DiscoveryListenerExecutor;
-import com.nepxion.discovery.plugin.framework.listener.RegisterListenerExecutor;
-import com.nepxion.discovery.plugin.framework.listener.impl.CountFilterRegisterListener;
-import com.nepxion.discovery.plugin.framework.listener.impl.IpAddressFilterDiscoveryListener;
-import com.nepxion.discovery.plugin.framework.listener.impl.IpAddressFilterRegisterListener;
-import com.nepxion.discovery.plugin.framework.listener.impl.VersionFilterDiscoveryListener;
+import com.nepxion.discovery.plugin.framework.listener.discovery.DiscoveryListenerExecutor;
+import com.nepxion.discovery.plugin.framework.listener.discovery.IpAddressFilterDiscoveryListener;
+import com.nepxion.discovery.plugin.framework.listener.discovery.VersionFilterDiscoveryListener;
+import com.nepxion.discovery.plugin.framework.listener.impl.IpAddressFilterLoadBalanceListener;
+import com.nepxion.discovery.plugin.framework.listener.impl.LoadBalanceListenerExecutor;
+import com.nepxion.discovery.plugin.framework.listener.impl.VersionFilterLoadBalanceListener;
+import com.nepxion.discovery.plugin.framework.listener.register.CountFilterRegisterListener;
+import com.nepxion.discovery.plugin.framework.listener.register.IpAddressFilterRegisterListener;
+import com.nepxion.discovery.plugin.framework.listener.register.RegisterListenerExecutor;
 
 @Configuration
 public class PluginAutoConfiguration {
-    static {
-        System.out.println("");
-        System.out.println("╔═══╗");
-        System.out.println("╚╗╔╗║");
-        System.out.println(" ║║║╠╦══╦══╦══╦╗╔╦══╦═╦╗ ╔╗");
-        System.out.println(" ║║║╠╣══╣╔═╣╔╗║╚╝║║═╣╔╣║ ║║");
-        System.out.println("╔╝╚╝║╠══║╚═╣╚╝╠╗╔╣║═╣║║╚═╝║");
-        System.out.println("╚═══╩╩══╩══╩══╝╚╝╚══╩╝╚═╗╔╝");
-        System.out.println("                      ╔═╝║");
-        System.out.println("                      ╚══╝");
-        System.out.println("Nepxion Discovery  v3.2.2");
-        System.out.println("");
-    }
-
     @Bean
     public PluginContainerInitializedHandler pluginContainerInitializedHandler() {
         return new PluginContainerInitializedHandler();
@@ -83,6 +72,11 @@ public class PluginAutoConfiguration {
     }
 
     @Bean
+    public LoadBalanceListenerExecutor loadBalanceListenerExecutor() {
+        return new LoadBalanceListenerExecutor();
+    }
+
+    @Bean
     public IpAddressFilterRegisterListener ipAddressFilterRegisterListener() {
         return new IpAddressFilterRegisterListener();
     }
@@ -100,5 +94,15 @@ public class PluginAutoConfiguration {
     @Bean
     public VersionFilterDiscoveryListener versionFilterDiscoveryListener() {
         return new VersionFilterDiscoveryListener();
+    }
+
+    @Bean
+    public IpAddressFilterLoadBalanceListener ipAddressFilterLoadBalanceListener() {
+        return new IpAddressFilterLoadBalanceListener();
+    }
+
+    @Bean
+    public VersionFilterLoadBalanceListener versionFilterLoadBalanceListener() {
+        return new VersionFilterLoadBalanceListener();
     }
 }

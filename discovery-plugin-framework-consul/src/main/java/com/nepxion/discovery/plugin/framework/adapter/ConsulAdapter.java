@@ -15,12 +15,14 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.serviceregistry.Registration;
+import org.springframework.cloud.consul.discovery.ConsulServer;
 import org.springframework.cloud.consul.serviceregistry.ConsulRegistration;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.plugin.framework.constant.ConsulConstant;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
+import com.netflix.loadbalancer.Server;
 
 public class ConsulAdapter extends AbstractPluginAdapter {
     @Autowired
@@ -61,7 +63,7 @@ public class ConsulAdapter extends AbstractPluginAdapter {
             return consulRegistration.getService().getAddress();
         }
 
-        throw new PluginException("Registration instance isn't the type of Consul");
+        throw new PluginException("Registration instance isn't the type of ConsulRegistration");
     }
 
     @Override
@@ -72,7 +74,18 @@ public class ConsulAdapter extends AbstractPluginAdapter {
             return consulRegistration.getService().getPort();
         }
 
-        throw new PluginException("Registration instance isn't the type of Consul");
+        throw new PluginException("Registration instance isn't the type of ConsulRegistration");
+    }
+
+    @Override
+    public String getServerVersion(Server server) {
+        if (server instanceof ConsulServer) {
+            ConsulServer consulServer = (ConsulServer) server;
+
+            return consulServer.getMetadata().get(PluginConstant.VERSION);
+        }
+
+        throw new PluginException("Server instance isn't the type of ConsulServer");
     }
 
     @Override

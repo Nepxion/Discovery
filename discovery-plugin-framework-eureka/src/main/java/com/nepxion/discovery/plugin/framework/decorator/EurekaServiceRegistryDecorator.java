@@ -15,7 +15,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
-import com.nepxion.discovery.plugin.framework.listener.RegisterListenerExecutor;
+import com.nepxion.discovery.plugin.framework.listener.register.RegisterListenerExecutor;
 
 public class EurekaServiceRegistryDecorator extends EurekaServiceRegistry {
     private EurekaServiceRegistry serviceRegistry;

@@ -9,6 +9,7 @@ package com.nepxion.discovery.plugin.framework.configuration;
  * @version 1.0
  */
 
+import org.springframework.cloud.netflix.ribbon.RibbonClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,7 +17,22 @@ import com.nepxion.discovery.plugin.framework.adapter.ConsulAdapter;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 
 @Configuration
+@RibbonClients(defaultConfiguration = ConsulLoadBalanceConfiguration.class)
 public class ConsulAutoConfiguration {
+    static {
+        System.out.println("");
+        System.out.println("╔═══╗");
+        System.out.println("╚╗╔╗║");
+        System.out.println(" ║║║╠╦══╦══╦══╦╗╔╦══╦═╦╗ ╔╗");
+        System.out.println(" ║║║╠╣══╣╔═╣╔╗║╚╝║║═╣╔╣║ ║║");
+        System.out.println("╔╝╚╝║╠══║╚═╣╚╝╠╗╔╣║═╣║║╚═╝║");
+        System.out.println("╚═══╩╩══╩══╩══╝╚╝╚══╩╝╚═╗╔╝");
+        System.out.println("                      ╔═╝║");
+        System.out.println("                      ╚══╝");
+        System.out.println("Nepxion Discovery - Consul Plugin  v3.2.2");
+        System.out.println("");
+    }
+
     @Bean
     public PluginAdapter pluginAdapter() {
         return new ConsulAdapter();

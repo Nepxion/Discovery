@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.listener;
+package com.nepxion.discovery.plugin.framework.listener.discovery;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -14,9 +14,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
-
-import com.nepxion.discovery.plugin.framework.listener.impl.IpAddressFilterDiscoveryListener;
-import com.nepxion.discovery.plugin.framework.listener.impl.VersionFilterDiscoveryListener;
 
 // 因为内置监听触发的时候，需要优先过滤，所以顺序执行
 public class DiscoveryListenerExecutor {

@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.listener;
+package com.nepxion.discovery.plugin.framework.listener.discovery;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -11,6 +11,8 @@ package com.nepxion.discovery.plugin.framework.listener;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+
+import com.nepxion.discovery.plugin.framework.listener.BasicListener;
 
 public abstract class AbstractDiscoveryListener extends BasicListener implements DiscoveryListener {
     @Autowired
