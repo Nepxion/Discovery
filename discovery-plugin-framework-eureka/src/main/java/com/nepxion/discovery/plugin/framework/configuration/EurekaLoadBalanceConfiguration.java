@@ -20,12 +20,13 @@ import org.springframework.cloud.netflix.ribbon.eureka.DomainExtractingServerLis
 import org.springframework.cloud.netflix.ribbon.eureka.EurekaRibbonClientConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.plugin.framework.decorator.DiscoveryEnabledNIWSServerListDecorator;
+import com.nepxion.discovery.plugin.framework.listener.impl.LoadBalanceListenerExecutor;
 import com.netflix.client.config.IClientConfig;
 import com.netflix.discovery.EurekaClient;
 import com.netflix.loadbalancer.ServerList;
-import com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList;
 
 @Configuration
 @AutoConfigureAfter(EurekaRibbonClientConfiguration.class)
@@ -39,6 +40,12 @@ public class EurekaLoadBalanceConfiguration {
     @Autowired
     private PropertiesFactory propertiesFactory;
 
+    @Autowired
+    private ConfigurableEnvironment environment;
+
+    @Autowired
+    private LoadBalanceListenerExecutor loadBalanceListenerExecutor;
+
     @Bean
     @ConditionalOnMissingBean
     public ServerList<?> ribbonServerList(IClientConfig config, Provider<EurekaClient> eurekaClientProvider) {
@@ -46,7 +53,11 @@ public class EurekaLoadBalanceConfiguration {
             return this.propertiesFactory.get(ServerList.class, config, serviceId);
         }
 
-        DiscoveryEnabledNIWSServerList discoveryServerList = new DiscoveryEnabledNIWSServerListDecorator(config, eurekaClientProvider);
+        DiscoveryEnabledNIWSServerListDecorator discoveryServerList = new DiscoveryEnabledNIWSServerListDecorator(config, eurekaClientProvider);
+        discoveryServerList.setEnvironment(environment);
+        discoveryServerList.setLoadBalanceListenerExecutor(loadBalanceListenerExecutor);
+        discoveryServerList.setServiceId(config.getClientName());
+
         DomainExtractingServerList serverList = new DomainExtractingServerList(discoveryServerList, config, this.approximateZoneFromHostname);
 
         return serverList;

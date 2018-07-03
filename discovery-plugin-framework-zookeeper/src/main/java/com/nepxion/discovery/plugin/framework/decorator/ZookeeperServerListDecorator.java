@@ -12,7 +12,6 @@ package com.nepxion.discovery.plugin.framework.decorator;
 import java.util.List;
 
 import org.apache.curator.x.discovery.ServiceDiscovery;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.zookeeper.discovery.ZookeeperInstance;
 import org.springframework.cloud.zookeeper.discovery.ZookeeperServer;
 import org.springframework.cloud.zookeeper.discovery.ZookeeperServerList;
@@ -20,17 +19,13 @@ import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.listener.impl.LoadBalanceListenerExecutor;
-import com.netflix.client.config.IClientConfig;
 
 public class ZookeeperServerListDecorator extends ZookeeperServerList {
-    @Autowired
     private ConfigurableEnvironment environment;
 
-    @Autowired
     private LoadBalanceListenerExecutor loadBalanceListenerExecutor;
 
-    @Autowired
-    private IClientConfig clientConfig;
+    private String serviceId;
 
     public ZookeeperServerListDecorator(ServiceDiscovery<ZookeeperInstance> serviceDiscovery) {
         super(serviceDiscovery);
@@ -57,8 +52,19 @@ public class ZookeeperServerListDecorator extends ZookeeperServerList {
     private void filter(List<ZookeeperServer> servers) {
         Boolean discoveryControlEnabled = PluginContextAware.isDiscoveryControlEnabled(environment);
         if (discoveryControlEnabled) {
-            String serviceId = clientConfig.getClientName();
             loadBalanceListenerExecutor.onGetServers(serviceId, servers);
         }
+    }
+
+    public void setEnvironment(ConfigurableEnvironment environment) {
+        this.environment = environment;
+    }
+
+    public void setLoadBalanceListenerExecutor(LoadBalanceListenerExecutor loadBalanceListenerExecutor) {
+        this.loadBalanceListenerExecutor = loadBalanceListenerExecutor;
+    }
+
+    public void setServiceId(String serviceId) {
+        this.serviceId = serviceId;
     }
 }

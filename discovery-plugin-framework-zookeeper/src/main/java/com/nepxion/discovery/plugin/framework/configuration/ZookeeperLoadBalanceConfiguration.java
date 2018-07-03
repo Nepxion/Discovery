@@ -12,11 +12,13 @@ package com.nepxion.discovery.plugin.framework.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.cloud.zookeeper.discovery.ZookeeperRibbonClientConfiguration;
-import org.springframework.cloud.zookeeper.discovery.ZookeeperServerList;
 import org.springframework.cloud.zookeeper.serviceregistry.ZookeeperServiceRegistry;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.ConfigurableEnvironment;
 
+import com.nepxion.discovery.plugin.framework.decorator.ZookeeperServerListDecorator;
+import com.nepxion.discovery.plugin.framework.listener.impl.LoadBalanceListenerExecutor;
 import com.netflix.client.config.IClientConfig;
 import com.netflix.loadbalancer.ServerList;
 
@@ -24,13 +26,22 @@ import com.netflix.loadbalancer.ServerList;
 @AutoConfigureAfter(ZookeeperRibbonClientConfiguration.class)
 public class ZookeeperLoadBalanceConfiguration {
     @Autowired
+    private ConfigurableEnvironment environment;
+
+    @Autowired
+    private LoadBalanceListenerExecutor loadBalanceListenerExecutor;
+
+    @Autowired
     private ZookeeperServiceRegistry registry;
 
     @Bean
     public ServerList<?> ribbonServerList(IClientConfig config) {
         @SuppressWarnings("deprecation")
-        ZookeeperServerList serverList = new ZookeeperServerList(this.registry.getServiceDiscoveryRef().get());
+        ZookeeperServerListDecorator serverList = new ZookeeperServerListDecorator(this.registry.getServiceDiscoveryRef().get());
         serverList.initWithNiwsConfig(config);
+        serverList.setEnvironment(environment);
+        serverList.setLoadBalanceListenerExecutor(loadBalanceListenerExecutor);
+        serverList.setServiceId(config.getClientName());
 
         return serverList;
     }

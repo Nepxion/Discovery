@@ -13,7 +13,6 @@ import java.util.List;
 
 import javax.inject.Provider;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
@@ -24,14 +23,11 @@ import com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList;
 import com.netflix.niws.loadbalancer.DiscoveryEnabledServer;
 
 public class DiscoveryEnabledNIWSServerListDecorator extends DiscoveryEnabledNIWSServerList {
-    @Autowired
     private ConfigurableEnvironment environment;
 
-    @Autowired
     private LoadBalanceListenerExecutor loadBalanceListenerExecutor;
 
-    @Autowired
-    private IClientConfig clientConfig;
+    private String serviceId;
 
     @Deprecated
     public DiscoveryEnabledNIWSServerListDecorator() {
@@ -77,8 +73,19 @@ public class DiscoveryEnabledNIWSServerListDecorator extends DiscoveryEnabledNIW
     private void filter(List<DiscoveryEnabledServer> servers) {
         Boolean discoveryControlEnabled = PluginContextAware.isDiscoveryControlEnabled(environment);
         if (discoveryControlEnabled) {
-            String serviceId = clientConfig.getClientName();
             loadBalanceListenerExecutor.onGetServers(serviceId, servers);
         }
+    }
+
+    public void setEnvironment(ConfigurableEnvironment environment) {
+        this.environment = environment;
+    }
+
+    public void setLoadBalanceListenerExecutor(LoadBalanceListenerExecutor loadBalanceListenerExecutor) {
+        this.loadBalanceListenerExecutor = loadBalanceListenerExecutor;
+    }
+
+    public void setServiceId(String serviceId) {
+        this.serviceId = serviceId;
     }
 }
