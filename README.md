@@ -472,7 +472,7 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 
 图6
 
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Result3.jpg)
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Result4.jpg)
 
 ### 切换服务注册组件
 如果使用者想改变服务注册组件，请在discovery-springcloud-example/pom.xml进行切换
