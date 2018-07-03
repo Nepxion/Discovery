@@ -25,7 +25,7 @@ public class AFeignImpl extends AbstractFeignImpl implements AFeign {
 
     @Override
     public String invoke() {
-        String value = "outside[" + UUID.randomUUID().toString() + "]";
+        String value = "start[" + UUID.randomUUID().toString() + "]";
         value = doInvoke(value);
         value = bFeign.invoke(value);
 
