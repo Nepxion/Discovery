@@ -441,6 +441,9 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
   - 通过Postman或者浏览器，执行POST [http://localhost:5200/config/send](http://localhost:5200/config/send)，发送新的规则XML（内容见下面），表示B服务的所有版本都只能访问C服务3.0版本，而本例中C服务3.0版本是不存在的，意味着B服务不能访问C服务
   - 访问[http://localhost:5201/config/send](http://localhost:5201/config/send)，重复4.1步骤
   - 重复3.1步骤，发现调用路径只有A服务->B服务，符合逻辑，灰度版本控制成功
+- 负载均衡的灰度测试
+  - 通过Postman或者浏览器，执行POST [http://localhost:1100/invoke](http://localhost:1100/invoke)，这是example内置的单条路由实例（通过Feign实现）
+  - 重复“灰度版本切换”或者“灰度版本控制”操作，查看Ribbon负载均衡的灰度结果，如图6。特别注意，结果视Ribbon的同步速度，默认情况下会有几秒延迟
 - 其它更多操作，请参考“管理中心”和“路由中心”，不一一阐述了
 
 新XML规则
@@ -464,6 +467,10 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Result2.jpg)
 
 图5
+
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Result3.jpg)
+
+图6
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Result3.jpg)
 
