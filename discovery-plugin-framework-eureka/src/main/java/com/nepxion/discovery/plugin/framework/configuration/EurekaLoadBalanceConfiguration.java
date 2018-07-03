@@ -23,7 +23,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.plugin.framework.decorator.DiscoveryEnabledNIWSServerListDecorator;
-import com.nepxion.discovery.plugin.framework.listener.impl.LoadBalanceListenerExecutor;
+import com.nepxion.discovery.plugin.framework.listener.loadbalance.LoadBalanceListenerExecutor;
 import com.netflix.client.config.IClientConfig;
 import com.netflix.discovery.EurekaClient;
 import com.netflix.loadbalancer.ServerList;

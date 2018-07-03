@@ -16,7 +16,7 @@ import javax.inject.Provider;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
-import com.nepxion.discovery.plugin.framework.listener.impl.LoadBalanceListenerExecutor;
+import com.nepxion.discovery.plugin.framework.listener.loadbalance.LoadBalanceListenerExecutor;
 import com.netflix.client.config.IClientConfig;
 import com.netflix.discovery.EurekaClient;
 import com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList;

@@ -18,7 +18,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.ecwid.consul.v1.ConsulClient;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
-import com.nepxion.discovery.plugin.framework.listener.impl.LoadBalanceListenerExecutor;
+import com.nepxion.discovery.plugin.framework.listener.loadbalance.LoadBalanceListenerExecutor;
 
 public class ConsulServerListDecorator extends ConsulServerList {
     private ConfigurableEnvironment environment;

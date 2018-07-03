@@ -19,7 +19,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.ecwid.consul.v1.ConsulClient;
 import com.nepxion.discovery.plugin.framework.decorator.ConsulServerListDecorator;
-import com.nepxion.discovery.plugin.framework.listener.impl.LoadBalanceListenerExecutor;
+import com.nepxion.discovery.plugin.framework.listener.loadbalance.LoadBalanceListenerExecutor;
 import com.netflix.client.config.IClientConfig;
 import com.netflix.loadbalancer.ServerList;
 

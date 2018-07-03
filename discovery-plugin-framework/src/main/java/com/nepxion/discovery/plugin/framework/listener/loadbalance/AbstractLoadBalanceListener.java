@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.listener.impl;
+package com.nepxion.discovery.plugin.framework.listener.loadbalance;
 
 /**
  * <p>Title: Nepxion Discovery</p>

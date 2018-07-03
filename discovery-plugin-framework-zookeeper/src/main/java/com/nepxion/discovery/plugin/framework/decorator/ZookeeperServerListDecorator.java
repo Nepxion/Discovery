@@ -18,7 +18,7 @@ import org.springframework.cloud.zookeeper.discovery.ZookeeperServerList;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
-import com.nepxion.discovery.plugin.framework.listener.impl.LoadBalanceListenerExecutor;
+import com.nepxion.discovery.plugin.framework.listener.loadbalance.LoadBalanceListenerExecutor;
 
 public class ZookeeperServerListDecorator extends ZookeeperServerList {
     private ConfigurableEnvironment environment;
