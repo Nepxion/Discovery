@@ -69,7 +69,7 @@ public class VersionFilterDiscoveryListener extends AbstractDiscoveryListener {
         }
 
         // 当前版本的消费端所能调用提供端的版本号列表
-        List<String> allFilterValueList = new ArrayList<String>();
+        List<String> allNoFilterValueList = null;
         for (DiscoveryServiceEntity serviceEntity : serviceEntityList) {
             String providerServiceName = serviceEntity.getProviderServiceName();
             if (StringUtils.equals(providerServiceName, providerServiceId)) {
@@ -77,32 +77,44 @@ public class VersionFilterDiscoveryListener extends AbstractDiscoveryListener {
                 List<String> providerVersionValueList = serviceEntity.getProviderVersionValueList();
 
                 // 判断consumer-version-value值是否包含当前消费端的版本号
+                // 如果consumerVersionValueList为空，表示消费端版本列表未指定，那么任意消费端版本可以访问指定版本提供端版本
                 if (CollectionUtils.isNotEmpty(consumerVersionValueList)) {
                     if (consumerVersionValueList.contains(consumerServiceVersion)) {
+                        if (allNoFilterValueList == null) {
+                            allNoFilterValueList = new ArrayList<String>();
+                        }
                         if (CollectionUtils.isNotEmpty(providerVersionValueList)) {
-                            allFilterValueList.addAll(providerVersionValueList);
+                            allNoFilterValueList.addAll(providerVersionValueList);
                         }
                     }
                 } else {
+                    if (allNoFilterValueList == null) {
+                        allNoFilterValueList = new ArrayList<String>();
+                    }
                     if (CollectionUtils.isNotEmpty(providerVersionValueList)) {
-                        allFilterValueList.addAll(providerVersionValueList);
+                        allNoFilterValueList.addAll(providerVersionValueList);
                     }
                 }
             }
         }
 
-        // 未找到相应的版本定义或者未定义
-        if (CollectionUtils.isEmpty(allFilterValueList)) {
-            return;
-        }
-
-        Iterator<ServiceInstance> iterator = instances.iterator();
-        while (iterator.hasNext()) {
-            ServiceInstance serviceInstance = iterator.next();
-            String metaDataVersion = serviceInstance.getMetadata().get(PluginConstant.VERSION);
-            if (!allFilterValueList.contains(metaDataVersion)) {
-                iterator.remove();
+        if (allNoFilterValueList != null) {
+            // 当allNoFilterValueList为空列表，意味着版本对应关系未做任何定义（即所有的providerVersionValueList为空），不需要执行过滤，直接返回
+            if (allNoFilterValueList.isEmpty()) {
+                return;
+            } else {
+                Iterator<ServiceInstance> iterator = instances.iterator();
+                while (iterator.hasNext()) {
+                    ServiceInstance serviceInstance = iterator.next();
+                    String metaDataVersion = serviceInstance.getMetadata().get(PluginConstant.VERSION);
+                    if (!allNoFilterValueList.contains(metaDataVersion)) {
+                        iterator.remove();
+                    }
+                }
             }
+        } else {
+            // 当allNoFilterValueList为null, 意味着定义的版本关系都不匹配，直接清空所有实例
+            instances.clear();
         }
     }
 
