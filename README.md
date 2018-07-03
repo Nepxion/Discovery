@@ -4,7 +4,7 @@
 [![Javadocs](http://www.javadoc.io/badge/com.nepxion/discovery.svg)](http://www.javadoc.io/doc/com.nepxion/discovery)
 [![Build Status](https://travis-ci.org/Nepxion/Discovery.svg?branch=master)](https://travis-ci.org/Nepxion/Discovery)
 
-Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件，支持Eureka、Consul和Zookeeper。现有的Spring Cloud微服务可以方便引入该插件，使用者不需要对业务代码做任何修改，只需要做三个非常容易的事情
+Nepxion Discovery是一款对Spring Cloud Discovery的服务注册发现的增强插件，支持Eureka、Consul和Zookeeper。现有的Spring Cloud微服务可以方便引入该插件，使用者不需要对业务代码做任何修改，只需要做三个非常容易的事情
 - 引入Plugin Starter依赖到pom.xml
 - 为微服务定义一个版本号在application.properties里，相信很多使用者本身就已经这么做了
 - 如果采用了远程配置中心集成的话，那么只需要在那里修改规则（XML），触发推送；如果未集成，可以通过客户端工具（例如Postman）推送修改的规则（XML）
@@ -22,7 +22,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册增强插件�
   - 基于最大注册数的限制微服务注册。一旦微服务集群下注册的实例数目已经达到上限（可配置），将禁止后续的微服务进行注册
 - 实现服务发现层面的控制
   - 基于黑/白名单的IP地址过滤机制禁止对相应的微服务被发现
-  - 基于版本配对，通过对消费端和提供端可访问版本对应关系的配置，进行多版本灰度访问控制
+  - 基于版本配对，通过对消费端和提供端可访问版本对应关系的配置，在服务发现和负载均衡层面，进行多版本灰度访问控制
 - 实现通过XML进行上述规则的定义
 - 实现通过事件总线机制（EventBus）的功能，实现发布/订阅功能
   - 对接远程配置中心，异步接受远程配置中心主动推送规则信息
