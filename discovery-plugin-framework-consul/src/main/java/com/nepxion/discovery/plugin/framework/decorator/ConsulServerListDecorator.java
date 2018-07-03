@@ -11,7 +11,6 @@ package com.nepxion.discovery.plugin.framework.decorator;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.consul.discovery.ConsulDiscoveryProperties;
 import org.springframework.cloud.consul.discovery.ConsulServer;
 import org.springframework.cloud.consul.discovery.ConsulServerList;
@@ -22,10 +21,8 @@ import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.listener.impl.LoadBalanceListenerExecutor;
 
 public class ConsulServerListDecorator extends ConsulServerList {
-    @Autowired
     private ConfigurableEnvironment environment;
 
-    @Autowired
     private LoadBalanceListenerExecutor loadBalanceListenerExecutor;
 
     public ConsulServerListDecorator(ConsulClient client, ConsulDiscoveryProperties properties) {
@@ -56,5 +53,13 @@ public class ConsulServerListDecorator extends ConsulServerList {
             String serviceId = getServiceId();
             loadBalanceListenerExecutor.onGetServers(serviceId, servers);
         }
+    }
+
+    public void setEnvironment(ConfigurableEnvironment environment) {
+        this.environment = environment;
+    }
+
+    public void setLoadBalanceListenerExecutor(LoadBalanceListenerExecutor loadBalanceListenerExecutor) {
+        this.loadBalanceListenerExecutor = loadBalanceListenerExecutor;
     }
 }

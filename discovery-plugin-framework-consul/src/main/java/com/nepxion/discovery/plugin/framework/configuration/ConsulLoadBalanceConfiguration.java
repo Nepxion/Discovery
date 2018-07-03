@@ -13,12 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.cloud.consul.discovery.ConsulDiscoveryProperties;
 import org.springframework.cloud.consul.discovery.ConsulRibbonClientConfiguration;
-import org.springframework.cloud.consul.discovery.ConsulServerList;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.ecwid.consul.v1.ConsulClient;
 import com.nepxion.discovery.plugin.framework.decorator.ConsulServerListDecorator;
+import com.nepxion.discovery.plugin.framework.listener.impl.LoadBalanceListenerExecutor;
 import com.netflix.client.config.IClientConfig;
 import com.netflix.loadbalancer.ServerList;
 
@@ -26,12 +27,20 @@ import com.netflix.loadbalancer.ServerList;
 @AutoConfigureAfter(ConsulRibbonClientConfiguration.class)
 public class ConsulLoadBalanceConfiguration {
     @Autowired
+    private ConfigurableEnvironment environment;
+
+    @Autowired
+    private LoadBalanceListenerExecutor loadBalanceListenerExecutor;
+
+    @Autowired
     private ConsulClient client;
 
     @Bean
     public ServerList<?> ribbonServerList(IClientConfig config, ConsulDiscoveryProperties properties) {
-        ConsulServerList serverList = new ConsulServerListDecorator(client, properties);
+        ConsulServerListDecorator serverList = new ConsulServerListDecorator(client, properties);
         serverList.initWithNiwsConfig(config);
+        serverList.setEnvironment(environment);
+        serverList.setLoadBalanceListenerExecutor(loadBalanceListenerExecutor);
 
         return serverList;
     }
