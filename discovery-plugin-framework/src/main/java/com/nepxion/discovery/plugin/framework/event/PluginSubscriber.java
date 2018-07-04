@@ -72,6 +72,8 @@ public class PluginSubscriber {
             return;
         }
 
+        LOG.info("********** Version change has been subscribed **********");
+
         // 当版本更新后，强制刷新Ribbon缓存
         ribbonServerList.getUpdatedListOfServers();
     }
