@@ -14,7 +14,6 @@ import javax.inject.Provider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cloud.netflix.ribbon.PropertiesFactory;
 import org.springframework.cloud.netflix.ribbon.eureka.DomainExtractingServerList;
 import org.springframework.cloud.netflix.ribbon.eureka.EurekaRibbonClientConfiguration;
@@ -47,7 +46,6 @@ public class EurekaLoadBalanceConfiguration {
     private LoadBalanceListenerExecutor loadBalanceListenerExecutor;
 
     @Bean
-    @ConditionalOnMissingBean
     public ServerList<?> ribbonServerList(IClientConfig config, Provider<EurekaClient> eurekaClientProvider) {
         if (this.propertiesFactory.isSet(ServerList.class, serviceId)) {
             return this.propertiesFactory.get(ServerList.class, config, serviceId);
