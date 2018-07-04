@@ -8,6 +8,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册发现的增�
 - 引入Plugin Starter依赖到pom.xml
 - 为微服务定义一个版本号在application.properties里，相信很多使用者本身就已经这么做了
 - 如果采用了远程配置中心集成的话，那么只需要在那里修改规则（XML），触发推送；如果未集成，可以通过客户端工具（例如Postman）推送修改的规则（XML）
+- 具体教程和示例查看最下面的“示例演示”
 
 ## 痛点
 现有Spring Cloud的痛点
