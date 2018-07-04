@@ -18,8 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.google.common.eventbus.Subscribe;
 import com.nepxion.discovery.plugin.framework.config.PluginConfigParser;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
+import com.nepxion.discovery.plugin.framework.listener.loadbalance.LoadBalanceListenerExecutor;
 import com.nepxion.eventbus.annotation.EventBus;
-import com.netflix.loadbalancer.ServerList;
+import com.netflix.loadbalancer.ZoneAwareLoadBalancer;
 
 @EventBus
 public class PluginSubscriber {
@@ -31,8 +32,8 @@ public class PluginSubscriber {
     @Autowired
     private PluginConfigParser pluninConfigParser;
 
-    @Autowired(required = false)
-    private ServerList<?> ribbonServerList;
+    @Autowired
+    private LoadBalanceListenerExecutor loadBalanceListenerExecutor;
 
     @Subscribe
     public void subscribeRuleChanged(RuleChangedEvent ruleChangedEvent) {
@@ -55,7 +56,7 @@ public class PluginSubscriber {
 
         InputStream inputStream = ruleChangedEvent.getInputStream();
         pluninConfigParser.parse(inputStream);
-        
+
         subscribeVersionChanged(null);
     }
 
@@ -68,13 +69,14 @@ public class PluginSubscriber {
             return;
         }
 
-        if (ribbonServerList == null) {
+        ZoneAwareLoadBalancer<?> loadBalancer = loadBalanceListenerExecutor.getLoadBalancer();
+        if (loadBalancer == null) {
             return;
         }
 
         LOG.info("********** Version change has been subscribed **********");
 
         // 当版本更新后，强制刷新Ribbon缓存
-        ribbonServerList.getUpdatedListOfServers();
+        loadBalancer.updateListOfServers();
     }
 }

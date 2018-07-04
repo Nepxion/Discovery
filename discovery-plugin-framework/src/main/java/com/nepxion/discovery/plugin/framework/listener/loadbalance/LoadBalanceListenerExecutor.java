@@ -15,6 +15,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.netflix.loadbalancer.Server;
+import com.netflix.loadbalancer.ZoneAwareLoadBalancer;
 
 // 因为内置监听触发的时候，需要优先过滤，所以顺序执行
 public class LoadBalanceListenerExecutor {
@@ -27,6 +28,8 @@ public class LoadBalanceListenerExecutor {
     @Autowired
     private ReentrantReadWriteLock reentrantReadWriteLock;
 
+    private ZoneAwareLoadBalancer<?> loadBalancer;
+
     public void onGetServers(String serviceId, List<? extends Server> servers) {
         try {
             reentrantReadWriteLock.readLock().lock();
@@ -36,5 +39,13 @@ public class LoadBalanceListenerExecutor {
         } finally {
             reentrantReadWriteLock.readLock().unlock();
         }
+    }
+
+    public ZoneAwareLoadBalancer<?> getLoadBalancer() {
+        return loadBalancer;
+    }
+
+    public void setLoadBalancer(ZoneAwareLoadBalancer<?> loadBalancer) {
+        this.loadBalancer = loadBalancer;
     }
 }
