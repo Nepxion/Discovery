@@ -24,14 +24,7 @@ import com.nepxion.discovery.plugin.framework.decorator.EurekaServerListDecorato
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.LoadBalanceListenerExecutor;
 import com.netflix.client.config.IClientConfig;
 import com.netflix.discovery.EurekaClient;
-import com.netflix.loadbalancer.ILoadBalancer;
-import com.netflix.loadbalancer.IPing;
-import com.netflix.loadbalancer.IRule;
-import com.netflix.loadbalancer.Server;
 import com.netflix.loadbalancer.ServerList;
-import com.netflix.loadbalancer.ServerListFilter;
-import com.netflix.loadbalancer.ServerListUpdater;
-import com.netflix.loadbalancer.ZoneAwareLoadBalancer;
 import com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList;
 
 @Configuration
@@ -66,17 +59,5 @@ public class EurekaLoadBalanceConfiguration {
         serverList.setServiceId(config.getClientName());
 
         return serverList;
-    }
-
-    @Bean
-    public ILoadBalancer ribbonLoadBalancer(IClientConfig config, ServerList<Server> serverList, ServerListFilter<Server> serverListFilter, IRule rule, IPing ping, ServerListUpdater serverListUpdater) {
-        if (this.propertiesFactory.isSet(ILoadBalancer.class, serviceId)) {
-            return this.propertiesFactory.get(ILoadBalancer.class, config, serviceId);
-        }
-
-        ZoneAwareLoadBalancer<?> loadBalancer = new ZoneAwareLoadBalancer<>(config, rule, ping, serverList, serverListFilter, serverListUpdater);
-        loadBalanceListenerExecutor.setLoadBalancer(loadBalancer);
-
-        return loadBalancer;
     }
 }

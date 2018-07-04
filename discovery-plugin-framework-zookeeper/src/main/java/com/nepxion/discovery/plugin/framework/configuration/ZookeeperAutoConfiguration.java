@@ -17,7 +17,7 @@ import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.adapter.ZookeeperAdapter;
 
 @Configuration
-@RibbonClients(defaultConfiguration = ZookeeperLoadBalanceConfiguration.class)
+@RibbonClients(defaultConfiguration = { PluginLoadBalanceConfiguration.class, ZookeeperLoadBalanceConfiguration.class })
 public class ZookeeperAutoConfiguration {
     static {
         System.out.println("");

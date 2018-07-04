@@ -17,7 +17,7 @@ import com.nepxion.discovery.plugin.framework.adapter.EurekaAdapter;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 
 @Configuration
-@RibbonClients(defaultConfiguration = EurekaLoadBalanceConfiguration.class)
+@RibbonClients(defaultConfiguration = { PluginLoadBalanceConfiguration.class, EurekaLoadBalanceConfiguration.class })
 public class EurekaAutoConfiguration {
     static {
         System.out.println("");

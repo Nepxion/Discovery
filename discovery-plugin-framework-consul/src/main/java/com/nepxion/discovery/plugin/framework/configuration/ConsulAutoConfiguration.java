@@ -17,7 +17,7 @@ import com.nepxion.discovery.plugin.framework.adapter.ConsulAdapter;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 
 @Configuration
-@RibbonClients(defaultConfiguration = ConsulLoadBalanceConfiguration.class)
+@RibbonClients(defaultConfiguration = { PluginLoadBalanceConfiguration.class, ConsulLoadBalanceConfiguration.class })
 public class ConsulAutoConfiguration {
     static {
         System.out.println("");
