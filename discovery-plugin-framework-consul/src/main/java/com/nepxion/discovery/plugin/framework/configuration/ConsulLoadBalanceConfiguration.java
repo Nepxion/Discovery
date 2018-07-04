@@ -11,6 +11,7 @@ package com.nepxion.discovery.plugin.framework.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cloud.consul.discovery.ConsulDiscoveryProperties;
 import org.springframework.cloud.consul.discovery.ConsulRibbonClientConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -36,6 +37,7 @@ public class ConsulLoadBalanceConfiguration {
     private ConsulClient client;
 
     @Bean
+    @ConditionalOnMissingBean
     public ServerList<?> ribbonServerList(IClientConfig config, ConsulDiscoveryProperties properties) {
         ConsulServerListDecorator serverList = new ConsulServerListDecorator(client, properties);
         serverList.initWithNiwsConfig(config);

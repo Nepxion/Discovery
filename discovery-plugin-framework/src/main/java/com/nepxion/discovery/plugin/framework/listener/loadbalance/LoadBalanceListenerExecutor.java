@@ -14,7 +14,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.plugin.framework.listener.discovery.DiscoveryListener;
 import com.netflix.loadbalancer.Server;
 
 // 因为内置监听触发的时候，需要优先过滤，所以顺序执行
@@ -24,9 +23,6 @@ public class LoadBalanceListenerExecutor {
 
     @Autowired
     private VersionFilterLoadBalanceListener versionFilterLoadBalanceListener;
-
-    @Autowired
-    private List<DiscoveryListener> discoveryListenerList;
 
     @Autowired
     private ReentrantReadWriteLock reentrantReadWriteLock;
