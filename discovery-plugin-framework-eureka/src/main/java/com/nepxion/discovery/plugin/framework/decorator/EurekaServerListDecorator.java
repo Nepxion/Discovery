@@ -11,45 +11,24 @@ package com.nepxion.discovery.plugin.framework.decorator;
 
 import java.util.List;
 
-import javax.inject.Provider;
-
+import org.springframework.cloud.netflix.ribbon.eureka.DomainExtractingServerList;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.LoadBalanceListenerExecutor;
 import com.netflix.client.config.IClientConfig;
-import com.netflix.discovery.EurekaClient;
-import com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList;
+import com.netflix.loadbalancer.ServerList;
 import com.netflix.niws.loadbalancer.DiscoveryEnabledServer;
 
-public class DiscoveryEnabledNIWSServerListDecorator extends DiscoveryEnabledNIWSServerList {
+public class EurekaServerListDecorator extends DomainExtractingServerList {
     private ConfigurableEnvironment environment;
 
     private LoadBalanceListenerExecutor loadBalanceListenerExecutor;
 
     private String serviceId;
 
-    @Deprecated
-    public DiscoveryEnabledNIWSServerListDecorator() {
-        super();
-    }
-
-    @Deprecated
-    public DiscoveryEnabledNIWSServerListDecorator(String vipAddresses) {
-        super(vipAddresses);
-    }
-
-    @Deprecated
-    public DiscoveryEnabledNIWSServerListDecorator(IClientConfig clientConfig) {
-        super(clientConfig);
-    }
-
-    public DiscoveryEnabledNIWSServerListDecorator(String vipAddresses, Provider<EurekaClient> eurekaClientProvider) {
-        super(vipAddresses, eurekaClientProvider);
-    }
-
-    public DiscoveryEnabledNIWSServerListDecorator(IClientConfig clientConfig, Provider<EurekaClient> eurekaClientProvider) {
-        super(clientConfig, eurekaClientProvider);
+    public EurekaServerListDecorator(ServerList<DiscoveryEnabledServer> list, IClientConfig clientConfig, boolean approximateZoneFromHostname) {
+        super(list, clientConfig, approximateZoneFromHostname);
     }
 
     @Override

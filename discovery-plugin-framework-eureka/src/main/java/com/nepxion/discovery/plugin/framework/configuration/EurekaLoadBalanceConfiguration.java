@@ -15,17 +15,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.cloud.netflix.ribbon.PropertiesFactory;
-import org.springframework.cloud.netflix.ribbon.eureka.DomainExtractingServerList;
 import org.springframework.cloud.netflix.ribbon.eureka.EurekaRibbonClientConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
 
-import com.nepxion.discovery.plugin.framework.decorator.DiscoveryEnabledNIWSServerListDecorator;
+import com.nepxion.discovery.plugin.framework.decorator.EurekaServerListDecorator;
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.LoadBalanceListenerExecutor;
 import com.netflix.client.config.IClientConfig;
 import com.netflix.discovery.EurekaClient;
 import com.netflix.loadbalancer.ServerList;
+import com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList;
 
 @Configuration
 @AutoConfigureAfter(EurekaRibbonClientConfiguration.class)
@@ -51,12 +51,12 @@ public class EurekaLoadBalanceConfiguration {
             return this.propertiesFactory.get(ServerList.class, config, serviceId);
         }
 
-        DiscoveryEnabledNIWSServerListDecorator discoveryServerList = new DiscoveryEnabledNIWSServerListDecorator(config, eurekaClientProvider);
-        discoveryServerList.setEnvironment(environment);
-        discoveryServerList.setLoadBalanceListenerExecutor(loadBalanceListenerExecutor);
-        discoveryServerList.setServiceId(config.getClientName());
+        DiscoveryEnabledNIWSServerList discoveryServerList = new DiscoveryEnabledNIWSServerList(config, eurekaClientProvider);
 
-        DomainExtractingServerList serverList = new DomainExtractingServerList(discoveryServerList, config, this.approximateZoneFromHostname);
+        EurekaServerListDecorator serverList = new EurekaServerListDecorator(discoveryServerList, config, this.approximateZoneFromHostname);
+        serverList.setEnvironment(environment);
+        serverList.setLoadBalanceListenerExecutor(loadBalanceListenerExecutor);
+        serverList.setServiceId(config.getClientName());
 
         return serverList;
     }
