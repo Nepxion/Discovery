@@ -9,18 +9,17 @@ package com.nepxion.discovery.plugin.configcenter;
  * @version 1.0
  */
 
-import java.io.InputStream;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.plugin.configcenter.loader.AbstractConfigLoader;
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
+import com.nepxion.discovery.plugin.framework.event.RuleChangedEvent;
 
 public abstract class ConfigAdapter extends AbstractConfigLoader {
     @Autowired
     private PluginPublisher pluginPublisher;
 
-    public void publish(InputStream inputStream) {
-        pluginPublisher.asyncPublish(inputStream);
+    public void publish(RuleChangedEvent ruleChangedEvent) {
+        pluginPublisher.asyncPublish(ruleChangedEvent);
     }
 }

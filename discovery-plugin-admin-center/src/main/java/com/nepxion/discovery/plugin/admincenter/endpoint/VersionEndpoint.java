@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
+import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
+import com.nepxion.discovery.plugin.framework.event.VersionChangedEvent;
 
 @ManagedResource(description = "Version Endpoint")
 public class VersionEndpoint implements MvcEndpoint {
@@ -36,6 +38,9 @@ public class VersionEndpoint implements MvcEndpoint {
 
     @Autowired
     private PluginAdapter pluginAdapter;
+
+    @Autowired
+    private PluginPublisher pluginPublisher;
 
     // 设置服务的动态版本
     @RequestMapping(path = "send", method = RequestMethod.POST)
@@ -48,6 +53,8 @@ public class VersionEndpoint implements MvcEndpoint {
         }
 
         pluginAdapter.setDynamicVersion(version);
+
+        pluginPublisher.asyncPublish(new VersionChangedEvent());
 
         return ResponseEntity.ok().body("OK");
     }
@@ -63,6 +70,8 @@ public class VersionEndpoint implements MvcEndpoint {
         }
 
         pluginAdapter.clearDynamicVersion();
+
+        pluginPublisher.asyncPublish(new VersionChangedEvent());
 
         return ResponseEntity.ok().body("OK");
     }

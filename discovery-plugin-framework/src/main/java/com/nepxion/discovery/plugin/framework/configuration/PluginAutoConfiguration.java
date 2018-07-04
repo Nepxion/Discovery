@@ -19,6 +19,7 @@ import com.nepxion.discovery.plugin.framework.context.PluginContainerInitialized
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
+import com.nepxion.discovery.plugin.framework.event.PluginSubscriber;
 import com.nepxion.discovery.plugin.framework.listener.discovery.DiscoveryListenerExecutor;
 import com.nepxion.discovery.plugin.framework.listener.discovery.IpAddressFilterDiscoveryListener;
 import com.nepxion.discovery.plugin.framework.listener.discovery.VersionFilterDiscoveryListener;
@@ -44,6 +45,11 @@ public class PluginAutoConfiguration {
     @Bean
     public PluginPublisher pluginPublisher() {
         return new PluginPublisher();
+    }
+
+    @Bean
+    public PluginSubscriber pluginSubscriber() {
+        return new PluginSubscriber();
     }
 
     @Bean

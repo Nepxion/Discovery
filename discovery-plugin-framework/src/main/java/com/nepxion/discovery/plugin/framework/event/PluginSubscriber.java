@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.configcenter;
+package com.nepxion.discovery.plugin.framework.event;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -16,21 +16,26 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.eventbus.Subscribe;
+import com.nepxion.discovery.plugin.framework.config.PluginConfigParser;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.eventbus.annotation.EventBus;
+import com.netflix.loadbalancer.ServerList;
 
 @EventBus
-public class ConfigSubscriber {
-    private static final Logger LOG = LoggerFactory.getLogger(ConfigSubscriber.class);
+public class PluginSubscriber {
+    private static final Logger LOG = LoggerFactory.getLogger(PluginSubscriber.class);
 
     @Autowired
     private PluginContextAware pluginContextAware;
 
     @Autowired
-    private ConfigParser configParser;
+    private PluginConfigParser pluninConfigParser;
+
+    @Autowired(required = false)
+    private ServerList<?> ribbonServerList;
 
     @Subscribe
-    public void subscribe(InputStream inputStream) {
+    public void subscribeRuleChanged(RuleChangedEvent ruleChangedEvent) {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         Boolean remoteConfigEnabled = pluginContextAware.isRemoteConfigEnabled();
 
@@ -48,6 +53,26 @@ public class ConfigSubscriber {
 
         LOG.info("********** Remote config change has been subscribed **********");
 
-        configParser.parse(inputStream);
+        InputStream inputStream = ruleChangedEvent.getInputStream();
+        pluninConfigParser.parse(inputStream);
+        
+        subscribeVersionChanged(null);
+    }
+
+    @Subscribe
+    public void subscribeVersionChanged(VersionChangedEvent versionChangedEvent) {
+        Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
+        if (!discoveryControlEnabled) {
+            LOG.info("********** Discovery control is disabled, ignore to subscribe **********");
+
+            return;
+        }
+
+        if (ribbonServerList == null) {
+            return;
+        }
+
+        // 当版本更新后，强制刷新Ribbon缓存
+        ribbonServerList.getUpdatedListOfServers();
     }
 }

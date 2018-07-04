@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.plugin.configcenter.constant.ConfigConstant;
 import com.nepxion.discovery.plugin.configcenter.xml.Dom4JParser;
+import com.nepxion.discovery.plugin.framework.config.PluginConfigParser;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.entity.CountEntity;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
@@ -39,7 +40,7 @@ import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.entity.VersionEntity;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
-public class ConfigParser extends Dom4JParser {
+public class ConfigParser extends Dom4JParser implements PluginConfigParser {
     private static final Logger LOG = LoggerFactory.getLogger(ConfigParser.class);
 
     @Autowired
