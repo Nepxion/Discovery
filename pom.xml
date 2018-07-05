@@ -31,8 +31,8 @@
         <commons.collections4.version>4.1</commons.collections4.version>
         <commons.io.version>2.5</commons.io.version>
         <dom4j.version>1.6.1</dom4j.version>
-        <spring.cloud.version>Dalston.SR5</spring.cloud.version>
-        <!-- <spring.cloud.version>Edgware.SR4</spring.cloud.version> -->
+        <spring.cloud.version>Edgware.SR4</spring.cloud.version>
+        <!-- <spring.cloud.version>Dalston.SR5</spring.cloud.version> -->        
         <spring.cloud.consul.version>2.0.0.RELEASE</spring.cloud.consul.version>
         <spring.cloud.zookeeper.version>2.0.0.RELEASE</spring.cloud.zookeeper.version>
         <spring.boot.version>1.5.14.RELEASE</spring.boot.version>
