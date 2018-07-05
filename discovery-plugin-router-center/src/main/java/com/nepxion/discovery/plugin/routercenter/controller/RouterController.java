@@ -9,6 +9,10 @@ package com.nepxion.discovery.plugin.routercenter.controller;
  * @version 1.0
  */
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +40,7 @@ import com.nepxion.discovery.plugin.framework.exception.PluginException;
 import com.nepxion.eventbus.util.HostUtil;
 
 @RestController
+@Api(tags = { "路由接口" })
 public class RouterController {
     @Autowired
     private PluginContainerInitializedHandler pluginContainerInitializedHandler;
@@ -52,33 +57,33 @@ public class RouterController {
     @Autowired
     private DiscoveryClient discoveryClient;
 
-    // 获取本地节点可访问其他节点（根据服务名）的实例列表
     @RequestMapping(path = "/instances/{serviceId}", method = RequestMethod.GET)
-    public List<ServiceInstance> instances(@PathVariable(value = "serviceId") String serviceId) {
+    @ApiOperation(value = "获取本地节点可访问其他节点（根据服务名）的实例列表", notes = "", response = List.class, httpMethod = "GET")
+    public List<ServiceInstance> instances(@PathVariable(value = "serviceId") @ApiParam(value = "目标服务名", required = true) String serviceId) {
         return getInstanceList(serviceId);
     }
 
-    // 获取本地节点的路由信息（只显示当前节点的简单信息，不包含下级路由）
     @RequestMapping(path = "/info", method = RequestMethod.GET)
+    @ApiOperation(value = "获取本地节点的路由信息", notes = "只显示当前节点的简单信息，不包含下级路由", response = RouterEntity.class, httpMethod = "GET")
     public RouterEntity info() {
         return getRouterEntity();
     }
 
-    // 获取本地节点可访问其他节点（根据服务名）的路由信息列表
     @RequestMapping(path = "/route/{routeServiceId}", method = RequestMethod.GET)
-    public List<RouterEntity> route(@PathVariable(value = "routeServiceId") String routeServiceId) {
+    @ApiOperation(value = "获取本地节点可访问其他节点（根据服务名）的路由信息列表", notes = "", response = List.class, httpMethod = "GET")
+    public List<RouterEntity> route(@PathVariable(value = "routeServiceId") @ApiParam(value = "目标服务名", required = true) String routeServiceId) {
         return getRouterEntityList(routeServiceId);
     }
 
-    // 获取指定节点（根据IP和端口）可访问其他节点（根据服务名）的路由信息列表
     @RequestMapping(path = "/route/{routeServiceId}/{routeHost}/{routePort}", method = RequestMethod.GET)
-    public List<RouterEntity> route(@PathVariable(value = "routeServiceId") String routeServiceId, @PathVariable(value = "routeHost") String routeHost, @PathVariable(value = "routePort") int routePort) {
+    @ApiOperation(value = "获取指定节点（根据IP和端口）可访问其他节点（根据服务名）的路由信息列表", notes = "", response = List.class, httpMethod = "GET")
+    public List<RouterEntity> route(@PathVariable(value = "routeServiceId") @ApiParam(value = "目标服务名", required = true) String routeServiceId, @PathVariable(value = "routeHost") @ApiParam(value = "目标服务所在机器的IP地址", required = true) String routeHost, @PathVariable(value = "routePort") @ApiParam(value = "目标服务所在机器的端口号", required = true) int routePort) {
         return getRouterEntityList(routeServiceId, routeHost, routePort);
     }
 
-    // 获取全路径的路由信息（routeServiceIds按调用服务名的前后次序排列，起始节点的服务名不能加上去。如果多个用“;”分隔，不允许出现空格）
     @RequestMapping(path = "/routes", method = RequestMethod.POST)
-    public RouterEntity routes(@RequestBody String routeServiceIds) {
+    @ApiOperation(value = "获取全路径的路由信息树", notes = "参数按调用服务名的前后次序排列，起始节点的服务名不能加上去。如果多个用“;”分隔，不允许出现空格", response = RouterEntity.class, httpMethod = "POST")
+    public RouterEntity routes(@RequestBody @ApiParam(value = "例如：service-a;service-b", required = true) String routeServiceIds) {
         return routeTree(routeServiceIds);
     }
 
