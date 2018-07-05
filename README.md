@@ -356,6 +356,9 @@ http://IP:[server.port]/routes
 ```
 
 上述操作，也可以通过集成的Swagger服务来执行，如图1
+
+图1
+
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Swagger.jpg)
 
 ## 扩展和自定义更多规则或者监听
@@ -444,7 +447,7 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 - 灰度版本控制
   - 通过Postman或者浏览器，执行POST [http://localhost:5200/config/send](http://localhost:5200/config/send)，发送新的规则XML（内容见下面），表示B服务的所有版本都只能访问C服务3.0版本，而本例中C服务3.0版本是不存在的，意味着B服务不能访问C服务
   - 访问[http://localhost:5201/config/send](http://localhost:5201/config/send)，重复4.1步骤
-  - 重复3.1步骤，发现调用路径只有A服务->B服务，符合逻辑，灰度版本控制成功
+  - 重复3.1步骤，发现调用路径只有A服务->B服务，符合逻辑，灰度版本控制成功，如图6
 - 负载均衡的灰度测试
   - 通过Postman或者浏览器，执行POST [http://localhost:1100/invoke](http://localhost:1100/invoke)，这是example内置的单条路由实例（通过Feign实现）
   - 重复“灰度版本切换”或者“灰度版本控制”操作，查看Ribbon负载均衡的灰度结果，如图7
