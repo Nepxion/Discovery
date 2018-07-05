@@ -17,6 +17,7 @@ import org.springframework.cloud.netflix.ribbon.RibbonClientConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.nepxion.discovery.plugin.framework.decorator.PollingServerListUpdaterDecorator;
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.LoadBalanceListenerExecutor;
 import com.netflix.client.config.IClientConfig;
 import com.netflix.loadbalancer.ILoadBalancer;
@@ -50,5 +51,10 @@ public class PluginLoadBalanceConfiguration {
         loadBalanceListenerExecutor.setLoadBalancer(loadBalancer);
 
         return loadBalancer;
+    }
+
+    @Bean
+    public ServerListUpdater ribbonServerListUpdater(IClientConfig config) {
+        return new PollingServerListUpdaterDecorator(config);
     }
 }
