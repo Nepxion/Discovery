@@ -348,11 +348,11 @@ http://IP:[server.port]/route/{routeServiceId}/{routeHost}/{routePort}
 routeServiceIds按调用服务名的前后次序排列，起始节点的服务名不能加上去。如果多个用“;”分隔，不允许出现空格
 ```java
 Java:
-@RequestMapping(path = "/routeAll", method = RequestMethod.POST)
-public RouterEntity routeAll(@RequestBody String routeServiceIds)
+@RequestMapping(path = "/routes", method = RequestMethod.POST)
+public RouterEntity routes(@RequestBody String routeServiceIds)
 
 Url:
-http://IP:[server.port]/routeAll
+http://IP:[server.port]/routes
 ```
 
 ## 扩展和自定义更多规则或者监听
@@ -435,7 +435,7 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
   - 通过Postman或者浏览器，执行GET [http://localhost:1200/instances/discovery-springcloud-example-c](http://localhost:1200/instances/discovery-springcloud-example-c)，查看当前B1服务可访问C服务的列表
   - 通过Postman或者浏览器，执行GET [http://localhost:1201/instances/discovery-springcloud-example-c](http://localhost:1201/instances/discovery-springcloud-example-c)，查看当前B2服务可访问C服务的列表
 - 灰度版本切换
-  - 通过Postman或者浏览器，执行POST [http://localhost:1100/routeAll](http://localhost:1100/routeAll)，填入discovery-springcloud-example-b;discovery-springcloud-example-c，查看路由路径，如图3，可以看到符合图2的实线调用路径
+  - 通过Postman或者浏览器，执行POST [http://localhost:1100/routes](http://localhost:1100/routes)，填入discovery-springcloud-example-b;discovery-springcloud-example-c，查看路由路径，如图3，可以看到符合图2的实线调用路径
   - 通过Postman或者浏览器，执行POST [http://localhost:5100/version/send](http://localhost:5100/version/send)，填入1.1，动态把服务A的版本从1.0切换到1.1
   - 再执行3.1步骤，如图4，可以看到符合图2的虚线调用路径，符合逻辑，灰度版本切换成功
 - 灰度版本控制
