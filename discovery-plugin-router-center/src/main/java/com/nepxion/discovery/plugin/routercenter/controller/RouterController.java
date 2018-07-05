@@ -77,9 +77,9 @@ public class RouterController {
     }
 
     // 获取全路径的路由信息（routeServiceIds按调用服务名的前后次序排列，起始节点的服务名不能加上去。如果多个用“;”分隔，不允许出现空格）
-    @RequestMapping(path = "/routeAll", method = RequestMethod.POST)
-    public RouterEntity routeAll(@RequestBody String routeServiceIds) {
-        return executeRouteAll(routeServiceIds);
+    @RequestMapping(path = "/routes", method = RequestMethod.POST)
+    public RouterEntity routes(@RequestBody String routeServiceIds) {
+        return routeTree(routeServiceIds);
     }
 
     public List<ServiceInstance> getInstanceList(String serviceId) {
@@ -167,7 +167,7 @@ public class RouterController {
         return routerEntityList;
     }
 
-    public RouterEntity executeRouteAll(String routeServiceIds) {
+    public RouterEntity routeTree(String routeServiceIds) {
         if (StringUtils.isEmpty(routeServiceIds)) {
             throw new PluginException("Route serviceIds is empty");
         }
