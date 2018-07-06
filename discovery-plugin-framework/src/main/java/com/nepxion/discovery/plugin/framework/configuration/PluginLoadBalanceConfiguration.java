@@ -53,8 +53,8 @@ public class PluginLoadBalanceConfiguration {
         return loadBalancer;
     }
 
-//    @Bean
-//    public ServerListUpdater ribbonServerListUpdater(IClientConfig config) {
-//        return new PollingServerListUpdaterDecorator(config);
-//    }
+    @Bean
+    public ServerListUpdater ribbonServerListUpdater(IClientConfig config) {
+        return new PollingServerListUpdaterDecorator(config);
+    }
 }
