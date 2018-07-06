@@ -22,6 +22,7 @@ public class PluginConstant {
     public static final String HOST = "host";
     public static final String PORT = "port";
     public static final String INSTANCES = "instances";
+    public static final String RULE = "rule";
     public static final String REACH_MAX_LIMITED_COUNT = "reach max limited count";
 
     public static final String ENCODING_UTF_8 = "UTF-8";

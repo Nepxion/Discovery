@@ -9,15 +9,13 @@ package com.nepxion.discovery.plugin.framework.configuration;
  * @version 1.0
  */
 
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.nepxion.discovery.plugin.framework.cache.PluginCache;
+import com.nepxion.discovery.plugin.framework.cache.RuleCache;
 import com.nepxion.discovery.plugin.framework.context.PluginContainerInitializedHandler;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
-import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
 import com.nepxion.discovery.plugin.framework.event.PluginSubscriber;
 import com.nepxion.discovery.plugin.framework.listener.discovery.DiscoveryListenerExecutor;
@@ -58,13 +56,8 @@ public class PluginAutoConfiguration {
     }
 
     @Bean
-    public RuleEntity ruleEntity() {
-        return new RuleEntity();
-    }
-
-    @Bean
-    public ReentrantReadWriteLock reentrantReadWriteLock() {
-        return new ReentrantReadWriteLock();
+    public RuleCache ruleCache() {
+        return new RuleCache();
     }
 
     @Bean

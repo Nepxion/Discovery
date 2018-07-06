@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
+import com.nepxion.discovery.plugin.framework.cache.RuleCache;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryServiceEntity;
@@ -29,7 +30,7 @@ import com.nepxion.discovery.plugin.framework.entity.VersionEntity;
 
 public class VersionFilterDiscoveryListener extends AbstractDiscoveryListener {
     @Autowired
-    private RuleEntity ruleEntity;
+    private RuleCache ruleCache;
 
     @Autowired
     private PluginAdapter pluginAdapter;
@@ -45,6 +46,11 @@ public class VersionFilterDiscoveryListener extends AbstractDiscoveryListener {
     private void applyVersionFilter(String consumerServiceId, String consumerServiceVersion, String providerServiceId, List<ServiceInstance> instances) {
         // 如果消费端未配置版本号，那么它可以调用提供端所有服务，需要符合规范，极力避免该情况发生
         if (StringUtils.isEmpty(consumerServiceVersion)) {
+            return;
+        }
+
+        RuleEntity ruleEntity = ruleCache.get(PluginConstant.RULE);
+        if (ruleEntity == null) {
             return;
         }
 

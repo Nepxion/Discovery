@@ -10,7 +10,6 @@ package com.nepxion.discovery.plugin.framework.listener.loadbalance;
  */
 
 import java.util.List;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,20 +24,11 @@ public class LoadBalanceListenerExecutor {
     @Autowired
     private VersionFilterLoadBalanceListener versionFilterLoadBalanceListener;
 
-    @Autowired
-    private ReentrantReadWriteLock reentrantReadWriteLock;
-
     private ZoneAwareLoadBalancer<?> loadBalancer;
 
     public void onGetServers(String serviceId, List<? extends Server> servers) {
-        try {
-            reentrantReadWriteLock.readLock().lock();
-
-            ipAddressFilterLoadBalanceListener.onGetServers(serviceId, servers);
-            versionFilterLoadBalanceListener.onGetServers(serviceId, servers);
-        } finally {
-            reentrantReadWriteLock.readLock().unlock();
-        }
+        ipAddressFilterLoadBalanceListener.onGetServers(serviceId, servers);
+        versionFilterLoadBalanceListener.onGetServers(serviceId, servers);
     }
 
     public ZoneAwareLoadBalancer<?> getLoadBalancer() {

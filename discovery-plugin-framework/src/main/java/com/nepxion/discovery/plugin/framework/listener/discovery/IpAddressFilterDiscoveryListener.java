@@ -18,6 +18,8 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 
+import com.nepxion.discovery.plugin.framework.cache.RuleCache;
+import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
 import com.nepxion.discovery.plugin.framework.entity.FilterEntity;
 import com.nepxion.discovery.plugin.framework.entity.FilterType;
@@ -25,7 +27,7 @@ import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 
 public class IpAddressFilterDiscoveryListener extends AbstractDiscoveryListener {
     @Autowired
-    private RuleEntity ruleEntity;
+    private RuleCache ruleCache;
 
     @Override
     public void onGetInstances(String serviceId, List<ServiceInstance> instances) {
@@ -33,6 +35,11 @@ public class IpAddressFilterDiscoveryListener extends AbstractDiscoveryListener 
     }
 
     private void applyIpAddressFilter(String providerServiceId, List<ServiceInstance> instances) {
+        RuleEntity ruleEntity = ruleCache.get(PluginConstant.RULE);
+        if (ruleEntity == null) {
+            return;
+        }
+
         DiscoveryEntity discoveryEntity = ruleEntity.getDiscoveryEntity();
         if (discoveryEntity == null) {
             return;

@@ -262,7 +262,7 @@ http://IP:[management.port]/config/send
 ```java
 Java:
 @RequestMapping(path = "view", method = RequestMethod.GET)
-public ResponseEntity<String> view()
+public ResponseEntity<?> view()
 
 Url:
 http://IP:[management.port]/config/view

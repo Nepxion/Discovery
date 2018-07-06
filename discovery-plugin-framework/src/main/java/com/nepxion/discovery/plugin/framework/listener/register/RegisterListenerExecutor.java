@@ -10,7 +10,6 @@ package com.nepxion.discovery.plugin.framework.listener.register;
  */
 
 import java.util.List;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.serviceregistry.Registration;
@@ -26,24 +25,15 @@ public class RegisterListenerExecutor {
     @Autowired
     private List<RegisterListener> registerListenerList;
 
-    @Autowired
-    private ReentrantReadWriteLock reentrantReadWriteLock;
-
     public void onRegister(Registration registration) {
-        try {
-            reentrantReadWriteLock.readLock().lock();
-
-            for (RegisterListener registerListener : registerListenerList) {
-                if (registerListener != countFilterRegisterListener && registerListener != ipAddressFilterRegisterListener) {
-                    registerListener.onRegister(registration);
-                }
+        for (RegisterListener registerListener : registerListenerList) {
+            if (registerListener != countFilterRegisterListener && registerListener != ipAddressFilterRegisterListener) {
+                registerListener.onRegister(registration);
             }
-
-            countFilterRegisterListener.onRegister(registration);
-            ipAddressFilterRegisterListener.onRegister(registration);
-        } finally {
-            reentrantReadWriteLock.readLock().unlock();
         }
+
+        countFilterRegisterListener.onRegister(registration);
+        ipAddressFilterRegisterListener.onRegister(registration);
     }
 
     public void onDeregister(Registration registration) {

@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.serviceregistry.Registration;
 
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
+import com.nepxion.discovery.plugin.framework.cache.RuleCache;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.decorator.DiscoveryClientDecorator;
 import com.nepxion.discovery.plugin.framework.entity.CountEntity;
@@ -26,7 +27,7 @@ import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
 public class CountFilterRegisterListener extends AbstractRegisterListener {
     @Autowired
-    private RuleEntity ruleEntity;
+    private RuleCache ruleCache;
 
     @Autowired
     private PluginAdapter pluginAdapter;
@@ -47,6 +48,11 @@ public class CountFilterRegisterListener extends AbstractRegisterListener {
     }
 
     private void applyCountFilter(String serviceId, String ipAddress, int port) {
+        RuleEntity ruleEntity = ruleCache.get(PluginConstant.RULE);
+        if (ruleEntity == null) {
+            return;
+        }
+
         RegisterEntity registerEntity = ruleEntity.getRegisterEntity();
         if (registerEntity == null) {
             return;
@@ -81,7 +87,7 @@ public class CountFilterRegisterListener extends AbstractRegisterListener {
 
     private void onRegisterFailure(int maxCount, String serviceId, String ipAddress, int port) {
         String description = ipAddress + " isn't allowed to register to Register server, reach max limited count=" + maxCount;
-        
+
         Boolean registerFailureEventEnabled = environment.getProperty(PluginConstant.SPRING_APPLICATION_REGISTER_FAILURE_EVENT_ENABLED, Boolean.class, Boolean.FALSE);
         if (registerFailureEventEnabled) {
             pluginPublisher.asyncPublish(new RegisterFailureEvent(PluginConstant.REACH_MAX_LIMITED_COUNT, description, serviceId, ipAddress, port));

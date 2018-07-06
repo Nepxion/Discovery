@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.serviceregistry.Registration;
 
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
+import com.nepxion.discovery.plugin.framework.cache.RuleCache;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.entity.FilterEntity;
 import com.nepxion.discovery.plugin.framework.entity.FilterType;
@@ -29,7 +30,7 @@ import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
 public class IpAddressFilterRegisterListener extends AbstractRegisterListener {
     @Autowired
-    private RuleEntity ruleEntity;
+    private RuleCache ruleCache;
 
     @Autowired
     private PluginAdapter pluginAdapter;
@@ -47,6 +48,11 @@ public class IpAddressFilterRegisterListener extends AbstractRegisterListener {
     }
 
     private void applyIpAddressFilter(String serviceId, String ipAddress, int port) {
+        RuleEntity ruleEntity = ruleCache.get(PluginConstant.RULE);
+        if (ruleEntity == null) {
+            return;
+        }
+
         RegisterEntity registerEntity = ruleEntity.getRegisterEntity();
         if (registerEntity == null) {
             return;

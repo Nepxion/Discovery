@@ -15,7 +15,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -27,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.plugin.configcenter.constant.ConfigConstant;
 import com.nepxion.discovery.plugin.configcenter.xml.Dom4JParser;
+import com.nepxion.discovery.plugin.framework.cache.RuleCache;
 import com.nepxion.discovery.plugin.framework.config.PluginConfigParser;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.entity.CountEntity;
@@ -44,10 +44,7 @@ public class ConfigParser extends Dom4JParser implements PluginConfigParser {
     private static final Logger LOG = LoggerFactory.getLogger(ConfigParser.class);
 
     @Autowired
-    private RuleEntity ruleEntity;
-
-    @Autowired
-    private ReentrantReadWriteLock reentrantReadWriteLock;
+    private RuleCache ruleCache;
 
     @Override
     public void parse(InputStream inputStream) {
@@ -99,15 +96,13 @@ public class ConfigParser extends Dom4JParser implements PluginConfigParser {
         }
 
         String text = getText();
-        try {
-            reentrantReadWriteLock.writeLock().lock();
 
-            ruleEntity.setRegisterEntity(registerEntity);
-            ruleEntity.setDiscoveryEntity(discoveryEntity);
-            ruleEntity.setContent(text);
-        } finally {
-            reentrantReadWriteLock.writeLock().unlock();
-        }
+        RuleEntity ruleEntity = new RuleEntity();
+        ruleEntity.setRegisterEntity(registerEntity);
+        ruleEntity.setDiscoveryEntity(discoveryEntity);
+        ruleEntity.setContent(text);
+
+        ruleCache.put(PluginConstant.RULE, ruleEntity);
 
         LOG.info("Rule entity=\n{}", ruleEntity);
     }

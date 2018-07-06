@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.nepxion.discovery.plugin.framework.cache.RuleCache;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
@@ -46,7 +47,7 @@ public class ConfigEndpoint implements MvcEndpoint {
     private PluginPublisher pluginPublisher;
 
     @Autowired
-    private RuleEntity ruleEntity;
+    private RuleCache ruleCache;
 
     // 推送规则配置信息
     @RequestMapping(path = "send", method = RequestMethod.POST)
@@ -76,7 +77,12 @@ public class ConfigEndpoint implements MvcEndpoint {
     @RequestMapping(path = "view", method = RequestMethod.GET)
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<String> view() {
+    public ResponseEntity<?> view() {
+        RuleEntity ruleEntity = ruleCache.get(PluginConstant.RULE);
+        if (ruleEntity == null) {
+            return new ResponseEntity<>(Collections.singletonMap("Message", "No config to view"), HttpStatus.OK);
+        }
+
         String content = ruleEntity.getContent();
 
         return ResponseEntity.ok().body(content);

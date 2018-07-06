@@ -10,7 +10,6 @@ package com.nepxion.discovery.plugin.framework.listener.discovery;
  */
 
 import java.util.List;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
@@ -26,23 +25,14 @@ public class DiscoveryListenerExecutor {
     @Autowired
     private List<DiscoveryListener> discoveryListenerList;
 
-    @Autowired
-    private ReentrantReadWriteLock reentrantReadWriteLock;
-
     public void onGetInstances(String serviceId, List<ServiceInstance> instances) {
-        try {
-            reentrantReadWriteLock.readLock().lock();
+        ipAddressFilterDiscoveryListener.onGetInstances(serviceId, instances);
+        versionFilterDiscoveryListener.onGetInstances(serviceId, instances);
 
-            ipAddressFilterDiscoveryListener.onGetInstances(serviceId, instances);
-            versionFilterDiscoveryListener.onGetInstances(serviceId, instances);
-
-            for (DiscoveryListener discoveryListener : discoveryListenerList) {
-                if (discoveryListener != ipAddressFilterDiscoveryListener && discoveryListener != versionFilterDiscoveryListener) {
-                    discoveryListener.onGetInstances(serviceId, instances);
-                }
+        for (DiscoveryListener discoveryListener : discoveryListenerList) {
+            if (discoveryListener != ipAddressFilterDiscoveryListener && discoveryListener != versionFilterDiscoveryListener) {
+                discoveryListener.onGetInstances(serviceId, instances);
             }
-        } finally {
-            reentrantReadWriteLock.readLock().unlock();
         }
     }
 
