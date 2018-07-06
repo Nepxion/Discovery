@@ -31,6 +31,7 @@
         <commons.collections4.version>4.1</commons.collections4.version>
         <commons.io.version>2.5</commons.io.version>
         <dom4j.version>1.6.1</dom4j.version>
+        <caffeine.version>2.6.2</caffeine.version>
         <swagger.version>2.7.0</swagger.version>
         <spring.cloud.version>Edgware.SR4</spring.cloud.version>
         <!-- <spring.cloud.version>Dalston.SR5</spring.cloud.version> -->
@@ -127,6 +128,12 @@
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>${commons.io.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.ben-manes.caffeine</groupId>
+                <artifactId>caffeine</artifactId>
+                <version>${caffeine.version}</version>
             </dependency>
 
             <dependency>

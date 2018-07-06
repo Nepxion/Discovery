@@ -9,22 +9,20 @@ package com.nepxion.discovery.plugin.framework.cache;
  * @version 1.0
  */
 
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
+import com.github.benmanes.caffeine.cache.CacheLoader;
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.LoadingCache;
 
 public class PluginCache {
     private LoadingCache<String, String> loadingCache;
 
     public PluginCache() {
-        loadingCache = CacheBuilder.newBuilder()
-                .concurrencyLevel(8)
-                .expireAfterWrite(365 * 100, TimeUnit.DAYS)
+        loadingCache = Caffeine.newBuilder()
+                .expireAfterWrite(365 * 10, TimeUnit.DAYS)
                 .initialCapacity(10)
                 .maximumSize(100)
                 .recordStats()
@@ -43,11 +41,7 @@ public class PluginCache {
     }
 
     public String get(String key) {
-        try {
-            return loadingCache.get(key);
-        } catch (ExecutionException e) {
-            return StringUtils.EMPTY;
-        }
+        return loadingCache.get(key);
     }
 
     public boolean clear(String key) {
