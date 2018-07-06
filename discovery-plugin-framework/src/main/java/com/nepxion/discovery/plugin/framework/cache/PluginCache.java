@@ -22,7 +22,7 @@ public class PluginCache {
 
     public PluginCache() {
         loadingCache = Caffeine.newBuilder()
-                .expireAfterWrite(365 * 10, TimeUnit.DAYS)
+                .expireAfterWrite(365 * 100, TimeUnit.DAYS)
                 .initialCapacity(10)
                 .maximumSize(100)
                 .recordStats()
@@ -41,7 +41,11 @@ public class PluginCache {
     }
 
     public String get(String key) {
-        return loadingCache.get(key);
+        try {
+            return loadingCache.get(key);
+        } catch (Exception e) {
+            return StringUtils.EMPTY;
+        }
     }
 
     public boolean clear(String key) {
