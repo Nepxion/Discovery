@@ -10,22 +10,17 @@ package com.nepxion.discovery.plugin.routercenter.configuration;
  */
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.client.RestTemplate;
 
-import com.nepxion.discovery.plugin.routercenter.controller.RouterController;
-
 @Configuration
+@ComponentScan(basePackages = { "com.nepxion.discovery.plugin.routercenter.controller" })
 @Import(SwaggerConfiguration.class)
 public class RouterAutoConfiguration {
     @Bean
     public RestTemplate routerRestTemplate() {
         return new RestTemplate();
-    }
-
-    @Bean
-    public RouterController routerController() {
-        return new RouterController();
     }
 }

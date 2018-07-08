@@ -9,13 +9,12 @@ package com.nepxion.discovery.console.configuration;
  * @version 1.0
  */
 
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-import com.nepxion.discovery.console.controller.ConsoleController;
-
 @Configuration
+@ComponentScan(basePackages = { "com.nepxion.discovery.console.controller" })
 @Import(SwaggerConfiguration.class)
 public class ConsoleAutoConfiguration {
     static {
@@ -30,10 +29,5 @@ public class ConsoleAutoConfiguration {
         System.out.println("                      ╚══╝");
         System.out.println("Nepxion Discovery - Console  v3.3.10");
         System.out.println("");
-    }
-
-    @Bean
-    public ConsoleController consoleController() {
-        return new ConsoleController();
     }
 }
