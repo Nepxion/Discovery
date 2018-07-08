@@ -18,6 +18,20 @@ import com.nepxion.discovery.console.controller.ConsoleController;
 @Configuration
 @Import(SwaggerConfiguration.class)
 public class ConsoleAutoConfiguration {
+    static {
+        System.out.println("");
+        System.out.println("╔═══╗");
+        System.out.println("╚╗╔╗║");
+        System.out.println(" ║║║╠╦══╦══╦══╦╗╔╦══╦═╦╗ ╔╗");
+        System.out.println(" ║║║╠╣══╣╔═╣╔╗║╚╝║║═╣╔╣║ ║║");
+        System.out.println("╔╝╚╝║╠══║╚═╣╚╝╠╗╔╣║═╣║║╚═╝║");
+        System.out.println("╚═══╩╩══╩══╩══╝╚╝╚══╩╝╚═╗╔╝");
+        System.out.println("                      ╔═╝║");
+        System.out.println("                      ╚══╝");
+        System.out.println("Nepxion Discovery - Console  v3.3.9");
+        System.out.println("");
+    }
+
     @Bean
     public ConsoleController consoleController() {
         return new ConsoleController();

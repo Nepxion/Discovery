@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.example;
+package com.nepxion.discovery.eureka.example;
 
 /**
  * <p>Title: Nepxion Discovery</p>

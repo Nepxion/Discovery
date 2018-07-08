@@ -23,7 +23,7 @@
         <module>discovery-plugin-starter-consul</module>
         <module>discovery-plugin-starter-zookeeper</module>
         <module>discovery-console-starter</module>
-        <module>discovery-console-example</module>
+        <module>discovery-springcloud-example-console</module>
         <module>discovery-springcloud-example-eureka</module>
         <module>discovery-springcloud-example</module>
     </modules>
