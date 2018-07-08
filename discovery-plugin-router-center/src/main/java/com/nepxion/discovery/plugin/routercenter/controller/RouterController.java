@@ -57,6 +57,12 @@ public class RouterController {
     @Autowired
     private DiscoveryClient discoveryClient;
 
+    @RequestMapping(path = "/services", method = RequestMethod.GET)
+    @ApiOperation(value = "获取服务注册中心所有服务列表", notes = "", response = List.class, httpMethod = "GET")
+    public List<String> services() {
+        return getServices();
+    }
+
     @RequestMapping(path = "/instances/{serviceId}", method = RequestMethod.GET)
     @ApiOperation(value = "获取本地节点可访问其他节点（根据服务名）的实例列表", notes = "", response = List.class, httpMethod = "GET")
     public List<ServiceInstance> instances(@PathVariable(value = "serviceId") @ApiParam(value = "目标服务名", required = true) String serviceId) {
@@ -85,6 +91,10 @@ public class RouterController {
     @ApiOperation(value = "获取全路径的路由信息树", notes = "参数按调用服务名的前后次序排列，起始节点的服务名不能加上去。如果多个用“;”分隔，不允许出现空格", response = RouterEntity.class, httpMethod = "POST")
     public RouterEntity routes(@RequestBody @ApiParam(value = "例如：service-a;service-b", required = true) String routeServiceIds) {
         return routeTree(routeServiceIds);
+    }
+
+    public List<String> getServices() {
+        return discoveryClient.getServices();
     }
 
     public List<ServiceInstance> getInstanceList(String serviceId) {
