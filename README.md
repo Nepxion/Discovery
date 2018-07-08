@@ -84,9 +84,11 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册发现的增�
 | discovery-plugin-config-center | 配置中心实现 |
 | discovery-plugin-router-center | 路由中心实现 |
 | discovery-plugin-admin-center | 管理中心实现 |
+| discovery-console | 独立控制台，提供给UI |
 | discovery-plugin-starter-consul | Consul Starter |
 | discovery-plugin-starter-eureka | Eureka Starter |
 | discovery-plugin-starter-zookeeper | Zookeeper Starter |
+| discovery-console-starter | Console Starter |
 
 ## 规则和策略
 ### 规则示例
@@ -360,6 +362,11 @@ http://IP:[server.port]/routes
 图1
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Swagger.jpg)
+
+## 独立控制台
+为UI提供相关接口，待实现如下功能
+- 通过界面实现黑/白名单，版本等管理和控制
+- 通过界面实现远程配置中心整合
 
 ## 扩展和自定义更多规则或者监听
 使用者可以继承如下类
