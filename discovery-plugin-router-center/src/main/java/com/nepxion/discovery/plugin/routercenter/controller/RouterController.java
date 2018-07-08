@@ -70,7 +70,7 @@ public class RouterController {
     }
 
     @RequestMapping(path = "/info", method = RequestMethod.GET)
-    @ApiOperation(value = "获取本地节点的路由信息", notes = "只显示当前节点的简单信息，不包含下级路由", response = RouterEntity.class, httpMethod = "GET")
+    @ApiOperation(value = "获取本地节点信息", notes = "获取当前节点的简单信息", response = RouterEntity.class, httpMethod = "GET")
     public RouterEntity info() {
         return getRouterEntity();
     }
