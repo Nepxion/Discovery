@@ -313,8 +313,8 @@ Url:
 http://IP:[server.port]/instances/{serviceId}
 ```
 
-### 获取本地节点的路由信息
-只显示当前节点的简单信息，不包含下级路由
+### 获取本地节点信息
+获取当前节点的简单信息
 ```java
 Java:
 @RequestMapping(path = "/info", method = RequestMethod.GET)
