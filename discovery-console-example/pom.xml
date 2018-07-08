@@ -2,8 +2,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <groupId>com.nepxion</groupId>
-    <artifactId>discovery-springcloud-example</artifactId>
-    <name>Nepxion Discovery Spring Cloud Example</name>
+    <artifactId>discovery-console-example</artifactId>
+    <name>Nepxion Discovery Console Example</name>
     <packaging>jar</packaging>
     <modelVersion>4.0.0</modelVersion>
     <version>1.0.0</version>
@@ -39,16 +39,24 @@
     <dependencies>
         <dependency>
             <groupId>com.nepxion</groupId>
-            <artifactId>discovery-plugin-starter-eureka</artifactId>
-            <!-- <artifactId>discovery-plugin-starter-consul</artifactId> -->
-            <!-- <artifactId>discovery-plugin-starter-zookeeper</artifactId> -->
+            <artifactId>discovery-console-starter</artifactId>
             <version>${discovery.plugin.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-feign</artifactId>
+            <artifactId>spring-cloud-starter-eureka</artifactId>
         </dependency>
+
+        <!-- <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-consul-all</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zookeeper-discovery</artifactId>
+        </dependency> -->
     </dependencies>
 
     <build>

@@ -18,9 +18,12 @@
         <module>discovery-plugin-config-center</module>
         <module>discovery-plugin-admin-center</module>
         <module>discovery-plugin-router-center</module>
+        <module>discovery-console</module>
         <module>discovery-plugin-starter-eureka</module>
         <module>discovery-plugin-starter-consul</module>
         <module>discovery-plugin-starter-zookeeper</module>
+        <module>discovery-console-starter</module>
+        <module>discovery-console-example</module>
         <module>discovery-springcloud-example-eureka</module>
         <module>discovery-springcloud-example</module>
     </modules>
@@ -90,6 +93,12 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-console</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-starter-eureka</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -103,6 +112,12 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-starter-zookeeper</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-console-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
