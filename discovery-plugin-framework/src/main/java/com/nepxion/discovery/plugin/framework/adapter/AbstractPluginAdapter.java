@@ -14,10 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.plugin.framework.cache.PluginCache;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
+import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 
 public abstract class AbstractPluginAdapter implements PluginAdapter {
     @Autowired
-    private PluginCache pluginCache;
+    protected PluginContextAware pluginContextAware;
+
+    @Autowired
+    protected PluginCache pluginCache;
 
     @Override
     public String getVersion() {
@@ -42,5 +46,13 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     @Override
     public void clearDynamicVersion() {
         pluginCache.clear(PluginConstant.VERSION);
+    }
+
+    public PluginContextAware getPluginContextAware() {
+        return pluginContextAware;
+    }
+
+    public PluginCache getPluginCache() {
+        return pluginCache;
     }
 }

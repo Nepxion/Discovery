@@ -13,11 +13,9 @@ import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.serviceregistry.Registration;
 import org.springframework.cloud.consul.discovery.ConsulServer;
 import org.springframework.cloud.consul.serviceregistry.ConsulRegistration;
-import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.plugin.framework.constant.ConsulConstant;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
@@ -25,14 +23,11 @@ import com.nepxion.discovery.plugin.framework.exception.PluginException;
 import com.netflix.loadbalancer.Server;
 
 public class ConsulAdapter extends AbstractPluginAdapter {
-    @Autowired
-    private ConfigurableEnvironment environment;
-
     private String version;
 
     @PostConstruct
     private void initialize() {
-        String value = environment.getProperty(ConsulConstant.METADATA_VERSION);
+        String value = pluginContextAware.getEnvironment().getProperty(ConsulConstant.METADATA_VERSION);
         if (StringUtils.isEmpty(value)) {
             return;
         }

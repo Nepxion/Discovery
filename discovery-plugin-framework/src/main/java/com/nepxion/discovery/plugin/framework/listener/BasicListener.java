@@ -10,23 +10,15 @@ package com.nepxion.discovery.plugin.framework.listener;
  */
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.core.env.ConfigurableEnvironment;
+
+import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 
 public class BasicListener implements Listener {
     @Autowired
-    protected ConfigurableApplicationContext applicationContext;
-
-    @Autowired
-    protected ConfigurableEnvironment environment;
+    protected PluginContextAware pluginContextAware;
 
     @Override
-    public ConfigurableApplicationContext getApplicationContext() {
-        return applicationContext;
-    }
-
-    @Override
-    public ConfigurableEnvironment getEnvironment() {
-        return environment;
+    public PluginContextAware getPluginContextAware() {
+        return pluginContextAware;
     }
 }

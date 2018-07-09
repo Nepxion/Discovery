@@ -9,11 +9,8 @@ package com.nepxion.discovery.plugin.framework.listener;
  * @version 1.0
  */
 
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.core.env.ConfigurableEnvironment;
+import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 
 public interface Listener {
-    ConfigurableApplicationContext getApplicationContext();
-
-    ConfigurableEnvironment getEnvironment();
+    PluginContextAware getPluginContextAware();
 }

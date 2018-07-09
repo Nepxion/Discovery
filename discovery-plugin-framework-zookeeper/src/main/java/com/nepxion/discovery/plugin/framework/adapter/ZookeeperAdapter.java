@@ -9,11 +9,9 @@ package com.nepxion.discovery.plugin.framework.adapter;
  * @version 1.0
  */
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.serviceregistry.Registration;
 import org.springframework.cloud.zookeeper.discovery.ZookeeperServer;
 import org.springframework.cloud.zookeeper.serviceregistry.ZookeeperRegistration;
-import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.constant.ZookeeperConstant;
@@ -21,9 +19,6 @@ import com.nepxion.discovery.plugin.framework.exception.PluginException;
 import com.netflix.loadbalancer.Server;
 
 public class ZookeeperAdapter extends AbstractPluginAdapter {
-    @Autowired
-    private ConfigurableEnvironment environment;
-
     @Override
     public String getIpAddress(Registration registration) {
         if (registration instanceof ZookeeperRegistration) {
@@ -59,6 +54,6 @@ public class ZookeeperAdapter extends AbstractPluginAdapter {
 
     @Override
     public String getLocalVersion() {
-        return environment.getProperty(ZookeeperConstant.METADATA_VERSION);
+        return pluginContextAware.getEnvironment().getProperty(ZookeeperConstant.METADATA_VERSION);
     }
 }

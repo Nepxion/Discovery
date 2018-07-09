@@ -9,10 +9,8 @@ package com.nepxion.discovery.plugin.framework.adapter;
  * @version 1.0
  */
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.serviceregistry.Registration;
 import org.springframework.cloud.netflix.eureka.serviceregistry.EurekaRegistration;
-import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.plugin.framework.constant.EurekaConstant;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
@@ -21,9 +19,6 @@ import com.netflix.loadbalancer.Server;
 import com.netflix.niws.loadbalancer.DiscoveryEnabledServer;
 
 public class EurekaAdapter extends AbstractPluginAdapter {
-    @Autowired
-    private ConfigurableEnvironment environment;
-
     @Override
     public String getIpAddress(Registration registration) {
         if (registration instanceof EurekaRegistration) {
@@ -59,6 +54,6 @@ public class EurekaAdapter extends AbstractPluginAdapter {
 
     @Override
     public String getLocalVersion() {
-        return environment.getProperty(EurekaConstant.METADATA_VERSION);
+        return pluginContextAware.getEnvironment().getProperty(EurekaConstant.METADATA_VERSION);
     }
 }
