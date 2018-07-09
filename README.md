@@ -51,6 +51,12 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册发现的增�
 - 动态改变微服务版本
   - 在A/B测试中，通过动态改变版本，不重启微服务，达到访问版本的路径改变
 
+## 场景
+
+架构图
+
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Architecture.jpg)
+
 ## 依赖
 选择相应的插件引入
 ```xml
