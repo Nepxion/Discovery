@@ -27,11 +27,6 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>discovery-plugin-router-center</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>discovery-plugin-framework-eureka</artifactId>
         </dependency>
     </dependencies>

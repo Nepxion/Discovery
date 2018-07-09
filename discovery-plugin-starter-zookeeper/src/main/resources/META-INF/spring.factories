@@ -5,5 +5,4 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.nepxion.discovery.plugin.framework.configuration.PluginAutoConfiguration,\
 com.nepxion.discovery.plugin.framework.configuration.ZookeeperAutoConfiguration,\
 com.nepxion.discovery.plugin.configcenter.configuration.ConfigAutoConfiguration,\
-com.nepxion.discovery.plugin.admincenter.configuration.AdminAutoConfiguration,\
-com.nepxion.discovery.plugin.routercenter.configuration.RouterAutoConfiguration
+com.nepxion.discovery.plugin.admincenter.configuration.AdminAutoConfiguration

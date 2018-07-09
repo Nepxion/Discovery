@@ -17,7 +17,6 @@
         <module>discovery-plugin-framework-zookeeper</module>
         <module>discovery-plugin-config-center</module>
         <module>discovery-plugin-admin-center</module>
-        <module>discovery-plugin-router-center</module>
         <module>discovery-console</module>
         <module>discovery-plugin-starter-eureka</module>
         <module>discovery-plugin-starter-consul</module>
@@ -82,12 +81,6 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-admin-center</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>discovery-plugin-router-center</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

@@ -14,8 +14,10 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.plugin.admincenter.endpoint.ConfigEndpoint;
+import com.nepxion.discovery.plugin.admincenter.endpoint.RouterEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.VersionEndpoint;
 
 @Configuration
@@ -31,6 +33,16 @@ public class AdminAutoConfiguration {
         @Bean
         public VersionEndpoint versionEndpoint() {
             return new VersionEndpoint();
+        }
+
+        @Bean
+        public RouterEndpoint routerEndpoint() {
+            return new RouterEndpoint();
+        }
+
+        @Bean
+        public RestTemplate routerRestTemplate() {
+            return new RestTemplate();
         }
     }
 }
