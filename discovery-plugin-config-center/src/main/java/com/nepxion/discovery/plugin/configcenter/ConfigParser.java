@@ -166,19 +166,21 @@ public class ConfigParser extends Dom4JParser implements PluginConfigParser {
             if (childElementObject instanceof Element) {
                 Element childElement = (Element) childElementObject;
 
-                Attribute serviceNameAttribute = childElement.attribute(ConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME);
-                if (serviceNameAttribute == null) {
-                    throw new PluginException("Attribute[" + ConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
-                }
-                String serviceName = serviceNameAttribute.getData().toString().trim();
+                if (StringUtils.equals(childElement.getName(), ConfigConstant.SERVICE_ELEMENT_NAME)) {
+                    Attribute serviceNameAttribute = childElement.attribute(ConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME);
+                    if (serviceNameAttribute == null) {
+                        throw new PluginException("Attribute[" + ConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                    }
+                    String serviceName = serviceNameAttribute.getData().toString().trim();
 
-                Attribute filterValueAttribute = childElement.attribute(ConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME);
-                List<String> filterValueList = null;
-                if (filterValueAttribute != null) {
-                    String filterValue = filterValueAttribute.getData().toString().trim();
-                    filterValueList = parseList(filterValue);
+                    Attribute filterValueAttribute = childElement.attribute(ConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME);
+                    List<String> filterValueList = null;
+                    if (filterValueAttribute != null) {
+                        String filterValue = filterValueAttribute.getData().toString().trim();
+                        filterValueList = parseList(filterValue);
+                    }
+                    filterMap.put(serviceName, filterValueList);
                 }
-                filterMap.put(serviceName, filterValueList);
             }
         }
 
@@ -214,26 +216,28 @@ public class ConfigParser extends Dom4JParser implements PluginConfigParser {
             if (childElementObject instanceof Element) {
                 Element childElement = (Element) childElementObject;
 
-                Attribute serviceNameAttribute = childElement.attribute(ConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME);
-                if (serviceNameAttribute == null) {
-                    throw new PluginException("Attribute[" + ConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
-                }
-                String serviceName = serviceNameAttribute.getData().toString().trim();
+                if (StringUtils.equals(childElement.getName(), ConfigConstant.SERVICE_ELEMENT_NAME)) {
+                    Attribute serviceNameAttribute = childElement.attribute(ConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME);
+                    if (serviceNameAttribute == null) {
+                        throw new PluginException("Attribute[" + ConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                    }
+                    String serviceName = serviceNameAttribute.getData().toString().trim();
 
-                Integer value = null;
-                Attribute filterValueAttribute = childElement.attribute(ConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME);
-                if (filterValueAttribute != null) {
-                    String filterValue = filterValueAttribute.getData().toString().trim();
-                    if (StringUtils.isNotEmpty(filterValue)) {
-                        try {
-                            value = Integer.valueOf(filterValue);
-                        } catch (NumberFormatException e) {
-                            throw new PluginException("Attribute[" + ConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME + "] value in element[" + childElement.getName() + "] is invalid, must be int type", e);
+                    Integer value = null;
+                    Attribute filterValueAttribute = childElement.attribute(ConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME);
+                    if (filterValueAttribute != null) {
+                        String filterValue = filterValueAttribute.getData().toString().trim();
+                        if (StringUtils.isNotEmpty(filterValue)) {
+                            try {
+                                value = Integer.valueOf(filterValue);
+                            } catch (NumberFormatException e) {
+                                throw new PluginException("Attribute[" + ConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME + "] value in element[" + childElement.getName() + "] is invalid, must be int type", e);
+                            }
                         }
                     }
-                }
 
-                filterMap.put(serviceName, value);
+                    filterMap.put(serviceName, value);
+                }
             }
         }
 
@@ -255,43 +259,45 @@ public class ConfigParser extends Dom4JParser implements PluginConfigParser {
             if (childElementObject instanceof Element) {
                 Element childElement = (Element) childElementObject;
 
-                DiscoveryServiceEntity serviceEntity = new DiscoveryServiceEntity();
+                if (StringUtils.equals(childElement.getName(), ConfigConstant.SERVICE_ELEMENT_NAME)) {
+                    DiscoveryServiceEntity serviceEntity = new DiscoveryServiceEntity();
 
-                Attribute consumerServiceNameAttribute = childElement.attribute(ConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME);
-                if (consumerServiceNameAttribute == null) {
-                    throw new PluginException("Attribute[" + ConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                    Attribute consumerServiceNameAttribute = childElement.attribute(ConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME);
+                    if (consumerServiceNameAttribute == null) {
+                        throw new PluginException("Attribute[" + ConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                    }
+                    String consumerServiceName = consumerServiceNameAttribute.getData().toString().trim();
+                    serviceEntity.setConsumerServiceName(consumerServiceName);
+
+                    Attribute providerServiceNameAttribute = childElement.attribute(ConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME);
+                    if (providerServiceNameAttribute == null) {
+                        throw new PluginException("Attribute[" + ConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                    }
+                    String providerServiceName = providerServiceNameAttribute.getData().toString().trim();
+                    serviceEntity.setProviderServiceName(providerServiceName);
+
+                    Attribute consumerVersionValueAttribute = childElement.attribute(ConfigConstant.CONSUMER_VERSION_VALUE_ATTRIBUTE_NAME);
+                    if (consumerVersionValueAttribute != null) {
+                        String consumerVersionValue = consumerVersionValueAttribute.getData().toString().trim();
+                        List<String> consumerVersionValueList = parseList(consumerVersionValue);
+                        serviceEntity.setConsumerVersionValueList(consumerVersionValueList);
+                    }
+
+                    Attribute providerVersionValueAttribute = childElement.attribute(ConfigConstant.PROVIDER_VERSION_VALUE_ATTRIBUTE_NAME);
+                    if (providerVersionValueAttribute != null) {
+                        String providerVersionValue = providerVersionValueAttribute.getData().toString().trim();
+                        List<String> providerVersionValueList = parseList(providerVersionValue);
+                        serviceEntity.setProviderVersionValueList(providerVersionValueList);
+                    }
+
+                    List<DiscoveryServiceEntity> serviceEntityList = serviceEntityMap.get(consumerServiceName);
+                    if (serviceEntityList == null) {
+                        serviceEntityList = new ArrayList<DiscoveryServiceEntity>();
+                        serviceEntityMap.put(consumerServiceName, serviceEntityList);
+                    }
+
+                    serviceEntityList.add(serviceEntity);
                 }
-                String consumerServiceName = consumerServiceNameAttribute.getData().toString().trim();
-                serviceEntity.setConsumerServiceName(consumerServiceName);
-
-                Attribute providerServiceNameAttribute = childElement.attribute(ConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME);
-                if (providerServiceNameAttribute == null) {
-                    throw new PluginException("Attribute[" + ConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
-                }
-                String providerServiceName = providerServiceNameAttribute.getData().toString().trim();
-                serviceEntity.setProviderServiceName(providerServiceName);
-
-                Attribute consumerVersionValueAttribute = childElement.attribute(ConfigConstant.CONSUMER_VERSION_VALUE_ATTRIBUTE_NAME);
-                if (consumerVersionValueAttribute != null) {
-                    String consumerVersionValue = consumerVersionValueAttribute.getData().toString().trim();
-                    List<String> consumerVersionValueList = parseList(consumerVersionValue);
-                    serviceEntity.setConsumerVersionValueList(consumerVersionValueList);
-                }
-
-                Attribute providerVersionValueAttribute = childElement.attribute(ConfigConstant.PROVIDER_VERSION_VALUE_ATTRIBUTE_NAME);
-                if (providerVersionValueAttribute != null) {
-                    String providerVersionValue = providerVersionValueAttribute.getData().toString().trim();
-                    List<String> providerVersionValueList = parseList(providerVersionValue);
-                    serviceEntity.setProviderVersionValueList(providerVersionValueList);
-                }
-
-                List<DiscoveryServiceEntity> serviceEntityList = serviceEntityMap.get(consumerServiceName);
-                if (serviceEntityList == null) {
-                    serviceEntityList = new ArrayList<DiscoveryServiceEntity>();
-                    serviceEntityMap.put(consumerServiceName, serviceEntityList);
-                }
-
-                serviceEntityList.add(serviceEntity);
             }
         }
 
