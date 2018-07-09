@@ -14,27 +14,15 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.serviceregistry.Registration;
 
-import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.framework.cache.RuleCache;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.decorator.DiscoveryClientDecorator;
 import com.nepxion.discovery.plugin.framework.entity.CountEntity;
 import com.nepxion.discovery.plugin.framework.entity.RegisterEntity;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
-import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
 import com.nepxion.discovery.plugin.framework.event.RegisterFailureEvent;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
 public class CountFilterRegisterListener extends AbstractRegisterListener {
-    @Autowired
-    private RuleCache ruleCache;
-
-    @Autowired
-    private PluginAdapter pluginAdapter;
-
-    @Autowired
-    private PluginPublisher pluginPublisher;
-
     @Autowired
     private DiscoveryClientDecorator discoveryClient;
 

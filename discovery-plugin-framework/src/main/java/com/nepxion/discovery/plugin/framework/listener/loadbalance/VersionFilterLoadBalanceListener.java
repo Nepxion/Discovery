@@ -17,12 +17,8 @@ import java.util.Map;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.framework.cache.RuleCache;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
-import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryServiceEntity;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
@@ -30,15 +26,6 @@ import com.nepxion.discovery.plugin.framework.entity.VersionEntity;
 import com.netflix.loadbalancer.Server;
 
 public class VersionFilterLoadBalanceListener extends AbstractLoadBalanceListener {
-    @Autowired
-    private RuleCache ruleCache;
-
-    @Autowired
-    private PluginContextAware pluginContextAware;
-
-    @Autowired
-    private PluginAdapter pluginAdapter;
-
     @Override
     public void onGetServers(String serviceId, List<? extends Server> servers) {
         String consumerServiceId = pluginContextAware.getServiceId();

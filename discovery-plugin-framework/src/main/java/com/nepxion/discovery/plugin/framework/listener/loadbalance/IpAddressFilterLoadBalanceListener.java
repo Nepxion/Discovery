@@ -15,9 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.plugin.framework.cache.RuleCache;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
 import com.nepxion.discovery.plugin.framework.entity.FilterEntity;
@@ -26,9 +24,6 @@ import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.netflix.loadbalancer.Server;
 
 public class IpAddressFilterLoadBalanceListener extends AbstractLoadBalanceListener {
-    @Autowired
-    private RuleCache ruleCache;
-
     @Override
     public void onGetServers(String serviceId, List<? extends Server> servers) {
         applyIpAddressFilter(serviceId, servers);

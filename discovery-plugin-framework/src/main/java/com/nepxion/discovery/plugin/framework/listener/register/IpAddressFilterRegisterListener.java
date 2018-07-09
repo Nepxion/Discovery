@@ -14,30 +14,17 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.serviceregistry.Registration;
 
-import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.framework.cache.RuleCache;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.entity.FilterEntity;
 import com.nepxion.discovery.plugin.framework.entity.FilterType;
 import com.nepxion.discovery.plugin.framework.entity.RegisterEntity;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
-import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
 import com.nepxion.discovery.plugin.framework.event.RegisterFailureEvent;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
 public class IpAddressFilterRegisterListener extends AbstractRegisterListener {
-    @Autowired
-    private RuleCache ruleCache;
-
-    @Autowired
-    private PluginAdapter pluginAdapter;
-
-    @Autowired
-    private PluginPublisher pluginPublisher;
-
     @Override
     public void onRegister(Registration registration) {
         String serviceId = registration.getServiceId();
