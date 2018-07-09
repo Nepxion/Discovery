@@ -58,6 +58,10 @@ public class ConfigInitializer {
         } else {
             inputStream = configLoader.getLocalInputStream();
         }
-        configParser.parse(inputStream);
+        try {
+            configParser.parse(inputStream);
+        } catch (Exception e) {
+            LOG.error("Parse rule xml failed", e);
+        }
     }
 }

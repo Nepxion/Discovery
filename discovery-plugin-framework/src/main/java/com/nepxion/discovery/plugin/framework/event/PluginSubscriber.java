@@ -64,7 +64,13 @@ public class PluginSubscriber {
         }
 
         InputStream inputStream = ruleChangedEvent.getInputStream();
-        pluninConfigParser.parse(inputStream);
+        try {
+            pluninConfigParser.parse(inputStream);
+        } catch (Exception e) {
+            LOG.error("Parse rule xml failed", e);
+
+            throw e;
+        }
 
         refreshLoadBalancer();
     }

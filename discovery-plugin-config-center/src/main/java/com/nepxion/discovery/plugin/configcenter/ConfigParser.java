@@ -53,9 +53,9 @@ public class ConfigParser extends Dom4JParser implements PluginConfigParser {
 
             super.parse(text);
         } catch (NullPointerException e) {
-            LOG.warn("No input stream is retrieved");
+            throw new PluginException("Input stream is null");
         } catch (Exception e) {
-            LOG.error("Parse rule xml failed", e);
+            throw new PluginException("Parse rule xml failed", e);
         } finally {
             if (inputStream != null) {
                 IOUtils.closeQuietly(inputStream);
