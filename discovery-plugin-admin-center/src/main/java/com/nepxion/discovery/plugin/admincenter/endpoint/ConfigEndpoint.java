@@ -18,8 +18,7 @@ import java.io.InputStream;
 import java.util.Collections;
 
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.Endpoint;
 import org.springframework.boot.actuate.endpoint.mvc.MvcEndpoint;
@@ -45,8 +44,6 @@ import com.nepxion.discovery.plugin.framework.event.RuleChangedEvent;
 // 用法参照ServiceRegistryEndpoint和ServiceRegistryAutoConfiguration
 @ManagedResource(description = "Config Endpoint")
 public class ConfigEndpoint implements MvcEndpoint {
-    private static final Logger LOG = LoggerFactory.getLogger(ConfigEndpoint.class);
-
     @Autowired
     private PluginContextAware pluginContextAware;
 
@@ -56,11 +53,11 @@ public class ConfigEndpoint implements MvcEndpoint {
     @Autowired
     private RuleCache ruleCache;
 
-    @RequestMapping(path = "/config/send", method = RequestMethod.POST)
-    @ApiOperation(value = "推送规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @RequestMapping(path = "/config/send-async", method = RequestMethod.POST)
+    @ApiOperation(value = "异步推送规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<?> send(@RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
+    public ResponseEntity<?> sendAsync(@RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         if (!discoveryControlEnabled) {
             return new ResponseEntity<>(Collections.singletonMap("Message", "Discovery control is disabled"), HttpStatus.NOT_FOUND);
@@ -70,12 +67,30 @@ public class ConfigEndpoint implements MvcEndpoint {
             InputStream inputStream = IOUtils.toInputStream(config, PluginConstant.ENCODING_UTF_8);
             pluginEventWapper.fireRuleChanged(new RuleChangedEvent(inputStream), true);
         } catch (IOException e) {
-            LOG.error("Publish config failed", e);
-
-            return new ResponseEntity<>(Collections.singletonMap("Message", "Send config failed"), HttpStatus.OK);
+            return toExceptionResponseEntity(e, true);
         }
 
         // return ResponseEntity.ok().build();
+
+        return ResponseEntity.ok().body("OK");
+    }
+
+    @RequestMapping(path = "/config/send-sync", method = RequestMethod.POST)
+    @ApiOperation(value = "同步推送规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    @ManagedOperation
+    public ResponseEntity<?> sendSync(@RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
+        Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
+        if (!discoveryControlEnabled) {
+            return new ResponseEntity<>(Collections.singletonMap("Message", "Discovery control is disabled"), HttpStatus.NOT_FOUND);
+        }
+
+        try {
+            InputStream inputStream = IOUtils.toInputStream(config, PluginConstant.ENCODING_UTF_8);
+            pluginEventWapper.fireRuleChanged(new RuleChangedEvent(inputStream), false);
+        } catch (IOException e) {
+            return toExceptionResponseEntity(e, true);
+        }
 
         return ResponseEntity.ok().body("OK");
     }
@@ -93,6 +108,19 @@ public class ConfigEndpoint implements MvcEndpoint {
         String content = ruleEntity.getContent();
 
         return ResponseEntity.ok().body(content);
+    }
+
+    private ResponseEntity<String> toExceptionResponseEntity(Exception e, boolean showDetail) {
+        String message = null;
+        if (showDetail) {
+            message = ExceptionUtils.getStackTrace(e);
+        } else {
+            message = e.getMessage();
+        }
+
+        message = "An internal error occurred while processing your request\n" + message;
+
+        return new ResponseEntity<String>(message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override
