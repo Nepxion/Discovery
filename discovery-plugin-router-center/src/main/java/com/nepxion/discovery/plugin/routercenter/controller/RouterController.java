@@ -23,6 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.cloud.client.serviceregistry.Registration;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +38,6 @@ import com.nepxion.discovery.plugin.framework.context.PluginContainerInitialized
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.entity.RouterEntity;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
-import com.nepxion.eventbus.util.HostUtil;
 
 @RestController
 @Api(tags = { "路由接口" })
@@ -56,6 +56,9 @@ public class RouterController {
 
     @Autowired
     private DiscoveryClient discoveryClient;
+
+    @Autowired
+    private Registration registration;
 
     @RequestMapping(path = "/services", method = RequestMethod.GET)
     @ApiOperation(value = "获取服务注册中心所有服务列表", notes = "", response = List.class, httpMethod = "GET")
@@ -104,8 +107,10 @@ public class RouterController {
     public RouterEntity getRouterEntity() {
         String serviceId = pluginContextAware.getServiceId();
         String version = pluginAdapter.getVersion();
-        String host = HostUtil.getLocalhost();
-        int port = pluginContainerInitializedHandler.getPort();
+        String host = pluginAdapter.getIpAddress(registration);
+        int port = pluginAdapter.getPort(registration);
+        // String host = HostUtil.getLocalhost();
+        // int port = pluginContainerInitializedHandler.getPort();
 
         RouterEntity routerEntity = new RouterEntity();
         routerEntity.setServiceId(serviceId);

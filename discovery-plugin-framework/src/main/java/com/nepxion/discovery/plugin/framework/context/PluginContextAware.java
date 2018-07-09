@@ -11,8 +11,6 @@ package com.nepxion.discovery.plugin.framework.context;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.ResolvableType;
@@ -23,9 +21,6 @@ import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 public class PluginContextAware implements ApplicationContextAware {
     private ApplicationContext applicationContext;
     private Environment environment;
-
-    @Autowired
-    private ServerProperties serverProperties;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) {
@@ -87,14 +82,6 @@ public class PluginContextAware implements ApplicationContextAware {
 
     public Environment getEnvironment() {
         return environment;
-    }
-
-    public String getAddress() {
-        return serverProperties.getAddress().getHostAddress();
-    }
-
-    public int getPort() {
-        return serverProperties.getPort();
     }
 
     public String getServiceId() {
