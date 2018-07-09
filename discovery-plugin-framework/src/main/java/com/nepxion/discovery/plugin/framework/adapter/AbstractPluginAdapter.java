@@ -47,12 +47,4 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     public void clearDynamicVersion() {
         pluginCache.clear(PluginConstant.VERSION);
     }
-
-    public PluginContextAware getPluginContextAware() {
-        return pluginContextAware;
-    }
-
-    public PluginCache getPluginCache() {
-        return pluginCache;
-    }
 }

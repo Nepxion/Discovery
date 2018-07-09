@@ -16,8 +16,4 @@ import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 public class BasicListener implements Listener {
     @Autowired
     protected PluginContextAware pluginContextAware;
-
-    public PluginContextAware getPluginContextAware() {
-        return pluginContextAware;
-    }
 }
