@@ -16,8 +16,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.eventbus.Subscribe;
+import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.config.PluginConfigParser;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
+import com.nepxion.discovery.plugin.framework.exception.PluginException;
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.LoadBalanceListenerExecutor;
 import com.nepxion.eventbus.annotation.EventBus;
 import com.netflix.loadbalancer.ZoneAwareLoadBalancer;
@@ -28,6 +30,9 @@ public class PluginSubscriber {
 
     @Autowired
     private PluginContextAware pluginContextAware;
+
+    @Autowired
+    private PluginAdapter pluginAdapter;
 
     @Autowired
     private PluginConfigParser pluninConfigParser;
@@ -54,10 +59,14 @@ public class PluginSubscriber {
 
         LOG.info("********** Remote config change has been subscribed **********");
 
+        if (ruleChangedEvent == null) {
+            throw new PluginException("RuleChangedEvent can't be null");
+        }
+
         InputStream inputStream = ruleChangedEvent.getInputStream();
         pluninConfigParser.parse(inputStream);
 
-        onVersionChanged(null);
+        refreshLoadBalancer();
     }
 
     @Subscribe
@@ -69,14 +78,39 @@ public class PluginSubscriber {
             return;
         }
 
+        LOG.info("********** Version change has been subscribed **********");
+
+        if (versionChangedEvent == null) {
+            throw new PluginException("VersionChangedEvent can't be null");
+        }
+
+        VersionChangedEvent.EventType eventType = versionChangedEvent.getEventType();
+        switch (eventType) {
+            case VERSION_UPDATE:
+                String version = versionChangedEvent.getVersion();
+                pluginAdapter.setDynamicVersion(version);
+
+                LOG.info("********** Version has been updated, new version is {} **********", version);
+
+                break;
+            case VERSION_CLEAR:
+                pluginAdapter.clearDynamicVersion();
+
+                LOG.info("********** Version has been cleared **********");
+
+                break;
+        }
+
+        refreshLoadBalancer();
+    }
+
+    private void refreshLoadBalancer() {
         ZoneAwareLoadBalancer<?> loadBalancer = loadBalanceListenerExecutor.getLoadBalancer();
         if (loadBalancer == null) {
             return;
         }
 
-        LOG.info("********** Version change has been subscribed **********");
-
-        // 当版本更新后，强制刷新Ribbon缓存
+        // 当规则或者版本更新后，强制刷新Ribbon缓存
         loadBalancer.updateListOfServers();
     }
 }

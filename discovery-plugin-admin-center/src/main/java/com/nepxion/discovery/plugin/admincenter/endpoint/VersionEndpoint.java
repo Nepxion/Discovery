@@ -59,9 +59,7 @@ public class VersionEndpoint implements MvcEndpoint {
             return new ResponseEntity<>(Collections.singletonMap("Message", "Discovery control is disabled"), HttpStatus.NOT_FOUND);
         }
 
-        pluginAdapter.setDynamicVersion(version);
-
-        pluginEventWapper.fireVersionChanged(new VersionChangedEvent(), true);
+        pluginEventWapper.fireVersionChanged(new VersionChangedEvent(VersionChangedEvent.EventType.VERSION_UPDATE, version), true);
 
         return ResponseEntity.ok().body("OK");
     }
@@ -76,9 +74,7 @@ public class VersionEndpoint implements MvcEndpoint {
             return new ResponseEntity<>(Collections.singletonMap("Message", "Discovery control is disabled"), HttpStatus.NOT_FOUND);
         }
 
-        pluginAdapter.clearDynamicVersion();
-
-        pluginEventWapper.fireVersionChanged(new VersionChangedEvent(), true);
+        pluginEventWapper.fireVersionChanged(new VersionChangedEvent(VersionChangedEvent.EventType.VERSION_CLEAR), true);
 
         return ResponseEntity.ok().body("OK");
     }
