@@ -9,12 +9,16 @@ package com.nepxion.discovery.console.configuration;
  * @version 1.0
  */
 
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.boot.actuate.endpoint.Endpoint;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
+import com.nepxion.discovery.console.endpoint.ConsoleEndpoint;
+
 @Configuration
-@ComponentScan(basePackages = { "com.nepxion.discovery.console.controller" })
+// @ComponentScan(basePackages = { "com.nepxion.discovery.console.endpoint" })
 @Import(SwaggerConfiguration.class)
 public class ConsoleAutoConfiguration {
     static {
@@ -29,5 +33,13 @@ public class ConsoleAutoConfiguration {
         System.out.println("                      ╚══╝");
         System.out.println("Nepxion Discovery - Console  v3.3.11");
         System.out.println("");
+    }
+
+    @ConditionalOnClass(Endpoint.class)
+    protected static class ConsoleEndpointConfiguration {
+        @Bean
+        public ConsoleEndpoint consoleEndpoint() {
+            return new ConsoleEndpoint();
+        }
     }
 }
