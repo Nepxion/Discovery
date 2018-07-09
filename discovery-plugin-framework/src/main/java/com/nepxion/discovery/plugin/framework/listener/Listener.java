@@ -9,8 +9,6 @@ package com.nepxion.discovery.plugin.framework.listener;
  * @version 1.0
  */
 
-import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
-
 public interface Listener {
-    PluginContextAware getPluginContextAware();
+
 }

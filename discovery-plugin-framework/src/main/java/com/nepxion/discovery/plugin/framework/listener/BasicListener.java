@@ -17,7 +17,6 @@ public class BasicListener implements Listener {
     @Autowired
     protected PluginContextAware pluginContextAware;
 
-    @Override
     public PluginContextAware getPluginContextAware() {
         return pluginContextAware;
     }
