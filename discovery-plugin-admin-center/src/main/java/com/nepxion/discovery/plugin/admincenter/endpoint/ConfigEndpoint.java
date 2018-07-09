@@ -9,6 +9,10 @@ package com.nepxion.discovery.plugin.admincenter.endpoint;
  * @version 1.0
  */
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
@@ -27,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.nepxion.discovery.plugin.framework.cache.RuleCache;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
@@ -35,6 +40,8 @@ import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
 import com.nepxion.discovery.plugin.framework.event.RuleChangedEvent;
 
+@RestController
+@Api(tags = { "配置接口" })
 // 用法参照ServiceRegistryEndpoint和ServiceRegistryAutoConfiguration
 @ManagedResource(description = "Config Endpoint")
 public class ConfigEndpoint implements MvcEndpoint {
@@ -49,11 +56,11 @@ public class ConfigEndpoint implements MvcEndpoint {
     @Autowired
     private RuleCache ruleCache;
 
-    // 推送规则配置信息
-    @RequestMapping(path = "send", method = RequestMethod.POST)
+    @RequestMapping(path = "/config/send", method = RequestMethod.POST)
+    @ApiOperation(value = "推送规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<?> send(@RequestBody String config) {
+    public ResponseEntity<?> send(@RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         if (!discoveryControlEnabled) {
             return new ResponseEntity<>(Collections.singletonMap("Message", "Discovery control is disabled"), HttpStatus.NOT_FOUND);
@@ -73,8 +80,8 @@ public class ConfigEndpoint implements MvcEndpoint {
         return ResponseEntity.ok().body("OK");
     }
 
-    // 查看当前生效的规则配置信息
-    @RequestMapping(path = "view", method = RequestMethod.GET)
+    @RequestMapping(path = "/config/view", method = RequestMethod.GET)
+    @ApiOperation(value = "查看当前生效的规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     @ManagedOperation
     public ResponseEntity<?> view() {
@@ -90,7 +97,7 @@ public class ConfigEndpoint implements MvcEndpoint {
 
     @Override
     public String getPath() {
-        return "/config";
+        return "/";
     }
 
     @Override

@@ -9,6 +9,10 @@ package com.nepxion.discovery.plugin.admincenter.endpoint;
  * @version 1.0
  */
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,12 +29,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
 import com.nepxion.discovery.plugin.framework.event.VersionChangedEvent;
 
+@RestController
+@Api(tags = { "版本接口" })
 @ManagedResource(description = "Version Endpoint")
 public class VersionEndpoint implements MvcEndpoint {
     @Autowired
@@ -42,11 +49,11 @@ public class VersionEndpoint implements MvcEndpoint {
     @Autowired
     private PluginPublisher pluginPublisher;
 
-    // 设置服务的动态版本
-    @RequestMapping(path = "send", method = RequestMethod.POST)
+    @RequestMapping(path = "/version/send", method = RequestMethod.POST)
+    @ApiOperation(value = "设置服务的动态版本", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<?> send(@RequestBody String version) {
+    public ResponseEntity<?> send(@RequestBody @ApiParam(value = "版本号", required = true) String version) {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         if (!discoveryControlEnabled) {
             return new ResponseEntity<>(Collections.singletonMap("Message", "Discovery control is disabled"), HttpStatus.NOT_FOUND);
@@ -59,8 +66,8 @@ public class VersionEndpoint implements MvcEndpoint {
         return ResponseEntity.ok().body("OK");
     }
 
-    // 清除服务的动态版本
-    @RequestMapping(path = "clear", method = RequestMethod.GET)
+    @RequestMapping(path = "/version/clear", method = RequestMethod.GET)
+    @ApiOperation(value = "清除服务的动态版本", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     @ManagedOperation
     public ResponseEntity<?> clear() {
@@ -76,8 +83,8 @@ public class VersionEndpoint implements MvcEndpoint {
         return ResponseEntity.ok().body("OK");
     }
 
-    // 查看服务的本地版本和动态版本
-    @RequestMapping(path = "view", method = RequestMethod.GET)
+    @RequestMapping(path = "/version/view", method = RequestMethod.GET)
+    @ApiOperation(value = "查看服务的本地版本和动态版本", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     @ManagedOperation
     public ResponseEntity<List<String>> view() {
@@ -94,7 +101,7 @@ public class VersionEndpoint implements MvcEndpoint {
 
     @Override
     public String getPath() {
-        return "/version";
+        return "/";
     }
 
     @Override
