@@ -23,7 +23,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +34,7 @@ import org.springframework.web.client.RestTemplate;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.context.PluginContainerInitializedHandler;
+import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.entity.RouterEntity;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
 import com.nepxion.eventbus.util.HostUtil;
@@ -46,10 +46,10 @@ public class RouterController {
     private PluginContainerInitializedHandler pluginContainerInitializedHandler;
 
     @Autowired
-    private PluginAdapter pluginAdapter;
+    private PluginContextAware pluginContextAware;
 
     @Autowired
-    private ConfigurableEnvironment environment;
+    private PluginAdapter pluginAdapter;
 
     @Autowired
     private RestTemplate routerRestTemplate;
@@ -102,7 +102,7 @@ public class RouterController {
     }
 
     public RouterEntity getRouterEntity() {
-        String serviceId = environment.getProperty(PluginConstant.SPRING_APPLICATION_NAME);
+        String serviceId = pluginContextAware.getServiceId();
         String version = pluginAdapter.getVersion();
         String host = HostUtil.getLocalhost();
         int port = pluginContainerInitializedHandler.getPort();

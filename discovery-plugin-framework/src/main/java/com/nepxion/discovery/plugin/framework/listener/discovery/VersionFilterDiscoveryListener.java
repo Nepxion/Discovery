@@ -23,6 +23,7 @@ import org.springframework.cloud.client.ServiceInstance;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.cache.RuleCache;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
+import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryServiceEntity;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
@@ -33,11 +34,14 @@ public class VersionFilterDiscoveryListener extends AbstractDiscoveryListener {
     private RuleCache ruleCache;
 
     @Autowired
+    private PluginContextAware pluginContextAware;
+
+    @Autowired
     private PluginAdapter pluginAdapter;
 
     @Override
     public void onGetInstances(String serviceId, List<ServiceInstance> instances) {
-        String consumerServiceId = environment.getProperty(PluginConstant.SPRING_APPLICATION_NAME);
+        String consumerServiceId = pluginContextAware.getServiceId();
         String consumerServiceVersion = pluginAdapter.getVersion();
 
         applyVersionFilter(consumerServiceId, consumerServiceVersion, serviceId, instances);
