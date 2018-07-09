@@ -32,8 +32,8 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册发现的增�
   - 在服务注册层面的控制中，一旦禁止注册的条件触发，主动推送异步事件，以便使用者订阅
 - 实现通过Listener机制进行扩展
   - 使用者可以自定义更多的规则过滤条件
-  - 使用者可以对服务注册发现核心事件进行监听监听
-- 实现通过Spring Boot Actuator的集成，提供健康检查功能
+  - 使用者可以对服务注册发现核心事件进行监听
+- 实现支持Spring Boot Actuator和Swagger集成
 - 实现支持未来扩展更多的服务注册中心
 
 ## 场景
@@ -82,7 +82,6 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册发现的增�
 | discovery-plugin-framework-eureka | 核心框架的Eureka扩展 |
 | discovery-plugin-framework-zookeeper | 核心框架的Zookeeper扩展 |
 | discovery-plugin-config-center | 配置中心实现 |
-| discovery-plugin-router-center | 路由中心实现 |
 | discovery-plugin-admin-center | 管理中心实现 |
 | discovery-console | 独立控制台，提供给UI |
 | discovery-plugin-starter-consul | Consul Starter |
@@ -247,114 +246,115 @@ public class DiscoveryConfigAdapter extends ConfigAdapter {
 ```
 
 ## 管理中心
-> 端口号为management.port的值
-### 推送规则配置信息
+> PORT端口号为server.port或者management.port都可以
+### 配置接口
+#### 推送规则配置信息
 使用者可以通过Rest方式向一个微服务推送规则信息，但该方式只能每次推送到一个微服务上
 ```java
 Java:
-@RequestMapping(path = "send", method = RequestMethod.POST)
+@RequestMapping(path = "/config/send", method = RequestMethod.POST)
 public ResponseEntity<?> send(@RequestBody String config)
 
 Url:
-http://IP:[management.port]/config/send
+http://IP:PORT/config/send
 ```
 
-### 查看当前生效的规则配置信息
+#### 查看当前生效的规则配置信息
 使用者可以通过Rest方式查看某个微服务当前生效的规则
 ```java
 Java:
-@RequestMapping(path = "view", method = RequestMethod.GET)
+@RequestMapping(path = "/config/view", method = RequestMethod.GET)
 public ResponseEntity<?> view()
 
 Url:
-http://IP:[management.port]/config/view
+http://IP:PORT/config/view
 ```
 
-### 设置服务的动态版本
+### 版本接口
+#### 设置服务的动态版本
 使用者可以通过Rest方式设置某个微服务的动态版本
 ```java
 Java:
-@RequestMapping(path = "send", method = RequestMethod.POST)
+@RequestMapping(path = "/version/send", method = RequestMethod.POST)
 public ResponseEntity<?> send(@RequestBody String version)
 
 Url:
-http://IP:[management.port]/version/send
+http://IP:PORT/version/send
 ```
 
-### 清除服务的动态版本
+#### 清除服务的动态版本
 使用者可以通过Rest方式清除某个微服务的动态版本
 ```java
 Java:
-@RequestMapping(path = "clear", method = RequestMethod.GET)
+@RequestMapping(path = "/version/clear", method = RequestMethod.GET)
 public ResponseEntity<?> clear()
 
 Url:
-http://IP:[management.port]/version/clear
+http://IP:PORT/version/clear
 ```
 
-### 查看服务的本地版本和动态版本
+#### 查看服务的本地版本和动态版本
 使用者可以通过Rest方式查看服务的本地版本和动态版本
 ```java
 Java:
-@RequestMapping(path = "view", method = RequestMethod.GET)
+@RequestMapping(path = "/version/view", method = RequestMethod.GET)
 public ResponseEntity<List<String>> view()
 
 Url:
-http://IP:[management.port]/version/view
+http://IP:PORT/version/view
 ```
 
-## 路由中心
-> 端口号为server.port的值
-### 获取本地节点可访问其他节点（根据服务名）的实例列表
+### 路由接口
+#### 获取本地节点可访问其他节点（根据服务名）的实例列表
 ```java
 Java:
-@RequestMapping(path = "/instances/{serviceId}", method = RequestMethod.GET)
+@RequestMapping(path = "/router/instances/{serviceId}", method = RequestMethod.GET)
 public List<ServiceInstance> instances(@PathVariable(value = "serviceId") String serviceId)
 
 Url:
-http://IP:[server.port]/instances/{serviceId}
+http://IP:PORT/router/instances/{serviceId}
 ```
 
-### 获取本地节点信息
+#### 获取本地节点信息
 获取当前节点的简单信息
 ```java
 Java:
-@RequestMapping(path = "/info", method = RequestMethod.GET)
+@RequestMapping(path = "/router/info", method = RequestMethod.GET)
 public RouterEntity info()
 
 Url:
-http://IP:[server.port]/info
+http://IP:PORT/router/info
 ```
 
-### 获取本地节点可访问其他节点（根据服务名）的路由信息列表
+#### 获取本地节点可访问其他节点（根据服务名）的路由信息列表
 ```java
 Java:
-@RequestMapping(path = "/route/{routeServiceId}", method = RequestMethod.GET)
+@RequestMapping(path = "/router/route/{routeServiceId}", method = RequestMethod.GET)
 public List<RouterEntity> route(@PathVariable(value = "routeServiceId") String routeServiceId)
 
 Url:
-http://IP:[server.port]/route/{routeServiceId}
+http://IP:PORT/router/route/{routeServiceId}
 ```
 
-### 获取指定节点（根据IP和端口）可访问其他节点（根据服务名）的路由信息列表
+#### 获取指定节点（根据IP和端口）可访问其他节点（根据服务名）的路由信息列表
 ```java
 Java:
-@RequestMapping(path = "/route/{routeServiceId}/{routeHost}/{routePort}", method = RequestMethod.GET)
+@RequestMapping(path = "/router/route/{routeServiceId}/{routeHost}/{routePort}", method = RequestMethod.GET)
 public List<RouterEntity> route(@PathVariable(value = "routeServiceId") String routeServiceId, @PathVariable(value = "routeHost") String routeHost, @PathVariable(value = "routePort") int routePort)
 
 Url:
-http://IP:[server.port]/route/{routeServiceId}/{routeHost}/{routePort}
+http://IP:PORT/router/route/{routeServiceId}/{routeHost}/{routePort}
 ```
 
-### 获取全路径的路由信息树
+#### 获取全路径的路由信息树
 routeServiceIds按调用服务名的前后次序排列，起始节点的服务名不能加上去。如果多个用“;”分隔，不允许出现空格
 ```java
 Java:
-@RequestMapping(path = "/routes", method = RequestMethod.POST)
+@RequestMapping(path = "/router/routes", method = RequestMethod.POST)
 public RouterEntity routes(@RequestBody String routeServiceIds)
 
 Url:
-http://IP:[server.port]/routes
+http://IP:PORT/router/routes
 ```
 
 上述操作，也可以通过集成的Swagger服务来执行，如图1
