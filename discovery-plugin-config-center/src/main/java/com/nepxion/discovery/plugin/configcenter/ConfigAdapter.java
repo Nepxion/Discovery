@@ -12,14 +12,14 @@ package com.nepxion.discovery.plugin.configcenter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.plugin.configcenter.loader.AbstractConfigLoader;
-import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
+import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
 import com.nepxion.discovery.plugin.framework.event.RuleChangedEvent;
 
 public abstract class ConfigAdapter extends AbstractConfigLoader {
     @Autowired
-    private PluginPublisher pluginPublisher;
+    private PluginEventWapper pluginEventWapper;
 
-    public void publish(RuleChangedEvent ruleChangedEvent) {
-        pluginPublisher.asyncPublish(ruleChangedEvent);
+    public void fireRuleChanged(RuleChangedEvent ruleChangedEvent, boolean async) {
+        pluginEventWapper.fireRuleChanged(ruleChangedEvent, async);
     }
 }

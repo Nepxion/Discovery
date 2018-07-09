@@ -16,6 +16,7 @@ import com.nepxion.discovery.plugin.framework.cache.PluginCache;
 import com.nepxion.discovery.plugin.framework.cache.RuleCache;
 import com.nepxion.discovery.plugin.framework.context.PluginContainerInitializedHandler;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
+import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
 import com.nepxion.discovery.plugin.framework.event.PluginSubscriber;
 import com.nepxion.discovery.plugin.framework.listener.discovery.DiscoveryListenerExecutor;
@@ -48,6 +49,11 @@ public class PluginAutoConfiguration {
     @Bean
     public PluginSubscriber pluginSubscriber() {
         return new PluginSubscriber();
+    }
+
+    @Bean
+    public PluginEventWapper pluginEventWapper() {
+        return new PluginEventWapper();
     }
 
     @Bean

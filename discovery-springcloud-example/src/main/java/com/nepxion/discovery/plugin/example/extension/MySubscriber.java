@@ -16,7 +16,7 @@ import com.nepxion.eventbus.annotation.EventBus;
 @EventBus
 public class MySubscriber {
     @Subscribe
-    public void subscribeRegisterFailure(RegisterFailureEvent registerFailureEvent) {
+    public void onRegisterFailure(RegisterFailureEvent registerFailureEvent) {
         System.out.println("========== 注册失败：eventType=" + registerFailureEvent.getEventType() + ", eventDescription=" + registerFailureEvent.getEventDescription() + ", serviceId=" + registerFailureEvent.getServiceId() + ", ipAddress=" + registerFailureEvent.getIpAddress() + ", port=" + registerFailureEvent.getPort());
     }
 }

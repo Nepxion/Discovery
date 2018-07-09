@@ -48,7 +48,7 @@ public class DiscoveryConfigAdapter extends ConfigAdapter {
     public void publish() {
         try {
             InputStream inputStream = FileUtils.openInputStream(new File("src/main/resources/rule.xml"));
-            publish(new RuleChangedEvent(inputStream));
+            fireRuleChanged(new RuleChangedEvent(inputStream), true);
         } catch (IOException e) {
             e.printStackTrace();
         }

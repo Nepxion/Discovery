@@ -36,7 +36,7 @@ public class PluginSubscriber {
     private LoadBalanceListenerExecutor loadBalanceListenerExecutor;
 
     @Subscribe
-    public void subscribeRuleChanged(RuleChangedEvent ruleChangedEvent) {
+    public void onRuleChanged(RuleChangedEvent ruleChangedEvent) {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         Boolean remoteConfigEnabled = pluginContextAware.isRemoteConfigEnabled();
 
@@ -57,11 +57,11 @@ public class PluginSubscriber {
         InputStream inputStream = ruleChangedEvent.getInputStream();
         pluninConfigParser.parse(inputStream);
 
-        subscribeVersionChanged(null);
+        onVersionChanged(null);
     }
 
     @Subscribe
-    public void subscribeVersionChanged(VersionChangedEvent versionChangedEvent) {
+    public void onVersionChanged(VersionChangedEvent versionChangedEvent) {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         if (!discoveryControlEnabled) {
             LOG.info("********** Discovery control is disabled, ignore to subscribe **********");

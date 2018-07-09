@@ -37,7 +37,7 @@ import com.nepxion.discovery.plugin.framework.cache.RuleCache;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
-import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
+import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
 import com.nepxion.discovery.plugin.framework.event.RuleChangedEvent;
 
 @RestController
@@ -51,7 +51,7 @@ public class ConfigEndpoint implements MvcEndpoint {
     private PluginContextAware pluginContextAware;
 
     @Autowired
-    private PluginPublisher pluginPublisher;
+    private PluginEventWapper pluginEventWapper;
 
     @Autowired
     private RuleCache ruleCache;
@@ -68,7 +68,7 @@ public class ConfigEndpoint implements MvcEndpoint {
 
         try {
             InputStream inputStream = IOUtils.toInputStream(config, PluginConstant.ENCODING_UTF_8);
-            pluginPublisher.asyncPublish(new RuleChangedEvent(inputStream));
+            pluginEventWapper.fireRuleChanged(new RuleChangedEvent(inputStream), true);
         } catch (IOException e) {
             LOG.error("Publish config failed", e);
 
