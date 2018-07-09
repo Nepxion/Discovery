@@ -67,7 +67,7 @@ public class RouterEndpoint implements MvcEndpoint {
     private Registration registration;
 
     @RequestMapping(path = "/router/services", method = RequestMethod.GET)
-    @ApiOperation(value = "获取服务注册中心服务列表", notes = "", response = List.class, httpMethod = "GET")
+    @ApiOperation(value = "获取服务注册中心的服务列表", notes = "", response = List.class, httpMethod = "GET")
     @ResponseBody
     @ManagedOperation
     public List<String> services() {
