@@ -246,7 +246,7 @@ public class DiscoveryConfigAdapter extends ConfigAdapter {
     @PostConstruct
     public void publish() {
         InputStream inputStream = ...;
-        publish(inputStream);
+        fireRuleChanged(new RuleChangedEvent(inputStream), true);
     }
 }
 ```
@@ -255,14 +255,25 @@ public class DiscoveryConfigAdapter extends ConfigAdapter {
 > PORT端口号为server.port或者management.port都可以
 ### 配置接口
 #### 推送规则配置信息
-使用者可以通过Rest方式向一个微服务推送规则信息，但该方式只能每次推送到一个微服务上
+使用者可以通过Rest方式向一个微服务推送规则信息，但该方式只能每次推送到一个微服务上，分成异步发送和同步发送两种方式
+- 异步发送，无法捕获解析XML异常
+- 同步发送，可以捕获解析XML异常
 ```java
 Java:
-@RequestMapping(path = "/config/send", method = RequestMethod.POST)
-public ResponseEntity<?> send(@RequestBody String config)
+@RequestMapping(path = "/config/send-async", method = RequestMethod.POST)
+public ResponseEntity<?> sendAsync(@RequestBody String config)
 
 Url:
-http://IP:PORT/config/send
+http://IP:PORT/config/send-async
+```
+
+```java
+Java:
+@RequestMapping(path = "/config/send-sync", method = RequestMethod.POST)
+public ResponseEntity<?> sendSync(@RequestBody String config)
+
+Url:
+http://IP:PORT/config/sendSync
 ```
 
 #### 查看当前生效的规则配置信息
