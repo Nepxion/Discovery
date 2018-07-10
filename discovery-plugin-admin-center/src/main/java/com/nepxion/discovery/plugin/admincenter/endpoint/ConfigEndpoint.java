@@ -60,7 +60,9 @@ public class ConfigEndpoint implements MvcEndpoint {
     public ResponseEntity<?> sendAsync(@RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         if (!discoveryControlEnabled) {
-            return new ResponseEntity<>(Collections.singletonMap("Message", "Discovery control is disabled"), HttpStatus.NOT_FOUND);
+            // return new ResponseEntity<>(Collections.singletonMap("Message", "Discovery control is disabled"), HttpStatus.NOT_FOUND);
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Discovery control is disabled");
         }
 
         try {
@@ -82,7 +84,7 @@ public class ConfigEndpoint implements MvcEndpoint {
     public ResponseEntity<?> sendSync(@RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         if (!discoveryControlEnabled) {
-            return new ResponseEntity<>(Collections.singletonMap("Message", "Discovery control is disabled"), HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Discovery control is disabled");
         }
 
         try {
@@ -120,7 +122,7 @@ public class ConfigEndpoint implements MvcEndpoint {
 
         message = "An internal error occurred while processing your request\n" + message;
 
-        return new ResponseEntity<String>(message, HttpStatus.INTERNAL_SERVER_ERROR);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
     }
 
     @Override

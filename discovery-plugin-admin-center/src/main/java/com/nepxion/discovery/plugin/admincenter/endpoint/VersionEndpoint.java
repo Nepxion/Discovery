@@ -14,7 +14,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -56,7 +55,7 @@ public class VersionEndpoint implements MvcEndpoint {
     public ResponseEntity<?> send(@RequestBody @ApiParam(value = "版本号", required = true) String version) {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         if (!discoveryControlEnabled) {
-            return new ResponseEntity<>(Collections.singletonMap("Message", "Discovery control is disabled"), HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Discovery control is disabled");
         }
 
         pluginEventWapper.fireVersionChanged(new VersionChangedEvent(VersionChangedEvent.EventType.VERSION_UPDATE, version), true);
@@ -71,7 +70,7 @@ public class VersionEndpoint implements MvcEndpoint {
     public ResponseEntity<?> clear() {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         if (!discoveryControlEnabled) {
-            return new ResponseEntity<>(Collections.singletonMap("Message", "Discovery control is disabled"), HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Discovery control is disabled");
         }
 
         pluginEventWapper.fireVersionChanged(new VersionChangedEvent(VersionChangedEvent.EventType.VERSION_CLEAR), true);
