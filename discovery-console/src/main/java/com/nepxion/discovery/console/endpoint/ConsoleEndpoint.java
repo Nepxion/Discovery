@@ -38,6 +38,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.console.entity.InstanceEntity;
+import com.nepxion.discovery.console.handler.ConsoleErrorHandler;
 
 @RestController
 @Api(tags = { "控制台接口" })
@@ -140,6 +141,8 @@ public class ConsoleEndpoint implements MvcEndpoint {
     }
 
     private ResponseEntity<?> send(String serviceId, String config, boolean async) {
+        StringBuilder stringBuilder = new StringBuilder();
+
         List<ServiceInstance> serviceInstances = getInstances(serviceId);
         for (ServiceInstance serviceInstance : serviceInstances) {
             String host = serviceInstance.getHost();
@@ -148,15 +151,20 @@ public class ConsoleEndpoint implements MvcEndpoint {
             String url = "http://" + host + ":" + port + "/config/send-" + (async ? "async" : "sync");
             String result = consoleRestTemplate.postForEntity(url, config, String.class).getBody();
 
-            LOG.info("Send rule, serviceId={} url={}, result={}", serviceId, url, result);
-
-            // 这里需要考虑分布式事务
+            // 这里最好考虑分布式事务
             if (!StringUtils.equals(result, "OK")) {
-                return ResponseEntity.ok().body("Send rule failed for url=" + url + ", cause=" + result);
+                ConsoleErrorHandler errorHandler = (ConsoleErrorHandler) consoleRestTemplate.getErrorHandler();
+                result = errorHandler.getCause();
             }
+            stringBuilder.append("Rule sent, serviceId=").append(serviceId).append(", url=").append(url).append(", result=").append(result).append("\n");
         }
 
-        return ResponseEntity.ok().body("OK");
+        String result = stringBuilder.toString();
+        result = result.substring(0, result.lastIndexOf("\n"));
+
+        LOG.info("\n{}", result);
+
+        return ResponseEntity.ok().body(result);
     }
 
     @Override

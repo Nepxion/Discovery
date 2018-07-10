@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.console.endpoint.ConsoleEndpoint;
+import com.nepxion.discovery.console.handler.ConsoleErrorHandler;
 
 @Configuration
 // @ComponentScan(basePackages = { "com.nepxion.discovery.console.endpoint" })
@@ -45,7 +46,10 @@ public class ConsoleAutoConfiguration {
 
         @Bean
         public RestTemplate consoleRestTemplate() {
-            return new RestTemplate();
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.setErrorHandler(new ConsoleErrorHandler());
+
+            return restTemplate;
         }
     }
 }
