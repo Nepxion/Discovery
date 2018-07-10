@@ -13,7 +13,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.Endpoint;
@@ -27,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.nepxion.discovery.console.entity.ServiceEntity;
 
 @RestController
 @Api(tags = { "控制台接口" })
@@ -48,15 +53,52 @@ public class ConsoleEndpoint implements MvcEndpoint {
     @ResponseBody
     @ManagedOperation
     public List<ServiceInstance> instances(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
-        return getInstanceList(serviceId);
+        return getInstances(serviceId);
+    }
+
+    @RequestMapping(path = "/console/service-map", method = RequestMethod.GET)
+    @ApiOperation(value = "获取服务注册中心的服务和实例的Map", notes = "", response = Map.class, httpMethod = "GET")
+    @ResponseBody
+    @ManagedOperation
+    public Map<String, List<ServiceEntity>> serviceMap() {
+        return getServiceMap();
     }
 
     public List<String> getServices() {
         return discoveryClient.getServices();
     }
 
-    public List<ServiceInstance> getInstanceList(String serviceId) {
+    public List<ServiceInstance> getInstances(String serviceId) {
         return discoveryClient.getInstances(serviceId);
+    }
+
+    public Map<String, List<ServiceEntity>> getServiceMap() {
+        List<String> services = getServices();
+        Map<String, List<ServiceEntity>> serviceMap = new LinkedHashMap<String, List<ServiceEntity>>(services.size());
+        for (String service : services) {
+            List<ServiceInstance> serviceInstances = getInstances(service);
+            for (ServiceInstance serviceInstance : serviceInstances) {
+                String serviceId = serviceInstance.getServiceId().toLowerCase();
+                String version = serviceInstance.getMetadata().get("version");
+                String host = serviceInstance.getHost();
+                int port = serviceInstance.getPort();
+
+                ServiceEntity serviceEntity = new ServiceEntity();
+                serviceEntity.setServiceId(serviceId);
+                serviceEntity.setVersion(version);
+                serviceEntity.setHost(host);
+                serviceEntity.setPort(port);
+
+                List<ServiceEntity> serviceEntityList = serviceMap.get(service);
+                if (serviceEntityList == null) {
+                    serviceEntityList = new ArrayList<ServiceEntity>();
+                    serviceMap.put(service, serviceEntityList);
+                }
+                serviceEntityList.add(serviceEntity);
+            }
+        }
+
+        return serviceMap;
     }
 
     @Override
