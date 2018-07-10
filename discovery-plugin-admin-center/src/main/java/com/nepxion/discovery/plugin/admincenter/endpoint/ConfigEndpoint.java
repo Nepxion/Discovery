@@ -57,23 +57,7 @@ public class ConfigEndpoint implements MvcEndpoint {
     @ResponseBody
     @ManagedOperation
     public ResponseEntity<?> sendAsync(@RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
-        Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
-        if (!discoveryControlEnabled) {
-            // return new ResponseEntity<>(Collections.singletonMap("Message", "Discovery control is disabled"), HttpStatus.NOT_FOUND);
-
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Discovery control is disabled");
-        }
-
-        try {
-            InputStream inputStream = IOUtils.toInputStream(config, PluginConstant.ENCODING_UTF_8);
-            pluginEventWapper.fireRuleChanged(new RuleChangedEvent(inputStream), true);
-        } catch (IOException e) {
-            return toExceptionResponseEntity(e, true);
-        }
-
-        // return ResponseEntity.ok().build();
-
-        return ResponseEntity.ok().body("OK");
+        return send(config, true);
     }
 
     @RequestMapping(path = "/config/send-sync", method = RequestMethod.POST)
@@ -81,19 +65,7 @@ public class ConfigEndpoint implements MvcEndpoint {
     @ResponseBody
     @ManagedOperation
     public ResponseEntity<?> sendSync(@RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
-        Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
-        if (!discoveryControlEnabled) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Discovery control is disabled");
-        }
-
-        try {
-            InputStream inputStream = IOUtils.toInputStream(config, PluginConstant.ENCODING_UTF_8);
-            pluginEventWapper.fireRuleChanged(new RuleChangedEvent(inputStream), false);
-        } catch (IOException e) {
-            return toExceptionResponseEntity(e, true);
-        }
-
-        return ResponseEntity.ok().body("OK");
+        return send(config, false);
     }
 
     @RequestMapping(path = "/config/view", method = RequestMethod.GET)
@@ -109,6 +81,26 @@ public class ConfigEndpoint implements MvcEndpoint {
         String content = ruleEntity.getContent();
 
         return ResponseEntity.ok().body(content);
+    }
+
+    private ResponseEntity<?> send(String config, boolean async) {
+        Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
+        if (!discoveryControlEnabled) {
+            // return new ResponseEntity<>(Collections.singletonMap("Message", "Discovery control is disabled"), HttpStatus.NOT_FOUND);
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Discovery control is disabled");
+        }
+
+        try {
+            InputStream inputStream = IOUtils.toInputStream(config, PluginConstant.ENCODING_UTF_8);
+            pluginEventWapper.fireRuleChanged(new RuleChangedEvent(inputStream), async);
+        } catch (IOException e) {
+            return toExceptionResponseEntity(e, true);
+        }
+
+        // return ResponseEntity.ok().build();
+
+        return ResponseEntity.ok().body("OK");
     }
 
     private ResponseEntity<String> toExceptionResponseEntity(Exception e, boolean showDetail) {
