@@ -89,7 +89,7 @@ public class ConsoleEndpoint implements MvcEndpoint {
     @ResponseBody
     @ManagedOperation
     public ResponseEntity<?> configSendAsync(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
-        return send(serviceId, config, true);
+        return executeConfigSend(serviceId, config, true);
     }
 
     @RequestMapping(path = "/console/config/send-sync/{serviceId}", method = RequestMethod.POST)
@@ -97,7 +97,23 @@ public class ConsoleEndpoint implements MvcEndpoint {
     @ResponseBody
     @ManagedOperation
     public ResponseEntity<?> configSendSync(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
-        return send(serviceId, config, false);
+        return executeConfigSend(serviceId, config, false);
+    }
+
+    @RequestMapping(path = "/version/send/{serviceId}", method = RequestMethod.POST)
+    @ApiOperation(value = "批量设置服务的动态版本", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    @ManagedOperation
+    public ResponseEntity<?> versionSend(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "版本号", required = true) String version) {
+        return executeVersionSend(serviceId, version);
+    }
+
+    @RequestMapping(path = "/version/clear/{serviceId}", method = RequestMethod.GET)
+    @ApiOperation(value = "批量清除服务的动态版本", notes = "", response = ResponseEntity.class, httpMethod = "GET")
+    @ResponseBody
+    @ManagedOperation
+    public ResponseEntity<?> versionClear(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
+        return executeVersionClear(serviceId);
     }
 
     public List<String> getServices() {
@@ -140,7 +156,7 @@ public class ConsoleEndpoint implements MvcEndpoint {
         return serviceMap;
     }
 
-    private ResponseEntity<?> send(String serviceId, String config, boolean async) {
+    private ResponseEntity<?> executeConfigSend(String serviceId, String config, boolean async) {
         StringBuilder stringBuilder = new StringBuilder();
 
         List<ServiceInstance> serviceInstances = getInstances(serviceId);
@@ -151,12 +167,63 @@ public class ConsoleEndpoint implements MvcEndpoint {
             String url = "http://" + host + ":" + port + "/config/send-" + (async ? "async" : "sync");
             String result = consoleRestTemplate.postForEntity(url, config, String.class).getBody();
 
-            // 这里最好考虑分布式事务
             if (!StringUtils.equals(result, "OK")) {
                 ConsoleErrorHandler errorHandler = (ConsoleErrorHandler) consoleRestTemplate.getErrorHandler();
                 result = errorHandler.getCause();
             }
             stringBuilder.append("Rule sent, serviceId=").append(serviceId).append(", url=").append(url).append(", result=").append(result).append("\n");
+        }
+
+        String result = stringBuilder.toString();
+        result = result.substring(0, result.lastIndexOf("\n"));
+
+        LOG.info("\n{}", result);
+
+        return ResponseEntity.ok().body(result);
+    }
+
+    private ResponseEntity<?> executeVersionSend(String serviceId, String version) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        List<ServiceInstance> serviceInstances = getInstances(serviceId);
+        for (ServiceInstance serviceInstance : serviceInstances) {
+            String host = serviceInstance.getHost();
+            int port = serviceInstance.getPort();
+
+            String url = "http://" + host + ":" + port + "/version/send";
+            String result = consoleRestTemplate.postForEntity(url, version, String.class).getBody();
+
+            if (!StringUtils.equals(result, "OK")) {
+                ConsoleErrorHandler errorHandler = (ConsoleErrorHandler) consoleRestTemplate.getErrorHandler();
+                result = errorHandler.getCause();
+            }
+            stringBuilder.append("Version sent, serviceId=").append(serviceId).append(", url=").append(url).append(", result=").append(result).append("\n");
+        }
+
+        String result = stringBuilder.toString();
+        result = result.substring(0, result.lastIndexOf("\n"));
+
+        LOG.info("\n{}", result);
+
+        return ResponseEntity.ok().body(result);
+    }
+
+    private ResponseEntity<?> executeVersionClear(String serviceId) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        List<ServiceInstance> serviceInstances = getInstances(serviceId);
+        for (ServiceInstance serviceInstance : serviceInstances) {
+            String host = serviceInstance.getHost();
+            int port = serviceInstance.getPort();
+
+            String url = "http://" + host + ":" + port + "/version/clear";
+            String result = consoleRestTemplate.getForEntity(url, String.class).getBody();
+
+            if (!StringUtils.equals(result, "OK")) {
+                ConsoleErrorHandler errorHandler = (ConsoleErrorHandler) consoleRestTemplate.getErrorHandler();
+                result = errorHandler.getCause();
+            }
+            stringBuilder.append("Version sent, serviceId=").append(serviceId).append(", url=").append(url).append(", result=").append(result).append("\n");
         }
 
         String result = stringBuilder.toString();
