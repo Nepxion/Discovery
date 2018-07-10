@@ -513,6 +513,11 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 | C2 | 1301 | 5301 | 1.1 |
 | C3 | 1302 | 5302 | 1.2 |
 
+独立控制台见discovery-springcloud-example-console，对应的版本和端口号如下表
+| 服务端口 | 管理端口 |
+| --- | --- |
+| 2222 | 3333 |
+
 ### 示例操作过程和效果
 黑/白名单的IP地址注册的过滤
 - 在rule.xml把本地IP地址写入到相应地方
@@ -542,7 +547,7 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
   - 再执行3.1步骤，如图2，可以看到符合图3的虚线调用路径，符合逻辑，灰度版本切换成功
 - 灰度版本控制
   - 通过Postman或者浏览器，执行POST [http://localhost:1200/config/send](http://localhost:1200/config/send)，发送新的规则XML（内容见下面），表示B服务的所有版本都只能访问C服务3.0版本，而本例中C服务3.0版本是不存在的，意味着B服务不能访问C服务
-  - 访问[http://localhost:1201/config/send](http://localhost:1201/config/send)，重复4.1步骤
+  - 访问[http://localhost:1201/config/send](http://localhost:1201/config/send)，重复4.1步骤，目前支持批量更新规则，见图5，前提是需要开启独立控制台
   - 重复3.1步骤，发现调用路径只有A服务->B服务，符合逻辑，灰度版本控制成功，如图3
 - 负载均衡的灰度测试
   - 通过Postman或者浏览器，执行POST [http://localhost:1100/invoke](http://localhost:1100/invoke)，这是example内置的单条路由实例（通过Feign实现）
@@ -576,6 +581,10 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 图4
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Result4.jpg)
+
+图5
+
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Result5.jpg)
 
 ### 切换服务注册组件
 如果使用者想改变服务注册组件，请在discovery-springcloud-example/pom.xml进行切换
