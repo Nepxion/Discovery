@@ -384,23 +384,86 @@ Url:
 http://IP:PORT/router/routes
 ```
 
-上述操作，也可以通过集成的Swagger服务来执行，如图1
+上述操作，也可以通过集成的Swagger服务来执行，如下图
 
-图1
-
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Swagger.jpg)
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Swagger-1.jpg)
 
 ## 独立控制台
 为UI提供相关接口，待实现如下功能
 - 通过界面实现黑/白名单，版本等管理和控制
 - 通过界面实现远程配置中心整合
 
+> PORT端口号为server.port或者management.port都可以
+### 控制台接口
+#### 获取服务注册中心的服务列表
+```java
+Java:
+@RequestMapping(path = "/console/services", method = RequestMethod.GET)
+public List<String> services()
+
+Url:
+http://IP:PORT/console/services
+```
+
+#### 获取服务注册中心服务的实例列表
+```java
+Java:
+@RequestMapping(path = "/console/instances/{serviceId}", method = RequestMethod.GET)
+public List<ServiceInstance> instances(String serviceId)
+
+Url:
+http://IP:PORT/console/instances/{serviceId}
+```
+
+#### 获取服务注册中心服务的实例列表（精简数据）
+```java
+Java:
+@RequestMapping(path = "/console/instance-list/{serviceId}", method = RequestMethod.GET)
+public List<InstanceEntity> instanceList(String serviceId)
+
+Url:
+http://IP:PORT/console/instance-list/{serviceId}
+```
+
+#### 获取服务注册中心的服务和实例的Map（精简数据）
+```java
+Java:
+@RequestMapping(path = "/console/instance-map", method = RequestMethod.GET)
+public Map<String, List<InstanceEntity>> instanceMap()
+
+Url:
+http://IP:PORT/console/instance-map/{serviceId}
+```
+
+#### 批量同步推送规则配置信息
+```java
+Java:
+@RequestMapping(path = "/console/config/send-async/{serviceId}", method = RequestMethod.POST)
+public ResponseEntity<?> configSendAsync(String serviceId, String config)
+
+Url:
+http://IP:PORT/console/config/send-async/{serviceId}
+```
+
+#### 批量异步推送规则配置信息
+```java
+Java:
+@RequestMapping(path = "/console/config/send-sync/{serviceId}", method = RequestMethod.POST)
+public ResponseEntity<?> configSendSync(String serviceId, String config)
+
+Url:
+http://IP:PORT/console/config/send-sync/{serviceId}
+```
+上述操作，也可以通过集成的Swagger服务来执行，如下图
+
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Swagger-2.jpg)
+
 ## 扩展和自定义更多规则或者监听
 使用者可以继承如下类
 - AbstractRegisterListener，实现服务注册的扩展和监听
-- AbstractDiscoveryListener，实现服务发现的扩展和监听，注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断，如图2
+- AbstractDiscoveryListener，实现服务发现的扩展和监听，注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断，如下图
 
-图2，集成了健康检查的Consul控制台
+集成了健康检查的Consul控制台
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Consul.jpg)
 
 ## Spring Cloud引入Consul的坑
@@ -410,9 +473,7 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 
 ## 示例演示
 ### 场景描述
-本例将模拟一个较为复杂的场景，如图3
-
-图3
+本例将模拟一个较为复杂的场景，如下图
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Version.jpg)
 
@@ -476,16 +537,16 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
   - 通过Postman或者浏览器，执行GET [http://localhost:1200/instances/discovery-springcloud-example-c](http://localhost:1200/instances/discovery-springcloud-example-c)，查看当前B1服务可访问C服务的列表
   - 通过Postman或者浏览器，执行GET [http://localhost:1201/instances/discovery-springcloud-example-c](http://localhost:1201/instances/discovery-springcloud-example-c)，查看当前B2服务可访问C服务的列表
 - 灰度版本切换
-  - 通过Postman或者浏览器，执行POST [http://localhost:1100/routes](http://localhost:1100/routes)，填入discovery-springcloud-example-b;discovery-springcloud-example-c，查看路由路径，如图4，可以看到符合图3的实线调用路径
+  - 通过Postman或者浏览器，执行POST [http://localhost:1100/routes](http://localhost:1100/routes)，填入discovery-springcloud-example-b;discovery-springcloud-example-c，查看路由路径，如图1，可以看到符合图3的实线调用路径
   - 通过Postman或者浏览器，执行POST [http://localhost:1100/version/send](http://localhost:1100/version/send)，填入1.1，动态把服务A的版本从1.0切换到1.1
-  - 再执行3.1步骤，如图5，可以看到符合图3的虚线调用路径，符合逻辑，灰度版本切换成功
+  - 再执行3.1步骤，如图2，可以看到符合图3的虚线调用路径，符合逻辑，灰度版本切换成功
 - 灰度版本控制
   - 通过Postman或者浏览器，执行POST [http://localhost:1200/config/send](http://localhost:1200/config/send)，发送新的规则XML（内容见下面），表示B服务的所有版本都只能访问C服务3.0版本，而本例中C服务3.0版本是不存在的，意味着B服务不能访问C服务
   - 访问[http://localhost:1201/config/send](http://localhost:1201/config/send)，重复4.1步骤
-  - 重复3.1步骤，发现调用路径只有A服务->B服务，符合逻辑，灰度版本控制成功，如图6
+  - 重复3.1步骤，发现调用路径只有A服务->B服务，符合逻辑，灰度版本控制成功，如图3
 - 负载均衡的灰度测试
   - 通过Postman或者浏览器，执行POST [http://localhost:1100/invoke](http://localhost:1100/invoke)，这是example内置的单条路由实例（通过Feign实现）
-  - 重复“灰度版本切换”或者“灰度版本控制”操作，查看Ribbon负载均衡的灰度结果，如图7
+  - 重复“灰度版本切换”或者“灰度版本控制”操作，查看Ribbon负载均衡的灰度结果，如图4
 - 其它更多操作，请参考“管理中心”和“路由中心”，不一一阐述了
 
 新XML规则
@@ -500,19 +561,19 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 </rule>
 ```
 
-图4
+图1
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Result1.jpg)
 
-图5
+图2
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Result2.jpg)
 
-图6
+图3
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Result3.jpg)
 
-图7
+图4
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Result4.jpg)
 
