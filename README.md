@@ -460,17 +460,18 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 
 多版本灰度访问控制
 - 启动discovery-springcloud-example字样的6个DiscoveryApplication，无先后顺序，等待全部启动完毕
+- 下面URL的端口号，可以是服务端口号，也可以是管理端口号
 - 验证以下服务访问是否正确
   - 通过Postman或者浏览器，执行GET [http://localhost:1100/instances/discovery-springcloud-example-b](http://localhost:1100/instances/discovery-springcloud-example-b)，查看当前A服务可访问B服务的列表
   - 通过Postman或者浏览器，执行GET [http://localhost:1200/instances/discovery-springcloud-example-c](http://localhost:1200/instances/discovery-springcloud-example-c)，查看当前B1服务可访问C服务的列表
   - 通过Postman或者浏览器，执行GET [http://localhost:1201/instances/discovery-springcloud-example-c](http://localhost:1201/instances/discovery-springcloud-example-c)，查看当前B2服务可访问C服务的列表
 - 灰度版本切换
   - 通过Postman或者浏览器，执行POST [http://localhost:1100/routes](http://localhost:1100/routes)，填入discovery-springcloud-example-b;discovery-springcloud-example-c，查看路由路径，如图4，可以看到符合图3的实线调用路径
-  - 通过Postman或者浏览器，执行POST [http://localhost:5100/version/send](http://localhost:5100/version/send)，填入1.1，动态把服务A的版本从1.0切换到1.1
+  - 通过Postman或者浏览器，执行POST [http://localhost:1100/version/send](http://localhost:1100/version/send)，填入1.1，动态把服务A的版本从1.0切换到1.1
   - 再执行3.1步骤，如图5，可以看到符合图3的虚线调用路径，符合逻辑，灰度版本切换成功
 - 灰度版本控制
-  - 通过Postman或者浏览器，执行POST [http://localhost:5200/config/send](http://localhost:5200/config/send)，发送新的规则XML（内容见下面），表示B服务的所有版本都只能访问C服务3.0版本，而本例中C服务3.0版本是不存在的，意味着B服务不能访问C服务
-  - 访问[http://localhost:5201/config/send](http://localhost:5201/config/send)，重复4.1步骤
+  - 通过Postman或者浏览器，执行POST [http://localhost:1200/config/send](http://localhost:1200/config/send)，发送新的规则XML（内容见下面），表示B服务的所有版本都只能访问C服务3.0版本，而本例中C服务3.0版本是不存在的，意味着B服务不能访问C服务
+  - 访问[http://localhost:1201/config/send](http://localhost:1201/config/send)，重复4.1步骤
   - 重复3.1步骤，发现调用路径只有A服务->B服务，符合逻辑，灰度版本控制成功，如图6
 - 负载均衡的灰度测试
   - 通过Postman或者浏览器，执行POST [http://localhost:1100/invoke](http://localhost:1100/invoke)，这是example内置的单条路由实例（通过Feign实现）
