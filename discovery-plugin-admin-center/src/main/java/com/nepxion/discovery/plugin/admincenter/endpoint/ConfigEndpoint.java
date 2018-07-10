@@ -15,7 +15,6 @@ import io.swagger.annotations.ApiParam;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -104,7 +103,7 @@ public class ConfigEndpoint implements MvcEndpoint {
     public ResponseEntity<?> view() {
         RuleEntity ruleEntity = ruleCache.get(PluginConstant.RULE);
         if (ruleEntity == null) {
-            return new ResponseEntity<>(Collections.singletonMap("Message", "No config to view"), HttpStatus.OK);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No config to view");
         }
 
         String content = ruleEntity.getContent();
