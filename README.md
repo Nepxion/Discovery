@@ -514,6 +514,7 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 | C3 | 1302 | 5302 | 1.2 |
 
 独立控制台见discovery-springcloud-example-console，对应的版本和端口号如下表
+
 | 服务端口 | 管理端口 |
 | --- | --- |
 | 2222 | 3333 |
