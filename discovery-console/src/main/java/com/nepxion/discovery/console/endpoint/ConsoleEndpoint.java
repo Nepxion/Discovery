@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nepxion.discovery.console.entity.ServiceEntity;
+import com.nepxion.discovery.console.entity.InstanceEntity;
 
 @RestController
 @Api(tags = { "控制台接口" })
@@ -56,12 +56,20 @@ public class ConsoleEndpoint implements MvcEndpoint {
         return getInstances(serviceId);
     }
 
-    @RequestMapping(path = "/console/service-map", method = RequestMethod.GET)
-    @ApiOperation(value = "获取服务注册中心的服务和实例的Map", notes = "", response = Map.class, httpMethod = "GET")
+    @RequestMapping(path = "/console/instance-list/{serviceId}", method = RequestMethod.GET)
+    @ApiOperation(value = "获取服务注册中心服务的实例列表（精简数据）", notes = "", response = List.class, httpMethod = "GET")
     @ResponseBody
     @ManagedOperation
-    public Map<String, List<ServiceEntity>> serviceMap() {
-        return getServiceMap();
+    public List<InstanceEntity> instanceList(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
+        return getInstanceList(serviceId);
+    }
+
+    @RequestMapping(path = "/console/instance-map", method = RequestMethod.GET)
+    @ApiOperation(value = "获取服务注册中心的服务和实例的Map（精简数据）", notes = "", response = Map.class, httpMethod = "GET")
+    @ResponseBody
+    @ManagedOperation
+    public Map<String, List<InstanceEntity>> instanceMap() {
+        return getInstanceMap();
     }
 
     public List<String> getServices() {
@@ -72,9 +80,30 @@ public class ConsoleEndpoint implements MvcEndpoint {
         return discoveryClient.getInstances(serviceId);
     }
 
-    public Map<String, List<ServiceEntity>> getServiceMap() {
+    public List<InstanceEntity> getInstanceList(String service) {
+        List<ServiceInstance> serviceInstances = getInstances(service);
+        List<InstanceEntity> instanceEntityList = new ArrayList<InstanceEntity>(serviceInstances.size());
+        for (ServiceInstance serviceInstance : serviceInstances) {
+            String serviceId = serviceInstance.getServiceId().toLowerCase();
+            String version = serviceInstance.getMetadata().get("version");
+            String host = serviceInstance.getHost();
+            int port = serviceInstance.getPort();
+
+            InstanceEntity instanceEntity = new InstanceEntity();
+            instanceEntity.setServiceId(serviceId);
+            instanceEntity.setVersion(version);
+            instanceEntity.setHost(host);
+            instanceEntity.setPort(port);
+
+            instanceEntityList.add(instanceEntity);
+        }
+
+        return instanceEntityList;
+    }
+
+    public Map<String, List<InstanceEntity>> getInstanceMap() {
         List<String> services = getServices();
-        Map<String, List<ServiceEntity>> serviceMap = new LinkedHashMap<String, List<ServiceEntity>>(services.size());
+        Map<String, List<InstanceEntity>> serviceMap = new LinkedHashMap<String, List<InstanceEntity>>(services.size());
         for (String service : services) {
             List<ServiceInstance> serviceInstances = getInstances(service);
             for (ServiceInstance serviceInstance : serviceInstances) {
@@ -83,18 +112,18 @@ public class ConsoleEndpoint implements MvcEndpoint {
                 String host = serviceInstance.getHost();
                 int port = serviceInstance.getPort();
 
-                ServiceEntity serviceEntity = new ServiceEntity();
-                serviceEntity.setServiceId(serviceId);
-                serviceEntity.setVersion(version);
-                serviceEntity.setHost(host);
-                serviceEntity.setPort(port);
+                InstanceEntity instanceEntity = new InstanceEntity();
+                instanceEntity.setServiceId(serviceId);
+                instanceEntity.setVersion(version);
+                instanceEntity.setHost(host);
+                instanceEntity.setPort(port);
 
-                List<ServiceEntity> serviceEntityList = serviceMap.get(service);
-                if (serviceEntityList == null) {
-                    serviceEntityList = new ArrayList<ServiceEntity>();
-                    serviceMap.put(service, serviceEntityList);
+                List<InstanceEntity> instanceEntityList = serviceMap.get(service);
+                if (instanceEntityList == null) {
+                    instanceEntityList = new ArrayList<InstanceEntity>(serviceInstances.size());
+                    serviceMap.put(service, instanceEntityList);
                 }
-                serviceEntityList.add(serviceEntity);
+                instanceEntityList.add(instanceEntity);
             }
         }
 
