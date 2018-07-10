@@ -34,6 +34,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册发现的增�
   - 使用者可以自定义更多的规则过滤条件
   - 使用者可以对服务注册发现核心事件进行监听
 - 实现支持Spring Boot Actuator和Swagger集成
+- 实现独立控制台，支持对规则和版本集中管理，未来考虑界面实现
 - 实现支持未来扩展更多的服务注册中心
 
 ## 场景
@@ -58,7 +59,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册发现的增�
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Architecture.jpg)
 
 ## 依赖
-选择相应的插件引入
+微服务选择相应的插件引入
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -75,6 +76,15 @@ Nepxion Discovery是一款对Spring Cloud Discovery的服务注册发现的增�
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-starter-zookeeper</artifactId>
+    <version>${discovery.plugin.version}</version>
+</dependency>
+```
+
+独立控制台引入
+```xml
+<dependency>
+    <groupId>com.nepxion</groupId>
+    <artifactId>discovery-console-starter</artifactId>
     <version>${discovery.plugin.version}</version>
 </dependency>
 ```
