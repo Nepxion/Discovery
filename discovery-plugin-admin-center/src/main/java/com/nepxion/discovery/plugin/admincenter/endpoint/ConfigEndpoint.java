@@ -52,20 +52,20 @@ public class ConfigEndpoint implements MvcEndpoint {
     @Autowired
     private RuleCache ruleCache;
 
-    @RequestMapping(path = "/config/send-async", method = RequestMethod.POST)
-    @ApiOperation(value = "异步推送规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @RequestMapping(path = "/config/update-async", method = RequestMethod.POST)
+    @ApiOperation(value = "异步推送更新规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<?> sendAsync(@RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
-        return send(config, true);
+    public ResponseEntity<?> updateAsync(@RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
+        return update(config, true);
     }
 
-    @RequestMapping(path = "/config/send-sync", method = RequestMethod.POST)
-    @ApiOperation(value = "同步推送规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @RequestMapping(path = "/config/update-sync", method = RequestMethod.POST)
+    @ApiOperation(value = "同步推送更新规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<?> sendSync(@RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
-        return send(config, false);
+    public ResponseEntity<?> updateSync(@RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
+        return update(config, false);
     }
 
     @RequestMapping(path = "/config/view", method = RequestMethod.GET)
@@ -83,7 +83,7 @@ public class ConfigEndpoint implements MvcEndpoint {
         return ResponseEntity.ok().body(content);
     }
 
-    private ResponseEntity<?> send(String config, boolean async) {
+    private ResponseEntity<?> update(String config, boolean async) {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         if (!discoveryControlEnabled) {
             // return new ResponseEntity<>(Collections.singletonMap("Message", "Discovery control is disabled"), HttpStatus.NOT_FOUND);

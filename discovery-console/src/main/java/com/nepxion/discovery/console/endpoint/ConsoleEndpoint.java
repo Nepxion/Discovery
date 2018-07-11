@@ -84,28 +84,28 @@ public class ConsoleEndpoint implements MvcEndpoint {
         return getInstanceMap();
     }
 
-    @RequestMapping(path = "/console/config/send-async/{serviceId}", method = RequestMethod.POST)
-    @ApiOperation(value = "批量异步推送规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @RequestMapping(path = "/console/config/update-async/{serviceId}", method = RequestMethod.POST)
+    @ApiOperation(value = "批量异步推送更新规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<?> configSendAsync(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
-        return executeConfigSend(serviceId, config, true);
+    public ResponseEntity<?> configUpdateAsync(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
+        return executeConfigUpdate(serviceId, config, true);
     }
 
-    @RequestMapping(path = "/console/config/send-sync/{serviceId}", method = RequestMethod.POST)
-    @ApiOperation(value = "批量同步推送规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @RequestMapping(path = "/console/config/update-sync/{serviceId}", method = RequestMethod.POST)
+    @ApiOperation(value = "批量同步推送更新规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<?> configSendSync(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
-        return executeConfigSend(serviceId, config, false);
+    public ResponseEntity<?> configUpdateSync(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
+        return executeConfigUpdate(serviceId, config, false);
     }
 
-    @RequestMapping(path = "/version/send/{serviceId}", method = RequestMethod.POST)
-    @ApiOperation(value = "批量设置服务的动态版本", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @RequestMapping(path = "/version/update/{serviceId}", method = RequestMethod.POST)
+    @ApiOperation(value = "批量更新服务的动态版本", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<?> versionSend(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "版本号", required = true) String version) {
-        return executeVersionSend(serviceId, version);
+    public ResponseEntity<?> versionUpdate(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "版本号", required = true) String version) {
+        return executeVersionUpdate(serviceId, version);
     }
 
     @RequestMapping(path = "/version/clear/{serviceId}", method = RequestMethod.GET)
@@ -156,7 +156,7 @@ public class ConsoleEndpoint implements MvcEndpoint {
         return serviceMap;
     }
 
-    private ResponseEntity<?> executeConfigSend(String serviceId, String config, boolean async) {
+    private ResponseEntity<?> executeConfigUpdate(String serviceId, String config, boolean async) {
         StringBuilder stringBuilder = new StringBuilder();
 
         List<ServiceInstance> serviceInstances = getInstances(serviceId);
@@ -164,7 +164,7 @@ public class ConsoleEndpoint implements MvcEndpoint {
             String host = serviceInstance.getHost();
             int port = serviceInstance.getPort();
 
-            String url = "http://" + host + ":" + port + "/config/send-" + (async ? "async" : "sync");
+            String url = "http://" + host + ":" + port + "/config/update-" + (async ? "async" : "sync");
             String result = consoleRestTemplate.postForEntity(url, config, String.class).getBody();
 
             if (!StringUtils.equals(result, "OK")) {
@@ -182,7 +182,7 @@ public class ConsoleEndpoint implements MvcEndpoint {
         return ResponseEntity.ok().body(result);
     }
 
-    private ResponseEntity<?> executeVersionSend(String serviceId, String version) {
+    private ResponseEntity<?> executeVersionUpdate(String serviceId, String version) {
         StringBuilder stringBuilder = new StringBuilder();
 
         List<ServiceInstance> serviceInstances = getInstances(serviceId);
@@ -190,7 +190,7 @@ public class ConsoleEndpoint implements MvcEndpoint {
             String host = serviceInstance.getHost();
             int port = serviceInstance.getPort();
 
-            String url = "http://" + host + ":" + port + "/version/send";
+            String url = "http://" + host + ":" + port + "/version/update";
             String result = consoleRestTemplate.postForEntity(url, version, String.class).getBody();
 
             if (!StringUtils.equals(result, "OK")) {

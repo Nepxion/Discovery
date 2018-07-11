@@ -49,11 +49,11 @@ public class VersionEndpoint implements MvcEndpoint {
     @Autowired
     private PluginEventWapper pluginEventWapper;
 
-    @RequestMapping(path = "/version/send", method = RequestMethod.POST)
-    @ApiOperation(value = "设置服务的动态版本", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @RequestMapping(path = "/version/update", method = RequestMethod.POST)
+    @ApiOperation(value = "更新服务的动态版本", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<?> send(@RequestBody @ApiParam(value = "版本号", required = true) String version) {
+    public ResponseEntity<?> update(@RequestBody @ApiParam(value = "版本号", required = true) String version) {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         if (!discoveryControlEnabled) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Discovery control is disabled");
