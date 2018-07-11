@@ -101,19 +101,19 @@ public class ConsoleEndpoint implements MvcEndpoint {
     }
 
     @RequestMapping(path = "/version/update/{serviceId}", method = RequestMethod.POST)
-    @ApiOperation(value = "批量更新服务的动态版本", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "批量更新服务的动态版本", notes = "根据指定的localVersion更新服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接更新服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<?> versionUpdate(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "版本号", required = true) String version) {
+    public ResponseEntity<?> versionUpdate(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "版本号，格式为[dynamicVersion]或者[dynamicVersion];[localVersion]", required = true) String version) {
         return executeVersionUpdate(serviceId, version);
     }
 
-    @RequestMapping(path = "/version/clear/{serviceId}", method = RequestMethod.GET)
-    @ApiOperation(value = "批量清除服务的动态版本", notes = "", response = ResponseEntity.class, httpMethod = "GET")
+    @RequestMapping(path = "/version/clear/{serviceId}", method = RequestMethod.POST)
+    @ApiOperation(value = "批量清除服务的动态版本", notes = "根据指定的localVersion清除服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接清除服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<?> versionClear(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
-        return executeVersionClear(serviceId);
+    public ResponseEntity<?> versionClear(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "版本号，指localVersion，可以为空") String version) {
+        return executeVersionClear(serviceId, version);
     }
 
     public List<String> getServices() {
@@ -171,13 +171,15 @@ public class ConsoleEndpoint implements MvcEndpoint {
                 ConsoleErrorHandler errorHandler = (ConsoleErrorHandler) consoleRestTemplate.getErrorHandler();
                 result = errorHandler.getCause();
             }
-            stringBuilder.append("Rule sent, serviceId=").append(serviceId).append(", url=").append(url).append(", result=").append(result).append("\n");
+            stringBuilder.append("Config updated, serviceId=").append(serviceId).append(", url=").append(url).append(", result=").append(result).append("\n");
         }
 
         String result = stringBuilder.toString();
-        result = result.substring(0, result.lastIndexOf("\n"));
+        if (result.contains("\n")) {
+            result = result.substring(0, result.lastIndexOf("\n"));
+        }
 
-        LOG.info("\n{}", result);
+        LOG.info("Config updated result:\n{}", result);
 
         return ResponseEntity.ok().body(result);
     }
@@ -197,18 +199,20 @@ public class ConsoleEndpoint implements MvcEndpoint {
                 ConsoleErrorHandler errorHandler = (ConsoleErrorHandler) consoleRestTemplate.getErrorHandler();
                 result = errorHandler.getCause();
             }
-            stringBuilder.append("Version sent, serviceId=").append(serviceId).append(", url=").append(url).append(", result=").append(result).append("\n");
+            stringBuilder.append("Version updated, serviceId=").append(serviceId).append(", url=").append(url).append(", result=").append(result).append("\n");
         }
 
         String result = stringBuilder.toString();
-        result = result.substring(0, result.lastIndexOf("\n"));
+        if (result.contains("\n")) {
+            result = result.substring(0, result.lastIndexOf("\n"));
+        }
 
-        LOG.info("\n{}", result);
+        LOG.info("Version updated result:\n{}", result);
 
         return ResponseEntity.ok().body(result);
     }
 
-    private ResponseEntity<?> executeVersionClear(String serviceId) {
+    private ResponseEntity<?> executeVersionClear(String serviceId, String version) {
         StringBuilder stringBuilder = new StringBuilder();
 
         List<ServiceInstance> serviceInstances = getInstances(serviceId);
@@ -217,19 +221,21 @@ public class ConsoleEndpoint implements MvcEndpoint {
             int port = serviceInstance.getPort();
 
             String url = "http://" + host + ":" + port + "/version/clear";
-            String result = consoleRestTemplate.getForEntity(url, String.class).getBody();
+            String result = consoleRestTemplate.postForEntity(url, version, String.class).getBody();
 
             if (!StringUtils.equals(result, "OK")) {
                 ConsoleErrorHandler errorHandler = (ConsoleErrorHandler) consoleRestTemplate.getErrorHandler();
                 result = errorHandler.getCause();
             }
-            stringBuilder.append("Version sent, serviceId=").append(serviceId).append(", url=").append(url).append(", result=").append(result).append("\n");
+            stringBuilder.append("Version cleared, serviceId=").append(serviceId).append(", url=").append(url).append(", result=").append(result).append("\n");
         }
 
         String result = stringBuilder.toString();
-        result = result.substring(0, result.lastIndexOf("\n"));
+        if (result.contains("\n")) {
+            result = result.substring(0, result.lastIndexOf("\n"));
+        }
 
-        LOG.info("\n{}", result);
+        LOG.info("Version cleared result:\n{}", result);
 
         return ResponseEntity.ok().body(result);
     }

@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
+import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
 import com.nepxion.discovery.plugin.framework.event.VersionClearedEvent;
@@ -50,31 +51,52 @@ public class VersionEndpoint implements MvcEndpoint {
     private PluginEventWapper pluginEventWapper;
 
     @RequestMapping(path = "/version/update", method = RequestMethod.POST)
-    @ApiOperation(value = "更新服务的动态版本", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "更新服务的动态版本", notes = "根据指定的localVersion更新服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接更新服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<?> update(@RequestBody @ApiParam(value = "版本号", required = true) String version) {
+    public ResponseEntity<?> update(@RequestBody @ApiParam(value = "版本号，格式为[dynamicVersion]或者[dynamicVersion];[localVersion]", required = true) String version) {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         if (!discoveryControlEnabled) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Discovery control is disabled");
         }
 
-        pluginEventWapper.fireVersionUpdated(new VersionUpdatedEvent(version), true);
+        if (StringUtils.isEmpty(version)) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Version can't be null or empty");
+        }
+
+        String dynamicVersion = null;
+        String localVersion = null;
+        String[] versionArray = StringUtils.split(version, PluginConstant.SEPARATE);
+        if (versionArray.length == 2) {
+            dynamicVersion = versionArray[0];
+            localVersion = versionArray[1];
+        } else if (versionArray.length == 1) {
+            dynamicVersion = versionArray[0];
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Invalid version format, it must be '[dynamicVersion]' or '[dynamicVersion];[localVersion]'");
+        }
+
+        pluginEventWapper.fireVersionUpdated(new VersionUpdatedEvent(dynamicVersion, localVersion), false);
 
         return ResponseEntity.ok().body("OK");
     }
 
-    @RequestMapping(path = "/version/clear", method = RequestMethod.GET)
-    @ApiOperation(value = "清除服务的动态版本", notes = "", response = ResponseEntity.class, httpMethod = "GET")
+    @RequestMapping(path = "/version/clear", method = RequestMethod.POST)
+    @ApiOperation(value = "清除服务的动态版本", notes = "根据指定的localVersion清除服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接清除服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<?> clear() {
+    public ResponseEntity<?> clear(@RequestBody @ApiParam(value = "版本号，指localVersion，可以为空") String version) {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         if (!discoveryControlEnabled) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Discovery control is disabled");
         }
 
-        pluginEventWapper.fireVersionCleared(new VersionClearedEvent(), true);
+        // 修复Swagger的一个Bug，当在Swagger界面不输入版本号的时候，传到后端变成了“{}”
+        if (StringUtils.isNotEmpty(version) && StringUtils.equals(version.trim(), "{}")) {
+            version = null;
+        }
+
+        pluginEventWapper.fireVersionCleared(new VersionClearedEvent(version), false);
 
         return ResponseEntity.ok().body("OK");
     }
