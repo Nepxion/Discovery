@@ -18,6 +18,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,7 @@ import org.springframework.boot.actuate.endpoint.Endpoint;
 import org.springframework.boot.actuate.endpoint.mvc.MvcEndpoint;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.jmx.export.annotation.ManagedResource;
@@ -100,7 +102,7 @@ public class ConsoleEndpoint implements MvcEndpoint {
         return executeConfigUpdate(serviceId, config, false);
     }
 
-    @RequestMapping(path = "/version/update/{serviceId}", method = RequestMethod.POST)
+    @RequestMapping(path = "/console/version/update/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "批量更新服务的动态版本", notes = "根据指定的localVersion更新服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接更新服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
@@ -108,7 +110,7 @@ public class ConsoleEndpoint implements MvcEndpoint {
         return executeVersionUpdate(serviceId, version);
     }
 
-    @RequestMapping(path = "/version/clear/{serviceId}", method = RequestMethod.POST)
+    @RequestMapping(path = "/console/version/clear/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "批量清除服务的动态版本", notes = "根据指定的localVersion清除服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接清除服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
@@ -157,9 +159,14 @@ public class ConsoleEndpoint implements MvcEndpoint {
     }
 
     private ResponseEntity<?> executeConfigUpdate(String serviceId, String config, boolean async) {
-        StringBuilder stringBuilder = new StringBuilder();
-
         List<ServiceInstance> serviceInstances = getInstances(serviceId);
+        if (CollectionUtils.isEmpty(serviceInstances)) {
+            LOG.warn("No service instances found");
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No service instances found");
+        }
+
+        StringBuilder stringBuilder = new StringBuilder();
         for (ServiceInstance serviceInstance : serviceInstances) {
             String host = serviceInstance.getHost();
             int port = serviceInstance.getPort();
@@ -185,9 +192,14 @@ public class ConsoleEndpoint implements MvcEndpoint {
     }
 
     private ResponseEntity<?> executeVersionUpdate(String serviceId, String version) {
-        StringBuilder stringBuilder = new StringBuilder();
-
         List<ServiceInstance> serviceInstances = getInstances(serviceId);
+        if (CollectionUtils.isEmpty(serviceInstances)) {
+            LOG.warn("No service instances found");
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No service instances found");
+        }
+
+        StringBuilder stringBuilder = new StringBuilder();
         for (ServiceInstance serviceInstance : serviceInstances) {
             String host = serviceInstance.getHost();
             int port = serviceInstance.getPort();
@@ -213,9 +225,14 @@ public class ConsoleEndpoint implements MvcEndpoint {
     }
 
     private ResponseEntity<?> executeVersionClear(String serviceId, String version) {
-        StringBuilder stringBuilder = new StringBuilder();
-
         List<ServiceInstance> serviceInstances = getInstances(serviceId);
+        if (CollectionUtils.isEmpty(serviceInstances)) {
+            LOG.warn("No service instances found");
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No service instances found");
+        }
+
+        StringBuilder stringBuilder = new StringBuilder();
         for (ServiceInstance serviceInstance : serviceInstances) {
             String host = serviceInstance.getHost();
             int port = serviceInstance.getPort();
