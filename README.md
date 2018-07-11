@@ -381,21 +381,18 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 多版本灰度访问控制
 - 启动discovery-springcloud-example字样的6个DiscoveryApplication，无先后顺序，等待全部启动完毕
 - 下面URL的端口号，可以是服务端口号，也可以是管理端口号
-- 验证以下服务访问是否正确
-  - 通过Postman或者浏览器，执行GET [http://localhost:1100/instances/discovery-springcloud-example-b](http://localhost:1100/instances/discovery-springcloud-example-b)，查看当前A服务可访问B服务的列表
-  - 通过Postman或者浏览器，执行GET [http://localhost:1200/instances/discovery-springcloud-example-c](http://localhost:1200/instances/discovery-springcloud-example-c)，查看当前B1服务可访问C服务的列表
-  - 通过Postman或者浏览器，执行GET [http://localhost:1201/instances/discovery-springcloud-example-c](http://localhost:1201/instances/discovery-springcloud-example-c)，查看当前B2服务可访问C服务的列表
-- 灰度版本切换
-  - 通过Postman或者浏览器，执行POST [http://localhost:1100/routes](http://localhost:1100/routes)，填入discovery-springcloud-example-b;discovery-springcloud-example-c，查看路由路径，如图1，可以看到符合图3的实线调用路径
-  - 通过Postman或者浏览器，执行POST [http://localhost:1100/version/update](http://localhost:1100/version/update)，填入1.1，动态把服务A的版本从1.0切换到1.1
-  - 再执行3.1步骤，如图2，可以看到符合图3的虚线调用路径，符合逻辑，灰度版本切换成功
-- 灰度版本控制
-  - 通过Postman或者浏览器，执行POST [http://localhost:1200/config/update](http://localhost:1200/config/update)，发送新的规则XML（内容见下面），表示B服务的所有版本都只能访问C服务3.0版本，而本例中C服务3.0版本是不存在的，意味着B服务不能访问C服务
-  - 访问[http://localhost:1201/config/update](http://localhost:1201/config/update)，重复4.1步骤，目前支持批量更新规则，见图5，前提是需要开启独立控制台
-  - 重复3.1步骤，发现调用路径只有A服务->B服务，符合逻辑，灰度版本控制成功，如图3
+- 通过版本切换，达到灰度访问控制，针对A服务
+  - 1.1 通过Postman或者浏览器，执行POST [http://localhost:1100/routes](http://localhost:1100/routes)，填入discovery-springcloud-example-b;discovery-springcloud-example-c，查看路由路径，如图1，可以看到符合预期的调用路径
+  - 1.2 通过Postman或者浏览器，执行POST [http://localhost:1100/version/update](http://localhost:1100/version/update)，填入1.1，动态把服务A的版本从1.0切换到1.1
+  - 1.3 通过Postman或者浏览器，再执行第一步操作，如图2，可以看到符合预期的调用路径，通过版本切换，灰度访问控制成功
+- 通过规则改变，达到灰度访问控制，针对B服务
+  - 2.1 通过Postman或者浏览器，执行POST [http://localhost:1200/config/update-sync](http://localhost:1200/config/update-sync)，发送新的规则XML（内容见下面）
+  - 2.2 通过Postman或者浏览器，执行POST [http://localhost:1201/config/update-sync](http://localhost:1201/config/update-sync)，发送新的规则XML（内容见下面）
+  - 2.3 上述操作也可以通过独立控制台，进行批量更新，见图5。上述操作的逻辑：B服务的所有版本都只能访问C服务3.0版本，而本例中C服务3.0版本是不存在的，意味着这么做B服务不能访问C服务
+  - 2.4 重复1.1步骤，发现调用路径只有A服务->B服务，如图3，通过规则改变，灰度访问控制成功
 - 负载均衡的灰度测试
-  - 通过Postman或者浏览器，执行POST [http://localhost:1100/invoke](http://localhost:1100/invoke)，这是example内置的单条路由实例（通过Feign实现）
-  - 重复“灰度版本切换”或者“灰度版本控制”操作，查看Ribbon负载均衡的灰度结果，如图4
+  - 3.1 通过Postman或者浏览器，执行POST [http://localhost:1100/invoke](http://localhost:1100/invoke)，这是example内置的访问路径示例（通过Feign实现）
+  - 3.2 重复“通过版本切换，达到灰度访问控制”或者“通过规则改变，达到灰度访问控制”操作，查看Ribbon负载均衡的灰度结果，如图4
 - 其它更多操作，请参考“管理中心”和“路由中心”，不一一阐述了
 
 新XML规则
