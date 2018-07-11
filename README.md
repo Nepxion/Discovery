@@ -278,8 +278,8 @@ public class DiscoveryConfigAdapter extends ConfigAdapter {
 ## 管理中心
 > PORT端口号为server.port或者management.port都可以
 ### 配置接口
-#### 推送规则配置信息
-使用者可以通过Rest方式向一个微服务推送规则信息，但该方式只能每次推送到一个微服务上，分成异步发送和同步发送两种方式
+#### 推送更新规则配置信息
+使用者可以通过Rest方式向一个微服务推送更新规则信息，但该方式只能每次推送到一个微服务上，分成异步发送和同步发送两种方式
 - 异步发送，无法捕获解析XML异常
 - 同步发送，可以捕获解析XML异常
 ```java
@@ -449,7 +449,10 @@ Url:
 http://IP:PORT/console/instance-map/{serviceId}
 ```
 
-#### 批量同步推送规则配置信息
+#### 批量推送更新规则配置信息
+分成异步发送和同步发送两种方式
+- 异步发送，无法捕获解析XML异常
+- 同步发送，可以捕获解析XML异常
 ```java
 Java:
 @RequestMapping(path = "/console/config/update-async/{serviceId}", method = RequestMethod.POST)
@@ -459,7 +462,6 @@ Url:
 http://IP:PORT/console/config/update-async/{serviceId}
 ```
 
-#### 批量异步推送规则配置信息
 ```java
 Java:
 @RequestMapping(path = "/console/config/update-sync/{serviceId}", method = RequestMethod.POST)
