@@ -85,7 +85,7 @@ public class VersionEndpoint implements MvcEndpoint {
     @ApiOperation(value = "清除服务的动态版本", notes = "根据指定的localVersion清除服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接清除服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<?> clear(@RequestBody @ApiParam(value = "版本号，指localVersion，可以为空") String version) {
+    public ResponseEntity<?> clear(@RequestBody(required = false) @ApiParam(value = "版本号，指localVersion，可以为空") String version) {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         if (!discoveryControlEnabled) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Discovery control is disabled");
