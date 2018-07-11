@@ -18,16 +18,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.Endpoint;
 import org.springframework.boot.actuate.endpoint.mvc.MvcEndpoint;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.jmx.export.annotation.ManagedResource;
@@ -40,14 +35,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.console.entity.InstanceEntity;
-import com.nepxion.discovery.console.handler.ConsoleErrorHandler;
+import com.nepxion.discovery.console.rest.ConfigUpdateRestInvoker;
+import com.nepxion.discovery.console.rest.VersionClearRestInvoker;
+import com.nepxion.discovery.console.rest.VersionUpdateRestInvoker;
 
 @RestController
 @Api(tags = { "控制台接口" })
 @ManagedResource(description = "Console Endpoint")
 public class ConsoleEndpoint implements MvcEndpoint {
-    private static final Logger LOG = LoggerFactory.getLogger(ConsoleEndpoint.class);
-
     @Autowired
     private DiscoveryClient discoveryClient;
 
@@ -160,101 +155,26 @@ public class ConsoleEndpoint implements MvcEndpoint {
 
     private ResponseEntity<?> executeConfigUpdate(String serviceId, String config, boolean async) {
         List<ServiceInstance> serviceInstances = getInstances(serviceId);
-        if (CollectionUtils.isEmpty(serviceInstances)) {
-            LOG.warn("No service instances found");
 
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No service instances found");
-        }
+        ConfigUpdateRestInvoker configUpdateRestInvoker = new ConfigUpdateRestInvoker(serviceInstances, consoleRestTemplate, config, async);
 
-        StringBuilder stringBuilder = new StringBuilder();
-        for (ServiceInstance serviceInstance : serviceInstances) {
-            String host = serviceInstance.getHost();
-            int port = serviceInstance.getPort();
-
-            String url = "http://" + host + ":" + port + "/config/update-" + (async ? "async" : "sync");
-            String result = consoleRestTemplate.postForEntity(url, config, String.class).getBody();
-
-            if (!StringUtils.equals(result, "OK")) {
-                ConsoleErrorHandler errorHandler = (ConsoleErrorHandler) consoleRestTemplate.getErrorHandler();
-                result = errorHandler.getCause();
-            }
-            stringBuilder.append("Result : serviceId=").append(serviceId).append(", url=").append(url).append(", result=").append(result).append("\n");
-        }
-
-        String result = stringBuilder.toString();
-        if (result.contains("\n")) {
-            result = result.substring(0, result.lastIndexOf("\n"));
-        }
-
-        LOG.info("Config updated results :\n{}", result);
-
-        return ResponseEntity.ok().body(result);
+        return configUpdateRestInvoker.invoke();
     }
 
     private ResponseEntity<?> executeVersionUpdate(String serviceId, String version) {
         List<ServiceInstance> serviceInstances = getInstances(serviceId);
-        if (CollectionUtils.isEmpty(serviceInstances)) {
-            LOG.warn("No service instances found");
 
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No service instances found");
-        }
+        VersionUpdateRestInvoker versionUpdateRestInvoker = new VersionUpdateRestInvoker(serviceInstances, consoleRestTemplate, version);
 
-        StringBuilder stringBuilder = new StringBuilder();
-        for (ServiceInstance serviceInstance : serviceInstances) {
-            String host = serviceInstance.getHost();
-            int port = serviceInstance.getPort();
-
-            String url = "http://" + host + ":" + port + "/version/update";
-            String result = consoleRestTemplate.postForEntity(url, version, String.class).getBody();
-
-            if (!StringUtils.equals(result, "OK")) {
-                ConsoleErrorHandler errorHandler = (ConsoleErrorHandler) consoleRestTemplate.getErrorHandler();
-                result = errorHandler.getCause();
-            }
-            stringBuilder.append("Result : serviceId=").append(serviceId).append(", url=").append(url).append(", result=").append(result).append("\n");
-        }
-
-        String result = stringBuilder.toString();
-        if (result.contains("\n")) {
-            result = result.substring(0, result.lastIndexOf("\n"));
-        }
-
-        LOG.info("Version updated results :\n{}", result);
-
-        return ResponseEntity.ok().body(result);
+        return versionUpdateRestInvoker.invoke();
     }
 
     private ResponseEntity<?> executeVersionClear(String serviceId, String version) {
         List<ServiceInstance> serviceInstances = getInstances(serviceId);
-        if (CollectionUtils.isEmpty(serviceInstances)) {
-            LOG.warn("No service instances found");
 
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No service instances found");
-        }
+        VersionClearRestInvoker versionClearRestInvoker = new VersionClearRestInvoker(serviceInstances, consoleRestTemplate, version);
 
-        StringBuilder stringBuilder = new StringBuilder();
-        for (ServiceInstance serviceInstance : serviceInstances) {
-            String host = serviceInstance.getHost();
-            int port = serviceInstance.getPort();
-
-            String url = "http://" + host + ":" + port + "/version/clear";
-            String result = consoleRestTemplate.postForEntity(url, version, String.class).getBody();
-
-            if (!StringUtils.equals(result, "OK")) {
-                ConsoleErrorHandler errorHandler = (ConsoleErrorHandler) consoleRestTemplate.getErrorHandler();
-                result = errorHandler.getCause();
-            }
-            stringBuilder.append("Result : serviceId=").append(serviceId).append(", url=").append(url).append(", result=").append(result).append("\n");
-        }
-
-        String result = stringBuilder.toString();
-        if (result.contains("\n")) {
-            result = result.substring(0, result.lastIndexOf("\n"));
-        }
-
-        LOG.info("Version cleared results :\n{}", result);
-
-        return ResponseEntity.ok().body(result);
+        return versionClearRestInvoker.invoke();
     }
 
     @Override
