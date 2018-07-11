@@ -287,9 +287,13 @@ public class DiscoveryConfigAdapter extends ConfigAdapter {
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Swagger-1.jpg)
 
 ## 独立控制台
-为UI提供相关接口，待实现如下功能
-- 通过界面实现黑/白名单，版本等管理和控制
-- 通过界面实现远程配置中心整合
+为UI提供相关接口
+已实现如下功能
+- 一系列批量功能
+
+待实现如下功能
+- 与远程配置中心整合
+- 与UI整合
 
 > PORT端口号为server.port或者management.port都可以
 ### 控制台接口
