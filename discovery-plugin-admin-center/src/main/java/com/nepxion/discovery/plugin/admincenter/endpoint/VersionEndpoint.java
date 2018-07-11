@@ -33,7 +33,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
-import com.nepxion.discovery.plugin.framework.event.VersionChangedEvent;
+import com.nepxion.discovery.plugin.framework.event.VersionClearedEvent;
+import com.nepxion.discovery.plugin.framework.event.VersionUpdatedEvent;
 
 @RestController
 @Api(tags = { "版本接口" })
@@ -58,7 +59,7 @@ public class VersionEndpoint implements MvcEndpoint {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Discovery control is disabled");
         }
 
-        pluginEventWapper.fireVersionChanged(new VersionChangedEvent(VersionChangedEvent.EventType.VERSION_UPDATE, version), true);
+        pluginEventWapper.fireVersionUpdated(new VersionUpdatedEvent(version), true);
 
         return ResponseEntity.ok().body("OK");
     }
@@ -73,7 +74,7 @@ public class VersionEndpoint implements MvcEndpoint {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Discovery control is disabled");
         }
 
-        pluginEventWapper.fireVersionChanged(new VersionChangedEvent(VersionChangedEvent.EventType.VERSION_CLEAR), true);
+        pluginEventWapper.fireVersionCleared(new VersionClearedEvent(), true);
 
         return ResponseEntity.ok().body("OK");
     }

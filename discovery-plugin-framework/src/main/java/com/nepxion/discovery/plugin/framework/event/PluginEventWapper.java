@@ -26,11 +26,19 @@ public class PluginEventWapper {
         }
     }
 
-    public void fireVersionChanged(VersionChangedEvent versionChangedEvent, boolean async) {
+    public void fireVersionUpdated(VersionUpdatedEvent versionUpdatedEvent, boolean async) {
         if (async) {
-            pluginPublisher.asyncPublish(versionChangedEvent);
+            pluginPublisher.asyncPublish(versionUpdatedEvent);
         } else {
-            pluginSubscriber.onVersionChanged(versionChangedEvent);
+            pluginSubscriber.onVersionUpdated(versionUpdatedEvent);
+        }
+    }
+
+    public void fireVersionCleared(VersionClearedEvent versionClearedEvent, boolean async) {
+        if (async) {
+            pluginPublisher.asyncPublish(versionClearedEvent);
+        } else {
+            pluginSubscriber.onVersionCleared(versionClearedEvent);
         }
     }
 }

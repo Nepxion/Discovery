@@ -11,6 +11,7 @@ package com.nepxion.discovery.plugin.framework.event;
 
 import java.io.InputStream;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +58,7 @@ public class PluginSubscriber {
             return;
         }
 
-        LOG.info("********** Remote config change has been subscribed **********");
+        LOG.info("********** Remote config changing has been triggered **********");
 
         if (ruleChangedEvent == null) {
             throw new PluginException("RuleChangedEvent can't be null");
@@ -76,7 +77,7 @@ public class PluginSubscriber {
     }
 
     @Subscribe
-    public void onVersionChanged(VersionChangedEvent versionChangedEvent) {
+    public void onVersionUpdated(VersionUpdatedEvent versionUpdatedEvent) {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         if (!discoveryControlEnabled) {
             LOG.info("********** Discovery control is disabled, ignore to subscribe **********");
@@ -84,30 +85,64 @@ public class PluginSubscriber {
             return;
         }
 
-        LOG.info("********** Version change has been subscribed **********");
+        LOG.info("********** Version updating has been triggered **********");
 
-        if (versionChangedEvent == null) {
-            throw new PluginException("VersionChangedEvent can't be null");
+        if (versionUpdatedEvent == null) {
+            throw new PluginException("VersionUpdatedEvent can't be null");
         }
 
-        VersionChangedEvent.EventType eventType = versionChangedEvent.getEventType();
-        switch (eventType) {
-            case VERSION_UPDATE:
-                String version = versionChangedEvent.getVersion();
-                pluginAdapter.setDynamicVersion(version);
+        String dynamicVersion = versionUpdatedEvent.getDynamicVersion();
+        String localVersion = versionUpdatedEvent.getLocalVersion();
 
-                LOG.info("********** Version has been updated, new version is {} **********", version);
+        if (StringUtils.isEmpty(localVersion)) {
+            pluginAdapter.setDynamicVersion(dynamicVersion);
 
-                break;
-            case VERSION_CLEAR:
+            refreshLoadBalancer();
+
+            LOG.info("********** Version has been updated, new version is {} **********", dynamicVersion);
+        } else {
+            if (StringUtils.equals(pluginAdapter.getLocalVersion(), localVersion)) {
+                pluginAdapter.setDynamicVersion(dynamicVersion);
+
+                refreshLoadBalancer();
+
+                LOG.info("********** Version has been updated, new version is {} **********", dynamicVersion);
+            }
+        }
+    }
+
+    @Subscribe
+    public void onVersionCleared(VersionClearedEvent versionClearedEvent) {
+        Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
+        if (!discoveryControlEnabled) {
+            LOG.info("********** Discovery control is disabled, ignore to subscribe **********");
+
+            return;
+        }
+
+        LOG.info("********** Version clearing has been triggered **********");
+
+        if (versionClearedEvent == null) {
+            throw new PluginException("VersionClearedEvent can't be null");
+        }
+
+        String localVersion = versionClearedEvent.getLocalVersion();
+
+        if (StringUtils.isEmpty(localVersion)) {
+            pluginAdapter.clearDynamicVersion();
+
+            refreshLoadBalancer();
+
+            LOG.info("********** Version has been cleared **********");
+        } else {
+            if (StringUtils.equals(pluginAdapter.getLocalVersion(), localVersion)) {
                 pluginAdapter.clearDynamicVersion();
 
+                refreshLoadBalancer();
+
                 LOG.info("********** Version has been cleared **********");
-
-                break;
+            }
         }
-
-        refreshLoadBalancer();
     }
 
     private void refreshLoadBalancer() {
