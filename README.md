@@ -284,20 +284,20 @@ public class DiscoveryConfigAdapter extends ConfigAdapter {
 - 同步发送，可以捕获解析XML异常
 ```java
 Java:
-@RequestMapping(path = "/config/send-async", method = RequestMethod.POST)
-public ResponseEntity<?> sendAsync(@RequestBody String config)
+@RequestMapping(path = "/config/update-async", method = RequestMethod.POST)
+public ResponseEntity<?> updateAsync(@RequestBody String config)
 
 Url:
-http://IP:PORT/config/send-async
+http://IP:PORT/config/update-async
 ```
 
 ```java
 Java:
-@RequestMapping(path = "/config/send-sync", method = RequestMethod.POST)
-public ResponseEntity<?> sendSync(@RequestBody String config)
+@RequestMapping(path = "/config/update-sync", method = RequestMethod.POST)
+public ResponseEntity<?> updateSync(@RequestBody String config)
 
 Url:
-http://IP:PORT/config/sendSync
+http://IP:PORT/config/updateSync
 ```
 
 #### 查看当前生效的规则配置信息
@@ -316,11 +316,11 @@ http://IP:PORT/config/view
 使用者可以通过Rest方式设置某个微服务的动态版本
 ```java
 Java:
-@RequestMapping(path = "/version/send", method = RequestMethod.POST)
-public ResponseEntity<?> send(@RequestBody String version)
+@RequestMapping(path = "/version/update", method = RequestMethod.POST)
+public ResponseEntity<?> update(@RequestBody String version)
 
 Url:
-http://IP:PORT/version/send
+http://IP:PORT/version/update
 ```
 
 #### 清除服务的动态版本
@@ -452,21 +452,21 @@ http://IP:PORT/console/instance-map/{serviceId}
 #### 批量同步推送规则配置信息
 ```java
 Java:
-@RequestMapping(path = "/console/config/send-async/{serviceId}", method = RequestMethod.POST)
-public ResponseEntity<?> configSendAsync(String serviceId, String config)
+@RequestMapping(path = "/console/config/update-async/{serviceId}", method = RequestMethod.POST)
+public ResponseEntity<?> configUpdateAsync(String serviceId, String config)
 
 Url:
-http://IP:PORT/console/config/send-async/{serviceId}
+http://IP:PORT/console/config/update-async/{serviceId}
 ```
 
 #### 批量异步推送规则配置信息
 ```java
 Java:
-@RequestMapping(path = "/console/config/send-sync/{serviceId}", method = RequestMethod.POST)
-public ResponseEntity<?> configSendSync(String serviceId, String config)
+@RequestMapping(path = "/console/config/update-sync/{serviceId}", method = RequestMethod.POST)
+public ResponseEntity<?> configUpdateSync(String serviceId, String config)
 
 Url:
-http://IP:PORT/console/config/send-sync/{serviceId}
+http://IP:PORT/console/config/update-sync/{serviceId}
 ```
 上述操作，也可以通过集成的Swagger服务来执行，如下图
 
@@ -558,11 +558,11 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
   - 通过Postman或者浏览器，执行GET [http://localhost:1201/instances/discovery-springcloud-example-c](http://localhost:1201/instances/discovery-springcloud-example-c)，查看当前B2服务可访问C服务的列表
 - 灰度版本切换
   - 通过Postman或者浏览器，执行POST [http://localhost:1100/routes](http://localhost:1100/routes)，填入discovery-springcloud-example-b;discovery-springcloud-example-c，查看路由路径，如图1，可以看到符合图3的实线调用路径
-  - 通过Postman或者浏览器，执行POST [http://localhost:1100/version/send](http://localhost:1100/version/send)，填入1.1，动态把服务A的版本从1.0切换到1.1
+  - 通过Postman或者浏览器，执行POST [http://localhost:1100/version/update](http://localhost:1100/version/update)，填入1.1，动态把服务A的版本从1.0切换到1.1
   - 再执行3.1步骤，如图2，可以看到符合图3的虚线调用路径，符合逻辑，灰度版本切换成功
 - 灰度版本控制
-  - 通过Postman或者浏览器，执行POST [http://localhost:1200/config/send](http://localhost:1200/config/send)，发送新的规则XML（内容见下面），表示B服务的所有版本都只能访问C服务3.0版本，而本例中C服务3.0版本是不存在的，意味着B服务不能访问C服务
-  - 访问[http://localhost:1201/config/send](http://localhost:1201/config/send)，重复4.1步骤，目前支持批量更新规则，见图5，前提是需要开启独立控制台
+  - 通过Postman或者浏览器，执行POST [http://localhost:1200/config/update](http://localhost:1200/config/update)，发送新的规则XML（内容见下面），表示B服务的所有版本都只能访问C服务3.0版本，而本例中C服务3.0版本是不存在的，意味着B服务不能访问C服务
+  - 访问[http://localhost:1201/config/update](http://localhost:1201/config/update)，重复4.1步骤，目前支持批量更新规则，见图5，前提是需要开启独立控制台
   - 重复3.1步骤，发现调用路径只有A服务->B服务，符合逻辑，灰度版本控制成功，如图3
 - 负载均衡的灰度测试
   - 通过Postman或者浏览器，执行POST [http://localhost:1100/invoke](http://localhost:1100/invoke)，这是example内置的单条路由实例（通过Feign实现）
