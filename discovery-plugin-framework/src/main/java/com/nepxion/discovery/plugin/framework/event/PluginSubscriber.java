@@ -107,6 +107,8 @@ public class PluginSubscriber {
                 refreshLoadBalancer();
 
                 LOG.info("********** Version has been updated, new version is {} **********", dynamicVersion);
+            } else {
+                throw new PluginException("Version updating will be ignored, because input localVersion=" + localVersion + ", current localVersion=" + pluginAdapter.getLocalVersion());
             }
         }
     }
@@ -141,6 +143,8 @@ public class PluginSubscriber {
                 refreshLoadBalancer();
 
                 LOG.info("********** Version has been cleared **********");
+            } else {
+                throw new PluginException("Version clearing will be ignored, because input localVersion=" + localVersion + ", current localVersion=" + pluginAdapter.getLocalVersion());
             }
         }
     }

@@ -178,7 +178,7 @@ public class ConsoleEndpoint implements MvcEndpoint {
                 ConsoleErrorHandler errorHandler = (ConsoleErrorHandler) consoleRestTemplate.getErrorHandler();
                 result = errorHandler.getCause();
             }
-            stringBuilder.append("Config updated, serviceId=").append(serviceId).append(", url=").append(url).append(", result=").append(result).append("\n");
+            stringBuilder.append("Result : serviceId=").append(serviceId).append(", url=").append(url).append(", result=").append(result).append("\n");
         }
 
         String result = stringBuilder.toString();
@@ -186,7 +186,7 @@ public class ConsoleEndpoint implements MvcEndpoint {
             result = result.substring(0, result.lastIndexOf("\n"));
         }
 
-        LOG.info("Config updated result:\n{}", result);
+        LOG.info("Config updated results :\n{}", result);
 
         return ResponseEntity.ok().body(result);
     }
@@ -211,7 +211,7 @@ public class ConsoleEndpoint implements MvcEndpoint {
                 ConsoleErrorHandler errorHandler = (ConsoleErrorHandler) consoleRestTemplate.getErrorHandler();
                 result = errorHandler.getCause();
             }
-            stringBuilder.append("Version updated, serviceId=").append(serviceId).append(", url=").append(url).append(", result=").append(result).append("\n");
+            stringBuilder.append("Result : serviceId=").append(serviceId).append(", url=").append(url).append(", result=").append(result).append("\n");
         }
 
         String result = stringBuilder.toString();
@@ -219,7 +219,7 @@ public class ConsoleEndpoint implements MvcEndpoint {
             result = result.substring(0, result.lastIndexOf("\n"));
         }
 
-        LOG.info("Version updated result:\n{}", result);
+        LOG.info("Version updated results :\n{}", result);
 
         return ResponseEntity.ok().body(result);
     }
@@ -244,7 +244,7 @@ public class ConsoleEndpoint implements MvcEndpoint {
                 ConsoleErrorHandler errorHandler = (ConsoleErrorHandler) consoleRestTemplate.getErrorHandler();
                 result = errorHandler.getCause();
             }
-            stringBuilder.append("Version cleared, serviceId=").append(serviceId).append(", url=").append(url).append(", result=").append(result).append("\n");
+            stringBuilder.append("Result : serviceId=").append(serviceId).append(", url=").append(url).append(", result=").append(result).append("\n");
         }
 
         String result = stringBuilder.toString();
@@ -252,7 +252,7 @@ public class ConsoleEndpoint implements MvcEndpoint {
             result = result.substring(0, result.lastIndexOf("\n"));
         }
 
-        LOG.info("Version cleared result:\n{}", result);
+        LOG.info("Version cleared results :\n{}", result);
 
         return ResponseEntity.ok().body(result);
     }
