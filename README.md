@@ -323,11 +323,14 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Version.jpg)
 
-- 微服务集群部署了3个，分别是A服务集群、B服务集群、C服务集群，分别对应的实例数为1、2、3
-- 微服务集群的调用关系为服务A->服务B->服务C
-- 服务A1.0版本只能调用服务B的1.0，服务A1.1版本只能调用服务B的1.1版本，服务B的1.0版本只能调用服务C的1.0和1.1版本，服务B的1.1版本只能调用服务C的1.2版本
-- 服务A启动时候为1.0版本，然后运行后，动态切换成1.1版本，那么调用路径从如下图所示实线调用，改成虚线调用的灰度方式
-- 推送服务B1和B2的版本对应关系，从规则上改变调用方式
+- 系统部署情况：
+  - 网关Zuul集群部署了1个
+  - 微服务集群部署了3个，分别是A服务集群、B服务集群、C服务集群，分别对应的实例数为2、2、3
+- 微服务集群的调用关系为网关Zuul->服务A->服务B->服务C
+- 系统调用关系
+  - 网关Zuul的1.0版本只能调用服务A的1.0版本，网关Zuul的1.1版本只能调用服务A的1.1版本
+  - 服务A的1.0版本只能调用服务B的1.0版本，服务A的1.1版本只能调用服务B的1.1版本
+  - 服务B的1.0版本只能调用服务C的1.0和1.1版本，服务B的1.1版本只能调用服务C的1.2版本
 
 用规则来表述上述关系
 ```xml
@@ -335,6 +338,10 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 <rule>
     <discovery>
         <version>
+            <!-- 表示网关z的1.0，允许访问提供端服务a的1.0版本 -->
+            <service consumer-service-name="discovery-springcloud-example-zuul" provider-service-name="discovery-springcloud-example-a" consumer-version-value="1.0" provider-version-value="1.0"/>
+            <!-- 表示网关z的1.1，允许访问提供端服务a的1.1版本 -->
+            <service consumer-service-name="discovery-springcloud-example-zuul" provider-service-name="discovery-springcloud-example-a" consumer-version-value="1.1" provider-version-value="1.1"/>
             <!-- 表示消费端服务a的1.0，允许访问提供端服务b的1.0版本 -->
             <service consumer-service-name="discovery-springcloud-example-a" provider-service-name="discovery-springcloud-example-b" consumer-version-value="1.0" provider-version-value="1.0"/>
             <!-- 表示消费端服务a的1.1，允许访问提供端服务b的1.1版本 -->
@@ -348,16 +355,18 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 </rule>
 ```
 
-上述微服务分别见discovery-springcloud-example字样的6个DiscoveryApplication，分别对应各自的application.properties。这6个应用，对应的版本和端口号如下表
+上述微服务分别见discovery-springcloud-example字样的8个DiscoveryApplication，分别对应各自的application.properties。这8个应用，对应的版本和端口号如下表
 
 | 微服务 | 服务端口 | 管理端口 | 版本 |
 | --- | --- | --- | --- |
 | A1 | 1100 | 5100 | 1.0 |
+| A2 | 1101 | 5101 | 1.1 |
 | B1 | 1200 | 5200 | 1.0 |
 | B2 | 1201 | 5201 | 1.1 |
 | C1 | 1300 | 5300 | 1.0 |
 | C2 | 1301 | 5301 | 1.1 |
 | C3 | 1302 | 5302 | 1.2 |
+| Zuul | 1400 | 5400 | 1.0 |
 
 独立控制台见discovery-springcloud-example-console，对应的版本和端口号如下表
 
@@ -365,7 +374,7 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 | --- | --- |
 | 2222 | 3333 |
 
-### 示例操作过程和效果
+### 基于服务的操作过程和效果
 黑/白名单的IP地址注册的过滤
 - 在rule.xml把本地IP地址写入到相应地方
 - 启动DiscoveryApplicationA1.java
@@ -382,7 +391,7 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 - 你会发现A服务无法获取B服务的任何实例，即B服务受限于黑名单的IP地址列表，不会被A服务的发现；白名单操作也是如此，不过逻辑刚好相反
 
 多版本灰度访问控制
-- 启动discovery-springcloud-example字样的6个DiscoveryApplication，无先后顺序，等待全部启动完毕
+- 启动discovery-springcloud-example下7个DiscoveryApplication（除去Zuul），无先后顺序，等待全部启动完毕
 - 下面URL的端口号，可以是服务端口号，也可以是管理端口号
 - 通过版本切换，达到灰度访问控制，针对A服务
   - 1.1 通过Postman或者浏览器，执行POST [http://localhost:1100/routes](http://localhost:1100/routes)，填入discovery-springcloud-example-b;discovery-springcloud-example-c，查看路由路径，如图1，可以看到符合预期的调用路径
@@ -429,6 +438,18 @@ spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-ap
 图5
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Result5.jpg)
+
+### 基于网关的操作过程和效果
+- 在上面基础上，启动discovery-springcloud-example下DiscoveryApplicationZuul
+- 因为Zuul是一种特殊的微服务，所有操作过程跟上面完全一致
+
+图6
+
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Result6.jpg)
+
+图7
+
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Result7.jpg)
 
 ### 切换服务注册组件
 如果使用者想改变服务注册组件，请在discovery-springcloud-example/pom.xml进行切换
