@@ -12,17 +12,17 @@ package com.nepxion.discovery.plugin.framework.entity;
 public class RegisterEntity extends FilterHolderEntity {
     private static final long serialVersionUID = -2097322826969006191L;
 
-    private CountEntity countEntity;
+    private CountFilterEntity countFilterEntity;
 
     public RegisterEntity() {
 
     }
 
-    public CountEntity getCountEntity() {
-        return countEntity;
+    public CountFilterEntity getCountFilterEntity() {
+        return countFilterEntity;
     }
 
-    public void setCountEntity(CountEntity countEntity) {
-        this.countEntity = countEntity;
+    public void setCountFilterEntity(CountFilterEntity countFilterEntity) {
+        this.countFilterEntity = countFilterEntity;
     }
 }

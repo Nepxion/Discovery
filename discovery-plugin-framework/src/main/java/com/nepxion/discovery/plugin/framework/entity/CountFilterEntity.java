@@ -18,13 +18,13 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class CountEntity implements Serializable {
+public class CountFilterEntity implements Serializable {
     private static final long serialVersionUID = 3830016495318834467L;
 
     private Integer filterValue;
     private Map<String, Integer> filterMap = new LinkedHashMap<String, Integer>();
 
-    public CountEntity() {
+    public CountFilterEntity() {
 
     }
 

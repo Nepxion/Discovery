@@ -29,7 +29,7 @@ import com.nepxion.discovery.plugin.configcenter.xml.Dom4JParser;
 import com.nepxion.discovery.plugin.framework.cache.RuleCache;
 import com.nepxion.discovery.plugin.framework.config.PluginConfigParser;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
-import com.nepxion.discovery.plugin.framework.entity.CountEntity;
+import com.nepxion.discovery.plugin.framework.entity.CountFilterEntity;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryServiceEntity;
 import com.nepxion.discovery.plugin.framework.entity.FilterEntity;
@@ -119,7 +119,7 @@ public class ConfigParser extends Dom4JParser implements PluginConfigParser {
                 } else if (StringUtils.equals(childElement.getName(), ConfigConstant.WHITELIST_ELEMENT_NAME)) {
                     parseFilter(childElement, ConfigConstant.WHITELIST_ELEMENT_NAME, registerEntity);
                 } else if (StringUtils.equals(childElement.getName(), ConfigConstant.COUNT_ELEMENT_NAME)) {
-                    parseCount(childElement, registerEntity);
+                    parseCountFilter(childElement, registerEntity);
                 }
             }
         }
@@ -188,13 +188,13 @@ public class ConfigParser extends Dom4JParser implements PluginConfigParser {
     }
 
     @SuppressWarnings("rawtypes")
-    private void parseCount(Element element, RegisterEntity registerEntity) {
-        CountEntity countEntity = registerEntity.getCountEntity();
-        if (countEntity != null) {
+    private void parseCountFilter(Element element, RegisterEntity registerEntity) {
+        CountFilterEntity countFilterEntity = registerEntity.getCountFilterEntity();
+        if (countFilterEntity != null) {
             throw new PluginException("Allow only one element[" + ConfigConstant.COUNT_ELEMENT_NAME + "] to be configed");
         }
 
-        countEntity = new CountEntity();
+        countFilterEntity = new CountFilterEntity();
 
         Attribute globalFilterAttribute = element.attribute(ConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME);
         if (globalFilterAttribute != null) {
@@ -206,11 +206,11 @@ public class ConfigParser extends Dom4JParser implements PluginConfigParser {
                 } catch (NumberFormatException e) {
                     throw new PluginException("Attribute[" + ConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME + "] value in element[" + element.getName() + "] is invalid, must be int type", e);
                 }
-                countEntity.setFilterValue(globalValue);
+                countFilterEntity.setFilterValue(globalValue);
             }
         }
 
-        Map<String, Integer> filterMap = countEntity.getFilterMap();
+        Map<String, Integer> filterMap = countFilterEntity.getFilterMap();
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
             if (childElementObject instanceof Element) {
@@ -241,7 +241,7 @@ public class ConfigParser extends Dom4JParser implements PluginConfigParser {
             }
         }
 
-        registerEntity.setCountEntity(countEntity);
+        registerEntity.setCountFilterEntity(countFilterEntity);
     }
 
     @SuppressWarnings("rawtypes")

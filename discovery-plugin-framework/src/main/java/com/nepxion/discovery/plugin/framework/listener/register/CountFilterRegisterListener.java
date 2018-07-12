@@ -16,7 +16,7 @@ import org.springframework.cloud.client.serviceregistry.Registration;
 
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.decorator.DiscoveryClientDecorator;
-import com.nepxion.discovery.plugin.framework.entity.CountEntity;
+import com.nepxion.discovery.plugin.framework.entity.CountFilterEntity;
 import com.nepxion.discovery.plugin.framework.entity.RegisterEntity;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.event.RegisterFailureEvent;
@@ -46,13 +46,13 @@ public class CountFilterRegisterListener extends AbstractRegisterListener {
             return;
         }
 
-        CountEntity countEntity = registerEntity.getCountEntity();
-        if (countEntity == null) {
+        CountFilterEntity countFilterEntity = registerEntity.getCountFilterEntity();
+        if (countFilterEntity == null) {
             return;
         }
 
-        Integer globalFilterValue = countEntity.getFilterValue();
-        Map<String, Integer> filterMap = countEntity.getFilterMap();
+        Integer globalFilterValue = countFilterEntity.getFilterValue();
+        Map<String, Integer> filterMap = countFilterEntity.getFilterMap();
         Integer filterValue = filterMap.get(serviceId);
 
         // 如果局部值存在，就取局部值，否则取全局值
