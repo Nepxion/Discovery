@@ -13,9 +13,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
-import org.springframework.context.annotation.Bean;
-
-import com.nepxion.discovery.plugin.example.adapter.DiscoveryConfigAdapter;
 
 @SpringBootApplication
 @EnableDiscoveryClient
@@ -25,10 +22,5 @@ public class DiscoveryApplicationC2 {
         System.setProperty("spring.profiles.active", "c2");
 
         new SpringApplicationBuilder(DiscoveryApplicationC2.class).run(args);
-    }
-
-    @Bean
-    public DiscoveryConfigAdapter discoveryConfigAdapter() {
-        return new DiscoveryConfigAdapter();
     }
 }

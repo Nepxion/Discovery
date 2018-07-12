@@ -9,10 +9,9 @@ package com.nepxion.discovery.plugin.example.feign;
  * @version 1.0
  */
 
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
@@ -24,8 +23,7 @@ public class AFeignImpl extends AbstractFeignImpl implements AFeign {
     private BFeign bFeign;
 
     @Override
-    public String invoke() {
-        String value = "start[" + UUID.randomUUID().toString() + "]";
+    public String invoke(@RequestBody String value) {
         value = doInvoke(value);
         value = bFeign.invoke(value);
 

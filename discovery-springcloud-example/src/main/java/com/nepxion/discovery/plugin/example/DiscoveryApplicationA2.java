@@ -17,10 +17,10 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients
-public class DiscoveryApplicationC1 {
+public class DiscoveryApplicationA2 {
     public static void main(String[] args) {
-        System.setProperty("spring.profiles.active", "c1");
+        System.setProperty("spring.profiles.active", "a2");
 
-        new SpringApplicationBuilder(DiscoveryApplicationC1.class).run(args);
+        new SpringApplicationBuilder(DiscoveryApplicationA2.class).run(args);
     }
 }
