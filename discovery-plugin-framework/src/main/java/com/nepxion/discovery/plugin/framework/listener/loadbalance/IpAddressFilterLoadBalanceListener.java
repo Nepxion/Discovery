@@ -18,8 +18,8 @@ import org.apache.commons.collections4.CollectionUtils;
 
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
-import com.nepxion.discovery.plugin.framework.entity.FilterEntity;
 import com.nepxion.discovery.plugin.framework.entity.FilterType;
+import com.nepxion.discovery.plugin.framework.entity.IpAddressFilterEntity;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.netflix.loadbalancer.Server;
 
@@ -40,15 +40,15 @@ public class IpAddressFilterLoadBalanceListener extends AbstractLoadBalanceListe
             return;
         }
 
-        FilterEntity filterEntity = discoveryEntity.getFilterEntity();
-        if (filterEntity == null) {
+        IpAddressFilterEntity ipAddressFilterEntity = discoveryEntity.getIpAddressFilterEntity();
+        if (ipAddressFilterEntity == null) {
             return;
         }
 
-        FilterType filterType = filterEntity.getFilterType();
+        FilterType filterType = ipAddressFilterEntity.getFilterType();
 
-        List<String> globalFilterValueList = filterEntity.getFilterValueList();
-        Map<String, List<String>> filterMap = filterEntity.getFilterMap();
+        List<String> globalFilterValueList = ipAddressFilterEntity.getFilterValueList();
+        Map<String, List<String>> filterMap = ipAddressFilterEntity.getFilterMap();
         List<String> filterValueList = filterMap.get(providerServiceId);
 
         List<String> allFilterValueList = new ArrayList<String>();

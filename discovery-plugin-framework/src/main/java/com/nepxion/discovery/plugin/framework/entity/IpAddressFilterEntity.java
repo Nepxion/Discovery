@@ -19,14 +19,14 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class FilterEntity implements Serializable {
+public class IpAddressFilterEntity implements Serializable {
     private static final long serialVersionUID = 3830016495318834467L;
 
     private FilterType filterType;
     private List<String> filterValueList;
     private Map<String, List<String>> filterMap = new LinkedHashMap<String, List<String>>();
 
-    public FilterEntity() {
+    public IpAddressFilterEntity() {
 
     }
 

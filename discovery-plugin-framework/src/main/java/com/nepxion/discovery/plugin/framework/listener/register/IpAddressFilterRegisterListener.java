@@ -17,8 +17,8 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.cloud.client.serviceregistry.Registration;
 
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
-import com.nepxion.discovery.plugin.framework.entity.FilterEntity;
 import com.nepxion.discovery.plugin.framework.entity.FilterType;
+import com.nepxion.discovery.plugin.framework.entity.IpAddressFilterEntity;
 import com.nepxion.discovery.plugin.framework.entity.RegisterEntity;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.event.RegisterFailureEvent;
@@ -45,15 +45,15 @@ public class IpAddressFilterRegisterListener extends AbstractRegisterListener {
             return;
         }
 
-        FilterEntity filterEntity = registerEntity.getFilterEntity();
-        if (filterEntity == null) {
+        IpAddressFilterEntity ipAddressFilterEntity = registerEntity.getIpAddressFilterEntity();
+        if (ipAddressFilterEntity == null) {
             return;
         }
 
-        FilterType filterType = filterEntity.getFilterType();
+        FilterType filterType = ipAddressFilterEntity.getFilterType();
 
-        List<String> globalFilterValueList = filterEntity.getFilterValueList();
-        Map<String, List<String>> filterMap = filterEntity.getFilterMap();
+        List<String> globalFilterValueList = ipAddressFilterEntity.getFilterValueList();
+        Map<String, List<String>> filterMap = ipAddressFilterEntity.getFilterMap();
         List<String> filterValueList = filterMap.get(serviceId);
 
         List<String> allFilterValueList = new ArrayList<String>();
