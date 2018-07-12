@@ -24,7 +24,7 @@ public class DiscoveryApplicationC2 {
     public static void main(String[] args) {
         System.setProperty("spring.profiles.active", "c2");
 
-        new SpringApplicationBuilder(DiscoveryApplicationC2.class).web(true).run(args);
+        new SpringApplicationBuilder(DiscoveryApplicationC2.class).run(args);
     }
 
     @Bean
