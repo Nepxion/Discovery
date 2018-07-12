@@ -37,7 +37,7 @@ import com.nepxion.discovery.plugin.framework.entity.FilterType;
 import com.nepxion.discovery.plugin.framework.entity.IpAddressFilterEntity;
 import com.nepxion.discovery.plugin.framework.entity.RegisterEntity;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
-import com.nepxion.discovery.plugin.framework.entity.VersionEntity;
+import com.nepxion.discovery.plugin.framework.entity.VersionFilterEntity;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
 public class ConfigParser extends Dom4JParser implements PluginConfigParser {
@@ -137,7 +137,7 @@ public class ConfigParser extends Dom4JParser implements PluginConfigParser {
                 } else if (StringUtils.equals(childElement.getName(), ConfigConstant.WHITELIST_ELEMENT_NAME)) {
                     parseIpAddressFilter(childElement, ConfigConstant.WHITELIST_ELEMENT_NAME, discoveryEntity);
                 } else if (StringUtils.equals(childElement.getName(), ConfigConstant.VERSION_ELEMENT_NAME)) {
-                    parseVersion(childElement, discoveryEntity);
+                    parseVersionFilter(childElement, discoveryEntity);
                 }
             }
         }
@@ -245,15 +245,15 @@ public class ConfigParser extends Dom4JParser implements PluginConfigParser {
     }
 
     @SuppressWarnings("rawtypes")
-    private void parseVersion(Element element, DiscoveryEntity discoveryEntity) {
-        VersionEntity versionEntity = discoveryEntity.getVersionEntity();
-        if (versionEntity != null) {
+    private void parseVersionFilter(Element element, DiscoveryEntity discoveryEntity) {
+        VersionFilterEntity versionFilterEntity = discoveryEntity.getVersionFilterEntity();
+        if (versionFilterEntity != null) {
             throw new PluginException("Allow only one element[" + ConfigConstant.VERSION_ELEMENT_NAME + "] to be configed");
         }
 
-        versionEntity = new VersionEntity();
+        versionFilterEntity = new VersionFilterEntity();
 
-        Map<String, List<DiscoveryServiceEntity>> serviceEntityMap = versionEntity.getServiceEntityMap();
+        Map<String, List<DiscoveryServiceEntity>> serviceEntityMap = versionFilterEntity.getServiceEntityMap();
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
             if (childElementObject instanceof Element) {
@@ -301,7 +301,7 @@ public class ConfigParser extends Dom4JParser implements PluginConfigParser {
             }
         }
 
-        discoveryEntity.setVersionEntity(versionEntity);
+        discoveryEntity.setVersionFilterEntity(versionFilterEntity);
     }
 
     private List<String> parseList(String value) {

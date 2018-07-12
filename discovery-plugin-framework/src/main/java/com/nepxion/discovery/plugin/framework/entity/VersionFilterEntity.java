@@ -19,12 +19,12 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class VersionEntity implements Serializable {
+public class VersionFilterEntity implements Serializable {
     private static final long serialVersionUID = -6147106004826964165L;
     
     private Map<String, List<DiscoveryServiceEntity>> serviceEntityMap = new LinkedHashMap<String, List<DiscoveryServiceEntity>>();
 
-    public VersionEntity() {
+    public VersionFilterEntity() {
 
     }
 

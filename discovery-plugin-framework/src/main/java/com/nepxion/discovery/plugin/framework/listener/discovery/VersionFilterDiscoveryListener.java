@@ -23,7 +23,7 @@ import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryServiceEntity;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
-import com.nepxion.discovery.plugin.framework.entity.VersionEntity;
+import com.nepxion.discovery.plugin.framework.entity.VersionFilterEntity;
 
 public class VersionFilterDiscoveryListener extends AbstractDiscoveryListener {
     @Override
@@ -50,12 +50,12 @@ public class VersionFilterDiscoveryListener extends AbstractDiscoveryListener {
             return;
         }
 
-        VersionEntity versionEntity = discoveryEntity.getVersionEntity();
-        if (versionEntity == null) {
+        VersionFilterEntity versionFilterEntity = discoveryEntity.getVersionFilterEntity();
+        if (versionFilterEntity == null) {
             return;
         }
 
-        Map<String, List<DiscoveryServiceEntity>> serviceEntityMap = versionEntity.getServiceEntityMap();
+        Map<String, List<DiscoveryServiceEntity>> serviceEntityMap = versionFilterEntity.getServiceEntityMap();
         if (MapUtils.isEmpty(serviceEntityMap)) {
             return;
         }

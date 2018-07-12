@@ -12,17 +12,17 @@ package com.nepxion.discovery.plugin.framework.entity;
 public class DiscoveryEntity extends FilterHolderEntity {
     private static final long serialVersionUID = -7417362859952278987L;
 
-    private VersionEntity versionEntity;
+    private VersionFilterEntity versionFilterEntity;
 
     public DiscoveryEntity() {
 
     }
 
-    public VersionEntity getVersionEntity() {
-        return versionEntity;
+    public VersionFilterEntity getVersionFilterEntity() {
+        return versionFilterEntity;
     }
 
-    public void setVersionEntity(VersionEntity versionEntity) {
-        this.versionEntity = versionEntity;
+    public void setVersionFilterEntity(VersionFilterEntity versionFilterEntity) {
+        this.versionFilterEntity = versionFilterEntity;
     }
 }
