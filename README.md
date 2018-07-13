@@ -59,8 +59,6 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
   - 在A/B测试中，通过动态改变版本，不重启微服务，达到访问版本的路径改变
 
 ## 架构
-架构图
-
 简单描述一下，本系统的核心模块“基于版本控制的灰度发布”，从网关（Zuul）开始的灰度发布操作过程
 - 灰度发布前
   - 假设当前生产环境，调用路径为网关(V1.0)->服务A(V1.0)->服务B(V1.0)
@@ -74,6 +72,8 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 - 灰度发布后  
   - 下线服务A(V1.0)，服务B(V1.0)，灰度成功
   - 灰度网关(V1.1)可以不用下线，留作下次版本上线再次灰度发布
+
+架构图
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Architecture.jpg)
 
