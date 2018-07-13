@@ -15,7 +15,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cloud.client.serviceregistry.Registration;
 import org.springframework.cloud.consul.discovery.ConsulServer;
-import org.springframework.cloud.consul.serviceregistry.ConsulRegistration;
 
 import com.nepxion.discovery.plugin.framework.constant.ConsulConstant;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
@@ -51,25 +50,29 @@ public class ConsulAdapter extends AbstractPluginAdapter {
     }
 
     @Override
-    public String getIpAddress(Registration registration) {
-        if (registration instanceof ConsulRegistration) {
+    public String getHost(Registration registration) {
+        /*if (registration instanceof ConsulRegistration) {
             ConsulRegistration consulRegistration = (ConsulRegistration) registration;
 
             return consulRegistration.getService().getAddress();
         }
 
-        throw new PluginException("Registration instance isn't the type of ConsulRegistration");
+        throw new PluginException("Registration instance isn't the type of ConsulRegistration");*/
+
+        return registration.getHost();
     }
 
     @Override
     public int getPort(Registration registration) {
-        if (registration instanceof ConsulRegistration) {
+        /*if (registration instanceof ConsulRegistration) {
             ConsulRegistration consulRegistration = (ConsulRegistration) registration;
 
             return consulRegistration.getService().getPort();
         }
 
-        throw new PluginException("Registration instance isn't the type of ConsulRegistration");
+        throw new PluginException("Registration instance isn't the type of ConsulRegistration");*/
+
+        return registration.getPort();
     }
 
     @Override

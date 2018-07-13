@@ -11,7 +11,6 @@ package com.nepxion.discovery.plugin.framework.adapter;
 
 import org.springframework.cloud.client.serviceregistry.Registration;
 import org.springframework.cloud.zookeeper.discovery.ZookeeperServer;
-import org.springframework.cloud.zookeeper.serviceregistry.ZookeeperRegistration;
 
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.constant.ZookeeperConstant;
@@ -20,25 +19,29 @@ import com.netflix.loadbalancer.Server;
 
 public class ZookeeperAdapter extends AbstractPluginAdapter {
     @Override
-    public String getIpAddress(Registration registration) {
-        if (registration instanceof ZookeeperRegistration) {
+    public String getHost(Registration registration) {
+        /*if (registration instanceof ZookeeperRegistration) {
             ZookeeperRegistration zookeeperRegistration = (ZookeeperRegistration) registration;
 
             return zookeeperRegistration.getServiceInstance().getAddress();
         }
 
-        throw new PluginException("Registration instance isn't the type of ZookeeperRegistration");
+        throw new PluginException("Registration instance isn't the type of ZookeeperRegistration");*/
+
+        return registration.getHost();
     }
 
     @Override
     public int getPort(Registration registration) {
-        if (registration instanceof ZookeeperRegistration) {
+        /*if (registration instanceof ZookeeperRegistration) {
             ZookeeperRegistration zookeeperRegistration = (ZookeeperRegistration) registration;
 
             return zookeeperRegistration.getServiceInstance().getPort();
         }
 
-        throw new PluginException("Registration instance isn't the type of ZookeeperRegistration");
+        throw new PluginException("Registration instance isn't the type of ZookeeperRegistration");*/
+
+        return registration.getPort();
     }
 
     @Override

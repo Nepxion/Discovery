@@ -16,7 +16,7 @@ import com.netflix.loadbalancer.Server;
 public interface PluginAdapter {
     String getServiceId();
 
-    String getIpAddress(Registration registration);
+    String getHost(Registration registration);
 
     int getPort(Registration registration);
 

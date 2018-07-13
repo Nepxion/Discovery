@@ -28,7 +28,7 @@ public class IpAddressFilterRegisterListener extends AbstractRegisterListener {
     @Override
     public void onRegister(Registration registration) {
         String serviceId = registration.getServiceId();
-        String ipAddress = pluginAdapter.getIpAddress(registration);
+        String ipAddress = pluginAdapter.getHost(registration);
         int port = pluginAdapter.getPort(registration);
 
         applyIpAddressFilter(serviceId, ipAddress, port);

@@ -10,7 +10,6 @@ package com.nepxion.discovery.plugin.framework.adapter;
  */
 
 import org.springframework.cloud.client.serviceregistry.Registration;
-import org.springframework.cloud.netflix.eureka.serviceregistry.EurekaRegistration;
 
 import com.nepxion.discovery.plugin.framework.constant.EurekaConstant;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
@@ -20,19 +19,21 @@ import com.netflix.niws.loadbalancer.DiscoveryEnabledServer;
 
 public class EurekaAdapter extends AbstractPluginAdapter {
     @Override
-    public String getIpAddress(Registration registration) {
-        if (registration instanceof EurekaRegistration) {
+    public String getHost(Registration registration) {
+        /*if (registration instanceof EurekaRegistration) {
             EurekaRegistration eurekaRegistration = (EurekaRegistration) registration;
 
             return eurekaRegistration.getInstanceConfig().getIpAddress();
         }
 
-        throw new PluginException("Registration instance isn't the type of EurekaRegistration");
+        throw new PluginException("Registration instance isn't the type of EurekaRegistration");*/
+
+        return registration.getHost();
     }
 
     @Override
     public int getPort(Registration registration) {
-        if (registration instanceof EurekaRegistration) {
+        /*if (registration instanceof EurekaRegistration) {
             EurekaRegistration eurekaRegistration = (EurekaRegistration) registration;
 
             if (eurekaRegistration.getInstanceConfig().getSecurePortEnabled()) {
@@ -42,7 +43,9 @@ public class EurekaAdapter extends AbstractPluginAdapter {
             return eurekaRegistration.getInstanceConfig().getNonSecurePort();
         }
 
-        throw new PluginException("Registration instance isn't the type of EurekaRegistration");
+        throw new PluginException("Registration instance isn't the type of EurekaRegistration");*/
+
+        return registration.getPort();
     }
 
     @Override
