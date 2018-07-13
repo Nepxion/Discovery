@@ -9,6 +9,8 @@ package com.nepxion.discovery.plugin.framework.adapter;
  * @version 1.0
  */
 
+import java.util.Map;
+
 import org.springframework.cloud.client.serviceregistry.Registration;
 
 import com.netflix.loadbalancer.Server;
@@ -19,6 +21,8 @@ public interface PluginAdapter {
     String getHost(Registration registration);
 
     int getPort(Registration registration);
+
+    Map<String, String> getMetaData(Server server);
 
     String getServerVersion(Server server);
 

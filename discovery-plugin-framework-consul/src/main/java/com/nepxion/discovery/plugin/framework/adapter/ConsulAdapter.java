@@ -9,6 +9,8 @@ package com.nepxion.discovery.plugin.framework.adapter;
  * @version 1.0
  */
 
+import java.util.Map;
+
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -76,14 +78,19 @@ public class ConsulAdapter extends AbstractPluginAdapter {
     }
 
     @Override
-    public String getServerVersion(Server server) {
+    public Map<String, String> getMetaData(Server server) {
         if (server instanceof ConsulServer) {
             ConsulServer consulServer = (ConsulServer) server;
 
-            return consulServer.getMetadata().get(PluginConstant.VERSION);
+            return consulServer.getMetadata();
         }
 
         throw new PluginException("Server instance isn't the type of ConsulServer");
+    }
+
+    @Override
+    public String getServerVersion(Server server) {
+        return getMetaData(server).get(PluginConstant.VERSION);
     }
 
     @Override

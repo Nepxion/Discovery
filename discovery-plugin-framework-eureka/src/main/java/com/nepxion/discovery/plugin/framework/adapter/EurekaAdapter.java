@@ -9,6 +9,8 @@ package com.nepxion.discovery.plugin.framework.adapter;
  * @version 1.0
  */
 
+import java.util.Map;
+
 import org.springframework.cloud.client.serviceregistry.Registration;
 
 import com.nepxion.discovery.plugin.framework.constant.EurekaConstant;
@@ -49,14 +51,19 @@ public class EurekaAdapter extends AbstractPluginAdapter {
     }
 
     @Override
-    public String getServerVersion(Server server) {
+    public Map<String, String> getMetaData(Server server) {
         if (server instanceof DiscoveryEnabledServer) {
             DiscoveryEnabledServer discoveryEnabledServer = (DiscoveryEnabledServer) server;
 
-            return discoveryEnabledServer.getInstanceInfo().getMetadata().get(PluginConstant.VERSION);
+            return discoveryEnabledServer.getInstanceInfo().getMetadata();
         }
 
         throw new PluginException("Server instance isn't the type of DiscoveryEnabledServer");
+    }
+
+    @Override
+    public String getServerVersion(Server server) {
+        return getMetaData(server).get(PluginConstant.VERSION);
     }
 
     @Override

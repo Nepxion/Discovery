@@ -9,6 +9,8 @@ package com.nepxion.discovery.plugin.framework.adapter;
  * @version 1.0
  */
 
+import java.util.Map;
+
 import org.springframework.cloud.client.serviceregistry.Registration;
 import org.springframework.cloud.zookeeper.discovery.ZookeeperServer;
 
@@ -45,14 +47,19 @@ public class ZookeeperAdapter extends AbstractPluginAdapter {
     }
 
     @Override
-    public String getServerVersion(Server server) {
+    public Map<String, String> getMetaData(Server server) {
         if (server instanceof ZookeeperServer) {
             ZookeeperServer zookeeperServer = (ZookeeperServer) server;
 
-            return zookeeperServer.getInstance().getPayload().getMetadata().get(PluginConstant.VERSION);
+            return zookeeperServer.getInstance().getPayload().getMetadata();
         }
 
         throw new PluginException("Server instance isn't the type of ZookeeperServer");
+    }
+
+    @Override
+    public String getServerVersion(Server server) {
+        return getMetaData(server).get(PluginConstant.VERSION);
     }
 
     @Override
