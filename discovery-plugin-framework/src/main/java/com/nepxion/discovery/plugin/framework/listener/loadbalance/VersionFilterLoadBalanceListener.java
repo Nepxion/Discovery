@@ -28,7 +28,7 @@ import com.netflix.loadbalancer.Server;
 public class VersionFilterLoadBalanceListener extends AbstractLoadBalanceListener {
     @Override
     public void onGetServers(String serviceId, List<? extends Server> servers) {
-        String consumerServiceId = pluginContextAware.getServiceId();
+        String consumerServiceId = pluginAdapter.getServiceId();
         String consumerServiceVersion = pluginAdapter.getVersion();
 
         applyVersionFilter(consumerServiceId, consumerServiceVersion, serviceId, servers);

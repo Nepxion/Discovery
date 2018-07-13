@@ -28,7 +28,7 @@ import com.nepxion.discovery.plugin.framework.entity.VersionFilterEntity;
 public class VersionFilterDiscoveryListener extends AbstractDiscoveryListener {
     @Override
     public void onGetInstances(String serviceId, List<ServiceInstance> instances) {
-        String consumerServiceId = pluginContextAware.getServiceId();
+        String consumerServiceId = pluginAdapter.getServiceId();
         String consumerServiceVersion = pluginAdapter.getVersion();
 
         applyVersionFilter(consumerServiceId, consumerServiceVersion, serviceId, instances);

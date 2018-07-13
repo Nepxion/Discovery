@@ -14,6 +14,8 @@ import org.springframework.cloud.client.serviceregistry.Registration;
 import com.netflix.loadbalancer.Server;
 
 public interface PluginAdapter {
+    String getServiceId();
+
     String getIpAddress(Registration registration);
 
     int getPort(Registration registration);

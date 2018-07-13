@@ -84,10 +84,6 @@ public class PluginContextAware implements ApplicationContextAware {
         return environment;
     }
 
-    public String getServiceId() {
-        return environment.getProperty(PluginConstant.SPRING_APPLICATION_NAME);
-    }
-
     public Boolean isRegisterControlEnabled() {
         return isRegisterControlEnabled(environment);
     }

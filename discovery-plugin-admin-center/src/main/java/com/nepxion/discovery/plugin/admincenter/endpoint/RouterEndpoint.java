@@ -123,7 +123,7 @@ public class RouterEndpoint implements MvcEndpoint {
     }
 
     public RouterEntity getRouterEntity() {
-        String serviceId = pluginContextAware.getServiceId();
+        String serviceId = pluginAdapter.getServiceId();
         String version = pluginAdapter.getVersion();
         String host = pluginAdapter.getIpAddress(registration);
         int port = pluginAdapter.getPort(registration);

@@ -24,6 +24,11 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     protected PluginCache pluginCache;
 
     @Override
+    public String getServiceId() {
+        return pluginContextAware.getEnvironment().getProperty(PluginConstant.SPRING_APPLICATION_NAME);
+    }
+
+    @Override
     public String getVersion() {
         String dynamicVersion = getDynamicVersion();
         if (StringUtils.isNotEmpty(dynamicVersion)) {
