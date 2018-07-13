@@ -6,7 +6,7 @@
     <name>Nepxion Discovery</name>
     <packaging>pom</packaging>
     <modelVersion>4.0.0</modelVersion>
-    <version>3.3.19</version>
+    <version>3.3.20</version>
     <description>Nepxion Discovery is an enhancement for Spring Cloud Discovery</description>
     <url>http://www.nepxion.com</url>
 
@@ -28,7 +28,7 @@
     </modules>
 
     <properties>
-        <eventbus.version>1.0.21</eventbus.version>
+        <eventbus.version>2.0.0</eventbus.version>
         <commons.lang3.version>3.6</commons.lang3.version>
         <commons.collections4.version>4.1</commons.collections4.version>
         <commons.io.version>2.5</commons.io.version>
