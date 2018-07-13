@@ -29,13 +29,13 @@ public class CountFilterRegisterListener extends AbstractRegisterListener {
     @Override
     public void onRegister(Registration registration) {
         String serviceId = registration.getServiceId();
-        String ipAddress = pluginAdapter.getHost(registration);
+        String host = pluginAdapter.getHost(registration);
         int port = pluginAdapter.getPort(registration);
 
-        applyCountFilter(serviceId, ipAddress, port);
+        applyCountFilter(serviceId, host, port);
     }
 
-    private void applyCountFilter(String serviceId, String ipAddress, int port) {
+    private void applyCountFilter(String serviceId, String host, int port) {
         RuleEntity ruleEntity = ruleCache.get(PluginConstant.RULE);
         if (ruleEntity == null) {
             return;
@@ -69,16 +69,16 @@ public class CountFilterRegisterListener extends AbstractRegisterListener {
 
         int count = discoveryClient.getRealInstances(serviceId).size();
         if (count >= maxCount) {
-            onRegisterFailure(maxCount, serviceId, ipAddress, port);
+            onRegisterFailure(maxCount, serviceId, host, port);
         }
     }
 
-    private void onRegisterFailure(int maxCount, String serviceId, String ipAddress, int port) {
-        String description = ipAddress + " isn't allowed to register to Register server, reach max limited count=" + maxCount;
+    private void onRegisterFailure(int maxCount, String serviceId, String host, int port) {
+        String description = host + " isn't allowed to register to Register server, reach max limited count=" + maxCount;
 
         Boolean registerFailureEventEnabled = pluginContextAware.getEnvironment().getProperty(PluginConstant.SPRING_APPLICATION_REGISTER_FAILURE_EVENT_ENABLED, Boolean.class, Boolean.FALSE);
         if (registerFailureEventEnabled) {
-            pluginPublisher.asyncPublish(new RegisterFailureEvent(PluginConstant.REACH_MAX_LIMITED_COUNT, description, serviceId, ipAddress, port));
+            pluginPublisher.asyncPublish(new RegisterFailureEvent(PluginConstant.REACH_MAX_LIMITED_COUNT, description, serviceId, host, port));
         }
 
         throw new PluginException(description);

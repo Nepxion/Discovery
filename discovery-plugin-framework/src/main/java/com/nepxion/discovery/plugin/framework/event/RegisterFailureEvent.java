@@ -18,14 +18,14 @@ public class RegisterFailureEvent implements Serializable {
     private String eventDescription;
 
     private String serviceId;
-    private String ipAddress;
+    private String host;
     private int port;
 
-    public RegisterFailureEvent(String eventType, String eventDescription, String serviceId, String ipAddress, int port) {
+    public RegisterFailureEvent(String eventType, String eventDescription, String serviceId, String host, int port) {
         this.eventType = eventType;
         this.eventDescription = eventDescription;
         this.serviceId = serviceId;
-        this.ipAddress = ipAddress;
+        this.host = host;
         this.port = port;
     }
 
@@ -41,8 +41,8 @@ public class RegisterFailureEvent implements Serializable {
         return serviceId;
     }
 
-    public String getIpAddress() {
-        return ipAddress;
+    public String getHost() {
+        return host;
     }
 
     public int getPort() {

@@ -18,23 +18,23 @@ import org.springframework.cloud.client.serviceregistry.Registration;
 
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.entity.FilterType;
-import com.nepxion.discovery.plugin.framework.entity.IpAddressFilterEntity;
+import com.nepxion.discovery.plugin.framework.entity.HostFilterEntity;
 import com.nepxion.discovery.plugin.framework.entity.RegisterEntity;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.event.RegisterFailureEvent;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
-public class IpAddressFilterRegisterListener extends AbstractRegisterListener {
+public class HostFilterRegisterListener extends AbstractRegisterListener {
     @Override
     public void onRegister(Registration registration) {
         String serviceId = registration.getServiceId();
-        String ipAddress = pluginAdapter.getHost(registration);
+        String host = pluginAdapter.getHost(registration);
         int port = pluginAdapter.getPort(registration);
 
-        applyIpAddressFilter(serviceId, ipAddress, port);
+        applyHostFilter(serviceId, host, port);
     }
 
-    private void applyIpAddressFilter(String serviceId, String ipAddress, int port) {
+    private void applyHostFilter(String serviceId, String host, int port) {
         RuleEntity ruleEntity = ruleCache.get(PluginConstant.RULE);
         if (ruleEntity == null) {
             return;
@@ -45,15 +45,15 @@ public class IpAddressFilterRegisterListener extends AbstractRegisterListener {
             return;
         }
 
-        IpAddressFilterEntity ipAddressFilterEntity = registerEntity.getIpAddressFilterEntity();
-        if (ipAddressFilterEntity == null) {
+        HostFilterEntity hostFilterEntity = registerEntity.getHostFilterEntity();
+        if (hostFilterEntity == null) {
             return;
         }
 
-        FilterType filterType = ipAddressFilterEntity.getFilterType();
+        FilterType filterType = hostFilterEntity.getFilterType();
 
-        List<String> globalFilterValueList = ipAddressFilterEntity.getFilterValueList();
-        Map<String, List<String>> filterMap = ipAddressFilterEntity.getFilterMap();
+        List<String> globalFilterValueList = hostFilterEntity.getFilterValueList();
+        Map<String, List<String>> filterMap = hostFilterEntity.getFilterMap();
         List<String> filterValueList = filterMap.get(serviceId);
 
         List<String> allFilterValueList = new ArrayList<String>();
@@ -67,42 +67,42 @@ public class IpAddressFilterRegisterListener extends AbstractRegisterListener {
 
         switch (filterType) {
             case BLACKLIST:
-                validateBlacklist(filterType, allFilterValueList, serviceId, ipAddress, port);
+                validateBlacklist(filterType, allFilterValueList, serviceId, host, port);
                 break;
             case WHITELIST:
-                validateWhitelist(filterType, allFilterValueList, serviceId, ipAddress, port);
+                validateWhitelist(filterType, allFilterValueList, serviceId, host, port);
                 break;
         }
     }
 
-    private void validateBlacklist(FilterType filterType, List<String> allFilterValueList, String serviceId, String ipAddress, int port) {
+    private void validateBlacklist(FilterType filterType, List<String> allFilterValueList, String serviceId, String host, int port) {
         for (String filterValue : allFilterValueList) {
-            if (ipAddress.startsWith(filterValue)) {
-                onRegisterFailure(filterType, allFilterValueList, serviceId, ipAddress, port);
+            if (host.startsWith(filterValue)) {
+                onRegisterFailure(filterType, allFilterValueList, serviceId, host, port);
             }
         }
     }
 
-    private void validateWhitelist(FilterType filterType, List<String> allFilterValueList, String serviceId, String ipAddress, int port) {
+    private void validateWhitelist(FilterType filterType, List<String> allFilterValueList, String serviceId, String host, int port) {
         boolean matched = true;
         for (String filterValue : allFilterValueList) {
-            if (ipAddress.startsWith(filterValue)) {
+            if (host.startsWith(filterValue)) {
                 matched = false;
                 break;
             }
         }
 
         if (matched) {
-            onRegisterFailure(filterType, allFilterValueList, serviceId, ipAddress, port);
+            onRegisterFailure(filterType, allFilterValueList, serviceId, host, port);
         }
     }
 
-    private void onRegisterFailure(FilterType filterType, List<String> allFilterValueList, String serviceId, String ipAddress, int port) {
-        String description = ipAddress + " isn't allowed to register to Register server, not match IP address " + filterType + "=" + allFilterValueList;
+    private void onRegisterFailure(FilterType filterType, List<String> allFilterValueList, String serviceId, String host, int port) {
+        String description = host + " isn't allowed to register to Register server, not match host " + filterType + "=" + allFilterValueList;
 
         Boolean registerFailureEventEnabled = pluginContextAware.getEnvironment().getProperty(PluginConstant.SPRING_APPLICATION_REGISTER_FAILURE_EVENT_ENABLED, Boolean.class, Boolean.FALSE);
         if (registerFailureEventEnabled) {
-            pluginPublisher.asyncPublish(new RegisterFailureEvent(filterType.toString(), description, serviceId, ipAddress, port));
+            pluginPublisher.asyncPublish(new RegisterFailureEvent(filterType.toString(), description, serviceId, host, port));
         }
 
         throw new PluginException(description);

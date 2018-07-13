@@ -20,13 +20,13 @@ import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
 import com.nepxion.discovery.plugin.framework.event.PluginSubscriber;
 import com.nepxion.discovery.plugin.framework.listener.discovery.DiscoveryListenerExecutor;
-import com.nepxion.discovery.plugin.framework.listener.discovery.IpAddressFilterDiscoveryListener;
+import com.nepxion.discovery.plugin.framework.listener.discovery.HostFilterDiscoveryListener;
 import com.nepxion.discovery.plugin.framework.listener.discovery.VersionFilterDiscoveryListener;
-import com.nepxion.discovery.plugin.framework.listener.loadbalance.IpAddressFilterLoadBalanceListener;
+import com.nepxion.discovery.plugin.framework.listener.loadbalance.HostFilterLoadBalanceListener;
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.LoadBalanceListenerExecutor;
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.VersionFilterLoadBalanceListener;
 import com.nepxion.discovery.plugin.framework.listener.register.CountFilterRegisterListener;
-import com.nepxion.discovery.plugin.framework.listener.register.IpAddressFilterRegisterListener;
+import com.nepxion.discovery.plugin.framework.listener.register.HostFilterRegisterListener;
 import com.nepxion.discovery.plugin.framework.listener.register.RegisterListenerExecutor;
 
 @Configuration
@@ -82,8 +82,8 @@ public class PluginAutoConfiguration {
     }
 
     @Bean
-    public IpAddressFilterRegisterListener ipAddressFilterRegisterListener() {
-        return new IpAddressFilterRegisterListener();
+    public HostFilterRegisterListener hostFilterRegisterListener() {
+        return new HostFilterRegisterListener();
     }
 
     @Bean
@@ -92,8 +92,8 @@ public class PluginAutoConfiguration {
     }
 
     @Bean
-    public IpAddressFilterDiscoveryListener ipAddressFilterDiscoveryListener() {
-        return new IpAddressFilterDiscoveryListener();
+    public HostFilterDiscoveryListener hostFilterDiscoveryListener() {
+        return new HostFilterDiscoveryListener();
     }
 
     @Bean
@@ -102,8 +102,8 @@ public class PluginAutoConfiguration {
     }
 
     @Bean
-    public IpAddressFilterLoadBalanceListener ipAddressFilterLoadBalanceListener() {
-        return new IpAddressFilterLoadBalanceListener();
+    public HostFilterLoadBalanceListener hostFilterLoadBalanceListener() {
+        return new HostFilterLoadBalanceListener();
     }
 
     @Bean

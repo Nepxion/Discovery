@@ -19,18 +19,18 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class FilterHolderEntity implements Serializable {
     private static final long serialVersionUID = 8767022123685151416L;
 
-    private IpAddressFilterEntity ipAddressFilterEntity;
+    private HostFilterEntity hostFilterEntity;
 
     public FilterHolderEntity() {
 
     }
 
-    public IpAddressFilterEntity getIpAddressFilterEntity() {
-        return ipAddressFilterEntity;
+    public HostFilterEntity getHostFilterEntity() {
+        return hostFilterEntity;
     }
 
-    public void setIpAddressFilterEntity(IpAddressFilterEntity ipAddressFilterEntity) {
-        this.ipAddressFilterEntity = ipAddressFilterEntity;
+    public void setHostFilterEntity(HostFilterEntity hostFilterEntity) {
+        this.hostFilterEntity = hostFilterEntity;
     }
 
     @Override

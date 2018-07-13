@@ -20,52 +20,52 @@ public class RegisterListenerExecutor {
     private CountFilterRegisterListener countFilterRegisterListener;
 
     @Autowired
-    private IpAddressFilterRegisterListener ipAddressFilterRegisterListener;
+    private HostFilterRegisterListener hostFilterRegisterListener;
 
     @Autowired
     private List<RegisterListener> registerListenerList;
 
     public void onRegister(Registration registration) {
         for (RegisterListener registerListener : registerListenerList) {
-            if (registerListener != countFilterRegisterListener && registerListener != ipAddressFilterRegisterListener) {
+            if (registerListener != countFilterRegisterListener && registerListener != hostFilterRegisterListener) {
                 registerListener.onRegister(registration);
             }
         }
 
         countFilterRegisterListener.onRegister(registration);
-        ipAddressFilterRegisterListener.onRegister(registration);
+        hostFilterRegisterListener.onRegister(registration);
     }
 
     public void onDeregister(Registration registration) {
         for (RegisterListener registerListener : registerListenerList) {
-            if (registerListener != countFilterRegisterListener && registerListener != ipAddressFilterRegisterListener) {
+            if (registerListener != countFilterRegisterListener && registerListener != hostFilterRegisterListener) {
                 registerListener.onDeregister(registration);
             }
         }
 
         countFilterRegisterListener.onDeregister(registration);
-        ipAddressFilterRegisterListener.onDeregister(registration);
+        hostFilterRegisterListener.onDeregister(registration);
     }
 
     public void onSetStatus(Registration registration, String status) {
         for (RegisterListener registerListener : registerListenerList) {
-            if (registerListener != countFilterRegisterListener && registerListener != ipAddressFilterRegisterListener) {
+            if (registerListener != countFilterRegisterListener && registerListener != hostFilterRegisterListener) {
                 registerListener.onSetStatus(registration, status);
             }
         }
 
         countFilterRegisterListener.onSetStatus(registration, status);
-        ipAddressFilterRegisterListener.onSetStatus(registration, status);
+        hostFilterRegisterListener.onSetStatus(registration, status);
     }
 
     public void onClose() {
         for (RegisterListener registerListener : registerListenerList) {
-            if (registerListener != countFilterRegisterListener && registerListener != ipAddressFilterRegisterListener) {
+            if (registerListener != countFilterRegisterListener && registerListener != hostFilterRegisterListener) {
                 registerListener.onClose();
             }
         }
 
         countFilterRegisterListener.onClose();
-        ipAddressFilterRegisterListener.onClose();
+        hostFilterRegisterListener.onClose();
     }
 }

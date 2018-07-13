@@ -34,7 +34,7 @@ import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryServiceEntity;
 import com.nepxion.discovery.plugin.framework.entity.FilterHolderEntity;
 import com.nepxion.discovery.plugin.framework.entity.FilterType;
-import com.nepxion.discovery.plugin.framework.entity.IpAddressFilterEntity;
+import com.nepxion.discovery.plugin.framework.entity.HostFilterEntity;
 import com.nepxion.discovery.plugin.framework.entity.RegisterEntity;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.entity.VersionFilterEntity;
@@ -115,9 +115,9 @@ public class ConfigParser extends Dom4JParser implements PluginConfigParser {
                 Element childElement = (Element) childElementObject;
 
                 if (StringUtils.equals(childElement.getName(), ConfigConstant.BLACKLIST_ELEMENT_NAME)) {
-                    parseIpAddressFilter(childElement, ConfigConstant.BLACKLIST_ELEMENT_NAME, registerEntity);
+                    parseHostFilter(childElement, ConfigConstant.BLACKLIST_ELEMENT_NAME, registerEntity);
                 } else if (StringUtils.equals(childElement.getName(), ConfigConstant.WHITELIST_ELEMENT_NAME)) {
-                    parseIpAddressFilter(childElement, ConfigConstant.WHITELIST_ELEMENT_NAME, registerEntity);
+                    parseHostFilter(childElement, ConfigConstant.WHITELIST_ELEMENT_NAME, registerEntity);
                 } else if (StringUtils.equals(childElement.getName(), ConfigConstant.COUNT_ELEMENT_NAME)) {
                     parseCountFilter(childElement, registerEntity);
                 }
@@ -133,9 +133,9 @@ public class ConfigParser extends Dom4JParser implements PluginConfigParser {
                 Element childElement = (Element) childElementObject;
 
                 if (StringUtils.equals(childElement.getName(), ConfigConstant.BLACKLIST_ELEMENT_NAME)) {
-                    parseIpAddressFilter(childElement, ConfigConstant.BLACKLIST_ELEMENT_NAME, discoveryEntity);
+                    parseHostFilter(childElement, ConfigConstant.BLACKLIST_ELEMENT_NAME, discoveryEntity);
                 } else if (StringUtils.equals(childElement.getName(), ConfigConstant.WHITELIST_ELEMENT_NAME)) {
-                    parseIpAddressFilter(childElement, ConfigConstant.WHITELIST_ELEMENT_NAME, discoveryEntity);
+                    parseHostFilter(childElement, ConfigConstant.WHITELIST_ELEMENT_NAME, discoveryEntity);
                 } else if (StringUtils.equals(childElement.getName(), ConfigConstant.VERSION_ELEMENT_NAME)) {
                     parseVersionFilter(childElement, discoveryEntity);
                 }
@@ -144,23 +144,23 @@ public class ConfigParser extends Dom4JParser implements PluginConfigParser {
     }
 
     @SuppressWarnings("rawtypes")
-    private void parseIpAddressFilter(Element element, String filterTypeValue, FilterHolderEntity filterHolderEntity) {
-        IpAddressFilterEntity ipAddressFilterEntity = filterHolderEntity.getIpAddressFilterEntity();
-        if (ipAddressFilterEntity != null) {
+    private void parseHostFilter(Element element, String filterTypeValue, FilterHolderEntity filterHolderEntity) {
+        HostFilterEntity hostFilterEntity = filterHolderEntity.getHostFilterEntity();
+        if (hostFilterEntity != null) {
             throw new PluginException("Allow only one filter element to be configed, [" + ConfigConstant.BLACKLIST_ELEMENT_NAME + "] or [" + ConfigConstant.WHITELIST_ELEMENT_NAME + "]");
         }
 
-        ipAddressFilterEntity = new IpAddressFilterEntity();
-        ipAddressFilterEntity.setFilterType(FilterType.fromString(filterTypeValue));
+        hostFilterEntity = new HostFilterEntity();
+        hostFilterEntity.setFilterType(FilterType.fromString(filterTypeValue));
 
         Attribute globalFilterAttribute = element.attribute(ConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME);
         if (globalFilterAttribute != null) {
             String globalFilterValue = globalFilterAttribute.getData().toString().trim();
             List<String> globalFilterValueList = parseList(globalFilterValue);
-            ipAddressFilterEntity.setFilterValueList(globalFilterValueList);
+            hostFilterEntity.setFilterValueList(globalFilterValueList);
         }
 
-        Map<String, List<String>> filterMap = ipAddressFilterEntity.getFilterMap();
+        Map<String, List<String>> filterMap = hostFilterEntity.getFilterMap();
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
             if (childElementObject instanceof Element) {
@@ -184,7 +184,7 @@ public class ConfigParser extends Dom4JParser implements PluginConfigParser {
             }
         }
 
-        filterHolderEntity.setIpAddressFilterEntity(ipAddressFilterEntity);
+        filterHolderEntity.setHostFilterEntity(hostFilterEntity);
     }
 
     @SuppressWarnings("rawtypes")

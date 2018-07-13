@@ -17,7 +17,7 @@ import org.springframework.cloud.client.ServiceInstance;
 // 因为内置监听触发的时候，需要优先过滤，所以顺序执行
 public class DiscoveryListenerExecutor {
     @Autowired
-    private IpAddressFilterDiscoveryListener ipAddressFilterDiscoveryListener;
+    private HostFilterDiscoveryListener hostFilterDiscoveryListener;
 
     @Autowired
     private VersionFilterDiscoveryListener versionFilterDiscoveryListener;
@@ -26,22 +26,22 @@ public class DiscoveryListenerExecutor {
     private List<DiscoveryListener> discoveryListenerList;
 
     public void onGetInstances(String serviceId, List<ServiceInstance> instances) {
-        ipAddressFilterDiscoveryListener.onGetInstances(serviceId, instances);
+        hostFilterDiscoveryListener.onGetInstances(serviceId, instances);
         versionFilterDiscoveryListener.onGetInstances(serviceId, instances);
 
         for (DiscoveryListener discoveryListener : discoveryListenerList) {
-            if (discoveryListener != ipAddressFilterDiscoveryListener && discoveryListener != versionFilterDiscoveryListener) {
+            if (discoveryListener != hostFilterDiscoveryListener && discoveryListener != versionFilterDiscoveryListener) {
                 discoveryListener.onGetInstances(serviceId, instances);
             }
         }
     }
 
     public void onGetServices(List<String> services) {
-        ipAddressFilterDiscoveryListener.onGetServices(services);
+        hostFilterDiscoveryListener.onGetServices(services);
         versionFilterDiscoveryListener.onGetServices(services);
 
         for (DiscoveryListener discoveryListener : discoveryListenerList) {
-            if (discoveryListener != ipAddressFilterDiscoveryListener && discoveryListener != versionFilterDiscoveryListener) {
+            if (discoveryListener != hostFilterDiscoveryListener && discoveryListener != versionFilterDiscoveryListener) {
                 discoveryListener.onGetServices(services);
             }
         }

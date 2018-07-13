@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.listener.discovery;
+package com.nepxion.discovery.plugin.framework.listener.loadbalance;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -15,21 +15,21 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.cloud.client.ServiceInstance;
 
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
 import com.nepxion.discovery.plugin.framework.entity.FilterType;
-import com.nepxion.discovery.plugin.framework.entity.IpAddressFilterEntity;
+import com.nepxion.discovery.plugin.framework.entity.HostFilterEntity;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
+import com.netflix.loadbalancer.Server;
 
-public class IpAddressFilterDiscoveryListener extends AbstractDiscoveryListener {
+public class HostFilterLoadBalanceListener extends AbstractLoadBalanceListener {
     @Override
-    public void onGetInstances(String serviceId, List<ServiceInstance> instances) {
-        applyIpAddressFilter(serviceId, instances);
+    public void onGetServers(String serviceId, List<? extends Server> servers) {
+        applyHostFilter(serviceId, servers);
     }
 
-    private void applyIpAddressFilter(String providerServiceId, List<ServiceInstance> instances) {
+    private void applyHostFilter(String providerServiceId, List<? extends Server> servers) {
         RuleEntity ruleEntity = ruleCache.get(PluginConstant.RULE);
         if (ruleEntity == null) {
             return;
@@ -40,15 +40,15 @@ public class IpAddressFilterDiscoveryListener extends AbstractDiscoveryListener 
             return;
         }
 
-        IpAddressFilterEntity ipAddressFilterEntity = discoveryEntity.getIpAddressFilterEntity();
-        if (ipAddressFilterEntity == null) {
+        HostFilterEntity hostFilterEntity = discoveryEntity.getHostFilterEntity();
+        if (hostFilterEntity == null) {
             return;
         }
 
-        FilterType filterType = ipAddressFilterEntity.getFilterType();
+        FilterType filterType = hostFilterEntity.getFilterType();
 
-        List<String> globalFilterValueList = ipAddressFilterEntity.getFilterValueList();
-        Map<String, List<String>> filterMap = ipAddressFilterEntity.getFilterMap();
+        List<String> globalFilterValueList = hostFilterEntity.getFilterValueList();
+        Map<String, List<String>> filterMap = hostFilterEntity.getFilterMap();
         List<String> filterValueList = filterMap.get(providerServiceId);
 
         List<String> allFilterValueList = new ArrayList<String>();
@@ -60,10 +60,10 @@ public class IpAddressFilterDiscoveryListener extends AbstractDiscoveryListener 
             allFilterValueList.addAll(filterValueList);
         }
 
-        Iterator<ServiceInstance> iterator = instances.iterator();
+        Iterator<? extends Server> iterator = servers.iterator();
         while (iterator.hasNext()) {
-            ServiceInstance serviceInstance = iterator.next();
-            String host = serviceInstance.getHost();
+            Server server = iterator.next();
+            String host = server.getHost();
             switch (filterType) {
                 case BLACKLIST:
                     if (validateBlacklist(allFilterValueList, host)) {
@@ -79,9 +79,9 @@ public class IpAddressFilterDiscoveryListener extends AbstractDiscoveryListener 
         }
     }
 
-    private boolean validateBlacklist(List<String> allFilterValueList, String ipAddress) {
+    private boolean validateBlacklist(List<String> allFilterValueList, String host) {
         for (String filterValue : allFilterValueList) {
-            if (ipAddress.startsWith(filterValue)) {
+            if (host.startsWith(filterValue)) {
                 return true;
             }
         }
@@ -89,20 +89,15 @@ public class IpAddressFilterDiscoveryListener extends AbstractDiscoveryListener 
         return false;
     }
 
-    private boolean validateWhitelist(List<String> allFilterValueList, String ipAddress) {
+    private boolean validateWhitelist(List<String> allFilterValueList, String host) {
         boolean matched = true;
         for (String filterValue : allFilterValueList) {
-            if (ipAddress.startsWith(filterValue)) {
+            if (host.startsWith(filterValue)) {
                 matched = false;
                 break;
             }
         }
 
         return matched;
-    }
-
-    @Override
-    public void onGetServices(List<String> services) {
-
     }
 }
