@@ -77,6 +77,10 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Architecture.jpg)
 
+## 兼容
+最新版本兼容
+- Spring Cloud C版、D版和E版本，暂时不兼容F版本
+
 ## 依赖
 微服务选择相应的插件引入
 ```xml
