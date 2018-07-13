@@ -35,6 +35,10 @@ public class EurekaAdapter extends AbstractPluginAdapter {
         if (registration instanceof EurekaRegistration) {
             EurekaRegistration eurekaRegistration = (EurekaRegistration) registration;
 
+            if (eurekaRegistration.getInstanceConfig().getSecurePortEnabled()) {
+                return eurekaRegistration.getInstanceConfig().getSecurePort();
+            }
+
             return eurekaRegistration.getInstanceConfig().getNonSecurePort();
         }
 
