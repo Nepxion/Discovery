@@ -39,7 +39,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
-import com.nepxion.discovery.plugin.framework.context.PluginContainerInitializedHandler;
 import com.nepxion.discovery.plugin.framework.entity.RouterEntity;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
@@ -47,9 +46,6 @@ import com.nepxion.discovery.plugin.framework.exception.PluginException;
 @Api(tags = { "路由接口" })
 @ManagedResource(description = "Router Endpoint")
 public class RouterEndpoint implements MvcEndpoint {
-    @Autowired
-    private PluginContainerInitializedHandler pluginContainerInitializedHandler;
-
     @Autowired
     private PluginAdapter pluginAdapter;
 
