@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.cloud.netflix.ribbon.PropertiesFactory;
+import org.springframework.cloud.netflix.ribbon.RibbonClientName;
 import org.springframework.cloud.netflix.ribbon.eureka.EurekaRibbonClientConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,7 +34,7 @@ public class EurekaLoadBalanceConfiguration {
     @Value("${ribbon.eureka.approximateZoneFromHostname:false}")
     private boolean approximateZoneFromHostname = false;
 
-    @Value("${ribbon.client.name}")
+    @RibbonClientName
     private String serviceId = "client";
 
     @Autowired

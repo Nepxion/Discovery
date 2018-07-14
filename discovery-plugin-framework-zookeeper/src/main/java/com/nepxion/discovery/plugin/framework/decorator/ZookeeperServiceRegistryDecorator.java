@@ -9,11 +9,6 @@ package com.nepxion.discovery.plugin.framework.decorator;
  * @version 1.0
  */
 
-import java.util.concurrent.atomic.AtomicReference;
-
-import org.apache.curator.framework.CuratorFramework;
-import org.apache.curator.x.discovery.ServiceDiscovery;
-import org.springframework.cloud.zookeeper.discovery.ZookeeperInstance;
 import org.springframework.cloud.zookeeper.serviceregistry.ZookeeperRegistration;
 import org.springframework.cloud.zookeeper.serviceregistry.ZookeeperServiceRegistry;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -87,16 +82,6 @@ public class ZookeeperServiceRegistryDecorator extends ZookeeperServiceRegistry 
     @Override
     public void afterSingletonsInstantiated() {
         serviceRegistry.afterSingletonsInstantiated();
-    }
-
-    @Deprecated
-    public CuratorFramework getCurator() {
-        return serviceRegistry.getCurator();
-    }
-
-    @Deprecated
-    public AtomicReference<ServiceDiscovery<ZookeeperInstance>> getServiceDiscoveryRef() {
-        return serviceRegistry.getServiceDiscoveryRef();
     }
 
     public ConfigurableEnvironment getEnvironment() {

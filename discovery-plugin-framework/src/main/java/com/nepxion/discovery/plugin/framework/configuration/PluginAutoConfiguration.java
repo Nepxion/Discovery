@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Configuration;
 
 import com.nepxion.discovery.plugin.framework.cache.PluginCache;
 import com.nepxion.discovery.plugin.framework.cache.RuleCache;
-import com.nepxion.discovery.plugin.framework.context.PluginContainerInitializedHandler;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
@@ -31,11 +30,6 @@ import com.nepxion.discovery.plugin.framework.listener.register.RegisterListener
 
 @Configuration
 public class PluginAutoConfiguration {
-    @Bean
-    public PluginContainerInitializedHandler pluginContainerInitializedHandler() {
-        return new PluginContainerInitializedHandler();
-    }
-
     @Bean
     public PluginContextAware pluginContextAware() {
         return new PluginContextAware();

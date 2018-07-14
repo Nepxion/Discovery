@@ -13,13 +13,12 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.14.RELEASE</version>
+        <version>2.0.3.RELEASE</version>
     </parent>
 
     <properties>
         <discovery.plugin.version>3.3.20</discovery.plugin.version>
-        <spring.cloud.version>Edgware.SR4</spring.cloud.version>
-        <!-- <spring.cloud.version>Dalston.SR5</spring.cloud.version> -->
+        <spring.cloud.version>Finchley.RELEASE</spring.cloud.version>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

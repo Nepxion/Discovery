@@ -35,11 +35,8 @@
         <dom4j.version>1.6.1</dom4j.version>
         <caffeine.version>2.6.2</caffeine.version>
         <swagger.version>2.7.0</swagger.version>
-        <spring.cloud.version>Edgware.SR4</spring.cloud.version>
-        <!-- <spring.cloud.version>Dalston.SR5</spring.cloud.version> -->
-        <spring.cloud.consul.version>2.0.0.RELEASE</spring.cloud.consul.version>
-        <spring.cloud.zookeeper.version>2.0.0.RELEASE</spring.cloud.zookeeper.version>
-        <spring.boot.version>1.5.14.RELEASE</spring.boot.version>
+        <spring.cloud.version>Finchley.RELEASE</spring.cloud.version>
+        <spring.boot.version>2.0.3.RELEASE</spring.boot.version>
         <disruptor.version>3.3.7</disruptor.version>
         <log4j.version>2.9.1</log4j.version>
         <java.version>1.8</java.version>
@@ -166,22 +163,6 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring.cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-consul-dependencies</artifactId>
-                <version>${spring.cloud.consul.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-zookeeper-dependencies</artifactId>
-                <version>${spring.cloud.zookeeper.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

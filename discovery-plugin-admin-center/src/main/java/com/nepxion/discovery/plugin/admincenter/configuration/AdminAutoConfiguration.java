@@ -9,7 +9,7 @@ package com.nepxion.discovery.plugin.admincenter.configuration;
  * @version 1.0
  */
 
-import org.springframework.boot.actuate.endpoint.Endpoint;
+import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
