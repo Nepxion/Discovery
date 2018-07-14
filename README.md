@@ -78,8 +78,20 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Architecture.jpg)
 
 ## 兼容
-最新版本兼容
-- Spring Cloud C版、D版和E版本，暂时不兼容F版本
+版本兼容情况
+- Spring Cloud F版，请采用4.x.x版本，具体代码参考master分支
+- Spring Cloud C版、D版和E版，请采用3.x.x版本，具体代码参考Edgware分支
+- 4.x.x版本由于Swagger和Spring Boot 2.x.x版本的Actuator用法有冲突，故暂时不支持Endpoint功能，其他功能和3.x.x版本一致
+
+中间件兼容情况
+- Consul
+  - Spring Cloud F版，最好采用Consul的1.2.1服务器版本（或者更高），从[https://releases.hashicorp.com/consul/1.2.1/](https://releases.hashicorp.com/consul/1.2.1/)获取
+  - Spring Cloud C版、D版和E版，必须采用Consul的0.9.3服务器版本（或者更低），从[https://releases.hashicorp.com/consul/0.9.3/](https://releases.hashicorp.com/consul/0.9.3/)获取
+- Zookeeper
+  - Spring Cloud F版，必须采用Zookeeper的3.5.x服务器版本（或者更高）
+  - Spring Cloud C版、D版和E版，最好采用Zookeeper的3.5.0以下服务器版本（或者更低）
+Eureka
+  - 跟Spring Cloud版本保持一致
 
 ## 依赖
 微服务选择相应的插件引入
@@ -285,7 +297,7 @@ public class DiscoveryConfigAdapter extends ConfigAdapter {
 ```
 
 ## 管理中心
-> PORT端口号为server.port或者management.port都可以
+> PORT端口号为server.port或者management.port都可以（management.port开放只支持3.x.x版本）
 ### 配置接口
 ### 版本接口
 ### 路由接口
@@ -302,7 +314,7 @@ public class DiscoveryConfigAdapter extends ConfigAdapter {
 - 与远程配置中心整合
 - 与UI整合
 
-> PORT端口号为server.port或者management.port都可以
+> PORT端口号为server.port或者management.port都可以（management.port开放只支持3.x.x版本）
 ### 控制台接口
 参考Swagger界面，如下图
 
@@ -315,11 +327,6 @@ public class DiscoveryConfigAdapter extends ConfigAdapter {
 
 集成了健康检查的Consul控制台
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Consul.jpg)
-
-## Spring Cloud引入Consul的坑
-spring-cloud-consul的2.0.0.RELEASE（目前最新的稳定版）支持consul-api-1.2.2版本，它不兼容Consul的1.0.0以上的服务器，原因是服务的deregister在consul-api-1.2.2中是执行GET方法，而Consul的1.0.0以上的服务器对应的是PUT方法。解决方案，二选一
-- 选用1.0.0以下的服务器，从[https://releases.hashicorp.com/consul/0.9.3/](https://releases.hashicorp.com/consul/0.9.3/)获取
-- 或者，spring-cloud-consul中consul-api-1.2.2.jar替换到最新的版本
 
 ## 示例演示
 ### 场景描述
