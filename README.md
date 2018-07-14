@@ -90,7 +90,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 - Zookeeper
   - Spring Cloud F版，必须采用Zookeeper的3.5.x服务器版本（或者更高）
   - Spring Cloud C版、D版和E版，最好采用Zookeeper的3.5.0以下服务器版本（或者更低）
-Eureka
+- Eureka
   - 跟Spring Cloud版本保持一致
 
 ## 依赖
