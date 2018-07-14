@@ -101,8 +101,6 @@ public class RouterEndpoint {
         String version = pluginAdapter.getVersion();
         String host = pluginAdapter.getHost(registration);
         int port = pluginAdapter.getPort(registration);
-        // String host = HostUtil.getLocalhost();
-        // int port = pluginContainerInitializedHandler.getPort();
 
         RouterEntity routerEntity = new RouterEntity();
         routerEntity.setServiceId(serviceId);
