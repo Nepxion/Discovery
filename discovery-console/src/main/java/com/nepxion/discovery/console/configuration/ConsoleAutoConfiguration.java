@@ -9,8 +9,6 @@ package com.nepxion.discovery.console.configuration;
  * @version 1.0
  */
 
-import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -37,7 +35,6 @@ public class ConsoleAutoConfiguration {
         System.out.println("");
     }
 
-    @ConditionalOnClass(Endpoint.class)
     protected static class ConsoleEndpointConfiguration {
         @Bean
         public ConsoleEndpoint consoleEndpoint() {
