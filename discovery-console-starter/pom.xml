@@ -11,7 +11,7 @@
     <parent>
         <groupId>com.nepxion</groupId>
         <artifactId>discovery</artifactId>
-        <version>3.3.20</version>
+        <version>4.0.0</version>
     </parent>
 
     <dependencies>
