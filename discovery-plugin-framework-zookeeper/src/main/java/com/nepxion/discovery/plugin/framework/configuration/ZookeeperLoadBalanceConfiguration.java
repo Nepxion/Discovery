@@ -12,6 +12,9 @@ package com.nepxion.discovery.plugin.framework.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.cloud.zookeeper.discovery.ZookeeperRibbonClientConfiguration;
+import org.springframework.cloud.zookeeper.discovery.dependency.ConditionalOnDependenciesNotPassed;
+import org.springframework.cloud.zookeeper.discovery.dependency.ConditionalOnDependenciesPassed;
+import org.springframework.cloud.zookeeper.discovery.dependency.ZookeeperDependencies;
 import org.springframework.cloud.zookeeper.serviceregistry.ZookeeperServiceRegistry;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,6 +38,20 @@ public class ZookeeperLoadBalanceConfiguration {
     private LoadBalanceListenerExecutor loadBalanceListenerExecutor;
 
     @Bean
+    @ConditionalOnDependenciesPassed
+    public ServerList<?> ribbonServerListFromDependencies(IClientConfig config, ZookeeperDependencies zookeeperDependencies) {
+        @SuppressWarnings("deprecation")
+        ZookeeperServerListDecorator serverList = new ZookeeperServerListDecorator(this.registry.getServiceDiscoveryRef().get());
+        serverList.initFromDependencies(config, zookeeperDependencies);
+        serverList.setEnvironment(environment);
+        serverList.setLoadBalanceListenerExecutor(loadBalanceListenerExecutor);
+        serverList.setServiceId(config.getClientName());
+
+        return serverList;
+    }
+
+    @Bean
+    @ConditionalOnDependenciesNotPassed
     public ServerList<?> ribbonServerList(IClientConfig config) {
         @SuppressWarnings("deprecation")
         ZookeeperServerListDecorator serverList = new ZookeeperServerListDecorator(this.registry.getServiceDiscoveryRef().get());
