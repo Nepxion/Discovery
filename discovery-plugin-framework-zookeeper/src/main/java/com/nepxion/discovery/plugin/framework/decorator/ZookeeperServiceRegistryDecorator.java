@@ -90,11 +90,13 @@ public class ZookeeperServiceRegistryDecorator extends ZookeeperServiceRegistry 
     }
 
     @Deprecated
+    @Override
     public CuratorFramework getCurator() {
         return serviceRegistry.getCurator();
     }
 
     @Deprecated
+    @Override
     public AtomicReference<ServiceDiscovery<ZookeeperInstance>> getServiceDiscoveryRef() {
         return serviceRegistry.getServiceDiscoveryRef();
     }
