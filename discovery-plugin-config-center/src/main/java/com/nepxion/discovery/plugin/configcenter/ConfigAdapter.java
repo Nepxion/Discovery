@@ -13,13 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.plugin.configcenter.loader.AbstractConfigLoader;
 import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
-import com.nepxion.discovery.plugin.framework.event.RuleChangedEvent;
+import com.nepxion.discovery.plugin.framework.event.RuleUpdatedEvent;
 
 public abstract class ConfigAdapter extends AbstractConfigLoader {
     @Autowired
     private PluginEventWapper pluginEventWapper;
 
-    public void fireRuleChanged(RuleChangedEvent ruleChangedEvent, boolean async) {
-        pluginEventWapper.fireRuleChanged(ruleChangedEvent, async);
+    public void fireRuleUpdated(RuleUpdatedEvent ruleUpdatedEvent, boolean async) {
+        pluginEventWapper.fireRuleUpdated(ruleUpdatedEvent, async);
     }
 }

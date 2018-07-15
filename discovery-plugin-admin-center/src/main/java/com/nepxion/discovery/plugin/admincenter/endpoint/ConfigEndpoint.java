@@ -31,7 +31,7 @@ import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
-import com.nepxion.discovery.plugin.framework.event.RuleChangedEvent;
+import com.nepxion.discovery.plugin.framework.event.RuleUpdatedEvent;
 
 @RestController
 @Api(tags = { "配置接口" })
@@ -80,7 +80,7 @@ public class ConfigEndpoint {
 
         try {
             InputStream inputStream = IOUtils.toInputStream(config, PluginConstant.ENCODING_UTF_8);
-            pluginEventWapper.fireRuleChanged(new RuleChangedEvent(inputStream), async);
+            pluginEventWapper.fireRuleUpdated(new RuleUpdatedEvent(inputStream), async);
         } catch (IOException e) {
             return toExceptionResponseEntity(e, true);
         }

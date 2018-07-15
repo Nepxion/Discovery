@@ -12,12 +12,12 @@ package com.nepxion.discovery.plugin.framework.event;
 import java.io.InputStream;
 import java.io.Serializable;
 
-public class RuleChangedEvent implements Serializable {
+public class RuleUpdatedEvent implements Serializable {
     private static final long serialVersionUID = 2315578803987663866L;
 
     private InputStream inputStream;
 
-    public RuleChangedEvent(InputStream inputStream) {
+    public RuleUpdatedEvent(InputStream inputStream) {
         this.inputStream = inputStream;
     }
 

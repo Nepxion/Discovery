@@ -48,7 +48,7 @@ public class MyConfigAdapter extends ConfigAdapter {
     public void publish() {
         try {
             InputStream inputStream = FileUtils.openInputStream(new File("src/main/resources/rule.xml"));
-            fireRuleChanged(new RuleChangedEvent(inputStream), true);
+            fireRuleUpdated(new RuleUpdatedEvent(inputStream), true);
         } catch (IOException e) {
             e.printStackTrace();
         }
