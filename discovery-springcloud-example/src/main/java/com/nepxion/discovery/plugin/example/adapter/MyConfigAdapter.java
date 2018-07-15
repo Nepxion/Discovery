@@ -19,7 +19,7 @@ import com.nepxion.discovery.plugin.configcenter.ConfigAdapter;
 
 // 模拟主动从本地或远程配置中心获取规则
 // 模拟订阅远程配置中心的规则更新
-public class DiscoveryConfigAdapter extends ConfigAdapter {
+public class MyConfigAdapter extends ConfigAdapter {
     // 从本地获取规则
     // 通过application.properties里的spring.application.discovery.remote.config.enabled=true，来决定主动从本地，还是远程配置中心获取规则
     @Override
