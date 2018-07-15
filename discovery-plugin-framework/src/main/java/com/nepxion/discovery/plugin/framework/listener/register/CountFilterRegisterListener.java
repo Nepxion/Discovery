@@ -78,7 +78,7 @@ public class CountFilterRegisterListener extends AbstractRegisterListener {
 
         Boolean registerFailureEventEnabled = pluginContextAware.getEnvironment().getProperty(PluginConstant.SPRING_APPLICATION_REGISTER_FAILURE_EVENT_ENABLED, Boolean.class, Boolean.FALSE);
         if (registerFailureEventEnabled) {
-            pluginPublisher.asyncPublish(new RegisterFailureEvent(PluginConstant.REACH_MAX_LIMITED_COUNT, description, serviceId, host, port));
+            pluginEventWapper.fireRegisterFailure(new RegisterFailureEvent(PluginConstant.REACH_MAX_LIMITED_COUNT, description, serviceId, host, port));
         }
 
         throw new PluginException(description);
