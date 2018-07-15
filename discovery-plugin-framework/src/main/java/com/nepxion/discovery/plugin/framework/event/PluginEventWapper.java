@@ -18,11 +18,11 @@ public class PluginEventWapper {
     @Autowired
     private PluginSubscriber pluginSubscriber;
 
-    public void fireRuleChanged(RuleChangedEvent ruleChangedEvent, boolean async) {
+    public void fireRuleUpdated(RuleUpdatedEvent ruleUpdatedEvent, boolean async) {
         if (async) {
-            pluginPublisher.asyncPublish(ruleChangedEvent);
+            pluginPublisher.asyncPublish(ruleUpdatedEvent);
         } else {
-            pluginSubscriber.onRuleChanged(ruleChangedEvent);
+            pluginSubscriber.onRuleUpdated(ruleUpdatedEvent);
         }
     }
 

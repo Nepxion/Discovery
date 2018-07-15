@@ -42,7 +42,7 @@ public class PluginSubscriber {
     private LoadBalanceListenerExecutor loadBalanceListenerExecutor;
 
     @Subscribe
-    public void onRuleChanged(RuleChangedEvent ruleChangedEvent) {
+    public void onRuleUpdated(RuleUpdatedEvent ruleUpdatedEvent) {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         Boolean remoteConfigEnabled = pluginContextAware.isRemoteConfigEnabled();
 
@@ -58,13 +58,13 @@ public class PluginSubscriber {
             return;
         }
 
-        LOG.info("********** Remote config changing has been triggered **********");
+        LOG.info("********** Remote rule updating has been triggered **********");
 
-        if (ruleChangedEvent == null) {
-            throw new PluginException("RuleChangedEvent can't be null");
+        if (ruleUpdatedEvent == null) {
+            throw new PluginException("RuleUpdatedEvent can't be null");
         }
 
-        InputStream inputStream = ruleChangedEvent.getInputStream();
+        InputStream inputStream = ruleUpdatedEvent.getInputStream();
         try {
             pluninConfigParser.parse(inputStream);
         } catch (Exception e) {
