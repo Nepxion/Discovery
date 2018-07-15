@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.cache.RuleCache;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
-import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
+import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
 
 public class BasicListener implements Listener {
     @Autowired
@@ -27,5 +27,5 @@ public class BasicListener implements Listener {
     protected PluginAdapter pluginAdapter;
 
     @Autowired
-    protected PluginPublisher pluginPublisher;
+    protected PluginEventWapper pluginEventWapper;
 }

@@ -41,4 +41,8 @@ public class PluginEventWapper {
             pluginSubscriber.onVersionCleared(versionClearedEvent);
         }
     }
+
+    public void fireRegisterFailure(RegisterFailureEvent registerFailureEvent) {
+        pluginPublisher.asyncPublish(registerFailureEvent);
+    }
 }

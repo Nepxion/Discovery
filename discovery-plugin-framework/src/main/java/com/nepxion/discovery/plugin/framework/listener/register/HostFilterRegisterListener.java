@@ -102,7 +102,7 @@ public class HostFilterRegisterListener extends AbstractRegisterListener {
 
         Boolean registerFailureEventEnabled = pluginContextAware.getEnvironment().getProperty(PluginConstant.SPRING_APPLICATION_REGISTER_FAILURE_EVENT_ENABLED, Boolean.class, Boolean.FALSE);
         if (registerFailureEventEnabled) {
-            pluginPublisher.asyncPublish(new RegisterFailureEvent(filterType.toString(), description, serviceId, host, port));
+            pluginEventWapper.fireRegisterFailure(new RegisterFailureEvent(filterType.toString(), description, serviceId, host, port));
         }
 
         throw new PluginException(description);
