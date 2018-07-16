@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" monitorInterval="30">
+    <Appenders>
+        <Console name="stdout" target="SYSTEM_OUT">
+            <PatternLayout pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread][%class:%line] - %msg%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <AsyncLogger name="com.nepxion.discovery.console.desktop" level="info" additivity="false" includeLocation="true">
+            <AppenderRef ref="stdout"/>
+        </AsyncLogger>
+        <AsyncRoot level="info" includeLocation="true">
+            <AppenderRef ref="stdout"/>
+        </AsyncRoot>
+    </Loggers>
+</Configuration>

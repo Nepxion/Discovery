@@ -18,6 +18,7 @@
         <module>discovery-plugin-config-center</module>
         <module>discovery-plugin-admin-center</module>
         <module>discovery-console</module>
+        <module>discovery-console-desktop</module>
         <module>discovery-plugin-starter-eureka</module>
         <module>discovery-plugin-starter-consul</module>
         <module>discovery-plugin-starter-zookeeper</module>
