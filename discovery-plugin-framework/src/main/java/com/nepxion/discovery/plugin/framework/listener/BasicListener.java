@@ -12,14 +12,10 @@ package com.nepxion.discovery.plugin.framework.listener;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.framework.cache.RuleCache;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
 
 public class BasicListener implements Listener {
-    @Autowired
-    protected RuleCache ruleCache;
-
     @Autowired
     protected PluginContextAware pluginContextAware;
 

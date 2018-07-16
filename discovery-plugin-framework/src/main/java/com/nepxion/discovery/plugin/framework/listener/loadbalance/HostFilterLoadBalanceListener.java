@@ -16,7 +16,6 @@ import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
 
-import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
 import com.nepxion.discovery.plugin.framework.entity.FilterType;
 import com.nepxion.discovery.plugin.framework.entity.HostFilterEntity;
@@ -30,7 +29,7 @@ public class HostFilterLoadBalanceListener extends AbstractLoadBalanceListener {
     }
 
     private void applyHostFilter(String providerServiceId, List<? extends Server> servers) {
-        RuleEntity ruleEntity = ruleCache.get(PluginConstant.RULE);
+        RuleEntity ruleEntity = pluginAdapter.getRule();
         if (ruleEntity == null) {
             return;
         }
