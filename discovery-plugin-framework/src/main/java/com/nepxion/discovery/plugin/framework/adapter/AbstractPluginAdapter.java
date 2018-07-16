@@ -45,26 +45,51 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Override
     public String getDynamicVersion() {
-        return pluginCache.get(PluginConstant.VERSION);
+        return pluginCache.get(PluginConstant.DYNAMIC_VERSION);
     }
 
     @Override
     public void setDynamicVersion(String version) {
-        pluginCache.put(PluginConstant.VERSION, version);
+        pluginCache.put(PluginConstant.DYNAMIC_VERSION, version);
     }
 
     @Override
     public void clearDynamicVersion() {
-        pluginCache.clear(PluginConstant.VERSION);
+        pluginCache.clear(PluginConstant.DYNAMIC_VERSION);
     }
 
     @Override
     public RuleEntity getRule() {
+        RuleEntity dynamicRuleEntity = getDynamicRule();
+        if (dynamicRuleEntity != null) {
+            return dynamicRuleEntity;
+        }
+
+        return getLocalRule();
+    }
+
+    @Override
+    public RuleEntity getLocalRule() {
         return ruleCache.get(PluginConstant.RULE);
     }
 
     @Override
-    public void setRule(RuleEntity ruleEntity) {
+    public void setLocalRule(RuleEntity ruleEntity) {
         ruleCache.put(PluginConstant.RULE, ruleEntity);
+    }
+
+    @Override
+    public RuleEntity getDynamicRule() {
+        return ruleCache.get(PluginConstant.DYNAMIC_RULE);
+    }
+
+    @Override
+    public void setDynamicRule(RuleEntity ruleEntity) {
+        ruleCache.put(PluginConstant.DYNAMIC_RULE, ruleEntity);
+    }
+
+    @Override
+    public void clearDynamicRule() {
+        ruleCache.clear(PluginConstant.DYNAMIC_RULE);
     }
 }

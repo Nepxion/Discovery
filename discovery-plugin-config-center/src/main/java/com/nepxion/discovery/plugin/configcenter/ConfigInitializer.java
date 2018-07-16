@@ -18,13 +18,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.plugin.configcenter.loader.ConfigLoader;
+import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
+import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 
 public class ConfigInitializer {
     private static final Logger LOG = LoggerFactory.getLogger(ConfigInitializer.class);
 
     @Autowired
     private PluginContextAware pluginContextAware;
+
+    @Autowired
+    private PluginAdapter pluginAdapter;
 
     @Autowired(required = false)
     private ConfigLoader configLoader;
@@ -59,7 +64,8 @@ public class ConfigInitializer {
             inputStream = configLoader.getLocalInputStream();
         }
         try {
-            configParser.parse(inputStream);
+            RuleEntity ruleEntity = configParser.parse(inputStream);
+            pluginAdapter.setLocalRule(ruleEntity);
         } catch (Exception e) {
             LOG.error("Parse rule xml failed", e);
         }
