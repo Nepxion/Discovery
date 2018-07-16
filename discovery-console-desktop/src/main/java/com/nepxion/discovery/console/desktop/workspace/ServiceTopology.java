@@ -123,14 +123,15 @@ public class ServiceTopology extends AbstractTopology {
 
     private void addService(String serviceId, List<InstanceEntity> instances) {
         int count = groupLocationMap.size();
-        TGroup registryGroup = createGroup(serviceId, serviceGroupEntity, count, groupStartX, groupStartY, groupHorizontalGap, groupVerticalGap);
-        registryGroup.setGroupType(TGroupType.ELLIPSE_GROUP_TYPE.getType());
+        TGroup group = createGroup(getGroupName(serviceId, instances.size()), serviceGroupEntity, count, groupStartX, groupStartY, groupHorizontalGap, groupVerticalGap);
+        group.setGroupType(TGroupType.ELLIPSE_GROUP_TYPE.getType());
 
-        addGroup(registryGroup, serviceGroupEntity, serviceNodeEntity, instances);
+        group.setUserObject(serviceId);
+
+        addInstances(group, serviceGroupEntity, serviceNodeEntity, serviceId, instances);
     }
 
-    private void addGroup(TGroup group, TopologyEntity groupEntity, TopologyEntity nodeEntity, List<InstanceEntity> instances) {
-        int count = 0;
+    private void addInstances(TGroup group, TopologyEntity groupEntity, TopologyEntity nodeEntity, String serviceId, List<InstanceEntity> instances) {
         if (CollectionUtils.isNotEmpty(instances)) {
             for (int i = 0; i < instances.size(); i++) {
                 InstanceEntity instance = instances.get(i);
@@ -139,13 +140,9 @@ public class ServiceTopology extends AbstractTopology {
 
                 group.addChild(node);
             }
-            count = instances.size();
         }
 
-        String groupName = group.getName();
-        group.setUserObject(groupName);
-        group.setDisplayName(ButtonManager.getHtmlText(groupName + " [" + count + "]"));
-        groupLocationMap.put(groupName, group.getLocation());
+        groupLocationMap.put(serviceId, group.getLocation());
 
         dataBox.addElement(group);
         TElementManager.addGroupChildren(dataBox, group);
@@ -155,11 +152,21 @@ public class ServiceTopology extends AbstractTopology {
     private void locateGroups() {
         List<TGroup> groups = TElementManager.getGroups(dataBox);
         for (TGroup group : groups) {
-            String groupName = group.getName();
-            if (groupLocationMap.containsKey(groupName)) {
-                group.setLocation(groupLocationMap.get(groupName));
+            String key = group.getUserObject().toString();
+            if (groupLocationMap.containsKey(key)) {
+                group.setLocation(groupLocationMap.get(key));
             }
         }
+    }
+
+    private String getGroupName(String serviceId, int count) {
+        return ButtonManager.getHtmlText(serviceId + " [" + count + "]");
+    }
+
+    private void updateGroup(TGroup group) {
+        String name = getGroupName(group.getUserObject().toString(), group.childrenSize());
+
+        group.setName(name);
     }
 
     private String getNodeName(InstanceEntity instance) {
@@ -176,15 +183,15 @@ public class ServiceTopology extends AbstractTopology {
         return ButtonManager.getHtmlText(stringBuilder.toString());
     }
 
-    private void updateNode(Element element, InstanceEntity instance) {
+    private void updateNode(TNode node, InstanceEntity instance) {
         String name = getNodeName(instance);
-        element.setName(name);
+        node.setName(name);
         if (StringUtils.isNotEmpty(instance.getDynamicRule())) {
-            element.getAlarmState().addAcknowledgedAlarm(AlarmSeverity.WARNING);
+            node.getAlarmState().addAcknowledgedAlarm(AlarmSeverity.WARNING);
         } else if (StringUtils.isNotEmpty(instance.getDynamicVersion())) {
-            element.getAlarmState().addAcknowledgedAlarm(AlarmSeverity.MINOR);
+            node.getAlarmState().addAcknowledgedAlarm(AlarmSeverity.MINOR);
         } else {
-            element.getAlarmState().clear();
+            node.getAlarmState().clear();
         }
     }
 
@@ -247,13 +254,13 @@ public class ServiceTopology extends AbstractTopology {
                 TGroup group = TElementManager.getSelectedGroup(dataBox);
                 if (group != null) {
                     @SuppressWarnings("unchecked")
-                    List<Element> elements = group.getChildren();
+                    List<TNode> nodes = group.getChildren();
 
-                    Iterator<Element> iterator = elements.iterator();
+                    Iterator<TNode> iterator = nodes.iterator();
                     while (iterator.hasNext()) {
-                        Element element = iterator.next();
+                        TNode node = iterator.next();
 
-                        InstanceEntity instance = (InstanceEntity) element.getUserObject();
+                        InstanceEntity instance = (InstanceEntity) node.getUserObject();
                         try {
                             List<String> versions = ServiceController.getVersions(instance);
                             List<String> rules = ServiceController.getRules(instance);
@@ -262,14 +269,16 @@ public class ServiceTopology extends AbstractTopology {
                             instance.setRule(rules.get(0));
                             instance.setDynamicRule(rules.get(1));
 
-                            updateNode(element, instance);
+                            updateNode(node, instance);
                         } catch (Exception ex) {
-                            iterator.remove();
-                            dataBox.removeElement(element);
+                            JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), "查询数据失败，可能该实例已下线", ex);
 
-                            JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), "获取动态配置或者动态版本失败，可能该实例已下线", ex);
+                            iterator.remove();
+                            dataBox.removeElement(node);
                         }
                     }
+
+                    updateGroup(group);
                 }
             }
         };
