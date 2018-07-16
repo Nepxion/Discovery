@@ -13,8 +13,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.plugin.framework.cache.PluginCache;
+import com.nepxion.discovery.plugin.framework.cache.RuleCache;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
+import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 
 public abstract class AbstractPluginAdapter implements PluginAdapter {
     @Autowired
@@ -22,6 +24,9 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Autowired
     protected PluginCache pluginCache;
+
+    @Autowired
+    protected RuleCache ruleCache;
 
     @Override
     public String getServiceId() {
@@ -51,5 +56,15 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     @Override
     public void clearDynamicVersion() {
         pluginCache.clear(PluginConstant.VERSION);
+    }
+
+    @Override
+    public RuleEntity getRule() {
+        return ruleCache.get(PluginConstant.RULE);
+    }
+
+    @Override
+    public void setRule(RuleEntity ruleEntity) {
+        ruleCache.put(PluginConstant.RULE, ruleEntity);
     }
 }

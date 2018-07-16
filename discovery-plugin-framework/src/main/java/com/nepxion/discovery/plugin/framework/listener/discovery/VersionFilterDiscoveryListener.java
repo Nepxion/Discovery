@@ -40,7 +40,7 @@ public class VersionFilterDiscoveryListener extends AbstractDiscoveryListener {
             return;
         }
 
-        RuleEntity ruleEntity = ruleCache.get(PluginConstant.RULE);
+        RuleEntity ruleEntity = pluginAdapter.getRule();
         if (ruleEntity == null) {
             return;
         }

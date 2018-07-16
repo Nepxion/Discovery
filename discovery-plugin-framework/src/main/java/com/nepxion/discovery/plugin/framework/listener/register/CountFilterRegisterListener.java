@@ -36,7 +36,7 @@ public class CountFilterRegisterListener extends AbstractRegisterListener {
     }
 
     private void applyCountFilter(String serviceId, String host, int port) {
-        RuleEntity ruleEntity = ruleCache.get(PluginConstant.RULE);
+        RuleEntity ruleEntity = pluginAdapter.getRule();
         if (ruleEntity == null) {
             return;
         }

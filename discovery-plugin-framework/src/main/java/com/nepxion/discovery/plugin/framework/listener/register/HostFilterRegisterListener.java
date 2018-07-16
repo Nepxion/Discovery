@@ -35,7 +35,7 @@ public class HostFilterRegisterListener extends AbstractRegisterListener {
     }
 
     private void applyHostFilter(String serviceId, String host, int port) {
-        RuleEntity ruleEntity = ruleCache.get(PluginConstant.RULE);
+        RuleEntity ruleEntity = pluginAdapter.getRule();
         if (ruleEntity == null) {
             return;
         }

@@ -26,7 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.plugin.configcenter.constant.ConfigConstant;
 import com.nepxion.discovery.plugin.configcenter.xml.Dom4JParser;
-import com.nepxion.discovery.plugin.framework.cache.RuleCache;
+import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.config.PluginConfigParser;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.entity.CountFilterEntity;
@@ -44,7 +44,7 @@ public class ConfigParser extends Dom4JParser implements PluginConfigParser {
     private static final Logger LOG = LoggerFactory.getLogger(ConfigParser.class);
 
     @Autowired
-    private RuleCache ruleCache;
+    private PluginAdapter pluginAdapter;
 
     @Override
     public void parse(InputStream inputStream) {
@@ -102,7 +102,7 @@ public class ConfigParser extends Dom4JParser implements PluginConfigParser {
         ruleEntity.setDiscoveryEntity(discoveryEntity);
         ruleEntity.setContent(text);
 
-        ruleCache.put(PluginConstant.RULE, ruleEntity);
+        pluginAdapter.setRule(ruleEntity);
 
         LOG.info("Rule entity=\n{}", ruleEntity);
     }

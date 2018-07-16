@@ -13,6 +13,7 @@ import java.util.Map;
 
 import org.springframework.cloud.client.serviceregistry.Registration;
 
+import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.netflix.loadbalancer.Server;
 
 public interface PluginAdapter {
@@ -35,4 +36,8 @@ public interface PluginAdapter {
     void setDynamicVersion(String version);
 
     void clearDynamicVersion();
+
+    RuleEntity getRule();
+
+    void setRule(RuleEntity ruleEntity);
 }

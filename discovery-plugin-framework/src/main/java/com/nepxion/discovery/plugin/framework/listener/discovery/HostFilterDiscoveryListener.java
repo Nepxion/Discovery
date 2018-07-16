@@ -17,7 +17,6 @@ import java.util.Map;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.cloud.client.ServiceInstance;
 
-import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
 import com.nepxion.discovery.plugin.framework.entity.FilterType;
 import com.nepxion.discovery.plugin.framework.entity.HostFilterEntity;
@@ -30,7 +29,7 @@ public class HostFilterDiscoveryListener extends AbstractDiscoveryListener {
     }
 
     private void applyHostFilter(String providerServiceId, List<ServiceInstance> instances) {
-        RuleEntity ruleEntity = ruleCache.get(PluginConstant.RULE);
+        RuleEntity ruleEntity = pluginAdapter.getRule();
         if (ruleEntity == null) {
             return;
         }

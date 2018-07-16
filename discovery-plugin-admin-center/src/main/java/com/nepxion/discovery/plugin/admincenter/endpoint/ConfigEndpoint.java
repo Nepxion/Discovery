@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nepxion.discovery.plugin.framework.cache.RuleCache;
+import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
@@ -40,10 +40,10 @@ public class ConfigEndpoint {
     private PluginContextAware pluginContextAware;
 
     @Autowired
-    private PluginEventWapper pluginEventWapper;
+    private PluginAdapter pluginAdapter;
 
     @Autowired
-    private RuleCache ruleCache;
+    private PluginEventWapper pluginEventWapper;
 
     @RequestMapping(path = "/config/update-async", method = RequestMethod.POST)
     @ApiOperation(value = "异步推送更新规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
@@ -60,7 +60,7 @@ public class ConfigEndpoint {
     @RequestMapping(path = "/config/view", method = RequestMethod.GET)
     @ApiOperation(value = "查看当前生效的规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     public ResponseEntity<?> view() {
-        RuleEntity ruleEntity = ruleCache.get(PluginConstant.RULE);
+        RuleEntity ruleEntity = pluginAdapter.getRule();
         if (ruleEntity == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No config to view");
         }
