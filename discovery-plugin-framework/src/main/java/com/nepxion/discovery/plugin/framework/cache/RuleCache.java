@@ -22,8 +22,8 @@ public class RuleCache {
     public RuleCache() {
         loadingCache = Caffeine.newBuilder()
                 .expireAfterWrite(365 * 100, TimeUnit.DAYS)
-                .initialCapacity(1)
-                .maximumSize(1)
+                .initialCapacity(2)
+                .maximumSize(10)
                 .recordStats()
                 .build(new CacheLoader<String, RuleEntity>() {
                     @Override

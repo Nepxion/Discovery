@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.console.entity.InstanceEntity;
+import com.nepxion.discovery.console.rest.ConfigClearRestInvoker;
 import com.nepxion.discovery.console.rest.ConfigUpdateRestInvoker;
 import com.nepxion.discovery.console.rest.VersionClearRestInvoker;
 import com.nepxion.discovery.console.rest.VersionUpdateRestInvoker;
@@ -77,6 +78,12 @@ public class ConsoleEndpoint {
     @ApiOperation(value = "批量同步推送更新规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     public ResponseEntity<?> configUpdateSync(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
         return executeConfigUpdate(serviceId, config, false);
+    }
+
+    @RequestMapping(path = "/console/config/clear/{serviceId}", method = RequestMethod.POST)
+    @ApiOperation(value = "批量清除更新的规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    public ResponseEntity<?> configClear(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
+        return executeConfigClear(serviceId);
     }
 
     @RequestMapping(path = "/console/version/update/{serviceId}", method = RequestMethod.POST)
@@ -137,6 +144,14 @@ public class ConsoleEndpoint {
         ConfigUpdateRestInvoker configUpdateRestInvoker = new ConfigUpdateRestInvoker(serviceInstances, consoleRestTemplate, config, async);
 
         return configUpdateRestInvoker.invoke();
+    }
+
+    private ResponseEntity<?> executeConfigClear(String serviceId) {
+        List<ServiceInstance> serviceInstances = getInstances(serviceId);
+
+        ConfigClearRestInvoker configClearRestInvoker = new ConfigClearRestInvoker(serviceInstances, consoleRestTemplate);
+
+        return configClearRestInvoker.invoke();
     }
 
     private ResponseEntity<?> executeVersionUpdate(String serviceId, String version) {
