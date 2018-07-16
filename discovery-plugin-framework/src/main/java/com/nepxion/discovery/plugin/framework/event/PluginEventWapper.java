@@ -26,6 +26,14 @@ public class PluginEventWapper {
         }
     }
 
+    public void fireRuleCleared(RuleClearedEvent ruleClearedEvent, boolean async) {
+        if (async) {
+            pluginPublisher.asyncPublish(ruleClearedEvent);
+        } else {
+            pluginSubscriber.onRuleCleared(ruleClearedEvent);
+        }
+    }
+
     public void fireVersionUpdated(VersionUpdatedEvent versionUpdatedEvent, boolean async) {
         if (async) {
             pluginPublisher.asyncPublish(versionUpdatedEvent);

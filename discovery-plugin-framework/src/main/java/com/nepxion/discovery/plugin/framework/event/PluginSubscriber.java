@@ -79,6 +79,34 @@ public class PluginSubscriber {
     }
 
     @Subscribe
+    public void onRuleCleared(RuleClearedEvent ruleClearedEvent) {
+        Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
+        Boolean remoteConfigEnabled = pluginContextAware.isRemoteConfigEnabled();
+
+        if (!discoveryControlEnabled) {
+            LOG.info("********** Discovery control is disabled, ignore to subscribe **********");
+
+            return;
+        }
+
+        if (!remoteConfigEnabled) {
+            LOG.info("********** Remote config is disabled, ignore to subscribe **********");
+
+            return;
+        }
+
+        LOG.info("********** Remote rule clearing has been triggered **********");
+
+        if (ruleClearedEvent == null) {
+            throw new PluginException("RuleClearedEvent can't be null");
+        }
+
+        pluginAdapter.clearDynamicRule();
+
+        refreshLoadBalancer();
+    }
+
+    @Subscribe
     public void onVersionUpdated(VersionUpdatedEvent versionUpdatedEvent) {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         if (!discoveryControlEnabled) {
