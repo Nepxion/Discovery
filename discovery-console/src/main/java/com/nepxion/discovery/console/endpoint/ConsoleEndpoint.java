@@ -144,13 +144,13 @@ public class ConsoleEndpoint implements MvcEndpoint {
 
     public Map<String, List<InstanceEntity>> getInstanceMap() {
         List<String> services = getServices();
-        Map<String, List<InstanceEntity>> serviceMap = new LinkedHashMap<String, List<InstanceEntity>>(services.size());
+        Map<String, List<InstanceEntity>> instanceMap = new LinkedHashMap<String, List<InstanceEntity>>(services.size());
         for (String service : services) {
             List<InstanceEntity> instanceEntityList = getInstanceList(service);
-            serviceMap.put(service, instanceEntityList);
+            instanceMap.put(service, instanceEntityList);
         }
 
-        return serviceMap;
+        return instanceMap;
     }
 
     private ResponseEntity<?> executeConfigUpdate(String serviceId, String config, boolean async) {
