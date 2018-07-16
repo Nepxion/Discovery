@@ -15,8 +15,11 @@ import io.swagger.annotations.ApiParam;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.Endpoint;
@@ -36,6 +39,7 @@ import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
+import com.nepxion.discovery.plugin.framework.event.RuleClearedEvent;
 import com.nepxion.discovery.plugin.framework.event.RuleUpdatedEvent;
 
 @RestController
@@ -68,19 +72,44 @@ public class ConfigEndpoint implements MvcEndpoint {
         return update(config, false);
     }
 
-    @RequestMapping(path = "/config/view", method = RequestMethod.GET)
-    @ApiOperation(value = "查看当前生效的规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "GET")
+    @RequestMapping(path = "/config/clear", method = RequestMethod.POST)
+    @ApiOperation(value = "清除更新的规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<?> view() {
-        RuleEntity ruleEntity = pluginAdapter.getRule();
-        if (ruleEntity == null) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No config to view");
+    public ResponseEntity<?> clear() {
+        Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
+        if (!discoveryControlEnabled) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Discovery control is disabled");
         }
 
-        String content = ruleEntity.getContent();
+        pluginEventWapper.fireRuleCleared(new RuleClearedEvent(), true);
 
-        return ResponseEntity.ok().body(content);
+        return ResponseEntity.ok().body("OK");
+    }
+
+    @RequestMapping(path = "/config/view", method = RequestMethod.GET)
+    @ApiOperation(value = "查看本地和更新的规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "GET")
+    @ResponseBody
+    @ManagedOperation
+    public ResponseEntity<List<String>> view() {
+        List<String> ruleList = new ArrayList<String>(2);
+
+        String localRuleContent = StringUtils.EMPTY;
+        RuleEntity localRuleEntity = pluginAdapter.getLocalRule();
+        if (localRuleEntity != null && StringUtils.isNotEmpty(localRuleEntity.getContent())) {
+            localRuleContent = localRuleEntity.getContent();
+        }
+
+        String dynamicRuleContent = StringUtils.EMPTY;
+        RuleEntity dynamicRuleEntity = pluginAdapter.getDynamicRule();
+        if (dynamicRuleEntity != null && StringUtils.isNotEmpty(dynamicRuleEntity.getContent())) {
+            dynamicRuleContent = dynamicRuleEntity.getContent();
+        }
+
+        ruleList.add(localRuleContent);
+        ruleList.add(dynamicRuleContent);
+
+        return ResponseEntity.ok().body(ruleList);
     }
 
     private ResponseEntity<?> update(String config, boolean async) {
