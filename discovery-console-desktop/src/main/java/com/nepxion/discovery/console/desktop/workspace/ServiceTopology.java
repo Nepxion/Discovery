@@ -123,9 +123,10 @@ public class ServiceTopology extends AbstractTopology {
 
     private void addService(String serviceId, List<InstanceEntity> instances) {
         int count = groupLocationMap.size();
-        TGroup group = createGroup(getGroupName(serviceId, instances.size()), serviceGroupEntity, count, groupStartX, groupStartY, groupHorizontalGap, groupVerticalGap);
-        group.setGroupType(TGroupType.ELLIPSE_GROUP_TYPE.getType());
+        String groupName = getGroupName(serviceId, instances.size());
 
+        TGroup group = createGroup(groupName, serviceGroupEntity, count, groupStartX, groupStartY, groupHorizontalGap, groupVerticalGap);
+        group.setGroupType(TGroupType.ELLIPSE_GROUP_TYPE.getType());
         group.setUserObject(serviceId);
 
         addInstances(group, serviceGroupEntity, serviceNodeEntity, serviceId, instances);
@@ -135,7 +136,9 @@ public class ServiceTopology extends AbstractTopology {
         if (CollectionUtils.isNotEmpty(instances)) {
             for (int i = 0; i < instances.size(); i++) {
                 InstanceEntity instance = instances.get(i);
-                TNode node = createNode(getNodeName(instance), nodeEntity, i, nodeStartX, nodeStartY, nodeHorizontalGap, nodeVerticalGap);
+                String nodeName = getNodeName(instance);
+
+                TNode node = createNode(nodeName, nodeEntity, i, nodeStartX, nodeStartY, nodeHorizontalGap, nodeVerticalGap);
                 node.setUserObject(instance);
 
                 group.addChild(node);
