@@ -9,10 +9,17 @@ package com.nepxion.discovery.console.desktop.workspace;
  * @version 1.0
  */
 
+import twaver.AlarmSeverity;
+import twaver.BlinkingRule;
+import twaver.Element;
+import twaver.Generator;
+import twaver.TWaverConst;
+
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -39,6 +46,7 @@ import com.nepxion.discovery.console.desktop.workspace.topology.TopologyEntityTy
 import com.nepxion.swing.action.JSecurityAction;
 import com.nepxion.swing.button.ButtonManager;
 import com.nepxion.swing.button.JClassicButton;
+import com.nepxion.swing.dialog.JExceptionDialog;
 import com.nepxion.swing.dialog.JOptionDialog;
 import com.nepxion.swing.handle.HandleManager;
 import com.nepxion.swing.icon.IconFactory;
@@ -72,6 +80,7 @@ public class ServiceTopology extends AbstractTopology {
 
     public ServiceTopology() {
         initializeToolBar();
+        initializeTopology();
     }
 
     private void initializeToolBar() {
@@ -79,6 +88,7 @@ public class ServiceTopology extends AbstractTopology {
         toolBar.addSeparator();
         toolBar.add(Box.createHorizontalStrut(5));
         toolBar.add(new JClassicButton(createShowTopologyAction()));
+        toolBar.add(new JClassicButton(createXXXAction()));
         toolBar.addSeparator();
         toolBar.add(createConfigButton(true));
 
@@ -86,6 +96,23 @@ public class ServiceTopology extends AbstractTopology {
 
         setGroupAutoExpand(true);
         setLinkAutoHide(true);
+    }
+
+    private void initializeTopology() {
+        graph.setBlinkingRule(new BlinkingRule() {
+            public boolean isBodyBlinking(Element element) {
+                return element.getAlarmState().getHighestNativeAlarmSeverity() != null || element.getClientProperty(TWaverConst.PROPERTYNAME_RENDER_COLOR) != null;
+            }
+
+            public boolean isOutlineBlinking(Element element) {
+                return element.getAlarmState().getPropagateSeverity() != null || element.getClientProperty(TWaverConst.PROPERTYNAME_STATE_OUTLINE_COLOR) != null;
+            }
+        });
+        graph.setElementStateOutlineColorGenerator(new Generator() {
+            public Object generate(Object object) {
+                return null;
+            }
+        });
     }
 
     private void addServices(Map<String, List<InstanceEntity>> instanceMap) {
@@ -107,7 +134,7 @@ public class ServiceTopology extends AbstractTopology {
         if (CollectionUtils.isNotEmpty(instances)) {
             for (int i = 0; i < instances.size(); i++) {
                 InstanceEntity instance = instances.get(i);
-                TNode node = createNode(ButtonManager.getHtmlText(instance.getHost() + ":" + instance.getPort() + (StringUtils.isNotEmpty(instance.getVersion()) ? "\n [V" + instance.getVersion() + " -> V2.0]" : "")), nodeEntity, i, nodeStartX, nodeStartY, nodeHorizontalGap, nodeVerticalGap);
+                TNode node = createNode(getNodeName(instance), nodeEntity, i, nodeStartX, nodeStartY, nodeHorizontalGap, nodeVerticalGap);
                 node.setUserObject(instance);
 
                 group.addChild(node);
@@ -135,12 +162,45 @@ public class ServiceTopology extends AbstractTopology {
         }
     }
 
+    private String getNodeName(InstanceEntity instance) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(instance.getHost()).append(":").append(instance.getPort());
+        if (StringUtils.isNotEmpty(instance.getVersion())) {
+            stringBuilder.append("\n [V").append(instance.getVersion());
+            if (StringUtils.isNotEmpty(instance.getDynamicVersion())) {
+                stringBuilder.append(" -> V").append(instance.getDynamicVersion());
+            }
+            stringBuilder.append("]");
+        }
+
+        return ButtonManager.getHtmlText(stringBuilder.toString());
+    }
+
+    private void updateNode(Element element, InstanceEntity instance) {
+        String name = getNodeName(instance);
+        element.setName(name);
+        if (StringUtils.isNotEmpty(instance.getDynamicRule())) {
+            element.getAlarmState().addAcknowledgedAlarm(AlarmSeverity.WARNING);
+        } else if (StringUtils.isNotEmpty(instance.getDynamicVersion())) {
+            element.getAlarmState().addAcknowledgedAlarm(AlarmSeverity.MINOR);
+        } else {
+            element.getAlarmState().clear();
+        }
+    }
+
     private void showTopology(boolean reloaded) {
         dataBox.clear();
         groupLocationMap.clear();
 
         if (reloaded) {
-            Map<String, List<InstanceEntity>> instanceMap = ServiceController.getInstanceMap();
+            Map<String, List<InstanceEntity>> instanceMap = null;
+            try {
+                instanceMap = ServiceController.getInstanceMap();
+            } catch (Exception e) {
+                JExceptionDialog.traceException(HandleManager.getFrame(this), "获取服务和实例列表失败", e);
+
+                return;
+            }
 
             this.instanceMap = instanceMap;
         }
@@ -173,6 +233,44 @@ public class ServiceTopology extends AbstractTopology {
 
             public void execute(ActionEvent e) {
                 showTopology(true);
+            }
+        };
+
+        return action;
+    }
+
+    private JSecurityAction createXXXAction() {
+        JSecurityAction action = new JSecurityAction(ConsoleLocale.getString("show_topology"), ConsoleIconFactory.getSwingIcon("component/ui_16.png"), ConsoleLocale.getString("show_topology")) {
+            private static final long serialVersionUID = 1L;
+
+            public void execute(ActionEvent e) {
+                TGroup group = TElementManager.getSelectedGroup(dataBox);
+                if (group != null) {
+                    @SuppressWarnings("unchecked")
+                    List<Element> elements = group.getChildren();
+
+                    Iterator<Element> iterator = elements.iterator();
+                    while (iterator.hasNext()) {
+                        Element element = iterator.next();
+
+                        InstanceEntity instance = (InstanceEntity) element.getUserObject();
+                        try {
+                            List<String> versions = ServiceController.getVersions(instance);
+                            List<String> rules = ServiceController.getRules(instance);
+                            instance.setVersion(versions.get(0));
+                            instance.setDynamicVersion(versions.get(1));
+                            instance.setRule(rules.get(0));
+                            instance.setDynamicRule(rules.get(1));
+
+                            updateNode(element, instance);
+                        } catch (Exception ex) {
+                            iterator.remove();
+                            dataBox.removeElement(element);
+
+                            JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), "获取动态配置或者动态版本失败，可能该实例已下线", ex);
+                        }
+                    }
+                }
             }
         };
 

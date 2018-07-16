@@ -21,8 +21,11 @@ public class InstanceEntity implements Serializable {
 
     private String serviceId;
     private String version;
+    private String dynamicVersion;
     private String host;
     private int port;
+    private String rule;
+    private String dynamicRule;
 
     public String getServiceId() {
         return serviceId;
@@ -40,6 +43,14 @@ public class InstanceEntity implements Serializable {
         this.version = version;
     }
 
+    public String getDynamicVersion() {
+        return dynamicVersion;
+    }
+
+    public void setDynamicVersion(String dynamicVersion) {
+        this.dynamicVersion = dynamicVersion;
+    }
+
     public String getHost() {
         return host;
     }
@@ -54,6 +65,22 @@ public class InstanceEntity implements Serializable {
 
     public void setPort(int port) {
         this.port = port;
+    }
+
+    public String getDynamicRule() {
+        return dynamicRule;
+    }
+
+    public void setDynamicRule(String dynamicRule) {
+        this.dynamicRule = dynamicRule;
+    }
+
+    public String getRule() {
+        return rule;
+    }
+
+    public void setRule(String rule) {
+        this.rule = rule;
     }
 
     @Override

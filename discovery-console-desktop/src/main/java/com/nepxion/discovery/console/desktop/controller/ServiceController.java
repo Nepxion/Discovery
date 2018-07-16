@@ -35,6 +35,20 @@ public class ServiceController {
         });
     }
 
+    @SuppressWarnings("unchecked")
+    public static List<String> getVersions(InstanceEntity instance) {
+        String url = "http://" + instance.getHost() + ":" + instance.getPort() + "/version/view";
+
+        return restTemplate.getForEntity(url, List.class).getBody();
+    }
+
+    @SuppressWarnings("unchecked")
+    public static List<String> getRules(InstanceEntity instance) {
+        String url = "http://" + instance.getHost() + ":" + instance.getPort() + "/config/view";
+
+        return restTemplate.getForEntity(url, List.class).getBody();
+    }
+
     public static String getUrl() {
         String url = PropertiesContext.getProperties().getString("url");
         if (!url.endsWith("/")) {
