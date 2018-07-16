@@ -19,14 +19,13 @@ import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Attribute;
+import org.dom4j.Document;
 import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.plugin.configcenter.constant.ConfigConstant;
-import com.nepxion.discovery.plugin.configcenter.xml.Dom4JParser;
-import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
+import com.nepxion.discovery.plugin.configcenter.xml.Dom4JReader;
 import com.nepxion.discovery.plugin.framework.config.PluginConfigParser;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.entity.CountFilterEntity;
@@ -40,18 +39,19 @@ import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.entity.VersionFilterEntity;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
-public class ConfigParser extends Dom4JParser implements PluginConfigParser {
+public class ConfigParser implements PluginConfigParser {
     private static final Logger LOG = LoggerFactory.getLogger(ConfigParser.class);
 
-    @Autowired
-    private PluginAdapter pluginAdapter;
-
     @Override
-    public void parse(InputStream inputStream) {
+    public RuleEntity parse(InputStream inputStream) {
         try {
             String text = IOUtils.toString(inputStream, PluginConstant.ENCODING_UTF_8);
 
-            super.parse(text);
+            Document document = Dom4JReader.getDocument(text);
+
+            Element rootElement = document.getRootElement();
+
+            return parseRoot(text, rootElement);
         } catch (NullPointerException e) {
             throw new PluginException("Input stream is null");
         } catch (Exception e) {
@@ -64,8 +64,7 @@ public class ConfigParser extends Dom4JParser implements PluginConfigParser {
     }
 
     @SuppressWarnings("rawtypes")
-    @Override
-    protected void parseRoot(Element element) {
+    private RuleEntity parseRoot(String text, Element element) {
         LOG.info("Start to parse rule xml...");
 
         int registerElementCount = element.elements(ConfigConstant.REGISTER_ELEMENT_NAME).size();
@@ -95,16 +94,14 @@ public class ConfigParser extends Dom4JParser implements PluginConfigParser {
             }
         }
 
-        String text = getText();
-
         RuleEntity ruleEntity = new RuleEntity();
         ruleEntity.setRegisterEntity(registerEntity);
         ruleEntity.setDiscoveryEntity(discoveryEntity);
         ruleEntity.setContent(text);
 
-        pluginAdapter.setRule(ruleEntity);
-
         LOG.info("Rule entity=\n{}", ruleEntity);
+
+        return ruleEntity;
     }
 
     @SuppressWarnings("rawtypes")

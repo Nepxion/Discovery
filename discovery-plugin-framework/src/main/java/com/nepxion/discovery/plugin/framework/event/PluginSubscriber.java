@@ -20,6 +20,7 @@ import com.google.common.eventbus.Subscribe;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.config.PluginConfigParser;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
+import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.LoadBalanceListenerExecutor;
 import com.nepxion.eventbus.annotation.EventBus;
@@ -66,7 +67,8 @@ public class PluginSubscriber {
 
         InputStream inputStream = ruleUpdatedEvent.getInputStream();
         try {
-            pluninConfigParser.parse(inputStream);
+            RuleEntity ruleEntity = pluninConfigParser.parse(inputStream);
+            pluginAdapter.setDynamicRule(ruleEntity);
         } catch (Exception e) {
             LOG.error("Parse rule xml failed", e);
 

@@ -39,5 +39,13 @@ public interface PluginAdapter {
 
     RuleEntity getRule();
 
-    void setRule(RuleEntity ruleEntity);
+    RuleEntity getLocalRule();
+
+    void setLocalRule(RuleEntity ruleEntity);
+
+    RuleEntity getDynamicRule();
+
+    void setDynamicRule(RuleEntity ruleEntity);
+
+    void clearDynamicRule();
 }
