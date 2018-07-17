@@ -1,4 +1,4 @@
-package com.nepxion.discovery.console.desktop.workspace.common;
+package com.nepxion.discovery.console.desktop.util;
 
 /**
  * <p>Title: Nepxion Thunder</p>

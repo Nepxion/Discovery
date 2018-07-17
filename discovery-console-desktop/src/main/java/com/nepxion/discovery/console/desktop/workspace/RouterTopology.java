@@ -225,7 +225,7 @@ public class RouterTopology extends AbstractTopology {
 
         return action;
     }
-    
+
     private JSecurityAction createClearRouterAction() {
         JSecurityAction action = new JSecurityAction(ConsoleLocale.getString("clear_router"), ConsoleIconFactory.getSwingIcon("paint.png"), ConsoleLocale.getString("clear_router")) {
             private static final long serialVersionUID = 1L;

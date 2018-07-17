@@ -44,7 +44,7 @@ import com.nepxion.discovery.console.desktop.controller.ServiceController;
 import com.nepxion.discovery.console.desktop.entity.InstanceEntity;
 import com.nepxion.discovery.console.desktop.icon.ConsoleIconFactory;
 import com.nepxion.discovery.console.desktop.locale.ConsoleLocale;
-import com.nepxion.discovery.console.desktop.workspace.common.UIUtil;
+import com.nepxion.discovery.console.desktop.util.UIUtil;
 import com.nepxion.discovery.console.desktop.workspace.topology.AbstractTopology;
 import com.nepxion.discovery.console.desktop.workspace.topology.TopologyEntity;
 import com.nepxion.discovery.console.desktop.workspace.topology.TopologyEntityType;
@@ -117,7 +117,6 @@ public class ServiceTopology extends AbstractTopology {
     protected JBasicPopupMenu popupMenuGenerate() {
         TGroup group = TElementManager.getSelectedGroup(dataBox);
         pinSelectedGroupMenuItem.setVisible(group != null);
-        refreshGrayStateMenuItem.setVisible(group != null);
 
         TNode node = TElementManager.getSelectedNode(dataBox);
         pinSelectedNodeMenuItem.setVisible(node != null);
@@ -125,6 +124,7 @@ public class ServiceTopology extends AbstractTopology {
 
         TElement element = TElementManager.getSelectedElement(dataBox);
         executeGrayReleaseMenuItem.setVisible(element != null);
+        refreshGrayStateMenuItem.setVisible(element != null);
 
         if (group != null || node != null || element != null) {
             return popupMenu;
@@ -292,6 +292,54 @@ public class ServiceTopology extends AbstractTopology {
         }
     }
 
+    private void updateGrayState(TNode node) {
+        InstanceEntity instance = (InstanceEntity) node.getUserObject();
+        List<String> versions = ServiceController.getVersions(instance);
+        List<String> rules = ServiceController.getRules(instance);
+        instance.setVersion(versions.get(0));
+        instance.setDynamicVersion(versions.get(1));
+        instance.setRule(rules.get(0));
+        instance.setDynamicRule(rules.get(1));
+
+        updateNode(node, instance);
+    }
+
+    private void refreshGrayState(TNode node) {
+        TGroup group = (TGroup) node.getParent();
+
+        try {
+            updateGrayState(node);
+        } catch (Exception ex) {
+            JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
+
+            group.removeChild(node);
+            dataBox.removeElement(node);
+        }
+
+        updateGroup(group);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void refreshGrayState(TGroup group) {
+        List<TNode> nodes = group.getChildren();
+
+        Iterator<TNode> iterator = nodes.iterator();
+        while (iterator.hasNext()) {
+            TNode node = iterator.next();
+
+            try {
+                updateGrayState(node);
+            } catch (Exception ex) {
+                JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
+
+                iterator.remove();
+                dataBox.removeElement(node);
+            }
+        }
+
+        updateGroup(group);
+    }
+
     private JSecurityAction createShowTopologyAction() {
         JSecurityAction action = new JSecurityAction(ConsoleLocale.getString("show_topology"), ConsoleIconFactory.getSwingIcon("component/ui_16.png"), ConsoleLocale.getString("show_topology")) {
             private static final long serialVersionUID = 1L;
@@ -317,9 +365,22 @@ public class ServiceTopology extends AbstractTopology {
                     return;
                 }
 
+                if (group != null) {
+                    refreshGrayState(group);
+                } else if (node != null) {
+                    refreshGrayState(node);
+                }
+
                 if (grayPanel == null) {
                     grayPanel = new GrayPanel();
                     grayPanel.setPreferredSize(new Dimension(1280, 900));
+                }
+
+                if (node != null) {
+                    InstanceEntity instance = (InstanceEntity) node.getUserObject();
+                    grayPanel.setGray(instance);
+                } else {
+                    grayPanel.setGray(null);
                 }
 
                 JBasicOptionPane.showOptionDialog(HandleManager.getFrame(ServiceTopology.this), grayPanel, ConsoleLocale.getString("execute_gray_router"), JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/navigator.png"), new Object[] { SwingLocale.getString("close") }, null, true);
@@ -335,38 +396,18 @@ public class ServiceTopology extends AbstractTopology {
 
             public void execute(ActionEvent e) {
                 TGroup group = TElementManager.getSelectedGroup(dataBox);
-                if (group == null) {
-                    JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("select_a_group"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+                TNode node = TElementManager.getSelectedNode(dataBox);
+                if (group == null && node == null) {
+                    JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("select_a_group_or_node"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
 
                     return;
                 }
 
-                @SuppressWarnings("unchecked")
-                List<TNode> nodes = group.getChildren();
-
-                Iterator<TNode> iterator = nodes.iterator();
-                while (iterator.hasNext()) {
-                    TNode node = iterator.next();
-
-                    InstanceEntity instance = (InstanceEntity) node.getUserObject();
-                    try {
-                        List<String> versions = ServiceController.getVersions(instance);
-                        List<String> rules = ServiceController.getRules(instance);
-                        instance.setVersion(versions.get(0));
-                        instance.setDynamicVersion(versions.get(1));
-                        instance.setRule(rules.get(0));
-                        instance.setDynamicRule(rules.get(1));
-
-                        updateNode(node, instance);
-                    } catch (Exception ex) {
-                        JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
-
-                        iterator.remove();
-                        dataBox.removeElement(node);
-                    }
+                if (group != null) {
+                    refreshGrayState(group);
+                } else if (node != null) {
+                    refreshGrayState(node);
                 }
-
-                updateGroup(group);
             }
         };
 
@@ -422,10 +463,10 @@ public class ServiceTopology extends AbstractTopology {
             localVersionTextField.setEditable(false);
             dynamicVersionTextField = new JBasicTextField();
 
-            JClassicButton updateButton = new JClassicButton("更新灰度版本", ConsoleIconFactory.getSwingIcon("save.png"));
+            JClassicButton updateButton = new JClassicButton(createUpdateVersionAction());
             updateButton.setPreferredSize(new Dimension(updateButton.getPreferredSize().width, 30));
 
-            JClassicButton clearButton = new JClassicButton("清除灰度版本", ConsoleIconFactory.getSwingIcon("paint.png"));
+            JClassicButton clearButton = new JClassicButton(createClearVersionAction());
             updateButton.setPreferredSize(new Dimension(clearButton.getPreferredSize().width, 30));
 
             double[][] size = {
@@ -464,15 +505,15 @@ public class ServiceTopology extends AbstractTopology {
             localRuleTextArea.setEditable(false);
             dynamicRuleTextArea = new JBasicTextArea();
 
-            JClassicButton updateButton = new JClassicButton("更新灰度规则", ConsoleIconFactory.getSwingIcon("save.png"));
+            JClassicButton updateButton = new JClassicButton(createUpdateRuleAction());
             updateButton.setPreferredSize(new Dimension(updateButton.getPreferredSize().width, 30));
 
-            JClassicButton clearButton = new JClassicButton("清除灰度规则", ConsoleIconFactory.getSwingIcon("paint.png"));
+            JClassicButton clearButton = new JClassicButton(createClearRuleAction());
             updateButton.setPreferredSize(new Dimension(clearButton.getPreferredSize().width, 30));
 
             double[][] size = {
                     { TableLayout.PREFERRED, TableLayout.FILL },
-                    { 335, 335 }
+                    { 330, 330 }
             };
 
             TableLayout tableLayout = new TableLayout(size);
@@ -499,6 +540,74 @@ public class ServiceTopology extends AbstractTopology {
             panel.add(toolBar, BorderLayout.SOUTH);
 
             return panel;
+        }
+
+        public void setGray(InstanceEntity instance) {
+            if (instance != null) {
+                localVersionTextField.setText(instance.getVersion());
+                dynamicVersionTextField.setText(instance.getDynamicVersion());
+                localRuleTextArea.setText(instance.getRule());
+                dynamicRuleTextArea.setText(instance.getDynamicRule());
+
+                localVersionTextField.setEnabled(true);
+                localRuleTextArea.setEnabled(true);
+            } else {
+                localVersionTextField.setText("");
+                dynamicVersionTextField.setText("");
+                localRuleTextArea.setText("");
+                dynamicRuleTextArea.setText("");
+
+                localVersionTextField.setEnabled(false);
+                localRuleTextArea.setEnabled(false);
+            }
+        }
+
+        private JSecurityAction createUpdateVersionAction() {
+            JSecurityAction action = new JSecurityAction("更新灰度版本", ConsoleIconFactory.getSwingIcon("save.png"), "更新灰度版本") {
+                private static final long serialVersionUID = 1L;
+
+                public void execute(ActionEvent e) {
+
+                }
+            };
+
+            return action;
+        }
+
+        private JSecurityAction createClearVersionAction() {
+            JSecurityAction action = new JSecurityAction("清除灰度规则", ConsoleIconFactory.getSwingIcon("paint.png"), "清除灰度规则") {
+                private static final long serialVersionUID = 1L;
+
+                public void execute(ActionEvent e) {
+
+                }
+            };
+
+            return action;
+        }
+
+        private JSecurityAction createUpdateRuleAction() {
+            JSecurityAction action = new JSecurityAction("更新灰度规则", ConsoleIconFactory.getSwingIcon("save.png"), "更新灰度规则") {
+                private static final long serialVersionUID = 1L;
+
+                public void execute(ActionEvent e) {
+
+                }
+            };
+
+            return action;
+        }
+
+        private JSecurityAction createClearRuleAction() {
+            JSecurityAction action = new JSecurityAction("清除灰度规则", ConsoleIconFactory.getSwingIcon("paint.png"), "清除灰度规则") {
+                private static final long serialVersionUID = 1L;
+
+                public void execute(ActionEvent e) {
+
+                }
+            };
+
+            return action;
         }
     }
 
