@@ -17,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.nepxion.discovery.console.desktop.context.PropertiesContext;
 import com.nepxion.discovery.console.desktop.entity.InstanceEntity;
+import com.nepxion.discovery.console.desktop.entity.RouterEntity;
 import com.nepxion.discovery.console.desktop.serializer.JacksonSerializer;
 
 public class ServiceController {
@@ -47,6 +48,12 @@ public class ServiceController {
         String url = "http://" + instance.getHost() + ":" + instance.getPort() + "/config/view";
 
         return restTemplate.getForEntity(url, List.class).getBody();
+    }
+
+    public static RouterEntity routes(InstanceEntity instance, String routeServiceIds) {
+        String url = "http://" + instance.getHost() + ":" + instance.getPort() + "/router/routes";
+
+        return restTemplate.postForEntity(url, routeServiceIds, RouterEntity.class).getBody();
     }
 
     public static String getUrl() {
