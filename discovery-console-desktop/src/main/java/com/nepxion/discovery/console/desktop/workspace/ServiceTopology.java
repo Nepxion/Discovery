@@ -92,10 +92,10 @@ public class ServiceTopology extends AbstractTopology {
         toolBar.addSeparator();
         toolBar.add(Box.createHorizontalStrut(5));
         toolBar.add(new JClassicButton(createShowTopologyAction()));
+        toolBar.addSeparator();
         toolBar.add(new JClassicButton(createExecuteGrayReleaseAction()));
         toolBar.add(new JClassicButton(createRefreshGrayStateAction()));
         toolBar.addSeparator();
-        toolBar.add(new JClassicButton(createViewServiceInfoAction()));
         toolBar.add(new JClassicButton(createViewRouterInfoAction()));
         toolBar.addSeparator();
         toolBar.add(createConfigButton(true));
@@ -315,23 +315,6 @@ public class ServiceTopology extends AbstractTopology {
                 }
 
                 updateGroup(group);
-            }
-        };
-
-        return action;
-    }
-
-    private JSecurityAction createViewServiceInfoAction() {
-        JSecurityAction action = new JSecurityAction(ConsoleLocale.getString("view_service_info"), ConsoleIconFactory.getSwingIcon("netbean/stack_16.png"), ConsoleLocale.getString("view_service_info")) {
-            private static final long serialVersionUID = 1L;
-
-            public void execute(ActionEvent e) {
-                TNode node = TElementManager.getSelectedNode(dataBox);
-                if (node == null) {
-                    JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("select_a_node"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
-
-                    return;
-                }
             }
         };
 
