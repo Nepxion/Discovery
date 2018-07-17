@@ -15,6 +15,7 @@ import twaver.Element;
 import twaver.Generator;
 import twaver.TWaverConst;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -24,6 +25,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
@@ -59,6 +62,9 @@ import com.nepxion.swing.locale.SwingLocale;
 import com.nepxion.swing.menuitem.JBasicMenuItem;
 import com.nepxion.swing.optionpane.JBasicOptionPane;
 import com.nepxion.swing.popupmenu.JBasicPopupMenu;
+import com.nepxion.swing.scrollpane.JBasicScrollPane;
+import com.nepxion.swing.textarea.JBasicTextArea;
+import com.nepxion.swing.textfield.JBasicTextField;
 import com.nepxion.swing.textfield.number.JNumberTextField;
 
 public class ServiceTopology extends AbstractTopology {
@@ -83,11 +89,11 @@ public class ServiceTopology extends AbstractTopology {
     private JBasicMenuItem refreshGrayStateMenuItem;
     private JBasicMenuItem executeGrayRouterMenuItem;
 
-    private LayoutDialog layoutDialog;
-
     private Map<String, List<InstanceEntity>> instanceMap;
 
+    private GrayPanel grayPanel;
     private RouterTopology routerTopology;
+    private LayoutDialog layoutDialog;
 
     public ServiceTopology() {
         initializeToolBar();
@@ -310,6 +316,13 @@ public class ServiceTopology extends AbstractTopology {
 
                     return;
                 }
+
+                if (grayPanel == null) {
+                    grayPanel = new GrayPanel();
+                    grayPanel.setPreferredSize(new Dimension(1280, 900));
+                }
+
+                JBasicOptionPane.showOptionDialog(HandleManager.getFrame(ServiceTopology.this), grayPanel, ConsoleLocale.getString("execute_gray_router"), JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/navigator.png"), new Object[] { SwingLocale.getString("close") }, null, true);
             }
         };
 
@@ -387,6 +400,106 @@ public class ServiceTopology extends AbstractTopology {
         };
 
         return action;
+    }
+
+    private class GrayPanel extends JPanel {
+        private static final long serialVersionUID = 1L;
+
+        private JBasicTextField localVersionTextField;
+        private JBasicTextField dynamicVersionTextField;
+
+        private JBasicTextArea localRuleTextArea;
+        private JBasicTextArea dynamicRuleTextArea;
+
+        public GrayPanel() {
+            setLayout(new FiledLayout(FiledLayout.COLUMN, FiledLayout.FULL, 5));
+            add(createVersionPanel());
+            add(createRulePanel());
+        }
+
+        private JPanel createVersionPanel() {
+            localVersionTextField = new JBasicTextField();
+            localVersionTextField.setEditable(false);
+            dynamicVersionTextField = new JBasicTextField();
+
+            JClassicButton updateButton = new JClassicButton("更新灰度版本", ConsoleIconFactory.getSwingIcon("save.png"));
+            updateButton.setPreferredSize(new Dimension(updateButton.getPreferredSize().width, 30));
+
+            JClassicButton clearButton = new JClassicButton("清除灰度版本", ConsoleIconFactory.getSwingIcon("paint.png"));
+            updateButton.setPreferredSize(new Dimension(clearButton.getPreferredSize().width, 30));
+
+            double[][] size = {
+                    { TableLayout.PREFERRED, TableLayout.FILL },
+                    { 30, 30 }
+            };
+
+            TableLayout tableLayout = new TableLayout(size);
+            tableLayout.setHGap(5);
+            tableLayout.setVGap(5);
+
+            JPanel versionPanel = new JPanel();
+            versionPanel.setLayout(tableLayout);
+            versionPanel.add(new JLabel("初始（本地）版本"), "0, 0");
+            versionPanel.add(localVersionTextField, "1, 0");
+            versionPanel.add(new JLabel("灰度（动态）版本"), "0, 1");
+            versionPanel.add(dynamicVersionTextField, "1, 1");
+
+            JPanel toolBar = new JPanel();
+            toolBar.setLayout(new BoxLayout(toolBar, BoxLayout.X_AXIS));
+            toolBar.add(updateButton);
+            toolBar.add(clearButton);
+            ButtonManager.updateUI(toolBar);
+
+            JPanel panel = new JPanel();
+            panel.setBorder(UIUtil.createTitledBorder("版本灰度"));
+            panel.setLayout(new FiledLayout(FiledLayout.COLUMN, FiledLayout.FULL, 5));
+            panel.add(versionPanel);
+            panel.add(toolBar);
+
+            return panel;
+        }
+
+        private JPanel createRulePanel() {
+            localRuleTextArea = new JBasicTextArea();
+            localRuleTextArea.setEditable(false);
+            dynamicRuleTextArea = new JBasicTextArea();
+
+            JClassicButton updateButton = new JClassicButton("更新灰度规则", ConsoleIconFactory.getSwingIcon("save.png"));
+            updateButton.setPreferredSize(new Dimension(updateButton.getPreferredSize().width, 30));
+
+            JClassicButton clearButton = new JClassicButton("清除灰度规则", ConsoleIconFactory.getSwingIcon("paint.png"));
+            updateButton.setPreferredSize(new Dimension(clearButton.getPreferredSize().width, 30));
+
+            double[][] size = {
+                    { TableLayout.PREFERRED, TableLayout.FILL },
+                    { 335, 335 }
+            };
+
+            TableLayout tableLayout = new TableLayout(size);
+            tableLayout.setHGap(5);
+            tableLayout.setVGap(5);
+
+            JPanel rulePanel = new JPanel();
+            rulePanel.setLayout(tableLayout);
+            rulePanel.add(new JLabel("初始（本地）规则"), "0, 0");
+            rulePanel.add(new JBasicScrollPane(localRuleTextArea), "1, 0");
+            rulePanel.add(new JLabel("灰度（动态）规则"), "0, 1");
+            rulePanel.add(new JBasicScrollPane(dynamicRuleTextArea), "1, 1");
+
+            JPanel toolBar = new JPanel();
+            toolBar.setLayout(new BoxLayout(toolBar, BoxLayout.X_AXIS));
+            toolBar.add(updateButton);
+            toolBar.add(clearButton);
+            ButtonManager.updateUI(toolBar);
+
+            JPanel panel = new JPanel();
+            panel.setBorder(UIUtil.createTitledBorder("规则灰度"));
+            panel.setLayout(new BorderLayout());
+            panel.add(rulePanel, BorderLayout.CENTER);
+            panel.add(toolBar, BorderLayout.SOUTH);
+
+            return panel;
+        }
     }
 
     private class LayoutDialog extends JOptionDialog {
