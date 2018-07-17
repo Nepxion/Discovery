@@ -94,8 +94,7 @@ public class ServiceTopology extends AbstractTopology {
         toolBar.addSeparator();
         toolBar.add(new JClassicButton(createExecuteGrayReleaseAction()));
         toolBar.add(new JClassicButton(createRefreshGrayStateAction()));
-        toolBar.addSeparator();
-        toolBar.add(new JClassicButton(createViewRouterInfoAction()));
+        toolBar.add(new JClassicButton(createExecuteGrayRouterAction()));
         toolBar.addSeparator();
         toolBar.add(createConfigButton(true));
 
@@ -320,8 +319,8 @@ public class ServiceTopology extends AbstractTopology {
         return action;
     }
 
-    private JSecurityAction createViewRouterInfoAction() {
-        JSecurityAction action = new JSecurityAction(ConsoleLocale.getString("view_router_info"), ConsoleIconFactory.getSwingIcon("netbean/close_path_16.png"), ConsoleLocale.getString("view_router_info")) {
+    private JSecurityAction createExecuteGrayRouterAction() {
+        JSecurityAction action = new JSecurityAction(ConsoleLocale.getString("execute_gray_router"), ConsoleIconFactory.getSwingIcon("netbean/close_path_16.png"), ConsoleLocale.getString("execute_gray_router")) {
             private static final long serialVersionUID = 1L;
 
             public void execute(ActionEvent e) {
@@ -342,7 +341,7 @@ public class ServiceTopology extends AbstractTopology {
                 routerTopology.setServices(instanceMap.keySet().toArray());
                 routerTopology.setInstance(instance);
 
-                JBasicOptionPane.showOptionDialog(HandleManager.getFrame(ServiceTopology.this), routerTopology, "路由信息", JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/navigator.png"), new Object[] { SwingLocale.getString("close") }, null, true);
+                JBasicOptionPane.showOptionDialog(HandleManager.getFrame(ServiceTopology.this), routerTopology, ConsoleLocale.getString("execute_gray_router"), JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/navigator.png"), new Object[] { SwingLocale.getString("close") }, null, true);
             }
         };
 
