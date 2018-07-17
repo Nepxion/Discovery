@@ -54,6 +54,7 @@ import com.nepxion.swing.label.JBasicLabel;
 import com.nepxion.swing.layout.filed.FiledLayout;
 import com.nepxion.swing.layout.table.TableLayout;
 import com.nepxion.swing.locale.SwingLocale;
+import com.nepxion.swing.optionpane.JBasicOptionPane;
 import com.nepxion.swing.textfield.number.JNumberTextField;
 
 public class ServiceTopology extends AbstractTopology {
@@ -88,7 +89,9 @@ public class ServiceTopology extends AbstractTopology {
         toolBar.addSeparator();
         toolBar.add(Box.createHorizontalStrut(5));
         toolBar.add(new JClassicButton(createShowTopologyAction()));
-        toolBar.add(new JClassicButton(createXXXAction()));
+        toolBar.add(new JClassicButton(createExecuteGrayReleaseAction()));
+        toolBar.add(new JClassicButton(createRefreshGrayStateAction()));
+        toolBar.add(new JClassicButton(createViewRouterInfoAction()));
         toolBar.addSeparator();
         toolBar.add(createConfigButton(true));
 
@@ -249,8 +252,20 @@ public class ServiceTopology extends AbstractTopology {
         return action;
     }
 
-    private JSecurityAction createXXXAction() {
-        JSecurityAction action = new JSecurityAction(ConsoleLocale.getString("show_topology"), ConsoleIconFactory.getSwingIcon("component/ui_16.png"), ConsoleLocale.getString("show_topology")) {
+    private JSecurityAction createExecuteGrayReleaseAction() {
+        JSecurityAction action = new JSecurityAction(ConsoleLocale.getString("execute_gray_release"), ConsoleIconFactory.getSwingIcon("netbean/action_16.png"), ConsoleLocale.getString("execute_gray_release")) {
+            private static final long serialVersionUID = 1L;
+
+            public void execute(ActionEvent e) {
+
+            }
+        };
+
+        return action;
+    }
+
+    private JSecurityAction createRefreshGrayStateAction() {
+        JSecurityAction action = new JSecurityAction(ConsoleLocale.getString("refresh_gray_state"), ConsoleIconFactory.getSwingIcon("netbean/rotate_16.png"), ConsoleLocale.getString("refresh_gray_state")) {
             private static final long serialVersionUID = 1L;
 
             public void execute(ActionEvent e) {
@@ -282,7 +297,21 @@ public class ServiceTopology extends AbstractTopology {
                     }
 
                     updateGroup(group);
+                } else {
+                    JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), "请选择一个服务集群", SwingLocale.getString("error"), JBasicOptionPane.ERROR_MESSAGE);
                 }
+            }
+        };
+
+        return action;
+    }
+
+    private JSecurityAction createViewRouterInfoAction() {
+        JSecurityAction action = new JSecurityAction(ConsoleLocale.getString("view_router_info"), ConsoleIconFactory.getSwingIcon("netbean/close_path_16.png"), ConsoleLocale.getString("view_router_info")) {
+            private static final long serialVersionUID = 1L;
+
+            public void execute(ActionEvent e) {
+
             }
         };
 
