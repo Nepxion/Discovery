@@ -37,7 +37,6 @@ import com.nepxion.cots.twaver.element.TNode;
 import com.nepxion.cots.twaver.graph.TGraphManager;
 import com.nepxion.discovery.console.desktop.controller.ServiceController;
 import com.nepxion.discovery.console.desktop.entity.InstanceEntity;
-import com.nepxion.discovery.console.desktop.entity.RouterEntity;
 import com.nepxion.discovery.console.desktop.icon.ConsoleIconFactory;
 import com.nepxion.discovery.console.desktop.locale.ConsoleLocale;
 import com.nepxion.discovery.console.desktop.workspace.common.UIUtil;
@@ -335,15 +334,13 @@ public class ServiceTopology extends AbstractTopology {
 
                 InstanceEntity instance = (InstanceEntity) node.getUserObject();
 
-                RouterEntity routerEntity = ServiceController.routes(instance, "discovery-springcloud-example-a;discovery-springcloud-example-b;discovery-springcloud-example-c");
-
                 if (routerTopology == null) {
                     routerTopology = new RouterTopology();
                     routerTopology.setPreferredSize(new Dimension(1200, 900));
                 }
 
-                routerTopology.route(routerEntity);
-                routerTopology.setInstanceMap(instanceMap);
+                routerTopology.setServices(instanceMap.keySet().toArray());
+                routerTopology.setInstance(instance);
 
                 JBasicOptionPane.showOptionDialog(HandleManager.getFrame(ServiceTopology.this), routerTopology, "路由信息", JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/navigator.png"), new Object[] { SwingLocale.getString("close") }, null, true);
             }

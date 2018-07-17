@@ -19,7 +19,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.HierarchyEvent;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
@@ -33,6 +32,7 @@ import com.nepxion.cots.twaver.element.TLink;
 import com.nepxion.cots.twaver.element.TNode;
 import com.nepxion.cots.twaver.graph.TGraphControlBar;
 import com.nepxion.cots.twaver.graph.TGraphManager;
+import com.nepxion.discovery.console.desktop.controller.ServiceController;
 import com.nepxion.discovery.console.desktop.entity.InstanceEntity;
 import com.nepxion.discovery.console.desktop.entity.RouterEntity;
 import com.nepxion.discovery.console.desktop.icon.ConsoleIconFactory;
@@ -45,7 +45,10 @@ import com.nepxion.swing.button.ButtonManager;
 import com.nepxion.swing.button.JBasicToggleButton;
 import com.nepxion.swing.button.JClassicButton;
 import com.nepxion.swing.combobox.JBasicComboBox;
+import com.nepxion.swing.handle.HandleManager;
 import com.nepxion.swing.listener.DisplayAbilityListener;
+import com.nepxion.swing.locale.SwingLocale;
+import com.nepxion.swing.optionpane.JBasicOptionPane;
 import com.nepxion.swing.textfield.JBasicTextField;
 
 public class RouterTopology extends AbstractTopology {
@@ -60,6 +63,8 @@ public class RouterTopology extends AbstractTopology {
 
     private JBasicTextField textField = new JBasicTextField();
     private JBasicComboBox comboBox = new JBasicComboBox();
+
+    private InstanceEntity instance;
 
     public RouterTopology() {
         initializeToolBar();
@@ -113,7 +118,7 @@ public class RouterTopology extends AbstractTopology {
         });
     }
 
-    public void route(RouterEntity routerEntity) {
+    private void route(RouterEntity routerEntity) {
         dataBox.clear();
 
         int index = 0;
@@ -170,8 +175,12 @@ public class RouterTopology extends AbstractTopology {
     }
 
     @SuppressWarnings({ "unchecked" })
-    public void setInstanceMap(Map<String, List<InstanceEntity>> instanceMap) {
-        comboBox.setModel(new DefaultComboBoxModel<>(instanceMap.keySet().toArray()));
+    public void setServices(Object[] services) {
+        comboBox.setModel(new DefaultComboBoxModel<>(services));
+    }
+
+    public void setInstance(InstanceEntity instance) {
+        this.instance = instance;
     }
 
     private JSecurityAction createAddServiceAction() {
@@ -179,6 +188,14 @@ public class RouterTopology extends AbstractTopology {
             private static final long serialVersionUID = 1L;
 
             public void execute(ActionEvent e) {
+                String routerPath = textField.getText();
+                String serviceId = comboBox.getSelectedItem().toString();
+                if (StringUtils.isNotEmpty(routerPath)) {
+                    routerPath = routerPath + ";" + serviceId;
+                } else {
+                    routerPath = serviceId;
+                }
+                textField.setText(routerPath);
             }
         };
 
@@ -190,7 +207,15 @@ public class RouterTopology extends AbstractTopology {
             private static final long serialVersionUID = 1L;
 
             public void execute(ActionEvent e) {
+                String routerPath = textField.getText();
+                if (StringUtils.isEmpty(routerPath)) {
+                    JBasicOptionPane.showMessageDialog(HandleManager.getFrame(RouterTopology.this), ConsoleLocale.getString("router_path_invalid"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
 
+                    return;
+                }
+
+                RouterEntity routerEntity = ServiceController.routes(instance, routerPath);
+                route(routerEntity);
             }
         };
 
