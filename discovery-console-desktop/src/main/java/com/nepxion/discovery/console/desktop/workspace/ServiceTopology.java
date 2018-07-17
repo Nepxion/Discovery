@@ -214,7 +214,7 @@ public class ServiceTopology extends AbstractTopology {
             try {
                 instanceMap = ServiceController.getInstanceMap();
             } catch (Exception e) {
-                JExceptionDialog.traceException(HandleManager.getFrame(this), "获取服务和实例列表失败", e);
+                JExceptionDialog.traceException(HandleManager.getFrame(this), ConsoleLocale.getString("get_service_instances_failure"), e);
 
                 return;
             }
@@ -261,7 +261,13 @@ public class ServiceTopology extends AbstractTopology {
             private static final long serialVersionUID = 1L;
 
             public void execute(ActionEvent e) {
+                TGroup group = TElementManager.getSelectedGroup(dataBox);
+                TNode node = TElementManager.getSelectedNode(dataBox);
+                if (group == null && node == null) {
+                    JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("select_a_group_or_node"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
 
+                    return;
+                }
             }
         };
 
@@ -274,36 +280,38 @@ public class ServiceTopology extends AbstractTopology {
 
             public void execute(ActionEvent e) {
                 TGroup group = TElementManager.getSelectedGroup(dataBox);
-                if (group != null) {
-                    @SuppressWarnings("unchecked")
-                    List<TNode> nodes = group.getChildren();
+                if (group == null) {
+                    JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("select_a_group"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
 
-                    Iterator<TNode> iterator = nodes.iterator();
-                    while (iterator.hasNext()) {
-                        TNode node = iterator.next();
-
-                        InstanceEntity instance = (InstanceEntity) node.getUserObject();
-                        try {
-                            List<String> versions = ServiceController.getVersions(instance);
-                            List<String> rules = ServiceController.getRules(instance);
-                            instance.setVersion(versions.get(0));
-                            instance.setDynamicVersion(versions.get(1));
-                            instance.setRule(rules.get(0));
-                            instance.setDynamicRule(rules.get(1));
-
-                            updateNode(node, instance);
-                        } catch (Exception ex) {
-                            JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), "查询数据失败，可能该实例已下线", ex);
-
-                            iterator.remove();
-                            dataBox.removeElement(node);
-                        }
-                    }
-
-                    updateGroup(group);
-                } else {
-                    JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), "请选择一个服务集群", SwingLocale.getString("error"), JBasicOptionPane.ERROR_MESSAGE);
+                    return;
                 }
+
+                @SuppressWarnings("unchecked")
+                List<TNode> nodes = group.getChildren();
+
+                Iterator<TNode> iterator = nodes.iterator();
+                while (iterator.hasNext()) {
+                    TNode node = iterator.next();
+
+                    InstanceEntity instance = (InstanceEntity) node.getUserObject();
+                    try {
+                        List<String> versions = ServiceController.getVersions(instance);
+                        List<String> rules = ServiceController.getRules(instance);
+                        instance.setVersion(versions.get(0));
+                        instance.setDynamicVersion(versions.get(1));
+                        instance.setRule(rules.get(0));
+                        instance.setDynamicRule(rules.get(1));
+
+                        updateNode(node, instance);
+                    } catch (Exception ex) {
+                        JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
+
+                        iterator.remove();
+                        dataBox.removeElement(node);
+                    }
+                }
+
+                updateGroup(group);
             }
         };
 
@@ -315,7 +323,12 @@ public class ServiceTopology extends AbstractTopology {
             private static final long serialVersionUID = 1L;
 
             public void execute(ActionEvent e) {
+                TNode node = TElementManager.getSelectedNode(dataBox);
+                if (node == null) {
+                    JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("select_a_node"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
 
+                    return;
+                }
             }
         };
 
@@ -327,7 +340,12 @@ public class ServiceTopology extends AbstractTopology {
             private static final long serialVersionUID = 1L;
 
             public void execute(ActionEvent e) {
+                TNode node = TElementManager.getSelectedNode(dataBox);
+                if (node == null) {
+                    JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("select_a_node"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
 
+                    return;
+                }
             }
         };
 
