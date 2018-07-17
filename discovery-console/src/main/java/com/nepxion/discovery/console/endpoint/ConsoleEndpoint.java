@@ -138,12 +138,14 @@ public class ConsoleEndpoint implements MvcEndpoint {
             String version = serviceInstance.getMetadata().get("version");
             String host = serviceInstance.getHost();
             int port = serviceInstance.getPort();
+            Map<String, String> metaData = serviceInstance.getMetadata();
 
             InstanceEntity instanceEntity = new InstanceEntity();
             instanceEntity.setServiceId(serviceId);
             instanceEntity.setVersion(version);
             instanceEntity.setHost(host);
             instanceEntity.setPort(port);
+            instanceEntity.setMetaData(metaData);
 
             instanceEntityList.add(instanceEntity);
         }

@@ -10,6 +10,7 @@ package com.nepxion.discovery.console.entity;
  */
 
 import java.io.Serializable;
+import java.util.Map;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -23,6 +24,7 @@ public class InstanceEntity implements Serializable {
     private String version;
     private String host;
     private int port;
+    private Map<String, String> metaData;
 
     public String getServiceId() {
         return serviceId;
@@ -54,6 +56,14 @@ public class InstanceEntity implements Serializable {
 
     public void setPort(int port) {
         this.port = port;
+    }
+
+    public Map<String, String> getMetaData() {
+        return metaData;
+    }
+
+    public void setMetaData(Map<String, String> metaData) {
+        this.metaData = metaData;
     }
 
     @Override
