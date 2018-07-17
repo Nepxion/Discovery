@@ -25,11 +25,13 @@ import java.util.Map;
 
 import javax.swing.Box;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import com.nepxion.cots.twaver.element.TElement;
 import com.nepxion.cots.twaver.element.TElementManager;
 import com.nepxion.cots.twaver.element.TGroup;
 import com.nepxion.cots.twaver.element.TGroupType;
@@ -54,7 +56,9 @@ import com.nepxion.swing.label.JBasicLabel;
 import com.nepxion.swing.layout.filed.FiledLayout;
 import com.nepxion.swing.layout.table.TableLayout;
 import com.nepxion.swing.locale.SwingLocale;
+import com.nepxion.swing.menuitem.JBasicMenuItem;
 import com.nepxion.swing.optionpane.JBasicOptionPane;
+import com.nepxion.swing.popupmenu.JBasicPopupMenu;
 import com.nepxion.swing.textfield.number.JNumberTextField;
 
 public class ServiceTopology extends AbstractTopology {
@@ -75,6 +79,10 @@ public class ServiceTopology extends AbstractTopology {
 
     private Map<String, Point> groupLocationMap = new HashMap<String, Point>();
 
+    private JBasicMenuItem executeGrayReleaseMenuItem;
+    private JBasicMenuItem refreshGrayStateMenuItem;
+    private JBasicMenuItem executeGrayRouterMenuItem;
+
     private LayoutDialog layoutDialog;
 
     private Map<String, List<InstanceEntity>> instanceMap;
@@ -84,6 +92,39 @@ public class ServiceTopology extends AbstractTopology {
     public ServiceTopology() {
         initializeToolBar();
         initializeTopology();
+    }
+
+    @Override
+    protected void initializePopupMenu() {
+        super.initializePopupMenu();
+
+        executeGrayReleaseMenuItem = new JBasicMenuItem(createExecuteGrayReleaseAction());
+        refreshGrayStateMenuItem = new JBasicMenuItem(createRefreshGrayStateAction());
+        executeGrayRouterMenuItem = new JBasicMenuItem(createExecuteGrayRouterAction());
+        popupMenu.add(executeGrayReleaseMenuItem, 0);
+        popupMenu.add(refreshGrayStateMenuItem, 1);
+        popupMenu.add(executeGrayRouterMenuItem, 2);
+        popupMenu.add(new JPopupMenu.Separator(), 3);
+    }
+
+    @Override
+    protected JBasicPopupMenu popupMenuGenerate() {
+        TGroup group = TElementManager.getSelectedGroup(dataBox);
+        pinSelectedGroupMenuItem.setVisible(group != null);
+        refreshGrayStateMenuItem.setVisible(group != null);
+
+        TNode node = TElementManager.getSelectedNode(dataBox);
+        pinSelectedNodeMenuItem.setVisible(node != null);
+        executeGrayRouterMenuItem.setVisible(node != null);
+
+        TElement element = TElementManager.getSelectedElement(dataBox);
+        executeGrayReleaseMenuItem.setVisible(element != null);
+
+        if (group != null || node != null || element != null) {
+            return popupMenu;
+        }
+
+        return null;
     }
 
     private void initializeToolBar() {
