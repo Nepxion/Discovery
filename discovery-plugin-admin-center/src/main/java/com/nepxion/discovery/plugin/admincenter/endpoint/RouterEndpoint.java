@@ -56,9 +56,6 @@ public class RouterEndpoint implements MvcEndpoint {
     private RestTemplate routerRestTemplate;
 
     @Autowired
-    private RestTemplate routerLoadBalancedRestTemplate;
-
-    @Autowired
     private DiscoveryClient discoveryClient;
 
     @Autowired
@@ -110,14 +107,6 @@ public class RouterEndpoint implements MvcEndpoint {
     @ManagedOperation
     public RouterEntity routes(@RequestBody @ApiParam(value = "例如：service-a;service-b", required = true) String routeServiceIds) {
         return routeTree(routeServiceIds);
-    }
-
-    @RequestMapping(path = "/router/mock/{routeServiceId}", method = RequestMethod.POST)
-    @ApiOperation(value = "Mock调用", notes = "", response = String.class, httpMethod = "POST")
-    @ResponseBody
-    @ManagedOperation
-    public String mock(@PathVariable(value = "routeServiceId") @ApiParam(value = "目标服务名", required = true) String routeServiceId, @RequestBody @ApiParam(value = "Mock入参", required = true) String mockValue) {
-        return routeMock(routeServiceId, mockValue);
     }
 
     public List<String> getServices() {
@@ -274,16 +263,6 @@ public class RouterEndpoint implements MvcEndpoint {
         }
 
         return routerEntityList;
-    }
-
-    private String routeMock(String routeServiceId, String mockValue) {
-        String result = pluginAdapter.mock(registration, mockValue);
-
-        if (!StringUtils.equals(routeServiceId, PluginConstant.MOCK_ROUTE_SERVICE_ID)) {
-            result = routerLoadBalancedRestTemplate.postForEntity("http://" + routeServiceId + "/router/mock/" + PluginConstant.MOCK_ROUTE_SERVICE_ID, result, String.class).getBody();
-        }
-
-        return result;
     }
 
     @Override

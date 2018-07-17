@@ -11,7 +11,6 @@ package com.nepxion.discovery.plugin.framework.adapter;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.serviceregistry.Registration;
 
 import com.nepxion.discovery.plugin.framework.cache.PluginCache;
 import com.nepxion.discovery.plugin.framework.cache.RuleCache;
@@ -92,15 +91,5 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     @Override
     public void clearDynamicRule() {
         ruleCache.clear(PluginConstant.DYNAMIC_RULE);
-    }
-
-    @Override
-    public String mock(Registration registration, String mockValue) {
-        String serviceId = getServiceId();
-        String version = getVersion();
-        String host = getHost(registration);
-        int port = getPort(registration);
-
-        return mockValue + " -> [" + serviceId + "][" + host + ":" + port + "][V" + version + "]";
     }
 }

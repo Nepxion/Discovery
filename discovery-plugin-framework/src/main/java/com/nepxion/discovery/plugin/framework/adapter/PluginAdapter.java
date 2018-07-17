@@ -48,6 +48,4 @@ public interface PluginAdapter {
     void setDynamicRule(RuleEntity ruleEntity);
 
     void clearDynamicRule();
-
-    String mock(Registration registration, String mockValue);
 }
