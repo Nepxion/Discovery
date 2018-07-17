@@ -67,9 +67,13 @@ public class VersionFilterDiscoveryListener extends AbstractDiscoveryListener {
 
         // 当前版本的消费端所能调用提供端的版本号列表
         List<String> allNoFilterValueList = null;
+        // 提供端规则未作任何定义
+        boolean providerConditionDefined = false;
         for (DiscoveryServiceEntity serviceEntity : serviceEntityList) {
             String providerServiceName = serviceEntity.getProviderServiceName();
             if (StringUtils.equals(providerServiceName, providerServiceId)) {
+                providerConditionDefined = true;
+
                 List<String> consumerVersionValueList = serviceEntity.getConsumerVersionValueList();
                 List<String> providerVersionValueList = serviceEntity.getProviderVersionValueList();
 
@@ -83,7 +87,7 @@ public class VersionFilterDiscoveryListener extends AbstractDiscoveryListener {
                         if (CollectionUtils.isNotEmpty(providerVersionValueList)) {
                             allNoFilterValueList.addAll(providerVersionValueList);
                         }
-                    }
+                    } // 这里的条件，在每一次循环都不满足，会让allNoFilterValueList为null，意味着定义的版本关系都不匹配
                 } else {
                     if (allNoFilterValueList == null) {
                         allNoFilterValueList = new ArrayList<String>();
@@ -110,8 +114,10 @@ public class VersionFilterDiscoveryListener extends AbstractDiscoveryListener {
                 }
             }
         } else {
-            // 当allNoFilterValueList为null, 意味着定义的版本关系都不匹配，直接清空所有实例
-            instances.clear();
+            if (providerConditionDefined) {
+                // 当allNoFilterValueList为null, 意味着定义的版本关系都不匹配，直接清空所有实例
+                instances.clear();
+            }
         }
     }
 
