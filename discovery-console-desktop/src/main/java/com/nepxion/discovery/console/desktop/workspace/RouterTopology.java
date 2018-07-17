@@ -72,7 +72,7 @@ public class RouterTopology extends AbstractTopology {
     }
 
     private void initializeToolBar() {
-        textField.setPreferredSize(new Dimension(655, textField.getPreferredSize().height));
+        textField.setPreferredSize(new Dimension(650, textField.getPreferredSize().height));
 
         JToolBar toolBar = getGraph().getToolbar();
         toolBar.addSeparator();
@@ -83,6 +83,7 @@ public class RouterTopology extends AbstractTopology {
         toolBar.add(new JClassicButton(createAddServiceAction()));
         toolBar.add(textField);
         toolBar.add(new JClassicButton(createExecuteRouterAction()));
+        toolBar.add(new JClassicButton(createClearRouterAction()));
 
         ButtonManager.updateUI(toolBar);
     }
@@ -181,6 +182,9 @@ public class RouterTopology extends AbstractTopology {
 
     public void setInstance(InstanceEntity instance) {
         this.instance = instance;
+
+        textField.setText("");
+        dataBox.clear();
     }
 
     private JSecurityAction createAddServiceAction() {
@@ -216,6 +220,19 @@ public class RouterTopology extends AbstractTopology {
 
                 RouterEntity routerEntity = ServiceController.routes(instance, routerPath);
                 route(routerEntity);
+            }
+        };
+
+        return action;
+    }
+    
+    private JSecurityAction createClearRouterAction() {
+        JSecurityAction action = new JSecurityAction(ConsoleLocale.getString("clear_router"), ConsoleIconFactory.getSwingIcon("paint.png"), ConsoleLocale.getString("clear_router")) {
+            private static final long serialVersionUID = 1L;
+
+            public void execute(ActionEvent e) {
+                textField.setText("");
+                dataBox.clear();
             }
         };
 

@@ -336,7 +336,7 @@ public class ServiceTopology extends AbstractTopology {
 
                 if (routerTopology == null) {
                     routerTopology = new RouterTopology();
-                    routerTopology.setPreferredSize(new Dimension(1200, 900));
+                    routerTopology.setPreferredSize(new Dimension(1280, 900));
                 }
 
                 routerTopology.setServices(instanceMap.keySet().toArray());
