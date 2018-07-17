@@ -10,10 +10,10 @@ package com.nepxion.discovery.plugin.example.feign;
  */
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.serviceregistry.Registration;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 
 public class AbstractFeignImpl {
     @Autowired
@@ -22,10 +22,10 @@ public class AbstractFeignImpl {
     @Autowired
     private PluginAdapter pluginAdapter;
 
-    public String doInvoke(String value) {
-        String serviceId = environment.getProperty(PluginConstant.SPRING_APPLICATION_NAME);
-        String version = pluginAdapter.getVersion();
+    @Autowired
+    private Registration registration;
 
-        return value + " -> " + serviceId + "[" + version + "]";
+    public String doInvoke(String value) {
+        return pluginAdapter.mock(registration, value);
     }
 }
