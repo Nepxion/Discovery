@@ -15,9 +15,15 @@ import twaver.Generator;
 import twaver.TWaverConst;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.HierarchyEvent;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.Box;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JLabel;
 import javax.swing.JToolBar;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -27,22 +33,33 @@ import com.nepxion.cots.twaver.element.TLink;
 import com.nepxion.cots.twaver.element.TNode;
 import com.nepxion.cots.twaver.graph.TGraphControlBar;
 import com.nepxion.cots.twaver.graph.TGraphManager;
+import com.nepxion.discovery.console.desktop.entity.InstanceEntity;
 import com.nepxion.discovery.console.desktop.entity.RouterEntity;
+import com.nepxion.discovery.console.desktop.icon.ConsoleIconFactory;
+import com.nepxion.discovery.console.desktop.locale.ConsoleLocale;
 import com.nepxion.discovery.console.desktop.workspace.topology.AbstractTopology;
 import com.nepxion.discovery.console.desktop.workspace.topology.TopologyEntity;
 import com.nepxion.discovery.console.desktop.workspace.topology.TopologyEntityType;
+import com.nepxion.swing.action.JSecurityAction;
 import com.nepxion.swing.button.ButtonManager;
 import com.nepxion.swing.button.JBasicToggleButton;
+import com.nepxion.swing.button.JClassicButton;
+import com.nepxion.swing.combobox.JBasicComboBox;
+import com.nepxion.swing.listener.DisplayAbilityListener;
+import com.nepxion.swing.textfield.JBasicTextField;
 
 public class RouterTopology extends AbstractTopology {
     private static final long serialVersionUID = 1L;
 
-    private int nodeStartX = 300;
+    private int nodeStartX = 100;
     private int nodeStartY = 150;
     private int nodeHorizontalGap = 200;
     private int nodeVerticalGap = 0;
 
     private TopologyEntity serviceNodeEntity = new TopologyEntity(TopologyEntityType.SERVICE, true, true);
+
+    private JBasicTextField textField = new JBasicTextField();
+    private JBasicComboBox comboBox = new JBasicComboBox();
 
     public RouterTopology() {
         initializeToolBar();
@@ -50,9 +67,17 @@ public class RouterTopology extends AbstractTopology {
     }
 
     private void initializeToolBar() {
+        textField.setPreferredSize(new Dimension(655, textField.getPreferredSize().height));
+
         JToolBar toolBar = getGraph().getToolbar();
         toolBar.addSeparator();
         toolBar.add(Box.createHorizontalStrut(5));
+        toolBar.add(new JLabel(ConsoleLocale.getString("service_list")));
+        toolBar.add(Box.createHorizontalStrut(5));
+        toolBar.add(comboBox);
+        toolBar.add(new JClassicButton(createAddServiceAction()));
+        toolBar.add(textField);
+        toolBar.add(new JClassicButton(createExecuteRouterAction()));
 
         ButtonManager.updateUI(toolBar);
     }
@@ -73,11 +98,19 @@ public class RouterTopology extends AbstractTopology {
             }
         });
 
-        TGraphControlBar graphControlBar = (TGraphControlBar) graph.getControlBarInternalFrame().getContent();
-        JBasicToggleButton toggleButton = (JBasicToggleButton) graphControlBar.getViewToolBar().getViewOutlook().getComponent(10);
-        toggleButton.setSelected(true);
+        addHierarchyListener(new DisplayAbilityListener() {
+            public void displayAbilityChanged(HierarchyEvent e) {
+                TGraphControlBar graphControlBar = (TGraphControlBar) graph.getControlBarInternalFrame().getContent();
+                JBasicToggleButton toggleButton = (JBasicToggleButton) graphControlBar.getViewToolBar().getViewOutlook().getComponent(10);
+                toggleButton.setSelected(true);
 
-        TGraphManager.layout(graph);
+                TGraphManager.layout(graph);
+                graph.getLayoutInternalFrame().setLocation(3000, 3000);
+                // graph.adjustComponentPosition(graph.getLayoutInternalFrame());
+
+                removeHierarchyListener(this);
+            }
+        });
     }
 
     public void route(RouterEntity routerEntity) {
@@ -134,5 +167,33 @@ public class RouterTopology extends AbstractTopology {
         link.putLinkToArrowColor(Color.yellow);
 
         dataBox.addElement(link);
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    public void setInstanceMap(Map<String, List<InstanceEntity>> instanceMap) {
+        comboBox.setModel(new DefaultComboBoxModel<>(instanceMap.keySet().toArray()));
+    }
+
+    private JSecurityAction createAddServiceAction() {
+        JSecurityAction action = new JSecurityAction(ConsoleIconFactory.getSwingIcon("direction_east.png")) {
+            private static final long serialVersionUID = 1L;
+
+            public void execute(ActionEvent e) {
+            }
+        };
+
+        return action;
+    }
+
+    private JSecurityAction createExecuteRouterAction() {
+        JSecurityAction action = new JSecurityAction(ConsoleLocale.getString("execute_router"), ConsoleIconFactory.getSwingIcon("netbean/action_16.png"), ConsoleLocale.getString("execute_router")) {
+            private static final long serialVersionUID = 1L;
+
+            public void execute(ActionEvent e) {
+
+            }
+        };
+
+        return action;
     }
 }

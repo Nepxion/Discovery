@@ -343,6 +343,7 @@ public class ServiceTopology extends AbstractTopology {
                 }
 
                 routerTopology.route(routerEntity);
+                routerTopology.setInstanceMap(instanceMap);
 
                 JBasicOptionPane.showOptionDialog(HandleManager.getFrame(ServiceTopology.this), routerTopology, "路由信息", JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/navigator.png"), new Object[] { SwingLocale.getString("close") }, null, true);
             }
