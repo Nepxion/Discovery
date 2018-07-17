@@ -195,8 +195,10 @@ public class ServiceTopology extends AbstractTopology {
         String name = getNodeName(instance);
         node.setName(name);
         if (StringUtils.isNotEmpty(instance.getDynamicRule())) {
+            node.getAlarmState().clear();
             node.getAlarmState().addAcknowledgedAlarm(AlarmSeverity.WARNING);
         } else if (StringUtils.isNotEmpty(instance.getDynamicVersion())) {
+            node.getAlarmState().clear();
             node.getAlarmState().addAcknowledgedAlarm(AlarmSeverity.MINOR);
         } else {
             node.getAlarmState().clear();
