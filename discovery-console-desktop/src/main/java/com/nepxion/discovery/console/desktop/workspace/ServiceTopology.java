@@ -71,11 +71,11 @@ public class ServiceTopology extends AbstractTopology {
 
     private int nodeStartX = 0;
     private int nodeStartY = 0;
-    private int nodeHorizontalGap = 110;
-    private int nodeVerticalGap = 80;
+    private int nodeHorizontalGap = 120;
+    private int nodeVerticalGap = 100;
 
     private TopologyEntity serviceGroupEntity = new TopologyEntity(TopologyEntityType.SERVICE, true, true);
-    private TopologyEntity serviceNodeEntity = new TopologyEntity(TopologyEntityType.SERVICE, false, false);
+    private TopologyEntity serviceNodeEntity = new TopologyEntity(TopologyEntityType.SERVICE, true, false);
 
     private Map<String, Point> groupLocationMap = new HashMap<String, Point>();
 
