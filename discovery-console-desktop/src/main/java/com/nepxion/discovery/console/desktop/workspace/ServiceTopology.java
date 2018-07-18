@@ -84,6 +84,7 @@ public class ServiceTopology extends AbstractTopology {
 
     private TopologyEntity serviceGroupEntity = new TopologyEntity(TopologyEntityType.SERVICE, true, true);
     private TopologyEntity serviceNodeEntity = new TopologyEntity(TopologyEntityType.SERVICE, true, false);
+    private TopologyEntity notServiceNodeEntity = new TopologyEntity(TopologyEntityType.MQ, true, false);
 
     private Map<String, Point> groupLocationMap = new HashMap<String, Point>();
 
@@ -179,27 +180,39 @@ public class ServiceTopology extends AbstractTopology {
 
     private void addService(String serviceId, List<InstanceEntity> instances) {
         int count = groupLocationMap.size();
-        String groupName = getGroupName(serviceId, instances.size());
+        String groupName = getGroupName(serviceId, instances.size(), null);
 
         TGroup group = createGroup(groupName, serviceGroupEntity, count, groupStartX, groupStartY, groupHorizontalGap, groupVerticalGap);
         group.setGroupType(TGroupType.ELLIPSE_GROUP_TYPE.getType());
         group.setUserObject(serviceId);
 
-        addInstances(group, serviceGroupEntity, serviceNodeEntity, serviceId, instances);
+        addInstances(group, serviceId, instances);
     }
 
-    private void addInstances(TGroup group, TopologyEntity groupEntity, TopologyEntity nodeEntity, String serviceId, List<InstanceEntity> instances) {
+    private void addInstances(TGroup group, String serviceId, List<InstanceEntity> instances) {
         if (CollectionUtils.isNotEmpty(instances)) {
             for (int i = 0; i < instances.size(); i++) {
                 InstanceEntity instance = instances.get(i);
+                String plugin = instance.getPlugin();
                 String nodeName = getNodeName(instance);
 
-                TNode node = createNode(nodeName, nodeEntity, i, nodeStartX, nodeStartY, nodeHorizontalGap, nodeVerticalGap);
+                TNode node = null;
+                if (StringUtils.isNotEmpty(plugin)) {
+                    node = createNode(nodeName, serviceNodeEntity, i, nodeStartX, nodeStartY, nodeHorizontalGap, nodeVerticalGap);
+
+                    group.putClientProperty("plugin", plugin);
+                } else {
+                    node = createNode(nodeName, notServiceNodeEntity, i, nodeStartX, nodeStartY, nodeHorizontalGap, nodeVerticalGap);
+
+                    group.putClientProperty("plugin", "");
+                }
                 node.setUserObject(instance);
 
                 group.addChild(node);
             }
         }
+
+        updateGroup(group);
 
         groupLocationMap.put(serviceId, group.getLocation());
 
@@ -218,12 +231,12 @@ public class ServiceTopology extends AbstractTopology {
         }
     }
 
-    private String getGroupName(String serviceId, int count) {
-        return ButtonManager.getHtmlText(serviceId + " [" + count + "]");
+    private String getGroupName(String serviceId, int count, String plugin) {
+        return ButtonManager.getHtmlText(serviceId + " [" + count + "]" + (StringUtils.isNotEmpty(plugin) ? "\n" + plugin : ""));
     }
 
     private void updateGroup(TGroup group) {
-        String name = getGroupName(group.getUserObject().toString(), group.childrenSize());
+        String name = getGroupName(group.getUserObject().toString(), group.childrenSize(), group.getClientProperty("plugin").toString());
 
         group.setName(name);
     }
@@ -232,7 +245,7 @@ public class ServiceTopology extends AbstractTopology {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(instance.getHost()).append(":").append(instance.getPort());
         if (StringUtils.isNotEmpty(instance.getVersion())) {
-            stringBuilder.append("\n [V").append(instance.getVersion());
+            stringBuilder.append("\n[V").append(instance.getVersion());
             if (StringUtils.isNotEmpty(instance.getDynamicVersion())) {
                 stringBuilder.append(" -> V").append(instance.getDynamicVersion());
             }

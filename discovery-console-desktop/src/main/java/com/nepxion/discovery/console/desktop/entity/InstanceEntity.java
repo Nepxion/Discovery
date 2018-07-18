@@ -93,6 +93,10 @@ public class InstanceEntity implements Serializable {
         this.rule = rule;
     }
 
+    public String getPlugin() {
+        return metaData.get("discovery.plugin");
+    }
+
     @Override
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this);
