@@ -181,10 +181,12 @@ public class RouterTopology extends AbstractTopology {
     }
 
     public void setInstance(InstanceEntity instance) {
-        this.instance = instance;
+        if (this.instance != instance) {
+            this.instance = instance;
 
-        textField.setText("");
-        dataBox.clear();
+            textField.setText("");
+            dataBox.clear();
+        }
     }
 
     private JSecurityAction createAddServiceAction() {

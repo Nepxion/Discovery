@@ -293,7 +293,9 @@ public class ServiceTopology extends AbstractTopology {
         updateNode(node, instance);
     }
 
-    private void refreshGrayState(TNode node) {
+    private boolean refreshGrayState(TNode node) {
+        boolean hasException = false;
+
         TGroup group = (TGroup) node.getParent();
 
         try {
@@ -303,13 +305,19 @@ public class ServiceTopology extends AbstractTopology {
 
             group.removeChild(node);
             dataBox.removeElement(node);
+
+            hasException = true;
         }
 
         updateGroup(group);
+
+        return hasException;
     }
 
     @SuppressWarnings("unchecked")
-    private void refreshGrayState(TGroup group) {
+    private boolean refreshGrayState(TGroup group) {
+        boolean hasException = false;
+
         List<TNode> nodes = group.getChildren();
 
         Iterator<TNode> iterator = nodes.iterator();
@@ -323,10 +331,14 @@ public class ServiceTopology extends AbstractTopology {
 
                 iterator.remove();
                 dataBox.removeElement(node);
+
+                hasException = true;
             }
         }
 
         updateGroup(group);
+
+        return hasException;
     }
 
     private void showResult(Object result) {
@@ -379,10 +391,15 @@ public class ServiceTopology extends AbstractTopology {
                     return;
                 }
 
+                boolean hasException = false;
                 if (group != null) {
-                    refreshGrayState(group);
+                    hasException = refreshGrayState(group);
                 } else if (node != null) {
-                    refreshGrayState(node);
+                    hasException = refreshGrayState(node);
+                }
+
+                if (hasException) {
+                    return;
                 }
 
                 if (grayPanel == null) {
