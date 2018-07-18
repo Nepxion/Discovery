@@ -12,6 +12,9 @@ package com.nepxion.discovery.console.desktop.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -59,7 +62,13 @@ public class ServiceController {
     public static String configUpdate(String serviceId, String config) {
         String url = getUrl() + "/console/config/update-sync/" + serviceId;
 
-        return restTemplate.postForEntity(url, config, String.class).getBody();
+        // 解决中文乱码
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+
+        HttpEntity<String> entity = new HttpEntity<String>(config, headers);
+
+        return restTemplate.postForEntity(url, entity, String.class).getBody();
     }
 
     public static String configClear(String serviceId) {
