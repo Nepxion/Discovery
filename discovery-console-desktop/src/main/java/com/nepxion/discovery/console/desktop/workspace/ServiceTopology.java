@@ -356,7 +356,7 @@ public class ServiceTopology extends AbstractTopology {
         if (resultTextArea == null) {
             resultTextArea = new JBasicTextArea();
             resultTextArea.setLineWrap(true);
-            resultTextArea.setPreferredSize(new Dimension(800, 800));
+            resultTextArea.setPreferredSize(new Dimension(800, 600));
         }
         resultTextArea.setText(result.toString());
 
