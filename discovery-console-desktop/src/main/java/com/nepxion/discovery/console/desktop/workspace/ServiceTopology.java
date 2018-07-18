@@ -42,6 +42,7 @@ import com.nepxion.cots.twaver.element.TNode;
 import com.nepxion.cots.twaver.graph.TGraphManager;
 import com.nepxion.discovery.console.desktop.controller.ServiceController;
 import com.nepxion.discovery.console.desktop.entity.InstanceEntity;
+import com.nepxion.discovery.console.desktop.entity.ResultEntity;
 import com.nepxion.discovery.console.desktop.icon.ConsoleIconFactory;
 import com.nepxion.discovery.console.desktop.locale.ConsoleLocale;
 import com.nepxion.discovery.console.desktop.util.UIUtil;
@@ -95,6 +96,7 @@ public class ServiceTopology extends AbstractTopology {
     private GrayPanel grayPanel;
     private RouterTopology routerTopology;
     private LayoutDialog layoutDialog;
+    private JBasicTextArea resultTextArea;
 
     public ServiceTopology() {
         initializeToolBar();
@@ -296,8 +298,8 @@ public class ServiceTopology extends AbstractTopology {
 
         try {
             updateGrayState(node);
-        } catch (Exception ex) {
-            JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
+        } catch (Exception e) {
+            JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), e);
 
             group.removeChild(node);
             dataBox.removeElement(node);
@@ -316,8 +318,8 @@ public class ServiceTopology extends AbstractTopology {
 
             try {
                 updateGrayState(node);
-            } catch (Exception ex) {
-                JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
+            } catch (Exception e) {
+                JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), e);
 
                 iterator.remove();
                 dataBox.removeElement(node);
@@ -325,6 +327,17 @@ public class ServiceTopology extends AbstractTopology {
         }
 
         updateGroup(group);
+    }
+
+    private void showResult(Object result) {
+        if (resultTextArea == null) {
+            resultTextArea = new JBasicTextArea();
+            resultTextArea.setLineWrap(true);
+            resultTextArea.setPreferredSize(new Dimension(800, 800));
+        }
+        resultTextArea.setText(result.toString());
+
+        JBasicOptionPane.showOptionDialog(HandleManager.getFrame(ServiceTopology.this), new JBasicScrollPane(resultTextArea), "执行结果", JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/edit.png"), new Object[] { SwingLocale.getString("close") }, null, true);
     }
 
     @Override
@@ -601,18 +614,25 @@ public class ServiceTopology extends AbstractTopology {
 
                 public void execute(ActionEvent e) {
                     String dynamicRule = dynamicRuleTextArea.getText();
+                    if (StringUtils.isEmpty(dynamicRule)) {
+                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), "规则不能为空", SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+
+                        return;
+                    }
 
                     if (group != null) {
                         String serviceId = (String) group.getUserObject();
-                        String result = ServiceController.configUpdate(serviceId, dynamicRule);
+                        List<ResultEntity> results = ServiceController.configUpdate(serviceId, dynamicRule);
 
-                        System.out.println(result);
+                        showResult(results);
+
                         refreshGrayState(group);
                     } else if (node != null) {
                         InstanceEntity instance = (InstanceEntity) node.getUserObject();
 
                         refreshGrayState(node);
                     }
+
                 }
             };
 
@@ -626,9 +646,10 @@ public class ServiceTopology extends AbstractTopology {
                 public void execute(ActionEvent e) {
                     if (group != null) {
                         String serviceId = (String) group.getUserObject();
-                        String result = ServiceController.configClear(serviceId);
+                        List<ResultEntity> results = ServiceController.configClear(serviceId);
 
-                        System.out.println(result);
+                        showResult(results);
+
                         refreshGrayState(group);
                     } else if (node != null) {
                         InstanceEntity instance = (InstanceEntity) node.getUserObject();
