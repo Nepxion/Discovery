@@ -24,9 +24,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
@@ -63,6 +63,7 @@ import com.nepxion.swing.menuitem.JBasicMenuItem;
 import com.nepxion.swing.optionpane.JBasicOptionPane;
 import com.nepxion.swing.popupmenu.JBasicPopupMenu;
 import com.nepxion.swing.scrollpane.JBasicScrollPane;
+import com.nepxion.swing.tabbedpane.JBasicTabbedPane;
 import com.nepxion.swing.textarea.JBasicTextArea;
 import com.nepxion.swing.textfield.JBasicTextField;
 import com.nepxion.swing.textfield.number.JNumberTextField;
@@ -108,8 +109,8 @@ public class ServiceTopology extends AbstractTopology {
         refreshGrayStateMenuItem = new JBasicMenuItem(createRefreshGrayStateAction());
         executeGrayRouterMenuItem = new JBasicMenuItem(createExecuteGrayRouterAction());
         popupMenu.add(executeGrayReleaseMenuItem, 0);
-        popupMenu.add(refreshGrayStateMenuItem, 1);
-        popupMenu.add(executeGrayRouterMenuItem, 2);
+        popupMenu.add(executeGrayRouterMenuItem, 1);
+        popupMenu.add(refreshGrayStateMenuItem, 2);
         popupMenu.add(new JPopupMenu.Separator(), 3);
     }
 
@@ -140,8 +141,8 @@ public class ServiceTopology extends AbstractTopology {
         toolBar.add(new JClassicButton(createShowTopologyAction()));
         toolBar.addSeparator();
         toolBar.add(new JClassicButton(createExecuteGrayReleaseAction()));
-        toolBar.add(new JClassicButton(createRefreshGrayStateAction()));
         toolBar.add(new JClassicButton(createExecuteGrayRouterAction()));
+        toolBar.add(new JClassicButton(createRefreshGrayStateAction()));
         toolBar.addSeparator();
         toolBar.add(createConfigButton(true));
 
@@ -278,20 +279,6 @@ public class ServiceTopology extends AbstractTopology {
         TGraphManager.setLinkVisible(graph, !isLinkAutoHide());
     }
 
-    @Override
-    public void showLayout() {
-        if (layoutDialog == null) {
-            layoutDialog = new LayoutDialog();
-        }
-
-        layoutDialog.setToUI();
-        layoutDialog.setVisible(true);
-        boolean confirmed = layoutDialog.isConfirmed();
-        if (confirmed && !dataBox.isEmpty()) {
-            showTopology(false);
-        }
-    }
-
     private void updateGrayState(TNode node) {
         InstanceEntity instance = (InstanceEntity) node.getUserObject();
         List<String> versions = ServiceController.getVersions(instance);
@@ -338,6 +325,20 @@ public class ServiceTopology extends AbstractTopology {
         }
 
         updateGroup(group);
+    }
+
+    @Override
+    public void showLayout() {
+        if (layoutDialog == null) {
+            layoutDialog = new LayoutDialog();
+        }
+
+        layoutDialog.setToUI();
+        layoutDialog.setVisible(true);
+        boolean confirmed = layoutDialog.isConfirmed();
+        if (confirmed && !dataBox.isEmpty()) {
+            showTopology(false);
+        }
     }
 
     private JSecurityAction createShowTopologyAction() {
@@ -390,30 +391,6 @@ public class ServiceTopology extends AbstractTopology {
         return action;
     }
 
-    private JSecurityAction createRefreshGrayStateAction() {
-        JSecurityAction action = new JSecurityAction(ConsoleLocale.getString("refresh_gray_state"), ConsoleIconFactory.getSwingIcon("netbean/rotate_16.png"), ConsoleLocale.getString("refresh_gray_state")) {
-            private static final long serialVersionUID = 1L;
-
-            public void execute(ActionEvent e) {
-                TGroup group = TElementManager.getSelectedGroup(dataBox);
-                TNode node = TElementManager.getSelectedNode(dataBox);
-                if (group == null && node == null) {
-                    JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("select_a_group_or_node"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
-
-                    return;
-                }
-
-                if (group != null) {
-                    refreshGrayState(group);
-                } else if (node != null) {
-                    refreshGrayState(node);
-                }
-            }
-        };
-
-        return action;
-    }
-
     private JSecurityAction createExecuteGrayRouterAction() {
         JSecurityAction action = new JSecurityAction(ConsoleLocale.getString("execute_gray_router"), ConsoleIconFactory.getSwingIcon("netbean/close_path_16.png"), ConsoleLocale.getString("execute_gray_router")) {
             private static final long serialVersionUID = 1L;
@@ -443,47 +420,69 @@ public class ServiceTopology extends AbstractTopology {
         return action;
     }
 
+    private JSecurityAction createRefreshGrayStateAction() {
+        JSecurityAction action = new JSecurityAction(ConsoleLocale.getString("refresh_gray_state"), ConsoleIconFactory.getSwingIcon("netbean/rotate_16.png"), ConsoleLocale.getString("refresh_gray_state")) {
+            private static final long serialVersionUID = 1L;
+
+            public void execute(ActionEvent e) {
+                TGroup group = TElementManager.getSelectedGroup(dataBox);
+                TNode node = TElementManager.getSelectedNode(dataBox);
+                if (group == null && node == null) {
+                    JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("select_a_group_or_node"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+
+                    return;
+                }
+
+                if (group != null) {
+                    refreshGrayState(group);
+                } else if (node != null) {
+                    refreshGrayState(node);
+                }
+            }
+        };
+
+        return action;
+    }
+
     private class GrayPanel extends JPanel {
         private static final long serialVersionUID = 1L;
 
-        private JBasicTextField localVersionTextField;
         private JBasicTextField dynamicVersionTextField;
+        private JBasicTextField localVersionTextField;
 
-        private JBasicTextArea localRuleTextArea;
         private JBasicTextArea dynamicRuleTextArea;
+        private JBasicTextArea localRuleTextArea;
 
         public GrayPanel() {
-            setLayout(new FiledLayout(FiledLayout.COLUMN, FiledLayout.FULL, 5));
-            add(createVersionPanel());
-            add(createRulePanel());
+            setLayout(new BorderLayout());
+            add(createVersionPanel(), BorderLayout.NORTH);
+            add(createRulePanel(), BorderLayout.CENTER);
         }
 
         private JPanel createVersionPanel() {
+            dynamicVersionTextField = new JBasicTextField();
+            JPanel dynamicVersionPanel = new JPanel();
+            dynamicVersionPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+            dynamicVersionPanel.setLayout(new BorderLayout());
+            dynamicVersionPanel.add(dynamicVersionTextField, BorderLayout.CENTER);
+
             localVersionTextField = new JBasicTextField();
             localVersionTextField.setEditable(false);
-            dynamicVersionTextField = new JBasicTextField();
+            JPanel localVersionPanel = new JPanel();
+            localVersionPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+            localVersionPanel.setLayout(new BorderLayout());
+            localVersionPanel.add(localVersionTextField, BorderLayout.CENTER);
+
+            JBasicTabbedPane tabbedPane = new JBasicTabbedPane();
+            tabbedPane.setPreferredSize(new Dimension(tabbedPane.getPreferredSize().width, 75));
+            tabbedPane.addTab("灰度（动态）版本", dynamicVersionPanel, "灰度（动态）版本");
+            tabbedPane.addTab("初始（本地）版本", localVersionPanel, "初始（本地）版本");
 
             JClassicButton updateButton = new JClassicButton(createUpdateVersionAction());
             updateButton.setPreferredSize(new Dimension(updateButton.getPreferredSize().width, 30));
 
             JClassicButton clearButton = new JClassicButton(createClearVersionAction());
             updateButton.setPreferredSize(new Dimension(clearButton.getPreferredSize().width, 30));
-
-            double[][] size = {
-                    { TableLayout.PREFERRED, TableLayout.FILL },
-                    { 30, 30 }
-            };
-
-            TableLayout tableLayout = new TableLayout(size);
-            tableLayout.setHGap(5);
-            tableLayout.setVGap(5);
-
-            JPanel versionPanel = new JPanel();
-            versionPanel.setLayout(tableLayout);
-            versionPanel.add(new JLabel("初始（本地）版本"), "0, 0");
-            versionPanel.add(localVersionTextField, "1, 0");
-            versionPanel.add(new JLabel("灰度（动态）版本"), "0, 1");
-            versionPanel.add(dynamicVersionTextField, "1, 1");
 
             JPanel toolBar = new JPanel();
             toolBar.setLayout(new BoxLayout(toolBar, BoxLayout.X_AXIS));
@@ -493,9 +492,9 @@ public class ServiceTopology extends AbstractTopology {
 
             JPanel panel = new JPanel();
             panel.setBorder(UIUtil.createTitledBorder("版本灰度"));
-            panel.setLayout(new FiledLayout(FiledLayout.COLUMN, FiledLayout.FULL, 5));
-            panel.add(versionPanel);
-            panel.add(toolBar);
+            panel.setLayout(new BorderLayout());
+            panel.add(tabbedPane, BorderLayout.CENTER);
+            panel.add(toolBar, BorderLayout.SOUTH);
 
             return panel;
         }
@@ -505,27 +504,15 @@ public class ServiceTopology extends AbstractTopology {
             localRuleTextArea.setEditable(false);
             dynamicRuleTextArea = new JBasicTextArea();
 
+            JBasicTabbedPane tabbedPane = new JBasicTabbedPane();
+            tabbedPane.addTab("灰度（动态）规则", new JBasicScrollPane(dynamicRuleTextArea), "灰度（动态）规则");
+            tabbedPane.addTab("初始（本地）规则", new JBasicScrollPane(localRuleTextArea), "初始（本地）规则");
+
             JClassicButton updateButton = new JClassicButton(createUpdateRuleAction());
             updateButton.setPreferredSize(new Dimension(updateButton.getPreferredSize().width, 30));
 
             JClassicButton clearButton = new JClassicButton(createClearRuleAction());
             updateButton.setPreferredSize(new Dimension(clearButton.getPreferredSize().width, 30));
-
-            double[][] size = {
-                    { TableLayout.PREFERRED, TableLayout.FILL },
-                    { 330, 330 }
-            };
-
-            TableLayout tableLayout = new TableLayout(size);
-            tableLayout.setHGap(5);
-            tableLayout.setVGap(5);
-
-            JPanel rulePanel = new JPanel();
-            rulePanel.setLayout(tableLayout);
-            rulePanel.add(new JLabel("初始（本地）规则"), "0, 0");
-            rulePanel.add(new JBasicScrollPane(localRuleTextArea), "1, 0");
-            rulePanel.add(new JLabel("灰度（动态）规则"), "0, 1");
-            rulePanel.add(new JBasicScrollPane(dynamicRuleTextArea), "1, 1");
 
             JPanel toolBar = new JPanel();
             toolBar.setLayout(new BoxLayout(toolBar, BoxLayout.X_AXIS));
@@ -536,7 +523,7 @@ public class ServiceTopology extends AbstractTopology {
             JPanel panel = new JPanel();
             panel.setBorder(UIUtil.createTitledBorder("规则灰度"));
             panel.setLayout(new BorderLayout());
-            panel.add(rulePanel, BorderLayout.CENTER);
+            panel.add(tabbedPane, BorderLayout.CENTER);
             panel.add(toolBar, BorderLayout.SOUTH);
 
             return panel;
@@ -548,17 +535,11 @@ public class ServiceTopology extends AbstractTopology {
                 dynamicVersionTextField.setText(instance.getDynamicVersion());
                 localRuleTextArea.setText(instance.getRule());
                 dynamicRuleTextArea.setText(instance.getDynamicRule());
-
-                localVersionTextField.setEnabled(true);
-                localRuleTextArea.setEnabled(true);
             } else {
                 localVersionTextField.setText("");
                 dynamicVersionTextField.setText("");
                 localRuleTextArea.setText("");
                 dynamicRuleTextArea.setText("");
-
-                localVersionTextField.setEnabled(false);
-                localRuleTextArea.setEnabled(false);
             }
         }
 
