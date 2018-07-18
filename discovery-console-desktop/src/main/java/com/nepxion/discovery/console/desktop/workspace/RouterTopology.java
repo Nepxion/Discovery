@@ -32,6 +32,7 @@ import javax.swing.JToolBar;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import com.nepxion.cots.twaver.element.TElementManager;
 import com.nepxion.cots.twaver.element.TLink;
 import com.nepxion.cots.twaver.element.TNode;
 import com.nepxion.cots.twaver.graph.TGraphControlBar;
@@ -165,14 +166,19 @@ public class RouterTopology extends AbstractTopology {
         List<RouterEntity> nexts = routerEntity.getNexts();
         if (CollectionUtils.isNotEmpty(nexts)) {
             for (RouterEntity next : nexts) {
-                TNode nextNode = addNode(next, index);
-                addLink(node, nextNode);
+                String nodeName = getNodeName(next);
+                TNode nextNode = TElementManager.getNode(dataBox, nodeName);
+                if (nextNode == null) {
+                    nextNode = addNode(next, index);
 
-                index++;
+                    index++;
+                }
+                addLink(node, nextNode);
 
                 route(next, nextNode, index);
             }
         }
+
     }
 
     private String getNodeName(RouterEntity routerEntity) {
