@@ -377,11 +377,10 @@ public class ServiceTopology extends AbstractTopology {
                     grayPanel.setPreferredSize(new Dimension(1280, 900));
                 }
 
-                if (node != null) {
-                    InstanceEntity instance = (InstanceEntity) node.getUserObject();
-                    grayPanel.setGray(instance);
-                } else {
-                    grayPanel.setGray(null);
+                if (group != null) {
+                    grayPanel.setGray(group);
+                } else if (node != null) {
+                    grayPanel.setGray(node);
                 }
 
                 JBasicOptionPane.showOptionDialog(HandleManager.getFrame(ServiceTopology.this), grayPanel, ConsoleLocale.getString("execute_gray_router"), JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/navigator.png"), new Object[] { SwingLocale.getString("close") }, null, true);
@@ -456,6 +455,9 @@ public class ServiceTopology extends AbstractTopology {
         private JBasicTextArea dynamicRuleTextArea;
         private JBasicTextArea localRuleTextArea;
         private JBasicTabbedPane ruleTabbedPane;
+
+        private TGroup group;
+        private TNode node;
 
         public GrayPanel() {
             setLayout(new BorderLayout());
@@ -533,32 +535,39 @@ public class ServiceTopology extends AbstractTopology {
             return panel;
         }
 
-        public void setGray(InstanceEntity instance) {
-            if (instance != null) {
-                if (versionTabbedPane.getTabCount() == 1) {
-                    versionTabbedPane.addTab("初始（本地）版本", localVersionPanel, "初始（本地）版本");
-                }
-                if (ruleTabbedPane.getTabCount() == 1) {
-                    ruleTabbedPane.addTab("初始（本地）规则", new JBasicScrollPane(localRuleTextArea), "初始（本地）规则");
-                }
+        public void setGray(TGroup group) {
+            this.group = group;
+            this.node = null;
 
-                localVersionTextField.setText(instance.getVersion());
-                dynamicVersionTextField.setText(instance.getDynamicVersion());
-                localRuleTextArea.setText(instance.getRule());
-                dynamicRuleTextArea.setText(instance.getDynamicRule());
-            } else {
-                if (versionTabbedPane.getTabCount() == 2) {
-                    versionTabbedPane.remove(1);
-                }
-                if (ruleTabbedPane.getTabCount() == 2) {
-                    ruleTabbedPane.remove(1);
-                }
-
-                localVersionTextField.setText("");
-                dynamicVersionTextField.setText("");
-                localRuleTextArea.setText("");
-                dynamicRuleTextArea.setText("");
+            if (versionTabbedPane.getTabCount() == 2) {
+                versionTabbedPane.remove(1);
             }
+            if (ruleTabbedPane.getTabCount() == 2) {
+                ruleTabbedPane.remove(1);
+            }
+
+            localVersionTextField.setText("");
+            dynamicVersionTextField.setText("");
+            localRuleTextArea.setText("");
+            dynamicRuleTextArea.setText("");
+        }
+
+        public void setGray(TNode node) {
+            this.group = null;
+            this.node = node;
+            InstanceEntity instance = (InstanceEntity) node.getUserObject();
+
+            if (versionTabbedPane.getTabCount() == 1) {
+                versionTabbedPane.addTab("初始（本地）版本", localVersionPanel, "初始（本地）版本");
+            }
+            if (ruleTabbedPane.getTabCount() == 1) {
+                ruleTabbedPane.addTab("初始（本地）规则", new JBasicScrollPane(localRuleTextArea), "初始（本地）规则");
+            }
+
+            localVersionTextField.setText(instance.getVersion());
+            dynamicVersionTextField.setText(instance.getDynamicVersion());
+            localRuleTextArea.setText(instance.getRule());
+            dynamicRuleTextArea.setText(instance.getDynamicRule());
         }
 
         private JSecurityAction createUpdateVersionAction() {
@@ -590,7 +599,19 @@ public class ServiceTopology extends AbstractTopology {
                 private static final long serialVersionUID = 1L;
 
                 public void execute(ActionEvent e) {
+                    String dynamicRule = dynamicRuleTextArea.getText();
 
+                    if (group != null) {
+                        String serviceId = (String) group.getUserObject();
+                        String result = ServiceController.configUpdate(serviceId, dynamicRule);
+
+                        System.out.println(result);
+                        refreshGrayState(group);
+                    } else if (node != null) {
+                        InstanceEntity instance = (InstanceEntity) node.getUserObject();
+
+                        refreshGrayState(node);
+                    }
                 }
             };
 
@@ -602,7 +623,17 @@ public class ServiceTopology extends AbstractTopology {
                 private static final long serialVersionUID = 1L;
 
                 public void execute(ActionEvent e) {
+                    if (group != null) {
+                        String serviceId = (String) group.getUserObject();
+                        String result = ServiceController.configClear(serviceId);
 
+                        System.out.println(result);
+                        refreshGrayState(group);
+                    } else if (node != null) {
+                        InstanceEntity instance = (InstanceEntity) node.getUserObject();
+
+                        refreshGrayState(node);
+                    }
                 }
             };
 

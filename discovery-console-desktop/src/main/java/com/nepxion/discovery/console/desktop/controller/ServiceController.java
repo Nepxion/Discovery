@@ -56,6 +56,18 @@ public class ServiceController {
         return restTemplate.postForEntity(url, routeServiceIds, RouterEntity.class).getBody();
     }
 
+    public static String configUpdate(String serviceId, String config) {
+        String url = getUrl() + "/console/config/update-sync/" + serviceId;
+
+        return restTemplate.postForEntity(url, config, String.class).getBody();
+    }
+
+    public static String configClear(String serviceId) {
+        String url = getUrl() + "/console/config/clear/" + serviceId;
+
+        return restTemplate.postForEntity(url, null, String.class).getBody();
+    }
+
     public static String getUrl() {
         String url = PropertiesContext.getProperties().getString("url");
         if (!url.endsWith("/")) {
