@@ -29,7 +29,7 @@ public class ZookeeperAutoConfiguration {
         System.out.println("╚═══╩╩══╩══╩══╝╚╝╚══╩╝╚═╗╔╝");
         System.out.println("                      ╔═╝║");
         System.out.println("                      ╚══╝");
-        System.out.println("Nepxion Discovery - Zookeeper Plugin  v3.3.26");
+        System.out.println("Nepxion Discovery - Zookeeper Plugin  v3.3.27");
         System.out.println("");
     }
 
