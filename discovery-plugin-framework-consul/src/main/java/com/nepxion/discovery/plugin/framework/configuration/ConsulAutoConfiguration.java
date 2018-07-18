@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.nepxion.discovery.plugin.framework.adapter.ConsulAdapter;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
+import com.nepxion.discovery.plugin.framework.constant.ConsulConstant;
 
 @Configuration
 @RibbonClients(defaultConfiguration = { PluginLoadBalanceConfiguration.class, ConsulLoadBalanceConfiguration.class })
@@ -29,7 +30,7 @@ public class ConsulAutoConfiguration {
         System.out.println("╚═══╩╩══╩══╩══╝╚╝╚══╩╝╚═╗╔╝");
         System.out.println("                      ╔═╝║");
         System.out.println("                      ╚══╝");
-        System.out.println("Nepxion Discovery - Consul Plugin  v3.3.27");
+        System.out.println("Nepxion Discovery - " + ConsulConstant.DISCOVERY_PLUGIN + "  v3.3.27");
         System.out.println("");
     }
 

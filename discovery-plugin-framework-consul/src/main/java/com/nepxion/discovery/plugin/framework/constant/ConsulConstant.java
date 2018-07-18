@@ -11,4 +11,6 @@ package com.nepxion.discovery.plugin.framework.constant;
 
 public class ConsulConstant {
     public static final String METADATA_VERSION = "spring.cloud.consul.discovery.tags";
+
+    public static final String DISCOVERY_PLUGIN = "Consul Plugin";
 }

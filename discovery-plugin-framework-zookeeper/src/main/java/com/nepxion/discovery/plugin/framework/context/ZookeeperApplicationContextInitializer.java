@@ -10,9 +10,12 @@ package com.nepxion.discovery.plugin.framework.context;
  */
 
 import org.springframework.beans.BeansException;
+import org.springframework.cloud.zookeeper.discovery.ZookeeperDiscoveryProperties;
 import org.springframework.cloud.zookeeper.serviceregistry.ZookeeperServiceRegistry;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
+import com.nepxion.discovery.plugin.framework.constant.ZookeeperConstant;
 import com.nepxion.discovery.plugin.framework.decorator.ZookeeperServiceRegistryDecorator;
 
 public class ZookeeperApplicationContextInitializer extends PluginApplicationContextInitializer {
@@ -22,11 +25,12 @@ public class ZookeeperApplicationContextInitializer extends PluginApplicationCon
             ZookeeperServiceRegistry zookeeperServiceRegistry = (ZookeeperServiceRegistry) bean;
 
             return new ZookeeperServiceRegistryDecorator(zookeeperServiceRegistry, applicationContext);
-        /*} else if (bean instanceof ZookeeperDiscoveryProperties) {
+        } else if (bean instanceof ZookeeperDiscoveryProperties) {
             ZookeeperDiscoveryProperties zookeeperDiscoveryProperties = (ZookeeperDiscoveryProperties) bean;
             zookeeperDiscoveryProperties.setPreferIpAddress(true);
+            zookeeperDiscoveryProperties.getMetadata().put(PluginConstant.DISCOVERY_PLUGIN, ZookeeperConstant.DISCOVERY_PLUGIN);
 
-            return bean;*/
+            return bean;
         } else {
             return bean;
         }
