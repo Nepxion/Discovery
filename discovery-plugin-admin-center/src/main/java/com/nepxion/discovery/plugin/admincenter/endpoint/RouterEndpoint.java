@@ -46,9 +46,6 @@ import com.nepxion.discovery.plugin.framework.exception.PluginException;
 @Api(tags = { "路由接口" })
 @ManagedResource(description = "Router Endpoint")
 public class RouterEndpoint implements MvcEndpoint {
-    // @Autowired
-    // private PluginContainerInitializedHandler pluginContainerInitializedHandler;
-
     @Autowired
     private PluginAdapter pluginAdapter;
 
@@ -122,8 +119,6 @@ public class RouterEndpoint implements MvcEndpoint {
         String version = pluginAdapter.getVersion();
         String host = pluginAdapter.getHost(registration);
         int port = pluginAdapter.getPort(registration);
-        // String host = HostUtil.getLocalhost();
-        // int port = pluginContainerInitializedHandler.getPort();
 
         RouterEntity routerEntity = new RouterEntity();
         routerEntity.setServiceId(serviceId);
