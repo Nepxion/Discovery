@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.nepxion.discovery.plugin.framework.adapter.EurekaAdapter;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
+import com.nepxion.discovery.plugin.framework.constant.EurekaConstant;
 
 @Configuration
 @RibbonClients(defaultConfiguration = { PluginLoadBalanceConfiguration.class, EurekaLoadBalanceConfiguration.class })
@@ -29,7 +30,7 @@ public class EurekaAutoConfiguration {
         System.out.println("╚═══╩╩══╩══╩══╝╚╝╚══╩╝╚═╗╔╝");
         System.out.println("                      ╔═╝║");
         System.out.println("                      ╚══╝");
-        System.out.println("Nepxion Discovery - Eureka Plugin  v4.0.5");
+        System.out.println("Nepxion Discovery - " + EurekaConstant.DISCOVERY_PLUGIN + "  v4.0.5");
         System.out.println("");
     }
 

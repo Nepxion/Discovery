@@ -10,9 +10,12 @@ package com.nepxion.discovery.plugin.framework.context;
  */
 
 import org.springframework.beans.BeansException;
+import org.springframework.cloud.consul.discovery.ConsulDiscoveryProperties;
 import org.springframework.cloud.consul.serviceregistry.ConsulServiceRegistry;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import com.nepxion.discovery.plugin.framework.constant.ConsulConstant;
+import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.decorator.ConsulServiceRegistryDecorator;
 
 public class ConsulApplicationContextInitializer extends PluginApplicationContextInitializer {
@@ -22,11 +25,12 @@ public class ConsulApplicationContextInitializer extends PluginApplicationContex
             ConsulServiceRegistry consulServiceRegistry = (ConsulServiceRegistry) bean;
 
             return new ConsulServiceRegistryDecorator(consulServiceRegistry, applicationContext);
-        /*} else if (bean instanceof ConsulDiscoveryProperties) {
+        } else if (bean instanceof ConsulDiscoveryProperties) {
             ConsulDiscoveryProperties consulDiscoveryProperties = (ConsulDiscoveryProperties) bean;
             consulDiscoveryProperties.setPreferIpAddress(true);
+            consulDiscoveryProperties.getTags().add(PluginConstant.DISCOVERY_PLUGIN + "=" + ConsulConstant.DISCOVERY_PLUGIN);
 
-            return bean;*/
+            return bean;
         } else {
             return bean;
         }

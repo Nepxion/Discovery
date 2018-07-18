@@ -10,6 +10,8 @@ package com.nepxion.discovery.plugin.framework.constant;
  */
 
 public class PluginConstant {
+    public static final String DISCOVERY_PLUGIN = "discovery.plugin";
+
     public static final String SPRING_APPLICATION_REGISTER_CONTROL_ENABLED = "spring.application.register.control.enabled";
     public static final String SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED = "spring.application.discovery.control.enabled";
 
