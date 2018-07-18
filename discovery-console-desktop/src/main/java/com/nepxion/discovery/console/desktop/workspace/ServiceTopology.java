@@ -448,10 +448,14 @@ public class ServiceTopology extends AbstractTopology {
         private static final long serialVersionUID = 1L;
 
         private JBasicTextField dynamicVersionTextField;
+        private JPanel dynamicVersionPanel;
         private JBasicTextField localVersionTextField;
+        private JPanel localVersionPanel;
+        private JBasicTabbedPane versionTabbedPane;
 
         private JBasicTextArea dynamicRuleTextArea;
         private JBasicTextArea localRuleTextArea;
+        private JBasicTabbedPane ruleTabbedPane;
 
         public GrayPanel() {
             setLayout(new BorderLayout());
@@ -461,22 +465,22 @@ public class ServiceTopology extends AbstractTopology {
 
         private JPanel createVersionPanel() {
             dynamicVersionTextField = new JBasicTextField();
-            JPanel dynamicVersionPanel = new JPanel();
+            dynamicVersionPanel = new JPanel();
             dynamicVersionPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
             dynamicVersionPanel.setLayout(new BorderLayout());
             dynamicVersionPanel.add(dynamicVersionTextField, BorderLayout.CENTER);
 
             localVersionTextField = new JBasicTextField();
             localVersionTextField.setEditable(false);
-            JPanel localVersionPanel = new JPanel();
+            localVersionPanel = new JPanel();
             localVersionPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
             localVersionPanel.setLayout(new BorderLayout());
             localVersionPanel.add(localVersionTextField, BorderLayout.CENTER);
 
-            JBasicTabbedPane tabbedPane = new JBasicTabbedPane();
-            tabbedPane.setPreferredSize(new Dimension(tabbedPane.getPreferredSize().width, 75));
-            tabbedPane.addTab("灰度（动态）版本", dynamicVersionPanel, "灰度（动态）版本");
-            tabbedPane.addTab("初始（本地）版本", localVersionPanel, "初始（本地）版本");
+            versionTabbedPane = new JBasicTabbedPane();
+            versionTabbedPane.setPreferredSize(new Dimension(versionTabbedPane.getPreferredSize().width, 75));
+            versionTabbedPane.addTab("灰度（动态）版本", dynamicVersionPanel, "灰度（动态）版本");
+            versionTabbedPane.addTab("初始（本地）版本", localVersionPanel, "初始（本地）版本");
 
             JClassicButton updateButton = new JClassicButton(createUpdateVersionAction());
             updateButton.setPreferredSize(new Dimension(updateButton.getPreferredSize().width, 30));
@@ -493,7 +497,7 @@ public class ServiceTopology extends AbstractTopology {
             JPanel panel = new JPanel();
             panel.setBorder(UIUtil.createTitledBorder("版本灰度"));
             panel.setLayout(new BorderLayout());
-            panel.add(tabbedPane, BorderLayout.CENTER);
+            panel.add(versionTabbedPane, BorderLayout.CENTER);
             panel.add(toolBar, BorderLayout.SOUTH);
 
             return panel;
@@ -504,9 +508,9 @@ public class ServiceTopology extends AbstractTopology {
             localRuleTextArea.setEditable(false);
             dynamicRuleTextArea = new JBasicTextArea();
 
-            JBasicTabbedPane tabbedPane = new JBasicTabbedPane();
-            tabbedPane.addTab("灰度（动态）规则", new JBasicScrollPane(dynamicRuleTextArea), "灰度（动态）规则");
-            tabbedPane.addTab("初始（本地）规则", new JBasicScrollPane(localRuleTextArea), "初始（本地）规则");
+            ruleTabbedPane = new JBasicTabbedPane();
+            ruleTabbedPane.addTab("灰度（动态）规则", new JBasicScrollPane(dynamicRuleTextArea), "灰度（动态）规则");
+            ruleTabbedPane.addTab("初始（本地）规则", new JBasicScrollPane(localRuleTextArea), "初始（本地）规则");
 
             JClassicButton updateButton = new JClassicButton(createUpdateRuleAction());
             updateButton.setPreferredSize(new Dimension(updateButton.getPreferredSize().width, 30));
@@ -523,7 +527,7 @@ public class ServiceTopology extends AbstractTopology {
             JPanel panel = new JPanel();
             panel.setBorder(UIUtil.createTitledBorder("规则灰度"));
             panel.setLayout(new BorderLayout());
-            panel.add(tabbedPane, BorderLayout.CENTER);
+            panel.add(ruleTabbedPane, BorderLayout.CENTER);
             panel.add(toolBar, BorderLayout.SOUTH);
 
             return panel;
@@ -531,11 +535,25 @@ public class ServiceTopology extends AbstractTopology {
 
         public void setGray(InstanceEntity instance) {
             if (instance != null) {
+                if (versionTabbedPane.getTabCount() == 1) {
+                    versionTabbedPane.addTab("初始（本地）版本", localVersionPanel, "初始（本地）版本");
+                }
+                if (ruleTabbedPane.getTabCount() == 1) {
+                    ruleTabbedPane.addTab("初始（本地）规则", new JBasicScrollPane(localRuleTextArea), "初始（本地）规则");
+                }
+
                 localVersionTextField.setText(instance.getVersion());
                 dynamicVersionTextField.setText(instance.getDynamicVersion());
                 localRuleTextArea.setText(instance.getRule());
                 dynamicRuleTextArea.setText(instance.getDynamicRule());
             } else {
+                if (versionTabbedPane.getTabCount() == 2) {
+                    versionTabbedPane.remove(1);
+                }
+                if (ruleTabbedPane.getTabCount() == 2) {
+                    ruleTabbedPane.remove(1);
+                }
+
                 localVersionTextField.setText("");
                 dynamicVersionTextField.setText("");
                 localRuleTextArea.setText("");
