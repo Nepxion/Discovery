@@ -506,9 +506,10 @@ public class ServiceTopology extends AbstractTopology {
         }
 
         private JPanel createRulePanel() {
+            dynamicRuleTextArea = new JBasicTextArea();
+
             localRuleTextArea = new JBasicTextArea();
             localRuleTextArea.setEditable(false);
-            dynamicRuleTextArea = new JBasicTextArea();
 
             ruleTabbedPane = new JBasicTabbedPane();
             ruleTabbedPane.addTab("灰度（动态）规则", new JBasicScrollPane(dynamicRuleTextArea), "灰度（动态）规则");
@@ -546,10 +547,10 @@ public class ServiceTopology extends AbstractTopology {
                 ruleTabbedPane.remove(1);
             }
 
-            localVersionTextField.setText("");
             dynamicVersionTextField.setText("");
-            localRuleTextArea.setText("");
+            localVersionTextField.setText("");
             dynamicRuleTextArea.setText("");
+            localRuleTextArea.setText("");
         }
 
         public void setGray(TNode node) {
@@ -564,10 +565,10 @@ public class ServiceTopology extends AbstractTopology {
                 ruleTabbedPane.addTab("初始（本地）规则", new JBasicScrollPane(localRuleTextArea), "初始（本地）规则");
             }
 
-            localVersionTextField.setText(instance.getVersion());
             dynamicVersionTextField.setText(instance.getDynamicVersion());
-            localRuleTextArea.setText(instance.getRule());
+            localVersionTextField.setText(instance.getVersion());
             dynamicRuleTextArea.setText(instance.getDynamicRule());
+            localRuleTextArea.setText(instance.getRule());
         }
 
         private JSecurityAction createUpdateVersionAction() {
