@@ -51,7 +51,7 @@ public class PluginSubscriber {
             return;
         }
 
-        LOG.info("********** Remote rule updating has been triggered **********");
+        LOG.info("********** Rule updating has been triggered **********");
 
         if (ruleUpdatedEvent == null) {
             throw new PluginException("RuleUpdatedEvent can't be null");
@@ -79,7 +79,7 @@ public class PluginSubscriber {
             return;
         }
 
-        LOG.info("********** Remote rule clearing has been triggered **********");
+        LOG.info("********** Rule clearing has been triggered **********");
 
         if (ruleClearedEvent == null) {
             throw new PluginException("RuleClearedEvent can't be null");
