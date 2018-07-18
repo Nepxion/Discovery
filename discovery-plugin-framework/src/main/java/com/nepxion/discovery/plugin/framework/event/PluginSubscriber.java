@@ -45,16 +45,8 @@ public class PluginSubscriber {
     @Subscribe
     public void onRuleUpdated(RuleUpdatedEvent ruleUpdatedEvent) {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
-        Boolean remoteConfigEnabled = pluginContextAware.isRemoteConfigEnabled();
-
         if (!discoveryControlEnabled) {
             LOG.info("********** Discovery control is disabled, ignore to subscribe **********");
-
-            return;
-        }
-
-        if (!remoteConfigEnabled) {
-            LOG.info("********** Remote config is disabled, ignore to subscribe **********");
 
             return;
         }
@@ -81,16 +73,8 @@ public class PluginSubscriber {
     @Subscribe
     public void onRuleCleared(RuleClearedEvent ruleClearedEvent) {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
-        Boolean remoteConfigEnabled = pluginContextAware.isRemoteConfigEnabled();
-
         if (!discoveryControlEnabled) {
             LOG.info("********** Discovery control is disabled, ignore to subscribe **********");
-
-            return;
-        }
-
-        if (!remoteConfigEnabled) {
-            LOG.info("********** Remote config is disabled, ignore to subscribe **********");
 
             return;
         }

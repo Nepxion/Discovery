@@ -9,21 +9,18 @@ package com.nepxion.discovery.plugin.configcenter.loader;
  * @version 1.0
  */
 
-import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
-import com.nepxion.discovery.plugin.framework.exception.PluginException;
-
 public abstract class AbstractConfigLoader implements ConfigLoader {
     @Autowired
     private ApplicationContext applicationContext;
 
     @Override
-    public InputStream getLocalInputStream() {
+    public InputStream getLocalInputStream() throws Exception {
         String localContextPath = getLocalContextPath();
         if (StringUtils.isEmpty(localContextPath)) {
             return null;
@@ -31,11 +28,7 @@ public abstract class AbstractConfigLoader implements ConfigLoader {
 
         String localFilePath = applicationContext.getEnvironment().resolvePlaceholders(localContextPath);
 
-        try {
-            return applicationContext.getResource(localFilePath).getInputStream();
-        } catch (IOException e) {
-            throw new PluginException(e);
-        }
+        return applicationContext.getResource(localFilePath).getInputStream();
     }
 
     protected abstract String getLocalContextPath();
