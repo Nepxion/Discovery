@@ -28,7 +28,6 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -114,7 +113,6 @@ public class ServiceTopology extends AbstractTopology {
         popupMenu.add(executeGrayReleaseMenuItem, 0);
         popupMenu.add(executeGrayRouterMenuItem, 1);
         popupMenu.add(refreshGrayStateMenuItem, 2);
-        popupMenu.add(new JPopupMenu.Separator(), 3);
     }
 
     @Override
@@ -124,11 +122,11 @@ public class ServiceTopology extends AbstractTopology {
 
         TNode node = TElementManager.getSelectedNode(dataBox);
         pinSelectedNodeMenuItem.setVisible(node != null);
-        executeGrayRouterMenuItem.setVisible(node != null);
+        executeGrayRouterMenuItem.setVisible(node != null && StringUtils.isNotEmpty(node.getClientProperty("plugin").toString()));
 
         TElement element = TElementManager.getSelectedElement(dataBox);
-        executeGrayReleaseMenuItem.setVisible(element != null);
-        refreshGrayStateMenuItem.setVisible(element != null);
+        executeGrayReleaseMenuItem.setVisible(element != null && StringUtils.isNotEmpty(element.getClientProperty("plugin").toString()));
+        refreshGrayStateMenuItem.setVisible(element != null && StringUtils.isNotEmpty(element.getClientProperty("plugin").toString()));
 
         if (group != null || node != null || element != null) {
             return popupMenu;
@@ -199,11 +197,11 @@ public class ServiceTopology extends AbstractTopology {
                 TNode node = null;
                 if (StringUtils.isNotEmpty(plugin)) {
                     node = createNode(nodeName, serviceNodeEntity, i, nodeStartX, nodeStartY, nodeHorizontalGap, nodeVerticalGap);
-
+                    node.putClientProperty("plugin", plugin);
                     group.putClientProperty("plugin", plugin);
                 } else {
                     node = createNode(nodeName, notServiceNodeEntity, i, nodeStartX, nodeStartY, nodeHorizontalGap, nodeVerticalGap);
-
+                    node.putClientProperty("plugin", "");
                     group.putClientProperty("plugin", "");
                 }
                 node.setUserObject(instance);
@@ -404,6 +402,22 @@ public class ServiceTopology extends AbstractTopology {
                     return;
                 }
 
+                if (group != null) {
+                    if (StringUtils.isEmpty(group.getClientProperty("plugin").toString())) {
+                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), "该服务集群不能执行灰度发布", SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+
+                        return;
+                    }
+                }
+
+                if (node != null) {
+                    if (StringUtils.isEmpty(node.getClientProperty("plugin").toString())) {
+                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), "该服务不能执行灰度发布", SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+
+                        return;
+                    }
+                }
+
                 boolean hasException = false;
                 if (group != null) {
                     hasException = refreshGrayState(group);
@@ -445,6 +459,14 @@ public class ServiceTopology extends AbstractTopology {
                     return;
                 }
 
+                if (node != null) {
+                    if (StringUtils.isEmpty(node.getClientProperty("plugin").toString())) {
+                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), "该服务不能执行执行灰度路由", SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+
+                        return;
+                    }
+                }
+
                 InstanceEntity instance = (InstanceEntity) node.getUserObject();
 
                 if (routerTopology == null) {
@@ -473,6 +495,22 @@ public class ServiceTopology extends AbstractTopology {
                     JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("select_a_group_or_node"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
 
                     return;
+                }
+
+                if (group != null) {
+                    if (StringUtils.isEmpty(group.getClientProperty("plugin").toString())) {
+                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), "该服务集群不能刷新灰度状态", SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+
+                        return;
+                    }
+                }
+
+                if (node != null) {
+                    if (StringUtils.isEmpty(node.getClientProperty("plugin").toString())) {
+                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), "该服务不能刷新灰度状态", SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+
+                        return;
+                    }
                 }
 
                 if (group != null) {
