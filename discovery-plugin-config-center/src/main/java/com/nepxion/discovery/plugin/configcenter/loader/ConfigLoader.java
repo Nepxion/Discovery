@@ -12,7 +12,7 @@ package com.nepxion.discovery.plugin.configcenter.loader;
 import java.io.InputStream;
 
 public interface ConfigLoader {
-    InputStream getLocalInputStream();
+    InputStream getLocalInputStream() throws Exception;
 
-    InputStream getRemoteInputStream();
+    InputStream getRemoteInputStream() throws Exception;
 }

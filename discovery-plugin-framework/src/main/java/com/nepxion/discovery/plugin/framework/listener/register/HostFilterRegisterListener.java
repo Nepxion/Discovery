@@ -16,7 +16,6 @@ import java.util.Map;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.cloud.client.serviceregistry.Registration;
 
-import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.entity.FilterType;
 import com.nepxion.discovery.plugin.framework.entity.HostFilterEntity;
 import com.nepxion.discovery.plugin.framework.entity.RegisterEntity;
@@ -100,10 +99,7 @@ public class HostFilterRegisterListener extends AbstractRegisterListener {
     private void onRegisterFailure(FilterType filterType, List<String> allFilterValueList, String serviceId, String host, int port) {
         String description = host + " isn't allowed to register to Register server, not match host " + filterType + "=" + allFilterValueList;
 
-        Boolean registerFailureEventEnabled = pluginContextAware.getEnvironment().getProperty(PluginConstant.SPRING_APPLICATION_REGISTER_FAILURE_EVENT_ENABLED, Boolean.class, Boolean.FALSE);
-        if (registerFailureEventEnabled) {
-            pluginEventWapper.fireRegisterFailure(new RegisterFailureEvent(filterType.toString(), description, serviceId, host, port));
-        }
+        pluginEventWapper.fireRegisterFailure(new RegisterFailureEvent(filterType.toString(), description, serviceId, host, port));
 
         throw new PluginException(description);
     }

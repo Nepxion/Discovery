@@ -41,7 +41,6 @@ public class ConfigInitializer {
     public void initialize() {
         Boolean registerControlEnabled = pluginContextAware.isRegisterControlEnabled();
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
-        Boolean remoteConfigEnabled = pluginContextAware.isRemoteConfigEnabled();
 
         if (!registerControlEnabled && !discoveryControlEnabled) {
             LOG.info("********** Register and Discovery controls are all disabled, ignore to initialize **********");
@@ -55,19 +54,45 @@ public class ConfigInitializer {
             return;
         }
 
-        LOG.info("********** {} config starts to initialize **********", remoteConfigEnabled ? "Remote" : "Local");
+        LOG.info("********** Rule starts to initialize **********");
 
-        InputStream inputStream = null;
-        if (remoteConfigEnabled) {
-            inputStream = configLoader.getRemoteInputStream();
-        } else {
-            inputStream = configLoader.getLocalInputStream();
-        }
+        InputStream inputStream = getInputStream(configLoader);
         try {
             RuleEntity ruleEntity = configParser.parse(inputStream);
             pluginAdapter.setLocalRule(ruleEntity);
         } catch (Exception e) {
             LOG.error("Parse rule xml failed", e);
         }
+    }
+
+    public InputStream getInputStream(ConfigLoader configLoader) {
+        InputStream inputStream = null;
+        try {
+            inputStream = configLoader.getRemoteInputStream();
+        } catch (Exception e) {
+            LOG.warn("Get remote input stream failed", e);
+        }
+
+        if (inputStream != null) {
+            LOG.info("********** Remote input stream is retrieved **********");
+
+            return inputStream;
+        }
+
+        try {
+            inputStream = configLoader.getLocalInputStream();
+        } catch (Exception e) {
+            LOG.warn("Get local input stream failed", e);
+        }
+
+        if (inputStream != null) {
+            LOG.info("********** Local input stream is retrieved **********");
+
+            return inputStream;
+        }
+
+        LOG.info("********** No input stream is retrieved **********");
+
+        return null;
     }
 }
