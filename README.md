@@ -33,8 +33,8 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
   - 通过版本切换，实现灰度发布
 - 实现通过XML进行上述规则的定义
 - 实现通过事件总线机制（EventBus）的功能，实现发布/订阅功能
-  - 对接远程配置中心，异步接受远程配置中心主动推送规则信息
-  - 结合Spring Boot Actuator，异步接受Rest主动推送规则信息
+  - 对接远程配置中心，异步接受远程配置中心主动推送规则信息，动态改变微服务的规则
+  - 结合Spring Boot Actuator，异步接受Rest主动推送规则信息，动态改变微服务的规则
   - 结合Spring Boot Actuator，动态改变微服务的版本
   - 在服务注册层面的控制中，一旦禁止注册的条件触发，主动推送异步事件，以便使用者订阅
 - 实现通过Listener机制进行扩展
@@ -216,24 +216,32 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 2. 提供端的application.properties未定义版本号，当消费端在xml里不做任何版本配置，才可以访问该提供端
 ```
 
-### 动态改变版本规则策略
+### 动态改变规则策略
+微服务启动的时候，由于规则（例如：rule.xml）已经配置在本地，使用者希望改变一下规则，而不重启微服务，达到规则的改变 
+- 规则分为本地规则和动态规则
+- 本地规则是通过在本地规则（例如：rule.xml）文件定义的，也可以从远程配置中心获取，在微服务启动的时候读取
+- 动态规则是通过POST方式动态设置，或者由远程配置中心推送设置
+- 规则初始化的时候，如果接入了远程配置中心，先读取远程规则，如果不存在，再读取本地规则文件
+- 多规则灰度获取规则的时候，先获取动态规则，如果不存在，再获取本地规则
+
+### 动态改变版本策略
 微服务启动的时候，由于版本已经写死在application.properties里，使用者希望改变一下版本，而不重启微服务，达到访问版本的路径改变 
 - 版本分为本地版本和动态版本
 - 本地版本是通过在application.properties里配置的，在微服务启动的时候读取
 - 动态版本是通过POST方式动态设置
-- 多版本灰度规则获取版本值的时候，先获取动态版本，如果不存在，再获取本地版本
+- 多版本灰度获取版本值的时候，先获取动态版本，如果不存在，再获取本地版本
 
-### 黑/白名单的IP地址注册的过滤规则策略
+### 黑/白名单的IP地址注册的过滤策略
 微服务启动的时候，禁止指定的IP地址注册到服务注册发现中心。支持黑/白名单，白名单表示只允许指定IP地址前缀注册，黑名单表示不允许指定IP地址前缀注册
 - 全局过滤，指注册到服务注册发现中心的所有微服务，只有IP地址包含在全局过滤字段的前缀中，都允许注册（对于白名单而言），或者不允许注册（对于黑名单而言）
 - 局部过滤，指专门针对某个微服务而言，那么真正的过滤条件是全局过滤+局部过滤结合在一起
 
-### 最大注册数的限制的过滤规则策略
+### 最大注册数的限制的过滤策略
 微服务启动的时候，一旦微服务集群下注册的实例数目已经达到上限（可配置），将禁止后续的微服务进行注册
 - 全局配置值，只下面配置所有的微服务集群，最多能注册多少个
 - 局部配置值，指专门针对某个微服务而言，那么该值如存在，全局配置值失效
 
-### 黑/白名单的IP地址发现的过滤规则策略
+### 黑/白名单的IP地址发现的过滤策略
 微服务启动的时候，禁止指定的IP地址被服务发现。它使用的方式和“黑/白名单的IP地址注册的过滤”一致
 
 ### 版本属性字段定义策略
@@ -249,15 +257,10 @@ spring.cloud.zookeeper.discovery.metadata.version=1.0
 
 ### 功能开关策略
 ```xml
-# 开启和关闭服务注册层面的控制。一旦关闭，服务注册的黑/白名单过滤功能将失效。缺失则默认为true
+# 开启和关闭服务注册层面的控制。一旦关闭，服务注册的黑/白名单过滤功能将失效，最大注册数的限制过滤功能将失效。缺失则默认为true
 spring.application.register.control.enabled=true
-# 开启和关闭禁止注册后发送异步事件通知。一旦关闭，禁止注册后，不会发送异步事件通知。缺失则默认为false
-spring.application.register.failure.event.enabled=false
-
 # 开启和关闭服务发现层面的控制。一旦关闭，服务多版本调用的控制功能将失效，动态屏蔽指定IP地址的服务实例被发现的功能将失效。缺失则默认为true
 spring.application.discovery.control.enabled=true
-# 开启和关闭远程配置中心规则文件读取。一旦关闭，默认读取本地规则文件（例如：rule.xml）。缺失则默认为true
-spring.application.discovery.remote.config.enabled=true
 ```
 
 ## 配置中心
@@ -268,9 +271,8 @@ spring.application.discovery.remote.config.enabled=true
 
 继承ConfigAdapter.java
 ```java
-public class DiscoveryConfigAdapter extends ConfigAdapter {
+public class MyConfigAdapter extends ConfigAdapter {
     // 从本地获取规则
-    // 通过application.properties里的spring.application.discovery.remote.config.enabled=true，来决定主动从本地，还是远程配置中心获取规则
     @Override
     protected String getLocalContextPath() {
         // 规则文件放在resources目录下
@@ -282,7 +284,7 @@ public class DiscoveryConfigAdapter extends ConfigAdapter {
 
     // 从远程配置中心获取规则
     @Override
-    public InputStream getRemoteInputStream() {
+    public InputStream getRemoteInputStream() throws Exception {
         InputStream inputStream = ...;
 
         return inputStream;
@@ -290,7 +292,7 @@ public class DiscoveryConfigAdapter extends ConfigAdapter {
 
     // 订阅远程配置中心的规则更新（推送策略自己决定，可以所有服务都只对应一个规则信息，也可以根据服务名获取对应的规则信息）
     @PostConstruct
-    public void update() {
+    public void update() throws Exception {
         InputStream inputStream = ...;
         fireRuleUpdated(new RuleUpdatedEvent(inputStream), true);
     }
