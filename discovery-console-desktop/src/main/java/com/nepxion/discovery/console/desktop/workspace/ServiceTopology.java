@@ -19,6 +19,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -218,15 +219,33 @@ public class ServiceTopology extends AbstractTopology {
         TElementManager.addGroupChildren(dataBox, group);
     }
 
-    @SuppressWarnings("unchecked")
-    private void locateGroups() {
-        List<TGroup> groups = TElementManager.getGroups(dataBox);
-        for (TGroup group : groups) {
-            String key = group.getUserObject().toString();
-            if (groupLocationMap.containsKey(key)) {
-                group.setLocation(groupLocationMap.get(key));
+    private Object[] filterServices(TNode node) {
+        Object[] services = instanceMap.keySet().toArray();
+        List<Object> filterServices = new ArrayList<Object>();
+
+        for (Object service : services) {
+            TGroup group = getGroup(service.toString());
+            // node.getParent() != group 表示自己不能路由自己，暂时不禁止
+            if (group != null && StringUtils.isNotEmpty(group.getClientProperty("plugin").toString())) {
+                filterServices.add(service);
             }
         }
+
+        return filterServices.toArray();
+    }
+
+    @SuppressWarnings("unchecked")
+    private TGroup getGroup(String serviceId) {
+        List<TElement> elements = dataBox.getAllElements();
+        for (TElement element : elements) {
+            if (element instanceof TGroup) {
+                if (StringUtils.equals(element.getUserObject().toString(), serviceId)) {
+                    return (TGroup) element;
+                }
+            }
+        }
+
+        return null;
     }
 
     private String getGroupName(String serviceId, int count, String plugin) {
@@ -264,6 +283,17 @@ public class ServiceTopology extends AbstractTopology {
             node.getAlarmState().addAcknowledgedAlarm(AlarmSeverity.MINOR);
         } else {
             node.getAlarmState().clear();
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void locateGroups() {
+        List<TGroup> groups = TElementManager.getGroups(dataBox);
+        for (TGroup group : groups) {
+            String key = group.getUserObject().toString();
+            if (groupLocationMap.containsKey(key)) {
+                group.setLocation(groupLocationMap.get(key));
+            }
         }
     }
 
@@ -474,7 +504,8 @@ public class ServiceTopology extends AbstractTopology {
                     routerTopology.setPreferredSize(new Dimension(1280, 900));
                 }
 
-                routerTopology.setServices(instanceMap.keySet().toArray());
+                Object[] filterServices = filterServices(node);
+                routerTopology.setServices(filterServices);
                 routerTopology.setInstance(instance);
 
                 JBasicOptionPane.showOptionDialog(HandleManager.getFrame(ServiceTopology.this), routerTopology, ConsoleLocale.getString("execute_gray_router"), JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/navigator.png"), new Object[] { SwingLocale.getString("close") }, null, true);
