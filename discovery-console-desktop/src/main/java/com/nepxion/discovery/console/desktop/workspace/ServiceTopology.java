@@ -47,7 +47,7 @@ import com.nepxion.discovery.console.desktop.entity.InstanceEntity;
 import com.nepxion.discovery.console.desktop.entity.ResultEntity;
 import com.nepxion.discovery.console.desktop.icon.ConsoleIconFactory;
 import com.nepxion.discovery.console.desktop.locale.ConsoleLocale;
-import com.nepxion.discovery.console.desktop.util.UIUtil;
+import com.nepxion.discovery.console.desktop.ui.UIFactory;
 import com.nepxion.discovery.console.desktop.workspace.topology.AbstractTopology;
 import com.nepxion.discovery.console.desktop.workspace.topology.LocationEntity;
 import com.nepxion.discovery.console.desktop.workspace.topology.TopologyEntity;
@@ -114,16 +114,16 @@ public class ServiceTopology extends AbstractTopology {
 
     @Override
     protected JBasicPopupMenu popupMenuGenerate() {
+        super.popupMenuGenerate();
+
         TGroup group = TElementManager.getSelectedGroup(dataBox);
-        pinSelectedGroupMenuItem.setVisible(group != null);
 
         TNode node = TElementManager.getSelectedNode(dataBox);
-        pinSelectedNodeMenuItem.setVisible(node != null);
-        executeGrayRouterMenuItem.setVisible(node != null && StringUtils.isNotEmpty(node.getClientProperty("plugin").toString()));
+        executeGrayRouterMenuItem.setVisible(node != null && isPlugin(node));
 
         TElement element = TElementManager.getSelectedElement(dataBox);
-        executeGrayReleaseMenuItem.setVisible(element != null && StringUtils.isNotEmpty(element.getClientProperty("plugin").toString()));
-        refreshGrayStateMenuItem.setVisible(element != null && StringUtils.isNotEmpty(element.getClientProperty("plugin").toString()));
+        executeGrayReleaseMenuItem.setVisible(element != null && isPlugin(element));
+        refreshGrayStateMenuItem.setVisible(element != null && isPlugin(element));
 
         if (group != null || node != null || element != null) {
             return popupMenu;
@@ -145,9 +145,6 @@ public class ServiceTopology extends AbstractTopology {
         toolBar.add(createConfigButton(true));
 
         ButtonManager.updateUI(toolBar);
-
-        setGroupAutoExpand(true);
-        setLinkAutoHide(true);
     }
 
     private void initializeTopology() {
@@ -165,6 +162,9 @@ public class ServiceTopology extends AbstractTopology {
                 return null;
             }
         });
+        
+        setGroupAutoExpand(true);
+        setLinkAutoHide(true);
     }
 
     private void addServices(Map<String, List<InstanceEntity>> instanceMap) {
@@ -194,12 +194,12 @@ public class ServiceTopology extends AbstractTopology {
                 TNode node = null;
                 if (StringUtils.isNotEmpty(plugin)) {
                     node = createNode(nodeName, serviceNodeEntity, nodeLocationEntity, i);
-                    node.putClientProperty("plugin", plugin);
-                    group.putClientProperty("plugin", plugin);
+                    setPlugin(node, plugin);
+                    setPlugin(group, plugin);
                 } else {
                     node = createNode(nodeName, notServiceNodeEntity, nodeLocationEntity, i);
-                    node.putClientProperty("plugin", "");
-                    group.putClientProperty("plugin", "");
+                    setPlugin(node, "");
+                    setPlugin(group, "");
                 }
                 node.setUserObject(instance);
 
@@ -215,6 +215,20 @@ public class ServiceTopology extends AbstractTopology {
         TElementManager.addGroupChildren(dataBox, group);
     }
 
+    private String getPlugin(TElement element) {
+        return element.getClientProperty("plugin").toString();
+    }
+
+    private void setPlugin(TElement element, String plugin) {
+        element.putClientProperty("plugin", plugin);
+    }
+
+    private boolean isPlugin(TElement element) {
+        String plugin = getPlugin(element);
+
+        return StringUtils.isNotEmpty(plugin);
+    }
+
     private Object[] filterServices(TNode node) {
         Object[] services = instanceMap.keySet().toArray();
         List<Object> filterServices = new ArrayList<Object>();
@@ -222,7 +236,7 @@ public class ServiceTopology extends AbstractTopology {
         for (Object service : services) {
             TGroup group = getGroup(service.toString());
             // node.getParent() != group 表示自己不能路由自己，暂时不禁止
-            if (group != null && StringUtils.isNotEmpty(group.getClientProperty("plugin").toString())) {
+            if (group != null && isPlugin(group)) {
                 filterServices.add(service);
             }
         }
@@ -249,7 +263,7 @@ public class ServiceTopology extends AbstractTopology {
     }
 
     private void updateGroup(TGroup group) {
-        String name = getGroupName(group.getUserObject().toString(), group.childrenSize(), group.getClientProperty("plugin").toString());
+        String name = getGroupName(group.getUserObject().toString(), group.childrenSize(), getPlugin(group));
 
         group.setName(name);
     }
@@ -428,20 +442,16 @@ public class ServiceTopology extends AbstractTopology {
                     return;
                 }
 
-                if (group != null) {
-                    if (StringUtils.isEmpty(group.getClientProperty("plugin").toString())) {
-                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("group_not_for_gray_release"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+                if (group != null && !isPlugin(group)) {
+                    JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("group_not_for_gray_release"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
 
-                        return;
-                    }
+                    return;
                 }
 
-                if (node != null) {
-                    if (StringUtils.isEmpty(node.getClientProperty("plugin").toString())) {
-                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("node_not_for_gray_release"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+                if (node != null && !isPlugin(node)) {
+                    JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("node_not_for_gray_release"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
 
-                        return;
-                    }
+                    return;
                 }
 
                 boolean hasException = false;
@@ -461,7 +471,6 @@ public class ServiceTopology extends AbstractTopology {
                 }
 
                 String description = null;
-
                 if (group != null) {
                     grayPanel.setGray(group);
 
@@ -493,12 +502,10 @@ public class ServiceTopology extends AbstractTopology {
                     return;
                 }
 
-                if (node != null) {
-                    if (StringUtils.isEmpty(node.getClientProperty("plugin").toString())) {
-                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("node_not_for_gray_router"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+                if (node != null && !isPlugin(node)) {
+                    JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("node_not_for_gray_router"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
 
-                        return;
-                    }
+                    return;
                 }
 
                 InstanceEntity instance = (InstanceEntity) node.getUserObject();
@@ -534,20 +541,16 @@ public class ServiceTopology extends AbstractTopology {
                     return;
                 }
 
-                if (group != null) {
-                    if (StringUtils.isEmpty(group.getClientProperty("plugin").toString())) {
-                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("group_not_for_refresh_gray_state"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+                if (group != null && !isPlugin(group)) {
+                    JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("group_not_for_refresh_gray_state"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
 
-                        return;
-                    }
+                    return;
                 }
 
-                if (node != null) {
-                    if (StringUtils.isEmpty(node.getClientProperty("plugin").toString())) {
-                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("node_not_for_refresh_gray_state"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+                if (node != null && !isPlugin(node)) {
+                    JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("node_not_for_refresh_gray_state"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
 
-                        return;
-                    }
+                    return;
                 }
 
                 if (group != null) {
@@ -624,7 +627,7 @@ public class ServiceTopology extends AbstractTopology {
             layoutPanel.add(toolBar);
 
             JPanel panel = new JPanel();
-            panel.setBorder(UIUtil.createTitledBorder(ConsoleLocale.getString("title_gray_version_operation")));
+            panel.setBorder(UIFactory.createTitledBorder(ConsoleLocale.getString("title_gray_version_operation")));
             panel.setLayout(new BorderLayout());
             panel.add(versionTabbedPane, BorderLayout.CENTER);
             panel.add(layoutPanel, BorderLayout.SOUTH);
@@ -655,7 +658,7 @@ public class ServiceTopology extends AbstractTopology {
             ButtonManager.updateUI(toolBar);
 
             JPanel panel = new JPanel();
-            panel.setBorder(UIUtil.createTitledBorder(ConsoleLocale.getString("title_gray_rule_operation")));
+            panel.setBorder(UIFactory.createTitledBorder(ConsoleLocale.getString("title_gray_rule_operation")));
             panel.setLayout(new BorderLayout());
             panel.add(ruleTabbedPane, BorderLayout.CENTER);
             panel.add(toolBar, BorderLayout.SOUTH);
@@ -940,7 +943,7 @@ public class ServiceTopology extends AbstractTopology {
 
             JPanel groupPanel = new JPanel();
             groupPanel.setLayout(tableLayout);
-            groupPanel.setBorder(UIUtil.createTitledBorder(ConsoleLocale.getString("group_layout")));
+            groupPanel.setBorder(UIFactory.createTitledBorder(ConsoleLocale.getString("group_layout")));
             groupPanel.add(new JBasicLabel(ConsoleLocale.getString("start_x")), "0, 0");
             groupPanel.add(groupStartXTextField, "1, 0");
             groupPanel.add(new JBasicLabel(ConsoleLocale.getString("start_y")), "2, 0");
@@ -952,7 +955,7 @@ public class ServiceTopology extends AbstractTopology {
 
             JPanel nodePanel = new JPanel();
             nodePanel.setLayout(tableLayout);
-            nodePanel.setBorder(UIUtil.createTitledBorder(ConsoleLocale.getString("node_layout")));
+            nodePanel.setBorder(UIFactory.createTitledBorder(ConsoleLocale.getString("node_layout")));
             nodePanel.add(new JBasicLabel(ConsoleLocale.getString("start_x")), "0, 0");
             nodePanel.add(nodeStartXTextField, "1, 0");
             nodePanel.add(new JBasicLabel(ConsoleLocale.getString("start_y")), "2, 0");

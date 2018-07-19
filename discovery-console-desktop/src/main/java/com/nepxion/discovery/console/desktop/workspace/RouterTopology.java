@@ -9,10 +9,7 @@ package com.nepxion.discovery.console.desktop.workspace;
  * @version 1.0
  */
 
-import twaver.BlinkingRule;
-import twaver.Element;
 import twaver.Generator;
-import twaver.TWaverConst;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -78,6 +75,7 @@ public class RouterTopology extends AbstractTopology {
     public RouterTopology() {
         initializeToolBar();
         initializeTopology();
+        initializeListener();
     }
 
     private void initializeToolBar() {
@@ -99,21 +97,14 @@ public class RouterTopology extends AbstractTopology {
     }
 
     private void initializeTopology() {
-        graph.setBlinkingRule(new BlinkingRule() {
-            public boolean isBodyBlinking(Element element) {
-                return element.getAlarmState().getHighestNativeAlarmSeverity() != null || element.getClientProperty(TWaverConst.PROPERTYNAME_RENDER_COLOR) != null;
-            }
-
-            public boolean isOutlineBlinking(Element element) {
-                return element.getAlarmState().getPropagateSeverity() != null || element.getClientProperty(TWaverConst.PROPERTYNAME_STATE_OUTLINE_COLOR) != null;
-            }
-        });
         graph.setElementStateOutlineColorGenerator(new Generator() {
             public Object generate(Object object) {
                 return null;
             }
         });
+    }
 
+    private void initializeListener() {
         addHierarchyListener(new DisplayAbilityListener() {
             public void displayAbilityChanged(HierarchyEvent e) {
                 // Ugly code
@@ -216,6 +207,7 @@ public class RouterTopology extends AbstractTopology {
     @SuppressWarnings({ "unchecked" })
     public void setServices(Object[] services) {
         comboBox.setModel(new DefaultComboBoxModel<>(services));
+        comboBox.setPreferredSize(new Dimension(comboBox.getPreferredSize().width + 5, comboBox.getPreferredSize().height));
     }
 
     public void setInstance(InstanceEntity instance) {
