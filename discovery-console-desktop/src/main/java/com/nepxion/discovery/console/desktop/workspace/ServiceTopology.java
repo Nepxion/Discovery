@@ -119,11 +119,11 @@ public class ServiceTopology extends AbstractTopology {
         TGroup group = TElementManager.getSelectedGroup(dataBox);
 
         TNode node = TElementManager.getSelectedNode(dataBox);
-        executeGrayRouterMenuItem.setVisible(node != null && hasPlugin(node));
+        executeGrayRouterMenuItem.setVisible(node != null && isPlugin(node));
 
         TElement element = TElementManager.getSelectedElement(dataBox);
-        executeGrayReleaseMenuItem.setVisible(element != null && hasPlugin(element));
-        refreshGrayStateMenuItem.setVisible(element != null && hasPlugin(element));
+        executeGrayReleaseMenuItem.setVisible(element != null && isPlugin(element));
+        refreshGrayStateMenuItem.setVisible(element != null && isPlugin(element));
 
         if (group != null || node != null || element != null) {
             return popupMenu;
@@ -215,7 +215,7 @@ public class ServiceTopology extends AbstractTopology {
         TElementManager.addGroupChildren(dataBox, group);
     }
 
-    private boolean hasPlugin(TElement element) {
+    private boolean isPlugin(TElement element) {
         String plugin = getPlugin(element);
 
         return StringUtils.isNotEmpty(plugin);
@@ -232,7 +232,7 @@ public class ServiceTopology extends AbstractTopology {
         for (Object service : services) {
             TGroup group = getGroup(service.toString());
             // node.getParent() != group 表示自己不能路由自己，暂时不禁止
-            if (group != null && hasPlugin(group)) {
+            if (group != null && isPlugin(group)) {
                 filterServices.add(service);
             }
         }
@@ -438,20 +438,16 @@ public class ServiceTopology extends AbstractTopology {
                     return;
                 }
 
-                if (group != null) {
-                    if (StringUtils.isEmpty(group.getClientProperty("plugin").toString())) {
-                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("group_not_for_gray_release"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+                if (group != null && !isPlugin(group)) {
+                    JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("group_not_for_gray_release"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
 
-                        return;
-                    }
+                    return;
                 }
 
-                if (node != null) {
-                    if (StringUtils.isEmpty(node.getClientProperty("plugin").toString())) {
-                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("node_not_for_gray_release"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+                if (node != null && !isPlugin(node)) {
+                    JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("node_not_for_gray_release"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
 
-                        return;
-                    }
+                    return;
                 }
 
                 boolean hasException = false;
@@ -503,12 +499,10 @@ public class ServiceTopology extends AbstractTopology {
                     return;
                 }
 
-                if (node != null) {
-                    if (StringUtils.isEmpty(node.getClientProperty("plugin").toString())) {
-                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("node_not_for_gray_router"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+                if (node != null && !isPlugin(node)) {
+                    JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("node_not_for_gray_router"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
 
-                        return;
-                    }
+                    return;
                 }
 
                 InstanceEntity instance = (InstanceEntity) node.getUserObject();
@@ -544,20 +538,16 @@ public class ServiceTopology extends AbstractTopology {
                     return;
                 }
 
-                if (group != null) {
-                    if (StringUtils.isEmpty(group.getClientProperty("plugin").toString())) {
-                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("group_not_for_refresh_gray_state"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+                if (group != null && !isPlugin(group)) {
+                    JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("group_not_for_refresh_gray_state"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
 
-                        return;
-                    }
+                    return;
                 }
 
-                if (node != null) {
-                    if (StringUtils.isEmpty(node.getClientProperty("plugin").toString())) {
-                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("node_not_for_refresh_gray_state"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+                if (node != null && !isPlugin(node)) {
+                    JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("node_not_for_refresh_gray_state"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
 
-                        return;
-                    }
+                    return;
                 }
 
                 if (group != null) {
