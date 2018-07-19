@@ -53,6 +53,7 @@ import com.nepxion.swing.button.JBasicButton;
 import com.nepxion.swing.button.JBasicToggleButton;
 import com.nepxion.swing.button.JClassicButton;
 import com.nepxion.swing.combobox.JBasicComboBox;
+import com.nepxion.swing.dialog.JExceptionDialog;
 import com.nepxion.swing.handle.HandleManager;
 import com.nepxion.swing.listener.DisplayAbilityListener;
 import com.nepxion.swing.locale.SwingLocale;
@@ -256,7 +257,15 @@ public class RouterTopology extends AbstractTopology {
                     return;
                 }
 
-                RouterEntity routerEntity = ServiceController.routes(instance, routerPath);
+                RouterEntity routerEntity = null;
+                try {
+                    routerEntity = ServiceController.routes(instance, routerPath);
+                } catch (Exception ex) {
+                    JExceptionDialog.traceException(HandleManager.getFrame(RouterTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
+
+                    return;
+                }
+
                 route(routerEntity);
 
                 layoutActionListener.actionPerformed(null);

@@ -728,7 +728,16 @@ public class ServiceTopology extends AbstractTopology {
 
                     if (group != null) {
                         String serviceId = (String) group.getUserObject();
-                        List<ResultEntity> results = ServiceController.versionUpdate(serviceId, dynamicVersion);
+                        List<ResultEntity> results = null;
+                        try {
+                            results = ServiceController.versionUpdate(serviceId, dynamicVersion);
+                        } catch (Exception ex) {
+                            JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
+
+                            refreshGrayState(group);
+
+                            return;
+                        }
 
                         showResult(results);
 
@@ -736,7 +745,16 @@ public class ServiceTopology extends AbstractTopology {
                     } else if (node != null) {
                         InstanceEntity instance = (InstanceEntity) node.getUserObject();
 
-                        String result = ServiceController.versionUpdate(instance, dynamicVersion);
+                        String result = null;
+                        try {
+                            result = ServiceController.versionUpdate(instance, dynamicVersion);
+                        } catch (Exception ex) {
+                            JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
+
+                            refreshGrayState(node);
+
+                            return;
+                        }
 
                         showResult(result);
 
@@ -755,7 +773,16 @@ public class ServiceTopology extends AbstractTopology {
                 public void execute(ActionEvent e) {
                     if (group != null) {
                         String serviceId = (String) group.getUserObject();
-                        List<ResultEntity> results = ServiceController.versionClear(serviceId);
+                        List<ResultEntity> results = null;
+                        try {
+                            results = ServiceController.versionClear(serviceId);
+                        } catch (Exception ex) {
+                            JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
+
+                            refreshGrayState(group);
+
+                            return;
+                        }
 
                         showResult(results);
 
@@ -763,7 +790,16 @@ public class ServiceTopology extends AbstractTopology {
                     } else if (node != null) {
                         InstanceEntity instance = (InstanceEntity) node.getUserObject();
 
-                        String result = ServiceController.versionClear(instance);
+                        String result = null;
+                        try {
+                            result = ServiceController.versionClear(instance);
+                        } catch (Exception ex) {
+                            JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
+
+                            refreshGrayState(node);
+
+                            return;
+                        }
 
                         showResult(result);
 
@@ -789,7 +825,16 @@ public class ServiceTopology extends AbstractTopology {
 
                     if (group != null) {
                         String serviceId = (String) group.getUserObject();
-                        List<ResultEntity> results = ServiceController.configUpdate(serviceId, dynamicRule);
+                        List<ResultEntity> results = null;
+                        try {
+                            results = ServiceController.configUpdate(serviceId, dynamicRule);
+                        } catch (Exception ex) {
+                            JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
+
+                            refreshGrayState(group);
+
+                            return;
+                        }
 
                         showResult(results);
 
@@ -797,7 +842,16 @@ public class ServiceTopology extends AbstractTopology {
                     } else if (node != null) {
                         InstanceEntity instance = (InstanceEntity) node.getUserObject();
 
-                        String result = ServiceController.configUpdate(instance, dynamicRule);
+                        String result = null;
+                        try {
+                            result = ServiceController.configUpdate(instance, dynamicRule);
+                        } catch (Exception ex) {
+                            JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
+
+                            refreshGrayState(node);
+
+                            return;
+                        }
 
                         showResult(result);
 
@@ -816,7 +870,16 @@ public class ServiceTopology extends AbstractTopology {
                 public void execute(ActionEvent e) {
                     if (group != null) {
                         String serviceId = (String) group.getUserObject();
-                        List<ResultEntity> results = ServiceController.configClear(serviceId);
+                        List<ResultEntity> results = null;
+                        try {
+                            results = ServiceController.configClear(serviceId);
+                        } catch (Exception ex) {
+                            JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
+
+                            refreshGrayState(group);
+
+                            return;
+                        }
 
                         showResult(results);
 
@@ -824,7 +887,16 @@ public class ServiceTopology extends AbstractTopology {
                     } else if (node != null) {
                         InstanceEntity instance = (InstanceEntity) node.getUserObject();
 
-                        String result = ServiceController.configClear(instance);
+                        String result = null;
+                        try {
+                            result = ServiceController.configClear(instance);
+                        } catch (Exception ex) {
+                            JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
+
+                            refreshGrayState(node);
+
+                            return;
+                        }
 
                         showResult(result);
 

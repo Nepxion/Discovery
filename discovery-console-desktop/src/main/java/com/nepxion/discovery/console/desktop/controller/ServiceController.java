@@ -186,6 +186,9 @@ public class ServiceController {
         try {
             return JacksonSerializer.fromJson(result, typeReference);
         } catch (Exception e) {
+            ServiceErrorHandler errorHandler = (ServiceErrorHandler) restTemplate.getErrorHandler();
+            result = errorHandler.getCause();
+
             throw new IllegalArgumentException(result);
         }
     }
