@@ -582,15 +582,12 @@ public class ServiceTopology extends AbstractTopology {
         private TNode node;
 
         public GrayPanel() {
-            initializeVersionComponents();
-            initializeRuleComponents();
-
             setLayout(new BorderLayout());
             add(createVersionPanel(), BorderLayout.NORTH);
             add(createRulePanel(), BorderLayout.CENTER);
         }
 
-        private void initializeVersionComponents() {
+        private JPanel createVersionPanel() {
             dynamicVersionTextField = new JBasicTextField();
             dynamicVersionPanel = new JPanel();
             dynamicVersionPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
@@ -614,9 +611,7 @@ public class ServiceTopology extends AbstractTopology {
 
             clearVersionButton = new JClassicButton(createClearVersionAction());
             clearVersionButton.setPreferredSize(new Dimension(clearVersionButton.getPreferredSize().width, 30));
-        }
 
-        private JPanel createVersionPanel() {
             JPanel toolBar = new JPanel();
             toolBar.setLayout(new BoxLayout(toolBar, BoxLayout.X_AXIS));
             toolBar.add(updateVersionButton);
@@ -637,7 +632,7 @@ public class ServiceTopology extends AbstractTopology {
             return panel;
         }
 
-        private void initializeRuleComponents() {
+        private JPanel createRulePanel() {
             dynamicRuleTextArea = new JBasicTextArea();
 
             localRuleTextArea = new JBasicTextArea();
@@ -652,9 +647,7 @@ public class ServiceTopology extends AbstractTopology {
 
             clearRuleButton = new JClassicButton(createClearRuleAction());
             updateRuleButton.setPreferredSize(new Dimension(clearRuleButton.getPreferredSize().width, 30));
-        }
 
-        private JPanel createRulePanel() {
             JPanel toolBar = new JPanel();
             toolBar.setLayout(new BoxLayout(toolBar, BoxLayout.X_AXIS));
             toolBar.add(updateRuleButton);
@@ -926,34 +919,16 @@ public class ServiceTopology extends AbstractTopology {
         public LayoutDialog() {
             super(HandleManager.getFrame(ServiceTopology.this), SwingLocale.getString("layout"), new Dimension(500, 330), true, false, true);
 
-            initializeGroupComponents();
-            initializeNodeComponents();
-
-            JPanel panel = new JPanel();
-            panel.setLayout(new FiledLayout(FiledLayout.COLUMN, FiledLayout.FULL, 5));
-            panel.add(createGroupPanel());
-            panel.add(createNodePanel());
-
-            setOption(YES_NO_OPTION);
-            setIcon(IconFactory.getSwingIcon("banner/navigator.png"));
-            setContent(panel);
-        }
-
-        private void initializeGroupComponents() {
             groupStartXTextField = new JNumberTextField(4, 0, 0, 10000);
             groupStartYTextField = new JNumberTextField(4, 0, 0, 10000);
             groupHorizontalGapTextField = new JNumberTextField(4, 0, 0, 10000);
             groupVerticalGapTextField = new JNumberTextField(4, 0, 0, 10000);
-        }
 
-        private void initializeNodeComponents() {
             nodeStartXTextField = new JNumberTextField(4, 0, 0, 10000);
             nodeStartYTextField = new JNumberTextField(4, 0, 0, 10000);
             nodeHorizontalGapTextField = new JNumberTextField(4, 0, 0, 10000);
             nodeVerticalGapTextField = new JNumberTextField(4, 0, 0, 10000);
-        }
 
-        private JPanel createGroupPanel() {
             double[][] size = {
                     { 100, TableLayout.FILL, 100, TableLayout.FILL },
                     { TableLayout.PREFERRED, TableLayout.PREFERRED }
@@ -975,19 +950,6 @@ public class ServiceTopology extends AbstractTopology {
             groupPanel.add(new JBasicLabel(ConsoleLocale.getString("vertical_gap")), "2, 1");
             groupPanel.add(groupVerticalGapTextField, "3, 1");
 
-            return groupPanel;
-        }
-
-        private JPanel createNodePanel() {
-            double[][] size = {
-                    { 100, TableLayout.FILL, 100, TableLayout.FILL },
-                    { TableLayout.PREFERRED, TableLayout.PREFERRED }
-            };
-
-            TableLayout tableLayout = new TableLayout(size);
-            tableLayout.setHGap(5);
-            tableLayout.setVGap(5);
-
             JPanel nodePanel = new JPanel();
             nodePanel.setLayout(tableLayout);
             nodePanel.setBorder(UIUtil.createTitledBorder(ConsoleLocale.getString("node_layout")));
@@ -1000,7 +962,14 @@ public class ServiceTopology extends AbstractTopology {
             nodePanel.add(new JBasicLabel(ConsoleLocale.getString("vertical_gap")), "2, 1");
             nodePanel.add(nodeVerticalGapTextField, "3, 1");
 
-            return nodePanel;
+            JPanel panel = new JPanel();
+            panel.setLayout(new FiledLayout(FiledLayout.COLUMN, FiledLayout.FULL, 5));
+            panel.add(groupPanel);
+            panel.add(nodePanel);
+
+            setOption(YES_NO_OPTION);
+            setIcon(IconFactory.getSwingIcon("banner/navigator.png"));
+            setContent(panel);
         }
 
         @Override
@@ -1026,19 +995,38 @@ public class ServiceTopology extends AbstractTopology {
         }
 
         public boolean setFromUI() {
-            try {
-                groupLocationEntity.setStartX(Integer.parseInt(groupStartXTextField.getText()));
-                groupLocationEntity.setStartY(Integer.parseInt(groupStartYTextField.getText()));
-                groupLocationEntity.setHorizontalGap(Integer.parseInt(groupHorizontalGapTextField.getText()));
-                groupLocationEntity.setVerticalGap(Integer.parseInt(groupVerticalGapTextField.getText()));
+            int groupStartX = 0;
+            int groupStartY = 0;
+            int groupHorizontalGap = 0;
+            int groupVerticalGap = 0;
+            int nodeStartX = 0;
+            int nodeStartY = 0;
+            int nodeHorizontalGap = 0;
+            int nodeVerticalGap = 0;
 
-                nodeLocationEntity.setStartX(Integer.parseInt(nodeStartXTextField.getText()));
-                nodeLocationEntity.setStartY(Integer.parseInt(nodeStartYTextField.getText()));
-                nodeLocationEntity.setHorizontalGap(Integer.parseInt(nodeHorizontalGapTextField.getText()));
-                nodeLocationEntity.setVerticalGap(Integer.parseInt(nodeVerticalGapTextField.getText()));
+            try {
+                groupStartX = Integer.parseInt(groupStartXTextField.getText());
+                groupStartY = Integer.parseInt(groupStartYTextField.getText());
+                groupHorizontalGap = Integer.parseInt(groupHorizontalGapTextField.getText());
+                groupVerticalGap = Integer.parseInt(groupVerticalGapTextField.getText());
+
+                nodeStartX = Integer.parseInt(nodeStartXTextField.getText());
+                nodeStartY = Integer.parseInt(nodeStartYTextField.getText());
+                nodeHorizontalGap = Integer.parseInt(nodeHorizontalGapTextField.getText());
+                nodeVerticalGap = Integer.parseInt(nodeVerticalGapTextField.getText());
             } catch (NumberFormatException e) {
                 return false;
             }
+
+            groupLocationEntity.setStartX(groupStartX);
+            groupLocationEntity.setStartY(groupStartY);
+            groupLocationEntity.setHorizontalGap(groupHorizontalGap);
+            groupLocationEntity.setVerticalGap(groupVerticalGap);
+
+            nodeLocationEntity.setStartX(nodeStartX);
+            nodeLocationEntity.setStartY(nodeStartY);
+            nodeLocationEntity.setHorizontalGap(nodeHorizontalGap);
+            nodeLocationEntity.setVerticalGap(nodeVerticalGap);
 
             return true;
         }
