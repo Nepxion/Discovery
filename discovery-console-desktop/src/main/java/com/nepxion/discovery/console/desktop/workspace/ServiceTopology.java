@@ -194,12 +194,12 @@ public class ServiceTopology extends AbstractTopology {
                 TNode node = null;
                 if (StringUtils.isNotEmpty(plugin)) {
                     node = createNode(nodeName, serviceNodeEntity, nodeLocationEntity, i);
-                    node.putClientProperty("plugin", plugin);
-                    group.putClientProperty("plugin", plugin);
+                    setPlugin(node, plugin);
+                    setPlugin(group, plugin);
                 } else {
                     node = createNode(nodeName, notServiceNodeEntity, nodeLocationEntity, i);
-                    node.putClientProperty("plugin", "");
-                    group.putClientProperty("plugin", "");
+                    setPlugin(node, "");
+                    setPlugin(group, "");
                 }
                 node.setUserObject(instance);
 
@@ -215,14 +215,18 @@ public class ServiceTopology extends AbstractTopology {
         TElementManager.addGroupChildren(dataBox, group);
     }
 
+    private String getPlugin(TElement element) {
+        return element.getClientProperty("plugin").toString();
+    }
+
+    private void setPlugin(TElement element, String plugin) {
+        element.putClientProperty("plugin", plugin);
+    }
+
     private boolean isPlugin(TElement element) {
         String plugin = getPlugin(element);
 
         return StringUtils.isNotEmpty(plugin);
-    }
-
-    private String getPlugin(TElement element) {
-        return element.getClientProperty("plugin").toString();
     }
 
     private Object[] filterServices(TNode node) {
