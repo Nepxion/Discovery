@@ -683,7 +683,7 @@ public class ServiceTopology extends AbstractTopology {
             dynamicVersionTextField.setText("");
             localVersionTextField.setText("");
             updateVersionButton.setText("批量更新灰度版本");
-            clearVersionButton.setText("批量清除灰度规则");
+            clearVersionButton.setText("批量清除灰度版本");
 
             dynamicRuleTextArea.setText("");
             localRuleTextArea.setText("");
@@ -706,7 +706,7 @@ public class ServiceTopology extends AbstractTopology {
             dynamicVersionTextField.setText(instance.getDynamicVersion());
             localVersionTextField.setText(instance.getVersion());
             updateVersionButton.setText("更新灰度版本");
-            clearVersionButton.setText("清除灰度规则");
+            clearVersionButton.setText("清除灰度版本");
 
             dynamicRuleTextArea.setText(instance.getDynamicRule());
             localRuleTextArea.setText(instance.getRule());
@@ -719,7 +719,29 @@ public class ServiceTopology extends AbstractTopology {
                 private static final long serialVersionUID = 1L;
 
                 public void execute(ActionEvent e) {
+                    String dynamicVersion = dynamicVersionTextField.getText();
+                    if (StringUtils.isEmpty(dynamicVersion)) {
+                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), "灰度版本不能为空", SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
 
+                        return;
+                    }
+
+                    if (group != null) {
+                        String serviceId = (String) group.getUserObject();
+                        List<ResultEntity> results = ServiceController.versionUpdate(serviceId, dynamicVersion);
+
+                        showResult(results);
+
+                        refreshGrayState(group);
+                    } else if (node != null) {
+                        InstanceEntity instance = (InstanceEntity) node.getUserObject();
+
+                        String result = ServiceController.versionUpdate(instance, dynamicVersion);
+
+                        showResult(result);
+
+                        refreshGrayState(node);
+                    }
                 }
             };
 
@@ -727,11 +749,26 @@ public class ServiceTopology extends AbstractTopology {
         }
 
         private JSecurityAction createClearVersionAction() {
-            JSecurityAction action = new JSecurityAction("清除灰度规则", ConsoleIconFactory.getSwingIcon("paint.png"), "清除灰度规则") {
+            JSecurityAction action = new JSecurityAction("清除灰度版本", ConsoleIconFactory.getSwingIcon("paint.png"), "清除灰度版本") {
                 private static final long serialVersionUID = 1L;
 
                 public void execute(ActionEvent e) {
+                    if (group != null) {
+                        String serviceId = (String) group.getUserObject();
+                        List<ResultEntity> results = ServiceController.versionClear(serviceId);
 
+                        showResult(results);
+
+                        refreshGrayState(group);
+                    } else if (node != null) {
+                        InstanceEntity instance = (InstanceEntity) node.getUserObject();
+
+                        String result = ServiceController.versionClear(instance);
+
+                        showResult(result);
+
+                        refreshGrayState(node);
+                    }
                 }
             };
 
@@ -745,7 +782,7 @@ public class ServiceTopology extends AbstractTopology {
                 public void execute(ActionEvent e) {
                     String dynamicRule = dynamicRuleTextArea.getText();
                     if (StringUtils.isEmpty(dynamicRule)) {
-                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), "规则不能为空", SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), "灰度规则不能为空", SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
 
                         return;
                     }
@@ -766,7 +803,6 @@ public class ServiceTopology extends AbstractTopology {
 
                         refreshGrayState(node);
                     }
-
                 }
             };
 
@@ -787,6 +823,10 @@ public class ServiceTopology extends AbstractTopology {
                         refreshGrayState(group);
                     } else if (node != null) {
                         InstanceEntity instance = (InstanceEntity) node.getUserObject();
+
+                        String result = ServiceController.configClear(instance);
+
+                        showResult(result);
 
                         refreshGrayState(node);
                     }

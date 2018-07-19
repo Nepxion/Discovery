@@ -43,7 +43,7 @@ public class ServiceController {
     }
 
     public static List<String> getVersions(InstanceEntity instance) {
-        String url = "http://" + instance.getHost() + ":" + instance.getPort() + "/version/view";
+        String url = getUrl(instance) + "/version/view";
 
         String result = restTemplate.getForEntity(url, String.class).getBody();
 
@@ -52,7 +52,7 @@ public class ServiceController {
     }
 
     public static List<String> getRules(InstanceEntity instance) {
-        String url = "http://" + instance.getHost() + ":" + instance.getPort() + "/config/view";
+        String url = getUrl(instance) + "/config/view";
 
         String result = restTemplate.getForEntity(url, String.class).getBody();
 
@@ -61,12 +61,56 @@ public class ServiceController {
     }
 
     public static RouterEntity routes(InstanceEntity instance, String routeServiceIds) {
-        String url = "http://" + instance.getHost() + ":" + instance.getPort() + "/router/routes";
+        String url = getUrl(instance) + "/router/routes";
 
         String result = restTemplate.postForEntity(url, routeServiceIds, String.class).getBody();
 
         return convert(result, new TypeReference<RouterEntity>() {
         });
+    }
+
+    public static List<ResultEntity> versionUpdate(String serviceId, String version) {
+        String url = getUrl() + "/console/version/update/" + serviceId;
+
+        String result = restTemplate.postForEntity(url, version, String.class).getBody();
+
+        return convert(result, new TypeReference<List<ResultEntity>>() {
+        });
+    }
+
+    public static String versionUpdate(InstanceEntity instance, String version) {
+        String url = getUrl(instance) + "/version/update";
+
+        String result = restTemplate.postForEntity(url, version, String.class).getBody();
+
+        if (!StringUtils.equals(result, "OK")) {
+            ServiceErrorHandler errorHandler = (ServiceErrorHandler) restTemplate.getErrorHandler();
+            result = errorHandler.getCause();
+        }
+
+        return result;
+    }
+
+    public static List<ResultEntity> versionClear(String serviceId) {
+        String url = getUrl() + "/console/version/clear/" + serviceId;
+
+        String result = restTemplate.postForEntity(url, null, String.class).getBody();
+
+        return convert(result, new TypeReference<List<ResultEntity>>() {
+        });
+    }
+
+    public static String versionClear(InstanceEntity instance) {
+        String url = getUrl(instance) + "/version/clear";
+
+        String result = restTemplate.postForEntity(url, null, String.class).getBody();
+
+        if (!StringUtils.equals(result, "OK")) {
+            ServiceErrorHandler errorHandler = (ServiceErrorHandler) restTemplate.getErrorHandler();
+            result = errorHandler.getCause();
+        }
+
+        return result;
     }
 
     public static List<ResultEntity> configUpdate(String serviceId, String config) {
@@ -84,7 +128,7 @@ public class ServiceController {
     }
 
     public static String configUpdate(InstanceEntity instance, String config) {
-        String url = "http://" + instance.getHost() + ":" + instance.getPort() + "/config/update-sync";
+        String url = getUrl(instance) + "/config/update-sync";
 
         // 解决中文乱码
         HttpHeaders headers = new HttpHeaders();
@@ -92,7 +136,7 @@ public class ServiceController {
         HttpEntity<String> entity = new HttpEntity<String>(config, headers);
 
         String result = restTemplate.postForEntity(url, entity, String.class).getBody();
-        
+
         if (!StringUtils.equals(result, "OK")) {
             ServiceErrorHandler errorHandler = (ServiceErrorHandler) restTemplate.getErrorHandler();
             result = errorHandler.getCause();
@@ -110,11 +154,30 @@ public class ServiceController {
         });
     }
 
+    public static String configClear(InstanceEntity instance) {
+        String url = getUrl(instance) + "/config/clear";
+
+        String result = restTemplate.postForEntity(url, null, String.class).getBody();
+
+        if (!StringUtils.equals(result, "OK")) {
+            ServiceErrorHandler errorHandler = (ServiceErrorHandler) restTemplate.getErrorHandler();
+            result = errorHandler.getCause();
+        }
+
+        return result;
+    }
+
     private static String getUrl() {
         String url = PropertiesContext.getProperties().getString("url");
         if (!url.endsWith("/")) {
             url += "/";
         }
+
+        return url;
+    }
+
+    private static String getUrl(InstanceEntity instance) {
+        String url = "http://" + instance.getHost() + ":" + instance.getPort();
 
         return url;
     }
