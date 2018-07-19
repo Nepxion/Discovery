@@ -436,13 +436,14 @@ public class MyConfigAdapter extends ConfigAdapter {
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console4.jpg)
   - 在弹出的界面，在灰度版本的文本框输入1.1，然后点击“更新灰度版本”按钮，那么Zuul服务的版本从1.0切换到1.1，该节点会呈现黄色闪烁，表示正在执行版本灰度
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console5.jpg)
-  - 重复“执行灰度路由”的步骤，发现访问的路径改变了，目的达到。通过“执行灰度发布”界面，点击“清除灰度版本”按钮，回滚到以前访问路径，这里不表述了
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console6.jpg)
+  - 重复“执行灰度路由”的步骤，发现访问的路径改变了，目的达到。通过“执行灰度发布”界面，点击“清除灰度版本”按钮，回滚到以前访问路径，这里不表述了
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console7.jpg)
 
 进行规则改变的灰度策略
   - 在主界面上，选择“example-discovery-springcloud-example-b”集群下的服务集群，右键“执行灰度发布”，批量改变B1和B2服务的规则
-  ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console7.jpg)
-  - 在弹出的界面，在灰度文本框输入如下新规则，然后点击“更新灰度规则”按钮，那么改变B1和B2服务的规则进行切换，两个节点会呈现青色闪烁，表示正在执行规则灰度  
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console8.jpg)
+  - 在弹出的界面，在灰度文本框输入如下新规则，然后点击“更新灰度规则”按钮，那么改变B1和B2服务的规则进行切换，两个节点会呈现青色闪烁，表示正在执行规则灰度
 新XML规则
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -454,6 +455,8 @@ public class MyConfigAdapter extends ConfigAdapter {
     </discovery>
 </rule>
 ```
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console9.jpg)
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console10.jpg)
 
 #### 基于Rest方式的多版本灰度访问控制
 基于服务的操作过程和效果
