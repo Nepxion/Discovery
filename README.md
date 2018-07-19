@@ -424,12 +424,17 @@ public class MyConfigAdapter extends ConfigAdapter {
 - 启动discovery-springcloud-example下8个DiscoveryApplication，无先后顺序，等待全部启动完毕
 - 启动discovery-springcloud-example-console下ConsoleApplication
 - 启动discovery-console-desktop下ConsoleLauncher
-  - 在界面上点“显示服务拓扑”，可以把在服务注册发现中心所有注册的服务都显示在界面上
+  - 在界面上点“显示服务拓扑”按钮，可以把在服务注册发现中心所有注册的服务都显示在界面上
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console1.jpg)
-  - 在界面上点选择“example-discovery-springcloud-example-zuul”集群下的一个服务，右键“执行灰度路由”
+  - 在界面上点选择“example-discovery-springcloud-example-zuul”集群下的服务，右键“执行灰度路由”
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console2.jpg)
-  - 在路由界面上点击箭头指向的按钮，并切换下拉菜单，依次把a，b，c三个服务加进去，然后点“执行路由”，可以看到从Zuul->A服务->B服务->C服务，可以访问的路径
+  - 在路由界面上点击箭头指向的按钮，并切换下拉菜单，依次把a，b，c三个服务加进去，然后点“执行路由”按钮，可以看到从Zuul->A服务->B服务->C服务，可以访问的路径，正是我们想要的结果
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console3.jpg)
+  - 回到主界面，我们进行版本切换的灰度策略。在选择Zuul服务，右键“执行灰度发布”，在弹出的界面，把灰度版本输入1.1，然后点击“更新灰度版本”按钮，那么Zuul服务的版本从1.0切换到1.1，该节点会呈现黄色闪烁，表示正在执行版本灰度
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console4.jpg)
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console5.jpg)
+  - 重复“执行灰度路由”的步骤，发现访问的路径改变了，目的达到。通过“执行灰度发布”界面，点击“清除灰度版本”按钮，回滚到以前访问路径，这里不表述了
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console6.jpg)
 
 #### 基于Rest方式的多版本灰度访问控制
 基于服务的操作过程和效果
