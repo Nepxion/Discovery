@@ -145,9 +145,6 @@ public class ServiceTopology extends AbstractTopology {
         toolBar.add(createConfigButton(true));
 
         ButtonManager.updateUI(toolBar);
-
-        setGroupAutoExpand(true);
-        setLinkAutoHide(true);
     }
 
     private void initializeTopology() {
@@ -165,6 +162,9 @@ public class ServiceTopology extends AbstractTopology {
                 return null;
             }
         });
+        
+        setGroupAutoExpand(true);
+        setLinkAutoHide(true);
     }
 
     private void addServices(Map<String, List<InstanceEntity>> instanceMap) {
@@ -471,7 +471,6 @@ public class ServiceTopology extends AbstractTopology {
                 }
 
                 String description = null;
-
                 if (group != null) {
                     grayPanel.setGray(group);
 
