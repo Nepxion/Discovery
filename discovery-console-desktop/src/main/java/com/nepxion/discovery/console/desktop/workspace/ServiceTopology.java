@@ -114,11 +114,11 @@ public class ServiceTopology extends AbstractTopology {
 
     @Override
     protected JBasicPopupMenu popupMenuGenerate() {
+        super.popupMenuGenerate();
+
         TGroup group = TElementManager.getSelectedGroup(dataBox);
-        pinSelectedGroupMenuItem.setVisible(group != null);
 
         TNode node = TElementManager.getSelectedNode(dataBox);
-        pinSelectedNodeMenuItem.setVisible(node != null);
         executeGrayRouterMenuItem.setVisible(node != null && StringUtils.isNotEmpty(node.getClientProperty("plugin").toString()));
 
         TElement element = TElementManager.getSelectedElement(dataBox);

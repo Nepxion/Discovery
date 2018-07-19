@@ -262,7 +262,7 @@ public abstract class AbstractTopology extends JPanel {
 
     protected TNode createNode(String name, TopologyEntity topologyEntity, LocationEntity locationEntity, int index) {
         String image = topologyEntity.getImage();
-        
+
         int startX = locationEntity.getStartX();
         int startY = locationEntity.getStartY();
         int horizontalGap = locationEntity.getHorizontalGap();
