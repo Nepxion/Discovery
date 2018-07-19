@@ -926,16 +926,34 @@ public class ServiceTopology extends AbstractTopology {
         public LayoutDialog() {
             super(HandleManager.getFrame(ServiceTopology.this), SwingLocale.getString("layout"), new Dimension(500, 330), true, false, true);
 
+            initializeGroupComponents();
+            initializeNodeComponents();
+
+            JPanel panel = new JPanel();
+            panel.setLayout(new FiledLayout(FiledLayout.COLUMN, FiledLayout.FULL, 5));
+            panel.add(createGroupPanel());
+            panel.add(createNodePanel());
+
+            setOption(YES_NO_OPTION);
+            setIcon(IconFactory.getSwingIcon("banner/navigator.png"));
+            setContent(panel);
+        }
+
+        private void initializeGroupComponents() {
             groupStartXTextField = new JNumberTextField(4, 0, 0, 10000);
             groupStartYTextField = new JNumberTextField(4, 0, 0, 10000);
             groupHorizontalGapTextField = new JNumberTextField(4, 0, 0, 10000);
             groupVerticalGapTextField = new JNumberTextField(4, 0, 0, 10000);
+        }
 
+        private void initializeNodeComponents() {
             nodeStartXTextField = new JNumberTextField(4, 0, 0, 10000);
             nodeStartYTextField = new JNumberTextField(4, 0, 0, 10000);
             nodeHorizontalGapTextField = new JNumberTextField(4, 0, 0, 10000);
             nodeVerticalGapTextField = new JNumberTextField(4, 0, 0, 10000);
+        }
 
+        private JPanel createGroupPanel() {
             double[][] size = {
                     { 100, TableLayout.FILL, 100, TableLayout.FILL },
                     { TableLayout.PREFERRED, TableLayout.PREFERRED }
@@ -957,6 +975,19 @@ public class ServiceTopology extends AbstractTopology {
             groupPanel.add(new JBasicLabel(ConsoleLocale.getString("vertical_gap")), "2, 1");
             groupPanel.add(groupVerticalGapTextField, "3, 1");
 
+            return groupPanel;
+        }
+
+        private JPanel createNodePanel() {
+            double[][] size = {
+                    { 100, TableLayout.FILL, 100, TableLayout.FILL },
+                    { TableLayout.PREFERRED, TableLayout.PREFERRED }
+            };
+
+            TableLayout tableLayout = new TableLayout(size);
+            tableLayout.setHGap(5);
+            tableLayout.setVGap(5);
+
             JPanel nodePanel = new JPanel();
             nodePanel.setLayout(tableLayout);
             nodePanel.setBorder(UIUtil.createTitledBorder(ConsoleLocale.getString("node_layout")));
@@ -969,14 +1000,7 @@ public class ServiceTopology extends AbstractTopology {
             nodePanel.add(new JBasicLabel(ConsoleLocale.getString("vertical_gap")), "2, 1");
             nodePanel.add(nodeVerticalGapTextField, "3, 1");
 
-            JPanel panel = new JPanel();
-            panel.setLayout(new FiledLayout(FiledLayout.COLUMN, FiledLayout.FULL, 5));
-            panel.add(groupPanel);
-            panel.add(nodePanel);
-
-            setOption(YES_NO_OPTION);
-            setIcon(IconFactory.getSwingIcon("banner/navigator.png"));
-            setContent(panel);
+            return nodePanel;
         }
 
         @Override
