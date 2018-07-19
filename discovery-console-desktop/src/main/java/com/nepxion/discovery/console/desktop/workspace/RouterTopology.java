@@ -252,12 +252,16 @@ public class RouterTopology extends AbstractTopology {
 
             public void execute(ActionEvent e) {
                 String routerPath = textField.getText();
-                String serviceId = comboBox.getSelectedItem().toString();
-                if (StringUtils.isNotEmpty(routerPath)) {
-                    routerPath = routerPath + ";" + serviceId;
-                } else {
-                    routerPath = serviceId;
+                if (StringUtils.isEmpty(routerPath)) {
+                    return;
                 }
+
+                if (routerPath.contains(";")) {
+                    routerPath = routerPath.substring(0, routerPath.lastIndexOf(";"));
+                } else {
+                    routerPath = "";
+                }
+
                 textField.setText(routerPath);
             }
         };
