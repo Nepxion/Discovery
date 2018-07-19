@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <artifactId>discovery-console-desktop</artifactId>
+    <name>Nepxion Discovery Console Desktop</name>
+    <packaging>jar</packaging>
+    <modelVersion>4.0.0</modelVersion>
+    <description>Nepxion Discovery is an enhancement for Spring Cloud Discovery</description>
+    <url>http://www.nepxion.com</url>
+
+    <parent>
+        <groupId>com.nepxion</groupId>
+        <artifactId>discovery</artifactId>
+        <version>3.3.27</version>
+    </parent>
+
+    <properties>
+        <commons.configuration.version>1.10</commons.configuration.version>
+        <swing.worker.version>1.2</swing.worker.version>
+        <swingx.version>1.0</swingx.version>
+        <jide.version>2.9.7</jide.version>
+        <l2fprod.version>7.3</l2fprod.version>
+        <jcalendar.version>1.3.4.200905090658</jcalendar.version>
+        <nepxion.swing.version>1.0.0</nepxion.swing.version>
+        <nepxion.util.version>1.0.0</nepxion.util.version>
+        <nepxion.cots.version>1.0.0</nepxion.cots.version>
+        <twaver.version>3.7</twaver.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>${commons.configuration.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.lmax</groupId>
+            <artifactId>disruptor</artifactId>
+            <version>${disruptor.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-1.2-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>jdesktop</groupId>
+            <artifactId>swing-worker</artifactId>
+            <version>${swing.worker.version}</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/jdesktop-swing-worker-${swing.worker.version}.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>jdesktop</groupId>
+            <artifactId>swingx</artifactId>
+            <version>${swingx.version}</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/jdesktop-swingx-${swingx.version}.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>jide</groupId>
+            <artifactId>oss</artifactId>
+            <version>${jide.version}</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/jide-oss-${jide.version}.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>l2fprod</groupId>
+            <artifactId>common-all</artifactId>
+            <version>${l2fprod.version}</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/l2fprod-common-all-${l2fprod.version}.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>jcalendar</groupId>
+            <artifactId>jcalendar</artifactId>
+            <version>${jcalendar.version}</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/jcalendar-${jcalendar.version}.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nepxion</groupId>
+            <artifactId>swing</artifactId>
+            <version>${nepxion.swing.version}</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/nepxion-swing-${nepxion.swing.version}.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nepxion</groupId>
+            <artifactId>util</artifactId>
+            <version>${nepxion.util.version}</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/nepxion-util-${nepxion.util.version}.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nepxion</groupId>
+            <artifactId>cots</artifactId>
+            <version>${nepxion.cots.version}</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/nepxion-cots-${nepxion.cots.version}.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>twaver</groupId>
+            <artifactId>twaver</artifactId>
+            <version>${twaver.version}</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/twaver-${twaver.version}.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>twaver</groupId>
+            <artifactId>twaver-gis</artifactId>
+            <version>${twaver.version}</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/twaver-gis-${twaver.version}.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>twaver</groupId>
+            <artifactId>twaver-layouter</artifactId>
+            <version>${twaver.version}</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/twaver-layouter-${twaver.version}.jar</systemPath>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}-${project.version}</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/assembly/dist.xml</descriptor>
+                    </descriptors>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <testFailureIgnore>true</testFailureIgnore>
+                    <skip>true</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
