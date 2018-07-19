@@ -23,8 +23,8 @@
             <fileMode>0744</fileMode>
         </fileSet>
         <fileSet>
-            <directory>src/main/resources</directory>
-            <outputDirectory>/conf</outputDirectory>
+            <directory>src/main/resources/config</directory>
+            <outputDirectory>/config</outputDirectory>
             <includes>
                 <include>*.properties</include>
             </includes>
