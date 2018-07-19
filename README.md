@@ -43,6 +43,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 - 实现支持Spring Boot Actuator和Swagger集成
 - 实现独立控制台，支持对规则和版本集中管理，未来考虑界面实现
 - 实现支持未来扩展更多的服务注册中心
+- 实现图形化的灰度发布功能
 
 ## 场景
 - 黑/白名单的IP地址注册的过滤
@@ -388,7 +389,7 @@ public class MyConfigAdapter extends ConfigAdapter {
 | --- | --- |
 | 2222 | 3333 |
 
-### 基于服务的操作过程和效果
+### 服务注册过滤的操作演示
 黑/白名单的IP地址注册的过滤
 - 在rule.xml把本地IP地址写入到相应地方
 - 启动DiscoveryApplicationA1.java
@@ -404,7 +405,12 @@ public class MyConfigAdapter extends ConfigAdapter {
 - 启动DiscoveryApplicationA1.java和DiscoveryApplicationB1.java、DiscoveryApplicationB2.java
 - 你会发现A服务无法获取B服务的任何实例，即B服务受限于黑名单的IP地址列表，不会被A服务的发现；白名单操作也是如此，不过逻辑刚好相反
 
-多版本灰度访问控制
+### 服务发现和负载均衡控制的操作演示
+#### 基于图形化方式的多版本灰度访问控制
+- 启动discovery-springcloud-example下8个DiscoveryApplication，无先后顺序，等待全部启动完毕
+
+#### 基于Rest方式的多版本灰度访问控制
+##### 基于服务的操作过程和效果
 - 启动discovery-springcloud-example下7个DiscoveryApplication（除去Zuul），无先后顺序，等待全部启动完毕
 - 下面URL的端口号，可以是服务端口号，也可以是管理端口号
 - 通过版本切换，达到灰度访问控制，针对A服务
@@ -453,7 +459,7 @@ public class MyConfigAdapter extends ConfigAdapter {
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Result5.jpg)
 
-### 基于网关的操作过程和效果
+##### 基于网关的操作过程和效果
 - 在上面基础上，启动discovery-springcloud-example下DiscoveryApplicationZuul
 - 因为Zuul是一种特殊的微服务，所有操作过程跟上面完全一致
 
