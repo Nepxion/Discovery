@@ -45,6 +45,7 @@ import com.nepxion.discovery.console.desktop.entity.RouterEntity;
 import com.nepxion.discovery.console.desktop.icon.ConsoleIconFactory;
 import com.nepxion.discovery.console.desktop.locale.ConsoleLocale;
 import com.nepxion.discovery.console.desktop.workspace.topology.AbstractTopology;
+import com.nepxion.discovery.console.desktop.workspace.topology.LocationEntity;
 import com.nepxion.discovery.console.desktop.workspace.topology.TopologyEntity;
 import com.nepxion.discovery.console.desktop.workspace.topology.TopologyEntityType;
 import com.nepxion.swing.action.JSecurityAction;
@@ -63,10 +64,7 @@ import com.nepxion.swing.textfield.JBasicTextField;
 public class RouterTopology extends AbstractTopology {
     private static final long serialVersionUID = 1L;
 
-    private int nodeStartX = 100;
-    private int nodeStartY = 150;
-    private int nodeHorizontalGap = 200;
-    private int nodeVerticalGap = 0;
+    private LocationEntity nodeLocationEntity = new LocationEntity(100, 150, 200, 0);
 
     private TopologyEntity serviceNodeEntity = new TopologyEntity(TopologyEntityType.SERVICE, true, true);
 
@@ -197,7 +195,7 @@ public class RouterTopology extends AbstractTopology {
     private TNode addNode(RouterEntity routerEntity, int index) {
         String nodeName = getNodeName(routerEntity);
 
-        TNode node = createNode(nodeName, serviceNodeEntity, index, nodeStartX, nodeStartY, nodeHorizontalGap, nodeVerticalGap);
+        TNode node = createNode(nodeName, serviceNodeEntity, nodeLocationEntity, index);
         node.setUserObject(routerEntity);
 
         dataBox.addElement(node);

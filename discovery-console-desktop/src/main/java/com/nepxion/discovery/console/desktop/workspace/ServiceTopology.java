@@ -49,6 +49,7 @@ import com.nepxion.discovery.console.desktop.icon.ConsoleIconFactory;
 import com.nepxion.discovery.console.desktop.locale.ConsoleLocale;
 import com.nepxion.discovery.console.desktop.util.UIUtil;
 import com.nepxion.discovery.console.desktop.workspace.topology.AbstractTopology;
+import com.nepxion.discovery.console.desktop.workspace.topology.LocationEntity;
 import com.nepxion.discovery.console.desktop.workspace.topology.TopologyEntity;
 import com.nepxion.discovery.console.desktop.workspace.topology.TopologyEntityType;
 import com.nepxion.swing.action.JSecurityAction;
@@ -74,15 +75,8 @@ import com.nepxion.swing.textfield.number.JNumberTextField;
 public class ServiceTopology extends AbstractTopology {
     private static final long serialVersionUID = 1L;
 
-    private int groupStartX = 120;
-    private int groupStartY = 200;
-    private int groupHorizontalGap = 280;
-    private int groupVerticalGap = 0;
-
-    private int nodeStartX = 0;
-    private int nodeStartY = 0;
-    private int nodeHorizontalGap = 120;
-    private int nodeVerticalGap = 100;
+    private LocationEntity groupLocationEntity = new LocationEntity(120, 200, 280, 0);
+    private LocationEntity nodeLocationEntity = new LocationEntity(0, 0, 120, 100);
 
     private TopologyEntity serviceGroupEntity = new TopologyEntity(TopologyEntityType.SERVICE, true, true);
     private TopologyEntity serviceNodeEntity = new TopologyEntity(TopologyEntityType.SERVICE, true, false);
@@ -183,7 +177,7 @@ public class ServiceTopology extends AbstractTopology {
         int count = groupLocationMap.size();
         String groupName = getGroupName(serviceId, instances.size(), null);
 
-        TGroup group = createGroup(groupName, serviceGroupEntity, count, groupStartX, groupStartY, groupHorizontalGap, groupVerticalGap);
+        TGroup group = createGroup(groupName, serviceGroupEntity, groupLocationEntity, count);
         group.setGroupType(TGroupType.ELLIPSE_GROUP_TYPE.getType());
         group.setUserObject(serviceId);
 
@@ -199,11 +193,11 @@ public class ServiceTopology extends AbstractTopology {
 
                 TNode node = null;
                 if (StringUtils.isNotEmpty(plugin)) {
-                    node = createNode(nodeName, serviceNodeEntity, i, nodeStartX, nodeStartY, nodeHorizontalGap, nodeVerticalGap);
+                    node = createNode(nodeName, serviceNodeEntity, nodeLocationEntity, i);
                     node.putClientProperty("plugin", plugin);
                     group.putClientProperty("plugin", plugin);
                 } else {
-                    node = createNode(nodeName, notServiceNodeEntity, i, nodeStartX, nodeStartY, nodeHorizontalGap, nodeVerticalGap);
+                    node = createNode(nodeName, notServiceNodeEntity, nodeLocationEntity, i);
                     node.putClientProperty("plugin", "");
                     group.putClientProperty("plugin", "");
                 }
@@ -989,15 +983,15 @@ public class ServiceTopology extends AbstractTopology {
         }
 
         public void setToUI() {
-            groupStartXTextField.setText(groupStartX + "");
-            groupStartYTextField.setText(groupStartY + "");
-            groupHorizontalGapTextField.setText(groupHorizontalGap + "");
-            groupVerticalGapTextField.setText(groupVerticalGap + "");
+            groupStartXTextField.setText(groupLocationEntity.getStartX() + "");
+            groupStartYTextField.setText(groupLocationEntity.getStartY() + "");
+            groupHorizontalGapTextField.setText(groupLocationEntity.getHorizontalGap() + "");
+            groupVerticalGapTextField.setText(groupLocationEntity.getVerticalGap() + "");
 
-            nodeStartXTextField.setText(nodeStartX + "");
-            nodeStartYTextField.setText(nodeStartY + "");
-            nodeHorizontalGapTextField.setText(nodeHorizontalGap + "");
-            nodeVerticalGapTextField.setText(nodeVerticalGap + "");
+            nodeStartXTextField.setText(nodeLocationEntity.getStartX() + "");
+            nodeStartYTextField.setText(nodeLocationEntity.getStartY() + "");
+            nodeHorizontalGapTextField.setText(nodeLocationEntity.getHorizontalGap() + "");
+            nodeVerticalGapTextField.setText(nodeLocationEntity.getVerticalGap() + "");
         }
 
         public boolean setFromUI() {
@@ -1024,14 +1018,15 @@ public class ServiceTopology extends AbstractTopology {
                 return false;
             }
 
-            ServiceTopology.this.groupStartX = groupStartX;
-            ServiceTopology.this.groupStartY = groupStartY;
-            ServiceTopology.this.groupHorizontalGap = groupHorizontalGap;
-            ServiceTopology.this.groupVerticalGap = groupVerticalGap;
-            ServiceTopology.this.nodeStartX = nodeStartX;
-            ServiceTopology.this.nodeStartY = nodeStartY;
-            ServiceTopology.this.nodeHorizontalGap = nodeHorizontalGap;
-            ServiceTopology.this.nodeVerticalGap = nodeVerticalGap;
+            groupLocationEntity.setStartX(groupStartX);
+            groupLocationEntity.setStartY(groupStartY);
+            groupLocationEntity.setHorizontalGap(groupHorizontalGap);
+            groupLocationEntity.setVerticalGap(groupVerticalGap);
+
+            nodeLocationEntity.setStartX(nodeStartX);
+            nodeLocationEntity.setStartY(nodeStartY);
+            nodeLocationEntity.setHorizontalGap(nodeHorizontalGap);
+            nodeLocationEntity.setVerticalGap(nodeVerticalGap);
 
             return true;
         }

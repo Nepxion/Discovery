@@ -231,16 +231,21 @@ public abstract class AbstractTopology extends JPanel {
         linkAutoHideRadioButtonMenuItem.setSelected(hide);
     }
 
-    protected TGroup createGroup(String name, TopologyEntity entity, int index, int startX, int startY, int horizontalGap, int verticalGap) {
-        String image = entity.getImage();
-        Point location = new Point(entity.isHorizontalPile() ? startX + index * horizontalGap : startX, entity.isHorizontalPile() ? startY : startY + index * verticalGap);
+    protected TGroup createGroup(String name, TopologyEntity topologyEntity, LocationEntity locationEntity, int index) {
+        String image = topologyEntity.getImage();
+
+        int startX = locationEntity.getStartX();
+        int startY = locationEntity.getStartY();
+        int horizontalGap = locationEntity.getHorizontalGap();
+        int verticalGap = locationEntity.getVerticalGap();
+        Point location = new Point(topologyEntity.isHorizontalPile() ? startX + index * horizontalGap : startX, topologyEntity.isHorizontalPile() ? startY : startY + index * verticalGap);
 
         return createGroup(name, image, location);
     }
 
-    protected TGroup createGroup(String name, TopologyEntity entity) {
-        String image = entity.getImage();
-        Point location = entity.getLocation();
+    protected TGroup createGroup(String name, TopologyEntity topologyEntity) {
+        String image = topologyEntity.getImage();
+        Point location = topologyEntity.getLocation();
 
         return createGroup(name, image, location);
     }
@@ -255,16 +260,21 @@ public abstract class AbstractTopology extends JPanel {
         return group;
     }
 
-    protected TNode createNode(String name, TopologyEntity entity, int index, int startX, int startY, int horizontalGap, int verticalGap) {
-        String image = entity.getImage();
-        Point location = new Point(entity.isHorizontalPile() ? startX + index * horizontalGap : startX, entity.isHorizontalPile() ? startY : startY + index * verticalGap);
+    protected TNode createNode(String name, TopologyEntity topologyEntity, LocationEntity locationEntity, int index) {
+        String image = topologyEntity.getImage();
+        
+        int startX = locationEntity.getStartX();
+        int startY = locationEntity.getStartY();
+        int horizontalGap = locationEntity.getHorizontalGap();
+        int verticalGap = locationEntity.getVerticalGap();
+        Point location = new Point(topologyEntity.isHorizontalPile() ? startX + index * horizontalGap : startX, topologyEntity.isHorizontalPile() ? startY : startY + index * verticalGap);
 
         return createNode(name, image, location);
     }
 
-    protected TNode createNode(String name, TopologyEntity entity) {
-        String image = entity.getImage();
-        Point location = entity.getLocation();
+    protected TNode createNode(String name, TopologyEntity topologyEntity) {
+        String image = topologyEntity.getImage();
+        Point location = topologyEntity.getLocation();
 
         return createNode(name, image, location);
     }
