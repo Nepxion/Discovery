@@ -422,6 +422,14 @@ public class MyConfigAdapter extends ConfigAdapter {
 ### 服务发现和负载均衡控制的操作演示
 #### 基于图形化方式的多版本灰度访问控制
 - 启动discovery-springcloud-example下8个DiscoveryApplication，无先后顺序，等待全部启动完毕
+- 启动discovery-springcloud-example-console下ConsoleApplication
+- 启动discovery-console-desktop下ConsoleLauncher
+  - 在界面上点“显示服务拓扑”，可以把在服务注册发现中心所有注册的服务都显示在界面上
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console1.jpg)
+  - 在界面上点选择“example-discovery-springcloud-example-zuul”集群下的一个服务，右键“执行灰度路由”
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console2.jpg)
+  - 在路由界面上点击箭头指向的按钮，并切换下拉菜单，依次把a，b，c三个服务加进去，然后点“执行路由”，可以看到从Zuul->A服务->B服务->C服务，可以访问的路径
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console3.jpg)
 
 #### 基于Rest方式的多版本灰度访问控制
 基于服务的操作过程和效果
