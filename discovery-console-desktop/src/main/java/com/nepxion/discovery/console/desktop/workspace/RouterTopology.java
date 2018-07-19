@@ -90,6 +90,7 @@ public class RouterTopology extends AbstractTopology {
         toolBar.add(Box.createHorizontalStrut(5));
         toolBar.add(comboBox);
         toolBar.add(new JClassicButton(createAddServiceAction()));
+        toolBar.add(new JClassicButton(createDeleteServiceAction()));
         toolBar.add(textField);
         toolBar.add(new JClassicButton(createExecuteRouterAction()));
         toolBar.add(new JClassicButton(createClearRouterAction()));
@@ -143,6 +144,8 @@ public class RouterTopology extends AbstractTopology {
 
                 graph.getLayoutInternalFrame().setLocation(3000, 3000);
                 // graph.adjustComponentPosition(graph.getLayoutInternalFrame());
+
+                RouterTopology.this.setPreferredSize(new Dimension(RouterTopology.this.getPreferredSize().width - 82, 900));
 
                 removeHierarchyListener(this);
             }
@@ -225,7 +228,26 @@ public class RouterTopology extends AbstractTopology {
     }
 
     private JSecurityAction createAddServiceAction() {
-        JSecurityAction action = new JSecurityAction(ConsoleIconFactory.getSwingIcon("direction_east.png"), ConsoleLocale.getString("add_service")) {
+        JSecurityAction action = new JSecurityAction(ConsoleIconFactory.getSwingIcon("add.png"), ConsoleLocale.getString("add_service")) {
+            private static final long serialVersionUID = 1L;
+
+            public void execute(ActionEvent e) {
+                String routerPath = textField.getText();
+                String serviceId = comboBox.getSelectedItem().toString();
+                if (StringUtils.isNotEmpty(routerPath)) {
+                    routerPath = routerPath + ";" + serviceId;
+                } else {
+                    routerPath = serviceId;
+                }
+                textField.setText(routerPath);
+            }
+        };
+
+        return action;
+    }
+
+    private JSecurityAction createDeleteServiceAction() {
+        JSecurityAction action = new JSecurityAction(ConsoleIconFactory.getSwingIcon("delete.png"), ConsoleLocale.getString("delete_service")) {
             private static final long serialVersionUID = 1L;
 
             public void execute(ActionEvent e) {
