@@ -461,6 +461,9 @@ public class MyConfigAdapter extends ConfigAdapter {
   - 重复“执行灰度路由”的步骤，发现以Zuul为起点访问路径改变了，目的达到。通过“执行灰度发布”界面，点击“清除灰度规则”按钮，回滚到以前访问路径，这里不表述了
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console11.jpg)
 
+刷新灰度状态
+  - 通过选择一个服务集群，查看它下面的服务有没有在进行版本灰度或者规则灰度，如果有，在界面上会有不同的颜色闪烁，上面已经说明了
+
 #### 基于Rest方式的多版本灰度访问控制
 基于服务的操作过程和效果
 - 启动discovery-springcloud-example下7个DiscoveryApplication（除去Zuul），无先后顺序，等待全部启动完毕
