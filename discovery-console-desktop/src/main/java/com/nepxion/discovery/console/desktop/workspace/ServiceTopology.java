@@ -119,11 +119,11 @@ public class ServiceTopology extends AbstractTopology {
         TGroup group = TElementManager.getSelectedGroup(dataBox);
 
         TNode node = TElementManager.getSelectedNode(dataBox);
-        executeGrayRouterMenuItem.setVisible(node != null && StringUtils.isNotEmpty(node.getClientProperty("plugin").toString()));
+        executeGrayRouterMenuItem.setVisible(node != null && hasPlugin(node));
 
         TElement element = TElementManager.getSelectedElement(dataBox);
-        executeGrayReleaseMenuItem.setVisible(element != null && StringUtils.isNotEmpty(element.getClientProperty("plugin").toString()));
-        refreshGrayStateMenuItem.setVisible(element != null && StringUtils.isNotEmpty(element.getClientProperty("plugin").toString()));
+        executeGrayReleaseMenuItem.setVisible(element != null && hasPlugin(element));
+        refreshGrayStateMenuItem.setVisible(element != null && hasPlugin(element));
 
         if (group != null || node != null || element != null) {
             return popupMenu;
@@ -215,6 +215,16 @@ public class ServiceTopology extends AbstractTopology {
         TElementManager.addGroupChildren(dataBox, group);
     }
 
+    private boolean hasPlugin(TElement element) {
+        String plugin = getPlugin(element);
+
+        return StringUtils.isNotEmpty(plugin);
+    }
+
+    private String getPlugin(TElement element) {
+        return element.getClientProperty("plugin").toString();
+    }
+
     private Object[] filterServices(TNode node) {
         Object[] services = instanceMap.keySet().toArray();
         List<Object> filterServices = new ArrayList<Object>();
@@ -222,7 +232,7 @@ public class ServiceTopology extends AbstractTopology {
         for (Object service : services) {
             TGroup group = getGroup(service.toString());
             // node.getParent() != group 表示自己不能路由自己，暂时不禁止
-            if (group != null && StringUtils.isNotEmpty(group.getClientProperty("plugin").toString())) {
+            if (group != null && hasPlugin(group)) {
                 filterServices.add(service);
             }
         }
@@ -249,7 +259,7 @@ public class ServiceTopology extends AbstractTopology {
     }
 
     private void updateGroup(TGroup group) {
-        String name = getGroupName(group.getUserObject().toString(), group.childrenSize(), group.getClientProperty("plugin").toString());
+        String name = getGroupName(group.getUserObject().toString(), group.childrenSize(), getPlugin(group));
 
         group.setName(name);
     }
