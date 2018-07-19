@@ -392,7 +392,7 @@ public class ServiceTopology extends AbstractTopology {
         }
         resultTextArea.setText(result.toString());
 
-        JBasicOptionPane.showOptionDialog(HandleManager.getFrame(ServiceTopology.this), new JBasicScrollPane(resultTextArea), "执行结果", JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/edit.png"), new Object[] { SwingLocale.getString("close") }, null, true);
+        JBasicOptionPane.showOptionDialog(HandleManager.getFrame(ServiceTopology.this), new JBasicScrollPane(resultTextArea), ConsoleLocale.getString("execute_result"), JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/edit.png"), new Object[] { SwingLocale.getString("close") }, null, true);
     }
 
     @Override
@@ -436,7 +436,7 @@ public class ServiceTopology extends AbstractTopology {
 
                 if (group != null) {
                     if (StringUtils.isEmpty(group.getClientProperty("plugin").toString())) {
-                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), "该服务集群不能执行灰度发布", SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("group_not_for_gray_release"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
 
                         return;
                     }
@@ -444,7 +444,7 @@ public class ServiceTopology extends AbstractTopology {
 
                 if (node != null) {
                     if (StringUtils.isEmpty(node.getClientProperty("plugin").toString())) {
-                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), "该服务不能执行灰度发布", SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("node_not_for_gray_release"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
 
                         return;
                     }
@@ -501,7 +501,7 @@ public class ServiceTopology extends AbstractTopology {
 
                 if (node != null) {
                     if (StringUtils.isEmpty(node.getClientProperty("plugin").toString())) {
-                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), "该服务不能执行执行灰度路由", SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("node_not_for_gray_router"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
 
                         return;
                     }
@@ -542,7 +542,7 @@ public class ServiceTopology extends AbstractTopology {
 
                 if (group != null) {
                     if (StringUtils.isEmpty(group.getClientProperty("plugin").toString())) {
-                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), "该服务集群不能刷新灰度状态", SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("group_not_for_refresh_gray_state"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
 
                         return;
                     }
@@ -550,7 +550,7 @@ public class ServiceTopology extends AbstractTopology {
 
                 if (node != null) {
                     if (StringUtils.isEmpty(node.getClientProperty("plugin").toString())) {
-                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), "该服务不能刷新灰度状态", SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("node_not_for_refresh_gray_state"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
 
                         return;
                     }
@@ -609,8 +609,8 @@ public class ServiceTopology extends AbstractTopology {
 
             versionTabbedPane = new JBasicTabbedPane();
             versionTabbedPane.setPreferredSize(new Dimension(versionTabbedPane.getPreferredSize().width, 75));
-            versionTabbedPane.addTab("灰度（动态）版本", dynamicVersionPanel, "灰度（动态）版本");
-            versionTabbedPane.addTab("初始（本地）版本", localVersionPanel, "初始（本地）版本");
+            versionTabbedPane.addTab(ConsoleLocale.getString("label_dynamic_version"), dynamicVersionPanel, ConsoleLocale.getString("label_dynamic_version"));
+            versionTabbedPane.addTab(ConsoleLocale.getString("label_local_version"), localVersionPanel, ConsoleLocale.getString("label_local_version"));
 
             updateVersionButton = new JClassicButton(createUpdateVersionAction());
             updateVersionButton.setPreferredSize(new Dimension(updateVersionButton.getPreferredSize().width, 30));
@@ -626,11 +626,11 @@ public class ServiceTopology extends AbstractTopology {
 
             JPanel layoutPanel = new JPanel();
             layoutPanel.setLayout(new FiledLayout(FiledLayout.COLUMN, FiledLayout.FULL, 5));
-            layoutPanel.add(new JLabel("灰度版本，输入的格式为[dynamicVersion]或者[dynamicVersion];[localVersion]，例如1.1或者1.1;1.0，前者直接更新灰度版本为1.1，后者只是把满足初始版本为1.0条件的服务更新灰度版本为1.1", IconFactory.getSwingIcon("question_message.png"), SwingConstants.LEADING));
+            layoutPanel.add(new JLabel(ConsoleLocale.getString("description_gray_version"), IconFactory.getSwingIcon("question_message.png"), SwingConstants.LEADING));
             layoutPanel.add(toolBar);
 
             JPanel panel = new JPanel();
-            panel.setBorder(UIUtil.createTitledBorder("版本灰度"));
+            panel.setBorder(UIUtil.createTitledBorder(ConsoleLocale.getString("title_gray_version_operation")));
             panel.setLayout(new BorderLayout());
             panel.add(versionTabbedPane, BorderLayout.CENTER);
             panel.add(layoutPanel, BorderLayout.SOUTH);
@@ -645,8 +645,8 @@ public class ServiceTopology extends AbstractTopology {
             localRuleTextArea.setEditable(false);
 
             ruleTabbedPane = new JBasicTabbedPane();
-            ruleTabbedPane.addTab("灰度（动态）规则", new JBasicScrollPane(dynamicRuleTextArea), "灰度（动态）规则");
-            ruleTabbedPane.addTab("初始（本地）规则", new JBasicScrollPane(localRuleTextArea), "初始（本地）规则");
+            ruleTabbedPane.addTab(ConsoleLocale.getString("label_dynamic_rule"), new JBasicScrollPane(dynamicRuleTextArea), ConsoleLocale.getString("label_dynamic_rule"));
+            ruleTabbedPane.addTab(ConsoleLocale.getString("label_local_rule"), new JBasicScrollPane(localRuleTextArea), ConsoleLocale.getString("label_local_rule"));
 
             updateRuleButton = new JClassicButton(createUpdateRuleAction());
             updateRuleButton.setPreferredSize(new Dimension(updateRuleButton.getPreferredSize().width, 30));
@@ -661,7 +661,7 @@ public class ServiceTopology extends AbstractTopology {
             ButtonManager.updateUI(toolBar);
 
             JPanel panel = new JPanel();
-            panel.setBorder(UIUtil.createTitledBorder("规则灰度"));
+            panel.setBorder(UIUtil.createTitledBorder(ConsoleLocale.getString("title_gray_rule_operation")));
             panel.setLayout(new BorderLayout());
             panel.add(ruleTabbedPane, BorderLayout.CENTER);
             panel.add(toolBar, BorderLayout.SOUTH);
@@ -682,13 +682,13 @@ public class ServiceTopology extends AbstractTopology {
 
             dynamicVersionTextField.setText("");
             localVersionTextField.setText("");
-            updateVersionButton.setText("批量更新灰度版本");
-            clearVersionButton.setText("批量清除灰度版本");
+            updateVersionButton.setText(ConsoleLocale.getString("button_batch_update_version"));
+            clearVersionButton.setText(ConsoleLocale.getString("button_batch_clear_version"));
 
             dynamicRuleTextArea.setText("");
             localRuleTextArea.setText("");
-            updateRuleButton.setText("批量更新灰度规则");
-            clearRuleButton.setText("批量清除灰度规则");
+            updateRuleButton.setText(ConsoleLocale.getString("button_batch_update_rule"));
+            clearRuleButton.setText(ConsoleLocale.getString("button_batch_clear_rule"));
         }
 
         public void setGray(TNode node) {
@@ -697,31 +697,31 @@ public class ServiceTopology extends AbstractTopology {
             InstanceEntity instance = (InstanceEntity) node.getUserObject();
 
             if (versionTabbedPane.getTabCount() == 1) {
-                versionTabbedPane.addTab("初始（本地）版本", localVersionPanel, "初始（本地）版本");
+                versionTabbedPane.addTab(ConsoleLocale.getString("label_local_version"), localVersionPanel, ConsoleLocale.getString("label_local_version"));
             }
             if (ruleTabbedPane.getTabCount() == 1) {
-                ruleTabbedPane.addTab("初始（本地）规则", new JBasicScrollPane(localRuleTextArea), "初始（本地）规则");
+                ruleTabbedPane.addTab(ConsoleLocale.getString("label_local_rule"), new JBasicScrollPane(localRuleTextArea), ConsoleLocale.getString("label_local_rule"));
             }
 
             dynamicVersionTextField.setText(instance.getDynamicVersion());
             localVersionTextField.setText(instance.getVersion());
-            updateVersionButton.setText("更新灰度版本");
-            clearVersionButton.setText("清除灰度版本");
+            updateVersionButton.setText(ConsoleLocale.getString("button_update_version"));
+            clearVersionButton.setText(ConsoleLocale.getString("button_clear_version"));
 
             dynamicRuleTextArea.setText(instance.getDynamicRule());
             localRuleTextArea.setText(instance.getRule());
-            updateRuleButton.setText("更新灰度规则");
-            clearRuleButton.setText("清除灰度规则");
+            updateRuleButton.setText(ConsoleLocale.getString("button_update_rule"));
+            clearRuleButton.setText(ConsoleLocale.getString("button_clear_rule"));
         }
 
         private JSecurityAction createUpdateVersionAction() {
-            JSecurityAction action = new JSecurityAction("更新灰度版本", ConsoleIconFactory.getSwingIcon("save.png"), "更新灰度版本") {
+            JSecurityAction action = new JSecurityAction(ConsoleLocale.getString("button_update_version"), ConsoleIconFactory.getSwingIcon("save.png"), ConsoleLocale.getString("button_update_version")) {
                 private static final long serialVersionUID = 1L;
 
                 public void execute(ActionEvent e) {
                     String dynamicVersion = dynamicVersionTextField.getText();
                     if (StringUtils.isEmpty(dynamicVersion)) {
-                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), "灰度版本不能为空", SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("gray_version_not_null"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
 
                         return;
                     }
@@ -767,7 +767,7 @@ public class ServiceTopology extends AbstractTopology {
         }
 
         private JSecurityAction createClearVersionAction() {
-            JSecurityAction action = new JSecurityAction("清除灰度版本", ConsoleIconFactory.getSwingIcon("paint.png"), "清除灰度版本") {
+            JSecurityAction action = new JSecurityAction(ConsoleLocale.getString("button_clear_version"), ConsoleIconFactory.getSwingIcon("paint.png"), ConsoleLocale.getString("button_clear_version")) {
                 private static final long serialVersionUID = 1L;
 
                 public void execute(ActionEvent e) {
@@ -812,13 +812,13 @@ public class ServiceTopology extends AbstractTopology {
         }
 
         private JSecurityAction createUpdateRuleAction() {
-            JSecurityAction action = new JSecurityAction("更新灰度规则", ConsoleIconFactory.getSwingIcon("save.png"), "更新灰度规则") {
+            JSecurityAction action = new JSecurityAction(ConsoleLocale.getString("button_update_rule"), ConsoleIconFactory.getSwingIcon("save.png"), ConsoleLocale.getString("button_update_rule")) {
                 private static final long serialVersionUID = 1L;
 
                 public void execute(ActionEvent e) {
                     String dynamicRule = dynamicRuleTextArea.getText();
                     if (StringUtils.isEmpty(dynamicRule)) {
-                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), "灰度规则不能为空", SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("gray_rule_not_null"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
 
                         return;
                     }
@@ -864,7 +864,7 @@ public class ServiceTopology extends AbstractTopology {
         }
 
         private JSecurityAction createClearRuleAction() {
-            JSecurityAction action = new JSecurityAction("清除灰度规则", ConsoleIconFactory.getSwingIcon("paint.png"), "清除灰度规则") {
+            JSecurityAction action = new JSecurityAction(ConsoleLocale.getString("button_clear_rule"), ConsoleIconFactory.getSwingIcon("paint.png"), ConsoleLocale.getString("button_clear_rule")) {
                 private static final long serialVersionUID = 1L;
 
                 public void execute(ActionEvent e) {
