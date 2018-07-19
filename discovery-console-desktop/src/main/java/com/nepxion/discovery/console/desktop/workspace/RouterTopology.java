@@ -79,6 +79,7 @@ public class RouterTopology extends AbstractTopology {
     }
 
     private void initializeToolBar() {
+        comboBox.setPreferredSize(new Dimension(300, comboBox.getPreferredSize().height));
         textField.setPreferredSize(new Dimension(650, textField.getPreferredSize().height));
 
         JToolBar toolBar = getGraph().getToolbar();
@@ -207,7 +208,6 @@ public class RouterTopology extends AbstractTopology {
     @SuppressWarnings({ "unchecked" })
     public void setServices(Object[] services) {
         comboBox.setModel(new DefaultComboBoxModel<>(services));
-        comboBox.setPreferredSize(new Dimension(comboBox.getPreferredSize().width + 5, comboBox.getPreferredSize().height));
     }
 
     public void setInstance(InstanceEntity instance) {
