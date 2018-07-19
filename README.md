@@ -437,13 +437,13 @@ public class MyConfigAdapter extends ConfigAdapter {
   - 在弹出的界面，在灰度版本的文本框输入1.1，然后点击“更新灰度版本”按钮，那么Zuul服务的版本从1.0切换到1.1，该节点会呈现黄色闪烁，表示正在执行版本灰度
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console5.jpg)
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console6.jpg)
-  - 重复“执行灰度路由”的步骤，发现访问的路径改变了，目的达到。通过“执行灰度发布”界面，点击“清除灰度版本”按钮，回滚到以前访问路径，这里不表述了
+  - 重复“执行灰度路由”的步骤，发现以Zuul为起点访问路径改变了，目的达到。通过“执行灰度发布”界面，点击“清除灰度版本”按钮，回滚到以前访问路径，这里不表述了
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console7.jpg)
 
 进行规则改变的灰度策略
   - 在主界面上，选择“example-discovery-springcloud-example-b”集群下的服务集群，右键“执行灰度发布”，批量改变B1和B2服务的规则
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console8.jpg)
-  - 在弹出的界面，在灰度文本框输入如下新规则，然后点击“更新灰度规则”按钮，那么改变B1和B2服务的规则进行切换，两个节点会呈现青色闪烁，表示正在执行规则灰度
+  - 在弹出的界面，在灰度文本框输入如下新规则（操作的逻辑：B服务的所有版本都只能访问C服务3.0版本，而本例中C服务3.0版本是不存在的，意味着这么做B服务不能访问C服务），然后点击“批量更新灰度规则”按钮，那么B1和B2服务的规则进行改变，两个节点会呈现青色闪烁，表示正在执行规则灰度
 新XML规则
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -457,6 +457,8 @@ public class MyConfigAdapter extends ConfigAdapter {
 ```
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console9.jpg)
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console10.jpg)
+  - 重复“执行灰度路由”的步骤，发现以Zuul为起点访问路径改变了，目的达到。通过“执行灰度发布”界面，点击“清除灰度规则”按钮，回滚到以前访问路径，这里不表述了
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console11.jpg)
 
 #### 基于Rest方式的多版本灰度访问控制
 基于服务的操作过程和效果
@@ -469,7 +471,7 @@ public class MyConfigAdapter extends ConfigAdapter {
 - 通过规则改变，达到灰度访问控制，针对B服务
   - 2.1 通过Postman或者浏览器，执行POST [http://localhost:1200/config/update-sync](http://localhost:1200/config/update-sync)，发送新的规则XML（内容见下面）
   - 2.2 通过Postman或者浏览器，执行POST [http://localhost:1201/config/update-sync](http://localhost:1201/config/update-sync)，发送新的规则XML（内容见下面）
-  - 2.3 上述操作也可以通过独立控制台，进行批量更新，见图5。上述操作的逻辑：B服务的所有版本都只能访问C服务3.0版本，而本例中C服务3.0版本是不存在的，意味着这么做B服务不能访问C服务
+  - 2.3 上述操作也可以通过独立控制台，进行批量更新，见图5。操作的逻辑：B服务的所有版本都只能访问C服务3.0版本，而本例中C服务3.0版本是不存在的，意味着这么做B服务不能访问C服务
   - 2.4 重复1.1步骤，发现调用路径只有A服务->B服务，如图3，通过规则改变，灰度访问控制成功
 - 负载均衡的灰度测试
   - 3.1 通过Postman或者浏览器，执行POST [http://localhost:1100/invoke](http://localhost:1100/invoke)，这是example内置的访问路径示例（通过Feign实现）
