@@ -3,7 +3,6 @@
 [![Maven Central](https://img.shields.io/maven-central/v/com.nepxion/discovery.svg?label=maven%20central)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.nepxion%22%20AND%20discovery)
 [![Javadocs](http://www.javadoc.io/badge/com.nepxion/discovery.svg)](http://www.javadoc.io/doc/com.nepxion/discovery)
 [![Build Status](https://travis-ci.org/Nepxion/Discovery.svg?branch=master)](https://travis-ci.org/Nepxion/Discovery)
-[![Code Beat](https://codebeat.co/badges/109be0a7-f41f-4fc0-9b92-095b72f848b5)](https://codebeat.co/projects/github-com-nepxion-discovery-master)
 
 Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件，其功能包括多版本灰度发布，黑/白名单的IP地址过滤，限制注册等，支持Eureka、Consul和Zookeeper。现有的Spring Cloud微服务可以方便引入该插件，使用者不需要对业务代码做任何修改，只需要做三个非常容易的事情
 - 引入Plugin Starter依赖到pom.xml
