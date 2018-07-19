@@ -78,7 +78,6 @@ public class RouterTopology extends AbstractTopology {
     public RouterTopology() {
         initializeToolBar();
         initializeTopology();
-        initializeListener();
     }
 
     private void initializeToolBar() {
@@ -113,9 +112,7 @@ public class RouterTopology extends AbstractTopology {
                 return null;
             }
         });
-    }
 
-    private void initializeListener() {
         addHierarchyListener(new DisplayAbilityListener() {
             public void displayAbilityChanged(HierarchyEvent e) {
                 // Ugly code
