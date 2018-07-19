@@ -444,6 +444,7 @@ public class MyConfigAdapter extends ConfigAdapter {
   - 在主界面上，选择“example-discovery-springcloud-example-b”集群下的服务集群，右键“执行灰度发布”，批量改变B1和B2服务的规则
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console8.jpg)
   - 在弹出的界面，在灰度文本框输入如下新规则（操作的逻辑：B服务的所有版本都只能访问C服务3.0版本，而本例中C服务3.0版本是不存在的，意味着这么做B服务不能访问C服务），然后点击“批量更新灰度规则”按钮，那么B1和B2服务的规则进行改变，两个节点会呈现青色闪烁，表示正在执行规则灰度
+
 新XML规则
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
