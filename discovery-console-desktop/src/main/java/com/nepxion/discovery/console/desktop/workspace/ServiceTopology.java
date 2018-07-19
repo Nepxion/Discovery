@@ -995,38 +995,19 @@ public class ServiceTopology extends AbstractTopology {
         }
 
         public boolean setFromUI() {
-            int groupStartX = 0;
-            int groupStartY = 0;
-            int groupHorizontalGap = 0;
-            int groupVerticalGap = 0;
-            int nodeStartX = 0;
-            int nodeStartY = 0;
-            int nodeHorizontalGap = 0;
-            int nodeVerticalGap = 0;
-
             try {
-                groupStartX = Integer.parseInt(groupStartXTextField.getText());
-                groupStartY = Integer.parseInt(groupStartYTextField.getText());
-                groupHorizontalGap = Integer.parseInt(groupHorizontalGapTextField.getText());
-                groupVerticalGap = Integer.parseInt(groupVerticalGapTextField.getText());
+                groupLocationEntity.setStartX(Integer.parseInt(groupStartXTextField.getText()));
+                groupLocationEntity.setStartY(Integer.parseInt(groupStartYTextField.getText()));
+                groupLocationEntity.setHorizontalGap(Integer.parseInt(groupHorizontalGapTextField.getText()));
+                groupLocationEntity.setVerticalGap(Integer.parseInt(groupVerticalGapTextField.getText()));
 
-                nodeStartX = Integer.parseInt(nodeStartXTextField.getText());
-                nodeStartY = Integer.parseInt(nodeStartYTextField.getText());
-                nodeHorizontalGap = Integer.parseInt(nodeHorizontalGapTextField.getText());
-                nodeVerticalGap = Integer.parseInt(nodeVerticalGapTextField.getText());
+                nodeLocationEntity.setStartX(Integer.parseInt(nodeStartXTextField.getText()));
+                nodeLocationEntity.setStartY(Integer.parseInt(nodeStartYTextField.getText()));
+                nodeLocationEntity.setHorizontalGap(Integer.parseInt(nodeHorizontalGapTextField.getText()));
+                nodeLocationEntity.setVerticalGap(Integer.parseInt(nodeVerticalGapTextField.getText()));
             } catch (NumberFormatException e) {
                 return false;
             }
-
-            groupLocationEntity.setStartX(groupStartX);
-            groupLocationEntity.setStartY(groupStartY);
-            groupLocationEntity.setHorizontalGap(groupHorizontalGap);
-            groupLocationEntity.setVerticalGap(groupVerticalGap);
-
-            nodeLocationEntity.setStartX(nodeStartX);
-            nodeLocationEntity.setStartY(nodeStartY);
-            nodeLocationEntity.setHorizontalGap(nodeHorizontalGap);
-            nodeLocationEntity.setVerticalGap(nodeVerticalGap);
 
             return true;
         }
