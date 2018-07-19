@@ -428,7 +428,7 @@ public class MyConfigAdapter extends ConfigAdapter {
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console1.jpg)
   - 在主界面上，选择“example-discovery-springcloud-example-zuul”集群下的服务，右键“执行灰度路由”
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console2.jpg)
-  - 在路由界面上点击箭头指向的按钮，并切换下拉菜单，依次把A，B，C三个服务加进去，然后点击“执行路由”按钮，可以看到从Zuul->A服务->B服务->C服务，可以访问的路径，正是想要的结果
+  - 在路由界面上点击箭头指向的“添加服务”按钮，并切换下拉菜单，依次把A，B，C三个服务加进去，然后点击“执行路由”按钮，可以看到从Zuul->A服务->B服务->C服务，可以访问的路径，正是想要的结果
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console3.jpg)
 
 进行版本切换的灰度策略
