@@ -28,8 +28,10 @@ import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -464,13 +466,21 @@ public class ServiceTopology extends AbstractTopology {
                     grayPanel.setPreferredSize(new Dimension(1280, 900));
                 }
 
+                String description = null;
+
                 if (group != null) {
                     grayPanel.setGray(group);
+
+                    description = group.getUserObject().toString();
                 } else if (node != null) {
                     grayPanel.setGray(node);
+
+                    InstanceEntity instance = (InstanceEntity) node.getUserObject();
+
+                    description = instance.getServiceId() + " [" + instance.getHost() + ":" + instance.getPort() + "]";
                 }
 
-                JBasicOptionPane.showOptionDialog(HandleManager.getFrame(ServiceTopology.this), grayPanel, ConsoleLocale.getString("execute_gray_release"), JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/navigator.png"), new Object[] { SwingLocale.getString("close") }, null, true);
+                JBasicOptionPane.showOptionDialog(HandleManager.getFrame(ServiceTopology.this), grayPanel, ConsoleLocale.getString("execute_gray_release") + " - " + description, JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/navigator.png"), new Object[] { SwingLocale.getString("close") }, null, true);
             }
         };
 
@@ -508,7 +518,9 @@ public class ServiceTopology extends AbstractTopology {
                 routerTopology.setServices(filterServices);
                 routerTopology.setInstance(instance);
 
-                JBasicOptionPane.showOptionDialog(HandleManager.getFrame(ServiceTopology.this), routerTopology, ConsoleLocale.getString("execute_gray_router"), JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/navigator.png"), new Object[] { SwingLocale.getString("close") }, null, true);
+                String description = instance.getServiceId() + " [" + instance.getHost() + ":" + instance.getPort() + "]";
+
+                JBasicOptionPane.showOptionDialog(HandleManager.getFrame(ServiceTopology.this), routerTopology, ConsoleLocale.getString("execute_gray_router") + " - " + description, JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/navigator.png"), new Object[] { SwingLocale.getString("close") }, null, true);
             }
         };
 
@@ -563,10 +575,14 @@ public class ServiceTopology extends AbstractTopology {
         private JBasicTextField localVersionTextField;
         private JPanel localVersionPanel;
         private JBasicTabbedPane versionTabbedPane;
+        private JClassicButton updateVersionButton;
+        private JClassicButton clearVersionButton;
 
         private JBasicTextArea dynamicRuleTextArea;
         private JBasicTextArea localRuleTextArea;
         private JBasicTabbedPane ruleTabbedPane;
+        private JClassicButton updateRuleButton;
+        private JClassicButton clearRuleButton;
 
         private TGroup group;
         private TNode node;
@@ -596,23 +612,28 @@ public class ServiceTopology extends AbstractTopology {
             versionTabbedPane.addTab("灰度（动态）版本", dynamicVersionPanel, "灰度（动态）版本");
             versionTabbedPane.addTab("初始（本地）版本", localVersionPanel, "初始（本地）版本");
 
-            JClassicButton updateButton = new JClassicButton(createUpdateVersionAction());
-            updateButton.setPreferredSize(new Dimension(updateButton.getPreferredSize().width, 30));
+            updateVersionButton = new JClassicButton(createUpdateVersionAction());
+            updateVersionButton.setPreferredSize(new Dimension(updateVersionButton.getPreferredSize().width, 30));
 
-            JClassicButton clearButton = new JClassicButton(createClearVersionAction());
-            updateButton.setPreferredSize(new Dimension(clearButton.getPreferredSize().width, 30));
+            clearVersionButton = new JClassicButton(createClearVersionAction());
+            clearVersionButton.setPreferredSize(new Dimension(clearVersionButton.getPreferredSize().width, 30));
 
             JPanel toolBar = new JPanel();
             toolBar.setLayout(new BoxLayout(toolBar, BoxLayout.X_AXIS));
-            toolBar.add(updateButton);
-            toolBar.add(clearButton);
+            toolBar.add(updateVersionButton);
+            toolBar.add(clearVersionButton);
             ButtonManager.updateUI(toolBar);
+
+            JPanel layoutPanel = new JPanel();
+            layoutPanel.setLayout(new FiledLayout(FiledLayout.COLUMN, FiledLayout.FULL, 5));
+            layoutPanel.add(new JLabel("灰度版本，输入的格式为[dynamicVersion]或者[dynamicVersion];[localVersion]，例如1.1或者1.1;1.0，前者直接更新灰度版本为1.1，后者只是把满足初始版本为1.0条件的服务更新灰度版本为1.1", IconFactory.getSwingIcon("question_message.png"), SwingConstants.LEADING));
+            layoutPanel.add(toolBar);
 
             JPanel panel = new JPanel();
             panel.setBorder(UIUtil.createTitledBorder("版本灰度"));
             panel.setLayout(new BorderLayout());
             panel.add(versionTabbedPane, BorderLayout.CENTER);
-            panel.add(toolBar, BorderLayout.SOUTH);
+            panel.add(layoutPanel, BorderLayout.SOUTH);
 
             return panel;
         }
@@ -627,16 +648,16 @@ public class ServiceTopology extends AbstractTopology {
             ruleTabbedPane.addTab("灰度（动态）规则", new JBasicScrollPane(dynamicRuleTextArea), "灰度（动态）规则");
             ruleTabbedPane.addTab("初始（本地）规则", new JBasicScrollPane(localRuleTextArea), "初始（本地）规则");
 
-            JClassicButton updateButton = new JClassicButton(createUpdateRuleAction());
-            updateButton.setPreferredSize(new Dimension(updateButton.getPreferredSize().width, 30));
+            updateRuleButton = new JClassicButton(createUpdateRuleAction());
+            updateRuleButton.setPreferredSize(new Dimension(updateRuleButton.getPreferredSize().width, 30));
 
-            JClassicButton clearButton = new JClassicButton(createClearRuleAction());
-            updateButton.setPreferredSize(new Dimension(clearButton.getPreferredSize().width, 30));
+            clearRuleButton = new JClassicButton(createClearRuleAction());
+            updateRuleButton.setPreferredSize(new Dimension(clearRuleButton.getPreferredSize().width, 30));
 
             JPanel toolBar = new JPanel();
             toolBar.setLayout(new BoxLayout(toolBar, BoxLayout.X_AXIS));
-            toolBar.add(updateButton);
-            toolBar.add(clearButton);
+            toolBar.add(updateRuleButton);
+            toolBar.add(clearRuleButton);
             ButtonManager.updateUI(toolBar);
 
             JPanel panel = new JPanel();
@@ -661,8 +682,13 @@ public class ServiceTopology extends AbstractTopology {
 
             dynamicVersionTextField.setText("");
             localVersionTextField.setText("");
+            updateVersionButton.setText("批量更新灰度版本");
+            clearVersionButton.setText("批量清除灰度规则");
+
             dynamicRuleTextArea.setText("");
             localRuleTextArea.setText("");
+            updateRuleButton.setText("批量更新灰度规则");
+            clearRuleButton.setText("批量清除灰度规则");
         }
 
         public void setGray(TNode node) {
@@ -679,8 +705,13 @@ public class ServiceTopology extends AbstractTopology {
 
             dynamicVersionTextField.setText(instance.getDynamicVersion());
             localVersionTextField.setText(instance.getVersion());
+            updateVersionButton.setText("更新灰度版本");
+            clearVersionButton.setText("清除灰度规则");
+
             dynamicRuleTextArea.setText(instance.getDynamicRule());
             localRuleTextArea.setText(instance.getRule());
+            updateRuleButton.setText("更新灰度规则");
+            clearRuleButton.setText("清除灰度规则");
         }
 
         private JSecurityAction createUpdateVersionAction() {
