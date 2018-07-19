@@ -582,12 +582,15 @@ public class ServiceTopology extends AbstractTopology {
         private TNode node;
 
         public GrayPanel() {
+            initializeVersionComponents();
+            initializeRuleComponents();
+
             setLayout(new BorderLayout());
             add(createVersionPanel(), BorderLayout.NORTH);
             add(createRulePanel(), BorderLayout.CENTER);
         }
 
-        private JPanel createVersionPanel() {
+        private void initializeVersionComponents() {
             dynamicVersionTextField = new JBasicTextField();
             dynamicVersionPanel = new JPanel();
             dynamicVersionPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
@@ -611,7 +614,9 @@ public class ServiceTopology extends AbstractTopology {
 
             clearVersionButton = new JClassicButton(createClearVersionAction());
             clearVersionButton.setPreferredSize(new Dimension(clearVersionButton.getPreferredSize().width, 30));
+        }
 
+        private JPanel createVersionPanel() {
             JPanel toolBar = new JPanel();
             toolBar.setLayout(new BoxLayout(toolBar, BoxLayout.X_AXIS));
             toolBar.add(updateVersionButton);
@@ -632,7 +637,7 @@ public class ServiceTopology extends AbstractTopology {
             return panel;
         }
 
-        private JPanel createRulePanel() {
+        private void initializeRuleComponents() {
             dynamicRuleTextArea = new JBasicTextArea();
 
             localRuleTextArea = new JBasicTextArea();
@@ -647,7 +652,9 @@ public class ServiceTopology extends AbstractTopology {
 
             clearRuleButton = new JClassicButton(createClearRuleAction());
             updateRuleButton.setPreferredSize(new Dimension(clearRuleButton.getPreferredSize().width, 30));
+        }
 
+        private JPanel createRulePanel() {
             JPanel toolBar = new JPanel();
             toolBar.setLayout(new BoxLayout(toolBar, BoxLayout.X_AXIS));
             toolBar.add(updateRuleButton);
