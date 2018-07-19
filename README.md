@@ -389,6 +389,20 @@ public class MyConfigAdapter extends ConfigAdapter {
 | --- | --- |
 | 2222 | 3333 |
 
+### 开始演示
+- 启动服务注册发现中心，默认是Eureka。可供选择的有Eureka，Zuul，Zookeeper。Eureka，请启动discovery-springcloud-example-eureka下的应用，后两者自行安装服务器
+- 根据上面选择的服务注册发现中心，对示例下的discovery-springcloud-example/pom.xml进行组件切换
+```xml
+<dependency>
+    <groupId>com.nepxion</groupId>
+    <artifactId>discovery-plugin-starter-eureka</artifactId>
+    <!-- <artifactId>discovery-plugin-starter-consul</artifactId> -->
+    <!-- <artifactId>discovery-plugin-starter-zookeeper</artifactId> -->
+    <version>${discovery.plugin.version}</version>
+</dependency>
+```
+- 根据上面选择的服务注册发现中心，对控制台下的discovery-springcloud-example-console/pom.xml进行组件切换切换
+
 ### 服务注册过滤的操作演示
 黑/白名单的IP地址注册的过滤
 - 在rule.xml把本地IP地址写入到相应地方
@@ -470,15 +484,3 @@ public class MyConfigAdapter extends ConfigAdapter {
 图7
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Result7.jpg)
-
-### 切换服务注册组件
-如果使用者想改变服务注册组件，请在discovery-springcloud-example/pom.xml进行切换
-```xml
-<dependency>
-    <groupId>com.nepxion</groupId>
-    <artifactId>discovery-plugin-starter-eureka</artifactId>
-    <!-- <artifactId>discovery-plugin-starter-consul</artifactId> -->
-    <!-- <artifactId>discovery-plugin-starter-zookeeper</artifactId> -->
-    <version>${discovery.plugin.version}</version>
-</dependency>
-```
