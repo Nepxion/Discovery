@@ -43,6 +43,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 - 实现支持Spring Boot Actuator和Swagger集成
 - 实现独立控制台，支持对规则和版本集中管理，未来考虑界面实现
 - 实现支持未来扩展更多的服务注册中心
+- 实现图形化的灰度发布功能
 
 ## 场景
 - 黑/白名单的IP地址注册的过滤
@@ -388,7 +389,21 @@ public class MyConfigAdapter extends ConfigAdapter {
 | --- | --- |
 | 2222 | 3333 |
 
-### 基于服务的操作过程和效果
+### 开始演示
+- 启动服务注册发现中心，默认是Eureka。可供选择的有Eureka，Zuul，Zookeeper。Eureka，请启动discovery-springcloud-example-eureka下的应用，后两者自行安装服务器
+- 根据上面选择的服务注册发现中心，对示例下的discovery-springcloud-example/pom.xml进行组件切换
+```xml
+<dependency>
+    <groupId>com.nepxion</groupId>
+    <artifactId>discovery-plugin-starter-eureka</artifactId>
+    <!-- <artifactId>discovery-plugin-starter-consul</artifactId> -->
+    <!-- <artifactId>discovery-plugin-starter-zookeeper</artifactId> -->
+    <version>${discovery.plugin.version}</version>
+</dependency>
+```
+- 根据上面选择的服务注册发现中心，对控制台下的discovery-springcloud-example-console/pom.xml进行组件切换切换
+
+### 服务注册过滤的操作演示
 黑/白名单的IP地址注册的过滤
 - 在rule.xml把本地IP地址写入到相应地方
 - 启动DiscoveryApplicationA1.java
@@ -404,7 +419,53 @@ public class MyConfigAdapter extends ConfigAdapter {
 - 启动DiscoveryApplicationA1.java和DiscoveryApplicationB1.java、DiscoveryApplicationB2.java
 - 你会发现A服务无法获取B服务的任何实例，即B服务受限于黑名单的IP地址列表，不会被A服务的发现；白名单操作也是如此，不过逻辑刚好相反
 
-多版本灰度访问控制
+### 服务发现和负载均衡控制的操作演示
+#### 基于图形化方式的多版本灰度访问控制
+- 启动discovery-springcloud-example下8个DiscoveryApplication，无先后顺序，等待全部启动完毕
+- 启动discovery-springcloud-example-console下ConsoleApplication
+- 启动discovery-console-desktop下ConsoleLauncher
+  - 在主界面上的工具栏上，点击“显示服务拓扑”按钮，可以把在服务注册发现中心所有注册的服务都显示在界面上
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console1.jpg)
+  - 在主界面上，选择“example-discovery-springcloud-example-zuul”集群下的服务，右键“执行灰度路由”
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console2.jpg)
+  - 在路由界面上点击箭头指向的“添加服务”按钮，并切换下拉菜单，依次把A，B，C三个服务加进去，然后点击“执行路由”按钮，可以看到从Zuul->A服务->B服务->C服务，可以访问的路径，正是想要的结果
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console3.jpg)
+
+进行版本切换的灰度策略
+  - 回到主界面，在选择的Zuul服务上，右键“执行灰度发布”
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console4.jpg)
+  - 在弹出的界面，在灰度版本的文本框输入1.1，然后点击“更新灰度版本”按钮，那么Zuul服务的版本从1.0切换到1.1，该节点会呈现黄色闪烁，表示正在执行版本灰度
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console5.jpg)
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console6.jpg)
+  - 重复“执行灰度路由”的步骤，发现以Zuul为起点访问路径改变了，目的达到。通过“执行灰度发布”界面，点击“清除灰度版本”按钮，回滚到以前访问路径，这里不表述了
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console7.jpg)
+
+进行规则改变的灰度策略
+  - 在主界面上，选择“example-discovery-springcloud-example-b”集群下的服务集群，右键“执行灰度发布”，批量改变B1和B2服务的规则
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console8.jpg)
+  - 在弹出的界面，在灰度文本框输入如下新规则（操作的逻辑：B服务的所有版本都只能访问C服务3.0版本，而本例中C服务3.0版本是不存在的，意味着这么做B服务不能访问C服务），然后点击“批量更新灰度规则”按钮，那么B1和B2服务的规则进行改变，两个节点会呈现青色闪烁，表示正在执行规则灰度
+
+新XML规则
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <discovery>
+        <version>
+            <service consumer-service-name="discovery-springcloud-example-b" provider-service-name="discovery-springcloud-example-c" consumer-version-value="" provider-version-value="3.0"/>
+        </version>
+    </discovery>
+</rule>
+```
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console9.jpg)
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console10.jpg)
+  - 重复“执行灰度路由”的步骤，发现以Zuul为起点访问路径改变了，目的达到。通过“执行灰度发布”界面，点击“清除灰度规则”按钮，回滚到以前访问路径，这里不表述了
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console11.jpg)
+
+刷新灰度状态
+  - 通过选择一个服务集群，查看它下面的服务有没有在进行版本灰度或者规则灰度，如果有，在界面上会有不同的颜色闪烁，上面已经说明了
+
+#### 基于Rest方式的多版本灰度访问控制
+基于服务的操作过程和效果
 - 启动discovery-springcloud-example下7个DiscoveryApplication（除去Zuul），无先后顺序，等待全部启动完毕
 - 下面URL的端口号，可以是服务端口号，也可以是管理端口号
 - 通过版本切换，达到灰度访问控制，针对A服务
@@ -414,7 +475,7 @@ public class MyConfigAdapter extends ConfigAdapter {
 - 通过规则改变，达到灰度访问控制，针对B服务
   - 2.1 通过Postman或者浏览器，执行POST [http://localhost:1200/config/update-sync](http://localhost:1200/config/update-sync)，发送新的规则XML（内容见下面）
   - 2.2 通过Postman或者浏览器，执行POST [http://localhost:1201/config/update-sync](http://localhost:1201/config/update-sync)，发送新的规则XML（内容见下面）
-  - 2.3 上述操作也可以通过独立控制台，进行批量更新，见图5。上述操作的逻辑：B服务的所有版本都只能访问C服务3.0版本，而本例中C服务3.0版本是不存在的，意味着这么做B服务不能访问C服务
+  - 2.3 上述操作也可以通过独立控制台，进行批量更新，见图5。操作的逻辑：B服务的所有版本都只能访问C服务3.0版本，而本例中C服务3.0版本是不存在的，意味着这么做B服务不能访问C服务
   - 2.4 重复1.1步骤，发现调用路径只有A服务->B服务，如图3，通过规则改变，灰度访问控制成功
 - 负载均衡的灰度测试
   - 3.1 通过Postman或者浏览器，执行POST [http://localhost:1100/invoke](http://localhost:1100/invoke)，这是example内置的访问路径示例（通过Feign实现）
@@ -453,7 +514,7 @@ public class MyConfigAdapter extends ConfigAdapter {
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Result5.jpg)
 
-### 基于网关的操作过程和效果
+基于网关的操作过程和效果
 - 在上面基础上，启动discovery-springcloud-example下DiscoveryApplicationZuul
 - 因为Zuul是一种特殊的微服务，所有操作过程跟上面完全一致
 
@@ -464,15 +525,3 @@ public class MyConfigAdapter extends ConfigAdapter {
 图7
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Result7.jpg)
-
-### 切换服务注册组件
-如果使用者想改变服务注册组件，请在discovery-springcloud-example/pom.xml进行切换
-```xml
-<dependency>
-    <groupId>com.nepxion</groupId>
-    <artifactId>discovery-plugin-starter-eureka</artifactId>
-    <!-- <artifactId>discovery-plugin-starter-consul</artifactId> -->
-    <!-- <artifactId>discovery-plugin-starter-zookeeper</artifactId> -->
-    <version>${discovery.plugin.version}</version>
-</dependency>
-```
