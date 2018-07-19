@@ -227,7 +227,7 @@ public class RouterTopology extends AbstractTopology {
     }
 
     private JSecurityAction createAddServiceAction() {
-        JSecurityAction action = new JSecurityAction(ConsoleIconFactory.getSwingIcon("direction_east.png")) {
+        JSecurityAction action = new JSecurityAction(ConsoleIconFactory.getSwingIcon("direction_east.png"), ConsoleLocale.getString("add_service")) {
             private static final long serialVersionUID = 1L;
 
             public void execute(ActionEvent e) {
