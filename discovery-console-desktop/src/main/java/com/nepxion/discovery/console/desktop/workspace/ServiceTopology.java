@@ -760,6 +760,10 @@ public class ServiceTopology extends AbstractTopology {
                     } else if (node != null) {
                         InstanceEntity instance = (InstanceEntity) node.getUserObject();
 
+                        String result = ServiceController.configUpdate(instance, dynamicRule);
+
+                        showResult(result);
+
                         refreshGrayState(node);
                     }
 

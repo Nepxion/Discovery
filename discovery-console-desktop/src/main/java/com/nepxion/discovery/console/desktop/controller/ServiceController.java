@@ -12,6 +12,7 @@ package com.nepxion.discovery.console.desktop.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -29,41 +30,42 @@ public class ServiceController {
 
     static {
         restTemplate = new RestTemplate();
+        restTemplate.setErrorHandler(new ServiceErrorHandler());
     }
 
     public static Map<String, List<InstanceEntity>> getInstanceMap() {
         String url = getUrl() + "/console/instance-map";
 
-        String json = restTemplate.getForEntity(url, String.class).getBody();
+        String result = restTemplate.getForEntity(url, String.class).getBody();
 
-        return convert(json, new TypeReference<Map<String, List<InstanceEntity>>>() {
+        return convert(result, new TypeReference<Map<String, List<InstanceEntity>>>() {
         });
     }
 
     public static List<String> getVersions(InstanceEntity instance) {
         String url = "http://" + instance.getHost() + ":" + instance.getPort() + "/version/view";
 
-        String json = restTemplate.getForEntity(url, String.class).getBody();
+        String result = restTemplate.getForEntity(url, String.class).getBody();
 
-        return convert(json, new TypeReference<List<String>>() {
+        return convert(result, new TypeReference<List<String>>() {
         });
     }
 
     public static List<String> getRules(InstanceEntity instance) {
         String url = "http://" + instance.getHost() + ":" + instance.getPort() + "/config/view";
 
-        String json = restTemplate.getForEntity(url, String.class).getBody();
+        String result = restTemplate.getForEntity(url, String.class).getBody();
 
-        return convert(json, new TypeReference<List<String>>() {
+        return convert(result, new TypeReference<List<String>>() {
         });
     }
 
     public static RouterEntity routes(InstanceEntity instance, String routeServiceIds) {
         String url = "http://" + instance.getHost() + ":" + instance.getPort() + "/router/routes";
 
-        String json = restTemplate.postForEntity(url, routeServiceIds, String.class).getBody();
+        String result = restTemplate.postForEntity(url, routeServiceIds, String.class).getBody();
 
-        return convert(json, new TypeReference<RouterEntity>() {
+        return convert(result, new TypeReference<RouterEntity>() {
         });
     }
 
@@ -75,18 +77,36 @@ public class ServiceController {
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
         HttpEntity<String> entity = new HttpEntity<String>(config, headers);
 
-        String json = restTemplate.postForEntity(url, entity, String.class).getBody();
+        String result = restTemplate.postForEntity(url, entity, String.class).getBody();
 
-        return convert(json, new TypeReference<List<ResultEntity>>() {
+        return convert(result, new TypeReference<List<ResultEntity>>() {
         });
+    }
+
+    public static String configUpdate(InstanceEntity instance, String config) {
+        String url = "http://" + instance.getHost() + ":" + instance.getPort() + "/config/update-sync";
+
+        // 解决中文乱码
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        HttpEntity<String> entity = new HttpEntity<String>(config, headers);
+
+        String result = restTemplate.postForEntity(url, entity, String.class).getBody();
+        
+        if (!StringUtils.equals(result, "OK")) {
+            ServiceErrorHandler errorHandler = (ServiceErrorHandler) restTemplate.getErrorHandler();
+            result = errorHandler.getCause();
+        }
+
+        return result;
     }
 
     public static List<ResultEntity> configClear(String serviceId) {
         String url = getUrl() + "/console/config/clear/" + serviceId;
 
-        String json = restTemplate.postForEntity(url, null, String.class).getBody();
+        String result = restTemplate.postForEntity(url, null, String.class).getBody();
 
-        return convert(json, new TypeReference<List<ResultEntity>>() {
+        return convert(result, new TypeReference<List<ResultEntity>>() {
         });
     }
 
@@ -99,11 +119,11 @@ public class ServiceController {
         return url;
     }
 
-    private static <T> T convert(String json, TypeReference<T> typeReference) {
+    private static <T> T convert(String result, TypeReference<T> typeReference) {
         try {
-            return JacksonSerializer.fromJson(json, typeReference);
+            return JacksonSerializer.fromJson(result, typeReference);
         } catch (Exception e) {
-            throw new IllegalArgumentException(json);
+            throw new IllegalArgumentException(result);
         }
     }
 }
