@@ -9,10 +9,13 @@ package com.nepxion.discovery.plugin.framework.context;
  * @version 1.0
  */
 
+import java.util.Map;
+
 import org.springframework.beans.BeansException;
 import org.springframework.cloud.netflix.eureka.EurekaInstanceConfigBean;
 import org.springframework.cloud.netflix.eureka.serviceregistry.EurekaServiceRegistry;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.plugin.framework.constant.EurekaConstant;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
@@ -26,9 +29,16 @@ public class EurekaApplicationContextInitializer extends PluginApplicationContex
 
             return new EurekaServiceRegistryDecorator(eurekaServiceRegistry, applicationContext);
         } else if (bean instanceof EurekaInstanceConfigBean) {
+            ConfigurableEnvironment environment = applicationContext.getEnvironment();
+
             EurekaInstanceConfigBean eurekaInstanceConfig = (EurekaInstanceConfigBean) bean;
             eurekaInstanceConfig.setPreferIpAddress(true);
-            eurekaInstanceConfig.getMetadataMap().put(PluginConstant.DISCOVERY_PLUGIN, EurekaConstant.DISCOVERY_PLUGIN);
+
+            Map<String, String> metadataMap = eurekaInstanceConfig.getMetadataMap();
+            metadataMap.put(PluginConstant.DISCOVERY_PLUGIN, EurekaConstant.DISCOVERY_PLUGIN);
+            metadataMap.put(PluginConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED, PluginContextAware.isRegisterControlEnabled(environment).toString());
+            metadataMap.put(PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED, PluginContextAware.isDiscoveryControlEnabled(environment).toString());
+            metadataMap.put(PluginConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED, PluginContextAware.isConfigRestControlEnabled(environment).toString());
 
             return bean;
         } else {

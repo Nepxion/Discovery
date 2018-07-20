@@ -9,10 +9,13 @@ package com.nepxion.discovery.plugin.framework.context;
  * @version 1.0
  */
 
+import java.util.Map;
+
 import org.springframework.beans.BeansException;
 import org.springframework.cloud.zookeeper.discovery.ZookeeperDiscoveryProperties;
 import org.springframework.cloud.zookeeper.serviceregistry.ZookeeperServiceRegistry;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.constant.ZookeeperConstant;
@@ -26,9 +29,16 @@ public class ZookeeperApplicationContextInitializer extends PluginApplicationCon
 
             return new ZookeeperServiceRegistryDecorator(zookeeperServiceRegistry, applicationContext);
         } else if (bean instanceof ZookeeperDiscoveryProperties) {
+            ConfigurableEnvironment environment = applicationContext.getEnvironment();
+
             ZookeeperDiscoveryProperties zookeeperDiscoveryProperties = (ZookeeperDiscoveryProperties) bean;
             zookeeperDiscoveryProperties.setPreferIpAddress(true);
-            zookeeperDiscoveryProperties.getMetadata().put(PluginConstant.DISCOVERY_PLUGIN, ZookeeperConstant.DISCOVERY_PLUGIN);
+
+            Map<String, String> metadata = zookeeperDiscoveryProperties.getMetadata();
+            metadata.put(PluginConstant.DISCOVERY_PLUGIN, ZookeeperConstant.DISCOVERY_PLUGIN);
+            metadata.put(PluginConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED, PluginContextAware.isRegisterControlEnabled(environment).toString());
+            metadata.put(PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED, PluginContextAware.isDiscoveryControlEnabled(environment).toString());
+            metadata.put(PluginConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED, PluginContextAware.isConfigRestControlEnabled(environment).toString());
 
             return bean;
         } else {
