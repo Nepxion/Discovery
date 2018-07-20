@@ -91,7 +91,7 @@ public class ServiceTopology extends AbstractTopology {
     private JBasicMenuItem refreshGrayStateMenuItem;
     private JBasicMenuItem executeGrayRouterMenuItem;
     private TGraphBackground background;
-    private JBasicComboBox filterComboBox;
+    private FilterPanel filterPanel;
     private GrayPanel grayPanel;
     private JBasicTextArea resultTextArea;
     private RouterTopology routerTopology;
@@ -471,7 +471,6 @@ public class ServiceTopology extends AbstractTopology {
         JSecurityAction action = new JSecurityAction(ConsoleLocale.getString("show_topology"), ConsoleIconFactory.getSwingIcon("component/ui_16.png"), ConsoleLocale.getString("show_topology")) {
             private static final long serialVersionUID = 1L;
 
-            @SuppressWarnings("unchecked")
             public void execute(ActionEvent e) {
                 Map<String, List<InstanceEntity>> instanceMap = null;
                 try {
@@ -483,20 +482,19 @@ public class ServiceTopology extends AbstractTopology {
                 }
 
                 Object[] filters = filter(instanceMap);
-                if (filterComboBox == null) {
-                    filterComboBox = new JBasicComboBox();
-                    filterComboBox.setPreferredSize(new Dimension(300, filterComboBox.getPreferredSize().height));
+                if (filterPanel == null) {
+                    filterPanel = new FilterPanel();
+                    filterPanel.setPreferredSize(new Dimension(320, 60));
                 }
+                filterPanel.setFilters(filters);
 
-                filterComboBox.setModel(new DefaultComboBoxModel<>(filters));
-
-                int selectedValue = JBasicOptionPane.showOptionDialog(HandleManager.getFrame(ServiceTopology.this), filterComboBox, ConsoleLocale.getString("service_cluster_filter"), JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/query.png"), new Object[] { SwingLocale.getString("yes"), SwingLocale.getString("no") }, null, true);
+                int selectedValue = JBasicOptionPane.showOptionDialog(HandleManager.getFrame(ServiceTopology.this), filterPanel, ConsoleLocale.getString("service_cluster_filter"), JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/query.png"), new Object[] { SwingLocale.getString("yes"), SwingLocale.getString("no") }, null, true);
                 if (selectedValue != 0) {
                     return;
                 }
 
                 globalInstanceMap = instanceMap;
-                globalFilter = filterComboBox.getSelectedItem().toString();
+                globalFilter = filterPanel.getFilter();
 
                 String title = ConsoleLocale.getString("title_service_cluster_gray_release");
                 if (!StringUtils.equals(globalFilter, NO_FILTER)) {
@@ -644,6 +642,29 @@ public class ServiceTopology extends AbstractTopology {
         };
 
         return action;
+    }
+
+    private class FilterPanel extends JPanel {
+        private static final long serialVersionUID = 1L;
+
+        private JBasicComboBox filterComboBox;
+
+        public FilterPanel() {
+            filterComboBox = new JBasicComboBox();
+
+            setLayout(new FiledLayout(FiledLayout.COLUMN, FiledLayout.FULL, 5));
+            add(filterComboBox);
+            add(new JLabel(NO_FILTER + " - " + ConsoleLocale.getString("no_service_cluster_filter")));
+        }
+
+        @SuppressWarnings("unchecked")
+        public void setFilters(Object[] filters) {
+            filterComboBox.setModel(new DefaultComboBoxModel<>(filters));
+        }
+
+        public String getFilter() {
+            return filterComboBox.getSelectedItem().toString();
+        }
     }
 
     private class GrayPanel extends JPanel {
