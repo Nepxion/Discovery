@@ -77,32 +77,28 @@ import com.nepxion.swing.textfield.number.JNumberTextField;
 
 public class ServiceTopology extends AbstractTopology {
     private static final long serialVersionUID = 1L;
-
     private static final String NO_FILTER = "[No filter]";
 
     private LocationEntity groupLocationEntity = new LocationEntity(120, 250, 280, 0);
     private LocationEntity nodeLocationEntity = new LocationEntity(0, 0, 120, 100);
-
     private TopologyEntity serviceGroupEntity = new TopologyEntity(TopologyEntityType.SERVICE, true, true);
     private TopologyEntity notServiceGroupEntity = new TopologyEntity(TopologyEntityType.MQ, true, true);
     private TopologyEntity serviceNodeEntity = new TopologyEntity(TopologyEntityType.SERVICE, true, false);
     private TopologyEntity notServiceNodeEntity = new TopologyEntity(TopologyEntityType.MQ, true, false);
-
-    private Map<String, List<InstanceEntity>> globalInstanceMap;
-    private String globalFilter;
-
     private Map<String, Point> groupLocationMap = new HashMap<String, Point>();
 
     private JBasicMenuItem executeGrayReleaseMenuItem;
     private JBasicMenuItem refreshGrayStateMenuItem;
     private JBasicMenuItem executeGrayRouterMenuItem;
-
     private TGraphBackground background;
     private JBasicComboBox filterComboBox;
     private GrayPanel grayPanel;
     private JBasicTextArea resultTextArea;
     private RouterTopology routerTopology;
     private LayoutDialog layoutDialog;
+
+    private Map<String, List<InstanceEntity>> globalInstanceMap;
+    private String globalFilter;
 
     public ServiceTopology() {
         initializeToolBar();
@@ -281,8 +277,8 @@ public class ServiceTopology extends AbstractTopology {
 
         for (String service : services) {
             TGroup group = getGroup(service);
-            // node.getParent() != group 表示自己不能路由自己，暂时不禁止
-            if (group != null && isPlugin(group)) {
+            // node.getParent() != group 表示自己不能路由自己
+            if (group != null && isPlugin(group) && node.getParent() != group) {
                 filterServices.add(service);
             }
         }
