@@ -35,7 +35,6 @@ import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.nepxion.cots.twaver.element.TElement;
@@ -173,38 +172,28 @@ public class ServiceTopology extends AbstractTopology {
 
     @SuppressWarnings("unchecked")
     private void addServices(Map<String, List<InstanceEntity>> instanceMap) {
-        List<String> filterList = new ArrayList<String>();
-        filterList.add(""); // 表示不过滤
-
-        for (Map.Entry<String, List<InstanceEntity>> entry : instanceMap.entrySet()) {
-            List<InstanceEntity> instances = entry.getValue();
-            if (CollectionUtils.isNotEmpty(instances)) {
-                for (InstanceEntity instance : instances) {
-                    String filter = instance.getFilter();
-                    if (!filterList.contains(filter)) {
-                        filterList.add(filter);
-                    }
-                }
-            }
-        }
-
+        Object[] filters = filter(instanceMap);
         if (filterComboBox == null) {
             filterComboBox = new JBasicComboBox();
             filterComboBox.setPreferredSize(new Dimension(300, filterComboBox.getPreferredSize().height));
         }
 
-        filterComboBox.setModel(new DefaultComboBoxModel<>(filterList.toArray()));
+        filterComboBox.setModel(new DefaultComboBoxModel<>(filters));
 
-        JBasicOptionPane.showOptionDialog(HandleManager.getFrame(ServiceTopology.this), filterComboBox, "服务集群过滤", JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/navigator.png"), new Object[] { SwingLocale.getString("close") }, null, true);
+        String filter = "";
+        int selectedValue = JBasicOptionPane.showOptionDialog(HandleManager.getFrame(this), filterComboBox, "服务集群过滤", JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/query.png"), new Object[] { SwingLocale.getString("yes"), SwingLocale.getString("no") }, null, true);
+        if (selectedValue == 0) {
+            filter = filterComboBox.getSelectedItem().toString();
+        }
 
         for (Map.Entry<String, List<InstanceEntity>> entry : instanceMap.entrySet()) {
             String serviceId = entry.getKey();
             List<InstanceEntity> instances = entry.getValue();
-            addService(serviceId, instances);
+            addService(filter, serviceId, instances);
         }
     }
 
-    private void addService(String serviceId, List<InstanceEntity> instances) {
+    private void addService(String filter, String serviceId, List<InstanceEntity> instances) {
         int count = groupLocationMap.size();
         String groupName = getGroupName(serviceId, instances.size(), null);
 
@@ -216,23 +205,21 @@ public class ServiceTopology extends AbstractTopology {
     }
 
     private void addInstances(TGroup group, String serviceId, List<InstanceEntity> instances) {
-        if (CollectionUtils.isNotEmpty(instances)) {
-            for (int i = 0; i < instances.size(); i++) {
-                InstanceEntity instance = instances.get(i);
-                String filter = instance.getFilter();
-                String plugin = instance.getPlugin();
-                String nodeName = getNodeName(instance);
+        for (int i = 0; i < instances.size(); i++) {
+            InstanceEntity instance = instances.get(i);
+            String filter = instance.getFilter();
+            String plugin = instance.getPlugin();
+            String nodeName = getNodeName(instance);
 
-                TNode node = createNode(nodeName, StringUtils.isNotEmpty(plugin) ? serviceNodeEntity : notServiceNodeEntity, nodeLocationEntity, i);
+            TNode node = createNode(nodeName, StringUtils.isNotEmpty(plugin) ? serviceNodeEntity : notServiceNodeEntity, nodeLocationEntity, i);
 
-                setFilter(node, filter);
-                setFilter(group, filter);
-                setPlugin(node, plugin);
-                setPlugin(group, plugin);
-                node.setUserObject(instance);
+            setFilter(node, filter);
+            setFilter(group, filter);
+            setPlugin(node, plugin);
+            setPlugin(group, plugin);
+            node.setUserObject(instance);
 
-                group.addChild(node);
-            }
+            group.addChild(node);
         }
 
         updateGroup(group);
@@ -263,6 +250,26 @@ public class ServiceTopology extends AbstractTopology {
         String plugin = getPlugin(element);
 
         return StringUtils.isNotEmpty(plugin);
+    }
+
+    private Object[] filter(Map<String, List<InstanceEntity>> instanceMap) {
+        List<String> filters = new ArrayList<String>();
+
+        for (Map.Entry<String, List<InstanceEntity>> entry : instanceMap.entrySet()) {
+            List<InstanceEntity> instances = entry.getValue();
+            for (InstanceEntity instance : instances) {
+                String filter = instance.getFilter();
+                if (!filters.contains(filter)) {
+                    filters.add(filter);
+                }
+            }
+        }
+
+        if (filters.contains("")) {
+            filters.remove("");
+        }
+
+        return filters.toArray();
     }
 
     private Object[] filterServices(TNode node) {
@@ -388,7 +395,7 @@ public class ServiceTopology extends AbstractTopology {
         try {
             updateGrayState(node);
         } catch (Exception e) {
-            JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), e);
+            JExceptionDialog.traceException(HandleManager.getFrame(this), ConsoleLocale.getString("query_data_failure"), e);
 
             group.removeChild(node);
             dataBox.removeElement(node);
@@ -414,7 +421,7 @@ public class ServiceTopology extends AbstractTopology {
             try {
                 updateGrayState(node);
             } catch (Exception e) {
-                JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), e);
+                JExceptionDialog.traceException(HandleManager.getFrame(this), ConsoleLocale.getString("query_data_failure"), e);
 
                 iterator.remove();
                 dataBox.removeElement(node);
@@ -436,7 +443,7 @@ public class ServiceTopology extends AbstractTopology {
         }
         resultTextArea.setText(result.toString());
 
-        JBasicOptionPane.showOptionDialog(HandleManager.getFrame(ServiceTopology.this), new JBasicScrollPane(resultTextArea), ConsoleLocale.getString("execute_result"), JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/edit.png"), new Object[] { SwingLocale.getString("close") }, null, true);
+        JBasicOptionPane.showOptionDialog(HandleManager.getFrame(this), new JBasicScrollPane(resultTextArea), ConsoleLocale.getString("execute_result"), JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/edit.png"), new Object[] { SwingLocale.getString("close") }, null, true);
     }
 
     @Override
