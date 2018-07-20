@@ -24,10 +24,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
@@ -55,6 +57,7 @@ import com.nepxion.discovery.console.desktop.workspace.topology.TopologyEntityTy
 import com.nepxion.swing.action.JSecurityAction;
 import com.nepxion.swing.button.ButtonManager;
 import com.nepxion.swing.button.JClassicButton;
+import com.nepxion.swing.combobox.JBasicComboBox;
 import com.nepxion.swing.dialog.JExceptionDialog;
 import com.nepxion.swing.dialog.JOptionDialog;
 import com.nepxion.swing.handle.HandleManager;
@@ -90,10 +93,11 @@ public class ServiceTopology extends AbstractTopology {
 
     private Map<String, List<InstanceEntity>> instanceMap;
 
+    private JBasicComboBox filterComboBox;
     private GrayPanel grayPanel;
+    private JBasicTextArea resultTextArea;
     private RouterTopology routerTopology;
     private LayoutDialog layoutDialog;
-    private JBasicTextArea resultTextArea;
 
     public ServiceTopology() {
         initializeToolBar();
@@ -162,14 +166,41 @@ public class ServiceTopology extends AbstractTopology {
                 return null;
             }
         });
-        
+
         setGroupAutoExpand(true);
         setLinkAutoHide(true);
     }
 
+    @SuppressWarnings("unchecked")
     private void addServices(Map<String, List<InstanceEntity>> instanceMap) {
+        List<String> filterList = new ArrayList<String>();
+        filterList.add(""); // 表示不过滤
+
         for (Map.Entry<String, List<InstanceEntity>> entry : instanceMap.entrySet()) {
-            addService(entry.getKey(), entry.getValue());
+            List<InstanceEntity> instances = entry.getValue();
+            if (CollectionUtils.isNotEmpty(instances)) {
+                for (InstanceEntity instance : instances) {
+                    String filter = instance.getFilter();
+                    if (!filterList.contains(filter)) {
+                        filterList.add(filter);
+                    }
+                }
+            }
+        }
+
+        if (filterComboBox == null) {
+            filterComboBox = new JBasicComboBox();
+            filterComboBox.setPreferredSize(new Dimension(300, filterComboBox.getPreferredSize().height));
+        }
+
+        filterComboBox.setModel(new DefaultComboBoxModel<>(filterList.toArray()));
+
+        JBasicOptionPane.showOptionDialog(HandleManager.getFrame(ServiceTopology.this), filterComboBox, "服务集群过滤", JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/navigator.png"), new Object[] { SwingLocale.getString("close") }, null, true);
+
+        for (Map.Entry<String, List<InstanceEntity>> entry : instanceMap.entrySet()) {
+            String serviceId = entry.getKey();
+            List<InstanceEntity> instances = entry.getValue();
+            addService(serviceId, instances);
         }
     }
 
@@ -188,19 +219,16 @@ public class ServiceTopology extends AbstractTopology {
         if (CollectionUtils.isNotEmpty(instances)) {
             for (int i = 0; i < instances.size(); i++) {
                 InstanceEntity instance = instances.get(i);
+                String filter = instance.getFilter();
                 String plugin = instance.getPlugin();
                 String nodeName = getNodeName(instance);
 
-                TNode node = null;
-                if (StringUtils.isNotEmpty(plugin)) {
-                    node = createNode(nodeName, serviceNodeEntity, nodeLocationEntity, i);
-                    setPlugin(node, plugin);
-                    setPlugin(group, plugin);
-                } else {
-                    node = createNode(nodeName, notServiceNodeEntity, nodeLocationEntity, i);
-                    setPlugin(node, "");
-                    setPlugin(group, "");
-                }
+                TNode node = createNode(nodeName, StringUtils.isNotEmpty(plugin) ? serviceNodeEntity : notServiceNodeEntity, nodeLocationEntity, i);
+
+                setFilter(node, filter);
+                setFilter(group, filter);
+                setPlugin(node, plugin);
+                setPlugin(group, plugin);
                 node.setUserObject(instance);
 
                 group.addChild(node);
@@ -213,6 +241,14 @@ public class ServiceTopology extends AbstractTopology {
 
         dataBox.addElement(group);
         TElementManager.addGroupChildren(dataBox, group);
+    }
+
+    private String getFilter(TElement element) {
+        return element.getClientProperty("filter").toString();
+    }
+
+    private void setFilter(TElement element, String filter) {
+        element.putClientProperty("filter", filter);
     }
 
     private String getPlugin(TElement element) {
@@ -230,11 +266,11 @@ public class ServiceTopology extends AbstractTopology {
     }
 
     private Object[] filterServices(TNode node) {
-        Object[] services = instanceMap.keySet().toArray();
-        List<Object> filterServices = new ArrayList<Object>();
+        Set<String> services = instanceMap.keySet();
+        List<String> filterServices = new ArrayList<String>();
 
-        for (Object service : services) {
-            TGroup group = getGroup(service.toString());
+        for (String service : services) {
+            TGroup group = getGroup(service);
             // node.getParent() != group 表示自己不能路由自己，暂时不禁止
             if (group != null && isPlugin(group)) {
                 filterServices.add(service);
@@ -258,12 +294,12 @@ public class ServiceTopology extends AbstractTopology {
         return null;
     }
 
-    private String getGroupName(String serviceId, int count, String plugin) {
-        return ButtonManager.getHtmlText(serviceId + " [" + count + "]" + (StringUtils.isNotEmpty(plugin) ? "\n" + plugin : ""));
+    private String getGroupName(String serviceId, int count, String filter) {
+        return ButtonManager.getHtmlText(serviceId + " [" + count + "]" + (StringUtils.isNotEmpty(filter) ? "\n" + filter : ""));
     }
 
     private void updateGroup(TGroup group) {
-        String name = getGroupName(group.getUserObject().toString(), group.childrenSize(), getPlugin(group));
+        String name = getGroupName(group.getUserObject().toString(), group.childrenSize(), getFilter(group));
 
         group.setName(name);
     }
