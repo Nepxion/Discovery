@@ -9,7 +9,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 - 必须为微服务定义一个版本号（version），在application.properties或者yaml的metadata里
 - 建议为微服务自定义一个便于为微服务归类的属性值，例如组名（group）或者应用名（application），在application.properties或者yaml的metadata里，便于灰度界面分析
 - 如果采用了远程配置中心集成的话，那么只需要在那里修改规则（XML），触发推送；如果未集成，可以通过客户端工具（例如Postman）推送修改的规则（XML）
-- 具体教程和示例查看最下面的“示例演示”
+- 具体教程和示例查看最下面的“示例演示”，图形化演示视频，请访问[http://www.iqiyi.com/w_19s07thtsh.html](http://www.iqiyi.com/w_19s07thtsh.html)，视频清晰度改成720P，然后最大化播放
 
 ## 痛点
 现有Spring Cloud的痛点
