@@ -18,6 +18,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import com.nepxion.discovery.console.desktop.constant.ConsoleConstant;
 import com.nepxion.discovery.console.desktop.context.PropertiesContext;
 
 public class InstanceEntity implements Serializable {
@@ -28,9 +29,9 @@ public class InstanceEntity implements Serializable {
     private String dynamicVersion;
     private String host;
     private int port;
-    private Map<String, String> metaData;
     private String rule;
     private String dynamicRule;
+    private Map<String, String> metaData;
 
     public String getServiceId() {
         return serviceId;
@@ -72,12 +73,12 @@ public class InstanceEntity implements Serializable {
         this.port = port;
     }
 
-    public Map<String, String> getMetaData() {
-        return metaData;
+    public String getRule() {
+        return rule;
     }
 
-    public void setMetaData(Map<String, String> metaData) {
-        this.metaData = metaData;
+    public void setRule(String rule) {
+        this.rule = rule;
     }
 
     public String getDynamicRule() {
@@ -88,16 +89,16 @@ public class InstanceEntity implements Serializable {
         this.dynamicRule = dynamicRule;
     }
 
-    public String getRule() {
-        return rule;
+    public Map<String, String> getMetaData() {
+        return metaData;
     }
 
-    public void setRule(String rule) {
-        this.rule = rule;
+    public void setMetaData(Map<String, String> metaData) {
+        this.metaData = metaData;
     }
 
     public String getFilter() {
-        String filterKey = PropertiesContext.getProperties().getString("filter");
+        String filterKey = PropertiesContext.getProperties().getString(ConsoleConstant.FILTER);
         if (StringUtils.isEmpty(filterKey)) {
             return "";
         }
@@ -111,12 +112,39 @@ public class InstanceEntity implements Serializable {
     }
 
     public String getPlugin() {
-        String plugin = metaData.get("discovery.plugin");
+        String plugin = metaData.get(ConsoleConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN);
         if (plugin == null) {
             return "";
         }
 
         return plugin;
+    }
+
+    public boolean isRegisterControlEnabled() {
+        String flag = metaData.get(ConsoleConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED);
+        if (flag == null) {
+            return true;
+        }
+
+        return Boolean.valueOf(flag);
+    }
+
+    public boolean isDiscoveryControlEnabled() {
+        String flag = metaData.get(ConsoleConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED);
+        if (flag == null) {
+            return true;
+        }
+
+        return Boolean.valueOf(flag);
+    }
+
+    public boolean isConfigRestControlEnabled() {
+        String flag = metaData.get(ConsoleConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED);
+        if (flag == null) {
+            return true;
+        }
+
+        return Boolean.valueOf(flag);
     }
 
     @Override

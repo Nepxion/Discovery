@@ -44,6 +44,7 @@ import com.nepxion.cots.twaver.element.TGroupType;
 import com.nepxion.cots.twaver.element.TNode;
 import com.nepxion.cots.twaver.graph.TGraphBackground;
 import com.nepxion.cots.twaver.graph.TGraphManager;
+import com.nepxion.discovery.console.desktop.constant.ConsoleConstant;
 import com.nepxion.discovery.console.desktop.controller.ServiceController;
 import com.nepxion.discovery.console.desktop.entity.InstanceEntity;
 import com.nepxion.discovery.console.desktop.entity.ResultEntity;
@@ -77,7 +78,6 @@ import com.nepxion.swing.textfield.number.JNumberTextField;
 
 public class ServiceTopology extends AbstractTopology {
     private static final long serialVersionUID = 1L;
-    private static final String NO_FILTER = "[No filter]";
 
     private LocationEntity groupLocationEntity = new LocationEntity(120, 250, 280, 0);
     private LocationEntity nodeLocationEntity = new LocationEntity(0, 0, 120, 100);
@@ -175,19 +175,19 @@ public class ServiceTopology extends AbstractTopology {
     }
 
     private String getFilter(TElement element) {
-        return element.getClientProperty("filter").toString();
+        return element.getClientProperty(ConsoleConstant.FILTER).toString();
     }
 
     private void setFilter(TElement element, String filter) {
-        element.putClientProperty("filter", filter);
+        element.putClientProperty(ConsoleConstant.FILTER, filter);
     }
 
     private String getPlugin(TElement element) {
-        return element.getClientProperty("plugin").toString();
+        return element.getClientProperty(ConsoleConstant.PLUGIN).toString();
     }
 
     private void setPlugin(TElement element, String plugin) {
-        element.putClientProperty("plugin", plugin);
+        element.putClientProperty(ConsoleConstant.PLUGIN, plugin);
     }
 
     private boolean isPlugin(TElement element) {
@@ -208,7 +208,7 @@ public class ServiceTopology extends AbstractTopology {
         String filter = getValidFilter(instances);
         String plugin = getValidPlugin(instances);
 
-        if (!StringUtils.equals(filterId, NO_FILTER) && !StringUtils.equals(filterId, filter)) {
+        if (!StringUtils.equals(filterId, ConsoleConstant.NO_FILTER_DESCRIPTION) && !StringUtils.equals(filterId, filter)) {
             return;
         }
 
@@ -288,7 +288,7 @@ public class ServiceTopology extends AbstractTopology {
         if (filters.contains("")) {
             filters.remove("");
         }
-        filters.add(NO_FILTER);
+        filters.add(ConsoleConstant.NO_FILTER_DESCRIPTION);
 
         return filters.toArray();
     }
@@ -497,7 +497,7 @@ public class ServiceTopology extends AbstractTopology {
                 globalFilter = filterPanel.getFilter();
 
                 String title = ConsoleLocale.getString("title_service_cluster_gray_release");
-                if (!StringUtils.equals(globalFilter, NO_FILTER)) {
+                if (!StringUtils.equals(globalFilter, ConsoleConstant.NO_FILTER_DESCRIPTION)) {
                     title += " [" + globalFilter + "]";
                 }
                 background.setTitle(title);
@@ -654,7 +654,7 @@ public class ServiceTopology extends AbstractTopology {
 
             setLayout(new FiledLayout(FiledLayout.COLUMN, FiledLayout.FULL, 5));
             add(filterComboBox);
-            add(new JLabel(NO_FILTER + " - " + ConsoleLocale.getString("no_service_cluster_filter")));
+            add(new JLabel(ConsoleConstant.NO_FILTER_DESCRIPTION + " - " + ConsoleLocale.getString("no_service_cluster_filter")));
         }
 
         @SuppressWarnings("unchecked")
