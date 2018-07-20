@@ -180,11 +180,12 @@ public class ServiceTopology extends AbstractTopology {
 
         filterComboBox.setModel(new DefaultComboBoxModel<>(filters));
 
-        String filter = "";
         int selectedValue = JBasicOptionPane.showOptionDialog(HandleManager.getFrame(this), filterComboBox, "服务集群过滤", JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/query.png"), new Object[] { SwingLocale.getString("yes"), SwingLocale.getString("no") }, null, true);
-        if (selectedValue == 0) {
-            filter = filterComboBox.getSelectedItem().toString();
+        if (selectedValue != 0) {
+            return;
         }
+
+        String filter = filterComboBox.getSelectedItem().toString();
 
         for (Map.Entry<String, List<InstanceEntity>> entry : instanceMap.entrySet()) {
             String serviceId = entry.getKey();
@@ -193,13 +194,24 @@ public class ServiceTopology extends AbstractTopology {
         }
     }
 
-    private void addService(String filter, String serviceId, List<InstanceEntity> instances) {
+    private void addService(String filterId, String serviceId, List<InstanceEntity> instances) {
+        // 服务注册发现中心，必须有一个规范，即在同一个服务集群下，必须所有服务的metadata格式一致，例如一个配了group，另一个没有配group
+        InstanceEntity instance = instances.get(0);
+        String filter = instance.getFilter();
+        String plugin = instance.getPlugin();
+
+        if (!StringUtils.equals(filterId, "") && !StringUtils.equals(filterId, filter)) {
+            return;
+        }
+
         int count = groupLocationMap.size();
-        String groupName = getGroupName(serviceId, instances.size(), null);
+        String groupName = getGroupName(serviceId, instances.size(), filter);
 
         TGroup group = createGroup(groupName, serviceGroupEntity, groupLocationEntity, count);
         group.setGroupType(TGroupType.ELLIPSE_GROUP_TYPE.getType());
         group.setUserObject(serviceId);
+        setFilter(group, filter);
+        setPlugin(group, plugin);
 
         addInstances(group, serviceId, instances);
     }
@@ -212,12 +224,9 @@ public class ServiceTopology extends AbstractTopology {
             String nodeName = getNodeName(instance);
 
             TNode node = createNode(nodeName, StringUtils.isNotEmpty(plugin) ? serviceNodeEntity : notServiceNodeEntity, nodeLocationEntity, i);
-
-            setFilter(node, filter);
-            setFilter(group, filter);
-            setPlugin(node, plugin);
-            setPlugin(group, plugin);
             node.setUserObject(instance);
+            setFilter(node, filter);
+            setPlugin(node, plugin);
 
             group.addChild(node);
         }
@@ -254,6 +263,7 @@ public class ServiceTopology extends AbstractTopology {
 
     private Object[] filter(Map<String, List<InstanceEntity>> instanceMap) {
         List<String> filters = new ArrayList<String>();
+        filters.add("");
 
         for (Map.Entry<String, List<InstanceEntity>> entry : instanceMap.entrySet()) {
             List<InstanceEntity> instances = entry.getValue();
@@ -263,10 +273,6 @@ public class ServiceTopology extends AbstractTopology {
                     filters.add(filter);
                 }
             }
-        }
-
-        if (filters.contains("")) {
-            filters.remove("");
         }
 
         return filters.toArray();
