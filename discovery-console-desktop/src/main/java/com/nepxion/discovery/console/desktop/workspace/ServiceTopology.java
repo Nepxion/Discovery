@@ -178,6 +178,28 @@ public class ServiceTopology extends AbstractTopology {
         setLinkAutoHide(true);
     }
 
+    private String getFilter(TElement element) {
+        return element.getClientProperty("filter").toString();
+    }
+
+    private void setFilter(TElement element, String filter) {
+        element.putClientProperty("filter", filter);
+    }
+
+    private String getPlugin(TElement element) {
+        return element.getClientProperty("plugin").toString();
+    }
+
+    private void setPlugin(TElement element, String plugin) {
+        element.putClientProperty("plugin", plugin);
+    }
+
+    private boolean isPlugin(TElement element) {
+        String plugin = getPlugin(element);
+
+        return StringUtils.isNotEmpty(plugin);
+    }
+
     private void addServices() {
         for (Map.Entry<String, List<InstanceEntity>> entry : globalInstanceMap.entrySet()) {
             String serviceId = entry.getKey();
@@ -231,28 +253,6 @@ public class ServiceTopology extends AbstractTopology {
         TElementManager.addGroupChildren(dataBox, group);
     }
 
-    private String getFilter(TElement element) {
-        return element.getClientProperty("filter").toString();
-    }
-
-    private void setFilter(TElement element, String filter) {
-        element.putClientProperty("filter", filter);
-    }
-
-    private String getPlugin(TElement element) {
-        return element.getClientProperty("plugin").toString();
-    }
-
-    private void setPlugin(TElement element, String plugin) {
-        element.putClientProperty("plugin", plugin);
-    }
-
-    private boolean isPlugin(TElement element) {
-        String plugin = getPlugin(element);
-
-        return StringUtils.isNotEmpty(plugin);
-    }
-
     private Object[] filter(Map<String, List<InstanceEntity>> instanceMap) {
         List<String> filters = new ArrayList<String>();
 
@@ -260,7 +260,8 @@ public class ServiceTopology extends AbstractTopology {
             List<InstanceEntity> instances = entry.getValue();
             for (InstanceEntity instance : instances) {
                 String filter = instance.getFilter();
-                if (!filters.contains(filter)) {
+                String plugin = instance.getPlugin();
+                if (StringUtils.isNotEmpty(plugin) && !filters.contains(filter)) {
                     filters.add(filter);
                 }
             }
