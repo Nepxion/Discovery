@@ -429,7 +429,9 @@ public class MyConfigAdapter extends ConfigAdapter {
 - 启动discovery-springcloud-example下8个DiscoveryApplication，无先后顺序，等待全部启动完毕
 - 启动discovery-springcloud-example-console下ConsoleApplication
 - 启动discovery-console-desktop下ConsoleLauncher
-  - 在主界面上的工具栏上，点击“显示服务拓扑”按钮，可以把在服务注册发现中心所有注册的服务都显示在界面上
+  - 在主界面上的工具栏上，点击“显示服务拓扑”按钮，选择服务集群过滤（根据group过滤选择）
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console0.jpg)
+  - 显示相关服务在主界面上，如果不过滤，则把在服务注册发现中心所有注册的服务都显示在界面上
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console1.jpg)
   - 在主界面上，选择“example-discovery-springcloud-example-zuul”集群下的服务，右键“执行灰度路由”
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console2.jpg)
