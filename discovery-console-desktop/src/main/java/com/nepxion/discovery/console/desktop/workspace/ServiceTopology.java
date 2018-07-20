@@ -77,6 +77,8 @@ import com.nepxion.swing.textfield.number.JNumberTextField;
 public class ServiceTopology extends AbstractTopology {
     private static final long serialVersionUID = 1L;
 
+    private static final String NO_FILTER = "[No filter]";
+
     private LocationEntity groupLocationEntity = new LocationEntity(120, 200, 280, 0);
     private LocationEntity nodeLocationEntity = new LocationEntity(0, 0, 120, 100);
 
@@ -90,7 +92,8 @@ public class ServiceTopology extends AbstractTopology {
     private JBasicMenuItem refreshGrayStateMenuItem;
     private JBasicMenuItem executeGrayRouterMenuItem;
 
-    private Map<String, List<InstanceEntity>> instanceMap;
+    private Map<String, List<InstanceEntity>> globalInstanceMap;
+    private String globalFilter;
 
     private JBasicComboBox filterComboBox;
     private GrayPanel grayPanel;
@@ -170,27 +173,11 @@ public class ServiceTopology extends AbstractTopology {
         setLinkAutoHide(true);
     }
 
-    @SuppressWarnings("unchecked")
-    private void addServices(Map<String, List<InstanceEntity>> instanceMap) {
-        Object[] filters = filter(instanceMap);
-        if (filterComboBox == null) {
-            filterComboBox = new JBasicComboBox();
-            filterComboBox.setPreferredSize(new Dimension(300, filterComboBox.getPreferredSize().height));
-        }
-
-        filterComboBox.setModel(new DefaultComboBoxModel<>(filters));
-
-        int selectedValue = JBasicOptionPane.showOptionDialog(HandleManager.getFrame(this), filterComboBox, "服务集群过滤", JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/query.png"), new Object[] { SwingLocale.getString("yes"), SwingLocale.getString("no") }, null, true);
-        if (selectedValue != 0) {
-            return;
-        }
-
-        String filter = filterComboBox.getSelectedItem().toString();
-
-        for (Map.Entry<String, List<InstanceEntity>> entry : instanceMap.entrySet()) {
+    private void addServices() {
+        for (Map.Entry<String, List<InstanceEntity>> entry : globalInstanceMap.entrySet()) {
             String serviceId = entry.getKey();
             List<InstanceEntity> instances = entry.getValue();
-            addService(filter, serviceId, instances);
+            addService(globalFilter, serviceId, instances);
         }
     }
 
@@ -200,7 +187,7 @@ public class ServiceTopology extends AbstractTopology {
         String filter = instance.getFilter();
         String plugin = instance.getPlugin();
 
-        if (!StringUtils.equals(filterId, "") && !StringUtils.equals(filterId, filter)) {
+        if (!StringUtils.equals(filterId, NO_FILTER) && !StringUtils.equals(filterId, filter)) {
             return;
         }
 
@@ -263,7 +250,6 @@ public class ServiceTopology extends AbstractTopology {
 
     private Object[] filter(Map<String, List<InstanceEntity>> instanceMap) {
         List<String> filters = new ArrayList<String>();
-        filters.add("");
 
         for (Map.Entry<String, List<InstanceEntity>> entry : instanceMap.entrySet()) {
             List<InstanceEntity> instances = entry.getValue();
@@ -275,10 +261,15 @@ public class ServiceTopology extends AbstractTopology {
             }
         }
 
+        if (filters.contains("")) {
+            filters.remove("");
+        }
+        filters.add(NO_FILTER);
+
         return filters.toArray();
     }
 
-    private Object[] filterServices(TNode node) {
+    private Object[] filterServices(TNode node, Map<String, List<InstanceEntity>> instanceMap) {
         Set<String> services = instanceMap.keySet();
         List<String> filterServices = new ArrayList<String>();
 
@@ -356,25 +347,11 @@ public class ServiceTopology extends AbstractTopology {
         }
     }
 
-    private void showTopology(boolean reloaded) {
+    private void showTopology() {
         dataBox.clear();
         groupLocationMap.clear();
 
-        if (reloaded) {
-            Map<String, List<InstanceEntity>> instanceMap = null;
-            try {
-                instanceMap = ServiceController.getInstanceMap();
-            } catch (Exception e) {
-                JExceptionDialog.traceException(HandleManager.getFrame(this), ConsoleLocale.getString("get_service_instances_failure"), e);
-
-                return;
-            }
-
-            this.instanceMap = instanceMap;
-        }
-
-        addServices(instanceMap);
-
+        addServices();
         locateGroups();
 
         TGraphManager.setGroupExpand(graph, isGroupAutoExpand());
@@ -462,7 +439,7 @@ public class ServiceTopology extends AbstractTopology {
         layoutDialog.setVisible(true);
         boolean confirmed = layoutDialog.isConfirmed();
         if (confirmed && !dataBox.isEmpty()) {
-            showTopology(false);
+            showTopology();
         }
     }
 
@@ -470,8 +447,34 @@ public class ServiceTopology extends AbstractTopology {
         JSecurityAction action = new JSecurityAction(ConsoleLocale.getString("show_topology"), ConsoleIconFactory.getSwingIcon("component/ui_16.png"), ConsoleLocale.getString("show_topology")) {
             private static final long serialVersionUID = 1L;
 
+            @SuppressWarnings("unchecked")
             public void execute(ActionEvent e) {
-                showTopology(true);
+                Map<String, List<InstanceEntity>> instanceMap = null;
+                try {
+                    instanceMap = ServiceController.getInstanceMap();
+                } catch (Exception ex) {
+                    JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("get_service_instances_failure"), ex);
+
+                    return;
+                }
+
+                Object[] filters = filter(instanceMap);
+                if (filterComboBox == null) {
+                    filterComboBox = new JBasicComboBox();
+                    filterComboBox.setPreferredSize(new Dimension(300, filterComboBox.getPreferredSize().height));
+                }
+
+                filterComboBox.setModel(new DefaultComboBoxModel<>(filters));
+
+                int selectedValue = JBasicOptionPane.showOptionDialog(HandleManager.getFrame(ServiceTopology.this), filterComboBox, "服务集群过滤", JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/query.png"), new Object[] { SwingLocale.getString("yes"), SwingLocale.getString("no") }, null, true);
+                if (selectedValue != 0) {
+                    return;
+                }
+
+                globalInstanceMap = instanceMap;
+                globalFilter = filterComboBox.getSelectedItem().toString();
+
+                showTopology();
             }
         };
 
@@ -564,7 +567,7 @@ public class ServiceTopology extends AbstractTopology {
                     // routerTopology.setPreferredSize(new Dimension(1280, 900));
                 }
 
-                Object[] filterServices = filterServices(node);
+                Object[] filterServices = filterServices(node, globalInstanceMap);
                 routerTopology.setServices(filterServices);
                 routerTopology.setInstance(instance);
 
