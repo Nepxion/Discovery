@@ -29,9 +29,9 @@ public class InstanceEntity implements Serializable {
     private String dynamicVersion;
     private String host;
     private int port;
-    private Map<String, String> metaData;
     private String rule;
     private String dynamicRule;
+    private Map<String, String> metaData;
 
     public String getServiceId() {
         return serviceId;
@@ -73,12 +73,12 @@ public class InstanceEntity implements Serializable {
         this.port = port;
     }
 
-    public Map<String, String> getMetaData() {
-        return metaData;
+    public String getRule() {
+        return rule;
     }
 
-    public void setMetaData(Map<String, String> metaData) {
-        this.metaData = metaData;
+    public void setRule(String rule) {
+        this.rule = rule;
     }
 
     public String getDynamicRule() {
@@ -89,12 +89,12 @@ public class InstanceEntity implements Serializable {
         this.dynamicRule = dynamicRule;
     }
 
-    public String getRule() {
-        return rule;
+    public Map<String, String> getMetaData() {
+        return metaData;
     }
 
-    public void setRule(String rule) {
-        this.rule = rule;
+    public void setMetaData(Map<String, String> metaData) {
+        this.metaData = metaData;
     }
 
     public String getFilter() {
