@@ -42,6 +42,7 @@ import com.nepxion.cots.twaver.element.TElementManager;
 import com.nepxion.cots.twaver.element.TGroup;
 import com.nepxion.cots.twaver.element.TGroupType;
 import com.nepxion.cots.twaver.element.TNode;
+import com.nepxion.cots.twaver.graph.TGraphBackground;
 import com.nepxion.cots.twaver.graph.TGraphManager;
 import com.nepxion.discovery.console.desktop.controller.ServiceController;
 import com.nepxion.discovery.console.desktop.entity.InstanceEntity;
@@ -79,12 +80,16 @@ public class ServiceTopology extends AbstractTopology {
 
     private static final String NO_FILTER = "[No filter]";
 
-    private LocationEntity groupLocationEntity = new LocationEntity(120, 200, 280, 0);
+    private LocationEntity groupLocationEntity = new LocationEntity(120, 250, 280, 0);
     private LocationEntity nodeLocationEntity = new LocationEntity(0, 0, 120, 100);
 
     private TopologyEntity serviceGroupEntity = new TopologyEntity(TopologyEntityType.SERVICE, true, true);
+    private TopologyEntity notServiceGroupEntity = new TopologyEntity(TopologyEntityType.MQ, true, true);
     private TopologyEntity serviceNodeEntity = new TopologyEntity(TopologyEntityType.SERVICE, true, false);
     private TopologyEntity notServiceNodeEntity = new TopologyEntity(TopologyEntityType.MQ, true, false);
+
+    private Map<String, List<InstanceEntity>> globalInstanceMap;
+    private String globalFilter;
 
     private Map<String, Point> groupLocationMap = new HashMap<String, Point>();
 
@@ -92,9 +97,7 @@ public class ServiceTopology extends AbstractTopology {
     private JBasicMenuItem refreshGrayStateMenuItem;
     private JBasicMenuItem executeGrayRouterMenuItem;
 
-    private Map<String, List<InstanceEntity>> globalInstanceMap;
-    private String globalFilter;
-
+    private TGraphBackground background;
     private JBasicComboBox filterComboBox;
     private GrayPanel grayPanel;
     private JBasicTextArea resultTextArea;
@@ -154,6 +157,8 @@ public class ServiceTopology extends AbstractTopology {
     }
 
     private void initializeTopology() {
+        background = graph.getGraphBackground();
+        background.setTitle(ConsoleLocale.getString("title_service_cluster_gray_release"));
         graph.setBlinkingRule(new BlinkingRule() {
             public boolean isBodyBlinking(Element element) {
                 return element.getAlarmState().getHighestNativeAlarmSeverity() != null || element.getClientProperty(TWaverConst.PROPERTYNAME_RENDER_COLOR) != null;
@@ -194,7 +199,7 @@ public class ServiceTopology extends AbstractTopology {
         int count = groupLocationMap.size();
         String groupName = getGroupName(serviceId, instances.size(), filter);
 
-        TGroup group = createGroup(groupName, serviceGroupEntity, groupLocationEntity, count);
+        TGroup group = createGroup(groupName, StringUtils.isNotEmpty(plugin) ? serviceGroupEntity : notServiceGroupEntity, groupLocationEntity, count);
         group.setGroupType(TGroupType.ELLIPSE_GROUP_TYPE.getType());
         group.setUserObject(serviceId);
         setFilter(group, filter);
@@ -466,13 +471,19 @@ public class ServiceTopology extends AbstractTopology {
 
                 filterComboBox.setModel(new DefaultComboBoxModel<>(filters));
 
-                int selectedValue = JBasicOptionPane.showOptionDialog(HandleManager.getFrame(ServiceTopology.this), filterComboBox, "服务集群过滤", JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/query.png"), new Object[] { SwingLocale.getString("yes"), SwingLocale.getString("no") }, null, true);
+                int selectedValue = JBasicOptionPane.showOptionDialog(HandleManager.getFrame(ServiceTopology.this), filterComboBox, ConsoleLocale.getString("service_cluster_filter"), JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/query.png"), new Object[] { SwingLocale.getString("yes"), SwingLocale.getString("no") }, null, true);
                 if (selectedValue != 0) {
                     return;
                 }
 
                 globalInstanceMap = instanceMap;
                 globalFilter = filterComboBox.getSelectedItem().toString();
+
+                String title = ConsoleLocale.getString("title_service_cluster_gray_release");
+                if (!StringUtils.equals(globalFilter, NO_FILTER)) {
+                    title += " [" + globalFilter + "]";
+                }
+                background.setTitle(title);
 
                 showTopology();
             }
