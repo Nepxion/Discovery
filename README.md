@@ -272,10 +272,13 @@ spring.cloud.zookeeper.discovery.metadata.group=xxx-service-group
 
 ### 功能开关策略
 ```xml
+# Plugin config
 # 开启和关闭服务注册层面的控制。一旦关闭，服务注册的黑/白名单过滤功能将失效，最大注册数的限制过滤功能将失效。缺失则默认为true
 spring.application.register.control.enabled=true
 # 开启和关闭服务发现层面的控制。一旦关闭，服务多版本调用的控制功能将失效，动态屏蔽指定IP地址的服务实例被发现的功能将失效。缺失则默认为true
 spring.application.discovery.control.enabled=true
+# 开启和关闭通过Rest方式对规则配置的控制和推送。一旦关闭，只能通过远程配置中心来控制和推送。缺失则默认为true
+spring.application.config.rest.control.enabled=true
 ```
 
 ## 配置中心
