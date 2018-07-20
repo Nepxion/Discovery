@@ -6,7 +6,8 @@
 
 Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件，其功能包括多版本灰度发布，黑/白名单的IP地址过滤，限制注册等，支持Eureka、Consul和Zookeeper。现有的Spring Cloud微服务可以方便引入该插件，使用者不需要对业务代码做任何修改，只需要做三个非常容易的事情
 - 引入Plugin Starter依赖到pom.xml
-- 为微服务定义一个版本号在application.properties或者yaml里（相信很多使用者本身就已经这么做了）
+- 必须为微服务定义一个版本号（version），在application.properties或者yaml的metadata里
+- 建议为微服务自定义一个便于为微服务归类的属性值，例如组名（group）或者应用名（application），在application.properties或者yaml的metadata里，便于灰度界面分析
 - 如果采用了远程配置中心集成的话，那么只需要在那里修改规则（XML），触发推送；如果未集成，可以通过客户端工具（例如Postman）推送修改的规则（XML）
 - 具体教程和示例查看最下面的“示例演示”
 
@@ -247,12 +248,17 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 ### 版本属性字段定义策略
 不同的服务注册发现组件对应的版本配置值
 ```xml
+# Eureka config
 eureka.instance.metadataMap.version=1.0
+eureka.instance.metadataMap.group=xxx-service-group
 
 # 奇葩的Consul配置（参考https://springcloud.cc/spring-cloud-consul.html - 元数据和Consul标签）
-spring.cloud.consul.discovery.tags=version=1.0
+# Consul config（多个值用“,”分隔，例如version=1.0,value=abc）
+spring.cloud.consul.discovery.tags=version=1.0,group=xxx-service-group
 
+# Zookeeper config
 spring.cloud.zookeeper.discovery.metadata.version=1.0
+spring.cloud.zookeeper.discovery.metadata.group=xxx-service-group
 ```
 
 ### 功能开关策略
