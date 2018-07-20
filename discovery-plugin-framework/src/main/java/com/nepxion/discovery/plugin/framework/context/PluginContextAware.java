@@ -92,11 +92,19 @@ public class PluginContextAware implements ApplicationContextAware {
         return isDiscoveryControlEnabled(environment);
     }
 
+    public Boolean isConfigRestControlEnabled() {
+        return isConfigRestControlEnabled(environment);
+    }
+
     public static Boolean isRegisterControlEnabled(Environment environment) {
         return environment.getProperty(PluginConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED, Boolean.class, Boolean.TRUE);
     }
 
     public static Boolean isDiscoveryControlEnabled(Environment environment) {
         return environment.getProperty(PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED, Boolean.class, Boolean.TRUE);
+    }
+
+    public static Boolean isConfigRestControlEnabled(Environment environment) {
+        return environment.getProperty(PluginConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED, Boolean.class, Boolean.TRUE);
     }
 }
