@@ -12,10 +12,13 @@ package com.nepxion.discovery.console.desktop.entity;
 import java.io.Serializable;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
+import com.nepxion.discovery.console.desktop.context.PropertiesContext;
 
 public class InstanceEntity implements Serializable {
     private static final long serialVersionUID = -3001191508072178378L;
@@ -93,8 +96,27 @@ public class InstanceEntity implements Serializable {
         this.rule = rule;
     }
 
+    public String getFilter() {
+        String filterKey = PropertiesContext.getProperties().getString("filter");
+        if (StringUtils.isEmpty(filterKey)) {
+            return "";
+        }
+
+        String filter = metaData.get(filterKey);
+        if (filter == null) {
+            return "";
+        }
+
+        return filter;
+    }
+
     public String getPlugin() {
-        return metaData.get("discovery.plugin");
+        String plugin = metaData.get("discovery.plugin");
+        if (plugin == null) {
+            return "";
+        }
+
+        return plugin;
     }
 
     @Override

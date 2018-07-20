@@ -32,6 +32,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.nepxion.cots.twaver.element.TElementManager;
 import com.nepxion.cots.twaver.element.TLink;
 import com.nepxion.cots.twaver.element.TNode;
+import com.nepxion.cots.twaver.graph.TGraphBackground;
 import com.nepxion.cots.twaver.graph.TGraphControlBar;
 import com.nepxion.cots.twaver.graph.TGraphManager;
 import com.nepxion.cots.twaver.graph.TLayoutPanel;
@@ -61,13 +62,12 @@ import com.nepxion.swing.textfield.JBasicTextField;
 public class RouterTopology extends AbstractTopology {
     private static final long serialVersionUID = 1L;
 
-    private LocationEntity nodeLocationEntity = new LocationEntity(100, 150, 200, 0);
-
+    private LocationEntity nodeLocationEntity = new LocationEntity(100, 200, 200, 0);
     private TopologyEntity serviceNodeEntity = new TopologyEntity(TopologyEntityType.SERVICE, true, true);
 
+    private TGraphBackground background;
     private JBasicTextField textField = new JBasicTextField();
     private JBasicComboBox comboBox = new JBasicComboBox();
-
     private ActionListener layoutActionListener;
 
     private InstanceEntity instance;
@@ -98,6 +98,8 @@ public class RouterTopology extends AbstractTopology {
     }
 
     private void initializeTopology() {
+        background = graph.getGraphBackground();
+        background.setTitle(ConsoleLocale.getString("title_service_gray_router"));
         graph.setElementStateOutlineColorGenerator(new Generator() {
             public Object generate(Object object) {
                 return null;
