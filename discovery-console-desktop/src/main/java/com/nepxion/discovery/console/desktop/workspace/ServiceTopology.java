@@ -205,10 +205,8 @@ public class ServiceTopology extends AbstractTopology {
     }
 
     private void addService(String filterId, String serviceId, List<InstanceEntity> instances) {
-        // 服务注册发现中心，必须有一个规范，即在同一个服务集群下，必须所有服务的metadata格式一致，例如一个配了group，另一个没有配group
-        InstanceEntity instance = instances.get(0);
-        String filter = instance.getFilter();
-        String plugin = instance.getPlugin();
+        String filter = getValidFilter(instances);
+        String plugin = getValidPlugin(instances);
 
         if (!StringUtils.equals(filterId, NO_FILTER) && !StringUtils.equals(filterId, filter)) {
             return;
@@ -247,6 +245,30 @@ public class ServiceTopology extends AbstractTopology {
 
         dataBox.addElement(group);
         TElementManager.addGroupChildren(dataBox, group);
+    }
+
+    private String getValidFilter(List<InstanceEntity> instances) {
+        // 服务注册发现中心，必须有一个规范，即在同一个服务集群下，必须所有服务的metadata格式一致，例如一个服务配了group，另一个服务没有配group
+        // 只取有值的那个
+        for (InstanceEntity instance : instances) {
+            String filter = instance.getFilter();
+            if (StringUtils.isNotEmpty(filter)) {
+                return filter;
+            }
+        }
+
+        return "";
+    }
+
+    private String getValidPlugin(List<InstanceEntity> instances) {
+        for (InstanceEntity instance : instances) {
+            String plugin = instance.getPlugin();
+            if (StringUtils.isNotEmpty(plugin)) {
+                return plugin;
+            }
+        }
+
+        return "";
     }
 
     private Object[] filter(Map<String, List<InstanceEntity>> instanceMap) {
