@@ -35,7 +35,7 @@ public class ZookeeperApplicationContextInitializer extends PluginApplicationCon
             zookeeperDiscoveryProperties.setPreferIpAddress(true);
 
             Map<String, String> metadata = zookeeperDiscoveryProperties.getMetadata();
-            metadata.put(PluginConstant.DISCOVERY_PLUGIN, ZookeeperConstant.DISCOVERY_PLUGIN);
+            metadata.put(PluginConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN, ZookeeperConstant.DISCOVERY_PLUGIN);
             metadata.put(PluginConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED, PluginContextAware.isRegisterControlEnabled(environment).toString());
             metadata.put(PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED, PluginContextAware.isDiscoveryControlEnabled(environment).toString());
             metadata.put(PluginConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED, PluginContextAware.isConfigRestControlEnabled(environment).toString());

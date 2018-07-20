@@ -35,7 +35,7 @@ public class EurekaApplicationContextInitializer extends PluginApplicationContex
             eurekaInstanceConfig.setPreferIpAddress(true);
 
             Map<String, String> metadataMap = eurekaInstanceConfig.getMetadataMap();
-            metadataMap.put(PluginConstant.DISCOVERY_PLUGIN, EurekaConstant.DISCOVERY_PLUGIN);
+            metadataMap.put(PluginConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN, EurekaConstant.DISCOVERY_PLUGIN);
             metadataMap.put(PluginConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED, PluginContextAware.isRegisterControlEnabled(environment).toString());
             metadataMap.put(PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED, PluginContextAware.isDiscoveryControlEnabled(environment).toString());
             metadataMap.put(PluginConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED, PluginContextAware.isConfigRestControlEnabled(environment).toString());
