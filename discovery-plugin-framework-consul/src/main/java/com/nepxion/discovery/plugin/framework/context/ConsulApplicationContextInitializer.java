@@ -9,10 +9,13 @@ package com.nepxion.discovery.plugin.framework.context;
  * @version 1.0
  */
 
+import java.util.List;
+
 import org.springframework.beans.BeansException;
 import org.springframework.cloud.consul.discovery.ConsulDiscoveryProperties;
 import org.springframework.cloud.consul.serviceregistry.ConsulServiceRegistry;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.plugin.framework.constant.ConsulConstant;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
@@ -26,9 +29,16 @@ public class ConsulApplicationContextInitializer extends PluginApplicationContex
 
             return new ConsulServiceRegistryDecorator(consulServiceRegistry, applicationContext);
         } else if (bean instanceof ConsulDiscoveryProperties) {
+            ConfigurableEnvironment environment = applicationContext.getEnvironment();
+
             ConsulDiscoveryProperties consulDiscoveryProperties = (ConsulDiscoveryProperties) bean;
             consulDiscoveryProperties.setPreferIpAddress(true);
-            consulDiscoveryProperties.getTags().add(PluginConstant.DISCOVERY_PLUGIN + "=" + ConsulConstant.DISCOVERY_PLUGIN);
+
+            List<String> tags = consulDiscoveryProperties.getTags();
+            tags.add(PluginConstant.DISCOVERY_PLUGIN + "=" + ConsulConstant.DISCOVERY_PLUGIN);
+            tags.add(PluginConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED + "=" + PluginContextAware.isRegisterControlEnabled(environment));
+            tags.add(PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED + "=" + PluginContextAware.isDiscoveryControlEnabled(environment));
+            tags.add(PluginConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED + "=" + PluginContextAware.isConfigRestControlEnabled(environment));
 
             return bean;
         } else {
