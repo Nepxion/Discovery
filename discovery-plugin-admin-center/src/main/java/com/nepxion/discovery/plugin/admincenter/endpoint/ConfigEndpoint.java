@@ -69,6 +69,11 @@ public class ConfigEndpoint {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Discovery control is disabled");
         }
 
+        Boolean isConfigRestControlEnabled = pluginContextAware.isConfigRestControlEnabled();
+        if (!isConfigRestControlEnabled) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Config rest control is disabled");
+        }
+
         pluginEventWapper.fireRuleCleared(new RuleClearedEvent(), true);
 
         return ResponseEntity.ok().body("OK");
@@ -103,6 +108,11 @@ public class ConfigEndpoint {
             // return new ResponseEntity<>(Collections.singletonMap("Message", "Discovery control is disabled"), HttpStatus.NOT_FOUND);
 
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Discovery control is disabled");
+        }
+
+        Boolean isConfigRestControlEnabled = pluginContextAware.isConfigRestControlEnabled();
+        if (!isConfigRestControlEnabled) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Config rest control is disabled");
         }
 
         try {
