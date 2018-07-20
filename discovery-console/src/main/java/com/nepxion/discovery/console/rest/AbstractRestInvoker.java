@@ -32,6 +32,8 @@ public abstract class AbstractRestInvoker {
     protected List<ServiceInstance> serviceInstances;
     protected RestTemplate restTemplate;
 
+    private boolean checkPermissionEnabled = true;
+
     public AbstractRestInvoker(List<ServiceInstance> serviceInstances, RestTemplate restTemplate) {
         this.serviceInstances = serviceInstances;
         this.restTemplate = restTemplate;
@@ -52,16 +54,16 @@ public abstract class AbstractRestInvoker {
             String url = getUrl(host, port);
             String result = null;
 
-            try {
-                checkPermission(serviceInstance);
+            if (checkPermissionEnabled) {
+                try {
+                    checkPermission(serviceInstance);
 
-                result = doRest(url);
-                if (!StringUtils.equals(result, "OK")) {
-                    ConsoleErrorHandler errorHandler = (ConsoleErrorHandler) restTemplate.getErrorHandler();
-                    result = errorHandler.getCause();
+                    result = invokeRest(url);
+                } catch (Exception e) {
+                    result = e.getMessage();
                 }
-            } catch (Exception e) {
-                result = e.getMessage();
+            } else {
+                result = invokeRest(url);
             }
 
             ResultEntity resultEntity = new ResultEntity();
@@ -76,6 +78,16 @@ public abstract class AbstractRestInvoker {
         LOG.info(info + " results=\n{}", resultEntityList);
 
         return ResponseEntity.ok().body(resultEntityList);
+    }
+
+    private String invokeRest(String url) {
+        String result = doRest(url);
+        if (!StringUtils.equals(result, "OK")) {
+            ConsoleErrorHandler errorHandler = (ConsoleErrorHandler) restTemplate.getErrorHandler();
+            result = errorHandler.getCause();
+        }
+
+        return result;
     }
 
     protected void checkDiscoveryControlPermission(ServiceInstance serviceInstance) {
