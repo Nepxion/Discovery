@@ -37,4 +37,9 @@ public class VersionUpdateRestInvoker extends AbstractRestInvoker {
     protected String doRest(String url) {
         return restTemplate.postForEntity(url, version, String.class).getBody();
     }
+
+    @Override
+    protected void checkPermission(ServiceInstance serviceInstance) throws Exception {
+        checkDiscoveryControlPermission(serviceInstance);
+    }
 }

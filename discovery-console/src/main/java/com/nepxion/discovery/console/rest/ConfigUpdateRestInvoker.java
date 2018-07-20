@@ -47,4 +47,10 @@ public class ConfigUpdateRestInvoker extends AbstractRestInvoker {
 
         return restTemplate.postForEntity(url, entity, String.class).getBody();
     }
+
+    @Override
+    protected void checkPermission(ServiceInstance serviceInstance) throws Exception {
+        checkDiscoveryControlPermission(serviceInstance);
+        checkConfigRestControlPermission(serviceInstance);
+    }
 }

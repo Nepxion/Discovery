@@ -33,4 +33,10 @@ public class ConfigClearRestInvoker extends AbstractRestInvoker {
     protected String doRest(String url) {
         return restTemplate.postForEntity(url, null, String.class).getBody();
     }
+
+    @Override
+    protected void checkPermission(ServiceInstance serviceInstance) throws Exception {
+        checkDiscoveryControlPermission(serviceInstance);
+        checkConfigRestControlPermission(serviceInstance);
+    }
 }
