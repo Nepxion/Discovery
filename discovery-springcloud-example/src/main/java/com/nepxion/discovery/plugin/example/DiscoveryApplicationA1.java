@@ -29,11 +29,6 @@ public class DiscoveryApplicationA1 {
         new SpringApplicationBuilder(DiscoveryApplicationA1.class).run(args);
     }
 
-    /*@Bean
-    public MyConfigAdapter myConfigAdapter() {
-        return new MyConfigAdapter();
-    }*/
-
     @Bean
     public MyRegisterListener myRegisterListener() {
         return new MyRegisterListener();
