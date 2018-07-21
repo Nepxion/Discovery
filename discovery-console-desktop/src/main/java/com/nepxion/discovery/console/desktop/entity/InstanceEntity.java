@@ -19,7 +19,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.nepxion.discovery.console.desktop.constant.ConsoleConstant;
-import com.nepxion.discovery.console.desktop.context.PropertiesContext;
 
 public class InstanceEntity implements Serializable {
     private static final long serialVersionUID = -3001191508072178378L;
@@ -98,7 +97,7 @@ public class InstanceEntity implements Serializable {
     }
 
     public String getFilter() {
-        String filterKey = PropertiesContext.getProperties().getString(ConsoleConstant.FILTER);
+        String filterKey = metaData.get(ConsoleConstant.SPRING_APPLICATION_GROUP_KEY);
         if (StringUtils.isEmpty(filterKey)) {
             return "";
         }
