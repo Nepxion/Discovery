@@ -47,12 +47,12 @@ public class ConfigInitializer {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
 
         if (!registerControlEnabled && !discoveryControlEnabled) {
-            LOG.info("********** Register and Discovery controls are all disabled, ignore to initialize **********");
+            LOG.info("Register and Discovery controls are all disabled, ignore to initialize");
 
             return;
         }
 
-        LOG.info("********** Rule starts to initialize **********");
+        LOG.info("Rule starts to initialize...");
 
         InputStream inputStream = getInputStream();
         try {
@@ -74,14 +74,14 @@ public class ConfigInitializer {
             }
 
             if (inputStream != null) {
-                LOG.info("********** Remote input stream is retrieved **********");
+                LOG.info("Remote input stream is retrieved");
 
                 return inputStream;
             } else {
-                LOG.info("********** Remote input stream isn't retrieved, use local config loader **********");
+                LOG.info("Remote input stream isn't retrieved, use local config loader");
             }
         } else {
-            LOG.info("********** Remote config loader isn't provided, use local config loader **********");
+            LOG.info("Remote config loader isn't provided, use local config loader");
         }
 
         try {
@@ -91,14 +91,14 @@ public class ConfigInitializer {
         }
 
         if (inputStream != null) {
-            LOG.info("********** Local input stream is retrieved **********");
+            LOG.info("Local input stream is retrieved");
 
             return inputStream;
         } else {
-            LOG.info("********** Local input stream isn't retrieved **********");
+            LOG.info("Local input stream isn't retrieved");
         }
         
-        LOG.info("********** No input stream is retrieved, use no config settings **********");
+        LOG.info("No input stream is retrieved, use no config settings");
 
         return null;
     }

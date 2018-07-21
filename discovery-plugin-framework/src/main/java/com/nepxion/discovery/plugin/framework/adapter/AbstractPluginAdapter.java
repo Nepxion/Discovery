@@ -20,6 +20,7 @@ import com.nepxion.discovery.plugin.framework.cache.RuleCache;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
+import com.nepxion.discovery.plugin.framework.exception.PluginException;
 import com.netflix.loadbalancer.Server;
 
 public abstract class AbstractPluginAdapter implements PluginAdapter {
@@ -34,6 +35,18 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Autowired
     protected RuleCache ruleCache;
+
+    @Override
+    public String getGroup() {
+        String groupKey = pluginContextAware.getGroupKey();
+
+        String group = getMetaData().get(groupKey);
+        if (StringUtils.isEmpty(group)) {
+            throw new PluginException("The value is empty for metadata key=" + groupKey + ", please check your configuration");
+        }
+
+        return group;
+    }
 
     @Override
     public String getServiceId() {

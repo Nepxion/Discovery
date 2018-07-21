@@ -18,9 +18,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,6 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.console.entity.InstanceEntity;
+import com.nepxion.discovery.console.remote.ConfigAdapter;
 import com.nepxion.discovery.console.rest.ConfigClearRestInvoker;
 import com.nepxion.discovery.console.rest.ConfigUpdateRestInvoker;
 import com.nepxion.discovery.console.rest.VersionClearRestInvoker;
@@ -38,8 +42,13 @@ import com.nepxion.discovery.console.rest.VersionUpdateRestInvoker;
 @RestController
 @Api(tags = { "控制台接口" })
 public class ConsoleEndpoint {
+    private static final Logger LOG = LoggerFactory.getLogger(ConsoleEndpoint.class);
+
     @Autowired
     private DiscoveryClient discoveryClient;
+
+    @Autowired(required = false)
+    private ConfigAdapter configAdapter;
 
     @Autowired
     private RestTemplate consoleRestTemplate;
@@ -66,6 +75,18 @@ public class ConsoleEndpoint {
     @ApiOperation(value = "获取服务注册中心的服务和实例的Map（精简数据）", notes = "", response = Map.class, httpMethod = "GET")
     public Map<String, List<InstanceEntity>> instanceMap() {
         return getInstanceMap();
+    }
+
+    @RequestMapping(path = "/console/remote-config/update/{group}/{serviceId}", method = RequestMethod.POST)
+    @ApiOperation(value = "推送更新规则配置信息到远程配置中心", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    public ResponseEntity<?> remoteConfigUpdate(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
+        return executeRemoteConfigUpdate(group, serviceId, config);
+    }
+
+    @RequestMapping(path = "/console/remote-config/clear/{group}/{serviceId}", method = RequestMethod.POST)
+    @ApiOperation(value = "清除规则配置信息到远程配置中心", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    public ResponseEntity<?> remoteConfigClear(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
+        return executeRemoteClearUpdate(group, serviceId);
     }
 
     @RequestMapping(path = "/console/config/update-async/{serviceId}", method = RequestMethod.POST)
@@ -138,6 +159,38 @@ public class ConsoleEndpoint {
         }
 
         return instanceMap;
+    }
+
+    private ResponseEntity<?> executeRemoteConfigUpdate(String group, String serviceId, String config) {
+        if (configAdapter == null) {
+            LOG.error("Remote config adapter isn't provided");
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Remote config adapter isn't provided");
+        }
+
+        try {
+            boolean result = configAdapter.configUpdate(group, serviceId, config);
+
+            return ResponseEntity.ok().body(result ? "OK" : "NO");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    private ResponseEntity<?> executeRemoteClearUpdate(String group, String serviceId) {
+        if (configAdapter == null) {
+            LOG.error("Remote config adapter isn't provided");
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Remote config adapter isn't provided");
+        }
+
+        try {
+            boolean result = configAdapter.configClear(group, serviceId);
+
+            return ResponseEntity.ok().body(result ? "OK" : "NO");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     private ResponseEntity<?> executeConfigUpdate(String serviceId, String config, boolean async) {

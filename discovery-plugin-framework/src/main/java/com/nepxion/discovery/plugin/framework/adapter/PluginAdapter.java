@@ -15,6 +15,8 @@ import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.netflix.loadbalancer.Server;
 
 public interface PluginAdapter {
+    String getGroup();
+
     String getServiceId();
 
     String getHost();
