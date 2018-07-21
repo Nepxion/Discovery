@@ -157,16 +157,22 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 | 工程名 | 描述 |
 | --- | --- | 
 | discovery-plugin-framework | 核心框架 |
-| discovery-plugin-framework-consul | 核心框架的Consul扩展 |
-| discovery-plugin-framework-eureka | 核心框架的Eureka扩展 |
-| discovery-plugin-framework-zookeeper | 核心框架的Zookeeper扩展 |
+| discovery-plugin-framework-eureka | 核心框架的Eureka实现 |
+| discovery-plugin-framework-consul | 核心框架的Consul实现 |
+| discovery-plugin-framework-zookeeper | 核心框架的Zookeeper实现 |
 | discovery-plugin-config-center | 配置中心实现 |
+| discovery-plugin-config-center-extension-nacos | 配置中心的Nacos扩展 |
 | discovery-plugin-admin-center | 管理中心实现 |
-| discovery-console | 独立控制台，提供给UI |
-| discovery-plugin-starter-consul | Consul Starter |
 | discovery-plugin-starter-eureka | Eureka Starter |
+| discovery-plugin-starter-consul | Consul Starter |
 | discovery-plugin-starter-zookeeper | Zookeeper Starter |
+| discovery-console | 独立控制台，提供给UI |
+| discovery-console-extension-nacos | 独立控制台的Nacos扩展 |
 | discovery-console-starter | Console Starter |
+| discovery-console-desktop | 图形化灰度发布等桌面程序 |
+| discovery-springcloud-example-console | 独立控制台示例 |
+| discovery-springcloud-example-eureka | Eureka服务器 |
+| discovery-springcloud-example | 灰度发布等示例 |
 
 ## 规则和策略
 ### 规则示例
@@ -316,7 +322,7 @@ spring.application.config.path=classpath:rule.xml
 ### 路由接口
 参考Swagger界面，如下图
 
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Swagger-1.jpg)
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Swagger1.jpg)
 
 ## 独立控制台
 为UI提供相关接口，包括
@@ -327,7 +333,7 @@ spring.application.config.path=classpath:rule.xml
 ### 控制台接口
 参考Swagger界面，如下图
 
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Swagger-2.jpg)
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Swagger2.jpg)
 
 ## 扩展和自定义更多规则或者监听
 使用者可以继承如下类
