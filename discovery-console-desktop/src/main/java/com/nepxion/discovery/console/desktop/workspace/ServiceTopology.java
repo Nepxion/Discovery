@@ -769,9 +769,26 @@ public class ServiceTopology extends AbstractTopology {
             return panel;
         }
 
+        @SuppressWarnings("unchecked")
         public void setGray(TGroup group) {
             this.group = group;
             this.node = null;
+
+            boolean versionControlEnabled = false;
+            boolean ruleControlEnabled = false;
+            for (Iterator<TNode> iterator = group.children(); iterator.hasNext();) {
+                TNode node = iterator.next();
+                InstanceEntity instance = (InstanceEntity) node.getUserObject();
+
+                boolean versionEnabled = instance.isDiscoveryControlEnabled();
+                if (versionEnabled) {
+                    versionControlEnabled = true;
+                }
+                boolean ruleEnabled = instance.isDiscoveryControlEnabled() && instance.isConfigRestControlEnabled();
+                if (ruleEnabled) {
+                    ruleControlEnabled = true;
+                }
+            }
 
             if (versionTabbedPane.getTabCount() == 2) {
                 versionTabbedPane.remove(1);
@@ -784,17 +801,24 @@ public class ServiceTopology extends AbstractTopology {
             localVersionTextField.setText("");
             updateVersionButton.setText(ConsoleLocale.getString("button_batch_update_version"));
             clearVersionButton.setText(ConsoleLocale.getString("button_batch_clear_version"));
+            updateVersionButton.setEnabled(versionControlEnabled);
+            clearVersionButton.setEnabled(versionControlEnabled);
 
             dynamicRuleTextArea.setText("");
             localRuleTextArea.setText("");
             updateRuleButton.setText(ConsoleLocale.getString("button_batch_update_rule"));
             clearRuleButton.setText(ConsoleLocale.getString("button_batch_clear_rule"));
+            updateRuleButton.setEnabled(ruleControlEnabled);
+            clearRuleButton.setEnabled(ruleControlEnabled);
         }
 
         public void setGray(TNode node) {
             this.group = null;
             this.node = node;
             InstanceEntity instance = (InstanceEntity) node.getUserObject();
+
+            boolean versionControlEnabled = instance.isDiscoveryControlEnabled();
+            boolean ruleControlEnabled = instance.isDiscoveryControlEnabled() && instance.isConfigRestControlEnabled();
 
             if (versionTabbedPane.getTabCount() == 1) {
                 versionTabbedPane.addTab(ConsoleLocale.getString("label_local_version"), localVersionPanel, ConsoleLocale.getString("label_local_version"));
@@ -807,11 +831,15 @@ public class ServiceTopology extends AbstractTopology {
             localVersionTextField.setText(instance.getVersion());
             updateVersionButton.setText(ConsoleLocale.getString("button_update_version"));
             clearVersionButton.setText(ConsoleLocale.getString("button_clear_version"));
+            updateVersionButton.setEnabled(versionControlEnabled);
+            clearVersionButton.setEnabled(versionControlEnabled);
 
             dynamicRuleTextArea.setText(instance.getDynamicRule());
             localRuleTextArea.setText(instance.getRule());
             updateRuleButton.setText(ConsoleLocale.getString("button_update_rule"));
             clearRuleButton.setText(ConsoleLocale.getString("button_clear_rule"));
+            updateRuleButton.setEnabled(ruleControlEnabled);
+            clearRuleButton.setEnabled(ruleControlEnabled);
         }
 
         private JSecurityAction createUpdateVersionAction() {

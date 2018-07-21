@@ -120,6 +120,24 @@ public class InstanceEntity implements Serializable {
         return plugin;
     }
 
+    public boolean isDiscoveryControlEnabled() {
+        String flag = metaData.get(ConsoleConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED);
+        if (flag == null) {
+            return true;
+        }
+
+        return Boolean.valueOf(flag);
+    }
+
+    public boolean isConfigRestControlEnabled() {
+        String flag = metaData.get(ConsoleConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED);
+        if (flag == null) {
+            return true;
+        }
+
+        return Boolean.valueOf(flag);
+    }
+
     @Override
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this);
