@@ -13,6 +13,7 @@ public class ConsoleConstant {
     public static final String SPRING_APPLICATION_DISCOVERY_PLUGIN = "spring.application.discovery.plugin";
     public static final String SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED = "spring.application.discovery.control.enabled";
     public static final String SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED = "spring.application.config.rest.control.enabled";
+    public static final String SPRING_APPLICATION_GROUP_KEY = "spring.application.group.key";
 
     public static final String FILTER = "filter";
     public static final String PLUGIN = "plugin";
