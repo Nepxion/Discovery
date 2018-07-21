@@ -311,7 +311,7 @@ spring.application.config.path=classpath:rule.xml
 
 ## 配置中心
 ### 跟远程配置中心整合
-本系统默认跟Nacos集成，使用者也可以跟携程Apollo，百度DisConf等远程配置中心整合，实现规则读取和订阅
+本系统默认跟Nacos集成，如何安装使用，请参考[https://github.com/alibaba/nacos](https://github.com/alibaba/nacos)。使用者也可以跟携程Apollo，百度DisConf等远程配置中心整合，实现规则读取和订阅
 - 拉取配置，参考discovery-plugin-config-center-extension-nacos工程
 - 推送配置，参考discovery-console-extension-nacos工程
 
