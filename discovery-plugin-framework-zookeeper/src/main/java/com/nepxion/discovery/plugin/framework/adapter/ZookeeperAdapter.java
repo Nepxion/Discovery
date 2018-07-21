@@ -11,43 +11,14 @@ package com.nepxion.discovery.plugin.framework.adapter;
 
 import java.util.Map;
 
-import org.springframework.cloud.client.serviceregistry.Registration;
 import org.springframework.cloud.zookeeper.discovery.ZookeeperServer;
 
-import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
-import com.nepxion.discovery.plugin.framework.constant.ZookeeperConstant;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
 import com.netflix.loadbalancer.Server;
 
 public class ZookeeperAdapter extends AbstractPluginAdapter {
     @Override
-    public String getHost(Registration registration) {
-        /*if (registration instanceof ZookeeperRegistration) {
-            ZookeeperRegistration zookeeperRegistration = (ZookeeperRegistration) registration;
-
-            return zookeeperRegistration.getServiceInstance().getAddress();
-        }
-
-        throw new PluginException("Registration instance isn't the type of ZookeeperRegistration");*/
-
-        return registration.getHost();
-    }
-
-    @Override
-    public int getPort(Registration registration) {
-        /*if (registration instanceof ZookeeperRegistration) {
-            ZookeeperRegistration zookeeperRegistration = (ZookeeperRegistration) registration;
-
-            return zookeeperRegistration.getServiceInstance().getPort();
-        }
-
-        throw new PluginException("Registration instance isn't the type of ZookeeperRegistration");*/
-
-        return registration.getPort();
-    }
-
-    @Override
-    public Map<String, String> getMetaData(Server server) {
+    public Map<String, String> getServerMetaData(Server server) {
         if (server instanceof ZookeeperServer) {
             ZookeeperServer zookeeperServer = (ZookeeperServer) server;
 
@@ -55,15 +26,5 @@ public class ZookeeperAdapter extends AbstractPluginAdapter {
         }
 
         throw new PluginException("Server instance isn't the type of ZookeeperServer");
-    }
-
-    @Override
-    public String getServerVersion(Server server) {
-        return getMetaData(server).get(PluginConstant.VERSION);
-    }
-
-    @Override
-    public String getLocalVersion() {
-        return pluginContextAware.getEnvironment().getProperty(ZookeeperConstant.METADATA_VERSION);
     }
 }

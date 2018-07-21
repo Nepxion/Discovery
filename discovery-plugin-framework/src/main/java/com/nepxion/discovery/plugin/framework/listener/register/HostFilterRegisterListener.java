@@ -27,8 +27,8 @@ public class HostFilterRegisterListener extends AbstractRegisterListener {
     @Override
     public void onRegister(Registration registration) {
         String serviceId = registration.getServiceId();
-        String host = pluginAdapter.getHost(registration);
-        int port = pluginAdapter.getPort(registration);
+        String host = registration.getHost();
+        int port = registration.getPort();
 
         applyHostFilter(serviceId, host, port);
     }

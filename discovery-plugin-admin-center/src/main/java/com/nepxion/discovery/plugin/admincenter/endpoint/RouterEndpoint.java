@@ -23,7 +23,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.cloud.client.serviceregistry.Registration;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,9 +47,6 @@ public class RouterEndpoint {
 
     @Autowired
     private DiscoveryClient discoveryClient;
-
-    @Autowired
-    private Registration registration;
 
     @RequestMapping(path = "/router/services", method = RequestMethod.GET)
     @ApiOperation(value = "获取服务注册中心的服务列表", notes = "", response = List.class, httpMethod = "GET")
@@ -99,8 +95,8 @@ public class RouterEndpoint {
     public RouterEntity getRouterEntity() {
         String serviceId = pluginAdapter.getServiceId();
         String version = pluginAdapter.getVersion();
-        String host = pluginAdapter.getHost(registration);
-        int port = pluginAdapter.getPort(registration);
+        String host = pluginAdapter.getHost();
+        int port = pluginAdapter.getPort();
 
         RouterEntity routerEntity = new RouterEntity();
         routerEntity.setServiceId(serviceId);
