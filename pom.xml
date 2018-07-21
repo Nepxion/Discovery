@@ -16,13 +16,15 @@
         <module>discovery-plugin-framework-consul</module>
         <module>discovery-plugin-framework-zookeeper</module>
         <module>discovery-plugin-config-center</module>
+        <module>discovery-plugin-config-center-extension-nacos</module>
         <module>discovery-plugin-admin-center</module>
-        <module>discovery-console</module>
-        <module>discovery-console-desktop</module>
         <module>discovery-plugin-starter-eureka</module>
         <module>discovery-plugin-starter-consul</module>
         <module>discovery-plugin-starter-zookeeper</module>
+        <module>discovery-console</module>
+        <module>discovery-console-extension-nacos</module>
         <module>discovery-console-starter</module>
+        <module>discovery-console-desktop</module>
         <module>discovery-springcloud-example-console</module>
         <module>discovery-springcloud-example-eureka</module>
         <module>discovery-springcloud-example</module>
@@ -34,6 +36,7 @@
         <commons.collections4.version>4.1</commons.collections4.version>
         <commons.io.version>2.5</commons.io.version>
         <dom4j.version>1.6.1</dom4j.version>
+        <nacos.version>0.1.0</nacos.version>
         <caffeine.version>2.6.2</caffeine.version>
         <swagger.version>2.7.0</swagger.version>
         <spring.cloud.version>Edgware.SR4</spring.cloud.version>
@@ -78,13 +81,13 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>discovery-plugin-admin-center</artifactId>
+                <artifactId>discovery-plugin-config-center-extension-nacos</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>discovery-console</artifactId>
+                <artifactId>discovery-plugin-admin-center</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -103,6 +106,18 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-starter-zookeeper</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-console</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-console-extension-nacos</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -146,6 +161,12 @@
                 <groupId>dom4j</groupId>
                 <artifactId>dom4j</artifactId>
                 <version>${dom4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.nacos</groupId>
+                <artifactId>nacos-client</artifactId>
+                <version>${nacos.version}</version>
             </dependency>
 
             <dependency>

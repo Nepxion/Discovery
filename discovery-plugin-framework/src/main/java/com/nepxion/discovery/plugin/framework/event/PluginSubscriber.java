@@ -46,12 +46,12 @@ public class PluginSubscriber {
     public void onRuleUpdated(RuleUpdatedEvent ruleUpdatedEvent) {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         if (!discoveryControlEnabled) {
-            LOG.info("********** Discovery control is disabled, ignore to subscribe **********");
+            LOG.info("Discovery control is disabled, ignore to subscribe");
 
             return;
         }
 
-        LOG.info("********** Rule updating has been triggered **********");
+        LOG.info("Rule updating has been triggered");
 
         if (ruleUpdatedEvent == null) {
             throw new PluginException("RuleUpdatedEvent can't be null");
@@ -74,12 +74,12 @@ public class PluginSubscriber {
     public void onRuleCleared(RuleClearedEvent ruleClearedEvent) {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         if (!discoveryControlEnabled) {
-            LOG.info("********** Discovery control is disabled, ignore to subscribe **********");
+            LOG.info("Discovery control is disabled, ignore to subscribe");
 
             return;
         }
 
-        LOG.info("********** Rule clearing has been triggered **********");
+        LOG.info("Rule clearing has been triggered");
 
         if (ruleClearedEvent == null) {
             throw new PluginException("RuleClearedEvent can't be null");
@@ -94,12 +94,12 @@ public class PluginSubscriber {
     public void onVersionUpdated(VersionUpdatedEvent versionUpdatedEvent) {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         if (!discoveryControlEnabled) {
-            LOG.info("********** Discovery control is disabled, ignore to subscribe **********");
+            LOG.info("Discovery control is disabled, ignore to subscribe");
 
             return;
         }
 
-        LOG.info("********** Version updating has been triggered **********");
+        LOG.info("Version updating has been triggered");
 
         if (versionUpdatedEvent == null) {
             throw new PluginException("VersionUpdatedEvent can't be null");
@@ -113,14 +113,14 @@ public class PluginSubscriber {
 
             refreshLoadBalancer();
 
-            LOG.info("********** Version has been updated, new version is {} **********", dynamicVersion);
+            LOG.info("Version has been updated, new version is {}", dynamicVersion);
         } else {
             if (StringUtils.equals(pluginAdapter.getLocalVersion(), localVersion)) {
                 pluginAdapter.setDynamicVersion(dynamicVersion);
 
                 refreshLoadBalancer();
 
-                LOG.info("********** Version has been updated, new version is {} **********", dynamicVersion);
+                LOG.info("Version has been updated, new version is {}", dynamicVersion);
             } else {
                 throw new PluginException("Version updating will be ignored, because input localVersion=" + localVersion + ", current localVersion=" + pluginAdapter.getLocalVersion());
             }
@@ -131,12 +131,12 @@ public class PluginSubscriber {
     public void onVersionCleared(VersionClearedEvent versionClearedEvent) {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         if (!discoveryControlEnabled) {
-            LOG.info("********** Discovery control is disabled, ignore to subscribe **********");
+            LOG.info("Discovery control is disabled, ignore to subscribe");
 
             return;
         }
 
-        LOG.info("********** Version clearing has been triggered **********");
+        LOG.info("Version clearing has been triggered");
 
         if (versionClearedEvent == null) {
             throw new PluginException("VersionClearedEvent can't be null");
@@ -149,14 +149,14 @@ public class PluginSubscriber {
 
             refreshLoadBalancer();
 
-            LOG.info("********** Version has been cleared **********");
+            LOG.info("Version has been cleared");
         } else {
             if (StringUtils.equals(pluginAdapter.getLocalVersion(), localVersion)) {
                 pluginAdapter.clearDynamicVersion();
 
                 refreshLoadBalancer();
 
-                LOG.info("********** Version has been cleared **********");
+                LOG.info("Version has been cleared");
             } else {
                 throw new PluginException("Version clearing will be ignored, because input localVersion=" + localVersion + ", current localVersion=" + pluginAdapter.getLocalVersion());
             }
