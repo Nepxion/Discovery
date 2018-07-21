@@ -4,11 +4,14 @@
 [![Javadocs](http://www.javadoc.io/badge/com.nepxion/discovery.svg)](http://www.javadoc.io/doc/com.nepxion/discovery)
 [![Build Status](https://travis-ci.org/Nepxion/Discovery.svg?branch=master)](https://travis-ci.org/Nepxion/Discovery)
 
-Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件，其功能包括多版本灰度发布，黑/白名单的IP地址过滤，限制注册等，支持Eureka、Consul和Zookeeper。现有的Spring Cloud微服务可以方便引入该插件，使用者不需要对业务代码做任何修改，只需要做如下简单的事情：
-- 引入Plugin Starter依赖到pom.xml
+Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件，其功能包括多版本灰度发布，黑/白名单的IP地址过滤，限制注册等，支持Eureka、Consul和Zookeeper。现有的Spring Cloud微服务可以方便引入该插件，代码零侵入，使用者只需要做如下简单的事情：
+- 引入相关Plugin Starter依赖到pom.xml
 - 必须为微服务定义一个版本号（version），在application.properties或者yaml的metadata里
-- 建议为微服务自定义一个便于为微服务归类的属性值，例如组名（group）或者应用名（application），在application.properties或者yaml的metadata里，便于灰度界面分析
-- 如果采用了远程配置中心集成的话，那么只需要在那里修改规则（XML），触发推送；如果未集成，可以通过客户端工具（例如Postman）推送修改的规则（XML）
+- 必须为微服务自定义一个便于为微服务归类的Key，例如组名（group）或者应用名（application），在application.properties或者yaml的metadata里，便于远程配置中心推送和灰度界面分析
+- 使用者只需要关注相关规则推送。可以采用如下方式之一
+  - 通过远程配置中心推送规则
+  - 通过控制台界面推送规则
+  - 通过客户端工具（例如Postman）推送推测
 
 ## Quick Start
 具体教程和示例查看最下面的“示例演示”，图形化演示视频，请访问[http://www.iqiyi.com/w_19s07thtsh.html](http://www.iqiyi.com/w_19s07thtsh.html)，视频清晰度改成720P，然后最大化播放
@@ -35,7 +38,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
   - 通过版本切换，实现灰度发布
 - 实现通过XML进行上述规则的定义
 - 实现通过事件总线机制（EventBus）的功能，实现发布/订阅功能
-  - 对接远程配置中心，异步接受远程配置中心主动推送规则信息，动态改变微服务的规则
+  - 对接远程配置中心，默认集成阿里巴巴的Nacos，异步接受远程配置中心主动推送规则信息，动态改变微服务的规则
   - 结合Spring Boot Actuator，异步接受Rest主动推送规则信息，动态改变微服务的规则
   - 结合Spring Boot Actuator，动态改变微服务的版本
   - 在服务注册层面的控制中，一旦禁止注册的条件触发，主动推送异步事件，以便使用者订阅
@@ -107,7 +110,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
   - 跟Spring Cloud版本保持一致
 
 ## 依赖
-微服务选择相应的插件引入
+微服务选择相应的插件引入，最后一个如需对接Nacos远程配置中心，则引入
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -126,13 +129,25 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
     <artifactId>discovery-plugin-starter-zookeeper</artifactId>
     <version>${discovery.plugin.version}</version>
 </dependency>
+
+<dependency>
+    <groupId>com.nepxion</groupId>
+    <artifactId>discovery-plugin-config-center-extension-nacos</artifactId>
+    <version>${discovery.plugin.version}</version>
+</dependency>
 ```
 
-独立控制台引入
+独立控制台引入，最后一个如需对接Nacos远程配置中心，则引入
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-console-starter</artifactId>
+    <version>${discovery.plugin.version}</version>
+</dependency>
+
+<dependency>
+    <groupId>com.nepxion</groupId>
+    <artifactId>discovery-console-extension-nacos</artifactId>
     <version>${discovery.plugin.version}</version>
 </dependency>
 ```
@@ -142,16 +157,22 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 | 工程名 | 描述 |
 | --- | --- | 
 | discovery-plugin-framework | 核心框架 |
-| discovery-plugin-framework-consul | 核心框架的Consul扩展 |
-| discovery-plugin-framework-eureka | 核心框架的Eureka扩展 |
-| discovery-plugin-framework-zookeeper | 核心框架的Zookeeper扩展 |
+| discovery-plugin-framework-eureka | 核心框架的Eureka实现 |
+| discovery-plugin-framework-consul | 核心框架的Consul实现 |
+| discovery-plugin-framework-zookeeper | 核心框架的Zookeeper实现 |
 | discovery-plugin-config-center | 配置中心实现 |
+| discovery-plugin-config-center-extension-nacos | 配置中心的Nacos扩展 |
 | discovery-plugin-admin-center | 管理中心实现 |
-| discovery-console | 独立控制台，提供给UI |
-| discovery-plugin-starter-consul | Consul Starter |
 | discovery-plugin-starter-eureka | Eureka Starter |
+| discovery-plugin-starter-consul | Consul Starter |
 | discovery-plugin-starter-zookeeper | Zookeeper Starter |
+| discovery-console | 独立控制台，提供给UI |
+| discovery-console-extension-nacos | 独立控制台的Nacos扩展 |
 | discovery-console-starter | Console Starter |
+| discovery-console-desktop | 图形化灰度发布等桌面程序 |
+| discovery-springcloud-example-console | 独立控制台示例 |
+| discovery-springcloud-example-eureka | Eureka服务器 |
+| discovery-springcloud-example | 灰度发布等示例 |
 
 ## 规则和策略
 ### 规则示例
@@ -281,38 +302,18 @@ spring.application.register.control.enabled=true
 spring.application.discovery.control.enabled=true
 # 开启和关闭通过Rest方式对规则配置的控制和推送。一旦关闭，只能通过远程配置中心来控制和推送。缺失则默认为true
 spring.application.config.rest.control.enabled=true
-# 本地规则文件的路径。缺失则默认为不装载本地规则
-# 两种方式放置方式：
-# classpath:rule.xml，规则文件放在resources目录下，便于把规则文件打包进jar
-# file:rule.xml，规则文件放在工程根目录下，便于把规则文件放置在外部，方便修改
+# 本地规则文件的路径，支持两种方式：classpath:rule.xml - 规则文件放在resources目录下，便于打包进jar；file:rule.xml - 规则文件放在工程根目录下，放置在外部便于修改。缺失则默认为不装载本地规则
 spring.application.config.path=classpath:rule.xml
+# 为微服务归类的Key，一般通过group字段来归类，例如eureka.instance.metadataMap.group=xxx-group或者eureka.instance.metadataMap.application=xxx-application。缺失则默认为group
+# spring.application.group.key=group
+# spring.application.group.key=application
 ```
 
 ## 配置中心
 ### 跟远程配置中心整合
-使用者可以跟携程Apollo，百度DisConf等远程配置中心整合，实现规则读取和订阅
-- 主动从本地或远程配置中心获取规则
-- 订阅远程配置中心的规则更新
-
-继承ConfigAdapter.java
-```java
-public class MyConfigAdapter extends ConfigAdapter {
-    // 从远程配置中心获取规则
-    @Override
-    public InputStream getInputStream() throws Exception {
-        InputStream inputStream = ...;
-
-        return inputStream;
-    }
-
-    // 订阅远程配置中心的规则更新（推送策略自己决定，可以所有服务都只对应一个规则信息，也可以根据服务名获取对应的规则信息）
-    @PostConstruct
-    public void update() throws Exception {
-        InputStream inputStream = ...;
-        fireRuleUpdated(new RuleUpdatedEvent(inputStream), true);
-    }
-}
-```
+本系统默认跟Nacos集成，使用者也可以跟携程Apollo，百度DisConf等远程配置中心整合，实现规则读取和订阅
+- 拉取配置，参考discovery-plugin-config-center-extension-nacos工程
+- 推送配置，参考discovery-console-extension-nacos工程
 
 ## 管理中心
 > PORT端口号为server.port或者management.port都可以（management.port开放只支持3.x.x版本）
@@ -321,21 +322,18 @@ public class MyConfigAdapter extends ConfigAdapter {
 ### 路由接口
 参考Swagger界面，如下图
 
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Swagger-1.jpg)
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Swagger1.jpg)
 
 ## 独立控制台
-为UI提供相关接口
-已实现如下功能
+为UI提供相关接口，包括
 - 一系列批量功能
-
-待实现如下功能
-- 与远程配置中心整合
+- 跟Nacos集成，实现配置推送和清除
 
 > PORT端口号为server.port或者management.port都可以（management.port开放只支持3.x.x版本）
 ### 控制台接口
 参考Swagger界面，如下图
 
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Swagger-2.jpg)
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Swagger2.jpg)
 
 ## 扩展和自定义更多规则或者监听
 使用者可以继承如下类
@@ -495,7 +493,8 @@ public class MyConfigAdapter extends ConfigAdapter {
 - 负载均衡的灰度测试
   - 3.1 通过Postman或者浏览器，执行POST [http://localhost:1100/invoke](http://localhost:1100/invoke)，这是example内置的访问路径示例（通过Feign实现）
   - 3.2 重复“通过版本切换，达到灰度访问控制”或者“通过规则改变，达到灰度访问控制”操作，查看Ribbon负载均衡的灰度结果，如图4
-- 其它更多操作，请参考“管理中心”和“路由中心”，不一一阐述了
+- 上述操作，都是单次操作，如需要批量操作，可通过“独立控制台”接口，它集成批量操作和推送到远程配置中心的功能，可以取代上面的某些调用方式
+- 其它更多操作，请参考“配置中心”、“管理中心”和“独立控制台”
 
 新XML规则
 ```xml
