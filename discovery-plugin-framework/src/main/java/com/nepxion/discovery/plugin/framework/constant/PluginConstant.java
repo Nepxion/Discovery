@@ -18,11 +18,11 @@ public class PluginConstant {
 
     public static final String SPRING_APPLICATION_NAME = "spring.application.name";
     public static final String SERVICE_ID = "serviceId";
-    public static final String VERSION = "version";
-    public static final String DYNAMIC_VERSION = "dynamicVersion";
-    public static final String METADATA = "metadata";
     public static final String HOST = "host";
     public static final String PORT = "port";
+    public static final String METADATA = "metadata";
+    public static final String VERSION = "version";
+    public static final String DYNAMIC_VERSION = "dynamicVersion";
     public static final String RULE = "rule";
     public static final String DYNAMIC_RULE = "dynamicRule";
     public static final String REACH_MAX_LIMITED_COUNT = "reach max limited count";
