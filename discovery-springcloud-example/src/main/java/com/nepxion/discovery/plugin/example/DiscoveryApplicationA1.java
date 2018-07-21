@@ -15,7 +15,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 
-import com.nepxion.discovery.plugin.example.adapter.MyConfigAdapter;
 import com.nepxion.discovery.plugin.example.extension.MyDiscoveryListener;
 import com.nepxion.discovery.plugin.example.extension.MyRegisterListener;
 import com.nepxion.discovery.plugin.example.extension.MySubscriber;
@@ -30,10 +29,10 @@ public class DiscoveryApplicationA1 {
         new SpringApplicationBuilder(DiscoveryApplicationA1.class).run(args);
     }
 
-    @Bean
+    /*@Bean
     public MyConfigAdapter myConfigAdapter() {
         return new MyConfigAdapter();
-    }
+    }*/
 
     @Bean
     public MyRegisterListener myRegisterListener() {

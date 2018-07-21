@@ -14,6 +14,7 @@ public class PluginConstant {
     public static final String SPRING_APPLICATION_REGISTER_CONTROL_ENABLED = "spring.application.register.control.enabled";
     public static final String SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED = "spring.application.discovery.control.enabled";
     public static final String SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED = "spring.application.config.rest.control.enabled";
+    public static final String SPRING_APPLICATION_CONFIG_PATH = "spring.application.config.path";
 
     public static final String SPRING_APPLICATION_NAME = "spring.application.name";
     public static final String SERVICE_ID = "serviceId";

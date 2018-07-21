@@ -9,14 +9,30 @@ package com.nepxion.discovery.plugin.configcenter.configuration;
  * @version 1.0
  */
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.nepxion.discovery.plugin.configcenter.ConfigInitializer;
 import com.nepxion.discovery.plugin.configcenter.ConfigParser;
+import com.nepxion.discovery.plugin.configcenter.loader.LocalConfigLoader;
+import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 
 @Configuration
 public class ConfigAutoConfiguration {
+    @Autowired
+    private PluginContextAware pluginContextAware;
+
+    @Bean
+    public LocalConfigLoader localConfigLoader() {
+        return new LocalConfigLoader() {
+            @Override
+            protected String getPath() {
+                return pluginContextAware.getConfigPath();
+            }
+        };
+    }
+
     @Bean
     public ConfigInitializer configInitializer() {
         return new ConfigInitializer();
