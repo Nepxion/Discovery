@@ -18,7 +18,6 @@ import com.nepxion.discovery.console.endpoint.ConsoleEndpoint;
 import com.nepxion.discovery.console.handler.ConsoleErrorHandler;
 
 @Configuration
-// @ComponentScan(basePackages = { "com.nepxion.discovery.console.endpoint" })
 @Import(SwaggerConfiguration.class)
 public class ConsoleAutoConfiguration {
     static {
