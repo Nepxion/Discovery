@@ -77,6 +77,8 @@ public class ConfigInitializer {
                 LOG.info("********** Remote input stream is retrieved **********");
 
                 return inputStream;
+            } else {
+                LOG.info("********** Remote input stream isn't retrieved, use local config loader **********");
             }
         } else {
             LOG.info("********** Remote config loader isn't provided, use local config loader **********");
@@ -92,9 +94,11 @@ public class ConfigInitializer {
             LOG.info("********** Local input stream is retrieved **********");
 
             return inputStream;
+        } else {
+            LOG.info("********** Local input stream isn't retrieved **********");
         }
-
-        LOG.info("********** No input stream is retrieved **********");
+        
+        LOG.info("********** No input stream is retrieved, use no config settings **********");
 
         return null;
     }
