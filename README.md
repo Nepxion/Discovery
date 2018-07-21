@@ -297,19 +297,9 @@ spring.application.config.path=classpath:rule.xml
 继承ConfigAdapter.java
 ```java
 public class MyConfigAdapter extends ConfigAdapter {
-    // 从本地获取规则
-    @Override
-    protected String getLocalContextPath() {
-        // 规则文件放在resources目录下
-        return "classpath:rule.xml";
-
-        // 规则文件放在工程根目录下
-        // return "file:rule.xml";
-    }
-
     // 从远程配置中心获取规则
     @Override
-    public InputStream getRemoteInputStream() throws Exception {
+    public InputStream getInputStream() throws Exception {
         InputStream inputStream = ...;
 
         return inputStream;
