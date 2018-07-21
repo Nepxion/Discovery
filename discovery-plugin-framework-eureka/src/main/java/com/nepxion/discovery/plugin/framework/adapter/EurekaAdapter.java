@@ -11,47 +11,13 @@ package com.nepxion.discovery.plugin.framework.adapter;
 
 import java.util.Map;
 
-import org.springframework.cloud.client.serviceregistry.Registration;
-
-import com.nepxion.discovery.plugin.framework.constant.EurekaConstant;
-import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
 import com.netflix.loadbalancer.Server;
 import com.netflix.niws.loadbalancer.DiscoveryEnabledServer;
 
 public class EurekaAdapter extends AbstractPluginAdapter {
     @Override
-    public String getHost(Registration registration) {
-        /*if (registration instanceof EurekaRegistration) {
-            EurekaRegistration eurekaRegistration = (EurekaRegistration) registration;
-
-            return eurekaRegistration.getInstanceConfig().getIpAddress();
-        }
-
-        throw new PluginException("Registration instance isn't the type of EurekaRegistration");*/
-
-        return registration.getHost();
-    }
-
-    @Override
-    public int getPort(Registration registration) {
-        /*if (registration instanceof EurekaRegistration) {
-            EurekaRegistration eurekaRegistration = (EurekaRegistration) registration;
-
-            if (eurekaRegistration.getInstanceConfig().getSecurePortEnabled()) {
-                return eurekaRegistration.getInstanceConfig().getSecurePort();
-            }
-
-            return eurekaRegistration.getInstanceConfig().getNonSecurePort();
-        }
-
-        throw new PluginException("Registration instance isn't the type of EurekaRegistration");*/
-
-        return registration.getPort();
-    }
-
-    @Override
-    public Map<String, String> getMetaData(Server server) {
+    public Map<String, String> getServerMetaData(Server server) {
         if (server instanceof DiscoveryEnabledServer) {
             DiscoveryEnabledServer discoveryEnabledServer = (DiscoveryEnabledServer) server;
 
@@ -59,15 +25,5 @@ public class EurekaAdapter extends AbstractPluginAdapter {
         }
 
         throw new PluginException("Server instance isn't the type of DiscoveryEnabledServer");
-    }
-
-    @Override
-    public String getServerVersion(Server server) {
-        return getMetaData(server).get(PluginConstant.VERSION);
-    }
-
-    @Override
-    public String getLocalVersion() {
-        return pluginContextAware.getEnvironment().getProperty(EurekaConstant.METADATA_VERSION);
     }
 }

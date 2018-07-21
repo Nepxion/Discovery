@@ -11,21 +11,17 @@ package com.nepxion.discovery.plugin.framework.adapter;
 
 import java.util.Map;
 
-import org.springframework.cloud.client.serviceregistry.Registration;
-
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.netflix.loadbalancer.Server;
 
 public interface PluginAdapter {
     String getServiceId();
 
-    String getHost(Registration registration);
+    String getHost();
 
-    int getPort(Registration registration);
+    int getPort();
 
-    Map<String, String> getMetaData(Server server);
-
-    String getServerVersion(Server server);
+    Map<String, String> getMetaData();
 
     String getVersion();
 
@@ -48,4 +44,8 @@ public interface PluginAdapter {
     void setDynamicRule(RuleEntity ruleEntity);
 
     void clearDynamicRule();
+
+    Map<String, String> getServerMetaData(Server server);
+
+    String getServerVersion(Server server);
 }

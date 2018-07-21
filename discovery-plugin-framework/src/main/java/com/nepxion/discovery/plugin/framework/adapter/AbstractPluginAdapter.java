@@ -9,16 +9,23 @@ package com.nepxion.discovery.plugin.framework.adapter;
  * @version 1.0
  */
 
+import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.serviceregistry.Registration;
 
 import com.nepxion.discovery.plugin.framework.cache.PluginCache;
 import com.nepxion.discovery.plugin.framework.cache.RuleCache;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
+import com.netflix.loadbalancer.Server;
 
 public abstract class AbstractPluginAdapter implements PluginAdapter {
+    @Autowired
+    private Registration registration;
+
     @Autowired
     protected PluginContextAware pluginContextAware;
 
@@ -30,7 +37,22 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Override
     public String getServiceId() {
-        return pluginContextAware.getEnvironment().getProperty(PluginConstant.SPRING_APPLICATION_NAME);
+        return registration.getServiceId();
+    }
+
+    @Override
+    public String getHost() {
+        return registration.getHost();
+    }
+
+    @Override
+    public int getPort() {
+        return registration.getPort();
+    }
+
+    @Override
+    public Map<String, String> getMetaData() {
+        return registration.getMetadata();
     }
 
     @Override
@@ -41,6 +63,11 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
         }
 
         return getLocalVersion();
+    }
+
+    @Override
+    public String getLocalVersion() {
+        return getMetaData().get(PluginConstant.VERSION);
     }
 
     @Override
@@ -91,5 +118,10 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     @Override
     public void clearDynamicRule() {
         ruleCache.clear(PluginConstant.DYNAMIC_RULE);
+    }
+
+    @Override
+    public String getServerVersion(Server server) {
+        return getServerMetaData(server).get(PluginConstant.VERSION);
     }
 }
