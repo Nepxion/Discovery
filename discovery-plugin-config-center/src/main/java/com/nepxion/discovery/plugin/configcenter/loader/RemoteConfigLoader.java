@@ -9,8 +9,6 @@ package com.nepxion.discovery.plugin.configcenter.loader;
  * @version 1.0
  */
 
-import java.io.InputStream;
+public abstract class RemoteConfigLoader implements ConfigLoader {
 
-public interface ConfigLoader {
-    InputStream getInputStream() throws Exception;
 }

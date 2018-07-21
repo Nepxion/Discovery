@@ -11,11 +11,11 @@ package com.nepxion.discovery.plugin.configcenter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.plugin.configcenter.loader.AbstractConfigLoader;
+import com.nepxion.discovery.plugin.configcenter.loader.RemoteConfigLoader;
 import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
 import com.nepxion.discovery.plugin.framework.event.RuleUpdatedEvent;
 
-public abstract class ConfigAdapter extends AbstractConfigLoader {
+public abstract class ConfigAdapter extends RemoteConfigLoader {
     @Autowired
     private PluginEventWapper pluginEventWapper;
 

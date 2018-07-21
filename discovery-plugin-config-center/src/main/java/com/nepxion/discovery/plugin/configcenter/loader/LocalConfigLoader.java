@@ -15,21 +15,21 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
-public abstract class AbstractConfigLoader implements ConfigLoader {
+public abstract class LocalConfigLoader implements ConfigLoader {
     @Autowired
     private ApplicationContext applicationContext;
 
     @Override
-    public InputStream getLocalInputStream() throws Exception {
-        String localContextPath = getLocalContextPath();
-        if (StringUtils.isEmpty(localContextPath)) {
+    public InputStream getInputStream() throws Exception {
+        String path = getPath();
+        if (StringUtils.isEmpty(path)) {
             return null;
         }
 
-        String localFilePath = applicationContext.getEnvironment().resolvePlaceholders(localContextPath);
+        String filePath = applicationContext.getEnvironment().resolvePlaceholders(path);
 
-        return applicationContext.getResource(localFilePath).getInputStream();
+        return applicationContext.getResource(filePath).getInputStream();
     }
 
-    protected abstract String getLocalContextPath();
+    protected abstract String getPath();
 }

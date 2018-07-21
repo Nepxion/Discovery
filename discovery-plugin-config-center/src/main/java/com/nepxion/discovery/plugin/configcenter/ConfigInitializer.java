@@ -17,7 +17,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.plugin.configcenter.loader.ConfigLoader;
+import com.nepxion.discovery.plugin.configcenter.loader.LocalConfigLoader;
+import com.nepxion.discovery.plugin.configcenter.loader.RemoteConfigLoader;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
@@ -31,8 +32,11 @@ public class ConfigInitializer {
     @Autowired
     private PluginAdapter pluginAdapter;
 
+    @Autowired
+    private LocalConfigLoader localConfigLoader;
+
     @Autowired(required = false)
-    private ConfigLoader configLoader;
+    private RemoteConfigLoader remoteConfigLoader;
 
     @Autowired
     private ConfigParser configParser;
@@ -48,15 +52,9 @@ public class ConfigInitializer {
             return;
         }
 
-        if (configLoader == null) {
-            LOG.info("********** ConfigLoader isn't provided, ignore to initialize **********");
-
-            return;
-        }
-
         LOG.info("********** Rule starts to initialize **********");
 
-        InputStream inputStream = getInputStream(configLoader);
+        InputStream inputStream = getInputStream();
         try {
             RuleEntity ruleEntity = configParser.parse(inputStream);
             pluginAdapter.setLocalRule(ruleEntity);
@@ -65,22 +63,27 @@ public class ConfigInitializer {
         }
     }
 
-    public InputStream getInputStream(ConfigLoader configLoader) {
+    public InputStream getInputStream() {
         InputStream inputStream = null;
-        try {
-            inputStream = configLoader.getRemoteInputStream();
-        } catch (Exception e) {
-            LOG.warn("Get remote input stream failed", e);
+
+        if (remoteConfigLoader != null) {
+            try {
+                inputStream = remoteConfigLoader.getInputStream();
+            } catch (Exception e) {
+                LOG.warn("Get remote input stream failed", e);
+            }
+
+            if (inputStream != null) {
+                LOG.info("********** Remote input stream is retrieved **********");
+
+                return inputStream;
+            }
+        } else {
+            LOG.info("********** Remote config loader isn't provided, use local config loader **********");
         }
 
-        if (inputStream != null) {
-            LOG.info("********** Remote input stream is retrieved **********");
-
-            return inputStream;
-        }
-
         try {
-            inputStream = configLoader.getLocalInputStream();
+            inputStream = localConfigLoader.getInputStream();
         } catch (Exception e) {
             LOG.warn("Get local input stream failed", e);
         }
