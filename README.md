@@ -15,7 +15,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 
 ## Quick Start
 - 图形化演示操作
-  - 请访问[http://www.iqiyi.com/w_19s07thtsh.html](http://www.iqiyi.com/w_19s07thtsh.html)，视频清晰度改成720P，然后最大化播放
+  - 请访问[http://www.iqiyi.com/w_19rzwzovrl.html](http://www.iqiyi.com/w_19rzwzovrl.html)，视频清晰度改成720P，然后最大化播放
   - 请访问[https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA](https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA)，获取更清晰的视频 
 - 更多教程和示例查看最下面的“示例演示”，
 
