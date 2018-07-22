@@ -46,7 +46,6 @@ public abstract class AbstractRestInvoker {
 
         List<ResultEntity> resultEntityList = new ArrayList<ResultEntity>();
         for (ServiceInstance serviceInstance : serviceInstances) {
-            String serviceId = serviceInstance.getServiceId().toLowerCase();
             String host = serviceInstance.getHost();
             int port = serviceInstance.getPort();
             String url = getUrl(host, port);
@@ -65,7 +64,6 @@ public abstract class AbstractRestInvoker {
             }
 
             ResultEntity resultEntity = new ResultEntity();
-            resultEntity.setServiceId(serviceId);
             resultEntity.setUrl(url);
             resultEntity.setResult(result);
 
