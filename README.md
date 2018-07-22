@@ -14,7 +14,10 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
   - 通过客户端工具（例如Postman）推送推测
 
 ## Quick Start
-具体教程和示例查看最下面的“示例演示”，图形化演示视频，请访问[http://www.iqiyi.com/w_19s07thtsh.html](http://www.iqiyi.com/w_19s07thtsh.html)，视频清晰度改成720P，然后最大化播放
+- 图形化演示操作
+  - 请访问[http://www.iqiyi.com/w_19s07thtsh.html](http://www.iqiyi.com/w_19s07thtsh.html)，视频清晰度改成720P，然后最大化播放
+  - 请访问[https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA](https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA)，获取更清晰的视频 
+- 更多教程和示例查看最下面的“示例演示”，
 
 ## 痛点
 现有Spring Cloud的痛点
@@ -440,50 +443,10 @@ spring.application.config.path=classpath:rule.xml
 
 ### 服务发现和负载均衡控制的操作演示
 #### 基于图形化方式的多版本灰度访问控制
-- 启动discovery-springcloud-example下8个DiscoveryApplication，无先后顺序，等待全部启动完毕
-- 启动discovery-springcloud-example-console下ConsoleApplication
-- 启动discovery-console-desktop下ConsoleLauncher
-  - 在主界面上的工具栏上，点击“显示服务拓扑”按钮，选择服务集群过滤（根据group过滤选择）
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console0.jpg)
-  - 显示相关服务在主界面上，如果不过滤，则把在服务注册发现中心所有注册的服务都显示在界面上
+- 请访问[http://www.iqiyi.com/w_19s07thtsh.html](http://www.iqiyi.com/w_19s07thtsh.html)，视频清晰度改成720P，然后最大化播放
+- 请访问[https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA](https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA)，获取更清晰的视频 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console1.jpg)
-  - 在主界面上，选择“example-discovery-springcloud-example-zuul”集群下的服务，右键“执行灰度路由”
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console2.jpg)
-  - 在路由界面上点击箭头指向的“添加服务”按钮，并切换下拉菜单，依次把A，B，C三个服务加进去，然后点击“执行路由”按钮，可以看到从Zuul->A服务->B服务->C服务，可以访问的路径，正是想要的结果
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console3.jpg)
-
-进行版本切换的灰度策略
-  - 回到主界面，在选择的Zuul服务上，右键“执行灰度发布”
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console4.jpg)
-  - 在弹出的界面，在灰度版本的文本框输入1.1，然后点击“更新灰度版本”按钮，那么Zuul服务的版本从1.0切换到1.1，该节点会呈现黄色闪烁，表示正在执行版本灰度
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console5.jpg)
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console6.jpg)
-  - 重复“执行灰度路由”的步骤，发现以Zuul为起点访问路径改变了，目的达到。通过“执行灰度发布”界面，点击“清除灰度版本”按钮，回滚到以前访问路径，这里不表述了
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console7.jpg)
-
-进行规则改变的灰度策略
-  - 在主界面上，选择“example-discovery-springcloud-example-b”集群下的服务集群，右键“执行灰度发布”，批量改变B1和B2服务的规则
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console8.jpg)
-  - 在弹出的界面，在灰度文本框输入如下新规则（操作的逻辑：B服务的所有版本都只能访问C服务3.0版本，而本例中C服务3.0版本是不存在的，意味着这么做B服务不能访问C服务），然后点击“批量更新灰度规则”按钮，那么B1和B2服务的规则进行改变，两个节点会呈现青色闪烁，表示正在执行规则灰度
-
-新XML规则
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-    <discovery>
-        <version>
-            <service consumer-service-name="discovery-springcloud-example-b" provider-service-name="discovery-springcloud-example-c" consumer-version-value="" provider-version-value="3.0"/>
-        </version>
-    </discovery>
-</rule>
-```
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console9.jpg)
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console10.jpg)
-  - 重复“执行灰度路由”的步骤，发现以Zuul为起点访问路径改变了，目的达到。通过“执行灰度发布”界面，点击“清除灰度规则”按钮，回滚到以前访问路径，这里不表述了
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console11.jpg)
-
-刷新灰度状态
-  - 通过选择一个服务集群，查看它下面的服务有没有在进行版本灰度或者规则灰度，如果有，在界面上会有不同的颜色闪烁，上面已经说明了
 
 #### 基于Rest方式的多版本灰度访问控制
 基于服务的操作过程和效果
