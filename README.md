@@ -413,6 +413,14 @@ spring.application.config.path=classpath:rule.xml
 </dependency>
 ```
 - 根据上面选择的服务注册发现中心，对控制台下的discovery-springcloud-example-console/pom.xml进行组件切换切换
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+    <!-- <artifactId>spring-cloud-starter-consul-discovery</artifactId> -->
+    <!-- <artifactId>spring-cloud-starter-zookeeper-discovery</artifactId> -->
+</dependency>
+```
 
 ### 服务注册过滤的操作演示
 黑/白名单的IP地址注册的过滤
