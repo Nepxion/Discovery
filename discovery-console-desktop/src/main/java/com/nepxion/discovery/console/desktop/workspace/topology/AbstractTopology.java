@@ -177,10 +177,10 @@ public abstract class AbstractTopology extends JPanel {
             popupMenu.add(linkAutoHideRadioButtonMenuItem);
         }
 
-        JClassicMenuButton button = new JClassicMenuButton(SwingLocale.getString("setting"), ConsoleIconFactory.getSwingIcon("property.png"), SwingLocale.getString("setting"));
-        button.setPopupMenu(popupMenu);
+        JClassicMenuButton menuButton = new JClassicMenuButton(SwingLocale.getString("setting"), ConsoleIconFactory.getSwingIcon("property.png"), SwingLocale.getString("setting"));
+        menuButton.setPopupMenu(popupMenu);
 
-        return button;
+        return menuButton;
     }
 
     private JSecurityAction createShowLayoutAction() {
