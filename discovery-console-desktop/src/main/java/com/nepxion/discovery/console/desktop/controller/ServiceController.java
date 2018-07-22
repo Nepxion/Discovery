@@ -113,6 +113,24 @@ public class ServiceController {
         return result;
     }
 
+    public static String remoteConfigUpdate(String group, String serviceId, String config) {
+        String url = getUrl() + "/console/remote-config/update/" + group + "/" + serviceId;
+
+        // 解决中文乱码
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        HttpEntity<String> entity = new HttpEntity<String>(config, headers);
+
+        String result = restTemplate.postForEntity(url, entity, String.class).getBody();
+
+        if (!StringUtils.equals(result, "OK") && !StringUtils.equals(result, "NO")) {
+            ServiceErrorHandler errorHandler = (ServiceErrorHandler) restTemplate.getErrorHandler();
+            result = errorHandler.getCause();
+        }
+
+        return result;
+    }
+
     public static List<ResultEntity> configUpdate(String serviceId, String config) {
         String url = getUrl() + "/console/config/update-sync/" + serviceId;
 
@@ -138,6 +156,19 @@ public class ServiceController {
         String result = restTemplate.postForEntity(url, entity, String.class).getBody();
 
         if (!StringUtils.equals(result, "OK")) {
+            ServiceErrorHandler errorHandler = (ServiceErrorHandler) restTemplate.getErrorHandler();
+            result = errorHandler.getCause();
+        }
+
+        return result;
+    }
+
+    public static String remoteConfigClear(String group, String serviceId) {
+        String url = getUrl() + "/console/remote-config/clear/" + group + "/" + serviceId;
+
+        String result = restTemplate.postForEntity(url, null, String.class).getBody();
+
+        if (!StringUtils.equals(result, "OK") && !StringUtils.equals(result, "NO")) {
             ServiceErrorHandler errorHandler = (ServiceErrorHandler) restTemplate.getErrorHandler();
             result = errorHandler.getCause();
         }

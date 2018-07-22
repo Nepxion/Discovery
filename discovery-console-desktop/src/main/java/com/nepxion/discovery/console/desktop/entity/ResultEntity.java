@@ -19,17 +19,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class ResultEntity implements Serializable {
     private static final long serialVersionUID = -3322655604556025836L;
 
-    private String serviceId;
     private String url;
     private String result;
-
-    public String getServiceId() {
-        return serviceId;
-    }
-
-    public void setServiceId(String serviceId) {
-        this.serviceId = serviceId;
-    }
 
     public String getUrl() {
         return url;

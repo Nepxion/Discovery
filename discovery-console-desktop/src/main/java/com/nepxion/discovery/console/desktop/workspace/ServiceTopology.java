@@ -812,19 +812,21 @@ public class ServiceTopology extends AbstractTopology {
             this.group = group;
             this.node = null;
 
-            boolean versionControlEnabled = false;
-            boolean ruleControlEnabled = false;
-            for (Iterator<TNode> iterator = group.children(); iterator.hasNext();) {
-                TNode node = iterator.next();
-                InstanceEntity instance = (InstanceEntity) node.getUserObject();
+            boolean versionControlEnabled = ruleToConfigCenterRadioButtonMenuItem.isSelected();
+            boolean ruleControlEnabled = ruleToConfigCenterRadioButtonMenuItem.isSelected();
+            if (!versionControlEnabled && !ruleControlEnabled) {
+                for (Iterator<TNode> iterator = group.children(); iterator.hasNext();) {
+                    TNode node = iterator.next();
+                    InstanceEntity instance = (InstanceEntity) node.getUserObject();
 
-                boolean versionEnabled = instance.isDiscoveryControlEnabled();
-                if (versionEnabled) {
-                    versionControlEnabled = true;
-                }
-                boolean ruleEnabled = instance.isDiscoveryControlEnabled() && instance.isConfigRestControlEnabled();
-                if (ruleEnabled) {
-                    ruleControlEnabled = true;
+                    boolean versionEnabled = instance.isDiscoveryControlEnabled();
+                    if (versionEnabled) {
+                        versionControlEnabled = true;
+                    }
+                    boolean ruleEnabled = instance.isDiscoveryControlEnabled() && instance.isConfigRestControlEnabled();
+                    if (ruleEnabled) {
+                        ruleControlEnabled = true;
+                    }
                 }
             }
 
@@ -865,7 +867,7 @@ public class ServiceTopology extends AbstractTopology {
             InstanceEntity instance = (InstanceEntity) node.getUserObject();
 
             boolean versionControlEnabled = instance.isDiscoveryControlEnabled();
-            boolean ruleControlEnabled = instance.isDiscoveryControlEnabled() && instance.isConfigRestControlEnabled();
+            boolean ruleControlEnabled = instance.isDiscoveryControlEnabled() && instance.isConfigRestControlEnabled() && !ruleToConfigCenterRadioButtonMenuItem.isSelected();
 
             if (versionTabbedPane.getTabCount() == 1) {
                 versionTabbedPane.addTab(ConsoleLocale.getString("label_local_version"), localVersionPanel, ConsoleLocale.getString("label_local_version"));
@@ -1009,18 +1011,35 @@ public class ServiceTopology extends AbstractTopology {
 
                     if (group != null) {
                         String serviceId = (String) group.getUserObject();
-                        List<ResultEntity> results = null;
-                        try {
-                            results = ServiceController.configUpdate(serviceId, dynamicRule);
-                        } catch (Exception ex) {
-                            JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
 
-                            refreshGrayState(group);
+                        if (ruleToConfigCenterRadioButtonMenuItem.isSelected()) {
+                            String filter = getFilter(group);
+                            String result = null;
+                            try {
+                                result = ServiceController.remoteConfigUpdate(filter, serviceId, dynamicRule);
+                            } catch (Exception ex) {
+                                JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
 
-                            return;
+                                refreshGrayState(group);
+
+                                return;
+                            }
+
+                            showResult(result);
+                        } else {
+                            List<ResultEntity> results = null;
+                            try {
+                                results = ServiceController.configUpdate(serviceId, dynamicRule);
+                            } catch (Exception ex) {
+                                JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
+
+                                refreshGrayState(group);
+
+                                return;
+                            }
+
+                            showResult(results);
                         }
-
-                        showResult(results);
 
                         refreshGrayState(group);
                     } else if (node != null) {
@@ -1054,18 +1073,34 @@ public class ServiceTopology extends AbstractTopology {
                 public void execute(ActionEvent e) {
                     if (group != null) {
                         String serviceId = (String) group.getUserObject();
-                        List<ResultEntity> results = null;
-                        try {
-                            results = ServiceController.configClear(serviceId);
-                        } catch (Exception ex) {
-                            JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
+                        if (ruleToConfigCenterRadioButtonMenuItem.isSelected()) {
+                            String filter = getFilter(group);
+                            String result = null;
+                            try {
+                                result = ServiceController.remoteConfigClear(filter, serviceId);
+                            } catch (Exception ex) {
+                                JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
 
-                            refreshGrayState(group);
+                                refreshGrayState(group);
 
-                            return;
+                                return;
+                            }
+
+                            showResult(result);
+                        } else {
+                            List<ResultEntity> results = null;
+                            try {
+                                results = ServiceController.configClear(serviceId);
+                            } catch (Exception ex) {
+                                JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
+
+                                refreshGrayState(group);
+
+                                return;
+                            }
+
+                            showResult(results);
                         }
-
-                        showResult(results);
 
                         refreshGrayState(group);
                     } else if (node != null) {
