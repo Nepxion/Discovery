@@ -66,8 +66,8 @@ public class RouterTopology extends AbstractTopology {
     private TopologyEntity serviceNodeEntity = new TopologyEntity(TopologyEntityType.SERVICE, true, true);
 
     private TGraphBackground background;
-    private JBasicTextField textField = new JBasicTextField();
-    private JBasicComboBox comboBox = new JBasicComboBox();
+    private JBasicComboBox comboBox;
+    private JBasicTextField textField;
     private ActionListener layoutActionListener;
 
     private InstanceEntity instance;
@@ -79,7 +79,10 @@ public class RouterTopology extends AbstractTopology {
     }
 
     private void initializeToolBar() {
+        comboBox = new JBasicComboBox();
         comboBox.setPreferredSize(new Dimension(300, comboBox.getPreferredSize().height));
+
+        textField = new JBasicTextField();
         textField.setPreferredSize(new Dimension(650, textField.getPreferredSize().height));
 
         JToolBar toolBar = getGraph().getToolbar();

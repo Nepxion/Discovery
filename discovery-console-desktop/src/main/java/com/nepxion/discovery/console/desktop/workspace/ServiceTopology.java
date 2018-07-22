@@ -29,6 +29,7 @@ import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -58,6 +59,7 @@ import com.nepxion.discovery.console.desktop.workspace.topology.TopologyEntityTy
 import com.nepxion.swing.action.JSecurityAction;
 import com.nepxion.swing.button.ButtonManager;
 import com.nepxion.swing.button.JClassicButton;
+import com.nepxion.swing.button.JClassicMenuButton;
 import com.nepxion.swing.combobox.JBasicComboBox;
 import com.nepxion.swing.dialog.JExceptionDialog;
 import com.nepxion.swing.dialog.JOptionDialog;
@@ -68,6 +70,7 @@ import com.nepxion.swing.layout.filed.FiledLayout;
 import com.nepxion.swing.layout.table.TableLayout;
 import com.nepxion.swing.locale.SwingLocale;
 import com.nepxion.swing.menuitem.JBasicMenuItem;
+import com.nepxion.swing.menuitem.JBasicRadioButtonMenuItem;
 import com.nepxion.swing.optionpane.JBasicOptionPane;
 import com.nepxion.swing.popupmenu.JBasicPopupMenu;
 import com.nepxion.swing.scrollpane.JBasicScrollPane;
@@ -87,10 +90,12 @@ public class ServiceTopology extends AbstractTopology {
     private TopologyEntity notServiceNodeEntity = new TopologyEntity(TopologyEntityType.MQ, true, false);
     private Map<String, Point> groupLocationMap = new HashMap<String, Point>();
 
+    private TGraphBackground background;
     private JBasicMenuItem executeGrayReleaseMenuItem;
     private JBasicMenuItem refreshGrayStateMenuItem;
     private JBasicMenuItem executeGrayRouterMenuItem;
-    private TGraphBackground background;
+    private JBasicRadioButtonMenuItem ruleToConfigCenterRadioButtonMenuItem;
+    private JBasicRadioButtonMenuItem ruleToServiceRadioButtonMenuItem;
     private FilterPanel filterPanel;
     private GrayPanel grayPanel;
     private JBasicTextArea resultTextArea;
@@ -138,6 +143,17 @@ public class ServiceTopology extends AbstractTopology {
     }
 
     private void initializeToolBar() {
+        ruleToConfigCenterRadioButtonMenuItem = new JBasicRadioButtonMenuItem(ConsoleLocale.getString("rule_control_mode_to_config_center"), ConsoleLocale.getString("rule_control_mode_to_config_center"), true);
+        ruleToServiceRadioButtonMenuItem = new JBasicRadioButtonMenuItem(ConsoleLocale.getString("rule_control_mode_to_service"), ConsoleLocale.getString("rule_control_mode_to_service"));
+        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add(ruleToConfigCenterRadioButtonMenuItem);
+        buttonGroup.add(ruleToServiceRadioButtonMenuItem);
+        JBasicPopupMenu ruleControlPopupMenu = new JBasicPopupMenu();
+        ruleControlPopupMenu.add(ruleToConfigCenterRadioButtonMenuItem);
+        ruleControlPopupMenu.add(ruleToServiceRadioButtonMenuItem);
+        JClassicMenuButton ruleControllMenubutton = new JClassicMenuButton(ConsoleLocale.getString("rule_control_mode"), ConsoleIconFactory.getSwingIcon("component/advanced_16.png"), ConsoleLocale.getString("rule_control_mode"));
+        ruleControllMenubutton.setPopupMenu(ruleControlPopupMenu);
+
         JToolBar toolBar = getGraph().getToolbar();
         toolBar.addSeparator();
         toolBar.add(Box.createHorizontalStrut(5));
@@ -146,6 +162,7 @@ public class ServiceTopology extends AbstractTopology {
         toolBar.add(new JClassicButton(createExecuteGrayReleaseAction()));
         toolBar.add(new JClassicButton(createExecuteGrayRouterAction()));
         toolBar.add(new JClassicButton(createRefreshGrayStateAction()));
+        toolBar.add(ruleControllMenubutton);
         toolBar.addSeparator();
         toolBar.add(createConfigButton(true));
 
@@ -674,12 +691,16 @@ public class ServiceTopology extends AbstractTopology {
         private JPanel dynamicVersionPanel;
         private JBasicTextField localVersionTextField;
         private JPanel localVersionPanel;
+        private JLabel versionInfoLabel;
         private JBasicTabbedPane versionTabbedPane;
         private JClassicButton updateVersionButton;
         private JClassicButton clearVersionButton;
 
         private JBasicTextArea dynamicRuleTextArea;
+        private JPanel dynamicRulePanel;
         private JBasicTextArea localRuleTextArea;
+        private JPanel localRulePanel;
+        private JLabel ruleInfoLabel;
         private JBasicTabbedPane ruleTabbedPane;
         private JClassicButton updateRuleButton;
         private JClassicButton clearRuleButton;
@@ -724,9 +745,11 @@ public class ServiceTopology extends AbstractTopology {
             toolBar.add(clearVersionButton);
             ButtonManager.updateUI(toolBar);
 
+            versionInfoLabel = new JLabel(ConsoleLocale.getString("description_gray_version"), IconFactory.getSwingIcon("question_message.png"), SwingConstants.LEADING);
+
             JPanel layoutPanel = new JPanel();
             layoutPanel.setLayout(new FiledLayout(FiledLayout.COLUMN, FiledLayout.FULL, 5));
-            layoutPanel.add(new JLabel(ConsoleLocale.getString("description_gray_version"), IconFactory.getSwingIcon("question_message.png"), SwingConstants.LEADING));
+            layoutPanel.add(versionInfoLabel);
             layoutPanel.add(toolBar);
 
             JPanel panel = new JPanel();
@@ -740,13 +763,21 @@ public class ServiceTopology extends AbstractTopology {
 
         private JPanel createRulePanel() {
             dynamicRuleTextArea = new JBasicTextArea();
+            dynamicRulePanel = new JPanel();
+            dynamicRulePanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+            dynamicRulePanel.setLayout(new BorderLayout());
+            dynamicRulePanel.add(new JBasicScrollPane(dynamicRuleTextArea), BorderLayout.CENTER);
 
             localRuleTextArea = new JBasicTextArea();
             localRuleTextArea.setEditable(false);
+            localRulePanel = new JPanel();
+            localRulePanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+            localRulePanel.setLayout(new BorderLayout());
+            localRulePanel.add(new JBasicScrollPane(localRuleTextArea), BorderLayout.CENTER);
 
             ruleTabbedPane = new JBasicTabbedPane();
-            ruleTabbedPane.addTab(ConsoleLocale.getString("label_dynamic_rule"), new JBasicScrollPane(dynamicRuleTextArea), ConsoleLocale.getString("label_dynamic_rule"));
-            ruleTabbedPane.addTab(ConsoleLocale.getString("label_local_rule"), new JBasicScrollPane(localRuleTextArea), ConsoleLocale.getString("label_local_rule"));
+            ruleTabbedPane.addTab(ConsoleLocale.getString("label_dynamic_rule"), dynamicRulePanel, ConsoleLocale.getString("label_dynamic_rule"));
+            ruleTabbedPane.addTab(ConsoleLocale.getString("label_local_rule"), localRulePanel, ConsoleLocale.getString("label_local_rule"));
 
             updateRuleButton = new JClassicButton(createUpdateRuleAction());
             updateRuleButton.setPreferredSize(new Dimension(updateRuleButton.getPreferredSize().width, 30));
@@ -760,11 +791,18 @@ public class ServiceTopology extends AbstractTopology {
             toolBar.add(clearRuleButton);
             ButtonManager.updateUI(toolBar);
 
+            ruleInfoLabel = new JLabel(ConsoleLocale.getString("description_gray_rule_to_config_center"), IconFactory.getSwingIcon("question_message.png"), SwingConstants.LEADING);
+
+            JPanel layoutPanel = new JPanel();
+            layoutPanel.setLayout(new FiledLayout(FiledLayout.COLUMN, FiledLayout.FULL, 5));
+            layoutPanel.add(ruleInfoLabel);
+            layoutPanel.add(toolBar);
+
             JPanel panel = new JPanel();
             panel.setBorder(UIFactory.createTitledBorder(ConsoleLocale.getString("title_gray_rule_operation")));
             panel.setLayout(new BorderLayout());
             panel.add(ruleTabbedPane, BorderLayout.CENTER);
-            panel.add(toolBar, BorderLayout.SOUTH);
+            panel.add(layoutPanel, BorderLayout.SOUTH);
 
             return panel;
         }
@@ -774,27 +812,29 @@ public class ServiceTopology extends AbstractTopology {
             this.group = group;
             this.node = null;
 
-            boolean versionControlEnabled = false;
-            boolean ruleControlEnabled = false;
-            for (Iterator<TNode> iterator = group.children(); iterator.hasNext();) {
-                TNode node = iterator.next();
-                InstanceEntity instance = (InstanceEntity) node.getUserObject();
+            boolean versionControlEnabled = ruleToConfigCenterRadioButtonMenuItem.isSelected();
+            boolean ruleControlEnabled = ruleToConfigCenterRadioButtonMenuItem.isSelected();
+            if (!versionControlEnabled && !ruleControlEnabled) {
+                for (Iterator<TNode> iterator = group.children(); iterator.hasNext();) {
+                    TNode node = iterator.next();
+                    InstanceEntity instance = (InstanceEntity) node.getUserObject();
 
-                boolean versionEnabled = instance.isDiscoveryControlEnabled();
-                if (versionEnabled) {
-                    versionControlEnabled = true;
-                }
-                boolean ruleEnabled = instance.isDiscoveryControlEnabled() && instance.isConfigRestControlEnabled();
-                if (ruleEnabled) {
-                    ruleControlEnabled = true;
+                    boolean versionEnabled = instance.isDiscoveryControlEnabled();
+                    if (versionEnabled) {
+                        versionControlEnabled = true;
+                    }
+                    boolean ruleEnabled = instance.isDiscoveryControlEnabled() && instance.isConfigRestControlEnabled();
+                    if (ruleEnabled) {
+                        ruleControlEnabled = true;
+                    }
                 }
             }
 
             if (versionTabbedPane.getTabCount() == 2) {
-                versionTabbedPane.remove(1);
+                versionTabbedPane.remove(localVersionPanel);
             }
             if (ruleTabbedPane.getTabCount() == 2) {
-                ruleTabbedPane.remove(1);
+                ruleTabbedPane.remove(localRulePanel);
             }
 
             dynamicVersionTextField.setText("");
@@ -810,6 +850,15 @@ public class ServiceTopology extends AbstractTopology {
             clearRuleButton.setText(ConsoleLocale.getString("button_batch_clear_rule"));
             updateRuleButton.setEnabled(ruleControlEnabled);
             clearRuleButton.setEnabled(ruleControlEnabled);
+
+            String ruleInfo = null;
+            if (ruleToConfigCenterRadioButtonMenuItem.isSelected()) {
+                ruleInfo = ConsoleLocale.getString("description_gray_rule_to_config_center");
+            } else {
+                ruleInfo = ConsoleLocale.getString("description_gray_rule_to_service");
+            }
+
+            ruleInfoLabel.setText(ruleInfo);
         }
 
         public void setGray(TNode node) {
@@ -818,13 +867,13 @@ public class ServiceTopology extends AbstractTopology {
             InstanceEntity instance = (InstanceEntity) node.getUserObject();
 
             boolean versionControlEnabled = instance.isDiscoveryControlEnabled();
-            boolean ruleControlEnabled = instance.isDiscoveryControlEnabled() && instance.isConfigRestControlEnabled();
+            boolean ruleControlEnabled = instance.isDiscoveryControlEnabled() && instance.isConfigRestControlEnabled() && !ruleToConfigCenterRadioButtonMenuItem.isSelected();
 
             if (versionTabbedPane.getTabCount() == 1) {
                 versionTabbedPane.addTab(ConsoleLocale.getString("label_local_version"), localVersionPanel, ConsoleLocale.getString("label_local_version"));
             }
             if (ruleTabbedPane.getTabCount() == 1) {
-                ruleTabbedPane.addTab(ConsoleLocale.getString("label_local_rule"), new JBasicScrollPane(localRuleTextArea), ConsoleLocale.getString("label_local_rule"));
+                ruleTabbedPane.addTab(ConsoleLocale.getString("label_local_rule"), localRulePanel, ConsoleLocale.getString("label_local_rule"));
             }
 
             dynamicVersionTextField.setText(instance.getDynamicVersion());
@@ -840,6 +889,15 @@ public class ServiceTopology extends AbstractTopology {
             clearRuleButton.setText(ConsoleLocale.getString("button_clear_rule"));
             updateRuleButton.setEnabled(ruleControlEnabled);
             clearRuleButton.setEnabled(ruleControlEnabled);
+
+            String ruleInfo = null;
+            if (ruleToConfigCenterRadioButtonMenuItem.isSelected()) {
+                ruleInfo = ConsoleLocale.getString("description_gray_rule_to_config_center");
+            } else {
+                ruleInfo = ConsoleLocale.getString("description_gray_rule_to_service");
+            }
+
+            ruleInfoLabel.setText(ruleInfo);
         }
 
         private JSecurityAction createUpdateVersionAction() {
@@ -953,18 +1011,35 @@ public class ServiceTopology extends AbstractTopology {
 
                     if (group != null) {
                         String serviceId = (String) group.getUserObject();
-                        List<ResultEntity> results = null;
-                        try {
-                            results = ServiceController.configUpdate(serviceId, dynamicRule);
-                        } catch (Exception ex) {
-                            JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
 
-                            refreshGrayState(group);
+                        if (ruleToConfigCenterRadioButtonMenuItem.isSelected()) {
+                            String filter = getFilter(group);
+                            String result = null;
+                            try {
+                                result = ServiceController.remoteConfigUpdate(filter, serviceId, dynamicRule);
+                            } catch (Exception ex) {
+                                JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
 
-                            return;
+                                refreshGrayState(group);
+
+                                return;
+                            }
+
+                            showResult(result);
+                        } else {
+                            List<ResultEntity> results = null;
+                            try {
+                                results = ServiceController.configUpdate(serviceId, dynamicRule);
+                            } catch (Exception ex) {
+                                JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
+
+                                refreshGrayState(group);
+
+                                return;
+                            }
+
+                            showResult(results);
                         }
-
-                        showResult(results);
 
                         refreshGrayState(group);
                     } else if (node != null) {
@@ -998,18 +1073,34 @@ public class ServiceTopology extends AbstractTopology {
                 public void execute(ActionEvent e) {
                     if (group != null) {
                         String serviceId = (String) group.getUserObject();
-                        List<ResultEntity> results = null;
-                        try {
-                            results = ServiceController.configClear(serviceId);
-                        } catch (Exception ex) {
-                            JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
+                        if (ruleToConfigCenterRadioButtonMenuItem.isSelected()) {
+                            String filter = getFilter(group);
+                            String result = null;
+                            try {
+                                result = ServiceController.remoteConfigClear(filter, serviceId);
+                            } catch (Exception ex) {
+                                JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
 
-                            refreshGrayState(group);
+                                refreshGrayState(group);
 
-                            return;
+                                return;
+                            }
+
+                            showResult(result);
+                        } else {
+                            List<ResultEntity> results = null;
+                            try {
+                                results = ServiceController.configClear(serviceId);
+                            } catch (Exception ex) {
+                                JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
+
+                                refreshGrayState(group);
+
+                                return;
+                            }
+
+                            showResult(results);
                         }
-
-                        showResult(results);
 
                         refreshGrayState(group);
                     } else if (node != null) {
