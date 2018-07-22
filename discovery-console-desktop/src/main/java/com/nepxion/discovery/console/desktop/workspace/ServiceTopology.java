@@ -94,6 +94,8 @@ public class ServiceTopology extends AbstractTopology {
     private JBasicMenuItem executeGrayReleaseMenuItem;
     private JBasicMenuItem refreshGrayStateMenuItem;
     private JBasicMenuItem executeGrayRouterMenuItem;
+    private JBasicRadioButtonMenuItem ruleToConfigCenterRadioButtonMenuItem;
+    private JBasicRadioButtonMenuItem ruleToServiceRadioButtonMenuItem;
     private FilterPanel filterPanel;
     private GrayPanel grayPanel;
     private JBasicTextArea resultTextArea;
@@ -141,8 +143,8 @@ public class ServiceTopology extends AbstractTopology {
     }
 
     private void initializeToolBar() {
-        JBasicRadioButtonMenuItem ruleToConfigCenterRadioButtonMenuItem = new JBasicRadioButtonMenuItem(ConsoleLocale.getString("rule_control_mode_to_config_center"), ConsoleLocale.getString("rule_control_mode_to_config_center"), true);
-        JBasicRadioButtonMenuItem ruleToServiceRadioButtonMenuItem = new JBasicRadioButtonMenuItem(ConsoleLocale.getString("rule_control_mode_to_service"), ConsoleLocale.getString("rule_control_mode_to_service"));
+        ruleToConfigCenterRadioButtonMenuItem = new JBasicRadioButtonMenuItem(ConsoleLocale.getString("rule_control_mode_to_config_center"), ConsoleLocale.getString("rule_control_mode_to_config_center"), true);
+        ruleToServiceRadioButtonMenuItem = new JBasicRadioButtonMenuItem(ConsoleLocale.getString("rule_control_mode_to_service"), ConsoleLocale.getString("rule_control_mode_to_service"));
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add(ruleToConfigCenterRadioButtonMenuItem);
         buttonGroup.add(ruleToServiceRadioButtonMenuItem);
@@ -689,6 +691,7 @@ public class ServiceTopology extends AbstractTopology {
         private JPanel dynamicVersionPanel;
         private JBasicTextField localVersionTextField;
         private JPanel localVersionPanel;
+        private JLabel versionInfoLabel;
         private JBasicTabbedPane versionTabbedPane;
         private JClassicButton updateVersionButton;
         private JClassicButton clearVersionButton;
@@ -742,9 +745,11 @@ public class ServiceTopology extends AbstractTopology {
             toolBar.add(clearVersionButton);
             ButtonManager.updateUI(toolBar);
 
+            versionInfoLabel = new JLabel(ConsoleLocale.getString("description_gray_version"), IconFactory.getSwingIcon("question_message.png"), SwingConstants.LEADING);
+
             JPanel layoutPanel = new JPanel();
             layoutPanel.setLayout(new FiledLayout(FiledLayout.COLUMN, FiledLayout.FULL, 5));
-            layoutPanel.add(new JLabel(ConsoleLocale.getString("description_gray_version"), IconFactory.getSwingIcon("question_message.png"), SwingConstants.LEADING));
+            layoutPanel.add(versionInfoLabel);
             layoutPanel.add(toolBar);
 
             JPanel panel = new JPanel();
@@ -787,6 +792,7 @@ public class ServiceTopology extends AbstractTopology {
             ButtonManager.updateUI(toolBar);
 
             ruleInfoLabel = new JLabel(ConsoleLocale.getString("description_gray_rule_to_config_center"), IconFactory.getSwingIcon("question_message.png"), SwingConstants.LEADING);
+
             JPanel layoutPanel = new JPanel();
             layoutPanel.setLayout(new FiledLayout(FiledLayout.COLUMN, FiledLayout.FULL, 5));
             layoutPanel.add(ruleInfoLabel);
@@ -842,6 +848,15 @@ public class ServiceTopology extends AbstractTopology {
             clearRuleButton.setText(ConsoleLocale.getString("button_batch_clear_rule"));
             updateRuleButton.setEnabled(ruleControlEnabled);
             clearRuleButton.setEnabled(ruleControlEnabled);
+
+            String ruleInfo = null;
+            if (ruleToConfigCenterRadioButtonMenuItem.isSelected()) {
+                ruleInfo = ConsoleLocale.getString("description_gray_rule_to_config_center");
+            } else {
+                ruleInfo = ConsoleLocale.getString("description_gray_rule_to_service");
+            }
+
+            ruleInfoLabel.setText(ruleInfo);
         }
 
         public void setGray(TNode node) {
@@ -872,6 +887,15 @@ public class ServiceTopology extends AbstractTopology {
             clearRuleButton.setText(ConsoleLocale.getString("button_clear_rule"));
             updateRuleButton.setEnabled(ruleControlEnabled);
             clearRuleButton.setEnabled(ruleControlEnabled);
+
+            String ruleInfo = null;
+            if (ruleToConfigCenterRadioButtonMenuItem.isSelected()) {
+                ruleInfo = ConsoleLocale.getString("description_gray_rule_to_config_center");
+            } else {
+                ruleInfo = ConsoleLocale.getString("description_gray_rule_to_service");
+            }
+
+            ruleInfoLabel.setText(ruleInfo);
         }
 
         private JSecurityAction createUpdateVersionAction() {
