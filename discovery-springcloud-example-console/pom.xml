@@ -52,17 +52,9 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-eureka</artifactId>
+            <!-- <artifactId>spring-cloud-starter-consul-discovery</artifactId> -->
+            <!-- <artifactId>spring-cloud-starter-zookeeper-discovery</artifactId> -->
         </dependency>
-
-        <!-- <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-consul-discovery</artifactId>
-        </dependency> -->
-
-        <!-- <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-zookeeper-discovery</artifactId>
-        </dependency> -->
     </dependencies>
 
     <build>
