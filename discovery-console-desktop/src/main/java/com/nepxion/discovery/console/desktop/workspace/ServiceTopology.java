@@ -87,10 +87,10 @@ public class ServiceTopology extends AbstractTopology {
     private TopologyEntity notServiceNodeEntity = new TopologyEntity(TopologyEntityType.MQ, true, false);
     private Map<String, Point> groupLocationMap = new HashMap<String, Point>();
 
+    private TGraphBackground background;
     private JBasicMenuItem executeGrayReleaseMenuItem;
     private JBasicMenuItem refreshGrayStateMenuItem;
     private JBasicMenuItem executeGrayRouterMenuItem;
-    private TGraphBackground background;
     private FilterPanel filterPanel;
     private GrayPanel grayPanel;
     private JBasicTextArea resultTextArea;
