@@ -9,8 +9,6 @@ package com.nepxion.discovery.plugin.framework.event;
  * @version 1.0
  */
 
-import java.io.InputStream;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,9 +55,9 @@ public class PluginSubscriber {
             throw new PluginException("RuleUpdatedEvent can't be null");
         }
 
-        InputStream inputStream = ruleUpdatedEvent.getInputStream();
+        String rule = ruleUpdatedEvent.getRule();
         try {
-            RuleEntity ruleEntity = pluninConfigParser.parse(inputStream);
+            RuleEntity ruleEntity = pluninConfigParser.parse(rule);
             pluginAdapter.setDynamicRule(ruleEntity);
         } catch (Exception e) {
             LOG.error("Parse rule xml failed", e);

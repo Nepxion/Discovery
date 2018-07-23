@@ -13,12 +13,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
@@ -115,19 +111,14 @@ public class ConfigEndpoint {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Config rest control is disabled");
         }
 
-        try {
-            InputStream inputStream = IOUtils.toInputStream(config, PluginConstant.ENCODING_UTF_8);
-            pluginEventWapper.fireRuleUpdated(new RuleUpdatedEvent(inputStream), async);
-        } catch (IOException e) {
-            return toExceptionResponseEntity(e, true);
-        }
+        pluginEventWapper.fireRuleUpdated(new RuleUpdatedEvent(config), async);
 
         // return ResponseEntity.ok().build();
 
         return ResponseEntity.ok().body("OK");
     }
 
-    private ResponseEntity<String> toExceptionResponseEntity(Exception e, boolean showDetail) {
+    protected ResponseEntity<String> toExceptionResponseEntity(Exception e, boolean showDetail) {
         String message = null;
         if (showDetail) {
             message = ExceptionUtils.getStackTrace(e);

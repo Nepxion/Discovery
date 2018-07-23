@@ -9,10 +9,9 @@ package com.nepxion.discovery.plugin.configcenter;
  * @version 1.0
  */
 
-import java.io.InputStream;
-
 import javax.annotation.PostConstruct;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,51 +53,55 @@ public class ConfigInitializer {
 
         LOG.info("Rule starts to initialize...");
 
-        InputStream inputStream = getInputStream();
+        String config = getConfig();
+        if (StringUtils.isEmpty(config)) {
+            return;
+        }
+
         try {
-            RuleEntity ruleEntity = configParser.parse(inputStream);
+            RuleEntity ruleEntity = configParser.parse(config);
             pluginAdapter.setLocalRule(ruleEntity);
         } catch (Exception e) {
             LOG.error("Parse rule xml failed", e);
         }
     }
 
-    public InputStream getInputStream() {
-        InputStream inputStream = null;
+    public String getConfig() {
+        String config = null;
 
         if (remoteConfigLoader != null) {
             try {
-                inputStream = remoteConfigLoader.getInputStream();
+                config = remoteConfigLoader.getConfig();
             } catch (Exception e) {
-                LOG.warn("Get remote input stream failed", e);
+                LOG.warn("Get remote config failed", e);
             }
 
-            if (inputStream != null) {
-                LOG.info("Remote input stream is retrieved");
+            if (StringUtils.isNotEmpty(config)) {
+                LOG.info("Remote config is retrieved");
 
-                return inputStream;
+                return config;
             } else {
-                LOG.info("Remote input stream isn't retrieved, use local config loader");
+                LOG.info("Remote config isn't retrieved, use local config loader");
             }
         } else {
             LOG.info("Remote config loader isn't provided, use local config loader");
         }
 
         try {
-            inputStream = localConfigLoader.getInputStream();
+            config = localConfigLoader.getConfig();
         } catch (Exception e) {
-            LOG.warn("Get local input stream failed", e);
+            LOG.warn("Get local config failed", e);
         }
 
-        if (inputStream != null) {
-            LOG.info("Local input stream is retrieved");
+        if (StringUtils.isNotEmpty(config)) {
+            LOG.info("Local config is retrieved");
 
-            return inputStream;
+            return config;
         } else {
-            LOG.info("Local input stream isn't retrieved");
+            LOG.info("Local config isn't retrieved");
         }
-        
-        LOG.info("No input stream is retrieved, use no config settings");
+
+        LOG.info("No config is retrieved");
 
         return null;
     }

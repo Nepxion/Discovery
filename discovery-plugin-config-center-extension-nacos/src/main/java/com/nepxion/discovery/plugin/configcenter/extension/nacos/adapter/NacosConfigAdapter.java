@@ -9,13 +9,10 @@ package com.nepxion.discovery.plugin.configcenter.extension.nacos.adapter;
  * @version 1.0
  */
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.concurrent.Executor;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +23,6 @@ import com.alibaba.nacos.api.config.listener.Listener;
 import com.nepxion.discovery.plugin.configcenter.ConfigAdapter;
 import com.nepxion.discovery.plugin.configcenter.extension.nacos.constant.NacosConstant;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.event.RuleClearedEvent;
@@ -45,7 +41,7 @@ public class NacosConfigAdapter extends ConfigAdapter {
     private PluginAdapter pluginAdapter;
 
     @Override
-    public InputStream getInputStream() throws Exception {
+    public String getConfig() throws Exception {
         String groupKey = pluginContextAware.getGroupKey();
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
@@ -54,12 +50,7 @@ public class NacosConfigAdapter extends ConfigAdapter {
 
         LOG.info("Get remote config from Nacos server, {}={}, serviceId={}, timeout={}", groupKey, group, serviceId, timeout);
 
-        String config = configService.getConfig(serviceId, group, timeout);
-        if (StringUtils.isEmpty(config)) {
-            return null;
-        }
-
-        return toInputStream(config);
+        return configService.getConfig(serviceId, group, timeout);
     }
 
     @PostConstruct
@@ -73,25 +64,20 @@ public class NacosConfigAdapter extends ConfigAdapter {
         configService.addListener(serviceId, group, new Listener() {
             @Override
             public void receiveConfigInfo(String config) {
-                try {
-                    if (StringUtils.isNotEmpty(config)) {
-                        LOG.info("Get config updated event from Nacos server, {}={}, serviceId={}", groupKey, group, serviceId);
+                if (StringUtils.isNotEmpty(config)) {
+                    LOG.info("Get config updated event from Nacos server, {}={}, serviceId={}", groupKey, group, serviceId);
 
-                        RuleEntity ruleEntity = pluginAdapter.getRule();
-                        String rule = ruleEntity.getContent();
-                        if (!StringUtils.equals(rule, config)) {
-                            InputStream inputStream = toInputStream(config);
-                            fireRuleUpdated(new RuleUpdatedEvent(inputStream), true);
-                        } else {
-                            LOG.info("Retrieved config is same as current config, ignore to update, {}={}, serviceId={}", groupKey, group, serviceId);
-                        }
+                    RuleEntity ruleEntity = pluginAdapter.getRule();
+                    String rule = ruleEntity.getContent();
+                    if (!StringUtils.equals(rule, config)) {
+                        fireRuleUpdated(new RuleUpdatedEvent(config), true);
                     } else {
-                        LOG.info("Get config cleared event from Nacos server, {}={}, serviceId={}", groupKey, group, serviceId);
-
-                        fireRuleCleared(new RuleClearedEvent(), true);
+                        LOG.info("Retrieved config is same as current config, ignore to update, {}={}, serviceId={}", groupKey, group, serviceId);
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } else {
+                    LOG.info("Get config cleared event from Nacos server, {}={}, serviceId={}", groupKey, group, serviceId);
+
+                    fireRuleCleared(new RuleClearedEvent(), true);
                 }
             }
 
@@ -100,9 +86,5 @@ public class NacosConfigAdapter extends ConfigAdapter {
                 return null;
             }
         });
-    }
-
-    private InputStream toInputStream(String config) throws IOException {
-        return IOUtils.toInputStream(config, PluginConstant.ENCODING_UTF_8);
     }
 }
