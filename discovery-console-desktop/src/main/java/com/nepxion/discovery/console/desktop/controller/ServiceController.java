@@ -198,6 +198,14 @@ public class ServiceController {
         return result;
     }
 
+    public static String remoteConfigView(String group, String serviceId) {
+        String url = getUrl() + "/console/remote-config/view/" + group + "/" + serviceId;
+
+        String result = restTemplate.getForEntity(url, String.class).getBody();
+
+        return result;
+    }
+
     private static String getUrl() {
         String url = PropertiesContext.getProperties().getString("url");
         if (!url.endsWith("/")) {

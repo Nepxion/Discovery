@@ -853,6 +853,10 @@ public class ServiceTopology extends AbstractTopology {
 
             String ruleInfo = null;
             if (ruleToConfigCenterRadioButtonMenuItem.isSelected()) {
+                String filter = getFilter(group);
+                String serviceId = group.getUserObject().toString();
+                String config = ServiceController.remoteConfigView(filter, serviceId);
+                dynamicRuleTextArea.setText(config);
                 ruleInfo = ConsoleLocale.getString("description_gray_rule_to_config_center");
             } else {
                 ruleInfo = ConsoleLocale.getString("description_gray_rule_to_service");
@@ -913,7 +917,7 @@ public class ServiceTopology extends AbstractTopology {
                     }
 
                     if (group != null) {
-                        String serviceId = (String) group.getUserObject();
+                        String serviceId = group.getUserObject().toString();
                         List<ResultEntity> results = null;
                         try {
                             results = ServiceController.versionUpdate(serviceId, dynamicVersion);
@@ -958,7 +962,7 @@ public class ServiceTopology extends AbstractTopology {
 
                 public void execute(ActionEvent e) {
                     if (group != null) {
-                        String serviceId = (String) group.getUserObject();
+                        String serviceId = group.getUserObject().toString();
                         List<ResultEntity> results = null;
                         try {
                             results = ServiceController.versionClear(serviceId);
@@ -1010,7 +1014,7 @@ public class ServiceTopology extends AbstractTopology {
                     }
 
                     if (group != null) {
-                        String serviceId = (String) group.getUserObject();
+                        String serviceId = group.getUserObject().toString();
 
                         if (ruleToConfigCenterRadioButtonMenuItem.isSelected()) {
                             String filter = getFilter(group);
@@ -1072,7 +1076,7 @@ public class ServiceTopology extends AbstractTopology {
 
                 public void execute(ActionEvent e) {
                     if (group != null) {
-                        String serviceId = (String) group.getUserObject();
+                        String serviceId = group.getUserObject().toString();
                         if (ruleToConfigCenterRadioButtonMenuItem.isSelected()) {
                             String filter = getFilter(group);
                             String result = null;
