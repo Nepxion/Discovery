@@ -18,11 +18,11 @@ import com.nepxion.discovery.plugin.framework.listener.discovery.AbstractDiscove
 public class MyDiscoveryListener extends AbstractDiscoveryListener {
     @Override
     public void onGetInstances(String serviceId, List<ServiceInstance> instances) {
-        System.out.println("========== getInstances() 被触发：serviceId=" + serviceId + ", instances=" + instances + " ==========");
+        // System.out.println("========== Discovery Listener :: getInstances()被触发, serviceId=" + serviceId + ", instances=" + instances + " ==========");
     }
 
     @Override
     public void onGetServices(List<String> services) {
-        // System.out.println("========== getServices() 被触发：services=" + services + " ==========");
+        // System.out.println("========== Discovery Listener :: getServices()被触发, services=" + services + " ==========");
     }
 }

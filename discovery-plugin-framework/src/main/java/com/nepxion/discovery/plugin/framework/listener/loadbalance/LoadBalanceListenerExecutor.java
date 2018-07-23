@@ -24,11 +24,20 @@ public class LoadBalanceListenerExecutor {
     @Autowired
     private VersionFilterLoadBalanceListener versionFilterLoadBalanceListener;
 
+    @Autowired
+    private List<LoadBalanceListener> loadBalanceListenerList;
+
     private ZoneAwareLoadBalancer<?> loadBalancer;
 
     public void onGetServers(String serviceId, List<? extends Server> servers) {
         hostFilterLoadBalanceListener.onGetServers(serviceId, servers);
         versionFilterLoadBalanceListener.onGetServers(serviceId, servers);
+
+        for (LoadBalanceListener loadBalanceListener : loadBalanceListenerList) {
+            if (loadBalanceListener != hostFilterLoadBalanceListener && loadBalanceListener != versionFilterLoadBalanceListener) {
+                loadBalanceListener.onGetServers(serviceId, servers);
+            }
+        }
     }
 
     public ZoneAwareLoadBalancer<?> getLoadBalancer() {
