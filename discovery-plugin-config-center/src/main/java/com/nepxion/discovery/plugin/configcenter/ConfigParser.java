@@ -9,14 +9,12 @@ package com.nepxion.discovery.plugin.configcenter;
  * @version 1.0
  */
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Attribute;
 import org.dom4j.Document;
@@ -43,28 +41,24 @@ public class ConfigParser implements PluginConfigParser {
     private static final Logger LOG = LoggerFactory.getLogger(ConfigParser.class);
 
     @Override
-    public RuleEntity parse(InputStream inputStream) {
-        try {
-            String text = IOUtils.toString(inputStream, PluginConstant.ENCODING_UTF_8);
+    public RuleEntity parse(String config) {
+        if (StringUtils.isEmpty(config)) {
+            throw new PluginException("Config is null or empty");
+        }
 
-            Document document = Dom4JReader.getDocument(text);
+        try {
+            Document document = Dom4JReader.getDocument(config);
 
             Element rootElement = document.getRootElement();
 
-            return parseRoot(text, rootElement);
-        } catch (NullPointerException e) {
-            throw new PluginException("Input stream is null");
+            return parseRoot(config, rootElement);
         } catch (Exception e) {
             throw new PluginException(e.getMessage(), e);
-        } finally {
-            if (inputStream != null) {
-                IOUtils.closeQuietly(inputStream);
-            }
         }
     }
 
     @SuppressWarnings("rawtypes")
-    private RuleEntity parseRoot(String text, Element element) {
+    private RuleEntity parseRoot(String config, Element element) {
         LOG.info("Start to parse rule xml...");
 
         int registerElementCount = element.elements(ConfigConstant.REGISTER_ELEMENT_NAME).size();
@@ -97,7 +91,7 @@ public class ConfigParser implements PluginConfigParser {
         RuleEntity ruleEntity = new RuleEntity();
         ruleEntity.setRegisterEntity(registerEntity);
         ruleEntity.setDiscoveryEntity(discoveryEntity);
-        ruleEntity.setContent(text);
+        ruleEntity.setContent(config);
 
         LOG.info("Rule entity=\n{}", ruleEntity);
 

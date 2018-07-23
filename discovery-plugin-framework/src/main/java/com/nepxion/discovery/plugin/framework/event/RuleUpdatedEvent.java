@@ -9,19 +9,18 @@ package com.nepxion.discovery.plugin.framework.event;
  * @version 1.0
  */
 
-import java.io.InputStream;
 import java.io.Serializable;
 
 public class RuleUpdatedEvent implements Serializable {
     private static final long serialVersionUID = 2315578803987663866L;
 
-    private InputStream inputStream;
+    private String rule;
 
-    public RuleUpdatedEvent(InputStream inputStream) {
-        this.inputStream = inputStream;
+    public RuleUpdatedEvent(String rule) {
+        this.rule = rule;
     }
 
-    public InputStream getInputStream() {
-        return inputStream;
+    public String getRule() {
+        return rule;
     }
 }
