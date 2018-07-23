@@ -82,6 +82,8 @@ import com.nepxion.swing.textfield.number.JNumberTextField;
 public class ServiceTopology extends AbstractTopology {
     private static final long serialVersionUID = 1L;
 
+    public static final String NO_FILTER = ConsoleLocale.getString("no_service_cluster_filter");
+
     private LocationEntity groupLocationEntity = new LocationEntity(120, 250, 280, 0);
     private LocationEntity nodeLocationEntity = new LocationEntity(0, 0, 120, 100);
     private TopologyEntity serviceGroupEntity = new TopologyEntity(TopologyEntityType.SERVICE, true, true);
@@ -225,7 +227,7 @@ public class ServiceTopology extends AbstractTopology {
         String filter = getValidFilter(instances);
         String plugin = getValidPlugin(instances);
 
-        if (!StringUtils.equals(filterId, ConsoleConstant.NO_FILTER_DESCRIPTION) && !StringUtils.equals(filterId, filter)) {
+        if (!StringUtils.equals(filterId, NO_FILTER) && !StringUtils.equals(filterId, filter)) {
             return;
         }
 
@@ -305,7 +307,7 @@ public class ServiceTopology extends AbstractTopology {
         if (filters.contains("")) {
             filters.remove("");
         }
-        filters.add(ConsoleConstant.NO_FILTER_DESCRIPTION);
+        filters.add(NO_FILTER);
 
         return filters.toArray();
     }
@@ -514,7 +516,7 @@ public class ServiceTopology extends AbstractTopology {
                 globalFilter = filterPanel.getFilter();
 
                 String title = ConsoleLocale.getString("title_service_cluster_gray_release");
-                if (!StringUtils.equals(globalFilter, ConsoleConstant.NO_FILTER_DESCRIPTION)) {
+                if (!StringUtils.equals(globalFilter, NO_FILTER)) {
                     title += " [" + globalFilter + "]";
                 }
                 background.setTitle(title);
@@ -671,7 +673,7 @@ public class ServiceTopology extends AbstractTopology {
 
             setLayout(new FiledLayout(FiledLayout.COLUMN, FiledLayout.FULL, 5));
             add(filterComboBox);
-            add(new JLabel(ConsoleConstant.NO_FILTER_DESCRIPTION + " - " + ConsoleLocale.getString("no_service_cluster_filter")));
+            add(new JLabel(NO_FILTER + " - " + ConsoleLocale.getString("description_no_service_cluster_filter")));
         }
 
         @SuppressWarnings("unchecked")
