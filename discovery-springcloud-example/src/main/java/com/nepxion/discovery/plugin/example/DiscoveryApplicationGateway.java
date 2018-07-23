@@ -26,7 +26,7 @@ public class DiscoveryApplicationGateway {
     }
 
     @Bean
-    public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
+    public RouteLocator routeLocator(RouteLocatorBuilder builder) {
         return builder
                 .routes()
                 .route(r -> r.path("/iscovery-springcloud-example-a/**").uri("lb://discovery-springcloud-example-a"))
