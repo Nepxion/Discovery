@@ -341,8 +341,9 @@ spring.application.config.path=classpath:rule.xml
 
 ## 扩展和自定义更多规则或者监听
 使用者可以继承如下类
-- AbstractRegisterListener，实现服务注册的扩展和监听
-- AbstractDiscoveryListener，实现服务发现的扩展和监听，注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断，如下图
+- AbstractRegisterListener，实现服务注册的扩展和监听，用法参考discovery-springcloud-example下MyRegisterListener
+- AbstractDiscoveryListener，实现服务发现的扩展和监听，用法参考discovery-springcloud-example下MyDiscoveryListener。注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断，如下图
+- AbstractLoadBalanceListener，实现负载均衡的扩展和监听，用法参考discovery-springcloud-example下MyLoadBalanceListener
 
 集成了健康检查的Consul控制台
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Consul.jpg)
