@@ -17,5 +17,4 @@ public class ConsoleConstant {
 
     public static final String FILTER = "filter";
     public static final String PLUGIN = "plugin";
-    public static final String NO_FILTER_DESCRIPTION = "[No filter]";
 }
