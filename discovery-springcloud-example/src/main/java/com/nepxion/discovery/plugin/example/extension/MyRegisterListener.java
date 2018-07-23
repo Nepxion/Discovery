@@ -16,21 +16,21 @@ import com.nepxion.discovery.plugin.framework.listener.register.AbstractRegister
 public class MyRegisterListener extends AbstractRegisterListener {
     @Override
     public void onRegister(Registration registration) {
-        System.out.println("========== register() 被触发：serviceId=" + registration.getServiceId());
+        // System.out.println("========== Register Listener :: register()被触发, serviceId=" + registration.getServiceId());
     }
 
     @Override
     public void onDeregister(Registration registration) {
-        System.out.println("========== deregister() 被触发：serviceId=" + registration.getServiceId());
+        // System.out.println("========== Register Listener :: deregister()被触发, serviceId=" + registration.getServiceId());
     }
 
     @Override
     public void onSetStatus(Registration registration, String status) {
-        System.out.println("========== setStatus() 被触发：serviceId=" + registration.getServiceId() + ", status=" + status);
+        // System.out.println("========== Register Listener :: setStatus()被触发, serviceId=" + registration.getServiceId() + ", status=" + status);
     }
 
     @Override
     public void onClose() {
-        System.out.println("========== close() 被触发 ==========");
+        // System.out.println("========== Register Listener :: close()被触发 ==========");
     }
 }
