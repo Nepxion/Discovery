@@ -13,4 +13,6 @@ public class NacosConstant {
     public static final String URL_KEY = "serverAddr";
     public static final String URL = "nacos.url";
     public static final String TIMEOUT = "nacos.timout";
+
+    public static final long DEFAULT_TIMEOUT = 30000;
 }
