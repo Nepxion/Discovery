@@ -10,7 +10,9 @@ package com.nepxion.discovery.console.remote;
  */
 
 public interface ConfigAdapter {
-    boolean configUpdate(String group, String serviceId, String config) throws Exception;
+    boolean updateConfig(String group, String serviceId, String config) throws Exception;
 
-    boolean configClear(String group, String serviceId) throws Exception;
+    boolean clearConfig(String group, String serviceId) throws Exception;
+
+    String getConfig(String group, String serviceId) throws Exception;
 }

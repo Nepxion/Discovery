@@ -50,7 +50,7 @@ public class NacosConfigAdapter extends ConfigAdapter {
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
 
-        long timeout = pluginContextAware.getEnvironment().getProperty(NacosConstant.TIMEOUT, Long.class);
+        long timeout = pluginContextAware.getEnvironment().getProperty(NacosConstant.TIMEOUT, Long.class, NacosConstant.DEFAULT_TIMEOUT);
 
         LOG.info("Get remote config from Nacos server, {}={}, serviceId={}, timeout={}", groupKey, group, serviceId, timeout);
 
@@ -63,7 +63,7 @@ public class NacosConfigAdapter extends ConfigAdapter {
     }
 
     @PostConstruct
-    public void subscribe() throws Exception {
+    public void subscribeConfig() throws Exception {
         String groupKey = pluginContextAware.getGroupKey();
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();

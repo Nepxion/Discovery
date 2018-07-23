@@ -86,7 +86,13 @@ public class ConsoleEndpoint {
     @RequestMapping(path = "/console/remote-config/clear/{group}/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "清除规则配置信息到远程配置中心", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     public ResponseEntity<?> remoteConfigClear(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
-        return executeRemoteClearUpdate(group, serviceId);
+        return executeRemoteConfigClear(group, serviceId);
+    }
+
+    @RequestMapping(path = "/console/remote-config/view/{group}/{serviceId}", method = RequestMethod.GET)
+    @ApiOperation(value = "查看远程配置中心的规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "GET")
+    public ResponseEntity<?> remoteConfigView(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
+        return executeRemoteConfigView(group, serviceId);
     }
 
     @RequestMapping(path = "/console/config/update-async/{serviceId}", method = RequestMethod.POST)
@@ -169,7 +175,7 @@ public class ConsoleEndpoint {
         }
 
         try {
-            boolean result = configAdapter.configUpdate(group, serviceId, config);
+            boolean result = configAdapter.updateConfig(group, serviceId, config);
 
             return ResponseEntity.ok().body(result ? "OK" : "NO");
         } catch (Exception e) {
@@ -177,7 +183,7 @@ public class ConsoleEndpoint {
         }
     }
 
-    private ResponseEntity<?> executeRemoteClearUpdate(String group, String serviceId) {
+    private ResponseEntity<?> executeRemoteConfigClear(String group, String serviceId) {
         if (configAdapter == null) {
             LOG.error("Remote config adapter isn't provided");
 
@@ -185,9 +191,25 @@ public class ConsoleEndpoint {
         }
 
         try {
-            boolean result = configAdapter.configClear(group, serviceId);
+            boolean result = configAdapter.clearConfig(group, serviceId);
 
             return ResponseEntity.ok().body(result ? "OK" : "NO");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    private ResponseEntity<?> executeRemoteConfigView(String group, String serviceId) {
+        if (configAdapter == null) {
+            LOG.error("Remote config adapter isn't provided");
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Remote config adapter isn't provided");
+        }
+
+        try {
+            String config = configAdapter.getConfig(group, serviceId);
+
+            return ResponseEntity.ok().body(config);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
