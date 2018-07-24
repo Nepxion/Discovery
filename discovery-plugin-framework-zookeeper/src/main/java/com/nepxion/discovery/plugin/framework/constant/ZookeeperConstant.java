@@ -11,4 +11,6 @@ package com.nepxion.discovery.plugin.framework.constant;
 
 public class ZookeeperConstant {
     public static final String DISCOVERY_PLUGIN = "Zookeeper Plugin";
+
+    public static final String META_DATA = "spring.cloud.zookeeper.discovery.metadata";
 }

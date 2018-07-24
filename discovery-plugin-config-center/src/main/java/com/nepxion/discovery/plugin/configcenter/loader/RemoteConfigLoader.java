@@ -9,6 +9,22 @@ package com.nepxion.discovery.plugin.configcenter.loader;
  * @version 1.0
  */
 
-public abstract class RemoteConfigLoader implements ConfigLoader {
+import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public abstract class RemoteConfigLoader implements ConfigLoader {
+    private static final Logger LOG = LoggerFactory.getLogger(RemoteConfigLoader.class);
+
+    @PostConstruct
+    public void initialize() {
+        try {
+            subscribeConfig();
+        } catch (Exception e) {
+            LOG.error("Subscribe config failed", e);
+        }
+    }
+
+    protected abstract void subscribeConfig() throws Exception;
 }
