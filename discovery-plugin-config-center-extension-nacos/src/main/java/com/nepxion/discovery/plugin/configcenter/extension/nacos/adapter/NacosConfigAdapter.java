@@ -11,8 +11,6 @@ package com.nepxion.discovery.plugin.configcenter.extension.nacos.adapter;
 
 import java.util.concurrent.Executor;
 
-import javax.annotation.PostConstruct;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +51,7 @@ public class NacosConfigAdapter extends ConfigAdapter {
         return configService.getConfig(serviceId, group, timeout);
     }
 
-    @PostConstruct
+    @Override
     public void subscribeConfig() throws Exception {
         String groupKey = pluginContextAware.getGroupKey();
         String group = pluginAdapter.getGroup();

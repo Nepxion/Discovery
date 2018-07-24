@@ -13,10 +13,17 @@ import java.util.Map;
 
 import org.springframework.cloud.zookeeper.discovery.ZookeeperServer;
 
+import com.nepxion.discovery.plugin.framework.constant.ZookeeperConstant;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
 import com.netflix.loadbalancer.Server;
 
 public class ZookeeperAdapter extends AbstractPluginAdapter {
+    // Zookeeper比较特殊，父类中getMetaData().get(groupKey)方法不行，执行该方法的时候MetaData还没初始化
+    @Override
+    protected String getGroup(String groupKey) {
+        return pluginContextAware.getEnvironment().getProperty(ZookeeperConstant.META_DATA + "." + groupKey);
+    }
+
     @Override
     public Map<String, String> getServerMetaData(Server server) {
         if (server instanceof ZookeeperServer) {
