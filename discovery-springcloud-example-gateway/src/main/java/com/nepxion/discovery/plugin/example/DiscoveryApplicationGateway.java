@@ -12,9 +12,6 @@ package com.nepxion.discovery.plugin.example;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.gateway.route.RouteLocator;
-import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
-import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 @EnableDiscoveryClient
@@ -25,11 +22,11 @@ public class DiscoveryApplicationGateway {
         new SpringApplicationBuilder(DiscoveryApplicationGateway.class).run(args);
     }
 
-    @Bean
+    /*@Bean
     public RouteLocator routeLocator(RouteLocatorBuilder builder) {
         return builder
                 .routes()
-                .route(r -> r.path("/discovery-springcloud-example-a/**").uri("lb://discovery-springcloud-example-a"))
+                .route(r -> r.path("/discovery-springcloud-example-a/**").uri("lb://discovery-springcloud-example-a").id("discovery-springcloud-example-a"))
                 .build();
-    }
+    }*/
 }
