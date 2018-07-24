@@ -29,7 +29,7 @@ public class DiscoveryApplicationGateway {
     public RouteLocator routeLocator(RouteLocatorBuilder builder) {
         return builder
                 .routes()
-                .route(r -> r.path("/**").uri("lb://discovery-springcloud-example-a"))
+                .route(r -> r.path("/discovery-springcloud-example-a/**").uri("lb://discovery-springcloud-example-a"))
                 .build();
     }
 }
