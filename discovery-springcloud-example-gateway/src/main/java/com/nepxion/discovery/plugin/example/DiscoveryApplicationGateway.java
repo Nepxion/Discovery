@@ -20,6 +20,8 @@ import org.springframework.context.annotation.Bean;
 @EnableDiscoveryClient
 public class DiscoveryApplicationGateway {
     public static void main(String[] args) {
+        System.setProperty("spring.profiles.active", "gateway");
+
         new SpringApplicationBuilder(DiscoveryApplicationGateway.class).run(args);
     }
 
@@ -27,7 +29,7 @@ public class DiscoveryApplicationGateway {
     public RouteLocator routeLocator(RouteLocatorBuilder builder) {
         return builder
                 .routes()
-                .route(r -> r.path("/**").uri("lb://DISCOVERY-SPRINGCLOUD-EXAMPLE-A").id("abc"))
+                .route(r -> r.path("/**").uri("lb://discovery-springcloud-example-a"))
                 .build();
     }
 }

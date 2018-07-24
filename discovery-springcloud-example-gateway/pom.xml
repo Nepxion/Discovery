@@ -37,15 +37,22 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-gateway</artifactId>
+            <groupId>com.nepxion</groupId>
+            <artifactId>discovery-plugin-starter-eureka</artifactId>
+            <!-- <artifactId>discovery-plugin-starter-consul</artifactId> -->
+            <!-- <artifactId>discovery-plugin-starter-zookeeper</artifactId> -->
+            <version>${discovery.plugin.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nepxion</groupId>
+            <artifactId>discovery-plugin-config-center-extension-nacos</artifactId>
+            <version>${discovery.plugin.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-            <!-- <artifactId>spring-cloud-starter-consul-discovery</artifactId> -->
-            <!-- <artifactId>spring-cloud-starter-zookeeper-discovery</artifactId> -->
+            <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
     </dependencies>
 
