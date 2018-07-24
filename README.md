@@ -4,7 +4,8 @@
 [![Javadocs](http://www.javadoc.io/badge/com.nepxion/discovery.svg)](http://www.javadoc.io/doc/com.nepxion/discovery)
 [![Build Status](https://travis-ci.org/Nepxion/Discovery.svg?branch=master)](https://travis-ci.org/Nepxion/Discovery)
 
-Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件，其功能包括多版本灰度发布，黑/白名单的IP地址过滤，限制注册等，支持Eureka、Consul和Zookeeper，支持Spring Cloud Api Gateway（F版）、Zuul网关和微服务的灰度发布，支持Alibaba的Nacos为远程配置中心。现有的Spring Cloud微服务可以方便引入该插件，代码零侵入
+Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件，其功能包括多版本灰度发布，黑/白名单的IP地址过滤，限制注册等，支持Eureka、Consul和Zookeeper，支持Spring Cloud Api Gateway（F版）、Zuul网关和微服务的灰度发布，支持Alibaba的Nacos为远程配置中心，支持Spring Cloud C版、D版、E版和F版。现有的Spring Cloud微服务可以方便引入该插件，代码零侵入
+
 使用者只需要做如下简单的事情：
 - 引入相关Plugin Starter依赖到pom.xml
 - 必须为微服务定义一个版本号（version），在application.properties或者yaml的metadata里
