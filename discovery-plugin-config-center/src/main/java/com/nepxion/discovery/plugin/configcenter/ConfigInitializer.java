@@ -53,23 +53,35 @@ public class ConfigInitializer {
 
         LOG.info("Rule starts to initialize...");
 
-        String config = getConfig();
-        if (StringUtils.isEmpty(config)) {
-            return;
+        String remoteConfig = getRemoteConfig();
+        if (StringUtils.isNotEmpty(remoteConfig)) {
+            try {
+                RuleEntity ruleEntity = configParser.parse(remoteConfig);
+                pluginAdapter.setDynamicRule(ruleEntity);
+            } catch (Exception e) {
+                LOG.error("Parse rule xml failed", e);
+            }
         }
 
-        try {
-            RuleEntity ruleEntity = configParser.parse(config);
-            pluginAdapter.setLocalRule(ruleEntity);
-        } catch (Exception e) {
-            LOG.error("Parse rule xml failed", e);
+        String localConfig = getLocalConfig();
+        if (StringUtils.isNotEmpty(localConfig)) {
+            try {
+                RuleEntity ruleEntity = configParser.parse(localConfig);
+                pluginAdapter.setLocalRule(ruleEntity);
+            } catch (Exception e) {
+                LOG.error("Parse rule xml failed", e);
+            }
+        }
+
+        if (StringUtils.isEmpty(remoteConfig) && StringUtils.isEmpty(localConfig)) {
+            LOG.info("No config is retrieved");
         }
     }
 
-    public String getConfig() {
-        String config = null;
-
+    private String getRemoteConfig() {
         if (remoteConfigLoader != null) {
+            String config = null;
+
             try {
                 config = remoteConfigLoader.getConfig();
             } catch (Exception e) {
@@ -81,11 +93,17 @@ public class ConfigInitializer {
 
                 return config;
             } else {
-                LOG.info("Remote config isn't retrieved, use local config loader");
+                LOG.info("Remote config isn't retrieved");
             }
         } else {
-            LOG.info("Remote config loader isn't provided, use local config loader");
+            LOG.info("Remote config loader isn't provided");
         }
+
+        return null;
+    }
+
+    private String getLocalConfig() {
+        String config = null;
 
         try {
             config = localConfigLoader.getConfig();
@@ -100,8 +118,6 @@ public class ConfigInitializer {
         } else {
             LOG.info("Local config isn't retrieved");
         }
-
-        LOG.info("No config is retrieved");
 
         return null;
     }
