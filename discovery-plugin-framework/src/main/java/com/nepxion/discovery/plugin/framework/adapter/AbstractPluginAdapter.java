@@ -25,7 +25,7 @@ import com.netflix.loadbalancer.Server;
 
 public abstract class AbstractPluginAdapter implements PluginAdapter {
     @Autowired
-    private Registration registration;
+    protected Registration registration;
 
     @Autowired
     protected PluginContextAware pluginContextAware;
