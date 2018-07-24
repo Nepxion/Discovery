@@ -42,7 +42,7 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
         String group = getMetaData().get(groupKey);
         if (StringUtils.isEmpty(group)) {
-            throw new PluginException("The value is empty for metadata key=" + groupKey + ", please check your configuration");
+            throw new PluginException("The value is null or empty for metadata key=" + groupKey + ", please check your configuration");
         }
 
         return group;
