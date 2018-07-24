@@ -10,6 +10,7 @@ package com.nepxion.discovery.plugin.admincenter.configuration;
  */
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -26,6 +27,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
+@ConditionalOnClass(name = { "javax.servlet.ServletContext" }) // 适配Spring Cloud Api Gateway，不装载Swagger
 public class SwaggerConfiguration implements WebMvcConfigurer {
     @Value("${spring.application.name}")
     private String serviceName;
