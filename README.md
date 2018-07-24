@@ -18,7 +18,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 ## 请联系我
 - 请加微信群或者微信
 
-![Alt text](https://github.com/Nepxion/Docs/blob/master/zxing-doc/微信群-1.jpg) ![Alt text](https://github.com/Nepxion/Docs/blob/master/zxing-doc/微信-1.jpg)  
+![Alt text](https://github.com/Nepxion/Docs/blob/master/zxing-doc/微信群-1.jpg) ![Alt text](https://github.com/Nepxion/Docs/blob/master/zxing-doc/微信-1.jpg)
 
 ## 快速开始
 - 图形化演示操作
