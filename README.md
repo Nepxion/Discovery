@@ -8,8 +8,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 
 使用者只需要做如下简单的事情：
 - 引入相关Plugin Starter依赖到pom.xml
-- 必须为微服务定义一个版本号（version），在application.properties或者yaml的metadata里
-- 必须为微服务自定义一个便于为微服务归类的Key，例如组名（group）或者应用名（application），在application.properties或者yaml的metadata里，便于远程配置中心推送和灰度界面分析
+- 必须为微服务定义一个版本号（version），必须为微服务自定义一个便于为微服务归类的Key，例如组名（group）或者应用名（application）。两者定义在application.properties或者yaml的metadata里，便于远程配置中心推送和灰度界面分析
 - 使用者只需要关注相关规则推送。可以采用如下方式之一
   - 通过远程配置中心推送规则
   - 通过控制台界面推送规则
@@ -114,11 +113,10 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 
 中间件兼容情况
 - Consul
-  - Spring Cloud F版，最好采用Consul的1.2.1服务器版本（或者更高），从[https://releases.hashicorp.com/consul/1.2.1/](https://releases.hashicorp.com/consul/1.2.1/)获取
-  - Spring Cloud C版、D版和E版，必须采用Consul的0.9.3服务器版本（或者更低），从[https://releases.hashicorp.com/consul/0.9.3/](https://releases.hashicorp.com/consul/0.9.3/)获取
+  - Consul服务器版本不限制，推荐用最新版本，从[https://releases.hashicorp.com/consul/1.2.1/](https://releases.hashicorp.com/consul/1.2.1/)获取
 - Zookeeper
-  - Spring Cloud F版，必须采用Zookeeper的3.5.x服务器版本（或者更高）
-  - Spring Cloud C版、D版和E版，最好采用Zookeeper的3.5.0以下服务器版本（或者更低）
+  - Spring Cloud F版，必须采用Zookeeper服务器的3.5.x服务器版本（或者更高）
+  - Spring Cloud C版、D版和E版，Zookeeper服务器版本不限制
 - Eureka
   - 跟Spring Cloud版本保持一致
 
