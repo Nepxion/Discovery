@@ -395,7 +395,7 @@ spring.application.config.path=classpath:rule.xml
 </rule>
 ```
 
-上述微服务分别见discovery-springcloud-example字样的8个DiscoveryApplication，分别对应各自的application.properties。这8个应用，对应的版本和端口号如下表
+上述微服务分别见discovery-springcloud-example字样的8个DiscoveryApplication，分别对应各自的application.properties。这8个应用，对应的版本和端口号如下表（Gateway指Spring Cloud Api Gateway，只支持F版）
 
 | 微服务 | 服务端口 | 管理端口 | 版本 |
 | --- | --- | --- | --- |
@@ -407,6 +407,7 @@ spring.application.config.path=classpath:rule.xml
 | C2 | 1301 | 5301 | 1.1 |
 | C3 | 1302 | 5302 | 1.2 |
 | Zuul | 1400 | 5400 | 1.0 |
+| Gateway | 1500 | 5500 | 1.0 |
 
 独立控制台见discovery-springcloud-example-console，对应的版本和端口号如下表
 
