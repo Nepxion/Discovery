@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.config.listener.Listener;
+import com.alibaba.nacos.api.exception.NacosException;
 import com.nepxion.discovery.plugin.configcenter.ConfigAdapter;
 import com.nepxion.discovery.plugin.configcenter.extension.nacos.constant.NacosConstant;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
@@ -87,7 +88,7 @@ public class NacosConfigAdapter extends ConfigAdapter {
                     return null;
                 }
             });
-        } catch (Exception e) {
+        } catch (NacosException e) {
             LOG.error("Subscribe config failed", e);
         }
     }
