@@ -11,6 +11,8 @@ package com.nepxion.discovery.plugin.configcenter.extension.nacos.adapter;
 
 import java.util.concurrent.Executor;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,38 +53,42 @@ public class NacosConfigAdapter extends ConfigAdapter {
         return configService.getConfig(serviceId, group, timeout);
     }
 
-    @Override
-    public void subscribeConfig() throws Exception {
+    @PostConstruct
+    public void subscribeConfig() {
         String groupKey = pluginContextAware.getGroupKey();
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
 
         LOG.info("Subscribe remote config from Nacos server, {}={}, serviceId={}", groupKey, group, serviceId);
 
-        configService.addListener(serviceId, group, new Listener() {
-            @Override
-            public void receiveConfigInfo(String config) {
-                if (StringUtils.isNotEmpty(config)) {
-                    LOG.info("Get config updated event from Nacos server, {}={}, serviceId={}", groupKey, group, serviceId);
+        try {
+            configService.addListener(serviceId, group, new Listener() {
+                @Override
+                public void receiveConfigInfo(String config) {
+                    if (StringUtils.isNotEmpty(config)) {
+                        LOG.info("Get config updated event from Nacos server, {}={}, serviceId={}", groupKey, group, serviceId);
 
-                    RuleEntity ruleEntity = pluginAdapter.getRule();
-                    String rule = ruleEntity.getContent();
-                    if (!StringUtils.equals(rule, config)) {
-                        fireRuleUpdated(new RuleUpdatedEvent(config), true);
+                        RuleEntity ruleEntity = pluginAdapter.getRule();
+                        String rule = ruleEntity.getContent();
+                        if (!StringUtils.equals(rule, config)) {
+                            fireRuleUpdated(new RuleUpdatedEvent(config), true);
+                        } else {
+                            LOG.info("Retrieved config is same as current config, ignore to update, {}={}, serviceId={}", groupKey, group, serviceId);
+                        }
                     } else {
-                        LOG.info("Retrieved config is same as current config, ignore to update, {}={}, serviceId={}", groupKey, group, serviceId);
+                        LOG.info("Get config cleared event from Nacos server, {}={}, serviceId={}", groupKey, group, serviceId);
+
+                        fireRuleCleared(new RuleClearedEvent(), true);
                     }
-                } else {
-                    LOG.info("Get config cleared event from Nacos server, {}={}, serviceId={}", groupKey, group, serviceId);
-
-                    fireRuleCleared(new RuleClearedEvent(), true);
                 }
-            }
 
-            @Override
-            public Executor getExecutor() {
-                return null;
-            }
-        });
+                @Override
+                public Executor getExecutor() {
+                    return null;
+                }
+            });
+        } catch (Exception e) {
+            LOG.error("Subscribe config failed", e);
+        }
     }
 }
