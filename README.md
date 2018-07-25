@@ -183,7 +183,8 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 | discovery-console-desktop | 图形化灰度发布等桌面程序 |
 | discovery-springcloud-example-console | 独立控制台示例 |
 | discovery-springcloud-example-eureka | Eureka服务器 |
-| discovery-springcloud-example | 灰度发布等示例 |
+| discovery-springcloud-gateway | 用于灰度发布的Spring Cloud Api Gateway（F版）示例 |
+| discovery-springcloud-example | 用于灰度发布的微服务和Zuul示例 |
 
 ## 规则和策略
 ### 规则示例
