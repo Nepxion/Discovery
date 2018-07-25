@@ -342,7 +342,7 @@ spring.application.config.path=classpath:rule.xml
 - 一系列批量功能
 - 跟Nacos集成，实现配置推送和清除
 
-> PORT端口号为server.port或者management.port都可以（management.port开放只支持3.x.x版本）
+> PORT端口号为server.port或者management.port都可以（（注意：管理端口不支持F版）
 ### 控制台接口
 参考Swagger界面，如下图
 
@@ -460,7 +460,7 @@ spring.application.config.path=classpath:rule.xml
 #### 基于Rest方式的多版本灰度访问控制
 基于服务的操作过程和效果
 - 启动discovery-springcloud-example下7个DiscoveryApplication（除去Zuul），无先后顺序，等待全部启动完毕
-- 下面URL的端口号，可以是服务端口号，也可以是管理端口号
+- 下面URL的端口号，可以是服务端口号，也可以是管理端口号（注意：管理端口不支持F版）
 - 通过版本切换，达到灰度访问控制，针对A服务
   - 1.1 通过Postman或者浏览器，执行POST [http://localhost:1100/routes](http://localhost:1100/routes)，填入discovery-springcloud-example-b;discovery-springcloud-example-c，查看路由路径，如图1，可以看到符合预期的调用路径
   - 1.2 通过Postman或者浏览器，执行POST [http://localhost:1100/version/update](http://localhost:1100/version/update)，填入1.1，动态把服务A的版本从1.0切换到1.1
