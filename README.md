@@ -8,8 +8,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 
 使用者只需要做如下简单的事情：
 - 引入相关Plugin Starter依赖到pom.xml
-- 必须为微服务定义一个版本号（version），在application.properties或者yaml的metadata里
-- 必须为微服务自定义一个便于为微服务归类的Key，例如组名（group）或者应用名（application），在application.properties或者yaml的metadata里，便于远程配置中心推送和灰度界面分析
+- 必须为微服务定义一个版本号（version），必须为微服务自定义一个便于为微服务归类的Key，例如组名（group）或者应用名（application）。两者定义在application.properties或者yaml的metadata里，便于远程配置中心推送和灰度界面分析
 - 使用者只需要关注相关规则推送。可以采用如下方式之一
   - 通过远程配置中心推送规则
   - 通过控制台界面推送规则
