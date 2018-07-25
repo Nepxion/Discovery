@@ -26,7 +26,7 @@ import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 @Configuration
 public class NacosConfigConfiguration {
     @Autowired
-    protected PluginContextAware pluginContextAware;
+    private PluginContextAware pluginContextAware;
 
     @Bean
     public ConfigService configService() throws NacosException {
