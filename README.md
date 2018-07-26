@@ -47,7 +47,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 - 实现灰度发布
   - 通过规则改变，实现灰度发布
   - 通过版本切换，实现灰度发布
-- 实现通过XML进行上述规则的定义
+- 实现通过XML或者Json进行上述规则的定义
 - 实现通过事件总线机制（EventBus）的功能，实现发布/订阅功能
   - 对接远程配置中心，默认集成阿里巴巴的Nacos，异步接受远程配置中心主动推送规则信息，动态改变微服务的规则
   - 结合Spring Boot Actuator，异步接受Rest主动推送规则信息，动态改变微服务的规则
@@ -188,7 +188,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 
 ## 规则和策略
 ### 规则示例
-请不要被吓到，我只是把注释写的很详细而已，里面配置没几行
+请不要被吓到，我只是把注释写的很详细而已，里面配置没几行，下面的内容也可以通过Json来描述
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
@@ -316,8 +316,12 @@ spring.application.register.control.enabled=true
 spring.application.discovery.control.enabled=true
 # 开启和关闭通过Rest方式对规则配置的控制和推送。一旦关闭，只能通过远程配置中心来控制和推送。缺失则默认为true
 spring.application.config.rest.control.enabled=true
-# 本地规则文件的路径，支持两种方式：classpath:rule.xml - 规则文件放在resources目录下，便于打包进jar；file:rule.xml - 规则文件放在工程根目录下，放置在外部便于修改。缺失则默认为不装载本地规则
+# 规则文件的格式，支持xml和json。缺失则默认为xml
+spring.application.config.format=xml
+# spring.application.config.format=json
+# 本地规则文件的路径，支持两种方式：classpath:rule.xml(rule.json) - 规则文件放在resources目录下，便于打包进jar；file:rule.xml(rule.json) - 规则文件放在工程根目录下，放置在外部便于修改。缺失则默认为不装载本地规则
 spring.application.config.path=classpath:rule.xml
+# spring.application.config.path=classpath:rule.json
 # 为微服务归类的Key，一般通过group字段来归类，例如eureka.instance.metadataMap.group=xxx-group或者eureka.instance.metadataMap.application=xxx-application。缺失则默认为group
 # spring.application.group.key=group
 # spring.application.group.key=application
