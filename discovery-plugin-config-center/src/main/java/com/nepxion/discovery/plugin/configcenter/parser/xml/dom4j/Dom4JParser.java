@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.configcenter.xml;
+package com.nepxion.discovery.plugin.configcenter.parser.xml.dom4j;
 
 /**
  * <p>Title: Nepxion Discovery</p>

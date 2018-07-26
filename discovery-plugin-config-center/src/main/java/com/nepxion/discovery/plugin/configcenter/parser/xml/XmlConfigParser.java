@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.configcenter;
+package com.nepxion.discovery.plugin.configcenter.parser.xml;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -23,7 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.nepxion.discovery.plugin.configcenter.constant.ConfigConstant;
-import com.nepxion.discovery.plugin.configcenter.xml.Dom4JReader;
+import com.nepxion.discovery.plugin.configcenter.parser.xml.dom4j.Dom4JReader;
 import com.nepxion.discovery.plugin.framework.config.PluginConfigParser;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.entity.CountFilterEntity;
@@ -37,8 +37,8 @@ import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.entity.VersionFilterEntity;
 import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
-public class ConfigParser implements PluginConfigParser {
-    private static final Logger LOG = LoggerFactory.getLogger(ConfigParser.class);
+public class XmlConfigParser implements PluginConfigParser {
+    private static final Logger LOG = LoggerFactory.getLogger(XmlConfigParser.class);
 
     @Override
     public RuleEntity parse(String config) {
