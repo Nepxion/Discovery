@@ -9,37 +9,16 @@ package com.nepxion.discovery.plugin.configcenter.extension.nacos.configuration;
  * @version 1.0
  */
 
-import java.util.Properties;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.alibaba.nacos.api.NacosFactory;
-import com.alibaba.nacos.api.config.ConfigService;
-import com.alibaba.nacos.api.exception.NacosException;
 import com.nepxion.discovery.plugin.configcenter.ConfigAdapter;
 import com.nepxion.discovery.plugin.configcenter.extension.nacos.adapter.NacosConfigAdapter;
-import com.nepxion.discovery.plugin.configcenter.extension.nacos.constant.NacosConstant;
-import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 
 @Configuration
 public class NacosConfigAutoConfiguration {
-    @Autowired
-    protected PluginContextAware pluginContextAware;
-
     @Bean
-    public ConfigService configService() throws NacosException {
-        String url = pluginContextAware.getEnvironment().getProperty(NacosConstant.URL);
-
-        Properties properties = new Properties();
-        properties.put(NacosConstant.URL_KEY, url);
-
-        return NacosFactory.createConfigService(properties);
-    }
-
-    @Bean
-    public ConfigAdapter configAdapter() throws NacosException {
+    public ConfigAdapter configAdapter() {
         return new NacosConfigAdapter();
     }
 }

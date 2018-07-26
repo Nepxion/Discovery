@@ -9,8 +9,6 @@ package com.nepxion.discovery.plugin.configcenter.extension.nacos.adapter;
  * @version 1.0
  */
 
-import java.util.concurrent.Executor;
-
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang3.StringUtils;
@@ -18,11 +16,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.alibaba.nacos.api.config.ConfigService;
-import com.alibaba.nacos.api.config.listener.Listener;
-import com.alibaba.nacos.api.exception.NacosException;
+import com.nepxion.discovery.common.nacos.operation.NacosOperation;
+import com.nepxion.discovery.common.nacos.operation.NacosSubscribeCallback;
 import com.nepxion.discovery.plugin.configcenter.ConfigAdapter;
-import com.nepxion.discovery.plugin.configcenter.extension.nacos.constant.NacosConstant;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
@@ -33,7 +29,7 @@ public class NacosConfigAdapter extends ConfigAdapter {
     private static final Logger LOG = LoggerFactory.getLogger(NacosConfigAdapter.class);
 
     @Autowired
-    private ConfigService configService;
+    private NacosOperation nacosOperation;
 
     @Autowired
     protected PluginContextAware pluginContextAware;
@@ -47,11 +43,9 @@ public class NacosConfigAdapter extends ConfigAdapter {
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
 
-        long timeout = pluginContextAware.getEnvironment().getProperty(NacosConstant.TIMEOUT, Long.class, NacosConstant.DEFAULT_TIMEOUT);
+        LOG.info("Get config from Nacos server, {}={}, serviceId={}", groupKey, group, serviceId);
 
-        LOG.info("Get remote config from Nacos server, {}={}, serviceId={}, timeout={}", groupKey, group, serviceId, timeout);
-
-        return configService.getConfig(serviceId, group, timeout);
+        return nacosOperation.getConfig(group, serviceId);
     }
 
     @PostConstruct
@@ -60,12 +54,12 @@ public class NacosConfigAdapter extends ConfigAdapter {
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
 
-        LOG.info("Subscribe remote config from Nacos server, {}={}, serviceId={}", groupKey, group, serviceId);
+        LOG.info("Subscribe config from Nacos server, {}={}, serviceId={}", groupKey, group, serviceId);
 
         try {
-            configService.addListener(serviceId, group, new Listener() {
+            nacosOperation.subscribeConfig(group, serviceId, new NacosSubscribeCallback() {
                 @Override
-                public void receiveConfigInfo(String config) {
+                public void callback(String config) {
                     if (StringUtils.isNotEmpty(config)) {
                         LOG.info("Get config updated event from Nacos server, {}={}, serviceId={}", groupKey, group, serviceId);
 
@@ -82,13 +76,8 @@ public class NacosConfigAdapter extends ConfigAdapter {
                         fireRuleCleared(new RuleClearedEvent(), true);
                     }
                 }
-
-                @Override
-                public Executor getExecutor() {
-                    return null;
-                }
             });
-        } catch (NacosException e) {
+        } catch (Exception e) {
             LOG.error("Subscribe config failed", e);
         }
     }

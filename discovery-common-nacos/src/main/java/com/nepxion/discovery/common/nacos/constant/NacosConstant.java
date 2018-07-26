@@ -1,4 +1,4 @@
-package com.nepxion.discovery.console.extension.nacos.constant;
+package com.nepxion.discovery.common.nacos.constant;
 
 /**
  * <p>Title: Nepxion Discovery</p>

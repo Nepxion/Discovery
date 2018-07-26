@@ -21,8 +21,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.alibaba.nacos</groupId>
-            <artifactId>nacos-client</artifactId>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>discovery-common-nacos</artifactId>
         </dependency>
     </dependencies>
 </project>

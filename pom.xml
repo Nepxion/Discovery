@@ -11,6 +11,7 @@
     <url>http://www.nepxion.com</url>
 
     <modules>
+        <module>discovery-common-nacos</module>
         <module>discovery-plugin-framework</module>
         <module>discovery-plugin-framework-eureka</module>
         <module>discovery-plugin-framework-consul</module>
@@ -49,6 +50,12 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-common-nacos</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-framework</artifactId>
