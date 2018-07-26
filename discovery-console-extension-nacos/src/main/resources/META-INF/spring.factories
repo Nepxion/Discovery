@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.nepxion.discovery.console.extension.nacos.configuration.NacosConfigConfiguration
+com.nepxion.discovery.console.extension.nacos.configuration.NacosConfigAutoConfiguration

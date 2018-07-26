@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.configcenter.extension.nacos.configuration;
+package com.nepxion.discovery.console.extension.nacos.configuration;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -14,23 +14,23 @@ import java.util.Properties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 
 import com.alibaba.nacos.api.NacosFactory;
 import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.exception.NacosException;
-import com.nepxion.discovery.plugin.configcenter.ConfigAdapter;
-import com.nepxion.discovery.plugin.configcenter.extension.nacos.adapter.NacosConfigAdapter;
-import com.nepxion.discovery.plugin.configcenter.extension.nacos.constant.NacosConstant;
-import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
+import com.nepxion.discovery.console.extension.nacos.adapter.NacosConfigAdapter;
+import com.nepxion.discovery.console.extension.nacos.constant.NacosConstant;
+import com.nepxion.discovery.console.remote.ConfigAdapter;
 
 @Configuration
-public class NacosConfigConfiguration {
+public class NacosConfigAutoConfiguration {
     @Autowired
-    private PluginContextAware pluginContextAware;
+    private Environment environment;
 
     @Bean
     public ConfigService configService() throws NacosException {
-        String url = pluginContextAware.getEnvironment().getProperty(NacosConstant.URL);
+        String url = environment.getProperty(NacosConstant.URL);
 
         Properties properties = new Properties();
         properties.put(NacosConstant.URL_KEY, url);
