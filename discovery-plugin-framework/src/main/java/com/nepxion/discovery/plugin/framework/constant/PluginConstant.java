@@ -14,9 +14,10 @@ public class PluginConstant {
     public static final String SPRING_APPLICATION_REGISTER_CONTROL_ENABLED = "spring.application.register.control.enabled";
     public static final String SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED = "spring.application.discovery.control.enabled";
     public static final String SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED = "spring.application.config.rest.control.enabled";
+    public static final String SPRING_APPLICATION_CONFIG_FORMAT = "spring.application.config.format";
     public static final String SPRING_APPLICATION_CONFIG_PATH = "spring.application.config.path";
     public static final String SPRING_APPLICATION_GROUP_KEY = "spring.application.group.key";
-    
+
     public static final String SPRING_APPLICATION_NAME = "spring.application.name";
     public static final String GROUP = "group";
     public static final String SERVICE_ID = "serviceId";
@@ -28,6 +29,9 @@ public class PluginConstant {
     public static final String RULE = "rule";
     public static final String DYNAMIC_RULE = "dynamicRule";
     public static final String REACH_MAX_LIMITED_COUNT = "reach max limited count";
+
+    public static final String XML_FORMAT = "xml";
+    public static final String JSON_FORMAT = "json";
 
     public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
     public static final String ENCODING_UTF_8 = "UTF-8";

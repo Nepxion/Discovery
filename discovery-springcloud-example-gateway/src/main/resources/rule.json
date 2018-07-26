@@ -1,0 +1,107 @@
+{
+    "registerEntity": {
+        "hostFilterEntity": {
+            "filterType": "BLACKLIST", 
+            "filterValueList": [
+                "10.10", 
+                "11.11"
+            ], 
+            "filterMap": {
+                "discovery-springcloud-example-a": [
+                    "172.16"
+                ]
+            }
+        }, 
+        "countFilterEntity": {
+            "filterValue": 10000, 
+            "filterMap": {
+                "discovery-springcloud-example-a": 5000
+            }
+        }
+    }, 
+    "discoveryEntity": {
+        "hostFilterEntity": {
+            "filterType": "BLACKLIST", 
+            "filterValueList": [
+                "10.10", 
+                "11.11"
+            ], 
+            "filterMap": {
+                "discovery-springcloud-example-b": [
+                    "172.16"
+                ]
+            }
+        }, 
+        "versionFilterEntity": {
+            "serviceEntityMap": {
+                "discovery-springcloud-example-zuul": [
+                    {
+                        "consumerServiceName": "discovery-springcloud-example-zuul", 
+                        "providerServiceName": "discovery-springcloud-example-a", 
+                        "consumerVersionValueList": [
+                            "1.0"
+                        ], 
+                        "providerVersionValueList": [
+                            "1.0"
+                        ]
+                    }, 
+                    {
+                        "consumerServiceName": "discovery-springcloud-example-zuul", 
+                        "providerServiceName": "discovery-springcloud-example-a", 
+                        "consumerVersionValueList": [
+                            "1.1"
+                        ], 
+                        "providerVersionValueList": [
+                            "1.1"
+                        ]
+                    }
+                ], 
+                "discovery-springcloud-example-a": [
+                    {
+                        "consumerServiceName": "discovery-springcloud-example-a", 
+                        "providerServiceName": "discovery-springcloud-example-b", 
+                        "consumerVersionValueList": [
+                            "1.0"
+                        ], 
+                        "providerVersionValueList": [
+                            "1.0"
+                        ]
+                    }, 
+                    {
+                        "consumerServiceName": "discovery-springcloud-example-a", 
+                        "providerServiceName": "discovery-springcloud-example-b", 
+                        "consumerVersionValueList": [
+                            "1.1"
+                        ], 
+                        "providerVersionValueList": [
+                            "1.1"
+                        ]
+                    }
+                ], 
+                "discovery-springcloud-example-b": [
+                    {
+                        "consumerServiceName": "discovery-springcloud-example-b", 
+                        "providerServiceName": "discovery-springcloud-example-c", 
+                        "consumerVersionValueList": [
+                            "1.0"
+                        ], 
+                        "providerVersionValueList": [
+                            "1.0", 
+                            "1.1"
+                        ]
+                    }, 
+                    {
+                        "consumerServiceName": "discovery-springcloud-example-b", 
+                        "providerServiceName": "discovery-springcloud-example-c", 
+                        "consumerVersionValueList": [
+                            "1.1"
+                        ], 
+                        "providerVersionValueList": [
+                            "1.2"
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+}

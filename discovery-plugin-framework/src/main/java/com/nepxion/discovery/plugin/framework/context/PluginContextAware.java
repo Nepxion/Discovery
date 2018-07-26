@@ -96,6 +96,10 @@ public class PluginContextAware implements ApplicationContextAware {
         return isConfigRestControlEnabled(environment);
     }
 
+    public String getConfigFormat() {
+        return getConfigFormat(environment);
+    }
+
     public String getConfigPath() {
         return getConfigPath(environment);
     }
@@ -114,6 +118,10 @@ public class PluginContextAware implements ApplicationContextAware {
 
     public static Boolean isConfigRestControlEnabled(Environment environment) {
         return environment.getProperty(PluginConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED, Boolean.class, Boolean.TRUE);
+    }
+
+    public static String getConfigFormat(Environment environment) {
+        return environment.getProperty(PluginConstant.SPRING_APPLICATION_CONFIG_FORMAT, PluginConstant.XML_FORMAT);
     }
 
     public static String getConfigPath(Environment environment) {
