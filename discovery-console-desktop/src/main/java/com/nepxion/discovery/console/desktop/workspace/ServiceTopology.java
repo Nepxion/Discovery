@@ -566,7 +566,7 @@ public class ServiceTopology extends AbstractTopology {
 
                 if (grayPanel == null) {
                     grayPanel = new GrayPanel();
-                    grayPanel.setPreferredSize(new Dimension(1280, 900));
+                    grayPanel.setPreferredSize(new Dimension(1300, 800));
                 }
 
                 String description = null;
@@ -611,7 +611,7 @@ public class ServiceTopology extends AbstractTopology {
 
                 if (routerTopology == null) {
                     routerTopology = new RouterTopology();
-                    // routerTopology.setPreferredSize(new Dimension(1280, 900));
+                    // routerTopology.setPreferredSize(new Dimension(1300, 800));
                 }
 
                 Object[] filterServices = filterServices(node, globalInstanceMap);
