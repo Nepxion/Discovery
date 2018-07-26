@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.nepxion.discovery.plugin.configcenter.loader.LocalConfigLoader;
 import com.nepxion.discovery.plugin.configcenter.loader.RemoteConfigLoader;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
+import com.nepxion.discovery.plugin.framework.config.PluginConfigParser;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 
@@ -32,13 +33,13 @@ public class ConfigInitializer {
     private PluginAdapter pluginAdapter;
 
     @Autowired
+    private PluginConfigParser pluginConfigParser;
+
+    @Autowired
     private LocalConfigLoader localConfigLoader;
 
     @Autowired(required = false)
     private RemoteConfigLoader remoteConfigLoader;
-
-    @Autowired
-    private ConfigParser configParser;
 
     @PostConstruct
     public void initialize() {
@@ -56,7 +57,7 @@ public class ConfigInitializer {
         String remoteConfig = getRemoteConfig();
         if (StringUtils.isNotEmpty(remoteConfig)) {
             try {
-                RuleEntity ruleEntity = configParser.parse(remoteConfig);
+                RuleEntity ruleEntity = pluginConfigParser.parse(remoteConfig);
                 pluginAdapter.setDynamicRule(ruleEntity);
             } catch (Exception e) {
                 LOG.error("Parse rule xml failed", e);
@@ -66,7 +67,7 @@ public class ConfigInitializer {
         String localConfig = getLocalConfig();
         if (StringUtils.isNotEmpty(localConfig)) {
             try {
-                RuleEntity ruleEntity = configParser.parse(localConfig);
+                RuleEntity ruleEntity = pluginConfigParser.parse(localConfig);
                 pluginAdapter.setLocalRule(ruleEntity);
             } catch (Exception e) {
                 LOG.error("Parse rule xml failed", e);
