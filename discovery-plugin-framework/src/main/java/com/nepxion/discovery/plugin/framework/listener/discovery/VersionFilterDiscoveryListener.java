@@ -71,7 +71,7 @@ public class VersionFilterDiscoveryListener extends AbstractDiscoveryListener {
         boolean providerConditionDefined = false;
         for (DiscoveryServiceEntity serviceEntity : serviceEntityList) {
             String providerServiceName = serviceEntity.getProviderServiceName();
-            if (StringUtils.equals(providerServiceName, providerServiceId)) {
+            if (StringUtils.equalsIgnoreCase(providerServiceName, providerServiceId)) {
                 providerConditionDefined = true;
 
                 List<String> consumerVersionValueList = serviceEntity.getConsumerVersionValueList();
