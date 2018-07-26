@@ -113,12 +113,14 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 
 中间件兼容情况
 - Consul
-  - Consul服务器版本不限制，推荐用最新版本，从[https://releases.hashicorp.com/consul/1.2.1/](https://releases.hashicorp.com/consul/1.2.1/)获取
+  - Consul服务器版本不限制，推荐用最新版本，从[https://releases.hashicorp.com/consul/](https://releases.hashicorp.com/consul/)获取
 - Zookeeper
-  - Spring Cloud F版，必须采用Zookeeper服务器的3.5.x服务器版本（或者更高）
+  - Spring Cloud F版，必须采用Zookeeper服务器的3.5.x服务器版本（或者更高），从[http://zookeeper.apache.org/releases.html#download](http://zookeeper.apache.org/releases.html#download)获取
   - Spring Cloud C版、D版和E版，Zookeeper服务器版本不限制
 - Eureka
-  - 跟Spring Cloud版本保持一致
+  - 跟Spring Cloud版本保持一致，自行搭建服务器
+- Nacos
+  - Nacos服务器版本，推荐用最新版本，从[https://pan.baidu.com/s/1FsPzIK8lQ8VSNucI57H67A](https://pan.baidu.com/s/1FsPzIK8lQ8VSNucI57H67A)获取
 
 ## 依赖
 微服务选择相应的插件引入，最后一个如需对接Nacos远程配置中心，则引入
@@ -167,6 +169,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 
 | 工程名 | 描述 |
 | --- | --- | 
+| discovery-common-nacos | 封装Nacos通用操作逻辑 |
 | discovery-plugin-framework | 核心框架 |
 | discovery-plugin-framework-eureka | 核心框架的Eureka实现 |
 | discovery-plugin-framework-consul | 核心框架的Consul实现 |
@@ -188,7 +191,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 
 ## 规则和策略
 ### 规则示例
-请不要被吓到，我只是把注释写的很详细而已，里面配置没几行，下面的内容也可以通过Json来描述
+请不要被吓到，我只是把注释写的很详细而已，里面配置没几行，下面的内容也可以通过Json来描述，这里不做描述，见discovery-springcloud-example下的rule.json
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
