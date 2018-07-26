@@ -24,7 +24,7 @@ import com.nepxion.discovery.console.extension.nacos.constant.NacosConstant;
 import com.nepxion.discovery.console.remote.ConfigAdapter;
 
 @Configuration
-public class NacosConfigConfiguration {
+public class NacosConfigAutoConfiguration {
     @Autowired
     private Environment environment;
 

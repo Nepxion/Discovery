@@ -24,7 +24,7 @@ import com.nepxion.discovery.plugin.configcenter.extension.nacos.constant.NacosC
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 
 @Configuration
-public class NacosConfigConfiguration {
+public class NacosConfigAutoConfiguration {
     @Autowired
     protected PluginContextAware pluginContextAware;
 
