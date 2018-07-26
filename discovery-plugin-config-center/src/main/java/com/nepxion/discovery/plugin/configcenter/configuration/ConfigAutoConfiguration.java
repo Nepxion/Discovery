@@ -9,15 +9,19 @@ package com.nepxion.discovery.plugin.configcenter.configuration;
  * @version 1.0
  */
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.nepxion.discovery.plugin.configcenter.ConfigInitializer;
 import com.nepxion.discovery.plugin.configcenter.loader.LocalConfigLoader;
+import com.nepxion.discovery.plugin.configcenter.parser.json.JsonConfigParser;
 import com.nepxion.discovery.plugin.configcenter.parser.xml.XmlConfigParser;
 import com.nepxion.discovery.plugin.framework.config.PluginConfigParser;
+import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
+import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
 @Configuration
 public class ConfigAutoConfiguration {
@@ -26,7 +30,14 @@ public class ConfigAutoConfiguration {
 
     @Bean
     public PluginConfigParser pluginConfigParser() {
-        return new XmlConfigParser();
+        String configFormat = pluginContextAware.getConfigFormat();
+        if (StringUtils.equals(configFormat, PluginConstant.XML_FORMAT)) {
+            return new XmlConfigParser();
+        } else if (StringUtils.equals(configFormat, PluginConstant.JSON_FORMAT)) {
+            return new JsonConfigParser();
+        }
+
+        throw new PluginException("Invalid config format for '" + configFormat + "'");
     }
 
     @Bean
