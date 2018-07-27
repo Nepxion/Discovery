@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.example;
+package com.nepxion.discovery.plugin.example.service;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -17,10 +17,10 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients
-public class DiscoveryApplicationC2 {
+public class DiscoveryApplicationC3 {
     public static void main(String[] args) {
-        System.setProperty("spring.profiles.active", "c2");
+        System.setProperty("spring.profiles.active", "c3");
 
-        new SpringApplicationBuilder(DiscoveryApplicationC2.class).run(args);
+        new SpringApplicationBuilder(DiscoveryApplicationC3.class).run(args);
     }
 }

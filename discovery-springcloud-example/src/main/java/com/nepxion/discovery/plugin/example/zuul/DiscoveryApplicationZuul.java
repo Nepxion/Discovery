@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.example;
+package com.nepxion.discovery.plugin.example.zuul;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -13,6 +13,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
+import org.springframework.context.annotation.Bean;
+
+import com.nepxion.discovery.plugin.example.zuul.extension.MyZuulDiscoveryEnabledAdapter;
 
 @SpringBootApplication
 @EnableDiscoveryClient
@@ -22,5 +25,10 @@ public class DiscoveryApplicationZuul {
         System.setProperty("spring.profiles.active", "zuul");
 
         new SpringApplicationBuilder(DiscoveryApplicationZuul.class).run(args);
+    }
+
+    @Bean
+    public MyZuulDiscoveryEnabledAdapter myZuulDiscoveryEnabledAdapter() {
+        return new MyZuulDiscoveryEnabledAdapter();
     }
 }
