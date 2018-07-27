@@ -125,7 +125,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
   - Nacos服务器版本，推荐用最新版本，从[https://pan.baidu.com/s/1FsPzIK8lQ8VSNucI57H67A](https://pan.baidu.com/s/1FsPzIK8lQ8VSNucI57H67A)获取
 
 ## 依赖
-微服务选择相应的插件引入，最后一个如需对接Nacos远程配置中心，则引入
+微服务选择相应的插件引入，如需对接Nacos远程配置中心，则引入最后一个
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -152,7 +152,16 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 </dependency>
 ```
 
-独立控制台引入，最后一个如需对接Nacos远程配置中心，则引入
+用户自定义用户自定义和编程灰度路由，则引入
+```xml
+<dependency>
+    <groupId>com.nepxion</groupId>
+    <artifactId>discovery-plugin-strategy-extension-service</artifactId>
+    <version>${discovery.plugin.version}</version>
+</dependency>
+```
+
+独立控制台引入，如需对接Nacos远程配置中心，则引入最后一个
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
