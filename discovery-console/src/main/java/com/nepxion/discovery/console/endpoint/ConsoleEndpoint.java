@@ -141,14 +141,14 @@ public class ConsoleEndpoint {
             String version = serviceInstance.getMetadata().get("version");
             String host = serviceInstance.getHost();
             int port = serviceInstance.getPort();
-            Map<String, String> metaData = serviceInstance.getMetadata();
+            Map<String, String> metadata = serviceInstance.getMetadata();
 
             InstanceEntity instanceEntity = new InstanceEntity();
             instanceEntity.setServiceId(serviceId);
             instanceEntity.setVersion(version);
             instanceEntity.setHost(host);
             instanceEntity.setPort(port);
-            instanceEntity.setMetaData(metaData);
+            instanceEntity.setMetadata(metadata);
 
             instanceEntityList.add(instanceEntity);
         }

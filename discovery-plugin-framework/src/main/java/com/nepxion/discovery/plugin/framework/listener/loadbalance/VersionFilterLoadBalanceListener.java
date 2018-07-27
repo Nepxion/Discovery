@@ -106,8 +106,8 @@ public class VersionFilterLoadBalanceListener extends AbstractLoadBalanceListene
                 Iterator<? extends Server> iterator = servers.iterator();
                 while (iterator.hasNext()) {
                     Server server = iterator.next();
-                    String metaDataVersion = pluginAdapter.getServerVersion(server);
-                    if (!allNoFilterValueList.contains(metaDataVersion)) {
+                    String metadataVersion = pluginAdapter.getServerVersion(server);
+                    if (!allNoFilterValueList.contains(metadataVersion)) {
                         iterator.remove();
                     }
                 }

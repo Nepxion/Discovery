@@ -77,9 +77,9 @@ public abstract class AbstractRestInvoker {
     }
 
     protected void checkDiscoveryControlPermission(ServiceInstance serviceInstance) {
-        Map<String, String> metaData = serviceInstance.getMetadata();
+        Map<String, String> metadata = serviceInstance.getMetadata();
 
-        String discoveryControlEnabled = metaData.get(ConsoleConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED);
+        String discoveryControlEnabled = metadata.get(ConsoleConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED);
         if (StringUtils.isEmpty(discoveryControlEnabled)) {
             throw new IllegalArgumentException("No metadata for key=" + ConsoleConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED);
         }
@@ -90,9 +90,9 @@ public abstract class AbstractRestInvoker {
     }
 
     protected void checkConfigRestControlPermission(ServiceInstance serviceInstance) {
-        Map<String, String> metaData = serviceInstance.getMetadata();
+        Map<String, String> metadata = serviceInstance.getMetadata();
 
-        String configRestControlEnabled = metaData.get(ConsoleConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED);
+        String configRestControlEnabled = metadata.get(ConsoleConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED);
         if (StringUtils.isEmpty(configRestControlEnabled)) {
             throw new IllegalArgumentException("No metadata for key=" + ConsoleConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED);
         }

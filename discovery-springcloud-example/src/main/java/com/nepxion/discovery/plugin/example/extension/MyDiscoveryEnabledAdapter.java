@@ -31,7 +31,7 @@ public class MyDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     @Override
     public boolean apply(Server server, StrategyContext context) {
         String serviceId = server.getMetaInfo().getAppName().toLowerCase();
-        Map<String, String> metadata = pluginAdapter.getServerMetaData(server);
+        Map<String, String> metadata = pluginAdapter.getServerMetadata(server);
         Map<String, Object> attributes = context.getAttributes();
 
         LOG.info("负载均衡用户定制触发：serviceId={}, host={}, metadata={}, context={}", serviceId, server.toString(), metadata, context);

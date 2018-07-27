@@ -17,7 +17,7 @@ import com.netflix.niws.loadbalancer.DiscoveryEnabledServer;
 
 public class EurekaAdapter extends AbstractPluginAdapter {
     @Override
-    public Map<String, String> getServerMetaData(Server server) {
+    public Map<String, String> getServerMetadata(Server server) {
         if (server instanceof DiscoveryEnabledServer) {
             DiscoveryEnabledServer discoveryEnabledServer = (DiscoveryEnabledServer) server;
 

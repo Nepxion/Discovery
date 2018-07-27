@@ -30,7 +30,7 @@ public class InstanceEntity implements Serializable {
     private int port;
     private String rule;
     private String dynamicRule;
-    private Map<String, String> metaData;
+    private Map<String, String> metadata;
 
     public String getServiceId() {
         return serviceId;
@@ -88,21 +88,21 @@ public class InstanceEntity implements Serializable {
         this.dynamicRule = dynamicRule;
     }
 
-    public Map<String, String> getMetaData() {
-        return metaData;
+    public Map<String, String> getMetadata() {
+        return metadata;
     }
 
-    public void setMetaData(Map<String, String> metaData) {
-        this.metaData = metaData;
+    public void setMetadata(Map<String, String> metadata) {
+        this.metadata = metadata;
     }
 
     public String getFilter() {
-        String filterKey = metaData.get(ConsoleConstant.SPRING_APPLICATION_GROUP_KEY);
+        String filterKey = metadata.get(ConsoleConstant.SPRING_APPLICATION_GROUP_KEY);
         if (StringUtils.isEmpty(filterKey)) {
             return "";
         }
 
-        String filter = metaData.get(filterKey);
+        String filter = metadata.get(filterKey);
         if (filter == null) {
             return "";
         }
@@ -111,7 +111,7 @@ public class InstanceEntity implements Serializable {
     }
 
     public String getPlugin() {
-        String plugin = metaData.get(ConsoleConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN);
+        String plugin = metadata.get(ConsoleConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN);
         if (plugin == null) {
             return "";
         }
@@ -120,7 +120,7 @@ public class InstanceEntity implements Serializable {
     }
 
     public boolean isDiscoveryControlEnabled() {
-        String flag = metaData.get(ConsoleConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED);
+        String flag = metadata.get(ConsoleConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED);
         if (flag == null) {
             return true;
         }
@@ -129,7 +129,7 @@ public class InstanceEntity implements Serializable {
     }
 
     public boolean isConfigRestControlEnabled() {
-        String flag = metaData.get(ConsoleConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED);
+        String flag = metadata.get(ConsoleConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED);
         if (flag == null) {
             return true;
         }

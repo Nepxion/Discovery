@@ -18,7 +18,7 @@ import com.netflix.loadbalancer.Server;
 
 public class ConsulAdapter extends AbstractPluginAdapter {
     @Override
-    public Map<String, String> getServerMetaData(Server server) {
+    public Map<String, String> getServerMetadata(Server server) {
         if (server instanceof ConsulServer) {
             ConsulServer consulServer = (ConsulServer) server;
 
