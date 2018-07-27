@@ -55,8 +55,9 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
   - 结合Spring Boot Actuator，动态改变微服务的版本
   - 在服务注册层面的控制中，一旦禁止注册的条件触发，主动推送异步事件，以便使用者订阅
 - 实现通过Listener机制进行扩展
-  - 使用者可以自定义更多的规则过滤条件
   - 使用者可以对服务注册发现核心事件进行监听
+- 实现通过扩展，用户自定义和编程灰度路由策略
+  - 使用者可以实现跟业务有关的路由策略，根据业务参数的不同，负载均衡到不同的服务器，例如根据用户名或者手机号，选择不同的服务器执行调用
 - 实现支持Spring Boot Actuator和Swagger集成
 - 实现支持未来扩展更多的服务注册中心
 - 实现独立控制台微服务，支持对规则和版本集中管理、推送、更改和删除
@@ -181,6 +182,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 | discovery-plugin-starter-eureka | Eureka Starter |
 | discovery-plugin-starter-consul | Consul Starter |
 | discovery-plugin-starter-zookeeper | Zookeeper Starter |
+| discovery-plugin-strategy-extension-service | 基于服务的用户自定义灰度的扩展 |
 | discovery-console | 独立控制台，提供给UI |
 | discovery-console-extension-nacos | 独立控制台的Nacos扩展 |
 | discovery-console-starter | Console Starter |
@@ -329,6 +331,14 @@ spring.application.config.path=classpath:rule.xml
 # 为微服务归类的Key，一般通过group字段来归类，例如eureka.instance.metadataMap.group=xxx-group或者eureka.instance.metadataMap.application=xxx-application。缺失则默认为group
 # spring.application.group.key=group
 # spring.application.group.key=application
+
+# Plugin strategy config
+# 开启和关闭用户自定义和编程灰度路由策略的控制，包括跟业务无关(例如：不允许某个服务器的IP地址或者某个版本被负载均衡到)和业务数据(例如用户根据业务参数的不同，负载均衡到不同的服务器)有关两种，该功能只支持服务，不支持网关。缺失则默认为true
+spring.application.strategy.control.enabled=true
+# 开启和关闭用户自定义和编程灰度路由策略的业务有关性的控制。一旦关闭，从业务接口无法把数据传递到上下文对象（StrategyContext）；一旦开启，需要设置下面的scan.packages。缺失则默认为true
+spring.application.strategy.business.context.control.enabled=true
+# 用户自定义和编程灰度路由策略的时候，需要指定对业务Controller类的扫描路径，以便传递上下文对象
+spring.application.strategy.business.scan.packages=com.nepxion.discovery.plugin.example.feign
 ```
 
 ## 配置中心
@@ -357,11 +367,15 @@ spring.application.config.path=classpath:rule.xml
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Swagger2.jpg)
 
-## 扩展和自定义更多规则或者监听
+## 用户自定义和编程灰度路由
 使用者可以继承如下类
-- AbstractRegisterListener，实现服务注册的扩展和监听，用法参考discovery-springcloud-example下MyRegisterListener
-- AbstractDiscoveryListener，实现服务发现的扩展和监听，用法参考discovery-springcloud-example下MyDiscoveryListener。注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断，如下图
-- AbstractLoadBalanceListener，实现负载均衡的扩展和监听，用法参考discovery-springcloud-example下MyLoadBalanceListener
+- DiscoveryEnabledAdapter，实现自定义和编程灰度路由，用法参考discovery-springcloud-example下MyDiscoveryEnabledAdapter
+
+## 用户自定义监听
+使用者可以继承如下类
+- AbstractRegisterListener，实现服务注册的监听，用法参考discovery-springcloud-example下MyRegisterListener
+- AbstractDiscoveryListener，实现服务发现的监听，用法参考discovery-springcloud-example下MyDiscoveryListener。注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断，如下图
+- AbstractLoadBalanceListener，实现负载均衡的监听，用法参考discovery-springcloud-example下MyLoadBalanceListener
 
 集成了健康检查的Consul控制台
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Consul.jpg)
