@@ -24,15 +24,16 @@
         <module>discovery-plugin-starter-zookeeper</module>
         <module>discovery-plugin-strategy</module>
         <module>discovery-plugin-strategy-extension-service</module>
+        <module>discovery-plugin-strategy-extension-zuul</module>
         <module>discovery-console</module>
         <module>discovery-console-extension-nacos</module>
         <module>discovery-console-starter</module>
         <module>discovery-console-desktop</module>
         <module>discovery-springcloud-example-console</module>
         <module>discovery-springcloud-example-eureka</module>
-        <module>discovery-springcloud-example-gateway</module>
-        <module>discovery-springcloud-example-zuul</module>
         <module>discovery-springcloud-example-service</module>
+        <module>discovery-springcloud-example-zuul</module>
+        <module>discovery-springcloud-example-gateway</module>
     </modules>
 
     <properties>
@@ -129,6 +130,12 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-strategy-extension-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-strategy-extension-zuul</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
