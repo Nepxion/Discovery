@@ -9,6 +9,8 @@ package com.nepxion.discovery.plugin.example.feign;
  * @version 1.0
  */
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +21,8 @@ import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 @RestController
 @ConditionalOnProperty(name = PluginConstant.SPRING_APPLICATION_NAME, havingValue = "discovery-springcloud-example-b")
 public class BFeignImpl extends AbstractFeignImpl implements BFeign {
+    private static final Logger LOG = LoggerFactory.getLogger(BFeignImpl.class);
+
     @Autowired
     private CFeign cFeign;
 
@@ -27,8 +31,8 @@ public class BFeignImpl extends AbstractFeignImpl implements BFeign {
         value = doInvoke(value);
         value = cFeign.invoke(value);
 
-        System.out.println("调用路径：" + value);
-        
+        LOG.info("调用路径：{}", value);
+
         return value;
     }
 }
