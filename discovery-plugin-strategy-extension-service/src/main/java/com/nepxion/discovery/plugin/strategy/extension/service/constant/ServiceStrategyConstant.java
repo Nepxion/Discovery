@@ -11,7 +11,7 @@ package com.nepxion.discovery.plugin.strategy.extension.service.constant;
 
 public class ServiceStrategyConstant {
     public static final String SPRING_APPLICATION_STRATEGY_BUSINESS_CONTEXT_CONTROL_ENABLED = "spring.application.strategy.business.context.control.enabled";
-    public static final String SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES = "spring.application.strategy.scan.packages";
+    public static final String SPRING_APPLICATION_STRATEGY_BUSINESS_SCAN_PACKAGES = "spring.application.strategy.business.scan.packages";
     public static final String CLASS = "class";
     public static final String METHOD = "method";
     public static final String PARAMETER_MAP = "parameterMap";
