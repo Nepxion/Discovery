@@ -15,7 +15,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
 
-import com.nepxion.discovery.plugin.example.zuul.extension.MyZuulDiscoveryEnabledAdapter;
+import com.nepxion.discovery.plugin.example.zuul.extension.MyDiscoveryEnabledAdapter;
 
 @SpringBootApplication
 @EnableDiscoveryClient
@@ -28,7 +28,7 @@ public class DiscoveryApplicationZuul {
     }
 
     @Bean
-    public MyZuulDiscoveryEnabledAdapter myZuulDiscoveryEnabledAdapter() {
-        return new MyZuulDiscoveryEnabledAdapter();
+    public MyDiscoveryEnabledAdapter myDiscoveryEnabledAdapter() {
+        return new MyDiscoveryEnabledAdapter();
     }
 }

@@ -22,8 +22,8 @@ import com.nepxion.discovery.plugin.strategy.extension.service.context.ServiceSt
 import com.nepxion.discovery.plugin.strategy.extension.service.context.ServiceStrategyContextHolder;
 import com.netflix.loadbalancer.Server;
 
-public class MyServiceDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
-    private static final Logger LOG = LoggerFactory.getLogger(MyServiceDiscoveryEnabledAdapter.class);
+public class MyDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
+    private static final Logger LOG = LoggerFactory.getLogger(MyDiscoveryEnabledAdapter.class);
 
     @Autowired
     protected PluginAdapter pluginAdapter;
