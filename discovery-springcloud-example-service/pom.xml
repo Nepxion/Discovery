@@ -47,13 +47,13 @@
 
         <dependency>
             <groupId>com.nepxion</groupId>
-            <artifactId>discovery-plugin-strategy-extension-service</artifactId>
+            <artifactId>discovery-plugin-config-center-extension-nacos</artifactId>
             <version>${discovery.plugin.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.nepxion</groupId>
-            <artifactId>discovery-plugin-config-center-extension-nacos</artifactId>
+            <artifactId>discovery-plugin-strategy-extension-service</artifactId>
             <version>${discovery.plugin.version}</version>
         </dependency>
 

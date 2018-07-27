@@ -25,7 +25,7 @@ import com.nepxion.discovery.plugin.strategy.extension.service.constant.ServiceS
 @AutoConfigureBefore(RibbonClientConfiguration.class)
 @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTROL_ENABLED, matchIfMissing = true)
 public class ServiceStrategyAutoConfiguration {
-    @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + ":}")
+    @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_BUSINESS_SCAN_PACKAGES + ":}")
     private String scanPackages;
 
     @Bean
