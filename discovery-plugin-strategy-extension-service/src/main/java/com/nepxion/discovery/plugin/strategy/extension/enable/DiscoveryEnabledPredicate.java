@@ -9,8 +9,6 @@ package com.nepxion.discovery.plugin.strategy.extension.enable;
  * @version 1.0
  */
 
-import javax.annotation.Nullable;
-
 import com.nepxion.discovery.plugin.strategy.extension.context.StrategyContext;
 import com.nepxion.discovery.plugin.strategy.extension.context.StrategyContextHolder;
 import com.netflix.loadbalancer.AbstractServerPredicate;
@@ -21,7 +19,7 @@ public class DiscoveryEnabledPredicate extends AbstractServerPredicate {
     private DiscoveryEnabledAdapter discoveryEnabledAdapter;
 
     @Override
-    public boolean apply(@Nullable PredicateKey input) {
+    public boolean apply(PredicateKey input) {
         return input != null && apply(input.getServer());
     }
 
