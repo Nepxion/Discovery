@@ -15,6 +15,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 
+import com.nepxion.discovery.plugin.example.extension.MyDiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.example.extension.MyDiscoveryListener;
 import com.nepxion.discovery.plugin.example.extension.MyLoadBalanceListener;
 import com.nepxion.discovery.plugin.example.extension.MyRegisterListener;
@@ -48,5 +49,10 @@ public class DiscoveryApplicationA1 {
     @Bean
     public MySubscriber mySubscriber() {
         return new MySubscriber();
+    }
+
+    @Bean
+    public MyDiscoveryEnabledAdapter MyDiscoveryEnabledAdapter() {
+        return new MyDiscoveryEnabledAdapter();
     }
 }
