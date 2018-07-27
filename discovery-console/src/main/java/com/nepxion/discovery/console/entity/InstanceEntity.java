@@ -24,7 +24,7 @@ public class InstanceEntity implements Serializable {
     private String version;
     private String host;
     private int port;
-    private Map<String, String> metaData;
+    private Map<String, String> metadata;
 
     public String getServiceId() {
         return serviceId;
@@ -58,12 +58,12 @@ public class InstanceEntity implements Serializable {
         this.port = port;
     }
 
-    public Map<String, String> getMetaData() {
-        return metaData;
+    public Map<String, String> getMetadata() {
+        return metadata;
     }
 
-    public void setMetaData(Map<String, String> metaData) {
-        this.metaData = metaData;
+    public void setMetadata(Map<String, String> metadata) {
+        this.metadata = metadata;
     }
 
     @Override

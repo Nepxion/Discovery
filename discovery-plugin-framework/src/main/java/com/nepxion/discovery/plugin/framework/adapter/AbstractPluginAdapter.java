@@ -49,7 +49,7 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     protected String getGroup(String groupKey) {
-        return getMetaData().get(groupKey);
+        return getMetadata().get(groupKey);
     }
 
     @Override
@@ -68,7 +68,7 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
-    public Map<String, String> getMetaData() {
+    public Map<String, String> getMetadata() {
         return registration.getMetadata();
     }
 
@@ -84,7 +84,7 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Override
     public String getLocalVersion() {
-        return getMetaData().get(PluginConstant.VERSION);
+        return getMetadata().get(PluginConstant.VERSION);
     }
 
     @Override
@@ -139,6 +139,6 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Override
     public String getServerVersion(Server server) {
-        return getServerMetaData(server).get(PluginConstant.VERSION);
+        return getServerMetadata(server).get(PluginConstant.VERSION);
     }
 }

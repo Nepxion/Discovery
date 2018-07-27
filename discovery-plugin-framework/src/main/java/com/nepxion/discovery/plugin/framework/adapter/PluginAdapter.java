@@ -23,7 +23,7 @@ public interface PluginAdapter {
 
     int getPort();
 
-    Map<String, String> getMetaData();
+    Map<String, String> getMetadata();
 
     String getVersion();
 
@@ -47,7 +47,7 @@ public interface PluginAdapter {
 
     void clearDynamicRule();
 
-    Map<String, String> getServerMetaData(Server server);
+    Map<String, String> getServerMetadata(Server server);
 
     String getServerVersion(Server server);
 }
