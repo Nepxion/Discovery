@@ -31,7 +31,8 @@
         <module>discovery-springcloud-example-console</module>
         <module>discovery-springcloud-example-eureka</module>
         <module>discovery-springcloud-example-gateway</module>
-        <module>discovery-springcloud-example</module>
+        <module>discovery-springcloud-example-zuul</module>
+        <module>discovery-springcloud-example-service</module>
     </modules>
 
     <properties>
