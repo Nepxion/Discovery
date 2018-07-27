@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.extension.enable;
+package com.nepxion.discovery.plugin.strategy.discovery;
 
 /**
  * <p>Title: Nepxion Discovery</p>
