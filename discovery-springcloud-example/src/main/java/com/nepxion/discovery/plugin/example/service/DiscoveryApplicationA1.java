@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.example;
+package com.nepxion.discovery.plugin.example.service;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -15,11 +15,11 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 
-import com.nepxion.discovery.plugin.example.extension.MyDiscoveryEnabledAdapter;
-import com.nepxion.discovery.plugin.example.extension.MyDiscoveryListener;
-import com.nepxion.discovery.plugin.example.extension.MyLoadBalanceListener;
-import com.nepxion.discovery.plugin.example.extension.MyRegisterListener;
-import com.nepxion.discovery.plugin.example.extension.MySubscriber;
+import com.nepxion.discovery.plugin.example.service.extension.MyDiscoveryListener;
+import com.nepxion.discovery.plugin.example.service.extension.MyLoadBalanceListener;
+import com.nepxion.discovery.plugin.example.service.extension.MyRegisterListener;
+import com.nepxion.discovery.plugin.example.service.extension.MyServiceDiscoveryEnabledAdapter;
+import com.nepxion.discovery.plugin.example.service.extension.MySubscriber;
 
 @SpringBootApplication
 @EnableDiscoveryClient
@@ -52,7 +52,7 @@ public class DiscoveryApplicationA1 {
     }
 
     @Bean
-    public MyDiscoveryEnabledAdapter MyDiscoveryEnabledAdapter() {
-        return new MyDiscoveryEnabledAdapter();
+    public MyServiceDiscoveryEnabledAdapter myServiceDiscoveryEnabledAdapter() {
+        return new MyServiceDiscoveryEnabledAdapter();
     }
 }

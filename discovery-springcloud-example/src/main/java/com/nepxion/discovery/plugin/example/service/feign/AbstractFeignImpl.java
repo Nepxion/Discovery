@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.example.feign;
+package com.nepxion.discovery.plugin.example.service.feign;
 
 /**
  * <p>Title: Nepxion Discovery</p>

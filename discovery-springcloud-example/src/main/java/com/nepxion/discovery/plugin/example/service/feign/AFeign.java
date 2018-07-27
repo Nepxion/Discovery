@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.example.feign;
+package com.nepxion.discovery.plugin.example.service.feign;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@FeignClient(value = "discovery-springcloud-example-c")
-public interface CFeign {
+@FeignClient(value = "discovery-springcloud-example-a")
+public interface AFeign {
     @RequestMapping(path = "/invoke", method = RequestMethod.POST)
     String invoke(@RequestBody String value);
 }

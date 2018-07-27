@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.example.feign;
+package com.nepxion.discovery.plugin.example.service.feign;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -19,17 +19,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 
 @RestController
-@ConditionalOnProperty(name = PluginConstant.SPRING_APPLICATION_NAME, havingValue = "discovery-springcloud-example-a")
-public class AFeignImpl extends AbstractFeignImpl implements AFeign {
-    private static final Logger LOG = LoggerFactory.getLogger(AFeignImpl.class);
+@ConditionalOnProperty(name = PluginConstant.SPRING_APPLICATION_NAME, havingValue = "discovery-springcloud-example-b")
+public class BFeignImpl extends AbstractFeignImpl implements BFeign {
+    private static final Logger LOG = LoggerFactory.getLogger(BFeignImpl.class);
 
     @Autowired
-    private BFeign bFeign;
+    private CFeign cFeign;
 
     @Override
     public String invoke(@RequestBody String value) {
         value = doInvoke(value);
-        value = bFeign.invoke(value);
+        value = cFeign.invoke(value);
 
         LOG.info("调用路径：{}", value);
 
