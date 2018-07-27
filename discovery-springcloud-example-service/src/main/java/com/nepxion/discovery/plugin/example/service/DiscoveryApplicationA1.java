@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Bean;
 import com.nepxion.discovery.plugin.example.service.extension.MyDiscoveryListener;
 import com.nepxion.discovery.plugin.example.service.extension.MyLoadBalanceListener;
 import com.nepxion.discovery.plugin.example.service.extension.MyRegisterListener;
-import com.nepxion.discovery.plugin.example.service.extension.MyServiceDiscoveryEnabledAdapter;
+import com.nepxion.discovery.plugin.example.service.extension.MyDiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.example.service.extension.MySubscriber;
 
 @SpringBootApplication
@@ -52,7 +52,7 @@ public class DiscoveryApplicationA1 {
     }
 
     @Bean
-    public MyServiceDiscoveryEnabledAdapter myServiceDiscoveryEnabledAdapter() {
-        return new MyServiceDiscoveryEnabledAdapter();
+    public MyDiscoveryEnabledAdapter myDiscoveryEnabledAdapter() {
+        return new MyDiscoveryEnabledAdapter();
     }
 }

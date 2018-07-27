@@ -23,8 +23,8 @@ import com.nepxion.discovery.plugin.strategy.discovery.DiscoveryEnabledAdapter;
 import com.netflix.loadbalancer.Server;
 import com.netflix.zuul.context.RequestContext;
 
-public class MyZuulDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
-    private static final Logger LOG = LoggerFactory.getLogger(MyZuulDiscoveryEnabledAdapter.class);
+public class MyDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
+    private static final Logger LOG = LoggerFactory.getLogger(MyDiscoveryEnabledAdapter.class);
 
     @Autowired
     protected PluginAdapter pluginAdapter;
