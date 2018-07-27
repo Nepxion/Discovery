@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.extension.enable;
+package com.nepxion.discovery.plugin.strategy.discovery;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -9,9 +9,8 @@ package com.nepxion.discovery.plugin.strategy.extension.enable;
  * @version 1.0
  */
 
-import com.nepxion.discovery.plugin.strategy.extension.context.StrategyContext;
 import com.netflix.loadbalancer.Server;
 
 public interface DiscoveryEnabledAdapter {
-    boolean apply(Server server, StrategyContext context);
+    boolean apply(Server server);
 }

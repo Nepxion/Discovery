@@ -22,6 +22,7 @@
         <module>discovery-plugin-starter-eureka</module>
         <module>discovery-plugin-starter-consul</module>
         <module>discovery-plugin-starter-zookeeper</module>
+        <module>discovery-plugin-strategy</module>
         <module>discovery-plugin-strategy-extension-service</module>
         <module>discovery-console</module>
         <module>discovery-console-extension-nacos</module>
@@ -115,6 +116,12 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-starter-zookeeper</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-strategy</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

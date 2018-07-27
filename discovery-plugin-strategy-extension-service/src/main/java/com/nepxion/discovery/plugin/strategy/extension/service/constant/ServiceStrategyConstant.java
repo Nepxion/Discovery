@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.extension.constant;
+package com.nepxion.discovery.plugin.strategy.extension.service.constant;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -9,11 +9,9 @@ package com.nepxion.discovery.plugin.strategy.extension.constant;
  * @version 1.0
  */
 
-public class StrategyConstant {
-    public static final String SPRING_APPLICATION_STRATEGY_CONTROL_ENABLED = "spring.application.strategy.control.enabled";
+public class ServiceStrategyConstant {
     public static final String SPRING_APPLICATION_STRATEGY_BUSINESS_CONTEXT_CONTROL_ENABLED = "spring.application.strategy.business.context.control.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES = "spring.application.strategy.scan.packages";
-
     public static final String CLASS = "class";
     public static final String METHOD = "method";
     public static final String PARAMETER_MAP = "parameterMap";

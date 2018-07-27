@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.extension.enable;
+package com.nepxion.discovery.plugin.strategy.discovery;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -9,8 +9,6 @@ package com.nepxion.discovery.plugin.strategy.extension.enable;
  * @version 1.0
  */
 
-import com.nepxion.discovery.plugin.strategy.extension.context.StrategyContext;
-import com.nepxion.discovery.plugin.strategy.extension.context.StrategyContextHolder;
 import com.netflix.loadbalancer.AbstractServerPredicate;
 import com.netflix.loadbalancer.PredicateKey;
 import com.netflix.loadbalancer.Server;
@@ -24,9 +22,7 @@ public class DiscoveryEnabledPredicate extends AbstractServerPredicate {
     }
 
     protected boolean apply(Server server) {
-        StrategyContext context = StrategyContextHolder.currentContext();
-
-        return discoveryEnabledAdapter.apply(server, context);
+        return discoveryEnabledAdapter.apply(server);
     }
 
     public void setDiscoveryEnabledAdapter(DiscoveryEnabledAdapter discoveryEnabledAdapter) {

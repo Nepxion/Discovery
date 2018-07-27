@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.extension.context;
+package com.nepxion.discovery.plugin.strategy.extension.service.context;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -18,10 +18,10 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class StrategyContext {
+public class ServiceStrategyContext {
     private final Map<String, Object> attributes = new LinkedHashMap<String, Object>();
 
-    public StrategyContext add(String key, Object value) {
+    public ServiceStrategyContext add(String key, Object value) {
         attributes.put(key, value);
 
         return this;
@@ -31,13 +31,13 @@ public class StrategyContext {
         return attributes.get(key);
     }
 
-    public StrategyContext remove(String key) {
+    public ServiceStrategyContext remove(String key) {
         attributes.remove(key);
 
         return this;
     }
 
-    public StrategyContext clear() {
+    public ServiceStrategyContext clear() {
         attributes.clear();
 
         return this;

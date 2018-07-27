@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.extension.aop;
+package com.nepxion.discovery.plugin.strategy.extension.service.aop;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -17,13 +17,13 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.nepxion.discovery.plugin.strategy.extension.constant.StrategyConstant;
-import com.nepxion.discovery.plugin.strategy.extension.context.StrategyContext;
-import com.nepxion.discovery.plugin.strategy.extension.context.StrategyContextHolder;
+import com.nepxion.discovery.plugin.strategy.extension.service.constant.ServiceStrategyConstant;
+import com.nepxion.discovery.plugin.strategy.extension.service.context.ServiceStrategyContext;
+import com.nepxion.discovery.plugin.strategy.extension.service.context.ServiceStrategyContextHolder;
 import com.nepxion.matrix.proxy.aop.AbstractInterceptor;
 
-public class StrategyInterceptor extends AbstractInterceptor {
-    private static final Logger LOG = LoggerFactory.getLogger(StrategyInterceptor.class);
+public class ServiceStrategyInterceptor extends AbstractInterceptor {
+    private static final Logger LOG = LoggerFactory.getLogger(ServiceStrategyInterceptor.class);
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
@@ -47,13 +47,13 @@ public class StrategyInterceptor extends AbstractInterceptor {
             }
         }
 
-        LOG.debug("Context is set with class={}, methodName={}, parameterMap={}", proxiedClass, methodName, parameterMap);
+        ServiceStrategyContext context = ServiceStrategyContextHolder.currentContext();
+        context.add(ServiceStrategyConstant.CLASS, proxiedClass);
+        context.add(ServiceStrategyConstant.METHOD, methodName);
+        context.add(ServiceStrategyConstant.PARAMETER_MAP, parameterMap);
 
-        StrategyContext context = StrategyContextHolder.currentContext();
-        context.add(StrategyConstant.CLASS, proxiedClass);
-        context.add(StrategyConstant.METHOD, methodName);
-        context.add(StrategyConstant.PARAMETER_MAP, parameterMap);
-
+        LOG.debug("Service strategy context is set with class={}, methodName={}, parameterMap={}", proxiedClass, methodName, parameterMap);
+        
         try {
             return invocation.proceed();
         } catch (Exception e) {
