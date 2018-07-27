@@ -2,8 +2,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <groupId>com.nepxion</groupId>
-    <artifactId>discovery-springcloud-example</artifactId>
-    <name>Nepxion Discovery Spring Cloud Example</name>
+    <artifactId>discovery-springcloud-example-zuul</artifactId>
+    <name>Nepxion Discovery Spring Cloud Example Zuul</name>
     <packaging>jar</packaging>
     <modelVersion>4.0.0</modelVersion>
     <version>1.0.0</version>
@@ -55,11 +55,6 @@
             <groupId>com.nepxion</groupId>
             <artifactId>discovery-plugin-config-center-extension-nacos</artifactId>
             <version>${discovery.plugin.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-feign</artifactId>
         </dependency>
 
         <dependency>
