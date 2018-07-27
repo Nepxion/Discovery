@@ -19,7 +19,6 @@ import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.discovery.DiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.extension.service.constant.ServiceStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.extension.service.context.ServiceStrategyContext;
-import com.nepxion.discovery.plugin.strategy.extension.service.context.ServiceStrategyContextHolder;
 import com.netflix.loadbalancer.Server;
 
 public class MyDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
@@ -31,7 +30,7 @@ public class MyDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     @SuppressWarnings("unchecked")
     @Override
     public boolean apply(Server server) {
-        ServiceStrategyContext context = ServiceStrategyContextHolder.currentContext();
+        ServiceStrategyContext context = ServiceStrategyContext.getCurrentContext();
         Map<String, Object> attributes = context.getAttributes();
         
         String serviceId = server.getMetaInfo().getAppName().toLowerCase();

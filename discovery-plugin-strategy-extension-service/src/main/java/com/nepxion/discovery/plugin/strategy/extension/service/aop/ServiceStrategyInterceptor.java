@@ -19,7 +19,6 @@ import org.slf4j.LoggerFactory;
 
 import com.nepxion.discovery.plugin.strategy.extension.service.constant.ServiceStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.extension.service.context.ServiceStrategyContext;
-import com.nepxion.discovery.plugin.strategy.extension.service.context.ServiceStrategyContextHolder;
 import com.nepxion.matrix.proxy.aop.AbstractInterceptor;
 
 public class ServiceStrategyInterceptor extends AbstractInterceptor {
@@ -47,7 +46,7 @@ public class ServiceStrategyInterceptor extends AbstractInterceptor {
             }
         }
 
-        ServiceStrategyContext context = ServiceStrategyContextHolder.currentContext();
+        ServiceStrategyContext context = ServiceStrategyContext.getCurrentContext();
         context.add(ServiceStrategyConstant.CLASS, proxiedClass);
         context.add(ServiceStrategyConstant.METHOD, methodName);
         context.add(ServiceStrategyConstant.PARAMETER_MAP, parameterMap);

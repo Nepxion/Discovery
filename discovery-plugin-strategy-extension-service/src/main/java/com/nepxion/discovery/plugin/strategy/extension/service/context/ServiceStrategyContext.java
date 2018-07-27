@@ -19,6 +19,21 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 public class ServiceStrategyContext {
+    private static final ThreadLocal<ServiceStrategyContext> THREAD_LOCAL = new InheritableThreadLocal<ServiceStrategyContext>() {
+        @Override
+        protected ServiceStrategyContext initialValue() {
+            return new ServiceStrategyContext();
+        }
+    };
+
+    public static ServiceStrategyContext getCurrentContext() {
+        return THREAD_LOCAL.get();
+    }
+
+    public static void clearCurrentContext() {
+        THREAD_LOCAL.remove();
+    }
+
     private final Map<String, Object> attributes = new LinkedHashMap<String, Object>();
 
     public ServiceStrategyContext add(String key, Object value) {
