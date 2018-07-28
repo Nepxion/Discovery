@@ -129,30 +129,36 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
   - Nacos服务器版本，推荐用最新版本，从[https://pan.baidu.com/s/1FsPzIK8lQ8VSNucI57H67A](https://pan.baidu.com/s/1FsPzIK8lQ8VSNucI57H67A)获取
 
 ## 依赖
+```xml
+<dependency>
+    <groupId>com.nepxion</groupId>
+    <artifactId>discovery</artifactId>
+    <version>${discovery.plugin.version}</version>
+    <type>pom</type>
+    <scope>import</scope>
+</dependency>
+```
+
 微服务选择相应的插件引入，如需对接Nacos远程配置中心，则引入最后一个
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-starter-eureka</artifactId>
-    <version>${discovery.plugin.version}</version>
 </dependency>
 
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-starter-consul</artifactId>
-    <version>${discovery.plugin.version}</version>
 </dependency>
 
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-starter-zookeeper</artifactId>
-    <version>${discovery.plugin.version}</version>
 </dependency>
 
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-config-center-extension-nacos</artifactId>
-    <version>${discovery.plugin.version}</version>
 </dependency>
 ```
 
@@ -161,19 +167,16 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-strategy-extension-service</artifactId>
-    <version>${discovery.plugin.version}</version>
 </dependency>
 
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-strategy-extension-zuul</artifactId>
-    <version>${discovery.plugin.version}</version>
 </dependency>
 
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-strategy-extension-gatewway</artifactId>
-    <version>${discovery.plugin.version}</version>
 </dependency>
 ```
 
@@ -182,13 +185,11 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-console-starter</artifactId>
-    <version>${discovery.plugin.version}</version>
 </dependency>
 
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-console-extension-nacos</artifactId>
-    <version>${discovery.plugin.version}</version>
 </dependency>
 ```
 
