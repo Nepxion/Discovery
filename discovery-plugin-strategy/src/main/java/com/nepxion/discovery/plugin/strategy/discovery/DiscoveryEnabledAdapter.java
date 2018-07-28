@@ -9,8 +9,10 @@ package com.nepxion.discovery.plugin.strategy.discovery;
  * @version 1.0
  */
 
+import java.util.Map;
+
 import com.netflix.loadbalancer.Server;
 
 public interface DiscoveryEnabledAdapter {
-    boolean apply(Server server);
+    boolean apply(Server server, Map<String, String> metadata);
 }
