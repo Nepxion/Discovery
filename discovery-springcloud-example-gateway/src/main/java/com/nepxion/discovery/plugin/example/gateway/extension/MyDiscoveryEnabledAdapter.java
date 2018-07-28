@@ -41,7 +41,10 @@ public class MyDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
 
         LOG.info("Gateway端负载均衡用户定制触发：serviceId={}, host={}, metadata={}, context={}", serviceId, server.toString(), metadata, context);
 
-        if (StringUtils.equals(token, "abc")) {
+        String filterToken = "abc";
+        if (StringUtils.isNotEmpty(token) && token.contains(filterToken)) {
+            LOG.info("过滤条件：当Token含有'{}'的时候，不能被Ribbon负载均衡到", filterToken);
+
             return false;
         }
 
