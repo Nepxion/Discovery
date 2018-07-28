@@ -156,7 +156,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 </dependency>
 ```
 
-用户自定义和编程灰度路由，则分别在微服务层和不同的网管层引入
+用户自定义和编程灰度路由，则分别在微服务层和不同的网关层引入
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
