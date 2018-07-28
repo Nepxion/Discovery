@@ -9,12 +9,16 @@ package com.nepxion.discovery.plugin.strategy.discovery;
  * @version 1.0
  */
 
+import java.util.Map;
+
+import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.netflix.loadbalancer.AbstractServerPredicate;
 import com.netflix.loadbalancer.PredicateKey;
 import com.netflix.loadbalancer.Server;
 
 public class DiscoveryEnabledPredicate extends AbstractServerPredicate {
-    private DiscoveryEnabledAdapter discoveryEnabledAdapter;
+    protected PluginAdapter pluginAdapter;
+    protected DiscoveryEnabledAdapter discoveryEnabledAdapter;
 
     @Override
     public boolean apply(PredicateKey input) {
@@ -22,7 +26,13 @@ public class DiscoveryEnabledPredicate extends AbstractServerPredicate {
     }
 
     protected boolean apply(Server server) {
-        return discoveryEnabledAdapter.apply(server);
+        Map<String, String> metadata = pluginAdapter.getServerMetadata(server);
+
+        return discoveryEnabledAdapter.apply(server, metadata);
+    }
+
+    public void setPluginAdapter(PluginAdapter pluginAdapter) {
+        this.pluginAdapter = pluginAdapter;
     }
 
     public void setDiscoveryEnabledAdapter(DiscoveryEnabledAdapter discoveryEnabledAdapter) {
