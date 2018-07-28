@@ -340,7 +340,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 
 集成了健康检查的Consul控制台
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Consul.jpg)
-  
+
 ### 版本属性字段定义策略
 不同的服务注册发现组件对应的版本配置值
 ```xml
