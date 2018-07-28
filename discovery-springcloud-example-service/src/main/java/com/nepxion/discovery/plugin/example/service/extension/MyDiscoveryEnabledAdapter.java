@@ -14,9 +14,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.strategy.discovery.DiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.extension.service.constant.ServiceStrategyConstant;
@@ -26,17 +24,13 @@ import com.netflix.loadbalancer.Server;
 public class MyDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     private static final Logger LOG = LoggerFactory.getLogger(MyDiscoveryEnabledAdapter.class);
 
-    @Autowired
-    protected PluginAdapter pluginAdapter;
-
     @SuppressWarnings("unchecked")
     @Override
-    public boolean apply(Server server) {
+    public boolean apply(Server server, Map<String, String> metadata) {
         ServiceStrategyContext context = ServiceStrategyContext.getCurrentContext();
         Map<String, Object> attributes = context.getAttributes();
 
         String serviceId = server.getMetaInfo().getAppName().toLowerCase();
-        Map<String, String> metadata = pluginAdapter.getServerMetadata(server);
         String version = metadata.get(PluginConstant.VERSION);
 
         LOG.info("Serivice端负载均衡用户定制触发：serviceId={}, host={}, metadata={}, context={}", serviceId, server.toString(), metadata, context);
