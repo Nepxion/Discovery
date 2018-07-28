@@ -52,7 +52,7 @@ public class ServiceStrategyInterceptor extends AbstractInterceptor {
         context.add(ServiceStrategyConstant.PARAMETER_MAP, parameterMap);
 
         LOG.debug("Service strategy context is set with {}", context);
-        
+
         try {
             return invocation.proceed();
         } finally {
