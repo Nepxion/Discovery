@@ -27,6 +27,14 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>com.nepxion</groupId>
+                <artifactId>discovery</artifactId>
+                <version>${discovery.plugin.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring.cloud.version}</version>
@@ -40,13 +48,11 @@
         <dependency>
             <groupId>com.nepxion</groupId>
             <artifactId>discovery-console-starter</artifactId>
-            <version>${discovery.plugin.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.nepxion</groupId>
             <artifactId>discovery-console-extension-nacos</artifactId>
-            <version>${discovery.plugin.version}</version>
         </dependency>
 
         <dependency>

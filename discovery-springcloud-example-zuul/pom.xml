@@ -27,6 +27,14 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>com.nepxion</groupId>
+                <artifactId>discovery</artifactId>
+                <version>${discovery.plugin.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring.cloud.version}</version>
@@ -42,19 +50,16 @@
             <artifactId>discovery-plugin-starter-eureka</artifactId>
             <!-- <artifactId>discovery-plugin-starter-consul</artifactId> -->
             <!-- <artifactId>discovery-plugin-starter-zookeeper</artifactId> -->
-            <version>${discovery.plugin.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.nepxion</groupId>
             <artifactId>discovery-plugin-config-center-extension-nacos</artifactId>
-            <version>${discovery.plugin.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.nepxion</groupId>
             <artifactId>discovery-plugin-strategy-extension-zuul</artifactId>
-            <version>${discovery.plugin.version}</version>
         </dependency>
 
         <dependency>
