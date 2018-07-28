@@ -564,7 +564,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.plugin.example.s
 
 基于网关的操作过程和效果
 - 在上面基础上，启动discovery-springcloud-example-zuul下DiscoveryApplicationZuul或者启动discovery-springcloud-example-gateway下DiscoveryApplicationGateway
-- 因为Zuul和Spring Cloud Api Gateway是一种特殊的微服务，遵循Spring Cloud体系的服务注册发现和负载均衡极致，所以所有操作过程跟上面完全一致
+- 因为Zuul和Spring Cloud Api Gateway是一种特殊的微服务，也遵循Spring Cloud体系的服务注册发现和负载均衡机制，所以所有操作过程跟上面完全一致
 
 图6
 
