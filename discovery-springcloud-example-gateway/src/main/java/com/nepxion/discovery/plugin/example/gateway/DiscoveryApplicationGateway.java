@@ -12,6 +12,9 @@ package com.nepxion.discovery.plugin.example.gateway;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.context.annotation.Bean;
+
+import com.nepxion.discovery.plugin.example.gateway.extension.MyDiscoveryEnabledAdapter;
 
 @SpringBootApplication
 @EnableDiscoveryClient
@@ -20,6 +23,11 @@ public class DiscoveryApplicationGateway {
         System.setProperty("spring.profiles.active", "gateway");
 
         new SpringApplicationBuilder(DiscoveryApplicationGateway.class).run(args);
+    }
+
+    @Bean
+    public MyDiscoveryEnabledAdapter myDiscoveryEnabledAdapter() {
+        return new MyDiscoveryEnabledAdapter();
     }
 
     /*@Bean
