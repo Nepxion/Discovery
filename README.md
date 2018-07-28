@@ -4,7 +4,7 @@
 [![Javadocs](http://www.javadoc.io/badge/com.nepxion/discovery.svg)](http://www.javadoc.io/doc/com.nepxion/discovery)
 [![Build Status](https://travis-ci.org/Nepxion/Discovery.svg?branch=master)](https://travis-ci.org/Nepxion/Discovery)
 
-Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件，其功能包括多版本灰度发布，黑/白名单的IP地址过滤，限制注册等，支持Eureka、Consul和Zookeeper，支持Spring Cloud Api Gateway（F版）、Zuul网关和微服务的灰度发布，支持Alibaba的Nacos为远程配置中心，支持Spring Cloud C版、D版、E版和F版。现有的Spring Cloud微服务可以方便引入该插件，代码零侵入
+Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件，其功能包括多版本灰度发布，黑/白名单的IP地址过滤，限制注册等，支持Eureka、Consul和Zookeeper，支持Spring Cloud Api Gateway（F版）、Zuul网关和微服务的灰度发布，支持用户自定义和编程灰度路由策略，支持Alibaba的Nacos为远程配置中心，支持Spring Cloud C版、D版、E版和F版。现有的Spring Cloud微服务可以方便引入该插件，代码零侵入
 
 使用者只需要做如下简单的事情：
 - 引入相关Plugin Starter依赖到pom.xml
@@ -32,6 +32,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 - 如果你是运维负责人，是否会经常发现，你掌管的测试环境中的服务注册中心，被一些不负责的开发人员把他本地开发环境注册上来，造成测试人员测试失败。你希望可以把本地开发环境注册给屏蔽掉，不让注册
 - 如果你是运维负责人，生产环境的某个微服务集群下的某个实例，暂时出了问题，但又不希望它下线。你希望可以把该实例给屏蔽掉，暂时不让它被调用
 - 如果你是业务负责人，鉴于业务服务的快速迭代性，微服务集群下的实例发布不同的版本。你希望根据版本管理策略进行路由，提供给下游微服务区别调用，达到多版本灰度访问控制
+- 如果你是业务负责人，希望灰度发布功能可以基于业务场景特色定制
 - 如果你是测试负责人，希望对微服务做A/B测试，那么通过动态改变版本达到该目的
 
 ## 简介
@@ -57,7 +58,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 - 实现通过Listener机制进行扩展
   - 使用者可以对服务注册发现核心事件进行监听
 - 实现通过扩展，用户自定义和编程灰度路由策略
-  - 使用者可以实现跟业务有关的路由策略，根据业务参数的不同，负载均衡到不同的服务器，例如根据用户名或者手机号，选择不同的服务器执行调用
+  - 使用者可以实现跟业务有关的路由策略，根据业务参数的不同，负载均衡到不同的服务器
 - 实现支持Spring Boot Actuator和Swagger集成
 - 实现支持未来扩展更多的服务注册中心
 - 实现独立控制台微服务，支持对规则和版本集中管理、推送、更改和删除
@@ -87,6 +88,9 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
   - 我们可以通过推送A服务调用某个版本的B服务对应关系的配置，达到某种意义上的灰度控制，切换版本的时候，我们只需要再次推送即可
 - 动态改变微服务版本
   - 在A/B测试中，通过动态改变版本，不重启微服务，达到访问版本的路径改变
+- 用户自定义和编程灰度路由策略，可以通过非常简单编程达到如下效果
+  - 我们可以在网关上根据不同的Token查询到不同的用户，把请求路由到指定的服务器
+  - 我们可以在服务上根据不同的业务参数，例如手机号或者身份证号，把请求路由到指定的服务器
 
 ## 架构
 简单描述一下，本系统的核心模块“基于版本控制的灰度发布”，从网关（Zuul）开始的灰度发布操作过程
@@ -152,11 +156,23 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 </dependency>
 ```
 
-用户自定义用户自定义和编程灰度路由，则引入
+用户自定义和编程灰度路由，则分别在微服务层和不同的网管层引入
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-strategy-extension-service</artifactId>
+    <version>${discovery.plugin.version}</version>
+</dependency>
+
+<dependency>
+    <groupId>com.nepxion</groupId>
+    <artifactId>discovery-plugin-strategy-extension-zuul</artifactId>
+    <version>${discovery.plugin.version}</version>
+</dependency>
+
+<dependency>
+    <groupId>com.nepxion</groupId>
+    <artifactId>discovery-plugin-strategy-extension-gatewway</artifactId>
     <version>${discovery.plugin.version}</version>
 </dependency>
 ```
@@ -191,19 +207,23 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 | discovery-plugin-starter-eureka | Eureka Starter |
 | discovery-plugin-starter-consul | Consul Starter |
 | discovery-plugin-starter-zookeeper | Zookeeper Starter |
-| discovery-plugin-strategy-extension-service | 基于服务的用户自定义灰度的扩展 |
+| discovery-plugin-strategy | 用户自定义和编程灰度路由策略 |
+| discovery-plugin-strategy-extension-service | 基于服务的用户自定义和编程灰度路由策略扩展 |
+| discovery-plugin-strategy-extension-zuul | 基于Zuul的用户自定义和编程灰度路由策略扩展 |
+| discovery-plugin-strategy-extension-gateway | 基于Spring Cloud Api Gateway（F版）的用户自定义和编程灰度路由策略扩展 |
 | discovery-console | 独立控制台，提供给UI |
 | discovery-console-extension-nacos | 独立控制台的Nacos扩展 |
 | discovery-console-starter | Console Starter |
 | discovery-console-desktop | 图形化灰度发布等桌面程序 |
 | discovery-springcloud-example-console | 独立控制台示例 |
-| discovery-springcloud-example-eureka | Eureka服务器 |
-| discovery-springcloud-gateway | 用于灰度发布的Spring Cloud Api Gateway（F版）示例 |
-| discovery-springcloud-example | 用于灰度发布的微服务和Zuul示例 |
+| discovery-springcloud-example-eureka | Eureka服务器示例 |
+| discovery-springcloud-example-service | 用于灰度发布的微服务示例 |
+| discovery-springcloud-example-zuul | 用于灰度发布的Zuul示例 |
+| discovery-springcloud-example-gateway | 用于灰度发布的Spring Cloud Api Gateway（F版）示例 |
 
 ## 规则和策略
 ### 规则示例
-请不要被吓到，我只是把注释写的很详细而已，里面配置没几行，下面的内容也可以通过Json来描述，这里不做描述，见discovery-springcloud-example下的rule.json
+请不要被吓到，我只是把注释写的很详细而已，里面配置没几行，下面的内容也可以通过Json来描述，这里不做描述，见discovery-springcloud-example-service下的rule.json
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
@@ -306,6 +326,21 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 ### 黑/白名单的IP地址发现的过滤策略
 微服务启动的时候，禁止指定的IP地址被服务发现。它使用的方式和“黑/白名单的IP地址注册的过滤”一致
 
+### 用户自定义和编程灰度路由策略
+使用者可以实现跟业务有关的路由策略，根据业务参数的不同，负载均衡到不同的服务器
+- 基于服务的编程灰度路由，继承DiscoveryEnabledAdapter，通过ServiceStrategyContext获取业务上下文参数，进行路由自定义，用法参考discovery-springcloud-example-service下MyDiscoveryEnabledAdapter
+- 基于Zuul的编程灰度路由，继承DiscoveryEnabledAdapter，通过Zuul自带的RequestContext获取业务上下文参数，进行路由自定义，用法参考discovery-springcloud-example-zuul下MyDiscoveryEnabledAdapter
+- 基于Spring Cloud Api Gateway的编程灰度路由，继承DiscoveryEnabledAdapter，通过GatewayStrategyContext获取业务上下文参数，进行路由自定义，用法参考discovery-springcloud-example-gateway下MyDiscoveryEnabledAdapter
+
+## 用户自定义监听
+使用者可以继承如下类
+- AbstractRegisterListener，实现服务注册的监听，用法参考discovery-springcloud-example-service下MyRegisterListener
+- AbstractDiscoveryListener，实现服务发现的监听，用法参考discovery-springcloud-example-service下MyDiscoveryListener。注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断，如下图
+- AbstractLoadBalanceListener，实现负载均衡的监听，用法参考discovery-springcloud-example-service下MyLoadBalanceListener
+
+集成了健康检查的Consul控制台
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Consul.jpg)
+
 ### 版本属性字段定义策略
 不同的服务注册发现组件对应的版本配置值
 ```xml
@@ -323,6 +358,7 @@ spring.cloud.zookeeper.discovery.metadata.group=xxx-service-group
 ```
 
 ### 功能开关策略
+请注意，如下很多配置项，如果使用者不想做特色化的处理，为避免繁琐，使用者绝大多数可以去掉
 ```xml
 # Plugin config
 # 开启和关闭服务注册层面的控制。一旦关闭，服务注册的黑/白名单过滤功能将失效，最大注册数的限制过滤功能将失效。缺失则默认为true
@@ -334,7 +370,7 @@ spring.application.config.rest.control.enabled=true
 # 规则文件的格式，支持xml和json。缺失则默认为xml
 spring.application.config.format=xml
 # spring.application.config.format=json
-# 本地规则文件的路径，支持两种方式：classpath:rule.xml(rule.json) - 规则文件放在resources目录下，便于打包进jar；file:rule.xml(rule.json) - 规则文件放在工程根目录下，放置在外部便于修改。缺失则默认为不装载本地规则
+# 本地规则文件的路径，支持两种方式：classpath:rule.xml（rule.json） - 规则文件放在resources目录下，便于打包进jar；file:rule.xml（rule.json） - 规则文件放在工程根目录下，放置在外部便于修改。缺失则默认为不装载本地规则
 spring.application.config.path=classpath:rule.xml
 # spring.application.config.path=classpath:rule.json
 # 为微服务归类的Key，一般通过group字段来归类，例如eureka.instance.metadataMap.group=xxx-group或者eureka.instance.metadataMap.application=xxx-application。缺失则默认为group
@@ -342,12 +378,10 @@ spring.application.config.path=classpath:rule.xml
 # spring.application.group.key=application
 
 # Plugin strategy config
-# 开启和关闭用户自定义和编程灰度路由策略的控制，包括跟业务无关(例如：不允许某个服务器的IP地址或者某个版本被负载均衡到)和业务数据(例如用户根据业务参数的不同，负载均衡到不同的服务器)有关两种，该功能只支持服务，不支持网关。缺失则默认为true
+# 开启和关闭用户自定义和编程灰度路由策略的控制，例如用户根据业务参数的不同，负载均衡到不同的服务器。缺失则默认为true
 spring.application.strategy.control.enabled=true
-# 开启和关闭用户自定义和编程灰度路由策略的业务有关性的控制。一旦关闭，从业务接口无法把数据传递到上下文对象（StrategyContext）；一旦开启，需要设置下面的scan.packages。缺失则默认为true
-spring.application.strategy.business.context.control.enabled=true
-# 用户自定义和编程灰度路由策略的时候，需要指定对业务Controller类的扫描路径，以便传递上下文对象
-spring.application.strategy.business.scan.packages=com.nepxion.discovery.plugin.example.feign
+# 用户自定义和编程灰度路由策略的时候，需要指定对业务Controller类的扫描路径，以便传递上下文对象。该项配置只对服务有效，对网关无效
+spring.application.strategy.scan.packages=com.nepxion.discovery.plugin.example.service.feign
 ```
 
 ## 配置中心
@@ -375,19 +409,6 @@ spring.application.strategy.business.scan.packages=com.nepxion.discovery.plugin.
 参考Swagger界面，如下图
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Swagger2.jpg)
-
-## 用户自定义和编程灰度路由
-使用者可以继承如下类
-- DiscoveryEnabledAdapter，实现自定义和编程灰度路由，用法参考discovery-springcloud-example下MyDiscoveryEnabledAdapter
-
-## 用户自定义监听
-使用者可以继承如下类
-- AbstractRegisterListener，实现服务注册的监听，用法参考discovery-springcloud-example下MyRegisterListener
-- AbstractDiscoveryListener，实现服务发现的监听，用法参考discovery-springcloud-example下MyDiscoveryListener。注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断，如下图
-- AbstractLoadBalanceListener，实现负载均衡的监听，用法参考discovery-springcloud-example下MyLoadBalanceListener
-
-集成了健康检查的Consul控制台
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Consul.jpg)
 
 ## 示例演示
 ### 场景描述
@@ -427,7 +448,7 @@ spring.application.strategy.business.scan.packages=com.nepxion.discovery.plugin.
 </rule>
 ```
 
-上述微服务分别见discovery-springcloud-example字样的8个DiscoveryApplication，分别对应各自的application.properties。这8个应用，对应的版本和端口号如下表（Gateway指Spring Cloud Api Gateway，只支持F版）
+上述微服务分别见discovery-springcloud-example-service、discovery-springcloud-example-zuul和discovery-springcloud-example-gateway三个工程。相应的服务名、端口和版本见下表
 
 | 微服务 | 服务端口 | 管理端口 | 版本 |
 | --- | --- | --- | --- |
@@ -449,7 +470,7 @@ spring.application.strategy.business.scan.packages=com.nepxion.discovery.plugin.
 
 ### 开始演示
 - 启动服务注册发现中心，默认是Eureka。可供选择的有Eureka，Zuul，Zookeeper。Eureka，请启动discovery-springcloud-example-eureka下的应用，后两者自行安装服务器
-- 根据上面选择的服务注册发现中心，对示例下的discovery-springcloud-example/pom.xml进行组件切换
+- 根据上面选择的服务注册发现中心，对示例下的discovery-springcloud-example-service/pom.xml进行组件切换
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -492,7 +513,7 @@ spring.application.strategy.business.scan.packages=com.nepxion.discovery.plugin.
 
 #### 基于Rest方式的多版本灰度访问控制
 基于服务的操作过程和效果
-- 启动discovery-springcloud-example下7个DiscoveryApplication（除去Zuul），无先后顺序，等待全部启动完毕
+- 启动discovery-springcloud-example-service下7个DiscoveryApplication，无先后顺序，等待全部启动完毕
 - 下面URL的端口号，可以是服务端口号，也可以是管理端口号（注意：管理端口不支持F版）
 - 通过版本切换，达到灰度访问控制，针对A服务
   - 1.1 通过Postman或者浏览器，执行POST [http://localhost:1100/routes](http://localhost:1100/routes)，填入discovery-springcloud-example-b;discovery-springcloud-example-c，查看路由路径，如图1，可以看到符合预期的调用路径
@@ -542,8 +563,8 @@ spring.application.strategy.business.scan.packages=com.nepxion.discovery.plugin.
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Result5.jpg)
 
 基于网关的操作过程和效果
-- 在上面基础上，启动discovery-springcloud-example下DiscoveryApplicationZuul
-- 因为Zuul是一种特殊的微服务，所有操作过程跟上面完全一致
+- 在上面基础上，启动discovery-springcloud-example-zuul下DiscoveryApplicationZuul或者启动discovery-springcloud-example-gateway下DiscoveryApplicationGateway
+- 因为Zuul和Spring Cloud Api Gateway是一种特殊的微服务，遵循Spring Cloud体系的服务注册发现和负载均衡极致，所以所有操作过程跟上面完全一致
 
 图6
 
@@ -552,3 +573,75 @@ spring.application.strategy.business.scan.packages=com.nepxion.discovery.plugin.
 图7
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Result7.jpg)
+
+### 用户自定义和编程灰度路由的操作演示
+- 在网关层（以Zuul为例），编程灰度路由策略，如下代码，表示请求的Header中的token包含'abc'，在负载均衡层面，对应的服务示例不会被负载均衡到
+```java
+public class MyDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
+    private static final Logger LOG = LoggerFactory.getLogger(MyDiscoveryEnabledAdapter.class);
+
+    @Override
+    public boolean apply(Server server, Map<String, String> metadata) {
+        RequestContext context = RequestContext.getCurrentContext();
+        String token = context.getRequest().getHeader("token");
+        // String value = context.getRequest().getParameter("value");
+
+        String serviceId = server.getMetaInfo().getAppName().toLowerCase();
+
+        LOG.info("Zuul端负载均衡用户定制触发：serviceId={}, host={}, metadata={}, context={}", serviceId, server.toString(), metadata, context);
+
+        String filterToken = "abc";
+        if (StringUtils.isNotEmpty(token) && token.contains(filterToken)) {
+            LOG.info("过滤条件：当Token含有'{}'的时候，不能被Ribbon负载均衡到", filterToken);
+
+            return false;
+        }
+
+        return true;
+    }
+}
+```
+
+图8
+
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Result8.jpg)
+
+- 在服务层，编程灰度路由策略，如下代码，因为示例中只有一个方法 String invoke(String value)，表示当服务名为discovery-springcloud-example-c，同时版本为1.0，同时参数value中包含'abc'，三个条件同时满足的情况下，在负载均衡层面，对应的服务示例不会被负载均衡到
+```java
+public class MyDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
+    private static final Logger LOG = LoggerFactory.getLogger(MyDiscoveryEnabledAdapter.class);
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public boolean apply(Server server, Map<String, String> metadata) {
+        ServiceStrategyContext context = ServiceStrategyContext.getCurrentContext();
+        Map<String, Object> attributes = context.getAttributes();
+
+        String serviceId = server.getMetaInfo().getAppName().toLowerCase();
+        String version = metadata.get(PluginConstant.VERSION);
+
+        LOG.info("Serivice端负载均衡用户定制触发：serviceId={}, host={}, metadata={}, context={}", serviceId, server.toString(), metadata, context);
+
+        String filterServiceId = "discovery-springcloud-example-c";
+        String filterVersion = "1.0";
+        String filterBusinessValue = "abc";
+        if (StringUtils.equals(serviceId, filterServiceId) && StringUtils.equals(version, filterVersion)) {
+            if (attributes.containsKey(ServiceStrategyConstant.PARAMETER_MAP)) {
+                Map<String, Object> parameterMap = (Map<String, Object>) attributes.get(ServiceStrategyConstant.PARAMETER_MAP);
+                String value = parameterMap.get("value").toString();
+                if (StringUtils.isNotEmpty(value) && value.contains(filterBusinessValue)) {
+                    LOG.info("过滤条件：当serviceId={} && version={} && 业务参数含有'{}'的时候，不能被Ribbon负载均衡到", filterServiceId, filterVersion, filterBusinessValue);
+
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+}
+```
+
+图9
+
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Result9.jpg)
