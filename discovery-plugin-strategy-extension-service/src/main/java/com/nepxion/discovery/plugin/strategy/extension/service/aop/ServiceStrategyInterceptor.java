@@ -51,14 +51,14 @@ public class ServiceStrategyInterceptor extends AbstractInterceptor {
         context.add(ServiceStrategyConstant.METHOD, methodName);
         context.add(ServiceStrategyConstant.PARAMETER_MAP, parameterMap);
 
-        LOG.debug("Service strategy context is set with class={}, methodName={}, parameterMap={}", proxiedClass, methodName, parameterMap);
+        LOG.debug("Service strategy context is set with {}", context);
         
         try {
             return invocation.proceed();
-        } catch (Exception e) {
-            throw e;
         } finally {
-            context.clear();
+            ServiceStrategyContext.clearCurrentContext();
+
+            LOG.debug("Service strategy context is cleared");
         }
     }
 }

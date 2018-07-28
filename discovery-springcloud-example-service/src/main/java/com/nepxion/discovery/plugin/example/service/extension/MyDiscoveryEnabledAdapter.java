@@ -11,6 +11,7 @@ package com.nepxion.discovery.plugin.example.service.extension;
 
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class MyDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         if (attributes.containsKey(ServiceStrategyConstant.PARAMETER_MAP)) {
             Map<String, Object> parameterMap = (Map<String, Object>) attributes.get(ServiceStrategyConstant.PARAMETER_MAP);
             String value = parameterMap.get("value").toString();
-            if (value.contains("abc")) {
+            if (StringUtils.isNotEmpty(value) && value.contains("abc")) {
                 LOG.info("过滤条件：当前端输入值包含'abc'的时候，不能被Ribbon负载均衡到");
 
                 return false;

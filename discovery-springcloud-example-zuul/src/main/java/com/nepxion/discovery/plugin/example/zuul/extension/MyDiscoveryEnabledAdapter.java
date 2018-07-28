@@ -11,8 +11,6 @@ package com.nepxion.discovery.plugin.example.zuul.extension;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,15 +30,17 @@ public class MyDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     @Override
     public boolean apply(Server server) {
         RequestContext context = RequestContext.getCurrentContext();
-        HttpServletRequest request = context.getRequest();
-        String token = request.getHeader("token");
+        String token = context.getRequest().getHeader("token");
+        // String value = context.getRequest().getParameter("value");
 
         String serviceId = server.getMetaInfo().getAppName().toLowerCase();
         Map<String, String> metadata = pluginAdapter.getServerMetadata(server);
 
         LOG.info("Zuul端负载均衡用户定制触发：serviceId={}, host={}, metadata={}, context={}", serviceId, server.toString(), metadata, context);
 
-        if (StringUtils.equals(token, "abc")) {
+        if (StringUtils.isNotEmpty(token) && token.contains("abc")) {
+            LOG.info("过滤条件：当前端输入值包含'abc'的时候，不能被Ribbon负载均衡到");
+
             return false;
         }
 
