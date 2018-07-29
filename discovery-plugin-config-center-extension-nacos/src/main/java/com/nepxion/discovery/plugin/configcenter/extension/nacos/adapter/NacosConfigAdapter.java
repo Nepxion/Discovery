@@ -29,13 +29,13 @@ public class NacosConfigAdapter extends ConfigAdapter {
     private static final Logger LOG = LoggerFactory.getLogger(NacosConfigAdapter.class);
 
     @Autowired
-    private NacosOperation nacosOperation;
-
-    @Autowired
     protected PluginContextAware pluginContextAware;
 
     @Autowired
     private PluginAdapter pluginAdapter;
+
+    @Autowired
+    private NacosOperation nacosOperation;
 
     @Override
     public String getConfig() throws Exception {
