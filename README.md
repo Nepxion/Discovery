@@ -4,7 +4,7 @@
 [![Javadocs](http://www.javadoc.io/badge/com.nepxion/discovery.svg)](http://www.javadoc.io/doc/com.nepxion/discovery)
 [![Build Status](https://travis-ci.org/Nepxion/Discovery.svg?branch=master)](https://travis-ci.org/Nepxion/Discovery)
 
-Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件，其功能包括多版本灰度发布，黑/白名单的IP地址过滤，限制注册等，支持Eureka、Consul和Zookeeper，支持Spring Cloud Api Gateway（F版）、Zuul网关和微服务的灰度发布，支持用户自定义和编程灰度路由策略，支持Alibaba的Nacos为远程配置中心，支持Spring Cloud C版、D版、E版和F版。现有的Spring Cloud微服务可以方便引入该插件，代码零侵入
+Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件，其功能包括多版本灰度发布，黑/白名单的IP地址过滤，限制注册等，支持Eureka、Consul和Zookeeper，支持Spring Cloud Api Gateway（F版）、Zuul网关和微服务的灰度发布，支持用户自定义和编程灰度路由策略，支持Nacos和Redis为远程配置中心，支持Spring Cloud C版、D版、E版和F版。现有的Spring Cloud微服务可以方便引入该插件，代码零侵入
 
 使用者只需要做如下简单的事情：
 - 引入相关Plugin Starter依赖到pom.xml
@@ -51,7 +51,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
   - 通过版本切换，实现灰度发布
 - 实现通过XML或者Json进行上述规则的定义
 - 实现通过事件总线机制（EventBus）的功能，实现发布/订阅功能
-  - 对接远程配置中心，默认集成阿里巴巴的Nacos，异步接受远程配置中心主动推送规则信息，动态改变微服务的规则
+  - 对接远程配置中心，集成Nacos和Redis，异步接受远程配置中心主动推送规则信息，动态改变微服务的规则
   - 结合Spring Boot Actuator，异步接受Rest主动推送规则信息，动态改变微服务的规则
   - 结合Spring Boot Actuator，动态改变微服务的版本
   - 在服务注册层面的控制中，一旦禁止注册的条件触发，主动推送异步事件，以便使用者订阅
@@ -71,7 +71,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 - 本地规则，即初始化读取本地配置文件获取的规则，也可以是第一次读取远程配置中心获取的规则。本地规则和初始规则是同一个概念
 - 动态规则，即灰度发布时的规则。动态规则和灰度规则是同一个概念
 - 事件总线，即基于Google Guava的EventBus构建的组件。在使用上，通过事件总线推送动态版本和动态规则的时候，前者只支持异步，后者支持异步和同步
-- 远程配置中心，即可以存储规则配置XML格式的配置中心，可以包括不限于Nacos，Apollo，DisConf，Spring Cloud Config
+- 远程配置中心，即可以存储规则配置XML格式的配置中心，可以包括不限于Nacos，Redis，Apollo，DisConf，Spring Cloud Config
 - 配置（Config）和规则（Rule），在本系统中属于同一个概念，例如更新配置，即更新规则，例如远程配置中心存储的配置，即规则XML
 
 ## 场景
@@ -127,6 +127,8 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
   - 跟Spring Cloud版本保持一致，自行搭建服务器
 - Nacos
   - Nacos服务器版本，推荐用最新版本，从[https://pan.baidu.com/s/1FsPzIK8lQ8VSNucI57H67A](https://pan.baidu.com/s/1FsPzIK8lQ8VSNucI57H67A)获取
+- Redis
+  - Redis服务器版本，推荐用最新版本，从[https://redis.io/](https://redis.io/)获取
 
 ## 依赖
 ```xml
@@ -139,8 +141,9 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 </dependency>
 ```
 
-微服务选择相应的插件引入，如需对接Nacos远程配置中心，则引入最后一个
+微服务端引入
 ```xml
+[必须引入] 三个服务注册发现的中间件的增强插件，请任选一个引入
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-starter-eureka</artifactId>
@@ -156,54 +159,79 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
     <artifactId>discovery-plugin-starter-zookeeper</artifactId>
 </dependency>
 
+[选择引入] 两个远程配置中心的中间件的扩展插件，如需要，请任选一个引入
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-config-center-extension-nacos</artifactId>
 </dependency>
-```
 
-用户自定义和编程灰度路由，则分别在微服务层和不同的网关层引入
-```xml
+<dependency>
+    <groupId>com.nepxion</groupId>
+    <artifactId>discovery-plugin-config-center-extension-nacos</artifactId>
+</dependency>
+
+[选择引入] 用户自定义和编程灰度路由，如需要，请引入
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-strategy-extension-service</artifactId>
 </dependency>
+```
 
+网关Zuul端引入
+```xml
+[选择引入] 用户自定义和编程灰度路由，如需要，请引入
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-strategy-extension-zuul</artifactId>
 </dependency>
+```
 
+网关Spring Cloud Api Gateway（F版）端引入
+```xml
+[选择引入] 用户自定义和编程灰度路由，如需要，请引入
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-strategy-extension-gatewway</artifactId>
 </dependency>
 ```
 
-独立控制台引入，如需对接Nacos远程配置中心，则引入最后一个
+独立控制台引入
 ```xml
+[必须引入]
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-console-starter</artifactId>
 </dependency>
 
+[选择引入] 两个远程配置中心的中间件的扩展插件，如需要，请任选一个引入
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-console-extension-nacos</artifactId>
 </dependency>
+
+<dependency>
+    <groupId>com.nepxion</groupId>
+    <artifactId>discovery-console-extension-redis</artifactId>
+</dependency>
 ```
+
+>特别注意：中间件的引入一定要在所有层面保持一致，绝不允许出现类似如下情况，这也是常识
+- 例如，网关用Eureka做服务注册发现，微服务用Consul做服务注册发现
+- 例如，控制台用Nacos做远程配置中心，微服务用Redis做远程配置中心
 
 ## 工程
 
 | 工程名 | 描述 |
 | --- | --- | 
 | discovery-common-nacos | 封装Nacos通用操作逻辑 |
+| discovery-common-redis | 封装Redis通用操作逻辑 |
 | discovery-plugin-framework | 核心框架 |
-| discovery-plugin-framework-eureka | 核心框架的Eureka实现 |
-| discovery-plugin-framework-consul | 核心框架的Consul实现 |
-| discovery-plugin-framework-zookeeper | 核心框架的Zookeeper实现 |
+| discovery-plugin-framework-eureka | 核心框架服务注册发现的Eureka实现 |
+| discovery-plugin-framework-consul | 核心框架服务注册发现的Consul实现 |
+| discovery-plugin-framework-zookeeper | 核心框架服务注册发现的Zookeeper实现 |
 | discovery-plugin-config-center | 配置中心实现 |
 | discovery-plugin-config-center-extension-nacos | 配置中心的Nacos扩展 |
+| discovery-plugin-config-center-extension-redis | 配置中心的Redis扩展 |
 | discovery-plugin-admin-center | 管理中心实现 |
 | discovery-plugin-starter-eureka | Eureka Starter |
 | discovery-plugin-starter-consul | Consul Starter |
@@ -214,6 +242,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 | discovery-plugin-strategy-extension-gateway | 基于Spring Cloud Api Gateway（F版）的用户自定义和编程灰度路由策略扩展 |
 | discovery-console | 独立控制台，提供给UI |
 | discovery-console-extension-nacos | 独立控制台的Nacos扩展 |
+| discovery-console-extension-redis | 独立控制台的Redis扩展 |
 | discovery-console-starter | Console Starter |
 | discovery-console-desktop | 图形化灰度发布等桌面程序 |
 | discovery-springcloud-example-console | 独立控制台示例 |
@@ -386,10 +415,13 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.plugin.example.s
 ```
 
 ## 配置中心
-### 跟远程配置中心整合
-本系统默认跟Nacos集成，如何安装使用，请参考[https://github.com/alibaba/nacos](https://github.com/alibaba/nacos)。使用者也可以跟携程Apollo，百度DisConf等远程配置中心整合，实现规则读取和订阅
-- 拉取配置，参考discovery-plugin-config-center-extension-nacos工程
-- 推送配置，参考discovery-console-extension-nacos工程
+### 跟远程配置中心集成
+- 默认集成
+  - 本系统跟Nacos集成，如何安装使用，请参考[https://github.com/alibaba/nacos](https://github.com/alibaba/nacos)
+  - 本系统跟Redis集成
+- 扩展集成
+  - 使用者也可以跟携程Apollo，百度DisConf等远程配置中心集成
+  - 参考三个跟Nacos或者Redis有关的工程
 
 ## 管理中心
 > PORT端口号为server.port或者management.port都可以（management.port开放只支持3.x.x版本）
@@ -403,7 +435,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.plugin.example.s
 ## 独立控制台
 为UI提供相关接口，包括
 - 一系列批量功能
-- 跟Nacos集成，实现配置推送和清除
+- 跟Nacos和Redis集成，实现配置拉去、推送和清除
 
 > PORT端口号为server.port或者management.port都可以（（注意：管理端口不支持F版）
 ### 控制台接口
