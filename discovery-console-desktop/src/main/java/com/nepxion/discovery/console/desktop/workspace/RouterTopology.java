@@ -229,8 +229,13 @@ public class RouterTopology extends AbstractTopology {
             private static final long serialVersionUID = 1L;
 
             public void execute(ActionEvent e) {
+                Object selectedItem = comboBox.getSelectedItem();
+                if (selectedItem == null) {
+                    return;
+                }
+
                 String routerPath = textField.getText();
-                String serviceId = comboBox.getSelectedItem().toString();
+                String serviceId = selectedItem.toString();
                 if (StringUtils.isNotEmpty(routerPath)) {
                     routerPath = routerPath + ";" + serviceId;
                 } else {
