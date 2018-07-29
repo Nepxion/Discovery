@@ -12,12 +12,14 @@
 
     <modules>
         <module>discovery-common-nacos</module>
+        <module>discovery-common-redis</module>
         <module>discovery-plugin-framework</module>
         <module>discovery-plugin-framework-eureka</module>
         <module>discovery-plugin-framework-consul</module>
         <module>discovery-plugin-framework-zookeeper</module>
         <module>discovery-plugin-config-center</module>
         <module>discovery-plugin-config-center-extension-nacos</module>
+        <module>discovery-plugin-config-center-extension-redis</module>
         <module>discovery-plugin-admin-center</module>
         <module>discovery-plugin-starter-eureka</module>
         <module>discovery-plugin-starter-consul</module>
@@ -27,6 +29,7 @@
         <module>discovery-plugin-strategy-extension-zuul</module>
         <module>discovery-console</module>
         <module>discovery-console-extension-nacos</module>
+        <module>discovery-console-extension-redis</module>
         <module>discovery-console-starter</module>
         <module>discovery-console-desktop</module>
         <module>discovery-springcloud-example-console</module>
@@ -63,6 +66,12 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-common-redis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-framework</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -94,6 +103,12 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-config-center-extension-nacos</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-config-center-extension-redis</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -148,6 +163,12 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-console-extension-nacos</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-console-extension-redis</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
