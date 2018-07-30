@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 import com.github.benmanes.caffeine.cache.CacheLoader;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
-import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.RuleEntity;
 
 public class RuleCache {
     private LoadingCache<String, RuleEntity> loadingCache;

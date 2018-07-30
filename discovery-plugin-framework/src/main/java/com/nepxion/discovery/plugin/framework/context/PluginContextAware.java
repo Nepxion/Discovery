@@ -16,7 +16,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.ResolvableType;
 import org.springframework.core.env.Environment;
 
-import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
 public class PluginContextAware implements ApplicationContextAware {
     private ApplicationContext applicationContext;
@@ -109,26 +109,26 @@ public class PluginContextAware implements ApplicationContextAware {
     }
 
     public static Boolean isRegisterControlEnabled(Environment environment) {
-        return environment.getProperty(PluginConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED, Boolean.class, Boolean.TRUE);
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED, Boolean.class, Boolean.TRUE);
     }
 
     public static Boolean isDiscoveryControlEnabled(Environment environment) {
-        return environment.getProperty(PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED, Boolean.class, Boolean.TRUE);
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED, Boolean.class, Boolean.TRUE);
     }
 
     public static Boolean isConfigRestControlEnabled(Environment environment) {
-        return environment.getProperty(PluginConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED, Boolean.class, Boolean.TRUE);
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED, Boolean.class, Boolean.TRUE);
     }
 
     public static String getConfigFormat(Environment environment) {
-        return environment.getProperty(PluginConstant.SPRING_APPLICATION_CONFIG_FORMAT, PluginConstant.XML_FORMAT);
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_CONFIG_FORMAT, DiscoveryConstant.XML_FORMAT);
     }
 
     public static String getConfigPath(Environment environment) {
-        return environment.getProperty(PluginConstant.SPRING_APPLICATION_CONFIG_PATH);
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_CONFIG_PATH);
     }
 
     public static String getGroupKey(Environment environment) {
-        return environment.getProperty(PluginConstant.SPRING_APPLICATION_GROUP_KEY, String.class, PluginConstant.GROUP);
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY, String.class, DiscoveryConstant.GROUP);
     }
 }

@@ -17,10 +17,10 @@ import java.util.Map;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.cloud.client.ServiceInstance;
 
-import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
-import com.nepxion.discovery.plugin.framework.entity.FilterType;
-import com.nepxion.discovery.plugin.framework.entity.HostFilterEntity;
-import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.DiscoveryEntity;
+import com.nepxion.discovery.common.entity.FilterType;
+import com.nepxion.discovery.common.entity.HostFilterEntity;
+import com.nepxion.discovery.common.entity.RuleEntity;
 
 public class HostFilterDiscoveryListener extends AbstractDiscoveryListener {
     @Override

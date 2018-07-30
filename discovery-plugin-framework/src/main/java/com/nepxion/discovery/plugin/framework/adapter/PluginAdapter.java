@@ -11,7 +11,7 @@ package com.nepxion.discovery.plugin.framework.adapter;
 
 import java.util.Map;
 
-import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.RuleEntity;
 import com.netflix.loadbalancer.Server;
 
 public interface PluginAdapter {

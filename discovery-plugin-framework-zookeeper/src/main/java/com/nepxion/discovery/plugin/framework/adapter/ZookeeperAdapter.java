@@ -13,8 +13,8 @@ import java.util.Map;
 
 import org.springframework.cloud.zookeeper.discovery.ZookeeperServer;
 
+import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.constant.ZookeeperConstant;
-import com.nepxion.discovery.plugin.framework.exception.PluginException;
 import com.netflix.loadbalancer.Server;
 
 public class ZookeeperAdapter extends AbstractPluginAdapter {
@@ -32,6 +32,6 @@ public class ZookeeperAdapter extends AbstractPluginAdapter {
             return zookeeperServer.getInstance().getPayload().getMetadata();
         }
 
-        throw new PluginException("Server instance isn't the type of ZookeeperServer");
+        throw new DiscoveryException("Server instance isn't the type of ZookeeperServer");
     }
 }

@@ -9,7 +9,7 @@ package com.nepxion.discovery.plugin.framework.config;
  * @version 1.0
  */
 
-import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.RuleEntity;
 
 public interface PluginConfigParser {
     RuleEntity parse(String config);

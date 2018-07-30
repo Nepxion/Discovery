@@ -14,13 +14,13 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.serviceregistry.Registration;
 
-import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.CountFilterEntity;
+import com.nepxion.discovery.common.entity.RegisterEntity;
+import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.decorator.DiscoveryClientDecorator;
-import com.nepxion.discovery.plugin.framework.entity.CountFilterEntity;
-import com.nepxion.discovery.plugin.framework.entity.RegisterEntity;
-import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.event.RegisterFailureEvent;
-import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
 public class CountFilterRegisterListener extends AbstractRegisterListener {
     @Autowired
@@ -76,9 +76,9 @@ public class CountFilterRegisterListener extends AbstractRegisterListener {
     private void onRegisterFailure(int maxCount, String serviceId, String host, int port) {
         String description = host + " isn't allowed to register to Register server, reach max limited count=" + maxCount;
 
-        pluginEventWapper.fireRegisterFailure(new RegisterFailureEvent(PluginConstant.REACH_MAX_LIMITED_COUNT, description, serviceId, host, port));
+        pluginEventWapper.fireRegisterFailure(new RegisterFailureEvent(DiscoveryConstant.REACH_MAX_LIMITED_COUNT, description, serviceId, host, port));
 
-        throw new PluginException(description);
+        throw new DiscoveryException(description);
     }
 
     @Override

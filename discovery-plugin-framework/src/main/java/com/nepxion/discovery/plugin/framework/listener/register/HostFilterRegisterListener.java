@@ -16,12 +16,12 @@ import java.util.Map;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.cloud.client.serviceregistry.Registration;
 
-import com.nepxion.discovery.plugin.framework.entity.FilterType;
-import com.nepxion.discovery.plugin.framework.entity.HostFilterEntity;
-import com.nepxion.discovery.plugin.framework.entity.RegisterEntity;
-import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.FilterType;
+import com.nepxion.discovery.common.entity.HostFilterEntity;
+import com.nepxion.discovery.common.entity.RegisterEntity;
+import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.event.RegisterFailureEvent;
-import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
 public class HostFilterRegisterListener extends AbstractRegisterListener {
     @Override
@@ -101,7 +101,7 @@ public class HostFilterRegisterListener extends AbstractRegisterListener {
 
         pluginEventWapper.fireRegisterFailure(new RegisterFailureEvent(filterType.toString(), description, serviceId, host, port));
 
-        throw new PluginException(description);
+        throw new DiscoveryException(description);
     }
 
     @Override

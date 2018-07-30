@@ -11,7 +11,7 @@ package com.nepxion.discovery.plugin.framework.adapter;
 
 import java.util.Map;
 
-import com.nepxion.discovery.plugin.framework.exception.PluginException;
+import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.netflix.loadbalancer.Server;
 import com.netflix.niws.loadbalancer.DiscoveryEnabledServer;
 
@@ -24,6 +24,6 @@ public class EurekaAdapter extends AbstractPluginAdapter {
             return discoveryEnabledServer.getInstanceInfo().getMetadata();
         }
 
-        throw new PluginException("Server instance isn't the type of DiscoveryEnabledServer");
+        throw new DiscoveryException("Server instance isn't the type of DiscoveryEnabledServer");
     }
 }

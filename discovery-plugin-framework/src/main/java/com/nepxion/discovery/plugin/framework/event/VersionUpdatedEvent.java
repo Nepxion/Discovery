@@ -13,7 +13,7 @@ import java.io.Serializable;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.nepxion.discovery.plugin.framework.exception.PluginException;
+import com.nepxion.discovery.common.exception.DiscoveryException;
 
 public class VersionUpdatedEvent implements Serializable {
     private static final long serialVersionUID = 7749946311426379329L;
@@ -31,7 +31,7 @@ public class VersionUpdatedEvent implements Serializable {
         }
 
         if (StringUtils.isEmpty(this.dynamicVersion)) {
-            throw new PluginException("Dynamic version can't be null or empty while updating");
+            throw new DiscoveryException("Dynamic version can't be null or empty while updating");
         }
 
         if (StringUtils.isNotEmpty(localVersion)) {

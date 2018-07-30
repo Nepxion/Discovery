@@ -36,10 +36,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.RouterEntity;
+import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
-import com.nepxion.discovery.plugin.framework.entity.RouterEntity;
-import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
 @RestController
 @Api(tags = { "路由接口" })
@@ -131,7 +131,7 @@ public class RouterEndpoint implements MvcEndpoint {
         try {
             instanceList = getInstanceList(routeServiceId);
         } catch (Exception e) {
-            throw new PluginException("Get instance list for route serviceId=" + routeServiceId + " failed", e);
+            throw new DiscoveryException("Get instance list for route serviceId=" + routeServiceId + " failed", e);
         }
 
         if (CollectionUtils.isEmpty(instanceList)) {
@@ -141,7 +141,7 @@ public class RouterEndpoint implements MvcEndpoint {
         List<RouterEntity> routerEntityList = new ArrayList<RouterEntity>();
         for (ServiceInstance instance : instanceList) {
             String serviceId = instance.getServiceId().toLowerCase();
-            String version = instance.getMetadata().get(PluginConstant.VERSION);
+            String version = instance.getMetadata().get(DiscoveryConstant.VERSION);
             String host = instance.getHost();
             int port = instance.getPort();
 
@@ -165,7 +165,7 @@ public class RouterEndpoint implements MvcEndpoint {
         try {
             instanceList = routerRestTemplate.getForEntity(url, List.class).getBody();
         } catch (RestClientException e) {
-            throw new PluginException("Get instance list for route serviceId=" + routeServiceId + " with url=" + url + " failed", e);
+            throw new DiscoveryException("Get instance list for route serviceId=" + routeServiceId + " with url=" + url + " failed", e);
         }
 
         if (CollectionUtils.isEmpty(instanceList)) {
@@ -174,10 +174,10 @@ public class RouterEndpoint implements MvcEndpoint {
 
         List<RouterEntity> routerEntityList = new ArrayList<RouterEntity>();
         for (Map<String, ?> instance : instanceList) {
-            String serviceId = instance.get(PluginConstant.SERVICE_ID).toString().toLowerCase();
-            String version = ((Map<String, String>) instance.get(PluginConstant.METADATA)).get(PluginConstant.VERSION);
-            String host = instance.get(PluginConstant.HOST).toString();
-            Integer port = (Integer) instance.get(PluginConstant.PORT);
+            String serviceId = instance.get(DiscoveryConstant.SERVICE_ID).toString().toLowerCase();
+            String version = ((Map<String, String>) instance.get(DiscoveryConstant.METADATA)).get(DiscoveryConstant.VERSION);
+            String host = instance.get(DiscoveryConstant.HOST).toString();
+            Integer port = (Integer) instance.get(DiscoveryConstant.PORT);
 
             RouterEntity routerEntity = new RouterEntity();
             routerEntity.setServiceId(serviceId);
@@ -193,14 +193,14 @@ public class RouterEndpoint implements MvcEndpoint {
 
     public RouterEntity routeTree(String routeServiceIds) {
         if (StringUtils.isEmpty(routeServiceIds)) {
-            throw new PluginException("Route serviceIds is empty");
+            throw new DiscoveryException("Route serviceIds is empty");
         }
 
         String[] serviceIdArray = null;
         try {
-            serviceIdArray = StringUtils.split(routeServiceIds, PluginConstant.SEPARATE);
+            serviceIdArray = StringUtils.split(routeServiceIds, DiscoveryConstant.SEPARATE);
         } catch (Exception e) {
-            throw new PluginException("Route serviceIds must be separated with '" + PluginConstant.SEPARATE + "'", e);
+            throw new DiscoveryException("Route serviceIds must be separated with '" + DiscoveryConstant.SEPARATE + "'", e);
         }
 
         RouterEntity firstRouterEntity = getRouterEntity();
