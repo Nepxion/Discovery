@@ -12,6 +12,7 @@ package com.nepxion.discovery.console.desktop.workspace.topology;
 public enum TopologyEntityType {
     SERVICE_GROUP,
     REFERENCE_GROUP,
+    GATEWAY_GROUP,
     SERVICE, 
     REFERENCE,
     GATEWAY

@@ -88,7 +88,7 @@ public class ServiceTopology extends AbstractTopology {
     private LocationEntity groupLocationEntity = new LocationEntity(120, 250, 280, 0);
     private LocationEntity nodeLocationEntity = new LocationEntity(0, 0, 120, 100);
     private TopologyEntity serviceGroupEntity = new TopologyEntity(TopologyEntityType.SERVICE_GROUP, TopologyStyleType.LARGE, true);
-    private TopologyEntity notServiceGroupEntity = new TopologyEntity(TopologyEntityType.SERVICE_GROUP, TopologyStyleType.LARGE, true);
+    private TopologyEntity notServiceGroupEntity = new TopologyEntity(TopologyEntityType.GATEWAY_GROUP, TopologyStyleType.LARGE, true);
     private TopologyEntity serviceNodeEntity = new TopologyEntity(TopologyEntityType.SERVICE, TopologyStyleType.MIDDLE, false);
     private TopologyEntity notServiceNodeEntity = new TopologyEntity(TopologyEntityType.GATEWAY, TopologyStyleType.MIDDLE, false);
     private Map<String, Point> groupLocationMap = new HashMap<String, Point>();
