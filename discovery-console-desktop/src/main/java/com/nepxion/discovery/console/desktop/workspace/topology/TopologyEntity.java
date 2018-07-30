@@ -12,63 +12,122 @@ package com.nepxion.discovery.console.desktop.workspace.topology;
 import java.awt.Point;
 
 public class TopologyEntity {
-    public static final String REGISTRY_LARGE_IMAGE = "registry_48.png";
-    public static final String MQ_LARGE_IMAGE = "mq_48.png";
-    public static final String CACHE_LARGE_IMAGE = "cache_48.png";
-    public static final String LOGGER_LARGE_IMAGE = "logger_48.png";
-    public static final String SERVICE_LARGE_IMAGE = "service_48.png";
-    public static final String REFERENCE_LARGE_IMAGE = "reference_48.png";
+    public static final String SERVICE_GROUP_LARGE_IMAGE = "service_group_64.png";
+    public static final String SERVICE_GROUP_MIDDLE_IMAGE = "service_group_48.png";
+    public static final String SERVICE_GROUP_SMALL_IMAGE = "service_group_32.png";
 
-    public static final String REGISTRY_SMALL_IMAGE = "registry_32.png";
-    public static final String MQ_SMALL_IMAGE = "mq_32.png";
-    public static final String CACHE_SMALL_IMAGE = "cache_32.png";
-    public static final String LOGGER_SMALL_IMAGE = "logger_32.png";
+    public static final String REFERENCE_GROUP_LARGE_IMAGE = "reference_group_64.png";
+    public static final String REFERENCE_GROUP_MIDDLE_IMAGE = "reference_group_48.png";
+    public static final String REFERENCE_GROUP_SMALL_IMAGE = "reference_group_32.png";
+
+    public static final String SERVICE_LARGE_IMAGE = "service_64.png";
+    public static final String SERVICE_MIDDLE_IMAGE = "service_48.png";
     public static final String SERVICE_SMALL_IMAGE = "service_32.png";
+
+    public static final String REFERENCE_LARGE_IMAGE = "reference_64.png";
+    public static final String REFERENCE_MIDDLE_IMAGE = "reference_48.png";
     public static final String REFERENCE_SMALL_IMAGE = "reference_32.png";
 
-    private TopologyEntityType type;
+    public static final String GATEWAY_LARGE_IMAGE = "gateway_64.png";
+    public static final String GATEWAY_MIDDLE_IMAGE = "gateway_48.png";
+    public static final String GATEWAY_SMALL_IMAGE = "gateway_32.png";
+
+    private TopologyEntityType entityType;
+    private TopologyStyleType styleType;
     private String image;
     private Point location;
     private boolean horizontalPile;
 
-    public TopologyEntity(TopologyEntityType type, boolean largeStyle, Point location) {
-        initialize(type, largeStyle);
+    public TopologyEntity(TopologyEntityType entityType, TopologyStyleType styleType, Point location) {
+        initialize(entityType, styleType);
 
         this.location = location;
     }
 
-    public TopologyEntity(TopologyEntityType type, boolean largeStyle, boolean horizontalPile) {
-        initialize(type, largeStyle);
+    public TopologyEntity(TopologyEntityType entityType, TopologyStyleType styleType, boolean horizontalPile) {
+        initialize(entityType, styleType);
 
         this.horizontalPile = horizontalPile;
     }
 
-    private void initialize(TopologyEntityType type, boolean largeStyle) {
-        this.type = type;
-        switch (type) {
-            case REGISTRY:
-                image = largeStyle ? REGISTRY_LARGE_IMAGE : REGISTRY_SMALL_IMAGE;
+    private void initialize(TopologyEntityType entityType, TopologyStyleType styleType) {
+        this.entityType = entityType;
+        this.styleType = styleType;
+        switch (entityType) {
+            case SERVICE_GROUP:
+                switch (styleType) {
+                    case LARGE:
+                        image = SERVICE_GROUP_LARGE_IMAGE;
+                        break;
+                    case MIDDLE:
+                        image = SERVICE_GROUP_MIDDLE_IMAGE;
+                        break;
+                    case SMALL:
+                        image = SERVICE_GROUP_SMALL_IMAGE;
+                        break;
+                }
                 break;
-            case MQ:
-                image = largeStyle ? MQ_LARGE_IMAGE : MQ_SMALL_IMAGE;
-                break;
-            case CACHE:
-                image = largeStyle ? CACHE_LARGE_IMAGE : CACHE_SMALL_IMAGE;
-                break;
-            case LOGGER:
-                image = largeStyle ? LOGGER_LARGE_IMAGE : LOGGER_SMALL_IMAGE;
+            case REFERENCE_GROUP:
+                switch (styleType) {
+                    case LARGE:
+                        image = REFERENCE_GROUP_LARGE_IMAGE;
+                        break;
+                    case MIDDLE:
+                        image = REFERENCE_GROUP_MIDDLE_IMAGE;
+                        break;
+                    case SMALL:
+                        image = REFERENCE_GROUP_SMALL_IMAGE;
+                        break;
+                }
                 break;
             case SERVICE:
-                image = largeStyle ? SERVICE_LARGE_IMAGE : SERVICE_SMALL_IMAGE;
+                switch (styleType) {
+                    case LARGE:
+                        image = SERVICE_LARGE_IMAGE;
+                        break;
+                    case MIDDLE:
+                        image = SERVICE_MIDDLE_IMAGE;
+                        break;
+                    case SMALL:
+                        image = SERVICE_SMALL_IMAGE;
+                        break;
+                }
                 break;
             case REFERENCE:
-                image = largeStyle ? REFERENCE_LARGE_IMAGE : REFERENCE_SMALL_IMAGE;
+                switch (styleType) {
+                    case LARGE:
+                        image = REFERENCE_LARGE_IMAGE;
+                        break;
+                    case MIDDLE:
+                        image = REFERENCE_MIDDLE_IMAGE;
+                        break;
+                    case SMALL:
+                        image = REFERENCE_SMALL_IMAGE;
+                        break;
+                }
+                break;
+            case GATEWAY:
+                switch (styleType) {
+                    case LARGE:
+                        image = GATEWAY_LARGE_IMAGE;
+                        break;
+                    case MIDDLE:
+                        image = GATEWAY_MIDDLE_IMAGE;
+                        break;
+                    case SMALL:
+                        image = GATEWAY_SMALL_IMAGE;
+                        break;
+                }
                 break;
         }
     }
 
-    public TopologyEntityType getType() {
-        return type;
+    public TopologyEntityType getEntityType() {
+        return entityType;
+    }
+
+    public TopologyStyleType getStyleType() {
+        return styleType;
     }
 
     public String getImage() {

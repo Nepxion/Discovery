@@ -46,6 +46,7 @@ import com.nepxion.discovery.console.desktop.workspace.topology.AbstractTopology
 import com.nepxion.discovery.console.desktop.workspace.topology.LocationEntity;
 import com.nepxion.discovery.console.desktop.workspace.topology.TopologyEntity;
 import com.nepxion.discovery.console.desktop.workspace.topology.TopologyEntityType;
+import com.nepxion.discovery.console.desktop.workspace.topology.TopologyStyleType;
 import com.nepxion.swing.action.JSecurityAction;
 import com.nepxion.swing.button.ButtonManager;
 import com.nepxion.swing.button.JBasicButton;
@@ -63,7 +64,7 @@ public class RouterTopology extends AbstractTopology {
     private static final long serialVersionUID = 1L;
 
     private LocationEntity nodeLocationEntity = new LocationEntity(100, 200, 200, 0);
-    private TopologyEntity serviceNodeEntity = new TopologyEntity(TopologyEntityType.SERVICE, true, true);
+    private TopologyEntity serviceNodeEntity = new TopologyEntity(TopologyEntityType.SERVICE, TopologyStyleType.MIDDLE, true);
 
     private TGraphBackground background;
     private JBasicComboBox comboBox;
