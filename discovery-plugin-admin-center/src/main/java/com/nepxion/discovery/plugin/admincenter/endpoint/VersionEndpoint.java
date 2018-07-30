@@ -25,8 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
 import com.nepxion.discovery.plugin.framework.event.VersionClearedEvent;
@@ -58,7 +58,7 @@ public class VersionEndpoint {
 
         String dynamicVersion = null;
         String localVersion = null;
-        String[] versionArray = StringUtils.split(version, PluginConstant.SEPARATE);
+        String[] versionArray = StringUtils.split(version, DiscoveryConstant.SEPARATE);
         if (versionArray.length == 2) {
             dynamicVersion = versionArray[0];
             localVersion = versionArray[1];

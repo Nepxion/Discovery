@@ -13,8 +13,8 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
-import com.nepxion.discovery.plugin.framework.entity.InstanceEntity;
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.InstanceEntity;
 
 public class Instance extends InstanceEntity {
     private static final long serialVersionUID = -3381928574242229614L;
@@ -49,7 +49,7 @@ public class Instance extends InstanceEntity {
 
     public String getFilter() {
         Map<String, String> metadata = getMetadata();
-        String filterKey = metadata.get(PluginConstant.SPRING_APPLICATION_GROUP_KEY);
+        String filterKey = metadata.get(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY);
         if (StringUtils.isEmpty(filterKey)) {
             return "";
         }
@@ -64,7 +64,7 @@ public class Instance extends InstanceEntity {
 
     public String getPlugin() {
         Map<String, String> metadata = getMetadata();
-        String plugin = metadata.get(PluginConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN);
+        String plugin = metadata.get(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN);
         if (plugin == null) {
             return "";
         }
@@ -74,7 +74,7 @@ public class Instance extends InstanceEntity {
 
     public boolean isDiscoveryControlEnabled() {
         Map<String, String> metadata = getMetadata();
-        String flag = metadata.get(PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED);
+        String flag = metadata.get(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED);
         if (flag == null) {
             return true;
         }
@@ -84,7 +84,7 @@ public class Instance extends InstanceEntity {
 
     public boolean isConfigRestControlEnabled() {
         Map<String, String> metadata = getMetadata();
-        String flag = metadata.get(PluginConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED);
+        String flag = metadata.get(DiscoveryConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED);
         if (flag == null) {
             return true;
         }

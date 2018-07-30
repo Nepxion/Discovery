@@ -16,14 +16,14 @@ import org.apache.commons.lang3.StringUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
 public class JacksonSerializer {
     private static ObjectMapper objectMapper;
 
     static {
         objectMapper = new ObjectMapper();
-        objectMapper.setDateFormat(new SimpleDateFormat(PluginConstant.DATE_FORMAT));
+        objectMapper.setDateFormat(new SimpleDateFormat(DiscoveryConstant.DATE_FORMAT));
     }
 
     public static <T> String toJson(T object) {

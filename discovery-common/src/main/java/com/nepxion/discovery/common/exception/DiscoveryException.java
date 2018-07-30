@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.exception;
+package com.nepxion.discovery.common.exception;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -9,22 +9,22 @@ package com.nepxion.discovery.plugin.framework.exception;
  * @version 1.0
  */
 
-public class PluginException extends RuntimeException {
+public class DiscoveryException extends RuntimeException {
     private static final long serialVersionUID = 7975167663357170655L;
 
-    public PluginException() {
+    public DiscoveryException() {
         super();
     }
 
-    public PluginException(String message) {
+    public DiscoveryException(String message) {
         super(message);
     }
 
-    public PluginException(String message, Throwable cause) {
+    public DiscoveryException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public PluginException(Throwable cause) {
+    public DiscoveryException(Throwable cause) {
         super(cause);
     }
 }

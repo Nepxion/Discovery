@@ -15,7 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.strategy.discovery.DiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.extension.service.constant.ServiceStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.extension.service.context.ServiceStrategyContext;
@@ -31,7 +31,7 @@ public class MyDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         Map<String, Object> attributes = context.getAttributes();
 
         String serviceId = server.getMetaInfo().getAppName().toLowerCase();
-        String version = metadata.get(PluginConstant.VERSION);
+        String version = metadata.get(DiscoveryConstant.VERSION);
 
         LOG.info("Serivice端负载均衡用户定制触发：serviceId={}, host={}, metadata={}, context={}", serviceId, server.toString(), metadata, context);
 

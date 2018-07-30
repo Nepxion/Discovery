@@ -22,20 +22,20 @@ import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.CountFilterEntity;
+import com.nepxion.discovery.common.entity.DiscoveryEntity;
+import com.nepxion.discovery.common.entity.DiscoveryServiceEntity;
+import com.nepxion.discovery.common.entity.FilterHolderEntity;
+import com.nepxion.discovery.common.entity.FilterType;
+import com.nepxion.discovery.common.entity.HostFilterEntity;
+import com.nepxion.discovery.common.entity.RegisterEntity;
+import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.VersionFilterEntity;
+import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.configcenter.constant.ConfigConstant;
 import com.nepxion.discovery.plugin.configcenter.parser.xml.dom4j.Dom4JReader;
 import com.nepxion.discovery.plugin.framework.config.PluginConfigParser;
-import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
-import com.nepxion.discovery.plugin.framework.entity.CountFilterEntity;
-import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
-import com.nepxion.discovery.plugin.framework.entity.DiscoveryServiceEntity;
-import com.nepxion.discovery.plugin.framework.entity.FilterHolderEntity;
-import com.nepxion.discovery.plugin.framework.entity.FilterType;
-import com.nepxion.discovery.plugin.framework.entity.HostFilterEntity;
-import com.nepxion.discovery.plugin.framework.entity.RegisterEntity;
-import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
-import com.nepxion.discovery.plugin.framework.entity.VersionFilterEntity;
-import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
 public class XmlConfigParser implements PluginConfigParser {
     private static final Logger LOG = LoggerFactory.getLogger(XmlConfigParser.class);
@@ -43,7 +43,7 @@ public class XmlConfigParser implements PluginConfigParser {
     @Override
     public RuleEntity parse(String config) {
         if (StringUtils.isEmpty(config)) {
-            throw new PluginException("Config is null or empty");
+            throw new DiscoveryException("Config is null or empty");
         }
 
         try {
@@ -53,7 +53,7 @@ public class XmlConfigParser implements PluginConfigParser {
 
             return parseRoot(config, rootElement);
         } catch (Exception e) {
-            throw new PluginException(e.getMessage(), e);
+            throw new DiscoveryException(e.getMessage(), e);
         }
     }
 
@@ -63,12 +63,12 @@ public class XmlConfigParser implements PluginConfigParser {
 
         int registerElementCount = element.elements(ConfigConstant.REGISTER_ELEMENT_NAME).size();
         if (registerElementCount > 1) {
-            throw new PluginException("Allow only one element[" + ConfigConstant.REGISTER_ELEMENT_NAME + "] to be configed");
+            throw new DiscoveryException("Allow only one element[" + ConfigConstant.REGISTER_ELEMENT_NAME + "] to be configed");
         }
 
         int discoveryElementCount = element.elements(ConfigConstant.DISCOVERY_ELEMENT_NAME).size();
         if (discoveryElementCount > 1) {
-            throw new PluginException("Allow only one element[" + ConfigConstant.DISCOVERY_ELEMENT_NAME + "] to be configed");
+            throw new DiscoveryException("Allow only one element[" + ConfigConstant.DISCOVERY_ELEMENT_NAME + "] to be configed");
         }
 
         RegisterEntity registerEntity = null;
@@ -138,7 +138,7 @@ public class XmlConfigParser implements PluginConfigParser {
     private void parseHostFilter(Element element, String filterTypeValue, FilterHolderEntity filterHolderEntity) {
         HostFilterEntity hostFilterEntity = filterHolderEntity.getHostFilterEntity();
         if (hostFilterEntity != null) {
-            throw new PluginException("Allow only one filter element to be configed, [" + ConfigConstant.BLACKLIST_ELEMENT_NAME + "] or [" + ConfigConstant.WHITELIST_ELEMENT_NAME + "]");
+            throw new DiscoveryException("Allow only one filter element to be configed, [" + ConfigConstant.BLACKLIST_ELEMENT_NAME + "] or [" + ConfigConstant.WHITELIST_ELEMENT_NAME + "]");
         }
 
         hostFilterEntity = new HostFilterEntity();
@@ -160,7 +160,7 @@ public class XmlConfigParser implements PluginConfigParser {
                 if (StringUtils.equals(childElement.getName(), ConfigConstant.SERVICE_ELEMENT_NAME)) {
                     Attribute serviceNameAttribute = childElement.attribute(ConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME);
                     if (serviceNameAttribute == null) {
-                        throw new PluginException("Attribute[" + ConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                        throw new DiscoveryException("Attribute[" + ConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                     }
                     String serviceName = serviceNameAttribute.getData().toString().trim();
 
@@ -182,7 +182,7 @@ public class XmlConfigParser implements PluginConfigParser {
     private void parseCountFilter(Element element, RegisterEntity registerEntity) {
         CountFilterEntity countFilterEntity = registerEntity.getCountFilterEntity();
         if (countFilterEntity != null) {
-            throw new PluginException("Allow only one element[" + ConfigConstant.COUNT_ELEMENT_NAME + "] to be configed");
+            throw new DiscoveryException("Allow only one element[" + ConfigConstant.COUNT_ELEMENT_NAME + "] to be configed");
         }
 
         countFilterEntity = new CountFilterEntity();
@@ -195,7 +195,7 @@ public class XmlConfigParser implements PluginConfigParser {
                 try {
                     globalValue = Integer.valueOf(globalFilterValue);
                 } catch (NumberFormatException e) {
-                    throw new PluginException("Attribute[" + ConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME + "] value in element[" + element.getName() + "] is invalid, must be int type", e);
+                    throw new DiscoveryException("Attribute[" + ConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME + "] value in element[" + element.getName() + "] is invalid, must be int type", e);
                 }
                 countFilterEntity.setFilterValue(globalValue);
             }
@@ -210,7 +210,7 @@ public class XmlConfigParser implements PluginConfigParser {
                 if (StringUtils.equals(childElement.getName(), ConfigConstant.SERVICE_ELEMENT_NAME)) {
                     Attribute serviceNameAttribute = childElement.attribute(ConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME);
                     if (serviceNameAttribute == null) {
-                        throw new PluginException("Attribute[" + ConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                        throw new DiscoveryException("Attribute[" + ConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                     }
                     String serviceName = serviceNameAttribute.getData().toString().trim();
 
@@ -222,7 +222,7 @@ public class XmlConfigParser implements PluginConfigParser {
                             try {
                                 value = Integer.valueOf(filterValue);
                             } catch (NumberFormatException e) {
-                                throw new PluginException("Attribute[" + ConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME + "] value in element[" + childElement.getName() + "] is invalid, must be int type", e);
+                                throw new DiscoveryException("Attribute[" + ConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME + "] value in element[" + childElement.getName() + "] is invalid, must be int type", e);
                             }
                         }
                     }
@@ -239,7 +239,7 @@ public class XmlConfigParser implements PluginConfigParser {
     private void parseVersionFilter(Element element, DiscoveryEntity discoveryEntity) {
         VersionFilterEntity versionFilterEntity = discoveryEntity.getVersionFilterEntity();
         if (versionFilterEntity != null) {
-            throw new PluginException("Allow only one element[" + ConfigConstant.VERSION_ELEMENT_NAME + "] to be configed");
+            throw new DiscoveryException("Allow only one element[" + ConfigConstant.VERSION_ELEMENT_NAME + "] to be configed");
         }
 
         versionFilterEntity = new VersionFilterEntity();
@@ -255,14 +255,14 @@ public class XmlConfigParser implements PluginConfigParser {
 
                     Attribute consumerServiceNameAttribute = childElement.attribute(ConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME);
                     if (consumerServiceNameAttribute == null) {
-                        throw new PluginException("Attribute[" + ConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                        throw new DiscoveryException("Attribute[" + ConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                     }
                     String consumerServiceName = consumerServiceNameAttribute.getData().toString().trim();
                     serviceEntity.setConsumerServiceName(consumerServiceName);
 
                     Attribute providerServiceNameAttribute = childElement.attribute(ConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME);
                     if (providerServiceNameAttribute == null) {
-                        throw new PluginException("Attribute[" + ConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                        throw new DiscoveryException("Attribute[" + ConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                     }
                     String providerServiceName = providerServiceNameAttribute.getData().toString().trim();
                     serviceEntity.setProviderServiceName(providerServiceName);
@@ -300,7 +300,7 @@ public class XmlConfigParser implements PluginConfigParser {
             return null;
         }
 
-        String[] valueArray = StringUtils.split(value, PluginConstant.SEPARATE);
+        String[] valueArray = StringUtils.split(value, DiscoveryConstant.SEPARATE);
 
         return Arrays.asList(valueArray);
     }

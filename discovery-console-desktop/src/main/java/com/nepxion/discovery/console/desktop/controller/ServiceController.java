@@ -19,11 +19,11 @@ import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.nepxion.discovery.common.entity.ResultEntity;
+import com.nepxion.discovery.common.entity.RouterEntity;
 import com.nepxion.discovery.console.desktop.context.PropertiesContext;
 import com.nepxion.discovery.console.desktop.entity.Instance;
 import com.nepxion.discovery.console.desktop.serializer.JacksonSerializer;
-import com.nepxion.discovery.plugin.framework.entity.ResultEntity;
-import com.nepxion.discovery.plugin.framework.entity.RouterEntity;
 
 public class ServiceController {
     public static RestTemplate restTemplate;

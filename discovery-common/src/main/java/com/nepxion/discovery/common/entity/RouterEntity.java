@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.entity;
+package com.nepxion.discovery.common.entity;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -18,7 +18,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
 public class RouterEntity implements Serializable {
     private static final long serialVersionUID = -4480475963615166799L;
@@ -73,10 +73,10 @@ public class RouterEntity implements Serializable {
     public String toInfo() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("[")
-                .append(PluginConstant.SERVICE_ID).append("=").append(serviceId).append(", ")
-                .append(PluginConstant.VERSION).append("=").append(version).append(", ")
-                .append(PluginConstant.HOST).append("=").append(host).append(", ")
-                .append(PluginConstant.PORT).append("=").append(port)
+                .append(DiscoveryConstant.SERVICE_ID).append("=").append(serviceId).append(", ")
+                .append(DiscoveryConstant.VERSION).append("=").append(version).append(", ")
+                .append(DiscoveryConstant.HOST).append("=").append(host).append(", ")
+                .append(DiscoveryConstant.PORT).append("=").append(port)
                 .append("]");
 
         return stringBuilder.toString();

@@ -13,10 +13,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.configcenter.parser.json.jackson.JacksonSerializer;
 import com.nepxion.discovery.plugin.framework.config.PluginConfigParser;
-import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
-import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
 public class JsonConfigParser implements PluginConfigParser {
     private static final Logger LOG = LoggerFactory.getLogger(JsonConfigParser.class);
@@ -24,7 +24,7 @@ public class JsonConfigParser implements PluginConfigParser {
     @Override
     public RuleEntity parse(String config) {
         if (StringUtils.isEmpty(config)) {
-            throw new PluginException("Config is null or empty");
+            throw new DiscoveryException("Config is null or empty");
         }
 
         try {
@@ -35,7 +35,7 @@ public class JsonConfigParser implements PluginConfigParser {
 
             return ruleEntity;
         } catch (Exception e) {
-            throw new PluginException(e.getMessage(), e);
+            throw new DiscoveryException(e.getMessage(), e);
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.entity;
+package com.nepxion.discovery.common.entity;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -11,6 +11,7 @@ package com.nepxion.discovery.plugin.framework.entity;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -18,30 +19,21 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class CountFilterEntity implements Serializable {
-    private static final long serialVersionUID = 3830016495318834467L;
+public class VersionFilterEntity implements Serializable {
+    private static final long serialVersionUID = -6147106004826964165L;
+    
+    private Map<String, List<DiscoveryServiceEntity>> serviceEntityMap = new LinkedHashMap<String, List<DiscoveryServiceEntity>>();
 
-    private Integer filterValue;
-    private Map<String, Integer> filterMap = new LinkedHashMap<String, Integer>();
-
-    public CountFilterEntity() {
+    public VersionFilterEntity() {
 
     }
 
-    public Integer getFilterValue() {
-        return filterValue;
+    public Map<String, List<DiscoveryServiceEntity>> getServiceEntityMap() {
+        return serviceEntityMap;
     }
 
-    public void setFilterValue(Integer filterValue) {
-        this.filterValue = filterValue;
-    }
-
-    public Map<String, Integer> getFilterMap() {
-        return filterMap;
-    }
-
-    public void setFilterMap(Map<String, Integer> filterMap) {
-        this.filterMap = filterMap;
+    public void setServiceEntityMap(Map<String, List<DiscoveryServiceEntity>> serviceEntityMap) {
+        this.serviceEntityMap = serviceEntityMap;
     }
 
     @Override

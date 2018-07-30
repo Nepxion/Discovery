@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.entity;
+package com.nepxion.discovery.common.entity;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -10,30 +10,32 @@ package com.nepxion.discovery.plugin.framework.entity;
  */
 
 import java.io.Serializable;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class VersionFilterEntity implements Serializable {
-    private static final long serialVersionUID = -6147106004826964165L;
-    
-    private Map<String, List<DiscoveryServiceEntity>> serviceEntityMap = new LinkedHashMap<String, List<DiscoveryServiceEntity>>();
+public class ResultEntity implements Serializable {
+    private static final long serialVersionUID = -3322655604556025836L;
 
-    public VersionFilterEntity() {
+    private String url;
+    private String result;
 
+    public String getUrl() {
+        return url;
     }
 
-    public Map<String, List<DiscoveryServiceEntity>> getServiceEntityMap() {
-        return serviceEntityMap;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public void setServiceEntityMap(Map<String, List<DiscoveryServiceEntity>> serviceEntityMap) {
-        this.serviceEntityMap = serviceEntityMap;
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
     }
 
     @Override

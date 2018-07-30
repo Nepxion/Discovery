@@ -16,7 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
-import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
 public abstract class LocalConfigLoader implements ConfigLoader {
     @Autowired
@@ -34,7 +34,7 @@ public abstract class LocalConfigLoader implements ConfigLoader {
             String filePath = applicationContext.getEnvironment().resolvePlaceholders(path);
             inputStream = applicationContext.getResource(filePath).getInputStream();
 
-            return IOUtils.toString(inputStream, PluginConstant.ENCODING_UTF_8);
+            return IOUtils.toString(inputStream, DiscoveryConstant.ENCODING_UTF_8);
         } catch (Exception e) {
             throw e;
         } finally {

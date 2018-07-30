@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.constant;
+package com.nepxion.discovery.common.constant;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -9,7 +9,7 @@ package com.nepxion.discovery.plugin.framework.constant;
  * @version 1.0
  */
 
-public class PluginConstant {
+public class DiscoveryConstant {
     public static final String SPRING_APPLICATION_DISCOVERY_PLUGIN = "spring.application.discovery.plugin";
     public static final String SPRING_APPLICATION_REGISTER_CONTROL_ENABLED = "spring.application.register.control.enabled";
     public static final String SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED = "spring.application.discovery.control.enabled";

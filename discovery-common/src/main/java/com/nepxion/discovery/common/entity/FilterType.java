@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.entity;
+package com.nepxion.discovery.common.entity;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -10,8 +10,8 @@ package com.nepxion.discovery.plugin.framework.entity;
  */
 
 public enum FilterType {
-    BLACKLIST("blacklist", "黑名单"),
-    WHITELIST("whitelist", "白名单");
+    BLACKLIST("blacklist", "blacklist"),
+    WHITELIST("whitelist", "whitelist");
 
     private String value;
     private String description;
