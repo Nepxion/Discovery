@@ -1,4 +1,4 @@
-package com.nepxion.discovery.console.desktop.entity;
+package com.nepxion.discovery.plugin.framework.entity;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -10,23 +10,21 @@ package com.nepxion.discovery.console.desktop.entity;
  */
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class RouterEntity implements Serializable {
-    private static final long serialVersionUID = -4480475963615166799L;
+public class InstanceEntity implements Serializable {
+    private static final long serialVersionUID = -3001191508072178378L;
 
     private String serviceId;
     private String version;
     private String host;
     private int port;
-
-    private List<RouterEntity> nexts = new ArrayList<RouterEntity>();
+    private Map<String, String> metadata;
 
     public String getServiceId() {
         return serviceId;
@@ -60,12 +58,12 @@ public class RouterEntity implements Serializable {
         this.port = port;
     }
 
-    public List<RouterEntity> getNexts() {
-        return nexts;
+    public Map<String, String> getMetadata() {
+        return metadata;
     }
 
-    public void setNexts(List<RouterEntity> nexts) {
-        this.nexts = nexts;
+    public void setMetadata(Map<String, String> metadata) {
+        this.metadata = metadata;
     }
 
     @Override
