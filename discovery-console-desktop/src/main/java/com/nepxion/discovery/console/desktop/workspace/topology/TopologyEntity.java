@@ -12,13 +12,17 @@ package com.nepxion.discovery.console.desktop.workspace.topology;
 import java.awt.Point;
 
 public class TopologyEntity {
-    public static final String SERVICE_GROUP_LARGE_IMAGE = "service_group_64.png";
-    public static final String SERVICE_GROUP_MIDDLE_IMAGE = "service_group_48.png";
-    public static final String SERVICE_GROUP_SMALL_IMAGE = "service_group_32.png";
+    public static final String SERVICE_GROUP_LARGE_IMAGE = "service_group_80.png";
+    public static final String SERVICE_GROUP_MIDDLE_IMAGE = "service_group_64.png";
+    public static final String SERVICE_GROUP_SMALL_IMAGE = "service_group_48.png";
 
-    public static final String REFERENCE_GROUP_LARGE_IMAGE = "reference_group_64.png";
-    public static final String REFERENCE_GROUP_MIDDLE_IMAGE = "reference_group_48.png";
-    public static final String REFERENCE_GROUP_SMALL_IMAGE = "reference_group_32.png";
+    public static final String REFERENCE_GROUP_LARGE_IMAGE = "reference_group_80.png";
+    public static final String REFERENCE_GROUP_MIDDLE_IMAGE = "reference_group_64.png";
+    public static final String REFERENCE_GROUP_SMALL_IMAGE = "reference_group_48.png";
+
+    public static final String GATEWAY_GROUP_LARGE_IMAGE = "gateway_group_80.png";
+    public static final String GATEWAY_GROUP_MIDDLE_IMAGE = "gateway_group_64.png";
+    public static final String GATEWAY_GROUP_SMALL_IMAGE = "gateway_group_48.png";
 
     public static final String SERVICE_LARGE_IMAGE = "service_64.png";
     public static final String SERVICE_MIDDLE_IMAGE = "service_48.png";
@@ -77,6 +81,19 @@ public class TopologyEntity {
                         break;
                     case SMALL:
                         image = REFERENCE_GROUP_SMALL_IMAGE;
+                        break;
+                }
+                break;
+            case GATEWAY_GROUP:
+                switch (styleType) {
+                    case LARGE:
+                        image = GATEWAY_GROUP_LARGE_IMAGE;
+                        break;
+                    case MIDDLE:
+                        image = GATEWAY_GROUP_MIDDLE_IMAGE;
+                        break;
+                    case SMALL:
+                        image = GATEWAY_GROUP_SMALL_IMAGE;
                         break;
                 }
                 break;
