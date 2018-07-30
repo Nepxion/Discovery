@@ -12,6 +12,8 @@ package com.nepxion.discovery.console.desktop.workspace.topology;
 import java.awt.Point;
 
 public class TopologyEntity {
+    public static final String THEME_DIRECTORY = "theme_1/";
+
     public static final String SERVICE_GROUP_LARGE_IMAGE = "service_group_80.png";
     public static final String SERVICE_GROUP_MIDDLE_IMAGE = "service_group_64.png";
     public static final String SERVICE_GROUP_SMALL_IMAGE = "service_group_48.png";
@@ -24,17 +26,17 @@ public class TopologyEntity {
     public static final String GATEWAY_GROUP_MIDDLE_IMAGE = "gateway_group_64.png";
     public static final String GATEWAY_GROUP_SMALL_IMAGE = "gateway_group_48.png";
 
-    public static final String SERVICE_LARGE_IMAGE = "service_64.png";
-    public static final String SERVICE_MIDDLE_IMAGE = "service_48.png";
-    public static final String SERVICE_SMALL_IMAGE = "service_32.png";
+    public static final String SERVICE_LARGE_IMAGE = THEME_DIRECTORY + "service_64.png";
+    public static final String SERVICE_MIDDLE_IMAGE = THEME_DIRECTORY + "service_48.png";
+    public static final String SERVICE_SMALL_IMAGE = THEME_DIRECTORY + "service_32.png";
 
-    public static final String REFERENCE_LARGE_IMAGE = "reference_64.png";
-    public static final String REFERENCE_MIDDLE_IMAGE = "reference_48.png";
-    public static final String REFERENCE_SMALL_IMAGE = "reference_32.png";
+    public static final String REFERENCE_LARGE_IMAGE = THEME_DIRECTORY + "reference_64.png";
+    public static final String REFERENCE_MIDDLE_IMAGE = THEME_DIRECTORY + "reference_48.png";
+    public static final String REFERENCE_SMALL_IMAGE = THEME_DIRECTORY + "reference_32.png";
 
-    public static final String GATEWAY_LARGE_IMAGE = "gateway_64.png";
-    public static final String GATEWAY_MIDDLE_IMAGE = "gateway_48.png";
-    public static final String GATEWAY_SMALL_IMAGE = "gateway_32.png";
+    public static final String GATEWAY_LARGE_IMAGE = THEME_DIRECTORY + "gateway_64.png";
+    public static final String GATEWAY_MIDDLE_IMAGE = THEME_DIRECTORY + "gateway_48.png";
+    public static final String GATEWAY_SMALL_IMAGE = THEME_DIRECTORY + "gateway_32.png";
 
     private TopologyEntityType entityType;
     private TopologyStyleType styleType;
