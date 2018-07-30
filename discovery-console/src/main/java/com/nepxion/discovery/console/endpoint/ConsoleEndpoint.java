@@ -32,12 +32,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.nepxion.discovery.console.entity.InstanceEntity;
 import com.nepxion.discovery.console.remote.ConfigAdapter;
 import com.nepxion.discovery.console.rest.ConfigClearRestInvoker;
 import com.nepxion.discovery.console.rest.ConfigUpdateRestInvoker;
 import com.nepxion.discovery.console.rest.VersionClearRestInvoker;
 import com.nepxion.discovery.console.rest.VersionUpdateRestInvoker;
+import com.nepxion.discovery.plugin.framework.entity.InstanceEntity;
 
 @RestController
 @Api(tags = { "控制台接口" })

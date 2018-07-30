@@ -38,8 +38,7 @@ import com.nepxion.cots.twaver.graph.TGraphManager;
 import com.nepxion.cots.twaver.graph.TLayoutPanel;
 import com.nepxion.cots.twaver.graph.TLayouterBar;
 import com.nepxion.discovery.console.desktop.controller.ServiceController;
-import com.nepxion.discovery.console.desktop.entity.InstanceEntity;
-import com.nepxion.discovery.console.desktop.entity.RouterEntity;
+import com.nepxion.discovery.console.desktop.entity.Instance;
 import com.nepxion.discovery.console.desktop.icon.ConsoleIconFactory;
 import com.nepxion.discovery.console.desktop.locale.ConsoleLocale;
 import com.nepxion.discovery.console.desktop.workspace.topology.AbstractTopology;
@@ -47,6 +46,7 @@ import com.nepxion.discovery.console.desktop.workspace.topology.LocationEntity;
 import com.nepxion.discovery.console.desktop.workspace.topology.TopologyEntity;
 import com.nepxion.discovery.console.desktop.workspace.topology.TopologyEntityType;
 import com.nepxion.discovery.console.desktop.workspace.topology.TopologyStyleType;
+import com.nepxion.discovery.plugin.framework.entity.RouterEntity;
 import com.nepxion.swing.action.JSecurityAction;
 import com.nepxion.swing.button.ButtonManager;
 import com.nepxion.swing.button.JBasicButton;
@@ -71,7 +71,7 @@ public class RouterTopology extends AbstractTopology {
     private JBasicTextField textField;
     private ActionListener layoutActionListener;
 
-    private InstanceEntity instance;
+    private Instance instance;
 
     public RouterTopology() {
         initializeToolBar();
@@ -216,7 +216,7 @@ public class RouterTopology extends AbstractTopology {
         comboBox.setModel(new DefaultComboBoxModel<>(services));
     }
 
-    public void setInstance(InstanceEntity instance) {
+    public void setInstance(Instance instance) {
         if (this.instance != instance) {
             this.instance = instance;
 

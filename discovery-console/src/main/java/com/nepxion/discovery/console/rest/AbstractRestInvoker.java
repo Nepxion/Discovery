@@ -22,9 +22,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import com.nepxion.discovery.console.constant.ConsoleConstant;
-import com.nepxion.discovery.console.entity.ResultEntity;
 import com.nepxion.discovery.console.handler.ConsoleErrorHandler;
+import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
+import com.nepxion.discovery.plugin.framework.entity.ResultEntity;
 
 public abstract class AbstractRestInvoker {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractRestInvoker.class);
@@ -79,9 +79,9 @@ public abstract class AbstractRestInvoker {
     protected void checkDiscoveryControlPermission(ServiceInstance serviceInstance) {
         Map<String, String> metadata = serviceInstance.getMetadata();
 
-        String discoveryControlEnabled = metadata.get(ConsoleConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED);
+        String discoveryControlEnabled = metadata.get(PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED);
         if (StringUtils.isEmpty(discoveryControlEnabled)) {
-            throw new IllegalArgumentException("No metadata for key=" + ConsoleConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED);
+            throw new IllegalArgumentException("No metadata for key=" + PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED);
         }
 
         if (!Boolean.valueOf(discoveryControlEnabled)) {
@@ -92,9 +92,9 @@ public abstract class AbstractRestInvoker {
     protected void checkConfigRestControlPermission(ServiceInstance serviceInstance) {
         Map<String, String> metadata = serviceInstance.getMetadata();
 
-        String configRestControlEnabled = metadata.get(ConsoleConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED);
+        String configRestControlEnabled = metadata.get(PluginConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED);
         if (StringUtils.isEmpty(configRestControlEnabled)) {
-            throw new IllegalArgumentException("No metadata for key=" + ConsoleConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED);
+            throw new IllegalArgumentException("No metadata for key=" + PluginConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED);
         }
 
         if (!Boolean.valueOf(configRestControlEnabled)) {

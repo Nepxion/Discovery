@@ -1,4 +1,4 @@
-package com.nepxion.discovery.console.desktop.entity;
+package com.nepxion.discovery.plugin.framework.entity;
 
 /**
  * <p>Title: Nepxion Discovery</p>

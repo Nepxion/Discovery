@@ -20,10 +20,10 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.nepxion.discovery.console.desktop.context.PropertiesContext;
-import com.nepxion.discovery.console.desktop.entity.InstanceEntity;
-import com.nepxion.discovery.console.desktop.entity.ResultEntity;
-import com.nepxion.discovery.console.desktop.entity.RouterEntity;
+import com.nepxion.discovery.console.desktop.entity.Instance;
 import com.nepxion.discovery.console.desktop.serializer.JacksonSerializer;
+import com.nepxion.discovery.plugin.framework.entity.ResultEntity;
+import com.nepxion.discovery.plugin.framework.entity.RouterEntity;
 
 public class ServiceController {
     public static RestTemplate restTemplate;
@@ -33,16 +33,16 @@ public class ServiceController {
         restTemplate.setErrorHandler(new ServiceErrorHandler());
     }
 
-    public static Map<String, List<InstanceEntity>> getInstanceMap() {
+    public static Map<String, List<Instance>> getInstanceMap() {
         String url = getUrl() + "/console/instance-map";
 
         String result = restTemplate.getForEntity(url, String.class).getBody();
 
-        return convert(result, new TypeReference<Map<String, List<InstanceEntity>>>() {
+        return convert(result, new TypeReference<Map<String, List<Instance>>>() {
         });
     }
 
-    public static List<String> getVersions(InstanceEntity instance) {
+    public static List<String> getVersions(Instance instance) {
         String url = getUrl(instance) + "/version/view";
 
         String result = restTemplate.getForEntity(url, String.class).getBody();
@@ -51,7 +51,7 @@ public class ServiceController {
         });
     }
 
-    public static List<String> getRules(InstanceEntity instance) {
+    public static List<String> getRules(Instance instance) {
         String url = getUrl(instance) + "/config/view";
 
         String result = restTemplate.getForEntity(url, String.class).getBody();
@@ -60,7 +60,7 @@ public class ServiceController {
         });
     }
 
-    public static RouterEntity routes(InstanceEntity instance, String routeServiceIds) {
+    public static RouterEntity routes(Instance instance, String routeServiceIds) {
         String url = getUrl(instance) + "/router/routes";
 
         String result = restTemplate.postForEntity(url, routeServiceIds, String.class).getBody();
@@ -78,7 +78,7 @@ public class ServiceController {
         });
     }
 
-    public static String versionUpdate(InstanceEntity instance, String version) {
+    public static String versionUpdate(Instance instance, String version) {
         String url = getUrl(instance) + "/version/update";
 
         String result = restTemplate.postForEntity(url, version, String.class).getBody();
@@ -100,7 +100,7 @@ public class ServiceController {
         });
     }
 
-    public static String versionClear(InstanceEntity instance) {
+    public static String versionClear(Instance instance) {
         String url = getUrl(instance) + "/version/clear";
 
         String result = restTemplate.postForEntity(url, null, String.class).getBody();
@@ -145,7 +145,7 @@ public class ServiceController {
         });
     }
 
-    public static String configUpdate(InstanceEntity instance, String config) {
+    public static String configUpdate(Instance instance, String config) {
         String url = getUrl(instance) + "/config/update-sync";
 
         // 解决中文乱码
@@ -185,7 +185,7 @@ public class ServiceController {
         });
     }
 
-    public static String configClear(InstanceEntity instance) {
+    public static String configClear(Instance instance) {
         String url = getUrl(instance) + "/config/clear";
 
         String result = restTemplate.postForEntity(url, null, String.class).getBody();
@@ -215,7 +215,7 @@ public class ServiceController {
         return url;
     }
 
-    private static String getUrl(InstanceEntity instance) {
+    private static String getUrl(Instance instance) {
         String url = "http://" + instance.getHost() + ":" + instance.getPort();
 
         return url;

@@ -47,8 +47,7 @@ import com.nepxion.cots.twaver.graph.TGraphBackground;
 import com.nepxion.cots.twaver.graph.TGraphManager;
 import com.nepxion.discovery.console.desktop.constant.ConsoleConstant;
 import com.nepxion.discovery.console.desktop.controller.ServiceController;
-import com.nepxion.discovery.console.desktop.entity.InstanceEntity;
-import com.nepxion.discovery.console.desktop.entity.ResultEntity;
+import com.nepxion.discovery.console.desktop.entity.Instance;
 import com.nepxion.discovery.console.desktop.icon.ConsoleIconFactory;
 import com.nepxion.discovery.console.desktop.locale.ConsoleLocale;
 import com.nepxion.discovery.console.desktop.ui.UIFactory;
@@ -57,6 +56,7 @@ import com.nepxion.discovery.console.desktop.workspace.topology.LocationEntity;
 import com.nepxion.discovery.console.desktop.workspace.topology.TopologyEntity;
 import com.nepxion.discovery.console.desktop.workspace.topology.TopologyEntityType;
 import com.nepxion.discovery.console.desktop.workspace.topology.TopologyStyleType;
+import com.nepxion.discovery.plugin.framework.entity.ResultEntity;
 import com.nepxion.swing.action.JSecurityAction;
 import com.nepxion.swing.button.ButtonManager;
 import com.nepxion.swing.button.JClassicButton;
@@ -105,7 +105,7 @@ public class ServiceTopology extends AbstractTopology {
     private RouterTopology routerTopology;
     private LayoutDialog layoutDialog;
 
-    private Map<String, List<InstanceEntity>> globalInstanceMap;
+    private Map<String, List<Instance>> globalInstanceMap;
     private String globalFilter;
 
     public ServiceTopology() {
@@ -217,14 +217,14 @@ public class ServiceTopology extends AbstractTopology {
     }
 
     private void addServices() {
-        for (Map.Entry<String, List<InstanceEntity>> entry : globalInstanceMap.entrySet()) {
+        for (Map.Entry<String, List<Instance>> entry : globalInstanceMap.entrySet()) {
             String serviceId = entry.getKey();
-            List<InstanceEntity> instances = entry.getValue();
+            List<Instance> instances = entry.getValue();
             addService(globalFilter, serviceId, instances);
         }
     }
 
-    private void addService(String filterId, String serviceId, List<InstanceEntity> instances) {
+    private void addService(String filterId, String serviceId, List<Instance> instances) {
         String filter = getValidFilter(instances);
         String plugin = getValidPlugin(instances);
 
@@ -244,9 +244,9 @@ public class ServiceTopology extends AbstractTopology {
         addInstances(group, serviceId, instances);
     }
 
-    private void addInstances(TGroup group, String serviceId, List<InstanceEntity> instances) {
+    private void addInstances(TGroup group, String serviceId, List<Instance> instances) {
         for (int i = 0; i < instances.size(); i++) {
-            InstanceEntity instance = instances.get(i);
+            Instance instance = instances.get(i);
             String filter = instance.getFilter();
             String plugin = instance.getPlugin();
             String nodeName = getNodeName(instance);
@@ -267,10 +267,10 @@ public class ServiceTopology extends AbstractTopology {
         TElementManager.addGroupChildren(dataBox, group);
     }
 
-    private String getValidFilter(List<InstanceEntity> instances) {
+    private String getValidFilter(List<Instance> instances) {
         // 服务注册发现中心，必须有一个规范，即在同一个服务集群下，必须所有服务的metadata格式一致，例如一个服务配了group，另一个服务没有配group
         // 只取有值的那个
-        for (InstanceEntity instance : instances) {
+        for (Instance instance : instances) {
             String filter = instance.getFilter();
             if (StringUtils.isNotEmpty(filter)) {
                 return filter;
@@ -280,8 +280,8 @@ public class ServiceTopology extends AbstractTopology {
         return "";
     }
 
-    private String getValidPlugin(List<InstanceEntity> instances) {
-        for (InstanceEntity instance : instances) {
+    private String getValidPlugin(List<Instance> instances) {
+        for (Instance instance : instances) {
             String plugin = instance.getPlugin();
             if (StringUtils.isNotEmpty(plugin)) {
                 return plugin;
@@ -291,12 +291,12 @@ public class ServiceTopology extends AbstractTopology {
         return "";
     }
 
-    private Object[] filter(Map<String, List<InstanceEntity>> instanceMap) {
+    private Object[] filter(Map<String, List<Instance>> instanceMap) {
         List<String> filters = new ArrayList<String>();
 
-        for (Map.Entry<String, List<InstanceEntity>> entry : instanceMap.entrySet()) {
-            List<InstanceEntity> instances = entry.getValue();
-            for (InstanceEntity instance : instances) {
+        for (Map.Entry<String, List<Instance>> entry : instanceMap.entrySet()) {
+            List<Instance> instances = entry.getValue();
+            for (Instance instance : instances) {
                 String filter = instance.getFilter();
                 String plugin = instance.getPlugin();
                 if (StringUtils.isNotEmpty(plugin) && !filters.contains(filter)) {
@@ -313,7 +313,7 @@ public class ServiceTopology extends AbstractTopology {
         return filters.toArray();
     }
 
-    private Object[] filterServices(TNode node, Map<String, List<InstanceEntity>> instanceMap) {
+    private Object[] filterServices(TNode node, Map<String, List<Instance>> instanceMap) {
         Set<String> services = instanceMap.keySet();
         List<String> filterServices = new ArrayList<String>();
 
@@ -352,7 +352,7 @@ public class ServiceTopology extends AbstractTopology {
         group.setName(name);
     }
 
-    private String getNodeName(InstanceEntity instance) {
+    private String getNodeName(Instance instance) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(instance.getHost()).append(":").append(instance.getPort());
         if (StringUtils.isNotEmpty(instance.getVersion())) {
@@ -366,7 +366,7 @@ public class ServiceTopology extends AbstractTopology {
         return ButtonManager.getHtmlText(stringBuilder.toString());
     }
 
-    private void updateNode(TNode node, InstanceEntity instance) {
+    private void updateNode(TNode node, Instance instance) {
         String name = getNodeName(instance);
         node.setName(name);
         if (StringUtils.isNotEmpty(instance.getDynamicRule())) {
@@ -403,7 +403,7 @@ public class ServiceTopology extends AbstractTopology {
     }
 
     private void updateGrayState(TNode node) {
-        InstanceEntity instance = (InstanceEntity) node.getUserObject();
+        Instance instance = (Instance) node.getUserObject();
         List<String> versions = ServiceController.getVersions(instance);
         List<String> rules = ServiceController.getRules(instance);
         instance.setVersion(versions.get(0));
@@ -492,7 +492,7 @@ public class ServiceTopology extends AbstractTopology {
             private static final long serialVersionUID = 1L;
 
             public void execute(ActionEvent e) {
-                Map<String, List<InstanceEntity>> instanceMap = null;
+                Map<String, List<Instance>> instanceMap = null;
                 try {
                     instanceMap = ServiceController.getInstanceMap();
                 } catch (Exception ex) {
@@ -578,7 +578,7 @@ public class ServiceTopology extends AbstractTopology {
                 } else if (node != null) {
                     grayPanel.setGray(node);
 
-                    InstanceEntity instance = (InstanceEntity) node.getUserObject();
+                    Instance instance = (Instance) node.getUserObject();
 
                     description = instance.getServiceId() + " [" + instance.getHost() + ":" + instance.getPort() + "]";
                 }
@@ -608,7 +608,7 @@ public class ServiceTopology extends AbstractTopology {
                     return;
                 }
 
-                InstanceEntity instance = (InstanceEntity) node.getUserObject();
+                Instance instance = (Instance) node.getUserObject();
 
                 if (routerTopology == null) {
                     routerTopology = new RouterTopology();
@@ -820,7 +820,7 @@ public class ServiceTopology extends AbstractTopology {
             if (!versionControlEnabled && !ruleControlEnabled) {
                 for (Iterator<TNode> iterator = group.children(); iterator.hasNext();) {
                     TNode node = iterator.next();
-                    InstanceEntity instance = (InstanceEntity) node.getUserObject();
+                    Instance instance = (Instance) node.getUserObject();
 
                     boolean versionEnabled = instance.isDiscoveryControlEnabled();
                     if (versionEnabled) {
@@ -871,7 +871,7 @@ public class ServiceTopology extends AbstractTopology {
         public void setGray(TNode node) {
             this.group = null;
             this.node = node;
-            InstanceEntity instance = (InstanceEntity) node.getUserObject();
+            Instance instance = (Instance) node.getUserObject();
 
             boolean versionControlEnabled = instance.isDiscoveryControlEnabled();
             boolean ruleControlEnabled = instance.isDiscoveryControlEnabled() && instance.isConfigRestControlEnabled() && !ruleToConfigCenterRadioButtonMenuItem.isSelected();
@@ -936,7 +936,7 @@ public class ServiceTopology extends AbstractTopology {
 
                         refreshGrayState(group);
                     } else if (node != null) {
-                        InstanceEntity instance = (InstanceEntity) node.getUserObject();
+                        Instance instance = (Instance) node.getUserObject();
 
                         String result = null;
                         try {
@@ -981,7 +981,7 @@ public class ServiceTopology extends AbstractTopology {
 
                         refreshGrayState(group);
                     } else if (node != null) {
-                        InstanceEntity instance = (InstanceEntity) node.getUserObject();
+                        Instance instance = (Instance) node.getUserObject();
 
                         String result = null;
                         try {
@@ -1050,7 +1050,7 @@ public class ServiceTopology extends AbstractTopology {
 
                         refreshGrayState(group);
                     } else if (node != null) {
-                        InstanceEntity instance = (InstanceEntity) node.getUserObject();
+                        Instance instance = (Instance) node.getUserObject();
 
                         String result = null;
                         try {
@@ -1111,7 +1111,7 @@ public class ServiceTopology extends AbstractTopology {
 
                         refreshGrayState(group);
                     } else if (node != null) {
-                        InstanceEntity instance = (InstanceEntity) node.getUserObject();
+                        Instance instance = (Instance) node.getUserObject();
 
                         String result = null;
                         try {
