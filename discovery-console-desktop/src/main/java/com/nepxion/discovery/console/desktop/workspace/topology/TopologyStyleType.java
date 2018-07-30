@@ -9,10 +9,8 @@ package com.nepxion.discovery.console.desktop.workspace.topology;
  * @version 1.0
  */
 
-public enum TopologyEntityType {
-    SERVICE_GROUP,
-    REFERENCE_GROUP,
-    SERVICE, 
-    REFERENCE,
-    GATEWAY
+public enum TopologyStyleType {
+    LARGE,
+    MIDDLE,
+    SMALL
 }
