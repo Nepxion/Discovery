@@ -42,6 +42,7 @@ import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 
 @RestController
+@RequestMapping(path = "/router")
 @Api(tags = { "路由接口" })
 @ManagedResource(description = "Router Endpoint")
 public class RouterEndpoint implements MvcEndpoint {
@@ -54,7 +55,7 @@ public class RouterEndpoint implements MvcEndpoint {
     @Autowired
     private DiscoveryClient discoveryClient;
 
-    @RequestMapping(path = "/router/services", method = RequestMethod.GET)
+    @RequestMapping(path = "/services", method = RequestMethod.GET)
     @ApiOperation(value = "获取服务注册中心的服务列表", notes = "", response = List.class, httpMethod = "GET")
     @ResponseBody
     @ManagedOperation
@@ -62,7 +63,7 @@ public class RouterEndpoint implements MvcEndpoint {
         return getServices();
     }
 
-    @RequestMapping(path = "/router/instances/{serviceId}", method = RequestMethod.GET)
+    @RequestMapping(path = "/instances/{serviceId}", method = RequestMethod.GET)
     @ApiOperation(value = "获取本地节点可访问其他节点（根据服务名）的实例列表", notes = "", response = List.class, httpMethod = "GET")
     @ResponseBody
     @ManagedOperation
@@ -70,7 +71,7 @@ public class RouterEndpoint implements MvcEndpoint {
         return getInstanceList(serviceId);
     }
 
-    @RequestMapping(path = "/router/info", method = RequestMethod.GET)
+    @RequestMapping(path = "/info", method = RequestMethod.GET)
     @ApiOperation(value = "获取本地节点信息", notes = "获取当前节点的简单信息", response = RouterEntity.class, httpMethod = "GET")
     @ResponseBody
     @ManagedOperation
@@ -78,7 +79,7 @@ public class RouterEndpoint implements MvcEndpoint {
         return getRouterEntity();
     }
 
-    @RequestMapping(path = "/router/route/{routeServiceId}", method = RequestMethod.GET)
+    @RequestMapping(path = "/route/{routeServiceId}", method = RequestMethod.GET)
     @ApiOperation(value = "获取本地节点可访问其他节点（根据服务名）的路由信息列表", notes = "", response = List.class, httpMethod = "GET")
     @ResponseBody
     @ManagedOperation
@@ -86,7 +87,7 @@ public class RouterEndpoint implements MvcEndpoint {
         return getRouterEntityList(routeServiceId);
     }
 
-    @RequestMapping(path = "/router/route/{routeServiceId}/{routeHost}/{routePort}", method = RequestMethod.GET)
+    @RequestMapping(path = "/route/{routeServiceId}/{routeHost}/{routePort}", method = RequestMethod.GET)
     @ApiOperation(value = "获取指定节点（根据IP和端口）可访问其他节点（根据服务名）的路由信息列表", notes = "", response = List.class, httpMethod = "GET")
     @ResponseBody
     @ManagedOperation
@@ -94,7 +95,7 @@ public class RouterEndpoint implements MvcEndpoint {
         return getRouterEntityList(routeServiceId, routeHost, routePort);
     }
 
-    @RequestMapping(path = "/router/routes", method = RequestMethod.POST)
+    @RequestMapping(path = "/routes", method = RequestMethod.POST)
     @ApiOperation(value = "获取全路径的路由信息树", notes = "参数按调用服务名的前后次序排列，起始节点的服务名不能加上去。如果多个用“;”分隔，不允许出现空格", response = RouterEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
@@ -258,7 +259,7 @@ public class RouterEndpoint implements MvcEndpoint {
 
     @Override
     public String getPath() {
-        return "/";
+        return "";
     }
 
     @Override
