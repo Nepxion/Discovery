@@ -40,6 +40,7 @@ import com.nepxion.discovery.console.rest.VersionClearRestInvoker;
 import com.nepxion.discovery.console.rest.VersionUpdateRestInvoker;
 
 @RestController
+@RequestMapping(path = "/console")
 @Api(tags = { "控制台接口" })
 public class ConsoleEndpoint {
     private static final Logger LOG = LoggerFactory.getLogger(ConsoleEndpoint.class);
@@ -53,73 +54,73 @@ public class ConsoleEndpoint {
     @Autowired
     private RestTemplate consoleRestTemplate;
 
-    @RequestMapping(path = "/console/services", method = RequestMethod.GET)
+    @RequestMapping(path = "/services", method = RequestMethod.GET)
     @ApiOperation(value = "获取服务注册中心的服务列表", notes = "", response = List.class, httpMethod = "GET")
     public List<String> services() {
         return getServices();
     }
 
-    @RequestMapping(path = "/console/instances/{serviceId}", method = RequestMethod.GET)
+    @RequestMapping(path = "/instances/{serviceId}", method = RequestMethod.GET)
     @ApiOperation(value = "获取服务注册中心服务的实例列表", notes = "", response = List.class, httpMethod = "GET")
     public List<ServiceInstance> instances(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
         return getInstances(serviceId);
     }
 
-    @RequestMapping(path = "/console/instance-list/{serviceId}", method = RequestMethod.GET)
+    @RequestMapping(path = "/instance-list/{serviceId}", method = RequestMethod.GET)
     @ApiOperation(value = "获取服务注册中心服务的实例列表（精简数据）", notes = "", response = List.class, httpMethod = "GET")
     public List<InstanceEntity> instanceList(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
         return getInstanceList(serviceId);
     }
 
-    @RequestMapping(path = "/console/instance-map", method = RequestMethod.GET)
+    @RequestMapping(path = "/instance-map", method = RequestMethod.GET)
     @ApiOperation(value = "获取服务注册中心的服务和实例的Map（精简数据）", notes = "", response = Map.class, httpMethod = "GET")
     public Map<String, List<InstanceEntity>> instanceMap() {
         return getInstanceMap();
     }
 
-    @RequestMapping(path = "/console/remote-config/update/{group}/{serviceId}", method = RequestMethod.POST)
+    @RequestMapping(path = "/remote-config/update/{group}/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "推送更新规则配置信息到远程配置中心", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     public ResponseEntity<?> remoteConfigUpdate(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
         return executeRemoteConfigUpdate(group, serviceId, config);
     }
 
-    @RequestMapping(path = "/console/remote-config/clear/{group}/{serviceId}", method = RequestMethod.POST)
+    @RequestMapping(path = "/remote-config/clear/{group}/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "清除规则配置信息到远程配置中心", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     public ResponseEntity<?> remoteConfigClear(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
         return executeRemoteConfigClear(group, serviceId);
     }
 
-    @RequestMapping(path = "/console/remote-config/view/{group}/{serviceId}", method = RequestMethod.GET)
+    @RequestMapping(path = "/remote-config/view/{group}/{serviceId}", method = RequestMethod.GET)
     @ApiOperation(value = "查看远程配置中心的规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     public ResponseEntity<?> remoteConfigView(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
         return executeRemoteConfigView(group, serviceId);
     }
 
-    @RequestMapping(path = "/console/config/update-async/{serviceId}", method = RequestMethod.POST)
+    @RequestMapping(path = "/config/update-async/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "批量异步推送更新规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     public ResponseEntity<?> configUpdateAsync(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
         return executeConfigUpdate(serviceId, config, true);
     }
 
-    @RequestMapping(path = "/console/config/update-sync/{serviceId}", method = RequestMethod.POST)
+    @RequestMapping(path = "/config/update-sync/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "批量同步推送更新规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     public ResponseEntity<?> configUpdateSync(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
         return executeConfigUpdate(serviceId, config, false);
     }
 
-    @RequestMapping(path = "/console/config/clear/{serviceId}", method = RequestMethod.POST)
+    @RequestMapping(path = "/config/clear/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "批量清除更新的规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     public ResponseEntity<?> configClear(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
         return executeConfigClear(serviceId);
     }
 
-    @RequestMapping(path = "/console/version/update/{serviceId}", method = RequestMethod.POST)
+    @RequestMapping(path = "/version/update/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "批量更新服务的动态版本", notes = "根据指定的localVersion更新服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接更新服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
     public ResponseEntity<?> versionUpdate(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "版本号，格式为[dynamicVersion]或者[dynamicVersion];[localVersion]", required = true) String version) {
         return executeVersionUpdate(serviceId, version);
     }
 
-    @RequestMapping(path = "/console/version/clear/{serviceId}", method = RequestMethod.POST)
+    @RequestMapping(path = "/version/clear/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "批量清除服务的动态版本", notes = "根据指定的localVersion清除服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接清除服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
     public ResponseEntity<?> versionClear(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody(required = false) @ApiParam(value = "版本号，指localVersion，可以为空") String version) {
         return executeVersionClear(serviceId, version);

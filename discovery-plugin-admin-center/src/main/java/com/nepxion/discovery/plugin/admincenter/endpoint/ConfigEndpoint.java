@@ -34,6 +34,7 @@ import com.nepxion.discovery.plugin.framework.event.RuleClearedEvent;
 import com.nepxion.discovery.plugin.framework.event.RuleUpdatedEvent;
 
 @RestController
+@RequestMapping(path = "/config")
 @Api(tags = { "配置接口" })
 public class ConfigEndpoint {
     @Autowired
@@ -45,19 +46,19 @@ public class ConfigEndpoint {
     @Autowired
     private PluginEventWapper pluginEventWapper;
 
-    @RequestMapping(path = "/config/update-async", method = RequestMethod.POST)
+    @RequestMapping(path = "/update-async", method = RequestMethod.POST)
     @ApiOperation(value = "异步推送更新规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     public ResponseEntity<?> updateAsync(@RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
         return update(config, true);
     }
 
-    @RequestMapping(path = "/config/update-sync", method = RequestMethod.POST)
+    @RequestMapping(path = "/update-sync", method = RequestMethod.POST)
     @ApiOperation(value = "同步推送更新规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     public ResponseEntity<?> updateSync(@RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
         return update(config, false);
     }
 
-    @RequestMapping(path = "/config/clear", method = RequestMethod.POST)
+    @RequestMapping(path = "/clear", method = RequestMethod.POST)
     @ApiOperation(value = "清除更新的规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     public ResponseEntity<?> clear() {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
@@ -75,7 +76,7 @@ public class ConfigEndpoint {
         return ResponseEntity.ok().body("OK");
     }
 
-    @RequestMapping(path = "/config/view", method = RequestMethod.GET)
+    @RequestMapping(path = "/view", method = RequestMethod.GET)
     @ApiOperation(value = "查看本地和更新的规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     public ResponseEntity<List<String>> view() {
         List<String> ruleList = new ArrayList<String>(2);

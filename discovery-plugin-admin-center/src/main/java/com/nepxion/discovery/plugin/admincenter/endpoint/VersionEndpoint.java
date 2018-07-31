@@ -33,6 +33,7 @@ import com.nepxion.discovery.plugin.framework.event.VersionClearedEvent;
 import com.nepxion.discovery.plugin.framework.event.VersionUpdatedEvent;
 
 @RestController
+@RequestMapping(path = "/version")
 @Api(tags = { "版本接口" })
 public class VersionEndpoint {
     @Autowired
@@ -44,7 +45,7 @@ public class VersionEndpoint {
     @Autowired
     private PluginEventWapper pluginEventWapper;
 
-    @RequestMapping(path = "/version/update", method = RequestMethod.POST)
+    @RequestMapping(path = "/update", method = RequestMethod.POST)
     @ApiOperation(value = "更新服务的动态版本", notes = "根据指定的localVersion更新服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接更新服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
     public ResponseEntity<?> update(@RequestBody @ApiParam(value = "版本号，格式为[dynamicVersion]或者[dynamicVersion];[localVersion]", required = true) String version) {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
@@ -73,7 +74,7 @@ public class VersionEndpoint {
         return ResponseEntity.ok().body("OK");
     }
 
-    @RequestMapping(path = "/version/clear", method = RequestMethod.POST)
+    @RequestMapping(path = "/clear", method = RequestMethod.POST)
     @ApiOperation(value = "清除服务的动态版本", notes = "根据指定的localVersion清除服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接清除服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
     public ResponseEntity<?> clear(@RequestBody(required = false) @ApiParam(value = "版本号，指localVersion，可以为空") String version) {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
@@ -91,7 +92,7 @@ public class VersionEndpoint {
         return ResponseEntity.ok().body("OK");
     }
 
-    @RequestMapping(path = "/version/view", method = RequestMethod.GET)
+    @RequestMapping(path = "/view", method = RequestMethod.GET)
     @ApiOperation(value = "查看服务的本地版本和动态版本", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     public ResponseEntity<List<String>> view() {
         List<String> versionList = new ArrayList<String>(2);

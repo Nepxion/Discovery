@@ -37,6 +37,7 @@ import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 
 @RestController
+@RequestMapping(path = "/router")
 @Api(tags = { "路由接口" })
 public class RouterEndpoint {
     @Autowired
@@ -48,37 +49,37 @@ public class RouterEndpoint {
     @Autowired
     private DiscoveryClient discoveryClient;
 
-    @RequestMapping(path = "/router/services", method = RequestMethod.GET)
+    @RequestMapping(path = "/services", method = RequestMethod.GET)
     @ApiOperation(value = "获取服务注册中心的服务列表", notes = "", response = List.class, httpMethod = "GET")
     public List<String> services() {
         return getServices();
     }
 
-    @RequestMapping(path = "/router/instances/{serviceId}", method = RequestMethod.GET)
+    @RequestMapping(path = "/instances/{serviceId}", method = RequestMethod.GET)
     @ApiOperation(value = "获取本地节点可访问其他节点（根据服务名）的实例列表", notes = "", response = List.class, httpMethod = "GET")
     public List<ServiceInstance> instances(@PathVariable(value = "serviceId") @ApiParam(value = "目标服务名", required = true) String serviceId) {
         return getInstanceList(serviceId);
     }
 
-    @RequestMapping(path = "/router/info", method = RequestMethod.GET)
+    @RequestMapping(path = "/info", method = RequestMethod.GET)
     @ApiOperation(value = "获取本地节点信息", notes = "获取当前节点的简单信息", response = RouterEntity.class, httpMethod = "GET")
     public RouterEntity info() {
         return getRouterEntity();
     }
 
-    @RequestMapping(path = "/router/route/{routeServiceId}", method = RequestMethod.GET)
+    @RequestMapping(path = "/route/{routeServiceId}", method = RequestMethod.GET)
     @ApiOperation(value = "获取本地节点可访问其他节点（根据服务名）的路由信息列表", notes = "", response = List.class, httpMethod = "GET")
     public List<RouterEntity> route(@PathVariable(value = "routeServiceId") @ApiParam(value = "目标服务名", required = true) String routeServiceId) {
         return getRouterEntityList(routeServiceId);
     }
 
-    @RequestMapping(path = "/router/route/{routeServiceId}/{routeHost}/{routePort}", method = RequestMethod.GET)
+    @RequestMapping(path = "/route/{routeServiceId}/{routeHost}/{routePort}", method = RequestMethod.GET)
     @ApiOperation(value = "获取指定节点（根据IP和端口）可访问其他节点（根据服务名）的路由信息列表", notes = "", response = List.class, httpMethod = "GET")
     public List<RouterEntity> route(@PathVariable(value = "routeServiceId") @ApiParam(value = "目标服务名", required = true) String routeServiceId, @PathVariable(value = "routeHost") @ApiParam(value = "目标服务所在机器的IP地址", required = true) String routeHost, @PathVariable(value = "routePort") @ApiParam(value = "目标服务所在机器的端口号", required = true) int routePort) {
         return getRouterEntityList(routeServiceId, routeHost, routePort);
     }
 
-    @RequestMapping(path = "/router/routes", method = RequestMethod.POST)
+    @RequestMapping(path = "/routes", method = RequestMethod.POST)
     @ApiOperation(value = "获取全路径的路由信息树", notes = "参数按调用服务名的前后次序排列，起始节点的服务名不能加上去。如果多个用“;”分隔，不允许出现空格", response = RouterEntity.class, httpMethod = "POST")
     public RouterEntity routes(@RequestBody @ApiParam(value = "例如：service-a;service-b", required = true) String routeServiceIds) {
         return routeTree(routeServiceIds);
