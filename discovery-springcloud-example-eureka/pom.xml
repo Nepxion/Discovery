@@ -18,7 +18,6 @@
 
     <properties>
         <spring.cloud.version>Edgware.SR4</spring.cloud.version>
-        <!-- <spring.cloud.version>Dalston.SR5</spring.cloud.version> -->
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
