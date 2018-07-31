@@ -39,7 +39,7 @@ public class SwaggerConfiguration extends WebMvcConfigurerAdapter {
     @Value("${swagger.service.version}")
     private String version;
 
-    @Value("${swagger.service.license}")
+    @Value("${swagger.service.license.name}")
     private String license;
 
     @Value("${swagger.service.license.url}")
