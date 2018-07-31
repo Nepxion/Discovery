@@ -9,6 +9,9 @@ package com.nepxion.discovery.plugin.framework.decorator;
  * @version 1.0
  */
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.cloud.consul.serviceregistry.ConsulRegistration;
 import org.springframework.cloud.consul.serviceregistry.ConsulServiceRegistry;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -18,6 +21,8 @@ import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.listener.register.RegisterListenerExecutor;
 
 public class ConsulServiceRegistryDecorator extends ConsulServiceRegistry {
+    private static final Logger LOG = LoggerFactory.getLogger(ConsulServiceRegistryDecorator.class);
+
     private ConsulServiceRegistry serviceRegistry;
     private ConfigurableApplicationContext applicationContext;
     private ConfigurableEnvironment environment;
@@ -34,8 +39,12 @@ public class ConsulServiceRegistryDecorator extends ConsulServiceRegistry {
     public void register(ConsulRegistration registration) {
         Boolean registerControlEnabled = PluginContextAware.isRegisterControlEnabled(environment);
         if (registerControlEnabled) {
-            RegisterListenerExecutor registerListenerExecutor = applicationContext.getBean(RegisterListenerExecutor.class);
-            registerListenerExecutor.onRegister(registration);
+            try {
+                RegisterListenerExecutor registerListenerExecutor = applicationContext.getBean(RegisterListenerExecutor.class);
+                registerListenerExecutor.onRegister(registration);
+            } catch (BeansException e) {
+                LOG.warn("Get bean for RegisterListenerExecutor failed, ignore to executor listener");
+            }
         }
 
         serviceRegistry.register(registration);
@@ -45,8 +54,12 @@ public class ConsulServiceRegistryDecorator extends ConsulServiceRegistry {
     public void deregister(ConsulRegistration registration) {
         Boolean registerControlEnabled = PluginContextAware.isRegisterControlEnabled(environment);
         if (registerControlEnabled) {
-            RegisterListenerExecutor registerListenerExecutor = applicationContext.getBean(RegisterListenerExecutor.class);
-            registerListenerExecutor.onDeregister(registration);
+            try {
+                RegisterListenerExecutor registerListenerExecutor = applicationContext.getBean(RegisterListenerExecutor.class);
+                registerListenerExecutor.onDeregister(registration);
+            } catch (BeansException e) {
+                LOG.warn("Get bean for RegisterListenerExecutor failed, ignore to executor listener");
+            }
         }
 
         serviceRegistry.deregister(registration);
@@ -56,8 +69,12 @@ public class ConsulServiceRegistryDecorator extends ConsulServiceRegistry {
     public void setStatus(ConsulRegistration registration, String status) {
         Boolean registerControlEnabled = PluginContextAware.isRegisterControlEnabled(environment);
         if (registerControlEnabled) {
-            RegisterListenerExecutor registerListenerExecutor = applicationContext.getBean(RegisterListenerExecutor.class);
-            registerListenerExecutor.onSetStatus(registration, status);
+            try {
+                RegisterListenerExecutor registerListenerExecutor = applicationContext.getBean(RegisterListenerExecutor.class);
+                registerListenerExecutor.onSetStatus(registration, status);
+            } catch (BeansException e) {
+                LOG.warn("Get bean for RegisterListenerExecutor failed, ignore to executor listener");
+            }
         }
 
         serviceRegistry.setStatus(registration, status);
@@ -72,8 +89,12 @@ public class ConsulServiceRegistryDecorator extends ConsulServiceRegistry {
     public void close() {
         Boolean registerControlEnabled = PluginContextAware.isRegisterControlEnabled(environment);
         if (registerControlEnabled) {
-            RegisterListenerExecutor registerListenerExecutor = applicationContext.getBean(RegisterListenerExecutor.class);
-            registerListenerExecutor.onClose();
+            try {
+                RegisterListenerExecutor registerListenerExecutor = applicationContext.getBean(RegisterListenerExecutor.class);
+                registerListenerExecutor.onClose();
+            } catch (BeansException e) {
+                LOG.warn("Get bean for RegisterListenerExecutor failed, ignore to executor listener");
+            }
         }
 
         serviceRegistry.close();
