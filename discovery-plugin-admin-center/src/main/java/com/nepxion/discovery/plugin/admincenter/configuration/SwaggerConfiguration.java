@@ -30,28 +30,28 @@ public class SwaggerConfiguration extends WebMvcConfigurerAdapter {
     @Value("${spring.application.name}")
     private String serviceName;
 
-    @Value("${swagger.service.base.package}")
+    @Value("${swagger.service.base.package:com.nepxion.discovery.plugin.admincenter.endpoint}")
     private String basePackage;
 
-    @Value("${swagger.service.description}")
+    @Value("${swagger.service.description:Admin Center Restful APIs}")
     private String description;
 
-    @Value("${swagger.service.version}")
+    @Value("${swagger.service.version:1.0.0}")
     private String version;
 
-    @Value("${swagger.service.license.name}")
+    @Value("${swagger.service.license.name:Apache License 2.0}")
     private String license;
 
-    @Value("${swagger.service.license.url}")
+    @Value("${swagger.service.license.url:http://www.apache.org/licenses/LICENSE-2.0}")
     private String licenseUrl;
 
-    @Value("${swagger.service.contact.name}")
+    @Value("${swagger.service.contact.name:Haojun Ren}")
     private String contactName;
 
-    @Value("${swagger.service.contact.url}")
+    @Value("${swagger.service.contact.url:https://github.com/Nepxion/Discovery}")
     private String contactUrl;
 
-    @Value("${swagger.service.contact.email}")
+    @Value("${swagger.service.contact.email:1394997@qq.com}")
     private String contactEmail;
 
     @Bean
