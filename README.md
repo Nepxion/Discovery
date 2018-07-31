@@ -4,7 +4,7 @@
 [![Javadocs](http://www.javadoc.io/badge/com.nepxion/discovery.svg)](http://www.javadoc.io/doc/com.nepxion/discovery)
 [![Build Status](https://travis-ci.org/Nepxion/Discovery.svg?branch=master)](https://travis-ci.org/Nepxion/Discovery)
 
-Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件，其功能包括多版本灰度发布，黑/白名单的IP地址过滤，限制注册等，支持Eureka、Consul和Zookeeper，支持Spring Cloud Api Gateway（F版）、Zuul网关和微服务的灰度发布，支持用户自定义和编程灰度路由策略，支持Nacos和Redis为远程配置中心，支持Spring Cloud C版、D版、E版和F版。现有的Spring Cloud微服务可以方便引入该插件，代码零侵入
+Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件，其功能包括多版本灰度发布，黑/白名单的IP地址过滤，限制注册等，支持Eureka、Consul和Zookeeper，支持Spring Cloud Api Gateway（F版）、Zuul网关和微服务的灰度发布，支持用户自定义和编程灰度路由策略，支持Nacos和Redis为远程配置中心，支持Spring Cloud E版和F版。现有的Spring Cloud微服务可以方便引入该插件，代码零侵入
 
 使用者只需要做如下简单的事情：
 - 引入相关Plugin Starter依赖到pom.xml
@@ -114,7 +114,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 ## 兼容
 版本兼容情况
 - Spring Cloud F版，请采用4.x.x版本，具体代码参考master分支
-- Spring Cloud C版、D版和E版，请采用3.x.x版本，具体代码参考Edgware分支
+- Spring Cloud E版，请采用3.x.x版本，具体代码参考Edgware分支
 - 4.x.x版本由于Swagger和Spring Boot 2.x.x版本的Actuator用法有冲突，故暂时不支持Endpoint功能，其他功能和3.x.x版本一致
 
 中间件兼容情况
@@ -122,7 +122,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
   - Consul服务器版本不限制，推荐用最新版本，从[https://releases.hashicorp.com/consul/](https://releases.hashicorp.com/consul/)获取
 - Zookeeper
   - Spring Cloud F版，必须采用Zookeeper服务器的3.5.x服务器版本（或者更高），从[http://zookeeper.apache.org/releases.html#download](http://zookeeper.apache.org/releases.html#download)获取
-  - Spring Cloud C版、D版和E版，Zookeeper服务器版本不限制
+  - Spring Cloud E版，Zookeeper服务器版本不限制
 - Eureka
   - 跟Spring Cloud版本保持一致，自行搭建服务器
 - Nacos
