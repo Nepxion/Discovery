@@ -39,6 +39,7 @@ import org.springframework.web.client.RestTemplate;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.RouterEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
+import com.nepxion.discovery.common.util.UrlUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 
 @RestController
@@ -87,12 +88,12 @@ public class RouterEndpoint implements MvcEndpoint {
         return getRouterEntityList(routeServiceId);
     }
 
-    @RequestMapping(path = "/route/{routeServiceId}/{routeHost}/{routePort}", method = RequestMethod.GET)
+    @RequestMapping(path = "/route/{routeServiceId}/{routeHost}/{routePort}/{routeContextPath}", method = RequestMethod.GET)
     @ApiOperation(value = "获取指定节点（根据IP和端口）可访问其他节点（根据服务名）的路由信息列表", notes = "", response = List.class, httpMethod = "GET")
     @ResponseBody
     @ManagedOperation
-    public List<RouterEntity> route(@PathVariable(value = "routeServiceId") @ApiParam(value = "目标服务名", required = true) String routeServiceId, @PathVariable(value = "routeHost") @ApiParam(value = "目标服务所在机器的IP地址", required = true) String routeHost, @PathVariable(value = "routePort") @ApiParam(value = "目标服务所在机器的端口号", required = true) int routePort) {
-        return getRouterEntityList(routeServiceId, routeHost, routePort);
+    public List<RouterEntity> route(@PathVariable(value = "routeServiceId") @ApiParam(value = "目标服务名", required = true) String routeServiceId, @PathVariable(value = "routeHost") @ApiParam(value = "目标服务所在机器的IP地址", required = true) String routeHost, @PathVariable(value = "routePort") @ApiParam(value = "目标服务所在机器的端口号", required = true) int routePort, @PathVariable(value = "routeContextPath") @ApiParam(value = "目标服务的调用路径前缀", required = true, defaultValue = "/") String routeContextPath) {
+        return getRouterEntityList(routeServiceId, routeHost, routePort, routeContextPath);
     }
 
     @RequestMapping(path = "/routes", method = RequestMethod.POST)
@@ -116,12 +117,14 @@ public class RouterEndpoint implements MvcEndpoint {
         String version = pluginAdapter.getVersion();
         String host = pluginAdapter.getHost();
         int port = pluginAdapter.getPort();
+        String contextPath = pluginAdapter.getContextPath();
 
         RouterEntity routerEntity = new RouterEntity();
         routerEntity.setServiceId(serviceId);
         routerEntity.setVersion(version);
         routerEntity.setHost(host);
         routerEntity.setPort(port);
+        routerEntity.setContextPath(contextPath);
 
         return routerEntity;
     }
@@ -146,12 +149,14 @@ public class RouterEndpoint implements MvcEndpoint {
             String version = metadata.get(DiscoveryConstant.VERSION);
             String host = instance.getHost();
             int port = instance.getPort();
+            String contextPath = metadata.get(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH);
 
             RouterEntity routerEntity = new RouterEntity();
             routerEntity.setServiceId(serviceId);
             routerEntity.setVersion(version);
             routerEntity.setHost(host);
             routerEntity.setPort(port);
+            routerEntity.setContextPath(contextPath);
 
             routerEntityList.add(routerEntity);
         }
@@ -160,8 +165,8 @@ public class RouterEndpoint implements MvcEndpoint {
     }
 
     @SuppressWarnings("unchecked")
-    public List<RouterEntity> getRouterEntityList(String routeServiceId, String routeHost, int routePort) {
-        String url = "http://" + routeHost + ":" + routePort + "/router/instances/" + routeServiceId;
+    public List<RouterEntity> getRouterEntityList(String routeServiceId, String routeHost, int routePort, String routeContextPath) {
+        String url = "http://" + routeHost + ":" + routePort + UrlUtil.formatContextPath(routeContextPath) + "router/instances/" + routeServiceId;
 
         List<Map<String, ?>> instanceList = null;
         try {
@@ -181,12 +186,14 @@ public class RouterEndpoint implements MvcEndpoint {
             String version = metadata.get(DiscoveryConstant.VERSION);
             String host = instance.get(DiscoveryConstant.HOST).toString();
             Integer port = (Integer) instance.get(DiscoveryConstant.PORT);
+            String contextPath = metadata.get(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH);
 
             RouterEntity routerEntity = new RouterEntity();
             routerEntity.setServiceId(serviceId);
             routerEntity.setVersion(version);
             routerEntity.setHost(host);
             routerEntity.setPort(port);
+            routerEntity.setContextPath(contextPath);
 
             routerEntityList.add(routerEntity);
         }
@@ -222,8 +229,9 @@ public class RouterEndpoint implements MvcEndpoint {
                 for (RouterEntity routerEntity : routerEntityList) {
                     String routeHost = routerEntity.getHost();
                     int routePort = routerEntity.getPort();
+                    String routeContextPath = routerEntity.getContextPath();
 
-                    route(routerEntity, serviceId, routeHost, routePort);
+                    route(routerEntity, serviceId, routeHost, routePort, routeContextPath);
 
                     retrieveRouterEntityList(routerEntityMap, routerDepth).addAll(routerEntity.getNexts());
                 }
@@ -242,8 +250,8 @@ public class RouterEndpoint implements MvcEndpoint {
         }
     }
 
-    private void route(RouterEntity routerEntity, String routeServiceId, String routeHost, int routePort) {
-        List<RouterEntity> routerEntityList = getRouterEntityList(routeServiceId, routeHost, routePort);
+    private void route(RouterEntity routerEntity, String routeServiceId, String routeHost, int routePort, String routeContextPath) {
+        List<RouterEntity> routerEntityList = getRouterEntityList(routeServiceId, routeHost, routePort, routeContextPath);
         if (CollectionUtils.isNotEmpty(routerEntityList)) {
             routerEntity.getNexts().addAll(routerEntityList);
         }

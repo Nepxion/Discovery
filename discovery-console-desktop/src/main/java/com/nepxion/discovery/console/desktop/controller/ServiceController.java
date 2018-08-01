@@ -21,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.nepxion.discovery.common.entity.ResultEntity;
 import com.nepxion.discovery.common.entity.RouterEntity;
+import com.nepxion.discovery.common.util.UrlUtil;
 import com.nepxion.discovery.console.desktop.context.PropertiesContext;
 import com.nepxion.discovery.console.desktop.entity.Instance;
 import com.nepxion.discovery.console.desktop.serializer.JacksonSerializer;
@@ -34,7 +35,7 @@ public class ServiceController {
     }
 
     public static Map<String, List<Instance>> getInstanceMap() {
-        String url = getUrl() + "/console/instance-map";
+        String url = getUrl() + "console/instance-map";
 
         String result = restTemplate.getForEntity(url, String.class).getBody();
 
@@ -43,7 +44,7 @@ public class ServiceController {
     }
 
     public static List<String> getVersions(Instance instance) {
-        String url = getUrl(instance) + "/version/view";
+        String url = getUrl(instance) + "version/view";
 
         String result = restTemplate.getForEntity(url, String.class).getBody();
 
@@ -52,7 +53,7 @@ public class ServiceController {
     }
 
     public static List<String> getRules(Instance instance) {
-        String url = getUrl(instance) + "/config/view";
+        String url = getUrl(instance) + "config/view";
 
         String result = restTemplate.getForEntity(url, String.class).getBody();
 
@@ -61,7 +62,7 @@ public class ServiceController {
     }
 
     public static RouterEntity routes(Instance instance, String routeServiceIds) {
-        String url = getUrl(instance) + "/router/routes";
+        String url = getUrl(instance) + "router/routes";
 
         String result = restTemplate.postForEntity(url, routeServiceIds, String.class).getBody();
 
@@ -70,7 +71,7 @@ public class ServiceController {
     }
 
     public static List<ResultEntity> versionUpdate(String serviceId, String version) {
-        String url = getUrl() + "/console/version/update/" + serviceId;
+        String url = getUrl() + "console/version/update/" + serviceId;
 
         String result = restTemplate.postForEntity(url, version, String.class).getBody();
 
@@ -79,7 +80,7 @@ public class ServiceController {
     }
 
     public static String versionUpdate(Instance instance, String version) {
-        String url = getUrl(instance) + "/version/update";
+        String url = getUrl(instance) + "version/update";
 
         String result = restTemplate.postForEntity(url, version, String.class).getBody();
 
@@ -92,7 +93,7 @@ public class ServiceController {
     }
 
     public static List<ResultEntity> versionClear(String serviceId) {
-        String url = getUrl() + "/console/version/clear/" + serviceId;
+        String url = getUrl() + "console/version/clear/" + serviceId;
 
         String result = restTemplate.postForEntity(url, null, String.class).getBody();
 
@@ -101,7 +102,7 @@ public class ServiceController {
     }
 
     public static String versionClear(Instance instance) {
-        String url = getUrl(instance) + "/version/clear";
+        String url = getUrl(instance) + "version/clear";
 
         String result = restTemplate.postForEntity(url, null, String.class).getBody();
 
@@ -114,7 +115,7 @@ public class ServiceController {
     }
 
     public static String remoteConfigUpdate(String group, String serviceId, String config) {
-        String url = getUrl() + "/console/remote-config/update/" + group + "/" + serviceId;
+        String url = getUrl() + "console/remote-config/update/" + group + "/" + serviceId;
 
         // 解决中文乱码
         HttpHeaders headers = new HttpHeaders();
@@ -132,7 +133,7 @@ public class ServiceController {
     }
 
     public static List<ResultEntity> configUpdate(String serviceId, String config) {
-        String url = getUrl() + "/console/config/update-sync/" + serviceId;
+        String url = getUrl() + "console/config/update-sync/" + serviceId;
 
         // 解决中文乱码
         HttpHeaders headers = new HttpHeaders();
@@ -146,7 +147,7 @@ public class ServiceController {
     }
 
     public static String configUpdate(Instance instance, String config) {
-        String url = getUrl(instance) + "/config/update-sync";
+        String url = getUrl(instance) + "config/update-sync";
 
         // 解决中文乱码
         HttpHeaders headers = new HttpHeaders();
@@ -164,7 +165,7 @@ public class ServiceController {
     }
 
     public static String remoteConfigClear(String group, String serviceId) {
-        String url = getUrl() + "/console/remote-config/clear/" + group + "/" + serviceId;
+        String url = getUrl() + "console/remote-config/clear/" + group + "/" + serviceId;
 
         String result = restTemplate.postForEntity(url, null, String.class).getBody();
 
@@ -177,7 +178,7 @@ public class ServiceController {
     }
 
     public static List<ResultEntity> configClear(String serviceId) {
-        String url = getUrl() + "/console/config/clear/" + serviceId;
+        String url = getUrl() + "console/config/clear/" + serviceId;
 
         String result = restTemplate.postForEntity(url, null, String.class).getBody();
 
@@ -186,7 +187,7 @@ public class ServiceController {
     }
 
     public static String configClear(Instance instance) {
-        String url = getUrl(instance) + "/config/clear";
+        String url = getUrl(instance) + "config/clear";
 
         String result = restTemplate.postForEntity(url, null, String.class).getBody();
 
@@ -199,7 +200,7 @@ public class ServiceController {
     }
 
     public static String remoteConfigView(String group, String serviceId) {
-        String url = getUrl() + "/console/remote-config/view/" + group + "/" + serviceId;
+        String url = getUrl() + "console/remote-config/view/" + group + "/" + serviceId;
 
         String result = restTemplate.getForEntity(url, String.class).getBody();
 
@@ -216,7 +217,7 @@ public class ServiceController {
     }
 
     private static String getUrl(Instance instance) {
-        String url = "http://" + instance.getHost() + ":" + instance.getPort();
+        String url = "http://" + instance.getHost() + ":" + instance.getPort() + UrlUtil.formatContextPath(instance.getContextPath());
 
         return url;
     }

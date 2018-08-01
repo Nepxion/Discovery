@@ -68,6 +68,11 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
+    public String getContextPath() {
+        return getMetadata().get(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH);
+    }
+
+    @Override
     public Map<String, String> getMetadata() {
         return registration.getMetadata();
     }
