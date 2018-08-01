@@ -29,8 +29,8 @@ public class VersionClearRestInvoker extends AbstractRestInvoker {
     }
 
     @Override
-    protected String getUrl(String host, int port) {
-        return "http://" + host + ":" + port + "/version/clear";
+    protected String getSuffixPath() {
+        return "version/clear";
     }
 
     @Override

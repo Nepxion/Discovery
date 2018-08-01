@@ -47,6 +47,12 @@ public class Instance extends InstanceEntity {
         this.dynamicRule = dynamicRule;
     }
 
+    public String getContextPath() {
+        Map<String, String> metadata = getMetadata();
+
+        return metadata.get(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH);
+    }
+
     public String getFilter() {
         Map<String, String> metadata = getMetadata();
         String filterKey = metadata.get(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY);

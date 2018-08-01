@@ -18,8 +18,6 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
-
 public class RouterEntity implements Serializable {
     private static final long serialVersionUID = -4480475963615166799L;
 
@@ -27,6 +25,7 @@ public class RouterEntity implements Serializable {
     private String version;
     private String host;
     private int port;
+    private String contextPath;
 
     private List<RouterEntity> nexts = new ArrayList<RouterEntity>();
 
@@ -62,24 +61,20 @@ public class RouterEntity implements Serializable {
         this.port = port;
     }
 
+    public String getContextPath() {
+        return contextPath;
+    }
+
+    public void setContextPath(String contextPath) {
+        this.contextPath = contextPath;
+    }
+
     public List<RouterEntity> getNexts() {
         return nexts;
     }
 
     public void setNexts(List<RouterEntity> nexts) {
         this.nexts = nexts;
-    }
-
-    public String toInfo() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("[")
-                .append(DiscoveryConstant.SERVICE_ID).append("=").append(serviceId).append(", ")
-                .append(DiscoveryConstant.VERSION).append("=").append(version).append(", ")
-                .append(DiscoveryConstant.HOST).append("=").append(host).append(", ")
-                .append(DiscoveryConstant.PORT).append("=").append(port)
-                .append("]");
-
-        return stringBuilder.toString();
     }
 
     @Override

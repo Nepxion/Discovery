@@ -23,6 +23,8 @@ public interface PluginAdapter {
 
     int getPort();
 
+    String getContextPath();
+
     Map<String, String> getMetadata();
 
     String getVersion();

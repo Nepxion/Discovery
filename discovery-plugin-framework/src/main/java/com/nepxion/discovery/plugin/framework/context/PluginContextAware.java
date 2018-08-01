@@ -109,6 +109,10 @@ public class PluginContextAware implements ApplicationContextAware {
         return getGroupKey(environment);
     }
 
+    public String getContextPath() {
+        return getContextPath(environment);
+    }
+
     public static Boolean isRegisterControlEnabled(Environment environment) {
         return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED, Boolean.class, Boolean.TRUE);
     }
@@ -131,5 +135,9 @@ public class PluginContextAware implements ApplicationContextAware {
 
     public static String getGroupKey(Environment environment) {
         return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY, String.class, DiscoveryConstant.GROUP);
+    }
+
+    public static String getContextPath(Environment environment) {
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH, String.class, "/");
     }
 }

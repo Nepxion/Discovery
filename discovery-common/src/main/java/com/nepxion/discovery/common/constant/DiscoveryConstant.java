@@ -17,6 +17,7 @@ public class DiscoveryConstant {
     public static final String SPRING_APPLICATION_CONFIG_FORMAT = "spring.application.config.format";
     public static final String SPRING_APPLICATION_CONFIG_PATH = "spring.application.config.path";
     public static final String SPRING_APPLICATION_GROUP_KEY = "spring.application.group.key";
+    public static final String SPRING_APPLICATION_CONTEXT_PATH = "spring.application.context-path";
 
     public static final String SPRING_APPLICATION_NAME = "spring.application.name";
     public static final String GROUP = "group";

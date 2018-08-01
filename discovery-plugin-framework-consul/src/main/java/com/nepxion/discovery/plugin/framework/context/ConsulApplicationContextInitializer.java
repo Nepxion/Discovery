@@ -40,6 +40,7 @@ public class ConsulApplicationContextInitializer extends PluginApplicationContex
             tags.add(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED + "=" + PluginContextAware.isDiscoveryControlEnabled(environment));
             tags.add(DiscoveryConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED + "=" + PluginContextAware.isConfigRestControlEnabled(environment));
             tags.add(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY + "=" + PluginContextAware.getGroupKey(environment));
+            tags.add(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH + "=" + PluginContextAware.getContextPath(environment));
 
             return bean;
         } else {

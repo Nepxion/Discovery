@@ -24,6 +24,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.ResultEntity;
+import com.nepxion.discovery.common.util.UrlUtil;
 import com.nepxion.discovery.console.handler.ConsoleErrorHandler;
 
 public abstract class AbstractRestInvoker {
@@ -46,11 +47,13 @@ public abstract class AbstractRestInvoker {
 
         List<ResultEntity> resultEntityList = new ArrayList<ResultEntity>();
         for (ServiceInstance serviceInstance : serviceInstances) {
+            Map<String, String> metadata = serviceInstance.getMetadata();
             String host = serviceInstance.getHost();
             int port = serviceInstance.getPort();
-            String url = getUrl(host, port);
-            String result = null;
+            String contextPath = metadata.get(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH);
+            String url = "http://" + host + ":" + port + UrlUtil.formatContextPath(contextPath) + getSuffixPath();
 
+            String result = null;
             try {
                 checkPermission(serviceInstance);
 
@@ -104,7 +107,7 @@ public abstract class AbstractRestInvoker {
 
     protected abstract String getInfo();
 
-    protected abstract String getUrl(String host, int port);
+    protected abstract String getSuffixPath();
 
     protected abstract String doRest(String url);
 

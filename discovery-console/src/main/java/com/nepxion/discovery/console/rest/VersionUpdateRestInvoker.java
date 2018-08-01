@@ -29,8 +29,8 @@ public class VersionUpdateRestInvoker extends AbstractRestInvoker {
     }
 
     @Override
-    protected String getUrl(String host, int port) {
-        return "http://" + host + ":" + port + "/version/update";
+    protected String getSuffixPath() {
+        return "version/update";
     }
 
     @Override

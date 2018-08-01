@@ -34,8 +34,8 @@ public class ConfigUpdateRestInvoker extends AbstractRestInvoker {
     }
 
     @Override
-    protected String getUrl(String host, int port) {
-        return "http://" + host + ":" + port + "/config/update-" + (async ? "async" : "sync");
+    protected String getSuffixPath() {
+        return "config/update-" + (async ? "async" : "sync");
     }
 
     @Override

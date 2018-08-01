@@ -25,8 +25,8 @@ public class ConfigClearRestInvoker extends AbstractRestInvoker {
     }
 
     @Override
-    protected String getUrl(String host, int port) {
-        return "http://" + host + ":" + port + "/config/clear";
+    protected String getSuffixPath() {
+        return "config/clear";
     }
 
     @Override
