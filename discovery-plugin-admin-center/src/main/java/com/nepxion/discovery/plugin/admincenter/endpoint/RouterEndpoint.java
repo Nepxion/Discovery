@@ -141,8 +141,9 @@ public class RouterEndpoint implements MvcEndpoint {
 
         List<RouterEntity> routerEntityList = new ArrayList<RouterEntity>();
         for (ServiceInstance instance : instanceList) {
+            Map<String, String> metadata = instance.getMetadata();
             String serviceId = instance.getServiceId().toLowerCase();
-            String version = instance.getMetadata().get(DiscoveryConstant.VERSION);
+            String version = metadata.get(DiscoveryConstant.VERSION);
             String host = instance.getHost();
             int port = instance.getPort();
 
@@ -175,8 +176,9 @@ public class RouterEndpoint implements MvcEndpoint {
 
         List<RouterEntity> routerEntityList = new ArrayList<RouterEntity>();
         for (Map<String, ?> instance : instanceList) {
+            Map<String, String> metadata = (Map<String, String>) instance.get(DiscoveryConstant.METADATA);
             String serviceId = instance.get(DiscoveryConstant.SERVICE_ID).toString().toLowerCase();
-            String version = ((Map<String, String>) instance.get(DiscoveryConstant.METADATA)).get(DiscoveryConstant.VERSION);
+            String version = metadata.get(DiscoveryConstant.VERSION);
             String host = instance.get(DiscoveryConstant.HOST).toString();
             Integer port = (Integer) instance.get(DiscoveryConstant.PORT);
 
