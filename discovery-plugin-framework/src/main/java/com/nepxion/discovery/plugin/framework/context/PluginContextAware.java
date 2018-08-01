@@ -9,6 +9,7 @@ package com.nepxion.discovery.plugin.framework.context;
  * @version 1.0
  */
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
@@ -121,11 +122,11 @@ public class PluginContextAware implements ApplicationContextAware {
     }
 
     public static String getConfigFormat(Environment environment) {
-        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_CONFIG_FORMAT, DiscoveryConstant.XML_FORMAT);
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_CONFIG_FORMAT, String.class, DiscoveryConstant.XML_FORMAT);
     }
 
     public static String getConfigPath(Environment environment) {
-        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_CONFIG_PATH);
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_CONFIG_PATH, String.class, StringUtils.equals(getConfigFormat(environment), DiscoveryConstant.XML_FORMAT) ? DiscoveryConstant.PREFIX_CLASSPATH + DiscoveryConstant.RULE + "." + DiscoveryConstant.XML_FORMAT : DiscoveryConstant.PREFIX_CLASSPATH + DiscoveryConstant.RULE + "." + DiscoveryConstant.JSON_FORMAT);
     }
 
     public static String getGroupKey(Environment environment) {

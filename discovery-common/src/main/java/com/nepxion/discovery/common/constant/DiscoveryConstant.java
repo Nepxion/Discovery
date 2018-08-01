@@ -32,6 +32,8 @@ public class DiscoveryConstant {
 
     public static final String XML_FORMAT = "xml";
     public static final String JSON_FORMAT = "json";
+    public static final String PREFIX_CLASSPATH = "classpath:";
+    public static final String PREFIX_FILE = "file:";
 
     public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
     public static final String ENCODING_UTF_8 = "UTF-8";
