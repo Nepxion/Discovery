@@ -85,6 +85,11 @@ public class ServiceTopology extends AbstractTopology {
 
     public static final String NO_FILTER = ConsoleLocale.getString("no_service_cluster_filter");
 
+    // private static AlarmSeverity grayAlarmSeverity;
+    // static {
+    //     grayAlarmSeverity = AlarmSeverity.registerAlarmSeverity("GRAY", "G", 600, AlarmSeverity.COLOR_MINOR, null);
+    // }
+
     private LocationEntity groupLocationEntity = new LocationEntity(120, 250, 280, 0);
     private LocationEntity nodeLocationEntity = new LocationEntity(0, 0, 120, 100);
     private TopologyEntity serviceGroupEntity = new TopologyEntity(TopologyEntityType.SERVICE_GROUP, TopologyStyleType.LARGE, true);
@@ -227,7 +232,6 @@ public class ServiceTopology extends AbstractTopology {
     private void addService(String filterId, String serviceId, List<Instance> instances) {
         String filter = getValidFilter(instances);
         String plugin = getValidPlugin(instances);
-
         if (!StringUtils.equals(filterId, NO_FILTER) && !StringUtils.equals(filterId, filter)) {
             return;
         }
@@ -293,7 +297,6 @@ public class ServiceTopology extends AbstractTopology {
 
     private Object[] filter(Map<String, List<Instance>> instanceMap) {
         List<String> filters = new ArrayList<String>();
-
         for (Map.Entry<String, List<Instance>> entry : instanceMap.entrySet()) {
             List<Instance> instances = entry.getValue();
             for (Instance instance : instances) {
@@ -316,7 +319,6 @@ public class ServiceTopology extends AbstractTopology {
     private Object[] filterServices(TNode node, Map<String, List<Instance>> instanceMap) {
         Set<String> services = instanceMap.keySet();
         List<String> filterServices = new ArrayList<String>();
-
         for (String service : services) {
             TGroup group = getGroup(service);
             // node.getParent() != group 表示自己不能路由自己
@@ -346,10 +348,33 @@ public class ServiceTopology extends AbstractTopology {
         return ButtonManager.getHtmlText(serviceId + " [" + count + "]" + (StringUtils.isNotEmpty(filter) ? "\n" + filter : ""));
     }
 
+    @SuppressWarnings("unchecked")
     private void updateGroup(TGroup group) {
         String name = getGroupName(group.getUserObject().toString(), group.childrenSize(), getFilter(group));
-
         group.setName(name);
+
+        boolean hasDynamicRule = false;
+        boolean hasDynamicVersion = false;
+        List<TNode> nodes = group.getChildren();
+        Iterator<TNode> iterator = nodes.iterator();
+        while (iterator.hasNext()) {
+            TNode node = iterator.next();
+            Instance instance = (Instance) node.getUserObject();
+            if (StringUtils.isNotEmpty(instance.getDynamicRule())) {
+                hasDynamicRule = true;
+            }
+
+            if (StringUtils.isNotEmpty(instance.getDynamicVersion())) {
+                hasDynamicVersion = true;
+            }
+        }
+
+        group.getAlarmState().clear();
+        if (hasDynamicRule) {
+            group.getAlarmState().addAcknowledgedAlarm(AlarmSeverity.MINOR);
+        } else if (hasDynamicVersion) {
+            group.getAlarmState().addAcknowledgedAlarm(AlarmSeverity.WARNING);
+        }
     }
 
     private String getNodeName(Instance instance) {
@@ -369,14 +394,15 @@ public class ServiceTopology extends AbstractTopology {
     private void updateNode(TNode node, Instance instance) {
         String name = getNodeName(instance);
         node.setName(name);
-        if (StringUtils.isNotEmpty(instance.getDynamicRule())) {
-            node.getAlarmState().clear();
-            node.getAlarmState().addAcknowledgedAlarm(AlarmSeverity.WARNING);
-        } else if (StringUtils.isNotEmpty(instance.getDynamicVersion())) {
-            node.getAlarmState().clear();
+
+        boolean hasDynamicRule = StringUtils.isNotEmpty(instance.getDynamicRule());
+        boolean hasDynamicVersion = StringUtils.isNotEmpty(instance.getDynamicVersion());
+
+        node.getAlarmState().clear();
+        if (hasDynamicRule) {
             node.getAlarmState().addAcknowledgedAlarm(AlarmSeverity.MINOR);
-        } else {
-            node.getAlarmState().clear();
+        } else if (hasDynamicVersion) {
+            node.getAlarmState().addAcknowledgedAlarm(AlarmSeverity.WARNING);
         }
     }
 
@@ -418,7 +444,6 @@ public class ServiceTopology extends AbstractTopology {
         boolean hasException = false;
 
         TGroup group = (TGroup) node.getParent();
-
         try {
             updateGrayState(node);
         } catch (Exception e) {
@@ -440,7 +465,6 @@ public class ServiceTopology extends AbstractTopology {
         boolean hasException = false;
 
         List<TNode> nodes = group.getChildren();
-
         Iterator<TNode> iterator = nodes.iterator();
         while (iterator.hasNext()) {
             TNode node = iterator.next();
