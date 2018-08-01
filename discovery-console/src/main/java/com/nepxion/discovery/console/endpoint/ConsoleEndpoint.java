@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.InstanceEntity;
 import com.nepxion.discovery.console.remote.ConfigAdapter;
 import com.nepxion.discovery.console.rest.ConfigClearRestInvoker;
@@ -138,11 +139,11 @@ public class ConsoleEndpoint {
         List<ServiceInstance> serviceInstances = getInstances(service);
         List<InstanceEntity> instanceEntityList = new ArrayList<InstanceEntity>(serviceInstances.size());
         for (ServiceInstance serviceInstance : serviceInstances) {
+            Map<String, String> metadata = serviceInstance.getMetadata();
             String serviceId = serviceInstance.getServiceId().toLowerCase();
-            String version = serviceInstance.getMetadata().get("version");
+            String version = metadata.get(DiscoveryConstant.VERSION);
             String host = serviceInstance.getHost();
             int port = serviceInstance.getPort();
-            Map<String, String> metadata = serviceInstance.getMetadata();
 
             InstanceEntity instanceEntity = new InstanceEntity();
             instanceEntity.setServiceId(serviceId);
