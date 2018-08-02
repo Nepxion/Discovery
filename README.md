@@ -392,15 +392,17 @@ spring.cloud.consul.discovery.tags=version=1.0,group=xxx-service-group
 # Zookeeper config
 spring.cloud.zookeeper.discovery.metadata.version=1.0
 spring.cloud.zookeeper.discovery.metadata.group=xxx-service-group
+
+# Admin config
+# 如下配置只使用Spring Cloud E版本，F版本不需要配置
+# 关闭访问Rest接口时候的权限验证
+management.security.enabled=false
+management.port=5100
 ```
 
 ### 功能开关策略
 请注意，如下很多配置项，如果使用者不想做特色化的处理，为避免繁琐，可以零配置（除了最底下，但一般也不会被用到）
 ```xml
-# Admin config
-# 关闭访问Rest接口时候的权限验证
-management.security.enabled=false
-
 # Plugin config
 # 开启和关闭服务注册层面的控制。一旦关闭，服务注册的黑/白名单过滤功能将失效，最大注册数的限制过滤功能将失效。缺失则默认为true
 # spring.application.register.control.enabled=true
