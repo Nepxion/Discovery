@@ -131,6 +131,11 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
   - Redis服务器版本，推荐用最新版本，从[https://redis.io/](https://redis.io/)获取
 
 ## 依赖
+| Spring Cloud版本 | Nepxion Discovery版本 |
+| --- | --- |
+| Finchley | 4.2.8 |
+| Edgware | 3.5.8 |
+
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
