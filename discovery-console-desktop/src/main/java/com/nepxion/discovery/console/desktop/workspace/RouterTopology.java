@@ -16,6 +16,8 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.HierarchyEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.List;
 
 import javax.swing.Box;
@@ -80,8 +82,17 @@ public class RouterTopology extends AbstractTopology {
     }
 
     private void initializeToolBar() {
+        JSecurityAction addServiceAction = createAddServiceAction();
+
         comboBox = new JBasicComboBox();
         comboBox.setPreferredSize(new Dimension(300, comboBox.getPreferredSize().height));
+        comboBox.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                if (comboBox.getSelectedItem() != e.getItem()) {
+                    addServiceAction.execute(null);
+                }
+            }
+        });
 
         textField = new JBasicTextField();
         textField.setPreferredSize(new Dimension(650, textField.getPreferredSize().height));
@@ -92,7 +103,7 @@ public class RouterTopology extends AbstractTopology {
         toolBar.add(new JLabel(ConsoleLocale.getString("service_list")));
         toolBar.add(Box.createHorizontalStrut(5));
         toolBar.add(comboBox);
-        toolBar.add(new JClassicButton(createAddServiceAction()));
+        toolBar.add(new JClassicButton(addServiceAction));
         toolBar.add(new JClassicButton(createDeleteServiceAction()));
         toolBar.add(textField);
         toolBar.add(new JClassicButton(createExecuteRouterAction()));
