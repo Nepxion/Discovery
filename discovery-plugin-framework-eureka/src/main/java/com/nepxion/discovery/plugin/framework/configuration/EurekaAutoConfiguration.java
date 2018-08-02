@@ -30,7 +30,7 @@ public class EurekaAutoConfiguration {
         System.out.println("╚═══╩╩══╩══╩══╝╚╝╚══╩╝╚═╗╔╝");
         System.out.println("                      ╔═╝║");
         System.out.println("                      ╚══╝");
-        System.out.println("Nepxion Discovery - " + EurekaConstant.DISCOVERY_PLUGIN + "  v3.5.7");
+        System.out.println("Nepxion Discovery - " + EurekaConstant.DISCOVERY_PLUGIN + "  v3.5.8");
         System.out.println("");
     }
 
