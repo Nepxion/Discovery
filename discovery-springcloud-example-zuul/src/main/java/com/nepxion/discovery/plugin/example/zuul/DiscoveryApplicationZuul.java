@@ -14,6 +14,9 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 import com.nepxion.discovery.plugin.example.zuul.extension.MyDiscoveryEnabledAdapter;
 
@@ -23,6 +26,14 @@ import com.nepxion.discovery.plugin.example.zuul.extension.MyDiscoveryEnabledAda
 public class DiscoveryApplicationZuul {
     public static void main(String[] args) {
         new SpringApplicationBuilder(DiscoveryApplicationZuul.class).run(args);
+    }
+
+    @Configuration
+    public static class SecurityPermitAllConfig extends WebSecurityConfigurerAdapter {
+        @Override
+        protected void configure(HttpSecurity httpSecurity) throws Exception {
+            httpSecurity.authorizeRequests().anyRequest().permitAll().and().csrf().disable();
+        }
     }
 
     @Bean
