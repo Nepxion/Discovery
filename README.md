@@ -23,12 +23,16 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 - 图形化演示操作
   - 请访问[http://www.iqiyi.com/w_19rzwzovrl.html](http://www.iqiyi.com/w_19rzwzovrl.html)，视频清晰度改成720P，然后最大化播放
   - 请访问[https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA](https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA)，获取更清晰的视频，注意一定要下载下来看，不要在线看，否则也不清晰
+- 更多教程和示例查看最下面的“示例演示”
+- 界面展示
+图形化灰度发布桌面程序
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console1.jpg)
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console2.jpg)
+集成Spring Boot Admin（F版）
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Admin1.jpg)
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Admin2.jpg)
+集成Spring Boot Admin（E版），实现通过JMX向Endpoint推送规则和版本，达到灰度发布目的（该功能F版本不支持）
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Admin3.jpg)
-- 更多教程和示例查看最下面的“示例演示”
 
 ## 痛点
 现有Spring Cloud的痛点
