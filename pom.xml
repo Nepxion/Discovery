@@ -34,6 +34,7 @@
         <module>discovery-console-extension-redis</module>
         <module>discovery-console-starter</module>
         <module>discovery-console-desktop</module>
+        <module>discovery-springcloud-example-admin</module>
         <module>discovery-springcloud-example-console</module>
         <module>discovery-springcloud-example-eureka</module>
         <module>discovery-springcloud-example-service</module>
