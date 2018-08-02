@@ -22,8 +22,6 @@ import com.nepxion.discovery.plugin.example.zuul.extension.MyDiscoveryEnabledAda
 @EnableZuulProxy
 public class DiscoveryApplicationZuul {
     public static void main(String[] args) {
-        System.setProperty("spring.profiles.active", "zuul");
-
         new SpringApplicationBuilder(DiscoveryApplicationZuul.class).run(args);
     }
 

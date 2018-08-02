@@ -20,8 +20,6 @@ import com.nepxion.discovery.plugin.example.gateway.extension.MyDiscoveryEnabled
 @EnableDiscoveryClient
 public class DiscoveryApplicationGateway {
     public static void main(String[] args) {
-        System.setProperty("spring.profiles.active", "gateway");
-
         new SpringApplicationBuilder(DiscoveryApplicationGateway.class).run(args);
     }
 
