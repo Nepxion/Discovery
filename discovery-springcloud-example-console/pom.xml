@@ -19,6 +19,7 @@
     <properties>
         <discovery.plugin.version>4.2.8</discovery.plugin.version>
         <spring.cloud.version>Finchley.RELEASE</spring.cloud.version>
+        <spring.boot.admin.version>2.0.2</spring.boot.admin.version>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -37,6 +38,14 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-dependencies</artifactId>
+                <version>${spring.boot.admin.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -60,6 +69,11 @@
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
             <!-- <artifactId>spring-cloud-starter-consul-discovery</artifactId> -->
             <!-- <artifactId>spring-cloud-starter-zookeeper-discovery</artifactId> -->
+        </dependency>
+
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
         </dependency>
     </dependencies>
 
