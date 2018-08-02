@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @FeignClient(value = "discovery-springcloud-example-b")
-// Context-patch一旦被设置，在Feign也要带上context-path，外部Postman调用网关或者服务路径也要带context-path
+// Context-patch涓�鏃﹁璁剧疆锛屽湪Feign涔熻甯︿笂context-path锛屽閮≒ostman璋冪敤缃戝叧鎴栬�呮湇鍔¤矾寰勪篃瑕佸甫context-path
 // @FeignClient(value = "discovery-springcloud-example-b/nepxion")
 public interface BFeign {
     @RequestMapping(path = "/invoke", method = RequestMethod.POST)
