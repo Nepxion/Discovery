@@ -4,7 +4,7 @@
 [![Javadocs](http://www.javadoc.io/badge/com.nepxion/discovery.svg)](http://www.javadoc.io/doc/com.nepxion/discovery)
 [![Build Status](https://travis-ci.org/Nepxion/Discovery.svg?branch=master)](https://travis-ci.org/Nepxion/Discovery)
 
-Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件，其功能包括多版本灰度发布，黑/白名单的IP地址过滤，限制注册等，支持Eureka、Consul和Zookeeper，支持Spring Cloud Api Gateway（F版）、Zuul网关和微服务的灰度发布，支持用户自定义和编程灰度路由策略，支持Nacos和Redis为远程配置中心，支持Spring Cloud E版和F版。现有的Spring Cloud微服务可以方便引入该插件，代码零侵入
+Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件，其功能包括多版本灰度发布，黑/白名单的IP地址过滤，限制注册等，支持Eureka、Consul和Zookeeper，支持Spring Cloud Api Gateway（Finchley版）、Zuul网关和微服务的灰度发布，支持用户自定义和编程灰度路由策略，支持Nacos和Redis为远程配置中心，支持Spring Cloud Edgware版和Finchley版。现有的Spring Cloud微服务可以方便引入该插件，代码零侵入
 
 使用者只需要做如下简单的事情：
 - 引入相关Plugin Starter依赖到pom.xml
@@ -32,7 +32,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 集成Spring Boot Admin（F版）
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Admin1.jpg)
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Admin2.jpg)
-集成Spring Boot Admin（E版），实现通过JMX向Endpoint推送规则和版本，达到灰度发布目的（该功能F版不支持）
+集成Spring Boot Admin（E版），实现通过JMX向Endpoint推送规则和版本，达到灰度发布目的
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Admin3.jpg)
 
 ## 痛点
@@ -74,6 +74,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 - 实现基于独立控制台微服务的图形化的灰度发布功能（运行discovery-console-desktop下的ConsoleLauncher）
 
 ## 名词解释
+- E版和F版，即Spring Cloud的Edgware和Finchley的首字母
 - IP地址，即根据微服务上报的它所在机器的IP地址。本系统内部强制以IP地址上报，禁止HostName上报，杜绝Spring Cloud应用在Docker或者Kubernetes部署时候出现问题
 - 本地版本，即初始化读取本地配置文件获取的版本，也可以是第一次读取远程配置中心获取的版本。本地版本和初始版本是同一个概念
 - 动态版本，即灰度发布时的版本。动态版本和灰度版本是同一个概念
@@ -82,6 +83,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 - 事件总线，即基于Google Guava的EventBus构建的组件。在使用上，通过事件总线推送动态版本和动态规则的时候，前者只支持异步，后者支持异步和同步
 - 远程配置中心，即可以存储规则配置XML格式的配置中心，可以包括不限于Nacos，Redis，Apollo，DisConf，Spring Cloud Config
 - 配置（Config）和规则（Rule），在本系统中属于同一个概念，例如更新配置，即更新规则，例如远程配置中心存储的配置，即规则XML
+- 服务端口和管理端口，即服务端口指在配置文件的server.port值，管理端口指management.port（E版）值或者management.server.port（F版）值
 
 ## 场景
 - 黑/白名单的IP地址注册的过滤
@@ -124,7 +126,9 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 版本兼容情况
 - Spring Cloud F版，请采用4.x.x版本，具体代码参考master分支
 - Spring Cloud E版，请采用3.x.x版本，具体代码参考Edgware分支
-- 4.x.x版本由于Swagger和Spring Boot 2.x.x版本的Actuator用法有冲突，故暂时不支持Endpoint功能（即无法通过管理端口进行灰度发布，只能通过服务端口），其他功能和3.x.x版本一致
+- 4.x.x版本和3.x.x版本功能完全一致，但在Endpoint的URL使用方式上稍微有个小的区别。例如
+  - 3.x.x的Endpoint URL为http://localhost:5100/config/view
+  - 4.x.x的Endpoint URL为http://localhost:5100/actuator/config/config/view，注意，路径中config为两个，前面那个是Endpoint Id，Spring Boot 2.x.x规定Endpoint Id必须指定，且全局唯一
 
 中间件兼容情况
 - Consul
@@ -142,8 +146,8 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 ## 依赖
 | Spring Cloud版本 | Nepxion Discovery版本 |
 | --- | --- |
-| Finchley | 4.2.8 |
-| Edgware | 3.5.8 |
+| Finchley | 4.2.9 |
+| Edgware | 3.5.9 |
 
 ```xml
 <dependency>
@@ -451,7 +455,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.plugin.example.s
   - 参考三个跟Nacos或者Redis有关的工程
 
 ## 管理中心
-> PORT端口号为server.port或者management.port都可以（后者只支持E版）
+> PORT端口号为服务端口或者管理端口都可以
 ### 配置接口
 ### 版本接口
 ### 路由接口
@@ -464,7 +468,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.plugin.example.s
 - 一系列批量功能
 - 跟Nacos和Redis集成，实现配置拉去、推送和清除
 
-> PORT端口号为server.port或者management.port都可以（后者只支持E版）
+> PORT端口号为服务端口或者管理端口都可以
 ### 控制台接口
 参考Swagger界面，如下图
 
@@ -580,7 +584,7 @@ Admin见discovery-springcloud-example-admin，对应的版本和端口号如下�
 #### 基于Rest方式的多版本灰度访问控制
 基于服务的操作过程和效果
 - 启动discovery-springcloud-example-service下7个DiscoveryApplication，无先后顺序，等待全部启动完毕
-- 下面URL的端口号，可以是服务端口号，也可以是管理端口号（注意：管理端口不支持F版）
+- 下面URL的端口号，可以是服务端口号，也可以是管理端口号
 - 通过版本切换，达到灰度访问控制，针对A服务
   - 1.1 通过Postman或者浏览器，执行POST [http://localhost:1100/routes](http://localhost:1100/routes)，填入discovery-springcloud-example-b;discovery-springcloud-example-c，查看路由路径，如图1，可以看到符合预期的调用路径
   - 1.2 通过Postman或者浏览器，执行POST [http://localhost:1100/version/update](http://localhost:1100/version/update)，填入1.1，动态把服务A的版本从1.0切换到1.1
