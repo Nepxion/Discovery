@@ -32,7 +32,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 集成Spring Boot Admin（F版）
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Admin1.jpg)
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Admin2.jpg)
-集成Spring Boot Admin（E版），实现通过JMX向Endpoint推送规则和版本，达到灰度发布目的（该功能F版本不支持）
+集成Spring Boot Admin（E版），实现通过JMX向Endpoint推送规则和版本，达到灰度发布目的（该功能F版不支持）
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Admin3.jpg)
 
 ## 痛点
