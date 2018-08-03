@@ -124,7 +124,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 版本兼容情况
 - Spring Cloud F版，请采用4.x.x版本，具体代码参考master分支
 - Spring Cloud E版，请采用3.x.x版本，具体代码参考Edgware分支
-- 4.x.x版本由于Swagger和Spring Boot 2.x.x版本的Actuator用法有冲突，故暂时不支持Endpoint功能，其他功能和3.x.x版本一致
+- 4.x.x版本由于Swagger和Spring Boot 2.x.x版本的Actuator用法有冲突，故暂时不支持Endpoint功能（即无法通过管理端口进行灰度发布，只能通过服务端口），其他功能和3.x.x版本一致
 
 中间件兼容情况
 - Consul
@@ -261,6 +261,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 | discovery-console-extension-redis | 独立控制台的Redis扩展 |
 | discovery-console-starter | Console Starter |
 | discovery-console-desktop | 图形化灰度发布等桌面程序 |
+| discovery-springcloud-example-admin | Spring Boot Admin服务台示例 |
 | discovery-springcloud-example-console | 独立控制台示例 |
 | discovery-springcloud-example-eureka | Eureka服务器示例 |
 | discovery-springcloud-example-service | 用于灰度发布的微服务示例 |
@@ -403,10 +404,12 @@ spring.cloud.zookeeper.discovery.metadata.version=1.0
 spring.cloud.zookeeper.discovery.metadata.group=xxx-service-group
 
 # Admin config
-# 如下配置只使用Spring Cloud E版本，F版本不需要配置
 # 关闭访问Rest接口时候的权限验证
 management.security.enabled=false
+# E版配置方式
 management.port=5100
+# F版配置方式
+management.server.port=5100
 ```
 
 ### 功能开关策略
@@ -448,7 +451,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.plugin.example.s
   - 参考三个跟Nacos或者Redis有关的工程
 
 ## 管理中心
-> PORT端口号为server.port或者management.port都可以（management.port开放只支持3.x.x版本）
+> PORT端口号为server.port或者management.port都可以（后者只支持E版）
 ### 配置接口
 ### 版本接口
 ### 路由接口
@@ -461,7 +464,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.plugin.example.s
 - 一系列批量功能
 - 跟Nacos和Redis集成，实现配置拉去、推送和清除
 
-> PORT端口号为server.port或者management.port都可以（（注意：管理端口不支持F版）
+> PORT端口号为server.port或者management.port都可以（后者只支持E版）
 ### 控制台接口
 参考Swagger界面，如下图
 
@@ -524,6 +527,12 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.plugin.example.s
 | 服务端口 | 管理端口 |
 | --- | --- |
 | 2222 | 3333 |
+
+Admin见discovery-springcloud-example-admin，对应的版本和端口号如下表
+
+| 服务端口 | 
+| --- |
+| 5555 |
 
 ### 开始演示
 - 启动服务注册发现中心，默认是Eureka。可供选择的有Eureka，Zuul，Zookeeper。Eureka，请启动discovery-springcloud-example-eureka下的应用，后两者自行安装服务器
