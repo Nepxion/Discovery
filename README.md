@@ -30,10 +30,10 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 图形化灰度发布桌面程序
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console1.jpg)
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console2.jpg)
-集成Spring Boot Admin（F版）
+集成Spring Boot Admin（F版）服务台
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Admin1.jpg)
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Admin2.jpg)
-集成Spring Boot Admin（E版），实现通过JMX向Endpoint推送规则和版本，达到灰度发布目的
+集成Spring Boot Admin（E版）服务台，实现通过JMX向Endpoint推送规则和版本，达到灰度发布目的
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Admin3.jpg)
 集成了健康检查的Consul控制台
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Consul.jpg)
@@ -473,3 +473,10 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.plugin.example.s
 参考Swagger界面，如下图
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Swagger2.jpg)
+
+## 图形化灰度发布桌面程序
+基于Java Desktop技术的图形化灰度发布工具
+
+## 集成Spring Boot Admin服务台
+基于Spring Boot Actuator技术的Spring Boot Admin服务台
+请参考[https://github.com/codecentric/spring-boot-admin](https://github.com/codecentric/spring-boot-admin)
