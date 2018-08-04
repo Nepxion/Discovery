@@ -479,4 +479,5 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.plugin.example.s
 
 ## 集成Spring Boot Admin服务台
 基于Spring Boot Actuator技术的Spring Boot Admin服务台
+
 请参考[https://github.com/codecentric/spring-boot-admin](https://github.com/codecentric/spring-boot-admin)
