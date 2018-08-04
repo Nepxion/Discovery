@@ -20,6 +20,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/zxing-doc/微信群-1.jpg) ![Alt text](https://github.com/Nepxion/Docs/blob/master/zxing-doc/微信-1.jpg)
 
 ## 快速开始
+- 查阅[极简入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_QUICK_START.md)
 - 图形化演示操作
   - 请访问[http://www.iqiyi.com/w_19rzwzovrl.html](http://www.iqiyi.com/w_19rzwzovrl.html)，视频清晰度改成720P，然后最大化播放
   - 请访问[https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA](https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA)，获取更清晰的视频，注意一定要下载下来看，不要在线看，否则也不清晰
