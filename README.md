@@ -187,7 +187,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 
 <dependency>
     <groupId>com.nepxion</groupId>
-    <artifactId>discovery-plugin-config-center-extension-nacos</artifactId>
+    <artifactId>discovery-plugin-config-center-extension-redis</artifactId>
 </dependency>
 
 [选择引入] 用户自定义和编程灰度路由，如需要，请引入
