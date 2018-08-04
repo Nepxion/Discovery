@@ -25,7 +25,6 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 - 图形化演示操作
   - 请访问[http://www.iqiyi.com/w_19rzwzovrl.html](http://www.iqiyi.com/w_19rzwzovrl.html)，视频清晰度改成720P，然后最大化播放
   - 请访问[https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA](https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA)，获取更清晰的视频，注意一定要下载下来看，不要在线看，否则也不清晰
-- 更多教程和示例查看最下面的“示例演示”
 - 界面展示
 
 图形化灰度发布桌面程序
@@ -36,6 +35,8 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Admin2.jpg)
 集成Spring Boot Admin（E版），实现通过JMX向Endpoint推送规则和版本，达到灰度发布目的
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Admin3.jpg)
+集成了健康检查的Consul控制台
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Consul.jpg)
 
 ## 痛点
 现有Spring Cloud的痛点
@@ -388,11 +389,8 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 ## 用户自定义监听
 使用者可以继承如下类
 - AbstractRegisterListener，实现服务注册的监听，用法参考discovery-springcloud-example-service下MyRegisterListener
-- AbstractDiscoveryListener，实现服务发现的监听，用法参考discovery-springcloud-example-service下MyDiscoveryListener。注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断，如下图
+- AbstractDiscoveryListener，实现服务发现的监听，用法参考discovery-springcloud-example-service下MyDiscoveryListener。注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断，见上图“集成了健康检查的Consul控制台”
 - AbstractLoadBalanceListener，实现负载均衡的监听，用法参考discovery-springcloud-example-service下MyLoadBalanceListener
-
-集成了健康检查的Consul控制台
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Consul.jpg)
 
 ### 版本属性字段定义策略
 不同的服务注册发现组件对应的版本配置值
