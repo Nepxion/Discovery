@@ -12,6 +12,7 @@ package com.nepxion.discovery.plugin.configcenter.parser.xml;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,13 +26,15 @@ import org.slf4j.LoggerFactory;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.CountFilterEntity;
 import com.nepxion.discovery.common.entity.DiscoveryEntity;
-import com.nepxion.discovery.common.entity.VersionEntity;
 import com.nepxion.discovery.common.entity.FilterHolderEntity;
 import com.nepxion.discovery.common.entity.FilterType;
 import com.nepxion.discovery.common.entity.HostFilterEntity;
 import com.nepxion.discovery.common.entity.RegisterEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.VersionEntity;
 import com.nepxion.discovery.common.entity.VersionFilterEntity;
+import com.nepxion.discovery.common.entity.WeightEntity;
+import com.nepxion.discovery.common.entity.WeightFilterEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.configcenter.constant.ConfigConstant;
 import com.nepxion.discovery.plugin.configcenter.parser.xml.dom4j.Dom4JReader;
@@ -129,6 +132,8 @@ public class XmlConfigParser implements PluginConfigParser {
                     parseHostFilter(childElement, ConfigConstant.WHITELIST_ELEMENT_NAME, discoveryEntity);
                 } else if (StringUtils.equals(childElement.getName(), ConfigConstant.VERSION_ELEMENT_NAME)) {
                     parseVersionFilter(childElement, discoveryEntity);
+                } else if (StringUtils.equals(childElement.getName(), ConfigConstant.WEIGHT_ELEMENT_NAME)) {
+                    parseWeightFilter(childElement, discoveryEntity);
                 }
             }
         }
@@ -293,6 +298,71 @@ public class XmlConfigParser implements PluginConfigParser {
         }
 
         discoveryEntity.setVersionFilterEntity(versionFilterEntity);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private void parseWeightFilter(Element element, DiscoveryEntity discoveryEntity) {
+        WeightFilterEntity weightFilterEntity = discoveryEntity.getWeightFilterEntity();
+        if (weightFilterEntity != null) {
+            throw new DiscoveryException("Allow only one element[" + ConfigConstant.WEIGHT_ELEMENT_NAME + "] to be configed");
+        }
+
+        weightFilterEntity = new WeightFilterEntity();
+
+        Map<String, List<WeightEntity>> weightEntityMap = weightFilterEntity.getWeightEntityMap();
+        for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
+            Object childElementObject = elementIterator.next();
+            if (childElementObject instanceof Element) {
+                Element childElement = (Element) childElementObject;
+
+                if (StringUtils.equals(childElement.getName(), ConfigConstant.SERVICE_ELEMENT_NAME)) {
+                    WeightEntity weightEntity = new WeightEntity();
+
+                    Attribute consumerServiceNameAttribute = childElement.attribute(ConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME);
+                    if (consumerServiceNameAttribute == null) {
+                        throw new DiscoveryException("Attribute[" + ConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                    }
+                    String consumerServiceName = consumerServiceNameAttribute.getData().toString().trim();
+                    weightEntity.setConsumerServiceName(consumerServiceName);
+
+                    Attribute providerServiceNameAttribute = childElement.attribute(ConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME);
+                    if (providerServiceNameAttribute == null) {
+                        throw new DiscoveryException("Attribute[" + ConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                    }
+                    String providerServiceName = providerServiceNameAttribute.getData().toString().trim();
+                    weightEntity.setProviderServiceName(providerServiceName);
+
+                    Attribute providerWeightValueAttribute = childElement.attribute(ConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME);
+                    if (providerWeightValueAttribute == null) {
+                        throw new DiscoveryException("Attribute[" + ConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                    }
+                    String providerWeightValue = providerWeightValueAttribute.getData().toString().trim();
+                    Map<String, Integer> weightMap = new LinkedHashMap<String, Integer>();
+                    List<String> providerWeightValueList = parseList(providerWeightValue);
+                    for (String value : providerWeightValueList) {
+                        String[] valueArray = StringUtils.split(value, ConfigConstant.SEPARATE);
+                        String version = valueArray[0].trim();
+                        int weight = Integer.valueOf(valueArray[1].trim());
+                        if (weight < 0) {
+                            throw new DiscoveryException("Attribute[" + ConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] has weight value less than 0");
+                        }
+
+                        weightMap.put(version, weight);
+                    }
+                    weightEntity.setWeightMap(weightMap);
+
+                    List<WeightEntity> weightEntityList = weightEntityMap.get(consumerServiceName);
+                    if (weightEntityList == null) {
+                        weightEntityList = new ArrayList<WeightEntity>();
+                        weightEntityMap.put(consumerServiceName, weightEntityList);
+                    }
+
+                    weightEntityList.add(weightEntity);
+                }
+            }
+        }
+
+        discoveryEntity.setWeightFilterEntity(weightFilterEntity);
     }
 
     private List<String> parseList(String value) {

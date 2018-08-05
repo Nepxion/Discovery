@@ -11,12 +11,12 @@ package com.nepxion.discovery.plugin.strategy.discovery;
 
 import org.springframework.util.Assert;
 
+import com.nepxion.discovery.plugin.framework.decorator.ZoneAvoidanceRuleDecorator;
 import com.netflix.loadbalancer.AbstractServerPredicate;
 import com.netflix.loadbalancer.AvailabilityPredicate;
 import com.netflix.loadbalancer.CompositePredicate;
-import com.netflix.loadbalancer.PredicateBasedRule;
 
-public class DiscoveryEnabledRule extends PredicateBasedRule {
+public class DiscoveryEnabledRule extends ZoneAvoidanceRuleDecorator {
     private final CompositePredicate predicate;
     private final DiscoveryEnabledPredicate discoveryEnabledPredicate;
 
