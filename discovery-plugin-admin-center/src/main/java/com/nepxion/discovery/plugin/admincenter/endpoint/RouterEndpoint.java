@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.Endpoint;
@@ -36,9 +37,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.DiscoveryEntity;
 import com.nepxion.discovery.common.entity.RouterEntity;
+import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.WeightEntity;
+import com.nepxion.discovery.common.entity.WeightFilterEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
+import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.common.util.UrlUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 
@@ -149,6 +156,7 @@ public class RouterEndpoint implements MvcEndpoint {
             String version = metadata.get(DiscoveryConstant.VERSION);
             String host = instance.getHost();
             int port = instance.getPort();
+            int weight = getWeight(routeServiceId, version);
             String contextPath = metadata.get(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH);
 
             RouterEntity routerEntity = new RouterEntity();
@@ -156,6 +164,7 @@ public class RouterEndpoint implements MvcEndpoint {
             routerEntity.setVersion(version);
             routerEntity.setHost(host);
             routerEntity.setPort(port);
+            routerEntity.setWeight(weight);
             routerEntity.setContextPath(contextPath);
 
             routerEntityList.add(routerEntity);
@@ -164,39 +173,22 @@ public class RouterEndpoint implements MvcEndpoint {
         return routerEntityList;
     }
 
-    @SuppressWarnings("unchecked")
     public List<RouterEntity> getRouterEntityList(String routeServiceId, String routeHost, int routePort, String routeContextPath) {
-        String url = "http://" + routeHost + ":" + routePort + UrlUtil.formatContextPath(routeContextPath) + "router/instances/" + routeServiceId;
+        String url = "http://" + routeHost + ":" + routePort + UrlUtil.formatContextPath(routeContextPath) + "router/route/" + routeServiceId;
 
-        List<Map<String, ?>> instanceList = null;
+        String result = null;
         try {
-            instanceList = routerRestTemplate.getForEntity(url, List.class).getBody();
+            result = routerRestTemplate.getForEntity(url, String.class).getBody();
         } catch (RestClientException e) {
             throw new DiscoveryException("Get instance list for route serviceId=" + routeServiceId + " with url=" + url + " failed", e);
         }
 
-        if (CollectionUtils.isEmpty(instanceList)) {
+        if (StringUtils.isEmpty(result)) {
             return null;
         }
 
-        List<RouterEntity> routerEntityList = new ArrayList<RouterEntity>();
-        for (Map<String, ?> instance : instanceList) {
-            Map<String, String> metadata = (Map<String, String>) instance.get(DiscoveryConstant.METADATA);
-            String serviceId = instance.get(DiscoveryConstant.SERVICE_ID).toString().toLowerCase();
-            String version = metadata.get(DiscoveryConstant.VERSION);
-            String host = instance.get(DiscoveryConstant.HOST).toString();
-            Integer port = (Integer) instance.get(DiscoveryConstant.PORT);
-            String contextPath = metadata.get(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH);
-
-            RouterEntity routerEntity = new RouterEntity();
-            routerEntity.setServiceId(serviceId);
-            routerEntity.setVersion(version);
-            routerEntity.setHost(host);
-            routerEntity.setPort(port);
-            routerEntity.setContextPath(contextPath);
-
-            routerEntityList.add(routerEntity);
-        }
+        List<RouterEntity> routerEntityList = JsonUtil.fromJson(result, new TypeReference<List<RouterEntity>>() {
+        });
 
         return routerEntityList;
     }
@@ -265,6 +257,48 @@ public class RouterEndpoint implements MvcEndpoint {
         }
 
         return routerEntityList;
+    }
+
+    private int getWeight(String providerServiceId, String providerVersion) {
+        RuleEntity ruleEntity = pluginAdapter.getRule();
+        if (ruleEntity == null) {
+            return -1;
+        }
+
+        DiscoveryEntity discoveryEntity = ruleEntity.getDiscoveryEntity();
+        if (discoveryEntity == null) {
+            return -1;
+        }
+
+        WeightFilterEntity weightFilterEntity = discoveryEntity.getWeightFilterEntity();
+        if (weightFilterEntity == null) {
+            return -1;
+        }
+
+        Map<String, List<WeightEntity>> weightEntityMap = weightFilterEntity.getWeightEntityMap();
+        if (MapUtils.isEmpty(weightEntityMap)) {
+            return -1;
+        }
+
+        String serviceId = pluginAdapter.getServiceId();
+
+        List<WeightEntity> weightEntityList = weightEntityMap.get(serviceId);
+        if (CollectionUtils.isEmpty(weightEntityList)) {
+            return -1;
+        }
+
+        for (WeightEntity weightEntity : weightEntityList) {
+            String providerServiceName = weightEntity.getProviderServiceName();
+            if (StringUtils.equalsIgnoreCase(providerServiceName, providerServiceId)) {
+                Map<String, Integer> weightMap = weightEntity.getWeightMap();
+                Integer weight = weightMap.get(providerVersion);
+                if (weight != null) {
+                    return weight;
+                }
+            }
+        }
+
+        return -1;
     }
 
     @Override
