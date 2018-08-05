@@ -142,10 +142,12 @@ public class RouterTopology extends AbstractTopology {
                 typeComboBox.setSelectedIndex(2);
 
                 JPanel childPanel2 = (JPanel) layoutPanel.getComponent(1);
+                JSlider yOffsetSlider = (JSlider) childPanel2.getComponent(11);
+                yOffsetSlider.setValue(0);
                 JSlider xGapSlider = (JSlider) childPanel2.getComponent(13);
                 xGapSlider.setValue(200);
                 JSlider yGapSlider = (JSlider) childPanel2.getComponent(15);
-                yGapSlider.setValue(100);
+                yGapSlider.setValue(150);
 
                 JPanel childPanel3 = (JPanel) layoutPanel.getComponent(2);
                 JBasicButton runButton = (JBasicButton) childPanel3.getComponent(1);
@@ -184,7 +186,7 @@ public class RouterTopology extends AbstractTopology {
 
                     index++;
                 }
-                addLink(node, nextNode);
+                addLink(node, nextNode, next);
 
                 route(next, nextNode, index);
             }
@@ -215,9 +217,17 @@ public class RouterTopology extends AbstractTopology {
         return node;
     }
 
-    private void addLink(TNode fromNode, TNode toNode) {
+    private void addLink(TNode fromNode, TNode toNode, RouterEntity routerEntity) {
+        int weight = routerEntity.getWeight();
+
         TLink link = createLink(fromNode, toNode, true);
         link.putLinkToArrowColor(Color.yellow);
+        if (weight > -1) {
+            link.setName("weight=" + weight);
+            link.putLinkFlowing(true);
+            link.putLinkFlowingColor(new Color(255, 155, 85));
+            link.putLinkFlowingWidth(3);
+        }
 
         dataBox.addElement(link);
     }

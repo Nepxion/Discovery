@@ -21,10 +21,10 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.nepxion.discovery.common.entity.ResultEntity;
 import com.nepxion.discovery.common.entity.RouterEntity;
+import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.common.util.UrlUtil;
 import com.nepxion.discovery.console.desktop.context.PropertiesContext;
 import com.nepxion.discovery.console.desktop.entity.Instance;
-import com.nepxion.discovery.console.desktop.serializer.JacksonSerializer;
 
 public class ServiceController {
     public static RestTemplate restTemplate;
@@ -224,7 +224,7 @@ public class ServiceController {
 
     private static <T> T convert(String result, TypeReference<T> typeReference) {
         try {
-            return JacksonSerializer.fromJson(result, typeReference);
+            return JsonUtil.fromJson(result, typeReference);
         } catch (Exception e) {
             ServiceErrorHandler errorHandler = (ServiceErrorHandler) restTemplate.getErrorHandler();
             result = errorHandler.getCause();
