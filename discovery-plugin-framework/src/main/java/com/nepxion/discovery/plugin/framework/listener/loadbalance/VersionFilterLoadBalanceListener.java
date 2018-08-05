@@ -19,7 +19,7 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.nepxion.discovery.common.entity.DiscoveryEntity;
-import com.nepxion.discovery.common.entity.DiscoveryServiceEntity;
+import com.nepxion.discovery.common.entity.VersionEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.VersionFilterEntity;
 import com.netflix.loadbalancer.Server;
@@ -54,13 +54,13 @@ public class VersionFilterLoadBalanceListener extends AbstractLoadBalanceListene
             return;
         }
 
-        Map<String, List<DiscoveryServiceEntity>> serviceEntityMap = versionFilterEntity.getServiceEntityMap();
-        if (MapUtils.isEmpty(serviceEntityMap)) {
+        Map<String, List<VersionEntity>> versionEntityMap = versionFilterEntity.getVersionEntityMap();
+        if (MapUtils.isEmpty(versionEntityMap)) {
             return;
         }
 
-        List<DiscoveryServiceEntity> serviceEntityList = serviceEntityMap.get(consumerServiceId);
-        if (CollectionUtils.isEmpty(serviceEntityList)) {
+        List<VersionEntity> versionEntityList = versionEntityMap.get(consumerServiceId);
+        if (CollectionUtils.isEmpty(versionEntityList)) {
             return;
         }
 
@@ -68,13 +68,13 @@ public class VersionFilterLoadBalanceListener extends AbstractLoadBalanceListene
         List<String> allNoFilterValueList = null;
         // 提供端规则未作任何定义
         boolean providerConditionDefined = false;
-        for (DiscoveryServiceEntity serviceEntity : serviceEntityList) {
-            String providerServiceName = serviceEntity.getProviderServiceName();
+        for (VersionEntity versionEntity : versionEntityList) {
+            String providerServiceName = versionEntity.getProviderServiceName();
             if (StringUtils.equalsIgnoreCase(providerServiceName, providerServiceId)) {
                 providerConditionDefined = true;
 
-                List<String> consumerVersionValueList = serviceEntity.getConsumerVersionValueList();
-                List<String> providerVersionValueList = serviceEntity.getProviderVersionValueList();
+                List<String> consumerVersionValueList = versionEntity.getConsumerVersionValueList();
+                List<String> providerVersionValueList = versionEntity.getProviderVersionValueList();
 
                 // 判断consumer-version-value值是否包含当前消费端的版本号
                 // 如果consumerVersionValueList为空，表示消费端版本列表未指定，那么任意消费端版本可以访问指定版本提供端版本
