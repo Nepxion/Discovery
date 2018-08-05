@@ -62,5 +62,17 @@
             <!-- 表示消费端服务b的1.1，允许访问提供端服务c的1.2版本 -->
             <service consumer-service-name="discovery-springcloud-example-b" provider-service-name="discovery-springcloud-example-c" consumer-version-value="1.1" provider-version-value="1.2"/>
         </version>
+
+        <!-- 服务发现的多权重灰度访问控制 -->
+        <!-- service-name，表示服务名 -->
+        <!-- version-value，表示版本对应的权重值，格式为"版本值=权重值"，如果多个用“;”分隔，不允许出现空格 -->
+        <!-- 权重策略介绍 -->
+        <!-- 1. 标准配置，举例如下 -->
+        <!--     <service consumer-service-name="a" provider-service-name="b" provider-weight-value="1.0=70;1.1=30"/> 表示消费端访问提供端的时候，提供端的1.0版本提供70%的权重流量，1.1版本提供30%的权重流量 -->
+        <!-- 2. 尽量为线上所有版本都赋予权重值 -->
+        <weight>
+            <!-- 表示消费端服务b访问提供端服务c的时候，提供端服务c的1.0版本提供70%的权重流量，1.1版本提供30%的权重流量 -->
+            <service consumer-service-name="discovery-springcloud-example-b" provider-service-name="discovery-springcloud-example-c" provider-weight-value="1.0=70;1.1=30"/>
+        </weight>
     </discovery>
 </rule>
