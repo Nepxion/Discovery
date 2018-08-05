@@ -12,11 +12,13 @@ package com.nepxion.discovery.plugin.framework.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cloud.netflix.ribbon.PropertiesFactory;
 import org.springframework.cloud.netflix.ribbon.RibbonClientConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.nepxion.discovery.plugin.framework.decorator.ZoneAvoidanceRuleDecorator;
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.LoadBalanceListenerExecutor;
 import com.netflix.client.config.IClientConfig;
 import com.netflix.loadbalancer.ILoadBalancer;
@@ -39,6 +41,19 @@ public class PluginLoadBalanceConfiguration {
 
     @Autowired
     private LoadBalanceListenerExecutor loadBalanceListenerExecutor;
+
+    @Bean
+    @ConditionalOnMissingBean
+    public IRule ribbonRule(IClientConfig config) {
+        if (this.propertiesFactory.isSet(IRule.class, serviceId)) {
+            return this.propertiesFactory.get(IRule.class, config, serviceId);
+        }
+
+        ZoneAvoidanceRuleDecorator rule = new ZoneAvoidanceRuleDecorator();
+        rule.initWithNiwsConfig(config);
+
+        return rule;
+    }
 
     @Bean
     public ILoadBalancer ribbonLoadBalancer(IClientConfig config, ServerList<Server> serverList, ServerListFilter<Server> serverListFilter, IRule rule, IPing ping, ServerListUpdater serverListUpdater) {
