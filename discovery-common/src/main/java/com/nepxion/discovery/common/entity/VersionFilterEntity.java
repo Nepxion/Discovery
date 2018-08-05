@@ -22,18 +22,18 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class VersionFilterEntity implements Serializable {
     private static final long serialVersionUID = -6147106004826964165L;
     
-    private Map<String, List<DiscoveryServiceEntity>> serviceEntityMap = new LinkedHashMap<String, List<DiscoveryServiceEntity>>();
+    private Map<String, List<VersionEntity>> versionEntityMap = new LinkedHashMap<String, List<VersionEntity>>();
 
     public VersionFilterEntity() {
 
     }
 
-    public Map<String, List<DiscoveryServiceEntity>> getServiceEntityMap() {
-        return serviceEntityMap;
+    public Map<String, List<VersionEntity>> getVersionEntityMap() {
+        return versionEntityMap;
     }
 
-    public void setServiceEntityMap(Map<String, List<DiscoveryServiceEntity>> serviceEntityMap) {
-        this.serviceEntityMap = serviceEntityMap;
+    public void setVersionEntityMap(Map<String, List<VersionEntity>> versionEntityMap) {
+        this.versionEntityMap = versionEntityMap;
     }
 
     @Override

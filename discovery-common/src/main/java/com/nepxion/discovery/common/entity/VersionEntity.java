@@ -17,7 +17,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class DiscoveryServiceEntity implements Serializable {
+public class VersionEntity implements Serializable {
     private static final long serialVersionUID = 9074414583796627542L;
 
     private String consumerServiceName;
@@ -25,7 +25,7 @@ public class DiscoveryServiceEntity implements Serializable {
     private List<String> consumerVersionValueList;
     private List<String> providerVersionValueList;
 
-    public DiscoveryServiceEntity() {
+    public VersionEntity() {
 
     }
 

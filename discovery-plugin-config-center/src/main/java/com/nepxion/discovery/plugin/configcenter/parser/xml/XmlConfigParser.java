@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.CountFilterEntity;
 import com.nepxion.discovery.common.entity.DiscoveryEntity;
-import com.nepxion.discovery.common.entity.DiscoveryServiceEntity;
+import com.nepxion.discovery.common.entity.VersionEntity;
 import com.nepxion.discovery.common.entity.FilterHolderEntity;
 import com.nepxion.discovery.common.entity.FilterType;
 import com.nepxion.discovery.common.entity.HostFilterEntity;
@@ -244,50 +244,50 @@ public class XmlConfigParser implements PluginConfigParser {
 
         versionFilterEntity = new VersionFilterEntity();
 
-        Map<String, List<DiscoveryServiceEntity>> serviceEntityMap = versionFilterEntity.getServiceEntityMap();
+        Map<String, List<VersionEntity>> versionEntityMap = versionFilterEntity.getVersionEntityMap();
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
             if (childElementObject instanceof Element) {
                 Element childElement = (Element) childElementObject;
 
                 if (StringUtils.equals(childElement.getName(), ConfigConstant.SERVICE_ELEMENT_NAME)) {
-                    DiscoveryServiceEntity serviceEntity = new DiscoveryServiceEntity();
+                    VersionEntity versionEntity = new VersionEntity();
 
                     Attribute consumerServiceNameAttribute = childElement.attribute(ConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME);
                     if (consumerServiceNameAttribute == null) {
                         throw new DiscoveryException("Attribute[" + ConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                     }
                     String consumerServiceName = consumerServiceNameAttribute.getData().toString().trim();
-                    serviceEntity.setConsumerServiceName(consumerServiceName);
+                    versionEntity.setConsumerServiceName(consumerServiceName);
 
                     Attribute providerServiceNameAttribute = childElement.attribute(ConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME);
                     if (providerServiceNameAttribute == null) {
                         throw new DiscoveryException("Attribute[" + ConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                     }
                     String providerServiceName = providerServiceNameAttribute.getData().toString().trim();
-                    serviceEntity.setProviderServiceName(providerServiceName);
+                    versionEntity.setProviderServiceName(providerServiceName);
 
                     Attribute consumerVersionValueAttribute = childElement.attribute(ConfigConstant.CONSUMER_VERSION_VALUE_ATTRIBUTE_NAME);
                     if (consumerVersionValueAttribute != null) {
                         String consumerVersionValue = consumerVersionValueAttribute.getData().toString().trim();
                         List<String> consumerVersionValueList = parseList(consumerVersionValue);
-                        serviceEntity.setConsumerVersionValueList(consumerVersionValueList);
+                        versionEntity.setConsumerVersionValueList(consumerVersionValueList);
                     }
 
                     Attribute providerVersionValueAttribute = childElement.attribute(ConfigConstant.PROVIDER_VERSION_VALUE_ATTRIBUTE_NAME);
                     if (providerVersionValueAttribute != null) {
                         String providerVersionValue = providerVersionValueAttribute.getData().toString().trim();
                         List<String> providerVersionValueList = parseList(providerVersionValue);
-                        serviceEntity.setProviderVersionValueList(providerVersionValueList);
+                        versionEntity.setProviderVersionValueList(providerVersionValueList);
                     }
 
-                    List<DiscoveryServiceEntity> serviceEntityList = serviceEntityMap.get(consumerServiceName);
-                    if (serviceEntityList == null) {
-                        serviceEntityList = new ArrayList<DiscoveryServiceEntity>();
-                        serviceEntityMap.put(consumerServiceName, serviceEntityList);
+                    List<VersionEntity> versionEntityList = versionEntityMap.get(consumerServiceName);
+                    if (versionEntityList == null) {
+                        versionEntityList = new ArrayList<VersionEntity>();
+                        versionEntityMap.put(consumerServiceName, versionEntityList);
                     }
 
-                    serviceEntityList.add(serviceEntity);
+                    versionEntityList.add(versionEntity);
                 }
             }
         }

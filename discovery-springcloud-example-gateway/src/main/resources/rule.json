@@ -33,7 +33,7 @@
             }
         }, 
         "versionFilterEntity": {
-            "serviceEntityMap": {
+            "versionEntityMap": {
                 "discovery-springcloud-example-zuul": [
                     {
                         "consumerServiceName": "discovery-springcloud-example-zuul", 
