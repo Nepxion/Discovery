@@ -4,7 +4,7 @@
 [![Javadocs](http://www.javadoc.io/badge/com.nepxion/discovery.svg)](http://www.javadoc.io/doc/com.nepxion/discovery)
 [![Build Status](https://travis-ci.org/Nepxion/Discovery.svg?branch=master)](https://travis-ci.org/Nepxion/Discovery)
 
-Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件，其功能包括多版本灰度发布，黑/白名单的IP地址过滤，限制注册等，支持Eureka、Consul和Zookeeper，支持Spring Cloud Api Gateway（Finchley版）、Zuul网关和微服务的灰度发布，支持用户自定义和编程灰度路由策略，支持Nacos和Redis为远程配置中心，支持Spring Cloud Edgware版和Finchley版。现有的Spring Cloud微服务可以方便引入该插件，代码零侵入
+Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件，其功能包括灰度发布（包括切换发布和平滑发布），黑/白名单的IP地址过滤，限制注册等，支持Eureka、Consul和Zookeeper，支持Spring Cloud Api Gateway（Finchley版）、Zuul网关和微服务的灰度发布，支持用户自定义和编程灰度路由策略，支持Nacos和Redis为远程配置中心，支持Spring Cloud Edgware版和Finchley版。现有的Spring Cloud微服务可以方便引入该插件，代码零侵入
 
 使用者只需要做如下简单的事情：
 - 引入相关Plugin Starter依赖到pom.xml
@@ -55,8 +55,9 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
   - 基于黑/白名单的IP地址过滤机制禁止对相应的微服务被发现
   - 基于版本配对，通过对消费端和提供端可访问版本对应关系的配置，在服务发现和负载均衡层面，进行多版本访问控制
 - 实现灰度发布
-  - 通过规则改变，实现灰度发布
-  - 通过版本切换，实现灰度发布
+  - 通过规则的改变，实现切换灰度发布
+  - 通过版本的改变，实现切换灰度发布
+  - 通过版本对应权重（流量）的改变，实现平滑灰度发布
 - 实现通过XML或者Json进行上述规则的定义
 - 实现通过事件总线机制（EventBus）的功能，实现发布/订阅功能
   - 对接远程配置中心，集成Nacos和Redis，异步接受远程配置中心主动推送规则信息，动态改变微服务的规则
@@ -75,6 +76,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 
 ## 名词解释
 - E版和F版，即Spring Cloud的Edgware和Finchley的首字母
+- 切换灰度发布和平滑灰度发布，切换灰度发布即在灰度发布的时候，没有过渡过程，流量直接从旧版本切换到新版本；平滑灰度发布即在灰度发布的时候，有个过渡过程，可以根据实际情况，先给新版本分配低额流量，给旧版本分配高额流量，对新版本进行监测，如果没有问题，就继续把旧版的流量切换到新版本上
 - IP地址，即根据微服务上报的它所在机器的IP地址。本系统内部强制以IP地址上报，禁止HostName上报，杜绝Spring Cloud应用在Docker或者Kubernetes部署时候出现问题
 - 本地版本，即初始化读取本地配置文件获取的版本，也可以是第一次读取远程配置中心获取的版本。本地版本和初始版本是同一个概念
 - 动态版本，即灰度发布时的版本。动态版本和灰度版本是同一个概念
@@ -96,7 +98,8 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
   - 我们可以通过推送一份黑/白名单达到该效果
 - 多版本灰度访问控制
   - A服务调用B服务，而B服务有两个实例（B1、B2），虽然三者相同的服务名，但功能上有差异，需求是在某个时刻，A服务只能调用B1，禁止调用B2。在此场景下，我们在application.properties里为B1维护一个版本为1.0，为B2维护一个版本为1.1
-  - 我们可以通过推送A服务调用某个版本的B服务对应关系的配置，达到某种意义上的灰度控制，切换版本的时候，我们只需要再次推送即可
+  - 我们可以通过推送A服务调用某个版本的B服务对应关系的配置，达到某种意义上的灰度控制，改变版本的时候，我们只需要再次推送即可
+  - 我们也可以通过配对不同版本的权重（流量比例），根据需求，流量在B1和B2进行调配
 - 动态改变微服务版本
   - 在A/B测试中，通过动态改变版本，不重启微服务，达到访问版本的路径改变
 - 用户自定义和编程灰度路由策略，可以通过非常简单编程达到如下效果
@@ -104,7 +107,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
   - 我们可以在服务上根据不同的业务参数，例如手机号或者身份证号，把请求路由到指定的服务器
 
 ## 架构
-简单描述一下，本系统的核心模块“基于版本控制的灰度发布”，从网关（Zuul）开始的灰度发布操作过程
+简单描述一下，本系统的核心模块之一的“切换灰度发布”，从网关（Zuul）开始的灰度发布操作过程，您还可以采用更多的灰度发布方式
 - 灰度发布前
   - 假设当前生产环境，调用路径为网关(V1.0)->服务A(V1.0)->服务B(V1.0)
   - 运维将发布新的生产环境，部署新服务集群，服务A(V1.1)，服务B(V1.1)
@@ -146,8 +149,8 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 ## 依赖
 | Spring Cloud版本 | Nepxion Discovery版本 |
 | --- | --- |
-| Finchley | 4.2.9 |
-| Edgware | 3.5.9 |
+| Finchley | 4.3.0 |
+| Edgware | 3.6.0 |
 
 ```xml
 <dependency>
@@ -316,20 +319,27 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
         <!-- service-name，表示服务名 -->
         <!-- version-value，表示可供访问的版本，如果多个用“;”分隔，不允许出现空格 -->
         <version>
-            <!-- 表示消费端服务a的1.0，允许访问提供端服务b的1.0和1.1版本 -->
-            <service consumer-service-name="discovery-springcloud-example-a" provider-service-name="discovery-springcloud-example-b" consumer-version-value="1.0" provider-version-value="1.0;1.1"/>
+            <!-- 表示消费端服务a的1.0，允许访问提供端服务b的1.0版本 -->
+            <service consumer-service-name="discovery-springcloud-example-a" provider-service-name="discovery-springcloud-example-b" consumer-version-value="1.0" provider-version-value="1.0"/>
+            <!-- 表示消费端服务a的1.1，允许访问提供端服务b的1.1版本 -->
+            <service consumer-service-name="discovery-springcloud-example-a" provider-service-name="discovery-springcloud-example-b" consumer-version-value="1.1" provider-version-value="1.1"/>
             <!-- 表示消费端服务b的1.0，允许访问提供端服务c的1.0和1.1版本 -->
             <service consumer-service-name="discovery-springcloud-example-b" provider-service-name="discovery-springcloud-example-c" consumer-version-value="1.0" provider-version-value="1.0;1.1"/>
             <!-- 表示消费端服务b的1.1，允许访问提供端服务c的1.2版本 -->
             <service consumer-service-name="discovery-springcloud-example-b" provider-service-name="discovery-springcloud-example-c" consumer-version-value="1.1" provider-version-value="1.2"/>
         </version>
+
+        <weight>
+            <!-- 表示消费端服务b访问提供端服务c的时候，提供端服务c的1.0版本提供90%的权重流量，1.1版本提供10%的权重流量 -->
+            <service consumer-service-name="discovery-springcloud-example-b" provider-service-name="discovery-springcloud-example-c" provider-weight-value="1.0=90;1.1=10"/>
+        </weight>
     </discovery>
 </rule>
 ```
 
-### 多版本灰度规则策略
-```xml
+### 灰度规则策略
 版本策略介绍
+```xml
 1. 标准配置，举例如下
    <service consumer-service-name="a" provider-service-name="b" consumer-version-value="1.0" provider-version-value="1.0,1.1"/> 表示消费端1.0版本，允许访问提供端1.0和1.1版本
 2. 版本值不配置，举例如下
@@ -345,6 +355,12 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 特殊情况处理，在使用上需要极力避免该情况发生
 1. 消费端的application.properties未定义版本号，则该消费端可以访问提供端任何版本
 2. 提供端的application.properties未定义版本号，当消费端在xml里不做任何版本配置，才可以访问该提供端
+```
+权重策略介绍
+```xml
+1. 标准配置，举例如下
+   <service consumer-service-name="a" provider-service-name="b" provider-weight-value="1.0=90;1.1=10"/> 表示消费端访问提供端的时候，提供端的1.0版本提供90%的权重流量，1.1版本提供10%的权重流量
+2. 尽量为线上所有版本都赋予权重值
 ```
 
 ### 动态改变规则策略
