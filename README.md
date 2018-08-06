@@ -4,11 +4,11 @@
 [![Javadocs](http://www.javadoc.io/badge/com.nepxion/discovery.svg)](http://www.javadoc.io/doc/com.nepxion/discovery)
 [![Build Status](https://travis-ci.org/Nepxion/Discovery.svg?branch=master)](https://travis-ci.org/Nepxion/Discovery)
 
-Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件，其功能包括灰度发布（包括切换发布和平滑发布），黑/白名单的IP地址过滤，限制注册等，支持Eureka、Consul和Zookeeper，支持Spring Cloud Api Gateway（Finchley版）、Zuul网关和微服务的灰度发布，支持用户自定义和编程灰度路由策略，支持Nacos和Redis为远程配置中心，支持Spring Cloud Edgware版和Finchley版。现有的Spring Cloud微服务可以方便引入该插件，代码零侵入
+Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增强中间件，其功能包括灰度发布（包括切换发布和平滑发布），黑/白名单的IP地址过滤，限制注册，限制发现等，支持Eureka、Consul和Zookeeper，支持Spring Cloud Api Gateway（Finchley版）、Zuul网关和微服务的灰度发布，支持用户自定义和编程灰度路由策略，支持Nacos和Redis为远程配置中心，同时兼容Spring Cloud Edgware版和Finchley版。现有的Spring Cloud微服务可以方便引入该插件，代码零侵入
 
 使用者只需要做如下简单的事情：
-- 引入相关Plugin Starter依赖到pom.xml
-- 必须为微服务定义一个版本号（version），必须为微服务自定义一个便于为微服务归类的Key，例如组名（group）或者应用名（application）。两者定义在application.properties或者yaml的metadata里，便于远程配置中心推送和灰度界面分析
+- 引入相关依赖到pom.xml
+- 必须为微服务定义一个版本号（version），必须为微服务自定义一个组名（group）或者应用名（application）等其它便于归类的Key，便于远程配置中心推送和灰度界面分析
 - 使用者只需要关注相关规则推送。可以采用如下方式之一
   - 通过远程配置中心推送规则
   - 通过控制台界面推送规则
@@ -39,13 +39,13 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 现有Spring Cloud的痛点
 - 如果你是运维负责人，是否会经常发现，你掌管的测试环境中的服务注册中心，被一些不负责的开发人员把他本地开发环境注册上来，造成测试人员测试失败。你希望可以把本地开发环境注册给屏蔽掉，不让注册
 - 如果你是运维负责人，生产环境的某个微服务集群下的某个实例，暂时出了问题，但又不希望它下线。你希望可以把该实例给屏蔽掉，暂时不让它被调用
-- 如果你是业务负责人，鉴于业务服务的快速迭代性，微服务集群下的实例发布不同的版本。你希望根据版本管理策略进行路由，提供给下游微服务区别调用，达到多版本灰度访问控制
-- 如果你是业务负责人，希望灰度发布功能可以基于业务场景特色定制
+- 如果你是业务负责人，鉴于业务服务的快速迭代性，微服务集群下的实例发布不同的版本。你希望根据版本管理策略进行路由，提供给下游微服务区别调用，例如访问控制快速基于版本的不同而切换，例如在不同的版本之间进行流量调拨
+- 如果你是业务负责人，希望灰度发布功能可以基于业务场景特色定制，例如根据用户手机号进行不同服务器的路由
 - 如果你是测试负责人，希望对微服务做A/B测试，那么通过动态改变版本达到该目的
 
 ## 简介
 - 实现对基于Spring Cloud的微服务和Spring Cloud Api Gateway（F版）和Zuul网关的支持
-  - 具有极大的灵活性 - 支持在任何环节做过滤控制和版本灰度发布
+  - 具有极大的灵活性 - 支持在任何环节做过滤控制和灰度发布
   - 具有极小的限制性 - 只要开启了服务注册发现，程序入口加了@EnableDiscoveryClient
   - 具有极强的可用性 - 当远程配置中心全部挂了，可以通过Rest方式进行灰度发布
 - 实现服务注册层面的控制
@@ -73,7 +73,7 @@ Nepxion Discovery是一款对Spring Cloud的服务注册发现的增强中间件
 - 实现支持Spring Boot Admin的集成
 - 实现支持未来扩展更多的服务注册中心
 - 实现独立控制台微服务，支持对规则和版本集中管理、推送、更改和删除
-- 实现基于独立控制台微服务的图形化的灰度发布功能（运行discovery-console-desktop下的ConsoleLauncher）
+- 实现基于独立控制台微服务的图形化的灰度发布功能
 
 ## 名词解释
 - E版和F版，即Spring Cloud的Edgware和Finchley的首字母
