@@ -80,6 +80,20 @@
                     }
                 ]
             }
+        }, 
+        "weightFilterEntity": {
+            "weightEntityMap": {
+                "discovery-springcloud-example-b": [
+                    {
+                        "consumerServiceName": "discovery-springcloud-example-b", 
+                        "providerServiceName": "discovery-springcloud-example-c", 
+                        "weightMap": {
+                            "1.0": 90, 
+                            "1.1": 10
+                        }
+                    }
+                ]
+            }
         }
     }
 }
