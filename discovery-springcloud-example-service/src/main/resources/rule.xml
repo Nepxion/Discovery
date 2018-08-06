@@ -63,7 +63,7 @@
             <service consumer-service-name="discovery-springcloud-example-b" provider-service-name="discovery-springcloud-example-c" consumer-version-value="1.1" provider-version-value="1.2"/>
         </version>
 
-        <!-- 服务发现的多权重灰度访问控制 -->
+        <!-- 服务发现的多版本权重灰度访问控制 -->
         <!-- service-name，表示服务名 -->
         <!-- version-value，表示版本对应的权重值，格式为"版本值=权重值"，如果多个用“;”分隔，不允许出现空格 -->
         <!-- 权重策略介绍 -->
