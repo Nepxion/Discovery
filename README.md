@@ -73,7 +73,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 - 实现支持Spring Boot Admin的集成
 - 实现支持未来扩展更多的服务注册中心
 - 实现独立控制台微服务，支持对规则和版本集中管理、推送、更改和删除
-- 实现基于独立控制台微服务的图形化的灰度发布功能（运行discovery-console-desktop下的ConsoleLauncher）
+- 实现基于独立控制台微服务的图形化的灰度发布功能
 
 ## 名词解释
 - E版和F版，即Spring Cloud的Edgware和Finchley的首字母
