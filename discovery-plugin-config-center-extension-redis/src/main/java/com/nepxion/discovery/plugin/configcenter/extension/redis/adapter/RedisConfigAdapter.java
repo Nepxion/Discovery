@@ -61,7 +61,10 @@ public class RedisConfigAdapter extends ConfigAdapter {
                         LOG.info("Get config updated event from Redis server, {}={}, serviceId={}", groupKey, group, serviceId);
 
                         RuleEntity ruleEntity = pluginAdapter.getRule();
-                        String rule = ruleEntity.getContent();
+                        String rule = null;
+                        if (ruleEntity != null) {
+                            rule = ruleEntity.getContent();
+                        }
                         if (!StringUtils.equals(rule, config)) {
                             fireRuleUpdated(new RuleUpdatedEvent(config), true);
                         } else {
