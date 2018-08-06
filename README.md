@@ -132,8 +132,8 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 - Spring Cloud F版，请采用4.x.x版本，具体代码参考master分支
 - Spring Cloud E版，请采用3.x.x版本，具体代码参考Edgware分支
 - 4.x.x版本和3.x.x版本功能完全一致，但在Endpoint的URL使用方式上稍微有个小的区别。例如
-  - 3.x.x的Endpoint URL为http://localhost:5100/config/view
-  - 4.x.x的Endpoint URL为http://localhost:5100/actuator/config/config/view，注意，路径中config为两个，前面那个是Endpoint Id，Spring Boot 2.x.x规定Endpoint Id必须指定，且全局唯一
+  - 3.x.x的Endpoint URL为[http://localhost:5100/config/view](http://localhost:5100/config/view)
+  - 4.x.x的Endpoint URL为[http://localhost:5100/actuator/config/config/view](http://localhost:5100/actuator/config/config/view)，注意，路径中config为两个，前面那个是Endpoint Id，Spring Boot 2.x.x规定Endpoint Id必须指定，且全局唯一
 
 中间件兼容情况
 - Consul
