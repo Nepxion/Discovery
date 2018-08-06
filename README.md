@@ -7,8 +7,8 @@
 Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增强中间件，其功能包括灰度发布（包括切换发布和平滑发布），黑/白名单的IP地址过滤，限制注册，限制发现等，支持Eureka、Consul和Zookeeper，支持Spring Cloud Api Gateway（Finchley版）、Zuul网关和微服务的灰度发布，支持用户自定义和编程灰度路由策略，支持Nacos和Redis为远程配置中心，同时兼容Spring Cloud Edgware版和Finchley版。现有的Spring Cloud微服务可以方便引入该插件，代码零侵入
 
 使用者只需要做如下简单的事情：
-- 引入相关Plugin Starter依赖到pom.xml
-- 必须为微服务定义一个版本号（version），必须为微服务自定义一个便于为微服务归类的Key，例如组名（group）或者应用名（application）。两者定义在application.properties或者yaml的metadata里，便于远程配置中心推送和灰度界面分析
+- 引入相关依赖到pom.xml
+- 必须为微服务定义一个版本号（version），必须为微服务自定义一个组名（group）或者应用名（application）等其他便于归类的Key，便于远程配置中心推送和灰度界面分析
 - 使用者只需要关注相关规则推送。可以采用如下方式之一
   - 通过远程配置中心推送规则
   - 通过控制台界面推送规则
