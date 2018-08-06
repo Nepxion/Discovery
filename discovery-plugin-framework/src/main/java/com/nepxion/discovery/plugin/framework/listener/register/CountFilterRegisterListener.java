@@ -74,7 +74,7 @@ public class CountFilterRegisterListener extends AbstractRegisterListener {
     }
 
     private void onRegisterFailure(int maxCount, String serviceId, String host, int port) {
-        String description = host + " isn't allowed to register to Register server, reach max limited count=" + maxCount;
+        String description = serviceId + " for " + host + ":" + port + " isn't allowed to register to Register server, reach max limited count=" + maxCount;
 
         pluginEventWapper.fireRegisterFailure(new RegisterFailureEvent(DiscoveryConstant.REACH_MAX_LIMITED_COUNT, description, serviceId, host, port));
 

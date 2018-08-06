@@ -97,7 +97,7 @@ public class HostFilterRegisterListener extends AbstractRegisterListener {
     }
 
     private void onRegisterFailure(FilterType filterType, List<String> allFilterValueList, String serviceId, String host, int port) {
-        String description = host + " isn't allowed to register to Register server, not match host " + filterType + "=" + allFilterValueList;
+        String description = serviceId + " for " + host + ":" + port + " isn't allowed to register to Register server, not match host " + filterType + "=" + allFilterValueList;
 
         pluginEventWapper.fireRegisterFailure(new RegisterFailureEvent(filterType.toString(), description, serviceId, host, port));
 
