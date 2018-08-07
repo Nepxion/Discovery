@@ -17,8 +17,8 @@ import org.springframework.web.client.RestTemplate;
 public class VersionClearRestInvoker extends AbstractRestInvoker {
     private String version;
 
-    public VersionClearRestInvoker(List<ServiceInstance> serviceInstances, RestTemplate restTemplate, String version) {
-        super(serviceInstances, restTemplate);
+    public VersionClearRestInvoker(List<ServiceInstance> serviceInstances, RestTemplate restTemplate, String version, boolean async) {
+        super(serviceInstances, restTemplate, async);
 
         this.version = version;
     }
@@ -30,7 +30,7 @@ public class VersionClearRestInvoker extends AbstractRestInvoker {
 
     @Override
     protected String getSuffixPath() {
-        return "version/clear";
+        return "version/clear-" + getInvokeType();
     }
 
     @Override

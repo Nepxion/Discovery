@@ -51,11 +51,55 @@ public class VersionEndpoint {
     @Autowired
     private PluginEventWapper pluginEventWapper;
 
-    @RequestMapping(path = "/update", method = RequestMethod.POST)
-    @ApiOperation(value = "更新服务的动态版本", notes = "根据指定的localVersion更新服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接更新服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
+    @RequestMapping(path = "/update-async", method = RequestMethod.POST)
+    @ApiOperation(value = "异步更新服务的动态版本", notes = "根据指定的localVersion更新服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接更新服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<?> update(@RequestBody @ApiParam(value = "版本号，格式为[dynamicVersion]或者[dynamicVersion];[localVersion]", required = true) String version) {
+    public ResponseEntity<?> updateAsync(@RequestBody @ApiParam(value = "版本号，格式为[dynamicVersion]或者[dynamicVersion];[localVersion]", required = true) String version) {
+        return update(version, true);
+    }
+
+    @RequestMapping(path = "/update-sync", method = RequestMethod.POST)
+    @ApiOperation(value = "同步更新服务的动态版本", notes = "根据指定的localVersion更新服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接更新服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    @ManagedOperation
+    public ResponseEntity<?> updateSync(@RequestBody @ApiParam(value = "版本号，格式为[dynamicVersion]或者[dynamicVersion];[localVersion]", required = true) String version) {
+        return update(version, false);
+    }
+
+    @RequestMapping(path = "/clear-async", method = RequestMethod.POST)
+    @ApiOperation(value = "异步清除服务的动态版本", notes = "根据指定的localVersion清除服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接清除服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    @ManagedOperation
+    public ResponseEntity<?> clearAsync(@RequestBody(required = false) @ApiParam(value = "版本号，指localVersion，可以为空") String version) {
+        return clear(version, true);
+    }
+
+    @RequestMapping(path = "/clear-sync", method = RequestMethod.POST)
+    @ApiOperation(value = "同步清除服务的动态版本", notes = "根据指定的localVersion清除服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接清除服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    @ManagedOperation
+    public ResponseEntity<?> clearSync(@RequestBody(required = false) @ApiParam(value = "版本号，指localVersion，可以为空") String version) {
+        return clear(version, false);
+    }
+
+    @RequestMapping(path = "/view", method = RequestMethod.GET)
+    @ApiOperation(value = "查看服务的本地版本和动态版本", notes = "", response = ResponseEntity.class, httpMethod = "GET")
+    @ResponseBody
+    @ManagedOperation
+    public ResponseEntity<List<String>> view() {
+        List<String> versionList = new ArrayList<String>(2);
+
+        String localVersion = pluginAdapter.getLocalVersion();
+        String dynamicVersion = pluginAdapter.getDynamicVersion();
+
+        versionList.add(StringUtils.isNotEmpty(localVersion) ? localVersion : StringUtils.EMPTY);
+        versionList.add(StringUtils.isNotEmpty(dynamicVersion) ? dynamicVersion : StringUtils.EMPTY);
+
+        return ResponseEntity.ok().body(versionList);
+    }
+
+    private ResponseEntity<?> update(String version, boolean async) {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         if (!discoveryControlEnabled) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Discovery control is disabled");
@@ -77,16 +121,12 @@ public class VersionEndpoint {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Invalid version format, it must be '[dynamicVersion]' or '[dynamicVersion];[localVersion]'");
         }
 
-        pluginEventWapper.fireVersionUpdated(new VersionUpdatedEvent(dynamicVersion, localVersion), false);
+        pluginEventWapper.fireVersionUpdated(new VersionUpdatedEvent(dynamicVersion, localVersion), async);
 
         return ResponseEntity.ok().body("OK");
     }
 
-    @RequestMapping(path = "/clear", method = RequestMethod.POST)
-    @ApiOperation(value = "清除服务的动态版本", notes = "根据指定的localVersion清除服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接清除服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
-    @ResponseBody
-    @ManagedOperation
-    public ResponseEntity<?> clear(@RequestBody(required = false) @ApiParam(value = "版本号，指localVersion，可以为空") String version) {
+    private ResponseEntity<?> clear(String version, boolean async) {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         if (!discoveryControlEnabled) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Discovery control is disabled");
@@ -97,24 +137,8 @@ public class VersionEndpoint {
             version = null;
         }
 
-        pluginEventWapper.fireVersionCleared(new VersionClearedEvent(version), false);
+        pluginEventWapper.fireVersionCleared(new VersionClearedEvent(version), async);
 
         return ResponseEntity.ok().body("OK");
-    }
-
-    @RequestMapping(path = "/view", method = RequestMethod.GET)
-    @ApiOperation(value = "查看服务的本地版本和动态版本", notes = "", response = ResponseEntity.class, httpMethod = "GET")
-    @ResponseBody
-    @ManagedOperation
-    public ResponseEntity<List<String>> view() {
-        List<String> versionList = new ArrayList<String>(2);
-
-        String localVersion = pluginAdapter.getLocalVersion();
-        String dynamicVersion = pluginAdapter.getDynamicVersion();
-
-        versionList.add(StringUtils.isNotEmpty(localVersion) ? localVersion : StringUtils.EMPTY);
-        versionList.add(StringUtils.isNotEmpty(dynamicVersion) ? dynamicVersion : StringUtils.EMPTY);
-
-        return ResponseEntity.ok().body(versionList);
     }
 }
