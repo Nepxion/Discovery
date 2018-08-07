@@ -69,24 +69,20 @@ public class ConfigEndpoint implements MvcEndpoint {
         return update(config, false);
     }
 
-    @RequestMapping(path = "/clear", method = RequestMethod.POST)
-    @ApiOperation(value = "清除更新的规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @RequestMapping(path = "/clear-async", method = RequestMethod.POST)
+    @ApiOperation(value = "异步清除更新的规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<?> clear() {
-        Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
-        if (!discoveryControlEnabled) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Discovery control is disabled");
-        }
+    public ResponseEntity<?> clearAsync() {
+        return clear(true);
+    }
 
-        Boolean isConfigRestControlEnabled = pluginContextAware.isConfigRestControlEnabled();
-        if (!isConfigRestControlEnabled) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Config rest control is disabled");
-        }
-
-        pluginEventWapper.fireRuleCleared(new RuleClearedEvent(), true);
-
-        return ResponseEntity.ok().body("OK");
+    @RequestMapping(path = "/clear-sync", method = RequestMethod.POST)
+    @ApiOperation(value = "同步清除更新的规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    @ManagedOperation
+    public ResponseEntity<?> clearSync() {
+        return clear(false);
     }
 
     @RequestMapping(path = "/view", method = RequestMethod.GET)
@@ -130,6 +126,22 @@ public class ConfigEndpoint implements MvcEndpoint {
         pluginEventWapper.fireRuleUpdated(new RuleUpdatedEvent(config), async);
 
         // return ResponseEntity.ok().build();
+
+        return ResponseEntity.ok().body("OK");
+    }
+
+    private ResponseEntity<?> clear(boolean async) {
+        Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
+        if (!discoveryControlEnabled) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Discovery control is disabled");
+        }
+
+        Boolean isConfigRestControlEnabled = pluginContextAware.isConfigRestControlEnabled();
+        if (!isConfigRestControlEnabled) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Config rest control is disabled");
+        }
+
+        pluginEventWapper.fireRuleCleared(new RuleClearedEvent(), async);
 
         return ResponseEntity.ok().body("OK");
     }

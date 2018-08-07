@@ -133,28 +133,52 @@ public class ConsoleEndpoint implements MvcEndpoint {
         return executeConfigUpdate(serviceId, config, false);
     }
 
-    @RequestMapping(path = "/config/clear/{serviceId}", method = RequestMethod.POST)
-    @ApiOperation(value = "批量清除更新的规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @RequestMapping(path = "/config/clear-async/{serviceId}", method = RequestMethod.POST)
+    @ApiOperation(value = "批量异步清除更新的规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<?> configClear(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
-        return executeConfigClear(serviceId);
+    public ResponseEntity<?> configClearAsync(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
+        return executeConfigClear(serviceId, true);
     }
 
-    @RequestMapping(path = "/version/update/{serviceId}", method = RequestMethod.POST)
-    @ApiOperation(value = "批量更新服务的动态版本", notes = "根据指定的localVersion更新服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接更新服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
+    @RequestMapping(path = "/config/clear-sync/{serviceId}", method = RequestMethod.POST)
+    @ApiOperation(value = "批量同步清除更新的规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<?> versionUpdate(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "版本号，格式为[dynamicVersion]或者[dynamicVersion];[localVersion]", required = true) String version) {
-        return executeVersionUpdate(serviceId, version);
+    public ResponseEntity<?> configClearSync(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
+        return executeConfigClear(serviceId, false);
     }
 
-    @RequestMapping(path = "/version/clear/{serviceId}", method = RequestMethod.POST)
-    @ApiOperation(value = "批量清除服务的动态版本", notes = "根据指定的localVersion清除服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接清除服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
+    @RequestMapping(path = "/version/update-async/{serviceId}", method = RequestMethod.POST)
+    @ApiOperation(value = "批量异步更新服务的动态版本", notes = "根据指定的localVersion更新服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接更新服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<?> versionClear(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody(required = false) @ApiParam(value = "版本号，指localVersion，可以为空") String version) {
-        return executeVersionClear(serviceId, version);
+    public ResponseEntity<?> versionUpdateAsync(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "版本号，格式为[dynamicVersion]或者[dynamicVersion];[localVersion]", required = true) String version) {
+        return executeVersionUpdate(serviceId, version, true);
+    }
+
+    @RequestMapping(path = "/version/update-sync/{serviceId}", method = RequestMethod.POST)
+    @ApiOperation(value = "批量同步更新服务的动态版本", notes = "根据指定的localVersion更新服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接更新服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    @ManagedOperation
+    public ResponseEntity<?> versionUpdateSync(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "版本号，格式为[dynamicVersion]或者[dynamicVersion];[localVersion]", required = true) String version) {
+        return executeVersionUpdate(serviceId, version, false);
+    }
+
+    @RequestMapping(path = "/version/clear-async/{serviceId}", method = RequestMethod.POST)
+    @ApiOperation(value = "批量异步清除服务的动态版本", notes = "根据指定的localVersion清除服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接清除服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    @ManagedOperation
+    public ResponseEntity<?> versionClearAsync(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody(required = false) @ApiParam(value = "版本号，指localVersion，可以为空") String version) {
+        return executeVersionClear(serviceId, version, true);
+    }
+
+    @RequestMapping(path = "/version/clear-sync/{serviceId}", method = RequestMethod.POST)
+    @ApiOperation(value = "批量同步清除服务的动态版本", notes = "根据指定的localVersion清除服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接清除服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    @ManagedOperation
+    public ResponseEntity<?> versionClearSync(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody(required = false) @ApiParam(value = "版本号，指localVersion，可以为空") String version) {
+        return executeVersionClear(serviceId, version, false);
     }
 
     public List<String> getServices() {
@@ -255,26 +279,26 @@ public class ConsoleEndpoint implements MvcEndpoint {
         return configUpdateRestInvoker.invoke();
     }
 
-    private ResponseEntity<?> executeConfigClear(String serviceId) {
+    private ResponseEntity<?> executeConfigClear(String serviceId, boolean async) {
         List<ServiceInstance> serviceInstances = getInstances(serviceId);
 
-        ConfigClearRestInvoker configClearRestInvoker = new ConfigClearRestInvoker(serviceInstances, consoleRestTemplate);
+        ConfigClearRestInvoker configClearRestInvoker = new ConfigClearRestInvoker(serviceInstances, consoleRestTemplate, async);
 
         return configClearRestInvoker.invoke();
     }
 
-    private ResponseEntity<?> executeVersionUpdate(String serviceId, String version) {
+    private ResponseEntity<?> executeVersionUpdate(String serviceId, String version, boolean async) {
         List<ServiceInstance> serviceInstances = getInstances(serviceId);
 
-        VersionUpdateRestInvoker versionUpdateRestInvoker = new VersionUpdateRestInvoker(serviceInstances, consoleRestTemplate, version);
+        VersionUpdateRestInvoker versionUpdateRestInvoker = new VersionUpdateRestInvoker(serviceInstances, consoleRestTemplate, version, async);
 
         return versionUpdateRestInvoker.invoke();
     }
 
-    private ResponseEntity<?> executeVersionClear(String serviceId, String version) {
+    private ResponseEntity<?> executeVersionClear(String serviceId, String version, boolean async) {
         List<ServiceInstance> serviceInstances = getInstances(serviceId);
 
-        VersionClearRestInvoker versionClearRestInvoker = new VersionClearRestInvoker(serviceInstances, consoleRestTemplate, version);
+        VersionClearRestInvoker versionClearRestInvoker = new VersionClearRestInvoker(serviceInstances, consoleRestTemplate, version, async);
 
         return versionClearRestInvoker.invoke();
     }

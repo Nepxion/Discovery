@@ -19,13 +19,11 @@ import org.springframework.web.client.RestTemplate;
 
 public class ConfigUpdateRestInvoker extends AbstractRestInvoker {
     private String config;
-    private boolean async;
 
     public ConfigUpdateRestInvoker(List<ServiceInstance> serviceInstances, RestTemplate restTemplate, String config, boolean async) {
-        super(serviceInstances, restTemplate);
+        super(serviceInstances, restTemplate, async);
 
         this.config = config;
-        this.async = async;
     }
 
     @Override
@@ -35,7 +33,7 @@ public class ConfigUpdateRestInvoker extends AbstractRestInvoker {
 
     @Override
     protected String getSuffixPath() {
-        return "config/update-" + (async ? "async" : "sync");
+        return "config/update-" + getInvokeType();
     }
 
     @Override

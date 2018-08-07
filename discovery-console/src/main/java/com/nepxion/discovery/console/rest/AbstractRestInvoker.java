@@ -32,10 +32,12 @@ public abstract class AbstractRestInvoker {
 
     protected List<ServiceInstance> serviceInstances;
     protected RestTemplate restTemplate;
+    protected boolean async;
 
-    public AbstractRestInvoker(List<ServiceInstance> serviceInstances, RestTemplate restTemplate) {
+    public AbstractRestInvoker(List<ServiceInstance> serviceInstances, RestTemplate restTemplate, boolean async) {
         this.serviceInstances = serviceInstances;
         this.restTemplate = restTemplate;
+        this.async = async;
     }
 
     public ResponseEntity<?> invoke() {
@@ -77,6 +79,10 @@ public abstract class AbstractRestInvoker {
         LOG.info(info + " results=\n{}", resultEntityList);
 
         return ResponseEntity.ok().body(resultEntityList);
+    }
+
+    protected String getInvokeType() {
+        return async ? "async" : "sync";
     }
 
     protected void checkDiscoveryControlPermission(ServiceInstance serviceInstance) {
