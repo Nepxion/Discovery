@@ -29,8 +29,8 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 - [配置中心](#配置中心)
 - [管理中心](#管理中心)
 - [独立控制台](#独立控制台)
-- [监控平台](#监控平台)
 - [图形化灰度发布桌面程序](#图形化灰度发布桌面程序)
+- [监控平台](#监控平台)
 
 ## 请联系我
 - 请加微信群或者微信
@@ -45,12 +45,12 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 图形化灰度发布桌面程序
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console1.jpg)
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console2.jpg)
-集成Spring Boot Admin（F版）服务台
+集成Spring Boot Admin（F版）监控平台
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Admin1.jpg)
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Admin2.jpg)
-集成Spring Boot Admin（E版）服务台，实现通过JMX向Endpoint推送规则和版本，达到灰度发布目的
+集成Spring Boot Admin（E版）监控平台，实现通过JMX向Endpoint推送规则和版本，达到灰度发布目的
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Admin3.jpg)
-集成了健康检查的Consul控制台
+集成了健康检查的Consul界面
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Consul.jpg)
 
 ## 现有痛点
@@ -510,10 +510,12 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.plugin.example.s
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Swagger2.jpg)
 
+## 图形化灰度发布桌面程序
+基于Java Desktop技术的图形化灰度发布工具
+
+见discovery-console-desktop工程，启动入口ConsoleLauncher.java
+
 ## 监控平台
 基于Spring Boot Actuator技术的Spring Boot Admin监控平台
 
 请参考[https://github.com/codecentric/spring-boot-admin](https://github.com/codecentric/spring-boot-admin)
-
-## 图形化灰度发布桌面程序
-基于Java Desktop技术的图形化灰度发布工具
