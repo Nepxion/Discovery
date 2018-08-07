@@ -17,10 +17,11 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 ## 目录
 - [请联系我](#请联系我)
 - [快速开始](#快速开始)
-- [痛点](#痛点)
-- [场景](#场景)
-- [简介](#简介)
+- [现有痛点](#现有痛点)
+- [应用场景](#应用场景)
+- [功能简介](#功能简介)
 - [名词解释](#名词解释)
+- [架构](#架构)
 - [兼容](#兼容)
 - [依赖](#依赖)
 - [工程](#工程)
@@ -28,7 +29,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 - [配置中心](#配置中心)
 - [管理中心](#管理中心)
 - [图形化灰度发布桌面程序](#图形化灰度发布桌面程序)
-- [Spring Boot Admin服务台](#Spring Boot Admin服务台)
+- [Admin服务台](#Admin服务台)
 
 ## 请联系我
 - 请加微信群或者微信
@@ -51,7 +52,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 集成了健康检查的Consul控制台
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Consul.jpg)
 
-## 痛点
+## 现有痛点
 现有的Spring Cloud微笑服务痛点
 - 如果你是运维负责人，是否会经常发现，你掌管的测试环境中的服务注册中心，被一些不负责的开发人员把他本地开发环境注册上来，造成测试人员测试失败。你希望可以把本地开发环境注册给屏蔽掉，不让注册
 - 如果你是运维负责人，生产环境的某个微服务集群下的某个实例，暂时出了问题，但又不希望它下线。你希望可以把该实例给屏蔽掉，暂时不让它被调用
@@ -59,7 +60,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 - 如果你是业务负责人，希望灰度发布功能可以基于业务场景特色定制，例如根据用户手机号进行不同服务器的路由
 - 如果你是测试负责人，希望对微服务做A/B测试，那么通过动态改变版本达到该目的
 
-## 场景
+## 应用场景
 - 黑/白名单的IP地址注册的过滤
   - 开发环境的本地微服务（例如IP地址为172.16.0.8）不希望被注册到测试环境的服务注册发现中心，那么可以在配置中心维护一个黑/白名单的IP地址过滤（支持全局和局部的过滤）的规则
   - 我们可以通过提供一份黑/白名单达到该效果
@@ -79,7 +80,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
   - 我们可以在网关上根据不同的Token查询到不同的用户，把请求路由到指定的服务器
   - 我们可以在服务上根据不同的业务参数，例如手机号或者身份证号，把请求路由到指定的服务器
 
-## 简介
+## 功能简介
 - Nepxion Discovery实现对基于Spring Cloud的微服务和Spring Cloud Api Gateway（F版）和Zuul网关的支持
   - 具有极大的灵活性 - 支持在任何环节做过滤控制和灰度发布
   - 具有极小的限制性 - 只要开启了服务注册发现，程序入口加了@EnableDiscoveryClient
@@ -511,7 +512,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.plugin.example.s
 ## 图形化灰度发布桌面程序
 基于Java Desktop技术的图形化灰度发布工具
 
-## Spring Boot Admin服务台
+## Admin服务台
 基于Spring Boot Actuator技术的Spring Boot Admin服务台
 
 请参考[https://github.com/codecentric/spring-boot-admin](https://github.com/codecentric/spring-boot-admin)
