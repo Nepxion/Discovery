@@ -50,6 +50,10 @@ public class HostFilterDiscoveryListener extends AbstractDiscoveryListener {
         Map<String, List<String>> filterMap = hostFilterEntity.getFilterMap();
         List<String> filterValueList = filterMap.get(providerServiceId);
 
+        if (CollectionUtils.isEmpty(globalFilterValueList) && CollectionUtils.isEmpty(filterValueList)) {
+            return;
+        }
+
         List<String> allFilterValueList = new ArrayList<String>();
         if (CollectionUtils.isNotEmpty(globalFilterValueList)) {
             allFilterValueList.addAll(globalFilterValueList);
