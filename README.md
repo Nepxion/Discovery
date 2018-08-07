@@ -100,8 +100,8 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 - 实现通过XML或者Json进行上述规则的定义
 - 实现通过事件总线机制（EventBus）的功能，实现发布/订阅功能
   - 对接远程配置中心，集成Nacos和Redis，异步接受远程配置中心主动推送规则信息，动态改变微服务的规则
-  - 结合Spring Boot Actuator，异步接受Rest主动推送规则信息，动态改变微服务的规则
-  - 结合Spring Boot Actuator，动态改变微服务的版本
+  - 结合Spring Boot Actuator，异步接受Rest主动推送规则信息，动态改变微服务的规则，支持同步和异步推送两种方式
+  - 结合Spring Boot Actuator，动态改变微服务的版本，支持同步和异步推送两种方式
   - 在服务注册层面的控制中，一旦禁止注册的条件触发，主动推送异步事件，以便使用者订阅
 - 实现通过Listener机制进行扩展
   - 使用者可以对服务注册发现核心事件进行监听
@@ -183,7 +183,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 | Spring Cloud版本 | Nepxion Discovery版本 |
 | --- | --- |
 | Finchley | 4.3.2 |
-| Edgware | 3.6.1 |
+| Edgware | 3.6.2 |
 
 ```xml
 <dependency>
