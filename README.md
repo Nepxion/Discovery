@@ -14,6 +14,24 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
   - 通过控制台界面推送规则
   - 通过客户端工具（例如Postman）推送
 
+## 目录
+- [请联系我](#请联系我)
+- [快速开始](#快速开始)
+- [现有痛点](#现有痛点)
+- [应用场景](#应用场景)
+- [功能简介](#功能简介)
+- [名词解释](#名词解释)
+- [架构](#架构)
+- [兼容](#兼容)
+- [依赖](#依赖)
+- [工程](#工程)
+- [规则和策略](#规则和策略)
+- [配置中心](#配置中心)
+- [管理中心](#管理中心)
+- [独立控制台](#独立控制台)
+- [图形化灰度发布桌面程序](#图形化灰度发布桌面程序)
+- [监控平台](#监控平台)
+
 ## 请联系我
 - 请加微信群或者微信
 
@@ -27,24 +45,44 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 图形化灰度发布桌面程序
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console1.jpg)
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console2.jpg)
-集成Spring Boot Admin（F版）服务台
+集成Spring Boot Admin（F版）监控平台
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Admin1.jpg)
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Admin2.jpg)
-集成Spring Boot Admin（E版）服务台，实现通过JMX向Endpoint推送规则和版本，达到灰度发布目的
+集成Spring Boot Admin（E版）监控平台，实现通过JMX向Endpoint推送规则和版本，达到灰度发布目的
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Admin3.jpg)
-集成了健康检查的Consul控制台
+集成了健康检查的Consul界面
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Consul.jpg)
 
-## 痛点
-现有Spring Cloud的痛点
+## 现有痛点
+现有的Spring Cloud微笑服务痛点
 - 如果你是运维负责人，是否会经常发现，你掌管的测试环境中的服务注册中心，被一些不负责的开发人员把他本地开发环境注册上来，造成测试人员测试失败。你希望可以把本地开发环境注册给屏蔽掉，不让注册
 - 如果你是运维负责人，生产环境的某个微服务集群下的某个实例，暂时出了问题，但又不希望它下线。你希望可以把该实例给屏蔽掉，暂时不让它被调用
 - 如果你是业务负责人，鉴于业务服务的快速迭代性，微服务集群下的实例发布不同的版本。你希望根据版本管理策略进行路由，提供给下游微服务区别调用，例如访问控制快速基于版本的不同而切换，例如在不同的版本之间进行流量调拨
 - 如果你是业务负责人，希望灰度发布功能可以基于业务场景特色定制，例如根据用户手机号进行不同服务器的路由
 - 如果你是测试负责人，希望对微服务做A/B测试，那么通过动态改变版本达到该目的
 
-## 简介
-- 实现对基于Spring Cloud的微服务和Spring Cloud Api Gateway（F版）和Zuul网关的支持
+## 应用场景
+- 黑/白名单的IP地址注册的过滤
+  - 开发环境的本地微服务（例如IP地址为172.16.0.8）不希望被注册到测试环境的服务注册发现中心，那么可以在配置中心维护一个黑/白名单的IP地址过滤（支持全局和局部的过滤）的规则
+  - 我们可以通过提供一份黑/白名单达到该效果
+- 最大注册数的限制的过滤
+  - 当某个微服务注册数目已经达到上限（例如10个），那么后面起来的微服务，将再也不能注册上去
+- 黑/白名单的IP地址发现的过滤
+  - 开发环境的本地微服务（例如IP地址为172.16.0.8）已经注册到测试环境的服务注册发现中心，那么可以在配置中心维护一个黑/白名单的IP地址过滤（支持全局和局部的过滤）的规则，该本地微服务不会被其他测试环境的微服务所调用
+  - 我们可以通过推送一份黑/白名单达到该效果
+- 多版本访问的灰度控制
+  - A服务调用B服务，而B服务有两个实例（B1、B2），虽然三者相同的服务名，但功能上有差异，需求是在某个时刻，A服务只能调用B1，禁止调用B2。在此场景下，我们在application.properties里为B1维护一个版本为1.0，为B2维护一个版本为1.1
+  - 我们可以通过推送A服务调用某个版本的B服务对应关系的配置，达到某种意义上的灰度控制，改变版本的时候，我们只需要再次推送即可
+- 多版本权重的灰度控制
+  - 上述场景中，我们也可以通过配对不同版本的权重（流量比例），根据需求，A访问B的流量在B1和B2进行调拨
+- 动态改变微服务版本
+  - 在A/B测试中，通过动态改变版本，不重启微服务，达到访问版本的路径改变
+- 用户自定义和编程灰度路由策略，可以通过非常简单编程达到如下效果
+  - 我们可以在网关上根据不同的Token查询到不同的用户，把请求路由到指定的服务器
+  - 我们可以在服务上根据不同的业务参数，例如手机号或者身份证号，把请求路由到指定的服务器
+
+## 功能简介
+- Nepxion Discovery实现对基于Spring Cloud的微服务和Spring Cloud Api Gateway（F版）和Zuul网关的支持
   - 具有极大的灵活性 - 支持在任何环节做过滤控制和灰度发布
   - 具有极小的限制性 - 只要开启了服务注册发现，程序入口加了@EnableDiscoveryClient
   - 具有极强的可用性 - 当远程配置中心全部挂了，可以通过Rest方式进行灰度发布
@@ -77,7 +115,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 
 ## 名词解释
 - E版和F版，即Spring Cloud的Edgware和Finchley的首字母
-- 切换灰度发布和平滑灰度发布，切换灰度发布即在灰度发布的时候，没有过渡过程，流量直接从旧版本切换到新版本；平滑灰度发布即在灰度发布的时候，有个过渡过程，可以根据实际情况，先给新版本分配低额流量，给旧版本分配高额流量，对新版本进行监测，如果没有问题，就继续把旧版的流量切换到新版本上
+- 切换灰度发布（也叫刚性灰度发布）和平滑灰度发布（也叫柔性灰度发布），切换灰度发布即在灰度发布的时候，没有过渡过程，流量直接从旧版本切换到新版本；平滑灰度发布即在灰度发布的时候，有个过渡过程，可以根据实际情况，先给新版本分配低额流量，给旧版本分配高额流量，对新版本进行监测，如果没有问题，就继续把旧版的流量切换到新版本上
 - IP地址，即根据微服务上报的它所在机器的IP地址。本系统内部强制以IP地址上报，禁止HostName上报，杜绝Spring Cloud应用在Docker或者Kubernetes部署时候出现问题
 - 本地版本，即初始化读取本地配置文件获取的版本，也可以是第一次读取远程配置中心获取的版本。本地版本和初始版本是同一个概念
 - 动态版本，即灰度发布时的版本。动态版本和灰度版本是同一个概念
@@ -88,28 +126,14 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 - 配置（Config）和规则（Rule），在本系统中属于同一个概念，例如更新配置，即更新规则，例如远程配置中心存储的配置，即规则XML
 - 服务端口和管理端口，即服务端口指在配置文件的server.port值，管理端口指management.port（E版）值或者management.server.port（F版）值
 
-## 场景
-- 黑/白名单的IP地址注册的过滤
-  - 开发环境的本地微服务（例如IP地址为172.16.0.8）不希望被注册到测试环境的服务注册发现中心，那么可以在配置中心维护一个黑/白名单的IP地址过滤（支持全局和局部的过滤）的规则
-  - 我们可以通过提供一份黑/白名单达到该效果
-- 最大注册数的限制的过滤
-  - 当某个微服务注册数目已经达到上限（例如10个），那么后面起来的微服务，将再也不能注册上去
-- 黑/白名单的IP地址发现的过滤
-  - 开发环境的本地微服务（例如IP地址为172.16.0.8）已经注册到测试环境的服务注册发现中心，那么可以在配置中心维护一个黑/白名单的IP地址过滤（支持全局和局部的过滤）的规则，该本地微服务不会被其他测试环境的微服务所调用
-  - 我们可以通过推送一份黑/白名单达到该效果
-- 多版本访问的灰度控制
-  - A服务调用B服务，而B服务有两个实例（B1、B2），虽然三者相同的服务名，但功能上有差异，需求是在某个时刻，A服务只能调用B1，禁止调用B2。在此场景下，我们在application.properties里为B1维护一个版本为1.0，为B2维护一个版本为1.1
-  - 我们可以通过推送A服务调用某个版本的B服务对应关系的配置，达到某种意义上的灰度控制，改变版本的时候，我们只需要再次推送即可
-- 多版本权重的灰度控制
-  - 上述场景中，我们也可以通过配对不同版本的权重（流量比例），根据需求，A访问B的流量在B1和B2进行调拨
-- 动态改变微服务版本
-  - 在A/B测试中，通过动态改变版本，不重启微服务，达到访问版本的路径改变
-- 用户自定义和编程灰度路由策略，可以通过非常简单编程达到如下效果
-  - 我们可以在网关上根据不同的Token查询到不同的用户，把请求路由到指定的服务器
-  - 我们可以在服务上根据不同的业务参数，例如手机号或者身份证号，把请求路由到指定的服务器
-
 ## 架构
-简单描述一下，本系统的核心模块之一的“切换灰度发布”，从网关（Zuul）开始的灰度发布操作过程，您还可以采用更多的灰度发布方式
+架构图
+
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Architecture.jpg)
+
+从上图，可以分析出两种基于Zuul的灰度发布方案
+
+基于Zuul版本切换的灰度发布
 - 灰度发布前
   - 假设当前生产环境，调用路径为网关(V1.0)->服务A(V1.0)->服务B(V1.0)
   - 运维将发布新的生产环境，部署新服务集群，服务A(V1.1)，服务B(V1.1)
@@ -123,9 +147,16 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
   - 下线服务A(V1.0)，服务B(V1.0)，灰度成功
   - 灰度网关(V1.1)可以不用下线，留作下次版本上线再次灰度发布
 
-架构图
-
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Architecture.jpg)
+基于Zuul版本权重的灰度发布
+- 灰度发布前
+  - 当前Zuul为V1.0版本
+  - V1.0版本的Zuul承担老版本100%的流量
+- 灰度发布中
+  - 新增ZuulV1.1版本
+  - V1.0版本的Zuul调拨10%流量给V1.1的Zuul
+  - 通过观测确认灰度有效，把V1.0版本的版本逐渐切换到V1.1上
+- 灰度发布后
+  - 下线V1.0版本的Zuul集群
 
 ## 兼容
 版本兼容情况
@@ -151,7 +182,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 ## 依赖
 | Spring Cloud版本 | Nepxion Discovery版本 |
 | --- | --- |
-| Finchley | 4.3.1 |
+| Finchley | 4.3.2 |
 | Edgware | 3.6.1 |
 
 ```xml
@@ -404,7 +435,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 - 基于Zuul的编程灰度路由，继承DiscoveryEnabledAdapter，通过Zuul自带的RequestContext获取业务上下文参数，进行路由自定义，用法参考discovery-springcloud-example-zuul下MyDiscoveryEnabledAdapter
 - 基于Spring Cloud Api Gateway的编程灰度路由，继承DiscoveryEnabledAdapter，通过GatewayStrategyContext获取业务上下文参数，进行路由自定义，用法参考discovery-springcloud-example-gateway下MyDiscoveryEnabledAdapter
 
-## 用户自定义监听
+### 用户自定义监听
 使用者可以继承如下类
 - AbstractRegisterListener，实现服务注册的监听，用法参考discovery-springcloud-example-service下MyRegisterListener
 - AbstractDiscoveryListener，实现服务发现的监听，用法参考discovery-springcloud-example-service下MyDiscoveryListener。注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断，见上图“集成了健康检查的Consul控制台”
@@ -495,7 +526,9 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.plugin.example.s
 ## 图形化灰度发布桌面程序
 基于Java Desktop技术的图形化灰度发布工具
 
-## 集成Spring Boot Admin服务台
-基于Spring Boot Actuator技术的Spring Boot Admin服务台
+见discovery-console-desktop工程，启动入口ConsoleLauncher.java
+
+## 监控平台
+基于Spring Boot Actuator技术的Spring Boot Admin监控平台
 
 请参考[https://github.com/codecentric/spring-boot-admin](https://github.com/codecentric/spring-boot-admin)
