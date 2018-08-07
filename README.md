@@ -14,6 +14,22 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
   - 通过控制台界面推送规则
   - 通过客户端工具（例如Postman）推送
 
+## 目录
+- [请联系我](#请联系我)
+- [快速开始](#快速开始)
+- [痛点](#痛点)
+- [简介](#简介)
+- [名词解释](#名词解释)
+- [场景](#场景)
+- [兼容](#兼容)
+- [依赖](#依赖)
+- [工程](#工程)
+- [规则和策略](#规则和策略)
+- [配置中心](#配置中心)
+- [管理中心](#管理中心)
+- [图形化灰度发布桌面程序](#图形化灰度发布桌面程序)
+- [Spring Boot Admin服务台](#Spring Boot Admin服务台)
+
 ## 请联系我
 - 请加微信群或者微信
 
@@ -404,7 +420,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 - 基于Zuul的编程灰度路由，继承DiscoveryEnabledAdapter，通过Zuul自带的RequestContext获取业务上下文参数，进行路由自定义，用法参考discovery-springcloud-example-zuul下MyDiscoveryEnabledAdapter
 - 基于Spring Cloud Api Gateway的编程灰度路由，继承DiscoveryEnabledAdapter，通过GatewayStrategyContext获取业务上下文参数，进行路由自定义，用法参考discovery-springcloud-example-gateway下MyDiscoveryEnabledAdapter
 
-## 用户自定义监听
+### 用户自定义监听
 使用者可以继承如下类
 - AbstractRegisterListener，实现服务注册的监听，用法参考discovery-springcloud-example-service下MyRegisterListener
 - AbstractDiscoveryListener，实现服务发现的监听，用法参考discovery-springcloud-example-service下MyDiscoveryListener。注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断，见上图“集成了健康检查的Consul控制台”
@@ -495,7 +511,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.plugin.example.s
 ## 图形化灰度发布桌面程序
 基于Java Desktop技术的图形化灰度发布工具
 
-## 集成Spring Boot Admin服务台
+## Spring Boot Admin服务台
 基于Spring Boot Actuator技术的Spring Boot Admin服务台
 
 请参考[https://github.com/codecentric/spring-boot-admin](https://github.com/codecentric/spring-boot-admin)
