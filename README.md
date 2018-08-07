@@ -131,7 +131,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Architecture.jpg)
 
-从上图，可以分析出两种基于Zuul的灰度发布方案
+从上图，可以分析出两种基于网关的灰度发布方案
 
 基于网关版本切换的灰度发布
 - 灰度发布前
