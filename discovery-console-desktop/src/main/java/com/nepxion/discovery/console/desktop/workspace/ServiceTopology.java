@@ -102,6 +102,8 @@ public class ServiceTopology extends AbstractTopology {
     private JBasicMenuItem executeGrayReleaseMenuItem;
     private JBasicMenuItem refreshGrayStateMenuItem;
     private JBasicMenuItem executeGrayRouterMenuItem;
+    private JBasicRadioButtonMenuItem pushAsyncModeRadioButtonMenuItem;
+    private JBasicRadioButtonMenuItem pushSyncModeRadioButtonMenuItem;
     private JBasicRadioButtonMenuItem ruleToConfigCenterRadioButtonMenuItem;
     private JBasicRadioButtonMenuItem ruleToServiceRadioButtonMenuItem;
     private FilterPanel filterPanel;
@@ -151,16 +153,27 @@ public class ServiceTopology extends AbstractTopology {
     }
 
     private void initializeToolBar() {
+        pushAsyncModeRadioButtonMenuItem = new JBasicRadioButtonMenuItem(ConsoleLocale.getString("push_async_mode"), ConsoleLocale.getString("push_async_mode"), true);
+        pushSyncModeRadioButtonMenuItem = new JBasicRadioButtonMenuItem(ConsoleLocale.getString("push_sync_mode"), ConsoleLocale.getString("push_sync_mode"));
+        ButtonGroup pushModeButtonGroup = new ButtonGroup();
+        pushModeButtonGroup.add(pushAsyncModeRadioButtonMenuItem);
+        pushModeButtonGroup.add(pushSyncModeRadioButtonMenuItem);
+
         ruleToConfigCenterRadioButtonMenuItem = new JBasicRadioButtonMenuItem(ConsoleLocale.getString("rule_control_mode_to_config_center"), ConsoleLocale.getString("rule_control_mode_to_config_center"), true);
         ruleToServiceRadioButtonMenuItem = new JBasicRadioButtonMenuItem(ConsoleLocale.getString("rule_control_mode_to_service"), ConsoleLocale.getString("rule_control_mode_to_service"));
-        ButtonGroup buttonGroup = new ButtonGroup();
-        buttonGroup.add(ruleToConfigCenterRadioButtonMenuItem);
-        buttonGroup.add(ruleToServiceRadioButtonMenuItem);
-        JBasicPopupMenu ruleControlPopupMenu = new JBasicPopupMenu();
-        ruleControlPopupMenu.add(ruleToConfigCenterRadioButtonMenuItem);
-        ruleControlPopupMenu.add(ruleToServiceRadioButtonMenuItem);
-        JClassicMenuButton ruleControllMenubutton = new JClassicMenuButton(ConsoleLocale.getString("rule_control_mode"), ConsoleIconFactory.getSwingIcon("component/advanced_16.png"), ConsoleLocale.getString("rule_control_mode"));
-        ruleControllMenubutton.setPopupMenu(ruleControlPopupMenu);
+        ButtonGroup ruleToButtonGroup = new ButtonGroup();
+        ruleToButtonGroup.add(ruleToConfigCenterRadioButtonMenuItem);
+        ruleToButtonGroup.add(ruleToServiceRadioButtonMenuItem);
+
+        JBasicPopupMenu pushControlPopupMenu = new JBasicPopupMenu();
+        pushControlPopupMenu.add(pushAsyncModeRadioButtonMenuItem);
+        pushControlPopupMenu.add(pushSyncModeRadioButtonMenuItem);
+        pushControlPopupMenu.addSeparator();
+        pushControlPopupMenu.add(ruleToConfigCenterRadioButtonMenuItem);
+        pushControlPopupMenu.add(ruleToServiceRadioButtonMenuItem);
+
+        JClassicMenuButton pushControllMenubutton = new JClassicMenuButton(ConsoleLocale.getString("push_control_mode"), ConsoleIconFactory.getSwingIcon("component/advanced_16.png"), ConsoleLocale.getString("push_control_mode"));
+        pushControllMenubutton.setPopupMenu(pushControlPopupMenu);
 
         JToolBar toolBar = getGraph().getToolbar();
         toolBar.addSeparator();
@@ -170,7 +183,7 @@ public class ServiceTopology extends AbstractTopology {
         toolBar.add(new JClassicButton(createExecuteGrayReleaseAction()));
         toolBar.add(new JClassicButton(createExecuteGrayRouterAction()));
         toolBar.add(new JClassicButton(createRefreshGrayStateAction()));
-        toolBar.add(ruleControllMenubutton);
+        toolBar.add(pushControllMenubutton);
         toolBar.addSeparator();
         toolBar.add(createConfigButton(true));
 
@@ -947,7 +960,7 @@ public class ServiceTopology extends AbstractTopology {
                         String serviceId = group.getUserObject().toString();
                         List<ResultEntity> results = null;
                         try {
-                            results = ServiceController.versionUpdate(serviceId, dynamicVersion);
+                            results = ServiceController.versionUpdate(serviceId, dynamicVersion, pushAsyncModeRadioButtonMenuItem.isSelected());
                         } catch (Exception ex) {
                             JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
 
@@ -964,7 +977,7 @@ public class ServiceTopology extends AbstractTopology {
 
                         String result = null;
                         try {
-                            result = ServiceController.versionUpdate(instance, dynamicVersion);
+                            result = ServiceController.versionUpdate(instance, dynamicVersion, pushAsyncModeRadioButtonMenuItem.isSelected());
                         } catch (Exception ex) {
                             JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
 
@@ -992,7 +1005,7 @@ public class ServiceTopology extends AbstractTopology {
                         String serviceId = group.getUserObject().toString();
                         List<ResultEntity> results = null;
                         try {
-                            results = ServiceController.versionClear(serviceId);
+                            results = ServiceController.versionClear(serviceId, pushAsyncModeRadioButtonMenuItem.isSelected());
                         } catch (Exception ex) {
                             JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
 
@@ -1009,7 +1022,7 @@ public class ServiceTopology extends AbstractTopology {
 
                         String result = null;
                         try {
-                            result = ServiceController.versionClear(instance);
+                            result = ServiceController.versionClear(instance, pushAsyncModeRadioButtonMenuItem.isSelected());
                         } catch (Exception ex) {
                             JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
 
@@ -1060,7 +1073,7 @@ public class ServiceTopology extends AbstractTopology {
                         } else {
                             List<ResultEntity> results = null;
                             try {
-                                results = ServiceController.configUpdate(serviceId, dynamicRule);
+                                results = ServiceController.configUpdate(serviceId, dynamicRule, pushAsyncModeRadioButtonMenuItem.isSelected());
                             } catch (Exception ex) {
                                 JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
 
@@ -1078,7 +1091,7 @@ public class ServiceTopology extends AbstractTopology {
 
                         String result = null;
                         try {
-                            result = ServiceController.configUpdate(instance, dynamicRule);
+                            result = ServiceController.configUpdate(instance, dynamicRule, pushAsyncModeRadioButtonMenuItem.isSelected());
                         } catch (Exception ex) {
                             JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
 
@@ -1121,7 +1134,7 @@ public class ServiceTopology extends AbstractTopology {
                         } else {
                             List<ResultEntity> results = null;
                             try {
-                                results = ServiceController.configClear(serviceId);
+                                results = ServiceController.configClear(serviceId, pushAsyncModeRadioButtonMenuItem.isSelected());
                             } catch (Exception ex) {
                                 JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
 
@@ -1139,7 +1152,7 @@ public class ServiceTopology extends AbstractTopology {
 
                         String result = null;
                         try {
-                            result = ServiceController.configClear(instance);
+                            result = ServiceController.configClear(instance, pushAsyncModeRadioButtonMenuItem.isSelected());
                         } catch (Exception ex) {
                             JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
 

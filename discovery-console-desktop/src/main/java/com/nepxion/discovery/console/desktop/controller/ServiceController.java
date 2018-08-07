@@ -70,50 +70,6 @@ public class ServiceController {
         });
     }
 
-    public static List<ResultEntity> versionUpdate(String serviceId, String version) {
-        String url = getUrl() + "console/version/update/" + serviceId;
-
-        String result = restTemplate.postForEntity(url, version, String.class).getBody();
-
-        return convert(result, new TypeReference<List<ResultEntity>>() {
-        });
-    }
-
-    public static String versionUpdate(Instance instance, String version) {
-        String url = getUrl(instance) + "version/update";
-
-        String result = restTemplate.postForEntity(url, version, String.class).getBody();
-
-        if (!StringUtils.equals(result, "OK")) {
-            ServiceErrorHandler errorHandler = (ServiceErrorHandler) restTemplate.getErrorHandler();
-            result = errorHandler.getCause();
-        }
-
-        return result;
-    }
-
-    public static List<ResultEntity> versionClear(String serviceId) {
-        String url = getUrl() + "console/version/clear/" + serviceId;
-
-        String result = restTemplate.postForEntity(url, null, String.class).getBody();
-
-        return convert(result, new TypeReference<List<ResultEntity>>() {
-        });
-    }
-
-    public static String versionClear(Instance instance) {
-        String url = getUrl(instance) + "version/clear";
-
-        String result = restTemplate.postForEntity(url, null, String.class).getBody();
-
-        if (!StringUtils.equals(result, "OK")) {
-            ServiceErrorHandler errorHandler = (ServiceErrorHandler) restTemplate.getErrorHandler();
-            result = errorHandler.getCause();
-        }
-
-        return result;
-    }
-
     public static String remoteConfigUpdate(String group, String serviceId, String config) {
         String url = getUrl() + "console/remote-config/update/" + group + "/" + serviceId;
 
@@ -125,38 +81,6 @@ public class ServiceController {
         String result = restTemplate.postForEntity(url, entity, String.class).getBody();
 
         if (!StringUtils.equals(result, "OK") && !StringUtils.equals(result, "NO")) {
-            ServiceErrorHandler errorHandler = (ServiceErrorHandler) restTemplate.getErrorHandler();
-            result = errorHandler.getCause();
-        }
-
-        return result;
-    }
-
-    public static List<ResultEntity> configUpdate(String serviceId, String config) {
-        String url = getUrl() + "console/config/update-sync/" + serviceId;
-
-        // 解决中文乱码
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        HttpEntity<String> entity = new HttpEntity<String>(config, headers);
-
-        String result = restTemplate.postForEntity(url, entity, String.class).getBody();
-
-        return convert(result, new TypeReference<List<ResultEntity>>() {
-        });
-    }
-
-    public static String configUpdate(Instance instance, String config) {
-        String url = getUrl(instance) + "config/update-sync";
-
-        // 解决中文乱码
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        HttpEntity<String> entity = new HttpEntity<String>(config, headers);
-
-        String result = restTemplate.postForEntity(url, entity, String.class).getBody();
-
-        if (!StringUtils.equals(result, "OK")) {
             ServiceErrorHandler errorHandler = (ServiceErrorHandler) restTemplate.getErrorHandler();
             result = errorHandler.getCause();
         }
@@ -177,8 +101,48 @@ public class ServiceController {
         return result;
     }
 
-    public static List<ResultEntity> configClear(String serviceId) {
-        String url = getUrl() + "console/config/clear/" + serviceId;
+    public static String remoteConfigView(String group, String serviceId) {
+        String url = getUrl() + "console/remote-config/view/" + group + "/" + serviceId;
+
+        String result = restTemplate.getForEntity(url, String.class).getBody();
+
+        return result;
+    }
+
+    public static List<ResultEntity> configUpdate(String serviceId, String config, boolean async) {
+        String url = getUrl() + "console/config/update-" + getInvokeType(async) + "/" + serviceId;
+
+        // 解决中文乱码
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        HttpEntity<String> entity = new HttpEntity<String>(config, headers);
+
+        String result = restTemplate.postForEntity(url, entity, String.class).getBody();
+
+        return convert(result, new TypeReference<List<ResultEntity>>() {
+        });
+    }
+
+    public static String configUpdate(Instance instance, String config, boolean async) {
+        String url = getUrl(instance) + "config/update-" + getInvokeType(async);
+
+        // 解决中文乱码
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        HttpEntity<String> entity = new HttpEntity<String>(config, headers);
+
+        String result = restTemplate.postForEntity(url, entity, String.class).getBody();
+
+        if (!StringUtils.equals(result, "OK")) {
+            ServiceErrorHandler errorHandler = (ServiceErrorHandler) restTemplate.getErrorHandler();
+            result = errorHandler.getCause();
+        }
+
+        return result;
+    }
+
+    public static List<ResultEntity> configClear(String serviceId, boolean async) {
+        String url = getUrl() + "console/config/clear-" + getInvokeType(async) + "/" + serviceId;
 
         String result = restTemplate.postForEntity(url, null, String.class).getBody();
 
@@ -186,8 +150,8 @@ public class ServiceController {
         });
     }
 
-    public static String configClear(Instance instance) {
-        String url = getUrl(instance) + "config/clear";
+    public static String configClear(Instance instance, boolean async) {
+        String url = getUrl(instance) + "config/clear-" + getInvokeType(async);
 
         String result = restTemplate.postForEntity(url, null, String.class).getBody();
 
@@ -199,10 +163,46 @@ public class ServiceController {
         return result;
     }
 
-    public static String remoteConfigView(String group, String serviceId) {
-        String url = getUrl() + "console/remote-config/view/" + group + "/" + serviceId;
+    public static List<ResultEntity> versionUpdate(String serviceId, String version, boolean async) {
+        String url = getUrl() + "console/version/update-" + getInvokeType(async) + "/" + serviceId;
 
-        String result = restTemplate.getForEntity(url, String.class).getBody();
+        String result = restTemplate.postForEntity(url, version, String.class).getBody();
+
+        return convert(result, new TypeReference<List<ResultEntity>>() {
+        });
+    }
+
+    public static String versionUpdate(Instance instance, String version, boolean async) {
+        String url = getUrl(instance) + "version/update-" + getInvokeType(async);
+
+        String result = restTemplate.postForEntity(url, version, String.class).getBody();
+
+        if (!StringUtils.equals(result, "OK")) {
+            ServiceErrorHandler errorHandler = (ServiceErrorHandler) restTemplate.getErrorHandler();
+            result = errorHandler.getCause();
+        }
+
+        return result;
+    }
+
+    public static List<ResultEntity> versionClear(String serviceId, boolean async) {
+        String url = getUrl() + "console/version/clear-" + getInvokeType(async) + "/" + serviceId;
+
+        String result = restTemplate.postForEntity(url, null, String.class).getBody();
+
+        return convert(result, new TypeReference<List<ResultEntity>>() {
+        });
+    }
+
+    public static String versionClear(Instance instance, boolean async) {
+        String url = getUrl(instance) + "version/clear-" + getInvokeType(async);
+
+        String result = restTemplate.postForEntity(url, null, String.class).getBody();
+
+        if (!StringUtils.equals(result, "OK")) {
+            ServiceErrorHandler errorHandler = (ServiceErrorHandler) restTemplate.getErrorHandler();
+            result = errorHandler.getCause();
+        }
 
         return result;
     }
@@ -220,6 +220,10 @@ public class ServiceController {
         String url = "http://" + instance.getHost() + ":" + instance.getPort() + UrlUtil.formatContextPath(instance.getContextPath());
 
         return url;
+    }
+
+    private static String getInvokeType(boolean async) {
+        return async ? "async" : "sync";
     }
 
     private static <T> T convert(String result, TypeReference<T> typeReference) {
