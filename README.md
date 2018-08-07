@@ -115,7 +115,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 
 ## 名词解释
 - E版和F版，即Spring Cloud的Edgware和Finchley的首字母
-- 切换灰度发布和平滑灰度发布，切换灰度发布即在灰度发布的时候，没有过渡过程，流量直接从旧版本切换到新版本；平滑灰度发布即在灰度发布的时候，有个过渡过程，可以根据实际情况，先给新版本分配低额流量，给旧版本分配高额流量，对新版本进行监测，如果没有问题，就继续把旧版的流量切换到新版本上
+- 切换灰度发布（也叫刚性灰度发布）和平滑灰度发布（也叫柔性灰度发布），切换灰度发布即在灰度发布的时候，没有过渡过程，流量直接从旧版本切换到新版本；平滑灰度发布即在灰度发布的时候，有个过渡过程，可以根据实际情况，先给新版本分配低额流量，给旧版本分配高额流量，对新版本进行监测，如果没有问题，就继续把旧版的流量切换到新版本上
 - IP地址，即根据微服务上报的它所在机器的IP地址。本系统内部强制以IP地址上报，禁止HostName上报，杜绝Spring Cloud应用在Docker或者Kubernetes部署时候出现问题
 - 本地版本，即初始化读取本地配置文件获取的版本，也可以是第一次读取远程配置中心获取的版本。本地版本和初始版本是同一个概念
 - 动态版本，即灰度发布时的版本。动态版本和灰度版本是同一个概念
@@ -127,7 +127,13 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 - 服务端口和管理端口，即服务端口指在配置文件的server.port值，管理端口指management.port（E版）值或者management.server.port（F版）值
 
 ## 架构
-简单描述一下，本系统的核心模块之一的“切换灰度发布”，从网关（Zuul）开始的灰度发布操作过程，您还可以采用更多的灰度发布方式
+架构图
+
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Architecture.jpg)
+
+从上图，可以分析出两种基于Zuul的灰度发布方案
+
+基于Zuul版本切换的灰度发布
 - 灰度发布前
   - 假设当前生产环境，调用路径为网关(V1.0)->服务A(V1.0)->服务B(V1.0)
   - 运维将发布新的生产环境，部署新服务集群，服务A(V1.1)，服务B(V1.1)
@@ -141,9 +147,16 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
   - 下线服务A(V1.0)，服务B(V1.0)，灰度成功
   - 灰度网关(V1.1)可以不用下线，留作下次版本上线再次灰度发布
 
-架构图
-
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Architecture.jpg)
+基于Zuul版本权重的灰度发布
+- 灰度发布前
+  - 当前Zuul为V1.0版本
+  - V1.0版本的Zuul承担老版本100%的流量
+- 灰度发布中
+  - 新增ZuulV1.1版本
+  - V1.0版本的Zuul调拨10%流量给V1.1的Zuul
+  - 通过观测确认灰度有效，把V1.0版本的版本逐渐切换到V1.1上
+- 灰度发布后
+  - 下线V1.0版本的Zuul集群
 
 ## 兼容
 版本兼容情况
@@ -169,7 +182,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 ## 依赖
 | Spring Cloud版本 | Nepxion Discovery版本 |
 | --- | --- |
-| Finchley | 4.3.1 |
+| Finchley | 4.3.2 |
 | Edgware | 3.6.1 |
 
 ```xml
