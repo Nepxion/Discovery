@@ -159,8 +159,8 @@ public class ServiceTopology extends AbstractTopology {
         pushModeButtonGroup.add(pushAsyncModeRadioButtonMenuItem);
         pushModeButtonGroup.add(pushSyncModeRadioButtonMenuItem);
 
-        ruleToConfigCenterRadioButtonMenuItem = new JBasicRadioButtonMenuItem(ConsoleLocale.getString("rule_control_mode_to_config_center"), ConsoleLocale.getString("rule_control_mode_to_config_center"), true);
-        ruleToServiceRadioButtonMenuItem = new JBasicRadioButtonMenuItem(ConsoleLocale.getString("rule_control_mode_to_service"), ConsoleLocale.getString("rule_control_mode_to_service"));
+        ruleToConfigCenterRadioButtonMenuItem = new JBasicRadioButtonMenuItem(ConsoleLocale.getString("rule_to_config_center"), ConsoleLocale.getString("rule_to_config_center"), true);
+        ruleToServiceRadioButtonMenuItem = new JBasicRadioButtonMenuItem(ConsoleLocale.getString("rule_to_service"), ConsoleLocale.getString("rule_to_service"));
         ButtonGroup ruleToButtonGroup = new ButtonGroup();
         ruleToButtonGroup.add(ruleToConfigCenterRadioButtonMenuItem);
         ruleToButtonGroup.add(ruleToServiceRadioButtonMenuItem);
