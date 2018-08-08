@@ -56,7 +56,7 @@ public class RedisConfigAutoConfiguration {
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
 
-        LOG.info("Subscribe config from Redis server, {}={}, serviceId={}, globalConfig=true", groupKey, group, serviceId);
+        LOG.info("Subscribe global config from Redis server, {}={}, serviceId={}", groupKey, group, serviceId);
 
         return new MessageListenerAdapter(configAdapter, "subscribeGlobalConfig");
     }
@@ -67,7 +67,7 @@ public class RedisConfigAutoConfiguration {
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
 
-        LOG.info("Subscribe config from Redis server, {}={}, serviceId={}, globalConfig=false", groupKey, group, serviceId);
+        LOG.info("Subscribe partial config from Redis server, {}={}, serviceId={}", groupKey, group, serviceId);
 
         return new MessageListenerAdapter(configAdapter, "subscribePartialConfig");
     }

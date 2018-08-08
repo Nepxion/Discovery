@@ -61,7 +61,7 @@ public class NacosConfigAdapter extends ConfigAdapter {
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
 
-        LOG.info("Get config from Nacos server, {}={}, serviceId={}, globalConfig={}", groupKey, group, serviceId, globalConfig);
+        LOG.info("Get {} config from Nacos server, {}={}, serviceId={}", getConfigType(globalConfig), groupKey, group, serviceId);
 
         return nacosOperation.getConfig(group, globalConfig ? group : serviceId);
     }
@@ -77,14 +77,14 @@ public class NacosConfigAdapter extends ConfigAdapter {
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
 
-        LOG.info("Subscribe config from Nacos server, {}={}, serviceId={}, globalConfig={}", groupKey, group, serviceId, globalConfig);
+        LOG.info("Subscribe {} config from Nacos server, {}={}, serviceId={}", getConfigType(globalConfig), groupKey, group, serviceId);
 
         try {
             nacosOperation.subscribeConfig(group, globalConfig ? group : serviceId, new NacosSubscribeCallback() {
                 @Override
                 public void callback(String config) {
                     if (StringUtils.isNotEmpty(config)) {
-                        LOG.info("Get config updated event from Nacos server, {}={}, serviceId={}, globalConfig={}", groupKey, group, serviceId, globalConfig);
+                        LOG.info("Get {} config updated event from Nacos server, {}={}, serviceId={}", getConfigType(globalConfig), groupKey, group, serviceId);
 
                         RuleEntity ruleEntity = pluginAdapter.getRule();
                         String rule = null;
@@ -94,17 +94,21 @@ public class NacosConfigAdapter extends ConfigAdapter {
                         if (!StringUtils.equals(rule, config)) {
                             fireRuleUpdated(new RuleUpdatedEvent(config), true);
                         } else {
-                            LOG.info("Retrieved config is same as current config, ignore to update, {}={}, serviceId={}, globalConfig={}", groupKey, group, serviceId, globalConfig);
+                            LOG.info("Retrieved {} config from Nacos server is same as current config, ignore to update, {}={}, serviceId={}", getConfigType(globalConfig), groupKey, group, serviceId);
                         }
                     } else {
-                        LOG.info("Get config cleared event from Nacos server, {}={}, serviceId={}, globalConfig={}", groupKey, group, serviceId, globalConfig);
+                        LOG.info("Get {} config cleared event from Nacos server, {}={}, serviceId={}", getConfigType(globalConfig), groupKey, group, serviceId);
 
                         fireRuleCleared(new RuleClearedEvent(), true);
                     }
                 }
             });
         } catch (Exception e) {
-            LOG.error("Subscribe config from Nacos server failed, " + groupKey + "=" + group + ", serviceId=" + serviceId + ", globalConfig=" + globalConfig, e);
+            LOG.error("Subscribe " + getConfigType(globalConfig) + " config from Nacos server failed, " + groupKey + "=" + group + ", serviceId=" + serviceId, e);
         }
+    }
+
+    private String getConfigType(boolean globalConfig) {
+        return globalConfig ? "global" : "partial";
     }
 }
