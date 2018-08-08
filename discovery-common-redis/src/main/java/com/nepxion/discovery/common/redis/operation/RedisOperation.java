@@ -27,9 +27,7 @@ public class RedisOperation {
     public boolean removeConfig(String group, String serviceId) {
         publishConfig(group, serviceId, "");
 
-        return true;
-
-        // return hashOperations.delete(group, serviceId) == 1;
+        return hashOperations.delete(group, serviceId) == 1;
     }
 
     public boolean publishConfig(String group, String serviceId, String config) {
