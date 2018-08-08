@@ -9,6 +9,8 @@ package com.nepxion.discovery.plugin.configcenter.extension.redis.configuration;
  * @version 1.0
  */
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,30 +22,54 @@ import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import com.nepxion.discovery.plugin.configcenter.ConfigAdapter;
 import com.nepxion.discovery.plugin.configcenter.extension.redis.adapter.RedisConfigAdapter;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
+import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 
 @Configuration
 public class RedisConfigAutoConfiguration {
+    private static final Logger LOG = LoggerFactory.getLogger(RedisConfigAutoConfiguration.class);
+
     @Autowired
     private RedisConnectionFactory redisConnectionFactory;
+
+    @Autowired
+    protected PluginContextAware pluginContextAware;
 
     @Autowired
     private PluginAdapter pluginAdapter;
 
     @Bean
-    public RedisMessageListenerContainer redisMessageListenerContainer(MessageListenerAdapter messageListenerAdapter) {
+    public RedisMessageListenerContainer redisMessageListenerContainer(MessageListenerAdapter globalMessageListenerAdapter, MessageListenerAdapter partialMessageListenerAdapter) {
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
 
         RedisMessageListenerContainer redisMessageListenerContainer = new RedisMessageListenerContainer();
         redisMessageListenerContainer.setConnectionFactory(redisConnectionFactory);
-        redisMessageListenerContainer.addMessageListener(messageListenerAdapter, new PatternTopic(group + "-" + serviceId));
+        redisMessageListenerContainer.addMessageListener(globalMessageListenerAdapter, new PatternTopic(group + "-" + group));
+        redisMessageListenerContainer.addMessageListener(partialMessageListenerAdapter, new PatternTopic(group + "-" + serviceId));
 
         return redisMessageListenerContainer;
     }
 
     @Bean
-    public MessageListenerAdapter messageListenerAdapter(ConfigAdapter configAdapter) {
-        return new MessageListenerAdapter(configAdapter, "subscribeConfig");
+    public MessageListenerAdapter globalMessageListenerAdapter(ConfigAdapter configAdapter) {
+        String groupKey = pluginContextAware.getGroupKey();
+        String group = pluginAdapter.getGroup();
+        String serviceId = pluginAdapter.getServiceId();
+
+        LOG.info("Subscribe config from Redis server, {}={}, serviceId={}, globalConfig=true", groupKey, group, serviceId);
+
+        return new MessageListenerAdapter(configAdapter, "subscribeGlobalConfig");
+    }
+
+    @Bean
+    public MessageListenerAdapter partialMessageListenerAdapter(ConfigAdapter configAdapter) {
+        String groupKey = pluginContextAware.getGroupKey();
+        String group = pluginAdapter.getGroup();
+        String serviceId = pluginAdapter.getServiceId();
+
+        LOG.info("Subscribe config from Redis server, {}={}, serviceId={}, globalConfig=false", groupKey, group, serviceId);
+
+        return new MessageListenerAdapter(configAdapter, "subscribePartialConfig");
     }
 
     @Bean
