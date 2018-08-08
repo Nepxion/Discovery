@@ -62,7 +62,7 @@
 
         <dependency>
             <groupId>com.nepxion</groupId>
-            <!-- <artifactId>discovery-console-extension-nacos</artifactId> -->
+            <!-- <artifactId>discovery-plugin-config-center-extension-nacos</artifactId> -->
             <artifactId>discovery-plugin-config-center-extension-redis</artifactId>
         </dependency>
 
