@@ -104,9 +104,8 @@ public class ServiceTopology extends AbstractTopology {
     private JBasicMenuItem executeGrayRouterMenuItem;
     private JBasicRadioButtonMenuItem pushAsyncModeRadioButtonMenuItem;
     private JBasicRadioButtonMenuItem pushSyncModeRadioButtonMenuItem;
-    private JBasicRadioButtonMenuItem ruleToAllClustersRadioButtonMenuItem;
-    private JBasicRadioButtonMenuItem ruleToOneClusterRadioButtonMenuItem;
-    private JBasicRadioButtonMenuItem ruleToOneServiceRadioButtonMenuItem;
+    private JBasicRadioButtonMenuItem ruleToConfigCenterRadioButtonMenuItem;
+    private JBasicRadioButtonMenuItem ruleToServiceRadioButtonMenuItem;
     private FilterPanel filterPanel;
     private GrayPanel grayPanel;
     private JBasicTextArea resultTextArea;
@@ -160,21 +159,18 @@ public class ServiceTopology extends AbstractTopology {
         pushModeButtonGroup.add(pushAsyncModeRadioButtonMenuItem);
         pushModeButtonGroup.add(pushSyncModeRadioButtonMenuItem);
 
-        ruleToAllClustersRadioButtonMenuItem = new JBasicRadioButtonMenuItem(ConsoleLocale.getString("rule_to_all_clusters"), ConsoleLocale.getString("rule_to_all_clusters"), true);
-        ruleToOneClusterRadioButtonMenuItem = new JBasicRadioButtonMenuItem(ConsoleLocale.getString("rule_to_one_cluster"), ConsoleLocale.getString("rule_to_one_cluster"));
-        ruleToOneServiceRadioButtonMenuItem = new JBasicRadioButtonMenuItem(ConsoleLocale.getString("rule_to_one_service"), ConsoleLocale.getString("rule_to_one_service"));
+        ruleToConfigCenterRadioButtonMenuItem = new JBasicRadioButtonMenuItem(ConsoleLocale.getString("rule_control_mode_to_config_center"), ConsoleLocale.getString("rule_control_mode_to_config_center"), true);
+        ruleToServiceRadioButtonMenuItem = new JBasicRadioButtonMenuItem(ConsoleLocale.getString("rule_control_mode_to_service"), ConsoleLocale.getString("rule_control_mode_to_service"));
         ButtonGroup ruleToButtonGroup = new ButtonGroup();
-        ruleToButtonGroup.add(ruleToAllClustersRadioButtonMenuItem);
-        ruleToButtonGroup.add(ruleToOneClusterRadioButtonMenuItem);
-        ruleToButtonGroup.add(ruleToOneServiceRadioButtonMenuItem);
+        ruleToButtonGroup.add(ruleToConfigCenterRadioButtonMenuItem);
+        ruleToButtonGroup.add(ruleToServiceRadioButtonMenuItem);
 
         JBasicPopupMenu pushControlPopupMenu = new JBasicPopupMenu();
         pushControlPopupMenu.add(pushAsyncModeRadioButtonMenuItem);
         pushControlPopupMenu.add(pushSyncModeRadioButtonMenuItem);
         pushControlPopupMenu.addSeparator();
-        pushControlPopupMenu.add(ruleToAllClustersRadioButtonMenuItem);
-        pushControlPopupMenu.add(ruleToOneClusterRadioButtonMenuItem);
-        pushControlPopupMenu.add(ruleToOneServiceRadioButtonMenuItem);
+        pushControlPopupMenu.add(ruleToConfigCenterRadioButtonMenuItem);
+        pushControlPopupMenu.add(ruleToServiceRadioButtonMenuItem);
 
         JClassicMenuButton pushControllMenubutton = new JClassicMenuButton(ConsoleLocale.getString("push_control_mode"), ConsoleIconFactory.getSwingIcon("component/advanced_16.png"), ConsoleLocale.getString("push_control_mode"));
         pushControllMenubutton.setPopupMenu(pushControlPopupMenu);
@@ -835,7 +831,7 @@ public class ServiceTopology extends AbstractTopology {
             toolBar.add(clearRuleButton);
             ButtonManager.updateUI(toolBar);
 
-            ruleInfoLabel = new JLabel(ConsoleLocale.getString("description_gray_rule_to_one_cluster"), IconFactory.getSwingIcon("question_message.png"), SwingConstants.LEADING);
+            ruleInfoLabel = new JLabel(ConsoleLocale.getString("description_gray_rule_to_config_center"), IconFactory.getSwingIcon("question_message.png"), SwingConstants.LEADING);
 
             JPanel layoutPanel = new JPanel();
             layoutPanel.setLayout(new FiledLayout(FiledLayout.COLUMN, FiledLayout.FULL, 5));
@@ -856,8 +852,8 @@ public class ServiceTopology extends AbstractTopology {
             this.group = group;
             this.node = null;
 
-            boolean versionControlEnabled = ruleToOneClusterRadioButtonMenuItem.isSelected();
-            boolean ruleControlEnabled = ruleToOneClusterRadioButtonMenuItem.isSelected();
+            boolean versionControlEnabled = ruleToConfigCenterRadioButtonMenuItem.isSelected();
+            boolean ruleControlEnabled = ruleToConfigCenterRadioButtonMenuItem.isSelected();
             if (!versionControlEnabled && !ruleControlEnabled) {
                 for (Iterator<TNode> iterator = group.children(); iterator.hasNext();) {
                     TNode node = iterator.next();
@@ -896,14 +892,14 @@ public class ServiceTopology extends AbstractTopology {
             clearRuleButton.setEnabled(ruleControlEnabled);
 
             String ruleInfo = null;
-            if (ruleToOneClusterRadioButtonMenuItem.isSelected()) {
+            if (ruleToConfigCenterRadioButtonMenuItem.isSelected()) {
                 String filter = getFilter(group);
                 String serviceId = group.getUserObject().toString();
                 String config = ServiceController.remoteConfigView(filter, serviceId);
                 dynamicRuleTextArea.setText(config);
-                ruleInfo = ConsoleLocale.getString("description_gray_rule_to_one_cluster");
+                ruleInfo = ConsoleLocale.getString("description_gray_rule_to_config_center");
             } else {
-                ruleInfo = ConsoleLocale.getString("description_gray_rule_to_one_service");
+                ruleInfo = ConsoleLocale.getString("description_gray_rule_to_service");
             }
 
             ruleInfoLabel.setText(ruleInfo);
@@ -915,7 +911,7 @@ public class ServiceTopology extends AbstractTopology {
             Instance instance = (Instance) node.getUserObject();
 
             boolean versionControlEnabled = instance.isDiscoveryControlEnabled();
-            boolean ruleControlEnabled = instance.isDiscoveryControlEnabled() && instance.isConfigRestControlEnabled() && !ruleToOneClusterRadioButtonMenuItem.isSelected();
+            boolean ruleControlEnabled = instance.isDiscoveryControlEnabled() && instance.isConfigRestControlEnabled() && !ruleToConfigCenterRadioButtonMenuItem.isSelected();
 
             if (versionTabbedPane.getTabCount() == 1) {
                 versionTabbedPane.addTab(ConsoleLocale.getString("label_local_version"), localVersionPanel, ConsoleLocale.getString("label_local_version"));
@@ -939,10 +935,10 @@ public class ServiceTopology extends AbstractTopology {
             clearRuleButton.setEnabled(ruleControlEnabled);
 
             String ruleInfo = null;
-            if (ruleToOneClusterRadioButtonMenuItem.isSelected()) {
-                ruleInfo = ConsoleLocale.getString("description_gray_rule_to_one_cluster");
+            if (ruleToConfigCenterRadioButtonMenuItem.isSelected()) {
+                ruleInfo = ConsoleLocale.getString("description_gray_rule_to_config_center");
             } else {
-                ruleInfo = ConsoleLocale.getString("description_gray_rule_to_one_service");
+                ruleInfo = ConsoleLocale.getString("description_gray_rule_to_service");
             }
 
             ruleInfoLabel.setText(ruleInfo);
@@ -1060,7 +1056,7 @@ public class ServiceTopology extends AbstractTopology {
                     if (group != null) {
                         String serviceId = group.getUserObject().toString();
 
-                        if (ruleToOneClusterRadioButtonMenuItem.isSelected()) {
+                        if (ruleToConfigCenterRadioButtonMenuItem.isSelected()) {
                             String filter = getFilter(group);
                             String result = null;
                             try {
@@ -1121,7 +1117,7 @@ public class ServiceTopology extends AbstractTopology {
                 public void execute(ActionEvent e) {
                     if (group != null) {
                         String serviceId = group.getUserObject().toString();
-                        if (ruleToOneClusterRadioButtonMenuItem.isSelected()) {
+                        if (ruleToConfigCenterRadioButtonMenuItem.isSelected()) {
                             String filter = getFilter(group);
                             String result = null;
                             try {
