@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -64,16 +65,21 @@ import com.nepxion.swing.button.JClassicMenuButton;
 import com.nepxion.swing.combobox.JBasicComboBox;
 import com.nepxion.swing.dialog.JExceptionDialog;
 import com.nepxion.swing.dialog.JOptionDialog;
+import com.nepxion.swing.framework.dockable.JDockable;
+import com.nepxion.swing.framework.dockable.JDockableView;
 import com.nepxion.swing.handle.HandleManager;
 import com.nepxion.swing.icon.IconFactory;
 import com.nepxion.swing.label.JBasicLabel;
 import com.nepxion.swing.layout.filed.FiledLayout;
 import com.nepxion.swing.layout.table.TableLayout;
+import com.nepxion.swing.list.BasicListModel;
+import com.nepxion.swing.list.JBasicList;
 import com.nepxion.swing.locale.SwingLocale;
 import com.nepxion.swing.menuitem.JBasicMenuItem;
 import com.nepxion.swing.menuitem.JBasicRadioButtonMenuItem;
 import com.nepxion.swing.optionpane.JBasicOptionPane;
 import com.nepxion.swing.popupmenu.JBasicPopupMenu;
+import com.nepxion.swing.query.JQueryHierarchy;
 import com.nepxion.swing.scrollpane.JBasicScrollPane;
 import com.nepxion.swing.tabbedpane.JBasicTabbedPane;
 import com.nepxion.swing.textarea.JBasicTextArea;
@@ -84,11 +90,6 @@ public class ServiceTopology extends AbstractTopology {
     private static final long serialVersionUID = 1L;
 
     public static final String NO_FILTER = ConsoleLocale.getString("no_service_cluster_filter");
-
-    // private static AlarmSeverity grayAlarmSeverity;
-    // static {
-    //     grayAlarmSeverity = AlarmSeverity.registerAlarmSeverity("GRAY", "G", 600, AlarmSeverity.COLOR_MINOR, null);
-    // }
 
     private LocationEntity groupLocationEntity = new LocationEntity(120, 250, 280, 0);
     private LocationEntity nodeLocationEntity = new LocationEntity(0, 0, 120, 100);
@@ -107,6 +108,7 @@ public class ServiceTopology extends AbstractTopology {
     private JBasicRadioButtonMenuItem ruleToConfigCenterRadioButtonMenuItem;
     private JBasicRadioButtonMenuItem ruleToServiceRadioButtonMenuItem;
     private FilterPanel filterPanel;
+    private GlobalGrayPanel globalGrayPanel;
     private GrayPanel grayPanel;
     private JBasicTextArea resultTextArea;
     private RouterTopology routerTopology;
@@ -114,6 +116,7 @@ public class ServiceTopology extends AbstractTopology {
 
     private Map<String, List<Instance>> globalInstanceMap;
     private String globalFilter;
+    private Vector<Object> globalFilterVector = new Vector<Object>();
 
     public ServiceTopology() {
         initializeToolBar();
@@ -159,8 +162,8 @@ public class ServiceTopology extends AbstractTopology {
         pushModeButtonGroup.add(pushAsyncModeRadioButtonMenuItem);
         pushModeButtonGroup.add(pushSyncModeRadioButtonMenuItem);
 
-        ruleToConfigCenterRadioButtonMenuItem = new JBasicRadioButtonMenuItem(ConsoleLocale.getString("rule_control_mode_to_config_center"), ConsoleLocale.getString("rule_control_mode_to_config_center"), true);
-        ruleToServiceRadioButtonMenuItem = new JBasicRadioButtonMenuItem(ConsoleLocale.getString("rule_control_mode_to_service"), ConsoleLocale.getString("rule_control_mode_to_service"));
+        ruleToConfigCenterRadioButtonMenuItem = new JBasicRadioButtonMenuItem(ConsoleLocale.getString("rule_to_config_center"), ConsoleLocale.getString("rule_to_config_center"), true);
+        ruleToServiceRadioButtonMenuItem = new JBasicRadioButtonMenuItem(ConsoleLocale.getString("rule_to_service"), ConsoleLocale.getString("rule_to_service"));
         ButtonGroup ruleToButtonGroup = new ButtonGroup();
         ruleToButtonGroup.add(ruleToConfigCenterRadioButtonMenuItem);
         ruleToButtonGroup.add(ruleToServiceRadioButtonMenuItem);
@@ -172,7 +175,7 @@ public class ServiceTopology extends AbstractTopology {
         pushControlPopupMenu.add(ruleToConfigCenterRadioButtonMenuItem);
         pushControlPopupMenu.add(ruleToServiceRadioButtonMenuItem);
 
-        JClassicMenuButton pushControllMenubutton = new JClassicMenuButton(ConsoleLocale.getString("push_control_mode"), ConsoleIconFactory.getSwingIcon("component/advanced_16.png"), ConsoleLocale.getString("push_control_mode"));
+        JClassicMenuButton pushControllMenubutton = new JClassicMenuButton(ConsoleLocale.getString("push_control_mode"), ConsoleIconFactory.getSwingIcon("netbean/custom_node_16.png"), ConsoleLocale.getString("push_control_mode"));
         pushControllMenubutton.setPopupMenu(pushControlPopupMenu);
 
         JToolBar toolBar = getGraph().getToolbar();
@@ -183,6 +186,7 @@ public class ServiceTopology extends AbstractTopology {
         toolBar.add(new JClassicButton(createExecuteGrayReleaseAction()));
         toolBar.add(new JClassicButton(createExecuteGrayRouterAction()));
         toolBar.add(new JClassicButton(createRefreshGrayStateAction()));
+        toolBar.add(new JClassicButton(createPushGlobalConfigAction()));
         toolBar.add(pushControllMenubutton);
         toolBar.addSeparator();
         toolBar.add(createConfigButton(true));
@@ -553,6 +557,15 @@ public class ServiceTopology extends AbstractTopology {
                 globalInstanceMap = instanceMap;
                 globalFilter = filterPanel.getFilter();
 
+                globalFilterVector.clear();
+                if (!StringUtils.equals(globalFilter, NO_FILTER)) {
+                    globalFilterVector.add(globalFilter);
+                } else {
+                    for (int i = 0; i < filters.length - 1; i++) {
+                        globalFilterVector.add(filters[i]);
+                    }
+                }
+
                 String title = ConsoleLocale.getString("title_service_cluster_gray_release");
                 if (!StringUtils.equals(globalFilter, NO_FILTER)) {
                     title += " [" + globalFilter + "]";
@@ -701,6 +714,25 @@ public class ServiceTopology extends AbstractTopology {
         return action;
     }
 
+    private JSecurityAction createPushGlobalConfigAction() {
+        JSecurityAction action = new JSecurityAction(ConsoleLocale.getString("push_global_config"), ConsoleIconFactory.getSwingIcon("netbean/ease_both_16.png"), ConsoleLocale.getString("push_global_config")) {
+            private static final long serialVersionUID = 1L;
+
+            public void execute(ActionEvent e) {
+                if (globalGrayPanel == null) {
+                    globalGrayPanel = new GlobalGrayPanel();
+                    globalGrayPanel.setPreferredSize(new Dimension(1300, 800));
+                }
+
+                globalGrayPanel.setFilters(globalFilterVector);
+
+                JBasicOptionPane.showOptionDialog(HandleManager.getFrame(ServiceTopology.this), globalGrayPanel, ConsoleLocale.getString("push_global_config"), JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/navigator.png"), new Object[] { SwingLocale.getString("close") }, null, true);
+            }
+        };
+
+        return action;
+    }
+
     private class FilterPanel extends JPanel {
         private static final long serialVersionUID = 1L;
 
@@ -721,6 +753,145 @@ public class ServiceTopology extends AbstractTopology {
 
         public String getFilter() {
             return filterComboBox.getSelectedItem().toString();
+        }
+    }
+
+    private class GlobalGrayPanel extends JQueryHierarchy {
+        private static final long serialVersionUID = 1L;
+
+        private JBasicList filterList;
+        private JBasicTextArea ruleTextArea;
+        private JClassicButton updateRuleButton;
+        private JClassicButton clearRuleButton;
+
+        public GlobalGrayPanel() {
+            filterList = new JBasicList() {
+                private static final long serialVersionUID = 1L;
+
+                @Override
+                public void executeClicked(int selectedRow) {
+                    if (selectedRow < 0) {
+                        return;
+                    }
+
+                    String filter = getListData().get(selectedRow).toString();
+                    String config = ServiceController.remoteConfigView(filter, filter);
+                    ruleTextArea.setText(config);
+                }
+            };
+            filterList.setSelectionMode(JBasicList.SINGLE_SELECTION);
+
+            JPanel filterPanel = new JPanel();
+            filterPanel.setLayout(new BorderLayout());
+            filterPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+            filterPanel.add(new JBasicScrollPane(filterList), BorderLayout.CENTER);
+
+            ruleTextArea = new JBasicTextArea();
+
+            updateRuleButton = new JClassicButton(createUpdateRuleAction());
+            updateRuleButton.setPreferredSize(new Dimension(updateRuleButton.getPreferredSize().width, 30));
+
+            clearRuleButton = new JClassicButton(createClearRuleAction());
+            updateRuleButton.setPreferredSize(new Dimension(clearRuleButton.getPreferredSize().width, 30));
+
+            JPanel toolBar = new JPanel();
+            toolBar.setLayout(new BoxLayout(toolBar, BoxLayout.X_AXIS));
+            toolBar.add(updateRuleButton);
+            toolBar.add(clearRuleButton);
+            ButtonManager.updateUI(toolBar);
+
+            JPanel rulePanel = new JPanel();
+            rulePanel.setLayout(new BorderLayout());
+            rulePanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+            rulePanel.add(new JBasicScrollPane(ruleTextArea), BorderLayout.CENTER);
+            rulePanel.add(toolBar, BorderLayout.SOUTH);
+
+            JDockable dockable = (JDockable) getDockableContainer().getContentPane();
+
+            JDockableView filterView = (JDockableView) dockable.getPaneAt(0);
+            filterView.setTitle(ConsoleLocale.getString("global_group"));
+            filterView.setIcon(ConsoleIconFactory.getSwingIcon("netbean/stack_16.png"));
+            filterView.setToolTipText(ConsoleLocale.getString("global_group"));
+            filterView.add(filterPanel);
+
+            JDockableView ruleView = (JDockableView) dockable.getPaneAt(1);
+            ruleView.setTitle(ConsoleLocale.getString("global_rule"));
+            ruleView.setIcon(ConsoleIconFactory.getSwingIcon("netbean/custom_node_16.png"));
+            ruleView.setToolTipText(ConsoleLocale.getString("global_rule"));
+            ruleView.add(rulePanel);
+        }
+
+        @SuppressWarnings("unchecked")
+        public void setFilters(Vector<Object> filters) {
+            filterList.setModel(new BasicListModel(filters));
+            ruleTextArea.setText("");
+        }
+
+        private JSecurityAction createUpdateRuleAction() {
+            JSecurityAction action = new JSecurityAction(ConsoleLocale.getString("button_update_rule"), ConsoleIconFactory.getSwingIcon("save.png"), ConsoleLocale.getString("button_update_rule")) {
+                private static final long serialVersionUID = 1L;
+
+                public void execute(ActionEvent e) {
+                    int selectedRow = filterList.getSelectedIndex();
+                    if (selectedRow < 0) {
+                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("select_a_global_group"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+
+                        return;
+                    }
+
+                    String rule = ruleTextArea.getText();
+                    if (StringUtils.isEmpty(rule)) {
+                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("gray_rule_not_null"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+
+                        return;
+                    }
+
+                    String filter = filterList.getListData().get(selectedRow).toString();
+
+                    String result = null;
+                    try {
+                        result = ServiceController.remoteConfigUpdate(filter, filter, rule);
+                    } catch (Exception ex) {
+                        JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
+
+                        return;
+                    }
+
+                    showResult(result);
+                }
+            };
+
+            return action;
+        }
+
+        private JSecurityAction createClearRuleAction() {
+            JSecurityAction action = new JSecurityAction(ConsoleLocale.getString("button_clear_rule"), ConsoleIconFactory.getSwingIcon("paint.png"), ConsoleLocale.getString("button_clear_rule")) {
+                private static final long serialVersionUID = 1L;
+
+                public void execute(ActionEvent e) {
+                    int selectedRow = filterList.getSelectedIndex();
+                    if (selectedRow < 0) {
+                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("select_a_global_group"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+
+                        return;
+                    }
+
+                    String filter = filterList.getListData().get(selectedRow).toString();
+
+                    String result = null;
+                    try {
+                        result = ServiceController.remoteConfigClear(filter, filter);
+                    } catch (Exception ex) {
+                        JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
+
+                        return;
+                    }
+
+                    showResult(result);
+                }
+            };
+
+            return action;
         }
     }
 
