@@ -217,7 +217,15 @@ public class RouterTopology extends AbstractTopology {
         return node;
     }
 
+    @SuppressWarnings("unchecked")
     private void addLink(TNode fromNode, TNode toNode, RouterEntity routerEntity) {
+        List<TLink> links = TElementManager.getLinks(dataBox);
+        for (TLink link : links) {
+            if (link.getFrom() == fromNode && link.getTo() == toNode) {
+                return;
+            }
+        }
+
         int weight = routerEntity.getWeight();
 
         TLink link = createLink(fromNode, toNode, true);
