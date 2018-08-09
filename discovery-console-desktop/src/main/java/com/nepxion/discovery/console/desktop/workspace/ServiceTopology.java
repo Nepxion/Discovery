@@ -761,6 +761,8 @@ public class ServiceTopology extends AbstractTopology {
 
         private JBasicList filterList;
         private JBasicTextArea ruleTextArea;
+        private JClassicButton updateRuleButton;
+        private JClassicButton clearRuleButton;
 
         public GlobalGrayPanel() {
             filterList = new JBasicList() {
@@ -768,6 +770,10 @@ public class ServiceTopology extends AbstractTopology {
 
                 @Override
                 public void executeClicked(int selectedRow) {
+                    if (selectedRow < 0) {
+                        return;
+                    }
+
                     String filter = getListData().get(selectedRow).toString();
                     String config = ServiceController.remoteConfigView(filter, filter);
                     ruleTextArea.setText(config);
@@ -778,14 +784,27 @@ public class ServiceTopology extends AbstractTopology {
             JPanel filterPanel = new JPanel();
             filterPanel.setLayout(new BorderLayout());
             filterPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-            filterPanel.add(new JBasicScrollPane(filterList));
+            filterPanel.add(new JBasicScrollPane(filterList), BorderLayout.CENTER);
 
             ruleTextArea = new JBasicTextArea();
+
+            updateRuleButton = new JClassicButton(createUpdateRuleAction());
+            updateRuleButton.setPreferredSize(new Dimension(updateRuleButton.getPreferredSize().width, 30));
+
+            clearRuleButton = new JClassicButton(createClearRuleAction());
+            updateRuleButton.setPreferredSize(new Dimension(clearRuleButton.getPreferredSize().width, 30));
+
+            JPanel toolBar = new JPanel();
+            toolBar.setLayout(new BoxLayout(toolBar, BoxLayout.X_AXIS));
+            toolBar.add(updateRuleButton);
+            toolBar.add(clearRuleButton);
+            ButtonManager.updateUI(toolBar);
 
             JPanel rulePanel = new JPanel();
             rulePanel.setLayout(new BorderLayout());
             rulePanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-            rulePanel.add(new JBasicScrollPane(ruleTextArea));
+            rulePanel.add(new JBasicScrollPane(ruleTextArea), BorderLayout.CENTER);
+            rulePanel.add(toolBar, BorderLayout.SOUTH);
 
             JDockable dockable = (JDockable) getDockableContainer().getContentPane();
 
@@ -806,6 +825,73 @@ public class ServiceTopology extends AbstractTopology {
         public void setFilters(Vector<Object> filters) {
             filterList.setModel(new BasicListModel(filters));
             ruleTextArea.setText("");
+        }
+
+        private JSecurityAction createUpdateRuleAction() {
+            JSecurityAction action = new JSecurityAction(ConsoleLocale.getString("button_update_rule"), ConsoleIconFactory.getSwingIcon("save.png"), ConsoleLocale.getString("button_update_rule")) {
+                private static final long serialVersionUID = 1L;
+
+                public void execute(ActionEvent e) {
+                    int selectedRow = filterList.getSelectedIndex();
+                    if (selectedRow < 0) {
+                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), "请选择一个服务集群组", SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+
+                        return;
+                    }
+
+                    String rule = ruleTextArea.getText();
+                    if (StringUtils.isEmpty(rule)) {
+                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("gray_rule_not_null"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+
+                        return;
+                    }
+
+                    String filter = filterList.getListData().get(selectedRow).toString();
+
+                    String result = null;
+                    try {
+                        result = ServiceController.remoteConfigUpdate(filter, filter, rule);
+                    } catch (Exception ex) {
+                        JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
+
+                        return;
+                    }
+
+                    showResult(result);
+                }
+            };
+
+            return action;
+        }
+
+        private JSecurityAction createClearRuleAction() {
+            JSecurityAction action = new JSecurityAction(ConsoleLocale.getString("button_clear_rule"), ConsoleIconFactory.getSwingIcon("paint.png"), ConsoleLocale.getString("button_clear_rule")) {
+                private static final long serialVersionUID = 1L;
+
+                public void execute(ActionEvent e) {
+                    int selectedRow = filterList.getSelectedIndex();
+                    if (selectedRow < 0) {
+                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), "请选择一个服务集群组", SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+
+                        return;
+                    }
+
+                    String filter = filterList.getListData().get(selectedRow).toString();
+
+                    String result = null;
+                    try {
+                        result = ServiceController.remoteConfigClear(filter, filter);
+                    } catch (Exception ex) {
+                        JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("query_data_failure"), ex);
+
+                        return;
+                    }
+
+                    showResult(result);
+                }
+            };
+
+            return action;
         }
     }
 
