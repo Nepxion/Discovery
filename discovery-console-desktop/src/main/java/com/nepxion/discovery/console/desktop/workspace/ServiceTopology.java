@@ -719,6 +719,12 @@ public class ServiceTopology extends AbstractTopology {
             private static final long serialVersionUID = 1L;
 
             public void execute(ActionEvent e) {
+                if (!ruleToConfigCenterRadioButtonMenuItem.isSelected()) {
+                    JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("not_for_push_global_config"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+
+                    return;
+                }
+
                 if (globalGrayPanel == null) {
                     globalGrayPanel = new GlobalGrayPanel();
                     globalGrayPanel.setPreferredSize(new Dimension(1300, 800));
