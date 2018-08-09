@@ -726,7 +726,7 @@ public class ServiceTopology extends AbstractTopology {
 
                 globalGrayPanel.setFilters(globalFilterVector);
 
-                JBasicOptionPane.showOptionDialog(HandleManager.getFrame(ServiceTopology.this), globalGrayPanel, ConsoleLocale.getString("execute_gray_router"), JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/navigator.png"), new Object[] { SwingLocale.getString("close") }, null, true);
+                JBasicOptionPane.showOptionDialog(HandleManager.getFrame(ServiceTopology.this), globalGrayPanel, ConsoleLocale.getString("push_global_config"), JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/navigator.png"), new Object[] { SwingLocale.getString("close") }, null, true);
             }
         };
 
@@ -809,15 +809,15 @@ public class ServiceTopology extends AbstractTopology {
             JDockable dockable = (JDockable) getDockableContainer().getContentPane();
 
             JDockableView filterView = (JDockableView) dockable.getPaneAt(0);
-            filterView.setTitle("服务集群组");
+            filterView.setTitle(ConsoleLocale.getString("global_group"));
             filterView.setIcon(ConsoleIconFactory.getSwingIcon("netbean/stack_16.png"));
-            filterView.setToolTipText("服务集群组");
+            filterView.setToolTipText(ConsoleLocale.getString("global_group"));
             filterView.add(filterPanel);
 
             JDockableView ruleView = (JDockableView) dockable.getPaneAt(1);
-            ruleView.setTitle("全局规则");
+            ruleView.setTitle(ConsoleLocale.getString("global_rule"));
             ruleView.setIcon(ConsoleIconFactory.getSwingIcon("netbean/custom_node_16.png"));
-            ruleView.setToolTipText("全局规则");
+            ruleView.setToolTipText(ConsoleLocale.getString("global_rule"));
             ruleView.add(rulePanel);
         }
 
@@ -834,7 +834,7 @@ public class ServiceTopology extends AbstractTopology {
                 public void execute(ActionEvent e) {
                     int selectedRow = filterList.getSelectedIndex();
                     if (selectedRow < 0) {
-                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), "请选择一个服务集群组", SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("select_a_global_group"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
 
                         return;
                     }
@@ -871,7 +871,7 @@ public class ServiceTopology extends AbstractTopology {
                 public void execute(ActionEvent e) {
                     int selectedRow = filterList.getSelectedIndex();
                     if (selectedRow < 0) {
-                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), "请选择一个服务集群组", SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+                        JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("select_a_global_group"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
 
                         return;
                     }
