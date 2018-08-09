@@ -39,18 +39,18 @@ public class NacosConfigAdapter extends ConfigAdapter {
 
     @Override
     public String getConfig() throws Exception {
-        String config = getConfig(true);
-        if (StringUtils.isNotEmpty(config)) {
-            return config;
-        } else {
-            LOG.info("No global config is retrieved from Nacos server");
-        }
-
-        config = getConfig(false);
+        String config = getConfig(false);
         if (StringUtils.isNotEmpty(config)) {
             return config;
         } else {
             LOG.info("No partial config is retrieved from Nacos server");
+        }
+
+        config = getConfig(true);
+        if (StringUtils.isNotEmpty(config)) {
+            return config;
+        } else {
+            LOG.info("No global config is retrieved from Nacos server");
         }
 
         return null;
@@ -68,8 +68,8 @@ public class NacosConfigAdapter extends ConfigAdapter {
 
     @PostConstruct
     public void subscribeConfig() {
-        subscribeConfig(true);
         subscribeConfig(false);
+        subscribeConfig(true);
     }
 
     private void subscribeConfig(boolean globalConfig) {

@@ -37,18 +37,18 @@ public class RedisConfigAdapter extends ConfigAdapter {
 
     @Override
     public String getConfig() throws Exception {
-        String config = getConfig(true);
-        if (StringUtils.isNotEmpty(config)) {
-            return config;
-        } else {
-            LOG.info("No global config is retrieved from Redis server");
-        }
-
-        config = getConfig(false);
+        String config = getConfig(false);
         if (StringUtils.isNotEmpty(config)) {
             return config;
         } else {
             LOG.info("No partial config is retrieved from Redis server");
+        }
+
+        config = getConfig(true);
+        if (StringUtils.isNotEmpty(config)) {
+            return config;
+        } else {
+            LOG.info("No global config is retrieved from Redis server");
         }
 
         return null;
@@ -64,12 +64,12 @@ public class RedisConfigAdapter extends ConfigAdapter {
         return redisOperation.getConfig(group, globalConfig ? group : serviceId);
     }
 
-    public void subscribeGlobalConfig(String config) {
-        subscribeConfig(config, true);
-    }
-
     public void subscribePartialConfig(String config) {
         subscribeConfig(config, false);
+    }
+
+    public void subscribeGlobalConfig(String config) {
+        subscribeConfig(config, true);
     }
 
     private void subscribeConfig(String config, boolean globalConfig) {
