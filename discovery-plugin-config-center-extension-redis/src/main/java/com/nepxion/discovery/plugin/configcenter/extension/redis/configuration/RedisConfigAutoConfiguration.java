@@ -38,27 +38,16 @@ public class RedisConfigAutoConfiguration {
     private PluginAdapter pluginAdapter;
 
     @Bean
-    public RedisMessageListenerContainer redisMessageListenerContainer(MessageListenerAdapter globalMessageListenerAdapter, MessageListenerAdapter partialMessageListenerAdapter) {
+    public RedisMessageListenerContainer redisMessageListenerContainer(MessageListenerAdapter partialMessageListenerAdapter, MessageListenerAdapter globalMessageListenerAdapter) {
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
 
         RedisMessageListenerContainer redisMessageListenerContainer = new RedisMessageListenerContainer();
         redisMessageListenerContainer.setConnectionFactory(redisConnectionFactory);
-        redisMessageListenerContainer.addMessageListener(globalMessageListenerAdapter, new PatternTopic(group + "-" + group));
         redisMessageListenerContainer.addMessageListener(partialMessageListenerAdapter, new PatternTopic(group + "-" + serviceId));
+        redisMessageListenerContainer.addMessageListener(globalMessageListenerAdapter, new PatternTopic(group + "-" + group));
 
         return redisMessageListenerContainer;
-    }
-
-    @Bean
-    public MessageListenerAdapter globalMessageListenerAdapter(ConfigAdapter configAdapter) {
-        String groupKey = pluginContextAware.getGroupKey();
-        String group = pluginAdapter.getGroup();
-        String serviceId = pluginAdapter.getServiceId();
-
-        LOG.info("Subscribe global config from Redis server, {}={}, serviceId={}", groupKey, group, serviceId);
-
-        return new MessageListenerAdapter(configAdapter, "subscribeGlobalConfig");
     }
 
     @Bean
@@ -70,6 +59,17 @@ public class RedisConfigAutoConfiguration {
         LOG.info("Subscribe partial config from Redis server, {}={}, serviceId={}", groupKey, group, serviceId);
 
         return new MessageListenerAdapter(configAdapter, "subscribePartialConfig");
+    }
+
+    @Bean
+    public MessageListenerAdapter globalMessageListenerAdapter(ConfigAdapter configAdapter) {
+        String groupKey = pluginContextAware.getGroupKey();
+        String group = pluginAdapter.getGroup();
+        String serviceId = pluginAdapter.getServiceId();
+
+        LOG.info("Subscribe global config from Redis server, {}={}, serviceId={}", groupKey, group, serviceId);
+
+        return new MessageListenerAdapter(configAdapter, "subscribeGlobalConfig");
     }
 
     @Bean
