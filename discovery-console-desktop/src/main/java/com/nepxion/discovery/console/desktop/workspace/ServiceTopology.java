@@ -85,11 +85,6 @@ public class ServiceTopology extends AbstractTopology {
 
     public static final String NO_FILTER = ConsoleLocale.getString("no_service_cluster_filter");
 
-    // private static AlarmSeverity grayAlarmSeverity;
-    // static {
-    //     grayAlarmSeverity = AlarmSeverity.registerAlarmSeverity("GRAY", "G", 600, AlarmSeverity.COLOR_MINOR, null);
-    // }
-
     private LocationEntity groupLocationEntity = new LocationEntity(120, 250, 280, 0);
     private LocationEntity nodeLocationEntity = new LocationEntity(0, 0, 120, 100);
     private TopologyEntity serviceGroupEntity = new TopologyEntity(TopologyEntityType.SERVICE_GROUP, TopologyStyleType.LARGE, true);
