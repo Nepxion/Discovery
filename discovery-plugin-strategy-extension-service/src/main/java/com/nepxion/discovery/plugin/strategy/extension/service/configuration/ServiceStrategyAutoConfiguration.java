@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
+import com.nepxion.discovery.plugin.strategy.extension.service.aop.FeignStrategyInterceptor;
 import com.nepxion.discovery.plugin.strategy.extension.service.aop.ServiceStrategyAutoScanProxy;
 import com.nepxion.discovery.plugin.strategy.extension.service.aop.ServiceStrategyInterceptor;
 import com.nepxion.discovery.plugin.strategy.extension.service.constant.ServiceStrategyConstant;
@@ -25,16 +26,27 @@ import com.nepxion.discovery.plugin.strategy.extension.service.constant.ServiceS
 @AutoConfigureBefore(RibbonClientConfiguration.class)
 @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTROL_ENABLED, matchIfMissing = true)
 public class ServiceStrategyAutoConfiguration {
-    @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + ":}")
+    @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "}")
     private String scanPackages;
 
+    @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_FEIGN_HEADERS + "}")
+    private String feignHeaders;
+
     @Bean
+    @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES, matchIfMissing = false)
     public ServiceStrategyAutoScanProxy serviceStrategyAutoScanProxy() {
         return new ServiceStrategyAutoScanProxy(scanPackages);
     }
 
     @Bean
+    @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES, matchIfMissing = false)
     public ServiceStrategyInterceptor serviceStrategyInterceptor() {
         return new ServiceStrategyInterceptor();
+    }
+
+    @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_FEIGN_HEADERS, matchIfMissing = false)
+    @Bean
+    public FeignStrategyInterceptor feignStrategyInterceptor() {
+        return new FeignStrategyInterceptor(feignHeaders);
     }
 }

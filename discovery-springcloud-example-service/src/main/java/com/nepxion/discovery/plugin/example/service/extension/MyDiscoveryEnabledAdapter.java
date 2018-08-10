@@ -14,6 +14,8 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.strategy.discovery.DiscoveryEnabledAdapter;
@@ -24,9 +26,17 @@ import com.netflix.loadbalancer.Server;
 public class MyDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     private static final Logger LOG = LoggerFactory.getLogger(MyDiscoveryEnabledAdapter.class);
 
-    @SuppressWarnings("unchecked")
     @Override
     public boolean apply(Server server, Map<String, String> metadata) {
+        if (applyFromMethd(server, metadata)) {
+            return applyFromHeader(server, metadata);
+        } else {
+            return false;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private boolean applyFromMethd(Server server, Map<String, String> metadata) {
         ServiceStrategyContext context = ServiceStrategyContext.getCurrentContext();
         Map<String, Object> attributes = context.getAttributes();
 
@@ -48,6 +58,25 @@ public class MyDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
                     return false;
                 }
             }
+        }
+
+        return true;
+    }
+
+    private boolean applyFromHeader(Server server, Map<String, String> metadata) {
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        String token = attributes.getRequest().getHeader("token");
+        // String value = attributes.getRequest().getParameter("value");
+
+        String serviceId = server.getMetaInfo().getAppName().toLowerCase();
+
+        LOG.info("Serivice端负载均衡用户定制触发：serviceId={}, host={}, metadata={}, attributes={}", serviceId, server.toString(), metadata, attributes);
+
+        String filterToken = "123";
+        if (StringUtils.isNotEmpty(token) && token.contains(filterToken)) {
+            LOG.info("过滤条件：当Token含有'{}'的时候，不能被Ribbon负载均衡到", filterToken);
+
+            return false;
         }
 
         return true;
