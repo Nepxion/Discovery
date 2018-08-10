@@ -37,16 +37,23 @@ public class FeignStrategyInterceptor implements RequestInterceptor {
     @Override
     public void apply(RequestTemplate requestTemplate) {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = attributes.getRequest();
-        Enumeration<String> headerNames = request.getHeaderNames();
-        if (headerNames != null) {
-            while (headerNames.hasMoreElements()) {
-                String headerName = headerNames.nextElement();
-                String header = request.getHeader(headerName);
+        if (attributes == null) {
+            return;
+        }
 
-                if (feignHeaders.contains(headerName)) {
-                    requestTemplate.header(headerName, header);
-                }
+        HttpServletRequest request = attributes.getRequest();
+
+        Enumeration<String> headerNames = request.getHeaderNames();
+        if (headerNames == null) {
+            return;
+        }
+
+        while (headerNames.hasMoreElements()) {
+            String headerName = headerNames.nextElement();
+            String header = request.getHeader(headerName);
+
+            if (feignHeaders.contains(headerName)) {
+                requestTemplate.header(headerName, header);
             }
         }
     }
