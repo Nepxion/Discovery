@@ -22,6 +22,7 @@ import com.nepxion.discovery.plugin.configcenter.loader.RemoteConfigLoader;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.config.PluginConfigParser;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
+import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
 
 public class ConfigInitializer {
     private static final Logger LOG = LoggerFactory.getLogger(ConfigInitializer.class);
@@ -34,6 +35,9 @@ public class ConfigInitializer {
 
     @Autowired
     private PluginConfigParser pluginConfigParser;
+
+    @Autowired
+    private PluginEventWapper pluginEventWapper;
 
     @Autowired
     private LocalConfigLoader localConfigLoader;
@@ -77,6 +81,8 @@ public class ConfigInitializer {
         if (StringUtils.isEmpty(remoteConfig) && StringUtils.isEmpty(localConfig)) {
             LOG.info("No config is retrieved");
         }
+
+        pluginEventWapper.fireCustomization();
     }
 
     private String getRemoteConfig() {

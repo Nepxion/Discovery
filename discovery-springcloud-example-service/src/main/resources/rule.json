@@ -95,5 +95,12 @@
                 ]
             }
         }
+    }, 
+    "customizationEntity": {
+        "customizationMap": {
+            "discovery-springcloud-example-b": {
+                "database": "prod"
+            }
+        }
     }
 }
