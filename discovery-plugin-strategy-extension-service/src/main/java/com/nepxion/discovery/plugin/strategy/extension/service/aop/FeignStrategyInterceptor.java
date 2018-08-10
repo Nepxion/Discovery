@@ -27,7 +27,7 @@ public class FeignStrategyInterceptor implements RequestInterceptor {
     private String feignHeaders;
 
     public FeignStrategyInterceptor(String feignHeaders) {
-        this.feignHeaders = feignHeaders;
+        this.feignHeaders = feignHeaders.toLowerCase();
 
         LOG.info("------------- Feign Proxy Information -----------");
         LOG.info("Feign interceptor headers are '{}'", feignHeaders);
@@ -52,7 +52,7 @@ public class FeignStrategyInterceptor implements RequestInterceptor {
             String headerName = headerNames.nextElement();
             String header = request.getHeader(headerName);
 
-            if (feignHeaders.contains(headerName)) {
+            if (feignHeaders.contains(headerName.toLowerCase())) {
                 requestTemplate.header(headerName, header);
             }
         }
