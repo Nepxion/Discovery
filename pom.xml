@@ -6,7 +6,7 @@
     <name>Nepxion Discovery</name>
     <packaging>pom</packaging>
     <modelVersion>4.0.0</modelVersion>
-    <version>4.3.4</version>
+    <version>4.3.5</version>
     <description>Nepxion Discovery is an enhancement for Spring Cloud Discovery</description>
     <url>http://www.nepxion.com</url>
 
