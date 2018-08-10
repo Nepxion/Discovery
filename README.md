@@ -358,6 +358,14 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
         <!-- service-name，表示服务名 -->
         <!-- version-value，表示可供访问的版本，如果多个用“;”分隔，不允许出现空格 -->
         <version>
+            <!-- 表示网关z的1.0，允许访问提供端服务a的1.0版本 -->
+            <service consumer-service-name="discovery-springcloud-example-gateway" provider-service-name="discovery-springcloud-example-a" consumer-version-value="1.0" provider-version-value="1.0"/>
+            <!-- 表示网关z的1.1，允许访问提供端服务a的1.1版本 -->
+            <service consumer-service-name="discovery-springcloud-example-gateway" provider-service-name="discovery-springcloud-example-a" consumer-version-value="1.1" provider-version-value="1.1"/>
+            <!-- 表示网关z的1.0，允许访问提供端服务a的1.0版本 -->
+            <service consumer-service-name="discovery-springcloud-example-zuul" provider-service-name="discovery-springcloud-example-a" consumer-version-value="1.0" provider-version-value="1.0"/>
+            <!-- 表示网关z的1.1，允许访问提供端服务a的1.1版本 -->
+            <service consumer-service-name="discovery-springcloud-example-zuul" provider-service-name="discovery-springcloud-example-a" consumer-version-value="1.1" provider-version-value="1.1"/>
             <!-- 表示消费端服务a的1.0，允许访问提供端服务b的1.0版本 -->
             <service consumer-service-name="discovery-springcloud-example-a" provider-service-name="discovery-springcloud-example-b" consumer-version-value="1.0" provider-version-value="1.0"/>
             <!-- 表示消费端服务a的1.1，允许访问提供端服务b的1.1版本 -->
@@ -376,6 +384,11 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
             <service consumer-service-name="discovery-springcloud-example-b" provider-service-name="discovery-springcloud-example-c" provider-weight-value="1.0=90;1.1=10"/>
         </weight>
     </discovery>
+
+    <!-- 客户定制化控制，由远程推送客户化参数的改变，实现一些特色化的灰度发布，例如，基于数据库的灰度发布 -->
+    <customization>
+        <service service-name="discovery-springcloud-example-b" key="database" value="prod"/>
+    </customization>
 </rule>
 ```
 
@@ -403,6 +416,15 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 1. 标准配置，举例如下
    <service consumer-service-name="a" provider-service-name="b" provider-weight-value="1.0=90;1.1=10"/> 表示消费端访问提供端的时候，提供端的1.0版本提供90%的权重流量，1.1版本提供10%的权重流量
 2. 尽量为线上所有版本都赋予权重值
+```
+
+客户定制化策略介绍
+```xml
+1. 标准配置，举例如下
+   <service service-name="discovery-springcloud-example-b" key="database" value="prod"/>
+2. 上述示例，是基于多数据源的数据库切换的灰度发布
+   服务b有两个库的配置，分别是临时数据库（database的value为temp）和生产数据库（database的value为prod）
+   上线后，一开始数据库指向临时数据库，对应value为temp，然后灰度发布的时候，改对应value为prod，即实现数据库的灰度发布
 ```
 
 ### 动态改变规则策略
