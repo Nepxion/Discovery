@@ -11,6 +11,7 @@ package com.nepxion.discovery.plugin.strategy.extension.service.constant;
 
 public class ServiceStrategyConstant {
     public static final String SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES = "spring.application.strategy.scan.packages";
+    public static final String SPRING_APPLICATION_STRATEGY_FEIGN_HEADERS = "spring.application.strategy.feign.headers";
     public static final String CLASS = "class";
     public static final String METHOD = "method";
     public static final String PARAMETER_MAP = "parameterMap";
