@@ -33,8 +33,10 @@ public class MySubscriber {
             Map<String, Map<String, String>> customizationMap = customizationEntity.getCustomizationMap();
             Map<String, String> customizationParameter = customizationMap.get(serviceId);
             System.out.println("========== 获取客户化对象, serviceId=" + serviceId + ", customizationParameter=" + customizationParameter);
+            // 根据customizationParameter的参数动态切换数据源
         } else {
             System.out.println("========== 获取客户化对象, serviceId=" + serviceId + ", customizationEntity=" + customizationEntity);
+            // 根据customizationParameter的参数动态切换数据源
         }
     }
 
