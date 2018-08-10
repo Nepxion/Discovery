@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.CountFilterEntity;
+import com.nepxion.discovery.common.entity.CustomizationEntity;
 import com.nepxion.discovery.common.entity.DiscoveryEntity;
 import com.nepxion.discovery.common.entity.FilterHolderEntity;
 import com.nepxion.discovery.common.entity.FilterType;
@@ -74,8 +75,14 @@ public class XmlConfigParser implements PluginConfigParser {
             throw new DiscoveryException("Allow only one element[" + ConfigConstant.DISCOVERY_ELEMENT_NAME + "] to be configed");
         }
 
+        int customizationElementCount = element.elements(ConfigConstant.CUSTOMIZATION_ELEMENT_NAME).size();
+        if (customizationElementCount > 1) {
+            throw new DiscoveryException("Allow only one element[" + ConfigConstant.CUSTOMIZATION_ELEMENT_NAME + "] to be configed");
+        }
+
         RegisterEntity registerEntity = null;
         DiscoveryEntity discoveryEntity = null;
+        CustomizationEntity customizationEntity = null;
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
             if (childElementObject instanceof Element) {
@@ -87,6 +94,9 @@ public class XmlConfigParser implements PluginConfigParser {
                 } else if (StringUtils.equals(childElement.getName(), ConfigConstant.DISCOVERY_ELEMENT_NAME)) {
                     discoveryEntity = new DiscoveryEntity();
                     parseDiscovery(childElement, discoveryEntity);
+                } else if (StringUtils.equals(childElement.getName(), ConfigConstant.CUSTOMIZATION_ELEMENT_NAME)) {
+                    customizationEntity = new CustomizationEntity();
+                    parseCustomization(childElement, customizationEntity);
                 }
             }
         }
@@ -94,6 +104,7 @@ public class XmlConfigParser implements PluginConfigParser {
         RuleEntity ruleEntity = new RuleEntity();
         ruleEntity.setRegisterEntity(registerEntity);
         ruleEntity.setDiscoveryEntity(discoveryEntity);
+        ruleEntity.setCustomizationEntity(customizationEntity);
         ruleEntity.setContent(config);
 
         LOG.info("Rule entity=\n{}", ruleEntity);
@@ -134,6 +145,44 @@ public class XmlConfigParser implements PluginConfigParser {
                     parseVersionFilter(childElement, discoveryEntity);
                 } else if (StringUtils.equals(childElement.getName(), ConfigConstant.WEIGHT_ELEMENT_NAME)) {
                     parseWeightFilter(childElement, discoveryEntity);
+                }
+            }
+        }
+    }
+
+    @SuppressWarnings("rawtypes")
+    private void parseCustomization(Element element, CustomizationEntity customizationEntity) {
+        Map<String, Map<String, String>> customizationMap = customizationEntity.getCustomizationMap();
+        for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
+            Object childElementObject = elementIterator.next();
+            if (childElementObject instanceof Element) {
+                Element childElement = (Element) childElementObject;
+
+                if (StringUtils.equals(childElement.getName(), ConfigConstant.SERVICE_ELEMENT_NAME)) {
+                    Attribute serviceNameAttribute = childElement.attribute(ConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME);
+                    if (serviceNameAttribute == null) {
+                        throw new DiscoveryException("Attribute[" + ConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                    }
+                    String serviceName = serviceNameAttribute.getData().toString().trim();
+
+                    Attribute keyAttribute = childElement.attribute(ConfigConstant.KEY_ATTRIBUTE_NAME);
+                    if (keyAttribute == null) {
+                        throw new DiscoveryException("Attribute[" + ConfigConstant.KEY_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                    }
+                    String key = keyAttribute.getData().toString().trim();
+
+                    Attribute valueAttribute = childElement.attribute(ConfigConstant.VALUE_ATTRIBUTE_NAME);
+                    if (valueAttribute == null) {
+                        throw new DiscoveryException("Attribute[" + ConfigConstant.VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                    }
+                    String value = valueAttribute.getData().toString().trim();
+
+                    Map<String, String> customizationParameter = customizationMap.get(serviceName);
+                    if (customizationParameter == null) {
+                        customizationParameter = new LinkedHashMap<String, String>();
+                        customizationMap.put(serviceName, customizationParameter);
+                    }
+                    customizationParameter.put(key, value);
                 }
             }
         }

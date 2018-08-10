@@ -75,4 +75,11 @@
             <service consumer-service-name="discovery-springcloud-example-b" provider-service-name="discovery-springcloud-example-c" provider-weight-value="1.0=90;1.1=10"/>
         </weight>
     </discovery>
+
+    <!-- 客户定制化控制，由远程推送客户化参数的改变，实现一些特色化的灰度发布，例如，基于数据库的灰度发布 -->
+    <customization>
+        <!-- 服务b有两个库的配置，分别是临时数据库（database的value为temp）和生产数据库（database的value为prod） -->
+        <!-- 上线后，一开始数据库指向临时数据库，对应value为temp，然后灰度发布的时候，改对应value为prod，即实现数据库的灰度发布 -->
+        <service service-name="discovery-springcloud-example-b" key="database" value="prod"/>
+    </customization>
 </rule>
