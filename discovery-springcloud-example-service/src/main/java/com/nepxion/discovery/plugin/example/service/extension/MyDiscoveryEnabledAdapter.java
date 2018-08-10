@@ -65,6 +65,10 @@ public class MyDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
 
     private boolean applyFromHeader(Server server, Map<String, String> metadata) {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (attributes == null) {
+            return true;
+        }
+
         String token = attributes.getRequest().getHeader("token");
         // String value = attributes.getRequest().getParameter("value");
 
