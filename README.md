@@ -167,7 +167,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 模块结构图
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Module.jpg)
-  
+
 ## 兼容
 版本兼容情况
 - Spring Cloud F版，请采用4.x.x版本，具体代码参考master分支
