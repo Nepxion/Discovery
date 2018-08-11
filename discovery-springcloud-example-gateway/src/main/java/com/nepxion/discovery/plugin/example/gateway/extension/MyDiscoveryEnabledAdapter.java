@@ -22,6 +22,7 @@ import com.netflix.loadbalancer.Server;
 public class MyDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     private static final Logger LOG = LoggerFactory.getLogger(MyDiscoveryEnabledAdapter.class);
 
+    // 根据外部传来的Header参数（例如Token），选取执行调用请求的服务实例
     @Override
     public boolean apply(Server server, Map<String, String> metadata) {
         GatewayStrategyContext context = GatewayStrategyContext.getCurrentContext();
