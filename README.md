@@ -28,9 +28,9 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 - [规则和策略](#规则和策略)
 - [配置中心](#配置中心)
 - [管理中心](#管理中心)
-- [独立控制台](#独立控制台)
-- [图形化灰度发布桌面程序](#图形化灰度发布桌面程序)
+- [控制平台](#控制平台)
 - [监控平台](#监控平台)
+- [图形化灰度发布桌面程序](#图形化灰度发布桌面程序)
 
 ## 请联系我
 - 请加微信群或者微信
@@ -115,8 +115,8 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 - 实现支持Spring Boot Actuator和Swagger集成
 - 实现支持Spring Boot Admin的集成
 - 实现支持未来扩展更多的服务注册中心
-- 实现独立控制台微服务，支持对规则和版本集中管理、推送、更改和删除
-- 实现基于独立控制台微服务的图形化的灰度发布功能
+- 实现控制平台微服务，支持对规则和版本集中管理、推送、更改和删除
+- 实现基于控制平台微服务的图形化的灰度发布功能
 
 ## 名词解释
 - E版和F版，即Spring Cloud的Edgware和Finchley的首字母
@@ -257,7 +257,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 </dependency>
 ```
 
-独立控制台引入
+控制平台引入
 ```xml
 [必须引入]
 <dependency>
@@ -302,13 +302,13 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 | discovery-plugin-strategy-extension-service | 基于服务的用户自定义和编程灰度路由策略扩展 |
 | discovery-plugin-strategy-extension-zuul | 基于Zuul的用户自定义和编程灰度路由策略扩展 |
 | discovery-plugin-strategy-extension-gateway | 基于Spring Cloud Api Gateway（F版）的用户自定义和编程灰度路由策略扩展 |
-| discovery-console | 独立控制台，提供给UI |
-| discovery-console-extension-nacos | 独立控制台的Nacos扩展 |
-| discovery-console-extension-redis | 独立控制台的Redis扩展 |
+| discovery-console | 控制平台，提供给UI |
+| discovery-console-extension-nacos | 控制平台的Nacos扩展 |
+| discovery-console-extension-redis | 控制平台的Redis扩展 |
 | discovery-console-starter | Console Starter |
 | discovery-console-desktop | 图形化灰度发布等桌面程序 |
 | discovery-springcloud-example-admin | Spring Boot Admin服务台示例 |
-| discovery-springcloud-example-console | 独立控制台示例 |
+| discovery-springcloud-example-console | 控制平台示例 |
 | discovery-springcloud-example-eureka | Eureka服务器示例 |
 | discovery-springcloud-example-service | 用于灰度发布的微服务示例 |
 | discovery-springcloud-example-zuul | 用于灰度发布的Zuul示例 |
@@ -544,7 +544,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.plugin.example.s
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Swagger1.jpg)
 
-## 独立控制台
+## 控制平台
 为UI提供相关接口，包括
 - 一系列批量功能
 - 跟Nacos和Redis集成，实现配置拉去、推送和清除
@@ -555,12 +555,12 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.plugin.example.s
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Swagger2.jpg)
 
-## 图形化灰度发布桌面程序
-基于Java Desktop技术的图形化灰度发布工具
-
-见discovery-console-desktop工程，启动入口ConsoleLauncher.java
-
 ## 监控平台
 基于Spring Boot Actuator技术的Spring Boot Admin监控平台
 
 请参考[https://github.com/codecentric/spring-boot-admin](https://github.com/codecentric/spring-boot-admin)
+
+## 图形化灰度发布桌面程序
+基于Java Desktop技术的图形化灰度发布工具
+
+见discovery-console-desktop工程，启动入口ConsoleLauncher.java
