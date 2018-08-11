@@ -132,7 +132,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 - 服务端口和管理端口，即服务端口指在配置文件的server.port值，管理端口指management.port（E版）值或者management.server.port（F版）值
 
 ## 架构
-架构图
+全局架构图
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Architecture.jpg)
 
@@ -164,6 +164,10 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
   - 灰度网关(V1.1)可以不用下线，留作下次版本上线再次灰度发布
   - 如果您对新服务比较自信，可以更简化，可以不用灰度网关和灰度测试，当服务A(V1.1)上线后，原有网关直接指向服务A(V1.1)，然后下线服务A(V1.0)
 
+模块结构图
+
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Module.jpg)
+  
 ## 兼容
 版本兼容情况
 - Spring Cloud F版，请采用4.x.x版本，具体代码参考master分支
