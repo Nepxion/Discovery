@@ -89,24 +89,7 @@ public class ConfigEndpoint {
     @ResponseBody
     @ManagedOperation
     public ResponseEntity<List<String>> view() {
-        List<String> ruleList = new ArrayList<String>(2);
-
-        String localRuleContent = StringUtils.EMPTY;
-        RuleEntity localRuleEntity = pluginAdapter.getLocalRule();
-        if (localRuleEntity != null && StringUtils.isNotEmpty(localRuleEntity.getContent())) {
-            localRuleContent = localRuleEntity.getContent();
-        }
-
-        String dynamicRuleContent = StringUtils.EMPTY;
-        RuleEntity dynamicRuleEntity = pluginAdapter.getDynamicRule();
-        if (dynamicRuleEntity != null && StringUtils.isNotEmpty(dynamicRuleEntity.getContent())) {
-            dynamicRuleContent = dynamicRuleEntity.getContent();
-        }
-
-        ruleList.add(localRuleContent);
-        ruleList.add(dynamicRuleContent);
-
-        return ResponseEntity.ok().body(ruleList);
+        return view(false);
     }
 
     private ResponseEntity<?> update(String config, boolean async) {
@@ -143,6 +126,27 @@ public class ConfigEndpoint {
         pluginEventWapper.fireRuleCleared(new RuleClearedEvent(), async);
 
         return ResponseEntity.ok().body("OK");
+    }
+
+    private ResponseEntity<List<String>> view(boolean async) {
+        List<String> ruleList = new ArrayList<String>(2);
+
+        String localRuleContent = StringUtils.EMPTY;
+        RuleEntity localRuleEntity = pluginAdapter.getLocalRule();
+        if (localRuleEntity != null && StringUtils.isNotEmpty(localRuleEntity.getContent())) {
+            localRuleContent = localRuleEntity.getContent();
+        }
+
+        String dynamicRuleContent = StringUtils.EMPTY;
+        RuleEntity dynamicRuleEntity = pluginAdapter.getDynamicRule();
+        if (dynamicRuleEntity != null && StringUtils.isNotEmpty(dynamicRuleEntity.getContent())) {
+            dynamicRuleContent = dynamicRuleEntity.getContent();
+        }
+
+        ruleList.add(localRuleContent);
+        ruleList.add(dynamicRuleContent);
+
+        return ResponseEntity.ok().body(ruleList);
     }
 
     protected ResponseEntity<String> toExceptionResponseEntity(Exception e, boolean showDetail) {

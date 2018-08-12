@@ -88,15 +88,7 @@ public class VersionEndpoint {
     @ResponseBody
     @ManagedOperation
     public ResponseEntity<List<String>> view() {
-        List<String> versionList = new ArrayList<String>(2);
-
-        String localVersion = pluginAdapter.getLocalVersion();
-        String dynamicVersion = pluginAdapter.getDynamicVersion();
-
-        versionList.add(StringUtils.isNotEmpty(localVersion) ? localVersion : StringUtils.EMPTY);
-        versionList.add(StringUtils.isNotEmpty(dynamicVersion) ? dynamicVersion : StringUtils.EMPTY);
-
-        return ResponseEntity.ok().body(versionList);
+        return view(false);
     }
 
     private ResponseEntity<?> update(String version, boolean async) {
@@ -140,5 +132,17 @@ public class VersionEndpoint {
         pluginEventWapper.fireVersionCleared(new VersionClearedEvent(version), async);
 
         return ResponseEntity.ok().body("OK");
+    }
+
+    private ResponseEntity<List<String>> view(boolean async) {
+        List<String> versionList = new ArrayList<String>(2);
+
+        String localVersion = pluginAdapter.getLocalVersion();
+        String dynamicVersion = pluginAdapter.getDynamicVersion();
+
+        versionList.add(StringUtils.isNotEmpty(localVersion) ? localVersion : StringUtils.EMPTY);
+        versionList.add(StringUtils.isNotEmpty(dynamicVersion) ? dynamicVersion : StringUtils.EMPTY);
+
+        return ResponseEntity.ok().body(versionList);
     }
 }
