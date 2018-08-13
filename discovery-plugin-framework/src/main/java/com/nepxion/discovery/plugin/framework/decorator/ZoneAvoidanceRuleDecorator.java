@@ -11,7 +11,7 @@ package com.nepxion.discovery.plugin.framework.decorator;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
@@ -34,8 +34,6 @@ public class ZoneAvoidanceRuleDecorator extends ZoneAvoidanceRule {
 
     @Autowired
     private PluginAdapter pluginAdapter;
-
-    private final Random random = new Random();
 
     @Override
     public Server choose(Object key) {
@@ -112,7 +110,7 @@ public class ZoneAvoidanceRuleDecorator extends ZoneAvoidanceRule {
         }
 
         // 获取介于0(含)和n(不含)伪随机，均匀分布的int值
-        int hitWeight = random.nextInt(totalWeight) + 1; // [1, totalWeight)
+        int hitWeight = ThreadLocalRandom.current().nextInt(totalWeight) + 1; // [1, totalWeight)
         for (int i = 0; i < weightHolder.length; i++) {
             if (hitWeight <= weightHolder[i][1]) {
                 return weightHolder[i][0];
