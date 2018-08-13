@@ -53,8 +53,8 @@ public class ServiceStrategyAutoConfiguration {
         return new ServiceStrategyInterceptor();
     }
 
-    @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_FEIGN_HEADERS, matchIfMissing = false)
     @Bean
+    @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_FEIGN_HEADERS, matchIfMissing = false)
     public FeignStrategyInterceptor feignStrategyInterceptor() {
         return new FeignStrategyInterceptor(feignHeaders);
     }
