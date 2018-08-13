@@ -30,7 +30,7 @@ public class ConsulAutoConfiguration {
         System.out.println("╚═══╩╩══╩══╩══╝╚╝╚══╩╝╚═╗╔╝");
         System.out.println("                      ╔═╝║");
         System.out.println("                      ╚══╝");
-        System.out.println("Nepxion Discovery - " + ConsulConstant.DISCOVERY_PLUGIN + "  v3.6.8");
+        System.out.println("Nepxion Discovery - " + ConsulConstant.DISCOVERY_PLUGIN + "  v3.6.9");
         System.out.println("");
     }
 
