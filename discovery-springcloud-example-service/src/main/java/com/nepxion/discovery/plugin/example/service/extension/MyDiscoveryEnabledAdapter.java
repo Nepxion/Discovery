@@ -18,24 +18,35 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.plugin.strategy.discovery.DiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.extension.service.constant.ServiceStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.extension.service.context.ServiceStrategyContext;
+import com.nepxion.discovery.plugin.strategy.extension.service.impl.VersionDiscoveryEnabledAdapter;
 import com.netflix.loadbalancer.Server;
 
-public class MyDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
+// 实现了组合策略，版本路由策略+自定义策略
+// 如果不想要版本路由策略，请直接implements DiscoveryEnabledAdapter，实现自定义策略 
+public class MyDiscoveryEnabledAdapter extends VersionDiscoveryEnabledAdapter {
     private static final Logger LOG = LoggerFactory.getLogger(MyDiscoveryEnabledAdapter.class);
 
     @Override
     public boolean apply(Server server, Map<String, String> metadata) {
-        if (applyFromHeader(server, metadata)) {
-            return applyFromMethd(server, metadata);
-        } else {
+        // 1.对Rest调用传来的Header的路由Version做策略。注意这个Version不是灰度发布的Version
+        boolean enabled = super.apply(server, metadata);
+        if (!enabled) {
             return false;
         }
+
+        // 2.对Rest调用传来的Header参数（例如Token）做策略
+        enabled = applyFromHeader(server, metadata);
+        if (!enabled) {
+            return false;
+        }
+
+        // 3.对RPC调用传来的方法参数做策略
+        return applyFromMethd(server, metadata);
     }
 
-    // 方式1，根据外部传来的Header参数（例如Token），选取执行调用请求的服务实例
+    // 根据Rest调用传来的Header参数（例如Token），选取执行调用请求的服务实例
     private boolean applyFromHeader(Server server, Map<String, String> metadata) {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (attributes == null) {
@@ -60,7 +71,7 @@ public class MyDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         return true;
     }
 
-    // 方式2，根据下游服务传来的方法参数（例如接口名、方法名、参数名或参数值等），选取执行调用请求的服务实例
+    // 根据RPC调用传来的方法参数（例如接口名、方法名、参数名或参数值等），选取执行调用请求的服务实例
     @SuppressWarnings("unchecked")
     private boolean applyFromMethd(Server server, Map<String, String> metadata) {
         ServiceStrategyContext context = ServiceStrategyContext.getCurrentContext();
