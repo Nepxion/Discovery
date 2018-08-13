@@ -15,16 +15,29 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.nepxion.discovery.plugin.strategy.discovery.DiscoveryEnabledAdapter;
+import com.nepxion.discovery.plugin.strategy.extension.zuul.impl.VersionDiscoveryEnabledAdapter;
 import com.netflix.loadbalancer.Server;
 import com.netflix.zuul.context.RequestContext;
 
-public class MyDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
+// 实现了组合策略，版本路由策略+自定义策略
+// 如果不想要版本路由策略，请直接implements DiscoveryEnabledAdapter，实现自定义策略 
+public class MyDiscoveryEnabledAdapter extends VersionDiscoveryEnabledAdapter {
     private static final Logger LOG = LoggerFactory.getLogger(MyDiscoveryEnabledAdapter.class);
 
-    // 根据外部传来的Header参数（例如Token），选取执行调用请求的服务实例
     @Override
     public boolean apply(Server server, Map<String, String> metadata) {
+        // 1.对Rest调用传来的Header的路由Version做策略。注意这个Version不是灰度发布的Version
+        boolean enabled = super.apply(server, metadata);
+        if (!enabled) {
+            return false;
+        }
+
+        // 2.对Rest调用传来的Header参数（例如Token）做策略
+        return applyFromHeader(server, metadata);
+    }
+
+    // 根据Rest调用传来的Header参数（例如Token），选取执行调用请求的服务实例
+    private boolean applyFromHeader(Server server, Map<String, String> metadata) {
         RequestContext context = RequestContext.getCurrentContext();
         String token = context.getRequest().getHeader("token");
         // String value = context.getRequest().getParameter("value");
