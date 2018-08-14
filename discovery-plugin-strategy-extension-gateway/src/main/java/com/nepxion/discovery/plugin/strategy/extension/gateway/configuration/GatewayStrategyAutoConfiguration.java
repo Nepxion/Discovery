@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.extension.gateway.filter.GatewayStrategyFilter;
+import com.nepxion.discovery.plugin.strategy.extension.gateway.impl.VersionDiscoveryEnabledAdapter;
 
 @Configuration
 @AutoConfigureBefore(RibbonClientConfiguration.class)
@@ -25,5 +26,10 @@ public class GatewayStrategyAutoConfiguration {
     @Bean
     public GatewayStrategyFilter gatewayStrategyFilter() {
         return new GatewayStrategyFilter();
+    }
+
+    @Bean
+    public VersionDiscoveryEnabledAdapter discoveryEnabledAdapter() {
+        return new VersionDiscoveryEnabledAdapter();
     }
 }

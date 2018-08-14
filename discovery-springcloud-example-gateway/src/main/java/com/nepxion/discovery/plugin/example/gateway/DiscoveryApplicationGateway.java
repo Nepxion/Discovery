@@ -14,7 +14,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 
-import com.nepxion.discovery.plugin.example.gateway.extension.MyDiscoveryEnabledAdapter;
+import com.nepxion.discovery.plugin.example.gateway.extension.MyDiscoveryEnabledExtension;
 
 @SpringBootApplication
 @EnableDiscoveryClient
@@ -24,8 +24,8 @@ public class DiscoveryApplicationGateway {
     }
 
     @Bean
-    public MyDiscoveryEnabledAdapter myDiscoveryEnabledAdapter() {
-        return new MyDiscoveryEnabledAdapter();
+    public MyDiscoveryEnabledExtension myDiscoveryEnabledExtension() {
+        return new MyDiscoveryEnabledExtension();
     }
 
     /*@Bean
