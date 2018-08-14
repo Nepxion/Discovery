@@ -11,4 +11,5 @@ package com.nepxion.discovery.plugin.strategy.constant;
 
 public class StrategyConstant {
     public static final String SPRING_APPLICATION_STRATEGY_CONTROL_ENABLED = "spring.application.strategy.control.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_ZONE_AVOIDANCE_RULE_ENABLED = "spring.application.strategy.zone.avoidance.rule.enabled";
 }
