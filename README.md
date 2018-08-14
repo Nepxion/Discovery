@@ -468,9 +468,9 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 
 ### 用户自定义和编程灰度路由策略
 使用者可以实现跟业务有关的路由策略，根据业务参数的不同，负载均衡到不同的服务器
-- 基于服务的编程灰度路由，继承DiscoveryEnabledAdapter，通过RequestContextHolder（获取来自网关的Header参数）和ServiceStrategyContext（获取来自RPC方式的方法参数）获取业务上下文参数，进行路由自定义，用法参考discovery-springcloud-example-service下MyDiscoveryEnabledAdapter
-- 基于Zuul的编程灰度路由，继承DiscoveryEnabledAdapter，通过Zuul自带的RequestContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义，用法参考discovery-springcloud-example-zuul下MyDiscoveryEnabledAdapter
-- 基于Spring Cloud Api Gateway的编程灰度路由，继承DiscoveryEnabledAdapter，通过GatewayStrategyContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义，用法参考discovery-springcloud-example-gateway下MyDiscoveryEnabledAdapter
+- 基于服务的编程灰度路由，实现DiscoveryEnabledExtension，通过RequestContextHolder（获取来自网关的Header参数）和ServiceStrategyContext（获取来自RPC方式的方法参数）获取业务上下文参数，进行路由自定义
+- 基于Zuul的编程灰度路由，实现DiscoveryEnabledExtension，通过Zuul自带的RequestContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义
+- 基于Spring Cloud Api Gateway的编程灰度路由，实现DiscoveryEnabledExtension，通过GatewayStrategyContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义
 
 ### 用户自定义监听
 使用者可以继承如下类
