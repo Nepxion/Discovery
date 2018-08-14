@@ -12,17 +12,33 @@ package com.nepxion.discovery.plugin.strategy.discovery;
 import java.util.Map;
 
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.netflix.loadbalancer.AbstractServerPredicate;
+import com.netflix.client.config.IClientConfig;
+import com.netflix.loadbalancer.IRule;
+import com.netflix.loadbalancer.LoadBalancerStats;
 import com.netflix.loadbalancer.PredicateKey;
 import com.netflix.loadbalancer.Server;
+import com.netflix.loadbalancer.ZoneAvoidancePredicate;
 
-public class DiscoveryEnabledPredicate extends AbstractServerPredicate {
+public class DiscoveryEnabledZoneAvoidancePredicate extends ZoneAvoidancePredicate {
     protected PluginAdapter pluginAdapter;
     protected DiscoveryEnabledAdapter discoveryEnabledAdapter;
 
+    public DiscoveryEnabledZoneAvoidancePredicate(IRule rule, IClientConfig clientConfig) {
+        super(rule, clientConfig);
+    }
+
+    public DiscoveryEnabledZoneAvoidancePredicate(LoadBalancerStats lbStats, IClientConfig clientConfig) {
+        super(lbStats, clientConfig);
+    }
+
     @Override
     public boolean apply(PredicateKey input) {
-        return input != null && apply(input.getServer());
+        boolean enabled = super.apply(input);
+        if (!enabled) {
+            return false;
+        }
+
+        return apply(input.getServer());
     }
 
     protected boolean apply(Server server) {
