@@ -56,7 +56,7 @@ public class VersionDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
 
         Map<String, String> versionMap = JsonUtil.fromJson(versionJson, Map.class);
         String versions = versionMap.get(serviceId);
-        if (StringUtils.isEmpty(versions)) {
+        if (versions == null) {
             return true;
         }
 

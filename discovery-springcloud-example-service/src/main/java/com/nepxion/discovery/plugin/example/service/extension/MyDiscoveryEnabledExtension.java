@@ -56,7 +56,7 @@ public class MyDiscoveryEnabledExtension implements DiscoveryEnabledExtension {
         String filterServiceId = "discovery-springcloud-example-c";
         String filterToken = "123";
         if (StringUtils.equals(serviceId, filterServiceId) && StringUtils.isNotEmpty(token) && token.contains(filterToken)) {
-            LOG.info("过滤条件：当serviceId={} && Token含有'{}'的时候，不能被Ribbon负载均衡到", filterToken);
+            LOG.info("过滤条件：当serviceId={} && Token含有'{}'的时候，不能被Ribbon负载均衡到", filterServiceId, filterToken);
 
             return false;
         }
