@@ -12,18 +12,32 @@ package com.nepxion.discovery.plugin.strategy.extension.service.impl;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.plugin.strategy.discovery.DiscoveryEnabledAdapter;
+import com.nepxion.discovery.plugin.strategy.discovery.DiscoveryEnabledExtension;
 import com.netflix.loadbalancer.Server;
 
 public class VersionDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
-    @SuppressWarnings("unchecked")
+    @Autowired(required = false)
+    private DiscoveryEnabledExtension discoveryEnabledExtension;
+
     @Override
     public boolean apply(Server server, Map<String, String> metadata) {
+        boolean enabled = applyVersion(server, metadata);
+        if (!enabled) {
+            return false;
+        }
+
+        return applyExtension(server, metadata);
+    }
+
+    @SuppressWarnings("unchecked")
+    private boolean applyVersion(Server server, Map<String, String> metadata) {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (attributes == null) {
             return true;
@@ -51,5 +65,13 @@ public class VersionDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         }
 
         return false;
+    }
+
+    private boolean applyExtension(Server server, Map<String, String> metadata) {
+        if (discoveryEnabledExtension == null) {
+            return true;
+        }
+
+        return discoveryEnabledExtension.apply(server, metadata);
     }
 }

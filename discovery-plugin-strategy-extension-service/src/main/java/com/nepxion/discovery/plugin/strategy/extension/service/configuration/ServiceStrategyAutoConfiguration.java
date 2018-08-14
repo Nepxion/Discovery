@@ -22,6 +22,7 @@ import com.nepxion.discovery.plugin.strategy.extension.service.aop.FeignStrategy
 import com.nepxion.discovery.plugin.strategy.extension.service.aop.ServiceStrategyAutoScanProxy;
 import com.nepxion.discovery.plugin.strategy.extension.service.aop.ServiceStrategyInterceptor;
 import com.nepxion.discovery.plugin.strategy.extension.service.constant.ServiceStrategyConstant;
+import com.nepxion.discovery.plugin.strategy.extension.service.impl.VersionDiscoveryEnabledAdapter;
 
 @Configuration
 @AutoConfigureBefore(RibbonClientConfiguration.class)
@@ -57,5 +58,10 @@ public class ServiceStrategyAutoConfiguration {
     @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_FEIGN_HEADERS, matchIfMissing = false)
     public FeignStrategyInterceptor feignStrategyInterceptor() {
         return new FeignStrategyInterceptor(feignHeaders);
+    }
+
+    @Bean
+    public VersionDiscoveryEnabledAdapter discoveryEnabledAdapter() {
+        return new VersionDiscoveryEnabledAdapter();
     }
 }
