@@ -39,11 +39,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
   - [功能开关策略](#功能开关策略)  
 - [配置中心](#配置中心)
 - [管理中心](#管理中心)
-  - [配置接口](#配置接口)
-  - [版本接口](#版本接口)
-  - [路由接口](#路由接口)
 - [控制平台](#控制平台)
-  - [控制平台接口](#控制平台接口)
 - [监控平台](#监控平台)
 - [图形化灰度发布桌面程序](#图形化灰度发布桌面程序)
 
@@ -572,9 +568,9 @@ spring.application.strategy.feign.headers=version;token
 
 ## 管理中心
 > PORT端口号为服务端口或者管理端口都可以
-### 配置接口
-### 版本接口
-### 路由接口
+- 配置接口
+- 版本接口
+- 路由接口
 参考Swagger界面，如下图
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Swagger1.jpg)
@@ -585,7 +581,7 @@ spring.application.strategy.feign.headers=version;token
 - 跟Nacos和Redis集成，实现配置拉去、推送和清除
 
 > PORT端口号为服务端口或者管理端口都可以
-### 控制平台接口
+- 控制平台接口
 参考Swagger界面，如下图
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Swagger2.jpg)
