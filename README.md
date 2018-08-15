@@ -6,12 +6,12 @@
 
 Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增强中间件，其功能包括灰度发布（包括切换发布和平滑发布），服务隔离，服务路由，黑/白名单的IP地址过滤，限制注册，限制发现等，支持Eureka、Consul和Zookeeper，支持Spring Cloud Api Gateway（Finchley版）、Zuul网关和微服务的灰度发布，支持用户自定义和编程灰度路由策略，支持多数据源的数据库灰度发布等客户特色化灰度发布，支持Nacos和Redis为远程配置中心，同时兼容Spring Cloud Edgware版和Finchley版。现有的Spring Cloud微服务可以方便引入该插件，代码零侵入
 
-使用者只需要做如下简单的事情：
+对于使用者来说，他的工作量仅仅如下：
 - 引入相关依赖到pom.xml
 - 必须为微服务定义一个版本号（version），必须为微服务自定义一个组名（group）或者应用名（application）等其它便于归类的Key，便于远程配置中心推送和灰度界面分析
 - 使用者只需要关注相关规则推送。可以采用如下方式之一
   - 通过远程配置中心推送规则
-  - 通过控制台界面推送规则
+  - 通过控制平台界面推送规则
   - 通过客户端工具（例如Postman）推送
 
 ## 目录
@@ -26,6 +26,17 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 - [依赖](#依赖)
 - [工程](#工程)
 - [规则和策略](#规则和策略)
+  - [规则示例](#规则示例)
+  - [灰度规则策略](#灰度规则策略)
+  - [动态改变规则策略](#动态改变规则策略)
+  - [动态改变版本策略](#动态改变版本策略)
+  - [黑/白名单的IP地址注册的过滤策略](#黑/白名单的IP地址注册的过滤策略)
+  - [最大注册数的限制的过滤策略](#最大注册数的限制的过滤策略)
+  - [黑/白名单的IP地址发现的过滤策略](#黑/白名单的IP地址发现的过滤策略)
+  - [用户自定义和编程灰度路由策略](#用户自定义和编程灰度路由策略)
+  - [用户自定义监听](#用户自定义监听)
+  - [版本属性字段定义策略](#版本属性字段定义策略)
+  - [功能开关策略](#功能开关策略)  
 - [配置中心](#配置中心)
 - [管理中心](#管理中心)
 - [控制平台](#控制平台)
@@ -81,8 +92,9 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 - 动态改变微服务版本
   - 在A/B测试中，通过动态改变版本，不重启微服务，达到访问版本的路径改变
 - 用户自定义和编程灰度路由策略，可以通过非常简单编程达到如下效果
-  - 我们可以在网关上根据不同的Token查询到不同的用户，把请求路由到指定的服务器
-  - 我们可以在服务上根据不同的业务参数，例如手机号或者身份证号，把请求路由到指定的服务器
+  - 在业务REST调用上，在Header上传入服务名和版本对应关系的Json字符串，后端若干个服务会把请求路由到指定版本的服务器
+  - 在业务REST调用上，在Header上传入Token，根据不同的Token查询到不同的用户，后端若干个服务会把请求路由到指定的服务器
+  - 在业务RPC调用上，根据不同的业务参数，例如手机号或者身份证号，后端若干个服务会把请求路由到指定的服务器
 
 ## 功能简介
 - Nepxion Discovery实现对基于Spring Cloud的微服务和Spring Cloud Api Gateway（F版）和Zuul网关的支持
@@ -284,7 +296,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 
 >特别注意：中间件的引入一定要在所有层面保持一致，绝不允许出现类似如下情况，这也是常识
 - 例如，网关用Eureka做服务注册发现，微服务用Consul做服务注册发现
-- 例如，控制台用Nacos做远程配置中心，微服务用Redis做远程配置中心
+- 例如，控制平台用Nacos做远程配置中心，微服务用Redis做远程配置中心
 
 ## 工程
 
@@ -321,7 +333,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 
 ## 规则和策略
 ### 规则示例
-请不要被吓到，我只是把注释写的很详细而已，里面配置没几行，下面的内容也可以通过Json来描述，这里不做描述，见discovery-springcloud-example-service下的rule.json
+全链路路由XML示例（也可以通过Json来描述，这里不做描述，见discovery-springcloud-example-service下的rule.json）
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
@@ -398,7 +410,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 ```
 
 ### 灰度规则策略
-版本访问策略介绍
+- 版本访问策略
 ```xml
 1. 标准配置，举例如下
    <service consumer-service-name="a" provider-service-name="b" consumer-version-value="1.0" provider-version-value="1.0,1.1"/> 表示消费端1.0版本，允许访问提供端1.0和1.1版本
@@ -416,14 +428,15 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 1. 消费端的application.properties未定义版本号，则该消费端可以访问提供端任何版本
 2. 提供端的application.properties未定义版本号，当消费端在xml里不做任何版本配置，才可以访问该提供端
 ```
-版本权重策略介绍
+
+- 版本权重策略
 ```xml
 1. 标准配置，举例如下
    <service consumer-service-name="a" provider-service-name="b" provider-weight-value="1.0=90;1.1=10"/> 表示消费端访问提供端的时候，提供端的1.0版本提供90%的权重流量，1.1版本提供10%的权重流量
 2. 尽量为线上所有版本都赋予权重值
 ```
 
-客户定制化策略介绍
+- 多数据源的数据库灰度策略
 ```xml
 1. 标准配置，举例如下
    <service service-name="discovery-springcloud-example-b" key="database" value="prod"/>
@@ -464,18 +477,28 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 - 局部配置值，指专门针对某个微服务而言，那么该值如存在，全局配置值失效
 
 ### 黑/白名单的IP地址发现的过滤策略
-微服务启动的时候，禁止指定的IP地址被服务发现。它使用的方式和“黑/白名单的IP地址注册的过滤”一致
+微服务启动的时候，禁止指定的IP地址被服务发现。它使用的方式和“黑/白名单的IP地址注册的过滤策略”一致
 
 ### 用户自定义和编程灰度路由策略
 使用者可以实现跟业务有关的路由策略，根据业务参数的不同，负载均衡到不同的服务器
+
+从维度上来看
 - 基于服务的编程灰度路由，实现DiscoveryEnabledExtension，通过RequestContextHolder（获取来自网关的Header参数）和ServiceStrategyContext（获取来自RPC方式的方法参数）获取业务上下文参数，进行路由自定义
 - 基于Zuul的编程灰度路由，实现DiscoveryEnabledExtension，通过Zuul自带的RequestContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义
 - 基于Spring Cloud Api Gateway的编程灰度路由，实现DiscoveryEnabledExtension，通过GatewayStrategyContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义
 
+从功能上来看
+- REST调用的多版本灰度路由，在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只有a服务的1.0版本，b服务的1.1版本，c服务的1.1或1.2版本，允许被调用到
+```xml
+{"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.1", "discovery-springcloud-example-c":"1.1;1.2"}
+```
+- REST调用的自定义路由，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+- RPC调用的自定义路由，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+
 ### 用户自定义监听
 使用者可以继承如下类
 - AbstractRegisterListener，实现服务注册的监听，用法参考discovery-springcloud-example-service下MyRegisterListener
-- AbstractDiscoveryListener，实现服务发现的监听，用法参考discovery-springcloud-example-service下MyDiscoveryListener。注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断，见上图“集成了健康检查的Consul控制台”
+- AbstractDiscoveryListener，实现服务发现的监听，用法参考discovery-springcloud-example-service下MyDiscoveryListener。注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断，见上图“集成了健康检查的Consul界面”
 - AbstractLoadBalanceListener，实现负载均衡的监听，用法参考discovery-springcloud-example-service下MyLoadBalanceListener
 
 ### 版本属性字段定义策略
@@ -536,7 +559,6 @@ spring.application.strategy.feign.headers=version;token
 ```
 
 ## 配置中心
-### 跟远程配置中心集成
 - 默认集成
   - 本系统跟Nacos集成，如何安装使用，请参考[https://github.com/alibaba/nacos](https://github.com/alibaba/nacos)
   - 本系统跟Redis集成
@@ -546,9 +568,9 @@ spring.application.strategy.feign.headers=version;token
 
 ## 管理中心
 > PORT端口号为服务端口或者管理端口都可以
-### 配置接口
-### 版本接口
-### 路由接口
+- 配置接口
+- 版本接口
+- 路由接口
 参考Swagger界面，如下图
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Swagger1.jpg)
@@ -559,7 +581,7 @@ spring.application.strategy.feign.headers=version;token
 - 跟Nacos和Redis集成，实现配置拉去、推送和清除
 
 > PORT端口号为服务端口或者管理端口都可以
-### 控制台接口
+- 控制平台接口
 参考Swagger界面，如下图
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Swagger2.jpg)
