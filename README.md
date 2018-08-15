@@ -81,8 +81,9 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 - 动态改变微服务版本
   - 在A/B测试中，通过动态改变版本，不重启微服务，达到访问版本的路径改变
 - 用户自定义和编程灰度路由策略，可以通过非常简单编程达到如下效果
-  - 我们可以在网关上根据不同的Token查询到不同的用户，把请求路由到指定的服务器
-  - 我们可以在服务上根据不同的业务参数，例如手机号或者身份证号，把请求路由到指定的服务器
+  - 在业务REST调用上，在Header上传入服务名和版本对应关系的Json字符串，后端若干个服务会把请求路由到指定版本的服务器
+  - 在业务REST调用上，在Header上传入Token，根据不同的Token查询到不同的用户，后端若干个服务会把请求路由到指定的服务器
+  - 在业务RPC调用上，根据不同的业务参数，例如手机号或者身份证号，后端若干个服务会把请求路由到指定的服务器
 
 ## 功能简介
 - Nepxion Discovery实现对基于Spring Cloud的微服务和Spring Cloud Api Gateway（F版）和Zuul网关的支持
@@ -321,7 +322,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 
 ## 规则和策略
 ### 规则示例
-请不要被吓到，我只是把注释写的很详细而已，里面配置没几行，下面的内容也可以通过Json来描述，这里不做描述，见discovery-springcloud-example-service下的rule.json
+全链路路由XML示例（也可以通过Json来描述，这里不做描述，见discovery-springcloud-example-service下的rule.json）
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
@@ -398,7 +399,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 ```
 
 ### 灰度规则策略
-版本访问策略介绍
+- 版本访问策略
 ```xml
 1. 标准配置，举例如下
    <service consumer-service-name="a" provider-service-name="b" consumer-version-value="1.0" provider-version-value="1.0,1.1"/> 表示消费端1.0版本，允许访问提供端1.0和1.1版本
@@ -416,14 +417,15 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 1. 消费端的application.properties未定义版本号，则该消费端可以访问提供端任何版本
 2. 提供端的application.properties未定义版本号，当消费端在xml里不做任何版本配置，才可以访问该提供端
 ```
-版本权重策略介绍
+
+- 版本权重策略
 ```xml
 1. 标准配置，举例如下
    <service consumer-service-name="a" provider-service-name="b" provider-weight-value="1.0=90;1.1=10"/> 表示消费端访问提供端的时候，提供端的1.0版本提供90%的权重流量，1.1版本提供10%的权重流量
 2. 尽量为线上所有版本都赋予权重值
 ```
 
-客户定制化策略介绍
+- 多数据源的数据库灰度策略
 ```xml
 1. 标准配置，举例如下
    <service service-name="discovery-springcloud-example-b" key="database" value="prod"/>
@@ -431,6 +433,19 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
    服务b有两个库的配置，分别是临时数据库（database的value为temp）和生产数据库（database的value为prod）
    上线后，一开始数据库指向临时数据库，对应value为temp，然后灰度发布的时候，改对应value为prod，即实现数据库的灰度发布
 ```
+
+### 用户自定义和编程灰度路由策略
+- REST调用的多版本灰度路由
+在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只有a服务的1.0版本，b服务的1.1版本，c服务的1.1或1.2版本，允许被调用到
+```xml
+{"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.1", "discovery-springcloud-example-c":"1.1;1.2"}
+```
+
+- REST调用的自定义路由
+见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+
+- RPC调用的自定义路由
+见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 ### 动态改变规则策略
 微服务启动的时候，由于规则（例如：rule.xml）已经配置在本地，使用者希望改变一下规则，而不重启微服务，达到规则的改变 
