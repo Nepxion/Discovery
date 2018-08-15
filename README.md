@@ -38,7 +38,6 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
   - [版本属性字段定义策略](#版本属性字段定义策略)
   - [功能开关策略](#功能开关策略)  
 - [配置中心](#配置中心)
-  - [跟远程配置中心集成](#跟远程配置中心集成)
 - [管理中心](#管理中心)
   - [配置接口](#配置接口)
   - [版本接口](#版本接口)
@@ -564,7 +563,6 @@ spring.application.strategy.feign.headers=version;token
 ```
 
 ## 配置中心
-### 跟远程配置中心集成
 - 默认集成
   - 本系统跟Nacos集成，如何安装使用，请参考[https://github.com/alibaba/nacos](https://github.com/alibaba/nacos)
   - 本系统跟Redis集成
