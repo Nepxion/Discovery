@@ -522,13 +522,17 @@ management.server.port=5100
 # spring.application.group.key=group
 # spring.application.group.key=application
 # 内置Rest调用路径的前缀，当配置了server.context-path或者server.servlet.context-path时候，需要同步配置下面的值，务必保持一致
-# spring.application.context-path=/nepxion
+# spring.application.context-path=${server.servlet.context-path}
 
 # Plugin strategy config
 # 开启和关闭用户自定义和编程灰度路由策略的控制，例如用户根据业务参数的不同，负载均衡到不同的服务器。缺失则默认为true
 # spring.application.strategy.control.enabled=true
-# 用户自定义和编程灰度路由策略的时候，需要指定对业务Controller类的扫描路径，以便传递上下文对象。该项配置只对服务有效，对网关无效
+# 开启和关闭Ribbon默认的ZoneAvoidanceRule负载均衡策略。一旦关闭，则使用RoundRobin简单轮询负载均衡策略。缺失则默认为true
+# spring.application.strategy.zone.avoidance.rule.enabled=true
+# 用户自定义和编程灰度路由策略的时候，需要指定对业务Controller类的扫描路径，以便传递上下文对象。该项配置只对服务有效，对网关无效。缺失则默认关闭改功能
 spring.application.strategy.scan.packages=com.nepxion.discovery.plugin.example.service.feign
+# 用户自定义和编程灰度路由策略的时候，如果采用Feign进行Rest调用，需要把来自网关的某些Header参数传递到服务里，如果多个用“;”分隔，不允许出现空格。该项配置只对服务有效，对网关无效。缺失则默认关闭改功能
+spring.application.strategy.feign.headers=version;token
 ```
 
 ## 配置中心
