@@ -11,7 +11,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 - 必须为微服务定义一个版本号（version），必须为微服务自定义一个组名（group）或者应用名（application）等其它便于归类的Key，便于远程配置中心推送和灰度界面分析
 - 使用者只需要关注相关规则推送。可以采用如下方式之一
   - 通过远程配置中心推送规则
-  - 通过控制台界面推送规则
+  - 通过控制平台界面推送规则
   - 通过客户端工具（例如Postman）推送
 
 ## 目录
@@ -27,9 +27,24 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 - [工程](#工程)
 - [规则和策略](#规则和策略)
   - [规则示例](#规则示例)
+  - [灰度规则策略](#灰度规则策略)
+  - [动态改变规则策略](#动态改变规则策略)
+  - [动态改变版本策略](#动态改变版本策略)
+  - [黑/白名单的IP地址注册的过滤策略](#黑/白名单的IP地址注册的过滤策略)
+  - [最大注册数的限制的过滤策略](#最大注册数的限制的过滤策略)
+  - [黑/白名单的IP地址发现的过滤策略](#黑/白名单的IP地址发现的过滤策略)
+  - [用户自定义和编程灰度路由策略](#用户自定义和编程灰度路由策略)
+  - [用户自定义监听](#用户自定义监听)
+  - [版本属性字段定义策略](#版本属性字段定义策略)
+  - [功能开关策略](#功能开关策略)  
 - [配置中心](#配置中心)
+  - [跟远程配置中心集成](#跟远程配置中心集成)
 - [管理中心](#管理中心)
+  - [配置接口](#配置接口)
+  - [版本接口](#版本接口)
+  - [路由接口](#路由接口)
 - [控制平台](#控制平台)
+  - [控制平台接口](#控制平台接口)
 - [监控平台](#监控平台)
 - [图形化灰度发布桌面程序](#图形化灰度发布桌面程序)
 
@@ -286,7 +301,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 
 >特别注意：中间件的引入一定要在所有层面保持一致，绝不允许出现类似如下情况，这也是常识
 - 例如，网关用Eureka做服务注册发现，微服务用Consul做服务注册发现
-- 例如，控制台用Nacos做远程配置中心，微服务用Redis做远程配置中心
+- 例如，控制平台用Nacos做远程配置中心，微服务用Redis做远程配置中心
 
 ## 工程
 
@@ -435,22 +450,6 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
    上线后，一开始数据库指向临时数据库，对应value为temp，然后灰度发布的时候，改对应value为prod，即实现数据库的灰度发布
 ```
 
-### 用户自定义和编程灰度路由策略
-- REST调用的多版本灰度路由
-
-在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只有a服务的1.0版本，b服务的1.1版本，c服务的1.1或1.2版本，允许被调用到
-```xml
-{"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.1", "discovery-springcloud-example-c":"1.1;1.2"}
-```
-
-- REST调用的自定义路由
-
-见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
-
-- RPC调用的自定义路由
-
-见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
-
 ### 动态改变规则策略
 微服务启动的时候，由于规则（例如：rule.xml）已经配置在本地，使用者希望改变一下规则，而不重启微服务，达到规则的改变 
 - 规则分为本地规则和动态规则
@@ -487,14 +486,27 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 
 ### 用户自定义和编程灰度路由策略
 使用者可以实现跟业务有关的路由策略，根据业务参数的不同，负载均衡到不同的服务器
-- 基于服务的编程灰度路由，实现DiscoveryEnabledExtension，通过RequestContextHolder（获取来自网关的Header参数）和ServiceStrategyContext（获取来自RPC方式的方法参数）获取业务上下文参数，进行路由自定义
-- 基于Zuul的编程灰度路由，实现DiscoveryEnabledExtension，通过Zuul自带的RequestContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义
-- 基于Spring Cloud Api Gateway的编程灰度路由，实现DiscoveryEnabledExtension，通过GatewayStrategyContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义
+- 从维度上来看
+  - 基于服务的编程灰度路由，实现DiscoveryEnabledExtension，通过RequestContextHolder（获取来自网关的Header参数）和ServiceStrategyContext（获取来自RPC方式的方法参数）获取业务上下文参数，进行路由自定义
+  - 基于Zuul的编程灰度路由，实现DiscoveryEnabledExtension，通过Zuul自带的RequestContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义
+  - 基于Spring Cloud Api Gateway的编程灰度路由，实现DiscoveryEnabledExtension，通过GatewayStrategyContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义
+
+- 从功能上来看
+ - REST调用的多版本灰度路由
+   在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只有a服务的1.0版本，b服务的1.1版本，c服务的1.1或1.2版本，允许被调用到
+```xml
+{"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.1", "discovery-springcloud-example-c":"1.1;1.2"}
+```
+ - REST调用的自定义路由
+   见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+
+- RPC调用的自定义路由
+  见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 ### 用户自定义监听
 使用者可以继承如下类
 - AbstractRegisterListener，实现服务注册的监听，用法参考discovery-springcloud-example-service下MyRegisterListener
-- AbstractDiscoveryListener，实现服务发现的监听，用法参考discovery-springcloud-example-service下MyDiscoveryListener。注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断，见上图“集成了健康检查的Consul控制台”
+- AbstractDiscoveryListener，实现服务发现的监听，用法参考discovery-springcloud-example-service下MyDiscoveryListener。注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断，见上图“集成了健康检查的Consul界面”
 - AbstractLoadBalanceListener，实现负载均衡的监听，用法参考discovery-springcloud-example-service下MyLoadBalanceListener
 
 ### 版本属性字段定义策略
@@ -578,7 +590,7 @@ spring.application.strategy.feign.headers=version;token
 - 跟Nacos和Redis集成，实现配置拉去、推送和清除
 
 > PORT端口号为服务端口或者管理端口都可以
-### 控制台接口
+### 控制平台接口
 参考Swagger界面，如下图
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Swagger2.jpg)
