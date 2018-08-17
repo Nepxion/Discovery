@@ -515,14 +515,9 @@ XML示例（也可以通过Json来描述，这里不做描述，见discovery-spr
 #### RPC调用的编程灰度路由策略
 基于FEIGN RPC调用的自定义路由，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
-### 用户自定义监听
-使用者可以继承如下类
-- AbstractRegisterListener，实现服务注册的监听，用法参考discovery-springcloud-example-service下MyRegisterListener
-- AbstractDiscoveryListener，实现服务发现的监听，用法参考discovery-springcloud-example-service下MyDiscoveryListener。注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断，见上图“集成了健康检查的Consul界面”
-- AbstractLoadBalanceListener，实现负载均衡的监听，用法参考discovery-springcloud-example-service下MyLoadBalanceListener
-
-### 版本属性字段定义策略
-不同的服务注册发现组件对应的版本配置值
+## 配置定义
+### 基础属性配置
+不同的服务注册发现组件对应的不同的配置值，请仔细阅读
 ```xml
 # Eureka config
 eureka.instance.metadataMap.version=1.0
@@ -545,7 +540,7 @@ management.port=5100
 management.server.port=5100
 ```
 
-### 功能开关策略
+### 功能开关配置
 请注意，如下很多配置项，如果使用者不想做特色化的处理，为避免繁琐，可以零配置（除了最底下，但一般也不会被用到）
 ```xml
 # Plugin config
@@ -577,6 +572,12 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.plugin.example.s
 # 用户自定义和编程灰度路由策略的时候，如果采用Feign进行Rest调用，需要把来自网关的某些Header参数传递到服务里，如果多个用“;”分隔，不允许出现空格。该项配置只对服务有效，对网关无效。缺失则默认关闭改功能
 spring.application.strategy.feign.headers=version;token
 ```
+
+### 监听扩展
+使用者可以继承如下类
+- AbstractRegisterListener，实现服务注册的监听，用法参考discovery-springcloud-example-service下MyRegisterListener
+- AbstractDiscoveryListener，实现服务发现的监听，用法参考discovery-springcloud-example-service下MyDiscoveryListener。注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断，见上图“集成了健康检查的Consul界面”
+- AbstractLoadBalanceListener，实现负载均衡的监听，用法参考discovery-springcloud-example-service下MyLoadBalanceListener
 
 ## 配置中心
 - 默认集成
