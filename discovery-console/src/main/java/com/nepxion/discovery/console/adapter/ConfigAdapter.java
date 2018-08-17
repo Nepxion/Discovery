@@ -1,4 +1,4 @@
-package com.nepxion.discovery.console.remote;
+package com.nepxion.discovery.console.adapter;
 
 /**
  * <p>Title: Nepxion Discovery</p>

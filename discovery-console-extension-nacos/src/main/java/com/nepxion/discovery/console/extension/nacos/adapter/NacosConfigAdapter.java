@@ -12,7 +12,7 @@ package com.nepxion.discovery.console.extension.nacos.adapter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.common.nacos.operation.NacosOperation;
-import com.nepxion.discovery.console.remote.ConfigAdapter;
+import com.nepxion.discovery.console.adapter.ConfigAdapter;
 
 public class NacosConfigAdapter implements ConfigAdapter {
     @Autowired
