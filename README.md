@@ -573,7 +573,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.plugin.example.s
 spring.application.strategy.feign.headers=version;token
 ```
 
-### 监听扩展
+## 监听扩展
 使用者可以继承如下类
 - AbstractRegisterListener，实现服务注册的监听，用法参考discovery-springcloud-example-service下MyRegisterListener
 - AbstractDiscoveryListener，实现服务发现的监听，用法参考discovery-springcloud-example-service下MyDiscoveryListener。注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断，见上图“集成了健康检查的Consul界面”
