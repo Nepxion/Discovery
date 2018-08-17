@@ -12,7 +12,7 @@ package com.nepxion.discovery.plugin.configcenter.extension.nacos.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.nepxion.discovery.plugin.configcenter.ConfigAdapter;
+import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
 import com.nepxion.discovery.plugin.configcenter.extension.nacos.adapter.NacosConfigAdapter;
 
 @Configuration
