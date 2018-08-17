@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.extension.gateway.impl;
+package com.nepxion.discovery.plugin.strategy.extension.gateway.adapter;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -16,8 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.util.JsonUtil;
-import com.nepxion.discovery.plugin.strategy.discovery.DiscoveryEnabledAdapter;
-import com.nepxion.discovery.plugin.strategy.discovery.DiscoveryEnabledExtension;
+import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledAdapter;
+import com.nepxion.discovery.plugin.strategy.extension.DiscoveryEnabledExtension;
 import com.nepxion.discovery.plugin.strategy.extension.gateway.context.GatewayStrategyContext;
 import com.netflix.loadbalancer.Server;
 

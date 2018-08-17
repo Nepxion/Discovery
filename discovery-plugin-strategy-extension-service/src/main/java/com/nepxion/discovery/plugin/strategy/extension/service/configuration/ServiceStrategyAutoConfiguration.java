@@ -18,11 +18,11 @@ import org.springframework.context.annotation.Configuration;
 
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
+import com.nepxion.discovery.plugin.strategy.extension.service.adapter.VersionDiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.extension.service.aop.FeignStrategyInterceptor;
 import com.nepxion.discovery.plugin.strategy.extension.service.aop.ServiceStrategyAutoScanProxy;
 import com.nepxion.discovery.plugin.strategy.extension.service.aop.ServiceStrategyInterceptor;
 import com.nepxion.discovery.plugin.strategy.extension.service.constant.ServiceStrategyConstant;
-import com.nepxion.discovery.plugin.strategy.extension.service.impl.VersionDiscoveryEnabledAdapter;
 
 @Configuration
 @AutoConfigureBefore(RibbonClientConfiguration.class)

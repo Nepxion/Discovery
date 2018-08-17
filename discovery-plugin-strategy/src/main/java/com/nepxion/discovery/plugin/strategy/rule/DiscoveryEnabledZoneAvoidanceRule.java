@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.discovery;
+package com.nepxion.discovery.plugin.strategy.rule;
 
 /**
  * <p>Title: Nepxion Discovery</p>

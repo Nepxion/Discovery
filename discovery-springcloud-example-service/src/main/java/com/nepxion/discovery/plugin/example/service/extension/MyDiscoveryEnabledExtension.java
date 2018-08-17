@@ -18,7 +18,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.plugin.strategy.discovery.DiscoveryEnabledExtension;
+import com.nepxion.discovery.plugin.strategy.extension.DiscoveryEnabledExtension;
 import com.nepxion.discovery.plugin.strategy.extension.service.constant.ServiceStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.extension.service.context.ServiceStrategyContext;
 import com.netflix.loadbalancer.Server;
