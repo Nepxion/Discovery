@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.extension.service.impl;
+package com.nepxion.discovery.plugin.strategy.extension.service.adapter;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -18,8 +18,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.util.JsonUtil;
-import com.nepxion.discovery.plugin.strategy.discovery.DiscoveryEnabledAdapter;
-import com.nepxion.discovery.plugin.strategy.discovery.DiscoveryEnabledExtension;
+import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledAdapter;
+import com.nepxion.discovery.plugin.strategy.extension.DiscoveryEnabledExtension;
 import com.netflix.loadbalancer.Server;
 
 public class VersionDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {

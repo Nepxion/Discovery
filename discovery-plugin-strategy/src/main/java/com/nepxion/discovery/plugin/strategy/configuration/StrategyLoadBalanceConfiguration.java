@@ -18,12 +18,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
+import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
-import com.nepxion.discovery.plugin.strategy.discovery.DiscoveryEnabledAdapter;
-import com.nepxion.discovery.plugin.strategy.discovery.DiscoveryEnabledBasePredicate;
-import com.nepxion.discovery.plugin.strategy.discovery.DiscoveryEnabledBaseRule;
-import com.nepxion.discovery.plugin.strategy.discovery.DiscoveryEnabledZoneAvoidancePredicate;
-import com.nepxion.discovery.plugin.strategy.discovery.DiscoveryEnabledZoneAvoidanceRule;
+import com.nepxion.discovery.plugin.strategy.rule.DiscoveryEnabledBasePredicate;
+import com.nepxion.discovery.plugin.strategy.rule.DiscoveryEnabledBaseRule;
+import com.nepxion.discovery.plugin.strategy.rule.DiscoveryEnabledZoneAvoidancePredicate;
+import com.nepxion.discovery.plugin.strategy.rule.DiscoveryEnabledZoneAvoidanceRule;
 import com.netflix.client.config.IClientConfig;
 import com.netflix.loadbalancer.IRule;
 

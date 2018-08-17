@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.discovery;
+package com.nepxion.discovery.plugin.strategy.rule;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -12,6 +12,7 @@ package com.nepxion.discovery.plugin.strategy.discovery;
 import java.util.Map;
 
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
+import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledAdapter;
 import com.netflix.client.config.IClientConfig;
 import com.netflix.loadbalancer.IRule;
 import com.netflix.loadbalancer.LoadBalancerStats;

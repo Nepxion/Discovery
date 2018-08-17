@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
-import com.nepxion.discovery.plugin.strategy.extension.zuul.impl.VersionDiscoveryEnabledAdapter;
+import com.nepxion.discovery.plugin.strategy.extension.zuul.adapter.VersionDiscoveryEnabledAdapter;
 
 @Configuration
 @AutoConfigureBefore(RibbonClientConfiguration.class)
