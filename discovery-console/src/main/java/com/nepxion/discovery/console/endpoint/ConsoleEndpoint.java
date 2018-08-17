@@ -38,7 +38,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.InstanceEntity;
-import com.nepxion.discovery.console.remote.ConfigAdapter;
+import com.nepxion.discovery.console.adapter.ConfigAdapter;
 import com.nepxion.discovery.console.rest.ConfigClearRestInvoker;
 import com.nepxion.discovery.console.rest.ConfigUpdateRestInvoker;
 import com.nepxion.discovery.console.rest.VersionClearRestInvoker;

@@ -12,8 +12,8 @@ package com.nepxion.discovery.console.extension.redis.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.nepxion.discovery.console.adapter.ConfigAdapter;
 import com.nepxion.discovery.console.extension.redis.adapter.RedisConfigAdapter;
-import com.nepxion.discovery.console.remote.ConfigAdapter;
 
 @Configuration
 public class RedisConfigAutoConfiguration {

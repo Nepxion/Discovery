@@ -12,8 +12,8 @@ package com.nepxion.discovery.console.extension.nacos.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.nepxion.discovery.console.adapter.ConfigAdapter;
 import com.nepxion.discovery.console.extension.nacos.adapter.NacosConfigAdapter;
-import com.nepxion.discovery.console.remote.ConfigAdapter;
 
 @Configuration
 public class NacosConfigAutoConfiguration {

@@ -12,7 +12,7 @@ package com.nepxion.discovery.console.extension.redis.adapter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.common.redis.operation.RedisOperation;
-import com.nepxion.discovery.console.remote.ConfigAdapter;
+import com.nepxion.discovery.console.adapter.ConfigAdapter;
 
 public class RedisConfigAdapter implements ConfigAdapter {
     @Autowired
