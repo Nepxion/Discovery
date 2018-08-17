@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.exception.DiscoveryException;
-import com.nepxion.discovery.plugin.configcenter.ConfigInitializer;
+import com.nepxion.discovery.plugin.configcenter.initializer.ConfigInitializer;
 import com.nepxion.discovery.plugin.configcenter.loader.LocalConfigLoader;
 import com.nepxion.discovery.plugin.configcenter.parser.json.JsonConfigParser;
 import com.nepxion.discovery.plugin.configcenter.parser.xml.XmlConfigParser;
