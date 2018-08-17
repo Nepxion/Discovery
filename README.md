@@ -44,8 +44,8 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
     - [Gateway端的编程灰度路由策略](#Gateway端的编程灰度路由策略)
   - [调用方式策略](#调用方式策略)
     - [REST调用的内置多版本灰度路由策略](#REST调用的内置多版本灰度路由策略)
-    - [REST调用的编程路由策略](#REST调用的编程路由策略)
-    - [RPC调用的编程路由策略](#RPC调用的编程路由策略)
+    - [REST调用的编程灰度路由策略](#REST调用的编程灰度路由策略)
+    - [RPC调用的编程灰度路由策略](#RPC调用的编程灰度路由策略)
 - [配置定义](#配置定义)	
   - [基础属性配置](#基础属性配置)
   - [功能开关配置](#功能开关配置)
@@ -510,9 +510,9 @@ XML示例（也可以通过Json来描述，这里不做描述，见discovery-spr
 ```xml
 {"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.1", "discovery-springcloud-example-c":"1.1;1.2"}
 ```
-#### REST调用的编程路由策略
+#### REST调用的编程灰度路由策略
 基于FEIGN REST调用的自定义路由，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
-#### RPC调用的编程路由策略
+#### RPC调用的编程灰度路由策略
 基于FEIGN RPC调用的自定义路由，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 ### 用户自定义监听
