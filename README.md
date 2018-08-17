@@ -422,22 +422,20 @@ XML示例（也可以通过Json来描述，这里不做描述，见discovery-spr
 </rule>
 ```
 
-### 过滤规则
-#### 黑/白名单的IP地址注册的过滤规则
+### 黑/白名单的IP地址注册的过滤规则
 微服务启动的时候，禁止指定的IP地址注册到服务注册发现中心。支持黑/白名单，白名单表示只允许指定IP地址前缀注册，黑名单表示不允许指定IP地址前缀注册。规则如何使用，见示例说明
 - 全局过滤，指注册到服务注册发现中心的所有微服务，只有IP地址包含在全局过滤字段的前缀中，都允许注册（对于白名单而言），或者不允许注册（对于黑名单而言）
 - 局部过滤，指专门针对某个微服务而言，那么真正的过滤条件是全局过滤+局部过滤结合在一起
 
-#### 最大注册数的限制的过滤规则
+### 最大注册数的限制的过滤规则
 微服务启动的时候，一旦微服务集群下注册的实例数目已经达到上限（可配置），将禁止后续的微服务进行注册。规则如何使用，见示例说明
 - 全局配置值，只下面配置所有的微服务集群，最多能注册多少个
 - 局部配置值，指专门针对某个微服务而言，那么该值如存在，全局配置值失效
 
-#### 黑/白名单的IP地址发现的过滤规则
+### 黑/白名单的IP地址发现的过滤规则
 微服务启动的时候，禁止指定的IP地址被服务发现。它使用的方式和“黑/白名单的IP地址注册的过滤规则”一致
 
-### 灰度规则
-#### 版本访问规则
+### 版本访问规则
 ```xml
 1. 标准配置，举例如下
    <service consumer-service-name="a" provider-service-name="b" consumer-version-value="1.0" provider-version-value="1.0,1.1"/> 表示消费端1.0版本，允许访问提供端1.0和1.1版本
@@ -456,14 +454,14 @@ XML示例（也可以通过Json来描述，这里不做描述，见discovery-spr
 2. 提供端的application.properties未定义版本号，当消费端在xml里不做任何版本配置，才可以访问该提供端
 ```
 
-#### 版本权重规则
+### 版本权重规则
 ```xml
 1. 标准配置，举例如下
    <service consumer-service-name="a" provider-service-name="b" provider-weight-value="1.0=90;1.1=10"/> 表示消费端访问提供端的时候，提供端的1.0版本提供90%的权重流量，1.1版本提供10%的权重流量
 2. 尽量为线上所有版本都赋予权重值
 ```
 
-#### 用户自定义规则
+### 用户自定义规则
 通过订阅业务参数的变化，实现特色化的灰度发布，例如，多数据源的数据库切换的灰度发布
 ```xml
 1. 标准配置，举例如下
@@ -496,23 +494,25 @@ XML示例（也可以通过Json来描述，这里不做描述，见discovery-spr
 
 ## 策略定义
 用户自定义和编程灰度路由策略。使用者可以实现跟业务有关的路由策略，根据业务参数的不同，负载均衡到不同的服务器
-### 端到端策略
-#### 服务端的编程灰度路由策略
+### 服务端的编程灰度路由策略
 基于服务端的编程灰度路由，实现DiscoveryEnabledExtension，通过RequestContextHolder（获取来自网关的Header参数）和ServiceStrategyContext（获取来自RPC方式的方法参数）获取业务上下文参数，进行路由自定义
-#### Zuul端的编程灰度路由策略
+
+### Zuul端的编程灰度路由策略
 基于Zuul端的编程灰度路由，实现DiscoveryEnabledExtension，通过Zuul自带的RequestContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义
-#### Gateway端的编程灰度路由策略
+
+### Gateway端的编程灰度路由策略
 基于Spring Cloud Api Gateway端的编程灰度路由，实现DiscoveryEnabledExtension，通过GatewayStrategyContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义
 
-### 调用方式策略
-#### REST调用的内置多版本灰度路由策略
+### REST调用的内置多版本灰度路由策略
 基于FEIGN REST调用的多版本灰度路由，在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只有a服务的1.0版本，b服务的1.1版本，c服务的1.1或1.2版本，允许被调用到
 ```xml
 {"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.1", "discovery-springcloud-example-c":"1.1;1.2"}
 ```
-#### REST调用的编程灰度路由策略
+
+### REST调用的编程灰度路由策略
 基于FEIGN REST调用的自定义路由，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
-#### RPC调用的编程灰度路由策略
+
+### RPC调用的编程灰度路由策略
 基于FEIGN RPC调用的自定义路由，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 ## 配置定义
