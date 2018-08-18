@@ -232,8 +232,8 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 ### 版本
 | Spring Cloud版本 | Nepxion Discovery版本 |
 | --- | --- |
-| Finchley | 4.3.12 |
-| Edgware | 3.6.12 |
+| Finchley | 4.3.13 |
+| Edgware | 3.6.13 |
 
 ### 依赖
 ```xml
