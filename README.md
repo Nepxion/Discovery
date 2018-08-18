@@ -21,10 +21,13 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 - [应用场景](#应用场景)
 - [功能简介](#功能简介)
 - [名词解释](#名词解释)
-- [架构](#架构)
-- [兼容](#兼容)
-- [依赖](#依赖)
-- [工程](#工程)
+- [架构工程](#架构工程)
+  - [架构](#架构)
+  - [工程](#工程)
+- [依赖兼容](#依赖兼容)
+  - [版本](#版本)
+  - [依赖](#依赖)
+  - [兼容](#兼容)
 - [规则定义](#规则定义)
   - [规则示例](#规则示例)
   - [黑/白名单的IP地址注册的过滤规则](#黑/白名单的IP地址注册的过滤规则)
@@ -154,7 +157,8 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 - 配置（Config）和规则（Rule），在本系统中属于同一个概念，例如更新配置，即更新规则，例如远程配置中心存储的配置，即规则XML
 - 服务端口和管理端口，即服务端口指在配置文件的server.port值，管理端口指management.port（E版）值或者management.server.port（F版）值
 
-## 架构
+## 架构工程
+### 架构
 全局架构图
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Architecture.jpg)
@@ -191,33 +195,47 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Module.jpg)
 
-## 兼容
-版本兼容情况
-- Spring Cloud F版，请采用4.x.x版本，具体代码参考master分支
-- Spring Cloud E版，请采用3.x.x版本，具体代码参考Edgware分支
-- 4.x.x版本和3.x.x版本功能完全一致，但在Endpoint的URL使用方式上稍微有个小的区别。例如
-  - 3.x.x的Endpoint URL为[http://localhost:5100/config/view](http://localhost:5100/config/view)
-  - 4.x.x的Endpoint URL为[http://localhost:5100/actuator/config/config/view](http://localhost:5100/actuator/config/config/view)，注意，路径中config为两个，前面那个是Endpoint Id，Spring Boot 2.x.x规定Endpoint Id必须指定，且全局唯一
+### 工程
 
-中间件兼容情况
-- Consul
-  - Consul服务器版本不限制，推荐用最新版本，从[https://releases.hashicorp.com/consul/](https://releases.hashicorp.com/consul/)获取
-- Zookeeper
-  - Spring Cloud F版，必须采用Zookeeper服务器的3.5.x服务器版本（或者更高），从[http://zookeeper.apache.org/releases.html#download](http://zookeeper.apache.org/releases.html#download)获取
-  - Spring Cloud E版，Zookeeper服务器版本不限制
-- Eureka
-  - 跟Spring Cloud版本保持一致，自行搭建服务器
-- Nacos
-  - Nacos服务器版本，推荐用最新版本，从[https://pan.baidu.com/s/1FsPzIK8lQ8VSNucI57H67A](https://pan.baidu.com/s/1FsPzIK8lQ8VSNucI57H67A)获取
-- Redis
-  - Redis服务器版本，推荐用最新版本，从[https://redis.io/](https://redis.io/)获取
+| 工程名 | 描述 |
+| --- | --- | 
+| discovery-common-nacos | 封装Nacos通用操作逻辑 |
+| discovery-common-redis | 封装Redis通用操作逻辑 |
+| discovery-plugin-framework | 核心框架 |
+| discovery-plugin-framework-eureka | 核心框架服务注册发现的Eureka实现 |
+| discovery-plugin-framework-consul | 核心框架服务注册发现的Consul实现 |
+| discovery-plugin-framework-zookeeper | 核心框架服务注册发现的Zookeeper实现 |
+| discovery-plugin-config-center | 配置中心实现 |
+| discovery-plugin-config-center-extension-nacos | 配置中心的Nacos扩展 |
+| discovery-plugin-config-center-extension-redis | 配置中心的Redis扩展 |
+| discovery-plugin-admin-center | 管理中心实现 |
+| discovery-plugin-starter-eureka | Eureka Starter |
+| discovery-plugin-starter-consul | Consul Starter |
+| discovery-plugin-starter-zookeeper | Zookeeper Starter |
+| discovery-plugin-strategy | 用户自定义和编程灰度路由策略 |
+| discovery-plugin-strategy-extension-service | 基于服务的用户自定义和编程灰度路由策略扩展 |
+| discovery-plugin-strategy-extension-zuul | 基于Zuul的用户自定义和编程灰度路由策略扩展 |
+| discovery-plugin-strategy-extension-gateway | 基于Spring Cloud Api Gateway（F版）的用户自定义和编程灰度路由策略扩展 |
+| discovery-console | 控制平台，提供给UI |
+| discovery-console-extension-nacos | 控制平台的Nacos扩展 |
+| discovery-console-extension-redis | 控制平台的Redis扩展 |
+| discovery-console-starter | Console Starter |
+| discovery-console-desktop | 图形化灰度发布等桌面程序 |
+| discovery-springcloud-example-admin | Spring Boot Admin服务台示例 |
+| discovery-springcloud-example-console | 控制平台示例 |
+| discovery-springcloud-example-eureka | Eureka服务器示例 |
+| discovery-springcloud-example-service | 用于灰度发布的微服务示例 |
+| discovery-springcloud-example-zuul | 用于灰度发布的Zuul示例 |
+| discovery-springcloud-example-gateway | 用于灰度发布的Spring Cloud Api Gateway（F版）示例 |
 
-## 依赖
+## 依赖兼容
+### 版本
 | Spring Cloud版本 | Nepxion Discovery版本 |
 | --- | --- |
-| Finchley | 4.3.11 |
-| Edgware | 3.6.11 |
+| Finchley | 4.3.12 |
+| Edgware | 3.6.12 |
 
+### 依赖
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -308,38 +326,26 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 - 例如，网关用Eureka做服务注册发现，微服务用Consul做服务注册发现
 - 例如，控制平台用Nacos做远程配置中心，微服务用Redis做远程配置中心
 
-## 工程
+### 兼容
+版本兼容情况
+- Spring Cloud F版，请采用4.x.x版本，具体代码参考master分支
+- Spring Cloud E版，请采用3.x.x版本，具体代码参考Edgware分支
+- 4.x.x版本和3.x.x版本功能完全一致，但在Endpoint的URL使用方式上稍微有个小的区别。例如
+  - 3.x.x的Endpoint URL为[http://localhost:5100/config/view](http://localhost:5100/config/view)
+  - 4.x.x的Endpoint URL为[http://localhost:5100/actuator/config/config/view](http://localhost:5100/actuator/config/config/view)，注意，路径中config为两个，前面那个是Endpoint Id，Spring Boot 2.x.x规定Endpoint Id必须指定，且全局唯一
 
-| 工程名 | 描述 |
-| --- | --- | 
-| discovery-common-nacos | 封装Nacos通用操作逻辑 |
-| discovery-common-redis | 封装Redis通用操作逻辑 |
-| discovery-plugin-framework | 核心框架 |
-| discovery-plugin-framework-eureka | 核心框架服务注册发现的Eureka实现 |
-| discovery-plugin-framework-consul | 核心框架服务注册发现的Consul实现 |
-| discovery-plugin-framework-zookeeper | 核心框架服务注册发现的Zookeeper实现 |
-| discovery-plugin-config-center | 配置中心实现 |
-| discovery-plugin-config-center-extension-nacos | 配置中心的Nacos扩展 |
-| discovery-plugin-config-center-extension-redis | 配置中心的Redis扩展 |
-| discovery-plugin-admin-center | 管理中心实现 |
-| discovery-plugin-starter-eureka | Eureka Starter |
-| discovery-plugin-starter-consul | Consul Starter |
-| discovery-plugin-starter-zookeeper | Zookeeper Starter |
-| discovery-plugin-strategy | 用户自定义和编程灰度路由策略 |
-| discovery-plugin-strategy-extension-service | 基于服务的用户自定义和编程灰度路由策略扩展 |
-| discovery-plugin-strategy-extension-zuul | 基于Zuul的用户自定义和编程灰度路由策略扩展 |
-| discovery-plugin-strategy-extension-gateway | 基于Spring Cloud Api Gateway（F版）的用户自定义和编程灰度路由策略扩展 |
-| discovery-console | 控制平台，提供给UI |
-| discovery-console-extension-nacos | 控制平台的Nacos扩展 |
-| discovery-console-extension-redis | 控制平台的Redis扩展 |
-| discovery-console-starter | Console Starter |
-| discovery-console-desktop | 图形化灰度发布等桌面程序 |
-| discovery-springcloud-example-admin | Spring Boot Admin服务台示例 |
-| discovery-springcloud-example-console | 控制平台示例 |
-| discovery-springcloud-example-eureka | Eureka服务器示例 |
-| discovery-springcloud-example-service | 用于灰度发布的微服务示例 |
-| discovery-springcloud-example-zuul | 用于灰度发布的Zuul示例 |
-| discovery-springcloud-example-gateway | 用于灰度发布的Spring Cloud Api Gateway（F版）示例 |
+中间件兼容情况
+- Consul
+  - Consul服务器版本不限制，推荐用最新版本，从[https://releases.hashicorp.com/consul/](https://releases.hashicorp.com/consul/)获取
+- Zookeeper
+  - Spring Cloud F版，必须采用Zookeeper服务器的3.5.x服务器版本（或者更高），从[http://zookeeper.apache.org/releases.html#download](http://zookeeper.apache.org/releases.html#download)获取
+  - Spring Cloud E版，Zookeeper服务器版本不限制
+- Eureka
+  - 跟Spring Cloud版本保持一致，自行搭建服务器
+- Nacos
+  - Nacos服务器版本，推荐用最新版本，从[https://pan.baidu.com/s/1FsPzIK8lQ8VSNucI57H67A](https://pan.baidu.com/s/1FsPzIK8lQ8VSNucI57H67A)获取
+- Redis
+  - Redis服务器版本，推荐用最新版本，从[https://redis.io/](https://redis.io/)获取
 
 ## 规则定义
 ### 规则示例
