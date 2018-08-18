@@ -16,6 +16,8 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
+
 public class ConsoleErrorHandler extends DefaultResponseErrorHandler {
     private String cause;
 
@@ -23,7 +25,7 @@ public class ConsoleErrorHandler extends DefaultResponseErrorHandler {
     public void handleError(ClientHttpResponse response) throws IOException {
         // 这里绝对不能关闭InputStream
         InputStream inputStream = response.getBody();
-        cause = IOUtils.toString(inputStream, "UTF-8");
+        cause = IOUtils.toString(inputStream, DiscoveryConstant.ENCODING_UTF_8);
     }
 
     public String getCause() {

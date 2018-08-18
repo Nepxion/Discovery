@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
-import com.nepxion.discovery.plugin.configcenter.parser.json.jackson.JacksonSerializer;
+import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.plugin.framework.config.PluginConfigParser;
 
 public class JsonConfigParser implements PluginConfigParser {
@@ -28,7 +28,7 @@ public class JsonConfigParser implements PluginConfigParser {
         }
 
         try {
-            RuleEntity ruleEntity = JacksonSerializer.fromJson(config, RuleEntity.class);
+            RuleEntity ruleEntity = JsonUtil.fromJson(config, RuleEntity.class);
             ruleEntity.setContent(config);
 
             LOG.info("Rule entity=\n{}", ruleEntity);
