@@ -39,6 +39,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.CustomizationEntity;
 import com.nepxion.discovery.common.entity.DiscoveryEntity;
 import com.nepxion.discovery.common.entity.RouterEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
@@ -157,6 +158,7 @@ public class RouterEndpoint implements MvcEndpoint {
             String host = instance.getHost();
             int port = instance.getPort();
             int weight = getWeight(routeServiceId, version);
+            Map<String, String> customMap = getCustomMap(serviceId);
             String contextPath = metadata.get(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH);
 
             RouterEntity routerEntity = new RouterEntity();
@@ -165,6 +167,7 @@ public class RouterEndpoint implements MvcEndpoint {
             routerEntity.setHost(host);
             routerEntity.setPort(port);
             routerEntity.setWeight(weight);
+            routerEntity.setCustomMap(customMap);
             routerEntity.setContextPath(contextPath);
 
             routerEntityList.add(routerEntity);
@@ -299,6 +302,25 @@ public class RouterEndpoint implements MvcEndpoint {
         }
 
         return -1;
+    }
+
+    private Map<String, String> getCustomMap(String serviceId) {
+        RuleEntity ruleEntity = pluginAdapter.getRule();
+        if (ruleEntity == null) {
+            return null;
+        }
+
+        CustomizationEntity customizationEntity = ruleEntity.getCustomizationEntity();
+        if (customizationEntity == null) {
+            return null;
+        }
+
+        Map<String, Map<String, String>> customizationMap = customizationEntity.getCustomizationMap();
+        if (MapUtils.isEmpty(customizationMap)) {
+            return null;
+        }
+
+        return customizationMap.get(serviceId);
     }
 
     @Override
