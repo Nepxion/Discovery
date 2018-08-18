@@ -420,7 +420,10 @@ XML示例（也可以通过Json来描述，这里不做描述，见discovery-spr
 
     <!-- 客户定制化控制，由远程推送客户化参数的改变，实现一些特色化的灰度发布，例如，基于数据库的灰度发布 -->
     <customization>
-        <service service-name="discovery-springcloud-example-b" key="database" value="prod"/>
+        <!-- 服务a和c分别有两个库的配置，分别是测试数据库（database的value为qa）和生产数据库（database的value为prod） -->
+        <!-- 上线后，一开始数据库指向测试数据库，对应value为qa，然后灰度发布的时候，改对应value为prod，即实现数据库的灰度发布 -->
+        <service service-name="discovery-springcloud-example-a" key="database" value="qa"/>
+        <service service-name="discovery-springcloud-example-c" key="database" value="prod"/>
     </customization>
 </rule>
 ```
@@ -468,10 +471,10 @@ XML示例（也可以通过Json来描述，这里不做描述，见discovery-spr
 通过订阅业务参数的变化，实现特色化的灰度发布，例如，多数据源的数据库切换的灰度发布
 ```xml
 1. 标准配置，举例如下
-   <service service-name="discovery-springcloud-example-b" key="database" value="prod"/>
+   <service service-name="discovery-springcloud-example-a" key="database" value="prod"/>
 2. 上述示例，是基于多数据源的数据库切换的灰度发布
-   服务b有两个库的配置，分别是临时数据库（database的value为temp）和生产数据库（database的value为prod）
-   上线后，一开始数据库指向临时数据库，对应value为temp，然后灰度发布的时候，改对应value为prod，即实现数据库的灰度发布
+   服务a有两个库的配置，分别是测试数据库（database的value为qa）和生产数据库（database的value为prod）
+   上线后，一开始数据库指向测试数据库，对应value为qa，然后灰度发布的时候，改对应value为prod，即实现数据库的灰度发布
 ```
 
 ### 动态改变规则
