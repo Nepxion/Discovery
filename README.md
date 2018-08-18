@@ -617,9 +617,9 @@ spring.application.strategy.feign.headers=version;token
 ## 监控平台
 基于Spring Boot Actuator技术的Spring Boot Admin监控平台
 
-请参考[https://github.com/codecentric/spring-boot-admin](https://github.com/codecentric/spring-boot-admin)
+参考[https://github.com/codecentric/spring-boot-admin](https://github.com/codecentric/spring-boot-admin)
 
 ## 图形化灰度发布桌面程序
 基于Java Desktop技术的图形化灰度发布工具
 
-见discovery-console-desktop工程，启动入口ConsoleLauncher.java
+参考discovery-console-desktop工程，启动入口ConsoleLauncher.java
