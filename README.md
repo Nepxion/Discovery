@@ -56,9 +56,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 - [图形化灰度发布桌面程序](#图形化灰度发布桌面程序)
 
 ## 请联系我
-- 请加微信群或者微信
-
-![Alt text](https://github.com/Nepxion/Docs/blob/master/zxing-doc/微信群-1.jpg) ![Alt text](https://github.com/Nepxion/Docs/blob/master/zxing-doc/微信-1.jpg)
+![Alt text](https://github.com/Nepxion/Docs/blob/master/zxing-doc/微信-1.jpg)
 
 ## 快速开始
 - [入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_QUICK_START.md)
