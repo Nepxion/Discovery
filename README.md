@@ -567,7 +567,7 @@ management.server.port=5100
 # spring.application.group.key=group
 # spring.application.group.key=application
 # 内置Rest调用路径的前缀，当配置了server.context-path或者server.servlet.context-path时候，需要同步配置下面的值，务必保持一致
-# spring.application.context-path=${server.servlet.context-path}
+# spring.application.context-path=${server.context-path}
 
 # Plugin strategy config
 # 开启和关闭用户自定义和编程灰度路由策略的控制，例如用户根据业务参数的不同，负载均衡到不同的服务器。缺失则默认为true
