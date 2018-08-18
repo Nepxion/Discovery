@@ -19,6 +19,7 @@ import java.awt.event.HierarchyEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
@@ -29,6 +30,7 @@ import javax.swing.JSlider;
 import javax.swing.JToolBar;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.nepxion.cots.twaver.element.TElementManager;
@@ -201,6 +203,13 @@ public class RouterTopology extends AbstractTopology {
 
         if (StringUtils.isNotEmpty(routerEntity.getVersion())) {
             stringBuilder.append("\n [V").append(routerEntity.getVersion()).append("]");
+        }
+
+        Map<String, String> customMap = routerEntity.getCustomMap();
+        if (MapUtils.isNotEmpty(customMap)) {
+            for (Map.Entry<String, String> entry : customMap.entrySet()) {
+                stringBuilder.append("\n ").append(entry.getKey()).append("=").append(entry.getValue());
+            }
         }
 
         return ButtonManager.getHtmlText(stringBuilder.toString());

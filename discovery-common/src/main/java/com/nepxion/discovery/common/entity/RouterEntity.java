@@ -12,6 +12,7 @@ package com.nepxion.discovery.common.entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -26,6 +27,7 @@ public class RouterEntity implements Serializable {
     private String host;
     private int port;
     private int weight = -1;
+    private Map<String, String> customMap;
     private String contextPath;
 
     private List<RouterEntity> nexts = new ArrayList<RouterEntity>();
@@ -68,6 +70,14 @@ public class RouterEntity implements Serializable {
 
     public void setWeight(int weight) {
         this.weight = weight;
+    }
+
+    public Map<String, String> getCustomMap() {
+        return customMap;
+    }
+
+    public void setCustomMap(Map<String, String> customMap) {
+        this.customMap = customMap;
     }
 
     public String getContextPath() {
