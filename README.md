@@ -107,7 +107,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
   - 在业务RPC调用上，根据不同的业务参数，例如手机号或者身份证号，后端若干个服务会把请求路由到指定的服务器
 
 ## 功能简介
-- 实现对基于Spring Cloud的微服务和Spring Cloud Api Gateway（F版）和Zuul网关的支持
+- 基于Spring Cloud的微服务和Spring Cloud Api Gateway（F版）和Zuul网关实现下述功能，它具有几个特性
   - 具有极大的灵活性 - 支持在任何环节（微服务和两个网关），多种方式（REST和RPC）做过滤控制和灰度发布
   - 具有极小的限制性 - 只要开启了服务注册发现，程序入口加了@EnableDiscoveryClient注解
   - 具有极强的健壮性 - 当远程配置中心全部挂了，可以通过Rest方式进行灰度发布；当远程规则配置不规范，马上切换到本地规则来代替
