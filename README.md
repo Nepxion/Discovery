@@ -215,7 +215,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 | discovery-plugin-strategy-extension-service | 基于服务的用户自定义和编程灰度路由策略扩展 |
 | discovery-plugin-strategy-extension-zuul | 基于Zuul的用户自定义和编程灰度路由策略扩展 |
 | discovery-plugin-strategy-extension-gateway | 基于Spring Cloud Api Gateway（F版）的用户自定义和编程灰度路由策略扩展 |
-| discovery-console | 控制平台，提供给UI |
+| discovery-console | 控制平台，集成接口给UI |
 | discovery-console-extension-nacos | 控制平台的Nacos扩展 |
 | discovery-console-extension-redis | 控制平台的Redis扩展 |
 | discovery-console-starter | Console Starter |
