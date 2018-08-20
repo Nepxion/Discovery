@@ -27,8 +27,10 @@ import com.nepxion.discovery.plugin.framework.listener.loadbalance.VersionFilter
 import com.nepxion.discovery.plugin.framework.listener.register.CountFilterRegisterListener;
 import com.nepxion.discovery.plugin.framework.listener.register.HostFilterRegisterListener;
 import com.nepxion.discovery.plugin.framework.listener.register.RegisterListenerExecutor;
+import com.nepxion.eventbus.annotation.EnableEventBus;
 
 @Configuration
+@EnableEventBus
 public class PluginAutoConfiguration {
     @Bean
     public PluginContextAware pluginContextAware() {
