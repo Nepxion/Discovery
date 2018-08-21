@@ -19,12 +19,12 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledAdapter;
-import com.nepxion.discovery.plugin.strategy.extension.DiscoveryEnabledExtension;
+import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledStrategy;
 import com.netflix.loadbalancer.Server;
 
 public class VersionDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     @Autowired(required = false)
-    private DiscoveryEnabledExtension discoveryEnabledExtension;
+    private DiscoveryEnabledStrategy discoveryEnabledStrategy;
 
     @Override
     public boolean apply(Server server, Map<String, String> metadata) {
@@ -68,10 +68,10 @@ public class VersionDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     }
 
     private boolean applyExtension(Server server, Map<String, String> metadata) {
-        if (discoveryEnabledExtension == null) {
+        if (discoveryEnabledStrategy == null) {
             return true;
         }
 
-        return discoveryEnabledExtension.apply(server, metadata);
+        return discoveryEnabledStrategy.apply(server, metadata);
     }
 }

@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.extension;
+package com.nepxion.discovery.plugin.strategy.adapter;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -13,6 +13,6 @@ import java.util.Map;
 
 import com.netflix.loadbalancer.Server;
 
-public interface DiscoveryEnabledExtension {
+public interface DiscoveryEnabledStrategy {
     boolean apply(Server server, Map<String, String> metadata);
 }

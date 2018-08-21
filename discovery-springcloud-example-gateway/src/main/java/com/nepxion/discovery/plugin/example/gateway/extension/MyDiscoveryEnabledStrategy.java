@@ -15,13 +15,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.nepxion.discovery.plugin.strategy.extension.DiscoveryEnabledExtension;
+import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledStrategy;
 import com.nepxion.discovery.plugin.strategy.extension.gateway.context.GatewayStrategyContext;
 import com.netflix.loadbalancer.Server;
 
 // 实现了组合策略，版本路由策略+自定义策略
-public class MyDiscoveryEnabledExtension implements DiscoveryEnabledExtension {
-    private static final Logger LOG = LoggerFactory.getLogger(MyDiscoveryEnabledExtension.class);
+public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
+    private static final Logger LOG = LoggerFactory.getLogger(MyDiscoveryEnabledStrategy.class);
 
     @Override
     public boolean apply(Server server, Map<String, String> metadata) {
