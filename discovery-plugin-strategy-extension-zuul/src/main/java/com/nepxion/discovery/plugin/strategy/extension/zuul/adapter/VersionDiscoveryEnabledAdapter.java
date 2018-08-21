@@ -9,8 +9,6 @@ package com.nepxion.discovery.plugin.strategy.extension.zuul.adapter;
  * @version 1.0
  */
 
-import javax.servlet.http.HttpServletRequest;
-
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.strategy.adapter.AbstractVersionDiscoveryEnabledAdapter;
 import com.netflix.zuul.context.RequestContext;
@@ -18,17 +16,8 @@ import com.netflix.zuul.context.RequestContext;
 public class VersionDiscoveryEnabledAdapter extends AbstractVersionDiscoveryEnabledAdapter {
     @Override
     protected String getVersionJson() {
-        HttpServletRequest request = getRequest();
-        if (request == null) {
-            return null;
-        }
-
-        return request.getHeader(DiscoveryConstant.VERSION);
-    }
-
-    public HttpServletRequest getRequest() {
         RequestContext context = RequestContext.getCurrentContext();
 
-        return context.getRequest();
+        return context.getRequest().getHeader(DiscoveryConstant.VERSION);
     }
 }
