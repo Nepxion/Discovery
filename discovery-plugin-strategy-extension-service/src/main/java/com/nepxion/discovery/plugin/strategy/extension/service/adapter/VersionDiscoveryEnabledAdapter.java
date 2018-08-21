@@ -9,8 +9,6 @@ package com.nepxion.discovery.plugin.strategy.extension.service.adapter;
  * @version 1.0
  */
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -20,20 +18,11 @@ import com.nepxion.discovery.plugin.strategy.adapter.AbstractVersionDiscoveryEna
 public class VersionDiscoveryEnabledAdapter extends AbstractVersionDiscoveryEnabledAdapter {
     @Override
     protected String getVersionJson() {
-        HttpServletRequest request = getRequest();
-        if (request == null) {
-            return null;
-        }
-
-        return request.getHeader(DiscoveryConstant.VERSION);
-    }
-
-    public HttpServletRequest getRequest() {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (attributes == null) {
             return null;
         }
 
-        return attributes.getRequest();
+        return attributes.getRequest().getHeader(DiscoveryConstant.VERSION);
     }
 }
