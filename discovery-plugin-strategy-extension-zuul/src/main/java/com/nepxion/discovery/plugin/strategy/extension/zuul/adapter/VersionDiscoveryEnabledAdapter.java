@@ -9,64 +9,26 @@ package com.nepxion.discovery.plugin.strategy.extension.zuul.adapter;
  * @version 1.0
  */
 
-import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.servlet.http.HttpServletRequest;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.common.util.JsonUtil;
-import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledAdapter;
-import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledStrategy;
-import com.netflix.loadbalancer.Server;
+import com.nepxion.discovery.plugin.strategy.adapter.AbstractVersionDiscoveryEnabledAdapter;
 import com.netflix.zuul.context.RequestContext;
 
-public class VersionDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
-    @Autowired(required = false)
-    private DiscoveryEnabledStrategy discoveryEnabledStrategy;
-
+public class VersionDiscoveryEnabledAdapter extends AbstractVersionDiscoveryEnabledAdapter {
     @Override
-    public boolean apply(Server server, Map<String, String> metadata) {
-        boolean enabled = applyVersion(server, metadata);
-        if (!enabled) {
-            return false;
+    protected String getVersionJson() {
+        HttpServletRequest request = getRequest();
+        if (request == null) {
+            return null;
         }
 
-        return applyStrategy(server, metadata);
+        return request.getHeader(DiscoveryConstant.VERSION);
     }
 
-    @SuppressWarnings("unchecked")
-    private boolean applyVersion(Server server, Map<String, String> metadata) {
+    public HttpServletRequest getRequest() {
         RequestContext context = RequestContext.getCurrentContext();
-        String versionJson = context.getRequest().getHeader(DiscoveryConstant.VERSION);
-        if (StringUtils.isEmpty(versionJson)) {
-            return true;
-        }
 
-        String serviceId = server.getMetaInfo().getAppName().toLowerCase();
-        String version = metadata.get(DiscoveryConstant.VERSION);
-        if (StringUtils.isEmpty(version)) {
-            return true;
-        }
-
-        Map<String, String> versionMap = JsonUtil.fromJson(versionJson, Map.class);
-        String versions = versionMap.get(serviceId);
-        if (versions == null) {
-            return true;
-        }
-
-        if (versions.contains(version)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    private boolean applyStrategy(Server server, Map<String, String> metadata) {
-        if (discoveryEnabledStrategy == null) {
-            return true;
-        }
-
-        return discoveryEnabledStrategy.apply(server, metadata);
+        return context.getRequest();
     }
 }
