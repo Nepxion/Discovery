@@ -32,7 +32,7 @@ public class VersionDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
             return false;
         }
 
-        return applyExtension(server, metadata);
+        return applyStrategy(server, metadata);
     }
 
     @SuppressWarnings("unchecked")
@@ -62,7 +62,7 @@ public class VersionDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         return false;
     }
 
-    private boolean applyExtension(Server server, Map<String, String> metadata) {
+    private boolean applyStrategy(Server server, Map<String, String> metadata) {
         if (discoveryEnabledStrategy == null) {
             return true;
         }
