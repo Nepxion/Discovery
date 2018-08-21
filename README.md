@@ -13,6 +13,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
   - 通过远程配置中心推送规则
   - 通过控制平台界面推送规则
   - 通过客户端工具（例如Postman）推送
+- 涉及的功能很广泛，但使用非常简单。对于核心功能或者扩展功能（需要引入相关的扩展包），只需要修改简单的配置或者规则，功能将自然启动或者关闭
 
 ## 目录
 - [请联系我](#请联系我)
@@ -231,8 +232,8 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 ### 版本
 | Spring Cloud版本 | Nepxion Discovery版本 |
 | --- | --- |
-| Finchley | 4.3.15 |
-| Edgware | 3.6.15 |
+| Finchley | 4.3.16 |
+| Edgware | 3.6.16 |
 
 ### 依赖
 ```xml
@@ -500,13 +501,13 @@ XML示例（也可以通过Json来描述，这里不做描述，见discovery-spr
 ## 策略定义
 用户自定义和编程灰度路由策略。使用者可以实现跟业务有关的路由策略，根据业务参数的不同，负载均衡到不同的服务器
 ### 服务端的编程灰度路由策略
-基于服务端的编程灰度路由，实现DiscoveryEnabledExtension，通过RequestContextHolder（获取来自网关的Header参数）和ServiceStrategyContext（获取来自RPC方式的方法参数）获取业务上下文参数，进行路由自定义，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+基于服务端的编程灰度路由，实现DiscoveryEnabledStrategy，通过RequestContextHolder（获取来自网关的Header参数）和ServiceStrategyContext（获取来自RPC方式的方法参数）获取业务上下文参数，进行路由自定义，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 ### Zuul端的编程灰度路由策略
-基于Zuul端的编程灰度路由，实现DiscoveryEnabledExtension，通过Zuul自带的RequestContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+基于Zuul端的编程灰度路由，实现DiscoveryEnabledStrategy，通过Zuul自带的RequestContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 ### Gateway端的编程灰度路由策略
-基于Spring Cloud Api Gateway端的编程灰度路由，实现DiscoveryEnabledExtension，通过GatewayStrategyContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+基于Spring Cloud Api Gateway端的编程灰度路由，实现DiscoveryEnabledStrategy，通过GatewayStrategyContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 ### REST调用的内置多版本灰度路由策略
 基于FEIGN REST调用的多版本灰度路由，在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只有a服务的1.0版本，b服务的1.1版本，c服务的1.1或1.2版本，允许被调用到
