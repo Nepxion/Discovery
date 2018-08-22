@@ -327,7 +327,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 - 例如，网关用Eureka做服务注册发现，微服务用Consul做服务注册发现
 - 例如，控制平台用Nacos做远程配置中心，微服务用Redis做远程配置中心
 
->如果只想要“用户自定义和编程灰度路由”功能，而不想要灰度发布功能
+如果只想要“用户自定义和编程灰度路由”功能，而不想要灰度发布功能
 去除远程配置中心包的引入
 ```xml
 <dependency>
@@ -337,7 +337,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 </dependency>
 ```
 
-下面两项配置置为false
+下面两项配置改为false
 ```xml
 # 开启和关闭服务注册层面的控制。一旦关闭，服务注册的黑/白名单过滤功能将失效，最大注册数的限制过滤功能将失效。缺失则默认为true
 spring.application.register.control.enabled=false
