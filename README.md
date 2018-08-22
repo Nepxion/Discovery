@@ -631,7 +631,7 @@ spring.application.strategy.feign.headers=version;token
 | 应用 | 耗时 | 内存 |
 | --- | --- | --- |
 | 空的Spring Cloud启动 | 9秒 | 400M |
-| 带有Discovery Plugin的Spring Cloud启动 | 13秒 | 480m |
+| 带有Discovery Plugin的Spring Cloud启动 | 13秒 | 480M |
 
 | 启动项 | 耗时 |
 | --- | --- |
