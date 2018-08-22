@@ -55,6 +55,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 - [控制平台](#控制平台)
 - [监控平台](#监控平台)
 - [图形化灰度发布桌面程序](#图形化灰度发布桌面程序)
+- [性能分析](#性能分析)
 
 ## 请联系我
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/zxing-doc/微信-1.jpg)
@@ -325,6 +326,24 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 >特别注意：中间件的引入一定要在所有层面保持一致，绝不允许出现类似如下情况，这也是常识
 - 例如，网关用Eureka做服务注册发现，微服务用Consul做服务注册发现
 - 例如，控制平台用Nacos做远程配置中心，微服务用Redis做远程配置中心
+
+如果只想要“用户自定义和编程灰度路由”功能，而不想要灰度发布功能
+去除远程配置中心包的引入
+```xml
+<dependency>
+    <groupId>com.nepxion</groupId>
+    <!-- <artifactId>discovery-plugin-config-center-extension-nacos</artifactId> -->
+    <artifactId>discovery-plugin-config-center-extension-redis</artifactId>
+</dependency>
+```
+
+下面两项配置改为false
+```xml
+# 开启和关闭服务注册层面的控制。一旦关闭，服务注册的黑/白名单过滤功能将失效，最大注册数的限制过滤功能将失效。缺失则默认为true
+spring.application.register.control.enabled=false
+# 开启和关闭服务发现层面的控制。一旦关闭，服务多版本调用的控制功能将失效，动态屏蔽指定IP地址的服务实例被发现的功能将失效。缺失则默认为true
+spring.application.discovery.control.enabled=false
+```
 
 ### 兼容
 版本兼容情况
@@ -623,3 +642,22 @@ spring.application.strategy.feign.headers=version;token
 基于Java Desktop技术的图形化灰度发布工具
 
 参考discovery-console-desktop工程，启动入口ConsoleLauncher.java
+
+## 性能分析
+在我的电脑上，做了如下性能测试：
+
+| 应用 | 耗时 | 内存 |
+| --- | --- | --- |
+| 空的Spring Cloud启动 | 9秒 | 400M |
+| 带有Discovery Plugin的Spring Cloud启动 | 13秒 | 480M |
+
+| 启动项 | 耗时 |
+| --- | --- |
+| Spring Boot预热启动 | 2秒 |
+| Discovery Plugin预热启动 | 2秒 |
+| Spring上下文扫描加载 | 2秒 |
+| RestController和Swagger扫描加载 | 1秒 |
+| determine local hostname | 1.5秒 |
+| 连本地配置中心，并打印本地规则和远程规则 | 1.5秒 |
+| Actuator Endpoint扫描加载 | 1秒 |
+| 连本地服务注册中心，并启动结束 | 2秒 |
