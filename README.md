@@ -569,7 +569,7 @@ management.server.port=5100
 ### 功能开关配置
 请注意，如下很多配置项，如果使用者不想做特色化的处理，为避免繁琐，可以零配置（除了最底下，但一般也不会被用到）
 ```xml
-# Plugin config
+# Plugin core config
 # 开启和关闭服务注册层面的控制。一旦关闭，服务注册的黑/白名单过滤功能将失效，最大注册数的限制过滤功能将失效。缺失则默认为true
 # spring.application.register.control.enabled=true
 # 开启和关闭服务发现层面的控制。一旦关闭，服务多版本调用的控制功能将失效，动态屏蔽指定IP地址的服务实例被发现的功能将失效。缺失则默认为true
@@ -586,16 +586,16 @@ management.server.port=5100
 # spring.application.group.key=group
 # spring.application.group.key=application
 # 内置Rest调用路径的前缀，当配置了server.context-path或者server.servlet.context-path时候，需要同步配置下面的值，务必保持一致
-# spring.application.context-path=${server.context-path}
+# spring.application.context-path=${server.servlet.context-path}
 
 # Plugin strategy config
-# 开启和关闭用户自定义和编程灰度路由策略的控制，例如用户根据业务参数的不同，负载均衡到不同的服务器。缺失则默认为true
+# 开启和关闭策略扩展功能的控制。一旦关闭，用户自定义和编程灰度路由策略功能将失效。缺失则默认为true
 # spring.application.strategy.control.enabled=true
 # 开启和关闭Ribbon默认的ZoneAvoidanceRule负载均衡策略。一旦关闭，则使用RoundRobin简单轮询负载均衡策略。缺失则默认为true
 # spring.application.strategy.zone.avoidance.rule.enabled=true
-# 用户自定义和编程灰度路由策略的时候，需要指定对业务Controller类的扫描路径，以便传递上下文对象。该项配置只对服务有效，对网关无效。缺失则默认关闭改功能
+# 用户自定义和编程灰度路由策略的时候，需要指定对业务Controller类的扫描路径，以便传递上下文对象。该项配置只对服务有效，对网关无效。缺失则默认关闭该功能
 spring.application.strategy.scan.packages=com.nepxion.discovery.plugin.example.service.feign
-# 用户自定义和编程灰度路由策略的时候，如果采用Feign进行Rest调用，需要把来自网关的某些Header参数传递到服务里，如果多个用“;”分隔，不允许出现空格。该项配置只对服务有效，对网关无效。缺失则默认关闭改功能
+# 用户自定义和编程灰度路由策略的时候，如果采用Feign进行Rest调用，需要把来自网关的某些Header参数传递到服务里，如果多个用“;”分隔，不允许出现空格。该项配置只对服务有效，对网关无效。缺失则默认关闭该功能
 spring.application.strategy.feign.headers=version;token
 ```
 
