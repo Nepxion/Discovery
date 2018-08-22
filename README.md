@@ -55,6 +55,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 - [控制平台](#控制平台)
 - [监控平台](#监控平台)
 - [图形化灰度发布桌面程序](#图形化灰度发布桌面程序)
+- [性能分析](#性能分析)
 
 ## 请联系我
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/zxing-doc/微信-1.jpg)
@@ -623,3 +624,22 @@ spring.application.strategy.feign.headers=version;token
 基于Java Desktop技术的图形化灰度发布工具
 
 参考discovery-console-desktop工程，启动入口ConsoleLauncher.java
+
+## 性能分析
+在我的电脑上，做了如下性能测试：
+
+| 应用 | 耗时 | 内存 |
+| --- | --- | --- |
+| 空的Spring Cloud启动 | 9秒 | 400M |
+| 带有Discovery Plugin的Spring Cloud启动 | 13秒 | 480m |
+
+| 启动项 | 耗时 |
+| --- | --- |
+| Spring Boot预热启动 | 2秒 |
+| Discovery Plugin预热启动 | 2秒 |
+| Spring上下文扫描加载 | 2秒 |
+| RestController和Swagger扫描加载 | 1秒 |
+| determine local hostname | 1.5秒 |
+| 连本地配置中心，并打印本地规则和远程规则 | 1.5秒 |
+| Actuator Endpoint扫描加载 | 1秒 |
+| 连本地服务注册中心，并启动结束 | 2秒 |
