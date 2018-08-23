@@ -155,7 +155,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 - 动态规则，即灰度发布时的规则。动态规则和灰度规则是同一个概念
 - 事件总线，即基于Google Guava的EventBus构建的组件。通过事件总线可以推送动态版本和动态规则的更新和删除
 - 远程配置中心，即可以存储规则配置XML格式的配置中心，可以包括不限于Nacos，Redis，Apollo，DisConf，Spring Cloud Config
-- 配置（Config）和规则（Rule），在本系统中属于同一个概念，例如更新配置，即更新规则，例如远程配置中心存储的配置，即规则XML
+- 配置（Config）和规则（Rule），在本系统中属于同一个概念，例如更新配置，即更新规则；例如远程配置中心存储的配置，即规则XML
 - 服务端口和管理端口，即服务端口指在配置文件的server.port值，管理端口指management.port（E版）值或者management.server.port（F版）值
 
 ## 架构工程
