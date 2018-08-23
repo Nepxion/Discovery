@@ -55,11 +55,6 @@
     <dependencies>
         <dependency>
             <groupId>com.nepxion</groupId>
-            <artifactId>discovery-console-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.nepxion</groupId>
             <!-- <artifactId>discovery-console-extension-nacos</artifactId> -->
             <artifactId>discovery-console-extension-redis</artifactId>
         </dependency>
