@@ -199,7 +199,8 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 ### 工程
 
 | 工程名 | 描述 |
-| --- | --- | 
+| --- | --- |
+| discovery-common | 通用模块 |
 | discovery-common-nacos | 封装Nacos通用操作逻辑 |
 | discovery-common-redis | 封装Redis通用操作逻辑 |
 | discovery-plugin-framework | 核心框架 |
