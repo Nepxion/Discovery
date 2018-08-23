@@ -220,7 +220,6 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 | discovery-console | 控制平台，集成接口给UI |
 | discovery-console-extension-nacos | 控制平台的Nacos扩展 |
 | discovery-console-extension-redis | 控制平台的Redis扩展 |
-| discovery-console-starter | Console Starter |
 | discovery-console-desktop | 图形化灰度发布等桌面程序 |
 | discovery-springcloud-example-admin | Spring Boot Admin服务台示例 |
 | discovery-springcloud-example-console | 控制平台示例 |
@@ -267,7 +266,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
     <artifactId>discovery-plugin-starter-zookeeper</artifactId>
 </dependency>
 
-[选择引入] 两个远程配置中心的中间件的扩展插件，如需要，请任选一个引入
+[选择引入] 两个远程配置中心的中间件的扩展插件，如需要，请任选一个引入，或者也可以引入您自己的扩展
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-config-center-extension-nacos</artifactId>
@@ -305,13 +304,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 
 控制平台引入
 ```xml
-[必须引入]
-<dependency>
-    <groupId>com.nepxion</groupId>
-    <artifactId>discovery-console-starter</artifactId>
-</dependency>
-
-[选择引入] 两个远程配置中心的中间件的扩展插件，如需要，请任选一个引入
+[选择引入] 两个远程配置中心的中间件的扩展插件，如需要，请任选一个引入，或者也可以引入您自己的扩展
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-console-extension-nacos</artifactId>
