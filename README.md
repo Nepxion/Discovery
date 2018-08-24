@@ -249,7 +249,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 </dependency>
 ```
 
-> 下面标注[必须引入]是一定要引入的包，标注[选择引入]是可以选择一个引入，或者不引入
+:exclamation:下面标注[必须引入]是一定要引入的包，标注[选择引入]是可以选择一个引入，或者不引入
 
 微服务端引入
 ```xml
@@ -319,7 +319,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 </dependency>
 ```
 
->特别注意：中间件的引入一定要在所有层面保持一致，绝不允许出现类似如下情况，这也是常识
+:warning:特别注意：中间件的引入一定要在所有层面保持一致，绝不允许出现类似如下情况，这也是常识
 - 例如，网关用Eureka做服务注册发现，微服务用Consul做服务注册发现
 - 例如，控制平台用Nacos做远程配置中心，微服务用Redis做远程配置中心
 
@@ -609,7 +609,7 @@ spring.application.strategy.feign.headers=version;token
   - 参考三个跟Nacos或者Redis有关的工程
 
 ## 管理中心
-> PORT端口号为服务端口或者管理端口都可以
+:exclamation:PORT端口号为服务端口或者管理端口都可以
 - 配置接口
 - 版本接口
 - 路由接口
@@ -622,7 +622,7 @@ spring.application.strategy.feign.headers=version;token
 - 一系列批量功能
 - 跟Nacos和Redis集成，实现配置拉去、推送和清除
 
-> PORT端口号为服务端口或者管理端口都可以
+:exclamation:PORT端口号为服务端口或者管理端口都可以
 - 控制平台接口
 参考Swagger界面，如下图
 
