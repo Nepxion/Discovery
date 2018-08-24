@@ -8,7 +8,7 @@
 
 Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增强中间件，其功能包括灰度发布（包括切换发布和平滑发布），服务隔离，服务路由，服务降级，服务限流，黑/白名单的IP地址过滤，限制注册，限制发现等，支持Eureka、Consul和Zookeeper，支持Spring Cloud Api Gateway（Finchley版）、Zuul网关和微服务的灰度发布，支持用户自定义和编程灰度路由策略，支持多数据源的数据库灰度发布等客户特色化灰度发布，支持Nacos和Redis为远程配置中心，同时兼容Spring Cloud Edgware版和Finchley版。现有的Spring Cloud微服务可以方便引入该插件，代码零侵入
 
-:ok_hand:对于使用者来说，他的工作量仅仅如下：
+对于使用者来说，他的工作量仅仅如下：:ok_hand:
 - 引入相关依赖到pom.xml
 - 必须为微服务定义一个版本号（version），必须为微服务自定义一个组名（group）或者应用名（application）等其它便于归类的Key，便于远程配置中心推送和灰度界面分析
 - 使用者只需要关注相关规则推送。可以采用如下方式之一
@@ -63,9 +63,9 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/zxing-doc/微信-1.jpg)
 
 ## 快速开始
-- :gem:[入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_QUICK_START.md)
-- :gem:[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)
-- :gem:界面展示
+- [入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_QUICK_START.md)
+- [示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)
+- 界面展示
 
 图形化灰度发布桌面程序
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console1.jpg)
@@ -162,7 +162,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 
 ## 架构工程
 ### 架构
-全局架构图
+全局架构图:gem:
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Architecture.jpg)
 
@@ -194,7 +194,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
   - 灰度网关(V1.1)可以不用下线，留作下次版本上线再次灰度发布
   - 如果您对新服务比较自信，可以更简化，可以不用灰度网关和灰度测试，当服务A(V1.1)上线后，原有网关直接指向服务A(V1.1)，然后下线服务A(V1.0)
 
-模块结构图
+模块结构图:gem:
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Module.jpg)
 
@@ -232,13 +232,13 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 | discovery-springcloud-example-gateway | 用于灰度发布的Spring Cloud Api Gateway（F版）示例 |
 
 ## 依赖兼容
-### :sparkles:版本
+### 版本:sparkles:
 | Spring Cloud版本 | Nepxion Discovery版本 |
 | --- | --- |
 | Finchley | 4.3.17 |
 | Edgware | 3.6.17 |
 
-### 依赖
+### 依赖:sparkles:
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
