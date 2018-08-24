@@ -3,6 +3,8 @@
 [![Maven Central](https://img.shields.io/maven-central/v/com.nepxion/discovery.svg?label=maven%20central)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.nepxion%22%20AND%20discovery)
 [![Javadocs](http://www.javadoc.io/badge/com.nepxion/discovery.svg)](http://www.javadoc.io/doc/com.nepxion/discovery)
 [![Build Status](https://travis-ci.org/Nepxion/Discovery.svg?branch=master)](https://travis-ci.org/Nepxion/Discovery)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8e39a24e1be740c58b83fb81763ba317)](https://www.codacy.com/project/HaojunRen/Discovery/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nepxion/Discovery&amp;utm_campaign=Badge_Grade_Dashboard)
+![CoL](https://tokei.rs/b1/github/Nepxion/Discovery)
 
 Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增强中间件，其功能包括灰度发布（包括切换发布和平滑发布），服务隔离，服务路由，服务降级，服务限流，黑/白名单的IP地址过滤，限制注册，限制发现等，支持Eureka、Consul和Zookeeper，支持Spring Cloud Api Gateway（Finchley版）、Zuul网关和微服务的灰度发布，支持用户自定义和编程灰度路由策略，支持多数据源的数据库灰度发布等客户特色化灰度发布，支持Nacos和Redis为远程配置中心，同时兼容Spring Cloud Edgware版和Finchley版。现有的Spring Cloud微服务可以方便引入该插件，代码零侵入
 
@@ -160,7 +162,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 
 ## 架构工程
 ### 架构
-全局架构图
+全局架构图:gem:
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Architecture.jpg)
 
@@ -192,7 +194,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
   - 灰度网关(V1.1)可以不用下线，留作下次版本上线再次灰度发布
   - 如果您对新服务比较自信，可以更简化，可以不用灰度网关和灰度测试，当服务A(V1.1)上线后，原有网关直接指向服务A(V1.1)，然后下线服务A(V1.0)
 
-模块结构图
+模块结构图:gem:
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Module.jpg)
 
@@ -230,13 +232,13 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 | discovery-springcloud-example-gateway | 用于灰度发布的Spring Cloud Api Gateway（F版）示例 |
 
 ## 依赖兼容
-### 版本
+### 版本:sparkles:
 | Spring Cloud版本 | Nepxion Discovery版本 |
 | --- | --- |
 | Finchley | 4.3.17 |
 | Edgware | 3.6.17 |
 
-### 依赖
+### 依赖:sparkles:
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -247,7 +249,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 </dependency>
 ```
 
-> 下面标注[必须引入]是一定要引入的包，标注[选择引入]是可以选择一个引入，或者不引入
+:exclamation:下面标注[必须引入]是一定要引入的包，标注[选择引入]是可以选择一个引入，或者不引入
 
 微服务端引入
 ```xml
@@ -317,11 +319,11 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 </dependency>
 ```
 
->特别注意：中间件的引入一定要在所有层面保持一致，绝不允许出现类似如下情况，这也是常识
+:warning:特别注意：中间件的引入一定要在所有层面保持一致，绝不允许出现类似如下情况，这也是常识
 - 例如，网关用Eureka做服务注册发现，微服务用Consul做服务注册发现
 - 例如，控制平台用Nacos做远程配置中心，微服务用Redis做远程配置中心
 
-如果只想要“用户自定义和编程灰度路由”功能，而不想要灰度发布功能
+:ok_hand:如果只想要“用户自定义和编程灰度路由”功能，而不想要灰度发布功能
 - 去除远程配置中心包的引入
 ```xml
 <dependency>
@@ -607,7 +609,7 @@ spring.application.strategy.feign.headers=version;token
   - 参考三个跟Nacos或者Redis有关的工程
 
 ## 管理中心
-> PORT端口号为服务端口或者管理端口都可以
+:exclamation:PORT端口号为服务端口或者管理端口都可以
 - 配置接口
 - 版本接口
 - 路由接口
@@ -620,7 +622,7 @@ spring.application.strategy.feign.headers=version;token
 - 一系列批量功能
 - 跟Nacos和Redis集成，实现配置拉去、推送和清除
 
-> PORT端口号为服务端口或者管理端口都可以
+:exclamation:PORT端口号为服务端口或者管理端口都可以
 - 控制平台接口
 参考Swagger界面，如下图
 
