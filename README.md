@@ -162,7 +162,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 
 ## 架构工程
 ### 架构
-全局架构图:gem:
+全局架构图
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Architecture.jpg)
 
@@ -194,7 +194,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
   - 灰度网关(V1.1)可以不用下线，留作下次版本上线再次灰度发布
   - 如果您对新服务比较自信，可以更简化，可以不用灰度网关和灰度测试，当服务A(V1.1)上线后，原有网关直接指向服务A(V1.1)，然后下线服务A(V1.0)
 
-模块结构图:gem:
+模块结构图
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Module.jpg)
 
@@ -232,13 +232,13 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 | discovery-springcloud-example-gateway | 用于灰度发布的Spring Cloud Api Gateway（F版）示例 |
 
 ## 依赖兼容
-### 版本:sparkles:
+### 版本:triangular_flag_on_post:
 | Spring Cloud版本 | Nepxion Discovery版本 |
 | --- | --- |
 | Finchley | 4.3.17 |
 | Edgware | 3.6.17 |
 
-### 依赖:sparkles:
+### 依赖:triangular_flag_on_post:
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -323,7 +323,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 - 例如，网关用Eureka做服务注册发现，微服务用Consul做服务注册发现
 - 例如，控制平台用Nacos做远程配置中心，微服务用Redis做远程配置中心
 
-:ok_hand:如果只想要“用户自定义和编程灰度路由”功能，而不想要灰度发布功能
+:star:如果只想要“用户自定义和编程灰度路由”功能，而不想要灰度发布功能
 - 去除远程配置中心包的引入
 ```xml
 <dependency>
