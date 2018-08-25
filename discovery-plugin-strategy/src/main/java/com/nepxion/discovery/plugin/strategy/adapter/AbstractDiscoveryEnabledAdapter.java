@@ -29,7 +29,7 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
             return false;
         }
 
-        enabled = applyZone(server, metadata);
+        enabled = applyRegion(server, metadata);
         if (!enabled) {
             return false;
         }
@@ -63,18 +63,18 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
         return false;
     }
 
-    private boolean applyZone(Server server, Map<String, String> metadata) {
-        String zoneValue = getZoneValue();
-        if (StringUtils.isEmpty(zoneValue)) {
+    private boolean applyRegion(Server server, Map<String, String> metadata) {
+        String regionValue = getRegionValue();
+        if (StringUtils.isEmpty(regionValue)) {
             return true;
         }
 
-        String zone = metadata.get(DiscoveryConstant.ZONE);
-        if (StringUtils.isEmpty(zone)) {
+        String region = metadata.get(DiscoveryConstant.REGION);
+        if (StringUtils.isEmpty(region)) {
             return false;
         }
 
-        if (StringUtils.equals(zoneValue, zone)) {
+        if (StringUtils.equals(regionValue, region)) {
             return true;
         }
 
@@ -91,5 +91,5 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
 
     protected abstract String getVersionValue();
 
-    protected abstract String getZoneValue();
+    protected abstract String getRegionValue();
 }
