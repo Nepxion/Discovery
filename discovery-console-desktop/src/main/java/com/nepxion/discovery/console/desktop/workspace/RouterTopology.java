@@ -205,6 +205,10 @@ public class RouterTopology extends AbstractTopology {
             stringBuilder.append("\n [V").append(routerEntity.getVersion()).append("]");
         }
 
+        if (StringUtils.isNotEmpty(routerEntity.getRegion())) {
+            stringBuilder.append("\n [Region=").append(routerEntity.getRegion()).append("]");
+        }
+
         Map<String, String> customMap = routerEntity.getCustomMap();
         if (MapUtils.isNotEmpty(customMap)) {
             for (Map.Entry<String, String> entry : customMap.entrySet()) {

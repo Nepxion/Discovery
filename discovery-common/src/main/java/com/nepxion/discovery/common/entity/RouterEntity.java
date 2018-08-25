@@ -24,6 +24,7 @@ public class RouterEntity implements Serializable {
 
     private String serviceId;
     private String version;
+    private String region;
     private String host;
     private int port;
     private int weight = -1;
@@ -46,6 +47,14 @@ public class RouterEntity implements Serializable {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
     }
 
     public String getHost() {

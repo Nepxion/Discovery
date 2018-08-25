@@ -49,6 +49,8 @@ public interface PluginAdapter {
 
     void clearDynamicRule();
 
+    String getRegion();
+
     Map<String, String> getServerMetadata(Server server);
 
     String getServerVersion(Server server);
