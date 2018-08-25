@@ -36,7 +36,7 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
         }
 
         // 对RPC调用传来的方法参数做策略
-        return applyFromMethd(server, metadata);
+        return applyFromMethod(server, metadata);
     }
 
     // 根据Rest调用传来的Header参数（例如Token），选取执行调用请求的服务实例
@@ -66,7 +66,7 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
 
     // 根据RPC调用传来的方法参数（例如接口名、方法名、参数名或参数值等），选取执行调用请求的服务实例
     @SuppressWarnings("unchecked")
-    private boolean applyFromMethd(Server server, Map<String, String> metadata) {
+    private boolean applyFromMethod(Server server, Map<String, String> metadata) {
         ServiceStrategyContext context = ServiceStrategyContext.getCurrentContext();
         Map<String, Object> attributes = context.getAttributes();
 
