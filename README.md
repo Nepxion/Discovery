@@ -237,8 +237,8 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 ### 版本:triangular_flag_on_post:
 | Spring Cloud版本 | Nepxion Discovery版本 |
 | --- | --- |
-| Finchley | 4.3.18 |
-| Edgware | 3.6.18 |
+| Finchley | 4.3.19 |
+| Edgware | 3.6.19 |
 
 ### 依赖:triangular_flag_on_post:
 ```xml
