@@ -123,15 +123,21 @@ public class RouterEndpoint {
     public RouterEntity getRouterEntity() {
         String serviceId = pluginAdapter.getServiceId();
         String version = pluginAdapter.getVersion();
+        String region = pluginAdapter.getRegion();
         String host = pluginAdapter.getHost();
         int port = pluginAdapter.getPort();
+        int weight = getWeight(serviceId, version);
+        Map<String, String> customMap = getCustomMap(serviceId);
         String contextPath = pluginAdapter.getContextPath();
 
         RouterEntity routerEntity = new RouterEntity();
         routerEntity.setServiceId(serviceId);
         routerEntity.setVersion(version);
+        routerEntity.setRegion(region);
         routerEntity.setHost(host);
         routerEntity.setPort(port);
+        routerEntity.setWeight(weight);
+        routerEntity.setCustomMap(customMap);
         routerEntity.setContextPath(contextPath);
 
         return routerEntity;
@@ -155,6 +161,7 @@ public class RouterEndpoint {
             Map<String, String> metadata = instance.getMetadata();
             String serviceId = instance.getServiceId().toLowerCase();
             String version = metadata.get(DiscoveryConstant.VERSION);
+            String region = metadata.get(DiscoveryConstant.REGION);
             String host = instance.getHost();
             int port = instance.getPort();
             int weight = getWeight(routeServiceId, version);
@@ -164,6 +171,7 @@ public class RouterEndpoint {
             RouterEntity routerEntity = new RouterEntity();
             routerEntity.setServiceId(serviceId);
             routerEntity.setVersion(version);
+            routerEntity.setRegion(region);
             routerEntity.setHost(host);
             routerEntity.setPort(port);
             routerEntity.setWeight(weight);
