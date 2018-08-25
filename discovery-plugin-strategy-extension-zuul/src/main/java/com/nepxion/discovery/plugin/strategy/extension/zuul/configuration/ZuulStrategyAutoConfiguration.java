@@ -15,6 +15,7 @@ import org.springframework.cloud.netflix.ribbon.RibbonClientConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.extension.zuul.adapter.DefaultDiscoveryEnabledAdapter;
 
@@ -23,7 +24,7 @@ import com.nepxion.discovery.plugin.strategy.extension.zuul.adapter.DefaultDisco
 @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTROL_ENABLED, matchIfMissing = true)
 public class ZuulStrategyAutoConfiguration {
     @Bean
-    public DefaultDiscoveryEnabledAdapter discoveryEnabledAdapter() {
+    public DiscoveryEnabledAdapter discoveryEnabledAdapter() {
         return new DefaultDiscoveryEnabledAdapter();
     }
 }
