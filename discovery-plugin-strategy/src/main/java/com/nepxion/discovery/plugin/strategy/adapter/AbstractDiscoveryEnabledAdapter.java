@@ -29,29 +29,52 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
             return false;
         }
 
+        enabled = applyZone(server, metadata);
+        if (!enabled) {
+            return false;
+        }
+
         return applyStrategy(server, metadata);
     }
 
     @SuppressWarnings("unchecked")
     private boolean applyVersion(Server server, Map<String, String> metadata) {
-        String versionJson = getVersionJson();
-        if (StringUtils.isEmpty(versionJson)) {
+        String versionValue = getVersionValue();
+        if (StringUtils.isEmpty(versionValue)) {
             return true;
         }
 
         String serviceId = server.getMetaInfo().getAppName().toLowerCase();
         String version = metadata.get(DiscoveryConstant.VERSION);
         if (StringUtils.isEmpty(version)) {
-            return true;
+            return false;
         }
 
-        Map<String, String> versionMap = JsonUtil.fromJson(versionJson, Map.class);
+        Map<String, String> versionMap = JsonUtil.fromJson(versionValue, Map.class);
         String versions = versionMap.get(serviceId);
         if (versions == null) {
             return true;
         }
 
         if (versions.contains(version)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean applyZone(Server server, Map<String, String> metadata) {
+        String zoneValue = getZoneValue();
+        if (StringUtils.isEmpty(zoneValue)) {
+            return true;
+        }
+
+        String zone = metadata.get(DiscoveryConstant.ZONE);
+        if (StringUtils.isEmpty(zone)) {
+            return false;
+        }
+
+        if (StringUtils.equals(zoneValue, zone)) {
             return true;
         }
 
@@ -66,5 +89,7 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
         return discoveryEnabledStrategy.apply(server, metadata);
     }
 
-    protected abstract String getVersionJson();
+    protected abstract String getVersionValue();
+
+    protected abstract String getZoneValue();
 }
