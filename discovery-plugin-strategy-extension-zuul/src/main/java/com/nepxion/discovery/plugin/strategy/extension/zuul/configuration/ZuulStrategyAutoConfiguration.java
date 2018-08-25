@@ -16,14 +16,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
-import com.nepxion.discovery.plugin.strategy.extension.zuul.adapter.VersionDiscoveryEnabledAdapter;
+import com.nepxion.discovery.plugin.strategy.extension.zuul.adapter.DefaultDiscoveryEnabledAdapter;
 
 @Configuration
 @AutoConfigureBefore(RibbonClientConfiguration.class)
 @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTROL_ENABLED, matchIfMissing = true)
 public class ZuulStrategyAutoConfiguration {
     @Bean
-    public VersionDiscoveryEnabledAdapter discoveryEnabledAdapter() {
-        return new VersionDiscoveryEnabledAdapter();
+    public DefaultDiscoveryEnabledAdapter discoveryEnabledAdapter() {
+        return new DefaultDiscoveryEnabledAdapter();
     }
 }

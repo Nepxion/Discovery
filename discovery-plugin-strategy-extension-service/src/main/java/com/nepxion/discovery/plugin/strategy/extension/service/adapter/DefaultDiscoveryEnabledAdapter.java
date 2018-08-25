@@ -13,9 +13,9 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.plugin.strategy.adapter.AbstractVersionDiscoveryEnabledAdapter;
+import com.nepxion.discovery.plugin.strategy.adapter.AbstractDiscoveryEnabledAdapter;
 
-public class VersionDiscoveryEnabledAdapter extends AbstractVersionDiscoveryEnabledAdapter {
+public class DefaultDiscoveryEnabledAdapter extends AbstractDiscoveryEnabledAdapter {
     @Override
     protected String getVersionJson() {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();

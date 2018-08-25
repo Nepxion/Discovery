@@ -10,10 +10,10 @@ package com.nepxion.discovery.plugin.strategy.extension.zuul.adapter;
  */
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.plugin.strategy.adapter.AbstractVersionDiscoveryEnabledAdapter;
+import com.nepxion.discovery.plugin.strategy.adapter.AbstractDiscoveryEnabledAdapter;
 import com.netflix.zuul.context.RequestContext;
 
-public class VersionDiscoveryEnabledAdapter extends AbstractVersionDiscoveryEnabledAdapter {
+public class DefaultDiscoveryEnabledAdapter extends AbstractDiscoveryEnabledAdapter {
     @Override
     protected String getVersionJson() {
         RequestContext context = RequestContext.getCurrentContext();

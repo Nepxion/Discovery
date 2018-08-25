@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
-import com.nepxion.discovery.plugin.strategy.extension.service.adapter.VersionDiscoveryEnabledAdapter;
+import com.nepxion.discovery.plugin.strategy.extension.service.adapter.DefaultDiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.extension.service.aop.FeignStrategyInterceptor;
 import com.nepxion.discovery.plugin.strategy.extension.service.aop.ServiceStrategyAutoScanProxy;
 import com.nepxion.discovery.plugin.strategy.extension.service.aop.ServiceStrategyInterceptor;
@@ -61,7 +61,7 @@ public class ServiceStrategyAutoConfiguration {
     }
 
     @Bean
-    public VersionDiscoveryEnabledAdapter discoveryEnabledAdapter() {
-        return new VersionDiscoveryEnabledAdapter();
+    public DefaultDiscoveryEnabledAdapter discoveryEnabledAdapter() {
+        return new DefaultDiscoveryEnabledAdapter();
     }
 }

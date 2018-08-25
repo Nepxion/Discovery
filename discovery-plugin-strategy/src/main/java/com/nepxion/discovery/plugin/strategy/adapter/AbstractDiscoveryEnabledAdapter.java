@@ -18,7 +18,7 @@ import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.netflix.loadbalancer.Server;
 
-public abstract class AbstractVersionDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
+public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     @Autowired(required = false)
     private DiscoveryEnabledStrategy discoveryEnabledStrategy;
 
