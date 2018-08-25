@@ -533,9 +533,10 @@ XML示例（也可以通过Json来描述，这里不做描述，见discovery-spr
 见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 ### REST调用的内置多区域灰度路由策略
-基于FEIGN REST调用的多区域灰度路由，在Header上传入区域（region）名，那么REST请求只会在服务的区域（region）名相匹配的情况下，允许被调用到
+基于FEIGN REST调用的多区域灰度路由，在Header上传入区域（region）名，那么REST请求只会在服务的区域（region）名相匹配的情况下，允许被调用到，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+
 :warning:特别注意：Spring Cloud内置zone的策略，功能跟region策略很相似，但zone策略不能跟用户自定义路由组合使用，故提供了更友好的region策略
-见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+
 
 ### REST调用的编程灰度路由策略
 基于FEIGN REST调用的自定义路由，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
