@@ -15,9 +15,16 @@ import com.nepxion.discovery.plugin.strategy.extension.gateway.context.GatewaySt
 
 public class DefaultDiscoveryEnabledAdapter extends AbstractDiscoveryEnabledAdapter {
     @Override
-    protected String getVersionJson() {
+    protected String getVersionValue() {
         GatewayStrategyContext context = GatewayStrategyContext.getCurrentContext();
 
         return context.getExchange().getRequest().getHeaders().getFirst(DiscoveryConstant.VERSION);
+    }
+
+    @Override
+    protected String getZoneValue() {
+        GatewayStrategyContext context = GatewayStrategyContext.getCurrentContext();
+
+        return context.getExchange().getRequest().getHeaders().getFirst(DiscoveryConstant.ZONE);
     }
 }

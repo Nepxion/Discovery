@@ -17,12 +17,22 @@ import com.nepxion.discovery.plugin.strategy.adapter.AbstractDiscoveryEnabledAda
 
 public class DefaultDiscoveryEnabledAdapter extends AbstractDiscoveryEnabledAdapter {
     @Override
-    protected String getVersionJson() {
+    protected String getVersionValue() {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (attributes == null) {
             return null;
         }
 
         return attributes.getRequest().getHeader(DiscoveryConstant.VERSION);
+    }
+
+    @Override
+    protected String getZoneValue() {
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (attributes == null) {
+            return null;
+        }
+
+        return attributes.getRequest().getHeader(DiscoveryConstant.ZONE);
     }
 }

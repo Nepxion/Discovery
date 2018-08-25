@@ -15,9 +15,16 @@ import com.netflix.zuul.context.RequestContext;
 
 public class DefaultDiscoveryEnabledAdapter extends AbstractDiscoveryEnabledAdapter {
     @Override
-    protected String getVersionJson() {
+    protected String getVersionValue() {
         RequestContext context = RequestContext.getCurrentContext();
 
         return context.getRequest().getHeader(DiscoveryConstant.VERSION);
+    }
+
+    @Override
+    protected String getZoneValue() {
+        RequestContext context = RequestContext.getCurrentContext();
+
+        return context.getRequest().getHeader(DiscoveryConstant.ZONE);
     }
 }
