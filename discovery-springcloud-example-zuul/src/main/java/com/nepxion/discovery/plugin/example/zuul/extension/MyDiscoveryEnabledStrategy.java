@@ -19,7 +19,7 @@ import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledStrategy;
 import com.netflix.loadbalancer.Server;
 import com.netflix.zuul.context.RequestContext;
 
-// 实现了组合策略，版本路由策略+自定义策略
+// 实现了组合策略，版本路由策略+区域路由策略+自定义策略
 public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
     private static final Logger LOG = LoggerFactory.getLogger(MyDiscoveryEnabledStrategy.class);
 

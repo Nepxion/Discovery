@@ -23,7 +23,7 @@ import com.nepxion.discovery.plugin.strategy.extension.service.constant.ServiceS
 import com.nepxion.discovery.plugin.strategy.extension.service.context.ServiceStrategyContext;
 import com.netflix.loadbalancer.Server;
 
-// 实现了组合策略，版本路由策略+自定义策略
+// 实现了组合策略，版本路由策略+区域路由策略+自定义策略
 public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
     private static final Logger LOG = LoggerFactory.getLogger(MyDiscoveryEnabledStrategy.class);
 
