@@ -27,12 +27,12 @@ public class DefaultDiscoveryEnabledAdapter extends AbstractDiscoveryEnabledAdap
     }
 
     @Override
-    protected String getZoneValue() {
+    protected String getRegionValue() {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (attributes == null) {
             return null;
         }
 
-        return attributes.getRequest().getHeader(DiscoveryConstant.ZONE);
+        return attributes.getRequest().getHeader(DiscoveryConstant.REGION);
     }
 }

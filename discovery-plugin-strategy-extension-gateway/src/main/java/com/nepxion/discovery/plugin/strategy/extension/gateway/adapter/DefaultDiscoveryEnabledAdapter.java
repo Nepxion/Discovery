@@ -22,9 +22,9 @@ public class DefaultDiscoveryEnabledAdapter extends AbstractDiscoveryEnabledAdap
     }
 
     @Override
-    protected String getZoneValue() {
+    protected String getRegionValue() {
         GatewayStrategyContext context = GatewayStrategyContext.getCurrentContext();
 
-        return context.getExchange().getRequest().getHeaders().getFirst(DiscoveryConstant.ZONE);
+        return context.getExchange().getRequest().getHeaders().getFirst(DiscoveryConstant.REGION);
     }
 }
