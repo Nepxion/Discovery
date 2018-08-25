@@ -10,7 +10,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 
 对于使用者来说，他的工作量仅仅如下：
 - 引入相关依赖到pom.xml
-- 必须为微服务定义一个版本号（version），必须为微服务自定义一个组名（group）或者应用名（application）等其它便于归类的Key，便于远程配置中心推送和灰度界面分析
+- 必须为微服务定义一个版本号（version），必须为微服务自定义一个组名（group）或者应用名（application）等其它便于归类的Key，便于远程配置中心推送和灰度界面分析。如果要用到区域（zone）路由功能，那么需要定义一个区域（zone）名
 - 使用者只需要关注相关规则推送。可以采用如下方式之一
   - 通过远程配置中心推送规则
   - 通过控制平台界面推送规则
@@ -46,6 +46,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
   - [Zuul端的编程灰度路由策略](#Zuul端的编程灰度路由策略)
   - [Gateway端的编程灰度路由策略](#Gateway端的编程灰度路由策略)
   - [REST调用的内置多版本灰度路由策略](#REST调用的内置多版本灰度路由策略)
+  - [REST调用的内置多区域灰度路由策略](#REST调用的内置多区域灰度路由策略)
   - [REST调用的编程灰度路由策略](#REST调用的编程灰度路由策略)
   - [RPC调用的编程灰度路由策略](#RPC调用的编程灰度路由策略)
 - [配置定义](#配置定义)	
@@ -107,6 +108,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
   - 在A/B测试中，通过动态改变版本，不重启微服务，达到访问版本的路径改变
 - 用户自定义和编程灰度路由策略，可以通过非常简单编程达到如下效果
   - 在业务REST调用上，在Header上传入服务名和版本对应关系的Json字符串，后端若干个服务会把请求路由到指定版本的服务器
+  - 在业务REST调用上，在Header上传入区域（zone）名，后端若干个服务会把请求路由到指定区域（zone）名的服务器
   - 在业务REST调用上，在Header上传入Token，根据不同的Token查询到不同的用户，后端若干个服务会把请求路由到指定的服务器
   - 在业务RPC调用上，根据不同的业务参数，例如手机号或者身份证号，后端若干个服务会把请求路由到指定的服务器
 
@@ -139,7 +141,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
   - 使用者可以对服务注册发现核心事件进行监听
 - 实现通过扩展，用户自定义和编程灰度路由策略
   - 使用者可以实现跟业务有关的路由策略，根据业务参数的不同，负载均衡到不同的服务器
-  - 使用者可以根据内置的版本路由策略+自定义策略，随心所欲的达到需要的路由功能
+  - 使用者可以根据内置的版本路由策略+区域路由策略+自定义策略，随心所欲的达到需要的路由功能
 - 实现支持Spring Boot Actuator和Swagger集成
 - 实现支持Spring Boot Admin的集成
 - 实现支持未来扩展更多的服务注册中心
@@ -235,8 +237,8 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 ### 版本:triangular_flag_on_post:
 | Spring Cloud版本 | Nepxion Discovery版本 |
 | --- | --- |
-| Finchley | 4.3.17 |
-| Edgware | 3.6.17 |
+| Finchley | 4.3.18 |
+| Edgware | 3.6.18 |
 
 ### 依赖:triangular_flag_on_post:
 ```xml
@@ -530,6 +532,10 @@ XML示例（也可以通过Json来描述，这里不做描述，见discovery-spr
 ```
 见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
+### REST调用的内置多区域灰度路由策略
+基于FEIGN REST调用的多区域灰度路由，在Header上传入区域（zone）名，那么REST请求只会在服务的区域（zone）名相匹配的情况下，允许被调用到
+见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+
 ### REST调用的编程灰度路由策略
 基于FEIGN REST调用的自定义路由，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
@@ -538,19 +544,21 @@ XML示例（也可以通过Json来描述，这里不做描述，见discovery-spr
 
 ## 配置定义
 ### 基础属性配置
-不同的服务注册发现组件对应的不同的配置值，请仔细阅读
+不同的服务注册发现组件对应的不同的配置值（zone配置可选），请仔细阅读
 ```xml
 # Eureka config
 eureka.instance.metadataMap.version=1.0
 eureka.instance.metadataMap.group=xxx-service-group
+eureka.instance.metadataMap.zone=dev
 
 # 奇葩的Consul配置（参考https://springcloud.cc/spring-cloud-consul.html - 元数据和Consul标签）
 # Consul config（多个值用“,”分隔，例如version=1.0,value=abc）
-spring.cloud.consul.discovery.tags=version=1.0,group=xxx-service-group
+spring.cloud.consul.discovery.tags=version=1.0,group=xxx-service-group,zone=dev
 
 # Zookeeper config
 spring.cloud.zookeeper.discovery.metadata.version=1.0
 spring.cloud.zookeeper.discovery.metadata.group=xxx-service-group
+spring.cloud.zookeeper.discovery.metadata.zone=dev
 
 # Admin config
 # 关闭访问Rest接口时候的权限验证
@@ -591,7 +599,7 @@ management.server.port=5100
 # 用户自定义和编程灰度路由策略的时候，需要指定对业务Controller类的扫描路径，以便传递上下文对象。该项配置只对服务有效，对网关无效。缺失则默认关闭该功能
 spring.application.strategy.scan.packages=com.nepxion.discovery.plugin.example.service.feign
 # 用户自定义和编程灰度路由策略的时候，如果采用Feign进行Rest调用，需要把来自网关的某些Header参数传递到服务里，如果多个用“;”分隔，不允许出现空格。该项配置只对服务有效，对网关无效。缺失则默认关闭该功能
-spring.application.strategy.feign.headers=version;token
+spring.application.strategy.feign.headers=version;zone;token
 ```
 
 ## 监听扩展
