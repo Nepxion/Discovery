@@ -431,6 +431,8 @@ XML示例（也可以通过Json来描述，这里不做描述，见discovery-spr
         <weight>
             <!-- 表示消费端服务b访问提供端服务c的时候，提供端服务c的1.0版本提供90%的权重流量，1.1版本提供10%的权重流量 -->
             <service consumer-service-name="discovery-springcloud-example-b" provider-service-name="discovery-springcloud-example-c" provider-weight-value="1.0=90;1.1=10"/>
+            <!-- 表示所有消费端服务访问提供端服务c的时候，提供端服务c的1.0版本提供80%的权重流量，1.1版本提供20%的权重流量 -->
+            <service provider-service-name="discovery-springcloud-example-c" provider-weight-value="1.0=80;1.1=20"/>
         </weight>
     </discovery>
 
