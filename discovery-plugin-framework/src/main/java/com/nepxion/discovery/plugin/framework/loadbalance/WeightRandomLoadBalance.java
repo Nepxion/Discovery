@@ -16,8 +16,6 @@ import java.util.concurrent.ThreadLocalRandom;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.nepxion.discovery.common.entity.DiscoveryEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
@@ -28,11 +26,9 @@ import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.netflix.loadbalancer.Server;
 
 public class WeightRandomLoadBalance {
-    private static final Logger LOG = LoggerFactory.getLogger(WeightRandomLoadBalance.class);
-
     private PluginAdapter pluginAdapter;
 
-    public List<WeightEntity> getWeightEntityList() {
+    public Map<String, List<WeightEntity>> getWeightEntityMap() {
         RuleEntity ruleEntity = pluginAdapter.getRule();
         if (ruleEntity == null) {
             return null;
@@ -53,14 +49,10 @@ public class WeightRandomLoadBalance {
             return null;
         }
 
-        String serviceId = pluginAdapter.getServiceId();
-
-        List<WeightEntity> weightEntityList = weightEntityMap.get(serviceId);
-
-        return weightEntityList;
+        return weightEntityMap;
     }
 
-    public Server choose(List<Server> serverList, List<WeightEntity> weightEntityList) {
+    public Server choose(List<Server> serverList, Map<String, List<WeightEntity>> weightEntityMap) {
         if (CollectionUtils.isEmpty(serverList)) {
             return null;
         }
@@ -68,7 +60,7 @@ public class WeightRandomLoadBalance {
         int[] weights = new int[serverList.size()];
         for (int i = 0; i < serverList.size(); i++) {
             Server server = serverList.get(i);
-            int weight = getWeight(server, weightEntityList);
+            int weight = getWeight(server, weightEntityMap);
             if (weight > 0) {
                 weights[i] = weight;
             }
@@ -107,9 +99,30 @@ public class WeightRandomLoadBalance {
         return weightHolder[0][0];
     }
 
-    private int getWeight(Server server, List<WeightEntity> weightEntityList) {
+    private int getWeight(Server server, Map<String, List<WeightEntity>> weightEntityMap) {
         String providerServiceId = server.getMetaInfo().getAppName();
         String providerVersion = pluginAdapter.getServerVersion(server);
+
+        String serviceId = pluginAdapter.getServiceId();
+        // 取局部的权重配置
+        int weight = getWeight(serviceId, providerServiceId, providerVersion, weightEntityMap);
+        // 局部权重配置没找到，取全局的权重配置
+        if (weight < 0) {
+            weight = getWeight(null, providerServiceId, providerVersion, weightEntityMap);
+        }
+
+        if (weight < 0) {
+            throw new DiscoveryException("Weight isn't configed for serviceId=" + providerServiceId + ", version=" + providerVersion);
+        }
+
+        return weight;
+    }
+
+    private int getWeight(String consumerServiceId, String providerServiceId, String providerVersion, Map<String, List<WeightEntity>> weightEntityMap) {
+        List<WeightEntity> weightEntityList = weightEntityMap.get(consumerServiceId);
+        if (CollectionUtils.isEmpty(weightEntityList)) {
+            return -1;
+        }
 
         for (WeightEntity weightEntity : weightEntityList) {
             String providerServiceName = weightEntity.getProviderServiceName();
@@ -119,9 +132,7 @@ public class WeightRandomLoadBalance {
                 if (weight != null) {
                     return weight;
                 } else {
-                    LOG.error("Weight isn't configed for serviceId={}, version={}", providerServiceId, providerVersion);
-
-                    throw new DiscoveryException("Weight isn't configed for serviceId=" + providerServiceId + ", version=" + providerVersion);
+                    return -1;
                 }
             }
         }

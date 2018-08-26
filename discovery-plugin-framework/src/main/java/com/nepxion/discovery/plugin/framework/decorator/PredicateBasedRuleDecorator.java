@@ -10,10 +10,11 @@ package com.nepxion.discovery.plugin.framework.decorator;
  */
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.common.entity.WeightEntity;
@@ -36,15 +37,15 @@ public abstract class PredicateBasedRuleDecorator extends PredicateBasedRule {
 
     @Override
     public Server choose(Object key) {
-        List<WeightEntity> weightEntityList = weightRandomLoadBalance.getWeightEntityList();
-        if (CollectionUtils.isEmpty(weightEntityList)) {
+        Map<String, List<WeightEntity>> weightEntityMap = weightRandomLoadBalance.getWeightEntityMap();
+        if (MapUtils.isEmpty(weightEntityMap)) {
             return super.choose(key);
         }
 
         List<Server> eligibleServers = getPredicate().getEligibleServers(getLoadBalancer().getAllServers(), key);
 
         try {
-            return weightRandomLoadBalance.choose(eligibleServers, weightEntityList);
+            return weightRandomLoadBalance.choose(eligibleServers, weightEntityMap);
         } catch (Exception e) {
             return super.choose(key);
         }

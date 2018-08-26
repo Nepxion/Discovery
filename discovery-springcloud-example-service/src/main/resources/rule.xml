@@ -69,10 +69,14 @@
         <!-- 权重策略介绍 -->
         <!-- 1. 标准配置，举例如下 -->
         <!--     <service consumer-service-name="a" provider-service-name="b" provider-weight-value="1.0=90;1.1=10"/> 表示消费端访问提供端的时候，提供端的1.0版本提供90%的权重流量，1.1版本提供10%的权重流量 -->
-        <!-- 2. 尽量为线上所有版本都赋予权重值 -->
+        <!--     <service provider-service-name="b" provider-weight-value="1.0=90;1.1=10"/> 表示所有消费端访问提供端的时候，提供端的1.0版本提供90%的权重流量，1.1版本提供10%的权重流量 -->
+        <!-- 2. 局部配置，指当consumer-service-name不为空的时候，专门为该消费端配置权重。全局配置，可以为所有消费端配置权重。当局部配置和全局配置同时存在的时候，以局部配置优先 -->
+        <!-- 3. 尽量为线上所有版本都赋予权重值 -->
         <weight>
             <!-- 表示消费端服务b访问提供端服务c的时候，提供端服务c的1.0版本提供90%的权重流量，1.1版本提供10%的权重流量 -->
             <service consumer-service-name="discovery-springcloud-example-b" provider-service-name="discovery-springcloud-example-c" provider-weight-value="1.0=90;1.1=10"/>
+            <!-- 表示所有消费端服务访问提供端服务c的时候，提供端服务c的1.0版本提供80%的权重流量，1.1版本提供20%的权重流量 -->
+            <service provider-service-name="discovery-springcloud-example-c" provider-weight-value="1.0=80;1.1=20"/>
         </weight>
     </discovery>
 

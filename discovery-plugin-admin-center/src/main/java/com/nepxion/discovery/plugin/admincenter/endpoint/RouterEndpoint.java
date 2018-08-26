@@ -292,8 +292,18 @@ public class RouterEndpoint implements MvcEndpoint {
         }
 
         String serviceId = pluginAdapter.getServiceId();
+        // 取局部的权重配置
+        int weight = getWeight(serviceId, providerServiceId, providerVersion, weightEntityMap);
+        // 局部权重配置没找到，取全局的权重配置
+        if (weight < 0) {
+            weight = getWeight(null, providerServiceId, providerVersion, weightEntityMap);
+        }
 
-        List<WeightEntity> weightEntityList = weightEntityMap.get(serviceId);
+        return weight;
+    }
+
+    private int getWeight(String consumerServiceId, String providerServiceId, String providerVersion, Map<String, List<WeightEntity>> weightEntityMap) {
+        List<WeightEntity> weightEntityList = weightEntityMap.get(consumerServiceId);
         if (CollectionUtils.isEmpty(weightEntityList)) {
             return -1;
         }
@@ -305,6 +315,8 @@ public class RouterEndpoint implements MvcEndpoint {
                 Integer weight = weightMap.get(providerVersion);
                 if (weight != null) {
                     return weight;
+                } else {
+                    return -1;
                 }
             }
         }
