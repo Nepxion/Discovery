@@ -237,8 +237,8 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 ### 版本:triangular_flag_on_post:
 | Spring Cloud版本 | Nepxion Discovery版本 |
 | --- | --- |
-| Finchley | 4.3.19 |
-| Edgware | 3.6.19 |
+| Finchley | 4.3.20 |
+| Edgware | 3.6.20 |
 
 ### 依赖:triangular_flag_on_post:
 ```xml
@@ -431,6 +431,8 @@ XML示例（也可以通过Json来描述，这里不做描述，见discovery-spr
         <weight>
             <!-- 表示消费端服务b访问提供端服务c的时候，提供端服务c的1.0版本提供90%的权重流量，1.1版本提供10%的权重流量 -->
             <service consumer-service-name="discovery-springcloud-example-b" provider-service-name="discovery-springcloud-example-c" provider-weight-value="1.0=90;1.1=10"/>
+            <!-- 表示所有消费端服务访问提供端服务c的时候，提供端服务c的1.0版本提供80%的权重流量，1.1版本提供20%的权重流量 -->
+            <service provider-service-name="discovery-springcloud-example-c" provider-weight-value="1.0=80;1.1=20"/>
         </weight>
     </discovery>
 
@@ -479,8 +481,10 @@ XML示例（也可以通过Json来描述，这里不做描述，见discovery-spr
 ### 版本权重的灰度路由规则
 ```xml
 1. 标准配置，举例如下
-   <service consumer-service-name="a" provider-service-name="b" provider-weight-value="1.0=90;1.1=10"/> 表示消费端访问提供端的时候，提供端的1.0版本提供90%的权重流量，1.1版本提供10%的权重流量
-2. 尽量为线上所有版本都赋予权重值
+    <service consumer-service-name="a" provider-service-name="b" provider-weight-value="1.0=90;1.1=10"/> 表示消费端访问提供端的时候，提供端的1.0版本提供90%的权重流量，1.1版本提供10%的权重流量
+    <service provider-service-name="b" provider-weight-value="1.0=90;1.1=10"/> 表示所有消费端访问提供端的时候，提供端的1.0版本提供90%的权重流量，1.1版本提供10%的权重流量
+2. 局部配置，即指定consumer-service-name，专门为该消费端配置权重。全局配置，即不指定consumer-service-name，为所有消费端配置相同情形的权重。当局部配置和全局配置同时存在的时候，以局部配置优先
+3. 尽量为线上所有版本都赋予权重值
 ```
 
 ### 用户自定义的灰度路由规则
