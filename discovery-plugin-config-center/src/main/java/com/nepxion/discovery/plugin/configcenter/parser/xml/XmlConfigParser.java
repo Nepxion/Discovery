@@ -368,11 +368,11 @@ public class XmlConfigParser implements PluginConfigParser {
                     WeightEntity weightEntity = new WeightEntity();
 
                     Attribute consumerServiceNameAttribute = childElement.attribute(ConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME);
-                    if (consumerServiceNameAttribute == null) {
-                        throw new DiscoveryException("Attribute[" + ConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                    String consumerServiceName = null;
+                    if (consumerServiceNameAttribute != null) {
+                        consumerServiceName = consumerServiceNameAttribute.getData().toString().trim();
+                        weightEntity.setConsumerServiceName(consumerServiceName);
                     }
-                    String consumerServiceName = consumerServiceNameAttribute.getData().toString().trim();
-                    weightEntity.setConsumerServiceName(consumerServiceName);
 
                     Attribute providerServiceNameAttribute = childElement.attribute(ConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME);
                     if (providerServiceNameAttribute == null) {
