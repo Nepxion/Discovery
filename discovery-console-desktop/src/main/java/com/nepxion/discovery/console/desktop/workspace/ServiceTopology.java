@@ -19,6 +19,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -775,7 +776,8 @@ public class ServiceTopology extends AbstractTopology {
                 private static final long serialVersionUID = 1L;
 
                 @Override
-                public void executeClicked(int selectedRow) {
+                public void mousePressed(MouseEvent e) {
+                    int selectedRow = getSelectedIndex();
                     if (selectedRow < 0) {
                         return;
                     }
