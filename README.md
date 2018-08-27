@@ -549,8 +549,7 @@ XML示例（也可以通过Json来描述，这里不做描述，见discovery-spr
 基于FEIGN RPC调用的自定义路由，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 ## 规则和策略
-- 规则和策略的区别
-
+### 规则和策略的区别
 | 属性 | 规则 | 策略 |
 | --- | --- | --- |
 | 方式 | 通过XML或者Json配置 | 通过REST或者RPC传递Header或者参数 |
@@ -559,12 +558,12 @@ XML示例（也可以通过Json来描述，这里不做描述，见discovery-spr
 | 作用域 | 运行前，运行期 | 运行期 |
 | 依赖性 | 依赖配置中心或者本地配置文件 | 依赖每次调用 |
 
-- 规则和策略的关系
-  - 规则和策略，可以混合在一起工作，也关闭一项，让另一项单独工作
-  - 规则和策略，一起工作的时候，先执行规则过滤逻辑，再执行策略过滤逻辑
-  - 规则和策略关闭
-    - 规则关闭，spring.application.register.control.enabled=false和spring.application.discovery.control.enabled=false
-    - 策略关闭，spring.application.strategy.control.enabled=false
+### 规则和策略的关系
+- 规则和策略，可以混合在一起工作，也关闭一项，让另一项单独工作
+- 规则和策略，一起工作的时候，先执行规则过滤逻辑，再执行策略过滤逻辑
+- 规则和策略关闭
+  - 规则关闭，spring.application.register.control.enabled=false和spring.application.discovery.control.enabled=false
+  - 策略关闭，spring.application.strategy.control.enabled=false
 
 ## 配置文件
 - 基础属性配置
