@@ -8,14 +8,15 @@
 
 Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增强中间件，其功能包括灰度发布（包括切换发布和平滑发布），服务隔离，服务路由，服务降级，服务限流，黑/白名单的IP地址过滤，限制注册，限制发现等，支持Eureka、Consul和Zookeeper，支持Spring Cloud Api Gateway（Finchley版）、Zuul网关和微服务的灰度发布，支持用户自定义和编程灰度路由策略，支持多数据源的数据库灰度发布等客户特色化灰度发布，支持Nacos和Redis为远程配置中心，同时兼容Spring Cloud Edgware版和Finchley版。现有的Spring Cloud微服务可以方便引入该插件，代码零侵入
 
-对于使用者来说，他的工作量仅仅如下：
-- 引入相关依赖到pom.xml
-- 必须为微服务定义一个版本号（version），必须为微服务自定义一个组名（group）或者应用名（application）等其它便于归类的Key，便于远程配置中心推送和灰度界面分析。如果要用到区域（region）路由功能，那么需要定义一个区域（region）名
-- 使用者只需要关注相关规则推送。可以采用如下方式之一
+对于使用者来说，他所需要做的如下：
+- 引入相关依赖到pom.xml，参考 [依赖兼容](#依赖兼容)
+- 操作配置文件，参考 [配置文件](#配置文件)
+  - 在元数据MetaData中，必须为微服务定义一个版本号（version），定义一个组名（group）或者应用名（application）。如果要用到区域（region）路由功能，那么需要定义一个区域（region）名，有可以自定义更多的元数据
+  - 根据项目实际情况，开启和关闭相关功能项或者属性值，达到最佳配置
+- 规则推送，参考 [规则定义](#规则定义)
   - 通过远程配置中心推送规则
   - 通过控制平台界面推送规则
   - 通过客户端工具（例如Postman）推送
-- 涉及的功能很广泛，但使用非常简单。对于核心功能或者扩展功能（需要引入相关的扩展包），只需要修改简单的配置或者规则，功能将自然启动或者关闭
 
 ## 目录
 - [请联系我](#请联系我)
@@ -171,7 +172,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 
 从上图，可以分析出两种基于网关的灰度发布方案，您可以研究更多的灰度发布策略
 
-基于网关版本权重的灰度发布
+:triangular_flag_on_post:基于网关版本权重的灰度发布
 - 灰度发布前
   - 网关不需要配置版本
   - 网关->服务A(V1.0)，网关配给服务A(V1.0)的100%权重（流量）
@@ -182,7 +183,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 - 灰度发布后
   - 下线服务A(V1.0)，灰度成功
 
-基于网关版本切换的灰度发布
+:triangular_flag_on_post:基于网关版本切换的灰度发布
 - 灰度发布前
   - 假设当前生产环境，调用路径为网关(V1.0)->服务A(V1.0)
   - 运维将发布新的生产环境，部署新服务集群，服务A(V1.1)
@@ -235,13 +236,13 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 | discovery-springcloud-example-gateway | 用于灰度发布的Spring Cloud Api Gateway（F版）示例 |
 
 ## 依赖兼容
-### 版本:triangular_flag_on_post:
+### 版本
 | Spring Cloud版本 | Nepxion Discovery版本 |
 | --- | --- |
 | Finchley | 4.3.20 |
 | Edgware | 3.6.20 |
 
-### 依赖:triangular_flag_on_post:
+### 依赖
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
