@@ -141,7 +141,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
   - 在服务注册层面的控制中，一旦禁止注册的条件触发，主动推送异步事件，以便使用者订阅
 - 实现通过Listener机制进行扩展
   - 使用者可以对服务注册发现核心事件进行监听
-- 实现通过扩展，用户自定义和编程灰度路由策略
+- 实现通过策略扩展，用户自定义和编程灰度路由策略
   - 使用者可以实现跟业务有关的路由策略，根据业务参数的不同，负载均衡到不同的服务器
   - 使用者可以根据内置的版本路由策略+区域路由策略+自定义策略，随心所欲的达到需要的路由功能
 - 实现支持Spring Boot Actuator和Swagger集成
@@ -214,19 +214,19 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 | discovery-plugin-framework-consul | 核心框架服务注册发现的Consul实现 |
 | discovery-plugin-framework-zookeeper | 核心框架服务注册发现的Zookeeper实现 |
 | discovery-plugin-config-center | 配置中心实现 |
-| discovery-plugin-config-center-extension-nacos | 配置中心的Nacos扩展 |
-| discovery-plugin-config-center-extension-redis | 配置中心的Redis扩展 |
+| discovery-plugin-config-center-starter-nacos | 配置中心的Nacos Starter |
+| discovery-plugin-config-center-starter-redis | 配置中心的Redis Starter |
 | discovery-plugin-admin-center | 管理中心实现 |
 | discovery-plugin-starter-eureka | Eureka Starter |
 | discovery-plugin-starter-consul | Consul Starter |
 | discovery-plugin-starter-zookeeper | Zookeeper Starter |
 | discovery-plugin-strategy | 用户自定义和编程灰度路由策略 |
-| discovery-plugin-strategy-extension-service | 基于服务的用户自定义和编程灰度路由策略扩展 |
-| discovery-plugin-strategy-extension-zuul | 基于Zuul的用户自定义和编程灰度路由策略扩展 |
-| discovery-plugin-strategy-extension-gateway | 基于Spring Cloud Api Gateway（F版）的用户自定义和编程灰度路由策略扩展 |
+| discovery-plugin-strategy-starter-service | 用户自定义和编程灰度路由策略的Service Starter |
+| discovery-plugin-strategy-starter-zuul | 用户自定义和编程灰度路由策略的Zuul Starter |
+| discovery-plugin-strategy-starter-gateway | 用户自定义和编程灰度路由策略的Spring Cloud Api Gateway（F版） Starter |
 | discovery-console | 控制平台，集成接口给UI |
-| discovery-console-extension-nacos | 控制平台的Nacos扩展 |
-| discovery-console-extension-redis | 控制平台的Redis扩展 |
+| discovery-console-starter-nacos | 控制平台的Nacos Starter |
+| discovery-console-starter-redis | 控制平台的Redis Starter |
 | discovery-console-desktop | 图形化灰度发布等桌面程序 |
 | discovery-springcloud-example-admin | Spring Boot Admin服务台示例 |
 | discovery-springcloud-example-console | 控制平台示例 |
@@ -276,18 +276,18 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 [选择引入] 两个远程配置中心的中间件的扩展插件，如需要，请任选一个引入，或者也可以引入您自己的扩展
 <dependency>
     <groupId>com.nepxion</groupId>
-    <artifactId>discovery-plugin-config-center-extension-nacos</artifactId>
+    <artifactId>discovery-plugin-config-center-starter-nacos</artifactId>
 </dependency>
 
 <dependency>
     <groupId>com.nepxion</groupId>
-    <artifactId>discovery-plugin-config-center-extension-redis</artifactId>
+    <artifactId>discovery-plugin-config-center-starter-redis</artifactId>
 </dependency>
 
 [选择引入] 用户自定义和编程灰度路由，如需要，请引入
 <dependency>
     <groupId>com.nepxion</groupId>
-    <artifactId>discovery-plugin-strategy-extension-service</artifactId>
+    <artifactId>discovery-plugin-strategy-starter-service</artifactId>
 </dependency>
 ```
 
@@ -296,7 +296,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 [选择引入] 用户自定义和编程灰度路由，如需要，请引入
 <dependency>
     <groupId>com.nepxion</groupId>
-    <artifactId>discovery-plugin-strategy-extension-zuul</artifactId>
+    <artifactId>discovery-plugin-strategy-starter-zuul</artifactId>
 </dependency>
 ```
 
@@ -305,7 +305,7 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 [选择引入] 用户自定义和编程灰度路由，如需要，请引入
 <dependency>
     <groupId>com.nepxion</groupId>
-    <artifactId>discovery-plugin-strategy-extension-gatewway</artifactId>
+    <artifactId>discovery-plugin-strategy-starter-gatewway</artifactId>
 </dependency>
 ```
 
@@ -314,12 +314,12 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 [选择引入] 两个远程配置中心的中间件的扩展插件，如需要，请任选一个引入，或者也可以引入您自己的扩展
 <dependency>
     <groupId>com.nepxion</groupId>
-    <artifactId>discovery-console-extension-nacos</artifactId>
+    <artifactId>discovery-console-starter-nacos</artifactId>
 </dependency>
 
 <dependency>
     <groupId>com.nepxion</groupId>
-    <artifactId>discovery-console-extension-redis</artifactId>
+    <artifactId>discovery-console-starter-redis</artifactId>
 </dependency>
 ```
 
@@ -332,8 +332,8 @@ Nepxion Discovery是一款对Spring Cloud服务注册发现和负载均衡的增
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
-    <!-- <artifactId>discovery-plugin-config-center-extension-nacos</artifactId> -->
-    <artifactId>discovery-plugin-config-center-extension-redis</artifactId>
+    <!-- <artifactId>discovery-plugin-config-center-starter-nacos</artifactId> -->
+    <artifactId>discovery-plugin-config-center-starter-redis</artifactId>
 </dependency>
 ```
 - 下面两项配置改为false
