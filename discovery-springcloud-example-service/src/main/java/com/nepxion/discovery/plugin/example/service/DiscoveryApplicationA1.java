@@ -15,11 +15,11 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 
-import com.nepxion.discovery.plugin.example.service.extension.MyDiscoveryListener;
-import com.nepxion.discovery.plugin.example.service.extension.MyLoadBalanceListener;
-import com.nepxion.discovery.plugin.example.service.extension.MyRegisterListener;
-import com.nepxion.discovery.plugin.example.service.extension.MyDiscoveryEnabledStrategy;
-import com.nepxion.discovery.plugin.example.service.extension.MySubscriber;
+import com.nepxion.discovery.plugin.example.service.impl.MyDiscoveryEnabledStrategy;
+import com.nepxion.discovery.plugin.example.service.impl.MyDiscoveryListener;
+import com.nepxion.discovery.plugin.example.service.impl.MyLoadBalanceListener;
+import com.nepxion.discovery.plugin.example.service.impl.MyRegisterListener;
+import com.nepxion.discovery.plugin.example.service.impl.MySubscriber;
 
 @SpringBootApplication
 @EnableDiscoveryClient

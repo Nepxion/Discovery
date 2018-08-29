@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.example.service.extension;
+package com.nepxion.discovery.plugin.example.service.impl;
 
 /**
  * <p>Title: Nepxion Discovery</p>
