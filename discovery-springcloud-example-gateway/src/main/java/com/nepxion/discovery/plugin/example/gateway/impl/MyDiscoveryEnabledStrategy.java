@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.example.gateway.extension;
+package com.nepxion.discovery.plugin.example.gateway.impl;
 
 /**
  * <p>Title: Nepxion Discovery</p>
