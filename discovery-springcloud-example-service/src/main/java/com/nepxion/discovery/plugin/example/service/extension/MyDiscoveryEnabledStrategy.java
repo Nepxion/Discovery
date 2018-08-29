@@ -19,8 +19,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledStrategy;
-import com.nepxion.discovery.plugin.strategy.extension.service.constant.ServiceStrategyConstant;
-import com.nepxion.discovery.plugin.strategy.extension.service.context.ServiceStrategyContext;
+import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
+import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyContext;
 import com.netflix.loadbalancer.Server;
 
 // 实现了组合策略，版本路由策略+区域路由策略+自定义策略

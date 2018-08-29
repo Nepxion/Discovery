@@ -1,3 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.nepxion.discovery.plugin.strategy.configuration.StrategyAutoConfiguration,\
-com.nepxion.discovery.plugin.strategy.extension.zuul.configuration.ZuulStrategyAutoConfiguration
+com.nepxion.discovery.plugin.strategy.zuul.configuration.ZuulStrategyAutoConfiguration
