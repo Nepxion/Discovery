@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <artifactId>discovery-console-extension-redis</artifactId>
-    <name>Nepxion Discovery Console Extension Redis</name>
+    <artifactId>discovery-console-starter-redis</artifactId>
+    <name>Nepxion Discovery Console Starter Redis</name>
     <packaging>jar</packaging>
     <modelVersion>4.0.0</modelVersion>
     <description>Nepxion Discovery is an enhancement for Spring Cloud Discovery</description>
