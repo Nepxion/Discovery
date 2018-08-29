@@ -15,6 +15,6 @@
 @title Nepxion Discovery
 @color 0a
 
-call mvn clean deploy -DskipTests -e -P release -pl discovery-plugin-starter-eureka,discovery-plugin-starter-consul,discovery-plugin-starter-zookeeper,discovery-plugin-config-center-extension-nacos,discovery-console-extension-nacos,discovery-plugin-config-center-extension-redis,discovery-console-extension-redis,discovery-plugin-strategy-extension-service,discovery-plugin-strategy-extension-zuul -am
+call mvn clean deploy -DskipTests -e -P release -pl discovery-plugin-starter-eureka,discovery-plugin-starter-consul,discovery-plugin-starter-zookeeper,discovery-plugin-config-center-starter-nacos,discovery-console-starter-nacos,discovery-plugin-config-center-starter-redis,discovery-console-starter-redis,discovery-plugin-strategy-starter-service,discovery-plugin-strategy-starter-zuul -am
 
 pause
