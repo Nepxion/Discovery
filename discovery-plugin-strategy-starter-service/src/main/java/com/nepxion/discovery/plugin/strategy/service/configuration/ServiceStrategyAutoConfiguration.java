@@ -9,8 +9,10 @@ package com.nepxion.discovery.plugin.strategy.service.configuration;
  * @version 1.0
  */
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.netflix.ribbon.RibbonClientConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -29,15 +31,19 @@ import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyCon
 @AutoConfigureBefore(RibbonClientConfiguration.class)
 @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTROL_ENABLED, matchIfMissing = true)
 public class ServiceStrategyAutoConfiguration {
-    @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "}")
+    @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + ":}")
     private String scanPackages;
 
-    @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_FEIGN_HEADERS + "}")
+    @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_FEIGN_HEADERS + ":}")
     private String feignHeaders;
 
     @Bean
     @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES, matchIfMissing = false)
     public ServiceStrategyAutoScanProxy serviceStrategyAutoScanProxy() {
+        if (StringUtils.isEmpty(scanPackages)) {
+            throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + " can't be empty, or you can't remove it");
+        }
+
         if (ServiceStrategyConstant.EXCLUSION_SCAN_PACKAGES.contains(scanPackages)) {
             throw new DiscoveryException("It can't scan packages for '" + ServiceStrategyConstant.EXCLUSION_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
         }
@@ -48,6 +54,10 @@ public class ServiceStrategyAutoConfiguration {
     @Bean
     @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES, matchIfMissing = false)
     public ServiceStrategyInterceptor serviceStrategyInterceptor() {
+        if (StringUtils.isEmpty(scanPackages)) {
+            throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + " can't be empty, or you can't remove it");
+        }
+
         if (ServiceStrategyConstant.EXCLUSION_SCAN_PACKAGES.contains(scanPackages)) {
             throw new DiscoveryException("It can't scan packages for '" + ServiceStrategyConstant.EXCLUSION_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
         }
@@ -62,6 +72,7 @@ public class ServiceStrategyAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public DiscoveryEnabledAdapter discoveryEnabledAdapter() {
         return new DefaultDiscoveryEnabledAdapter();
     }
