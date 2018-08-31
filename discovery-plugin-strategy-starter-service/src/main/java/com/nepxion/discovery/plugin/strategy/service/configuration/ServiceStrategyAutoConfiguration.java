@@ -23,6 +23,7 @@ import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.adapter.DefaultDiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.service.aop.FeignStrategyInterceptor;
+import com.nepxion.discovery.plugin.strategy.service.aop.RestTemplateStrategyInterceptor;
 import com.nepxion.discovery.plugin.strategy.service.aop.ServiceStrategyAutoScanProxy;
 import com.nepxion.discovery.plugin.strategy.service.aop.ServiceStrategyInterceptor;
 import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
@@ -34,14 +35,14 @@ public class ServiceStrategyAutoConfiguration {
     @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + ":}")
     private String scanPackages;
 
-    @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_FEIGN_HEADERS + ":}")
-    private String feignHeaders;
+    @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REQUEST_HEADERS + ":}")
+    private String requestHeaders;
 
     @Bean
     @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES, matchIfMissing = false)
     public ServiceStrategyAutoScanProxy serviceStrategyAutoScanProxy() {
         if (StringUtils.isEmpty(scanPackages)) {
-            throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + " can't be empty, or you can't remove it");
+            throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty, remove it if useless");
         }
 
         if (ServiceStrategyConstant.EXCLUSION_SCAN_PACKAGES.contains(scanPackages)) {
@@ -55,7 +56,7 @@ public class ServiceStrategyAutoConfiguration {
     @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES, matchIfMissing = false)
     public ServiceStrategyInterceptor serviceStrategyInterceptor() {
         if (StringUtils.isEmpty(scanPackages)) {
-            throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + " can't be empty, or you can't remove it");
+            throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + " can't be empty, remove it if useless");
         }
 
         if (ServiceStrategyConstant.EXCLUSION_SCAN_PACKAGES.contains(scanPackages)) {
@@ -66,9 +67,23 @@ public class ServiceStrategyAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_FEIGN_HEADERS, matchIfMissing = false)
+    @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REQUEST_HEADERS, matchIfMissing = false)
     public FeignStrategyInterceptor feignStrategyInterceptor() {
-        return new FeignStrategyInterceptor(feignHeaders);
+        if (StringUtils.isEmpty(requestHeaders)) {
+            throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REQUEST_HEADERS + " can't be empty, remove it if useless");
+        }
+
+        return new FeignStrategyInterceptor(requestHeaders);
+    }
+
+    @Bean
+    @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REQUEST_HEADERS, matchIfMissing = false)
+    public RestTemplateStrategyInterceptor restTemplateStrategyInterceptor() {
+        if (StringUtils.isEmpty(requestHeaders)) {
+            throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REQUEST_HEADERS + " can't be empty, remove it if useless");
+        }
+
+        return new RestTemplateStrategyInterceptor(requestHeaders);
     }
 
     @Bean
