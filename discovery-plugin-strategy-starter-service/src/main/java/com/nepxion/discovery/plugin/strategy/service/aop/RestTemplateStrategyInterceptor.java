@@ -9,52 +9,59 @@ package com.nepxion.discovery.plugin.strategy.service.aop;
  * @version 1.0
  */
 
-import feign.RequestInterceptor;
-import feign.RequestTemplate;
-
+import java.io.IOException;
 import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.client.ClientHttpRequestExecution;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-public class FeignStrategyInterceptor implements RequestInterceptor {
-    private static final Logger LOG = LoggerFactory.getLogger(FeignStrategyInterceptor.class);
+public class RestTemplateStrategyInterceptor implements ClientHttpRequestInterceptor {
+    private static final Logger LOG = LoggerFactory.getLogger(RestTemplateStrategyInterceptor.class);
 
     private String requestHeaders;
 
-    public FeignStrategyInterceptor(String requestHeaders) {
+    public RestTemplateStrategyInterceptor(String requestHeaders) {
         this.requestHeaders = requestHeaders.toLowerCase();
 
-        LOG.info("------------- Feign Proxy Information -----------");
-        LOG.info("Feign interceptor headers are '{}'", requestHeaders);
+        LOG.info("------------- RestTemplate Proxy Information -----------");
+        LOG.info("RestTemplate interceptor headers are '{}'", requestHeaders);
         LOG.info("-------------------------------------------------");
     }
 
     @Override
-    public void apply(RequestTemplate requestTemplate) {
+    public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {     
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (attributes == null) {
-            return;
+            return execution.execute(request, body);
         }
 
         HttpServletRequest previousRequest = attributes.getRequest();
 
         Enumeration<String> headerNames = previousRequest.getHeaderNames();
         if (headerNames == null) {
-            return;
+            return execution.execute(request, body);
         }
+
+        HttpHeaders headers = request.getHeaders();
 
         while (headerNames.hasMoreElements()) {
             String headerName = headerNames.nextElement();
             String header = previousRequest.getHeader(headerName);
 
             if (requestHeaders.contains(headerName.toLowerCase())) {
-                requestTemplate.header(headerName, header);
+                headers.add(headerName, header);
             }
         }
+
+        return execution.execute(request, body);
     }
 }
