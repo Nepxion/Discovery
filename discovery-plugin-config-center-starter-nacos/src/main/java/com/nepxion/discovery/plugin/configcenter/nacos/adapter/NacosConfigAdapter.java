@@ -35,7 +35,7 @@ import com.nepxion.discovery.plugin.framework.event.RuleUpdatedEvent;
 public class NacosConfigAdapter extends ConfigAdapter {
     private static final Logger LOG = LoggerFactory.getLogger(NacosConfigAdapter.class);
 
-    private ExecutorService executorService = new ThreadPoolExecutor(2, 4, 0, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(1), new NamedThreadFactory("nacos-subscribe"), new ThreadPoolExecutor.DiscardOldestPolicy());
+    private ExecutorService executorService = new ThreadPoolExecutor(2, 4, 0, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(1), new NamedThreadFactory("nacos-config"), new ThreadPoolExecutor.DiscardOldestPolicy());
 
     @Autowired
     protected PluginContextAware pluginContextAware;
