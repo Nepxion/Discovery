@@ -367,8 +367,10 @@ spring.application.discovery.control.enabled=false
   - Redis服务器版本，推荐用最新版本，从[https://redis.io/](https://redis.io/)获取
 
 ## 规则定义
+规则是基于XML或者Json为配置方式，存储于本地文件或者远程配置中心，可以通过远程配置中心修改的方式达到规则动态化。其核心代码参考discovery-plugin-framework以及它的扩展、discovery-plugin-config-center以及它的扩展和discovery-plugin-admin-center等
+
 ### 规则示例
-XML示例（也可以通过Json来描述，这里不做描述，见discovery-springcloud-example-service下的rule.json）
+XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
@@ -522,7 +524,8 @@ XML示例（也可以通过Json来描述，这里不做描述，见discovery-spr
 - 版本不会持久化到远程配置中心，一旦微服务死掉后，再次启动，拿到的还是本地版本，所以动态改变版本策略属于临时灰度发布手段
 
 ## 策略定义
-用户自定义和编程灰度路由策略。使用者可以实现跟业务有关的路由策略，根据业务参数的不同，负载均衡到不同的服务器
+策略是通过REST或者RPC调用传递Header或者参数，达到用户自定义和编程灰度路由的目的。使用者可以实现跟业务有关的路由策略，根据业务参数的不同，负载均衡到不同的服务器，其核心代码参考discovery-plugin-strategy以及它的扩展
+
 ### 服务端的编程灰度路由策略
 基于服务端的编程灰度路由，实现DiscoveryEnabledStrategy，通过RequestContextHolder（获取来自网关的Header参数）和ServiceStrategyContext（获取来自RPC方式的方法参数）获取业务上下文参数，进行路由自定义，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
@@ -554,7 +557,7 @@ XML示例（也可以通过Json来描述，这里不做描述，见discovery-spr
 ### 规则和策略的区别
 | 属性 | 规则 | 策略 |
 | --- | --- | --- |
-| 方式 | 通过XML或者Json配置 | 通过REST或者RPC传递Header或者参数 |
+| 方式 | 通过XML或者Json配置 | 通过REST或者RPC调用传递Header或者参数 |
 | 频率 | 灰度发布期间更新，频率低 | 每次调用时候传递，频率高 |
 | 扩展性 | 内置，有限扩展，继承三个AbstractXXXListener | 内置，完全扩展，实现DiscoveryEnabledStrategy |
 | 作用域 | 运行前，运行期 | 运行期 |
