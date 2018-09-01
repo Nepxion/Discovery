@@ -17,7 +17,7 @@
     </parent>
 
     <properties>
-        <discovery.plugin.version>4.7.3</discovery.plugin.version>
+        <discovery.plugin.version>4.7.4</discovery.plugin.version>
         <spring.cloud.version>Finchley.SR1</spring.cloud.version>
         <spring.boot.admin.version>2.0.2</spring.boot.admin.version>
         <java.version>1.8</java.version>
