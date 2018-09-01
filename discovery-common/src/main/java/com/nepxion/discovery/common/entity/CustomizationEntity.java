@@ -23,10 +23,6 @@ public class CustomizationEntity implements Serializable {
 
     private Map<String, Map<String, String>> customizationMap = new LinkedHashMap<String, Map<String, String>>();
 
-    public CustomizationEntity() {
-
-    }
-
     public Map<String, Map<String, String>> getCustomizationMap() {
         return customizationMap;
     }

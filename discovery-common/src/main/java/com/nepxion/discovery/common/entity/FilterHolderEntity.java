@@ -21,10 +21,6 @@ public class FilterHolderEntity implements Serializable {
 
     private HostFilterEntity hostFilterEntity;
 
-    public FilterHolderEntity() {
-
-    }
-
     public HostFilterEntity getHostFilterEntity() {
         return hostFilterEntity;
     }

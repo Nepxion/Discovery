@@ -25,10 +25,6 @@ public class VersionEntity implements Serializable {
     private List<String> consumerVersionValueList;
     private List<String> providerVersionValueList;
 
-    public VersionEntity() {
-
-    }
-
     public String getConsumerServiceName() {
         return consumerServiceName;
     }
