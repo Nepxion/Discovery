@@ -26,10 +26,6 @@ public class HostFilterEntity implements Serializable {
     private List<String> filterValueList;
     private Map<String, List<String>> filterMap = new LinkedHashMap<String, List<String>>();
 
-    public HostFilterEntity() {
-
-    }
-
     public FilterType getFilterType() {
         return filterType;
     }

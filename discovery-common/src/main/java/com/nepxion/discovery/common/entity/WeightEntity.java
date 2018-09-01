@@ -24,10 +24,6 @@ public class WeightEntity implements Serializable {
     private String providerServiceName;
     private Map<String, Integer> weightMap;
 
-    public WeightEntity() {
-
-    }
-
     public String getConsumerServiceName() {
         return consumerServiceName;
     }

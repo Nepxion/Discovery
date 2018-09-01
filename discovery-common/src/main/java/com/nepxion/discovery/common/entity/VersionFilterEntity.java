@@ -24,10 +24,6 @@ public class VersionFilterEntity implements Serializable {
     
     private Map<String, List<VersionEntity>> versionEntityMap = new LinkedHashMap<String, List<VersionEntity>>();
 
-    public VersionFilterEntity() {
-
-    }
-
     public Map<String, List<VersionEntity>> getVersionEntityMap() {
         return versionEntityMap;
     }

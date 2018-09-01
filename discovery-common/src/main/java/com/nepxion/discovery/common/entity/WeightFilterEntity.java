@@ -24,10 +24,6 @@ public class WeightFilterEntity implements Serializable {
 
     private Map<String, List<WeightEntity>> weightEntityMap = new LinkedHashMap<String, List<WeightEntity>>();
 
-    public WeightFilterEntity() {
-
-    }
-
     public Map<String, List<WeightEntity>> getWeightEntityMap() {
         return weightEntityMap;
     }

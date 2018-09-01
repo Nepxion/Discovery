@@ -15,10 +15,6 @@ public class DiscoveryEntity extends FilterHolderEntity {
     private VersionFilterEntity versionFilterEntity;
     private WeightFilterEntity weightFilterEntity;
 
-    public DiscoveryEntity() {
-
-    }
-
     public VersionFilterEntity getVersionFilterEntity() {
         return versionFilterEntity;
     }

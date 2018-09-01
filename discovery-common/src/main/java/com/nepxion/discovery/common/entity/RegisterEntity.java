@@ -14,10 +14,6 @@ public class RegisterEntity extends FilterHolderEntity {
 
     private CountFilterEntity countFilterEntity;
 
-    public RegisterEntity() {
-
-    }
-
     public CountFilterEntity getCountFilterEntity() {
         return countFilterEntity;
     }

@@ -24,10 +24,6 @@ public class CountFilterEntity implements Serializable {
     private Integer filterValue;
     private Map<String, Integer> filterMap = new LinkedHashMap<String, Integer>();
 
-    public CountFilterEntity() {
-
-    }
-
     public Integer getFilterValue() {
         return filterValue;
     }
