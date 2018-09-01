@@ -40,8 +40,8 @@ public class NacosOperation {
         return configService.publishConfig(serviceId, group, config);
     }
 
-    public void subscribeConfig(String group, String serviceId, NacosSubscribeCallback subscribeCallback) throws NacosException {
-        configService.addListener(serviceId, group, new Listener() {
+    public Listener subscribeConfig(String group, String serviceId, Executor executor, NacosSubscribeCallback subscribeCallback) throws NacosException {
+        Listener configListener = new Listener() {
             @Override
             public void receiveConfigInfo(String config) {
                 subscribeCallback.callback(config);
@@ -49,8 +49,16 @@ public class NacosOperation {
 
             @Override
             public Executor getExecutor() {
-                return null;
+                return executor;
             }
-        });
+        };
+
+        configService.addListener(serviceId, group, configListener);
+
+        return configListener;
+    }
+
+    public void unsubscribeConfig(String group, String serviceId, Listener configListener) {
+        configService.removeListener(serviceId, group, configListener);
     }
 }
