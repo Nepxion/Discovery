@@ -13,6 +13,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.listener.PatternTopic;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.redis.operation.RedisOperation;
@@ -34,6 +37,15 @@ public class RedisConfigAdapter extends ConfigAdapter {
 
     @Autowired
     private RedisOperation redisOperation;
+
+    @Autowired
+    private RedisMessageListenerContainer redisMessageListenerContainer;
+
+    @Autowired
+    private MessageListenerAdapter partialMessageListenerAdapter;
+
+    @Autowired
+    private MessageListenerAdapter globalMessageListenerAdapter;
 
     @Override
     public String getConfig() throws Exception {
@@ -104,6 +116,22 @@ public class RedisConfigAdapter extends ConfigAdapter {
         } catch (Exception e) {
             LOG.error("Subscribe " + getConfigType(globalConfig) + " config from Redis server failed, " + groupKey + "=" + group + ", serviceId=" + serviceId, e);
         }
+    }
+
+    @Override
+    public void close() {
+        unsubscribeConfig(partialMessageListenerAdapter, false);
+        unsubscribeConfig(globalMessageListenerAdapter, true);
+    }
+
+    private void unsubscribeConfig(MessageListenerAdapter messageListenerAdapter, boolean globalConfig) {
+        String groupKey = pluginContextAware.getGroupKey();
+        String group = pluginAdapter.getGroup();
+        String serviceId = pluginAdapter.getServiceId();
+
+        LOG.info("Unsubscribe {} config from Redis server, {}={}, serviceId={}", getConfigType(globalConfig), groupKey, group, serviceId);
+
+        redisMessageListenerContainer.removeMessageListener(messageListenerAdapter, new PatternTopic(group + "-" + (globalConfig ? group : serviceId)));
     }
 
     private String getConfigType(boolean globalConfig) {
