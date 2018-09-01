@@ -306,7 +306,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 [选择引入] 用户自定义和编程灰度路由，如需要，请引入
 <dependency>
     <groupId>com.nepxion</groupId>
-    <artifactId>discovery-plugin-strategy-starter-gatewway</artifactId>
+    <artifactId>discovery-plugin-strategy-starter-gateway</artifactId>
 </dependency>
 ```
 
