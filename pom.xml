@@ -49,6 +49,7 @@
         <commons.io.version>2.5</commons.io.version>
         <dom4j.version>1.6.1</dom4j.version>
         <nacos.version>0.1.0</nacos.version>
+        <guava.version>26.0-jre</guava.version>
         <caffeine.version>2.6.2</caffeine.version>
         <swagger.version>2.7.0</swagger.version>
         <spring.cloud.version>Finchley.SR1</spring.cloud.version>
@@ -214,6 +215,12 @@
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>${commons.io.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
             </dependency>
 
             <dependency>
