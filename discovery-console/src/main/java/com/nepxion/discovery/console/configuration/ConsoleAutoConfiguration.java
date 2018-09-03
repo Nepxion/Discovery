@@ -32,7 +32,7 @@ public class ConsoleAutoConfiguration {
         System.out.println("╚═══╩╩══╩══╩══╝╚╝╚══╩╝╚═╗╔╝");
         System.out.println("                      ╔═╝║");
         System.out.println("                      ╚══╝");
-        System.out.println("Nepxion Discovery - Console  v4.7.6");
+        System.out.println("Nepxion Discovery - Console  v4.7.7");
         System.out.println("");
     }
 
