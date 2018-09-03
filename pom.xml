@@ -40,7 +40,7 @@
     </modules>
 
     <properties>
-        <eventbus.version>2.0.5</eventbus.version>
+        <eventbus.version>2.0.6</eventbus.version>
         <matrix.version>2.0.1</matrix.version>
         <commons.lang3.version>3.6</commons.lang3.version>
         <commons.collections4.version>4.1</commons.collections4.version>
