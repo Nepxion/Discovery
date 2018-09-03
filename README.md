@@ -240,8 +240,8 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 ### 版本
 | Spring Cloud版本 | Nepxion Discovery版本 |
 | --- | --- |
-| Finchley | 4.7.6 |
-| Edgware | 3.7.6 |
+| Finchley | 4.7.7 |
+| Edgware | 3.7.7 |
 
 ### 依赖
 ```xml
