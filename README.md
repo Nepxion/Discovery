@@ -256,7 +256,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 
 :exclamation:下面标注[必须引入]是一定要引入的包，标注[选择引入]是可以选择一个引入，或者不引入
 
-微服务端引入
+核心插件引入，支持微服务端、网关Zuul端和网关Spring Cloud Api Gateway（F版）端，包括核心灰度发布功能，管理中心，配置中心等
 ```xml
 [必须引入] 三个服务注册发现的中间件的增强插件，请任选一个引入
 <dependency>
@@ -284,7 +284,11 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-config-center-starter-redis</artifactId>
 </dependency>
+```
 
+扩展功能引入，支持微服务端、网关Zuul端和网关Spring Cloud Api Gateway（F版）端，包括内置版本路由、区域路由、用户自定义和编程灰度路由
+```xml
+微服务端引入
 [选择引入] 用户自定义和编程灰度路由，如需要，请引入
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -292,8 +296,8 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 </dependency>
 ```
 
-网关Zuul端引入
 ```xml
+网关Zuul端引入
 [选择引入] 用户自定义和编程灰度路由，如需要，请引入
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -301,8 +305,8 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 </dependency>
 ```
 
-网关Spring Cloud Api Gateway（F版）端引入
 ```xml
+网关Spring Cloud Api Gateway（F版）端引入
 [选择引入] 用户自定义和编程灰度路由，如需要，请引入
 <dependency>
     <groupId>com.nepxion</groupId>
