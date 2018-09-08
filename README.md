@@ -294,18 +294,14 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-strategy-starter-service</artifactId>
 </dependency>
-```
 
-```xml
 网关Zuul端引入
 [选择引入] 用户自定义和编程灰度路由，如需要，请引入
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-strategy-starter-zuul</artifactId>
 </dependency>
-```
 
-```xml
 网关Spring Cloud Api Gateway（F版）端引入
 [选择引入] 用户自定义和编程灰度路由，如需要，请引入
 <dependency>
