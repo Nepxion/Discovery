@@ -31,7 +31,7 @@ public class NacosAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public ConfigService configService() throws NacosException {
+    public ConfigService nacosConfigService() throws NacosException {
         Properties properties = new Properties();
 
         String url = environment.getProperty(NacosConstant.URL);

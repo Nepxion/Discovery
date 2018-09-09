@@ -13,8 +13,8 @@ import com.alibaba.nacos.api.PropertyKeyConst;
 
 public class NacosConstant extends PropertyKeyConst {
     public static final String URL = "nacos.url";
-    public static final String TIMEOUT = "nacos.timout";
-    public static final String NAMESPACE = "nacos.namespace";
+    public static final String NAMESPACE = "nacos.discovery.namespace";
+    public static final String TIMEOUT = "nacos.discovery.timout";
 
     public static final long DEFAULT_TIMEOUT = 30000;
 }
