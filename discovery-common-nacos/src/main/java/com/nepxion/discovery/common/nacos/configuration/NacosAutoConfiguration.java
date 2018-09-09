@@ -11,7 +11,9 @@ package com.nepxion.discovery.common.nacos.configuration;
 
 import java.util.Properties;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -28,11 +30,21 @@ public class NacosAutoConfiguration {
     private Environment environment;
 
     @Bean
+    @ConditionalOnMissingBean
     public ConfigService configService() throws NacosException {
-        String url = environment.getProperty(NacosConstant.URL);
-
         Properties properties = new Properties();
-        properties.put(NacosConstant.URL_KEY, url);
+
+        String url = environment.getProperty(NacosConstant.URL);
+        if (StringUtils.isNotEmpty(url)) {
+            properties.put(NacosConstant.SERVER_ADDR, url);
+        } else {
+            throw new IllegalArgumentException("Url can't be null or empty");
+        }
+
+        String namespace = environment.getProperty(NacosConstant.NAMESPACE);
+        if (StringUtils.isNotEmpty(namespace)) {
+            properties.put(NacosConstant.NAMESPACE, namespace);
+        }
 
         return NacosFactory.createConfigService(properties);
     }
