@@ -59,5 +59,5 @@ public class ConfigAutoConfiguration {
     @Bean
     public ConfigContextClosedHandler configContextClosedHandler() {
         return new ConfigContextClosedHandler();
-    }    
+    }
 }
