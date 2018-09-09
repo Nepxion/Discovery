@@ -14,17 +14,11 @@ import org.springframework.context.annotation.Configuration;
 
 import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
 import com.nepxion.discovery.plugin.configcenter.nacos.adapter.NacosConfigAdapter;
-import com.nepxion.discovery.plugin.configcenter.nacos.context.NacosConfigContextClosedHandler;
 
 @Configuration
 public class NacosConfigAutoConfiguration {
     @Bean
     public ConfigAdapter configAdapter() {
         return new NacosConfigAdapter();
-    }
-
-    @Bean
-    public NacosConfigContextClosedHandler configContextClosedHandler() {
-        return new NacosConfigContextClosedHandler();
     }
 }
