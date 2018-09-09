@@ -62,6 +62,7 @@
 
         <dependency>
             <groupId>com.nepxion</groupId>
+            <!-- <artifactId>discovery-plugin-config-center-starter-apollo</artifactId> -->
             <artifactId>discovery-plugin-config-center-starter-nacos</artifactId>
             <!-- <artifactId>discovery-plugin-config-center-starter-redis</artifactId> -->
         </dependency>
