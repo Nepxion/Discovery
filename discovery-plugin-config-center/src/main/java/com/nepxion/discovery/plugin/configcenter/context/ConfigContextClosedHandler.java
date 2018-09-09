@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.configcenter.nacos.context;
+package com.nepxion.discovery.plugin.configcenter.context;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -13,14 +13,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
 
-import com.nepxion.discovery.plugin.configcenter.nacos.adapter.NacosConfigAdapter;
+import com.nepxion.discovery.plugin.configcenter.loader.RemoteConfigLoader;
 
-public class NacosConfigContextClosedHandler implements ApplicationListener<ContextClosedEvent> {
-    @Autowired
-    private NacosConfigAdapter nacosConfigAdapter;
+public class ConfigContextClosedHandler implements ApplicationListener<ContextClosedEvent> {
+    @Autowired(required = false)
+    private RemoteConfigLoader remoteConfigLoader;
 
     @Override
     public void onApplicationEvent(ContextClosedEvent event) {
-        nacosConfigAdapter.close();
+        if (remoteConfigLoader != null) {
+            remoteConfigLoader.close();
+        }
     }
 }

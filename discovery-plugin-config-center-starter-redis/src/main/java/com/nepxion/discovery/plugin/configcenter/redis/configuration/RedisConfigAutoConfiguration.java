@@ -21,7 +21,6 @@ import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 
 import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
 import com.nepxion.discovery.plugin.configcenter.redis.adapter.RedisConfigAdapter;
-import com.nepxion.discovery.plugin.configcenter.redis.context.RedisConfigContextClosedHandler;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 
@@ -76,10 +75,5 @@ public class RedisConfigAutoConfiguration {
     @Bean
     public ConfigAdapter configAdapter() {
         return new RedisConfigAdapter();
-    }
-
-    @Bean
-    public RedisConfigContextClosedHandler configContextClosedHandler() {
-        return new RedisConfigContextClosedHandler();
     }
 }
