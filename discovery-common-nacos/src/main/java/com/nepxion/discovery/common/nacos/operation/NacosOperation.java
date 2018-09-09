@@ -21,7 +21,7 @@ import com.nepxion.discovery.common.nacos.constant.NacosConstant;
 
 public class NacosOperation {
     @Autowired
-    private ConfigService configService;
+    private ConfigService nacosConfigService;
 
     @Autowired
     private Environment environment;
@@ -29,15 +29,15 @@ public class NacosOperation {
     public String getConfig(String group, String serviceId) throws NacosException {
         long timeout = environment.getProperty(NacosConstant.TIMEOUT, Long.class, NacosConstant.DEFAULT_TIMEOUT);
 
-        return configService.getConfig(serviceId, group, timeout);
+        return nacosConfigService.getConfig(serviceId, group, timeout);
     }
 
     public boolean removeConfig(String group, String serviceId) throws NacosException {
-        return configService.removeConfig(serviceId, group);
+        return nacosConfigService.removeConfig(serviceId, group);
     }
 
     public boolean publishConfig(String group, String serviceId, String config) throws NacosException {
-        return configService.publishConfig(serviceId, group, config);
+        return nacosConfigService.publishConfig(serviceId, group, config);
     }
 
     public Listener subscribeConfig(String group, String serviceId, Executor executor, NacosSubscribeCallback subscribeCallback) throws NacosException {
@@ -53,12 +53,12 @@ public class NacosOperation {
             }
         };
 
-        configService.addListener(serviceId, group, configListener);
+        nacosConfigService.addListener(serviceId, group, configListener);
 
         return configListener;
     }
 
     public void unsubscribeConfig(String group, String serviceId, Listener configListener) {
-        configService.removeListener(serviceId, group, configListener);
+        nacosConfigService.removeListener(serviceId, group, configListener);
     }
 }
