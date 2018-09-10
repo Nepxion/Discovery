@@ -16,8 +16,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.client.RestTemplate;
 
+import com.nepxion.discovery.common.handler.RestErrorHandler;
 import com.nepxion.discovery.console.endpoint.ConsoleEndpoint;
-import com.nepxion.discovery.console.handler.ConsoleErrorHandler;
 
 @Configuration
 @Import(SwaggerConfiguration.class)
@@ -46,7 +46,7 @@ public class ConsoleAutoConfiguration {
         @Bean
         public RestTemplate consoleRestTemplate() {
             RestTemplate restTemplate = new RestTemplate();
-            restTemplate.setErrorHandler(new ConsoleErrorHandler());
+            restTemplate.setErrorHandler(new RestErrorHandler());
 
             return restTemplate;
         }

@@ -9,8 +9,6 @@ package com.nepxion.discovery.common.util;
  * @version 1.0
  */
 
-import java.text.SimpleDateFormat;
-
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -22,7 +20,7 @@ public class JsonUtil {
 
     static {
         objectMapper = new ObjectMapper();
-        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS"));
+        // objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS"));
     }
 
     public static <T> String toJson(T object) {

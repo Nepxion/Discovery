@@ -24,8 +24,8 @@ import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.ResultEntity;
+import com.nepxion.discovery.common.util.RestUtil;
 import com.nepxion.discovery.common.util.UrlUtil;
-import com.nepxion.discovery.console.handler.ConsoleErrorHandler;
 
 public abstract class AbstractRestInvoker {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractRestInvoker.class);
@@ -61,8 +61,7 @@ public abstract class AbstractRestInvoker {
 
                 result = doRest(url);
                 if (!StringUtils.equals(result, "OK")) {
-                    ConsoleErrorHandler errorHandler = (ConsoleErrorHandler) restTemplate.getErrorHandler();
-                    result = errorHandler.getCause();
+                    result = RestUtil.getCause(restTemplate);
                 }
             } catch (Exception e) {
                 result = e.getMessage();
