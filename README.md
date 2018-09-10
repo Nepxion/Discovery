@@ -82,9 +82,9 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Admin2.jpg)
 集成Spring Boot Admin（E版）监控平台，实现通过JMX向Endpoint推送规则和版本，达到灰度发布目的
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Admin3.jpg)
-集成Apollo配置中心
+集成规则配置的Apollo配置中心
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Apollo.jpg)
-集成了健康检查的Consul界面
+集成健康检查的Consul界面
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Consul.jpg)
 
 ## 现有痛点
