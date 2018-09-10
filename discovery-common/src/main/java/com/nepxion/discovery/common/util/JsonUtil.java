@@ -20,7 +20,7 @@ public class JsonUtil {
 
     static {
         objectMapper = new ObjectMapper();
-        // objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS"));
+        // objectMapper.setDateFormat(new SimpleDateFormat(DiscoveryConstant.DATE_FORMAT));
     }
 
     public static <T> String toJson(T object) {

@@ -19,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.ResultEntity;
 import com.nepxion.discovery.common.entity.RouterEntity;
 import com.nepxion.discovery.common.handler.RestErrorHandler;
@@ -81,7 +82,7 @@ public class ServiceController {
 
         String result = restTemplate.postForEntity(url, entity, String.class).getBody();
 
-        if (!StringUtils.equals(result, "OK") && !StringUtils.equals(result, "NO")) {
+        if (!StringUtils.equals(result, DiscoveryConstant.OK) && !StringUtils.equals(result, DiscoveryConstant.NO)) {
             result = RestUtil.getCause(restTemplate);
         }
 
@@ -93,7 +94,7 @@ public class ServiceController {
 
         String result = restTemplate.postForEntity(url, null, String.class).getBody();
 
-        if (!StringUtils.equals(result, "OK") && !StringUtils.equals(result, "NO")) {
+        if (!StringUtils.equals(result, DiscoveryConstant.OK) && !StringUtils.equals(result, DiscoveryConstant.NO)) {
             result = RestUtil.getCause(restTemplate);
         }
 
@@ -132,7 +133,7 @@ public class ServiceController {
 
         String result = restTemplate.postForEntity(url, entity, String.class).getBody();
 
-        if (!StringUtils.equals(result, "OK")) {
+        if (!StringUtils.equals(result, DiscoveryConstant.OK)) {
             result = RestUtil.getCause(restTemplate);
         }
 
@@ -153,7 +154,7 @@ public class ServiceController {
 
         String result = restTemplate.postForEntity(url, null, String.class).getBody();
 
-        if (!StringUtils.equals(result, "OK")) {
+        if (!StringUtils.equals(result, DiscoveryConstant.OK)) {
             result = RestUtil.getCause(restTemplate);
         }
 
@@ -174,7 +175,7 @@ public class ServiceController {
 
         String result = restTemplate.postForEntity(url, version, String.class).getBody();
 
-        if (!StringUtils.equals(result, "OK")) {
+        if (!StringUtils.equals(result, DiscoveryConstant.OK)) {
             result = RestUtil.getCause(restTemplate);
         }
 
@@ -195,7 +196,7 @@ public class ServiceController {
 
         String result = restTemplate.postForEntity(url, null, String.class).getBody();
 
-        if (!StringUtils.equals(result, "OK")) {
+        if (!StringUtils.equals(result, DiscoveryConstant.OK)) {
             result = RestUtil.getCause(restTemplate);
         }
 

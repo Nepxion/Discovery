@@ -60,7 +60,7 @@ public abstract class AbstractRestInvoker {
                 checkPermission(serviceInstance);
 
                 result = doRest(url);
-                if (!StringUtils.equals(result, "OK")) {
+                if (!StringUtils.equals(result, DiscoveryConstant.OK)) {
                     result = RestUtil.getCause(restTemplate);
                 }
             } catch (Exception e) {
