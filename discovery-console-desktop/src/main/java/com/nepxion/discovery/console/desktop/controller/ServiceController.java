@@ -21,7 +21,8 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.nepxion.discovery.common.entity.ResultEntity;
 import com.nepxion.discovery.common.entity.RouterEntity;
-import com.nepxion.discovery.common.util.JsonUtil;
+import com.nepxion.discovery.common.handler.RestErrorHandler;
+import com.nepxion.discovery.common.util.RestUtil;
 import com.nepxion.discovery.common.util.UrlUtil;
 import com.nepxion.discovery.console.desktop.context.PropertiesContext;
 import com.nepxion.discovery.console.desktop.entity.Instance;
@@ -31,7 +32,7 @@ public class ServiceController {
 
     static {
         restTemplate = new RestTemplate();
-        restTemplate.setErrorHandler(new ServiceErrorHandler());
+        restTemplate.setErrorHandler(new RestErrorHandler());
     }
 
     public static Map<String, List<Instance>> getInstanceMap() {
@@ -39,7 +40,7 @@ public class ServiceController {
 
         String result = restTemplate.getForEntity(url, String.class).getBody();
 
-        return convert(result, new TypeReference<Map<String, List<Instance>>>() {
+        return RestUtil.fromJson(restTemplate, result, new TypeReference<Map<String, List<Instance>>>() {
         });
     }
 
@@ -48,7 +49,7 @@ public class ServiceController {
 
         String result = restTemplate.getForEntity(url, String.class).getBody();
 
-        return convert(result, new TypeReference<List<String>>() {
+        return RestUtil.fromJson(restTemplate, result, new TypeReference<List<String>>() {
         });
     }
 
@@ -57,7 +58,7 @@ public class ServiceController {
 
         String result = restTemplate.getForEntity(url, String.class).getBody();
 
-        return convert(result, new TypeReference<List<String>>() {
+        return RestUtil.fromJson(restTemplate, result, new TypeReference<List<String>>() {
         });
     }
 
@@ -66,7 +67,7 @@ public class ServiceController {
 
         String result = restTemplate.postForEntity(url, routeServiceIds, String.class).getBody();
 
-        return convert(result, new TypeReference<RouterEntity>() {
+        return RestUtil.fromJson(restTemplate, result, new TypeReference<RouterEntity>() {
         });
     }
 
@@ -81,8 +82,7 @@ public class ServiceController {
         String result = restTemplate.postForEntity(url, entity, String.class).getBody();
 
         if (!StringUtils.equals(result, "OK") && !StringUtils.equals(result, "NO")) {
-            ServiceErrorHandler errorHandler = (ServiceErrorHandler) restTemplate.getErrorHandler();
-            result = errorHandler.getCause();
+            result = RestUtil.getCause(restTemplate);
         }
 
         return result;
@@ -94,8 +94,7 @@ public class ServiceController {
         String result = restTemplate.postForEntity(url, null, String.class).getBody();
 
         if (!StringUtils.equals(result, "OK") && !StringUtils.equals(result, "NO")) {
-            ServiceErrorHandler errorHandler = (ServiceErrorHandler) restTemplate.getErrorHandler();
-            result = errorHandler.getCause();
+            result = RestUtil.getCause(restTemplate);
         }
 
         return result;
@@ -119,7 +118,7 @@ public class ServiceController {
 
         String result = restTemplate.postForEntity(url, entity, String.class).getBody();
 
-        return convert(result, new TypeReference<List<ResultEntity>>() {
+        return RestUtil.fromJson(restTemplate, result, new TypeReference<List<ResultEntity>>() {
         });
     }
 
@@ -134,8 +133,7 @@ public class ServiceController {
         String result = restTemplate.postForEntity(url, entity, String.class).getBody();
 
         if (!StringUtils.equals(result, "OK")) {
-            ServiceErrorHandler errorHandler = (ServiceErrorHandler) restTemplate.getErrorHandler();
-            result = errorHandler.getCause();
+            result = RestUtil.getCause(restTemplate);
         }
 
         return result;
@@ -146,7 +144,7 @@ public class ServiceController {
 
         String result = restTemplate.postForEntity(url, null, String.class).getBody();
 
-        return convert(result, new TypeReference<List<ResultEntity>>() {
+        return RestUtil.fromJson(restTemplate, result, new TypeReference<List<ResultEntity>>() {
         });
     }
 
@@ -156,8 +154,7 @@ public class ServiceController {
         String result = restTemplate.postForEntity(url, null, String.class).getBody();
 
         if (!StringUtils.equals(result, "OK")) {
-            ServiceErrorHandler errorHandler = (ServiceErrorHandler) restTemplate.getErrorHandler();
-            result = errorHandler.getCause();
+            result = RestUtil.getCause(restTemplate);
         }
 
         return result;
@@ -168,7 +165,7 @@ public class ServiceController {
 
         String result = restTemplate.postForEntity(url, version, String.class).getBody();
 
-        return convert(result, new TypeReference<List<ResultEntity>>() {
+        return RestUtil.fromJson(restTemplate, result, new TypeReference<List<ResultEntity>>() {
         });
     }
 
@@ -178,8 +175,7 @@ public class ServiceController {
         String result = restTemplate.postForEntity(url, version, String.class).getBody();
 
         if (!StringUtils.equals(result, "OK")) {
-            ServiceErrorHandler errorHandler = (ServiceErrorHandler) restTemplate.getErrorHandler();
-            result = errorHandler.getCause();
+            result = RestUtil.getCause(restTemplate);
         }
 
         return result;
@@ -190,7 +186,7 @@ public class ServiceController {
 
         String result = restTemplate.postForEntity(url, null, String.class).getBody();
 
-        return convert(result, new TypeReference<List<ResultEntity>>() {
+        return RestUtil.fromJson(restTemplate, result, new TypeReference<List<ResultEntity>>() {
         });
     }
 
@@ -200,8 +196,7 @@ public class ServiceController {
         String result = restTemplate.postForEntity(url, null, String.class).getBody();
 
         if (!StringUtils.equals(result, "OK")) {
-            ServiceErrorHandler errorHandler = (ServiceErrorHandler) restTemplate.getErrorHandler();
-            result = errorHandler.getCause();
+            result = RestUtil.getCause(restTemplate);
         }
 
         return result;
@@ -209,11 +204,8 @@ public class ServiceController {
 
     private static String getUrl() {
         String url = PropertiesContext.getProperties().getString("url");
-        if (!url.endsWith("/")) {
-            url += "/";
-        }
 
-        return url;
+        return UrlUtil.formatUrl(url);
     }
 
     private static String getUrl(Instance instance) {
@@ -224,16 +216,5 @@ public class ServiceController {
 
     private static String getInvokeType(boolean async) {
         return async ? "async" : "sync";
-    }
-
-    private static <T> T convert(String result, TypeReference<T> typeReference) {
-        try {
-            return JsonUtil.fromJson(result, typeReference);
-        } catch (Exception e) {
-            ServiceErrorHandler errorHandler = (ServiceErrorHandler) restTemplate.getErrorHandler();
-            result = errorHandler.getCause();
-
-            throw new IllegalArgumentException(result);
-        }
     }
 }

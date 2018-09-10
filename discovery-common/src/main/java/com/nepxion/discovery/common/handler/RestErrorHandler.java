@@ -1,4 +1,4 @@
-package com.nepxion.discovery.console.desktop.controller;
+package com.nepxion.discovery.common.handler;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -16,14 +16,16 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 
-public class ServiceErrorHandler extends DefaultResponseErrorHandler {
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
+
+public class RestErrorHandler extends DefaultResponseErrorHandler {
     private String cause;
 
     @Override
     public void handleError(ClientHttpResponse response) throws IOException {
         // 这里绝对不能关闭InputStream
         InputStream inputStream = response.getBody();
-        cause = IOUtils.toString(inputStream, "UTF-8");
+        cause = IOUtils.toString(inputStream, DiscoveryConstant.ENCODING_UTF_8);
     }
 
     public String getCause() {
