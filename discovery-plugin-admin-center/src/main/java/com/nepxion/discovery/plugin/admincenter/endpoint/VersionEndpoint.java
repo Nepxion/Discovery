@@ -115,7 +115,7 @@ public class VersionEndpoint implements MvcEndpoint {
 
         pluginEventWapper.fireVersionUpdated(new VersionUpdatedEvent(dynamicVersion, localVersion), async);
 
-        return ResponseEntity.ok().body("OK");
+        return ResponseEntity.ok().body(DiscoveryConstant.OK);
     }
 
     private ResponseEntity<?> clear(String version, boolean async) {
@@ -131,7 +131,7 @@ public class VersionEndpoint implements MvcEndpoint {
 
         pluginEventWapper.fireVersionCleared(new VersionClearedEvent(version), async);
 
-        return ResponseEntity.ok().body("OK");
+        return ResponseEntity.ok().body(DiscoveryConstant.OK);
     }
 
     private ResponseEntity<List<String>> view(boolean async) {

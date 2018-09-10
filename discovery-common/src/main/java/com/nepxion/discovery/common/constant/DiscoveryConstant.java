@@ -40,4 +40,7 @@ public class DiscoveryConstant {
     public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
     public static final String ENCODING_UTF_8 = "UTF-8";
     public static final String SEPARATE = ";";
+
+    public static final String OK = "OK";
+    public static final String NO = "NO";
 }

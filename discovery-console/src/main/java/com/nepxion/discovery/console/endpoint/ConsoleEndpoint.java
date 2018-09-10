@@ -233,7 +233,7 @@ public class ConsoleEndpoint implements MvcEndpoint {
         try {
             boolean result = configAdapter.updateConfig(group, serviceId, config);
 
-            return ResponseEntity.ok().body(result ? "OK" : "NO");
+            return ResponseEntity.ok().body(result ? DiscoveryConstant.OK : DiscoveryConstant.NO);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
@@ -249,7 +249,7 @@ public class ConsoleEndpoint implements MvcEndpoint {
         try {
             boolean result = configAdapter.clearConfig(group, serviceId);
 
-            return ResponseEntity.ok().body(result ? "OK" : "NO");
+            return ResponseEntity.ok().body(result ? DiscoveryConstant.OK : DiscoveryConstant.NO);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }

@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
@@ -110,7 +111,7 @@ public class ConfigEndpoint implements MvcEndpoint {
 
         // return ResponseEntity.ok().build();
 
-        return ResponseEntity.ok().body("OK");
+        return ResponseEntity.ok().body(DiscoveryConstant.OK);
     }
 
     private ResponseEntity<?> clear(boolean async) {
@@ -126,7 +127,7 @@ public class ConfigEndpoint implements MvcEndpoint {
 
         pluginEventWapper.fireRuleCleared(new RuleClearedEvent(), async);
 
-        return ResponseEntity.ok().body("OK");
+        return ResponseEntity.ok().body(DiscoveryConstant.OK);
     }
 
     private ResponseEntity<List<String>> view(boolean async) {
