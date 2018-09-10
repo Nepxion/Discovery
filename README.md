@@ -6,7 +6,7 @@
 [![Build Status](https://travis-ci.org/Nepxion/Discovery.svg?branch=master)](https://travis-ci.org/Nepxion/Discovery)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8e39a24e1be740c58b83fb81763ba317)](https://www.codacy.com/project/HaojunRen/Discovery/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nepxion/Discovery&amp;utm_campaign=Badge_Grade_Dashboard)
 
-Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon负载均衡、Feign和RestTemplate调用的增强中间件，其功能包括灰度发布（包括切换发布和平滑发布），服务隔离，服务路由，服务权重，黑/白名单的IP地址过滤，限制注册，限制发现等，支持Eureka、Consul、Zookeeper为服务注册发现中间件，支持Nacos和Redis为远程配置中心，支持Spring Cloud Api Gateway（Finchley版）、Zuul网关和微服务的灰度发布，支持多数据源的数据库灰度发布等客户特色化灰度发布，支持用户自定义和编程灰度路由策略（包括RPC和REST两种调用方式），兼容Spring Cloud Edgware版和Finchley版（不支持Dalston版，因为它的生命周期将在2018年12月结束，如果您无法回避使用Dalston版，请自行修改源码或者联系我）。现有的Spring Cloud微服务很方便引入该中间件，代码零侵入
+Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon负载均衡、Feign和RestTemplate调用的增强中间件，其功能包括灰度发布（包括切换发布和平滑发布），服务隔离，服务路由，服务权重，黑/白名单的IP地址过滤，限制注册，限制发现等，支持Eureka、Consul、Zookeeper和阿里巴巴的Nacos为服务注册发现中间件，支持阿里巴巴的Nacos、携程的Apollo和Redis为远程配置中心，支持Spring Cloud Api Gateway（Finchley版）、Zuul网关和微服务的灰度发布，支持多数据源的数据库灰度发布等客户特色化灰度发布，支持用户自定义和编程灰度路由策略（包括RPC和REST两种调用方式），兼容Spring Cloud Edgware版和Finchley版（不支持Dalston版，因为它的生命周期将在2018年12月结束，如果您无法回避使用Dalston版，请自行修改源码或者联系我）。现有的Spring Cloud微服务很方便引入该中间件，代码零侵入
 
 对于使用者来说，他所需要做的如下：
 - 引入相关依赖到pom.xml，参考 [依赖兼容](#依赖兼容)
@@ -208,24 +208,29 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 | 工程名 | 描述 |
 | --- | --- |
 | discovery-common | 通用模块 |
+| discovery-common-apollo | 封装Apollo通用操作逻辑 |
 | discovery-common-nacos | 封装Nacos通用操作逻辑 |
 | discovery-common-redis | 封装Redis通用操作逻辑 |
 | discovery-plugin-framework | 核心框架 |
 | discovery-plugin-framework-eureka | 核心框架服务注册发现的Eureka实现 |
 | discovery-plugin-framework-consul | 核心框架服务注册发现的Consul实现 |
 | discovery-plugin-framework-zookeeper | 核心框架服务注册发现的Zookeeper实现 |
+| discovery-plugin-framework-nacos | 核心框架服务注册发现的Nacos实现（待实现） |
 | discovery-plugin-config-center | 配置中心实现 |
+| discovery-plugin-config-center-starter-apollo | 配置中心的Apollo Starter |
 | discovery-plugin-config-center-starter-nacos | 配置中心的Nacos Starter |
 | discovery-plugin-config-center-starter-redis | 配置中心的Redis Starter |
 | discovery-plugin-admin-center | 管理中心实现 |
 | discovery-plugin-starter-eureka | Eureka Starter |
 | discovery-plugin-starter-consul | Consul Starter |
 | discovery-plugin-starter-zookeeper | Zookeeper Starter |
+| discovery-plugin-starter-nacos | Nacos Starter（待实现） |
 | discovery-plugin-strategy | 用户自定义和编程灰度路由策略 |
 | discovery-plugin-strategy-starter-service | 用户自定义和编程灰度路由策略的Service Starter |
 | discovery-plugin-strategy-starter-zuul | 用户自定义和编程灰度路由策略的Zuul Starter |
 | discovery-plugin-strategy-starter-gateway | 用户自定义和编程灰度路由策略的Spring Cloud Api Gateway（F版） Starter |
 | discovery-console | 控制平台，集成接口给UI |
+| discovery-console-starter-apollo | 控制平台的Apollo Starter（待实现） |
 | discovery-console-starter-nacos | 控制平台的Nacos Starter |
 | discovery-console-starter-redis | 控制平台的Redis Starter |
 | discovery-console-desktop | 图形化灰度发布等桌面程序 |
@@ -275,6 +280,11 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 </dependency>
 
 [选择引入] 两个远程配置中心的中间件的扩展插件，如需要，请任选一个引入，或者也可以引入您自己的扩展
+<dependency>
+    <groupId>com.nepxion</groupId>
+    <artifactId>discovery-plugin-config-center-starter-apollo</artifactId>
+</dependency>
+
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-config-center-starter-nacos</artifactId>
@@ -333,6 +343,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
+    <artifactId>discovery-plugin-config-center-starter-apollo</artifactId>
     <!-- <artifactId>discovery-plugin-config-center-starter-nacos</artifactId> -->
     <artifactId>discovery-plugin-config-center-starter-redis</artifactId>
 </dependency>
@@ -361,6 +372,8 @@ spring.application.discovery.control.enabled=false
   - Spring Cloud E版，Zookeeper服务器版本不限制
 - Eureka
   - 跟Spring Cloud版本保持一致，自行搭建服务器
+- Apollo
+  - Apollo服务器版本，推荐用最新版本，从[https://github.com/ctripcorp/apollo/releases](https://github.com/ctripcorp/apollo/releases)获取
 - Nacos
   - Nacos服务器版本，推荐用最新版本，从[https://pan.baidu.com/s/1FsPzIK8lQ8VSNucI57H67A](https://pan.baidu.com/s/1FsPzIK8lQ8VSNucI57H67A)获取
 - Redis
@@ -638,10 +651,11 @@ spring.application.strategy.request.headers=version;region;token
 
 ## 配置中心
 - 默认集成
+  - 本系统跟Apollo集成，如何安装使用，请参考[https://github.com/ctripcorp/apollo](https://github.com/ctripcorp/apollo)
   - 本系统跟Nacos集成，如何安装使用，请参考[https://github.com/alibaba/nacos](https://github.com/alibaba/nacos)
   - 本系统跟Redis集成
 - 扩展集成
-  - 使用者也可以跟携程Apollo，百度DisConf等远程配置中心集成
+  - 使用者也可以跟更多远程配置中心集成
   - 参考三个跟Nacos或者Redis有关的工程
 
 ## 管理中心
@@ -656,7 +670,7 @@ spring.application.strategy.request.headers=version;region;token
 ## 控制平台
 为UI提供相关接口，包括
 - 一系列批量功能
-- 跟Nacos和Redis集成，实现配置拉去、推送和清除
+- 跟Nacos和Redis集成，实现配置拉去、推送和清除，Apollo集成，请等到2018年10月份，您可以通过Apollo自带界面做规则配置
 
 :exclamation:PORT端口号为服务端口或者管理端口都可以
 - 控制平台接口
