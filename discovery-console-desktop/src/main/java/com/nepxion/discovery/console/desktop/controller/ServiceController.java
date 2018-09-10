@@ -216,6 +216,6 @@ public class ServiceController {
     }
 
     private static String getInvokeType(boolean async) {
-        return async ? "async" : "sync";
+        return async ? DiscoveryConstant.ASYNC : DiscoveryConstant.SYNC;
     }
 }

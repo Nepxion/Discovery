@@ -41,6 +41,10 @@ public class DiscoveryConstant {
     public static final String ENCODING_UTF_8 = "UTF-8";
     public static final String SEPARATE = ";";
 
+    public static final String ASYNC = "async";
+    public static final String SYNC = "sync";
+    public static final String GLOBAL = "global";
+    public static final String PARTIAL = "partial";
     public static final String OK = "OK";
     public static final String NO = "NO";
 }
