@@ -17,6 +17,8 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
   - 通过远程配置中心推送规则
   - 通过控制平台界面推送规则
   - 通过客户端工具（例如Postman）推送
+- [入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_QUICK_START.md)
+- [示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)
 
 ## 目录
 - [请联系我](#请联系我)
@@ -68,7 +70,8 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 ## 快速开始
 - [入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_QUICK_START.md)
 - [示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/README_EXAMPLE.md)
-- 界面展示
+
+## 界面展示
 
 图形化灰度发布桌面程序
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Console1.jpg)
@@ -79,7 +82,9 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Admin2.jpg)
 集成Spring Boot Admin（E版）监控平台，实现通过JMX向Endpoint推送规则和版本，达到灰度发布目的
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Admin3.jpg)
-集成了健康检查的Consul界面
+集成规则配置的Apollo配置中心
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Apollo.jpg)
+集成健康检查的Consul界面
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-plugin-doc/Consul.jpg)
 
 ## 现有痛点
