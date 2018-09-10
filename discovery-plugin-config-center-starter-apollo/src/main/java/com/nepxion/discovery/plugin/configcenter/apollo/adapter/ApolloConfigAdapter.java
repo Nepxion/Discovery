@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.ctrip.framework.apollo.ConfigChangeListener;
 import com.nepxion.discovery.common.apollo.operation.ApolloOperation;
 import com.nepxion.discovery.common.apollo.operation.ApolloSubscribeCallback;
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
@@ -135,6 +136,6 @@ public class ApolloConfigAdapter extends ConfigAdapter {
     }
 
     private String getConfigType(boolean globalConfig) {
-        return globalConfig ? "global" : "partial";
+        return globalConfig ? DiscoveryConstant.GLOBAL : DiscoveryConstant.PARTIAL;
     }
 }

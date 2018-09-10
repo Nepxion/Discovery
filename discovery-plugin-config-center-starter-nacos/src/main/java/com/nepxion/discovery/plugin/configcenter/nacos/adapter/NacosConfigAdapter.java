@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.nacos.api.config.listener.Listener;
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.nacos.operation.NacosOperation;
 import com.nepxion.discovery.common.nacos.operation.NacosSubscribeCallback;
@@ -145,6 +146,6 @@ public class NacosConfigAdapter extends ConfigAdapter {
     }
 
     private String getConfigType(boolean globalConfig) {
-        return globalConfig ? "global" : "partial";
+        return globalConfig ? DiscoveryConstant.GLOBAL : DiscoveryConstant.PARTIAL;
     }
 }

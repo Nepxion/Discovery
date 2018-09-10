@@ -17,6 +17,7 @@ import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.redis.operation.RedisOperation;
 import com.nepxion.discovery.common.redis.operation.RedisSubscribeCallback;
@@ -135,6 +136,6 @@ public class RedisConfigAdapter extends ConfigAdapter {
     }
 
     private String getConfigType(boolean globalConfig) {
-        return globalConfig ? "global" : "partial";
+        return globalConfig ? DiscoveryConstant.GLOBAL : DiscoveryConstant.PARTIAL;
     }
 }

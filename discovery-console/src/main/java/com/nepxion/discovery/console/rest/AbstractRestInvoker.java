@@ -81,7 +81,7 @@ public abstract class AbstractRestInvoker {
     }
 
     protected String getInvokeType() {
-        return async ? "async" : "sync";
+        return async ? DiscoveryConstant.ASYNC : DiscoveryConstant.SYNC;
     }
 
     protected void checkDiscoveryControlPermission(ServiceInstance serviceInstance) {
