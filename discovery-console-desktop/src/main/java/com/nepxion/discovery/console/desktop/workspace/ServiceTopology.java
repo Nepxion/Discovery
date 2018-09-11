@@ -93,7 +93,7 @@ public class ServiceTopology extends AbstractTopology {
     public static final String NO_FILTER = ConsoleLocale.getString("no_service_cluster_filter");
 
     private LocationEntity groupLocationEntity = new LocationEntity(120, 250, 280, 0);
-    private LocationEntity nodeLocationEntity = new LocationEntity(0, 0, 120, 100);
+    private LocationEntity nodeLocationEntity = new LocationEntity(0, 0, 120, 120);
     private TopologyEntity serviceGroupEntity = new TopologyEntity(TopologyEntityType.SERVICE_GROUP, TopologyStyleType.LARGE, true);
     private TopologyEntity notServiceGroupEntity = new TopologyEntity(TopologyEntityType.GATEWAY_GROUP, TopologyStyleType.LARGE, true);
     private TopologyEntity serviceNodeEntity = new TopologyEntity(TopologyEntityType.SERVICE, TopologyStyleType.MIDDLE, false);
@@ -404,6 +404,9 @@ public class ServiceTopology extends AbstractTopology {
                 stringBuilder.append(" -> V").append(instance.getDynamicVersion());
             }
             stringBuilder.append("]");
+            if (StringUtils.isNotEmpty(instance.getRegion())) {
+                stringBuilder.append("\n [Region=").append(instance.getRegion()).append("]");
+            }
         }
 
         return ButtonManager.getHtmlText(stringBuilder.toString());
