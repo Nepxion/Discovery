@@ -12,6 +12,7 @@ package com.nepxion.discovery.common.nacos.constant;
 import com.alibaba.nacos.api.PropertyKeyConst;
 
 public class NacosConstant extends PropertyKeyConst {
+    public static final String TYPE = "Nacos";
     public static final String URL = "nacos.url";
     public static final String NAMESPACE = "nacos.discovery.namespace";
     public static final String TIMEOUT = "nacos.discovery.timout";

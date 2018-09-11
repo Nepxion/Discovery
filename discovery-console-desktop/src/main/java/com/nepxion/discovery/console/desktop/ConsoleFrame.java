@@ -13,6 +13,7 @@ import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import com.nepxion.discovery.console.desktop.controller.ServiceController;
 import com.nepxion.discovery.console.desktop.icon.ConsoleIconFactory;
 import com.nepxion.discovery.console.desktop.locale.ConsoleLocale;
 import com.nepxion.swing.frame.JBasicFrame;
@@ -24,7 +25,7 @@ public class ConsoleFrame extends JBasicFrame {
     private static final long serialVersionUID = 1L;
 
     public ConsoleFrame() {
-        super(ConsoleLocale.getString("title"), ConsoleIconFactory.getSwingIcon("ribbon/navigator_nepxion.png"), new Dimension(1280, 900));
+        super(ConsoleLocale.getString("title") + " [" + ServiceController.getConfigType() + " " + ConsoleLocale.getString("config_center") + "]", ConsoleIconFactory.getSwingIcon("ribbon/navigator_nepxion.png"), new Dimension(1280, 900));
     }
 
     public void launch() {
@@ -42,7 +43,6 @@ public class ConsoleFrame extends JBasicFrame {
             }
         });
 
-        setTitle(ConsoleLocale.getString("title"));
         setExtendedState(ConsoleFrame.MAXIMIZED_BOTH);
         setVisible(true);
         toFront();

@@ -19,6 +19,7 @@ import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.redis.constant.RedisConstant;
 import com.nepxion.discovery.common.redis.operation.RedisOperation;
 import com.nepxion.discovery.common.redis.operation.RedisSubscribeCallback;
 import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
@@ -54,14 +55,14 @@ public class RedisConfigAdapter extends ConfigAdapter {
         if (StringUtils.isNotEmpty(config)) {
             return config;
         } else {
-            LOG.info("No partial config is retrieved from Redis server");
+            LOG.info("No {} config is retrieved from {} server", getConfigScope(false), getConfigType());
         }
 
         config = getConfig(true);
         if (StringUtils.isNotEmpty(config)) {
             return config;
         } else {
-            LOG.info("No global config is retrieved from Redis server");
+            LOG.info("No {} config is retrieved from {} server", getConfigScope(true), getConfigType());
         }
 
         return null;
@@ -72,7 +73,7 @@ public class RedisConfigAdapter extends ConfigAdapter {
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
 
-        LOG.info("Get {} config from Redis server, {}={}, serviceId={}", getConfigType(globalConfig), groupKey, group, serviceId);
+        LOG.info("Get {} config from {} server, {}={}, serviceId={}", getConfigScope(globalConfig), getConfigType(), groupKey, group, serviceId);
 
         return redisOperation.getConfig(group, globalConfig ? group : serviceId);
     }
@@ -95,7 +96,7 @@ public class RedisConfigAdapter extends ConfigAdapter {
                 @Override
                 public void callback(String config) {
                     if (StringUtils.isNotEmpty(config)) {
-                        LOG.info("Get {} config updated event from Redis server, {}={}, serviceId={}", getConfigType(globalConfig), groupKey, group, serviceId);
+                        LOG.info("Get {} config updated event from {} server, {}={}, serviceId={}", getConfigScope(globalConfig), getConfigType(), groupKey, group, serviceId);
 
                         RuleEntity ruleEntity = pluginAdapter.getRule();
                         String rule = null;
@@ -105,17 +106,17 @@ public class RedisConfigAdapter extends ConfigAdapter {
                         if (!StringUtils.equals(rule, config)) {
                             fireRuleUpdated(new RuleUpdatedEvent(config), true);
                         } else {
-                            LOG.info("Retrieved {} config from Redis server is same as current config, ignore to update, {}={}, serviceId={}", getConfigType(globalConfig), groupKey, group, serviceId);
+                            LOG.info("Retrieved {} config from {} server is same as current config, ignore to update, {}={}, serviceId={}", getConfigScope(globalConfig), getConfigType(), groupKey, group, serviceId);
                         }
                     } else {
-                        LOG.info("Get {} config cleared event from Redis server, {}={}, serviceId={}", getConfigType(globalConfig), groupKey, group, serviceId);
+                        LOG.info("Get {} config cleared event from {} server, {}={}, serviceId={}", getConfigScope(globalConfig), getConfigType(), groupKey, group, serviceId);
 
                         fireRuleCleared(new RuleClearedEvent(), true);
                     }
                 }
             });
         } catch (Exception e) {
-            LOG.error("Subscribe " + getConfigType(globalConfig) + " config from Redis server failed, " + groupKey + "=" + group + ", serviceId=" + serviceId, e);
+            LOG.error("Subscribe {} config from {} server failed, {}={}, serviceId={}", getConfigScope(globalConfig), getConfigType(), groupKey, group, serviceId, e);
         }
     }
 
@@ -130,12 +131,17 @@ public class RedisConfigAdapter extends ConfigAdapter {
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
 
-        LOG.info("Unsubscribe {} config from Redis server, {}={}, serviceId={}", getConfigType(globalConfig), groupKey, group, serviceId);
+        LOG.info("Unsubscribe {} config from {} server, {}={}, serviceId={}", getConfigScope(globalConfig), getConfigType(), groupKey, group, serviceId);
 
         redisMessageListenerContainer.removeMessageListener(messageListenerAdapter, new PatternTopic(group + "-" + (globalConfig ? group : serviceId)));
     }
 
-    private String getConfigType(boolean globalConfig) {
+    public String getConfigScope(boolean globalConfig) {
         return globalConfig ? DiscoveryConstant.GLOBAL : DiscoveryConstant.PARTIAL;
+    }
+
+    @Override
+    public String getConfigType() {
+        return RedisConstant.TYPE;
     }
 }

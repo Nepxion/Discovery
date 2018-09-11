@@ -15,4 +15,6 @@ public interface ConfigAdapter {
     boolean clearConfig(String group, String serviceId) throws Exception;
 
     String getConfig(String group, String serviceId) throws Exception;
+
+    String getConfigType();
 }

@@ -12,13 +12,27 @@ package com.nepxion.discovery.plugin.configcenter.apollo.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
+import com.nepxion.discovery.common.apollo.constant.ApolloConstant;
 import com.nepxion.discovery.plugin.configcenter.apollo.adapter.ApolloConfigAdapter;
 
 @Configuration
 public class ApolloConfigAutoConfiguration {
+    static {
+        System.out.println("");
+        System.out.println("╔═══╗     ╔╗╔╗");
+        System.out.println("║╔═╗║     ║║║║");
+        System.out.println("║║ ║╠══╦══╣║║║╔══╗");
+        System.out.println("║╚═╝║╔╗║╔╗║║║║║╔╗║");
+        System.out.println("║╔═╗║╚╝║╚╝║╚╣╚╣╚╝║");
+        System.out.println("╚╝ ╚╣╔═╩══╩═╩═╩══╝");
+        System.out.println("    ║║");
+        System.out.println("    ╚╝");
+        System.out.println(ApolloConstant.TYPE + " Config");
+        System.out.println("");
+    }
+
     @Bean
-    public ConfigAdapter configAdapter() {
+    public ApolloConfigAdapter configAdapter() {
         return new ApolloConfigAdapter();
     }
 }

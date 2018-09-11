@@ -12,5 +12,6 @@ package com.nepxion.discovery.common.apollo.constant;
 import com.ctrip.framework.apollo.core.ConfigConsts;
 
 public class ApolloConstant implements ConfigConsts {
+    public static final String TYPE = "Apollo";
     public static final String NAMESPACE = "apollo.discovery.namespace";
 }
