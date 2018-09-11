@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.client.RestTemplate;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.handler.RestErrorHandler;
 import com.nepxion.discovery.console.endpoint.ConsoleEndpoint;
 
@@ -32,7 +33,7 @@ public class ConsoleAutoConfiguration {
         System.out.println("╚═══╩╩══╩══╩══╝╚╝╚══╩╝╚═╗╔╝");
         System.out.println("                      ╔═╝║");
         System.out.println("                      ╚══╝");
-        System.out.println("Nepxion Discovery - Console  v3.7.7");
+        System.out.println("Nepxion Discovery - Console  v" + DiscoveryConstant.DISCOVERY_VERSION);
         System.out.println("");
     }
 
