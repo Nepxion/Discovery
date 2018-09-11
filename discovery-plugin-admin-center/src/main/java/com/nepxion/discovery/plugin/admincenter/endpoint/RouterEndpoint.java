@@ -342,10 +342,6 @@ public class RouterEndpoint implements MvcEndpoint {
     }
 
     private int getWeight(String providerRegion, RegionWeightEntity regionWeightEntity) {
-        if (StringUtils.isEmpty(providerRegion)) {
-            return -1;
-        }
-
         if (regionWeightEntity == null) {
             return -1;
         }
