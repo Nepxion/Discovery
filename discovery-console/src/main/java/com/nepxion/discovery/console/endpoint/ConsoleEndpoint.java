@@ -216,12 +216,14 @@ public class ConsoleEndpoint {
             Map<String, String> metadata = serviceInstance.getMetadata();
             String serviceId = serviceInstance.getServiceId().toLowerCase();
             String version = metadata.get(DiscoveryConstant.VERSION);
+            String region = metadata.get(DiscoveryConstant.REGION);
             String host = serviceInstance.getHost();
             int port = serviceInstance.getPort();
 
             InstanceEntity instanceEntity = new InstanceEntity();
             instanceEntity.setServiceId(serviceId);
             instanceEntity.setVersion(version);
+            instanceEntity.setRegion(region);
             instanceEntity.setHost(host);
             instanceEntity.setPort(port);
             instanceEntity.setMetadata(metadata);
