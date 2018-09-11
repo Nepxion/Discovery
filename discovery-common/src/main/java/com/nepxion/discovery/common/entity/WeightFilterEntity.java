@@ -14,6 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -23,6 +24,7 @@ public class WeightFilterEntity implements Serializable {
     private static final long serialVersionUID = 7313443273653189837L;
 
     private Map<String, List<WeightEntity>> weightEntityMap = new LinkedHashMap<String, List<WeightEntity>>();
+    private RegionWeightEntity regionWeightEntity;
 
     public Map<String, List<WeightEntity>> getWeightEntityMap() {
         return weightEntityMap;
@@ -30,6 +32,18 @@ public class WeightFilterEntity implements Serializable {
 
     public void setWeightEntityMap(Map<String, List<WeightEntity>> weightEntityMap) {
         this.weightEntityMap = weightEntityMap;
+    }
+
+    public RegionWeightEntity getRegionWeightEntity() {
+        return regionWeightEntity;
+    }
+
+    public void setRegionWeightEntity(RegionWeightEntity regionWeightEntity) {
+        this.regionWeightEntity = regionWeightEntity;
+    }
+
+    public boolean hasWeight() {
+        return MapUtils.isNotEmpty(weightEntityMap) || regionWeightEntity != null;
     }
 
     @Override

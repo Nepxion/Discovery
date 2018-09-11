@@ -18,6 +18,7 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.nepxion.discovery.common.entity.DiscoveryEntity;
+import com.nepxion.discovery.common.entity.RegionWeightEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.WeightEntity;
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
@@ -28,7 +29,7 @@ import com.netflix.loadbalancer.Server;
 public class WeightRandomLoadBalance {
     private PluginAdapter pluginAdapter;
 
-    public Map<String, List<WeightEntity>> getWeightEntityMap() {
+    public WeightFilterEntity getWeightFilterEntity() {
         RuleEntity ruleEntity = pluginAdapter.getRule();
         if (ruleEntity == null) {
             return null;
@@ -40,19 +41,11 @@ public class WeightRandomLoadBalance {
         }
 
         WeightFilterEntity weightFilterEntity = discoveryEntity.getWeightFilterEntity();
-        if (weightFilterEntity == null) {
-            return null;
-        }
 
-        Map<String, List<WeightEntity>> weightEntityMap = weightFilterEntity.getWeightEntityMap();
-        if (MapUtils.isEmpty(weightEntityMap)) {
-            return null;
-        }
-
-        return weightEntityMap;
+        return weightFilterEntity;
     }
 
-    public Server choose(List<Server> serverList, Map<String, List<WeightEntity>> weightEntityMap) {
+    public Server choose(List<Server> serverList, WeightFilterEntity weightFilterEntity) {
         if (CollectionUtils.isEmpty(serverList)) {
             return null;
         }
@@ -60,7 +53,7 @@ public class WeightRandomLoadBalance {
         int[] weights = new int[serverList.size()];
         for (int i = 0; i < serverList.size(); i++) {
             Server server = serverList.get(i);
-            int weight = getWeight(server, weightEntityMap);
+            int weight = getWeight(server, weightFilterEntity);
             if (weight > 0) {
                 weights[i] = weight;
             }
@@ -99,26 +92,40 @@ public class WeightRandomLoadBalance {
         return weightHolder[0][0];
     }
 
-    private int getWeight(Server server, Map<String, List<WeightEntity>> weightEntityMap) {
+    private int getWeight(Server server, WeightFilterEntity weightFilterEntity) {
+        Map<String, List<WeightEntity>> weightEntityMap = weightFilterEntity.getWeightEntityMap();
+        RegionWeightEntity regionWeightEntity = weightFilterEntity.getRegionWeightEntity();
+
         String providerServiceId = server.getMetaInfo().getAppName();
         String providerVersion = pluginAdapter.getServerVersion(server);
+        String providerRegion = pluginAdapter.getServerRegion(server);
 
         String serviceId = pluginAdapter.getServiceId();
         // 取局部的权重配置
         int weight = getWeight(serviceId, providerServiceId, providerVersion, weightEntityMap);
+
         // 局部权重配置没找到，取全局的权重配置
         if (weight < 0) {
-            weight = getWeight(null, providerServiceId, providerVersion, weightEntityMap);
+            weight = getWeight(StringUtils.EMPTY, providerServiceId, providerVersion, weightEntityMap);
+        }
+
+        // 全局的权重配置没找到，取区域的权重配置
+        if (weight < 0) {
+            weight = getWeight(providerRegion, regionWeightEntity);
         }
 
         if (weight < 0) {
-            throw new DiscoveryException("Weight isn't configed for serviceId=" + providerServiceId + ", version=" + providerVersion);
+            throw new DiscoveryException("Weight isn't configed for serviceId=" + providerServiceId);
         }
 
         return weight;
     }
 
     private int getWeight(String consumerServiceId, String providerServiceId, String providerVersion, Map<String, List<WeightEntity>> weightEntityMap) {
+        if (MapUtils.isEmpty(weightEntityMap)) {
+            return -1;
+        }
+
         List<WeightEntity> weightEntityList = weightEntityMap.get(consumerServiceId);
         if (CollectionUtils.isEmpty(weightEntityList)) {
             return -1;
@@ -128,6 +135,10 @@ public class WeightRandomLoadBalance {
             String providerServiceName = weightEntity.getProviderServiceName();
             if (StringUtils.equalsIgnoreCase(providerServiceName, providerServiceId)) {
                 Map<String, Integer> weightMap = weightEntity.getWeightMap();
+                if (MapUtils.isEmpty(weightMap)) {
+                    return -1;
+                }
+
                 Integer weight = weightMap.get(providerVersion);
                 if (weight != null) {
                     return weight;
@@ -138,6 +149,28 @@ public class WeightRandomLoadBalance {
         }
 
         return -1;
+    }
+
+    private int getWeight(String providerRegion, RegionWeightEntity regionWeightEntity) {
+        if (StringUtils.isEmpty(providerRegion)) {
+            return -1;
+        }
+
+        if (regionWeightEntity == null) {
+            return -1;
+        }
+
+        Map<String, Integer> weightMap = regionWeightEntity.getWeightMap();
+        if (MapUtils.isEmpty(weightMap)) {
+            return -1;
+        }
+
+        Integer weight = weightMap.get(providerRegion);
+        if (weight != null) {
+            return weight;
+        } else {
+            return -1;
+        }
     }
 
     public void setPluginAdapter(PluginAdapter pluginAdapter) {

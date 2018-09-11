@@ -40,6 +40,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.CustomizationEntity;
 import com.nepxion.discovery.common.entity.DiscoveryEntity;
+import com.nepxion.discovery.common.entity.RegionWeightEntity;
 import com.nepxion.discovery.common.entity.RouterEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.WeightEntity;
@@ -126,7 +127,7 @@ public class RouterEndpoint {
         String region = pluginAdapter.getRegion();
         String host = pluginAdapter.getHost();
         int port = pluginAdapter.getPort();
-        int weight = getWeight(serviceId, version);
+        int weight = getWeight(serviceId, version, region);
         Map<String, String> customMap = getCustomMap(serviceId);
         String contextPath = pluginAdapter.getContextPath();
 
@@ -164,7 +165,7 @@ public class RouterEndpoint {
             String region = metadata.get(DiscoveryConstant.REGION);
             String host = instance.getHost();
             int port = instance.getPort();
-            int weight = getWeight(routeServiceId, version);
+            int weight = getWeight(routeServiceId, version, region);
             Map<String, String> customMap = getCustomMap(serviceId);
             String contextPath = metadata.get(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH);
 
@@ -270,7 +271,7 @@ public class RouterEndpoint {
         return routerEntityList;
     }
 
-    private int getWeight(String providerServiceId, String providerVersion) {
+    private int getWeight(String providerServiceId, String providerVersion, String providerRegion) {
         RuleEntity ruleEntity = pluginAdapter.getRule();
         if (ruleEntity == null) {
             return -1;
@@ -286,23 +287,35 @@ public class RouterEndpoint {
             return -1;
         }
 
-        Map<String, List<WeightEntity>> weightEntityMap = weightFilterEntity.getWeightEntityMap();
-        if (MapUtils.isEmpty(weightEntityMap)) {
+        if (!weightFilterEntity.hasWeight()) {
             return -1;
         }
+
+        Map<String, List<WeightEntity>> weightEntityMap = weightFilterEntity.getWeightEntityMap();
+        RegionWeightEntity regionWeightEntity = weightFilterEntity.getRegionWeightEntity();
 
         String serviceId = pluginAdapter.getServiceId();
         // 取局部的权重配置
         int weight = getWeight(serviceId, providerServiceId, providerVersion, weightEntityMap);
+
         // 局部权重配置没找到，取全局的权重配置
         if (weight < 0) {
-            weight = getWeight(null, providerServiceId, providerVersion, weightEntityMap);
+            weight = getWeight(StringUtils.EMPTY, providerServiceId, providerVersion, weightEntityMap);
+        }
+
+        // 全局的权重配置没找到，取区域的权重配置
+        if (weight < 0) {
+            weight = getWeight(providerRegion, regionWeightEntity);
         }
 
         return weight;
     }
 
     private int getWeight(String consumerServiceId, String providerServiceId, String providerVersion, Map<String, List<WeightEntity>> weightEntityMap) {
+        if (MapUtils.isEmpty(weightEntityMap)) {
+            return -1;
+        }
+
         List<WeightEntity> weightEntityList = weightEntityMap.get(consumerServiceId);
         if (CollectionUtils.isEmpty(weightEntityList)) {
             return -1;
@@ -312,6 +325,10 @@ public class RouterEndpoint {
             String providerServiceName = weightEntity.getProviderServiceName();
             if (StringUtils.equalsIgnoreCase(providerServiceName, providerServiceId)) {
                 Map<String, Integer> weightMap = weightEntity.getWeightMap();
+                if (MapUtils.isEmpty(weightMap)) {
+                    return -1;
+                }
+
                 Integer weight = weightMap.get(providerVersion);
                 if (weight != null) {
                     return weight;
@@ -322,6 +339,28 @@ public class RouterEndpoint {
         }
 
         return -1;
+    }
+
+    private int getWeight(String providerRegion, RegionWeightEntity regionWeightEntity) {
+        if (StringUtils.isEmpty(providerRegion)) {
+            return -1;
+        }
+
+        if (regionWeightEntity == null) {
+            return -1;
+        }
+
+        Map<String, Integer> weightMap = regionWeightEntity.getWeightMap();
+        if (MapUtils.isEmpty(weightMap)) {
+            return -1;
+        }
+
+        Integer weight = weightMap.get(providerRegion);
+        if (weight != null) {
+            return weight;
+        } else {
+            return -1;
+        }
     }
 
     private Map<String, String> getCustomMap(String serviceId) {

@@ -15,6 +15,7 @@ public class ConfigConstant {
     public static final String DISCOVERY_ELEMENT_NAME = "discovery";
     public static final String CUSTOMIZATION_ELEMENT_NAME = "customization";
     public static final String SERVICE_ELEMENT_NAME = "service";
+    public static final String REGION_ELEMENT_NAME = "region";
     public static final String BLACKLIST_ELEMENT_NAME = "blacklist";
     public static final String WHITELIST_ELEMENT_NAME = "whitelist";
     public static final String COUNT_ELEMENT_NAME = "count";
