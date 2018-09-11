@@ -30,6 +30,7 @@ import com.nepxion.discovery.common.entity.DiscoveryEntity;
 import com.nepxion.discovery.common.entity.FilterHolderEntity;
 import com.nepxion.discovery.common.entity.FilterType;
 import com.nepxion.discovery.common.entity.HostFilterEntity;
+import com.nepxion.discovery.common.entity.RegionWeightEntity;
 import com.nepxion.discovery.common.entity.RegisterEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.VersionEntity;
@@ -371,8 +372,10 @@ public class XmlConfigParser implements PluginConfigParser {
                     String consumerServiceName = null;
                     if (consumerServiceNameAttribute != null) {
                         consumerServiceName = consumerServiceNameAttribute.getData().toString().trim();
-                        weightEntity.setConsumerServiceName(consumerServiceName);
+                    } else {
+                        consumerServiceName = StringUtils.EMPTY;
                     }
+                    weightEntity.setConsumerServiceName(consumerServiceName);
 
                     Attribute providerServiceNameAttribute = childElement.attribute(ConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME);
                     if (providerServiceNameAttribute == null) {
@@ -407,6 +410,34 @@ public class XmlConfigParser implements PluginConfigParser {
                     }
 
                     weightEntityList.add(weightEntity);
+                } else if (StringUtils.equals(childElement.getName(), ConfigConstant.REGION_ELEMENT_NAME)) {
+                    RegionWeightEntity regionWeightEntity = weightFilterEntity.getRegionWeightEntity();
+                    if (regionWeightEntity != null) {
+                        throw new DiscoveryException("Allow only one element[" + ConfigConstant.REGION_ELEMENT_NAME + "] to be configed");
+                    }
+
+                    regionWeightEntity = new RegionWeightEntity();
+
+                    Attribute providerWeightValueAttribute = childElement.attribute(ConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME);
+                    if (providerWeightValueAttribute == null) {
+                        throw new DiscoveryException("Attribute[" + ConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                    }
+                    String providerWeightValue = providerWeightValueAttribute.getData().toString().trim();
+                    Map<String, Integer> weightMap = new LinkedHashMap<String, Integer>();
+                    List<String> providerWeightValueList = parseList(providerWeightValue);
+                    for (String value : providerWeightValueList) {
+                        String[] valueArray = StringUtils.split(value, ConfigConstant.SEPARATE);
+                        String region = valueArray[0].trim();
+                        int weight = Integer.valueOf(valueArray[1].trim());
+                        if (weight < 0) {
+                            throw new DiscoveryException("Attribute[" + ConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] has weight value less than 0");
+                        }
+
+                        weightMap.put(region, weight);
+                    }
+                    regionWeightEntity.setWeightMap(weightMap);
+
+                    weightFilterEntity.setRegionWeightEntity(regionWeightEntity);
                 }
             }
         }

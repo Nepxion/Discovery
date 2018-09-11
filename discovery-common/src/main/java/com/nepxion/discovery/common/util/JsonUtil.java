@@ -9,18 +9,41 @@ package com.nepxion.discovery.common.util;
  * @version 1.0
  */
 
+import java.io.IOException;
+
 import org.apache.commons.lang3.StringUtils;
 
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
 public class JsonUtil {
     private static ObjectMapper objectMapper;
 
     static {
         objectMapper = new ObjectMapper();
+        // objectMapper.getSerializerProvider().setNullKeySerializer(new NullKeySerializer());
         // objectMapper.setDateFormat(new SimpleDateFormat(DiscoveryConstant.DATE_FORMAT));
+    }
+
+    public static class NullKeySerializer extends StdSerializer<Object> {
+        private static final long serialVersionUID = -9176767187240330396L;
+
+        public NullKeySerializer() {
+            this(null);
+        }
+
+        public NullKeySerializer(Class<Object> object) {
+            super(object);
+        }
+
+        @Override
+        public void serialize(Object value, JsonGenerator gen, SerializerProvider provider) throws IOException {
+            gen.writeFieldName(StringUtils.EMPTY);
+        }
     }
 
     public static <T> String toJson(T object) {

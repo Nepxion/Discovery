@@ -73,10 +73,13 @@
         <!-- 2. 局部配置，即指定consumer-service-name，专门为该消费端配置权重。全局配置，即不指定consumer-service-name，为所有消费端配置相同情形的权重。当局部配置和全局配置同时存在的时候，以局部配置优先 -->
         <!-- 3. 尽量为线上所有版本都赋予权重值 -->
         <weight>
+            <!-- 权重流量配置有如下三种方式，粒度由细到粗，优先级分别是由高到底，即先从第一种方式取权重流量值，取不到则到第二种方式取值，再取不到则到第二种方式取值，再取不到则忽略。使用者按照实际情况，选择一种即可 -->
             <!-- 表示消费端服务b访问提供端服务c的时候，提供端服务c的1.0版本提供90%的权重流量，1.1版本提供10%的权重流量 -->
             <service consumer-service-name="discovery-springcloud-example-b" provider-service-name="discovery-springcloud-example-c" provider-weight-value="1.0=90;1.1=10"/>
             <!-- 表示所有消费端服务访问提供端服务c的时候，提供端服务c的1.0版本提供80%的权重流量，1.1版本提供20%的权重流量 -->
             <service provider-service-name="discovery-springcloud-example-c" provider-weight-value="1.0=80;1.1=20"/>
+            <!-- 表示外界调用进来后，区域（region）为dev的服务提供85%的权重流量，区域（region）为qa的服务提供15%的权重流量 -->
+            <!-- <region provider-weight-value="dev=85;qa=15"/> -->
         </weight>
     </discovery>
 

@@ -92,13 +92,32 @@
                             "1.1": 10
                         }
                     }
+                ], 
+                "": [
+                    {
+                        "consumerServiceName": "", 
+                        "providerServiceName": "discovery-springcloud-example-c", 
+                        "weightMap": {
+                            "1.0": 80, 
+                            "1.1": 20
+                        }
+                    }
                 ]
+            }, 
+            "regionWeightEntity": {
+                "weightMap": {
+                    "dev": 85, 
+                    "qa": 15
+                }
             }
         }
     }, 
     "customizationEntity": {
         "customizationMap": {
-            "discovery-springcloud-example-b": {
+            "discovery-springcloud-example-a": {
+                "database": "qa"
+            }, 
+            "discovery-springcloud-example-c": {
                 "database": "prod"
             }
         }
