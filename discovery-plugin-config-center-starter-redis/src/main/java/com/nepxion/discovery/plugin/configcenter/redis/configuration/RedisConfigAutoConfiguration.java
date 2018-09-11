@@ -19,7 +19,7 @@ import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 
-import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
+import com.nepxion.discovery.common.redis.constant.RedisConstant;
 import com.nepxion.discovery.plugin.configcenter.redis.adapter.RedisConfigAdapter;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
@@ -27,6 +27,18 @@ import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 @Configuration
 public class RedisConfigAutoConfiguration {
     private static final Logger LOG = LoggerFactory.getLogger(RedisConfigAutoConfiguration.class);
+
+    static {
+        System.out.println("");
+        System.out.println("╔═══╗    ╔╗");
+        System.out.println("║╔═╗║    ║║");
+        System.out.println("║╚═╝╠══╦═╝╠╦══╗");
+        System.out.println("║╔╗╔╣║═╣╔╗╠╣══╣");
+        System.out.println("║║║╚╣║═╣╚╝║╠══║");
+        System.out.println("╚╝╚═╩══╩══╩╩══╝");
+        System.out.println(RedisConstant.TYPE + " Config");
+        System.out.println("");
+    }
 
     @Autowired
     private RedisConnectionFactory redisConnectionFactory;
@@ -51,29 +63,29 @@ public class RedisConfigAutoConfiguration {
     }
 
     @Bean
-    public MessageListenerAdapter partialMessageListenerAdapter(ConfigAdapter configAdapter) {
+    public MessageListenerAdapter partialMessageListenerAdapter(RedisConfigAdapter configAdapter) {
         String groupKey = pluginContextAware.getGroupKey();
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
 
-        LOG.info("Subscribe partial config from Redis server, {}={}, serviceId={}", groupKey, group, serviceId);
+        LOG.info("Subscribe {} config from {} server, {}={}, serviceId={}", configAdapter.getConfigScope(false), configAdapter.getConfigType(), groupKey, group, serviceId);
 
         return new MessageListenerAdapter(configAdapter, "subscribePartialConfig");
     }
 
     @Bean
-    public MessageListenerAdapter globalMessageListenerAdapter(ConfigAdapter configAdapter) {
+    public MessageListenerAdapter globalMessageListenerAdapter(RedisConfigAdapter configAdapter) {
         String groupKey = pluginContextAware.getGroupKey();
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
 
-        LOG.info("Subscribe global config from Redis server, {}={}, serviceId={}", groupKey, group, serviceId);
+        LOG.info("Subscribe {} config from {} server, {}={}, serviceId={}", configAdapter.getConfigScope(true), configAdapter.getConfigType(), groupKey, group, serviceId);
 
         return new MessageListenerAdapter(configAdapter, "subscribeGlobalConfig");
     }
 
     @Bean
-    public ConfigAdapter configAdapter() {
+    public RedisConfigAdapter configAdapter() {
         return new RedisConfigAdapter();
     }
 }

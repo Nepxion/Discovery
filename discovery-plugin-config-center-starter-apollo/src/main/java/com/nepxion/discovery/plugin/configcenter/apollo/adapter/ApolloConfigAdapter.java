@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ctrip.framework.apollo.ConfigChangeListener;
+import com.nepxion.discovery.common.apollo.constant.ApolloConstant;
 import com.nepxion.discovery.common.apollo.operation.ApolloOperation;
 import com.nepxion.discovery.common.apollo.operation.ApolloSubscribeCallback;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
@@ -48,14 +49,14 @@ public class ApolloConfigAdapter extends ConfigAdapter {
         if (StringUtils.isNotEmpty(config)) {
             return config;
         } else {
-            LOG.info("No partial config is retrieved from Apollo server");
+            LOG.info("No {} config is retrieved from {} server", getConfigScope(false), getConfigType());
         }
 
         config = getConfig(true);
         if (StringUtils.isNotEmpty(config)) {
             return config;
         } else {
-            LOG.info("No global config is retrieved from Apollo server");
+            LOG.info("No {} config is retrieved from {} server", getConfigScope(true), getConfigType());
         }
 
         return null;
@@ -66,7 +67,7 @@ public class ApolloConfigAdapter extends ConfigAdapter {
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
 
-        LOG.info("Get {} config from Apollo server, {}={}, serviceId={}", getConfigType(globalConfig), groupKey, group, serviceId);
+        LOG.info("Get {} config from {} server, {}={}, serviceId={}", getConfigScope(globalConfig), getConfigType(), groupKey, group, serviceId);
 
         return apolloOperation.getConfig(group, globalConfig ? group : serviceId);
     }
@@ -82,14 +83,14 @@ public class ApolloConfigAdapter extends ConfigAdapter {
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
 
-        LOG.info("Subscribe {} config from Apollo server, {}={}, serviceId={}", getConfigType(globalConfig), groupKey, group, serviceId);
+        LOG.info("Subscribe {} config from {} server, {}={}, serviceId={}", getConfigScope(globalConfig), getConfigType(), groupKey, group, serviceId);
 
         try {
             return apolloOperation.subscribeConfig(group, globalConfig ? group : serviceId, new ApolloSubscribeCallback() {
                 @Override
                 public void callback(String config) {
                     if (StringUtils.isNotEmpty(config)) {
-                        LOG.info("Get {} config updated event from Apollo server, {}={}, serviceId={}", getConfigType(globalConfig), groupKey, group, serviceId);
+                        LOG.info("Get {} config updated event from {} server, {}={}, serviceId={}", getConfigScope(globalConfig), getConfigType(), groupKey, group, serviceId);
 
                         RuleEntity ruleEntity = pluginAdapter.getRule();
                         String rule = null;
@@ -99,17 +100,17 @@ public class ApolloConfigAdapter extends ConfigAdapter {
                         if (!StringUtils.equals(rule, config)) {
                             fireRuleUpdated(new RuleUpdatedEvent(config), true);
                         } else {
-                            LOG.info("Retrieved {} config from Apollo server is same as current config, ignore to update, {}={}, serviceId={}", getConfigType(globalConfig), groupKey, group, serviceId);
+                            LOG.info("Retrieved {} config from {} server is same as current config, ignore to update, {}={}, serviceId={}", getConfigScope(globalConfig), getConfigType(), groupKey, group, serviceId);
                         }
                     } else {
-                        LOG.info("Get {} config cleared event from Apollo server, {}={}, serviceId={}", getConfigType(globalConfig), groupKey, group, serviceId);
+                        LOG.info("Get {} config cleared event from {} server, {}={}, serviceId={}", getConfigScope(globalConfig), getConfigType(), groupKey, group, serviceId);
 
                         fireRuleCleared(new RuleClearedEvent(), true);
                     }
                 }
             });
         } catch (Exception e) {
-            LOG.error("Subscribe " + getConfigType(globalConfig) + " config from Apollo server failed, " + groupKey + "=" + group + ", serviceId=" + serviceId, e);
+            LOG.error("Subscribe {} config from {} server failed, {}={}, serviceId={}", getConfigScope(globalConfig), getConfigType(), groupKey, group, serviceId, e);
         }
 
         return null;
@@ -130,12 +131,17 @@ public class ApolloConfigAdapter extends ConfigAdapter {
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
 
-        LOG.info("Unsubscribe {} config from Apollo server, {}={}, serviceId={}", getConfigType(globalConfig), groupKey, group, serviceId);
+        LOG.info("Unsubscribe {} config from {} server, {}={}, serviceId={}", getConfigScope(globalConfig), getConfigType(), groupKey, group, serviceId);
 
         apolloOperation.unsubscribeConfig(group, globalConfig ? group : serviceId, configListener);
     }
 
-    private String getConfigType(boolean globalConfig) {
+    public String getConfigScope(boolean globalConfig) {
         return globalConfig ? DiscoveryConstant.GLOBAL : DiscoveryConstant.PARTIAL;
+    }
+
+    @Override
+    public String getConfigType() {
+        return ApolloConstant.TYPE;
     }
 }

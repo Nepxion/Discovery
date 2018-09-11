@@ -1,4 +1,4 @@
-package com.nepxion.discovery.common.nacos.thread;
+package com.nepxion.discovery.common.thread;
 
 /**
  * <p>Title: Nepxion Discovery</p>

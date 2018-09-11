@@ -61,6 +61,14 @@ public class ConsoleEndpoint implements MvcEndpoint {
     @Autowired
     private RestTemplate consoleRestTemplate;
 
+    @RequestMapping(path = "/config-type", method = RequestMethod.GET)
+    @ApiOperation(value = "获取配置中心类型", notes = "", response = String.class, httpMethod = "GET")
+    @ResponseBody
+    @ManagedOperation
+    public ResponseEntity<?> configType() {
+        return getConfigType();
+    }
+
     @RequestMapping(path = "/services", method = RequestMethod.GET)
     @ApiOperation(value = "获取服务注册中心的服务列表", notes = "", response = List.class, httpMethod = "GET")
     @ResponseBody
@@ -179,6 +187,18 @@ public class ConsoleEndpoint implements MvcEndpoint {
     @ManagedOperation
     public ResponseEntity<?> versionClearSync(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody(required = false) @ApiParam(value = "版本号，指localVersion，可以为空") String version) {
         return executeVersionClear(serviceId, version, false);
+    }
+
+    private ResponseEntity<?> getConfigType() {
+        String configType = null;
+
+        if (configAdapter != null) {
+            configType = configAdapter.getConfigType();
+        } else {
+            configType = DiscoveryConstant.UNKNOWN;
+        }
+
+        return ResponseEntity.ok().body(configType);
     }
 
     public List<String> getServices() {

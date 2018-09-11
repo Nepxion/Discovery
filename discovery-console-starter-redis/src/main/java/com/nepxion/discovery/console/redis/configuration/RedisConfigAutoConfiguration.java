@@ -12,13 +12,25 @@ package com.nepxion.discovery.console.redis.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.nepxion.discovery.console.adapter.ConfigAdapter;
+import com.nepxion.discovery.common.redis.constant.RedisConstant;
 import com.nepxion.discovery.console.redis.adapter.RedisConfigAdapter;
 
 @Configuration
 public class RedisConfigAutoConfiguration {
+    static {
+        System.out.println("");
+        System.out.println("╔═══╗    ╔╗");
+        System.out.println("║╔═╗║    ║║");
+        System.out.println("║╚═╝╠══╦═╝╠╦══╗");
+        System.out.println("║╔╗╔╣║═╣╔╗╠╣══╣");
+        System.out.println("║║║╚╣║═╣╚╝║╠══║");
+        System.out.println("╚╝╚═╩══╩══╩╩══╝");
+        System.out.println(RedisConstant.TYPE + " Config");
+        System.out.println("");
+    }
+
     @Bean
-    public ConfigAdapter configAdapter() {
+    public RedisConfigAdapter configAdapter() {
         return new RedisConfigAdapter();
     }
 }
