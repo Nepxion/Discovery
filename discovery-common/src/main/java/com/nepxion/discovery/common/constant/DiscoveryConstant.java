@@ -10,6 +10,8 @@ package com.nepxion.discovery.common.constant;
  */
 
 public class DiscoveryConstant {
+    public static final String DISCOVERY_VERSION = "4.7.7";
+
     public static final String SPRING_APPLICATION_DISCOVERY_PLUGIN = "spring.application.discovery.plugin";
     public static final String SPRING_APPLICATION_REGISTER_CONTROL_ENABLED = "spring.application.register.control.enabled";
     public static final String SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED = "spring.application.discovery.control.enabled";
