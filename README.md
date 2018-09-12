@@ -225,7 +225,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 | discovery-plugin-framework-eureka | 核心框架服务注册发现的Eureka实现 |
 | discovery-plugin-framework-consul | 核心框架服务注册发现的Consul实现 |
 | discovery-plugin-framework-zookeeper | 核心框架服务注册发现的Zookeeper实现 |
-| discovery-plugin-framework-nacos | 核心框架服务注册发现的Nacos实现（待实现） |
+| discovery-plugin-framework-nacos | 核心框架服务注册发现的Nacos实现（敬请期待） |
 | discovery-plugin-config-center | 配置中心实现 |
 | discovery-plugin-config-center-starter-apollo | 配置中心的Apollo Starter |
 | discovery-plugin-config-center-starter-nacos | 配置中心的Nacos Starter |
@@ -234,13 +234,13 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 | discovery-plugin-starter-eureka | Eureka Starter |
 | discovery-plugin-starter-consul | Consul Starter |
 | discovery-plugin-starter-zookeeper | Zookeeper Starter |
-| discovery-plugin-starter-nacos | Nacos Starter（待实现） |
+| discovery-plugin-starter-nacos | Nacos Starter（敬请期待） |
 | discovery-plugin-strategy | 用户自定义和编程灰度路由策略 |
 | discovery-plugin-strategy-starter-service | 用户自定义和编程灰度路由策略的Service Starter |
 | discovery-plugin-strategy-starter-zuul | 用户自定义和编程灰度路由策略的Zuul Starter |
 | discovery-plugin-strategy-starter-gateway | 用户自定义和编程灰度路由策略的Spring Cloud Api Gateway（F版） Starter |
 | discovery-console | 控制平台，集成接口给UI |
-| discovery-console-starter-apollo | 控制平台的Apollo Starter（待实现） |
+| discovery-console-starter-apollo | 控制平台的Apollo Starter（敬请期待） |
 | discovery-console-starter-nacos | 控制平台的Nacos Starter |
 | discovery-console-starter-redis | 控制平台的Redis Starter |
 | discovery-console-desktop | 图形化灰度发布等桌面程序 |
