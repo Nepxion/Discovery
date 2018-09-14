@@ -262,7 +262,7 @@ public class RouterTopology extends AbstractTopology {
         if (this.instance != instance) {
             this.instance = instance;
 
-            textField.setText("");
+            textField.setText(StringUtils.EMPTY);
             dataBox.clear();
         }
     }
@@ -304,7 +304,7 @@ public class RouterTopology extends AbstractTopology {
                 if (routerPath.contains(";")) {
                     routerPath = routerPath.substring(0, routerPath.lastIndexOf(";"));
                 } else {
-                    routerPath = "";
+                    routerPath = StringUtils.EMPTY;
                 }
 
                 textField.setText(routerPath);
@@ -349,7 +349,7 @@ public class RouterTopology extends AbstractTopology {
             private static final long serialVersionUID = 1L;
 
             public void execute(ActionEvent e) {
-                textField.setText("");
+                textField.setText(StringUtils.EMPTY);
                 dataBox.clear();
             }
         };

@@ -45,6 +45,15 @@ public class ServiceController {
         return result;
     }
 
+    public static List<String> getGroups() {
+        String url = getUrl() + "console/groups";
+
+        String result = restTemplate.getForEntity(url, String.class).getBody();
+
+        return RestUtil.fromJson(restTemplate, result, new TypeReference<List<String>>() {
+        });
+    }
+
     public static Map<String, List<Instance>> getInstanceMap() {
         String url = getUrl() + "console/instance-map";
 
