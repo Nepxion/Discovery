@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.nepxion.discovery.common.nacos.constant.NacosConstant;
+import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
 import com.nepxion.discovery.plugin.configcenter.nacos.adapter.NacosConfigAdapter;
 
 @Configuration
@@ -30,7 +31,7 @@ public class NacosConfigAutoConfiguration {
     }
 
     @Bean
-    public NacosConfigAdapter configAdapter() {
+    public ConfigAdapter configAdapter() {
         return new NacosConfigAdapter();
     }
 }

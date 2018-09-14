@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.nepxion.discovery.common.redis.constant.RedisConstant;
+import com.nepxion.discovery.console.adapter.ConfigAdapter;
 import com.nepxion.discovery.console.redis.adapter.RedisConfigAdapter;
 
 @Configuration
@@ -30,7 +31,7 @@ public class RedisConfigAutoConfiguration {
     }
 
     @Bean
-    public RedisConfigAdapter configAdapter() {
+    public ConfigAdapter configAdapter() {
         return new RedisConfigAdapter();
     }
 }
