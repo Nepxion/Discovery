@@ -299,7 +299,7 @@ public class ServiceTopology extends AbstractTopology {
             }
         }
 
-        return "";
+        return StringUtils.EMPTY;
     }
 
     private String getValidPlugin(List<Instance> instances) {
@@ -310,10 +310,10 @@ public class ServiceTopology extends AbstractTopology {
             }
         }
 
-        return "";
+        return StringUtils.EMPTY;
     }
 
-    private Object[] filterToArray(Map<String, List<Instance>> instanceMap) {
+    private Object[] filterInstances(Map<String, List<Instance>> instanceMap) {
         List<String> filters = new ArrayList<String>();
         for (Map.Entry<String, List<Instance>> entry : instanceMap.entrySet()) {
             List<Instance> instances = entry.getValue();
@@ -326,28 +326,12 @@ public class ServiceTopology extends AbstractTopology {
             }
         }
 
-        if (filters.contains("")) {
-            filters.remove("");
+        if (filters.contains(StringUtils.EMPTY)) {
+            filters.remove(StringUtils.EMPTY);
         }
         filters.add(NO_FILTER);
 
         return filters.toArray();
-    }
-
-    private Vector<Object> filterToVector(Map<String, List<Instance>> instanceMap) {
-        Vector<Object> filters = new Vector<Object>();
-        for (Map.Entry<String, List<Instance>> entry : instanceMap.entrySet()) {
-            List<Instance> instances = entry.getValue();
-            for (Instance instance : instances) {
-                String filter = InstanceEntityWrapper.getGroup(instance);
-                String plugin = InstanceEntityWrapper.getPlugin(instance);
-                if (StringUtils.isNotEmpty(plugin) && !filters.contains(filter)) {
-                    filters.add(filter);
-                }
-            }
-        }
-
-        return filters;
     }
 
     private Object[] filterServices(TNode node, Map<String, List<Instance>> instanceMap) {
@@ -379,7 +363,7 @@ public class ServiceTopology extends AbstractTopology {
     }
 
     private String getGroupName(String serviceId, int count, String filter) {
-        return ButtonManager.getHtmlText(serviceId + " [" + count + "]" + (StringUtils.isNotEmpty(filter) ? "\n" + filter : ""));
+        return ButtonManager.getHtmlText(serviceId + " [" + count + "]" + (StringUtils.isNotEmpty(filter) ? "\n" + filter : StringUtils.EMPTY));
     }
 
     @SuppressWarnings("unchecked")
@@ -562,7 +546,7 @@ public class ServiceTopology extends AbstractTopology {
                     return;
                 }
 
-                Object[] filters = filterToArray(instanceMap);
+                Object[] filters = filterInstances(instanceMap);
                 if (filterPanel == null) {
                     filterPanel = new FilterPanel();
                     filterPanel.setPreferredSize(new Dimension(320, 60));
@@ -736,16 +720,16 @@ public class ServiceTopology extends AbstractTopology {
                     return;
                 }
 
-                Map<String, List<Instance>> instanceMap = null;
+                List<String> groups = null;
                 try {
-                    instanceMap = ServiceController.getInstanceMap();
+                    groups = ServiceController.getGroups();
                 } catch (Exception ex) {
-                    JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("get_service_instances_failure"), ex);
+                    JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("get_service_group_failure"), ex);
 
                     return;
                 }
 
-                Vector<Object> globalFilterVector = filterToVector(instanceMap);
+                Vector<Object> globalFilterVector = new Vector<Object>(groups);
 
                 if (globalGrayPanel == null) {
                     globalGrayPanel = new GlobalGrayPanel();
@@ -853,7 +837,7 @@ public class ServiceTopology extends AbstractTopology {
         @SuppressWarnings("unchecked")
         public void setFilters(Vector<Object> filters) {
             filterList.setModel(new BasicListModel(filters));
-            ruleTextArea.setText("");
+            ruleTextArea.setText(StringUtils.EMPTY);
         }
 
         private JSecurityAction createUpdateRuleAction() {
@@ -1077,15 +1061,15 @@ public class ServiceTopology extends AbstractTopology {
                 ruleTabbedPane.remove(localRulePanel);
             }
 
-            dynamicVersionTextField.setText("");
-            localVersionTextField.setText("");
+            dynamicVersionTextField.setText(StringUtils.EMPTY);
+            localVersionTextField.setText(StringUtils.EMPTY);
             updateVersionButton.setText(ConsoleLocale.getString("button_batch_update_version"));
             clearVersionButton.setText(ConsoleLocale.getString("button_batch_clear_version"));
             updateVersionButton.setEnabled(versionControlEnabled);
             clearVersionButton.setEnabled(versionControlEnabled);
 
-            dynamicRuleTextArea.setText("");
-            localRuleTextArea.setText("");
+            dynamicRuleTextArea.setText(StringUtils.EMPTY);
+            localRuleTextArea.setText(StringUtils.EMPTY);
             updateRuleButton.setText(ConsoleLocale.getString("button_batch_update_rule"));
             clearRuleButton.setText(ConsoleLocale.getString("button_batch_clear_rule"));
             updateRuleButton.setEnabled(ruleControlEnabled);
@@ -1452,15 +1436,15 @@ public class ServiceTopology extends AbstractTopology {
         }
 
         public void setToUI() {
-            groupStartXTextField.setText(groupLocationEntity.getStartX() + "");
-            groupStartYTextField.setText(groupLocationEntity.getStartY() + "");
-            groupHorizontalGapTextField.setText(groupLocationEntity.getHorizontalGap() + "");
-            groupVerticalGapTextField.setText(groupLocationEntity.getVerticalGap() + "");
+            groupStartXTextField.setText(groupLocationEntity.getStartX() + StringUtils.EMPTY);
+            groupStartYTextField.setText(groupLocationEntity.getStartY() + StringUtils.EMPTY);
+            groupHorizontalGapTextField.setText(groupLocationEntity.getHorizontalGap() + StringUtils.EMPTY);
+            groupVerticalGapTextField.setText(groupLocationEntity.getVerticalGap() + StringUtils.EMPTY);
 
-            nodeStartXTextField.setText(nodeLocationEntity.getStartX() + "");
-            nodeStartYTextField.setText(nodeLocationEntity.getStartY() + "");
-            nodeHorizontalGapTextField.setText(nodeLocationEntity.getHorizontalGap() + "");
-            nodeVerticalGapTextField.setText(nodeLocationEntity.getVerticalGap() + "");
+            nodeStartXTextField.setText(nodeLocationEntity.getStartX() + StringUtils.EMPTY);
+            nodeStartYTextField.setText(nodeLocationEntity.getStartY() + StringUtils.EMPTY);
+            nodeHorizontalGapTextField.setText(nodeLocationEntity.getHorizontalGap() + StringUtils.EMPTY);
+            nodeVerticalGapTextField.setText(nodeLocationEntity.getVerticalGap() + StringUtils.EMPTY);
         }
 
         public boolean setFromUI() {
