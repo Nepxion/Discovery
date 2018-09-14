@@ -318,8 +318,8 @@ public class ServiceTopology extends AbstractTopology {
         for (Map.Entry<String, List<Instance>> entry : instanceMap.entrySet()) {
             List<Instance> instances = entry.getValue();
             for (Instance instance : instances) {
-                String filter = InstanceEntityWrapper.getGroup(instance);
                 String plugin = InstanceEntityWrapper.getPlugin(instance);
+                String filter = InstanceEntityWrapper.getGroup(instance);
                 if (StringUtils.isNotEmpty(plugin) && !filters.contains(filter)) {
                     filters.add(filter);
                 }

@@ -18,6 +18,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.InstanceEntity;
+import com.nepxion.discovery.common.entity.InstanceEntityWrapper;
 import com.nepxion.discovery.console.adapter.ConfigAdapter;
 import com.nepxion.discovery.console.rest.ConfigClearRestInvoker;
 import com.nepxion.discovery.console.rest.ConfigUpdateRestInvoker;
@@ -67,6 +69,14 @@ public class ConsoleEndpoint implements MvcEndpoint {
     @ManagedOperation
     public ResponseEntity<?> configType() {
         return getConfigType();
+    }
+
+    @RequestMapping(path = "/groups", method = RequestMethod.GET)
+    @ApiOperation(value = "获取服务注册中心的服务所在的组列表", notes = "", response = List.class, httpMethod = "GET")
+    @ResponseBody
+    @ManagedOperation
+    public List<String> groups() {
+        return getGroups();
     }
 
     @RequestMapping(path = "/services", method = RequestMethod.GET)
@@ -199,6 +209,24 @@ public class ConsoleEndpoint implements MvcEndpoint {
         }
 
         return ResponseEntity.ok().body(configType);
+    }
+
+    public List<String> getGroups() {
+        List<String> groups = new ArrayList<String>();
+
+        List<String> services = getServices();
+        for (String service : services) {
+            List<InstanceEntity> instanceEntityList = getInstanceList(service);
+            for (InstanceEntity instance : instanceEntityList) {
+                String plugin = InstanceEntityWrapper.getPlugin(instance);
+                String group = InstanceEntityWrapper.getGroup(instance);
+                if (StringUtils.isNotEmpty(plugin) && !groups.contains(group)) {
+                    groups.add(group);
+                }
+            }
+        }
+
+        return groups;
     }
 
     public List<String> getServices() {
