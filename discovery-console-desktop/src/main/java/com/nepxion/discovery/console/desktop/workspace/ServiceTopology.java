@@ -47,6 +47,7 @@ import com.nepxion.cots.twaver.element.TGroupType;
 import com.nepxion.cots.twaver.element.TNode;
 import com.nepxion.cots.twaver.graph.TGraphBackground;
 import com.nepxion.cots.twaver.graph.TGraphManager;
+import com.nepxion.discovery.common.entity.InstanceEntityWrapper;
 import com.nepxion.discovery.common.entity.ResultEntity;
 import com.nepxion.discovery.console.desktop.constant.ConsoleConstant;
 import com.nepxion.discovery.console.desktop.controller.ServiceController;
@@ -117,7 +118,6 @@ public class ServiceTopology extends AbstractTopology {
 
     private Map<String, List<Instance>> globalInstanceMap;
     private String globalFilter;
-    private Vector<Object> globalFilterVector = new Vector<Object>();
 
     public ServiceTopology() {
         initializeToolBar();
@@ -269,8 +269,8 @@ public class ServiceTopology extends AbstractTopology {
     private void addInstances(TGroup group, String serviceId, List<Instance> instances) {
         for (int i = 0; i < instances.size(); i++) {
             Instance instance = instances.get(i);
-            String filter = instance.getFilter();
-            String plugin = instance.getPlugin();
+            String filter = InstanceEntityWrapper.getGroup(instance);
+            String plugin = InstanceEntityWrapper.getPlugin(instance);
             String nodeName = getNodeName(instance);
 
             TNode node = createNode(nodeName, StringUtils.isNotEmpty(plugin) ? serviceNodeEntity : notServiceNodeEntity, nodeLocationEntity, i);
@@ -293,7 +293,7 @@ public class ServiceTopology extends AbstractTopology {
         // 服务注册发现中心，必须有一个规范，即在同一个服务集群下，必须所有服务的metadata格式一致，例如一个服务配了group，另一个服务没有配group
         // 只取有值的那个
         for (Instance instance : instances) {
-            String filter = instance.getFilter();
+            String filter = InstanceEntityWrapper.getGroup(instance);
             if (StringUtils.isNotEmpty(filter)) {
                 return filter;
             }
@@ -304,7 +304,7 @@ public class ServiceTopology extends AbstractTopology {
 
     private String getValidPlugin(List<Instance> instances) {
         for (Instance instance : instances) {
-            String plugin = instance.getPlugin();
+            String plugin = InstanceEntityWrapper.getPlugin(instance);
             if (StringUtils.isNotEmpty(plugin)) {
                 return plugin;
             }
@@ -313,13 +313,13 @@ public class ServiceTopology extends AbstractTopology {
         return "";
     }
 
-    private Object[] filter(Map<String, List<Instance>> instanceMap) {
+    private Object[] filterToArray(Map<String, List<Instance>> instanceMap) {
         List<String> filters = new ArrayList<String>();
         for (Map.Entry<String, List<Instance>> entry : instanceMap.entrySet()) {
             List<Instance> instances = entry.getValue();
             for (Instance instance : instances) {
-                String filter = instance.getFilter();
-                String plugin = instance.getPlugin();
+                String filter = InstanceEntityWrapper.getGroup(instance);
+                String plugin = InstanceEntityWrapper.getPlugin(instance);
                 if (StringUtils.isNotEmpty(plugin) && !filters.contains(filter)) {
                     filters.add(filter);
                 }
@@ -332,6 +332,22 @@ public class ServiceTopology extends AbstractTopology {
         filters.add(NO_FILTER);
 
         return filters.toArray();
+    }
+
+    private Vector<Object> filterToVector(Map<String, List<Instance>> instanceMap) {
+        Vector<Object> filters = new Vector<Object>();
+        for (Map.Entry<String, List<Instance>> entry : instanceMap.entrySet()) {
+            List<Instance> instances = entry.getValue();
+            for (Instance instance : instances) {
+                String filter = InstanceEntityWrapper.getGroup(instance);
+                String plugin = InstanceEntityWrapper.getPlugin(instance);
+                if (StringUtils.isNotEmpty(plugin) && !filters.contains(filter)) {
+                    filters.add(filter);
+                }
+            }
+        }
+
+        return filters;
     }
 
     private Object[] filterServices(TNode node, Map<String, List<Instance>> instanceMap) {
@@ -546,7 +562,7 @@ public class ServiceTopology extends AbstractTopology {
                     return;
                 }
 
-                Object[] filters = filter(instanceMap);
+                Object[] filters = filterToArray(instanceMap);
                 if (filterPanel == null) {
                     filterPanel = new FilterPanel();
                     filterPanel.setPreferredSize(new Dimension(320, 60));
@@ -560,15 +576,6 @@ public class ServiceTopology extends AbstractTopology {
 
                 globalInstanceMap = instanceMap;
                 globalFilter = filterPanel.getFilter();
-
-                globalFilterVector.clear();
-                if (!StringUtils.equals(globalFilter, NO_FILTER)) {
-                    globalFilterVector.add(globalFilter);
-                } else {
-                    for (int i = 0; i < filters.length - 1; i++) {
-                        globalFilterVector.add(filters[i]);
-                    }
-                }
 
                 String title = ConsoleLocale.getString("title_service_cluster_gray_release");
                 if (!StringUtils.equals(globalFilter, NO_FILTER)) {
@@ -728,6 +735,17 @@ public class ServiceTopology extends AbstractTopology {
 
                     return;
                 }
+
+                Map<String, List<Instance>> instanceMap = null;
+                try {
+                    instanceMap = ServiceController.getInstanceMap();
+                } catch (Exception ex) {
+                    JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("get_service_instances_failure"), ex);
+
+                    return;
+                }
+
+                Vector<Object> globalFilterVector = filterToVector(instanceMap);
 
                 if (globalGrayPanel == null) {
                     globalGrayPanel = new GlobalGrayPanel();
@@ -1041,11 +1059,11 @@ public class ServiceTopology extends AbstractTopology {
                     TNode node = iterator.next();
                     Instance instance = (Instance) node.getUserObject();
 
-                    boolean versionEnabled = instance.isDiscoveryControlEnabled();
+                    boolean versionEnabled = InstanceEntityWrapper.isDiscoveryControlEnabled(instance);
                     if (versionEnabled) {
                         versionControlEnabled = true;
                     }
-                    boolean ruleEnabled = instance.isDiscoveryControlEnabled() && instance.isConfigRestControlEnabled();
+                    boolean ruleEnabled = InstanceEntityWrapper.isDiscoveryControlEnabled(instance) && InstanceEntityWrapper.isConfigRestControlEnabled(instance);
                     if (ruleEnabled) {
                         ruleControlEnabled = true;
                     }
@@ -1092,8 +1110,8 @@ public class ServiceTopology extends AbstractTopology {
             this.node = node;
             Instance instance = (Instance) node.getUserObject();
 
-            boolean versionControlEnabled = instance.isDiscoveryControlEnabled();
-            boolean ruleControlEnabled = instance.isDiscoveryControlEnabled() && instance.isConfigRestControlEnabled() && !ruleToConfigCenterRadioButtonMenuItem.isSelected();
+            boolean versionControlEnabled = InstanceEntityWrapper.isDiscoveryControlEnabled(instance);
+            boolean ruleControlEnabled = InstanceEntityWrapper.isDiscoveryControlEnabled(instance) && InstanceEntityWrapper.isConfigRestControlEnabled(instance) && !ruleToConfigCenterRadioButtonMenuItem.isSelected();
 
             if (versionTabbedPane.getTabCount() == 1) {
                 versionTabbedPane.addTab(ConsoleLocale.getString("label_local_version"), localVersionPanel, ConsoleLocale.getString("label_local_version"));
