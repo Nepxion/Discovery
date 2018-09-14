@@ -20,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.InstanceEntityWrapper;
 import com.nepxion.discovery.common.entity.ResultEntity;
 import com.nepxion.discovery.common.entity.RouterEntity;
 import com.nepxion.discovery.common.handler.RestErrorHandler;
@@ -218,7 +219,7 @@ public class ServiceController {
     }
 
     private static String getUrl(Instance instance) {
-        String url = "http://" + instance.getHost() + ":" + instance.getPort() + UrlUtil.formatContextPath(instance.getContextPath());
+        String url = "http://" + instance.getHost() + ":" + instance.getPort() + UrlUtil.formatContextPath(InstanceEntityWrapper.getContextPath(instance));
 
         return url;
     }
