@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.nepxion.discovery.common.apollo.constant.ApolloConstant;
+import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
 import com.nepxion.discovery.plugin.configcenter.apollo.adapter.ApolloConfigAdapter;
 
 @Configuration
@@ -32,7 +33,7 @@ public class ApolloConfigAutoConfiguration {
     }
 
     @Bean
-    public ApolloConfigAdapter configAdapter() {
+    public ConfigAdapter configAdapter() {
         return new ApolloConfigAdapter();
     }
 }
