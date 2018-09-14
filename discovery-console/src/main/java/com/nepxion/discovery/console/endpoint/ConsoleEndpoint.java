@@ -105,7 +105,7 @@ public class ConsoleEndpoint implements MvcEndpoint {
     @ApiOperation(value = "推送更新规则配置信息到远程配置中心", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<?> remoteConfigUpdate(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
+    public ResponseEntity<?> remoteConfigUpdate(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名。当全局推送模式下，服务名必须由组名来代替", required = true) String serviceId, @RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
         return executeRemoteConfigUpdate(group, serviceId, config);
     }
 
@@ -113,7 +113,7 @@ public class ConsoleEndpoint implements MvcEndpoint {
     @ApiOperation(value = "清除规则配置信息到远程配置中心", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<?> remoteConfigClear(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
+    public ResponseEntity<?> remoteConfigClear(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名。当全局推送模式下，服务名必须由组名来代替", required = true) String serviceId) {
         return executeRemoteConfigClear(group, serviceId);
     }
 
@@ -121,7 +121,7 @@ public class ConsoleEndpoint implements MvcEndpoint {
     @ApiOperation(value = "查看远程配置中心的规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<?> remoteConfigView(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
+    public ResponseEntity<?> remoteConfigView(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名。当全局推送模式下，服务名必须由组名来代替", required = true) String serviceId) {
         return executeRemoteConfigView(group, serviceId);
     }
 
