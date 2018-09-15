@@ -27,7 +27,7 @@ public class NacosOperation {
     private Environment environment;
 
     public String getConfig(String group, String serviceId) throws NacosException {
-        long timeout = environment.getProperty(NacosConstant.NACOS_DISCOVERY_TIMEOUT, Long.class, NacosConstant.DEFAULT_TIMEOUT);
+        long timeout = environment.getProperty(NacosConstant.NACOS_PLUGIN_TIMEOUT, Long.class, NacosConstant.DEFAULT_TIMEOUT);
 
         return nacosConfigService.getConfig(serviceId, group, timeout);
     }

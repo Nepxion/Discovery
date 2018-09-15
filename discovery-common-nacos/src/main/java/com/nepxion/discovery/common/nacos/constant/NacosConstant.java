@@ -14,8 +14,14 @@ import com.alibaba.nacos.api.PropertyKeyConst;
 public class NacosConstant extends PropertyKeyConst {
     public static final String TYPE = "Nacos";
     public static final String NACOS_SERVER_ADDR = "nacos.server-addr";
-    public static final String NACOS_DISCOVERY_NAMESPACE = "nacos.discovery.namespace";
-    public static final String NACOS_DISCOVERY_TIMEOUT = "nacos.discovery.timout";
+    public static final String NACOS_ACCESS_KEY = "nacos.access-key";
+    public static final String NACOS_SECRET_KEY = "nacos.secret-key";
+    public static final String NACOS_PLUGIN_NAMESPACE = "nacos.plugin.namespace";
+    public static final String NACOS_PLUGIN_CLUSTER_NAME = "nacos.plugin.cluster-name";
+    public static final String NACOS_PLUGIN_CONTEXT_PATH = "nacos.plugin.context-path";
+    public static final String NACOS_PLUGIN_ENDPOINT = "nacos.plugin.endpoint";
+    public static final String NACOS_PLUGIN_ENCODE = "nacos.plugin.encode";
+    public static final String NACOS_PLUGIN_TIMEOUT = "nacos.plugin.timout";
 
     public static final long DEFAULT_TIMEOUT = 30000;
 }
