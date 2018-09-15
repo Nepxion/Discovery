@@ -10,7 +10,6 @@ package com.nepxion.discovery.plugin.configcenter.parser.xml;
  */
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -23,7 +22,6 @@ import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.CountFilterEntity;
 import com.nepxion.discovery.common.entity.CustomizationEntity;
 import com.nepxion.discovery.common.entity.DiscoveryEntity;
@@ -38,6 +36,7 @@ import com.nepxion.discovery.common.entity.VersionFilterEntity;
 import com.nepxion.discovery.common.entity.WeightEntity;
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
+import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.configcenter.constant.ConfigConstant;
 import com.nepxion.discovery.plugin.configcenter.parser.xml.dom4j.Dom4JReader;
 import com.nepxion.discovery.plugin.framework.config.PluginConfigParser;
@@ -202,7 +201,7 @@ public class XmlConfigParser implements PluginConfigParser {
         Attribute globalFilterAttribute = element.attribute(ConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME);
         if (globalFilterAttribute != null) {
             String globalFilterValue = globalFilterAttribute.getData().toString().trim();
-            List<String> globalFilterValueList = parseList(globalFilterValue);
+            List<String> globalFilterValueList = StringUtil.split(globalFilterValue, ConfigConstant.SEPARATE);
             hostFilterEntity.setFilterValueList(globalFilterValueList);
         }
 
@@ -223,7 +222,7 @@ public class XmlConfigParser implements PluginConfigParser {
                     List<String> filterValueList = null;
                     if (filterValueAttribute != null) {
                         String filterValue = filterValueAttribute.getData().toString().trim();
-                        filterValueList = parseList(filterValue);
+                        filterValueList = StringUtil.split(filterValue, ConfigConstant.SEPARATE);
                     }
                     filterMap.put(serviceName, filterValueList);
                 }
@@ -325,14 +324,14 @@ public class XmlConfigParser implements PluginConfigParser {
                     Attribute consumerVersionValueAttribute = childElement.attribute(ConfigConstant.CONSUMER_VERSION_VALUE_ATTRIBUTE_NAME);
                     if (consumerVersionValueAttribute != null) {
                         String consumerVersionValue = consumerVersionValueAttribute.getData().toString().trim();
-                        List<String> consumerVersionValueList = parseList(consumerVersionValue);
+                        List<String> consumerVersionValueList = StringUtil.split(consumerVersionValue, ConfigConstant.SEPARATE);
                         versionEntity.setConsumerVersionValueList(consumerVersionValueList);
                     }
 
                     Attribute providerVersionValueAttribute = childElement.attribute(ConfigConstant.PROVIDER_VERSION_VALUE_ATTRIBUTE_NAME);
                     if (providerVersionValueAttribute != null) {
                         String providerVersionValue = providerVersionValueAttribute.getData().toString().trim();
-                        List<String> providerVersionValueList = parseList(providerVersionValue);
+                        List<String> providerVersionValueList = StringUtil.split(providerVersionValue, ConfigConstant.SEPARATE);
                         versionEntity.setProviderVersionValueList(providerVersionValueList);
                     }
 
@@ -390,7 +389,7 @@ public class XmlConfigParser implements PluginConfigParser {
                     }
                     String providerWeightValue = providerWeightValueAttribute.getData().toString().trim();
                     Map<String, Integer> weightMap = new LinkedHashMap<String, Integer>();
-                    List<String> providerWeightValueList = parseList(providerWeightValue);
+                    List<String> providerWeightValueList = StringUtil.split(providerWeightValue, ConfigConstant.SEPARATE);
                     for (String value : providerWeightValueList) {
                         String[] valueArray = StringUtils.split(value, ConfigConstant.SEPARATE);
                         String version = valueArray[0].trim();
@@ -424,7 +423,7 @@ public class XmlConfigParser implements PluginConfigParser {
                     }
                     String providerWeightValue = providerWeightValueAttribute.getData().toString().trim();
                     Map<String, Integer> weightMap = new LinkedHashMap<String, Integer>();
-                    List<String> providerWeightValueList = parseList(providerWeightValue);
+                    List<String> providerWeightValueList = StringUtil.split(providerWeightValue, ConfigConstant.SEPARATE);
                     for (String value : providerWeightValueList) {
                         String[] valueArray = StringUtils.split(value, ConfigConstant.SEPARATE);
                         String region = valueArray[0].trim();
@@ -443,15 +442,5 @@ public class XmlConfigParser implements PluginConfigParser {
         }
 
         discoveryEntity.setWeightFilterEntity(weightFilterEntity);
-    }
-
-    private List<String> parseList(String value) {
-        if (StringUtils.isEmpty(value)) {
-            return null;
-        }
-
-        String[] valueArray = StringUtils.split(value, DiscoveryConstant.SEPARATE);
-
-        return Arrays.asList(valueArray);
     }
 }
