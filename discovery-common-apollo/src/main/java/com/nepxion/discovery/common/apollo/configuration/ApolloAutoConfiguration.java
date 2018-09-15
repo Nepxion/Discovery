@@ -29,7 +29,7 @@ public class ApolloAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public Config apolloConfig() {
-        String namespace = environment.getProperty(ApolloConstant.NAMESPACE);
+        String namespace = environment.getProperty(ApolloConstant.APOLLO_DISCOVERY_NAMESPACE);
         if (StringUtils.isNotEmpty(namespace)) {
             return ConfigService.getConfig(namespace);
         } else {

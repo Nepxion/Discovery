@@ -34,14 +34,14 @@ public class NacosAutoConfiguration {
     public ConfigService nacosConfigService() throws NacosException {
         Properties properties = new Properties();
 
-        String url = environment.getProperty(NacosConstant.URL);
-        if (StringUtils.isNotEmpty(url)) {
-            properties.put(NacosConstant.SERVER_ADDR, url);
+        String serverAddr = environment.getProperty(NacosConstant.NACOS_SERVER_ADDR);
+        if (StringUtils.isNotEmpty(serverAddr)) {
+            properties.put(NacosConstant.SERVER_ADDR, serverAddr);
         } else {
-            throw new IllegalArgumentException("Url can't be null or empty");
+            throw new IllegalArgumentException(NacosConstant.NACOS_SERVER_ADDR + " can't be null or empty");
         }
 
-        String namespace = environment.getProperty(NacosConstant.NAMESPACE);
+        String namespace = environment.getProperty(NacosConstant.NACOS_DISCOVERY_NAMESPACE);
         if (StringUtils.isNotEmpty(namespace)) {
             properties.put(NacosConstant.NAMESPACE, namespace);
         }
