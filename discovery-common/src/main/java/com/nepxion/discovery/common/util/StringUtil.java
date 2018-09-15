@@ -15,7 +15,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 public class StringUtil {
-    public static List<String> split(String value, String separate) {
+    public static List<String> splitToList(String value, String separate) {
         if (StringUtils.isEmpty(value)) {
             return null;
         }
