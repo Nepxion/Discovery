@@ -32,12 +32,12 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.nepxion.cots.twaver.element.TElement;
@@ -64,9 +64,9 @@ import com.nepxion.swing.action.JSecurityAction;
 import com.nepxion.swing.button.ButtonManager;
 import com.nepxion.swing.button.JClassicButton;
 import com.nepxion.swing.button.JClassicMenuButton;
-import com.nepxion.swing.combobox.JBasicComboBox;
 import com.nepxion.swing.dialog.JExceptionDialog;
 import com.nepxion.swing.dialog.JOptionDialog;
+import com.nepxion.swing.element.ElementNode;
 import com.nepxion.swing.framework.dockable.JDockable;
 import com.nepxion.swing.framework.dockable.JDockableView;
 import com.nepxion.swing.handle.HandleManager;
@@ -83,6 +83,7 @@ import com.nepxion.swing.optionpane.JBasicOptionPane;
 import com.nepxion.swing.popupmenu.JBasicPopupMenu;
 import com.nepxion.swing.query.JQueryHierarchy;
 import com.nepxion.swing.scrollpane.JBasicScrollPane;
+import com.nepxion.swing.selector.checkbox.JCheckBoxSelector;
 import com.nepxion.swing.tabbedpane.JBasicTabbedPane;
 import com.nepxion.swing.textarea.JBasicTextArea;
 import com.nepxion.swing.textfield.JBasicTextField;
@@ -90,8 +91,6 @@ import com.nepxion.swing.textfield.number.JNumberTextField;
 
 public class ServiceTopology extends AbstractTopology {
     private static final long serialVersionUID = 1L;
-
-    public static final String NO_FILTER = ConsoleLocale.getString("no_service_cluster_filter");
 
     private LocationEntity groupLocationEntity = new LocationEntity(120, 250, 280, 0);
     private LocationEntity nodeLocationEntity = new LocationEntity(0, 0, 120, 120);
@@ -109,7 +108,6 @@ public class ServiceTopology extends AbstractTopology {
     private JBasicRadioButtonMenuItem pushSyncModeRadioButtonMenuItem;
     private JBasicRadioButtonMenuItem ruleToConfigCenterRadioButtonMenuItem;
     private JBasicRadioButtonMenuItem ruleToServiceRadioButtonMenuItem;
-    private FilterPanel filterPanel;
     private GlobalGrayPanel globalGrayPanel;
     private GrayPanel grayPanel;
     private JBasicTextArea resultTextArea;
@@ -117,7 +115,6 @@ public class ServiceTopology extends AbstractTopology {
     private LayoutDialog layoutDialog;
 
     private Map<String, List<Instance>> globalInstanceMap;
-    private String globalFilter;
 
     public ServiceTopology() {
         initializeToolBar();
@@ -243,16 +240,13 @@ public class ServiceTopology extends AbstractTopology {
         for (Map.Entry<String, List<Instance>> entry : globalInstanceMap.entrySet()) {
             String serviceId = entry.getKey();
             List<Instance> instances = entry.getValue();
-            addService(globalFilter, serviceId, instances);
+            addService(serviceId, instances);
         }
     }
 
-    private void addService(String filterId, String serviceId, List<Instance> instances) {
+    private void addService(String serviceId, List<Instance> instances) {
         String filter = getValidFilter(instances);
         String plugin = getValidPlugin(instances);
-        if (!StringUtils.equals(filterId, NO_FILTER) && !StringUtils.equals(filterId, filter)) {
-            return;
-        }
 
         int count = groupLocationMap.size();
         String groupName = getGroupName(serviceId, instances.size(), filter);
@@ -311,27 +305,6 @@ public class ServiceTopology extends AbstractTopology {
         }
 
         return StringUtils.EMPTY;
-    }
-
-    private Object[] filterInstances(Map<String, List<Instance>> instanceMap) {
-        List<String> filters = new ArrayList<String>();
-        for (Map.Entry<String, List<Instance>> entry : instanceMap.entrySet()) {
-            List<Instance> instances = entry.getValue();
-            for (Instance instance : instances) {
-                String plugin = InstanceEntityWrapper.getPlugin(instance);
-                String filter = InstanceEntityWrapper.getGroup(instance);
-                if (StringUtils.isNotEmpty(plugin) && !filters.contains(filter)) {
-                    filters.add(filter);
-                }
-            }
-        }
-
-        if (filters.contains(StringUtils.EMPTY)) {
-            filters.remove(StringUtils.EMPTY);
-        }
-        filters.add(NO_FILTER);
-
-        return filters.toArray();
     }
 
     private Object[] filterServices(TNode node, Map<String, List<Instance>> instanceMap) {
@@ -536,35 +509,46 @@ public class ServiceTopology extends AbstractTopology {
         JSecurityAction action = new JSecurityAction(ConsoleLocale.getString("show_topology"), ConsoleIconFactory.getSwingIcon("component/ui_16.png"), ConsoleLocale.getString("show_topology")) {
             private static final long serialVersionUID = 1L;
 
+            @SuppressWarnings("unchecked")
             public void execute(ActionEvent e) {
+                List<String> groups = null;
+                try {
+                    groups = ServiceController.getGroups();
+                } catch (Exception ex) {
+                    JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("get_service_group_failure"), ex);
+
+                    return;
+                }
+
+                List<ElementNode> filterElementNodes = new ArrayList<ElementNode>();
+                for (String filter : groups) {
+                    filterElementNodes.add(new ElementNode(filter, IconFactory.getSwingIcon("component/file_chooser_16.png"), filter));
+                }
+
+                JCheckBoxSelector checkBoxSelector = new JCheckBoxSelector(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("service_cluster_filter"), new Dimension(400, 350), filterElementNodes);
+                checkBoxSelector.setVisible(true);
+                checkBoxSelector.dispose();
+
+                List<String> filters = new ArrayList<String>();
+                if (checkBoxSelector.isConfirmed()) {
+                    List<ElementNode> selectedFilterElementNodes = checkBoxSelector.getSelectedElementNodes();
+                    for (ElementNode selectedFilterElementNode : selectedFilterElementNodes) {
+                        filters.add(selectedFilterElementNode.getText());
+                    }
+                }
+
                 Map<String, List<Instance>> instanceMap = null;
                 try {
-                    instanceMap = ServiceController.getInstanceMap();
+                    instanceMap = ServiceController.getInstanceMap(filters);
                 } catch (Exception ex) {
                     JExceptionDialog.traceException(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("get_service_instances_failure"), ex);
 
                     return;
                 }
 
-                Object[] filters = filterInstances(instanceMap);
-                if (filterPanel == null) {
-                    filterPanel = new FilterPanel();
-                    filterPanel.setPreferredSize(new Dimension(320, 60));
-                }
-                filterPanel.setFilters(filters);
-
-                int selectedValue = JBasicOptionPane.showOptionDialog(HandleManager.getFrame(ServiceTopology.this), filterPanel, ConsoleLocale.getString("service_cluster_filter"), JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/query.png"), new Object[] { SwingLocale.getString("yes"), SwingLocale.getString("no") }, null, true);
-                if (selectedValue != 0) {
-                    return;
-                }
-
                 globalInstanceMap = instanceMap;
-                globalFilter = filterPanel.getFilter();
 
-                String title = ConsoleLocale.getString("title_service_cluster_gray_release");
-                if (!StringUtils.equals(globalFilter, NO_FILTER)) {
-                    title += " [" + globalFilter + "]";
-                }
+                String title = ConsoleLocale.getString("title_service_cluster_gray_release") + " " + (CollectionUtils.isNotEmpty(filters) ? filters : StringUtils.EMPTY);
                 background.setTitle(title);
 
                 showTopology();
@@ -743,29 +727,6 @@ public class ServiceTopology extends AbstractTopology {
         };
 
         return action;
-    }
-
-    private class FilterPanel extends JPanel {
-        private static final long serialVersionUID = 1L;
-
-        private JBasicComboBox filterComboBox;
-
-        public FilterPanel() {
-            filterComboBox = new JBasicComboBox();
-
-            setLayout(new FiledLayout(FiledLayout.COLUMN, FiledLayout.FULL, 5));
-            add(filterComboBox);
-            add(new JLabel(NO_FILTER + " - " + ConsoleLocale.getString("description_no_service_cluster_filter")));
-        }
-
-        @SuppressWarnings("unchecked")
-        public void setFilters(Object[] filters) {
-            filterComboBox.setModel(new DefaultComboBoxModel<>(filters));
-        }
-
-        public String getFilter() {
-            return filterComboBox.getSelectedItem().toString();
-        }
     }
 
     private class GlobalGrayPanel extends JQueryHierarchy {
