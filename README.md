@@ -225,7 +225,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 | discovery-plugin-framework-eureka | 核心框架服务注册发现的Eureka实现 |
 | discovery-plugin-framework-consul | 核心框架服务注册发现的Consul实现 |
 | discovery-plugin-framework-zookeeper | 核心框架服务注册发现的Zookeeper实现 |
-| discovery-plugin-framework-nacos | 核心框架服务注册发现的Nacos实现（敬请期待） |
+| discovery-plugin-framework-nacos | 核心框架服务注册发现的Nacos实现 |
 | discovery-plugin-config-center | 配置中心实现 |
 | discovery-plugin-config-center-starter-apollo | 配置中心的Apollo Starter |
 | discovery-plugin-config-center-starter-nacos | 配置中心的Nacos Starter |
@@ -234,7 +234,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 | discovery-plugin-starter-eureka | Eureka Starter |
 | discovery-plugin-starter-consul | Consul Starter |
 | discovery-plugin-starter-zookeeper | Zookeeper Starter |
-| discovery-plugin-starter-nacos | Nacos Starter（敬请期待） |
+| discovery-plugin-starter-nacos | Nacos Starter |
 | discovery-plugin-strategy | 用户自定义和编程灰度路由策略 |
 | discovery-plugin-strategy-starter-service | 用户自定义和编程灰度路由策略的Service Starter |
 | discovery-plugin-strategy-starter-zuul | 用户自定义和编程灰度路由策略的Zuul Starter |
@@ -277,31 +277,16 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-starter-eureka</artifactId>
-</dependency>
-
-<dependency>
-    <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-starter-consul</artifactId>
-</dependency>
-
-<dependency>
-    <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-starter-zookeeper</artifactId>
+    <artifactId>discovery-plugin-starter-nacos</artifactId>	
 </dependency>
 
 [选择引入] 两个远程配置中心的中间件的扩展插件，如需要，请任选一个引入，或者也可以引入您自己的扩展
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-config-center-starter-apollo</artifactId>
-</dependency>
-
-<dependency>
-    <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-config-center-starter-nacos</artifactId>
-</dependency>
-
-<dependency>
-    <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-config-center-starter-redis</artifactId>
 </dependency>
 ```
@@ -336,10 +321,6 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-console-starter-nacos</artifactId>
-</dependency>
-
-<dependency>
-    <groupId>com.nepxion</groupId>
     <artifactId>discovery-console-starter-redis</artifactId>
 </dependency>
 ```
@@ -349,12 +330,12 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 - 例如，控制平台用Nacos做远程配置中心，微服务用Redis做远程配置中心
 
 :star:如果只想要“用户自定义和编程灰度路由”功能，而不想要灰度发布功能
-- 去除远程配置中心包的引入
+- 去除远程配置中心包的引入，例如如下
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-config-center-starter-apollo</artifactId>
-    <!-- <artifactId>discovery-plugin-config-center-starter-nacos</artifactId> -->
+    <artifactId>discovery-plugin-config-center-starter-nacos</artifactId>
     <artifactId>discovery-plugin-config-center-starter-redis</artifactId>
 </dependency>
 ```
@@ -621,6 +602,11 @@ spring.cloud.consul.discovery.tags=version=1.0,group=xxx-service-group,region=de
 spring.cloud.zookeeper.discovery.metadata.version=1.0
 spring.cloud.zookeeper.discovery.metadata.group=xxx-service-group
 spring.cloud.zookeeper.discovery.metadata.region=dev
+
+# Nacos config
+spring.cloud.nacos.discovery.metadata.version=1.0
+spring.cloud.nacos.discovery.metadata.group=example-service-group
+spring.cloud.nacos.discovery.metadata.region=dev
 
 # Admin config
 # 关闭访问Rest接口时候的权限验证
