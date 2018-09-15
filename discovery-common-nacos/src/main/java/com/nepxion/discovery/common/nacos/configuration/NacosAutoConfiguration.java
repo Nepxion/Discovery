@@ -41,9 +41,39 @@ public class NacosAutoConfiguration {
             throw new IllegalArgumentException(NacosConstant.NACOS_SERVER_ADDR + " can't be null or empty");
         }
 
-        String namespace = environment.getProperty(NacosConstant.NACOS_DISCOVERY_NAMESPACE);
+        String accessKey = environment.getProperty(NacosConstant.NACOS_ACCESS_KEY);
+        if (StringUtils.isNotEmpty(accessKey)) {
+            properties.put(NacosConstant.ACCESS_KEY, accessKey);
+        }
+
+        String secretKey = environment.getProperty(NacosConstant.NACOS_SECRET_KEY);
+        if (StringUtils.isNotEmpty(secretKey)) {
+            properties.put(NacosConstant.SECRET_KEY, secretKey);
+        }
+
+        String namespace = environment.getProperty(NacosConstant.NACOS_PLUGIN_NAMESPACE);
         if (StringUtils.isNotEmpty(namespace)) {
             properties.put(NacosConstant.NAMESPACE, namespace);
+        }
+
+        String clusterName = environment.getProperty(NacosConstant.NACOS_PLUGIN_CLUSTER_NAME);
+        if (StringUtils.isNotEmpty(clusterName)) {
+            properties.put(NacosConstant.CLUSTER_NAME, clusterName);
+        }
+
+        String contextPath = environment.getProperty(NacosConstant.NACOS_PLUGIN_CONTEXT_PATH);
+        if (StringUtils.isNotEmpty(contextPath)) {
+            properties.put(NacosConstant.CONTEXT_PATH, contextPath);
+        }
+
+        String endpoint = environment.getProperty(NacosConstant.NACOS_PLUGIN_ENDPOINT);
+        if (StringUtils.isNotEmpty(endpoint)) {
+            properties.put(NacosConstant.ENDPOINT, endpoint);
+        }
+
+        String encode = environment.getProperty(NacosConstant.NACOS_PLUGIN_ENCODE);
+        if (StringUtils.isNotEmpty(encode)) {
+            properties.put(NacosConstant.ENCODE, encode);
         }
 
         return NacosFactory.createConfigService(properties);
