@@ -273,7 +273,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 
 核心插件引入，支持微服务端、网关Zuul端和网关Spring Cloud Api Gateway（F版）端，包括核心灰度发布功能，管理中心，配置中心等
 ```xml
-[必须引入] 三个服务注册发现的中间件的增强插件，请任选一个引入
+[必须引入] 四个服务注册发现的中间件的增强插件，请任选一个引入
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-starter-eureka</artifactId>
@@ -282,7 +282,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
     <artifactId>discovery-plugin-starter-nacos</artifactId>	
 </dependency>
 
-[选择引入] 两个远程配置中心的中间件的扩展插件，如需要，请任选一个引入，或者也可以引入您自己的扩展
+[选择引入] 三个远程配置中心的中间件的扩展插件，如需要，请任选一个引入，或者也可以引入您自己的扩展
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-config-center-starter-apollo</artifactId>
