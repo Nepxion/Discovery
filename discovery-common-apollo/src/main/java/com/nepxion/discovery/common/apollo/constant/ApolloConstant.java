@@ -13,5 +13,5 @@ import com.ctrip.framework.apollo.core.ConfigConsts;
 
 public class ApolloConstant implements ConfigConsts {
     public static final String TYPE = "Apollo";
-    public static final String NAMESPACE = "apollo.discovery.namespace";
+    public static final String APOLLO_DISCOVERY_NAMESPACE = "apollo.discovery.namespace";
 }
