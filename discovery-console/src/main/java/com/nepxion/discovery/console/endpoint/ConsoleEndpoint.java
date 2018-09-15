@@ -108,7 +108,7 @@ public class ConsoleEndpoint implements MvcEndpoint {
     @ApiOperation(value = "获取服务注册中心的服务实例的Map（精简数据）", notes = "服务组名列表", response = Map.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
-    public Map<String, List<InstanceEntity>> instanceMap(@RequestBody @ApiParam(value = "服务组名列表", required = true) List<String> groups) {
+    public Map<String, List<InstanceEntity>> instanceMap(@RequestBody @ApiParam(value = "服务组名列表，传入空列则可以获取全部服务实例数据", required = true) List<String> groups) {
         return getInstanceMap(groups);
     }
 
