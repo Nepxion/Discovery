@@ -18,6 +18,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,7 +73,7 @@ public class ConsoleEndpoint {
     }
 
     @RequestMapping(path = "/groups", method = RequestMethod.GET)
-    @ApiOperation(value = "获取服务注册中心的服务所在的组列表", notes = "", response = List.class, httpMethod = "GET")
+    @ApiOperation(value = "获取服务注册中心的服务组名列表", notes = "", response = List.class, httpMethod = "GET")
     @ResponseBody
     @ManagedOperation
     public List<String> groups() {
@@ -80,7 +81,7 @@ public class ConsoleEndpoint {
     }
 
     @RequestMapping(path = "/services", method = RequestMethod.GET)
-    @ApiOperation(value = "获取服务注册中心的服务列表", notes = "", response = List.class, httpMethod = "GET")
+    @ApiOperation(value = "获取服务注册中心的服务名列表", notes = "", response = List.class, httpMethod = "GET")
     @ResponseBody
     @ManagedOperation
     public List<String> services() {
@@ -88,7 +89,7 @@ public class ConsoleEndpoint {
     }
 
     @RequestMapping(path = "/instances/{serviceId}", method = RequestMethod.GET)
-    @ApiOperation(value = "获取服务注册中心服务的实例列表", notes = "", response = List.class, httpMethod = "GET")
+    @ApiOperation(value = "获取服务注册中心的服务实例列表", notes = "", response = List.class, httpMethod = "GET")
     @ResponseBody
     @ManagedOperation
     public List<ServiceInstance> instances(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
@@ -96,19 +97,19 @@ public class ConsoleEndpoint {
     }
 
     @RequestMapping(path = "/instance-list/{serviceId}", method = RequestMethod.GET)
-    @ApiOperation(value = "获取服务注册中心服务的实例列表（精简数据）", notes = "", response = List.class, httpMethod = "GET")
+    @ApiOperation(value = "获取服务注册中心的服务实例列表（精简数据）", notes = "", response = List.class, httpMethod = "GET")
     @ResponseBody
     @ManagedOperation
     public List<InstanceEntity> instanceList(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
         return getInstanceList(serviceId);
     }
 
-    @RequestMapping(path = "/instance-map", method = RequestMethod.GET)
-    @ApiOperation(value = "获取服务注册中心的服务和实例的Map（精简数据）", notes = "", response = Map.class, httpMethod = "GET")
+    @RequestMapping(path = "/instance-map", method = RequestMethod.POST)
+    @ApiOperation(value = "获取服务注册中心的服务实例的Map（精简数据）", notes = "服务组名列表", response = Map.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
-    public Map<String, List<InstanceEntity>> instanceMap() {
-        return getInstanceMap();
+    public Map<String, List<InstanceEntity>> instanceMap(@RequestBody @ApiParam(value = "服务组名列表", required = true) List<String> groups) {
+        return getInstanceMap(groups);
     }
 
     @RequestMapping(path = "/remote-config/update/{group}/{serviceId}", method = RequestMethod.POST)
@@ -262,12 +263,27 @@ public class ConsoleEndpoint {
         return instanceEntityList;
     }
 
-    public Map<String, List<InstanceEntity>> getInstanceMap() {
+    public Map<String, List<InstanceEntity>> getInstanceMap(List<String> groups) {
         List<String> services = getServices();
         Map<String, List<InstanceEntity>> instanceMap = new LinkedHashMap<String, List<InstanceEntity>>(services.size());
         for (String service : services) {
             List<InstanceEntity> instanceEntityList = getInstanceList(service);
-            instanceMap.put(service, instanceEntityList);
+            if (CollectionUtils.isNotEmpty(groups)) {
+                for (InstanceEntity instance : instanceEntityList) {
+                    String plugin = InstanceEntityWrapper.getPlugin(instance);
+                    String group = InstanceEntityWrapper.getGroup(instance);
+                    if (StringUtils.isNotEmpty(plugin) && groups.contains(group)) {
+                        List<InstanceEntity> instanceList = instanceMap.get(service);
+                        if (instanceList == null) {
+                            instanceList = new ArrayList<InstanceEntity>();
+                            instanceMap.put(service, instanceList);
+                        }
+                        instanceList.add(instance);
+                    }
+                }
+            } else {
+                instanceMap.put(service, instanceEntityList);
+            }
         }
 
         return instanceMap;

@@ -54,10 +54,10 @@ public class ServiceController {
         });
     }
 
-    public static Map<String, List<Instance>> getInstanceMap() {
+    public static Map<String, List<Instance>> getInstanceMap(List<String> groups) {
         String url = getUrl() + "console/instance-map";
 
-        String result = restTemplate.getForEntity(url, String.class).getBody();
+        String result = restTemplate.postForEntity(url, groups, String.class).getBody();
 
         return RestUtil.fromJson(restTemplate, result, new TypeReference<Map<String, List<Instance>>>() {
         });
