@@ -25,7 +25,7 @@ public class ConsoleFrame extends JBasicFrame {
     private static final long serialVersionUID = 1L;
 
     public ConsoleFrame() {
-        super(ConsoleLocale.getString("title") + " [" + ServiceController.getConfigType() + " " + ConsoleLocale.getString("config_center") + "]", ConsoleIconFactory.getSwingIcon("ribbon/navigator_nepxion.png"), new Dimension(1280, 900));
+        super(ConsoleLocale.getString("title") + " [" + ServiceController.getDiscoveryType() + " " + ConsoleLocale.getString("discovery_center") + "] [" + ServiceController.getConfigType() + " " + ConsoleLocale.getString("config_center") + "]", ConsoleIconFactory.getSwingIcon("ribbon/navigator_nepxion.png"), new Dimension(1280, 900));
     }
 
     public void launch() {

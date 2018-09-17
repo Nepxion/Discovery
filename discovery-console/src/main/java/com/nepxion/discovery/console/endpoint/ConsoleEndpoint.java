@@ -55,6 +55,13 @@ import com.nepxion.discovery.console.rest.VersionUpdateRestInvoker;
 public class ConsoleEndpoint {
     private static final Logger LOG = LoggerFactory.getLogger(ConsoleEndpoint.class);
 
+    private static final String[][] DISCOVERY_DESCRIPTION = {
+            { "Eureka", "Spring Cloud Eureka Discovery Client,Spring Cloud No-op DiscoveryClient,Composite Discovery Client,Simple Discovery Client" },
+            { "Consul", "Spring Cloud Consul Discovery Client" },
+            { "Zookeeper", "Spring Cloud Zookeeper Discovery Client" },
+            { "Nacos", "Spring Cloud Nacos Discovery Client" }
+    };
+
     @Autowired
     private DiscoveryClient discoveryClient;
 
@@ -63,6 +70,14 @@ public class ConsoleEndpoint {
 
     @Autowired
     private RestTemplate consoleRestTemplate;
+
+    @RequestMapping(path = "/discovery-type", method = RequestMethod.GET)
+    @ApiOperation(value = "获取注册发现中心类型", notes = "", response = String.class, httpMethod = "GET")
+    @ResponseBody
+    @ManagedOperation
+    public ResponseEntity<?> discoveryType() {
+        return getDiscoveryType();
+    }
 
     @RequestMapping(path = "/config-type", method = RequestMethod.GET)
     @ApiOperation(value = "获取配置中心类型", notes = "", response = String.class, httpMethod = "GET")
@@ -200,16 +215,28 @@ public class ConsoleEndpoint {
         return executeVersionClear(serviceId, version, false);
     }
 
-    private ResponseEntity<?> getConfigType() {
-        String configType = null;
+    private ResponseEntity<?> getDiscoveryType() {
+        String description = discoveryClient.description();
 
-        if (configAdapter != null) {
-            configType = configAdapter.getConfigType();
-        } else {
-            configType = DiscoveryConstant.UNKNOWN;
+        for (int i = 0; i < DISCOVERY_DESCRIPTION.length; i++) {
+            String discoveryType = DISCOVERY_DESCRIPTION[i][0];
+            String discoveryDescription = DISCOVERY_DESCRIPTION[i][1];
+            if (discoveryDescription.contains(description)) {
+                return ResponseEntity.ok().body(discoveryType);
+            }
         }
 
-        return ResponseEntity.ok().body(configType);
+        return ResponseEntity.ok().body(DiscoveryConstant.UNKNOWN);
+    }
+
+    private ResponseEntity<?> getConfigType() {
+        if (configAdapter != null) {
+            String configType = configAdapter.getConfigType();
+
+            return ResponseEntity.ok().body(configType);
+        }
+
+        return ResponseEntity.ok().body(DiscoveryConstant.UNKNOWN);
     }
 
     public List<String> getGroups() {
