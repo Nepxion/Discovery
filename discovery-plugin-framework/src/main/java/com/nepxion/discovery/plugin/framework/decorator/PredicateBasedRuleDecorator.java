@@ -36,6 +36,10 @@ public abstract class PredicateBasedRuleDecorator extends PredicateBasedRule {
     @Override
     public Server choose(Object key) {
         WeightFilterEntity weightFilterEntity = weightRandomLoadBalance.getWeightFilterEntity();
+        if (weightFilterEntity == null) {
+            return super.choose(key);
+        }
+
         if (!weightFilterEntity.hasWeight()) {
             return super.choose(key);
         }
