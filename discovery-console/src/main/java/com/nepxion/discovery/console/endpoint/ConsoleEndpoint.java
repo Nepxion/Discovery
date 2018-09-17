@@ -27,6 +27,7 @@ import org.springframework.boot.actuate.endpoint.Endpoint;
 import org.springframework.boot.actuate.endpoint.mvc.MvcEndpoint;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.cloud.client.discovery.composite.CompositeDiscoveryClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jmx.export.annotation.ManagedOperation;
@@ -56,7 +57,7 @@ public class ConsoleEndpoint implements MvcEndpoint {
     private static final Logger LOG = LoggerFactory.getLogger(ConsoleEndpoint.class);
 
     private static final String[][] DISCOVERY_DESCRIPTION = {
-            { "Eureka", "Spring Cloud Eureka Discovery Client,Spring Cloud No-op DiscoveryClient,Composite Discovery Client,Simple Discovery Client" },
+            { "Eureka", "Spring Cloud Eureka Discovery Client" },
             { "Consul", "Spring Cloud Consul Discovery Client" },
             { "Zookeeper", "Spring Cloud Zookeeper Discovery Client" },
             { "Nacos", "Spring Cloud Nacos Discovery Client" }
@@ -216,13 +217,27 @@ public class ConsoleEndpoint implements MvcEndpoint {
     }
 
     private ResponseEntity<?> getDiscoveryType() {
-        String description = discoveryClient.description();
-
-        for (int i = 0; i < DISCOVERY_DESCRIPTION.length; i++) {
-            String discoveryType = DISCOVERY_DESCRIPTION[i][0];
-            String discoveryDescription = DISCOVERY_DESCRIPTION[i][1];
-            if (discoveryDescription.contains(description)) {
-                return ResponseEntity.ok().body(discoveryType);
+        if (discoveryClient instanceof CompositeDiscoveryClient) {
+            CompositeDiscoveryClient compositeDiscoveryClient = (CompositeDiscoveryClient) discoveryClient;
+            List<DiscoveryClient> discoveryClients = compositeDiscoveryClient.getDiscoveryClients();
+            for (DiscoveryClient client : discoveryClients) {
+                String description = client.description();
+                for (int i = 0; i < DISCOVERY_DESCRIPTION.length; i++) {
+                    String discoveryType = DISCOVERY_DESCRIPTION[i][0];
+                    String discoveryDescription = DISCOVERY_DESCRIPTION[i][1];
+                    if (discoveryDescription.contains(description)) {
+                        return ResponseEntity.ok().body(discoveryType);
+                    }
+                }
+            }
+        } else {
+            String description = discoveryClient.description();
+            for (int i = 0; i < DISCOVERY_DESCRIPTION.length; i++) {
+                String discoveryType = DISCOVERY_DESCRIPTION[i][0];
+                String discoveryDescription = DISCOVERY_DESCRIPTION[i][1];
+                if (discoveryDescription.contains(description)) {
+                    return ResponseEntity.ok().body(discoveryType);
+                }
             }
         }
 
