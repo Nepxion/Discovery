@@ -37,6 +37,14 @@ public class ServiceController {
         restTemplate.setErrorHandler(new RestErrorHandler());
     }
 
+    public static String getDiscoveryType() {
+        String url = getUrl() + "console/discovery-type";
+
+        String result = restTemplate.getForEntity(url, String.class).getBody();
+
+        return result;
+    }
+
     public static String getConfigType() {
         String url = getUrl() + "console/config-type";
 
