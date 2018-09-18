@@ -54,7 +54,7 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Override
     public String getServiceId() {
-        return registration.getServiceId();
+        return registration.getServiceId().toLowerCase();
     }
 
     @Override
