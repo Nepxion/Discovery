@@ -56,12 +56,7 @@ import com.nepxion.discovery.console.rest.VersionUpdateRestInvoker;
 public class ConsoleEndpoint {
     private static final Logger LOG = LoggerFactory.getLogger(ConsoleEndpoint.class);
 
-    private static final String[][] DISCOVERY_DESCRIPTION = {
-            { "Eureka", "Spring Cloud Eureka Discovery Client" },
-            { "Consul", "Spring Cloud Consul Discovery Client" },
-            { "Zookeeper", "Spring Cloud Zookeeper Discovery Client" },
-            { "Nacos", "Spring Cloud Nacos Discovery Client" }
-    };
+    private static final String[] DISCOVERY_TYPES = { "Eureka", "Consul", "Zookeeper", "Nacos" };
 
     @Autowired
     private DiscoveryClient discoveryClient;
@@ -221,21 +216,19 @@ public class ConsoleEndpoint {
             CompositeDiscoveryClient compositeDiscoveryClient = (CompositeDiscoveryClient) discoveryClient;
             List<DiscoveryClient> discoveryClients = compositeDiscoveryClient.getDiscoveryClients();
             for (DiscoveryClient client : discoveryClients) {
-                String description = client.description();
-                for (int i = 0; i < DISCOVERY_DESCRIPTION.length; i++) {
-                    String discoveryType = DISCOVERY_DESCRIPTION[i][0];
-                    String discoveryDescription = DISCOVERY_DESCRIPTION[i][1];
-                    if (discoveryDescription.contains(description)) {
+                String discoveryDescription = client.description();
+                for (int i = 0; i < DISCOVERY_TYPES.length; i++) {
+                    String discoveryType = DISCOVERY_TYPES[i];
+                    if (discoveryDescription.toLowerCase().contains(discoveryType.toLowerCase())) {
                         return ResponseEntity.ok().body(discoveryType);
                     }
                 }
             }
         } else {
-            String description = discoveryClient.description();
-            for (int i = 0; i < DISCOVERY_DESCRIPTION.length; i++) {
-                String discoveryType = DISCOVERY_DESCRIPTION[i][0];
-                String discoveryDescription = DISCOVERY_DESCRIPTION[i][1];
-                if (discoveryDescription.contains(description)) {
+            String discoveryDescription = discoveryClient.description();
+            for (int i = 0; i < DISCOVERY_TYPES.length; i++) {
+                String discoveryType = DISCOVERY_TYPES[i];
+                if (discoveryDescription.toLowerCase().contains(discoveryType.toLowerCase())) {
                     return ResponseEntity.ok().body(discoveryType);
                 }
             }
