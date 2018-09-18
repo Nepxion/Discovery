@@ -375,6 +375,11 @@ spring.application.discovery.control.enabled=false
 
 ### 规则示例
 XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
+:warning:特别注意：服务名大小写规则
+- 在配置文件（application.properties、application.yaml等）里，定义服务名（spring.application.name）不区分大小写
+- 在规则文件（XML、Json）里，引用的服务名必须小写
+- 在Nacos、Apollo、Redis等远程配置中心的Key，包含的服务名必须小写
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
