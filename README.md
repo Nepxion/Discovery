@@ -24,7 +24,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 - 感谢阿里巴巴中间件Nacos负责人于坏，Spring Cloud Alibaba负责人亦盏的技术支持
 - 感谢携程Apollo作者特意开发openapi包和技术支持
 - 感谢相关代码贡献者
-- 感谢相关使用本框架的公司
+- 感谢使用本框架的公司
 
 ## 目录
 - [请联系我](#请联系我)
