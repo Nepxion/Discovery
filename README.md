@@ -246,7 +246,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 | discovery-plugin-strategy-starter-zuul | 用户自定义和编程灰度路由策略的Zuul Starter |
 | discovery-plugin-strategy-starter-gateway | 用户自定义和编程灰度路由策略的Spring Cloud Api Gateway（F版） Starter |
 | discovery-console | 控制平台，集成接口给UI |
-| discovery-console-starter-apollo | 控制平台的Apollo Starter（敬请期待） |
+| discovery-console-starter-apollo | 控制平台的Apollo Starter |
 | discovery-console-starter-nacos | 控制平台的Nacos Starter |
 | discovery-console-starter-redis | 控制平台的Redis Starter |
 | discovery-console-desktop | 图形化灰度发布等桌面程序 |
@@ -323,9 +323,10 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 
 控制平台引入
 ```xml
-[选择引入] 两个远程配置中心的中间件的扩展插件，如需要，请任选一个引入，或者也可以引入您自己的扩展
+[选择引入] 三个远程配置中心的中间件的扩展插件，如需要，请任选一个引入，或者也可以引入您自己的扩展
 <dependency>
     <groupId>com.nepxion</groupId>
+    <artifactId>discovery-console-starter-apollo</artifactId>
     <artifactId>discovery-console-starter-nacos</artifactId>
     <artifactId>discovery-console-starter-redis</artifactId>
 </dependency>
@@ -336,16 +337,14 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 - 例如，控制平台用Nacos做远程配置中心，微服务用Redis做远程配置中心
 
 :star:如果只想要“用户自定义和编程灰度路由”功能，而不想要灰度发布功能
-- 去除远程配置中心包的引入，例如如下
+- “用户自定义和编程灰度路由”是不需要接入远程配置中心的，所以建议去除远程配置中心包的引入
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
-    <artifactId>discovery-plugin-config-center-starter-apollo</artifactId>
-    <artifactId>discovery-plugin-config-center-starter-nacos</artifactId>
-    <artifactId>discovery-plugin-config-center-starter-redis</artifactId>
+    <artifactId>discovery-plugin-config-center-starter-xxx</artifactId>
 </dependency>
 ```
-- 下面两项配置改为false
+- “用户自定义和编程灰度路由”是不会对服务注册发现等逻辑产生影响，所以建议下面两项配置改为false
 ```xml
 # 开启和关闭服务注册层面的控制。一旦关闭，服务注册的黑/白名单过滤功能将失效，最大注册数的限制过滤功能将失效。缺失则默认为true
 spring.application.register.control.enabled=false
