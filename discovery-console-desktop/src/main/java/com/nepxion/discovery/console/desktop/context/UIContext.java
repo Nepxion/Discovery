@@ -29,7 +29,9 @@ public class UIContext {
     public static void initialize() {
         FontContext.registerFont(getFontName(), Font.PLAIN, getDefaultFontSize());
 
-        LookAndFeelManager.setNimbusLookAndFeel();
+        if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+            LookAndFeelManager.setNimbusLookAndFeel();
+        }
     }
 
     public static String getFontName() {
