@@ -688,7 +688,7 @@ spring.application.strategy.request.headers=version;region;token
 ## 控制平台
 为UI提供相关接口，包括
 - 一系列批量功能
-- 跟Nacos和Redis集成，实现配置拉去、推送和清除，Apollo集成，请等到2018年10月份，您可以通过Apollo自带界面做规则配置
+- 跟Nacos、Apollo和Redis集成，实现配置拉取、推送和清除
 
 :exclamation:PORT端口号为服务端口或者管理端口都可以
 - 控制平台接口
