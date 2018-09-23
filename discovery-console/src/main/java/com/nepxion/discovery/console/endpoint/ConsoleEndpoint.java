@@ -42,7 +42,9 @@ import org.springframework.web.client.RestTemplate;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.InstanceEntity;
 import com.nepxion.discovery.common.entity.InstanceEntityWrapper;
+import com.nepxion.discovery.common.entity.UserEntity;
 import com.nepxion.discovery.console.adapter.ConfigAdapter;
+import com.nepxion.discovery.console.authentication.AuthenticationResource;
 import com.nepxion.discovery.console.rest.ConfigClearRestInvoker;
 import com.nepxion.discovery.console.rest.ConfigUpdateRestInvoker;
 import com.nepxion.discovery.console.rest.VersionClearRestInvoker;
@@ -67,8 +69,19 @@ public class ConsoleEndpoint {
     @Autowired
     private RestTemplate consoleRestTemplate;
 
+    @Autowired
+    private AuthenticationResource authenticationResource;
+
+    @RequestMapping(path = "/authenticate", method = RequestMethod.POST)
+    @ApiOperation(value = "登录认证", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    @ManagedOperation
+    public ResponseEntity<?> authenticate(@RequestBody @ApiParam(value = "UserEntity实例", required = true) UserEntity userEntity) {
+        return executeAuthenticate(userEntity);
+    }
+
     @RequestMapping(path = "/discovery-type", method = RequestMethod.GET)
-    @ApiOperation(value = "获取注册发现中心类型", notes = "", response = String.class, httpMethod = "GET")
+    @ApiOperation(value = "获取注册发现中心类型", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     @ManagedOperation
     public ResponseEntity<?> discoveryType() {
@@ -76,7 +89,7 @@ public class ConsoleEndpoint {
     }
 
     @RequestMapping(path = "/config-type", method = RequestMethod.GET)
-    @ApiOperation(value = "获取配置中心类型", notes = "", response = String.class, httpMethod = "GET")
+    @ApiOperation(value = "获取配置中心类型", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     @ManagedOperation
     public ResponseEntity<?> configType() {
@@ -209,6 +222,16 @@ public class ConsoleEndpoint {
     @ManagedOperation
     public ResponseEntity<?> versionClearSync(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody(required = false) @ApiParam(value = "版本号，指localVersion，可以为空") String version) {
         return executeVersionClear(serviceId, version, false);
+    }
+
+    private ResponseEntity<?> executeAuthenticate(UserEntity userEntity) {
+        try {
+            boolean result = authenticationResource.authenticate(userEntity);
+
+            return ResponseEntity.ok().body(result);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     private ResponseEntity<?> getDiscoveryType() {

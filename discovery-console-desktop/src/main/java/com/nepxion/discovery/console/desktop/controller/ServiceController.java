@@ -23,6 +23,7 @@ import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.InstanceEntityWrapper;
 import com.nepxion.discovery.common.entity.ResultEntity;
 import com.nepxion.discovery.common.entity.RouterEntity;
+import com.nepxion.discovery.common.entity.UserEntity;
 import com.nepxion.discovery.common.handler.RestErrorHandler;
 import com.nepxion.discovery.common.util.RestUtil;
 import com.nepxion.discovery.common.util.UrlUtil;
@@ -35,6 +36,14 @@ public class ServiceController {
     static {
         restTemplate = new RestTemplate();
         restTemplate.setErrorHandler(new RestErrorHandler());
+    }
+
+    public static boolean authenticate(UserEntity userEntity) {
+        String url = getUrl() + "console/authenticate";
+
+        String result = restTemplate.postForEntity(url, userEntity, String.class).getBody();
+
+        return Boolean.valueOf(result);
     }
 
     public static String getDiscoveryType() {
