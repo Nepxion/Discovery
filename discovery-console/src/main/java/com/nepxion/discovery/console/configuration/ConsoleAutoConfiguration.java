@@ -11,6 +11,7 @@ package com.nepxion.discovery.console.configuration;
 
 import org.springframework.boot.actuate.endpoint.Endpoint;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -18,6 +19,8 @@ import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.handler.RestErrorHandler;
+import com.nepxion.discovery.console.authentication.AuthenticationResource;
+import com.nepxion.discovery.console.authentication.AuthenticationResourceImpl;
 import com.nepxion.discovery.console.endpoint.ConsoleEndpoint;
 
 @Configuration
@@ -50,6 +53,12 @@ public class ConsoleAutoConfiguration {
             restTemplate.setErrorHandler(new RestErrorHandler());
 
             return restTemplate;
+        }
+
+        @Bean
+        @ConditionalOnMissingBean
+        public AuthenticationResource authenticationResource() {
+            return new AuthenticationResourceImpl();
         }
     }
 }
