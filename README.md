@@ -68,7 +68,12 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 - [管理中心](#管理中心)
 - [控制平台](#控制平台)
 - [监控平台](#监控平台)
-- [图形化灰度发布桌面程序](#图形化灰度发布桌面程序)
+- [界面工具](#界面工具)
+  - [基于图形化桌面程序的灰度发布](#基于图形化桌面程序的灰度发布)
+  - [基于图形化Web程序的灰度发布](#基于图形化Web程序的灰度发布)
+  - [基于Apollo界面的灰度发布](#基于Apollo界面的灰度发布)
+  - [基于Nacos界面的灰度发布](#基于Nacos界面的灰度发布)
+  - [基于Rest方式的灰度发布](#基于Rest方式的灰度发布)
 - [性能分析](#性能分析)
 
 ## 请联系我
@@ -701,10 +706,18 @@ spring.application.strategy.request.headers=version;region;token
 
 参考[https://github.com/codecentric/spring-boot-admin](https://github.com/codecentric/spring-boot-admin)
 
-## 图形化灰度发布桌面程序
-基于Java Desktop技术的图形化灰度发布工具
+## 界面工具
+请参考[入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)的“界面操作”
 
-参考discovery-console-desktop工程，启动入口ConsoleLauncher.java
+### 基于图形化桌面程序的灰度发布
+
+### 基于图形化Web程序的灰度发布
+
+### 基于Apollo界面的灰度发布
+
+### 基于Nacos界面的灰度发布
+
+### 基于Rest方式的灰度发布
 
 ## 性能分析
 在我的电脑上，做了如下性能测试：
