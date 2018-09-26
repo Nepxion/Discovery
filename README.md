@@ -605,21 +605,21 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
 - 基础属性配置
 不同的服务注册发现组件对应的不同的配置值（region配置可选），请仔细阅读
 ```xml
-# Eureka config
+# Eureka config for discovery
 eureka.instance.metadataMap.version=1.0
 eureka.instance.metadataMap.group=xxx-service-group
 eureka.instance.metadataMap.region=dev
 
 # 奇葩的Consul配置（参考https://springcloud.cc/spring-cloud-consul.html - 元数据和Consul标签）
-# Consul config（多个值用“,”分隔，例如version=1.0,value=abc）
+# Consul config for discovery
 spring.cloud.consul.discovery.tags=version=1.0,group=xxx-service-group,region=dev
 
-# Zookeeper config
+# Zookeeper config for discovery
 spring.cloud.zookeeper.discovery.metadata.version=1.0
 spring.cloud.zookeeper.discovery.metadata.group=xxx-service-group
 spring.cloud.zookeeper.discovery.metadata.region=dev
 
-# Nacos config
+# Nacos config for discovery
 spring.cloud.nacos.discovery.metadata.version=1.0
 spring.cloud.nacos.discovery.metadata.group=example-service-group
 spring.cloud.nacos.discovery.metadata.region=dev
