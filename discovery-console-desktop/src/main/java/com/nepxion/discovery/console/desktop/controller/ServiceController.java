@@ -33,6 +33,8 @@ import com.nepxion.discovery.console.desktop.entity.Instance;
 public class ServiceController {
     public static RestTemplate restTemplate;
 
+    private static String consoleUrl;
+
     static {
         restTemplate = new RestTemplate();
         restTemplate.setErrorHandler(new RestErrorHandler());
@@ -238,10 +240,19 @@ public class ServiceController {
         return result;
     }
 
-    private static String getUrl() {
-        String url = PropertiesContext.getProperties().getString("url");
+    public static String getUrl() {
+        String url = null;
+        if (StringUtils.isNotEmpty(consoleUrl)) {
+            url = consoleUrl;
+        } else {
+            url = PropertiesContext.getProperties().getString("url");
+        }
 
         return UrlUtil.formatUrl(url);
+    }
+
+    public static void setUrl(String url) {
+        consoleUrl = url;
     }
 
     private static String getUrl(Instance instance) {
