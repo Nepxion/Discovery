@@ -10,13 +10,13 @@ package com.nepxion.discovery.plugin.strategy.configuration;
  */
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.cloud.netflix.ribbon.PropertiesFactory;
 import org.springframework.cloud.netflix.ribbon.RibbonClientConfiguration;
 import org.springframework.cloud.netflix.ribbon.RibbonClientName;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledAdapter;
@@ -31,8 +31,8 @@ import com.netflix.loadbalancer.IRule;
 @Configuration
 @AutoConfigureBefore(RibbonClientConfiguration.class)
 public class StrategyLoadBalanceConfiguration {
-    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_ZONE_AVOIDANCE_RULE_ENABLED + ":true}")
-    private boolean zoneAvoidanceRuleEnabled;
+    @Autowired
+    private ConfigurableEnvironment environment;
 
     @RibbonClientName
     private String serviceId = "client";
@@ -52,6 +52,7 @@ public class StrategyLoadBalanceConfiguration {
             return this.propertiesFactory.get(IRule.class, config, serviceId);
         }
 
+        boolean zoneAvoidanceRuleEnabled = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_ZONE_AVOIDANCE_RULE_ENABLED, Boolean.class, Boolean.TRUE);
         if (zoneAvoidanceRuleEnabled) {
             DiscoveryEnabledZoneAvoidanceRule discoveryEnabledRule = new DiscoveryEnabledZoneAvoidanceRule();
             discoveryEnabledRule.initWithNiwsConfig(config);
