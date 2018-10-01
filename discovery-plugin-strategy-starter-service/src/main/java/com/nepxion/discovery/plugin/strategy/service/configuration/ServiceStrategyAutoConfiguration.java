@@ -10,13 +10,14 @@ package com.nepxion.discovery.plugin.strategy.service.configuration;
  */
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.netflix.ribbon.RibbonClientConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledAdapter;
@@ -32,15 +33,13 @@ import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyCon
 @AutoConfigureBefore(RibbonClientConfiguration.class)
 @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTROL_ENABLED, matchIfMissing = true)
 public class ServiceStrategyAutoConfiguration {
-    @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + ":}")
-    private String scanPackages;
-
-    @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REQUEST_HEADERS + ":}")
-    private String requestHeaders;
+    @Autowired
+    private ConfigurableEnvironment environment;
 
     @Bean
     @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES, matchIfMissing = false)
     public ServiceStrategyAutoScanProxy serviceStrategyAutoScanProxy() {
+        String scanPackages = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES);
         if (StringUtils.isEmpty(scanPackages)) {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty, remove it if useless");
         }
@@ -55,6 +54,7 @@ public class ServiceStrategyAutoConfiguration {
     @Bean
     @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES, matchIfMissing = false)
     public ServiceStrategyInterceptor serviceStrategyInterceptor() {
+        String scanPackages = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES);
         if (StringUtils.isEmpty(scanPackages)) {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + " can't be empty, remove it if useless");
         }
@@ -69,6 +69,7 @@ public class ServiceStrategyAutoConfiguration {
     @Bean
     @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REQUEST_HEADERS, matchIfMissing = false)
     public FeignStrategyInterceptor feignStrategyInterceptor() {
+        String requestHeaders = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REQUEST_HEADERS);
         if (StringUtils.isEmpty(requestHeaders)) {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REQUEST_HEADERS + " can't be empty, remove it if useless");
         }
@@ -79,6 +80,7 @@ public class ServiceStrategyAutoConfiguration {
     @Bean
     @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REQUEST_HEADERS, matchIfMissing = false)
     public RestTemplateStrategyInterceptor restTemplateStrategyInterceptor() {
+        String requestHeaders = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REQUEST_HEADERS);
         if (StringUtils.isEmpty(requestHeaders)) {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REQUEST_HEADERS + " can't be empty, remove it if useless");
         }
