@@ -77,7 +77,10 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 - [性能分析](#性能分析)
 
 ## 请联系我
+微信和公众号
+
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/zxing-doc/微信-1.jpg)
+![Alt text](https://github.com/Nepxion/Docs/blob/master/zxing-doc/公众号-1.jpg)
 
 ## 快速开始
 - [入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)
