@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.nepxion.discovery.console.configuration.ConsoleAutoConfiguration,\
+com.nepxion.discovery.console.apollo.configuration.ApolloConfigAutoConfiguration
