@@ -747,4 +747,4 @@ spring.application.strategy.request.headers=version;region;token
 | 连本地服务注册中心，并启动结束 | 2秒 |
 
 ## 附录
-- [基于Nacos实现Spring Cloud灰度发布和路由](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Nacos.md)
+- [基于Nacos实现Spring Cloud灰度发布和路由](https://github.com/Nepxion/Docs/blob/master/community-doc/Nacos.md)
