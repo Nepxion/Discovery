@@ -41,6 +41,6 @@ public class ApolloOperation {
     }
 
     public void unsubscribeConfig(String group, String serviceId, ConfigChangeListener configListener) {
-
+        apolloConfig.removeChangeListener(configListener);
     }
 }
