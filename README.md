@@ -745,6 +745,3 @@ spring.application.strategy.request.headers=version;region;token
 | 连本地配置中心，并打印本地规则和远程规则 | 1.5秒 |
 | Actuator Endpoint扫描加载 | 1秒 |
 | 连本地服务注册中心，并启动结束 | 2秒 |
-
-## 附录
-- [基于Nacos实现Spring Cloud灰度发布和路由](https://github.com/Nepxion/Docs/blob/master/community-doc/Nacos.md)
