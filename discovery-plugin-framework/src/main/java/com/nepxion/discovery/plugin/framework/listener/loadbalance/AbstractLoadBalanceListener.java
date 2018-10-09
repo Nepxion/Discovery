@@ -9,13 +9,8 @@ package com.nepxion.discovery.plugin.framework.listener.loadbalance;
  * @version 1.0
  */
 
-import org.springframework.core.Ordered;
-
 import com.nepxion.discovery.plugin.framework.listener.BasicListener;
 
-public abstract class AbstractLoadBalanceListener extends BasicListener implements LoadBalanceListener, Ordered {
-    @Override
-    public int getOrder() {
-        return 0;
-    }
+public abstract class AbstractLoadBalanceListener extends BasicListener implements LoadBalanceListener {
+
 }

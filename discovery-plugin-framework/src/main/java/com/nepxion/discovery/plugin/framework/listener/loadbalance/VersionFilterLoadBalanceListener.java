@@ -17,7 +17,6 @@ import java.util.Map;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.core.Ordered;
 
 import com.nepxion.discovery.common.entity.DiscoveryEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
@@ -124,6 +123,6 @@ public class VersionFilterLoadBalanceListener extends AbstractLoadBalanceListene
     @Override
     public int getOrder() {
         // After host filter
-        return Ordered.HIGHEST_PRECEDENCE + 1;
+        return HIGHEST_PRECEDENCE + 1;
     }
 }

@@ -16,7 +16,6 @@ import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.cloud.client.ServiceInstance;
-import org.springframework.core.Ordered;
 
 import com.nepxion.discovery.common.entity.DiscoveryEntity;
 import com.nepxion.discovery.common.entity.FilterType;
@@ -113,6 +112,6 @@ public class HostFilterDiscoveryListener extends AbstractDiscoveryListener {
     @Override
     public int getOrder() {
         // Highest priority
-        return Ordered.HIGHEST_PRECEDENCE;
+        return HIGHEST_PRECEDENCE;
     }
 }
