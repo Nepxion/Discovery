@@ -5,16 +5,10 @@ package com.nepxion.discovery.plugin.framework.listener.register;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @version 1.0
  */
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.cloud.client.serviceregistry.Registration;
 
 import com.nepxion.discovery.common.entity.FilterType;
 import com.nepxion.discovery.common.entity.HostFilterEntity;
@@ -22,6 +16,13 @@ import com.nepxion.discovery.common.entity.RegisterEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.event.RegisterFailureEvent;
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.cloud.client.serviceregistry.Registration;
+import org.springframework.core.Ordered;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class HostFilterRegisterListener extends AbstractRegisterListener {
     @Override
@@ -121,5 +122,11 @@ public class HostFilterRegisterListener extends AbstractRegisterListener {
     @Override
     public void onClose() {
 
+    }
+
+    @Override
+    public int getOrder() {
+        // lowest priority
+        return Ordered.LOWEST_PRECEDENCE;
     }
 }
