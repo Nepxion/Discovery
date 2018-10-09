@@ -5,24 +5,25 @@ package com.nepxion.discovery.plugin.framework.listener.loadbalance;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @version 1.0
  */
+
+import com.nepxion.discovery.common.entity.DiscoveryEntity;
+import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.VersionEntity;
+import com.nepxion.discovery.common.entity.VersionFilterEntity;
+import com.netflix.loadbalancer.Server;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.Ordered;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.lang3.StringUtils;
-
-import com.nepxion.discovery.common.entity.DiscoveryEntity;
-import com.nepxion.discovery.common.entity.VersionEntity;
-import com.nepxion.discovery.common.entity.RuleEntity;
-import com.nepxion.discovery.common.entity.VersionFilterEntity;
-import com.netflix.loadbalancer.Server;
 
 public class VersionFilterLoadBalanceListener extends AbstractLoadBalanceListener {
     @Override
@@ -118,5 +119,10 @@ public class VersionFilterLoadBalanceListener extends AbstractLoadBalanceListene
                 servers.clear();
             }
         }
+    }
+
+    @Override
+    public int getOrder() {
+        return Ordered.HIGHEST_PRECEDENCE + 1;
     }
 }

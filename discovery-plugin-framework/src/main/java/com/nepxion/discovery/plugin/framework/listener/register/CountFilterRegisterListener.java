@@ -5,14 +5,10 @@ package com.nepxion.discovery.plugin.framework.listener.register;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @version 1.0
  */
-
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.serviceregistry.Registration;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.CountFilterEntity;
@@ -21,6 +17,11 @@ import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.decorator.DiscoveryClientDecorator;
 import com.nepxion.discovery.plugin.framework.event.RegisterFailureEvent;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.serviceregistry.Registration;
+import org.springframework.core.Ordered;
+
+import java.util.Map;
 
 public class CountFilterRegisterListener extends AbstractRegisterListener {
     @Autowired
@@ -94,5 +95,11 @@ public class CountFilterRegisterListener extends AbstractRegisterListener {
     @Override
     public void onClose() {
 
+    }
+
+    @Override
+    public int getOrder() {
+        // before host filter
+        return Ordered.LOWEST_PRECEDENCE - 1;
     }
 }

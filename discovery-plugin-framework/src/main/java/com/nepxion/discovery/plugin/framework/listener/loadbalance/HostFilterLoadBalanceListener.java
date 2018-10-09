@@ -5,22 +5,23 @@ package com.nepxion.discovery.plugin.framework.listener.loadbalance;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @version 1.0
  */
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.collections4.CollectionUtils;
 
 import com.nepxion.discovery.common.entity.DiscoveryEntity;
 import com.nepxion.discovery.common.entity.FilterType;
 import com.nepxion.discovery.common.entity.HostFilterEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.netflix.loadbalancer.Server;
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.core.Ordered;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class HostFilterLoadBalanceListener extends AbstractLoadBalanceListener {
     @Override
@@ -102,5 +103,10 @@ public class HostFilterLoadBalanceListener extends AbstractLoadBalanceListener {
         }
 
         return matched;
+    }
+
+    @Override
+    public int getOrder() {
+        return Ordered.HIGHEST_PRECEDENCE;
     }
 }

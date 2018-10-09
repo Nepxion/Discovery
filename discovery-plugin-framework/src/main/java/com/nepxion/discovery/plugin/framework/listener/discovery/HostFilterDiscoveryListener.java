@@ -5,6 +5,7 @@ package com.nepxion.discovery.plugin.framework.listener.discovery;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @version 1.0
  */
@@ -21,6 +22,8 @@ import com.nepxion.discovery.common.entity.DiscoveryEntity;
 import com.nepxion.discovery.common.entity.FilterType;
 import com.nepxion.discovery.common.entity.HostFilterEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 
 public class HostFilterDiscoveryListener extends AbstractDiscoveryListener {
     @Override
@@ -107,5 +110,12 @@ public class HostFilterDiscoveryListener extends AbstractDiscoveryListener {
     @Override
     public void onGetServices(List<String> services) {
 
+    }
+
+
+    @Override
+    public int getOrder() {
+        // highest priority
+        return Ordered.HIGHEST_PRECEDENCE;
     }
 }
