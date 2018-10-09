@@ -10,13 +10,10 @@ package com.nepxion.discovery.plugin.framework.listener.discovery;
  * @version 1.0
  */
 
+import com.nepxion.discovery.plugin.framework.listener.BasicListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
-
-import com.nepxion.discovery.plugin.framework.listener.BasicListener;
 import org.springframework.core.Ordered;
-
-import javax.annotation.Priority;
 
 public abstract class AbstractDiscoveryListener extends BasicListener implements DiscoveryListener, Ordered {
     @Autowired
