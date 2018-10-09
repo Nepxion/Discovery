@@ -13,6 +13,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.serviceregistry.Registration;
+import org.springframework.core.Ordered;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.CountFilterEntity;
@@ -94,5 +95,11 @@ public class CountFilterRegisterListener extends AbstractRegisterListener {
     @Override
     public void onClose() {
 
+    }
+
+    @Override
+    public int getOrder() {
+        // Before host filter
+        return Ordered.LOWEST_PRECEDENCE - 1;
     }
 }

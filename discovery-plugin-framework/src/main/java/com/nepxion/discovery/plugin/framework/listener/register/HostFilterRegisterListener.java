@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.cloud.client.serviceregistry.Registration;
+import org.springframework.core.Ordered;
 
 import com.nepxion.discovery.common.entity.FilterType;
 import com.nepxion.discovery.common.entity.HostFilterEntity;
@@ -121,5 +122,11 @@ public class HostFilterRegisterListener extends AbstractRegisterListener {
     @Override
     public void onClose() {
 
+    }
+
+    @Override
+    public int getOrder() {
+        // Lowest priority
+        return Ordered.LOWEST_PRECEDENCE;
     }
 }

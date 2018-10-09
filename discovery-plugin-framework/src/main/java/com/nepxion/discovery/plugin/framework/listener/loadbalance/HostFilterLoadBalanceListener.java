@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.core.Ordered;
 
 import com.nepxion.discovery.common.entity.DiscoveryEntity;
 import com.nepxion.discovery.common.entity.FilterType;
@@ -102,5 +103,11 @@ public class HostFilterLoadBalanceListener extends AbstractLoadBalanceListener {
         }
 
         return matched;
+    }
+
+    @Override
+    public int getOrder() {
+        // Highest priority
+        return Ordered.HIGHEST_PRECEDENCE;
     }
 }

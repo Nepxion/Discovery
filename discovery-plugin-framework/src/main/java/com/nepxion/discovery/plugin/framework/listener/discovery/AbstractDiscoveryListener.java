@@ -11,14 +11,20 @@ package com.nepxion.discovery.plugin.framework.listener.discovery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.core.Ordered;
 
 import com.nepxion.discovery.plugin.framework.listener.BasicListener;
 
-public abstract class AbstractDiscoveryListener extends BasicListener implements DiscoveryListener {
+public abstract class AbstractDiscoveryListener extends BasicListener implements DiscoveryListener, Ordered {
     @Autowired
     protected DiscoveryClient discoveryClient;
 
     public DiscoveryClient getDiscoveryClient() {
         return discoveryClient;
+    }
+
+    @Override
+    public int getOrder() {
+        return 0;
     }
 }
