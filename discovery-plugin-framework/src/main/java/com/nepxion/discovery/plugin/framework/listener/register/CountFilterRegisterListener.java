@@ -95,4 +95,10 @@ public class CountFilterRegisterListener extends AbstractRegisterListener {
     public void onClose() {
 
     }
+
+    @Override
+    public int getOrder() {
+        // Before host filter
+        return LOWEST_PRECEDENCE - 1;
+    }
 }

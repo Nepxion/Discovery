@@ -103,4 +103,10 @@ public class HostFilterLoadBalanceListener extends AbstractLoadBalanceListener {
 
         return matched;
     }
+
+    @Override
+    public int getOrder() {
+        // Highest priority
+        return HIGHEST_PRECEDENCE;
+    }
 }

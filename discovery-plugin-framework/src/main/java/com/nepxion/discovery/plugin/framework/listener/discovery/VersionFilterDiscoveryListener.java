@@ -21,8 +21,8 @@ import org.springframework.cloud.client.ServiceInstance;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.DiscoveryEntity;
-import com.nepxion.discovery.common.entity.VersionEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.VersionEntity;
 import com.nepxion.discovery.common.entity.VersionFilterEntity;
 
 public class VersionFilterDiscoveryListener extends AbstractDiscoveryListener {
@@ -124,5 +124,11 @@ public class VersionFilterDiscoveryListener extends AbstractDiscoveryListener {
     @Override
     public void onGetServices(List<String> services) {
 
+    }
+
+    @Override
+    public int getOrder() {
+        // After host filter
+        return HIGHEST_PRECEDENCE + 1;
     }
 }

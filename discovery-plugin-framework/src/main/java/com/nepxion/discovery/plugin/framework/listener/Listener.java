@@ -9,6 +9,8 @@ package com.nepxion.discovery.plugin.framework.listener;
  * @version 1.0
  */
 
-public interface Listener {
+import org.springframework.core.Ordered;
+
+public interface Listener extends Ordered {
 
 }

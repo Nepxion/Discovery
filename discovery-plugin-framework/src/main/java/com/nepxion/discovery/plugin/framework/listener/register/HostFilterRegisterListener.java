@@ -122,4 +122,10 @@ public class HostFilterRegisterListener extends AbstractRegisterListener {
     public void onClose() {
 
     }
+
+    @Override
+    public int getOrder() {
+        // Lowest priority
+        return LOWEST_PRECEDENCE;
+    }
 }

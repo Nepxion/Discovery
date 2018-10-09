@@ -19,8 +19,8 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.nepxion.discovery.common.entity.DiscoveryEntity;
-import com.nepxion.discovery.common.entity.VersionEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.VersionEntity;
 import com.nepxion.discovery.common.entity.VersionFilterEntity;
 import com.netflix.loadbalancer.Server;
 
@@ -118,5 +118,11 @@ public class VersionFilterLoadBalanceListener extends AbstractLoadBalanceListene
                 servers.clear();
             }
         }
+    }
+
+    @Override
+    public int getOrder() {
+        // After host filter
+        return HIGHEST_PRECEDENCE + 1;
     }
 }

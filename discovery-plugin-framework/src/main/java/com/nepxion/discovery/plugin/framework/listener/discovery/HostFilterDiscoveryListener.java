@@ -108,4 +108,10 @@ public class HostFilterDiscoveryListener extends AbstractDiscoveryListener {
     public void onGetServices(List<String> services) {
 
     }
+
+    @Override
+    public int getOrder() {
+        // Highest priority
+        return HIGHEST_PRECEDENCE;
+    }
 }

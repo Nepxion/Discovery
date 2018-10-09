@@ -19,24 +19,13 @@ import com.netflix.loadbalancer.ZoneAwareLoadBalancer;
 // 因为内置监听触发的时候，需要优先过滤，所以顺序执行
 public class LoadBalanceListenerExecutor {
     @Autowired
-    private HostFilterLoadBalanceListener hostFilterLoadBalanceListener;
-
-    @Autowired
-    private VersionFilterLoadBalanceListener versionFilterLoadBalanceListener;
-
-    @Autowired
     private List<LoadBalanceListener> loadBalanceListenerList;
 
     private ZoneAwareLoadBalancer<?> loadBalancer;
 
     public void onGetServers(String serviceId, List<? extends Server> servers) {
-        hostFilterLoadBalanceListener.onGetServers(serviceId, servers);
-        versionFilterLoadBalanceListener.onGetServers(serviceId, servers);
-
         for (LoadBalanceListener loadBalanceListener : loadBalanceListenerList) {
-            if (loadBalanceListener != hostFilterLoadBalanceListener && loadBalanceListener != versionFilterLoadBalanceListener) {
-                loadBalanceListener.onGetServers(serviceId, servers);
-            }
+            loadBalanceListener.onGetServers(serviceId, servers);
         }
     }
 
