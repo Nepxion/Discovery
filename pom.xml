@@ -31,6 +31,7 @@
         <module>discovery-plugin-strategy-starter-service</module>
         <module>discovery-plugin-strategy-starter-zuul</module>
         <module>discovery-console</module>
+        <module>discovery-console-starter-apollo</module>
         <module>discovery-console-starter-nacos</module>
         <module>discovery-console-starter-redis</module>
         <module>discovery-console-desktop</module>
@@ -184,6 +185,12 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-console-starter-apollo</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-console-starter-nacos</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -245,6 +252,12 @@
             <dependency>
                 <groupId>com.ctrip.framework.apollo</groupId>
                 <artifactId>apollo-client</artifactId>
+                <version>${apollo.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.ctrip.framework.apollo</groupId>
+                <artifactId>apollo-openapi</artifactId>
                 <version>${apollo.version}</version>
             </dependency>
 
