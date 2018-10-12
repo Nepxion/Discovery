@@ -9,12 +9,6 @@ package com.nepxion.discovery.console.configuration;
  * @version 1.0
  */
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -23,6 +17,12 @@ import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableSwagger2
@@ -54,6 +54,9 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
     @Value("${swagger.service.contact.email:1394997@qq.com}")
     private String contactEmail;
 
+    @Value("${swagger.cors.registry.enabled:true}")
+    private Boolean corsRegistryEnabled;
+
     @Bean
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -78,9 +81,11 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
     // 解决跨域问题
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedHeaders("*")
-                .allowedMethods("*")
-                .allowedOrigins("*");
+        if (corsRegistryEnabled) {
+            registry.addMapping("/**")
+                    .allowedHeaders("*")
+                    .allowedMethods("*")
+                    .allowedOrigins("*");
+        }
     }
 }
