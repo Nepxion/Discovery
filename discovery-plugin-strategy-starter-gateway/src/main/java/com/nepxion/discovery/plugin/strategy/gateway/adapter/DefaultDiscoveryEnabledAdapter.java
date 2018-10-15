@@ -9,6 +9,8 @@ package com.nepxion.discovery.plugin.strategy.gateway.adapter;
  * @version 1.0
  */
 
+import org.springframework.web.server.ServerWebExchange;
+
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.strategy.adapter.AbstractDiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.gateway.context.GatewayStrategyContext;
@@ -18,13 +20,23 @@ public class DefaultDiscoveryEnabledAdapter extends AbstractDiscoveryEnabledAdap
     protected String getVersionValue() {
         GatewayStrategyContext context = GatewayStrategyContext.getCurrentContext();
 
-        return context.getExchange().getRequest().getHeaders().getFirst(DiscoveryConstant.VERSION);
+        ServerWebExchange exchange = context.getExchange();
+        if (exchange == null) {
+            return null;
+        }
+
+        return exchange.getRequest().getHeaders().getFirst(DiscoveryConstant.VERSION);
     }
 
     @Override
     protected String getRegionValue() {
         GatewayStrategyContext context = GatewayStrategyContext.getCurrentContext();
 
-        return context.getExchange().getRequest().getHeaders().getFirst(DiscoveryConstant.REGION);
+        ServerWebExchange exchange = context.getExchange();
+        if (exchange == null) {
+            return null;
+        }
+
+        return exchange.getRequest().getHeaders().getFirst(DiscoveryConstant.REGION);
     }
 }
