@@ -11,13 +11,30 @@ package com.nepxion.discovery.plugin.framework.adapter;
 
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.cloud.zookeeper.discovery.ZookeeperServer;
+import org.springframework.cloud.zookeeper.serviceregistry.ZookeeperRegistration;
 
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.constant.ZookeeperConstant;
 import com.netflix.loadbalancer.Server;
 
 public class ZookeeperAdapter extends AbstractPluginAdapter {
+    // Zookeeper比较特殊，getServiceInstance是Lazy Initialize模式
+    @PostConstruct
+    private void initialize() {
+        if (registration instanceof ZookeeperRegistration) {
+            ZookeeperRegistration zookeeperRegistration = (ZookeeperRegistration) registration;
+
+            zookeeperRegistration.getServiceInstance();
+
+            return;
+        }
+
+        throw new DiscoveryException("Registration isn't the type of ZookeeperRegistration");
+    }
+
     // Zookeeper比较特殊，父类中getMetadata().get(groupKey)方法不行，执行该方法的时候Metadata还没初始化
     @Override
     protected String getGroup(String groupKey) {
