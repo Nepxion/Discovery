@@ -15,6 +15,7 @@
         <module>discovery-common-apollo</module>
         <module>discovery-common-nacos</module>
         <module>discovery-common-redis</module>
+        <module>discovery-common-springcloud-config</module>
         <module>discovery-plugin-framework</module>
         <module>discovery-plugin-framework-eureka</module>
         <module>discovery-plugin-framework-consul</module>
@@ -23,6 +24,7 @@
         <module>discovery-plugin-config-center-starter-apollo</module>
         <module>discovery-plugin-config-center-starter-nacos</module>
         <module>discovery-plugin-config-center-starter-redis</module>
+        <module>discovery-plugin-config-center-starter-springcloud-config</module>
         <module>discovery-plugin-admin-center</module>
         <module>discovery-plugin-starter-eureka</module>
         <module>discovery-plugin-starter-consul</module>
@@ -91,6 +93,12 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-common-springcloud-config</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-framework</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -134,6 +142,12 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-config-center-starter-redis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-config-center-starter-springcloud-config</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

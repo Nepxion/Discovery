@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.nepxion.discovery.common.scconfig.configuration.SCConfigAutoConfiguration,\
+com.nepxion.discovery.plugin.configcenter.scconfig.configuration.SCConfigConfigAutoConfiguration
