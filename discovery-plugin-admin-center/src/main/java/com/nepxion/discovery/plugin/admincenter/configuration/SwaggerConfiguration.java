@@ -20,6 +20,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -28,6 +29,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableSwagger2
 @ConditionalOnClass(name = { "javax.servlet.ServletContext" }) // 适配Spring Cloud Api Gateway，不装载Swagger
+@ConditionalOnProperty(value = "swagger.service.enabled", matchIfMissing = true)
 public class SwaggerConfiguration implements WebMvcConfigurer {
     @Value("${spring.application.name}")
     private String serviceName;
