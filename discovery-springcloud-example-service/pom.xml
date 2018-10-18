@@ -65,6 +65,7 @@
             <!-- <artifactId>discovery-plugin-config-center-starter-apollo</artifactId> -->
             <artifactId>discovery-plugin-config-center-starter-nacos</artifactId>
             <!-- <artifactId>discovery-plugin-config-center-starter-redis</artifactId> -->
+            <!-- <artifactId>discovery-plugin-config-center-starter-springcloud-config</artifactId> -->
         </dependency>
 
         <dependency>
