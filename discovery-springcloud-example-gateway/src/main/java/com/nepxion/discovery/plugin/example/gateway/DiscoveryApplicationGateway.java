@@ -29,6 +29,11 @@ public class DiscoveryApplicationGateway {
     }
 
     /*@Bean
+    public MyGatewayFilter myGatewayFilter() {
+        return new MyGatewayFilter();
+    }*/
+
+    /*@Bean
     public RouteLocator routeLocator(RouteLocatorBuilder builder) {
         return builder
                 .routes()
