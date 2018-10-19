@@ -6,6 +6,7 @@ package com.nepxion.discovery.plugin.configcenter.scconfig.adapter;
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
  * @author Haojun Ren
+ * @author Ankeway
  * @version 1.0
  */
 
