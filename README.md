@@ -629,10 +629,11 @@ spring.cloud.nacos.discovery.metadata.group=example-service-group
 spring.cloud.nacos.discovery.metadata.region=dev
 
 # Admin config
+# E版配置方式
 # 关闭访问Rest接口时候的权限验证
 management.security.enabled=false
-# E版配置方式
 management.port=5100
+
 # F版配置方式
 management.server.port=5100
 ```
