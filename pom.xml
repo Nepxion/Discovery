@@ -44,7 +44,7 @@
         <module>discovery-springcloud-example-service</module>
         <module>discovery-springcloud-example-zuul</module>
         <module>discovery-springcloud-example-gateway</module>
-        <module>discovery-springcloud-example-scconfig-server</module>
+        <module>discovery-springcloud-example-springcloud-config-server</module>
     </modules>
 
     <properties>

@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <groupId>com.nepxion</groupId>
-    <artifactId>discovery-springcloud-example-scconfig-server</artifactId>
+    <artifactId>discovery-springcloud-example-springcloud-config-server</artifactId>
     <name>Nepxion Discovery Spring Cloud Example Spring Cloud Config Server</name>
     <packaging>jar</packaging>
     <modelVersion>4.0.0</modelVersion>
@@ -38,19 +38,21 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <!-- <artifactId>spring-cloud-starter-consul-discovery</artifactId> -->
+            <!-- <artifactId>spring-cloud-starter-zookeeper-discovery</artifactId> -->
         </dependency>
-        
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-config-server</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-bus-amqp</artifactId>
-		</dependency> 
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-config-server</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bus-amqp</artifactId>
+        </dependency>
     </dependencies>
-			
+
     <build>
         <plugins>
             <plugin>

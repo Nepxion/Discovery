@@ -1,9 +1,5 @@
 package com.nepxion.discovery.scconfig.server.example;
 
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.cloud.config.server.EnableConfigServer;
-
 /**
  * <p>Title: Nepxion Discovery</p>
  * <p>Description: Nepxion Discovery</p>
@@ -14,10 +10,14 @@ import org.springframework.cloud.config.server.EnableConfigServer;
  * @version 1.0
  */
 
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.cloud.config.server.EnableConfigServer;
+
 @SpringBootApplication
 @EnableConfigServer
 public class SCConfigServerApplication {
-	public static void main(String[] args) {
-		new SpringApplicationBuilder(SCConfigServerApplication.class).run(args);
-	}
+    public static void main(String[] args) {
+        new SpringApplicationBuilder(SCConfigServerApplication.class).run(args);
+    }
 }
