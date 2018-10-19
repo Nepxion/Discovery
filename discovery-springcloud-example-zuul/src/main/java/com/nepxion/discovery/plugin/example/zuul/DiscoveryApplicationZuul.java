@@ -29,4 +29,9 @@ public class DiscoveryApplicationZuul {
     public MyDiscoveryEnabledStrategy myDiscoveryEnabledStrategy() {
         return new MyDiscoveryEnabledStrategy();
     }
+
+    /*@Bean
+    public MyZuulFilter myZuulFilter() {
+        return new MyZuulFilter();
+    }*/
 }
