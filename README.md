@@ -94,6 +94,10 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console.gif)
 集成规则配置的Apollo配置中心
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Apollo.jpg)
+集成规则配置的Nacos配置中心
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Nacos1.jpg)
+Nacos服务注册发现中心
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Nacos.jpg)
 Spring Boot Admin监控平台
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Admin1.jpg)
 集成Spring Boot Admin（F版）监控平台，实现通过JMX向Endpoint推送规则和版本，实现灰度发布
@@ -629,10 +633,11 @@ spring.cloud.nacos.discovery.metadata.group=example-service-group
 spring.cloud.nacos.discovery.metadata.region=dev
 
 # Admin config
+# E版配置方式
 # 关闭访问Rest接口时候的权限验证
 management.security.enabled=false
-# E版配置方式
 management.port=5100
+
 # F版配置方式
 management.server.port=5100
 ```
