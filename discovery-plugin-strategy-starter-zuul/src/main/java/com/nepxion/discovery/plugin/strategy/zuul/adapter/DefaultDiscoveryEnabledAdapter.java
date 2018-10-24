@@ -11,19 +11,20 @@ package com.nepxion.discovery.plugin.strategy.zuul.adapter;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.strategy.adapter.AbstractDiscoveryEnabledAdapter;
+import com.nepxion.discovery.plugin.strategy.zuul.configuration.ContextHolder;
 import com.netflix.zuul.context.RequestContext;
 
 public class DefaultDiscoveryEnabledAdapter extends AbstractDiscoveryEnabledAdapter {
     @Override
     protected String getVersionValue() {
-        RequestContext context = RequestContext.getCurrentContext();
+        ContextHolder context = ContextHolder.getCurrentContext();
 
         return context.getRequest().getHeader(DiscoveryConstant.VERSION);
     }
 
     @Override
     protected String getRegionValue() {
-        RequestContext context = RequestContext.getCurrentContext();
+        ContextHolder context = ContextHolder.getCurrentContext();
 
         return context.getRequest().getHeader(DiscoveryConstant.REGION);
     }
