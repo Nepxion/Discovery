@@ -42,6 +42,7 @@
         <module>discovery-springcloud-example-service</module>
         <module>discovery-springcloud-example-zuul</module>
         <module>discovery-springcloud-example-gateway</module>
+        <module>discovery-plugin-starter-hystrix-wrapper</module>
     </modules>
 
     <properties>
@@ -301,6 +302,12 @@
                 <version>${spring.boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-starter-hystrix-wrapper</artifactId>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

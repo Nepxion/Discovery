@@ -9,15 +9,14 @@ package com.nepxion.discovery.plugin.example.zuul.impl;
  * @version 1.0
  */
 
-import java.util.Map;
-
+import com.nepxion.discovery.plugin.hystrix.context.HystrixContextHolder;
+import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledStrategy;
+import com.netflix.loadbalancer.Server;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledStrategy;
-import com.netflix.loadbalancer.Server;
-import com.netflix.zuul.context.RequestContext;
+import java.util.Map;
 
 // 实现了组合策略，版本路由策略+区域路由策略+自定义策略
 public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
@@ -31,7 +30,7 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
 
     // 根据Rest调用传来的Header参数（例如Token），选取执行调用请求的服务实例
     private boolean applyFromHeader(Server server, Map<String, String> metadata) {
-        RequestContext context = RequestContext.getCurrentContext();
+        HystrixContextHolder context = HystrixContextHolder.getCurrentContext();
         String token = context.getRequest().getHeader("token");
         // String value = context.getRequest().getParameter("value");
 

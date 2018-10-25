@@ -9,22 +9,41 @@ package com.nepxion.discovery.plugin.strategy.zuul.configuration;
  * @version 1.0
  */
 
+import com.nepxion.discovery.plugin.hystrix.context.HystrixCallableWrapper;
+import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledAdapter;
+import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
+import com.nepxion.discovery.plugin.strategy.zuul.adapter.DefaultDiscoveryEnabledAdapter;
+import com.nepxion.discovery.plugin.strategy.zuul.filter.ClearHystrixContextFilter;
+import com.nepxion.discovery.plugin.strategy.zuul.filter.SetHystrixContextFilter;
+import com.nepxion.discovery.plugin.strategy.zuul.warpper.DefaultHystrixCallableWrapper;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.netflix.ribbon.RibbonClientConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledAdapter;
-import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
-import com.nepxion.discovery.plugin.strategy.zuul.adapter.DefaultDiscoveryEnabledAdapter;
-
 @Configuration
 @AutoConfigureBefore(RibbonClientConfiguration.class)
 @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTROL_ENABLED, matchIfMissing = true)
 public class ZuulStrategyAutoConfiguration {
+
     @Bean
-    public DiscoveryEnabledAdapter discoveryEnabledAdapter() {
+    public DiscoveryEnabledAdapter defaultDiscoveryEnabledAdapter(){
         return new DefaultDiscoveryEnabledAdapter();
+    }
+
+    @Bean
+    public HystrixCallableWrapper hystrixCallableWrapper(){
+        return new DefaultHystrixCallableWrapper();
+    }
+
+    @Bean
+    public SetHystrixContextFilter setHystrixContextFilter(){
+        return new SetHystrixContextFilter();
+    }
+
+    @Bean
+    public ClearHystrixContextFilter clearHystrixContextFilter(){
+        return new ClearHystrixContextFilter();
     }
 }
