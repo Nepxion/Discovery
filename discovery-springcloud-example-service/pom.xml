@@ -17,7 +17,7 @@
     </parent>
 
     <properties>
-        <discovery.plugin.version>3.7.11</discovery.plugin.version>
+        <discovery.plugin.version>3.7.12</discovery.plugin.version>
         <spring.cloud.version>Edgware.SR4</spring.cloud.version>
         <spring.boot.admin.version>1.5.7</spring.boot.admin.version>
         <java.version>1.8</java.version>
