@@ -49,7 +49,7 @@
         <commons.collections4.version>4.1</commons.collections4.version>
         <commons.io.version>2.5</commons.io.version>
         <dom4j.version>1.6.1</dom4j.version>
-        <apollo.version>1.1.0</apollo.version>
+        <apollo.version>1.1.1</apollo.version>
         <nacos.version>0.3.0</nacos.version>
         <guava.version>19.0</guava.version>
         <caffeine.version>2.6.2</caffeine.version>
