@@ -17,7 +17,7 @@
     </parent>
 
     <properties>
-        <spring.cloud.version>Finchley.SR1</spring.cloud.version>
+        <spring.cloud.version>Finchley.SR2</spring.cloud.version>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
