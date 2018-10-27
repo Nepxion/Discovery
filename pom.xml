@@ -6,7 +6,7 @@
     <name>Nepxion Discovery</name>
     <packaging>pom</packaging>
     <modelVersion>4.0.0</modelVersion>
-    <version>4.7.11</version>
+    <version>4.7.12</version>
     <description>Nepxion Discovery is an enhancement for Spring Cloud Discovery</description>
     <url>http://www.nepxion.com</url>
 
@@ -54,8 +54,8 @@
         <commons.collections4.version>4.1</commons.collections4.version>
         <commons.io.version>2.5</commons.io.version>
         <dom4j.version>1.6.1</dom4j.version>
-        <apollo.version>1.1.0</apollo.version>
-        <nacos.version>0.2.1</nacos.version>
+        <apollo.version>1.1.1</apollo.version>
+        <nacos.version>0.3.0</nacos.version>
         <guava.version>26.0-jre</guava.version>
         <caffeine.version>2.6.2</caffeine.version>
         <swagger.version>2.7.0</swagger.version>
