@@ -75,7 +75,7 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
         String serviceId = server.getMetaInfo().getAppName().toLowerCase();
         String version = metadata.get(DiscoveryConstant.VERSION);
 
-        LOG.info("Serivice端负载均衡用户定制触发：serviceId={}, host={}, metadata={}", serviceId, server.toString(), metadata);
+        LOG.info("Serivice端负载均衡用户定制触发：serviceId={}, host={}, metadata={}, attributes={}", serviceId, server.toString(), metadata, attributes);
 
         String filterServiceId = "discovery-springcloud-example-b";
         String filterVersion = "1.0";
