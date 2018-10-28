@@ -10,6 +10,7 @@ package com.nepxion.discovery.plugin.strategy.gateway.configuration;
  */
 
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.netflix.ribbon.RibbonClientConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +19,7 @@ import org.springframework.context.annotation.Configuration;
 import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.gateway.adapter.DefaultDiscoveryEnabledAdapter;
+import com.nepxion.discovery.plugin.strategy.gateway.context.GatewayStrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.gateway.filter.GatewayStrategyFilter;
 
 @Configuration
@@ -30,6 +32,12 @@ public class GatewayStrategyAutoConfiguration {
     }
 
     @Bean
+    public GatewayStrategyContextHolder gatewayStrategyContextHolder() {
+        return new GatewayStrategyContextHolder();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
     public DiscoveryEnabledAdapter discoveryEnabledAdapter() {
         return new DefaultDiscoveryEnabledAdapter();
     }
