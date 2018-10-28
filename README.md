@@ -6,7 +6,7 @@
 [![Build Status](https://travis-ci.org/Nepxion/Discovery.svg?branch=master)](https://travis-ci.org/Nepxion/Discovery)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8e39a24e1be740c58b83fb81763ba317)](https://www.codacy.com/project/HaojunRen/Discovery/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nepxion/Discovery&amp;utm_campaign=Badge_Grade_Dashboard)
 
-Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon负载均衡、Feign和RestTemplate调用的增强中间件，其功能包括灰度发布（包括切换发布和平滑发布）、服务隔离、服务路由、服务权重、黑/白名单的IP地址过滤、限制注册、限制发现等，支持Eureka、Consul、Zookeeper和阿里巴巴的Nacos为服务注册发现中间件，支持阿里巴巴的Nacos、携程的Apollo和Redis为远程配置中心，支持Spring Cloud Api Gateway（Finchley版）、Zuul网关和微服务的灰度发布，支持多数据源的数据库灰度发布等客户特色化灰度发布，支持用户自定义和编程灰度路由策略（包括RPC和REST两种调用方式），兼容Spring Cloud Edgware版和Finchley版（不支持Dalston版，因为它的生命周期将在2018年12月结束，如果您无法回避使用Dalston版，请自行修改源码或者联系我）。现有的Spring Cloud微服务很方便引入该中间件，代码零侵入
+Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon负载均衡、Feign和RestTemplate调用、Hystrix熔断隔离的增强中间件，其功能包括灰度发布（包括切换发布和平滑发布）、服务隔离、服务路由、服务权重、黑/白名单的IP地址过滤、限制注册、限制发现等，支持Eureka、Consul、Zookeeper和阿里巴巴的Nacos为服务注册发现中间件，支持阿里巴巴的Nacos、携程的Apollo和Redis为远程配置中心，支持Spring Cloud Gateway（Finchley版）、Zuul网关和微服务的灰度发布，支持多数据源的数据库灰度发布等客户特色化灰度发布，支持用户自定义和编程灰度路由策略（包括RPC和REST两种调用方式），兼容Spring Cloud Edgware版和Finchley版（不支持Dalston版，因为它的生命周期将在2018年12月结束，如果您无法回避使用Dalston版，请自行修改源码或者联系我）。现有的Spring Cloud微服务很方便引入该中间件，代码零侵入
 
 对于使用者来说，他所需要做的如下：
 - 引入相关依赖到pom.xml，参考 [依赖兼容](#依赖兼容)
@@ -143,7 +143,7 @@ Spring Boot Admin监控平台
   - 在业务RPC调用上，根据不同的业务参数，例如手机号或者身份证号，后端若干个服务会把请求路由到指定的服务器上
 
 ## 功能简介
-- 基于Spring Cloud的微服务和Spring Cloud Api Gateway（F版）和Zuul网关实现下述功能，它具有几个特性
+- 基于Spring Cloud的微服务和Spring Cloud Gateway（F版）和Zuul网关实现下述功能，它具有几个特性
   - 具有极大的灵活性 - 支持在任何环节（微服务和两个网关），多种方式（REST和RPC）做过滤控制和灰度发布
   - 具有极小的限制性 - 只要开启了服务注册发现，程序入口加了@EnableDiscoveryClient注解
   - 具有极强的健壮性 - 当远程配置中心全部挂了，可以通过Rest方式进行灰度发布；当远程规则配置不规范，马上切换到本地规则来代替
@@ -257,7 +257,8 @@ Spring Boot Admin监控平台
 | discovery-plugin-strategy | 用户自定义和编程灰度路由策略 |
 | discovery-plugin-strategy-starter-service | 用户自定义和编程灰度路由策略的Service Starter |
 | discovery-plugin-strategy-starter-zuul | 用户自定义和编程灰度路由策略的Zuul Starter |
-| discovery-plugin-strategy-starter-gateway | 用户自定义和编程灰度路由策略的Spring Cloud Api Gateway（F版） Starter |
+| discovery-plugin-strategy-starter-gateway | 用户自定义和编程灰度路由策略的Spring Cloud Gateway（F版） Starter |
+| discovery-plugin-strategy-starter-hystrix | 用户自定义和编程灰度路由策略下，Hystrix做线程模式的服务隔离必须引入的插件 Starter |
 | discovery-console | 控制平台，集成接口给UI |
 | discovery-console-starter-apollo | 控制平台的Apollo Starter |
 | discovery-console-starter-nacos | 控制平台的Nacos Starter |
@@ -268,7 +269,7 @@ Spring Boot Admin监控平台
 | discovery-springcloud-example-eureka | Eureka服务器示例 |
 | discovery-springcloud-example-service | 用于灰度发布的微服务示例 |
 | discovery-springcloud-example-zuul | 用于灰度发布的Zuul示例 |
-| discovery-springcloud-example-gateway | 用于灰度发布的Spring Cloud Api Gateway（F版）示例 |
+| discovery-springcloud-example-gateway | 用于灰度发布的Spring Cloud Gateway（F版）示例 |
 
 ## 依赖兼容
 ### 版本
@@ -290,7 +291,7 @@ Spring Boot Admin监控平台
 
 :exclamation:下面标注[必须引入]是一定要引入的包，标注[选择引入]是可以选择一个引入，或者不引入
 
-核心插件引入，支持微服务端、网关Zuul端和网关Spring Cloud Api Gateway（F版）端，包括核心灰度发布功能，管理中心，配置中心等
+核心插件引入，支持微服务端、网关Zuul端和网关Spring Cloud Gateway（F版）端，包括核心灰度发布功能，管理中心，配置中心等
 ```xml
 [必须引入] 四个服务注册发现的中间件的增强插件，请任选一个引入
 <dependency>
@@ -310,7 +311,7 @@ Spring Boot Admin监控平台
 </dependency>
 ```
 
-扩展功能引入，支持微服务端、网关Zuul端和网关Spring Cloud Api Gateway（F版）端，包括内置版本路由、区域路由、用户自定义和编程灰度路由
+扩展功能引入，支持微服务端、网关Zuul端和网关Spring Cloud Gateway（F版）端，包括内置版本路由、区域路由、用户自定义和编程灰度路由
 ```xml
 微服务端引入
 [选择引入] 用户自定义和编程灰度路由，如需要，请引入
@@ -326,11 +327,18 @@ Spring Boot Admin监控平台
     <artifactId>discovery-plugin-strategy-starter-zuul</artifactId>
 </dependency>
 
-网关Spring Cloud Api Gateway（F版）端引入
+网关Spring Cloud Gateway（F版）端引入
 [选择引入] 用户自定义和编程灰度路由，如需要，请引入
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-strategy-starter-gateway</artifactId>
+</dependency>
+```
+
+[选择引入] 用户自定义和编程灰度路由时候，Hystrix做线程模式的服务隔离必须引入的插件，信号量模式不需要引入
+<dependency>
+    <groupId>com.nepxion</groupId>
+    <artifactId>discovery-plugin-strategy-starter-hystrix</artifactId>
 </dependency>
 ```
 
@@ -572,7 +580,7 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
 基于Zuul端的编程灰度路由，实现DiscoveryEnabledStrategy，通过Zuul自带的RequestContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 ### Gateway端的编程灰度路由策略
-基于Spring Cloud Api Gateway端的编程灰度路由，实现DiscoveryEnabledStrategy，通过GatewayStrategyContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+基于Spring Cloud Gateway端的编程灰度路由，实现DiscoveryEnabledStrategy，通过GatewayStrategyContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 ### REST调用的内置多版本灰度路由策略
 基于Feign/RestTemplate的REST调用的多版本灰度路由，在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只有a服务的1.0版本，b服务的1.1版本，c服务的1.1或1.2版本，允许被调用到
@@ -673,6 +681,10 @@ management.server.port=5100
 spring.application.strategy.scan.packages=com.nepxion.discovery.plugin.example.service.feign
 # 用户自定义和编程灰度路由策略的时候，对REST调用拦截的时候（支持Feign或者RestTemplate调用），需要把来自外部的指定Header参数传递到服务里，如果多个用“;”分隔，不允许出现空格。该项配置只对服务有效，对网关无效。缺失则默认关闭该功能
 spring.application.strategy.request.headers=version;region;token
+# spring.application.strategy.zone.avoidance.rule.enabled=true
+# 开启Zuul网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失
+# zuul.ribbon-isolation-strategy=thread
+# spring.application.strategy.hystrix.threadlocal.supported=true
 ```
 
 ## 监听扩展

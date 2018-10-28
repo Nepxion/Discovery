@@ -39,7 +39,7 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
 
     @SuppressWarnings("unchecked")
     private boolean applyVersion(Server server, Map<String, String> metadata) {
-        String versionValue = getVersionValue();
+        String versionValue = getVersionValue(server);
         if (StringUtils.isEmpty(versionValue)) {
             return true;
         }
@@ -64,7 +64,7 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
     }
 
     private boolean applyRegion(Server server, Map<String, String> metadata) {
-        String regionValue = getRegionValue();
+        String regionValue = getRegionValue(server);
         if (StringUtils.isEmpty(regionValue)) {
             return true;
         }
@@ -89,7 +89,7 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
         return discoveryEnabledStrategy.apply(server, metadata);
     }
 
-    protected abstract String getVersionValue();
+    protected abstract String getVersionValue(Server server);
 
-    protected abstract String getRegionValue();
+    protected abstract String getRegionValue(Server server);
 }
