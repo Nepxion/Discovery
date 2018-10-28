@@ -28,6 +28,7 @@ import com.nepxion.discovery.plugin.strategy.service.aop.RestTemplateStrategyInt
 import com.nepxion.discovery.plugin.strategy.service.aop.ServiceStrategyAutoScanProxy;
 import com.nepxion.discovery.plugin.strategy.service.aop.ServiceStrategyInterceptor;
 import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
+import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyContextHolder;
 
 @Configuration
 @AutoConfigureBefore(RibbonClientConfiguration.class)
@@ -92,5 +93,10 @@ public class ServiceStrategyAutoConfiguration {
     @ConditionalOnMissingBean
     public DiscoveryEnabledAdapter discoveryEnabledAdapter() {
         return new DefaultDiscoveryEnabledAdapter();
+    }
+
+    @Bean
+    public ServiceStrategyContextHolder serviceStrategyContextHolder() {
+        return new ServiceStrategyContextHolder();
     }
 }

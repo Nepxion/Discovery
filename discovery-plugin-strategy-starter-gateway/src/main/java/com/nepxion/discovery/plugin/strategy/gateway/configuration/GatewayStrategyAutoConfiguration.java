@@ -10,6 +10,7 @@ package com.nepxion.discovery.plugin.strategy.gateway.configuration;
  */
 
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.netflix.ribbon.RibbonClientConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -36,6 +37,7 @@ public class GatewayStrategyAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public DiscoveryEnabledAdapter discoveryEnabledAdapter() {
         return new DefaultDiscoveryEnabledAdapter();
     }

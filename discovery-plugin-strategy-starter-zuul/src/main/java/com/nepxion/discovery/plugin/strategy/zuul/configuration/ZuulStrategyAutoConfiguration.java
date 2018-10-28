@@ -10,6 +10,7 @@ package com.nepxion.discovery.plugin.strategy.zuul.configuration;
  */
 
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.netflix.ribbon.RibbonClientConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -27,6 +28,7 @@ import com.nepxion.discovery.plugin.strategy.zuul.wrapper.DefaultCallableWrapper
 @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTROL_ENABLED, matchIfMissing = true)
 public class ZuulStrategyAutoConfiguration {
     @Bean
+    @ConditionalOnMissingBean
     public DiscoveryEnabledAdapter discoveryEnabledAdapter() {
         return new DefaultDiscoveryEnabledAdapter();
     }

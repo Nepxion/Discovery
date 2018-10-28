@@ -11,19 +11,23 @@ package com.nepxion.discovery.plugin.strategy.service.adapter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.strategy.adapter.AbstractDiscoveryEnabledAdapter;
+import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyContextHolder;
 import com.netflix.loadbalancer.Server;
 
 public class DefaultDiscoveryEnabledAdapter extends AbstractDiscoveryEnabledAdapter {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultDiscoveryEnabledAdapter.class);
 
+    @Autowired
+    private ServiceStrategyContextHolder serviceStrategyContextHolder;
+
     @Override
     protected String getVersionValue(Server server) {
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        ServletRequestAttributes attributes = serviceStrategyContextHolder.getRequestAttributes();
         if (attributes == null) {
             String serviceId = server.getMetaInfo().getAppName().toLowerCase();
 
@@ -37,7 +41,7 @@ public class DefaultDiscoveryEnabledAdapter extends AbstractDiscoveryEnabledAdap
 
     @Override
     protected String getRegionValue(Server server) {
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        ServletRequestAttributes attributes = serviceStrategyContextHolder.getRequestAttributes();
         if (attributes == null) {
             String serviceId = server.getMetaInfo().getAppName().toLowerCase();
 
