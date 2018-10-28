@@ -72,6 +72,12 @@
             <artifactId>discovery-plugin-strategy-starter-zuul</artifactId>
         </dependency>
 
+        <!-- Used for zuul hystrix thread isolation -->
+        <dependency>
+            <groupId>com.nepxion</groupId>
+            <artifactId>discovery-plugin-strategy-starter-hystrix</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-starter-client</artifactId>

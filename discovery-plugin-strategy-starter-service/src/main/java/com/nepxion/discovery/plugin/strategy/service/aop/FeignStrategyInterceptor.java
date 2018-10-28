@@ -18,13 +18,18 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyContextHolder;
 
 public class FeignStrategyInterceptor implements RequestInterceptor {
     private static final Logger LOG = LoggerFactory.getLogger(FeignStrategyInterceptor.class);
 
     private String requestHeaders;
+
+    @Autowired
+    private ServiceStrategyContextHolder serviceStrategyContextHolder;
 
     public FeignStrategyInterceptor(String requestHeaders) {
         this.requestHeaders = requestHeaders.toLowerCase();
@@ -36,13 +41,12 @@ public class FeignStrategyInterceptor implements RequestInterceptor {
 
     @Override
     public void apply(RequestTemplate requestTemplate) {
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        ServletRequestAttributes attributes = serviceStrategyContextHolder.getRequestAttributes();
         if (attributes == null) {
             return;
         }
 
         HttpServletRequest previousRequest = attributes.getRequest();
-
         Enumeration<String> headerNames = previousRequest.getHeaderNames();
         if (headerNames == null) {
             return;
