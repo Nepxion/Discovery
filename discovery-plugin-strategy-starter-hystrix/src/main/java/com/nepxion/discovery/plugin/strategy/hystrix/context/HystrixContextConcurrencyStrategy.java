@@ -30,7 +30,7 @@ import com.netflix.hystrix.strategy.metrics.HystrixMetricsPublisher;
 import com.netflix.hystrix.strategy.properties.HystrixPropertiesStrategy;
 import com.netflix.hystrix.strategy.properties.HystrixProperty;
 
-// 使用线程隔离模式时，无法获取threadLocal中信息，自定义并发策略解决
+// 使用线程隔离模式时，无法获取ThreadLocal中信息，自定义并发策略解决
 public class HystrixContextConcurrencyStrategy extends HystrixConcurrencyStrategy {
     @Autowired
     private CallableWrapper wrapper;
