@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Configuration;
 import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.gateway.adapter.DefaultDiscoveryEnabledAdapter;
+import com.nepxion.discovery.plugin.strategy.gateway.context.GatewayStrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.gateway.filter.GatewayStrategyFilter;
 
 @Configuration
@@ -27,6 +28,11 @@ public class GatewayStrategyAutoConfiguration {
     @Bean
     public GatewayStrategyFilter gatewayStrategyFilter() {
         return new GatewayStrategyFilter();
+    }
+
+    @Bean
+    public GatewayStrategyContextHolder gatewayStrategyContextHolder() {
+        return new GatewayStrategyContextHolder();
     }
 
     @Bean

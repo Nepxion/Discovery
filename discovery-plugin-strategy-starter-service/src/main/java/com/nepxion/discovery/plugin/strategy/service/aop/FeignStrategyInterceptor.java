@@ -42,7 +42,6 @@ public class FeignStrategyInterceptor implements RequestInterceptor {
         }
 
         HttpServletRequest previousRequest = attributes.getRequest();
-
         Enumeration<String> headerNames = previousRequest.getHeaderNames();
         if (headerNames == null) {
             return;

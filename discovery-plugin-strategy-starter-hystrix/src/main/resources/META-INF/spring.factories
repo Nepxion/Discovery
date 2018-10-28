@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.nepxion.discovery.plugin.strategy.hystrix.configuration.HystrixStrategyAutoConfiguration

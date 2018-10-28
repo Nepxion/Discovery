@@ -45,14 +45,12 @@ public class RestTemplateStrategyInterceptor implements ClientHttpRequestInterce
         }
 
         HttpServletRequest previousRequest = attributes.getRequest();
-
         Enumeration<String> headerNames = previousRequest.getHeaderNames();
         if (headerNames == null) {
             return execution.execute(request, body);
         }
 
         HttpHeaders headers = request.getHeaders();
-
         while (headerNames.hasMoreElements()) {
             String headerName = headerNames.nextElement();
             String header = previousRequest.getHeader(headerName);

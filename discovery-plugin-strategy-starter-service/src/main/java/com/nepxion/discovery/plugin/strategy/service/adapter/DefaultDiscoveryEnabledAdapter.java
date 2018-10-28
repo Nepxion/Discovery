@@ -9,17 +9,26 @@ package com.nepxion.discovery.plugin.strategy.service.adapter;
  * @version 1.0
  */
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.strategy.adapter.AbstractDiscoveryEnabledAdapter;
+import com.netflix.loadbalancer.Server;
 
 public class DefaultDiscoveryEnabledAdapter extends AbstractDiscoveryEnabledAdapter {
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultDiscoveryEnabledAdapter.class);
+
     @Override
-    protected String getVersionValue() {
+    protected String getVersionValue(Server server) {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (attributes == null) {
+            String serviceId = server.getMetaInfo().getAppName().toLowerCase();
+
+            LOG.warn("The ServletRequestAttributes object is null, ignore to do version filter for service={}...", serviceId);
+
             return null;
         }
 
@@ -27,9 +36,13 @@ public class DefaultDiscoveryEnabledAdapter extends AbstractDiscoveryEnabledAdap
     }
 
     @Override
-    protected String getRegionValue() {
+    protected String getRegionValue(Server server) {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (attributes == null) {
+            String serviceId = server.getMetaInfo().getAppName().toLowerCase();
+
+            LOG.warn("The ServletRequestAttributes object is null, ignore to do region filter for service={}...", serviceId);
+
             return null;
         }
 
