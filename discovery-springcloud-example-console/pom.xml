@@ -19,6 +19,7 @@
     <properties>
         <discovery.plugin.version>4.7.12</discovery.plugin.version>
         <spring.cloud.version>Finchley.SR2</spring.cloud.version>
+        <spring.cloud.alibaba.version>0.2.0.RELEASE</spring.cloud.alibaba.version>
         <spring.boot.admin.version>2.0.2</spring.boot.admin.version>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -43,6 +44,14 @@
             </dependency>
 
             <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring.cloud.alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
                 <groupId>de.codecentric</groupId>
                 <artifactId>spring-boot-admin-dependencies</artifactId>
                 <version>${spring.boot.admin.version}</version>
@@ -62,9 +71,10 @@
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <!--  <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId> -->
             <!-- <artifactId>spring-cloud-starter-consul-discovery</artifactId> -->
             <!-- <artifactId>spring-cloud-starter-zookeeper-discovery</artifactId> -->
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
 
         <dependency>
