@@ -19,6 +19,7 @@
         <module>discovery-plugin-framework-eureka</module>
         <module>discovery-plugin-framework-consul</module>
         <module>discovery-plugin-framework-zookeeper</module>
+        <module>discovery-plugin-framework-nacos</module>
         <module>discovery-plugin-config-center</module>
         <module>discovery-plugin-config-center-starter-apollo</module>
         <module>discovery-plugin-config-center-starter-nacos</module>
@@ -27,6 +28,7 @@
         <module>discovery-plugin-starter-eureka</module>
         <module>discovery-plugin-starter-consul</module>
         <module>discovery-plugin-starter-zookeeper</module>
+        <module>discovery-plugin-starter-nacos</module>
         <module>discovery-plugin-strategy</module>
         <module>discovery-plugin-strategy-starter-service</module>
         <module>discovery-plugin-strategy-starter-zuul</module>
@@ -58,6 +60,7 @@
         <caffeine.version>2.6.2</caffeine.version>
         <swagger.version>2.7.0</swagger.version>
         <spring.cloud.version>Finchley.SR2</spring.cloud.version>
+        <spring.cloud.alibaba.version>0.2.0.RELEASE</spring.cloud.alibaba.version>
         <spring.boot.version>2.0.3.RELEASE</spring.boot.version>
         <disruptor.version>3.3.7</disruptor.version>
         <java.version>1.8</java.version>
@@ -116,6 +119,12 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-framework-nacos</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-config-center</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -159,6 +168,12 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-starter-zookeeper</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-starter-nacos</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -298,6 +313,14 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring.cloud.alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
