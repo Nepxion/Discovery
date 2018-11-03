@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
 @RestController
@@ -30,6 +31,7 @@ public class ARestImpl extends AbstractRestImpl {
     private RestTemplate restTemplate;
 
     @RequestMapping(path = "/rest", method = RequestMethod.POST)
+    @SentinelResource("sentinel-resource")    
     public String rest(@RequestBody String value) {
         value = doRest(value);
         value = restTemplate.postForEntity("http://discovery-springcloud-example-b/rest", value, String.class).getBody();  

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
 @RestController
@@ -25,6 +26,7 @@ public class CRestImpl extends AbstractRestImpl {
     private static final Logger LOG = LoggerFactory.getLogger(CRestImpl.class);
 
     @RequestMapping(path = "/rest", method = RequestMethod.POST)
+    @SentinelResource("sentinel-resource")
     public String rest(@RequestBody String value) {
         value = doRest(value);
 
