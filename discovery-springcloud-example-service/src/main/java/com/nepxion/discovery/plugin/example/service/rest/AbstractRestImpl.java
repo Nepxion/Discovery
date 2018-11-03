@@ -9,6 +9,7 @@ package com.nepxion.discovery.plugin.example.service.rest;
  * @version 1.0
  */
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
@@ -19,10 +20,21 @@ public class AbstractRestImpl {
 
     public String doRest(String value) {
         String serviceId = pluginAdapter.getServiceId();
+        String host = pluginAdapter.getHost();
+        int port = pluginAdapter.getPort();
         String version = pluginAdapter.getVersion();
-        // String host = pluginAdapter.getHost();
-        // int port = pluginAdapter.getPort();
+        String region = pluginAdapter.getRegion();
 
-        return value + " -> " + serviceId + "[" + version + "]";
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(value + " -> " + serviceId);
+        stringBuilder.append("[" + host + ":" + port + "]");
+        if (StringUtils.isNotEmpty(version)) {
+            stringBuilder.append("[V" + version + "]");
+        }
+        if (StringUtils.isNotEmpty(region)) {
+            stringBuilder.append("[Region=" + region + "]");
+        }
+
+        return stringBuilder.toString();
     }
 }
