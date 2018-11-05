@@ -34,4 +34,9 @@ public class CRestImpl extends AbstractRestImpl {
 
         return value;
     }
+
+    @RequestMapping(path = "/test", method = RequestMethod.POST)
+    public String test(@RequestBody String value) {
+        return value;
+    }
 }
