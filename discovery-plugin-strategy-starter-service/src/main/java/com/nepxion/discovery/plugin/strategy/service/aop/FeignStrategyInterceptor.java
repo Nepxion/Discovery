@@ -41,7 +41,7 @@ public class FeignStrategyInterceptor implements RequestInterceptor {
 
     @Override
     public void apply(RequestTemplate requestTemplate) {
-        ServletRequestAttributes attributes = serviceStrategyContextHolder.getRequestAttributes();
+        ServletRequestAttributes attributes = serviceStrategyContextHolder.getRestAttributes();
         if (attributes == null) {
             return;
         }

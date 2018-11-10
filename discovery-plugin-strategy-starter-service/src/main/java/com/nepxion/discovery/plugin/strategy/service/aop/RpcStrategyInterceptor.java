@@ -18,11 +18,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
-import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyContext;
+import com.nepxion.discovery.plugin.strategy.service.context.RpcStrategyContext;
 import com.nepxion.matrix.proxy.aop.AbstractInterceptor;
 
-public class ServiceStrategyInterceptor extends AbstractInterceptor {
-    private static final Logger LOG = LoggerFactory.getLogger(ServiceStrategyInterceptor.class);
+public class RpcStrategyInterceptor extends AbstractInterceptor {
+    private static final Logger LOG = LoggerFactory.getLogger(RpcStrategyInterceptor.class);
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
@@ -46,19 +46,19 @@ public class ServiceStrategyInterceptor extends AbstractInterceptor {
             }
         }
 
-        ServiceStrategyContext context = ServiceStrategyContext.getCurrentContext();
+        RpcStrategyContext context = RpcStrategyContext.getCurrentContext();
         context.add(ServiceStrategyConstant.CLASS, proxiedClass);
         context.add(ServiceStrategyConstant.METHOD, methodName);
         context.add(ServiceStrategyConstant.PARAMETER_MAP, parameterMap);
 
-        LOG.debug("Service strategy context is set with {}", context);
+        LOG.debug("Rpc strategy context is set with {}", context);
 
         try {
             return invocation.proceed();
         } finally {
-            ServiceStrategyContext.clearCurrentContext();
+            RpcStrategyContext.clearCurrentContext();
 
-            LOG.debug("Service strategy context is cleared");
+            LOG.debug("Rpc strategy context is cleared");
         }
     }
 }

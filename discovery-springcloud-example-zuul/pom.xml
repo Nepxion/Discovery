@@ -82,11 +82,11 @@
             <artifactId>discovery-plugin-strategy-starter-zuul</artifactId>
         </dependency>
 
-        <!-- Used for zuul hystrix thread isolation -->
-        <dependency>
+        <!-- 当Zuul用Hystrix做线程隔离的时候，才需要导入下面的包 -->
+        <!-- <dependency>
             <groupId>com.nepxion</groupId>
             <artifactId>discovery-plugin-strategy-starter-hystrix</artifactId>
-        </dependency>
+        </dependency> -->
 
         <dependency>
             <groupId>de.codecentric</groupId>

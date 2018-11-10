@@ -25,10 +25,12 @@ import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.adapter.DefaultDiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.service.aop.FeignStrategyInterceptor;
 import com.nepxion.discovery.plugin.strategy.service.aop.RestTemplateStrategyInterceptor;
-import com.nepxion.discovery.plugin.strategy.service.aop.ServiceStrategyAutoScanProxy;
-import com.nepxion.discovery.plugin.strategy.service.aop.ServiceStrategyInterceptor;
+import com.nepxion.discovery.plugin.strategy.service.aop.RpcStrategyAutoScanProxy;
+import com.nepxion.discovery.plugin.strategy.service.aop.RpcStrategyInterceptor;
 import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyContextHolder;
+import com.nepxion.discovery.plugin.strategy.service.wrapper.DefaultCallableWrapper;
+import com.nepxion.discovery.plugin.strategy.wrapper.CallableWrapper;
 
 @Configuration
 @AutoConfigureBefore(RibbonClientConfiguration.class)
@@ -39,7 +41,7 @@ public class ServiceStrategyAutoConfiguration {
 
     @Bean
     @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES, matchIfMissing = false)
-    public ServiceStrategyAutoScanProxy serviceStrategyAutoScanProxy() {
+    public RpcStrategyAutoScanProxy rpcStrategyAutoScanProxy() {
         String scanPackages = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES);
         if (StringUtils.isEmpty(scanPackages)) {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty, remove it if useless");
@@ -49,12 +51,12 @@ public class ServiceStrategyAutoConfiguration {
             throw new DiscoveryException("It can't scan packages for '" + ServiceStrategyConstant.EXCLUSION_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
         }
 
-        return new ServiceStrategyAutoScanProxy(scanPackages);
+        return new RpcStrategyAutoScanProxy(scanPackages);
     }
 
     @Bean
     @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES, matchIfMissing = false)
-    public ServiceStrategyInterceptor serviceStrategyInterceptor() {
+    public RpcStrategyInterceptor rpcStrategyInterceptor() {
         String scanPackages = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES);
         if (StringUtils.isEmpty(scanPackages)) {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + " can't be empty, remove it if useless");
@@ -64,7 +66,7 @@ public class ServiceStrategyAutoConfiguration {
             throw new DiscoveryException("It can't scan packages for '" + ServiceStrategyConstant.EXCLUSION_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
         }
 
-        return new ServiceStrategyInterceptor();
+        return new RpcStrategyInterceptor();
     }
 
     @Bean
@@ -98,5 +100,11 @@ public class ServiceStrategyAutoConfiguration {
     @Bean
     public ServiceStrategyContextHolder serviceStrategyContextHolder() {
         return new ServiceStrategyContextHolder();
+    }
+
+    @Bean
+    @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_HYSTRIX_THREADLOCAL_SUPPORTED, matchIfMissing = false)
+    public CallableWrapper callableWrapper() {
+        return new DefaultCallableWrapper();
     }
 }
