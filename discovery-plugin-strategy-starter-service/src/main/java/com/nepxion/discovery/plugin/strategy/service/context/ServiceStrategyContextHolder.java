@@ -1,7 +1,5 @@
 package com.nepxion.discovery.plugin.strategy.service.context;
 
-import java.util.Map;
-
 /**
  * <p>Title: Nepxion Discovery</p>
  * <p>Description: Nepxion Discovery</p>
@@ -10,6 +8,8 @@ import java.util.Map;
  * @author Haojun Ren
  * @version 1.0
  */
+
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -22,17 +22,16 @@ public class ServiceStrategyContextHolder {
     @Autowired
     private ConfigurableEnvironment environment;
 
-    public ServletRequestAttributes getRequestAttributes() {
+    public ServletRequestAttributes getRestAttributes() {
         Boolean hystrixThreadlocalSupported = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_HYSTRIX_THREADLOCAL_SUPPORTED, Boolean.class, Boolean.FALSE);
         if (hystrixThreadlocalSupported) {
-            // 服务端使用Hystrix做线程模式的服务隔离时，实现服务灰度路由的功能，预留待实现
-            return (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+            return RestStrategyContext.getCurrentContext().getRequestAttributes();
         } else {
-            return (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+            return (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         }
     }
 
-    public Map<String, Object> getMethodAttributes() {
-        return ServiceStrategyContext.getCurrentContext().getAttributes();
+    public Map<String, Object> getRpcAttributes() {
+        return RpcStrategyContext.getCurrentContext().getAttributes();
     }
 }

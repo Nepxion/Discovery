@@ -44,7 +44,7 @@ public class RestTemplateStrategyInterceptor implements ClientHttpRequestInterce
 
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
-        ServletRequestAttributes attributes = serviceStrategyContextHolder.getRequestAttributes();
+        ServletRequestAttributes attributes = serviceStrategyContextHolder.getRestAttributes();
         if (attributes == null) {
             return execution.execute(request, body);
         }

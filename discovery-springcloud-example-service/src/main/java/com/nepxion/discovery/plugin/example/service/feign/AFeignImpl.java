@@ -27,6 +27,7 @@ public class AFeignImpl extends AbstractFeignImpl implements AFeign {
     private BFeign bFeign;
 
     @Override
+    // @HystrixCommand(fallbackMethod = "fallback", commandProperties = { @HystrixProperty(name = "execution.isolation.strategy", value = "THREAD") })
     public String invoke(@RequestBody String value) {
         value = doInvoke(value);
         value = bFeign.invoke(value);
@@ -35,4 +36,12 @@ public class AFeignImpl extends AbstractFeignImpl implements AFeign {
 
         return value;
     }
+
+    /*public String fallback(String value, Throwable e) {
+        if (e != null) {
+            LOG.error("Fallback error", e);
+        }
+
+        return "Fallback by Hystrix";
+    }*/
 }
