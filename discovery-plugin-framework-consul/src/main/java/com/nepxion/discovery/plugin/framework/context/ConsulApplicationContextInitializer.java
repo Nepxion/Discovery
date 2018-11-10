@@ -20,6 +20,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.constant.ConsulConstant;
 import com.nepxion.discovery.plugin.framework.decorator.ConsulServiceRegistryDecorator;
+import com.nepxion.discovery.plugin.framework.util.MetadataUtil;
 
 public class ConsulApplicationContextInitializer extends PluginApplicationContextInitializer {
     @Override
@@ -41,6 +42,8 @@ public class ConsulApplicationContextInitializer extends PluginApplicationContex
             tags.add(DiscoveryConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED + "=" + PluginContextAware.isConfigRestControlEnabled(environment));
             tags.add(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY + "=" + PluginContextAware.getGroupKey(environment));
             tags.add(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH + "=" + PluginContextAware.getContextPath(environment));
+
+            MetadataUtil.filter(tags);
 
             return bean;
         } else {

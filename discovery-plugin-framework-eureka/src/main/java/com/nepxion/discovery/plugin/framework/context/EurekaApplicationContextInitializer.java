@@ -20,6 +20,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.constant.EurekaConstant;
 import com.nepxion.discovery.plugin.framework.decorator.EurekaServiceRegistryDecorator;
+import com.nepxion.discovery.plugin.framework.util.MetadataUtil;
 
 public class EurekaApplicationContextInitializer extends PluginApplicationContextInitializer {
     @Override
@@ -41,6 +42,8 @@ public class EurekaApplicationContextInitializer extends PluginApplicationContex
             metadataMap.put(DiscoveryConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED, PluginContextAware.isConfigRestControlEnabled(environment).toString());
             metadataMap.put(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY, PluginContextAware.getGroupKey(environment));
             metadataMap.put(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH, PluginContextAware.getContextPath(environment));
+
+            MetadataUtil.filter(metadataMap);
 
             return bean;
         } else {

@@ -50,4 +50,5 @@ public class DiscoveryConstant {
     public static final String OK = "OK";
     public static final String NO = "NO";
     public static final String UNKNOWN = "UNKNOWN";
+    public static final String EXT = "ext";
 }
