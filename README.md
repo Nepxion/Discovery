@@ -629,6 +629,7 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Metadata.jpg)
 - 通过Program arguments来传递，它的用法是前面加“--”。支持Eureka、Zookeeper和Nacos（增量覆盖），Consul支持的不好（全量覆盖）
 - 通过VM arguments来传递，它的用法是前面加“-D”。支持上述所有的注册组件，它的限制是变量前面必须要加“ext.”
+- 两种方式尽量避免同时用
 
 ## 配置文件
 - 基础属性配置
