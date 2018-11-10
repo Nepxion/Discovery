@@ -18,15 +18,15 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class ServiceStrategyContext {
-    private static final ThreadLocal<ServiceStrategyContext> THREAD_LOCAL = new InheritableThreadLocal<ServiceStrategyContext>() {
+public class RpcStrategyContext {
+    private static final ThreadLocal<RpcStrategyContext> THREAD_LOCAL = new InheritableThreadLocal<RpcStrategyContext>() {
         @Override
-        protected ServiceStrategyContext initialValue() {
-            return new ServiceStrategyContext();
+        protected RpcStrategyContext initialValue() {
+            return new RpcStrategyContext();
         }
     };
 
-    public static ServiceStrategyContext getCurrentContext() {
+    public static RpcStrategyContext getCurrentContext() {
         return THREAD_LOCAL.get();
     }
 
@@ -36,7 +36,7 @@ public class ServiceStrategyContext {
 
     private final Map<String, Object> attributes = new LinkedHashMap<String, Object>();
 
-    public ServiceStrategyContext add(String key, Object value) {
+    public RpcStrategyContext add(String key, Object value) {
         attributes.put(key, value);
 
         return this;
@@ -46,13 +46,13 @@ public class ServiceStrategyContext {
         return attributes.get(key);
     }
 
-    public ServiceStrategyContext remove(String key) {
+    public RpcStrategyContext remove(String key) {
         attributes.remove(key);
 
         return this;
     }
 
-    public ServiceStrategyContext clear() {
+    public RpcStrategyContext clear() {
         attributes.clear();
 
         return this;
