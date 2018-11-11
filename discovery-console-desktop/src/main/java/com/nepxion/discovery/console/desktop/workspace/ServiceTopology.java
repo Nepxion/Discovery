@@ -104,6 +104,7 @@ public class ServiceTopology extends AbstractTopology {
     private JBasicMenuItem executeGrayReleaseMenuItem;
     private JBasicMenuItem refreshGrayStateMenuItem;
     private JBasicMenuItem executeGrayRouterMenuItem;
+    private JBasicMenuItem showMetadataActionMenuItem;
     private JBasicRadioButtonMenuItem pushAsyncModeRadioButtonMenuItem;
     private JBasicRadioButtonMenuItem pushSyncModeRadioButtonMenuItem;
     private JBasicRadioButtonMenuItem ruleToConfigCenterRadioButtonMenuItem;
@@ -111,6 +112,7 @@ public class ServiceTopology extends AbstractTopology {
     private GlobalGrayPanel globalGrayPanel;
     private GrayPanel grayPanel;
     private JBasicTextArea resultTextArea;
+    private JBasicTextArea metadataTextArea;
     private RouterTopology routerTopology;
     private LayoutDialog layoutDialog;
 
@@ -128,9 +130,11 @@ public class ServiceTopology extends AbstractTopology {
         executeGrayReleaseMenuItem = new JBasicMenuItem(createExecuteGrayReleaseAction());
         refreshGrayStateMenuItem = new JBasicMenuItem(createRefreshGrayStateAction());
         executeGrayRouterMenuItem = new JBasicMenuItem(createExecuteGrayRouterAction());
+        showMetadataActionMenuItem = new JBasicMenuItem(createShowMetadataAction());
         popupMenu.add(executeGrayReleaseMenuItem, 0);
         popupMenu.add(executeGrayRouterMenuItem, 1);
         popupMenu.add(refreshGrayStateMenuItem, 2);
+        popupMenu.add(showMetadataActionMenuItem, 3);
     }
 
     @Override
@@ -145,6 +149,7 @@ public class ServiceTopology extends AbstractTopology {
         TElement element = TElementManager.getSelectedElement(dataBox);
         executeGrayReleaseMenuItem.setVisible(element != null && isPlugin(element));
         refreshGrayStateMenuItem.setVisible(element != null && isPlugin(element));
+        showMetadataActionMenuItem.setVisible(node != null);
 
         if (group != null || node != null || element != null) {
             return popupMenu;
@@ -184,6 +189,7 @@ public class ServiceTopology extends AbstractTopology {
         toolBar.add(new JClassicButton(createExecuteGrayReleaseAction()));
         toolBar.add(new JClassicButton(createExecuteGrayRouterAction()));
         toolBar.add(new JClassicButton(createRefreshGrayStateAction()));
+        toolBar.add(new JClassicButton(createShowMetadataAction()));
         toolBar.add(new JClassicButton(createPushGlobalConfigAction()));
         toolBar.add(pushControllMenubutton);
         toolBar.addSeparator();
@@ -491,6 +497,30 @@ public class ServiceTopology extends AbstractTopology {
         JBasicOptionPane.showOptionDialog(HandleManager.getFrame(this), new JBasicScrollPane(resultTextArea), ConsoleLocale.getString("execute_result"), JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/edit.png"), new Object[] { SwingLocale.getString("close") }, null, true);
     }
 
+    private void showMetadata(Instance instance) {
+        Map<String, String> metadata = instance.getMetadata();
+
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Map.Entry<String, String> entry : metadata.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            stringBuilder.append(key).append("=").append(value).append("\n");
+        }
+
+        if (metadataTextArea == null) {
+            metadataTextArea = new JBasicTextArea();
+            metadataTextArea.setLineWrap(true);
+            metadataTextArea.setPreferredSize(new Dimension(800, 600));
+        }
+        String result = stringBuilder.toString();
+        if (StringUtils.isNotEmpty(result)) {
+            result = result.substring(0, result.lastIndexOf("\n"));
+        }
+        metadataTextArea.setText(result);
+
+        JBasicOptionPane.showOptionDialog(HandleManager.getFrame(this), new JBasicScrollPane(metadataTextArea), ConsoleLocale.getString("show_metadata"), JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/property.png"), new Object[] { SwingLocale.getString("close") }, null, true);
+    }
+
     @Override
     public void showLayout() {
         if (layoutDialog == null) {
@@ -687,6 +717,34 @@ public class ServiceTopology extends AbstractTopology {
                 } else if (node != null) {
                     refreshGrayState(node);
                 }
+            }
+        };
+
+        return action;
+    }
+
+    private JSecurityAction createShowMetadataAction() {
+        JSecurityAction action = new JSecurityAction(ConsoleLocale.getString("show_metadata"), ConsoleIconFactory.getSwingIcon("component/file_chooser_16.png"), ConsoleLocale.getString("show_metadata")) {
+            private static final long serialVersionUID = 1L;
+
+            public void execute(ActionEvent e) {
+                TNode node = TElementManager.getSelectedNode(dataBox);
+                if (node == null) {
+                    JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("select_a_node"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+
+                    return;
+                }
+
+                Object userObject = node.getUserObject();
+                if (userObject == null || !(userObject instanceof Instance)) {
+                    JBasicOptionPane.showMessageDialog(HandleManager.getFrame(ServiceTopology.this), ConsoleLocale.getString("node_has_no_metadata"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+
+                    return;
+                }
+
+                Instance instance = (Instance) userObject;
+
+                showMetadata(instance);
             }
         };
 
