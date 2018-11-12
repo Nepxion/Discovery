@@ -95,6 +95,8 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console1.jpg)
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console2.jpg)
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console.gif)
+图形化灰度发布Web平台
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console14.jpg)
 集成规则配置的Apollo配置中心
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Apollo.jpg)
 集成规则配置的Nacos配置中心
