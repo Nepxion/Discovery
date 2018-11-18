@@ -727,6 +727,8 @@ spring.application.strategy.request.headers=version;region;token
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Swagger1.jpg)
 
+:exclamation:Swagger默认不支持多个Swagger包路径下的实现，如果业务系统有自己的Swagger功能，那么只需要在配置文件里面加上swagger.service.base.package={路径1},{路径2},{路径3}
+
 ## 控制平台
 为UI提供相关接口，包括
 - 一系列批量功能
