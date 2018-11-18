@@ -13,11 +13,11 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.3.RELEASE</version>
+        <version>2.0.6.RELEASE</version>
     </parent>
 
     <properties>
-        <discovery.plugin.version>4.8.0-RC1</discovery.plugin.version>
+        <discovery.plugin.version>4.8.0-RC2</discovery.plugin.version>
         <spring.cloud.version>Finchley.SR2</spring.cloud.version>
         <spring.cloud.alibaba.version>0.2.0.RELEASE</spring.cloud.alibaba.version>
         <spring.boot.admin.version>2.0.2</spring.boot.admin.version>

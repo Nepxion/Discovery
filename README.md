@@ -284,7 +284,7 @@ Spring Boot Admin监控平台
 ### 版本
 | Spring Cloud版本 | Nepxion Discovery版本 |
 | --- | --- |
-| Finchley | 当前版本 4.8.0-RC1 稳定版本 4.7.12 |
+| Finchley | 当前版本 4.8.0-RC2 稳定版本 4.7.12 |
 | Edgware | 当前版本 3.8.0-RC1 稳定版本 3.7.12 |
 
 ### 依赖
@@ -726,6 +726,8 @@ spring.application.strategy.request.headers=version;region;token
 参考Swagger界面，如下图
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Swagger1.jpg)
+
+:exclamation:Swagger默认不支持多个Swagger包路径下的实现，如果业务系统有自己的Swagger功能，那么只需要在配置文件里面加上swagger.service.base.package={路径1},{路径2},{路径3}
 
 ## 控制平台
 为UI提供相关接口，包括
