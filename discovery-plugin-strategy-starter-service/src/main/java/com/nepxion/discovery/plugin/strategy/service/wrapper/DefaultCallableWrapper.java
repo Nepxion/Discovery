@@ -12,8 +12,8 @@ package com.nepxion.discovery.plugin.strategy.service.wrapper;
 
 import java.util.concurrent.Callable;
 
+import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.nepxion.discovery.plugin.strategy.service.context.RestStrategyContext;
 import com.nepxion.discovery.plugin.strategy.wrapper.CallableWrapper;
@@ -21,7 +21,7 @@ import com.nepxion.discovery.plugin.strategy.wrapper.CallableWrapper;
 public class DefaultCallableWrapper implements CallableWrapper {
     @Override
     public <T> Callable<T> wrapCallable(Callable<T> delegate) {
-        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
 
         return new Callable<T>() {
             @Override

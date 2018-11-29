@@ -25,9 +25,9 @@ public class ServiceStrategyContextHolder {
     public ServletRequestAttributes getRestAttributes() {
         Boolean hystrixThreadlocalSupported = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_HYSTRIX_THREADLOCAL_SUPPORTED, Boolean.class, Boolean.FALSE);
         if (hystrixThreadlocalSupported) {
-            return RestStrategyContext.getCurrentContext().getRequestAttributes();
+            return (ServletRequestAttributes) RestStrategyContext.getCurrentContext().getRequestAttributes();
         } else {
-            return (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+            return (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         }
     }
 
