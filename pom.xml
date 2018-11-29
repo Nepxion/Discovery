@@ -59,6 +59,8 @@
         <swagger.version>2.7.0</swagger.version>
         <spring.cloud.version>Edgware.SR5</spring.cloud.version>
         <spring.cloud.alibaba.version>0.1.1.BUILD-SNAPSHOT</spring.cloud.alibaba.version>
+
+
         <spring.boot.version>1.5.17.RELEASE</spring.boot.version>
         <disruptor.version>3.3.7</disruptor.version>
         <java.version>1.8</java.version>
@@ -431,8 +433,24 @@
                     <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
                 </repository>
             </distributionManagement>
+
         </profile>
     </profiles>
+
+    <repositories>
+        <repository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/libs-snapshot-local</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+    </repositories>
+
 
     <licenses>
         <license>

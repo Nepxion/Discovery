@@ -65,15 +65,15 @@
         <dependency>
             <groupId>com.nepxion</groupId>
             <!-- <artifactId>discovery-plugin-starter-eureka</artifactId> -->
-            <!-- <artifactId>discovery-plugin-starter-consul</artifactId> -->
+             <artifactId>discovery-plugin-starter-consul</artifactId>
             <!-- <artifactId>discovery-plugin-starter-zookeeper</artifactId> -->
-            <artifactId>discovery-plugin-starter-nacos</artifactId>
+            <!--<artifactId>discovery-plugin-starter-nacos</artifactId>-->
         </dependency>
 
         <dependency>
             <groupId>com.nepxion</groupId>
-            <!-- <artifactId>discovery-plugin-config-center-starter-apollo</artifactId> -->
-            <artifactId>discovery-plugin-config-center-starter-nacos</artifactId>
+             <artifactId>discovery-plugin-config-center-starter-apollo</artifactId>
+            <!--<artifactId>discovery-plugin-config-center-starter-nacos</artifactId>-->
             <!-- <artifactId>discovery-plugin-config-center-starter-redis</artifactId> -->
         </dependency>
 
@@ -83,15 +83,15 @@
         </dependency>
 
         <!-- 当服务用Hystrix做线程隔离的时候，才需要导入下面的包 -->
-        <!-- <dependency>
+         <dependency>
             <groupId>com.nepxion</groupId>
             <artifactId>discovery-plugin-strategy-starter-hystrix</artifactId>
-        </dependency> -->
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
         </dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.cloud</groupId>-->
+            <!--<artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>de.codecentric</groupId>

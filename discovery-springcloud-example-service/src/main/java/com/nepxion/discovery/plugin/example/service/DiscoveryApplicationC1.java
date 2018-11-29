@@ -13,10 +13,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
+import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients
+@EnableHystrix
 public class DiscoveryApplicationC1 {
     public static void main(String[] args) {
         System.setProperty("spring.profiles.active", "c1");
