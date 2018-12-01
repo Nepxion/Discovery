@@ -21,6 +21,7 @@ public class NacosConstant extends PropertyKeyConst {
     public static final String NACOS_PLUGIN_CONTEXT_PATH = "nacos.plugin.context-path";
     public static final String NACOS_PLUGIN_ENDPOINT = "nacos.plugin.endpoint";
     public static final String NACOS_PLUGIN_ENCODE = "nacos.plugin.encode";
+    public static final String NACOS_PLUGIN_NAMING_LOAD_CACHE_AT_START = "nacos.plugin.naming-load-cache-at-start";
     public static final String NACOS_PLUGIN_TIMEOUT = "nacos.plugin.timout";
 
     public static final long DEFAULT_TIMEOUT = 30000;

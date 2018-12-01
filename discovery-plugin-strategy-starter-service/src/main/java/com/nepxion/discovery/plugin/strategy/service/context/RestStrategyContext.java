@@ -13,7 +13,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.context.request.RequestAttributes;
 
 public class RestStrategyContext {
     private static final ThreadLocal<RestStrategyContext> THREAD_LOCAL = new InheritableThreadLocal<RestStrategyContext>() {
@@ -31,13 +31,13 @@ public class RestStrategyContext {
         THREAD_LOCAL.remove();
     }
 
-    private ServletRequestAttributes requestAttributes;
+    private RequestAttributes requestAttributes;
 
-    public ServletRequestAttributes getRequestAttributes() {
+    public RequestAttributes getRequestAttributes() {
         return requestAttributes;
     }
 
-    public void setRequestAttributes(ServletRequestAttributes requestAttributes) {
+    public void setRequestAttributes(RequestAttributes requestAttributes) {
         this.requestAttributes = requestAttributes;
     }
 

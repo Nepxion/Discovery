@@ -76,6 +76,11 @@ public class NacosAutoConfiguration {
             properties.put(NacosConstant.ENCODE, encode);
         }
 
+        String namingLoadCacheAtStart = environment.getProperty(NacosConstant.NACOS_PLUGIN_NAMING_LOAD_CACHE_AT_START);
+        if (StringUtils.isNotEmpty(namingLoadCacheAtStart)) {
+            properties.put(NacosConstant.NAMING_LOAD_CACHE_AT_START, namingLoadCacheAtStart);
+        }
+
         return NacosFactory.createConfigService(properties);
     }
 
