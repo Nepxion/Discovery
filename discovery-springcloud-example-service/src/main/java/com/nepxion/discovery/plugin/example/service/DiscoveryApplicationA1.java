@@ -14,7 +14,7 @@ import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.cloud.alibaba.sentinel.annotation.SentinelProtect;
+import org.springframework.cloud.alibaba.sentinel.annotation.SentinelRestTemplate;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
@@ -46,7 +46,7 @@ public class DiscoveryApplicationA1 {
 
     @Bean
     @LoadBalanced
-    @SentinelProtect(blockHandler = "handleException", blockHandlerClass = MySentinelExceptionHandler.class)
+    @SentinelRestTemplate(blockHandler = "handleException", blockHandlerClass = MySentinelExceptionHandler.class)
     public RestTemplate restTemplate(@Autowired(required = false) RestTemplateStrategyInterceptor restTemplateStrategyInterceptor) {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setInterceptors(Collections.singletonList(restTemplateStrategyInterceptor));
