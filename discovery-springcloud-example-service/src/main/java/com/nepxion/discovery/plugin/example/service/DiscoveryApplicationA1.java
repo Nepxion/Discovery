@@ -49,7 +49,9 @@ public class DiscoveryApplicationA1 {
     @SentinelRestTemplate(blockHandler = "handleException", blockHandlerClass = MySentinelExceptionHandler.class)
     public RestTemplate restTemplate(@Autowired(required = false) RestTemplateStrategyInterceptor restTemplateStrategyInterceptor) {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setInterceptors(Collections.singletonList(restTemplateStrategyInterceptor));
+        if (restTemplateStrategyInterceptor != null) {
+            restTemplate.setInterceptors(Collections.singletonList(restTemplateStrategyInterceptor));
+        }
 
         return restTemplate;
     }
