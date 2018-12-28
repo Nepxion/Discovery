@@ -63,16 +63,18 @@ public class RestTemplateStrategyInterceptor implements ClientHttpRequestInterce
 
         HttpHeaders headers = request.getHeaders();
 
-        String traceId = previousRequest.getHeader(DiscoveryConstant.TRACE_ID);
-        if (StringUtils.isEmpty(traceId) && traceIdGenerator != null) {
-            try {
-                traceId = traceIdGenerator.generate();
-            } catch (Exception e) {
-                LOG.error("Generate trace id failed, ignore to set trace id", e);
+        if (requestHeaders.contains(DiscoveryConstant.TRACE_ID.toLowerCase())) {
+            String traceId = previousRequest.getHeader(DiscoveryConstant.TRACE_ID);
+            if (StringUtils.isEmpty(traceId) && traceIdGenerator != null) {
+                try {
+                    traceId = traceIdGenerator.generate();
+                } catch (Exception e) {
+                    LOG.error("Generate trace id failed, ignore to set trace id", e);
+                }
             }
-        }
-        if (StringUtils.isNotEmpty(traceId)) {
-            headers.add(DiscoveryConstant.TRACE_ID, traceId);
+            if (StringUtils.isNotEmpty(traceId)) {
+                headers.add(DiscoveryConstant.TRACE_ID, traceId);
+            }
         }
 
         while (headerNames.hasMoreElements()) {
@@ -80,7 +82,9 @@ public class RestTemplateStrategyInterceptor implements ClientHttpRequestInterce
             String header = previousRequest.getHeader(headerName);
 
             if (requestHeaders.contains(headerName.toLowerCase())) {
-                headers.add(headerName, header);
+                if (!StringUtils.equals(headerName, DiscoveryConstant.TRACE_ID)) {
+                    headers.add(headerName, header);
+                }
             }
         }
 

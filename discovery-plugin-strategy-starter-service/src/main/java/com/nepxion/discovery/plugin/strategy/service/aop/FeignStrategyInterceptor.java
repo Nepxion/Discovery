@@ -16,7 +16,7 @@ import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,16 +58,18 @@ public class FeignStrategyInterceptor implements RequestInterceptor {
             return;
         }
 
-        String traceId = previousRequest.getHeader(DiscoveryConstant.TRACE_ID);
-        if (StringUtils.isEmpty(traceId) && traceIdGenerator != null) {
-            try {
-                traceId = traceIdGenerator.generate();
-            } catch (Exception e) {
-                LOG.error("Generate trace id failed, ignore to set trace id", e);
+        if (requestHeaders.contains(DiscoveryConstant.TRACE_ID.toLowerCase())) {
+            String traceId = previousRequest.getHeader(DiscoveryConstant.TRACE_ID);
+            if (StringUtils.isEmpty(traceId) && traceIdGenerator != null) {
+                try {
+                    traceId = traceIdGenerator.generate();
+                } catch (Exception e) {
+                    LOG.error("Generate trace id failed, ignore to set trace id", e);
+                }
             }
-        }
-        if (StringUtils.isNotEmpty(traceId)) {
-            requestTemplate.header(DiscoveryConstant.TRACE_ID, traceId);
+            if (StringUtils.isNotEmpty(traceId)) {
+                requestTemplate.header(DiscoveryConstant.TRACE_ID, traceId);
+            }
         }
 
         while (headerNames.hasMoreElements()) {
@@ -75,7 +77,9 @@ public class FeignStrategyInterceptor implements RequestInterceptor {
             String header = previousRequest.getHeader(headerName);
 
             if (requestHeaders.contains(headerName.toLowerCase())) {
-                requestTemplate.header(headerName, header);
+                if (!StringUtils.equals(headerName, DiscoveryConstant.TRACE_ID)) {
+                    requestTemplate.header(headerName, header);
+                }
             }
         }
     }
