@@ -28,7 +28,6 @@ import com.nepxion.discovery.plugin.example.service.impl.MyRegisterListener;
 import com.nepxion.discovery.plugin.example.service.impl.MySentinelExceptionHandler;
 import com.nepxion.discovery.plugin.example.service.impl.MySentinelFlowRuleParser;
 import com.nepxion.discovery.plugin.example.service.impl.MySubscriber;
-import com.nepxion.discovery.plugin.example.service.impl.MyTraceIdGenerator;
 import com.nepxion.discovery.plugin.strategy.service.aop.RestTemplateStrategyInterceptor;
 
 @SpringBootApplication
@@ -85,10 +84,5 @@ public class DiscoveryApplicationA1 {
     @Bean
     public MyDiscoveryEnabledStrategy myDiscoveryEnabledStrategy() {
         return new MyDiscoveryEnabledStrategy();
-    }
-
-    @Bean
-    public MyTraceIdGenerator myTraceIdGenerator() {
-        return new MyTraceIdGenerator();
     }
 }
