@@ -16,23 +16,17 @@ import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyContextHolder;
-import com.nepxion.discovery.plugin.strategy.service.trace.TraceIdGenerator;
 
 public class FeignStrategyInterceptor implements RequestInterceptor {
     private static final Logger LOG = LoggerFactory.getLogger(FeignStrategyInterceptor.class);
 
     private String requestHeaders;
-
-    @Autowired(required = false)
-    private TraceIdGenerator traceIdGenerator;
 
     @Autowired
     private ServiceStrategyContextHolder serviceStrategyContextHolder;
@@ -58,28 +52,12 @@ public class FeignStrategyInterceptor implements RequestInterceptor {
             return;
         }
 
-        if (requestHeaders.contains(DiscoveryConstant.TRACE_ID.toLowerCase())) {
-            String traceId = previousRequest.getHeader(DiscoveryConstant.TRACE_ID);
-            if (StringUtils.isEmpty(traceId) && traceIdGenerator != null) {
-                try {
-                    traceId = traceIdGenerator.generate();
-                } catch (Exception e) {
-                    LOG.error("Generate trace id failed, ignore to set trace id", e);
-                }
-            }
-            if (StringUtils.isNotEmpty(traceId)) {
-                requestTemplate.header(DiscoveryConstant.TRACE_ID, traceId);
-            }
-        }
-
         while (headerNames.hasMoreElements()) {
             String headerName = headerNames.nextElement();
             String header = previousRequest.getHeader(headerName);
 
             if (requestHeaders.contains(headerName.toLowerCase())) {
-                if (!StringUtils.equals(headerName, DiscoveryConstant.TRACE_ID)) {
-                    requestTemplate.header(headerName, header);
-                }
+                requestTemplate.header(headerName, header);
             }
         }
     }
