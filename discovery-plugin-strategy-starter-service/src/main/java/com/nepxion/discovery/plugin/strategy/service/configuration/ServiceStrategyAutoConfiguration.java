@@ -28,7 +28,6 @@ import com.nepxion.discovery.plugin.strategy.service.aop.RestTemplateStrategyInt
 import com.nepxion.discovery.plugin.strategy.service.aop.RpcStrategyAutoScanProxy;
 import com.nepxion.discovery.plugin.strategy.service.aop.RpcStrategyInterceptor;
 import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
-import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.service.wrapper.DefaultCallableWrapper;
 import com.nepxion.discovery.plugin.strategy.wrapper.CallableWrapper;
 
@@ -40,11 +39,11 @@ public class ServiceStrategyAutoConfiguration {
     private ConfigurableEnvironment environment;
 
     @Bean
-    @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES, matchIfMissing = false)
+    @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_RPC_INTERCEPT_ENABLED, matchIfMissing = false)
     public RpcStrategyAutoScanProxy rpcStrategyAutoScanProxy() {
         String scanPackages = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES);
         if (StringUtils.isEmpty(scanPackages)) {
-            throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty, remove it if useless");
+            throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
         }
 
         if (ServiceStrategyConstant.EXCLUSION_SCAN_PACKAGES.contains(scanPackages)) {
@@ -55,11 +54,11 @@ public class ServiceStrategyAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES, matchIfMissing = false)
+    @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_RPC_INTERCEPT_ENABLED, matchIfMissing = false)
     public RpcStrategyInterceptor rpcStrategyInterceptor() {
         String scanPackages = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES);
         if (StringUtils.isEmpty(scanPackages)) {
-            throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + " can't be empty, remove it if useless");
+            throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
         }
 
         if (ServiceStrategyConstant.EXCLUSION_SCAN_PACKAGES.contains(scanPackages)) {
@@ -70,36 +69,26 @@ public class ServiceStrategyAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REQUEST_HEADERS, matchIfMissing = false)
+    @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_ENABLED, matchIfMissing = false)
     public FeignStrategyInterceptor feignStrategyInterceptor() {
         String requestHeaders = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REQUEST_HEADERS);
-        if (StringUtils.isEmpty(requestHeaders)) {
-            throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REQUEST_HEADERS + " can't be empty, remove it if useless");
-        }
 
         return new FeignStrategyInterceptor(requestHeaders);
     }
 
     @Bean
-    @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REQUEST_HEADERS, matchIfMissing = false)
+    @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_ENABLED, matchIfMissing = false)
     public RestTemplateStrategyInterceptor restTemplateStrategyInterceptor() {
         String requestHeaders = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REQUEST_HEADERS);
-        if (StringUtils.isEmpty(requestHeaders)) {
-            throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REQUEST_HEADERS + " can't be empty, remove it if useless");
-        }
 
         return new RestTemplateStrategyInterceptor(requestHeaders);
     }
 
     @Bean
     @ConditionalOnMissingBean
+    @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_ENABLED, matchIfMissing = false)
     public DiscoveryEnabledAdapter discoveryEnabledAdapter() {
         return new DefaultDiscoveryEnabledAdapter();
-    }
-
-    @Bean
-    public ServiceStrategyContextHolder serviceStrategyContextHolder() {
-        return new ServiceStrategyContextHolder();
     }
 
     @Bean

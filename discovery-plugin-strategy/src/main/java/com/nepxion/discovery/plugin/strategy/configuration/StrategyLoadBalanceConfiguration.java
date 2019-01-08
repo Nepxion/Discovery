@@ -43,7 +43,7 @@ public class StrategyLoadBalanceConfiguration {
     @Autowired
     private PluginAdapter pluginAdapter;
 
-    @Autowired
+    @Autowired(required = false)
     private DiscoveryEnabledAdapter discoveryEnabledAdapter;
 
     @Bean

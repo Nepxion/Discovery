@@ -43,6 +43,10 @@ public class DiscoveryEnabledZoneAvoidancePredicate extends ZoneAvoidancePredica
     }
 
     protected boolean apply(Server server) {
+        if (discoveryEnabledAdapter == null) {
+            return true;
+        }
+
         Map<String, String> metadata = pluginAdapter.getServerMetadata(server);
 
         return discoveryEnabledAdapter.apply(server, metadata);

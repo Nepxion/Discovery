@@ -282,8 +282,8 @@ Spring Boot Admin监控平台
 ### 版本
 | Spring Cloud版本 | Nepxion Discovery版本 |
 | --- | --- |
-| Finchley | 4.8.1 |
-| Edgware | 3.8.1 |
+| Finchley | 4.8.2 |
+| Edgware | 3.8.2 |
 
 ### 依赖
 ```xml
@@ -455,9 +455,9 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
         <!-- service-name，表示服务名 -->
         <!-- version-value，表示可供访问的版本，如果多个用“;”分隔，不允许出现空格 -->
         <version>
-            <!-- 表示网关z的1.0，允许访问提供端服务a的1.0版本 -->
+            <!-- 表示网关g的1.0，允许访问提供端服务a的1.0版本 -->
             <service consumer-service-name="discovery-springcloud-example-gateway" provider-service-name="discovery-springcloud-example-a" consumer-version-value="1.0" provider-version-value="1.0"/>
-            <!-- 表示网关z的1.1，允许访问提供端服务a的1.1版本 -->
+            <!-- 表示网关g的1.1，允许访问提供端服务a的1.1版本 -->
             <service consumer-service-name="discovery-springcloud-example-gateway" provider-service-name="discovery-springcloud-example-a" consumer-version-value="1.1" provider-version-value="1.1"/>
             <!-- 表示网关z的1.0，允许访问提供端服务a的1.0版本 -->
             <service consumer-service-name="discovery-springcloud-example-zuul" provider-service-name="discovery-springcloud-example-a" consumer-version-value="1.0" provider-version-value="1.0"/>
@@ -691,13 +691,17 @@ management.server.port=5100
 # spring.application.strategy.control.enabled=true
 # 开启和关闭Ribbon默认的ZoneAvoidanceRule负载均衡策略。一旦关闭，则使用RoundRobin简单轮询负载均衡策略。缺失则默认为true
 # spring.application.strategy.zone.avoidance.rule.enabled=true
-# 用户自定义和编程灰度路由策略的时候，对RPC方法调用拦截的时候，需要指定对业务Controller类的扫描路径，以便传递上下文对象。该项配置只对服务有效，对网关无效。缺失则默认关闭该功能
+# 启动和关闭用户自定义和编程灰度路由策略的时候，对RPC方式的调用拦截。缺失则默认为false
+spring.application.strategy.rpc.intercept.enabled=true
+# 用户自定义和编程灰度路由策略的时候，对RPC方式调用拦截的时候，需要指定对业务Controller类的扫描路径，以便传递上下文对象。该项配置只对服务有效，对网关无效
 spring.application.strategy.scan.packages=com.nepxion.discovery.plugin.example.service.feign
-# 用户自定义和编程灰度路由策略的时候，对REST调用拦截的时候（支持Feign或者RestTemplate调用），需要把来自外部的指定Header参数传递到服务里，如果多个用“;”分隔，不允许出现空格。该项配置只对服务有效，对网关无效。缺失则默认关闭该功能
+# 启动和关闭用户自定义和编程灰度路由策略的时候，对REST方式的调用拦截。缺失则默认为false
+spring.application.strategy.rest.intercept.enabled=true
+# 用户自定义和编程灰度路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），需要把来自外部的指定Header参数传递到服务里，如果多个用“;”分隔，不允许出现空格。该项配置只对服务有效，对网关无效
 spring.application.strategy.request.headers=version;region;token
-# spring.application.strategy.zone.avoidance.rule.enabled=true
-# 开启Zuul网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失
-# zuul.ribbon-isolation-strategy=thread
+# 启动和关闭用户自定义和编程灰度路由策略的时候日志打印，注意每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
+spring.application.strategy.intercept.log.print=true
+# 开启服务端实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失
 # spring.application.strategy.hystrix.threadlocal.supported=true
 ```
 
