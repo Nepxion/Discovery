@@ -13,9 +13,11 @@ import feign.RequestInterceptor;
 import feign.RequestTemplate;
 
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,13 +25,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyContextHolder;
 
 public class FeignStrategyInterceptor implements RequestInterceptor {
     private static final Logger LOG = LoggerFactory.getLogger(FeignStrategyInterceptor.class);
-
-    private String requestHeaders;
 
     @Autowired
     private ConfigurableEnvironment environment;
@@ -37,10 +39,12 @@ public class FeignStrategyInterceptor implements RequestInterceptor {
     @Autowired
     private ServiceStrategyContextHolder serviceStrategyContextHolder;
 
+    private List<String> requestHeaderList;
+
     public FeignStrategyInterceptor(String requestHeaders) {
         LOG.info("------------- Feign Intercept Information -----------");
         if (StringUtils.isNotEmpty(requestHeaders)) {
-            this.requestHeaders = requestHeaders.toLowerCase();
+            requestHeaderList = StringUtil.splitToList(requestHeaders.toLowerCase(), DiscoveryConstant.SEPARATE);
         }
         LOG.info("Feign intercepted headers are {}", StringUtils.isNotEmpty(requestHeaders) ? requestHeaders : "empty");
         LOG.info("-------------------------------------------------");
@@ -48,7 +52,7 @@ public class FeignStrategyInterceptor implements RequestInterceptor {
 
     @Override
     public void apply(RequestTemplate requestTemplate) {
-        if (StringUtils.isEmpty(requestHeaders)) {
+        if (CollectionUtils.isEmpty(requestHeaderList)) {
             return;
         }
 
@@ -71,7 +75,7 @@ public class FeignStrategyInterceptor implements RequestInterceptor {
             String headerName = headerNames.nextElement();
             String header = previousRequest.getHeader(headerName);
 
-            if (requestHeaders.contains(headerName.toLowerCase())) {
+            if (requestHeaderList.contains(headerName.toLowerCase())) {
                 if (interceptLogPrint) {
                     LOG.info("{}={}", headerName, header);
                 }
