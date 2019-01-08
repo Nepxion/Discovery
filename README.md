@@ -282,8 +282,8 @@ Spring Boot Admin监控平台
 ### 版本
 | Spring Cloud版本 | Nepxion Discovery版本 |
 | --- | --- |
-| Finchley | 4.8.1 |
-| Edgware | 3.8.1 |
+| Finchley | 4.8.2 |
+| Edgware | 3.8.2 |
 
 ### 依赖
 ```xml
