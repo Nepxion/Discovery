@@ -20,7 +20,6 @@ import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.wrapper.CallableWrapper;
 import com.nepxion.discovery.plugin.strategy.zuul.adapter.DefaultDiscoveryEnabledAdapter;
-import com.nepxion.discovery.plugin.strategy.zuul.context.ZuulStrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.zuul.wrapper.DefaultCallableWrapper;
 
 @Configuration
@@ -31,11 +30,6 @@ public class ZuulStrategyAutoConfiguration {
     @ConditionalOnMissingBean
     public DiscoveryEnabledAdapter discoveryEnabledAdapter() {
         return new DefaultDiscoveryEnabledAdapter();
-    }
-
-    @Bean
-    public ZuulStrategyContextHolder zuulStrategyContextHolder() {
-        return new ZuulStrategyContextHolder();
     }
 
     @Bean
