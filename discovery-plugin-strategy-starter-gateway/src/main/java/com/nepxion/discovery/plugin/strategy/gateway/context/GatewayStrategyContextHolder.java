@@ -22,7 +22,7 @@ public class GatewayStrategyContextHolder {
     public ServerWebExchange getExchange() {
         Boolean hystrixThreadlocalSupported = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_HYSTRIX_THREADLOCAL_SUPPORTED, Boolean.class, Boolean.FALSE);
         if (hystrixThreadlocalSupported) {
-            // Spring Cloud Gateway网关端使用Hystrix做线程模式的服务隔离时，实现服务灰度路由的功能
+            // 待实现：Spring Cloud Gateway网关端使用Hystrix做线程模式的服务隔离时，实现服务灰度路由的功能
             return GatewayStrategyContext.getCurrentContext().getExchange();
         } else {
             return GatewayStrategyContext.getCurrentContext().getExchange();
