@@ -8,9 +8,6 @@ package com.nepxion.discovery.plugin.example.service;
  * @author Haojun Ren
  * @version 1.0
  */
-
-import java.util.Collections;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -50,7 +47,7 @@ public class DiscoveryApplicationA1 {
     public RestTemplate restTemplate(@Autowired(required = false) RestTemplateStrategyInterceptor restTemplateStrategyInterceptor) {
         RestTemplate restTemplate = new RestTemplate();
         if (restTemplateStrategyInterceptor != null) {
-            restTemplate.setInterceptors(Collections.singletonList(restTemplateStrategyInterceptor));
+            restTemplate.getInterceptors().add(restTemplateStrategyInterceptor);
         }
 
         return restTemplate;
