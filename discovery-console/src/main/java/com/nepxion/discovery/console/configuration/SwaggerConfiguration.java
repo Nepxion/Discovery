@@ -14,11 +14,15 @@ import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
+import springfox.documentation.service.Parameter;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -69,6 +73,9 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
     @Value("${swagger.cors.registry.enabled:true}")
     private Boolean corsRegistryEnabled;
 
+    @Autowired(required = false)
+    private List<Parameter> swaggerHeaderParameters;
+
     @Bean
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -76,7 +83,8 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
                 .select()
                 .apis(SwaggerConfiguration.basePackage(BASE_PACKAGE + (StringUtils.isNotEmpty(basePackage.trim()) ? "," + basePackage.trim() : StringUtils.EMPTY))) // 扫描该包下的所有需要在Swagger中展示的API，@ApiIgnore注解标注的除外
                 .paths(PathSelectors.any())
-                .build();
+                .build()
+                .globalOperationParameters(swaggerHeaderParameters);
     }
 
     private ApiInfo apiInfo() {
