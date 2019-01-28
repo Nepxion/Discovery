@@ -13,6 +13,7 @@ public class DiscoveryConstant {
     public static final String DISCOVERY_VERSION = "3.8.2.2";
 
     public static final String SPRING_APPLICATION_DISCOVERY_PLUGIN = "spring.application.discovery.plugin";
+    public static final String SPRING_APPLICATION_DISCOVERY_VERSION = "spring.application.discovery.version";
     public static final String SPRING_APPLICATION_REGISTER_CONTROL_ENABLED = "spring.application.register.control.enabled";
     public static final String SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED = "spring.application.discovery.control.enabled";
     public static final String SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED = "spring.application.config.rest.control.enabled";
