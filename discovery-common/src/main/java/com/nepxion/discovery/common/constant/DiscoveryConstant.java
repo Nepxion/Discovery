@@ -52,4 +52,8 @@ public class DiscoveryConstant {
     public static final String NO = "NO";
     public static final String UNKNOWN = "UNKNOWN";
     public static final String EXT = "ext";
+
+    public static final String SLASH = "/";
+    public static final String HTTP_PREFIX = "http://";
+
 }
