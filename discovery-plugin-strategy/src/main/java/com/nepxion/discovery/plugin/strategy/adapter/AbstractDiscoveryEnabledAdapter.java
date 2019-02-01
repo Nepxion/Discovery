@@ -9,6 +9,7 @@ package com.nepxion.discovery.plugin.strategy.adapter;
  * @version 1.0
  */
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.util.JsonUtil;
+import com.nepxion.discovery.common.util.StringUtil;
 import com.netflix.loadbalancer.Server;
 
 public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
@@ -30,6 +32,11 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
         }
 
         enabled = applyRegion(server, metadata);
+        if (!enabled) {
+            return false;
+        }
+
+        enabled = applyAddress(server, metadata);
         if (!enabled) {
             return false;
         }
@@ -81,6 +88,28 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
         return false;
     }
 
+    @SuppressWarnings("unchecked")
+    private boolean applyAddress(Server server, Map<String, String> metadata) {
+        String addressValue = getAddressValue(server);
+        if (StringUtils.isEmpty(addressValue)) {
+            return true;
+        }
+
+        String serviceId = server.getMetaInfo().getAppName().toLowerCase();
+        Map<String, String> addressMap = JsonUtil.fromJson(addressValue, Map.class);
+        String addresses = addressMap.get(serviceId);
+        if (addresses == null) {
+            return true;
+        }
+
+        List<String> addressList = StringUtil.splitToList(addresses, DiscoveryConstant.SEPARATE);
+        if (addressList.contains(server.getHostPort()) || addressList.contains(server.getHost())) {
+            return true;
+        }
+
+        return false;
+    }
+
     private boolean applyStrategy(Server server, Map<String, String> metadata) {
         if (discoveryEnabledStrategy == null) {
             return true;
@@ -92,4 +121,6 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
     protected abstract String getVersionValue(Server server);
 
     protected abstract String getRegionValue(Server server);
+
+    protected abstract String getAddressValue(Server server);
 }
