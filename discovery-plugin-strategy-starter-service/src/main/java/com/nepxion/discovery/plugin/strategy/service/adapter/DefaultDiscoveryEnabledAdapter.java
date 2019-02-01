@@ -52,4 +52,18 @@ public class DefaultDiscoveryEnabledAdapter extends AbstractDiscoveryEnabledAdap
 
         return attributes.getRequest().getHeader(DiscoveryConstant.REGION);
     }
+
+    @Override
+    protected String getAddressValue(Server server) {
+        ServletRequestAttributes attributes = serviceStrategyContextHolder.getRestAttributes();
+        if (attributes == null) {
+            String serviceId = server.getMetaInfo().getAppName().toLowerCase();
+
+            LOG.warn("The ServletRequestAttributes object is null, ignore to do region filter for service={}...", serviceId);
+
+            return null;
+        }
+
+        return attributes.getRequest().getHeader(DiscoveryConstant.ADDRESS);
+    }
 }

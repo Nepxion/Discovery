@@ -52,4 +52,18 @@ public class DefaultDiscoveryEnabledAdapter extends AbstractDiscoveryEnabledAdap
 
         return exchange.getRequest().getHeaders().getFirst(DiscoveryConstant.REGION);
     }
+
+    @Override
+    protected String getAddressValue(Server server) {
+        ServerWebExchange exchange = gatewayStrategyContextHolder.getExchange();
+        if (exchange == null) {
+            String serviceId = server.getMetaInfo().getAppName().toLowerCase();
+
+            LOG.warn("The ServerWebExchange object is null, ignore to do region filter for service={}...", serviceId);
+
+            return null;
+        }
+
+        return exchange.getRequest().getHeaders().getFirst(DiscoveryConstant.ADDRESS);
+    }
 }
