@@ -40,14 +40,12 @@ public class FeignStrategyInterceptor implements RequestInterceptor {
     @Autowired
     private ServiceStrategyContextHolder serviceStrategyContextHolder;
 
-    private List<String> requestHeaderList;
+    private List<String> requestHeaderList = new ArrayList<String>();
 
     public FeignStrategyInterceptor(String requestHeaders) {
         LOG.info("------------- Feign Intercept Information -----------");
         if (StringUtils.isNotEmpty(requestHeaders)) {
-            requestHeaderList = StringUtil.splitToList(requestHeaders.toLowerCase(), DiscoveryConstant.SEPARATE);
-        } else {
-            requestHeaderList = new ArrayList<String>();
+            requestHeaderList.addAll(StringUtil.splitToList(requestHeaders.toLowerCase(), DiscoveryConstant.SEPARATE));
         }
         if (!requestHeaderList.contains(DiscoveryConstant.VERSION)) {
             requestHeaderList.add(DiscoveryConstant.VERSION);
