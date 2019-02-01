@@ -12,6 +12,7 @@ package com.nepxion.discovery.plugin.strategy.service.aop;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -45,6 +46,17 @@ public class FeignStrategyInterceptor implements RequestInterceptor {
         LOG.info("------------- Feign Intercept Information -----------");
         if (StringUtils.isNotEmpty(requestHeaders)) {
             requestHeaderList = StringUtil.splitToList(requestHeaders.toLowerCase(), DiscoveryConstant.SEPARATE);
+        } else {
+            requestHeaderList = new ArrayList<String>();
+        }
+        if (!requestHeaderList.contains(DiscoveryConstant.VERSION)) {
+            requestHeaderList.add(DiscoveryConstant.VERSION);
+        }
+        if (!requestHeaderList.contains(DiscoveryConstant.REGION)) {
+            requestHeaderList.add(DiscoveryConstant.REGION);
+        }
+        if (!requestHeaderList.contains(DiscoveryConstant.ADDRESS)) {
+            requestHeaderList.add(DiscoveryConstant.ADDRESS);
         }
         LOG.info("Feign intercepted headers are {}", StringUtils.isNotEmpty(requestHeaders) ? requestHeaders : "empty");
         LOG.info("-------------------------------------------------");
