@@ -26,9 +26,18 @@ public class AFeignImpl extends AbstractFeignImpl implements AFeign {
     @Autowired
     private BFeign bFeign;
 
+    // Hystrix测试
+    // @Autowired
+    // private HystrixService hystrixService;
+
     @Override
-    // @HystrixCommand(fallbackMethod = "fallback", commandProperties = { @HystrixProperty(name = "execution.isolation.strategy", value = "THREAD") })
     public String invoke(@RequestBody String value) {
+        // LOG.info("---------- 主方法里获取上下文 RequestContextHolder.getRequestAttributes()：{}", RequestContextHolder.getRequestAttributes());
+        // LOG.info("---------- 主方法里获取上下文 RestStrategyContext.getCurrentContext().getRequestAttributes()：{}", RestStrategyContext.getCurrentContext().getRequestAttributes());
+        // LOG.info("---------- 主方法里获取Token：{}", ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getHeader("token"));
+
+        // hystrixService.invokeHystrix(value);
+
         value = doInvoke(value);
         value = bFeign.invoke(value);
 
@@ -36,12 +45,4 @@ public class AFeignImpl extends AbstractFeignImpl implements AFeign {
 
         return value;
     }
-
-    /*public String fallback(String value, Throwable e) {
-        if (e != null) {
-            LOG.error("Fallback error", e);
-        }
-
-        return "Fallback by Hystrix";
-    }*/
 }

@@ -30,6 +30,7 @@ import com.nepxion.discovery.plugin.strategy.service.aop.RestTemplateStrategyInt
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients
+// Hystrix测试
 // @EnableCircuitBreaker
 public class DiscoveryApplicationA1 {
     public static void main(String[] args) {
