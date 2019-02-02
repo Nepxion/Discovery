@@ -19,7 +19,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 public class RpcStrategyContext {
-    private static final ThreadLocal<RpcStrategyContext> THREAD_LOCAL = new InheritableThreadLocal<RpcStrategyContext>() {
+    private static final ThreadLocal<RpcStrategyContext> THREAD_LOCAL = new ThreadLocal<RpcStrategyContext>() {
         @Override
         protected RpcStrategyContext initialValue() {
             return new RpcStrategyContext();

@@ -18,7 +18,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 public class ZuulStrategyContext {
-    private static final ThreadLocal<ZuulStrategyContext> THREAD_LOCAL = new InheritableThreadLocal<ZuulStrategyContext>() {
+    private static final ThreadLocal<ZuulStrategyContext> THREAD_LOCAL = new ThreadLocal<ZuulStrategyContext>() {
         @Override
         protected ZuulStrategyContext initialValue() {
             return new ZuulStrategyContext();

@@ -16,7 +16,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.web.context.request.RequestAttributes;
 
 public class RestStrategyContext {
-    private static final ThreadLocal<RestStrategyContext> THREAD_LOCAL = new InheritableThreadLocal<RestStrategyContext>() {
+    private static final ThreadLocal<RestStrategyContext> THREAD_LOCAL = new ThreadLocal<RestStrategyContext>() {
         @Override
         protected RestStrategyContext initialValue() {
             return new RestStrategyContext();
