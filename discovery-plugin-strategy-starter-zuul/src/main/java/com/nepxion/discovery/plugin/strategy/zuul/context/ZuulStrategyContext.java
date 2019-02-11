@@ -25,6 +25,8 @@ public class ZuulStrategyContext {
         }
     };
 
+    private HttpServletRequest request;
+
     public static ZuulStrategyContext getCurrentContext() {
         return THREAD_LOCAL.get();
     }
@@ -32,8 +34,6 @@ public class ZuulStrategyContext {
     public static void clearCurrentContext() {
         THREAD_LOCAL.remove();
     }
-
-    private HttpServletRequest request;
 
     public HttpServletRequest getRequest() {
         return request;
