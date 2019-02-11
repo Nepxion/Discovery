@@ -26,6 +26,8 @@ public class RpcStrategyContext {
         }
     };
 
+    private final Map<String, Object> attributes = new LinkedHashMap<String, Object>();
+
     public static RpcStrategyContext getCurrentContext() {
         return THREAD_LOCAL.get();
     }
@@ -33,8 +35,6 @@ public class RpcStrategyContext {
     public static void clearCurrentContext() {
         THREAD_LOCAL.remove();
     }
-
-    private final Map<String, Object> attributes = new LinkedHashMap<String, Object>();
 
     public RpcStrategyContext add(String key, Object value) {
         attributes.put(key, value);

@@ -23,6 +23,8 @@ public class GatewayStrategyContext {
         }
     };
 
+    private ServerWebExchange exchange;
+
     public static GatewayStrategyContext getCurrentContext() {
         return THREAD_LOCAL.get();
     }
@@ -30,8 +32,6 @@ public class GatewayStrategyContext {
     public static void clearCurrentContext() {
         THREAD_LOCAL.remove();
     }
-
-    private ServerWebExchange exchange;
 
     public ServerWebExchange getExchange() {
         return exchange;

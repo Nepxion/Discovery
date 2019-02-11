@@ -23,6 +23,8 @@ public class RestStrategyContext {
         }
     };
 
+    private RequestAttributes requestAttributes;
+
     public static RestStrategyContext getCurrentContext() {
         return THREAD_LOCAL.get();
     }
@@ -30,8 +32,6 @@ public class RestStrategyContext {
     public static void clearCurrentContext() {
         THREAD_LOCAL.remove();
     }
-
-    private RequestAttributes requestAttributes;
 
     public RequestAttributes getRequestAttributes() {
         return requestAttributes;
