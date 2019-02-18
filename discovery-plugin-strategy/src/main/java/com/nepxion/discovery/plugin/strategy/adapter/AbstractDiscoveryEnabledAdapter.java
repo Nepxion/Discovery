@@ -51,25 +51,33 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
             return true;
         }
 
-        String serviceId = server.getMetaInfo().getAppName().toLowerCase();
         String version = metadata.get(DiscoveryConstant.VERSION);
         if (StringUtils.isEmpty(version)) {
             return false;
         }
 
-        Map<String, String> versionMap = JsonUtil.fromJson(versionValue, Map.class);
-        String versions = versionMap.get(serviceId);
-        if (versions == null) {
+        String versions = null;
+        try {
+            Map<String, String> versionMap = JsonUtil.fromJson(versionValue, Map.class);
+            String serviceId = server.getMetaInfo().getAppName().toLowerCase();
+            versions = versionMap.get(serviceId);
+        } catch (Exception e) {
+            versions = versionValue;
+        }
+
+        if (StringUtils.isEmpty(versions)) {
             return true;
         }
 
-        if (versions.contains(version)) {
+        List<String> versionList = StringUtil.splitToList(versions, DiscoveryConstant.SEPARATE);
+        if (versionList.contains(version)) {
             return true;
         }
 
         return false;
     }
 
+    @SuppressWarnings("unchecked")
     private boolean applyRegion(Server server, Map<String, String> metadata) {
         String regionValue = getRegionValue(server);
         if (StringUtils.isEmpty(regionValue)) {
@@ -81,7 +89,21 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
             return false;
         }
 
-        if (StringUtils.equals(regionValue, region)) {
+        String regions = null;
+        try {
+            Map<String, String> regionMap = JsonUtil.fromJson(regionValue, Map.class);
+            String serviceId = server.getMetaInfo().getAppName().toLowerCase();
+            regions = regionMap.get(serviceId);
+        } catch (Exception e) {
+            regions = regionValue;
+        }
+
+        if (StringUtils.isEmpty(regions)) {
+            return true;
+        }
+
+        List<String> regionList = StringUtil.splitToList(regions, DiscoveryConstant.SEPARATE);
+        if (regionList.contains(region)) {
             return true;
         }
 
@@ -95,10 +117,10 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
             return true;
         }
 
-        String serviceId = server.getMetaInfo().getAppName().toLowerCase();
         Map<String, String> addressMap = JsonUtil.fromJson(addressValue, Map.class);
+        String serviceId = server.getMetaInfo().getAppName().toLowerCase();
         String addresses = addressMap.get(serviceId);
-        if (addresses == null) {
+        if (StringUtils.isEmpty(addresses)) {
             return true;
         }
 
