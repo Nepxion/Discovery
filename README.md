@@ -616,6 +616,9 @@ Header的Key为"region"，value为：
 dev
 ```
 
+多区域灰度路由架构图
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Route.jpg)
+
 :warning:特别注意：Spring Cloud内置zone的策略，功能跟region策略很相似，但zone策略不能跟用户自定义路由组合使用，故提供了更友好的region策略
 
 ### REST调用的内置多IP和端口灰度路由策略
