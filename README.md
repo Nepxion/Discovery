@@ -630,6 +630,9 @@ dev
 {"discovery-springcloud-example-a":"192.168.43.101:1101", "discovery-springcloud-example-b":"192.168.43.101:1201", "discovery-springcloud-example-c":"192.168.43.101:1302"}
 ```
 
+多多IP和端口灰度路由架构图
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/RouteAddress.jpg)
+
 ### REST调用的编程灰度路由策略
 基于Feign/RestTemplate的REST调用的自定义路由，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
