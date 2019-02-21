@@ -603,6 +603,9 @@ Header的Key为"version"，value为：
 1.1
 ```
 
+多版本灰度路由架构图
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/RouteVersion.jpg)
+
 ### REST调用的内置多区域灰度路由策略
 基于Feign/RestTemplate的REST调用的多区域灰度路由，在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只有dev区域的a服务，qa区域的b服务，dev和qa区域c服务，允许被调用到
 Header的Key为"region"，value为：
