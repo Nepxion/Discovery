@@ -603,6 +603,9 @@ Header的Key为"version"，value为：
 1.1
 ```
 
+多版本灰度路由架构图
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/RouteVersion.jpg)
+
 ### REST调用的内置多区域灰度路由策略
 基于Feign/RestTemplate的REST调用的多区域灰度路由，在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只有dev区域的a服务，qa区域的b服务，dev和qa区域c服务，允许被调用到
 Header的Key为"region"，value为：
@@ -617,7 +620,7 @@ dev
 ```
 
 多区域灰度路由架构图
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Route.jpg)
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/RouteRegion.jpg)
 
 :warning:特别注意：Spring Cloud内置zone的策略，功能跟region策略很相似，但zone策略不能跟用户自定义路由组合使用，故提供了更友好的region策略
 
@@ -626,6 +629,10 @@ dev
 ```xml
 {"discovery-springcloud-example-a":"192.168.43.101:1101", "discovery-springcloud-example-b":"192.168.43.101:1201", "discovery-springcloud-example-c":"192.168.43.101:1302"}
 ```
+见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+
+多IP和端口灰度路由架构图
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/RouteAddress.jpg)
 
 ### REST调用的编程灰度路由策略
 基于Feign/RestTemplate的REST调用的自定义路由，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
