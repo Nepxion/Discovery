@@ -27,6 +27,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 - [示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)
 
 兼容性强。支持如下版本：
+
 | Spring Cloud版本 | Nepxion Discovery版本 |
 | --- | --- |
 | Finchley | 4.8.3 |
