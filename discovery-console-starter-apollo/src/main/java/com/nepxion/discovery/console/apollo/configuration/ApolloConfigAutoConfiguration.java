@@ -24,15 +24,18 @@ import com.nepxion.discovery.console.apollo.constant.ApolloConstant;
 @Configuration
 public class ApolloConfigAutoConfiguration {
     static {
-        System.out.println("");
-        System.out.println("╔═╗ ╔╗");
-        System.out.println("║║╚╗║║");
-        System.out.println("║╔╗╚╝╠══╦══╦══╦══╗");
-        System.out.println("║║╚╗║║╔╗║╔═╣╔╗║══╣");
-        System.out.println("║║ ║║║╔╗║╚═╣╚╝╠══║");
-        System.out.println("╚╝ ╚═╩╝╚╩══╩══╩══╝");
-        System.out.println(ApolloConstant.TYPE + " Config");
-        System.out.println("");
+        String logoShown = System.getProperty("nepxion.logo.shown", "true");
+        if (Boolean.valueOf(logoShown)) {
+            System.out.println("");
+            System.out.println("╔═╗ ╔╗");
+            System.out.println("║║╚╗║║");
+            System.out.println("║╔╗╚╝╠══╦══╦══╦══╗");
+            System.out.println("║║╚╗║║╔╗║╔═╣╔╗║══╣");
+            System.out.println("║║ ║║║╔╗║╚═╣╚╝╠══║");
+            System.out.println("╚╝ ╚═╩╝╚╩══╩══╩══╝");
+            System.out.println(ApolloConstant.TYPE + " Config");
+            System.out.println("");
+        }
     }
 
     @Autowired

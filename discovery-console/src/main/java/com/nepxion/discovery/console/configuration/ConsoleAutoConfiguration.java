@@ -27,17 +27,20 @@ import com.nepxion.discovery.console.endpoint.ConsoleEndpoint;
 @Import(SwaggerConfiguration.class)
 public class ConsoleAutoConfiguration {
     static {
-        System.out.println("");
-        System.out.println("╔═══╗");
-        System.out.println("╚╗╔╗║");
-        System.out.println(" ║║║╠╦══╦══╦══╦╗╔╦══╦═╦╗ ╔╗");
-        System.out.println(" ║║║╠╣══╣╔═╣╔╗║╚╝║║═╣╔╣║ ║║");
-        System.out.println("╔╝╚╝║╠══║╚═╣╚╝╠╗╔╣║═╣║║╚═╝║");
-        System.out.println("╚═══╩╩══╩══╩══╝╚╝╚══╩╝╚═╗╔╝");
-        System.out.println("                      ╔═╝║");
-        System.out.println("                      ╚══╝");
-        System.out.println("Nepxion Discovery - Console  v" + DiscoveryConstant.DISCOVERY_VERSION);
-        System.out.println("");
+        String logoShown = System.getProperty("nepxion.logo.shown", "true");
+        if (Boolean.valueOf(logoShown)) {
+            System.out.println("");
+            System.out.println("╔═══╗");
+            System.out.println("╚╗╔╗║");
+            System.out.println(" ║║║╠╦══╦══╦══╦╗╔╦══╦═╦╗ ╔╗");
+            System.out.println(" ║║║╠╣══╣╔═╣╔╗║╚╝║║═╣╔╣║ ║║");
+            System.out.println("╔╝╚╝║╠══║╚═╣╚╝╠╗╔╣║═╣║║╚═╝║");
+            System.out.println("╚═══╩╩══╩══╩══╝╚╝╚══╩╝╚═╗╔╝");
+            System.out.println("                      ╔═╝║");
+            System.out.println("                      ╚══╝");
+            System.out.println("Nepxion Discovery - Console  v" + DiscoveryConstant.DISCOVERY_VERSION);
+            System.out.println("");
+        }
     }
 
     @ConditionalOnClass(Endpoint.class)
