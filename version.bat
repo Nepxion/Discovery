@@ -15,6 +15,6 @@
 @title Nepxion Discovery
 @color 0a
 
-call mvn versions:set -DnewVersion=Finchley.1.0.0
+call mvn versions:set -DnewVersion=4.8.4
 
 pause

@@ -11,7 +11,7 @@
     <parent>
         <groupId>com.nepxion</groupId>
         <artifactId>discovery</artifactId>
-        <version>Finchley.1.0.0</version>
+        <version>4.8.4</version>
     </parent>
 
     <properties>
