@@ -22,17 +22,20 @@ import com.nepxion.discovery.plugin.framework.constant.ZookeeperConstant;
 @RibbonClients(defaultConfiguration = { PluginLoadBalanceConfiguration.class, ZookeeperLoadBalanceConfiguration.class })
 public class ZookeeperAutoConfiguration {
     static {
-        System.out.println("");
-        System.out.println("╔═══╗");
-        System.out.println("╚╗╔╗║");
-        System.out.println(" ║║║╠╦══╦══╦══╦╗╔╦══╦═╦╗ ╔╗");
-        System.out.println(" ║║║╠╣══╣╔═╣╔╗║╚╝║║═╣╔╣║ ║║");
-        System.out.println("╔╝╚╝║╠══║╚═╣╚╝╠╗╔╣║═╣║║╚═╝║");
-        System.out.println("╚═══╩╩══╩══╩══╝╚╝╚══╩╝╚═╗╔╝");
-        System.out.println("                      ╔═╝║");
-        System.out.println("                      ╚══╝");
-        System.out.println("Nepxion Discovery - " + ZookeeperConstant.DISCOVERY_PLUGIN + "  v" + DiscoveryConstant.DISCOVERY_VERSION);
-        System.out.println("");
+        String logoShown = System.getProperty("nepxion.logo.shown", "true");
+        if (Boolean.valueOf(logoShown)) {
+            System.out.println("");
+            System.out.println("╔═══╗");
+            System.out.println("╚╗╔╗║");
+            System.out.println(" ║║║╠╦══╦══╦══╦╗╔╦══╦═╦╗ ╔╗");
+            System.out.println(" ║║║╠╣══╣╔═╣╔╗║╚╝║║═╣╔╣║ ║║");
+            System.out.println("╔╝╚╝║╠══║╚═╣╚╝╠╗╔╣║═╣║║╚═╝║");
+            System.out.println("╚═══╩╩══╩══╩══╝╚╝╚══╩╝╚═╗╔╝");
+            System.out.println("                      ╔═╝║");
+            System.out.println("                      ╚══╝");
+            System.out.println("Nepxion Discovery - " + ZookeeperConstant.DISCOVERY_PLUGIN + "  v" + DiscoveryConstant.DISCOVERY_VERSION);
+            System.out.println("");
+        }
     }
 
     @Bean

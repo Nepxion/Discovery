@@ -31,15 +31,18 @@ public class RedisConfigAutoConfiguration {
     private static final Logger LOG = LoggerFactory.getLogger(RedisConfigAutoConfiguration.class);
 
     static {
-        System.out.println("");
-        System.out.println("╔═══╗    ╔╗");
-        System.out.println("║╔═╗║    ║║");
-        System.out.println("║╚═╝╠══╦═╝╠╦══╗");
-        System.out.println("║╔╗╔╣║═╣╔╗╠╣══╣");
-        System.out.println("║║║╚╣║═╣╚╝║╠══║");
-        System.out.println("╚╝╚═╩══╩══╩╩══╝");
-        System.out.println(RedisConstant.TYPE + " Config");
-        System.out.println("");
+        String logoShown = System.getProperty("nepxion.logo.shown", "true");
+        if (Boolean.valueOf(logoShown)) {
+            System.out.println("");
+            System.out.println("╔═══╗    ╔╗");
+            System.out.println("║╔═╗║    ║║");
+            System.out.println("║╚═╝╠══╦═╝╠╦══╗");
+            System.out.println("║╔╗╔╣║═╣╔╗╠╣══╣");
+            System.out.println("║║║╚╣║═╣╚╝║╠══║");
+            System.out.println("╚╝╚═╩══╩══╩╩══╝");
+            System.out.println(RedisConstant.TYPE + " Config");
+            System.out.println("");
+        }
     }
 
     @Autowired

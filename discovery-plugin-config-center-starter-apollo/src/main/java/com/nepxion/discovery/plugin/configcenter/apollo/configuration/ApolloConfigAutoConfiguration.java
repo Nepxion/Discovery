@@ -19,17 +19,20 @@ import com.nepxion.discovery.plugin.configcenter.apollo.adapter.ApolloConfigAdap
 @Configuration
 public class ApolloConfigAutoConfiguration {
     static {
-        System.out.println("");
-        System.out.println("╔═══╗     ╔╗╔╗");
-        System.out.println("║╔═╗║     ║║║║");
-        System.out.println("║║ ║╠══╦══╣║║║╔══╗");
-        System.out.println("║╚═╝║╔╗║╔╗║║║║║╔╗║");
-        System.out.println("║╔═╗║╚╝║╚╝║╚╣╚╣╚╝║");
-        System.out.println("╚╝ ╚╣╔═╩══╩═╩═╩══╝");
-        System.out.println("    ║║");
-        System.out.println("    ╚╝");
-        System.out.println(ApolloConstant.TYPE + " Config");
-        System.out.println("");
+        String logoShown = System.getProperty("nepxion.logo.shown", "true");
+        if (Boolean.valueOf(logoShown)) {
+            System.out.println("");
+            System.out.println("╔═══╗     ╔╗╔╗");
+            System.out.println("║╔═╗║     ║║║║");
+            System.out.println("║║ ║╠══╦══╣║║║╔══╗");
+            System.out.println("║╚═╝║╔╗║╔╗║║║║║╔╗║");
+            System.out.println("║╔═╗║╚╝║╚╝║╚╣╚╣╚╝║");
+            System.out.println("╚╝ ╚╣╔═╩══╩═╩═╩══╝");
+            System.out.println("    ║║");
+            System.out.println("    ╚╝");
+            System.out.println(ApolloConstant.TYPE + " Config");
+            System.out.println("");
+        }
     }
 
     @Bean
