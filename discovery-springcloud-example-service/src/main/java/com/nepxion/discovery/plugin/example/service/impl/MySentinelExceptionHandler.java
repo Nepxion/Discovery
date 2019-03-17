@@ -18,6 +18,6 @@ public class MySentinelExceptionHandler {
     private static final Logger LOG = LoggerFactory.getLogger(MySentinelExceptionHandler.class);
 
     public static void handleException(BlockException e) {
-        LOG.error("Sentinel exception causes", e);
+        LOG.error("Sentinel exception causes from Client Control", e);
     }
 }

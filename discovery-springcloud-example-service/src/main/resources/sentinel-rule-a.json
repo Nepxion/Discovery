@@ -1,0 +1,10 @@
+[ 
+    { 
+        "resource": "sentinel-resource-a",
+        "controlBehavior": 0, 
+        "count": 5,
+        "grade": 1, 
+        "limitApp": "default", 
+        "strategy": 0 
+    }
+]
