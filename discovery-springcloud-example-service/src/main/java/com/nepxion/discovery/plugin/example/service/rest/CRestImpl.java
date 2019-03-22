@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
 @RestController
@@ -26,7 +27,7 @@ public class CRestImpl extends AbstractRestImpl {
     private static final Logger LOG = LoggerFactory.getLogger(CRestImpl.class);
 
     @RequestMapping(path = "/rest", method = RequestMethod.POST)
-    @SentinelResource("sentinel-resource")
+    @SentinelResource(value = "sentinel-resource", blockHandler = "handleBlock", fallback = "handleFallback")
     public String rest(@RequestBody String value) {
         value = doRest(value);
 
@@ -38,5 +39,21 @@ public class CRestImpl extends AbstractRestImpl {
     @RequestMapping(path = "/test", method = RequestMethod.POST)
     public String test(@RequestBody String value) {
         return value;
+    }
+
+    public String handleBlock(String value, BlockException e) {
+        LOG.info("Value={}", value);
+        LOG.info("Sentinel CServer Block Causes");
+        LOG.error("Sentinel CServer Block Exception", e);
+        LOG.info("Sentinel Rule Limit App={}", e.getRuleLimitApp());
+
+        return "Sentinel CServer Block Causes";
+    }
+
+    public String handleFallback(String value) {
+        LOG.info("Value={}", value);
+        LOG.info("Sentinel CServer Fallback Causes");
+
+        return "Sentinel CServer Fallback Causes";
     }
 }

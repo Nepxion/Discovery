@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
 @RestController
@@ -31,7 +32,7 @@ public class ARestImpl extends AbstractRestImpl {
     private RestTemplate restTemplate;
 
     @RequestMapping(path = "/rest", method = RequestMethod.POST)
-    @SentinelResource("sentinel-resource")
+    @SentinelResource(value = "sentinel-resource", blockHandler = "handleBlock", fallback = "handleFallback")
     public String rest(@RequestBody String value) {
         value = doRest(value);
         value = restTemplate.postForEntity("http://discovery-springcloud-example-b/rest", value, String.class).getBody();
@@ -44,5 +45,21 @@ public class ARestImpl extends AbstractRestImpl {
     @RequestMapping(path = "/test", method = RequestMethod.POST)
     public String test(@RequestBody String value) {
         return value;
+    }
+
+    public String handleBlock(String value, BlockException e) {
+        LOG.info("Value={}", value);
+        LOG.info("Sentinel AServer Block Causes");
+        LOG.error("Sentinel AServer Block Exception", e);
+        LOG.info("Sentinel Rule Limit App={}", e.getRuleLimitApp());
+
+        return "Sentinel AServer Block Causes";
+    }
+
+    public String handleFallback(String value) {
+        LOG.info("Value={}", value);
+        LOG.info("Sentinel AServer Fallback Causes");
+
+        return "Sentinel AServer Fallback Causes";
     }
 }
