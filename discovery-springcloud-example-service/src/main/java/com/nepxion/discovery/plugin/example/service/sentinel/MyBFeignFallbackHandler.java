@@ -11,9 +11,11 @@ package com.nepxion.discovery.plugin.example.service.sentinel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.nepxion.discovery.plugin.example.service.feign.BFeign;
 
+@Component
 public class MyBFeignFallbackHandler implements BFeign {
     private static final Logger LOG = LoggerFactory.getLogger(MyBFeignFallbackHandler.class);
 
