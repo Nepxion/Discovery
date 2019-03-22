@@ -8,6 +8,7 @@ package com.nepxion.discovery.plugin.example.service;
  * @author Haojun Ren
  * @version 1.0
  */
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -22,9 +23,10 @@ import com.nepxion.discovery.plugin.example.service.impl.MyDiscoveryEnabledStrat
 import com.nepxion.discovery.plugin.example.service.impl.MyDiscoveryListener;
 import com.nepxion.discovery.plugin.example.service.impl.MyLoadBalanceListener;
 import com.nepxion.discovery.plugin.example.service.impl.MyRegisterListener;
-import com.nepxion.discovery.plugin.example.service.impl.MySentinelExceptionHandler;
-import com.nepxion.discovery.plugin.example.service.impl.MySentinelFlowRuleParser;
 import com.nepxion.discovery.plugin.example.service.impl.MySubscriber;
+import com.nepxion.discovery.plugin.example.service.sentinel.MyRestTemplateBlockHandler;
+import com.nepxion.discovery.plugin.example.service.sentinel.MyRestTemplateFallbackHandler;
+import com.nepxion.discovery.plugin.example.service.sentinel.MySentinelFlowRuleParser;
 import com.nepxion.discovery.plugin.strategy.service.aop.RestTemplateStrategyInterceptor;
 
 @SpringBootApplication
@@ -39,12 +41,9 @@ public class DiscoveryApplicationA1 {
         new SpringApplicationBuilder(DiscoveryApplicationA1.class).run(args);
     }
 
-    // @SentinelDataSource("spring.cloud.sentinel.datasource") 
-    // protected ReadableDataSource dataSource;
-
     @Bean
     @LoadBalanced
-    @SentinelRestTemplate(blockHandler = "handleException", blockHandlerClass = MySentinelExceptionHandler.class)
+    @SentinelRestTemplate(blockHandler = "handleBlock", blockHandlerClass = MyRestTemplateBlockHandler.class, fallback = "handleFallback", fallbackClass = MyRestTemplateFallbackHandler.class)
     public RestTemplate restTemplate(@Autowired(required = false) RestTemplateStrategyInterceptor restTemplateStrategyInterceptor) {
         RestTemplate restTemplate = new RestTemplate();
         if (restTemplateStrategyInterceptor != null) {
