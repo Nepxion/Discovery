@@ -42,7 +42,7 @@ public abstract class LocalConfigLoader implements ConfigLoader {
 
             return IOUtils.toString(inputStream, DiscoveryConstant.ENCODING_UTF_8);
         } catch (Exception e) {
-            LOG.warn(e.getMessage() + ", ignore to load...");
+            LOG.warn("File [{}] isn't found or invalid, ignore to load...", path);
 
             return null;
         } finally {
