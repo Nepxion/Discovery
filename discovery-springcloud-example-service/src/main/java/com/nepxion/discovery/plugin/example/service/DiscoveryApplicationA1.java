@@ -25,7 +25,7 @@ import com.nepxion.discovery.plugin.example.service.impl.MyLoadBalanceListener;
 import com.nepxion.discovery.plugin.example.service.impl.MyRegisterListener;
 import com.nepxion.discovery.plugin.example.service.impl.MySubscriber;
 import com.nepxion.discovery.plugin.example.service.sentinel.MyRestTemplateBlockHandler;
-import com.nepxion.discovery.plugin.example.service.sentinel.MyRestTemplateFallbackHanlder;
+import com.nepxion.discovery.plugin.example.service.sentinel.MyRestTemplateFallbackHandler;
 import com.nepxion.discovery.plugin.example.service.sentinel.MySentinelFlowRuleParser;
 import com.nepxion.discovery.plugin.strategy.service.aop.RestTemplateStrategyInterceptor;
 
@@ -43,7 +43,7 @@ public class DiscoveryApplicationA1 {
 
     @Bean
     @LoadBalanced
-    @SentinelRestTemplate(blockHandler = "handleBlock", blockHandlerClass = MyRestTemplateBlockHandler.class, fallback = "handleFallback", fallbackClass = MyRestTemplateFallbackHanlder.class)
+    @SentinelRestTemplate(blockHandler = "handleBlock", blockHandlerClass = MyRestTemplateBlockHandler.class, fallback = "handleFallback", fallbackClass = MyRestTemplateFallbackHandler.class)
     public RestTemplate restTemplate(@Autowired(required = false) RestTemplateStrategyInterceptor restTemplateStrategyInterceptor) {
         RestTemplate restTemplate = new RestTemplate();
         if (restTemplateStrategyInterceptor != null) {

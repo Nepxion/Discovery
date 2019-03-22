@@ -12,8 +12,8 @@ package com.nepxion.discovery.plugin.example.service.sentinel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MyRestTemplateFallbackHanlder {
-    private static final Logger LOG = LoggerFactory.getLogger(MyRestTemplateFallbackHanlder.class);
+public class MyRestTemplateFallbackHandler {
+    private static final Logger LOG = LoggerFactory.getLogger(MyRestTemplateFallbackHandler.class);
 
     public static void hanldleFallback() {
         LOG.info("Sentinel RestTemplate Client Fallback Causes");
