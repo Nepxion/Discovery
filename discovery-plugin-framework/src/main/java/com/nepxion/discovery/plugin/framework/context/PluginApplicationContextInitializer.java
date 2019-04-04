@@ -20,18 +20,18 @@ import com.nepxion.discovery.plugin.framework.decorator.DiscoveryClientDecorator
 public abstract class PluginApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
-            applicationContext.getBeanFactory().addBeanPostProcessor(new InstantiationAwareBeanPostProcessorAdapter() {
-                @Override
-                public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-                    if (bean instanceof DiscoveryClient) {
-                        DiscoveryClient discoveryClient = (DiscoveryClient) bean;
+        applicationContext.getBeanFactory().addBeanPostProcessor(new InstantiationAwareBeanPostProcessorAdapter() {
+            @Override
+            public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+                if (bean instanceof DiscoveryClient) {
+                    DiscoveryClient discoveryClient = (DiscoveryClient) bean;
 
-                        return new DiscoveryClientDecorator(discoveryClient, applicationContext);
-                    } else {
-                        return afterInitialization(applicationContext, bean, beanName);
-                    }
+                    return new DiscoveryClientDecorator(discoveryClient, applicationContext);
+                } else {
+                    return afterInitialization(applicationContext, bean, beanName);
                 }
-            });
+            }
+        });
     }
 
     protected abstract Object afterInitialization(ConfigurableApplicationContext applicationContext, Object bean, String beanName) throws BeansException;
