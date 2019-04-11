@@ -26,7 +26,7 @@ public class UrlUtil {
 
     public static String formatContextPath(String contextPath) {
         if (StringUtils.isEmpty(contextPath)) {
-            contextPath = "/";
+            return "/";
         } else {
             if (!contextPath.startsWith("/")) {
                 contextPath = "/" + contextPath;

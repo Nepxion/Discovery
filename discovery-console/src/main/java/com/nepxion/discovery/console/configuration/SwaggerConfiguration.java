@@ -21,7 +21,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -42,9 +41,6 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
 
     @Value("${spring.application.name}")
     private String serviceName;
-
-    @Value("${swagger.service.base.package:}")
-    private String basePackage;
 
     @Value("${swagger.service.description:Console Restful APIs}")
     private String description;
@@ -76,12 +72,13 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
     @Autowired(required = false)
     private List<Parameter> swaggerHeaderParameters;
 
-    @Bean
+    @Bean("discoveryDocket")
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("discovery")
                 .apiInfo(apiInfo())
                 .select()
-                .apis(SwaggerConfiguration.basePackage(BASE_PACKAGE + (StringUtils.isNotEmpty(basePackage.trim()) ? "," + basePackage.trim() : StringUtils.EMPTY))) // 扫描该包下的所有需要在Swagger中展示的API，@ApiIgnore注解标注的除外
+                .apis(SwaggerConfiguration.basePackage(BASE_PACKAGE)) // 扫描该包下的所有需要在Swagger中展示的API，@ApiIgnore注解标注的除外
                 .paths(PathSelectors.any())
                 .build()
                 .globalOperationParameters(swaggerHeaderParameters);

@@ -20,15 +20,18 @@ import com.nepxion.discovery.console.redis.adapter.RedisConfigAdapter;
 @Configuration
 public class RedisConfigAutoConfiguration {
     static {
-        System.out.println("");
-        System.out.println("╔═══╗    ╔╗");
-        System.out.println("║╔═╗║    ║║");
-        System.out.println("║╚═╝╠══╦═╝╠╦══╗");
-        System.out.println("║╔╗╔╣║═╣╔╗╠╣══╣");
-        System.out.println("║║║╚╣║═╣╚╝║╠══║");
-        System.out.println("╚╝╚═╩══╩══╩╩══╝");
-        System.out.println(RedisConstant.TYPE + " Config");
-        System.out.println("");
+        String logoShown = System.getProperty("nepxion.logo.shown", "true");
+        if (Boolean.valueOf(logoShown)) {
+            System.out.println("");
+            System.out.println("╔═══╗    ╔╗");
+            System.out.println("║╔═╗║    ║║");
+            System.out.println("║╚═╝╠══╦═╝╠╦══╗");
+            System.out.println("║╔╗╔╣║═╣╔╗╠╣══╣");
+            System.out.println("║║║╚╣║═╣╚╝║╠══║");
+            System.out.println("╚╝╚═╩══╩══╩╩══╝");
+            System.out.println(RedisConstant.TYPE + " Config");
+            System.out.println("");
+        }
     }
 
     @Bean

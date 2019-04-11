@@ -6,7 +6,7 @@
 [![Build Status](https://travis-ci.org/Nepxion/Discovery.svg?branch=master)](https://travis-ci.org/Nepxion/Discovery)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8e39a24e1be740c58b83fb81763ba317)](https://www.codacy.com/project/HaojunRen/Discovery/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nepxion/Discovery&amp;utm_campaign=Badge_Grade_Dashboard)
 
-Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon负载均衡、Feign和RestTemplate调用、Hystrix或者阿里巴巴Sentinel熔断隔离限流降级的增强中间件，其功能包括灰度发布（包括切换发布和平滑发布）、服务隔离、服务路由、服务权重、黑/白名单的IP地址过滤、限制注册、限制发现等，支持Eureka、Consul、Zookeeper和阿里巴巴的Nacos为服务注册发现中间件，支持阿里巴巴的Nacos、携程的Apollo和Redis为远程配置中心，支持Spring Cloud Gateway（Finchley版）、Zuul网关和微服务的灰度发布，支持多数据源的数据库灰度发布等客户特色化灰度发布，支持用户自定义和编程灰度路由策略（包括RPC和REST两种调用方式），支持运维调度灰度发布和路由的元数据，兼容Spring Cloud Edgware版和Finchley版。现有的Spring Cloud微服务很方便引入该中间件，代码零侵入
+Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon负载均衡、Feign和RestTemplate调用、Hystrix或者阿里巴巴Sentinel熔断隔离限流降级的增强中间件，其功能包括灰度发布（包括切换发布和平滑发布）、服务隔离、服务路由（包括多机房区域路由、多版本路由和多IP和端口路由）、服务权重、黑/白名单的IP地址过滤、限制注册、限制发现等，支持Eureka、Consul、Zookeeper和阿里巴巴的Nacos为服务注册发现中间件，支持阿里巴巴的Nacos、携程的Apollo和Redis为远程配置中心，支持Spring Cloud Gateway、Zuul网关和微服务的灰度发布，支持多数据源的数据库灰度发布等客户特色化灰度发布，支持用户自定义和编程灰度路由策略（包括RPC和REST两种调用方式），支持运维调度灰度发布和路由的元数据，兼容Spring Cloud Edgware版、Finchley版和Greenwich版。现有的Spring Cloud微服务很方便引入该中间件，代码零侵入
 
 :100:鸣谢
 - 感谢阿里巴巴中间件Nacos和Sentinel团队，尤其是Nacos负责人@于怀，Sentinel负责人@子衿，Spring Cloud Alibaba负责人@亦盏的技术支持
@@ -14,7 +14,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 - 感谢代码贡献者@esun，@JikaiSun，@HaoHuang，@Fan Yang等同学，感谢为本框架提出宝贵意见和建议的同学
 - 感谢使用本框架的公司和企业
 
-对于使用者来说，他所需要做的如下：
+使用方便。只需要如下步骤：
 - 引入相关依赖到pom.xml，参考 [依赖兼容](#依赖兼容)
 - 操作配置文件，参考 [配置文件](#配置文件)
   - 在元数据MetaData中，为微服务定义一个版本号（version），定义一个所属组名（group）或者应用名（application），定义一个所属区域（region）名
@@ -25,6 +25,16 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
   - 通过客户端工具（例如Postman）推送
 - [入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)
 - [示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)
+
+兼容性强。支持如下版本：
+
+| Spring Cloud版本 | Nepxion Discovery版本 |
+| --- | --- |
+| Greenwich | 5.0.0 (未发布) |
+| Finchley | 4.8.5.2 |
+| Edgware | 3.8.5.2 |
+| Dalston | 2.0.11 (不维护，不可用) |
+| Camden | 1.0.1 (不维护，不可用) |
 
 ## 目录
 - [请联系我](#请联系我)
@@ -37,7 +47,6 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
   - [架构](#架构)
   - [工程](#工程)
 - [依赖兼容](#依赖兼容)
-  - [版本](#版本)
   - [依赖](#依赖)
   - [兼容](#兼容)
 - [规则定义](#规则定义)
@@ -45,10 +54,10 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
   - [黑/白名单的IP地址注册的过滤规则](#黑/白名单的IP地址注册的过滤规则)
   - [最大注册数的限制的过滤规则](#最大注册数的限制的过滤规则)
   - [黑/白名单的IP地址发现的过滤规则](#黑/白名单的IP地址发现的过滤规则)
-  - [版本访问的灰度路由规则](#版本访问的灰度路由规则)
-  - [版本权重的灰度路由规则](#版本权重的灰度路由规则)
-  - [区域权重的灰度路由规则](#区域权重的灰度路由规则)
-  - [用户自定义的灰度路由规则](#用户自定义的灰度路由规则)
+  - [版本访问的灰度发布规则](#版本访问的灰度发布规则)
+  - [版本权重的灰度发布规则](#版本权重的灰度发布规则)
+  - [区域权重的灰度发布规则](#区域权重的灰度发布规则)
+  - [用户自定义的灰度发布规则](#用户自定义的灰度发布规则)
   - [动态改变规则](#动态改变规则)
   - [动态改变版本](#动态改变版本)
 - [策略定义](#策略定义)
@@ -57,6 +66,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
   - [Gateway端的编程灰度路由策略](#Gateway端的编程灰度路由策略)
   - [REST调用的内置多版本灰度路由策略](#REST调用的内置多版本灰度路由策略)
   - [REST调用的内置多区域灰度路由策略](#REST调用的内置多区域灰度路由策略)
+  - [REST调用的内置多IP和端口灰度路由策略](#REST调用的内置多IP和端口灰度路由策略)  
   - [REST调用的编程灰度路由策略](#REST调用的编程灰度路由策略)
   - [RPC调用的编程灰度路由策略](#RPC调用的编程灰度路由策略)
 - [规则和策略](#规则和策略)
@@ -103,7 +113,7 @@ Nacos服务注册发现中心
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Nacos.jpg)
 Spring Boot Admin监控平台
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Admin1.jpg)
-集成Spring Boot Admin（F版）监控平台，实现通过JMX向Endpoint推送规则和版本，实现灰度发布
+集成Spring Boot Admin（F版或以上）监控平台，实现通过JMX向Endpoint推送规则和版本，实现灰度发布
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Admin2.jpg)
 集成Spring Boot Admin（E版）监控平台，实现通过JMX向Endpoint推送规则和版本，实现灰度发布
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Admin3.jpg)
@@ -149,7 +159,7 @@ Spring Boot Admin监控平台
   - 在业务RPC调用上，根据不同的业务参数，例如手机号或者身份证号，后端若干个服务会把请求路由到指定的服务器上
 
 ## 功能简介
-- 基于Spring Cloud的微服务和Spring Cloud Gateway（F版）和Zuul网关实现下述功能，它具有几个特性
+- 基于Spring Cloud的微服务和Spring Cloud Gateway和Zuul网关实现下述功能，它具有几个特性
   - 具有极大的灵活性 - 支持在任何环节（微服务和两个网关），多种方式（REST和RPC）做过滤控制和灰度发布
   - 具有极小的限制性 - 只要开启了服务注册发现，程序入口加了@EnableDiscoveryClient注解
   - 具有极强的健壮性 - 当远程配置中心全部挂了，可以通过Rest方式进行灰度发布；当远程规则配置不规范，马上切换到本地规则来代替
@@ -179,7 +189,7 @@ Spring Boot Admin监控平台
   - 使用者可以对服务注册发现核心事件进行监听
 - 实现通过策略扩展，用户自定义和编程灰度路由策略
   - 使用者可以实现跟业务有关的路由策略，根据业务参数的不同，负载均衡到不同的服务器
-  - 使用者可以根据内置的版本路由策略+区域路由策略+自定义策略，随心所欲的达到需要的路由功能
+  - 使用者可以根据内置的版本路由策略+区域路由策略+IP和端口路由策略+自定义策略，随心所欲的达到需要的路由功能
 - 实现支持Spring Boot Actuator和Swagger集成
 - 实现支持Spring Boot Admin的集成
 - 实现支持Sentinel熔断隔离限流降级的集成
@@ -188,7 +198,7 @@ Spring Boot Admin监控平台
 - 实现基于控制平台微服务的图形化的灰度发布功能
 
 ## 名词解释
-- E版和F版，即Spring Cloud的Edgware和Finchley的首字母
+- E版和F版，即Spring Cloud的Edgware和Finchley的首字母，以此类推
 - 切换灰度发布（也叫刚性灰度发布）和平滑灰度发布（也叫柔性灰度发布），切换灰度发布即在灰度发布的时候，没有过渡过程，流量直接从旧版本切换到新版本；平滑灰度发布即在灰度发布的时候，有个过渡过程，可以根据实际情况，先给新版本分配低额流量，给旧版本分配高额流量，对新版本进行监测，如果没有问题，就继续把旧版的流量切换到新版本上
 - IP地址，即根据微服务上报的它所在机器的IP地址。本系统内部强制以IP地址上报，禁止HostName上报，杜绝Spring Cloud应用在Docker或者Kubernetes部署时候出现问题
 - 规则定义和策略定义，规则定义即通过XML或者Json定义既有格式的规则；策略定义即专指用户自定义和编程灰度路由的策略，属于编程方式的一种扩展
@@ -199,7 +209,7 @@ Spring Boot Admin监控平台
 - 事件总线，即基于Google Guava的EventBus构建的组件。通过事件总线可以推送动态版本和动态规则的更新和删除
 - 远程配置中心，即可以存储规则配置XML格式的配置中心，可以包括不限于Nacos，Redis，Apollo，DisConf，Spring Cloud Config
 - 配置（Config）和规则（Rule），在本系统中属于同一个概念，例如更新配置，即更新规则；例如远程配置中心存储的配置，即规则XML
-- 服务端口和管理端口，即服务端口指在配置文件的server.port值，管理端口指management.port（E版）值或者management.server.port（F版）值
+- 服务端口和管理端口，即服务端口指在配置文件的server.port值，管理端口指management.port（E版）值或者management.server.port（F版或以上）值
 
 ## 架构工程
 ### 架构
@@ -264,7 +274,7 @@ Spring Boot Admin监控平台
 | discovery-plugin-strategy | 用户自定义和编程灰度路由策略 |
 | discovery-plugin-strategy-starter-service | 用户自定义和编程灰度路由策略的Service Starter |
 | discovery-plugin-strategy-starter-zuul | 用户自定义和编程灰度路由策略的Zuul Starter |
-| discovery-plugin-strategy-starter-gateway | 用户自定义和编程灰度路由策略的Spring Cloud Gateway（F版） Starter |
+| discovery-plugin-strategy-starter-gateway | 用户自定义和编程灰度路由策略的Spring Cloud Gateway Starter |
 | discovery-plugin-strategy-starter-hystrix | 用户自定义和编程灰度路由策略下，Hystrix做线程模式的服务隔离必须引入的插件 Starter |
 | discovery-console | 控制平台，集成接口给UI |
 | discovery-console-starter-apollo | 控制平台的Apollo Starter |
@@ -276,15 +286,9 @@ Spring Boot Admin监控平台
 | discovery-springcloud-example-eureka | Eureka服务器示例 |
 | discovery-springcloud-example-service | 用于灰度发布的微服务示例 |
 | discovery-springcloud-example-zuul | 用于灰度发布的Zuul示例 |
-| discovery-springcloud-example-gateway | 用于灰度发布的Spring Cloud Gateway（F版）示例 |
+| discovery-springcloud-example-gateway | 用于灰度发布的Spring Cloud Gateway示例 |
 
 ## 依赖兼容
-### 版本
-| Spring Cloud版本 | Nepxion Discovery版本 |
-| --- | --- |
-| Finchley | 4.8.2.2 |
-| Edgware | 3.8.2.2 |
-
 ### 依赖
 ```xml
 <dependency>
@@ -298,7 +302,7 @@ Spring Boot Admin监控平台
 
 :exclamation:下面标注[必须引入]是一定要引入的包，标注[选择引入]是可以选择一个引入，或者不引入
 
-核心插件引入，支持微服务端、网关Zuul端和网关Spring Cloud Gateway（F版）端，包括核心灰度发布功能，管理中心，配置中心等
+核心插件引入，支持微服务端、网关Zuul端和网关Spring Cloud Gateway端，包括核心灰度发布功能，管理中心，配置中心等
 ```xml
 [必须引入] 四个服务注册发现的中间件的增强插件，请任选一个引入
 <dependency>
@@ -318,7 +322,7 @@ Spring Boot Admin监控平台
 </dependency>
 ```
 
-扩展功能引入，支持微服务端、网关Zuul端和网关Spring Cloud Gateway（F版）端，包括内置版本路由、区域路由、用户自定义和编程灰度路由
+扩展功能引入，支持微服务端、网关Zuul端和网关Spring Cloud Gateway端，包括内置版本路由、区域路由、用户自定义和编程灰度路由
 ```xml
 微服务端引入
 [选择引入] 用户自定义和编程灰度路由，如需要，请引入
@@ -334,7 +338,7 @@ Spring Boot Admin监控平台
     <artifactId>discovery-plugin-strategy-starter-zuul</artifactId>
 </dependency>
 
-网关Spring Cloud Gateway（F版）端引入
+网关Spring Cloud Gateway端引入
 [选择引入] 用户自定义和编程灰度路由，如需要，请引入
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -382,7 +386,7 @@ spring.application.discovery.control.enabled=false
 
 ### 兼容
 版本兼容情况
-- Spring Cloud F版，请采用4.x.x版本，具体代码参考master分支
+- Spring Cloud F版或以上，请采用4.x.x版本，具体代码参考master分支
 - Spring Cloud E版，请采用3.x.x版本，具体代码参考Edgware分支
 - 4.x.x版本和3.x.x版本功能完全一致，但在Endpoint的URL使用方式上稍微有个小的区别。例如
   - 3.x.x的Endpoint URL为[http://localhost:5100/config/view](http://localhost:5100/config/view)
@@ -392,7 +396,7 @@ spring.application.discovery.control.enabled=false
 - Consul
   - Consul服务器版本不限制，推荐用最新版本，从[https://releases.hashicorp.com/consul/](https://releases.hashicorp.com/consul/)获取
 - Zookeeper
-  - Spring Cloud F版，必须采用Zookeeper服务器的3.5.x服务器版本（或者更高），从[http://zookeeper.apache.org/releases.html#download](http://zookeeper.apache.org/releases.html#download)获取
+  - Spring Cloud F版或以上，必须采用Zookeeper服务器的3.5.x服务器版本（或者更高），从[http://zookeeper.apache.org/releases.html#download](http://zookeeper.apache.org/releases.html#download)获取
   - Spring Cloud E版，Zookeeper服务器版本不限制
 - Eureka
   - 跟Spring Cloud版本保持一致，自行搭建服务器
@@ -510,7 +514,7 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
 ### 黑/白名单的IP地址发现的过滤规则
 微服务启动的时候，禁止指定的IP地址被服务发现。它使用的方式和“黑/白名单的IP地址注册的过滤规则”一致
 
-### 版本访问的灰度路由规则
+### 版本访问的灰度发布规则
 ```xml
 1. 标准配置，举例如下
    <service consumer-service-name="a" provider-service-name="b" consumer-version-value="1.0" provider-version-value="1.0,1.1"/> 表示消费端1.0版本，允许访问提供端1.0和1.1版本
@@ -529,7 +533,7 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
 2. 提供端的application.properties未定义版本号，当消费端在xml里不做任何版本配置，才可以访问该提供端
 ```
 
-### 版本权重的灰度路由规则
+### 版本权重的灰度发布规则
 ```xml
 1. 标准配置，举例如下
     <service consumer-service-name="a" provider-service-name="b" provider-weight-value="1.0=90;1.1=10"/> 表示消费端访问提供端的时候，提供端的1.0版本提供90%的权重流量，1.1版本提供10%的权重流量
@@ -538,7 +542,7 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
 3. 尽量为线上所有版本都赋予权重值
 ```
 
-### 区域权重的灰度路由规则
+### 区域权重的灰度发布规则
 ```xml
 1. 标准配置，举例如下
     <region provider-weight-value="dev=85;qa=15"/> 表示区域为dev的服务提供85%的权重流量，区域为qa的服务提供15%的权重流量
@@ -546,7 +550,7 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
 3. 尽量为线上所有区域都赋予权重值
 ```
 
-### 用户自定义的灰度路由规则
+### 用户自定义的灰度发布规则
 通过订阅业务参数的变化，实现特色化的灰度发布，例如，多数据源的数据库切换的灰度发布
 ```xml
 1. 标准配置，举例如下
@@ -591,15 +595,47 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
 
 ### REST调用的内置多版本灰度路由策略
 基于Feign/RestTemplate的REST调用的多版本灰度路由，在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只有a服务的1.0版本，b服务的1.1版本，c服务的1.1或1.2版本，允许被调用到
+Header的Key为"version"，value为：
 ```xml
 {"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.1", "discovery-springcloud-example-c":"1.1;1.2"}
 ```
 见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
+如果，链路调用中所有的服务都是指定某个版本（例如1.1），那么value的格式可以简化，不需要Json字符串，直接是
+```xml
+1.1
+```
+
+多版本灰度路由架构图
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/RouteVersion.jpg)
+
 ### REST调用的内置多区域灰度路由策略
-基于Feign/RestTemplate的REST调用的多区域灰度路由，在Header上传入区域（region）名，那么REST请求只会在服务的区域（region）名相匹配的情况下，允许被调用到，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+基于Feign/RestTemplate的REST调用的多区域灰度路由，在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只有dev区域的a服务，qa区域的b服务，dev和qa区域c服务，允许被调用到
+Header的Key为"region"，value为：
+```xml
+{"discovery-springcloud-example-a":"dev", "discovery-springcloud-example-b":"qa", "discovery-springcloud-example-c":"dev;qa"}
+```
+见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+
+如果，链路调用中所有的服务都是指定某个区域（例如dev），那么value的格式可以简化，不需要Json字符串，直接是
+```xml
+dev
+```
+
+多区域灰度路由架构图
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/RouteRegion.jpg)
 
 :warning:特别注意：Spring Cloud内置zone的策略，功能跟region策略很相似，但zone策略不能跟用户自定义路由组合使用，故提供了更友好的region策略
+
+### REST调用的内置多IP和端口灰度路由策略
+基于Feign/RestTemplate的REST调用的多版本灰度路由，在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只需要指定三个服务所给定的IP（或者IP和端口组合），允许被调用到
+```xml
+{"discovery-springcloud-example-a":"192.168.43.101:1101", "discovery-springcloud-example-b":"192.168.43.101:1201", "discovery-springcloud-example-c":"192.168.43.101:1302"}
+```
+见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+
+多IP和端口灰度路由架构图
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/RouteAddress.jpg)
 
 ### REST调用的编程灰度路由策略
 基于Feign/RestTemplate的REST调用的自定义路由，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
@@ -636,22 +672,22 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
 不同的服务注册发现组件对应的不同的配置值（region配置可选），请仔细阅读
 ```xml
 # Eureka config for discovery
-eureka.instance.metadataMap.version=1.0
 eureka.instance.metadataMap.group=xxx-service-group
+eureka.instance.metadataMap.version=1.0
 eureka.instance.metadataMap.region=dev
 
 # 奇葩的Consul配置（参考https://springcloud.cc/spring-cloud-consul.html - 元数据和Consul标签）
 # Consul config for discovery
-spring.cloud.consul.discovery.tags=version=1.0,group=xxx-service-group,region=dev
+spring.cloud.consul.discovery.tags=group=xxx-service-group,version=1.0,region=dev
 
 # Zookeeper config for discovery
-spring.cloud.zookeeper.discovery.metadata.version=1.0
 spring.cloud.zookeeper.discovery.metadata.group=xxx-service-group
+spring.cloud.zookeeper.discovery.metadata.version=1.0
 spring.cloud.zookeeper.discovery.metadata.region=dev
 
 # Nacos config for discovery
-spring.cloud.nacos.discovery.metadata.version=1.0
 spring.cloud.nacos.discovery.metadata.group=example-service-group
+spring.cloud.nacos.discovery.metadata.version=1.0
 spring.cloud.nacos.discovery.metadata.region=dev
 
 # Admin config
@@ -660,7 +696,7 @@ spring.cloud.nacos.discovery.metadata.region=dev
 management.security.enabled=false
 management.port=5100
 
-# F版配置方式
+# F版或以上配置方式
 management.server.port=5100
 ```
 
@@ -698,7 +734,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.plugin.example.s
 # 启动和关闭用户自定义和编程灰度路由策略的时候，对REST方式的调用拦截。缺失则默认为false
 spring.application.strategy.rest.intercept.enabled=true
 # 用户自定义和编程灰度路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），需要把来自外部的指定Header参数传递到服务里，如果多个用“;”分隔，不允许出现空格。该项配置只对服务有效，对网关无效
-spring.application.strategy.request.headers=version;region;token
+spring.application.strategy.request.headers=token
 # 启动和关闭用户自定义和编程灰度路由策略的时候日志打印，注意每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
 spring.application.strategy.intercept.log.print=true
 # 开启服务端实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失

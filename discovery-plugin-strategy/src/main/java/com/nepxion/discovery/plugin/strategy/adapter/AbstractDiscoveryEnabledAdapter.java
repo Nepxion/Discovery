@@ -9,6 +9,7 @@ package com.nepxion.discovery.plugin.strategy.adapter;
  * @version 1.0
  */
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.util.JsonUtil;
+import com.nepxion.discovery.common.util.StringUtil;
 import com.netflix.loadbalancer.Server;
 
 public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
@@ -34,6 +36,11 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
             return false;
         }
 
+        enabled = applyAddress(server, metadata);
+        if (!enabled) {
+            return false;
+        }
+
         return applyStrategy(server, metadata);
     }
 
@@ -44,25 +51,33 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
             return true;
         }
 
-        String serviceId = server.getMetaInfo().getAppName().toLowerCase();
         String version = metadata.get(DiscoveryConstant.VERSION);
         if (StringUtils.isEmpty(version)) {
             return false;
         }
 
-        Map<String, String> versionMap = JsonUtil.fromJson(versionValue, Map.class);
-        String versions = versionMap.get(serviceId);
-        if (versions == null) {
+        String versions = null;
+        try {
+            Map<String, String> versionMap = JsonUtil.fromJson(versionValue, Map.class);
+            String serviceId = server.getMetaInfo().getAppName().toLowerCase();
+            versions = versionMap.get(serviceId);
+        } catch (Exception e) {
+            versions = versionValue;
+        }
+
+        if (StringUtils.isEmpty(versions)) {
             return true;
         }
 
-        if (versions.contains(version)) {
+        List<String> versionList = StringUtil.splitToList(versions, DiscoveryConstant.SEPARATE);
+        if (versionList.contains(version)) {
             return true;
         }
 
         return false;
     }
 
+    @SuppressWarnings("unchecked")
     private boolean applyRegion(Server server, Map<String, String> metadata) {
         String regionValue = getRegionValue(server);
         if (StringUtils.isEmpty(regionValue)) {
@@ -74,7 +89,43 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
             return false;
         }
 
-        if (StringUtils.equals(regionValue, region)) {
+        String regions = null;
+        try {
+            Map<String, String> regionMap = JsonUtil.fromJson(regionValue, Map.class);
+            String serviceId = server.getMetaInfo().getAppName().toLowerCase();
+            regions = regionMap.get(serviceId);
+        } catch (Exception e) {
+            regions = regionValue;
+        }
+
+        if (StringUtils.isEmpty(regions)) {
+            return true;
+        }
+
+        List<String> regionList = StringUtil.splitToList(regions, DiscoveryConstant.SEPARATE);
+        if (regionList.contains(region)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    @SuppressWarnings("unchecked")
+    private boolean applyAddress(Server server, Map<String, String> metadata) {
+        String addressValue = getAddressValue(server);
+        if (StringUtils.isEmpty(addressValue)) {
+            return true;
+        }
+
+        Map<String, String> addressMap = JsonUtil.fromJson(addressValue, Map.class);
+        String serviceId = server.getMetaInfo().getAppName().toLowerCase();
+        String addresses = addressMap.get(serviceId);
+        if (StringUtils.isEmpty(addresses)) {
+            return true;
+        }
+
+        List<String> addressList = StringUtil.splitToList(addresses, DiscoveryConstant.SEPARATE);
+        if (addressList.contains(server.getHostPort()) || addressList.contains(server.getHost())) {
             return true;
         }
 
@@ -92,4 +143,6 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
     protected abstract String getVersionValue(Server server);
 
     protected abstract String getRegionValue(Server server);
+
+    protected abstract String getAddressValue(Server server);
 }

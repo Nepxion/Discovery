@@ -16,12 +16,14 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.web.context.request.RequestAttributes;
 
 public class RestStrategyContext {
-    private static final ThreadLocal<RestStrategyContext> THREAD_LOCAL = new InheritableThreadLocal<RestStrategyContext>() {
+    private static final ThreadLocal<RestStrategyContext> THREAD_LOCAL = new ThreadLocal<RestStrategyContext>() {
         @Override
         protected RestStrategyContext initialValue() {
             return new RestStrategyContext();
         }
     };
+
+    private RequestAttributes requestAttributes;
 
     public static RestStrategyContext getCurrentContext() {
         return THREAD_LOCAL.get();
@@ -30,8 +32,6 @@ public class RestStrategyContext {
     public static void clearCurrentContext() {
         THREAD_LOCAL.remove();
     }
-
-    private RequestAttributes requestAttributes;
 
     public RequestAttributes getRequestAttributes() {
         return requestAttributes;

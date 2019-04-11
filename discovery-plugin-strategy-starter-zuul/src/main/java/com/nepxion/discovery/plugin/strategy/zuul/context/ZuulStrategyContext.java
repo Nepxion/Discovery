@@ -18,12 +18,14 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 public class ZuulStrategyContext {
-    private static final ThreadLocal<ZuulStrategyContext> THREAD_LOCAL = new InheritableThreadLocal<ZuulStrategyContext>() {
+    private static final ThreadLocal<ZuulStrategyContext> THREAD_LOCAL = new ThreadLocal<ZuulStrategyContext>() {
         @Override
         protected ZuulStrategyContext initialValue() {
             return new ZuulStrategyContext();
         }
     };
+
+    private HttpServletRequest request;
 
     public static ZuulStrategyContext getCurrentContext() {
         return THREAD_LOCAL.get();
@@ -32,8 +34,6 @@ public class ZuulStrategyContext {
     public static void clearCurrentContext() {
         THREAD_LOCAL.remove();
     }
-
-    private HttpServletRequest request;
 
     public HttpServletRequest getRequest() {
         return request;

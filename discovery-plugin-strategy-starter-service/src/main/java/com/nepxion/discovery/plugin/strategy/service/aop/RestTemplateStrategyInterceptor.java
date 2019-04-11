@@ -10,6 +10,7 @@ package com.nepxion.discovery.plugin.strategy.service.aop;
  */
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -42,12 +43,21 @@ public class RestTemplateStrategyInterceptor implements ClientHttpRequestInterce
     @Autowired
     private ServiceStrategyContextHolder serviceStrategyContextHolder;
 
-    private List<String> requestHeaderList;
+    private List<String> requestHeaderList = new ArrayList<String>();
 
     public RestTemplateStrategyInterceptor(String requestHeaders) {
         LOG.info("------------- RestTemplate Intercept Information -----------");
         if (StringUtils.isNotEmpty(requestHeaders)) {
-            requestHeaderList = StringUtil.splitToList(requestHeaders.toLowerCase(), DiscoveryConstant.SEPARATE);
+            requestHeaderList.addAll(StringUtil.splitToList(requestHeaders.toLowerCase(), DiscoveryConstant.SEPARATE));
+        }
+        if (!requestHeaderList.contains(DiscoveryConstant.VERSION)) {
+            requestHeaderList.add(DiscoveryConstant.VERSION);
+        }
+        if (!requestHeaderList.contains(DiscoveryConstant.REGION)) {
+            requestHeaderList.add(DiscoveryConstant.REGION);
+        }
+        if (!requestHeaderList.contains(DiscoveryConstant.ADDRESS)) {
+            requestHeaderList.add(DiscoveryConstant.ADDRESS);
         }
         LOG.info("RestTemplate intercepted headers are {}", StringUtils.isNotEmpty(requestHeaders) ? requestHeaders : "empty");
         LOG.info("-------------------------------------------------");

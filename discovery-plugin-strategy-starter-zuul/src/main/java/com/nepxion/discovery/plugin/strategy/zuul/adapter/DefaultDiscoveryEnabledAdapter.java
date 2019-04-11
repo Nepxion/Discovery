@@ -53,4 +53,18 @@ public class DefaultDiscoveryEnabledAdapter extends AbstractDiscoveryEnabledAdap
 
         return request.getHeader(DiscoveryConstant.REGION);
     }
+
+    @Override
+    protected String getAddressValue(Server server) {
+        HttpServletRequest request = zuulStrategyContextHolder.getRequest();
+        if (request == null) {
+            String serviceId = server.getMetaInfo().getAppName().toLowerCase();
+
+            LOG.warn("The HttpServletRequest object is null, ignore to do region filter for service={}...", serviceId);
+
+            return null;
+        }
+
+        return request.getHeader(DiscoveryConstant.ADDRESS);
+    }
 }

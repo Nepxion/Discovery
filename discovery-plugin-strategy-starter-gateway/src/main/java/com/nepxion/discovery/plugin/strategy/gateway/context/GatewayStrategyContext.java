@@ -16,12 +16,14 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.web.server.ServerWebExchange;
 
 public class GatewayStrategyContext {
-    private static final ThreadLocal<GatewayStrategyContext> THREAD_LOCAL = new InheritableThreadLocal<GatewayStrategyContext>() {
+    private static final ThreadLocal<GatewayStrategyContext> THREAD_LOCAL = new ThreadLocal<GatewayStrategyContext>() {
         @Override
         protected GatewayStrategyContext initialValue() {
             return new GatewayStrategyContext();
         }
     };
+
+    private ServerWebExchange exchange;
 
     public static GatewayStrategyContext getCurrentContext() {
         return THREAD_LOCAL.get();
@@ -30,8 +32,6 @@ public class GatewayStrategyContext {
     public static void clearCurrentContext() {
         THREAD_LOCAL.remove();
     }
-
-    private ServerWebExchange exchange;
 
     public ServerWebExchange getExchange() {
         return exchange;

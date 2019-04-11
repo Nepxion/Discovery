@@ -19,15 +19,18 @@ import com.nepxion.discovery.plugin.configcenter.nacos.adapter.NacosConfigAdapte
 @Configuration
 public class NacosConfigAutoConfiguration {
     static {
-        System.out.println("");
-        System.out.println("╔═╗ ╔╗");
-        System.out.println("║║╚╗║║");
-        System.out.println("║╔╗╚╝╠══╦══╦══╦══╗");
-        System.out.println("║║╚╗║║╔╗║╔═╣╔╗║══╣");
-        System.out.println("║║ ║║║╔╗║╚═╣╚╝╠══║");
-        System.out.println("╚╝ ╚═╩╝╚╩══╩══╩══╝");
-        System.out.println(NacosConstant.TYPE + " Config");
-        System.out.println("");
+        String logoShown = System.getProperty("nepxion.logo.shown", "true");
+        if (Boolean.valueOf(logoShown)) {
+            System.out.println("");
+            System.out.println("╔═╗ ╔╗");
+            System.out.println("║║╚╗║║");
+            System.out.println("║╔╗╚╝╠══╦══╦══╦══╗");
+            System.out.println("║║╚╗║║╔╗║╔═╣╔╗║══╣");
+            System.out.println("║║ ║║║╔╗║╚═╣╚╝╠══║");
+            System.out.println("╚╝ ╚═╩╝╚╩══╩══╩══╝");
+            System.out.println(NacosConstant.TYPE + " Config");
+            System.out.println("");
+        }
     }
 
     @Bean
