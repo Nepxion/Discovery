@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.server.ServerWebExchange;
 
+import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledStrategy;
 import com.nepxion.discovery.plugin.strategy.gateway.context.GatewayStrategyContextHolder;
 import com.netflix.loadbalancer.Server;
@@ -27,6 +28,9 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
 
     @Autowired
     private GatewayStrategyContextHolder gatewayStrategyContextHolder;
+
+    @Autowired
+    private PluginAdapter pluginAdapter;
 
     @Override
     public boolean apply(Server server, Map<String, String> metadata) {
@@ -44,7 +48,7 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
         String token = exchange.getRequest().getHeaders().getFirst("token");
         // String value = exchange.getRequest().getQueryParams().getFirst("value");
 
-        String serviceId = server.getMetaInfo().getAppName().toLowerCase();
+        String serviceId = pluginAdapter.getServerServiceId(server);
 
         LOG.info("Gateway端负载均衡用户定制触发：serviceId={}, host={}, metadata={}", serviceId, server.toString(), metadata);
 

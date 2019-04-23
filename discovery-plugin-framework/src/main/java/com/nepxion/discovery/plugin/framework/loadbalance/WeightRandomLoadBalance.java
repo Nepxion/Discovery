@@ -96,7 +96,7 @@ public class WeightRandomLoadBalance {
         Map<String, List<WeightEntity>> weightEntityMap = weightFilterEntity.getWeightEntityMap();
         RegionWeightEntity regionWeightEntity = weightFilterEntity.getRegionWeightEntity();
 
-        String providerServiceId = server.getMetaInfo().getAppName();
+        String providerServiceId = pluginAdapter.getServerServiceId(server);
         String providerVersion = pluginAdapter.getServerVersion(server);
         String providerRegion = pluginAdapter.getServerRegion(server);
 
