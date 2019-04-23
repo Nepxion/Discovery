@@ -24,17 +24,20 @@ public class DiscoveryConstant {
 
     public static final String SPRING_APPLICATION_NAME = "spring.application.name";
     public static final String GROUP = "group";
-    public static final String REGION = "region";
-    public static final String ADDRESS = "address";
     public static final String SERVICE_ID = "serviceId";
     public static final String HOST = "host";
     public static final String PORT = "port";
     public static final String METADATA = "metadata";
+    public static final String REGION = "region";
     public static final String VERSION = "version";
     public static final String DYNAMIC_VERSION = "dynamicVersion";
     public static final String RULE = "rule";
     public static final String DYNAMIC_RULE = "dynamicRule";
     public static final String REACH_MAX_LIMITED_COUNT = "reach max limited count";
+
+    public static final String N_D_REGION = "n-d-region";
+    public static final String N_D_VERSION = "n-d-version";
+    public static final String N_D_ADDRESS = "n-d-address";
 
     public static final String XML_FORMAT = "xml";
     public static final String JSON_FORMAT = "json";
