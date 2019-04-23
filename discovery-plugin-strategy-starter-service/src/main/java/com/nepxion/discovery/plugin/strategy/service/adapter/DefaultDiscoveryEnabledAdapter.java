@@ -36,7 +36,7 @@ public class DefaultDiscoveryEnabledAdapter extends AbstractDiscoveryEnabledAdap
             return null;
         }
 
-        return attributes.getRequest().getHeader(DiscoveryConstant.VERSION);
+        return attributes.getRequest().getHeader(DiscoveryConstant.N_D_VERSION);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class DefaultDiscoveryEnabledAdapter extends AbstractDiscoveryEnabledAdap
             return null;
         }
 
-        return attributes.getRequest().getHeader(DiscoveryConstant.REGION);
+        return attributes.getRequest().getHeader(DiscoveryConstant.N_D_REGION);
     }
 
     @Override
@@ -64,6 +64,6 @@ public class DefaultDiscoveryEnabledAdapter extends AbstractDiscoveryEnabledAdap
             return null;
         }
 
-        return attributes.getRequest().getHeader(DiscoveryConstant.ADDRESS);
+        return attributes.getRequest().getHeader(DiscoveryConstant.N_D_ADDRESS);
     }
 }
