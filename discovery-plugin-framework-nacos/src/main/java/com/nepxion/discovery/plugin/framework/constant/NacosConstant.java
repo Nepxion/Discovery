@@ -10,5 +10,5 @@ package com.nepxion.discovery.plugin.framework.constant;
  */
 
 public class NacosConstant {
-    public static final String DISCOVERY_PLUGIN = "Nacos Plugin";
+    public static final String DISCOVERY_PLUGIN = "Nacos";
 }
