@@ -50,14 +50,14 @@ public class RestTemplateStrategyInterceptor implements ClientHttpRequestInterce
         if (StringUtils.isNotEmpty(requestHeaders)) {
             requestHeaderList.addAll(StringUtil.splitToList(requestHeaders.toLowerCase(), DiscoveryConstant.SEPARATE));
         }
-        if (!requestHeaderList.contains(DiscoveryConstant.VERSION)) {
-            requestHeaderList.add(DiscoveryConstant.VERSION);
+        if (!requestHeaderList.contains(DiscoveryConstant.N_D_VERSION)) {
+            requestHeaderList.add(DiscoveryConstant.N_D_VERSION);
         }
-        if (!requestHeaderList.contains(DiscoveryConstant.REGION)) {
-            requestHeaderList.add(DiscoveryConstant.REGION);
+        if (!requestHeaderList.contains(DiscoveryConstant.N_D_REGION)) {
+            requestHeaderList.add(DiscoveryConstant.N_D_REGION);
         }
-        if (!requestHeaderList.contains(DiscoveryConstant.ADDRESS)) {
-            requestHeaderList.add(DiscoveryConstant.ADDRESS);
+        if (!requestHeaderList.contains(DiscoveryConstant.N_D_ADDRESS)) {
+            requestHeaderList.add(DiscoveryConstant.N_D_ADDRESS);
         }
         LOG.info("RestTemplate intercepted headers are {}", StringUtils.isNotEmpty(requestHeaders) ? requestHeaders : "empty");
         LOG.info("-------------------------------------------------");
