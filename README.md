@@ -294,7 +294,7 @@ Spring Boot Admin监控平台
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery</artifactId>
-    <version>${discovery.plugin.version}</version>
+    <version>${discovery.version}</version>
     <type>pom</type>
     <scope>import</scope>
 </dependency>
