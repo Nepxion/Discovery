@@ -108,7 +108,7 @@ public class XmlConfigParser implements PluginConfigParser {
         ruleEntity.setCustomizationEntity(customizationEntity);
         ruleEntity.setContent(config);
 
-        LOG.info("Rule entity=\n{}", ruleEntity);
+        LOG.info("Rule content=\n{}", config);
 
         return ruleEntity;
     }
