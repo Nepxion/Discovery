@@ -31,14 +31,14 @@ public abstract class PluginApplicationContextInitializer implements Application
             /*String bannerShown = System.getProperty(BannerConstant.BANNER_SHOWN, "true");
             if (Boolean.valueOf(bannerShown)) {
                 System.out.println("");
-                System.out.println("¨X¨T¨T¨T¨[");
-                System.out.println("¨^¨[¨X¨[¨U");
-                System.out.println(" ¨U¨U¨U¨d¨j¨T¨T¨j¨T¨T¨j¨T¨T¨j¨[¨X¨j¨T¨T¨j¨T¨j¨[ ¨X¨[");
-                System.out.println(" ¨U¨U¨U¨d¨g¨T¨T¨g¨X¨T¨g¨X¨[¨U¨^¨a¨U¨U¨T¨g¨X¨g¨U ¨U¨U");
-                System.out.println("¨X¨a¨^¨a¨U¨d¨T¨T¨U¨^¨T¨g¨^¨a¨d¨[¨X¨g¨U¨T¨g¨U¨U¨^¨T¨a¨U");
-                System.out.println("¨^¨T¨T¨T¨m¨m¨T¨T¨m¨T¨T¨m¨T¨T¨a¨^¨a¨^¨T¨T¨m¨a¨^¨T¨[¨X¨a");
-                System.out.println("                      ¨X¨T¨a¨U");
-                System.out.println("                      ¨^¨T¨T¨a");
+                System.out.println("â•”â•â•â•â•—");
+                System.out.println("â•šâ•—â•”â•—â•‘");
+                System.out.println(" â•‘â•‘â•‘â• â•¦â•â•â•¦â•â•â•¦â•â•â•¦â•—â•”â•¦â•â•â•¦â•â•¦â•— â•”â•—");
+                System.out.println(" â•‘â•‘â•‘â• â•£â•â•â•£â•”â•â•£â•”â•—â•‘â•šâ•â•‘â•‘â•â•£â•”â•£â•‘ â•‘â•‘");
+                System.out.println("â•”â•â•šâ•â•‘â• â•â•â•‘â•šâ•â•£â•šâ•â• â•—â•”â•£â•‘â•â•£â•‘â•‘â•šâ•â•â•‘");
+                System.out.println("â•šâ•â•â•â•©â•©â•â•â•©â•â•â•©â•â•â•â•šâ•â•šâ•â•â•©â•â•šâ•â•—â•”â•");
+                System.out.println("                      â•”â•â•â•‘");
+                System.out.println("                      â•šâ•â•â•");
                 System.out.println("Nepxion Discovery  v" + DiscoveryConstant.DISCOVERY_VERSION);
                 System.out.println("");
             }*/
