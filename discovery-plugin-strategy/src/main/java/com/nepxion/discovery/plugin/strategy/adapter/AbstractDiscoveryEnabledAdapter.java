@@ -16,13 +16,19 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.StrategyEntity;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.common.util.StringUtil;
+import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.netflix.loadbalancer.Server;
 
 public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     @Autowired(required = false)
     private DiscoveryEnabledStrategy discoveryEnabledStrategy;
+
+    @Autowired
+    private PluginAdapter pluginAdapter;
 
     @Override
     public boolean apply(Server server, Map<String, String> metadata) {
@@ -47,6 +53,16 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
     @SuppressWarnings("unchecked")
     private boolean applyVersion(Server server, Map<String, String> metadata) {
         String versionValue = getVersionValue(server);
+        if (StringUtils.isEmpty(versionValue)) {
+            RuleEntity ruleEntity = pluginAdapter.getRule();
+            if (ruleEntity != null) {
+                StrategyEntity strategyEntity = ruleEntity.getStrategyEntity();
+                if (strategyEntity != null) {
+                    versionValue = strategyEntity.getVersionValue();
+                }
+            }
+        }
+
         if (StringUtils.isEmpty(versionValue)) {
             return true;
         }
@@ -81,6 +97,16 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
     private boolean applyRegion(Server server, Map<String, String> metadata) {
         String regionValue = getRegionValue(server);
         if (StringUtils.isEmpty(regionValue)) {
+            RuleEntity ruleEntity = pluginAdapter.getRule();
+            if (ruleEntity != null) {
+                StrategyEntity strategyEntity = ruleEntity.getStrategyEntity();
+                if (strategyEntity != null) {
+                    regionValue = strategyEntity.getRegionValue();
+                }
+            }
+        }
+
+        if (StringUtils.isEmpty(regionValue)) {
             return true;
         }
 
@@ -113,6 +139,16 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
     @SuppressWarnings("unchecked")
     private boolean applyAddress(Server server, Map<String, String> metadata) {
         String addressValue = getAddressValue(server);
+        if (StringUtils.isEmpty(addressValue)) {
+            RuleEntity ruleEntity = pluginAdapter.getRule();
+            if (ruleEntity != null) {
+                StrategyEntity strategyEntity = ruleEntity.getStrategyEntity();
+                if (strategyEntity != null) {
+                    addressValue = strategyEntity.getAddressValue();
+                }
+            }
+        }
+
         if (StringUtils.isEmpty(addressValue)) {
             return true;
         }

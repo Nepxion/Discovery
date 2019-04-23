@@ -32,6 +32,7 @@ import com.nepxion.discovery.common.entity.HostFilterEntity;
 import com.nepxion.discovery.common.entity.RegionWeightEntity;
 import com.nepxion.discovery.common.entity.RegisterEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.StrategyEntity;
 import com.nepxion.discovery.common.entity.VersionEntity;
 import com.nepxion.discovery.common.entity.VersionFilterEntity;
 import com.nepxion.discovery.common.entity.WeightEntity;
@@ -83,6 +84,7 @@ public class XmlConfigParser implements PluginConfigParser {
 
         RegisterEntity registerEntity = null;
         DiscoveryEntity discoveryEntity = null;
+        StrategyEntity strategyEntity = null;
         CustomizationEntity customizationEntity = null;
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
@@ -95,6 +97,9 @@ public class XmlConfigParser implements PluginConfigParser {
                 } else if (StringUtils.equals(childElement.getName(), ConfigConstant.DISCOVERY_ELEMENT_NAME)) {
                     discoveryEntity = new DiscoveryEntity();
                     parseDiscovery(childElement, discoveryEntity);
+                } else if (StringUtils.equals(childElement.getName(), ConfigConstant.STRATEGY_ELEMENT_NAME)) {
+                    strategyEntity = new StrategyEntity();
+                    parseStrategy(childElement, strategyEntity);
                 } else if (StringUtils.equals(childElement.getName(), ConfigConstant.CUSTOMIZATION_ELEMENT_NAME)) {
                     customizationEntity = new CustomizationEntity();
                     parseCustomization(childElement, customizationEntity);
@@ -105,6 +110,7 @@ public class XmlConfigParser implements PluginConfigParser {
         RuleEntity ruleEntity = new RuleEntity();
         ruleEntity.setRegisterEntity(registerEntity);
         ruleEntity.setDiscoveryEntity(discoveryEntity);
+        ruleEntity.setStrategyEntity(strategyEntity);
         ruleEntity.setCustomizationEntity(customizationEntity);
         ruleEntity.setContent(config);
 
@@ -146,6 +152,27 @@ public class XmlConfigParser implements PluginConfigParser {
                     parseVersionFilter(childElement, discoveryEntity);
                 } else if (StringUtils.equals(childElement.getName(), ConfigConstant.WEIGHT_ELEMENT_NAME)) {
                     parseWeightFilter(childElement, discoveryEntity);
+                }
+            }
+        }
+    }
+
+    @SuppressWarnings("rawtypes")
+    private void parseStrategy(Element element, StrategyEntity strategyEntity) {
+        for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
+            Object childElementObject = elementIterator.next();
+            if (childElementObject instanceof Element) {
+                Element childElement = (Element) childElementObject;
+
+                if (StringUtils.equals(childElement.getName(), ConfigConstant.VERSION_ELEMENT_NAME)) {
+                    String versionValue = childElement.getTextTrim();
+                    strategyEntity.setVersionValue(versionValue);
+                } else if (StringUtils.equals(childElement.getName(), ConfigConstant.REGION_ELEMENT_NAME)) {
+                    String regionValue = childElement.getTextTrim();
+                    strategyEntity.setRegionValue(regionValue);
+                } else if (StringUtils.equals(childElement.getName(), ConfigConstant.ADDRESS_ELEMENT_NAME)) {
+                    String addressValue = childElement.getTextTrim();
+                    strategyEntity.setAddressValue(addressValue);
                 }
             }
         }
