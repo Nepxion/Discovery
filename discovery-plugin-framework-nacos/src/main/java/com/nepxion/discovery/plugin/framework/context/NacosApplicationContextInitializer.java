@@ -28,7 +28,9 @@ public class NacosApplicationContextInitializer extends PluginApplicationContext
         if (bean instanceof NacosServiceRegistry) {
             NacosServiceRegistry nacosServiceRegistry = (NacosServiceRegistry) bean;
 
-            return new NacosServiceRegistryDecorator(nacosServiceRegistry, applicationContext);
+            NacosDiscoveryProperties nacosDiscoveryProperties = applicationContext.getBean(NacosDiscoveryProperties.class);
+
+            return new NacosServiceRegistryDecorator(nacosDiscoveryProperties, nacosServiceRegistry, applicationContext);
         } else if (bean instanceof NacosDiscoveryProperties) {
             ConfigurableEnvironment environment = applicationContext.getEnvironment();
 

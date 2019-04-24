@@ -11,11 +11,21 @@ package com.nepxion.discovery.plugin.example.service.sentinel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cloud.alibaba.sentinel.rest.SentinelClientHttpResponse;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.client.ClientHttpRequestExecution;
+
+import com.alibaba.csp.sentinel.slots.block.BlockException;
 
 public class MyRestTemplateFallbackHandler {
     private static final Logger LOG = LoggerFactory.getLogger(MyRestTemplateFallbackHandler.class);
 
-    public static void hanldleFallback() {
+    public static SentinelClientHttpResponse handleFallback(HttpRequest request, byte[] body, ClientHttpRequestExecution execution, BlockException e) {
         LOG.info("Sentinel RestTemplate Client Fallback Causes");
+        LOG.error("Sentinel RestTemplate Client Fallback Exception", e);
+        LOG.info("Sentinel Rule Limit App={}", e.getRuleLimitApp());
+        LOG.info("Sentinel Exception Name={}", e.getClass().getCanonicalName());
+
+        return new SentinelClientHttpResponse("Sentinel RestTemplate Client Fallback Causes");
     }
 }
