@@ -11,6 +11,7 @@ package com.nepxion.discovery.plugin.framework.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.cloud.alibaba.nacos.NacosDiscoveryProperties;
 import org.springframework.cloud.alibaba.nacos.ribbon.NacosRibbonClientConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,8 +33,8 @@ public class NacosLoadBalanceConfiguration {
     private LoadBalanceListenerExecutor loadBalanceListenerExecutor;
 
     @Bean
-    public ServerList<?> ribbonServerList(IClientConfig config) {
-        NacosServerListDecorator serverList = new NacosServerListDecorator();
+    public ServerList<?> ribbonServerList(IClientConfig config, NacosDiscoveryProperties nacosDiscoveryProperties) {
+        NacosServerListDecorator serverList = new NacosServerListDecorator(nacosDiscoveryProperties);
         serverList.initWithNiwsConfig(config);
         serverList.setEnvironment(environment);
         serverList.setLoadBalanceListenerExecutor(loadBalanceListenerExecutor);
