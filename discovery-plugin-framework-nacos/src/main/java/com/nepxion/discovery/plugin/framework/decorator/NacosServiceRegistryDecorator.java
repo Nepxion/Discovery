@@ -12,8 +12,9 @@ package com.nepxion.discovery.plugin.framework.decorator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
-import org.springframework.cloud.alibaba.nacos.registry.NacosRegistration;
+import org.springframework.cloud.alibaba.nacos.NacosDiscoveryProperties;
 import org.springframework.cloud.alibaba.nacos.registry.NacosServiceRegistry;
+import org.springframework.cloud.client.serviceregistry.Registration;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
@@ -27,14 +28,16 @@ public class NacosServiceRegistryDecorator extends NacosServiceRegistry {
     private ConfigurableApplicationContext applicationContext;
     private ConfigurableEnvironment environment;
 
-    public NacosServiceRegistryDecorator(NacosServiceRegistry serviceRegistry, ConfigurableApplicationContext applicationContext) {
+    public NacosServiceRegistryDecorator(NacosDiscoveryProperties nacosDiscoveryProperties, NacosServiceRegistry serviceRegistry, ConfigurableApplicationContext applicationContext) {
+        super(nacosDiscoveryProperties);
+
         this.serviceRegistry = serviceRegistry;
         this.applicationContext = applicationContext;
         this.environment = applicationContext.getEnvironment();
     }
 
     @Override
-    public void register(NacosRegistration registration) {
+    public void register(Registration registration) {
         Boolean registerControlEnabled = PluginContextAware.isRegisterControlEnabled(environment);
         if (registerControlEnabled) {
             try {
@@ -49,7 +52,7 @@ public class NacosServiceRegistryDecorator extends NacosServiceRegistry {
     }
 
     @Override
-    public void deregister(NacosRegistration registration) {
+    public void deregister(Registration registration) {
         Boolean registerControlEnabled = PluginContextAware.isRegisterControlEnabled(environment);
         if (registerControlEnabled) {
             try {
@@ -64,7 +67,7 @@ public class NacosServiceRegistryDecorator extends NacosServiceRegistry {
     }
 
     @Override
-    public void setStatus(NacosRegistration registration, String status) {
+    public void setStatus(Registration registration, String status) {
         Boolean registerControlEnabled = PluginContextAware.isRegisterControlEnabled(environment);
         if (registerControlEnabled) {
             try {
@@ -79,7 +82,7 @@ public class NacosServiceRegistryDecorator extends NacosServiceRegistry {
     }
 
     @Override
-    public <T> T getStatus(NacosRegistration registration) {
+    public <T> T getStatus(Registration registration) {
         return serviceRegistry.getStatus(registration);
     }
 

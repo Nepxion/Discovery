@@ -11,6 +11,7 @@ package com.nepxion.discovery.plugin.framework.decorator;
 
 import java.util.List;
 
+import org.springframework.cloud.alibaba.nacos.NacosDiscoveryProperties;
 import org.springframework.cloud.alibaba.nacos.ribbon.NacosServer;
 import org.springframework.cloud.alibaba.nacos.ribbon.NacosServerList;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -23,12 +24,8 @@ public class NacosServerListDecorator extends NacosServerList {
 
     private LoadBalanceListenerExecutor loadBalanceListenerExecutor;
 
-    public NacosServerListDecorator() {
-        super();
-    }
-
-    public NacosServerListDecorator(String serviceId) {
-        super(serviceId);
+    public NacosServerListDecorator(NacosDiscoveryProperties discoveryProperties) {
+        super(discoveryProperties);
     }
 
     @Override
