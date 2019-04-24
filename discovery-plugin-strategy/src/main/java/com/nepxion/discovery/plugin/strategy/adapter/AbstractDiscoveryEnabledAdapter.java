@@ -28,7 +28,7 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
     private DiscoveryEnabledStrategy discoveryEnabledStrategy;
 
     @Autowired
-    private PluginAdapter pluginAdapter;
+    protected PluginAdapter pluginAdapter;
 
     @Override
     public boolean apply(Server server, Map<String, String> metadata) {
@@ -75,7 +75,7 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
         String versions = null;
         try {
             Map<String, String> versionMap = JsonUtil.fromJson(versionValue, Map.class);
-            String serviceId = server.getMetaInfo().getAppName().toLowerCase();
+            String serviceId = pluginAdapter.getServerServiceId(server);
             versions = versionMap.get(serviceId);
         } catch (Exception e) {
             versions = versionValue;
@@ -118,7 +118,7 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
         String regions = null;
         try {
             Map<String, String> regionMap = JsonUtil.fromJson(regionValue, Map.class);
-            String serviceId = server.getMetaInfo().getAppName().toLowerCase();
+            String serviceId = pluginAdapter.getServerServiceId(server);
             regions = regionMap.get(serviceId);
         } catch (Exception e) {
             regions = regionValue;
@@ -154,7 +154,7 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
         }
 
         Map<String, String> addressMap = JsonUtil.fromJson(addressValue, Map.class);
-        String serviceId = server.getMetaInfo().getAppName().toLowerCase();
+        String serviceId = pluginAdapter.getServerServiceId(server);
         String addresses = addressMap.get(serviceId);
         if (StringUtils.isEmpty(addresses)) {
             return true;

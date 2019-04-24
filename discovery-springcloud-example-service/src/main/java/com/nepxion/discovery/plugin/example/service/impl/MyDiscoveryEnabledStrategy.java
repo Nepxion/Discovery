@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledStrategy;
 import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyContextHolder;
@@ -29,6 +30,9 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
 
     @Autowired
     private ServiceStrategyContextHolder serviceStrategyContextHolder;
+
+    @Autowired
+    private PluginAdapter pluginAdapter;
 
     @Override
     public boolean apply(Server server, Map<String, String> metadata) {
@@ -52,7 +56,7 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
         String token = attributes.getRequest().getHeader("token");
         // String value = attributes.getRequest().getParameter("value");
 
-        String serviceId = server.getMetaInfo().getAppName().toLowerCase();
+        String serviceId = pluginAdapter.getServerServiceId(server);
 
         LOG.info("Serivice端负载均衡用户定制触发：serviceId={}, host={}, metadata={}, attributes={}", serviceId, server.toString(), metadata, attributes);
 
@@ -72,7 +76,7 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
     private boolean applyFromMethod(Server server, Map<String, String> metadata) {
         Map<String, Object> attributes = serviceStrategyContextHolder.getRpcAttributes();
 
-        String serviceId = server.getMetaInfo().getAppName().toLowerCase();
+        String serviceId = pluginAdapter.getServerServiceId(server);
         String version = metadata.get(DiscoveryConstant.VERSION);
 
         LOG.info("Serivice端负载均衡用户定制触发：serviceId={}, host={}, metadata={}, attributes={}", serviceId, server.toString(), metadata, attributes);

@@ -36,6 +36,7 @@ public class ConsulApplicationContextInitializer extends PluginApplicationContex
             consulDiscoveryProperties.setPreferIpAddress(true);
 
             List<String> tags = consulDiscoveryProperties.getTags();
+            tags.add(DiscoveryConstant.SPRING_APPLICATION_NAME + "=" + PluginContextAware.getApplicationName(environment));
             tags.add(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN + "=" + ConsulConstant.DISCOVERY_PLUGIN);
             tags.add(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_VERSION + "=" + DiscoveryConstant.DISCOVERY_VERSION);
             tags.add(DiscoveryConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED + "=" + PluginContextAware.isRegisterControlEnabled(environment));

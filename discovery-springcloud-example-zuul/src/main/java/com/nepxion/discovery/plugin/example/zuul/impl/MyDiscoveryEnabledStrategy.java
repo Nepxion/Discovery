@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledStrategy;
 import com.nepxion.discovery.plugin.strategy.zuul.context.ZuulStrategyContextHolder;
 import com.netflix.loadbalancer.Server;
@@ -28,6 +29,9 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
 
     @Autowired
     private ZuulStrategyContextHolder zuulStrategyContextHolder;
+
+    @Autowired
+    private PluginAdapter pluginAdapter;
 
     @Override
     public boolean apply(Server server, Map<String, String> metadata) {
@@ -45,7 +49,7 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
         String token = request.getHeader("token");
         // String value = request.getParameter("value");
 
-        String serviceId = server.getMetaInfo().getAppName().toLowerCase();
+        String serviceId = pluginAdapter.getServerServiceId(server);
 
         LOG.info("Zuul端负载均衡用户定制触发：serviceId={}, host={}, metadata={}", serviceId, server.toString(), metadata);
 

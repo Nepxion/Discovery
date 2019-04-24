@@ -30,7 +30,7 @@ public class DefaultDiscoveryEnabledAdapter extends AbstractDiscoveryEnabledAdap
     protected String getVersionValue(Server server) {
         HttpServletRequest request = zuulStrategyContextHolder.getRequest();
         if (request == null) {
-            String serviceId = server.getMetaInfo().getAppName().toLowerCase();
+            String serviceId = pluginAdapter.getServerServiceId(server);
 
             LOG.warn("The HttpServletRequest object is null, ignore to do version filter for service={}...", serviceId);
 
@@ -44,7 +44,7 @@ public class DefaultDiscoveryEnabledAdapter extends AbstractDiscoveryEnabledAdap
     protected String getRegionValue(Server server) {
         HttpServletRequest request = zuulStrategyContextHolder.getRequest();
         if (request == null) {
-            String serviceId = server.getMetaInfo().getAppName().toLowerCase();
+            String serviceId = pluginAdapter.getServerServiceId(server);
 
             LOG.warn("The HttpServletRequest object is null, ignore to do region filter for service={}...", serviceId);
 
@@ -58,7 +58,7 @@ public class DefaultDiscoveryEnabledAdapter extends AbstractDiscoveryEnabledAdap
     protected String getAddressValue(Server server) {
         HttpServletRequest request = zuulStrategyContextHolder.getRequest();
         if (request == null) {
-            String serviceId = server.getMetaInfo().getAppName().toLowerCase();
+            String serviceId = pluginAdapter.getServerServiceId(server);
 
             LOG.warn("The HttpServletRequest object is null, ignore to do region filter for service={}...", serviceId);
 

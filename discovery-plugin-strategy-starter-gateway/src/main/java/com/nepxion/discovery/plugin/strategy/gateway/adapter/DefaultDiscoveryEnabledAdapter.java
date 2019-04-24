@@ -29,7 +29,7 @@ public class DefaultDiscoveryEnabledAdapter extends AbstractDiscoveryEnabledAdap
     protected String getVersionValue(Server server) {
         ServerWebExchange exchange = gatewayStrategyContextHolder.getExchange();
         if (exchange == null) {
-            String serviceId = server.getMetaInfo().getAppName().toLowerCase();
+            String serviceId = pluginAdapter.getServerServiceId(server);
 
             LOG.warn("The ServerWebExchange object is null, ignore to do version filter for service={}...", serviceId);
 
@@ -43,7 +43,7 @@ public class DefaultDiscoveryEnabledAdapter extends AbstractDiscoveryEnabledAdap
     protected String getRegionValue(Server server) {
         ServerWebExchange exchange = gatewayStrategyContextHolder.getExchange();
         if (exchange == null) {
-            String serviceId = server.getMetaInfo().getAppName().toLowerCase();
+            String serviceId = pluginAdapter.getServerServiceId(server);
 
             LOG.warn("The ServerWebExchange object is null, ignore to do region filter for service={}...", serviceId);
 
@@ -57,7 +57,7 @@ public class DefaultDiscoveryEnabledAdapter extends AbstractDiscoveryEnabledAdap
     protected String getAddressValue(Server server) {
         ServerWebExchange exchange = gatewayStrategyContextHolder.getExchange();
         if (exchange == null) {
-            String serviceId = server.getMetaInfo().getAppName().toLowerCase();
+            String serviceId = pluginAdapter.getServerServiceId(server);
 
             LOG.warn("The ServerWebExchange object is null, ignore to do region filter for service={}...", serviceId);
 
