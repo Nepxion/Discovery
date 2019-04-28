@@ -87,6 +87,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
   - [基于Nacos界面的灰度发布](#基于Nacos界面的灰度发布)
   - [基于Rest方式的灰度发布](#基于Rest方式的灰度发布)
 - [性能分析](#性能分析)
+- [Stargazers over time](#Stargazers over time)
 
 ## 请联系我
 微信和公众号
@@ -846,3 +847,7 @@ spring.application.strategy.intercept.log.print=true
 | 连本地配置中心，并打印本地规则和远程规则 | 1.5秒 |
 | Actuator Endpoint扫描加载 | 1秒 |
 | 连本地服务注册中心，并启动结束 | 2秒 |
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/Nepxion/Discovery.svg)](https://starchart.cc/Nepxion/Discovery)
