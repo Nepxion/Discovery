@@ -1,6 +1,15 @@
 package com.nepxion.discovery.plugin.example.service.context;
 
-import org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext;
+/**
+ * <p>Title: Nepxion Discovery</p>
+ * <p>Description: Nepxion Discovery</p>
+ * <p>Copyright: Copyright (c) 2017-2050</p>
+ * <p>Company: Nepxion</p>
+ * @author Haojun Ren
+ * @version 1.0
+ */
+
+import org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -8,7 +17,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class MyApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
-        if (applicationContext instanceof AnnotationConfigServletWebServerApplicationContext) {
+        if (applicationContext instanceof AnnotationConfigEmbeddedWebApplicationContext) {
             // System.setProperty("ext.group", "myGroup");
             // System.setProperty("ext.version", "8888");
             // System.setProperty("ext.region", "myRegion");
