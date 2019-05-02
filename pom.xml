@@ -59,6 +59,7 @@
         <nacos.version>1.0.0</nacos.version>
         <guava.version>27.0-jre</guava.version>
         <caffeine.version>2.6.2</caffeine.version>
+        <transmittable.thread.local.version>2.10.2</transmittable.thread.local.version>
         <swagger.version>2.7.0</swagger.version>
         <spring.cloud.version>Finchley.SR3</spring.cloud.version>
         <spring.cloud.alibaba.version>0.2.2.RELEASE</spring.cloud.alibaba.version>
@@ -278,6 +279,12 @@
                 <groupId>com.github.ben-manes.caffeine</groupId>
                 <artifactId>caffeine</artifactId>
                 <version>${caffeine.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>transmittable-thread-local</artifactId>
+                <version>${transmittable.thread.local.version}</version>
             </dependency>
 
             <dependency>
