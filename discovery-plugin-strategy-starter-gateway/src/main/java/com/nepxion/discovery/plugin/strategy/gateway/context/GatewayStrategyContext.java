@@ -15,10 +15,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.web.server.ServerWebExchange;
 
-import com.alibaba.ttl.TransmittableThreadLocal;
-
 public class GatewayStrategyContext {
-    private static final ThreadLocal<GatewayStrategyContext> THREAD_LOCAL = new TransmittableThreadLocal<GatewayStrategyContext>() {
+    private static final ThreadLocal<GatewayStrategyContext> THREAD_LOCAL = new ThreadLocal<GatewayStrategyContext>() {
         @Override
         protected GatewayStrategyContext initialValue() {
             return new GatewayStrategyContext();
