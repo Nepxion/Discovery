@@ -9,23 +9,10 @@ package com.nepxion.discovery.plugin.strategy.gateway.context;
  * @version 1.0
  */
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.web.server.ServerWebExchange;
 
-import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
-
 public class GatewayStrategyContextHolder {
-    @Autowired
-    private ConfigurableEnvironment environment;
-
     public ServerWebExchange getExchange() {
-        Boolean hystrixThreadlocalSupported = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_HYSTRIX_THREADLOCAL_SUPPORTED, Boolean.class, Boolean.FALSE);
-        if (hystrixThreadlocalSupported) {
-            // 待实现：Spring Cloud Gateway网关端使用Hystrix做线程模式的服务隔离时，实现服务灰度路由的功能
-            return GatewayStrategyContext.getCurrentContext().getExchange();
-        } else {
-            return GatewayStrategyContext.getCurrentContext().getExchange();
-        }
+        return GatewayStrategyContext.getCurrentContext().getExchange();
     }
 }
