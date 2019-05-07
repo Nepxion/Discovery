@@ -20,7 +20,7 @@ import org.springframework.web.server.ServerWebExchange;
 public class MyGatewayFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        ServerHttpRequest newRequest = exchange.getRequest().mutate().header("version", "{\"discovery-springcloud-example-a\":\"1.0\", \"discovery-springcloud-example-b\":\"1.0\", \"discovery-springcloud-example-c\":\"1.0;1.2\"}").build();
+        ServerHttpRequest newRequest = exchange.getRequest().mutate().header("n-d-version", "{\"discovery-springcloud-example-a\":\"1.0\", \"discovery-springcloud-example-b\":\"1.0\", \"discovery-springcloud-example-c\":\"1.0;1.2\"}").build();
         ServerWebExchange newExchange = exchange.mutate().request(newRequest).build();
 
         return chain.filter(newExchange);
@@ -28,6 +28,7 @@ public class MyGatewayFilter implements GlobalFilter, Ordered {
 
     @Override
     public int getOrder() {
-        return -200;
+        // Order必须小于-400
+        return -500;
     }
 }

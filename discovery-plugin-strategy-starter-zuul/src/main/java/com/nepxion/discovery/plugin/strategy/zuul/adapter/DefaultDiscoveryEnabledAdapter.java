@@ -11,6 +11,7 @@ package com.nepxion.discovery.plugin.strategy.zuul.adapter;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,12 @@ public class DefaultDiscoveryEnabledAdapter extends AbstractDiscoveryEnabledAdap
             return null;
         }
 
-        return request.getHeader(DiscoveryConstant.N_D_VERSION);
+        String version = request.getHeader(DiscoveryConstant.N_D_VERSION);
+        if (StringUtils.isEmpty(version)) {
+            version = zuulStrategyContextHolder.getZuulRequestHeaders().get(DiscoveryConstant.N_D_VERSION);
+        }
+
+        return version;
     }
 
     @Override
@@ -51,7 +57,12 @@ public class DefaultDiscoveryEnabledAdapter extends AbstractDiscoveryEnabledAdap
             return null;
         }
 
-        return request.getHeader(DiscoveryConstant.N_D_REGION);
+        String region = request.getHeader(DiscoveryConstant.N_D_REGION);
+        if (StringUtils.isEmpty(region)) {
+            region = zuulStrategyContextHolder.getZuulRequestHeaders().get(DiscoveryConstant.N_D_REGION);
+        }
+
+        return region;
     }
 
     @Override
@@ -65,6 +76,11 @@ public class DefaultDiscoveryEnabledAdapter extends AbstractDiscoveryEnabledAdap
             return null;
         }
 
-        return request.getHeader(DiscoveryConstant.N_D_ADDRESS);
+        String address = request.getHeader(DiscoveryConstant.N_D_ADDRESS);
+        if (StringUtils.isEmpty(address)) {
+            address = zuulStrategyContextHolder.getZuulRequestHeaders().get(DiscoveryConstant.N_D_ADDRESS);
+        }
+
+        return address;
     }
 }
