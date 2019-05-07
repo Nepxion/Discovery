@@ -10,6 +10,8 @@ package com.nepxion.discovery.plugin.strategy.zuul.context;
  * @version 1.0
  */
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.netflix.zuul.context.RequestContext;
@@ -22,5 +24,9 @@ public class ZuulStrategyContextHolder {
         }
 
         return request;
+    }
+
+    public Map<String, String> getZuulRequestHeaders() {
+        return RequestContext.getCurrentContext().getZuulRequestHeaders();
     }
 }
