@@ -46,7 +46,12 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
             return true;
         }
 
+        // 来自于外界的Header，例如，从Postman传递过来的Header
         String token = request.getHeader("token");
+        if (StringUtils.isEmpty(token)) {
+            // 来自于Zuul Filter的Header
+            token = zuulStrategyContextHolder.getZuulRequestHeaders().get("token");
+        }
         // String value = request.getParameter("value");
 
         String serviceId = pluginAdapter.getServerServiceId(server);
