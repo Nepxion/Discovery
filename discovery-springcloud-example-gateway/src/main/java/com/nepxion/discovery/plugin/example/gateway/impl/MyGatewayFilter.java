@@ -17,10 +17,12 @@ import org.springframework.core.Ordered;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.server.ServerWebExchange;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
+
 public class MyGatewayFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        ServerHttpRequest newRequest = exchange.getRequest().mutate().header("n-d-version", "{\"discovery-springcloud-example-a\":\"1.0\", \"discovery-springcloud-example-b\":\"1.0\", \"discovery-springcloud-example-c\":\"1.0;1.2\"}").build();
+        ServerHttpRequest newRequest = exchange.getRequest().mutate().header(DiscoveryConstant.N_D_VERSION, "{\"discovery-springcloud-example-a\":\"1.0\", \"discovery-springcloud-example-b\":\"1.0\", \"discovery-springcloud-example-c\":\"1.0;1.2\"}").build();
         ServerWebExchange newExchange = exchange.mutate().request(newRequest).build();
 
         return chain.filter(newExchange);
