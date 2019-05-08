@@ -572,6 +572,13 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
     </strategy>
 2. 用法和基于Http Header头部传路由参数一致。前置是通过前端或者网关传入，后者是配置在配置文件里。让两者全部启用的时候，以前端或者网关传入Header方式优先
 ```
+:triangular_flag_on_post:注意
+路由策略的入口有三个（以{"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.0", "discovery-springcloud-example-c":"1.0;1.2"}）为例：
+1. 从外界传入（例如：Postman），在Header上加入n-d-version={"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.0", "discovery-springcloud-example-c":"1.0;1.2"}
+2. 在网关Zuul或者Spring Cloud Gateway的Filter中指定
+3. 全链路路由策略的灰度发布规则，在配置中心或者本地rule.xml配置
+
+其作用的优先级为外界传入>网关Filter指定>配置中心或者本地rule.xml配置
 
 ### 用户自定义的灰度发布规则
 通过订阅业务参数的变化，实现特色化的灰度发布，例如，多数据源的数据库切换的灰度发布
