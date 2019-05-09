@@ -15,7 +15,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.server.ServerWebExchange;
 
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledStrategy;
@@ -40,17 +39,10 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
 
     // 根据Rest调用传来的Header参数（例如Token），选取执行调用请求的服务实例
     private boolean applyFromHeader(Server server, Map<String, String> metadata) {
-        ServerWebExchange exchange = gatewayStrategyContextHolder.getExchange();
-        if (exchange == null) {
-            return true;
-        }
-
-        String token = exchange.getRequest().getHeaders().getFirst("token");
-        // String value = exchange.getRequest().getQueryParams().getFirst("value");
-
+        String token = gatewayStrategyContextHolder.getHeader("token");
         String serviceId = pluginAdapter.getServerServiceId(server);
 
-        LOG.info("Gateway端负载均衡用户定制触发：serviceId={}, host={}, metadata={}", serviceId, server.toString(), metadata);
+        LOG.info("Gateway端负载均衡用户定制触发：token={}, serviceId={}, metadata={}", token, serviceId, metadata);
 
         String filterToken = "abc";
         if (StringUtils.isNotEmpty(token) && token.contains(filterToken)) {

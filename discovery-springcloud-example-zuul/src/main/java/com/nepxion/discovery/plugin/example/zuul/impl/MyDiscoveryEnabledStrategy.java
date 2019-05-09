@@ -11,8 +11,6 @@ package com.nepxion.discovery.plugin.example.zuul.impl;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,22 +39,10 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
 
     // 根据Rest调用传来的Header参数（例如Token），选取执行调用请求的服务实例
     private boolean applyFromHeader(Server server, Map<String, String> metadata) {
-        HttpServletRequest request = zuulStrategyContextHolder.getRequest();
-        if (request == null) {
-            return true;
-        }
-
-        // 来自于外界的Header，例如，从Postman传递过来的Header
-        String token = request.getHeader("token");
-        if (StringUtils.isEmpty(token)) {
-            // 来自于Zuul Filter的Header
-            token = zuulStrategyContextHolder.getZuulRequestHeaders().get("token");
-        }
-        // String value = request.getParameter("value");
-
+        String token = zuulStrategyContextHolder.getHeader("token");
         String serviceId = pluginAdapter.getServerServiceId(server);
 
-        LOG.info("Zuul端负载均衡用户定制触发：serviceId={}, host={}, metadata={}", serviceId, server.toString(), metadata);
+        LOG.info("Zuul端负载均衡用户定制触发：token={}, serviceId={}, metadata={}", token, serviceId, metadata);
 
         String filterToken = "abc";
         if (StringUtils.isNotEmpty(token) && token.contains(filterToken)) {

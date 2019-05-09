@@ -9,10 +9,7 @@ package com.nepxion.discovery.plugin.strategy.service.adapter;
  * @version 1.0
  */
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.strategy.adapter.AbstractDiscoveryEnabledAdapter;
@@ -20,50 +17,21 @@ import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyCont
 import com.netflix.loadbalancer.Server;
 
 public class DefaultDiscoveryEnabledAdapter extends AbstractDiscoveryEnabledAdapter {
-    private static final Logger LOG = LoggerFactory.getLogger(DefaultDiscoveryEnabledAdapter.class);
-
     @Autowired
     private ServiceStrategyContextHolder serviceStrategyContextHolder;
 
     @Override
     protected String getVersionValue(Server server) {
-        ServletRequestAttributes attributes = serviceStrategyContextHolder.getRestAttributes();
-        if (attributes == null) {
-            String serviceId = pluginAdapter.getServerServiceId(server);
-
-            LOG.warn("The ServletRequestAttributes object is null, ignore to do version filter for service={}...", serviceId);
-
-            return null;
-        }
-
-        return attributes.getRequest().getHeader(DiscoveryConstant.N_D_VERSION);
+        return serviceStrategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION);
     }
 
     @Override
     protected String getRegionValue(Server server) {
-        ServletRequestAttributes attributes = serviceStrategyContextHolder.getRestAttributes();
-        if (attributes == null) {
-            String serviceId = pluginAdapter.getServerServiceId(server);
-
-            LOG.warn("The ServletRequestAttributes object is null, ignore to do region filter for service={}...", serviceId);
-
-            return null;
-        }
-
-        return attributes.getRequest().getHeader(DiscoveryConstant.N_D_REGION);
+        return serviceStrategyContextHolder.getHeader(DiscoveryConstant.N_D_REGION);
     }
 
     @Override
     protected String getAddressValue(Server server) {
-        ServletRequestAttributes attributes = serviceStrategyContextHolder.getRestAttributes();
-        if (attributes == null) {
-            String serviceId = pluginAdapter.getServerServiceId(server);
-
-            LOG.warn("The ServletRequestAttributes object is null, ignore to do region filter for service={}...", serviceId);
-
-            return null;
-        }
-
-        return attributes.getRequest().getHeader(DiscoveryConstant.N_D_ADDRESS);
+        return serviceStrategyContextHolder.getHeader(DiscoveryConstant.N_D_ADDRESS);
     }
 }

@@ -15,7 +15,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
@@ -48,17 +47,10 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
 
     // 根据Rest调用传来的Header参数（例如Token），选取执行调用请求的服务实例
     private boolean applyFromHeader(Server server, Map<String, String> metadata) {
-        ServletRequestAttributes attributes = serviceStrategyContextHolder.getRestAttributes();
-        if (attributes == null) {
-            return true;
-        }
-
-        String token = attributes.getRequest().getHeader("token");
-        // String value = attributes.getRequest().getParameter("value");
-
+        String token = serviceStrategyContextHolder.getHeader("token");
         String serviceId = pluginAdapter.getServerServiceId(server);
 
-        LOG.info("Serivice端负载均衡用户定制触发：serviceId={}, host={}, metadata={}, attributes={}", serviceId, server.toString(), metadata, attributes);
+        LOG.info("Serivice端负载均衡用户定制触发：token={}, serviceId={}, metadata={}", token, serviceId, metadata);
 
         String filterServiceId = "discovery-springcloud-example-c";
         String filterToken = "123";
@@ -79,7 +71,7 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
         String serviceId = pluginAdapter.getServerServiceId(server);
         String version = metadata.get(DiscoveryConstant.VERSION);
 
-        LOG.info("Serivice端负载均衡用户定制触发：serviceId={}, host={}, metadata={}, attributes={}", serviceId, server.toString(), metadata, attributes);
+        LOG.info("Serivice端负载均衡用户定制触发：attributes={}, serviceId={}, metadata={}", attributes, serviceId, metadata);
 
         String filterServiceId = "discovery-springcloud-example-b";
         String filterVersion = "1.0";
