@@ -9,10 +9,7 @@ package com.nepxion.discovery.plugin.strategy.gateway.adapter;
  * @version 1.0
  */
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.server.ServerWebExchange;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.strategy.adapter.AbstractDiscoveryEnabledAdapter;
@@ -20,50 +17,21 @@ import com.nepxion.discovery.plugin.strategy.gateway.context.GatewayStrategyCont
 import com.netflix.loadbalancer.Server;
 
 public class DefaultDiscoveryEnabledAdapter extends AbstractDiscoveryEnabledAdapter {
-    private static final Logger LOG = LoggerFactory.getLogger(DefaultDiscoveryEnabledAdapter.class);
-
     @Autowired
     private GatewayStrategyContextHolder gatewayStrategyContextHolder;
 
     @Override
     protected String getVersionValue(Server server) {
-        ServerWebExchange exchange = gatewayStrategyContextHolder.getExchange();
-        if (exchange == null) {
-            String serviceId = pluginAdapter.getServerServiceId(server);
-
-            LOG.warn("The ServerWebExchange object is null, ignore to do version filter for service={}...", serviceId);
-
-            return null;
-        }
-
-        return exchange.getRequest().getHeaders().getFirst(DiscoveryConstant.N_D_VERSION);
+        return gatewayStrategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION);
     }
 
     @Override
     protected String getRegionValue(Server server) {
-        ServerWebExchange exchange = gatewayStrategyContextHolder.getExchange();
-        if (exchange == null) {
-            String serviceId = pluginAdapter.getServerServiceId(server);
-
-            LOG.warn("The ServerWebExchange object is null, ignore to do region filter for service={}...", serviceId);
-
-            return null;
-        }
-
-        return exchange.getRequest().getHeaders().getFirst(DiscoveryConstant.N_D_REGION);
+        return gatewayStrategyContextHolder.getHeader(DiscoveryConstant.N_D_REGION);
     }
 
     @Override
     protected String getAddressValue(Server server) {
-        ServerWebExchange exchange = gatewayStrategyContextHolder.getExchange();
-        if (exchange == null) {
-            String serviceId = pluginAdapter.getServerServiceId(server);
-
-            LOG.warn("The ServerWebExchange object is null, ignore to do region filter for service={}...", serviceId);
-
-            return null;
-        }
-
-        return exchange.getRequest().getHeaders().getFirst(DiscoveryConstant.N_D_ADDRESS);
+        return gatewayStrategyContextHolder.getHeader(DiscoveryConstant.N_D_ADDRESS);
     }
 }
