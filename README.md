@@ -625,7 +625,7 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
 
 ### REST调用的内置多版本灰度路由策略
 基于Feign/RestTemplate的REST调用的多版本灰度路由，在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只有a服务的1.0版本，b服务的1.1版本，c服务的1.1或1.2版本，允许被调用到
-Header的Key为"version"，value为：
+Header的Key为"n-d-version"，value为：
 ```xml
 {"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.1", "discovery-springcloud-example-c":"1.1;1.2"}
 ```
@@ -641,7 +641,7 @@ Header的Key为"version"，value为：
 
 ### REST调用的内置多区域灰度路由策略
 基于Feign/RestTemplate的REST调用的多区域灰度路由，在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只有dev区域的a服务，qa区域的b服务，dev和qa区域c服务，允许被调用到
-Header的Key为"region"，value为：
+Header的Key为"n-d-region"，value为：
 ```xml
 {"discovery-springcloud-example-a":"dev", "discovery-springcloud-example-b":"qa", "discovery-springcloud-example-c":"dev;qa"}
 ```
@@ -659,6 +659,7 @@ dev
 
 ### REST调用的内置多IP和端口灰度路由策略
 基于Feign/RestTemplate的REST调用的多版本灰度路由，在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只需要指定三个服务所给定的IP（或者IP和端口组合），允许被调用到
+Header的Key为"n-d-address"，value为：
 ```xml
 {"discovery-springcloud-example-a":"192.168.43.101:1101", "discovery-springcloud-example-b":"192.168.43.101:1201", "discovery-springcloud-example-c":"192.168.43.101:1302"}
 ```
