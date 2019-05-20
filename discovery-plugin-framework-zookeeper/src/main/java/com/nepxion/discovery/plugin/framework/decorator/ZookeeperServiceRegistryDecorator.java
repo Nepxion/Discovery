@@ -9,8 +9,6 @@ package com.nepxion.discovery.plugin.framework.decorator;
  * @version 1.0
  */
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.cloud.zookeeper.serviceregistry.ZookeeperRegistration;
 import org.springframework.cloud.zookeeper.serviceregistry.ZookeeperServiceRegistry;
@@ -21,7 +19,7 @@ import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.listener.register.RegisterListenerExecutor;
 
 public class ZookeeperServiceRegistryDecorator extends ZookeeperServiceRegistry {
-    private static final Logger LOG = LoggerFactory.getLogger(ZookeeperServiceRegistryDecorator.class);
+    // private static final Logger LOG = LoggerFactory.getLogger(ZookeeperServiceRegistryDecorator.class);
 
     private ZookeeperServiceRegistry serviceRegistry;
     private ConfigurableApplicationContext applicationContext;
@@ -43,7 +41,7 @@ public class ZookeeperServiceRegistryDecorator extends ZookeeperServiceRegistry 
                 RegisterListenerExecutor registerListenerExecutor = applicationContext.getBean(RegisterListenerExecutor.class);
                 registerListenerExecutor.onRegister(registration);
             } catch (BeansException e) {
-                LOG.warn("Get bean for RegisterListenerExecutor failed, ignore to executor listener");
+                // LOG.warn("Get bean for RegisterListenerExecutor failed, ignore to executor listener");
             }
         }
 
@@ -58,7 +56,7 @@ public class ZookeeperServiceRegistryDecorator extends ZookeeperServiceRegistry 
                 RegisterListenerExecutor registerListenerExecutor = applicationContext.getBean(RegisterListenerExecutor.class);
                 registerListenerExecutor.onDeregister(registration);
             } catch (BeansException e) {
-                LOG.warn("Get bean for RegisterListenerExecutor failed, ignore to executor listener");
+                // LOG.warn("Get bean for RegisterListenerExecutor failed, ignore to executor listener");
             }
         }
 
@@ -73,7 +71,7 @@ public class ZookeeperServiceRegistryDecorator extends ZookeeperServiceRegistry 
                 RegisterListenerExecutor registerListenerExecutor = applicationContext.getBean(RegisterListenerExecutor.class);
                 registerListenerExecutor.onSetStatus(registration, status);
             } catch (BeansException e) {
-                LOG.warn("Get bean for RegisterListenerExecutor failed, ignore to executor listener");
+                // LOG.warn("Get bean for RegisterListenerExecutor failed, ignore to executor listener");
             }
         }
 
@@ -93,7 +91,7 @@ public class ZookeeperServiceRegistryDecorator extends ZookeeperServiceRegistry 
                 RegisterListenerExecutor registerListenerExecutor = applicationContext.getBean(RegisterListenerExecutor.class);
                 registerListenerExecutor.onClose();
             } catch (BeansException e) {
-                LOG.warn("Get bean for RegisterListenerExecutor failed, ignore to executor listener");
+                // LOG.warn("Get bean for RegisterListenerExecutor failed, ignore to executor listener");
             }
         }
 
