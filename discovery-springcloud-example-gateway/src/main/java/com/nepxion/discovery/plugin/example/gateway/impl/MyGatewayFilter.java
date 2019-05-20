@@ -18,6 +18,7 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.server.ServerWebExchange;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.plugin.strategy.gateway.constant.GatewayStrategyConstant;
 
 public class MyGatewayFilter implements GlobalFilter, Ordered {
     @Override
@@ -30,7 +31,7 @@ public class MyGatewayFilter implements GlobalFilter, Ordered {
 
     @Override
     public int getOrder() {
-        // Order必须小于9999
-        return 9998;
+        // Order必须小于8888
+        return GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_FILTER_ORDER_VALUE - 1;
     }
 }
