@@ -30,7 +30,7 @@ public class MyGatewayFilter implements GlobalFilter, Ordered {
 
     @Override
     public int getOrder() {
-        // Order必须小于-400
-        return -500;
+        // Order必须小于9999
+        return 9998;
     }
 }
