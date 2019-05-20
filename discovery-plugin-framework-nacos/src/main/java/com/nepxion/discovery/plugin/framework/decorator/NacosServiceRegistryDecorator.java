@@ -9,8 +9,6 @@ package com.nepxion.discovery.plugin.framework.decorator;
  * @version 1.0
  */
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.cloud.alibaba.nacos.NacosDiscoveryProperties;
 import org.springframework.cloud.alibaba.nacos.registry.NacosServiceRegistry;
@@ -22,7 +20,7 @@ import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.listener.register.RegisterListenerExecutor;
 
 public class NacosServiceRegistryDecorator extends NacosServiceRegistry {
-    private static final Logger LOG = LoggerFactory.getLogger(NacosServiceRegistryDecorator.class);
+    // private static final Logger LOG = LoggerFactory.getLogger(NacosServiceRegistryDecorator.class);
 
     private NacosServiceRegistry serviceRegistry;
     private ConfigurableApplicationContext applicationContext;
@@ -44,7 +42,7 @@ public class NacosServiceRegistryDecorator extends NacosServiceRegistry {
                 RegisterListenerExecutor registerListenerExecutor = applicationContext.getBean(RegisterListenerExecutor.class);
                 registerListenerExecutor.onRegister(registration);
             } catch (BeansException e) {
-                LOG.warn("Get bean for RegisterListenerExecutor failed, ignore to executor listener");
+                // LOG.warn("Get bean for RegisterListenerExecutor failed, ignore to executor listener");
             }
         }
 
@@ -59,7 +57,7 @@ public class NacosServiceRegistryDecorator extends NacosServiceRegistry {
                 RegisterListenerExecutor registerListenerExecutor = applicationContext.getBean(RegisterListenerExecutor.class);
                 registerListenerExecutor.onDeregister(registration);
             } catch (BeansException e) {
-                LOG.warn("Get bean for RegisterListenerExecutor failed, ignore to executor listener");
+                // LOG.warn("Get bean for RegisterListenerExecutor failed, ignore to executor listener");
             }
         }
 
@@ -74,7 +72,7 @@ public class NacosServiceRegistryDecorator extends NacosServiceRegistry {
                 RegisterListenerExecutor registerListenerExecutor = applicationContext.getBean(RegisterListenerExecutor.class);
                 registerListenerExecutor.onSetStatus(registration, status);
             } catch (BeansException e) {
-                LOG.warn("Get bean for RegisterListenerExecutor failed, ignore to executor listener");
+                // LOG.warn("Get bean for RegisterListenerExecutor failed, ignore to executor listener");
             }
         }
 
@@ -94,7 +92,7 @@ public class NacosServiceRegistryDecorator extends NacosServiceRegistry {
                 RegisterListenerExecutor registerListenerExecutor = applicationContext.getBean(RegisterListenerExecutor.class);
                 registerListenerExecutor.onClose();
             } catch (BeansException e) {
-                LOG.warn("Get bean for RegisterListenerExecutor failed, ignore to executor listener");
+                // LOG.warn("Get bean for RegisterListenerExecutor failed, ignore to executor listener");
             }
         }
 
