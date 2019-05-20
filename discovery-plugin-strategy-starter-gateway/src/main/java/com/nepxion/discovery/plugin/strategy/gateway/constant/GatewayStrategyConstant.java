@@ -11,4 +11,5 @@ package com.nepxion.discovery.plugin.strategy.gateway.constant;
 
 public class GatewayStrategyConstant {
     public static final String SPRING_APPLICATION_STRATEGY_GATEWAY_FILTER_ORDER = "spring.application.strategy.gateway.filter.order";
+    public static final int SPRING_APPLICATION_STRATEGY_GATEWAY_FILTER_ORDER_VALUE = 8888;
 }

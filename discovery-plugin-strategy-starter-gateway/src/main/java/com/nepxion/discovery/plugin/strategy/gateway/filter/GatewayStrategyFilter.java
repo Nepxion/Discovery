@@ -40,6 +40,6 @@ public class GatewayStrategyFilter implements GlobalFilter, Ordered {
 
     @Override
     public int getOrder() {
-        return environment.getProperty(GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_FILTER_ORDER, Integer.class, 9999);
+        return environment.getProperty(GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_FILTER_ORDER, Integer.class, GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_FILTER_ORDER_VALUE);
     }
 }
