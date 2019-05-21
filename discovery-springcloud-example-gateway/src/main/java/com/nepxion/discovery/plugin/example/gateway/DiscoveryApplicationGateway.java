@@ -15,6 +15,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 
 import com.nepxion.discovery.plugin.example.gateway.impl.MyDiscoveryEnabledStrategy;
+import com.nepxion.discovery.plugin.example.gateway.impl.MyGatewayFilter;
 
 @SpringBootApplication
 @EnableDiscoveryClient
@@ -28,10 +29,10 @@ public class DiscoveryApplicationGateway {
         return new MyDiscoveryEnabledStrategy();
     }
 
-    /*@Bean
+    @Bean
     public MyGatewayFilter myGatewayFilter() {
         return new MyGatewayFilter();
-    }*/
+    }
 
     /*@Bean
     public RouteLocator routeLocator(RouteLocatorBuilder builder) {
