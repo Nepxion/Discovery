@@ -25,6 +25,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
   - 通过客户端工具（例如Postman）推送
 - [入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)
 - [示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)
+- [极简示例](https://github.com/Nepxion/DiscoveryGray)
 
 兼容性强。支持如下版本：
 
