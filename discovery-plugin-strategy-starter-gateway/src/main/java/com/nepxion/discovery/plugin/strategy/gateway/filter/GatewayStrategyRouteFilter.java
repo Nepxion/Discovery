@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.example.gateway.impl;
+package com.nepxion.discovery.plugin.strategy.gateway.filter;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -11,10 +11,12 @@ package com.nepxion.discovery.plugin.example.gateway.impl;
 
 import reactor.core.publisher.Mono;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
+import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.server.ServerWebExchange;
 
@@ -24,36 +26,44 @@ import com.nepxion.discovery.common.entity.StrategyEntity;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.gateway.constant.GatewayStrategyConstant;
 
-public class MyGatewayFilter implements GlobalFilter, Ordered {
+public class GatewayStrategyRouteFilter implements GlobalFilter, Ordered {
+    @Autowired
+    private ConfigurableEnvironment environment;
+
     @Autowired
     private PluginAdapter pluginAdapter;
 
     @Override
+    public int getOrder() {
+        return environment.getProperty(GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_ROUTE_FILTER_ORDER, Integer.class, GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_ROUTE_FILTER_ORDER_VALUE);
+    }
+
+    @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        String routeVersion = getRouteVersionFromConfig();
-        // String routeVersion = getRouteVersionFromCustomer();
-
-        String routeRegion = getRouteRegionFromConfig();
-        // String routeRegion = getRouteRegionFromCustomer();
-
-        System.out.println("Route Version=" + routeVersion);
-        System.out.println("Route Region=" + routeRegion);
+        String routeVersion = getRouteVersion();
+        String routeRegion = getRouteRegion();
+        String routeAddress = getRouteAddress();
 
         // 通过过滤器设置路由Header头部信息，来取代界面（Postman）上的设置，并全链路传递到服务端
-        ServerHttpRequest newRequest = exchange.getRequest().mutate().header(DiscoveryConstant.N_D_VERSION, routeVersion).header(DiscoveryConstant.N_D_REGION, routeRegion).build();
+        ServerHttpRequest.Builder requestBuilder = exchange.getRequest().mutate();
+        if (StringUtils.isNotEmpty(routeVersion)) {
+            requestBuilder.header(DiscoveryConstant.N_D_VERSION, routeVersion);
+        }
+        if (StringUtils.isNotEmpty(routeRegion)) {
+            requestBuilder.header(DiscoveryConstant.N_D_REGION, routeRegion);
+        }
+        if (StringUtils.isNotEmpty(routeAddress)) {
+            requestBuilder.header(DiscoveryConstant.N_D_ADDRESS, routeAddress);
+        }
+
+        ServerHttpRequest newRequest = requestBuilder.build();
         ServerWebExchange newExchange = exchange.mutate().request(newRequest).build();
 
         return chain.filter(newExchange);
     }
 
-    @Override
-    public int getOrder() {
-        // Order必须小于8888
-        return GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_FILTER_ORDER_VALUE - 1;
-    }
-
     // 从远程配置中心或者本地配置文件获取版本路由配置。如果是远程配置中心，则值会动态改变
-    protected String getRouteVersionFromConfig() {
+    protected String getRouteVersion() {
         RuleEntity ruleEntity = pluginAdapter.getRule();
         if (ruleEntity != null) {
             StrategyEntity strategyEntity = ruleEntity.getStrategyEntity();
@@ -66,7 +76,7 @@ public class MyGatewayFilter implements GlobalFilter, Ordered {
     }
 
     // 从远程配置中心或者本地配置文件获取区域路由配置。如果是远程配置中心，则值会动态改变
-    protected String getRouteRegionFromConfig() {
+    protected String getRouteRegion() {
         RuleEntity ruleEntity = pluginAdapter.getRule();
         if (ruleEntity != null) {
             StrategyEntity strategyEntity = ruleEntity.getStrategyEntity();
@@ -78,13 +88,16 @@ public class MyGatewayFilter implements GlobalFilter, Ordered {
         return null;
     }
 
-    // 自定义版本路由配置
-    protected String getRouteVersionFromCustomer() {
-        return "{\"discovery-springcloud-example-a\":\"1.0\", \"discovery-springcloud-example-b\":\"1.0\", \"discovery-springcloud-example-c\":\"1.0;1.2\"}";
-    }
+    // 从远程配置中心或者本地配置文件获取IP地址和端口路由配置。如果是远程配置中心，则值会动态改变
+    protected String getRouteAddress() {
+        RuleEntity ruleEntity = pluginAdapter.getRule();
+        if (ruleEntity != null) {
+            StrategyEntity strategyEntity = ruleEntity.getStrategyEntity();
+            if (strategyEntity != null) {
+                return strategyEntity.getAddressValue();
+            }
+        }
 
-    // 自定义区域路由配置
-    protected String getRouteRegionFromCustomer() {
-        return "{\"discovery-springcloud-example-a\":\"qa;dev\", \"discovery-springcloud-example-b\":\"dev\", \"discovery-springcloud-example-c\":\"qa\"}";
+        return null;
     }
 }
