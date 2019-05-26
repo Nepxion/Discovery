@@ -42,10 +42,15 @@ public class MyZuulFilter extends ZuulFilter {
         String routeVersion = getRouteVersionFromConfig();
         // String routeVersion = getRouteVersionFromCustomer();
 
+        String routeRegion = getRouteRegionFromConfig();
+        // String routeRegion = getRouteRegionFromCustomer();
+
         System.out.println("Route Version=" + routeVersion);
+        System.out.println("Route Region=" + routeRegion);
 
         // 通过过滤器设置路由Header头部信息，来取代界面（Postman）上的设置，并全链路传递到服务端
         ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_VERSION, routeVersion);
+        ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_REGION, routeRegion);
 
         return null;
     }
@@ -63,8 +68,26 @@ public class MyZuulFilter extends ZuulFilter {
         return null;
     }
 
+    // 从远程配置中心或者本地配置文件获取区域路由配置。如果是远程配置中心，则值会动态改变
+    protected String getRouteRegionFromConfig() {
+        RuleEntity ruleEntity = pluginAdapter.getRule();
+        if (ruleEntity != null) {
+            StrategyEntity strategyEntity = ruleEntity.getStrategyEntity();
+            if (strategyEntity != null) {
+                return strategyEntity.getRegionValue();
+            }
+        }
+
+        return null;
+    }
+
     // 自定义版本路由配置
     protected String getRouteVersionFromCustomer() {
         return "{\"discovery-springcloud-example-a\":\"1.0\", \"discovery-springcloud-example-b\":\"1.0\", \"discovery-springcloud-example-c\":\"1.0;1.2\"}";
+    }
+
+    // 自定义区域路由配置
+    protected String getRouteRegionFromCustomer() {
+        return "{\"discovery-springcloud-example-a\":\"qa;dev\", \"discovery-springcloud-example-b\":\"dev\", \"discovery-springcloud-example-c\":\"qa\"}";
     }
 }
