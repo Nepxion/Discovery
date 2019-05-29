@@ -14,7 +14,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 - 感谢代码贡献者@esun，@JikaiSun，@HaoHuang，@Fan Yang等同学，感谢为本框架提出宝贵意见和建议的同学
 - 感谢使用本框架的公司和企业
 
-使用方便。只需要如下步骤：
+使用方便，只需要如下步骤：
 - 引入相关依赖到pom.xml，参考 [依赖兼容](#依赖兼容)
 - 操作配置文件，参考 [配置文件](#配置文件)
   - 在元数据MetaData中，为微服务定义一个版本号（version），定义一个所属组名（group）或者应用名（application），定义一个所属区域（region）名
@@ -23,9 +23,10 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
   - 通过远程配置中心推送规则
   - 通过控制平台界面推送规则
   - 通过客户端工具（例如Postman）推送
+建议循序渐进阅读下面文章，特别是极简示例
+- [极简示例](https://github.com/Nepxion/DiscoveryGray)  
 - [入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)
 - [示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)
-- [极简示例](https://github.com/Nepxion/DiscoveryGray)
 
 兼容性强。支持如下版本：
 
