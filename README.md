@@ -12,13 +12,9 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 - 感谢阿里巴巴中间件Nacos和Sentinel团队，尤其是Nacos负责人@于怀，Sentinel负责人@子衿，Spring Cloud Alibaba负责人@亦盏的技术支持
 - 感谢携程Apollo团队，尤其是@宋顺，特意开发OpenApi包和技术支持
 - 感谢代码贡献者@esun，@JikaiSun，@HaoHuang，@Fan Yang等同学，感谢为本框架提出宝贵意见和建议的同学
-- 感谢使用本框架的公司。不完全统计，本框架被如下公司使用或者调研（如有出入、错误或者不便公布，请联系我）：
-  - 平安银行 | 平安一账通 | 众安保险 | 民生银行北京分行 | 浦发信用卡 | 太平洋保险 | 太平保险
-  - 东方航空 | 瑞幸咖啡 | 微鲸科技 | 海尔消费金融 | 御家汇 | 悟空丰运 | 苏州太谷 | 智慧校园 
-  - 杭州融都科技 | 杭州天阙科技 | 杭州惠借科技 | 深圳捷顺 | 云帐房网络科技  |  数梦工场科技 
-  - 冰鉴信息科技 | 轻舟科技 | 创软科技 | 巨玩科技 | 琢创网络科技 | 虎扑
+- 感谢使用本框架的公司和企业
 
-使用方便。只需要如下步骤：
+使用方便，只需要如下步骤：
 - 引入相关依赖到pom.xml，参考 [依赖兼容](#依赖兼容)
 - 操作配置文件，参考 [配置文件](#配置文件)
   - 在元数据MetaData中，为微服务定义一个版本号（version），定义一个所属组名（group）或者应用名（application），定义一个所属区域（region）名
@@ -27,9 +23,10 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
   - 通过远程配置中心推送规则
   - 通过控制平台界面推送规则
   - 通过客户端工具（例如Postman）推送
+建议循序渐进阅读下面文章，特别是极简示例
+- [极简示例](https://github.com/Nepxion/DiscoveryGray)  
 - [入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)
 - [示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)
-- [极简示例](https://github.com/Nepxion/DiscoveryGray)
 
 兼容性强。支持如下版本：
 
