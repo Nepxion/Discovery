@@ -23,7 +23,9 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
   - 通过远程配置中心推送规则
   - 通过控制平台界面推送规则
   - 通过客户端工具（例如Postman）推送
- 
+
+## 快速开始
+
 建议循序渐进阅读下面文章，特别是极简示例
 - [极简示例](https://github.com/Nepxion/DiscoveryGray)  
 - [入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)
@@ -97,10 +99,6 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/zxing-doc/微信-1.jpg)
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/zxing-doc/公众号-1.jpg)
-
-## 快速开始
-- [入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)
-- [示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)
 
 ## 界面展示
 
