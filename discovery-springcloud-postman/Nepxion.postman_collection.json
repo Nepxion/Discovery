@@ -1,0 +1,498 @@
+{
+	"info": {
+		"_postman_id": "3aa0b5a1-940e-40e8-8f9c-ccaa4de8a084",
+		"name": "Nepxion",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:1100/config/view",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:1100/config/view",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1100",
+					"path": [
+						"config",
+						"view"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1100/version/view",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:1100/version/view",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1100",
+					"path": [
+						"version",
+						"view"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1100/invoke",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "Start"
+				},
+				"url": {
+					"raw": "http://localhost:1100/invoke",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1100",
+					"path": [
+						"invoke"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1100/router/routes/",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "discovery-springcloud-example-b;discovery-springcloud-example-c"
+				},
+				"url": {
+					"raw": "http://localhost:1100/router/routes/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1100",
+					"path": [
+						"router",
+						"routes",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:2222/console/config/update-sync/discovery-springcloud-example-b",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<rule>\r\n    <discovery>\r\n        <version>\r\n            <service consumer-service-name=\"discovery-springcloud-example-b\" provider-service-name=\"discovery-springcloud-example-c\" consumer-version-value=\"1.0\" provider-version-value=\"3.0\"/>\r\n        </version>\r\n    </discovery>\r\n</rule>"
+				},
+				"url": {
+					"raw": "http://localhost:2222/console/config/update-sync/discovery-springcloud-example-b",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2222",
+					"path": [
+						"console",
+						"config",
+						"update-sync",
+						"discovery-springcloud-example-b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:2222/console/config/clear-sync/discovery-springcloud-example-b",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:2222/console/config/clear-sync/discovery-springcloud-example-b",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2222",
+					"path": [
+						"console",
+						"config",
+						"clear-sync",
+						"discovery-springcloud-example-b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:2222/console/version/update-sync/discovery-springcloud-example-zuul",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "1.1"
+				},
+				"url": {
+					"raw": "http://localhost:2222/console/version/update-sync/discovery-springcloud-example-zuul",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2222",
+					"path": [
+						"console",
+						"version",
+						"update-sync",
+						"discovery-springcloud-example-zuul"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:2222/console/version/clear-sync/discovery-springcloud-example-zuul",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:2222/console/version/clear-sync/discovery-springcloud-example-zuul",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2222",
+					"path": [
+						"console",
+						"version",
+						"clear-sync",
+						"discovery-springcloud-example-zuul"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:2222/console/remote-config/update/example-service-group/discovery-springcloud-example-b",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<rule>\r\n    <discovery>\r\n        <version>\r\n            <service consumer-service-name=\"discovery-springcloud-example-b\" provider-service-name=\"discovery-springcloud-example-c\" consumer-version-value=\"1.0\" provider-version-value=\"3.0\"/>\r\n        </version>\r\n    </discovery>\r\n</rule>"
+				},
+				"url": {
+					"raw": "http://localhost:2222/console/remote-config/update/example-service-group/discovery-springcloud-example-b",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2222",
+					"path": [
+						"console",
+						"remote-config",
+						"update",
+						"example-service-group",
+						"discovery-springcloud-example-b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:2222/console/remote-config/clear/example-service-group/discovery-springcloud-example-b",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:2222/console/remote-config/clear/example-service-group/discovery-springcloud-example-b",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2222",
+					"path": [
+						"console",
+						"remote-config",
+						"clear",
+						"example-service-group",
+						"discovery-springcloud-example-b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:2222/console/remote-config/view/example-service-group/discovery-springcloud-example-b",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:2222/console/remote-config/view/example-service-group/discovery-springcloud-example-b",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2222",
+					"path": [
+						"console",
+						"remote-config",
+						"view",
+						"example-service-group",
+						"discovery-springcloud-example-b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1400/router/routes/",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "discovery-springcloud-example-a;discovery-springcloud-example-b;discovery-springcloud-example-c"
+				},
+				"url": {
+					"raw": "http://localhost:1400/router/routes/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1400",
+					"path": [
+						"router",
+						"routes",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1400/discovery-springcloud-example-a/invoke",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "n-d-version",
+						"value": "{\"discovery-springcloud-example-a\":\"1.0\", \"discovery-springcloud-example-b\":\"1.0\", \"discovery-springcloud-example-c\":\"1.0;1.2\"}",
+						"disabled": true
+					},
+					{
+						"key": "n-d-region",
+						"value": "dev",
+						"disabled": true
+					},
+					{
+						"key": "n-d-address",
+						"value": "{\"discovery-springcloud-example-a\":\"192.168.43.101:1100\", \"discovery-springcloud-example-b\":\"192.168.43.101:1201\", \"discovery-springcloud-example-c\":\"192.168.43.101:1300\"}",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "mobile",
+						"value": "138",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "token",
+						"value": "ab",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "ab"
+				},
+				"url": {
+					"raw": "http://localhost:1400/discovery-springcloud-example-a/invoke",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1400",
+					"path": [
+						"discovery-springcloud-example-a",
+						"invoke"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1500/router/routes/",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "discovery-springcloud-example-a;discovery-springcloud-example-b;discovery-springcloud-example-c"
+				},
+				"url": {
+					"raw": "http://localhost:1500/router/routes/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1500",
+					"path": [
+						"router",
+						"routes",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1500/discovery-springcloud-example-a/invoke",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "n-d-version",
+						"value": "{\"discovery-springcloud-example-a\":\"1.0\", \"discovery-springcloud-example-b\":\"1.0\", \"discovery-springcloud-example-c\":\"1.0;1.2\"}",
+						"disabled": true
+					},
+					{
+						"key": "n-d-region",
+						"value": "{\"discovery-springcloud-example-a\":\"qa;dev\", \"discovery-springcloud-example-b\":\"dev\", \"discovery-springcloud-example-c\":\"qa\"}",
+						"disabled": true
+					},
+					{
+						"key": "n-d-address",
+						"value": "{\"discovery-springcloud-example-a\":\"192.168.43.101:1100\", \"discovery-springcloud-example-b\":\"192.168.43.101:1201\", \"discovery-springcloud-example-c\":\"192.168.43.101:1300\"}",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "mobile",
+						"value": "133",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "token",
+						"value": "ab",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "ab"
+				},
+				"url": {
+					"raw": "http://localhost:1500/discovery-springcloud-example-a/invoke",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1500",
+					"path": [
+						"discovery-springcloud-example-a",
+						"invoke"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:8848/nacos/v1/ns/instances?serviceName=discovery-springcloud-example-c",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8848/nacos/v1/ns/instances?serviceName=discovery-springcloud-example-c",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8848",
+					"path": [
+						"nacos",
+						"v1",
+						"ns",
+						"instances"
+					],
+					"query": [
+						{
+							"key": "serviceName",
+							"value": "discovery-springcloud-example-c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1212/doC/abc",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "abcd12345"
+					},
+					{
+						"key": "user-id",
+						"value": "lisi"
+					},
+					{
+						"key": "user-type",
+						"value": "LDAP"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:1212/doC/abc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1212",
+					"path": [
+						"doC",
+						"abc"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
