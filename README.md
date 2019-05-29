@@ -24,13 +24,6 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
   - 通过控制平台界面推送规则
   - 通过客户端工具（例如Postman）推送
 
-## 快速开始
-
-建议循序渐进阅读下面文章，特别是极简示例
-- [极简示例](https://github.com/Nepxion/DiscoveryGray)  
-- [入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)
-- [示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)
-
 兼容性强。支持如下版本：
 
 | Spring Cloud版本 | Nepxion Discovery版本 |
@@ -40,6 +33,13 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 | Edgware | 3.8.9 |
 | Dalston | 2.0.11 (不维护，不可用) |
 | Camden | 1.0.1 (不维护，不可用) |
+
+## 快速开始
+
+建议循序渐进阅读下面文章，特别是极简示例
+- [极简示例](https://github.com/Nepxion/DiscoveryGray)  
+- [入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)
+- [示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)
 
 ## 目录
 - [请联系我](#请联系我)
