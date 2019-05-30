@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.AbstractWeightRandomLoadBalance;
-import com.nepxion.discovery.plugin.framework.loadbalance.weight.ArrayWeightRandomLoadBalance;
+import com.nepxion.discovery.plugin.framework.loadbalance.weight.MapWeightRandomLoadBalance;
 import com.netflix.loadbalancer.Server;
 import com.netflix.loadbalancer.ZoneAvoidanceRule;
 
@@ -30,7 +30,7 @@ public class ZoneAvoidanceRuleDecorator extends ZoneAvoidanceRule {
 
     @PostConstruct
     private void initialize() {
-        weightRandomLoadBalance = new ArrayWeightRandomLoadBalance();
+        weightRandomLoadBalance = new MapWeightRandomLoadBalance();
         weightRandomLoadBalance.setPluginAdapter(pluginAdapter);
     }
 
