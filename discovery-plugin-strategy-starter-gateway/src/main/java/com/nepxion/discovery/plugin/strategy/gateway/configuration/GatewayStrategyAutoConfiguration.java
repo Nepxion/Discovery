@@ -20,6 +20,8 @@ import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.gateway.adapter.DefaultDiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.gateway.filter.GatewayStrategyFilter;
+import com.nepxion.discovery.plugin.strategy.gateway.wrapper.DefaultCallableWrapper;
+import com.nepxion.discovery.plugin.strategy.wrapper.CallableWrapper;
 
 @Configuration
 @AutoConfigureBefore(RibbonClientConfiguration.class)
@@ -34,5 +36,11 @@ public class GatewayStrategyAutoConfiguration {
     @ConditionalOnMissingBean
     public DiscoveryEnabledAdapter discoveryEnabledAdapter() {
         return new DefaultDiscoveryEnabledAdapter();
+    }
+
+    @Bean
+    @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_HYSTRIX_THREADLOCAL_SUPPORTED, matchIfMissing = false)
+    public CallableWrapper callableWrapper() {
+        return new DefaultCallableWrapper();
     }
 }
