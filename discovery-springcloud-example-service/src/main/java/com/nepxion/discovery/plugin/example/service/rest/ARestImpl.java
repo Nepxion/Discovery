@@ -73,6 +73,12 @@ public class ARestImpl extends AbstractRestImpl {
 
     @RequestMapping(path = "/test", method = RequestMethod.POST)
     public String test(@RequestBody String value) {
+        try {
+            Thread.sleep(5000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return value;
     }
 
