@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.loadbalance;
+package com.nepxion.discovery.plugin.framework.loadbalance.weight;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -11,7 +11,6 @@ package com.nepxion.discovery.plugin.framework.loadbalance;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
@@ -22,13 +21,19 @@ import com.nepxion.discovery.common.entity.RegionWeightEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.WeightEntity;
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
-import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
+import com.nepxion.discovery.plugin.framework.loadbalance.IWeightRandomLoadBalance;
 import com.netflix.loadbalancer.Server;
 
-public class WeightRandomLoadBalance {
+public abstract class AbstractWeightRandomLoadBalance implements IWeightRandomLoadBalance {
     private PluginAdapter pluginAdapter;
 
+    @Override
+    public void setPluginAdapter(PluginAdapter pluginAdapter) {
+        this.pluginAdapter = pluginAdapter;
+    }
+
+    @Override
     public WeightFilterEntity getWeightFilterEntity() {
         RuleEntity ruleEntity = pluginAdapter.getRule();
         if (ruleEntity == null) {
@@ -45,54 +50,7 @@ public class WeightRandomLoadBalance {
         return weightFilterEntity;
     }
 
-    public Server choose(List<Server> serverList, WeightFilterEntity weightFilterEntity) {
-        if (CollectionUtils.isEmpty(serverList)) {
-            return null;
-        }
-
-        int[] weights = new int[serverList.size()];
-        for (int i = 0; i < serverList.size(); i++) {
-            Server server = serverList.get(i);
-            int weight = getWeight(server, weightFilterEntity);
-            if (weight > 0) {
-                weights[i] = weight;
-            }
-        }
-
-        int index = getIndex(weights);
-
-        return serverList.get(index);
-    }
-
-    private int getIndex(int[] weights) {
-        // 次序号/权重区间值
-        int[][] weightHolder = new int[weights.length][2];
-        // 总权重
-        int totalWeight = 0;
-        // 赋值次序号和区间值累加的数组值，从小到大排列
-        // 例如，对于权重分别为20，40， 60的三个服务，将形成[0, 20)，[20, 60)，[60, 120]三个区间
-        for (int i = 0; i < weights.length; i++) {
-            if (weights[i] <= 0) {
-                continue;
-            }
-
-            totalWeight += weights[i];
-            weightHolder[i][0] = i;
-            weightHolder[i][1] = totalWeight;
-        }
-
-        // 获取介于0(含)和n(不含)伪随机，均匀分布的int值
-        int hitWeight = ThreadLocalRandom.current().nextInt(totalWeight) + 1; // [1, totalWeight)
-        for (int i = 0; i < weightHolder.length; i++) {
-            if (hitWeight <= weightHolder[i][1]) {
-                return weightHolder[i][0];
-            }
-        }
-
-        return weightHolder[0][0];
-    }
-
-    private int getWeight(Server server, WeightFilterEntity weightFilterEntity) {
+    protected int getWeight(Server server, WeightFilterEntity weightFilterEntity) {
         Map<String, List<WeightEntity>> weightEntityMap = weightFilterEntity.getWeightEntityMap();
         RegionWeightEntity regionWeightEntity = weightFilterEntity.getRegionWeightEntity();
 
@@ -114,8 +72,9 @@ public class WeightRandomLoadBalance {
             weight = getWeight(providerRegion, regionWeightEntity);
         }
 
+        // 所有的权重配置都没找到，则按权重值为0来处理
         if (weight < 0) {
-            throw new DiscoveryException("Weight isn't configed for serviceId=" + providerServiceId);
+            weight = 0;
         }
 
         return weight;
@@ -167,9 +126,5 @@ public class WeightRandomLoadBalance {
         } else {
             return -1;
         }
-    }
-
-    public void setPluginAdapter(PluginAdapter pluginAdapter) {
-        this.pluginAdapter = pluginAdapter;
     }
 }
