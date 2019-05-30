@@ -82,6 +82,12 @@
             <artifactId>discovery-plugin-strategy-starter-gateway</artifactId>
         </dependency>
 
+        <!-- 当Spring Coud Gateway用Hystrix做线程隔离的时候，才需要导入下面的包 -->
+        <!-- <dependency>
+            <groupId>com.nepxion</groupId>
+            <artifactId>discovery-plugin-strategy-starter-hystrix</artifactId>
+        </dependency> -->
+
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-starter-client</artifactId>
