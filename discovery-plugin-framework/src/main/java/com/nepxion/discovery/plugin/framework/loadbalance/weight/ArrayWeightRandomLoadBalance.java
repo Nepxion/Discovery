@@ -27,10 +27,7 @@ public class ArrayWeightRandomLoadBalance extends AbstractWeightRandomLoadBalanc
         int[] weights = new int[serverList.size()];
         for (int i = 0; i < serverList.size(); i++) {
             Server server = serverList.get(i);
-            int weight = getWeight(server, weightFilterEntity);
-            if (weight > 0) {
-                weights[i] = weight;
-            }
+            weights[i] = getWeight(server, weightFilterEntity);
         }
 
         int index = getIndex(weights);
