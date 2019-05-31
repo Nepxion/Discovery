@@ -86,7 +86,7 @@
         <dependency>
             <groupId>com.nepxion</groupId>
             <artifactId>discovery-plugin-strategy-starter-hystrix</artifactId>
-        </dependency> 
+        </dependency>
 
         <dependency>
             <groupId>de.codecentric</groupId>
