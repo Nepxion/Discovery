@@ -6,12 +6,12 @@ package com.nepxion.discovery.plugin.example.gateway;
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
  * @author Haojun Ren
+ * @author Ankeway
  * @version 1.0
  */
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 
@@ -20,7 +20,6 @@ import com.nepxion.discovery.plugin.strategy.gateway.filter.GatewayStrategyRoute
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableCircuitBreaker
 public class DiscoveryApplicationGateway {
     public static void main(String[] args) {
         new SpringApplicationBuilder(DiscoveryApplicationGateway.class).run(args);
