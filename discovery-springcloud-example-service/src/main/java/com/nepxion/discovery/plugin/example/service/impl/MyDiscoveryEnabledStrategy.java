@@ -35,7 +35,7 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
 
     @Override
     public boolean apply(Server server, Map<String, String> metadata) {
-        // 对Rest调用传来的Header参数（例如Token）做策略
+        // 对Rest调用传来的Header参数（例如：token）做策略
         boolean enabled = applyFromHeader(server, metadata);
         if (!enabled) {
             return false;
@@ -45,7 +45,7 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
         return applyFromMethod(server, metadata);
     }
 
-    // 根据Rest调用传来的Header参数（例如Token），选取执行调用请求的服务实例
+    // 根据Rest调用传来的Header参数（例如：token），选取执行调用请求的服务实例
     private boolean applyFromHeader(Server server, Map<String, String> metadata) {
         String token = serviceStrategyContextHolder.getHeader("token");
         String serviceId = pluginAdapter.getServerServiceId(server);
