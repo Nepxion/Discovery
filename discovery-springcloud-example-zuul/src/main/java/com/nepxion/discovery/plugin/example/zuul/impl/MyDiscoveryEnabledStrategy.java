@@ -34,11 +34,11 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
 
     @Override
     public boolean apply(Server server, Map<String, String> metadata) {
-        // 对Rest调用传来的Header参数（例如Token）做策略
+        // 对Rest调用传来的Header参数（例如：mobile）做策略
         return applyFromHeader(server, metadata);
     }
 
-    // 根据Rest调用传来的Header参数（例如Token），选取执行调用请求的服务实例
+    // 根据Rest调用传来的Header参数（例如：mobile），选取执行调用请求的服务实例
     private boolean applyFromHeader(Server server, Map<String, String> metadata) {
         String mobile = zuulStrategyContextHolder.getHeader("mobile");
         String version = metadata.get(DiscoveryConstant.VERSION);
