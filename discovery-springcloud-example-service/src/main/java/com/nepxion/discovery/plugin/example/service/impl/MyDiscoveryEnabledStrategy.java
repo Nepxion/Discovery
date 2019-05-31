@@ -50,7 +50,7 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
         String token = serviceStrategyContextHolder.getHeader("token");
         String serviceId = pluginAdapter.getServerServiceId(server);
 
-        LOG.info("Serivice端负载均衡用户定制触发：token={}, serviceId={}, metadata={}", token, serviceId, metadata);
+        LOG.info("Service端负载均衡用户定制触发：token={}, serviceId={}, metadata={}", token, serviceId, metadata);
 
         String filterServiceId = "discovery-springcloud-example-c";
         String filterToken = "123";
