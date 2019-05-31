@@ -10,10 +10,10 @@ package com.nepxion.discovery.console.desktop.workspace.topology;
  */
 
 public enum TopologyEntityType {
-    REGISTRY,
-    MQ,
-    CACHE,
-    LOGGER,
-    SERVICE,
-    REFERENCE
+    SERVICE_GROUP,
+    REFERENCE_GROUP,
+    GATEWAY_GROUP,
+    SERVICE, 
+    REFERENCE,
+    GATEWAY
 }

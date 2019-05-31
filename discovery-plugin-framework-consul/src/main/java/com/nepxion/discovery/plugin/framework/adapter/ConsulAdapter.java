@@ -13,18 +13,18 @@ import java.util.Map;
 
 import org.springframework.cloud.consul.discovery.ConsulServer;
 
-import com.nepxion.discovery.plugin.framework.exception.PluginException;
+import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.netflix.loadbalancer.Server;
 
 public class ConsulAdapter extends AbstractPluginAdapter {
     @Override
-    public Map<String, String> getServerMetaData(Server server) {
+    public Map<String, String> getServerMetadata(Server server) {
         if (server instanceof ConsulServer) {
             ConsulServer consulServer = (ConsulServer) server;
 
             return consulServer.getMetadata();
         }
 
-        throw new PluginException("Server instance isn't the type of ConsulServer");
+        throw new DiscoveryException("Server instance isn't the type of ConsulServer");
     }
 }

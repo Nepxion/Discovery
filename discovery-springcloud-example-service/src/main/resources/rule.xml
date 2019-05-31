@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <!-- 如果不想开启相关功能，只需要把相关节点删除即可，例如不想要黑名单功能，把blacklist节点删除 -->
+    <register>
+        <!-- 服务注册的黑/白名单注册过滤，只在服务启动的时候生效。白名单表示只允许指定IP地址前缀注册，黑名单表示不允许指定IP地址前缀注册。每个服务只能同时开启要么白名单，要么黑名单 -->
+        <!-- filter-type，可选值blacklist/whitelist，表示白名单或者黑名单 -->
+        <!-- service-name，表示服务名 -->
+        <!-- filter-value，表示黑/白名单的IP地址列表。IP地址一般用前缀来表示，如果多个用“;”分隔，不允许出现空格 -->
+        <!-- 表示下面所有服务，不允许10.10和11.11为前缀的IP地址注册（全局过滤） -->
+        <blacklist filter-value="10.10;11.11">
+            <!-- 表示下面服务，不允许172.16和10.10和11.11为前缀的IP地址注册 -->
+            <service service-name="discovery-springcloud-example-a" filter-value="172.16"/>
+        </blacklist>
+
+        <!-- <whitelist filter-value="">
+            <service service-name="" filter-value=""/>
+        </whitelist>  -->
+
+        <!-- 服务注册的数目限制注册过滤，只在服务启动的时候生效。当某个服务的实例注册达到指定数目时候，更多的实例将无法注册 -->
+        <!-- service-name，表示服务名 -->
+        <!-- filter-value，表示最大实例注册数 -->
+        <!-- 表示下面所有服务，最大实例注册数为10000（全局配置） -->
+        <count filter-value="10000">
+            <!-- 表示下面服务，最大实例注册数为5000，全局配置值10000将不起作用，以局部配置值为准 -->
+            <service service-name="discovery-springcloud-example-a" filter-value="5000"/>
+        </count>
+    </register>
+
+    <discovery>
+        <!-- 服务发现的黑/白名单发现过滤，使用方式跟“服务注册的黑/白名单过滤”一致 -->
+        <!-- 表示下面所有服务，不允许10.10和11.11为前缀的IP地址被发现（全局过滤） -->
+        <blacklist filter-value="10.10;11.11">
+            <!-- 表示下面服务，不允许172.16和10.10和11.11为前缀的IP地址被发现 -->
+            <service service-name="discovery-springcloud-example-b" filter-value="172.16"/>
+        </blacklist>
+
+        <!-- 服务发现的多版本灰度访问控制 -->
+        <!-- service-name，表示服务名 -->
+        <!-- version-value，表示可供访问的版本，如果多个用“;”分隔，不允许出现空格 -->
+        <!-- 版本策略介绍 -->
+        <!-- 1. 标准配置，举例如下 -->
+        <!--    <service consumer-service-name="a" provider-service-name="b" consumer-version-value="1.0" provider-version-value="1.0;1.1"/> 表示消费端1.0版本，允许访问提供端1.0和1.1版本 -->
+        <!-- 2. 版本值不配置，举例如下 -->
+        <!--    <service consumer-service-name="a" provider-service-name="b" provider-version-value="1.0;1.1"/> 表示消费端任何版本，允许访问提供端1.0和1.1版本 -->
+        <!--    <service consumer-service-name="a" provider-service-name="b" consumer-version-value="1.0"/> 表示消费端1.0版本，允许访问提供端任何版本 -->
+        <!--    <service consumer-service-name="a" provider-service-name="b"/> 表示消费端任何版本，允许访问提供端任何版本 -->
+        <!-- 3. 版本值空字符串，举例如下 -->
+        <!--    <service consumer-service-name="a" provider-service-name="b" consumer-version-value="" provider-version-value="1.0;1.1"/> 表示消费端任何版本，允许访问提供端1.0和1.1版本 -->
+        <!--    <service consumer-service-name="a" provider-service-name="b" consumer-version-value="1.0" provider-version-value=""/> 表示消费端1.0版本，允许访问提供端任何版本 -->
+        <!--    <service consumer-service-name="a" provider-service-name="b" consumer-version-value="" provider-version-value=""/> 表示消费端任何版本，允许访问提供端任何版本 -->
+        <!-- 4. 版本对应关系未定义，默认消费端任何版本，允许访问提供端任何版本 -->
+        <!-- 特殊情况处理，在使用上需要极力避免该情况发生 -->
+        <!-- 1. 消费端的application.properties未定义版本号，则该消费端可以访问提供端任何版本 -->
+        <!-- 2. 提供端的application.properties未定义版本号，当消费端在xml里不做任何版本配置，才可以访问该提供端 -->
+        <version>
+            <!-- 表示消费端服务a的1.0，允许访问提供端服务b的1.0版本 -->
+            <service consumer-service-name="discovery-springcloud-example-a" provider-service-name="discovery-springcloud-example-b" consumer-version-value="1.0" provider-version-value="1.0"/>
+            <!-- 表示消费端服务a的1.1，允许访问提供端服务b的1.1版本 -->
+            <service consumer-service-name="discovery-springcloud-example-a" provider-service-name="discovery-springcloud-example-b" consumer-version-value="1.1" provider-version-value="1.1"/>
+            <!-- 表示消费端服务b的1.0，允许访问提供端服务c的1.0和1.1版本 -->
+            <service consumer-service-name="discovery-springcloud-example-b" provider-service-name="discovery-springcloud-example-c" consumer-version-value="1.0" provider-version-value="1.0;1.1"/>
+            <!-- 表示消费端服务b的1.1，允许访问提供端服务c的1.2版本 -->
+            <service consumer-service-name="discovery-springcloud-example-b" provider-service-name="discovery-springcloud-example-c" consumer-version-value="1.1" provider-version-value="1.2"/>
+        </version>
+
+        <!-- 服务发现的多版本权重灰度访问控制 -->
+        <!-- service-name，表示服务名 -->
+        <!-- version-value，表示版本对应的权重值，格式为"版本值=权重值"，如果多个用“;”分隔，不允许出现空格 -->
+        <!-- 版本权重策略介绍 -->
+        <!-- 1. 标准配置，举例如下 -->
+        <!--     <service consumer-service-name="a" provider-service-name="b" provider-weight-value="1.0=90;1.1=10"/> 表示消费端访问提供端的时候，提供端的1.0版本提供90%的权重流量，1.1版本提供10%的权重流量 -->
+        <!--     <service provider-service-name="b" provider-weight-value="1.0=90;1.1=10"/> 表示所有消费端访问提供端的时候，提供端的1.0版本提供90%的权重流量，1.1版本提供10%的权重流量 -->
+        <!-- 2. 局部配置，即指定consumer-service-name，专门为该消费端配置权重。全局配置，即不指定consumer-service-name，为所有消费端配置相同情形的权重。当局部配置和全局配置同时存在的时候，以局部配置优先 -->
+        <!-- 3. 尽量为线上所有版本都赋予权重值 -->
+        <!-- 区域权重策略介绍 -->
+        <!-- 1. 标准配置，举例如下 -->
+        <!--     <region provider-weight-value="dev=85;qa=15"/> 表示区域为dev的服务提供85%的权重流量，区域为qa的服务提供15%的权重流量 -->
+        <!-- 2. 区域权重可以切换整条调用链的权重配比 -->
+        <!-- 3. 尽量为线上所有区域都赋予权重值 -->
+        <weight>
+            <!-- 权重流量配置有如下三种方式，粒度由细到粗，优先级分别是由高到底，即先从第一种方式取权重流量值，取不到则到第二种方式取值，再取不到则到第二种方式取值，再取不到则忽略。使用者按照实际情况，选择一种即可 -->
+            <!-- 表示消费端服务b访问提供端服务c的时候，提供端服务c的1.0版本提供90%的权重流量，1.1版本提供10%的权重流量 -->
+            <service consumer-service-name="discovery-springcloud-example-b" provider-service-name="discovery-springcloud-example-c" provider-weight-value="1.0=90;1.1=10"/>
+            <!-- 表示所有消费端服务访问提供端服务c的时候，提供端服务c的1.0版本提供80%的权重流量，1.1版本提供20%的权重流量 -->
+            <service provider-service-name="discovery-springcloud-example-c" provider-weight-value="1.0=80;1.1=20"/>
+            <!-- 表示外界调用进来后，区域为dev的服务提供85%的权重流量，区域为qa的服务提供15%的权重流量 -->
+            <!-- <region provider-weight-value="dev=85;qa=15"/> -->
+        </weight>
+    </discovery>
+
+    <strategy>
+        <!-- <version>{"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.0", "discovery-springcloud-example-c":"1.0;1.2"}</version> -->
+        <!-- <version>1.0</version> -->
+        <!-- <region>{"discovery-springcloud-example-a":"qa;dev", "discovery-springcloud-example-b":"dev", "discovery-springcloud-example-c":"qa"}</region> -->
+        <!-- <region>dev</region> -->
+        <!-- <address>{"discovery-springcloud-example-a":"192.168.43.101:1100", "discovery-springcloud-example-b":"192.168.43.101:1201", "discovery-springcloud-example-c":"192.168.43.101:1300"}</address> -->
+    </strategy>
+
+    <!-- 客户定制化控制，由远程推送客户化参数的改变，实现一些特色化的灰度发布，例如，基于数据库的灰度发布 -->
+    <customization>
+        <!-- 服务a和c分别有两个库的配置，分别是测试数据库（database的value为qa）和生产数据库（database的value为prod） -->
+        <!-- 上线后，一开始数据库指向测试数据库，对应value为qa，然后灰度发布的时候，改对应value为prod，即实现数据库的灰度发布 -->
+        <service service-name="discovery-springcloud-example-a" key="database" value="qa"/>
+        <service service-name="discovery-springcloud-example-c" key="database" value="prod"/>
+    </customization>
+</rule>

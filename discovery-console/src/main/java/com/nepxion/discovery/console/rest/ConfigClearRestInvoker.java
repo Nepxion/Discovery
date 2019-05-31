@@ -15,8 +15,8 @@ import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.web.client.RestTemplate;
 
 public class ConfigClearRestInvoker extends AbstractRestInvoker {
-    public ConfigClearRestInvoker(List<ServiceInstance> serviceInstances, RestTemplate restTemplate) {
-        super(serviceInstances, restTemplate);
+    public ConfigClearRestInvoker(List<ServiceInstance> serviceInstances, RestTemplate restTemplate, boolean async) {
+        super(serviceInstances, restTemplate, async);
     }
 
     @Override
@@ -25,8 +25,8 @@ public class ConfigClearRestInvoker extends AbstractRestInvoker {
     }
 
     @Override
-    protected String getUrl(String host, int port) {
-        return "http://" + host + ":" + port + "/config/clear";
+    protected String getSuffixPath() {
+        return "config/clear-" + getInvokeType();
     }
 
     @Override

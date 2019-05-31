@@ -9,6 +9,7 @@ package com.nepxion.discovery.plugin.framework.context;
  * @version 1.0
  */
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
@@ -16,7 +17,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.ResolvableType;
 import org.springframework.core.env.Environment;
 
-import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
 public class PluginContextAware implements ApplicationContextAware {
     private ApplicationContext applicationContext;
@@ -96,6 +97,10 @@ public class PluginContextAware implements ApplicationContextAware {
         return isConfigRestControlEnabled(environment);
     }
 
+    public String getConfigFormat() {
+        return getConfigFormat(environment);
+    }
+
     public String getConfigPath() {
         return getConfigPath(environment);
     }
@@ -104,23 +109,39 @@ public class PluginContextAware implements ApplicationContextAware {
         return getGroupKey(environment);
     }
 
+    public String getContextPath() {
+        return getContextPath(environment);
+    }
+
     public static Boolean isRegisterControlEnabled(Environment environment) {
-        return environment.getProperty(PluginConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED, Boolean.class, Boolean.TRUE);
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED, Boolean.class, Boolean.TRUE);
     }
 
     public static Boolean isDiscoveryControlEnabled(Environment environment) {
-        return environment.getProperty(PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED, Boolean.class, Boolean.TRUE);
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED, Boolean.class, Boolean.TRUE);
     }
 
     public static Boolean isConfigRestControlEnabled(Environment environment) {
-        return environment.getProperty(PluginConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED, Boolean.class, Boolean.TRUE);
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED, Boolean.class, Boolean.TRUE);
+    }
+
+    public static String getConfigFormat(Environment environment) {
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_CONFIG_FORMAT, String.class, DiscoveryConstant.XML_FORMAT);
     }
 
     public static String getConfigPath(Environment environment) {
-        return environment.getProperty(PluginConstant.SPRING_APPLICATION_CONFIG_PATH);
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_CONFIG_PATH, String.class, StringUtils.equals(getConfigFormat(environment), DiscoveryConstant.XML_FORMAT) ? DiscoveryConstant.PREFIX_CLASSPATH + DiscoveryConstant.RULE + "." + DiscoveryConstant.XML_FORMAT : DiscoveryConstant.PREFIX_CLASSPATH + DiscoveryConstant.RULE + "." + DiscoveryConstant.JSON_FORMAT);
+    }
+
+    public static String getApplicationName(Environment environment) {
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_NAME);
     }
 
     public static String getGroupKey(Environment environment) {
-        return environment.getProperty(PluginConstant.SPRING_APPLICATION_GROUP_KEY, String.class, PluginConstant.GROUP);
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY, String.class, DiscoveryConstant.GROUP);
+    }
+
+    public static String getContextPath(Environment environment) {
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH, String.class, "/");
     }
 }

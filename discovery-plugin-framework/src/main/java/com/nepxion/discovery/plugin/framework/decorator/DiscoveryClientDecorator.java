@@ -11,6 +11,7 @@ package com.nepxion.discovery.plugin.framework.decorator;
 
 import java.util.List;
 
+import org.springframework.beans.BeansException;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -20,6 +21,8 @@ import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.listener.discovery.DiscoveryListenerExecutor;
 
 public class DiscoveryClientDecorator implements DiscoveryClient {
+    // private static final Logger LOG = LoggerFactory.getLogger(DiscoveryClientDecorator.class);
+
     private DiscoveryClient discoveryClient;
     private ConfigurableApplicationContext applicationContext;
     private ConfigurableEnvironment environment;
@@ -36,8 +39,12 @@ public class DiscoveryClientDecorator implements DiscoveryClient {
 
         Boolean discoveryControlEnabled = PluginContextAware.isDiscoveryControlEnabled(environment);
         if (discoveryControlEnabled) {
-            DiscoveryListenerExecutor discoveryListenerExecutor = applicationContext.getBean(DiscoveryListenerExecutor.class);
-            discoveryListenerExecutor.onGetInstances(serviceId, instances);
+            try {
+                DiscoveryListenerExecutor discoveryListenerExecutor = applicationContext.getBean(DiscoveryListenerExecutor.class);
+                discoveryListenerExecutor.onGetInstances(serviceId, instances);
+            } catch (BeansException e) {
+                // LOG.warn("Get bean for DiscoveryListenerExecutor failed, ignore to executor listener");
+            }
         }
 
         return instances;
@@ -53,8 +60,12 @@ public class DiscoveryClientDecorator implements DiscoveryClient {
 
         Boolean discoveryControlEnabled = PluginContextAware.isDiscoveryControlEnabled(environment);
         if (discoveryControlEnabled) {
-            DiscoveryListenerExecutor discoveryListenerExecutor = applicationContext.getBean(DiscoveryListenerExecutor.class);
-            discoveryListenerExecutor.onGetServices(services);
+            try {
+                DiscoveryListenerExecutor discoveryListenerExecutor = applicationContext.getBean(DiscoveryListenerExecutor.class);
+                discoveryListenerExecutor.onGetServices(services);
+            } catch (BeansException e) {
+                // LOG.warn("Get bean for DiscoveryListenerExecutor failed, ignore to executor listener");
+            }
         }
 
         return services;

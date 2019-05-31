@@ -16,7 +16,10 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.HierarchyEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
@@ -27,6 +30,7 @@ import javax.swing.JSlider;
 import javax.swing.JToolBar;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.nepxion.cots.twaver.element.TElementManager;
@@ -37,15 +41,16 @@ import com.nepxion.cots.twaver.graph.TGraphControlBar;
 import com.nepxion.cots.twaver.graph.TGraphManager;
 import com.nepxion.cots.twaver.graph.TLayoutPanel;
 import com.nepxion.cots.twaver.graph.TLayouterBar;
+import com.nepxion.discovery.common.entity.RouterEntity;
 import com.nepxion.discovery.console.desktop.controller.ServiceController;
-import com.nepxion.discovery.console.desktop.entity.InstanceEntity;
-import com.nepxion.discovery.console.desktop.entity.RouterEntity;
+import com.nepxion.discovery.console.desktop.entity.Instance;
 import com.nepxion.discovery.console.desktop.icon.ConsoleIconFactory;
 import com.nepxion.discovery.console.desktop.locale.ConsoleLocale;
 import com.nepxion.discovery.console.desktop.workspace.topology.AbstractTopology;
 import com.nepxion.discovery.console.desktop.workspace.topology.LocationEntity;
 import com.nepxion.discovery.console.desktop.workspace.topology.TopologyEntity;
 import com.nepxion.discovery.console.desktop.workspace.topology.TopologyEntityType;
+import com.nepxion.discovery.console.desktop.workspace.topology.TopologyStyleType;
 import com.nepxion.swing.action.JSecurityAction;
 import com.nepxion.swing.button.ButtonManager;
 import com.nepxion.swing.button.JBasicButton;
@@ -63,14 +68,14 @@ public class RouterTopology extends AbstractTopology {
     private static final long serialVersionUID = 1L;
 
     private LocationEntity nodeLocationEntity = new LocationEntity(100, 200, 200, 0);
-    private TopologyEntity serviceNodeEntity = new TopologyEntity(TopologyEntityType.SERVICE, true, true);
+    private TopologyEntity serviceNodeEntity = new TopologyEntity(TopologyEntityType.SERVICE, TopologyStyleType.MIDDLE, true);
 
     private TGraphBackground background;
     private JBasicComboBox comboBox;
     private JBasicTextField textField;
     private ActionListener layoutActionListener;
 
-    private InstanceEntity instance;
+    private Instance instance;
 
     public RouterTopology() {
         initializeToolBar();
@@ -79,8 +84,17 @@ public class RouterTopology extends AbstractTopology {
     }
 
     private void initializeToolBar() {
+        JSecurityAction addServiceAction = createAddServiceAction();
+
         comboBox = new JBasicComboBox();
         comboBox.setPreferredSize(new Dimension(300, comboBox.getPreferredSize().height));
+        comboBox.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                if (comboBox.getSelectedItem() != e.getItem()) {
+                    addServiceAction.execute(null);
+                }
+            }
+        });
 
         textField = new JBasicTextField();
         textField.setPreferredSize(new Dimension(650, textField.getPreferredSize().height));
@@ -91,7 +105,7 @@ public class RouterTopology extends AbstractTopology {
         toolBar.add(new JLabel(ConsoleLocale.getString("service_list")));
         toolBar.add(Box.createHorizontalStrut(5));
         toolBar.add(comboBox);
-        toolBar.add(new JClassicButton(createAddServiceAction()));
+        toolBar.add(new JClassicButton(addServiceAction));
         toolBar.add(new JClassicButton(createDeleteServiceAction()));
         toolBar.add(textField);
         toolBar.add(new JClassicButton(createExecuteRouterAction()));
@@ -130,10 +144,12 @@ public class RouterTopology extends AbstractTopology {
                 typeComboBox.setSelectedIndex(2);
 
                 JPanel childPanel2 = (JPanel) layoutPanel.getComponent(1);
+                JSlider yOffsetSlider = (JSlider) childPanel2.getComponent(11);
+                yOffsetSlider.setValue(0);
                 JSlider xGapSlider = (JSlider) childPanel2.getComponent(13);
                 xGapSlider.setValue(200);
                 JSlider yGapSlider = (JSlider) childPanel2.getComponent(15);
-                yGapSlider.setValue(100);
+                yGapSlider.setValue(150);
 
                 JPanel childPanel3 = (JPanel) layoutPanel.getComponent(2);
                 JBasicButton runButton = (JBasicButton) childPanel3.getComponent(1);
@@ -172,7 +188,7 @@ public class RouterTopology extends AbstractTopology {
 
                     index++;
                 }
-                addLink(node, nextNode);
+                addLink(node, nextNode, next);
 
                 route(next, nextNode, index);
             }
@@ -189,6 +205,17 @@ public class RouterTopology extends AbstractTopology {
             stringBuilder.append("\n [V").append(routerEntity.getVersion()).append("]");
         }
 
+        if (StringUtils.isNotEmpty(routerEntity.getRegion())) {
+            stringBuilder.append("\n [Region=").append(routerEntity.getRegion()).append("]");
+        }
+
+        Map<String, String> customMap = routerEntity.getCustomMap();
+        if (MapUtils.isNotEmpty(customMap)) {
+            for (Map.Entry<String, String> entry : customMap.entrySet()) {
+                stringBuilder.append("\n ").append(entry.getKey()).append("=").append(entry.getValue());
+            }
+        }
+
         return ButtonManager.getHtmlText(stringBuilder.toString());
     }
 
@@ -203,9 +230,25 @@ public class RouterTopology extends AbstractTopology {
         return node;
     }
 
-    private void addLink(TNode fromNode, TNode toNode) {
+    @SuppressWarnings("unchecked")
+    private void addLink(TNode fromNode, TNode toNode, RouterEntity routerEntity) {
+        List<TLink> links = TElementManager.getLinks(dataBox);
+        for (TLink link : links) {
+            if (link.getFrom() == fromNode && link.getTo() == toNode) {
+                return;
+            }
+        }
+
+        int weight = routerEntity.getWeight();
+
         TLink link = createLink(fromNode, toNode, true);
         link.putLinkToArrowColor(Color.yellow);
+        if (weight > -1) {
+            link.setName("weight=" + weight);
+            link.putLinkFlowing(true);
+            link.putLinkFlowingColor(new Color(255, 155, 85));
+            link.putLinkFlowingWidth(3);
+        }
 
         dataBox.addElement(link);
     }
@@ -215,11 +258,11 @@ public class RouterTopology extends AbstractTopology {
         comboBox.setModel(new DefaultComboBoxModel<>(services));
     }
 
-    public void setInstance(InstanceEntity instance) {
+    public void setInstance(Instance instance) {
         if (this.instance != instance) {
             this.instance = instance;
 
-            textField.setText("");
+            textField.setText(StringUtils.EMPTY);
             dataBox.clear();
         }
     }
@@ -229,8 +272,13 @@ public class RouterTopology extends AbstractTopology {
             private static final long serialVersionUID = 1L;
 
             public void execute(ActionEvent e) {
+                Object selectedItem = comboBox.getSelectedItem();
+                if (selectedItem == null) {
+                    return;
+                }
+
                 String routerPath = textField.getText();
-                String serviceId = comboBox.getSelectedItem().toString();
+                String serviceId = selectedItem.toString();
                 if (StringUtils.isNotEmpty(routerPath)) {
                     routerPath = routerPath + ";" + serviceId;
                 } else {
@@ -256,7 +304,7 @@ public class RouterTopology extends AbstractTopology {
                 if (routerPath.contains(";")) {
                     routerPath = routerPath.substring(0, routerPath.lastIndexOf(";"));
                 } else {
-                    routerPath = "";
+                    routerPath = StringUtils.EMPTY;
                 }
 
                 textField.setText(routerPath);
@@ -301,7 +349,7 @@ public class RouterTopology extends AbstractTopology {
             private static final long serialVersionUID = 1L;
 
             public void execute(ActionEvent e) {
-                textField.setText("");
+                textField.setText(StringUtils.EMPTY);
                 dataBox.clear();
             }
         };

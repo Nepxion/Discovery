@@ -11,24 +11,45 @@ package com.nepxion.discovery.plugin.configcenter.loader;
 
 import java.io.InputStream;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
+
 public abstract class LocalConfigLoader implements ConfigLoader {
+    private static final Logger LOG = LoggerFactory.getLogger(LocalConfigLoader.class);
+
     @Autowired
     private ApplicationContext applicationContext;
 
     @Override
-    public InputStream getInputStream() throws Exception {
+    public String getConfig() throws Exception {
         String path = getPath();
         if (StringUtils.isEmpty(path)) {
-            return null;
+            throw new IllegalArgumentException("Config local path isn't set");
         }
 
-        String filePath = applicationContext.getEnvironment().resolvePlaceholders(path);
+        LOG.info("Config local path is {}", path);
 
-        return applicationContext.getResource(filePath).getInputStream();
+        InputStream inputStream = null;
+        try {
+            String filePath = applicationContext.getEnvironment().resolvePlaceholders(path);
+            inputStream = applicationContext.getResource(filePath).getInputStream();
+
+            return IOUtils.toString(inputStream, DiscoveryConstant.ENCODING_UTF_8);
+        } catch (Exception e) {
+            LOG.warn("File [{}] isn't found or invalid, ignore to load...", path);
+
+            return null;
+        } finally {
+            if (inputStream != null) {
+                IOUtils.closeQuietly(inputStream);
+            }
+        }
     }
 
     protected abstract String getPath();

@@ -9,19 +9,17 @@ package com.nepxion.discovery.plugin.framework.event;
  * @version 1.0
  */
 
-import java.io.InputStream;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.eventbus.Subscribe;
+import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.config.PluginConfigParser;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
-import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
-import com.nepxion.discovery.plugin.framework.exception.PluginException;
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.LoadBalanceListenerExecutor;
 import com.nepxion.eventbus.annotation.EventBus;
 import com.netflix.loadbalancer.ZoneAwareLoadBalancer;
@@ -40,6 +38,9 @@ public class PluginSubscriber {
     private PluginConfigParser pluninConfigParser;
 
     @Autowired
+    private PluginEventWapper pluginEventWapper;
+
+    @Autowired
     private LoadBalanceListenerExecutor loadBalanceListenerExecutor;
 
     @Subscribe
@@ -54,13 +55,15 @@ public class PluginSubscriber {
         LOG.info("Rule updating has been triggered");
 
         if (ruleUpdatedEvent == null) {
-            throw new PluginException("RuleUpdatedEvent can't be null");
+            throw new DiscoveryException("RuleUpdatedEvent can't be null");
         }
 
-        InputStream inputStream = ruleUpdatedEvent.getInputStream();
+        String rule = ruleUpdatedEvent.getRule();
         try {
-            RuleEntity ruleEntity = pluninConfigParser.parse(inputStream);
+            RuleEntity ruleEntity = pluninConfigParser.parse(rule);
             pluginAdapter.setDynamicRule(ruleEntity);
+
+            pluginEventWapper.fireCustomization();
         } catch (Exception e) {
             LOG.error("Parse rule xml failed", e);
 
@@ -82,10 +85,12 @@ public class PluginSubscriber {
         LOG.info("Rule clearing has been triggered");
 
         if (ruleClearedEvent == null) {
-            throw new PluginException("RuleClearedEvent can't be null");
+            throw new DiscoveryException("RuleClearedEvent can't be null");
         }
 
         pluginAdapter.clearDynamicRule();
+
+        pluginEventWapper.fireCustomization();
 
         refreshLoadBalancer();
     }
@@ -102,7 +107,7 @@ public class PluginSubscriber {
         LOG.info("Version updating has been triggered");
 
         if (versionUpdatedEvent == null) {
-            throw new PluginException("VersionUpdatedEvent can't be null");
+            throw new DiscoveryException("VersionUpdatedEvent can't be null");
         }
 
         String dynamicVersion = versionUpdatedEvent.getDynamicVersion();
@@ -122,7 +127,7 @@ public class PluginSubscriber {
 
                 LOG.info("Version has been updated, new version is {}", dynamicVersion);
             } else {
-                throw new PluginException("Version updating will be ignored, because input localVersion=" + localVersion + ", current localVersion=" + pluginAdapter.getLocalVersion());
+                throw new DiscoveryException("Version updating will be ignored, because input localVersion=" + localVersion + ", current localVersion=" + pluginAdapter.getLocalVersion());
             }
         }
     }
@@ -139,7 +144,7 @@ public class PluginSubscriber {
         LOG.info("Version clearing has been triggered");
 
         if (versionClearedEvent == null) {
-            throw new PluginException("VersionClearedEvent can't be null");
+            throw new DiscoveryException("VersionClearedEvent can't be null");
         }
 
         String localVersion = versionClearedEvent.getLocalVersion();
@@ -158,7 +163,7 @@ public class PluginSubscriber {
 
                 LOG.info("Version has been cleared");
             } else {
-                throw new PluginException("Version clearing will be ignored, because input localVersion=" + localVersion + ", current localVersion=" + pluginAdapter.getLocalVersion());
+                throw new DiscoveryException("Version clearing will be ignored, because input localVersion=" + localVersion + ", current localVersion=" + pluginAdapter.getLocalVersion());
             }
         }
     }

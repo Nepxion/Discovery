@@ -19,11 +19,11 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cloud.client.ServiceInstance;
 
-import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
-import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
-import com.nepxion.discovery.plugin.framework.entity.DiscoveryServiceEntity;
-import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
-import com.nepxion.discovery.plugin.framework.entity.VersionFilterEntity;
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.DiscoveryEntity;
+import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.VersionEntity;
+import com.nepxion.discovery.common.entity.VersionFilterEntity;
 
 public class VersionFilterDiscoveryListener extends AbstractDiscoveryListener {
     @Override
@@ -55,13 +55,13 @@ public class VersionFilterDiscoveryListener extends AbstractDiscoveryListener {
             return;
         }
 
-        Map<String, List<DiscoveryServiceEntity>> serviceEntityMap = versionFilterEntity.getServiceEntityMap();
-        if (MapUtils.isEmpty(serviceEntityMap)) {
+        Map<String, List<VersionEntity>> versionEntityMap = versionFilterEntity.getVersionEntityMap();
+        if (MapUtils.isEmpty(versionEntityMap)) {
             return;
         }
 
-        List<DiscoveryServiceEntity> serviceEntityList = serviceEntityMap.get(consumerServiceId);
-        if (CollectionUtils.isEmpty(serviceEntityList)) {
+        List<VersionEntity> versionEntityList = versionEntityMap.get(consumerServiceId);
+        if (CollectionUtils.isEmpty(versionEntityList)) {
             return;
         }
 
@@ -69,13 +69,13 @@ public class VersionFilterDiscoveryListener extends AbstractDiscoveryListener {
         List<String> allNoFilterValueList = null;
         // 提供端规则未作任何定义
         boolean providerConditionDefined = false;
-        for (DiscoveryServiceEntity serviceEntity : serviceEntityList) {
-            String providerServiceName = serviceEntity.getProviderServiceName();
-            if (StringUtils.equals(providerServiceName, providerServiceId)) {
+        for (VersionEntity versionEntity : versionEntityList) {
+            String providerServiceName = versionEntity.getProviderServiceName();
+            if (StringUtils.equalsIgnoreCase(providerServiceName, providerServiceId)) {
                 providerConditionDefined = true;
 
-                List<String> consumerVersionValueList = serviceEntity.getConsumerVersionValueList();
-                List<String> providerVersionValueList = serviceEntity.getProviderVersionValueList();
+                List<String> consumerVersionValueList = versionEntity.getConsumerVersionValueList();
+                List<String> providerVersionValueList = versionEntity.getProviderVersionValueList();
 
                 // 判断consumer-version-value值是否包含当前消费端的版本号
                 // 如果consumerVersionValueList为空，表示消费端版本列表未指定，那么任意消费端版本可以访问指定版本提供端版本
@@ -107,8 +107,8 @@ public class VersionFilterDiscoveryListener extends AbstractDiscoveryListener {
                 Iterator<ServiceInstance> iterator = instances.iterator();
                 while (iterator.hasNext()) {
                     ServiceInstance serviceInstance = iterator.next();
-                    String metaDataVersion = serviceInstance.getMetadata().get(PluginConstant.VERSION);
-                    if (!allNoFilterValueList.contains(metaDataVersion)) {
+                    String metadataVersion = serviceInstance.getMetadata().get(DiscoveryConstant.VERSION);
+                    if (!allNoFilterValueList.contains(metadataVersion)) {
                         iterator.remove();
                     }
                 }
@@ -124,5 +124,11 @@ public class VersionFilterDiscoveryListener extends AbstractDiscoveryListener {
     @Override
     public void onGetServices(List<String> services) {
 
+    }
+
+    @Override
+    public int getOrder() {
+        // After host filter
+        return HIGHEST_PRECEDENCE + 1;
     }
 }

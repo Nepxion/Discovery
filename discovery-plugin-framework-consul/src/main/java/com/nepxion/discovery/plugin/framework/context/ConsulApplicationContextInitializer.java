@@ -17,9 +17,10 @@ import org.springframework.cloud.consul.serviceregistry.ConsulServiceRegistry;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.constant.ConsulConstant;
-import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.decorator.ConsulServiceRegistryDecorator;
+import com.nepxion.discovery.plugin.framework.util.MetadataUtil;
 
 public class ConsulApplicationContextInitializer extends PluginApplicationContextInitializer {
     @Override
@@ -35,11 +36,16 @@ public class ConsulApplicationContextInitializer extends PluginApplicationContex
             consulDiscoveryProperties.setPreferIpAddress(true);
 
             List<String> tags = consulDiscoveryProperties.getTags();
-            tags.add(PluginConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN + "=" + ConsulConstant.DISCOVERY_PLUGIN);
-            tags.add(PluginConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED + "=" + PluginContextAware.isRegisterControlEnabled(environment));
-            tags.add(PluginConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED + "=" + PluginContextAware.isDiscoveryControlEnabled(environment));
-            tags.add(PluginConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED + "=" + PluginContextAware.isConfigRestControlEnabled(environment));
-            tags.add(PluginConstant.SPRING_APPLICATION_GROUP_KEY + "=" + PluginContextAware.getGroupKey(environment));
+            tags.add(DiscoveryConstant.SPRING_APPLICATION_NAME + "=" + PluginContextAware.getApplicationName(environment));
+            tags.add(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN + "=" + ConsulConstant.DISCOVERY_PLUGIN);
+            tags.add(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_VERSION + "=" + DiscoveryConstant.DISCOVERY_VERSION);
+            tags.add(DiscoveryConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED + "=" + PluginContextAware.isRegisterControlEnabled(environment));
+            tags.add(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED + "=" + PluginContextAware.isDiscoveryControlEnabled(environment));
+            tags.add(DiscoveryConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED + "=" + PluginContextAware.isConfigRestControlEnabled(environment));
+            tags.add(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY + "=" + PluginContextAware.getGroupKey(environment));
+            tags.add(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH + "=" + PluginContextAware.getContextPath(environment));
+
+            MetadataUtil.filter(tags);
 
             return bean;
         } else {

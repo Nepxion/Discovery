@@ -22,19 +22,22 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import com.nepxion.discovery.console.constant.ConsoleConstant;
-import com.nepxion.discovery.console.entity.ResultEntity;
-import com.nepxion.discovery.console.handler.ConsoleErrorHandler;
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.ResultEntity;
+import com.nepxion.discovery.common.util.RestUtil;
+import com.nepxion.discovery.common.util.UrlUtil;
 
 public abstract class AbstractRestInvoker {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractRestInvoker.class);
 
     protected List<ServiceInstance> serviceInstances;
     protected RestTemplate restTemplate;
+    protected boolean async;
 
-    public AbstractRestInvoker(List<ServiceInstance> serviceInstances, RestTemplate restTemplate) {
+    public AbstractRestInvoker(List<ServiceInstance> serviceInstances, RestTemplate restTemplate, boolean async) {
         this.serviceInstances = serviceInstances;
         this.restTemplate = restTemplate;
+        this.async = async;
     }
 
     public ResponseEntity<?> invoke() {
@@ -46,18 +49,19 @@ public abstract class AbstractRestInvoker {
 
         List<ResultEntity> resultEntityList = new ArrayList<ResultEntity>();
         for (ServiceInstance serviceInstance : serviceInstances) {
+            Map<String, String> metadata = serviceInstance.getMetadata();
             String host = serviceInstance.getHost();
             int port = serviceInstance.getPort();
-            String url = getUrl(host, port);
-            String result = null;
+            String contextPath = metadata.get(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH);
+            String url = "http://" + host + ":" + port + UrlUtil.formatContextPath(contextPath) + getSuffixPath();
 
+            String result = null;
             try {
                 checkPermission(serviceInstance);
 
                 result = doRest(url);
-                if (!StringUtils.equals(result, "OK")) {
-                    ConsoleErrorHandler errorHandler = (ConsoleErrorHandler) restTemplate.getErrorHandler();
-                    result = errorHandler.getCause();
+                if (!StringUtils.equals(result, DiscoveryConstant.OK)) {
+                    result = RestUtil.getCause(restTemplate);
                 }
             } catch (Exception e) {
                 result = e.getMessage();
@@ -76,12 +80,16 @@ public abstract class AbstractRestInvoker {
         return ResponseEntity.ok().body(resultEntityList);
     }
 
-    protected void checkDiscoveryControlPermission(ServiceInstance serviceInstance) {
-        Map<String, String> metaData = serviceInstance.getMetadata();
+    protected String getInvokeType() {
+        return async ? DiscoveryConstant.ASYNC : DiscoveryConstant.SYNC;
+    }
 
-        String discoveryControlEnabled = metaData.get(ConsoleConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED);
+    protected void checkDiscoveryControlPermission(ServiceInstance serviceInstance) {
+        Map<String, String> metadata = serviceInstance.getMetadata();
+
+        String discoveryControlEnabled = metadata.get(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED);
         if (StringUtils.isEmpty(discoveryControlEnabled)) {
-            throw new IllegalArgumentException("No metadata for key=" + ConsoleConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED);
+            throw new IllegalArgumentException("No metadata for key=" + DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED);
         }
 
         if (!Boolean.valueOf(discoveryControlEnabled)) {
@@ -90,11 +98,11 @@ public abstract class AbstractRestInvoker {
     }
 
     protected void checkConfigRestControlPermission(ServiceInstance serviceInstance) {
-        Map<String, String> metaData = serviceInstance.getMetadata();
+        Map<String, String> metadata = serviceInstance.getMetadata();
 
-        String configRestControlEnabled = metaData.get(ConsoleConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED);
+        String configRestControlEnabled = metadata.get(DiscoveryConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED);
         if (StringUtils.isEmpty(configRestControlEnabled)) {
-            throw new IllegalArgumentException("No metadata for key=" + ConsoleConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED);
+            throw new IllegalArgumentException("No metadata for key=" + DiscoveryConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED);
         }
 
         if (!Boolean.valueOf(configRestControlEnabled)) {
@@ -104,7 +112,7 @@ public abstract class AbstractRestInvoker {
 
     protected abstract String getInfo();
 
-    protected abstract String getUrl(String host, int port);
+    protected abstract String getSuffixPath();
 
     protected abstract String doRest(String url);
 

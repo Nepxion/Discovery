@@ -15,17 +15,17 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.serviceregistry.Registration;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.cache.PluginCache;
 import com.nepxion.discovery.plugin.framework.cache.RuleCache;
-import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
-import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
-import com.nepxion.discovery.plugin.framework.exception.PluginException;
 import com.netflix.loadbalancer.Server;
 
 public abstract class AbstractPluginAdapter implements PluginAdapter {
     @Autowired
-    private Registration registration;
+    protected Registration registration;
 
     @Autowired
     protected PluginContextAware pluginContextAware;
@@ -40,17 +40,21 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     public String getGroup() {
         String groupKey = pluginContextAware.getGroupKey();
 
-        String group = getMetaData().get(groupKey);
+        String group = getGroup(groupKey);
         if (StringUtils.isEmpty(group)) {
-            throw new PluginException("The value is empty for metadata key=" + groupKey + ", please check your configuration");
+            throw new DiscoveryException("The value is null or empty for metadata key=" + groupKey + ", please check your configuration");
         }
 
         return group;
     }
 
+    protected String getGroup(String groupKey) {
+        return getMetadata().get(groupKey);
+    }
+
     @Override
     public String getServiceId() {
-        return registration.getServiceId();
+        return registration.getServiceId().toLowerCase();
     }
 
     @Override
@@ -64,7 +68,12 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
-    public Map<String, String> getMetaData() {
+    public String getContextPath() {
+        return getMetadata().get(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH);
+    }
+
+    @Override
+    public Map<String, String> getMetadata() {
         return registration.getMetadata();
     }
 
@@ -80,22 +89,22 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Override
     public String getLocalVersion() {
-        return getMetaData().get(PluginConstant.VERSION);
+        return getMetadata().get(DiscoveryConstant.VERSION);
     }
 
     @Override
     public String getDynamicVersion() {
-        return pluginCache.get(PluginConstant.DYNAMIC_VERSION);
+        return pluginCache.get(DiscoveryConstant.DYNAMIC_VERSION);
     }
 
     @Override
     public void setDynamicVersion(String version) {
-        pluginCache.put(PluginConstant.DYNAMIC_VERSION, version);
+        pluginCache.put(DiscoveryConstant.DYNAMIC_VERSION, version);
     }
 
     @Override
     public void clearDynamicVersion() {
-        pluginCache.clear(PluginConstant.DYNAMIC_VERSION);
+        pluginCache.clear(DiscoveryConstant.DYNAMIC_VERSION);
     }
 
     @Override
@@ -110,31 +119,46 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Override
     public RuleEntity getLocalRule() {
-        return ruleCache.get(PluginConstant.RULE);
+        return ruleCache.get(DiscoveryConstant.RULE);
     }
 
     @Override
     public void setLocalRule(RuleEntity ruleEntity) {
-        ruleCache.put(PluginConstant.RULE, ruleEntity);
+        ruleCache.put(DiscoveryConstant.RULE, ruleEntity);
     }
 
     @Override
     public RuleEntity getDynamicRule() {
-        return ruleCache.get(PluginConstant.DYNAMIC_RULE);
+        return ruleCache.get(DiscoveryConstant.DYNAMIC_RULE);
     }
 
     @Override
     public void setDynamicRule(RuleEntity ruleEntity) {
-        ruleCache.put(PluginConstant.DYNAMIC_RULE, ruleEntity);
+        ruleCache.put(DiscoveryConstant.DYNAMIC_RULE, ruleEntity);
     }
 
     @Override
     public void clearDynamicRule() {
-        ruleCache.clear(PluginConstant.DYNAMIC_RULE);
+        ruleCache.clear(DiscoveryConstant.DYNAMIC_RULE);
+    }
+
+    @Override
+    public String getRegion() {
+        return getMetadata().get(DiscoveryConstant.REGION);
+    }
+
+    @Override
+    public String getServerServiceId(Server server) {
+        return getServerMetadata(server).get(DiscoveryConstant.SPRING_APPLICATION_NAME).toLowerCase();
     }
 
     @Override
     public String getServerVersion(Server server) {
-        return getServerMetaData(server).get(PluginConstant.VERSION);
+        return getServerMetadata(server).get(DiscoveryConstant.VERSION);
+    }
+
+    @Override
+    public String getServerRegion(Server server) {
+        return getServerMetadata(server).get(DiscoveryConstant.REGION);
     }
 }

@@ -9,10 +9,8 @@ package com.nepxion.discovery.plugin.framework.config;
  * @version 1.0
  */
 
-import java.io.InputStream;
-
-import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.RuleEntity;
 
 public interface PluginConfigParser {
-    RuleEntity parse(InputStream inputStream);
+    RuleEntity parse(String config);
 }

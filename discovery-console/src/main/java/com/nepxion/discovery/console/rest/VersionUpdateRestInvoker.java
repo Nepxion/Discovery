@@ -17,8 +17,8 @@ import org.springframework.web.client.RestTemplate;
 public class VersionUpdateRestInvoker extends AbstractRestInvoker {
     private String version;
 
-    public VersionUpdateRestInvoker(List<ServiceInstance> serviceInstances, RestTemplate restTemplate, String version) {
-        super(serviceInstances, restTemplate);
+    public VersionUpdateRestInvoker(List<ServiceInstance> serviceInstances, RestTemplate restTemplate, String version, boolean async) {
+        super(serviceInstances, restTemplate, async);
 
         this.version = version;
     }
@@ -29,8 +29,8 @@ public class VersionUpdateRestInvoker extends AbstractRestInvoker {
     }
 
     @Override
-    protected String getUrl(String host, int port) {
-        return "http://" + host + ":" + port + "/version/update";
+    protected String getSuffixPath() {
+        return "version/update-" + getInvokeType();
     }
 
     @Override

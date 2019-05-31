@@ -10,9 +10,11 @@ package com.nepxion.discovery.console.desktop;
  */
 
 import java.awt.Dimension;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.nepxion.discovery.console.desktop.controller.ServiceController;
 import com.nepxion.discovery.console.desktop.icon.ConsoleIconFactory;
 import com.nepxion.discovery.console.desktop.locale.ConsoleLocale;
 import com.nepxion.swing.frame.JBasicFrame;
@@ -22,9 +24,10 @@ import com.nepxion.swing.style.texture.shrink.JGreenOutlookTextureStyle;
 
 public class ConsoleFrame extends JBasicFrame {
     private static final long serialVersionUID = 1L;
+    private static final Logger LOG = LoggerFactory.getLogger(ConsoleFrame.class);
 
     public ConsoleFrame() {
-        super(ConsoleLocale.getString("title"), ConsoleIconFactory.getSwingIcon("ribbon/navigator_nepxion.png"), new Dimension(1280, 900));
+        super(ConsoleLocale.getString("title") + " " + getSubTitle(), ConsoleIconFactory.getSwingIcon("ribbon/navigator_nepxion.png"), new Dimension(1280, 900));
     }
 
     public void launch() {
@@ -35,16 +38,18 @@ public class ConsoleFrame extends JBasicFrame {
 
         getContentPane().add(reflectionHierarchy);
 
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-
-            }
-        });
-
-        setTitle(ConsoleLocale.getString("title"));
         setExtendedState(ConsoleFrame.MAXIMIZED_BOTH);
         setVisible(true);
         toFront();
+    }
+
+    private static String getSubTitle() {
+        try {
+            return "[" + ServiceController.getDiscoveryType() + " " + ConsoleLocale.getString("discovery_center") + "] [" + ServiceController.getConfigType() + " " + ConsoleLocale.getString("config_center") + "]";
+        } catch (Exception e) {
+            LOG.error("Not connnect to Discovery Console", e);
+
+            return "[" + ConsoleLocale.getString("not_connnect_to_console") + "]";
+        }
     }
 }

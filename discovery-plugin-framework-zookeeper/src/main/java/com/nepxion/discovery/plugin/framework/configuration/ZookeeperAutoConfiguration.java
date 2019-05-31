@@ -13,25 +13,37 @@ import org.springframework.cloud.netflix.ribbon.RibbonClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.nepxion.banner.BannerConstant;
+import com.nepxion.banner.Description;
+import com.nepxion.banner.LogoBanner;
+import com.nepxion.banner.NepxionBanner;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.adapter.ZookeeperAdapter;
 import com.nepxion.discovery.plugin.framework.constant.ZookeeperConstant;
+import com.taobao.text.Color;
 
 @Configuration
 @RibbonClients(defaultConfiguration = { PluginLoadBalanceConfiguration.class, ZookeeperLoadBalanceConfiguration.class })
 public class ZookeeperAutoConfiguration {
     static {
-        System.out.println("");
-        System.out.println("╔═══╗");
-        System.out.println("╚╗╔╗║");
-        System.out.println(" ║║║╠╦══╦══╦══╦╗╔╦══╦═╦╗ ╔╗");
-        System.out.println(" ║║║╠╣══╣╔═╣╔╗║╚╝║║═╣╔╣║ ║║");
-        System.out.println("╔╝╚╝║╠══║╚═╣╚╝╠╗╔╣║═╣║║╚═╝║");
-        System.out.println("╚═══╩╩══╩══╩══╝╚╝╚══╩╝╚═╗╔╝");
-        System.out.println("                      ╔═╝║");
-        System.out.println("                      ╚══╝");
-        System.out.println("Nepxion Discovery - " + ZookeeperConstant.DISCOVERY_PLUGIN + "  v4.1.0");
-        System.out.println("");
+        /*String bannerShown = System.getProperty(BannerConstant.BANNER_SHOWN, "true");
+        if (Boolean.valueOf(bannerShown)) {
+            System.out.println("");
+            System.out.println("╔════╗     ╔╗");
+            System.out.println("╚══╗═║     ║║");
+            System.out.println("  ╔╝╔╬══╦══╣║╔╦══╦══╦══╦══╦═╗");
+            System.out.println(" ╔╝╔╝║╔╗║╔╗║╚╝╣║═╣║═╣╔╗║║═╣╔╝");
+            System.out.println("╔╝═╚═╣╚╝║╚╝║╔╗╣║═╣║═╣╚╝║║═╣║");
+            System.out.println("╚════╩══╩══╩╝╚╩══╩══╣╔═╩══╩╝");
+            System.out.println("                    ║║");
+            System.out.println("                    ╚╝");
+            System.out.println(ZookeeperConstant.DISCOVERY_PLUGIN + " Discovery");
+            System.out.println("");
+        }*/
+
+        LogoBanner logoBanner = new LogoBanner(ZookeeperAutoConfiguration.class, "/com/nepxion/zookeeper/resource/logo.txt", "Welcome to Nepxion", 9, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta, Color.red, Color.green, Color.cyan }, true);
+
+        NepxionBanner.show(logoBanner, new Description("Discovery:", ZookeeperConstant.DISCOVERY_PLUGIN, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
     }
 
     @Bean

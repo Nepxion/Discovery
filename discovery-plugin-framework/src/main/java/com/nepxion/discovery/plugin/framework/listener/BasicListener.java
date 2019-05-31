@@ -24,4 +24,9 @@ public class BasicListener implements Listener {
 
     @Autowired
     protected PluginEventWapper pluginEventWapper;
+
+    @Override
+    public int getOrder() {
+        return 0;
+    }
 }

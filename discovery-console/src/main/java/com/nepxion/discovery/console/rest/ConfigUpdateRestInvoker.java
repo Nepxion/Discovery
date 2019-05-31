@@ -19,13 +19,11 @@ import org.springframework.web.client.RestTemplate;
 
 public class ConfigUpdateRestInvoker extends AbstractRestInvoker {
     private String config;
-    private boolean async;
 
     public ConfigUpdateRestInvoker(List<ServiceInstance> serviceInstances, RestTemplate restTemplate, String config, boolean async) {
-        super(serviceInstances, restTemplate);
+        super(serviceInstances, restTemplate, async);
 
         this.config = config;
-        this.async = async;
     }
 
     @Override
@@ -34,8 +32,8 @@ public class ConfigUpdateRestInvoker extends AbstractRestInvoker {
     }
 
     @Override
-    protected String getUrl(String host, int port) {
-        return "http://" + host + ":" + port + "/config/update-" + (async ? "async" : "sync");
+    protected String getSuffixPath() {
+        return "config/update-" + getInvokeType();
     }
 
     @Override

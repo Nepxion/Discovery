@@ -9,6 +9,8 @@ package com.nepxion.discovery.plugin.admincenter.configuration;
  * @version 1.0
  */
 
+import org.springframework.boot.actuate.endpoint.web.annotation.RestControllerEndpoint;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -21,6 +23,7 @@ import com.nepxion.discovery.plugin.admincenter.endpoint.VersionEndpoint;
 @Configuration
 @Import(SwaggerConfiguration.class)
 public class AdminAutoConfiguration {
+    @ConditionalOnClass(RestControllerEndpoint.class)
     protected static class AdminEndpointConfiguration {
         @Bean
         public ConfigEndpoint configEndpoint() {

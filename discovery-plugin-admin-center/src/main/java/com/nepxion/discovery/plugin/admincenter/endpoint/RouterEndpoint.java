@@ -19,25 +19,42 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.endpoint.web.annotation.RestControllerEndpoint;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.jmx.export.annotation.ManagedOperation;
+import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.CustomizationEntity;
+import com.nepxion.discovery.common.entity.DiscoveryEntity;
+import com.nepxion.discovery.common.entity.RegionWeightEntity;
+import com.nepxion.discovery.common.entity.RouterEntity;
+import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.WeightEntity;
+import com.nepxion.discovery.common.entity.WeightFilterEntity;
+import com.nepxion.discovery.common.exception.DiscoveryException;
+import com.nepxion.discovery.common.util.JsonUtil;
+import com.nepxion.discovery.common.util.UrlUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
-import com.nepxion.discovery.plugin.framework.entity.RouterEntity;
-import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
 @RestController
+@RequestMapping(path = "/router")
 @Api(tags = { "路由接口" })
+@RestControllerEndpoint(id = "router")
+@ManagedResource(description = "Router Endpoint")
 public class RouterEndpoint {
     @Autowired
     private PluginAdapter pluginAdapter;
@@ -48,38 +65,50 @@ public class RouterEndpoint {
     @Autowired
     private DiscoveryClient discoveryClient;
 
-    @RequestMapping(path = "/router/services", method = RequestMethod.GET)
+    @RequestMapping(path = "/services", method = RequestMethod.GET)
     @ApiOperation(value = "获取服务注册中心的服务列表", notes = "", response = List.class, httpMethod = "GET")
+    @ResponseBody
+    @ManagedOperation
     public List<String> services() {
         return getServices();
     }
 
-    @RequestMapping(path = "/router/instances/{serviceId}", method = RequestMethod.GET)
+    @RequestMapping(path = "/instances/{serviceId}", method = RequestMethod.GET)
     @ApiOperation(value = "获取本地节点可访问其他节点（根据服务名）的实例列表", notes = "", response = List.class, httpMethod = "GET")
+    @ResponseBody
+    @ManagedOperation
     public List<ServiceInstance> instances(@PathVariable(value = "serviceId") @ApiParam(value = "目标服务名", required = true) String serviceId) {
         return getInstanceList(serviceId);
     }
 
-    @RequestMapping(path = "/router/info", method = RequestMethod.GET)
+    @RequestMapping(path = "/info", method = RequestMethod.GET)
     @ApiOperation(value = "获取本地节点信息", notes = "获取当前节点的简单信息", response = RouterEntity.class, httpMethod = "GET")
+    @ResponseBody
+    @ManagedOperation
     public RouterEntity info() {
         return getRouterEntity();
     }
 
-    @RequestMapping(path = "/router/route/{routeServiceId}", method = RequestMethod.GET)
+    @RequestMapping(path = "/route/{routeServiceId}", method = RequestMethod.GET)
     @ApiOperation(value = "获取本地节点可访问其他节点（根据服务名）的路由信息列表", notes = "", response = List.class, httpMethod = "GET")
+    @ResponseBody
+    @ManagedOperation
     public List<RouterEntity> route(@PathVariable(value = "routeServiceId") @ApiParam(value = "目标服务名", required = true) String routeServiceId) {
         return getRouterEntityList(routeServiceId);
     }
 
-    @RequestMapping(path = "/router/route/{routeServiceId}/{routeHost}/{routePort}", method = RequestMethod.GET)
+    @RequestMapping(path = "/route/{routeServiceId}/{routeHost}/{routePort}/{routeContextPath}", method = RequestMethod.GET)
     @ApiOperation(value = "获取指定节点（根据IP和端口）可访问其他节点（根据服务名）的路由信息列表", notes = "", response = List.class, httpMethod = "GET")
-    public List<RouterEntity> route(@PathVariable(value = "routeServiceId") @ApiParam(value = "目标服务名", required = true) String routeServiceId, @PathVariable(value = "routeHost") @ApiParam(value = "目标服务所在机器的IP地址", required = true) String routeHost, @PathVariable(value = "routePort") @ApiParam(value = "目标服务所在机器的端口号", required = true) int routePort) {
-        return getRouterEntityList(routeServiceId, routeHost, routePort);
+    @ResponseBody
+    @ManagedOperation
+    public List<RouterEntity> route(@PathVariable(value = "routeServiceId") @ApiParam(value = "目标服务名", required = true) String routeServiceId, @PathVariable(value = "routeHost") @ApiParam(value = "目标服务所在机器的IP地址", required = true) String routeHost, @PathVariable(value = "routePort") @ApiParam(value = "目标服务所在机器的端口号", required = true) int routePort, @PathVariable(value = "routeContextPath") @ApiParam(value = "目标服务的调用路径前缀", required = true, defaultValue = "/") String routeContextPath) {
+        return getRouterEntityList(routeServiceId, routeHost, routePort, routeContextPath);
     }
 
-    @RequestMapping(path = "/router/routes", method = RequestMethod.POST)
+    @RequestMapping(path = "/routes", method = RequestMethod.POST)
     @ApiOperation(value = "获取全路径的路由信息树", notes = "参数按调用服务名的前后次序排列，起始节点的服务名不能加上去。如果多个用“;”分隔，不允许出现空格", response = RouterEntity.class, httpMethod = "POST")
+    @ResponseBody
+    @ManagedOperation
     public RouterEntity routes(@RequestBody @ApiParam(value = "例如：service-a;service-b", required = true) String routeServiceIds) {
         return routeTree(routeServiceIds);
     }
@@ -95,14 +124,22 @@ public class RouterEndpoint {
     public RouterEntity getRouterEntity() {
         String serviceId = pluginAdapter.getServiceId();
         String version = pluginAdapter.getVersion();
+        String region = pluginAdapter.getRegion();
         String host = pluginAdapter.getHost();
         int port = pluginAdapter.getPort();
+        int weight = getWeight(serviceId, version, region);
+        Map<String, String> customMap = getCustomMap(serviceId);
+        String contextPath = pluginAdapter.getContextPath();
 
         RouterEntity routerEntity = new RouterEntity();
         routerEntity.setServiceId(serviceId);
         routerEntity.setVersion(version);
+        routerEntity.setRegion(region);
         routerEntity.setHost(host);
         routerEntity.setPort(port);
+        routerEntity.setWeight(weight);
+        routerEntity.setCustomMap(customMap);
+        routerEntity.setContextPath(contextPath);
 
         return routerEntity;
     }
@@ -113,7 +150,7 @@ public class RouterEndpoint {
         try {
             instanceList = getInstanceList(routeServiceId);
         } catch (Exception e) {
-            throw new PluginException("Get instance list for route serviceId=" + routeServiceId + " failed", e);
+            throw new DiscoveryException("Get instance list for route serviceId=" + routeServiceId + " failed", e);
         }
 
         if (CollectionUtils.isEmpty(instanceList)) {
@@ -122,16 +159,25 @@ public class RouterEndpoint {
 
         List<RouterEntity> routerEntityList = new ArrayList<RouterEntity>();
         for (ServiceInstance instance : instanceList) {
+            Map<String, String> metadata = instance.getMetadata();
             String serviceId = instance.getServiceId().toLowerCase();
-            String version = instance.getMetadata().get(PluginConstant.VERSION);
+            String version = metadata.get(DiscoveryConstant.VERSION);
+            String region = metadata.get(DiscoveryConstant.REGION);
             String host = instance.getHost();
             int port = instance.getPort();
+            int weight = getWeight(routeServiceId, version, region);
+            Map<String, String> customMap = getCustomMap(serviceId);
+            String contextPath = metadata.get(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH);
 
             RouterEntity routerEntity = new RouterEntity();
             routerEntity.setServiceId(serviceId);
             routerEntity.setVersion(version);
+            routerEntity.setRegion(region);
             routerEntity.setHost(host);
             routerEntity.setPort(port);
+            routerEntity.setWeight(weight);
+            routerEntity.setCustomMap(customMap);
+            routerEntity.setContextPath(contextPath);
 
             routerEntityList.add(routerEntity);
         }
@@ -139,50 +185,36 @@ public class RouterEndpoint {
         return routerEntityList;
     }
 
-    @SuppressWarnings("unchecked")
-    public List<RouterEntity> getRouterEntityList(String routeServiceId, String routeHost, int routePort) {
-        String url = "http://" + routeHost + ":" + routePort + "/router/instances/" + routeServiceId;
+    public List<RouterEntity> getRouterEntityList(String routeServiceId, String routeHost, int routePort, String routeContextPath) {
+        String url = "http://" + routeHost + ":" + routePort + UrlUtil.formatContextPath(routeContextPath) + "router/route/" + routeServiceId;
 
-        List<Map<String, ?>> instanceList = null;
+        String result = null;
         try {
-            instanceList = routerRestTemplate.getForEntity(url, List.class).getBody();
+            result = routerRestTemplate.getForEntity(url, String.class).getBody();
         } catch (RestClientException e) {
-            throw new PluginException("Get instance list for route serviceId=" + routeServiceId + " with url=" + url + " failed", e);
+            throw new DiscoveryException("Get instance list for route serviceId=" + routeServiceId + " with url=" + url + " failed", e);
         }
 
-        if (CollectionUtils.isEmpty(instanceList)) {
+        if (StringUtils.isEmpty(result)) {
             return null;
         }
 
-        List<RouterEntity> routerEntityList = new ArrayList<RouterEntity>();
-        for (Map<String, ?> instance : instanceList) {
-            String serviceId = instance.get(PluginConstant.SERVICE_ID).toString().toLowerCase();
-            String version = ((Map<String, String>) instance.get(PluginConstant.METADATA)).get(PluginConstant.VERSION);
-            String host = instance.get(PluginConstant.HOST).toString();
-            Integer port = (Integer) instance.get(PluginConstant.PORT);
-
-            RouterEntity routerEntity = new RouterEntity();
-            routerEntity.setServiceId(serviceId);
-            routerEntity.setVersion(version);
-            routerEntity.setHost(host);
-            routerEntity.setPort(port);
-
-            routerEntityList.add(routerEntity);
-        }
+        List<RouterEntity> routerEntityList = JsonUtil.fromJson(result, new TypeReference<List<RouterEntity>>() {
+        });
 
         return routerEntityList;
     }
 
     public RouterEntity routeTree(String routeServiceIds) {
         if (StringUtils.isEmpty(routeServiceIds)) {
-            throw new PluginException("Route serviceIds is empty");
+            throw new DiscoveryException("Route serviceIds is empty");
         }
 
         String[] serviceIdArray = null;
         try {
-            serviceIdArray = StringUtils.split(routeServiceIds, PluginConstant.SEPARATE);
+            serviceIdArray = StringUtils.split(routeServiceIds, DiscoveryConstant.SEPARATE);
         } catch (Exception e) {
-            throw new PluginException("Route serviceIds must be separated with '" + PluginConstant.SEPARATE + "'", e);
+            throw new DiscoveryException("Route serviceIds must be separated with '" + DiscoveryConstant.SEPARATE + "'", e);
         }
 
         RouterEntity firstRouterEntity = getRouterEntity();
@@ -201,8 +233,9 @@ public class RouterEndpoint {
                 for (RouterEntity routerEntity : routerEntityList) {
                     String routeHost = routerEntity.getHost();
                     int routePort = routerEntity.getPort();
+                    String routeContextPath = routerEntity.getContextPath();
 
-                    route(routerEntity, serviceId, routeHost, routePort);
+                    route(routerEntity, serviceId, routeHost, routePort, routeContextPath);
 
                     retrieveRouterEntityList(routerEntityMap, routerDepth).addAll(routerEntity.getNexts());
                 }
@@ -221,8 +254,8 @@ public class RouterEndpoint {
         }
     }
 
-    private void route(RouterEntity routerEntity, String routeServiceId, String routeHost, int routePort) {
-        List<RouterEntity> routerEntityList = getRouterEntityList(routeServiceId, routeHost, routePort);
+    private void route(RouterEntity routerEntity, String routeServiceId, String routeHost, int routePort, String routeContextPath) {
+        List<RouterEntity> routerEntityList = getRouterEntityList(routeServiceId, routeHost, routePort, routeContextPath);
         if (CollectionUtils.isNotEmpty(routerEntityList)) {
             routerEntity.getNexts().addAll(routerEntityList);
         }
@@ -236,5 +269,112 @@ public class RouterEndpoint {
         }
 
         return routerEntityList;
+    }
+
+    private int getWeight(String providerServiceId, String providerVersion, String providerRegion) {
+        RuleEntity ruleEntity = pluginAdapter.getRule();
+        if (ruleEntity == null) {
+            return -1;
+        }
+
+        DiscoveryEntity discoveryEntity = ruleEntity.getDiscoveryEntity();
+        if (discoveryEntity == null) {
+            return -1;
+        }
+
+        WeightFilterEntity weightFilterEntity = discoveryEntity.getWeightFilterEntity();
+        if (weightFilterEntity == null) {
+            return -1;
+        }
+
+        if (!weightFilterEntity.hasWeight()) {
+            return -1;
+        }
+
+        Map<String, List<WeightEntity>> weightEntityMap = weightFilterEntity.getWeightEntityMap();
+        RegionWeightEntity regionWeightEntity = weightFilterEntity.getRegionWeightEntity();
+
+        String serviceId = pluginAdapter.getServiceId();
+        // 取局部的权重配置
+        int weight = getWeight(serviceId, providerServiceId, providerVersion, weightEntityMap);
+
+        // 局部权重配置没找到，取全局的权重配置
+        if (weight < 0) {
+            weight = getWeight(StringUtils.EMPTY, providerServiceId, providerVersion, weightEntityMap);
+        }
+
+        // 全局的权重配置没找到，取区域的权重配置
+        if (weight < 0) {
+            weight = getWeight(providerRegion, regionWeightEntity);
+        }
+
+        return weight;
+    }
+
+    private int getWeight(String consumerServiceId, String providerServiceId, String providerVersion, Map<String, List<WeightEntity>> weightEntityMap) {
+        if (MapUtils.isEmpty(weightEntityMap)) {
+            return -1;
+        }
+
+        List<WeightEntity> weightEntityList = weightEntityMap.get(consumerServiceId);
+        if (CollectionUtils.isEmpty(weightEntityList)) {
+            return -1;
+        }
+
+        for (WeightEntity weightEntity : weightEntityList) {
+            String providerServiceName = weightEntity.getProviderServiceName();
+            if (StringUtils.equalsIgnoreCase(providerServiceName, providerServiceId)) {
+                Map<String, Integer> weightMap = weightEntity.getWeightMap();
+                if (MapUtils.isEmpty(weightMap)) {
+                    return -1;
+                }
+
+                Integer weight = weightMap.get(providerVersion);
+                if (weight != null) {
+                    return weight;
+                } else {
+                    return -1;
+                }
+            }
+        }
+
+        return -1;
+    }
+
+    private int getWeight(String providerRegion, RegionWeightEntity regionWeightEntity) {
+        if (regionWeightEntity == null) {
+            return -1;
+        }
+
+        Map<String, Integer> weightMap = regionWeightEntity.getWeightMap();
+        if (MapUtils.isEmpty(weightMap)) {
+            return -1;
+        }
+
+        Integer weight = weightMap.get(providerRegion);
+        if (weight != null) {
+            return weight;
+        } else {
+            return -1;
+        }
+    }
+
+    private Map<String, String> getCustomMap(String serviceId) {
+        RuleEntity ruleEntity = pluginAdapter.getRule();
+        if (ruleEntity == null) {
+            return null;
+        }
+
+        CustomizationEntity customizationEntity = ruleEntity.getCustomizationEntity();
+        if (customizationEntity == null) {
+            return null;
+        }
+
+        Map<String, Map<String, String>> customizationMap = customizationEntity.getCustomizationMap();
+        if (MapUtils.isEmpty(customizationMap)) {
+            return null;
+        }
+
+        return customizationMap.get(serviceId);
     }
 }

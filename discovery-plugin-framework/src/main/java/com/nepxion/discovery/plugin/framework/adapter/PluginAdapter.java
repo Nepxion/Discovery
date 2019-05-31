@@ -11,7 +11,7 @@ package com.nepxion.discovery.plugin.framework.adapter;
 
 import java.util.Map;
 
-import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.RuleEntity;
 import com.netflix.loadbalancer.Server;
 
 public interface PluginAdapter {
@@ -23,7 +23,9 @@ public interface PluginAdapter {
 
     int getPort();
 
-    Map<String, String> getMetaData();
+    String getContextPath();
+
+    Map<String, String> getMetadata();
 
     String getVersion();
 
@@ -47,7 +49,13 @@ public interface PluginAdapter {
 
     void clearDynamicRule();
 
-    Map<String, String> getServerMetaData(Server server);
+    String getRegion();
+
+    Map<String, String> getServerMetadata(Server server);
+
+    String getServerServiceId(Server server);
 
     String getServerVersion(Server server);
+
+    String getServerRegion(Server server);
 }

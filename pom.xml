@@ -6,41 +6,63 @@
     <name>Nepxion Discovery</name>
     <packaging>pom</packaging>
     <modelVersion>4.0.0</modelVersion>
-    <version>4.1.0</version>
+    <version>5.0.5</version>
     <description>Nepxion Discovery is an enhancement for Spring Cloud Discovery</description>
     <url>http://www.nepxion.com</url>
 
     <modules>
+        <module>discovery-common</module>
+        <module>discovery-common-apollo</module>
+        <module>discovery-common-nacos</module>
+        <module>discovery-common-redis</module>
         <module>discovery-plugin-framework</module>
         <module>discovery-plugin-framework-eureka</module>
         <module>discovery-plugin-framework-consul</module>
         <module>discovery-plugin-framework-zookeeper</module>
+        <module>discovery-plugin-framework-nacos</module>
         <module>discovery-plugin-config-center</module>
-        <module>discovery-plugin-config-center-extension-nacos</module>
+        <module>discovery-plugin-config-center-starter-apollo</module>
+        <module>discovery-plugin-config-center-starter-nacos</module>
+        <module>discovery-plugin-config-center-starter-redis</module>
         <module>discovery-plugin-admin-center</module>
         <module>discovery-plugin-starter-eureka</module>
         <module>discovery-plugin-starter-consul</module>
         <module>discovery-plugin-starter-zookeeper</module>
+        <module>discovery-plugin-starter-nacos</module>
+        <module>discovery-plugin-strategy</module>
+        <module>discovery-plugin-strategy-starter-service</module>
+        <module>discovery-plugin-strategy-starter-zuul</module>
+        <module>discovery-plugin-strategy-starter-gateway</module>
+        <module>discovery-plugin-strategy-starter-hystrix</module>
         <module>discovery-console</module>
-        <module>discovery-console-extension-nacos</module>
-        <module>discovery-console-starter</module>
+        <module>discovery-console-starter-apollo</module>
+        <module>discovery-console-starter-nacos</module>
+        <module>discovery-console-starter-redis</module>
         <module>discovery-console-desktop</module>
+        <module>discovery-springcloud-example-admin</module>
         <module>discovery-springcloud-example-console</module>
         <module>discovery-springcloud-example-eureka</module>
-        <module>discovery-springcloud-example</module>
+        <module>discovery-springcloud-example-service</module>
+        <module>discovery-springcloud-example-zuul</module>
+        <module>discovery-springcloud-example-gateway</module>
     </modules>
 
     <properties>
-        <eventbus.version>2.0.0</eventbus.version>
+        <eventbus.version>2.0.11</eventbus.version>
+        <matrix.version>2.0.7</matrix.version>
+        <banner.version>1.0.2</banner.version>
         <commons.lang3.version>3.6</commons.lang3.version>
         <commons.collections4.version>4.1</commons.collections4.version>
         <commons.io.version>2.5</commons.io.version>
         <dom4j.version>1.6.1</dom4j.version>
-        <nacos.version>0.1.0</nacos.version>
-        <caffeine.version>2.6.2</caffeine.version>
+        <apollo.version>1.4.0</apollo.version>
+        <nacos.version>1.0.0</nacos.version>
+        <guava.version>27.0-jre</guava.version>
+        <caffeine.version>2.7.0</caffeine.version>
         <swagger.version>2.7.0</swagger.version>
-        <spring.cloud.version>Finchley.RELEASE</spring.cloud.version>
-        <spring.boot.version>2.0.3.RELEASE</spring.boot.version>
+        <spring.cloud.version>Greenwich.SR1</spring.cloud.version>
+        <spring.cloud.alibaba.version>0.9.0.RELEASE</spring.cloud.alibaba.version>
+        <spring.boot.version>2.1.4.RELEASE</spring.boot.version>
         <disruptor.version>3.3.7</disruptor.version>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -48,6 +70,30 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-common-apollo</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-common-nacos</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-common-redis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-framework</artifactId>
@@ -74,13 +120,31 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-framework-nacos</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-config-center</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>discovery-plugin-config-center-extension-nacos</artifactId>
+                <artifactId>discovery-plugin-config-center-starter-apollo</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-config-center-starter-nacos</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-config-center-starter-redis</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -110,19 +174,61 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-starter-nacos</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-strategy</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-strategy-starter-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-strategy-starter-zuul</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-strategy-starter-gateway</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-strategy-starter-hystrix</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-console</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>discovery-console-extension-nacos</artifactId>
+                <artifactId>discovery-console-starter-apollo</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>discovery-console-starter</artifactId>
+                <artifactId>discovery-console-starter-nacos</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-console-starter-redis</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -130,6 +236,18 @@
                 <groupId>${project.groupId}</groupId>
                 <artifactId>eventbus-aop-starter</artifactId>
                 <version>${eventbus.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>matrix-aop-starter</artifactId>
+                <version>${matrix.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>banner</artifactId>
+                <version>${banner.version}</version>
             </dependency>
 
             <dependency>
@@ -151,6 +269,12 @@
             </dependency>
 
             <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>com.github.ben-manes.caffeine</groupId>
                 <artifactId>caffeine</artifactId>
                 <version>${caffeine.version}</version>
@@ -160,6 +284,18 @@
                 <groupId>dom4j</groupId>
                 <artifactId>dom4j</artifactId>
                 <version>${dom4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.ctrip.framework.apollo</groupId>
+                <artifactId>apollo-client</artifactId>
+                <version>${apollo.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.ctrip.framework.apollo</groupId>
+                <artifactId>apollo-openapi</artifactId>
+                <version>${apollo.version}</version>
             </dependency>
 
             <dependency>
@@ -184,6 +320,14 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring.cloud.alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

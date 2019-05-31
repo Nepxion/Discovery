@@ -17,10 +17,10 @@ import java.util.Map;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.cloud.client.ServiceInstance;
 
-import com.nepxion.discovery.plugin.framework.entity.DiscoveryEntity;
-import com.nepxion.discovery.plugin.framework.entity.FilterType;
-import com.nepxion.discovery.plugin.framework.entity.HostFilterEntity;
-import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.DiscoveryEntity;
+import com.nepxion.discovery.common.entity.FilterType;
+import com.nepxion.discovery.common.entity.HostFilterEntity;
+import com.nepxion.discovery.common.entity.RuleEntity;
 
 public class HostFilterDiscoveryListener extends AbstractDiscoveryListener {
     @Override
@@ -49,6 +49,10 @@ public class HostFilterDiscoveryListener extends AbstractDiscoveryListener {
         List<String> globalFilterValueList = hostFilterEntity.getFilterValueList();
         Map<String, List<String>> filterMap = hostFilterEntity.getFilterMap();
         List<String> filterValueList = filterMap.get(providerServiceId);
+
+        if (CollectionUtils.isEmpty(globalFilterValueList) && CollectionUtils.isEmpty(filterValueList)) {
+            return;
+        }
 
         List<String> allFilterValueList = new ArrayList<String>();
         if (CollectionUtils.isNotEmpty(globalFilterValueList)) {
@@ -103,5 +107,11 @@ public class HostFilterDiscoveryListener extends AbstractDiscoveryListener {
     @Override
     public void onGetServices(List<String> services) {
 
+    }
+
+    @Override
+    public int getOrder() {
+        // Highest priority
+        return HIGHEST_PRECEDENCE;
     }
 }

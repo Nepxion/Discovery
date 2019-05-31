@@ -11,19 +11,19 @@ package com.nepxion.discovery.plugin.framework.adapter;
 
 import java.util.Map;
 
-import com.nepxion.discovery.plugin.framework.exception.PluginException;
+import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.netflix.loadbalancer.Server;
 import com.netflix.niws.loadbalancer.DiscoveryEnabledServer;
 
 public class EurekaAdapter extends AbstractPluginAdapter {
     @Override
-    public Map<String, String> getServerMetaData(Server server) {
+    public Map<String, String> getServerMetadata(Server server) {
         if (server instanceof DiscoveryEnabledServer) {
             DiscoveryEnabledServer discoveryEnabledServer = (DiscoveryEnabledServer) server;
 
             return discoveryEnabledServer.getInstanceInfo().getMetadata();
         }
 
-        throw new PluginException("Server instance isn't the type of DiscoveryEnabledServer");
+        throw new DiscoveryException("Server instance isn't the type of DiscoveryEnabledServer");
     }
 }

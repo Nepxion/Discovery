@@ -16,17 +16,17 @@ import java.util.Map;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.cloud.client.serviceregistry.Registration;
 
-import com.nepxion.discovery.plugin.framework.entity.FilterType;
-import com.nepxion.discovery.plugin.framework.entity.HostFilterEntity;
-import com.nepxion.discovery.plugin.framework.entity.RegisterEntity;
-import com.nepxion.discovery.plugin.framework.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.FilterType;
+import com.nepxion.discovery.common.entity.HostFilterEntity;
+import com.nepxion.discovery.common.entity.RegisterEntity;
+import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.event.RegisterFailureEvent;
-import com.nepxion.discovery.plugin.framework.exception.PluginException;
 
 public class HostFilterRegisterListener extends AbstractRegisterListener {
     @Override
     public void onRegister(Registration registration) {
-        String serviceId = registration.getServiceId();
+        String serviceId = registration.getServiceId().toLowerCase();
         String host = registration.getHost();
         int port = registration.getPort();
 
@@ -54,6 +54,10 @@ public class HostFilterRegisterListener extends AbstractRegisterListener {
         List<String> globalFilterValueList = hostFilterEntity.getFilterValueList();
         Map<String, List<String>> filterMap = hostFilterEntity.getFilterMap();
         List<String> filterValueList = filterMap.get(serviceId);
+
+        if (CollectionUtils.isEmpty(globalFilterValueList) && CollectionUtils.isEmpty(filterValueList)) {
+            return;
+        }
 
         List<String> allFilterValueList = new ArrayList<String>();
         if (CollectionUtils.isNotEmpty(globalFilterValueList)) {
@@ -97,11 +101,11 @@ public class HostFilterRegisterListener extends AbstractRegisterListener {
     }
 
     private void onRegisterFailure(FilterType filterType, List<String> allFilterValueList, String serviceId, String host, int port) {
-        String description = host + " isn't allowed to register to Register server, not match host " + filterType + "=" + allFilterValueList;
+        String description = serviceId + " for " + host + ":" + port + " isn't allowed to register to Register server, not match host " + filterType + "=" + allFilterValueList;
 
         pluginEventWapper.fireRegisterFailure(new RegisterFailureEvent(filterType.toString(), description, serviceId, host, port));
 
-        throw new PluginException(description);
+        throw new DiscoveryException(description);
     }
 
     @Override
@@ -117,5 +121,11 @@ public class HostFilterRegisterListener extends AbstractRegisterListener {
     @Override
     public void onClose() {
 
+    }
+
+    @Override
+    public int getOrder() {
+        // Lowest priority
+        return LOWEST_PRECEDENCE;
     }
 }
