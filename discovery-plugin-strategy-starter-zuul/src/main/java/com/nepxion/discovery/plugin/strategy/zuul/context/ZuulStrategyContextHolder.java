@@ -18,9 +18,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 import com.netflix.zuul.context.RequestContext;
 
-public class ZuulStrategyContextHolder {
+public class ZuulStrategyContextHolder implements StrategyContextHolder {
     private static final Logger LOG = LoggerFactory.getLogger(ZuulStrategyContextHolder.class);
 
     public HttpServletRequest getRequest() {
@@ -36,6 +37,7 @@ public class ZuulStrategyContextHolder {
         return RequestContext.getCurrentContext().getZuulRequestHeaders();
     }
 
+    @Override
     public String getHeader(String name) {
         HttpServletRequest request = getRequest();
         if (request == null) {

@@ -18,7 +18,9 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-public class ServiceStrategyContextHolder {
+import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
+
+public class ServiceStrategyContextHolder implements StrategyContextHolder {
     private static final Logger LOG = LoggerFactory.getLogger(ServiceStrategyContextHolder.class);
 
     public ServletRequestAttributes getRestAttributes() {
@@ -34,6 +36,7 @@ public class ServiceStrategyContextHolder {
         return RpcStrategyContext.getCurrentContext().getAttributes();
     }
 
+    @Override
     public String getHeader(String name) {
         ServletRequestAttributes attributes = getRestAttributes();
         if (attributes == null) {
