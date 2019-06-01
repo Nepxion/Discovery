@@ -13,13 +13,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.server.ServerWebExchange;
 
-public class GatewayStrategyContextHolder {
+import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
+
+public class GatewayStrategyContextHolder implements StrategyContextHolder {
     private static final Logger LOG = LoggerFactory.getLogger(GatewayStrategyContextHolder.class);
 
     public ServerWebExchange getExchange() {
         return GatewayStrategyContext.getCurrentContext().getExchange();
     }
 
+    @Override
     public String getHeader(String name) {
         ServerWebExchange exchange = getExchange();
         if (exchange == null) {
