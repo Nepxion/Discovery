@@ -9,8 +9,6 @@ package com.nepxion.discovery.plugin.example.gateway.impl;
  * @version 1.0
  */
 
-import java.util.Map;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,18 +31,18 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
     private PluginAdapter pluginAdapter;
 
     @Override
-    public boolean apply(Server server, Map<String, String> metadata) {
+    public boolean apply(Server server) {
         // 对Rest调用传来的Header参数（例如：mobile）做策略
-        return applyFromHeader(server, metadata);
+        return applyFromHeader(server);
     }
 
     // 根据Rest调用传来的Header参数（例如：mobile），选取执行调用请求的服务实例
-    private boolean applyFromHeader(Server server, Map<String, String> metadata) {
+    private boolean applyFromHeader(Server server) {
         String mobile = gatewayStrategyContextHolder.getHeader("mobile");
-        String version = metadata.get(DiscoveryConstant.VERSION);
         String serviceId = pluginAdapter.getServerServiceId(server);
+        String version = pluginAdapter.getServerMetadata(server).get(DiscoveryConstant.VERSION);
 
-        LOG.info("Gateway端负载均衡用户定制触发：mobile={}, serviceId={}, metadata={}", mobile, serviceId, metadata);
+        LOG.info("Gateway端负载均衡用户定制触发：mobile={}, serviceId={}, version={}", mobile, serviceId, version);
 
         if (StringUtils.isNotEmpty(mobile)) {
             // 手机号以移动138开头，路由到1.0版本的服务上
