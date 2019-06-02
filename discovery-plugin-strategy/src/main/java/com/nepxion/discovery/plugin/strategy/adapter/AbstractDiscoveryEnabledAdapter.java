@@ -31,27 +31,27 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
     protected PluginAdapter pluginAdapter;
 
     @Override
-    public boolean apply(Server server, Map<String, String> metadata) {
-        boolean enabled = applyVersion(server, metadata);
+    public boolean apply(Server server) {
+        boolean enabled = applyVersion(server);
         if (!enabled) {
             return false;
         }
 
-        enabled = applyRegion(server, metadata);
+        enabled = applyRegion(server);
         if (!enabled) {
             return false;
         }
 
-        enabled = applyAddress(server, metadata);
+        enabled = applyAddress(server);
         if (!enabled) {
             return false;
         }
 
-        return applyStrategy(server, metadata);
+        return applyStrategy(server);
     }
 
     @SuppressWarnings("unchecked")
-    private boolean applyVersion(Server server, Map<String, String> metadata) {
+    private boolean applyVersion(Server server) {
         String versionValue = getVersionValue(server);
         if (StringUtils.isEmpty(versionValue)) {
             RuleEntity ruleEntity = pluginAdapter.getRule();
@@ -67,6 +67,7 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
             return true;
         }
 
+        Map<String, String> metadata = pluginAdapter.getServerMetadata(server);
         String version = metadata.get(DiscoveryConstant.VERSION);
         if (StringUtils.isEmpty(version)) {
             return false;
@@ -94,7 +95,7 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
     }
 
     @SuppressWarnings("unchecked")
-    private boolean applyRegion(Server server, Map<String, String> metadata) {
+    private boolean applyRegion(Server server) {
         String regionValue = getRegionValue(server);
         if (StringUtils.isEmpty(regionValue)) {
             RuleEntity ruleEntity = pluginAdapter.getRule();
@@ -110,6 +111,7 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
             return true;
         }
 
+        Map<String, String> metadata = pluginAdapter.getServerMetadata(server);
         String region = metadata.get(DiscoveryConstant.REGION);
         if (StringUtils.isEmpty(region)) {
             return false;
@@ -137,7 +139,7 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
     }
 
     @SuppressWarnings("unchecked")
-    private boolean applyAddress(Server server, Map<String, String> metadata) {
+    private boolean applyAddress(Server server) {
         String addressValue = getAddressValue(server);
         if (StringUtils.isEmpty(addressValue)) {
             RuleEntity ruleEntity = pluginAdapter.getRule();
@@ -168,12 +170,12 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
         return false;
     }
 
-    private boolean applyStrategy(Server server, Map<String, String> metadata) {
+    private boolean applyStrategy(Server server) {
         if (discoveryEnabledStrategy == null) {
             return true;
         }
 
-        return discoveryEnabledStrategy.apply(server, metadata);
+        return discoveryEnabledStrategy.apply(server);
     }
 
     protected abstract String getVersionValue(Server server);
