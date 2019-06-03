@@ -26,13 +26,13 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 
 兼容性强。支持如下版本：
 
-| Spring Cloud版本 | Nepxion Discovery版本 |
-| --- | --- |
-| Greenwich | 5.0.8 |
-| Finchley | 4.8.13 |
-| Edgware | 3.8.13 |
-| Dalston | 2.0.11 (不维护，不可用) |
-| Camden | 1.0.1 (不维护，不可用) |
+| Spring Cloud版本 | Spring Boot版本 | Spring Cloud Alibaba | Nepxion Discovery版本 | 备注 |
+| --- | --- | --- | --- | --- |
+| Greenwich.SR1 | 2.1.4.RELEASE | 0.9.0.RELEASE | 5.0.8 | 维护中，可用 |
+| Finchley.SR3 | 2.0.7.RELEASE | 0.2.2.RELEASE | 4.8.13 | 维护中，可用 |
+| Edgware.SR5 | 1.5.18.RELEASE | 0.1.2.RELEASE | 3.8.13 | 维护中，可用 |
+| Dalston.- | - | - | 2.0.11 | 不维护，不可用 |
+| Camden.- | - | - | 1.0.1 | 不维护，不可用 |
 
 ## 快速开始
 
