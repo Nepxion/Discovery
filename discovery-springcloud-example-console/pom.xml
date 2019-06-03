@@ -10,16 +10,11 @@
     <description>Nepxion Discovery is an enhancement for Spring Cloud Discovery</description>
     <url>http://www.nepxion.com</url>
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.7.RELEASE</version>
-    </parent>
-
     <properties>
         <discovery.version>4.8.13</discovery.version>
         <spring.cloud.version>Finchley.SR3</spring.cloud.version>
         <spring.cloud.alibaba.version>0.2.2.RELEASE</spring.cloud.alibaba.version>
+        <spring.boot.version>2.0.7.RELEASE</spring.boot.version>        
         <spring.boot.admin.version>2.0.5</spring.boot.admin.version>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -27,14 +22,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>com.nepxion</groupId>
-                <artifactId>discovery</artifactId>
-                <version>${discovery.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -47,6 +34,14 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
                 <version>${spring.cloud.alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -67,6 +62,7 @@
             <!-- <artifactId>discovery-console-starter-apollo</artifactId> -->
             <artifactId>discovery-console-starter-nacos</artifactId>
             <!-- <artifactId>discovery-console-starter-redis</artifactId> -->
+            <version>${discovery.version}</version>
         </dependency>
 
         <dependency>
