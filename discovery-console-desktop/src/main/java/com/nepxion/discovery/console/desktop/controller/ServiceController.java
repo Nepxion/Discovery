@@ -100,6 +100,15 @@ public class ServiceController {
         });
     }
 
+    public static List<String> getRules(RouterEntity routerEntity) {
+        String url = getUrl(routerEntity) + "config/view";
+
+        String result = restTemplate.getForEntity(url, String.class).getBody();
+
+        return RestUtil.fromJson(restTemplate, result, new TypeReference<List<String>>() {
+        });
+    }
+
     public static RouterEntity routes(Instance instance, String routeServiceIds) {
         String url = getUrl(instance) + "router/routes";
 
@@ -257,6 +266,12 @@ public class ServiceController {
 
     private static String getUrl(Instance instance) {
         String url = "http://" + instance.getHost() + ":" + instance.getPort() + UrlUtil.formatContextPath(InstanceEntityWrapper.getContextPath(instance));
+
+        return url;
+    }
+
+    private static String getUrl(RouterEntity routerEntity) {
+        String url = "http://" + routerEntity.getHost() + ":" + routerEntity.getPort() + UrlUtil.formatContextPath(routerEntity.getContextPath());
 
         return url;
     }
