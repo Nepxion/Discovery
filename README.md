@@ -294,16 +294,6 @@ Spring Boot Admin监控平台
 
 ## 依赖兼容
 ### 依赖
-```xml
-<dependency>
-    <groupId>com.nepxion</groupId>
-    <artifactId>discovery</artifactId>
-    <version>${discovery.version}</version>
-    <type>pom</type>
-    <scope>import</scope>
-</dependency>
-```
-
 :exclamation:下面标注[必须引入]是一定要引入的包，标注[选择引入]是可以选择一个引入，或者不引入
 
 核心插件引入，支持微服务端、网关Zuul端和网关Spring Cloud Gateway端，包括核心灰度发布功能，管理中心，配置中心等
@@ -314,7 +304,8 @@ Spring Boot Admin监控平台
     <artifactId>discovery-plugin-starter-eureka</artifactId>
     <artifactId>discovery-plugin-starter-consul</artifactId>
     <artifactId>discovery-plugin-starter-zookeeper</artifactId>
-    <artifactId>discovery-plugin-starter-nacos</artifactId>	
+    <artifactId>discovery-plugin-starter-nacos</artifactId>
+    <version>${discovery.version}</version>
 </dependency>
 
 [选择引入] 三个远程配置中心的中间件的扩展插件，如需要，请任选一个引入，或者也可以引入您自己的扩展
@@ -323,6 +314,7 @@ Spring Boot Admin监控平台
     <artifactId>discovery-plugin-config-center-starter-apollo</artifactId>
     <artifactId>discovery-plugin-config-center-starter-nacos</artifactId>
     <artifactId>discovery-plugin-config-center-starter-redis</artifactId>
+    <version>${discovery.version}</version>
 </dependency>
 ```
 
@@ -333,6 +325,7 @@ Spring Boot Admin监控平台
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-strategy-starter-service</artifactId>
+    <version>${discovery.version}</version>
 </dependency>
 
 网关Zuul端引入
@@ -340,6 +333,7 @@ Spring Boot Admin监控平台
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-strategy-starter-zuul</artifactId>
+    <version>${discovery.version}</version>
 </dependency>
 
 网关Spring Cloud Gateway端引入
@@ -347,6 +341,7 @@ Spring Boot Admin监控平台
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-strategy-starter-gateway</artifactId>
+    <version>${discovery.version}</version>
 </dependency>
 ```
 
@@ -354,6 +349,7 @@ Spring Boot Admin监控平台
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-strategy-starter-hystrix</artifactId>
+    <version>${discovery.version}</version>
 </dependency>
 ```
 
@@ -365,6 +361,7 @@ Spring Boot Admin监控平台
     <artifactId>discovery-console-starter-apollo</artifactId>
     <artifactId>discovery-console-starter-nacos</artifactId>
     <artifactId>discovery-console-starter-redis</artifactId>
+    <version>${discovery.version}</version>
 </dependency>
 ```
 
@@ -378,6 +375,7 @@ Spring Boot Admin监控平台
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-config-center-starter-xxx</artifactId>
+    <version>${discovery.version}</version>
 </dependency>
 ```
 - “用户自定义和编程灰度路由”是不会对服务注册发现等逻辑产生影响，所以建议下面两项配置改为false
