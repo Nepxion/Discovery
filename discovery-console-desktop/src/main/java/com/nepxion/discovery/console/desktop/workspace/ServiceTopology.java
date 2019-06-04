@@ -104,7 +104,7 @@ public class ServiceTopology extends AbstractTopology {
     private JBasicMenuItem executeGrayReleaseMenuItem;
     private JBasicMenuItem refreshGrayStateMenuItem;
     private JBasicMenuItem executeGrayRouterMenuItem;
-    private JBasicMenuItem showMetadataActionMenuItem;
+    private JBasicMenuItem showMetadataMenuItem;
     private JBasicRadioButtonMenuItem pushAsyncModeRadioButtonMenuItem;
     private JBasicRadioButtonMenuItem pushSyncModeRadioButtonMenuItem;
     private JBasicRadioButtonMenuItem ruleToConfigCenterRadioButtonMenuItem;
@@ -130,11 +130,11 @@ public class ServiceTopology extends AbstractTopology {
         executeGrayReleaseMenuItem = new JBasicMenuItem(createExecuteGrayReleaseAction());
         refreshGrayStateMenuItem = new JBasicMenuItem(createRefreshGrayStateAction());
         executeGrayRouterMenuItem = new JBasicMenuItem(createExecuteGrayRouterAction());
-        showMetadataActionMenuItem = new JBasicMenuItem(createShowMetadataAction());
+        showMetadataMenuItem = new JBasicMenuItem(createShowMetadataAction());
         popupMenu.add(executeGrayReleaseMenuItem, 0);
         popupMenu.add(executeGrayRouterMenuItem, 1);
         popupMenu.add(refreshGrayStateMenuItem, 2);
-        popupMenu.add(showMetadataActionMenuItem, 3);
+        popupMenu.add(showMetadataMenuItem, 3);
     }
 
     @Override
@@ -149,7 +149,7 @@ public class ServiceTopology extends AbstractTopology {
         TElement element = TElementManager.getSelectedElement(dataBox);
         executeGrayReleaseMenuItem.setVisible(element != null && isPlugin(element));
         refreshGrayStateMenuItem.setVisible(element != null && isPlugin(element));
-        showMetadataActionMenuItem.setVisible(node != null);
+        showMetadataMenuItem.setVisible(node != null);
 
         if (group != null || node != null || element != null) {
             return popupMenu;
