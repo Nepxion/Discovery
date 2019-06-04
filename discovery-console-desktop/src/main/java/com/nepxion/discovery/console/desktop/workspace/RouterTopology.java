@@ -201,6 +201,22 @@ public class RouterTopology extends AbstractTopology {
 
     }
 
+    private String getNodeName(Instance instance) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(instance.getServiceId()).append("\n");
+        stringBuilder.append(instance.getHost()).append(":").append(instance.getPort());
+
+        if (StringUtils.isNotEmpty(instance.getVersion())) {
+            stringBuilder.append("\n [V").append(instance.getVersion()).append("]");
+        }
+
+        if (StringUtils.isNotEmpty(instance.getRegion())) {
+            stringBuilder.append("\n [Region=").append(instance.getRegion()).append("]");
+        }
+
+        return ButtonManager.getHtmlText(stringBuilder.toString());
+    }
+
     private String getNodeName(RouterEntity routerEntity) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(routerEntity.getServiceId()).append("\n");
@@ -215,6 +231,17 @@ public class RouterTopology extends AbstractTopology {
         }
 
         return ButtonManager.getHtmlText(stringBuilder.toString());
+    }
+
+    private TNode addNode(Instance instance) {
+        String nodeName = getNodeName(instance);
+
+        TNode node = createNode(nodeName, serviceNodeEntity, nodeLocationEntity, 0);
+        node.setUserObject(instance);
+
+        dataBox.addElement(node);
+
+        return node;
     }
 
     private TNode addNode(RouterEntity routerEntity, int index) {
@@ -262,6 +289,8 @@ public class RouterTopology extends AbstractTopology {
 
             textField.setText(StringUtils.EMPTY);
             dataBox.clear();
+
+            addNode(instance);
         }
     }
 
@@ -368,9 +397,14 @@ public class RouterTopology extends AbstractTopology {
                 }
 
                 Object userObject = node.getUserObject();
-                RouterEntity routerEntity = (RouterEntity) userObject;
-
-                List<String> rules = ServiceController.getRules(routerEntity);
+                List<String> rules = null;
+                if (userObject instanceof Instance) {
+                    Instance instance = (Instance) userObject;
+                    rules = ServiceController.getRules(instance);
+                } else if (userObject instanceof RouterEntity) {
+                    RouterEntity routerEntity = (RouterEntity) userObject;
+                    rules = ServiceController.getRules(routerEntity);
+                }
                 String dynamicRule = rules.get(1);
                 String localRule = rules.get(0);
 
