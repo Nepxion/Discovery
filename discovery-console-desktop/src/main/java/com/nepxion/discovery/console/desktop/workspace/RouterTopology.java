@@ -61,7 +61,9 @@ import com.nepxion.swing.dialog.JExceptionDialog;
 import com.nepxion.swing.handle.HandleManager;
 import com.nepxion.swing.listener.DisplayAbilityListener;
 import com.nepxion.swing.locale.SwingLocale;
+import com.nepxion.swing.menuitem.JBasicMenuItem;
 import com.nepxion.swing.optionpane.JBasicOptionPane;
+import com.nepxion.swing.popupmenu.JBasicPopupMenu;
 import com.nepxion.swing.scrollpane.JBasicScrollPane;
 import com.nepxion.swing.tabbedpane.JBasicTabbedPane;
 import com.nepxion.swing.textarea.JBasicTextArea;
@@ -74,6 +76,7 @@ public class RouterTopology extends AbstractTopology {
     private TopologyEntity serviceNodeEntity = new TopologyEntity(TopologyEntityType.SERVICE, TopologyStyleType.MIDDLE, true);
 
     private TGraphBackground background;
+    private JBasicMenuItem showRuleMenuItem;
     private JBasicComboBox comboBox;
     private JBasicTextField textField;
     private ActionListener layoutActionListener;
@@ -85,6 +88,28 @@ public class RouterTopology extends AbstractTopology {
         initializeToolBar();
         initializeTopology();
         initializeListener();
+    }
+
+    @Override
+    protected void initializePopupMenu() {
+        super.initializePopupMenu();
+
+        showRuleMenuItem = new JBasicMenuItem(createShowRuleAction());
+        popupMenu.add(showRuleMenuItem, 0);
+    }
+
+    @Override
+    protected JBasicPopupMenu popupMenuGenerate() {
+        super.popupMenuGenerate();
+
+        TNode node = TElementManager.getSelectedNode(dataBox);
+        showRuleMenuItem.setVisible(node != null);
+
+        if (node != null) {
+            return popupMenu;
+        }
+
+        return null;
     }
 
     private void initializeToolBar() {
@@ -114,7 +139,7 @@ public class RouterTopology extends AbstractTopology {
         toolBar.add(textField);
         toolBar.add(new JClassicButton(createExecuteRouterAction()));
         toolBar.add(new JClassicButton(createClearRouterAction()));
-        toolBar.add(new JClassicButton(createViewRuleAction()));
+        toolBar.add(new JClassicButton(createShowRuleAction()));
 
         ButtonManager.updateUI(toolBar);
     }
@@ -384,7 +409,7 @@ public class RouterTopology extends AbstractTopology {
         return action;
     }
 
-    private JSecurityAction createViewRuleAction() {
+    private JSecurityAction createShowRuleAction() {
         JSecurityAction action = new JSecurityAction(ConsoleLocale.getString("view_rule"), ConsoleIconFactory.getSwingIcon("component/file_chooser_16.png"), ConsoleLocale.getString("view_rule")) {
             private static final long serialVersionUID = 1L;
 
