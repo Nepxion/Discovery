@@ -58,7 +58,7 @@
         <guava.version>19.0</guava.version>
         <caffeine.version>2.7.0</caffeine.version>
         <swagger.version>2.7.0</swagger.version>
-        <spring.cloud.version>Edgware.SR5</spring.cloud.version>
+        <spring.cloud.version>Edgware.SR6</spring.cloud.version>
         <spring.cloud.alibaba.version>0.1.2.RELEASE</spring.cloud.alibaba.version>
         <spring.boot.version>1.5.18.RELEASE</spring.boot.version>
         <disruptor.version>3.3.7</disruptor.version>
