@@ -50,8 +50,9 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
         String token = serviceStrategyContextHolder.getHeader("token");
         String serviceId = pluginAdapter.getServerServiceId(server);
         String version = pluginAdapter.getServerMetadata(server).get(DiscoveryConstant.VERSION);
+        String region = pluginAdapter.getServerMetadata(server).get(DiscoveryConstant.REGION);
 
-        LOG.info("Service端负载均衡用户定制触发：token={}, serviceId={}, version={}", token, serviceId, version);
+        LOG.info("负载均衡用户定制触发：token={}, serviceId={}, version={}, region={}", token, serviceId, version, region);
 
         String filterServiceId = "discovery-springcloud-example-c";
         String filterToken = "123";
@@ -70,8 +71,9 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
         Map<String, Object> attributes = serviceStrategyContextHolder.getRpcAttributes();
         String serviceId = pluginAdapter.getServerServiceId(server);
         String version = pluginAdapter.getServerMetadata(server).get(DiscoveryConstant.VERSION);
+        String region = pluginAdapter.getServerMetadata(server).get(DiscoveryConstant.REGION);
 
-        LOG.info("Serivice端负载均衡用户定制触发：attributes={}, serviceId={}, version={}", attributes, serviceId, version);
+        LOG.info("负载均衡用户定制触发：attributes={}, serviceId={}, version={}, region={}", attributes, serviceId, version, region);
 
         String filterServiceId = "discovery-springcloud-example-b";
         String filterVersion = "1.0";
