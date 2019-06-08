@@ -19,7 +19,9 @@ import org.springframework.context.annotation.Configuration;
 import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.gateway.adapter.DefaultDiscoveryEnabledAdapter;
+import com.nepxion.discovery.plugin.strategy.gateway.constant.GatewayStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.gateway.filter.GatewayStrategyFilter;
+import com.nepxion.discovery.plugin.strategy.gateway.filter.GatewayStrategyRouteFilter;
 import com.nepxion.discovery.plugin.strategy.gateway.wrapper.DefaultCallableWrapper;
 import com.nepxion.discovery.plugin.strategy.wrapper.CallableWrapper;
 
@@ -30,6 +32,13 @@ public class GatewayStrategyAutoConfiguration {
     @Bean
     public GatewayStrategyFilter gatewayStrategyFilter() {
         return new GatewayStrategyFilter();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    @ConditionalOnProperty(value = GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_ROUTE_FILTER_ENABLED, matchIfMissing = true)
+    public GatewayStrategyRouteFilter gatewayStrategyRouteFilter() {
+        return new GatewayStrategyRouteFilter();
     }
 
     @Bean

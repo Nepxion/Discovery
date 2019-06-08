@@ -16,18 +16,12 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 
 import com.nepxion.discovery.plugin.example.gateway.impl.MyDiscoveryEnabledStrategy;
-import com.nepxion.discovery.plugin.strategy.gateway.filter.GatewayStrategyRouteFilter;
 
 @SpringBootApplication
 @EnableDiscoveryClient
 public class DiscoveryApplicationGateway {
     public static void main(String[] args) {
         new SpringApplicationBuilder(DiscoveryApplicationGateway.class).run(args);
-    }
-
-    @Bean
-    public GatewayStrategyRouteFilter gatewayStrategyRouteFilter() {
-        return new GatewayStrategyRouteFilter();
     }
 
     @Bean

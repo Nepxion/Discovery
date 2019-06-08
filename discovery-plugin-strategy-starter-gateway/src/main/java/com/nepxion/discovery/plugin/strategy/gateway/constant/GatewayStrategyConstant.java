@@ -10,6 +10,7 @@ package com.nepxion.discovery.plugin.strategy.gateway.constant;
  */
 
 public class GatewayStrategyConstant {
+    public static final String SPRING_APPLICATION_STRATEGY_GATEWAY_ROUTE_FILTER_ENABLED = "spring.application.strategy.gateway.route.filter.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_GATEWAY_ROUTE_FILTER_ORDER = "spring.application.strategy.gateway.route.filter.order";
     public static final int SPRING_APPLICATION_STRATEGY_GATEWAY_ROUTE_FILTER_ORDER_VALUE = 9000;
 }
