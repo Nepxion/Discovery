@@ -26,6 +26,8 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 
 兼容性强。支持如下版本：
 
+:exclamation:由于Greenwich和Finchley版是兼容的，所以Nepxion Discovery版本对于Greenwich和Finchley版也是通用的，即Greenwich和Finchley版既可以使用5.x.x版，也可以使用4.x.x版；Edgware存在着不兼容性，必须使用3.x.x版
+
 | Spring Cloud版本 | Spring Boot版本 | Spring Cloud Alibaba | Nepxion Discovery版本 | 备注 |
 | --- | --- | --- | --- | --- |
 | Hoxton.- | - | - | - | 敬请期待 |
