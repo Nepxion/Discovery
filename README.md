@@ -30,12 +30,12 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 
 | Spring Cloud版本 | Spring Boot版本 | Spring Cloud Alibaba | Nepxion Discovery版本 | 备注 |
 | --- | --- | --- | --- | --- |
-| Hoxton.- | - | - | - | 敬请期待 |
+| Hoxton | - | - | - | 敬请期待 |
 | Greenwich.SR1 | 2.1.4.RELEASE | 0.9.0.RELEASE | 5.1.0 | 维护中，可用 |
 | Finchley.SR3 | 2.0.7.RELEASE | 0.2.2.RELEASE | 4.9.0 | 维护中，可用 |
 | Edgware.SR6 | 1.5.18.RELEASE | 0.1.2.RELEASE | 3.9.0 | 维护中，可用 |
-| Dalston.- | - | - | 2.0.11 | 不维护，不可用 |
-| Camden.- | - | - | 1.0.1 | 不维护，不可用 |
+| Dalston | - | - | 2.0.11 | 不维护，不可用 |
+| Camden | - | - | 1.0.1 | 不维护，不可用 |
 
 ## 快速开始
 
