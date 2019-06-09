@@ -311,7 +311,7 @@
 					},
 					{
 						"key": "n-d-region",
-						"value": "dev",
+						"value": "{\"discovery-springcloud-example-a\":\"qa;dev\", \"discovery-springcloud-example-b\":\"dev\", \"discovery-springcloud-example-c\":\"qa\"}",
 						"disabled": true
 					},
 					{
@@ -425,6 +425,46 @@
 					"path": [
 						"discovery-springcloud-example-a",
 						"invoke"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5001/discovery-gray-service-a/invoke/gateway",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "n-d-version",
+						"value": "{\"discovery-gray-service-a\":\"1.0\", \"discovery-gray-service-b\":\"1.0\"}",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "n-d-region",
+						"value": "qa",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "mobile",
+						"value": "138",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5001/discovery-gray-service-a/invoke/gateway",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"discovery-gray-service-a",
+						"invoke",
+						"gateway"
 					]
 				}
 			},
