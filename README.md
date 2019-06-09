@@ -26,16 +26,15 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 
 兼容性强。支持如下版本：
 
-:exclamation:由于Greenwich和Finchley版是兼容的，所以Nepxion Discovery版本对于Greenwich和Finchley版也是通用的，即Greenwich和Finchley版既可以使用5.x.x版，也可以使用4.x.x版；Edgware存在着不兼容性，必须使用3.x.x版
-
-| Spring Cloud版本 | Spring Boot版本 | Spring Cloud Alibaba | Nepxion Discovery版本 | 备注 |
+| 框架版本 | 框架状态 | 适用Spring Cloud版本 | 适用Spring Boot版本 | 适用Spring Cloud Alibaba版本 |
 | --- | --- | --- | --- | --- |
-| Hoxton | - | - | - | 敬请期待 |
-| Greenwich.SR1 | 2.1.4.RELEASE | 0.9.0.RELEASE | 5.1.0 | 维护中，可用 |
-| Finchley.SR3 | 2.0.7.RELEASE | 0.2.2.RELEASE | 4.9.0 | 维护中，可用 |
-| Edgware.SR6 | 1.5.18.RELEASE | 0.1.2.RELEASE | 3.9.0 | 维护中，可用 |
-| Dalston | - | - | 2.0.11 | 不维护，不可用 |
-| Camden | - | - | 1.0.1 | 不维护，不可用 |
+| 5.1.0 | 维护中，可用 | Greenwich.SR1 | 2.1.x.RELEASE | 0.9.x.RELEASE |
+| 4.9.0 | 维护中，可用 | Finchley.SR3 | 2.0.x.RELEASE | 0.2.x.RELEASE |
+| 3.9.0 | 维护中，可用 | Edgware.SR6 | 1.5.x.RELEASE | 0.1.x.RELEASE |
+| 2.0.x | 不维护，不可用 | Dalston.SRx | N/A | N/A |
+| 1.0.x | 不维护，不可用 | Camden.SRx | N/A | N/A |
+
+:triangular_flag_on_post:由于Greenwich和Finchley版是兼容的，所以Nepxion Discovery版本对于Greenwich和Finchley版也是通用的，即Greenwich和Finchley版既可以使用5.x.x版，也可以使用4.x.x版；Edgware存在着不兼容性，必须使用3.x.x版
 
 ## 快速开始
 
