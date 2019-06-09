@@ -14,7 +14,8 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 - 感谢代码贡献者@Esun，@JikaiSun，@HaoHuang，@Fan Yang，@Ankeway等同学，感谢为本框架提出宝贵意见和建议的同学
 - 感谢使用本框架的公司和企业
 
-使用方便，只需要如下步骤：
+1. 使用方便。只需如下步骤：
+
 - 引入相关依赖到pom.xml，参考 [依赖兼容](#依赖兼容)
 - 操作配置文件，参考 [配置文件](#配置文件)
   - 在元数据MetaData中，为微服务定义一个版本号（version），定义一个所属组名（group）或者应用名（application），定义一个所属区域（region）名
@@ -23,24 +24,23 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
   - 通过远程配置中心推送规则
   - 通过控制平台界面推送规则
   - 通过客户端工具（例如Postman）推送
+- 参考极简示例
+  - [极简示例](https://github.com/Nepxion/DiscoveryGray) 
 
-兼容性强。支持如下版本：
+2. 兼容性强。支持如下版本：
 
-:exclamation:由于Greenwich和Finchley版是兼容的，所以Nepxion Discovery版本对于Greenwich和Finchley版也是通用的，即Greenwich和Finchley版既可以使用5.x.x版，也可以使用4.x.x版；Edgware存在着不兼容性，必须使用3.x.x版
-
-| Spring Cloud版本 | Spring Boot版本 | Spring Cloud Alibaba | Nepxion Discovery版本 | 备注 |
+| 框架版本 | 框架状态 | 适用Spring Cloud版本 | 适用Spring Boot版本 | 适用Spring Cloud Alibaba版本 |
 | --- | --- | --- | --- | --- |
-| Hoxton | - | - | - | 敬请期待 |
-| Greenwich.SR1 | 2.1.4.RELEASE | 0.9.0.RELEASE | 5.1.0 | 维护中，可用 |
-| Finchley.SR3 | 2.0.7.RELEASE | 0.2.2.RELEASE | 4.9.0 | 维护中，可用 |
-| Edgware.SR6 | 1.5.18.RELEASE | 0.1.2.RELEASE | 3.9.0 | 维护中，可用 |
-| Dalston | - | - | 2.0.11 | 不维护，不可用 |
-| Camden | - | - | 1.0.1 | 不维护，不可用 |
+| 5.1.0 | 维护中，可用 | Greenwich.SR1 | 2.1.x.RELEASE | 0.9.x.RELEASE |
+| 4.9.0 | 维护中，可用 | Finchley.SR3 | 2.0.x.RELEASE | 0.2.x.RELEASE |
+| 3.9.0 | 维护中，可用 | Edgware.SR6 | 1.5.x.RELEASE | 0.1.x.RELEASE |
+| 2.0.x | 不维护，不可用 | Dalston.SRx | N/A | N/A |
+| 1.0.x | 不维护，不可用 | Camden.SRx | N/A | N/A |
+
+:triangular_flag_on_post:由于Greenwich和Finchley版是兼容的，所以Nepxion Discovery版本对于Greenwich和Finchley版也是通用的，即Greenwich和Finchley版既可以使用5.x.x版，也可以使用4.x.x版；Edgware存在着不兼容性，必须使用3.x.x版
 
 ## 快速开始
-
-建议循序渐进阅读下面文章，特别是极简示例
-- [极简示例](https://github.com/Nepxion/DiscoveryGray)  
+- [极简示例](https://github.com/Nepxion/DiscoveryGray) 
 - [入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)
 - [示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)
 
