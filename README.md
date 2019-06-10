@@ -28,7 +28,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 
 2. 兼容性强。支持如下版本：
 
-| 框架版本 | 框架状态 | 适用于Spring Cloud版本 | 适用于Spring Boot版本 | 适用于Spring Cloud Alibaba版本 |
+| 框架版本 | 框架状态 | 适用Spring Cloud版本 | 适用Spring Boot版本 | 适用Spring Cloud Alibaba版本 |
 | --- | --- | --- | --- | --- |
 | 5.1.0 | 维护中，可用 | Greenwich | 2.1.x.RELEASE | 0.9.x.RELEASE |
 | 4.9.0 | 维护中，可用 | Finchley | 2.0.x.RELEASE | 0.2.x.RELEASE |
