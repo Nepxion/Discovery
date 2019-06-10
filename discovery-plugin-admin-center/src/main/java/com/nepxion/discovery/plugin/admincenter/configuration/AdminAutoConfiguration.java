@@ -21,7 +21,7 @@ import com.nepxion.discovery.plugin.admincenter.endpoint.RouterEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.VersionEndpoint;
 
 @Configuration
-@Import(SwaggerConfiguration.class)
+@Import({ SwaggerConfiguration.class, CorsRegistryConfiguration.class })
 public class AdminAutoConfiguration {
     @ConditionalOnClass(Endpoint.class)
     protected static class AdminEndpointConfiguration {

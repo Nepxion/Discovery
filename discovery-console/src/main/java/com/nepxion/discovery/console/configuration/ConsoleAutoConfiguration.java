@@ -23,7 +23,7 @@ import com.nepxion.discovery.console.authentication.AuthenticationResourceImpl;
 import com.nepxion.discovery.console.endpoint.ConsoleEndpoint;
 
 @Configuration
-@Import(SwaggerConfiguration.class)
+@Import({ SwaggerConfiguration.class, CorsRegistryConfiguration.class })
 public class ConsoleAutoConfiguration {
     @ConditionalOnClass(Endpoint.class)
     protected static class ConsoleEndpointConfiguration {

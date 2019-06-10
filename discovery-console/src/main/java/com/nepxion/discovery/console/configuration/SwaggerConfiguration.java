@@ -26,8 +26,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
@@ -36,7 +34,7 @@ import com.google.common.base.Predicate;
 @Configuration
 @EnableSwagger2
 @ConditionalOnProperty(value = "swagger.service.enabled", matchIfMissing = true)
-public class SwaggerConfiguration extends WebMvcConfigurerAdapter {
+public class SwaggerConfiguration {
     public static final String BASE_PACKAGE = "com.nepxion.discovery.console.endpoint";
 
     @Value("${spring.application.name}")
@@ -66,9 +64,6 @@ public class SwaggerConfiguration extends WebMvcConfigurerAdapter {
     @Value("${swagger.service.termsOfServiceUrl:http://www.nepxion.com")
     private String termsOfServiceUrl;
 
-    @Value("${swagger.cors.registry.enabled:true}")
-    private Boolean corsRegistryEnabled;
-
     @Autowired(required = false)
     private List<Parameter> swaggerHeaderParameters;
 
@@ -94,17 +89,6 @@ public class SwaggerConfiguration extends WebMvcConfigurerAdapter {
                 .contact(new Contact(contactName, contactUrl, contactEmail))
                 .termsOfServiceUrl(termsOfServiceUrl)
                 .build();
-    }
-
-    // 解决跨域问题
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        if (corsRegistryEnabled) {
-            registry.addMapping("/**")
-                    .allowedHeaders("*")
-                    .allowedMethods("*")
-                    .allowedOrigins("*");
-        }
     }
 
     public static Predicate<RequestHandler> basePackage(String basePackage) {
