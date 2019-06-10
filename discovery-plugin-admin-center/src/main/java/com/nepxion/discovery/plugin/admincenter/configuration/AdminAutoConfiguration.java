@@ -45,4 +45,12 @@ public class AdminAutoConfiguration {
             return new RestTemplate();
         }
     }
+
+    @ConditionalOnClass(name = { "org.springframework.web.servlet.config.annotation.WebMvcConfigurer" })
+    protected static class WebMvcActivationConfiguration {
+        @Bean
+        public CorsRegistryConfiguration corsRegistryConfiguration() {
+            return new CorsRegistryConfiguration();
+        }
+    }
 }
