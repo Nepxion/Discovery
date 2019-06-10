@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.nepxion.discovery.plugin.admincenter.endpoint.ConfigEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.RouterEndpoint;
@@ -47,7 +48,7 @@ public class AdminAutoConfiguration {
         }
     }
 
-    @ConditionalOnClass(name = { "org.springframework.web.servlet.config.annotation.WebMvcConfigurer" })
+    @ConditionalOnClass(WebMvcConfigurer.class)
     protected static class WebMvcActivationConfiguration {
         @Bean
         @ConditionalOnProperty(value = "cors.registry.enabled", matchIfMissing = true)
