@@ -24,6 +24,8 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
   - 通过远程配置中心推送规则
   - 通过控制平台界面推送规则
   - 通过客户端工具（例如Postman）推送
+- 导入Postman脚本
+  - 为方便体验示例，把discovery-springcloud-postman/Nepxion.postman_collection.json导入到Postman运行即可
 - 参考 [极简示例](https://github.com/Nepxion/DiscoveryGray)
 
 2. 兼容性强。支持如下版本：
