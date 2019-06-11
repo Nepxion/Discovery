@@ -49,10 +49,10 @@ public abstract class PluginApplicationContextInitializer implements Application
         }
 
         if (applicationContextClassName.endsWith(DiscoveryConstant.ANNOTATION_CONFIG_SERVLET_WEB_SERVER_APPLICATION_CONTEXT)) {
-            System.setProperty(DiscoveryConstant.SPRING_APPLICATION_SERVLET_WEB_SERVER_ENABLED, "true");
+            System.setProperty(DiscoveryConstant.SPRING_APPLICATION_SERVLET_WEB_SERVER_ENABLED, Boolean.toString(true));
         }
         if (applicationContextClassName.endsWith(DiscoveryConstant.ANNOTATION_CONFIG_REACTIVE_WEB_SERVER_APPLICATION_CONTEXT)) {
-            System.setProperty(DiscoveryConstant.SPRING_APPLICATION_REACTIVE_WEB_SERVER_ENABLED, "true");
+            System.setProperty(DiscoveryConstant.SPRING_APPLICATION_REACTIVE_WEB_SERVER_ENABLED, Boolean.toString(true));
         }
 
         applicationContext.getBeanFactory().addBeanPostProcessor(new InstantiationAwareBeanPostProcessorAdapter() {
