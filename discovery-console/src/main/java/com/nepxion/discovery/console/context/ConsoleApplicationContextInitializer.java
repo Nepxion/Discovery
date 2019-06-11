@@ -14,7 +14,7 @@ public class ConsoleApplicationContextInitializer implements ApplicationContextI
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
         String applicationContextClassName = applicationContext.getClass().getName();
-        if (applicationContextClassName.endsWith("AnnotationConfigServletWebServerApplicationContext") || applicationContextClassName.endsWith("AnnotationConfigReactiveWebServerApplicationContext")) {
+        if (applicationContextClassName.endsWith(DiscoveryConstant.ANNOTATION_CONFIG_SERVLET_WEB_SERVER_APPLICATION_CONTEXT) || applicationContextClassName.endsWith(DiscoveryConstant.ANNOTATION_CONFIG_REACTIVE_WEB_SERVER_APPLICATION_CONTEXT)) {
             /*String bannerShown = System.getProperty(BannerConstant.BANNER_SHOWN, "true");
             if (Boolean.valueOf(bannerShown)) {
                 System.out.println("");
