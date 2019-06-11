@@ -43,5 +43,12 @@ public class ConsoleApplicationContextInitializer implements ApplicationContextI
 
             NepxionBanner.show(logoBanner, new Description(BannerConstant.VERSION + ":", DiscoveryConstant.DISCOVERY_VERSION, 0, 1), new Description(BannerConstant.PLUGIN + ":", "Console", 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
         }
+
+        if (applicationContextClassName.endsWith(DiscoveryConstant.ANNOTATION_CONFIG_SERVLET_WEB_SERVER_APPLICATION_CONTEXT)) {
+            System.setProperty(DiscoveryConstant.SPRING_APPLICATION_SERVLET_WEB_SERVER_ENABLED, "true");
+        }
+        if (applicationContextClassName.endsWith(DiscoveryConstant.ANNOTATION_CONFIG_REACTIVE_WEB_SERVER_APPLICATION_CONTEXT)) {
+            System.setProperty(DiscoveryConstant.SPRING_APPLICATION_REACTIVE_WEB_SERVER_ENABLED, "true");
+        }
     }
 }

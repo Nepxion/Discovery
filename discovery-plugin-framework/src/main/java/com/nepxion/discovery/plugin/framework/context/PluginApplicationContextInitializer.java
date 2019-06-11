@@ -27,12 +27,6 @@ public abstract class PluginApplicationContextInitializer implements Application
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
         String applicationContextClassName = applicationContext.getClass().getName();
-        if (applicationContextClassName.endsWith(DiscoveryConstant.ANNOTATION_CONFIG_SERVLET_WEB_SERVER_APPLICATION_CONTEXT)) {
-           System.setProperty(DiscoveryConstant.SPRING_APPLICATION_SERVLET_WEB_SERVER_ENABLED, "true"); 
-        }
-        if (applicationContextClassName.endsWith(DiscoveryConstant.ANNOTATION_CONFIG_REACTIVE_WEB_SERVER_APPLICATION_CONTEXT)) {
-            System.setProperty(DiscoveryConstant.SPRING_APPLICATION_REACTIVE_WEB_SERVER_ENABLED, "true");  
-        }
         if (applicationContextClassName.endsWith(DiscoveryConstant.ANNOTATION_CONFIG_SERVLET_WEB_SERVER_APPLICATION_CONTEXT) || applicationContextClassName.endsWith(DiscoveryConstant.ANNOTATION_CONFIG_REACTIVE_WEB_SERVER_APPLICATION_CONTEXT)) {
             /*String bannerShown = System.getProperty(BannerConstant.BANNER_SHOWN, "true");
             if (Boolean.valueOf(bannerShown)) {
@@ -52,6 +46,13 @@ public abstract class PluginApplicationContextInitializer implements Application
             LogoBanner logoBanner = new LogoBanner(PluginApplicationContextInitializer.class, "/com/nepxion/discovery/resource/logo.txt", "Welcome to Nepxion", 9, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta, Color.red, Color.green, Color.cyan }, true);
 
             NepxionBanner.show(logoBanner, new Description(BannerConstant.VERSION + ":", DiscoveryConstant.DISCOVERY_VERSION, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
+        }
+
+        if (applicationContextClassName.endsWith(DiscoveryConstant.ANNOTATION_CONFIG_SERVLET_WEB_SERVER_APPLICATION_CONTEXT)) {
+            System.setProperty(DiscoveryConstant.SPRING_APPLICATION_SERVLET_WEB_SERVER_ENABLED, "true");
+        }
+        if (applicationContextClassName.endsWith(DiscoveryConstant.ANNOTATION_CONFIG_REACTIVE_WEB_SERVER_APPLICATION_CONTEXT)) {
+            System.setProperty(DiscoveryConstant.SPRING_APPLICATION_REACTIVE_WEB_SERVER_ENABLED, "true");
         }
 
         applicationContext.getBeanFactory().addBeanPostProcessor(new InstantiationAwareBeanPostProcessorAdapter() {
