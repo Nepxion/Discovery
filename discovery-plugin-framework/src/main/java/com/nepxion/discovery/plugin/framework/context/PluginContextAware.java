@@ -12,10 +12,12 @@ package com.nepxion.discovery.plugin.framework.context;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.ResolvableType;
 import org.springframework.core.env.Environment;
+import org.springframework.core.env.PropertyResolver;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
@@ -142,6 +144,8 @@ public class PluginContextAware implements ApplicationContextAware {
     }
 
     public static String getContextPath(Environment environment) {
-        return environment.getProperty(DiscoveryConstant.CONTEXT_PATH, String.class, "/");
+        PropertyResolver environmentPropertyResolver = new RelaxedPropertyResolver(environment);
+
+        return environmentPropertyResolver.getProperty(DiscoveryConstant.CONTEXT_PATH, String.class, "/");
     }
 }
