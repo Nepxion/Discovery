@@ -142,6 +142,6 @@ public class PluginContextAware implements ApplicationContextAware {
     }
 
     public static String getContextPath(Environment environment) {
-        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH, String.class, "/");
+        return environment.getProperty(DiscoveryConstant.CONTEXT_PATH, String.class, "/");
     }
 }

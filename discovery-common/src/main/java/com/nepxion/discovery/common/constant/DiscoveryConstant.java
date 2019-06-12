@@ -24,6 +24,8 @@ public class DiscoveryConstant {
     public static final String SPRING_APPLICATION_GROUP_KEY = "spring.application.group.key";
     public static final String SPRING_APPLICATION_CONTEXT_PATH = "spring.application.context-path";
 
+    public static final String CONTEXT_PATH = "server.servlet.context-path";
+
     public static final String ANNOTATION_CONFIG_SERVLET_WEB_SERVER_APPLICATION_CONTEXT = "AnnotationConfigServletWebServerApplicationContext";
     public static final String ANNOTATION_CONFIG_REACTIVE_WEB_SERVER_APPLICATION_CONTEXT = "AnnotationConfigReactiveWebServerApplicationContext";
 
