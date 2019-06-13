@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.example.service.impl;
+package com.nepxion.discovery.plugin.example.zuul.impl;
 
 /**
  * <p>Title: Nepxion Discovery</p>

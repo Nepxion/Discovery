@@ -59,6 +59,11 @@ public class DiscoveryApplicationA1 {
     }
 
     @Bean
+    public MyDiscoveryEnabledStrategy myDiscoveryEnabledStrategy() {
+        return new MyDiscoveryEnabledStrategy();
+    }
+
+    @Bean
     public MyRegisterListener myRegisterListener() {
         return new MyRegisterListener();
     }
@@ -76,10 +81,5 @@ public class DiscoveryApplicationA1 {
     @Bean
     public MySubscriber mySubscriber() {
         return new MySubscriber();
-    }
-
-    @Bean
-    public MyDiscoveryEnabledStrategy myDiscoveryEnabledStrategy() {
-        return new MyDiscoveryEnabledStrategy();
     }
 }
