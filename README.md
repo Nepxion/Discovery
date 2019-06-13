@@ -84,7 +84,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
   - [规则和策略的关系](#规则和策略的关系)
 - [外部元数据](#外部元数据)
 - [配置文件](#配置文件)
-- [监听扩展](#监听扩展) 
+- [自定义禁止策略](#自定义禁止策略) 
 - [配置中心](#配置中心)
 - [管理中心](#管理中心)
 - [控制平台](#控制平台)
@@ -773,7 +773,7 @@ spring.application.strategy.intercept.log.print=true
 # spring.application.strategy.hystrix.threadlocal.supported=true
 ```
 
-## 监听扩展
+## 自定义禁止策略
 使用者可以继承如下类
 - AbstractRegisterListener，实现自定义”禁止注册“，用法参考discovery-springcloud-example-service下MyRegisterListener
 - AbstractDiscoveryListener，实现自定义”禁止被发现“，用法参考discovery-springcloud-example-service下MyDiscoveryListener。注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断，见上图“集成了健康检查的Consul界面”
