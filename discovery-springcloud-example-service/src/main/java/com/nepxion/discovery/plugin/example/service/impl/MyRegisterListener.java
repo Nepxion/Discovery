@@ -16,7 +16,7 @@ import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.listener.register.AbstractRegisterListener;
 
-// 当元数据中的group为mygroup，禁止注册
+// 当元数据中的group为mygroup1，禁止注册
 public class MyRegisterListener extends AbstractRegisterListener {
     @Override
     public void onRegister(Registration registration) {
