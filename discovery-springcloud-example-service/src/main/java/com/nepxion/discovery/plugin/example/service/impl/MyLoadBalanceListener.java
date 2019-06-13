@@ -20,7 +20,7 @@ import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.AbstractLoadBalanceListener;
 import com.netflix.loadbalancer.Server;
 
-// 当元数据中的group为mygroup，禁止被负载均衡到
+// 当元数据中的group为mygroup3，禁止被负载均衡到
 public class MyLoadBalanceListener extends AbstractLoadBalanceListener {
     @Autowired
     private PluginAdapter pluginAdapter;
@@ -31,7 +31,7 @@ public class MyLoadBalanceListener extends AbstractLoadBalanceListener {
         while (iterator.hasNext()) {
             Server server = iterator.next();
             String group = pluginAdapter.getServerMetadata(server).get(DiscoveryConstant.GROUP);
-            if (StringUtils.equals(group, "mygroup2")) {
+            if (StringUtils.equals(group, "mygroup3")) {
                 iterator.remove();
 
                 System.out.println("********** 服务名=" + serviceId + "，组名=" + group + "的服务不允许被其它服务负载均衡到");
