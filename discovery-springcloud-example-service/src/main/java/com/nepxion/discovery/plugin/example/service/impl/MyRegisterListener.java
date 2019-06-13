@@ -9,28 +9,41 @@ package com.nepxion.discovery.plugin.example.service.impl;
  * @version 1.0
  */
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.cloud.client.serviceregistry.Registration;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.listener.register.AbstractRegisterListener;
 
+// 当元数据中的group为mygroup，禁止注册
 public class MyRegisterListener extends AbstractRegisterListener {
     @Override
     public void onRegister(Registration registration) {
-        // System.out.println("========== Register Listener :: register()被触发, serviceId=" + registration.getServiceId().toLowerCase());
+        String serviceId = registration.getServiceId().toLowerCase();
+        String group = registration.getMetadata().get(DiscoveryConstant.GROUP);
+        if (StringUtils.equals(group, "mygroup1")) {
+            throw new DiscoveryException("服务名=" + serviceId + "，组名=" + group + "的服务不允许被注册到注册中心");
+        }
     }
 
     @Override
     public void onDeregister(Registration registration) {
-        // System.out.println("========== Register Listener :: deregister()被触发, serviceId=" + registration.getServiceId().toLowerCase());
+
     }
 
     @Override
     public void onSetStatus(Registration registration, String status) {
-        // System.out.println("========== Register Listener :: setStatus()被触发, serviceId=" + registration.getServiceId().toLowerCase() + ", status=" + status);
+
     }
 
     @Override
     public void onClose() {
-        // System.out.println("========== Register Listener :: close()被触发 ==========");
+
+    }
+
+    @Override
+    public int getOrder() {
+        return LOWEST_PRECEDENCE - 1;
     }
 }
