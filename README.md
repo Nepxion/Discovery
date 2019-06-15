@@ -639,6 +639,15 @@ Header的Key为"n-d-version"，value为：
 1.1
 ```
 
+如果上述表达式还未满足需求，也可以采用通配符（具体详细用法，参考Spring AntPathMatcher）
+```xml
+"discovery-springcloud-example-c":"1.*;1.2.?" - 表示c服务的版本调用范围是1开头的所有版本，或者是1.2开头的所有版本（末尾必须是1个字符）
+```
+```xml
+* - 表示调用范围为所有服务的所有版本
+1.* - 表示调用范围为所有服务的1开头的所有版本
+```
+
 多版本灰度路由架构图
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/RouteVersion.jpg)
 
@@ -655,6 +664,15 @@ Header的Key为"n-d-region"，value为：
 dev
 ```
 
+如果上述表达式还未满足需求，也可以采用通配符（具体详细用法，参考Spring AntPathMatcher）
+```xml
+"discovery-springcloud-example-c":"d*;q?" - 表示c服务的区域调用范围是d开头的所有区域，或者是q开头的所有区域（末尾必须是1个字符）
+```
+```xml
+* - 表示调用范围为所有服务的所有区域
+d* - 表示调用范围为所有服务的d开头的所有区域
+```
+
 多区域灰度路由架构图
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/RouteRegion.jpg)
 
@@ -667,6 +685,15 @@ Header的Key为"n-d-address"，value为：
 {"discovery-springcloud-example-a":"192.168.43.101:1101", "discovery-springcloud-example-b":"192.168.43.101:1201", "discovery-springcloud-example-c":"192.168.43.101:1302"}
 ```
 见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+
+如果上述表达式还未满足需求，也可以采用通配符（具体详细用法，参考Spring AntPathMatcher）
+```xml
+"discovery-springcloud-example-c":"192.168.43.*;192.168.44.10?" - 表示c服务的地址调用范围是192.168.43开头的所有IP，或者是192.168.44.10开头的所有IP（末尾必须是1个字符）
+```
+```xml
+* - 表示调用范围为所有服务的所有IP
+192.168.43* - 表示调用范围为所有服务的192.168.43开头的所有IP
+```
 
 多IP和端口灰度路由架构图
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/RouteAddress.jpg)
