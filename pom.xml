@@ -23,7 +23,7 @@
         <module>discovery-plugin-config-center</module>
         <module>discovery-plugin-config-center-starter-apollo</module>
         <module>discovery-plugin-config-center-starter-nacos</module>
-        <module>discovery-plugin-config-center-starter-redis</module> 
+        <module>discovery-plugin-config-center-starter-redis</module>
         <module>discovery-plugin-admin-center</module>
         <module>discovery-plugin-starter-eureka</module>
         <module>discovery-plugin-starter-consul</module>
