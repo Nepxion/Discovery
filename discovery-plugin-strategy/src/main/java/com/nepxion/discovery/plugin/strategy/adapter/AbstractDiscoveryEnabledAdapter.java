@@ -181,9 +181,17 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
             return true;
         }
 
+        // 如果精确匹配不满足，尝试用通配符匹配
         List<String> addressList = StringUtil.splitToList(addresses, DiscoveryConstant.SEPARATE);
         if (addressList.contains(server.getHostPort()) || addressList.contains(server.getHost())) {
             return true;
+        }
+
+        // 通配符匹配。前者是通配表达式，后者是具体值
+        for (String addressPattern : addressList) {
+            if (matcher.match(addressPattern, server.getHostPort()) || matcher.match(addressPattern, server.getHost())) {
+                return true;
+            }
         }
 
         return false;
