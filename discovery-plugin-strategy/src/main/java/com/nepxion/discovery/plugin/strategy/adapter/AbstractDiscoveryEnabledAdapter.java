@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.AntPathMatcher;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.RuleEntity;
@@ -29,6 +30,8 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
 
     @Autowired
     protected PluginAdapter pluginAdapter;
+
+    private AntPathMatcher matcher = new AntPathMatcher();
 
     @Override
     public boolean apply(Server server) {
@@ -86,9 +89,17 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
             return true;
         }
 
+        // 如果精确匹配不满足，尝试用通配符匹配
         List<String> versionList = StringUtil.splitToList(versions, DiscoveryConstant.SEPARATE);
         if (versionList.contains(version)) {
             return true;
+        }
+
+        // 通配符匹配。前者是通配表达式，后者是具体值
+        for (String versionPattern : versionList) {
+            if (matcher.match(versionPattern, version)) {
+                return true;
+            }
         }
 
         return false;
@@ -130,9 +141,17 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
             return true;
         }
 
+        // 如果精确匹配不满足，尝试用通配符匹配
         List<String> regionList = StringUtil.splitToList(regions, DiscoveryConstant.SEPARATE);
         if (regionList.contains(region)) {
             return true;
+        }
+
+        // 通配符匹配。前者是通配表达式，后者是具体值
+        for (String regionPattern : regionList) {
+            if (matcher.match(regionPattern, region)) {
+                return true;
+            }
         }
 
         return false;
