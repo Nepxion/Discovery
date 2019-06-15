@@ -14,7 +14,6 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.AntPathMatcher;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.RuleEntity;
@@ -22,6 +21,7 @@ import com.nepxion.discovery.common.entity.StrategyEntity;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
+import com.nepxion.discovery.plugin.strategy.matcher.DiscoveryMatcherStrategy;
 import com.netflix.loadbalancer.Server;
 
 public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
@@ -29,9 +29,10 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
     private DiscoveryEnabledStrategy discoveryEnabledStrategy;
 
     @Autowired
-    protected PluginAdapter pluginAdapter;
+    private DiscoveryMatcherStrategy discoveryMatcherStrategy;
 
-    private AntPathMatcher matcher = new AntPathMatcher();
+    @Autowired
+    protected PluginAdapter pluginAdapter;
 
     @Override
     public boolean apply(Server server) {
@@ -97,7 +98,7 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
 
         // 通配符匹配。前者是通配表达式，后者是具体值
         for (String versionPattern : versionList) {
-            if (matcher.match(versionPattern, version)) {
+            if (discoveryMatcherStrategy.match(versionPattern, version)) {
                 return true;
             }
         }
@@ -149,7 +150,7 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
 
         // 通配符匹配。前者是通配表达式，后者是具体值
         for (String regionPattern : regionList) {
-            if (matcher.match(regionPattern, region)) {
+            if (discoveryMatcherStrategy.match(regionPattern, region)) {
                 return true;
             }
         }
@@ -189,7 +190,7 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
 
         // 通配符匹配。前者是通配表达式，后者是具体值
         for (String addressPattern : addressList) {
-            if (matcher.match(addressPattern, server.getHostPort()) || matcher.match(addressPattern, server.getHost())) {
+            if (discoveryMatcherStrategy.match(addressPattern, server.getHostPort()) || discoveryMatcherStrategy.match(addressPattern, server.getHost())) {
                 return true;
             }
         }
