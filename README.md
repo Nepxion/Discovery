@@ -639,6 +639,19 @@ Header的Key为"n-d-version"，value为：
 1.1
 ```
 
+如果上述表达式还未满足需求，也可以采用通配符（具体详细用法，参考Spring AntPathMatcher）
+```xml
+"discovery-springcloud-example-c":"1.*;1.2.?" - 表示c服务的版本调用范围是1开头的所有版本，或者是1.2开头的所有版本（后面必须是1个字符）
+```
+```xml
+* - 表示调用范围为所有服务的所有版本
+1.* - 表示调用范围为所有服务的1开头的所有版本
+```
+Spring AntPathMatcher通配符用法：
+?  匹配任何单字符
+*  匹配0或者任意数量的字符
+** 匹配0或者更多的目录
+
 多版本灰度路由架构图
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/RouteVersion.jpg)
 
@@ -654,6 +667,19 @@ Header的Key为"n-d-region"，value为：
 ```xml
 dev
 ```
+
+如果上述表达式还未满足需求，也可以采用通配符（具体详细用法，参考Spring AntPathMatcher）
+```xml
+"discovery-springcloud-example-c":"d*;q?" - 表示c服务的区域调用范围是d开头的所有区域，或者是q开头的所有区域（后面必须是1个字符）
+```
+```xml
+* - 表示调用范围为所有服务的所有区域
+d* - 表示调用范围为所有服务的d开头的所有区域
+```
+Spring AntPathMatcher通配符用法：
+?  匹配任何单字符
+*  匹配0或者任意数量的字符
+** 匹配0或者更多的目录
 
 多区域灰度路由架构图
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/RouteRegion.jpg)
