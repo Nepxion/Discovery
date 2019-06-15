@@ -647,12 +647,6 @@ Header的Key为"n-d-version"，value为：
 * - 表示调用范围为所有服务的所有版本
 1.* - 表示调用范围为所有服务的1开头的所有版本
 ```
-Spring AntPathMatcher通配符用法：
-| 通配符 | 描述 |
-| --- | --- |
-| ”?“ | 匹配任何单字符 |
-| ”*“ | 匹配0个或者任意数量的字符 |
-| ”**“ | 匹配0个或者更多的目录 |
 
 多版本灰度路由架构图
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/RouteVersion.jpg)
