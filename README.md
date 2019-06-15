@@ -650,9 +650,9 @@ Header的Key为"n-d-version"，value为：
 Spring AntPathMatcher通配符用法：
 | 通配符 | 描述 |
 | --- | --- |
-| ? | 匹配任何单字符 |
-| * | 匹配0个或者任意数量的字符 |
-| ** | 匹配0个或者更多的目录 |
+| ”?“ | 匹配任何单字符 |
+| ”*“ | 匹配0个或者任意数量的字符 |
+| ”**“ | 匹配0个或者更多的目录 |
 
 多版本灰度路由架构图
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/RouteVersion.jpg)
