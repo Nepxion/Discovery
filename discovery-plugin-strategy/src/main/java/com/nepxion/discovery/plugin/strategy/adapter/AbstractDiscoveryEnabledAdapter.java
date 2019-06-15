@@ -89,13 +89,13 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
             return true;
         }
 
-        // Èç¹û¾«È·Æ¥Åä²»Âú×ã£¬³¢ÊÔÓÃÍ¨Åä·ûÆ¥Åä
+        // å¦‚æœç²¾ç¡®åŒ¹é…ä¸æ»¡è¶³ï¼Œå°è¯•ç”¨é€šé…ç¬¦åŒ¹é…
         List<String> versionList = StringUtil.splitToList(versions, DiscoveryConstant.SEPARATE);
         if (versionList.contains(version)) {
             return true;
         }
 
-        // Í¨Åä·ûÆ¥Åä¡£Ç°ÕßÊÇÍ¨Åä±í´ïÊ½£¬ºóÕßÊÇ¾ßÌåÖµ
+        // é€šé…ç¬¦åŒ¹é…ã€‚å‰è€…æ˜¯é€šé…è¡¨è¾¾å¼ï¼Œåè€…æ˜¯å…·ä½“å€¼
         for (String versionPattern : versionList) {
             if (matcher.match(versionPattern, version)) {
                 return true;
@@ -141,13 +141,13 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
             return true;
         }
 
-        // Èç¹û¾«È·Æ¥Åä²»Âú×ã£¬³¢ÊÔÓÃÍ¨Åä·ûÆ¥Åä
+        // å¦‚æœç²¾ç¡®åŒ¹é…ä¸æ»¡è¶³ï¼Œå°è¯•ç”¨é€šé…ç¬¦åŒ¹é…
         List<String> regionList = StringUtil.splitToList(regions, DiscoveryConstant.SEPARATE);
         if (regionList.contains(region)) {
             return true;
         }
 
-        // Í¨Åä·ûÆ¥Åä¡£Ç°ÕßÊÇÍ¨Åä±í´ïÊ½£¬ºóÕßÊÇ¾ßÌåÖµ
+        // é€šé…ç¬¦åŒ¹é…ã€‚å‰è€…æ˜¯é€šé…è¡¨è¾¾å¼ï¼Œåè€…æ˜¯å…·ä½“å€¼
         for (String regionPattern : regionList) {
             if (matcher.match(regionPattern, region)) {
                 return true;
@@ -181,9 +181,17 @@ public abstract class AbstractDiscoveryEnabledAdapter implements DiscoveryEnable
             return true;
         }
 
+        // å¦‚æœç²¾ç¡®åŒ¹é…ä¸æ»¡è¶³ï¼Œå°è¯•ç”¨é€šé…ç¬¦åŒ¹é…
         List<String> addressList = StringUtil.splitToList(addresses, DiscoveryConstant.SEPARATE);
         if (addressList.contains(server.getHostPort()) || addressList.contains(server.getHost())) {
             return true;
+        }
+
+        // é€šé…ç¬¦åŒ¹é…ã€‚å‰è€…æ˜¯é€šé…è¡¨è¾¾å¼ï¼Œåè€…æ˜¯å…·ä½“å€¼
+        for (String addressPattern : addressList) {
+            if (matcher.match(addressPattern, server.getHostPort()) || matcher.match(addressPattern, server.getHost())) {
+                return true;
+            }
         }
 
         return false;
