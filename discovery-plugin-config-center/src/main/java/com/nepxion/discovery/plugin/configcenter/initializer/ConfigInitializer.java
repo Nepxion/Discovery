@@ -1,4 +1,4 @@
-﻿package com.nepxion.discovery.plugin.configcenter.initializer;
+package com.nepxion.discovery.plugin.configcenter.initializer;
 
 /**
  * <p>Title: Nepxion Discovery</p>
