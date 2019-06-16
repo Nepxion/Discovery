@@ -81,7 +81,7 @@ public class ConfigInitializer {
             LOG.info("No config is retrieved");
         }
 
-        // 初始化配置的时候，不应该触发fireCustomization的EventBus事件
+        // 鍒濆鍖栭厤缃殑鏃跺�欙紝涓嶅簲璇ヨЕ鍙慺ireCustomization鐨凟ventBus浜嬩欢
         // pluginEventWapper.fireCustomization();
     }
 
