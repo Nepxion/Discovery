@@ -12,14 +12,14 @@ package com.nepxion.discovery.plugin.strategy.adapter;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 
 public abstract class AbstractDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
     @Autowired
-    protected PluginContextAware pluginContextAware;
+    private ApplicationContext applicationContext;
 
     @Autowired
     protected PluginAdapter pluginAdapter;
@@ -28,11 +28,7 @@ public abstract class AbstractDiscoveryEnabledStrategy implements DiscoveryEnabl
 
     @PostConstruct
     private void initialize() {
-        strategyContextHolder = pluginContextAware.getBean(StrategyContextHolder.class);
-    }
-
-    public PluginContextAware getPluginContextAware() {
-        return pluginContextAware;
+        strategyContextHolder = applicationContext.getBean(StrategyContextHolder.class);
     }
 
     public PluginAdapter getPluginAdapter() {
