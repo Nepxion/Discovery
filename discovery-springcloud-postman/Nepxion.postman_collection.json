@@ -389,7 +389,8 @@
 							{
 								"key": "user",
 								"value": "lisi",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							},
 							{
 								"key": "token",
