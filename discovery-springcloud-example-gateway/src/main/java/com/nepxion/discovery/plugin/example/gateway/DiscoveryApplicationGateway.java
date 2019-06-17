@@ -30,7 +30,7 @@ public class DiscoveryApplicationGateway {
     public static void main(String[] args) {
         new SpringApplicationBuilder(DiscoveryApplicationGateway.class).run(args);
     }
-    
+
     @Bean
     @ConditionalOnProperty(value = GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_ROUTE_FILTER_ENABLED, matchIfMissing = true)
     public GatewayStrategyRouteFilter gatewayStrategyRouteFilter() {
