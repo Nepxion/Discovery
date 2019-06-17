@@ -387,6 +387,11 @@
 								"disabled": true
 							},
 							{
+								"key": "user",
+								"value": "lisi",
+								"type": "text"
+							},
+							{
 								"key": "token",
 								"value": "ab",
 								"type": "text",
@@ -436,6 +441,12 @@
 							{
 								"key": "mobile",
 								"value": "133",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "user",
+								"value": "zhangsan",
 								"type": "text",
 								"disabled": true
 							},
