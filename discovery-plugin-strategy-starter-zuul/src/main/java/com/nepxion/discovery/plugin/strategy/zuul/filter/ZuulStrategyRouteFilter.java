@@ -17,6 +17,7 @@ import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.StrategyEntity;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
+import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.zuul.constant.ZuulStrategyConstant;
 import com.netflix.zuul.ZuulFilter;
 
@@ -25,7 +26,10 @@ public class ZuulStrategyRouteFilter extends ZuulFilter {
     private ConfigurableEnvironment environment;
 
     @Autowired
-    private PluginAdapter pluginAdapter;
+    protected PluginAdapter pluginAdapter;
+
+    @Autowired
+    protected StrategyContextHolder strategyContextHolder;
 
     @Override
     public String filterType() {
@@ -99,5 +103,13 @@ public class ZuulStrategyRouteFilter extends ZuulFilter {
         }
 
         return null;
+    }
+
+    public PluginAdapter getPluginAdapter() {
+        return pluginAdapter;
+    }
+
+    public StrategyContextHolder getStrategyContextHolder() {
+        return strategyContextHolder;
     }
 }
