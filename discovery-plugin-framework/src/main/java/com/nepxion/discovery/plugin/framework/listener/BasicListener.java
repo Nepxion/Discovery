@@ -25,6 +25,18 @@ public class BasicListener implements Listener {
     @Autowired
     protected PluginEventWapper pluginEventWapper;
 
+    public PluginContextAware getPluginContextAware() {
+        return pluginContextAware;
+    }
+
+    public PluginAdapter getPluginAdapter() {
+        return pluginAdapter;
+    }
+
+    public PluginEventWapper getPluginEventWapper() {
+        return pluginEventWapper;
+    }
+
     @Override
     public int getOrder() {
         return 0;
