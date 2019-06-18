@@ -55,8 +55,8 @@
         <commons.collections4.version>4.1</commons.collections4.version>
         <commons.io.version>2.5</commons.io.version>
         <dom4j.version>1.6.1</dom4j.version>
-        <apollo.version>1.4.0</apollo.version>
-        <nacos.version>1.0.1</nacos.version>
+        <apollo.client.version>1.4.0</apollo.client.version>
+        <nacos.client.version>1.0.1</nacos.client.version>
         <guava.version>27.0-jre</guava.version>
         <caffeine.version>2.7.0</caffeine.version>
         <swagger.version>2.7.0</swagger.version>
@@ -289,19 +289,19 @@
             <dependency>
                 <groupId>com.ctrip.framework.apollo</groupId>
                 <artifactId>apollo-client</artifactId>
-                <version>${apollo.version}</version>
+                <version>${apollo.client.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.ctrip.framework.apollo</groupId>
                 <artifactId>apollo-openapi</artifactId>
-                <version>${apollo.version}</version>
+                <version>${apollo.client.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.alibaba.nacos</groupId>
                 <artifactId>nacos-client</artifactId>
-                <version>${nacos.version}</version>
+                <version>${nacos.client.version}</version>
             </dependency>
 
             <dependency>
