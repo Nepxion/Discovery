@@ -13,18 +13,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.AbstractLoadBalanceListener;
 import com.netflix.loadbalancer.Server;
 
 // 当目标服务的元数据中的group为mygroup2，禁止被本服务负载均衡
 public class MyLoadBalanceListener extends AbstractLoadBalanceListener {
-    @Autowired
-    private PluginAdapter pluginAdapter;
-
     @Override
     public void onGetServers(String serviceId, List<? extends Server> servers) {
         Iterator<? extends Server> iterator = servers.iterator();
