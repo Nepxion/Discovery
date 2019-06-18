@@ -31,6 +31,7 @@ public class NacosConstant extends PropertyKeyConst {
     public static final String NACOS_PLUGIN_NAMING_CLIENT_BEAT_THREAD_COUNT = "nacos.plugin.naming-client-beat-thread-count";
     public static final String NACOS_PLUGIN_NAMING_POLLING_THREAD_COUNT = "nacos.plugin.naming-polling-thread-count";
     public static final String NACOS_PLUGIN_RAM_ROLE_NAME = "nacos.plugin.ram-role-name";
+    public static final String NACOS_PLUGIN_ENABLE_REMOTE_CONFIG_SYNC = "nacos.plugin.enable-remote-config-sync";
     public static final String NACOS_PLUGIN_TIMEOUT = "nacos.plugin.timout";
 
     public static final long DEFAULT_TIMEOUT = 30000;
