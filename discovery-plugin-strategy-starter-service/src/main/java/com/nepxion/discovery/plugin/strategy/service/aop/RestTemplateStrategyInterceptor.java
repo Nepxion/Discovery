@@ -31,6 +31,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.util.StringUtil;
+import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyContextHolder;
 
@@ -39,6 +40,9 @@ public class RestTemplateStrategyInterceptor implements ClientHttpRequestInterce
 
     @Autowired
     private ConfigurableEnvironment environment;
+
+    @Autowired
+    private PluginAdapter pluginAdapter;
 
     @Autowired
     private ServiceStrategyContextHolder serviceStrategyContextHolder;
@@ -65,19 +69,32 @@ public class RestTemplateStrategyInterceptor implements ClientHttpRequestInterce
 
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
+        applyInnerHeader(request);
+        applyOuterHeader(request);
+
+        return execution.execute(request, body);
+    }
+
+    private void applyInnerHeader(HttpRequest request) {
+        HttpHeaders headers = request.getHeaders();
+        headers.add(DiscoveryConstant.N_D_SERVICE_ID, pluginAdapter.getServiceId());
+        headers.add(DiscoveryConstant.N_D_GROUP, pluginAdapter.getGroup());
+    }
+
+    private void applyOuterHeader(HttpRequest request) {
         if (CollectionUtils.isEmpty(requestHeaderList)) {
-            return execution.execute(request, body);
+            return;
         }
 
         ServletRequestAttributes attributes = serviceStrategyContextHolder.getRestAttributes();
         if (attributes == null) {
-            return execution.execute(request, body);
+            return;
         }
 
         HttpServletRequest previousRequest = attributes.getRequest();
         Enumeration<String> headerNames = previousRequest.getHeaderNames();
         if (headerNames == null) {
-            return execution.execute(request, body);
+            return;
         }
 
         Boolean interceptLogPrint = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_INTERCEPT_LOG_PRINT, Boolean.class, Boolean.FALSE);
@@ -99,7 +116,5 @@ public class RestTemplateStrategyInterceptor implements ClientHttpRequestInterce
         if (interceptLogPrint) {
             LOG.info("-------------------------------------------------");
         }
-
-        return execution.execute(request, body);
     }
 }

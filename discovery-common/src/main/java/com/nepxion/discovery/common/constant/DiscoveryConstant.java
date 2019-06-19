@@ -42,6 +42,8 @@ public class DiscoveryConstant {
     public static final String DYNAMIC_RULE = "dynamicRule";
     public static final String REACH_MAX_LIMITED_COUNT = "reach max limited count";
 
+    public static final String N_D_SERVICE_ID = "n-d-service-id";
+    public static final String N_D_GROUP = "n-d-group";
     public static final String N_D_REGION = "n-d-region";
     public static final String N_D_VERSION = "n-d-version";
     public static final String N_D_ADDRESS = "n-d-address";
