@@ -705,13 +705,13 @@ Header的Key为"n-d-address"，value为：
 基于Feign/RestTemplate的RPC调用的自定义路由，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 ### 服务隔离
-- 消费端的服务隔离（基于Group是否相同的策略），只需要在网关或者服务端，开启如下配置即可：
+- 消费端的服务隔离（基于Group是否相同的策略）。只需要在网关或者服务端，开启如下配置即可：
 ```xml
 # 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
 # spring.application.strategy.consumer.isolation.enabled=true
 ```
 
-- 提供端的服务隔离，请自行集成和实现。推荐用Alibaba Sentinel的黑白名单控制方式（AuthorityRule），请求加上n-d-group的Http Header头部，然后通过如下代码方式进行Group比对：
+- 提供端的服务隔离（基于Group是否相同的策略）。请自行集成和实现，推荐用Alibaba Sentinel的黑白名单控制方式（AuthorityRule），请求加上n-d-group的Http Header头部，然后通过如下代码方式进行Group比对：
 ```java
 public class SentinelRequestOriginParser implements RequestOriginParser {
     @Override
