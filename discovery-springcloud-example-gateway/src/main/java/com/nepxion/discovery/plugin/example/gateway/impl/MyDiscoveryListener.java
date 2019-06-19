@@ -18,7 +18,7 @@ import org.springframework.cloud.client.ServiceInstance;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.listener.discovery.AbstractDiscoveryListener;
 
-// 当目标服务的元数据中的group为mygroup2，禁止被本服务发现（只用于DiscoveryClient.getInstances接口方法用）
+// 当目标服务的元数据中的Group为mygroup2，禁止被本服务发现（只用于DiscoveryClient.getInstances接口方法用）
 public class MyDiscoveryListener extends AbstractDiscoveryListener {
     @Override
     public void onGetInstances(String serviceId, List<ServiceInstance> instances) {
