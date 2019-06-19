@@ -18,7 +18,7 @@ import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.AbstractLoadBalanceListener;
 import com.netflix.loadbalancer.Server;
 
-// 当目标服务的元数据中的group为mygroup2，禁止被本服务负载均衡
+// 当目标服务的元数据中的Group为mygroup2，禁止被本服务负载均衡
 public class MyLoadBalanceListener extends AbstractLoadBalanceListener {
     @Override
     public void onGetServers(String serviceId, List<? extends Server> servers) {
