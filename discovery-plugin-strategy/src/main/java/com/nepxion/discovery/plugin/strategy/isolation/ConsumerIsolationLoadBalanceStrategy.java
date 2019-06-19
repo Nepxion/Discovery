@@ -24,7 +24,7 @@ import com.netflix.loadbalancer.Server;
 public class ConsumerIsolationLoadBalanceStrategy extends AbstractLoadBalanceListener {
     @Autowired
     private PluginAdapter pluginAdapter;
-    
+
     @Override
     public void onGetServers(String serviceId, List<? extends Server> servers) {
         Iterator<? extends Server> iterator = servers.iterator();
