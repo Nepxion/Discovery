@@ -704,6 +704,24 @@ Header的Key为"n-d-address"，value为：
 ### RPC调用的编程灰度路由策略
 基于Feign/RestTemplate的RPC调用的自定义路由，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
+### 服务隔离
+- 消费端的服务隔离（基于Group是否相同的策略），只需要在网关或者服务端，开启如下配置即可：
+```xml
+# 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
+# spring.application.strategy.consumer.isolation.enabled=true
+```
+
+- 提供端的服务隔离，请自行集成和实现。推荐用Alibaba Sentinel的黑白名单控制方式（AuthorityRule），请求加上n-d-group的Http Header头部，然后通过如下代码方式进行Group比对：
+```java
+public class SentinelRequestOriginParser implements RequestOriginParser {
+    @Override
+    public String parseOrigin(HttpServletRequest request) {
+        return request.getHeader(DiscoveryConstant.GROUP);
+    }
+}
+```
+更多详细代码请参考Sentinel官网
+
 ## 规则和策略
 ### 规则和策略的区别
 | 属性 | 规则 | 策略 |
@@ -796,6 +814,8 @@ spring.application.strategy.rest.intercept.enabled=true
 spring.application.strategy.request.headers=token
 # 启动和关闭用户自定义和编程灰度路由策略的时候日志打印，注意每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
 spring.application.strategy.intercept.log.print=true
+# 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
+# spring.application.strategy.consumer.isolation.enabled=true
 # 开启服务端实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失
 # spring.application.strategy.hystrix.threadlocal.supported=true
 ```
