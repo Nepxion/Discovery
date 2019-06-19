@@ -36,6 +36,6 @@ public class MyLoadBalanceListener extends AbstractLoadBalanceListener {
 
     @Override
     public int getOrder() {
-        return LOWEST_PRECEDENCE - 1;
+        return LOWEST_PRECEDENCE - 500;
     }
 }
