@@ -32,12 +32,14 @@ public class StrategyAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONSUMER_ISOLATION_ENABLED, matchIfMissing = false)
     public ConsumerIsolationDiscoveryStrategy consumerIsolationDiscoveryStrategy() {
         return new ConsumerIsolationDiscoveryStrategy();
     }
 
     @Bean
+    @ConditionalOnMissingBean
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONSUMER_ISOLATION_ENABLED, matchIfMissing = false)
     public ConsumerIsolationLoadBalanceStrategy consumerIsolationLoadBalanceStrategy() {
         return new ConsumerIsolationLoadBalanceStrategy();

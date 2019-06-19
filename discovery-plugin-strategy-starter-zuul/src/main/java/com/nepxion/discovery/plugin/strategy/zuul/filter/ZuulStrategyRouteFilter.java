@@ -17,6 +17,7 @@ import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.StrategyEntity;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
+import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.zuul.constant.ZuulStrategyConstant;
 import com.netflix.zuul.ZuulFilter;
@@ -61,6 +62,11 @@ public class ZuulStrategyRouteFilter extends ZuulFilter {
         }
         if (StringUtils.isNotEmpty(routeAddress)) {
             ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_ADDRESS, routeAddress);
+        }
+
+        // 开启此项，将启动提供端的服务隔离机制，需要在网关上传递Group Header
+        if (environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_PROVIDER_ISOLATION_ENABLED, Boolean.class, Boolean.FALSE)) {
+            ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_GROUP, pluginAdapter.getGroup());
         }
 
         return null;
