@@ -41,6 +41,6 @@ public class MyDiscoveryListener extends AbstractDiscoveryListener {
 
     @Override
     public int getOrder() {
-        return LOWEST_PRECEDENCE - 1;
+        return LOWEST_PRECEDENCE - 500;
     }
 }
