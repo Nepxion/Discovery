@@ -45,6 +45,6 @@ public class ConsumerIsolationDiscoveryStrategy extends AbstractDiscoveryListene
 
     @Override
     public int getOrder() {
-        return LOWEST_PRECEDENCE - 2;
+        return HIGHEST_PRECEDENCE;
     }
 }
