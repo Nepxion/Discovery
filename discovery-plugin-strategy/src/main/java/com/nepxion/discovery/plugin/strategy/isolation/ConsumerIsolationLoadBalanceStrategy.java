@@ -20,7 +20,7 @@ import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.AbstractLoadBalanceListener;
 import com.netflix.loadbalancer.Server;
 
-// 当目标服务的元数据中的Group和本服务不相等，禁止被本服务负载均衡（只用于DiscoveryClient.getInstances接口方法用）
+// 当目标服务的元数据中的Group和本服务不相等，禁止被本服务负载均衡
 public class ConsumerIsolationLoadBalanceStrategy extends AbstractLoadBalanceListener {
     @Autowired
     private PluginAdapter pluginAdapter;
