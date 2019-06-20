@@ -125,6 +125,7 @@ public class HostFilterRegisterListener extends AbstractRegisterListener {
 
     @Override
     public int getOrder() {
+        // After count filter
         return HIGHEST_PRECEDENCE + 1;
     }
 }

@@ -99,6 +99,7 @@ public class CountFilterRegisterListener extends AbstractRegisterListener {
     @Override
     public int getOrder() {
         // 由于通过服务数来判断是否注册满，需要第一优先级执行，否则服务列表已经被其它监听器过滤过了，其数目就不准确了
+        // Highest priority
         return HIGHEST_PRECEDENCE;
     }
 }
