@@ -40,6 +40,6 @@ public class ConsumerIsolationLoadBalanceStrategy extends AbstractLoadBalanceLis
 
     @Override
     public int getOrder() {
-        return LOWEST_PRECEDENCE - 2;
+        return HIGHEST_PRECEDENCE;
     }
 }
