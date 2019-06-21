@@ -30,6 +30,7 @@ import org.springframework.context.annotation.Configuration;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
 @Configuration
 @EnableSwagger2
@@ -104,7 +105,7 @@ public class SwaggerConfiguration {
         return new Function<Class<?>, Boolean>() {
             @Override
             public Boolean apply(Class<?> input) {
-                String[] subPackages = basePackage.split(",");
+                String[] subPackages = basePackage.split(DiscoveryConstant.SEPARATE);
                 for (String subPackage : subPackages) {
                     boolean matched = input.getPackage().getName().startsWith(subPackage.trim());
                     if (matched) {
