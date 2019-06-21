@@ -25,7 +25,7 @@ import com.nepxion.discovery.plugin.framework.listener.register.AbstractRegister
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 
 // 当本服务的元数据中的Group在黑名单里或者不在白名单里，禁止被注册到注册中心
-public class ConsumerIsolationRegisterListener extends AbstractRegisterListener {
+public class ConsumerIsolationRegisterStrategy extends AbstractRegisterListener {
     @Autowired
     private ConfigurableEnvironment environment;
 

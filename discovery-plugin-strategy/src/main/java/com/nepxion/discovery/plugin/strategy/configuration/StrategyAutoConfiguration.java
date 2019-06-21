@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Configuration;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.isolation.ConsumerIsolationDiscoveryStrategy;
 import com.nepxion.discovery.plugin.strategy.isolation.ConsumerIsolationLoadBalanceStrategy;
-import com.nepxion.discovery.plugin.strategy.isolation.ConsumerIsolationRegisterListener;
+import com.nepxion.discovery.plugin.strategy.isolation.ConsumerIsolationRegisterStrategy;
 import com.nepxion.discovery.plugin.strategy.matcher.DiscoveryAntPathMatcherStrategy;
 import com.nepxion.discovery.plugin.strategy.matcher.DiscoveryMatcherStrategy;
 
@@ -35,8 +35,8 @@ public class StrategyAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_REGISTER_ISOLATION_ENABLED, matchIfMissing = false)
-    public ConsumerIsolationRegisterListener consumerIsolationRegisterListener() {
-        return new ConsumerIsolationRegisterListener();
+    public ConsumerIsolationRegisterStrategy consumerIsolationRegisterStrategy() {
+        return new ConsumerIsolationRegisterStrategy();
     }
 
     @Bean
