@@ -799,6 +799,8 @@ spring.application.strategy.request.headers=token
 spring.application.strategy.scan.packages=com.nepxion.discovery.plugin.example.service.feign
 # 启动和关闭用户自定义和编程灰度路由策略的时候日志打印，注意每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
 spring.application.strategy.intercept.log.print=true
+# 启动和关闭注册的服务隔离（基于Group黑/白名单的策略）。缺失则默认为false
+spring.application.strategy.register.isolation.enabled=true
 # 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
 spring.application.strategy.consumer.isolation.enabled=true
 # 启动和关闭提供端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
@@ -808,18 +810,29 @@ spring.application.strategy.provider.isolation.enabled=true
 ```
 
 ## 服务隔离
-- 消费端的服务隔离，基于Group是否相同的策略。只需要在网关或者服务端，开启如下配置即可：
+- 注册服务隔离，基于Group黑/白名单的策略。只需要在网关或者服务端，开启如下配置即可：
+```xml
+# 启动和关闭注册的服务隔离（基于Group黑/白名单的策略）。缺失则默认为false
+spring.application.strategy.register.isolation.enabled=true
+```
+默认方式，黑/白名单通过如此方式配置
+```xml
+spring.application.strategy.register.isolation.group.blacklist=
+spring.application.strategy.register.isolation.group.whitelist=
+```
+
+- 消费端服务隔离，基于Group是否相同的策略。只需要在网关或者服务端，开启如下配置即可：
 ```xml
 # 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
 # spring.application.strategy.consumer.isolation.enabled=true
 ```
 
-- 提供端的服务隔离，基于Group是否相同的策略。只需要在网关或者服务端，开启如下配置即可：
+- 提供端服务隔离，基于Group是否相同的策略。只需要在网关或者服务端，开启如下配置即可：
 ```xml
 # 启动和关闭提供端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
 # spring.application.strategy.provider.isolation.enabled=true
 ```
-在服务端还必须设置如下配置
+在提供端还必须做如下配置
 ```xml
 # 用户自定义和编程灰度路由策略的时候，需要指定对业务RestController类的扫描路径。此项配置作用于RPC方式的调用拦截和消费端的服务隔离两项工作
 spring.application.strategy.scan.packages=com.nepxion.discovery.gray.service.feign
