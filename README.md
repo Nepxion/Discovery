@@ -14,6 +14,9 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 - 感谢代码贡献者@Esun，@JikaiSun，@HaoHuang，@Fan Yang，@Ankeway等同学，感谢为本框架提出宝贵意见和建议的同学
 - 感谢使用本框架的公司和企业
 
+:100:建议
+- 强烈建议，先学习 [极简示例](https://github.com/Nepxion/DiscoveryGray)
+
 1. 使用方便。只需如下步骤：
 
 - 引入相关依赖到pom.xml，参考 [依赖兼容](#依赖兼容)
@@ -26,7 +29,6 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
   - 通过客户端工具（例如Postman）推送
 - 导入Postman脚本
   - 为方便体验示例，把discovery-springcloud-postman/Nepxion.postman_collection.json导入到Postman运行即可
-- :triangular_flag_on_post:强烈建议，先学习 [极简示例](https://github.com/Nepxion/DiscoveryGray)
 
 2. 兼容性强。支持如下版本：
 
