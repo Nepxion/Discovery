@@ -14,6 +14,10 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 - 感谢代码贡献者@Esun，@JikaiSun，@HaoHuang，@Fan Yang，@Ankeway等同学，感谢为本框架提出宝贵意见和建议的同学
 - 感谢使用本框架的公司和企业
 
+:100:建议
+- 强烈建议，先学习 [极简示例](https://github.com/Nepxion/DiscoveryGray)
+
+:100:特性
 1. 使用方便。只需如下步骤：
 
 - 引入相关依赖到pom.xml，参考 [依赖兼容](#依赖兼容)
@@ -26,7 +30,6 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
   - 通过客户端工具（例如Postman）推送
 - 导入Postman脚本
   - 为方便体验示例，把discovery-springcloud-postman/Nepxion.postman_collection.json导入到Postman运行即可
-- 参考 [极简示例](https://github.com/Nepxion/DiscoveryGray)
 
 2. 兼容性强。支持如下版本：
 
@@ -39,11 +42,6 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 | 1.0.x | 不维护，不可用 | Camden | N/A | N/A |
 
 :triangular_flag_on_post:由于Greenwich和Finchley版是兼容的，所以Nepxion Discovery版本对于Greenwich和Finchley版也是通用的，即Greenwich和Finchley版既可以使用5.x.x版，也可以使用4.x.x版；Edgware存在着不兼容性，必须使用3.x.x版
-
-## 快速开始
-- [极简示例](https://github.com/Nepxion/DiscoveryGray) 
-- [入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)
-- [示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)
 
 ## 目录
 - [请联系我](#请联系我)
@@ -98,6 +96,11 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
   - [基于Rest方式的灰度发布](#基于Rest方式的灰度发布)
 - [性能分析](#性能分析)
 - [Star走势图](#Star走势图)
+
+## 快速开始
+- [极简示例](https://github.com/Nepxion/DiscoveryGray) 
+- [入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)
+- [示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)
 
 ## 请联系我
 微信和公众号
