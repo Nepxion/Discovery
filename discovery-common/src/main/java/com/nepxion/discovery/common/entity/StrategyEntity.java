@@ -1,7 +1,5 @@
 package com.nepxion.discovery.common.entity;
 
-import java.io.Serializable;
-
 /**
  * <p>Title: Nepxion Discovery</p>
  * <p>Description: Nepxion Discovery</p>
@@ -10,6 +8,8 @@ import java.io.Serializable;
  * @author Haojun Ren
  * @version 1.0
  */
+
+import java.io.Serializable;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
