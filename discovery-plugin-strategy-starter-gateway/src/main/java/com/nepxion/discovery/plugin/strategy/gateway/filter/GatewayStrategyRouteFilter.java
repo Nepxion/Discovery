@@ -9,49 +9,10 @@ package com.nepxion.discovery.plugin.strategy.gateway.filter;
  * @version 1.0
  */
 
-import com.nepxion.discovery.common.entity.RuleEntity;
-import com.nepxion.discovery.common.entity.StrategyEntity;
+public interface GatewayStrategyRouteFilter {
+    String getRouteVersion();
 
-public class GatewayStrategyRouteFilter extends AbstractGatewayStrategyRouteFilter {
-    // 从远程配置中心或者本地配置文件获取版本路由配置。如果是远程配置中心，则值会动态改变
-    @Override
-    protected String getRouteVersion() {
-        RuleEntity ruleEntity = pluginAdapter.getRule();
-        if (ruleEntity != null) {
-            StrategyEntity strategyEntity = ruleEntity.getStrategyEntity();
-            if (strategyEntity != null) {
-                return strategyEntity.getVersionValue();
-            }
-        }
+    String getRouteRegion();
 
-        return null;
-    }
-
-    // 从远程配置中心或者本地配置文件获取区域路由配置。如果是远程配置中心，则值会动态改变
-    @Override
-    protected String getRouteRegion() {
-        RuleEntity ruleEntity = pluginAdapter.getRule();
-        if (ruleEntity != null) {
-            StrategyEntity strategyEntity = ruleEntity.getStrategyEntity();
-            if (strategyEntity != null) {
-                return strategyEntity.getRegionValue();
-            }
-        }
-
-        return null;
-    }
-
-    // 从远程配置中心或者本地配置文件获取IP地址和端口路由配置。如果是远程配置中心，则值会动态改变
-    @Override
-    protected String getRouteAddress() {
-        RuleEntity ruleEntity = pluginAdapter.getRule();
-        if (ruleEntity != null) {
-            StrategyEntity strategyEntity = ruleEntity.getStrategyEntity();
-            if (strategyEntity != null) {
-                return strategyEntity.getAddressValue();
-            }
-        }
-
-        return null;
-    }
+    String getRouteAddress();
 }

@@ -21,6 +21,7 @@ import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.wrapper.CallableWrapper;
 import com.nepxion.discovery.plugin.strategy.zuul.adapter.DefaultDiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.zuul.constant.ZuulStrategyConstant;
+import com.nepxion.discovery.plugin.strategy.zuul.filter.DefaultZuulStrategyRouteFilter;
 import com.nepxion.discovery.plugin.strategy.zuul.filter.ZuulStrategyRouteFilter;
 import com.nepxion.discovery.plugin.strategy.zuul.wrapper.DefaultCallableWrapper;
 
@@ -32,7 +33,7 @@ public class ZuulStrategyAutoConfiguration {
     @ConditionalOnMissingBean
     @ConditionalOnProperty(value = ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_ROUTE_FILTER_ENABLED, matchIfMissing = true)
     public ZuulStrategyRouteFilter zuulStrategyRouteFilter() {
-        return new ZuulStrategyRouteFilter();
+        return new DefaultZuulStrategyRouteFilter();
     }
 
     @Bean

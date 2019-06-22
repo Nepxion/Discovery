@@ -26,7 +26,7 @@ import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.gateway.constant.GatewayStrategyConstant;
 
-public abstract class AbstractGatewayStrategyRouteFilter implements GlobalFilter, Ordered {
+public abstract class AbstractGatewayStrategyRouteFilter implements GlobalFilter, Ordered, GatewayStrategyRouteFilter {
     @Autowired
     private ConfigurableEnvironment environment;
 
@@ -77,10 +77,4 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GlobalFilter
     public StrategyContextHolder getStrategyContextHolder() {
         return strategyContextHolder;
     }
-
-    protected abstract String getRouteVersion();
-
-    protected abstract String getRouteRegion();
-
-    protected abstract String getRouteAddress();
 }

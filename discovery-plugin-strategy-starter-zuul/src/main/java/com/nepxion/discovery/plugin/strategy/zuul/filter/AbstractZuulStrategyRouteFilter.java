@@ -20,7 +20,7 @@ import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.zuul.constant.ZuulStrategyConstant;
 import com.netflix.zuul.ZuulFilter;
 
-public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter {
+public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter implements ZuulStrategyRouteFilter {
     @Autowired
     private ConfigurableEnvironment environment;
 
@@ -77,10 +77,4 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter {
     public StrategyContextHolder getStrategyContextHolder() {
         return strategyContextHolder;
     }
-
-    protected abstract String getRouteVersion();
-
-    protected abstract String getRouteRegion();
-
-    protected abstract String getRouteAddress();
 }
