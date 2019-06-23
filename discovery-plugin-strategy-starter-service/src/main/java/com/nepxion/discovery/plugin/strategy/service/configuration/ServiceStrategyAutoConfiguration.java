@@ -20,9 +20,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.common.exception.DiscoveryException;
+import com.nepxion.discovery.plugin.strategy.adapter.DefaultDiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
-import com.nepxion.discovery.plugin.strategy.service.adapter.DefaultDiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.service.aop.FeignStrategyInterceptor;
 import com.nepxion.discovery.plugin.strategy.service.aop.RestTemplateStrategyInterceptor;
 import com.nepxion.discovery.plugin.strategy.service.aop.RpcStrategyAutoScanProxy;
