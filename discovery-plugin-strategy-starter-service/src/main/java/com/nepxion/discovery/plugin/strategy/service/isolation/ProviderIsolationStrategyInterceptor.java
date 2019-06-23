@@ -16,19 +16,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyContextHolder;
+import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 import com.nepxion.matrix.proxy.aop.AbstractInterceptor;
 
 public class ProviderIsolationStrategyInterceptor extends AbstractInterceptor {
     @Autowired
-    private ServiceStrategyContextHolder serviceStrategyContextHolder;
+    protected StrategyContextHolder strategyContextHolder;
 
     @Autowired
     private PluginAdapter pluginAdapter;
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        String groupHeader = serviceStrategyContextHolder.getHeader(DiscoveryConstant.N_D_GROUP);
+        String groupHeader = strategyContextHolder.getHeader(DiscoveryConstant.N_D_GROUP);
         String group = pluginAdapter.getGroup();
         if (!StringUtils.equals(groupHeader, group)) {
             throw new DiscoveryException("Reject to invoke for isolation with different service group");
