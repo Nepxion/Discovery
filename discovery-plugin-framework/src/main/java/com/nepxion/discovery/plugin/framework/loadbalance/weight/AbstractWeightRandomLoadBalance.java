@@ -22,10 +22,10 @@ import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.WeightEntity;
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.framework.loadbalance.IWeightRandomLoadBalance;
+import com.nepxion.discovery.plugin.framework.loadbalance.WeightRandomLoadBalance;
 import com.netflix.loadbalancer.Server;
 
-public abstract class AbstractWeightRandomLoadBalance implements IWeightRandomLoadBalance {
+public abstract class AbstractWeightRandomLoadBalance implements WeightRandomLoadBalance {
     private PluginAdapter pluginAdapter;
 
     @Override

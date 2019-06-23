@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.framework.loadbalance.IWeightRandomLoadBalance;
+import com.nepxion.discovery.plugin.framework.loadbalance.WeightRandomLoadBalance;
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.MapWeightRandomLoadBalance;
 import com.netflix.loadbalancer.PredicateBasedRule;
 import com.netflix.loadbalancer.Server;
@@ -26,7 +26,7 @@ public abstract class PredicateBasedRuleDecorator extends PredicateBasedRule {
     @Autowired
     private PluginAdapter pluginAdapter;
 
-    private IWeightRandomLoadBalance weightRandomLoadBalance;
+    private WeightRandomLoadBalance weightRandomLoadBalance;
 
     @PostConstruct
     private void initialize() {
