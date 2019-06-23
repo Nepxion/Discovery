@@ -10,6 +10,7 @@ package com.nepxion.discovery.common.redis.operation;
  * @version 1.0
  */
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -26,7 +27,7 @@ public class RedisOperation {
     }
 
     public boolean removeConfig(String group, String serviceId) {
-        publishConfig(group, serviceId, "");
+        publishConfig(group, serviceId, StringUtils.EMPTY);
 
         return hashOperations.delete(group, serviceId) == 1;
     }
