@@ -63,7 +63,8 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
   - [黑/白名单的IP地址发现的过滤规则](#黑/白名单的IP地址发现的过滤规则)
   - [版本访问的灰度发布规则](#版本访问的灰度发布规则)
   - [版本权重的灰度发布规则](#版本权重的灰度发布规则)
-  - [区域权重的灰度发布规则](#区域权重的灰度发布规则)
+  - [全局版本权重的灰度发布规则](#全局版本权重的灰度发布规则)
+  - [全局区域权重的灰度发布规则](#全局区域权重的灰度发布规则)
   - [全链路路由策略的灰度发布规则](#全链路路由策略的灰度发布规则)  
   - [用户自定义的灰度发布规则](#用户自定义的灰度发布规则)
   - [动态改变规则](#动态改变规则)
@@ -553,30 +554,40 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
 ### 版本权重的灰度发布规则
 ```xml
 1. 标准配置，举例如下
-    <service consumer-service-name="a" provider-service-name="b" provider-weight-value="1.0=90;1.1=10"/> 表示消费端访问提供端的时候，提供端的1.0版本提供90%的权重流量，1.1版本提供10%的权重流量
-    <service provider-service-name="b" provider-weight-value="1.0=90;1.1=10"/> 表示所有消费端访问提供端的时候，提供端的1.0版本提供90%的权重流量，1.1版本提供10%的权重流量
+   <service consumer-service-name="a" provider-service-name="b" provider-weight-value="1.0=90;1.1=10"/> 表示消费端访问提供端的时候，提供端的1.0版本提供90%的权重流量，1.1版本提供10%的权重流量
+   <service provider-service-name="b" provider-weight-value="1.0=90;1.1=10"/> 表示所有消费端访问提供端的时候，提供端的1.0版本提供90%的权重流量，1.1版本提供10%的权重流量
 2. 局部配置，即指定consumer-service-name，专门为该消费端配置权重。全局配置，即不指定consumer-service-name，为所有消费端配置相同情形的权重。当局部配置和全局配置同时存在的时候，以局部配置优先
+3. 尽量为线上所有版本都赋予权重值
+
+<version provider-weight-value="1.0=85;1.1=15"/> -
+```
+
+### 全局版本权重的灰度发布规则
+```xml
+1. 标准配置，举例如下
+   <version provider-weight-value="1.0=85;1.1=15"/> 表示版本为1.0的服务提供85%的权重流量，版本为1.1的服务提供15%的权重流量
+2. 全局版本权重可以切换整条调用链的权重配比
 3. 尽量为线上所有版本都赋予权重值
 ```
 
-### 区域权重的灰度发布规则
+### 全局区域权重的灰度发布规则
 ```xml
 1. 标准配置，举例如下
-    <region provider-weight-value="dev=85;qa=15"/> 表示区域为dev的服务提供85%的权重流量，区域为qa的服务提供15%的权重流量
-2. 区域权重可以切换整条调用链的权重配比
+   <region provider-weight-value="dev=85;qa=15"/> 表示区域为dev的服务提供85%的权重流量，区域为qa的服务提供15%的权重流量
+2. 全局区域权重可以切换整条调用链的权重配比
 3. 尽量为线上所有区域都赋予权重值
 ```
 
 ### 全链路路由策略的灰度发布规则
 ```xml
 1. 标准配置，举例如下
-    <strategy>
-        <!-- <version>{"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.0", "discovery-springcloud-example-c":"1.0;1.2"}</version> --> 表示全链路调用中，按照配置的版本号的对应服务去调用
-        <!-- <version>1.0</version> --> 表示全链路调用中，所有服务都调用1.0版本
-        <!-- <region>{"discovery-springcloud-example-a":"qa;dev", "discovery-springcloud-example-b":"dev", "discovery-springcloud-example-c":"qa"}</region> --> 表示全链路调用中，按照配置的区域的对应服务去调用
-        <!-- <region>dev</region> --> 表示全链路调用中，所有服务都调用dev区域的服务
-        <!-- <address>{"discovery-springcloud-example-a":"192.168.43.101:1100", "discovery-springcloud-example-b":"192.168.43.101:1201", "discovery-springcloud-example-c":"192.168.43.101:1300"}</address> --> 表示全链路调用中，按照配置的地址的对应服务去调用
-    </strategy>
+   <strategy>
+       <!-- <version>{"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.0", "discovery-springcloud-example-c":"1.0;1.2"}</version> --> 表示全链路调用中，按照配置的版本号的对应服务去调用
+       <!-- <version>1.0</version> --> 表示全链路调用中，所有服务都调用1.0版本
+       <!-- <region>{"discovery-springcloud-example-a":"qa;dev", "discovery-springcloud-example-b":"dev", "discovery-springcloud-example-c":"qa"}</region> --> 表示全链路调用中，按照配置的区域的对应服务去调用
+       <!-- <region>dev</region> --> 表示全链路调用中，所有服务都调用dev区域的服务
+       <!-- <address>{"discovery-springcloud-example-a":"192.168.43.101:1100", "discovery-springcloud-example-b":"192.168.43.101:1201", "discovery-springcloud-example-c":"192.168.43.101:1300"}</address> --> 表示全链路调用中，按照配置的地址的对应服务去调用
+   </strategy>
 2. 用法和基于Http Header头部传路由参数一致。前置是通过前端或者网关传入，后者是配置在配置文件里。让两者全部启用的时候，以前端或者网关传入Header方式优先
 ```
 :triangular_flag_on_post:注意
