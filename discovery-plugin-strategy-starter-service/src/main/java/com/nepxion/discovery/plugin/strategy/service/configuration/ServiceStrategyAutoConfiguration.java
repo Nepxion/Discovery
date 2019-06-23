@@ -71,7 +71,7 @@ public class ServiceStrategyAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_ENABLED, matchIfMissing = false)
+    @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_ENABLED, matchIfMissing = true)
     public FeignStrategyInterceptor feignStrategyInterceptor() {
         String requestHeaders = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REQUEST_HEADERS);
 
@@ -79,7 +79,7 @@ public class ServiceStrategyAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_ENABLED, matchIfMissing = false)
+    @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_ENABLED, matchIfMissing = true)
     public RestTemplateStrategyInterceptor restTemplateStrategyInterceptor() {
         String requestHeaders = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REQUEST_HEADERS);
 
@@ -88,7 +88,7 @@ public class ServiceStrategyAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_ENABLED, matchIfMissing = false)
+    @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_ENABLED, matchIfMissing = true)
     public DiscoveryEnabledAdapter discoveryEnabledAdapter() {
         return new DefaultDiscoveryEnabledAdapter();
     }
