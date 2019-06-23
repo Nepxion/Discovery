@@ -15,7 +15,7 @@ import com.nepxion.discovery.common.entity.WeightFilterEntity;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.netflix.loadbalancer.Server;
 
-public interface IWeightRandomLoadBalance {
+public interface WeightRandomLoadBalance {
     void setPluginAdapter(PluginAdapter pluginAdapter);
 
     WeightFilterEntity getWeightFilterEntity();
