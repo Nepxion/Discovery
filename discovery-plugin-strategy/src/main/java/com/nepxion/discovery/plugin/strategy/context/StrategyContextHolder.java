@@ -9,6 +9,8 @@ package com.nepxion.discovery.plugin.strategy.context;
  * @version 1.0
  */
 
-public interface StrategyContextHolder {
-    String getHeader(String name);
+import com.nepxion.discovery.plugin.framework.context.PluginContextHolder;
+
+public interface StrategyContextHolder extends PluginContextHolder {
+
 }
