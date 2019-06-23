@@ -17,7 +17,7 @@ import org.springframework.context.ApplicationContext;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 
-public abstract class AbstractDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
+public abstract class DefaultDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
     @Autowired
     private ApplicationContext applicationContext;
 
