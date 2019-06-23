@@ -43,6 +43,7 @@ import com.nepxion.discovery.common.entity.DiscoveryEntity;
 import com.nepxion.discovery.common.entity.RegionWeightEntity;
 import com.nepxion.discovery.common.entity.RouterEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.VersionWeightEntity;
 import com.nepxion.discovery.common.entity.WeightEntity;
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
@@ -288,6 +289,7 @@ public class RouterEndpoint implements MvcEndpoint {
 
         Map<String, List<WeightEntity>> weightEntityMap = weightFilterEntity.getWeightEntityMap();
         RegionWeightEntity regionWeightEntity = weightFilterEntity.getRegionWeightEntity();
+        VersionWeightEntity versionWeightEntity = weightFilterEntity.getVersionWeightEntity();
 
         String serviceId = pluginAdapter.getServiceId();
         // 取局部的权重配置
@@ -296,6 +298,11 @@ public class RouterEndpoint implements MvcEndpoint {
         // 局部权重配置没找到，取全局的权重配置
         if (weight < 0) {
             weight = getWeight(StringUtils.EMPTY, providerServiceId, providerVersion, weightEntityMap);
+        }
+
+        // 全局的权重配置没找到，取版本的权重配置
+        if (weight < 0) {
+            weight = getWeight(providerVersion, versionWeightEntity);
         }
 
         // 全局的权重配置没找到，取区域的权重配置
@@ -334,6 +341,24 @@ public class RouterEndpoint implements MvcEndpoint {
         }
 
         return -1;
+    }
+
+    private int getWeight(String providerVersion, VersionWeightEntity versionWeightEntity) {
+        if (versionWeightEntity == null) {
+            return -1;
+        }
+
+        Map<String, Integer> weightMap = versionWeightEntity.getWeightMap();
+        if (MapUtils.isEmpty(weightMap)) {
+            return -1;
+        }
+
+        Integer weight = weightMap.get(providerVersion);
+        if (weight != null) {
+            return weight;
+        } else {
+            return -1;
+        }
     }
 
     private int getWeight(String providerRegion, RegionWeightEntity regionWeightEntity) {

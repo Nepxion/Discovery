@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.nepxion.discovery.common.entity.DiscoveryEntity;
 import com.nepxion.discovery.common.entity.RegionWeightEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.VersionWeightEntity;
 import com.nepxion.discovery.common.entity.WeightEntity;
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
@@ -52,6 +53,7 @@ public abstract class AbstractWeightRandomLoadBalance implements WeightRandomLoa
 
     protected int getWeight(Server server, WeightFilterEntity weightFilterEntity) {
         Map<String, List<WeightEntity>> weightEntityMap = weightFilterEntity.getWeightEntityMap();
+        VersionWeightEntity versionWeightEntity = weightFilterEntity.getVersionWeightEntity();
         RegionWeightEntity regionWeightEntity = weightFilterEntity.getRegionWeightEntity();
 
         String providerServiceId = pluginAdapter.getServerServiceId(server);
@@ -65,6 +67,11 @@ public abstract class AbstractWeightRandomLoadBalance implements WeightRandomLoa
         // 局部权重配置没找到，取全局的权重配置
         if (weight < 0) {
             weight = getWeight(StringUtils.EMPTY, providerServiceId, providerVersion, weightEntityMap);
+        }
+
+        // 全局的权重配置没找到，取版本的权重配置
+        if (weight < 0) {
+            weight = getWeight(providerVersion, versionWeightEntity);
         }
 
         // 全局的权重配置没找到，取区域的权重配置
@@ -108,6 +115,24 @@ public abstract class AbstractWeightRandomLoadBalance implements WeightRandomLoa
         }
 
         return -1;
+    }
+
+    private int getWeight(String providerVersion, VersionWeightEntity versionWeightEntity) {
+        if (versionWeightEntity == null) {
+            return -1;
+        }
+
+        Map<String, Integer> weightMap = versionWeightEntity.getWeightMap();
+        if (MapUtils.isEmpty(weightMap)) {
+            return -1;
+        }
+
+        Integer weight = weightMap.get(providerVersion);
+        if (weight != null) {
+            return weight;
+        } else {
+            return -1;
+        }
     }
 
     private int getWeight(String providerRegion, RegionWeightEntity regionWeightEntity) {
