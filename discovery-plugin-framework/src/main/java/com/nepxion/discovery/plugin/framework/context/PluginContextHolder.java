@@ -10,5 +10,5 @@ package com.nepxion.discovery.plugin.framework.context;
  */
 
 public interface PluginContextHolder {
-    String getHeader(String name);
+    String getContext(String name);
 }
