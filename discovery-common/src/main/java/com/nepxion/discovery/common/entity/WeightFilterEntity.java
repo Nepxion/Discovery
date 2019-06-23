@@ -24,6 +24,7 @@ public class WeightFilterEntity implements Serializable {
     private static final long serialVersionUID = 7313443273653189837L;
 
     private Map<String, List<WeightEntity>> weightEntityMap = new LinkedHashMap<String, List<WeightEntity>>();
+    private VersionWeightEntity versionWeightEntity;
     private RegionWeightEntity regionWeightEntity;
 
     public Map<String, List<WeightEntity>> getWeightEntityMap() {
@@ -32,6 +33,14 @@ public class WeightFilterEntity implements Serializable {
 
     public void setWeightEntityMap(Map<String, List<WeightEntity>> weightEntityMap) {
         this.weightEntityMap = weightEntityMap;
+    }
+
+    public VersionWeightEntity getVersionWeightEntity() {
+        return versionWeightEntity;
+    }
+
+    public void setVersionWeightEntity(VersionWeightEntity versionWeightEntity) {
+        this.versionWeightEntity = versionWeightEntity;
     }
 
     public RegionWeightEntity getRegionWeightEntity() {
@@ -43,7 +52,7 @@ public class WeightFilterEntity implements Serializable {
     }
 
     public boolean hasWeight() {
-        return MapUtils.isNotEmpty(weightEntityMap) || regionWeightEntity != null;
+        return MapUtils.isNotEmpty(weightEntityMap) || versionWeightEntity != null || regionWeightEntity != null;
     }
 
     @Override

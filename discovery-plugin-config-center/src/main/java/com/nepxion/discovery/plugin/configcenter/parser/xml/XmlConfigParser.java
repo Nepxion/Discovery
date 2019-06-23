@@ -35,6 +35,7 @@ import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.StrategyEntity;
 import com.nepxion.discovery.common.entity.VersionEntity;
 import com.nepxion.discovery.common.entity.VersionFilterEntity;
+import com.nepxion.discovery.common.entity.VersionWeightEntity;
 import com.nepxion.discovery.common.entity.WeightEntity;
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
@@ -437,6 +438,34 @@ public class XmlConfigParser implements PluginConfigParser {
                     }
 
                     weightEntityList.add(weightEntity);
+                } else if (StringUtils.equals(childElement.getName(), ConfigConstant.VERSION_ELEMENT_NAME)) {
+                    VersionWeightEntity versionWeightEntity = weightFilterEntity.getVersionWeightEntity();
+                    if (versionWeightEntity != null) {
+                        throw new DiscoveryException("Allow only one element[" + ConfigConstant.VERSION_ELEMENT_NAME + "] to be configed");
+                    }
+
+                    versionWeightEntity = new VersionWeightEntity();
+
+                    Attribute providerWeightValueAttribute = childElement.attribute(ConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME);
+                    if (providerWeightValueAttribute == null) {
+                        throw new DiscoveryException("Attribute[" + ConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                    }
+                    String providerWeightValue = providerWeightValueAttribute.getData().toString().trim();
+                    Map<String, Integer> weightMap = new LinkedHashMap<String, Integer>();
+                    List<String> providerWeightValueList = StringUtil.splitToList(providerWeightValue, DiscoveryConstant.SEPARATE);
+                    for (String value : providerWeightValueList) {
+                        String[] valueArray = StringUtils.split(value, ConfigConstant.SEPARATE);
+                        String version = valueArray[0].trim();
+                        int weight = Integer.valueOf(valueArray[1].trim());
+                        if (weight < 0) {
+                            throw new DiscoveryException("Attribute[" + ConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] has weight value less than 0");
+                        }
+
+                        weightMap.put(version, weight);
+                    }
+                    versionWeightEntity.setWeightMap(weightMap);
+
+                    weightFilterEntity.setVersionWeightEntity(versionWeightEntity);
                 } else if (StringUtils.equals(childElement.getName(), ConfigConstant.REGION_ELEMENT_NAME)) {
                     RegionWeightEntity regionWeightEntity = weightFilterEntity.getRegionWeightEntity();
                     if (regionWeightEntity != null) {
