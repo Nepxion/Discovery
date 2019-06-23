@@ -104,6 +104,12 @@
                     }
                 ]
             }, 
+            "versionWeightEntity": {
+                "weightMap": {
+                    "1.0": 85, 
+                    "1.1": 15
+                }
+            }, 
             "regionWeightEntity": {
                 "weightMap": {
                     "dev": 85, 
