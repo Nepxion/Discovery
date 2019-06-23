@@ -491,11 +491,13 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
         <!-- service-name，表示服务名 -->
         <!-- version-value，表示版本对应的权重值，格式为"版本值=权重值"，如果多个用“;”分隔，不允许出现空格 -->
         <weight>
-            <!-- 权重流量配置有如下三种方式，粒度由细到粗，优先级分别是由高到底，即先从第一种方式取权重流量值，取不到则到第二种方式取值，再取不到则到第二种方式取值，再取不到则忽略。使用者按照实际情况，选择一种即可 -->
+            <!-- 权重流量配置有如下四种方式，粒度由细到粗，优先级分别是由高到底，即先从第一种方式取权重流量值，取不到则到第二种方式取值，以此类推，最后仍取不到则忽略。使用者按照实际情况，选择一种即可 -->
             <!-- 表示消费端服务b访问提供端服务c的时候，提供端服务c的1.0版本提供90%的权重流量，1.1版本提供10%的权重流量 -->
-            <service consumer-service-name="discovery-springcloud-example-b" provider-service-name="discovery-springcloud-example-c" provider-weight-value="1.0=90;1.1=10"/>
+            <!-- <service consumer-service-name="discovery-springcloud-example-b" provider-service-name="discovery-springcloud-example-c" provider-weight-value="1.0=90;1.1=10"/> -->
             <!-- 表示所有消费端服务访问提供端服务c的时候，提供端服务c的1.0版本提供80%的权重流量，1.1版本提供20%的权重流量 -->
-            <service provider-service-name="discovery-springcloud-example-c" provider-weight-value="1.0=80;1.1=20"/>
+            <!-- <service provider-service-name="discovery-springcloud-example-c" provider-weight-value="1.0=80;1.1=20"/> -->
+            <!-- 表示外界调用进来后，版本为1.0的服务提供85%的权重流量，版本为1.1的服务提供15%的权重流量 -->
+            <!-- <version provider-weight-value="1.0=85;1.1=15"/> -->
             <!-- 表示外界调用进来后，区域为dev的服务提供85%的权重流量，区域为qa的服务提供15%的权重流量 -->
             <!-- <region provider-weight-value="dev=85;qa=15"/> -->
         </weight>
