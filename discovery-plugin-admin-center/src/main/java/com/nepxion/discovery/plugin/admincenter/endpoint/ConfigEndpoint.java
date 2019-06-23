@@ -166,7 +166,7 @@ public class ConfigEndpoint implements MvcEndpoint {
 
     @Override
     public String getPath() {
-        return "";
+        return StringUtils.EMPTY;
     }
 
     @Override

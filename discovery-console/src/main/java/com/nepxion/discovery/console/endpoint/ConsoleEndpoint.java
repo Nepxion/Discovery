@@ -429,7 +429,7 @@ public class ConsoleEndpoint implements MvcEndpoint {
 
     @Override
     public String getPath() {
-        return "";
+        return StringUtils.EMPTY;
     }
 
     @Override

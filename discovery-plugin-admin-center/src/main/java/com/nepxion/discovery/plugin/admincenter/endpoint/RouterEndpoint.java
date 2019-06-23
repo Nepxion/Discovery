@@ -381,7 +381,7 @@ public class RouterEndpoint implements MvcEndpoint {
 
     @Override
     public String getPath() {
-        return "";
+        return StringUtils.EMPTY;
     }
 
     @Override

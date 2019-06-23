@@ -148,7 +148,7 @@ public class VersionEndpoint implements MvcEndpoint {
 
     @Override
     public String getPath() {
-        return "";
+        return StringUtils.EMPTY;
     }
 
     @Override
