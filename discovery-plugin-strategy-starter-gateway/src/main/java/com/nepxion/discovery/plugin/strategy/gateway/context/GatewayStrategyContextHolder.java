@@ -13,9 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.server.ServerWebExchange;
 
-import com.nepxion.discovery.plugin.strategy.context.AbstractStrategyContextHolder;
+import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 
-public class GatewayStrategyContextHolder extends AbstractStrategyContextHolder {
+public class GatewayStrategyContextHolder implements StrategyContextHolder {
     private static final Logger LOG = LoggerFactory.getLogger(GatewayStrategyContextHolder.class);
 
     public ServerWebExchange getExchange() {
