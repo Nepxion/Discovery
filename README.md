@@ -803,13 +803,13 @@ management.server.port=5100
 # spring.application.strategy.control.enabled=true
 # 开启和关闭Ribbon默认的ZoneAvoidanceRule负载均衡策略。一旦关闭，则使用RoundRobin简单轮询负载均衡策略。缺失则默认为true
 # spring.application.strategy.zone.avoidance.rule.enabled=true
+# 启动和关闭用户自定义和编程灰度路由策略的时候，对REST方式的调用拦截。缺失则默认为true
+# spring.application.strategy.rest.intercept.enabled=true
+# 用户自定义和编程灰度路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
+spring.application.strategy.request.headers=token
 # 启动和关闭用户自定义和编程灰度路由策略的时候，对RPC方式的调用拦截。缺失则默认为false
 spring.application.strategy.rpc.intercept.enabled=true
-# 启动和关闭用户自定义和编程灰度路由策略的时候，对REST方式的调用拦截。缺失则默认为false
-spring.application.strategy.rest.intercept.enabled=true
-# 用户自定义和编程灰度路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），需要把来自外部的指定Header参数传递到服务里，如果多个用“;”分隔，不允许出现空格。该项配置只对服务有效，对网关无效
-spring.application.strategy.request.headers=token
-# 用户自定义和编程灰度路由策略的时候，需要指定对业务RestController类的扫描路径。此项配置作用于RPC方式的调用拦截和消费端的服务隔离两项工作
+# 用户自定义和编程灰度路由策略的时候，需要指定对业务RestController类的扫描路径。此项配置作用于RPC方式的调用拦截和消费端的服务隔离两项功能
 spring.application.strategy.scan.packages=com.nepxion.discovery.plugin.example.service.feign
 # 启动和关闭用户自定义和编程灰度路由策略的时候日志打印，注意每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
 spring.application.strategy.intercept.log.print=true
