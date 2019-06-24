@@ -75,7 +75,9 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
   - [Gateway端的编程灰度路由策略](#Gateway端的编程灰度路由策略)
   - [REST调用的内置多版本灰度路由策略](#REST调用的内置多版本灰度路由策略)
   - [REST调用的内置多区域灰度路由策略](#REST调用的内置多区域灰度路由策略)
-  - [REST调用的内置多IP和端口灰度路由策略](#REST调用的内置多IP和端口灰度路由策略)  
+  - [REST调用的内置多IP和端口灰度路由策略](#REST调用的内置多IP和端口灰度路由策略)
+  - [REST调用的内置版本权重灰度路由策略](#REST调用的内置版本权重灰度路由策略)
+  - [REST调用的内置区域权重灰度路由策略](#REST调用的内置区域权重灰度路由策略)
   - [REST调用的编程灰度路由策略](#REST调用的编程灰度路由策略)
   - [RPC调用的编程灰度路由策略](#RPC调用的编程灰度路由策略)
 - [规则和策略](#规则和策略)
@@ -723,6 +725,26 @@ Header的Key为"n-d-address"，value为：
 
 多IP和端口灰度路由架构图
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/RouteAddress.jpg)
+
+### REST调用的内置版本权重灰度路由策略
+基于Feign/RestTemplate的REST调用的多版本权重灰度路由，在Header上传入服务名和版本流量百分比对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务的版本权重配比，那么只需要它们版本对于流量的百分比
+Header的Key为"n-d-version-weight"，value为：
+```xml
+{"discovery-springcloud-example-a":"1.0=90;1.1=10", "discovery-springcloud-example-b":"1.0=90;1.1=10", "discovery-springcloud-example-c":"1.0=90;1.1=10"}
+```
+如果三个服务权重比一致，那么value的格式可以简化，不需要Json字符串，直接是
+```xml
+1.0=90;1.1=10
+```
+见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+
+### REST调用的内置区域权重灰度路由策略
+基于Feign/RestTemplate的REST调用的多区域灰度路由，在Header上传入区域流量百分比对应关系的字符串，如下表示，如果REST请求要经过两个区域，那么只需要它们区域对于流量的百分比
+Header的Key为"n-d-region-weight"，value为：
+```xml
+dev=85;qa=15
+```
+见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 ### REST调用的编程灰度路由策略
 基于Feign/RestTemplate的REST调用的自定义路由，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
