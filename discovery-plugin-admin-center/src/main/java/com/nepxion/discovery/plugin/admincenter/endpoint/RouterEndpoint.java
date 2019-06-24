@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.Endpoint;
@@ -50,6 +49,7 @@ import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.common.util.UrlUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
+import com.nepxion.discovery.plugin.framework.loadbalance.weight.WeightRandomLoadBalanceUtil;
 
 @RestController
 @RequestMapping(path = "/router")
@@ -288,95 +288,30 @@ public class RouterEndpoint implements MvcEndpoint {
         }
 
         Map<String, List<WeightEntity>> weightEntityMap = weightFilterEntity.getWeightEntityMap();
-        RegionWeightEntity regionWeightEntity = weightFilterEntity.getRegionWeightEntity();
+        List<WeightEntity> weightEntityList = weightFilterEntity.getWeightEntityList();
         VersionWeightEntity versionWeightEntity = weightFilterEntity.getVersionWeightEntity();
+        RegionWeightEntity regionWeightEntity = weightFilterEntity.getRegionWeightEntity();
 
         String serviceId = pluginAdapter.getServiceId();
         // 取局部的权重配置
-        int weight = getWeight(serviceId, providerServiceId, providerVersion, weightEntityMap);
+        int weight = WeightRandomLoadBalanceUtil.getWeight(serviceId, providerServiceId, providerVersion, weightEntityMap);
 
         // 局部权重配置没找到，取全局的权重配置
         if (weight < 0) {
-            weight = getWeight(StringUtils.EMPTY, providerServiceId, providerVersion, weightEntityMap);
+            weight = WeightRandomLoadBalanceUtil.getWeight(providerServiceId, providerVersion, weightEntityList);
         }
 
         // 全局的权重配置没找到，取版本的权重配置
         if (weight < 0) {
-            weight = getWeight(providerVersion, versionWeightEntity);
+            weight = WeightRandomLoadBalanceUtil.getWeight(providerVersion, versionWeightEntity);
         }
 
         // 全局的权重配置没找到，取区域的权重配置
         if (weight < 0) {
-            weight = getWeight(providerRegion, regionWeightEntity);
+            weight = WeightRandomLoadBalanceUtil.getWeight(providerRegion, regionWeightEntity);
         }
 
         return weight;
-    }
-
-    private int getWeight(String consumerServiceId, String providerServiceId, String providerVersion, Map<String, List<WeightEntity>> weightEntityMap) {
-        if (MapUtils.isEmpty(weightEntityMap)) {
-            return -1;
-        }
-
-        List<WeightEntity> weightEntityList = weightEntityMap.get(consumerServiceId);
-        if (CollectionUtils.isEmpty(weightEntityList)) {
-            return -1;
-        }
-
-        for (WeightEntity weightEntity : weightEntityList) {
-            String providerServiceName = weightEntity.getProviderServiceName();
-            if (StringUtils.equalsIgnoreCase(providerServiceName, providerServiceId)) {
-                Map<String, Integer> weightMap = weightEntity.getWeightMap();
-                if (MapUtils.isEmpty(weightMap)) {
-                    return -1;
-                }
-
-                Integer weight = weightMap.get(providerVersion);
-                if (weight != null) {
-                    return weight;
-                } else {
-                    return -1;
-                }
-            }
-        }
-
-        return -1;
-    }
-
-    private int getWeight(String providerVersion, VersionWeightEntity versionWeightEntity) {
-        if (versionWeightEntity == null) {
-            return -1;
-        }
-
-        Map<String, Integer> weightMap = versionWeightEntity.getWeightMap();
-        if (MapUtils.isEmpty(weightMap)) {
-            return -1;
-        }
-
-        Integer weight = weightMap.get(providerVersion);
-        if (weight != null) {
-            return weight;
-        } else {
-            return -1;
-        }
-    }
-
-    private int getWeight(String providerRegion, RegionWeightEntity regionWeightEntity) {
-        if (regionWeightEntity == null) {
-            return -1;
-        }
-
-        Map<String, Integer> weightMap = regionWeightEntity.getWeightMap();
-        if (MapUtils.isEmpty(weightMap)) {
-            return -1;
-        }
-
-        Integer weight = weightMap.get(providerRegion);
-        if (weight != null) {
-            return weight;
-        } else {
-            return -1;
-        }
     }
 
     @Override

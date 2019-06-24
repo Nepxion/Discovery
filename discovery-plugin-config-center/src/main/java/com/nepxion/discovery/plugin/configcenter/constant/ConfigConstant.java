@@ -23,6 +23,8 @@ public class ConfigConstant {
     public static final String VERSION_ELEMENT_NAME = "version";
     public static final String WEIGHT_ELEMENT_NAME = "weight";
     public static final String ADDRESS_ELEMENT_NAME = "address";
+    public static final String VERSION_WEIGHT_ELEMENT_NAME = "version-weight";
+    public static final String REGION_WEIGHT_ELEMENT_NAME = "region-weight";
     public static final String FILTER_VALUE_ATTRIBUTE_NAME = "filter-value";
     public static final String SERVICE_NAME_ATTRIBUTE_NAME = "service-name";
     public static final String CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME = "consumer-service-name";
@@ -32,5 +34,4 @@ public class ConfigConstant {
     public static final String PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME = "provider-weight-value";
     public static final String KEY_ATTRIBUTE_NAME = "key";
     public static final String VALUE_ATTRIBUTE_NAME = "value";
-    public static final String SEPARATE = "=";
 }
