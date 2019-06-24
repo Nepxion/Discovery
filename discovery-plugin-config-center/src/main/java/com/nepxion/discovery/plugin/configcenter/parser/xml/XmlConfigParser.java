@@ -393,8 +393,10 @@ public class XmlConfigParser implements PluginConfigParser {
 
         weightFilterEntity = new WeightFilterEntity();
 
-        Map<String, List<WeightEntity>> weightEntityMap = weightFilterEntity.getWeightEntityMap();
-        List<WeightEntity> weightEntityList = weightFilterEntity.getWeightEntityList();
+        Map<String, List<WeightEntity>> weightEntityMap = new LinkedHashMap<String, List<WeightEntity>>();
+        weightFilterEntity.setWeightEntityMap(weightEntityMap);
+        List<WeightEntity> weightEntityList = new ArrayList<WeightEntity>();
+        weightFilterEntity.setWeightEntityList(weightEntityList);
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
             if (childElementObject instanceof Element) {
