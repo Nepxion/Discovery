@@ -13,44 +13,72 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.framework.loadbalance.WeightRandomLoadBalance;
-import com.nepxion.discovery.plugin.framework.loadbalance.weight.MapWeightRandomLoadBalance;
+import com.nepxion.discovery.plugin.framework.context.PluginContextHolder;
+import com.nepxion.discovery.plugin.framework.loadbalance.weight.RuleMapWeightRandomLoadBalance;
+import com.nepxion.discovery.plugin.framework.loadbalance.weight.StrategyMapWeightRandomLoadBalance;
 import com.netflix.loadbalancer.PredicateBasedRule;
 import com.netflix.loadbalancer.Server;
 
 public abstract class PredicateBasedRuleDecorator extends PredicateBasedRule {
+    private static final Logger LOG = LoggerFactory.getLogger(PredicateBasedRuleDecorator.class);
+
+    @Autowired
+    private ApplicationContext applicationContext;
+
     @Autowired
     private PluginAdapter pluginAdapter;
 
-    private WeightRandomLoadBalance weightRandomLoadBalance;
+    private StrategyMapWeightRandomLoadBalance strategyMapWeightRandomLoadBalance;
+    private RuleMapWeightRandomLoadBalance ruleMapWeightRandomLoadBalance;
 
     @PostConstruct
     private void initialize() {
-        weightRandomLoadBalance = new MapWeightRandomLoadBalance();
-        weightRandomLoadBalance.setPluginAdapter(pluginAdapter);
+        PluginContextHolder pluginContextHolder = applicationContext.getBean(PluginContextHolder.class);
+        strategyMapWeightRandomLoadBalance = new StrategyMapWeightRandomLoadBalance(pluginAdapter, pluginContextHolder);
+        ruleMapWeightRandomLoadBalance = new RuleMapWeightRandomLoadBalance(pluginAdapter);
     }
 
     @Override
     public Server choose(Object key) {
-        WeightFilterEntity weightFilterEntity = weightRandomLoadBalance.getWeightFilterEntity();
-        if (weightFilterEntity == null) {
-            return super.choose(key);
+        boolean isTriggered = false;
+
+        WeightFilterEntity strategyWeightFilterEntity = strategyMapWeightRandomLoadBalance.getT();
+        if (strategyWeightFilterEntity != null && strategyWeightFilterEntity.hasWeight()) {
+            isTriggered = true;
+
+            List<Server> eligibleServers = getPredicate().getEligibleServers(getLoadBalancer().getAllServers(), key);
+
+            try {
+                return strategyMapWeightRandomLoadBalance.choose(eligibleServers, strategyWeightFilterEntity);
+            } catch (Exception e) {
+                LOG.error("Exception causes for strategy weight-random-loadbalance, used default loadbalance", e);
+
+                return super.choose(key);
+            }
         }
 
-        if (!weightFilterEntity.hasWeight()) {
-            return super.choose(key);
+        if (!isTriggered) {
+            WeightFilterEntity weightFilterEntity = ruleMapWeightRandomLoadBalance.getT();
+            if (weightFilterEntity != null && weightFilterEntity.hasWeight()) {
+                List<Server> eligibleServers = getPredicate().getEligibleServers(getLoadBalancer().getAllServers(), key);
+
+                try {
+                    return ruleMapWeightRandomLoadBalance.choose(eligibleServers, weightFilterEntity);
+                } catch (Exception e) {
+                    LOG.error("Exception causes for rule weight-random-loadbalance, used default loadbalance", e);
+
+                    return super.choose(key);
+                }
+            }
         }
 
-        List<Server> eligibleServers = getPredicate().getEligibleServers(getLoadBalancer().getAllServers(), key);
-
-        try {
-            return weightRandomLoadBalance.choose(eligibleServers, weightFilterEntity);
-        } catch (Exception e) {
-            return super.choose(key);
-        }
+        return super.choose(key);
     }
 }

@@ -14,12 +14,12 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.commons.collections4.CollectionUtils;
 
-import com.nepxion.discovery.common.entity.WeightFilterEntity;
+import com.nepxion.discovery.plugin.framework.loadbalance.WeightRandomLoadBalance;
 import com.netflix.loadbalancer.Server;
 
-public class ArrayWeightRandomLoadBalance extends AbstractWeightRandomLoadBalance {
+public abstract class AbstractArrayWeightRandomLoadBalance<T> implements WeightRandomLoadBalance<T> {
     @Override
-    public Server choose(List<Server> serverList, WeightFilterEntity weightFilterEntity) {
+    public Server choose(List<Server> serverList, T t) {
         if (CollectionUtils.isEmpty(serverList)) {
             return null;
         }
@@ -27,7 +27,7 @@ public class ArrayWeightRandomLoadBalance extends AbstractWeightRandomLoadBalanc
         int[] weights = new int[serverList.size()];
         for (int i = 0; i < serverList.size(); i++) {
             Server server = serverList.get(i);
-            weights[i] = getWeight(server, weightFilterEntity);
+            weights[i] = getWeight(server, t);
         }
 
         int index = getIndex(weights);
