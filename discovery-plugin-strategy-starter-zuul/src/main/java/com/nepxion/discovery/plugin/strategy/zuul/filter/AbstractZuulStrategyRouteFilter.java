@@ -50,6 +50,8 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter impleme
         String routeVersion = getRouteVersion();
         String routeRegion = getRouteRegion();
         String routeAddress = getRouteAddress();
+        String routeVersionWeight = getRouteVersionWeight();
+        String routeRegionWeight = getRouteRegionWeight();
 
         // 通过过滤器设置路由Header头部信息，来取代界面（Postman）上的设置，并全链路传递到服务端
         if (StringUtils.isNotEmpty(routeVersion)) {
@@ -60,6 +62,12 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter impleme
         }
         if (StringUtils.isNotEmpty(routeAddress)) {
             ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_ADDRESS, routeAddress);
+        }
+        if (StringUtils.isNotEmpty(routeVersionWeight)) {
+            ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_VERSION_WEIGHT, routeVersionWeight);
+        }
+        if (StringUtils.isNotEmpty(routeRegionWeight)) {
+            ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_REGION_WEIGHT, routeRegionWeight);
         }
 
         // 开启此项，将启动提供端的服务隔离机制，需要在网关上传递Group Header
