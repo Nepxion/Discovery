@@ -10,8 +10,6 @@ package com.nepxion.discovery.common.entity;
  */
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,9 +24,9 @@ public class WeightFilterEntity implements Serializable {
     private static final long serialVersionUID = 7313443273653189837L;
 
     // Consumer-service-name非空，作为Key，以Map方式存储
-    private Map<String, List<WeightEntity>> weightEntityMap = new LinkedHashMap<String, List<WeightEntity>>();
+    private Map<String, List<WeightEntity>> weightEntityMap;
     // Consumer-service-name为空，以List方式存储
-    private List<WeightEntity> weightEntityList = new ArrayList<WeightEntity>();
+    private List<WeightEntity> weightEntityList;
     private VersionWeightEntity versionWeightEntity;
     private RegionWeightEntity regionWeightEntity;
 
