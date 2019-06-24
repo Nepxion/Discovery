@@ -11,14 +11,12 @@ package com.nepxion.discovery.plugin.framework.loadbalance;
 
 import java.util.List;
 
-import com.nepxion.discovery.common.entity.WeightFilterEntity;
-import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.netflix.loadbalancer.Server;
 
-public interface WeightRandomLoadBalance {
-    void setPluginAdapter(PluginAdapter pluginAdapter);
+public interface WeightRandomLoadBalance<T> {
+    T getT();
 
-    WeightFilterEntity getWeightFilterEntity();
+    int getWeight(Server server, T t);
 
-    Server choose(List<Server> serverList, WeightFilterEntity weightFilterEntity);
+    Server choose(List<Server> serverList, T t);
 }
