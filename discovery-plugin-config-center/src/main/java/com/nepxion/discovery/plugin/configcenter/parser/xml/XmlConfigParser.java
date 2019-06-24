@@ -174,6 +174,12 @@ public class XmlConfigParser implements PluginConfigParser {
                 } else if (StringUtils.equals(childElement.getName(), ConfigConstant.ADDRESS_ELEMENT_NAME)) {
                     String addressValue = childElement.getTextTrim();
                     strategyEntity.setAddressValue(addressValue);
+                } else if (StringUtils.equals(childElement.getName(), ConfigConstant.VERSION_WEIGHT_ELEMENT_NAME)) {
+                    String versionWeightValue = childElement.getTextTrim();
+                    strategyEntity.setVersionWeightValue(versionWeightValue);
+                } else if (StringUtils.equals(childElement.getName(), ConfigConstant.REGION_WEIGHT_ELEMENT_NAME)) {
+                    String regionWeightValue = childElement.getTextTrim();
+                    strategyEntity.setRegionWeightValue(regionWeightValue);
                 }
             }
         }
@@ -388,6 +394,7 @@ public class XmlConfigParser implements PluginConfigParser {
         weightFilterEntity = new WeightFilterEntity();
 
         Map<String, List<WeightEntity>> weightEntityMap = weightFilterEntity.getWeightEntityMap();
+        List<WeightEntity> weightEntityList = weightFilterEntity.getWeightEntityList();
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
             if (childElementObject instanceof Element) {
@@ -400,8 +407,6 @@ public class XmlConfigParser implements PluginConfigParser {
                     String consumerServiceName = null;
                     if (consumerServiceNameAttribute != null) {
                         consumerServiceName = consumerServiceNameAttribute.getData().toString().trim();
-                    } else {
-                        consumerServiceName = StringUtils.EMPTY;
                     }
                     weightEntity.setConsumerServiceName(consumerServiceName);
 
@@ -420,7 +425,7 @@ public class XmlConfigParser implements PluginConfigParser {
                     Map<String, Integer> weightMap = new LinkedHashMap<String, Integer>();
                     List<String> providerWeightValueList = StringUtil.splitToList(providerWeightValue, DiscoveryConstant.SEPARATE);
                     for (String value : providerWeightValueList) {
-                        String[] valueArray = StringUtils.split(value, ConfigConstant.SEPARATE);
+                        String[] valueArray = StringUtils.split(value, DiscoveryConstant.EQUALS);
                         String version = valueArray[0].trim();
                         int weight = Integer.valueOf(valueArray[1].trim());
                         if (weight < 0) {
@@ -431,13 +436,17 @@ public class XmlConfigParser implements PluginConfigParser {
                     }
                     weightEntity.setWeightMap(weightMap);
 
-                    List<WeightEntity> weightEntityList = weightEntityMap.get(consumerServiceName);
-                    if (weightEntityList == null) {
-                        weightEntityList = new ArrayList<WeightEntity>();
-                        weightEntityMap.put(consumerServiceName, weightEntityList);
-                    }
+                    if (StringUtils.isNotEmpty(consumerServiceName)) {
+                        List<WeightEntity> list = weightEntityMap.get(consumerServiceName);
+                        if (list == null) {
+                            list = new ArrayList<WeightEntity>();
+                            weightEntityMap.put(consumerServiceName, list);
+                        }
 
-                    weightEntityList.add(weightEntity);
+                        list.add(weightEntity);
+                    } else {
+                        weightEntityList.add(weightEntity);
+                    }
                 } else if (StringUtils.equals(childElement.getName(), ConfigConstant.VERSION_ELEMENT_NAME)) {
                     VersionWeightEntity versionWeightEntity = weightFilterEntity.getVersionWeightEntity();
                     if (versionWeightEntity != null) {
@@ -454,7 +463,7 @@ public class XmlConfigParser implements PluginConfigParser {
                     Map<String, Integer> weightMap = new LinkedHashMap<String, Integer>();
                     List<String> providerWeightValueList = StringUtil.splitToList(providerWeightValue, DiscoveryConstant.SEPARATE);
                     for (String value : providerWeightValueList) {
-                        String[] valueArray = StringUtils.split(value, ConfigConstant.SEPARATE);
+                        String[] valueArray = StringUtils.split(value, DiscoveryConstant.EQUALS);
                         String version = valueArray[0].trim();
                         int weight = Integer.valueOf(valueArray[1].trim());
                         if (weight < 0) {
@@ -482,7 +491,7 @@ public class XmlConfigParser implements PluginConfigParser {
                     Map<String, Integer> weightMap = new LinkedHashMap<String, Integer>();
                     List<String> providerWeightValueList = StringUtil.splitToList(providerWeightValue, DiscoveryConstant.SEPARATE);
                     for (String value : providerWeightValueList) {
-                        String[] valueArray = StringUtils.split(value, ConfigConstant.SEPARATE);
+                        String[] valueArray = StringUtils.split(value, DiscoveryConstant.EQUALS);
                         String region = valueArray[0].trim();
                         int weight = Integer.valueOf(valueArray[1].trim());
                         if (weight < 0) {
