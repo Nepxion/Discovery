@@ -12,7 +12,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 - 感谢阿里巴巴中间件Nacos和Sentinel团队，尤其是Nacos负责人@于怀，Sentinel负责人@子衿，Spring Cloud Alibaba负责人@亦盏的技术支持
 - 感谢携程Apollo团队，尤其是@宋顺，特意开发OpenApi包和技术支持
 - 感谢代码贡献者@Esun，@JikaiSun，@HaoHuang，@Fan Yang，@Ankeway等同学，感谢为本框架提出宝贵意见和建议的同学
-- 感谢使用本框架的公司和企业 
+- 感谢使用本框架的公司和企业
 
 :100:建议
 - 强烈建议，先学习 [极简示例](https://github.com/Nepxion/DiscoveryGray)
@@ -857,7 +857,9 @@ spring.application.strategy.provider.isolation.enabled=true
 ```
 
 ## 服务隔离
-- 注册服务隔离，基于Group黑/白名单的策略。只需要在网关或者服务端，开启如下配置即可：
+元数据中的Group在一定意义上代表着系统ID或者系统逻辑分组，基于Group策略意味着只有同一个系统中的服务才能相互发生关系
+
+- 注册服务隔离，基于Group黑/白名单的策略，即当前的服务所在的Group，不在Group的黑名单或者在白名单里，才允许被注册。只需要在网关或者服务端，开启如下配置即可：
 ```xml
 # 启动和关闭注册的服务隔离（基于Group黑/白名单的策略）。缺失则默认为false
 spring.application.strategy.register.isolation.enabled=true
@@ -868,18 +870,18 @@ spring.application.strategy.register.isolation.group.blacklist=
 spring.application.strategy.register.isolation.group.whitelist=
 ```
 
-- 消费端服务隔离，基于Group是否相同的策略。只需要在网关或者服务端，开启如下配置即可：
+- 消费端服务隔离，基于Group是否相同的策略，即消费端拿到的提供端列表，两者的Group必须相同。只需要在网关或者服务端，开启如下配置即可：
 ```xml
 # 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
 # spring.application.strategy.consumer.isolation.enabled=true
 ```
 
-- 提供端服务隔离，基于Group是否相同的策略。只需要在网关或者服务端，开启如下配置即可：
+- 提供端服务隔离，基于Group是否相同的策略，即服务端被消费端调用，两者的Group必须相同，否则拒绝调用，异构系统可以通过Header方式传递n-d-group值进行匹配。只需要在网关或者服务端，开启如下配置即可：
 ```xml
 # 启动和关闭提供端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
 # spring.application.strategy.provider.isolation.enabled=true
 ```
-在提供端还必须做如下配置
+还必须做如下配置
 ```xml
 # 用户自定义和编程灰度路由策略的时候，需要指定对业务RestController类的扫描路径。此项配置作用于RPC方式的调用拦截和消费端的服务隔离两项工作
 spring.application.strategy.scan.packages=com.nepxion.discovery.gray.service.feign
