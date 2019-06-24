@@ -22,6 +22,8 @@ public class StrategyEntity implements Serializable {
     private String versionValue;
     private String regionValue;
     private String addressValue;
+    private String versionWeightValue;
+    private String regionWeightValue;
 
     public String getVersionValue() {
         return versionValue;
@@ -45,6 +47,22 @@ public class StrategyEntity implements Serializable {
 
     public void setAddressValue(String addressValue) {
         this.addressValue = addressValue;
+    }
+
+    public String getVersionWeightValue() {
+        return versionWeightValue;
+    }
+
+    public void setVersionWeightValue(String versionWeightValue) {
+        this.versionWeightValue = versionWeightValue;
+    }
+
+    public String getRegionWeightValue() {
+        return regionWeightValue;
+    }
+
+    public void setRegionWeightValue(String regionWeightValue) {
+        this.regionWeightValue = regionWeightValue;
     }
 
     @Override
