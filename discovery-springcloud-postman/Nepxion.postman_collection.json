@@ -381,6 +381,18 @@
 								"disabled": true
 							},
 							{
+								"key": "n-d-version-weight",
+								"value": "{\"discovery-springcloud-example-a\":\"1.0=90;1.1=10\", \"discovery-springcloud-example-b\":\"1.0=90;1.1=10\", \"discovery-springcloud-example-c\":\"1.0=90;1.1=10\"}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "n-d-region-weight",
+								"value": "dev=85;qa=15",
+								"type": "text",
+								"disabled": true
+							},
+							{
 								"key": "mobile",
 								"value": "138",
 								"type": "text",
@@ -436,6 +448,18 @@
 							{
 								"key": "n-d-address",
 								"value": "{\"discovery-springcloud-example-a\":\"192.168.43.101:1100\", \"discovery-springcloud-example-b\":\"192.168.43.101:1201\", \"discovery-springcloud-example-c\":\"192.168.43.101:1300\"}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "n-d-version-weight",
+								"value": "{\"discovery-springcloud-example-a\":\"1.0=90;1.1=10\", \"discovery-springcloud-example-b\":\"1.0=90;1.1=10\", \"discovery-springcloud-example-c\":\"1.0=90;1.1=10\"}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "n-d-region-weight",
+								"value": "dev=85;qa=15",
 								"type": "text",
 								"disabled": true
 							},
@@ -500,6 +524,18 @@
 								"disabled": true
 							},
 							{
+								"key": "n-d-version-weight",
+								"value": "{\"discovery-gray-service-a\":\"1.0=90;1.1=10\", \"discovery-gray-service-b\":\"1.0=90;1.1=10\"}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "n-d-region-weight",
+								"value": "dev=99;qa=1",
+								"type": "text",
+								"disabled": true
+							},
+							{
 								"key": "mobile",
 								"value": "138",
 								"type": "text",
@@ -542,6 +578,18 @@
 							{
 								"key": "n-d-region",
 								"value": "qa",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "n-d-version-weight",
+								"value": "{\"discovery-gray-service-a\":\"1.0=90;1.1=10\", \"discovery-gray-service-b\":\"1.0=90;1.1=10\"}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "n-d-region-weight",
+								"value": "dev=99;qa=1",
 								"type": "text",
 								"disabled": true
 							},
