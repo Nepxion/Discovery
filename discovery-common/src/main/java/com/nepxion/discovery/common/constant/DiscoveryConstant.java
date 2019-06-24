@@ -48,6 +48,8 @@ public class DiscoveryConstant {
     public static final String N_D_REGION = "n-d-region";
     public static final String N_D_VERSION = "n-d-version";
     public static final String N_D_ADDRESS = "n-d-address";
+    public static final String N_D_REGION_WEIGHT = "n-d-region-weight";
+    public static final String N_D_VERSION_WEIGHT = "n-d-version-weight";
 
     public static final String XML_FORMAT = "xml";
     public static final String JSON_FORMAT = "json";
@@ -57,6 +59,7 @@ public class DiscoveryConstant {
     public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
     public static final String ENCODING_UTF_8 = "UTF-8";
     public static final String SEPARATE = ";";
+    public static final String EQUALS = "=";
 
     public static final String ASYNC = "async";
     public static final String SYNC = "sync";
