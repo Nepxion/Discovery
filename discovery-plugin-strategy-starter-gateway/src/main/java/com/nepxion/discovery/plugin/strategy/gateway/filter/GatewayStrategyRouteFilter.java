@@ -15,4 +15,8 @@ public interface GatewayStrategyRouteFilter {
     String getRouteRegion();
 
     String getRouteAddress();
+
+    String getRouteVersionWeight();
+
+    String getRouteRegionWeight();
 }

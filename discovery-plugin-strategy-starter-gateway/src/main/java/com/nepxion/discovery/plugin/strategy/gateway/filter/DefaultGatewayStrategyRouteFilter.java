@@ -54,4 +54,32 @@ public class DefaultGatewayStrategyRouteFilter extends AbstractGatewayStrategyRo
 
         return null;
     }
+
+    // 从远程配置中心或者本地配置文件获取版本权重配置。如果是远程配置中心，则值会动态改变
+    @Override
+    public String getRouteVersionWeight() {
+        RuleEntity ruleEntity = pluginAdapter.getRule();
+        if (ruleEntity != null) {
+            StrategyEntity strategyEntity = ruleEntity.getStrategyEntity();
+            if (strategyEntity != null) {
+                return strategyEntity.getVersionWeightValue();
+            }
+        }
+
+        return null;
+    }
+
+    // 从远程配置中心或者本地配置文件获取区域权重配置。如果是远程配置中心，则值会动态改变
+    @Override
+    public String getRouteRegionWeight() {
+        RuleEntity ruleEntity = pluginAdapter.getRule();
+        if (ruleEntity != null) {
+            StrategyEntity strategyEntity = ruleEntity.getStrategyEntity();
+            if (strategyEntity != null) {
+                return strategyEntity.getRegionWeightValue();
+            }
+        }
+
+        return null;
+    }
 }

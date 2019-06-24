@@ -15,4 +15,8 @@ public interface ZuulStrategyRouteFilter {
     String getRouteRegion();
 
     String getRouteAddress();
+
+    String getRouteVersionWeight();
+
+    String getRouteRegionWeight();
 }

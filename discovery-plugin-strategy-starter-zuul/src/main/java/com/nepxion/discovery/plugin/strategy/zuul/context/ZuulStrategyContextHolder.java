@@ -18,10 +18,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
+import com.nepxion.discovery.plugin.strategy.context.AbstractStrategyContextHolder;
 import com.netflix.zuul.context.RequestContext;
 
-public class ZuulStrategyContextHolder implements StrategyContextHolder {
+public class ZuulStrategyContextHolder extends AbstractStrategyContextHolder {
     private static final Logger LOG = LoggerFactory.getLogger(ZuulStrategyContextHolder.class);
 
     public HttpServletRequest getRequest() {
