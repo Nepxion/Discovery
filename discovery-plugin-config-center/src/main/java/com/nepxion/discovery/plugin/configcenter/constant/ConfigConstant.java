@@ -34,4 +34,5 @@ public class ConfigConstant {
     public static final String PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME = "provider-weight-value";
     public static final String KEY_ATTRIBUTE_NAME = "key";
     public static final String VALUE_ATTRIBUTE_NAME = "value";
+    public static final String TYPE_ATTRIBUTE_NAME = "type";
 }
