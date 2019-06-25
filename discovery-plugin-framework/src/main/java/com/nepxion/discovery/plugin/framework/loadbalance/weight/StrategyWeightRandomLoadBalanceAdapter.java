@@ -68,7 +68,7 @@ public class StrategyWeightRandomLoadBalanceAdapter extends AbstractWeightRandom
                     weightEntityList.add(weightEntity);
                 }
 
-                weightFilterEntity.setWeightEntityList(weightEntityList);
+                weightFilterEntity.setVersionWeightEntityList(weightEntityList);
             } catch (Exception e) {
                 VersionWeightEntity versionWeightEntity = new VersionWeightEntity();
 
@@ -92,23 +92,54 @@ public class StrategyWeightRandomLoadBalanceAdapter extends AbstractWeightRandom
 
         String regionWeightValue = pluginContextHolder.getContext(DiscoveryConstant.N_D_REGION_WEIGHT);
         if (StringUtils.isNotEmpty(regionWeightValue)) {
-            RegionWeightEntity regionWeightEntity = new RegionWeightEntity();
+            try {
+                List<WeightEntity> weightEntityList = new ArrayList<WeightEntity>();
 
-            Map<String, Integer> weightMap = new LinkedHashMap<String, Integer>();
-            List<String> providerWeightValueList = StringUtil.splitToList(regionWeightValue, DiscoveryConstant.SEPARATE);
-            for (String value : providerWeightValueList) {
-                String[] valueArray = StringUtils.split(value, DiscoveryConstant.EQUALS);
-                String region = valueArray[0].trim();
-                int weight = Integer.valueOf(valueArray[1].trim());
-                if (weight < 0) {
-                    throw new DiscoveryException("Region=[" + region + "] has weight value less than 0");
+                Map<String, String> regionWeightMap = JsonUtil.fromJson(regionWeightValue, Map.class);
+                for (Map.Entry<String, String> entry : regionWeightMap.entrySet()) {
+                    String providerServiceName = entry.getKey();
+                    String providerWeightValue = entry.getValue();
+
+                    WeightEntity weightEntity = new WeightEntity();
+                    weightEntity.setProviderServiceName(providerServiceName);
+
+                    Map<String, Integer> weightMap = new LinkedHashMap<String, Integer>();
+                    List<String> providerWeightValueList = StringUtil.splitToList(providerWeightValue, DiscoveryConstant.SEPARATE);
+                    for (String value : providerWeightValueList) {
+                        String[] valueArray = StringUtils.split(value, DiscoveryConstant.EQUALS);
+                        String region = valueArray[0].trim();
+                        int weight = Integer.valueOf(valueArray[1].trim());
+                        if (weight < 0) {
+                            throw new DiscoveryException("Service name=[" + providerServiceName + "] region=[" + region + "] has weight value less than 0");
+                        }
+
+                        weightMap.put(region, weight);
+                    }
+                    weightEntity.setWeightMap(weightMap);
+
+                    weightEntityList.add(weightEntity);
                 }
 
-                weightMap.put(region, weight);
-            }
-            regionWeightEntity.setWeightMap(weightMap);
+                weightFilterEntity.setRegionWeightEntityList(weightEntityList);
+            } catch (Exception e) {
+                RegionWeightEntity regionWeightEntity = new RegionWeightEntity();
 
-            weightFilterEntity.setRegionWeightEntity(regionWeightEntity);
+                Map<String, Integer> weightMap = new LinkedHashMap<String, Integer>();
+                List<String> providerWeightValueList = StringUtil.splitToList(regionWeightValue, DiscoveryConstant.SEPARATE);
+                for (String value : providerWeightValueList) {
+                    String[] valueArray = StringUtils.split(value, DiscoveryConstant.EQUALS);
+                    String region = valueArray[0].trim();
+                    int weight = Integer.valueOf(valueArray[1].trim());
+                    if (weight < 0) {
+                        throw new DiscoveryException("Region=[" + region + "] has weight value less than 0");
+                    }
+
+                    weightMap.put(region, weight);
+                }
+                regionWeightEntity.setWeightMap(weightMap);
+
+                weightFilterEntity.setRegionWeightEntity(regionWeightEntity);
+            }
         }
 
         return weightFilterEntity;
@@ -116,25 +147,26 @@ public class StrategyWeightRandomLoadBalanceAdapter extends AbstractWeightRandom
 
     @Override
     public int getWeight(Server server, WeightFilterEntity weightFilterEntity) {
-        List<WeightEntity> weightEntityList = weightFilterEntity.getWeightEntityList();
+        List<WeightEntity> versionWeightEntityList = weightFilterEntity.getVersionWeightEntityList();
         VersionWeightEntity versionWeightEntity = weightFilterEntity.getVersionWeightEntity();
+
+        List<WeightEntity> regionWeightEntityList = weightFilterEntity.getRegionWeightEntityList();
         RegionWeightEntity regionWeightEntity = weightFilterEntity.getRegionWeightEntity();
 
         String providerServiceId = pluginAdapter.getServerServiceId(server);
         String providerVersion = pluginAdapter.getServerVersion(server);
         String providerRegion = pluginAdapter.getServerRegion(server);
 
-        // 取全局的权重配置
-        int weight = WeightRandomLoadBalanceUtil.getWeight(providerServiceId, providerVersion, weightEntityList);
-
-        // 全局的权重配置没找到，取版本的权重配置
+        int weight = WeightRandomLoadBalanceUtil.getVersionWeight(providerServiceId, providerVersion, versionWeightEntityList);
         if (weight < 0) {
-            weight = WeightRandomLoadBalanceUtil.getWeight(providerVersion, versionWeightEntity);
+            weight = WeightRandomLoadBalanceUtil.getVersionWeight(providerVersion, versionWeightEntity);
         }
 
-        // 全局的权重配置没找到，取区域的权重配置
         if (weight < 0) {
-            weight = WeightRandomLoadBalanceUtil.getWeight(providerRegion, regionWeightEntity);
+            weight = WeightRandomLoadBalanceUtil.getRegionWeight(providerServiceId, providerRegion, regionWeightEntityList);
+        }
+        if (weight < 0) {
+            weight = WeightRandomLoadBalanceUtil.getRegionWeight(providerRegion, regionWeightEntity);
         }
 
         // 所有的权重配置都没找到，则按权重值为0来处理

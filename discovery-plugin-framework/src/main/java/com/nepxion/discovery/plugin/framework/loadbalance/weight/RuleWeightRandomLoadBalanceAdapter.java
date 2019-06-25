@@ -45,9 +45,12 @@ public class RuleWeightRandomLoadBalanceAdapter extends AbstractWeightRandomLoad
 
     @Override
     public int getWeight(Server server, WeightFilterEntity weightFilterEntity) {
-        Map<String, List<WeightEntity>> weightEntityMap = weightFilterEntity.getWeightEntityMap();
-        List<WeightEntity> weightEntityList = weightFilterEntity.getWeightEntityList();
+        Map<String, List<WeightEntity>> versionWeightEntityMap = weightFilterEntity.getVersionWeightEntityMap();
+        List<WeightEntity> versionWeightEntityList = weightFilterEntity.getVersionWeightEntityList();
         VersionWeightEntity versionWeightEntity = weightFilterEntity.getVersionWeightEntity();
+
+        Map<String, List<WeightEntity>> regionWeightEntityMap = weightFilterEntity.getRegionWeightEntityMap();
+        List<WeightEntity> regionWeightEntityList = weightFilterEntity.getRegionWeightEntityList();
         RegionWeightEntity regionWeightEntity = weightFilterEntity.getRegionWeightEntity();
 
         String providerServiceId = pluginAdapter.getServerServiceId(server);
@@ -55,22 +58,22 @@ public class RuleWeightRandomLoadBalanceAdapter extends AbstractWeightRandomLoad
         String providerRegion = pluginAdapter.getServerRegion(server);
 
         String serviceId = pluginAdapter.getServiceId();
-        // 取局部的权重配置
-        int weight = WeightRandomLoadBalanceUtil.getWeight(serviceId, providerServiceId, providerVersion, weightEntityMap);
-
-        // 局部权重配置没找到，取全局的权重配置
+        int weight = WeightRandomLoadBalanceUtil.getVersionWeight(serviceId, providerServiceId, providerVersion, versionWeightEntityMap);
         if (weight < 0) {
-            weight = WeightRandomLoadBalanceUtil.getWeight(providerServiceId, providerVersion, weightEntityList);
+            weight = WeightRandomLoadBalanceUtil.getVersionWeight(providerServiceId, providerVersion, versionWeightEntityList);
+        }
+        if (weight < 0) {
+            weight = WeightRandomLoadBalanceUtil.getVersionWeight(providerVersion, versionWeightEntity);
         }
 
-        // 全局的权重配置没找到，取版本的权重配置
         if (weight < 0) {
-            weight = WeightRandomLoadBalanceUtil.getWeight(providerVersion, versionWeightEntity);
+            weight = WeightRandomLoadBalanceUtil.getRegionWeight(serviceId, providerServiceId, providerRegion, regionWeightEntityMap);
         }
-
-        // 全局的权重配置没找到，取区域的权重配置
         if (weight < 0) {
-            weight = WeightRandomLoadBalanceUtil.getWeight(providerRegion, regionWeightEntity);
+            weight = WeightRandomLoadBalanceUtil.getRegionWeight(providerServiceId, providerRegion, regionWeightEntityList);
+        }
+        if (weight < 0) {
+            weight = WeightRandomLoadBalanceUtil.getRegionWeight(providerRegion, regionWeightEntity);
         }
 
         // 所有的权重配置都没找到，则按权重值为0来处理

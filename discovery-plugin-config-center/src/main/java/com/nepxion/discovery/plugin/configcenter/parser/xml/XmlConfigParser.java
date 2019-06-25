@@ -393,10 +393,16 @@ public class XmlConfigParser implements PluginConfigParser {
 
         weightFilterEntity = new WeightFilterEntity();
 
-        Map<String, List<WeightEntity>> weightEntityMap = new LinkedHashMap<String, List<WeightEntity>>();
-        weightFilterEntity.setWeightEntityMap(weightEntityMap);
-        List<WeightEntity> weightEntityList = new ArrayList<WeightEntity>();
-        weightFilterEntity.setWeightEntityList(weightEntityList);
+        Map<String, List<WeightEntity>> versionWeightEntityMap = new LinkedHashMap<String, List<WeightEntity>>();
+        List<WeightEntity> versionWeightEntityList = new ArrayList<WeightEntity>();
+        weightFilterEntity.setVersionWeightEntityMap(versionWeightEntityMap);
+        weightFilterEntity.setVersionWeightEntityList(versionWeightEntityList);
+
+        Map<String, List<WeightEntity>> regionWeightEntityMap = new LinkedHashMap<String, List<WeightEntity>>();
+        List<WeightEntity> regionWeightEntityList = new ArrayList<WeightEntity>();
+        weightFilterEntity.setRegionWeightEntityMap(regionWeightEntityMap);
+        weightFilterEntity.setRegionWeightEntityList(regionWeightEntityList);
+
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
             if (childElementObject instanceof Element) {
@@ -404,6 +410,15 @@ public class XmlConfigParser implements PluginConfigParser {
 
                 if (StringUtils.equals(childElement.getName(), ConfigConstant.SERVICE_ELEMENT_NAME)) {
                     WeightEntity weightEntity = new WeightEntity();
+
+                    Attribute typeAttribute = childElement.attribute(ConfigConstant.TYPE_ATTRIBUTE_NAME);
+                    if (typeAttribute == null) {
+                        throw new DiscoveryException("Attribute[" + ConfigConstant.TYPE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                    }
+                    String type = typeAttribute.getData().toString().trim();
+                    if (!StringUtils.equals(type, ConfigConstant.VERSION_ELEMENT_NAME) && !StringUtils.equals(type, ConfigConstant.REGION_ELEMENT_NAME)) {
+                        throw new DiscoveryException("The value of attribute[" + ConfigConstant.TYPE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] must be '" + ConfigConstant.VERSION_ELEMENT_NAME + "' or '" + ConfigConstant.REGION_ELEMENT_NAME + "'");
+                    }
 
                     Attribute consumerServiceNameAttribute = childElement.attribute(ConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME);
                     String consumerServiceName = null;
@@ -439,15 +454,29 @@ public class XmlConfigParser implements PluginConfigParser {
                     weightEntity.setWeightMap(weightMap);
 
                     if (StringUtils.isNotEmpty(consumerServiceName)) {
-                        List<WeightEntity> list = weightEntityMap.get(consumerServiceName);
-                        if (list == null) {
-                            list = new ArrayList<WeightEntity>();
-                            weightEntityMap.put(consumerServiceName, list);
-                        }
+                        if (StringUtils.equals(type, ConfigConstant.VERSION_ELEMENT_NAME)) {
+                            List<WeightEntity> list = versionWeightEntityMap.get(consumerServiceName);
+                            if (list == null) {
+                                list = new ArrayList<WeightEntity>();
+                                versionWeightEntityMap.put(consumerServiceName, list);
+                            }
 
-                        list.add(weightEntity);
+                            list.add(weightEntity);
+                        } else if (StringUtils.equals(type, ConfigConstant.REGION_ELEMENT_NAME)) {
+                            List<WeightEntity> list = regionWeightEntityMap.get(consumerServiceName);
+                            if (list == null) {
+                                list = new ArrayList<WeightEntity>();
+                                regionWeightEntityMap.put(consumerServiceName, list);
+                            }
+
+                            list.add(weightEntity);
+                        }
                     } else {
-                        weightEntityList.add(weightEntity);
+                        if (StringUtils.equals(type, ConfigConstant.VERSION_ELEMENT_NAME)) {
+                            versionWeightEntityList.add(weightEntity);
+                        } else if (StringUtils.equals(type, ConfigConstant.REGION_ELEMENT_NAME)) {
+                            regionWeightEntityList.add(weightEntity);
+                        }
                     }
                 } else if (StringUtils.equals(childElement.getName(), ConfigConstant.VERSION_ELEMENT_NAME)) {
                     VersionWeightEntity versionWeightEntity = weightFilterEntity.getVersionWeightEntity();
