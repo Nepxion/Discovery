@@ -21,17 +21,17 @@ import com.nepxion.discovery.common.entity.VersionWeightEntity;
 import com.nepxion.discovery.common.entity.WeightEntity;
 
 public class WeightRandomLoadBalanceUtil {
-    public static int getWeight(String consumerServiceId, String providerServiceId, String providerVersion, Map<String, List<WeightEntity>> weightEntityMap) {
+    public static int getVersionWeight(String consumerServiceId, String providerServiceId, String providerVersion, Map<String, List<WeightEntity>> weightEntityMap) {
         if (MapUtils.isEmpty(weightEntityMap)) {
             return -1;
         }
 
         List<WeightEntity> weightEntityList = weightEntityMap.get(consumerServiceId);
 
-        return getWeight(providerServiceId, providerVersion, weightEntityList);
+        return getVersionWeight(providerServiceId, providerVersion, weightEntityList);
     }
 
-    public static int getWeight(String providerServiceId, String providerVersion, List<WeightEntity> weightEntityList) {
+    public static int getVersionWeight(String providerServiceId, String providerVersion, List<WeightEntity> weightEntityList) {
         if (CollectionUtils.isEmpty(weightEntityList)) {
             return -1;
         }
@@ -56,7 +56,7 @@ public class WeightRandomLoadBalanceUtil {
         return -1;
     }
 
-    public static int getWeight(String providerVersion, VersionWeightEntity versionWeightEntity) {
+    public static int getVersionWeight(String providerVersion, VersionWeightEntity versionWeightEntity) {
         if (versionWeightEntity == null) {
             return -1;
         }
@@ -74,7 +74,42 @@ public class WeightRandomLoadBalanceUtil {
         }
     }
 
-    public static int getWeight(String providerRegion, RegionWeightEntity regionWeightEntity) {
+    public static int getRegionWeight(String consumerServiceId, String providerServiceId, String providerRegion, Map<String, List<WeightEntity>> weightEntityMap) {
+        if (MapUtils.isEmpty(weightEntityMap)) {
+            return -1;
+        }
+
+        List<WeightEntity> weightEntityList = weightEntityMap.get(consumerServiceId);
+
+        return getRegionWeight(providerServiceId, providerRegion, weightEntityList);
+    }
+
+    public static int getRegionWeight(String providerServiceId, String providerRegion, List<WeightEntity> weightEntityList) {
+        if (CollectionUtils.isEmpty(weightEntityList)) {
+            return -1;
+        }
+
+        for (WeightEntity weightEntity : weightEntityList) {
+            String providerServiceName = weightEntity.getProviderServiceName();
+            if (StringUtils.equalsIgnoreCase(providerServiceName, providerServiceId)) {
+                Map<String, Integer> weightMap = weightEntity.getWeightMap();
+                if (MapUtils.isEmpty(weightMap)) {
+                    return -1;
+                }
+
+                Integer weight = weightMap.get(providerRegion);
+                if (weight != null) {
+                    return weight;
+                } else {
+                    return -1;
+                }
+            }
+        }
+
+        return -1;
+    }
+
+    public static int getRegionWeight(String providerRegion, RegionWeightEntity regionWeightEntity) {
         if (regionWeightEntity == null) {
             return -1;
         }
