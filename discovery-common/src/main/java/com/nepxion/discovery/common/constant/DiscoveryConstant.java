@@ -35,13 +35,18 @@ public class DiscoveryConstant {
     public static final String HOST = "host";
     public static final String PORT = "port";
     public static final String METADATA = "metadata";
-    public static final String REGION = "region";
-    public static final String VERSION = "version";
+
     public static final String DYNAMIC_VERSION = "dynamicVersion";
     public static final String RULE = "rule";
     public static final String DYNAMIC_RULE = "dynamicRule";
     public static final String REACH_MAX_LIMITED_COUNT = "reach max limited count";
     public static final String REGISTER_ISOLATION = "register isolation";
+
+    public static final String VERSION = "version";
+    public static final String REGION = "region";
+    public static final String ADDRESS = "address";
+    public static final String VERSION_WEIGHT = "version-weight";
+    public static final String REGION_WEIGHT = "region-weight";
 
     public static final String N_D_SERVICE_ID = "n-d-service-id";
     public static final String N_D_GROUP = "n-d-group";
@@ -60,6 +65,7 @@ public class DiscoveryConstant {
     public static final String ENCODING_UTF_8 = "UTF-8";
     public static final String SEPARATE = ";";
     public static final String EQUALS = "=";
+    public static final String DASH = "-";
 
     public static final String ASYNC = "async";
     public static final String SYNC = "sync";
