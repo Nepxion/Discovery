@@ -65,7 +65,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
   - [版本权重的灰度发布规则](#版本权重的灰度发布规则)
   - [全局版本权重的灰度发布规则](#全局版本权重的灰度发布规则)
   - [全局区域权重的灰度发布规则](#全局区域权重的灰度发布规则)
-  - [全链路路由策略的灰度发布规则](#全链路路由策略的灰度发布规则)  
+  - [网关端全链路路由策略的灰度发布规则](#网关端全链路路由策略的灰度发布规则)
   - [用户自定义的灰度发布规则](#用户自定义的灰度发布规则)
   - [动态改变规则](#动态改变规则)
   - [动态改变版本](#动态改变版本)
@@ -578,8 +578,6 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
    <service provider-service-name="b" provider-weight-value="1.0=90;1.1=10"/> 表示所有消费端访问提供端的时候，提供端的1.0版本提供90%的权重流量，1.1版本提供10%的权重流量
 2. 局部配置，即指定consumer-service-name，专门为该消费端配置权重。全局配置，即不指定consumer-service-name，为所有消费端配置相同情形的权重。当局部配置和全局配置同时存在的时候，以局部配置优先
 3. 尽量为线上所有版本都赋予权重值
-
-<version provider-weight-value="1.0=85;1.1=15"/> -
 ```
 
 ### 全局版本权重的灰度发布规则
@@ -587,6 +585,15 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
 1. 标准配置，举例如下
    <version provider-weight-value="1.0=85;1.1=15"/> 表示版本为1.0的服务提供85%的权重流量，版本为1.1的服务提供15%的权重流量
 2. 全局版本权重可以切换整条调用链的权重配比
+3. 尽量为线上所有版本都赋予权重值
+```
+
+### 区域权重的灰度发布规则
+```xml
+1. 标准配置，举例如下
+   <service consumer-service-name="a" provider-service-name="b" provider-weight-value="dev=85;qa=15"/> 表示消费端访问提供端的时候，区域为dev的服务提供85%的权重流量，区域为qa的服务提供15%的权重流量
+   <service provider-service-name="b" provider-weight-value="dev=85;qa=15"/> 表示所有消费端访问提供端的时候，区域为dev的服务提供85%的权重流量，区域为qa的服务提供15%的权重流量
+2. 局部配置，即指定consumer-service-name，专门为该消费端配置权重。全局配置，即不指定consumer-service-name，为所有消费端配置相同情形的权重。当局部配置和全局配置同时存在的时候，以局部配置优先
 3. 尽量为线上所有版本都赋予权重值
 ```
 
@@ -598,23 +605,33 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
 3. 尽量为线上所有区域都赋予权重值
 ```
 
-### 全链路路由策略的灰度发布规则
+### 网关端全链路路由策略的灰度发布规则
 ```xml
 1. 标准配置，举例如下
-   <strategy>
-       <!-- <version>{"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.0", "discovery-springcloud-example-c":"1.0;1.2"}</version> --> 表示全链路调用中，按照配置的版本号的对应服务去调用
-       <!-- <version>1.0</version> --> 表示全链路调用中，所有服务都调用1.0版本
-       <!-- <region>{"discovery-springcloud-example-a":"qa;dev", "discovery-springcloud-example-b":"dev", "discovery-springcloud-example-c":"qa"}</region> --> 表示全链路调用中，按照配置的区域的对应服务去调用
-       <!-- <region>dev</region> --> 表示全链路调用中，所有服务都调用dev区域的服务
-       <!-- <address>{"discovery-springcloud-example-a":"192.168.43.101:1100", "discovery-springcloud-example-b":"192.168.43.101:1201", "discovery-springcloud-example-c":"192.168.43.101:1300"}</address> --> 表示全链路调用中，按照配置的地址的对应服务去调用
-   </strategy>
+    <strategy>
+        <!-- 版本路由 -->
+        <version>{"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.0", "discovery-springcloud-example-c":"1.0;1.2"}</version>
+        <!-- <version>1.0</version> -->
+        <!-- 区域路由 -->
+        <region>{"discovery-springcloud-example-a":"qa;dev", "discovery-springcloud-example-b":"dev", "discovery-springcloud-example-c":"qa"}</region>
+        <!-- <region>dev</region> -->
+        <!-- IP和端口路由 -->
+        <address>{"discovery-springcloud-example-a":"192.168.43.101:1100", "discovery-springcloud-example-b":"192.168.43.101:1201", "discovery-springcloud-example-c":"192.168.43.101:1300"}</address>
+        <!-- 权重流量配置有如下四种方式，优先级分别是由高到底，即先从第一种方式取权重流量值，取不到则到第二种方式取值，以此类推，最后仍取不到则忽略。使用者按照实际情况，选择一种即可 -->
+        <!-- 版本权重路由 -->
+        <version-weight>{"discovery-springcloud-example-a":"1.0=90;1.1=10", "discovery-springcloud-example-b":"1.0=90;1.1=10", "discovery-springcloud-example-c":"1.0=90;1.1=10"}</version-weight>
+        <!-- <version-weight>1.0=90;1.1=10</version-weight> -->
+        <!-- 区域权重路由 -->
+        <region-weight>{"discovery-springcloud-example-a":"dev=85;qa=15", "discovery-springcloud-example-b":"dev=85;qa=15", "discovery-springcloud-example-c":"dev=85;qa=15"}</region-weight>
+        <!-- <region-weight>dev=85;qa=15</region-weight> -->
+    </strategy>
 2. 用法和基于Http Header头部传路由参数一致。前置是通过前端或者网关传入，后者是配置在配置文件里。让两者全部启用的时候，以前端或者网关传入Header方式优先
 ```
 :triangular_flag_on_post:注意
 路由策略的入口有三个（以{"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.0", "discovery-springcloud-example-c":"1.0;1.2"}）为例：
 1. 从外界传入（例如：Postman），在Header上加入n-d-version={"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.0", "discovery-springcloud-example-c":"1.0;1.2"}
 2. 在网关Zuul或者Spring Cloud Gateway的Filter中指定
-3. 全链路路由策略的灰度发布规则，在配置中心或者本地rule.xml配置
+3. 网关端全链路路由策略的灰度发布规则，在配置中心或者本地rule.xml配置
 
 其作用的优先级为外界传入>网关Filter指定>配置中心或者本地rule.xml配置
 
@@ -748,6 +765,10 @@ Header的Key为"n-d-version-weight"，value为：
 ### REST调用的内置区域权重灰度路由策略
 基于Feign/RestTemplate的REST调用的多区域灰度路由，在Header上传入区域流量百分比对应关系的字符串，如下表示，如果REST请求要经过两个区域，那么只需要它们区域对于流量的百分比
 Header的Key为"n-d-region-weight"，value为：
+```xml
+{"discovery-springcloud-example-a":"dev=85;qa=15", "discovery-springcloud-example-b":"dev=85;qa=15", "discovery-springcloud-example-c":"dev=85;qa=15"}
+```
+如果三个服务权重比一致，那么value的格式可以简化，不需要Json字符串，直接是
 ```xml
 dev=85;qa=15
 ```
