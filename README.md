@@ -510,7 +510,7 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
         </weight>
     </discovery>
 
-    <!-- 网关端的基于Http Header传递的策略路由 -->
+    <!-- 网关端的基于Http Header传递的策略路由，全局缺省路由 -->
     <strategy>
         <!-- 版本路由 -->
         <version>{"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.0", "discovery-springcloud-example-c":"1.0;1.2"}</version>
@@ -528,6 +528,22 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
         <region-weight>{"discovery-springcloud-example-a":"dev=85;qa=15", "discovery-springcloud-example-b":"dev=85;qa=15", "discovery-springcloud-example-c":"dev=85;qa=15"}</region-weight>
         <!-- <region-weight>dev=85;qa=15</region-weight> -->
     </strategy>
+
+    <!-- 网关端的基于Http Header传递的策略路由，客户定制化控制，跟业务参数绑定。如果不命中，则执行上面的全局缺省路由 -->
+    <strategy-customization>
+        <conditions>
+            <condition id="1" header="a=1;b=2" version-id="a" region-id="b" address-id="c" version-weight-id="d" region-weight-id="e"/>
+            <condition id="2" header="c=3" version-id="a" region-id="b"/>
+        </conditions>
+
+        <routes>
+            <route id="a" type="version">{"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.0", "discovery-springcloud-example-c":"1.0;1.2"}</route>
+            <route id="b" type="region">{"discovery-springcloud-example-a":"qa;dev", "discovery-springcloud-example-b":"dev", "discovery-springcloud-example-c":"qa"}</route>
+            <route id="c" type="address">{"discovery-springcloud-example-a":"192.168.43.101:1100", "discovery-springcloud-example-b":"192.168.43.101:1201", "discovery-springcloud-example-c":"192.168.43.101:1300"}</route>            
+            <route id="d" type="version-weight">{"discovery-springcloud-example-a":"1.0=90;1.1=10", "discovery-springcloud-example-b":"1.0=90;1.1=10", "discovery-springcloud-example-c":"1.0=90;1.1=10"}</route>
+            <route id="e" type="region-weight">{"discovery-springcloud-example-a":"dev=85;qa=15", "discovery-springcloud-example-b":"dev=85;qa=15", "discovery-springcloud-example-c":"dev=85;qa=15"}</route>
+        </routes>
+    </strategy-customization>
 
     <!-- 客户定制化控制，由远程推送客户化参数的改变，实现一些特色化的灰度发布，例如，基于数据库的灰度发布 -->
     <customization>
