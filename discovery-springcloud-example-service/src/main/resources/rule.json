@@ -82,7 +82,7 @@
             }
         }, 
         "weightFilterEntity": {
-            "weightEntityMap": {
+            "versionWeightEntityMap": {
                 "discovery-springcloud-example-b": [
                     {
                         "consumerServiceName": "discovery-springcloud-example-b", 
@@ -92,24 +92,46 @@
                             "1.1": 10
                         }
                     }
-                ], 
-                "": [
+                ]
+            }, 
+            "versionWeightEntityList": [
+                {
+                    "consumerServiceName": null, 
+                    "providerServiceName": "discovery-springcloud-example-c", 
+                    "weightMap": {
+                        "1.0": 90, 
+                        "1.1": 10
+                    }
+                }
+            ], 
+            "versionWeightEntity": {
+                "weightMap": {
+                    "1.0": 90, 
+                    "1.1": 10
+                }
+            }, 
+            "regionWeightEntityMap": {
+                "discovery-springcloud-example-b": [
                     {
-                        "consumerServiceName": "", 
+                        "consumerServiceName": "discovery-springcloud-example-b", 
                         "providerServiceName": "discovery-springcloud-example-c", 
                         "weightMap": {
-                            "1.0": 80, 
-                            "1.1": 20
+                            "dev": 85, 
+                            "qa": 15
                         }
                     }
                 ]
             }, 
-            "versionWeightEntity": {
-                "weightMap": {
-                    "1.0": 85, 
-                    "1.1": 15
+            "regionWeightEntityList": [
+                {
+                    "consumerServiceName": null, 
+                    "providerServiceName": "discovery-springcloud-example-c", 
+                    "weightMap": {
+                        "dev": 85, 
+                        "qa": 15
+                    }
                 }
-            }, 
+            ], 
             "regionWeightEntity": {
                 "weightMap": {
                     "dev": 85, 
@@ -123,7 +145,8 @@
         "regionValue": "{\"discovery-springcloud-example-a\":\"qa;dev\", \"discovery-springcloud-example-b\":\"dev\", \"discovery-springcloud-example-c\":\"qa\"}", 
         "addressValue": "{\"discovery-springcloud-example-a\":\"192.168.43.101:1100\", \"discovery-springcloud-example-b\":\"192.168.43.101:1201\", \"discovery-springcloud-example-c\":\"192.168.43.101:1300\"}", 
         "versionWeightValue": "{\"discovery-springcloud-example-a\":\"1.0=90;1.1=10\", \"discovery-springcloud-example-b\":\"1.0=90;1.1=10\", \"discovery-springcloud-example-c\":\"1.0=90;1.1=10\"}", 
-    },     
+        "regionWeightValue": "{\"discovery-springcloud-example-a\":\"dev=85;qa=15\", \"discovery-springcloud-example-b\":\"dev=85;qa=15\", \"discovery-springcloud-example-c\":\"dev=85;qa=15\"}"
+    }, 
     "customizationEntity": {
         "customizationMap": {
             "discovery-springcloud-example-a": {
