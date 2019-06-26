@@ -63,7 +63,12 @@ public class XmlConfigParser implements PluginConfigParser {
 
             Element rootElement = document.getRootElement();
 
-            return parseRoot(config, rootElement);
+            RuleEntity ruleEntity = parseRoot(config, rootElement);
+
+            // Just for Json text print
+            // System.out.println(JsonUtil.toJson(ruleEntity));
+
+            return ruleEntity;
         } catch (Exception e) {
             throw new DiscoveryException(e.getMessage(), e);
         }
