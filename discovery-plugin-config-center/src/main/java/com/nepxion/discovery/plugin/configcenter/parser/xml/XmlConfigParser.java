@@ -36,11 +36,13 @@ import com.nepxion.discovery.common.entity.StrategyConditionEntity;
 import com.nepxion.discovery.common.entity.StrategyCustomizationEntity;
 import com.nepxion.discovery.common.entity.StrategyEntity;
 import com.nepxion.discovery.common.entity.StrategyRouteEntity;
+import com.nepxion.discovery.common.entity.StrategyType;
 import com.nepxion.discovery.common.entity.VersionEntity;
 import com.nepxion.discovery.common.entity.VersionFilterEntity;
 import com.nepxion.discovery.common.entity.VersionWeightEntity;
 import com.nepxion.discovery.common.entity.WeightEntity;
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
+import com.nepxion.discovery.common.entity.WeightType;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.configcenter.constant.ConfigConstant;
@@ -490,9 +492,7 @@ public class XmlConfigParser implements PluginConfigParser {
                         throw new DiscoveryException("Attribute[" + ConfigConstant.TYPE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                     }
                     String type = typeAttribute.getData().toString().trim();
-                    if (!StringUtils.equals(type, ConfigConstant.VERSION_ELEMENT_NAME) && !StringUtils.equals(type, ConfigConstant.REGION_ELEMENT_NAME)) {
-                        throw new DiscoveryException("The value of attribute[" + ConfigConstant.TYPE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] must be '" + ConfigConstant.VERSION_ELEMENT_NAME + "' or '" + ConfigConstant.REGION_ELEMENT_NAME + "'");
-                    }
+                    WeightType weightType = WeightType.fromString(type);
 
                     Attribute consumerServiceNameAttribute = childElement.attribute(ConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME);
                     String consumerServiceName = null;
@@ -527,7 +527,7 @@ public class XmlConfigParser implements PluginConfigParser {
                     }
 
                     if (StringUtils.isNotEmpty(consumerServiceName)) {
-                        if (StringUtils.equals(type, ConfigConstant.VERSION_ELEMENT_NAME)) {
+                        if (weightType == WeightType.VERSION) {
                             List<WeightEntity> list = versionWeightEntityMap.get(consumerServiceName);
                             if (list == null) {
                                 list = new ArrayList<WeightEntity>();
@@ -535,7 +535,7 @@ public class XmlConfigParser implements PluginConfigParser {
                             }
 
                             list.add(weightEntity);
-                        } else if (StringUtils.equals(type, ConfigConstant.REGION_ELEMENT_NAME)) {
+                        } else if (weightType == WeightType.REGION) {
                             List<WeightEntity> list = regionWeightEntityMap.get(consumerServiceName);
                             if (list == null) {
                                 list = new ArrayList<WeightEntity>();
@@ -545,9 +545,9 @@ public class XmlConfigParser implements PluginConfigParser {
                             list.add(weightEntity);
                         }
                     } else {
-                        if (StringUtils.equals(type, ConfigConstant.VERSION_ELEMENT_NAME)) {
+                        if (weightType == WeightType.VERSION) {
                             versionWeightEntityList.add(weightEntity);
-                        } else if (StringUtils.equals(type, ConfigConstant.REGION_ELEMENT_NAME)) {
+                        } else if (weightType == WeightType.REGION) {
                             regionWeightEntityList.add(weightEntity);
                         }
                     }
@@ -701,10 +701,8 @@ public class XmlConfigParser implements PluginConfigParser {
                         throw new DiscoveryException("Attribute[" + ConfigConstant.TYPE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                     }
                     String type = typeAttribute.getData().toString().trim();
-                    if (!StringUtils.equals(type, ConfigConstant.VERSION_ELEMENT_NAME) && !StringUtils.equals(type, ConfigConstant.REGION_ELEMENT_NAME) && !StringUtils.equals(type, ConfigConstant.ADDRESS_ELEMENT_NAME) && !StringUtils.equals(type, ConfigConstant.VERSION_WEIGHT_ELEMENT_NAME) && !StringUtils.equals(type, ConfigConstant.REGION_WEIGHT_ELEMENT_NAME)) {
-                        throw new DiscoveryException("The value of attribute[" + ConfigConstant.TYPE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] must be '" + ConfigConstant.VERSION_ELEMENT_NAME + "' or '" + ConfigConstant.REGION_ELEMENT_NAME + "' or '" + ConfigConstant.ADDRESS_ELEMENT_NAME + "' or '" + ConfigConstant.VERSION_WEIGHT_ELEMENT_NAME + "' or '" + ConfigConstant.REGION_WEIGHT_ELEMENT_NAME + "'");
-                    }
-                    strategyRouteEntity.setType(type);
+                    StrategyType strategyType = StrategyType.fromString(type);
+                    strategyRouteEntity.setType(strategyType);
 
                     String value = childElement.getTextTrim();
                     strategyRouteEntity.setValue(value);
