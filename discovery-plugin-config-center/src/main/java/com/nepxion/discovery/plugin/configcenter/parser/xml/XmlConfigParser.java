@@ -523,9 +523,14 @@ public class XmlConfigParser implements PluginConfigParser {
                     for (String value : providerWeightValueList) {
                         String[] valueArray = StringUtils.split(value, DiscoveryConstant.EQUALS);
                         String version = valueArray[0].trim();
-                        int weight = Integer.valueOf(valueArray[1].trim());
-                        if (weight < 0) {
-                            throw new DiscoveryException("Attribute[" + ConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] has weight value less than 0");
+                        int weight = 0;
+                        try {
+                            weight = Integer.valueOf(valueArray[1].trim());
+                            if (weight < 0) {
+                                weight = 0;
+                            }
+                        } catch (NumberFormatException e) {
+
                         }
 
                         weightMap.put(version, weight);
@@ -574,9 +579,14 @@ public class XmlConfigParser implements PluginConfigParser {
                     for (String value : providerWeightValueList) {
                         String[] valueArray = StringUtils.split(value, DiscoveryConstant.EQUALS);
                         String version = valueArray[0].trim();
-                        int weight = Integer.valueOf(valueArray[1].trim());
-                        if (weight < 0) {
-                            throw new DiscoveryException("Attribute[" + ConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] has weight value less than 0");
+                        int weight = 0;
+                        try {
+                            weight = Integer.valueOf(valueArray[1].trim());
+                            if (weight < 0) {
+                                weight = 0;
+                            }
+                        } catch (NumberFormatException e) {
+
                         }
 
                         weightMap.put(version, weight);
@@ -601,9 +611,14 @@ public class XmlConfigParser implements PluginConfigParser {
                     for (String value : providerWeightValueList) {
                         String[] valueArray = StringUtils.split(value, DiscoveryConstant.EQUALS);
                         String region = valueArray[0].trim();
-                        int weight = Integer.valueOf(valueArray[1].trim());
-                        if (weight < 0) {
-                            throw new DiscoveryException("Attribute[" + ConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] has weight value less than 0");
+                        int weight = 0;
+                        try {
+                            weight = Integer.valueOf(valueArray[1].trim());
+                            if (weight < 0) {
+                                weight = 0;
+                            }
+                        } catch (NumberFormatException e) {
+
                         }
 
                         weightMap.put(region, weight);
