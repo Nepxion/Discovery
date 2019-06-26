@@ -10,8 +10,6 @@ package com.nepxion.discovery.plugin.configcenter.parser.xml;
  */
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -242,8 +240,8 @@ public class XmlConfigParser implements PluginConfigParser {
             throw new DiscoveryException("Allow only one element[" + ConfigConstant.ROUTES_ELEMENT_NAME + "] of element[" + ConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME + "] to be configed");
         }
 
-        List<StrategyConditionEntity> strategyConditionEntityList = strategyCustomizationEntity.getStrategyConditionEntityList();
-        List<StrategyRouteEntity> strategyRouteEntityList = strategyCustomizationEntity.getStrategyRouteEntityList();
+        List<StrategyConditionEntity> strategyConditionEntityList = new ArrayList<StrategyConditionEntity>();
+        List<StrategyRouteEntity> strategyRouteEntityList = new ArrayList<StrategyRouteEntity>();
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
             if (childElementObject instanceof Element) {
@@ -256,6 +254,9 @@ public class XmlConfigParser implements PluginConfigParser {
                 }
             }
         }
+
+        strategyCustomizationEntity.setStrategyConditionEntityList(strategyConditionEntityList);
+        strategyCustomizationEntity.setStrategyRouteEntityList(strategyRouteEntityList);
     }
 
     @SuppressWarnings("rawtypes")
@@ -676,16 +677,6 @@ public class XmlConfigParser implements PluginConfigParser {
                 }
             }
         }
-
-        // Header参数越多，越排在前面
-        Collections.sort(strategyConditionEntityList, new Comparator<StrategyConditionEntity>() {
-            public int compare(StrategyConditionEntity object1, StrategyConditionEntity object2) {
-                Integer count1 = object1.getHeaderMap().size();
-                Integer count2 = object2.getHeaderMap().size();
-
-                return count2.compareTo(count1);
-            }
-        });
     }
 
     @SuppressWarnings("rawtypes")
