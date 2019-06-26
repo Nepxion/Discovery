@@ -546,6 +546,18 @@
 								"value": "lisi",
 								"type": "text",
 								"disabled": true
+							},
+							{
+								"key": "a",
+								"value": "1",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "b",
+								"value": "2",
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"url": {
@@ -602,6 +614,18 @@
 							{
 								"key": "user",
 								"value": "zhangsan",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "a",
+								"value": "1",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "b",
+								"value": "2",
 								"type": "text",
 								"disabled": true
 							}
