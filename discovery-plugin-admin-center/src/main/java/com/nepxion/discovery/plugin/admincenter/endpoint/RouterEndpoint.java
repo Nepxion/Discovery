@@ -44,12 +44,12 @@ import com.nepxion.discovery.common.entity.RouterEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.VersionWeightEntity;
 import com.nepxion.discovery.common.entity.WeightEntity;
+import com.nepxion.discovery.common.entity.WeightEntityWrapper;
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.common.util.UrlUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.framework.loadbalance.weight.WeightRandomLoadBalanceUtil;
 
 @RestController
 @RequestMapping(path = "/router")
@@ -292,22 +292,22 @@ public class RouterEndpoint implements MvcEndpoint {
         RegionWeightEntity regionWeightEntity = weightFilterEntity.getRegionWeightEntity();
 
         String serviceId = pluginAdapter.getServiceId();
-        int weight = WeightRandomLoadBalanceUtil.getVersionWeight(serviceId, providerServiceId, providerVersion, versionWeightEntityMap);
+        int weight = WeightEntityWrapper.getWeight(serviceId, providerServiceId, providerVersion, versionWeightEntityMap);
         if (weight < 0) {
-            weight = WeightRandomLoadBalanceUtil.getVersionWeight(providerServiceId, providerVersion, versionWeightEntityList);
+            weight = WeightEntityWrapper.getWeight(providerServiceId, providerVersion, versionWeightEntityList);
         }
         if (weight < 0) {
-            weight = WeightRandomLoadBalanceUtil.getVersionWeight(providerVersion, versionWeightEntity);
+            weight = WeightEntityWrapper.getWeight(providerVersion, versionWeightEntity);
         }
 
         if (weight < 0) {
-            weight = WeightRandomLoadBalanceUtil.getRegionWeight(serviceId, providerServiceId, providerRegion, regionWeightEntityMap);
+            weight = WeightEntityWrapper.getWeight(serviceId, providerServiceId, providerRegion, regionWeightEntityMap);
         }
         if (weight < 0) {
-            weight = WeightRandomLoadBalanceUtil.getRegionWeight(providerServiceId, providerRegion, regionWeightEntityList);
+            weight = WeightEntityWrapper.getWeight(providerServiceId, providerRegion, regionWeightEntityList);
         }
         if (weight < 0) {
-            weight = WeightRandomLoadBalanceUtil.getRegionWeight(providerRegion, regionWeightEntity);
+            weight = WeightEntityWrapper.getWeight(providerRegion, regionWeightEntity);
         }
 
         return weight;

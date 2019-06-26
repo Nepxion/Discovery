@@ -85,23 +85,25 @@
             "versionWeightEntityMap": {
                 "discovery-springcloud-example-b": [
                     {
-                        "consumerServiceName": "discovery-springcloud-example-b", 
-                        "providerServiceName": "discovery-springcloud-example-c", 
                         "weightMap": {
                             "1.0": 90, 
                             "1.1": 10
-                        }
+                        }, 
+                        "consumerServiceName": "discovery-springcloud-example-b", 
+                        "providerServiceName": "discovery-springcloud-example-c", 
+                        "type": "VERSION"
                     }
                 ]
             }, 
             "versionWeightEntityList": [
                 {
-                    "consumerServiceName": null, 
-                    "providerServiceName": "discovery-springcloud-example-c", 
                     "weightMap": {
                         "1.0": 90, 
                         "1.1": 10
-                    }
+                    }, 
+                    "consumerServiceName": null, 
+                    "providerServiceName": "discovery-springcloud-example-c", 
+                    "type": "VERSION"
                 }
             ], 
             "versionWeightEntity": {
@@ -113,23 +115,25 @@
             "regionWeightEntityMap": {
                 "discovery-springcloud-example-b": [
                     {
-                        "consumerServiceName": "discovery-springcloud-example-b", 
-                        "providerServiceName": "discovery-springcloud-example-c", 
                         "weightMap": {
                             "dev": 85, 
                             "qa": 15
-                        }
+                        }, 
+                        "consumerServiceName": "discovery-springcloud-example-b", 
+                        "providerServiceName": "discovery-springcloud-example-c", 
+                        "type": "REGION"
                     }
                 ]
             }, 
             "regionWeightEntityList": [
                 {
-                    "consumerServiceName": null, 
-                    "providerServiceName": "discovery-springcloud-example-c", 
                     "weightMap": {
                         "dev": 85, 
                         "qa": 15
-                    }
+                    }, 
+                    "consumerServiceName": null, 
+                    "providerServiceName": "discovery-springcloud-example-c", 
+                    "type": "REGION"
                 }
             ], 
             "regionWeightEntity": {
