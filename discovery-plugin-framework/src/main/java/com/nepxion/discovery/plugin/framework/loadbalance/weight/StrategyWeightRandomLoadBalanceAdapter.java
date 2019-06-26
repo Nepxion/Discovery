@@ -10,7 +10,6 @@ package com.nepxion.discovery.plugin.framework.loadbalance.weight;
  */
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -51,7 +50,7 @@ public class StrategyWeightRandomLoadBalanceAdapter extends AbstractWeightRandom
                     WeightEntity weightEntity = new WeightEntity();
                     weightEntity.setProviderServiceName(providerServiceName);
 
-                    Map<String, Integer> weightMap = new LinkedHashMap<String, Integer>();
+                    Map<String, Integer> weightMap = weightEntity.getWeightMap();
                     List<String> providerWeightValueList = StringUtil.splitToList(providerWeightValue, DiscoveryConstant.SEPARATE);
                     for (String value : providerWeightValueList) {
                         String[] valueArray = StringUtils.split(value, DiscoveryConstant.EQUALS);
@@ -63,7 +62,6 @@ public class StrategyWeightRandomLoadBalanceAdapter extends AbstractWeightRandom
 
                         weightMap.put(version, weight);
                     }
-                    weightEntity.setWeightMap(weightMap);
 
                     weightEntityList.add(weightEntity);
                 }
@@ -72,7 +70,7 @@ public class StrategyWeightRandomLoadBalanceAdapter extends AbstractWeightRandom
             } catch (Exception e) {
                 VersionWeightEntity versionWeightEntity = new VersionWeightEntity();
 
-                Map<String, Integer> weightMap = new LinkedHashMap<String, Integer>();
+                Map<String, Integer> weightMap = versionWeightEntity.getWeightMap();
                 List<String> providerWeightValueList = StringUtil.splitToList(versionWeightValue, DiscoveryConstant.SEPARATE);
                 for (String value : providerWeightValueList) {
                     String[] valueArray = StringUtils.split(value, DiscoveryConstant.EQUALS);
@@ -84,7 +82,6 @@ public class StrategyWeightRandomLoadBalanceAdapter extends AbstractWeightRandom
 
                     weightMap.put(version, weight);
                 }
-                versionWeightEntity.setWeightMap(weightMap);
 
                 weightFilterEntity.setVersionWeightEntity(versionWeightEntity);
             }
@@ -103,7 +100,7 @@ public class StrategyWeightRandomLoadBalanceAdapter extends AbstractWeightRandom
                     WeightEntity weightEntity = new WeightEntity();
                     weightEntity.setProviderServiceName(providerServiceName);
 
-                    Map<String, Integer> weightMap = new LinkedHashMap<String, Integer>();
+                    Map<String, Integer> weightMap = weightEntity.getWeightMap();
                     List<String> providerWeightValueList = StringUtil.splitToList(providerWeightValue, DiscoveryConstant.SEPARATE);
                     for (String value : providerWeightValueList) {
                         String[] valueArray = StringUtils.split(value, DiscoveryConstant.EQUALS);
@@ -115,7 +112,6 @@ public class StrategyWeightRandomLoadBalanceAdapter extends AbstractWeightRandom
 
                         weightMap.put(region, weight);
                     }
-                    weightEntity.setWeightMap(weightMap);
 
                     weightEntityList.add(weightEntity);
                 }
@@ -124,7 +120,7 @@ public class StrategyWeightRandomLoadBalanceAdapter extends AbstractWeightRandom
             } catch (Exception e) {
                 RegionWeightEntity regionWeightEntity = new RegionWeightEntity();
 
-                Map<String, Integer> weightMap = new LinkedHashMap<String, Integer>();
+                Map<String, Integer> weightMap = regionWeightEntity.getWeightMap();
                 List<String> providerWeightValueList = StringUtil.splitToList(regionWeightValue, DiscoveryConstant.SEPARATE);
                 for (String value : providerWeightValueList) {
                     String[] valueArray = StringUtils.split(value, DiscoveryConstant.EQUALS);
@@ -136,7 +132,6 @@ public class StrategyWeightRandomLoadBalanceAdapter extends AbstractWeightRandom
 
                     weightMap.put(region, weight);
                 }
-                regionWeightEntity.setWeightMap(weightMap);
 
                 weightFilterEntity.setRegionWeightEntity(regionWeightEntity);
             }
