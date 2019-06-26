@@ -30,16 +30,16 @@ public class GatewayStrategyFilter implements GlobalFilter, Ordered {
     private ConfigurableEnvironment environment;
 
     @Override
+    public int getOrder() {
+        return environment.getProperty(GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_ROUTE_FILTER_ORDER, Integer.class, GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_ROUTE_FILTER_ORDER_VALUE) - 1;
+    }
+
+    @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         LOG.debug("Gateway strategy context is set with {}", exchange);
 
         GatewayStrategyContext.getCurrentContext().setExchange(exchange);
 
         return chain.filter(exchange);
-    }
-
-    @Override
-    public int getOrder() {
-        return environment.getProperty(GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_ROUTE_FILTER_ORDER, Integer.class, GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_ROUTE_FILTER_ORDER_VALUE) - 1;
     }
 }
