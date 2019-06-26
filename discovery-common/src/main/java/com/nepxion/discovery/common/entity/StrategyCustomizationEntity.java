@@ -10,7 +10,8 @@ package com.nepxion.discovery.common.entity;
  */
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -21,8 +22,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class StrategyCustomizationEntity implements Serializable {
     private static final long serialVersionUID = 4903833660194433964L;
 
-    private List<StrategyConditionEntity> strategyConditionEntityList = new ArrayList<StrategyConditionEntity>();
-    private List<StrategyRouteEntity> strategyRouteEntityList = new ArrayList<StrategyRouteEntity>();
+    private List<StrategyConditionEntity> strategyConditionEntityList;
+    private List<StrategyRouteEntity> strategyRouteEntityList;
 
     public List<StrategyConditionEntity> getStrategyConditionEntityList() {
         return strategyConditionEntityList;
@@ -38,6 +39,16 @@ public class StrategyCustomizationEntity implements Serializable {
 
     public void setStrategyRouteEntityList(List<StrategyRouteEntity> strategyRouteEntityList) {
         this.strategyRouteEntityList = strategyRouteEntityList;
+        
+        // Header参数越多，越排在前面
+        Collections.sort(this.strategyConditionEntityList, new Comparator<StrategyConditionEntity>() {
+            public int compare(StrategyConditionEntity object1, StrategyConditionEntity object2) {
+                Integer count1 = object1.getHeaderMap().size();
+                Integer count2 = object2.getHeaderMap().size();
+
+                return count2.compareTo(count1);
+            }
+        });
     }
 
     @Override
