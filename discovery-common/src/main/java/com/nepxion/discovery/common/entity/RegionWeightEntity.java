@@ -10,6 +10,7 @@ package com.nepxion.discovery.common.entity;
  */
 
 import java.io.Serializable;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -20,7 +21,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class RegionWeightEntity implements Serializable {
     private static final long serialVersionUID = 3356648245119125011L;
 
-    private Map<String, Integer> weightMap;
+    private Map<String, Integer> weightMap = new LinkedHashMap<String, Integer>();
 
     public Map<String, Integer> getWeightMap() {
         return weightMap;

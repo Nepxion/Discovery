@@ -10,6 +10,7 @@ package com.nepxion.discovery.common.entity;
  */
 
 import java.io.Serializable;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -22,7 +23,7 @@ public class WeightEntity implements Serializable {
 
     private String consumerServiceName;
     private String providerServiceName;
-    private Map<String, Integer> weightMap;
+    private Map<String, Integer> weightMap = new LinkedHashMap<String, Integer>();
 
     public String getConsumerServiceName() {
         return consumerServiceName;

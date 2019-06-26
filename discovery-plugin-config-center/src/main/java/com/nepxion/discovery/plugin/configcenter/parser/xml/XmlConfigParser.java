@@ -83,6 +83,16 @@ public class XmlConfigParser implements PluginConfigParser {
             throw new DiscoveryException("Allow only one element[" + ConfigConstant.DISCOVERY_ELEMENT_NAME + "] to be configed");
         }
 
+        int strategyElementCount = element.elements(ConfigConstant.STRATEGY_ELEMENT_NAME).size();
+        if (strategyElementCount > 1) {
+            throw new DiscoveryException("Allow only one element[" + ConfigConstant.STRATEGY_ELEMENT_NAME + "] to be configed");
+        }
+
+        int strategyCustomizationElementCount = element.elements(ConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME).size();
+        if (strategyCustomizationElementCount > 1) {
+            throw new DiscoveryException("Allow only one element[" + ConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME + "] to be configed");
+        }
+
         int customizationElementCount = element.elements(ConfigConstant.CUSTOMIZATION_ELEMENT_NAME).size();
         if (customizationElementCount > 1) {
             throw new DiscoveryException("Allow only one element[" + ConfigConstant.CUSTOMIZATION_ELEMENT_NAME + "] to be configed");
@@ -170,6 +180,31 @@ public class XmlConfigParser implements PluginConfigParser {
 
     @SuppressWarnings("rawtypes")
     private void parseStrategy(Element element, StrategyEntity strategyEntity) {
+        int versionElementCount = element.elements(ConfigConstant.VERSION_ELEMENT_NAME).size();
+        if (versionElementCount > 1) {
+            throw new DiscoveryException("Allow only one element[" + ConfigConstant.VERSION_ELEMENT_NAME + "] of element[" + ConfigConstant.STRATEGY_ELEMENT_NAME + "] to be configed");
+        }
+
+        int regionElementCount = element.elements(ConfigConstant.REGION_ELEMENT_NAME).size();
+        if (regionElementCount > 1) {
+            throw new DiscoveryException("Allow only one element[" + ConfigConstant.REGION_ELEMENT_NAME + "] of element[" + ConfigConstant.STRATEGY_ELEMENT_NAME + "] to be configed");
+        }
+
+        int addressElementCount = element.elements(ConfigConstant.ADDRESS_ELEMENT_NAME).size();
+        if (addressElementCount > 1) {
+            throw new DiscoveryException("Allow only one element[" + ConfigConstant.ADDRESS_ELEMENT_NAME + "] of element[" + ConfigConstant.STRATEGY_ELEMENT_NAME + "] to be configed");
+        }
+
+        int versionWeightElementCount = element.elements(ConfigConstant.VERSION_WEIGHT_ELEMENT_NAME).size();
+        if (versionWeightElementCount > 1) {
+            throw new DiscoveryException("Allow only one element[" + ConfigConstant.VERSION_WEIGHT_ELEMENT_NAME + "] of element[" + ConfigConstant.STRATEGY_ELEMENT_NAME + "] to be configed");
+        }
+
+        int regionWeightElementCount = element.elements(ConfigConstant.REGION_WEIGHT_ELEMENT_NAME).size();
+        if (regionWeightElementCount > 1) {
+            throw new DiscoveryException("Allow only one element[" + ConfigConstant.REGION_WEIGHT_ELEMENT_NAME + "] of element[" + ConfigConstant.STRATEGY_ELEMENT_NAME + "] to be configed");
+        }
+
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
             if (childElementObject instanceof Element) {
@@ -197,6 +232,16 @@ public class XmlConfigParser implements PluginConfigParser {
 
     @SuppressWarnings("rawtypes")
     private void parseStrategyCustomization(Element element, StrategyCustomizationEntity strategyCustomizationEntity) {
+        int conditionsElementCount = element.elements(ConfigConstant.CONDITIONS_ELEMENT_NAME).size();
+        if (conditionsElementCount > 1) {
+            throw new DiscoveryException("Allow only one element[" + ConfigConstant.CONDITIONS_ELEMENT_NAME + "] of element[" + ConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME + "] to be configed");
+        }
+
+        int routesElementCount = element.elements(ConfigConstant.ROUTES_ELEMENT_NAME).size();
+        if (routesElementCount > 1) {
+            throw new DiscoveryException("Allow only one element[" + ConfigConstant.ROUTES_ELEMENT_NAME + "] of element[" + ConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME + "] to be configed");
+        }
+
         List<StrategyConditionEntity> strategyConditionEntityList = strategyCustomizationEntity.getStrategyConditionEntityList();
         List<StrategyRouteEntity> strategyRouteEntityList = strategyCustomizationEntity.getStrategyRouteEntityList();
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
@@ -467,7 +512,7 @@ public class XmlConfigParser implements PluginConfigParser {
                         throw new DiscoveryException("Attribute[" + ConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                     }
                     String providerWeightValue = providerWeightValueAttribute.getData().toString().trim();
-                    Map<String, Integer> weightMap = new LinkedHashMap<String, Integer>();
+                    Map<String, Integer> weightMap = weightEntity.getWeightMap();
                     List<String> providerWeightValueList = StringUtil.splitToList(providerWeightValue, DiscoveryConstant.SEPARATE);
                     for (String value : providerWeightValueList) {
                         String[] valueArray = StringUtils.split(value, DiscoveryConstant.EQUALS);
@@ -479,7 +524,6 @@ public class XmlConfigParser implements PluginConfigParser {
 
                         weightMap.put(version, weight);
                     }
-                    weightEntity.setWeightMap(weightMap);
 
                     if (StringUtils.isNotEmpty(consumerServiceName)) {
                         if (StringUtils.equals(type, ConfigConstant.VERSION_ELEMENT_NAME)) {
@@ -519,7 +563,7 @@ public class XmlConfigParser implements PluginConfigParser {
                         throw new DiscoveryException("Attribute[" + ConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                     }
                     String providerWeightValue = providerWeightValueAttribute.getData().toString().trim();
-                    Map<String, Integer> weightMap = new LinkedHashMap<String, Integer>();
+                    Map<String, Integer> weightMap = versionWeightEntity.getWeightMap();
                     List<String> providerWeightValueList = StringUtil.splitToList(providerWeightValue, DiscoveryConstant.SEPARATE);
                     for (String value : providerWeightValueList) {
                         String[] valueArray = StringUtils.split(value, DiscoveryConstant.EQUALS);
@@ -531,7 +575,6 @@ public class XmlConfigParser implements PluginConfigParser {
 
                         weightMap.put(version, weight);
                     }
-                    versionWeightEntity.setWeightMap(weightMap);
 
                     weightFilterEntity.setVersionWeightEntity(versionWeightEntity);
                 } else if (StringUtils.equals(childElement.getName(), ConfigConstant.REGION_ELEMENT_NAME)) {
@@ -547,7 +590,7 @@ public class XmlConfigParser implements PluginConfigParser {
                         throw new DiscoveryException("Attribute[" + ConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                     }
                     String providerWeightValue = providerWeightValueAttribute.getData().toString().trim();
-                    Map<String, Integer> weightMap = new LinkedHashMap<String, Integer>();
+                    Map<String, Integer> weightMap = regionWeightEntity.getWeightMap();
                     List<String> providerWeightValueList = StringUtil.splitToList(providerWeightValue, DiscoveryConstant.SEPARATE);
                     for (String value : providerWeightValueList) {
                         String[] valueArray = StringUtils.split(value, DiscoveryConstant.EQUALS);
@@ -559,7 +602,6 @@ public class XmlConfigParser implements PluginConfigParser {
 
                         weightMap.put(region, weight);
                     }
-                    regionWeightEntity.setWeightMap(weightMap);
 
                     weightFilterEntity.setRegionWeightEntity(regionWeightEntity);
                 }
