@@ -20,7 +20,6 @@ import com.nepxion.discovery.common.entity.RegionWeightEntity;
 import com.nepxion.discovery.common.entity.VersionWeightEntity;
 import com.nepxion.discovery.common.entity.WeightEntity;
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
-import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
@@ -55,9 +54,14 @@ public class StrategyWeightRandomLoadBalanceAdapter extends AbstractWeightRandom
                     for (String value : providerWeightValueList) {
                         String[] valueArray = StringUtils.split(value, DiscoveryConstant.EQUALS);
                         String version = valueArray[0].trim();
-                        int weight = Integer.valueOf(valueArray[1].trim());
-                        if (weight < 0) {
-                            throw new DiscoveryException("Service name=[" + providerServiceName + "] version=[" + version + "] has weight value less than 0");
+                        int weight = 0;
+                        try {
+                            weight = Integer.valueOf(valueArray[1].trim());
+                            if (weight < 0) {
+                                weight = 0;
+                            }
+                        } catch (NumberFormatException e) {
+
                         }
 
                         weightMap.put(version, weight);
@@ -75,9 +79,14 @@ public class StrategyWeightRandomLoadBalanceAdapter extends AbstractWeightRandom
                 for (String value : providerWeightValueList) {
                     String[] valueArray = StringUtils.split(value, DiscoveryConstant.EQUALS);
                     String version = valueArray[0].trim();
-                    int weight = Integer.valueOf(valueArray[1].trim());
-                    if (weight < 0) {
-                        throw new DiscoveryException("Version=[" + version + "] has weight value less than 0");
+                    int weight = 0;
+                    try {
+                        weight = Integer.valueOf(valueArray[1].trim());
+                        if (weight < 0) {
+                            weight = 0;
+                        }
+                    } catch (NumberFormatException ex) {
+
                     }
 
                     weightMap.put(version, weight);
@@ -105,9 +114,14 @@ public class StrategyWeightRandomLoadBalanceAdapter extends AbstractWeightRandom
                     for (String value : providerWeightValueList) {
                         String[] valueArray = StringUtils.split(value, DiscoveryConstant.EQUALS);
                         String region = valueArray[0].trim();
-                        int weight = Integer.valueOf(valueArray[1].trim());
-                        if (weight < 0) {
-                            throw new DiscoveryException("Service name=[" + providerServiceName + "] region=[" + region + "] has weight value less than 0");
+                        int weight = 0;
+                        try {
+                            weight = Integer.valueOf(valueArray[1].trim());
+                            if (weight < 0) {
+                                weight = 0;
+                            }
+                        } catch (NumberFormatException e) {
+
                         }
 
                         weightMap.put(region, weight);
@@ -125,9 +139,14 @@ public class StrategyWeightRandomLoadBalanceAdapter extends AbstractWeightRandom
                 for (String value : providerWeightValueList) {
                     String[] valueArray = StringUtils.split(value, DiscoveryConstant.EQUALS);
                     String region = valueArray[0].trim();
-                    int weight = Integer.valueOf(valueArray[1].trim());
-                    if (weight < 0) {
-                        throw new DiscoveryException("Region=[" + region + "] has weight value less than 0");
+                    int weight = 0;
+                    try {
+                        weight = Integer.valueOf(valueArray[1].trim());
+                        if (weight < 0) {
+                            weight = 0;
+                        }
+                    } catch (NumberFormatException ex) {
+
                     }
 
                     weightMap.put(region, weight);
