@@ -41,6 +41,7 @@ import com.nepxion.discovery.common.entity.VersionEntity;
 import com.nepxion.discovery.common.entity.VersionFilterEntity;
 import com.nepxion.discovery.common.entity.VersionWeightEntity;
 import com.nepxion.discovery.common.entity.WeightEntity;
+import com.nepxion.discovery.common.entity.WeightEntityWrapper;
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
 import com.nepxion.discovery.common.entity.WeightType;
 import com.nepxion.discovery.common.exception.DiscoveryException;
@@ -498,6 +499,7 @@ public class XmlConfigParser implements PluginConfigParser {
                     }
                     String type = typeAttribute.getData().toString().trim();
                     WeightType weightType = WeightType.fromString(type);
+                    weightEntity.setType(weightType);
 
                     Attribute consumerServiceNameAttribute = childElement.attribute(ConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME);
                     String consumerServiceName = null;
@@ -518,23 +520,8 @@ public class XmlConfigParser implements PluginConfigParser {
                         throw new DiscoveryException("Attribute[" + ConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                     }
                     String providerWeightValue = providerWeightValueAttribute.getData().toString().trim();
-                    Map<String, Integer> weightMap = weightEntity.getWeightMap();
-                    List<String> providerWeightValueList = StringUtil.splitToList(providerWeightValue, DiscoveryConstant.SEPARATE);
-                    for (String value : providerWeightValueList) {
-                        String[] valueArray = StringUtils.split(value, DiscoveryConstant.EQUALS);
-                        String version = valueArray[0].trim();
-                        int weight = 0;
-                        try {
-                            weight = Integer.valueOf(valueArray[1].trim());
-                            if (weight < 0) {
-                                weight = 0;
-                            }
-                        } catch (NumberFormatException e) {
 
-                        }
-
-                        weightMap.put(version, weight);
-                    }
+                    WeightEntityWrapper.parseWeightEntity(weightEntity, providerWeightValue);
 
                     if (StringUtils.isNotEmpty(consumerServiceName)) {
                         if (weightType == WeightType.VERSION) {
@@ -574,23 +561,8 @@ public class XmlConfigParser implements PluginConfigParser {
                         throw new DiscoveryException("Attribute[" + ConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                     }
                     String providerWeightValue = providerWeightValueAttribute.getData().toString().trim();
-                    Map<String, Integer> weightMap = versionWeightEntity.getWeightMap();
-                    List<String> providerWeightValueList = StringUtil.splitToList(providerWeightValue, DiscoveryConstant.SEPARATE);
-                    for (String value : providerWeightValueList) {
-                        String[] valueArray = StringUtils.split(value, DiscoveryConstant.EQUALS);
-                        String version = valueArray[0].trim();
-                        int weight = 0;
-                        try {
-                            weight = Integer.valueOf(valueArray[1].trim());
-                            if (weight < 0) {
-                                weight = 0;
-                            }
-                        } catch (NumberFormatException e) {
 
-                        }
-
-                        weightMap.put(version, weight);
-                    }
+                    WeightEntityWrapper.parseWeightEntity(versionWeightEntity, providerWeightValue);
 
                     weightFilterEntity.setVersionWeightEntity(versionWeightEntity);
                 } else if (StringUtils.equals(childElement.getName(), ConfigConstant.REGION_ELEMENT_NAME)) {
@@ -606,23 +578,8 @@ public class XmlConfigParser implements PluginConfigParser {
                         throw new DiscoveryException("Attribute[" + ConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                     }
                     String providerWeightValue = providerWeightValueAttribute.getData().toString().trim();
-                    Map<String, Integer> weightMap = regionWeightEntity.getWeightMap();
-                    List<String> providerWeightValueList = StringUtil.splitToList(providerWeightValue, DiscoveryConstant.SEPARATE);
-                    for (String value : providerWeightValueList) {
-                        String[] valueArray = StringUtils.split(value, DiscoveryConstant.EQUALS);
-                        String region = valueArray[0].trim();
-                        int weight = 0;
-                        try {
-                            weight = Integer.valueOf(valueArray[1].trim());
-                            if (weight < 0) {
-                                weight = 0;
-                            }
-                        } catch (NumberFormatException e) {
 
-                        }
-
-                        weightMap.put(region, weight);
-                    }
+                    WeightEntityWrapper.parseWeightEntity(regionWeightEntity, providerWeightValue);
 
                     weightFilterEntity.setRegionWeightEntity(regionWeightEntity);
                 }
