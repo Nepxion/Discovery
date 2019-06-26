@@ -49,7 +49,7 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GlobalFilter
         String routeVersionWeight = getRouteVersionWeight();
         String routeRegionWeight = getRouteRegionWeight();
 
-        // 通过过滤器设置路由Header头部信息，来取代界面（Postman）上的设置，并全链路传递到服务端
+        // 通过过滤器设置路由Header头部信息，并全链路传递到服务端。如果外界也传了相同的Header，例如，从Postman传递过来的Header，那么以外界的优先
         ServerHttpRequest.Builder requestBuilder = exchange.getRequest().mutate();
         if (StringUtils.isNotEmpty(routeVersion)) {
             requestBuilder.header(DiscoveryConstant.N_D_VERSION, routeVersion);
