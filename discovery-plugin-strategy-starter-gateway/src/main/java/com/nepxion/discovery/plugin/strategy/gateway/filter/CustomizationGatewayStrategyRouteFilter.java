@@ -27,9 +27,9 @@ public class CustomizationGatewayStrategyRouteFilter extends DefaultGatewayStrat
         StrategyConditionEntity strategyConditionEntity = getTriggeredStrategyConditionEntity();
         if (strategyConditionEntity != null) {
             String versionId = strategyConditionEntity.getVersionId();
-            StrategyRouteEntity StrategyRouteEntity = getTriggeredStrategyRouteEntity(versionId, DiscoveryConstant.VERSION);
-            if (StrategyRouteEntity != null) {
-                return StrategyRouteEntity.getValue();
+            StrategyRouteEntity strategyRouteEntity = getTriggeredStrategyRouteEntity(versionId, DiscoveryConstant.VERSION);
+            if (strategyRouteEntity != null) {
+                return strategyRouteEntity.getValue();
             }
         }
 
@@ -42,9 +42,9 @@ public class CustomizationGatewayStrategyRouteFilter extends DefaultGatewayStrat
         StrategyConditionEntity strategyConditionEntity = getTriggeredStrategyConditionEntity();
         if (strategyConditionEntity != null) {
             String regionId = strategyConditionEntity.getRegionId();
-            StrategyRouteEntity StrategyRouteEntity = getTriggeredStrategyRouteEntity(regionId, DiscoveryConstant.REGION);
-            if (StrategyRouteEntity != null) {
-                return StrategyRouteEntity.getValue();
+            StrategyRouteEntity strategyRouteEntity = getTriggeredStrategyRouteEntity(regionId, DiscoveryConstant.REGION);
+            if (strategyRouteEntity != null) {
+                return strategyRouteEntity.getValue();
             }
         }
 
@@ -57,9 +57,9 @@ public class CustomizationGatewayStrategyRouteFilter extends DefaultGatewayStrat
         StrategyConditionEntity strategyConditionEntity = getTriggeredStrategyConditionEntity();
         if (strategyConditionEntity != null) {
             String addressId = strategyConditionEntity.getAddressId();
-            StrategyRouteEntity StrategyRouteEntity = getTriggeredStrategyRouteEntity(addressId, DiscoveryConstant.ADDRESS);
-            if (StrategyRouteEntity != null) {
-                return StrategyRouteEntity.getValue();
+            StrategyRouteEntity strategyRouteEntity = getTriggeredStrategyRouteEntity(addressId, DiscoveryConstant.ADDRESS);
+            if (strategyRouteEntity != null) {
+                return strategyRouteEntity.getValue();
             }
         }
 
@@ -72,9 +72,9 @@ public class CustomizationGatewayStrategyRouteFilter extends DefaultGatewayStrat
         StrategyConditionEntity strategyConditionEntity = getTriggeredStrategyConditionEntity();
         if (strategyConditionEntity != null) {
             String versionWeightId = strategyConditionEntity.getVersionWeightId();
-            StrategyRouteEntity StrategyRouteEntity = getTriggeredStrategyRouteEntity(versionWeightId, DiscoveryConstant.VERSION_WEIGHT);
-            if (StrategyRouteEntity != null) {
-                return StrategyRouteEntity.getValue();
+            StrategyRouteEntity strategyRouteEntity = getTriggeredStrategyRouteEntity(versionWeightId, DiscoveryConstant.VERSION_WEIGHT);
+            if (strategyRouteEntity != null) {
+                return strategyRouteEntity.getValue();
             }
         }
 
@@ -87,9 +87,9 @@ public class CustomizationGatewayStrategyRouteFilter extends DefaultGatewayStrat
         StrategyConditionEntity strategyConditionEntity = getTriggeredStrategyConditionEntity();
         if (strategyConditionEntity != null) {
             String regionWeightId = strategyConditionEntity.getRegionWeightId();
-            StrategyRouteEntity StrategyRouteEntity = getTriggeredStrategyRouteEntity(regionWeightId, DiscoveryConstant.REGION_WEIGHT);
-            if (StrategyRouteEntity != null) {
-                return StrategyRouteEntity.getValue();
+            StrategyRouteEntity strategyRouteEntity = getTriggeredStrategyRouteEntity(regionWeightId, DiscoveryConstant.REGION_WEIGHT);
+            if (strategyRouteEntity != null) {
+                return strategyRouteEntity.getValue();
             }
         }
 
