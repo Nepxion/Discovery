@@ -11,18 +11,21 @@ package com.nepxion.discovery.plugin.example.service.sentinel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cloud.alibaba.sentinel.rest.SentinelClientHttpResponse;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.client.ClientHttpRequestExecution;
 
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 
 public class MyRestTemplateBlockHandler {
     private static final Logger LOG = LoggerFactory.getLogger(MyRestTemplateBlockHandler.class);
 
-    public static String handleBlock(String value, BlockException e) {
-        LOG.info("Value={}", value);
+    public static SentinelClientHttpResponse handleBlock(HttpRequest request, byte[] body, ClientHttpRequestExecution execution, BlockException e) {
         LOG.info("Sentinel RestTemplate Client Block Causes");
         LOG.error("Sentinel RestTemplate Client Block Exception", e);
         LOG.info("Sentinel Rule Limit App={}", e.getRuleLimitApp());
-        
-        return "Sentinel RestTemplate Client Block Causes";
+        LOG.info("Sentinel Exception Name={}", e.getClass().getCanonicalName());
+
+        return new SentinelClientHttpResponse("Sentinel RestTemplate Client Block Causes");
     }
 }

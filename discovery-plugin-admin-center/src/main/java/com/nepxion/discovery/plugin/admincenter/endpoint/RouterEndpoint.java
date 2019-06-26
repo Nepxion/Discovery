@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.web.annotation.RestControllerEndpoint;
@@ -38,17 +37,18 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.common.entity.CustomizationEntity;
 import com.nepxion.discovery.common.entity.DiscoveryEntity;
 import com.nepxion.discovery.common.entity.RegionWeightEntity;
 import com.nepxion.discovery.common.entity.RouterEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.VersionWeightEntity;
 import com.nepxion.discovery.common.entity.WeightEntity;
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.common.util.UrlUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
+import com.nepxion.discovery.plugin.framework.loadbalance.weight.WeightRandomLoadBalanceUtil;
 
 @RestController
 @RequestMapping(path = "/router")
@@ -128,7 +128,6 @@ public class RouterEndpoint {
         String host = pluginAdapter.getHost();
         int port = pluginAdapter.getPort();
         int weight = getWeight(serviceId, version, region);
-        Map<String, String> customMap = getCustomMap(serviceId);
         String contextPath = pluginAdapter.getContextPath();
 
         RouterEntity routerEntity = new RouterEntity();
@@ -138,7 +137,6 @@ public class RouterEndpoint {
         routerEntity.setHost(host);
         routerEntity.setPort(port);
         routerEntity.setWeight(weight);
-        routerEntity.setCustomMap(customMap);
         routerEntity.setContextPath(contextPath);
 
         return routerEntity;
@@ -166,7 +164,6 @@ public class RouterEndpoint {
             String host = instance.getHost();
             int port = instance.getPort();
             int weight = getWeight(routeServiceId, version, region);
-            Map<String, String> customMap = getCustomMap(serviceId);
             String contextPath = metadata.get(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH);
 
             RouterEntity routerEntity = new RouterEntity();
@@ -176,7 +173,6 @@ public class RouterEndpoint {
             routerEntity.setHost(host);
             routerEntity.setPort(port);
             routerEntity.setWeight(weight);
-            routerEntity.setCustomMap(customMap);
             routerEntity.setContextPath(contextPath);
 
             routerEntityList.add(routerEntity);
@@ -283,98 +279,37 @@ public class RouterEndpoint {
         }
 
         WeightFilterEntity weightFilterEntity = discoveryEntity.getWeightFilterEntity();
-        if (weightFilterEntity == null) {
+        if (weightFilterEntity == null || !weightFilterEntity.hasWeight()) {
             return -1;
         }
 
-        if (!weightFilterEntity.hasWeight()) {
-            return -1;
-        }
+        Map<String, List<WeightEntity>> versionWeightEntityMap = weightFilterEntity.getVersionWeightEntityMap();
+        List<WeightEntity> versionWeightEntityList = weightFilterEntity.getVersionWeightEntityList();
+        VersionWeightEntity versionWeightEntity = weightFilterEntity.getVersionWeightEntity();
 
-        Map<String, List<WeightEntity>> weightEntityMap = weightFilterEntity.getWeightEntityMap();
+        Map<String, List<WeightEntity>> regionWeightEntityMap = weightFilterEntity.getRegionWeightEntityMap();
+        List<WeightEntity> regionWeightEntityList = weightFilterEntity.getRegionWeightEntityList();
         RegionWeightEntity regionWeightEntity = weightFilterEntity.getRegionWeightEntity();
 
         String serviceId = pluginAdapter.getServiceId();
-        // 取局部的权重配置
-        int weight = getWeight(serviceId, providerServiceId, providerVersion, weightEntityMap);
-
-        // 局部权重配置没找到，取全局的权重配置
+        int weight = WeightRandomLoadBalanceUtil.getVersionWeight(serviceId, providerServiceId, providerVersion, versionWeightEntityMap);
         if (weight < 0) {
-            weight = getWeight(StringUtils.EMPTY, providerServiceId, providerVersion, weightEntityMap);
+            weight = WeightRandomLoadBalanceUtil.getVersionWeight(providerServiceId, providerVersion, versionWeightEntityList);
+        }
+        if (weight < 0) {
+            weight = WeightRandomLoadBalanceUtil.getVersionWeight(providerVersion, versionWeightEntity);
         }
 
-        // 全局的权重配置没找到，取区域的权重配置
         if (weight < 0) {
-            weight = getWeight(providerRegion, regionWeightEntity);
+            weight = WeightRandomLoadBalanceUtil.getRegionWeight(serviceId, providerServiceId, providerRegion, regionWeightEntityMap);
+        }
+        if (weight < 0) {
+            weight = WeightRandomLoadBalanceUtil.getRegionWeight(providerServiceId, providerRegion, regionWeightEntityList);
+        }
+        if (weight < 0) {
+            weight = WeightRandomLoadBalanceUtil.getRegionWeight(providerRegion, regionWeightEntity);
         }
 
         return weight;
-    }
-
-    private int getWeight(String consumerServiceId, String providerServiceId, String providerVersion, Map<String, List<WeightEntity>> weightEntityMap) {
-        if (MapUtils.isEmpty(weightEntityMap)) {
-            return -1;
-        }
-
-        List<WeightEntity> weightEntityList = weightEntityMap.get(consumerServiceId);
-        if (CollectionUtils.isEmpty(weightEntityList)) {
-            return -1;
-        }
-
-        for (WeightEntity weightEntity : weightEntityList) {
-            String providerServiceName = weightEntity.getProviderServiceName();
-            if (StringUtils.equalsIgnoreCase(providerServiceName, providerServiceId)) {
-                Map<String, Integer> weightMap = weightEntity.getWeightMap();
-                if (MapUtils.isEmpty(weightMap)) {
-                    return -1;
-                }
-
-                Integer weight = weightMap.get(providerVersion);
-                if (weight != null) {
-                    return weight;
-                } else {
-                    return -1;
-                }
-            }
-        }
-
-        return -1;
-    }
-
-    private int getWeight(String providerRegion, RegionWeightEntity regionWeightEntity) {
-        if (regionWeightEntity == null) {
-            return -1;
-        }
-
-        Map<String, Integer> weightMap = regionWeightEntity.getWeightMap();
-        if (MapUtils.isEmpty(weightMap)) {
-            return -1;
-        }
-
-        Integer weight = weightMap.get(providerRegion);
-        if (weight != null) {
-            return weight;
-        } else {
-            return -1;
-        }
-    }
-
-    private Map<String, String> getCustomMap(String serviceId) {
-        RuleEntity ruleEntity = pluginAdapter.getRule();
-        if (ruleEntity == null) {
-            return null;
-        }
-
-        CustomizationEntity customizationEntity = ruleEntity.getCustomizationEntity();
-        if (customizationEntity == null) {
-            return null;
-        }
-
-        Map<String, Map<String, String>> customizationMap = customizationEntity.getCustomizationMap();
-        if (MapUtils.isEmpty(customizationMap)) {
-            return null;
-        }
-
-        return customizationMap.get(serviceId);
     }
 }

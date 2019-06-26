@@ -74,7 +74,7 @@ public class CountFilterRegisterListener extends AbstractRegisterListener {
     }
 
     private void onRegisterFailure(int maxCount, String serviceId, String host, int port) {
-        String description = serviceId + " for " + host + ":" + port + " isn't allowed to register to Register server, reach max limited count=" + maxCount;
+        String description = serviceId + " for " + host + ":" + port + " is rejected to register to Register server, reach max limited count=" + maxCount;
 
         pluginEventWapper.fireRegisterFailure(new RegisterFailureEvent(DiscoveryConstant.REACH_MAX_LIMITED_COUNT, description, serviceId, host, port));
 
@@ -98,7 +98,8 @@ public class CountFilterRegisterListener extends AbstractRegisterListener {
 
     @Override
     public int getOrder() {
-        // Before host filter
-        return LOWEST_PRECEDENCE - 1;
+        // 由于通过服务数来判断是否注册满，需要第一优先级执行，否则服务列表已经被其它监听器过滤过了，其数目就不准确了
+        // Highest priority
+        return HIGHEST_PRECEDENCE;
     }
 }

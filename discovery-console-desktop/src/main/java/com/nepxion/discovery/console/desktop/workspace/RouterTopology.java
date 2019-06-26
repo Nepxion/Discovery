@@ -11,6 +11,7 @@ package com.nepxion.discovery.console.desktop.workspace;
 
 import twaver.Generator;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -19,8 +20,8 @@ import java.awt.event.HierarchyEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.List;
-import java.util.Map;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
@@ -30,7 +31,6 @@ import javax.swing.JSlider;
 import javax.swing.JToolBar;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.nepxion.cots.twaver.element.TElementManager;
@@ -61,7 +61,12 @@ import com.nepxion.swing.dialog.JExceptionDialog;
 import com.nepxion.swing.handle.HandleManager;
 import com.nepxion.swing.listener.DisplayAbilityListener;
 import com.nepxion.swing.locale.SwingLocale;
+import com.nepxion.swing.menuitem.JBasicMenuItem;
 import com.nepxion.swing.optionpane.JBasicOptionPane;
+import com.nepxion.swing.popupmenu.JBasicPopupMenu;
+import com.nepxion.swing.scrollpane.JBasicScrollPane;
+import com.nepxion.swing.tabbedpane.JBasicTabbedPane;
+import com.nepxion.swing.textarea.JBasicTextArea;
 import com.nepxion.swing.textfield.JBasicTextField;
 
 public class RouterTopology extends AbstractTopology {
@@ -71,9 +76,11 @@ public class RouterTopology extends AbstractTopology {
     private TopologyEntity serviceNodeEntity = new TopologyEntity(TopologyEntityType.SERVICE, TopologyStyleType.MIDDLE, true);
 
     private TGraphBackground background;
+    private JBasicMenuItem showRuleMenuItem;
     private JBasicComboBox comboBox;
     private JBasicTextField textField;
     private ActionListener layoutActionListener;
+    private RulePanel rulePanel;
 
     private Instance instance;
 
@@ -81,6 +88,28 @@ public class RouterTopology extends AbstractTopology {
         initializeToolBar();
         initializeTopology();
         initializeListener();
+    }
+
+    @Override
+    protected void initializePopupMenu() {
+        super.initializePopupMenu();
+
+        showRuleMenuItem = new JBasicMenuItem(createShowRuleAction());
+        popupMenu.add(showRuleMenuItem, 0);
+    }
+
+    @Override
+    protected JBasicPopupMenu popupMenuGenerate() {
+        super.popupMenuGenerate();
+
+        TNode node = TElementManager.getSelectedNode(dataBox);
+        showRuleMenuItem.setVisible(node != null);
+
+        if (node != null) {
+            return popupMenu;
+        }
+
+        return null;
     }
 
     private void initializeToolBar() {
@@ -110,6 +139,7 @@ public class RouterTopology extends AbstractTopology {
         toolBar.add(textField);
         toolBar.add(new JClassicButton(createExecuteRouterAction()));
         toolBar.add(new JClassicButton(createClearRouterAction()));
+        toolBar.add(new JClassicButton(createShowRuleAction()));
 
         ButtonManager.updateUI(toolBar);
     }
@@ -158,7 +188,7 @@ public class RouterTopology extends AbstractTopology {
                 graph.getLayoutInternalFrame().setLocation(3000, 3000);
                 // graph.adjustComponentPosition(graph.getLayoutInternalFrame());
 
-                RouterTopology.this.setPreferredSize(new Dimension(RouterTopology.this.getPreferredSize().width - 82, 900));
+                RouterTopology.this.setPreferredSize(new Dimension(RouterTopology.this.getPreferredSize().width - 100, 900));
 
                 removeHierarchyListener(this);
             }
@@ -196,6 +226,22 @@ public class RouterTopology extends AbstractTopology {
 
     }
 
+    private String getNodeName(Instance instance) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(instance.getServiceId()).append("\n");
+        stringBuilder.append(instance.getHost()).append(":").append(instance.getPort());
+
+        if (StringUtils.isNotEmpty(instance.getVersion())) {
+            stringBuilder.append("\n [V").append(instance.getVersion()).append("]");
+        }
+
+        if (StringUtils.isNotEmpty(instance.getRegion())) {
+            stringBuilder.append("\n [Region=").append(instance.getRegion()).append("]");
+        }
+
+        return ButtonManager.getHtmlText(stringBuilder.toString());
+    }
+
     private String getNodeName(RouterEntity routerEntity) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(routerEntity.getServiceId()).append("\n");
@@ -209,14 +255,18 @@ public class RouterTopology extends AbstractTopology {
             stringBuilder.append("\n [Region=").append(routerEntity.getRegion()).append("]");
         }
 
-        Map<String, String> customMap = routerEntity.getCustomMap();
-        if (MapUtils.isNotEmpty(customMap)) {
-            for (Map.Entry<String, String> entry : customMap.entrySet()) {
-                stringBuilder.append("\n ").append(entry.getKey()).append("=").append(entry.getValue());
-            }
-        }
-
         return ButtonManager.getHtmlText(stringBuilder.toString());
+    }
+
+    private TNode addNode(Instance instance) {
+        String nodeName = getNodeName(instance);
+
+        TNode node = createNode(nodeName, serviceNodeEntity, nodeLocationEntity, 0);
+        node.setUserObject(instance);
+
+        dataBox.addElement(node);
+
+        return node;
     }
 
     private TNode addNode(RouterEntity routerEntity, int index) {
@@ -264,6 +314,8 @@ public class RouterTopology extends AbstractTopology {
 
             textField.setText(StringUtils.EMPTY);
             dataBox.clear();
+
+            addNode(instance);
         }
     }
 
@@ -355,5 +407,87 @@ public class RouterTopology extends AbstractTopology {
         };
 
         return action;
+    }
+
+    private JSecurityAction createShowRuleAction() {
+        JSecurityAction action = new JSecurityAction(ConsoleLocale.getString("view_rule"), ConsoleIconFactory.getSwingIcon("component/file_chooser_16.png"), ConsoleLocale.getString("view_rule")) {
+            private static final long serialVersionUID = 1L;
+
+            public void execute(ActionEvent e) {
+                TNode node = TElementManager.getSelectedNode(dataBox);
+                if (node == null) {
+                    JBasicOptionPane.showMessageDialog(HandleManager.getFrame(RouterTopology.this), ConsoleLocale.getString("select_a_node"), SwingLocale.getString("warning"), JBasicOptionPane.WARNING_MESSAGE);
+
+                    return;
+                }
+
+                Object userObject = node.getUserObject();
+                List<String> rules = null;
+                if (userObject instanceof Instance) {
+                    Instance instance = (Instance) userObject;
+                    rules = ServiceController.getRules(instance);
+                } else if (userObject instanceof RouterEntity) {
+                    RouterEntity routerEntity = (RouterEntity) userObject;
+                    rules = ServiceController.getRules(routerEntity);
+                }
+                String dynamicRule = rules.get(1);
+                String localRule = rules.get(0);
+
+                if (rulePanel == null) {
+                    rulePanel = new RulePanel();
+                    rulePanel.setPreferredSize(new Dimension(800, 600));
+                }
+
+                rulePanel.setDynamicRule(dynamicRule);
+                rulePanel.setLocalRule(localRule);
+
+                JBasicOptionPane.showOptionDialog(HandleManager.getFrame(RouterTopology.this), rulePanel, ConsoleLocale.getString("view_rule"), JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/property.png"), new Object[] { SwingLocale.getString("close") }, null, true);
+            }
+        };
+
+        return action;
+    }
+
+    private class RulePanel extends JPanel {
+        private static final long serialVersionUID = 1L;
+
+        private JBasicTextArea dynamicRuleTextArea;
+        private JPanel dynamicRulePanel;
+        private JBasicTextArea localRuleTextArea;
+        private JPanel localRulePanel;
+        private JBasicTabbedPane ruleTabbedPane;
+
+        public RulePanel() {
+            setLayout(new BorderLayout());
+            add(createRuleTabbedPane(), BorderLayout.CENTER);
+        }
+
+        private JBasicTabbedPane createRuleTabbedPane() {
+            dynamicRuleTextArea = new JBasicTextArea();
+            dynamicRulePanel = new JPanel();
+            dynamicRulePanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+            dynamicRulePanel.setLayout(new BorderLayout());
+            dynamicRulePanel.add(new JBasicScrollPane(dynamicRuleTextArea), BorderLayout.CENTER);
+
+            localRuleTextArea = new JBasicTextArea();
+            localRulePanel = new JPanel();
+            localRulePanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+            localRulePanel.setLayout(new BorderLayout());
+            localRulePanel.add(new JBasicScrollPane(localRuleTextArea), BorderLayout.CENTER);
+
+            ruleTabbedPane = new JBasicTabbedPane();
+            ruleTabbedPane.addTab(ConsoleLocale.getString("label_dynamic_rule"), dynamicRulePanel, ConsoleLocale.getString("label_dynamic_rule"));
+            ruleTabbedPane.addTab(ConsoleLocale.getString("label_local_rule"), localRulePanel, ConsoleLocale.getString("label_local_rule"));
+
+            return ruleTabbedPane;
+        }
+
+        public void setDynamicRule(String dynamicRule) {
+            dynamicRuleTextArea.setText(dynamicRule);
+        }
+
+        public void setLocalRule(String localRule) {
+            localRuleTextArea.setText(localRule);
+        }
     }
 }

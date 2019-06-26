@@ -26,17 +26,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
 @Configuration
 @EnableSwagger2
 @ConditionalOnProperty(value = "swagger.service.enabled", matchIfMissing = true)
-public class SwaggerConfiguration implements WebMvcConfigurer {
+public class SwaggerConfiguration {
     public static final String BASE_PACKAGE = "com.nepxion.discovery.console.endpoint";
 
     @Value("${spring.application.name}")
@@ -63,11 +62,8 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
     @Value("${swagger.service.contact.email:1394997@qq.com}")
     private String contactEmail;
 
-    @Value("${swagger.service.termsOfServiceUrl:http://www.nepxion.com")
+    @Value("${swagger.service.termsOfServiceUrl:http://www.nepxion.com}")
     private String termsOfServiceUrl;
-
-    @Value("${swagger.cors.registry.enabled:true}")
-    private Boolean corsRegistryEnabled;
 
     @Autowired(required = false)
     private List<Parameter> swaggerHeaderParameters;
@@ -96,17 +92,6 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
                 .build();
     }
 
-    // 解决跨域问题
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        if (corsRegistryEnabled) {
-            registry.addMapping("/**")
-                    .allowedHeaders("*")
-                    .allowedMethods("*")
-                    .allowedOrigins("*");
-        }
-    }
-
     public static Predicate<RequestHandler> basePackage(String basePackage) {
         return new Predicate<RequestHandler>() {
             @Override
@@ -120,7 +105,7 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
         return new Function<Class<?>, Boolean>() {
             @Override
             public Boolean apply(Class<?> input) {
-                String[] subPackages = basePackage.split(",");
+                String[] subPackages = basePackage.split(DiscoveryConstant.SEPARATE);
                 for (String subPackage : subPackages) {
                     boolean matched = input.getPackage().getName().startsWith(subPackage.trim());
                     if (matched) {

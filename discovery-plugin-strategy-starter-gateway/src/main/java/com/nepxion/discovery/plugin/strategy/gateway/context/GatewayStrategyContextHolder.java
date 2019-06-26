@@ -9,23 +9,28 @@ package com.nepxion.discovery.plugin.strategy.gateway.context;
  * @version 1.0
  */
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.ConfigurableEnvironment;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.server.ServerWebExchange;
 
-import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
+import com.nepxion.discovery.plugin.strategy.context.AbstractStrategyContextHolder;
 
-public class GatewayStrategyContextHolder {
-    @Autowired
-    private ConfigurableEnvironment environment;
+public class GatewayStrategyContextHolder extends AbstractStrategyContextHolder {
+    private static final Logger LOG = LoggerFactory.getLogger(GatewayStrategyContextHolder.class);
 
     public ServerWebExchange getExchange() {
-        Boolean hystrixThreadlocalSupported = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_HYSTRIX_THREADLOCAL_SUPPORTED, Boolean.class, Boolean.FALSE);
-        if (hystrixThreadlocalSupported) {
-            // 待实现：Spring Cloud Gateway网关端使用Hystrix做线程模式的服务隔离时，实现服务灰度路由的功能
-            return GatewayStrategyContext.getCurrentContext().getExchange();
-        } else {
-            return GatewayStrategyContext.getCurrentContext().getExchange();
+        return GatewayStrategyContext.getCurrentContext().getExchange();
+    }
+
+    @Override
+    public String getHeader(String name) {
+        ServerWebExchange exchange = getExchange();
+        if (exchange == null) {
+            LOG.warn("The ServerWebExchange object is null");
+
+            return null;
         }
+
+        return exchange.getRequest().getHeaders().getFirst(name);
     }
 }

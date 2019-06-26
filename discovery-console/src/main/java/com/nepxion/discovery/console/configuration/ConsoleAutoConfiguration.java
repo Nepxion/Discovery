@@ -17,32 +17,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.client.RestTemplate;
 
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.handler.RestErrorHandler;
 import com.nepxion.discovery.console.authentication.AuthenticationResource;
 import com.nepxion.discovery.console.authentication.AuthenticationResourceImpl;
 import com.nepxion.discovery.console.endpoint.ConsoleEndpoint;
 
 @Configuration
-@Import(SwaggerConfiguration.class)
+@Import({ SwaggerConfiguration.class, CorsRegistryConfiguration.class })
 public class ConsoleAutoConfiguration {
-    static {
-        String logoShown = System.getProperty("nepxion.logo.shown", "true");
-        if (Boolean.valueOf(logoShown)) {
-            System.out.println("");
-            System.out.println("╔═══╗");
-            System.out.println("╚╗╔╗║");
-            System.out.println(" ║║║╠╦══╦══╦══╦╗╔╦══╦═╦╗ ╔╗");
-            System.out.println(" ║║║╠╣══╣╔═╣╔╗║╚╝║║═╣╔╣║ ║║");
-            System.out.println("╔╝╚╝║╠══║╚═╣╚╝╠╗╔╣║═╣║║╚═╝║");
-            System.out.println("╚═══╩╩══╩══╩══╝╚╝╚══╩╝╚═╗╔╝");
-            System.out.println("                      ╔═╝║");
-            System.out.println("                      ╚══╝");
-            System.out.println("Nepxion Discovery - Console  v" + DiscoveryConstant.DISCOVERY_VERSION);
-            System.out.println("");
-        }
-    }
-
     @ConditionalOnClass(RestControllerEndpoint.class)
     protected static class ConsoleEndpointConfiguration {
         @Bean

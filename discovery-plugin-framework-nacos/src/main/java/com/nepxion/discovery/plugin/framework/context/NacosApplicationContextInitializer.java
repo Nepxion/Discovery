@@ -28,13 +28,16 @@ public class NacosApplicationContextInitializer extends PluginApplicationContext
         if (bean instanceof NacosServiceRegistry) {
             NacosServiceRegistry nacosServiceRegistry = (NacosServiceRegistry) bean;
 
-            return new NacosServiceRegistryDecorator(nacosServiceRegistry, applicationContext);
+            NacosDiscoveryProperties nacosDiscoveryProperties = applicationContext.getBean(NacosDiscoveryProperties.class);
+
+            return new NacosServiceRegistryDecorator(nacosDiscoveryProperties, nacosServiceRegistry, applicationContext);
         } else if (bean instanceof NacosDiscoveryProperties) {
             ConfigurableEnvironment environment = applicationContext.getEnvironment();
 
             NacosDiscoveryProperties nacosDiscoveryProperties = (NacosDiscoveryProperties) bean;
 
             Map<String, String> metadata = nacosDiscoveryProperties.getMetadata();
+            metadata.put(DiscoveryConstant.SPRING_APPLICATION_NAME, PluginContextAware.getApplicationName(environment));
             metadata.put(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN, NacosConstant.DISCOVERY_PLUGIN);
             metadata.put(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_VERSION, DiscoveryConstant.DISCOVERY_VERSION);
             metadata.put(DiscoveryConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED, PluginContextAware.isRegisterControlEnabled(environment).toString());

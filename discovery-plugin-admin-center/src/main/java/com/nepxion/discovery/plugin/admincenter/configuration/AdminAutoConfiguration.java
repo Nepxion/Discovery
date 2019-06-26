@@ -11,10 +11,12 @@ package com.nepxion.discovery.plugin.admincenter.configuration;
 
 import org.springframework.boot.actuate.endpoint.web.annotation.RestControllerEndpoint;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.nepxion.discovery.plugin.admincenter.endpoint.ConfigEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.RouterEndpoint;
@@ -43,6 +45,15 @@ public class AdminAutoConfiguration {
         @Bean
         public RestTemplate routerRestTemplate() {
             return new RestTemplate();
+        }
+    }
+
+    @ConditionalOnClass(WebMvcConfigurer.class)
+    protected static class WebMvcActivationConfiguration {
+        @Bean
+        @ConditionalOnProperty(value = "cors.registry.enabled", matchIfMissing = true)
+        public CorsRegistryConfiguration corsRegistryConfiguration() {
+            return new CorsRegistryConfiguration();
         }
     }
 }

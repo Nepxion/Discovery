@@ -9,14 +9,13 @@ package com.nepxion.discovery.plugin.example.gateway.impl;
  * @version 1.0
  */
 
-import java.util.Map;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.server.ServerWebExchange;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledStrategy;
 import com.nepxion.discovery.plugin.strategy.gateway.context.GatewayStrategyContextHolder;
 import com.netflix.loadbalancer.Server;
@@ -28,31 +27,35 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
     @Autowired
     private GatewayStrategyContextHolder gatewayStrategyContextHolder;
 
+    @Autowired
+    private PluginAdapter pluginAdapter;
+
     @Override
-    public boolean apply(Server server, Map<String, String> metadata) {
-        // 对Rest调用传来的Header参数（例如Token）做策略
-        return applyFromHeader(server, metadata);
+    public boolean apply(Server server) {
+        // 对Rest调用传来的Header参数（例如：mobile）做策略
+        return applyFromHeader(server);
     }
 
-    // 根据Rest调用传来的Header参数（例如Token），选取执行调用请求的服务实例
-    private boolean applyFromHeader(Server server, Map<String, String> metadata) {
-        ServerWebExchange exchange = gatewayStrategyContextHolder.getExchange();
-        if (exchange == null) {
-            return true;
-        }
+    // 根据Rest调用传来的Header参数（例如：mobile），选取执行调用请求的服务实例
+    private boolean applyFromHeader(Server server) {
+        String mobile = gatewayStrategyContextHolder.getHeader("mobile");
+        String serviceId = pluginAdapter.getServerServiceId(server);
+        String version = pluginAdapter.getServerMetadata(server).get(DiscoveryConstant.VERSION);
+        String region = pluginAdapter.getServerMetadata(server).get(DiscoveryConstant.REGION);
 
-        String token = exchange.getRequest().getHeaders().getFirst("token");
-        // String value = exchange.getRequest().getQueryParams().getFirst("value");
+        LOG.info("负载均衡用户定制触发：mobile={}, serviceId={}, version={}, region={}", mobile, serviceId, version, region);
 
-        String serviceId = server.getMetaInfo().getAppName().toLowerCase();
-
-        LOG.info("Gateway端负载均衡用户定制触发：serviceId={}, host={}, metadata={}", serviceId, server.toString(), metadata);
-
-        String filterToken = "abc";
-        if (StringUtils.isNotEmpty(token) && token.contains(filterToken)) {
-            LOG.info("过滤条件：当Token含有'{}'的时候，不能被Ribbon负载均衡到", filterToken);
-
-            return false;
+        if (StringUtils.isNotEmpty(mobile)) {
+            // 手机号以移动138开头，路由到1.0版本的服务上
+            if (mobile.startsWith("138") && StringUtils.equals(version, "1.0")) {
+                return true;
+                // 手机号以联通133开头，路由到2.0版本的服务上
+            } else if (mobile.startsWith("133") && StringUtils.equals(version, "1.1")) {
+                return true;
+            } else {
+                // 其它情况，直接拒绝请求
+                return false;
+            }
         }
 
         return true;

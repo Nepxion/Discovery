@@ -71,6 +71,16 @@ public class NacosAutoConfiguration {
             properties.put(NacosConstant.ENDPOINT, endpoint);
         }
 
+        String endpointPort = environment.getProperty(NacosConstant.NACOS_PLUGIN_ENDPOINT_PORT);
+        if (StringUtils.isNotEmpty(endpointPort)) {
+            properties.put(NacosConstant.ENDPOINT_PORT, endpointPort);
+        }
+
+        String isUseEndpointParsingRule = environment.getProperty(NacosConstant.NACOS_PLUGIN_IS_USE_ENDPOINT_PARSING_RULE);
+        if (StringUtils.isNotEmpty(isUseEndpointParsingRule)) {
+            properties.put(NacosConstant.IS_USE_ENDPOINT_PARSING_RULE, isUseEndpointParsingRule);
+        }
+
         String encode = environment.getProperty(NacosConstant.NACOS_PLUGIN_ENCODE);
         if (StringUtils.isNotEmpty(encode)) {
             properties.put(NacosConstant.ENCODE, encode);
@@ -79,6 +89,21 @@ public class NacosAutoConfiguration {
         String namingLoadCacheAtStart = environment.getProperty(NacosConstant.NACOS_PLUGIN_NAMING_LOAD_CACHE_AT_START);
         if (StringUtils.isNotEmpty(namingLoadCacheAtStart)) {
             properties.put(NacosConstant.NAMING_LOAD_CACHE_AT_START, namingLoadCacheAtStart);
+        }
+
+        String namingClientBeatThreadCount = environment.getProperty(NacosConstant.NACOS_PLUGIN_NAMING_CLIENT_BEAT_THREAD_COUNT);
+        if (StringUtils.isNotEmpty(namingClientBeatThreadCount)) {
+            properties.put(NacosConstant.NAMING_CLIENT_BEAT_THREAD_COUNT, namingClientBeatThreadCount);
+        }
+
+        String namingPollingThreadCount = environment.getProperty(NacosConstant.NACOS_PLUGIN_NAMING_POLLING_THREAD_COUNT);
+        if (StringUtils.isNotEmpty(namingPollingThreadCount)) {
+            properties.put(NacosConstant.NAMING_POLLING_THREAD_COUNT, namingPollingThreadCount);
+        }
+
+        String ramRoleName = environment.getProperty(NacosConstant.NACOS_PLUGIN_RAM_ROLE_NAME);
+        if (StringUtils.isNotEmpty(ramRoleName)) {
+            properties.put(NacosConstant.RAM_ROLE_NAME, ramRoleName);
         }
 
         return NacosFactory.createConfigService(properties);

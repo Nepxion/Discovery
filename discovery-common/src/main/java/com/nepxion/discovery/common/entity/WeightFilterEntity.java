@@ -10,10 +10,10 @@ package com.nepxion.discovery.common.entity;
  */
 
 import java.io.Serializable;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -23,15 +23,56 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class WeightFilterEntity implements Serializable {
     private static final long serialVersionUID = 7313443273653189837L;
 
-    private Map<String, List<WeightEntity>> weightEntityMap = new LinkedHashMap<String, List<WeightEntity>>();
+    // Consumer-service-name非空，作为Key，以Map方式存储
+    private Map<String, List<WeightEntity>> versionWeightEntityMap;
+    // Consumer-service-name为空，以List方式存储
+    private List<WeightEntity> versionWeightEntityList;
+    private VersionWeightEntity versionWeightEntity;
+
+    // Consumer-service-name非空，作为Key，以Map方式存储
+    private Map<String, List<WeightEntity>> regionWeightEntityMap;
+    // Consumer-service-name为空，以List方式存储
+    private List<WeightEntity> regionWeightEntityList;
     private RegionWeightEntity regionWeightEntity;
 
-    public Map<String, List<WeightEntity>> getWeightEntityMap() {
-        return weightEntityMap;
+    public Map<String, List<WeightEntity>> getVersionWeightEntityMap() {
+        return versionWeightEntityMap;
     }
 
-    public void setWeightEntityMap(Map<String, List<WeightEntity>> weightEntityMap) {
-        this.weightEntityMap = weightEntityMap;
+    public void setVersionWeightEntityMap(Map<String, List<WeightEntity>> versionWeightEntityMap) {
+        this.versionWeightEntityMap = versionWeightEntityMap;
+    }
+
+    public List<WeightEntity> getVersionWeightEntityList() {
+        return versionWeightEntityList;
+    }
+
+    public void setVersionWeightEntityList(List<WeightEntity> versionWeightEntityList) {
+        this.versionWeightEntityList = versionWeightEntityList;
+    }
+
+    public VersionWeightEntity getVersionWeightEntity() {
+        return versionWeightEntity;
+    }
+
+    public void setVersionWeightEntity(VersionWeightEntity versionWeightEntity) {
+        this.versionWeightEntity = versionWeightEntity;
+    }
+
+    public Map<String, List<WeightEntity>> getRegionWeightEntityMap() {
+        return regionWeightEntityMap;
+    }
+
+    public void setRegionWeightEntityMap(Map<String, List<WeightEntity>> regionWeightEntityMap) {
+        this.regionWeightEntityMap = regionWeightEntityMap;
+    }
+
+    public List<WeightEntity> getRegionWeightEntityList() {
+        return regionWeightEntityList;
+    }
+
+    public void setRegionWeightEntityList(List<WeightEntity> regionWeightEntityList) {
+        this.regionWeightEntityList = regionWeightEntityList;
     }
 
     public RegionWeightEntity getRegionWeightEntity() {
@@ -43,7 +84,8 @@ public class WeightFilterEntity implements Serializable {
     }
 
     public boolean hasWeight() {
-        return MapUtils.isNotEmpty(weightEntityMap) || regionWeightEntity != null;
+        return MapUtils.isNotEmpty(versionWeightEntityMap) || CollectionUtils.isNotEmpty(versionWeightEntityList) || versionWeightEntity != null ||
+                MapUtils.isNotEmpty(regionWeightEntityMap) || CollectionUtils.isNotEmpty(regionWeightEntityList) || regionWeightEntity != null;
     }
 
     @Override

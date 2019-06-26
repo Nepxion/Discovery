@@ -1,7 +1,5 @@
 package com.nepxion.discovery.console.apollo.configuration;
 
-import org.apache.commons.lang3.StringUtils;
-
 /**
  * <p>Title: Nepxion Discovery</p>
  * <p>Description: Nepxion Discovery</p>
@@ -11,31 +9,43 @@ import org.apache.commons.lang3.StringUtils;
  * @version 1.0
  */
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 import com.ctrip.framework.apollo.openapi.client.ApolloOpenApiClient;
+import com.nepxion.banner.BannerConstant;
+import com.nepxion.banner.Description;
+import com.nepxion.banner.LogoBanner;
+import com.nepxion.banner.NepxionBanner;
 import com.nepxion.discovery.console.adapter.ConfigAdapter;
 import com.nepxion.discovery.console.apollo.adapter.ApolloConfigAdapter;
 import com.nepxion.discovery.console.apollo.constant.ApolloConstant;
+import com.taobao.text.Color;
 
 @Configuration
 public class ApolloConfigAutoConfiguration {
     static {
-        String logoShown = System.getProperty("nepxion.logo.shown", "true");
-        if (Boolean.valueOf(logoShown)) {
+        /*String bannerShown = System.getProperty(BannerConstant.BANNER_SHOWN, "true");
+        if (Boolean.valueOf(bannerShown)) {
             System.out.println("");
-            System.out.println("╔═╗ ╔╗");
-            System.out.println("║║╚╗║║");
-            System.out.println("║╔╗╚╝╠══╦══╦══╦══╗");
-            System.out.println("║║╚╗║║╔╗║╔═╣╔╗║══╣");
-            System.out.println("║║ ║║║╔╗║╚═╣╚╝╠══║");
-            System.out.println("╚╝ ╚═╩╝╚╩══╩══╩══╝");
+            System.out.println("╔═══╗     ╔╗╔╗");
+            System.out.println("║╔═╗║     ║║║║");
+            System.out.println("║║ ║╠══╦══╣║║║╔══╗");
+            System.out.println("║╚═╝║╔╗║╔╗║║║║║╔╗║");
+            System.out.println("║╔═╗║╚╝║╚╝║╚╣╚╣╚╝║");
+            System.out.println("╚╝ ╚╣╔═╩══╩═╩═╩══╝");
+            System.out.println("    ║║");
+            System.out.println("    ╚╝");
             System.out.println(ApolloConstant.TYPE + " Config");
             System.out.println("");
-        }
+        }*/
+
+        LogoBanner logoBanner = new LogoBanner(ApolloConfigAutoConfiguration.class, "/com/nepxion/apollo/resource/logo.txt", "Welcome to Nepxion", 6, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta }, true);
+
+        NepxionBanner.show(logoBanner, new Description("Config:", ApolloConstant.TYPE, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
     }
 
     @Autowired
