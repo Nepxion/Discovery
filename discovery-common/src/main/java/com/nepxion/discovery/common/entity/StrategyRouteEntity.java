@@ -20,7 +20,7 @@ public class StrategyRouteEntity implements Serializable {
     private static final long serialVersionUID = -949309319161395011L;
 
     private String id;
-    private String type;
+    private StrategyType type;
     private String value;
 
     public String getId() {
@@ -31,11 +31,11 @@ public class StrategyRouteEntity implements Serializable {
         this.id = id;
     }
 
-    public String getType() {
+    public StrategyType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(StrategyType type) {
         this.type = type;
     }
 

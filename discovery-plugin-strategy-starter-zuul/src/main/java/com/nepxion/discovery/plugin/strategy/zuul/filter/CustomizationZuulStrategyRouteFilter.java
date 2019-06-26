@@ -14,11 +14,11 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.StrategyConditionEntity;
 import com.nepxion.discovery.common.entity.StrategyCustomizationEntity;
 import com.nepxion.discovery.common.entity.StrategyRouteEntity;
+import com.nepxion.discovery.common.entity.StrategyType;
 
 public class CustomizationZuulStrategyRouteFilter extends DefaultZuulStrategyRouteFilter {
     // 从远程配置中心或者本地配置文件获取版本路由配置。如果是远程配置中心，则值会动态改变
@@ -27,7 +27,7 @@ public class CustomizationZuulStrategyRouteFilter extends DefaultZuulStrategyRou
         StrategyConditionEntity strategyConditionEntity = getTriggeredStrategyConditionEntity();
         if (strategyConditionEntity != null) {
             String versionId = strategyConditionEntity.getVersionId();
-            StrategyRouteEntity strategyRouteEntity = getTriggeredStrategyRouteEntity(versionId, DiscoveryConstant.VERSION);
+            StrategyRouteEntity strategyRouteEntity = getTriggeredStrategyRouteEntity(versionId, StrategyType.VERSION);
             if (strategyRouteEntity != null) {
                 return strategyRouteEntity.getValue();
             }
@@ -42,7 +42,7 @@ public class CustomizationZuulStrategyRouteFilter extends DefaultZuulStrategyRou
         StrategyConditionEntity strategyConditionEntity = getTriggeredStrategyConditionEntity();
         if (strategyConditionEntity != null) {
             String regionId = strategyConditionEntity.getRegionId();
-            StrategyRouteEntity strategyRouteEntity = getTriggeredStrategyRouteEntity(regionId, DiscoveryConstant.REGION);
+            StrategyRouteEntity strategyRouteEntity = getTriggeredStrategyRouteEntity(regionId, StrategyType.REGION);
             if (strategyRouteEntity != null) {
                 return strategyRouteEntity.getValue();
             }
@@ -57,7 +57,7 @@ public class CustomizationZuulStrategyRouteFilter extends DefaultZuulStrategyRou
         StrategyConditionEntity strategyConditionEntity = getTriggeredStrategyConditionEntity();
         if (strategyConditionEntity != null) {
             String addressId = strategyConditionEntity.getAddressId();
-            StrategyRouteEntity strategyRouteEntity = getTriggeredStrategyRouteEntity(addressId, DiscoveryConstant.ADDRESS);
+            StrategyRouteEntity strategyRouteEntity = getTriggeredStrategyRouteEntity(addressId, StrategyType.ADDRESS);
             if (strategyRouteEntity != null) {
                 return strategyRouteEntity.getValue();
             }
@@ -72,7 +72,7 @@ public class CustomizationZuulStrategyRouteFilter extends DefaultZuulStrategyRou
         StrategyConditionEntity strategyConditionEntity = getTriggeredStrategyConditionEntity();
         if (strategyConditionEntity != null) {
             String versionWeightId = strategyConditionEntity.getVersionWeightId();
-            StrategyRouteEntity strategyRouteEntity = getTriggeredStrategyRouteEntity(versionWeightId, DiscoveryConstant.VERSION_WEIGHT);
+            StrategyRouteEntity strategyRouteEntity = getTriggeredStrategyRouteEntity(versionWeightId, StrategyType.VERSION_WEIGHT);
             if (strategyRouteEntity != null) {
                 return strategyRouteEntity.getValue();
             }
@@ -87,7 +87,7 @@ public class CustomizationZuulStrategyRouteFilter extends DefaultZuulStrategyRou
         StrategyConditionEntity strategyConditionEntity = getTriggeredStrategyConditionEntity();
         if (strategyConditionEntity != null) {
             String regionWeightId = strategyConditionEntity.getRegionWeightId();
-            StrategyRouteEntity strategyRouteEntity = getTriggeredStrategyRouteEntity(regionWeightId, DiscoveryConstant.REGION_WEIGHT);
+            StrategyRouteEntity strategyRouteEntity = getTriggeredStrategyRouteEntity(regionWeightId, StrategyType.REGION_WEIGHT);
             if (strategyRouteEntity != null) {
                 return strategyRouteEntity.getValue();
             }
@@ -96,7 +96,7 @@ public class CustomizationZuulStrategyRouteFilter extends DefaultZuulStrategyRou
         return super.getRouteRegionWeight();
     }
 
-    private StrategyRouteEntity getTriggeredStrategyRouteEntity(String id, String type) {
+    private StrategyRouteEntity getTriggeredStrategyRouteEntity(String id, StrategyType type) {
         if (StringUtils.isEmpty(id)) {
             return null;
         }
@@ -107,7 +107,7 @@ public class CustomizationZuulStrategyRouteFilter extends DefaultZuulStrategyRou
             if (strategyCustomizationEntity != null) {
                 List<StrategyRouteEntity> strategyRouteEntityList = strategyCustomizationEntity.getStrategyRouteEntityList();
                 for (StrategyRouteEntity strategyRouteEntity : strategyRouteEntityList) {
-                    if (StringUtils.equals(strategyRouteEntity.getId(), id) && StringUtils.equals(strategyRouteEntity.getType(), type)) {
+                    if (StringUtils.equals(strategyRouteEntity.getId(), id) && strategyRouteEntity.getType() == type) {
                         return strategyRouteEntity;
                     }
                 }
