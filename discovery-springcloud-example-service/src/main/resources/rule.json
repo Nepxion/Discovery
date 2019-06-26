@@ -186,27 +186,27 @@
         "strategyRouteEntityList": [
             {
                 "id": "a", 
-                "type": "version", 
+                "type": "VERSION", 
                 "value": "{\"discovery-springcloud-example-a\":\"1.0\", \"discovery-springcloud-example-b\":\"1.0\", \"discovery-springcloud-example-c\":\"1.0;1.2\"}"
             }, 
             {
                 "id": "b", 
-                "type": "region", 
+                "type": "REGION", 
                 "value": "{\"discovery-springcloud-example-a\":\"qa;dev\", \"discovery-springcloud-example-b\":\"dev\", \"discovery-springcloud-example-c\":\"qa\"}"
             }, 
             {
                 "id": "c", 
-                "type": "address", 
+                "type": "ADDRESS", 
                 "value": "{\"discovery-springcloud-example-a\":\"192.168.43.101:1100\", \"discovery-springcloud-example-b\":\"192.168.43.101:1201\", \"discovery-springcloud-example-c\":\"192.168.43.101:1300\"}"
             }, 
             {
                 "id": "d", 
-                "type": "version-weight", 
+                "type": "VERSION_WEIGHT", 
                 "value": "{\"discovery-springcloud-example-a\":\"1.0=90;1.1=10\", \"discovery-springcloud-example-b\":\"1.0=90;1.1=10\", \"discovery-springcloud-example-c\":\"1.0=90;1.1=10\"}"
             }, 
             {
                 "id": "e", 
-                "type": "region-weight", 
+                "type": "REGION_WEIGHT", 
                 "value": "{\"discovery-springcloud-example-a\":\"dev=85;qa=15\", \"discovery-springcloud-example-b\":\"dev=85;qa=15\", \"discovery-springcloud-example-c\":\"dev=85;qa=15\"}"
             }
         ]
