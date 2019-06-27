@@ -83,10 +83,13 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 - [规则和策略](#规则和策略)
   - [规则和策略的区别](#规则和策略的区别)
   - [规则和策略的关系](#规则和策略的关系)
-- [外部元数据](#外部元数据)
-- [配置文件](#配置文件)
 - [服务隔离](#服务隔离)
-- [自定义禁止策略](#自定义禁止策略) 
+  - [内置服务隔离](#内置服务隔离) 
+  - [自定义服务隔离](#自定义服务隔离)  
+- [配置文件](#配置文件)
+  - [基础属性配置](#基础属性配置)
+  - [功能开关配置](#功能开关配置)
+  - [外部元数据配置](#外部元数据配置)
 - [配置中心](#配置中心)
 - [管理中心](#管理中心)
 - [控制平台](#控制平台)
@@ -815,15 +818,47 @@ dev=85;qa=15
   - 规则关闭，spring.application.register.control.enabled=false和spring.application.discovery.control.enabled=false
   - 策略关闭，spring.application.strategy.control.enabled=false
 
-## 外部元数据
-外部系统（例如运维发布平台）在远程启动制定微服务的时候，可以通过参数传递来动态改变元数据或者增加运维特色的参数，最后注册到远程配置中心。有两种方式，如下图：
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Metadata.jpg)
-- 通过Program arguments来传递，它的用法是前面加“--”。支持Eureka、Zookeeper和Nacos（增量覆盖），Consul支持的不好（全量覆盖）
-- 通过VM arguments来传递，它的用法是前面加“-D”。支持上述所有的注册组件，它的限制是变量前面必须要加“ext.”
-- 两种方式尽量避免同时用
+## 服务隔离
+
+### 内置服务隔离
+元数据中的Group在一定意义上代表着系统ID或者系统逻辑分组，基于Group策略意味着只有同一个系统中的服务才能相互发生关系
+
+- 注册服务隔离，基于Group黑/白名单的策略，即当前的服务所在的Group，不在Group的黑名单或者在白名单里，才允许被注册。只需要在网关或者服务端，开启如下配置即可：
+```xml
+# 启动和关闭注册的服务隔离（基于Group黑/白名单的策略）。缺失则默认为false
+spring.application.strategy.register.isolation.enabled=true
+```
+默认方式，黑/白名单通过如此方式配置
+```xml
+spring.application.strategy.register.isolation.group.blacklist=
+spring.application.strategy.register.isolation.group.whitelist=
+```
+
+- 消费端服务隔离，基于Group是否相同的策略，即消费端拿到的提供端列表，两者的Group必须相同。只需要在网关或者服务端，开启如下配置即可：
+```xml
+# 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
+# spring.application.strategy.consumer.isolation.enabled=true
+```
+
+- 提供端服务隔离，基于Group是否相同的策略，即服务端被消费端调用，两者的Group必须相同，否则拒绝调用，异构系统可以通过Header方式传递n-d-group值进行匹配。只需要在网关或者服务端，开启如下配置即可：
+```xml
+# 启动和关闭提供端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
+# spring.application.strategy.provider.isolation.enabled=true
+```
+还必须做如下配置
+```xml
+# 用户自定义和编程灰度路由策略的时候，需要指定对业务RestController类的扫描路径。此项配置作用于RPC方式的调用拦截和消费端的服务隔离两项工作
+spring.application.strategy.scan.packages=com.nepxion.discovery.gray.service.feign
+```
+
+### 自定义服务隔离
+使用者可以继承如下类
+- AbstractRegisterListener，实现自定义”禁止注册“，用法参考discovery-springcloud-example-service下MyRegisterListener
+- AbstractDiscoveryListener，实现自定义”禁止被发现“，用法参考discovery-springcloud-example-service下MyDiscoveryListener。注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断，见上图“集成了健康检查的Consul界面”
+- AbstractLoadBalanceListener，实现自定义”禁止被负载均衡“，用法参考discovery-springcloud-example-service下MyLoadBalanceListener
 
 ## 配置文件
-- 基础属性配置
+### 基础属性配置
 不同的服务注册发现组件对应的不同的配置值（region配置可选），请仔细阅读
 ```xml
 # Eureka config for discovery
@@ -855,7 +890,7 @@ management.port=5100
 management.server.port=5100
 ```
 
-- 功能开关配置
+### 功能开关配置
 请注意，如下很多配置项，如果使用者不想做特色化的处理，为避免繁琐，可以零配置（除了最底下，但一般也不会被用到）
 ```xml
 # Plugin core config
@@ -902,42 +937,12 @@ spring.application.strategy.provider.isolation.enabled=true
 # spring.application.strategy.hystrix.threadlocal.supported=true
 ```
 
-## 服务隔离
-元数据中的Group在一定意义上代表着系统ID或者系统逻辑分组，基于Group策略意味着只有同一个系统中的服务才能相互发生关系
-
-- 注册服务隔离，基于Group黑/白名单的策略，即当前的服务所在的Group，不在Group的黑名单或者在白名单里，才允许被注册。只需要在网关或者服务端，开启如下配置即可：
-```xml
-# 启动和关闭注册的服务隔离（基于Group黑/白名单的策略）。缺失则默认为false
-spring.application.strategy.register.isolation.enabled=true
-```
-默认方式，黑/白名单通过如此方式配置
-```xml
-spring.application.strategy.register.isolation.group.blacklist=
-spring.application.strategy.register.isolation.group.whitelist=
-```
-
-- 消费端服务隔离，基于Group是否相同的策略，即消费端拿到的提供端列表，两者的Group必须相同。只需要在网关或者服务端，开启如下配置即可：
-```xml
-# 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
-# spring.application.strategy.consumer.isolation.enabled=true
-```
-
-- 提供端服务隔离，基于Group是否相同的策略，即服务端被消费端调用，两者的Group必须相同，否则拒绝调用，异构系统可以通过Header方式传递n-d-group值进行匹配。只需要在网关或者服务端，开启如下配置即可：
-```xml
-# 启动和关闭提供端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
-# spring.application.strategy.provider.isolation.enabled=true
-```
-还必须做如下配置
-```xml
-# 用户自定义和编程灰度路由策略的时候，需要指定对业务RestController类的扫描路径。此项配置作用于RPC方式的调用拦截和消费端的服务隔离两项工作
-spring.application.strategy.scan.packages=com.nepxion.discovery.gray.service.feign
-```
-
-## 自定义禁止策略
-使用者可以继承如下类
-- AbstractRegisterListener，实现自定义”禁止注册“，用法参考discovery-springcloud-example-service下MyRegisterListener
-- AbstractDiscoveryListener，实现自定义”禁止被发现“，用法参考discovery-springcloud-example-service下MyDiscoveryListener。注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断，见上图“集成了健康检查的Consul界面”
-- AbstractLoadBalanceListener，实现自定义”禁止被负载均衡“，用法参考discovery-springcloud-example-service下MyLoadBalanceListener
+### 外部元数据配置
+外部系统（例如运维发布平台）在远程启动制定微服务的时候，可以通过参数传递来动态改变元数据或者增加运维特色的参数，最后注册到远程配置中心。有两种方式，如下图：
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Metadata.jpg)
+- 通过Program arguments来传递，它的用法是前面加“--”。支持Eureka、Zookeeper和Nacos（增量覆盖），Consul支持的不好（全量覆盖）
+- 通过VM arguments来传递，它的用法是前面加“-D”。支持上述所有的注册组件，它的限制是变量前面必须要加“ext.”
+- 两种方式尽量避免同时用
 
 ## 配置中心
 - 默认集成
