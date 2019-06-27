@@ -50,11 +50,11 @@ public class DiscoveryConstant {
 
     public static final String N_D_SERVICE_ID = "n-d-service-id";
     public static final String N_D_GROUP = "n-d-group";
-    public static final String N_D_REGION = "n-d-region";
     public static final String N_D_VERSION = "n-d-version";
+    public static final String N_D_REGION = "n-d-region";
     public static final String N_D_ADDRESS = "n-d-address";
-    public static final String N_D_REGION_WEIGHT = "n-d-region-weight";
     public static final String N_D_VERSION_WEIGHT = "n-d-version-weight";
+    public static final String N_D_REGION_WEIGHT = "n-d-region-weight";
 
     public static final String XML_FORMAT = "xml";
     public static final String JSON_FORMAT = "json";
