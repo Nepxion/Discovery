@@ -356,6 +356,7 @@ Spring Boot Admin监控平台
 ```
 
 [选择引入] 用户自定义和编程灰度路由时候，Hystrix做线程模式的服务隔离必须引入的插件，信号量模式不需要引入
+```xml
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-strategy-starter-hystrix</artifactId>
