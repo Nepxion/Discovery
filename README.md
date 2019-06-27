@@ -999,11 +999,13 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.gray.service.fei
 ## 性能分析
 在我的电脑上，做了如下性能测试：
 
+应用耗时
 | 应用 | 耗时 | 内存 |
 | --- | --- | --- |
 | 空的Spring Cloud启动 | 9秒 | 400M |
 | 带有Discovery Plugin的Spring Cloud启动 | 13秒 | 480M |
 
+启动项耗时
 | 启动项 | 耗时 |
 | --- | --- |
 | Spring Boot预热启动 | 2秒 |
