@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.zuul.filter;
+﻿package com.nepxion.discovery.plugin.strategy.zuul.filter;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -14,13 +14,18 @@ import org.apache.commons.lang3.StringUtils;
 import com.netflix.zuul.context.RequestContext;
 
 public class ZuulStrategyFilterResolver {
-    public static void setHeader(String headerName, String headerValue) {
+    public static void setHeader(String headerName, String headerValue, Boolean zuulHeaderPriority) {
         RequestContext context = RequestContext.getCurrentContext();
 
-        // 来自于外界的Header，例如，从Postman传递过来的Header
-        String header = context.getRequest().getHeader(headerName);
-        if (StringUtils.isEmpty(header)) {
+        if (zuulHeaderPriority) {
+            // 通过Zuul Filter的Header直接把外界的Header替换掉，并传递
             context.addZuulRequestHeader(headerName, headerValue);
+        } else {
+            // 在外界的Header不存在的前提下，通过Zuul Filter的Header传递
+            String header = context.getRequest().getHeader(headerName);
+            if (StringUtils.isEmpty(header)) {
+                context.addZuulRequestHeader(headerName, headerValue);
+            }
         }
     }
 }

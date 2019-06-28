@@ -49,26 +49,48 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GlobalFilter
         String routeVersionWeight = getRouteVersionWeight();
         String routeRegionWeight = getRouteRegionWeight();
 
-        // 通过过滤器设置路由Header头部信息，并全链路传递到服务端。如果外界也传了相同的Header，例如，从Postman传递过来的Header，那么以外界的优先
+        // 通过过滤器设置路由Header头部信息，并全链路传递到服务端
+        // 如果外界也传了相同的Header，例如，从Postman传递过来的Header，当下面的变量为true，以网关设置为优先，否则以外界传值为优先
+        Boolean gatewayHeaderPriority = environment.getProperty(GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_HEADER_PRIORITY, Boolean.class, Boolean.TRUE);
+
+        // 通过过滤器设置路由Header头部信息，并全链路传递到服务端
         ServerHttpRequest.Builder requestBuilder = exchange.getRequest().mutate();
         if (StringUtils.isNotEmpty(routeVersion)) {
+            if (gatewayHeaderPriority) {
+                requestBuilder.headers(headers -> headers.remove(DiscoveryConstant.N_D_VERSION));
+            }
             requestBuilder.header(DiscoveryConstant.N_D_VERSION, routeVersion);
         }
         if (StringUtils.isNotEmpty(routeRegion)) {
+            if (gatewayHeaderPriority) {
+                requestBuilder.headers(headers -> headers.remove(DiscoveryConstant.N_D_REGION));
+            }
             requestBuilder.header(DiscoveryConstant.N_D_REGION, routeRegion);
         }
         if (StringUtils.isNotEmpty(routeAddress)) {
+            if (gatewayHeaderPriority) {
+                requestBuilder.headers(headers -> headers.remove(DiscoveryConstant.N_D_ADDRESS));
+            }
             requestBuilder.header(DiscoveryConstant.N_D_ADDRESS, routeAddress);
         }
         if (StringUtils.isNotEmpty(routeVersionWeight)) {
+            if (gatewayHeaderPriority) {
+                requestBuilder.headers(headers -> headers.remove(DiscoveryConstant.N_D_VERSION_WEIGHT));
+            }
             requestBuilder.header(DiscoveryConstant.N_D_VERSION_WEIGHT, routeVersionWeight);
         }
         if (StringUtils.isNotEmpty(routeRegionWeight)) {
+            if (gatewayHeaderPriority) {
+                requestBuilder.headers(headers -> headers.remove(DiscoveryConstant.N_D_REGION_WEIGHT));
+            }
             requestBuilder.header(DiscoveryConstant.N_D_REGION_WEIGHT, routeRegionWeight);
         }
 
         // 开启此项，将启动提供端的服务隔离机制，需要在网关上传递Group Header
         if (environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_PROVIDER_ISOLATION_ENABLED, Boolean.class, Boolean.FALSE)) {
+            if (gatewayHeaderPriority) {
+                requestBuilder.headers(headers -> headers.remove(DiscoveryConstant.N_D_GROUP));
+            }
             requestBuilder.header(DiscoveryConstant.N_D_GROUP, pluginAdapter.getGroup());
         }
 
