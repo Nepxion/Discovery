@@ -12,7 +12,7 @@
 
     <properties>
         <discovery.version>4.10.0-SNAPSHOT</discovery.version>
-        <spring.cloud.version>Finchley.SR3</spring.cloud.version>
+        <spring.cloud.version>Finchley.SR4</spring.cloud.version>
         <spring.cloud.alibaba.version>0.2.2.RELEASE</spring.cloud.alibaba.version>
         <spring.boot.version>2.0.7.RELEASE</spring.boot.version>
         <spring.boot.admin.version>2.0.5</spring.boot.admin.version>
