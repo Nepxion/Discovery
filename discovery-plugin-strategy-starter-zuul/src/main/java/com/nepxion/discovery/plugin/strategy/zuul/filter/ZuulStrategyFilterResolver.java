@@ -1,4 +1,4 @@
-﻿package com.nepxion.discovery.plugin.strategy.zuul.filter;
+package com.nepxion.discovery.plugin.strategy.zuul.filter;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -18,8 +18,10 @@ public class ZuulStrategyFilterResolver {
         RequestContext context = RequestContext.getCurrentContext();
 
         if (zuulHeaderPriority) {
+            // 通过Zuul Filter的Header直接把外界的Header替换掉，并传递
             context.addZuulRequestHeader(headerName, headerValue);
         } else {
+            // 在外界的Header不存在的前提下，通过Zuul Filter的Header传递
             String header = context.getRequest().getHeader(headerName);
             if (StringUtils.isEmpty(header)) {
                 context.addZuulRequestHeader(headerName, headerValue);
