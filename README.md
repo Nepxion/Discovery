@@ -649,12 +649,21 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
 ```
 :triangular_flag_on_post:注意
 
-路由策略的入口有三个（以{"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.0", "discovery-springcloud-example-c":"1.0;1.2"}）为例：
-- 从外界传入（例如：Postman），在Header上加入n-d-version={"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.0", "discovery-springcloud-example-c":"1.0;1.2"}
-- 在网关Zuul或者Spring Cloud Gateway的Filter中指定
+路由策略的入口有三个为例：
+- 从外界传入（例如：Postman），在Header上加入。例如：n-d-version={"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.0", "discovery-springcloud-example-c":"1.0;1.2"}
+- 在网关Zuul或者Spring Cloud Gateway的Filter中指定Header
 - 网关端全链路路由策略的灰度发布规则，在配置中心或者本地rule.xml配置
 
-其作用的优先级为外界传入>网关Filter指定>配置中心或者本地rule.xml配置
+其作用的优先级
+- 在服务中，Header方式>配置中心或者本地rule.xml配置
+- 在网关中，通过如下配置，决定优先级
+```xml
+# 当外界传值Header的时候，网关也设置并传递同名的Header，需要决定哪个Header传递到后边的服务去。如果下面开关为true，以网关设置为优先，否则以外界传值为优先。缺失则默认为true
+spring.application.strategy.gateway.header.priority=false
+
+# 当外界传值Header的时候，网关也设置并传递同名的Header，需要决定哪个Header传递到后边的服务去。如果下面开关为true，以网关设置为优先，否则以外界传值为优先。缺失则默认为true
+spring.application.strategy.zuul.header.priority=false
+```
 
 ### 用户自定义的灰度发布规则
 通过订阅业务参数的变化，实现特色化的灰度发布，例如，多数据源的数据库切换的灰度发布
