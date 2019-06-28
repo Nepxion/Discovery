@@ -20,7 +20,7 @@ import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.listener.discovery.AbstractDiscoveryListener;
 
-// 当目标服务的元数据中的Group和本服务不相等，禁止被本服务发现（只用于DiscoveryClient.getInstances接口方法用）
+// 当目标服务的元数据中的Group和本服务不相等，禁止被本服务发现（只用于DiscoveryClient.getInstances接口方法用）。如果是网关，则不做处理
 public class ConsumerIsolationDiscoveryStrategy extends AbstractDiscoveryListener {
     @Autowired
     private PluginAdapter pluginAdapter;
@@ -30,6 +30,12 @@ public class ConsumerIsolationDiscoveryStrategy extends AbstractDiscoveryListene
         Iterator<ServiceInstance> iterator = instances.iterator();
         while (iterator.hasNext()) {
             ServiceInstance serviceInstance = iterator.next();
+
+            String serverApplicationType = serviceInstance.getMetadata().get(DiscoveryConstant.SPRING_APPLICATION_TYPE);
+            if (StringUtils.equals(serverApplicationType, DiscoveryConstant.GATEWAY_TYPE)) {
+                continue;
+            }
+
             String serverGroup = serviceInstance.getMetadata().get(DiscoveryConstant.GROUP);
             String group = pluginAdapter.getGroup();
             if (!StringUtils.equals(serverGroup, group)) {

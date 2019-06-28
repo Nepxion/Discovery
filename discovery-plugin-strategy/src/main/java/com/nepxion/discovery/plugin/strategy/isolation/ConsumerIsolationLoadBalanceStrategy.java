@@ -20,7 +20,7 @@ import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.AbstractLoadBalanceListener;
 import com.netflix.loadbalancer.Server;
 
-// 当目标服务的元数据中的Group和本服务不相等，禁止被本服务负载均衡
+// 当目标服务的元数据中的Group和本服务不相等，禁止被本服务负载均衡。如果是网关，则不做处理
 public class ConsumerIsolationLoadBalanceStrategy extends AbstractLoadBalanceListener {
     @Autowired
     private PluginAdapter pluginAdapter;
@@ -30,6 +30,12 @@ public class ConsumerIsolationLoadBalanceStrategy extends AbstractLoadBalanceLis
         Iterator<? extends Server> iterator = servers.iterator();
         while (iterator.hasNext()) {
             Server server = iterator.next();
+
+            String serverApplicationType = pluginAdapter.getServerMetadata(server).get(DiscoveryConstant.SPRING_APPLICATION_TYPE);
+            if (StringUtils.equals(serverApplicationType, DiscoveryConstant.GATEWAY_TYPE)) {
+                continue;
+            }
+
             String serverGroup = pluginAdapter.getServerMetadata(server).get(DiscoveryConstant.GROUP);
             String group = pluginAdapter.getGroup();
             if (!StringUtils.equals(serverGroup, group)) {
