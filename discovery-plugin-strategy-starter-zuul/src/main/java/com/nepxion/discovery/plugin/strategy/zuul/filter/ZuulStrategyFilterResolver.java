@@ -1,4 +1,4 @@
-﻿package com.nepxion.discovery.plugin.strategy.zuul.filter;
+package com.nepxion.discovery.plugin.strategy.zuul.filter;
 
 /**
  * <p>Title: Nepxion Discovery</p>
