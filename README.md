@@ -230,6 +230,10 @@ Spring Boot Admin监控平台
 
 ## 架构工程
 ### 架构
+服务治理架构图
+
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Govern.jpg)
+
 全局架构图
 
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Architecture.jpg)
