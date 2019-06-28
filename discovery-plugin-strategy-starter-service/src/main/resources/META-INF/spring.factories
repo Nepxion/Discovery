@@ -1,3 +1,6 @@
+org.springframework.context.ApplicationContextInitializer=\
+com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyApplicationContextInitializer
+
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.nepxion.discovery.plugin.strategy.configuration.StrategyAutoConfiguration,\
 com.nepxion.discovery.plugin.strategy.service.configuration.ServiceStrategyAutoConfiguration,\
