@@ -107,6 +107,14 @@ public class PluginContextAware implements ApplicationContextAware {
         return getConfigPath(environment);
     }
 
+    public String getApplicationName() {
+        return getApplicationName(environment);
+    }
+
+    public String getApplicationType() {
+        return getApplicationType();
+    }
+
     public String getGroupKey() {
         return getGroupKey(environment);
     }

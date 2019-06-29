@@ -25,15 +25,11 @@ import com.nepxion.discovery.common.redis.operation.RedisOperation;
 import com.nepxion.discovery.common.redis.operation.RedisSubscribeCallback;
 import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.event.RuleClearedEvent;
 import com.nepxion.discovery.plugin.framework.event.RuleUpdatedEvent;
 
 public class RedisConfigAdapter extends ConfigAdapter {
     private static final Logger LOG = LoggerFactory.getLogger(RedisConfigAdapter.class);
-
-    @Autowired
-    protected PluginContextAware pluginContextAware;
 
     @Autowired
     private PluginAdapter pluginAdapter;
@@ -70,7 +66,7 @@ public class RedisConfigAdapter extends ConfigAdapter {
     }
 
     private String getConfig(boolean globalConfig) throws Exception {
-        String groupKey = pluginContextAware.getGroupKey();
+        String groupKey = pluginAdapter.getGroupKey();
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
 
@@ -88,7 +84,7 @@ public class RedisConfigAdapter extends ConfigAdapter {
     }
 
     private void subscribeConfig(String config, boolean globalConfig) {
-        String groupKey = pluginContextAware.getGroupKey();
+        String groupKey = pluginAdapter.getGroupKey();
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
 
@@ -128,7 +124,7 @@ public class RedisConfigAdapter extends ConfigAdapter {
     }
 
     private void unsubscribeConfig(MessageListenerAdapter messageListenerAdapter, boolean globalConfig) {
-        String groupKey = pluginContextAware.getGroupKey();
+        String groupKey = pluginAdapter.getGroupKey();
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
 

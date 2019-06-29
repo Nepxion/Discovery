@@ -24,15 +24,11 @@ import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.event.RuleClearedEvent;
 import com.nepxion.discovery.plugin.framework.event.RuleUpdatedEvent;
 
 public class ApolloConfigAdapter extends ConfigAdapter {
     private static final Logger LOG = LoggerFactory.getLogger(ApolloConfigAdapter.class);
-
-    @Autowired
-    protected PluginContextAware pluginContextAware;
 
     @Autowired
     private PluginAdapter pluginAdapter;
@@ -63,7 +59,7 @@ public class ApolloConfigAdapter extends ConfigAdapter {
     }
 
     private String getConfig(boolean globalConfig) throws Exception {
-        String groupKey = pluginContextAware.getGroupKey();
+        String groupKey = pluginAdapter.getGroupKey();
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
 
@@ -79,7 +75,7 @@ public class ApolloConfigAdapter extends ConfigAdapter {
     }
 
     private ConfigChangeListener subscribeConfig(boolean globalConfig) {
-        String groupKey = pluginContextAware.getGroupKey();
+        String groupKey = pluginAdapter.getGroupKey();
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
 
@@ -127,7 +123,7 @@ public class ApolloConfigAdapter extends ConfigAdapter {
             return;
         }
 
-        String groupKey = pluginContextAware.getGroupKey();
+        String groupKey = pluginAdapter.getGroupKey();
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
 
