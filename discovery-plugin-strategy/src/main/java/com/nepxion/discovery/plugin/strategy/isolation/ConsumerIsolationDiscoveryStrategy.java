@@ -31,14 +31,14 @@ public class ConsumerIsolationDiscoveryStrategy extends AbstractDiscoveryListene
         while (iterator.hasNext()) {
             ServiceInstance serviceInstance = iterator.next();
 
-            String serverApplicationType = serviceInstance.getMetadata().get(DiscoveryConstant.SPRING_APPLICATION_TYPE);
-            if (StringUtils.equals(serverApplicationType, DiscoveryConstant.GATEWAY_TYPE)) {
+            String instanceServiceType = pluginAdapter.getInstanceServiceType(serviceInstance);
+            if (StringUtils.equals(instanceServiceType, DiscoveryConstant.GATEWAY_TYPE)) {
                 continue;
             }
 
-            String serverGroup = serviceInstance.getMetadata().get(DiscoveryConstant.GROUP);
+            String instanceGroup = pluginAdapter.getInstanceGroup(serviceInstance);
             String group = pluginAdapter.getGroup();
-            if (!StringUtils.equals(serverGroup, group)) {
+            if (!StringUtils.equals(instanceGroup, group)) {
                 iterator.remove();
             }
         }

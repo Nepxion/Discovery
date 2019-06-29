@@ -11,6 +11,8 @@ package com.nepxion.discovery.plugin.framework.adapter;
 
 import java.util.Map;
 
+import org.springframework.cloud.client.ServiceInstance;
+
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.netflix.loadbalancer.Server;
 
@@ -68,4 +70,18 @@ public interface PluginAdapter {
     String getServerVersion(Server server);
 
     String getServerRegion(Server server);
+
+    Map<String, String> getInstanceMetadata(ServiceInstance serviceInstance);
+
+    String getInstanceGroupKey(ServiceInstance serviceInstance);
+
+    String getInstanceGroup(ServiceInstance serviceInstance);
+
+    String getInstanceServiceType(ServiceInstance serviceInstance);
+
+    String getInstanceServiceId(ServiceInstance serviceInstance);
+
+    String getInstanceVersion(ServiceInstance serviceInstance);
+
+    String getInstanceRegion(ServiceInstance serviceInstance);
 }

@@ -13,6 +13,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.serviceregistry.Registration;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
@@ -187,5 +188,42 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     @Override
     public String getServerRegion(Server server) {
         return getServerMetadata(server).get(DiscoveryConstant.REGION);
+    }
+
+    @Override
+    public Map<String, String> getInstanceMetadata(ServiceInstance serviceInstance) {
+        return serviceInstance.getMetadata();
+    }
+
+    @Override
+    public String getInstanceGroupKey(ServiceInstance serviceInstance) {
+        return getInstanceMetadata(serviceInstance).get(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY);
+    }
+
+    @Override
+    public String getInstanceGroup(ServiceInstance serviceInstance) {
+        String instanceGroupKey = getInstanceGroupKey(serviceInstance);
+
+        return getInstanceMetadata(serviceInstance).get(instanceGroupKey);
+    }
+
+    @Override
+    public String getInstanceServiceType(ServiceInstance serviceInstance) {
+        return getInstanceMetadata(serviceInstance).get(DiscoveryConstant.SPRING_APPLICATION_TYPE);
+    }
+
+    @Override
+    public String getInstanceServiceId(ServiceInstance serviceInstance) {
+        return serviceInstance.getServiceId().toLowerCase();
+    }
+
+    @Override
+    public String getInstanceVersion(ServiceInstance serviceInstance) {
+        return getInstanceMetadata(serviceInstance).get(DiscoveryConstant.VERSION);
+    }
+
+    @Override
+    public String getInstanceRegion(ServiceInstance serviceInstance) {
+        return getInstanceMetadata(serviceInstance).get(DiscoveryConstant.REGION);
     }
 }

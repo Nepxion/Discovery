@@ -21,6 +21,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class RouterEntity implements Serializable {
     private static final long serialVersionUID = -4480475963615166799L;
 
+    private String serviceType;
     private String serviceId;
     private String version;
     private String region;
@@ -30,6 +31,14 @@ public class RouterEntity implements Serializable {
     private String contextPath;
 
     private List<RouterEntity> nexts = new ArrayList<RouterEntity>();
+
+    public String getServiceType() {
+        return serviceType;
+    }
+
+    public void setServiceType(String serviceType) {
+        this.serviceType = serviceType;
+    }
 
     public String getServiceId() {
         return serviceId;

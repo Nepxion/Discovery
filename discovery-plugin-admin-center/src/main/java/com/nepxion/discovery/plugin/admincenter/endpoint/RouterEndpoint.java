@@ -122,6 +122,7 @@ public class RouterEndpoint {
     }
 
     public RouterEntity getRouterEntity() {
+        String serviceType = pluginAdapter.getServiceType();
         String serviceId = pluginAdapter.getServiceId();
         String version = pluginAdapter.getVersion();
         String region = pluginAdapter.getRegion();
@@ -131,6 +132,7 @@ public class RouterEndpoint {
         String contextPath = pluginAdapter.getContextPath();
 
         RouterEntity routerEntity = new RouterEntity();
+        routerEntity.setServiceType(serviceType);
         routerEntity.setServiceId(serviceId);
         routerEntity.setVersion(version);
         routerEntity.setRegion(region);
@@ -159,6 +161,7 @@ public class RouterEndpoint {
         for (ServiceInstance instance : instanceList) {
             Map<String, String> metadata = instance.getMetadata();
             String serviceId = instance.getServiceId().toLowerCase();
+            String serviceType =  metadata.get(DiscoveryConstant.SPRING_APPLICATION_TYPE);
             String version = metadata.get(DiscoveryConstant.VERSION);
             String region = metadata.get(DiscoveryConstant.REGION);
             String host = instance.getHost();
@@ -167,6 +170,7 @@ public class RouterEndpoint {
             String contextPath = metadata.get(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH);
 
             RouterEntity routerEntity = new RouterEntity();
+            routerEntity.setServiceType(serviceType);
             routerEntity.setServiceId(serviceId);
             routerEntity.setVersion(version);
             routerEntity.setRegion(region);

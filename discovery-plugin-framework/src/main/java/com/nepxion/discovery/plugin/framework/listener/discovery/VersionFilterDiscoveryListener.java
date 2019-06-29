@@ -19,7 +19,6 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cloud.client.ServiceInstance;
 
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.DiscoveryEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.VersionEntity;
@@ -107,8 +106,8 @@ public class VersionFilterDiscoveryListener extends AbstractDiscoveryListener {
                 Iterator<ServiceInstance> iterator = instances.iterator();
                 while (iterator.hasNext()) {
                     ServiceInstance serviceInstance = iterator.next();
-                    String metadataVersion = serviceInstance.getMetadata().get(DiscoveryConstant.VERSION);
-                    if (!allNoFilterValueList.contains(metadataVersion)) {
+                    String instanceVersion = pluginAdapter.getInstanceVersion(serviceInstance);
+                    if (!allNoFilterValueList.contains(instanceVersion)) {
                         iterator.remove();
                     }
                 }
