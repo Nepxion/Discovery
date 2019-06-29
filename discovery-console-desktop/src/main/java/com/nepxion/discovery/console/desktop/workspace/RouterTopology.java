@@ -228,6 +228,9 @@ public class RouterTopology extends AbstractTopology {
 
     private String getNodeName(Instance instance) {
         StringBuilder stringBuilder = new StringBuilder();
+        if (StringUtils.isNotEmpty(instance.getServiceType())) {
+            stringBuilder.append(ConsoleLocale.getString("type_" + instance.getServiceType())).append(" - ");
+        }
         stringBuilder.append(instance.getServiceId()).append("\n");
         stringBuilder.append(instance.getHost()).append(":").append(instance.getPort());
 
@@ -244,6 +247,9 @@ public class RouterTopology extends AbstractTopology {
 
     private String getNodeName(RouterEntity routerEntity) {
         StringBuilder stringBuilder = new StringBuilder();
+        if (StringUtils.isNotEmpty(routerEntity.getServiceType())) {
+            stringBuilder.append(ConsoleLocale.getString("type_" + routerEntity.getServiceType())).append(" - ");
+        }
         stringBuilder.append(routerEntity.getServiceId()).append("\n");
         stringBuilder.append(routerEntity.getHost()).append(":").append(routerEntity.getPort());
 

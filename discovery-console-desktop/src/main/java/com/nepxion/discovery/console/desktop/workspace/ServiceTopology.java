@@ -376,6 +376,9 @@ public class ServiceTopology extends AbstractTopology {
 
     private String getNodeName(Instance instance) {
         StringBuilder stringBuilder = new StringBuilder();
+        if (StringUtils.isNotEmpty(instance.getServiceType())) {
+            stringBuilder.append(ConsoleLocale.getString("type_" + instance.getServiceType())).append(" - ");
+        }
         stringBuilder.append(instance.getHost()).append(":").append(instance.getPort());
         if (StringUtils.isNotEmpty(instance.getVersion())) {
             stringBuilder.append("\n[V").append(instance.getVersion());
@@ -383,9 +386,9 @@ public class ServiceTopology extends AbstractTopology {
                 stringBuilder.append(" -> V").append(instance.getDynamicVersion());
             }
             stringBuilder.append("]");
-            if (StringUtils.isNotEmpty(instance.getRegion())) {
-                stringBuilder.append("\n [Region=").append(instance.getRegion()).append("]");
-            }
+        }
+        if (StringUtils.isNotEmpty(instance.getRegion())) {
+            stringBuilder.append("\n [Region=").append(instance.getRegion()).append("]");
         }
 
         return ButtonManager.getHtmlText(stringBuilder.toString());
