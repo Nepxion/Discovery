@@ -110,7 +110,7 @@ public class PluginContextAware implements ApplicationContextAware {
     }
 
     public String getApplicationType() {
-        return getApplicationType();
+        return getApplicationType(environment);
     }
 
     public String getGroupKey() {
