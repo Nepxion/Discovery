@@ -302,12 +302,14 @@ public class ConsoleEndpoint {
         for (ServiceInstance serviceInstance : serviceInstances) {
             Map<String, String> metadata = serviceInstance.getMetadata();
             String serviceId = serviceInstance.getServiceId().toLowerCase();
+            String serviceType =  metadata.get(DiscoveryConstant.SPRING_APPLICATION_TYPE);
             String version = metadata.get(DiscoveryConstant.VERSION);
             String region = metadata.get(DiscoveryConstant.REGION);
             String host = serviceInstance.getHost();
             int port = serviceInstance.getPort();
 
             InstanceEntity instanceEntity = new InstanceEntity();
+            instanceEntity.setServiceType(serviceType);
             instanceEntity.setServiceId(serviceId);
             instanceEntity.setVersion(version);
             instanceEntity.setRegion(region);
