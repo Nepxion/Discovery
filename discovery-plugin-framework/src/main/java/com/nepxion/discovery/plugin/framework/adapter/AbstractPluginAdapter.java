@@ -37,8 +37,13 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     protected RuleCache ruleCache;
 
     @Override
+    public String getGroupKey() {
+        return pluginContextAware.getGroupKey();
+    }
+
+    @Override
     public String getGroup() {
-        String groupKey = pluginContextAware.getGroupKey();
+        String groupKey = getGroupKey();
 
         String group = getGroup(groupKey);
         if (StringUtils.isEmpty(group)) {
@@ -50,6 +55,11 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     protected String getGroup(String groupKey) {
         return getMetadata().get(groupKey);
+    }
+
+    @Override
+    public String getServiceType() {
+        return pluginContextAware.getApplicationType();
     }
 
     @Override
@@ -145,6 +155,23 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     @Override
     public String getRegion() {
         return getMetadata().get(DiscoveryConstant.REGION);
+    }
+
+    @Override
+    public String getServerGroupKey(Server server) {
+        return getServerMetadata(server).get(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY);
+    }
+
+    @Override
+    public String getServerGroup(Server server) {
+        String serverGroupKey = getServerGroupKey(server);
+
+        return getServerMetadata(server).get(serverGroupKey);
+    }
+
+    @Override
+    public String getServerServiceType(Server server) {
+        return getServerMetadata(server).get(DiscoveryConstant.SPRING_APPLICATION_TYPE);
     }
 
     @Override

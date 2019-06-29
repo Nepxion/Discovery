@@ -14,7 +14,6 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.AbstractLoadBalanceListener;
 import com.netflix.loadbalancer.Server;
 
@@ -25,7 +24,7 @@ public class MyLoadBalanceListener extends AbstractLoadBalanceListener {
         Iterator<? extends Server> iterator = servers.iterator();
         while (iterator.hasNext()) {
             Server server = iterator.next();
-            String group = pluginAdapter.getServerMetadata(server).get(DiscoveryConstant.GROUP);
+            String group = pluginAdapter.getServerGroup(server);
             if (StringUtils.equals(group, "mygroup3")) {
                 iterator.remove();
 

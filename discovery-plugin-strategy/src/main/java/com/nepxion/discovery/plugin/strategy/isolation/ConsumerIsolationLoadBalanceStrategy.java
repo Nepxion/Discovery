@@ -31,12 +31,12 @@ public class ConsumerIsolationLoadBalanceStrategy extends AbstractLoadBalanceLis
         while (iterator.hasNext()) {
             Server server = iterator.next();
 
-            String serverApplicationType = pluginAdapter.getServerMetadata(server).get(DiscoveryConstant.SPRING_APPLICATION_TYPE);
-            if (StringUtils.equals(serverApplicationType, DiscoveryConstant.GATEWAY_TYPE)) {
+            String serverServiceType = pluginAdapter.getServerServiceType(server);
+            if (StringUtils.equals(serverServiceType, DiscoveryConstant.GATEWAY_TYPE)) {
                 continue;
             }
 
-            String serverGroup = pluginAdapter.getServerMetadata(server).get(DiscoveryConstant.GROUP);
+            String serverGroup = pluginAdapter.getServerGroup(server);
             String group = pluginAdapter.getGroup();
             if (!StringUtils.equals(serverGroup, group)) {
                 iterator.remove();
