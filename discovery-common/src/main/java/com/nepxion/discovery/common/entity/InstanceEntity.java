@@ -20,12 +20,21 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class InstanceEntity implements Serializable {
     private static final long serialVersionUID = -3001191508072178378L;
 
+    private String serviceType;
     private String serviceId;
     private String version;
     private String region;
     private String host;
     private int port;
     private Map<String, String> metadata;
+
+    public String getServiceType() {
+        return serviceType;
+    }
+
+    public void setServiceType(String serviceType) {
+        this.serviceType = serviceType;
+    }
 
     public String getServiceId() {
         return serviceId;
