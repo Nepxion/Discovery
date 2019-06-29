@@ -28,7 +28,6 @@ import com.nepxion.discovery.common.redis.constant.RedisConstant;
 import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
 import com.nepxion.discovery.plugin.configcenter.redis.adapter.RedisConfigAdapter;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.taobao.text.Color;
 
 @Configuration
@@ -58,9 +57,6 @@ public class RedisConfigAutoConfiguration {
     private RedisConnectionFactory redisConnectionFactory;
 
     @Autowired
-    protected PluginContextAware pluginContextAware;
-
-    @Autowired
     private PluginAdapter pluginAdapter;
 
     @Bean
@@ -78,7 +74,7 @@ public class RedisConfigAutoConfiguration {
 
     @Bean
     public MessageListenerAdapter partialMessageListenerAdapter(RedisConfigAdapter configAdapter) {
-        String groupKey = pluginContextAware.getGroupKey();
+        String groupKey = pluginAdapter.getGroupKey();
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
 
@@ -89,7 +85,7 @@ public class RedisConfigAutoConfiguration {
 
     @Bean
     public MessageListenerAdapter globalMessageListenerAdapter(RedisConfigAdapter configAdapter) {
-        String groupKey = pluginContextAware.getGroupKey();
+        String groupKey = pluginAdapter.getGroupKey();
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
 

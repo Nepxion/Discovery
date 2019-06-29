@@ -16,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledStrategy;
 import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
@@ -49,8 +48,8 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
     private boolean applyFromHeader(Server server) {
         String token = serviceStrategyContextHolder.getHeader("token");
         String serviceId = pluginAdapter.getServerServiceId(server);
-        String version = pluginAdapter.getServerMetadata(server).get(DiscoveryConstant.VERSION);
-        String region = pluginAdapter.getServerMetadata(server).get(DiscoveryConstant.REGION);
+        String version = pluginAdapter.getServerVersion(server);
+        String region = pluginAdapter.getServerRegion(server);
 
         LOG.info("负载均衡用户定制触发：token={}, serviceId={}, version={}, region={}", token, serviceId, version, region);
 
@@ -70,8 +69,8 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
     private boolean applyFromMethod(Server server) {
         Map<String, Object> attributes = serviceStrategyContextHolder.getRpcAttributes();
         String serviceId = pluginAdapter.getServerServiceId(server);
-        String version = pluginAdapter.getServerMetadata(server).get(DiscoveryConstant.VERSION);
-        String region = pluginAdapter.getServerMetadata(server).get(DiscoveryConstant.REGION);
+        String version = pluginAdapter.getServerVersion(server);
+        String region = pluginAdapter.getServerRegion(server);
 
         LOG.info("负载均衡用户定制触发：attributes={}, serviceId={}, version={}, region={}", attributes, serviceId, version, region);
 

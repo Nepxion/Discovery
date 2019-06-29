@@ -85,8 +85,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
             return true;
         }
 
-        Map<String, String> metadata = pluginAdapter.getServerMetadata(server);
-        String version = metadata.get(DiscoveryConstant.VERSION);
+        String version = pluginAdapter.getServerVersion(server);
         if (StringUtils.isEmpty(version)) {
             return false;
         }
@@ -137,8 +136,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
             return true;
         }
 
-        Map<String, String> metadata = pluginAdapter.getServerMetadata(server);
-        String region = metadata.get(DiscoveryConstant.REGION);
+        String region = pluginAdapter.getServerRegion(server);
         if (StringUtils.isEmpty(region)) {
             return false;
         }

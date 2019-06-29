@@ -30,7 +30,6 @@ import com.nepxion.discovery.common.nacos.operation.NacosSubscribeCallback;
 import com.nepxion.discovery.common.thread.NamedThreadFactory;
 import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.event.RuleClearedEvent;
 import com.nepxion.discovery.plugin.framework.event.RuleUpdatedEvent;
 
@@ -38,9 +37,6 @@ public class NacosConfigAdapter extends ConfigAdapter {
     private static final Logger LOG = LoggerFactory.getLogger(NacosConfigAdapter.class);
 
     private ExecutorService executorService = new ThreadPoolExecutor(2, 4, 0, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(1), new NamedThreadFactory("nacos-config"), new ThreadPoolExecutor.DiscardOldestPolicy());
-
-    @Autowired
-    protected PluginContextAware pluginContextAware;
 
     @Autowired
     private PluginAdapter pluginAdapter;
@@ -71,7 +67,7 @@ public class NacosConfigAdapter extends ConfigAdapter {
     }
 
     private String getConfig(boolean globalConfig) throws Exception {
-        String groupKey = pluginContextAware.getGroupKey();
+        String groupKey = pluginAdapter.getGroupKey();
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
 
@@ -87,7 +83,7 @@ public class NacosConfigAdapter extends ConfigAdapter {
     }
 
     private Listener subscribeConfig(boolean globalConfig) {
-        String groupKey = pluginContextAware.getGroupKey();
+        String groupKey = pluginAdapter.getGroupKey();
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
 
@@ -137,7 +133,7 @@ public class NacosConfigAdapter extends ConfigAdapter {
             return;
         }
 
-        String groupKey = pluginContextAware.getGroupKey();
+        String groupKey = pluginAdapter.getGroupKey();
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
 
