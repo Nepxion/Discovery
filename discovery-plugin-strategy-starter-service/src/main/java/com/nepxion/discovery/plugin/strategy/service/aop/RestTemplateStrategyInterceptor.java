@@ -9,19 +9,18 @@ package com.nepxion.discovery.plugin.strategy.service.aop;
  * @version 1.0
  */
 
+
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
@@ -30,53 +29,27 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.common.util.StringUtil;
-import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
-import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyContextHolder;
 
-public class RestTemplateStrategyInterceptor implements ClientHttpRequestInterceptor {
+public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor implements ClientHttpRequestInterceptor {
     private static final Logger LOG = LoggerFactory.getLogger(RestTemplateStrategyInterceptor.class);
 
-    @Autowired
-    private ConfigurableEnvironment environment;
-
-    @Autowired
-    private PluginAdapter pluginAdapter;
-
-    @Autowired
-    private ServiceStrategyContextHolder serviceStrategyContextHolder;
-
-    private List<String> requestHeaderList = new ArrayList<String>();
-
     public RestTemplateStrategyInterceptor(String requestHeaders) {
-        LOG.info("------------- RestTemplate Intercept Information -----------");
-        if (StringUtils.isNotEmpty(requestHeaders)) {
-            requestHeaderList.addAll(StringUtil.splitToList(requestHeaders.toLowerCase(), DiscoveryConstant.SEPARATE));
-        }
-        if (!requestHeaderList.contains(DiscoveryConstant.N_D_VERSION)) {
-            requestHeaderList.add(DiscoveryConstant.N_D_VERSION);
-        }
-        if (!requestHeaderList.contains(DiscoveryConstant.N_D_REGION)) {
-            requestHeaderList.add(DiscoveryConstant.N_D_REGION);
-        }
-        if (!requestHeaderList.contains(DiscoveryConstant.N_D_ADDRESS)) {
-            requestHeaderList.add(DiscoveryConstant.N_D_ADDRESS);
-        }
-        if (!requestHeaderList.contains(DiscoveryConstant.N_D_VERSION_WEIGHT)) {
-            requestHeaderList.add(DiscoveryConstant.N_D_VERSION_WEIGHT);
-        }
-        if (!requestHeaderList.contains(DiscoveryConstant.N_D_REGION_WEIGHT)) {
-            requestHeaderList.add(DiscoveryConstant.N_D_REGION_WEIGHT);
-        }
-        LOG.info("RestTemplate desires to intercept headers are {}", requestHeaders);
-        LOG.info("-------------------------------------------------");
+        super(requestHeaders);
+
+        LOG.info("------- RestTemplate Intercept Information -------");
+        LOG.info("RestTemplate desires to intercept headers are {}", requestHeaderList);
+        LOG.info("--------------------------------------------------");
     }
 
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
+        printInputRouteHeader();
+
         applyInnerHeader(request);
         applyOuterHeader(request);
+
+        printOutputRouteHeader(request);
 
         return execution.execute(request, body);
     }
@@ -104,24 +77,35 @@ public class RestTemplateStrategyInterceptor implements ClientHttpRequestInterce
             return;
         }
 
-        Boolean interceptLogPrint = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_INTERCEPT_LOG_PRINT, Boolean.class, Boolean.FALSE);
-        if (interceptLogPrint) {
-            LOG.info("------------- RestTemplate Route Information -----------");
-        }
         HttpHeaders headers = request.getHeaders();
         while (headerNames.hasMoreElements()) {
             String headerName = headerNames.nextElement();
-            String header = previousRequest.getHeader(headerName);
+            String headerValue = previousRequest.getHeader(headerName);
 
             if (requestHeaderList.contains(headerName.toLowerCase())) {
-                if (interceptLogPrint) {
-                    LOG.info("{}={}", headerName, header);
-                }
-                headers.add(headerName, header);
+                headers.add(headerName, headerValue);
             }
         }
-        if (interceptLogPrint) {
-            LOG.info("-------------------------------------------------");
+    }
+
+    private void printOutputRouteHeader(HttpRequest request) {
+        Boolean interceptLogPrint = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_INTERCEPT_LOG_PRINT, Boolean.class, Boolean.FALSE);
+        if (!interceptLogPrint) {
+            return;
         }
+
+        LOG.info("--------- Output Route Header Information --------");
+        HttpHeaders headers = request.getHeaders();
+        for (Iterator<Entry<String, List<String>>> iterator = headers.entrySet().iterator(); iterator.hasNext();) {
+            Entry<String, List<String>> header = iterator.next();
+            String headerName = header.getKey();
+            if (headerName.startsWith(DiscoveryConstant.N_D_SERVICE_PREFIX)) {
+                List<String> headerValue = header.getValue();
+
+                LOG.info("{}={}", headerName, headerValue);
+            }
+        }
+
+        LOG.info("--------------------------------------------------");
     }
 }
