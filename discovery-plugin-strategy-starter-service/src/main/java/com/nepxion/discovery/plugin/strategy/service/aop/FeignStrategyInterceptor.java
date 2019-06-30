@@ -66,7 +66,7 @@ public class FeignStrategyInterceptor implements RequestInterceptor {
         if (!requestHeaderList.contains(DiscoveryConstant.N_D_REGION_WEIGHT)) {
             requestHeaderList.add(DiscoveryConstant.N_D_REGION_WEIGHT);
         }
-        LOG.info("Feign intercepted headers are {}", StringUtils.isNotEmpty(requestHeaders) ? requestHeaders : "empty");
+        LOG.info("Feign desires to intercept headers are {}", requestHeaders);
         LOG.info("-------------------------------------------------");
     }
 
@@ -77,6 +77,7 @@ public class FeignStrategyInterceptor implements RequestInterceptor {
     }
 
     private void applyInnerHeader(RequestTemplate requestTemplate) {
+        requestTemplate.header(DiscoveryConstant.N_D_SERVICE_TYPE, pluginAdapter.getServiceType());
         requestTemplate.header(DiscoveryConstant.N_D_SERVICE_ID, pluginAdapter.getServiceId());
         requestTemplate.header(DiscoveryConstant.N_D_GROUP, pluginAdapter.getGroup());
     }
