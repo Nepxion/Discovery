@@ -1,5 +1,5 @@
 # Nepxion Discovery
-[![<img src="https://github.com/Nepxion/Docs/blob/master/zxing-doc/微信-1.jpg" width="50%" height="50%" />](https://tokei.rs/b1/github/Nepxion/Discovery1?category=lines)](https://tokei.rs/b1/github/Nepxion/Discovery?category=lines)
+[![Total lines](https://tokei.rs/b1/github/Nepxion/Discovery?category=lines)](https://tokei.rs/b1/github/Nepxion/Discovery?category=lines)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?label=license)](https://github.com/Nepxion/Discovery/blob/master/LICENSE)
 [![Maven Central](https://img.shields.io/maven-central/v/com.nepxion/discovery.svg?label=maven%20central)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.nepxion%22%20AND%20discovery)
 [![Javadocs](http://www.javadoc.io/badge/com.nepxion/discovery-plugin-framework.svg)](http://www.javadoc.io/doc/com.nepxion/discovery-plugin-framework)
