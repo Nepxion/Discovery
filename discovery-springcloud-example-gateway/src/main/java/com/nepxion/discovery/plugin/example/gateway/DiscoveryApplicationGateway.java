@@ -35,6 +35,7 @@ public class DiscoveryApplicationGateway {
     @ConditionalOnProperty(value = GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_ROUTE_FILTER_ENABLED, matchIfMissing = true)
     public GatewayStrategyRouteFilter gatewayStrategyRouteFilter() {
         return new MyRouteFilter();
+        // return new CustomizationGatewayStrategyRouteFilter();
     }
 
     @Bean
