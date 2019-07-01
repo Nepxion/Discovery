@@ -105,40 +105,40 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 
 ## 快速开始
 - [极简示例](https://github.com/Nepxion/DiscoveryGray) 
-- [入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)
-- [示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)
+- [入门教程](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_QUICK_START.md)
+- [示例演示](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_EXAMPLE.md)
 
 ## 请联系我
 微信和公众号
 
-![Alt text](https://github.com/Nepxion/Docs/blob/master/zxing-doc/微信-1.jpg)
-![Alt text](https://github.com/Nepxion/Docs/blob/master/zxing-doc/公众号-1.jpg)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/zxing-doc/微信-1.jpg)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/zxing-doc/公众号-1.jpg)
 
 ## 界面展示
 
 图形化灰度发布桌面程序
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console1.jpg)
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console2.jpg)
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console.gif)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Console1.jpg)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Console2.jpg)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Console.gif)
 图形化灰度发布Web平台
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console14.jpg)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Console14.jpg)
 集成规则配置的Apollo配置中心
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Apollo.jpg)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Apollo.jpg)
 集成规则配置的Nacos配置中心
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Nacos1.jpg)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Nacos1.jpg)
 Nacos服务注册发现中心
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Nacos.jpg)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Nacos.jpg)
 Spring Boot Admin监控平台
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Admin1.jpg)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Admin1.jpg)
 集成Spring Boot Admin（F版或以上）监控平台，实现通过JMX向Endpoint推送规则和版本，实现灰度发布
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Admin2.jpg)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Admin2.jpg)
 集成Spring Boot Admin（E版）监控平台，实现通过JMX向Endpoint推送规则和版本，实现灰度发布
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Admin3.jpg)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Admin3.jpg)
 集成Sentinel熔断隔离限流降级平台
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Sentinel1.jpg)
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Sentinel2.jpg)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Sentinel1.jpg)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Sentinel2.jpg)
 集成健康检查的Consul界面
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Consul.jpg)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Consul.jpg)
 
 ## 现有痛点
 现有的Spring Cloud微服务痛点
@@ -232,11 +232,11 @@ Spring Boot Admin监控平台
 ### 架构
 服务治理架构图
 
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Govern.jpg)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Govern.jpg)
 
 全局架构图
 
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Architecture.jpg)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Architecture.jpg)
 
 从上图，可以分析出两种基于网关的灰度发布方案，您可以研究更多的灰度发布策略
 
@@ -268,7 +268,7 @@ Spring Boot Admin监控平台
 
 模块结构图
 
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Module.jpg)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Module.jpg)
 
 ### 工程
 
@@ -704,13 +704,13 @@ spring.application.strategy.zuul.header.priority=false
 策略是通过REST或者RPC调用传递Header或者参数，达到用户自定义和编程灰度路由的目的。使用者可以实现跟业务有关的路由策略，根据业务参数的不同，负载均衡到不同的服务器，其核心代码参考discovery-plugin-strategy以及它的扩展
 
 ### 服务端的编程灰度路由策略
-基于服务端的编程灰度路由，实现DiscoveryEnabledStrategy，通过RequestContextHolder（获取来自网关的Header参数）和ServiceStrategyContext（获取来自RPC方式的方法参数）获取业务上下文参数，进行路由自定义，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+基于服务端的编程灰度路由，实现DiscoveryEnabledStrategy，通过RequestContextHolder（获取来自网关的Header参数）和ServiceStrategyContext（获取来自RPC方式的方法参数）获取业务上下文参数，进行路由自定义，见[示例演示](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 ### Zuul端的编程灰度路由策略
-基于Zuul端的编程灰度路由，实现DiscoveryEnabledStrategy，通过Zuul自带的RequestContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+基于Zuul端的编程灰度路由，实现DiscoveryEnabledStrategy，通过Zuul自带的RequestContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义，见[示例演示](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 ### Gateway端的编程灰度路由策略
-基于Spring Cloud Gateway端的编程灰度路由，实现DiscoveryEnabledStrategy，通过GatewayStrategyContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+基于Spring Cloud Gateway端的编程灰度路由，实现DiscoveryEnabledStrategy，通过GatewayStrategyContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义，见[示例演示](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 ### REST调用的内置多版本灰度路由策略
 基于Feign/RestTemplate的REST调用的多版本灰度路由，在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只有a服务的1.0版本，b服务的1.1版本，c服务的1.1或1.2版本，允许被调用到
@@ -718,7 +718,7 @@ Header的Key为"n-d-version"，value为：
 ```xml
 {"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.1", "discovery-springcloud-example-c":"1.1;1.2"}
 ```
-见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+见[示例演示](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 如果，链路调用中所有的服务都是指定某个版本（例如1.1），那么value的格式可以简化，不需要Json字符串，直接是
 ```xml
@@ -735,7 +735,7 @@ Header的Key为"n-d-version"，value为：
 ```
 
 多版本灰度路由架构图
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/RouteVersion.jpg)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/RouteVersion.jpg)
 
 ### REST调用的内置多区域灰度路由策略
 基于Feign/RestTemplate的REST调用的多区域灰度路由，在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只有dev区域的a服务，qa区域的b服务，dev和qa区域c服务，允许被调用到
@@ -743,7 +743,7 @@ Header的Key为"n-d-region"，value为：
 ```xml
 {"discovery-springcloud-example-a":"dev", "discovery-springcloud-example-b":"qa", "discovery-springcloud-example-c":"dev;qa"}
 ```
-见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+见[示例演示](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 如果，链路调用中所有的服务都是指定某个区域（例如dev），那么value的格式可以简化，不需要Json字符串，直接是
 ```xml
@@ -760,7 +760,7 @@ d* - 表示调用范围为所有服务的d开头的所有区域
 ```
 
 多区域灰度路由架构图
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/RouteRegion.jpg)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/RouteRegion.jpg)
 
 :warning:特别注意：Spring Cloud内置zone的策略，功能跟region策略很相似，但zone策略不能跟用户自定义路由组合使用，故提供了更友好的region策略
 
@@ -770,7 +770,7 @@ Header的Key为"n-d-address"，value为：
 ```xml
 {"discovery-springcloud-example-a":"192.168.43.101:1101", "discovery-springcloud-example-b":"192.168.43.101:1201", "discovery-springcloud-example-c":"192.168.43.101:1302"}
 ```
-见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+见[示例演示](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 如果上述表达式还未满足需求，也可以采用通配符（具体详细用法，参考Spring AntPathMatcher）
 ```xml
@@ -782,7 +782,7 @@ Header的Key为"n-d-address"，value为：
 ```
 
 多IP和端口灰度路由架构图
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/RouteAddress.jpg)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/RouteAddress.jpg)
 
 ### REST调用的内置版本权重灰度路由策略
 基于Feign/RestTemplate的REST调用的多版本权重灰度路由，在Header上传入服务名和版本流量百分比对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务的版本权重配比，那么只需要它们版本对于流量的百分比
@@ -794,7 +794,7 @@ Header的Key为"n-d-version-weight"，value为：
 ```xml
 1.0=90;1.1=10
 ```
-见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+见[示例演示](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 ### REST调用的内置区域权重灰度路由策略
 基于Feign/RestTemplate的REST调用的多区域灰度路由，在Header上传入区域流量百分比对应关系的字符串，如下表示，如果REST请求要经过两个区域，那么只需要它们区域对于流量的百分比
@@ -806,13 +806,13 @@ Header的Key为"n-d-region-weight"，value为：
 ```xml
 dev=85;qa=15
 ```
-见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+见[示例演示](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 ### REST调用的编程灰度路由策略
-基于Feign/RestTemplate的REST调用的自定义路由，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+基于Feign/RestTemplate的REST调用的自定义路由，见[示例演示](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 ### RPC调用的编程灰度路由策略
-基于Feign/RestTemplate的RPC调用的自定义路由，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+基于Feign/RestTemplate的RPC调用的自定义路由，见[示例演示](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 ## 规则和策略
 ### 规则和策略的区别
@@ -952,7 +952,7 @@ spring.application.strategy.provider.isolation.enabled=true
 
 ### 外部元数据配置
 外部系统（例如运维发布平台）在远程启动制定微服务的时候，可以通过参数传递来动态改变元数据或者增加运维特色的参数，最后注册到远程配置中心。有两种方式，如下图：
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Metadata.jpg)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Metadata.jpg)
 - 通过Program arguments来传递，它的用法是前面加“--”。支持Eureka、Zookeeper和Nacos（增量覆盖），Consul支持的不好（全量覆盖）
 - 通过VM arguments来传递，它的用法是前面加“-D”。支持上述所有的注册组件，它的限制是变量前面必须要加“ext.”
 - 两种方式尽量避免同时用
@@ -973,7 +973,7 @@ spring.application.strategy.provider.isolation.enabled=true
 - 路由接口
 参考Swagger界面，如下图
 
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Swagger1.jpg)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Swagger1.jpg)
 
 ## 控制平台
 为UI提供相关接口，包括
@@ -984,7 +984,7 @@ spring.application.strategy.provider.isolation.enabled=true
 - 控制平台接口
 参考Swagger界面，如下图
 
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Swagger2.jpg)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Swagger2.jpg)
 
 ## 监控平台
 基于Spring Boot Actuator技术的Spring Boot Admin监控平台
@@ -997,22 +997,22 @@ spring.application.strategy.provider.isolation.enabled=true
 参考[https://github.com/alibaba/Sentinel](https://github.com/alibaba/Sentinel)
 
 ## 界面工具
-请参考[入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)的“界面操作”
+请参考[入门教程](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_QUICK_START.md)的“界面操作”
 
 ### 基于图形化桌面程序的灰度发布
-- 见[入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)的“运行图形化灰度发布桌面程序”
+- 见[入门教程](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_QUICK_START.md)的“运行图形化灰度发布桌面程序”
 
 ### 基于图形化Web程序的灰度发布
-- 见[入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)的“运行图形化灰度发布Web程序”
+- 见[入门教程](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_QUICK_START.md)的“运行图形化灰度发布Web程序”
 
 ### 基于Apollo界面的灰度发布
-- 见[入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)的“运行Apollo配置界面”
+- 见[入门教程](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_QUICK_START.md)的“运行Apollo配置界面”
 
 ### 基于Nacos界面的灰度发布
-- 见[入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)的“运行Nacos配置界面”
+- 见[入门教程](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_QUICK_START.md)的“运行Nacos配置界面”
 
 ### 基于Rest方式的灰度发布
-- 见[入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)的“运行Swagger或者Postman方式”
+- 见[入门教程](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_QUICK_START.md)的“运行Swagger或者Postman方式”
 
 ## 性能分析
 在我的电脑上，做了如下性能测试：
