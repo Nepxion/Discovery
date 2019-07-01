@@ -1,7 +1,5 @@
 package com.nepxion.discovery.plugin.strategy.service.aop;
 
-import java.util.ArrayList;
-
 /**
  * <p>Title: Nepxion Discovery</p>
  * <p>Description: Nepxion Discovery</p>
@@ -11,6 +9,7 @@ import java.util.ArrayList;
  * @version 1.0
  */
 
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -47,7 +46,7 @@ public abstract class AbstractStrategyInterceptor {
         if (StringUtils.isNotEmpty(requestHeaders)) {
             requestHeaderList.addAll(StringUtil.splitToList(requestHeaders.toLowerCase(), DiscoveryConstant.SEPARATE));
         }
-        if (!requestHeaderList.contains(DiscoveryConstant.N_D_VERSION)) {
+        /*if (!requestHeaderList.contains(DiscoveryConstant.N_D_VERSION)) {
             requestHeaderList.add(DiscoveryConstant.N_D_VERSION);
         }
         if (!requestHeaderList.contains(DiscoveryConstant.N_D_REGION)) {
@@ -61,7 +60,7 @@ public abstract class AbstractStrategyInterceptor {
         }
         if (!requestHeaderList.contains(DiscoveryConstant.N_D_REGION_WEIGHT)) {
             requestHeaderList.add(DiscoveryConstant.N_D_REGION_WEIGHT);
-        }
+        }*/
     }
 
     protected void printInputRouteHeader() {
@@ -84,12 +83,24 @@ public abstract class AbstractStrategyInterceptor {
         LOG.info("--------- Input Route Header Information ---------");
         while (headerNames.hasMoreElements()) {
             String headerName = headerNames.nextElement();
-            if (headerName.startsWith(DiscoveryConstant.N_D_SERVICE_PREFIX)) {
+            boolean isHeaderContains = isHeaderContains(headerName.toLowerCase());
+            if (isHeaderContains) {
                 String headerValue = previousRequest.getHeader(headerName);
 
                 LOG.info("{}={}", headerName, headerValue);
             }
         }
         LOG.info("--------------------------------------------------");
+    }
+
+    protected boolean isHeaderContains(String headerName) {
+        return headerName.startsWith(DiscoveryConstant.N_D_SERVICE_PREFIX) || requestHeaderList.contains(headerName);
+    }
+
+    protected boolean isHeaderContainsExcludeInner(String headerName) {
+        return isHeaderContains(headerName) &&
+                !StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_TYPE) &&
+                !StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_ID) &&
+                !StringUtils.equals(headerName, DiscoveryConstant.N_D_GROUP);
     }
 }

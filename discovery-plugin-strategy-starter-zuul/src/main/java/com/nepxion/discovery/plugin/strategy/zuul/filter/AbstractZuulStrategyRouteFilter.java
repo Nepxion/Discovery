@@ -74,8 +74,10 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter impleme
             ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_REGION_WEIGHT, routeRegionWeight, zuulHeaderPriority);
         }
 
-        // 开启此项，将启动提供端的服务隔离机制，需要在网关上传递Group Header
+        // 开启此项，将启动提供端的服务隔离机制，则传递到服务的是网关自身ServiceType，ServiceId，Group
         if (environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_PROVIDER_ISOLATION_ENABLED, Boolean.class, Boolean.FALSE)) {
+            ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_TYPE, pluginAdapter.getServiceType(), zuulHeaderPriority);
+            ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_ID, pluginAdapter.getServiceId(), zuulHeaderPriority);
             ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_GROUP, pluginAdapter.getGroup(), zuulHeaderPriority);
         }
 

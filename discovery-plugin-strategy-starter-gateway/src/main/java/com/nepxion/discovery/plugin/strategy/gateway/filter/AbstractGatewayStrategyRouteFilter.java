@@ -86,8 +86,18 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GlobalFilter
             requestBuilder.header(DiscoveryConstant.N_D_REGION_WEIGHT, routeRegionWeight);
         }
 
-        // 开启此项，将启动提供端的服务隔离机制，需要在网关上传递Group Header
+        // 开启此项，将启动提供端的服务隔离机制，则传递到服务的是网关自身ServiceType，ServiceId，Group
         if (environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_PROVIDER_ISOLATION_ENABLED, Boolean.class, Boolean.FALSE)) {
+            if (gatewayHeaderPriority) {
+                requestBuilder.headers(headers -> headers.remove(DiscoveryConstant.N_D_SERVICE_TYPE));
+            }
+            requestBuilder.header(DiscoveryConstant.N_D_SERVICE_TYPE, pluginAdapter.getServiceType());
+
+            if (gatewayHeaderPriority) {
+                requestBuilder.headers(headers -> headers.remove(DiscoveryConstant.N_D_SERVICE_ID));
+            }
+            requestBuilder.header(DiscoveryConstant.N_D_SERVICE_ID, pluginAdapter.getServiceId());
+
             if (gatewayHeaderPriority) {
                 requestBuilder.headers(headers -> headers.remove(DiscoveryConstant.N_D_GROUP));
             }
