@@ -9,7 +9,6 @@ package com.nepxion.discovery.plugin.strategy.service.aop;
  * @version 1.0
  */
 
-
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -18,7 +17,6 @@ import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -38,7 +36,7 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
         super(requestHeaders);
 
         LOG.info("------- RestTemplate Intercept Information -------");
-        LOG.info("RestTemplate desires to intercept headers are {}", requestHeaderList);
+        LOG.info("RestTemplate desires to intercept customer headers are {}", requestHeaderList);
         LOG.info("--------------------------------------------------");
     }
 
@@ -62,10 +60,6 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
     }
 
     private void applyOuterHeader(HttpRequest request) {
-        if (CollectionUtils.isEmpty(requestHeaderList)) {
-            return;
-        }
-
         ServletRequestAttributes attributes = serviceStrategyContextHolder.getRestAttributes();
         if (attributes == null) {
             return;
@@ -81,8 +75,8 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
         while (headerNames.hasMoreElements()) {
             String headerName = headerNames.nextElement();
             String headerValue = previousRequest.getHeader(headerName);
-
-            if (requestHeaderList.contains(headerName.toLowerCase())) {
+            boolean isHeaderContains = isHeaderContainsExcludeInner(headerName.toLowerCase());
+            if (isHeaderContains) {
                 headers.add(headerName, headerValue);
             }
         }
@@ -99,7 +93,8 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
         for (Iterator<Entry<String, List<String>>> iterator = headers.entrySet().iterator(); iterator.hasNext();) {
             Entry<String, List<String>> header = iterator.next();
             String headerName = header.getKey();
-            if (headerName.startsWith(DiscoveryConstant.N_D_SERVICE_PREFIX)) {
+            boolean isHeaderContains = isHeaderContains(headerName.toLowerCase());
+            if (isHeaderContains) {
                 List<String> headerValue = header.getValue();
 
                 LOG.info("{}={}", headerName, headerValue);

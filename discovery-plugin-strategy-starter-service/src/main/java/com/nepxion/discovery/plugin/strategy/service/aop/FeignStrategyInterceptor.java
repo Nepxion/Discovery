@@ -18,7 +18,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -33,7 +32,7 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
         super(requestHeaders);
 
         LOG.info("----------- Feign Intercept Information ----------");
-        LOG.info("Feign desires to intercept headers are {}", requestHeaderList);
+        LOG.info("Feign desires to intercept customer headers are {}", requestHeaderList);
         LOG.info("--------------------------------------------------");
     }
 
@@ -54,10 +53,6 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
     }
 
     private void applyOuterHeader(RequestTemplate requestTemplate) {
-        if (CollectionUtils.isEmpty(requestHeaderList)) {
-            return;
-        }
-
         ServletRequestAttributes attributes = serviceStrategyContextHolder.getRestAttributes();
         if (attributes == null) {
             return;
@@ -72,8 +67,8 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
         while (headerNames.hasMoreElements()) {
             String headerName = headerNames.nextElement();
             String headerValue = previousRequest.getHeader(headerName);
-
-            if (requestHeaderList.contains(headerName.toLowerCase())) {
+            boolean isHeaderContains = isHeaderContainsExcludeInner(headerName.toLowerCase());
+            if (isHeaderContains) {
                 requestTemplate.header(headerName, headerValue);
             }
         }
@@ -89,7 +84,8 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
         Map<String, Collection<String>> headers = requestTemplate.headers();
         for (Map.Entry<String, Collection<String>> entry : headers.entrySet()) {
             String headerName = entry.getKey();
-            if (headerName.startsWith(DiscoveryConstant.N_D_SERVICE_PREFIX)) {
+            boolean isHeaderContains = isHeaderContains(headerName.toLowerCase());
+            if (isHeaderContains) {
                 Collection<String> headerValue = entry.getValue();
 
                 LOG.info("{}={}", headerName, headerValue);
