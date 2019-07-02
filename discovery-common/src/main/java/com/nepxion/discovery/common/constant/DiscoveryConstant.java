@@ -56,6 +56,7 @@ public class DiscoveryConstant {
 
     public static final String N_D_SERVICE_TYPE = "n-d-service-type";
     public static final String N_D_SERVICE_ID = "n-d-service-id";
+    public static final String N_D_SERVICE_HOST = "n-d-service-host";
     public static final String N_D_GROUP = "n-d-group";
     public static final String N_D_VERSION = "n-d-version";
     public static final String N_D_REGION = "n-d-region";

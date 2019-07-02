@@ -49,6 +49,7 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
     private void applyInnerHeader(RequestTemplate requestTemplate) {
         requestTemplate.header(DiscoveryConstant.N_D_SERVICE_TYPE, pluginAdapter.getServiceType());
         requestTemplate.header(DiscoveryConstant.N_D_SERVICE_ID, pluginAdapter.getServiceId());
+        requestTemplate.header(DiscoveryConstant.N_D_SERVICE_HOST, pluginAdapter.getHost() + ":" + pluginAdapter.getPort());
         requestTemplate.header(DiscoveryConstant.N_D_GROUP, pluginAdapter.getGroup());
     }
 
@@ -80,7 +81,7 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
             return;
         }
 
-        LOG.info("--------- Output Route Header Information --------");
+        System.out.println("--------- Output Route Header Information --------");
         Map<String, Collection<String>> headers = requestTemplate.headers();
         for (Map.Entry<String, Collection<String>> entry : headers.entrySet()) {
             String headerName = entry.getKey();
@@ -88,9 +89,9 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
             if (isHeaderContains) {
                 Collection<String> headerValue = entry.getValue();
 
-                LOG.info("{}={}", headerName, headerValue);
+                System.out.println(headerName + "=" + headerValue);
             }
         }
-        LOG.info("--------------------------------------------------");
+        System.out.println("--------------------------------------------------");
     }
 }
