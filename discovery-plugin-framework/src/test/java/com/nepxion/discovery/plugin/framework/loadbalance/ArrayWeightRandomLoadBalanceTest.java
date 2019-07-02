@@ -9,6 +9,7 @@ package com.nepxion.discovery.plugin.framework.loadbalance;
  * @version 1.0
  */
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +20,10 @@ import org.apache.commons.collections4.CollectionUtils;
 
 public class ArrayWeightRandomLoadBalanceTest {
     public static void main(String[] args) {
+        test(1000000);
+    }
+
+    public static void test(int totolCount) {
         long t = System.currentTimeMillis();
 
         List<String> serverList = new ArrayList<String>();
@@ -34,18 +39,18 @@ public class ArrayWeightRandomLoadBalanceTest {
         serverList.add("5.0");
 
         Map<String, Integer> weightMap = new HashMap<String, Integer>();
-        weightMap.put("1.0", 0);
-        weightMap.put("2.0", 90);
-        weightMap.put("3.0", 10);
-        weightMap.put("4.0", 0);
-        weightMap.put("5.0", 0);
+        weightMap.put("1.0", 10);
+        weightMap.put("2.0", 50);
+        weightMap.put("3.0", 20);
+        weightMap.put("4.0", 5);
+        weightMap.put("5.0", 15);
 
         int v1Count = 0;
         int v2Count = 0;
         int v3Count = 0;
         int v4Count = 0;
         int v5Count = 0;
-        for (int i = 0; i < 1000000; i++) {
+        for (int i = 0; i < totolCount; i++) {
             String server = choose(serverList, weightMap);
             if (server.startsWith("1.0")) {
                 v1Count++;
@@ -64,12 +69,16 @@ public class ArrayWeightRandomLoadBalanceTest {
             }
         }
 
-        System.out.println("1.0版本服务随机权重=" + v1Count);
-        System.out.println("2.0版本服务随机权重=" + v2Count);
-        System.out.println("3.0版本服务随机权重=" + v3Count);
-        System.out.println("4.0版本服务随机权重=" + v4Count);
-        System.out.println("5.0版本服务随机权重=" + v5Count);
+        System.out.println("------------------------------");
+        System.out.println(totolCount + "次循环，数组方式随机权重准确度和性能：");
+        DecimalFormat format = new DecimalFormat("0.0000");
+        System.out.println("1.0版本服务随机权重=" + format.format((double) v1Count * 100 / totolCount) + "%");
+        System.out.println("2.0版本服务随机权重=" + format.format((double) v2Count * 100 / totolCount) + "%");
+        System.out.println("3.0版本服务随机权重=" + format.format((double) v3Count * 100 / totolCount) + "%");
+        System.out.println("4.0版本服务随机权重=" + format.format((double) v4Count * 100 / totolCount) + "%");
+        System.out.println("5.0版本服务随机权重=" + format.format((double) v5Count * 100 / totolCount) + "%");
         System.out.println("耗时时间：" + (System.currentTimeMillis() - t));
+        System.out.println("------------------------------");
     }
 
     public static String choose(List<String> serverList, Map<String, Integer> weightMap) {
