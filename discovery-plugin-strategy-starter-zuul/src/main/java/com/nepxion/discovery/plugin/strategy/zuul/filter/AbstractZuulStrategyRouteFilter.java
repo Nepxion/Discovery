@@ -80,8 +80,10 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter impleme
 
         ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_TYPE, pluginAdapter.getServiceType(), providerIsolationEnabled ? providerIsolationEnabled : zuulHeaderPriority);
         ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_ID, pluginAdapter.getServiceId(), providerIsolationEnabled ? providerIsolationEnabled : zuulHeaderPriority);
-        ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_HOST, pluginAdapter.getHost() + ":" + pluginAdapter.getPort(), providerIsolationEnabled ? providerIsolationEnabled : zuulHeaderPriority);
-        ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_GROUP, pluginAdapter.getGroup(), providerIsolationEnabled ? providerIsolationEnabled : zuulHeaderPriority);
+        ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_ADDRESS, pluginAdapter.getHost() + ":" + pluginAdapter.getPort(), providerIsolationEnabled ? providerIsolationEnabled : zuulHeaderPriority);
+        ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_GROUP, pluginAdapter.getGroup(), providerIsolationEnabled ? providerIsolationEnabled : zuulHeaderPriority);
+        ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion(), providerIsolationEnabled ? providerIsolationEnabled : zuulHeaderPriority);
+        ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion(), providerIsolationEnabled ? providerIsolationEnabled : zuulHeaderPriority);
 
         return null;
     }

@@ -56,8 +56,10 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
         HttpHeaders headers = request.getHeaders();
         headers.add(DiscoveryConstant.N_D_SERVICE_TYPE, pluginAdapter.getServiceType());
         headers.add(DiscoveryConstant.N_D_SERVICE_ID, pluginAdapter.getServiceId());
-        headers.add(DiscoveryConstant.N_D_SERVICE_HOST, pluginAdapter.getHost() + ":" + pluginAdapter.getPort());
-        headers.add(DiscoveryConstant.N_D_GROUP, pluginAdapter.getGroup());
+        headers.add(DiscoveryConstant.N_D_SERVICE_ADDRESS, pluginAdapter.getHost() + ":" + pluginAdapter.getPort());
+        headers.add(DiscoveryConstant.N_D_SERVICE_GROUP, pluginAdapter.getGroup());
+        headers.add(DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion());
+        headers.add(DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion());
     }
 
     private void applyOuterHeader(HttpRequest request) {
