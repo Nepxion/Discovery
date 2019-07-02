@@ -49,8 +49,10 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
     private void applyInnerHeader(RequestTemplate requestTemplate) {
         requestTemplate.header(DiscoveryConstant.N_D_SERVICE_TYPE, pluginAdapter.getServiceType());
         requestTemplate.header(DiscoveryConstant.N_D_SERVICE_ID, pluginAdapter.getServiceId());
-        requestTemplate.header(DiscoveryConstant.N_D_SERVICE_HOST, pluginAdapter.getHost() + ":" + pluginAdapter.getPort());
-        requestTemplate.header(DiscoveryConstant.N_D_GROUP, pluginAdapter.getGroup());
+        requestTemplate.header(DiscoveryConstant.N_D_SERVICE_ADDRESS, pluginAdapter.getHost() + ":" + pluginAdapter.getPort());
+        requestTemplate.header(DiscoveryConstant.N_D_SERVICE_GROUP, pluginAdapter.getGroup());
+        requestTemplate.header(DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion());
+        requestTemplate.header(DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion());
     }
 
     private void applyOuterHeader(RequestTemplate requestTemplate) {

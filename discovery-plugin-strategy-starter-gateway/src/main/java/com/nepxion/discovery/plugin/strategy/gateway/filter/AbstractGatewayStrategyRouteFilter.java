@@ -77,9 +77,11 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GlobalFilter
 
         GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_SERVICE_TYPE, pluginAdapter.getServiceType(), providerIsolationEnabled ? providerIsolationEnabled : gatewayHeaderPriority);
         GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_SERVICE_ID, pluginAdapter.getServiceId(), providerIsolationEnabled ? providerIsolationEnabled : gatewayHeaderPriority);
-        GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_SERVICE_HOST, pluginAdapter.getHost() + ":" + pluginAdapter.getPort(), providerIsolationEnabled ? providerIsolationEnabled : gatewayHeaderPriority);
-        GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_GROUP, pluginAdapter.getGroup(), providerIsolationEnabled ? providerIsolationEnabled : gatewayHeaderPriority);
-
+        GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_SERVICE_ADDRESS, pluginAdapter.getHost() + ":" + pluginAdapter.getPort(), providerIsolationEnabled ? providerIsolationEnabled : gatewayHeaderPriority);
+        GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_SERVICE_GROUP, pluginAdapter.getGroup(), providerIsolationEnabled ? providerIsolationEnabled : gatewayHeaderPriority);
+        GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion(), providerIsolationEnabled ? providerIsolationEnabled : gatewayHeaderPriority);
+        GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion(), providerIsolationEnabled ? providerIsolationEnabled : gatewayHeaderPriority);
+        
         ServerHttpRequest newRequest = requestBuilder.build();
         ServerWebExchange newExchange = exchange.mutate().request(newRequest).build();
 

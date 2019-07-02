@@ -90,14 +90,10 @@ public abstract class AbstractStrategyInterceptor {
     }
 
     protected boolean isHeaderContains(String headerName) {
-        return headerName.startsWith(DiscoveryConstant.N_D_SERVICE_PREFIX) || requestHeaderList.contains(headerName);
+        return headerName.startsWith(DiscoveryConstant.N_D_PREFIX) || requestHeaderList.contains(headerName);
     }
 
     protected boolean isHeaderContainsExcludeInner(String headerName) {
-        return isHeaderContains(headerName) &&
-                !StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_TYPE) &&
-                !StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_ID) &&
-                !StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_HOST) &&
-                !StringUtils.equals(headerName, DiscoveryConstant.N_D_GROUP);
+        return isHeaderContains(headerName) && !headerName.startsWith(DiscoveryConstant.N_D_SERVICE_PREFIX);
     }
 }

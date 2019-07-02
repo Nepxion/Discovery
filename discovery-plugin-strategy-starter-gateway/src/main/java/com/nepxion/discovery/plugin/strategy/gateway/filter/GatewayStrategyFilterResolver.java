@@ -9,10 +9,15 @@ package com.nepxion.discovery.plugin.strategy.gateway.filter;
  * @version 1.0
  */
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 
 public class GatewayStrategyFilterResolver {
     public static void setHeader(ServerHttpRequest.Builder requestBuilder, String headerName, String headerValue, Boolean gatewayHeaderPriority) {
+        if (headerValue == null) {
+            headerValue = StringUtils.EMPTY;
+        }
+
         if (gatewayHeaderPriority) {
             // 需要把外界的Header清除
             requestBuilder.headers(headers -> headers.remove(headerName));
