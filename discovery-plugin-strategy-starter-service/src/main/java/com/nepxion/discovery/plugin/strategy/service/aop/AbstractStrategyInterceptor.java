@@ -16,8 +16,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -29,8 +27,6 @@ import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyCon
 import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyContextHolder;
 
 public abstract class AbstractStrategyInterceptor {
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractStrategyInterceptor.class);
-
     @Autowired
     protected ConfigurableEnvironment environment;
 
@@ -80,17 +76,17 @@ public abstract class AbstractStrategyInterceptor {
             return;
         }
 
-        LOG.info("--------- Input Route Header Information ---------");
+        System.out.println("--------- Input Route Header Information ---------");
         while (headerNames.hasMoreElements()) {
             String headerName = headerNames.nextElement();
             boolean isHeaderContains = isHeaderContains(headerName.toLowerCase());
             if (isHeaderContains) {
                 String headerValue = previousRequest.getHeader(headerName);
 
-                LOG.info("{}={}", headerName, headerValue);
+                System.out.println(headerName + "=" + headerValue);
             }
         }
-        LOG.info("--------------------------------------------------");
+        System.out.println("--------------------------------------------------");
     }
 
     protected boolean isHeaderContains(String headerName) {
@@ -101,6 +97,7 @@ public abstract class AbstractStrategyInterceptor {
         return isHeaderContains(headerName) &&
                 !StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_TYPE) &&
                 !StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_ID) &&
+                !StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_HOST) &&
                 !StringUtils.equals(headerName, DiscoveryConstant.N_D_GROUP);
     }
 }

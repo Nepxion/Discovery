@@ -56,6 +56,7 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
         HttpHeaders headers = request.getHeaders();
         headers.add(DiscoveryConstant.N_D_SERVICE_TYPE, pluginAdapter.getServiceType());
         headers.add(DiscoveryConstant.N_D_SERVICE_ID, pluginAdapter.getServiceId());
+        headers.add(DiscoveryConstant.N_D_SERVICE_HOST, pluginAdapter.getHost() + ":" + pluginAdapter.getPort());
         headers.add(DiscoveryConstant.N_D_GROUP, pluginAdapter.getGroup());
     }
 
@@ -88,7 +89,7 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
             return;
         }
 
-        LOG.info("--------- Output Route Header Information --------");
+        System.out.println("--------- Output Route Header Information --------");
         HttpHeaders headers = request.getHeaders();
         for (Iterator<Entry<String, List<String>>> iterator = headers.entrySet().iterator(); iterator.hasNext();) {
             Entry<String, List<String>> header = iterator.next();
@@ -97,10 +98,10 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
             if (isHeaderContains) {
                 List<String> headerValue = header.getValue();
 
-                LOG.info("{}={}", headerName, headerValue);
+                System.out.println(headerName + "=" + headerValue);
             }
         }
 
-        LOG.info("--------------------------------------------------");
+        System.out.println("--------------------------------------------------");
     }
 }
