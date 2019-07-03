@@ -30,8 +30,9 @@ public class ProviderIsolationStrategyInterceptor extends AbstractInterceptor {
     public Object invoke(MethodInvocation invocation) throws Throwable {
         String groupHeader = strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_GROUP);
         String group = pluginAdapter.getGroup();
+        String serviceId = pluginAdapter.getServiceId();
         if (!StringUtils.equals(groupHeader, group)) {
-            throw new DiscoveryException("Reject to invoke for isolation with different service group");
+            throw new DiscoveryException("Reject to invoke because of isolation with different service group for serviceId=" + serviceId);
         }
 
         return invocation.proceed();
