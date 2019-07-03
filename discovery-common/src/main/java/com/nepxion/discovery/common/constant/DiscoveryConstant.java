@@ -23,6 +23,7 @@ public class DiscoveryConstant {
     public static final String SPRING_APPLICATION_CONFIG_PATH = "spring.application.config.path";
     public static final String SPRING_APPLICATION_GROUP_KEY = "spring.application.group.key";
     public static final String SPRING_APPLICATION_CONTEXT_PATH = "spring.application.context-path";
+    public static final String SPRING_APPLICATION_NO_SERVER_FOUND_NOTIFICATION_ENABLED = "spring.application.no.server.found.notification.enabled";
 
     public static final String CONTEXT_PATH = "server.servlet.context-path";
 

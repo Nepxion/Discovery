@@ -14,9 +14,9 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.cache.PluginCache;
 import com.nepxion.discovery.plugin.framework.cache.RuleCache;
-import com.nepxion.discovery.plugin.framework.constant.PluginConstant;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
@@ -113,7 +113,7 @@ public class PluginAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    @ConditionalOnProperty(value = PluginConstant.SPRING_APPLICATION_NO_SERVER_FOUND_NOTIFICATION_ENABLED, matchIfMissing = false)
+    @ConditionalOnProperty(value = DiscoveryConstant.SPRING_APPLICATION_NO_SERVER_FOUND_NOTIFICATION_ENABLED, matchIfMissing = false)
     public NotificationLoadBalanceListener notificationLoadBalanceListener() {
         return new NotificationLoadBalanceListener();
     }
