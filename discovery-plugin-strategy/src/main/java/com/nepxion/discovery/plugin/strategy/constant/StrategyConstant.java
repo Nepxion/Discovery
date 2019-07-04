@@ -18,4 +18,5 @@ public class StrategyConstant {
     public static final String SPRING_APPLICATION_STRATEGY_REGISTER_ISOLATION_ENABLED = "spring.application.strategy.register.isolation.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_CONSUMER_ISOLATION_ENABLED = "spring.application.strategy.consumer.isolation.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_PROVIDER_ISOLATION_ENABLED = "spring.application.strategy.provider.isolation.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_INTERCEPT_LOG_PRINT = "spring.application.strategy.intercept.log.print";
 }

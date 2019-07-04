@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
+import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 
 public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implements RequestInterceptor {
     private static final Logger LOG = LoggerFactory.getLogger(FeignStrategyInterceptor.class);
@@ -78,7 +78,7 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
     }
 
     private void printOutputRouteHeader(RequestTemplate requestTemplate) {
-        Boolean interceptLogPrint = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_INTERCEPT_LOG_PRINT, Boolean.class, Boolean.FALSE);
+        Boolean interceptLogPrint = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_INTERCEPT_LOG_PRINT, Boolean.class, Boolean.FALSE);
         if (!interceptLogPrint) {
             return;
         }

@@ -14,8 +14,8 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 
 public class GatewayStrategyFilterResolver {
     public static void setHeader(ServerHttpRequest.Builder requestBuilder, String headerName, String headerValue, Boolean gatewayHeaderPriority) {
-        if (headerValue == null) {
-            headerValue = StringUtils.EMPTY;
+        if (StringUtils.isEmpty(headerValue)) {
+            return;
         }
 
         if (gatewayHeaderPriority) {
