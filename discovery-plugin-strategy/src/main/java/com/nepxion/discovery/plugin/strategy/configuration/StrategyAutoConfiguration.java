@@ -21,6 +21,7 @@ import com.nepxion.discovery.plugin.strategy.isolation.ConsumerIsolationLoadBala
 import com.nepxion.discovery.plugin.strategy.isolation.ConsumerIsolationRegisterStrategy;
 import com.nepxion.discovery.plugin.strategy.matcher.DiscoveryAntPathMatcherStrategy;
 import com.nepxion.discovery.plugin.strategy.matcher.DiscoveryMatcherStrategy;
+import com.nepxion.discovery.plugin.strategy.tracer.StrategyTracer;
 
 @Configuration
 @RibbonClients(defaultConfiguration = { StrategyLoadBalanceConfiguration.class })
@@ -51,5 +52,11 @@ public class StrategyAutoConfiguration {
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONSUMER_ISOLATION_ENABLED, matchIfMissing = false)
     public ConsumerIsolationLoadBalanceStrategy consumerIsolationLoadBalanceStrategy() {
         return new ConsumerIsolationLoadBalanceStrategy();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public StrategyTracer strategyTracer() {
+        return new StrategyTracer();
     }
 }

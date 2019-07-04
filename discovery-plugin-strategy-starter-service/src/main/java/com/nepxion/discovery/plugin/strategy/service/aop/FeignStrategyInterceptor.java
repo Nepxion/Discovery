@@ -38,12 +38,12 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
 
     @Override
     public void apply(RequestTemplate requestTemplate) {
-        printInputRouteHeader();
+        interceptInputHeader();
 
         applyInnerHeader(requestTemplate);
         applyOuterHeader(requestTemplate);
 
-        printOutputRouteHeader(requestTemplate);
+        interceptOutputHeader(requestTemplate);
     }
 
     private void applyInnerHeader(RequestTemplate requestTemplate) {
@@ -77,13 +77,13 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
         }
     }
 
-    private void printOutputRouteHeader(RequestTemplate requestTemplate) {
+    private void interceptOutputHeader(RequestTemplate requestTemplate) {
         Boolean interceptLogPrint = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_INTERCEPT_LOG_PRINT, Boolean.class, Boolean.FALSE);
         if (!interceptLogPrint) {
             return;
         }
 
-        System.out.println("--------- Output Route Header Information --------");
+        System.out.println("------- Intercept Output Header Information ------");
         Map<String, Collection<String>> headers = requestTemplate.headers();
         for (Map.Entry<String, Collection<String>> entry : headers.entrySet()) {
             String headerName = entry.getKey();

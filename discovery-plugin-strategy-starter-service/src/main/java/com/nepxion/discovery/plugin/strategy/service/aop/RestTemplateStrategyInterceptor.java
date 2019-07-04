@@ -42,12 +42,12 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
 
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
-        printInputRouteHeader();
+        interceptInputHeader();
 
         applyInnerHeader(request);
         applyOuterHeader(request);
 
-        printOutputRouteHeader(request);
+        interceptOutputHeader(request);
 
         return execution.execute(request, body);
     }
@@ -85,13 +85,13 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
         }
     }
 
-    private void printOutputRouteHeader(HttpRequest request) {
+    private void interceptOutputHeader(HttpRequest request) {
         Boolean interceptLogPrint = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_INTERCEPT_LOG_PRINT, Boolean.class, Boolean.FALSE);
         if (!interceptLogPrint) {
             return;
         }
 
-        System.out.println("--------- Output Route Header Information --------");
+        System.out.println("------- Intercept Output Header Information ------");
         HttpHeaders headers = request.getHeaders();
         for (Iterator<Entry<String, List<String>>> iterator = headers.entrySet().iterator(); iterator.hasNext();) {
             Entry<String, List<String>> header = iterator.next();
@@ -103,7 +103,6 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
                 System.out.println(headerName + "=" + headerValue);
             }
         }
-
         System.out.println("--------------------------------------------------");
     }
 }
