@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.ConfigurableEnvironment;
 
+import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.context.AbstractStrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.zuul.constant.ZuulStrategyConstant;
 import com.netflix.zuul.context.RequestContext;
@@ -54,8 +55,9 @@ public class ZuulStrategyContextHolder extends AbstractStrategyContextHolder {
 
         // 如果外界也传了相同的Header，例如，从Postman传递过来的Header，当下面的变量为true，以网关设置为优先，否则以外界传值为优先
         Boolean zuulHeaderPriority = environment.getProperty(ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_HEADER_PRIORITY, Boolean.class, Boolean.TRUE);
+        Boolean providerIsolationEnabled = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_PROVIDER_ISOLATION_ENABLED, Boolean.class, Boolean.FALSE);
 
-        if (zuulHeaderPriority) {
+        if (providerIsolationEnabled ? providerIsolationEnabled : zuulHeaderPriority) {
             // 来自于Zuul Filter的Header
             String header = getZuulRequestHeaders().get(name);
             if (StringUtils.isEmpty(header)) {

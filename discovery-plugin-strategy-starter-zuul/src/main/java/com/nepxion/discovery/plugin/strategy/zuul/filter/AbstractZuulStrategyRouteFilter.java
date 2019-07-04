@@ -47,6 +47,14 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter impleme
 
     @Override
     public Object run() {
+        Boolean interceptLogPrint = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_INTERCEPT_LOG_PRINT, Boolean.class, Boolean.FALSE);
+
+        if (interceptLogPrint) {
+            System.out.println("--------- Input Route Header Information ---------");
+            printRouteHeader();
+            System.out.println("--------------------------------------------------");
+        }
+
         String routeVersion = getRouteVersion();
         String routeRegion = getRouteRegion();
         String routeAddress = getRouteAddress();
@@ -85,7 +93,22 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter impleme
         ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion(), providerIsolationEnabled ? providerIsolationEnabled : zuulHeaderPriority);
         ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion(), providerIsolationEnabled ? providerIsolationEnabled : zuulHeaderPriority);
 
+        if (interceptLogPrint) {
+            System.out.println("--------- Output Route Header Information --------");
+            printRouteHeader();
+            System.out.println("--------------------------------------------------");
+        }
+
         return null;
+    }
+
+    private void printRouteHeader() {
+        System.out.println(DiscoveryConstant.N_D_SERVICE_TYPE + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_TYPE));
+        System.out.println(DiscoveryConstant.N_D_SERVICE_ID + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_ID));
+        System.out.println(DiscoveryConstant.N_D_SERVICE_ADDRESS + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_ADDRESS));
+        System.out.println(DiscoveryConstant.N_D_SERVICE_GROUP + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_GROUP));
+        System.out.println(DiscoveryConstant.N_D_SERVICE_VERSION + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_VERSION));
+        System.out.println(DiscoveryConstant.N_D_SERVICE_REGION + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_REGION));
     }
 
     public PluginAdapter getPluginAdapter() {
