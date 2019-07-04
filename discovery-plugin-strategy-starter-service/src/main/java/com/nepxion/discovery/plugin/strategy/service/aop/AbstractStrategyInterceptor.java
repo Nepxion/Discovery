@@ -59,7 +59,7 @@ public abstract class AbstractStrategyInterceptor {
         }*/
     }
 
-    protected void printInputRouteHeader() {
+    protected void interceptInputHeader() {
         Boolean interceptLogPrint = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_INTERCEPT_LOG_PRINT, Boolean.class, Boolean.FALSE);
         if (!interceptLogPrint) {
             return;
@@ -76,7 +76,7 @@ public abstract class AbstractStrategyInterceptor {
             return;
         }
 
-        System.out.println("--------- Input Route Header Information ---------");
+        System.out.println("------- Intercept Input Header Information -------");
         while (headerNames.hasMoreElements()) {
             String headerName = headerNames.nextElement();
             boolean isHeaderContains = isHeaderContains(headerName.toLowerCase());

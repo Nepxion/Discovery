@@ -25,6 +25,7 @@ import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.gateway.constant.GatewayStrategyConstant;
+import com.nepxion.discovery.plugin.strategy.tracer.StrategyTracer;
 
 public abstract class AbstractGatewayStrategyRouteFilter implements GlobalFilter, Ordered, GatewayStrategyRouteFilter {
     @Autowired
@@ -36,6 +37,9 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GlobalFilter
     @Autowired
     protected StrategyContextHolder strategyContextHolder;
 
+    @Autowired
+    private StrategyTracer strategyTracer;
+
     @Override
     public int getOrder() {
         return environment.getProperty(GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_ROUTE_FILTER_ORDER, Integer.class, GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_ROUTE_FILTER_ORDER_VALUE);
@@ -43,14 +47,6 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GlobalFilter
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        Boolean interceptLogPrint = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_INTERCEPT_LOG_PRINT, Boolean.class, Boolean.FALSE);
-
-        if (interceptLogPrint) {
-            System.out.println("--------- Input Route Header Information ---------");
-            printRouteHeader();
-            System.out.println("--------------------------------------------------");
-        }
-
         String routeVersion = getRouteVersion();
         String routeRegion = getRouteRegion();
         String routeAddress = getRouteAddress();
@@ -90,25 +86,12 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GlobalFilter
         GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion(), providerIsolationEnabled ? providerIsolationEnabled : gatewayHeaderPriority);
         GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion(), providerIsolationEnabled ? providerIsolationEnabled : gatewayHeaderPriority);
 
-        if (interceptLogPrint) {
-            System.out.println("--------- Output Route Header Information --------");
-            printRouteHeader();
-            System.out.println("--------------------------------------------------");
-        }
+        strategyTracer.traceHeader();
 
         ServerHttpRequest newRequest = requestBuilder.build();
         ServerWebExchange newExchange = exchange.mutate().request(newRequest).build();
 
         return chain.filter(newExchange);
-    }
-
-    private void printRouteHeader() {
-        System.out.println(DiscoveryConstant.N_D_SERVICE_TYPE + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_TYPE));
-        System.out.println(DiscoveryConstant.N_D_SERVICE_ID + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_ID));
-        System.out.println(DiscoveryConstant.N_D_SERVICE_ADDRESS + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_ADDRESS));
-        System.out.println(DiscoveryConstant.N_D_SERVICE_GROUP + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_GROUP));
-        System.out.println(DiscoveryConstant.N_D_SERVICE_VERSION + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_VERSION));
-        System.out.println(DiscoveryConstant.N_D_SERVICE_REGION + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_REGION));
     }
 
     public PluginAdapter getPluginAdapter() {
