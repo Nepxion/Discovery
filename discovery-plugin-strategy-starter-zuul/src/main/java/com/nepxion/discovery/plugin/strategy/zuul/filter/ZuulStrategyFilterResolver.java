@@ -15,6 +15,10 @@ import com.netflix.zuul.context.RequestContext;
 
 public class ZuulStrategyFilterResolver {
     public static void setHeader(String headerName, String headerValue, Boolean zuulHeaderPriority) {
+        if (StringUtils.isEmpty(headerValue)) {
+            return;
+        }
+
         RequestContext context = RequestContext.getCurrentContext();
 
         if (zuulHeaderPriority) {
