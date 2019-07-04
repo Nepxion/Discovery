@@ -41,7 +41,12 @@ public class ZuulStrategyContextHolder extends AbstractStrategyContextHolder {
     }
 
     public Map<String, String> getZuulRequestHeaders() {
-        return RequestContext.getCurrentContext().getZuulRequestHeaders();
+        Map<String, String> headers = ZuulStrategyContext.getCurrentContext().getHeaders();
+        if (headers == null) {
+            headers = RequestContext.getCurrentContext().getZuulRequestHeaders();
+        }
+
+        return headers;
     }
 
     @Override

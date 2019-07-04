@@ -10,6 +10,7 @@ package com.nepxion.discovery.plugin.strategy.zuul.wrapper;
  * @version 1.0
  */
 
+import java.util.Map;
 import java.util.concurrent.Callable;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,12 +23,14 @@ public class DefaultCallableWrapper implements CallableWrapper {
     @Override
     public <T> Callable<T> wrapCallable(Callable<T> delegate) {
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
+        Map<String, String> headers = RequestContext.getCurrentContext().getZuulRequestHeaders();
 
         return new Callable<T>() {
             @Override
             public T call() throws Exception {
                 try {
                     ZuulStrategyContext.getCurrentContext().setRequest(request);
+                    ZuulStrategyContext.getCurrentContext().setHeaders(headers);
 
                     return delegate.call();
                 } finally {
