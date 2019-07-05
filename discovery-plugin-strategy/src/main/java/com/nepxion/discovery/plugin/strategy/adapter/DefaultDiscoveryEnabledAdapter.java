@@ -103,12 +103,8 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
             /*
         	 * 如果header对这个服务有版本要求，且服务标签为空，则反回false
         	 * 如果header对这个服务没有版本要求，且服务标签为空，则反回true
-        	 */
-        	if(StringUtils.isNotBlank(versions)) {
-        		 return false;
-        	}else {
-        		return true;
-        	}
+        	 */ 
+            return StringUtils.isBlank(versions);
         }
 
         // 如果精确匹配不满足，尝试用通配符匹配
