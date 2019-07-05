@@ -11,17 +11,25 @@ package com.nepxion.discovery.plugin.strategy.service.tracer;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.ConfigurableEnvironment;
 
+import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.tracer.StrategyTracer;
 import com.nepxion.matrix.proxy.aop.AbstractInterceptor;
 
 public class TracerStrategyInterceptor extends AbstractInterceptor {
     @Autowired
+    private ConfigurableEnvironment environment;
+
+    @Autowired(required = false)
     private StrategyTracer strategyTracer;
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        strategyTracer.traceInvoker();
+        // 调用链追踪
+        if (strategyTracer != null) {
+            strategyTracer.traceHeader();
+        }
 
         return invocation.proceed();
     }

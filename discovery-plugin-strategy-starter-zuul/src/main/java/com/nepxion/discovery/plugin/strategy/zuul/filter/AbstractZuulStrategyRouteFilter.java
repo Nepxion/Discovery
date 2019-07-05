@@ -31,7 +31,7 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter impleme
     @Autowired
     protected StrategyContextHolder strategyContextHolder;
 
-    @Autowired
+    @Autowired(required = false)
     private StrategyTracer strategyTracer;
 
     @Override
@@ -89,7 +89,10 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter impleme
         ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion(), providerIsolationEnabled ? providerIsolationEnabled : zuulHeaderPriority);
         ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion(), providerIsolationEnabled ? providerIsolationEnabled : zuulHeaderPriority);
 
-        strategyTracer.traceHeader();
+        // 调用链追踪
+        if (strategyTracer != null) {
+            strategyTracer.traceHeader();
+        }
 
         return null;
     }
