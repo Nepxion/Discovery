@@ -37,7 +37,7 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GlobalFilter
     @Autowired
     protected StrategyContextHolder strategyContextHolder;
 
-    @Autowired
+    @Autowired(required = false)
     private StrategyTracer strategyTracer;
 
     @Override
@@ -86,7 +86,10 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GlobalFilter
         GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion(), providerIsolationEnabled ? providerIsolationEnabled : gatewayHeaderPriority);
         GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion(), providerIsolationEnabled ? providerIsolationEnabled : gatewayHeaderPriority);
 
-        strategyTracer.traceHeader();
+        // 调用链追踪
+        if (strategyTracer != null) {
+            strategyTracer.traceHeader();
+        }
 
         ServerHttpRequest newRequest = requestBuilder.build();
         ServerWebExchange newExchange = exchange.mutate().request(newRequest).build();

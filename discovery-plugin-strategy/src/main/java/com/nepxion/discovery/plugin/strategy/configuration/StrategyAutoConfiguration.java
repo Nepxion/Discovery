@@ -56,6 +56,7 @@ public class StrategyAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
+    @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACE_ENABLED, matchIfMissing = false)
     public StrategyTracer strategyTracer() {
         return new StrategyTracer();
     }
