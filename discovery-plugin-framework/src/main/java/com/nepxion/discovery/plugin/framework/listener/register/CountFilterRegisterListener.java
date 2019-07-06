@@ -28,9 +28,9 @@ public class CountFilterRegisterListener extends AbstractRegisterListener {
 
     @Override
     public void onRegister(Registration registration) {
-        String serviceId = registration.getServiceId().toLowerCase();
-        String host = registration.getHost();
-        int port = registration.getPort();
+        String serviceId = pluginAdapter.getServiceId();
+        String host = pluginAdapter.getHost();
+        int port = pluginAdapter.getPort();
 
         applyCountFilter(serviceId, host, port);
     }

@@ -71,6 +71,8 @@ public interface PluginAdapter {
 
     String getServerRegion(Server server);
 
+    String getServerContextPath(Server server);
+
     Map<String, String> getInstanceMetadata(ServiceInstance serviceInstance);
 
     String getInstanceGroupKey(ServiceInstance serviceInstance);
@@ -84,4 +86,6 @@ public interface PluginAdapter {
     String getInstanceVersion(ServiceInstance serviceInstance);
 
     String getInstanceRegion(ServiceInstance serviceInstance);
+
+    String getInstanceContextPath(ServiceInstance serviceInstance);
 }

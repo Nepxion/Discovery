@@ -216,6 +216,11 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
+    public String getServerContextPath(Server server) {
+        return getServerMetadata(server).get(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH);
+    }
+
+    @Override
     public Map<String, String> getInstanceMetadata(ServiceInstance serviceInstance) {
         return serviceInstance.getMetadata();
     }
@@ -265,5 +270,10 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
         }
 
         return instanceRegion;
+    }
+
+    @Override
+    public String getInstanceContextPath(ServiceInstance serviceInstance) {
+        return getInstanceMetadata(serviceInstance).get(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH);
     }
 }
