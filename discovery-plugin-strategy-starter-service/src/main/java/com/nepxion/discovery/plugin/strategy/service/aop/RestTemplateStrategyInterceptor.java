@@ -86,8 +86,8 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
     }
 
     private void interceptOutputHeader(HttpRequest request) {
-        Boolean interceptLogPrint = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_LOG_PRINT, Boolean.class, Boolean.FALSE);
-        if (!interceptLogPrint) {
+        Boolean interceptDebugEnabled = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_DEBUG_ENABLED, Boolean.class, Boolean.FALSE);
+        if (!interceptDebugEnabled) {
             return;
         }
 
