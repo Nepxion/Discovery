@@ -18,7 +18,6 @@ import org.springframework.cloud.client.serviceregistry.Registration;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.RuleEntity;
-import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.cache.PluginCache;
 import com.nepxion.discovery.plugin.framework.cache.RuleCache;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
@@ -48,7 +47,7 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
         String group = getGroup(groupKey);
         if (StringUtils.isEmpty(group)) {
-            throw new DiscoveryException("The value is null or empty for metadata key=" + groupKey + ", please check your configuration");
+            group = DiscoveryConstant.DEFAULT;
         }
 
         return group;
@@ -100,7 +99,12 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Override
     public String getLocalVersion() {
-        return getMetadata().get(DiscoveryConstant.VERSION);
+        String version = getMetadata().get(DiscoveryConstant.VERSION);
+        if (StringUtils.isEmpty(version)) {
+            version = DiscoveryConstant.DEFAULT;
+        }
+
+        return version;
     }
 
     @Override
@@ -155,7 +159,13 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Override
     public String getRegion() {
-        return getMetadata().get(DiscoveryConstant.REGION);
+        String region = getMetadata().get(DiscoveryConstant.REGION);
+
+        if (StringUtils.isEmpty(region)) {
+            region = DiscoveryConstant.DEFAULT;
+        }
+
+        return region;
     }
 
     @Override
@@ -167,7 +177,12 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     public String getServerGroup(Server server) {
         String serverGroupKey = getServerGroupKey(server);
 
-        return getServerMetadata(server).get(serverGroupKey);
+        String serverGroup = getServerMetadata(server).get(serverGroupKey);
+        if (StringUtils.isEmpty(serverGroup)) {
+            serverGroup = DiscoveryConstant.DEFAULT;
+        }
+
+        return serverGroup;
     }
 
     @Override
@@ -182,12 +197,22 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Override
     public String getServerVersion(Server server) {
-        return getServerMetadata(server).get(DiscoveryConstant.VERSION);
+        String serverVersion = getServerMetadata(server).get(DiscoveryConstant.VERSION);
+        if (StringUtils.isEmpty(serverVersion)) {
+            serverVersion = DiscoveryConstant.DEFAULT;
+        }
+
+        return serverVersion;
     }
 
     @Override
     public String getServerRegion(Server server) {
-        return getServerMetadata(server).get(DiscoveryConstant.REGION);
+        String serverRegion = getServerMetadata(server).get(DiscoveryConstant.REGION);
+        if (StringUtils.isEmpty(serverRegion)) {
+            serverRegion = DiscoveryConstant.DEFAULT;
+        }
+
+        return serverRegion;
     }
 
     @Override
@@ -204,7 +229,12 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     public String getInstanceGroup(ServiceInstance serviceInstance) {
         String instanceGroupKey = getInstanceGroupKey(serviceInstance);
 
-        return getInstanceMetadata(serviceInstance).get(instanceGroupKey);
+        String instanceGroup = getInstanceMetadata(serviceInstance).get(instanceGroupKey);
+        if (StringUtils.isEmpty(instanceGroup)) {
+            instanceGroup = DiscoveryConstant.DEFAULT;
+        }
+
+        return instanceGroup;
     }
 
     @Override
@@ -219,11 +249,21 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Override
     public String getInstanceVersion(ServiceInstance serviceInstance) {
-        return getInstanceMetadata(serviceInstance).get(DiscoveryConstant.VERSION);
+        String instanceVersion = getInstanceMetadata(serviceInstance).get(DiscoveryConstant.VERSION);
+        if (StringUtils.isEmpty(instanceVersion)) {
+            instanceVersion = DiscoveryConstant.DEFAULT;
+        }
+
+        return instanceVersion;
     }
 
     @Override
     public String getInstanceRegion(ServiceInstance serviceInstance) {
-        return getInstanceMetadata(serviceInstance).get(DiscoveryConstant.REGION);
+        String instanceRegion = getInstanceMetadata(serviceInstance).get(DiscoveryConstant.REGION);
+        if (StringUtils.isEmpty(instanceRegion)) {
+            instanceRegion = DiscoveryConstant.DEFAULT;
+        }
+
+        return instanceRegion;
     }
 }

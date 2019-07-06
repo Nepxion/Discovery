@@ -86,9 +86,6 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         }
 
         String version = pluginAdapter.getServerVersion(server);
-        if (StringUtils.isEmpty(version)) {
-            return StringUtils.equalsIgnoreCase(versionValue, DiscoveryConstant.UNKNOWN);
-        }
 
         String versions = null;
         try {
@@ -137,9 +134,6 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         }
 
         String region = pluginAdapter.getServerRegion(server);
-        if (StringUtils.isEmpty(region)) {
-            return StringUtils.equalsIgnoreCase(regionValue, DiscoveryConstant.UNKNOWN);
-        }
 
         String regions = null;
         try {
