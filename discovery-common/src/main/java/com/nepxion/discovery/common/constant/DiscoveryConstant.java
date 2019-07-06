@@ -86,6 +86,7 @@ public class DiscoveryConstant {
     public static final String PARTIAL = "partial";
     public static final String OK = "OK";
     public static final String NO = "NO";
-    public static final String UNKNOWN = "UNKNOWN";
+    public static final String DEFAULT = "default";
+    public static final String UNKNOWN = "unknown";
     public static final String EXT = "ext";
 }

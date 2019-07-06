@@ -37,6 +37,15 @@ public class NacosApplicationContextInitializer extends PluginApplicationContext
             NacosDiscoveryProperties nacosDiscoveryProperties = (NacosDiscoveryProperties) bean;
 
             Map<String, String> metadata = nacosDiscoveryProperties.getMetadata();
+            if (!metadata.containsKey(DiscoveryConstant.GROUP)) {
+                metadata.put(DiscoveryConstant.GROUP, DiscoveryConstant.DEFAULT);
+            }
+            if (!metadata.containsKey(DiscoveryConstant.VERSION)) {
+                metadata.put(DiscoveryConstant.VERSION, DiscoveryConstant.DEFAULT);
+            }
+            if (!metadata.containsKey(DiscoveryConstant.REGION)) {
+                metadata.put(DiscoveryConstant.REGION, DiscoveryConstant.DEFAULT);
+            }
             metadata.put(DiscoveryConstant.SPRING_APPLICATION_NAME, PluginContextAware.getApplicationName(environment));
             metadata.put(DiscoveryConstant.SPRING_APPLICATION_TYPE, PluginContextAware.getApplicationType(environment));
             metadata.put(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN, NacosConstant.DISCOVERY_PLUGIN);
