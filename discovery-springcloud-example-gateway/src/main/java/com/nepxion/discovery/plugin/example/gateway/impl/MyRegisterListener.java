@@ -12,7 +12,6 @@ package com.nepxion.discovery.plugin.example.gateway.impl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cloud.client.serviceregistry.Registration;
 
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.listener.register.AbstractRegisterListener;
 
@@ -20,8 +19,8 @@ import com.nepxion.discovery.plugin.framework.listener.register.AbstractRegister
 public class MyRegisterListener extends AbstractRegisterListener {
     @Override
     public void onRegister(Registration registration) {
-        String serviceId = registration.getServiceId().toLowerCase();
-        String group = registration.getMetadata().get(DiscoveryConstant.GROUP);
+        String serviceId = pluginAdapter.getServiceId();
+        String group = pluginAdapter.getGroup();
         if (StringUtils.equals(group, "mygroup1")) {
             throw new DiscoveryException("服务名=" + serviceId + "，组名=" + group + "的服务禁止被注册到注册中心");
         }

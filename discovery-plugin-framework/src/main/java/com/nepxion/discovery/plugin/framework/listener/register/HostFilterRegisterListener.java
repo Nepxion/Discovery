@@ -26,9 +26,9 @@ import com.nepxion.discovery.plugin.framework.event.RegisterFailureEvent;
 public class HostFilterRegisterListener extends AbstractRegisterListener {
     @Override
     public void onRegister(Registration registration) {
-        String serviceId = registration.getServiceId().toLowerCase();
-        String host = registration.getHost();
-        int port = registration.getPort();
+        String serviceId = pluginAdapter.getServiceId();
+        String host = pluginAdapter.getHost();
+        int port = pluginAdapter.getPort();
 
         applyHostFilter(serviceId, host, port);
     }
