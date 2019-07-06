@@ -36,6 +36,15 @@ public class ConsulApplicationContextInitializer extends PluginApplicationContex
             consulDiscoveryProperties.setPreferIpAddress(true);
 
             List<String> tags = consulDiscoveryProperties.getTags();
+            if (!containsKey(tags, DiscoveryConstant.GROUP + "=")) {
+                tags.add(DiscoveryConstant.GROUP + "=" + DiscoveryConstant.DEFAULT);
+            }
+            if (!containsKey(tags, DiscoveryConstant.VERSION + "=")) {
+                tags.add(DiscoveryConstant.VERSION + "=" + DiscoveryConstant.DEFAULT);
+            }
+            if (!containsKey(tags, DiscoveryConstant.REGION + "=")) {
+                tags.add(DiscoveryConstant.REGION + "=" + DiscoveryConstant.DEFAULT);
+            }
             tags.add(DiscoveryConstant.SPRING_APPLICATION_NAME + "=" + PluginContextAware.getApplicationName(environment));
             tags.add(DiscoveryConstant.SPRING_APPLICATION_TYPE + "=" + PluginContextAware.getApplicationType(environment));
             tags.add(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN + "=" + ConsulConstant.DISCOVERY_PLUGIN);
@@ -52,5 +61,15 @@ public class ConsulApplicationContextInitializer extends PluginApplicationContex
         } else {
             return bean;
         }
+    }
+
+    private boolean containsKey(List<String> tags, String key) {
+        for (String tag : tags) {
+            if (tag.contains(key)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
