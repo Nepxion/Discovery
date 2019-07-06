@@ -28,8 +28,8 @@ public class StrategyTracer {
     protected StrategyContextHolder strategyContextHolder;
 
     public void traceHeader() {
-        Boolean traceLogPrint = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACE_LOG_PRINT, Boolean.class, Boolean.FALSE);
-        if (!traceLogPrint) {
+        Boolean traceDebugEnabled = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACE_DEBUG_ENABLED, Boolean.class, Boolean.FALSE);
+        if (!traceDebugEnabled) {
             return;
         }
 
@@ -44,8 +44,8 @@ public class StrategyTracer {
     }
 
     public void traceInvoker() {
-        Boolean interceptLogPrint = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACE_LOG_PRINT, Boolean.class, Boolean.FALSE);
-        if (!interceptLogPrint) {
+        Boolean traceDebugEnabled = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACE_DEBUG_ENABLED, Boolean.class, Boolean.FALSE);
+        if (!traceDebugEnabled) {
             return;
         }
 
