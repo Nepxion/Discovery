@@ -12,7 +12,6 @@ package com.nepxion.discovery.plugin.example.zuul.impl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cloud.client.serviceregistry.Registration;
 
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.listener.register.AbstractRegisterListener;
 
