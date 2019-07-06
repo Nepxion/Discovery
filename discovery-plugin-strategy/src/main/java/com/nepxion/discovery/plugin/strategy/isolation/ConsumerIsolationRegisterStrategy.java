@@ -13,9 +13,7 @@ import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.serviceregistry.Registration;
-import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.exception.DiscoveryException;
@@ -26,15 +24,12 @@ import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 
 // 当本服务的元数据中的Group在黑名单里或者不在白名单里，禁止被注册到注册中心
 public class ConsumerIsolationRegisterStrategy extends AbstractRegisterListener {
-    @Autowired
-    private ConfigurableEnvironment environment;
-
     @Override
     public void onRegister(Registration registration) {
-        String serviceId = registration.getServiceId().toLowerCase();
-        String host = registration.getHost();
-        int port = registration.getPort();
-        String group = registration.getMetadata().get(DiscoveryConstant.GROUP);
+        String serviceId = pluginAdapter.getServiceId();
+        String host = pluginAdapter.getHost();
+        int port = pluginAdapter.getPort();
+        String group = pluginAdapter.getGroup();
 
         List<String> groupBlacklist = getGroupBlacklist();
         if (CollectionUtils.isNotEmpty(groupBlacklist) && groupBlacklist.contains(group)) {
@@ -48,7 +43,7 @@ public class ConsumerIsolationRegisterStrategy extends AbstractRegisterListener 
     }
 
     protected List<String> getGroupBlacklist() {
-        String groupBlacklistText = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_REGISTER_ISOLATION_GROUP_BLACKLIST, String.class, null);
+        String groupBlacklistText = pluginContextAware.getEnvironment().getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_REGISTER_ISOLATION_GROUP_BLACKLIST, String.class, null);
         if (StringUtils.isEmpty(groupBlacklistText)) {
             return null;
         }
@@ -57,7 +52,7 @@ public class ConsumerIsolationRegisterStrategy extends AbstractRegisterListener 
     }
 
     protected List<String> getGroupWhitelist() {
-        String groupWhitelistText = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_REGISTER_ISOLATION_GROUP_WHITELIST, String.class, null);
+        String groupWhitelistText = pluginContextAware.getEnvironment().getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_REGISTER_ISOLATION_GROUP_WHITELIST, String.class, null);
         if (StringUtils.isEmpty(groupWhitelistText)) {
             return null;
         }

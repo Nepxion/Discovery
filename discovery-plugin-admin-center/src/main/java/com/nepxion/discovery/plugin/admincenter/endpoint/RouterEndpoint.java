@@ -159,15 +159,14 @@ public class RouterEndpoint implements MvcEndpoint {
 
         List<RouterEntity> routerEntityList = new ArrayList<RouterEntity>();
         for (ServiceInstance instance : instanceList) {
-            Map<String, String> metadata = instance.getMetadata();
-            String serviceId = instance.getServiceId().toLowerCase();
-            String serviceType =  metadata.get(DiscoveryConstant.SPRING_APPLICATION_TYPE);
-            String version = metadata.get(DiscoveryConstant.VERSION);
-            String region = metadata.get(DiscoveryConstant.REGION);
+            String serviceId = pluginAdapter.getInstanceServiceId(instance);
+            String serviceType = pluginAdapter.getInstanceServiceType(instance);
+            String version = pluginAdapter.getInstanceVersion(instance);
+            String region = pluginAdapter.getInstanceRegion(instance);
             String host = instance.getHost();
             int port = instance.getPort();
             int weight = getWeight(routeServiceId, version, region);
-            String contextPath = metadata.get(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH);
+            String contextPath = pluginAdapter.getInstanceContextPath(instance);
 
             RouterEntity routerEntity = new RouterEntity();
             routerEntity.setServiceType(serviceType);
