@@ -28,7 +28,6 @@ public class RegisterListenerExecutor {
     public void onDeregister(Registration registration) {
         for (RegisterListener registerListener : registerListenerList) {
             registerListener.onDeregister(registration);
-
         }
     }
 
