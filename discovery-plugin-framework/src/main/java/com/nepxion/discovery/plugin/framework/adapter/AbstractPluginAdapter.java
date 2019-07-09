@@ -170,7 +170,13 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Override
     public String getServerGroupKey(Server server) {
-        return getServerMetadata(server).get(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY);
+        String groupKey = getServerMetadata(server).get(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY);
+
+        if (StringUtils.isEmpty(groupKey)) {
+            groupKey = DiscoveryConstant.GROUP;
+        }
+
+        return groupKey;
     }
 
     @Override
@@ -227,7 +233,13 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Override
     public String getInstanceGroupKey(ServiceInstance serviceInstance) {
-        return getInstanceMetadata(serviceInstance).get(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY);
+        String groupKey = getInstanceMetadata(serviceInstance).get(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY);
+
+        if (StringUtils.isEmpty(groupKey)) {
+            groupKey = DiscoveryConstant.GROUP;
+        }
+
+        return groupKey;
     }
 
     @Override
