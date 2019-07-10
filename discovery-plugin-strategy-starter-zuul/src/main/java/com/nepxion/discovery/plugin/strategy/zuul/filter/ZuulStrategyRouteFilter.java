@@ -9,7 +9,10 @@ package com.nepxion.discovery.plugin.strategy.zuul.filter;
  * @version 1.0
  */
 
-public interface ZuulStrategyRouteFilter {
+import com.netflix.zuul.IZuulFilter;
+import com.netflix.zuul.ZuulFilter;
+
+public interface ZuulStrategyRouteFilter extends IZuulFilter, Comparable<ZuulFilter> {
     String getRouteVersion();
 
     String getRouteRegion();
