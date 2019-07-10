@@ -14,19 +14,26 @@ import feign.RequestTemplate;
 
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.plugin.strategy.service.adapter.FeignStrategyInterceptorAdapter;
 import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 
 public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implements RequestInterceptor {
     private static final Logger LOG = LoggerFactory.getLogger(FeignStrategyInterceptor.class);
+
+    @Autowired(required = false)
+    private List<FeignStrategyInterceptorAdapter> feignStrategyInterceptorAdapterList;
 
     public FeignStrategyInterceptor(String requestHeaders) {
         super(requestHeaders);
@@ -44,6 +51,12 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
         applyOuterHeader(requestTemplate);
 
         interceptOutputHeader(requestTemplate);
+
+        if (CollectionUtils.isNotEmpty(feignStrategyInterceptorAdapterList)) {
+            for (FeignStrategyInterceptorAdapter feignStrategyInterceptorAdapter : feignStrategyInterceptorAdapterList) {
+                feignStrategyInterceptorAdapter.apply(requestTemplate);
+            }
+        }
     }
 
     private void applyInnerHeader(RequestTemplate requestTemplate) {

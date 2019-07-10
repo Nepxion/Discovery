@@ -17,8 +17,10 @@ import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
@@ -27,10 +29,14 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.plugin.strategy.service.adapter.RestTemplateStrategyInterceptorAdapter;
 import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 
 public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor implements ClientHttpRequestInterceptor {
     private static final Logger LOG = LoggerFactory.getLogger(RestTemplateStrategyInterceptor.class);
+
+    @Autowired(required = false)
+    private List<RestTemplateStrategyInterceptorAdapter> restTemplateStrategyInterceptorAdapterList;
 
     public RestTemplateStrategyInterceptor(String requestHeaders) {
         super(requestHeaders);
@@ -48,6 +54,12 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
         applyOuterHeader(request);
 
         interceptOutputHeader(request);
+
+        if (CollectionUtils.isNotEmpty(restTemplateStrategyInterceptorAdapterList)) {
+            for (RestTemplateStrategyInterceptorAdapter restTemplateStrategyInterceptorAdapter : restTemplateStrategyInterceptorAdapterList) {
+                restTemplateStrategyInterceptorAdapter.intercept(request, body, execution);
+            }
+        }
 
         return execution.execute(request, body);
     }
