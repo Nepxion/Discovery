@@ -14,8 +14,6 @@ import reactor.core.publisher.Mono;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
-import org.springframework.cloud.gateway.filter.GlobalFilter;
-import org.springframework.core.Ordered;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.server.ServerWebExchange;
@@ -27,7 +25,7 @@ import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.gateway.constant.GatewayStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.tracer.StrategyTracer;
 
-public abstract class AbstractGatewayStrategyRouteFilter implements GlobalFilter, Ordered, GatewayStrategyRouteFilter {
+public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrategyRouteFilter {
     @Autowired
     private ConfigurableEnvironment environment;
 
