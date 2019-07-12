@@ -54,7 +54,7 @@
         <commons.io.version>2.5</commons.io.version>
         <dom4j.version>1.6.1</dom4j.version>
         <apollo.client.version>1.4.0</apollo.client.version>
-        <nacos.client.version>1.1.0</nacos.client.version>
+        <nacos.client.version>1.0.0</nacos.client.version>
         <guava.version>19.0</guava.version>
         <caffeine.version>2.7.0</caffeine.version>
         <swagger.version>2.7.0</swagger.version>
