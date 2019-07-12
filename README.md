@@ -708,13 +708,13 @@ spring.application.strategy.zuul.header.priority=false
 策略是通过REST或者RPC调用传递Header或者参数，达到用户自定义和编程灰度路由的目的。使用者可以实现跟业务有关的路由策略，根据业务参数的不同，负载均衡到不同的服务器，其核心代码参考discovery-plugin-strategy以及它的扩展
 
 ### 服务端的编程灰度路由策略
-基于服务端的编程灰度路由，实现DiscoveryEnabledStrategy，通过RequestContextHolder（获取来自网关的Header参数）和ServiceStrategyContext（获取来自RPC方式的方法参数）获取业务上下文参数，进行路由自定义，见[示例演示](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+基于服务端的编程灰度路由，实现DiscoveryEnabledStrategy，通过RequestContextHolder（获取来自网关的Header参数）和ServiceStrategyContext（获取来自RPC方式的方法参数）获取业务上下文参数，进行路由自定义，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 ### Zuul端的编程灰度路由策略
-基于Zuul端的编程灰度路由，实现DiscoveryEnabledStrategy，通过Zuul自带的RequestContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义，见[示例演示](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+基于Zuul端的编程灰度路由，实现DiscoveryEnabledStrategy，通过Zuul自带的RequestContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 ### Gateway端的编程灰度路由策略
-基于Spring Cloud Gateway端的编程灰度路由，实现DiscoveryEnabledStrategy，通过GatewayStrategyContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义，见[示例演示](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+基于Spring Cloud Gateway端的编程灰度路由，实现DiscoveryEnabledStrategy，通过GatewayStrategyContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 ### REST调用的内置多版本灰度路由策略
 基于Feign/RestTemplate的REST调用的多版本灰度路由，在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只有a服务的1.0版本，b服务的1.1版本，c服务的1.1或1.2版本，允许被调用到
@@ -722,7 +722,7 @@ Header的Key为"n-d-version"，value为：
 ```xml
 {"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.1", "discovery-springcloud-example-c":"1.1;1.2"}
 ```
-见[示例演示](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 如果，链路调用中所有的服务都是指定某个版本（例如1.1），那么value的格式可以简化，不需要Json字符串，直接是
 ```xml
@@ -747,7 +747,7 @@ Header的Key为"n-d-region"，value为：
 ```xml
 {"discovery-springcloud-example-a":"dev", "discovery-springcloud-example-b":"qa", "discovery-springcloud-example-c":"dev;qa"}
 ```
-见[示例演示](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 如果，链路调用中所有的服务都是指定某个区域（例如dev），那么value的格式可以简化，不需要Json字符串，直接是
 ```xml
@@ -774,7 +774,7 @@ Header的Key为"n-d-address"，value为：
 ```xml
 {"discovery-springcloud-example-a":"192.168.43.101:1101", "discovery-springcloud-example-b":"192.168.43.101:1201", "discovery-springcloud-example-c":"192.168.43.101:1302"}
 ```
-见[示例演示](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 如果上述表达式还未满足需求，也可以采用通配符（具体详细用法，参考Spring AntPathMatcher）
 ```xml
@@ -798,7 +798,7 @@ Header的Key为"n-d-version-weight"，value为：
 ```xml
 1.0=90;1.1=10
 ```
-见[示例演示](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 ### REST调用的内置区域权重灰度路由策略
 基于Feign/RestTemplate的REST调用的多区域灰度路由，在Header上传入区域流量百分比对应关系的字符串，如下表示，如果REST请求要经过两个区域，那么只需要它们区域对于流量的百分比
@@ -810,13 +810,13 @@ Header的Key为"n-d-region-weight"，value为：
 ```xml
 dev=85;qa=15
 ```
-见[示例演示](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 ### REST调用的编程灰度路由策略
-基于Feign/RestTemplate的REST调用的自定义路由，见[示例演示](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+基于Feign/RestTemplate的REST调用的自定义路由，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 ### RPC调用的编程灰度路由策略
-基于Feign/RestTemplate的RPC调用的自定义路由，见[示例演示](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
+基于Feign/RestTemplate的RPC调用的自定义路由，见[示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)的“用户自定义和编程灰度路由的操作演示”
 
 ## 规则和策略
 ### 规则和策略的区别
@@ -1005,22 +1005,22 @@ spring.application.strategy.trace.debug.enabled=true
 参考[https://github.com/alibaba/Sentinel](https://github.com/alibaba/Sentinel)
 
 ## 界面工具
-请参考[入门教程](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_QUICK_START.md)的“界面操作”
+请参考[入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)的“界面操作”
 
 ### 基于图形化桌面程序的灰度发布
-- 见[入门教程](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_QUICK_START.md)的“运行图形化灰度发布桌面程序”
+- 见[入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)的“运行图形化灰度发布桌面程序”
 
 ### 基于图形化Web程序的灰度发布
-- 见[入门教程](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_QUICK_START.md)的“运行图形化灰度发布Web程序”
+- 见[入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)的“运行图形化灰度发布Web程序”
 
 ### 基于Apollo界面的灰度发布
-- 见[入门教程](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_QUICK_START.md)的“运行Apollo配置界面”
+- 见[入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)的“运行Apollo配置界面”
 
 ### 基于Nacos界面的灰度发布
-- 见[入门教程](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_QUICK_START.md)的“运行Nacos配置界面”
+- 见[入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)的“运行Nacos配置界面”
 
 ### 基于Rest方式的灰度发布
-- 见[入门教程](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_QUICK_START.md)的“运行Swagger或者Postman方式”
+- 见[入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)的“运行Swagger或者Postman方式”
 
 ## 性能分析
 在我的电脑上，做了如下性能测试：
