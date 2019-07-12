@@ -109,8 +109,8 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 
 ## 快速开始
 - [极简示例](https://github.com/Nepxion/DiscoveryGray) 
-- [入门教程](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_QUICK_START.md)
-- [示例演示](https://github.com/Nepxion/Docs/raw/master/discovery-doc/README_EXAMPLE.md)
+- [入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)
+- [示例演示](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_EXAMPLE.md)
 
 ## 请联系我
 微信和公众号
