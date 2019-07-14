@@ -6,7 +6,7 @@
 [![Build Status](https://travis-ci.org/Nepxion/Discovery.svg?branch=master)](https://travis-ci.org/Nepxion/Discovery)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8e39a24e1be740c58b83fb81763ba317)](https://www.codacy.com/project/HaojunRen/Discovery/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nepxion/Discovery&amp;utm_campaign=Badge_Grade_Dashboard)
 
-艰难困苦，玉汝于成。经过一年多的不懈努力，才达成现在的颇具规模。希望路过的同学，顺手给这个开源框架点个Star，算是对我坚持下来的一种鼓励吧！
+希望路过的同学，顺手给这个开源框架点个Star，算是对我坚持下来的一种鼓励吧！
 
 ![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Star1.jpg)
 
