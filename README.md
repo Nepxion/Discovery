@@ -665,6 +665,7 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
 其作用的优先级
 - 在服务中，Header方式>配置中心或者本地rule.xml配置
 - 在网关中，通过如下配置，决定优先级
+
 ```xml
 # 当外界传值Header的时候，网关也设置并传递同名的Header，需要决定哪个Header传递到后边的服务去。如果下面开关为true，以网关设置为优先，否则以外界传值为优先。缺失则默认为true
 spring.application.strategy.gateway.header.priority=false
@@ -820,6 +821,7 @@ dev=85;qa=15
 
 ## 规则和策略
 ### 规则和策略的区别
+
 | 属性 | 规则 | 策略 |
 | --- | --- | --- |
 | 方式 | 通过XML或者Json配置 | 通过REST或者RPC调用传递Header或者参数 |
