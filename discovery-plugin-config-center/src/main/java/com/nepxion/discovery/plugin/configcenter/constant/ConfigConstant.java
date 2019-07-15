@@ -39,6 +39,8 @@ public class ConfigConstant {
     public static final String PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME = "provider-service-name";
     public static final String CONSUMER_VERSION_VALUE_ATTRIBUTE_NAME = "consumer-version-value";
     public static final String PROVIDER_VERSION_VALUE_ATTRIBUTE_NAME = "provider-version-value";
+    public static final String CONSUMER_REGION_VALUE_ATTRIBUTE_NAME = "consumer-region-value";
+    public static final String PROVIDER_REGION_VALUE_ATTRIBUTE_NAME = "provider-region-value";
     public static final String PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME = "provider-weight-value";
     public static final String KEY_ATTRIBUTE_NAME = "key";
     public static final String VALUE_ATTRIBUTE_NAME = "value";
