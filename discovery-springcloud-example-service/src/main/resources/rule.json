@@ -81,6 +81,54 @@
                 ]
             }
         }, 
+        "regionFilterEntity": {
+            "regionEntityMap": {
+                "discovery-springcloud-example-a": [
+                    {
+                        "consumerServiceName": "discovery-springcloud-example-a", 
+                        "providerServiceName": "discovery-springcloud-example-b", 
+                        "consumerRegionValueList": [
+                            "dev"
+                        ], 
+                        "providerRegionValueList": [
+                            "dev"
+                        ]
+                    }, 
+                    {
+                        "consumerServiceName": "discovery-springcloud-example-a", 
+                        "providerServiceName": "discovery-springcloud-example-b", 
+                        "consumerRegionValueList": [
+                            "qa"
+                        ], 
+                        "providerRegionValueList": [
+                            "qa"
+                        ]
+                    }
+                ], 
+                "discovery-springcloud-example-b": [
+                    {
+                        "consumerServiceName": "discovery-springcloud-example-b", 
+                        "providerServiceName": "discovery-springcloud-example-c", 
+                        "consumerRegionValueList": [
+                            "dev"
+                        ], 
+                        "providerRegionValueList": [
+                            "dev"
+                        ]
+                    }, 
+                    {
+                        "consumerServiceName": "discovery-springcloud-example-b", 
+                        "providerServiceName": "discovery-springcloud-example-c", 
+                        "consumerRegionValueList": [
+                            "qa"
+                        ], 
+                        "providerRegionValueList": [
+                            "qa"
+                        ]
+                    }
+                ]
+            }
+        }, 
         "weightFilterEntity": {
             "versionWeightEntityMap": {
                 "discovery-springcloud-example-b": [
