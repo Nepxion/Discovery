@@ -13,6 +13,7 @@ public class DiscoveryEntity extends FilterHolderEntity {
     private static final long serialVersionUID = -7417362859952278987L;
 
     private VersionFilterEntity versionFilterEntity;
+    private RegionFilterEntity regionFilterEntity;
     private WeightFilterEntity weightFilterEntity;
 
     public VersionFilterEntity getVersionFilterEntity() {
@@ -21,6 +22,14 @@ public class DiscoveryEntity extends FilterHolderEntity {
 
     public void setVersionFilterEntity(VersionFilterEntity versionFilterEntity) {
         this.versionFilterEntity = versionFilterEntity;
+    }
+
+    public RegionFilterEntity getRegionFilterEntity() {
+        return regionFilterEntity;
+    }
+
+    public void setRegionFilterEntity(RegionFilterEntity regionFilterEntity) {
+        this.regionFilterEntity = regionFilterEntity;
     }
 
     public WeightFilterEntity getWeightFilterEntity() {
