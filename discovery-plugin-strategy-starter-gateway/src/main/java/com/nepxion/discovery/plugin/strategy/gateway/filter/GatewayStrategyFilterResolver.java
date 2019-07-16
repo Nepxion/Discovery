@@ -27,4 +27,11 @@ public class GatewayStrategyFilterResolver {
         // 当外界传递了Header，虽然网关侧也添加了Header，但传递到调用链的还是第一个Header。参考exchange.getRequest().getHeaders().getFirst(name)
         requestBuilder.header(headerName, headerValue);
     }
+
+    public static void ignoreHeader(ServerHttpRequest.Builder requestBuilder, String headerName, Boolean gatewayHeaderPriority, Boolean gatewayOriginalHeaderIgnored) {
+        if (gatewayHeaderPriority && gatewayOriginalHeaderIgnored) {
+            // 需要把外界的Header清除
+            requestBuilder.headers(headers -> headers.remove(headerName));
+        }
+    }
 }
