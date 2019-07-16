@@ -935,7 +935,7 @@ spring.application.strategy.register.isolation.group.whitelist=
 # spring.application.strategy.consumer.isolation.enabled=true
 ```
 
-- 提供端服务隔离，基于Group是否相同的策略，即服务端被消费端调用，两者的Group必须相同，否则拒绝调用，异构系统可以通过Header方式传递n-d-service-group值进行匹配。只需要在网关或者服务端，开启如下配置即可：
+- 提供端服务隔离，基于Group是否相同的策略，即服务端被消费端调用，两者的Group必须相同，否则拒绝调用，异构系统可以通过Header方式传递n-d-service-group值进行匹配。只需要在服务端（不适用网关），开启如下配置即可：
 ```xml
 # 启动和关闭提供端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
 # spring.application.strategy.provider.isolation.enabled=true
