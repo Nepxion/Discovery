@@ -56,16 +56,16 @@ public class PluginEventWapper {
         }
     }
 
+    public void fireParameterChanged(ParameterChangeEvent parameterChangeEvent) {
+        pluginPublisher.asyncPublish(parameterChangeEvent);
+    }
+
+    public void fireParameterChanged() {
+        RuleEntity ruleEntity = pluginAdapter.getRule();
+        fireParameterChanged(new ParameterChangeEvent(ruleEntity != null ? ruleEntity.getParameterEntity() : null));
+    }
+
     public void fireRegisterFailure(RegisterFailureEvent registerFailureEvent) {
         pluginPublisher.asyncPublish(registerFailureEvent);
-    }
-
-    public void fireCustomization(CustomizationEvent customizationEvent) {
-        pluginPublisher.asyncPublish(customizationEvent);
-    }
-
-    public void fireCustomization() {
-        RuleEntity ruleEntity = pluginAdapter.getRule();
-        fireCustomization(new CustomizationEvent(ruleEntity != null ? ruleEntity.getCustomizationEntity() : null));
     }
 }

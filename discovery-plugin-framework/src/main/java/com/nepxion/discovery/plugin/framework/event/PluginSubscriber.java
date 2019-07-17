@@ -63,7 +63,7 @@ public class PluginSubscriber {
             RuleEntity ruleEntity = pluninConfigParser.parse(rule);
             pluginAdapter.setDynamicRule(ruleEntity);
 
-            pluginEventWapper.fireCustomization();
+            pluginEventWapper.fireParameterChanged();
         } catch (Exception e) {
             LOG.error("Parse rule xml failed", e);
 
@@ -90,7 +90,7 @@ public class PluginSubscriber {
 
         pluginAdapter.clearDynamicRule();
 
-        pluginEventWapper.fireCustomization();
+        pluginEventWapper.fireParameterChanged();
 
         refreshLoadBalancer();
     }

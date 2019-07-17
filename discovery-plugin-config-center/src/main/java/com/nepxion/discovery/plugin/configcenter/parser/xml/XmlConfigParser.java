@@ -24,11 +24,11 @@ import org.slf4j.LoggerFactory;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.CountFilterEntity;
-import com.nepxion.discovery.common.entity.CustomizationEntity;
 import com.nepxion.discovery.common.entity.DiscoveryEntity;
 import com.nepxion.discovery.common.entity.FilterHolderEntity;
 import com.nepxion.discovery.common.entity.FilterType;
 import com.nepxion.discovery.common.entity.HostFilterEntity;
+import com.nepxion.discovery.common.entity.ParameterEntity;
 import com.nepxion.discovery.common.entity.RegionEntity;
 import com.nepxion.discovery.common.entity.RegionFilterEntity;
 import com.nepxion.discovery.common.entity.RegionWeightEntity;
@@ -101,16 +101,16 @@ public class XmlConfigParser implements PluginConfigParser {
             throw new DiscoveryException("Allow only one element[" + ConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME + "] to be configed");
         }
 
-        int customizationElementCount = element.elements(ConfigConstant.CUSTOMIZATION_ELEMENT_NAME).size();
-        if (customizationElementCount > 1) {
-            throw new DiscoveryException("Allow only one element[" + ConfigConstant.CUSTOMIZATION_ELEMENT_NAME + "] to be configed");
+        int parameterElementCount = element.elements(ConfigConstant.PARAMETER_ELEMENT_NAME).size();
+        if (parameterElementCount > 1) {
+            throw new DiscoveryException("Allow only one element[" + ConfigConstant.PARAMETER_ELEMENT_NAME + "] to be configed");
         }
 
         RegisterEntity registerEntity = null;
         DiscoveryEntity discoveryEntity = null;
         StrategyEntity strategyEntity = null;
         StrategyCustomizationEntity strategyCustomizationEntity = null;
-        CustomizationEntity customizationEntity = null;
+        ParameterEntity parameterEntity = null;
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
             if (childElementObject instanceof Element) {
@@ -128,9 +128,9 @@ public class XmlConfigParser implements PluginConfigParser {
                 } else if (StringUtils.equals(childElement.getName(), ConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME)) {
                     strategyCustomizationEntity = new StrategyCustomizationEntity();
                     parseStrategyCustomization(childElement, strategyCustomizationEntity);
-                } else if (StringUtils.equals(childElement.getName(), ConfigConstant.CUSTOMIZATION_ELEMENT_NAME)) {
-                    customizationEntity = new CustomizationEntity();
-                    parseCustomization(childElement, customizationEntity);
+                } else if (StringUtils.equals(childElement.getName(), ConfigConstant.PARAMETER_ELEMENT_NAME)) {
+                    parameterEntity = new ParameterEntity();
+                    parseParameter(childElement, parameterEntity);
                 }
             }
         }
@@ -140,7 +140,7 @@ public class XmlConfigParser implements PluginConfigParser {
         ruleEntity.setDiscoveryEntity(discoveryEntity);
         ruleEntity.setStrategyEntity(strategyEntity);
         ruleEntity.setStrategyCustomizationEntity(strategyCustomizationEntity);
-        ruleEntity.setCustomizationEntity(customizationEntity);
+        ruleEntity.setParameterEntity(parameterEntity);
         ruleEntity.setContent(config);
 
         LOG.info("Rule content=\n{}", config);
@@ -272,8 +272,8 @@ public class XmlConfigParser implements PluginConfigParser {
     }
 
     @SuppressWarnings("rawtypes")
-    private void parseCustomization(Element element, CustomizationEntity customizationEntity) {
-        Map<String, Map<String, String>> customizationMap = customizationEntity.getCustomizationMap();
+    private void parseParameter(Element element, ParameterEntity parameterEntity) {
+        Map<String, Map<String, String>> parameterMap = parameterEntity.getParameterMap();
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
             if (childElementObject instanceof Element) {
@@ -298,12 +298,12 @@ public class XmlConfigParser implements PluginConfigParser {
                     }
                     String value = valueAttribute.getData().toString().trim();
 
-                    Map<String, String> customizationParameter = customizationMap.get(serviceName);
-                    if (customizationParameter == null) {
-                        customizationParameter = new LinkedHashMap<String, String>();
-                        customizationMap.put(serviceName, customizationParameter);
+                    Map<String, String> parameter = parameterMap.get(serviceName);
+                    if (parameter == null) {
+                        parameter = new LinkedHashMap<String, String>();
+                        parameterMap.put(serviceName, parameter);
                     }
-                    customizationParameter.put(key, value);
+                    parameter.put(key, value);
                 }
             }
         }
