@@ -18,17 +18,17 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class CustomizationEntity implements Serializable {
+public class ParameterEntity implements Serializable {
     private static final long serialVersionUID = -5135099669922746855L;
 
-    private Map<String, Map<String, String>> customizationMap = new LinkedHashMap<String, Map<String, String>>();
+    private Map<String, Map<String, String>> parameterMap = new LinkedHashMap<String, Map<String, String>>();
 
-    public Map<String, Map<String, String>> getCustomizationMap() {
-        return customizationMap;
+    public Map<String, Map<String, String>> getParameterMap() {
+        return parameterMap;
     }
 
-    public void setCustomizationMap(Map<String, Map<String, String>> customizationMap) {
-        this.customizationMap = customizationMap;
+    public void setParameterMap(Map<String, Map<String, String>> parameterMap) {
+        this.parameterMap = parameterMap;
     }
 
     @Override

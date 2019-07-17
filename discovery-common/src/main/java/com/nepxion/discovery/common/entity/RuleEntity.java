@@ -22,8 +22,8 @@ public class RuleEntity implements Serializable {
     private RegisterEntity registerEntity;
     private DiscoveryEntity discoveryEntity;
     private StrategyEntity strategyEntity;
-    private CustomizationEntity customizationEntity;
     private StrategyCustomizationEntity strategyCustomizationEntity;
+    private ParameterEntity parameterEntity;
     private String content;
 
     public RegisterEntity getRegisterEntity() {
@@ -42,14 +42,6 @@ public class RuleEntity implements Serializable {
         this.discoveryEntity = discoveryEntity;
     }
 
-    public CustomizationEntity getCustomizationEntity() {
-        return customizationEntity;
-    }
-
-    public void setCustomizationEntity(CustomizationEntity customizationEntity) {
-        this.customizationEntity = customizationEntity;
-    }
-
     public StrategyEntity getStrategyEntity() {
         return strategyEntity;
     }
@@ -64,6 +56,14 @@ public class RuleEntity implements Serializable {
 
     public void setStrategyCustomizationEntity(StrategyCustomizationEntity strategyCustomizationEntity) {
         this.strategyCustomizationEntity = strategyCustomizationEntity;
+    }
+
+    public ParameterEntity getParameterEntity() {
+        return parameterEntity;
+    }
+
+    public void setParameterEntity(ParameterEntity parameterEntity) {
+        this.parameterEntity = parameterEntity;
     }
 
     public String getContent() {
