@@ -81,8 +81,8 @@ public class ConfigInitializer {
             LOG.info("No config is retrieved");
         }
 
-        // 初始化配置的时候，不应该触发fireCustomization的EventBus事件
-        // pluginEventWapper.fireCustomization();
+        // 初始化配置的时候，不应该触发fireParameterChanged的EventBus事件
+        // pluginEventWapper.fireParameterChanged();
     }
 
     private String getRemoteConfig() {
