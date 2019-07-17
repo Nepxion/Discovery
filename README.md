@@ -10,7 +10,7 @@
 
 ![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Star1.jpg)
 
-Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon负载均衡、Feign和RestTemplate调用、Hystrix或者阿里巴巴Sentinel熔断隔离限流降级的增强中间件，其功能包括灰度发布（包括切换发布和平滑发布）、服务隔离、服务路由（包括多机房区域路由、多版本路由和多IP和端口路由）、服务权重、黑/白名单的IP地址过滤、限制注册、限制发现、灰度调用链等，支持Eureka、Consul、Zookeeper和阿里巴巴的Nacos为服务注册发现中间件，支持阿里巴巴的Nacos、携程的Apollo和Redis为远程配置中心，支持Spring Cloud Gateway、Zuul网关和微服务的灰度发布，支持用户自定义和编程”禁止注册“、”禁止被发现“、”禁止被负载均衡“策略 ，支持用户自定义和编程灰度路由策略（包括RPC和REST两种调用方式），支持运维调度灰度发布和路由的元数据，支持多数据源的数据库灰度发布等客户特色化灰度发布，兼容Spring Cloud Edgware版、Finchley版和Greenwich版。现有的Spring Cloud微服务很方便引入该中间件，代码零侵入。鉴于Spring Cloud官方对Eureka和Hystrix不再做新功能的迭代，推荐用Nacos和Sentinel，它们对Spring Cloud灰度发布和路由更具出色的兼容性和友好性
+Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon负载均衡、Feign和RestTemplate调用、Hystrix或者阿里巴巴Sentinel熔断隔离限流降级的增强中间件，其功能包括灰度发布（包括切换发布和平滑发布）、服务隔离、服务路由（包括多机房区域路由、多版本路由和多IP和端口路由）、服务权重、黑/白名单的IP地址过滤、限制注册、限制发现、灰度调用链等，支持Eureka、Consul、Zookeeper和阿里巴巴的Nacos为服务注册发现中间件，支持阿里巴巴的Nacos、携程的Apollo和Redis为远程配置中心，支持Spring Cloud Gateway、Zuul网关和微服务的灰度发布，支持用户自定义和编程”禁止注册“、”禁止被发现“、”禁止被负载均衡“策略 ，支持用户自定义和编程灰度路由策略（包括RPC和REST两种调用方式），支持运维调度灰度发布和路由的元数据，支持多数据源的数据库灰度发布等参数特色化灰度发布，兼容Spring Cloud Edgware版、Finchley版和Greenwich版。现有的Spring Cloud微服务很方便引入该中间件，代码零侵入。鉴于Spring Cloud官方对Eureka和Hystrix不再做新功能的迭代，推荐用Nacos和Sentinel，它们对Spring Cloud灰度发布和路由更具出色的兼容性和友好性
 
 :100:鸣谢
 - 感谢阿里巴巴中间件Nacos和Sentinel团队，尤其是Nacos负责人@于怀，Sentinel负责人@子衿，Spring Cloud Alibaba负责人@亦盏的技术支持
@@ -39,9 +39,9 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 
 | 框架版本 | 框架状态 | 适用Spring Cloud版本 | 适用Spring Boot版本 | 适用Spring Cloud Alibaba版本 |
 | --- | --- | --- | --- | --- |
-| 5.2.3 | 维护中，可用 | Greenwich | 2.1.x.RELEASE | 0.9.x.RELEASE |
-| 4.10.3 | 维护中，可用 | Finchley | 2.0.x.RELEASE | 0.2.x.RELEASE |
-| 3.10.3 | 维护中，可用 | Edgware | 1.5.x.RELEASE | 0.1.x.RELEASE |
+| 5.2.5 | 维护中，可用 | Greenwich | 2.1.x.RELEASE | 0.9.x.RELEASE |
+| 4.10.5 | 维护中，可用 | Finchley | 2.0.x.RELEASE | 0.2.x.RELEASE |
+| 3.10.5 | 维护中，可用 | Edgware | 1.5.x.RELEASE | 0.1.x.RELEASE |
 | 2.0.x | 不维护，不可用 | Dalston | N/A | N/A |
 | 1.0.x | 不维护，不可用 | Camden | N/A | N/A |
 
