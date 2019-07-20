@@ -591,7 +591,7 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
         </weight>
     </discovery>
 
-    <!-- 网关端的基于Http Header传递的策略路由，全局缺省路由 -->
+    <!-- 基于Http Header传递的策略路由，全局缺省路由 -->
     <strategy>
         <!-- 版本路由 -->
         <version>{"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.0", "discovery-springcloud-example-c":"1.0;1.2"}</version>
@@ -610,7 +610,7 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
         <!-- <region-weight>dev=85;qa=15</region-weight> -->
     </strategy>
 
-    <!-- 网关端的基于Http Header传递的策略路由，客户定制化控制，跟业务参数绑定。如果不命中，则执行上面的全局缺省路由 -->
+    <!-- 基于Http Header传递的策略路由，客户定制化控制，跟业务参数绑定。如果不命中，则执行上面的全局缺省路由 -->
     <strategy-customization>
         <conditions>
             <condition id="1" header="a=1;b=2" version-id="a" region-id="b" address-id="c" version-weight-id="d" region-weight-id="e"/>
@@ -1028,6 +1028,8 @@ management.server.port=5100
 # spring.application.strategy.rest.intercept.enabled=true
 # 启动和关闭Header传递的Debug日志打印，注意每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
 spring.application.strategy.rest.intercept.debug.enabled=true
+# 开启和关闭内置的路由策略过滤器。一旦关闭，基于配置中心（或自定义）的路由策略Header传递方式将失效，只能通过前端的路由策略Header传递方式。缺失则默认为true
+# spring.application.strategy.rest.route.filter.enabled=true
 # 用户自定义和编程灰度路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
 spring.application.strategy.request.headers=token
 # 启动和关闭用户自定义和编程灰度路由策略的时候，对RPC方式的调用拦截。缺失则默认为false
