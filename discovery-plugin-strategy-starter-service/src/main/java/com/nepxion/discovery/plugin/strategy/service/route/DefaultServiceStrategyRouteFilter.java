@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.gateway.filter;
+package com.nepxion.discovery.plugin.strategy.service.route;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
 
-public class DefaultGatewayStrategyRouteFilter extends AbstractGatewayStrategyRouteFilter {
+public class DefaultServiceStrategyRouteFilter implements ServiceStrategyRouteFilter {
     @Autowired
     protected StrategyWrapper strategyWrapper;
 

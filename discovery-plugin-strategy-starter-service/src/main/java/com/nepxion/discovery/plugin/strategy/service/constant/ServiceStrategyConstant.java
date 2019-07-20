@@ -14,6 +14,7 @@ public class ServiceStrategyConstant {
     public static final String SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES = "spring.application.strategy.scan.packages";
     public static final String SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_ENABLED = "spring.application.strategy.rest.intercept.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_DEBUG_ENABLED = "spring.application.strategy.rest.intercept.debug.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_REST_ROUTE_FILTER_ENABLED = "spring.application.strategy.rest.route.filter.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_REQUEST_HEADERS = "spring.application.strategy.request.headers";
     public static final String CLASS = "class";
     public static final String METHOD = "method";
