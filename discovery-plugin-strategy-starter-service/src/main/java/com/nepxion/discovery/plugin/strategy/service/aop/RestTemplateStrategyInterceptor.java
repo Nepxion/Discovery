@@ -18,7 +18,6 @@ import java.util.Map.Entry;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,16 +31,12 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.strategy.service.adapter.RestTemplateStrategyInterceptorAdapter;
 import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
-import com.nepxion.discovery.plugin.strategy.service.route.ServiceStrategyRouteFilter;
 
 public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor implements ClientHttpRequestInterceptor {
     private static final Logger LOG = LoggerFactory.getLogger(RestTemplateStrategyInterceptor.class);
 
     @Autowired(required = false)
     private List<RestTemplateStrategyInterceptorAdapter> restTemplateStrategyInterceptorAdapterList;
-
-    @Autowired
-    private ServiceStrategyRouteFilter serviceStrategyRouteFilter;
 
     public RestTemplateStrategyInterceptor(String requestHeaders) {
         super(requestHeaders);
@@ -98,37 +93,6 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
             boolean isHeaderContains = isHeaderContainsExcludeInner(headerName.toLowerCase());
             if (isHeaderContains) {
                 headers.add(headerName, headerValue);
-            }
-        }
-
-        if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_VERSION))) {
-            String routeVersion = serviceStrategyRouteFilter.getRouteVersion();
-            if (StringUtils.isNotEmpty(routeVersion)) {
-                headers.add(DiscoveryConstant.N_D_VERSION, routeVersion);
-            }
-        }
-        if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_REGION))) {
-            String routeRegion = serviceStrategyRouteFilter.getRouteRegion();
-            if (StringUtils.isNotEmpty(routeRegion)) {
-                headers.add(DiscoveryConstant.N_D_REGION, routeRegion);
-            }
-        }
-        if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_ADDRESS))) {
-            String routeAddress = serviceStrategyRouteFilter.getRouteAddress();
-            if (StringUtils.isNotEmpty(routeAddress)) {
-                headers.add(DiscoveryConstant.N_D_ADDRESS, routeAddress);
-            }
-        }
-        if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_VERSION_WEIGHT))) {
-            String routeVersionWeight = serviceStrategyRouteFilter.getRouteVersionWeight();
-            if (StringUtils.isNotEmpty(routeVersionWeight)) {
-                headers.add(DiscoveryConstant.N_D_VERSION_WEIGHT, routeVersionWeight);
-            }
-        }
-        if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_REGION_WEIGHT))) {
-            String routeRegionWeight = serviceStrategyRouteFilter.getRouteRegionWeight();
-            if (StringUtils.isNotEmpty(routeRegionWeight)) {
-                headers.add(DiscoveryConstant.N_D_REGION_WEIGHT, routeRegionWeight);
             }
         }
     }
