@@ -30,6 +30,8 @@ import com.nepxion.discovery.plugin.strategy.service.aop.RpcStrategyInterceptor;
 import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.isolation.ProviderIsolationStrategyAutoScanProxy;
 import com.nepxion.discovery.plugin.strategy.service.isolation.ProviderIsolationStrategyInterceptor;
+import com.nepxion.discovery.plugin.strategy.service.route.DefaultServiceStrategyRouteFilter;
+import com.nepxion.discovery.plugin.strategy.service.route.ServiceStrategyRouteFilter;
 import com.nepxion.discovery.plugin.strategy.service.tracer.TracerStrategyAutoScanProxy;
 import com.nepxion.discovery.plugin.strategy.service.tracer.TracerStrategyInterceptor;
 import com.nepxion.discovery.plugin.strategy.service.wrapper.DefaultCallableWrapper;
@@ -86,6 +88,12 @@ public class ServiceStrategyAutoConfiguration {
         String requestHeaders = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REQUEST_HEADERS);
 
         return new RestTemplateStrategyInterceptor(requestHeaders);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ServiceStrategyRouteFilter serviceStrategyRouteFilter() {
+        return new DefaultServiceStrategyRouteFilter();
     }
 
     @Bean
