@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.zuul.filter;
+package com.nepxion.discovery.plugin.strategy.service.route;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.plugin.strategy.wrapper.CustomizationStrategyWrapper;
 
-public class CustomizationZuulStrategyRouteFilter extends DefaultZuulStrategyRouteFilter {
+public class CustomizationServiceStrategyRouteFilter extends DefaultServiceStrategyRouteFilter {
     @Autowired
     protected CustomizationStrategyWrapper customizationStrategyWrapper;
 
