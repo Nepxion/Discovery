@@ -19,13 +19,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.common.entity.RuleEntity;
-import com.nepxion.discovery.common.entity.StrategyEntity;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.matcher.DiscoveryMatcherStrategy;
+import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
 import com.netflix.loadbalancer.Server;
 
 public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
@@ -40,6 +39,9 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
 
     @Autowired
     protected PluginAdapter pluginAdapter;
+
+    @Autowired
+    protected StrategyWrapper strategyWrapper;
 
     protected StrategyContextHolder strategyContextHolder;
 
@@ -72,13 +74,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     private boolean applyVersion(Server server) {
         String versionValue = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION);
         if (StringUtils.isEmpty(versionValue)) {
-            RuleEntity ruleEntity = pluginAdapter.getRule();
-            if (ruleEntity != null) {
-                StrategyEntity strategyEntity = ruleEntity.getStrategyEntity();
-                if (strategyEntity != null) {
-                    versionValue = strategyEntity.getVersionValue();
-                }
-            }
+            versionValue = strategyWrapper.getRouteVersion();
         }
 
         if (StringUtils.isEmpty(versionValue)) {
@@ -120,13 +116,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     private boolean applyRegion(Server server) {
         String regionValue = strategyContextHolder.getHeader(DiscoveryConstant.N_D_REGION);
         if (StringUtils.isEmpty(regionValue)) {
-            RuleEntity ruleEntity = pluginAdapter.getRule();
-            if (ruleEntity != null) {
-                StrategyEntity strategyEntity = ruleEntity.getStrategyEntity();
-                if (strategyEntity != null) {
-                    regionValue = strategyEntity.getRegionValue();
-                }
-            }
+            regionValue = strategyWrapper.getRouteRegion();
         }
 
         if (StringUtils.isEmpty(regionValue)) {
@@ -168,13 +158,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     private boolean applyAddress(Server server) {
         String addressValue = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ADDRESS);
         if (StringUtils.isEmpty(addressValue)) {
-            RuleEntity ruleEntity = pluginAdapter.getRule();
-            if (ruleEntity != null) {
-                StrategyEntity strategyEntity = ruleEntity.getStrategyEntity();
-                if (strategyEntity != null) {
-                    addressValue = strategyEntity.getAddressValue();
-                }
-            }
+            addressValue = strategyWrapper.getRouteAddress();
         }
 
         if (StringUtils.isEmpty(addressValue)) {
