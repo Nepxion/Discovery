@@ -12,18 +12,17 @@ package com.nepxion.discovery.plugin.strategy.service.tracer;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.plugin.strategy.tracer.StrategyTracer;
 import com.nepxion.matrix.proxy.aop.AbstractInterceptor;
 
-public class TracerStrategyInterceptor extends AbstractInterceptor {
+public class ServiceStrategyTracerInterceptor extends AbstractInterceptor {
     @Autowired(required = false)
-    private StrategyTracer strategyTracer;
+    private ServiceStrategyTracer serviceStrategyTracer;
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         // 调用链追踪
-        if (strategyTracer != null) {
-            strategyTracer.traceHeader();
+        if (serviceStrategyTracer != null) {
+            serviceStrategyTracer.trace(this, invocation);
         }
 
         return invocation.proceed();

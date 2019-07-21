@@ -27,7 +27,7 @@ public class StrategyTracer {
     @Autowired
     protected StrategyContextHolder strategyContextHolder;
 
-    public void traceHeader() {
+    public void debugTraceHeader() {
         Boolean traceDebugEnabled = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACE_DEBUG_ENABLED, Boolean.class, Boolean.FALSE);
         if (!traceDebugEnabled) {
             return;
@@ -43,7 +43,7 @@ public class StrategyTracer {
         System.out.println("--------------------------------------------------");
     }
 
-    public void traceInvoker() {
+    public void debugTraceLocal() {
         Boolean traceDebugEnabled = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACE_DEBUG_ENABLED, Boolean.class, Boolean.FALSE);
         if (!traceDebugEnabled) {
             return;

@@ -17,7 +17,7 @@ import com.nepxion.matrix.proxy.aop.DefaultAutoScanProxy;
 import com.nepxion.matrix.proxy.mode.ProxyMode;
 import com.nepxion.matrix.proxy.mode.ScanMode;
 
-public class TracerStrategyAutoScanProxy extends DefaultAutoScanProxy {
+public class ServiceStrategyTracerAutoScanProxy extends DefaultAutoScanProxy {
     private static final long serialVersionUID = 2204522253627697121L;
 
     private String[] commonInterceptorNames;
@@ -25,14 +25,14 @@ public class TracerStrategyAutoScanProxy extends DefaultAutoScanProxy {
     @SuppressWarnings("rawtypes")
     private Class[] methodAnnotations;
 
-    public TracerStrategyAutoScanProxy(String scanPackages) {
+    public ServiceStrategyTracerAutoScanProxy(String scanPackages) {
         super(scanPackages, ProxyMode.BY_CLASS_ANNOTATION_ONLY, ScanMode.FOR_CLASS_ANNOTATION_ONLY);
     }
 
     @Override
     protected String[] getCommonInterceptorNames() {
         if (commonInterceptorNames == null) {
-            commonInterceptorNames = new String[] { "tracerStrategyInterceptor" };
+            commonInterceptorNames = new String[] { "serviceStrategyTracerInterceptor" };
         }
 
         return commonInterceptorNames;
