@@ -22,7 +22,7 @@ import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.gateway.constant.GatewayStrategyConstant;
-import com.nepxion.discovery.plugin.strategy.tracer.StrategyTracer;
+import com.nepxion.discovery.plugin.strategy.gateway.tracer.GatewayStrategyTracer;
 
 public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrategyRouteFilter {
     @Autowired
@@ -35,7 +35,7 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
     protected StrategyContextHolder strategyContextHolder;
 
     @Autowired(required = false)
-    private StrategyTracer strategyTracer;
+    private GatewayStrategyTracer gatewayStrategyTracer;
 
     @Override
     public int getOrder() {
@@ -91,13 +91,13 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
         GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion(), gatewayHeaderPriority);
         GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion(), gatewayHeaderPriority);
 
-        // 调用链追踪
-        if (strategyTracer != null) {
-            strategyTracer.traceHeader();
-        }
-
         ServerHttpRequest newRequest = requestBuilder.build();
         ServerWebExchange newExchange = exchange.mutate().request(newRequest).build();
+
+        // 调用链追踪
+        if (gatewayStrategyTracer != null) {
+            gatewayStrategyTracer.trace(newExchange);
+        }
 
         return chain.filter(newExchange);
     }

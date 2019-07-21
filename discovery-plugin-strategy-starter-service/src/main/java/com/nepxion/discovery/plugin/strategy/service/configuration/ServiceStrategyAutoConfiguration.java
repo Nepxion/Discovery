@@ -32,8 +32,9 @@ import com.nepxion.discovery.plugin.strategy.service.isolation.ProviderIsolation
 import com.nepxion.discovery.plugin.strategy.service.isolation.ProviderIsolationStrategyInterceptor;
 import com.nepxion.discovery.plugin.strategy.service.route.DefaultServiceStrategyRouteFilter;
 import com.nepxion.discovery.plugin.strategy.service.route.ServiceStrategyRouteFilter;
-import com.nepxion.discovery.plugin.strategy.service.tracer.TracerStrategyAutoScanProxy;
-import com.nepxion.discovery.plugin.strategy.service.tracer.TracerStrategyInterceptor;
+import com.nepxion.discovery.plugin.strategy.service.tracer.ServiceStrategyTracer;
+import com.nepxion.discovery.plugin.strategy.service.tracer.ServiceStrategyTracerAutoScanProxy;
+import com.nepxion.discovery.plugin.strategy.service.tracer.ServiceStrategyTracerInterceptor;
 import com.nepxion.discovery.plugin.strategy.service.wrapper.DefaultCallableWrapper;
 import com.nepxion.discovery.plugin.strategy.wrapper.CallableWrapper;
 
@@ -98,6 +99,13 @@ public class ServiceStrategyAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
+    @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACE_ENABLED, matchIfMissing = false)
+    public ServiceStrategyTracer serviceStrategyTracer() {
+        return new ServiceStrategyTracer();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
     @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_ENABLED, matchIfMissing = true)
     public DiscoveryEnabledAdapter discoveryEnabledAdapter() {
         return new DefaultDiscoveryEnabledAdapter();
@@ -138,7 +146,7 @@ public class ServiceStrategyAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACE_ENABLED, matchIfMissing = false)
-    public TracerStrategyAutoScanProxy tracerStrategyAutoScanProxy() {
+    public ServiceStrategyTracerAutoScanProxy serviceStrategyTracerAutoScanProxy() {
         String scanPackages = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES);
         if (StringUtils.isEmpty(scanPackages)) {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
@@ -148,13 +156,13 @@ public class ServiceStrategyAutoConfiguration {
             throw new DiscoveryException("It can't scan packages for '" + ServiceStrategyConstant.EXCLUSION_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
         }
 
-        return new TracerStrategyAutoScanProxy(scanPackages);
+        return new ServiceStrategyTracerAutoScanProxy(scanPackages);
     }
 
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACE_ENABLED, matchIfMissing = false)
-    public TracerStrategyInterceptor tracerStrategyInterceptor() {
+    public ServiceStrategyTracerInterceptor serviceStrategyTracerInterceptor() {
         String scanPackages = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES);
         if (StringUtils.isEmpty(scanPackages)) {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
@@ -164,7 +172,7 @@ public class ServiceStrategyAutoConfiguration {
             throw new DiscoveryException("It can't scan packages for '" + ServiceStrategyConstant.EXCLUSION_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
         }
 
-        return new TracerStrategyInterceptor();
+        return new ServiceStrategyTracerInterceptor();
     }
 
     @Bean
