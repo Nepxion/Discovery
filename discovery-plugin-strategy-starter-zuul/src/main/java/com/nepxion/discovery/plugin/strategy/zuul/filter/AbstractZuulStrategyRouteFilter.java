@@ -16,9 +16,10 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
-import com.nepxion.discovery.plugin.strategy.tracer.StrategyTracer;
 import com.nepxion.discovery.plugin.strategy.zuul.constant.ZuulStrategyConstant;
+import com.nepxion.discovery.plugin.strategy.zuul.tracer.ZuulStrategyTracer;
 import com.netflix.zuul.ZuulFilter;
+import com.netflix.zuul.context.RequestContext;
 
 public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter implements ZuulStrategyRouteFilter {
     @Autowired
@@ -31,7 +32,7 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter impleme
     protected StrategyContextHolder strategyContextHolder;
 
     @Autowired(required = false)
-    private StrategyTracer strategyTracer;
+    private ZuulStrategyTracer zuulStrategyTracer;
 
     @Override
     public String filterType() {
@@ -97,8 +98,8 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter impleme
         ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion(), zuulHeaderPriority);
 
         // 调用链追踪
-        if (strategyTracer != null) {
-            strategyTracer.traceHeader();
+        if (zuulStrategyTracer != null) {
+            zuulStrategyTracer.trace(RequestContext.getCurrentContext());
         }
 
         return null;
