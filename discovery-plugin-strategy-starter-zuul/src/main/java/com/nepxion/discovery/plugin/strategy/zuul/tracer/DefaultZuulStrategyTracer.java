@@ -9,8 +9,12 @@ package com.nepxion.discovery.plugin.strategy.zuul.tracer;
  * @version 1.0
  */
 
+import com.nepxion.discovery.plugin.strategy.tracer.StrategyTracer;
 import com.netflix.zuul.context.RequestContext;
 
-public interface ZuulStrategyTracer {
-    void trace(RequestContext context);
+public class DefaultZuulStrategyTracer extends StrategyTracer implements ZuulStrategyTracer {
+    @Override
+    public void trace(RequestContext context) {
+        debugTraceHeader();
+    }
 }
