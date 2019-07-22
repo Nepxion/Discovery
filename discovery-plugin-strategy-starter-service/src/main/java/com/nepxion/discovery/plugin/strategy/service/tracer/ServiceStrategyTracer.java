@@ -11,10 +11,6 @@ package com.nepxion.discovery.plugin.strategy.service.tracer;
 
 import org.aopalliance.intercept.MethodInvocation;
 
-import com.nepxion.discovery.plugin.strategy.tracer.StrategyTracer;
-
-public class ServiceStrategyTracer extends StrategyTracer {
-    public void trace(ServiceStrategyTracerInterceptor interceptor, MethodInvocation invocation) {
-        debugTraceLocal();
-    }
+public interface ServiceStrategyTracer {
+    void trace(ServiceStrategyTracerInterceptor interceptor, MethodInvocation invocation);
 }

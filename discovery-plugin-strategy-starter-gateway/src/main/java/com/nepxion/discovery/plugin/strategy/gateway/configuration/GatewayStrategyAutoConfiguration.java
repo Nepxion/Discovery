@@ -23,6 +23,7 @@ import com.nepxion.discovery.plugin.strategy.gateway.constant.GatewayStrategyCon
 import com.nepxion.discovery.plugin.strategy.gateway.filter.DefaultGatewayStrategyRouteFilter;
 import com.nepxion.discovery.plugin.strategy.gateway.filter.GatewayStrategyFilter;
 import com.nepxion.discovery.plugin.strategy.gateway.filter.GatewayStrategyRouteFilter;
+import com.nepxion.discovery.plugin.strategy.gateway.tracer.DefaultGatewayStrategyTracer;
 import com.nepxion.discovery.plugin.strategy.gateway.tracer.GatewayStrategyTracer;
 import com.nepxion.discovery.plugin.strategy.gateway.wrapper.DefaultCallableWrapper;
 import com.nepxion.discovery.plugin.strategy.wrapper.CallableWrapper;
@@ -47,7 +48,7 @@ public class GatewayStrategyAutoConfiguration {
     @ConditionalOnMissingBean
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACE_ENABLED, matchIfMissing = false)
     public GatewayStrategyTracer gatewayStrategyTracer() {
-        return new GatewayStrategyTracer();
+        return new DefaultGatewayStrategyTracer();
     }
 
     @Bean

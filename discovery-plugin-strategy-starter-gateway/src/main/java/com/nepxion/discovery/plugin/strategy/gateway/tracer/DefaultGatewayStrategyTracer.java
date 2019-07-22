@@ -11,6 +11,11 @@ package com.nepxion.discovery.plugin.strategy.gateway.tracer;
 
 import org.springframework.web.server.ServerWebExchange;
 
-public interface GatewayStrategyTracer {
-    void trace(ServerWebExchange exchange);
+import com.nepxion.discovery.plugin.strategy.tracer.StrategyTracer;
+
+public class DefaultGatewayStrategyTracer extends StrategyTracer implements GatewayStrategyTracer {
+    @Override
+    public void trace(ServerWebExchange exchange) {
+        debugTraceHeader();
+    }
 }

@@ -32,6 +32,7 @@ import com.nepxion.discovery.plugin.strategy.service.isolation.ProviderIsolation
 import com.nepxion.discovery.plugin.strategy.service.isolation.ProviderIsolationStrategyInterceptor;
 import com.nepxion.discovery.plugin.strategy.service.route.DefaultServiceStrategyRouteFilter;
 import com.nepxion.discovery.plugin.strategy.service.route.ServiceStrategyRouteFilter;
+import com.nepxion.discovery.plugin.strategy.service.tracer.DefaultServiceStrategyTracer;
 import com.nepxion.discovery.plugin.strategy.service.tracer.ServiceStrategyTracer;
 import com.nepxion.discovery.plugin.strategy.service.tracer.ServiceStrategyTracerAutoScanProxy;
 import com.nepxion.discovery.plugin.strategy.service.tracer.ServiceStrategyTracerInterceptor;
@@ -101,7 +102,7 @@ public class ServiceStrategyAutoConfiguration {
     @ConditionalOnMissingBean
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACE_ENABLED, matchIfMissing = false)
     public ServiceStrategyTracer serviceStrategyTracer() {
-        return new ServiceStrategyTracer();
+        return new DefaultServiceStrategyTracer();
     }
 
     @Bean
