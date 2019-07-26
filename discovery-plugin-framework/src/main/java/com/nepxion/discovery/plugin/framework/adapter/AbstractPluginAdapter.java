@@ -13,6 +13,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.serviceregistry.Registration;
 
@@ -20,7 +21,6 @@ import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.cache.PluginCache;
 import com.nepxion.discovery.plugin.framework.cache.RuleCache;
-import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.netflix.loadbalancer.Server;
 
 public abstract class AbstractPluginAdapter implements PluginAdapter {
@@ -28,17 +28,20 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     protected Registration registration;
 
     @Autowired
-    protected PluginContextAware pluginContextAware;
-
-    @Autowired
     protected PluginCache pluginCache;
 
     @Autowired
     protected RuleCache ruleCache;
 
+    @Value("${" + DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY + ":" + DiscoveryConstant.GROUP + "}")
+    private String groupKey;
+
+    @Value("${" + DiscoveryConstant.SPRING_APPLICATION_TYPE + "}")
+    private String applicationType;
+
     @Override
     public String getGroupKey() {
-        return pluginContextAware.getGroupKey();
+        return groupKey;
     }
 
     @Override
@@ -59,7 +62,7 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Override
     public String getServiceType() {
-        return pluginContextAware.getApplicationType();
+        return applicationType;
     }
 
     @Override
