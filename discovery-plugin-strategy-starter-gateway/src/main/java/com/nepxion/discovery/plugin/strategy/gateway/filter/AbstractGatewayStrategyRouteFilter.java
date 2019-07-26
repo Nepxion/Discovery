@@ -13,8 +13,8 @@ import reactor.core.publisher.Mono;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
-import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.server.ServerWebExchange;
 
@@ -26,9 +26,6 @@ import com.nepxion.discovery.plugin.strategy.gateway.tracer.GatewayStrategyTrace
 
 public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrategyRouteFilter {
     @Autowired
-    private ConfigurableEnvironment environment;
-
-    @Autowired
     protected PluginAdapter pluginAdapter;
 
     @Autowired
@@ -37,9 +34,20 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
     @Autowired(required = false)
     private GatewayStrategyTracer gatewayStrategyTracer;
 
+    // 如果外界也传了相同的Header，例如，从Postman传递过来的Header，当下面的变量为true，以网关设置为优先，否则以外界传值为优先
+    @Value("${" + GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_HEADER_PRIORITY + ":true}")
+    protected Boolean gatewayHeaderPriority;
+
+    // 当以网关设置为优先的时候，网关未配置Header，而外界配置了Header，仍旧忽略外界的Header
+    @Value("${" + GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_ORIGINAL_HEADER_IGNORED + ":true}")
+    protected Boolean gatewayOriginalHeaderIgnored;
+
+    @Value("${" + GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_ROUTE_FILTER_ORDER + ":" + GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_ROUTE_FILTER_ORDER_VALUE + "}")
+    protected Integer filterOrder;
+
     @Override
     public int getOrder() {
-        return environment.getProperty(GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_ROUTE_FILTER_ORDER, Integer.class, GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_ROUTE_FILTER_ORDER_VALUE);
+        return filterOrder;
     }
 
     @Override
@@ -49,12 +57,6 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
         String routeAddress = getRouteAddress();
         String routeVersionWeight = getRouteVersionWeight();
         String routeRegionWeight = getRouteRegionWeight();
-
-        // 通过过滤器设置路由Header头部信息，并全链路传递到服务端
-        // 如果外界也传了相同的Header，例如，从Postman传递过来的Header，当下面的变量为true，以网关设置为优先，否则以外界传值为优先
-        Boolean gatewayHeaderPriority = environment.getProperty(GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_HEADER_PRIORITY, Boolean.class, Boolean.TRUE);
-        // 当以网关设置为优先的时候，网关未配置Header，而外界配置了Header，仍旧忽略外界的Header
-        Boolean gatewayOriginalHeaderIgnored = environment.getProperty(GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_ORIGINAL_HEADER_IGNORED, Boolean.class, Boolean.TRUE);
 
         // 通过过滤器设置路由Header头部信息，并全链路传递到服务端
         ServerHttpRequest.Builder requestBuilder = exchange.getRequest().mutate();

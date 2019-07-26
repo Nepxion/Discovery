@@ -34,6 +34,7 @@ import com.nepxion.discovery.plugin.strategy.wrapper.CallableWrapper;
 @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTROL_ENABLED, matchIfMissing = true)
 public class GatewayStrategyAutoConfiguration {
     @Bean
+    @RefreshScope // 只适用于Nacos Config
     public GatewayStrategyFilter gatewayStrategyFilter() {
         return new GatewayStrategyFilter();
     }
@@ -41,6 +42,7 @@ public class GatewayStrategyAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnProperty(value = GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_ROUTE_FILTER_ENABLED, matchIfMissing = true)
+    @RefreshScope // 只适用于Nacos Config
     public GatewayStrategyRouteFilter gatewayStrategyRouteFilter() {
         return new DefaultGatewayStrategyRouteFilter();
     }

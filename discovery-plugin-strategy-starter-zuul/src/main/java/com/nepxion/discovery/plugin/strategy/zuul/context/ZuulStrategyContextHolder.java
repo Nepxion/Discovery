@@ -17,8 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.nepxion.discovery.plugin.strategy.context.AbstractStrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.zuul.constant.ZuulStrategyConstant;
@@ -27,8 +26,13 @@ import com.netflix.zuul.context.RequestContext;
 public class ZuulStrategyContextHolder extends AbstractStrategyContextHolder {
     private static final Logger LOG = LoggerFactory.getLogger(ZuulStrategyContextHolder.class);
 
-    @Autowired
-    private ConfigurableEnvironment environment;
+    // 如果外界也传了相同的Header，例如，从Postman传递过来的Header，当下面的变量为true，以网关设置为优先，否则以外界传值为优先
+    @Value("${" + ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_HEADER_PRIORITY + ":true}")
+    protected Boolean zuulHeaderPriority;
+
+    // 当以网关设置为优先的时候，网关未配置Header，而外界配置了Header，仍旧忽略外界的Header
+    @Value("${" + ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_ORIGINAL_HEADER_IGNORED + ":true}")
+    protected Boolean zuulOriginalHeaderIgnored;
 
     public HttpServletRequest getRequest() {
         HttpServletRequest request = ZuulStrategyContext.getCurrentContext().getRequest();
@@ -56,9 +60,6 @@ public class ZuulStrategyContextHolder extends AbstractStrategyContextHolder {
 
             return null;
         }
-
-        Boolean zuulHeaderPriority = environment.getProperty(ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_HEADER_PRIORITY, Boolean.class, Boolean.TRUE);
-        Boolean zuulOriginalHeaderIgnored = environment.getProperty(ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_ORIGINAL_HEADER_IGNORED, Boolean.class, Boolean.TRUE);
 
         if (zuulHeaderPriority) {
             // 来自于Zuul Filter的Header
