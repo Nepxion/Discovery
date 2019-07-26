@@ -10,7 +10,7 @@ package com.nepxion.discovery.plugin.strategy.tracer;
  */
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
@@ -19,16 +19,15 @@ import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 
 public class StrategyTracer {
     @Autowired
-    private ConfigurableEnvironment environment;
-
-    @Autowired
     protected PluginAdapter pluginAdapter;
 
     @Autowired
     protected StrategyContextHolder strategyContextHolder;
 
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACE_DEBUG_ENABLED + ":false}")
+    protected Boolean traceDebugEnabled;
+
     public void debugTraceHeader() {
-        Boolean traceDebugEnabled = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACE_DEBUG_ENABLED, Boolean.class, Boolean.FALSE);
         if (!traceDebugEnabled) {
             return;
         }
@@ -44,7 +43,6 @@ public class StrategyTracer {
     }
 
     public void debugTraceLocal() {
-        Boolean traceDebugEnabled = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACE_DEBUG_ENABLED, Boolean.class, Boolean.FALSE);
         if (!traceDebugEnabled) {
             return;
         }

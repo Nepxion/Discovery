@@ -31,7 +31,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.strategy.service.adapter.RestTemplateStrategyInterceptorAdapter;
-import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.route.ServiceStrategyRouteFilter;
 
 public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor implements ClientHttpRequestInterceptor {
@@ -134,7 +133,6 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
     }
 
     private void interceptOutputHeader(HttpRequest request) {
-        Boolean interceptDebugEnabled = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_DEBUG_ENABLED, Boolean.class, Boolean.FALSE);
         if (!interceptDebugEnabled) {
             return;
         }
