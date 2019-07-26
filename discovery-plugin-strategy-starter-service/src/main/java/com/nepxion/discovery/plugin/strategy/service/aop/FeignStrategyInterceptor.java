@@ -28,7 +28,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.strategy.service.adapter.FeignStrategyInterceptorAdapter;
-import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.route.ServiceStrategyRouteFilter;
 
 public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implements RequestInterceptor {
@@ -128,7 +127,6 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
     }
 
     private void interceptOutputHeader(RequestTemplate requestTemplate) {
-        Boolean interceptDebugEnabled = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_DEBUG_ENABLED, Boolean.class, Boolean.FALSE);
         if (!interceptDebugEnabled) {
             return;
         }
