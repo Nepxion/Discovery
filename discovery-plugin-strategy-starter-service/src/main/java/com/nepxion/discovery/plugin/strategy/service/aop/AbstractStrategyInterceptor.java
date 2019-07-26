@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -35,6 +36,9 @@ public abstract class AbstractStrategyInterceptor {
 
     @Autowired
     protected ServiceStrategyContextHolder serviceStrategyContextHolder;
+
+    @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_DEBUG_ENABLED + ":false}")
+    protected Boolean interceptDebugEnabled;
 
     protected List<String> requestHeaderList = new ArrayList<String>();
 
@@ -60,7 +64,6 @@ public abstract class AbstractStrategyInterceptor {
     }
 
     protected void interceptInputHeader() {
-        Boolean interceptDebugEnabled = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_DEBUG_ENABLED, Boolean.class, Boolean.FALSE);
         if (!interceptDebugEnabled) {
             return;
         }
