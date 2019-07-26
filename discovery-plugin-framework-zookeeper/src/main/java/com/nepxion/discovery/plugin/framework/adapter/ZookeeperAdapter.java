@@ -11,17 +11,37 @@ package com.nepxion.discovery.plugin.framework.adapter;
 
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.zookeeper.discovery.ZookeeperServer;
+import org.springframework.core.env.Environment;
 
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.constant.ZookeeperConstant;
 import com.netflix.loadbalancer.Server;
 
 public class ZookeeperAdapter extends AbstractPluginAdapter {
+    @Autowired
+    private Environment environment;
+
+    private String group;
+
+    /*private AtomicBoolean flag = new AtomicBoolean(false);*/
+    private boolean flag = false;
+
     // Zookeeper比较特殊，父类中getMetadata().get(groupKey)方法不行，执行该方法的时候Metadata还没初始化
     @Override
     protected String getGroup(String groupKey) {
-        return pluginContextAware.getEnvironment().getProperty(ZookeeperConstant.META_DATA + "." + groupKey);
+        /*if (flag.compareAndSet(false, true)) {
+            group = environment.getProperty(ZookeeperConstant.META_DATA + "." + groupKey);
+        }*/
+
+        if (!flag) {
+            group = environment.getProperty(ZookeeperConstant.META_DATA + "." + groupKey);
+
+            flag = true;
+        }
+
+        return group;
     }
 
     @Override
