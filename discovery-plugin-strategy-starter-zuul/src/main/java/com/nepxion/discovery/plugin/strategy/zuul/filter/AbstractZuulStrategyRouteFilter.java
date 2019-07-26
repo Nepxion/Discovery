@@ -11,7 +11,7 @@ package com.nepxion.discovery.plugin.strategy.zuul.filter;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
@@ -23,9 +23,6 @@ import com.netflix.zuul.context.RequestContext;
 
 public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter implements ZuulStrategyRouteFilter {
     @Autowired
-    private ConfigurableEnvironment environment;
-
-    @Autowired
     protected PluginAdapter pluginAdapter;
 
     @Autowired
@@ -34,6 +31,17 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter impleme
     @Autowired(required = false)
     private ZuulStrategyTracer zuulStrategyTracer;
 
+    // 如果外界也传了相同的Header，例如，从Postman传递过来的Header，当下面的变量为true，以网关设置为优先，否则以外界传值为优先
+    @Value("${" + ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_HEADER_PRIORITY + ":true}")
+    protected Boolean zuulHeaderPriority;
+
+    // 当以网关设置为优先的时候，网关未配置Header，而外界配置了Header，仍旧忽略外界的Header
+    @Value("${" + ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_ORIGINAL_HEADER_IGNORED + ":true}")
+    protected Boolean zuulOriginalHeaderIgnored;
+
+    @Value("${" + ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_ROUTE_FILTER_ORDER + ":" + ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_ROUTE_FILTER_ORDER_VALUE + "}")
+    protected Integer filterOrder;
+
     @Override
     public String filterType() {
         return "pre";
@@ -41,7 +49,7 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter impleme
 
     @Override
     public int filterOrder() {
-        return environment.getProperty(ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_ROUTE_FILTER_ORDER, Integer.class, ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_ROUTE_FILTER_ORDER_VALUE);
+        return filterOrder;
     }
 
     @Override
@@ -56,12 +64,6 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter impleme
         String routeAddress = getRouteAddress();
         String routeVersionWeight = getRouteVersionWeight();
         String routeRegionWeight = getRouteRegionWeight();
-
-        // 通过过滤器设置路由Header头部信息，并全链路传递到服务端
-        // 如果外界也传了相同的Header，例如，从Postman传递过来的Header，当下面的变量为true，以网关设置为优先，否则以外界传值为优先
-        Boolean zuulHeaderPriority = environment.getProperty(ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_HEADER_PRIORITY, Boolean.class, Boolean.TRUE);
-        // 当以网关设置为优先的时候，网关未配置Header，而外界配置了Header，仍旧忽略外界的Header
-        Boolean zuulOriginalHeaderIgnored = environment.getProperty(ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_ORIGINAL_HEADER_IGNORED, Boolean.class, Boolean.TRUE);
 
         // 通过过滤器设置路由Header头部信息，并全链路传递到服务端
         if (StringUtils.isNotEmpty(routeVersion)) {
