@@ -15,7 +15,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 :100:鸣谢
 - 感谢阿里巴巴中间件Nacos和Sentinel团队，尤其是Nacos负责人@于怀，Sentinel负责人@子衿，Spring Cloud Alibaba负责人@亦盏 @洛夜的技术支持
 - 感谢携程Apollo团队，尤其是@宋顺，特意开发OpenApi包和技术支持
-- 感谢代码贡献者@Esun，@JikaiSun，@HaoHuang，@Fan Yang，@Ankeway等同学，感谢为本框架提出宝贵意见和建议的同学
+- 感谢代码贡献者@Esun，@terranhu，@JikaiSun，@HaoHuang，@Fan Yang，@Ankeway等同学，感谢为本框架提出宝贵意见和建议的同学
 - 感谢使用本框架的公司和企业
 
 :100:建议
@@ -36,6 +36,18 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
   - 为方便体验示例，把discovery-springcloud-postman/Nepxion.postman_collection.json导入到Postman运行即可
 
 2. 兼容性强。支持如下版本：
+
+新版Spring Cloud Alibaba
+
+| 框架版本 | 框架状态 | 适用Spring Cloud版本 | 适用Spring Boot版本 | 适用Spring Cloud Alibaba版本 |
+| --- | --- | --- | --- | --- |
+| 5.3.0 | 维护中，可用 | Greenwich | 2.1.x.RELEASE | 待定 |
+| 4.11.0 | 维护中，可用 | Finchley | 2.0.x.RELEASE | 待定 |
+| 3.11.0 | 维护中，可用 | Edgware | 1.5.x.RELEASE | 待定 |
+| 2.0.x | 不维护，不可用 | Dalston | N/A | N/A |
+| 1.0.x | 不维护，不可用 | Camden | N/A | N/A |
+
+旧版Spring Cloud Alibaba
 
 | 框架版本 | 框架状态 | 适用Spring Cloud版本 | 适用Spring Boot版本 | 适用Spring Cloud Alibaba版本 |
 | --- | --- | --- | --- | --- |
@@ -65,10 +77,10 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
   - [黑/白名单的IP地址注册的过滤规则](#黑/白名单的IP地址注册的过滤规则)
   - [最大注册数的限制的过滤规则](#最大注册数的限制的过滤规则)
   - [黑/白名单的IP地址发现的过滤规则](#黑/白名单的IP地址发现的过滤规则)
-  - [版本访问的灰度发布规则](#版本访问的灰度发布规则)
+  - [版本匹配的灰度发布规则](#版本匹配的灰度发布规则)
   - [版本权重的灰度发布规则](#版本权重的灰度发布规则)
   - [全局版本权重的灰度发布规则](#全局版本权重的灰度发布规则)
-  - [区域访问的灰度发布规则](#区域访问的灰度发布规则)
+  - [区域匹配的灰度发布规则](#区域匹配的灰度发布规则)
   - [区域权重的灰度发布规则](#区域权重的灰度发布规则)
   - [全局区域权重的灰度发布规则](#全局区域权重的灰度发布规则)
   - [网关端全链路路由策略的灰度发布规则](#网关端全链路路由策略的灰度发布规则)
@@ -164,11 +176,13 @@ Spring Boot Admin监控平台
 - 黑/白名单的IP地址发现的过滤
   - 开发环境的本地微服务（例如IP地址为172.16.0.8）已经注册到测试环境的服务注册发现中心，那么可以在配置中心维护一个黑/白名单的IP地址过滤（支持全局和局部的过滤）的规则，该本地微服务不会被其他测试环境的微服务所调用
   - 我们可以通过推送一份黑/白名单达到该效果
-- 多版本访问的灰度控制
+- 多版本匹配的灰度控制
   - A服务调用B服务，而B服务有两个实例（B1、B2），虽然三者相同的服务名，但功能上有差异，需求是在某个时刻，A服务只能调用B1，禁止调用B2。在此场景下，我们在application.properties里为B1维护一个版本为1.0，为B2维护一个版本为1.1
   - 我们可以通过推送A服务调用某个版本的B服务对应关系的配置，达到某种意义上的灰度控制，改变版本的时候，我们只需要再次推送即可
 - 多版本权重的灰度控制
   - 上述场景中，我们也可以通过配给不同版本的权重（流量比例），根据需求，A访问B的流量在B1和B2进行调拨
+- 多区域匹配的灰度控制
+  - 上述场景中，我们也可以通过配给不同区域的进行配对，根据需求，A访问B的流量在B1和B2（B1和B2所属不同区域）进行调拨
 - 多区域权重的灰度控制
   - 上述场景中，我们也可以通过配给不同区域的权重（流量比例），根据需求，A访问B的流量在B1和B2（B1和B2所属不同区域）进行调拨
 - 多数据源的数据库灰度控制
@@ -199,8 +213,9 @@ Spring Boot Admin监控平台
   - 使用者可以通过订阅业务参数的变化，实现特色化的灰度发布，例如，多数据源的数据库切换的灰度发布
 - 实现灰度发布
   - 通过版本的动态改变，实现切换灰度发布
-  - 通过版本访问规则的改变，实现切换灰度发布
+  - 通过版本匹配规则的改变，实现切换灰度发布
   - 通过版本权重规则的改变，实现平滑灰度发布
+  - 通过区域匹配规则的改变，实现切换灰度发布
   - 通过区域权重规则的改变，实现平滑灰度发布
 - 实现通过XML或者Json进行上述规则的定义
 - 实现通过事件总线机制（EventBus）的功能，实现发布/订阅功能
@@ -481,7 +496,7 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
             <service service-name="discovery-springcloud-example-b" filter-value="172.16"/>
         </blacklist>
 
-        <!-- 服务发现的多版本灰度访问控制 -->
+        <!-- 服务发现的多版本灰度匹配控制 -->
         <!-- service-name，表示服务名 -->
         <!-- version-value，表示可供访问的版本，如果多个用“;”分隔，不允许出现空格 -->
         <!-- 版本策略介绍 -->
@@ -518,7 +533,7 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
             <service consumer-service-name="discovery-springcloud-example-b" provider-service-name="discovery-springcloud-example-c" consumer-version-value="1.1" provider-version-value="1.2"/>
         </version>
 
-        <!-- 服务发现的多区域灰度访问控制 -->
+        <!-- 服务发现的多区域灰度匹配控制 -->
         <!-- service-name，表示服务名 -->
         <!-- region-value，表示可供访问的区域，如果多个用“;”分隔，不允许出现空格 -->
         <!-- 区域策略介绍 -->
@@ -547,7 +562,7 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
             <service consumer-service-name="discovery-springcloud-example-b" provider-service-name="discovery-springcloud-example-c" consumer-region-value="qa" provider-region-value="qa"/>
         </region>
 
-        <!-- 服务发现的多版本、多区域权重灰度访问控制 -->
+        <!-- 服务发现的多版本或者多区域的灰度权重控制 -->
         <!-- service-name，表示服务名 -->
         <!-- weight-value，表示版本对应的权重值，格式为"版本/区域值=权重值"，如果多个用“;”分隔，不允许出现空格 -->
         <!-- 版本权重策略介绍 -->
@@ -649,7 +664,7 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
 ### 黑/白名单的IP地址发现的过滤规则
 微服务启动的时候，禁止指定的IP地址被服务发现。它使用的方式和“黑/白名单的IP地址注册的过滤规则”一致
 
-### 版本访问的灰度发布规则
+### 版本匹配的灰度发布规则
 ```xml
 1. 标准配置，举例如下
    <service consumer-service-name="a" provider-service-name="b" consumer-version-value="1.0" provider-version-value="1.0;1.1"/> 表示消费端1.0版本，允许访问提供端1.0和1.1版本
@@ -685,7 +700,7 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
 3. 尽量为线上所有版本都赋予权重值
 ```
 
-### 区域访问的灰度发布规则
+### 区域匹配的灰度发布规则
 ```xml
 1. 标准配置，举例如下
    <service consumer-service-name="a" provider-service-name="b" consumer-region-value="dev" provider-region-value="dev"/> 表示dev区域的消费端，允许访问dev区域的提供端
