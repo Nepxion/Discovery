@@ -57,6 +57,14 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 | 2.0.x | 不维护，不可用 | Dalston | N/A | N/A |
 | 1.0.x | 不维护，不可用 | Camden | N/A | N/A |
 
+Spring Cloud Alibaba新旧版升级指南
+
+```xml
+package：org.springframework.cloud.alibaba 更改为 com.alibaba.cloud
+groupId：org.springframework.cloud 更改为 com.alibaba.cloud
+artifactId：不需要更改
+```
+
 :triangular_flag_on_post:由于Greenwich和Finchley版是兼容的，所以Nepxion Discovery版本对于Greenwich和Finchley版也是通用的，即Greenwich和Finchley版既可以使用5.x.x版，也可以使用4.x.x版；Edgware存在着不兼容性，必须使用3.x.x版
 
 ## 目录
