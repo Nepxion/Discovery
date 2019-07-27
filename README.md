@@ -988,8 +988,8 @@ eureka.instance.metadataMap.group=xxx-service-group
 eureka.instance.metadataMap.version=1.0
 eureka.instance.metadataMap.region=dev
 
-# 奇葩的Consul配置（参考https://springcloud.cc/spring-cloud-consul.html - 元数据和Consul标签）
 # Consul config for discovery
+# 参考https://springcloud.cc/spring-cloud-consul.html - 元数据和Consul标签
 spring.cloud.consul.discovery.tags=group=xxx-service-group,version=1.0,region=dev
 
 # Zookeeper config for discovery
