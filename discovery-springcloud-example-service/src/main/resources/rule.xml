@@ -34,7 +34,7 @@
             <service service-name="discovery-springcloud-example-b" filter-value="172.16"/>
         </blacklist>
 
-        <!-- 服务发现的多版本灰度访问控制 -->
+        <!-- 服务发现的多版本灰度匹配控制 -->
         <!-- service-name，表示服务名 -->
         <!-- version-value，表示可供访问的版本，如果多个用“;”分隔，不允许出现空格 -->
         <!-- 版本策略介绍 -->
@@ -63,7 +63,7 @@
             <service consumer-service-name="discovery-springcloud-example-b" provider-service-name="discovery-springcloud-example-c" consumer-version-value="1.1" provider-version-value="1.2"/>
         </version>
 
-        <!-- 服务发现的多区域灰度访问控制 -->
+        <!-- 服务发现的多区域灰度匹配控制 -->
         <!-- service-name，表示服务名 -->
         <!-- region-value，表示可供访问的区域，如果多个用“;”分隔，不允许出现空格 -->
         <!-- 区域策略介绍 -->
@@ -92,7 +92,7 @@
             <service consumer-service-name="discovery-springcloud-example-b" provider-service-name="discovery-springcloud-example-c" consumer-region-value="qa" provider-region-value="qa"/>
         </region>
 
-        <!-- 服务发现的多版本、多区域权重灰度访问控制 -->
+        <!-- 服务发现的多版本或者多区域的灰度权重控制 -->
         <!-- service-name，表示服务名 -->
         <!-- weight-value，表示版本对应的权重值，格式为"版本/区域值=权重值"，如果多个用“;”分隔，不允许出现空格 -->
         <!-- 版本权重策略介绍 -->
