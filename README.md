@@ -19,7 +19,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 - 感谢使用本框架的公司和企业
 
 :100:建议
-- 强烈建议，先学习 [极简示例](https://github.com/Nepxion/DiscoveryGray)
+- 由于源码中带有的示例功能比较齐全，较为复杂。强烈建议，先学习 [极简示例](https://github.com/Nepxion/DiscoveryGray)
 
 :100:特性
 1. 使用方便。只需如下步骤：
