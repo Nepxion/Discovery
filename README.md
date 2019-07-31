@@ -810,6 +810,7 @@ spring.application.strategy.zuul.header.priority=false
 
 ### 动态改变版本
 注意：动态改变版本，只允许发生在调用链的起点，例如网关，如果没有网关，则取第一个服务。其它服务不使用修改版本
+
 微服务启动的时候，由于版本已经写死在application.properties里，使用者希望改变一下版本，而不重启微服务，达到访问版本的路径改变
 - 版本分为本地版本和动态版本
 - 本地版本是通过在application.properties里配置的，在微服务启动的时候读取
