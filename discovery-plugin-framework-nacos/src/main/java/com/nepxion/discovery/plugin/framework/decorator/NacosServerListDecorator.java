@@ -11,11 +11,11 @@ package com.nepxion.discovery.plugin.framework.decorator;
 
 import java.util.List;
 
-import org.springframework.cloud.alibaba.nacos.NacosDiscoveryProperties;
-import org.springframework.cloud.alibaba.nacos.ribbon.NacosServer;
-import org.springframework.cloud.alibaba.nacos.ribbon.NacosServerList;
 import org.springframework.core.env.ConfigurableEnvironment;
 
+import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
+import com.alibaba.cloud.nacos.ribbon.NacosServer;
+import com.alibaba.cloud.nacos.ribbon.NacosServerList;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.LoadBalanceListenerExecutor;
 

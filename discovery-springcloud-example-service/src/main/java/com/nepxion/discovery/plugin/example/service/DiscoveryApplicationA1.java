@@ -12,13 +12,13 @@ package com.nepxion.discovery.plugin.example.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.cloud.alibaba.sentinel.annotation.SentinelRestTemplate;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
+import com.alibaba.cloud.sentinel.annotation.SentinelRestTemplate;
 import com.nepxion.discovery.plugin.example.service.impl.MyDiscoveryEnabledStrategy;
 import com.nepxion.discovery.plugin.example.service.impl.MyDiscoveryListener;
 import com.nepxion.discovery.plugin.example.service.impl.MyLoadBalanceListener;
