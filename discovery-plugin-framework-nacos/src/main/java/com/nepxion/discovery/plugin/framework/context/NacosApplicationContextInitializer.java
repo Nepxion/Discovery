@@ -12,11 +12,11 @@ package com.nepxion.discovery.plugin.framework.context;
 import java.util.Map;
 
 import org.springframework.beans.BeansException;
-import org.springframework.cloud.alibaba.nacos.NacosDiscoveryProperties;
-import org.springframework.cloud.alibaba.nacos.registry.NacosServiceRegistry;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
+import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
+import com.alibaba.cloud.nacos.registry.NacosServiceRegistry;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.constant.NacosConstant;
 import com.nepxion.discovery.plugin.framework.decorator.NacosServiceRegistryDecorator;

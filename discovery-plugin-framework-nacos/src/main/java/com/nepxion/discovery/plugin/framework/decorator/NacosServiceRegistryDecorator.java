@@ -10,12 +10,12 @@ package com.nepxion.discovery.plugin.framework.decorator;
  */
 
 import org.springframework.beans.BeansException;
-import org.springframework.cloud.alibaba.nacos.NacosDiscoveryProperties;
-import org.springframework.cloud.alibaba.nacos.registry.NacosServiceRegistry;
 import org.springframework.cloud.client.serviceregistry.Registration;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
+import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
+import com.alibaba.cloud.nacos.registry.NacosServiceRegistry;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.listener.register.RegisterListenerExecutor;
 
@@ -80,7 +80,7 @@ public class NacosServiceRegistryDecorator extends NacosServiceRegistry {
     }
 
     @Override
-    public <T> T getStatus(Registration registration) {
+    public Object getStatus(Registration registration) {
         return serviceRegistry.getStatus(registration);
     }
 
