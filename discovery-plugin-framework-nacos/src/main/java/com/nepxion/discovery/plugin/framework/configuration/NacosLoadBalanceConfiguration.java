@@ -11,12 +11,12 @@ package com.nepxion.discovery.plugin.framework.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.cloud.alibaba.nacos.NacosDiscoveryProperties;
-import org.springframework.cloud.alibaba.nacos.ribbon.NacosRibbonClientConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
 
+import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
+import com.alibaba.cloud.nacos.ribbon.NacosRibbonClientConfiguration;
 import com.nepxion.discovery.plugin.framework.decorator.NacosServerListDecorator;
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.LoadBalanceListenerExecutor;
 import com.netflix.client.config.IClientConfig;

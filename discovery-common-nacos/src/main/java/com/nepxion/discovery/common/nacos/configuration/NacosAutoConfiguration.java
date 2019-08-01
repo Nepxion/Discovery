@@ -66,6 +66,21 @@ public class NacosAutoConfiguration {
             properties.put(NacosConstant.CONTEXT_PATH, contextPath);
         }
 
+        String configLongPollTimeout = environment.getProperty(NacosConstant.NACOS_PLUGIN_CONFIG_LONG_POLL_TIMEOUT);
+        if (StringUtils.isNotEmpty(configLongPollTimeout)) {
+            properties.put(NacosConstant.CONFIG_LONG_POLL_TIMEOUT, configLongPollTimeout);
+        }
+
+        String configRetryTime = environment.getProperty(NacosConstant.NACOS_PLUGIN_CONFIG_RETRY_TIME);
+        if (StringUtils.isNotEmpty(configRetryTime)) {
+            properties.put(NacosConstant.CONFIG_RETRY_TIME, configRetryTime);
+        }
+
+        String maxRetry = environment.getProperty(NacosConstant.NACOS_PLUGIN_MAX_RETRY);
+        if (StringUtils.isNotEmpty(maxRetry)) {
+            properties.put(NacosConstant.MAX_RETRY, maxRetry);
+        }
+
         String endpoint = environment.getProperty(NacosConstant.NACOS_PLUGIN_ENDPOINT);
         if (StringUtils.isNotEmpty(endpoint)) {
             properties.put(NacosConstant.ENDPOINT, endpoint);
@@ -79,6 +94,11 @@ public class NacosAutoConfiguration {
         String isUseEndpointParsingRule = environment.getProperty(NacosConstant.NACOS_PLUGIN_IS_USE_ENDPOINT_PARSING_RULE);
         if (StringUtils.isNotEmpty(isUseEndpointParsingRule)) {
             properties.put(NacosConstant.IS_USE_ENDPOINT_PARSING_RULE, isUseEndpointParsingRule);
+        }
+
+        String isUseCloudNamespaceParsing = environment.getProperty(NacosConstant.NACOS_PLUGIN_IS_USE_CLOUD_NAMESPACE_PARSING);
+        if (StringUtils.isNotEmpty(isUseCloudNamespaceParsing)) {
+            properties.put(NacosConstant.IS_USE_CLOUD_NAMESPACE_PARSING, isUseCloudNamespaceParsing);
         }
 
         String encode = environment.getProperty(NacosConstant.NACOS_PLUGIN_ENCODE);
@@ -105,6 +125,8 @@ public class NacosAutoConfiguration {
         if (StringUtils.isNotEmpty(ramRoleName)) {
             properties.put(NacosConstant.RAM_ROLE_NAME, ramRoleName);
         }
+
+        properties.put(NacosConstant.ENABLE_REMOTE_SYNC_CONFIG, Boolean.toString(true));
 
         return NacosFactory.createConfigService(properties);
     }

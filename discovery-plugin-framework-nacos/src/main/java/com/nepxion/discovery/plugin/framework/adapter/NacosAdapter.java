@@ -11,8 +11,7 @@ package com.nepxion.discovery.plugin.framework.adapter;
 
 import java.util.Map;
 
-import org.springframework.cloud.alibaba.nacos.ribbon.NacosServer;
-
+import com.alibaba.cloud.nacos.ribbon.NacosServer;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.netflix.loadbalancer.Server;
 
