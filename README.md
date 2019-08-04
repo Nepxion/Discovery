@@ -953,14 +953,14 @@ dev=85;qa=15
 ## 服务隔离
 
 ### 内置服务隔离
-元数据中的Group在一定意义上代表着系统ID或者系统逻辑分组，基于Group策略意味着只有同一个系统中的服务才能相互发生关系
+元数据中的Group在一定意义上代表着系统ID或者系统逻辑分组，基于Group策略意味着只有同一个系统中的服务才能调用
 
 - 注册服务隔离，基于Group黑/白名单的策略，即当前的服务所在的Group，不在Group的黑名单或者在白名单里，才允许被注册。只需要在网关或者服务端，开启如下配置即可：
 ```xml
 # 启动和关闭注册的服务隔离（基于Group黑/白名单的策略）。缺失则默认为false
 spring.application.strategy.register.isolation.enabled=true
 ```
-默认方式，黑/白名单通过如此方式配置
+黑/白名单通过如下方式配置
 ```xml
 spring.application.strategy.register.isolation.group.blacklist=
 spring.application.strategy.register.isolation.group.whitelist=
@@ -969,16 +969,14 @@ spring.application.strategy.register.isolation.group.whitelist=
 - 消费端服务隔离，基于Group是否相同的策略，即消费端拿到的提供端列表，两者的Group必须相同。只需要在网关或者服务端，开启如下配置即可：
 ```xml
 # 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
-# spring.application.strategy.consumer.isolation.enabled=true
+spring.application.strategy.consumer.isolation.enabled=true
 ```
 
 - 提供端服务隔离，基于Group是否相同的策略，即服务端被消费端调用，两者的Group必须相同，否则拒绝调用，异构系统可以通过Header方式传递n-d-service-group值进行匹配。只需要在服务端（不适用网关），开启如下配置即可：
 ```xml
 # 启动和关闭提供端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
-# spring.application.strategy.provider.isolation.enabled=true
-```
-还必须做如下配置
-```xml
+spring.application.strategy.provider.isolation.enabled=true
+
 # 用户自定义和编程灰度路由策略的时候，需要指定对业务RestController类的扫描路径。此项配置作用于RPC方式的调用拦截和消费端的服务隔离两项工作
 spring.application.strategy.scan.packages=com.nepxion.discovery.gray.service.feign
 ```
