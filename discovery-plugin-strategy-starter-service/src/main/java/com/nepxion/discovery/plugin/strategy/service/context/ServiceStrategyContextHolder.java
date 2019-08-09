@@ -40,7 +40,7 @@ public class ServiceStrategyContextHolder extends AbstractStrategyContextHolder 
     public String getHeader(String name) {
         ServletRequestAttributes attributes = getRestAttributes();
         if (attributes == null) {
-            LOG.warn("The ServletRequestAttributes object is null");
+            LOG.warn("The ServletRequestAttributes object is lost for thread switched probably");
 
             return null;
         }
