@@ -29,7 +29,7 @@ public class ServiceStrategyTracerInterceptor extends AbstractInterceptor {
             return invocation.proceed();
         } finally {
             if (serviceStrategyTracer != null) {
-                serviceStrategyTracer.release(this, invocation);
+                serviceStrategyTracer.release();
             }
         }
     }

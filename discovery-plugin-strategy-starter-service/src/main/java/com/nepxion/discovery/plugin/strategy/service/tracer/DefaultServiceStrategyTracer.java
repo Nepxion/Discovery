@@ -20,7 +20,7 @@ public class DefaultServiceStrategyTracer extends StrategyTracer implements Serv
     }
 
     @Override
-    public void release(ServiceStrategyTracerInterceptor interceptor, MethodInvocation invocation) {
+    public void release() {
 
     }
 }
