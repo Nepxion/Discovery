@@ -17,4 +17,9 @@ public class DefaultZuulStrategyTracer extends StrategyTracer implements ZuulStr
     public void trace(RequestContext context) {
         debugTraceHeader();
     }
+
+    @Override
+    public void release(RequestContext context) {
+
+    }
 }

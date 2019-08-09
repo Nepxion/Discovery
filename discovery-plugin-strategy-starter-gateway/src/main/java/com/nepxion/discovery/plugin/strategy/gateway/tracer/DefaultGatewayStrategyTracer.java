@@ -18,4 +18,9 @@ public class DefaultGatewayStrategyTracer extends StrategyTracer implements Gate
     public void trace(ServerWebExchange exchange) {
         debugTraceHeader();
     }
+
+    @Override
+    public void release(ServerWebExchange exchange) {
+
+    }
 }
