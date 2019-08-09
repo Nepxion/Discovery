@@ -98,10 +98,10 @@ public abstract class AbstractStrategyInterceptor {
 
     protected boolean isHeaderContainsExcludeInner(String headerName) {
         return isHeaderContains(headerName) &&
+                !StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_GROUP) &&
                 !StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_TYPE) &&
                 !StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_ID) &&
                 !StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_ADDRESS) &&
-                !StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_GROUP) &&
                 !StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_VERSION) &&
                 !StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_REGION);
         // return isHeaderContains(headerName) && !headerName.startsWith(DiscoveryConstant.N_D_SERVICE_PREFIX);
