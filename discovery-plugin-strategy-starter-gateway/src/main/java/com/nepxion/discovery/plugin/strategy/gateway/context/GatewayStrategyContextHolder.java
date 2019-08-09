@@ -26,7 +26,7 @@ public class GatewayStrategyContextHolder extends AbstractStrategyContextHolder 
     public String getHeader(String name) {
         ServerWebExchange exchange = getExchange();
         if (exchange == null) {
-            LOG.warn("The ServerWebExchange object is lost for thread switched probably");
+            LOG.warn("The ServerWebExchange object is lost for thread switched, or it is got before context filter probably");
 
             return null;
         }
