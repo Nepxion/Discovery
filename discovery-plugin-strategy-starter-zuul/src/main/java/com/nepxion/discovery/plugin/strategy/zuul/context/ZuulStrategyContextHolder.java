@@ -56,7 +56,7 @@ public class ZuulStrategyContextHolder extends AbstractStrategyContextHolder {
     public String getHeader(String name) {
         HttpServletRequest request = getRequest();
         if (request == null) {
-            LOG.warn("The HttpServletRequest object is lost for thread switched probably");
+            LOG.warn("The HttpServletRequest object is lost for thread switched, or it is got before context filter probably");
 
             return null;
         }
