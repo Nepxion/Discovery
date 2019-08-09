@@ -105,6 +105,7 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
         // 调用链追踪
         if (gatewayStrategyTracer != null) {
             gatewayStrategyTracer.trace(newExchange);
+            gatewayStrategyTracer.release(newExchange);
         }
 
         return chain.filter(newExchange);

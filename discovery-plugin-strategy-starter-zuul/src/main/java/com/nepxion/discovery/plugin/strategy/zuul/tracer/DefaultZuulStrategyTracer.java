@@ -19,7 +19,7 @@ public class DefaultZuulStrategyTracer extends StrategyTracer implements ZuulStr
     }
 
     @Override
-    public void release() {
+    public void release(RequestContext context) {
 
     }
 }

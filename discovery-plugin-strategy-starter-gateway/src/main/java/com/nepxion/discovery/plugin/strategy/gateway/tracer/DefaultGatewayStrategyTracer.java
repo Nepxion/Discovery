@@ -20,7 +20,7 @@ public class DefaultGatewayStrategyTracer extends StrategyTracer implements Gate
     }
 
     @Override
-    public void release() {
+    public void release(ServerWebExchange exchange) {
 
     }
 }
