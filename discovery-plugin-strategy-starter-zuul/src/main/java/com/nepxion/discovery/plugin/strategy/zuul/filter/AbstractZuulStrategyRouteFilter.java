@@ -12,6 +12,7 @@ package com.nepxion.discovery.plugin.strategy.zuul.filter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
@@ -48,7 +49,7 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter impleme
 
     @Override
     public String filterType() {
-        return "pre";
+        return FilterConstants.PRE_TYPE;
     }
 
     @Override
