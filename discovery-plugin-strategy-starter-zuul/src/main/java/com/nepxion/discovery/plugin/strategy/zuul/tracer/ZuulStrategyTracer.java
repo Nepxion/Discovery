@@ -14,5 +14,5 @@ import com.netflix.zuul.context.RequestContext;
 public interface ZuulStrategyTracer {
     void trace(RequestContext context);
 
-    void release();
+    void release(RequestContext context);
 }

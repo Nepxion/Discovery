@@ -108,7 +108,9 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter impleme
 
         // 调用链追踪
         if (zuulStrategyTracer != null) {
-            zuulStrategyTracer.trace(RequestContext.getCurrentContext());
+            RequestContext context = RequestContext.getCurrentContext();
+            zuulStrategyTracer.trace(context);
+            zuulStrategyTracer.release(context);
         }
 
         return null;
