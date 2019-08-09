@@ -13,4 +13,6 @@ import org.aopalliance.intercept.MethodInvocation;
 
 public interface ServiceStrategyTracer {
     void trace(ServiceStrategyTracerInterceptor interceptor, MethodInvocation invocation);
+
+    void release(ServiceStrategyTracerInterceptor interceptor, MethodInvocation invocation);
 }

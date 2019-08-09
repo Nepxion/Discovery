@@ -18,4 +18,9 @@ public class DefaultServiceStrategyTracer extends StrategyTracer implements Serv
     public void trace(ServiceStrategyTracerInterceptor interceptor, MethodInvocation invocation) {
         debugTraceLocal();
     }
+
+    @Override
+    public void release(ServiceStrategyTracerInterceptor interceptor, MethodInvocation invocation) {
+
+    }
 }

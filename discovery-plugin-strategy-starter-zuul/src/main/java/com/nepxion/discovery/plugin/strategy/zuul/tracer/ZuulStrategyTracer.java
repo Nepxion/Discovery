@@ -13,4 +13,6 @@ import com.netflix.zuul.context.RequestContext;
 
 public interface ZuulStrategyTracer {
     void trace(RequestContext context);
+
+    void release(RequestContext context);
 }
