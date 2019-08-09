@@ -14,5 +14,5 @@ import org.springframework.web.server.ServerWebExchange;
 public interface GatewayStrategyTracer {
     void trace(ServerWebExchange exchange);
 
-    void release(ServerWebExchange exchange);
+    void release();
 }
