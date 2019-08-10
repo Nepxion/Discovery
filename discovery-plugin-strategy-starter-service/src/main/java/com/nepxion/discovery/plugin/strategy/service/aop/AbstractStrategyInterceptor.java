@@ -42,7 +42,10 @@ public abstract class AbstractStrategyInterceptor {
 
     protected List<String> requestHeaderList = new ArrayList<String>();
 
-    public AbstractStrategyInterceptor(String requestHeaders) {
+    public AbstractStrategyInterceptor(String contextRequestHeaders, String requestHeaders) {
+        if (StringUtils.isNotEmpty(contextRequestHeaders)) {
+            requestHeaderList.addAll(StringUtil.splitToList(contextRequestHeaders.toLowerCase(), DiscoveryConstant.SEPARATE));
+        }
         if (StringUtils.isNotEmpty(requestHeaders)) {
             requestHeaderList.addAll(StringUtil.splitToList(requestHeaders.toLowerCase(), DiscoveryConstant.SEPARATE));
         }

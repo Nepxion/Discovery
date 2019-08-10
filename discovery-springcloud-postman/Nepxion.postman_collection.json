@@ -558,6 +558,16 @@
 								"value": "2",
 								"type": "text",
 								"disabled": true
+							},
+							{
+								"key": "traceid",
+								"value": "lochmbu18nfo",
+								"type": "text"
+							},
+							{
+								"key": "spanid",
+								"value": "6913",
+								"type": "text"
 							}
 						],
 						"url": {
@@ -628,6 +638,16 @@
 								"value": "2",
 								"type": "text",
 								"disabled": true
+							},
+							{
+								"key": "traceid",
+								"value": "c0zs78kcze5z",
+								"type": "text"
+							},
+							{
+								"key": "spanid",
+								"value": "1589",
+								"type": "text"
 							}
 						],
 						"url": {
