@@ -36,7 +36,12 @@ public class StrategyTracer {
         }
 
         System.out.println("---------------- Trace Information ---------------");
-        debugTraceMap();
+        Map<String, String> debugTraceMap = getDebugTraceMap();
+        if (MapUtils.isNotEmpty(debugTraceMap)) {
+            for (Map.Entry<String, String> entry : debugTraceMap.entrySet()) {
+                System.out.println(entry.getKey() + "=" + entry.getValue());
+            }
+        }
         System.out.println(DiscoveryConstant.N_D_SERVICE_GROUP + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_GROUP));
         System.out.println(DiscoveryConstant.N_D_SERVICE_TYPE + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_TYPE));
         System.out.println(DiscoveryConstant.N_D_SERVICE_ID + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_ID));
@@ -52,7 +57,12 @@ public class StrategyTracer {
         }
 
         System.out.println("---------------- Trace Information ---------------");
-        debugTraceMap();
+        Map<String, String> debugTraceMap = getDebugTraceMap();
+        if (MapUtils.isNotEmpty(debugTraceMap)) {
+            for (Map.Entry<String, String> entry : debugTraceMap.entrySet()) {
+                System.out.println(entry.getKey() + "=" + entry.getValue());
+            }
+        }
         System.out.println(DiscoveryConstant.N_D_SERVICE_GROUP + "=" + pluginAdapter.getGroup());
         System.out.println(DiscoveryConstant.N_D_SERVICE_TYPE + "=" + pluginAdapter.getServiceType());
         System.out.println(DiscoveryConstant.N_D_SERVICE_ID + "=" + pluginAdapter.getServiceId());
@@ -70,16 +80,7 @@ public class StrategyTracer {
         return strategyContextHolder;
     }
 
-    private void debugTraceMap() {
-        Map<String, String> traceMap = getTraceMap();
-        if (MapUtils.isNotEmpty(traceMap)) {
-            for (Map.Entry<String, String> entry : traceMap.entrySet()) {
-                System.out.println(entry.getKey() + "=" + entry.getValue());
-            }
-        }
-    }
-
-    public Map<String, String> getTraceMap() {
+    public Map<String, String> getDebugTraceMap() {
         return null;
     }
 }
