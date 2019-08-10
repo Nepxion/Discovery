@@ -80,18 +80,18 @@ public class ServiceStrategyAutoConfiguration {
     @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_ENABLED, matchIfMissing = true)
     public FeignStrategyInterceptor feignStrategyInterceptor() {
         String contextRequestHeaders = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_CONTEXT_REQUEST_HEADERS);
-        String requestHeaders = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REQUEST_HEADERS);
+        String businessRequestHeaders = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_BUSINESS_REQUEST_HEADERS);
 
-        return new FeignStrategyInterceptor(contextRequestHeaders, requestHeaders);
+        return new FeignStrategyInterceptor(contextRequestHeaders, businessRequestHeaders);
     }
 
     @Bean
     @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_ENABLED, matchIfMissing = true)
     public RestTemplateStrategyInterceptor restTemplateStrategyInterceptor() {
         String contextRequestHeaders = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_CONTEXT_REQUEST_HEADERS);
-        String requestHeaders = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REQUEST_HEADERS);
+        String businessRequestHeaders = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_BUSINESS_REQUEST_HEADERS);
 
-        return new RestTemplateStrategyInterceptor(contextRequestHeaders, requestHeaders);
+        return new RestTemplateStrategyInterceptor(contextRequestHeaders, businessRequestHeaders);
     }
 
     @Bean
