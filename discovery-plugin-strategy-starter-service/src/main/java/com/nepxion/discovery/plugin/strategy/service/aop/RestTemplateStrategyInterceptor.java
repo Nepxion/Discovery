@@ -47,8 +47,8 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACE_ENABLED + ":false}")
     protected Boolean strategyTraceEnabled;
 
-    public RestTemplateStrategyInterceptor(String requestHeaders) {
-        super(requestHeaders);
+    public RestTemplateStrategyInterceptor(String contextRequestHeaders, String requestHeaders) {
+        super(contextRequestHeaders, requestHeaders);
 
         LOG.info("------- RestTemplate Intercept Information -------");
         LOG.info("RestTemplate desires to intercept customer headers are {}", requestHeaderList);
