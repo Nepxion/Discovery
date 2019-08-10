@@ -44,8 +44,8 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACE_ENABLED + ":false}")
     protected Boolean strategyTraceEnabled;
 
-    public FeignStrategyInterceptor(String contextRequestHeaders, String requestHeaders) {
-        super(contextRequestHeaders, requestHeaders);
+    public FeignStrategyInterceptor(String contextRequestHeaders, String businessRequestHeaders) {
+        super(contextRequestHeaders, businessRequestHeaders);
 
         LOG.info("----------- Feign Intercept Information ----------");
         LOG.info("Feign desires to intercept customer headers are {}", requestHeaderList);
