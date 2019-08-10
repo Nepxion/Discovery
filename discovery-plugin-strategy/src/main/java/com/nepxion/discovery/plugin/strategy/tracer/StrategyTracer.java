@@ -9,6 +9,9 @@ package com.nepxion.discovery.plugin.strategy.tracer;
  * @version 1.0
  */
 
+import java.util.Map;
+
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -33,6 +36,7 @@ public class StrategyTracer {
         }
 
         System.out.println("---------------- Trace Information ---------------");
+        debugCustomerTraceMap();
         System.out.println(DiscoveryConstant.N_D_SERVICE_GROUP + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_GROUP));
         System.out.println(DiscoveryConstant.N_D_SERVICE_TYPE + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_TYPE));
         System.out.println(DiscoveryConstant.N_D_SERVICE_ID + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_ID));
@@ -48,6 +52,7 @@ public class StrategyTracer {
         }
 
         System.out.println("---------------- Trace Information ---------------");
+        debugCustomerTraceMap();
         System.out.println(DiscoveryConstant.N_D_SERVICE_GROUP + "=" + pluginAdapter.getGroup());
         System.out.println(DiscoveryConstant.N_D_SERVICE_TYPE + "=" + pluginAdapter.getServiceType());
         System.out.println(DiscoveryConstant.N_D_SERVICE_ID + "=" + pluginAdapter.getServiceId());
@@ -63,5 +68,18 @@ public class StrategyTracer {
 
     public StrategyContextHolder getStrategyContextHolder() {
         return strategyContextHolder;
+    }
+
+    private void debugCustomerTraceMap() {
+        Map<String, String> customerTraceMap = getCustomerTraceMap();
+        if (MapUtils.isNotEmpty(customerTraceMap)) {
+            for (Map.Entry<String, String> entry : customerTraceMap.entrySet()) {
+                System.out.println(entry.getKey() + "=" + entry.getValue());
+            }
+        }
+    }
+
+    public Map<String, String> getCustomerTraceMap() {
+        return null;
     }
 }
