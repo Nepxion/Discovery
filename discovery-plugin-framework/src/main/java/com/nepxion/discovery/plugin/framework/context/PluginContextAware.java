@@ -119,6 +119,10 @@ public class PluginContextAware implements ApplicationContextAware {
         return getGroupKey(environment);
     }
 
+    public String getDefaultPropertiesPath() {
+        return getDefaultPropertiesPath(environment);
+    }
+
     public String getContextPath() {
         return getContextPath(environment);
     }
@@ -153,6 +157,10 @@ public class PluginContextAware implements ApplicationContextAware {
 
     public static String getGroupKey(Environment environment) {
         return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY, String.class, DiscoveryConstant.GROUP);
+    }
+
+    public static String getDefaultPropertiesPath(Environment environment) {
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_DEFAULT_PROPERTIES_PATH, String.class, DiscoveryConstant.SPRING_APPLICATION_DEFAULT_PROPERTIES_PATH_VALUE);
     }
 
     public static String getContextPath(Environment environment) {

@@ -23,6 +23,8 @@ public class DiscoveryConstant {
     public static final String SPRING_APPLICATION_CONFIG_PATH = "spring.application.config.path";
     public static final String SPRING_APPLICATION_GROUP_KEY = "spring.application.group.key";
     public static final String SPRING_APPLICATION_CONTEXT_PATH = "spring.application.context-path";
+    public static final String SPRING_APPLICATION_DEFAULT_PROPERTIES_PATH = "spring.application.default.properties.path";
+    public static final String SPRING_APPLICATION_DEFAULT_PROPERTIES_PATH_VALUE = "spring-application-default.properties";
     public static final String SPRING_APPLICATION_NO_SERVER_FOUND_NOTIFICATION_ENABLED = "spring.application.no.server.found.notification.enabled";
 
     public static final String CONTEXT_PATH = "server.contextPath";
@@ -76,6 +78,8 @@ public class DiscoveryConstant {
 
     public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
     public static final String ENCODING_UTF_8 = "UTF-8";
+    public static final String ENCODING_GBK = "GBK";
+    public static final String ENCODING_ISO_8859_1 = "ISO-8859-1";
     public static final String SEPARATE = ";";
     public static final String EQUALS = "=";
     public static final String DASH = "-";
