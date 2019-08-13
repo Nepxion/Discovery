@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.time;
+package com.nepxion.discovery.common.time;
 
 /**
  * <p>Title: Nepxion Discovery</p>
