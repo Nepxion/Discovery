@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.property;
+package com.nepxion.discovery.common.property;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -16,12 +16,12 @@ import java.io.InputStream;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
-import com.nepxion.discovery.plugin.framework.util.IOUtil;
+import com.nepxion.discovery.common.util.IOUtil;
 
-public class PluginContent {
+public class DiscoveryContent {
     private String content;
 
-    public PluginContent(String path, String encoding) throws IOException {
+    public DiscoveryContent(String path, String encoding) throws IOException {
         InputStream inputStream = null;
         try {
             inputStream = IOUtil.getInputStream(path);
@@ -33,11 +33,11 @@ public class PluginContent {
         }
     }
 
-    public PluginContent(File file, String encoding) throws IOException {
+    public DiscoveryContent(File file, String encoding) throws IOException {
         this.content = FileUtils.readFileToString(file, encoding);
     }
 
-    public PluginContent(StringBuilder stringBuilder) throws IOException {
+    public DiscoveryContent(StringBuilder stringBuilder) throws IOException {
         this.content = stringBuilder.toString();
     }
 

@@ -28,8 +28,8 @@ import com.nepxion.banner.Description;
 import com.nepxion.banner.LogoBanner;
 import com.nepxion.banner.NepxionBanner;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.property.DiscoveryProperties;
 import com.nepxion.discovery.plugin.framework.decorator.DiscoveryClientDecorator;
-import com.nepxion.discovery.plugin.framework.property.PluginProperties;
 import com.taobao.text.Color;
 
 public abstract class PluginApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
@@ -86,7 +86,7 @@ public abstract class PluginApplicationContextInitializer implements Application
         String path = PluginContextAware.getDefaultPropertiesPath(environment);
 
         try {
-            PluginProperties properties = new PluginProperties(path, DiscoveryConstant.ENCODING_GBK, DiscoveryConstant.ENCODING_UTF_8);
+            DiscoveryProperties properties = new DiscoveryProperties(path, DiscoveryConstant.ENCODING_GBK, DiscoveryConstant.ENCODING_UTF_8);
             Map<String, String> propertiesMap = properties.getMap();
             for (Map.Entry<String, String> entry : propertiesMap.entrySet()) {
                 String key = entry.getKey();
