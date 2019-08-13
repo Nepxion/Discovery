@@ -23,7 +23,7 @@ public class RpcStrategyAutoScanProxy extends DefaultAutoScanProxy {
     private String[] commonInterceptorNames;
 
     @SuppressWarnings("rawtypes")
-    private Class[] methodAnnotations;
+    private Class[] classAnnotations;
 
     public RpcStrategyAutoScanProxy(String scanPackages) {
         super(scanPackages, ProxyMode.BY_CLASS_ANNOTATION_ONLY, ScanMode.FOR_CLASS_ANNOTATION_ONLY);
@@ -41,10 +41,10 @@ public class RpcStrategyAutoScanProxy extends DefaultAutoScanProxy {
     @SuppressWarnings("unchecked")
     @Override
     protected Class<? extends Annotation>[] getClassAnnotations() {
-        if (methodAnnotations == null) {
-            methodAnnotations = new Class[] { RestController.class };
+        if (classAnnotations == null) {
+            classAnnotations = new Class[] { RestController.class };
         }
 
-        return methodAnnotations;
+        return classAnnotations;
     }
 }
