@@ -26,7 +26,7 @@ import org.apache.commons.io.IOUtils;
 import com.nepxion.discovery.common.util.MathsUtil;
 
 public class DiscoveryProperties implements Serializable {
-    private static final long serialVersionUID = 2618940642404496181L;
+    private static final long serialVersionUID = 7157091468155324287L;
 
     private final Map<String, String> map = new LinkedHashMap<String, String>();
 
