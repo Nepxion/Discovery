@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.property;
+package com.nepxion.discovery.common.property;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -23,9 +23,9 @@ import java.util.Properties;
 
 import org.apache.commons.io.IOUtils;
 
-import com.nepxion.discovery.plugin.framework.util.MathsUtil;
+import com.nepxion.discovery.common.util.MathsUtil;
 
-public class PluginProperties implements Serializable {
+public class DiscoveryProperties implements Serializable {
     private static final long serialVersionUID = 2618940642404496181L;
 
     private final Map<String, String> map = new LinkedHashMap<String, String>();
@@ -33,17 +33,17 @@ public class PluginProperties implements Serializable {
     private String content;
 
     // 配置文件含中文，stringEncoding必须为GBK，readerEncoding必须为UTF-8，文本文件编码必须为ANSI
-    public PluginProperties(String path, String stringEncoding, String readerEncoding) throws IOException {
-        this(new PluginContent(path, stringEncoding).getContent(), readerEncoding);
+    public DiscoveryProperties(String path, String stringEncoding, String readerEncoding) throws IOException {
+        this(new DiscoveryContent(path, stringEncoding).getContent(), readerEncoding);
     }
 
     // 配置文件含中文，stringEncoding必须为UTF-8，readerEncoding必须为UTF-8
-    public PluginProperties(byte[] bytes, String stringEncoding, String readerEncoding) throws IOException {
+    public DiscoveryProperties(byte[] bytes, String stringEncoding, String readerEncoding) throws IOException {
         this(new String(bytes, stringEncoding), readerEncoding);
     }
 
     // 配置文件含中文，encoding必须为UTF-8
-    public PluginProperties(String content, String encoding) throws IOException {
+    public DiscoveryProperties(String content, String encoding) throws IOException {
         this.content = content;
 
         InputStream inputStream = null;
@@ -342,7 +342,7 @@ public class PluginProperties implements Serializable {
         }
     }
 
-    public void mergeProperties(PluginProperties properties) {
+    public void mergeProperties(DiscoveryProperties properties) {
         map.putAll(properties.getMap());
     }
 

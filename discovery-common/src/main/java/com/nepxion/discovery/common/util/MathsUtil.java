@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.util;
+package com.nepxion.discovery.common.util;
 
 /**
  * <p>Title: Nepxion Aquarius</p>
