@@ -187,7 +187,6 @@ Result4 : zuul -> discovery-gray-service-a[192.168.0.107:3001][V1.0][Region=dev]
 * Passed
 ```
 
-
 ## Star走势图
 
 [![Stargazers over time](https://starchart.cc/Nepxion/Discovery.svg)](https://starchart.cc/Nepxion/Discovery)
