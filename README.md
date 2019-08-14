@@ -5,7 +5,30 @@
 
 ![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Star1.jpg)
 
-Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon负载均衡、Feign和RestTemplate调用、Hystrix或者阿里巴巴Sentinel熔断隔离限流降级的增强中间件，其功能包括灰度发布（包括切换发布和平滑发布）、服务隔离、服务路由（包括同城双活多机房区域路由、多版本路由和多IP和端口路由）、服务权重、黑/白名单的IP地址过滤、限制注册、限制发现、灰度调用链等，支持Eureka、Consul、Zookeeper和阿里巴巴的Nacos为服务注册发现中间件，支持阿里巴巴的Nacos、携程的Apollo和Redis为远程配置中心，支持Spring Cloud Gateway、Zuul网关和微服务的灰度发布，支持用户自定义和编程”禁止注册“、”禁止被发现“、”禁止被负载均衡“策略 ，支持用户自定义和编程灰度路由策略（包括RPC和REST两种调用方式），支持运维调度灰度发布和路由的元数据，支持多数据源的数据库灰度发布等参数特色化灰度发布，支持基于Spring Boot/Spring Cloud自动化测试（包括普通调用测试和灰度调用测试），兼容Spring Cloud Edgware版、Finchley版和Greenwich版。现有的Spring Cloud微服务很方便引入该中间件，代码零侵入。鉴于Spring Cloud官方对Eureka和Hystrix不再做新功能的迭代，推荐用Nacos和Sentinel，它们对Spring Cloud灰度发布和路由更具出色的兼容性和友好性
+Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon负载均衡、Feign和RestTemplate调用的增强中间件
+- 支持Eureka、Consul、Zookeeper和阿里巴巴的Nacos四个服务注册发现中心
+- 支持阿里巴巴的Nacos、携程的Apollo和Redis三个远程配置中心
+- 支持Hystrix或者阿里巴巴Sentinel的两个熔断隔离限流降级
+- 支持Spring Cloud Gateway、Zuul网关和微服务三大模块的灰度发布和路由等一系列功能
+- 支持和兼容Spring Cloud Edgware版、Finchley版和Greenwich版三个版本
+
+其功能包括
+- 灰度发布，基于规则订阅的全链路灰度发布，包括切换发布（版本匹配发布、区域匹配发布）和平滑发布（版本权重发布、区域权重发布）
+- 灰度路由，基于Header传递的全链路灰度路由，包括切换路由（版本匹配路由、区域匹配路由、机器IP和端口路由）和平滑路由（版本权重路由、区域权重路由）。可以在网关过滤器、前端界面、负载均衡策略类三个地方实现路由功能
+- 灰度发布和灰度路由的多种组合式规则和策略
+- 服务隔离，基于组的全链路服务隔离，包括注册隔离、消费端隔离和提供端服务隔离。除此之外，注册隔离的其它方式（黑/白名单的IP地址的注册隔离、最大注册数限制的注册隔离），消费端隔离的其它方式（黑/白名单的IP地址的消费端隔离）
+- 灰度调用链，基于Header方式和日志方式的全链路灰度调用链
+- 数据库灰度发布，基于多数据源的数据库灰度发布
+- 同城双活多机房切换，基于区域匹配发布的同城双活多机房切换
+- 灰度路由和发布的自动化测试，基于Spring Boot/Spring Cloud自动化测试，包括普通调用测试、灰度调用测试
+- 支持自定义和编程实现扩展
+    - 支持用户自定义和编程”禁止注册“、”禁止被发现“、”禁止被负载均衡“策略 
+    - 支持用户自定义和编程灰度路由策略，包括RPC和REST两种调用方式
+    - 支持用户自定义和编程负载均衡策略类
+    - 支持运维调度灰度发布和路由的元数据
+    - 支持参数特色化灰度发布
+
+现有的Spring Cloud微服务很方便引入该中间件，代码零侵入。鉴于Spring Cloud官方对Eureka和Hystrix不再做新功能的迭代，推荐用Nacos和Sentinel，它们对Spring Cloud灰度发布和路由更具出色的兼容性和友好性
 
 :100:鸣谢
 - 感谢阿里巴巴中间件Nacos和Sentinel团队，尤其是Nacos负责人@于怀，Sentinel负责人@子衿，Spring Cloud Alibaba负责人@亦盏、@洛夜的技术支持
