@@ -10,7 +10,7 @@ Nepxion Discovery Automcation Test是一款基于Spring Boot/Spring Cloud自动�
 
 ## 测试用例
 
-自动化测试代码参考 [https://github.com/Nepxion/DiscoveryGray/tree/master/discovery-gray-test](https://github.com/Nepxion/DiscoveryGray/tree/master/discovery-gray-test)
+自动化测试代码参考[https://github.com/Nepxion/DiscoveryGray/tree/master/discovery-gray-test](https://github.com/Nepxion/DiscoveryGray/tree/master/discovery-gray-test)
 
 - 自动化测试场景以API网关是测试的触发点，全链路如下：
 
@@ -145,6 +145,10 @@ zuul.group=discovery-gray-group
 zuul.service.id=discovery-gray-zuul
 zuul.test.url=http://localhost:5002/discovery-gray-service-a/invoke/zuul
 ```
+
+## 启动灰度控制台
+
+运行[https://github.com/Nepxion/Discovery](https://github.com/Nepxion/Discovery)下discovery-springcloud-example-console的应用程序
 
 ## 测试结果
 
