@@ -8,6 +8,12 @@
 
 Nepxion Discovery Automcation Test是一款基于Spring Boot/Spring Cloud自动化测试，包括普通调用测试和灰度调用测试插件。通过注解形式，跟Spring Boot内置的测试机制集成，使用简单方便
 
+## 请联系我
+微信和公众号
+
+![Alt text](https://github.com/Nepxion/Docs/raw/master/zxing-doc/微信-1.jpg)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/zxing-doc/公众号-1.jpg)
+
 ## 测试用例
 
 自动化测试代码参考[https://github.com/Nepxion/DiscoveryGray/tree/master/discovery-gray-test](https://github.com/Nepxion/DiscoveryGray/tree/master/discovery-gray-test)
@@ -100,10 +106,10 @@ public class MyTestCases {
 ```
 
 灰度测试的注解支持Spel语法格式，即group = "#group", serviceId = "#serviceId"。当使用者希望用这种方式的时候，需要在IDE和Maven里设置"-parameters"的Compiler Argument：
-1. IDE里的设置
+1. IDE设置
    - Eclipse加"-parameters"参数：https://www.concretepage.com/java/jdk-8/java-8-reflection-access-to-parameter-names-of-method-and-constructor-with-maven-gradle-and-eclipse-using-parameters-compiler-argument
    - Idea加"-parameters"参数：http://blog.csdn.net/royal_lr/article/details/52279993
-2. Maven中增加
+2. Maven设置
 ```xml
     <build>
         <plugins>
