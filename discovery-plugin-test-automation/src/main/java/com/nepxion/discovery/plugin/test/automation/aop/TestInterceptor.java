@@ -12,6 +12,8 @@ package com.nepxion.discovery.plugin.test.automation.aop;
 import java.lang.reflect.Method;
 
 import org.aopalliance.intercept.MethodInvocation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -22,6 +24,8 @@ import com.nepxion.discovery.plugin.test.automation.gray.TestOperation;
 import com.nepxion.matrix.proxy.aop.AbstractInterceptor;
 
 public class TestInterceptor extends AbstractInterceptor {
+    private static final Logger LOG = LoggerFactory.getLogger(TestInterceptor.class);
+
     @Autowired
     private TestOperation testOperation;
 
@@ -38,7 +42,7 @@ public class TestInterceptor extends AbstractInterceptor {
         boolean isTestGrayAnnotationPresent = method.isAnnotationPresent(DTestGray.class);
         if (isTestAnnotationPresent || isTestGrayAnnotationPresent) {
             String methodName = getMethodName(invocation);
-            System.out.println("---------- Run automation testcase :: " + methodName + "() ----------");
+            LOG.info("---------- Run automation testcase :: {}() ----------", methodName);
 
             Object object = null;
             if (isTestAnnotationPresent) {
@@ -66,7 +70,7 @@ public class TestInterceptor extends AbstractInterceptor {
                 }
             }
 
-            System.out.println("* Passed");
+            LOG.info("* Passed");
 
             return object;
         }
