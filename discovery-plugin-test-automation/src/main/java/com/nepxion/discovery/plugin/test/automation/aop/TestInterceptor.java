@@ -28,7 +28,7 @@ public class TestInterceptor extends AbstractInterceptor {
     @Value("${" + TestConstant.SPRING_APPLICATION_TEST_GRAY_RESET_ENABLED + ":true}")
     private Boolean resetEnabled;
 
-    @Value("${" + TestConstant.SPRING_APPLICATION_TEST_GRAY_AWAIT_TIME + ":3000}")
+    @Value("${" + TestConstant.SPRING_APPLICATION_TEST_GRAY_AWAIT_TIME + ":1000}")
     private Integer awaitTime;
 
     @Override
