@@ -132,8 +132,8 @@ spring.application.test.scan.packages=com.nepxion.discovery.gray.test
 spring.application.test.gray.configcenter.enabled=true
 # 测试用例的灰度配置清除时，Key保留同时内容为空（reset），还是直接删除Key（clear）。缺失则默认为true
 spring.application.test.gray.reset.enabled=true
-# 测试用例的灰度配置推送后，等待生效的时间。缺失则默认为3000
-spring.application.test.gray.await.time=3000
+# 测试用例的灰度配置推送后，等待生效的时间。缺失则默认为1000
+spring.application.test.gray.await.time=1000
 # 测试用例的灰度配置推送的控制台地支
 spring.application.test.console.url=http://localhost:2222/
 
