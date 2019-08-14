@@ -291,4 +291,29 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     public String getInstanceContextPath(ServiceInstance serviceInstance) {
         return getInstanceMetadata(serviceInstance).get(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH);
     }
+
+    @Override
+    public String getPluginInfo(String previousPluginInfo) {
+        String serviceId = getServiceId();
+        String host = getHost();
+        int port = getPort();
+        String version = getVersion();
+        String region = getRegion();
+        String group = getGroup();
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(previousPluginInfo + " -> " + serviceId);
+        stringBuilder.append("[" + host + ":" + port + "]");
+        if (StringUtils.isNotEmpty(version)) {
+            stringBuilder.append("[V=" + version + "]");
+        }
+        if (StringUtils.isNotEmpty(region)) {
+            stringBuilder.append("[R=" + region + "]");
+        }
+        if (StringUtils.isNotEmpty(region)) {
+            stringBuilder.append("[G=" + group + "]");
+        }
+
+        return stringBuilder.toString();
+    }
 }
