@@ -88,4 +88,6 @@ public interface PluginAdapter {
     String getInstanceRegion(ServiceInstance serviceInstance);
 
     String getInstanceContextPath(ServiceInstance serviceInstance);
+
+    String getPluginInfo(String previousPluginInfo);
 }
