@@ -23,7 +23,7 @@ public class ArrayWeightRandomLoadBalanceTest {
         test(1000000);
     }
 
-    public static void test(int totolCount) {
+    public static void test(int totalCount) {
         long t = System.currentTimeMillis();
 
         List<String> serverList = new ArrayList<String>();
@@ -50,7 +50,7 @@ public class ArrayWeightRandomLoadBalanceTest {
         int v3Count = 0;
         int v4Count = 0;
         int v5Count = 0;
-        for (int i = 0; i < totolCount; i++) {
+        for (int i = 0; i < totalCount; i++) {
             String server = choose(serverList, weightMap);
             if (server.startsWith("1.0")) {
                 v1Count++;
@@ -70,13 +70,13 @@ public class ArrayWeightRandomLoadBalanceTest {
         }
 
         System.out.println("------------------------------");
-        System.out.println(totolCount + "次循环，数组方式随机权重准确度和性能：");
+        System.out.println(totalCount + "次循环，数组方式随机权重准确度和性能：");
         DecimalFormat format = new DecimalFormat("0.0000");
-        System.out.println("1.0版本服务随机权重=" + format.format((double) v1Count * 100 / totolCount) + "%");
-        System.out.println("2.0版本服务随机权重=" + format.format((double) v2Count * 100 / totolCount) + "%");
-        System.out.println("3.0版本服务随机权重=" + format.format((double) v3Count * 100 / totolCount) + "%");
-        System.out.println("4.0版本服务随机权重=" + format.format((double) v4Count * 100 / totolCount) + "%");
-        System.out.println("5.0版本服务随机权重=" + format.format((double) v5Count * 100 / totolCount) + "%");
+        System.out.println("1.0版本服务随机权重=" + format.format((double) v1Count * 100 / totalCount) + "%");
+        System.out.println("2.0版本服务随机权重=" + format.format((double) v2Count * 100 / totalCount) + "%");
+        System.out.println("3.0版本服务随机权重=" + format.format((double) v3Count * 100 / totalCount) + "%");
+        System.out.println("4.0版本服务随机权重=" + format.format((double) v4Count * 100 / totalCount) + "%");
+        System.out.println("5.0版本服务随机权重=" + format.format((double) v5Count * 100 / totalCount) + "%");
         System.out.println("耗时时间：" + (System.currentTimeMillis() - t));
         System.out.println("------------------------------");
     }
