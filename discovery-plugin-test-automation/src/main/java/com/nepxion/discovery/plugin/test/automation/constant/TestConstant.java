@@ -15,4 +15,9 @@ public class TestConstant {
     public static final String SPRING_APPLICATION_TEST_GRAY_RESET_ENABLED = "spring.application.test.gray.reset.enabled";
     public static final String SPRING_APPLICATION_TEST_GRAY_AWAIT_TIME = "spring.application.test.gray.await.time";
     public static final String SPRING_APPLICATION_TEST_CONSOLE_URL = "spring.application.test.console.url";
+
+    public static final String REMOTE_UPDATE_URL = "console/remote-config/update";
+    public static final String REMOTE_CLEAR_URL = "console/remote-config/clear";
+    public static final String UPDATE_URL = "console/config/update-sync";
+    public static final String CLEAR_URL = "console/config/clear-sync";
 }
