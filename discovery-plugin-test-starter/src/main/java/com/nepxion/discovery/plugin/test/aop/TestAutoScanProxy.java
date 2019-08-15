@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.test.automation.aop;
+package com.nepxion.discovery.plugin.test.aop;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -11,8 +11,8 @@ package com.nepxion.discovery.plugin.test.automation.aop;
 
 import java.lang.annotation.Annotation;
 
-import com.nepxion.discovery.plugin.test.automation.annotation.DTest;
-import com.nepxion.discovery.plugin.test.automation.annotation.DTestGray;
+import com.nepxion.discovery.plugin.test.annotation.DTest;
+import com.nepxion.discovery.plugin.test.annotation.DTestGray;
 import com.nepxion.matrix.proxy.aop.DefaultAutoScanProxy;
 import com.nepxion.matrix.proxy.mode.ProxyMode;
 import com.nepxion.matrix.proxy.mode.ScanMode;

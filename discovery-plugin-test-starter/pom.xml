@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <artifactId>discovery-plugin-test-automation</artifactId>
-    <name>Nepxion Discovery Plugin Test Automation</name>
+    <artifactId>discovery-plugin-test-starter</artifactId>
+    <name>Nepxion Discovery Plugin Test Starter</name>
     <packaging>jar</packaging>
     <modelVersion>4.0.0</modelVersion>
     <description>Nepxion Discovery is an enhancement for Spring Cloud Discovery</description>
@@ -11,7 +11,7 @@
     <parent>
         <groupId>com.nepxion</groupId>
         <artifactId>discovery</artifactId>
-        <version>4.11.5</version>
+        <version>5.3.5</version>
     </parent>
 
     <dependencies>

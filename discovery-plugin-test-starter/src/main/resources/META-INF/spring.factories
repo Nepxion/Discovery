@@ -1,0 +1,5 @@
+org.springframework.context.ApplicationContextInitializer=\
+com.nepxion.discovery.plugin.test.context.TestApplicationContextInitializer
+
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.nepxion.discovery.plugin.test.configuration.TestAutoConfiguration
