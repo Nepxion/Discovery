@@ -119,11 +119,11 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 - [控制平台](#控制平台)
 - [监控平台](#监控平台)
 - [界面工具](#界面工具)
-    - [基于图形化桌面程序的灰度发布](#基于图形化桌面程序的灰度发布)
-    - [基于图形化Web程序的灰度发布](#基于图形化Web程序的灰度发布)
     - [基于Apollo界面的灰度发布](#基于Apollo界面的灰度发布)
     - [基于Nacos界面的灰度发布](#基于Nacos界面的灰度发布)
     - [基于Rest方式的灰度发布](#基于Rest方式的灰度发布)
+    - [基于图形化桌面程序的灰度发布](#基于图形化桌面程序的灰度发布)
+    - [基于图形化Web程序的灰度发布](#基于图形化Web程序的灰度发布)
 - [自动化测试](#自动化测试)
 - [性能分析](#性能分析)
 - [Star走势图](#Star走势图)
@@ -1089,12 +1089,6 @@ spring.application.strategy.trace.debug.enabled=true
 ## 界面工具
 请参考[入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)的“界面操作”
 
-### 基于图形化桌面程序的灰度发布
-- 见[入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)的“运行图形化灰度发布桌面程序”
-
-### 基于图形化Web程序的灰度发布
-- 见[入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)的“运行图形化灰度发布Web程序”
-
 ### 基于Apollo界面的灰度发布
 - 见[入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)的“运行Apollo配置界面”
 
@@ -1103,6 +1097,12 @@ spring.application.strategy.trace.debug.enabled=true
 
 ### 基于Rest方式的灰度发布
 - 见[入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)的“运行Swagger或者Postman方式”
+
+### 基于图形化桌面程序的灰度发布
+- 见[入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)的“运行图形化灰度发布桌面程序”
+
+### 基于图形化Web程序的灰度发布
+- 见[入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)的“运行图形化灰度发布Web程序”
 
 ## 自动化测试
 - 见[自动化测试](https://github.com/Nepxion/DiscoveryGray/tree/master/discovery-gray-test/README.md)
