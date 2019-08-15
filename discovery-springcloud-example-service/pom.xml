@@ -11,7 +11,7 @@
     <url>http://www.nepxion.com</url>
 
     <properties>
-        <discovery.version>3.11.3</discovery.version>
+        <discovery.version>3.11.4</discovery.version>
         <spring.cloud.version>Edgware.SR6</spring.cloud.version>
         <spring.cloud.alibaba.version>1.5.0.RELEASE</spring.cloud.alibaba.version>
         <spring.boot.version>1.5.18.RELEASE</spring.boot.version>
