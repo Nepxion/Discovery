@@ -33,7 +33,7 @@
         <module>discovery-plugin-strategy-starter-service</module>
         <module>discovery-plugin-strategy-starter-zuul</module>
         <module>discovery-plugin-strategy-starter-hystrix</module>
-        <module>discovery-plugin-test-automation</module>
+        <module>discovery-plugin-test-starter</module>
         <module>discovery-console</module>
         <module>discovery-console-starter-apollo</module>
         <module>discovery-console-starter-nacos</module>
@@ -203,7 +203,7 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>discovery-plugin-test-automation</artifactId>
+                <artifactId>discovery-plugin-test-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

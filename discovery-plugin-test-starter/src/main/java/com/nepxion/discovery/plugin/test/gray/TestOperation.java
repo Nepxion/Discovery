@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.test.automation.gray;
+package com.nepxion.discovery.plugin.test.gray;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -19,7 +19,7 @@ import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.property.DiscoveryContent;
 import com.nepxion.discovery.common.util.UrlUtil;
-import com.nepxion.discovery.plugin.test.automation.constant.TestConstant;
+import com.nepxion.discovery.plugin.test.constant.TestConstant;
 
 public class TestOperation {
     @Value("${" + TestConstant.SPRING_APPLICATION_TEST_GRAY_CONFIGCENTER_ENABLED + ":true}")

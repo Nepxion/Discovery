@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.test.automation.configuration;
+package com.nepxion.discovery.plugin.test.configuration;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -16,13 +16,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.common.exception.DiscoveryException;
-import com.nepxion.discovery.plugin.test.automation.aop.TestAutoScanProxy;
-import com.nepxion.discovery.plugin.test.automation.aop.TestInterceptor;
-import com.nepxion.discovery.plugin.test.automation.constant.TestConstant;
-import com.nepxion.discovery.plugin.test.automation.gray.TestOperation;
+import com.nepxion.discovery.plugin.test.aop.TestAutoScanProxy;
+import com.nepxion.discovery.plugin.test.aop.TestInterceptor;
+import com.nepxion.discovery.plugin.test.constant.TestConstant;
+import com.nepxion.discovery.plugin.test.gray.TestOperation;
 
 @Configuration
-public class TestConfiguration {
+public class TestAutoConfiguration {
     @Autowired
     private ConfigurableEnvironment environment;
 
