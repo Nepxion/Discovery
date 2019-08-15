@@ -124,6 +124,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
     - [基于Apollo界面的灰度发布](#基于Apollo界面的灰度发布)
     - [基于Nacos界面的灰度发布](#基于Nacos界面的灰度发布)
     - [基于Rest方式的灰度发布](#基于Rest方式的灰度发布)
+- [自动化测试](#自动化测试)
 - [性能分析](#性能分析)
 - [Star走势图](#Star走势图)
 
@@ -891,10 +892,10 @@ dev=85;qa=15
 ```
 
 ### REST调用的灰度路由策略
-基于Feign/RestTemplate的REST调用的自定义路由
+基于Feign/RestTemplate的REST调用的自定义路由，需要用户自行编程
 
 ### RPC调用的灰度路由策略
-基于Feign/RestTemplate的RPC调用的自定义路由
+基于Feign/RestTemplate的RPC调用的自定义路由，需要用户自行编程
 
 ## 规则和策略
 ### 规则和策略的区别
@@ -1103,6 +1104,9 @@ spring.application.strategy.trace.debug.enabled=true
 
 ### 基于Rest方式的灰度发布
 - 见[入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)的“运行Swagger或者Postman方式”
+
+## 自动化测试
+- 见[自动化测试](https://github.com/Nepxion/DiscoveryGray/tree/master/discovery-gray-test/README.md)
 
 ## 性能分析
 在我的电脑上，做了如下性能测试：
