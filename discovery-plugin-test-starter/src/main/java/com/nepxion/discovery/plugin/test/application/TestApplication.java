@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.test.automation;
+package com.nepxion.discovery.plugin.test.application;
 
 /**
  * <p>Title: Nepxion Discovery</p>

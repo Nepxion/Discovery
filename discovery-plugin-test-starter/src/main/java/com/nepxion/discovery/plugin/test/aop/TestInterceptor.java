@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.test.automation.aop;
+package com.nepxion.discovery.plugin.test.aop;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -17,10 +17,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import com.nepxion.discovery.plugin.test.automation.annotation.DTest;
-import com.nepxion.discovery.plugin.test.automation.annotation.DTestGray;
-import com.nepxion.discovery.plugin.test.automation.constant.TestConstant;
-import com.nepxion.discovery.plugin.test.automation.gray.TestOperation;
+import com.nepxion.discovery.plugin.test.annotation.DTest;
+import com.nepxion.discovery.plugin.test.annotation.DTestGray;
+import com.nepxion.discovery.plugin.test.constant.TestConstant;
+import com.nepxion.discovery.plugin.test.gray.TestOperation;
 import com.nepxion.matrix.proxy.aop.AbstractInterceptor;
 
 public class TestInterceptor extends AbstractInterceptor {

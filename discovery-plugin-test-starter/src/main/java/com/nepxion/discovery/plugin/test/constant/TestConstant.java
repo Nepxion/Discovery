@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.test.automation.constant;
+package com.nepxion.discovery.plugin.test.constant;
 
 /**
  * <p>Title: Nepxion Discovery</p>

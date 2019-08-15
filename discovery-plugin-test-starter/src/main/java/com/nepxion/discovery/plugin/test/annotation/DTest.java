@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.test.automation.annotation;
+package com.nepxion.discovery.plugin.test.annotation;
 
 /**
  * <p>Title: Nepxion Discovery</p>
