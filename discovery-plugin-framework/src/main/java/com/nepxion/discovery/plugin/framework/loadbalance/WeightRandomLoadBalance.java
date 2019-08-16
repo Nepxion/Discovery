@@ -18,5 +18,7 @@ public interface WeightRandomLoadBalance<T> {
 
     int getWeight(Server server, T t);
 
+    boolean checkWeight(List<Server> serverList, T t);
+
     Server choose(List<Server> serverList, T t);
 }
