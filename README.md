@@ -44,14 +44,14 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 
 - 引入相关依赖到pom.xml，参考[依赖兼容](#依赖兼容)
 - 操作配置文件，参考[配置文件](#配置文件)
-  - 在元数据MetaData中，为微服务定义一个版本号（version），定义一个所属组名（group）或者应用名（application），定义一个所属区域（region）名
-  - 根据项目实际情况，开启和关闭相关功能项或者属性值，达到最佳配置
+    - 在元数据MetaData中，为微服务定义一个版本号（version），定义一个所属组名（group）或者应用名（application），定义一个所属区域（region）名
+    - 根据项目实际情况，开启和关闭相关功能项或者属性值，达到最佳配置
 - 规则推送，参考[规则定义](#规则定义)
-  - 通过远程配置中心推送规则
-  - 通过控制平台界面推送规则
-  - 通过客户端工具（例如Postman）推送
+    - 通过远程配置中心推送规则
+    - 通过控制平台界面推送规则
+    - 通过客户端工具（例如Postman）推送
 - 导入Postman脚本
-  - 为方便体验示例，将Postman的测试脚本导入，[脚本地址](https://github.com/Nepxion/Discovery/blob/master/postman.json)
+    - 为方便体验示例，将Postman的测试脚本导入，[脚本地址](https://github.com/Nepxion/Discovery/blob/master/postman.json)
 
 2. 兼容性强。支持如下版本：
 
@@ -169,65 +169,65 @@ Spring Boot Admin监控平台
 
 ## 应用场景
 - 黑/白名单的IP地址注册的过滤
-  - 开发环境的本地微服务（例如IP地址为172.16.0.8）不希望被注册到测试环境的服务注册发现中心，那么可以在配置中心维护一个黑/白名单的IP地址过滤（支持全局和局部的过滤）的规则
-  - 我们可以通过提供一份黑/白名单达到该效果
+    - 开发环境的本地微服务（例如IP地址为172.16.0.8）不希望被注册到测试环境的服务注册发现中心，那么可以在配置中心维护一个黑/白名单的IP地址过滤（支持全局和局部的过滤）的规则
+    - 我们可以通过提供一份黑/白名单达到该效果
 - 最大注册数的限制的过滤
-  - 当某个微服务注册数目已经达到上限（例如10个），那么后面起来的微服务，将再也不能注册上去
+    - 当某个微服务注册数目已经达到上限（例如10个），那么后面起来的微服务，将再也不能注册上去
 - 黑/白名单的IP地址发现的过滤
-  - 开发环境的本地微服务（例如IP地址为172.16.0.8）已经注册到测试环境的服务注册发现中心，那么可以在配置中心维护一个黑/白名单的IP地址过滤（支持全局和局部的过滤）的规则，该本地微服务不会被其他测试环境的微服务所调用
-  - 我们可以通过推送一份黑/白名单达到该效果
+    - 开发环境的本地微服务（例如IP地址为172.16.0.8）已经注册到测试环境的服务注册发现中心，那么可以在配置中心维护一个黑/白名单的IP地址过滤（支持全局和局部的过滤）的规则，该本地微服务不会被其他测试环境的微服务所调用
+    - 我们可以通过推送一份黑/白名单达到该效果
 - 多版本匹配的灰度控制
-  - A服务调用B服务，而B服务有两个实例（B1、B2），虽然三者相同的服务名，但功能上有差异，需求是在某个时刻，A服务只能调用B1，禁止调用B2。在此场景下，我们在application.properties里为B1维护一个版本为1.0，为B2维护一个版本为1.1
-  - 我们可以通过推送A服务调用某个版本的B服务对应关系的配置，达到某种意义上的灰度控制，改变版本的时候，我们只需要再次推送即可
+    - A服务调用B服务，而B服务有两个实例（B1、B2），虽然三者相同的服务名，但功能上有差异，需求是在某个时刻，A服务只能调用B1，禁止调用B2。在此场景下，我们在application.properties里为B1维护一个版本为1.0，为B2维护一个版本为1.1
+    - 我们可以通过推送A服务调用某个版本的B服务对应关系的配置，达到某种意义上的灰度控制，改变版本的时候，我们只需要再次推送即可
 - 多版本权重的灰度控制
-  - 上述场景中，我们也可以通过配给不同版本的权重（流量比例），根据需求，A访问B的流量在B1和B2进行调拨
+    - 上述场景中，我们也可以通过配给不同版本的权重（流量比例），根据需求，A访问B的流量在B1和B2进行调拨
 - 多区域匹配的灰度控制
-  - 上述场景中，我们也可以通过配给不同区域的进行配对，根据需求，A访问B的流量在B1和B2（B1和B2所属不同区域）进行调拨
+    - 上述场景中，我们也可以通过配给不同区域的进行配对，根据需求，A访问B的流量在B1和B2（B1和B2所属不同区域）进行调拨
 - 多区域权重的灰度控制
-  - 上述场景中，我们也可以通过配给不同区域的权重（流量比例），根据需求，A访问B的流量在B1和B2（B1和B2所属不同区域）进行调拨
+    - 上述场景中，我们也可以通过配给不同区域的权重（流量比例），根据需求，A访问B的流量在B1和B2（B1和B2所属不同区域）进行调拨
 - 多数据源的数据库灰度控制
-  - 我们事先为微服务配置多套数据源，通过灰度发布实时切换数据源
+    - 我们事先为微服务配置多套数据源，通过灰度发布实时切换数据源
 - 动态改变微服务版本
-  - 在A/B测试中，通过动态改变版本，不重启微服务，达到访问版本的路径改变
+    - 在A/B测试中，通过动态改变版本，不重启微服务，达到访问版本的路径改变
 - 路由策略的灰度控制
-  - 在业务REST调用上，在Header上传入服务名和版本对应关系的Json字符串，后端若干个服务会把请求路由到指定版本的服务器上
-  - 在业务REST调用上，在Header上传入区域（region）名，后端若干个服务会把请求路由到指定区域（region）名的服务器上
-  - 在业务REST调用上，在Header上传入Token，根据不同的Token查询到不同的用户，后端若干个服务会把请求路由到指定的服务器上
-  - 在业务RPC调用上，根据不同的业务参数，例如手机号或者身份证号，后端若干个服务会把请求路由到指定的服务器上
+    - 在业务REST调用上，在Header上传入服务名和版本对应关系的Json字符串，后端若干个服务会把请求路由到指定版本的服务器上
+    - 在业务REST调用上，在Header上传入区域（region）名，后端若干个服务会把请求路由到指定区域（region）名的服务器上
+    - 在业务REST调用上，在Header上传入Token，根据不同的Token查询到不同的用户，后端若干个服务会把请求路由到指定的服务器上
+    - 在业务RPC调用上，根据不同的业务参数，例如手机号或者身份证号，后端若干个服务会把请求路由到指定的服务器上
 
 ## 功能简介
 - 基于Spring Cloud的微服务和Spring Cloud Gateway和Zuul网关实现下述功能，它具有几个特性
-  - 具有极大的灵活性 - 支持在任何环节（微服务和两个网关），多种方式（REST和RPC）做过滤控制和灰度发布
-  - 具有极小的限制性 - 只要开启了服务注册发现，程序入口加了@EnableDiscoveryClient注解
-  - 具有极强的健壮性 - 当远程配置中心全部挂了，可以通过Rest方式进行灰度发布；当远程规则配置不规范，马上切换到本地规则来代替
-  - 具有极简的易用性 - 只需要引入相关的包同时规则里含有了对应的配置，该功能将自然启动
+    - 具有极大的灵活性：支持在任何环节（微服务和两个网关），多种方式（REST和RPC）做过滤控制和灰度发布
+    - 具有极小的限制性：只要开启了服务注册发现，程序入口加了@EnableDiscoveryClient注解
+    - 具有极强的健壮性：当远程配置中心全部挂了，可以通过Rest方式进行灰度发布；当远程规则配置不规范，马上切换到本地规则来代替
+    - 具有极简的易用性：只需要引入相关的包同时规则里含有了对应的配置，该功能将自然启动
 - 实现服务注册层面的控制
-  - 基于黑/白名单的IP地址过滤机制禁止对相应的微服务进行注册
-  - 基于最大注册数的限制微服务注册。一旦微服务集群下注册的实例数目已经达到上限，将禁止后续的微服务进行注册
+    - 基于黑/白名单的IP地址过滤机制禁止对相应的微服务进行注册
+    - 基于最大注册数的限制微服务注册。一旦微服务集群下注册的实例数目已经达到上限，将禁止后续的微服务进行注册
 - 实现服务发现层面的控制
-  - 基于黑/白名单的IP地址过滤机制禁止对相应的微服务被发现
-  - 基于版本号配对，通过对消费端和提供端可访问版本对应关系的配置，在服务发现和负载均衡层面，进行多版本访问控制
-  - 基于版本权重配对，通过对消费端和提供端版本权重（流量）对应关系的配置，在服务发现和负载均衡层面，进行多版本流量调拨访问控制
-  - 基于区域权重配对，通过对消费端和提供端所属区域的权重（流量）对应关系的配置，在服务发现和负载均衡层面，进行多区域流量调拨访问控制
+    - 基于黑/白名单的IP地址过滤机制禁止对相应的微服务被发现
+    - 基于版本号配对，通过对消费端和提供端可访问版本对应关系的配置，在服务发现和负载均衡层面，进行多版本访问控制
+    - 基于版本权重配对，通过对消费端和提供端版本权重（流量）对应关系的配置，在服务发现和负载均衡层面，进行多版本流量调拨访问控制
+    - 基于区域权重配对，通过对消费端和提供端所属区域的权重（流量）对应关系的配置，在服务发现和负载均衡层面，进行多区域流量调拨访问控制
 - 实现用户业务层面的控制
-  - 使用者可以通过订阅业务参数的变化，实现特色化的灰度发布，例如，多数据源的数据库切换的灰度发布
+    - 使用者可以通过订阅业务参数的变化，实现特色化的灰度发布，例如，多数据源的数据库切换的灰度发布
 - 实现灰度发布
-  - 通过版本的动态改变，实现切换灰度发布
-  - 通过版本匹配规则的改变，实现切换灰度发布
-  - 通过版本权重规则的改变，实现平滑灰度发布
-  - 通过区域匹配规则的改变，实现切换灰度发布
-  - 通过区域权重规则的改变，实现平滑灰度发布
+    - 通过版本的动态改变，实现切换灰度发布
+    - 通过版本匹配规则的改变，实现切换灰度发布
+    - 通过版本权重规则的改变，实现平滑灰度发布
+    - 通过区域匹配规则的改变，实现切换灰度发布
+    - 通过区域权重规则的改变，实现平滑灰度发布
 - 实现通过XML或者Json进行上述规则的定义
 - 实现通过事件总线机制（EventBus）的功能，实现发布/订阅功能
-  - 对接远程配置中心，集成Nacos和Redis，异步接受远程配置中心主动推送规则信息，动态改变微服务的规则
-  - 结合Spring Boot Actuator，异步接受Rest主动推送规则信息，动态改变微服务的规则，支持同步和异步推送两种方式
-  - 结合Spring Boot Actuator，动态改变微服务的版本，支持同步和异步推送两种方式
-  - 在服务注册层面的控制中，一旦禁止注册的条件触发，主动推送异步事件，以便使用者订阅
+    - 对接远程配置中心，集成Nacos和Redis，异步接受远程配置中心主动推送规则信息，动态改变微服务的规则
+    - 结合Spring Boot Actuator，异步接受Rest主动推送规则信息，动态改变微服务的规则，支持同步和异步推送两种方式
+    - 结合Spring Boot Actuator，动态改变微服务的版本，支持同步和异步推送两种方式
+    - 在服务注册层面的控制中，一旦禁止注册的条件触发，主动推送异步事件，以便使用者订阅
 - 实现通过Listener机制进行扩展
-  - 使用者可以对服务注册发现核心事件进行监听
+    - 使用者可以对服务注册发现核心事件进行监听
 - 实现通过策略扩展，实现灰度控制
-  - 使用者可以实现跟业务有关的路由策略，根据业务参数的不同，负载均衡到不同的服务器
-  - 使用者可以根据内置的版本路由策略+区域路由策略+IP和端口路由策略+自定义策略，随心所欲的达到需要的路由功能
+    - 使用者可以实现跟业务有关的路由策略，根据业务参数的不同，负载均衡到不同的服务器
+    - 使用者可以根据内置的版本路由策略+区域路由策略+IP和端口路由策略+自定义策略，随心所欲的达到需要的路由功能
 - 实现支持Spring Boot Actuator和Swagger集成
 - 实现支持Spring Boot Admin的集成
 - 实现支持Sentinel熔断隔离限流降级的集成
@@ -402,23 +402,23 @@ spring.application.discovery.control.enabled=false
 - Spring Cloud F版或以上，请采用4.x.x版本，具体代码参考master分支
 - Spring Cloud E版，请采用3.x.x版本，具体代码参考Edgware分支
 - 4.x.x版本和3.x.x版本功能完全一致，但在Endpoint的URL使用方式上稍微有个小的区别。例如
-  - 3.x.x的Endpoint URL为[http://localhost:5100/config/view](http://localhost:5100/config/view)
-  - 4.x.x的Endpoint URL为[http://localhost:5100/actuator/config/config/view](http://localhost:5100/actuator/config/config/view)，注意，路径中config为两个，前面那个是Endpoint Id，Spring Boot 2.x.x规定Endpoint Id必须指定，且全局唯一
+    - 3.x.x的Endpoint URL为[http://localhost:5100/config/view](http://localhost:5100/config/view)
+    - 4.x.x的Endpoint URL为[http://localhost:5100/actuator/config/config/view](http://localhost:5100/actuator/config/config/view)，注意，路径中config为两个，前面那个是Endpoint Id，Spring Boot 2.x.x规定Endpoint Id必须指定，且全局唯一
 
 中间件兼容情况
 - Consul
-  - Consul服务器版本不限制，推荐用最新版本，从[https://releases.hashicorp.com/consul/](https://releases.hashicorp.com/consul/)获取
+    - Consul服务器版本不限制，推荐用最新版本，从[https://releases.hashicorp.com/consul/](https://releases.hashicorp.com/consul/)获取
 - Zookeeper
-  - Spring Cloud F版或以上，必须采用Zookeeper服务器的3.5.x服务器版本（或者更高），从[http://zookeeper.apache.org/releases.html#download](http://zookeeper.apache.org/releases.html#download)获取
-  - Spring Cloud E版，Zookeeper服务器版本不限制
+    - Spring Cloud F版或以上，必须采用Zookeeper服务器的3.5.x服务器版本（或者更高），从[http://zookeeper.apache.org/releases.html#download](http://zookeeper.apache.org/releases.html#download)获取
+    - Spring Cloud E版，Zookeeper服务器版本不限制
 - Eureka
-  - 跟Spring Cloud版本保持一致，自行搭建服务器
+    - 跟Spring Cloud版本保持一致，自行搭建服务器
 - Apollo
-  - Apollo服务器版本，推荐用最新版本，从[https://github.com/ctripcorp/apollo/releases](https://github.com/ctripcorp/apollo/releases)获取
+    - Apollo服务器版本，推荐用最新版本，从[https://github.com/ctripcorp/apollo/releases](https://github.com/ctripcorp/apollo/releases)获取
 - Nacos
-  - Nacos服务器版本，推荐用最新版本，从[https://github.com/alibaba/nacos/releases](https://github.com/alibaba/nacos/releases)获取
+    - Nacos服务器版本，推荐用最新版本，从[https://github.com/alibaba/nacos/releases](https://github.com/alibaba/nacos/releases)获取
 - Redis
-  - Redis服务器版本，推荐用最新版本，从[https://redis.io/](https://redis.io/)获取
+    - Redis服务器版本，推荐用最新版本，从[https://redis.io/](https://redis.io/)获取
 
 ## 规则定义
 规则是基于XML或者Json为配置方式，存储于本地文件或者远程配置中心，可以通过远程配置中心修改的方式达到规则动态化。其核心代码参考discovery-plugin-framework以及它的扩展、discovery-plugin-config-center以及它的扩展和discovery-plugin-admin-center等
@@ -768,9 +768,9 @@ spring.application.strategy.zuul.header.priority=false
 - 多规则灰度获取规则的时候，先获取动态规则，如果不存在，再获取本地规则
 - 规则可以持久化到远程配置中心，一旦微服务死掉后，再次启动，仍旧可以拿到灰度规则，所以动态改变规则策略属于永久灰度发布手段
 - 规则推送到远程配置中心可以分为局部推送和全局推送
-  - 局部推送是基于Group+ServiceId来推送的，就是同一个Group下同一个ServiceId的服务集群独立拥有一个规则配置，如果采用这种方式，需要在每个微服务集群下做一次灰度发布。优点是独立封闭，本服务集群灰度发布失败不会影响到其它服务集群，缺点是相对繁琐
-  - 全局推送是基于Group来推送的（接口参数中的ServiceId由Group来代替），就是同一个Group下所有服务集群共同拥有一个规则配置，如果采用这种方式，只需要做一次灰度发布，所有服务集群都生效。优点是非常简便，缺点具有一定风险，因为这个规则配置掌握着所有服务集群的命运。全局推送用于全链路灰度发布
-  - 如果既执行了全局推送，又执行了局部推送，那么，当服务运行中，优先接受最后一次推送的规则；当服务重新启动的时候，优先读取局部推送的规则
+    - 局部推送是基于Group+ServiceId来推送的，就是同一个Group下同一个ServiceId的服务集群独立拥有一个规则配置，如果采用这种方式，需要在每个微服务集群下做一次灰度发布。优点是独立封闭，本服务集群灰度发布失败不会影响到其它服务集群，缺点是相对繁琐
+    - 全局推送是基于Group来推送的（接口参数中的ServiceId由Group来代替），就是同一个Group下所有服务集群共同拥有一个规则配置，如果采用这种方式，只需要做一次灰度发布，所有服务集群都生效。优点是非常简便，缺点具有一定风险，因为这个规则配置掌握着所有服务集群的命运。全局推送用于全链路灰度发布
+    - 如果既执行了全局推送，又执行了局部推送，那么，当服务运行中，优先接受最后一次推送的规则；当服务重新启动的时候，优先读取局部推送的规则
 
 ### 动态改变版本
 注意：动态改变版本，只允许发生在调用链的起点，例如网关，如果没有网关，则取第一个服务。其它服务不使用修改版本
@@ -906,8 +906,8 @@ dev=85;qa=15
 - 规则和策略，可以混合在一起工作，也关闭一项，让另一项单独工作
 - 规则和策略，一起工作的时候，先执行规则过滤逻辑，再执行策略过滤逻辑
 - 规则和策略关闭
-  - 规则关闭，spring.application.register.control.enabled=false和spring.application.discovery.control.enabled=false
-  - 策略关闭，spring.application.strategy.control.enabled=false
+    - 规则关闭，spring.application.register.control.enabled=false和spring.application.discovery.control.enabled=false
+    - 策略关闭，spring.application.strategy.control.enabled=false
 
 ## 服务隔离
 
@@ -1044,12 +1044,12 @@ spring.application.strategy.trace.debug.enabled=true
 
 ## 配置中心
 - 默认集成
-  - 本系统跟Apollo集成，如何安装使用，请参考[https://github.com/ctripcorp/apollo](https://github.com/ctripcorp/apollo)
-  - 本系统跟Nacos集成，如何安装使用，请参考[https://github.com/alibaba/nacos](https://github.com/alibaba/nacos)
-  - 本系统跟Redis集成
+    - 本系统跟Apollo集成，如何安装使用，请参考[https://github.com/ctripcorp/apollo](https://github.com/ctripcorp/apollo)
+    - 本系统跟Nacos集成，如何安装使用，请参考[https://github.com/alibaba/nacos](https://github.com/alibaba/nacos)
+    - 本系统跟Redis集成
 - 扩展集成
-  - 使用者也可以跟更多远程配置中心集成
-  - 参考三个跟Nacos或者Redis有关的工程
+    - 使用者也可以跟更多远程配置中心集成
+    - 参考三个跟Nacos或者Redis有关的工程
 
 ## 管理中心
 :exclamation:PORT端口号为服务端口或者管理端口都可以
@@ -1087,13 +1087,13 @@ spring.application.strategy.trace.debug.enabled=true
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Apollo1.jpg)
 - 参考Apollo官方文档[https://github.com/ctripcorp/apollo](https://github.com/ctripcorp/apollo)相关文档，搭建Apollo环境，以及熟悉相关的基本操作
 - 根据上图，做如下步骤操作
-  - 设置页面中AppId和配置文件里面app.id一致
-  - 设置页面中Namespace和配置文件里面apollo.plugin.namespace一致，如果配置文件里不设置，那么页面默认采用内置的“application”
-  - 在页面中添加配置
-    - 局部配置方式：一个服务集群（eureka.instance.metadataMap.group和spring.application.name都相同的服务）对应一个配置文件，通过group+serviceId方式添加，Key为“group-serviceId”，Value为Xml或者Json格式的规则内容。group取值于配置文件里的eureka.instance.metadataMap.group配置项，serviceId取值于spring.application.name配置项目
-    - 全局配置方式：一组服务集群（eureka.instance.metadataMap.group相同，但spring.application.name可以不相同的服务）对应一个配置文件，通过group方式添加，Key为“group-group”，Value为Xml或者Json格式的规则内容。group取值于配置文件里的eureka.instance.metadataMap.group配置项
-    - 强烈建议局部配置方式和全局配置方式不要混用，否则连使用者自己都无法搞清楚到底是哪种配置方式在起作用
-  - 其他更多参数，例如evn, cluster等，请自行参考Apollo官方文档，保持一致
+    - 设置页面中AppId和配置文件里面app.id一致
+    - 设置页面中Namespace和配置文件里面apollo.plugin.namespace一致，如果配置文件里不设置，那么页面默认采用内置的“application”
+    - 在页面中添加配置
+        - 局部配置方式：一个服务集群（eureka.instance.metadataMap.group和spring.application.name都相同的服务）对应一个配置文件，通过group+serviceId方式添加，Key为“group-serviceId”，Value为Xml或者Json格式的规则内容。group取值于配置文件里的eureka.instance.metadataMap.group配置项，serviceId取值于spring.application.name配置项目
+        - 全局配置方式：一组服务集群（eureka.instance.metadataMap.group相同，但spring.application.name可以不相同的服务）对应一个配置文件，通过group方式添加，Key为“group-group”，Value为Xml或者Json格式的规则内容。group取值于配置文件里的eureka.instance.metadataMap.group配置项
+        - 强烈建议局部配置方式和全局配置方式不要混用，否则连使用者自己都无法搞清楚到底是哪种配置方式在起作用
+    - 其他更多参数，例如evn, cluster等，请自行参考Apollo官方文档，保持一致
 
 ### 基于Nacos界面的灰度发布
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Nacos2.jpg)
@@ -1111,45 +1111,45 @@ spring.application.strategy.trace.debug.enabled=true
 - 桌面程序对Windows和Mac操作系统都支持，但在Mac操作系统中界面显示有点瑕疵，但不影响功能使用
 - Clone [https://github.com/Nepxion/Discovery.git](https://github.com/Nepxion/Discovery.git)获取源码（注意master和Edgware分支）
 - 通过IDE启动
-  - 运行discovery-console-desktop\ConsoleLauncher.java启动
+    - 运行discovery-console-desktop\ConsoleLauncher.java启动
 - 通过脚本启动
-  - 在discovery-console-desktop目录下执行mvn clean install，target目录下将产生discovery-console-desktop-[版本号]-release的目录
-  - 进入discovery-console-desktop-[版本号]-release，请修改config/console.properties中的url，该地址指向控制平台的地址
-  - 运行“Discovery灰度发布控制台.bat”，启动桌面程序
-  - 如果您是操作系统，请参考“Discovery灰度发布控制台.bat”，自行编写“Discovery灰度发布控制台.sh”脚本，启动桌面程序
+    - 在discovery-console-desktop目录下执行mvn clean install，target目录下将产生discovery-console-desktop-[版本号]-release的目录
+    - 进入discovery-console-desktop-[版本号]-release，请修改config/console.properties中的url，该地址指向控制平台的地址
+    - 运行“Discovery灰度发布控制台.bat”，启动桌面程序
+    - 如果您是操作系统，请参考“Discovery灰度发布控制台.bat”，自行编写“Discovery灰度发布控制台.sh”脚本，启动桌面程序
 - 操作界面
-  - 登录认证，用户名和密码为admin/admin或者nepxion/nepxion。顺便说一下，控制台支持简单的认证，用户名和密码配置在discovery-springcloud-example-console\bootstrap.properties中，您可以自己扩展AuthenticationResource并注入，实现更专业的认证功能
+    - 登录认证，用户名和密码为admin/admin或者nepxion/nepxion。顺便说一下，控制台支持简单的认证，用户名和密码配置在discovery-springcloud-example-console\bootstrap.properties中，您可以自己扩展AuthenticationResource并注入，实现更专业的认证功能
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console0.jpg)
-  - 点击“显示服务拓扑”按钮，弹出“服务集群组过滤”对话框，列表是以服务所在的集群组列表（例如：eureka.instance.metadataMap.group=example-service-group），选择若干个并点击“确定”按钮，如果使用者想获取全部的服务集群（可能会耗性能），则直接点击“取消”按钮
+    - 点击“显示服务拓扑”按钮，弹出“服务集群组过滤”对话框，列表是以服务所在的集群组列表（例如：eureka.instance.metadataMap.group=example-service-group），选择若干个并点击“确定”按钮，如果使用者想获取全部的服务集群（可能会耗性能），则直接点击“取消”按钮
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console4.jpg)
-  - 从服务注册发现中心获取服务拓扑
+    - 从服务注册发现中心获取服务拓扑
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console5.jpg)
-  - 执行灰度路由，选择一个服务，右键菜单“执行灰度路由”
+    - 执行灰度路由，选择一个服务，右键菜单“执行灰度路由”
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console6.jpg)
-  - 通过“服务列表”切换，或者点击增加和删除服务按钮，确定灰度路由路径，点击“执行路由”
+    - 通过“服务列表”切换，或者点击增加和删除服务按钮，确定灰度路由路径，点击“执行路由”
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console7.jpg)
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console2.jpg)
-  - 推送模式设置，“异步推送”和“同步推送”，前者是推送完后立刻返回，后者是推送完后等待推送结果（包括规则XML解析的异常等都能在界面上反映出来）；“规则推送到远程配置中心”和“规则推送到服务或者服务集群”，前者是推送到配置中心（持久化），后者是推送到一个或者多个服务机器的内存（非持久化，重启后丢失）
+    - 推送模式设置，“异步推送”和“同步推送”，前者是推送完后立刻返回，后者是推送完后等待推送结果（包括规则XML解析的异常等都能在界面上反映出来）；“规则推送到远程配置中心”和“规则推送到服务或者服务集群”，前者是推送到配置中心（持久化），后者是推送到一个或者多个服务机器的内存（非持久化，重启后丢失）
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console8.jpg)
-  - 执行灰度发布，选择一个服务或者服务组，右键菜单“执行灰度发布”，前者是通过单个服务实例执行灰度发布，后者是通过一组服务实例执行灰度发布
+    - 执行灰度发布，选择一个服务或者服务组，右键菜单“执行灰度发布”，前者是通过单个服务实例执行灰度发布，后者是通过一组服务实例执行灰度发布
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console9.jpg)
-  - 灰度发布，包括“更改版本”和“更改规则”，前者通过更改版本号去适配灰度规则中的版本匹配关系，后者直接修改规则。“更改版本”是推送到一个或者多个服务机器的内存（非持久化，重启后丢失），“更改规则”是根据不同的推送模式，两种方式都支持
+    - 灰度发布，包括“更改版本”和“更改规则”，前者通过更改版本号去适配灰度规则中的版本匹配关系，后者直接修改规则。“更改版本”是推送到一个或者多个服务机器的内存（非持久化，重启后丢失），“更改规则”是根据不同的推送模式，两种方式都支持
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console10.jpg)
-  - 全链路灰度发布，所有在同一个集群组（例如：eureka.instance.metadataMap.group=example-service-group）里的服务统一做灰度发布，即一个规则配置搞定所有服务的灰度发布。点击“全链路灰度发布”按钮，弹出“全链路灰度发布”对话框
+    - 全链路灰度发布，所有在同一个集群组（例如：eureka.instance.metadataMap.group=example-service-group）里的服务统一做灰度发布，即一个规则配置搞定所有服务的灰度发布。点击“全链路灰度发布”按钮，弹出“全链路灰度发布”对话框
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console11.jpg)
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console12.jpg)
-  - 刷新灰度状态，选择一个服务或者服务组，右键菜单“刷新灰度状态”，查看某个服务或者服务组是否正在做灰度发布
+    - 刷新灰度状态，选择一个服务或者服务组，右键菜单“刷新灰度状态”，查看某个服务或者服务组是否正在做灰度发布
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console13.jpg)
 - 操作视频（有点老，请参考学习）
-  - 灰度发布-版本访问策略
-    - 请访问[https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA](https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA)，获取更清晰的视频，注意一定要下载下来看，不要在线看，否则也不清晰
-    - 请访问[http://www.iqiyi.com/w_19rzwzovrl.html](http://www.iqiyi.com/w_19rzwzovrl.html)，视频清晰度改成720P，然后最大化播放
-  - 灰度发布-版本权重策略
-    - 请访问[https://pan.baidu.com/s/1VXPatJ6zrUeos7uTQwM3Kw](https://pan.baidu.com/s/1VXPatJ6zrUeos7uTQwM3Kw)，获取更清晰的视频，注意一定要下载下来看，不要在线看，否则也不清晰
-    - 请访问[http://www.iqiyi.com/w_19rzs9pll1.html](http://www.iqiyi.com/w_19rzs9pll1.html)，视频清晰度改成720P，然后最大化播放
-  - 灰度发布-全链路策略
-    - 请访问[https://pan.baidu.com/s/1XQSKCZUykc6t04xzfrFHsg](https://pan.baidu.com/s/1XQSKCZUykc6t04xzfrFHsg)，获取更清晰的视频，注意一定要下载下来看，不要在线看，否则也不清晰
-    - 请访问[http://www.iqiyi.com/w_19s1e0zf95.html](http://www.iqiyi.com/w_19s1e0zf95.html)，视频清晰度改成720P，然后最大化播放
+    - 灰度发布-版本访问策略
+        - 请访问[https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA](https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA)，获取更清晰的视频，注意一定要下载下来看，不要在线看，否则也不清晰
+        - 请访问[http://www.iqiyi.com/w_19rzwzovrl.html](http://www.iqiyi.com/w_19rzwzovrl.html)，视频清晰度改成720P，然后最大化播放
+    - 灰度发布-版本权重策略
+        - 请访问[https://pan.baidu.com/s/1VXPatJ6zrUeos7uTQwM3Kw](https://pan.baidu.com/s/1VXPatJ6zrUeos7uTQwM3Kw)，获取更清晰的视频，注意一定要下载下来看，不要在线看，否则也不清晰
+        - 请访问[http://www.iqiyi.com/w_19rzs9pll1.html](http://www.iqiyi.com/w_19rzs9pll1.html)，视频清晰度改成720P，然后最大化播放
+    - 灰度发布-全链路策略
+        - 请访问[https://pan.baidu.com/s/1XQSKCZUykc6t04xzfrFHsg](https://pan.baidu.com/s/1XQSKCZUykc6t04xzfrFHsg)，获取更清晰的视频，注意一定要下载下来看，不要在线看，否则也不清晰
+        - 请访问[http://www.iqiyi.com/w_19s1e0zf95.html](http://www.iqiyi.com/w_19s1e0zf95.html)，视频清晰度改成720P，然后最大化播放
 
 ### 基于图形化Web程序的灰度发布
 - 参考[图形化Web](https://github.com/Nepxion/DiscoveryUI)
