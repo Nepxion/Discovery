@@ -9,14 +9,8 @@ package com.nepxion.discovery.plugin.framework.loadbalance.weight;
  * @version 1.0
  */
 
-import java.util.List;
-import java.util.Map;
-
 import com.nepxion.discovery.common.entity.DiscoveryEntity;
-import com.nepxion.discovery.common.entity.RegionWeightEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
-import com.nepxion.discovery.common.entity.VersionWeightEntity;
-import com.nepxion.discovery.common.entity.WeightEntity;
 import com.nepxion.discovery.common.entity.WeightEntityWrapper;
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
@@ -46,42 +40,11 @@ public class RuleWeightRandomLoadBalanceAdapter extends AbstractWeightRandomLoad
 
     @Override
     public int getWeight(Server server, WeightFilterEntity weightFilterEntity) {
-        Map<String, List<WeightEntity>> versionWeightEntityMap = weightFilterEntity.getVersionWeightEntityMap();
-        List<WeightEntity> versionWeightEntityList = weightFilterEntity.getVersionWeightEntityList();
-        VersionWeightEntity versionWeightEntity = weightFilterEntity.getVersionWeightEntity();
-
-        Map<String, List<WeightEntity>> regionWeightEntityMap = weightFilterEntity.getRegionWeightEntityMap();
-        List<WeightEntity> regionWeightEntityList = weightFilterEntity.getRegionWeightEntityList();
-        RegionWeightEntity regionWeightEntity = weightFilterEntity.getRegionWeightEntity();
-
         String providerServiceId = pluginAdapter.getServerServiceId(server);
         String providerVersion = pluginAdapter.getServerVersion(server);
         String providerRegion = pluginAdapter.getServerRegion(server);
-
         String serviceId = pluginAdapter.getServiceId();
-        int weight = WeightEntityWrapper.getWeight(serviceId, providerServiceId, providerVersion, versionWeightEntityMap);
-        if (weight < 0) {
-            weight = WeightEntityWrapper.getWeight(providerServiceId, providerVersion, versionWeightEntityList);
-        }
-        if (weight < 0) {
-            weight = WeightEntityWrapper.getWeight(providerVersion, versionWeightEntity);
-        }
 
-        if (weight < 0) {
-            weight = WeightEntityWrapper.getWeight(serviceId, providerServiceId, providerRegion, regionWeightEntityMap);
-        }
-        if (weight < 0) {
-            weight = WeightEntityWrapper.getWeight(providerServiceId, providerRegion, regionWeightEntityList);
-        }
-        if (weight < 0) {
-            weight = WeightEntityWrapper.getWeight(providerRegion, regionWeightEntity);
-        }
-
-        // 所有的权重配置都没找到，则按权重值为0来处理
-        if (weight < 0) {
-            weight = 0;
-        }
-
-        return weight;
+        return WeightEntityWrapper.getWeight(weightFilterEntity, providerServiceId, providerVersion, providerRegion, serviceId);
     }
 }

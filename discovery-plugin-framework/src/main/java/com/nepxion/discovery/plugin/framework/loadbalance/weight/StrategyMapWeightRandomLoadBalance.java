@@ -9,6 +9,8 @@ package com.nepxion.discovery.plugin.framework.loadbalance.weight;
  * @version 1.0
  */
 
+import java.util.List;
+
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginContextHolder;
@@ -29,5 +31,10 @@ public class StrategyMapWeightRandomLoadBalance extends AbstractMapWeightRandomL
     @Override
     public int getWeight(Server server, WeightFilterEntity weightFilterEntity) {
         return strategyWeightRandomLoadBalanceAdapter.getWeight(server, weightFilterEntity);
+    }
+
+    @Override
+    public boolean checkWeight(List<Server> serverList, WeightFilterEntity weightFilterEntity) {
+        return strategyWeightRandomLoadBalanceAdapter.checkWeight(serverList, weightFilterEntity);
     }
 }

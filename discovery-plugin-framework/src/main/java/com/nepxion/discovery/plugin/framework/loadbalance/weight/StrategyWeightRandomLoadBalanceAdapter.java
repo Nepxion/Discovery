@@ -65,33 +65,10 @@ public class StrategyWeightRandomLoadBalanceAdapter extends AbstractWeightRandom
 
     @Override
     public int getWeight(Server server, WeightFilterEntity weightFilterEntity) {
-        List<WeightEntity> versionWeightEntityList = weightFilterEntity.getVersionWeightEntityList();
-        VersionWeightEntity versionWeightEntity = weightFilterEntity.getVersionWeightEntity();
-
-        List<WeightEntity> regionWeightEntityList = weightFilterEntity.getRegionWeightEntityList();
-        RegionWeightEntity regionWeightEntity = weightFilterEntity.getRegionWeightEntity();
-
         String providerServiceId = pluginAdapter.getServerServiceId(server);
         String providerVersion = pluginAdapter.getServerVersion(server);
         String providerRegion = pluginAdapter.getServerRegion(server);
 
-        int weight = WeightEntityWrapper.getWeight(providerServiceId, providerVersion, versionWeightEntityList);
-        if (weight < 0) {
-            weight = WeightEntityWrapper.getWeight(providerVersion, versionWeightEntity);
-        }
-
-        if (weight < 0) {
-            weight = WeightEntityWrapper.getWeight(providerServiceId, providerRegion, regionWeightEntityList);
-        }
-        if (weight < 0) {
-            weight = WeightEntityWrapper.getWeight(providerRegion, regionWeightEntity);
-        }
-
-        // 所有的权重配置都没找到，则按权重值为0来处理
-        if (weight < 0) {
-            weight = 0;
-        }
-
-        return weight;
+        return WeightEntityWrapper.getWeight(weightFilterEntity, providerServiceId, providerVersion, providerRegion, null);
     }
 }

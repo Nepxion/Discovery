@@ -55,25 +55,35 @@ public abstract class PredicateBasedRuleDecorator extends PredicateBasedRule {
 
             List<Server> eligibleServers = getPredicate().getEligibleServers(getLoadBalancer().getAllServers(), key);
 
-            try {
-                return strategyMapWeightRandomLoadBalance.choose(eligibleServers, strategyWeightFilterEntity);
-            } catch (Exception e) {
-                LOG.error("Exception causes for strategy weight-random-loadbalance, used default loadbalance", e);
+            boolean isWeightChecked = strategyMapWeightRandomLoadBalance.checkWeight(eligibleServers, strategyWeightFilterEntity);
+            if (isWeightChecked) {
+                try {
+                    return strategyMapWeightRandomLoadBalance.choose(eligibleServers, strategyWeightFilterEntity);
+                } catch (Exception e) {
+                    LOG.error("Exception causes for strategy weight-random-loadbalance, used default loadbalance", e);
 
+                    return super.choose(key);
+                }
+            } else {
                 return super.choose(key);
             }
         }
 
         if (!isTriggered) {
-            WeightFilterEntity weightFilterEntity = ruleMapWeightRandomLoadBalance.getT();
-            if (weightFilterEntity != null && weightFilterEntity.hasWeight()) {
+            WeightFilterEntity ruleWeightFilterEntity = ruleMapWeightRandomLoadBalance.getT();
+            if (ruleWeightFilterEntity != null && ruleWeightFilterEntity.hasWeight()) {
                 List<Server> eligibleServers = getPredicate().getEligibleServers(getLoadBalancer().getAllServers(), key);
 
-                try {
-                    return ruleMapWeightRandomLoadBalance.choose(eligibleServers, weightFilterEntity);
-                } catch (Exception e) {
-                    LOG.error("Exception causes for rule weight-random-loadbalance, used default loadbalance", e);
+                boolean isWeightChecked = ruleMapWeightRandomLoadBalance.checkWeight(eligibleServers, ruleWeightFilterEntity);
+                if (isWeightChecked) {
+                    try {
+                        return ruleMapWeightRandomLoadBalance.choose(eligibleServers, ruleWeightFilterEntity);
+                    } catch (Exception e) {
+                        LOG.error("Exception causes for rule weight-random-loadbalance, used default loadbalance", e);
 
+                        return super.choose(key);
+                    }
+                } else {
                     return super.choose(key);
                 }
             }
