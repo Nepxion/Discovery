@@ -1108,8 +1108,7 @@ spring.application.strategy.trace.debug.enabled=true
 
 ### 基于Rest方式的灰度发布
 - Swagger方式
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Swagger1.jpg)
-![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Swagger2.jpg)
+见“管理中心”和“控制平台”
 
 - Postman方式
 导入Postman的测试脚本，[脚本地址](https://github.com/Nepxion/Discovery/blob/master/postman.json)
