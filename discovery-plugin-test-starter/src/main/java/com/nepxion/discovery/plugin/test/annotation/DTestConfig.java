@@ -35,9 +35,10 @@ public @interface DTestConfig {
     // 组名-服务名组合键值的后缀
     String suffix() default StringUtils.EMPTY;
 
-    // 测试用例运行前，执行配置推送的配置文件路径。用于真正生效的配置内容
-    String beforeTestPath();
+    // 执行配置的文件路径。测试用例运行前，会把该文件里的内容推送到远程配置中心或者服务
+    String executePath();
 
-    // 测试用例运行后，执行配置推送的配置文件路径。用于重置配置到初始状态，如果为空，则直接删除从配置中心删除组名-服务名组合键值
-    String afterTestPath() default StringUtils.EMPTY;
+    // 重置配置的文件路径。测试用例运行后，会把该文件里的内容推送到远程配置中心或者服务。该文件内容是最初的默认配置
+    // 如果该注解属性为空，则直接删除从配置中心删除组名-服务名组合键值
+    String resetPath() default StringUtils.EMPTY;
 }
