@@ -30,7 +30,7 @@ public class TestInterceptor extends AbstractInterceptor {
     @Autowired
     private TestOperation testOperation;
 
-    @Value("${" + TestConstant.SPRING_APPLICATION_TEST_GRAY_AWAIT_TIME + ":1000}")
+    @Value("${" + TestConstant.SPRING_APPLICATION_TEST_GRAY_AWAIT_TIME + ":5000}")
     private Integer awaitTime;
 
     @Override
