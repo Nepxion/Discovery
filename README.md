@@ -67,7 +67,6 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 
 ## 目录
 - [请联系我](#请联系我)
-- [快速开始](#快速开始)
 - [现有痛点](#现有痛点)
 - [应用场景](#应用场景)
 - [功能简介](#功能简介)
@@ -127,10 +126,6 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 - [自动化测试](#自动化测试)
 - [性能分析](#性能分析)
 - [Star走势图](#Star走势图)
-
-## 快速开始
-- [极简示例](https://github.com/Nepxion/DiscoveryGray) 
-- [入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)
 
 ## 请联系我
 微信和公众号
@@ -1087,7 +1082,6 @@ spring.application.strategy.trace.debug.enabled=true
 参考[https://github.com/alibaba/Sentinel](https://github.com/alibaba/Sentinel)
 
 ## 界面工具
-请参考[入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)的“界面操作”
 
 ### 基于Apollo界面的灰度发布
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Apollo1.jpg)
