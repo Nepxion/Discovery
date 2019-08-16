@@ -1090,22 +1090,80 @@ spring.application.strategy.trace.debug.enabled=true
 请参考[入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)的“界面操作”
 
 ### 基于Apollo界面的灰度发布
-- 见[入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)的“运行Apollo配置界面”
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Apollo1.jpg)
+- 参考Apollo官方文档[https://github.com/ctripcorp/apollo](https://github.com/ctripcorp/apollo)相关文档，搭建Apollo环境，以及熟悉相关的基本操作
+- 根据上图，做如下步骤操作
+  - 设置页面中AppId和配置文件里面app.id一致
+  - 设置页面中Namespace和配置文件里面apollo.plugin.namespace一致，如果配置文件里不设置，那么页面默认采用内置的“application”
+  - 在页面中添加配置
+    - 局部配置方式：一个服务集群（eureka.instance.metadataMap.group和spring.application.name都相同的服务）对应一个配置文件，通过group+serviceId方式添加，Key为“group-serviceId”，Value为Xml或者Json格式的规则内容。group取值于配置文件里的eureka.instance.metadataMap.group配置项，serviceId取值于spring.application.name配置项目
+    - 全局配置方式：一组服务集群（eureka.instance.metadataMap.group相同，但spring.application.name可以不相同的服务）对应一个配置文件，通过group方式添加，Key为“group-group”，Value为Xml或者Json格式的规则内容。group取值于配置文件里的eureka.instance.metadataMap.group配置项
+    - 强烈建议局部配置方式和全局配置方式不要混用，否则连使用者自己都无法搞清楚到底是哪种配置方式在起作用
+  - 其他更多参数，例如evn, cluster等，请自行参考Apollo官方文档，保持一致
 
 ### 基于Nacos界面的灰度发布
-- 见[入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)的“运行Nacos配置界面”
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Nacos2.jpg)
+- 参考Nacos官方文档[https://github.com/alibaba/nacos](https://github.com/alibaba/nacos)相关文档，搭建Nacos环境，以及熟悉相关的基本操作
+- 添加配置步骤跟Apollo配置界面中的“在页面中添加配置”操作项相似
 
 ### 基于Rest方式的灰度发布
-- 见[入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)的“运行Swagger或者Postman方式”
+- Swagger方式
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Swagger1.jpg)
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Swagger2.jpg)
+
+- Postman方式
+导入Postman的测试脚本，[脚本地址](https://github.com/Nepxion/Discovery/blob/master/postman.json)
 
 ### 基于图形化桌面程序的灰度发布
-- 见[入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)的“运行图形化灰度发布桌面程序”
+- 桌面程序对Windows和Mac操作系统都支持，但在Mac操作系统中界面显示有点瑕疵，但不影响功能使用
+- Clone [https://github.com/Nepxion/Discovery.git](https://github.com/Nepxion/Discovery.git)获取源码（注意master和Edgware分支）
+- 通过IDE启动
+  - 运行discovery-console-desktop\ConsoleLauncher.java启动
+- 通过脚本启动
+  - 在discovery-console-desktop目录下执行mvn clean install，target目录下将产生discovery-console-desktop-[版本号]-release的目录
+  - 进入discovery-console-desktop-[版本号]-release，请修改config/console.properties中的url，该地址指向控制平台的地址
+  - 运行“Discovery灰度发布控制台.bat”，启动桌面程序
+  - 如果您是操作系统，请参考“Discovery灰度发布控制台.bat”，自行编写“Discovery灰度发布控制台.sh”脚本，启动桌面程序
+- 操作界面
+  - 登录认证，用户名和密码为admin/admin或者nepxion/nepxion。顺便说一下，控制台支持简单的认证，用户名和密码配置在discovery-springcloud-example-console\bootstrap.properties中，您可以自己扩展AuthenticationResource并注入，实现更专业的认证功能
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console0.jpg)
+  - 点击“显示服务拓扑”按钮，弹出“服务集群组过滤”对话框，列表是以服务所在的集群组列表（例如：eureka.instance.metadataMap.group=example-service-group），选择若干个并点击“确定”按钮，如果使用者想获取全部的服务集群（可能会耗性能），则直接点击“取消”按钮
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console4.jpg)
+  - 从服务注册发现中心获取服务拓扑
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console5.jpg)
+  - 执行灰度路由，选择一个服务，右键菜单“执行灰度路由”
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console6.jpg)
+  - 通过“服务列表”切换，或者点击增加和删除服务按钮，确定灰度路由路径，点击“执行路由”
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console7.jpg)
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console2.jpg)
+  - 推送模式设置，“异步推送”和“同步推送”，前者是推送完后立刻返回，后者是推送完后等待推送结果（包括规则XML解析的异常等都能在界面上反映出来）；“规则推送到远程配置中心”和“规则推送到服务或者服务集群”，前者是推送到配置中心（持久化），后者是推送到一个或者多个服务机器的内存（非持久化，重启后丢失）
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console8.jpg)
+  - 执行灰度发布，选择一个服务或者服务组，右键菜单“执行灰度发布”，前者是通过单个服务实例执行灰度发布，后者是通过一组服务实例执行灰度发布
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console9.jpg)
+  - 灰度发布，包括“更改版本”和“更改规则”，前者通过更改版本号去适配灰度规则中的版本匹配关系，后者直接修改规则。“更改版本”是推送到一个或者多个服务机器的内存（非持久化，重启后丢失），“更改规则”是根据不同的推送模式，两种方式都支持
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console10.jpg)
+  - 全链路灰度发布，所有在同一个集群组（例如：eureka.instance.metadataMap.group=example-service-group）里的服务统一做灰度发布，即一个规则配置搞定所有服务的灰度发布。点击“全链路灰度发布”按钮，弹出“全链路灰度发布”对话框
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console11.jpg)
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console12.jpg)
+  - 刷新灰度状态，选择一个服务或者服务组，右键菜单“刷新灰度状态”，查看某个服务或者服务组是否正在做灰度发布
+![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console13.jpg)
+- 操作视频
+  - 灰度发布-版本访问策略
+    - 请访问[https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA](https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA)，获取更清晰的视频，注意一定要下载下来看，不要在线看，否则也不清晰
+    - 请访问[http://www.iqiyi.com/w_19rzwzovrl.html](http://www.iqiyi.com/w_19rzwzovrl.html)，视频清晰度改成720P，然后最大化播放
+  - 灰度发布-版本权重策略
+    - 请访问[https://pan.baidu.com/s/1VXPatJ6zrUeos7uTQwM3Kw](https://pan.baidu.com/s/1VXPatJ6zrUeos7uTQwM3Kw)，获取更清晰的视频，注意一定要下载下来看，不要在线看，否则也不清晰
+    - 请访问[http://www.iqiyi.com/w_19rzs9pll1.html](http://www.iqiyi.com/w_19rzs9pll1.html)，视频清晰度改成720P，然后最大化播放
+  - 灰度发布-全链路策略
+    - 请访问[https://pan.baidu.com/s/1XQSKCZUykc6t04xzfrFHsg](https://pan.baidu.com/s/1XQSKCZUykc6t04xzfrFHsg)，获取更清晰的视频，注意一定要下载下来看，不要在线看，否则也不清晰
+    - 请访问[http://www.iqiyi.com/w_19s1e0zf95.html](http://www.iqiyi.com/w_19s1e0zf95.html)，视频清晰度改成720P，然后最大化播放
 
 ### 基于图形化Web程序的灰度发布
-- 见[入门教程](https://github.com/Nepxion/Docs/blob/master/discovery-doc/README_QUICK_START.md)的“运行图形化灰度发布Web程序”
+- 参考[https://github.com/Nepxion/DiscoveryUI](https://github.com/Nepxion/DiscoveryUI)
+- 操作过程跟“运行图形化灰度发布桌面程序”类似
 
 ## 自动化测试
-- 见[自动化测试](https://github.com/Nepxion/DiscoveryGray/tree/master/discovery-gray-test/README.md)
+- 参考[[自动化测试](https://github.com/Nepxion/DiscoveryGray/tree/master/discovery-gray-test)
 
 ## 性能分析
 在我的电脑上，做了如下性能测试：
