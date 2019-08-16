@@ -1169,7 +1169,9 @@ spring.application.strategy.trace.debug.enabled=true
 | Service | 4C 8G | 2 |
 
 压测报告
+
 基于WRK极限压测，Spring Cloud Gateway不需要优化，Zuul 1.x优化如下
+
 ```xml
 zuul.host.max-per-route-connections=1000
 zuul.host.max-total-connections=1000
