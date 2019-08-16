@@ -12,7 +12,7 @@ package com.nepxion.discovery.plugin.test.aop;
 import java.lang.annotation.Annotation;
 
 import com.nepxion.discovery.plugin.test.annotation.DTest;
-import com.nepxion.discovery.plugin.test.annotation.DTestGray;
+import com.nepxion.discovery.plugin.test.annotation.DTestConfig;
 import com.nepxion.matrix.proxy.aop.DefaultAutoScanProxy;
 import com.nepxion.matrix.proxy.mode.ProxyMode;
 import com.nepxion.matrix.proxy.mode.ScanMode;
@@ -42,7 +42,7 @@ public class TestAutoScanProxy extends DefaultAutoScanProxy {
     @Override
     protected Class<? extends Annotation>[] getMethodAnnotations() {
         if (methodAnnotations == null) {
-            methodAnnotations = new Class[] { DTest.class, DTestGray.class };
+            methodAnnotations = new Class[] { DTest.class, DTestConfig.class };
         }
 
         return methodAnnotations;
