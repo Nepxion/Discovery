@@ -12,6 +12,7 @@ package com.nepxion.discovery.plugin.test.constant;
 public class TestConstant {
     public static final String SPRING_APPLICATION_TEST_SCAN_PACKAGES = "spring.application.test.scan.packages";
     public static final String SPRING_APPLICATION_TEST_GRAY_CONFIGCENTER_ENABLED = "spring.application.test.gray.configcenter.enabled";
+    public static final String SPRING_APPLICATION_TEST_GRAY_CONFIG_PRINT_ENABLED = "spring.application.test.gray.config.print.enabled";
     public static final String SPRING_APPLICATION_TEST_GRAY_RESET_ENABLED = "spring.application.test.gray.reset.enabled";
     public static final String SPRING_APPLICATION_TEST_GRAY_AWAIT_TIME = "spring.application.test.gray.await.time";
     public static final String SPRING_APPLICATION_TEST_CONSOLE_URL = "spring.application.test.console.url";
