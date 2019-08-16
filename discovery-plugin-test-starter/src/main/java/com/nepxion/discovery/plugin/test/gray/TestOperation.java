@@ -51,20 +51,6 @@ public class TestOperation {
             LOG.info("Update config, group={}, serviceId={}, path={}, content=\n{}", group, serviceId, path, content);
         }
 
-        return change(group, serviceId, content);
-    }
-
-    public String reset(String group, String serviceId) {
-        String content = DiscoveryConstant.DEFAULT_XML_RULE;
-
-        if (configPrintEnabled) {
-            LOG.info("Reset config, group={}, serviceId={}, content=\n{}", group, serviceId, content);
-        }
-
-        return change(group, serviceId, content);
-    }
-
-    private String change(String group, String serviceId, String content) {
         String url = configCenterEnabled ? consoleUrl + UrlUtil.formatContextPath(TestConstant.REMOTE_UPDATE_URL) + group + "/" + serviceId : consoleUrl + UrlUtil.formatContextPath(TestConstant.UPDATE_URL) + serviceId;
 
         return testRestTemplate.postForEntity(url, content, String.class).getBody();
