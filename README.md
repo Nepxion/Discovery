@@ -1160,7 +1160,7 @@ spring.application.strategy.trace.debug.enabled=true
 
 ## 性能压力测试
 
-机器配置
+- 机器配置
 
 | 服务 | 配置 | 数目 |
 | --- | --- | --- |
@@ -1168,15 +1168,19 @@ spring.application.strategy.trace.debug.enabled=true
 | Zuul 1.x | 16C 32G | 1 |
 | Service | 4C 8G | 2 |
 
-压测报告
-
-基于WRK极限压测，Spring Cloud Gateway不需要优化，Zuul 1.x优化如下
-
+- 优化方式
+    - Spring Cloud Gateway
+	  不需要优化
+    - Zuul 1.x
 ```xml
 zuul.host.max-per-route-connections=1000
 zuul.host.max-total-connections=1000
 zuul.semaphore.max-semaphores=5000
 ```
+
+- 压测报告
+
+基于WRK极限压测，报告如下
 
 | 服务 | 性质 | 线程数 | 连接数 | 每秒最大请求数 | 资源耗费 |
 | --- | --- | --- | --- | --- | --- |
