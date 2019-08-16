@@ -21,7 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import com.nepxion.discovery.plugin.test.annotation.DTest;
 import com.nepxion.discovery.plugin.test.annotation.DTestConfig;
 import com.nepxion.discovery.plugin.test.constant.TestConstant;
-import com.nepxion.discovery.plugin.test.gray.TestOperation;
+import com.nepxion.discovery.plugin.test.operation.TestOperation;
 import com.nepxion.matrix.proxy.aop.AbstractInterceptor;
 
 public class TestInterceptor extends AbstractInterceptor {
@@ -30,8 +30,8 @@ public class TestInterceptor extends AbstractInterceptor {
     @Autowired
     private TestOperation testOperation;
 
-    @Value("${" + TestConstant.SPRING_APPLICATION_TEST_GRAY_AWAIT_TIME + ":3000}")
-    private Integer awaitTime;
+    @Value("${" + TestConstant.SPRING_APPLICATION_TEST_CONFIG_OPERATION_AWAIT_TIME + ":3000}")
+    private Integer configOperationAwaitTime;
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
@@ -63,7 +63,7 @@ public class TestInterceptor extends AbstractInterceptor {
 
                 testOperation.update(group, serviceId, executePath);
 
-                Thread.sleep(awaitTime);
+                Thread.sleep(configOperationAwaitTime);
 
                 try {
                     object = invocation.proceed();
@@ -74,7 +74,7 @@ public class TestInterceptor extends AbstractInterceptor {
                         testOperation.clear(group, serviceId);
                     }
 
-                    Thread.sleep(awaitTime);
+                    Thread.sleep(configOperationAwaitTime);
                 }
             }
 

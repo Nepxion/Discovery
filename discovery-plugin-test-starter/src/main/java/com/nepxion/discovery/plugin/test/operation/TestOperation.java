@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.test.gray;
+package com.nepxion.discovery.plugin.test.operation;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -29,10 +29,10 @@ public class TestOperation {
     @Value("${" + TestConstant.SPRING_APPLICATION_TEST_CONSOLE_URL + "}")
     private String consoleUrl;
 
-    @Value("${" + TestConstant.SPRING_APPLICATION_TEST_GRAY_CONFIGCENTER_ENABLED + ":true}")
+    @Value("${" + TestConstant.SPRING_APPLICATION_TEST_CONFIGCENTER_ENABLED + ":true}")
     private Boolean configCenterEnabled;
 
-    @Value("${" + TestConstant.SPRING_APPLICATION_TEST_GRAY_CONFIG_PRINT_ENABLED + ":true}")
+    @Value("${" + TestConstant.SPRING_APPLICATION_TEST_CONFIG_PRINT_ENABLED + ":true}")
     private Boolean configPrintEnabled;
 
     @Autowired
