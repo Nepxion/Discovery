@@ -1152,11 +1152,11 @@ spring.application.strategy.trace.debug.enabled=true
     - 请访问[http://www.iqiyi.com/w_19s1e0zf95.html](http://www.iqiyi.com/w_19s1e0zf95.html)，视频清晰度改成720P，然后最大化播放
 
 ### 基于图形化Web程序的灰度发布
-- 参考[https://github.com/Nepxion/DiscoveryUI](https://github.com/Nepxion/DiscoveryUI)
+- 参考[图形化Web](https://github.com/Nepxion/DiscoveryUI)
 - 操作过程跟“运行图形化灰度发布桌面程序”类似
 
 ## 自动化测试
-- 参考[[自动化测试](https://github.com/Nepxion/DiscoveryGray/tree/master/discovery-gray-test)
+- 参考[自动化测试](https://github.com/Nepxion/DiscoveryGray/tree/master/discovery-gray-test)
 
 ## 性能分析
 在我的电脑上，做了如下性能测试：
