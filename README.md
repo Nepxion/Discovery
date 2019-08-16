@@ -1140,7 +1140,7 @@ spring.application.strategy.trace.debug.enabled=true
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console12.jpg)
   - 刷新灰度状态，选择一个服务或者服务组，右键菜单“刷新灰度状态”，查看某个服务或者服务组是否正在做灰度发布
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/discovery-doc/Console13.jpg)
-- 操作视频
+- 操作视频（有点老，请参考学习）
   - 灰度发布-版本访问策略
     - 请访问[https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA](https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA)，获取更清晰的视频，注意一定要下载下来看，不要在线看，否则也不清晰
     - 请访问[http://www.iqiyi.com/w_19rzwzovrl.html](http://www.iqiyi.com/w_19rzwzovrl.html)，视频清晰度改成720P，然后最大化播放
