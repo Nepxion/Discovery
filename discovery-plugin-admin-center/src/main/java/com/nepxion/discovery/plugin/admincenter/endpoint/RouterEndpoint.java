@@ -124,7 +124,7 @@ public class RouterEndpoint implements MvcEndpoint {
         String region = pluginAdapter.getRegion();
         String host = pluginAdapter.getHost();
         int port = pluginAdapter.getPort();
-        int weight = getWeight(serviceId, version, region);
+        int weight = -1;
         String contextPath = pluginAdapter.getContextPath();
 
         RouterEntity routerEntity = new RouterEntity();
