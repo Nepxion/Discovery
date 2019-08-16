@@ -11,6 +11,8 @@ package com.nepxion.discovery.plugin.test.gray;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -22,11 +24,16 @@ import com.nepxion.discovery.common.util.UrlUtil;
 import com.nepxion.discovery.plugin.test.constant.TestConstant;
 
 public class TestOperation {
-    @Value("${" + TestConstant.SPRING_APPLICATION_TEST_GRAY_CONFIGCENTER_ENABLED + ":true}")
-    private Boolean configCenterEnabled;
+    private static final Logger LOG = LoggerFactory.getLogger(TestOperation.class);
 
     @Value("${" + TestConstant.SPRING_APPLICATION_TEST_CONSOLE_URL + "}")
     private String consoleUrl;
+
+    @Value("${" + TestConstant.SPRING_APPLICATION_TEST_GRAY_CONFIGCENTER_ENABLED + ":true}")
+    private Boolean configCenterEnabled;
+
+    @Value("${" + TestConstant.SPRING_APPLICATION_TEST_GRAY_CONFIG_PRINT_ENABLED + ":true}")
+    private Boolean configPrintEnabled;
 
     @Autowired
     private TestRestTemplate testRestTemplate;
@@ -40,11 +47,21 @@ public class TestOperation {
             throw new DiscoveryException(e);
         }
 
+        if (configPrintEnabled) {
+            LOG.info("Update config, group={}, serviceId={}, path={}, content=\n{}", group, serviceId, path, content);
+        }
+
         return change(group, serviceId, content);
     }
 
     public String reset(String group, String serviceId) {
-        return change(group, serviceId, DiscoveryConstant.DEFAULT_XML_RULE);
+        String content = DiscoveryConstant.DEFAULT_XML_RULE;
+
+        if (configPrintEnabled) {
+            LOG.info("Reset config, group={}, serviceId={}, content=\n{}", group, serviceId, content);
+        }
+
+        return change(group, serviceId, content);
     }
 
     private String change(String group, String serviceId, String content) {
@@ -54,6 +71,10 @@ public class TestOperation {
     }
 
     public String clear(String group, String serviceId) {
+        if (configPrintEnabled) {
+            LOG.info("Clear config, group={}, serviceId={}", group, serviceId);
+        }
+
         String url = configCenterEnabled ? consoleUrl + UrlUtil.formatContextPath(TestConstant.REMOTE_CLEAR_URL) + group + "/" + serviceId : consoleUrl + UrlUtil.formatContextPath(TestConstant.CLEAR_URL) + serviceId;
 
         return testRestTemplate.postForEntity(url, null, String.class).getBody();
