@@ -16,7 +16,6 @@ import io.swagger.annotations.ApiParam;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -38,11 +37,8 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.DiscoveryEntity;
-import com.nepxion.discovery.common.entity.RegionWeightEntity;
 import com.nepxion.discovery.common.entity.RouterEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
-import com.nepxion.discovery.common.entity.VersionWeightEntity;
-import com.nepxion.discovery.common.entity.WeightEntity;
 import com.nepxion.discovery.common.entity.WeightEntityWrapper;
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
@@ -286,33 +282,8 @@ public class RouterEndpoint {
             return -1;
         }
 
-        Map<String, List<WeightEntity>> versionWeightEntityMap = weightFilterEntity.getVersionWeightEntityMap();
-        List<WeightEntity> versionWeightEntityList = weightFilterEntity.getVersionWeightEntityList();
-        VersionWeightEntity versionWeightEntity = weightFilterEntity.getVersionWeightEntity();
-
-        Map<String, List<WeightEntity>> regionWeightEntityMap = weightFilterEntity.getRegionWeightEntityMap();
-        List<WeightEntity> regionWeightEntityList = weightFilterEntity.getRegionWeightEntityList();
-        RegionWeightEntity regionWeightEntity = weightFilterEntity.getRegionWeightEntity();
-
         String serviceId = pluginAdapter.getServiceId();
-        int weight = WeightEntityWrapper.getWeight(serviceId, providerServiceId, providerVersion, versionWeightEntityMap);
-        if (weight < 0) {
-            weight = WeightEntityWrapper.getWeight(providerServiceId, providerVersion, versionWeightEntityList);
-        }
-        if (weight < 0) {
-            weight = WeightEntityWrapper.getWeight(providerVersion, versionWeightEntity);
-        }
 
-        if (weight < 0) {
-            weight = WeightEntityWrapper.getWeight(serviceId, providerServiceId, providerRegion, regionWeightEntityMap);
-        }
-        if (weight < 0) {
-            weight = WeightEntityWrapper.getWeight(providerServiceId, providerRegion, regionWeightEntityList);
-        }
-        if (weight < 0) {
-            weight = WeightEntityWrapper.getWeight(providerRegion, regionWeightEntity);
-        }
-
-        return weight;
+        return WeightEntityWrapper.getWeight(weightFilterEntity, providerServiceId, providerVersion, providerRegion, serviceId);
     }
 }
