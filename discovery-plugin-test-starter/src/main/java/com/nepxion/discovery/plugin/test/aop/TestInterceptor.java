@@ -51,8 +51,8 @@ public class TestInterceptor extends AbstractInterceptor {
                 String serviceId = convertSpel(invocation, testConfigAnnotation.serviceId());
                 String prefix = convertSpel(invocation, testConfigAnnotation.prefix());
                 String suffix = convertSpel(invocation, testConfigAnnotation.suffix());
-                String beforeTestPath = convertSpel(invocation, testConfigAnnotation.beforeTestPath());
-                String afterTestPath = convertSpel(invocation, testConfigAnnotation.afterTestPath());
+                String executePath = convertSpel(invocation, testConfigAnnotation.executePath());
+                String resetPath = convertSpel(invocation, testConfigAnnotation.resetPath());
 
                 if (StringUtils.isNotEmpty(prefix)) {
                     group = prefix + "-" + group;
@@ -61,15 +61,15 @@ public class TestInterceptor extends AbstractInterceptor {
                     serviceId = serviceId + "-" + suffix;
                 }
 
-                testOperation.update(group, serviceId, beforeTestPath);
+                testOperation.update(group, serviceId, executePath);
 
                 Thread.sleep(awaitTime);
 
                 try {
                     object = invocation.proceed();
                 } finally {
-                    if (StringUtils.isNotEmpty(afterTestPath)) {
-                        testOperation.update(group, serviceId, afterTestPath);
+                    if (StringUtils.isNotEmpty(resetPath)) {
+                        testOperation.update(group, serviceId, resetPath);
                     } else {
                         testOperation.clear(group, serviceId);
                     }
