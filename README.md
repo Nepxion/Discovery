@@ -1153,7 +1153,7 @@ spring.application.strategy.trace.debug.enabled=true
 
 ### 基于图形化Web程序的灰度发布
 - 参考[图形化Web](https://github.com/Nepxion/DiscoveryUI)
-- 操作过程跟“运行图形化灰度发布桌面程序”类似
+- 操作过程跟“基于图形化桌面程序的灰度发布”类似
 
 ## 自动化测试
 - 参考[自动化测试](https://github.com/Nepxion/DiscoveryGray/tree/master/discovery-gray-test)
