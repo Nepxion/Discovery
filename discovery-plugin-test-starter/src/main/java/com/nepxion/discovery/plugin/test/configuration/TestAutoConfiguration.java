@@ -19,7 +19,7 @@ import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.test.aop.TestAutoScanProxy;
 import com.nepxion.discovery.plugin.test.aop.TestInterceptor;
 import com.nepxion.discovery.plugin.test.constant.TestConstant;
-import com.nepxion.discovery.plugin.test.gray.TestOperation;
+import com.nepxion.discovery.plugin.test.operation.TestOperation;
 
 @Configuration
 public class TestAutoConfiguration {
