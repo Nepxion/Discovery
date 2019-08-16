@@ -124,7 +124,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
     - [基于图形化桌面程序的灰度发布](#基于图形化桌面程序的灰度发布)
     - [基于图形化Web程序的灰度发布](#基于图形化Web程序的灰度发布)
 - [自动化测试](#自动化测试)
-- [性能分析](#性能分析)
+- [性能压力测试](#性能压力测试)
 - [Star走势图](#Star走势图)
 
 ## 请联系我
@@ -1158,28 +1158,31 @@ spring.application.strategy.trace.debug.enabled=true
 ## 自动化测试
 - 参考[自动化测试](https://github.com/Nepxion/DiscoveryGray/tree/master/discovery-gray-test)
 
-## 性能分析
-在我的电脑上，做了如下性能测试：
+## 性能压力测试
 
-应用耗时
+机器配置
 
-| 应用 | 耗时 | 内存 |
+| 服务 | 配置 | 数目 |
 | --- | --- | --- |
-| 空的Spring Cloud启动 | 9秒 | 400M |
-| 带有Discovery Plugin的Spring Cloud启动 | 13秒 | 480M |
+| Spring Cloud Gateway | 16C 32G | 1 |
+| Zuul 1.x | 16C 32G | 1 |
+| Service | 4C 8G | 2 |
 
-启动项耗时
+压测报告
+基于WRK极限压测，Spring Cloud Gateway不需要优化，Zuul 1.x优化如下
+```xml
+zuul.host.max-per-route-connections=1000
+zuul.host.max-total-connections=1000
+zuul.semaphore.max-semaphores=5000
+```
 
-| 启动项 | 耗时 |
-| --- | --- |
-| Spring Boot预热启动 | 2秒 |
-| Discovery Plugin预热启动 | 2秒 |
-| Spring上下文扫描加载 | 2秒 |
-| RestController和Swagger扫描加载 | 1秒 |
-| determine local hostname | 1.5秒 |
-| 连本地配置中心，并打印本地规则和远程规则 | 1.5秒 |
-| Actuator Endpoint扫描加载 | 1秒 |
-| 连本地服务注册中心，并启动结束 | 2秒 |
+| 服务 | 性质 | 线程数 | 连接数 | 每秒最大请求数 | 资源耗费 |
+| --- | --- | --- | --- | --- |
+| Spring Cloud Gateway | 原生框架 | 5000 | 20000 | 29000左右 | CPU占用率56% |
+| Spring Cloud Gateway | 本框架 | 5000 | 20000 | 24977.22 | CPU占用率58% |
+| Zuul 1.x | 原生框架 | 5000 | 20000 | 27000左右 | CPU占用率42% |
+| Zuul 1.x | 本框架 | 5000 | 20000 | 21412.96 | CPU占用率45% |
+
 
 ## Star走势图
 
