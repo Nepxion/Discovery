@@ -1,0 +1,28 @@
+{
+	"properties": [
+		{
+			"name": "spring.application.strategy.gateway.route.filter.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether strategy gateway route filter is enabled."
+		},
+		{
+			"name": "spring.application.strategy.gateway.route.filter.order",
+			"type": "java.lang.Integer",
+			"defaultValue": 9000,
+			"description": "Strategy gateway route filter order."
+		},
+		{
+			"name": "spring.application.strategy.gateway.header.priority",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether strategy gateway header priority is enabled."
+		},
+		{
+			"name": "spring.application.strategy.gateway.original.header.ignored",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether strategy gateway original header ignored is enabled."
+		}
+	]
+}
