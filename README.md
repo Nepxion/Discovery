@@ -979,7 +979,7 @@ management.server.port=5100
 ```
 
 ### 功能开关配置
-请注意，如下很多配置项，如果使用者不想做特色化的处理，为避免繁琐，可以零配置（除了最底下，但一般也不会被用到）
+服务端配置
 ```xml
 # Plugin core config
 # 开启和关闭服务注册层面的控制。一旦关闭，服务注册的黑/白名单过滤功能将失效，最大注册数的限制过滤功能将失效。缺失则默认为true
@@ -1030,7 +1030,105 @@ spring.application.strategy.provider.isolation.enabled=true
 spring.application.strategy.trace.enabled=true
 # 启动和关闭调用链的Debug日志打印，注意每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
 spring.application.strategy.trace.debug.enabled=true
-# 开启服务端实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失
+# 开启服务端实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
+# spring.application.strategy.hystrix.threadlocal.supported=true
+```
+
+Spring Cloud Gateway端配置
+```xml
+# Plugin core config
+# 开启和关闭服务注册层面的控制。一旦关闭，服务注册的黑/白名单过滤功能将失效，最大注册数的限制过滤功能将失效。缺失则默认为true
+# spring.application.register.control.enabled=true
+# 开启和关闭服务发现层面的控制。一旦关闭，服务多版本调用的控制功能将失效，动态屏蔽指定IP地址的服务实例被发现的功能将失效。缺失则默认为true
+# spring.application.discovery.control.enabled=true
+# 开启和关闭通过Rest方式对规则配置的控制和推送。一旦关闭，只能通过远程配置中心来控制和推送。缺失则默认为true
+# spring.application.config.rest.control.enabled=true
+# 规则文件的格式，支持xml和json。缺失则默认为xml
+# spring.application.config.format=xml
+# spring.application.config.format=json
+# 本地规则文件的路径，支持两种方式：classpath:rule.xml（rule.json） - 规则文件放在resources目录下，便于打包进jar；file:rule.xml（rule.json） - 规则文件放在工程根目录下，放置在外部便于修改。缺失则默认为不装载本地规则
+# spring.application.config.path=classpath:rule.xml
+# spring.application.config.path=classpath:rule.json
+# 为微服务归类的Key，一般通过group字段来归类，例如eureka.instance.metadataMap.group=xxx-group或者eureka.instance.metadataMap.application=xxx-application。缺失则默认为group
+# spring.application.group.key=group
+# spring.application.group.key=application
+# 业务系统希望大多数时候Spring、SpringBoot或者SpringCloud的基本配置、调优参数（非业务系统配置参数），不配置在业务端，集成到基础框架里。但特殊情况下，业务系统有时候也希望能把基础框架里配置的参数给覆盖掉，用他们自己的配置
+# 对于此类型的配置需求，可以配置在下面的配置文件里。该文件一般放在resource目录下。缺失则默认为spring-application-default.properties
+# spring.application.default.properties.path=spring-application-default.properties
+# 由于服务未注册，或者被过滤，或者被隔离，导致消费端拿不到服务实例的时候，通过日志方式通知。缺失则默认为false
+# spring.application.no.server.found.notification.enabled=false
+
+# Plugin strategy config
+# 开启和关闭路由策略的控制。一旦关闭，路由策略功能将失效。缺失则默认为true
+# spring.application.strategy.control.enabled=true
+# 开启和关闭Ribbon默认的ZoneAvoidanceRule负载均衡策略。一旦关闭，则使用RoundRobin简单轮询负载均衡策略。缺失则默认为true
+# spring.application.strategy.zone.avoidance.rule.enabled=true
+# 开启和关闭内置的路由策略过滤器。一旦关闭，基于配置中心（或自定义）的路由策略Header传递方式将失效，只能通过前端的路由策略Header传递方式。缺失则默认为true
+# spring.application.strategy.gateway.route.filter.enabled=true
+# 路由策略过滤器的执行顺序（Order）。缺失则默认为9000
+# spring.application.strategy.gateway.route.filter.order=9000
+# 当外界传值Header的时候，网关也设置并传递同名的Header，需要决定哪个Header传递到后边的服务去。如果下面开关为true，以网关设置为优先，否则以外界传值为优先。缺失则默认为true
+spring.application.strategy.gateway.header.priority=false
+# 当以网关设置为优先的时候，网关未配置Header，而外界配置了Header，仍旧忽略外界的Header。缺失则默认为true
+# spring.application.strategy.gateway.original.header.ignored=true
+# 启动和关闭注册的服务隔离（基于Group黑/白名单的策略）。缺失则默认为false
+spring.application.strategy.register.isolation.enabled=true
+# 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
+spring.application.strategy.consumer.isolation.enabled=true
+# 启动和关闭调用链。缺失则默认为false
+spring.application.strategy.trace.enabled=true
+# 启动和关闭调用链的Debug日志打印，注意每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
+spring.application.strategy.trace.debug.enabled=true
+# 开启Spring Cloud Gateway网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
+# spring.application.strategy.hystrix.threadlocal.supported=true
+```
+
+Zuul端配置
+```xml
+# Plugin core config
+# 开启和关闭服务注册层面的控制。一旦关闭，服务注册的黑/白名单过滤功能将失效，最大注册数的限制过滤功能将失效。缺失则默认为true
+# spring.application.register.control.enabled=true
+# 开启和关闭服务发现层面的控制。一旦关闭，服务多版本调用的控制功能将失效，动态屏蔽指定IP地址的服务实例被发现的功能将失效。缺失则默认为true
+# spring.application.discovery.control.enabled=true
+# 开启和关闭通过Rest方式对规则配置的控制和推送。一旦关闭，只能通过远程配置中心来控制和推送。缺失则默认为true
+# spring.application.config.rest.control.enabled=true
+# 规则文件的格式，支持xml和json。缺失则默认为xml
+# spring.application.config.format=xml
+# spring.application.config.format=json
+# 本地规则文件的路径，支持两种方式：classpath:rule.xml（rule.json） - 规则文件放在resources目录下，便于打包进jar；file:rule.xml（rule.json） - 规则文件放在工程根目录下，放置在外部便于修改。缺失则默认为不装载本地规则
+# spring.application.config.path=classpath:rule.xml
+# spring.application.config.path=classpath:rule.json
+# 为微服务归类的Key，一般通过group字段来归类，例如eureka.instance.metadataMap.group=xxx-group或者eureka.instance.metadataMap.application=xxx-application。缺失则默认为group
+# spring.application.group.key=group
+# spring.application.group.key=application
+# 业务系统希望大多数时候Spring、SpringBoot或者SpringCloud的基本配置、调优参数（非业务系统配置参数），不配置在业务端，集成到基础框架里。但特殊情况下，业务系统有时候也希望能把基础框架里配置的参数给覆盖掉，用他们自己的配置
+# 对于此类型的配置需求，可以配置在下面的配置文件里。该文件一般放在resource目录下。缺失则默认为spring-application-default.properties
+# spring.application.default.properties.path=spring-application-default.properties
+# 由于服务未注册，或者被过滤，或者被隔离，导致消费端拿不到服务实例的时候，通过日志方式通知。缺失则默认为false
+# spring.application.no.server.found.notification.enabled=false
+
+# Plugin strategy config
+# 开启和关闭路由策略的控制。一旦关闭，路由策略功能将失效。缺失则默认为true
+# spring.application.strategy.control.enabled=true
+# 开启和关闭Ribbon默认的ZoneAvoidanceRule负载均衡策略。一旦关闭，则使用RoundRobin简单轮询负载均衡策略。缺失则默认为true
+# spring.application.strategy.zone.avoidance.rule.enabled=true
+# 开启和关闭内置的路由策略过滤器。一旦关闭，基于配置中心（或自定义）的路由策略Header传递方式将失效，只能通过前端的路由策略Header传递方式。缺失则默认为true
+# spring.application.strategy.zuul.route.filter.enabled=true
+# 路由策略过滤器的执行顺序（Order）。缺失则默认为0
+# spring.application.strategy.zuul.route.filter.order=0
+# 当外界传值Header的时候，网关也设置并传递同名的Header，需要决定哪个Header传递到后边的服务去。如果下面开关为true，以网关设置为优先，否则以外界传值为优先。缺失则默认为true
+spring.application.strategy.zuul.header.priority=false
+# 当以网关设置为优先的时候，网关未配置Header，而外界配置了Header，仍旧忽略外界的Header。缺失则默认为true
+# spring.application.strategy.zuul.original.header.ignored=true
+# 启动和关闭注册的服务隔离（基于Group黑/白名单的策略）。缺失则默认为false
+spring.application.strategy.register.isolation.enabled=true
+# 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
+spring.application.strategy.consumer.isolation.enabled=true
+# 启动和关闭调用链。缺失则默认为false
+spring.application.strategy.trace.enabled=true
+# 启动和关闭调用链的Debug日志打印，注意每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
+spring.application.strategy.trace.debug.enabled=true
+# 开启Zuul网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
 # spring.application.strategy.hystrix.threadlocal.supported=true
 ```
 
