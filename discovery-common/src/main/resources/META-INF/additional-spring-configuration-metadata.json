@@ -1,0 +1,52 @@
+{
+	"properties": [
+		{
+			"name": "spring.application.register.control.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether register control is enabled."
+		},
+		{
+			"name": "spring.application.discovery.control.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether discovery control is enabled."
+		},
+		{
+			"name": "spring.application.config.rest.control.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether config rest control is enabled."
+		},
+		{
+			"name": "spring.application.config.format",
+			"type": "java.lang.String",
+			"defaultValue": "xml",
+			"description": "Config format, it can be xml or json."
+		},
+		{
+			"name": "spring.application.config.path",
+			"type": "java.lang.String",
+			"defaultValue": "classpath:rule.xml",
+			"description": "Config path, it can be classpath:xxx or file:xxx."
+		},
+		{
+			"name": "spring.application.group.key",
+			"type": "java.lang.String",
+			"defaultValue": "group",
+			"description": "Group key."
+		},
+		{
+			"name": "spring.application.default.properties.path",
+			"type": "java.lang.String",
+			"defaultValue": "spring-application-default.properties",
+			"description": "Default properties path, it can be classpath:xxx or file:xxx."
+		},
+		{
+			"name": "spring.application.no.server.found.notification.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": false,
+			"description": "Whether no server found notification is enabled."
+		}
+	]
+}
