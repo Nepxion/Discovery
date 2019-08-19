@@ -1,0 +1,62 @@
+{
+	"properties": [
+		{
+			"name": "spring.application.strategy.control.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether strategy control is enabled."
+		},
+		{
+			"name": "spring.application.strategy.zone.avoidance.rule.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether strategy zone avoidance rul is enabled."
+		},
+		{
+			"name": "spring.application.strategy.hystrix.threadlocal.supported",
+			"type": "java.lang.Boolean",
+			"defaultValue": false,
+			"description": "Whether strategy hystrix threadlocal supported is enabled."
+		},
+		{
+			"name": "spring.application.strategy.register.isolation.group.blacklist",
+			"type": "java.lang.String",
+			"description": "Strategy register isolation group blacklist."
+		},
+		{
+			"name": "spring.application.strategy.register.isolation.group.whitelist",
+			"type": "java.lang.String",
+			"description": "Strategy register isolation group whitelist."
+		},
+		{
+			"name": "spring.application.strategy.register.isolation.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": false,
+			"description": "Whether strategy register isolation is enabled."
+		},
+		{
+			"name": "spring.application.strategy.consumer.isolation.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": false,
+			"description": "Whether strategy consumer isolation is enabled."
+		},
+		{
+			"name": "spring.application.strategy.provider.isolation.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": false,
+			"description": "Whether strategy provider isolation is enabled."
+		},
+		{
+			"name": "spring.application.strategy.trace.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": false,
+			"description": "Whether strategy trace is enabled."
+		},
+		{
+			"name": "spring.application.strategy.trace.debug.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": false,
+			"description": "Whether strategy trace debug is enabled."
+		}
+	]
+}
