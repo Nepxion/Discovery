@@ -26,7 +26,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
     - 支持用户自定义和编程灰度路由策略
     - 支持用户自定义和编程负载均衡策略类
     - 支持运维调度灰度发布和路由的元数据
-    - 支持参数特色化灰度发布
+    - 支持参数化灰度发布
 
 现有的Spring Cloud微服务很方便引入该中间件，代码零侵入。鉴于Spring Cloud官方对Eureka和Hystrix不再做新功能的迭代，推荐用Nacos和Sentinel，它们对Spring Cloud灰度发布和路由更具出色的兼容性和友好性
 
@@ -749,7 +749,7 @@ spring.application.strategy.zuul.header.priority=false
 ```
 
 ### 自定义的灰度发布规则
-通过订阅业务参数的变化，实现特色化的灰度发布，例如，多数据源的数据库切换的灰度发布
+通过订阅业务参数的变化，实现参数化灰度发布，例如，多数据源的数据库切换的灰度发布
 ```xml
 1. 标准配置，举例如下
    <service service-name="discovery-springcloud-example-a" key="database" value="prod"/>
