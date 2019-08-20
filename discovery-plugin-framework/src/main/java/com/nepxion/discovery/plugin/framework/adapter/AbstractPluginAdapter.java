@@ -19,6 +19,7 @@ import org.springframework.cloud.client.serviceregistry.Registration;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.cache.PluginCache;
 import com.nepxion.discovery.plugin.framework.cache.RuleCache;
 import com.netflix.loadbalancer.Server;
@@ -201,12 +202,16 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Override
     public String getServerServiceId(Server server) {
-        String serviceId = getServerMetadata(server).get(DiscoveryConstant.SPRING_APPLICATION_NAME).toLowerCase();
+        String serviceId = getServerMetadata(server).get(DiscoveryConstant.SPRING_APPLICATION_NAME);
         if (StringUtils.isEmpty(serviceId)) {
-            serviceId = server.getMetaInfo().getAppName().toLowerCase();
+            serviceId = server.getMetaInfo().getAppName();
         }
 
-        return serviceId;
+        if (StringUtils.isEmpty(serviceId)) {
+            throw new DiscoveryException("Server ServiceId is null");
+        }
+
+        return serviceId.toLowerCase();
     }
 
     @Override
