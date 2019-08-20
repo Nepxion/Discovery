@@ -81,12 +81,12 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
             return true;
         }
 
+        String serviceId = pluginAdapter.getServerServiceId(server);
         String version = pluginAdapter.getServerVersion(server);
 
         String versions = null;
         try {
             Map<String, String> versionMap = JsonUtil.fromJson(versionValue, Map.class);
-            String serviceId = pluginAdapter.getServerServiceId(server);
             versions = versionMap.get(serviceId);
         } catch (Exception e) {
             versions = versionValue;
@@ -123,12 +123,12 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
             return true;
         }
 
+        String serviceId = pluginAdapter.getServerServiceId(server);
         String region = pluginAdapter.getServerRegion(server);
 
         String regions = null;
         try {
             Map<String, String> regionMap = JsonUtil.fromJson(regionValue, Map.class);
-            String serviceId = pluginAdapter.getServerServiceId(server);
             regions = regionMap.get(serviceId);
         } catch (Exception e) {
             regions = regionValue;
@@ -165,8 +165,9 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
             return true;
         }
 
-        Map<String, String> addressMap = JsonUtil.fromJson(addressValue, Map.class);
         String serviceId = pluginAdapter.getServerServiceId(server);
+
+        Map<String, String> addressMap = JsonUtil.fromJson(addressValue, Map.class);
         String addresses = addressMap.get(serviceId);
         if (StringUtils.isEmpty(addresses)) {
             return true;
