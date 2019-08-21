@@ -596,7 +596,7 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
         <!-- <region-weight>dev=85;qa=15</region-weight> -->
     </strategy>
 
-    <!-- [只适用于网关端] 基于Http Header传递的策略路由，客户定制化控制，跟业务参数绑定。如果不命中，则执行上面的全局缺省路由 -->
+    <!-- 基于Http Header传递的策略路由，客户定制化控制，跟业务参数绑定。如果不命中，则执行上面的全局缺省路由 -->
     <strategy-customization>
         <conditions>
             <condition id="1" header="a=1;b=2" version-id="a" region-id="b" address-id="c" version-weight-id="d" region-weight-id="e"/>
