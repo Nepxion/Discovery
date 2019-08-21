@@ -11,7 +11,7 @@
     <url>http://www.nepxion.com</url>
 
     <properties>
-        <discovery.version>5.3.7</discovery.version>
+        <discovery.version>5.3.8</discovery.version>
         <spring.cloud.version>Greenwich.SR2</spring.cloud.version>
         <spring.cloud.alibaba.version>2.1.0.RELEASE</spring.cloud.alibaba.version>
         <spring.boot.version>2.1.6.RELEASE</spring.boot.version>
