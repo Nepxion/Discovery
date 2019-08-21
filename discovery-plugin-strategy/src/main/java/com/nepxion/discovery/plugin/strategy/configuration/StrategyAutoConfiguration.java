@@ -21,7 +21,6 @@ import com.nepxion.discovery.plugin.strategy.isolation.ConsumerIsolationLoadBala
 import com.nepxion.discovery.plugin.strategy.isolation.ConsumerIsolationRegisterStrategy;
 import com.nepxion.discovery.plugin.strategy.matcher.DiscoveryAntPathMatcherStrategy;
 import com.nepxion.discovery.plugin.strategy.matcher.DiscoveryMatcherStrategy;
-import com.nepxion.discovery.plugin.strategy.wrapper.CustomizationStrategyWrapper;
 import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
 
 @Configuration
@@ -58,10 +57,5 @@ public class StrategyAutoConfiguration {
     @Bean
     public StrategyWrapper strategyWrapper() {
         return new StrategyWrapper();
-    }
-
-    @Bean
-    public CustomizationStrategyWrapper customizationStrategyWrapper() {
-        return new CustomizationStrategyWrapper();
     }
 }
