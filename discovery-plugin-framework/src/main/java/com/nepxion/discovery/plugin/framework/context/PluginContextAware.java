@@ -150,7 +150,7 @@ public class PluginContextAware implements ApplicationContextAware {
     }
 
     public static String getApplicationType(Environment environment) {
-        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_TYPE);
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_TYPE, String.class, DiscoveryConstant.UNKNOWN);
     }
 
     public static String getGroupKey(Environment environment) {
