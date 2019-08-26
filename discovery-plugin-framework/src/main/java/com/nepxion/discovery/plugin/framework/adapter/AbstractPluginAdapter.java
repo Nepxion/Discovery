@@ -37,7 +37,7 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     @Value("${" + DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY + ":" + DiscoveryConstant.GROUP + "}")
     private String groupKey;
 
-    @Value("${" + DiscoveryConstant.SPRING_APPLICATION_TYPE + "}")
+    @Value("${" + DiscoveryConstant.SPRING_APPLICATION_TYPE + ":" + DiscoveryConstant.UNKNOWN + "}")
     private String applicationType;
 
     @Override
