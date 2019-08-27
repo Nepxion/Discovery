@@ -30,6 +30,10 @@ public class StrategyWeightRandomLoadBalanceAdapter extends AbstractWeightRandom
 
     @Override
     public WeightFilterEntity getT() {
+        if (pluginContextHolder == null) {
+            return null;
+        }
+
         WeightFilterEntity weightFilterEntity = new WeightFilterEntity();
 
         String versionWeightValue = pluginContextHolder.getContext(DiscoveryConstant.N_D_VERSION_WEIGHT);
