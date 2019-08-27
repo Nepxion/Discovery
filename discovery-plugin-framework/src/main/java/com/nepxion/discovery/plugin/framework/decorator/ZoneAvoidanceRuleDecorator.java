@@ -45,7 +45,7 @@ public class ZoneAvoidanceRuleDecorator extends ZoneAvoidanceRule {
         try {
             pluginContextHolder = applicationContext.getBean(PluginContextHolder.class);
         } catch (BeansException e) {
-            
+
         }
         strategyMapWeightRandomLoadBalance = new StrategyMapWeightRandomLoadBalance(pluginAdapter, pluginContextHolder);
         ruleMapWeightRandomLoadBalance = new RuleMapWeightRandomLoadBalance(pluginAdapter);
