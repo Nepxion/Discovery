@@ -15,6 +15,7 @@ import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
@@ -40,7 +41,12 @@ public class ZoneAvoidanceRuleDecorator extends ZoneAvoidanceRule {
 
     @PostConstruct
     private void initialize() {
-        PluginContextHolder pluginContextHolder = applicationContext.getBean(PluginContextHolder.class);
+        PluginContextHolder pluginContextHolder = null;
+        try {
+            pluginContextHolder = applicationContext.getBean(PluginContextHolder.class);
+        } catch (BeansException e) {
+            
+        }
         strategyMapWeightRandomLoadBalance = new StrategyMapWeightRandomLoadBalance(pluginAdapter, pluginContextHolder);
         ruleMapWeightRandomLoadBalance = new RuleMapWeightRandomLoadBalance(pluginAdapter);
     }
