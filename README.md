@@ -27,6 +27,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
     - 支持用户自定义和编程负载均衡策略类
     - 支持运维调度灰度发布和路由的元数据
     - 支持参数化灰度发布
+- Docker容器化和Kubernetes平台的无缝支持部署	
 
 现有的Spring Cloud微服务很方便引入该中间件，代码零侵入。鉴于Spring Cloud官方对Eureka和Hystrix不再做新功能的迭代，推荐用Nacos和Sentinel，它们对Spring Cloud灰度发布和路由更具出色的兼容性和友好性
 
