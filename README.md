@@ -5,7 +5,7 @@
 
 ![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Star1.jpg)
 
-Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon负载均衡、Feign和RestTemplate调用的增强中间件
+Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon负载均衡、Feign和RestTemplate调用的微服务开源解决方案
 - 支持Eureka、Consul、Zookeeper和阿里巴巴的Nacos四个服务注册发现中心
 - 支持阿里巴巴的Nacos、携程的Apollo和Redis三个远程配置中心
 - 支持Hystrix或者阿里巴巴Sentinel的两个熔断隔离限流降级
