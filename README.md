@@ -281,15 +281,16 @@ Spring Boot Admin监控平台
 | discovery-plugin-config-center-starter-nacos | 配置中心的Nacos Starter |
 | discovery-plugin-config-center-starter-redis | 配置中心的Redis Starter |
 | discovery-plugin-admin-center | 管理中心实现 |
-| discovery-plugin-starter-eureka | Eureka Starter |
-| discovery-plugin-starter-consul | Consul Starter |
-| discovery-plugin-starter-zookeeper | Zookeeper Starter |
-| discovery-plugin-starter-nacos | Nacos Starter |
+| discovery-plugin-starter-eureka | 核心Eureka Starter |
+| discovery-plugin-starter-consul | 核心Consul Starter |
+| discovery-plugin-starter-zookeeper | 核心Zookeeper Starter |
+| discovery-plugin-starter-nacos | 核心Nacos Starter |
 | discovery-plugin-strategy | 路由策略 |
 | discovery-plugin-strategy-starter-service | 路由策略的Service Starter |
 | discovery-plugin-strategy-starter-zuul | 路由策略的Zuul Starter |
 | discovery-plugin-strategy-starter-gateway | 路由策略的Spring Cloud Gateway Starter |
 | discovery-plugin-strategy-starter-hystrix | 路由策略下，Hystrix做线程模式的服务隔离必须引入的插件 Starter |
+| discovery-plugin-test-starter | 自动化测试 Starter |
 | discovery-console | 控制平台，集成接口给UI |
 | discovery-console-starter-apollo | 控制平台的Apollo Starter |
 | discovery-console-starter-nacos | 控制平台的Nacos Starter |
