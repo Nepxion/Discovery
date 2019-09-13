@@ -18,6 +18,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 - 组合式灰度发布和路由。灰度发布和灰度路由的多种组合式规则和策略，前端灰度&网关灰度路由组合式策略
 - 灰度调用链，基于Header方式和日志方式的全链路灰度调用链
 - 服务隔离，基于组和黑/白名单的全链路服务隔离，包括注册准入隔离（基于黑/白名单，包括组和IP地址的准入、最大注册数限制的准入）、消费端隔离（基于组的负载均衡的隔离、基于黑/白名单的IP地址的隔离）和提供端隔离（基于组的Header传值策略的隔离）
+- 服务限流熔断降级权限，定制阿里巴巴Sentinel，有机整合灰度路由，包括基于组、基于版本、基于区域的限流熔断降级权限，以及更多业务参数自定义的组合方式
 - 数据库灰度发布，基于多数据源的数据库灰度发布
 - 同城双活多机房切换，基于区域匹配发布或者路由的同城双活多机房切换
 - 灰度路由和发布的自动化测试，基于Spring Boot/Spring Cloud自动化测试，包括普通调用测试、灰度调用测试和扩展调用测试（可扩展出阿里巴巴Sentinel、FF4J功能开关等自动化测试）
@@ -58,9 +59,10 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 
 | 框架版本 | 框架状态 | 适用Spring Cloud版本 | 适用Spring Boot版本 | 适用Spring Cloud Alibaba版本 |
 | --- | --- | --- | --- | --- |
-| 5.3.9 | 迭代中 | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
-| 4.11.9 | 迭代中 | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
-| 3.11.9 | 维护中 | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
+| 6.0.0 | 规划中 | Hoxton<br>Greenwich<br>Finchley | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
+| 5.4.0 | 迭代中 | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
+| 4.12.0 | 迭代中 | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
+| 3.12.0 | 维护中 | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
 | 2.0.x | 已废弃 | Dalston | N/A | N/A |
 | 1.0.x | 已废弃 | Camden | N/A | N/A |
 
@@ -287,6 +289,9 @@ Spring Boot Admin监控平台
 | discovery-plugin-starter-nacos | 核心Nacos Starter |
 | discovery-plugin-strategy | 路由策略 |
 | discovery-plugin-strategy-starter-service | 路由策略的Service Starter |
+| discovery-plugin-strategy-starter-service-sentinel | 路由策略的Service Sentinel Starter |
+| discovery-plugin-strategy-starter-service-sentinel-apollo | 路由策略下，Service Sentinel Apollo Starter |
+| discovery-plugin-strategy-starter-service-sentinel-nacos | 路由策略下，Service Sentinel Nacos Starter |
 | discovery-plugin-strategy-starter-zuul | 路由策略的Zuul Starter |
 | discovery-plugin-strategy-starter-gateway | 路由策略的Spring Cloud Gateway Starter |
 | discovery-plugin-strategy-starter-hystrix | 路由策略下，Hystrix做线程模式的服务隔离必须引入的插件 Starter |
