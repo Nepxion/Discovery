@@ -85,28 +85,28 @@ public class SentinelApolloRuleLoader implements SentinelRuleLoader {
 
     @Override
     public void load() {
-        String flowRuleKey = pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_FLOW_KEY;
-        ReadableDataSource<String, List<FlowRule>> flowRuleDataSource = new ApolloDataSource<>(namespace, flowRuleKey, SentinelRuleLoaderUtil.getRuleText(applicationContext, flowPath), new SentinelFlowRuleParser());
+        ReadableDataSource<String, List<FlowRule>> flowRuleDataSource = new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_FLOW_KEY,
+                SentinelRuleLoaderUtil.getRuleText(applicationContext, flowPath), new SentinelFlowRuleParser());
         FlowRuleManager.register2Property(flowRuleDataSource.getProperty());
         LOG.info("{} flow rules loaded...", FlowRuleManager.getRules().size());
 
-        String degradeRuleKey = pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_DEGRADE_KEY;
-        ReadableDataSource<String, List<DegradeRule>> degradeRuleDataSource = new ApolloDataSource<>(namespace, degradeRuleKey, SentinelRuleLoaderUtil.getRuleText(applicationContext, degradePath), new SentinelDegradeRuleParser());
+        ReadableDataSource<String, List<DegradeRule>> degradeRuleDataSource = new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_DEGRADE_KEY,
+                SentinelRuleLoaderUtil.getRuleText(applicationContext, degradePath), new SentinelDegradeRuleParser());
         DegradeRuleManager.register2Property(degradeRuleDataSource.getProperty());
         LOG.info("{} degrade rules loaded...", DegradeRuleManager.getRules().size());
 
-        String authorityRuleKey = pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_AUTHORITY_KEY;
-        ReadableDataSource<String, List<AuthorityRule>> authorityRuleDataSource = new ApolloDataSource<>(namespace, authorityRuleKey, SentinelRuleLoaderUtil.getRuleText(applicationContext, authorityPath), new SentinelAuthorityRuleParser());
+        ReadableDataSource<String, List<AuthorityRule>> authorityRuleDataSource = new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_AUTHORITY_KEY,
+                SentinelRuleLoaderUtil.getRuleText(applicationContext, authorityPath), new SentinelAuthorityRuleParser());
         AuthorityRuleManager.register2Property(authorityRuleDataSource.getProperty());
         LOG.info("{} authority rules loaded...", AuthorityRuleManager.getRules().size());
 
-        String systemRuleKey = pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_SYSTEM_KEY;
-        ReadableDataSource<String, List<SystemRule>> systemRuleDataSource = new ApolloDataSource<>(namespace, systemRuleKey, SentinelRuleLoaderUtil.getRuleText(applicationContext, systemPath), new SentinelSystemRuleParser());
+        ReadableDataSource<String, List<SystemRule>> systemRuleDataSource = new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_SYSTEM_KEY,
+                SentinelRuleLoaderUtil.getRuleText(applicationContext, systemPath), new SentinelSystemRuleParser());
         SystemRuleManager.register2Property(systemRuleDataSource.getProperty());
         LOG.info("{} system rules loaded...", SystemRuleManager.getRules().size());
 
-        String paramFlowRuleKey = pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_PARAM_FLOW_KEY;
-        ReadableDataSource<String, List<ParamFlowRule>> paramFlowRuleDataSource = new ApolloDataSource<>(namespace, paramFlowRuleKey, SentinelRuleLoaderUtil.getRuleText(applicationContext, paramFlowPath), new SentinelParamFlowRuleParser());
+        ReadableDataSource<String, List<ParamFlowRule>> paramFlowRuleDataSource = new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_PARAM_FLOW_KEY,
+                SentinelRuleLoaderUtil.getRuleText(applicationContext, paramFlowPath), new SentinelParamFlowRuleParser());
         ParamFlowRuleManager.register2Property(paramFlowRuleDataSource.getProperty());
         LOG.info("{} param flow rules loaded...", ParamFlowRuleManager.getRules().size());
     }
