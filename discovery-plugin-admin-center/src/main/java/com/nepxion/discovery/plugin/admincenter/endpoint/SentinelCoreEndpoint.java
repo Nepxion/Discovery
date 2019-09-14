@@ -28,17 +28,15 @@ import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRule;
 import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRuleManager;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRuleManager;
-import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRule;
-import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRuleManager;
 import com.alibaba.csp.sentinel.slots.system.SystemRule;
 import com.alibaba.csp.sentinel.slots.system.SystemRuleManager;
 
 @RestController
-@RequestMapping(path = "/sentinel")
-@Api(tags = { "哨兵接口" })
-@RestControllerEndpoint(id = "sentinel")
-@ManagedResource(description = "Sentinel Endpoint")
-public class SentinelEndpoint {
+@RequestMapping(path = "/sentinel-core")
+@Api(tags = { "哨兵核心接口" })
+@RestControllerEndpoint(id = "sentinel-core")
+@ManagedResource(description = "Sentinel Core Endpoint")
+public class SentinelCoreEndpoint {
     @RequestMapping(path = "/flow-rules", method = RequestMethod.GET)
     @ApiOperation(value = "获取流控规则列表", notes = "", response = List.class, httpMethod = "GET")
     @ResponseBody
@@ -69,13 +67,5 @@ public class SentinelEndpoint {
     @ManagedOperation
     public List<SystemRule> systemRules() {
         return SystemRuleManager.getRules();
-    }
-
-    @RequestMapping(path = "/param-flow-rules", method = RequestMethod.GET)
-    @ApiOperation(value = "获取热点参数流控规则列表", notes = "", response = List.class, httpMethod = "GET")
-    @ResponseBody
-    @ManagedOperation
-    public List<ParamFlowRule> paramFlowRules() {
-        return ParamFlowRuleManager.getRules();
     }
 }

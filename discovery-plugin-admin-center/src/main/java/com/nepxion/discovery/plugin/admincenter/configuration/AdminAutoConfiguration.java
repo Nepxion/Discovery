@@ -20,7 +20,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.nepxion.discovery.plugin.admincenter.endpoint.ConfigEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.RouterEndpoint;
-import com.nepxion.discovery.plugin.admincenter.endpoint.SentinelEndpoint;
+import com.nepxion.discovery.plugin.admincenter.endpoint.SentinelCoreEndpoint;
+import com.nepxion.discovery.plugin.admincenter.endpoint.SentinelParamEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.VersionEndpoint;
 
 @Configuration
@@ -49,9 +50,15 @@ public class AdminAutoConfiguration {
         }
 
         @Bean
-        @ConditionalOnClass(name = { "com.nepxion.discovery.plugin.strategy.service.sentinel.configuration.SentinelStrategyAutoConfiguration" })
-        public SentinelEndpoint sentinelEndpoint() {
-            return new SentinelEndpoint();
+        @ConditionalOnClass(name = { "com.alibaba.csp.sentinel.slots.block.flow.FlowRule" })
+        public SentinelCoreEndpoint sentinelCoreEndpoint() {
+            return new SentinelCoreEndpoint();
+        }
+
+        @Bean
+        @ConditionalOnClass(name = { "com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRule" })
+        public SentinelParamEndpoint sentinelParamEndpoint() {
+            return new SentinelParamEndpoint();
         }
     }
 
