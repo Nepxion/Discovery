@@ -14,9 +14,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
 
 import com.alibaba.csp.sentinel.datasource.ReadableDataSource;
 import com.alibaba.csp.sentinel.datasource.apollo.ApolloDataSource;
@@ -31,9 +28,8 @@ import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRuleManager;
 import com.alibaba.csp.sentinel.slots.system.SystemRule;
 import com.alibaba.csp.sentinel.slots.system.SystemRuleManager;
 import com.nepxion.discovery.common.apollo.configuration.ApolloAutoConfiguration;
-import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.constant.SentinelStrategyConstant;
-import com.nepxion.discovery.plugin.strategy.service.sentinel.loader.SentinelRuleLoader;
+import com.nepxion.discovery.plugin.strategy.service.sentinel.loader.AbstractSentinelRuleLoader;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.loader.SentinelRuleLoaderUtil;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelAuthorityRuleParser;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelDegradeRuleParser;
@@ -41,44 +37,8 @@ import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelFlo
 import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelParamFlowRuleParser;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelSystemRuleParser;
 
-public class SentinelApolloRuleLoader implements SentinelRuleLoader {
+public class SentinelApolloRuleLoader extends AbstractSentinelRuleLoader {
     private static final Logger LOG = LoggerFactory.getLogger(SentinelApolloRuleLoader.class);
-
-    /**
-     * 流控规则文件路径
-     */
-    @Value("${" + SentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_FLOW_PATH + ":file:" + SentinelStrategyConstant.SENTINEL_FLOW_KEY + ".json}")
-    private String flowPath;
-
-    /**
-     * 降级规则文件路径
-     */
-    @Value("${" + SentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_DEGRADE_PATH + ":file:" + SentinelStrategyConstant.SENTINEL_DEGRADE_KEY + ".json}")
-    private String degradePath;
-
-    /**
-     * 授权规则文件路径
-     */
-    @Value("${" + SentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_AUTHORITY_PATH + ":file:" + SentinelStrategyConstant.SENTINEL_AUTHORITY_KEY + ".json}")
-    private String authorityPath;
-
-    /**
-     * 系统规则文件路径
-     */
-    @Value("${" + SentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_SYSTEM_PATH + ":file:" + SentinelStrategyConstant.SENTINEL_SYSTEM_KEY + ".json}")
-    private String systemPath;
-
-    /**
-     * 热点参数流控规则文件路径
-     */
-    @Value("${" + SentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_PARAM_FLOW_PATH + ":file:" + SentinelStrategyConstant.SENTINEL_PARAM_FLOW_KEY + ".json}")
-    private String paramFlowPath;
-
-    @Autowired
-    private ApplicationContext applicationContext;
-
-    @Autowired
-    private PluginAdapter pluginAdapter;
 
     @Override
     public void load() {

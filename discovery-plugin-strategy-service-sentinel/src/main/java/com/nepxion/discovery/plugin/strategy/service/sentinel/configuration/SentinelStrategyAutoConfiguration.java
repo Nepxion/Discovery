@@ -24,7 +24,6 @@ import com.nepxion.banner.BannerConstant;
 import com.nepxion.banner.Description;
 import com.nepxion.banner.LogoBanner;
 import com.nepxion.banner.NepxionBanner;
-import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.constant.SentinelStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.loader.SentinelRuleLoader;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelRequestOriginParser;
@@ -39,15 +38,11 @@ public class SentinelStrategyAutoConfiguration {
         NepxionBanner.show(logoBanner, new Description("Protect:", "Sentinel", 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
     }
 
-    @Autowired(required = false)
+    @Autowired
     private SentinelRuleLoader sentinelRuleLoader;
 
     @PostConstruct
     public void initialize() {
-        if (sentinelRuleLoader == null) {
-            throw new DiscoveryException("Sentinel rule loader hasn't been initialized...");
-        }
-
         sentinelRuleLoader.load();
     }
 
