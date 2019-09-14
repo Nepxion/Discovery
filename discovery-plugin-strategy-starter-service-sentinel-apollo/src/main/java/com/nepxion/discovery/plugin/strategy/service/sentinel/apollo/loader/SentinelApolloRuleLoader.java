@@ -30,8 +30,8 @@ import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRuleManager;
 import com.alibaba.csp.sentinel.slots.system.SystemRule;
 import com.alibaba.csp.sentinel.slots.system.SystemRuleManager;
+import com.nepxion.discovery.common.apollo.constant.ApolloConstant;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.strategy.service.sentinel.apollo.constant.SentinelApolloConstant;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.constant.SentinelStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.loader.SentinelRuleLoader;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.loader.SentinelRuleLoaderUtil;
@@ -74,7 +74,7 @@ public class SentinelApolloRuleLoader implements SentinelRuleLoader {
     @Value("${" + SentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_PARAM_FLOW_PATH + ":file:" + SentinelStrategyConstant.SENTINEL_PARAM_FLOW_KEY + ".json}")
     private String paramFlowPath;
 
-    @Value("${" + SentinelApolloConstant.APOLLO_BOOTSTRAP_NAMESPACES + ":" + SentinelApolloConstant.NAMESPACE_APPLICATION + "}")
+    @Value("${" + ApolloConstant.APOLLO_PLUGIN_NAMESPACE + ":" + ApolloConstant.NAMESPACE_APPLICATION + "}")
     private String namespace;
 
     @Autowired
