@@ -20,4 +20,5 @@ public class StrategyConstant {
     public static final String SPRING_APPLICATION_STRATEGY_PROVIDER_ISOLATION_ENABLED = "spring.application.strategy.provider.isolation.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_TRACE_ENABLED = "spring.application.strategy.trace.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_TRACE_DEBUG_ENABLED = "spring.application.strategy.trace.debug.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_SENTINEL_ENABLED = "spring.application.strategy.sentinel.enabled";
 }
