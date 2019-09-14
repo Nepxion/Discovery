@@ -289,7 +289,8 @@ Spring Boot Admin监控平台
 | discovery-plugin-starter-nacos | 核心Nacos Starter |
 | discovery-plugin-strategy | 路由策略 |
 | discovery-plugin-strategy-starter-service | 路由策略的Service Starter |
-| discovery-plugin-strategy-starter-service-sentinel | 路由策略的Service Sentinel Starter |
+| ddiscovery-plugin-strategy-service-sentinel | 路由策略的Service Sentinel |
+| discovery-plugin-strategy-starter-service-sentinel-local | 路由策略下，Service Sentinel Local Starter |
 | discovery-plugin-strategy-starter-service-sentinel-apollo | 路由策略下，Service Sentinel Apollo Starter |
 | discovery-plugin-strategy-starter-service-sentinel-nacos | 路由策略下，Service Sentinel Nacos Starter |
 | discovery-plugin-strategy-starter-zuul | 路由策略的Zuul Starter |
