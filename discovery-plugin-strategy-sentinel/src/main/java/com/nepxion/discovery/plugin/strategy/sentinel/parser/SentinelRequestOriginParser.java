@@ -8,12 +8,12 @@ import static com.nepxion.discovery.common.constant.DiscoveryConstant.N_D_SERVIC
 
 /**
  * @author Weihua
- * @since 1.0.0
+ * @since 5.3.9
  */
 public class SentinelRequestOriginParser implements RequestOriginParser {
 
-  @Override
-  public String parseOrigin(HttpServletRequest request) {
-    return request.getHeader(N_D_SERVICE_ID);
-  }
+    @Override
+    public String parseOrigin(HttpServletRequest request) {
+        return request.getHeader(N_D_SERVICE_ID);
+    }
 }

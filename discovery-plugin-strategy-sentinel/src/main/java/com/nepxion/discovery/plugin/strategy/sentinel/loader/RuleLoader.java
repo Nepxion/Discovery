@@ -4,10 +4,10 @@ import java.io.IOException;
 
 /**
  * @author Weihua
- * @since 1.0.0
+ * @since 5.3.9
  */
 public interface RuleLoader {
 
-  void load() throws IOException;
+    void load() throws IOException;
 
 }

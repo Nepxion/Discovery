@@ -23,61 +23,60 @@ import java.util.List;
 
 /**
  * @author Weihua
- * @since 1.0.0
+ * @since 5.3.9
  */
 public class ApolloRuleLoader implements RuleLoader {
 
-  private String namespace;
-  private PluginAdapter pluginAdapter;
-  private String flowPath;
-  private String systemPath;
-  private String authPath;
-  private String degradePath;
-  private String paramPath;
+    private String namespace;
+    private PluginAdapter pluginAdapter;
+    private String flowPath;
+    private String systemPath;
+    private String authPath;
+    private String degradePath;
+    private String paramPath;
 
 
+    public ApolloRuleLoader(String namespace, PluginAdapter pluginAdapter, String flowPath, String systemPath,
+                            String authPath, String degradePath, String paramPath) {
+        this.namespace = namespace;
+        this.pluginAdapter = pluginAdapter;
+        this.flowPath = flowPath;
+        this.systemPath = systemPath;
+        this.authPath = authPath;
+        this.degradePath = degradePath;
+        this.paramPath = paramPath;
+    }
 
-  public ApolloRuleLoader(String namespace, PluginAdapter pluginAdapter, String flowPath, String systemPath,
-                          String authPath, String degradePath, String paramPath){
-    this.namespace = namespace;
-    this.pluginAdapter = pluginAdapter;
-    this.flowPath = flowPath;
-    this.systemPath = systemPath;
-    this.authPath = authPath;
-    this.degradePath = degradePath;
-    this.paramPath = paramPath;
-  }
+    @Override
+    public void load() throws IOException {
+        String ruleJson = getRuleJson(flowPath);
+        String flowRuleKey = pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-sentinel-flow";
+        ReadableDataSource<String, List<FlowRule>> flowDataSource = new ApolloDataSource<>(namespace, flowRuleKey, ruleJson);
+        FlowRuleManager.register2Property(flowDataSource.getProperty());
 
-  @Override
-  public void load() throws IOException {
-    String ruleJson = getRuleJson(flowPath);
-    String flowRuleKey = pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-sentinel-flow";
-    ReadableDataSource<String, List<FlowRule>> flowDataSource = new ApolloDataSource<>(namespace, flowRuleKey, ruleJson);
-    FlowRuleManager.register2Property(flowDataSource.getProperty());
+        String systemJson = getRuleJson(systemPath);
+        String systemRuleKey = pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-sentinel-system";
+        ReadableDataSource<String, List<SystemRule>> systemDataSource = new ApolloDataSource<>(namespace, systemRuleKey, systemJson);
+        SystemRuleManager.register2Property(systemDataSource.getProperty());
 
-    String systemJson = getRuleJson(systemPath);
-    String systemRuleKey = pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-sentinel-system";
-    ReadableDataSource<String, List<SystemRule>> systemDataSource = new ApolloDataSource<>(namespace, systemRuleKey, systemJson);
-    SystemRuleManager.register2Property(systemDataSource.getProperty());
+        String authJson = getRuleJson(authPath);
+        String authRuleKey = pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-sentinel-authority";
+        ReadableDataSource<String, List<AuthorityRule>> authorityDataSource = new ApolloDataSource<>(namespace, authRuleKey, authJson);
+        AuthorityRuleManager.register2Property(authorityDataSource.getProperty());
 
-    String authJson = getRuleJson(authPath);
-    String authRuleKey = pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-sentinel-authority";
-    ReadableDataSource<String, List<AuthorityRule>> authorityDataSource = new ApolloDataSource<>(namespace, authRuleKey, authJson);
-    AuthorityRuleManager.register2Property(authorityDataSource.getProperty());
+        String degradeJson = getRuleJson(degradePath);
+        String degradeRuleKey = pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-sentinel-degrade";
+        ReadableDataSource<String, List<DegradeRule>> degradeDataSource = new ApolloDataSource<>(namespace, degradeRuleKey, degradeJson);
+        DegradeRuleManager.register2Property(degradeDataSource.getProperty());
 
-    String degradeJson = getRuleJson(degradePath);
-    String degradeRuleKey = pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-sentinel-degrade";
-    ReadableDataSource<String, List<DegradeRule>> degradeDataSource = new ApolloDataSource<>(namespace, degradeRuleKey, degradeJson);
-    DegradeRuleManager.register2Property(degradeDataSource.getProperty());
+        String paramJson = getRuleJson(paramPath);
+        String paramRuleKey = pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-sentinel-param";
+        ReadableDataSource<String, List<ParamFlowRule>> paramDataSource = new ApolloDataSource<>(namespace, paramRuleKey, paramJson);
+        ParamFlowRuleManager.register2Property(paramDataSource.getProperty());
+    }
 
-    String paramJson = getRuleJson(paramPath);
-    String paramRuleKey = pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-sentinel-param";
-    ReadableDataSource<String, List<ParamFlowRule>> paramDataSource = new ApolloDataSource<>(namespace, paramRuleKey, paramJson);
-    ParamFlowRuleManager.register2Property(paramDataSource.getProperty());
-  }
-
-  private static String getRuleJson(String path) throws IOException {
-    InputStream is = IOUtil.getInputStream(path);
-    return IOUtils.toString(is, "UTF-8");
-  }
+    private static String getRuleJson(String path) throws IOException {
+        InputStream is = IOUtil.getInputStream(path);
+        return IOUtils.toString(is, "UTF-8");
+    }
 }
