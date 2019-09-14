@@ -74,7 +74,7 @@ public class SentinelApolloRuleLoader implements SentinelRuleLoader {
     @Value("${" + SentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_PARAM_FLOW_PATH + ":file:" + SentinelStrategyConstant.SENTINEL_PARAM_FLOW_KEY + ".json}")
     private String paramFlowPath;
 
-    @Value("${" + SentinelApolloConstant.APOLLO_PLUGIN_NAMESPACE + ":" + SentinelApolloConstant.NAMESPACE_APPLICATION + "}")
+    @Value("${" + SentinelApolloConstant.APOLLO_BOOTSTRAP_NAMESPACES + ":" + SentinelApolloConstant.NAMESPACE_APPLICATION + "}")
     private String namespace;
 
     @Autowired
