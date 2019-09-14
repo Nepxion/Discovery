@@ -30,7 +30,7 @@ import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRuleManager;
 import com.alibaba.csp.sentinel.slots.system.SystemRule;
 import com.alibaba.csp.sentinel.slots.system.SystemRuleManager;
-import com.nepxion.discovery.common.apollo.constant.ApolloConstant;
+import com.nepxion.discovery.common.apollo.configuration.ApolloAutoConfiguration;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.constant.SentinelStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.loader.SentinelRuleLoader;
@@ -74,9 +74,6 @@ public class SentinelApolloRuleLoader implements SentinelRuleLoader {
     @Value("${" + SentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_PARAM_FLOW_PATH + ":file:" + SentinelStrategyConstant.SENTINEL_PARAM_FLOW_KEY + ".json}")
     private String paramFlowPath;
 
-    @Value("${" + ApolloConstant.APOLLO_PLUGIN_NAMESPACE + ":" + ApolloConstant.NAMESPACE_APPLICATION + "}")
-    private String namespace;
-
     @Autowired
     private ApplicationContext applicationContext;
 
@@ -85,28 +82,25 @@ public class SentinelApolloRuleLoader implements SentinelRuleLoader {
 
     @Override
     public void load() {
-        ReadableDataSource<String, List<FlowRule>> flowRuleDataSource = new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_FLOW_KEY,
-                SentinelRuleLoaderUtil.getRuleText(applicationContext, flowPath), new SentinelFlowRuleParser());
+        String namespace = ApolloAutoConfiguration.getNamespace(applicationContext.getEnvironment());
+
+        ReadableDataSource<String, List<FlowRule>> flowRuleDataSource = new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_FLOW_KEY, SentinelRuleLoaderUtil.getRuleText(applicationContext, flowPath), new SentinelFlowRuleParser());
         FlowRuleManager.register2Property(flowRuleDataSource.getProperty());
         LOG.info("{} flow rules loaded...", FlowRuleManager.getRules().size());
 
-        ReadableDataSource<String, List<DegradeRule>> degradeRuleDataSource = new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_DEGRADE_KEY,
-                SentinelRuleLoaderUtil.getRuleText(applicationContext, degradePath), new SentinelDegradeRuleParser());
+        ReadableDataSource<String, List<DegradeRule>> degradeRuleDataSource = new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_DEGRADE_KEY, SentinelRuleLoaderUtil.getRuleText(applicationContext, degradePath), new SentinelDegradeRuleParser());
         DegradeRuleManager.register2Property(degradeRuleDataSource.getProperty());
         LOG.info("{} degrade rules loaded...", DegradeRuleManager.getRules().size());
 
-        ReadableDataSource<String, List<AuthorityRule>> authorityRuleDataSource = new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_AUTHORITY_KEY,
-                SentinelRuleLoaderUtil.getRuleText(applicationContext, authorityPath), new SentinelAuthorityRuleParser());
+        ReadableDataSource<String, List<AuthorityRule>> authorityRuleDataSource = new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_AUTHORITY_KEY, SentinelRuleLoaderUtil.getRuleText(applicationContext, authorityPath), new SentinelAuthorityRuleParser());
         AuthorityRuleManager.register2Property(authorityRuleDataSource.getProperty());
         LOG.info("{} authority rules loaded...", AuthorityRuleManager.getRules().size());
 
-        ReadableDataSource<String, List<SystemRule>> systemRuleDataSource = new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_SYSTEM_KEY,
-                SentinelRuleLoaderUtil.getRuleText(applicationContext, systemPath), new SentinelSystemRuleParser());
+        ReadableDataSource<String, List<SystemRule>> systemRuleDataSource = new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_SYSTEM_KEY, SentinelRuleLoaderUtil.getRuleText(applicationContext, systemPath), new SentinelSystemRuleParser());
         SystemRuleManager.register2Property(systemRuleDataSource.getProperty());
         LOG.info("{} system rules loaded...", SystemRuleManager.getRules().size());
 
-        ReadableDataSource<String, List<ParamFlowRule>> paramFlowRuleDataSource = new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_PARAM_FLOW_KEY,
-                SentinelRuleLoaderUtil.getRuleText(applicationContext, paramFlowPath), new SentinelParamFlowRuleParser());
+        ReadableDataSource<String, List<ParamFlowRule>> paramFlowRuleDataSource = new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_PARAM_FLOW_KEY, SentinelRuleLoaderUtil.getRuleText(applicationContext, paramFlowPath), new SentinelParamFlowRuleParser());
         ParamFlowRuleManager.register2Property(paramFlowRuleDataSource.getProperty());
         LOG.info("{} param flow rules loaded...", ParamFlowRuleManager.getRules().size());
     }
