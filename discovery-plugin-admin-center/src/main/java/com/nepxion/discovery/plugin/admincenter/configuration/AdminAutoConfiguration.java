@@ -20,6 +20,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.nepxion.discovery.plugin.admincenter.endpoint.ConfigEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.RouterEndpoint;
+import com.nepxion.discovery.plugin.admincenter.endpoint.SentinelEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.VersionEndpoint;
 
 @Configuration
@@ -45,6 +46,12 @@ public class AdminAutoConfiguration {
         @Bean
         public RestTemplate routerRestTemplate() {
             return new RestTemplate();
+        }
+
+        @Bean
+        @ConditionalOnClass(name = { "com.nepxion.discovery.plugin.strategy.service.sentinel.configuration.SentinelStrategyAutoConfiguration" })
+        public SentinelEndpoint sentinelEndpoint() {
+            return new SentinelEndpoint();
         }
     }
 
