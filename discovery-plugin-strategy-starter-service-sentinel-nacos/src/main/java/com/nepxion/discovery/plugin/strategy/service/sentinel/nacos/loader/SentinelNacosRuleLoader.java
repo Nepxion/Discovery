@@ -13,6 +13,7 @@ package com.nepxion.discovery.plugin.strategy.service.sentinel.nacos.loader;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,6 +32,7 @@ import com.alibaba.csp.sentinel.slots.system.SystemRuleManager;
 import com.nepxion.discovery.common.nacos.configuration.NacosAutoConfiguration;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.constant.SentinelStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.loader.AbstractSentinelRuleLoader;
+import com.nepxion.discovery.plugin.strategy.service.sentinel.loader.SentinelRuleLoaderUtil;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelAuthorityRuleParser;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelDegradeRuleParser;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelFlowRuleParser;
@@ -46,22 +48,37 @@ public class SentinelNacosRuleLoader extends AbstractSentinelRuleLoader {
 
         ReadableDataSource<String, List<FlowRule>> flowRuleDataSource = new NacosDataSource<>(properties, pluginAdapter.getGroup(), pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_FLOW_KEY, new SentinelFlowRuleParser());
         FlowRuleManager.register2Property(flowRuleDataSource.getProperty());
+        if (CollectionUtils.isEmpty(FlowRuleManager.getRules())) {
+            FlowRuleManager.loadRules(new SentinelFlowRuleParser().convert(SentinelRuleLoaderUtil.getRuleText(applicationContext, flowPath)));
+        }
         LOG.info("{} flow rules loaded...", FlowRuleManager.getRules().size());
 
         ReadableDataSource<String, List<DegradeRule>> degradeRuleDataSource = new NacosDataSource<>(properties, pluginAdapter.getGroup(), pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_DEGRADE_KEY, new SentinelDegradeRuleParser());
         DegradeRuleManager.register2Property(degradeRuleDataSource.getProperty());
+        if (CollectionUtils.isEmpty(DegradeRuleManager.getRules())) {
+            DegradeRuleManager.loadRules(new SentinelDegradeRuleParser().convert(SentinelRuleLoaderUtil.getRuleText(applicationContext, degradePath)));
+        }
         LOG.info("{} degrade rules loaded...", DegradeRuleManager.getRules().size());
 
         ReadableDataSource<String, List<AuthorityRule>> authorityRuleDataSource = new NacosDataSource<>(properties, pluginAdapter.getGroup(), pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_AUTHORITY_KEY, new SentinelAuthorityRuleParser());
         AuthorityRuleManager.register2Property(authorityRuleDataSource.getProperty());
+        if (CollectionUtils.isEmpty(AuthorityRuleManager.getRules())) {
+            AuthorityRuleManager.loadRules(new SentinelAuthorityRuleParser().convert(SentinelRuleLoaderUtil.getRuleText(applicationContext, authorityPath)));
+        }
         LOG.info("{} authority rules loaded...", AuthorityRuleManager.getRules().size());
 
         ReadableDataSource<String, List<SystemRule>> systemRuleDataSource = new NacosDataSource<>(properties, pluginAdapter.getGroup(), pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_SYSTEM_KEY, new SentinelSystemRuleParser());
         SystemRuleManager.register2Property(systemRuleDataSource.getProperty());
+        if (CollectionUtils.isEmpty(SystemRuleManager.getRules())) {
+            SystemRuleManager.loadRules(new SentinelSystemRuleParser().convert(SentinelRuleLoaderUtil.getRuleText(applicationContext, systemPath)));
+        }
         LOG.info("{} system rules loaded...", SystemRuleManager.getRules().size());
 
         ReadableDataSource<String, List<ParamFlowRule>> paramFlowRuleDataSource = new NacosDataSource<>(properties, pluginAdapter.getGroup(), pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_PARAM_FLOW_KEY, new SentinelParamFlowRuleParser());
         ParamFlowRuleManager.register2Property(paramFlowRuleDataSource.getProperty());
+        if (CollectionUtils.isEmpty(ParamFlowRuleManager.getRules())) {
+            ParamFlowRuleManager.loadRules(new SentinelParamFlowRuleParser().convert(SentinelRuleLoaderUtil.getRuleText(applicationContext, paramFlowPath)));
+        }
         LOG.info("{} param flow rules loaded...", ParamFlowRuleManager.getRules().size());
     }
 }
