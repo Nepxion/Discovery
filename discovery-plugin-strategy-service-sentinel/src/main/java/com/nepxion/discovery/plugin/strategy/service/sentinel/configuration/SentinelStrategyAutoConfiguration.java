@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Configuration;
 import com.alibaba.csp.sentinel.adapter.servlet.CommonFilter;
 import com.alibaba.csp.sentinel.adapter.servlet.callback.RequestOriginParser;
 import com.alibaba.csp.sentinel.annotation.aspectj.SentinelResourceAspect;
+import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.constant.SentinelStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.loader.SentinelRuleLoader;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelRequestOriginParser;
@@ -27,11 +28,15 @@ import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelReq
 @Configuration
 @ConditionalOnProperty(value = SentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_ENABLED, matchIfMissing = false)
 public class SentinelStrategyAutoConfiguration {
-    @Autowired
+    @Autowired(required = false)
     private SentinelRuleLoader sentinelRuleLoader;
 
     @PostConstruct
     public void initialize() {
+        if (sentinelRuleLoader == null) {
+            throw new DiscoveryException("Sentinel rule loader hasn't been initialized...");
+        }
+
         sentinelRuleLoader.load();
     }
 
