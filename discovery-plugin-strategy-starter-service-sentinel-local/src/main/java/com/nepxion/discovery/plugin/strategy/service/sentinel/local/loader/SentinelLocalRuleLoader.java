@@ -13,7 +13,6 @@ package com.nepxion.discovery.plugin.strategy.service.sentinel.local.loader;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.loader.AbstractSentinelRuleLoader;
 
 public class SentinelLocalRuleLoader extends AbstractSentinelRuleLoader {
-
     @Override
     public void load() {
         loadLocal();
