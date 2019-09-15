@@ -23,14 +23,14 @@ import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRule;
 import com.alibaba.csp.sentinel.slots.system.SystemRule;
 import com.nepxion.discovery.common.apollo.configuration.ApolloAutoConfiguration;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.constant.SentinelStrategyConstant;
-import com.nepxion.discovery.plugin.strategy.service.sentinel.loader.SentinelDatasourceRuleLoader;
+import com.nepxion.discovery.plugin.strategy.service.sentinel.loader.SentinelDataSourceRuleLoader;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelAuthorityRuleParser;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelDegradeRuleParser;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelFlowRuleParser;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelParamFlowRuleParser;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelSystemRuleParser;
 
-public class SentinelApolloRuleLoader extends SentinelDatasourceRuleLoader {
+public class SentinelApolloRuleLoader extends SentinelDataSourceRuleLoader {
     private String namespace;
 
     @PostConstruct

@@ -29,8 +29,8 @@ import com.alibaba.csp.sentinel.slots.system.SystemRule;
 import com.alibaba.csp.sentinel.slots.system.SystemRuleManager;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 
-public abstract class SentinelDatasourceRuleLoader extends SentinelFileRuleLoader {
-    private static final Logger LOG = LoggerFactory.getLogger(SentinelDatasourceRuleLoader.class);
+public abstract class SentinelDataSourceRuleLoader extends SentinelFileRuleLoader {
+    private static final Logger LOG = LoggerFactory.getLogger(SentinelDataSourceRuleLoader.class);
 
     @Autowired
     protected PluginAdapter pluginAdapter;

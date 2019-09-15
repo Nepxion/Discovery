@@ -24,14 +24,14 @@ import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRule;
 import com.alibaba.csp.sentinel.slots.system.SystemRule;
 import com.nepxion.discovery.common.nacos.configuration.NacosAutoConfiguration;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.constant.SentinelStrategyConstant;
-import com.nepxion.discovery.plugin.strategy.service.sentinel.loader.SentinelDatasourceRuleLoader;
+import com.nepxion.discovery.plugin.strategy.service.sentinel.loader.SentinelDataSourceRuleLoader;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelAuthorityRuleParser;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelDegradeRuleParser;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelFlowRuleParser;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelParamFlowRuleParser;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelSystemRuleParser;
 
-public class SentinelNacosRuleLoader extends SentinelDatasourceRuleLoader {
+public class SentinelNacosRuleLoader extends SentinelDataSourceRuleLoader {
     private Properties properties;
 
     @PostConstruct
