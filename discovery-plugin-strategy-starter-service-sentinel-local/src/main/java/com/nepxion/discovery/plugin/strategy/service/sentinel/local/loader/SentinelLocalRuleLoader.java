@@ -10,6 +10,7 @@ package com.nepxion.discovery.plugin.strategy.service.sentinel.local.loader;
  * @version 1.0
  */
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,19 +32,29 @@ public class SentinelLocalRuleLoader extends AbstractSentinelRuleLoader {
 
     @Override
     public void load() {
-        FlowRuleManager.loadRules(new SentinelFlowRuleParser().convert(SentinelRuleLoaderUtil.getRuleText(applicationContext, flowPath)));
+        if (CollectionUtils.isEmpty(FlowRuleManager.getRules())) {
+            FlowRuleManager.loadRules(new SentinelFlowRuleParser().convert(SentinelRuleLoaderUtil.getRuleText(applicationContext, flowPath)));
+        }
         LOG.info("{} flow rules loaded...", FlowRuleManager.getRules().size());
 
-        DegradeRuleManager.loadRules(new SentinelDegradeRuleParser().convert(SentinelRuleLoaderUtil.getRuleText(applicationContext, degradePath)));
+        if (CollectionUtils.isEmpty(DegradeRuleManager.getRules())) {
+            DegradeRuleManager.loadRules(new SentinelDegradeRuleParser().convert(SentinelRuleLoaderUtil.getRuleText(applicationContext, degradePath)));
+        }
         LOG.info("{} degrade rules loaded...", DegradeRuleManager.getRules().size());
 
-        AuthorityRuleManager.loadRules(new SentinelAuthorityRuleParser().convert(SentinelRuleLoaderUtil.getRuleText(applicationContext, authorityPath)));
+        if (CollectionUtils.isEmpty(AuthorityRuleManager.getRules())) {
+            AuthorityRuleManager.loadRules(new SentinelAuthorityRuleParser().convert(SentinelRuleLoaderUtil.getRuleText(applicationContext, authorityPath)));
+        }
         LOG.info("{} authority rules loaded...", AuthorityRuleManager.getRules().size());
 
-        SystemRuleManager.loadRules(new SentinelSystemRuleParser().convert(SentinelRuleLoaderUtil.getRuleText(applicationContext, systemPath)));
+        if (CollectionUtils.isEmpty(SystemRuleManager.getRules())) {
+            SystemRuleManager.loadRules(new SentinelSystemRuleParser().convert(SentinelRuleLoaderUtil.getRuleText(applicationContext, systemPath)));
+        }
         LOG.info("{} system rules loaded...", SystemRuleManager.getRules().size());
 
-        ParamFlowRuleManager.loadRules(new SentinelParamFlowRuleParser().convert(SentinelRuleLoaderUtil.getRuleText(applicationContext, paramFlowPath)));
+        if (CollectionUtils.isEmpty(ParamFlowRuleManager.getRules())) {
+            ParamFlowRuleManager.loadRules(new SentinelParamFlowRuleParser().convert(SentinelRuleLoaderUtil.getRuleText(applicationContext, paramFlowPath)));
+        }
         LOG.info("{} param flow rules loaded...", ParamFlowRuleManager.getRules().size());
     }
 }
