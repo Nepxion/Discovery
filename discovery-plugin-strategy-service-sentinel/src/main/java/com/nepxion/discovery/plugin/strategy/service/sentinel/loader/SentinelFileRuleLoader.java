@@ -5,6 +5,7 @@ package com.nepxion.discovery.plugin.strategy.service.sentinel.loader;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ * @author Weihua Wang
  * @author Haojun Ren
  * @version 1.0
  */
@@ -19,21 +20,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 
-import com.alibaba.csp.sentinel.datasource.ReadableDataSource;
-import com.alibaba.csp.sentinel.slots.block.authority.AuthorityRule;
 import com.alibaba.csp.sentinel.slots.block.authority.AuthorityRuleManager;
-import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRule;
 import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRuleManager;
-import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRuleManager;
-import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRuleManager;
-import com.alibaba.csp.sentinel.slots.system.SystemRule;
 import com.alibaba.csp.sentinel.slots.system.SystemRuleManager;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.util.JsonUtil;
-import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.util.FileContextUtil;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.constant.SentinelStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelAuthorityRuleParser;
@@ -42,8 +36,8 @@ import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelFlo
 import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelParamFlowRuleParser;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelSystemRuleParser;
 
-public abstract class AbstractSentinelRuleLoader implements SentinelRuleLoader {
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractSentinelRuleLoader.class);
+public class SentinelFileRuleLoader implements SentinelRuleLoader {
+    private static final Logger LOG = LoggerFactory.getLogger(SentinelFileRuleLoader.class);
 
     /**
      * 流控规则文件路径
@@ -78,8 +72,33 @@ public abstract class AbstractSentinelRuleLoader implements SentinelRuleLoader {
     @Autowired
     protected ApplicationContext applicationContext;
 
-    @Autowired
-    protected PluginAdapter pluginAdapter;
+    @Override
+    public void load() {
+        if (CollectionUtils.isEmpty(FlowRuleManager.getRules())) {
+            FlowRuleManager.loadRules(new SentinelFlowRuleParser().convert(getRuleText(applicationContext, flowPath)));
+            LOG.info("{} flow rules form file loaded...", FlowRuleManager.getRules().size());
+        }
+
+        if (CollectionUtils.isEmpty(DegradeRuleManager.getRules())) {
+            DegradeRuleManager.loadRules(new SentinelDegradeRuleParser().convert(getRuleText(applicationContext, degradePath)));
+            LOG.info("{} degrade rules form file loaded...", DegradeRuleManager.getRules().size());
+        }
+
+        if (CollectionUtils.isEmpty(AuthorityRuleManager.getRules())) {
+            AuthorityRuleManager.loadRules(new SentinelAuthorityRuleParser().convert(getRuleText(applicationContext, authorityPath)));
+            LOG.info("{} authority rules form file loaded...", AuthorityRuleManager.getRules().size());
+        }
+
+        if (CollectionUtils.isEmpty(SystemRuleManager.getRules())) {
+            SystemRuleManager.loadRules(new SentinelSystemRuleParser().convert(getRuleText(applicationContext, systemPath)));
+            LOG.info("{} system rules form file loaded...", SystemRuleManager.getRules().size());
+        }
+
+        if (CollectionUtils.isEmpty(ParamFlowRuleManager.getRules())) {
+            ParamFlowRuleManager.loadRules(new SentinelParamFlowRuleParser().convert(getRuleText(applicationContext, paramFlowPath)));
+            LOG.info("{} param flow rules form file loaded...", ParamFlowRuleManager.getRules().size());
+        }
+    }
 
     public String getFlowPath() {
         return flowPath;
@@ -103,48 +122,6 @@ public abstract class AbstractSentinelRuleLoader implements SentinelRuleLoader {
 
     public ApplicationContext getApplicationContext() {
         return applicationContext;
-    }
-
-    public PluginAdapter getPluginAdapter() {
-        return pluginAdapter;
-    }
-
-    public void loadLocal() {
-        if (CollectionUtils.isEmpty(FlowRuleManager.getRules())) {
-            FlowRuleManager.loadRules(new SentinelFlowRuleParser().convert(getRuleText(applicationContext, flowPath)));
-        }
-
-        if (CollectionUtils.isEmpty(DegradeRuleManager.getRules())) {
-            DegradeRuleManager.loadRules(new SentinelDegradeRuleParser().convert(getRuleText(applicationContext, degradePath)));
-        }
-
-        if (CollectionUtils.isEmpty(AuthorityRuleManager.getRules())) {
-            AuthorityRuleManager.loadRules(new SentinelAuthorityRuleParser().convert(getRuleText(applicationContext, authorityPath)));
-        }
-
-        if (CollectionUtils.isEmpty(SystemRuleManager.getRules())) {
-            SystemRuleManager.loadRules(new SentinelSystemRuleParser().convert(getRuleText(applicationContext, systemPath)));
-        }
-
-        if (CollectionUtils.isEmpty(ParamFlowRuleManager.getRules())) {
-            ParamFlowRuleManager.loadRules(new SentinelParamFlowRuleParser().convert(getRuleText(applicationContext, paramFlowPath)));
-        }
-    }
-
-    public void loadRemote(ReadableDataSource<String, List<FlowRule>> flowRuleDataSource, ReadableDataSource<String, List<DegradeRule>> degradeRuleDataSource, ReadableDataSource<String, List<AuthorityRule>> authorityRuleDataSource, ReadableDataSource<String, List<SystemRule>> systemRuleDataSource, ReadableDataSource<String, List<ParamFlowRule>> paramFlowRuleDataSource) {
-        FlowRuleManager.register2Property(flowRuleDataSource.getProperty());
-        DegradeRuleManager.register2Property(degradeRuleDataSource.getProperty());
-        AuthorityRuleManager.register2Property(authorityRuleDataSource.getProperty());
-        SystemRuleManager.register2Property(systemRuleDataSource.getProperty());
-        ParamFlowRuleManager.register2Property(paramFlowRuleDataSource.getProperty());
-    }
-
-    public void loadLog() {
-        LOG.info("{} flow rules loaded...", FlowRuleManager.getRules().size());
-        LOG.info("{} degrade rules loaded...", DegradeRuleManager.getRules().size());
-        LOG.info("{} authority rules loaded...", AuthorityRuleManager.getRules().size());
-        LOG.info("{} system rules loaded...", SystemRuleManager.getRules().size());
-        LOG.info("{} param flow rules loaded...", ParamFlowRuleManager.getRules().size());
     }
 
     public static String getRuleText(ApplicationContext applicationContext, String path) {

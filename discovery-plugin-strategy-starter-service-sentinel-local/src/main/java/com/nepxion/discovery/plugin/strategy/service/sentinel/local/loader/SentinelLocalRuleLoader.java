@@ -10,12 +10,8 @@ package com.nepxion.discovery.plugin.strategy.service.sentinel.local.loader;
  * @version 1.0
  */
 
-import com.nepxion.discovery.plugin.strategy.service.sentinel.loader.AbstractSentinelRuleLoader;
+import com.nepxion.discovery.plugin.strategy.service.sentinel.loader.SentinelFileRuleLoader;
 
-public class SentinelLocalRuleLoader extends AbstractSentinelRuleLoader {
-    @Override
-    public void load() {
-        loadLocal();
-        loadLog();
-    }
+public class SentinelLocalRuleLoader extends SentinelFileRuleLoader {
+
 }
