@@ -12,21 +12,13 @@ package com.nepxion.discovery.plugin.strategy.service.sentinel.apollo.loader;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.alibaba.csp.sentinel.datasource.ReadableDataSource;
 import com.alibaba.csp.sentinel.datasource.apollo.ApolloDataSource;
 import com.alibaba.csp.sentinel.slots.block.authority.AuthorityRule;
-import com.alibaba.csp.sentinel.slots.block.authority.AuthorityRuleManager;
 import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRule;
-import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRuleManager;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
-import com.alibaba.csp.sentinel.slots.block.flow.FlowRuleManager;
 import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRule;
-import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRuleManager;
 import com.alibaba.csp.sentinel.slots.system.SystemRule;
-import com.alibaba.csp.sentinel.slots.system.SystemRuleManager;
 import com.nepxion.discovery.common.apollo.configuration.ApolloAutoConfiguration;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.constant.SentinelStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.loader.AbstractSentinelRuleLoader;
@@ -38,30 +30,17 @@ import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelPar
 import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelSystemRuleParser;
 
 public class SentinelApolloRuleLoader extends AbstractSentinelRuleLoader {
-    private static final Logger LOG = LoggerFactory.getLogger(SentinelApolloRuleLoader.class);
-
     @Override
     public void load() {
         String namespace = ApolloAutoConfiguration.getNamespace(applicationContext.getEnvironment());
 
         ReadableDataSource<String, List<FlowRule>> flowRuleDataSource = new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_FLOW_KEY, SentinelRuleLoaderUtil.getRuleText(applicationContext, flowPath), new SentinelFlowRuleParser());
-        FlowRuleManager.register2Property(flowRuleDataSource.getProperty());
-        LOG.info("{} flow rules loaded...", FlowRuleManager.getRules().size());
-
         ReadableDataSource<String, List<DegradeRule>> degradeRuleDataSource = new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_DEGRADE_KEY, SentinelRuleLoaderUtil.getRuleText(applicationContext, degradePath), new SentinelDegradeRuleParser());
-        DegradeRuleManager.register2Property(degradeRuleDataSource.getProperty());
-        LOG.info("{} degrade rules loaded...", DegradeRuleManager.getRules().size());
-
         ReadableDataSource<String, List<AuthorityRule>> authorityRuleDataSource = new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_AUTHORITY_KEY, SentinelRuleLoaderUtil.getRuleText(applicationContext, authorityPath), new SentinelAuthorityRuleParser());
-        AuthorityRuleManager.register2Property(authorityRuleDataSource.getProperty());
-        LOG.info("{} authority rules loaded...", AuthorityRuleManager.getRules().size());
-
         ReadableDataSource<String, List<SystemRule>> systemRuleDataSource = new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_SYSTEM_KEY, SentinelRuleLoaderUtil.getRuleText(applicationContext, systemPath), new SentinelSystemRuleParser());
-        SystemRuleManager.register2Property(systemRuleDataSource.getProperty());
-        LOG.info("{} system rules loaded...", SystemRuleManager.getRules().size());
-
         ReadableDataSource<String, List<ParamFlowRule>> paramFlowRuleDataSource = new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_PARAM_FLOW_KEY, SentinelRuleLoaderUtil.getRuleText(applicationContext, paramFlowPath), new SentinelParamFlowRuleParser());
-        ParamFlowRuleManager.register2Property(paramFlowRuleDataSource.getProperty());
-        LOG.info("{} param flow rules loaded...", ParamFlowRuleManager.getRules().size());
+
+        loadRemote(flowRuleDataSource, degradeRuleDataSource, authorityRuleDataSource, systemRuleDataSource, paramFlowRuleDataSource);
+        loadLog();
     }
 }
