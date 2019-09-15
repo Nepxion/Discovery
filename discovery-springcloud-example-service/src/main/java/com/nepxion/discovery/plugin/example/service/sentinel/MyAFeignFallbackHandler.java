@@ -9,20 +9,14 @@ package com.nepxion.discovery.plugin.example.service.sentinel;
  * @version 1.0
  */
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.nepxion.discovery.plugin.example.service.feign.AFeign;
 
 @Component
 public class MyAFeignFallbackHandler implements AFeign {
-    private static final Logger LOG = LoggerFactory.getLogger(MyAFeignFallbackHandler.class);
-
     @Override
     public String invoke(String value) {
-        LOG.info("Value={}", value);
-
-        return "Sentinel AFeign Client Fallback Causes";
+        return "A Feign client sentinel fallback, value=" + value;
     }
 }
