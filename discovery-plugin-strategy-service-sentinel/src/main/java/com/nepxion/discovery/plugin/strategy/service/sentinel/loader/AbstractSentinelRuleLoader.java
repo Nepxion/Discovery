@@ -31,6 +31,7 @@ import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRuleManager;
 import com.alibaba.csp.sentinel.slots.system.SystemRule;
 import com.alibaba.csp.sentinel.slots.system.SystemRuleManager;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.util.FileContextUtil;
@@ -47,31 +48,31 @@ public abstract class AbstractSentinelRuleLoader implements SentinelRuleLoader {
     /**
      * 流控规则文件路径
      */
-    @Value("${" + SentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_FLOW_PATH + ":file:" + SentinelStrategyConstant.SENTINEL_FLOW_KEY + ".json}")
+    @Value("${" + SentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_FLOW_PATH + ":" + DiscoveryConstant.PREFIX_CLASSPATH + SentinelStrategyConstant.SENTINEL_FLOW_KEY + "." + DiscoveryConstant.JSON_FORMAT + "}")
     protected String flowPath;
 
     /**
      * 降级规则文件路径
      */
-    @Value("${" + SentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_DEGRADE_PATH + ":file:" + SentinelStrategyConstant.SENTINEL_DEGRADE_KEY + ".json}")
+    @Value("${" + SentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_DEGRADE_PATH + ":" + DiscoveryConstant.PREFIX_CLASSPATH + SentinelStrategyConstant.SENTINEL_DEGRADE_KEY + "." + DiscoveryConstant.JSON_FORMAT + "}")
     protected String degradePath;
 
     /**
      * 授权规则文件路径
      */
-    @Value("${" + SentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_AUTHORITY_PATH + ":file:" + SentinelStrategyConstant.SENTINEL_AUTHORITY_KEY + ".json}")
+    @Value("${" + SentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_AUTHORITY_PATH + ":" + DiscoveryConstant.PREFIX_CLASSPATH + SentinelStrategyConstant.SENTINEL_AUTHORITY_KEY + "." + DiscoveryConstant.JSON_FORMAT + "}")
     protected String authorityPath;
 
     /**
      * 系统规则文件路径
      */
-    @Value("${" + SentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_SYSTEM_PATH + ":file:" + SentinelStrategyConstant.SENTINEL_SYSTEM_KEY + ".json}")
+    @Value("${" + SentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_SYSTEM_PATH + ":" + DiscoveryConstant.PREFIX_CLASSPATH + SentinelStrategyConstant.SENTINEL_SYSTEM_KEY + "." + DiscoveryConstant.JSON_FORMAT + "}")
     protected String systemPath;
 
     /**
      * 热点参数流控规则文件路径
      */
-    @Value("${" + SentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_PARAM_FLOW_PATH + ":file:" + SentinelStrategyConstant.SENTINEL_PARAM_FLOW_KEY + ".json}")
+    @Value("${" + SentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_PARAM_FLOW_PATH + ":" + DiscoveryConstant.PREFIX_CLASSPATH + SentinelStrategyConstant.SENTINEL_PARAM_FLOW_KEY + "." + DiscoveryConstant.JSON_FORMAT + "}")
     protected String paramFlowPath;
 
     @Autowired
