@@ -12,6 +12,7 @@ package com.nepxion.discovery.plugin.strategy.service.sentinel.loader;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,10 @@ import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRuleManager;
 import com.alibaba.csp.sentinel.slots.system.SystemRule;
 import com.alibaba.csp.sentinel.slots.system.SystemRuleManager;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
+import com.nepxion.discovery.plugin.framework.util.FileContextUtil;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.constant.SentinelStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelAuthorityRuleParser;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelDegradeRuleParser;
@@ -106,23 +110,23 @@ public abstract class AbstractSentinelRuleLoader implements SentinelRuleLoader {
 
     public void loadLocal() {
         if (CollectionUtils.isEmpty(FlowRuleManager.getRules())) {
-            FlowRuleManager.loadRules(new SentinelFlowRuleParser().convert(SentinelRuleLoaderUtil.getRuleText(applicationContext, flowPath)));
+            FlowRuleManager.loadRules(new SentinelFlowRuleParser().convert(getRuleText(applicationContext, flowPath)));
         }
 
         if (CollectionUtils.isEmpty(DegradeRuleManager.getRules())) {
-            DegradeRuleManager.loadRules(new SentinelDegradeRuleParser().convert(SentinelRuleLoaderUtil.getRuleText(applicationContext, degradePath)));
+            DegradeRuleManager.loadRules(new SentinelDegradeRuleParser().convert(getRuleText(applicationContext, degradePath)));
         }
 
         if (CollectionUtils.isEmpty(AuthorityRuleManager.getRules())) {
-            AuthorityRuleManager.loadRules(new SentinelAuthorityRuleParser().convert(SentinelRuleLoaderUtil.getRuleText(applicationContext, authorityPath)));
+            AuthorityRuleManager.loadRules(new SentinelAuthorityRuleParser().convert(getRuleText(applicationContext, authorityPath)));
         }
 
         if (CollectionUtils.isEmpty(SystemRuleManager.getRules())) {
-            SystemRuleManager.loadRules(new SentinelSystemRuleParser().convert(SentinelRuleLoaderUtil.getRuleText(applicationContext, systemPath)));
+            SystemRuleManager.loadRules(new SentinelSystemRuleParser().convert(getRuleText(applicationContext, systemPath)));
         }
 
         if (CollectionUtils.isEmpty(ParamFlowRuleManager.getRules())) {
-            ParamFlowRuleManager.loadRules(new SentinelParamFlowRuleParser().convert(SentinelRuleLoaderUtil.getRuleText(applicationContext, paramFlowPath)));
+            ParamFlowRuleManager.loadRules(new SentinelParamFlowRuleParser().convert(getRuleText(applicationContext, paramFlowPath)));
         }
     }
 
@@ -140,5 +144,22 @@ public abstract class AbstractSentinelRuleLoader implements SentinelRuleLoader {
         LOG.info("{} authority rules loaded...", AuthorityRuleManager.getRules().size());
         LOG.info("{} system rules loaded...", SystemRuleManager.getRules().size());
         LOG.info("{} param flow rules loaded...", ParamFlowRuleManager.getRules().size());
+    }
+
+    public static String getRuleText(ApplicationContext applicationContext, String path) {
+        String text = FileContextUtil.getText(applicationContext, path);
+        if (StringUtils.isEmpty(text)) {
+            text = SentinelStrategyConstant.SENTINEL_EMPTY_RULE;
+        }
+
+        return text;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T getRuleList(ApplicationContext applicationContext, String path) {
+        String text = getRuleText(applicationContext, path);
+
+        return (T) JsonUtil.fromJson(text, new TypeReference<List<T>>() {
+        });
     }
 }
