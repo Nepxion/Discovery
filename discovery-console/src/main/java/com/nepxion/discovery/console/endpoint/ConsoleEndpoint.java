@@ -47,6 +47,8 @@ import com.nepxion.discovery.console.adapter.ConfigAdapter;
 import com.nepxion.discovery.console.authentication.AuthenticationResource;
 import com.nepxion.discovery.console.rest.ConfigClearRestInvoker;
 import com.nepxion.discovery.console.rest.ConfigUpdateRestInvoker;
+import com.nepxion.discovery.console.rest.SentinelClearRestInvoker;
+import com.nepxion.discovery.console.rest.SentinelUpdateRestInvoker;
 import com.nepxion.discovery.console.rest.VersionClearRestInvoker;
 import com.nepxion.discovery.console.rest.VersionUpdateRestInvoker;
 
@@ -224,6 +226,22 @@ public class ConsoleEndpoint {
         return executeVersionClear(serviceId, version, false);
     }
 
+    @RequestMapping(path = "/sentinel/update/{serviceId}/{ruleType}", method = RequestMethod.POST)
+    @ApiOperation(value = "更新Sentinel规则列表", notes = "Sentinel规则类型取值： flow | degrade | authority | system | param-flow", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    @ManagedOperation
+    public ResponseEntity<?> sentinelUpdate(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @PathVariable(value = "ruleType") @ApiParam(value = "Sentinel规则类型", required = true) String ruleType, @RequestBody @ApiParam(value = "Sentinel规则内容，JSON格式", required = true) String rule) {
+        return executeSentinelUpdate(serviceId, ruleType, rule);
+    }
+
+    @RequestMapping(path = "/sentinel/clear/{serviceId}/{ruleType}", method = RequestMethod.POST)
+    @ApiOperation(value = "清除Sentinel规则列表", notes = "Sentinel规则类型取值： flow | degrade | authority | system | param-flow", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    @ManagedOperation
+    public ResponseEntity<?> sentinelClear(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @PathVariable(value = "ruleType") @ApiParam(value = "Sentinel规则类型", required = true) String ruleType) {
+        return executeSentinelClear(serviceId, ruleType);
+    }
+
     private ResponseEntity<?> executeAuthenticate(UserEntity userEntity) {
         try {
             boolean result = authenticationResource.authenticate(userEntity);
@@ -302,7 +320,7 @@ public class ConsoleEndpoint {
         for (ServiceInstance serviceInstance : serviceInstances) {
             Map<String, String> metadata = serviceInstance.getMetadata();
             String serviceId = serviceInstance.getServiceId().toLowerCase();
-            String serviceType =  metadata.get(DiscoveryConstant.SPRING_APPLICATION_TYPE);
+            String serviceType = metadata.get(DiscoveryConstant.SPRING_APPLICATION_TYPE);
             String version = metadata.get(DiscoveryConstant.VERSION);
             String region = metadata.get(DiscoveryConstant.REGION);
             String host = serviceInstance.getHost();
@@ -427,5 +445,21 @@ public class ConsoleEndpoint {
         VersionClearRestInvoker versionClearRestInvoker = new VersionClearRestInvoker(serviceInstances, consoleRestTemplate, version, async);
 
         return versionClearRestInvoker.invoke();
+    }
+
+    private ResponseEntity<?> executeSentinelUpdate(String serviceId, String ruleType, String rule) {
+        List<ServiceInstance> serviceInstances = getInstances(serviceId);
+
+        SentinelUpdateRestInvoker sentinelUpdateRestInvoker = new SentinelUpdateRestInvoker(serviceInstances, consoleRestTemplate, ruleType, rule);
+
+        return sentinelUpdateRestInvoker.invoke();
+    }
+
+    private ResponseEntity<?> executeSentinelClear(String serviceId, String ruleType) {
+        List<ServiceInstance> serviceInstances = getInstances(serviceId);
+
+        SentinelClearRestInvoker sentinelClearRestInvoker = new SentinelClearRestInvoker(serviceInstances, consoleRestTemplate, ruleType);
+
+        return sentinelClearRestInvoker.invoke();
     }
 }
