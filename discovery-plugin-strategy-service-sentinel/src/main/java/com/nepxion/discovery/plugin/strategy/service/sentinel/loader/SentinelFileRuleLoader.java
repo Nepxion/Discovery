@@ -86,27 +86,27 @@ public class SentinelFileRuleLoader implements SentinelRuleLoader {
     @Override
     public void load() {
         if (CollectionUtils.isEmpty(FlowRuleManager.getRules())) {
-            FlowRuleManager.loadRules(sentinelFlowRuleParser.convert(getRuleText(flowPath)));
+            FlowRuleManager.loadRules(sentinelFlowRuleParser.convert(getRule(flowPath)));
             LOG.info("{} flow rules form file loaded...", FlowRuleManager.getRules().size());
         }
 
         if (CollectionUtils.isEmpty(DegradeRuleManager.getRules())) {
-            DegradeRuleManager.loadRules(sentinelDegradeRuleParser.convert(getRuleText(degradePath)));
+            DegradeRuleManager.loadRules(sentinelDegradeRuleParser.convert(getRule(degradePath)));
             LOG.info("{} degrade rules form file loaded...", DegradeRuleManager.getRules().size());
         }
 
         if (CollectionUtils.isEmpty(AuthorityRuleManager.getRules())) {
-            AuthorityRuleManager.loadRules(sentinelAuthorityRuleParser.convert(getRuleText(authorityPath)));
+            AuthorityRuleManager.loadRules(sentinelAuthorityRuleParser.convert(getRule(authorityPath)));
             LOG.info("{} authority rules form file loaded...", AuthorityRuleManager.getRules().size());
         }
 
         if (CollectionUtils.isEmpty(SystemRuleManager.getRules())) {
-            SystemRuleManager.loadRules(sentinelSystemRuleParser.convert(getRuleText(systemPath)));
+            SystemRuleManager.loadRules(sentinelSystemRuleParser.convert(getRule(systemPath)));
             LOG.info("{} system rules form file loaded...", SystemRuleManager.getRules().size());
         }
 
         if (CollectionUtils.isEmpty(ParamFlowRuleManager.getRules())) {
-            ParamFlowRuleManager.loadRules(sentinelParamFlowRuleParser.convert(getRuleText(paramFlowPath)));
+            ParamFlowRuleManager.loadRules(sentinelParamFlowRuleParser.convert(getRule(paramFlowPath)));
             LOG.info("{} param flow rules form file loaded...", ParamFlowRuleManager.getRules().size());
         }
     }
@@ -155,12 +155,12 @@ public class SentinelFileRuleLoader implements SentinelRuleLoader {
         return sentinelParamFlowRuleParser;
     }
 
-    public String getRuleText(String path) {
-        String text = FileContextUtil.getText(applicationContext, path);
-        if (StringUtils.isEmpty(text)) {
-            text = SentinelStrategyConstant.SENTINEL_EMPTY_RULE;
+    public String getRule(String path) {
+        String rule = FileContextUtil.getText(applicationContext, path);
+        if (StringUtils.isEmpty(rule)) {
+            rule = SentinelStrategyConstant.SENTINEL_EMPTY_RULE;
         }
 
-        return text;
+        return rule;
     }
 }
