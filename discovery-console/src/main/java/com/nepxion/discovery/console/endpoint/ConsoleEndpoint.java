@@ -227,18 +227,18 @@ public class ConsoleEndpoint {
     }
 
     @RequestMapping(path = "/sentinel/update/{serviceId}/{ruleType}", method = RequestMethod.POST)
-    @ApiOperation(value = "更新Sentinel规则列表", notes = "Sentinel规则类型取值： flow | degrade | authority | system | param-flow", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "更新哨兵规则列表", notes = "哨兵规则类型取值： flow | degrade | authority | system | param-flow", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<?> sentinelUpdate(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @PathVariable(value = "ruleType") @ApiParam(value = "Sentinel规则类型", required = true) String ruleType, @RequestBody @ApiParam(value = "Sentinel规则内容，JSON格式", required = true) String rule) {
+    public ResponseEntity<?> sentinelUpdate(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @PathVariable(value = "ruleType") @ApiParam(value = "哨兵规则类型", required = true) String ruleType, @RequestBody @ApiParam(value = "哨兵规则内容，JSON格式", required = true) String rule) {
         return executeSentinelUpdate(serviceId, ruleType, rule);
     }
 
     @RequestMapping(path = "/sentinel/clear/{serviceId}/{ruleType}", method = RequestMethod.POST)
-    @ApiOperation(value = "清除Sentinel规则列表", notes = "Sentinel规则类型取值： flow | degrade | authority | system | param-flow", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "清除哨兵规则列表", notes = "哨兵规则类型取值： flow | degrade | authority | system | param-flow", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<?> sentinelClear(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @PathVariable(value = "ruleType") @ApiParam(value = "Sentinel规则类型", required = true) String ruleType) {
+    public ResponseEntity<?> sentinelClear(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @PathVariable(value = "ruleType") @ApiParam(value = "哨兵规则类型", required = true) String ruleType) {
         return executeSentinelClear(serviceId, ruleType);
     }
 
