@@ -11,6 +11,7 @@ package com.nepxion.discovery.plugin.admincenter.endpoint;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ import org.springframework.boot.actuate.endpoint.web.annotation.RestControllerEn
 import org.springframework.http.ResponseEntity;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.jmx.export.annotation.ManagedResource;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -53,7 +55,7 @@ public class SentinelParamEndpoint {
     @ApiOperation(value = "更新热点参数流控规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<?> updateParamFlowRules(String rule) {
+    public ResponseEntity<?> updateParamFlowRules(@RequestBody @ApiParam(value = "热点参数流控规则内容，JSON格式", required = true) String rule) {
         ParamFlowRuleManager.loadRules(sentinelParamFlowRuleParser.convert(rule));
 
         LOG.info("{} param flow rules loaded...", ParamFlowRuleManager.getRules().size());

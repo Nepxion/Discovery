@@ -11,6 +11,7 @@ package com.nepxion.discovery.plugin.admincenter.endpoint;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ import org.springframework.boot.actuate.endpoint.web.annotation.RestControllerEn
 import org.springframework.http.ResponseEntity;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.jmx.export.annotation.ManagedResource;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -83,7 +85,7 @@ public class SentinelCoreEndpoint {
     @ApiOperation(value = "更新流控规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<?> updateFlowRules(String rule) {
+    public ResponseEntity<?> updateFlowRules(@RequestBody @ApiParam(value = "流控规则内容，JSON格式", required = true) String rule) {
         FlowRuleManager.loadRules(sentinelFlowRuleParser.convert(rule));
 
         LOG.info("{} flow rules loaded...", FlowRuleManager.getRules().size());
@@ -115,7 +117,7 @@ public class SentinelCoreEndpoint {
     @ApiOperation(value = "更新降级规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<?> updateDegradeRules(String rule) {
+    public ResponseEntity<?> updateDegradeRules(@RequestBody @ApiParam(value = "降级规则内容，JSON格式", required = true) String rule) {
         DegradeRuleManager.loadRules(sentinelDegradeRuleParser.convert(rule));
 
         LOG.info("{} degrade rules loaded...", DegradeRuleManager.getRules().size());
@@ -147,7 +149,7 @@ public class SentinelCoreEndpoint {
     @ApiOperation(value = "更新授权规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<?> updateAuthorityRules(String rule) {
+    public ResponseEntity<?> updateAuthorityRules(@RequestBody @ApiParam(value = "授权规则内容，JSON格式", required = true) String rule) {
         AuthorityRuleManager.loadRules(sentinelAuthorityRuleParser.convert(rule));
 
         LOG.info("{} authority rules loaded...", AuthorityRuleManager.getRules().size());
@@ -179,7 +181,7 @@ public class SentinelCoreEndpoint {
     @ApiOperation(value = "更新系统规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<?> updateSystemRules(String rule) {
+    public ResponseEntity<?> updateSystemRules(@RequestBody @ApiParam(value = "系统规则内容，JSON格式", required = true) String rule) {
         SystemRuleManager.loadRules(sentinelSystemRuleParser.convert(rule));
 
         LOG.info("{} system rules loaded...", SystemRuleManager.getRules().size());
