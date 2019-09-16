@@ -68,30 +68,45 @@ public class SentinelFileRuleLoader implements SentinelRuleLoader {
     @Autowired
     protected ApplicationContext applicationContext;
 
+    @Autowired
+    protected SentinelFlowRuleParser sentinelFlowRuleParser;
+
+    @Autowired
+    protected SentinelDegradeRuleParser sentinelDegradeRuleParser;
+
+    @Autowired
+    protected SentinelAuthorityRuleParser sentinelAuthorityRuleParser;
+
+    @Autowired
+    protected SentinelSystemRuleParser sentinelSystemRuleParser;
+
+    @Autowired
+    protected SentinelParamFlowRuleParser sentinelParamFlowRuleParser;
+
     @Override
     public void load() {
         if (CollectionUtils.isEmpty(FlowRuleManager.getRules())) {
-            FlowRuleManager.loadRules(new SentinelFlowRuleParser().convert(getRuleText(flowPath)));
+            FlowRuleManager.loadRules(sentinelFlowRuleParser.convert(getRuleText(flowPath)));
             LOG.info("{} flow rules form file loaded...", FlowRuleManager.getRules().size());
         }
 
         if (CollectionUtils.isEmpty(DegradeRuleManager.getRules())) {
-            DegradeRuleManager.loadRules(new SentinelDegradeRuleParser().convert(getRuleText(degradePath)));
+            DegradeRuleManager.loadRules(sentinelDegradeRuleParser.convert(getRuleText(degradePath)));
             LOG.info("{} degrade rules form file loaded...", DegradeRuleManager.getRules().size());
         }
 
         if (CollectionUtils.isEmpty(AuthorityRuleManager.getRules())) {
-            AuthorityRuleManager.loadRules(new SentinelAuthorityRuleParser().convert(getRuleText(authorityPath)));
+            AuthorityRuleManager.loadRules(sentinelAuthorityRuleParser.convert(getRuleText(authorityPath)));
             LOG.info("{} authority rules form file loaded...", AuthorityRuleManager.getRules().size());
         }
 
         if (CollectionUtils.isEmpty(SystemRuleManager.getRules())) {
-            SystemRuleManager.loadRules(new SentinelSystemRuleParser().convert(getRuleText(systemPath)));
+            SystemRuleManager.loadRules(sentinelSystemRuleParser.convert(getRuleText(systemPath)));
             LOG.info("{} system rules form file loaded...", SystemRuleManager.getRules().size());
         }
 
         if (CollectionUtils.isEmpty(ParamFlowRuleManager.getRules())) {
-            ParamFlowRuleManager.loadRules(new SentinelParamFlowRuleParser().convert(getRuleText(paramFlowPath)));
+            ParamFlowRuleManager.loadRules(sentinelParamFlowRuleParser.convert(getRuleText(paramFlowPath)));
             LOG.info("{} param flow rules form file loaded...", ParamFlowRuleManager.getRules().size());
         }
     }
@@ -118,6 +133,26 @@ public class SentinelFileRuleLoader implements SentinelRuleLoader {
 
     public ApplicationContext getApplicationContext() {
         return applicationContext;
+    }
+
+    public SentinelFlowRuleParser getSentinelFlowRuleParser() {
+        return sentinelFlowRuleParser;
+    }
+
+    public SentinelDegradeRuleParser getSentinelDegradeRuleParser() {
+        return sentinelDegradeRuleParser;
+    }
+
+    public SentinelAuthorityRuleParser getSentinelAuthorityRuleParser() {
+        return sentinelAuthorityRuleParser;
+    }
+
+    public SentinelSystemRuleParser getSentinelSystemRuleParser() {
+        return sentinelSystemRuleParser;
+    }
+
+    public SentinelParamFlowRuleParser getSentinelParamFlowRuleParser() {
+        return sentinelParamFlowRuleParser;
     }
 
     public String getRuleText(String path) {

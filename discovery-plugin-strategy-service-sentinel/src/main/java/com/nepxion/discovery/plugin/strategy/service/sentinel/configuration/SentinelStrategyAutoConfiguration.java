@@ -22,7 +22,12 @@ import com.alibaba.csp.sentinel.adapter.servlet.callback.RequestOriginParser;
 import com.alibaba.csp.sentinel.annotation.aspectj.SentinelResourceAspect;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.constant.SentinelStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.loader.SentinelRuleLoader;
+import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelAuthorityRuleParser;
+import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelDegradeRuleParser;
+import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelFlowRuleParser;
+import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelParamFlowRuleParser;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelRequestOriginParser;
+import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.SentinelSystemRuleParser;
 
 @Configuration
 @ConditionalOnProperty(value = SentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_ENABLED, matchIfMissing = false)
@@ -41,12 +46,37 @@ public class SentinelStrategyAutoConfiguration {
     }
 
     @Bean
-    public RequestOriginParser sentinelRequestOriginParser() {
-        return new SentinelRequestOriginParser();
+    public SentinelResourceAspect sentinelResourceAspect() {
+        return new SentinelResourceAspect();
     }
 
     @Bean
-    public SentinelResourceAspect sentinelResourceAspect() {
-        return new SentinelResourceAspect();
+    public SentinelFlowRuleParser sentinelFlowRuleParser() {
+        return new SentinelFlowRuleParser();
+    }
+
+    @Bean
+    public SentinelDegradeRuleParser sentinelDegradeRuleParser() {
+        return new SentinelDegradeRuleParser();
+    }
+
+    @Bean
+    public SentinelAuthorityRuleParser sentinelAuthorityRuleParser() {
+        return new SentinelAuthorityRuleParser();
+    }
+
+    @Bean
+    public SentinelSystemRuleParser sentinelSystemRuleParser() {
+        return new SentinelSystemRuleParser();
+    }
+
+    @Bean
+    public SentinelParamFlowRuleParser sentinelParamFlowRuleParser() {
+        return new SentinelParamFlowRuleParser();
+    }
+
+    @Bean
+    public RequestOriginParser sentinelRequestOriginParser() {
+        return new SentinelRequestOriginParser();
     }
 }
