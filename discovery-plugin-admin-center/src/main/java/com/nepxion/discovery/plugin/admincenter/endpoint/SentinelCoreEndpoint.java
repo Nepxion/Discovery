@@ -18,7 +18,9 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.web.annotation.RestControllerEndpoint;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.jmx.export.annotation.ManagedResource;
@@ -40,6 +42,7 @@ import com.alibaba.csp.sentinel.slots.system.SystemRuleManager;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 
 @RestController
 @RequestMapping(path = "/sentinel-core")
@@ -81,11 +84,19 @@ public class SentinelCoreEndpoint {
         }
     };
 
+    @Autowired
+    private PluginContextAware pluginContextAware;
+
     @RequestMapping(path = "/update-flow-rules", method = RequestMethod.POST)
     @ApiOperation(value = "更新流控规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
     public ResponseEntity<?> updateFlowRules(@RequestBody @ApiParam(value = "流控规则内容，JSON格式", required = true) String rule) {
+        Boolean isConfigRestControlEnabled = pluginContextAware.isConfigRestControlEnabled();
+        if (!isConfigRestControlEnabled) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Config rest control is disabled");
+        }
+
         FlowRuleManager.loadRules(sentinelFlowRuleParser.convert(rule));
 
         LOG.info("{} flow rules loaded...", FlowRuleManager.getRules().size());
@@ -98,6 +109,11 @@ public class SentinelCoreEndpoint {
     @ResponseBody
     @ManagedOperation
     public ResponseEntity<?> clearFlowRules() {
+        Boolean isConfigRestControlEnabled = pluginContextAware.isConfigRestControlEnabled();
+        if (!isConfigRestControlEnabled) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Config rest control is disabled");
+        }
+
         LOG.info("{} flow rules cleared...", FlowRuleManager.getRules().size());
 
         FlowRuleManager.loadRules(new ArrayList<FlowRule>());
@@ -118,6 +134,11 @@ public class SentinelCoreEndpoint {
     @ResponseBody
     @ManagedOperation
     public ResponseEntity<?> updateDegradeRules(@RequestBody @ApiParam(value = "降级规则内容，JSON格式", required = true) String rule) {
+        Boolean isConfigRestControlEnabled = pluginContextAware.isConfigRestControlEnabled();
+        if (!isConfigRestControlEnabled) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Config rest control is disabled");
+        }
+
         DegradeRuleManager.loadRules(sentinelDegradeRuleParser.convert(rule));
 
         LOG.info("{} degrade rules loaded...", DegradeRuleManager.getRules().size());
@@ -130,6 +151,11 @@ public class SentinelCoreEndpoint {
     @ResponseBody
     @ManagedOperation
     public ResponseEntity<?> clearDegradeRules() {
+        Boolean isConfigRestControlEnabled = pluginContextAware.isConfigRestControlEnabled();
+        if (!isConfigRestControlEnabled) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Config rest control is disabled");
+        }
+
         LOG.info("{} degrade rules cleared...", DegradeRuleManager.getRules().size());
 
         DegradeRuleManager.loadRules(new ArrayList<DegradeRule>());
@@ -150,6 +176,11 @@ public class SentinelCoreEndpoint {
     @ResponseBody
     @ManagedOperation
     public ResponseEntity<?> updateAuthorityRules(@RequestBody @ApiParam(value = "授权规则内容，JSON格式", required = true) String rule) {
+        Boolean isConfigRestControlEnabled = pluginContextAware.isConfigRestControlEnabled();
+        if (!isConfigRestControlEnabled) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Config rest control is disabled");
+        }
+
         AuthorityRuleManager.loadRules(sentinelAuthorityRuleParser.convert(rule));
 
         LOG.info("{} authority rules loaded...", AuthorityRuleManager.getRules().size());
@@ -162,6 +193,11 @@ public class SentinelCoreEndpoint {
     @ResponseBody
     @ManagedOperation
     public ResponseEntity<?> clearAuthorityRules() {
+        Boolean isConfigRestControlEnabled = pluginContextAware.isConfigRestControlEnabled();
+        if (!isConfigRestControlEnabled) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Config rest control is disabled");
+        }
+
         LOG.info("{} authority rules cleared...", AuthorityRuleManager.getRules().size());
 
         AuthorityRuleManager.loadRules(new ArrayList<AuthorityRule>());
@@ -182,6 +218,11 @@ public class SentinelCoreEndpoint {
     @ResponseBody
     @ManagedOperation
     public ResponseEntity<?> updateSystemRules(@RequestBody @ApiParam(value = "系统规则内容，JSON格式", required = true) String rule) {
+        Boolean isConfigRestControlEnabled = pluginContextAware.isConfigRestControlEnabled();
+        if (!isConfigRestControlEnabled) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Config rest control is disabled");
+        }
+
         SystemRuleManager.loadRules(sentinelSystemRuleParser.convert(rule));
 
         LOG.info("{} system rules loaded...", SystemRuleManager.getRules().size());
@@ -194,6 +235,11 @@ public class SentinelCoreEndpoint {
     @ResponseBody
     @ManagedOperation
     public ResponseEntity<?> clearSystemRules() {
+        Boolean isConfigRestControlEnabled = pluginContextAware.isConfigRestControlEnabled();
+        if (!isConfigRestControlEnabled) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Config rest control is disabled");
+        }
+
         LOG.info("{} system rules cleared...", SystemRuleManager.getRules().size());
 
         SystemRuleManager.loadRules(new ArrayList<SystemRule>());

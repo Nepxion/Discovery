@@ -18,7 +18,9 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.web.annotation.RestControllerEndpoint;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.jmx.export.annotation.ManagedResource;
@@ -34,6 +36,7 @@ import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRuleManager;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 
 @RestController
 @RequestMapping(path = "/sentinel-param")
@@ -51,11 +54,19 @@ public class SentinelParamEndpoint {
         }
     };
 
+    @Autowired
+    private PluginContextAware pluginContextAware;
+
     @RequestMapping(path = "/update-param-flow-rules", method = RequestMethod.POST)
     @ApiOperation(value = "更新热点参数流控规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     @ManagedOperation
     public ResponseEntity<?> updateParamFlowRules(@RequestBody @ApiParam(value = "热点参数流控规则内容，JSON格式", required = true) String rule) {
+        Boolean isConfigRestControlEnabled = pluginContextAware.isConfigRestControlEnabled();
+        if (!isConfigRestControlEnabled) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Config rest control is disabled");
+        }
+
         ParamFlowRuleManager.loadRules(sentinelParamFlowRuleParser.convert(rule));
 
         LOG.info("{} param flow rules loaded...", ParamFlowRuleManager.getRules().size());
@@ -68,6 +79,11 @@ public class SentinelParamEndpoint {
     @ResponseBody
     @ManagedOperation
     public ResponseEntity<?> clearParamFlowRules() {
+        Boolean isConfigRestControlEnabled = pluginContextAware.isConfigRestControlEnabled();
+        if (!isConfigRestControlEnabled) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Config rest control is disabled");
+        }
+
         LOG.info("{} param flow rules cleared...", ParamFlowRuleManager.getRules().size());
 
         ParamFlowRuleManager.loadRules(new ArrayList<ParamFlowRule>());
