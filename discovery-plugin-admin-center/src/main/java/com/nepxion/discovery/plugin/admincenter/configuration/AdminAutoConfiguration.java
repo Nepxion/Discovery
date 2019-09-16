@@ -18,6 +18,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
+import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRule;
 import com.nepxion.discovery.plugin.admincenter.endpoint.ConfigEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.RouterEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.SentinelCoreEndpoint;
@@ -48,15 +50,19 @@ public class AdminAutoConfiguration {
         public RestTemplate routerRestTemplate() {
             return new RestTemplate();
         }
+    }
 
+    @ConditionalOnClass({ RestControllerEndpoint.class, FlowRule.class })
+    protected static class SentinelCoreEndpointConfiguration {
         @Bean
-        @ConditionalOnClass(name = { "com.alibaba.csp.sentinel.slots.block.flow.FlowRule" })
         public SentinelCoreEndpoint sentinelCoreEndpoint() {
             return new SentinelCoreEndpoint();
         }
+    }
 
+    @ConditionalOnClass({ RestControllerEndpoint.class, ParamFlowRule.class })
+    protected static class SentinelParamEndpointConfiguration {
         @Bean
-        @ConditionalOnClass(name = { "com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRule" })
         public SentinelParamEndpoint sentinelParamEndpoint() {
             return new SentinelParamEndpoint();
         }
