@@ -17,6 +17,6 @@ import com.nepxion.discovery.plugin.example.service.feign.BFeign;
 public class MyBFeignFallbackHandler implements BFeign {
     @Override
     public String invoke(String value) {
-        return "B Feign client sentinel fallback, value=" + value;
+        return value + " -> B Feign client sentinel fallback";
     }
 }

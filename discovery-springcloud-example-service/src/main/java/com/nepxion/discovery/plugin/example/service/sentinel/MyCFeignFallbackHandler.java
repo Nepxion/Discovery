@@ -17,6 +17,6 @@ import com.nepxion.discovery.plugin.example.service.feign.CFeign;
 public class MyCFeignFallbackHandler implements CFeign {
     @Override
     public String invoke(String value) {
-        return "C Feign client sentinel fallback, value=" + value;
+        return value + " -> C Feign client sentinel fallback";
     }
 }
