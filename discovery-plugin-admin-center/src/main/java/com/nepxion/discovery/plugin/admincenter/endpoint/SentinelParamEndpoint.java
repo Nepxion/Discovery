@@ -12,9 +12,13 @@ package com.nepxion.discovery.plugin.admincenter.endpoint;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.actuate.endpoint.web.annotation.RestControllerEndpoint;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,8 +26,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.csp.sentinel.datasource.Converter;
 import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRuleManager;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
 @RestController
 @RequestMapping(path = "/sentinel-param")
@@ -31,11 +39,45 @@ import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRuleManager;
 @RestControllerEndpoint(id = "sentinel-param")
 @ManagedResource(description = "Sentinel Param Endpoint")
 public class SentinelParamEndpoint {
-    @RequestMapping(path = "/param-flow-rules", method = RequestMethod.GET)
+    private static final Logger LOG = LoggerFactory.getLogger(SentinelParamEndpoint.class);
+
+    private static Converter<String, List<ParamFlowRule>> sentinelParamFlowRuleParser = new Converter<String, List<ParamFlowRule>>() {
+        @Override
+        public List<ParamFlowRule> convert(String source) {
+            return JSON.parseObject(source, new TypeReference<List<ParamFlowRule>>() {
+            });
+        }
+    };
+
+    @RequestMapping(path = "/update-param-flow-rules", method = RequestMethod.POST)
+    @ApiOperation(value = "更新热点参数流控规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    @ManagedOperation
+    public ResponseEntity<?> updateParamFlowRules(String rule) {
+        ParamFlowRuleManager.loadRules(sentinelParamFlowRuleParser.convert(rule));
+
+        LOG.info("{} param flow rules loaded...", ParamFlowRuleManager.getRules().size());
+
+        return ResponseEntity.ok().body(DiscoveryConstant.OK);
+    }
+
+    @RequestMapping(path = "/clear-param-flow-rules", method = RequestMethod.POST)
+    @ApiOperation(value = "清除热点参数流控规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    @ManagedOperation
+    public ResponseEntity<?> clearParamFlowRules() {
+        LOG.info("{} param flow rules cleared...", ParamFlowRuleManager.getRules().size());
+
+        ParamFlowRuleManager.loadRules(new ArrayList<ParamFlowRule>());
+
+        return ResponseEntity.ok().body(DiscoveryConstant.OK);
+    }
+
+    @RequestMapping(path = "/view-param-flow-rules", method = RequestMethod.GET)
     @ApiOperation(value = "获取热点参数流控规则列表", notes = "", response = List.class, httpMethod = "GET")
     @ResponseBody
     @ManagedOperation
-    public List<ParamFlowRule> paramFlowRules() {
-        return ParamFlowRuleManager.getRules();
+    public ResponseEntity<List<ParamFlowRule>> viewParamFlowRules() {
+        return ResponseEntity.ok().body(ParamFlowRuleManager.getRules());
     }
 }
