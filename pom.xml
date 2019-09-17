@@ -30,7 +30,12 @@
         <module>discovery-plugin-starter-zookeeper</module>
         <module>discovery-plugin-starter-nacos</module>
         <module>discovery-plugin-strategy</module>
+        <module>discovery-plugin-strategy-sentinel</module>
+        <module>discovery-plugin-strategy-sentinel-starter-local</module>
+        <module>discovery-plugin-strategy-sentinel-starter-apollo</module>
+        <module>discovery-plugin-strategy-sentinel-starter-nacos</module>
         <module>discovery-plugin-strategy-starter-service</module>
+        <module>discovery-plugin-strategy-starter-service-sentinel</module>
         <module>discovery-plugin-strategy-starter-zuul</module>
         <module>discovery-plugin-strategy-starter-gateway</module>
         <module>discovery-plugin-strategy-starter-hystrix</module>
@@ -58,12 +63,13 @@
         <dom4j.version>1.6.1</dom4j.version>
         <apollo.client.version>1.4.0</apollo.client.version>
         <nacos.client.version>1.1.1</nacos.client.version>
+        <sentinel.version>1.6.3</sentinel.version>
         <guava.version>27.0-jre</guava.version>
         <caffeine.version>2.7.0</caffeine.version>
         <swagger.version>2.7.0</swagger.version>
-        <spring.cloud.version>Greenwich.SR2</spring.cloud.version>
+        <spring.cloud.version>Greenwich.SR3</spring.cloud.version>
         <spring.cloud.alibaba.version>2.1.0.RELEASE</spring.cloud.alibaba.version>
-        <spring.boot.version>2.1.6.RELEASE</spring.boot.version>
+        <spring.boot.version>2.1.8.RELEASE</spring.boot.version>
         <disruptor.version>3.3.7</disruptor.version>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -187,7 +193,37 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-strategy-sentinel</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-strategy-sentinel-starter-local</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-strategy-sentinel-starter-apollo</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-strategy-sentinel-starter-nacos</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-strategy-starter-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-strategy-starter-service-sentinel</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -309,6 +345,48 @@
                 <groupId>com.alibaba.nacos</groupId>
                 <artifactId>nacos-client</artifactId>
                 <version>${nacos.client.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-annotation-aspectj</artifactId>
+                <version>${sentinel.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-transport-common</artifactId>
+                <version>${sentinel.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-transport-simple-http</artifactId>
+                <version>${sentinel.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-web-servlet</artifactId>
+                <version>${sentinel.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-parameter-flow-control</artifactId>
+                <version>${sentinel.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-datasource-apollo</artifactId>
+                <version>${sentinel.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-datasource-nacos</artifactId>
+                <version>${sentinel.version}</version>
             </dependency>
 
             <dependency>

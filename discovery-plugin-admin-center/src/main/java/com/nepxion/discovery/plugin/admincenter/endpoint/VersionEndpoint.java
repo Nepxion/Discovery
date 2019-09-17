@@ -97,6 +97,11 @@ public class VersionEndpoint {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Discovery control is disabled");
         }
 
+        Boolean isConfigRestControlEnabled = pluginContextAware.isConfigRestControlEnabled();
+        if (!isConfigRestControlEnabled) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Config rest control is disabled");
+        }
+
         if (StringUtils.isEmpty(version)) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Version can't be null or empty");
         }
@@ -122,6 +127,11 @@ public class VersionEndpoint {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         if (!discoveryControlEnabled) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Discovery control is disabled");
+        }
+
+        Boolean isConfigRestControlEnabled = pluginContextAware.isConfigRestControlEnabled();
+        if (!isConfigRestControlEnabled) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Config rest control is disabled");
         }
 
         // 修复Swagger的一个Bug，当在Swagger界面不输入版本号的时候，传到后端变成了“{}”

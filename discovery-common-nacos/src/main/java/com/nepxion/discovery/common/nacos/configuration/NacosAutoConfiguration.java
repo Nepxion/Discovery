@@ -32,6 +32,17 @@ public class NacosAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public ConfigService nacosConfigService() throws NacosException {
+        Properties properties = createNacosProperties(environment, true);
+
+        return NacosFactory.createConfigService(properties);
+    }
+
+    @Bean
+    public NacosOperation nacosOperation() {
+        return new NacosOperation();
+    }
+
+    public static Properties createNacosProperties(Environment environment, boolean enableRemoteSyncConfig) {
         Properties properties = new Properties();
 
         String serverAddr = environment.getProperty(NacosConstant.NACOS_SERVER_ADDR);
@@ -126,13 +137,8 @@ public class NacosAutoConfiguration {
             properties.put(NacosConstant.RAM_ROLE_NAME, ramRoleName);
         }
 
-        properties.put(NacosConstant.ENABLE_REMOTE_SYNC_CONFIG, Boolean.toString(true));
+        properties.put(NacosConstant.ENABLE_REMOTE_SYNC_CONFIG, Boolean.toString(enableRemoteSyncConfig));
 
-        return NacosFactory.createConfigService(properties);
-    }
-
-    @Bean
-    public NacosOperation nacosOperation() {
-        return new NacosOperation();
+        return properties;
     }
 }
