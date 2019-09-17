@@ -288,11 +288,12 @@ Spring Boot Admin监控平台
 | discovery-plugin-starter-zookeeper | 核心Zookeeper Starter |
 | discovery-plugin-starter-nacos | 核心Nacos Starter |
 | discovery-plugin-strategy | 路由策略 |
+| discovery-plugin-strategy-sentinel | 路由策略的Sentinel |
+| discovery-plugin-strategy-sentinel-starter-local | 路由策略的Sentinel Local Starter |
+| discovery-plugin-strategy-sentinel-starter-apollo | 路由策略的Sentinel Apollo Starter |
+| discovery-plugin-strategy-sentinel-starter-nacos | 路由策略的Sentinel Nacos Starter |
 | discovery-plugin-strategy-starter-service | 路由策略的Service Starter |
-| ddiscovery-plugin-strategy-service-sentinel | 路由策略的Service Sentinel |
-| discovery-plugin-strategy-starter-service-sentinel-local | 路由策略下，Service Sentinel Local Starter |
-| discovery-plugin-strategy-starter-service-sentinel-apollo | 路由策略下，Service Sentinel Apollo Starter |
-| discovery-plugin-strategy-starter-service-sentinel-nacos | 路由策略下，Service Sentinel Nacos Starter |
+| discovery-plugin-strategy-starter-service-sentinel | 路由策略的Service Sentinel Starter |
 | discovery-plugin-strategy-starter-zuul | 路由策略的Zuul Starter |
 | discovery-plugin-strategy-starter-gateway | 路由策略的Spring Cloud Gateway Starter |
 | discovery-plugin-strategy-starter-hystrix | 路由策略下，Hystrix做线程模式的服务隔离必须引入的插件 Starter |
@@ -1043,8 +1044,6 @@ spring.application.strategy.trace.debug.enabled=true
 
 # 启动和关闭Sentinel限流降级熔断权限等功能。缺失则默认为false
 # spring.application.strategy.sentinel.enabled=true
-# 执行规则时候，以Http请求中的Header值作为关键Key。缺失则默认为n-d-service-id，即以服务名作为关键Key
-# spring.application.strategy.sentinel.request.origin.key=n-d-service-id
 # 流控规则文件路径。缺失则默认为classpath:sentinel-flow.json
 # spring.application.strategy.sentinel.flow.path=classpath:sentinel-flow.json
 # 降级规则文件路径。缺失则默认为classpath:sentinel-degrade.json
@@ -1055,6 +1054,8 @@ spring.application.strategy.trace.debug.enabled=true
 # spring.application.strategy.sentinel.system.path=classpath:sentinel-system.json
 # 热点参数流控规则文件路径。缺失则默认为classpath:sentinel-param-flow.json
 # spring.application.strategy.sentinel.param.flow.path=classpath:sentinel-param-flow.json
+# 服务端执行规则时候，以Http请求中的Header值作为关键Key。缺失则默认为n-d-service-id，即以服务名作为关键Key
+# spring.application.strategy.service.sentinel.request.origin.key=n-d-service-id
 ```
 
 Spring Cloud Gateway端配置

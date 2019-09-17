@@ -1,0 +1,10 @@
+{
+	"properties": [
+		{
+			"name": "spring.application.strategy.service.sentinel.request.origin.key",
+			"type": "java.lang.String",
+			"defaultValue": "n-d-service-id",
+			"description": "Strategy service sentinel request origin key, it can be http header value."
+		}
+	]
+}
