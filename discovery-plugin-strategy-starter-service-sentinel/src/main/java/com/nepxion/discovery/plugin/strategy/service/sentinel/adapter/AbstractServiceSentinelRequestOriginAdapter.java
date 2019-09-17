@@ -9,16 +9,25 @@ package com.nepxion.discovery.plugin.strategy.service.sentinel.adapter;
  * @version 1.0
  */
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.constant.ServiceSentinelStrategyConstant;
 
 public abstract class AbstractServiceSentinelRequestOriginAdapter implements ServiceSentinelRequestOriginAdapter {
     @Value("${" + ServiceSentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SERVICE_SENTINEL_REQUEST_ORIGIN_KEY + ":" + DiscoveryConstant.N_D_SERVICE_ID + "}")
     protected String requestOriginKey;
 
+    @Autowired
+    protected PluginAdapter pluginAdapter;
+
     public String getRequestOriginKey() {
         return requestOriginKey;
+    }
+
+    public PluginAdapter getPluginAdapter() {
+        return pluginAdapter;
     }
 }
