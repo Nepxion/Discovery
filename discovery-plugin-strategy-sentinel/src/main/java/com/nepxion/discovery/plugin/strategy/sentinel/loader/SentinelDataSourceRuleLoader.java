@@ -57,7 +57,7 @@ public abstract class SentinelDataSourceRuleLoader extends SentinelFileRuleLoade
 
         ReadableDataSource<String, List<ParamFlowRule>> paramFlowRuleDataSource = getParamFlowRuleDataSource();
         ParamFlowRuleManager.register2Property(paramFlowRuleDataSource.getProperty());
-        LOG.info("{} param flow rules datasource file loaded...", ParamFlowRuleManager.getRules().size());
+        LOG.info("{} param flow rules form datasource loaded...", ParamFlowRuleManager.getRules().size());
 
         boolean isFileManualLoaded = isFileManualLoaded();
         if (isFileManualLoaded) {
