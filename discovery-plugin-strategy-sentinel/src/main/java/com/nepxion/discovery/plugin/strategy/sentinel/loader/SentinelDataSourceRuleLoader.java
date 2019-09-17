@@ -77,5 +77,7 @@ public abstract class SentinelDataSourceRuleLoader extends SentinelFileRuleLoade
 
     public abstract ReadableDataSource<String, List<ParamFlowRule>> getParamFlowRuleDataSource();
 
+    // 远程配置中心的规则装载为空或者时候，需要从本地规则文件中装载
+    // 不同的Sentinel DataSource机制不一样，例如：ApolloDataSource默认会装载本地规则文件，NacosDataSource则不会，需要手工装载
     public abstract boolean isFileManualLoaded();
 }
