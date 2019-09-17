@@ -41,5 +41,6 @@ public class VersionUpdateRestInvoker extends AbstractRestInvoker {
     @Override
     protected void checkPermission(ServiceInstance serviceInstance) throws Exception {
         checkDiscoveryControlPermission(serviceInstance);
+        checkConfigRestControlPermission(serviceInstance);
     }
 }

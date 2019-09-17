@@ -63,18 +63,10 @@ public class CRestImpl extends AbstractRestImpl {
     }
 
     public String handleBlock(String value, BlockException e) {
-        LOG.info("Value={}", value);
-        LOG.info("Sentinel CServer Block Causes");
-        LOG.error("Sentinel CServer Block Exception", e);
-        LOG.info("Sentinel Rule Limit App={}", e.getRuleLimitApp());
-
-        return "Sentinel CServer Block Causes";
+        return "C server sentinel block, cause=" + e.getClass().getName() + ", rule=" + e.getRule() + ", limitApp=" + e.getRuleLimitApp() + ", value=" + value;
     }
 
     public String handleFallback(String value) {
-        LOG.info("Value={}", value);
-        LOG.info("Sentinel CServer Fallback Causes");
-
-        return "Sentinel CServer Fallback Causes";
+        return "C server sentinel fallback, value=" + value;
     }
 }
