@@ -56,9 +56,4 @@ public class SentinelNacosRuleLoader extends SentinelDataSourceRuleLoader {
     public ReadableDataSource<String, List<ParamFlowRule>> getParamFlowRuleDataSource() {
         return new NacosDataSource<>(properties, pluginAdapter.getGroup(), pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_PARAM_FLOW_KEY, sentinelParamFlowRuleParser);
     }
-
-    @Override
-    public boolean isFileManualLoaded() {
-        return true;
-    }
 }

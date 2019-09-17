@@ -33,31 +33,26 @@ public class SentinelApolloRuleLoader extends SentinelDataSourceRuleLoader {
 
     @Override
     public ReadableDataSource<String, List<FlowRule>> getFlowRuleDataSource() {
-        return new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_FLOW_KEY, getRule(flowPath), sentinelFlowRuleParser);
+        return new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_FLOW_KEY, null, sentinelFlowRuleParser);
     }
 
     @Override
     public ReadableDataSource<String, List<DegradeRule>> getDegradeRuleDataSource() {
-        return new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_DEGRADE_KEY, getRule(degradePath), sentinelDegradeRuleParser);
+        return new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_DEGRADE_KEY, null, sentinelDegradeRuleParser);
     }
 
     @Override
     public ReadableDataSource<String, List<AuthorityRule>> getAuthorityRuleDataSource() {
-        return new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_AUTHORITY_KEY, getRule(authorityPath), sentinelAuthorityRuleParser);
+        return new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_AUTHORITY_KEY, null, sentinelAuthorityRuleParser);
     }
 
     @Override
     public ReadableDataSource<String, List<SystemRule>> getSystemRuleDataSource() {
-        return new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_SYSTEM_KEY, getRule(systemPath), sentinelSystemRuleParser);
+        return new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_SYSTEM_KEY, null, sentinelSystemRuleParser);
     }
 
     @Override
     public ReadableDataSource<String, List<ParamFlowRule>> getParamFlowRuleDataSource() {
-        return new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_PARAM_FLOW_KEY, getRule(paramFlowPath), sentinelParamFlowRuleParser);
-    }
-
-    @Override
-    public boolean isFileManualLoaded() {
-        return false;
+        return new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_PARAM_FLOW_KEY, null, sentinelParamFlowRuleParser);
     }
 }
