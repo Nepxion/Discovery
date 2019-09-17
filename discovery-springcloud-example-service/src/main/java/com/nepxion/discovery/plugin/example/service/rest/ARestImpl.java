@@ -83,18 +83,10 @@ public class ARestImpl extends AbstractRestImpl {
     }
 
     public String handleBlock(String value, BlockException e) {
-        LOG.info("Value={}", value);
-        LOG.info("Sentinel AServer Block Causes");
-        LOG.error("Sentinel AServer Block Exception", e);
-        LOG.info("Sentinel Rule Limit App={}", e.getRuleLimitApp());
-
-        return "Sentinel AServer Block Causes";
+        return "A server sentinel block, cause=" + e.getClass().getName() + ", rule=" + e.getRule() + ", limitApp=" + e.getRuleLimitApp() + ", value=" + value;
     }
 
     public String handleFallback(String value) {
-        LOG.info("Value={}", value);
-        LOG.info("Sentinel AServer Fallback Causes");
-
-        return "Sentinel AServer Fallback Causes";
+        return "A server sentinel fallback, value=" + value;
     }
 }

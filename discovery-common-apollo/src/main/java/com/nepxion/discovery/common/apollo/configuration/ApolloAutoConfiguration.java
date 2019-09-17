@@ -29,16 +29,25 @@ public class ApolloAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public Config apolloConfig() {
-        String namespace = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_NAMESPACE);
-        if (StringUtils.isNotEmpty(namespace)) {
-            return ConfigService.getConfig(namespace);
-        } else {
-            return ConfigService.getAppConfig();
-        }
+        String namespace = getNamespace(environment);
+
+        return ConfigService.getConfig(namespace);
     }
 
     @Bean
     public ApolloOperation apolloOperation() {
         return new ApolloOperation();
+    }
+
+    public static String getNamespace(Environment environment) {
+        String namespace = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_NAMESPACE);
+        if (StringUtils.isEmpty(namespace)) {
+            namespace = environment.getProperty(ApolloConstant.APOLLO_BOOTSTRAP_NAMESPACES);
+        }
+        if (StringUtils.isEmpty(namespace)) {
+            namespace = ApolloConstant.NAMESPACE_APPLICATION;
+        }
+
+        return namespace;
     }
 }

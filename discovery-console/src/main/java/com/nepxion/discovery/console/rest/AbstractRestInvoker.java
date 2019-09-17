@@ -34,6 +34,10 @@ public abstract class AbstractRestInvoker {
     protected RestTemplate restTemplate;
     protected boolean async;
 
+    public AbstractRestInvoker(List<ServiceInstance> serviceInstances, RestTemplate restTemplate) {
+        this(serviceInstances, restTemplate, false);
+    }
+
     public AbstractRestInvoker(List<ServiceInstance> serviceInstances, RestTemplate restTemplate, boolean async) {
         this.serviceInstances = serviceInstances;
         this.restTemplate = restTemplate;

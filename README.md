@@ -18,6 +18,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 - 组合式灰度发布和路由。灰度发布和灰度路由的多种组合式规则和策略，前端灰度&网关灰度路由组合式策略
 - 灰度调用链，基于Header方式和日志方式的全链路灰度调用链
 - 服务隔离，基于组和黑/白名单的全链路服务隔离，包括注册准入隔离（基于黑/白名单，包括组和IP地址的准入、最大注册数限制的准入）、消费端隔离（基于组的负载均衡的隔离、基于黑/白名单的IP地址的隔离）和提供端隔离（基于组的Header传值策略的隔离）
+- 服务限流熔断降级权限，定制阿里巴巴Sentinel，有机整合灰度路由，包括基于组、基于版本、基于区域的限流熔断降级权限，以及更多业务参数自定义的组合方式
 - 数据库灰度发布，基于多数据源的数据库灰度发布
 - 同城双活多机房切换，基于区域匹配发布或者路由的同城双活多机房切换
 - 灰度路由和发布的自动化测试，基于Spring Boot/Spring Cloud自动化测试，包括普通调用测试、灰度调用测试和扩展调用测试（可扩展出阿里巴巴Sentinel、FF4J功能开关等自动化测试）
@@ -34,7 +35,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 :100:鸣谢
 - 感谢阿里巴巴中间件Nacos和Sentinel团队，尤其是Nacos负责人@于怀，Sentinel负责人@子衿，Spring Cloud Alibaba负责人@亦盏、@洛夜的技术支持
 - 感谢携程Apollo团队，尤其是@宋顺，特意开发OpenApi包和技术支持
-- 感谢代码贡献者@Esun，@terranhu，@JikaiSun，@HaoHuang，@Fan Yang，@Ankeway等同学，感谢为本框架提出宝贵意见和建议的同学
+- 感谢代码贡献者@WeihuaWang，@Esun，@liumapp，@terranhu，@JikaiSun，@HaoHuang，@FanYang，@Ankeway等同学，感谢为本框架提出宝贵意见和建议的同学
 - 感谢使用本框架的公司和企业
 
 :100:建议
@@ -58,11 +59,12 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 
 | 框架版本 | 框架状态 | 适用Spring Cloud版本 | 适用Spring Boot版本 | 适用Spring Cloud Alibaba版本 |
 | --- | --- | --- | --- | --- |
-| 5.3.9 | 迭代中 | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
-| 4.11.9 | 迭代中 | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
-| 3.11.9 | 维护中 | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
-| 2.0.x | 已废弃 | Dalston | N/A | N/A |
-| 1.0.x | 已废弃 | Camden | N/A | N/A |
+| 6.0.0 | 规划中 | Hoxton<br>Greenwich<br>Finchley | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
+| 5.4.0 | 迭代中 | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
+| 4.12.0 | 迭代中 | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
+| 3.12.0 | 维护中 | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
+| ~~2.0.x~~ | ~~已废弃~~ | ~~Dalston~~ | ~~N/A~~ | ~~N/A~~ |
+| ~~1.0.x~~ | ~~已废弃~~ | ~~Camden~~ | ~~N/A~~ | ~~N/A~~ |
 
 :triangular_flag_on_post:由于Greenwich和Finchley版是兼容的，所以Nepxion Discovery版本对于Greenwich和Finchley版也是通用的，即Greenwich和Finchley版既可以使用5.x.x版，也可以使用4.x.x版；Edgware存在着不兼容性，必须使用3.x.x版
 
@@ -286,7 +288,12 @@ Spring Boot Admin监控平台
 | discovery-plugin-starter-zookeeper | 核心Zookeeper Starter |
 | discovery-plugin-starter-nacos | 核心Nacos Starter |
 | discovery-plugin-strategy | 路由策略 |
+| discovery-plugin-strategy-sentinel | 路由策略的Sentinel |
+| discovery-plugin-strategy-sentinel-starter-local | 路由策略的Sentinel Local Starter |
+| discovery-plugin-strategy-sentinel-starter-apollo | 路由策略的Sentinel Apollo Starter |
+| discovery-plugin-strategy-sentinel-starter-nacos | 路由策略的Sentinel Nacos Starter |
 | discovery-plugin-strategy-starter-service | 路由策略的Service Starter |
+| discovery-plugin-strategy-starter-service-sentinel | 路由策略的Service Sentinel Starter |
 | discovery-plugin-strategy-starter-zuul | 路由策略的Zuul Starter |
 | discovery-plugin-strategy-starter-gateway | 路由策略的Spring Cloud Gateway Starter |
 | discovery-plugin-strategy-starter-hystrix | 路由策略下，Hystrix做线程模式的服务隔离必须引入的插件 Starter |
@@ -1034,6 +1041,21 @@ spring.application.strategy.trace.enabled=true
 spring.application.strategy.trace.debug.enabled=true
 # 开启服务端实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
 # spring.application.strategy.hystrix.threadlocal.supported=true
+
+# 启动和关闭Sentinel限流降级熔断权限等功能。缺失则默认为false
+# spring.application.strategy.sentinel.enabled=true
+# 流控规则文件路径。缺失则默认为classpath:sentinel-flow.json
+# spring.application.strategy.sentinel.flow.path=classpath:sentinel-flow.json
+# 降级规则文件路径。缺失则默认为classpath:sentinel-degrade.json
+# spring.application.strategy.sentinel.degrade.path=classpath:sentinel-degrade.json
+# 授权规则文件路径。缺失则默认为classpath:sentinel-authority.json
+# spring.application.strategy.sentinel.authority.path=classpath:sentinel-authority.json
+# 系统规则文件路径。缺失则默认为classpath:sentinel-system.json
+# spring.application.strategy.sentinel.system.path=classpath:sentinel-system.json
+# 热点参数流控规则文件路径。缺失则默认为classpath:sentinel-param-flow.json
+# spring.application.strategy.sentinel.param.flow.path=classpath:sentinel-param-flow.json
+# 服务端执行规则时候，以Http请求中的Header值作为关键Key。缺失则默认为n-d-service-id，即以服务名作为关键Key
+# spring.application.strategy.service.sentinel.request.origin.key=n-d-service-id
 ```
 
 Spring Cloud Gateway端配置

@@ -9,20 +9,14 @@ package com.nepxion.discovery.plugin.example.service.sentinel;
  * @version 1.0
  */
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.nepxion.discovery.plugin.example.service.feign.BFeign;
 
 @Component
 public class MyBFeignFallbackHandler implements BFeign {
-    private static final Logger LOG = LoggerFactory.getLogger(MyBFeignFallbackHandler.class);
-
     @Override
     public String invoke(String value) {
-        LOG.info("Value={}", value);
-
-        return "Sentinel BFeign Client Fallback Causes";
+        return value + " -> B Feign client sentinel fallback";
     }
 }
