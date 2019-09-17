@@ -37,6 +37,8 @@ public abstract class SentinelDataSourceRuleLoader extends SentinelFileRuleLoade
 
     @Override
     public void load() {
+        initialize();
+
         ReadableDataSource<String, List<FlowRule>> flowRuleDataSource = getFlowRuleDataSource();
         FlowRuleManager.register2Property(flowRuleDataSource.getProperty());
         LOG.info("{} flow rules form datasource loaded...", FlowRuleManager.getRules().size());
@@ -66,6 +68,8 @@ public abstract class SentinelDataSourceRuleLoader extends SentinelFileRuleLoade
     public PluginAdapter getPluginAdapter() {
         return pluginAdapter;
     }
+
+    public abstract void initialize();
 
     public abstract ReadableDataSource<String, List<FlowRule>> getFlowRuleDataSource();
 

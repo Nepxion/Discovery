@@ -13,8 +13,6 @@ package com.nepxion.discovery.plugin.strategy.sentinel.nacos.loader;
 import java.util.List;
 import java.util.Properties;
 
-import javax.annotation.PostConstruct;
-
 import com.alibaba.csp.sentinel.datasource.ReadableDataSource;
 import com.alibaba.csp.sentinel.datasource.nacos.NacosDataSource;
 import com.alibaba.csp.sentinel.slots.block.authority.AuthorityRule;
@@ -29,7 +27,7 @@ import com.nepxion.discovery.plugin.strategy.sentinel.loader.SentinelDataSourceR
 public class SentinelNacosRuleLoader extends SentinelDataSourceRuleLoader {
     private Properties properties;
 
-    @PostConstruct
+    @Override
     public void initialize() {
         properties = NacosAutoConfiguration.createNacosProperties(applicationContext.getEnvironment(), false);
     }

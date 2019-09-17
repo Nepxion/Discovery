@@ -12,8 +12,6 @@ package com.nepxion.discovery.plugin.strategy.sentinel.apollo.loader;
 
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-
 import com.alibaba.csp.sentinel.datasource.ReadableDataSource;
 import com.alibaba.csp.sentinel.datasource.apollo.ApolloDataSource;
 import com.alibaba.csp.sentinel.slots.block.authority.AuthorityRule;
@@ -28,7 +26,7 @@ import com.nepxion.discovery.plugin.strategy.sentinel.loader.SentinelDataSourceR
 public class SentinelApolloRuleLoader extends SentinelDataSourceRuleLoader {
     private String namespace;
 
-    @PostConstruct
+    @Override
     public void initialize() {
         namespace = ApolloAutoConfiguration.getNamespace(applicationContext.getEnvironment());
     }
