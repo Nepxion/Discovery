@@ -1,12 +1,6 @@
 {
 	"properties": [
 		{
-			"name": "spring.application.strategy.gateway.route.filter.enabled",
-			"type": "java.lang.Boolean",
-			"defaultValue": true,
-			"description": "Whether strategy gateway route filter is enabled."
-		},
-		{
 			"name": "spring.application.strategy.gateway.route.filter.order",
 			"type": "java.lang.Integer",
 			"defaultValue": 9000,

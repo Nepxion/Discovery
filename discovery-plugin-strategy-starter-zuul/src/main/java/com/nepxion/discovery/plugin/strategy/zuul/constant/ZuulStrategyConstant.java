@@ -10,7 +10,6 @@ package com.nepxion.discovery.plugin.strategy.zuul.constant;
  */
 
 public class ZuulStrategyConstant {
-    public static final String SPRING_APPLICATION_STRATEGY_ZUUL_ROUTE_FILTER_ENABLED = "spring.application.strategy.zuul.route.filter.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_ZUUL_ROUTE_FILTER_ORDER = "spring.application.strategy.zuul.route.filter.order";
     public static final String SPRING_APPLICATION_STRATEGY_ZUUL_HEADER_PRIORITY = "spring.application.strategy.zuul.header.priority";
     public static final String SPRING_APPLICATION_STRATEGY_ZUUL_ORIGINAL_HEADER_IGNORED = "spring.application.strategy.zuul.original.header.ignored";

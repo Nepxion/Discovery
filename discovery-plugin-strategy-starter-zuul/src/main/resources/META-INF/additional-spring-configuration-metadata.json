@@ -1,12 +1,6 @@
 {
 	"properties": [
 		{
-			"name": "spring.application.strategy.zuul.route.filter.enabled",
-			"type": "java.lang.Boolean",
-			"defaultValue": true,
-			"description": "Whether strategy zuul route filter is enabled."
-		},
-		{
 			"name": "spring.application.strategy.zuul.route.filter.order",
 			"type": "java.lang.Integer",
 			"defaultValue": 0,
