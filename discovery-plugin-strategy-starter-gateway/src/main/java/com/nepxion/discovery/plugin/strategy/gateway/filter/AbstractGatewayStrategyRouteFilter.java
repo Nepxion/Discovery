@@ -23,6 +23,7 @@ import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.gateway.constant.GatewayStrategyConstant;
+import com.nepxion.discovery.plugin.strategy.gateway.context.GatewayStrategyContext;
 import com.nepxion.discovery.plugin.strategy.gateway.tracer.GatewayStrategyTracer;
 
 public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrategyRouteFilter {
@@ -56,6 +57,9 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        // 把ServerWebExchange放入ThreadLocal中
+        GatewayStrategyContext.getCurrentContext().setExchange(exchange);
+
         String routeVersion = getRouteVersion();
         String routeRegion = getRouteRegion();
         String routeAddress = getRouteAddress();
@@ -99,8 +103,13 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
             GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion(), gatewayHeaderPriority);
         }
 
+        extendFilter(requestBuilder, gatewayHeaderPriority, gatewayOriginalHeaderIgnored);
+
         ServerHttpRequest newRequest = requestBuilder.build();
         ServerWebExchange newExchange = exchange.mutate().request(newRequest).build();
+
+        // 把新的ServerWebExchange放入ThreadLocal中
+        GatewayStrategyContext.getCurrentContext().setExchange(newExchange);
 
         // 调用链追踪
         if (gatewayStrategyTracer != null) {
@@ -109,6 +118,10 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
         }
 
         return chain.filter(newExchange);
+    }
+
+    protected void extendFilter(ServerHttpRequest.Builder requestBuilder, Boolean gatewayHeaderPriority, Boolean gatewayOriginalHeaderIgnored) {
+
     }
 
     public PluginAdapter getPluginAdapter() {
