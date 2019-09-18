@@ -60,8 +60,8 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 | 框架版本 | 框架状态 | 适用Spring Cloud版本 | 适用Spring Boot版本 | 适用Spring Cloud Alibaba版本 |
 | --- | --- | --- | --- | --- |
 | 6.0.0 | 规划中 | Hoxton<br>Greenwich<br>Finchley | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
-| 5.4.0 | 迭代中 | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
-| 4.12.0 | 迭代中 | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
+| 5.4.0 | 维护中 | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
+| 4.12.0 | 维护中 | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
 | 3.12.0 | 维护中 | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
 | ~~2.0.x~~ | ~~已废弃~~ | ~~Dalston~~ | ~~N/A~~ | ~~N/A~~ |
 | ~~1.0.x~~ | ~~已废弃~~ | ~~Camden~~ | ~~N/A~~ | ~~N/A~~ |
