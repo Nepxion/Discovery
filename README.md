@@ -18,12 +18,12 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 - 组合式灰度发布和路由。灰度发布和灰度路由的多种组合式规则和策略，前端灰度&网关灰度路由组合式策略
 - 灰度调用链，基于Header方式和日志方式的全链路灰度调用链
 - 服务隔离，基于组和黑/白名单的全链路服务隔离，包括注册准入隔离（基于黑/白名单，包括组和IP地址的准入、最大注册数限制的准入）、消费端隔离（基于组的负载均衡的隔离、基于黑/白名单的IP地址的隔离）和提供端隔离（基于组的Header传值策略的隔离）
-- 服务限流熔断降级权限，定制阿里巴巴Sentinel，有机整合灰度路由，包括基于组、基于版本、基于区域的限流熔断降级权限，以及更多业务参数自定义的组合方式
+- 服务限流熔断降级权限，定制阿里巴巴Sentinel，有机整合灰度路由，扩展limitApp的机制，通过动态的Http Header方式实现组合式熔断，包括基于组、基于版本、基于区域等熔断机制，支持自定义任意的业务参数组合实现该功能。支持原生的流控规则、降级规则、授权规则、系统规则、热点参数流控规则
 - 数据库灰度发布，基于多数据源的数据库灰度发布
 - 同城双活多机房切换，基于区域匹配发布或者路由的同城双活多机房切换
 - 灰度路由和发布的自动化测试，基于Spring Boot/Spring Cloud自动化测试，包括普通调用测试、灰度调用测试和扩展调用测试（可扩展出阿里巴巴Sentinel、FF4J功能开关等自动化测试）
 - 支持自定义和编程实现扩展
-    - 支持用户自定义和编程“禁止注册”、“禁止被发现”、“禁止被负载均衡”策略
+    - 支持用户自定义和编程禁止注册、禁止被发现、禁止被负载均衡的策略
     - 支持用户自定义和编程灰度路由策略
     - 支持用户自定义和编程负载均衡策略类
     - 支持运维调度灰度发布和路由的元数据
@@ -32,14 +32,14 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 
 现有的Spring Cloud微服务很方便引入该中间件，代码零侵入。鉴于Spring Cloud官方对Eureka和Hystrix不再做新功能的迭代，推荐用Nacos和Sentinel，它们对Spring Cloud灰度发布和路由更具出色的兼容性和友好性
 
+:100:建议
+- 由于源码中带有的示例功能比较齐全，较为复杂。强烈建议，先学习[极简示例](https://github.com/Nepxion/DiscoveryGray)，可以满足95%的业务需求
+
 :100:鸣谢
 - 感谢阿里巴巴中间件Nacos和Sentinel团队，尤其是Nacos负责人@于怀，Sentinel负责人@子衿，Spring Cloud Alibaba负责人@亦盏、@洛夜的技术支持
 - 感谢携程Apollo团队，尤其是@宋顺，特意开发OpenApi包和技术支持
 - 感谢代码贡献者@WeihuaWang，@Esun，@liumapp，@terranhu，@JikaiSun，@HaoHuang，@FanYang，@Ankeway等同学，感谢为本框架提出宝贵意见和建议的同学
 - 感谢使用本框架的公司和企业
-
-:100:建议
-- 由于源码中带有的示例功能比较齐全，较为复杂。强烈建议，先学习[极简示例](https://github.com/Nepxion/DiscoveryGray)
 
 :100:特性
 1. 使用方便。只需如下步骤：
@@ -57,16 +57,14 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 
 2. 兼容性强。支持如下版本：
 
-| 框架版本 | 框架状态 | 适用Spring Cloud版本 | 适用Spring Boot版本 | 适用Spring Cloud Alibaba版本 |
+| 框架版本 | 工作状态 | 适用Spring Cloud版本 | 适用Spring Boot版本 | 适用Spring Cloud Alibaba版本 |
 | --- | --- | --- | --- | --- |
-| 6.0.0 | 规划中 | Hoxton<br>Greenwich<br>Finchley | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
-| 5.4.0 | 迭代中 | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
-| 4.12.0 | 迭代中 | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
-| 3.12.0 | 迭代中 | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
+| 6.0.0 | 计划中 | Hoxton<br>Greenwich<br>Finchley | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
+| 5.4.0 | 维护中 | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
+| 4.12.0 | 维护中 | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
+| 3.12.0 | 维护中 | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
 | ~~2.0.x~~ | ~~已废弃~~ | ~~Dalston~~ | ~~N/A~~ | ~~N/A~~ |
 | ~~1.0.x~~ | ~~已废弃~~ | ~~Camden~~ | ~~N/A~~ | ~~N/A~~ |
-
-:triangular_flag_on_post:由于Greenwich和Finchley版是兼容的，所以Nepxion Discovery版本对于Greenwich和Finchley版也是通用的，即Greenwich和Finchley版既可以使用5.x.x版，也可以使用4.x.x版；Edgware存在着不兼容性，必须使用3.x.x版
 
 ## 目录
 - [请联系我](#请联系我)
