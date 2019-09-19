@@ -25,7 +25,10 @@ public class DiscoveryConstant {
     public static final String SPRING_APPLICATION_CONTEXT_PATH = "spring.application.context-path";
     public static final String SPRING_APPLICATION_DEFAULT_PROPERTIES_PATH = "spring.application.default.properties.path";
     public static final String SPRING_APPLICATION_DEFAULT_PROPERTIES_PATH_VALUE = "spring-application-default.properties";
-    public static final String SPRING_APPLICATION_NO_SERVER_FOUND_NOTIFICATION_ENABLED = "spring.application.no.server.found.notification.enabled";
+    public static final String SPRING_APPLICATION_NO_SERVERS_RETRY_ENABLED = "spring.application.no.servers.retry.enabled";
+    public static final String SPRING_APPLICATION_NO_SERVERS_RETRY_TIMES = "spring.application.no.servers.retry.times";
+    public static final String SPRING_APPLICATION_NO_SERVERS_RETRY_AWAIT_TIME = "spring.application.no.servers.retry.await.time";
+    public static final String SPRING_APPLICATION_NO_SERVERS_NOTIFY_ENABLED = "spring.application.no.servers.notify.enabled";
 
     public static final String CONTEXT_PATH = "server.servlet.context-path";
 
