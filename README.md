@@ -403,6 +403,33 @@ spring.application.register.control.enabled=false
 spring.application.discovery.control.enabled=false
 ```
 
+服务端Sentinel防护插件的引入
+```xml
+<dependency>
+    <groupId>com.nepxion</groupId>
+    <artifactId>discovery-plugin-strategy-starter-service-sentinel</artifactId>
+    <version>${discovery.version}</version>
+</dependency>
+
+[选择引入] Sentinel数据源，如需要，请任选一个引入，或者也可以引入您自己的扩展
+<dependency>
+    <groupId>com.nepxion</groupId>
+    <artifactId>discovery-plugin-strategy-sentinel-starter-nacos</artifactId>
+    <artifactId>discovery-plugin-strategy-sentinel-starter-apollo</artifactId>
+    <artifactId>discovery-plugin-strategy-sentinel-starter-apollo</artifactId>
+    <version>${discovery.version}</version>
+</dependency>
+```
+
+自动化测试插件的引入
+```xml
+<dependency>
+    <groupId>com.nepxion</groupId>
+    <artifactId>discovery-plugin-test-starter</artifactId>
+    <version>${discovery.version}</version>
+</dependency>
+```
+
 ### 兼容
 版本兼容情况
 - Spring Cloud F版或以上，请采用4.x.x版本，具体代码参考master分支
