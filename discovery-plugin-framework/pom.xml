@@ -9,7 +9,7 @@
     <url>http://www.nepxion.com</url>
 
     <parent>
-        <groupId>com.nepxion</groupId> 
+        <groupId>com.nepxion</groupId>
         <artifactId>discovery</artifactId>
         <version>5.4.0</version>
     </parent>
