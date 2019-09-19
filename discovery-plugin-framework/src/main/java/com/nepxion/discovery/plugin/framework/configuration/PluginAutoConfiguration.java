@@ -125,7 +125,7 @@ public class PluginAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    @ConditionalOnProperty(value = DiscoveryConstant.SPRING_APPLICATION_NO_SERVER_FOUND_NOTIFICATION_ENABLED, matchIfMissing = false)
+    @ConditionalOnProperty(value = DiscoveryConstant.SPRING_APPLICATION_NO_SERVERS_NOTIFY_ENABLED, matchIfMissing = false)
     public NotificationLoadBalanceListener notificationLoadBalanceListener() {
         return new NotificationLoadBalanceListener();
     }
