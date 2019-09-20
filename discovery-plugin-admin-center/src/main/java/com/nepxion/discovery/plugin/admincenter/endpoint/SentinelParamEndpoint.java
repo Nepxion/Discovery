@@ -99,6 +99,7 @@ public class SentinelParamEndpoint implements MvcEndpoint {
     public ResponseEntity<List<ParamFlowRule>> viewParamFlowRules() {
         return ResponseEntity.ok().body(ParamFlowRuleManager.getRules());
     }
+
     @Override
     public String getPath() {
         return StringUtils.EMPTY;
