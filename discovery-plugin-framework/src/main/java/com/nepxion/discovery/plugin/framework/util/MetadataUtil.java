@@ -21,8 +21,8 @@ public class MetadataUtil {
         Properties properties = System.getProperties();
         Set<String> propertyNames = properties.stringPropertyNames();
         for (String propertyName : propertyNames) {
-            if (propertyName.startsWith(DiscoveryConstant.EXT + ".")) {
-                String key = propertyName.substring((DiscoveryConstant.EXT + ".").length());
+            if (propertyName.startsWith(DiscoveryConstant.METADATA + ".")) {
+                String key = propertyName.substring((DiscoveryConstant.METADATA + ".").length());
                 String value = properties.get(propertyName).toString();
                 metadata.put(key, value);
             }
@@ -33,8 +33,8 @@ public class MetadataUtil {
         Properties properties = System.getProperties();
         Set<String> propertyNames = properties.stringPropertyNames();
         for (String propertyName : propertyNames) {
-            if (propertyName.startsWith(DiscoveryConstant.EXT + ".")) {
-                String key = propertyName.substring((DiscoveryConstant.EXT + ".").length());
+            if (propertyName.startsWith(DiscoveryConstant.METADATA + ".")) {
+                String key = propertyName.substring((DiscoveryConstant.METADATA + ".").length());
                 String value = properties.get(propertyName).toString();
 
                 int index = getIndex(metadata, key);
