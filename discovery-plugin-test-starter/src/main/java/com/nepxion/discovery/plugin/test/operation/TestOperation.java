@@ -29,9 +29,6 @@ public class TestOperation {
     @Value("${" + TestConstant.SPRING_APPLICATION_TEST_CONSOLE_URL + "}")
     private String consoleUrl;
 
-    @Value("${" + TestConstant.SPRING_APPLICATION_TEST_CONFIGCENTER_ENABLED + ":true}")
-    private Boolean configCenterEnabled;
-
     @Value("${" + TestConstant.SPRING_APPLICATION_TEST_CONFIG_PRINT_ENABLED + ":true}")
     private Boolean configPrintEnabled;
 
@@ -51,7 +48,7 @@ public class TestOperation {
             LOG.info("Update config, group={}, serviceId={}, path={}, content=\n{}", group, serviceId, path, content);
         }
 
-        String url = configCenterEnabled ? consoleUrl + UrlUtil.formatContextPath(TestConstant.REMOTE_UPDATE_URL) + group + "/" + serviceId : consoleUrl + UrlUtil.formatContextPath(TestConstant.UPDATE_URL) + serviceId;
+        String url = consoleUrl + UrlUtil.formatContextPath(TestConstant.REMOTE_UPDATE_URL) + group + "/" + serviceId;
 
         return testRestTemplate.postForEntity(url, content, String.class).getBody();
     }
@@ -61,7 +58,7 @@ public class TestOperation {
             LOG.info("Clear config, group={}, serviceId={}", group, serviceId);
         }
 
-        String url = configCenterEnabled ? consoleUrl + UrlUtil.formatContextPath(TestConstant.REMOTE_CLEAR_URL) + group + "/" + serviceId : consoleUrl + UrlUtil.formatContextPath(TestConstant.CLEAR_URL) + serviceId;
+        String url = consoleUrl + UrlUtil.formatContextPath(TestConstant.REMOTE_CLEAR_URL) + group + "/" + serviceId;
 
         return testRestTemplate.postForEntity(url, null, String.class).getBody();
     }
