@@ -11,13 +11,10 @@ package com.nepxion.discovery.plugin.test.constant;
 
 public class TestConstant {
     public static final String SPRING_APPLICATION_TEST_SCAN_PACKAGES = "spring.application.test.scan.packages";
-    public static final String SPRING_APPLICATION_TEST_CONFIGCENTER_ENABLED = "spring.application.test.configcenter.enabled";
     public static final String SPRING_APPLICATION_TEST_CONFIG_PRINT_ENABLED = "spring.application.test.config.print.enabled";
     public static final String SPRING_APPLICATION_TEST_CONFIG_OPERATION_AWAIT_TIME = "spring.application.test.config.operation.await.time";
     public static final String SPRING_APPLICATION_TEST_CONSOLE_URL = "spring.application.test.console.url";
 
     public static final String REMOTE_UPDATE_URL = "console/remote-config/update";
     public static final String REMOTE_CLEAR_URL = "console/remote-config/clear";
-    public static final String UPDATE_URL = "console/config/update-sync";
-    public static final String CLEAR_URL = "console/config/clear-sync";
 }
