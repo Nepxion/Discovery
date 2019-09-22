@@ -1,7 +1,7 @@
 # Nepxion Discovery
 [![Total lines](https://tokei.rs/b1/github/Nepxion/Discovery?category=lines)](https://tokei.rs/b1/github/Nepxion/Discovery?category=lines)  [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?label=license)](https://github.com/Nepxion/Discovery/blob/master/LICENSE)  [![Maven Central](https://img.shields.io/maven-central/v/com.nepxion/discovery.svg?label=maven%20central)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.nepxion%22%20AND%20discovery)  [![Javadocs](http://www.javadoc.io/badge/com.nepxion/discovery-plugin-framework.svg)](http://www.javadoc.io/doc/com.nepxion/discovery-plugin-framework)  [![Build Status](https://travis-ci.org/Nepxion/Discovery.svg?branch=master)](https://travis-ci.org/Nepxion/Discovery)  [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8e39a24e1be740c58b83fb81763ba317)](https://www.codacy.com/project/HaojunRen/Discovery/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nepxion/Discovery&amp;utm_campaign=Badge_Grade_Dashboard)
 
-路过的同学，如果您觉得这个开源框架不错，顺手给它点个Star吧
+每一个访问路过的朋友，如果您觉得这个开源框架不错，请顺手给它点个Star吧
 
 ![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Star1.jpg)
 
@@ -33,7 +33,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 现有的Spring Cloud微服务很方便引入该中间件，代码零侵入。鉴于Spring Cloud官方对Eureka和Hystrix不再做新功能的迭代，推荐用Nacos和Sentinel，它们对Spring Cloud灰度发布和路由更具出色的兼容性和友好性
 
 :100:建议
-- 由于源码中带有的示例功能比较齐全，较为复杂。强烈建议，先学习[极简示例](https://github.com/Nepxion/DiscoveryGray)，可以满足95%的业务需求
+- 由于源码中带有的示例功能比较齐全，较为复杂。强烈建议，先学习[极简示例](https://github.com/Nepxion/DiscoveryGuide)，可以满足95%的业务需求
 
 :100:鸣谢
 - 感谢阿里巴巴中间件Nacos和Sentinel团队，尤其是Nacos负责人@于怀，Sentinel负责人@子衿，Spring Cloud Alibaba负责人@亦盏、@洛夜的技术支持
@@ -63,8 +63,8 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 | 5.4.0 | 维护中 | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
 | 4.12.0 | 维护中 | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
 | 3.12.0 | 维护中 | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
-| ~~2.0.x~~ | ~~已废弃~~ | ~~Dalston~~ | ~~N/A~~ | ~~N/A~~ |
-| ~~1.0.x~~ | ~~已废弃~~ | ~~Camden~~ | ~~N/A~~ | ~~N/A~~ |
+| ~~2.0.x~~ | ~~不可用~~ | ~~Dalston~~ | ~~N/A~~ | ~~N/A~~ |
+| ~~1.0.x~~ | ~~不可用~~ | ~~Camden~~ | ~~N/A~~ | ~~N/A~~ |
 
 ## 目录
 - [请联系我](#请联系我)
@@ -1317,7 +1317,7 @@ spring.application.strategy.trace.debug.enabled=true
 - 操作过程跟“基于图形化桌面程序的灰度发布”类似
 
 ## 自动化测试
-- 参考[自动化测试](https://github.com/Nepxion/DiscoveryGray/tree/master/discovery-gray-test)
+- 参考[自动化测试](https://github.com/Nepxion/DiscoveryGuide/tree/master/discovery-guide-test)
 
 ## 性能压力测试
 
