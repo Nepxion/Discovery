@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "3aa0b5a1-940e-40e8-8f9c-ccaa4de8a084",
+		"_postman_id": "cf16d585-798d-4643-84ef-518c335fba14",
 		"name": "Nepxion",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -118,7 +118,8 @@
 						]
 					}
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "Discovery控制台接口",
@@ -304,7 +305,8 @@
 					},
 					"response": []
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "Discovery网关接口",
@@ -501,7 +503,8 @@
 					},
 					"response": []
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "Discovery极简示例接口",
@@ -513,7 +516,7 @@
 						"header": [
 							{
 								"key": "n-d-version",
-								"value": "{\"discovery-gray-service-a\":\"1.0\", \"discovery-gray-service-b\":\"1.0\"}",
+								"value": "{\"discovery-guide-service-a\":\"1.0\", \"discovery-guide-service-b\":\"1.0\"}",
 								"type": "text",
 								"disabled": true
 							},
@@ -525,7 +528,7 @@
 							},
 							{
 								"key": "n-d-version-weight",
-								"value": "{\"discovery-gray-service-a\":\"1.0=90;1.1=10\", \"discovery-gray-service-b\":\"1.0=90;1.1=10\"}",
+								"value": "{\"discovery-guide-service-a\":\"1.0=90;1.1=10\", \"discovery-guide-service-b\":\"1.0=90;1.1=10\"}",
 								"type": "text",
 								"disabled": true
 							},
@@ -534,6 +537,16 @@
 								"value": "dev=99;qa=1",
 								"type": "text",
 								"disabled": true
+							},
+							{
+								"key": "traceid",
+								"value": "lochmbu18nfo",
+								"type": "text"
+							},
+							{
+								"key": "spanid",
+								"value": "6913",
+								"type": "text"
 							},
 							{
 								"key": "mobile",
@@ -558,27 +571,17 @@
 								"value": "2",
 								"type": "text",
 								"disabled": true
-							},
-							{
-								"key": "traceid",
-								"value": "lochmbu18nfo",
-								"type": "text"
-							},
-							{
-								"key": "spanid",
-								"value": "6913",
-								"type": "text"
 							}
 						],
 						"url": {
-							"raw": "http://localhost:5002/discovery-gray-service-a/invoke/zuul",
+							"raw": "http://localhost:5002/discovery-guide-service-a/invoke/zuul",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5002",
 							"path": [
-								"discovery-gray-service-a",
+								"discovery-guide-service-a",
 								"invoke",
 								"zuul"
 							]
@@ -593,7 +596,7 @@
 						"header": [
 							{
 								"key": "n-d-version",
-								"value": "{\"discovery-gray-service-a\":\"1.0\", \"discovery-gray-service-b\":\"1.0\"}",
+								"value": "{\"discovery-guide-service-a\":\"1.0\", \"discovery-guide-service-b\":\"1.0\"}",
 								"type": "text",
 								"disabled": true
 							},
@@ -605,7 +608,7 @@
 							},
 							{
 								"key": "n-d-version-weight",
-								"value": "{\"discovery-gray-service-a\":\"1.0=90;1.1=10\", \"discovery-gray-service-b\":\"1.0=90;1.1=10\"}",
+								"value": "{\"discovery-guide-service-a\":\"1.0=90;1.1=10\", \"discovery-guide-service-b\":\"1.0=90;1.1=10\"}",
 								"type": "text",
 								"disabled": true
 							},
@@ -614,6 +617,16 @@
 								"value": "dev=99;qa=1",
 								"type": "text",
 								"disabled": true
+							},
+							{
+								"key": "traceid",
+								"value": "c0zs78kcze5z",
+								"type": "text"
+							},
+							{
+								"key": "spanid",
+								"value": "1589",
+								"type": "text"
 							},
 							{
 								"key": "mobile",
@@ -638,27 +651,17 @@
 								"value": "2",
 								"type": "text",
 								"disabled": true
-							},
-							{
-								"key": "traceid",
-								"value": "c0zs78kcze5z",
-								"type": "text"
-							},
-							{
-								"key": "spanid",
-								"value": "1589",
-								"type": "text"
 							}
 						],
 						"url": {
-							"raw": "http://localhost:5001/discovery-gray-service-a/invoke/gateway",
+							"raw": "http://localhost:5001/discovery-guide-service-a/invoke/gateway",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5001",
 							"path": [
-								"discovery-gray-service-a",
+								"discovery-guide-service-a",
 								"invoke",
 								"gateway"
 							]
@@ -666,7 +669,8 @@
 					},
 					"response": []
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "Nacos服务接口",
@@ -702,7 +706,8 @@
 					},
 					"response": []
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "Permission服务接口",
@@ -740,7 +745,9 @@
 					},
 					"response": []
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		}
-	]
+	],
+	"protocolProfileBehavior": {}
 }
