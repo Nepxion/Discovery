@@ -539,6 +539,12 @@
 								"disabled": true
 							},
 							{
+								"key": "n-d-address",
+								"value": "{\"discovery-guide-service-a\":\"127.0.0.1:3001\", \"discovery-guide-service-b\":\"127.0.0.1:4002\"}",
+								"type": "text",
+								"disabled": true
+							},
+							{
 								"key": "traceid",
 								"value": "lochmbu18nfo",
 								"type": "text"
@@ -615,6 +621,12 @@
 							{
 								"key": "n-d-region-weight",
 								"value": "dev=99;qa=1",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "n-d-address",
+								"value": "{\"discovery-guide-service-a\":\"127.0.0.1:3001\", \"discovery-guide-service-b\":\"127.0.0.1:4002\"}",
 								"type": "text",
 								"disabled": true
 							},
