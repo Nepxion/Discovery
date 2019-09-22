@@ -507,7 +507,7 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "Discovery极简示例接口",
+			"name": "Discovery极简指南接口",
 			"item": [
 				{
 					"name": "Zuul网关调用示例",
