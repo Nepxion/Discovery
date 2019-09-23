@@ -65,8 +65,8 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 | 5.4.0 | 维护中 | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
 | 4.12.0 | 维护中 | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
 | 3.12.0 | 维护中 | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
-| ~~2.0.x~~ | ~~不可用~~ | ~~Dalston~~ | ~~N/A~~ | ~~N/A~~ |
-| ~~1.0.x~~ | ~~不可用~~ | ~~Camden~~ | ~~N/A~~ | ~~N/A~~ |
+| ~~2.0.x~~ | ~~已废弃~~ | ~~Dalston~~ | ~~N/A~~ | ~~N/A~~ |
+| ~~1.0.x~~ | ~~已废弃~~ | ~~Camden~~ | ~~N/A~~ | ~~N/A~~ |
 
 ## 目录
 - [请联系我](#请联系我)
