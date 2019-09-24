@@ -41,7 +41,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 - 感谢代码贡献者，包括@WeihuaWang，@Esun，@liumapp，@terranhu，@JikaiSun，@HaoHuang，@FanYang，@Ankeway等
 - 感谢为本框架进行测试验证和问题分析定位的同学，包括@CongweiXu，@fan，@阿神，@慕紫，@郝俊仁，@Windon，@李鹏，@任学会等
 - 感谢为本框架提出宝贵意见和建议的同学
-- 感谢使用本框架的公司和企业。不完全统计，目前社区开源项目已经被如下公司使用或者调研，为提供更好的专业级服务，请更多已经使用本框架的公司和企业联系我
+- 感谢使用本框架的公司和企业。不完全统计，目前社区开源项目已经被如下公司使用或者调研：
 
 ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/payh.png)
 ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/payzt.png)
@@ -79,6 +79,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/hrwlkj.png)
 ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/ywny.png)
 ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/bqjr.png)
+为提供更好的专业级服务，请更多已经使用本框架的公司和企业联系我
 
 :100:特性
 1. 使用方便。只需如下步骤：
