@@ -43,7 +43,12 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 - 感谢为本框架提出宝贵意见和建议的同学
 - 感谢使用本框架的公司和企业。不完全统计，目前社区开源项目已经被如下公司使用或者调研，为提供更好的专业级服务，请更多已经使用本框架的公司和企业联系我
 
-平安银行 | 平安一账通 | 众安保险 | 民生银行北京分行 | 浦发信用卡 | 招商银行
+![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/payh.png)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/payzt.png)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/zabx.png)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/msyh.png)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/pfyhxyk.png)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/zsyh.png)
 
 太平洋保险 | 太平保险 | 东方航空 | 瑞幸咖啡 | 顺丰科技 | 悟空丰运 | 微鲸科技 
 
