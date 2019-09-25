@@ -39,7 +39,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 - 感谢阿里巴巴中间件Nacos和Sentinel团队，尤其是Nacos负责人@于怀，Sentinel负责人@子衿，Spring Cloud Alibaba负责人@亦盏、@洛夜的技术支持
 - 感谢携程Apollo团队，尤其是@宋顺，特意开发OpenApi包和技术支持
 - 感谢代码贡献者，包括@WeihuaWang，@Esun，@liumapp，@terranhu，@JikaiSun，@HaoHuang，@FanYang，@Ankeway等
-- 感谢为本框架进行测试验证和问题分析定位的同学，包括@CongweiXu，@fan，@阿神，@慕紫，@郝俊仁，@Windon，@李鹏，@任学会等
+- 感谢为本框架进行测试验证和问题分析定位的同学，包括@张龙，@CongweiXu，@fan，@阿神，@慕紫，@郝俊仁，@Windon，@杨成，@李鹏，@任学会等
 - 感谢为本框架提出宝贵意见和建议的同学
 - 感谢使用本框架的公司和企业。不完全统计，目前社区开源项目已经被如下公司使用或者调研：
 
