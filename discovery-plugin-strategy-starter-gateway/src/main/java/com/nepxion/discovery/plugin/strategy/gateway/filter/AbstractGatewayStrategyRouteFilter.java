@@ -103,8 +103,6 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
             GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion(), gatewayHeaderPriority);
         }
 
-        extendFilter(requestBuilder, gatewayHeaderPriority, gatewayOriginalHeaderIgnored);
-
         ServerHttpRequest newRequest = requestBuilder.build();
         ServerWebExchange newExchange = exchange.mutate().request(newRequest).build();
 
@@ -117,10 +115,12 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
             gatewayStrategyTracer.release(newExchange);
         }
 
+        extendFilter(newExchange, chain);
+
         return chain.filter(newExchange);
     }
 
-    protected void extendFilter(ServerHttpRequest.Builder requestBuilder, Boolean gatewayHeaderPriority, Boolean gatewayOriginalHeaderIgnored) {
+    protected void extendFilter(ServerWebExchange exchange, GatewayFilterChain chain) {
 
     }
 
