@@ -9,14 +9,9 @@ package com.nepxion.discovery.plugin.strategy.gateway.filter;
  * @version 1.0
  */
 
-public interface GatewayStrategyRouteFilter extends GatewayStrategyFilter {
-    String getRouteVersion();
+import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.core.Ordered;
 
-    String getRouteRegion();
+public interface GatewayStrategyFilter extends GlobalFilter, Ordered {
 
-    String getRouteAddress();
-
-    String getRouteVersionWeight();
-
-    String getRouteRegionWeight();
 }
