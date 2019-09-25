@@ -20,7 +20,7 @@ import com.nepxion.discovery.plugin.strategy.gateway.context.GatewayStrategyCont
 public class DefaultGatewayStrategyClearFilter implements GatewayStrategyClearFilter {
     @Override
     public int getOrder() {
-        return Ordered.LOWEST_PRECEDENCE;
+        return Ordered.LOWEST_PRECEDENCE - 1;
     }
 
     @Override
