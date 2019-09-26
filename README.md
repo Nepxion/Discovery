@@ -1,7 +1,7 @@
 # Nepxion Discovery
 [![Total lines](https://tokei.rs/b1/github/Nepxion/Discovery?category=lines)](https://tokei.rs/b1/github/Nepxion/Discovery?category=lines)  [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?label=license)](https://github.com/Nepxion/Discovery/blob/master/LICENSE)  [![Maven Central](https://img.shields.io/maven-central/v/com.nepxion/discovery.svg?label=maven%20central)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.nepxion%22%20AND%20discovery)  [![Javadocs](http://www.javadoc.io/badge/com.nepxion/discovery-plugin-framework.svg)](http://www.javadoc.io/doc/com.nepxion/discovery-plugin-framework)  [![Build Status](https://travis-ci.org/Nepxion/Discovery.svg?branch=master)](https://travis-ci.org/Nepxion/Discovery)  [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8e39a24e1be740c58b83fb81763ba317)](https://www.codacy.com/project/HaojunRen/Discovery/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nepxion/Discovery&amp;utm_campaign=Badge_Grade_Dashboard)
 
-每一个访问路过的朋友，如果您觉得这个开源框架不错，请顺手给它点个Star吧 
+每一个访问路过的朋友，如果您觉得这个开源框架不错，请顺手给它点个Star吧
 
 ![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Star1.jpg)
 
@@ -43,42 +43,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 - 感谢为本框架提出宝贵意见和建议的同学
 - 感谢使用本框架的公司和企业。不完全统计，目前社区开源项目已经被如下公司使用或者调研：
 
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/payh.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/payzt.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/zabx.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/msyh.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/pfyhxyk.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/zsyh.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/tpybx.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/tpbx.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/dfhk.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/rxkf.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/sfkj.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/wkfy.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/wjkj.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/hexfjr.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/yjh.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/tgdl.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/crkj.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/dhrj.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/zhxy.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/rdkj.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/tqkj.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/hjkj.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/js.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/yzf.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/smgc.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/bjkj.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/qzkj.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/jwkj.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/zcwlkj.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/qk365.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/daxxkj.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/xg.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/sbc.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/hrwlkj.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/ywny.png)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/bqjr.png)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/payh.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/payzt.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/zabx.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/msyh.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/pfyhxyk.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/zsyh.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/tpybx.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/tpbx.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/dfhk.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/rxkf.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/sfkj.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/wkfy.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/wjkj.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/hexfjr.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/yjh.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/tgdl.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/crkj.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/dhrj.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/zhxy.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/rdkj.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/tqkj.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/hjkj.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/js.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/yzf.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/smgc.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/bjkj.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/qzkj.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/jwkj.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/zcwlkj.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/qk365.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/daxxkj.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/xg.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/sbc.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/hrwlkj.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/ywny.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/bqjr.png)
 
 为提供更好的专业级服务，请更多已经使用本框架的公司和企业联系我
 
