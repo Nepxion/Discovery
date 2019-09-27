@@ -10,7 +10,7 @@ Nepxion Discovery是一款对Spring Cloud Discovery服务注册发现、Ribbon�
 - 支持阿里巴巴的Nacos、携程的Apollo和Redis三个远程配置中心
 - 支持Hystrix或者阿里巴巴Sentinel的两个熔断隔离限流降级
 - 支持Spring Cloud Gateway、Zuul网关和微服务三大模块的灰度发布和路由等一系列功能
-- 支持和兼容Spring Cloud Edgware版、Finchley版和Greenwich版三个版本
+- 支持和兼容Spring Cloud Edgware版、Finchley版和Greenwich版
 
 其功能包括
 - 灰度发布，基于规则订阅的全链路灰度发布，包括切换发布（版本匹配发布、区域匹配发布）和平滑发布（版本权重发布、区域权重发布）
