@@ -171,10 +171,7 @@ public class SentinelFileRuleLoader implements SentinelRuleLoader {
 
     public String getRule(String path, String emptyRule) {
         String rule = FileContextUtil.getText(applicationContext, path);
-        if (StringUtils.isEmpty(rule)) {
-            rule = emptyRule;
-        }
 
-        return rule;
+        return StringUtils.isNotEmpty(rule) ? rule : emptyRule;
     }
 }
