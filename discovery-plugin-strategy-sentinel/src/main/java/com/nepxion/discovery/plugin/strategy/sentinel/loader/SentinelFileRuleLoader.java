@@ -86,35 +86,35 @@ public class SentinelFileRuleLoader implements SentinelRuleLoader {
     @Override
     public void load() {
         if (CollectionUtils.isEmpty(FlowRuleManager.getRules())) {
-            FlowRuleManager.loadRules(sentinelFlowRuleParser.convert(getRule(flowPath)));
+            FlowRuleManager.loadRules(sentinelFlowRuleParser.convert(getSentinelRule(flowPath)));
             LOG.info("{} flow rules form file loaded...", FlowRuleManager.getRules().size());
         } else {
             LOG.info("{} flow rules exists, ignore to load from file...", FlowRuleManager.getRules().size());
         }
 
         if (CollectionUtils.isEmpty(DegradeRuleManager.getRules())) {
-            DegradeRuleManager.loadRules(sentinelDegradeRuleParser.convert(getRule(degradePath)));
+            DegradeRuleManager.loadRules(sentinelDegradeRuleParser.convert(getSentinelRule(degradePath)));
             LOG.info("{} degrade rules form file loaded...", DegradeRuleManager.getRules().size());
         } else {
             LOG.info("{} degrade rules exists, ignore to load from file...", DegradeRuleManager.getRules().size());
         }
 
         if (CollectionUtils.isEmpty(AuthorityRuleManager.getRules())) {
-            AuthorityRuleManager.loadRules(sentinelAuthorityRuleParser.convert(getRule(authorityPath)));
+            AuthorityRuleManager.loadRules(sentinelAuthorityRuleParser.convert(getSentinelRule(authorityPath)));
             LOG.info("{} authority rules form file loaded...", AuthorityRuleManager.getRules().size());
         } else {
             LOG.info("{} authority rules exists, ignore to load from file...", AuthorityRuleManager.getRules().size());
         }
 
         if (CollectionUtils.isEmpty(SystemRuleManager.getRules())) {
-            SystemRuleManager.loadRules(sentinelSystemRuleParser.convert(getRule(systemPath)));
+            SystemRuleManager.loadRules(sentinelSystemRuleParser.convert(getSentinelRule(systemPath)));
             LOG.info("{} system rules form file loaded...", SystemRuleManager.getRules().size());
         } else {
             LOG.info("{} system rules exists, ignore to load from file...", SystemRuleManager.getRules().size());
         }
 
         if (CollectionUtils.isEmpty(ParamFlowRuleManager.getRules())) {
-            ParamFlowRuleManager.loadRules(sentinelParamFlowRuleParser.convert(getRule(paramFlowPath)));
+            ParamFlowRuleManager.loadRules(sentinelParamFlowRuleParser.convert(getSentinelRule(paramFlowPath)));
             LOG.info("{} param flow rules form file loaded...", ParamFlowRuleManager.getRules().size());
         } else {
             LOG.info("{} param flow rules exists, ignore to load from file...", ParamFlowRuleManager.getRules().size());
@@ -165,10 +165,14 @@ public class SentinelFileRuleLoader implements SentinelRuleLoader {
         return sentinelParamFlowRuleParser;
     }
 
-    public String getRule(String path) {
+    public String getSentinelRule(String path) {
+        return getRule(path, SentinelStrategyConstant.SENTINEL_EMPTY_RULE);
+    }
+
+    public String getRule(String path, String emptyRule) {
         String rule = FileContextUtil.getText(applicationContext, path);
         if (StringUtils.isEmpty(rule)) {
-            rule = SentinelStrategyConstant.SENTINEL_EMPTY_RULE;
+            rule = emptyRule;
         }
 
         return rule;
