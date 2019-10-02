@@ -68,9 +68,9 @@ Nepxion Discovery【探索】是基于Spring Cloud Discovery服务注册发现�
 | 6.0.0 | 计划中 | Hoxton<br>Greenwich<br>Finchley | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
 | 5.4.0 | 维护中 | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
 | 4.12.0 | 维护中 | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
-| 3.12.0 | 已停更，但可用 | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
-| ~~2.0.x~~ | ~~已废弃，不可用~~ | ~~Dalston~~ | ~~N/A~~ | ~~N/A~~ |
-| ~~1.0.x~~ | ~~已废弃，不可用~~ | ~~Camden~~ | ~~N/A~~ | ~~N/A~~ |
+| 3.12.0 | 已停更 | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
+| ~~2.0.x~~ | ~~已废弃~~ | ~~Dalston~~ | ~~N/A~~ | ~~N/A~~ |
+| ~~1.0.x~~ | ~~已废弃~~ | ~~Camden~~ | ~~N/A~~ | ~~N/A~~ |
 
 ## 目录
 - [请联系我](#请联系我)
