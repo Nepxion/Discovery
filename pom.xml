@@ -60,13 +60,13 @@
         <commons.lang3.version>3.6</commons.lang3.version>
         <commons.collections4.version>4.1</commons.collections4.version>
         <commons.io.version>2.5</commons.io.version>
+        <guava.version>27.0-jre</guava.version>
+        <caffeine.version>2.7.0</caffeine.version>
         <dom4j.version>1.6.1</dom4j.version>
+        <swagger.version>2.7.0</swagger.version>
         <apollo.client.version>1.4.0</apollo.client.version>
         <nacos.client.version>1.1.1</nacos.client.version>
         <sentinel.version>1.6.3</sentinel.version>
-        <guava.version>27.0-jre</guava.version>
-        <caffeine.version>2.7.0</caffeine.version>
-        <swagger.version>2.7.0</swagger.version>
         <spring.cloud.version>Finchley.SR4</spring.cloud.version>
         <spring.cloud.alibaba.version>2.0.0.RELEASE</spring.cloud.alibaba.version>
         <spring.boot.version>2.0.7.RELEASE</spring.boot.version>
@@ -330,6 +330,18 @@
             </dependency>
 
             <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>com.ctrip.framework.apollo</groupId>
                 <artifactId>apollo-client</artifactId>
                 <version>${apollo.client.version}</version>
@@ -387,18 +399,6 @@
                 <groupId>com.alibaba.csp</groupId>
                 <artifactId>sentinel-datasource-nacos</artifactId>
                 <version>${sentinel.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger2</artifactId>
-                <version>${swagger.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${swagger.version}</version>
             </dependency>
 
             <dependency>
