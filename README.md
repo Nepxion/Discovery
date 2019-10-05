@@ -1,3 +1,5 @@
+![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Cover.jpg)
+
 # Nepxion Discovery【探索】
 [![Total lines](https://tokei.rs/b1/github/Nepxion/Discovery?category=lines)](https://tokei.rs/b1/github/Nepxion/Discovery?category=lines)  [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?label=license)](https://github.com/Nepxion/Discovery/blob/master/LICENSE)  [![Maven Central](https://img.shields.io/maven-central/v/com.nepxion/discovery.svg?label=maven%20central)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.nepxion%22%20AND%20discovery)  [![Javadocs](http://www.javadoc.io/badge/com.nepxion/discovery-plugin-framework.svg)](http://www.javadoc.io/doc/com.nepxion/discovery-plugin-framework)  [![Build Status](https://travis-ci.org/Nepxion/Discovery.svg?branch=master)](https://travis-ci.org/Nepxion/Discovery)  [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8e39a24e1be740c58b83fb81763ba317)](https://www.codacy.com/project/HaojunRen/Discovery/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nepxion/Discovery&amp;utm_campaign=Badge_Grade_Dashboard)
 
@@ -115,7 +117,7 @@ Nepxion Discovery【探索】是基于Spring Cloud Discovery服务注册发现�
     - [规则和策略的关系](#规则和策略的关系)
 - [服务隔离](#服务隔离)
     - [内置服务隔离](#内置服务隔离) 
-    - [自定义服务隔离](#自定义服务隔离)  
+    - [自定义服务隔离](#自定义服务隔离)
 - [配置文件](#配置文件)
     - [基础属性配置](#基础属性配置)
     - [功能开关配置](#功能开关配置)
@@ -402,7 +404,7 @@ Spring Boot Admin监控平台
 </dependency>
 ```
 - 灰度路由策略是不会对服务注册发现等逻辑产生影响，所以建议下面两项配置改为false
-```xml
+```vb
 # 开启和关闭服务注册层面的控制。一旦关闭，服务注册的黑/白名单过滤功能将失效，最大注册数的限制过滤功能将失效。缺失则默认为true
 spring.application.register.control.enabled=false
 # 开启和关闭服务发现层面的控制。一旦关闭，服务多版本调用的控制功能将失效，动态屏蔽指定IP地址的服务实例被发现的功能将失效。缺失则默认为true
@@ -677,7 +679,7 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
 微服务启动的时候，禁止指定的IP地址被服务发现。它使用的方式和“黑/白名单的IP地址注册的过滤规则”一致
 
 ### 版本匹配的灰度发布规则
-```xml
+```
 1. 标准配置，举例如下
    <service consumer-service-name="a" provider-service-name="b" consumer-version-value="1.0" provider-version-value="1.0;1.1"/> 表示消费端1.0版本，允许访问提供端1.0和1.1版本
 2. 版本值不配置，举例如下
@@ -696,7 +698,7 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
 ```
 
 ### 版本权重的灰度发布规则
-```xml
+```
 1. 标准配置，举例如下
    <service consumer-service-name="a" provider-service-name="b" provider-weight-value="1.0=90;1.1=10"/> 表示消费端访问提供端的时候，提供端的1.0版本提供90%的权重流量，1.1版本提供10%的权重流量
    <service provider-service-name="b" provider-weight-value="1.0=90;1.1=10"/> 表示所有消费端访问提供端的时候，提供端的1.0版本提供90%的权重流量，1.1版本提供10%的权重流量
@@ -705,7 +707,7 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
 ```
 
 ### 全局版本权重的灰度发布规则
-```xml
+```
 1. 标准配置，举例如下
    <version provider-weight-value="1.0=85;1.1=15"/> 表示版本为1.0的服务提供85%的权重流量，版本为1.1的服务提供15%的权重流量
 2. 全局版本权重可以切换整条调用链的权重配比
@@ -713,7 +715,7 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
 ```
 
 ### 区域匹配的灰度发布规则
-```xml
+```
 1. 标准配置，举例如下
    <service consumer-service-name="a" provider-service-name="b" consumer-region-value="dev" provider-region-value="dev"/> 表示dev区域的消费端，允许访问dev区域的提供端
 2. 区域值不配置，举例如下
@@ -732,7 +734,7 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
 ```
 
 ### 区域权重的灰度发布规则
-```xml
+```
 1. 标准配置，举例如下
    <service consumer-service-name="a" provider-service-name="b" provider-weight-value="dev=85;qa=15"/> 表示消费端访问提供端的时候，区域为dev的服务提供85%的权重流量，区域为qa的服务提供15%的权重流量
    <service provider-service-name="b" provider-weight-value="dev=85;qa=15"/> 表示所有消费端访问提供端的时候，区域为dev的服务提供85%的权重流量，区域为qa的服务提供15%的权重流量
@@ -741,7 +743,7 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
 ```
 
 ### 全局区域权重的灰度发布规则
-```xml
+```
 1. 标准配置，举例如下
    <region provider-weight-value="dev=85;qa=15"/> 表示区域为dev的服务提供85%的权重流量，区域为qa的服务提供15%的权重流量
 2. 全局区域权重可以切换整条调用链的权重配比
@@ -749,7 +751,7 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
 ```
 
 ### 网关端全链路路由策略的灰度发布规则
-```xml
+```
 1. 标准配置，举例如下
     <strategy>
         <!-- 版本路由 -->
@@ -781,7 +783,7 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
 - 在服务中，Header方式>配置中心或者本地rule.xml配置
 - 在网关中，通过如下配置，决定优先级
 
-```xml
+```vb
 # 当外界传值Header的时候，网关也设置并传递同名的Header，需要决定哪个Header传递到后边的服务去。如果下面开关为true，以网关设置为优先，否则以外界传值为优先。缺失则默认为true
 spring.application.strategy.gateway.header.priority=false
 
@@ -791,7 +793,7 @@ spring.application.strategy.zuul.header.priority=false
 
 ### 自定义的灰度发布规则
 通过订阅业务参数的变化，实现参数化灰度发布，例如，多数据源的数据库切换的灰度发布
-```xml
+```
 1. 标准配置，举例如下
    <service service-name="discovery-springcloud-example-a" key="database" value="prod"/>
 2. 上述示例，是基于多数据源的数据库切换的灰度发布
@@ -837,20 +839,20 @@ spring.application.strategy.zuul.header.priority=false
 ### REST调用的内置多版本灰度路由策略
 基于Feign/RestTemplate的REST调用的多版本灰度路由，在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只有a服务的1.0版本，b服务的1.1版本，c服务的1.1或1.2版本，允许被调用到
 Header的Key为"n-d-version"，value为：
-```xml
+```
 {"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.1", "discovery-springcloud-example-c":"1.1;1.2"}
 ```
 
 如果，链路调用中所有的服务都是指定某个版本（例如1.1），那么value的格式可以简化，不需要Json字符串，直接是
-```xml
+```
 1.1
 ```
 
 如果上述表达式还未满足需求，也可以采用通配符（具体详细用法，参考Spring AntPathMatcher）
-```xml
+```
 "discovery-springcloud-example-c":"1.*;1.2.?" - 表示c服务的版本调用范围是1开头的所有版本，或者是1.2开头的所有版本（末尾必须是1个字符）
 ```
-```xml
+```
 * - 表示调用范围为所有服务的所有版本
 1.* - 表示调用范围为所有服务的1开头的所有版本
 ```
@@ -861,20 +863,20 @@ Header的Key为"n-d-version"，value为：
 ### REST调用的内置多区域灰度路由策略
 基于Feign/RestTemplate的REST调用的多区域灰度路由，在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只有dev区域的a服务，qa区域的b服务，dev和qa区域c服务，允许被调用到
 Header的Key为"n-d-region"，value为：
-```xml
+```
 {"discovery-springcloud-example-a":"dev", "discovery-springcloud-example-b":"qa", "discovery-springcloud-example-c":"dev;qa"}
 ```
 
 如果，链路调用中所有的服务都是指定某个区域（例如dev），那么value的格式可以简化，不需要Json字符串，直接是
-```xml
+```
 dev
 ```
 
 如果上述表达式还未满足需求，也可以采用通配符（具体详细用法，参考Spring AntPathMatcher）
-```xml
+```
 "discovery-springcloud-example-c":"d*;q?" - 表示c服务的区域调用范围是d开头的所有区域，或者是q开头的所有区域（末尾必须是1个字符）
 ```
-```xml
+```
 * - 表示调用范围为所有服务的所有区域
 d* - 表示调用范围为所有服务的d开头的所有区域
 ```
@@ -887,15 +889,15 @@ d* - 表示调用范围为所有服务的d开头的所有区域
 ### REST调用的内置多IP和端口灰度路由策略
 基于Feign/RestTemplate的REST调用的多版本灰度路由，在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只需要指定三个服务所给定的IP（或者IP和端口组合），允许被调用到
 Header的Key为"n-d-address"，value为：
-```xml
+```
 {"discovery-springcloud-example-a":"192.168.43.101:1101", "discovery-springcloud-example-b":"192.168.43.101:1201", "discovery-springcloud-example-c":"192.168.43.101:1302"}
 ```
 
 如果上述表达式还未满足需求，也可以采用通配符（具体详细用法，参考Spring AntPathMatcher）
-```xml
+```
 "discovery-springcloud-example-c":"192.168.43.*;192.168.44.10?" - 表示c服务的地址调用范围是192.168.43开头的所有IP，或者是192.168.44.10开头的所有IP（末尾必须是1个字符）
 ```
-```xml
+```
 * - 表示调用范围为所有服务的所有IP
 192.168.43* - 表示调用范围为所有服务的192.168.43开头的所有IP
 ```
@@ -906,22 +908,22 @@ Header的Key为"n-d-address"，value为：
 ### REST调用的内置版本权重灰度路由策略
 基于Feign/RestTemplate的REST调用的多版本权重灰度路由，在Header上传入服务名和版本流量百分比对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务的版本权重配比，那么只需要它们版本对于流量的百分比
 Header的Key为"n-d-version-weight"，value为：
-```xml
+```
 {"discovery-springcloud-example-a":"1.0=90;1.1=10", "discovery-springcloud-example-b":"1.0=90;1.1=10", "discovery-springcloud-example-c":"1.0=90;1.1=10"}
 ```
 如果三个服务权重比一致，那么value的格式可以简化，不需要Json字符串，直接是
-```xml
+```
 1.0=90;1.1=10
 ```
 
 ### REST调用的内置区域权重灰度路由策略
 基于Feign/RestTemplate的REST调用的多区域灰度路由，在Header上传入区域流量百分比对应关系的字符串，如下表示，如果REST请求要经过两个区域，那么只需要它们区域对于流量的百分比
 Header的Key为"n-d-region-weight"，value为：
-```xml
+```
 {"discovery-springcloud-example-a":"dev=85;qa=15", "discovery-springcloud-example-b":"dev=85;qa=15", "discovery-springcloud-example-c":"dev=85;qa=15"}
 ```
 如果三个服务权重比一致，那么value的格式可以简化，不需要Json字符串，直接是
-```xml
+```
 dev=85;qa=15
 ```
 
@@ -959,24 +961,24 @@ dev=85;qa=15
 元数据中的Group在一定意义上代表着系统ID或者系统逻辑分组，基于Group策略意味着只有同一个系统中的服务才能调用
 
 - 注册服务隔离，基于Group黑/白名单的策略，即当前的服务所在的Group，不在Group的黑名单或者在白名单里，才允许被注册。只需要在网关或者服务端，开启如下配置即可：
-```xml
+```vb
 # 启动和关闭注册的服务隔离（基于Group黑/白名单的策略）。缺失则默认为false
 spring.application.strategy.register.isolation.enabled=true
 ```
 黑/白名单通过如下方式配置
-```xml
+```vb
 spring.application.strategy.register.isolation.group.blacklist=
 spring.application.strategy.register.isolation.group.whitelist=
 ```
 
 - 消费端服务隔离，基于Group是否相同的策略，即消费端拿到的提供端列表，两者的Group必须相同。只需要在网关或者服务端，开启如下配置即可：
-```xml
+```vb
 # 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
 spring.application.strategy.consumer.isolation.enabled=true
 ```
 
 - 提供端服务隔离，基于Group是否相同的策略，即服务端被消费端调用，两者的Group必须相同，否则拒绝调用，异构系统可以通过Header方式传递n-d-service-group值进行匹配。只需要在服务端（不适用网关），开启如下配置即可：
-```xml
+```vb
 # 启动和关闭提供端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
 spring.application.strategy.provider.isolation.enabled=true
 
@@ -993,7 +995,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.gray.service.fei
 ## 配置文件
 ### 基础属性配置
 不同的服务注册发现组件对应的不同的配置值（region配置可选），请仔细阅读
-```xml
+```vb
 # Eureka config for discovery
 eureka.instance.metadataMap.group=xxx-service-group
 eureka.instance.metadataMap.version=1.0
@@ -1025,7 +1027,7 @@ management.server.port=5100
 
 ### 功能开关配置
 服务端配置
-```xml
+```vb
 # Plugin core config
 # 开启和关闭服务注册层面的控制。一旦关闭，服务注册的黑/白名单过滤功能将失效，最大注册数的限制过滤功能将失效。缺失则默认为true
 # spring.application.register.control.enabled=true
@@ -1101,7 +1103,7 @@ spring.application.strategy.trace.debug.enabled=true
 ```
 
 Spring Cloud Gateway端配置
-```xml
+```vb
 # Plugin core config
 # 开启和关闭服务注册层面的控制。一旦关闭，服务注册的黑/白名单过滤功能将失效，最大注册数的限制过滤功能将失效。缺失则默认为true
 # spring.application.register.control.enabled=true
@@ -1154,7 +1156,7 @@ spring.application.strategy.trace.debug.enabled=true
 ```
 
 Zuul端配置
-```xml
+```vb
 # Plugin core config
 # 开启和关闭服务注册层面的控制。一旦关闭，服务注册的黑/白名单过滤功能将失效，最大注册数的限制过滤功能将失效。缺失则默认为true
 # spring.application.register.control.enabled=true
@@ -1343,7 +1345,7 @@ spring.application.strategy.trace.debug.enabled=true
 - 优化方式
     - Spring Cloud Gateway，不需要优化
     - Zuul 1.x，优化如下
-```xml
+```vb
 zuul.host.max-per-route-connections=1000
 zuul.host.max-total-connections=1000
 zuul.semaphore.max-semaphores=5000
