@@ -422,7 +422,7 @@ spring.application.discovery.control.enabled=false
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-strategy-sentinel-starter-nacos</artifactId>
     <artifactId>discovery-plugin-strategy-sentinel-starter-apollo</artifactId>
-    <artifactId>discovery-plugin-strategy-sentinel-starter-apollo</artifactId>
+    <artifactId>discovery-plugin-strategy-sentinel-starter-local</artifactId>
     <version>${discovery.version}</version>
 </dependency>
 ```
