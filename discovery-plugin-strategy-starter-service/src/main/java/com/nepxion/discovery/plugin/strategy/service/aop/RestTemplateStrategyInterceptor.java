@@ -62,13 +62,13 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
         applyInnerHeader(request);
         applyOuterHeader(request);
 
-        interceptOutputHeader(request);
-
         if (CollectionUtils.isNotEmpty(restTemplateStrategyInterceptorAdapterList)) {
             for (RestTemplateStrategyInterceptorAdapter restTemplateStrategyInterceptorAdapter : restTemplateStrategyInterceptorAdapterList) {
                 restTemplateStrategyInterceptorAdapter.intercept(request, body, execution);
             }
         }
+
+        interceptOutputHeader(request);
 
         return execution.execute(request, body);
     }
