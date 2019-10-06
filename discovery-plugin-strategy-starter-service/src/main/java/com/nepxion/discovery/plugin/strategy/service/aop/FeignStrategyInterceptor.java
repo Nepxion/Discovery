@@ -59,13 +59,13 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
         applyInnerHeader(requestTemplate);
         applyOuterHeader(requestTemplate);
 
-        interceptOutputHeader(requestTemplate);
-
         if (CollectionUtils.isNotEmpty(feignStrategyInterceptorAdapterList)) {
             for (FeignStrategyInterceptorAdapter feignStrategyInterceptorAdapter : feignStrategyInterceptorAdapterList) {
                 feignStrategyInterceptorAdapter.apply(requestTemplate);
             }
         }
+
+        interceptOutputHeader(requestTemplate);
     }
 
     private void applyInnerHeader(RequestTemplate requestTemplate) {
