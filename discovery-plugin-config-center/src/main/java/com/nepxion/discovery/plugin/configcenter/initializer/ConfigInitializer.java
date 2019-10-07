@@ -55,7 +55,7 @@ public class ConfigInitializer {
             return;
         }
 
-        LOG.info("Rule starts to initialize...");
+        LOG.info("Rule starts to load...");
 
         String remoteConfig = getRemoteConfig();
         if (StringUtils.isNotEmpty(remoteConfig)) {
@@ -78,7 +78,7 @@ public class ConfigInitializer {
         }
 
         if (StringUtils.isEmpty(remoteConfig) && StringUtils.isEmpty(localConfig)) {
-            LOG.info("No config is retrieved");
+            LOG.info("No config is found");
         }
 
         // 初始化配置的时候，不应该触发fireParameterChanged的EventBus事件
@@ -96,11 +96,7 @@ public class ConfigInitializer {
             }
 
             if (StringUtils.isNotEmpty(config)) {
-                LOG.info("Remote config is retrieved");
-
                 return config;
-            } else {
-                LOG.info("Remote config isn't retrieved");
             }
         } else {
             LOG.info("Remote config loader isn't provided");
@@ -119,11 +115,7 @@ public class ConfigInitializer {
         }
 
         if (StringUtils.isNotEmpty(config)) {
-            LOG.info("Local config is retrieved");
-
             return config;
-        } else {
-            LOG.info("Local config isn't retrieved");
         }
 
         return null;
