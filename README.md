@@ -36,6 +36,7 @@ Nepxion Discovery【探索】是基于Spring Cloud Discovery服务注册发现�
 
 :100:建议
 - 由于源码中带有的示例功能比较齐全，较为复杂。强烈建议，先学习
+
 ![Alt text](https://github.com/Nepxion/nepxion.github.io/raw/master/res/images/layui/favicon.png) [指南示例](https://github.com/Nepxion/DiscoveryGuide)
 
 :100:鸣谢
