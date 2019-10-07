@@ -21,6 +21,7 @@ import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRule;
 import com.alibaba.csp.sentinel.slots.system.SystemRule;
 import com.nepxion.discovery.common.nacos.configuration.NacosAutoConfiguration;
+import com.nepxion.discovery.common.nacos.constant.NacosConstant;
 import com.nepxion.discovery.plugin.strategy.sentinel.constant.SentinelStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.sentinel.loader.SentinelDataSourceRuleLoader;
 
@@ -55,5 +56,10 @@ public class SentinelNacosRuleLoader extends SentinelDataSourceRuleLoader {
     @Override
     public ReadableDataSource<String, List<ParamFlowRule>> getParamFlowRuleDataSource() {
         return new NacosDataSource<>(properties, pluginAdapter.getGroup(), pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_PARAM_FLOW_KEY, sentinelParamFlowRuleParser);
+    }
+
+    @Override
+    public String getConfigType() {
+        return NacosConstant.TYPE;
     }
 }

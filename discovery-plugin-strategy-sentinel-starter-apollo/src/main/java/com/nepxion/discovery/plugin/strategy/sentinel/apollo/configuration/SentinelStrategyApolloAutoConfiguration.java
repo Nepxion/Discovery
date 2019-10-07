@@ -19,6 +19,7 @@ import com.nepxion.banner.BannerConstant;
 import com.nepxion.banner.Description;
 import com.nepxion.banner.LogoBanner;
 import com.nepxion.banner.NepxionBanner;
+import com.nepxion.discovery.common.apollo.constant.ApolloConstant;
 import com.nepxion.discovery.plugin.strategy.sentinel.apollo.loader.SentinelApolloRuleLoader;
 import com.nepxion.discovery.plugin.strategy.sentinel.configuration.SentinelStrategyAutoConfiguration;
 import com.nepxion.discovery.plugin.strategy.sentinel.constant.SentinelStrategyConstant;
@@ -32,7 +33,7 @@ public class SentinelStrategyApolloAutoConfiguration {
     static {
         LogoBanner logoBanner = new LogoBanner(SentinelStrategyApolloAutoConfiguration.class, "/com/nepxion/sentinel/resource/logo.txt", "Welcome to Nepxion", 8, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta, Color.red, Color.green }, true);
 
-        NepxionBanner.show(logoBanner, new Description("Protect:", "Sentinel", 0, 1), new Description("Config:", "Apollo", 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
+        NepxionBanner.show(logoBanner, new Description("Protect:", SentinelStrategyConstant.TYPE, 0, 1), new Description("Config:", ApolloConstant.TYPE, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
     }
 
     @Bean
