@@ -9,24 +9,18 @@ package com.nepxion.discovery.plugin.configcenter.loader;
  * @version 1.0
  */
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
 import com.nepxion.discovery.plugin.framework.util.FileContextUtil;
 
 public abstract class LocalConfigLoader implements ConfigLoader {
-    private static final Logger LOG = LoggerFactory.getLogger(LocalConfigLoader.class);
-
     @Autowired
     private ApplicationContext applicationContext;
 
     @Override
     public String getConfig() throws Exception {
         String path = getPath();
-
-        LOG.info("Start to load local config...");
 
         return FileContextUtil.getText(applicationContext, path);
     }

@@ -12,6 +12,8 @@ package com.nepxion.discovery.plugin.strategy.sentinel.configuration;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -28,11 +30,15 @@ import com.nepxion.discovery.plugin.strategy.sentinel.parser.SentinelSystemRuleP
 @Configuration
 @ConditionalOnProperty(value = SentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_ENABLED, matchIfMissing = false)
 public class SentinelStrategyAutoConfiguration {
+    private static final Logger LOG = LoggerFactory.getLogger(SentinelStrategyAutoConfiguration.class);
+
     @Autowired
     private SentinelRuleLoader sentinelRuleLoader;
 
     @PostConstruct
     public void initialize() {
+        LOG.info("Sentinel rules starts to load...");
+
         sentinelRuleLoader.load();
     }
 
