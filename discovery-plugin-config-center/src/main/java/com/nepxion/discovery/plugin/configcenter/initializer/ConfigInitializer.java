@@ -55,7 +55,7 @@ public class ConfigInitializer {
             return;
         }
 
-        LOG.info("Rule starts to load...");
+        LOG.info("-------------- Rule starts to load ---------------");
 
         String remoteConfig = getRemoteConfig();
         if (StringUtils.isNotEmpty(remoteConfig)) {
@@ -83,6 +83,8 @@ public class ConfigInitializer {
 
         // 初始化配置的时候，不应该触发fireParameterChanged的EventBus事件
         // pluginEventWapper.fireParameterChanged();
+
+        LOG.info("--------------------------------------------------");
     }
 
     private String getRemoteConfig() {

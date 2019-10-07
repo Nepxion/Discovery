@@ -37,9 +37,11 @@ public class SentinelStrategyAutoConfiguration {
 
     @PostConstruct
     public void initialize() {
-        LOG.info("Sentinel rules starts to load...");
+        LOG.info("---------- Sentinel rules start to load ----------");
 
         sentinelRuleLoader.load();
+
+        LOG.info("--------------------------------------------------");
     }
 
     @Bean
