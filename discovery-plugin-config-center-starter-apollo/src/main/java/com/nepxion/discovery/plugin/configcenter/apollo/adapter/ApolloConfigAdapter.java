@@ -45,14 +45,14 @@ public class ApolloConfigAdapter extends ConfigAdapter {
         if (StringUtils.isNotEmpty(config)) {
             return config;
         } else {
-            LOG.info("No {} config is retrieved from {} server", getConfigScope(false), getConfigType());
+            LOG.info("No {} config is found from {} server", getConfigScope(false), getConfigType());
         }
 
         config = getConfig(true);
         if (StringUtils.isNotEmpty(config)) {
             return config;
         } else {
-            LOG.info("No {} config is retrieved from {} server", getConfigScope(true), getConfigType());
+            LOG.info("No {} config is found from {} server", getConfigScope(true), getConfigType());
         }
 
         return null;
@@ -96,7 +96,7 @@ public class ApolloConfigAdapter extends ConfigAdapter {
                         if (!StringUtils.equals(rule, config)) {
                             fireRuleUpdated(new RuleUpdatedEvent(config), true);
                         } else {
-                            LOG.info("Retrieved {} config from {} server is same as current config, ignore to update, {}={}, serviceId={}", getConfigScope(globalConfig), getConfigType(), groupKey, group, serviceId);
+                            LOG.info("Updated {} config from {} server is same as current config, ignore to update, {}={}, serviceId={}", getConfigScope(globalConfig), getConfigType(), groupKey, group, serviceId);
                         }
                     } else {
                         LOG.info("Get {} config cleared event from {} server, {}={}, serviceId={}", getConfigScope(globalConfig), getConfigType(), groupKey, group, serviceId);
