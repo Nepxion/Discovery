@@ -13,6 +13,7 @@ import com.alibaba.nacos.api.PropertyKeyConst;
 
 public class NacosConstant extends PropertyKeyConst {
     public static final String TYPE = "Nacos";
+
     public static final String NACOS_SERVER_ADDR = "nacos.server-addr";
     public static final String NACOS_ACCESS_KEY = "nacos.access-key";
     public static final String NACOS_SECRET_KEY = "nacos.secret-key";

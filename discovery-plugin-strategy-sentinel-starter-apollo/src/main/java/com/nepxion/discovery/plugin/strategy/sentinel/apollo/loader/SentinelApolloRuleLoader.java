@@ -20,6 +20,7 @@ import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRule;
 import com.alibaba.csp.sentinel.slots.system.SystemRule;
 import com.nepxion.discovery.common.apollo.configuration.ApolloAutoConfiguration;
+import com.nepxion.discovery.common.apollo.constant.ApolloConstant;
 import com.nepxion.discovery.plugin.strategy.sentinel.constant.SentinelStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.sentinel.loader.SentinelDataSourceRuleLoader;
 
@@ -54,5 +55,10 @@ public class SentinelApolloRuleLoader extends SentinelDataSourceRuleLoader {
     @Override
     public ReadableDataSource<String, List<ParamFlowRule>> getParamFlowRuleDataSource() {
         return new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_PARAM_FLOW_KEY, null, sentinelParamFlowRuleParser);
+    }
+
+    @Override
+    public String getConfigType() {
+        return ApolloConstant.TYPE;
     }
 }
