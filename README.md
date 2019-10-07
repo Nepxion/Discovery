@@ -35,9 +35,7 @@ Nepxion Discovery【探索】是基于Spring Cloud Discovery服务注册发现�
 现有的Spring Cloud微服务很方便引入该中间件，代码零侵入。鉴于Spring Cloud官方对Eureka和Hystrix不再做新功能的迭代，推荐用Nacos和Sentinel，它们对Spring Cloud灰度发布和路由更具出色的兼容性和友好性
 
 :100:建议
-- 由于源码中带有的示例功能比较齐全，较为复杂。强烈建议，先学习
-
-![Alt text](https://github.com/Nepxion/nepxion.github.io/raw/master/res/images/layui/favicon.png) [指南示例](https://github.com/Nepxion/DiscoveryGuide)
+- 由于源码中带有的示例功能比较齐全，较为复杂。强烈建议，先学习![Alt text](https://github.com/Nepxion/nepxion.github.io/raw/master/res/images/layui/favicon.png) [指南示例](https://github.com/Nepxion/DiscoveryGuide)
 
 :100:鸣谢
 - 感谢阿里巴巴中间件Nacos和Sentinel团队，尤其是Nacos负责人@于怀，Sentinel负责人@子衿，Spring Cloud Alibaba负责人@亦盏、@洛夜的技术支持
