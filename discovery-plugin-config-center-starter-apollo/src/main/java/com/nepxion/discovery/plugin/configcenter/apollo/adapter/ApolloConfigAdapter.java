@@ -139,6 +139,6 @@ public class ApolloConfigAdapter extends ConfigAdapter {
 
     @Override
     public String getConfigType() {
-        return ApolloConstant.TYPE;
+        return ApolloConstant.APOLLO_TYPE;
     }
 }

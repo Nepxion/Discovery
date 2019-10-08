@@ -41,7 +41,7 @@ public class ApolloConfigAutoConfiguration {
 
         LogoBanner logoBanner = new LogoBanner(ApolloConfigAutoConfiguration.class, "/com/nepxion/apollo/resource/logo.txt", "Welcome to Nepxion", 6, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta }, true);
 
-        NepxionBanner.show(logoBanner, new Description("Config:", ApolloConstant.TYPE, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
+        NepxionBanner.show(logoBanner, new Description("Config:", ApolloConstant.APOLLO_TYPE, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
     }
 
     @Bean
