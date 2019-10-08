@@ -59,6 +59,6 @@ public class SentinelApolloRuleLoader extends SentinelDataSourceRuleLoader {
 
     @Override
     public String getConfigType() {
-        return ApolloConstant.TYPE;
+        return ApolloConstant.APOLLO_TYPE;
     }
 }
