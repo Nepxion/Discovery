@@ -37,7 +37,7 @@ public class SentinelStrategyAutoConfiguration {
 
     @PostConstruct
     public void initialize() {
-        LOG.info("---------- Sentinel rules start to load ----------");
+        LOG.info("-------------- Load Sentinel Config --------------");
 
         sentinelRuleLoader.load();
 

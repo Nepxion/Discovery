@@ -55,7 +55,7 @@ public class ConfigInitializer {
             return;
         }
 
-        LOG.info("-------------- Rule starts to load ---------------");
+        LOG.info("------------- Load Discovery Config --------------");
 
         String remoteConfig = getRemoteConfig();
         if (StringUtils.isNotEmpty(remoteConfig)) {
@@ -63,7 +63,7 @@ public class ConfigInitializer {
                 RuleEntity ruleEntity = pluginConfigParser.parse(remoteConfig);
                 pluginAdapter.setDynamicRule(ruleEntity);
             } catch (Exception e) {
-                LOG.error("Parse rule xml failed", e);
+                LOG.error("Parse config failed", e);
             }
         }
 
@@ -73,7 +73,7 @@ public class ConfigInitializer {
                 RuleEntity ruleEntity = pluginConfigParser.parse(localConfig);
                 pluginAdapter.setLocalRule(ruleEntity);
             } catch (Exception e) {
-                LOG.error("Parse rule xml failed", e);
+                LOG.error("Parse config failed", e);
             }
         }
 
