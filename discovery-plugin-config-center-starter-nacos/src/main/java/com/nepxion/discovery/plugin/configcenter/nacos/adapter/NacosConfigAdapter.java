@@ -51,6 +51,8 @@ public class NacosConfigAdapter extends ConfigAdapter {
     public String getConfig() throws Exception {
         String config = getConfig(false);
         if (StringUtils.isNotEmpty(config)) {
+            LOG.info("Found {} config from {} server", getConfigScope(false), getConfigType());
+
             return config;
         } else {
             LOG.info("No {} config is found from {} server", getConfigScope(false), getConfigType());
@@ -58,6 +60,8 @@ public class NacosConfigAdapter extends ConfigAdapter {
 
         config = getConfig(true);
         if (StringUtils.isNotEmpty(config)) {
+            LOG.info("Found {} config from {} server", getConfigScope(true), getConfigType());
+
             return config;
         } else {
             LOG.info("No {} config is found from {} server", getConfigScope(true), getConfigType());
@@ -67,11 +71,8 @@ public class NacosConfigAdapter extends ConfigAdapter {
     }
 
     private String getConfig(boolean globalConfig) throws Exception {
-        String groupKey = pluginAdapter.getGroupKey();
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
-
-        LOG.info("Get {} config from {} server, {}={}, serviceId={}", getConfigScope(globalConfig), getConfigType(), groupKey, group, serviceId);
 
         return nacosOperation.getConfig(group, globalConfig ? group : serviceId);
     }
