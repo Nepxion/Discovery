@@ -27,10 +27,10 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
     private static final Logger LOG = LoggerFactory.getLogger(MyDiscoveryEnabledStrategy.class);
 
     @Autowired
-    private ServiceStrategyContextHolder serviceStrategyContextHolder;
+    private PluginAdapter pluginAdapter;
 
     @Autowired
-    private PluginAdapter pluginAdapter;
+    private ServiceStrategyContextHolder serviceStrategyContextHolder;
 
     @Override
     public boolean apply(Server server) {

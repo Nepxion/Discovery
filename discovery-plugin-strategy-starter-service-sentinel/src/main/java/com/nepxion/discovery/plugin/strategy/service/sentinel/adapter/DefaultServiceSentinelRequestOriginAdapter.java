@@ -16,7 +16,7 @@ import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.constant.ServiceSentinelStrategyConstant;
 
-public abstract class AbstractServiceSentinelRequestOriginAdapter implements ServiceSentinelRequestOriginAdapter {
+public abstract class DefaultServiceSentinelRequestOriginAdapter implements ServiceSentinelRequestOriginAdapter {
     @Value("${" + ServiceSentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SERVICE_SENTINEL_REQUEST_ORIGIN_KEY + ":" + DiscoveryConstant.N_D_SERVICE_ID + "}")
     protected String requestOriginKey;
 
