@@ -37,6 +37,6 @@ public class RedisConfigAdapter implements ConfigAdapter {
 
     @Override
     public String getConfigType() {
-        return RedisConstant.TYPE;
+        return RedisConstant.REDIS_TYPE;
     }
 }

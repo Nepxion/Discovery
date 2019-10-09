@@ -11,7 +11,7 @@ package com.nepxion.discovery.plugin.strategy.sentinel.constant;
  */
 
 public class SentinelStrategyConstant {
-    public static final String TYPE = "Sentinel";
+    public static final String SENTINEL_TYPE = "Sentinel";
 
     public static final String SPRING_APPLICATION_STRATEGY_SENTINEL_ENABLED = "spring.application.strategy.sentinel.enabled";
 

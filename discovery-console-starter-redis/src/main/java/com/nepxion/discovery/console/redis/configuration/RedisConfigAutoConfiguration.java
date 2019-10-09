@@ -40,7 +40,7 @@ public class RedisConfigAutoConfiguration {
 
         LogoBanner logoBanner = new LogoBanner(RedisConfigAutoConfiguration.class, "/com/nepxion/redis/resource/logo.txt", "Welcome to Nepxion", 5, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow }, true);
 
-        NepxionBanner.show(logoBanner, new Description("Config:", RedisConstant.TYPE, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
+        NepxionBanner.show(logoBanner, new Description("Config:", RedisConstant.REDIS_TYPE, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
     }
 
     @Bean

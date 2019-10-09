@@ -46,8 +46,8 @@ public class ApolloConfigAdapter implements ConfigAdapter {
             throw new IllegalArgumentException(ApolloConstant.APOLLO_OPERATOR + " can't be null or empty");
         }
 
-        String cluster = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_CLUSTER, String.class, ApolloConstant.DEFAULT_CLUSTER);
-        String namespace = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_NAMESPACE, String.class, ApolloConstant.DEFAULT_NAMESPACE);
+        String cluster = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_CLUSTER, String.class, ApolloConstant.APOLLO_DEFAULT_CLUSTER);
+        String namespace = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_NAMESPACE, String.class, ApolloConstant.APOLLO_DEFAULT_NAMESPACE);
 
         Date now = new Date();
 
@@ -90,8 +90,8 @@ public class ApolloConfigAdapter implements ConfigAdapter {
             throw new IllegalArgumentException(ApolloConstant.APOLLO_OPERATOR + " can't be null or empty");
         }
 
-        String cluster = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_CLUSTER, String.class, ApolloConstant.DEFAULT_CLUSTER);
-        String namespace = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_NAMESPACE, String.class, ApolloConstant.DEFAULT_NAMESPACE);
+        String cluster = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_CLUSTER, String.class, ApolloConstant.APOLLO_DEFAULT_CLUSTER);
+        String namespace = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_NAMESPACE, String.class, ApolloConstant.APOLLO_DEFAULT_NAMESPACE);
 
         apolloOpenApiClient.removeItem(appId, env, cluster, namespace, group + "-" + serviceId, operator);
 
@@ -120,14 +120,14 @@ public class ApolloConfigAdapter implements ConfigAdapter {
             throw new IllegalArgumentException(ApolloConstant.APOLLO_PLUGIN_ENV + " can't be null or empty");
         }
 
-        String cluster = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_CLUSTER, String.class, ApolloConstant.DEFAULT_CLUSTER);
-        String namespace = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_NAMESPACE, String.class, ApolloConstant.DEFAULT_NAMESPACE);
+        String cluster = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_CLUSTER, String.class, ApolloConstant.APOLLO_DEFAULT_CLUSTER);
+        String namespace = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_NAMESPACE, String.class, ApolloConstant.APOLLO_DEFAULT_NAMESPACE);
 
         return apolloOpenApiClient.getLatestActiveRelease(appId, env, cluster, namespace).getConfigurations().get(group + "-" + serviceId);
     }
 
     @Override
     public String getConfigType() {
-        return ApolloConstant.TYPE;
+        return ApolloConstant.APOLLO_TYPE;
     }
 }
