@@ -10,5 +10,5 @@ package com.nepxion.discovery.plugin.framework.constant;
  */
 
 public class EurekaConstant {
-    public static final String DISCOVERY_PLUGIN = "Eureka";
+    public static final String EUREKA_TYPE = "Eureka";
 }

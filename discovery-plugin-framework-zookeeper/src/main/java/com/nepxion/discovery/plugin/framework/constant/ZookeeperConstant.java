@@ -10,7 +10,6 @@ package com.nepxion.discovery.plugin.framework.constant;
  */
 
 public class ZookeeperConstant {
-    public static final String DISCOVERY_PLUGIN = "Zookeeper";
-
-    public static final String META_DATA = "spring.cloud.zookeeper.discovery.metadata";
+    public static final String ZOOKEEPER_TYPE = "Zookeeper";
+    public static final String ZOOKEEPER_METADATA = "spring.cloud.zookeeper.discovery.metadata";
 }
