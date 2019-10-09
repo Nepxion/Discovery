@@ -41,7 +41,7 @@ public class EurekaAutoConfiguration {
 
         LogoBanner logoBanner = new LogoBanner(EurekaAutoConfiguration.class, "/com/nepxion/eureka/resource/logo.txt", "Welcome to Nepxion", 6, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta }, true);
 
-        NepxionBanner.show(logoBanner, new Description("Discovery:", EurekaConstant.DISCOVERY_PLUGIN, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
+        NepxionBanner.show(logoBanner, new Description("Discovery:", EurekaConstant.EUREKA_TYPE, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
     }
 
     @Bean

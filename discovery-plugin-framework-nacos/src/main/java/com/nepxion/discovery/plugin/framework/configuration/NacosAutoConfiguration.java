@@ -41,7 +41,7 @@ public class NacosAutoConfiguration {
 
         LogoBanner logoBanner = new LogoBanner(NacosAutoConfiguration.class, "/com/nepxion/nacos/resource/logo.txt", "Welcome to Nepxion", 5, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow }, true);
 
-        NepxionBanner.show(logoBanner, new Description("Discovery:", NacosConstant.DISCOVERY_PLUGIN, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
+        NepxionBanner.show(logoBanner, new Description("Discovery:", NacosConstant.NACOS_TYPE, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
     }
 
     @Bean

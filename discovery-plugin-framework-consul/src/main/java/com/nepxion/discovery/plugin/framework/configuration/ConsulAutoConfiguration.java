@@ -41,7 +41,7 @@ public class ConsulAutoConfiguration {
 
         LogoBanner logoBanner = new LogoBanner(ConsulAutoConfiguration.class, "/com/nepxion/consul/resource/logo.txt", "Welcome to Nepxion", 6, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta }, true);
 
-        NepxionBanner.show(logoBanner, new Description("Discovery:", ConsulConstant.DISCOVERY_PLUGIN, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
+        NepxionBanner.show(logoBanner, new Description("Discovery:", ConsulConstant.CONSUL_TYPE, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
     }
 
     @Bean

@@ -43,7 +43,7 @@ public class ZookeeperAutoConfiguration {
 
         LogoBanner logoBanner = new LogoBanner(ZookeeperAutoConfiguration.class, "/com/nepxion/zookeeper/resource/logo.txt", "Welcome to Nepxion", 9, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta, Color.red, Color.green, Color.cyan }, true);
 
-        NepxionBanner.show(logoBanner, new Description("Discovery:", ZookeeperConstant.DISCOVERY_PLUGIN, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
+        NepxionBanner.show(logoBanner, new Description("Discovery:", ZookeeperConstant.ZOOKEEPER_TYPE, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
     }
 
     @Bean
