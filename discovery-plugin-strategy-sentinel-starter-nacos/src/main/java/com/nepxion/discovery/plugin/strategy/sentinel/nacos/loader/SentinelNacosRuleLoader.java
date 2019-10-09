@@ -60,6 +60,6 @@ public class SentinelNacosRuleLoader extends SentinelDataSourceRuleLoader {
 
     @Override
     public String getConfigType() {
-        return NacosConstant.TYPE;
+        return NacosConstant.NACOS_TYPE;
     }
 }

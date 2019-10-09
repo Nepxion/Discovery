@@ -12,8 +12,7 @@ package com.nepxion.discovery.common.nacos.constant;
 import com.alibaba.nacos.api.PropertyKeyConst;
 
 public class NacosConstant extends PropertyKeyConst {
-    public static final String TYPE = "Nacos";
-
+    public static final String NACOS_TYPE = "Nacos";
     public static final String NACOS_SERVER_ADDR = "nacos.server-addr";
     public static final String NACOS_ACCESS_KEY = "nacos.access-key";
     public static final String NACOS_SECRET_KEY = "nacos.secret-key";
@@ -34,6 +33,5 @@ public class NacosConstant extends PropertyKeyConst {
     public static final String NACOS_PLUGIN_RAM_ROLE_NAME = "nacos.plugin.ram-role-name";
     public static final String NACOS_PLUGIN_ENABLE_REMOTE_SYNC_CONFIG = "nacos.plugin.enable-remote-sync-config";
     public static final String NACOS_PLUGIN_TIMEOUT = "nacos.plugin.timout";
-
-    public static final long DEFAULT_TIMEOUT = 30000;
+    public static final long NACOS_PLUGIN_DEFAULT_TIMEOUT = 30000;
 }
