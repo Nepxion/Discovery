@@ -32,11 +32,11 @@ public class ZookeeperAdapter extends AbstractPluginAdapter {
     @Override
     protected String getGroup(String groupKey) {
         /*if (flag.compareAndSet(false, true)) {
-            group = environment.getProperty(ZookeeperConstant.META_DATA + "." + groupKey);
+            group = environment.getProperty(ZookeeperConstant.ZOOKEEPER_METADATA + "." + groupKey);
         }*/
 
         if (!flag) {
-            group = environment.getProperty(ZookeeperConstant.META_DATA + "." + groupKey);
+            group = environment.getProperty(ZookeeperConstant.ZOOKEEPER_METADATA + "." + groupKey);
 
             flag = true;
         }

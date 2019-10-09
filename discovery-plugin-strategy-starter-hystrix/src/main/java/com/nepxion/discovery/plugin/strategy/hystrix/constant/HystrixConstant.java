@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.constant;
+package com.nepxion.discovery.plugin.strategy.hystrix.constant;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -9,6 +9,6 @@ package com.nepxion.discovery.plugin.framework.constant;
  * @version 1.0
  */
 
-public class ConsulConstant {
-    public static final String CONSUL_TYPE = "Consul";
+public class HystrixConstant {
+    public static final String HYSTRIX_TYPE = "Hystrix";
 }
