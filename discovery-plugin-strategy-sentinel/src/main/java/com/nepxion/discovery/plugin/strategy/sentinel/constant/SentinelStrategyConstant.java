@@ -14,7 +14,6 @@ public class SentinelStrategyConstant {
     public static final String SENTINEL_TYPE = "Sentinel";
 
     public static final String SPRING_APPLICATION_STRATEGY_SENTINEL_ENABLED = "spring.application.strategy.sentinel.enabled";
-
     public static final String SPRING_APPLICATION_STRATEGY_SENTINEL_FLOW_PATH = "spring.application.strategy.sentinel.flow.path";
     public static final String SPRING_APPLICATION_STRATEGY_SENTINEL_DEGRADE_PATH = "spring.application.strategy.sentinel.degrade.path";
     public static final String SPRING_APPLICATION_STRATEGY_SENTINEL_AUTHORITY_PATH = "spring.application.strategy.sentinel.authority.path";
