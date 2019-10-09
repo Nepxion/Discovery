@@ -140,6 +140,6 @@ public class RedisConfigAdapter extends ConfigAdapter {
 
     @Override
     public String getConfigType() {
-        return RedisConstant.TYPE;
+        return RedisConstant.REDIS_TYPE;
     }
 }

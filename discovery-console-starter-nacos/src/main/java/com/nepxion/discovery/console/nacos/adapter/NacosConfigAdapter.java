@@ -36,6 +36,6 @@ public class NacosConfigAdapter implements ConfigAdapter {
 
     @Override
     public String getConfigType() {
-        return NacosConstant.TYPE;
+        return NacosConstant.NACOS_TYPE;
     }
 }

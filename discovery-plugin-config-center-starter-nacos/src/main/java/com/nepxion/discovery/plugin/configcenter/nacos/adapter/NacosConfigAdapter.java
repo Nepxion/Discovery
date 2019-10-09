@@ -149,6 +149,6 @@ public class NacosConfigAdapter extends ConfigAdapter {
 
     @Override
     public String getConfigType() {
-        return NacosConstant.TYPE;
+        return NacosConstant.NACOS_TYPE;
     }
 }

@@ -11,5 +11,5 @@ package com.nepxion.discovery.common.redis.constant;
  */
 
 public class RedisConstant {
-    public static final String TYPE = "Redis";
+    public static final String REDIS_TYPE = "Redis";
 }

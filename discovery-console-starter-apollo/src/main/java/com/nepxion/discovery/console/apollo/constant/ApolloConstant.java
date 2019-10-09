@@ -12,7 +12,7 @@ package com.nepxion.discovery.console.apollo.constant;
 import com.ctrip.framework.apollo.openapi.client.constant.ApolloOpenApiConstants;
 
 public class ApolloConstant implements ApolloOpenApiConstants {
-    public static final String TYPE = "Apollo";
+    public static final String APOLLO_TYPE = "Apollo";
     public static final String APOLLO_PORTAL_URL = "apollo.portal-url";
     public static final String APOLLO_TOKEN = "apollo.token";
     public static final String APOLLO_OPERATOR = "apollo.operator";
@@ -22,7 +22,6 @@ public class ApolloConstant implements ApolloOpenApiConstants {
     public static final String APOLLO_PLUGIN_ENV = "apollo.plugin.env";
     public static final String APOLLO_PLUGIN_CLUSTER = "apollo.plugin.cluster";
     public static final String APOLLO_PLUGIN_NAMESPACE = "apollo.plugin.namespace";
-
-    public static final String DEFAULT_CLUSTER = "default";
-    public static final String DEFAULT_NAMESPACE = "application";
+    public static final String APOLLO_DEFAULT_CLUSTER = "default";
+    public static final String APOLLO_DEFAULT_NAMESPACE = "application";
 }
