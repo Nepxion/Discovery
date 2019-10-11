@@ -95,7 +95,7 @@ public class MapWeightRandomLoadBalanceTest {
 
         public K random() {
             if (MapUtils.isEmpty(weightMap)) {
-                throw new DiscoveryException("No weight value is configed");
+                throw new DiscoveryException("No servers is found to execute weight load balance");
             }
 
             double randomWeight = weightMap.lastKey() * Math.random();
