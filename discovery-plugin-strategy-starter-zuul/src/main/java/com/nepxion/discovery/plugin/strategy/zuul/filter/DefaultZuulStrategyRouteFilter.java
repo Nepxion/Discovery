@@ -9,36 +9,29 @@ package com.nepxion.discovery.plugin.strategy.zuul.filter;
  * @version 1.0
  */
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
-
 public class DefaultZuulStrategyRouteFilter extends AbstractZuulStrategyRouteFilter {
-    @Autowired
-    protected StrategyWrapper strategyWrapper;
-
     @Override
     public String getRouteVersion() {
-        return strategyWrapper.getRouteVersion();
+        return strategyContextHolder.getRouteVersion();
     }
 
     @Override
     public String getRouteRegion() {
-        return strategyWrapper.getRouteRegion();
+        return strategyContextHolder.getRouteRegion();
     }
 
     @Override
     public String getRouteAddress() {
-        return strategyWrapper.getRouteAddress();
+        return strategyContextHolder.getRouteAddress();
     }
 
     @Override
     public String getRouteVersionWeight() {
-        return strategyWrapper.getRouteVersionWeight();
+        return strategyContextHolder.getRouteVersionWeight();
     }
 
     @Override
     public String getRouteRegionWeight() {
-        return strategyWrapper.getRouteRegionWeight();
+        return strategyContextHolder.getRouteRegionWeight();
     }
 }
