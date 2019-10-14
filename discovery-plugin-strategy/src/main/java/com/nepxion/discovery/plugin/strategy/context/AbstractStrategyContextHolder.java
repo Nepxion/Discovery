@@ -29,7 +29,7 @@ public abstract class AbstractStrategyContextHolder implements PluginContextHold
     public String getContextRouteVersion() {
         String versionValue = getContext(DiscoveryConstant.N_D_VERSION);
         if (StringUtils.isEmpty(versionValue)) {
-            versionValue = strategyWrapper.getRouteVersion();
+            versionValue = getRouteVersion();
         }
 
         return versionValue;
@@ -39,7 +39,7 @@ public abstract class AbstractStrategyContextHolder implements PluginContextHold
     public String getContextRouteRegion() {
         String regionValue = getContext(DiscoveryConstant.N_D_REGION);
         if (StringUtils.isEmpty(regionValue)) {
-            regionValue = strategyWrapper.getRouteRegion();
+            regionValue = getRouteRegion();
         }
 
         return regionValue;
@@ -49,7 +49,7 @@ public abstract class AbstractStrategyContextHolder implements PluginContextHold
     public String getContextRouteAddress() {
         String addressValue = getContext(DiscoveryConstant.N_D_ADDRESS);
         if (StringUtils.isEmpty(addressValue)) {
-            addressValue = strategyWrapper.getRouteAddress();
+            addressValue = getRouteAddress();
         }
 
         return addressValue;
@@ -59,7 +59,7 @@ public abstract class AbstractStrategyContextHolder implements PluginContextHold
     public String getContextRouteVersionWeight() {
         String versionWeightValue = getContext(DiscoveryConstant.N_D_VERSION_WEIGHT);
         if (StringUtils.isEmpty(versionWeightValue)) {
-            versionWeightValue = strategyWrapper.getRouteVersionWeight();
+            versionWeightValue = getRouteVersionWeight();
         }
 
         return versionWeightValue;
@@ -69,7 +69,7 @@ public abstract class AbstractStrategyContextHolder implements PluginContextHold
     public String getContextRouteRegionWeight() {
         String regionWeightValue = getContext(DiscoveryConstant.N_D_REGION_WEIGHT);
         if (StringUtils.isEmpty(regionWeightValue)) {
-            regionWeightValue = strategyWrapper.getRouteRegionWeight();
+            regionWeightValue = getRouteRegionWeight();
         }
 
         return regionWeightValue;
