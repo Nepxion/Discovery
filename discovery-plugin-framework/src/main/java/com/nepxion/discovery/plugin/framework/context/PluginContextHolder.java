@@ -11,4 +11,14 @@ package com.nepxion.discovery.plugin.framework.context;
 
 public interface PluginContextHolder {
     String getContext(String name);
+
+    String getContextRouteVersion();
+
+    String getContextRouteRegion();
+
+    String getContextRouteAddress();
+
+    String getContextRouteVersionWeight();
+
+    String getContextRouteRegionWeight();
 }
