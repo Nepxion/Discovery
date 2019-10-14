@@ -33,7 +33,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.adapter.RestTemplateStrategyInterceptorAdapter;
-import com.nepxion.discovery.plugin.strategy.service.route.ServiceStrategyRouteFilter;
+import com.nepxion.discovery.plugin.strategy.service.filter.ServiceStrategyRouteFilter;
 
 public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor implements ClientHttpRequestInterceptor {
     private static final Logger LOG = LoggerFactory.getLogger(RestTemplateStrategyInterceptor.class);
