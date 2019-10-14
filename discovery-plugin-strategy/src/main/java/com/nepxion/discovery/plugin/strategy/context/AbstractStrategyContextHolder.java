@@ -74,4 +74,29 @@ public abstract class AbstractStrategyContextHolder implements PluginContextHold
 
         return regionWeightValue;
     }
+
+    @Override
+    public String getRouteVersion() {
+        return strategyWrapper.getRouteVersion();
+    }
+
+    @Override
+    public String getRouteRegion() {
+        return strategyWrapper.getRouteRegion();
+    }
+
+    @Override
+    public String getRouteAddress() {
+        return strategyWrapper.getRouteAddress();
+    }
+
+    @Override
+    public String getRouteVersionWeight() {
+        return strategyWrapper.getRouteVersionWeight();
+    }
+
+    @Override
+    public String getRouteRegionWeight() {
+        return strategyWrapper.getRouteRegionWeight();
+    }
 }
