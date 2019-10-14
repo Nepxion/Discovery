@@ -12,25 +12,18 @@ package com.nepxion.discovery.plugin.strategy.adapter;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
+import com.nepxion.discovery.plugin.framework.context.PluginContextHolder;
 import com.nepxion.discovery.plugin.strategy.matcher.DiscoveryMatcherStrategy;
-import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
 import com.netflix.loadbalancer.Server;
 
 public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
-    @Autowired
-    private ApplicationContext applicationContext;
-
     @Autowired(required = false)
     private DiscoveryEnabledStrategy discoveryEnabledStrategy;
 
@@ -41,14 +34,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     protected PluginAdapter pluginAdapter;
 
     @Autowired
-    protected StrategyWrapper strategyWrapper;
-
-    protected StrategyContextHolder strategyContextHolder;
-
-    @PostConstruct
-    private void initialize() {
-        strategyContextHolder = applicationContext.getBean(StrategyContextHolder.class);
-    }
+    protected PluginContextHolder pluginContextHolder;
 
     @Override
     public boolean apply(Server server) {
@@ -72,11 +58,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
 
     @SuppressWarnings("unchecked")
     private boolean applyVersion(Server server) {
-        String versionValue = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION);
-        if (StringUtils.isEmpty(versionValue)) {
-            versionValue = strategyWrapper.getRouteVersion();
-        }
-
+        String versionValue = pluginContextHolder.getContextRouteVersion();
         if (StringUtils.isEmpty(versionValue)) {
             return true;
         }
@@ -114,11 +96,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
 
     @SuppressWarnings("unchecked")
     private boolean applyRegion(Server server) {
-        String regionValue = strategyContextHolder.getHeader(DiscoveryConstant.N_D_REGION);
-        if (StringUtils.isEmpty(regionValue)) {
-            regionValue = strategyWrapper.getRouteRegion();
-        }
-
+        String regionValue = pluginContextHolder.getContextRouteRegion();
         if (StringUtils.isEmpty(regionValue)) {
             return true;
         }
@@ -156,11 +134,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
 
     @SuppressWarnings("unchecked")
     private boolean applyAddress(Server server) {
-        String addressValue = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ADDRESS);
-        if (StringUtils.isEmpty(addressValue)) {
-            addressValue = strategyWrapper.getRouteAddress();
-        }
-
+        String addressValue = pluginContextHolder.getContextRouteAddress();
         if (StringUtils.isEmpty(addressValue)) {
             return true;
         }
@@ -201,7 +175,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         return pluginAdapter;
     }
 
-    public StrategyContextHolder getStrategyContextHolder() {
-        return strategyContextHolder;
+    public PluginContextHolder getPluginContextHolder() {
+        return pluginContextHolder;
     }
 }

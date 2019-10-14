@@ -13,7 +13,6 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.RegionWeightEntity;
 import com.nepxion.discovery.common.entity.VersionWeightEntity;
 import com.nepxion.discovery.common.entity.WeightEntity;
@@ -36,7 +35,7 @@ public class StrategyWeightRandomLoadBalanceAdapter extends AbstractWeightRandom
 
         WeightFilterEntity weightFilterEntity = new WeightFilterEntity();
 
-        String versionWeightValue = pluginContextHolder.getContext(DiscoveryConstant.N_D_VERSION_WEIGHT);
+        String versionWeightValue = pluginContextHolder.getContextRouteVersionWeight();
         if (StringUtils.isNotEmpty(versionWeightValue)) {
             try {
                 List<WeightEntity> weightEntityList = WeightEntityWrapper.parseWeightEntityList(versionWeightValue);
@@ -50,7 +49,7 @@ public class StrategyWeightRandomLoadBalanceAdapter extends AbstractWeightRandom
             }
         }
 
-        String regionWeightValue = pluginContextHolder.getContext(DiscoveryConstant.N_D_REGION_WEIGHT);
+        String regionWeightValue = pluginContextHolder.getContextRouteRegionWeight();
         if (StringUtils.isNotEmpty(regionWeightValue)) {
             try {
                 List<WeightEntity> weightEntityList = WeightEntityWrapper.parseWeightEntityList(regionWeightValue);
