@@ -71,8 +71,8 @@ Nepxion Discovery【探索】是基于Spring Cloud Discovery服务注册发现�
 | 5.4.1 | 迭代中，可用 | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
 | 4.12.1 | 迭代中，可用 | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
 | 3.12.1 | 迭代中，可用 | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
-| ~~2.0.x~~ | ~~已停更，废弃~~ | ~~Dalston~~ | ~~N/A~~ | ~~N/A~~ |
-| ~~1.0.x~~ | ~~已停更，废弃~~ | ~~Camden~~ | ~~N/A~~ | ~~N/A~~ |
+| ~~2.0.x~~ | ~~不维护，废弃~~ | ~~Dalston~~ | ~~N/A~~ | ~~N/A~~ |
+| ~~1.0.x~~ | ~~不维护，废弃~~ | ~~Camden~~ | ~~N/A~~ | ~~N/A~~ |
 
 ## 目录
 - [请联系我](#请联系我)
