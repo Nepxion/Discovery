@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.service.route;
+package com.nepxion.discovery.plugin.strategy.service.filter;
 
 /**
  * <p>Title: Nepxion Discovery</p>
