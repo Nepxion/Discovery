@@ -65,7 +65,7 @@ Nepxion Discovery【探索】是基于Spring Cloud Discovery服务注册发现�
 
 2. 兼容性强。支持如下版本：
 
-| 框架版本 | 框架分支 | 框架状态 | 适用Spring Cloud版本 | 适用Spring Boot版本 | 适用Spring Cloud Alibaba版本 |
+| 框架版本 | 框架分支 | 框架状态 | Spring Cloud版本 | Spring Boot版本 | Spring Cloud Alibaba版本 |
 | --- | --- | --- | --- | --- | --- |
 | 6.0.0 | master | 计划中 | Hoxton<br>Greenwich<br>Finchley | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
 | 5.4.1 | 5.x.x | 迭代中，可用 | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
