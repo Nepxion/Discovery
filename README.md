@@ -65,14 +65,14 @@ Nepxion Discovery【探索】是基于Spring Cloud Discovery服务注册发现�
 
 2. 兼容性强。支持如下版本：
 
-| 框架版本 | 框架状态 | 适用Spring Cloud版本 | 适用Spring Boot版本 | 适用Spring Cloud Alibaba版本 |
-| --- | --- | --- | --- | --- |
-| 6.0.0 | 计划中 | Hoxton<br>Greenwich<br>Finchley | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
-| 5.4.1 | 迭代中，可用 | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
-| 4.12.1 | 迭代中，可用 | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
-| 3.12.1 | ~~不维护~~，可用 | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
-| ~~2.0.x~~ | ~~不维护，废弃~~ | ~~Dalston~~ | ~~N/A~~ | ~~N/A~~ |
-| ~~1.0.x~~ | ~~不维护，废弃~~ | ~~Camden~~ | ~~N/A~~ | ~~N/A~~ |
+| 框架版本 | 框架分支 | 框架状态 | 适用Spring Cloud版本 | 适用Spring Boot版本 | 适用Spring Cloud Alibaba版本 |
+| --- | --- | --- | --- | --- | --- |
+| 6.0.0 | master | 计划中 | Hoxton<br>Greenwich<br>Finchley | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
+| 5.4.1 | 5.x.x | 迭代中，可用 | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
+| 4.12.1 | 4.x.x | 迭代中，可用 | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
+| 3.12.1 | 3.x.x |~~不维护~~，可用 | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
+| ~~2.0.x~~ | ~~N/A~~ | ~~不维护，废弃~~ | ~~Dalston~~ | ~~N/A~~ | ~~N/A~~ |
+| ~~1.0.x~~ | ~~N/A~~ | ~~不维护，废弃~~ | ~~Camden~~ | ~~N/A~~ | ~~N/A~~ |
 
 ## 目录
 - [请联系我](#请联系我)
@@ -440,9 +440,6 @@ spring.application.discovery.control.enabled=false
 
 ### 兼容
 版本兼容情况
-- Spring Cloud G版，请采用5.x.x版本，具体代码参考master分支
-- Spring Cloud F版，请采用4.x.x版本，具体代码参考4.x.x分支
-- Spring Cloud E版，请采用3.x.x版本，具体代码参考3.x.x分支
 - 3.x.x版本和其它版本功能完全一致，但在Endpoint的URL使用方式上稍微有个小的区别。例如
     - 3.x.x版本的Endpoint URL为[http://localhost:5100/config/view](http://localhost:5100/config/view)
     - 其它版本的Endpoint URL为[http://localhost:5100/actuator/config/config/view](http://localhost:5100/actuator/config/config/view)，注意，路径中config为两个，前面那个是Endpoint Id，Spring Boot 2.x.x规定Endpoint Id必须指定，且全局唯一
