@@ -1045,43 +1045,43 @@ management.server.port=5100
 ```vb
 # Plugin core config
 # 开启和关闭服务注册层面的控制。一旦关闭，服务注册的黑/白名单过滤功能将失效，最大注册数的限制过滤功能将失效。缺失则默认为true
-# spring.application.register.control.enabled=true
+spring.application.register.control.enabled=true
 # 开启和关闭服务发现层面的控制。一旦关闭，服务多版本调用的控制功能将失效，动态屏蔽指定IP地址的服务实例被发现的功能将失效。缺失则默认为true
-# spring.application.discovery.control.enabled=true
+spring.application.discovery.control.enabled=true
 # 开启和关闭通过Rest方式对规则配置的控制和推送。一旦关闭，只能通过远程配置中心来控制和推送。缺失则默认为true
-# spring.application.config.rest.control.enabled=true
+spring.application.config.rest.control.enabled=true
 # 规则文件的格式，支持xml和json。缺失则默认为xml
-# spring.application.config.format=xml
+spring.application.config.format=xml
 # spring.application.config.format=json
 # 本地规则文件的路径，支持两种方式：classpath:rule.xml（rule.json） - 规则文件放在resources目录下，便于打包进jar；file:rule.xml（rule.json） - 规则文件放在工程根目录下，放置在外部便于修改。缺失则默认为不装载本地规则
-# spring.application.config.path=classpath:rule.xml
+spring.application.config.path=classpath:rule.xml
 # spring.application.config.path=classpath:rule.json
 # 为微服务归类的Key，一般通过group字段来归类，例如eureka.instance.metadataMap.group=xxx-group或者eureka.instance.metadataMap.application=xxx-application。缺失则默认为group
-# spring.application.group.key=group
+spring.application.group.key=group
 # spring.application.group.key=application
 # 业务系统希望大多数时候Spring、SpringBoot或者SpringCloud的基本配置、调优参数（非业务系统配置参数），不配置在业务端，集成到基础框架里。但特殊情况下，业务系统有时候也希望能把基础框架里配置的参数给覆盖掉，用他们自己的配置
 # 对于此类型的配置需求，可以配置在下面的配置文件里。该文件一般放在resource目录下。缺失则默认为spring-application-default.properties
-# spring.application.default.properties.path=spring-application-default.properties
+spring.application.default.properties.path=spring-application-default.properties
 # 负载均衡下，消费端尝试获取对应提供端初始服务实例列表为空的时候，进行重试。缺失则默认为false
-# spring.application.no.servers.retry.enabled=false
+spring.application.no.servers.retry.enabled=false
 # 负载均衡下，消费端尝试获取对应提供端初始服务实例列表为空的时候，进行重试的次数。缺失则默认为5
-# spring.application.no.servers.retry.times=5
+spring.application.no.servers.retry.times=5
 # 负载均衡下，消费端尝试获取对应提供端初始服务实例列表为空的时候，进行重试的时间间隔。缺失则默认为2000
-# spring.application.no.servers.retry.await.time=2000
+spring.application.no.servers.retry.await.time=2000
 # 负载均衡下，消费端尝试获取对应提供端服务实例列表为空的时候，通过日志方式通知。缺失则默认为false
-# spring.application.no.servers.notify.enabled=false
+spring.application.no.servers.notify.enabled=false
 
 # Plugin strategy config
 # 开启和关闭路由策略的控制。一旦关闭，路由策略功能将失效。缺失则默认为true
-# spring.application.strategy.control.enabled=true
+spring.application.strategy.control.enabled=true
 # 开启和关闭Ribbon默认的ZoneAvoidanceRule负载均衡策略。一旦关闭，则使用RoundRobin简单轮询负载均衡策略。缺失则默认为true
-# spring.application.strategy.zone.avoidance.rule.enabled=true
+spring.application.strategy.zone.avoidance.rule.enabled=true
 # 启动和关闭路由策略的时候，对REST方式的调用拦截。缺失则默认为true
-# spring.application.strategy.rest.intercept.enabled=true
+spring.application.strategy.rest.intercept.enabled=true
 # 启动和关闭Header传递的Debug日志打印，注意每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
 spring.application.strategy.rest.intercept.debug.enabled=true
 # 路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于框架内置上下文Header，例如：traceid, spanid等）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
-# spring.application.strategy.context.request.headers=traceid;spanid
+spring.application.strategy.context.request.headers=traceid;spanid
 # 路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于业务系统子定义Header，例如：mobile）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
 spring.application.strategy.business.request.headers=token
 # 启动和关闭路由策略的时候，对RPC方式的调用拦截。缺失则默认为false
@@ -1099,65 +1099,65 @@ spring.application.strategy.trace.enabled=true
 # 启动和关闭调用链的Debug日志打印，注意每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
 spring.application.strategy.trace.debug.enabled=true
 # 开启服务端实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
-# spring.application.strategy.hystrix.threadlocal.supported=true
+spring.application.strategy.hystrix.threadlocal.supported=true
 
 # 启动和关闭Sentinel限流降级熔断权限等功能。缺失则默认为false
-# spring.application.strategy.sentinel.enabled=true
+spring.application.strategy.sentinel.enabled=true
 # 流控规则文件路径。缺失则默认为classpath:sentinel-flow.json
-# spring.application.strategy.sentinel.flow.path=classpath:sentinel-flow.json
+spring.application.strategy.sentinel.flow.path=classpath:sentinel-flow.json
 # 降级规则文件路径。缺失则默认为classpath:sentinel-degrade.json
-# spring.application.strategy.sentinel.degrade.path=classpath:sentinel-degrade.json
+spring.application.strategy.sentinel.degrade.path=classpath:sentinel-degrade.json
 # 授权规则文件路径。缺失则默认为classpath:sentinel-authority.json
-# spring.application.strategy.sentinel.authority.path=classpath:sentinel-authority.json
+spring.application.strategy.sentinel.authority.path=classpath:sentinel-authority.json
 # 系统规则文件路径。缺失则默认为classpath:sentinel-system.json
-# spring.application.strategy.sentinel.system.path=classpath:sentinel-system.json
+spring.application.strategy.sentinel.system.path=classpath:sentinel-system.json
 # 热点参数流控规则文件路径。缺失则默认为classpath:sentinel-param-flow.json
-# spring.application.strategy.sentinel.param.flow.path=classpath:sentinel-param-flow.json
+spring.application.strategy.sentinel.param.flow.path=classpath:sentinel-param-flow.json
 # 服务端执行规则时候，以Http请求中的Header值作为关键Key。缺失则默认为n-d-service-id，即以服务名作为关键Key
-# spring.application.strategy.service.sentinel.request.origin.key=n-d-service-id
+spring.application.strategy.service.sentinel.request.origin.key=n-d-service-id
 ```
 
 Spring Cloud Gateway端配置
 ```vb
 # Plugin core config
 # 开启和关闭服务注册层面的控制。一旦关闭，服务注册的黑/白名单过滤功能将失效，最大注册数的限制过滤功能将失效。缺失则默认为true
-# spring.application.register.control.enabled=true
+spring.application.register.control.enabled=true
 # 开启和关闭服务发现层面的控制。一旦关闭，服务多版本调用的控制功能将失效，动态屏蔽指定IP地址的服务实例被发现的功能将失效。缺失则默认为true
-# spring.application.discovery.control.enabled=true
+spring.application.discovery.control.enabled=true
 # 开启和关闭通过Rest方式对规则配置的控制和推送。一旦关闭，只能通过远程配置中心来控制和推送。缺失则默认为true
-# spring.application.config.rest.control.enabled=true
+spring.application.config.rest.control.enabled=true
 # 规则文件的格式，支持xml和json。缺失则默认为xml
-# spring.application.config.format=xml
+spring.application.config.format=xml
 # spring.application.config.format=json
 # 本地规则文件的路径，支持两种方式：classpath:rule.xml（rule.json） - 规则文件放在resources目录下，便于打包进jar；file:rule.xml（rule.json） - 规则文件放在工程根目录下，放置在外部便于修改。缺失则默认为不装载本地规则
-# spring.application.config.path=classpath:rule.xml
+spring.application.config.path=classpath:rule.xml
 # spring.application.config.path=classpath:rule.json
 # 为微服务归类的Key，一般通过group字段来归类，例如eureka.instance.metadataMap.group=xxx-group或者eureka.instance.metadataMap.application=xxx-application。缺失则默认为group
-# spring.application.group.key=group
+spring.application.group.key=group
 # spring.application.group.key=application
 # 业务系统希望大多数时候Spring、SpringBoot或者SpringCloud的基本配置、调优参数（非业务系统配置参数），不配置在业务端，集成到基础框架里。但特殊情况下，业务系统有时候也希望能把基础框架里配置的参数给覆盖掉，用他们自己的配置
 # 对于此类型的配置需求，可以配置在下面的配置文件里。该文件一般放在resource目录下。缺失则默认为spring-application-default.properties
-# spring.application.default.properties.path=spring-application-default.properties
+spring.application.default.properties.path=spring-application-default.properties
 # 负载均衡下，消费端尝试获取对应提供端初始服务实例列表为空的时候，进行重试。缺失则默认为false
-# spring.application.no.servers.retry.enabled=false
+spring.application.no.servers.retry.enabled=false
 # 负载均衡下，消费端尝试获取对应提供端初始服务实例列表为空的时候，进行重试的次数。缺失则默认为5
-# spring.application.no.servers.retry.times=5
+spring.application.no.servers.retry.times=5
 # 负载均衡下，消费端尝试获取对应提供端初始服务实例列表为空的时候，进行重试的时间间隔。缺失则默认为2000
-# spring.application.no.servers.retry.await.time=2000
+spring.application.no.servers.retry.await.time=2000
 # 负载均衡下，消费端尝试获取对应提供端服务实例列表为空的时候，通过日志方式通知。缺失则默认为false
-# spring.application.no.servers.notify.enabled=false
+spring.application.no.servers.notify.enabled=false
 
 # Plugin strategy config
 # 开启和关闭路由策略的控制。一旦关闭，路由策略功能将失效。缺失则默认为true
-# spring.application.strategy.control.enabled=true
+spring.application.strategy.control.enabled=true
 # 开启和关闭Ribbon默认的ZoneAvoidanceRule负载均衡策略。一旦关闭，则使用RoundRobin简单轮询负载均衡策略。缺失则默认为true
-# spring.application.strategy.zone.avoidance.rule.enabled=true
+spring.application.strategy.zone.avoidance.rule.enabled=true
 # 路由策略过滤器的执行顺序（Order）。缺失则默认为9000
-# spring.application.strategy.gateway.route.filter.order=9000
+spring.application.strategy.gateway.route.filter.order=9000
 # 当外界传值Header的时候，网关也设置并传递同名的Header，需要决定哪个Header传递到后边的服务去。如果下面开关为true，以网关设置为优先，否则以外界传值为优先。缺失则默认为true
 spring.application.strategy.gateway.header.priority=false
 # 当以网关设置为优先的时候，网关未配置Header，而外界配置了Header，仍旧忽略外界的Header。缺失则默认为true
-# spring.application.strategy.gateway.original.header.ignored=true
+spring.application.strategy.gateway.original.header.ignored=true
 # 启动和关闭注册的服务隔离（基于Group黑/白名单的策略）。缺失则默认为false
 spring.application.strategy.register.isolation.enabled=true
 # 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
@@ -1167,50 +1167,50 @@ spring.application.strategy.trace.enabled=true
 # 启动和关闭调用链的Debug日志打印，注意每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
 spring.application.strategy.trace.debug.enabled=true
 # 开启Spring Cloud Gateway网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
-# spring.application.strategy.hystrix.threadlocal.supported=true
+spring.application.strategy.hystrix.threadlocal.supported=true
 ```
 
 Zuul端配置
 ```vb
 # Plugin core config
 # 开启和关闭服务注册层面的控制。一旦关闭，服务注册的黑/白名单过滤功能将失效，最大注册数的限制过滤功能将失效。缺失则默认为true
-# spring.application.register.control.enabled=true
+spring.application.register.control.enabled=true
 # 开启和关闭服务发现层面的控制。一旦关闭，服务多版本调用的控制功能将失效，动态屏蔽指定IP地址的服务实例被发现的功能将失效。缺失则默认为true
-# spring.application.discovery.control.enabled=true
+spring.application.discovery.control.enabled=true
 # 开启和关闭通过Rest方式对规则配置的控制和推送。一旦关闭，只能通过远程配置中心来控制和推送。缺失则默认为true
-# spring.application.config.rest.control.enabled=true
+spring.application.config.rest.control.enabled=true
 # 规则文件的格式，支持xml和json。缺失则默认为xml
-# spring.application.config.format=xml
+spring.application.config.format=xml
 # spring.application.config.format=json
 # 本地规则文件的路径，支持两种方式：classpath:rule.xml（rule.json） - 规则文件放在resources目录下，便于打包进jar；file:rule.xml（rule.json） - 规则文件放在工程根目录下，放置在外部便于修改。缺失则默认为不装载本地规则
-# spring.application.config.path=classpath:rule.xml
+spring.application.config.path=classpath:rule.xml
 # spring.application.config.path=classpath:rule.json
 # 为微服务归类的Key，一般通过group字段来归类，例如eureka.instance.metadataMap.group=xxx-group或者eureka.instance.metadataMap.application=xxx-application。缺失则默认为group
-# spring.application.group.key=group
+spring.application.group.key=group
 # spring.application.group.key=application
 # 业务系统希望大多数时候Spring、SpringBoot或者SpringCloud的基本配置、调优参数（非业务系统配置参数），不配置在业务端，集成到基础框架里。但特殊情况下，业务系统有时候也希望能把基础框架里配置的参数给覆盖掉，用他们自己的配置
 # 对于此类型的配置需求，可以配置在下面的配置文件里。该文件一般放在resource目录下。缺失则默认为spring-application-default.properties
-# spring.application.default.properties.path=spring-application-default.properties
+spring.application.default.properties.path=spring-application-default.properties
 # 负载均衡下，消费端尝试获取对应提供端初始服务实例列表为空的时候，进行重试。缺失则默认为false
-# spring.application.no.servers.retry.enabled=false
+spring.application.no.servers.retry.enabled=false
 # 负载均衡下，消费端尝试获取对应提供端初始服务实例列表为空的时候，进行重试的次数。缺失则默认为5
-# spring.application.no.servers.retry.times=5
+spring.application.no.servers.retry.times=5
 # 负载均衡下，消费端尝试获取对应提供端初始服务实例列表为空的时候，进行重试的时间间隔。缺失则默认为2000
-# spring.application.no.servers.retry.await.time=2000
+spring.application.no.servers.retry.await.time=2000
 # 负载均衡下，消费端尝试获取对应提供端服务实例列表为空的时候，通过日志方式通知。缺失则默认为false
-# spring.application.no.servers.notify.enabled=false
+spring.application.no.servers.notify.enabled=false
 
 # Plugin strategy config
 # 开启和关闭路由策略的控制。一旦关闭，路由策略功能将失效。缺失则默认为true
-# spring.application.strategy.control.enabled=true
+spring.application.strategy.control.enabled=true
 # 开启和关闭Ribbon默认的ZoneAvoidanceRule负载均衡策略。一旦关闭，则使用RoundRobin简单轮询负载均衡策略。缺失则默认为true
-# spring.application.strategy.zone.avoidance.rule.enabled=true
+spring.application.strategy.zone.avoidance.rule.enabled=true
 # 路由策略过滤器的执行顺序（Order）。缺失则默认为0
-# spring.application.strategy.zuul.route.filter.order=0
+spring.application.strategy.zuul.route.filter.order=0
 # 当外界传值Header的时候，网关也设置并传递同名的Header，需要决定哪个Header传递到后边的服务去。如果下面开关为true，以网关设置为优先，否则以外界传值为优先。缺失则默认为true
 spring.application.strategy.zuul.header.priority=false
 # 当以网关设置为优先的时候，网关未配置Header，而外界配置了Header，仍旧忽略外界的Header。缺失则默认为true
-# spring.application.strategy.zuul.original.header.ignored=true
+spring.application.strategy.zuul.original.header.ignored=true
 # 启动和关闭注册的服务隔离（基于Group黑/白名单的策略）。缺失则默认为false
 spring.application.strategy.register.isolation.enabled=true
 # 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
@@ -1220,7 +1220,7 @@ spring.application.strategy.trace.enabled=true
 # 启动和关闭调用链的Debug日志打印，注意每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
 spring.application.strategy.trace.debug.enabled=true
 # 开启Zuul网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
-# spring.application.strategy.hystrix.threadlocal.supported=true
+spring.application.strategy.hystrix.threadlocal.supported=true
 ```
 
 ### 外部元数据配置
