@@ -50,7 +50,20 @@ Nepxion Discovery【探索】是基于Spring Cloud Discovery服务注册发现�
 为提供更好的专业级服务，请更多已经使用本框架的公司和企业联系我
 
 :100:特性
-1. 使用方便。只需如下步骤：
+1. 兼容性强。支持如下版本：
+
+| 框架版本 | 框架分支 | 框架状态 | Spring Cloud版本 | Spring Boot版本 | Spring Cloud Alibaba版本 |
+| --- | --- | --- | --- | --- | --- |
+| 6.0.0 | master | ✅ | Hoxton<br>Greenwich<br>Finchley | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
+| 5.4.1 | 5.x.x | ✅ | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
+| 4.12.1 | 4.x.x | ✅ | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
+| 3.12.1 | 3.x.x | ☑️ | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
+| 2.0.x | N/A | ❌ | Dalston | N/A | N/A |
+| 1.0.x | N/A | ❌ | Camden | N/A | N/A |
+
+✅ 表示迭代中 | ☑️ 表示不维护，但可用 | ❌ 表示不维护，已废弃
+
+2. 使用方便。只需如下步骤：
 
 - 引入相关依赖到pom.xml，参考[依赖兼容](#依赖兼容)
 - 操作配置文件，参考[配置文件](#配置文件)
@@ -62,21 +75,6 @@ Nepxion Discovery【探索】是基于Spring Cloud Discovery服务注册发现�
     - 通过客户端工具（例如Postman）推送
 - 导入Postman脚本
     - 为方便体验示例，将Postman的测试脚本导入，[脚本地址](https://github.com/Nepxion/Discovery/raw/master/postman.json)
-
-2. 兼容性强。支持如下版本：
-
-| 框架版本 | 框架分支 | 框架状态 | Spring Cloud版本 | Spring Boot版本 | Spring Cloud Alibaba版本 |
-| --- | --- | --- | --- | --- | --- |
-| 6.0.0 | master | ✅ | Hoxton<br>Greenwich<br>Finchley | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
-| 5.4.1 | 5.x.x | ✅ | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
-| 4.12.1 | 4.x.x | ✅ | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
-| 3.12.1 | 3.x.x | ☑️ | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
-| 2.0.x | N/A | ❌ | Dalston | N/A | N/A |
-| 1.0.x | N/A | ❌ | Camden | N/A | N/A |
-
-✅表示迭代中 
-☑️表示不维护，但可用
-❌表示不维护，已废弃
 
 ## 目录
 - [请联系我](#请联系我)
