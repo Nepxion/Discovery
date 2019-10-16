@@ -112,11 +112,11 @@ Nepxion Discovery【探索】是基于Spring Cloud Discovery服务注册发现�
     - [服务端的灰度路由策略](#服务端的灰度路由策略)
     - [Zuul端的灰度路由策略](#Zuul端的灰度路由策略)
     - [Gateway端的灰度路由策略](#Gateway端的灰度路由策略)
-    - [REST调用的内置多版本灰度路由策略](#REST调用的内置多版本灰度路由策略)
-    - [REST调用的内置多区域灰度路由策略](#REST调用的内置多区域灰度路由策略)
-    - [REST调用的内置多IP和端口灰度路由策略](#REST调用的内置多IP和端口灰度路由策略)
-    - [REST调用的内置版本权重灰度路由策略](#REST调用的内置版本权重灰度路由策略)
-    - [REST调用的内置区域权重灰度路由策略](#REST调用的内置区域权重灰度路由策略)
+    - [版本匹配的灰度路由策略](#版本匹配的灰度路由策略)
+    - [区域匹配的灰度路由策略](#区域匹配的灰度路由策略)
+    - [IP和端口匹配的灰度路由策略](#IP和端口匹配的灰度路由策略)
+    - [版本权重的灰度路由策略](#版本权重的灰度路由策略)
+    - [区域权重的灰度路由策略](#区域权重的灰度路由策略)
     - [REST调用的灰度路由策略](#REST调用的灰度路由策略)
     - [RPC调用的灰度路由策略](#RPC调用的灰度路由策略)
 - [规则和策略](#规则和策略)
@@ -851,7 +851,7 @@ spring.application.strategy.zuul.header.priority=false
 ### Gateway端的灰度路由策略
 基于Spring Cloud Gateway端的灰度路由，实现DiscoveryEnabledStrategy，通过GatewayStrategyContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义
 
-### REST调用的内置多版本灰度路由策略
+### 版本匹配的灰度路由策略
 基于Feign/RestTemplate的REST调用的多版本灰度路由，在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只有a服务的1.0版本，b服务的1.1版本，c服务的1.1或1.2版本，允许被调用到
 Header的Key为"n-d-version"，value为：
 ```
@@ -875,7 +875,7 @@ Header的Key为"n-d-version"，value为：
 多版本灰度路由架构图
 ![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/RouteVersion.jpg)
 
-### REST调用的内置多区域灰度路由策略
+### 区域匹配的灰度路由策略
 基于Feign/RestTemplate的REST调用的多区域灰度路由，在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只有dev区域的a服务，qa区域的b服务，dev和qa区域c服务，允许被调用到
 Header的Key为"n-d-region"，value为：
 ```
@@ -901,7 +901,7 @@ d* - 表示调用范围为所有服务的d开头的所有区域
 
 特别注意：Spring Cloud内置zone的策略，功能跟region策略很相似，但zone策略不能跟自定义路由组合使用，故提供了更友好的region策略
 
-### REST调用的内置多IP和端口灰度路由策略
+### IP和端口匹配的灰度路由策略
 基于Feign/RestTemplate的REST调用的多版本灰度路由，在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只需要指定三个服务所给定的IP（或者IP和端口组合），允许被调用到
 Header的Key为"n-d-address"，value为：
 ```
@@ -920,7 +920,7 @@ Header的Key为"n-d-address"，value为：
 多IP和端口灰度路由架构图
 ![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/RouteAddress.jpg)
 
-### REST调用的内置版本权重灰度路由策略
+### 版本权重的灰度路由策略
 基于Feign/RestTemplate的REST调用的多版本权重灰度路由，在Header上传入服务名和版本流量百分比对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务的版本权重配比，那么只需要它们版本对于流量的百分比
 Header的Key为"n-d-version-weight"，value为：
 ```
@@ -931,7 +931,7 @@ Header的Key为"n-d-version-weight"，value为：
 1.0=90;1.1=10
 ```
 
-### REST调用的内置区域权重灰度路由策略
+### 区域权重的灰度路由策略
 基于Feign/RestTemplate的REST调用的多区域灰度路由，在Header上传入区域流量百分比对应关系的字符串，如下表示，如果REST请求要经过两个区域，那么只需要它们区域对于流量的百分比
 Header的Key为"n-d-region-weight"，value为：
 ```
@@ -1238,7 +1238,7 @@ spring.application.strategy.hystrix.threadlocal.supported=true
     - 本系统跟Redis集成
 - 扩展集成
     - 使用者也可以跟更多远程配置中心集成
-    - 参考三个跟Nacos或者Redis有关的工程
+    - 参考三个跟Apollo、Nacos和Redis有关的工程
 
 ## 管理中心
 PORT端口号为服务端口或者管理端口都可以
