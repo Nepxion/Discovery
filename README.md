@@ -66,16 +66,16 @@ Nepxion Discovery【探索】是基于Spring Cloud Discovery服务注册发现�
 
 二、使用方便。只需如下步骤：
 
-- 引入相关依赖到pom.xml，参考[依赖兼容](#依赖兼容)
-- 操作配置文件，参考[配置文件](#配置文件)
-    - 在元数据MetaData中，为微服务定义一个版本号（version），定义一个所属组名（group）或者应用名（application），定义一个所属区域（region）名
-    - 根据项目实际情况，开启和关闭相关功能项或者属性值，达到最佳配置
-- 规则推送，参考[规则定义](#规则定义)
-    - 通过远程配置中心推送规则
-    - 通过控制平台界面推送规则
-    - 通过客户端工具（例如Postman）推送
-- 导入Postman脚本
-    - 为方便体验示例，将Postman的测试脚本导入，[脚本地址](https://github.com/Nepxion/Discovery/raw/master/postman.json)
+- 引入相关依赖到pom.xml。参考[依赖兼容](#依赖兼容)
+- 操作配置文件。参考[配置文件](#配置文件)
+    - 在元数据MetaData中，为微服务定义一个所属组名（group）或者应用名（application），定义一个版本号（version）或者定义一个所属区域（region）名。参考[基础属性配置](#基础属性配置)
+    - 根据项目实际情况，开启和关闭相关功能项或者属性值，达到最佳配置。参考[功能开关配置](#功能开关配置)
+- 规则推送。参考[规则定义](#规则定义)和[策略定义](#策略定义)
+    - 通过远程配置中心推送规则。参考[基于Apollo界面的灰度发布](#基于Apollo界面的灰度发布)和[基于Nacos界面的灰度发布](#基于Nacos界面的灰度发布)
+    - 通过控制平台界面推送规则。参考[基于Rest方式的灰度发布](#基于Rest方式的灰度发布)
+    - 通过客户端工具（例如Postman）推送。[基于图形化桌面程序的灰度发布](#基于图形化桌面程序的灰度发布)和[基于图形化Web程序的灰度发布](#基于图形化Web程序的灰度发布)
+- 测试验证
+    - 为方便体验示例，将Postman的测试脚本导入。参考[脚本地址](https://github.com/Nepxion/Discovery/raw/master/postman.json)
 
 ## 目录
 - [请联系我](#请联系我)
@@ -112,13 +112,12 @@ Nepxion Discovery【探索】是基于Spring Cloud Discovery服务注册发现�
     - [服务端的灰度路由策略](#服务端的灰度路由策略)
     - [Zuul端的灰度路由策略](#Zuul端的灰度路由策略)
     - [Gateway端的灰度路由策略](#Gateway端的灰度路由策略)
-    - [REST调用的内置多版本灰度路由策略](#REST调用的内置多版本灰度路由策略)
-    - [REST调用的内置多区域灰度路由策略](#REST调用的内置多区域灰度路由策略)
-    - [REST调用的内置多IP和端口灰度路由策略](#REST调用的内置多IP和端口灰度路由策略)
-    - [REST调用的内置版本权重灰度路由策略](#REST调用的内置版本权重灰度路由策略)
-    - [REST调用的内置区域权重灰度路由策略](#REST调用的内置区域权重灰度路由策略)
-    - [REST调用的灰度路由策略](#REST调用的灰度路由策略)
-    - [RPC调用的灰度路由策略](#RPC调用的灰度路由策略)
+    - [版本匹配的灰度路由策略](#版本匹配的灰度路由策略)
+    - [区域匹配的灰度路由策略](#区域匹配的灰度路由策略)
+    - [IP和端口匹配的灰度路由策略](#IP和端口匹配的灰度路由策略)
+    - [版本权重的灰度路由策略](#版本权重的灰度路由策略)
+    - [区域权重的灰度路由策略](#区域权重的灰度路由策略)
+    - [自定义的灰度路由策略](#自定义的灰度路由策略)	
 - [规则和策略](#规则和策略)
     - [规则和策略的区别](#规则和策略的区别)
     - [规则和策略的关系](#规则和策略的关系)
@@ -851,7 +850,7 @@ spring.application.strategy.zuul.header.priority=false
 ### Gateway端的灰度路由策略
 基于Spring Cloud Gateway端的灰度路由，实现DiscoveryEnabledStrategy，通过GatewayStrategyContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义
 
-### REST调用的内置多版本灰度路由策略
+### 版本匹配的灰度路由策略
 基于Feign/RestTemplate的REST调用的多版本灰度路由，在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只有a服务的1.0版本，b服务的1.1版本，c服务的1.1或1.2版本，允许被调用到
 Header的Key为"n-d-version"，value为：
 ```
@@ -875,7 +874,7 @@ Header的Key为"n-d-version"，value为：
 多版本灰度路由架构图
 ![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/RouteVersion.jpg)
 
-### REST调用的内置多区域灰度路由策略
+### 区域匹配的灰度路由策略
 基于Feign/RestTemplate的REST调用的多区域灰度路由，在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只有dev区域的a服务，qa区域的b服务，dev和qa区域c服务，允许被调用到
 Header的Key为"n-d-region"，value为：
 ```
@@ -901,7 +900,7 @@ d* - 表示调用范围为所有服务的d开头的所有区域
 
 特别注意：Spring Cloud内置zone的策略，功能跟region策略很相似，但zone策略不能跟自定义路由组合使用，故提供了更友好的region策略
 
-### REST调用的内置多IP和端口灰度路由策略
+### IP和端口匹配的灰度路由策略
 基于Feign/RestTemplate的REST调用的多版本灰度路由，在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只需要指定三个服务所给定的IP（或者IP和端口组合），允许被调用到
 Header的Key为"n-d-address"，value为：
 ```
@@ -920,7 +919,7 @@ Header的Key为"n-d-address"，value为：
 多IP和端口灰度路由架构图
 ![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/RouteAddress.jpg)
 
-### REST调用的内置版本权重灰度路由策略
+### 版本权重的灰度路由策略
 基于Feign/RestTemplate的REST调用的多版本权重灰度路由，在Header上传入服务名和版本流量百分比对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务的版本权重配比，那么只需要它们版本对于流量的百分比
 Header的Key为"n-d-version-weight"，value为：
 ```
@@ -931,7 +930,7 @@ Header的Key为"n-d-version-weight"，value为：
 1.0=90;1.1=10
 ```
 
-### REST调用的内置区域权重灰度路由策略
+### 区域权重的灰度路由策略
 基于Feign/RestTemplate的REST调用的多区域灰度路由，在Header上传入区域流量百分比对应关系的字符串，如下表示，如果REST请求要经过两个区域，那么只需要它们区域对于流量的百分比
 Header的Key为"n-d-region-weight"，value为：
 ```
@@ -942,10 +941,14 @@ Header的Key为"n-d-region-weight"，value为：
 dev=85;qa=15
 ```
 
-### REST调用的灰度路由策略
+### 自定义的灰度路由策略
+
+- REST调用的灰度路由策略
+
 基于Feign/RestTemplate的REST调用的自定义路由，需要用户自行编程
 
-### RPC调用的灰度路由策略
+- RPC调用的灰度路由策略
+
 基于Feign/RestTemplate的RPC调用的自定义路由，需要用户自行编程
 
 ## 规则和策略
@@ -1238,7 +1241,7 @@ spring.application.strategy.hystrix.threadlocal.supported=true
     - 本系统跟Redis集成
 - 扩展集成
     - 使用者也可以跟更多远程配置中心集成
-    - 参考三个跟Nacos或者Redis有关的工程
+    - 参考三个跟Apollo、Nacos和Redis有关的工程
 
 ## 管理中心
 PORT端口号为服务端口或者管理端口都可以
