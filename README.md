@@ -51,7 +51,7 @@ Nepxion Discovery【探索】是基于Spring Cloud Discovery服务注册发现�
 
 :100:特性
 
-**兼容性强。支持如下版本：**
+一、兼容性强。支持如下版本：
 
 | 框架版本 | 框架分支 | 框架状态 | Spring Cloud版本 | Spring Boot版本 | Spring Cloud Alibaba版本 |
 | --- | --- | --- | --- | --- | --- |
@@ -64,7 +64,7 @@ Nepxion Discovery【探索】是基于Spring Cloud Discovery服务注册发现�
 
 ✅ 表示迭代中 | ☑️ 表示不维护，但可用 | ❌ 表示不维护，已废弃
 
-**使用方便。只需如下步骤：**
+二、使用方便。只需如下步骤：
 
 - 引入相关依赖到pom.xml，参考[依赖兼容](#依赖兼容)
 - 操作配置文件，参考[配置文件](#配置文件)
