@@ -321,7 +321,7 @@ Spring Boot Admin监控平台
 
 ## 依赖兼容
 ### 依赖
-:exclamation:下面标注[必须引入]是一定要引入的包，标注[选择引入]是可以选择一个引入，或者不引入
+下面标注[必须引入]是一定要引入的包，标注[选择引入]是可以选择一个引入，或者不引入
 
 核心插件引入，支持微服务端、网关Zuul端和网关Spring Cloud Gateway端，包括核心灰度发布功能，管理中心，配置中心等
 ```xml
@@ -393,7 +393,7 @@ Spring Boot Admin监控平台
 </dependency>
 ```
 
-:warning:特别注意：中间件的引入一定要在所有层面保持一致，绝不允许出现类似如下情况，这也是常识
+特别注意：中间件的引入一定要在所有层面保持一致，绝不允许出现类似如下情况，这也是常识
 - 例如，网关用Eureka做服务注册发现，微服务用Consul做服务注册发现
 - 例如，控制平台用Nacos做远程配置中心，微服务用Redis做远程配置中心
 
@@ -468,7 +468,7 @@ spring.application.discovery.control.enabled=false
 ### 规则示例
 XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
 
-:warning:特别注意：服务名大小写规则
+特别注意：服务名大小写规则
 - 在配置文件（application.properties、application.yaml等）里，定义服务名（spring.application.name）不区分大小写
 - 在规则文件（XML、Json）里，引用的服务名必须小写
 - 在Nacos、Apollo、Redis等远程配置中心的Key，包含的服务名必须小写
@@ -772,7 +772,7 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
     </strategy>
 2. 用法和基于Http Header头部传路由参数一致。前置是通过前端或者网关传入，后者是配置在配置文件里。让两者全部启用的时候，以前端或者网关传入Header方式优先
 ```
-:triangular_flag_on_post:注意
+特别注意
 
 路由策略的入口有三个为例：
 - 从外界传入（例如：Postman），在Header上加入。例如：n-d-version={"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.0", "discovery-springcloud-example-c":"1.0;1.2"}
@@ -884,7 +884,7 @@ d* - 表示调用范围为所有服务的d开头的所有区域
 多区域灰度路由架构图
 ![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/RouteRegion.jpg)
 
-:warning:特别注意：Spring Cloud内置zone的策略，功能跟region策略很相似，但zone策略不能跟自定义路由组合使用，故提供了更友好的region策略
+特别注意：Spring Cloud内置zone的策略，功能跟region策略很相似，但zone策略不能跟自定义路由组合使用，故提供了更友好的region策略
 
 ### REST调用的内置多IP和端口灰度路由策略
 基于Feign/RestTemplate的REST调用的多版本灰度路由，在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只需要指定三个服务所给定的IP（或者IP和端口组合），允许被调用到
@@ -1226,7 +1226,7 @@ spring.application.strategy.trace.debug.enabled=true
     - 参考三个跟Nacos或者Redis有关的工程
 
 ## 管理中心
-:exclamation:PORT端口号为服务端口或者管理端口都可以
+PORT端口号为服务端口或者管理端口都可以
 - 配置接口
 - 版本接口
 - 路由接口
@@ -1239,7 +1239,7 @@ spring.application.strategy.trace.debug.enabled=true
 - 一系列批量功能
 - 跟Nacos、Apollo和Redis集成，实现配置拉取、推送和清除
 
-:exclamation:PORT端口号为服务端口或者管理端口都可以
+PORT端口号为服务端口或者管理端口都可以
 - 控制平台接口
 参考Swagger界面，如下图
 
@@ -1268,7 +1268,7 @@ spring.application.strategy.trace.debug.enabled=true
         - 全局配置方式：一组服务集群（eureka.instance.metadataMap.group相同，但spring.application.name可以不相同的服务）对应一个配置文件，通过group方式添加，Key为“group-group”，Value为Xml或者Json格式的规则内容。group取值于配置文件里的eureka.instance.metadataMap.group配置项
         - 强烈建议局部配置方式和全局配置方式不要混用，否则连使用者自己都无法搞清楚到底是哪种配置方式在起作用
     - 其他更多参数，例如evn, cluster等，请自行参考Apollo官方文档，保持一致
- - 注意事项
+ - 特别注意
     - 局部配置方式建议使用Apollo的私有（private）配置方式，全局配置方式必须采用Apollo的共享（public）配置方式
     - 如果业务配置和灰度配置在同一个namespace里且namespace只有一个，灰度配置可以通过apollo.bootstrap.namespaces或者apollo.plugin.namespace来指定（如果namespace为application则都不需要配置）
     - 如果业务配置和灰度配置不在同一个namespace里或者业务配置横跨几个namespace，灰度配置必须通过apollo.plugin.namespace来指定唯一的namespace
