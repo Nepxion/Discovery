@@ -50,6 +50,7 @@ Nepxion Discovery【探索】是基于Spring Cloud Discovery服务注册发现�
 为提供更好的专业级服务，请更多已经使用本框架的公司和企业联系我
 
 :100:特性
+
 **兼容性强。支持如下版本：**
 
 | 框架版本 | 框架分支 | 框架状态 | Spring Cloud版本 | Spring Boot版本 | Spring Cloud Alibaba版本 |
