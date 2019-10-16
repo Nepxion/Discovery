@@ -79,6 +79,10 @@ Nepxion Discovery【探索】是基于Spring Cloud Discovery服务注册发现�
 
 ## 目录
 - [请联系我](#请联系我)
+- [相关链接](#相关链接)
+    - [源码主页](#源码主页)
+    - [指南主页](#指南主页)
+    - [文档主页](#文档主页)
 - [现有痛点](#现有痛点)
 - [应用场景](#应用场景)
 - [功能简介](#功能简介)
@@ -143,6 +147,17 @@ Nepxion Discovery【探索】是基于Spring Cloud Discovery服务注册发现�
 微信、公众号和文档
 
 ![Alt text](https://github.com/Nepxion/Docs/raw/master/zxing-doc/微信-1.jpg)![Alt text](https://github.com/Nepxion/Docs/raw/master/zxing-doc/公众号-1.jpg)![Alt text](https://github.com/Nepxion/Docs/raw/master/zxing-doc/文档-1.jpg)
+
+## 相关链接
+
+### 源码主页
+[源码主页](https://github.com/Nepxion/Discovery)
+
+### 指南主页
+[指南主页](https://github.com/Nepxion/DiscoveryGuide)
+
+### 文档主页
+[文档主页](https://pan.baidu.com/s/1i57rXaNKPuhGRqZ2MONZOA#list/path=%2FNepxion)
 
 ## 界面展示
 
