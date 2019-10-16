@@ -55,14 +55,16 @@ Nepxion Discovery【探索】是基于Spring Cloud Discovery服务注册发现�
 
 | 框架版本 | 框架分支 | 框架状态 | Spring Cloud版本 | Spring Boot版本 | Spring Cloud Alibaba版本 |
 | --- | --- | --- | --- | --- | --- |
-| 6.0.0 | master | ✅ | Hoxton<br>Greenwich<br>Finchley | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
-| 5.4.1 | 5.x.x | ✅ | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
-| 4.12.1 | 4.x.x | ✅ | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
-| 3.12.1 | 3.x.x | ☑️ | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
-| 2.0.x | N/A | ❌ | Dalston | N/A | N/A |
-| 1.0.x | N/A | ❌ | Camden | N/A | N/A |
+| 6.0.0 | master | ![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Status1.png) | Hoxton<br>Greenwich<br>Finchley | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
+| 5.4.1 | 5.x.x | ![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Status1.png) | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
+| 4.12.1 | 4.x.x | ![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Status1.png) | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
+| 3.12.1 | 3.x.x | ![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Status2.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
+| 2.0.x | N/A | ![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Status3.png) | Dalston | N/A | N/A |
+| 1.0.x | N/A | ![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Status3.png) | Camden | N/A | N/A |
 
-✅ 表示迭代中 | ☑️ 表示不维护，但可用 | ❌ 表示不维护，已废弃
+![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Status1.png) 表示迭代中 
+![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Status2.png) 表示不维护，但可用
+![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Status3.png) 表示不维护，已废弃
 
 二、使用方便。只需如下步骤：
 
