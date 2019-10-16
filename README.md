@@ -1283,7 +1283,7 @@ PORT端口号为服务端口或者管理端口都可以
         - 全局配置方式：一组服务集群（eureka.instance.metadataMap.group相同，但spring.application.name可以不相同的服务）对应一个配置文件，通过group方式添加，Key为“group-group”，Value为Xml或者Json格式的规则内容。group取值于配置文件里的eureka.instance.metadataMap.group配置项
         - 强烈建议局部配置方式和全局配置方式不要混用，否则连使用者自己都无法搞清楚到底是哪种配置方式在起作用
     - 其他更多参数，例如evn, cluster等，请自行参考Apollo官方文档，保持一致
- - 特别注意
+- 特别注意
     - 局部配置方式建议使用Apollo的私有（private）配置方式，全局配置方式必须采用Apollo的共享（public）配置方式
     - 如果业务配置和灰度配置在同一个namespace里且namespace只有一个，灰度配置可以通过apollo.bootstrap.namespaces或者apollo.plugin.namespace来指定（如果namespace为application则都不需要配置）
     - 如果业务配置和灰度配置不在同一个namespace里或者业务配置横跨几个namespace，灰度配置必须通过apollo.plugin.namespace来指定唯一的namespace
