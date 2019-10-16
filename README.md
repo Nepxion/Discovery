@@ -66,16 +66,16 @@ Nepxion Discovery【探索】是基于Spring Cloud Discovery服务注册发现�
 
 二、使用方便。只需如下步骤：
 
-- 引入相关依赖到pom.xml，参考[依赖兼容](#依赖兼容)
-- 操作配置文件，参考[配置文件](#配置文件)
-    - 在元数据MetaData中，为微服务定义一个版本号（version），定义一个所属组名（group）或者应用名（application），定义一个所属区域（region）名
-    - 根据项目实际情况，开启和关闭相关功能项或者属性值，达到最佳配置
-- 规则推送，参考[规则定义](#规则定义)
+- 引入相关依赖到pom.xml。参考[依赖兼容](#依赖兼容)
+- 操作配置文件。参考[配置文件](#配置文件)
+    - 在元数据MetaData中，为微服务定义一个所属组名（group）或者应用名（application），定义一个版本号（version）或者定义一个所属区域（region）名。参考[基础属性配置](#基础属性配置)
+    - 根据项目实际情况，开启和关闭相关功能项或者属性值，达到最佳配置。参考[功能开关配置](#功能开关配置)
+- 规则推送。参考[规则定义](#规则定义)和[策略定义](#策略定义)
     - 通过远程配置中心推送规则
     - 通过控制平台界面推送规则
     - 通过客户端工具（例如Postman）推送
-- 导入Postman脚本
-    - 为方便体验示例，将Postman的测试脚本导入，[脚本地址](https://github.com/Nepxion/Discovery/raw/master/postman.json)
+- 测试验证
+    - 为方便体验示例，将Postman的测试脚本导入。参考[脚本地址](https://github.com/Nepxion/Discovery/raw/master/postman.json)
 
 ## 目录
 - [请联系我](#请联系我)
