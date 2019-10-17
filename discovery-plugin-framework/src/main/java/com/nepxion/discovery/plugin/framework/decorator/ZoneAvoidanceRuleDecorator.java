@@ -64,6 +64,7 @@ public class ZoneAvoidanceRuleDecorator extends ZoneAvoidanceRule {
         ruleMapWeightRandomLoadBalance = new RuleMapWeightRandomLoadBalance(pluginAdapter);
     }
 
+    // 必须执行getEligibleServers，否则叠加执行权重规则和版本区域策略会失效
     private List<Server> getServerList(Object key) {
         return getPredicate().getEligibleServers(getLoadBalancer().getAllServers(), key);
     }
