@@ -64,12 +64,12 @@ public abstract class PredicateBasedRuleDecorator extends PredicateBasedRule {
         ruleMapWeightRandomLoadBalance = new RuleMapWeightRandomLoadBalance(pluginAdapter);
     }
 
-    private List<Server> getServerList() {
-        return getLoadBalancer().getReachableServers();
+    private List<Server> getServerList(Object key) {
+        return getPredicate().getEligibleServers(getLoadBalancer().getAllServers(), key);
     }
 
-    private List<Server> getRetryableServerList() {
-        List<Server> serverList = getServerList();
+    private List<Server> getRetryableServerList(Object key) {
+        List<Server> serverList = getServerList(key);
         for (int i = 0; i < retryTimes; i++) {
             if (CollectionUtils.isNotEmpty(serverList)) {
                 break;
@@ -83,7 +83,7 @@ public abstract class PredicateBasedRuleDecorator extends PredicateBasedRule {
 
             LOG.info("Retry to get server list for {} times...", i + 1);
 
-            serverList = getServerList();
+            serverList = getServerList(key);
         }
 
         return serverList;
@@ -91,14 +91,13 @@ public abstract class PredicateBasedRuleDecorator extends PredicateBasedRule {
 
     @Override
     public Server choose(Object key) {
-        List<Server> serverList = retryEnabled ? getRetryableServerList() : getServerList();
-
         boolean isTriggered = false;
 
         WeightFilterEntity strategyWeightFilterEntity = strategyMapWeightRandomLoadBalance.getT();
         if (strategyWeightFilterEntity != null && strategyWeightFilterEntity.hasWeight()) {
             isTriggered = true;
 
+            List<Server> serverList = retryEnabled ? getRetryableServerList(key) : getServerList(key);
             boolean isWeightChecked = strategyMapWeightRandomLoadBalance.checkWeight(serverList, strategyWeightFilterEntity);
             if (isWeightChecked) {
                 try {
@@ -116,6 +115,7 @@ public abstract class PredicateBasedRuleDecorator extends PredicateBasedRule {
         if (!isTriggered) {
             WeightFilterEntity ruleWeightFilterEntity = ruleMapWeightRandomLoadBalance.getT();
             if (ruleWeightFilterEntity != null && ruleWeightFilterEntity.hasWeight()) {
+                List<Server> serverList = retryEnabled ? getRetryableServerList(key) : getServerList(key);
                 boolean isWeightChecked = ruleMapWeightRandomLoadBalance.checkWeight(serverList, ruleWeightFilterEntity);
                 if (isWeightChecked) {
                     try {
