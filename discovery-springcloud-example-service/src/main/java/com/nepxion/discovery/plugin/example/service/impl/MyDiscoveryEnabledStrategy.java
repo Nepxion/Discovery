@@ -44,14 +44,15 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
         return applyFromMethod(server);
     }
 
-    // 根据Rest调用传来的Header参数（例如：token），选取执行调用请求的服务实例
+    // 根据REST调用传来的Header参数（例如：token），选取执行调用请求的服务实例
     private boolean applyFromHeader(Server server) {
         String token = serviceStrategyContextHolder.getHeader("token");
         String serviceId = pluginAdapter.getServerServiceId(server);
         String version = pluginAdapter.getServerVersion(server);
         String region = pluginAdapter.getServerRegion(server);
+        String address = server.getHostPort();
 
-        LOG.info("负载均衡用户定制触发：token={}, serviceId={}, version={}, region={}", token, serviceId, version, region);
+        LOG.info("负载均衡用户定制触发：token={}, serviceId={}, version={}, region={}, address={}", token, serviceId, version, region, address);
 
         String filterServiceId = "discovery-springcloud-example-c";
         String filterToken = "123";
@@ -71,8 +72,9 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
         String serviceId = pluginAdapter.getServerServiceId(server);
         String version = pluginAdapter.getServerVersion(server);
         String region = pluginAdapter.getServerRegion(server);
+        String address = server.getHostPort();
 
-        LOG.info("负载均衡用户定制触发：attributes={}, serviceId={}, version={}, region={}", attributes, serviceId, version, region);
+        LOG.info("负载均衡用户定制触发：attributes={}, serviceId={}, version={}, region={}, address={}", attributes, serviceId, version, region, address);
 
         String filterServiceId = "discovery-springcloud-example-b";
         String filterVersion = "1.0";
