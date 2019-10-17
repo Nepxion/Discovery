@@ -64,14 +64,14 @@ public class ZoneAvoidanceRuleDecorator extends ZoneAvoidanceRule {
         ruleMapWeightRandomLoadBalance = new RuleMapWeightRandomLoadBalance(pluginAdapter);
     }
 
-    private List<Server> getEligibleServers(Object key) {
-        return getPredicate().getEligibleServers(getLoadBalancer().getAllServers(), key);
+    private List<Server> getServerList() {
+        return getLoadBalancer().getReachableServers();
     }
 
-    private List<Server> getRetryableEligibleServers(Object key) {
-        List<Server> eligibleServers = getEligibleServers(key);
+    private List<Server> getRetryableServerList() {
+        List<Server> serverList = getServerList();
         for (int i = 0; i < retryTimes; i++) {
-            if (CollectionUtils.isNotEmpty(eligibleServers)) {
+            if (CollectionUtils.isNotEmpty(serverList)) {
                 break;
             }
 
@@ -81,17 +81,17 @@ public class ZoneAvoidanceRuleDecorator extends ZoneAvoidanceRule {
 
             }
 
-            LOG.info("Retry to get eligible servers for {} times...", i + 1);
+            LOG.info("Retry to get server list for {} times...", i + 1);
 
-            eligibleServers = getEligibleServers(key);
+            serverList = getServerList();
         }
 
-        return eligibleServers;
+        return serverList;
     }
 
     @Override
     public Server choose(Object key) {
-        List<Server> eligibleServers = retryEnabled ? getRetryableEligibleServers(key) : getEligibleServers(key);
+        List<Server> serverList = retryEnabled ? getRetryableServerList() : getServerList();
 
         boolean isTriggered = false;
 
@@ -99,10 +99,10 @@ public class ZoneAvoidanceRuleDecorator extends ZoneAvoidanceRule {
         if (strategyWeightFilterEntity != null && strategyWeightFilterEntity.hasWeight()) {
             isTriggered = true;
 
-            boolean isWeightChecked = strategyMapWeightRandomLoadBalance.checkWeight(eligibleServers, strategyWeightFilterEntity);
+            boolean isWeightChecked = strategyMapWeightRandomLoadBalance.checkWeight(serverList, strategyWeightFilterEntity);
             if (isWeightChecked) {
                 try {
-                    return strategyMapWeightRandomLoadBalance.choose(eligibleServers, strategyWeightFilterEntity);
+                    return strategyMapWeightRandomLoadBalance.choose(serverList, strategyWeightFilterEntity);
                 } catch (Exception e) {
                     LOG.error("Exception causes for strategy weight-random-loadbalance, used default loadbalance", e);
 
@@ -116,10 +116,10 @@ public class ZoneAvoidanceRuleDecorator extends ZoneAvoidanceRule {
         if (!isTriggered) {
             WeightFilterEntity ruleWeightFilterEntity = ruleMapWeightRandomLoadBalance.getT();
             if (ruleWeightFilterEntity != null && ruleWeightFilterEntity.hasWeight()) {
-                boolean isWeightChecked = ruleMapWeightRandomLoadBalance.checkWeight(eligibleServers, ruleWeightFilterEntity);
+                boolean isWeightChecked = ruleMapWeightRandomLoadBalance.checkWeight(serverList, ruleWeightFilterEntity);
                 if (isWeightChecked) {
                     try {
-                        return ruleMapWeightRandomLoadBalance.choose(eligibleServers, ruleWeightFilterEntity);
+                        return ruleMapWeightRandomLoadBalance.choose(serverList, ruleWeightFilterEntity);
                     } catch (Exception e) {
                         LOG.error("Exception causes for rule weight-random-loadbalance, used default loadbalance", e);
 
