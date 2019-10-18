@@ -64,7 +64,7 @@ Nepxion Discovery【探索】是基于Spring Cloud Discovery服务注册发现�
 
 ![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Status1.png) 表示迭代中 | ![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Status2.png) 表示不维护，但可用 | ![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Status3.png) 表示不维护，已废弃
 
-6.0.0版本同时适用于Hoxton、Greenwich、Edgware
+Hoxton（6.x.x），同时适用于Finchley、Greenwich和Hoxton
 
 二、使用方便。只需如下步骤：
 
