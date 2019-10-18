@@ -58,7 +58,7 @@ public abstract class AbstractMapWeightRandomLoadBalance<T> implements WeightRan
 
         public K random() {
             if (MapUtils.isEmpty(weightMap)) {
-                throw new DiscoveryException("Weights are all <= 0, failed to execute weight load balance");
+                throw new DiscoveryException("Weight values are all <= 0 or invalid format");
             }
 
             double randomWeight = weightMap.lastKey() * Math.random();
