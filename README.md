@@ -109,9 +109,6 @@ Nepxion Discovery【探索】是基于Spring Cloud Discovery服务注册发现�
     - [动态改变规则](#动态改变规则)
     - [动态改变版本](#动态改变版本)
 - [策略定义](#策略定义)
-    - [服务端的灰度路由策略](#服务端的灰度路由策略)
-    - [Zuul端的灰度路由策略](#Zuul端的灰度路由策略)
-    - [Gateway端的灰度路由策略](#Gateway端的灰度路由策略)
     - [版本匹配的灰度路由策略](#版本匹配的灰度路由策略)
     - [区域匹配的灰度路由策略](#区域匹配的灰度路由策略)
     - [IP和端口匹配的灰度路由策略](#IP和端口匹配的灰度路由策略)
@@ -841,15 +838,6 @@ spring.application.strategy.zuul.header.priority=false
 ## 策略定义
 策略是通过REST或者RPC调用传递Header或者参数，达到路由策略的目的。使用者可以实现跟业务有关的路由策略，根据业务参数的不同，负载均衡到不同的服务器，其核心代码参考discovery-plugin-strategy以及它的扩展
 
-### 服务端的灰度路由策略
-基于服务端的灰度路由，实现DiscoveryEnabledStrategy，通过RequestContextHolder（获取来自网关的Header参数）和ServiceStrategyContext（获取来自RPC方式的方法参数）获取业务上下文参数，进行路由自定义
-
-### Zuul端的灰度路由策略
-基于Zuul端的灰度路由，实现DiscoveryEnabledStrategy，通过Zuul自带的RequestContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义
-
-### Gateway端的灰度路由策略
-基于Spring Cloud Gateway端的灰度路由，实现DiscoveryEnabledStrategy，通过GatewayStrategyContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义
-
 ### 版本匹配的灰度路由策略
 基于Feign/RestTemplate的REST调用的多版本灰度路由，在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只有a服务的1.0版本，b服务的1.1版本，c服务的1.1或1.2版本，允许被调用到
 Header的Key为"n-d-version"，value为：
@@ -943,13 +931,17 @@ dev=85;qa=15
 
 ### 自定义的灰度路由策略
 
-- REST调用的灰度路由策略
+- 服务端的灰度路由策略
 
-基于Feign/RestTemplate的REST调用的自定义路由，需要用户自行编程
+基于服务端的灰度路由，实现DiscoveryEnabledStrategy，通过RequestContextHolder（获取来自网关的Header参数）和ServiceStrategyContext（获取来自RPC方式的方法参数）获取业务上下文参数，进行路由自定义
 
-- RPC调用的灰度路由策略
+- Zuul端的灰度路由策略
 
-基于Feign/RestTemplate的RPC调用的自定义路由，需要用户自行编程
+基于Zuul端的灰度路由，实现DiscoveryEnabledStrategy，通过Zuul自带的RequestContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义
+
+- Gateway端的灰度路由策略
+
+基于Spring Cloud Gateway端的灰度路由，实现DiscoveryEnabledStrategy，通过GatewayStrategyContext（获取来自网关的Header参数）获取业务上下文参数，进行路由自定义
 
 ## 规则和策略
 ### 规则和策略的区别
