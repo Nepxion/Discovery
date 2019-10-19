@@ -70,7 +70,7 @@ Hoxton（6.x.x），同时适用于Finchley、Greenwich和Hoxton
 
 - 引入相关依赖到pom.xml。参考[依赖兼容](#依赖兼容)
 - 操作配置文件。参考[配置文件](#配置文件)
-    - 在元数据MetaData中，为微服务定义一个所属组名（group）或者应用名（application），定义一个版本号（version）或者定义一个所属区域（region）名。参考[基础属性配置](#基础属性配置)
+    - 在元数据MetaData中，为微服务定义一个所属组名（group）或者应用名（application），定义一个版本号（version）或者通过Git插件方式自动产生版本号，定义一个所属区域（region）名。参考[基础属性配置](#基础属性配置)
     - 根据项目实际情况，开启和关闭相关功能项或者属性值，达到最佳配置。参考[功能开关配置](#功能开关配置)
 - 规则推送。参考[规则定义](#规则定义)和[策略定义](#策略定义)
     - 通过远程配置中心推送规则。参考[基于Apollo界面的灰度发布](#基于Apollo界面的灰度发布)和[基于Nacos界面的灰度发布](#基于Nacos界面的灰度发布)
@@ -1115,10 +1115,10 @@ spring.application.strategy.service.sentinel.request.origin.key=n-d-service-id
 
 # 开启和关闭使用Git的git.commit.id或者git.build.version来作为服务版本号。缺失则默认为false
 spring.application.git.generator.enabled=true
-# 插件it-commit-id-plugin产生git信息文件的输出路径，支持json和properties两种格式，支持classpath:xxx和file:xxx两种路径，这些需要和插件里的配置保持一致。缺失则默认为classpath:git.json
-spring.application.git.generator.path=classpath:git.json
-# spring.application.git.generator.path=classpath:git.properties
-# 使用Git的git.commit.id或者git.build.version来作为服务版本号。缺失则默认为git.commit.id
+# 插件git-commit-id-plugin产生git信息文件的输出路径，支持properties和json两种格式，支持classpath:xxx和file:xxx两种路径，这些需要和插件里的配置保持一致。缺失则默认为classpath:git.properties
+spring.application.git.generator.path=classpath:git.properties
+# spring.application.git.generator.path=classpath:git.json
+# 使用Git的git.commit.id或者git.build.version或者更多其它字段来作为服务版本号。缺失则默认为git.commit.id
 spring.application.git.version.key=git.commit.id
 # spring.application.git.version.key=git.build.version
 ```
@@ -1177,10 +1177,10 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 
 # 开启和关闭使用Git的git.commit.id或者git.build.version来作为服务版本号。缺失则默认为false
 spring.application.git.generator.enabled=true
-# 插件it-commit-id-plugin产生git信息文件的输出路径，支持json和properties两种格式，支持classpath:xxx和file:xxx两种路径，这些需要和插件里的配置保持一致。缺失则默认为classpath:git.json
-spring.application.git.generator.path=classpath:git.json
-# spring.application.git.generator.path=classpath:git.properties
-# 使用Git的git.commit.id或者git.build.version来作为服务版本号。缺失则默认为git.commit.id
+# 插件git-commit-id-plugin产生git信息文件的输出路径，支持properties和json两种格式，支持classpath:xxx和file:xxx两种路径，这些需要和插件里的配置保持一致。缺失则默认为classpath:git.properties
+spring.application.git.generator.path=classpath:git.properties
+# spring.application.git.generator.path=classpath:git.json
+# 使用Git的git.commit.id或者git.build.version或者更多其它字段来作为服务版本号。缺失则默认为git.commit.id
 spring.application.git.version.key=git.commit.id
 # spring.application.git.version.key=git.build.version
 ```
@@ -1239,10 +1239,10 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 
 # 开启和关闭使用Git的git.commit.id或者git.build.version来作为服务版本号。缺失则默认为false
 spring.application.git.generator.enabled=true
-# 插件it-commit-id-plugin产生git信息文件的输出路径，支持json和properties两种格式，支持classpath:xxx和file:xxx两种路径，这些需要和插件里的配置保持一致。缺失则默认为classpath:git.json
-spring.application.git.generator.path=classpath:git.json
-# spring.application.git.generator.path=classpath:git.properties
-# 使用Git的git.commit.id或者git.build.version来作为服务版本号。缺失则默认为git.commit.id
+# 插件git-commit-id-plugin产生git信息文件的输出路径，支持properties和json两种格式，支持classpath:xxx和file:xxx两种路径，这些需要和插件里的配置保持一致。缺失则默认为classpath:git.properties
+spring.application.git.generator.path=classpath:git.properties
+# spring.application.git.generator.path=classpath:git.json
+# 使用Git的git.commit.id或者git.build.version或者更多其它字段来作为服务版本号。缺失则默认为git.commit.id
 spring.application.git.version.key=git.commit.id
 # spring.application.git.version.key=git.build.version
 ```
