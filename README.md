@@ -1112,6 +1112,15 @@ spring.application.strategy.sentinel.system.path=classpath:sentinel-system.json
 spring.application.strategy.sentinel.param.flow.path=classpath:sentinel-param-flow.json
 # 服务端执行规则时候，以Http请求中的Header值作为关键Key。缺失则默认为n-d-service-id，即以服务名作为关键Key
 spring.application.strategy.service.sentinel.request.origin.key=n-d-service-id
+
+# 开启和关闭使用Git的git.commit.id或者git.build.version来作为服务版本号。缺失则默认为false
+spring.application.git.generator.enabled=true
+# 插件it-commit-id-plugin产生git信息文件的输出路径，支持json和properties两种格式，支持classpath:xxx和file:xxx两种路径，这些需要和插件里的配置保持一致。缺失则默认为classpath:git.json
+spring.application.git.generator.path=classpath:git.json
+# spring.application.git.generator.path=classpath:git.properties
+# 使用Git的git.commit.id或者git.build.version来作为服务版本号。缺失则默认为git.commit.id
+spring.application.git.version.key=git.commit.id
+# spring.application.git.version.key=git.build.version
 ```
 
 Spring Cloud Gateway端配置
@@ -1165,6 +1174,15 @@ spring.application.strategy.trace.enabled=true
 spring.application.strategy.trace.debug.enabled=true
 # 开启Spring Cloud Gateway网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
 spring.application.strategy.hystrix.threadlocal.supported=true
+
+# 开启和关闭使用Git的git.commit.id或者git.build.version来作为服务版本号。缺失则默认为false
+spring.application.git.generator.enabled=true
+# 插件it-commit-id-plugin产生git信息文件的输出路径，支持json和properties两种格式，支持classpath:xxx和file:xxx两种路径，这些需要和插件里的配置保持一致。缺失则默认为classpath:git.json
+spring.application.git.generator.path=classpath:git.json
+# spring.application.git.generator.path=classpath:git.properties
+# 使用Git的git.commit.id或者git.build.version来作为服务版本号。缺失则默认为git.commit.id
+spring.application.git.version.key=git.commit.id
+# spring.application.git.version.key=git.build.version
 ```
 
 Zuul端配置
@@ -1218,6 +1236,15 @@ spring.application.strategy.trace.enabled=true
 spring.application.strategy.trace.debug.enabled=true
 # 开启Zuul网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
 spring.application.strategy.hystrix.threadlocal.supported=true
+
+# 开启和关闭使用Git的git.commit.id或者git.build.version来作为服务版本号。缺失则默认为false
+spring.application.git.generator.enabled=true
+# 插件it-commit-id-plugin产生git信息文件的输出路径，支持json和properties两种格式，支持classpath:xxx和file:xxx两种路径，这些需要和插件里的配置保持一致。缺失则默认为classpath:git.json
+spring.application.git.generator.path=classpath:git.json
+# spring.application.git.generator.path=classpath:git.properties
+# 使用Git的git.commit.id或者git.build.version来作为服务版本号。缺失则默认为git.commit.id
+spring.application.git.version.key=git.commit.id
+# spring.application.git.version.key=git.build.version
 ```
 
 ### 外部元数据配置
