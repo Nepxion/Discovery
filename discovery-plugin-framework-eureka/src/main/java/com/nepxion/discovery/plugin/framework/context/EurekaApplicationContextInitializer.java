@@ -11,6 +11,7 @@ package com.nepxion.discovery.plugin.framework.context;
 
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.cloud.netflix.eureka.EurekaInstanceConfigBean;
 import org.springframework.cloud.netflix.eureka.serviceregistry.EurekaServiceRegistry;
@@ -56,6 +57,11 @@ public class EurekaApplicationContextInitializer extends PluginApplicationContex
             metadataMap.put(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH, PluginContextAware.getContextPath(environment));
 
             MetadataUtil.filter(metadataMap);
+
+            String gitVersion = getGitVersion(applicationContext);
+            if (StringUtils.isNotEmpty(gitVersion)) {
+                metadataMap.put(DiscoveryConstant.VERSION, gitVersion);
+            }
 
             return bean;
         } else {
