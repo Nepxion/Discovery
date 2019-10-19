@@ -47,7 +47,7 @@ public class MetadataUtil {
         }
     }
 
-    private static int getIndex(List<String> metadata, String key) {
+    public static int getIndex(List<String> metadata, String key) {
         for (int i = 0; i < metadata.size(); i++) {
             String result = metadata.get(i);
             if (result.startsWith(key + "=")) {

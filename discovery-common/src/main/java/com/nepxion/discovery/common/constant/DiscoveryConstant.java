@@ -23,7 +23,7 @@ public class DiscoveryConstant {
     public static final String SPRING_APPLICATION_GROUP_KEY = "spring.application.group.key";
     public static final String SPRING_APPLICATION_CONTEXT_PATH = "spring.application.context-path";
     public static final String SPRING_APPLICATION_DEFAULT_PROPERTIES_PATH = "spring.application.default.properties.path";
-    public static final String SPRING_APPLICATION_DEFAULT_PROPERTIES_PATH_VALUE = "spring-application-default.properties";
+    public static final String SPRING_APPLICATION_DEFAULT_PROPERTIES_PATH_VALUE = "spring-application-default";
     public static final String SPRING_APPLICATION_NO_SERVERS_RETRY_ENABLED = "spring.application.no.servers.retry.enabled";
     public static final String SPRING_APPLICATION_NO_SERVERS_RETRY_TIMES = "spring.application.no.servers.retry.times";
     public static final String SPRING_APPLICATION_NO_SERVERS_RETRY_AWAIT_TIME = "spring.application.no.servers.retry.await.time";
@@ -32,6 +32,13 @@ public class DiscoveryConstant {
     public static final String CONTEXT_PATH = "server.contextPath";
 
     public static final String ANNOTATION_CONFIG_SERVLET_WEB_SERVER_APPLICATION_CONTEXT = "AnnotationConfigEmbeddedWebApplicationContext";
+
+    public static final String SPRING_APPLICATION_GIT_GENERATOR_ENABLED = "spring.application.git.generator.enabled";
+    public static final String SPRING_APPLICATION_GIT_GENERATOR_PATH = "spring.application.git.generator.path";
+    public static final String SPRING_APPLICATION_GIT_VERSION_KEY = "spring.application.git.version.key";
+    public static final String GIT = "git";
+    public static final String GIT_COMMIT_ID = "git.commit.id";
+    public static final String GIT_BUILD_VERSION = "git.build.version";
 
     public static final String SPRING_APPLICATION_NAME = "spring.application.name";
     public static final String SPRING_APPLICATION_TYPE = "spring.application.type";
@@ -74,6 +81,7 @@ public class DiscoveryConstant {
 
     public static final String XML_FORMAT = "xml";
     public static final String JSON_FORMAT = "json";
+    public static final String PROPERTIES_FORMAT = "properties";
     public static final String PREFIX_CLASSPATH = "classpath:";
     public static final String PREFIX_FILE = "file:";
 
