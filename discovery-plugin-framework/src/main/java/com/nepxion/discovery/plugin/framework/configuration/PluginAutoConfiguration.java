@@ -21,6 +21,7 @@ import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
 import com.nepxion.discovery.plugin.framework.event.PluginSubscriber;
+import com.nepxion.discovery.plugin.framework.generator.GitGenerator;
 import com.nepxion.discovery.plugin.framework.listener.discovery.DiscoveryListenerExecutor;
 import com.nepxion.discovery.plugin.framework.listener.discovery.HostFilterDiscoveryListener;
 import com.nepxion.discovery.plugin.framework.listener.discovery.RegionFilterDiscoveryListener;
@@ -128,5 +129,12 @@ public class PluginAutoConfiguration {
     @ConditionalOnProperty(value = DiscoveryConstant.SPRING_APPLICATION_NO_SERVERS_NOTIFY_ENABLED, matchIfMissing = false)
     public NotificationLoadBalanceListener notificationLoadBalanceListener() {
         return new NotificationLoadBalanceListener();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    @ConditionalOnProperty(value = DiscoveryConstant.SPRING_APPLICATION_GIT_GENERATOR_ENABLED, matchIfMissing = false)
+    public GitGenerator gitGenerator() {
+        return new GitGenerator();
     }
 }

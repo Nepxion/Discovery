@@ -121,6 +121,14 @@ public class PluginContextAware implements ApplicationContextAware {
         return getDefaultPropertiesPath(environment);
     }
 
+    public String getGitGeneratorPath() {
+        return getGitGeneratorPath(environment);
+    }
+
+    public String getGitVersionKey() {
+        return getGitVersionKey(environment);
+    }
+
     public String getContextPath() {
         return getContextPath(environment);
     }
@@ -158,7 +166,15 @@ public class PluginContextAware implements ApplicationContextAware {
     }
 
     public static String getDefaultPropertiesPath(Environment environment) {
-        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_DEFAULT_PROPERTIES_PATH, String.class, DiscoveryConstant.SPRING_APPLICATION_DEFAULT_PROPERTIES_PATH_VALUE);
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_DEFAULT_PROPERTIES_PATH, String.class, DiscoveryConstant.SPRING_APPLICATION_DEFAULT_PROPERTIES_PATH_VALUE + "." + DiscoveryConstant.PROPERTIES_FORMAT);
+    }
+
+    public static String getGitGeneratorPath(Environment environment) {
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_GIT_GENERATOR_PATH, String.class, DiscoveryConstant.PREFIX_CLASSPATH + DiscoveryConstant.GIT + "." + DiscoveryConstant.JSON_FORMAT);
+    }
+
+    public static String getGitVersionKey(Environment environment) {
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_GIT_VERSION_KEY, String.class, DiscoveryConstant.GIT_COMMIT_ID);
     }
 
     public static String getContextPath(Environment environment) {

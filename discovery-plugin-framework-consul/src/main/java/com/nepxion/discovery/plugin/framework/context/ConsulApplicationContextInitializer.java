@@ -11,6 +11,7 @@ package com.nepxion.discovery.plugin.framework.context;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.cloud.consul.discovery.ConsulDiscoveryProperties;
 import org.springframework.cloud.consul.serviceregistry.ConsulServiceRegistry;
@@ -56,6 +57,11 @@ public class ConsulApplicationContextInitializer extends PluginApplicationContex
             tags.add(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH + "=" + PluginContextAware.getContextPath(environment));
 
             MetadataUtil.filter(tags);
+
+            String gitVersion = getGitVersion(applicationContext);
+            if (StringUtils.isNotEmpty(gitVersion)) {
+                tags.set(MetadataUtil.getIndex(tags, DiscoveryConstant.VERSION), DiscoveryConstant.VERSION + "=" + gitVersion);
+            }
 
             return bean;
         } else {

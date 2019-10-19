@@ -30,6 +30,7 @@ import com.nepxion.banner.NepxionBanner;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.property.DiscoveryProperties;
 import com.nepxion.discovery.plugin.framework.decorator.DiscoveryClientDecorator;
+import com.nepxion.discovery.plugin.framework.generator.GitGenerator;
 import com.taobao.text.Color;
 
 public abstract class PluginApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
@@ -96,10 +97,33 @@ public abstract class PluginApplicationContextInitializer implements Application
                     System.setProperty(key, value);
                 }
             }
+
             LOG.info("{} is loaded", path);
         } catch (IOException e) {
 
         }
+    }
+
+    protected String getGitVersion(ConfigurableApplicationContext applicationContext) {
+        try {
+            GitGenerator gitGenerator = applicationContext.getBean(GitGenerator.class);
+            String versionKey = gitGenerator.getGitVersionKey();
+            String version = gitGenerator.getVersion();
+
+            LOG.info("--------------------------------------------------");
+            if (StringUtils.isNotEmpty(version)) {
+                LOG.info("Use {}={} as metadata version", versionKey, version);
+            } else {
+                LOG.warn("Not found value of {}, use default metadata version setting", versionKey);
+            }
+            LOG.info("--------------------------------------------------");
+
+            return version;
+        } catch (Exception e) {
+
+        }
+
+        return null;
     }
 
     protected abstract Object afterInitialization(ConfigurableApplicationContext applicationContext, Object bean, String beanName) throws BeansException;

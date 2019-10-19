@@ -11,6 +11,7 @@ package com.nepxion.discovery.plugin.framework.context;
 
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -57,6 +58,11 @@ public class NacosApplicationContextInitializer extends PluginApplicationContext
             metadata.put(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH, PluginContextAware.getContextPath(environment));
 
             MetadataUtil.filter(metadata);
+
+            String gitVersion = getGitVersion(applicationContext);
+            if (StringUtils.isNotEmpty(gitVersion)) {
+                metadata.put(DiscoveryConstant.VERSION, gitVersion);
+            }
 
             return bean;
         } else {
