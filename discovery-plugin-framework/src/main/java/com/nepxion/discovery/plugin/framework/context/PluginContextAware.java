@@ -172,7 +172,7 @@ public class PluginContextAware implements ApplicationContextAware {
     }
 
     public static String getGitGeneratorPath(Environment environment) {
-        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_GIT_GENERATOR_PATH, String.class, DiscoveryConstant.PREFIX_CLASSPATH + DiscoveryConstant.GIT + "." + DiscoveryConstant.JSON_FORMAT);
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_GIT_GENERATOR_PATH, String.class, DiscoveryConstant.PREFIX_CLASSPATH + DiscoveryConstant.GIT + "." + DiscoveryConstant.PROPERTIES_FORMAT);
     }
 
     public static String getGitVersionKey(Environment environment) {
