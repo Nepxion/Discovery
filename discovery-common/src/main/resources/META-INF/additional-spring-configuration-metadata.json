@@ -58,7 +58,7 @@
 			"name": "spring.application.git.version.key",
 			"type": "java.lang.String",
 			"defaultValue": "git.commit.id",
-			"description": "Git version key, it can be git.commit.id or git.build.version."
+			"description": "Git version key, it can be git.commit.id or git.build.version or another."
 		},
 		{
 			"name": "spring.application.no.servers.retry.enabled",
