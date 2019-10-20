@@ -15,6 +15,8 @@ import javax.annotation.PostConstruct;
 
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
@@ -26,27 +28,38 @@ import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.util.FileContextUtil;
 
 public class GitGenerator {
+    private static final Logger LOG = LoggerFactory.getLogger(GitGenerator.class);
+
     @Autowired
     private ApplicationContext applicationContext;
 
-    private String gitGeneratorPath;
-    private String gitVersionKey;
+    private String generatorPath;
+    private String versionKey;
 
     private String text;
     private Map<String, String> map;
 
     @PostConstruct
     public void initialize() {
-        gitGeneratorPath = PluginContextAware.getGitGeneratorPath(applicationContext.getEnvironment());
-        gitVersionKey = PluginContextAware.getGitVersionKey(applicationContext.getEnvironment());
+        generatorPath = PluginContextAware.getGitGeneratorPath(applicationContext.getEnvironment());
+        versionKey = PluginContextAware.getGitVersionKey(applicationContext.getEnvironment());
 
         initializeText();
         initializeJsonMap();
         initializePropertiesMap();
+
+        String version = getVersion();
+        LOG.info("--------------------------------------------------");
+        if (StringUtils.isNotEmpty(version)) {
+            LOG.info("Use {}={} as metadata version", versionKey, version);
+        } else {
+            LOG.warn("Not found value of {}, use default metadata version setting", versionKey);
+        }
+        LOG.info("--------------------------------------------------");
     }
 
     private void initializeText() {
-        text = FileContextUtil.getText(applicationContext, gitGeneratorPath);
+        text = FileContextUtil.getText(applicationContext, generatorPath);
     }
 
     private void initializeJsonMap() {
@@ -83,12 +96,12 @@ public class GitGenerator {
         }
     }
 
-    public String getGitVersionKey() {
-        return gitVersionKey;
+    public String getVersionKey() {
+        return versionKey;
     }
 
-    public String getGitGeneratorPath() {
-        return gitGeneratorPath;
+    public String getGeneratorPath() {
+        return generatorPath;
     }
 
     public String getText() {
@@ -104,6 +117,6 @@ public class GitGenerator {
             return null;
         }
 
-        return map.get(gitVersionKey);
+        return map.get(versionKey);
     }
 }

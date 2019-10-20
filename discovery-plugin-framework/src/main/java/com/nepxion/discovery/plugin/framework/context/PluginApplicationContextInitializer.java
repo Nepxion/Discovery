@@ -107,18 +107,8 @@ public abstract class PluginApplicationContextInitializer implements Application
     protected String getGitVersion(ConfigurableApplicationContext applicationContext) {
         try {
             GitGenerator gitGenerator = applicationContext.getBean(GitGenerator.class);
-            String versionKey = gitGenerator.getGitVersionKey();
-            String version = gitGenerator.getVersion();
 
-            LOG.info("--------------------------------------------------");
-            if (StringUtils.isNotEmpty(version)) {
-                LOG.info("Use {}={} as metadata version", versionKey, version);
-            } else {
-                LOG.warn("Not found value of {}, use default metadata version setting", versionKey);
-            }
-            LOG.info("--------------------------------------------------");
-
-            return version;
+            return gitGenerator.getVersion();
         } catch (Exception e) {
 
         }
