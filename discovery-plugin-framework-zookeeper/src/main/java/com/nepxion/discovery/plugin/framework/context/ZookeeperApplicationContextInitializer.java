@@ -56,12 +56,12 @@ public class ZookeeperApplicationContextInitializer extends PluginApplicationCon
             metadata.put(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY, PluginContextAware.getGroupKey(environment));
             metadata.put(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH, PluginContextAware.getContextPath(environment));
 
-            MetadataUtil.filter(metadata);
-
             String gitVersion = getGitVersion(applicationContext);
             if (StringUtils.isNotEmpty(gitVersion)) {
                 metadata.put(DiscoveryConstant.VERSION, gitVersion);
             }
+
+            MetadataUtil.filter(metadata);
 
             return bean;
         } else {

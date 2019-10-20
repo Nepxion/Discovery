@@ -56,12 +56,12 @@ public class EurekaApplicationContextInitializer extends PluginApplicationContex
             metadataMap.put(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY, PluginContextAware.getGroupKey(environment));
             metadataMap.put(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH, PluginContextAware.getContextPath(environment));
 
-            MetadataUtil.filter(metadataMap);
-
             String gitVersion = getGitVersion(applicationContext);
             if (StringUtils.isNotEmpty(gitVersion)) {
                 metadataMap.put(DiscoveryConstant.VERSION, gitVersion);
             }
+
+            MetadataUtil.filter(metadataMap);
 
             return bean;
         } else {

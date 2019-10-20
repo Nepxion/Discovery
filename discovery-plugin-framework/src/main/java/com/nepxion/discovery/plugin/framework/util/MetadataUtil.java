@@ -49,12 +49,22 @@ public class MetadataUtil {
 
     public static int getIndex(List<String> metadata, String key) {
         for (int i = 0; i < metadata.size(); i++) {
-            String result = metadata.get(i);
-            if (result.startsWith(key + "=")) {
+            String value = metadata.get(i);
+            if (value.startsWith(key + "=")) {
                 return i;
             }
         }
 
         return -1;
+    }
+
+    public static boolean containsKey(List<String> metadata, String key) {
+        for (String value : metadata) {
+            if (value.startsWith(key + "=")) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
