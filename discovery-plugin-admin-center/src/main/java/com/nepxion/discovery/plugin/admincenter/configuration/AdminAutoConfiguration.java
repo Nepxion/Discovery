@@ -21,6 +21,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRule;
 import com.nepxion.discovery.plugin.admincenter.endpoint.ConfigEndpoint;
+import com.nepxion.discovery.plugin.admincenter.endpoint.GitEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.RouterEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.SentinelCoreEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.SentinelParamEndpoint;
@@ -44,6 +45,11 @@ public class AdminAutoConfiguration {
         @Bean
         public RouterEndpoint routerEndpoint() {
             return new RouterEndpoint();
+        }
+
+        @Bean
+        public GitEndpoint gitEndpoint() {
+            return new GitEndpoint();
         }
 
         @Bean
