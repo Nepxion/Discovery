@@ -37,8 +37,8 @@ public class ConsulApplicationContextInitializer extends PluginApplicationContex
             consulDiscoveryProperties.setPreferIpAddress(true);
 
             List<String> metadata = consulDiscoveryProperties.getTags();
-            if (!MetadataUtil.containsKey(metadata, DiscoveryConstant.GROUP)) {
-                metadata.add(DiscoveryConstant.GROUP + "=" + DiscoveryConstant.DEFAULT);
+            if (!MetadataUtil.containsKey(metadata, PluginContextAware.getGroupKey(environment))) {
+                metadata.add(PluginContextAware.getGroupKey(environment) + "=" + DiscoveryConstant.DEFAULT);
             }
             if (!MetadataUtil.containsKey(metadata, DiscoveryConstant.VERSION)) {
                 metadata.add(DiscoveryConstant.VERSION + "=" + DiscoveryConstant.DEFAULT);
@@ -58,7 +58,7 @@ public class ConsulApplicationContextInitializer extends PluginApplicationContex
 
             String prefixGroup = getPrefixGroup(applicationContext);
             if (StringUtils.isNotEmpty(prefixGroup)) {
-                metadata.set(MetadataUtil.getIndex(metadata, DiscoveryConstant.GROUP), DiscoveryConstant.GROUP + "=" + prefixGroup);
+                metadata.set(MetadataUtil.getIndex(metadata, PluginContextAware.getGroupKey(environment)), PluginContextAware.getGroupKey(environment) + "=" + prefixGroup);
             }
 
             String gitVersion = getGitVersion(applicationContext);
