@@ -37,13 +37,13 @@ public class ConsulApplicationContextInitializer extends PluginApplicationContex
             consulDiscoveryProperties.setPreferIpAddress(true);
 
             List<String> tags = consulDiscoveryProperties.getTags();
-            if (!containsKey(tags, DiscoveryConstant.GROUP + "=")) {
+            if (!MetadataUtil.containsKey(tags, DiscoveryConstant.GROUP)) {
                 tags.add(DiscoveryConstant.GROUP + "=" + DiscoveryConstant.DEFAULT);
             }
-            if (!containsKey(tags, DiscoveryConstant.VERSION + "=")) {
+            if (!MetadataUtil.containsKey(tags, DiscoveryConstant.VERSION)) {
                 tags.add(DiscoveryConstant.VERSION + "=" + DiscoveryConstant.DEFAULT);
             }
-            if (!containsKey(tags, DiscoveryConstant.REGION + "=")) {
+            if (!MetadataUtil.containsKey(tags, DiscoveryConstant.REGION)) {
                 tags.add(DiscoveryConstant.REGION + "=" + DiscoveryConstant.DEFAULT);
             }
             tags.add(DiscoveryConstant.SPRING_APPLICATION_NAME + "=" + PluginContextAware.getApplicationName(environment));
@@ -56,26 +56,16 @@ public class ConsulApplicationContextInitializer extends PluginApplicationContex
             tags.add(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY + "=" + PluginContextAware.getGroupKey(environment));
             tags.add(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH + "=" + PluginContextAware.getContextPath(environment));
 
-            MetadataUtil.filter(tags);
-
             String gitVersion = getGitVersion(applicationContext);
             if (StringUtils.isNotEmpty(gitVersion)) {
                 tags.set(MetadataUtil.getIndex(tags, DiscoveryConstant.VERSION), DiscoveryConstant.VERSION + "=" + gitVersion);
             }
 
+            MetadataUtil.filter(tags);
+
             return bean;
         } else {
             return bean;
         }
-    }
-
-    private boolean containsKey(List<String> tags, String key) {
-        for (String tag : tags) {
-            if (tag.contains(key)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }
