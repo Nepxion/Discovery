@@ -31,27 +31,27 @@ import com.nepxion.discovery.plugin.framework.generator.GitGenerator;
 
 @RestController
 @RequestMapping(path = "/git")
-@Api(tags = { "Git接口" })
+@Api(tags = { "Git信息接口" })
 @ManagedResource(description = "Git Endpoint")
 public class GitEndpoint implements MvcEndpoint {
     @Autowired(required = false)
     private GitGenerator gitGenerator;
 
-    @RequestMapping(path = "/view-map", method = RequestMethod.GET)
+    @RequestMapping(path = "/map", method = RequestMethod.GET)
     @ApiOperation(value = "获取Git信息的Map格式", notes = "", response = Map.class, httpMethod = "GET")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<Map<String, String>> viewMap() {
+    public ResponseEntity<Map<String, String>> map() {
         Map<String, String> map = gitGenerator != null ? gitGenerator.getMap() : new HashMap<String, String>();
 
         return ResponseEntity.ok().body(map);
     }
 
-    @RequestMapping(path = "/view-text", method = RequestMethod.GET)
+    @RequestMapping(path = "/text", method = RequestMethod.GET)
     @ApiOperation(value = "获取Git信息的文本格式", notes = "", response = String.class, httpMethod = "GET")
     @ResponseBody
     @ManagedOperation
-    public ResponseEntity<String> viewText() {
+    public ResponseEntity<String> text() {
         String text = gitGenerator != null ? gitGenerator.getText() : StringUtils.EMPTY;
 
         return ResponseEntity.ok().body(text);
