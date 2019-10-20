@@ -31,6 +31,7 @@ import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.property.DiscoveryProperties;
 import com.nepxion.discovery.plugin.framework.decorator.DiscoveryClientDecorator;
 import com.nepxion.discovery.plugin.framework.generator.GitGenerator;
+import com.nepxion.discovery.plugin.framework.generator.GroupGenerator;
 import com.taobao.text.Color;
 
 public abstract class PluginApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
@@ -98,19 +99,33 @@ public abstract class PluginApplicationContextInitializer implements Application
                 }
             }
 
-            LOG.info("{} is loaded", path);
+            LOG.info("{} is loaded...", path);
         } catch (IOException e) {
 
         }
     }
 
+    protected String getPrefixGroup(ConfigurableApplicationContext applicationContext) {
+        ConfigurableEnvironment environment = applicationContext.getEnvironment();
+
+        Boolean isGroupGeneratorEnabled = PluginContextAware.isGroupGeneratorEnabled(environment);
+        if (isGroupGeneratorEnabled) {
+            GroupGenerator groupGenerator = applicationContext.getBean(GroupGenerator.class);
+
+            return groupGenerator.getGroup();
+        }
+
+        return null;
+    }
+
     protected String getGitVersion(ConfigurableApplicationContext applicationContext) {
-        try {
+        ConfigurableEnvironment environment = applicationContext.getEnvironment();
+
+        Boolean isGitGeneratorEnabled = PluginContextAware.isGitGeneratorEnabled(environment);
+        if (isGitGeneratorEnabled) {
             GitGenerator gitGenerator = applicationContext.getBean(GitGenerator.class);
 
             return gitGenerator.getVersion();
-        } catch (Exception e) {
-
         }
 
         return null;
