@@ -37,8 +37,8 @@ public class ZookeeperApplicationContextInitializer extends PluginApplicationCon
             zookeeperDiscoveryProperties.setPreferIpAddress(true);
 
             Map<String, String> metadata = zookeeperDiscoveryProperties.getMetadata();
-            if (!metadata.containsKey(DiscoveryConstant.GROUP)) {
-                metadata.put(DiscoveryConstant.GROUP, DiscoveryConstant.DEFAULT);
+            if (!metadata.containsKey(PluginContextAware.getGroupKey(environment))) {
+                metadata.put(PluginContextAware.getGroupKey(environment), DiscoveryConstant.DEFAULT);
             }
             if (!metadata.containsKey(DiscoveryConstant.VERSION)) {
                 metadata.put(DiscoveryConstant.VERSION, DiscoveryConstant.DEFAULT);
@@ -58,7 +58,7 @@ public class ZookeeperApplicationContextInitializer extends PluginApplicationCon
 
             String prefixGroup = getPrefixGroup(applicationContext);
             if (StringUtils.isNotEmpty(prefixGroup)) {
-                metadata.put(DiscoveryConstant.GROUP, prefixGroup);
+                metadata.put(PluginContextAware.getGroupKey(environment), prefixGroup);
             }
 
             String gitVersion = getGitVersion(applicationContext);
