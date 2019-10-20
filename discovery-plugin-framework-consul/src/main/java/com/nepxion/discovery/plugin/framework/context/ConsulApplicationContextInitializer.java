@@ -36,32 +36,37 @@ public class ConsulApplicationContextInitializer extends PluginApplicationContex
             ConsulDiscoveryProperties consulDiscoveryProperties = (ConsulDiscoveryProperties) bean;
             consulDiscoveryProperties.setPreferIpAddress(true);
 
-            List<String> tags = consulDiscoveryProperties.getTags();
-            if (!MetadataUtil.containsKey(tags, DiscoveryConstant.GROUP)) {
-                tags.add(DiscoveryConstant.GROUP + "=" + DiscoveryConstant.DEFAULT);
+            List<String> metadata = consulDiscoveryProperties.getTags();
+            if (!MetadataUtil.containsKey(metadata, DiscoveryConstant.GROUP)) {
+                metadata.add(DiscoveryConstant.GROUP + "=" + DiscoveryConstant.DEFAULT);
             }
-            if (!MetadataUtil.containsKey(tags, DiscoveryConstant.VERSION)) {
-                tags.add(DiscoveryConstant.VERSION + "=" + DiscoveryConstant.DEFAULT);
+            if (!MetadataUtil.containsKey(metadata, DiscoveryConstant.VERSION)) {
+                metadata.add(DiscoveryConstant.VERSION + "=" + DiscoveryConstant.DEFAULT);
             }
-            if (!MetadataUtil.containsKey(tags, DiscoveryConstant.REGION)) {
-                tags.add(DiscoveryConstant.REGION + "=" + DiscoveryConstant.DEFAULT);
+            if (!MetadataUtil.containsKey(metadata, DiscoveryConstant.REGION)) {
+                metadata.add(DiscoveryConstant.REGION + "=" + DiscoveryConstant.DEFAULT);
             }
-            tags.add(DiscoveryConstant.SPRING_APPLICATION_NAME + "=" + PluginContextAware.getApplicationName(environment));
-            tags.add(DiscoveryConstant.SPRING_APPLICATION_TYPE + "=" + PluginContextAware.getApplicationType(environment));
-            tags.add(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN + "=" + ConsulConstant.CONSUL_TYPE);
-            tags.add(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_VERSION + "=" + DiscoveryConstant.DISCOVERY_VERSION);
-            tags.add(DiscoveryConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED + "=" + PluginContextAware.isRegisterControlEnabled(environment));
-            tags.add(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED + "=" + PluginContextAware.isDiscoveryControlEnabled(environment));
-            tags.add(DiscoveryConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED + "=" + PluginContextAware.isConfigRestControlEnabled(environment));
-            tags.add(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY + "=" + PluginContextAware.getGroupKey(environment));
-            tags.add(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH + "=" + PluginContextAware.getContextPath(environment));
+            metadata.add(DiscoveryConstant.SPRING_APPLICATION_NAME + "=" + PluginContextAware.getApplicationName(environment));
+            metadata.add(DiscoveryConstant.SPRING_APPLICATION_TYPE + "=" + PluginContextAware.getApplicationType(environment));
+            metadata.add(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN + "=" + ConsulConstant.CONSUL_TYPE);
+            metadata.add(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_VERSION + "=" + DiscoveryConstant.DISCOVERY_VERSION);
+            metadata.add(DiscoveryConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED + "=" + PluginContextAware.isRegisterControlEnabled(environment));
+            metadata.add(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED + "=" + PluginContextAware.isDiscoveryControlEnabled(environment));
+            metadata.add(DiscoveryConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED + "=" + PluginContextAware.isConfigRestControlEnabled(environment));
+            metadata.add(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY + "=" + PluginContextAware.getGroupKey(environment));
+            metadata.add(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH + "=" + PluginContextAware.getContextPath(environment));
+
+            String prefixGroup = getPrefixGroup(applicationContext);
+            if (StringUtils.isNotEmpty(prefixGroup)) {
+                metadata.set(MetadataUtil.getIndex(metadata, DiscoveryConstant.GROUP), DiscoveryConstant.GROUP + "=" + prefixGroup);
+            }
 
             String gitVersion = getGitVersion(applicationContext);
             if (StringUtils.isNotEmpty(gitVersion)) {
-                tags.set(MetadataUtil.getIndex(tags, DiscoveryConstant.VERSION), DiscoveryConstant.VERSION + "=" + gitVersion);
+                metadata.set(MetadataUtil.getIndex(metadata, DiscoveryConstant.VERSION), DiscoveryConstant.VERSION + "=" + gitVersion);
             }
 
-            MetadataUtil.filter(tags);
+            MetadataUtil.filter(metadata);
 
             return bean;
         } else {

@@ -123,6 +123,18 @@ public class PluginContextAware implements ApplicationContextAware {
         return getDefaultPropertiesPath(environment);
     }
 
+    public Boolean isGroupGeneratorEnabled() {
+        return isGroupGeneratorEnabled(environment);
+    }
+
+    public Integer getGroupGeneratorLength() {
+        return getGroupGeneratorLength(environment);
+    }
+
+    public Boolean isGitGeneratorEnabled() {
+        return isGitGeneratorEnabled(environment);
+    }
+
     public String getGitGeneratorPath() {
         return getGitGeneratorPath(environment);
     }
@@ -169,6 +181,18 @@ public class PluginContextAware implements ApplicationContextAware {
 
     public static String getDefaultPropertiesPath(Environment environment) {
         return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_DEFAULT_PROPERTIES_PATH, String.class, DiscoveryConstant.SPRING_APPLICATION_DEFAULT_PROPERTIES_PATH_VALUE + "." + DiscoveryConstant.PROPERTIES_FORMAT);
+    }
+
+    public static Boolean isGroupGeneratorEnabled(Environment environment) {
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_GROUP_GENERATOR_ENABLED, Boolean.class, Boolean.FALSE);
+    }
+
+    public static Integer getGroupGeneratorLength(Environment environment) {
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_GROUP_GENERATOR_LENGTH, Integer.class, -1);
+    }
+
+    public static Boolean isGitGeneratorEnabled(Environment environment) {
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_GIT_GENERATOR_ENABLED, Boolean.class, Boolean.FALSE);
     }
 
     public static String getGitGeneratorPath(Environment environment) {

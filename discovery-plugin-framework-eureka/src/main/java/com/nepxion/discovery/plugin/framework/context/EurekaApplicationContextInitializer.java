@@ -36,32 +36,37 @@ public class EurekaApplicationContextInitializer extends PluginApplicationContex
             EurekaInstanceConfigBean eurekaInstanceConfig = (EurekaInstanceConfigBean) bean;
             eurekaInstanceConfig.setPreferIpAddress(true);
 
-            Map<String, String> metadataMap = eurekaInstanceConfig.getMetadataMap();
-            if (!metadataMap.containsKey(DiscoveryConstant.GROUP)) {
-                metadataMap.put(DiscoveryConstant.GROUP, DiscoveryConstant.DEFAULT);
+            Map<String, String> metadata = eurekaInstanceConfig.getMetadataMap();
+            if (!metadata.containsKey(DiscoveryConstant.GROUP)) {
+                metadata.put(DiscoveryConstant.GROUP, DiscoveryConstant.DEFAULT);
             }
-            if (!metadataMap.containsKey(DiscoveryConstant.VERSION)) {
-                metadataMap.put(DiscoveryConstant.VERSION, DiscoveryConstant.DEFAULT);
+            if (!metadata.containsKey(DiscoveryConstant.VERSION)) {
+                metadata.put(DiscoveryConstant.VERSION, DiscoveryConstant.DEFAULT);
             }
-            if (!metadataMap.containsKey(DiscoveryConstant.REGION)) {
-                metadataMap.put(DiscoveryConstant.REGION, DiscoveryConstant.DEFAULT);
+            if (!metadata.containsKey(DiscoveryConstant.REGION)) {
+                metadata.put(DiscoveryConstant.REGION, DiscoveryConstant.DEFAULT);
             }
-            metadataMap.put(DiscoveryConstant.SPRING_APPLICATION_NAME, PluginContextAware.getApplicationName(environment));
-            metadataMap.put(DiscoveryConstant.SPRING_APPLICATION_TYPE, PluginContextAware.getApplicationType(environment));
-            metadataMap.put(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN, EurekaConstant.EUREKA_TYPE);
-            metadataMap.put(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_VERSION, DiscoveryConstant.DISCOVERY_VERSION);
-            metadataMap.put(DiscoveryConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED, PluginContextAware.isRegisterControlEnabled(environment).toString());
-            metadataMap.put(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED, PluginContextAware.isDiscoveryControlEnabled(environment).toString());
-            metadataMap.put(DiscoveryConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED, PluginContextAware.isConfigRestControlEnabled(environment).toString());
-            metadataMap.put(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY, PluginContextAware.getGroupKey(environment));
-            metadataMap.put(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH, PluginContextAware.getContextPath(environment));
+            metadata.put(DiscoveryConstant.SPRING_APPLICATION_NAME, PluginContextAware.getApplicationName(environment));
+            metadata.put(DiscoveryConstant.SPRING_APPLICATION_TYPE, PluginContextAware.getApplicationType(environment));
+            metadata.put(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN, EurekaConstant.EUREKA_TYPE);
+            metadata.put(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_VERSION, DiscoveryConstant.DISCOVERY_VERSION);
+            metadata.put(DiscoveryConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED, PluginContextAware.isRegisterControlEnabled(environment).toString());
+            metadata.put(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED, PluginContextAware.isDiscoveryControlEnabled(environment).toString());
+            metadata.put(DiscoveryConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED, PluginContextAware.isConfigRestControlEnabled(environment).toString());
+            metadata.put(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY, PluginContextAware.getGroupKey(environment));
+            metadata.put(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH, PluginContextAware.getContextPath(environment));
+
+            String prefixGroup = getPrefixGroup(applicationContext);
+            if (StringUtils.isNotEmpty(prefixGroup)) {
+                metadata.put(DiscoveryConstant.GROUP, prefixGroup);
+            }
 
             String gitVersion = getGitVersion(applicationContext);
             if (StringUtils.isNotEmpty(gitVersion)) {
-                metadataMap.put(DiscoveryConstant.VERSION, gitVersion);
+                metadata.put(DiscoveryConstant.VERSION, gitVersion);
             }
 
-            MetadataUtil.filter(metadataMap);
+            MetadataUtil.filter(metadata);
 
             return bean;
         } else {

@@ -53,7 +53,7 @@ public class GitGenerator {
         if (StringUtils.isNotEmpty(version)) {
             LOG.info("Use {}={} as metadata version", versionKey, version);
         } else {
-            LOG.warn("Not found value of {}, use default metadata version setting", versionKey);
+            LOG.error("Not found value of {}, use default metadata version setting", versionKey);
         }
         LOG.info("--------------------------------------------------");
     }
