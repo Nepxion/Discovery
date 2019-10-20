@@ -38,8 +38,8 @@ public class NacosApplicationContextInitializer extends PluginApplicationContext
             NacosDiscoveryProperties nacosDiscoveryProperties = (NacosDiscoveryProperties) bean;
 
             Map<String, String> metadata = nacosDiscoveryProperties.getMetadata();
-            if (!metadata.containsKey(DiscoveryConstant.GROUP)) {
-                metadata.put(DiscoveryConstant.GROUP, DiscoveryConstant.DEFAULT);
+            if (!metadata.containsKey(PluginContextAware.getGroupKey(environment))) {
+                metadata.put(PluginContextAware.getGroupKey(environment), DiscoveryConstant.DEFAULT);
             }
             if (!metadata.containsKey(DiscoveryConstant.VERSION)) {
                 metadata.put(DiscoveryConstant.VERSION, DiscoveryConstant.DEFAULT);
@@ -59,7 +59,7 @@ public class NacosApplicationContextInitializer extends PluginApplicationContext
 
             String prefixGroup = getPrefixGroup(applicationContext);
             if (StringUtils.isNotEmpty(prefixGroup)) {
-                metadata.put(DiscoveryConstant.GROUP, prefixGroup);
+                metadata.put(PluginContextAware.getGroupKey(environment), prefixGroup);
             }
 
             String gitVersion = getGitVersion(applicationContext);
