@@ -43,6 +43,18 @@
 			"description": "Default properties path, it can be classpath:xxx or file:xxx."
 		},
 		{
+			"name": "spring.application.group.generator.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": false,
+			"description": "Whether group generator is enabled."
+		},
+		{
+			"name": "spring.application.group.generator.length",
+			"type": "java.lang.Integer",
+			"defaultValue": -1,
+			"description": "Group generator length."
+		},
+		{
 			"name": "spring.application.git.generator.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": false,
