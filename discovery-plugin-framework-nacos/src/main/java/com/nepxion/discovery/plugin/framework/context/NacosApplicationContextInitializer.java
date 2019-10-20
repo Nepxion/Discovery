@@ -57,6 +57,11 @@ public class NacosApplicationContextInitializer extends PluginApplicationContext
             metadata.put(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY, PluginContextAware.getGroupKey(environment));
             metadata.put(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH, PluginContextAware.getContextPath(environment));
 
+            String prefixGroup = getPrefixGroup(applicationContext);
+            if (StringUtils.isNotEmpty(prefixGroup)) {
+                metadata.put(DiscoveryConstant.GROUP, prefixGroup);
+            }
+
             String gitVersion = getGitVersion(applicationContext);
             if (StringUtils.isNotEmpty(gitVersion)) {
                 metadata.put(DiscoveryConstant.VERSION, gitVersion);
