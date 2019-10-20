@@ -1121,6 +1121,11 @@ spring.application.git.generator.path=classpath:git.properties
 # 使用Git的git.commit.id或者git.build.version或者更多其它字段来作为服务版本号。缺失则默认为git.commit.id
 spring.application.git.version.key=git.commit.id
 # spring.application.git.version.key=git.build.version
+
+# 开启和关闭使用服务名前缀来作为服务组名。缺失则默认为false
+spring.application.group.generator.enabled=true
+# 服务名前缀的长度，必须大于0
+spring.application.group.generator.length=15
 ```
 
 Spring Cloud Gateway端配置
@@ -1183,6 +1188,11 @@ spring.application.git.generator.path=classpath:git.properties
 # 使用Git的git.commit.id或者git.build.version或者更多其它字段来作为服务版本号。缺失则默认为git.commit.id
 spring.application.git.version.key=git.commit.id
 # spring.application.git.version.key=git.build.version
+
+# 开启和关闭使用服务名前缀来作为服务组名。缺失则默认为false
+spring.application.group.generator.enabled=true
+# 服务名前缀的长度，必须大于0
+spring.application.group.generator.length=15
 ```
 
 Zuul端配置
@@ -1245,6 +1255,11 @@ spring.application.git.generator.path=classpath:git.properties
 # 使用Git的git.commit.id或者git.build.version或者更多其它字段来作为服务版本号。缺失则默认为git.commit.id
 spring.application.git.version.key=git.commit.id
 # spring.application.git.version.key=git.build.version
+
+# 开启和关闭使用服务名前缀来作为服务组名。缺失则默认为false
+spring.application.group.generator.enabled=true
+# 服务名前缀的长度，必须大于0
+spring.application.group.generator.length=15
 ```
 
 ### 外部元数据配置
