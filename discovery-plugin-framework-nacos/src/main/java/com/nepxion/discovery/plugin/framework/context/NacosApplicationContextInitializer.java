@@ -38,8 +38,10 @@ public class NacosApplicationContextInitializer extends PluginApplicationContext
             NacosDiscoveryProperties nacosDiscoveryProperties = (NacosDiscoveryProperties) bean;
 
             Map<String, String> metadata = nacosDiscoveryProperties.getMetadata();
-            if (!metadata.containsKey(PluginContextAware.getGroupKey(environment))) {
-                metadata.put(PluginContextAware.getGroupKey(environment), DiscoveryConstant.DEFAULT);
+
+            String groupKey = PluginContextAware.getGroupKey(environment);
+            if (!metadata.containsKey(groupKey)) {
+                metadata.put(groupKey, DiscoveryConstant.DEFAULT);
             }
             if (!metadata.containsKey(DiscoveryConstant.VERSION)) {
                 metadata.put(DiscoveryConstant.VERSION, DiscoveryConstant.DEFAULT);
@@ -47,6 +49,15 @@ public class NacosApplicationContextInitializer extends PluginApplicationContext
             if (!metadata.containsKey(DiscoveryConstant.REGION)) {
                 metadata.put(DiscoveryConstant.REGION, DiscoveryConstant.DEFAULT);
             }
+            String prefixGroup = getPrefixGroup(applicationContext);
+            if (StringUtils.isNotEmpty(prefixGroup)) {
+                metadata.put(groupKey, prefixGroup);
+            }
+            String gitVersion = getGitVersion(applicationContext);
+            if (StringUtils.isNotEmpty(gitVersion)) {
+                metadata.put(DiscoveryConstant.VERSION, gitVersion);
+            }
+
             metadata.put(DiscoveryConstant.SPRING_APPLICATION_NAME, PluginContextAware.getApplicationName(environment));
             metadata.put(DiscoveryConstant.SPRING_APPLICATION_TYPE, PluginContextAware.getApplicationType(environment));
             metadata.put(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN, NacosConstant.NACOS_TYPE);
@@ -54,18 +65,8 @@ public class NacosApplicationContextInitializer extends PluginApplicationContext
             metadata.put(DiscoveryConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED, PluginContextAware.isRegisterControlEnabled(environment).toString());
             metadata.put(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED, PluginContextAware.isDiscoveryControlEnabled(environment).toString());
             metadata.put(DiscoveryConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED, PluginContextAware.isConfigRestControlEnabled(environment).toString());
-            metadata.put(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY, PluginContextAware.getGroupKey(environment));
+            metadata.put(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY, groupKey);
             metadata.put(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH, PluginContextAware.getContextPath(environment));
-
-            String prefixGroup = getPrefixGroup(applicationContext);
-            if (StringUtils.isNotEmpty(prefixGroup)) {
-                metadata.put(PluginContextAware.getGroupKey(environment), prefixGroup);
-            }
-
-            String gitVersion = getGitVersion(applicationContext);
-            if (StringUtils.isNotEmpty(gitVersion)) {
-                metadata.put(DiscoveryConstant.VERSION, gitVersion);
-            }
 
             MetadataUtil.filter(metadata);
 
