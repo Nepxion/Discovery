@@ -180,8 +180,6 @@ Spring Boot Admin监控平台
 集成Sentinel熔断隔离限流降级平台
 ![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Sentinel1.jpg)
 ![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Sentinel2.jpg)
-集成健康检查的Consul界面
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Consul.jpg)
 
 ## 现有痛点
 现有的Spring Cloud微服务架构的痛点
