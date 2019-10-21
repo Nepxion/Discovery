@@ -20,6 +20,11 @@ public class DefaultServiceStrategyTracer extends StrategyTracer implements Serv
     }
 
     @Override
+    public void error(ServiceStrategyTracerInterceptor interceptor, MethodInvocation invocation, Throwable e) {
+
+    }
+
+    @Override
     public void release(ServiceStrategyTracerInterceptor interceptor, MethodInvocation invocation) {
 
     }
