@@ -9,33 +9,44 @@ package com.nepxion.discovery.plugin.strategy.service.tracer;
  * @version 1.0
  */
 
+import java.util.List;
+
 import org.aopalliance.intercept.MethodInvocation;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.matrix.proxy.aop.AbstractInterceptor;
 
 public class ServiceStrategyTracerInterceptor extends AbstractInterceptor {
     @Autowired(required = false)
-    private ServiceStrategyTracer serviceStrategyTracer;
+    private List<ServiceStrategyTracer> serviceStrategyTracerList;
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        // 调用链追踪
-        if (serviceStrategyTracer != null) {
-            serviceStrategyTracer.trace(this, invocation);
-        }
-
         try {
-            return invocation.proceed();
+            Object object = invocation.proceed();
+
+            // 调用链追踪
+            if (CollectionUtils.isNotEmpty(serviceStrategyTracerList)) {
+                for (ServiceStrategyTracer serviceStrategyTracer : serviceStrategyTracerList) {
+                    serviceStrategyTracer.trace(this, invocation);
+                }
+            }
+
+            return object;
         } catch (Throwable e) {
-            if (serviceStrategyTracer != null) {
-                serviceStrategyTracer.error(this, invocation, e);
+            if (CollectionUtils.isNotEmpty(serviceStrategyTracerList)) {
+                for (ServiceStrategyTracer serviceStrategyTracer : serviceStrategyTracerList) {
+                    serviceStrategyTracer.error(this, invocation, e);
+                }
             }
 
             throw e;
         } finally {
-            if (serviceStrategyTracer != null) {
-                serviceStrategyTracer.release(this, invocation);
+            if (CollectionUtils.isNotEmpty(serviceStrategyTracerList)) {
+                for (ServiceStrategyTracer serviceStrategyTracer : serviceStrategyTracerList) {
+                    serviceStrategyTracer.release(this, invocation);
+                }
             }
         }
     }
