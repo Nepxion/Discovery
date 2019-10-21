@@ -37,8 +37,10 @@ public class ConsulApplicationContextInitializer extends PluginApplicationContex
             consulDiscoveryProperties.setPreferIpAddress(true);
 
             List<String> metadata = consulDiscoveryProperties.getTags();
-            if (!MetadataUtil.containsKey(metadata, PluginContextAware.getGroupKey(environment))) {
-                metadata.add(PluginContextAware.getGroupKey(environment) + "=" + DiscoveryConstant.DEFAULT);
+
+            String groupKey = PluginContextAware.getGroupKey(environment);
+            if (!MetadataUtil.containsKey(metadata, groupKey)) {
+                metadata.add(groupKey + "=" + DiscoveryConstant.DEFAULT);
             }
             if (!MetadataUtil.containsKey(metadata, DiscoveryConstant.VERSION)) {
                 metadata.add(DiscoveryConstant.VERSION + "=" + DiscoveryConstant.DEFAULT);
@@ -46,6 +48,15 @@ public class ConsulApplicationContextInitializer extends PluginApplicationContex
             if (!MetadataUtil.containsKey(metadata, DiscoveryConstant.REGION)) {
                 metadata.add(DiscoveryConstant.REGION + "=" + DiscoveryConstant.DEFAULT);
             }
+            String prefixGroup = getPrefixGroup(applicationContext);
+            if (StringUtils.isNotEmpty(prefixGroup)) {
+                metadata.set(MetadataUtil.getIndex(metadata, groupKey), groupKey + "=" + prefixGroup);
+            }
+            String gitVersion = getGitVersion(applicationContext);
+            if (StringUtils.isNotEmpty(gitVersion)) {
+                metadata.set(MetadataUtil.getIndex(metadata, DiscoveryConstant.VERSION), DiscoveryConstant.VERSION + "=" + gitVersion);
+            }
+
             metadata.add(DiscoveryConstant.SPRING_APPLICATION_NAME + "=" + PluginContextAware.getApplicationName(environment));
             metadata.add(DiscoveryConstant.SPRING_APPLICATION_TYPE + "=" + PluginContextAware.getApplicationType(environment));
             metadata.add(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN + "=" + ConsulConstant.CONSUL_TYPE);
@@ -53,18 +64,8 @@ public class ConsulApplicationContextInitializer extends PluginApplicationContex
             metadata.add(DiscoveryConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED + "=" + PluginContextAware.isRegisterControlEnabled(environment));
             metadata.add(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED + "=" + PluginContextAware.isDiscoveryControlEnabled(environment));
             metadata.add(DiscoveryConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED + "=" + PluginContextAware.isConfigRestControlEnabled(environment));
-            metadata.add(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY + "=" + PluginContextAware.getGroupKey(environment));
+            metadata.add(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY + "=" + groupKey);
             metadata.add(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH + "=" + PluginContextAware.getContextPath(environment));
-
-            String prefixGroup = getPrefixGroup(applicationContext);
-            if (StringUtils.isNotEmpty(prefixGroup)) {
-                metadata.set(MetadataUtil.getIndex(metadata, PluginContextAware.getGroupKey(environment)), PluginContextAware.getGroupKey(environment) + "=" + prefixGroup);
-            }
-
-            String gitVersion = getGitVersion(applicationContext);
-            if (StringUtils.isNotEmpty(gitVersion)) {
-                metadata.set(MetadataUtil.getIndex(metadata, DiscoveryConstant.VERSION), DiscoveryConstant.VERSION + "=" + gitVersion);
-            }
 
             MetadataUtil.filter(metadata);
 
