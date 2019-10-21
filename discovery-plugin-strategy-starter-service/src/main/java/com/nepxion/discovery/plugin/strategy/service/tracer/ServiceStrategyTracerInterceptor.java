@@ -27,6 +27,12 @@ public class ServiceStrategyTracerInterceptor extends AbstractInterceptor {
 
         try {
             return invocation.proceed();
+        } catch (Throwable e) {
+            if (serviceStrategyTracer != null) {
+                serviceStrategyTracer.error(this, invocation, e);
+            }
+
+            throw e;
         } finally {
             if (serviceStrategyTracer != null) {
                 serviceStrategyTracer.release(this, invocation);
