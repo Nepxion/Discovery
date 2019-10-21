@@ -52,6 +52,10 @@ public class GroupGenerator {
         return generatorLength;
     }
 
+    public String getApplicationName() {
+        return applicationName;
+    }
+
     public String getGroup() {
         return group;
     }
