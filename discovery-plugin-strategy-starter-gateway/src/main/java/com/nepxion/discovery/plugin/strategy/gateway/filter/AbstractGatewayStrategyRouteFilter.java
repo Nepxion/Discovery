@@ -11,6 +11,9 @@ package com.nepxion.discovery.plugin.strategy.gateway.filter;
 
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,7 +37,7 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
     protected StrategyContextHolder strategyContextHolder;
 
     @Autowired(required = false)
-    private GatewayStrategyTracer gatewayStrategyTracer;
+    private List<GatewayStrategyTracer> gatewayStrategyTracerList;
 
     // 如果外界也传了相同的Header，例如，从Postman传递过来的Header，当下面的变量为true，以网关设置为优先，否则以外界传值为优先
     @Value("${" + GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_HEADER_PRIORITY + ":true}")
@@ -110,9 +113,11 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
         GatewayStrategyContext.getCurrentContext().setExchange(newExchange);
 
         // 调用链追踪
-        if (gatewayStrategyTracer != null) {
-            gatewayStrategyTracer.trace(newExchange);
-            gatewayStrategyTracer.release(newExchange);
+        if (CollectionUtils.isNotEmpty(gatewayStrategyTracerList)) {
+            for (GatewayStrategyTracer gatewayStrategyTracer : gatewayStrategyTracerList) {
+                gatewayStrategyTracer.trace(newExchange);
+                gatewayStrategyTracer.release(newExchange);
+            }
         }
 
         extendFilter(newExchange, chain);
