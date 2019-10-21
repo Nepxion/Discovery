@@ -41,9 +41,9 @@ public class GroupGenerator {
 
         LOG.info("--------------------------------------------------");
         if (StringUtils.isNotEmpty(group)) {
-            LOG.info("Use prefix of application name={} as metadata group", group);
+            LOG.info("Use application name prefix={} as metadata group", group);
         } else {
-            LOG.error("Not substring prefix of application name because generator length={}, use default metadata group setting", generatorLength);
+            LOG.error("Not substring application name prefix for generator length={}, use default metadata group setting", generatorLength);
         }
         LOG.info("--------------------------------------------------");
     }
