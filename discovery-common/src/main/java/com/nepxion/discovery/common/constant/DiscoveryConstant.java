@@ -10,8 +10,9 @@ package com.nepxion.discovery.common.constant;
  */
 
 public class DiscoveryConstant {
-    public static final String DISCOVERY_NAME = "Nepxion Discovery";
     public static final String DISCOVERY_VERSION = "3.13.0-SNAPSHOT";
+    public static final String DISCOVERY_NAME = "Nepxion Discovery";
+    public static final String DISCOVERY_TRACER_NAME = "gray";
 
     public static final String SPRING_APPLICATION_DISCOVERY_PLUGIN = "spring.application.discovery.plugin";
     public static final String SPRING_APPLICATION_DISCOVERY_VERSION = "spring.application.discovery.version";
