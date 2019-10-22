@@ -24,8 +24,6 @@ public class ServiceStrategyTracerInterceptor extends AbstractInterceptor {
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         try {
-            Object object = invocation.proceed();
-
             // 调用链追踪
             if (CollectionUtils.isNotEmpty(serviceStrategyTracerList)) {
                 for (ServiceStrategyTracer serviceStrategyTracer : serviceStrategyTracerList) {
@@ -33,7 +31,7 @@ public class ServiceStrategyTracerInterceptor extends AbstractInterceptor {
                 }
             }
 
-            return object;
+            return invocation.proceed();
         } catch (Throwable e) {
             if (CollectionUtils.isNotEmpty(serviceStrategyTracerList)) {
                 for (ServiceStrategyTracer serviceStrategyTracer : serviceStrategyTracerList) {
