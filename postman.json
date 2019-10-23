@@ -45,15 +45,13 @@
 							},
 							{
 								"key": "mobile",
-								"value": "133",
-								"type": "text",
-								"disabled": true
+								"value": "135",
+								"type": "text"
 							},
 							{
 								"key": "user",
 								"value": "zhangsan",
-								"type": "text",
-								"disabled": true
+								"type": "text"
 							},
 							{
 								"key": "traceid",
@@ -133,15 +131,13 @@
 							},
 							{
 								"key": "mobile",
-								"value": "138",
-								"type": "text",
-								"disabled": true
+								"value": "136",
+								"type": "text"
 							},
 							{
 								"key": "user",
 								"value": "lisi",
-								"type": "text",
-								"disabled": true
+								"type": "text"
 							},
 							{
 								"key": "traceid",
