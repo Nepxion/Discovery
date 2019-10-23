@@ -10,15 +10,16 @@
 Nepxion Discovery【探索】框架架构是基于Spring Cloud Discovery服务注册发现、Ribbon负载均衡、Feign和RestTemplate调用等组件全方位增强的企业级微服务开源解决方案，更贴近企业级需求，更具有企业级的插件引入、开箱即用特征
 - 支持Eureka、Consul、Zookeeper和阿里巴巴的Nacos四个服务注册发现中心
 - 支持阿里巴巴的Nacos、携程的Apollo和Redis三个远程配置中心
-- 支持Hystrix或者阿里巴巴Sentinel的两个熔断隔离限流降级
+- 支持Hystrix或者阿里巴巴Sentinel的两个熔断隔离限流降级中间件
+- 支持Uber Jaeger、Twitter Zipkin、Huawei Skywalking的三个Opentracing调用链中间件
 - 支持Spring Cloud Gateway、Zuul网关和微服务三大模块的灰度发布和路由等一系列功能
 - 支持和兼容Spring Cloud Edgware版、Finchley版、Greenwich版和Hoxton版
 
 其功能包括
 - 灰度发布，基于规则订阅的全链路灰度发布，包括切换发布（版本匹配发布、区域匹配发布）和平滑发布（版本权重发布、区域权重发布）
 - 灰度路由，基于Header传递的全链路灰度路由，包括切换路由（版本匹配路由、区域匹配路由、机器IP和端口匹配路由）和平滑路由（版本权重路由、区域权重路由）。可以在网关过滤器、前端界面、负载均衡策略类三个地方实现路由功能
-- 组合式灰度发布和路由。灰度发布和灰度路由的多种组合式规则和策略，前端灰度&网关灰度路由组合式策略
-- 灰度调用链，基于Header方式和日志方式的全链路灰度调用链
+- 组合式灰度发布和路由，灰度发布和灰度路由的多种组合式规则和策略，前端灰度&网关灰度路由组合式策略
+- 灰度调用链，基于Header方式、日志方式、Opentracing（Uber Jaeger、Twitter Zipkin、Huawei Skywalking等一切遵循Opentracing规范的调用链中间件）单个或者组合式的全链路灰度调用链
 - 服务隔离，基于组和黑/白名单的全链路服务隔离，包括注册准入隔离（基于黑/白名单，包括组和IP地址的准入、最大注册数限制的准入）、消费端隔离（基于组的负载均衡的隔离、基于黑/白名单的IP地址的隔离）和提供端隔离（基于组的Header传值策略的隔离）
 - 服务限流熔断降级权限，集成阿里巴巴Sentinel，有机整合灰度路由，扩展LimitApp的机制，通过动态的Http Header方式实现组合式防护机制，包括基于服务名、基于灰度组、基于灰度版本、基于灰度区域、基于机器地址和端口等防护机制，支持自定义任意的业务参数组合实现该功能。支持原生的流控规则、降级规则、授权规则、系统规则、热点参数流控规则
 - 数据库灰度发布，基于多数据源的数据库灰度发布
@@ -461,17 +462,33 @@ spring.application.discovery.control.enabled=false
 中间件兼容情况
 - Consul
     - Consul服务器版本不限制，推荐用最新版本，从[https://releases.hashicorp.com/consul/](https://releases.hashicorp.com/consul/)获取
+    - 功能界面主页，[http://localhost:8500](http://localhost:8500)
 - Zookeeper
     - Spring Cloud F版或以上，必须采用Zookeeper服务器的3.5.x服务器版本（或者更高），从[http://zookeeper.apache.org/releases.html#download](http://zookeeper.apache.org/releases.html#download)获取
     - Spring Cloud E版，Zookeeper服务器版本不限制
 - Eureka
     - 跟Spring Cloud版本保持一致，自行搭建服务器
+    - 功能界面主页，[http://localhost:9528](http://localhost:9528)
 - Apollo
     - Apollo服务器版本，推荐用最新版本，从[https://github.com/ctripcorp/apollo/releases](https://github.com/ctripcorp/apollo/releases)获取
+    - 功能界面主页，[http://localhost:8088](http://localhost:8088)
 - Nacos
     - Nacos服务器版本，推荐用最新版本，从[https://github.com/alibaba/nacos/releases](https://github.com/alibaba/nacos/releases)获取
+    - 功能界面主页，[http://localhost:8848/nacos/index.html](http://localhost:8848/nacos/index.html)
 - Redis
     - Redis服务器版本，推荐用最新版本，从[https://redis.io/](https://redis.io/)获取
+- Sentinel
+    - Jaeger服务器版本，推荐用最新版本，从[https://github.com/alibaba/Sentinel/releases](https://github.com/alibaba/Sentinel/releases)获取
+    - 功能界面主页，[http://localhost:8075/#/dashboard](http://localhost:8075/#/dashboard)
+- Jaeger
+    - Jaeger服务器版本，推荐用最新版本，从[https://github.com/jaegertracing/jaeger/releases](https://github.com/jaegertracing/jaeger/releases)获取
+    - 功能界面主页，[http://localhost:16686](http://localhost:16686)
+- Zipkin
+    - Zipkin服务器版本，推荐用最新版本，从[https://search.maven.org/remote_content?g=io.zipkin&a=zipkin-server&v=LATEST&c=exec](https://search.maven.org/remote_content?g=io.zipkin&a=zipkin-server&v=LATEST&c=exec)获取
+    - 功能界面主页，[http://localhost:9411/zipkin](http://localhost:9411/zipkin)
+- Skywalking
+    - Skywalking服务器版本，推荐用最新版本，从[http://skywalking.apache.org/downloads](http://skywalking.apache.org/downloads)获取
+    - 功能界面主页，[http://localhost:12800](http://localhost:12800)
 
 ## 规则定义
 规则是基于XML或者Json为配置方式，存储于本地文件或者远程配置中心，可以通过远程配置中心修改的方式达到规则动态化。其核心代码参考discovery-plugin-framework以及它的扩展、discovery-plugin-config-center以及它的扩展和discovery-plugin-admin-center等
