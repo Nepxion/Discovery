@@ -109,24 +109,26 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
         ServerHttpRequest newRequest = requestBuilder.build();
         ServerWebExchange newExchange = exchange.mutate().request(newRequest).build();
 
+        ServerWebExchange extensionExchange = extendFilter(newExchange, chain);
+
+        ServerWebExchange finalExchange = extensionExchange != null ? extensionExchange : newExchange;
+
         // 把新的ServerWebExchange放入ThreadLocal中
         GatewayStrategyContext.getCurrentContext().setExchange(newExchange);
 
         // 调用链追踪
         if (CollectionUtils.isNotEmpty(gatewayStrategyTracerList)) {
             for (GatewayStrategyTracer gatewayStrategyTracer : gatewayStrategyTracerList) {
-                gatewayStrategyTracer.trace(newExchange);
-                gatewayStrategyTracer.release(newExchange);
+                gatewayStrategyTracer.trace(finalExchange);
+                gatewayStrategyTracer.release(finalExchange);
             }
         }
 
-        extendFilter(newExchange, chain);
-
-        return chain.filter(newExchange);
+        return chain.filter(finalExchange);
     }
 
-    protected void extendFilter(ServerWebExchange exchange, GatewayFilterChain chain) {
-
+    protected ServerWebExchange extendFilter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        return null;
     }
 
     public PluginAdapter getPluginAdapter() {

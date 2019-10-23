@@ -109,6 +109,8 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter impleme
             ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion(), zuulHeaderPriority);
         }
 
+        extendFilter();
+
         // 调用链追踪
         RequestContext context = RequestContext.getCurrentContext();
         if (CollectionUtils.isNotEmpty(zuulStrategyTracerList)) {
@@ -117,8 +119,6 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter impleme
                 zuulStrategyTracer.release(context);
             }
         }
-
-        extendFilter();
 
         return null;
     }
