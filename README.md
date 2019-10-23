@@ -461,26 +461,34 @@ spring.application.discovery.control.enabled=false
 
 中间件兼容情况
 - Consul
-    - Consul服务器版本不限制，推荐用最新版本，从[https://releases.hashicorp.com/consul/](https://releases.hashicorp.com/consul/)获取。功能界面主页，[http://localhost:8500](http://localhost:8500)
+    - Consul服务器版本不限制，推荐用最新版本，从[https://releases.hashicorp.com/consul/](https://releases.hashicorp.com/consul/)获取
+    - 功能界面主页，[http://localhost:8500](http://localhost:8500)
 - Zookeeper
     - Spring Cloud F版或以上，必须采用Zookeeper服务器的3.5.x服务器版本（或者更高），从[http://zookeeper.apache.org/releases.html#download](http://zookeeper.apache.org/releases.html#download)获取
     - Spring Cloud E版，Zookeeper服务器版本不限制
 - Eureka
-    - 跟Spring Cloud版本保持一致，自行搭建服务器。功能界面主页，[http://localhost:9528](http://localhost:9528)
+    - 跟Spring Cloud版本保持一致，自行搭建服务器
+    - 功能界面主页，[http://localhost:9528](http://localhost:9528)
 - Apollo
-    - Apollo服务器版本，推荐用最新版本，从[https://github.com/ctripcorp/apollo/releases](https://github.com/ctripcorp/apollo/releases)获取。功能界面主页，[http://localhost:8088](http://localhost:8088)
+    - Apollo服务器版本，推荐用最新版本，从[https://github.com/ctripcorp/apollo/releases](https://github.com/ctripcorp/apollo/releases)获取
+    - 功能界面主页，[http://localhost:8088](http://localhost:8088)
 - Nacos
-    - Nacos服务器版本，推荐用最新版本，从[https://github.com/alibaba/nacos/releases](https://github.com/alibaba/nacos/releases)获取。功能界面主页，[http://localhost:8848/nacos/index.html](http://localhost:8848/nacos/index.html)
+    - Nacos服务器版本，推荐用最新版本，从[https://github.com/alibaba/nacos/releases](https://github.com/alibaba/nacos/releases)获取
+    - 功能界面主页，[http://localhost:8848/nacos/index.html](http://localhost:8848/nacos/index.html)
 - Redis
     - Redis服务器版本，推荐用最新版本，从[https://redis.io/](https://redis.io/)获取
 - Sentinel
-    - Jaeger服务器版本，推荐用最新版本，从[https://github.com/alibaba/Sentinel/releases](https://github.com/alibaba/Sentinel/releases)获取。功能界面主页，[http://localhost:8075/#/dashboard](http://localhost:8075/#/dashboard)
+    - Jaeger服务器版本，推荐用最新版本，从[https://github.com/alibaba/Sentinel/releases](https://github.com/alibaba/Sentinel/releases)获取
+    - 功能界面主页，[http://localhost:8075/#/dashboard](http://localhost:8075/#/dashboard)
 - Jaeger
-    - Jaeger服务器版本，推荐用最新版本，从[https://github.com/jaegertracing/jaeger/releases](https://github.com/jaegertracing/jaeger/releases)获取。功能界面主页，[http://localhost:16686](http://localhost:16686)
+    - Jaeger服务器版本，推荐用最新版本，从[https://github.com/jaegertracing/jaeger/releases](https://github.com/jaegertracing/jaeger/releases)获取
+    - 功能界面主页，[http://localhost:16686](http://localhost:16686)
 - Zipkin
-    - Zipkin服务器版本，推荐用最新版本，从[https://search.maven.org/remote_content?g=io.zipkin&a=zipkin-server&v=LATEST&c=exec](https://search.maven.org/remote_content?g=io.zipkin&a=zipkin-server&v=LATEST&c=exec)获取。功能界面主页，[http://localhost:9411/zipkin](http://localhost:9411/zipkin)
+    - Zipkin服务器版本，推荐用最新版本，从[https://search.maven.org/remote_content?g=io.zipkin&a=zipkin-server&v=LATEST&c=exec](https://search.maven.org/remote_content?g=io.zipkin&a=zipkin-server&v=LATEST&c=exec)获取
+    - 功能界面主页，[http://localhost:9411/zipkin](http://localhost:9411/zipkin)
 - Skywalking
-    - Skywalking服务器版本，推荐用最新版本，从[http://skywalking.apache.org/downloads](http://skywalking.apache.org/downloads)获取。功能界面主页，[http://localhost:12800](http://localhost:12800)
+    - Skywalking服务器版本，推荐用最新版本，从[http://skywalking.apache.org/downloads](http://skywalking.apache.org/downloads)获取
+    - 功能界面主页，[http://localhost:12800](http://localhost:12800)
 
 ## 规则定义
 规则是基于XML或者Json为配置方式，存储于本地文件或者远程配置中心，可以通过远程配置中心修改的方式达到规则动态化。其核心代码参考discovery-plugin-framework以及它的扩展、discovery-plugin-config-center以及它的扩展和discovery-plugin-admin-center等
