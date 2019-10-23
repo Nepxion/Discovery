@@ -13,11 +13,15 @@ import java.util.List;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.matrix.proxy.aop.AbstractInterceptor;
 
 public class ServiceStrategyTracerInterceptor extends AbstractInterceptor {
+    private static final Logger LOG = LoggerFactory.getLogger(ServiceStrategyTracerInterceptor.class);
+
     @Autowired(required = false)
     private List<ServiceStrategyTracer> serviceStrategyTracerList;
 
@@ -38,6 +42,8 @@ public class ServiceStrategyTracerInterceptor extends AbstractInterceptor {
                     serviceStrategyTracer.error(this, invocation, e);
                 }
             }
+
+            LOG.error("Method={} of class={} threw following exception with root cause", getMethodName(invocation), getMethod(invocation).getDeclaringClass().getName(), e);
 
             throw e;
         } finally {
