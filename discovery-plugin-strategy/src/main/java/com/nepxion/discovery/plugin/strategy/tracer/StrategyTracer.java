@@ -38,7 +38,7 @@ public class StrategyTracer {
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACE_DEBUG_ENABLED + ":false}")
     protected Boolean traceDebugEnabled;
 
-    public void mdcTraceHeader() {
+    public void mdcHeader() {
         if (!traceLoggerEnabled) {
             return;
         }
@@ -61,7 +61,7 @@ public class StrategyTracer {
         }
     }
 
-    public void mdcTraceLocal() {
+    public void mdcLocal() {
         if (!traceLoggerEnabled) {
             return;
         }
@@ -92,7 +92,7 @@ public class StrategyTracer {
         MDC.clear();
     }
 
-    public void debugTraceHeader() {
+    public void debugHeader() {
         if (!traceDebugEnabled) {
             return;
         }
@@ -117,7 +117,7 @@ public class StrategyTracer {
         System.out.println("--------------------------------------------------");
     }
 
-    public void debugTraceLocal() {
+    public void debugLocal() {
         if (!traceDebugEnabled) {
             return;
         }

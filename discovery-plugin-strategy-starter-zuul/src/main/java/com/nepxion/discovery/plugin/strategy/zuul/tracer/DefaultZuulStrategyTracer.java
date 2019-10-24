@@ -15,8 +15,8 @@ import com.netflix.zuul.context.RequestContext;
 public class DefaultZuulStrategyTracer extends StrategyTracer implements ZuulStrategyTracer {
     @Override
     public void trace(RequestContext context) {
-        mdcTraceHeader();
-        debugTraceHeader();
+        mdcHeader();
+        debugHeader();
     }
 
     @Override
