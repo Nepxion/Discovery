@@ -11,8 +11,6 @@ package com.nepxion.discovery.common.constant;
 
 public class DiscoveryConstant {
     public static final String DISCOVERY_VERSION = "4.13.0-SNAPSHOT";
-    public static final String DISCOVERY_NAME = "Nepxion Discovery";
-    public static final String DISCOVERY_TRACER_NAME = "gray";
 
     public static final String SPRING_APPLICATION_DISCOVERY_PLUGIN = "spring.application.discovery.plugin";
     public static final String SPRING_APPLICATION_DISCOVERY_VERSION = "spring.application.discovery.version";
@@ -85,6 +83,11 @@ public class DiscoveryConstant {
     public static final String N_D_ADDRESS = "n-d-address";
     public static final String N_D_VERSION_WEIGHT = "n-d-version-weight";
     public static final String N_D_REGION_WEIGHT = "n-d-region-weight";
+
+    public static final String TRACE_ID = "trace-id";
+    public static final String SPAN_ID = "span-id";
+    public static final String SPAN_NAME = "GRAY";
+    public static final String SPAN_TAG_NAME = "Nepxion Discovery";
 
     public static final String XML_FORMAT = "xml";
     public static final String JSON_FORMAT = "json";
