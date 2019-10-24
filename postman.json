@@ -54,13 +54,13 @@
 								"type": "text"
 							},
 							{
-								"key": "traceid",
+								"key": "trace-id",
 								"value": "c0zs78kcze5z",
 								"type": "text",
 								"disabled": true
 							},
 							{
-								"key": "spanid",
+								"key": "span-id",
 								"value": "1589",
 								"type": "text",
 								"disabled": true
@@ -140,13 +140,13 @@
 								"type": "text"
 							},
 							{
-								"key": "traceid",
+								"key": "trace-id",
 								"value": "lochmbu18nfo",
 								"type": "text",
 								"disabled": true
 							},
 							{
-								"key": "spanid",
+								"key": "span-id",
 								"value": "6913",
 								"type": "text",
 								"disabled": true
