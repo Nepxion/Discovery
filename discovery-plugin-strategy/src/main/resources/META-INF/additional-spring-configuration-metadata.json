@@ -53,6 +53,18 @@
 			"description": "Whether strategy trace is enabled."
 		},
 		{
+			"name": "spring.application.strategy.trace.logger.enabled"",
+			"type": "java.lang.Boolean",
+			"defaultValue": false,
+			"description": "Whether strategy trace logger is enabled."
+		},
+		{
+			"name": "spring.application.strategy.trace.logger.mdc.key.shown",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether strategy trace logger mdc key is shown."
+		},
+		{
 			"name": "spring.application.strategy.trace.debug.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": false,
