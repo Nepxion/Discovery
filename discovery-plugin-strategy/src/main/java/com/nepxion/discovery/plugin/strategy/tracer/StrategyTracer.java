@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
+import com.nepxion.discovery.plugin.strategy.adapter.StrategyTracerAdapter;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 
@@ -32,6 +33,9 @@ public class StrategyTracer {
 
     @Autowired
     protected StrategyContextHolder strategyContextHolder;
+
+    @Autowired(required = false)
+    protected StrategyTracerAdapter strategyTracerAdapter;
 
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACE_LOGGER_ENABLED + ":false}")
     protected Boolean traceLoggerEnabled;
@@ -161,14 +165,26 @@ public class StrategyTracer {
     }
 
     public String getTraceId() {
+        if (strategyTracerAdapter != null) {
+            return strategyTracerAdapter.getTraceId();
+        }
+
         return null;
     }
 
     public String getSpanId() {
+        if (strategyTracerAdapter != null) {
+            return strategyTracerAdapter.getSpanId();
+        }
+
         return null;
     }
 
     public Map<String, String> getCustomizationMap() {
+        if (strategyTracerAdapter != null) {
+            return strategyTracerAdapter.getCustomizationMap();
+        }
+
         return null;
     }
 }
