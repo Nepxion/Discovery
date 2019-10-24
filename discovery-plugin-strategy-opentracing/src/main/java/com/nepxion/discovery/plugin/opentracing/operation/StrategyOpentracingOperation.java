@@ -61,6 +61,8 @@ public class StrategyOpentracingOperation {
 
         Span span = StrategyOpentracingContext.getCurrentContext().getSpan();
         if (span == null) {
+            LOG.error("Span not found in context to opentracing header");
+
             return;
         }
 
@@ -89,6 +91,8 @@ public class StrategyOpentracingOperation {
 
         Span span = StrategyOpentracingContext.getCurrentContext().getSpan();
         if (span == null) {
+            LOG.error("Span not found in context to opentracing local");
+
             return;
         }
 
@@ -119,6 +123,8 @@ public class StrategyOpentracingOperation {
 
         Span span = StrategyOpentracingContext.getCurrentContext().getSpan();
         if (span == null) {
+            LOG.error("Span not found in context to opentracing error");
+
             return;
         }
 
@@ -140,6 +146,8 @@ public class StrategyOpentracingOperation {
         Span span = StrategyOpentracingContext.getCurrentContext().getSpan();
         if (span != null) {
             span.finish();
+        } else {
+            LOG.error("Span not found in context to opentracing clear");
         }
         StrategyOpentracingContext.clearCurrentContext();
 
