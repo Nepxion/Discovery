@@ -45,13 +45,15 @@
 							},
 							{
 								"key": "mobile",
-								"value": "135",
-								"type": "text"
+								"value": "13312345678",
+								"type": "text",
+								"disabled": true
 							},
 							{
 								"key": "user",
 								"value": "zhangsan",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							},
 							{
 								"key": "trace-id",
@@ -131,13 +133,15 @@
 							},
 							{
 								"key": "mobile",
-								"value": "136",
-								"type": "text"
+								"value": "13812345678",
+								"type": "text",
+								"disabled": true
 							},
 							{
 								"key": "user",
 								"value": "lisi",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							},
 							{
 								"key": "trace-id",
