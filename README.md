@@ -1095,8 +1095,8 @@ spring.application.strategy.zone.avoidance.rule.enabled=true
 spring.application.strategy.rest.intercept.enabled=true
 # 启动和关闭Header传递的Debug日志打印，注意每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
 spring.application.strategy.rest.intercept.debug.enabled=true
-# 路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于框架内置上下文Header，例如：traceid, spanid等）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
-spring.application.strategy.context.request.headers=traceid;spanid
+# 路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于框架内置上下文Header，例如：trace-id, span-id等）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
+spring.application.strategy.context.request.headers=trace-id;span-id
 # 路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于业务系统子定义Header，例如：mobile）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
 spring.application.strategy.business.request.headers=token
 # 启动和关闭路由策略的时候，对RPC方式的调用拦截。缺失则默认为false
