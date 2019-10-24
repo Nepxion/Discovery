@@ -316,10 +316,14 @@ Spring Boot Admin监控平台
 | discovery-plugin-strategy-sentinel-starter-local | 路由策略的Sentinel Local Starter |
 | discovery-plugin-strategy-sentinel-starter-apollo | 路由策略的Sentinel Apollo Starter |
 | discovery-plugin-strategy-sentinel-starter-nacos | 路由策略的Sentinel Nacos Starter |
+| discovery-plugin-strategy-opentracing | 调用链的opentracing |
 | discovery-plugin-strategy-starter-service | 路由策略的Service Starter |
 | discovery-plugin-strategy-starter-service-sentinel | 路由策略的Service Sentinel Starter |
+| discovery-plugin-strategy-starter-service-opentracing | 调用链的Service Opentracing Starter |
 | discovery-plugin-strategy-starter-zuul | 路由策略的Zuul Starter |
+| discovery-plugin-strategy-starter-zuul-opentracing | 调用链的Zuul Opentracing Starter |
 | discovery-plugin-strategy-starter-gateway | 路由策略的Spring Cloud Gateway Starter |
+| discovery-plugin-strategy-starter-gateway-opentracing | 调用链的Spring Cloud Gateway Opentracing Starter |
 | discovery-plugin-strategy-starter-hystrix | 路由策略下，Hystrix做线程模式的服务隔离必须引入的插件 Starter |
 | discovery-plugin-test-starter | 自动化测试 Starter |
 | discovery-console | 控制平台，集成接口给UI |
@@ -360,7 +364,7 @@ Spring Boot Admin监控平台
 </dependency>
 ```
 
-扩展功能引入，支持微服务端、网关Zuul端和网关Spring Cloud Gateway端，包括内置版本路由、区域路由、自定义和编程灰度路由
+策略功能引入，支持微服务端、网关Zuul端和网关Spring Cloud Gateway端，包括内置版本路由、区域路由、自定义和编程灰度路由
 ```xml
 微服务端引入
 [选择引入] 路由策略，如需要，请引入
@@ -443,6 +447,33 @@ spring.application.discovery.control.enabled=false
     <artifactId>discovery-plugin-strategy-sentinel-starter-nacos</artifactId>
     <artifactId>discovery-plugin-strategy-sentinel-starter-apollo</artifactId>
     <artifactId>discovery-plugin-strategy-sentinel-starter-local</artifactId>
+    <version>${discovery.version}</version>
+</dependency>
+```
+
+调用链Opentracing功能引入，支持微服务端、网关Zuul端和网关Spring Cloud Gateway端。注意，该模块支持F版或更高版本
+```xml
+微服务端引入
+[选择引入] 调用链Opentracing，如需要，请引入
+<dependency>
+    <groupId>com.nepxion</groupId>
+    <artifactId>discovery-plugin-strategy-starter-service-opentracing</artifactId>
+    <version>${discovery.version}</version>
+</dependency>
+
+网关Zuul端引入
+[选择引入] 调用链Opentracing，如需要，请引入
+<dependency>
+    <groupId>com.nepxion</groupId>
+    <artifactId>discovery-plugin-strategy-starter-zuul-opentracing</artifactId>
+    <version>${discovery.version}</version>
+</dependency>
+
+网关Spring Cloud Gateway端引入
+[选择引入] 调用链Opentracing，如需要，请引入
+<dependency>
+    <groupId>com.nepxion</groupId>
+    <artifactId>discovery-plugin-strategy-starter-gateway-opentracing</artifactId>
     <version>${discovery.version}</version>
 </dependency>
 ```
