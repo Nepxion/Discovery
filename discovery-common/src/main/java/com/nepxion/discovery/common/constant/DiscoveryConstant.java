@@ -87,7 +87,7 @@ public class DiscoveryConstant {
     public static final String TRACE_ID = "trace-id";
     public static final String SPAN_ID = "span-id";
     public static final String SPAN_NAME = "GRAY";
-    public static final String SPAN_TAG_NAME = "Nepxion Discovery";
+    public static final String TAG_COMPONENT_NAME = "Nepxion Discovery";
 
     public static final String XML_FORMAT = "xml";
     public static final String JSON_FORMAT = "json";
