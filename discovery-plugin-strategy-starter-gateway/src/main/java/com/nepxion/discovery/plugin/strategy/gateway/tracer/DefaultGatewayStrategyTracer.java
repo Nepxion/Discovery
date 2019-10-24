@@ -16,11 +16,12 @@ import com.nepxion.discovery.plugin.strategy.tracer.StrategyTracer;
 public class DefaultGatewayStrategyTracer extends StrategyTracer implements GatewayStrategyTracer {
     @Override
     public void trace(ServerWebExchange exchange) {
+        mdcTraceHeader();
         debugTraceHeader();
     }
 
     @Override
     public void release(ServerWebExchange exchange) {
-
+        mdcClear();
     }
 }
