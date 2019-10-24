@@ -101,6 +101,11 @@ public class DiscoveryConstant {
     public static final String EQUALS = "=";
     public static final String DASH = "-";
 
+    public static final String CLASS = "class";
+    public static final String METHOD = "method";
+    public static final String EXCEPTION = "exception";
+    public static final String EVENT = "event";
+
     public static final String ASYNC = "async";
     public static final String SYNC = "sync";
     public static final String GLOBAL = "global";
