@@ -14,6 +14,8 @@ import java.util.Map;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jboss.logging.MDC;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -23,6 +25,8 @@ import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 
 public class StrategyTracer {
+    private static final Logger LOG = LoggerFactory.getLogger(StrategyTracer.class);
+
     @Autowired
     protected PluginAdapter pluginAdapter;
 
@@ -59,6 +63,8 @@ public class StrategyTracer {
                 MDC.put(entry.getKey(), (traceLoggerMdcKeyShown ? entry.getKey() + "=" : StringUtils.EMPTY) + entry.getValue());
             }
         }
+
+        LOG.debug("Trace chain information outputs to MDC...");
     }
 
     public void mdcLocal() {
@@ -82,6 +88,8 @@ public class StrategyTracer {
                 MDC.put(entry.getKey(), (traceLoggerMdcKeyShown ? entry.getKey() + "=" : StringUtils.EMPTY) + entry.getValue());
             }
         }
+
+        LOG.debug("Trace chain information outputs to MDC...");
     }
 
     public void mdcClear() {
@@ -90,6 +98,8 @@ public class StrategyTracer {
         }
 
         MDC.clear();
+
+        LOG.debug("Trace chain context of MDC cleared...");
     }
 
     public void debugHeader() {
