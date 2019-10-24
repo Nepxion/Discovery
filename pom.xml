@@ -34,10 +34,14 @@
         <module>discovery-plugin-strategy-sentinel-starter-local</module>
         <module>discovery-plugin-strategy-sentinel-starter-apollo</module>
         <module>discovery-plugin-strategy-sentinel-starter-nacos</module>
+        <module>discovery-plugin-strategy-opentracing</module>
         <module>discovery-plugin-strategy-starter-service</module>
         <module>discovery-plugin-strategy-starter-service-sentinel</module>
+        <module>discovery-plugin-strategy-starter-service-opentracing</module>
         <module>discovery-plugin-strategy-starter-zuul</module>
+        <module>discovery-plugin-strategy-starter-zuul-opentracing</module>
         <module>discovery-plugin-strategy-starter-gateway</module>
+        <module>discovery-plugin-strategy-starter-gateway-opentracing</module>
         <module>discovery-plugin-strategy-starter-hystrix</module>
         <module>discovery-plugin-test-starter</module>
         <module>discovery-console</module>
@@ -67,6 +71,7 @@
         <apollo.client.version>1.5.0</apollo.client.version>
         <nacos.client.version>1.1.1</nacos.client.version>
         <sentinel.version>1.6.3</sentinel.version>
+        <opentracing.spring.cloud.version>0.3.7</opentracing.spring.cloud.version>
         <spring.cloud.version>Finchley.SR4</spring.cloud.version>
         <spring.cloud.alibaba.version>2.0.0.RELEASE</spring.cloud.alibaba.version>
         <spring.boot.version>2.0.7.RELEASE</spring.boot.version>
@@ -217,6 +222,12 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-strategy-opentracing</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-strategy-starter-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -229,13 +240,31 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-strategy-starter-service-opentracing</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-strategy-starter-zuul</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-strategy-starter-zuul-opentracing</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-strategy-starter-gateway</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-strategy-starter-gateway-opentracing</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -399,6 +428,12 @@
                 <groupId>com.alibaba.csp</groupId>
                 <artifactId>sentinel-datasource-nacos</artifactId>
                 <version>${sentinel.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.opentracing.contrib</groupId>
+                <artifactId>opentracing-spring-cloud-starter</artifactId>
+                <version>${opentracing.spring.cloud.version}</version>
             </dependency>
 
             <dependency>
