@@ -14,16 +14,12 @@ import java.util.Map;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.ArrayUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.context.RpcStrategyContext;
 import com.nepxion.matrix.proxy.aop.AbstractInterceptor;
 
 public class RpcStrategyInterceptor extends AbstractInterceptor {
-    private static final Logger LOG = LoggerFactory.getLogger(RpcStrategyInterceptor.class);
-
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         Class<?> proxiedClass = getProxiedClass(invocation);
@@ -51,14 +47,10 @@ public class RpcStrategyInterceptor extends AbstractInterceptor {
         context.add(ServiceStrategyConstant.METHOD, methodName);
         context.add(ServiceStrategyConstant.PARAMETER_MAP, parameterMap);
 
-        LOG.debug("Rpc strategy context is set with {}", context);
-
         try {
             return invocation.proceed();
         } finally {
             RpcStrategyContext.clearCurrentContext();
-
-            LOG.debug("Rpc strategy context is cleared");
         }
     }
 }
