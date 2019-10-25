@@ -1146,6 +1146,8 @@ spring.application.strategy.trace.enabled=true
 spring.application.strategy.trace.logger.enabled=true
 # 调用链的日志输出中，是否显示MDC前面的Key。缺失则默认为true
 spring.application.strategy.trace.logger.mdc.key.shown=true
+# 启动和关闭调用链的Opentracing输出，支持F版或更高版本的配置，其它版本不需要该行配置。缺失则默认为false
+spring.application.strategy.trace.opentracing.enabled=true
 # 启动和关闭调用链的Debug日志打印，注意每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
 spring.application.strategy.trace.debug.enabled=true
 # 开启服务端实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
@@ -1232,6 +1234,8 @@ spring.application.strategy.trace.enabled=true
 spring.application.strategy.trace.logger.enabled=true
 # 调用链的日志输出中，是否显示MDC前面的Key。缺失则默认为true
 spring.application.strategy.trace.logger.mdc.key.shown=true
+# 启动和关闭调用链的Opentracing输出，支持F版或更高版本的配置，其它版本不需要该行配置。缺失则默认为false
+spring.application.strategy.trace.opentracing.enabled=true
 # 启动和关闭调用链的Debug日志打印，注意每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
 spring.application.strategy.trace.debug.enabled=true
 # 开启Spring Cloud Gateway网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
@@ -1301,6 +1305,8 @@ spring.application.strategy.consumer.isolation.enabled=true
 spring.application.strategy.trace.enabled=true
 # 启动和关闭调用链的日志输出。缺失则默认为false
 spring.application.strategy.trace.logger.enabled=true
+# 启动和关闭调用链的Opentracing输出，支持F版或更高版本的配置，其它版本不需要该行配置。缺失则默认为false
+spring.application.strategy.trace.opentracing.enabled=true
 # 调用链的日志输出中，是否显示MDC前面的Key。缺失则默认为true
 spring.application.strategy.trace.logger.mdc.key.shown=true
 # 启动和关闭调用链的Debug日志打印，注意每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
