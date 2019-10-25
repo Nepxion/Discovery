@@ -9,15 +9,18 @@ package com.nepxion.discovery.plugin.service.opentracing.configuration;
  * @version 1.0
  */
 
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.nepxion.discovery.plugin.service.opentracing.tracer.DefaultServiceStrategyOpentracingTracer;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
+import com.nepxion.discovery.plugin.strategy.service.configuration.ServiceStrategyAutoConfiguration;
 import com.nepxion.discovery.plugin.strategy.service.tracer.ServiceStrategyTracer;
 
 @Configuration
+@AutoConfigureBefore(ServiceStrategyAutoConfiguration.class)
 @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTROL_ENABLED, matchIfMissing = true)
 public class ServiceStrategyOpentracingAutoConfiguration {
     @Bean
