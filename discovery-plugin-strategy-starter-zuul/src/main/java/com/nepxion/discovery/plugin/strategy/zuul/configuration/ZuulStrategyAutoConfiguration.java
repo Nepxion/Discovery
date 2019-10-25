@@ -20,7 +20,9 @@ import com.nepxion.discovery.plugin.strategy.adapter.DefaultDiscoveryEnabledAdap
 import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.wrapper.CallableWrapper;
+import com.nepxion.discovery.plugin.strategy.zuul.filter.DefaultZuulStrategyClearFilter;
 import com.nepxion.discovery.plugin.strategy.zuul.filter.DefaultZuulStrategyRouteFilter;
+import com.nepxion.discovery.plugin.strategy.zuul.filter.ZuulStrategyClearFilter;
 import com.nepxion.discovery.plugin.strategy.zuul.filter.ZuulStrategyRouteFilter;
 import com.nepxion.discovery.plugin.strategy.zuul.tracer.DefaultZuulStrategyTracer;
 import com.nepxion.discovery.plugin.strategy.zuul.tracer.ZuulStrategyTracer;
@@ -34,6 +36,13 @@ public class ZuulStrategyAutoConfiguration {
     @ConditionalOnMissingBean
     public ZuulStrategyRouteFilter zuulStrategyRouteFilter() {
         return new DefaultZuulStrategyRouteFilter();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACE_ENABLED, matchIfMissing = false) // 只用于调用链
+    public ZuulStrategyClearFilter zuulStrategyClearFilter() {
+        return new DefaultZuulStrategyClearFilter();
     }
 
     @Bean

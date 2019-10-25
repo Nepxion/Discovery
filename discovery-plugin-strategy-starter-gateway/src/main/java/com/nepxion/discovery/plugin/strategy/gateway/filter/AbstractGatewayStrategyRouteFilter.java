@@ -120,7 +120,6 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
         if (CollectionUtils.isNotEmpty(gatewayStrategyTracerList)) {
             for (GatewayStrategyTracer gatewayStrategyTracer : gatewayStrategyTracerList) {
                 gatewayStrategyTracer.trace(finalExchange);
-                gatewayStrategyTracer.release(finalExchange);
             }
         }
 

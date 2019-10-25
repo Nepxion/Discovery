@@ -116,7 +116,6 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter impleme
         if (CollectionUtils.isNotEmpty(zuulStrategyTracerList)) {
             for (ZuulStrategyTracer zuulStrategyTracer : zuulStrategyTracerList) {
                 zuulStrategyTracer.trace(context);
-                zuulStrategyTracer.release(context);
             }
         }
 
