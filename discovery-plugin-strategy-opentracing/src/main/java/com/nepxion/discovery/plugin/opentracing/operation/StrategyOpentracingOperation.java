@@ -132,7 +132,7 @@ public class StrategyOpentracingOperation {
                 .put(DiscoveryConstant.CLASS, className)
                 .put(DiscoveryConstant.METHOD, methodName)
                 .put(DiscoveryConstant.EVENT, Tags.ERROR.getKey())
-                .put(DiscoveryConstant.EXCEPTION, e)
+                .put(DiscoveryConstant.ERROR_OBJECT, e)
                 .build());
 
         LOG.debug("Trace chain error outputs to Opentracing...");
