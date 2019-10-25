@@ -1,0 +1,10 @@
+{
+  "properties": [
+    {
+      "name": "opentracing.spring.cloud.gateway.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Add standard logging output to tracing system.",
+      "defaultValue": true
+    }
+  ]
+}
