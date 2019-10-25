@@ -11,7 +11,7 @@ Nepxion Discovery【探索】框架架构是基于Spring Cloud Discovery服务�
 - 支持Eureka、Consul、Zookeeper和阿里巴巴的Nacos四个服务注册发现中心
 - 支持阿里巴巴的Nacos、携程的Apollo和Redis三个远程配置中心
 - 支持Hystrix或者阿里巴巴Sentinel的两个熔断隔离限流降级中间件
-- 支持Uber Jaeger的Opentracing调用链中间件，原则上支持遵循Opentracing规范的Twitter Zipkin、Huawei Skywalking等调用链中间件
+- 支持Uber Jaeger和Twitter Zipkin等遵循Opentracing规范的调用链中间件
 - 支持Spring Cloud Gateway、Zuul网关和微服务三大模块的灰度发布和路由等一系列功能
 - 支持和兼容Spring Cloud Edgware版、Finchley版、Greenwich版和Hoxton版
 
@@ -19,7 +19,7 @@ Nepxion Discovery【探索】框架架构是基于Spring Cloud Discovery服务�
 - 灰度发布。基于规则订阅的全链路灰度发布，包括切换发布（版本匹配发布、区域匹配发布）和平滑发布（版本权重发布、区域权重发布）
 - 灰度路由。基于Header传递的全链路灰度路由，包括切换路由（版本匹配路由、区域匹配路由、机器IP和端口匹配路由）和平滑路由（版本权重路由、区域权重路由）。可以在网关过滤器、前端界面、负载均衡策略类三个地方实现路由功能
 - 组合式灰度发布和路由，灰度发布和灰度路由的多种组合式规则和策略，前端灰度&网关灰度路由组合式策略
-- 灰度调用链。基于Header方式、Opentracing + Uber Jaeger、日志方式等单个或者组合式的全链路灰度调用链
+- 灰度调用链。基于Header方式、Opentracing方式、日志方式等单个或者组合式的全链路灰度调用链
 - 服务隔离。基于组和黑/白名单的全链路服务隔离，包括注册准入隔离（基于黑/白名单，包括组和IP地址的准入、最大注册数限制的准入）、消费端隔离（基于组的负载均衡的隔离、基于黑/白名单的IP地址的隔离）和提供端隔离（基于组的Header传值策略的隔离）
 - 服务限流熔断降级权限。集成阿里巴巴Sentinel，有机整合灰度路由，扩展LimitApp的机制，通过动态的Http Header方式实现组合式防护机制，包括基于服务名、基于灰度组、基于灰度版本、基于灰度区域、基于机器地址和端口等防护机制，支持自定义任意的业务参数组合实现该功能。支持原生的流控规则、降级规则、授权规则、系统规则、热点参数流控规则
 - 数据库灰度发布。基于多数据源的数据库灰度发布
@@ -519,9 +519,6 @@ spring.application.discovery.control.enabled=false
 - Zipkin
     - Zipkin服务器版本，推荐用最新版本，从[https://search.maven.org/remote_content?g=io.zipkin&a=zipkin-server&v=LATEST&c=exec](https://search.maven.org/remote_content?g=io.zipkin&a=zipkin-server&v=LATEST&c=exec)获取
     - 功能界面主页，[http://localhost:9411/zipkin](http://localhost:9411/zipkin)
-- Skywalking
-    - Skywalking服务器版本，推荐用最新版本，从[http://skywalking.apache.org/downloads](http://skywalking.apache.org/downloads)获取
-    - 功能界面主页，[http://localhost:12800](http://localhost:12800)
 
 ## 规则定义
 规则是基于XML或者Json为配置方式，存储于本地文件或者远程配置中心，可以通过远程配置中心修改的方式达到规则动态化。其核心代码参考discovery-plugin-framework以及它的扩展、discovery-plugin-config-center以及它的扩展和discovery-plugin-admin-center等
