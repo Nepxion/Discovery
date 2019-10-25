@@ -163,7 +163,6 @@ Hoxton（6.x.x），同时适用于Finchley、Greenwich和Hoxton
 图形化灰度发布桌面程序
 ![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Console1.jpg)
 ![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Console2.jpg)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Console.gif)
 图形化灰度发布Web平台
 ![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Console14.jpg)
 集成规则配置的Apollo配置中心
