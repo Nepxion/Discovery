@@ -40,7 +40,7 @@ public class GatewayStrategyAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public GatewayStrategyClearFilter gatewayStrategyContextClearFilter() {
+    public GatewayStrategyClearFilter gatewayStrategyClearFilter() {
         return new DefaultGatewayStrategyClearFilter();
     }
 
