@@ -16,6 +16,7 @@ import io.opentracing.tag.Tags;
 import java.util.Map;
 
 import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +76,28 @@ public class StrategyOpentracingOperation {
         span.setTag(DiscoveryConstant.N_D_SERVICE_ADDRESS, strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_ADDRESS));
         span.setTag(DiscoveryConstant.N_D_SERVICE_VERSION, strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_VERSION));
         span.setTag(DiscoveryConstant.N_D_SERVICE_REGION, strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_REGION));
+
+        String routeVersion = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION);
+        if (StringUtils.isNotEmpty(routeVersion)) {
+            span.setTag(DiscoveryConstant.N_D_VERSION, routeVersion);
+        }
+        String routeRegion = strategyContextHolder.getHeader(DiscoveryConstant.N_D_REGION);
+        if (StringUtils.isNotEmpty(routeRegion)) {
+            span.setTag(DiscoveryConstant.N_D_REGION, routeRegion);
+        }
+        String routeAddress = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ADDRESS);
+        if (StringUtils.isNotEmpty(routeAddress)) {
+            span.setTag(DiscoveryConstant.N_D_ADDRESS, routeAddress);
+        }
+        String routeVersionWeight = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION_WEIGHT);
+        if (StringUtils.isNotEmpty(routeVersionWeight)) {
+            span.setTag(DiscoveryConstant.N_D_VERSION_WEIGHT, routeVersionWeight);
+        }
+        String routeRegionWeight = strategyContextHolder.getHeader(DiscoveryConstant.N_D_REGION_WEIGHT);
+        if (StringUtils.isNotEmpty(routeRegionWeight)) {
+            span.setTag(DiscoveryConstant.N_D_REGION_WEIGHT, routeRegionWeight);
+        }
+
         if (MapUtils.isNotEmpty(customizationMap)) {
             for (Map.Entry<String, String> entry : customizationMap.entrySet()) {
                 span.setTag(entry.getKey(), entry.getValue());
@@ -107,6 +130,28 @@ public class StrategyOpentracingOperation {
         span.setTag(DiscoveryConstant.N_D_SERVICE_ADDRESS, pluginAdapter.getHost() + ":" + pluginAdapter.getPort());
         span.setTag(DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion());
         span.setTag(DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion());
+
+        String routeVersion = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION);
+        if (StringUtils.isNotEmpty(routeVersion)) {
+            span.setTag(DiscoveryConstant.N_D_VERSION, routeVersion);
+        }
+        String routeRegion = strategyContextHolder.getHeader(DiscoveryConstant.N_D_REGION);
+        if (StringUtils.isNotEmpty(routeRegion)) {
+            span.setTag(DiscoveryConstant.N_D_REGION, routeRegion);
+        }
+        String routeAddress = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ADDRESS);
+        if (StringUtils.isNotEmpty(routeAddress)) {
+            span.setTag(DiscoveryConstant.N_D_ADDRESS, routeAddress);
+        }
+        String routeVersionWeight = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION_WEIGHT);
+        if (StringUtils.isNotEmpty(routeVersionWeight)) {
+            span.setTag(DiscoveryConstant.N_D_VERSION_WEIGHT, routeVersionWeight);
+        }
+        String routeRegionWeight = strategyContextHolder.getHeader(DiscoveryConstant.N_D_REGION_WEIGHT);
+        if (StringUtils.isNotEmpty(routeRegionWeight)) {
+            span.setTag(DiscoveryConstant.N_D_REGION_WEIGHT, routeRegionWeight);
+        }
+
         if (MapUtils.isNotEmpty(customizationMap)) {
             for (Map.Entry<String, String> entry : customizationMap.entrySet()) {
                 span.setTag(entry.getKey(), entry.getValue());
