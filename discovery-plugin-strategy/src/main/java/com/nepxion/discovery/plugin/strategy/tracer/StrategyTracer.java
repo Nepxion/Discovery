@@ -61,6 +61,7 @@ public class StrategyTracer {
         MDC.put(DiscoveryConstant.N_D_SERVICE_ADDRESS, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_ADDRESS + "=" : StringUtils.EMPTY) + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_ADDRESS));
         MDC.put(DiscoveryConstant.N_D_SERVICE_VERSION, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_VERSION + "=" : StringUtils.EMPTY) + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_VERSION));
         MDC.put(DiscoveryConstant.N_D_SERVICE_REGION, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_REGION + "=" : StringUtils.EMPTY) + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_REGION));
+
         Map<String, String> customizationMap = getCustomizationMap();
         if (MapUtils.isNotEmpty(customizationMap)) {
             for (Map.Entry<String, String> entry : customizationMap.entrySet()) {
@@ -86,6 +87,7 @@ public class StrategyTracer {
         MDC.put(DiscoveryConstant.N_D_SERVICE_ADDRESS, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_ADDRESS + "=" : StringUtils.EMPTY) + pluginAdapter.getHost() + ":" + pluginAdapter.getPort());
         MDC.put(DiscoveryConstant.N_D_SERVICE_VERSION, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_VERSION + "=" : StringUtils.EMPTY) + pluginAdapter.getVersion());
         MDC.put(DiscoveryConstant.N_D_SERVICE_REGION, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_REGION + "=" : StringUtils.EMPTY) + pluginAdapter.getRegion());
+
         Map<String, String> customizationMap = getCustomizationMap();
         if (MapUtils.isNotEmpty(customizationMap)) {
             for (Map.Entry<String, String> entry : customizationMap.entrySet()) {
@@ -122,6 +124,28 @@ public class StrategyTracer {
         System.out.println(DiscoveryConstant.N_D_SERVICE_ADDRESS + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_ADDRESS));
         System.out.println(DiscoveryConstant.N_D_SERVICE_VERSION + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_VERSION));
         System.out.println(DiscoveryConstant.N_D_SERVICE_REGION + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_REGION));
+
+        String routeVersion = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION);
+        if (StringUtils.isNotEmpty(routeVersion)) {
+            System.out.println(DiscoveryConstant.N_D_VERSION + "=" + routeVersion);
+        }
+        String routeRegion = strategyContextHolder.getHeader(DiscoveryConstant.N_D_REGION);
+        if (StringUtils.isNotEmpty(routeRegion)) {
+            System.out.println(DiscoveryConstant.N_D_REGION + "=" + routeRegion);
+        }
+        String routeAddress = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ADDRESS);
+        if (StringUtils.isNotEmpty(routeAddress)) {
+            System.out.println(DiscoveryConstant.N_D_ADDRESS + "=" + routeAddress);
+        }
+        String routeVersionWeight = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION_WEIGHT);
+        if (StringUtils.isNotEmpty(routeVersionWeight)) {
+            System.out.println(DiscoveryConstant.N_D_VERSION_WEIGHT + "=" + routeVersionWeight);
+        }
+        String routeRegionWeight = strategyContextHolder.getHeader(DiscoveryConstant.N_D_REGION_WEIGHT);
+        if (StringUtils.isNotEmpty(routeRegionWeight)) {
+            System.out.println(DiscoveryConstant.N_D_REGION_WEIGHT + "=" + routeRegionWeight);
+        }
+
         Map<String, String> customizationMap = getCustomizationMap();
         if (MapUtils.isNotEmpty(customizationMap)) {
             for (Map.Entry<String, String> entry : customizationMap.entrySet()) {
@@ -147,6 +171,28 @@ public class StrategyTracer {
         System.out.println(DiscoveryConstant.N_D_SERVICE_ADDRESS + "=" + pluginAdapter.getHost() + ":" + pluginAdapter.getPort());
         System.out.println(DiscoveryConstant.N_D_SERVICE_VERSION + "=" + pluginAdapter.getVersion());
         System.out.println(DiscoveryConstant.N_D_SERVICE_REGION + "=" + pluginAdapter.getRegion());
+
+        String routeVersion = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION);
+        if (StringUtils.isNotEmpty(routeVersion)) {
+            System.out.println(DiscoveryConstant.N_D_VERSION + "=" + routeVersion);
+        }
+        String routeRegion = strategyContextHolder.getHeader(DiscoveryConstant.N_D_REGION);
+        if (StringUtils.isNotEmpty(routeRegion)) {
+            System.out.println(DiscoveryConstant.N_D_REGION + "=" + routeRegion);
+        }
+        String routeAddress = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ADDRESS);
+        if (StringUtils.isNotEmpty(routeAddress)) {
+            System.out.println(DiscoveryConstant.N_D_ADDRESS + "=" + routeAddress);
+        }
+        String routeVersionWeight = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION_WEIGHT);
+        if (StringUtils.isNotEmpty(routeVersionWeight)) {
+            System.out.println(DiscoveryConstant.N_D_VERSION_WEIGHT + "=" + routeVersionWeight);
+        }
+        String routeRegionWeight = strategyContextHolder.getHeader(DiscoveryConstant.N_D_REGION_WEIGHT);
+        if (StringUtils.isNotEmpty(routeRegionWeight)) {
+            System.out.println(DiscoveryConstant.N_D_REGION_WEIGHT + "=" + routeRegionWeight);
+        }
+
         Map<String, String> customizationMap = getCustomizationMap();
         if (MapUtils.isNotEmpty(customizationMap)) {
             for (Map.Entry<String, String> entry : customizationMap.entrySet()) {
