@@ -10,5 +10,7 @@ package com.nepxion.discovery.plugin.opentracing.constant;
  */
 
 public class StrategyOpentracingConstant {
+    public static final String OPENTRACING_TYPE = "Opentracing";
+
     public static final String SPRING_APPLICATION_STRATEGY_TRACE_OPENTRACING_ENABLED = "spring.application.strategy.trace.opentracing.enabled";
 }

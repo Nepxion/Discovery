@@ -9,15 +9,18 @@ package com.nepxion.discovery.plugin.gateway.opentracing.configuration;
  * @version 1.0
  */
 
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.nepxion.discovery.plugin.gateway.opentracing.tracer.DefaultGatewayStrategyOpentracingTracer;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
+import com.nepxion.discovery.plugin.strategy.gateway.configuration.GatewayStrategyAutoConfiguration;
 import com.nepxion.discovery.plugin.strategy.gateway.tracer.GatewayStrategyTracer;
 
 @Configuration
+@AutoConfigureBefore(GatewayStrategyAutoConfiguration.class)
 @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTROL_ENABLED, matchIfMissing = true)
 public class GatewayStrategyOpentracingAutoConfiguration {
     @Bean
