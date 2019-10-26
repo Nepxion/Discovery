@@ -19,7 +19,7 @@ Nepxion Discovery【探索】框架架构是基于Spring Cloud Discovery服务�
 - 灰度发布。基于规则订阅的全链路灰度发布，包括切换发布（版本匹配发布、区域匹配发布）和平滑发布（版本权重发布、区域权重发布）
 - 灰度路由。基于Header传递的全链路灰度路由，包括切换路由（版本匹配路由、区域匹配路由、机器IP和端口匹配路由）和平滑路由（版本权重路由、区域权重路由）。可以在网关过滤器、前端界面、负载均衡策略类三个地方实现路由功能
 - 组合式灰度发布和路由，灰度发布和灰度路由的多种组合式规则和策略，前端灰度&网关灰度路由组合式策略
-- 灰度调用链。基于Header方式、Opentracing方式、日志方式等单个或者组合式的全链路灰度调用链。Opentracing方式不支持Edgware版（Spring Boot 1.x），不支持Finchley版（Spring Boot 2.0.x）的Spring Cloud Gateway，除此之外的场景都支持
+- 灰度调用链。基于Header方式、Opentracing方式、日志方式等单个或者组合式的全链路灰度调用链。Opentracing方式不支持Edgware版（Spring Boot 1.x.x），不支持Finchley版（Spring Boot 2.0.x）的Spring Cloud Gateway，除此之外的版本都支持
 - 服务隔离。基于组和黑/白名单的全链路服务隔离，包括注册准入隔离（基于黑/白名单，包括组和IP地址的准入、最大注册数限制的准入）、消费端隔离（基于组的负载均衡的隔离、基于黑/白名单的IP地址的隔离）和提供端隔离（基于组的Header传值策略的隔离）
 - 服务限流熔断降级权限。集成阿里巴巴Sentinel，有机整合灰度路由，扩展LimitApp的机制，通过动态的Http Header方式实现组合式防护机制，包括基于服务名、基于灰度组、基于灰度版本、基于灰度区域、基于机器地址和端口等防护机制，支持自定义任意的业务参数组合实现该功能。支持原生的流控规则、降级规则、授权规则、系统规则、热点参数流控规则
 - 数据库灰度发布。基于多数据源的数据库灰度发布
@@ -57,9 +57,9 @@ Nepxion Discovery【探索】框架架构是基于Spring Cloud Discovery服务�
 | 框架版本 | 框架分支 | 框架状态 | Spring Cloud版本 | Spring Boot版本 | Spring Cloud Alibaba版本 |
 | --- | --- | --- | --- | --- | --- |
 | 6.0.0 | master | ![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Status1.png) | Hoxton<br>Greenwich<br>Finchley | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
-| 5.4.2 | 5.x.x | ![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Status1.png) | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
-| 4.12.2 | 4.x.x | ![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Status1.png) | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
-| 3.12.2 | 3.x.x | ![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Status2.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
+| 5.5.0 | 5.x.x | ![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Status1.png) | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
+| 4.13.0 | 4.x.x | ![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Status1.png) | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
+| 3.13.0 | 3.x.x | ![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Status2.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
 | 2.0.x | N/A | ![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Status3.png) | Dalston | N/A | N/A |
 | 1.0.x | N/A | ![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Status3.png) | Camden | N/A | N/A |
 
