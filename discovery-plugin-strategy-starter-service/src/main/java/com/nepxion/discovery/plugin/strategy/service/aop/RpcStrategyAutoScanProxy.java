@@ -13,6 +13,7 @@ import java.lang.annotation.Annotation;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nepxion.discovery.plugin.strategy.service.annotation.ServiceStrategy;
 import com.nepxion.matrix.proxy.aop.DefaultAutoScanProxy;
 import com.nepxion.matrix.proxy.mode.ProxyMode;
 import com.nepxion.matrix.proxy.mode.ScanMode;
@@ -42,7 +43,7 @@ public class RpcStrategyAutoScanProxy extends DefaultAutoScanProxy {
     @Override
     protected Class<? extends Annotation>[] getClassAnnotations() {
         if (classAnnotations == null) {
-            classAnnotations = new Class[] { RestController.class };
+            classAnnotations = new Class[] { RestController.class, ServiceStrategy.class };
         }
 
         return classAnnotations;
