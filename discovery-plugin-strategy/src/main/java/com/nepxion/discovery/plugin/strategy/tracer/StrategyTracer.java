@@ -51,6 +51,13 @@ public class StrategyTracer {
             return;
         }
 
+        Map<String, String> customizationMap = getCustomizationMap();
+        if (MapUtils.isNotEmpty(customizationMap)) {
+            for (Map.Entry<String, String> entry : customizationMap.entrySet()) {
+                MDC.put(entry.getKey(), (traceLoggerMdcKeyShown ? entry.getKey() + "=" : StringUtils.EMPTY) + entry.getValue());
+            }
+        }
+
         String traceId = getTraceId();
         String spanId = getSpanId();
         MDC.put(DiscoveryConstant.TRACE_ID, (traceLoggerMdcKeyShown ? DiscoveryConstant.TRACE_ID + "=" : StringUtils.EMPTY) + (StringUtils.isNotEmpty(traceId) ? traceId : StringUtils.EMPTY));
@@ -62,19 +69,19 @@ public class StrategyTracer {
         MDC.put(DiscoveryConstant.N_D_SERVICE_VERSION, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_VERSION + "=" : StringUtils.EMPTY) + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_VERSION));
         MDC.put(DiscoveryConstant.N_D_SERVICE_REGION, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_REGION + "=" : StringUtils.EMPTY) + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_REGION));
 
-        Map<String, String> customizationMap = getCustomizationMap();
-        if (MapUtils.isNotEmpty(customizationMap)) {
-            for (Map.Entry<String, String> entry : customizationMap.entrySet()) {
-                MDC.put(entry.getKey(), (traceLoggerMdcKeyShown ? entry.getKey() + "=" : StringUtils.EMPTY) + entry.getValue());
-            }
-        }
-
         LOG.debug("Trace chain information outputs to MDC...");
     }
 
     public void mdcLocal() {
         if (!traceLoggerEnabled) {
             return;
+        }
+
+        Map<String, String> customizationMap = getCustomizationMap();
+        if (MapUtils.isNotEmpty(customizationMap)) {
+            for (Map.Entry<String, String> entry : customizationMap.entrySet()) {
+                MDC.put(entry.getKey(), (traceLoggerMdcKeyShown ? entry.getKey() + "=" : StringUtils.EMPTY) + entry.getValue());
+            }
         }
 
         String traceId = getTraceId();
@@ -87,13 +94,6 @@ public class StrategyTracer {
         MDC.put(DiscoveryConstant.N_D_SERVICE_ADDRESS, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_ADDRESS + "=" : StringUtils.EMPTY) + pluginAdapter.getHost() + ":" + pluginAdapter.getPort());
         MDC.put(DiscoveryConstant.N_D_SERVICE_VERSION, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_VERSION + "=" : StringUtils.EMPTY) + pluginAdapter.getVersion());
         MDC.put(DiscoveryConstant.N_D_SERVICE_REGION, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_REGION + "=" : StringUtils.EMPTY) + pluginAdapter.getRegion());
-
-        Map<String, String> customizationMap = getCustomizationMap();
-        if (MapUtils.isNotEmpty(customizationMap)) {
-            for (Map.Entry<String, String> entry : customizationMap.entrySet()) {
-                MDC.put(entry.getKey(), (traceLoggerMdcKeyShown ? entry.getKey() + "=" : StringUtils.EMPTY) + entry.getValue());
-            }
-        }
 
         LOG.debug("Trace chain information outputs to MDC...");
     }
