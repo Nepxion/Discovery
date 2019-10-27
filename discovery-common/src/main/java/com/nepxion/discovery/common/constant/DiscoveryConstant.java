@@ -86,8 +86,15 @@ public class DiscoveryConstant {
 
     public static final String TRACE_ID = "trace-id";
     public static final String SPAN_ID = "span-id";
-    public static final String SPAN_NAME = "GRAY";
-    public static final String TAG_COMPONENT_NAME = "Nepxion Discovery";
+    public static final String SPAN_VALUE = "GRAY";
+    public static final String TAG_COMPONENT_VALUE = "gray";
+    public static final String PLUGIN = "plugin";
+    public static final String PLUGIN_VALUE = "Nepxion Discovery";
+
+    public static final String CLASS = "class";
+    public static final String METHOD = "method";
+    public static final String EVENT = "event";
+    public static final String ERROR_OBJECT = "error.object";
 
     public static final String XML_FORMAT = "xml";
     public static final String JSON_FORMAT = "json";
@@ -102,11 +109,6 @@ public class DiscoveryConstant {
     public static final String SEPARATE = ";";
     public static final String EQUALS = "=";
     public static final String DASH = "-";
-
-    public static final String CLASS = "class";
-    public static final String METHOD = "method";
-    public static final String EVENT = "event";
-    public static final String ERROR_OBJECT = "error.object";
 
     public static final String ASYNC = "async";
     public static final String SYNC = "sync";
