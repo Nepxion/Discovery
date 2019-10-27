@@ -44,12 +44,19 @@ public class StrategyOpentracingOperation {
     @Value("${" + StrategyOpentracingConstant.SPRING_APPLICATION_STRATEGY_TRACE_OPENTRACING_ENABLED + ":false}")
     protected Boolean traceOpentracingEnabled;
 
+    @Value("${" + StrategyOpentracingConstant.SPRING_APPLICATION_STRATEGY_TRACE_OPENTRACING_SEPARATE_SPAN_ENABLED + ":true}")
+    protected Boolean traceOpentracingSeparateSpanEnabled;
+
     public void opentracingInitialize() {
         if (!traceOpentracingEnabled) {
             return;
         }
 
-        Span span = tracer.buildSpan(DiscoveryConstant.SPAN_NAME).start();
+        if (!traceOpentracingSeparateSpanEnabled) {
+            return;
+        }
+
+        Span span = tracer.buildSpan(DiscoveryConstant.SPAN_VALUE).start();
         StrategyOpentracingContext.getCurrentContext().setSpan(span);
 
         LOG.debug("Trace chain for Opentracing initialized...");
@@ -60,14 +67,23 @@ public class StrategyOpentracingOperation {
             return;
         }
 
-        Span span = StrategyOpentracingContext.getCurrentContext().getSpan();
+        Span span = getCurrentSpan();
         if (span == null) {
             LOG.error("Span not found in context to opentracing header");
 
             return;
         }
 
-        span.setTag(Tags.COMPONENT.getKey(), DiscoveryConstant.TAG_COMPONENT_NAME);
+        if (MapUtils.isNotEmpty(customizationMap)) {
+            for (Map.Entry<String, String> entry : customizationMap.entrySet()) {
+                span.setTag(entry.getKey(), entry.getValue());
+            }
+        }
+
+        if (traceOpentracingSeparateSpanEnabled) {
+            span.setTag(Tags.COMPONENT.getKey(), DiscoveryConstant.TAG_COMPONENT_VALUE);
+        }
+        span.setTag(DiscoveryConstant.PLUGIN, DiscoveryConstant.PLUGIN_VALUE);
         span.setTag(DiscoveryConstant.TRACE_ID, span.context().toTraceId());
         span.setTag(DiscoveryConstant.SPAN_ID, span.context().toSpanId());
         span.setTag(DiscoveryConstant.N_D_SERVICE_GROUP, strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_GROUP));
@@ -98,12 +114,6 @@ public class StrategyOpentracingOperation {
             span.setTag(DiscoveryConstant.N_D_REGION_WEIGHT, routeRegionWeight);
         }
 
-        if (MapUtils.isNotEmpty(customizationMap)) {
-            for (Map.Entry<String, String> entry : customizationMap.entrySet()) {
-                span.setTag(entry.getKey(), entry.getValue());
-            }
-        }
-
         LOG.debug("Trace chain information outputs to Opentracing...");
     }
 
@@ -112,14 +122,23 @@ public class StrategyOpentracingOperation {
             return;
         }
 
-        Span span = StrategyOpentracingContext.getCurrentContext().getSpan();
+        Span span = getCurrentSpan();
         if (span == null) {
             LOG.error("Span not found in context to opentracing local");
 
             return;
         }
 
-        span.setTag(Tags.COMPONENT.getKey(), DiscoveryConstant.TAG_COMPONENT_NAME);
+        if (MapUtils.isNotEmpty(customizationMap)) {
+            for (Map.Entry<String, String> entry : customizationMap.entrySet()) {
+                span.setTag(entry.getKey(), entry.getValue());
+            }
+        }
+
+        if (traceOpentracingSeparateSpanEnabled) {
+            span.setTag(Tags.COMPONENT.getKey(), DiscoveryConstant.TAG_COMPONENT_VALUE);
+        }
+        span.setTag(DiscoveryConstant.PLUGIN, DiscoveryConstant.PLUGIN_VALUE);
         span.setTag(DiscoveryConstant.CLASS, className);
         span.setTag(DiscoveryConstant.METHOD, methodName);
         span.setTag(DiscoveryConstant.TRACE_ID, span.context().toTraceId());
@@ -152,12 +171,6 @@ public class StrategyOpentracingOperation {
             span.setTag(DiscoveryConstant.N_D_REGION_WEIGHT, routeRegionWeight);
         }
 
-        if (MapUtils.isNotEmpty(customizationMap)) {
-            for (Map.Entry<String, String> entry : customizationMap.entrySet()) {
-                span.setTag(entry.getKey(), entry.getValue());
-            }
-        }
-
         LOG.debug("Trace chain information outputs to Opentracing...");
     }
 
@@ -166,7 +179,11 @@ public class StrategyOpentracingOperation {
             return;
         }
 
-        Span span = StrategyOpentracingContext.getCurrentContext().getSpan();
+        if (!traceOpentracingSeparateSpanEnabled) {
+            return;
+        }
+
+        Span span = getCurrentSpan();
         if (span == null) {
             LOG.error("Span not found in context to opentracing error");
 
@@ -188,7 +205,11 @@ public class StrategyOpentracingOperation {
             return;
         }
 
-        Span span = StrategyOpentracingContext.getCurrentContext().getSpan();
+        if (!traceOpentracingSeparateSpanEnabled) {
+            return;
+        }
+
+        Span span = getCurrentSpan();
         if (span != null) {
             span.finish();
         } else {
@@ -199,12 +220,16 @@ public class StrategyOpentracingOperation {
         LOG.debug("Trace chain context of Opentracing cleared...");
     }
 
+    public Span getCurrentSpan() {
+        return traceOpentracingSeparateSpanEnabled ? StrategyOpentracingContext.getCurrentContext().getSpan() : tracer.activeSpan();
+    }
+
     public String getTraceId() {
         if (!traceOpentracingEnabled) {
             return null;
         }
 
-        Span span = StrategyOpentracingContext.getCurrentContext().getSpan();
+        Span span = getCurrentSpan();
         if (span != null) {
             return span.context().toTraceId();
         }
@@ -217,7 +242,7 @@ public class StrategyOpentracingOperation {
             return null;
         }
 
-        Span span = StrategyOpentracingContext.getCurrentContext().getSpan();
+        Span span = getCurrentSpan();
         if (span != null) {
             return span.context().toSpanId();
         }
