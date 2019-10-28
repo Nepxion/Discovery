@@ -11,17 +11,9 @@ package com.nepxion.discovery.plugin.strategy.service.filter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
 
-public class DefaultServiceStrategyRouteFilter implements ServiceStrategyRouteFilter {
-    @Autowired
-    protected PluginAdapter pluginAdapter;
-
-    @Autowired
-    protected StrategyContextHolder strategyContextHolder;
-
+public class DefaultServiceStrategyRouteFilter extends AbstractServiceStrategyRouteFilter {
     @Autowired
     private StrategyWrapper strategyWrapper;
 
@@ -48,13 +40,5 @@ public class DefaultServiceStrategyRouteFilter implements ServiceStrategyRouteFi
     @Override
     public String getRouteRegionWeight() {
         return strategyWrapper.getRouteRegionWeight();
-    }
-
-    public PluginAdapter getPluginAdapter() {
-        return pluginAdapter;
-    }
-
-    public StrategyContextHolder getStrategyContextHolder() {
-        return strategyContextHolder;
     }
 }
