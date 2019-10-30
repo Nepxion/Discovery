@@ -7,7 +7,7 @@
 
 ![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Star1.jpg)
 
-如果本文档由于Github网速原因无法完整阅读，请于[网盘文档](https://pan.baidu.com/s/1i57rXaNKPuhGRqZ2MONZOA)获取离线文档 - "Nepxion Discovery【探索】架构篇 Vx.x.x.html"
+如果本文档由于Github网速原因无法完整阅读，请于[网盘文档](https://pan.baidu.com/s/1i57rXaNKPuhGRqZ2MONZOA)获取离线文档 - "Nepxion Discovery【探索】架构篇.html"
 
 Nepxion Discovery【探索】框架架构是基于Spring Cloud Discovery服务注册发现、Ribbon负载均衡、Feign和RestTemplate调用等组件全方位增强的企业级微服务开源解决方案，更贴近企业级需求，更具有企业级的插件引入、开箱即用特征
 - 支持Eureka、Consul、Zookeeper和阿里巴巴的Nacos四个服务注册发现中心
