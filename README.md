@@ -159,7 +159,7 @@ Hoxton（6.x.x），同时适用于Finchley、Greenwich和Hoxton
 [指南主页](https://github.com/Nepxion/DiscoveryGuide)
 
 ### 文档主页
-[文档主页](https://pan.baidu.com/s/1i57rXaNKPuhGRqZ2MONZOA#list/path=%2FNepxion)
+[文档主页](https://pan.baidu.com/s/1i57rXaNKPuhGRqZ2MONZOA)
 
 ## 界面展示
 
