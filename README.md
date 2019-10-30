@@ -1075,7 +1075,7 @@ spring.cloud.nacos.discovery.metadata.group=example-service-group
 spring.cloud.nacos.discovery.metadata.version=1.0
 spring.cloud.nacos.discovery.metadata.region=dev
 
-# Admin config
+# Management config
 # E版配置方式
 # 关闭访问Rest接口时候的权限验证
 management.security.enabled=false
