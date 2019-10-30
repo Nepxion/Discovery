@@ -12,6 +12,7 @@ Nepxion Discovery【探索】框架架构是基于Spring Cloud Discovery服务�
 - 支持阿里巴巴的Nacos、携程的Apollo和Redis三个远程配置中心
 - 支持Hystrix或者阿里巴巴Sentinel的两个熔断隔离限流降级中间件
 - 支持Uber Jaeger和Twitter Zipkin等遵循Opentracing规范的调用链中间件
+- 支持Spring Boot Admin、Prometheus和Grafana等监控中间件
 - 支持Spring Cloud Gateway、Zuul网关和微服务三大模块的灰度发布和路由等一系列功能
 - 支持和兼容Spring Cloud Edgware版、Finchley版、Greenwich版和Hoxton版
 
@@ -171,12 +172,6 @@ Hoxton（6.x.x），同时适用于Finchley、Greenwich和Hoxton
 ![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Nacos1.jpg)
 Nacos服务注册发现中心
 ![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Nacos.jpg)
-Spring Boot Admin监控平台
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Admin1.jpg)
-集成Spring Boot Admin（F版或以上）监控平台，实现通过JMX向Endpoint推送规则和版本，实现灰度发布
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Admin2.jpg)
-集成Spring Boot Admin（E版）监控平台，实现通过JMX向Endpoint推送规则和版本，实现灰度发布
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Admin3.jpg)
 集成Sentinel熔断隔离限流降级平台
 ![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Sentinel1.jpg)
 ![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Sentinel2.jpg)
@@ -186,6 +181,15 @@ Spring Boot Admin监控平台
 ![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Jaeger3.jpg)
 ![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Jaeger4.jpg)
 ![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Jaeger5.jpg)
+Spring Boot Admin监控平台
+![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Admin1.jpg)
+集成Spring Boot Admin（F版或以上）监控平台，实现通过JMX向Endpoint推送规则和版本，实现灰度发布
+![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Admin2.jpg)
+集成Spring Boot Admin（E版）监控平台，实现通过JMX向Endpoint推送规则和版本，实现灰度发布
+![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Admin3.jpg)
+Prometheus + Grafana监控平台
+![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Prometheus.jpg)
+![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Grafana.jpg)
 
 ## 现有痛点
 现有的Spring Cloud微服务架构的痛点
@@ -514,8 +518,14 @@ spring.application.discovery.control.enabled=false
 - Redis
     - Redis服务器版本，推荐用最新版本，从[https://redis.io/](https://redis.io/)获取
 - Sentinel
-    - Jaeger服务器版本，推荐用最新版本，从[https://github.com/alibaba/Sentinel/releases](https://github.com/alibaba/Sentinel/releases)获取
+    - Sentinel服务器版本，推荐用最新版本，从[https://github.com/alibaba/Sentinel/releases](https://github.com/alibaba/Sentinel/releases)获取
     - 功能界面主页，[http://localhost:8075/#/dashboard](http://localhost:8075/#/dashboard)
+- Prometheus
+    - Prometheus服务器版本，推荐用最新版本，从[https://github.com/prometheus/prometheus/releases](https://github.com/prometheus/prometheus/releases)获取
+    - 功能界面主页，[http://localhost:9090](http://localhost:9090)
+- Grafana
+    - Grafana服务器版本，推荐用最新版本，从[https://grafana.com/grafana/download?platform=windows](https://grafana.com/grafana/download?platform=windows)获取
+    - 功能界面主页，[http://localhost:3000](http://localhost:3000)
 - Jaeger
     - Jaeger服务器版本，推荐用最新版本，从[https://github.com/jaegertracing/jaeger/releases](https://github.com/jaegertracing/jaeger/releases)获取
     - 功能界面主页，[http://localhost:16686](http://localhost:16686)
