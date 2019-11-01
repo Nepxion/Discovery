@@ -1,11 +1,11 @@
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Cover.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Cover.jpg)
 
 # Nepxion Discovery 框架架构
 [![Total lines](https://tokei.rs/b1/github/Nepxion/Discovery?category=lines)](https://tokei.rs/b1/github/Nepxion/Discovery?category=lines)  [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?label=license)](https://github.com/Nepxion/Discovery/blob/master/LICENSE)  [![Maven Central](https://img.shields.io/maven-central/v/com.nepxion/discovery.svg?label=maven%20central)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.nepxion%22%20AND%20discovery)  [![Javadocs](http://www.javadoc.io/badge/com.nepxion/discovery-plugin-framework.svg)](http://www.javadoc.io/doc/com.nepxion/discovery-plugin-framework)  [![Build Status](https://travis-ci.org/Nepxion/Discovery.svg?branch=master)](https://travis-ci.org/Nepxion/Discovery)  [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8e39a24e1be740c58b83fb81763ba317)](https://www.codacy.com/project/HaojunRen/Discovery/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nepxion/Discovery&amp;utm_campaign=Badge_Grade_Dashboard)
 
 每一个访问路过的朋友，如果您觉得这个开源框架不错，请顺手在页面右上角帮它[**Star**]一下
 
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Star1.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Star1.jpg)
 
 如果本文档由于Github网速原因无法完整阅读，请于[网盘文档](https://pan.baidu.com/s/1i57rXaNKPuhGRqZ2MONZOA)获取离线文档 - "Nepxion Discovery【探索】架构篇.html"
 
@@ -38,10 +38,10 @@ Nepxion Discovery【探索】框架架构是基于Spring Cloud Discovery服务�
 
 现有的Spring Cloud微服务很方便引入该中间件，代码零侵入。鉴于Spring Cloud官方对Eureka和Hystrix不再做新功能的迭代，推荐用Nacos和Sentinel，它们对Spring Cloud灰度发布和路由更具出色的兼容性和友好性
 
-![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Attention.png) 建议
+![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Attention.png) 建议
 - 由于源码中带有的示例功能比较齐全，较为复杂。强烈建议，先学习![Alt text](https://github.com/Nepxion/nepxion.github.io/raw/master/res/images/layui/favicon.png) [指南示例](https://github.com/Nepxion/DiscoveryGuide)
 
-![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Attention.png) 鸣谢
+![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Attention.png) 鸣谢
 - 感谢阿里巴巴中间件Nacos和Sentinel团队，尤其是Nacos负责人@于怀，Sentinel负责人@子衿，Spring Cloud Alibaba负责人@亦盏、@洛夜的技术支持
 - 感谢携程Apollo团队，尤其是@宋顺，特意开发OpenApi包和技术支持
 - 感谢代码贡献者，包括@WeihuaWang，@张顺，@Esun，@liumapp，@terranhu，@JikaiSun，@HaoHuang，@FanYang，@Ankeway等
@@ -49,24 +49,24 @@ Nepxion Discovery【探索】框架架构是基于Spring Cloud Discovery服务�
 - 感谢为本框架提出宝贵意见和建议的同学
 - 感谢使用本框架的公司和企业。不完全统计，目前社区开源项目已经被如下公司使用或者调研：
 
-![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/payh.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/payzt.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/zabx.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/msyh.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/pfyhxyk.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/zsyh.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/tpybx.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/tpbx.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/dfhk.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/rxkf.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/sfkj.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/wkfy.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/wjkj.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/hexfjr.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/yjh.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/tgdl.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/crkj.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/dhrj.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/zhxy.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/rdkj.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/tqkj.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/hjkj.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/js.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/yzf.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/smgc.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/bjkj.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/qzkj.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/jwkj.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/zcwlkj.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/qk365.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/daxxkj.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/xg.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/sbc.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/hrwlkj.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/ywny.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/bqjr.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/xmly.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/bgy.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/mkxq.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/hz.png) ![Alt text](https://github.com/Nepxion/Docs/raw/master/logo-doc/yex.png)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/payh.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/payzt.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/zabx.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/msyh.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/pfyhxyk.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/zsyh.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/tpybx.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/tpbx.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/dfhk.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/rxkf.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/sfkj.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/wkfy.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/wjkj.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/hexfjr.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/yjh.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/tgdl.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/crkj.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/dhrj.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/zhxy.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/rdkj.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/tqkj.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/hjkj.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/js.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/yzf.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/smgc.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/bjkj.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/qzkj.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/jwkj.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/zcwlkj.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/qk365.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/daxxkj.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/xg.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/sbc.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/hrwlkj.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/ywny.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/bqjr.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/xmly.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/bgy.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/mkxq.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/hz.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/yex.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/zjxl.png)
 
 为提供更好的专业级服务，请更多已经使用本框架的公司和企业联系我
 
-![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Attention.png) 特性
+![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Attention.png) 特性
 
 一、兼容性强。支持如下版本：
 
 | 框架版本 | 框架分支 | 框架状态 | Spring Cloud版本 | Spring Boot版本 | Spring Cloud Alibaba版本 |
 | --- | --- | --- | --- | --- | --- |
-| 6.0.0 | master | ![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Status1.png) | Hoxton<br>Greenwich<br>Finchley | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
-| 5.5.0 | 5.x.x | ![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Status1.png) | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
-| 4.13.0 | 4.x.x | ![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Status1.png) | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
-| 3.13.0 | 3.x.x | ![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Status2.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
-| 2.0.x | N/A | ![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Status3.png) | Dalston | N/A | N/A |
-| 1.0.x | N/A | ![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Status3.png) | Camden | N/A | N/A |
+| 6.0.0 | master | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status1.png) | Hoxton<br>Greenwich<br>Finchley | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
+| 5.5.0 | 5.x.x | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status1.png) | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
+| 4.13.0 | 4.x.x | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status1.png) | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
+| 3.13.0 | 3.x.x | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status2.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
+| 2.0.x | N/A | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status3.png) | Dalston | N/A | N/A |
+| 1.0.x | N/A | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status3.png) | Camden | N/A | N/A |
 
-![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Status1.png) 表示迭代中 | ![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Status2.png) 表示不维护，但可用 | ![](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Status3.png) 表示不维护，已废弃
+![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status1.png) 表示迭代中 | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status2.png) 表示不维护，但可用 | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status3.png) 表示不维护，已废弃
 
 Hoxton（6.x.x），同时适用于Finchley、Greenwich和Hoxton
 
@@ -148,7 +148,7 @@ Hoxton（6.x.x），同时适用于Finchley、Greenwich和Hoxton
 ## 请联系我
 微信、公众号和文档
 
-![Alt text](https://github.com/Nepxion/Docs/raw/master/zxing-doc/微信-1.jpg)![Alt text](https://github.com/Nepxion/Docs/raw/master/zxing-doc/公众号-1.jpg)![Alt text](https://github.com/Nepxion/Docs/raw/master/zxing-doc/文档-1.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/zxing-doc/微信-1.jpg)![Alt text](https://github.com/HaojunRen/Docs/raw/master/zxing-doc/公众号-1.jpg)![Alt text](https://github.com/HaojunRen/Docs/raw/master/zxing-doc/文档-1.jpg)
 
 ## 相关链接
 
@@ -164,34 +164,34 @@ Hoxton（6.x.x），同时适用于Finchley、Greenwich和Hoxton
 ## 界面展示
 
 图形化灰度发布桌面程序
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Console1.jpg)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Console2.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Console1.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Console2.jpg)
 图形化灰度发布Web平台
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Console14.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Console14.jpg)
 集成规则配置的Apollo配置中心
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Apollo.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Apollo.jpg)
 集成规则配置的Nacos配置中心
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Nacos1.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Nacos1.jpg)
 Nacos服务注册发现中心
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Nacos.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Nacos.jpg)
 集成Sentinel熔断隔离限流降级平台
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Sentinel1.jpg)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Sentinel2.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Sentinel1.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Sentinel2.jpg)
 集成Opentracing + Uber Jaeger调用链平台
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Jaeger1.jpg)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Jaeger2.jpg)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Jaeger3.jpg)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Jaeger4.jpg)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Jaeger5.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Jaeger1.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Jaeger2.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Jaeger3.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Jaeger4.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Jaeger5.jpg)
 Spring Boot Admin监控平台
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Admin1.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Admin1.jpg)
 集成Spring Boot Admin（F版或以上）监控平台，实现通过JMX向Endpoint推送规则和版本，实现灰度发布
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Admin2.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Admin2.jpg)
 集成Spring Boot Admin（E版）监控平台，实现通过JMX向Endpoint推送规则和版本，实现灰度发布
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Admin3.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Admin3.jpg)
 Prometheus + Grafana监控平台
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Prometheus.jpg)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Grafana.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Prometheus.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Grafana.jpg)
 
 ## 现有痛点
 现有的Spring Cloud微服务架构的痛点
@@ -287,15 +287,15 @@ Prometheus + Grafana监控平台
 ### 架构
 服务治理架构图
 
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Govern.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Govern.jpg)
 
 全局架构图
 
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Architecture.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Architecture.jpg)
 
 模块结构图
 
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Module.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Module.jpg)
 
 ### 工程
 
@@ -922,7 +922,7 @@ Header的Key为"n-d-version"，value为：
 ```
 
 多版本灰度路由架构图
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/RouteVersion.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/RouteVersion.jpg)
 
 ### 区域匹配的灰度路由策略
 基于Feign/RestTemplate的REST调用的多区域灰度路由，在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只有dev区域的a服务，qa区域的b服务，dev和qa区域c服务，允许被调用到
@@ -946,7 +946,7 @@ d* - 表示调用范围为所有服务的d开头的所有区域
 ```
 
 多区域灰度路由架构图
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/RouteRegion.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/RouteRegion.jpg)
 
 特别注意：Spring Cloud内置zone的策略，功能跟region策略很相似，但zone策略不能跟自定义路由组合使用，故提供了更友好的region策略
 
@@ -967,7 +967,7 @@ Header的Key为"n-d-address"，value为：
 ```
 
 多IP和端口灰度路由架构图
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/RouteAddress.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/RouteAddress.jpg)
 
 ### 版本权重的灰度路由策略
 基于Feign/RestTemplate的REST调用的多版本权重灰度路由，在Header上传入服务名和版本流量百分比对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务的版本权重配比，那么只需要它们版本对于流量的百分比
@@ -1018,7 +1018,7 @@ dev=85;qa=15
 
 灰度方式区别图
 
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Difference.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Difference.jpg)
 
 ### 规则和策略的关系
 - 规则和策略，可以混合在一起工作，也关闭一项，让另一项单独工作
@@ -1370,7 +1370,7 @@ PORT端口号为服务端口或者管理端口都可以
 - 路由接口
 参考Swagger界面，如下图
 
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Swagger1.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Swagger1.jpg)
 
 ## 控制平台
 为UI提供相关接口，包括
@@ -1381,7 +1381,7 @@ PORT端口号为服务端口或者管理端口都可以
 - 控制平台接口
 参考Swagger界面，如下图
 
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Swagger2.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Swagger2.jpg)
 
 ## 监控平台
 基于Spring Boot Actuator技术的Spring Boot Admin监控平台
@@ -1396,7 +1396,7 @@ PORT端口号为服务端口或者管理端口都可以
 ## 界面工具
 
 ### 基于Apollo界面的灰度发布
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Apollo1.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Apollo1.jpg)
 - 参考Apollo官方文档[https://github.com/ctripcorp/apollo](https://github.com/ctripcorp/apollo)相关文档，搭建Apollo环境，以及熟悉相关的基本操作
 - 根据上图，做如下步骤操作
     - 设置页面中AppId和配置文件里面app.id一致
@@ -1411,7 +1411,7 @@ PORT端口号为服务端口或者管理端口都可以
     - 如果业务配置和灰度配置在同一个namespace里且namespace只有一个，灰度配置可以通过apollo.bootstrap.namespaces或者apollo.plugin.namespace来指定（如果namespace为application则都不需要配置）
     - 如果业务配置和灰度配置不在同一个namespace里或者业务配置横跨几个namespace，灰度配置必须通过apollo.plugin.namespace来指定唯一的namespace
 ### 基于Nacos界面的灰度发布
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Nacos2.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Nacos2.jpg)
 - 参考Nacos官方文档[https://github.com/alibaba/nacos](https://github.com/alibaba/nacos)相关文档，搭建Nacos环境，以及熟悉相关的基本操作
 - 添加配置步骤跟Apollo配置界面中的“在页面中添加配置”操作项相似
 
@@ -1434,27 +1434,27 @@ PORT端口号为服务端口或者管理端口都可以
     - 如果您是操作系统，请参考“Discovery灰度发布控制台.bat”，自行编写“Discovery灰度发布控制台.sh”脚本，启动桌面程序
 - 操作界面
     - 登录认证，用户名和密码为admin/admin或者nepxion/nepxion。顺便说一下，控制台支持简单的认证，用户名和密码配置在discovery-springcloud-example-console\bootstrap.properties中，您可以自己扩展AuthenticationResource并注入，实现更专业的认证功能
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Console0.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Console0.jpg)
     - 点击“显示服务拓扑”按钮，弹出“服务集群组过滤”对话框，列表是以服务所在的集群组列表（例如：eureka.instance.metadataMap.group=example-service-group），选择若干个并点击“确定”按钮，如果使用者想获取全部的服务集群（可能会耗性能），则直接点击“取消”按钮
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Console4.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Console4.jpg)
     - 从服务注册发现中心获取服务拓扑
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Console5.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Console5.jpg)
     - 执行灰度路由，选择一个服务，右键菜单“执行灰度路由”
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Console6.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Console6.jpg)
     - 通过“服务列表”切换，或者点击增加和删除服务按钮，确定灰度路由路径，点击“执行路由”
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Console7.jpg)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Console2.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Console7.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Console2.jpg)
     - 推送模式设置，“异步推送”和“同步推送”，前者是推送完后立刻返回，后者是推送完后等待推送结果（包括规则XML解析的异常等都能在界面上反映出来）；“规则推送到远程配置中心”和“规则推送到服务或者服务集群”，前者是推送到配置中心（持久化），后者是推送到一个或者多个服务机器的内存（非持久化，重启后丢失）
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Console8.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Console8.jpg)
     - 执行灰度发布，选择一个服务或者服务组，右键菜单“执行灰度发布”，前者是通过单个服务实例执行灰度发布，后者是通过一组服务实例执行灰度发布
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Console9.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Console9.jpg)
     - 灰度发布，包括“更改版本”和“更改规则”，前者通过更改版本号去适配灰度规则中的版本匹配关系，后者直接修改规则。“更改版本”是推送到一个或者多个服务机器的内存（非持久化，重启后丢失），“更改规则”是根据不同的推送模式，两种方式都支持
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Console10.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Console10.jpg)
     - 全链路灰度发布，所有在同一个集群组（例如：eureka.instance.metadataMap.group=example-service-group）里的服务统一做灰度发布，即一个规则配置搞定所有服务的灰度发布。点击“全链路灰度发布”按钮，弹出“全链路灰度发布”对话框
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Console11.jpg)
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Console12.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Console11.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Console12.jpg)
     - 刷新灰度状态，选择一个服务或者服务组，右键菜单“刷新灰度状态”，查看某个服务或者服务组是否正在做灰度发布
-![Alt text](https://github.com/Nepxion/Docs/raw/master/discovery-doc/Console13.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Console13.jpg)
 - 操作视频（有点老，请参考学习）
     - 灰度发布-版本访问策略
         - 请访问[https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA](https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA)，获取更清晰的视频，注意一定要下载下来看，不要在线看，否则也不清晰
