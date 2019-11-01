@@ -81,7 +81,7 @@ Hoxton（6.x.x），同时适用于Finchley、Greenwich和Hoxton
     - 通过控制平台界面推送规则。参考[基于Rest方式的灰度发布](#基于Rest方式的灰度发布)
     - 通过客户端工具（例如Postman）推送。[基于图形化桌面程序的灰度发布](#基于图形化桌面程序的灰度发布)和[基于图形化Web程序的灰度发布](#基于图形化Web程序的灰度发布)
 - 测试验证
-    - 为方便体验示例，将Postman的测试脚本导入。参考[脚本地址](https://github.com/Nepxion/Discovery/raw/master/postman.json)
+    - 为方便体验示例，将Postman的测试脚本导入。参考[脚本地址](https://github.com/Nepxion/DiscoveryGuide/raw/master/postman.json)
 
 ## 目录
 - [请联系我](#请联系我)
@@ -1420,7 +1420,7 @@ PORT端口号为服务端口或者管理端口都可以
 见“管理中心”和“控制平台”
 
 - Postman方式
-导入Postman的测试脚本，[脚本地址](https://github.com/Nepxion/Discovery/raw/master/postman.json)
+导入Postman的测试脚本，[脚本地址](https://github.com/Nepxion/DiscoveryGuide/raw/master/postman.json)
 
 ### 基于图形化桌面程序的灰度发布
 - 桌面程序对Windows和Mac操作系统都支持，但在Mac操作系统中界面显示有点瑕疵，但不影响功能使用
