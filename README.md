@@ -14,7 +14,7 @@ Nepxion Discovery【探索】框架架构是基于Spring Cloud Discovery服务�
 - 支持阿里巴巴的Nacos、携程的Apollo和Redis三个远程配置中心
 - 支持Hystrix或者阿里巴巴Sentinel的两个熔断隔离限流降级中间件
 - 支持Uber Jaeger和Twitter Zipkin等遵循Opentracing规范的调用链中间件
-- 支持Spring Boot Admin、Prometheus和Grafana等监控中间件
+- 支持Prometheus、Grafana和Spring Boot Admin监控中间件
 - 支持Spring Cloud Gateway、Zuul网关和微服务三大模块的灰度发布和路由等一系列功能
 - 支持和兼容Spring Cloud Edgware版、Finchley版、Greenwich版和Hoxton版
 
@@ -22,7 +22,9 @@ Nepxion Discovery【探索】框架架构是基于Spring Cloud Discovery服务�
 - 灰度发布。基于规则订阅的全链路灰度发布，包括切换发布（版本匹配发布、区域匹配发布）和平滑发布（版本权重发布、区域权重发布）
 - 灰度路由。基于Header传递的全链路灰度路由，包括切换路由（版本匹配路由、区域匹配路由、机器IP和端口匹配路由）和平滑路由（版本权重路由、区域权重路由）。可以在网关过滤器、前端界面、负载均衡策略类三个地方实现路由功能
 - 组合式灰度发布和路由，灰度发布和灰度路由的多种组合式规则和策略，前端灰度&网关灰度路由组合式策略
-- 灰度调用链。基于Header方式、Opentracing方式、日志方式等单个或者组合式的全链路灰度调用链。Opentracing方式不支持Edgware版（Spring Boot 1.x.x），不支持Finchley版（Spring Boot 2.0.x）的Spring Cloud Gateway，除此之外的版本都支持
+- 服务监控。包括调用链监控（Tracing）和指标监控（Metrics），CNCF技术委员会通过OpenTelemetry规范整合基于Tracing的OpenTracing规范（官方推荐Jaeger做Backend）和基于Metrics的OpenSensus规范（官方推荐Prometheus做Backend）
+    - 调用链监控（Tracing）包括Header方式、Opentracing方式、日志方式等单个或者组合式的全链路灰度调用链。Opentracing方式不支持Edgware版（Spring Boot 1.x.x），不支持Finchley版（Spring Boot 2.0.x）的Spring Cloud Gateway，除此之外的版本都支持
+    - 指标监控（Metrics）包括Prometheus、Grafana、Spring Boot Admin
 - 服务隔离。基于组和黑/白名单的全链路服务隔离，包括注册准入隔离（基于黑/白名单，包括组和IP地址的准入、最大注册数限制的准入）、消费端隔离（基于组的负载均衡的隔离、基于黑/白名单的IP地址的隔离）和提供端隔离（基于组的Header传值策略的隔离）
 - 服务限流熔断降级权限。集成阿里巴巴Sentinel，有机整合灰度路由，扩展LimitApp的机制，通过动态的Http Header方式实现组合式防护机制，包括基于服务名、基于灰度组、基于灰度版本、基于灰度区域、基于机器地址和端口等防护机制，支持自定义任意的业务参数组合实现该功能。支持原生的流控规则、降级规则、授权规则、系统规则、热点参数流控规则
 - 数据库灰度发布。基于多数据源的数据库灰度发布
@@ -183,15 +185,15 @@ Nacos服务注册发现中心
 ![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Jaeger3.jpg)
 ![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Jaeger4.jpg)
 ![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Jaeger5.jpg)
+集成Prometheus + Grafana监控平台
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Prometheus.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Grafana.jpg)
 Spring Boot Admin监控平台
 ![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Admin1.jpg)
 集成Spring Boot Admin（F版或以上）监控平台，实现通过JMX向Endpoint推送规则和版本，实现灰度发布
 ![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Admin2.jpg)
 集成Spring Boot Admin（E版）监控平台，实现通过JMX向Endpoint推送规则和版本，实现灰度发布
 ![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Admin3.jpg)
-Prometheus + Grafana监控平台
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Prometheus.jpg)
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Grafana.jpg)
 
 ## 现有痛点
 现有的Spring Cloud微服务架构的痛点
