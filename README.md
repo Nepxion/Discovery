@@ -7,7 +7,9 @@
 
 ![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Star1.jpg)
 
-如果本文档由于Github网速原因无法完整阅读，请于[网盘文档](https://pan.baidu.com/s/1i57rXaNKPuhGRqZ2MONZOA)获取离线文档 - "Nepxion Discovery【探索】架构篇.html"
+如果本文档由于Github网速原因无法完整阅读，请访问
+- [Nepxion Discovery【探索】微服务企业级解决方案(PDF)](http://nepxion.gitee.io/docs/web-doc/discovery-solution-pdf.html)
+- [Nepxion Discovery【探索】架构篇(PDF)](http://nepxion.gitee.io/docs/web-doc/discovery-framework-pdf.html) 或者 [Nepxion Discovery【探索】架构篇(HTML)](http://nepxion.gitee.io/docs/web-doc/discovery-framework.html)
 
 Nepxion Discovery【探索】框架架构是基于Spring Cloud Discovery服务注册发现、Ribbon负载均衡、Feign和RestTemplate调用等组件全方位增强的企业级微服务开源解决方案，更贴近企业级需求，更具有企业级的插件引入、开箱即用特征
 - 支持Eureka、Consul、Zookeeper和阿里巴巴的Nacos四个服务注册发现中心
@@ -161,7 +163,7 @@ Hoxton（6.x.x），同时适用于Finchley、Greenwich和Hoxton
 [指南主页](https://github.com/Nepxion/DiscoveryGuide)
 
 ### 文档主页
-[文档主页](https://pan.baidu.com/s/1i57rXaNKPuhGRqZ2MONZOA)
+[文档主页](https://gitee.com/Nepxion/Docs/tree/master/web-doc)
 
 ## 界面展示
 
@@ -1459,13 +1461,13 @@ PORT端口号为服务端口或者管理端口都可以
 ![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Console13.jpg)
 - 操作视频（有点老，请参考学习）
     - 灰度发布-版本访问策略
-        - 请访问[https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA](https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA)，获取更清晰的视频，注意一定要下载下来看，不要在线看，否则也不清晰
+        - 请访问[https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA](https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA)，获取更清晰的视频，注意一定要下载下来看，不要在线看，否则不清晰
         - 请访问[http://www.iqiyi.com/w_19rzwzovrl.html](http://www.iqiyi.com/w_19rzwzovrl.html)，视频清晰度改成720P，然后最大化播放
     - 灰度发布-版本权重策略
-        - 请访问[https://pan.baidu.com/s/1VXPatJ6zrUeos7uTQwM3Kw](https://pan.baidu.com/s/1VXPatJ6zrUeos7uTQwM3Kw)，获取更清晰的视频，注意一定要下载下来看，不要在线看，否则也不清晰
+        - 请访问[https://pan.baidu.com/s/1VXPatJ6zrUeos7uTQwM3Kw](https://pan.baidu.com/s/1VXPatJ6zrUeos7uTQwM3Kw)，获取更清晰的视频，注意一定要下载下来看，不要在线看，否则不清晰
         - 请访问[http://www.iqiyi.com/w_19rzs9pll1.html](http://www.iqiyi.com/w_19rzs9pll1.html)，视频清晰度改成720P，然后最大化播放
     - 灰度发布-全链路策略
-        - 请访问[https://pan.baidu.com/s/1XQSKCZUykc6t04xzfrFHsg](https://pan.baidu.com/s/1XQSKCZUykc6t04xzfrFHsg)，获取更清晰的视频，注意一定要下载下来看，不要在线看，否则也不清晰
+        - 请访问[https://pan.baidu.com/s/1XQSKCZUykc6t04xzfrFHsg](https://pan.baidu.com/s/1XQSKCZUykc6t04xzfrFHsg)，获取更清晰的视频，注意一定要下载下来看，不要在线看，否则不清晰
         - 请访问[http://www.iqiyi.com/w_19s1e0zf95.html](http://www.iqiyi.com/w_19s1e0zf95.html)，视频清晰度改成720P，然后最大化播放
 
 ### 基于图形化Web程序的灰度发布
