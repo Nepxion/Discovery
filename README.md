@@ -8,8 +8,8 @@
 ![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Star1.jpg)
 
 如果本文档由于Github网速原因无法完整阅读，请访问
-- [Nepxion Discovery【探索】微服务企业级解决方案(PDF版)](http://nepxion.gitee.io/docs/web-doc/discovery-solution-pdf.html)
-- [Nepxion Discovery【探索】架构篇(PDF版)](http://nepxion.gitee.io/docs/web-doc/discovery-framework-pdf.html) 或 [Nepxion Discovery【探索】架构篇(HTML版)](http://nepxion.gitee.io/docs/web-doc/discovery-framework.html)
+- [Nepxion Discovery【探索】微服务企业级解决方案(PDF版)](http://nepxion.gitee.io/docs/link-doc/discovery-solution-pdf.html)
+- [Nepxion Discovery【探索】架构篇(PDF版)](http://nepxion.gitee.io/docs/link-doc/discovery-framework-pdf.html) 或 [Nepxion Discovery【探索】架构篇(HTML版)](http://nepxion.gitee.io/docs/link-doc/discovery-framework.html)
 
 Nepxion Discovery【探索】框架架构是基于Spring Cloud Discovery服务注册发现、Ribbon负载均衡、Feign和RestTemplate调用等组件全方位增强的企业级微服务开源解决方案，更贴近企业级需求，更具有企业级的插件引入、开箱即用特征
 - 支持Eureka、Consul、Zookeeper和阿里巴巴的Nacos四个服务注册发现中心
