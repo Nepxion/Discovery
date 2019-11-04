@@ -149,13 +149,13 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
 
         // 如果精确匹配不满足，尝试用通配符匹配
         List<String> addressList = StringUtil.splitToList(addresses, DiscoveryConstant.SEPARATE);
-        if (addressList.contains(server.getHostPort()) || addressList.contains(server.getHost())) {
+        if (addressList.contains(server.getHostPort()) || addressList.contains(server.getHost()) || addressList.contains(String.valueOf(server.getPort()))) {
             return true;
         }
 
         // 通配符匹配。前者是通配表达式，后者是具体值
         for (String addressPattern : addressList) {
-            if (discoveryMatcherStrategy.match(addressPattern, server.getHostPort()) || discoveryMatcherStrategy.match(addressPattern, server.getHost())) {
+            if (discoveryMatcherStrategy.match(addressPattern, server.getHostPort()) || discoveryMatcherStrategy.match(addressPattern, server.getHost()) || discoveryMatcherStrategy.match(addressPattern, String.valueOf(server.getPort()))) {
                 return true;
             }
         }
