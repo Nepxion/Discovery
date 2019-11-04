@@ -49,7 +49,7 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
 [**OpenTracing**] OpenTracing已进入CNCF，正在为全球的分布式追踪系统提供统一的概念、规范、架构和数据标准。它通过提供平台无关、厂商无关的API，使得开发人员能够方便的添加（或更换）追踪系统的实现。对于存在多样化的技术栈共存的调用链中，Opentracing适配Java、C、Go和.Net等技术栈，实现全链路分布式追踪功能。迄今为止，Uber Jaeger、Twitter Zipkin和Apache Skywalking已经适配了Opentracing规范
 
 本框架成为阿里巴巴中间件Nacos和Spring Cloud Alibaba项目的相关开源
-<img src="http://nepxion.gitee.io/docs/discovery-doc/AwardNacos1.jpg" alt="Nacos" width="50%"><img src="http://nepxion.gitee.io/docs/discovery-doc/AwardSCA1.jpg" alt="Spring Cloud Alibaba" width="50%">
+<img src="https://github.com/HaojunRen/Docs/raw/master/discovery-doc/AwardNacos1.jpg" alt="Nacos" width="50%"><img src="https://github.com/HaojunRen/Docs/raw/master/discovery-doc/AwardSCA1.jpg" alt="Spring Cloud Alibaba" width="50%">
 
 现有的Spring Cloud微服务很方便引入该中间件，代码零侵入。鉴于Spring Cloud官方对Eureka和Hystrix不再做新功能的迭代，推荐用Nacos和Sentinel，它们对Spring Cloud灰度发布和路由更具出色的兼容性和友好性
 
