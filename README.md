@@ -11,7 +11,7 @@
 - [Nepxion Discovery【探索】微服务企业级解决方案(PDF版)](http://nepxion.gitee.io/docs/link-doc/discovery-solution-pdf.html)
 - [Nepxion Discovery【探索】架构篇(PDF版)](http://nepxion.gitee.io/docs/link-doc/discovery-framework-pdf.html) 或 [Nepxion Discovery【探索】架构篇(HTML版)](http://nepxion.gitee.io/docs/link-doc/discovery-framework.html)
 
-Nepxion Discovery【探索】框架架构是基于Spring Cloud Discovery服务注册发现、Ribbon负载均衡、Feign和RestTemplate调用等组件全方位增强的企业级微服务开源解决方案，更贴近企业级需求，更具有企业级的插件引入、开箱即用特征
+Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务注册发现、Ribbon负载均衡、Feign和RestTemplate调用等组件全方位增强的企业级微服务开源解决方案，更贴近企业级需求，更具有企业级的插件引入、开箱即用特征
 - 支持Eureka、Consul、Zookeeper和阿里巴巴的Nacos四个服务注册发现中心
 - 支持阿里巴巴的Nacos、携程的Apollo和Redis三个远程配置中心
 - 支持Hystrix或者阿里巴巴Sentinel的两个熔断隔离限流降级中间件
