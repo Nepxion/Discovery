@@ -18,8 +18,10 @@ import com.nepxion.banner.Description;
 import com.nepxion.banner.LogoBanner;
 import com.nepxion.banner.NepxionBanner;
 import com.nepxion.discovery.plugin.opentracing.constant.StrategyOpentracingConstant;
+import com.nepxion.discovery.plugin.opentracing.context.StrategyOpentracingContextManager;
 import com.nepxion.discovery.plugin.opentracing.operation.StrategyOpentracingOperation;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
+import com.nepxion.discovery.plugin.strategy.tracer.StrategyTracerContextManager;
 import com.taobao.text.Color;
 
 @Configuration
@@ -35,5 +37,11 @@ public class StrategyOpentracingAutoConfiguration {
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACE_ENABLED, matchIfMissing = false)
     public StrategyOpentracingOperation strategyOpentracingOperation() {
         return new StrategyOpentracingOperation();
+    }
+
+    @Bean
+    @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_HYSTRIX_THREADLOCAL_SUPPORTED, matchIfMissing = false)
+    public StrategyTracerContextManager strategyTracerContextManager() {
+        return new StrategyOpentracingContextManager();
     }
 }
