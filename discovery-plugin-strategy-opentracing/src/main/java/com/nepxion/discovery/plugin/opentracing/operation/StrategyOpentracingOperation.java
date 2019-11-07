@@ -229,7 +229,7 @@ public class StrategyOpentracingOperation {
             return null;
         }
 
-        Span span = getCurrentSpan();
+        Span span = tracer.activeSpan();
         if (span != null) {
             return span.context().toTraceId();
         }
@@ -242,7 +242,7 @@ public class StrategyOpentracingOperation {
             return null;
         }
 
-        Span span = getCurrentSpan();
+        Span span = tracer.activeSpan();
         if (span != null) {
             return span.context().toSpanId();
         }
