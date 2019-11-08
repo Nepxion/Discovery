@@ -198,8 +198,8 @@ Nacos服务注册发现中心
 ![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Jaeger3.jpg)
 ![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Jaeger4.jpg)
 ![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Jaeger5.jpg)
-集成主流中间件 + 灰度全链路监控
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Jaeger6.jpg)
+代码请从[指南示例高级版](https://github.com/Nepxion/DiscoveryGuide)获取，分支premium
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Jaeger.jpg)
 集成Prometheus + Grafana监控平台
 ![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Prometheus.jpg)
 ![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Grafana.jpg)
