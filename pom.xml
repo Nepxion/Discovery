@@ -64,7 +64,7 @@
         <commons.lang3.version>3.6</commons.lang3.version>
         <commons.collections4.version>4.1</commons.collections4.version>
         <commons.io.version>2.5</commons.io.version>
-        <guava.version>27.0-jre</guava.version>
+        <guava.version>28.1-jre</guava.version>
         <caffeine.version>2.7.0</caffeine.version>
         <dom4j.version>1.6.1</dom4j.version>
         <swagger.version>2.7.0</swagger.version>
