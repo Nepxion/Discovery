@@ -70,7 +70,7 @@
         <swagger.version>2.7.0</swagger.version>
         <apollo.client.version>1.5.0</apollo.client.version>
         <nacos.client.version>1.1.4</nacos.client.version>
-        <sentinel.version>1.6.3</sentinel.version>
+        <sentinel.version>1.7.0</sentinel.version>
         <opentracing.spring.cloud.version>0.3.9</opentracing.spring.cloud.version>
         <spring.cloud.version>Finchley.SR4</spring.cloud.version>
         <spring.cloud.alibaba.version>2.0.0.RELEASE</spring.cloud.alibaba.version>
