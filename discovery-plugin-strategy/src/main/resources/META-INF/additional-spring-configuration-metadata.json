@@ -53,7 +53,7 @@
 			"description": "Whether strategy trace is enabled."
 		},
 		{
-			"name": "spring.application.strategy.trace.logger.enabled"",
+			"name": "spring.application.strategy.trace.logger.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": false,
 			"description": "Whether strategy trace logger is enabled."
