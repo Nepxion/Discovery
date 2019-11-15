@@ -15,6 +15,6 @@
 @title Nepxion Discovery
 @color 0a
 
-call mvn versions:set -DnewVersion=5.5.1-SNAPSHOT
+call mvn versions:set -DnewVersion=5.5.1
 
 pause
