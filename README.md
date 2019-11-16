@@ -198,6 +198,8 @@ Nacos服务注册发现中心
 ![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Jaeger3.jpg)
 ![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Jaeger4.jpg)
 ![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Jaeger5.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Jaeger6.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Jaeger7.jpg)
 集成主流中间件 + 灰度全链路监控
 代码请从[指南示例高级版](https://github.com/Nepxion/DiscoveryGuide)获取，分支premium
 ![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Jaeger.jpg)
