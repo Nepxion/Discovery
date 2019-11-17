@@ -25,7 +25,7 @@ public class DefaultCallableWrapper implements CallableWrapper {
     private StrategyTracerContextManager strategyTracerContextManager;
 
     @Override
-    public <T> Callable<T> wrapCallable(Callable<T> delegate) {
+    public <T> Callable<T> wrapCallable(Callable<T> callable) {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
 
         Object tracerContext = getTracerContext();
@@ -38,7 +38,7 @@ public class DefaultCallableWrapper implements CallableWrapper {
 
                     setTracerContext(tracerContext);
 
-                    return delegate.call();
+                    return callable.call();
                 } finally {
                     RestStrategyContext.clearCurrentContext();
 
