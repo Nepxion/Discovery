@@ -13,5 +13,5 @@ package com.nepxion.discovery.plugin.strategy.wrapper;
 import java.util.concurrent.Callable;
 
 public interface CallableWrapper {
-    <T> Callable<T> wrapCallable(Callable<T> delegate);
+    <T> Callable<T> wrapCallable(Callable<T> callable);
 }
