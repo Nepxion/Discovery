@@ -27,7 +27,7 @@ public class DefaultCallableWrapper implements CallableWrapper {
     private StrategyTracerContextManager strategyTracerContextManager;
 
     @Override
-    public <T> Callable<T> wrapCallable(Callable<T> delegate) {
+    public <T> Callable<T> wrapCallable(Callable<T> callable) {
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
         Map<String, String> headers = RequestContext.getCurrentContext().getZuulRequestHeaders();
 
@@ -42,7 +42,7 @@ public class DefaultCallableWrapper implements CallableWrapper {
 
                     setTracerContext(tracerContext);
 
-                    return delegate.call();
+                    return callable.call();
                 } finally {
                     ZuulStrategyContext.clearCurrentContext();
 
