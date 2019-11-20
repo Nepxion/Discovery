@@ -320,7 +320,7 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
         if (StringUtils.isNotEmpty(region)) {
             stringBuilder.append("[R=" + region + "]");
         }
-        if (StringUtils.isNotEmpty(region)) {
+        if (StringUtils.isNotEmpty(group)) {
             stringBuilder.append("[G=" + group + "]");
         }
 
