@@ -29,7 +29,6 @@ public class DiscoveryConstant {
     public static final String SPRING_APPLICATION_NO_SERVERS_RETRY_TIMES = "spring.application.no.servers.retry.times";
     public static final String SPRING_APPLICATION_NO_SERVERS_RETRY_AWAIT_TIME = "spring.application.no.servers.retry.await.time";
     public static final String SPRING_APPLICATION_NO_SERVERS_NOTIFY_ENABLED = "spring.application.no.servers.notify.enabled";
-    public static final String SPRING_APPLICATION_ENVIRONMENT_PRIORITY_ENABLED = "spring.application.environment.priority.enabled";
 
     public static final String CONTEXT_PATH = "server.servlet.context-path";
 
@@ -68,7 +67,6 @@ public class DiscoveryConstant {
     public static final String ADDRESS = "address";
     public static final String VERSION_WEIGHT = "version-weight";
     public static final String REGION_WEIGHT = "region-weight";
-    public static final String ENVIRONMENT = "environment";
 
     public static final String N_D_PREFIX = "n-d-";
     public static final String N_D_SERVICE_PREFIX = "n-d-service";
