@@ -27,7 +27,6 @@ import com.nepxion.discovery.plugin.framework.listener.discovery.DiscoveryListen
 import com.nepxion.discovery.plugin.framework.listener.discovery.HostFilterDiscoveryListener;
 import com.nepxion.discovery.plugin.framework.listener.discovery.RegionFilterDiscoveryListener;
 import com.nepxion.discovery.plugin.framework.listener.discovery.VersionFilterDiscoveryListener;
-import com.nepxion.discovery.plugin.framework.listener.loadbalance.EnvironmentFilterLoadBalanceListener;
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.HostFilterLoadBalanceListener;
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.LoadBalanceListenerExecutor;
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.NotificationLoadBalanceListener;
@@ -131,13 +130,6 @@ public class PluginAutoConfiguration {
     @ConditionalOnProperty(value = DiscoveryConstant.SPRING_APPLICATION_NO_SERVERS_NOTIFY_ENABLED, matchIfMissing = false)
     public NotificationLoadBalanceListener notificationLoadBalanceListener() {
         return new NotificationLoadBalanceListener();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    @ConditionalOnProperty(value = DiscoveryConstant.SPRING_APPLICATION_ENVIRONMENT_PRIORITY_ENABLED, matchIfMissing = false)
-    public EnvironmentFilterLoadBalanceListener environmentFilterLoadBalanceListener() {
-        return new EnvironmentFilterLoadBalanceListener();
     }
 
     @Bean
