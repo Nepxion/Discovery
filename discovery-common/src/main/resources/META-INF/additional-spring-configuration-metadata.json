@@ -103,10 +103,10 @@
 			"description": "Whether environment isolation is enabled."
 		},
 		{
-			"name": "spring.application.environment.transfer",
+			"name": "spring.application.environment.route",
 			"type": "java.lang.String",
 			"defaultValue": "common",
-			"description": "If environment isolation failed, an environment will transfer."
+			"description": "An environment will be routed to."
 		}
 	]
 }
