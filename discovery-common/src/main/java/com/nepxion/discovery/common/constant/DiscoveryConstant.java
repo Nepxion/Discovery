@@ -28,6 +28,9 @@ public class DiscoveryConstant {
     public static final String SPRING_APPLICATION_NO_SERVERS_RETRY_TIMES = "spring.application.no.servers.retry.times";
     public static final String SPRING_APPLICATION_NO_SERVERS_RETRY_AWAIT_TIME = "spring.application.no.servers.retry.await.time";
     public static final String SPRING_APPLICATION_NO_SERVERS_NOTIFY_ENABLED = "spring.application.no.servers.notify.enabled";
+    public static final String SPRING_APPLICATION_ENVIRONMENT_ISOLATION_ENABLED = "spring.application.environment.isolation.enabled";
+    public static final String SPRING_APPLICATION_ENVIRONMENT_TRANSFER = "spring.application.environment.transfer";
+    public static final String SPRING_APPLICATION_ENVIRONMENT_TRANSFER_VALUE = "common";
 
     public static final String CONTEXT_PATH = "server.contextPath";
 
@@ -62,6 +65,7 @@ public class DiscoveryConstant {
 
     public static final String VERSION = "version";
     public static final String REGION = "region";
+    public static final String ENVIRONMENT = "env";
     public static final String ADDRESS = "address";
     public static final String VERSION_WEIGHT = "version-weight";
     public static final String REGION_WEIGHT = "region-weight";
@@ -75,6 +79,7 @@ public class DiscoveryConstant {
     public static final String N_D_SERVICE_ADDRESS = "n-d-service-address";
     public static final String N_D_SERVICE_VERSION = "n-d-service-version";
     public static final String N_D_SERVICE_REGION = "n-d-service-region";
+    public static final String N_D_SERVICE_ENVIRONMENT = "n-d-service-env";
 
     public static final String N_D_VERSION = "n-d-version";
     public static final String N_D_REGION = "n-d-region";

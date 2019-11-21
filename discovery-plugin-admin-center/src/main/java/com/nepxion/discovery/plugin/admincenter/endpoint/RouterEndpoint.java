@@ -122,6 +122,7 @@ public class RouterEndpoint implements MvcEndpoint {
         String serviceId = pluginAdapter.getServiceId();
         String version = pluginAdapter.getVersion();
         String region = pluginAdapter.getRegion();
+        String environment = pluginAdapter.getEnvironment();
         String host = pluginAdapter.getHost();
         int port = pluginAdapter.getPort();
         int weight = -1;
@@ -132,6 +133,7 @@ public class RouterEndpoint implements MvcEndpoint {
         routerEntity.setServiceId(serviceId);
         routerEntity.setVersion(version);
         routerEntity.setRegion(region);
+        routerEntity.setEnvironment(environment);
         routerEntity.setHost(host);
         routerEntity.setPort(port);
         routerEntity.setWeight(weight);
@@ -159,6 +161,7 @@ public class RouterEndpoint implements MvcEndpoint {
             String serviceType = pluginAdapter.getInstanceServiceType(instance);
             String version = pluginAdapter.getInstanceVersion(instance);
             String region = pluginAdapter.getInstanceRegion(instance);
+            String environment = pluginAdapter.getInstanceEnvironment(instance);
             String host = instance.getHost();
             int port = instance.getPort();
             int weight = getWeight(routeServiceId, version, region);
@@ -169,6 +172,7 @@ public class RouterEndpoint implements MvcEndpoint {
             routerEntity.setServiceId(serviceId);
             routerEntity.setVersion(version);
             routerEntity.setRegion(region);
+            routerEntity.setEnvironment(environment);
             routerEntity.setHost(host);
             routerEntity.setPort(port);
             routerEntity.setWeight(weight);

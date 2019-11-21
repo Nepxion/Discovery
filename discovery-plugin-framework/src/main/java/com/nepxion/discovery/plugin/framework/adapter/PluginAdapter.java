@@ -57,6 +57,8 @@ public interface PluginAdapter {
 
     String getRegion();
 
+    String getEnvironment();
+
     Map<String, String> getServerMetadata(Server server);
 
     String getServerGroupKey(Server server);
@@ -70,6 +72,8 @@ public interface PluginAdapter {
     String getServerVersion(Server server);
 
     String getServerRegion(Server server);
+
+    String getServerEnvironment(Server server);
 
     String getServerContextPath(Server server);
 
@@ -86,6 +90,8 @@ public interface PluginAdapter {
     String getInstanceVersion(ServiceInstance serviceInstance);
 
     String getInstanceRegion(ServiceInstance serviceInstance);
+
+    String getInstanceEnvironment(ServiceInstance serviceInstance);
 
     String getInstanceContextPath(ServiceInstance serviceInstance);
 

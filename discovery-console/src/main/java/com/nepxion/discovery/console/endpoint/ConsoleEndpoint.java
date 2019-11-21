@@ -323,6 +323,7 @@ public class ConsoleEndpoint implements MvcEndpoint {
             String serviceType = metadata.get(DiscoveryConstant.SPRING_APPLICATION_TYPE);
             String version = metadata.get(DiscoveryConstant.VERSION);
             String region = metadata.get(DiscoveryConstant.REGION);
+            String environment = metadata.get(DiscoveryConstant.ENVIRONMENT);
             String host = serviceInstance.getHost();
             int port = serviceInstance.getPort();
 
@@ -331,6 +332,7 @@ public class ConsoleEndpoint implements MvcEndpoint {
             instanceEntity.setServiceId(serviceId);
             instanceEntity.setVersion(version);
             instanceEntity.setRegion(region);
+            instanceEntity.setEnvironment(environment);
             instanceEntity.setHost(host);
             instanceEntity.setPort(port);
             instanceEntity.setMetadata(metadata);

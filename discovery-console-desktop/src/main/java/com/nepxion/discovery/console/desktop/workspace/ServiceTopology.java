@@ -390,6 +390,9 @@ public class ServiceTopology extends AbstractTopology {
         if (StringUtils.isNotEmpty(instance.getRegion())) {
             stringBuilder.append("\n [Region=").append(instance.getRegion()).append("]");
         }
+        if (StringUtils.isNotEmpty(instance.getEnvironment())) {
+            stringBuilder.append("\n [Env=").append(instance.getEnvironment()).append("]");
+        }
 
         return ButtonManager.getHtmlText(stringBuilder.toString());
     }
