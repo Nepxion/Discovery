@@ -10,5 +10,9 @@ package com.nepxion.discovery.plugin.framework.adapter;
  */
 
 public interface EnvironmentTransferAdapter {
+    // 是否要环境切流
     boolean isTransferred();
+
+    // 切流到哪个环境中
+    String getTransferredEnvironment();
 }

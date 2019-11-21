@@ -14,16 +14,11 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.adapter.EnvironmentTransferAdapter;
 import com.netflix.loadbalancer.Server;
 
 public class EnvironmentFilterLoadBalanceListener extends AbstractLoadBalanceListener {
-    @Value("${" + DiscoveryConstant.SPRING_APPLICATION_ENVIRONMENT_TRANSFER + ":" + DiscoveryConstant.SPRING_APPLICATION_ENVIRONMENT_TRANSFER_VALUE + "}")
-    protected String environmentTransfer;
-
     @Autowired(required = false)
     private EnvironmentTransferAdapter environmentTransferAdapter;
 
@@ -47,7 +42,7 @@ public class EnvironmentFilterLoadBalanceListener extends AbstractLoadBalanceLis
             } else {
                 // 环境切流：环境隔离下，调用端实例找不到符合条件的提供端实例，把流量切到一个通用或者备份环境，例如：元数据Metadata环境配置值为common（该值可配置，但不允许为保留值default）
                 if (environmentTransferAdapter != null && environmentTransferAdapter.isTransferred()) {
-                    if (!StringUtils.equals(serverEnvironment, environmentTransfer)) {
+                    if (!StringUtils.equals(serverEnvironment, environmentTransferAdapter.getTransferredEnvironment())) {
                         iterator.remove();
                     }
                 } else {
