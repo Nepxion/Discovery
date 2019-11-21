@@ -28,6 +28,7 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
     - 调用链监控（Tracing）包括Header方式、Opentracing方式、日志方式等单个或者组合式的全链路灰度调用链。Opentracing方式不支持Edgware版（Spring Boot 1.x.x），不支持Finchley版（Spring Boot 2.0.x）的Spring Cloud Gateway，除此之外的版本都支持
     - 指标监控（Metrics）包括Prometheus、Grafana、Spring Boot Admin
 - 服务隔离。基于组和黑/白名单的全链路服务隔离，包括注册准入隔离（基于黑/白名单，包括组和IP地址的准入、最大注册数限制的准入）、消费端隔离（基于组的负载均衡的隔离、基于黑/白名单的IP地址的隔离）和提供端隔离（基于组的Header传值策略的隔离）
+- 环境隔离和切流。基于元数据Metadata的environment参数进行隔离，当调用端实例和提供端实例的元数据Metadata环境配置值相等才能调用。环境隔离下，调用端实例找不到符合条件的提供端实例，把流量切到一个通用或者备份环境
 - 服务限流熔断降级权限。集成阿里巴巴Sentinel，有机整合灰度路由，扩展LimitApp的机制，通过动态的Http Header方式实现组合式防护机制，包括基于服务名、基于灰度组、基于灰度版本、基于灰度区域、基于机器地址和端口等防护机制，支持自定义任意的业务参数组合实现该功能。支持原生的流控规则、降级规则、授权规则、系统规则、热点参数流控规则
 - 数据库灰度发布。基于多数据源的数据库灰度发布
 - 同城双活多机房切换。基于区域匹配发布或者路由的同城双活多机房切换
@@ -1093,20 +1094,23 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.gray.service.fei
 eureka.instance.metadataMap.group=xxx-service-group
 eureka.instance.metadataMap.version=1.0
 eureka.instance.metadataMap.region=dev
+eureka.instance.metadataMap.env=env1
 
 # Consul config for discovery
 # 参考https://springcloud.cc/spring-cloud-consul.html - 元数据和Consul标签
-spring.cloud.consul.discovery.tags=group=xxx-service-group,version=1.0,region=dev
+spring.cloud.consul.discovery.tags=group=xxx-service-group,version=1.0,region=dev,env=env1
 
 # Zookeeper config for discovery
 spring.cloud.zookeeper.discovery.metadata.group=xxx-service-group
 spring.cloud.zookeeper.discovery.metadata.version=1.0
 spring.cloud.zookeeper.discovery.metadata.region=dev
+spring.cloud.zookeeper.discovery.metadata.env=env1
 
 # Nacos config for discovery
 spring.cloud.nacos.discovery.metadata.group=example-service-group
 spring.cloud.nacos.discovery.metadata.version=1.0
 spring.cloud.nacos.discovery.metadata.region=dev
+spring.cloud.nacos.discovery.metadata.env=env1
 
 # Management config
 # E版配置方式
@@ -1202,6 +1206,13 @@ spring.application.strategy.sentinel.param.flow.path=classpath:sentinel-param-fl
 # 服务端执行规则时候，以Http请求中的Header值作为关键Key。缺失则默认为n-d-service-id，即以服务名作为关键Key
 spring.application.strategy.service.sentinel.request.origin.key=n-d-service-id
 
+# 启动和关闭环境隔离和切流。缺失则默认为false
+# 环境隔离：调用端实例和提供端实例的元数据Metadata环境配置值相等才能调用
+# 环境切流：环境隔离下，调用端实例找不到符合条件的提供端实例，把流量切到一个通用或者备份环境，例如：元数据Metadata环境配置值为common（该值可配置，但不允许为保留值default）
+spring.application.environment.isolation.enabled=true
+# 流量切到指定的环境下。不允许为保留值default，缺失则默认为common
+spring.application.environment.transfer=common
+
 # 开启和关闭使用服务名前缀来作为服务组名。缺失则默认为false
 spring.application.group.generator.enabled=true
 # 服务名前缀的长度，必须大于0
@@ -1277,6 +1288,13 @@ spring.application.strategy.trace.debug.enabled=true
 # 开启Spring Cloud Gateway网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
 spring.application.strategy.hystrix.threadlocal.supported=true
 
+# 启动和关闭环境隔离和切流。缺失则默认为false
+# 环境隔离：调用端实例和提供端实例的元数据Metadata环境配置值相等才能调用
+# 环境切流：环境隔离下，调用端实例找不到符合条件的提供端实例，把流量切到一个通用或者备份环境，例如：元数据Metadata环境配置值为common（该值可配置，但不允许为保留值default）
+spring.application.environment.isolation.enabled=true
+# 流量切到指定的环境下。不允许为保留值default，缺失则默认为common
+spring.application.environment.transfer=common
+
 # 开启和关闭使用服务名前缀来作为服务组名。缺失则默认为false
 spring.application.group.generator.enabled=true
 # 服务名前缀的长度，必须大于0
@@ -1351,6 +1369,13 @@ spring.application.strategy.trace.opentracing.separate.span.enabled=true
 spring.application.strategy.trace.debug.enabled=true
 # 开启Zuul网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
 spring.application.strategy.hystrix.threadlocal.supported=true
+
+# 启动和关闭环境隔离和切流。缺失则默认为false
+# 环境隔离：调用端实例和提供端实例的元数据Metadata环境配置值相等才能调用
+# 环境切流：环境隔离下，调用端实例找不到符合条件的提供端实例，把流量切到一个通用或者备份环境，例如：元数据Metadata环境配置值为common（该值可配置，但不允许为保留值default）
+spring.application.environment.isolation.enabled=true
+# 流量切到指定的环境下。不允许为保留值default，缺失则默认为common
+spring.application.environment.transfer=common
 
 # 开启和关闭使用服务名前缀来作为服务组名。缺失则默认为false
 spring.application.group.generator.enabled=true
