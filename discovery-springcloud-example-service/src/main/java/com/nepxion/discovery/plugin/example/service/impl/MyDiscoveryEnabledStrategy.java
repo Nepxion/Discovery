@@ -50,9 +50,10 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
         String serviceId = pluginAdapter.getServerServiceId(server);
         String version = pluginAdapter.getServerVersion(server);
         String region = pluginAdapter.getServerRegion(server);
+        String environment = pluginAdapter.getServerEnvironment(server);
         String address = server.getHostPort();
 
-        LOG.info("负载均衡用户定制触发：token={}, serviceId={}, version={}, region={}, address={}", token, serviceId, version, region, address);
+        LOG.info("负载均衡用户定制触发：token={}, serviceId={}, version={}, region={}, env={}, address={}", token, serviceId, version, region, environment, address);
 
         String filterServiceId = "discovery-springcloud-example-c";
         String filterToken = "123";
@@ -72,9 +73,10 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
         String serviceId = pluginAdapter.getServerServiceId(server);
         String version = pluginAdapter.getServerVersion(server);
         String region = pluginAdapter.getServerRegion(server);
+        String environment = pluginAdapter.getServerEnvironment(server);
         String address = server.getHostPort();
 
-        LOG.info("负载均衡用户定制触发：attributes={}, serviceId={}, version={}, region={}, address={}", attributes, serviceId, version, region, address);
+        LOG.info("负载均衡用户定制触发：attributes={}, serviceId={}, version={}, region={}, env={}, address={}", attributes, serviceId, version, region, environment, address);
 
         String filterServiceId = "discovery-springcloud-example-b";
         String filterVersion = "1.0";

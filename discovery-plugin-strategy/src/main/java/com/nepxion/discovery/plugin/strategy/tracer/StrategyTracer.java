@@ -68,6 +68,7 @@ public class StrategyTracer {
         MDC.put(DiscoveryConstant.N_D_SERVICE_ADDRESS, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_ADDRESS + "=" : StringUtils.EMPTY) + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_ADDRESS));
         MDC.put(DiscoveryConstant.N_D_SERVICE_VERSION, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_VERSION + "=" : StringUtils.EMPTY) + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_VERSION));
         MDC.put(DiscoveryConstant.N_D_SERVICE_REGION, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_REGION + "=" : StringUtils.EMPTY) + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_REGION));
+        MDC.put(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_ENVIRONMENT + "=" : StringUtils.EMPTY) + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT));
 
         LOG.debug("Trace chain information outputs to MDC...");
     }
@@ -94,6 +95,7 @@ public class StrategyTracer {
         MDC.put(DiscoveryConstant.N_D_SERVICE_ADDRESS, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_ADDRESS + "=" : StringUtils.EMPTY) + pluginAdapter.getHost() + ":" + pluginAdapter.getPort());
         MDC.put(DiscoveryConstant.N_D_SERVICE_VERSION, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_VERSION + "=" : StringUtils.EMPTY) + pluginAdapter.getVersion());
         MDC.put(DiscoveryConstant.N_D_SERVICE_REGION, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_REGION + "=" : StringUtils.EMPTY) + pluginAdapter.getRegion());
+        MDC.put(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_ENVIRONMENT + "=" : StringUtils.EMPTY) + pluginAdapter.getEnvironment());
 
         LOG.debug("Trace chain information outputs to MDC...");
     }
@@ -124,6 +126,7 @@ public class StrategyTracer {
         System.out.println(DiscoveryConstant.N_D_SERVICE_ADDRESS + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_ADDRESS));
         System.out.println(DiscoveryConstant.N_D_SERVICE_VERSION + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_VERSION));
         System.out.println(DiscoveryConstant.N_D_SERVICE_REGION + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_REGION));
+        System.out.println(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT));
 
         String routeVersion = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION);
         if (StringUtils.isNotEmpty(routeVersion)) {
@@ -171,6 +174,7 @@ public class StrategyTracer {
         System.out.println(DiscoveryConstant.N_D_SERVICE_ADDRESS + "=" + pluginAdapter.getHost() + ":" + pluginAdapter.getPort());
         System.out.println(DiscoveryConstant.N_D_SERVICE_VERSION + "=" + pluginAdapter.getVersion());
         System.out.println(DiscoveryConstant.N_D_SERVICE_REGION + "=" + pluginAdapter.getRegion());
+        System.out.println(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT + "=" + pluginAdapter.getEnvironment());
 
         String routeVersion = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION);
         if (StringUtils.isNotEmpty(routeVersion)) {

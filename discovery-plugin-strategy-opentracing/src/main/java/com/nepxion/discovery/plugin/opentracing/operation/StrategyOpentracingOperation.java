@@ -92,6 +92,7 @@ public class StrategyOpentracingOperation {
         span.setTag(DiscoveryConstant.N_D_SERVICE_ADDRESS, strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_ADDRESS));
         span.setTag(DiscoveryConstant.N_D_SERVICE_VERSION, strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_VERSION));
         span.setTag(DiscoveryConstant.N_D_SERVICE_REGION, strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_REGION));
+        span.setTag(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT));
 
         String routeVersion = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION);
         if (StringUtils.isNotEmpty(routeVersion)) {
@@ -149,6 +150,7 @@ public class StrategyOpentracingOperation {
         span.setTag(DiscoveryConstant.N_D_SERVICE_ADDRESS, pluginAdapter.getHost() + ":" + pluginAdapter.getPort());
         span.setTag(DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion());
         span.setTag(DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion());
+        span.setTag(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, pluginAdapter.getEnvironment());
 
         String routeVersion = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION);
         if (StringUtils.isNotEmpty(routeVersion)) {
