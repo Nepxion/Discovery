@@ -29,8 +29,8 @@ public class DiscoveryConstant {
     public static final String SPRING_APPLICATION_NO_SERVERS_RETRY_AWAIT_TIME = "spring.application.no.servers.retry.await.time";
     public static final String SPRING_APPLICATION_NO_SERVERS_NOTIFY_ENABLED = "spring.application.no.servers.notify.enabled";
     public static final String SPRING_APPLICATION_ENVIRONMENT_ISOLATION_ENABLED = "spring.application.environment.isolation.enabled";
-    public static final String SPRING_APPLICATION_ENVIRONMENT_TRANSFER = "spring.application.environment.transfer";
-    public static final String SPRING_APPLICATION_ENVIRONMENT_TRANSFER_VALUE = "common";
+    public static final String SPRING_APPLICATION_ENVIRONMENT_ROUTE = "spring.application.environment.route";
+    public static final String SPRING_APPLICATION_ENVIRONMENT_ROUTE_VALUE = "common";
 
     public static final String CONTEXT_PATH = "server.contextPath";
 

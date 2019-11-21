@@ -16,11 +16,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 
-import com.nepxion.discovery.plugin.framework.adapter.EnvironmentTransferAdapter;
+import com.nepxion.discovery.plugin.framework.adapter.EnvironmentRouteAdapter;
 
 public class EnvironmentFilterDiscoveryListener extends AbstractDiscoveryListener {
     @Autowired(required = false)
-    private EnvironmentTransferAdapter environmentTransferAdapter;
+    private EnvironmentRouteAdapter environmentRouteAdapter;
 
     @Override
     public void onGetInstances(String serviceId, List<ServiceInstance> instances) {
@@ -41,8 +41,8 @@ public class EnvironmentFilterDiscoveryListener extends AbstractDiscoveryListene
                 }
             } else {
                 // 环境路由：环境隔离下，调用端实例找不到符合条件的提供端实例，把流量路由到一个通用或者备份环境，例如：元数据Metadata环境配置值为common（该值可配置，但不允许为保留值default）
-                if (environmentTransferAdapter != null && environmentTransferAdapter.isTransferred()) {
-                    if (!StringUtils.equals(instanceEnvironment, environmentTransferAdapter.getTransferredEnvironment())) {
+                if (environmentRouteAdapter != null && environmentRouteAdapter.isRoutable()) {
+                    if (!StringUtils.equals(instanceEnvironment, environmentRouteAdapter.getEnvironmentRoute())) {
                         iterator.remove();
                     }
                 } else {
