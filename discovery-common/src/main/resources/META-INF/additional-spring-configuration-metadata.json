@@ -95,6 +95,18 @@
 			"type": "java.lang.Boolean",
 			"defaultValue": false,
 			"description": "Whether no server notify is enabled."
+		},
+		{
+			"name": "spring.application.environment.isolation.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": false,
+			"description": "Whether environment isolation is enabled."
+		},
+		{
+			"name": "spring.application.environment.transfer",
+			"type": "java.lang.String",
+			"defaultValue": "common",
+			"description": "If environment isolation failed, an environment will transfer."
 		}
 	]
 }

@@ -41,9 +41,10 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
         String serviceId = pluginAdapter.getServerServiceId(server);
         String version = pluginAdapter.getServerVersion(server);
         String region = pluginAdapter.getServerRegion(server);
+        String environment = pluginAdapter.getServerEnvironment(server);
         String address = server.getHostPort();
 
-        LOG.info("负载均衡用户定制触发：mobile={}, serviceId={}, version={}, region={}, address={}", mobile, serviceId, version, region, address);
+        LOG.info("负载均衡用户定制触发：mobile={}, serviceId={}, version={}, region={}, env={}, address={}", mobile, serviceId, version, region, environment, address);
 
         if (StringUtils.isNotEmpty(mobile)) {
             // 手机号以移动138开头，路由到1.0版本的服务上

@@ -164,12 +164,21 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     @Override
     public String getRegion() {
         String region = getMetadata().get(DiscoveryConstant.REGION);
-
         if (StringUtils.isEmpty(region)) {
             region = DiscoveryConstant.DEFAULT;
         }
 
         return region;
+    }
+
+    @Override
+    public String getEnvironment() {
+        String environment = getMetadata().get(DiscoveryConstant.ENVIRONMENT);
+        if (StringUtils.isEmpty(environment)) {
+            environment = DiscoveryConstant.DEFAULT;
+        }
+
+        return environment;
     }
 
     @Override
@@ -232,6 +241,16 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
         }
 
         return serverRegion;
+    }
+
+    @Override
+    public String getServerEnvironment(Server server) {
+        String serverEnvironment = getServerMetadata(server).get(DiscoveryConstant.ENVIRONMENT);
+        if (StringUtils.isEmpty(serverEnvironment)) {
+            serverEnvironment = DiscoveryConstant.DEFAULT;
+        }
+
+        return serverEnvironment;
     }
 
     @Override
@@ -298,6 +317,16 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
+    public String getInstanceEnvironment(ServiceInstance serviceInstance) {
+        String instanceEnvironment = getInstanceMetadata(serviceInstance).get(DiscoveryConstant.ENVIRONMENT);
+        if (StringUtils.isEmpty(instanceEnvironment)) {
+            instanceEnvironment = DiscoveryConstant.DEFAULT;
+        }
+
+        return instanceEnvironment;
+    }
+
+    @Override
     public String getInstanceContextPath(ServiceInstance serviceInstance) {
         return getInstanceMetadata(serviceInstance).get(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH);
     }
@@ -309,6 +338,7 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
         int port = getPort();
         String version = getVersion();
         String region = getRegion();
+        String environment = getEnvironment();
         String group = getGroup();
 
         StringBuilder stringBuilder = new StringBuilder();
@@ -319,6 +349,9 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
         }
         if (StringUtils.isNotEmpty(region)) {
             stringBuilder.append("[R=" + region + "]");
+        }
+        if (StringUtils.isNotEmpty(environment)) {
+            stringBuilder.append("[E=" + environment + "]");
         }
         if (StringUtils.isNotEmpty(group)) {
             stringBuilder.append("[G=" + group + "]");
