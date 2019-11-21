@@ -72,7 +72,7 @@
         <nacos.client.version>1.1.4</nacos.client.version>
         <sentinel.version>1.7.0</sentinel.version>
         <opentracing.spring.cloud.version>0.3.9</opentracing.spring.cloud.version>
-        <spring.cloud.version>Greenwich.SR3</spring.cloud.version>
+        <spring.cloud.version>Greenwich.SR4</spring.cloud.version>
         <spring.cloud.alibaba.version>2.1.1.RELEASE</spring.cloud.alibaba.version>
         <spring.boot.version>2.1.10.RELEASE</spring.boot.version>
         <disruptor.version>3.3.7</disruptor.version>
