@@ -10,10 +10,21 @@ package com.nepxion.discovery.plugin.framework.adapter;
  */
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
 public abstract class DefaultEnvironmentTransferAdapter implements EnvironmentTransferAdapter {
     @Autowired
     protected PluginAdapter pluginAdapter;
+
+    @Value("${" + DiscoveryConstant.SPRING_APPLICATION_ENVIRONMENT_TRANSFER + ":" + DiscoveryConstant.SPRING_APPLICATION_ENVIRONMENT_TRANSFER_VALUE + "}")
+    protected String environmentTransfer;
+
+    @Override
+    public String getTransferredEnvironment() {
+        return environmentTransfer;
+    }
 
     public PluginAdapter getPluginAdapter() {
         return pluginAdapter;
