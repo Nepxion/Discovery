@@ -40,20 +40,20 @@ public class EnvironmentFilterLoadBalanceListener extends AbstractLoadBalanceLis
                     iterator.remove();
                 }
             } else {
-                // 环境切流：环境隔离下，调用端实例找不到符合条件的提供端实例，把流量切到一个通用或者备份环境，例如：元数据Metadata环境配置值为common（该值可配置，但不允许为保留值default）
+                // 环境路由：环境隔离下，调用端实例找不到符合条件的提供端实例，把流量路由到一个通用或者备份环境，例如：元数据Metadata环境配置值为common（该值可配置，但不允许为保留值default）
                 if (environmentTransferAdapter != null && environmentTransferAdapter.isTransferred()) {
                     if (!StringUtils.equals(serverEnvironment, environmentTransferAdapter.getTransferredEnvironment())) {
                         iterator.remove();
                     }
                 } else {
-                    // 环境切流关闭，移除所有不匹配的实例
+                    // 环境路由未开启，移除所有不匹配的实例
                     iterator.remove();
                 }
             }
         }
     }
 
-    // 判断环境是否要切流。只要调用端实例和至少一个提供端实例的元数据Metadata环境配置值相等，就不需要切流
+    // 判断环境是否要路由。只要调用端实例和至少一个提供端实例的元数据Metadata环境配置值相等，就不需要路由
     private boolean validate(List<? extends Server> servers, String environment) {
         for (Server server : servers) {
             String serverEnvironment = pluginAdapter.getServerEnvironment(server);
