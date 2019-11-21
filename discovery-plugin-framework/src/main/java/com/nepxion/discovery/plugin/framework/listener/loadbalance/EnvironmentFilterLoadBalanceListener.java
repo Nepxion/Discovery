@@ -15,12 +15,12 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.plugin.framework.adapter.EnvironmentTransferAdapter;
+import com.nepxion.discovery.plugin.framework.adapter.EnvironmentRouteAdapter;
 import com.netflix.loadbalancer.Server;
 
 public class EnvironmentFilterLoadBalanceListener extends AbstractLoadBalanceListener {
     @Autowired(required = false)
-    private EnvironmentTransferAdapter environmentTransferAdapter;
+    private EnvironmentRouteAdapter environmentRouteAdapter;
 
     @Override
     public void onGetServers(String serviceId, List<? extends Server> servers) {
@@ -41,8 +41,8 @@ public class EnvironmentFilterLoadBalanceListener extends AbstractLoadBalanceLis
                 }
             } else {
                 // 环境路由：环境隔离下，调用端实例找不到符合条件的提供端实例，把流量路由到一个通用或者备份环境，例如：元数据Metadata环境配置值为common（该值可配置，但不允许为保留值default）
-                if (environmentTransferAdapter != null && environmentTransferAdapter.isTransferred()) {
-                    if (!StringUtils.equals(serverEnvironment, environmentTransferAdapter.getTransferredEnvironment())) {
+                if (environmentRouteAdapter != null && environmentRouteAdapter.isRoutable()) {
+                    if (!StringUtils.equals(serverEnvironment, environmentRouteAdapter.getEnvironmentRoute())) {
                         iterator.remove();
                     }
                 } else {

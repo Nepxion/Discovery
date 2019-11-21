@@ -9,10 +9,10 @@ package com.nepxion.discovery.plugin.framework.adapter;
  * @version 1.0
  */
 
-public interface EnvironmentTransferAdapter {
+public interface EnvironmentRouteAdapter {
     // 是否要环境路由
-    boolean isTransferred();
+    boolean isRoutable();
 
     // 路由到哪个环境中
-    String getTransferredEnvironment();
+    String getEnvironmentRoute();
 }

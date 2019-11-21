@@ -14,16 +14,16 @@ import org.springframework.beans.factory.annotation.Value;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
-public abstract class DefaultEnvironmentTransferAdapter implements EnvironmentTransferAdapter {
+public abstract class DefaultEnvironmentRouteAdapter implements EnvironmentRouteAdapter {
     @Autowired
     protected PluginAdapter pluginAdapter;
 
-    @Value("${" + DiscoveryConstant.SPRING_APPLICATION_ENVIRONMENT_TRANSFER + ":" + DiscoveryConstant.SPRING_APPLICATION_ENVIRONMENT_TRANSFER_VALUE + "}")
-    protected String environmentTransfer;
+    @Value("${" + DiscoveryConstant.SPRING_APPLICATION_ENVIRONMENT_ROUTE + ":" + DiscoveryConstant.SPRING_APPLICATION_ENVIRONMENT_ROUTE_VALUE + "}")
+    protected String environmentRoute;
 
     @Override
-    public String getTransferredEnvironment() {
-        return environmentTransfer;
+    public String getEnvironmentRoute() {
+        return environmentRoute;
     }
 
     public PluginAdapter getPluginAdapter() {

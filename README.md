@@ -1211,7 +1211,7 @@ spring.application.strategy.service.sentinel.request.origin.key=n-d-service-id
 # 环境路由：环境隔离下，调用端实例找不到符合条件的提供端实例，把流量路由到一个通用或者备份环境，例如：元数据Metadata环境配置值为common（该值可配置，但不允许为保留值default）
 spring.application.environment.isolation.enabled=true
 # 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
-spring.application.environment.transfer=common
+spring.application.environment.route=common
 
 # 开启和关闭使用服务名前缀来作为服务组名。缺失则默认为false
 spring.application.group.generator.enabled=true
@@ -1293,7 +1293,7 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 # 环境路由：环境隔离下，调用端实例找不到符合条件的提供端实例，把流量路由到一个通用或者备份环境，例如：元数据Metadata环境配置值为common（该值可配置，但不允许为保留值default）
 spring.application.environment.isolation.enabled=true
 # 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
-spring.application.environment.transfer=common
+spring.application.environment.route=common
 
 # 开启和关闭使用服务名前缀来作为服务组名。缺失则默认为false
 spring.application.group.generator.enabled=true
@@ -1375,7 +1375,7 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 # 环境路由：环境隔离下，调用端实例找不到符合条件的提供端实例，把流量路由到一个通用或者备份环境，例如：元数据Metadata环境配置值为common（该值可配置，但不允许为保留值default）
 spring.application.environment.isolation.enabled=true
 # 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
-spring.application.environment.transfer=common
+spring.application.environment.route=common
 
 # 开启和关闭使用服务名前缀来作为服务组名。缺失则默认为false
 spring.application.group.generator.enabled=true
