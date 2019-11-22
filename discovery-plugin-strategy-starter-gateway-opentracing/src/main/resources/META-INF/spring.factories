@@ -1,3 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.opentracing.contrib.spring.cloud.gateway.GatewayTracingAutoConfiguration,\
 com.nepxion.discovery.plugin.gateway.opentracing.configuration.GatewayStrategyOpentracingAutoConfiguration
