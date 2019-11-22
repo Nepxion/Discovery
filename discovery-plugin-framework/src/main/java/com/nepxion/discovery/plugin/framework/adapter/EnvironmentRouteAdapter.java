@@ -11,7 +11,7 @@ package com.nepxion.discovery.plugin.framework.adapter;
 
 public interface EnvironmentRouteAdapter {
     // 是否要环境路由
-    boolean isRoutable();
+    boolean isRouteEnabled();
 
     // 路由到哪个环境中
     String getEnvironmentRoute();
