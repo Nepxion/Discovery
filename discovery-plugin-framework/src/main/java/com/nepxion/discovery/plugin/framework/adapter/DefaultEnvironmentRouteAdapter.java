@@ -14,12 +14,20 @@ import org.springframework.beans.factory.annotation.Value;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
-public abstract class DefaultEnvironmentRouteAdapter implements EnvironmentRouteAdapter {
+public class DefaultEnvironmentRouteAdapter implements EnvironmentRouteAdapter {
     @Autowired
     protected PluginAdapter pluginAdapter;
 
+    @Value("${" + DiscoveryConstant.SPRING_APPLICATION_ENVIRONMENT_ROUTE_ENABLED + ":false}")
+    protected Boolean environmentRouteEnabled;
+
     @Value("${" + DiscoveryConstant.SPRING_APPLICATION_ENVIRONMENT_ROUTE + ":" + DiscoveryConstant.SPRING_APPLICATION_ENVIRONMENT_ROUTE_VALUE + "}")
     protected String environmentRoute;
+
+    @Override
+    public boolean isRouteEnabled() {
+        return environmentRouteEnabled;
+    }
 
     @Override
     public String getEnvironmentRoute() {

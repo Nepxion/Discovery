@@ -1206,10 +1206,10 @@ spring.application.strategy.sentinel.param.flow.path=classpath:sentinel-param-fl
 # 服务端执行规则时候，以Http请求中的Header值作为关键Key。缺失则默认为n-d-service-id，即以服务名作为关键Key
 spring.application.strategy.service.sentinel.request.origin.key=n-d-service-id
 
-# 启动和关闭环境隔离和路由。缺失则默认为false
-# 环境隔离：调用端实例和提供端实例的元数据Metadata环境配置值相等才能调用
-# 环境路由：环境隔离下，调用端实例找不到符合条件的提供端实例，把流量路由到一个通用或者备份环境，例如：元数据Metadata环境配置值为common（该值可配置，但不允许为保留值default）
+# 启动和关闭环境隔离，环境隔离指调用端实例和提供端实例的元数据Metadata环境配置值相等才能调用。缺失则默认为false
 spring.application.environment.isolation.enabled=true
+# 启动和关闭环境路由，环境路由指在环境隔离下，调用端实例找不到符合条件的提供端实例，把流量路由到一个通用或者备份环境，例如：元数据Metadata环境配置值为common（该值可配置，但不允许为保留值default）。缺失则默认为false
+spring.application.environment.route.enabled=true
 # 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
 spring.application.environment.route=common
 
@@ -1288,10 +1288,10 @@ spring.application.strategy.trace.debug.enabled=true
 # 开启Spring Cloud Gateway网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
 spring.application.strategy.hystrix.threadlocal.supported=true
 
-# 启动和关闭环境隔离和路由。缺失则默认为false
-# 环境隔离：调用端实例和提供端实例的元数据Metadata环境配置值相等才能调用
-# 环境路由：环境隔离下，调用端实例找不到符合条件的提供端实例，把流量路由到一个通用或者备份环境，例如：元数据Metadata环境配置值为common（该值可配置，但不允许为保留值default）
+# 启动和关闭环境隔离，环境隔离指调用端实例和提供端实例的元数据Metadata环境配置值相等才能调用。缺失则默认为false
 spring.application.environment.isolation.enabled=true
+# 启动和关闭环境路由，环境路由指在环境隔离下，调用端实例找不到符合条件的提供端实例，把流量路由到一个通用或者备份环境，例如：元数据Metadata环境配置值为common（该值可配置，但不允许为保留值default）。缺失则默认为false
+spring.application.environment.route.enabled=true
 # 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
 spring.application.environment.route=common
 
@@ -1370,10 +1370,10 @@ spring.application.strategy.trace.debug.enabled=true
 # 开启Zuul网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
 spring.application.strategy.hystrix.threadlocal.supported=true
 
-# 启动和关闭环境隔离和路由。缺失则默认为false
-# 环境隔离：调用端实例和提供端实例的元数据Metadata环境配置值相等才能调用
-# 环境路由：环境隔离下，调用端实例找不到符合条件的提供端实例，把流量路由到一个通用或者备份环境，例如：元数据Metadata环境配置值为common（该值可配置，但不允许为保留值default）
+# 启动和关闭环境隔离，环境隔离指调用端实例和提供端实例的元数据Metadata环境配置值相等才能调用。缺失则默认为false
 spring.application.environment.isolation.enabled=true
+# 启动和关闭环境路由，环境路由指在环境隔离下，调用端实例找不到符合条件的提供端实例，把流量路由到一个通用或者备份环境，例如：元数据Metadata环境配置值为common（该值可配置，但不允许为保留值default）。缺失则默认为false
+spring.application.environment.route.enabled=true
 # 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
 spring.application.environment.route=common
 

@@ -41,7 +41,7 @@ public class EnvironmentFilterLoadBalanceListener extends AbstractLoadBalanceLis
                 }
             } else {
                 // 环境路由：环境隔离下，调用端实例找不到符合条件的提供端实例，把流量路由到一个通用或者备份环境，例如：元数据Metadata环境配置值为common（该值可配置，但不允许为保留值default）
-                if (environmentRouteAdapter != null && environmentRouteAdapter.isRoutable()) {
+                if (environmentRouteAdapter != null && environmentRouteAdapter.isRouteEnabled()) {
                     if (!StringUtils.equals(serverEnvironment, environmentRouteAdapter.getEnvironmentRoute())) {
                         iterator.remove();
                     }
