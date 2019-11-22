@@ -15,6 +15,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.plugin.framework.adapter.DefaultEnvironmentRouteAdapter;
+import com.nepxion.discovery.plugin.framework.adapter.EnvironmentRouteAdapter;
 import com.nepxion.discovery.plugin.framework.cache.PluginCache;
 import com.nepxion.discovery.plugin.framework.cache.RuleCache;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
@@ -146,6 +148,13 @@ public class PluginAutoConfiguration {
     @ConditionalOnProperty(value = DiscoveryConstant.SPRING_APPLICATION_ENVIRONMENT_ISOLATION_ENABLED, matchIfMissing = false)
     public EnvironmentFilterLoadBalanceListener environmentFilterLoadBalanceListener() {
         return new EnvironmentFilterLoadBalanceListener();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    @ConditionalOnProperty(value = DiscoveryConstant.SPRING_APPLICATION_ENVIRONMENT_ISOLATION_ENABLED, matchIfMissing = false)
+    public EnvironmentRouteAdapter environmentRouteAdapter() {
+        return new DefaultEnvironmentRouteAdapter();
     }
 
     @Bean
