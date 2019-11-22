@@ -103,6 +103,12 @@
 			"description": "Whether environment isolation is enabled."
 		},
 		{
+			"name": "spring.application.environment.route.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": false,
+			"description": "Whether environment route is enabled."
+		},
+		{
 			"name": "spring.application.environment.route",
 			"type": "java.lang.String",
 			"defaultValue": "common",
