@@ -25,7 +25,7 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
 - 灰度路由。基于Header传递的全链路灰度路由，包括切换路由（版本匹配路由、区域匹配路由、机器IP和端口匹配路由）和平滑路由（版本权重路由、区域权重路由）。可以在网关过滤器、前端界面、负载均衡策略类三个地方实现路由功能
 - 组合式灰度发布和路由，灰度发布和灰度路由的多种组合式规则和策略，前端灰度&网关灰度路由组合式策略
 - 服务监控。包括调用链监控（Tracing）和指标监控（Metrics），CNCF技术委员会通过OpenTelemetry规范整合基于Tracing的OpenTracing规范（官方推荐Jaeger做Backend）和基于Metrics的OpenSensus规范（官方推荐Prometheus做Backend）
-    - 调用链监控（Tracing）包括Header方式、Opentracing方式、日志方式等单个或者组合式的全链路灰度调用链。Opentracing方式不支持Edgware版（Spring Boot 1.x.x），不支持Finchley版（Spring Boot 2.0.x）的Spring Cloud Gateway，除此之外的版本都支持
+    - 调用链监控（Tracing）包括Header方式、Opentracing方式、日志方式等单个或者组合式的全链路灰度调用链。Opentracing方式不支持Edgware版（Spring Boot 1.x.x）
     - 指标监控（Metrics）包括Prometheus、Grafana、Spring Boot Admin
 - 服务隔离。基于组和黑/白名单的全链路服务隔离，包括注册准入隔离（基于黑/白名单，包括组和IP地址的准入、最大注册数限制的准入）、消费端隔离（基于组的负载均衡的隔离、基于黑/白名单的IP地址的隔离）和提供端隔离（基于组的Header传值策略的隔离）
 - 环境隔离和路由。基于元数据Metadata的env参数进行隔离，当调用端实例和提供端实例的元数据Metadata环境配置值相等才能调用。环境隔离下，调用端实例找不到符合条件的提供端实例，把流量路由到一个通用或者备份环境
