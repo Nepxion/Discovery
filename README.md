@@ -84,7 +84,7 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
 
 ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status1.png) 表示迭代中 | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status2.png) 表示不维护，但可用 | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status3.png) 表示不维护，不可用，已废弃
 
-Hoxton（6.x.x），同时适用于Finchley、Greenwich和Hoxton
+6.x.x版本同时适用于Finchley、Greenwich和Hoxton
 
 二、使用方便。只需如下步骤：
 
