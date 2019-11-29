@@ -14,7 +14,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRule;
@@ -48,11 +47,6 @@ public class AdminAutoConfiguration {
         @Bean
         public GitEndpoint gitEndpoint() {
             return new GitEndpoint();
-        }
-
-        @Bean
-        public RestTemplate routerRestTemplate() {
-            return new RestTemplate();
         }
     }
 
