@@ -35,7 +35,7 @@ public class PluginSubscriber {
     private PluginAdapter pluginAdapter;
 
     @Autowired
-    private PluginConfigParser pluninConfigParser;
+    private PluginConfigParser pluginConfigParser;
 
     @Autowired
     private PluginEventWapper pluginEventWapper;
@@ -60,7 +60,7 @@ public class PluginSubscriber {
 
         String rule = ruleUpdatedEvent.getRule();
         try {
-            RuleEntity ruleEntity = pluninConfigParser.parse(rule);
+            RuleEntity ruleEntity = pluginConfigParser.parse(rule);
             pluginAdapter.setDynamicRule(ruleEntity);
 
             pluginEventWapper.fireParameterChanged();
