@@ -56,10 +56,9 @@ public class RouterEndpoint {
     private PluginAdapter pluginAdapter;
 
     @Autowired
-    private RestTemplate routerRestTemplate;
-
-    @Autowired
     private DiscoveryClient discoveryClient;
+
+    private RestTemplate routerRestTemplate = new RestTemplate();
 
     @RequestMapping(path = "/services", method = RequestMethod.GET)
     @ApiOperation(value = "获取服务注册中心的服务列表", notes = "", response = List.class, httpMethod = "GET")
