@@ -19,11 +19,8 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.endpoint.web.annotation.RestControllerEndpoint;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jmx.export.annotation.ManagedOperation;
-import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,8 +38,6 @@ import com.nepxion.discovery.plugin.framework.event.RuleUpdatedEvent;
 @RestController
 @RequestMapping(path = "/config")
 @Api(tags = { "配置接口" })
-@RestControllerEndpoint(id = "config")
-@ManagedResource(description = "Config Endpoint")
 public class ConfigEndpoint {
     @Autowired
     private PluginContextAware pluginContextAware;
@@ -56,7 +51,6 @@ public class ConfigEndpoint {
     @RequestMapping(path = "/update-async", method = RequestMethod.POST)
     @ApiOperation(value = "异步推送更新规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    @ManagedOperation
     public ResponseEntity<?> updateAsync(@RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
         return update(config, true);
     }
@@ -64,7 +58,6 @@ public class ConfigEndpoint {
     @RequestMapping(path = "/update-sync", method = RequestMethod.POST)
     @ApiOperation(value = "同步推送更新规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    @ManagedOperation
     public ResponseEntity<?> updateSync(@RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
         return update(config, false);
     }
@@ -72,7 +65,6 @@ public class ConfigEndpoint {
     @RequestMapping(path = "/clear-async", method = RequestMethod.POST)
     @ApiOperation(value = "异步清除更新的规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    @ManagedOperation
     public ResponseEntity<?> clearAsync() {
         return clear(true);
     }
@@ -80,7 +72,6 @@ public class ConfigEndpoint {
     @RequestMapping(path = "/clear-sync", method = RequestMethod.POST)
     @ApiOperation(value = "同步清除更新的规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    @ManagedOperation
     public ResponseEntity<?> clearSync() {
         return clear(false);
     }
@@ -88,7 +79,6 @@ public class ConfigEndpoint {
     @RequestMapping(path = "/view", method = RequestMethod.GET)
     @ApiOperation(value = "查看本地和更新的规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
-    @ManagedOperation
     public ResponseEntity<List<String>> view() {
         return view(false);
     }

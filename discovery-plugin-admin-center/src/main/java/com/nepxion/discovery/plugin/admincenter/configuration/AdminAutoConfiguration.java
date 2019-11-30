@@ -9,7 +9,6 @@ package com.nepxion.discovery.plugin.admincenter.configuration;
  * @version 1.0
  */
 
-import org.springframework.boot.actuate.endpoint.web.annotation.RestControllerEndpoint;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -29,7 +28,6 @@ import com.nepxion.discovery.plugin.admincenter.endpoint.VersionEndpoint;
 @Configuration
 @Import(SwaggerConfiguration.class)
 public class AdminAutoConfiguration {
-    @ConditionalOnClass(RestControllerEndpoint.class)
     protected static class AdminEndpointConfiguration {
         @Bean
         public ConfigEndpoint configEndpoint() {
@@ -52,7 +50,7 @@ public class AdminAutoConfiguration {
         }
     }
 
-    @ConditionalOnClass({ RestControllerEndpoint.class, FlowRule.class })
+    @ConditionalOnClass({ FlowRule.class })
     protected static class SentinelCoreEndpointConfiguration {
         @Bean
         public SentinelCoreEndpoint sentinelCoreEndpoint() {
@@ -60,7 +58,7 @@ public class AdminAutoConfiguration {
         }
     }
 
-    @ConditionalOnClass({ RestControllerEndpoint.class, ParamFlowRule.class })
+    @ConditionalOnClass({ ParamFlowRule.class })
     protected static class SentinelParamEndpointConfiguration {
         @Bean
         public SentinelParamEndpoint sentinelParamEndpoint() {
