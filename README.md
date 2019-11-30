@@ -210,10 +210,6 @@ Nacos服务注册发现中心
 ![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Grafana.jpg)
 Spring Boot Admin监控平台
 ![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Admin1.jpg)
-集成Spring Boot Admin（F版或以上）监控平台，实现通过JMX向Endpoint推送规则和版本，实现灰度发布
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Admin2.jpg)
-集成Spring Boot Admin（E版）监控平台，实现通过JMX向Endpoint推送规则和版本，实现灰度发布
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Admin3.jpg)
 
 ## 现有痛点
 现有的Spring Cloud微服务架构的痛点
@@ -276,15 +272,15 @@ Spring Boot Admin监控平台
 - 实现通过XML或者Json进行上述规则的定义
 - 实现通过事件总线机制（EventBus）的功能，实现发布/订阅功能
     - 对接远程配置中心，集成Nacos和Redis，异步接受远程配置中心主动推送规则信息，动态改变微服务的规则
-    - 结合Spring Boot Actuator，异步接受Rest主动推送规则信息，动态改变微服务的规则，支持同步和异步推送两种方式
-    - 结合Spring Boot Actuator，动态改变微服务的版本，支持同步和异步推送两种方式
+    - 异步接受Rest主动推送规则信息，动态改变微服务的规则，支持同步和异步推送两种方式
+    - 动态改变微服务的版本，支持同步和异步推送两种方式
     - 在服务注册层面的控制中，一旦禁止注册的条件触发，主动推送异步事件，以便使用者订阅
 - 实现通过Listener机制进行扩展
     - 使用者可以对服务注册发现核心事件进行监听
 - 实现通过策略扩展，实现灰度控制
     - 使用者可以实现跟业务有关的路由策略，根据业务参数的不同，负载均衡到不同的服务器
     - 使用者可以根据内置的版本路由策略+区域路由策略+IP和端口路由策略+自定义策略，随心所欲的达到需要的路由功能
-- 实现支持Spring Boot Actuator和Swagger集成
+- 实现支持wagger集成
 - 实现支持Spring Boot Admin的集成
 - 实现支持Sentinel熔断隔离限流降级的集成
 - 实现支持未来扩展更多的服务注册中心
@@ -519,9 +515,7 @@ spring.application.discovery.control.enabled=false
 
 ### 兼容
 版本兼容情况
-- 3.x.x版本和其它版本功能完全一致，但在Endpoint的URL使用方式上稍微有个小的区别。例如
-    - 3.x.x版本的Endpoint URL为[http://localhost:5100/config/view](http://localhost:5100/config/view)
-    - 其它版本的Endpoint URL为[http://localhost:5100/actuator/config/config/view](http://localhost:5100/actuator/config/config/view)，注意，路径中config为两个，前面那个是Endpoint Id，Spring Boot 2.x.x规定Endpoint Id必须指定，且全局唯一
+- 3.x.x版本不支持Spring Cloud Gateway和Opentracing，其它版本都支持
 
 中间件兼容情况
 - Consul
@@ -1428,7 +1422,7 @@ PORT端口号为服务端口或者管理端口都可以
 ![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Swagger2.jpg)
 
 ## 监控平台
-基于Spring Boot Actuator技术的Spring Boot Admin监控平台
+Spring Boot Admin监控平台
 
 参考[https://github.com/codecentric/spring-boot-admin](https://github.com/codecentric/spring-boot-admin)
 
