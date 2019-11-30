@@ -18,12 +18,8 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.endpoint.Endpoint;
-import org.springframework.boot.actuate.endpoint.mvc.MvcEndpoint;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jmx.export.annotation.ManagedOperation;
-import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,8 +36,7 @@ import com.nepxion.discovery.plugin.framework.event.VersionUpdatedEvent;
 @RestController
 @RequestMapping(path = "/version")
 @Api(tags = { "版本接口" })
-@ManagedResource(description = "Version Endpoint")
-public class VersionEndpoint implements MvcEndpoint {
+public class VersionEndpoint {
     @Autowired
     private PluginContextAware pluginContextAware;
 
@@ -54,7 +49,6 @@ public class VersionEndpoint implements MvcEndpoint {
     @RequestMapping(path = "/update-async", method = RequestMethod.POST)
     @ApiOperation(value = "异步更新服务的动态版本", notes = "根据指定的localVersion更新服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接更新服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    @ManagedOperation
     public ResponseEntity<?> updateAsync(@RequestBody @ApiParam(value = "版本号，格式为[dynamicVersion]或者[dynamicVersion];[localVersion]", required = true) String version) {
         return update(version, true);
     }
@@ -62,7 +56,6 @@ public class VersionEndpoint implements MvcEndpoint {
     @RequestMapping(path = "/update-sync", method = RequestMethod.POST)
     @ApiOperation(value = "同步更新服务的动态版本", notes = "根据指定的localVersion更新服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接更新服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    @ManagedOperation
     public ResponseEntity<?> updateSync(@RequestBody @ApiParam(value = "版本号，格式为[dynamicVersion]或者[dynamicVersion];[localVersion]", required = true) String version) {
         return update(version, false);
     }
@@ -70,7 +63,6 @@ public class VersionEndpoint implements MvcEndpoint {
     @RequestMapping(path = "/clear-async", method = RequestMethod.POST)
     @ApiOperation(value = "异步清除服务的动态版本", notes = "根据指定的localVersion清除服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接清除服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    @ManagedOperation
     public ResponseEntity<?> clearAsync(@RequestBody(required = false) @ApiParam(value = "版本号，指localVersion，可以为空") String version) {
         return clear(version, true);
     }
@@ -78,7 +70,6 @@ public class VersionEndpoint implements MvcEndpoint {
     @RequestMapping(path = "/clear-sync", method = RequestMethod.POST)
     @ApiOperation(value = "同步清除服务的动态版本", notes = "根据指定的localVersion清除服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接清除服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    @ManagedOperation
     public ResponseEntity<?> clearSync(@RequestBody(required = false) @ApiParam(value = "版本号，指localVersion，可以为空") String version) {
         return clear(version, false);
     }
@@ -86,7 +77,6 @@ public class VersionEndpoint implements MvcEndpoint {
     @RequestMapping(path = "/view", method = RequestMethod.GET)
     @ApiOperation(value = "查看服务的本地版本和动态版本", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
-    @ManagedOperation
     public ResponseEntity<List<String>> view() {
         return view(false);
     }
@@ -154,20 +144,5 @@ public class VersionEndpoint implements MvcEndpoint {
         versionList.add(StringUtils.isNotEmpty(dynamicVersion) ? dynamicVersion : StringUtils.EMPTY);
 
         return ResponseEntity.ok().body(versionList);
-    }
-
-    @Override
-    public String getPath() {
-        return StringUtils.EMPTY;
-    }
-
-    @Override
-    public boolean isSensitive() {
-        return true;
-    }
-
-    @Override
-    public Class<? extends Endpoint<?>> getEndpointType() {
-        return null;
     }
 }
