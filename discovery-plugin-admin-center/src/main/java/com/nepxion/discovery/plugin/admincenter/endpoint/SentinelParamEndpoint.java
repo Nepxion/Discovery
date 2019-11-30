@@ -19,11 +19,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.endpoint.web.annotation.RestControllerEndpoint;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jmx.export.annotation.ManagedOperation;
-import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,8 +38,6 @@ import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 @RestController
 @RequestMapping(path = "/sentinel-param")
 @Api(tags = { "哨兵参数接口" })
-@RestControllerEndpoint(id = "sentinel-param")
-@ManagedResource(description = "Sentinel Param Endpoint")
 public class SentinelParamEndpoint {
     private static final Logger LOG = LoggerFactory.getLogger(SentinelParamEndpoint.class);
 
@@ -60,7 +55,6 @@ public class SentinelParamEndpoint {
     @RequestMapping(path = "/update-param-flow-rules", method = RequestMethod.POST)
     @ApiOperation(value = "更新热点参数流控规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    @ManagedOperation
     public ResponseEntity<?> updateParamFlowRules(@RequestBody @ApiParam(value = "热点参数流控规则内容，JSON格式", required = true) String rule) {
         Boolean isConfigRestControlEnabled = pluginContextAware.isConfigRestControlEnabled();
         if (!isConfigRestControlEnabled) {
@@ -77,7 +71,6 @@ public class SentinelParamEndpoint {
     @RequestMapping(path = "/clear-param-flow-rules", method = RequestMethod.POST)
     @ApiOperation(value = "清除热点参数流控规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    @ManagedOperation
     public ResponseEntity<?> clearParamFlowRules() {
         Boolean isConfigRestControlEnabled = pluginContextAware.isConfigRestControlEnabled();
         if (!isConfigRestControlEnabled) {
@@ -94,7 +87,6 @@ public class SentinelParamEndpoint {
     @RequestMapping(path = "/view-param-flow-rules", method = RequestMethod.GET)
     @ApiOperation(value = "获取热点参数流控规则列表", notes = "", response = List.class, httpMethod = "GET")
     @ResponseBody
-    @ManagedOperation
     public ResponseEntity<List<ParamFlowRule>> viewParamFlowRules() {
         return ResponseEntity.ok().body(ParamFlowRuleManager.getRules());
     }

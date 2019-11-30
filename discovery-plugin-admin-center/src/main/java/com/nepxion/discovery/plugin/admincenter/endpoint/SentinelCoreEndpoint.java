@@ -19,11 +19,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.endpoint.web.annotation.RestControllerEndpoint;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jmx.export.annotation.ManagedOperation;
-import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -47,8 +44,6 @@ import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 @RestController
 @RequestMapping(path = "/sentinel-core")
 @Api(tags = { "哨兵核心接口" })
-@RestControllerEndpoint(id = "sentinel-core")
-@ManagedResource(description = "Sentinel Core Endpoint")
 public class SentinelCoreEndpoint {
     private static final Logger LOG = LoggerFactory.getLogger(SentinelCoreEndpoint.class);
 
@@ -90,7 +85,6 @@ public class SentinelCoreEndpoint {
     @RequestMapping(path = "/update-flow-rules", method = RequestMethod.POST)
     @ApiOperation(value = "更新流控规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    @ManagedOperation
     public ResponseEntity<?> updateFlowRules(@RequestBody @ApiParam(value = "流控规则内容，JSON格式", required = true) String rule) {
         Boolean isConfigRestControlEnabled = pluginContextAware.isConfigRestControlEnabled();
         if (!isConfigRestControlEnabled) {
@@ -107,7 +101,6 @@ public class SentinelCoreEndpoint {
     @RequestMapping(path = "/clear-flow-rules", method = RequestMethod.POST)
     @ApiOperation(value = "清除流控规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    @ManagedOperation
     public ResponseEntity<?> clearFlowRules() {
         Boolean isConfigRestControlEnabled = pluginContextAware.isConfigRestControlEnabled();
         if (!isConfigRestControlEnabled) {
@@ -124,7 +117,6 @@ public class SentinelCoreEndpoint {
     @RequestMapping(path = "/view-flow-rules", method = RequestMethod.GET)
     @ApiOperation(value = "获取流控规则列表", notes = "", response = List.class, httpMethod = "GET")
     @ResponseBody
-    @ManagedOperation
     public ResponseEntity<List<FlowRule>> viewFlowRules() {
         return ResponseEntity.ok().body(FlowRuleManager.getRules());
     }
@@ -132,7 +124,6 @@ public class SentinelCoreEndpoint {
     @RequestMapping(path = "/update-degrade-rules", method = RequestMethod.POST)
     @ApiOperation(value = "更新降级规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    @ManagedOperation
     public ResponseEntity<?> updateDegradeRules(@RequestBody @ApiParam(value = "降级规则内容，JSON格式", required = true) String rule) {
         Boolean isConfigRestControlEnabled = pluginContextAware.isConfigRestControlEnabled();
         if (!isConfigRestControlEnabled) {
@@ -149,7 +140,6 @@ public class SentinelCoreEndpoint {
     @RequestMapping(path = "/clear-degrade-rules", method = RequestMethod.POST)
     @ApiOperation(value = "清除降级规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    @ManagedOperation
     public ResponseEntity<?> clearDegradeRules() {
         Boolean isConfigRestControlEnabled = pluginContextAware.isConfigRestControlEnabled();
         if (!isConfigRestControlEnabled) {
@@ -166,7 +156,6 @@ public class SentinelCoreEndpoint {
     @RequestMapping(path = "/view-degrade-rules", method = RequestMethod.GET)
     @ApiOperation(value = "获取降级规则列表", notes = "", response = List.class, httpMethod = "GET")
     @ResponseBody
-    @ManagedOperation
     public ResponseEntity<List<DegradeRule>> viewDegradeRules() {
         return ResponseEntity.ok().body(DegradeRuleManager.getRules());
     }
@@ -174,7 +163,6 @@ public class SentinelCoreEndpoint {
     @RequestMapping(path = "/update-authority-rules", method = RequestMethod.POST)
     @ApiOperation(value = "更新授权规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    @ManagedOperation
     public ResponseEntity<?> updateAuthorityRules(@RequestBody @ApiParam(value = "授权规则内容，JSON格式", required = true) String rule) {
         Boolean isConfigRestControlEnabled = pluginContextAware.isConfigRestControlEnabled();
         if (!isConfigRestControlEnabled) {
@@ -191,7 +179,6 @@ public class SentinelCoreEndpoint {
     @RequestMapping(path = "/clear-authority-rules", method = RequestMethod.POST)
     @ApiOperation(value = "清除授权规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    @ManagedOperation
     public ResponseEntity<?> clearAuthorityRules() {
         Boolean isConfigRestControlEnabled = pluginContextAware.isConfigRestControlEnabled();
         if (!isConfigRestControlEnabled) {
@@ -208,7 +195,6 @@ public class SentinelCoreEndpoint {
     @RequestMapping(path = "/view-authority-rules", method = RequestMethod.GET)
     @ApiOperation(value = "获取授权规则列表", notes = "", response = List.class, httpMethod = "GET")
     @ResponseBody
-    @ManagedOperation
     public ResponseEntity<List<AuthorityRule>> viewAuthorityRules() {
         return ResponseEntity.ok().body(AuthorityRuleManager.getRules());
     }
@@ -216,7 +202,6 @@ public class SentinelCoreEndpoint {
     @RequestMapping(path = "/update-system-rules", method = RequestMethod.POST)
     @ApiOperation(value = "更新系统规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    @ManagedOperation
     public ResponseEntity<?> updateSystemRules(@RequestBody @ApiParam(value = "系统规则内容，JSON格式", required = true) String rule) {
         Boolean isConfigRestControlEnabled = pluginContextAware.isConfigRestControlEnabled();
         if (!isConfigRestControlEnabled) {
@@ -233,7 +218,6 @@ public class SentinelCoreEndpoint {
     @RequestMapping(path = "/clear-system-rules", method = RequestMethod.POST)
     @ApiOperation(value = "清除系统规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    @ManagedOperation
     public ResponseEntity<?> clearSystemRules() {
         Boolean isConfigRestControlEnabled = pluginContextAware.isConfigRestControlEnabled();
         if (!isConfigRestControlEnabled) {
@@ -250,7 +234,6 @@ public class SentinelCoreEndpoint {
     @RequestMapping(path = "/view-system-rules", method = RequestMethod.GET)
     @ApiOperation(value = "获取系统规则列表", notes = "", response = List.class, httpMethod = "GET")
     @ResponseBody
-    @ManagedOperation
     public ResponseEntity<List<SystemRule>> viewSystemRules() {
         return ResponseEntity.ok().body(SystemRuleManager.getRules());
     }
