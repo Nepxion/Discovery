@@ -34,6 +34,7 @@
         <module>discovery-plugin-strategy-sentinel-starter-local</module>
         <module>discovery-plugin-strategy-sentinel-starter-apollo</module>
         <module>discovery-plugin-strategy-sentinel-starter-nacos</module>
+        <module>discovery-plugin-strategy-sentinel-starter-opentracing</module>
         <module>discovery-plugin-strategy-opentracing</module>
         <module>discovery-plugin-strategy-starter-service</module>
         <module>discovery-plugin-strategy-starter-service-sentinel</module>
@@ -217,6 +218,12 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-strategy-sentinel-starter-nacos</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-strategy-sentinel-starter-opentracing</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
