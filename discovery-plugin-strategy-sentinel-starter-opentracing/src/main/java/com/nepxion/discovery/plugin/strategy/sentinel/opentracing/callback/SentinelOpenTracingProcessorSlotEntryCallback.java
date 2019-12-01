@@ -10,6 +10,7 @@ package com.nepxion.discovery.plugin.strategy.sentinel.opentracing.callback;
  */
 
 import io.opentracing.Span;
+import io.opentracing.tag.Tags;
 import io.opentracing.util.GlobalTracer;
 
 import com.alibaba.csp.sentinel.context.Context;
@@ -29,7 +30,7 @@ public class SentinelOpenTracingProcessorSlotEntryCallback implements ProcessorS
     @Override
     public void onBlocked(BlockException e, Context context, ResourceWrapper resourceWrapper, DefaultNode param, int count, Object... args) {
         Span span = GlobalTracer.get().buildSpan(SentinelOpenTracingConstant.SPAN_NAME).start();
-        span.setTag(SentinelOpenTracingConstant.CONTEXT_NAME, context.getName());
+        span.setTag(Tags.COMPONENT.getKey(), context.getName());
         span.setTag(SentinelOpenTracingConstant.ORIGIN, context.getOrigin());
         span.setTag(SentinelOpenTracingConstant.ASYNC, context.isAsync());
         span.setTag(SentinelOpenTracingConstant.RESOURCE_NAME, resourceWrapper.getName());

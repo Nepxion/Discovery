@@ -11,7 +11,6 @@ package com.nepxion.discovery.plugin.strategy.sentinel.opentracing.constant;
 
 public class SentinelOpenTracingConstant {
     public static final String SPAN_NAME = "SENTINEL";
-    public static final String CONTEXT_NAME = "context.name";
     public static final String ORIGIN = "origin";
     public static final String ASYNC = "async";
     public static final String RESOURCE_NAME = "resource.name";
