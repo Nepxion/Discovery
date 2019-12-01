@@ -17,4 +17,4 @@
 
 call mvn clean deploy -DskipTests -e -P release -pl discovery-plugin-starter-eureka,discovery-plugin-starter-consul,discovery-plugin-starter-zookeeper,discovery-plugin-starter-nacos,discovery-plugin-config-center-starter-apollo,discovery-plugin-config-center-starter-nacos,discovery-plugin-config-center-starter-redis,discovery-console-starter-apollo,discovery-console-starter-nacos,discovery-console-starter-redis,discovery-plugin-strategy-starter-service,discovery-plugin-strategy-starter-zuul,discovery-plugin-strategy-starter-gateway,discovery-plugin-strategy-starter-hystrix,discovery-plugin-strategy-sentinel-starter-local,discovery-plugin-strategy-sentinel-starter-apollo,discovery-plugin-strategy-sentinel-starter-nacos,discovery-plugin-strategy-sentinel-starter-opentracing,discovery-plugin-strategy-starter-service-sentinel,discovery-plugin-strategy-starter-service-opentracing,discovery-plugin-strategy-starter-zuul-opentracing,discovery-plugin-strategy-starter-gateway-opentracing,discovery-plugin-test-starter -am
 
-pause
+pause 
