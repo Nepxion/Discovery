@@ -9,7 +9,6 @@ package com.nepxion.discovery.plugin.strategy.sentinel.opentracing.callback;
  * @version 1.0
  */
 
-import io.opentracing.Scope;
 import io.opentracing.Span;
 import io.opentracing.tag.Tags;
 import io.opentracing.util.GlobalTracer;
@@ -44,11 +43,6 @@ public class SentinelOpenTracingProcessorSlotEntryCallback implements ProcessorS
         span.setTag(SentinelOpenTracingConstant.BLOCK_EXCEPTION, e.getMessage());
         span.setTag(SentinelOpenTracingConstant.COUNT, count);
         span.setTag(SentinelOpenTracingConstant.ARGS, JSON.toJSONString(args));
-
-        try (Scope scope = GlobalTracer.get().activateSpan(span)) {
-
-        } finally {
-            span.finish();
-        }
+        span.finish();
     }
 }
