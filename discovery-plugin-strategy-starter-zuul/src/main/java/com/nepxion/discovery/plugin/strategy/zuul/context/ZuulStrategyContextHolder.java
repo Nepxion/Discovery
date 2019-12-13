@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.strategy.context.AbstractStrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.zuul.constant.ZuulStrategyConstant;
 import com.netflix.zuul.context.RequestContext;
@@ -64,9 +65,13 @@ public class ZuulStrategyContextHolder extends AbstractStrategyContextHolder {
         if (zuulHeaderPriority) {
             // 来自于Zuul Filter的Header
             String header = getZuulRequestHeaders().get(name);
-            if (StringUtils.isEmpty(header) && !zuulOriginalHeaderIgnored) {
-                // 来自于外界的Header
-                header = request.getHeader(name);
+            if (StringUtils.isEmpty(header)) {
+                if (isRouteValue(name) && zuulOriginalHeaderIgnored) {
+                    header = null;
+                } else {
+                    // 来自于外界的Header
+                    header = request.getHeader(name);
+                }
             }
 
             return header;
@@ -80,5 +85,13 @@ public class ZuulStrategyContextHolder extends AbstractStrategyContextHolder {
 
             return header;
         }
+    }
+
+    private boolean isRouteValue(String name) {
+        return StringUtils.equals(name, DiscoveryConstant.N_D_VERSION) ||
+                StringUtils.equals(name, DiscoveryConstant.N_D_REGION) ||
+                StringUtils.equals(name, DiscoveryConstant.N_D_ADDRESS) ||
+                StringUtils.equals(name, DiscoveryConstant.N_D_VERSION_WEIGHT) ||
+                StringUtils.equals(name, DiscoveryConstant.N_D_REGION_WEIGHT);
     }
 }
