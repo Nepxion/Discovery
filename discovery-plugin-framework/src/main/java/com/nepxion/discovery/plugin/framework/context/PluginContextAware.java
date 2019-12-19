@@ -200,7 +200,7 @@ public class PluginContextAware implements ApplicationContextAware {
     }
 
     public static String getGitVersionKey(Environment environment) {
-        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_GIT_VERSION_KEY, String.class, DiscoveryConstant.GIT_COMMIT_ID);
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_GIT_VERSION_KEY, String.class, "{" + DiscoveryConstant.GIT_COMMIT_ID_ABBREV + "}-{" + DiscoveryConstant.GIT_COMMIT_TIME + "}");
     }
 
     public static String getContextPath(Environment environment) {
