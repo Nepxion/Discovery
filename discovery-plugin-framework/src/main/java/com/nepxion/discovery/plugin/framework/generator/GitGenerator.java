@@ -6,10 +6,13 @@ package com.nepxion.discovery.plugin.framework.generator;
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
  * @author Haojun Ren
+ * @author Yong Chen
  * @version 1.0
  */
 
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
 
@@ -117,6 +120,20 @@ public class GitGenerator {
             return null;
         }
 
-        return map.get(versionKey);
+        return match(versionKey, map);
+        // return map.get(versionKey);
+    }
+
+    private String match(String versionKey, Map<String, String> map) {
+        String value = new String(versionKey);
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            String regex = "\\{" + entry.getKey() + "\\}";
+            // String regex = "\\$\\{" + entry.getKey() + "\\}";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(value);
+            value = matcher.replaceAll(entry.getValue());
+        }
+
+        return value;
     }
 }
