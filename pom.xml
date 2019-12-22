@@ -73,7 +73,7 @@
         <nacos.client.version>1.1.4</nacos.client.version>
         <sentinel.version>1.7.0</sentinel.version>
         <opentracing.version>0.32.0</opentracing.version>
-        <opentracing.spring.cloud.version>0.3.11</opentracing.spring.cloud.version>
+        <opentracing.spring.cloud.version>0.3.12</opentracing.spring.cloud.version>
         <spring.cloud.version>Hoxton.RELEASE</spring.cloud.version>
         <spring.cloud.alibaba.version>2.1.1.RELEASE</spring.cloud.alibaba.version>
         <spring.boot.version>2.2.1.RELEASE</spring.boot.version>
