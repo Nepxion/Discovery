@@ -14,4 +14,5 @@ public class StrategyOpentracingConstant {
 
     public static final String SPRING_APPLICATION_STRATEGY_TRACE_OPENTRACING_ENABLED = "spring.application.strategy.trace.opentracing.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_TRACE_OPENTRACING_SEPARATE_SPAN_ENABLED = "spring.application.strategy.trace.opentracing.separate.span.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_TRACE_OPENTRACING_RULE_OUTPUT_ENABLED = "spring.application.strategy.trace.opentracing.rule.output.enabled";
 }

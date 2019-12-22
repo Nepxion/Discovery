@@ -47,6 +47,9 @@ public class StrategyOpentracingOperation {
     @Value("${" + StrategyOpentracingConstant.SPRING_APPLICATION_STRATEGY_TRACE_OPENTRACING_SEPARATE_SPAN_ENABLED + ":true}")
     protected Boolean traceOpentracingSeparateSpanEnabled;
 
+    @Value("${" + StrategyOpentracingConstant.SPRING_APPLICATION_STRATEGY_TRACE_OPENTRACING_RULE_OUTPUT_ENABLED + ":false}")
+    protected Boolean traceOpentracingRuleOutputEnabled;
+
     public void opentracingInitialize() {
         if (!traceOpentracingEnabled) {
             return;
@@ -94,25 +97,27 @@ public class StrategyOpentracingOperation {
         span.setTag(DiscoveryConstant.N_D_SERVICE_REGION, strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_REGION));
         span.setTag(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT));
 
-        String routeVersion = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION);
-        if (StringUtils.isNotEmpty(routeVersion)) {
-            span.setTag(DiscoveryConstant.N_D_VERSION, routeVersion);
-        }
-        String routeRegion = strategyContextHolder.getHeader(DiscoveryConstant.N_D_REGION);
-        if (StringUtils.isNotEmpty(routeRegion)) {
-            span.setTag(DiscoveryConstant.N_D_REGION, routeRegion);
-        }
-        String routeAddress = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ADDRESS);
-        if (StringUtils.isNotEmpty(routeAddress)) {
-            span.setTag(DiscoveryConstant.N_D_ADDRESS, routeAddress);
-        }
-        String routeVersionWeight = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION_WEIGHT);
-        if (StringUtils.isNotEmpty(routeVersionWeight)) {
-            span.setTag(DiscoveryConstant.N_D_VERSION_WEIGHT, routeVersionWeight);
-        }
-        String routeRegionWeight = strategyContextHolder.getHeader(DiscoveryConstant.N_D_REGION_WEIGHT);
-        if (StringUtils.isNotEmpty(routeRegionWeight)) {
-            span.setTag(DiscoveryConstant.N_D_REGION_WEIGHT, routeRegionWeight);
+        if (traceOpentracingRuleOutputEnabled) {
+            String routeVersion = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION);
+            if (StringUtils.isNotEmpty(routeVersion)) {
+                span.setTag(DiscoveryConstant.N_D_VERSION, routeVersion);
+            }
+            String routeRegion = strategyContextHolder.getHeader(DiscoveryConstant.N_D_REGION);
+            if (StringUtils.isNotEmpty(routeRegion)) {
+                span.setTag(DiscoveryConstant.N_D_REGION, routeRegion);
+            }
+            String routeAddress = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ADDRESS);
+            if (StringUtils.isNotEmpty(routeAddress)) {
+                span.setTag(DiscoveryConstant.N_D_ADDRESS, routeAddress);
+            }
+            String routeVersionWeight = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION_WEIGHT);
+            if (StringUtils.isNotEmpty(routeVersionWeight)) {
+                span.setTag(DiscoveryConstant.N_D_VERSION_WEIGHT, routeVersionWeight);
+            }
+            String routeRegionWeight = strategyContextHolder.getHeader(DiscoveryConstant.N_D_REGION_WEIGHT);
+            if (StringUtils.isNotEmpty(routeRegionWeight)) {
+                span.setTag(DiscoveryConstant.N_D_REGION_WEIGHT, routeRegionWeight);
+            }
         }
 
         LOG.debug("Trace chain information outputs to Opentracing...");
@@ -152,25 +157,27 @@ public class StrategyOpentracingOperation {
         span.setTag(DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion());
         span.setTag(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, pluginAdapter.getEnvironment());
 
-        String routeVersion = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION);
-        if (StringUtils.isNotEmpty(routeVersion)) {
-            span.setTag(DiscoveryConstant.N_D_VERSION, routeVersion);
-        }
-        String routeRegion = strategyContextHolder.getHeader(DiscoveryConstant.N_D_REGION);
-        if (StringUtils.isNotEmpty(routeRegion)) {
-            span.setTag(DiscoveryConstant.N_D_REGION, routeRegion);
-        }
-        String routeAddress = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ADDRESS);
-        if (StringUtils.isNotEmpty(routeAddress)) {
-            span.setTag(DiscoveryConstant.N_D_ADDRESS, routeAddress);
-        }
-        String routeVersionWeight = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION_WEIGHT);
-        if (StringUtils.isNotEmpty(routeVersionWeight)) {
-            span.setTag(DiscoveryConstant.N_D_VERSION_WEIGHT, routeVersionWeight);
-        }
-        String routeRegionWeight = strategyContextHolder.getHeader(DiscoveryConstant.N_D_REGION_WEIGHT);
-        if (StringUtils.isNotEmpty(routeRegionWeight)) {
-            span.setTag(DiscoveryConstant.N_D_REGION_WEIGHT, routeRegionWeight);
+        if (traceOpentracingRuleOutputEnabled) {
+            String routeVersion = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION);
+            if (StringUtils.isNotEmpty(routeVersion)) {
+                span.setTag(DiscoveryConstant.N_D_VERSION, routeVersion);
+            }
+            String routeRegion = strategyContextHolder.getHeader(DiscoveryConstant.N_D_REGION);
+            if (StringUtils.isNotEmpty(routeRegion)) {
+                span.setTag(DiscoveryConstant.N_D_REGION, routeRegion);
+            }
+            String routeAddress = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ADDRESS);
+            if (StringUtils.isNotEmpty(routeAddress)) {
+                span.setTag(DiscoveryConstant.N_D_ADDRESS, routeAddress);
+            }
+            String routeVersionWeight = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION_WEIGHT);
+            if (StringUtils.isNotEmpty(routeVersionWeight)) {
+                span.setTag(DiscoveryConstant.N_D_VERSION_WEIGHT, routeVersionWeight);
+            }
+            String routeRegionWeight = strategyContextHolder.getHeader(DiscoveryConstant.N_D_REGION_WEIGHT);
+            if (StringUtils.isNotEmpty(routeRegionWeight)) {
+                span.setTag(DiscoveryConstant.N_D_REGION_WEIGHT, routeRegionWeight);
+            }
         }
 
         LOG.debug("Trace chain information outputs to Opentracing...");

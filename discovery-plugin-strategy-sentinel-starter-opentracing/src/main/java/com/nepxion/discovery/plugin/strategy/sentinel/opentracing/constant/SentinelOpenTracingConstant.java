@@ -10,6 +10,9 @@ package com.nepxion.discovery.plugin.strategy.sentinel.opentracing.constant;
  */
 
 public class SentinelOpenTracingConstant {
+    public static final String SPRING_APPLICATION_STRATEGY_TRACE_OPENTRACING_SENTINEL_RULE_OUTPUT_ENABLED = "spring.application.strategy.trace.opentracing.sentinel.rule.output.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_TRACE_OPENTRACING_SENTINEL_ARGS_OUTPUT_ENABLED = "spring.application.strategy.trace.opentracing.sentinel.args.output.enabled";
+
     public static final String SPAN_NAME = "SENTINEL";
     public static final String ORIGIN = "origin";
     public static final String ASYNC = "async";
