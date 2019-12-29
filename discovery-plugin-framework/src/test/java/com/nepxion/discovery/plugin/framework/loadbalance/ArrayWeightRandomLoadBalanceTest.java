@@ -14,9 +14,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.commons.collections4.CollectionUtils;
+
+import com.nepxion.discovery.plugin.framework.loadbalance.weight.ArrayWeightRandom;
 
 public class ArrayWeightRandomLoadBalanceTest {
     public static void main(String[] args) {
@@ -51,7 +52,7 @@ public class ArrayWeightRandomLoadBalanceTest {
         int v4Count = 0;
         int v5Count = 0;
         for (int i = 0; i < totalCount; i++) {
-            String server = choose(serverList, weightMap);
+            String server = random(serverList, weightMap);
             if (server.startsWith("1.0")) {
                 v1Count++;
             }
@@ -81,7 +82,9 @@ public class ArrayWeightRandomLoadBalanceTest {
         System.out.println("------------------------------");
     }
 
-    public static String choose(List<String> serverList, Map<String, Integer> weightMap) {
+    private static ArrayWeightRandom arrayWeightRandom = new ArrayWeightRandom();
+
+    public static String random(List<String> serverList, Map<String, Integer> weightMap) {
         if (CollectionUtils.isEmpty(serverList)) {
             return null;
         }
@@ -92,36 +95,8 @@ public class ArrayWeightRandomLoadBalanceTest {
             weights[i] = weightMap.get(server);
         }
 
-        int index = getIndex(weights);
+        int index = arrayWeightRandom.getIndex(weights);
 
         return serverList.get(index);
-    }
-
-    private static int getIndex(int[] weights) {
-        // 次序号/权重区间值
-        int[][] weightHolder = new int[weights.length][2];
-        // 总权重
-        int totalWeight = 0;
-        // 赋值次序号和区间值累加的数组值，从小到大排列
-        // 例如，对于权重分别为20，40， 60的三个服务，将形成[0, 20)，[20, 60)，[60, 120]三个区间
-        for (int i = 0; i < weights.length; i++) {
-            if (weights[i] <= 0) {
-                continue;
-            }
-
-            totalWeight += weights[i];
-            weightHolder[i][0] = i;
-            weightHolder[i][1] = totalWeight;
-        }
-
-        // 获取介于0(含)和n(不含)伪随机，均匀分布的int值
-        int hitWeight = ThreadLocalRandom.current().nextInt(totalWeight) + 1; // [1, totalWeight)
-        for (int i = 0; i < weightHolder.length; i++) {
-            if (hitWeight <= weightHolder[i][1]) {
-                return weightHolder[i][0];
-            }
-        }
-
-        return weightHolder[0][0];
     }
 }

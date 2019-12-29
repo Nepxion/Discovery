@@ -12,14 +12,11 @@ package com.nepxion.discovery.plugin.framework.loadbalance;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
-import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
-import com.nepxion.discovery.common.exception.DiscoveryException;
+import com.nepxion.discovery.plugin.framework.loadbalance.weight.MapWeightRandom;
 
 public class MapWeightRandomLoadBalanceTest {
     public static void main(String[] args) {
@@ -76,32 +73,5 @@ public class MapWeightRandomLoadBalanceTest {
         System.out.println("5.0版本服务随机权重=" + format.format((double) v5Count * 100 / totalCount) + "%");
         System.out.println("耗时时间：" + (System.currentTimeMillis() - t));
         System.out.println("------------------------------");
-    }
-
-    public static class MapWeightRandom<K, V extends Number> {
-        private TreeMap<Double, K> weightMap = new TreeMap<Double, K>();
-
-        public MapWeightRandom(List<Pair<K, V>> pairlist) {
-            for (Pair<K, V> pair : pairlist) {
-                double value = pair.getValue().doubleValue();
-                if (value <= 0) {
-                    continue;
-                }
-
-                double lastWeight = weightMap.size() == 0 ? 0 : weightMap.lastKey().doubleValue();
-                weightMap.put(value + lastWeight, pair.getKey());
-            }
-        }
-
-        public K random() {
-            if (MapUtils.isEmpty(weightMap)) {
-                throw new DiscoveryException("Weight values are all <= 0 or invalid format");
-            }
-
-            double randomWeight = weightMap.lastKey() * Math.random();
-            SortedMap<Double, K> tailMap = weightMap.tailMap(randomWeight, false);
-
-            return weightMap.get(tailMap.firstKey());
-        }
     }
 }
