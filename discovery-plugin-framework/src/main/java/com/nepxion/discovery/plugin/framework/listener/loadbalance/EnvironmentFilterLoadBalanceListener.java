@@ -15,6 +15,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.adapter.EnvironmentRouteAdapter;
 import com.netflix.loadbalancer.Server;
 
@@ -29,6 +30,10 @@ public class EnvironmentFilterLoadBalanceListener extends AbstractLoadBalanceLis
 
     private void applyEnvironmentFilter(String providerServiceId, List<? extends Server> servers) {
         String environment = pluginAdapter.getEnvironment();
+        if (StringUtils.equals(environment, DiscoveryConstant.DEFAULT)) {
+            return;
+        }
+
         boolean validated = validate(servers, environment);
         Iterator<? extends Server> iterator = servers.iterator();
         while (iterator.hasNext()) {
