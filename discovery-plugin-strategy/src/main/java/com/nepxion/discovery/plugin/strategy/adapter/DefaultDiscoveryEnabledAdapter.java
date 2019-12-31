@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.util.JsonUtil;
@@ -25,7 +26,7 @@ import com.netflix.loadbalancer.Server;
 
 public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     @Autowired(required = false)
-    private DiscoveryEnabledStrategy discoveryEnabledStrategy;
+    private List<DiscoveryEnabledStrategy> discoveryEnabledStrategyList;
 
     @Autowired
     private DiscoveryMatcherStrategy discoveryMatcherStrategy;
@@ -164,11 +165,18 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     }
 
     private boolean applyStrategy(Server server) {
-        if (discoveryEnabledStrategy == null) {
+        if (CollectionUtils.isEmpty(discoveryEnabledStrategyList)) {
             return true;
         }
 
-        return discoveryEnabledStrategy.apply(server);
+        for (DiscoveryEnabledStrategy discoveryEnabledStrategy : discoveryEnabledStrategyList) {
+            boolean enabled = discoveryEnabledStrategy.apply(server);
+            if (!enabled) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public PluginAdapter getPluginAdapter() {
