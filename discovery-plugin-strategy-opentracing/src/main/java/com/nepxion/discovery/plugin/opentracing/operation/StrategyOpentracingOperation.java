@@ -110,6 +110,10 @@ public class StrategyOpentracingOperation {
             if (StringUtils.isNotEmpty(routeAddress)) {
                 span.setTag(DiscoveryConstant.N_D_ADDRESS, routeAddress);
             }
+            String routeEnvironment = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ENVIRONMENT);
+            if (StringUtils.isNotEmpty(routeEnvironment)) {
+                span.setTag(DiscoveryConstant.N_D_ENVIRONMENT, routeEnvironment);
+            }
             String routeVersionWeight = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION_WEIGHT);
             if (StringUtils.isNotEmpty(routeVersionWeight)) {
                 span.setTag(DiscoveryConstant.N_D_VERSION_WEIGHT, routeVersionWeight);
@@ -169,6 +173,10 @@ public class StrategyOpentracingOperation {
             String routeAddress = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ADDRESS);
             if (StringUtils.isNotEmpty(routeAddress)) {
                 span.setTag(DiscoveryConstant.N_D_ADDRESS, routeAddress);
+            }
+            String routeEnvironment = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ENVIRONMENT);
+            if (StringUtils.isNotEmpty(routeEnvironment)) {
+                span.setTag(DiscoveryConstant.N_D_ENVIRONMENT, routeEnvironment);
             }
             String routeVersionWeight = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION_WEIGHT);
             if (StringUtils.isNotEmpty(routeVersionWeight)) {
