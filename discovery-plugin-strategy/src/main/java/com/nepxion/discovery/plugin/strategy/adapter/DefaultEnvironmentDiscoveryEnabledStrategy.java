@@ -23,7 +23,7 @@ public class DefaultEnvironmentDiscoveryEnabledStrategy extends DefaultDiscovery
             return true;
         }
 
-        String headerEnvironment = strategyContextHolder.getHeader(DiscoveryConstant.ENVIRONMENT);
+        String headerEnvironment = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ENVIRONMENT);
         // 传入headerEnvironment为空，返回true
         if (StringUtils.isEmpty(headerEnvironment)) {
             return true;
