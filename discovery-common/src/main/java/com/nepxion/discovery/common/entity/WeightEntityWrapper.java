@@ -109,28 +109,28 @@ public class WeightEntityWrapper {
         int weight = -1;
         if (StringUtils.isNotEmpty(serviceId) && weight < 0) {
             Map<String, List<WeightEntity>> versionWeightEntityMap = weightFilterEntity.getVersionWeightEntityMap();
-            weight = WeightEntityWrapper.getWeight(serviceId, providerServiceId, providerVersion, versionWeightEntityMap);
+            weight = getWeight(serviceId, providerServiceId, providerVersion, versionWeightEntityMap);
         }
         if (weight < 0) {
             List<WeightEntity> versionWeightEntityList = weightFilterEntity.getVersionWeightEntityList();
-            weight = WeightEntityWrapper.getWeight(providerServiceId, providerVersion, versionWeightEntityList);
+            weight = getWeight(providerServiceId, providerVersion, versionWeightEntityList);
         }
         if (weight < 0) {
             VersionWeightEntity versionWeightEntity = weightFilterEntity.getVersionWeightEntity();
-            weight = WeightEntityWrapper.getWeight(providerVersion, versionWeightEntity);
+            weight = getWeight(providerVersion, versionWeightEntity);
         }
 
         if (StringUtils.isNotEmpty(serviceId) && weight < 0) {
             Map<String, List<WeightEntity>> regionWeightEntityMap = weightFilterEntity.getRegionWeightEntityMap();
-            weight = WeightEntityWrapper.getWeight(serviceId, providerServiceId, providerRegion, regionWeightEntityMap);
+            weight = getWeight(serviceId, providerServiceId, providerRegion, regionWeightEntityMap);
         }
         if (weight < 0) {
             List<WeightEntity> regionWeightEntityList = weightFilterEntity.getRegionWeightEntityList();
-            weight = WeightEntityWrapper.getWeight(providerServiceId, providerRegion, regionWeightEntityList);
+            weight = getWeight(providerServiceId, providerRegion, regionWeightEntityList);
         }
         if (weight < 0) {
             RegionWeightEntity regionWeightEntity = weightFilterEntity.getRegionWeightEntity();
-            weight = WeightEntityWrapper.getWeight(providerRegion, regionWeightEntity);
+            weight = getWeight(providerRegion, regionWeightEntity);
         }
 
         return weight;
