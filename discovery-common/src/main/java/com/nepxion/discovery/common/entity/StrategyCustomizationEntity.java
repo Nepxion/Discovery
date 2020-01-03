@@ -23,6 +23,7 @@ public class StrategyCustomizationEntity implements Serializable {
     private static final long serialVersionUID = 4903833660194433964L;
 
     private List<StrategyConditionEntity> strategyConditionEntityList;
+    private List<StrategyWeightEntity> strategyWeightEntityList;
     private List<StrategyRouteEntity> strategyRouteEntityList;
 
     public List<StrategyConditionEntity> getStrategyConditionEntityList() {
@@ -33,13 +34,21 @@ public class StrategyCustomizationEntity implements Serializable {
         this.strategyConditionEntityList = strategyConditionEntityList;
     }
 
+    public List<StrategyWeightEntity> getStrategyWeightEntityList() {
+        return strategyWeightEntityList;
+    }
+
+    public void setStrategyWeightEntityList(List<StrategyWeightEntity> strategyWeightEntityList) {
+        this.strategyWeightEntityList = strategyWeightEntityList;
+    }
+
     public List<StrategyRouteEntity> getStrategyRouteEntityList() {
         return strategyRouteEntityList;
     }
 
     public void setStrategyRouteEntityList(List<StrategyRouteEntity> strategyRouteEntityList) {
         this.strategyRouteEntityList = strategyRouteEntityList;
-        
+
         // Header参数越多，越排在前面
         Collections.sort(this.strategyConditionEntityList, new Comparator<StrategyConditionEntity>() {
             public int compare(StrategyConditionEntity object1, StrategyConditionEntity object2) {
