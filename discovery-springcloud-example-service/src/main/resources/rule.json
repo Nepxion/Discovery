@@ -207,9 +207,9 @@
                     "a": "1", 
                     "b": "2"
                 }, 
-                "versionId": "a", 
-                "regionId": "b", 
-                "addressId": "c", 
+                "versionId": "a-1", 
+                "regionId": "b-1", 
+                "addressId": "c-1", 
                 "versionWeightId": "d", 
                 "regionWeightId": "e"
             }, 
@@ -218,28 +218,66 @@
                 "headerMap": {
                     "c": "3"
                 }, 
-                "versionId": "a", 
-                "regionId": "b", 
+                "versionId": "a-2", 
+                "regionId": "b-2", 
                 "addressId": null, 
                 "versionWeightId": null, 
                 "regionWeightId": null
             }
         ], 
+        "strategyWeightEntityList": [
+            {
+                "id": "1", 
+                "versionMapWeightEntity": {
+                    "weightMap": {
+                        "a-1": 10, 
+                        "a-2": 90
+                    }
+                }, 
+                "regionMapWeightEntity": {
+                    "weightMap": {
+                        "b-1": 20, 
+                        "b-2": 80
+                    }
+                }, 
+                "addressMapWeightEntity": {
+                    "weightMap": {
+                        "c-1": 20, 
+                        "c-2": 80
+                    }
+                }
+            }
+        ], 
         "strategyRouteEntityList": [
             {
-                "id": "a", 
+                "id": "a-1", 
                 "type": "VERSION", 
                 "value": "{\"discovery-springcloud-example-a\":\"1.0\", \"discovery-springcloud-example-b\":\"1.0\", \"discovery-springcloud-example-c\":\"1.0;1.2\"}"
             }, 
             {
-                "id": "b", 
+                "id": "a-2", 
+                "type": "VERSION", 
+                "value": "{\"discovery-springcloud-example-a\":\"1.1\", \"discovery-springcloud-example-b\":\"1.1\", \"discovery-springcloud-example-c\":\"1.2\"}"
+            }, 
+            {
+                "id": "b-1", 
                 "type": "REGION", 
                 "value": "{\"discovery-springcloud-example-a\":\"qa;dev\", \"discovery-springcloud-example-b\":\"dev\", \"discovery-springcloud-example-c\":\"qa\"}"
             }, 
             {
-                "id": "c", 
+                "id": "b-2", 
+                "type": "REGION", 
+                "value": "{\"discovery-springcloud-example-a\":\"qa\", \"discovery-springcloud-example-b\":\"qa\", \"discovery-springcloud-example-c\":\"qa\"}"
+            }, 
+            {
+                "id": "c-1", 
                 "type": "ADDRESS", 
                 "value": "{\"discovery-springcloud-example-a\":\"192.168.43.101:1100\", \"discovery-springcloud-example-b\":\"192.168.43.101:1201\", \"discovery-springcloud-example-c\":\"192.168.43.101:1300\"}"
+            }, 
+            {
+                "id": "c-2", 
+                "type": "ADDRESS", 
+                "value": "{\"discovery-springcloud-example-a\":\"192.168.43.101:1101\", \"discovery-springcloud-example-b\":\"192.168.43.101:1201\", \"discovery-springcloud-example-c\":\"192.168.43.101:1301\"}"
             }, 
             {
                 "id": "d", 
