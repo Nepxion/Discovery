@@ -20,13 +20,14 @@ public class ConfigConstant {
     public static final String PARAMETER_ELEMENT_NAME = "parameter";
     public static final String CONDITIONS_ELEMENT_NAME = "conditions";
     public static final String CONDITION_ELEMENT_NAME = "condition";
+    public static final String WEIGHTS_ELEMENT_NAME = "weights";
+    public static final String WEIGHT_ELEMENT_NAME = "weight";
     public static final String ROUTES_ELEMENT_NAME = "routes";
     public static final String ROUTE_ELEMENT_NAME = "route";
     public static final String SERVICE_ELEMENT_NAME = "service";
     public static final String BLACKLIST_ELEMENT_NAME = "blacklist";
     public static final String WHITELIST_ELEMENT_NAME = "whitelist";
     public static final String COUNT_ELEMENT_NAME = "count";
-    public static final String WEIGHT_ELEMENT_NAME = "weight";
     public static final String VERSION_ELEMENT_NAME = DiscoveryConstant.VERSION;
     public static final String REGION_ELEMENT_NAME = DiscoveryConstant.REGION;
     public static final String ADDRESS_ELEMENT_NAME = DiscoveryConstant.ADDRESS;
