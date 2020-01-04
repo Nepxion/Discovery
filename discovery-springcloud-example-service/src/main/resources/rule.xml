@@ -163,11 +163,11 @@
             <condition id="2" header="c=3" version-id="a-2" region-id="b-2"/>
         </conditions>
 
+        <!-- 全链路随机权重（第二优先级） -->
         <weights>
             <weight id="1" version-id="a-1=10;a-2=90" region-id="b-1=20;b-2=80" address-id="c-1=20;c-2=80"/>
         </weights>
 
-        <!-- 全链路随机权重（第二优先级） -->
         <routes>
             <route id="a-1" type="version">{"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.0", "discovery-springcloud-example-c":"1.0;1.2"}</route>
             <route id="a-2" type="version">{"discovery-springcloud-example-a":"1.1", "discovery-springcloud-example-b":"1.1", "discovery-springcloud-example-c":"1.2"}</route>
