@@ -52,8 +52,8 @@ public class StrategyCustomizationEntity implements Serializable {
         // Header参数越多，越排在前面
         Collections.sort(this.strategyConditionEntityList, new Comparator<StrategyConditionEntity>() {
             public int compare(StrategyConditionEntity object1, StrategyConditionEntity object2) {
-                Integer count1 = object1.getHeaderMap().size();
-                Integer count2 = object2.getHeaderMap().size();
+                Integer count1 = object1.getConditionHeaderMap().size();
+                Integer count2 = object2.getConditionHeaderMap().size();
 
                 return count2.compareTo(count1);
             }

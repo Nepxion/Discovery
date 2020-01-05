@@ -203,7 +203,8 @@
         "strategyConditionEntityList": [
             {
                 "id": "1", 
-                "headerMap": {
+                "conditionHeader": "a=1;b=2", 
+                "conditionHeaderMap": {
                     "a": "1", 
                     "b": "2"
                 }, 
@@ -215,7 +216,8 @@
             }, 
             {
                 "id": "2", 
-                "headerMap": {
+                "conditionHeader": "c=3", 
+                "conditionHeaderMap": {
                     "c": "3"
                 }, 
                 "versionId": "a-2", 
