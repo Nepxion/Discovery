@@ -30,6 +30,7 @@ import com.nepxion.discovery.common.entity.StrategyType;
 import com.nepxion.discovery.common.entity.StrategyWeightEntity;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.MapWeightRandom;
+import com.nepxion.discovery.plugin.strategy.condition.StrategyCondition;
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 
 public class StrategyWrapper {
@@ -38,6 +39,9 @@ public class StrategyWrapper {
 
     @Autowired
     protected StrategyContextHolder strategyContextHolder;
+
+    @Autowired
+    protected StrategyCondition strategyCondition;
 
     // 从远程配置中心或者本地配置文件获取版本路由配置。如果是远程配置中心，则值会动态改变
     public String getRouteVersion() {
@@ -254,7 +258,7 @@ public class StrategyWrapper {
                 List<StrategyConditionEntity> strategyConditionEntityList = strategyCustomizationEntity.getStrategyConditionEntityList();
                 if (CollectionUtils.isNotEmpty(strategyConditionEntityList)) {
                     for (StrategyConditionEntity strategyConditionEntity : strategyConditionEntityList) {
-                        boolean isTriggered = isConditionTriggered(strategyConditionEntity);
+                        boolean isTriggered = strategyCondition.isTriggered(strategyConditionEntity);
                         if (isTriggered) {
                             return strategyConditionEntity;
                         }
@@ -264,23 +268,6 @@ public class StrategyWrapper {
         }
 
         return null;
-    }
-
-    private boolean isConditionTriggered(StrategyConditionEntity strategyConditionEntity) {
-        Map<String, String> headerMap = strategyConditionEntity.getHeaderMap();
-        if (MapUtils.isNotEmpty(headerMap)) {
-            for (Map.Entry<String, String> entry : headerMap.entrySet()) {
-                String headerName = entry.getKey();
-                String headerValue = entry.getValue();
-
-                String value = strategyContextHolder.getHeader(headerName);
-                if (!StringUtils.equals(headerValue, value)) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
     }
 
     public String getWeightRouteVersion() {
