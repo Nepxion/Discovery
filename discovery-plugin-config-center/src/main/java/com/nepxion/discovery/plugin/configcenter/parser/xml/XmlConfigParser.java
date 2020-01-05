@@ -686,13 +686,14 @@ public class XmlConfigParser implements PluginConfigParser {
                         throw new DiscoveryException("Attribute[" + ConfigConstant.HEADER_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                     }
                     String header = headerAttribute.getData().toString().trim();
+                    strategyConditionEntity.setConditionHeader(header);
                     List<String> headerList = StringUtil.splitToList(header, DiscoveryConstant.SEPARATE);
                     for (String value : headerList) {
                         String[] valueArray = StringUtils.split(value, DiscoveryConstant.EQUALS);
                         String headerName = valueArray[0].trim();
                         String headerValue = valueArray[1].trim();
 
-                        strategyConditionEntity.getHeaderMap().put(headerName, headerValue);
+                        strategyConditionEntity.getConditionHeaderMap().put(headerName, headerValue);
                     }
 
                     Attribute versionIdAttribute = childElement.attribute(ConfigConstant.VERSION_ELEMENT_NAME + DiscoveryConstant.DASH + ConfigConstant.ID_ATTRIBUTE_NAME);
