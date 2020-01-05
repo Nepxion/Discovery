@@ -22,7 +22,8 @@ public class StrategyConditionEntity implements Serializable {
     private static final long serialVersionUID = 1249482860170990672L;
 
     private String id;
-    private Map<String, String> headerMap = new LinkedHashMap<String, String>();
+    private String conditionHeader;
+    private Map<String, String> conditionHeaderMap = new LinkedHashMap<String, String>();
     private String versionId;
     private String regionId;
     private String addressId;
@@ -37,12 +38,20 @@ public class StrategyConditionEntity implements Serializable {
         this.id = id;
     }
 
-    public Map<String, String> getHeaderMap() {
-        return headerMap;
+    public String getConditionHeader() {
+        return conditionHeader;
     }
 
-    public void setHeaderMap(Map<String, String> headerMap) {
-        this.headerMap = headerMap;
+    public void setConditionHeader(String conditionHeader) {
+        this.conditionHeader = conditionHeader;
+    }
+
+    public Map<String, String> getConditionHeaderMap() {
+        return conditionHeaderMap;
+    }
+
+    public void setConditionHeaderMap(Map<String, String> conditionHeaderMap) {
+        this.conditionHeaderMap = conditionHeaderMap;
     }
 
     public String getVersionId() {
