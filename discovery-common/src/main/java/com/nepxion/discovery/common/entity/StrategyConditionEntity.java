@@ -10,8 +10,6 @@ package com.nepxion.discovery.common.entity;
  */
 
 import java.io.Serializable;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -23,7 +21,6 @@ public class StrategyConditionEntity implements Serializable {
 
     private String id;
     private String conditionHeader;
-    private Map<String, String> conditionHeaderMap = new LinkedHashMap<String, String>();
     private String versionId;
     private String regionId;
     private String addressId;
@@ -44,14 +41,6 @@ public class StrategyConditionEntity implements Serializable {
 
     public void setConditionHeader(String conditionHeader) {
         this.conditionHeader = conditionHeader;
-    }
-
-    public Map<String, String> getConditionHeaderMap() {
-        return conditionHeaderMap;
-    }
-
-    public void setConditionHeaderMap(Map<String, String> conditionHeaderMap) {
-        this.conditionHeaderMap = conditionHeaderMap;
     }
 
     public String getVersionId() {

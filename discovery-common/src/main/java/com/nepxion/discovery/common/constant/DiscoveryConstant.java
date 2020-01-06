@@ -128,6 +128,11 @@ public class DiscoveryConstant {
     public static final String DEFAULT = "default";
     public static final String UNKNOWN = "unknown";
 
+    public static final String EXPRESSION_PREFIX = "H";
+    public static final String EXPRESSION_REGEX = "\\#" + EXPRESSION_PREFIX + "\\['\\S+'\\]";
+    public static final String EXPRESSION_SUB_PREFIX = "#" + EXPRESSION_PREFIX + "['";
+    public static final String EXPRESSION_SUB_SUFFIX = "']";
+
     public static final String DEFAULT_XML_RULE = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" +
             "<rule>\r\n" +
             "</rule>";

@@ -19,6 +19,9 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.util.StringUtil;
+
 public class StrategyCustomizationEntity implements Serializable {
     private static final long serialVersionUID = 4903833660194433964L;
 
@@ -51,9 +54,9 @@ public class StrategyCustomizationEntity implements Serializable {
 
         // Header参数越多，越排在前面
         Collections.sort(this.strategyConditionEntityList, new Comparator<StrategyConditionEntity>() {
-            public int compare(StrategyConditionEntity object1, StrategyConditionEntity object2) {
-                Integer count1 = object1.getConditionHeaderMap().size();
-                Integer count2 = object2.getConditionHeaderMap().size();
+            public int compare(StrategyConditionEntity strategyConditionEntity1, StrategyConditionEntity strategyConditionEntity2) {
+                Integer count1 = StringUtil.count(strategyConditionEntity1.getConditionHeader(), DiscoveryConstant.EXPRESSION_SUB_PREFIX);
+                Integer count2 = StringUtil.count(strategyConditionEntity2.getConditionHeader(), DiscoveryConstant.EXPRESSION_SUB_PREFIX);
 
                 return count2.compareTo(count1);
             }

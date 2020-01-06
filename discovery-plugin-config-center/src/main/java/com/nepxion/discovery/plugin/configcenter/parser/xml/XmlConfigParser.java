@@ -687,14 +687,6 @@ public class XmlConfigParser implements PluginConfigParser {
                     }
                     String header = headerAttribute.getData().toString().trim();
                     strategyConditionEntity.setConditionHeader(header);
-                    List<String> headerList = StringUtil.splitToList(header, DiscoveryConstant.SEPARATE);
-                    for (String value : headerList) {
-                        String[] valueArray = StringUtils.split(value, DiscoveryConstant.EQUALS);
-                        String headerName = valueArray[0].trim();
-                        String headerValue = valueArray[1].trim();
-
-                        strategyConditionEntity.getConditionHeaderMap().put(headerName, headerValue);
-                    }
 
                     Attribute versionIdAttribute = childElement.attribute(ConfigConstant.VERSION_ELEMENT_NAME + DiscoveryConstant.DASH + ConfigConstant.ID_ATTRIBUTE_NAME);
                     if (versionIdAttribute != null) {
