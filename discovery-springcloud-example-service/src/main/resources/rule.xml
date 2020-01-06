@@ -158,9 +158,15 @@
     <!-- 基于Http Header传递的策略路由，客户定制化控制，跟业务参数绑定。如果不命中，则执行上面的全局缺省路由 -->
     <strategy-customization>
         <!-- 全链路条件命中（第一优先级） -->
+        <!-- Spel表达式在XML中的转义符：-->
+        <!-- 和符号 & 转义为 &amp; 必须转义 -->
+        <!-- 小于号 < 转义为 &lt; 必须转义 -->
+        <!-- 双引号 " 转义为 &quot; 必须转义 -->
+        <!-- 大于号 > 转义为 &gt; -->
+        <!-- 单引号 ' 转义为 &apos; -->
         <conditions>
-            <condition id="1" header="a=1;b=2" version-id="a-1" region-id="b-1" address-id="c-1" version-weight-id="d" region-weight-id="e"/>
-            <condition id="2" header="c=3" version-id="a-2" region-id="b-2"/>
+            <condition id="1" header="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="a-1" region-id="b-1" address-id="c-1" version-weight-id="d" region-weight-id="e"/>
+            <condition id="2" header="#H['c'] == '3'" version-id="a-2" region-id="b-2"/>
         </conditions>
 
         <!-- 全链路随机权重（第二优先级） -->
