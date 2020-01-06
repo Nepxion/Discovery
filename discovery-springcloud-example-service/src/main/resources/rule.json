@@ -203,11 +203,7 @@
         "strategyConditionEntityList": [
             {
                 "id": "1", 
-                "conditionHeader": "a=1;b=2", 
-                "conditionHeaderMap": {
-                    "a": "1", 
-                    "b": "2"
-                }, 
+                "conditionHeader": "#H['a'] == '1' && #H['b'] == '2'", 
                 "versionId": "a-1", 
                 "regionId": "b-1", 
                 "addressId": "c-1", 
@@ -216,10 +212,7 @@
             }, 
             {
                 "id": "2", 
-                "conditionHeader": "c=3", 
-                "conditionHeaderMap": {
-                    "c": "3"
-                }, 
+                "conditionHeader": "#H['c'] == '3'", 
                 "versionId": "a-2", 
                 "regionId": "b-2", 
                 "addressId": null, 
