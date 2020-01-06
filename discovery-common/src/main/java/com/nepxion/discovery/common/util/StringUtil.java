@@ -37,4 +37,14 @@ public class StringUtil {
     public static String toDisplaySize(String value) {
         return FileUtils.byteCountToDisplaySize(value.length());
     }
+
+    public static int count(String text, String keyText) {
+        int count = 0;
+        while (text.indexOf(keyText) != -1) {
+            text = text.substring(text.indexOf(keyText) + 1, text.length());
+            count++;
+        }
+
+        return count;
+    }
 }
