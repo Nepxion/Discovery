@@ -15,7 +15,7 @@ import org.springframework.cloud.netflix.ribbon.RibbonClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.nepxion.discovery.plugin.strategy.condition.HeaderEqualsStrategyCondition;
+import com.nepxion.discovery.plugin.strategy.condition.HeaderExpressionStrategyCondition;
 import com.nepxion.discovery.plugin.strategy.condition.StrategyCondition;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.isolation.ConsumerIsolationDiscoveryStrategy;
@@ -64,6 +64,6 @@ public class StrategyAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public StrategyCondition strategyCondition() {
-        return new HeaderEqualsStrategyCondition();
+        return new HeaderExpressionStrategyCondition();
     }
 }
