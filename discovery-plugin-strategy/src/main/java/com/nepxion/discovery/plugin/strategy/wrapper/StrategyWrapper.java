@@ -163,7 +163,7 @@ public class StrategyWrapper {
     }
 
     public String getConditionRouteVersion() {
-        StrategyConditionEntity strategyConditionEntity = getTriggeredStrategyConditionEntity();
+        StrategyConditionEntity strategyConditionEntity = getTriggeredStrategyConditionEntity(StrategyType.VERSION);
         if (strategyConditionEntity != null) {
             String versionId = strategyConditionEntity.getVersionId();
             StrategyRouteEntity strategyRouteEntity = getTriggeredStrategyRouteEntity(versionId, StrategyType.VERSION);
@@ -176,7 +176,7 @@ public class StrategyWrapper {
     }
 
     public String getConditionRouteRegion() {
-        StrategyConditionEntity strategyConditionEntity = getTriggeredStrategyConditionEntity();
+        StrategyConditionEntity strategyConditionEntity = getTriggeredStrategyConditionEntity(StrategyType.REGION);
         if (strategyConditionEntity != null) {
             String regionId = strategyConditionEntity.getRegionId();
             StrategyRouteEntity strategyRouteEntity = getTriggeredStrategyRouteEntity(regionId, StrategyType.REGION);
@@ -189,7 +189,7 @@ public class StrategyWrapper {
     }
 
     public String getConditionRouteAddress() {
-        StrategyConditionEntity strategyConditionEntity = getTriggeredStrategyConditionEntity();
+        StrategyConditionEntity strategyConditionEntity = getTriggeredStrategyConditionEntity(StrategyType.ADDRESS);
         if (strategyConditionEntity != null) {
             String addressId = strategyConditionEntity.getAddressId();
             StrategyRouteEntity strategyRouteEntity = getTriggeredStrategyRouteEntity(addressId, StrategyType.ADDRESS);
@@ -202,7 +202,7 @@ public class StrategyWrapper {
     }
 
     public String getConditionRouteVersionWeight() {
-        StrategyConditionEntity strategyConditionEntity = getTriggeredStrategyConditionEntity();
+        StrategyConditionEntity strategyConditionEntity = getTriggeredStrategyConditionEntity(StrategyType.VERSION_WEIGHT);
         if (strategyConditionEntity != null) {
             String versionWeightId = strategyConditionEntity.getVersionWeightId();
             StrategyRouteEntity strategyRouteEntity = getTriggeredStrategyRouteEntity(versionWeightId, StrategyType.VERSION_WEIGHT);
@@ -215,7 +215,7 @@ public class StrategyWrapper {
     }
 
     public String getConditionRouteRegionWeight() {
-        StrategyConditionEntity strategyConditionEntity = getTriggeredStrategyConditionEntity();
+        StrategyConditionEntity strategyConditionEntity = getTriggeredStrategyConditionEntity(StrategyType.REGION_WEIGHT);
         if (strategyConditionEntity != null) {
             String regionWeightId = strategyConditionEntity.getRegionWeightId();
             StrategyRouteEntity strategyRouteEntity = getTriggeredStrategyRouteEntity(regionWeightId, StrategyType.REGION_WEIGHT);
@@ -227,7 +227,7 @@ public class StrategyWrapper {
         return null;
     }
 
-    private StrategyRouteEntity getTriggeredStrategyRouteEntity(String id, StrategyType type) {
+    private StrategyRouteEntity getTriggeredStrategyRouteEntity(String id, StrategyType strategyType) {
         if (StringUtils.isEmpty(id)) {
             return null;
         }
@@ -239,7 +239,7 @@ public class StrategyWrapper {
                 List<StrategyRouteEntity> strategyRouteEntityList = strategyCustomizationEntity.getStrategyRouteEntityList();
                 if (CollectionUtils.isNotEmpty(strategyRouteEntityList)) {
                     for (StrategyRouteEntity strategyRouteEntity : strategyRouteEntityList) {
-                        if (StringUtils.equals(strategyRouteEntity.getId(), id) && strategyRouteEntity.getType() == type) {
+                        if (StringUtils.equals(strategyRouteEntity.getId(), id) && strategyRouteEntity.getType() == strategyType) {
                             return strategyRouteEntity;
                         }
                     }
@@ -250,7 +250,7 @@ public class StrategyWrapper {
         return null;
     }
 
-    private StrategyConditionEntity getTriggeredStrategyConditionEntity() {
+    private StrategyConditionEntity getTriggeredStrategyConditionEntity(StrategyType strategyType) {
         RuleEntity ruleEntity = pluginAdapter.getRule();
         if (ruleEntity != null) {
             StrategyCustomizationEntity strategyCustomizationEntity = ruleEntity.getStrategyCustomizationEntity();
@@ -258,9 +258,12 @@ public class StrategyWrapper {
                 List<StrategyConditionEntity> strategyConditionEntityList = strategyCustomizationEntity.getStrategyConditionEntityList();
                 if (CollectionUtils.isNotEmpty(strategyConditionEntityList)) {
                     for (StrategyConditionEntity strategyConditionEntity : strategyConditionEntityList) {
-                        boolean isTriggered = strategyCondition.isTriggered(strategyConditionEntity);
-                        if (isTriggered) {
-                            return strategyConditionEntity;
+                        boolean isValidated = validateStrategyType(strategyConditionEntity, strategyType);
+                        if (isValidated) {
+                            boolean isTriggered = strategyCondition.isTriggered(strategyConditionEntity);
+                            if (isTriggered) {
+                                return strategyConditionEntity;
+                            }
                         }
                     }
                 }
@@ -268,6 +271,23 @@ public class StrategyWrapper {
         }
 
         return null;
+    }
+
+    private boolean validateStrategyType(StrategyConditionEntity strategyConditionEntity, StrategyType strategyType) {
+        switch (strategyType) {
+            case VERSION:
+                return StringUtils.isNotEmpty(strategyConditionEntity.getVersionId());
+            case REGION:
+                return StringUtils.isNotEmpty(strategyConditionEntity.getRegionId());
+            case ADDRESS:
+                return StringUtils.isNotEmpty(strategyConditionEntity.getAddressId());
+            case VERSION_WEIGHT:
+                return StringUtils.isNotEmpty(strategyConditionEntity.getVersionWeightId());
+            case REGION_WEIGHT:
+                return StringUtils.isNotEmpty(strategyConditionEntity.getRegionWeightId());
+        }
+
+        return false;
     }
 
     public String getWeightRouteVersion() {
@@ -321,7 +341,7 @@ public class StrategyWrapper {
         return null;
     }
 
-    private String getTriggeredStrategyWeight(MapWeightEntity mapWeightEntity, StrategyType type) {
+    private String getTriggeredStrategyWeight(MapWeightEntity mapWeightEntity, StrategyType strategyType) {
         Map<String, Integer> weightMap = mapWeightEntity.getWeightMap();
         if (MapUtils.isEmpty(weightMap)) {
             return null;
@@ -330,7 +350,7 @@ public class StrategyWrapper {
         List<Pair<String, Double>> weightList = new ArrayList<Pair<String, Double>>();
         for (Map.Entry<String, Integer> entry : weightMap.entrySet()) {
             String id = entry.getKey();
-            StrategyRouteEntity strategyRouteEntity = getTriggeredStrategyRouteEntity(id, type);
+            StrategyRouteEntity strategyRouteEntity = getTriggeredStrategyRouteEntity(id, strategyType);
             if (strategyRouteEntity != null) {
                 String strategyRoute = strategyRouteEntity.getValue();
                 Double weight = Double.valueOf(entry.getValue());
