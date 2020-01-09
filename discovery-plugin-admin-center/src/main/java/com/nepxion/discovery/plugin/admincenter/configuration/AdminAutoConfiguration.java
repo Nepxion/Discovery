@@ -69,7 +69,7 @@ public class AdminAutoConfiguration {
     @ConditionalOnClass(WebMvcConfigurer.class)
     protected static class WebMvcActivationConfiguration {
         @Bean
-        @ConditionalOnProperty(value = "cors.registry.enabled", matchIfMissing = true)
+        @ConditionalOnProperty(value = "cors.registry.enabled", matchIfMissing = false)
         public CorsRegistryConfiguration corsRegistryConfiguration() {
             return new CorsRegistryConfiguration();
         }
