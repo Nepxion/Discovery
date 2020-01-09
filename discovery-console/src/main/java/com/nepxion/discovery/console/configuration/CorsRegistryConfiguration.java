@@ -15,7 +15,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
-@ConditionalOnProperty(value = "cors.registry.enabled", matchIfMissing = true)
+@ConditionalOnProperty(value = "cors.registry.enabled", matchIfMissing = false)
 public class CorsRegistryConfiguration extends WebMvcConfigurerAdapter {
     // 解决跨域问题
     @Override
