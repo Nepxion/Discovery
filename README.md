@@ -732,22 +732,25 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
 
     <!-- 基于Http Header传递的定制化策略路由，支持蓝绿部署和灰度发布两种模式。如果都不命中，则执行上面的全局缺省路由 -->
     <strategy-customization>
-        <!-- 全链路蓝绿部署：条件命中（第一优先级） -->
         <!-- Spel表达式在XML中的转义符：-->
         <!-- 和符号 & 转义为 &amp; 必须转义 -->
         <!-- 小于号 < 转义为 &lt; 必须转义 -->
         <!-- 双引号 " 转义为 &quot; 必须转义 -->
         <!-- 大于号 > 转义为 &gt; -->
         <!-- 单引号 ' 转义为 &apos; -->
-        <conditions>
+
+        <!-- 全链路蓝绿部署：条件命中的匹配方式（第一优先级） -->
+        <condition-blue-green>
             <condition id="1" header="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="a-1" region-id="b-1" address-id="c-1" version-weight-id="d-1" region-weight-id="e-1"/>
             <condition id="2" header="#H['c'] == '3'" version-id="a-2" region-id="b-2" address-id="c-2" version-weight-id="d-2" region-weight-id="e-2"/>
-        </conditions>
+        </condition-blue-green>
 
-        <!-- 全链路灰度发布：随机权重（第二优先级） -->
-        <weights>
-            <weight id="1" version-id="a-1=10;a-2=90" region-id="b-1=20;b-2=80" address-id="c-1=20;c-2=80"/>
-        </weights>
+        <!-- 全链路灰度发布：条件命中的随机权重（第二优先级） -->
+        <condition-gray>
+            <condition id="1" header="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="a-1=10;a-2=90" region-id="b-1=20;b-2=80" address-id="c-1=30;c-2=70"/>
+            <condition id="2" header="#H['c'] == '3'" version-id="a-1=90;a-2=10" region-id="b-1=80;b-2=20" address-id="c-1=70;c-2=30"/>
+            <condition id="3" version-id="a-1=5;a-2=95" region-id="b-1=5;b-2=95" address-id="c-1=5;c-2=95"/>
+        </condition-gray>
 
         <routes>
             <route id="a-1" type="version">{"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.0", "discovery-springcloud-example-c":"1.0;1.2"}</route>
