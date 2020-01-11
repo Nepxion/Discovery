@@ -49,7 +49,6 @@ import com.nepxion.discovery.common.entity.WeightEntityWrapper;
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
 import com.nepxion.discovery.common.entity.WeightType;
 import com.nepxion.discovery.common.exception.DiscoveryException;
-import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.configcenter.constant.ConfigConstant;
 import com.nepxion.discovery.plugin.configcenter.parser.xml.dom4j.Dom4JReader;
@@ -72,7 +71,7 @@ public class XmlConfigParser implements PluginConfigParser {
             RuleEntity ruleEntity = parseRoot(config, rootElement);
 
             // Just for Json text print
-            System.out.println(JsonUtil.toJson(ruleEntity));
+            // System.out.println(JsonUtil.toJson(ruleEntity));
 
             return ruleEntity;
         } catch (Exception e) {
