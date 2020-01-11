@@ -730,9 +730,9 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
         <!-- <region-weight>dev=85;qa=15</region-weight> -->
     </strategy>
 
-    <!-- 基于Http Header传递的策略路由，客户定制化控制，跟业务参数绑定。如果不命中，则执行上面的全局缺省路由 -->
+    <!-- 基于Http Header传递的定制化策略路由，支持蓝绿部署和灰度发布两种模式。如果都不命中，则执行上面的全局缺省路由 -->
     <strategy-customization>
-        <!-- 全链路条件命中（第一优先级） -->
+        <!-- 全链路蓝绿部署：条件命中（第一优先级） -->
         <!-- Spel表达式在XML中的转义符：-->
         <!-- 和符号 & 转义为 &amp; 必须转义 -->
         <!-- 小于号 < 转义为 &lt; 必须转义 -->
@@ -744,11 +744,11 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
             <condition id="2" header="#H['c'] == '3'" version-id="a-2" region-id="b-2"/>
         </conditions>
 
+        <!-- 全链路灰度发布：随机权重（第二优先级） -->
         <weights>
             <weight id="1" version-id="a-1=10;a-2=90" region-id="b-1=20;b-2=80" address-id="c-1=20;c-2=80"/>
         </weights>
 
-        <!-- 全链路随机权重（第二优先级） -->
         <routes>
             <route id="a-1" type="version">{"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.0", "discovery-springcloud-example-c":"1.0;1.2"}</route>
             <route id="a-2" type="version">{"discovery-springcloud-example-a":"1.1", "discovery-springcloud-example-b":"1.1", "discovery-springcloud-example-c":"1.2"}</route>
