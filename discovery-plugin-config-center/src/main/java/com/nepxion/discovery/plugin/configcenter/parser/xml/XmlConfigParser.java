@@ -741,6 +741,12 @@ public class XmlConfigParser implements PluginConfigParser {
                     String id = idAttribute.getData().toString().trim();
                     strategyConditionGrayEntity.setId(id);
 
+                    Attribute headerAttribute = childElement.attribute(ConfigConstant.HEADER_ATTRIBUTE_NAME);
+                    if (headerAttribute != null) {
+                        String header = headerAttribute.getData().toString().trim();
+                        strategyConditionGrayEntity.setConditionHeader(header);
+                    }
+
                     Attribute versionIdAttribute = childElement.attribute(ConfigConstant.VERSION_ELEMENT_NAME + DiscoveryConstant.DASH + ConfigConstant.ID_ATTRIBUTE_NAME);
                     if (versionIdAttribute != null) {
                         String versionId = versionIdAttribute.getData().toString().trim();
