@@ -39,6 +39,10 @@ public class StringUtil {
     }
 
     public static int count(String text, String keyText) {
+        if (StringUtils.isEmpty(text) || StringUtils.isEmpty(keyText)) {
+            return -1;
+        }
+
         int count = 0;
         while (text.indexOf(keyText) != -1) {
             text = text.substring(text.indexOf(keyText) + 1, text.length());
