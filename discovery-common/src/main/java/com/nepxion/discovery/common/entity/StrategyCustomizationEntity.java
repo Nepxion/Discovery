@@ -25,24 +25,24 @@ import com.nepxion.discovery.common.util.StringUtil;
 public class StrategyCustomizationEntity implements Serializable {
     private static final long serialVersionUID = 4903833660194433964L;
 
-    private List<StrategyConditionEntity> strategyConditionEntityList;
-    private List<StrategyWeightEntity> strategyWeightEntityList;
+    private List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList;
+    private List<StrategyConditionGrayEntity> strategyConditionGrayEntityList;
     private List<StrategyRouteEntity> strategyRouteEntityList;
 
-    public List<StrategyConditionEntity> getStrategyConditionEntityList() {
-        return strategyConditionEntityList;
+    public List<StrategyConditionBlueGreenEntity> getStrategyConditionBlueGreenEntityList() {
+        return strategyConditionBlueGreenEntityList;
     }
 
-    public void setStrategyConditionEntityList(List<StrategyConditionEntity> strategyConditionEntityList) {
-        this.strategyConditionEntityList = strategyConditionEntityList;
+    public void setStrategyConditionBlueGreenEntityList(List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList) {
+        this.strategyConditionBlueGreenEntityList = strategyConditionBlueGreenEntityList;
     }
 
-    public List<StrategyWeightEntity> getStrategyWeightEntityList() {
-        return strategyWeightEntityList;
+    public List<StrategyConditionGrayEntity> getStrategyConditionGrayEntityList() {
+        return strategyConditionGrayEntityList;
     }
 
-    public void setStrategyWeightEntityList(List<StrategyWeightEntity> strategyWeightEntityList) {
-        this.strategyWeightEntityList = strategyWeightEntityList;
+    public void setStrategyConditionGrayEntityList(List<StrategyConditionGrayEntity> strategyConditionGrayEntityList) {
+        this.strategyConditionGrayEntityList = strategyConditionGrayEntityList;
     }
 
     public List<StrategyRouteEntity> getStrategyRouteEntityList() {
@@ -53,10 +53,10 @@ public class StrategyCustomizationEntity implements Serializable {
         this.strategyRouteEntityList = strategyRouteEntityList;
 
         // Header参数越多，越排在前面
-        Collections.sort(this.strategyConditionEntityList, new Comparator<StrategyConditionEntity>() {
-            public int compare(StrategyConditionEntity strategyConditionEntity1, StrategyConditionEntity strategyConditionEntity2) {
-                Integer count1 = StringUtil.count(strategyConditionEntity1.getConditionHeader(), DiscoveryConstant.EXPRESSION_SUB_PREFIX);
-                Integer count2 = StringUtil.count(strategyConditionEntity2.getConditionHeader(), DiscoveryConstant.EXPRESSION_SUB_PREFIX);
+        Collections.sort(strategyConditionBlueGreenEntityList, new Comparator<StrategyConditionBlueGreenEntity>() {
+            public int compare(StrategyConditionBlueGreenEntity strategyConditionBlueGreenEntity1, StrategyConditionBlueGreenEntity strategyConditionBlueGreenEntity2) {
+                Integer count1 = StringUtil.count(strategyConditionBlueGreenEntity1.getConditionHeader(), DiscoveryConstant.EXPRESSION_SUB_PREFIX);
+                Integer count2 = StringUtil.count(strategyConditionBlueGreenEntity2.getConditionHeader(), DiscoveryConstant.EXPRESSION_SUB_PREFIX);
 
                 return count2.compareTo(count1);
             }

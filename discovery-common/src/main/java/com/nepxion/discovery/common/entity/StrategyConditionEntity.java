@@ -21,11 +21,6 @@ public class StrategyConditionEntity implements Serializable {
 
     private String id;
     private String conditionHeader;
-    private String versionId;
-    private String regionId;
-    private String addressId;
-    private String versionWeightId;
-    private String regionWeightId;
 
     public String getId() {
         return id;
@@ -41,46 +36,6 @@ public class StrategyConditionEntity implements Serializable {
 
     public void setConditionHeader(String conditionHeader) {
         this.conditionHeader = conditionHeader;
-    }
-
-    public String getVersionId() {
-        return versionId;
-    }
-
-    public void setVersionId(String versionId) {
-        this.versionId = versionId;
-    }
-
-    public String getRegionId() {
-        return regionId;
-    }
-
-    public void setRegionId(String regionId) {
-        this.regionId = regionId;
-    }
-
-    public String getAddressId() {
-        return addressId;
-    }
-
-    public void setAddressId(String addressId) {
-        this.addressId = addressId;
-    }
-
-    public String getVersionWeightId() {
-        return versionWeightId;
-    }
-
-    public void setVersionWeightId(String versionWeightId) {
-        this.versionWeightId = versionWeightId;
-    }
-
-    public String getRegionWeightId() {
-        return regionWeightId;
-    }
-
-    public void setRegionWeightId(String regionWeightId) {
-        this.regionWeightId = regionWeightId;
     }
 
     @Override

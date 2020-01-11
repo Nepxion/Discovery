@@ -23,24 +23,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.AddressWeightEntity;
 import com.nepxion.discovery.common.entity.CountFilterEntity;
 import com.nepxion.discovery.common.entity.DiscoveryEntity;
 import com.nepxion.discovery.common.entity.FilterHolderEntity;
 import com.nepxion.discovery.common.entity.FilterType;
 import com.nepxion.discovery.common.entity.HostFilterEntity;
-import com.nepxion.discovery.common.entity.MapWeightEntity;
 import com.nepxion.discovery.common.entity.ParameterEntity;
 import com.nepxion.discovery.common.entity.RegionEntity;
 import com.nepxion.discovery.common.entity.RegionFilterEntity;
 import com.nepxion.discovery.common.entity.RegionWeightEntity;
 import com.nepxion.discovery.common.entity.RegisterEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
-import com.nepxion.discovery.common.entity.StrategyConditionEntity;
+import com.nepxion.discovery.common.entity.StrategyConditionBlueGreenEntity;
+import com.nepxion.discovery.common.entity.StrategyConditionGrayEntity;
 import com.nepxion.discovery.common.entity.StrategyCustomizationEntity;
 import com.nepxion.discovery.common.entity.StrategyEntity;
 import com.nepxion.discovery.common.entity.StrategyRouteEntity;
 import com.nepxion.discovery.common.entity.StrategyType;
-import com.nepxion.discovery.common.entity.StrategyWeightEntity;
 import com.nepxion.discovery.common.entity.VersionEntity;
 import com.nepxion.discovery.common.entity.VersionFilterEntity;
 import com.nepxion.discovery.common.entity.VersionWeightEntity;
@@ -244,14 +244,14 @@ public class XmlConfigParser implements PluginConfigParser {
 
     @SuppressWarnings("rawtypes")
     private void parseStrategyCustomization(Element element, StrategyCustomizationEntity strategyCustomizationEntity) {
-        int conditionsElementCount = element.elements(ConfigConstant.CONDITIONS_ELEMENT_NAME).size();
-        if (conditionsElementCount > 1) {
-            throw new DiscoveryException("Allow only one element[" + ConfigConstant.CONDITIONS_ELEMENT_NAME + "] of element[" + ConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME + "] to be configed");
+        int conditionBlueGreenElementCount = element.elements(ConfigConstant.CONDITION_BLUE_GREEN_ELEMENT_NAME).size();
+        if (conditionBlueGreenElementCount > 1) {
+            throw new DiscoveryException("Allow only one element[" + ConfigConstant.CONDITION_BLUE_GREEN_ELEMENT_NAME + "] of element[" + ConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME + "] to be configed");
         }
 
-        int weightsElementCount = element.elements(ConfigConstant.WEIGHTS_ELEMENT_NAME).size();
-        if (weightsElementCount > 1) {
-            throw new DiscoveryException("Allow only one element[" + ConfigConstant.WEIGHTS_ELEMENT_NAME + "] of element[" + ConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME + "] to be configed");
+        int conditionGrayElementCount = element.elements(ConfigConstant.CONDITION_GRAY_ELEMENT_NAME).size();
+        if (conditionGrayElementCount > 1) {
+            throw new DiscoveryException("Allow only one element[" + ConfigConstant.CONDITION_GRAY_ELEMENT_NAME + "] of element[" + ConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME + "] to be configed");
         }
 
         int routesElementCount = element.elements(ConfigConstant.ROUTES_ELEMENT_NAME).size();
@@ -259,26 +259,26 @@ public class XmlConfigParser implements PluginConfigParser {
             throw new DiscoveryException("Allow only one element[" + ConfigConstant.ROUTES_ELEMENT_NAME + "] of element[" + ConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME + "] to be configed");
         }
 
-        List<StrategyConditionEntity> strategyConditionEntityList = new ArrayList<StrategyConditionEntity>();
-        List<StrategyWeightEntity> strategyWeightEntityList = new ArrayList<StrategyWeightEntity>();
+        List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList = new ArrayList<StrategyConditionBlueGreenEntity>();
+        List<StrategyConditionGrayEntity> strategyConditionGrayEntityList = new ArrayList<StrategyConditionGrayEntity>();
         List<StrategyRouteEntity> strategyRouteEntityList = new ArrayList<StrategyRouteEntity>();
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
             if (childElementObject instanceof Element) {
                 Element childElement = (Element) childElementObject;
 
-                if (StringUtils.equals(childElement.getName(), ConfigConstant.CONDITIONS_ELEMENT_NAME)) {
-                    parseStrategyCondition(childElement, strategyConditionEntityList);
-                } else if (StringUtils.equals(childElement.getName(), ConfigConstant.WEIGHTS_ELEMENT_NAME)) {
-                    parseStrategyWeight(childElement, strategyWeightEntityList);
+                if (StringUtils.equals(childElement.getName(), ConfigConstant.CONDITION_BLUE_GREEN_ELEMENT_NAME)) {
+                    parseStrategyConditionBlueGreen(childElement, strategyConditionBlueGreenEntityList);
+                } else if (StringUtils.equals(childElement.getName(), ConfigConstant.CONDITION_GRAY_ELEMENT_NAME)) {
+                    parseStrategyConditionGray(childElement, strategyConditionGrayEntityList);
                 } else if (StringUtils.equals(childElement.getName(), ConfigConstant.ROUTES_ELEMENT_NAME)) {
                     parseStrategyRoute(childElement, strategyRouteEntityList);
                 }
             }
         }
 
-        strategyCustomizationEntity.setStrategyConditionEntityList(strategyConditionEntityList);
-        strategyCustomizationEntity.setStrategyWeightEntityList(strategyWeightEntityList);
+        strategyCustomizationEntity.setStrategyConditionBlueGreenEntityList(strategyConditionBlueGreenEntityList);
+        strategyCustomizationEntity.setStrategyConditionGrayEntityList(strategyConditionGrayEntityList);
         strategyCustomizationEntity.setStrategyRouteEntityList(strategyRouteEntityList);
     }
 
@@ -665,107 +665,107 @@ public class XmlConfigParser implements PluginConfigParser {
     }
 
     @SuppressWarnings("rawtypes")
-    private void parseStrategyCondition(Element element, List<StrategyConditionEntity> strategyConditionEntityList) {
+    private void parseStrategyConditionBlueGreen(Element element, List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList) {
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
             if (childElementObject instanceof Element) {
                 Element childElement = (Element) childElementObject;
 
                 if (StringUtils.equals(childElement.getName(), ConfigConstant.CONDITION_ELEMENT_NAME)) {
-                    StrategyConditionEntity strategyConditionEntity = new StrategyConditionEntity();
+                    StrategyConditionBlueGreenEntity strategyConditionBlueGreenEntity = new StrategyConditionBlueGreenEntity();
 
                     Attribute idAttribute = childElement.attribute(ConfigConstant.ID_ATTRIBUTE_NAME);
                     if (idAttribute == null) {
                         throw new DiscoveryException("Attribute[" + ConfigConstant.ID_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                     }
                     String id = idAttribute.getData().toString().trim();
-                    strategyConditionEntity.setId(id);
+                    strategyConditionBlueGreenEntity.setId(id);
 
                     Attribute headerAttribute = childElement.attribute(ConfigConstant.HEADER_ATTRIBUTE_NAME);
                     if (headerAttribute == null) {
                         throw new DiscoveryException("Attribute[" + ConfigConstant.HEADER_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                     }
                     String header = headerAttribute.getData().toString().trim();
-                    strategyConditionEntity.setConditionHeader(header);
+                    strategyConditionBlueGreenEntity.setConditionHeader(header);
 
                     Attribute versionIdAttribute = childElement.attribute(ConfigConstant.VERSION_ELEMENT_NAME + DiscoveryConstant.DASH + ConfigConstant.ID_ATTRIBUTE_NAME);
                     if (versionIdAttribute != null) {
                         String versionId = versionIdAttribute.getData().toString().trim();
-                        strategyConditionEntity.setVersionId(versionId);
+                        strategyConditionBlueGreenEntity.setVersionId(versionId);
                     }
 
                     Attribute regionIdAttribute = childElement.attribute(ConfigConstant.REGION_ELEMENT_NAME + DiscoveryConstant.DASH + ConfigConstant.ID_ATTRIBUTE_NAME);
                     if (regionIdAttribute != null) {
                         String regionId = regionIdAttribute.getData().toString().trim();
-                        strategyConditionEntity.setRegionId(regionId);
+                        strategyConditionBlueGreenEntity.setRegionId(regionId);
                     }
 
                     Attribute addressIdAttribute = childElement.attribute(ConfigConstant.ADDRESS_ELEMENT_NAME + DiscoveryConstant.DASH + ConfigConstant.ID_ATTRIBUTE_NAME);
                     if (addressIdAttribute != null) {
                         String addressId = addressIdAttribute.getData().toString().trim();
-                        strategyConditionEntity.setAddressId(addressId);
+                        strategyConditionBlueGreenEntity.setAddressId(addressId);
                     }
 
                     Attribute versionWeightIdAttribute = childElement.attribute(ConfigConstant.VERSION_WEIGHT_ELEMENT_NAME + DiscoveryConstant.DASH + ConfigConstant.ID_ATTRIBUTE_NAME);
                     if (versionWeightIdAttribute != null) {
                         String versionWeightId = versionWeightIdAttribute.getData().toString().trim();
-                        strategyConditionEntity.setVersionWeightId(versionWeightId);
+                        strategyConditionBlueGreenEntity.setVersionWeightId(versionWeightId);
                     }
 
                     Attribute regionWeightIdAttribute = childElement.attribute(ConfigConstant.REGION_WEIGHT_ELEMENT_NAME + DiscoveryConstant.DASH + ConfigConstant.ID_ATTRIBUTE_NAME);
                     if (regionWeightIdAttribute != null) {
                         String regionWeightId = regionWeightIdAttribute.getData().toString().trim();
-                        strategyConditionEntity.setRegionWeightId(regionWeightId);
+                        strategyConditionBlueGreenEntity.setRegionWeightId(regionWeightId);
                     }
 
-                    strategyConditionEntityList.add(strategyConditionEntity);
+                    strategyConditionBlueGreenEntityList.add(strategyConditionBlueGreenEntity);
                 }
             }
         }
     }
 
     @SuppressWarnings("rawtypes")
-    private void parseStrategyWeight(Element element, List<StrategyWeightEntity> strategyWeightEntityList) {
+    private void parseStrategyConditionGray(Element element, List<StrategyConditionGrayEntity> strategyConditionGrayEntityList) {
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
             if (childElementObject instanceof Element) {
                 Element childElement = (Element) childElementObject;
 
-                if (StringUtils.equals(childElement.getName(), ConfigConstant.WEIGHT_ELEMENT_NAME)) {
-                    StrategyWeightEntity strategyWeightEntity = new StrategyWeightEntity();
+                if (StringUtils.equals(childElement.getName(), ConfigConstant.CONDITION_ELEMENT_NAME)) {
+                    StrategyConditionGrayEntity strategyConditionGrayEntity = new StrategyConditionGrayEntity();
 
                     Attribute idAttribute = childElement.attribute(ConfigConstant.ID_ATTRIBUTE_NAME);
                     if (idAttribute == null) {
                         throw new DiscoveryException("Attribute[" + ConfigConstant.ID_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                     }
                     String id = idAttribute.getData().toString().trim();
-                    strategyWeightEntity.setId(id);
+                    strategyConditionGrayEntity.setId(id);
 
                     Attribute versionIdAttribute = childElement.attribute(ConfigConstant.VERSION_ELEMENT_NAME + DiscoveryConstant.DASH + ConfigConstant.ID_ATTRIBUTE_NAME);
                     if (versionIdAttribute != null) {
                         String versionId = versionIdAttribute.getData().toString().trim();
-                        MapWeightEntity versionMapWeightEntity = new MapWeightEntity();
-                        WeightEntityWrapper.parseWeightEntity(versionMapWeightEntity, versionId);
-                        strategyWeightEntity.setVersionMapWeightEntity(versionMapWeightEntity);
+                        VersionWeightEntity versionWeightEntity = new VersionWeightEntity();
+                        WeightEntityWrapper.parseWeightEntity(versionWeightEntity, versionId);
+                        strategyConditionGrayEntity.setVersionWeightEntity(versionWeightEntity);
                     }
 
                     Attribute regionIdAttribute = childElement.attribute(ConfigConstant.REGION_ELEMENT_NAME + DiscoveryConstant.DASH + ConfigConstant.ID_ATTRIBUTE_NAME);
                     if (regionIdAttribute != null) {
                         String regionId = regionIdAttribute.getData().toString().trim();
-                        MapWeightEntity regionMapWeightEntity = new MapWeightEntity();
-                        WeightEntityWrapper.parseWeightEntity(regionMapWeightEntity, regionId);
-                        strategyWeightEntity.setRegionMapWeightEntity(regionMapWeightEntity);
+                        RegionWeightEntity regionWeightEntity = new RegionWeightEntity();
+                        WeightEntityWrapper.parseWeightEntity(regionWeightEntity, regionId);
+                        strategyConditionGrayEntity.setRegionWeightEntity(regionWeightEntity);
                     }
 
                     Attribute addressIdAttribute = childElement.attribute(ConfigConstant.ADDRESS_ELEMENT_NAME + DiscoveryConstant.DASH + ConfigConstant.ID_ATTRIBUTE_NAME);
                     if (addressIdAttribute != null) {
                         String addressId = addressIdAttribute.getData().toString().trim();
-                        MapWeightEntity addressMapWeightEntity = new MapWeightEntity();
-                        WeightEntityWrapper.parseWeightEntity(addressMapWeightEntity, addressId);
-                        strategyWeightEntity.setAddressMapWeightEntity(addressMapWeightEntity);
+                        AddressWeightEntity addressWeightEntity = new AddressWeightEntity();
+                        WeightEntityWrapper.parseWeightEntity(addressWeightEntity, addressId);
+                        strategyConditionGrayEntity.setAddressWeightEntity(addressWeightEntity);
                     }
 
-                    strategyWeightEntityList.add(strategyWeightEntity);
+                    strategyConditionGrayEntityList.add(strategyConditionGrayEntity);
                 }
             }
         }
