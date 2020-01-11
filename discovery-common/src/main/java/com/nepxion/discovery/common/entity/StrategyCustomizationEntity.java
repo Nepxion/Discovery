@@ -61,6 +61,16 @@ public class StrategyCustomizationEntity implements Serializable {
                 return count2.compareTo(count1);
             }
         });
+
+        // Header参数越多，越排在前面
+        Collections.sort(strategyConditionGrayEntityList, new Comparator<StrategyConditionGrayEntity>() {
+            public int compare(StrategyConditionGrayEntity strategyConditionGrayEntity1, StrategyConditionGrayEntity strategyConditionGrayEntity2) {
+                Integer count1 = StringUtil.count(strategyConditionGrayEntity1.getConditionHeader(), DiscoveryConstant.EXPRESSION_SUB_PREFIX);
+                Integer count2 = StringUtil.count(strategyConditionGrayEntity2.getConditionHeader(), DiscoveryConstant.EXPRESSION_SUB_PREFIX);
+
+                return count2.compareTo(count1);
+            }
+        });
     }
 
     @Override

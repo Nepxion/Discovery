@@ -237,15 +237,24 @@ public class StrategyWrapper {
             if (strategyCustomizationEntity != null) {
                 List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList = strategyCustomizationEntity.getStrategyConditionBlueGreenEntityList();
                 if (CollectionUtils.isNotEmpty(strategyConditionBlueGreenEntityList)) {
-                    for (StrategyConditionBlueGreenEntity strategyConditionBlueGreenEntity : strategyConditionBlueGreenEntityList) {
-                        boolean isValidated = validateBlueGreenStrategyType(strategyConditionBlueGreenEntity, strategyType);
-                        if (isValidated) {
-                            boolean isTriggered = strategyCondition.isTriggered(strategyConditionBlueGreenEntity);
-                            if (isTriggered) {
-                                return strategyConditionBlueGreenEntity;
-                            }
-                        }
+                    StrategyConditionBlueGreenEntity expressionStrategyConditionBlueGreenEntity = getTriggeredExpressionStrategyConditionBlueGreenEntity(strategyConditionBlueGreenEntityList, strategyType);
+                    if (expressionStrategyConditionBlueGreenEntity != null) {
+                        return expressionStrategyConditionBlueGreenEntity;
                     }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private StrategyConditionBlueGreenEntity getTriggeredExpressionStrategyConditionBlueGreenEntity(List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList, StrategyType strategyType) {
+        for (StrategyConditionBlueGreenEntity strategyConditionBlueGreenEntity : strategyConditionBlueGreenEntityList) {
+            boolean isValidated = validateBlueGreenStrategyType(strategyConditionBlueGreenEntity, strategyType);
+            if (isValidated) {
+                boolean isTriggered = strategyCondition.isTriggered(strategyConditionBlueGreenEntity);
+                if (isTriggered) {
+                    return strategyConditionBlueGreenEntity;
                 }
             }
         }
@@ -311,10 +320,40 @@ public class StrategyWrapper {
         if (ruleEntity != null) {
             StrategyCustomizationEntity strategyCustomizationEntity = ruleEntity.getStrategyCustomizationEntity();
             if (strategyCustomizationEntity != null) {
-                List<StrategyConditionGrayEntity> strategyConditionGrayEntity = strategyCustomizationEntity.getStrategyConditionGrayEntityList();
-                if (CollectionUtils.isNotEmpty(strategyConditionGrayEntity)) {
-                    return strategyConditionGrayEntity.get(0);
+                List<StrategyConditionGrayEntity> strategyConditionGrayEntityList = strategyCustomizationEntity.getStrategyConditionGrayEntityList();
+                if (CollectionUtils.isNotEmpty(strategyConditionGrayEntityList)) {
+                    StrategyConditionGrayEntity globalStrategyConditionGrayEntity = getTriggeredGlobalStrategyConditionGrayEntity(strategyConditionGrayEntityList);
+                    if (globalStrategyConditionGrayEntity != null) {
+                        return globalStrategyConditionGrayEntity;
+                    } else {
+                        StrategyConditionGrayEntity expressionStrategyConditionGrayEntity = getTriggeredExpressionStrategyConditionGrayEntity(strategyConditionGrayEntityList);
+                        if (expressionStrategyConditionGrayEntity != null) {
+                            return expressionStrategyConditionGrayEntity;
+                        }
+                    }
                 }
+            }
+        }
+
+        return null;
+    }
+
+    private StrategyConditionGrayEntity getTriggeredGlobalStrategyConditionGrayEntity(List<StrategyConditionGrayEntity> strategyConditionGrayEntityList) {
+        for (StrategyConditionGrayEntity strategyConditionGrayEntity : strategyConditionGrayEntityList) {
+            String conditionHeader = strategyConditionGrayEntity.getConditionHeader();
+            if (StringUtils.isEmpty(conditionHeader)) {
+                return strategyConditionGrayEntity;
+            }
+        }
+
+        return null;
+    }
+
+    private StrategyConditionGrayEntity getTriggeredExpressionStrategyConditionGrayEntity(List<StrategyConditionGrayEntity> strategyConditionGrayEntityList) {
+        for (StrategyConditionGrayEntity strategyConditionGrayEntity : strategyConditionGrayEntityList) {
+            boolean isTriggered = strategyCondition.isTriggered(strategyConditionGrayEntity);
+            if (isTriggered) {
+                return strategyConditionGrayEntity;
             }
         }
 
