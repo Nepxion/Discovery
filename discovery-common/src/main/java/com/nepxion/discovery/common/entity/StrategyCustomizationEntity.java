@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -53,24 +54,28 @@ public class StrategyCustomizationEntity implements Serializable {
         this.strategyRouteEntityList = strategyRouteEntityList;
 
         // Header参数越多，越排在前面
-        Collections.sort(strategyConditionBlueGreenEntityList, new Comparator<StrategyConditionBlueGreenEntity>() {
-            public int compare(StrategyConditionBlueGreenEntity strategyConditionBlueGreenEntity1, StrategyConditionBlueGreenEntity strategyConditionBlueGreenEntity2) {
-                Integer count1 = StringUtil.count(strategyConditionBlueGreenEntity1.getConditionHeader(), DiscoveryConstant.EXPRESSION_SUB_PREFIX);
-                Integer count2 = StringUtil.count(strategyConditionBlueGreenEntity2.getConditionHeader(), DiscoveryConstant.EXPRESSION_SUB_PREFIX);
+        if (CollectionUtils.isNotEmpty(strategyConditionBlueGreenEntityList)) {
+            Collections.sort(strategyConditionBlueGreenEntityList, new Comparator<StrategyConditionBlueGreenEntity>() {
+                public int compare(StrategyConditionBlueGreenEntity strategyConditionBlueGreenEntity1, StrategyConditionBlueGreenEntity strategyConditionBlueGreenEntity2) {
+                    Integer count1 = StringUtil.count(strategyConditionBlueGreenEntity1.getConditionHeader(), DiscoveryConstant.EXPRESSION_SUB_PREFIX);
+                    Integer count2 = StringUtil.count(strategyConditionBlueGreenEntity2.getConditionHeader(), DiscoveryConstant.EXPRESSION_SUB_PREFIX);
 
-                return count2.compareTo(count1);
-            }
-        });
+                    return count2.compareTo(count1);
+                }
+            });
+        }
 
         // Header参数越多，越排在前面
-        Collections.sort(strategyConditionGrayEntityList, new Comparator<StrategyConditionGrayEntity>() {
-            public int compare(StrategyConditionGrayEntity strategyConditionGrayEntity1, StrategyConditionGrayEntity strategyConditionGrayEntity2) {
-                Integer count1 = StringUtil.count(strategyConditionGrayEntity1.getConditionHeader(), DiscoveryConstant.EXPRESSION_SUB_PREFIX);
-                Integer count2 = StringUtil.count(strategyConditionGrayEntity2.getConditionHeader(), DiscoveryConstant.EXPRESSION_SUB_PREFIX);
+        if (CollectionUtils.isNotEmpty(strategyConditionGrayEntityList)) {
+            Collections.sort(strategyConditionGrayEntityList, new Comparator<StrategyConditionGrayEntity>() {
+                public int compare(StrategyConditionGrayEntity strategyConditionGrayEntity1, StrategyConditionGrayEntity strategyConditionGrayEntity2) {
+                    Integer count1 = StringUtil.count(strategyConditionGrayEntity1.getConditionHeader(), DiscoveryConstant.EXPRESSION_SUB_PREFIX);
+                    Integer count2 = StringUtil.count(strategyConditionGrayEntity2.getConditionHeader(), DiscoveryConstant.EXPRESSION_SUB_PREFIX);
 
-                return count2.compareTo(count1);
-            }
-        });
+                    return count2.compareTo(count1);
+                }
+            });
+        }
     }
 
     @Override
