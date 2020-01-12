@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.AddressWeightEntity;
+import com.nepxion.discovery.common.entity.ConditionType;
 import com.nepxion.discovery.common.entity.CountFilterEntity;
 import com.nepxion.discovery.common.entity.DiscoveryEntity;
 import com.nepxion.discovery.common.entity.FilterHolderEntity;
@@ -194,27 +195,27 @@ public class XmlConfigParser implements PluginConfigParser {
     private void parseStrategy(Element element, StrategyEntity strategyEntity) {
         int versionElementCount = element.elements(ConfigConstant.VERSION_ELEMENT_NAME).size();
         if (versionElementCount > 1) {
-            throw new DiscoveryException("Allow only one element[" + ConfigConstant.VERSION_ELEMENT_NAME + "] of element[" + ConfigConstant.STRATEGY_ELEMENT_NAME + "] to be configed");
+            throw new DiscoveryException("Allow only one element[" + ConfigConstant.VERSION_ELEMENT_NAME + "] to be configed");
         }
 
         int regionElementCount = element.elements(ConfigConstant.REGION_ELEMENT_NAME).size();
         if (regionElementCount > 1) {
-            throw new DiscoveryException("Allow only one element[" + ConfigConstant.REGION_ELEMENT_NAME + "] of element[" + ConfigConstant.STRATEGY_ELEMENT_NAME + "] to be configed");
+            throw new DiscoveryException("Allow only one element[" + ConfigConstant.REGION_ELEMENT_NAME + "] to be configed");
         }
 
         int addressElementCount = element.elements(ConfigConstant.ADDRESS_ELEMENT_NAME).size();
         if (addressElementCount > 1) {
-            throw new DiscoveryException("Allow only one element[" + ConfigConstant.ADDRESS_ELEMENT_NAME + "] of element[" + ConfigConstant.STRATEGY_ELEMENT_NAME + "] to be configed");
+            throw new DiscoveryException("Allow only one element[" + ConfigConstant.ADDRESS_ELEMENT_NAME + "] to be configed");
         }
 
         int versionWeightElementCount = element.elements(ConfigConstant.VERSION_WEIGHT_ELEMENT_NAME).size();
         if (versionWeightElementCount > 1) {
-            throw new DiscoveryException("Allow only one element[" + ConfigConstant.VERSION_WEIGHT_ELEMENT_NAME + "] of element[" + ConfigConstant.STRATEGY_ELEMENT_NAME + "] to be configed");
+            throw new DiscoveryException("Allow only one element[" + ConfigConstant.VERSION_WEIGHT_ELEMENT_NAME + "] to be configed");
         }
 
         int regionWeightElementCount = element.elements(ConfigConstant.REGION_WEIGHT_ELEMENT_NAME).size();
         if (regionWeightElementCount > 1) {
-            throw new DiscoveryException("Allow only one element[" + ConfigConstant.REGION_WEIGHT_ELEMENT_NAME + "] of element[" + ConfigConstant.STRATEGY_ELEMENT_NAME + "] to be configed");
+            throw new DiscoveryException("Allow only one element[" + ConfigConstant.REGION_WEIGHT_ELEMENT_NAME + "] to be configed");
         }
 
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
@@ -244,42 +245,31 @@ public class XmlConfigParser implements PluginConfigParser {
 
     @SuppressWarnings("rawtypes")
     private void parseStrategyCustomization(Element element, StrategyCustomizationEntity strategyCustomizationEntity) {
-        int conditionBlueGreenElementCount = element.elements(ConfigConstant.CONDITION_BLUE_GREEN_ELEMENT_NAME).size();
-        if (conditionBlueGreenElementCount > 1) {
-            throw new DiscoveryException("Allow only one element[" + ConfigConstant.CONDITION_BLUE_GREEN_ELEMENT_NAME + "] of element[" + ConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME + "] to be configed");
-        }
-
-        int conditionGrayElementCount = element.elements(ConfigConstant.CONDITION_GRAY_ELEMENT_NAME).size();
-        if (conditionGrayElementCount > 1) {
-            throw new DiscoveryException("Allow only one element[" + ConfigConstant.CONDITION_GRAY_ELEMENT_NAME + "] of element[" + ConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME + "] to be configed");
-        }
-
-        int routesElementCount = element.elements(ConfigConstant.ROUTES_ELEMENT_NAME).size();
-        if (routesElementCount > 1) {
-            throw new DiscoveryException("Allow only one element[" + ConfigConstant.ROUTES_ELEMENT_NAME + "] of element[" + ConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME + "] to be configed");
-        }
-
-        List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList = new ArrayList<StrategyConditionBlueGreenEntity>();
-        List<StrategyConditionGrayEntity> strategyConditionGrayEntityList = new ArrayList<StrategyConditionGrayEntity>();
-        List<StrategyRouteEntity> strategyRouteEntityList = new ArrayList<StrategyRouteEntity>();
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
             if (childElementObject instanceof Element) {
                 Element childElement = (Element) childElementObject;
 
-                if (StringUtils.equals(childElement.getName(), ConfigConstant.CONDITION_BLUE_GREEN_ELEMENT_NAME)) {
-                    parseStrategyConditionBlueGreen(childElement, strategyConditionBlueGreenEntityList);
-                } else if (StringUtils.equals(childElement.getName(), ConfigConstant.CONDITION_GRAY_ELEMENT_NAME)) {
-                    parseStrategyConditionGray(childElement, strategyConditionGrayEntityList);
+                if (StringUtils.equals(childElement.getName(), ConfigConstant.CONDITIONS)) {
+                    Attribute typeAttribute = childElement.attribute(ConfigConstant.TYPE_ATTRIBUTE_NAME);
+                    if (typeAttribute == null) {
+                        throw new DiscoveryException("Attribute[" + ConfigConstant.TYPE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                    }
+                    String type = typeAttribute.getData().toString().trim();
+                    ConditionType conditionType = ConditionType.fromString(type);
+                    switch (conditionType) {
+                        case BLUE_GREEN:
+                            parseStrategyConditionBlueGreen(childElement, strategyCustomizationEntity);
+                            break;
+                        case GRAY:
+                            parseStrategyConditionGray(childElement, strategyCustomizationEntity);
+                            break;
+                    }
                 } else if (StringUtils.equals(childElement.getName(), ConfigConstant.ROUTES_ELEMENT_NAME)) {
-                    parseStrategyRoute(childElement, strategyRouteEntityList);
+                    parseStrategyRoute(childElement, strategyCustomizationEntity);
                 }
             }
         }
-
-        strategyCustomizationEntity.setStrategyConditionBlueGreenEntityList(strategyConditionBlueGreenEntityList);
-        strategyCustomizationEntity.setStrategyConditionGrayEntityList(strategyConditionGrayEntityList);
-        strategyCustomizationEntity.setStrategyRouteEntityList(strategyRouteEntityList);
     }
 
     @SuppressWarnings("rawtypes")
@@ -665,7 +655,15 @@ public class XmlConfigParser implements PluginConfigParser {
     }
 
     @SuppressWarnings("rawtypes")
-    private void parseStrategyConditionBlueGreen(Element element, List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList) {
+    private void parseStrategyConditionBlueGreen(Element element, StrategyCustomizationEntity strategyCustomizationEntity) {
+        List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList = strategyCustomizationEntity.getStrategyConditionBlueGreenEntityList();
+        if (strategyConditionBlueGreenEntityList != null) {
+            throw new DiscoveryException("Allow only one element[" + ConfigConstant.CONDITIONS + "] for attribute[" + ConfigConstant.TYPE_ATTRIBUTE_NAME + "]'s value with '" + ConditionType.BLUE_GREEN + "' to be configed");
+        }
+
+        strategyConditionBlueGreenEntityList = new ArrayList<StrategyConditionBlueGreenEntity>();
+        strategyCustomizationEntity.setStrategyConditionBlueGreenEntityList(strategyConditionBlueGreenEntityList);
+
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
             if (childElementObject instanceof Element) {
@@ -725,7 +723,15 @@ public class XmlConfigParser implements PluginConfigParser {
     }
 
     @SuppressWarnings("rawtypes")
-    private void parseStrategyConditionGray(Element element, List<StrategyConditionGrayEntity> strategyConditionGrayEntityList) {
+    private void parseStrategyConditionGray(Element element, StrategyCustomizationEntity strategyCustomizationEntity) {
+        List<StrategyConditionGrayEntity> strategyConditionGrayEntityList = strategyCustomizationEntity.getStrategyConditionGrayEntityList();
+        if (strategyConditionGrayEntityList != null) {
+            throw new DiscoveryException("Allow only one element[" + ConfigConstant.CONDITIONS + "] for attribute[" + ConfigConstant.TYPE_ATTRIBUTE_NAME + "]'s value with '" + ConditionType.GRAY + "' to be configed");
+        }
+
+        strategyConditionGrayEntityList = new ArrayList<StrategyConditionGrayEntity>();
+        strategyCustomizationEntity.setStrategyConditionGrayEntityList(strategyConditionGrayEntityList);
+
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
             if (childElementObject instanceof Element) {
@@ -778,7 +784,15 @@ public class XmlConfigParser implements PluginConfigParser {
     }
 
     @SuppressWarnings("rawtypes")
-    private void parseStrategyRoute(Element element, List<StrategyRouteEntity> strategyRouteEntityList) {
+    private void parseStrategyRoute(Element element, StrategyCustomizationEntity strategyCustomizationEntity) {
+        List<StrategyRouteEntity> strategyRouteEntityList = strategyCustomizationEntity.getStrategyRouteEntityList();
+        if (strategyRouteEntityList != null) {
+            throw new DiscoveryException("Allow only one element[" + ConfigConstant.ROUTES_ELEMENT_NAME + "] to be configed");
+        }
+
+        strategyRouteEntityList = new ArrayList<StrategyRouteEntity>();
+        strategyCustomizationEntity.setStrategyRouteEntityList(strategyRouteEntityList);
+
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
             if (childElementObject instanceof Element) {

@@ -18,8 +18,7 @@ public class ConfigConstant {
     public static final String STRATEGY_ELEMENT_NAME = "strategy";
     public static final String PARAMETER_ELEMENT_NAME = "parameter";
     public static final String STRATEGY_CUSTOMIZATION_ELEMENT_NAME = "strategy-customization";
-    public static final String CONDITION_BLUE_GREEN_ELEMENT_NAME = "condition-blue-green";
-    public static final String CONDITION_GRAY_ELEMENT_NAME = "condition-gray";
+    public static final String CONDITIONS = "conditions";
     public static final String CONDITION_ELEMENT_NAME = "condition";
     public static final String ROUTES_ELEMENT_NAME = "routes";
     public static final String ROUTE_ELEMENT_NAME = "route";
