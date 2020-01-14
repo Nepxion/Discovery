@@ -14,7 +14,9 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.netflix.ribbon.RibbonClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.expression.TypeComparator;
 
+import com.nepxion.discovery.plugin.strategy.condition.DefaultStrategyTypeComparor;
 import com.nepxion.discovery.plugin.strategy.condition.HeaderExpressionStrategyCondition;
 import com.nepxion.discovery.plugin.strategy.condition.StrategyCondition;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
@@ -59,6 +61,12 @@ public class StrategyAutoConfiguration {
     @Bean
     public StrategyWrapper strategyWrapper() {
         return new StrategyWrapper();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public TypeComparator strategyTypeComparator() {
+        return new DefaultStrategyTypeComparor();
     }
 
     @Bean
