@@ -18,7 +18,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.StrategyConditionEntity;
-import com.nepxion.discovery.plugin.framework.util.SpelUtil;
 
 public class HeaderExpressionStrategyCondition extends AbstractStrategyCondition {
     private Pattern pattern = Pattern.compile(DiscoveryConstant.EXPRESSION_REGEX);
@@ -28,7 +27,7 @@ public class HeaderExpressionStrategyCondition extends AbstractStrategyCondition
         String conditionHeader = strategyConditionEntity.getConditionHeader();
         Map<String, String> headerMap = createHeaderMap(conditionHeader);
 
-        return SpelUtil.eval(conditionHeader, DiscoveryConstant.EXPRESSION_PREFIX, headerMap);
+        return ExpressionStrategyUtil.eval(conditionHeader, DiscoveryConstant.EXPRESSION_PREFIX, headerMap, strategyTypeComparator);
     }
 
     private Map<String, String> createHeaderMap(String conditionHeader) {
@@ -45,5 +44,9 @@ public class HeaderExpressionStrategyCondition extends AbstractStrategyCondition
         }
 
         return headerMap;
+    }
+
+    public boolean eval(String conditionHeader, Map<String, String> headerMap) {
+        return ExpressionStrategyUtil.eval(conditionHeader, DiscoveryConstant.EXPRESSION_PREFIX, headerMap, strategyTypeComparator);
     }
 }
