@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.loadbalance;
+package com.nepxion.discovery.plugin.strategy.condition;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -19,9 +19,8 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 
 import com.nepxion.discovery.common.util.StringUtil;
-import com.nepxion.discovery.plugin.framework.util.SpelUtil;
 
-public class SpelTest {
+public class ExpressionStrategyTest {
     public static void main(String[] args) {
         System.out.println(test1());
         System.out.println(test2());
@@ -29,24 +28,28 @@ public class SpelTest {
     }
 
     private static boolean test1() {
+        // String expression = "#H['a'] != 'x' || #H['b'] != 'y'";
         // String expression = "#H['a'] == '123' && #H['b'] == '456'";
         // String expression = "#H['a'] == '123' || #H['b'] == '456'";
         // String expression = "#H['a'] >= '123' && #H['b'] <= '456'";
         // String expression = "#H['a'] >= '123' || #H['b'] <= '456'";
-        String expression = "#H['a'] != '123' || #H['b'] != '456'";
+        // String expression = "#H['a'] != '123' || #H['b'] != '456'";
+        String expression = "#H['a'] < '2' && #H['b'] == 'y'";
 
         Map<String, String> headerMap = new HashMap<String, String>();
-        headerMap.put("a", "123");
-        headerMap.put("b", "456");
+        // headerMap.put("a", "123");
+        // headerMap.put("b", "456");
+        headerMap.put("a", "1.2333");
+        headerMap.put("b", "y");
 
-        return SpelUtil.eval(expression, "H", headerMap);
+        return ExpressionStrategyUtil.eval(expression, "H", headerMap, new DefaultStrategyTypeComparor());
     }
 
     private static List<String> test2() {
         String regex = "\\#H\\['\\S+'\\]";
         Pattern pattern = Pattern.compile(regex);
 
-        String expression = "#H['a-A'] != '123' || #H['b//SS'] != '456' && #H['C**44!!66'] = 123";
+        String expression = "#H['a-A'] != '123' || #H['b//SS'] != '456' && #H['C**44!!66'] == '123'";
         Matcher matcher = pattern.matcher(expression);
 
         List<String> list = new ArrayList<String>();
@@ -60,7 +63,7 @@ public class SpelTest {
     }
 
     private static int test3() {
-        String expression = "#H['a-A'] != '123' || #H['b//SS'] != '456' && #H['C**44!!66'] = 123";
+        String expression = "#H['a-A'] != '123' || #H['b//SS'] != '456' && #H['C**44!!66'] == '123'";
         String key = "#H['";
 
         return StringUtil.count(expression, key);

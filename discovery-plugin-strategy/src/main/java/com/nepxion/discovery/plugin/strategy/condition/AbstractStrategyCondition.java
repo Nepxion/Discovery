@@ -10,6 +10,7 @@ package com.nepxion.discovery.plugin.strategy.condition;
  */
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.expression.TypeComparator;
 
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 
@@ -17,7 +18,14 @@ public abstract class AbstractStrategyCondition implements StrategyCondition {
     @Autowired
     protected StrategyContextHolder strategyContextHolder;
 
+    @Autowired
+    protected TypeComparator strategyTypeComparator;
+
     public StrategyContextHolder getStrategyContextHolder() {
         return strategyContextHolder;
+    }
+
+    public TypeComparator getStrategyTypeComparator() {
+        return strategyTypeComparator;
     }
 }
