@@ -113,7 +113,7 @@ public class DiscoveryProperties implements Serializable {
         if (value != null) {
             try {
                 return Boolean.parseBoolean(value);
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
                 throw new IllegalArgumentException("Value [" + value + "] for key [" + key + "] can't be parsed to boolean", e);
             }
         } else {
@@ -126,7 +126,7 @@ public class DiscoveryProperties implements Serializable {
         if (value != null) {
             try {
                 return Boolean.parseBoolean(value);
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
                 throw new IllegalArgumentException("Value [" + value + "] for key [" + key + "] can't be parsed to boolean", e);
             }
         } else {
@@ -139,7 +139,7 @@ public class DiscoveryProperties implements Serializable {
         if (value != null) {
             try {
                 return Integer.parseInt(value);
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
                 throw new IllegalArgumentException("Value [" + value + "] for key [" + key + "] can't be parsed to int", e);
             }
         } else {
@@ -152,7 +152,7 @@ public class DiscoveryProperties implements Serializable {
         if (value != null) {
             try {
                 return Integer.parseInt(value);
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
                 throw new IllegalArgumentException("Value [" + value + "] for key [" + key + "] can't be parsed to int", e);
             }
         } else {
@@ -165,7 +165,7 @@ public class DiscoveryProperties implements Serializable {
         if (value != null) {
             try {
                 return Long.parseLong(value);
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
                 throw new IllegalArgumentException("Value [" + value + "] for key [" + key + "] can't be parsed to long", e);
             }
         } else {
@@ -178,7 +178,7 @@ public class DiscoveryProperties implements Serializable {
         if (value != null) {
             try {
                 return Long.parseLong(value);
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
                 throw new IllegalArgumentException("Value [" + value + "] for key [" + key + "] can't be parsed to long", e);
             }
         } else {
@@ -191,7 +191,7 @@ public class DiscoveryProperties implements Serializable {
         if (value != null) {
             try {
                 return Short.parseShort(value);
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
                 throw new IllegalArgumentException("Value [" + value + "] for key [" + key + "] can't be parsed to short", e);
             }
         } else {
@@ -204,7 +204,7 @@ public class DiscoveryProperties implements Serializable {
         if (value != null) {
             try {
                 return Short.parseShort(value);
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
                 throw new IllegalArgumentException("Value [" + value + "] for key [" + key + "] can't be parsed to short", e);
             }
         } else {
@@ -217,7 +217,7 @@ public class DiscoveryProperties implements Serializable {
         if (value != null) {
             try {
                 return Byte.parseByte(value);
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
                 throw new IllegalArgumentException("Value [" + value + "] for key [" + key + "] can't be parsed to byte", e);
             }
         } else {
@@ -230,7 +230,7 @@ public class DiscoveryProperties implements Serializable {
         if (value != null) {
             try {
                 return Byte.parseByte(value);
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
                 throw new IllegalArgumentException("Value [" + value + "] for key [" + key + "] can't be parsed to byte", e);
             }
         } else {
@@ -243,7 +243,7 @@ public class DiscoveryProperties implements Serializable {
         if (value != null) {
             try {
                 return Double.parseDouble(value);
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
                 throw new IllegalArgumentException("Value [" + value + "] for key [" + key + "] can't be parsed to double", e);
             }
         } else {
@@ -256,7 +256,7 @@ public class DiscoveryProperties implements Serializable {
         if (value != null) {
             try {
                 return Double.parseDouble(value);
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
                 throw new IllegalArgumentException("Value [" + value + "] for key [" + key + "] can't be parsed to double", e);
             }
         } else {
@@ -269,7 +269,7 @@ public class DiscoveryProperties implements Serializable {
         if (value != null) {
             try {
                 return Float.parseFloat(value);
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
                 throw new IllegalArgumentException("Value [" + value + "] for key [" + key + "] can't be parsed to float", e);
             }
         } else {
@@ -282,7 +282,7 @@ public class DiscoveryProperties implements Serializable {
         if (value != null) {
             try {
                 return Float.parseFloat(value);
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
                 throw new IllegalArgumentException("Value [" + value + "] for key [" + key + "] can't be parsed to float", e);
             }
         } else {
@@ -295,7 +295,7 @@ public class DiscoveryProperties implements Serializable {
         if (value != null) {
             try {
                 return BigInteger.valueOf(Long.parseLong(value));
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
                 throw new IllegalArgumentException("Value [" + value + "] for key [" + key + "] can't be parsed to BigInteger", e);
             }
         } else {
@@ -308,7 +308,7 @@ public class DiscoveryProperties implements Serializable {
         if (value != null) {
             try {
                 return BigInteger.valueOf(Long.parseLong(value));
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
                 throw new IllegalArgumentException("Value [" + value + "] for key [" + key + "] can't be parsed to BigInteger", e);
             }
         } else {
@@ -321,7 +321,7 @@ public class DiscoveryProperties implements Serializable {
         if (value != null) {
             try {
                 return BigDecimal.valueOf(Double.parseDouble(value));
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
                 throw new IllegalArgumentException("Value [" + value + "] for key [" + key + "] can't be parsed to BigDecimal", e);
             }
         } else {
@@ -334,7 +334,7 @@ public class DiscoveryProperties implements Serializable {
         if (value != null) {
             try {
                 return BigDecimal.valueOf(Double.parseDouble(value));
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
                 throw new IllegalArgumentException("Value [" + value + "] for key [" + key + "] can't be parsed to BigDecimal", e);
             }
         } else {

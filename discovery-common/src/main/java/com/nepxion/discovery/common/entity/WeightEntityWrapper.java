@@ -54,7 +54,7 @@ public class WeightEntityWrapper {
                 if (weight < 0) {
                     weight = 0;
                 }
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
 
             }
 

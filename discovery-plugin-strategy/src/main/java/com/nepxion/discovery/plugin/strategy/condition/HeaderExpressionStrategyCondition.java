@@ -27,7 +27,7 @@ public class HeaderExpressionStrategyCondition extends AbstractStrategyCondition
         String conditionHeader = strategyConditionEntity.getConditionHeader();
         Map<String, String> headerMap = createHeaderMap(conditionHeader);
 
-        return ExpressionStrategyUtil.eval(conditionHeader, DiscoveryConstant.EXPRESSION_PREFIX, headerMap, strategyTypeComparator);
+        return ExpressionStrategyResolver.eval(conditionHeader, DiscoveryConstant.EXPRESSION_PREFIX, headerMap, strategyTypeComparator);
     }
 
     private Map<String, String> createHeaderMap(String conditionHeader) {
@@ -47,6 +47,6 @@ public class HeaderExpressionStrategyCondition extends AbstractStrategyCondition
     }
 
     public boolean eval(String conditionHeader, Map<String, String> headerMap) {
-        return ExpressionStrategyUtil.eval(conditionHeader, DiscoveryConstant.EXPRESSION_PREFIX, headerMap, strategyTypeComparator);
+        return ExpressionStrategyResolver.eval(conditionHeader, DiscoveryConstant.EXPRESSION_PREFIX, headerMap, strategyTypeComparator);
     }
 }
