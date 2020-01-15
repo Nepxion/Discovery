@@ -16,7 +16,7 @@ import org.springframework.expression.TypeComparator;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 
-public class ExpressionStrategyUtil {
+public class ExpressionStrategyResolver {
     private static final ExpressionParser EXPRESSION_PARSER = new SpelExpressionParser();
 
     public static boolean eval(String expression, String key, Map<String, String> map, TypeComparator typeComparator) {
