@@ -13,11 +13,10 @@ import java.math.BigDecimal;
 
 import org.springframework.expression.spel.SpelEvaluationException;
 import org.springframework.expression.spel.support.StandardTypeComparator;
-import org.springframework.lang.Nullable;
 
 public class DefaultStrategyTypeComparor extends StandardTypeComparator {
     @Override
-    public int compare(@Nullable Object left, @Nullable Object right) throws SpelEvaluationException {
+    public int compare(Object left, Object right) throws SpelEvaluationException {
         if (left == null) {
             return 0;
         }
