@@ -38,8 +38,12 @@ public class ExpressionStrategyResolver {
     }
 
     public static boolean eval(String expression, StandardEvaluationContext context) {
-        Boolean result = EXPRESSION_PARSER.parseExpression(expression).getValue(context, Boolean.class);
+        try {
+            Boolean result = EXPRESSION_PARSER.parseExpression(expression).getValue(context, Boolean.class);
 
-        return result != null ? result.booleanValue() : false;
+            return result != null ? result.booleanValue() : false;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
