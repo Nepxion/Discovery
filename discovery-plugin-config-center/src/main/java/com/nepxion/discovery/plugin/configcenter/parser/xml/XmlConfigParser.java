@@ -370,7 +370,7 @@ public class XmlConfigParser implements PluginConfigParser {
                 Integer globalValue = null;
                 try {
                     globalValue = Integer.valueOf(globalFilterValue);
-                } catch (NumberFormatException e) {
+                } catch (Exception e) {
                     throw new DiscoveryException("Attribute[" + ConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME + "] value in element[" + element.getName() + "] is invalid, must be int type", e);
                 }
                 countFilterEntity.setFilterValue(globalValue);
@@ -397,7 +397,7 @@ public class XmlConfigParser implements PluginConfigParser {
                         if (StringUtils.isNotEmpty(filterValue)) {
                             try {
                                 value = Integer.valueOf(filterValue);
-                            } catch (NumberFormatException e) {
+                            } catch (Exception e) {
                                 throw new DiscoveryException("Attribute[" + ConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME + "] value in element[" + childElement.getName() + "] is invalid, must be int type", e);
                             }
                         }

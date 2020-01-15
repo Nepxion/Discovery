@@ -25,7 +25,7 @@ public class MathsUtil {
             for (String data : array) {
                 result *= Long.parseLong(data.trim());
             }
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             return null;
         }
 
