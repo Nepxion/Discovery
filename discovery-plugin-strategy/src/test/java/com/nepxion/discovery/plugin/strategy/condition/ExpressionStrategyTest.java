@@ -42,7 +42,7 @@ public class ExpressionStrategyTest {
         headerMap.put("a", "1.2333");
         headerMap.put("b", "y");
 
-        return ExpressionStrategyUtil.eval(expression, "H", headerMap, new DefaultStrategyTypeComparor());
+        return ExpressionStrategyResolver.eval(expression, "H", headerMap, new DefaultStrategyTypeComparor());
     }
 
     private static List<String> test2() {
