@@ -34,8 +34,8 @@ public class ExpressionStrategyTest {
         // String expression = "#H['a'] >= '123' && #H['b'] <= '456'";
         // String expression = "#H['a'] >= '123' || #H['b'] <= '456'";
         // String expression = "#H['a'] != '123' || #H['b'] != '456'";
-        String expression = "#H['a'] < '2' && #H['b'] == 'y'";
-
+        //String expression = "#H['a'] < '2' && #H['b'] == '3'";
+        String expression = "#H['a'] matches '[a-z]{3}2'";
         Map<String, String> headerMap = new HashMap<String, String>();
         // headerMap.put("a", "123");
         // headerMap.put("b", "456");
