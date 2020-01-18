@@ -9,8 +9,12 @@ package com.nepxion.discovery.plugin.strategy.condition;
  * @version 1.0
  */
 
+import java.util.Map;
+
 import com.nepxion.discovery.common.entity.StrategyConditionEntity;
 
 public interface StrategyCondition {
     boolean isTriggered(StrategyConditionEntity strategyConditionEntity);
+
+    boolean eval(String conditionHeader, Map<String, String> headerMap);
 }

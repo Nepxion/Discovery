@@ -46,6 +46,7 @@ public class HeaderExpressionStrategyCondition extends AbstractStrategyCondition
         return headerMap;
     }
 
+    @Override
     public boolean eval(String conditionHeader, Map<String, String> headerMap) {
         return ExpressionStrategyResolver.eval(conditionHeader, DiscoveryConstant.EXPRESSION_PREFIX, headerMap, strategyTypeComparator);
     }
