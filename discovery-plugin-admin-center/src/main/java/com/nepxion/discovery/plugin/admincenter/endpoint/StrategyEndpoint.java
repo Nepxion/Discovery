@@ -48,7 +48,7 @@ public class StrategyEndpoint {
         StrategyConditionEntity strategyConditionEntity = new StrategyConditionEntity();
         strategyConditionEntity.setConditionHeader(condition);
 
-        Map<String, String> map = convertMap(validation);
+        Map<String, String> map = splitToMap(validation);
 
         boolean validated = strategyCondition.isTriggered(strategyConditionEntity, map);
 
@@ -61,7 +61,7 @@ public class StrategyEndpoint {
     public ResponseEntity<String> validateVersionRoute(@RequestParam @ApiParam(value = "策略类型，例如：version, region, address, version-weight, region-weight", required = true) String strategyType, @RequestParam(required = false, defaultValue = "") @ApiParam(value = "变量赋值，例如：a=1;b=1。如果多个用“;”分隔，不允许出现空格。允许为空", required = false, defaultValue = "") String validation) {
         StrategyType type = StrategyType.fromString(strategyType);
 
-        Map<String, String> map = convertMap(validation);
+        Map<String, String> map = splitToMap(validation);
 
         String route = null;
         switch (type) {
@@ -85,13 +85,13 @@ public class StrategyEndpoint {
         return ResponseEntity.ok().body(route);
     }
 
-    private Map<String, String> convertMap(String text) {
+    private Map<String, String> splitToMap(String value) {
         Map<String, String> map = new HashMap<String, String>();
 
-        if (StringUtils.isNotEmpty(text)) {
-            String[] separateArray = text.split(DiscoveryConstant.SEPARATE);
-            for (String value : separateArray) {
-                String[] equalsArray = value.split(DiscoveryConstant.EQUALS);
+        if (StringUtils.isNotEmpty(value)) {
+            String[] separateArray = StringUtils.split(value, DiscoveryConstant.SEPARATE);
+            for (String separateValue : separateArray) {
+                String[] equalsArray = StringUtils.split(separateValue, DiscoveryConstant.EQUALS);
                 map.put(equalsArray[0], equalsArray[1]);
             }
         }
