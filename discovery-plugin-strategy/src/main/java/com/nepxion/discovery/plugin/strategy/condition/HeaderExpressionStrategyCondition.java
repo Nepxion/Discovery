@@ -24,13 +24,14 @@ public class HeaderExpressionStrategyCondition extends AbstractStrategyCondition
 
     @Override
     public boolean isTriggered(StrategyConditionEntity strategyConditionEntity) {
-        String conditionHeader = strategyConditionEntity.getConditionHeader();
-        Map<String, String> headerMap = createHeaderMap(conditionHeader);
+        Map<String, String> headerMap = createHeaderMap(strategyConditionEntity);
 
-        return eval(conditionHeader, headerMap);
+        return isTriggered(strategyConditionEntity, headerMap);
     }
 
-    private Map<String, String> createHeaderMap(String conditionHeader) {
+    private Map<String, String> createHeaderMap(StrategyConditionEntity strategyConditionEntity) {
+        String conditionHeader = strategyConditionEntity.getConditionHeader();
+
         Map<String, String> headerMap = new HashMap<String, String>();
 
         Matcher matcher = pattern.matcher(conditionHeader);
@@ -47,7 +48,9 @@ public class HeaderExpressionStrategyCondition extends AbstractStrategyCondition
     }
 
     @Override
-    public boolean eval(String conditionHeader, Map<String, String> headerMap) {
+    public boolean isTriggered(StrategyConditionEntity strategyConditionEntity, Map<String, String> headerMap) {
+        String conditionHeader = strategyConditionEntity.getConditionHeader();
+
         return ExpressionStrategyResolver.eval(conditionHeader, DiscoveryConstant.EXPRESSION_PREFIX, headerMap, strategyTypeComparator);
     }
 }
