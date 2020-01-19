@@ -18,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.StrategyConditionEntity;
+import com.nepxion.discovery.common.exception.DiscoveryException;
 
 public class HeaderExpressionStrategyCondition extends AbstractStrategyCondition {
     private Pattern pattern = Pattern.compile(DiscoveryConstant.EXPRESSION_REGEX);
@@ -49,6 +50,10 @@ public class HeaderExpressionStrategyCondition extends AbstractStrategyCondition
 
     @Override
     public boolean isTriggered(StrategyConditionEntity strategyConditionEntity, Map<String, String> headerMap) {
+        if (headerMap == null) {
+            throw new DiscoveryException("Header map can't be null");
+        }
+
         String conditionHeader = strategyConditionEntity.getConditionHeader();
 
         return ExpressionStrategyResolver.eval(conditionHeader, DiscoveryConstant.EXPRESSION_PREFIX, headerMap, strategyTypeComparator);
