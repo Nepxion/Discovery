@@ -23,7 +23,9 @@ import com.nepxion.discovery.plugin.admincenter.endpoint.GitEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.RouterEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.SentinelCoreEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.SentinelParamEndpoint;
+import com.nepxion.discovery.plugin.admincenter.endpoint.StrategyEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.VersionEndpoint;
+import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
 
 @Configuration
 @Import(SwaggerConfiguration.class)
@@ -47,6 +49,14 @@ public class AdminAutoConfiguration {
         @Bean
         public GitEndpoint gitEndpoint() {
             return new GitEndpoint();
+        }
+    }
+
+    @ConditionalOnClass({ StrategyWrapper.class })
+    protected static class StrategyEndpointConfiguration {
+        @Bean
+        public StrategyEndpoint strategyEndpoint() {
+            return new StrategyEndpoint();
         }
     }
 
