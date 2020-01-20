@@ -32,7 +32,7 @@ public class GroupGeneratorSymbol extends GroupGenerator {
         if (StringUtils.isNotEmpty(group)) {
             LOG.info("Use application name prefix={} as metadata group", group);
         } else {
-            LOG.error("Not substring application name prefix for generator length={}, use default metadata group setting", generatorSymbolCharacter);
+            LOG.error("Not substring application name prefix for generator character={}, use default metadata group setting", generatorSymbolCharacter);
         }
         LOG.info("--------------------------------------------------");
     }
