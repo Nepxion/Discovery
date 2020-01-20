@@ -9,6 +9,8 @@ package com.nepxion.discovery.plugin.framework.configuration;
  * @version 1.0
  */
 
+import com.nepxion.discovery.plugin.framework.generator.GroupGenerator;
+import com.nepxion.discovery.plugin.framework.generator.GroupGeneratorSymbol;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -24,7 +26,7 @@ import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
 import com.nepxion.discovery.plugin.framework.event.PluginSubscriber;
 import com.nepxion.discovery.plugin.framework.generator.GitGenerator;
-import com.nepxion.discovery.plugin.framework.generator.GroupGenerator;
+import com.nepxion.discovery.plugin.framework.generator.GroupGeneratorLength;
 import com.nepxion.discovery.plugin.framework.listener.discovery.DiscoveryListenerExecutor;
 import com.nepxion.discovery.plugin.framework.listener.discovery.EnvironmentFilterDiscoveryListener;
 import com.nepxion.discovery.plugin.framework.listener.discovery.HostFilterDiscoveryListener;
@@ -40,6 +42,7 @@ import com.nepxion.discovery.plugin.framework.listener.register.CountFilterRegis
 import com.nepxion.discovery.plugin.framework.listener.register.HostFilterRegisterListener;
 import com.nepxion.discovery.plugin.framework.listener.register.RegisterListenerExecutor;
 import com.nepxion.eventbus.annotation.EnableEventBus;
+import org.springframework.context.annotation.Primary;
 
 @Configuration
 @EnableEventBus
@@ -158,10 +161,18 @@ public class PluginAutoConfiguration {
     }
 
     @Bean
+    @Primary
     @ConditionalOnMissingBean
     @ConditionalOnProperty(value = DiscoveryConstant.SPRING_APPLICATION_GROUP_GENERATOR_ENABLED, matchIfMissing = false)
-    public GroupGenerator groupGenerator() {
-        return new GroupGenerator();
+    public GroupGenerator groupGeneratorLength() {
+        return new GroupGeneratorLength();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    @ConditionalOnProperty(value = DiscoveryConstant.SPRING_APPLICATION_GROUP_GENERATOR_SYMBOL_ENABLED, matchIfMissing = false)
+    public GroupGenerator groupGeneratorSymbol() {
+        return new GroupGeneratorSymbol();
     }
 
     @Bean
