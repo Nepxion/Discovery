@@ -108,7 +108,7 @@ public abstract class PluginApplicationContextInitializer implements Application
     protected String getPrefixGroup(ConfigurableApplicationContext applicationContext) {
         ConfigurableEnvironment environment = applicationContext.getEnvironment();
 
-        if (PluginContextAware.isGroupGeneratorEnabled(environment) || PluginContextAware.isGroupGeneratorSymbolEnabled(environment)) {
+        if (PluginContextAware.isGroupGeneratorEnabled(environment)) {
             GroupGenerator groupGenerator = applicationContext.getBean(GroupGenerator.class);
             return groupGenerator.getGroup();
         }
