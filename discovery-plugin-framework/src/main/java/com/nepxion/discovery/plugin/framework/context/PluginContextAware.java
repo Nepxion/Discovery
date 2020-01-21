@@ -6,6 +6,7 @@ package com.nepxion.discovery.plugin.framework.context;
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
  * @author Haojun Ren
+ * @author Robin.G
  * @version 1.0
  */
 
@@ -131,6 +132,10 @@ public class PluginContextAware implements ApplicationContextAware {
         return getGroupGeneratorLength(environment);
     }
 
+    public String getGroupGeneratorCharacter() {
+        return getGroupGeneratorCharacter(environment);
+    }
+
     public Boolean isGitGeneratorEnabled() {
         return isGitGeneratorEnabled(environment);
     }
@@ -189,6 +194,10 @@ public class PluginContextAware implements ApplicationContextAware {
 
     public static Integer getGroupGeneratorLength(Environment environment) {
         return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_GROUP_GENERATOR_LENGTH, Integer.class, -1);
+    }
+
+    public static String getGroupGeneratorCharacter(Environment environment) {
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_GROUP_GENERATOR_CHARACTER, String.class, StringUtils.EMPTY);
     }
 
     public static Boolean isGitGeneratorEnabled(Environment environment) {
