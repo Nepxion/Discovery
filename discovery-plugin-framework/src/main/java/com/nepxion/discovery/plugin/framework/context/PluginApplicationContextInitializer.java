@@ -12,7 +12,6 @@ package com.nepxion.discovery.plugin.framework.context;
 import java.io.IOException;
 import java.util.Map;
 
-import com.nepxion.discovery.plugin.framework.generator.GroupGenerator;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +31,7 @@ import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.property.DiscoveryProperties;
 import com.nepxion.discovery.plugin.framework.decorator.DiscoveryClientDecorator;
 import com.nepxion.discovery.plugin.framework.generator.GitGenerator;
+import com.nepxion.discovery.plugin.framework.generator.GroupGenerator;
 import com.taobao.text.Color;
 
 public abstract class PluginApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
@@ -108,8 +108,10 @@ public abstract class PluginApplicationContextInitializer implements Application
     protected String getPrefixGroup(ConfigurableApplicationContext applicationContext) {
         ConfigurableEnvironment environment = applicationContext.getEnvironment();
 
-        if (PluginContextAware.isGroupGeneratorEnabled(environment)) {
+        Boolean isGroupGeneratorEnabled = PluginContextAware.isGroupGeneratorEnabled(environment);
+        if (isGroupGeneratorEnabled) {
             GroupGenerator groupGenerator = applicationContext.getBean(GroupGenerator.class);
+
             return groupGenerator.getGroup();
         }
 

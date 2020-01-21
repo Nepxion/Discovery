@@ -9,7 +9,6 @@ package com.nepxion.discovery.plugin.framework.configuration;
  * @version 1.0
  */
 
-import com.nepxion.discovery.plugin.framework.generator.GroupGenerator;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +24,7 @@ import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
 import com.nepxion.discovery.plugin.framework.event.PluginSubscriber;
 import com.nepxion.discovery.plugin.framework.generator.GitGenerator;
+import com.nepxion.discovery.plugin.framework.generator.GroupGenerator;
 import com.nepxion.discovery.plugin.framework.listener.discovery.DiscoveryListenerExecutor;
 import com.nepxion.discovery.plugin.framework.listener.discovery.EnvironmentFilterDiscoveryListener;
 import com.nepxion.discovery.plugin.framework.listener.discovery.HostFilterDiscoveryListener;
