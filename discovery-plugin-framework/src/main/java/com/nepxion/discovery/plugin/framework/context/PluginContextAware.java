@@ -194,7 +194,7 @@ public class PluginContextAware implements ApplicationContextAware {
     }
 
     public static String getGroupGeneratorCharacter(Environment environment) {
-        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_GROUP_GENERATOR_CHARACTER, String.class, "");
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_GROUP_GENERATOR_CHARACTER, String.class, StringUtils.EMPTY);
     }
 
     public static Boolean isGitGeneratorEnabled(Environment environment) {
