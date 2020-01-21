@@ -55,6 +55,12 @@
 			"description": "Group generator length."
 		},
 		{
+			"name": "spring.application.group.generator.character",
+			"type": "java.lang.String",
+			"defaultValue": "",
+			"description": "Group generator character."
+		},
+		{
 			"name": "spring.application.git.generator.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": false,
