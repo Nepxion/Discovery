@@ -41,6 +41,7 @@ public class DiscoveryConstant {
 
     public static final String SPRING_APPLICATION_GROUP_GENERATOR_ENABLED = "spring.application.group.generator.enabled";
     public static final String SPRING_APPLICATION_GROUP_GENERATOR_LENGTH = "spring.application.group.generator.length";
+    public static final String SPRING_APPLICATION_GROUP_GENERATOR_CHARACTER = "spring.application.group.generator.character";
 
     public static final String SPRING_APPLICATION_GIT_GENERATOR_ENABLED = "spring.application.git.generator.enabled";
     public static final String SPRING_APPLICATION_GIT_GENERATOR_PATH = "spring.application.git.generator.path";

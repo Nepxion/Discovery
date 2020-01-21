@@ -92,7 +92,7 @@ public class StrategyEndpoint {
             String[] separateArray = StringUtils.split(value, DiscoveryConstant.SEPARATE);
             for (String separateValue : separateArray) {
                 String[] equalsArray = StringUtils.split(separateValue, DiscoveryConstant.EQUALS);
-                map.put(equalsArray[0], equalsArray[1]);
+                map.put(equalsArray[0].trim(), equalsArray[1].trim());
             }
         }
 
