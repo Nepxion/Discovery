@@ -36,11 +36,12 @@ public class GroupGenerator {
         generatorLength = PluginContextAware.getGroupGeneratorLength(applicationContext.getEnvironment());
         generatorCharacter = PluginContextAware.getGroupGeneratorSymbolCharacter(applicationContext.getEnvironment());
         applicationName = PluginContextAware.getApplicationName(applicationContext.getEnvironment());
+        int characterIndex = applicationName.indexOf(generatorCharacter);
 
         if (generatorLength > 0) {
             group = applicationName.substring(0, generatorLength);
-        } else if (StringUtils.isNotEmpty(generatorCharacter)) {
-            group = applicationName.split(generatorCharacter)[0];
+        } else if (StringUtils.isNotEmpty(generatorCharacter) && characterIndex > 0) {
+            group = applicationName.substring(0, characterIndex);
         }
 
         LOG.info("--------------------------------------------------");
