@@ -129,6 +129,10 @@ public class PluginContextAware implements ApplicationContextAware {
         return getGroupGeneratorLength(environment);
     }
 
+    public String getGroupGeneratorCharacter() {
+        return getGroupGeneratorCharacter(environment);
+    }
+
     public Boolean isGitGeneratorEnabled() {
         return isGitGeneratorEnabled(environment);
     }
@@ -187,6 +191,10 @@ public class PluginContextAware implements ApplicationContextAware {
 
     public static Integer getGroupGeneratorLength(Environment environment) {
         return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_GROUP_GENERATOR_LENGTH, Integer.class, -1);
+    }
+
+    public static String getGroupGeneratorCharacter(Environment environment) {
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_GROUP_GENERATOR_CHARACTER, String.class, "");
     }
 
     public static Boolean isGitGeneratorEnabled(Environment environment) {

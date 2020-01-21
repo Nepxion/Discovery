@@ -26,6 +26,7 @@ public class GroupGenerator {
     private ApplicationContext applicationContext;
 
     private Integer generatorLength;
+    private String generatorCharacter;
     private String applicationName;
 
     private String group;
@@ -33,23 +34,32 @@ public class GroupGenerator {
     @PostConstruct
     public void initialize() {
         generatorLength = PluginContextAware.getGroupGeneratorLength(applicationContext.getEnvironment());
+        generatorCharacter = PluginContextAware.getGroupGeneratorCharacter(applicationContext.getEnvironment());
         applicationName = PluginContextAware.getApplicationName(applicationContext.getEnvironment());
+        int characterIndex = applicationName.indexOf(generatorCharacter);
 
         if (generatorLength > 0) {
             group = applicationName.substring(0, generatorLength);
+        } else if (StringUtils.isNotEmpty(generatorCharacter) && characterIndex > 0) {
+            group = applicationName.substring(0, characterIndex);
         }
 
         LOG.info("--------------------------------------------------");
         if (StringUtils.isNotEmpty(group)) {
             LOG.info("Use application name prefix={} as metadata group", group);
         } else {
-            LOG.error("Not substring application name prefix for generator length={}, use default metadata group setting", generatorLength);
+            LOG.error("Not substring application name prefix for generator length={}, character={}, use default metadata group setting",
+                    generatorLength, generatorCharacter);
         }
         LOG.info("--------------------------------------------------");
     }
 
     public Integer getGeneratorLength() {
         return generatorLength;
+    }
+
+    public String getGeneratorCharacter() {
+        return generatorCharacter;
     }
 
     public String getApplicationName() {
