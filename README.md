@@ -76,9 +76,9 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
 | 框架版本 | 框架分支 | 框架状态 | Spring Cloud版本 | Spring Boot版本 | Spring Cloud Alibaba版本 |
 | --- | --- | --- | --- | --- | --- |
 | 6.0.0-SNAPSHOT | master | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status1.png) | Hoxton<br>Greenwich<br>Finchley | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
-| 5.5.13 | 5.x.x | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status2.png) | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
-| 4.13.13 | 4.x.x | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status2.png) | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
-| 3.13.13 | 3.x.x | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status2.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
+| 5.6.0 | 5.x.x | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status2.png) | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
+| 4.15.0 | 4.x.x | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status2.png) | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
+| 3.15.0 | 3.x.x | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status2.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
 | 2.0.x | 2.x.x | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status3.png) | Dalston | 1.x.x.RELEASE | N/A |
 | 1.0.x | 1.x.x | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status3.png) | Camden | 1.x.x.RELEASE | N/A |
 
