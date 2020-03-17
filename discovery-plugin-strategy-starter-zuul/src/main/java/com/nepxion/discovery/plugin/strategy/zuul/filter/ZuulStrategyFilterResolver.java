@@ -38,7 +38,7 @@ public class ZuulStrategyFilterResolver {
             RequestContext context = RequestContext.getCurrentContext();
 
             // 通过Zuul Filter的Header直接把外界的Header替换成空字符串，并传递
-            context.addZuulRequestHeader(headerName, null);
+            context.addZuulRequestHeader(headerName, StringUtils.EMPTY);
         }
     }
 }
