@@ -34,8 +34,6 @@ public class DiscoveryConstant {
     public static final String SPRING_APPLICATION_ENVIRONMENT_ROUTE = "spring.application.environment.route";
     public static final String SPRING_APPLICATION_ENVIRONMENT_ROUTE_VALUE = "common";
 
-    public static final String APP_ID = "app.id";
-
     public static final String CONTEXT_PATH = "server.servlet.context-path";
 
     public static final String ANNOTATION_CONFIG_SERVLET_WEB_SERVER_APPLICATION_CONTEXT = "AnnotationConfigServletWebServerApplicationContext";
@@ -55,6 +53,7 @@ public class DiscoveryConstant {
     public static final String GIT_BUILD_VERSION = "git.build.version";
     public static final String GIT_TOTAL_COMMIT_COUNT = "git.total.commit.count";
 
+    public static final String APP_ID = "app.id";
     public static final String SPRING_APPLICATION_NAME = "spring.application.name";
     public static final String SPRING_APPLICATION_TYPE = "spring.application.type";
     public static final String GROUP = "group";
@@ -84,6 +83,7 @@ public class DiscoveryConstant {
 
     public static final String N_D_SERVICE_GROUP = "n-d-service-group";
     public static final String N_D_SERVICE_TYPE = "n-d-service-type";
+    public static final String N_D_SERVICE_APP_ID = "n-d-service-app-id";
     public static final String N_D_SERVICE_ID = "n-d-service-id";
     public static final String N_D_SERVICE_ADDRESS = "n-d-service-address";
     public static final String N_D_SERVICE_VERSION = "n-d-service-version";

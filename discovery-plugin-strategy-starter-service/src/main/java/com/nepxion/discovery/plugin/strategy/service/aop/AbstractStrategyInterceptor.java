@@ -49,21 +49,6 @@ public abstract class AbstractStrategyInterceptor {
         if (StringUtils.isNotEmpty(businessRequestHeaders)) {
             requestHeaderList.addAll(StringUtil.splitToList(businessRequestHeaders.toLowerCase(), DiscoveryConstant.SEPARATE));
         }
-        /*if (!requestHeaderList.contains(DiscoveryConstant.N_D_VERSION)) {
-            requestHeaderList.add(DiscoveryConstant.N_D_VERSION);
-        }
-        if (!requestHeaderList.contains(DiscoveryConstant.N_D_REGION)) {
-            requestHeaderList.add(DiscoveryConstant.N_D_REGION);
-        }
-        if (!requestHeaderList.contains(DiscoveryConstant.N_D_ADDRESS)) {
-            requestHeaderList.add(DiscoveryConstant.N_D_ADDRESS);
-        }
-        if (!requestHeaderList.contains(DiscoveryConstant.N_D_VERSION_WEIGHT)) {
-            requestHeaderList.add(DiscoveryConstant.N_D_VERSION_WEIGHT);
-        }
-        if (!requestHeaderList.contains(DiscoveryConstant.N_D_REGION_WEIGHT)) {
-            requestHeaderList.add(DiscoveryConstant.N_D_REGION_WEIGHT);
-        }*/
     }
 
     protected void interceptInputHeader() {
@@ -103,6 +88,7 @@ public abstract class AbstractStrategyInterceptor {
         return isHeaderContains(headerName) &&
                 !StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_GROUP) &&
                 !StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_TYPE) &&
+                !StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_APP_ID) &&
                 !StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_ID) &&
                 !StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_ADDRESS) &&
                 !StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_VERSION) &&

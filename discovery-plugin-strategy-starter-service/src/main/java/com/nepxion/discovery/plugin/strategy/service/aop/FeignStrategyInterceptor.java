@@ -72,6 +72,10 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
         requestTemplate.header(DiscoveryConstant.N_D_SERVICE_GROUP, pluginAdapter.getGroup());
         if (strategyTraceEnabled) {
             requestTemplate.header(DiscoveryConstant.N_D_SERVICE_TYPE, pluginAdapter.getServiceType());
+            String serviceAppId = pluginAdapter.getServiceAppId();
+            if (StringUtils.isNotEmpty(serviceAppId)) {
+                requestTemplate.header(DiscoveryConstant.N_D_SERVICE_APP_ID, serviceAppId);
+            }
             requestTemplate.header(DiscoveryConstant.N_D_SERVICE_ID, pluginAdapter.getServiceId());
             requestTemplate.header(DiscoveryConstant.N_D_SERVICE_ADDRESS, pluginAdapter.getHost() + ":" + pluginAdapter.getPort());
             requestTemplate.header(DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion());

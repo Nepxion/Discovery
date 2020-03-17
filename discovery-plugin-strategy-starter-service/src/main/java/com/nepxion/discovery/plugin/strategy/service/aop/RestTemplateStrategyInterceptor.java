@@ -78,6 +78,10 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
         headers.add(DiscoveryConstant.N_D_SERVICE_GROUP, pluginAdapter.getGroup());
         if (strategyTraceEnabled) {
             headers.add(DiscoveryConstant.N_D_SERVICE_TYPE, pluginAdapter.getServiceType());
+            String serviceAppId = pluginAdapter.getServiceAppId();
+            if (StringUtils.isNotEmpty(serviceAppId)) {
+                headers.add(DiscoveryConstant.N_D_SERVICE_APP_ID, serviceAppId);
+            }
             headers.add(DiscoveryConstant.N_D_SERVICE_ID, pluginAdapter.getServiceId());
             headers.add(DiscoveryConstant.N_D_SERVICE_ADDRESS, pluginAdapter.getHost() + ":" + pluginAdapter.getPort());
             headers.add(DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion());

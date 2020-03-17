@@ -23,6 +23,8 @@ public interface PluginAdapter {
 
     String getServiceType();
 
+    String getServiceAppId();
+
     String getServiceId();
 
     String getHost();
