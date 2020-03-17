@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.configcenter.apollo.extension;
+package com.nepxion.discovery.plugin.configcenter.apollo.adapter;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -10,9 +10,9 @@ package com.nepxion.discovery.plugin.configcenter.apollo.extension;
  */
 
 import com.ctrip.framework.foundation.Foundation;
-import com.nepxion.discovery.plugin.framework.extension.ApplicationInfoProvider;
+import com.nepxion.discovery.plugin.framework.adapter.ApplicationInfoAdapter;
 
-public class ApolloApplicationInfoProvider implements ApplicationInfoProvider {
+public class ApolloApplicationInfoAdapter implements ApplicationInfoAdapter {
     @Override
     public String getAppId() {
         return Foundation.app().getAppId();
