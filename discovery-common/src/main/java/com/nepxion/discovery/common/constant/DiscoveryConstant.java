@@ -33,6 +33,8 @@ public class DiscoveryConstant {
     public static final String SPRING_APPLICATION_ENVIRONMENT_ROUTE = "spring.application.environment.route";
     public static final String SPRING_APPLICATION_ENVIRONMENT_ROUTE_VALUE = "common";
 
+    public static final String APP_ID = "app.id";
+
     public static final String CONTEXT_PATH = "server.contextPath";
 
     public static final String ANNOTATION_CONFIG_SERVLET_WEB_SERVER_APPLICATION_CONTEXT = "AnnotationConfigEmbeddedWebApplicationContext";
