@@ -34,6 +34,9 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     @Autowired
     protected RuleCache ruleCache;
 
+    @Autowired(required = false)
+    protected ApplicationInfoAdapter applicationInfoAdapter;
+
     @Value("${" + DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY + ":" + DiscoveryConstant.GROUP + "}")
     private String groupKey;
 
@@ -69,6 +72,15 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     @Override
     public String getServiceId() {
         return registration.getServiceId().toLowerCase();
+    }
+
+    @Override
+    public String getServiceAppId() {
+        if (applicationInfoAdapter != null) {
+            return applicationInfoAdapter.getAppId();
+        }
+
+        return null;
     }
 
     @Override
