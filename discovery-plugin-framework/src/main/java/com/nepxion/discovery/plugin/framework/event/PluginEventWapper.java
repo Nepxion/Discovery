@@ -56,13 +56,13 @@ public class PluginEventWapper {
         }
     }
 
-    public void fireParameterChanged(ParameterChangeEvent parameterChangeEvent) {
-        pluginPublisher.asyncPublish(parameterChangeEvent);
+    public void fireParameterChanged(ParameterChangedEvent parameterChangedEvent) {
+        pluginPublisher.asyncPublish(parameterChangedEvent);
     }
 
     public void fireParameterChanged() {
         RuleEntity ruleEntity = pluginAdapter.getRule();
-        fireParameterChanged(new ParameterChangeEvent(ruleEntity != null ? ruleEntity.getParameterEntity() : null));
+        fireParameterChanged(new ParameterChangedEvent(ruleEntity != null ? ruleEntity.getParameterEntity() : null));
     }
 
     public void fireRegisterFailure(RegisterFailureEvent registerFailureEvent) {
