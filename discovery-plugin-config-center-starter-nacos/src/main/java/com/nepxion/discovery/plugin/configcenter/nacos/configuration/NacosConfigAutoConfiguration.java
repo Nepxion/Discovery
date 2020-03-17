@@ -46,4 +46,17 @@ public class NacosConfigAutoConfiguration {
     public ConfigAdapter configAdapter() {
         return new NacosConfigAdapter();
     }
+
+    // Just for test
+    /*@Bean
+    public ApplicationInfoAdapter applicationInfoAdapter() {
+        String uuid = UUID.randomUUID().toString();
+
+        return new ApplicationInfoAdapter() {
+            @Override
+            public String getAppId() {
+                return uuid;
+            }
+        };
+    }*/
 }

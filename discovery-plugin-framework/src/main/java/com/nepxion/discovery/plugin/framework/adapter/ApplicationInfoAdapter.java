@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.extension;
+package com.nepxion.discovery.plugin.framework.adapter;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -9,6 +9,6 @@ package com.nepxion.discovery.plugin.framework.extension;
  * @version 1.0
  */
 
-public interface ApplicationInfoProvider {
+public interface ApplicationInfoAdapter {
     String getAppId();
 }

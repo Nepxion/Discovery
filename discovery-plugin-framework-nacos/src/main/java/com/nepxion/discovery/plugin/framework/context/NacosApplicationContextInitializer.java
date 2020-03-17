@@ -19,9 +19,9 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
 import com.alibaba.cloud.nacos.registry.NacosServiceRegistry;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.plugin.framework.adapter.ApplicationInfoAdapter;
 import com.nepxion.discovery.plugin.framework.constant.NacosConstant;
 import com.nepxion.discovery.plugin.framework.decorator.NacosServiceRegistryDecorator;
-import com.nepxion.discovery.plugin.framework.extension.ApplicationInfoProvider;
 import com.nepxion.discovery.plugin.framework.util.MetadataUtil;
 
 public class NacosApplicationContextInitializer extends PluginApplicationContextInitializer {
@@ -70,9 +70,9 @@ public class NacosApplicationContextInitializer extends PluginApplicationContext
             metadata.put(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH, PluginContextAware.getContextPath(environment));
 
             try {
-                ApplicationInfoProvider applicationInfoProvider = applicationContext.getBean(ApplicationInfoProvider.class);
-                if (applicationInfoProvider != null) {
-                    metadata.put(DiscoveryConstant.APP_ID, applicationInfoProvider.getAppId());
+                ApplicationInfoAdapter applicationInfoAdapter = applicationContext.getBean(ApplicationInfoAdapter.class);
+                if (applicationInfoAdapter != null) {
+                    metadata.put(DiscoveryConstant.APP_ID, applicationInfoAdapter.getAppId());
                 }
             } catch (Exception e) {
 

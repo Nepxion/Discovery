@@ -19,9 +19,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.plugin.framework.adapter.ApplicationInfoAdapter;
 import com.nepxion.discovery.plugin.framework.constant.EurekaConstant;
 import com.nepxion.discovery.plugin.framework.decorator.EurekaServiceRegistryDecorator;
-import com.nepxion.discovery.plugin.framework.extension.ApplicationInfoProvider;
 import com.nepxion.discovery.plugin.framework.util.MetadataUtil;
 
 public class EurekaApplicationContextInitializer extends PluginApplicationContextInitializer {
@@ -69,9 +69,9 @@ public class EurekaApplicationContextInitializer extends PluginApplicationContex
             metadata.put(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH, PluginContextAware.getContextPath(environment));
 
             try {
-                ApplicationInfoProvider applicationInfoProvider = applicationContext.getBean(ApplicationInfoProvider.class);
-                if (applicationInfoProvider != null) {
-                    metadata.put(DiscoveryConstant.APP_ID, applicationInfoProvider.getAppId());
+                ApplicationInfoAdapter applicationInfoAdapter = applicationContext.getBean(ApplicationInfoAdapter.class);
+                if (applicationInfoAdapter != null) {
+                    metadata.put(DiscoveryConstant.APP_ID, applicationInfoAdapter.getAppId());
                 }
             } catch (Exception e) {
 
