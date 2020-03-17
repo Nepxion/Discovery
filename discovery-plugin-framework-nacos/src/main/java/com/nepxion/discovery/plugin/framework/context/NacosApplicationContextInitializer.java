@@ -21,6 +21,7 @@ import com.alibaba.cloud.nacos.registry.NacosServiceRegistry;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.constant.NacosConstant;
 import com.nepxion.discovery.plugin.framework.decorator.NacosServiceRegistryDecorator;
+import com.nepxion.discovery.plugin.framework.extension.ApplicationInfoProvider;
 import com.nepxion.discovery.plugin.framework.util.MetadataUtil;
 
 public class NacosApplicationContextInitializer extends PluginApplicationContextInitializer {
@@ -67,6 +68,15 @@ public class NacosApplicationContextInitializer extends PluginApplicationContext
             metadata.put(DiscoveryConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED, PluginContextAware.isConfigRestControlEnabled(environment).toString());
             metadata.put(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY, groupKey);
             metadata.put(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH, PluginContextAware.getContextPath(environment));
+
+            try {
+                ApplicationInfoProvider applicationInfoProvider = applicationContext.getBean(ApplicationInfoProvider.class);
+                if (applicationInfoProvider != null) {
+                    metadata.put(DiscoveryConstant.APP_ID, applicationInfoProvider.getAppId());
+                }
+            } catch (Exception e) {
+
+            }
 
             MetadataUtil.filter(metadata);
 
