@@ -40,6 +40,10 @@ public class PluginEventWapper {
         }
     }
 
+    public void fireRuleFailure(RuleFailureEvent ruleFailureEvent) {
+        pluginPublisher.asyncPublish(ruleFailureEvent);
+    }
+
     public void fireVersionUpdated(VersionUpdatedEvent versionUpdatedEvent, boolean async) {
         if (async) {
             pluginPublisher.asyncPublish(versionUpdatedEvent);

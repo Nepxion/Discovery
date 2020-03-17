@@ -67,6 +67,8 @@ public class PluginSubscriber {
         } catch (Exception e) {
             LOG.error("Parse rule xml failed", e);
 
+            pluginEventWapper.fireRuleFailure(new RuleFailureEvent(rule, e));
+
             throw e;
         }
 
