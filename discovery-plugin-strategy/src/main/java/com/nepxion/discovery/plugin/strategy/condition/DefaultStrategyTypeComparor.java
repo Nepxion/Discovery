@@ -19,7 +19,9 @@ public class DefaultStrategyTypeComparor extends StandardTypeComparator {
     @Override
     public int compare(@Nullable Object left, @Nullable Object right) throws SpelEvaluationException {
         if (left == null) {
-            return 0;
+            return right == null ? 0 : -1;
+        } else if (right == null) {
+            return 1;
         }
 
         try {
