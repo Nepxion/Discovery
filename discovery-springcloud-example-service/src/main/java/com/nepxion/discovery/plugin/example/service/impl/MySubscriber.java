@@ -18,12 +18,30 @@ import com.nepxion.discovery.common.entity.ParameterEntity;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.event.ParameterChangedEvent;
 import com.nepxion.discovery.plugin.framework.event.RegisterFailureEvent;
+import com.nepxion.discovery.plugin.framework.event.RuleClearedEvent;
+import com.nepxion.discovery.plugin.framework.event.RuleFailureEvent;
+import com.nepxion.discovery.plugin.framework.event.RuleUpdatedEvent;
 import com.nepxion.eventbus.annotation.EventBus;
 
 @EventBus
 public class MySubscriber {
     @Autowired
     private PluginAdapter pluginAdapter;
+
+    @Subscribe
+    public void onRuleUpdated(RuleUpdatedEvent ruleUpdatedEvent) {
+        System.out.println("========== 规则执行更新, rule=" + ruleUpdatedEvent.getRule());
+    }
+
+    @Subscribe
+    public void onRuleCleared(RuleClearedEvent ruleClearedEvent) {
+        System.out.println("========== 规则执行清空");
+    }
+
+    @Subscribe
+    public void onRuleRuleFailure(RuleFailureEvent ruleFailureEvent) {
+        System.out.println("========== 规则更新失败, rule=" + ruleFailureEvent.getRule() + ", exception=" + ruleFailureEvent.getException());
+    }
 
     @Subscribe
     public void onParameterChanged(ParameterChangedEvent parameterChangedEvent) {
