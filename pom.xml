@@ -65,18 +65,18 @@
         <commons.lang3.version>3.6</commons.lang3.version>
         <commons.collections4.version>4.1</commons.collections4.version>
         <commons.io.version>2.5</commons.io.version>
-        <guava.version>28.1-jre</guava.version>
-        <caffeine.version>2.8.0</caffeine.version>
+        <guava.version>28.2-jre</guava.version>
+        <caffeine.version>2.8.1</caffeine.version>
         <dom4j.version>1.6.1</dom4j.version>
         <swagger.version>2.7.0</swagger.version>
-        <apollo.client.version>1.5.1</apollo.client.version>
-        <nacos.client.version>1.1.4</nacos.client.version>
+        <apollo.client.version>1.6.0</apollo.client.version>
+        <nacos.client.version>1.2.0</nacos.client.version>
         <sentinel.version>1.7.1</sentinel.version>
         <opentracing.version>0.32.0</opentracing.version>
-        <opentracing.spring.cloud.version>0.3.12</opentracing.spring.cloud.version>
-        <spring.cloud.version>Hoxton.SR1</spring.cloud.version>
-        <spring.cloud.alibaba.version>2.1.1.RELEASE</spring.cloud.alibaba.version>
-        <spring.boot.version>2.2.2.RELEASE</spring.boot.version>
+        <opentracing.spring.cloud.version>0.5.0</opentracing.spring.cloud.version>
+        <spring.cloud.version>Hoxton.SR3</spring.cloud.version>
+        <spring.cloud.alibaba.version>2.2.0.RELEASE</spring.cloud.alibaba.version>
+        <spring.boot.version>2.2.5.RELEASE</spring.boot.version>
         <disruptor.version>3.3.7</disruptor.version>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
