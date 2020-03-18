@@ -14,7 +14,6 @@ import feign.RequestTemplate;
 
 import java.util.Collection;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,14 +28,10 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
-import com.nepxion.discovery.plugin.strategy.service.adapter.FeignStrategyInterceptorAdapter;
 import com.nepxion.discovery.plugin.strategy.service.filter.ServiceStrategyRouteFilter;
 
 public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implements RequestInterceptor {
     private static final Logger LOG = LoggerFactory.getLogger(FeignStrategyInterceptor.class);
-
-    @Autowired(required = false)
-    private List<FeignStrategyInterceptorAdapter> feignStrategyInterceptorAdapterList;
 
     @Autowired
     private ServiceStrategyRouteFilter serviceStrategyRouteFilter;
@@ -58,12 +53,6 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
 
         applyInnerHeader(requestTemplate);
         applyOuterHeader(requestTemplate);
-
-        if (CollectionUtils.isNotEmpty(feignStrategyInterceptorAdapterList)) {
-            for (FeignStrategyInterceptorAdapter feignStrategyInterceptorAdapter : feignStrategyInterceptorAdapterList) {
-                feignStrategyInterceptorAdapter.apply(requestTemplate);
-            }
-        }
 
         interceptOutputHeader(requestTemplate);
     }
