@@ -69,6 +69,8 @@ public class ZookeeperAdapter extends AbstractPluginAdapter {
             return zookeeperServer.getInstance().getPayload().getMetadata();
         }
 
-        throw new DiscoveryException("Server instance isn't the type of ZookeeperServer");
+        return emptyMetadata;
+
+        // throw new DiscoveryException("Server instance isn't the type of ZookeeperServer");
     }
 }
