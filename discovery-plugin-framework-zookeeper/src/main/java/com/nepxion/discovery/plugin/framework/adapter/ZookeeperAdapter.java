@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.zookeeper.discovery.ZookeeperServer;
 import org.springframework.core.env.Environment;
 
-import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.constant.ZookeeperConstant;
 import com.netflix.loadbalancer.Server;
 
@@ -52,6 +51,8 @@ public class ZookeeperAdapter extends AbstractPluginAdapter {
             return zookeeperServer.getInstance().getPayload().getMetadata();
         }
 
-        throw new DiscoveryException("Server instance isn't the type of ZookeeperServer");
+        return emptyMetadata;
+
+        // throw new DiscoveryException("Server instance isn't the type of ZookeeperServer");
     }
 }

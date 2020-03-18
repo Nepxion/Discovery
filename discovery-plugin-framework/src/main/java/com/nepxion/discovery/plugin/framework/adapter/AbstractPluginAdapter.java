@@ -9,6 +9,7 @@ package com.nepxion.discovery.plugin.framework.adapter;
  * @version 1.0
  */
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -42,6 +43,8 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Value("${" + DiscoveryConstant.SPRING_APPLICATION_TYPE + ":" + DiscoveryConstant.UNKNOWN + "}")
     private String applicationType;
+
+    protected Map<String, String> emptyMetadata = new HashMap<String, String>();
 
     @Override
     public String getGroupKey() {

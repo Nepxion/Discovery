@@ -13,7 +13,6 @@ import java.util.Map;
 
 import org.springframework.cloud.consul.discovery.ConsulServer;
 
-import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.netflix.loadbalancer.Server;
 
 public class ConsulAdapter extends AbstractPluginAdapter {
@@ -25,6 +24,8 @@ public class ConsulAdapter extends AbstractPluginAdapter {
             return consulServer.getMetadata();
         }
 
-        throw new DiscoveryException("Server instance isn't the type of ConsulServer");
+        return emptyMetadata;
+
+        // throw new DiscoveryException("Server instance isn't the type of ConsulServer");
     }
 }
