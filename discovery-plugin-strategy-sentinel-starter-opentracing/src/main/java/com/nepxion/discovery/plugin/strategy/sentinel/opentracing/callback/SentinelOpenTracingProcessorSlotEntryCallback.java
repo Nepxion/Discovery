@@ -22,7 +22,7 @@ import com.alibaba.fastjson.JSON;
 import com.nepxion.discovery.plugin.strategy.sentinel.opentracing.constant.SentinelOpenTracingConstant;
 
 public class SentinelOpenTracingProcessorSlotEntryCallback implements ProcessorSlotEntryCallback<DefaultNode> {
-    private Boolean traceOpentracingSentinelRuleOutputEnabled = Boolean.valueOf(System.getProperty(SentinelOpenTracingConstant.SPRING_APPLICATION_STRATEGY_TRACE_OPENTRACING_SENTINEL_RULE_OUTPUT_ENABLED, "false"));
+    private Boolean traceOpentracingSentinelRuleOutputEnabled = Boolean.valueOf(System.getProperty(SentinelOpenTracingConstant.SPRING_APPLICATION_STRATEGY_TRACE_OPENTRACING_SENTINEL_RULE_OUTPUT_ENABLED, "true"));
     private Boolean traceOpentracingSentinelArgsOutputEnabled = Boolean.valueOf(System.getProperty(SentinelOpenTracingConstant.SPRING_APPLICATION_STRATEGY_TRACE_OPENTRACING_SENTINEL_ARGS_OUTPUT_ENABLED, "false"));
 
     @Override
