@@ -32,14 +32,10 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
-import com.nepxion.discovery.plugin.strategy.service.adapter.RestTemplateStrategyInterceptorAdapter;
 import com.nepxion.discovery.plugin.strategy.service.filter.ServiceStrategyRouteFilter;
 
 public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor implements ClientHttpRequestInterceptor {
     private static final Logger LOG = LoggerFactory.getLogger(RestTemplateStrategyInterceptor.class);
-
-    @Autowired(required = false)
-    private List<RestTemplateStrategyInterceptorAdapter> restTemplateStrategyInterceptorAdapterList;
 
     @Autowired
     private ServiceStrategyRouteFilter serviceStrategyRouteFilter;
@@ -61,12 +57,6 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
 
         applyInnerHeader(request);
         applyOuterHeader(request);
-
-        if (CollectionUtils.isNotEmpty(restTemplateStrategyInterceptorAdapterList)) {
-            for (RestTemplateStrategyInterceptorAdapter restTemplateStrategyInterceptorAdapter : restTemplateStrategyInterceptorAdapterList) {
-                restTemplateStrategyInterceptorAdapter.intercept(request, body, execution);
-            }
-        }
 
         interceptOutputHeader(request);
 
