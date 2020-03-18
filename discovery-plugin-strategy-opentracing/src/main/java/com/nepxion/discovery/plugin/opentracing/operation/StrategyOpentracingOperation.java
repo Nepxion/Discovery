@@ -47,7 +47,7 @@ public class StrategyOpentracingOperation {
     @Value("${" + StrategyOpentracingConstant.SPRING_APPLICATION_STRATEGY_TRACE_OPENTRACING_SEPARATE_SPAN_ENABLED + ":true}")
     protected Boolean traceOpentracingSeparateSpanEnabled;
 
-    @Value("${" + StrategyOpentracingConstant.SPRING_APPLICATION_STRATEGY_TRACE_OPENTRACING_RULE_OUTPUT_ENABLED + ":false}")
+    @Value("${" + StrategyOpentracingConstant.SPRING_APPLICATION_STRATEGY_TRACE_OPENTRACING_RULE_OUTPUT_ENABLED + ":true}")
     protected Boolean traceOpentracingRuleOutputEnabled;
 
     public void opentracingInitialize() {
