@@ -183,7 +183,7 @@ public class RouterEndpoint {
         try {
             result = routerRestTemplate.getForEntity(url, String.class).getBody();
         } catch (RestClientException e) {
-            throw new DiscoveryException("Get instance list for route serviceId=" + routeServiceId + " with url=" + url + " failed", e);
+            throw new DiscoveryException("Failed to execute to route, serviceId=" + routeServiceId + ", url=" + url, e);
         }
 
         if (StringUtils.isEmpty(result)) {
