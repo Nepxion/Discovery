@@ -91,7 +91,7 @@ public class StrategyOpentracingOperation {
         span.setTag(DiscoveryConstant.SPAN_ID, span.context().toSpanId());
         span.setTag(DiscoveryConstant.N_D_SERVICE_GROUP, strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_GROUP));
         span.setTag(DiscoveryConstant.N_D_SERVICE_TYPE, strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_TYPE));
-        String serviceAppId = pluginAdapter.getServiceAppId();
+        String serviceAppId = strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_APP_ID);
         if (StringUtils.isNotEmpty(serviceAppId)) {
             span.setTag(DiscoveryConstant.N_D_SERVICE_APP_ID, serviceAppId);
         }
