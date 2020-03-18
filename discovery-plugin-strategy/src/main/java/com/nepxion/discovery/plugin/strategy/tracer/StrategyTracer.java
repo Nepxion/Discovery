@@ -64,7 +64,7 @@ public class StrategyTracer {
         MDC.put(DiscoveryConstant.SPAN_ID, (traceLoggerMdcKeyShown ? DiscoveryConstant.SPAN_ID + "=" : StringUtils.EMPTY) + (StringUtils.isNotEmpty(spanId) ? spanId : StringUtils.EMPTY));
         MDC.put(DiscoveryConstant.N_D_SERVICE_GROUP, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_GROUP + "=" : StringUtils.EMPTY) + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_GROUP));
         MDC.put(DiscoveryConstant.N_D_SERVICE_TYPE, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_TYPE + "=" : StringUtils.EMPTY) + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_TYPE));
-        String serviceAppId = pluginAdapter.getServiceAppId();
+        String serviceAppId = strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_APP_ID);
         if (StringUtils.isNotEmpty(serviceAppId)) {
             MDC.put(DiscoveryConstant.N_D_SERVICE_APP_ID, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_APP_ID + "=" : StringUtils.EMPTY) + serviceAppId);
         }
@@ -130,7 +130,7 @@ public class StrategyTracer {
         System.out.println(DiscoveryConstant.SPAN_ID + "=" + (StringUtils.isNotEmpty(spanId) ? spanId : StringUtils.EMPTY));
         System.out.println(DiscoveryConstant.N_D_SERVICE_GROUP + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_GROUP));
         System.out.println(DiscoveryConstant.N_D_SERVICE_TYPE + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_TYPE));
-        String serviceAppId = pluginAdapter.getServiceAppId();
+        String serviceAppId = strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_APP_ID);
         if (StringUtils.isNotEmpty(serviceAppId)) {
             System.out.println(DiscoveryConstant.N_D_SERVICE_APP_ID + "=" + serviceAppId);
         }
