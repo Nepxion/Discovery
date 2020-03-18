@@ -18,6 +18,7 @@ import org.springframework.cloud.netflix.ribbon.RibbonClientConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.strategy.adapter.DefaultDiscoveryEnabledAdapter;
@@ -45,6 +46,9 @@ import com.nepxion.discovery.plugin.strategy.wrapper.CallableWrapper;
 public class ServiceStrategyAutoConfiguration {
     @Autowired
     private ConfigurableEnvironment environment;
+
+    @Autowired
+    private RestTemplate pluginRestTemplate;
 
     @Bean
     @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_RPC_INTERCEPT_ENABLED, matchIfMissing = false)
@@ -91,7 +95,10 @@ public class ServiceStrategyAutoConfiguration {
         String contextRequestHeaders = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_CONTEXT_REQUEST_HEADERS);
         String businessRequestHeaders = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_BUSINESS_REQUEST_HEADERS);
 
-        return new RestTemplateStrategyInterceptor(contextRequestHeaders, businessRequestHeaders);
+        RestTemplateStrategyInterceptor restTemplateStrategyInterceptor = new RestTemplateStrategyInterceptor(contextRequestHeaders, businessRequestHeaders);
+        pluginRestTemplate.getInterceptors().add(restTemplateStrategyInterceptor);
+
+        return restTemplateStrategyInterceptor;
     }
 
     @Bean

@@ -18,6 +18,7 @@ import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRule;
 import com.nepxion.discovery.plugin.admincenter.endpoint.ConfigEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.GitEndpoint;
+import com.nepxion.discovery.plugin.admincenter.endpoint.InspectorEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.RouterEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.SentinelCoreEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.SentinelParamEndpoint;
@@ -37,6 +38,11 @@ public class AdminAutoConfiguration {
         @Bean
         public VersionEndpoint versionEndpoint() {
             return new VersionEndpoint();
+        }
+
+        @Bean
+        public InspectorEndpoint inspectorEndpoint() {
+            return new InspectorEndpoint();
         }
 
         @Bean

@@ -11,8 +11,10 @@ package com.nepxion.discovery.plugin.framework.configuration;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.adapter.DefaultEnvironmentRouteAdapter;
@@ -44,6 +46,12 @@ import com.nepxion.eventbus.annotation.EnableEventBus;
 @Configuration
 @EnableEventBus
 public class PluginAutoConfiguration {
+    @Bean
+    @LoadBalanced
+    public RestTemplate pluginRestTemplate() {
+        return new RestTemplate();
+    }
+
     @Bean
     public PluginContextAware pluginContextAware() {
         return new PluginContextAware();
