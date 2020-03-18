@@ -12,7 +12,6 @@ package com.nepxion.discovery.plugin.framework.adapter;
 import java.util.Map;
 
 import com.alibaba.cloud.nacos.ribbon.NacosServer;
-import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.netflix.loadbalancer.Server;
 
 public class NacosAdapter extends AbstractPluginAdapter {
@@ -24,6 +23,8 @@ public class NacosAdapter extends AbstractPluginAdapter {
             return nacosServer.getMetadata();
         }
 
-        throw new DiscoveryException("Server instance isn't the type of NacosServer");
+        return emptyMetadata;
+
+        // throw new DiscoveryException("Server instance isn't the type of NacosServer");
     }
 }
