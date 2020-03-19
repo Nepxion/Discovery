@@ -339,7 +339,12 @@
                 "type": "REGION_WEIGHT", 
                 "value": "{\"discovery-springcloud-example-a\":\"dev=15;qa=85\", \"discovery-springcloud-example-b\":\"dev=15;qa=85\", \"discovery-springcloud-example-c\":\"dev=15;qa=85\"}"
             }
-        ]
+        ], 
+        "strategyHeaderEntity": {
+            "headerMap": {
+                "a": "1"
+            }
+        }
     }, 
     "parameterEntity": {
         "parameterMap": {
