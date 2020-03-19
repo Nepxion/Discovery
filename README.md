@@ -65,7 +65,87 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
 - 感谢为本框架提出宝贵意见和建议的同学
 - 感谢使用本框架的公司和企业。不完全统计，目前社区开源项目已经被如下公司使用或者调研：
 
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/payh.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/payzt.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/zabx.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/msyh.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/pfyhxyk.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/zsyh.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/tpybx.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/tpbx.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/zgyd.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/dfhk.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/hd.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/rxkf.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/zm.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/sfkj.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/wkfy.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/wjkj.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/hexfjr.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/yjh.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/tgdl.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/crkj.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/dhrj.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/zhxy.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/rdkj.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/tqkj.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/hjkj.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/js.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/yzf.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/smgc.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/bjkj.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/qzkj.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/jwkj.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/zcwlkj.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/qk365.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/daxxkj.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/xg.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/sbc.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/hrwlkj.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/ywny.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/bqjr.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/xmly.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/bgy.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/mkxq.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/hz.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/yex.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/zjxl.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/mlkj.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/bsd.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/qwkg.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/xd.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/zb.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/fykj.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/xhjy.png) ![Alt text](https://github.com/HaojunRen/Docs/raw/master/logo-doc/xywkj.png)
+<table>
+  <tbody>
+    <tr>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/payh.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/payzt.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/zsyh.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/msyh.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/pfyhxyk.png"></td>
+    </tr>
+    <tr>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/tpybx.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/tpbx.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/zabx.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/zb.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/zgyd.png"></td>
+    </tr>
+    <tr>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/hd.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/bgy.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/hz.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/qwkg.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/zm.png"></td>
+    </tr>
+    <tr>
+       <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/dfhk.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/sfkj.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/wkfy.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/rxkf.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/hexfjr.png"></td>
+    </tr>
+    <tr>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/xmly.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/wjkj.png"></td>
+       <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/dhrj.png"></td>
+        <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/js.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/yjh.png"></td>
+    </tr>
+    <tr>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/zhxy.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/rdkj.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/tqkj.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/hjkj.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/yzf.png"></td>
+    </tr>
+    <tr>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/bjkj.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/qzkj.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/jwkj.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/zcwlkj.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/smgc.png"></td>
+    </tr>
+    <tr>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/qk365.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/daxxkj.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/mkxq.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/sbc.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/hrwlkj.png"></td>
+    </tr>
+    <tr>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/ywny.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/bqjr.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/crkj.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/yex.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/xg.png"></td>
+    </tr>
+    <tr>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/zjxl.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/mlkj.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/bsd.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/tgdl.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/xd.png"></td>
+    </tr>
+    <tr>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/fykj.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/xhjy.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/xywkj.png"></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
 
 为提供更好的专业级服务，请更多已经使用本框架的公司和企业联系我
 
