@@ -80,16 +80,16 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
       <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/zabx.png"></td>
     </tr>
     <tr>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/zb.png"></td>
       <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/zgyd.png"></td>
       <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/dfhk.png"></td>
       <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/hd.png"></td>
-      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/bgy.png"></td>
     </tr>
     <tr>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/bgy.png"></td>
       <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/zm.png"></td>
       <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/sfkj.png"></td>
       <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/qwkg.png"></td>
-      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/wjkj.png"></td>
     </tr>
     <tr>
       <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/hexfjr.png"></td>
@@ -140,8 +140,8 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
       <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/wkfy.png"></td>
     </tr>
     <tr>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/wjkj.png"></td>
       <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/xd.png"></td>
-      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/zb.png"></td>
       <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/fykj.png"></td>
       <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/xhjy.png"></td>
     </tr>
