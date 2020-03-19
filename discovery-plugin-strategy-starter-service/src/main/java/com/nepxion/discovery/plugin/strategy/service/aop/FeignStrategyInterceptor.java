@@ -27,6 +27,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.StrategyCustomizationEntity;
+import com.nepxion.discovery.common.entity.StrategyHeaderEntity;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.filter.ServiceStrategyRouteFilter;
 
@@ -95,6 +98,35 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
         }
 
         Map<String, Collection<String>> headers = requestTemplate.headers();
+
+        RuleEntity ruleEntity = pluginAdapter.getRule();
+        if (ruleEntity != null) {
+            StrategyCustomizationEntity strategyCustomizationEntity = ruleEntity.getStrategyCustomizationEntity();
+            if (strategyCustomizationEntity != null) {
+                StrategyHeaderEntity strategyHeaderEntity = strategyCustomizationEntity.getStrategyHeaderEntity();
+                if (strategyHeaderEntity != null) {
+                    Map<String, String> headerMap = strategyHeaderEntity.getHeaderMap();
+                    for (Map.Entry<String, String> entry : headerMap.entrySet()) {
+                        String key = entry.getKey();
+                        String value = entry.getValue();
+
+                        boolean existed = false;
+                        for (Map.Entry<String, Collection<String>> headerEntry : headers.entrySet()) {
+                            String headerName = headerEntry.getKey();
+                            if (StringUtils.equals(key, headerName)) {
+                                existed = true;
+                                break;
+                            }
+                        }
+
+                        if (!existed) {
+                            requestTemplate.header(key, value);
+                        }
+                    }
+                }
+            }
+        }
+
         if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_VERSION))) {
             String routeVersion = serviceStrategyRouteFilter.getRouteVersion();
             if (StringUtils.isNotEmpty(routeVersion)) {

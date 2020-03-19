@@ -357,7 +357,11 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
         String group = getGroup();
 
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(previousPluginInfo + " -> " + serviceId);
+        if (StringUtils.isNotEmpty(previousPluginInfo)) {
+            stringBuilder.append(previousPluginInfo + " -> ");
+        }
+
+        stringBuilder.append(serviceId);
         stringBuilder.append("[" + host + ":" + port + "]");
         if (StringUtils.isNotEmpty(version)) {
             stringBuilder.append("[V=" + version + "]");
