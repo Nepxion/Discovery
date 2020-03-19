@@ -23,6 +23,7 @@
         <dependency>
             <groupId>io.opentracing.contrib</groupId>
             <artifactId>opentracing-spring-cloud-starter</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
