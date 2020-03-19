@@ -12,6 +12,7 @@ package com.nepxion.discovery.plugin.strategy.gateway.filter;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +23,9 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.server.ServerWebExchange;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.StrategyCustomizationEntity;
+import com.nepxion.discovery.common.entity.StrategyHeaderEntity;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
@@ -63,14 +67,32 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
         // 把ServerWebExchange放入ThreadLocal中
         GatewayStrategyContext.getCurrentContext().setExchange(exchange);
 
+        // 通过过滤器设置路由Header头部信息，并全链路传递到服务端
+        ServerHttpRequest.Builder requestBuilder = exchange.getRequest().mutate();
+
+        RuleEntity ruleEntity = pluginAdapter.getRule();
+        if (ruleEntity != null) {
+            StrategyCustomizationEntity strategyCustomizationEntity = ruleEntity.getStrategyCustomizationEntity();
+            if (strategyCustomizationEntity != null) {
+                StrategyHeaderEntity strategyHeaderEntity = strategyCustomizationEntity.getStrategyHeaderEntity();
+                if (strategyHeaderEntity != null) {
+                    Map<String, String> headerMap = strategyHeaderEntity.getHeaderMap();
+                    for (Map.Entry<String, String> entry : headerMap.entrySet()) {
+                        String key = entry.getKey();
+                        String value = entry.getValue();
+
+                        GatewayStrategyFilterResolver.setHeader(requestBuilder, key, value, gatewayHeaderPriority);
+                    }
+                }
+            }
+        }
+
         String routeVersion = getRouteVersion();
         String routeRegion = getRouteRegion();
         String routeAddress = getRouteAddress();
         String routeVersionWeight = getRouteVersionWeight();
         String routeRegionWeight = getRouteRegionWeight();
 
-        // 通过过滤器设置路由Header头部信息，并全链路传递到服务端
-        ServerHttpRequest.Builder requestBuilder = exchange.getRequest().mutate();
         if (StringUtils.isNotEmpty(routeVersion)) {
             GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_VERSION, routeVersion, gatewayHeaderPriority);
         } else {
