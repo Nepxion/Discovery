@@ -40,6 +40,7 @@ import com.nepxion.discovery.common.entity.StrategyConditionBlueGreenEntity;
 import com.nepxion.discovery.common.entity.StrategyConditionGrayEntity;
 import com.nepxion.discovery.common.entity.StrategyCustomizationEntity;
 import com.nepxion.discovery.common.entity.StrategyEntity;
+import com.nepxion.discovery.common.entity.StrategyHeaderEntity;
 import com.nepxion.discovery.common.entity.StrategyRouteEntity;
 import com.nepxion.discovery.common.entity.StrategyType;
 import com.nepxion.discovery.common.entity.VersionEntity;
@@ -267,6 +268,8 @@ public class XmlConfigParser implements PluginConfigParser {
                     }
                 } else if (StringUtils.equals(childElement.getName(), ConfigConstant.ROUTES_ELEMENT_NAME)) {
                     parseStrategyRoute(childElement, strategyCustomizationEntity);
+                } else if (StringUtils.equals(childElement.getName(), ConfigConstant.HEADERS_ELEMENT_NAME)) {
+                    parseStrategyHeader(childElement, strategyCustomizationEntity);
                 }
             }
         }
@@ -820,6 +823,40 @@ public class XmlConfigParser implements PluginConfigParser {
                     strategyRouteEntity.setValue(value);
 
                     strategyRouteEntityList.add(strategyRouteEntity);
+                }
+            }
+        }
+    }
+
+    @SuppressWarnings("rawtypes")
+    private void parseStrategyHeader(Element element, StrategyCustomizationEntity strategyCustomizationEntity) {
+        StrategyHeaderEntity strategyHeaderEntity = strategyCustomizationEntity.getStrategyHeaderEntity();
+        if (strategyHeaderEntity != null) {
+            throw new DiscoveryException("Allow only one element[" + ConfigConstant.HEADERS_ELEMENT_NAME + "] to be configed");
+        }
+
+        strategyHeaderEntity = new StrategyHeaderEntity();
+        strategyCustomizationEntity.setStrategyHeaderEntity(strategyHeaderEntity);
+
+        for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
+            Object childElementObject = elementIterator.next();
+            if (childElementObject instanceof Element) {
+                Element childElement = (Element) childElementObject;
+
+                if (StringUtils.equals(childElement.getName(), ConfigConstant.HEADER_ELEMENT_NAME)) {
+                    Attribute keyAttribute = childElement.attribute(ConfigConstant.KEY_ATTRIBUTE_NAME);
+                    if (keyAttribute == null) {
+                        throw new DiscoveryException("Attribute[" + ConfigConstant.KEY_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                    }
+                    String key = keyAttribute.getData().toString().trim();
+
+                    Attribute valueAttribute = childElement.attribute(ConfigConstant.VALUE_ATTRIBUTE_NAME);
+                    if (valueAttribute == null) {
+                        throw new DiscoveryException("Attribute[" + ConfigConstant.VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                    }
+                    String value = valueAttribute.getData().toString().trim();
+
+                    strategyHeaderEntity.getHeaderMap().put(key, value);
                 }
             }
         }

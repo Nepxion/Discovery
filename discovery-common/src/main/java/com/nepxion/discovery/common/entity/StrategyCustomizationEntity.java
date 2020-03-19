@@ -29,6 +29,7 @@ public class StrategyCustomizationEntity implements Serializable {
     private List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList;
     private List<StrategyConditionGrayEntity> strategyConditionGrayEntityList;
     private List<StrategyRouteEntity> strategyRouteEntityList;
+    private StrategyHeaderEntity strategyHeaderEntity;
 
     public List<StrategyConditionBlueGreenEntity> getStrategyConditionBlueGreenEntityList() {
         return strategyConditionBlueGreenEntityList;
@@ -76,6 +77,14 @@ public class StrategyCustomizationEntity implements Serializable {
                 }
             });
         }
+    }
+
+    public StrategyHeaderEntity getStrategyHeaderEntity() {
+        return strategyHeaderEntity;
+    }
+
+    public void setStrategyHeaderEntity(StrategyHeaderEntity strategyHeaderEntity) {
+        this.strategyHeaderEntity = strategyHeaderEntity;
     }
 
     @Override

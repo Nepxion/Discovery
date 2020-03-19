@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +32,9 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.StrategyCustomizationEntity;
+import com.nepxion.discovery.common.entity.StrategyHeaderEntity;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.filter.ServiceStrategyRouteFilter;
 
@@ -99,6 +103,35 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
             boolean isHeaderContains = isHeaderContainsExcludeInner(headerName.toLowerCase());
             if (isHeaderContains) {
                 headers.add(headerName, headerValue);
+            }
+        }
+
+        RuleEntity ruleEntity = pluginAdapter.getRule();
+        if (ruleEntity != null) {
+            StrategyCustomizationEntity strategyCustomizationEntity = ruleEntity.getStrategyCustomizationEntity();
+            if (strategyCustomizationEntity != null) {
+                StrategyHeaderEntity strategyHeaderEntity = strategyCustomizationEntity.getStrategyHeaderEntity();
+                if (strategyHeaderEntity != null) {
+                    Map<String, String> headerMap = strategyHeaderEntity.getHeaderMap();
+                    for (Map.Entry<String, String> entry : headerMap.entrySet()) {
+                        String key = entry.getKey();
+                        String value = entry.getValue();
+
+                        boolean existed = false;
+                        for (Iterator<Entry<String, List<String>>> iterator = headers.entrySet().iterator(); iterator.hasNext();) {
+                            Entry<String, List<String>> header = iterator.next();
+                            String headerName = header.getKey();
+                            if (StringUtils.equals(key, headerName)) {
+                                existed = true;
+                                break;
+                            }
+                        }
+
+                        if (!existed) {
+                            headers.add(key, value);
+                        }
+                    }
+                }
             }
         }
 
