@@ -83,12 +83,12 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
       <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/zgyd.png"></td>
       <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/dfhk.png"></td>
       <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/hd.png"></td>
-      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/rxkf.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/bgy.png"></td>	  
     </tr>
     <tr>
       <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/zm.png"></td>
       <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/sfkj.png"></td>
-      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/wkfy.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/qwkg.png"></td>	  
       <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/wjkj.png"></td>
     </tr>
     <tr>
@@ -128,7 +128,7 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
       <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/xmly.png"></td>
     </tr>
 	<tr>
-      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/bgy.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/rxkf.png"></td>
       <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/mkxq.png"></td>
       <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/hz.png"></td>
       <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/yex.png"></td>
@@ -137,7 +137,7 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
       <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/zjxl.png"></td>
       <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/mlkj.png"></td>
       <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/bsd.png"></td>
-      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/qwkg.png"></td>
+      <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/wkfy.png"></td>
     </tr>
 	<tr>
       <td><img src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/xd.png"></td>
