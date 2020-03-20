@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
+import org.springframework.boot.SpringBootVersion;
 import org.springframework.cloud.consul.discovery.ConsulDiscoveryProperties;
 import org.springframework.cloud.consul.serviceregistry.ConsulServiceRegistry;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -58,6 +59,7 @@ public class ConsulApplicationContextInitializer extends PluginApplicationContex
                 metadata.set(MetadataUtil.getIndex(metadata, DiscoveryConstant.VERSION), DiscoveryConstant.VERSION + "=" + gitVersion);
             }
 
+            metadata.add(DiscoveryConstant.SPRING_BOOT_VERSION + "=" + SpringBootVersion.getVersion());
             metadata.add(DiscoveryConstant.SPRING_APPLICATION_NAME + "=" + PluginContextAware.getApplicationName(environment));
             metadata.add(DiscoveryConstant.SPRING_APPLICATION_TYPE + "=" + PluginContextAware.getApplicationType(environment));
             metadata.add(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN + "=" + ConsulConstant.CONSUL_TYPE);
