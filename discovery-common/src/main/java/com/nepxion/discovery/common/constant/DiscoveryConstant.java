@@ -54,6 +54,7 @@ public class DiscoveryConstant {
     public static final String GIT_TOTAL_COMMIT_COUNT = "git.total.commit.count";
 
     public static final String APP_ID = "app.id";
+    public static final String SPRING_BOOT_VERSION = "spring.boot.version";
     public static final String SPRING_APPLICATION_NAME = "spring.application.name";
     public static final String SPRING_APPLICATION_TYPE = "spring.application.type";
     public static final String GROUP = "group";
