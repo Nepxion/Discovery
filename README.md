@@ -65,7 +65,7 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
 - 感谢为本框架提出宝贵意见和建议的同学
 - 感谢使用本框架的公司和企业。不完全统计，目前社区开源项目已经被如下公司使用或者调研：
 
-<table bgcolor="#ffffff">
+<table>
   <tbody>
     <tr align="center">
       <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/payh.png"></td>
