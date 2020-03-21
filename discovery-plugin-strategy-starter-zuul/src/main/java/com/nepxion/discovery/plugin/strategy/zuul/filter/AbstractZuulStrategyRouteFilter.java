@@ -117,17 +117,21 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter impleme
             ZuulStrategyFilterResolver.ignoreHeader(DiscoveryConstant.N_D_REGION_WEIGHT, zuulHeaderPriority, zuulOriginalHeaderIgnored);
         }
 
+        // 对于服务A -> 网关 -> 服务B调用链
+        // 域网关下(zuulHeaderPriority=true)，只传递网关自身的group，不传递服务A的group，起到基于组的网关端服务调用隔离
+        // 非域网关下(zuulHeaderPriority=false)，优先传递服务A的group，基于组的网关端服务调用隔离不生效，但可以实现基于相关参数的熔断限流等功能
         ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_GROUP, pluginAdapter.getGroup(), zuulHeaderPriority);
-        ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_TYPE, pluginAdapter.getServiceType(), zuulHeaderPriority);
+        // 网关只负责传递服务A的相关参数（例如：serviceId），不传递自身的参数，实现基于相关参数的熔断限流等功能
+        ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_TYPE, pluginAdapter.getServiceType(), false);
         String serviceAppId = pluginAdapter.getServiceAppId();
         if (StringUtils.isNotEmpty(serviceAppId)) {
-            ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_APP_ID, serviceAppId, zuulHeaderPriority);
+            ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_APP_ID, serviceAppId, false);
         }
-        ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_ID, pluginAdapter.getServiceId(), zuulHeaderPriority);
-        ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_ADDRESS, pluginAdapter.getHost() + ":" + pluginAdapter.getPort(), zuulHeaderPriority);
-        ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion(), zuulHeaderPriority);
-        ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion(), zuulHeaderPriority);
-        ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, pluginAdapter.getEnvironment(), zuulHeaderPriority);
+        ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_ID, pluginAdapter.getServiceId(), false);
+        ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_ADDRESS, pluginAdapter.getHost() + ":" + pluginAdapter.getPort(), false);
+        ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion(), false);
+        ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion(), false);
+        ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, pluginAdapter.getEnvironment(), false);
 
         extendFilter();
 
