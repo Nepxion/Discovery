@@ -16,8 +16,8 @@ import com.nepxion.discovery.plugin.strategy.tracer.StrategyTracer;
 public class DefaultGatewayStrategyTracer extends StrategyTracer implements GatewayStrategyTracer {
     @Override
     public void trace(ServerWebExchange exchange) {
-        mdcHeader();
-        debugHeader();
+        mdcPut();
+        debug();
     }
 
     @Override

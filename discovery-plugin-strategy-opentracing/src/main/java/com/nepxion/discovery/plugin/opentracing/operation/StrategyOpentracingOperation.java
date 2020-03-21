@@ -65,16 +65,22 @@ public class StrategyOpentracingOperation {
         LOG.debug("Trace chain for Opentracing initialized...");
     }
 
-    public void opentracingHeader(Map<String, String> customizationMap) {
+    public void opentracingPut(Map<String, String> contextMap, Map<String, String> customizationMap) {
         if (!traceOpentracingEnabled) {
             return;
         }
 
         Span span = getCurrentSpan();
         if (span == null) {
-            LOG.error("Span not found in context to opentracing header");
+            LOG.error("Span not found in context to opentracing");
 
             return;
+        }
+
+        if (MapUtils.isNotEmpty(contextMap)) {
+            for (Map.Entry<String, String> entry : contextMap.entrySet()) {
+                span.setTag(entry.getKey(), entry.getValue());
+            }
         }
 
         if (MapUtils.isNotEmpty(customizationMap)) {
@@ -87,74 +93,6 @@ public class StrategyOpentracingOperation {
             span.setTag(Tags.COMPONENT.getKey(), DiscoveryConstant.TAG_COMPONENT_VALUE);
         }
         span.setTag(DiscoveryConstant.PLUGIN, DiscoveryConstant.PLUGIN_VALUE);
-        span.setTag(DiscoveryConstant.TRACE_ID, span.context().toTraceId());
-        span.setTag(DiscoveryConstant.SPAN_ID, span.context().toSpanId());
-        span.setTag(DiscoveryConstant.N_D_SERVICE_GROUP, strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_GROUP));
-        span.setTag(DiscoveryConstant.N_D_SERVICE_TYPE, strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_TYPE));
-        String serviceAppId = strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_APP_ID);
-        if (StringUtils.isNotEmpty(serviceAppId)) {
-            span.setTag(DiscoveryConstant.N_D_SERVICE_APP_ID, serviceAppId);
-        }
-        span.setTag(DiscoveryConstant.N_D_SERVICE_ID, strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_ID));
-        span.setTag(DiscoveryConstant.N_D_SERVICE_ADDRESS, strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_ADDRESS));
-        span.setTag(DiscoveryConstant.N_D_SERVICE_VERSION, strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_VERSION));
-        span.setTag(DiscoveryConstant.N_D_SERVICE_REGION, strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_REGION));
-        span.setTag(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT));
-
-        if (traceOpentracingRuleOutputEnabled) {
-            String routeVersion = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION);
-            if (StringUtils.isNotEmpty(routeVersion)) {
-                span.setTag(DiscoveryConstant.N_D_VERSION, routeVersion);
-            }
-            String routeRegion = strategyContextHolder.getHeader(DiscoveryConstant.N_D_REGION);
-            if (StringUtils.isNotEmpty(routeRegion)) {
-                span.setTag(DiscoveryConstant.N_D_REGION, routeRegion);
-            }
-            String routeAddress = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ADDRESS);
-            if (StringUtils.isNotEmpty(routeAddress)) {
-                span.setTag(DiscoveryConstant.N_D_ADDRESS, routeAddress);
-            }
-            String routeEnvironment = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ENVIRONMENT);
-            if (StringUtils.isNotEmpty(routeEnvironment)) {
-                span.setTag(DiscoveryConstant.N_D_ENVIRONMENT, routeEnvironment);
-            }
-            String routeVersionWeight = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION_WEIGHT);
-            if (StringUtils.isNotEmpty(routeVersionWeight)) {
-                span.setTag(DiscoveryConstant.N_D_VERSION_WEIGHT, routeVersionWeight);
-            }
-            String routeRegionWeight = strategyContextHolder.getHeader(DiscoveryConstant.N_D_REGION_WEIGHT);
-            if (StringUtils.isNotEmpty(routeRegionWeight)) {
-                span.setTag(DiscoveryConstant.N_D_REGION_WEIGHT, routeRegionWeight);
-            }
-        }
-
-        LOG.debug("Trace chain information outputs to Opentracing...");
-    }
-
-    public void opentracingLocal(String className, String methodName, Map<String, String> customizationMap) {
-        if (!traceOpentracingEnabled) {
-            return;
-        }
-
-        Span span = getCurrentSpan();
-        if (span == null) {
-            LOG.error("Span not found in context to opentracing local");
-
-            return;
-        }
-
-        if (MapUtils.isNotEmpty(customizationMap)) {
-            for (Map.Entry<String, String> entry : customizationMap.entrySet()) {
-                span.setTag(entry.getKey(), entry.getValue());
-            }
-        }
-
-        if (traceOpentracingSeparateSpanEnabled) {
-            span.setTag(Tags.COMPONENT.getKey(), DiscoveryConstant.TAG_COMPONENT_VALUE);
-        }
-        span.setTag(DiscoveryConstant.PLUGIN, DiscoveryConstant.PLUGIN_VALUE);
-        span.setTag(DiscoveryConstant.CLASS, className);
-        span.setTag(DiscoveryConstant.METHOD, methodName);
         span.setTag(DiscoveryConstant.TRACE_ID, span.context().toTraceId());
         span.setTag(DiscoveryConstant.SPAN_ID, span.context().toSpanId());
         span.setTag(DiscoveryConstant.N_D_SERVICE_GROUP, pluginAdapter.getGroup());
@@ -254,7 +192,7 @@ public class StrategyOpentracingOperation {
             return null;
         }
 
-        Span span = tracer.activeSpan();
+        Span span = getCurrentSpan();
         if (span != null) {
             return span.context().toTraceId();
         }
@@ -267,7 +205,7 @@ public class StrategyOpentracingOperation {
             return null;
         }
 
-        Span span = tracer.activeSpan();
+        Span span = getCurrentSpan();
         if (span != null) {
             return span.context().toSpanId();
         }

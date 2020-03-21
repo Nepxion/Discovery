@@ -25,7 +25,7 @@ public class DefaultGatewayStrategyOpentracingTracer extends DefaultGatewayStrat
 
         super.trace(exchange);
 
-        strategyOpentracingOperation.opentracingHeader(getCustomizationMap());
+        strategyOpentracingOperation.opentracingPut(null, getCustomizationMap());
     }
 
     @Override
