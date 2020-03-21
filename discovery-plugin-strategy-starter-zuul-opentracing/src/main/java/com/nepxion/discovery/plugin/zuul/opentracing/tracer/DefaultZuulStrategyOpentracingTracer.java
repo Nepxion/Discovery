@@ -25,7 +25,7 @@ public class DefaultZuulStrategyOpentracingTracer extends DefaultZuulStrategyTra
 
         super.trace(context);
 
-        strategyOpentracingOperation.opentracingHeader(getCustomizationMap());
+        strategyOpentracingOperation.opentracingPut(null, getCustomizationMap());
     }
 
     @Override

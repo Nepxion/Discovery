@@ -9,9 +9,13 @@ package com.nepxion.discovery.plugin.service.opentracing.tracer;
  * @version 1.0
  */
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.opentracing.operation.StrategyOpentracingOperation;
 import com.nepxion.discovery.plugin.strategy.service.tracer.DefaultServiceStrategyTracer;
 import com.nepxion.discovery.plugin.strategy.service.tracer.ServiceStrategyTracerInterceptor;
@@ -26,7 +30,11 @@ public class DefaultServiceStrategyOpentracingTracer extends DefaultServiceStrat
 
         super.trace(interceptor, invocation);
 
-        strategyOpentracingOperation.opentracingLocal(interceptor.getMethod(invocation).getDeclaringClass().getName(), interceptor.getMethodName(invocation), getCustomizationMap());
+        Map<String, String> contextMap = new HashMap<String, String>();
+        contextMap.put(DiscoveryConstant.CLASS, interceptor.getMethod(invocation).getDeclaringClass().getName());
+        contextMap.put(DiscoveryConstant.METHOD, interceptor.getMethodName(invocation));
+
+        strategyOpentracingOperation.opentracingPut(contextMap, getCustomizationMap());
     }
 
     @Override

@@ -23,14 +23,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.StrategyCustomizationEntity;
 import com.nepxion.discovery.common.entity.StrategyHeaderEntity;
-import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.filter.ServiceStrategyRouteFilter;
 
 public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implements RequestInterceptor {
@@ -38,9 +36,6 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
 
     @Autowired
     private ServiceStrategyRouteFilter serviceStrategyRouteFilter;
-
-    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACE_ENABLED + ":false}")
-    protected Boolean strategyTraceEnabled;
 
     public FeignStrategyInterceptor(String contextRequestHeaders, String businessRequestHeaders) {
         super(contextRequestHeaders, businessRequestHeaders);
@@ -62,18 +57,16 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
 
     private void applyInnerHeader(RequestTemplate requestTemplate) {
         requestTemplate.header(DiscoveryConstant.N_D_SERVICE_GROUP, pluginAdapter.getGroup());
-        if (strategyTraceEnabled) {
-            requestTemplate.header(DiscoveryConstant.N_D_SERVICE_TYPE, pluginAdapter.getServiceType());
-            String serviceAppId = pluginAdapter.getServiceAppId();
-            if (StringUtils.isNotEmpty(serviceAppId)) {
-                requestTemplate.header(DiscoveryConstant.N_D_SERVICE_APP_ID, serviceAppId);
-            }
-            requestTemplate.header(DiscoveryConstant.N_D_SERVICE_ID, pluginAdapter.getServiceId());
-            requestTemplate.header(DiscoveryConstant.N_D_SERVICE_ADDRESS, pluginAdapter.getHost() + ":" + pluginAdapter.getPort());
-            requestTemplate.header(DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion());
-            requestTemplate.header(DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion());
-            requestTemplate.header(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, pluginAdapter.getEnvironment());
+        requestTemplate.header(DiscoveryConstant.N_D_SERVICE_TYPE, pluginAdapter.getServiceType());
+        String serviceAppId = pluginAdapter.getServiceAppId();
+        if (StringUtils.isNotEmpty(serviceAppId)) {
+            requestTemplate.header(DiscoveryConstant.N_D_SERVICE_APP_ID, serviceAppId);
         }
+        requestTemplate.header(DiscoveryConstant.N_D_SERVICE_ID, pluginAdapter.getServiceId());
+        requestTemplate.header(DiscoveryConstant.N_D_SERVICE_ADDRESS, pluginAdapter.getHost() + ":" + pluginAdapter.getPort());
+        requestTemplate.header(DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion());
+        requestTemplate.header(DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion());
+        requestTemplate.header(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, pluginAdapter.getEnvironment());
     }
 
     private void applyOuterHeader(RequestTemplate requestTemplate) {
