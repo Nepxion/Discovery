@@ -46,38 +46,7 @@ public class StrategyTracer {
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACE_DEBUG_ENABLED + ":false}")
     protected Boolean traceDebugEnabled;
 
-    public void mdcHeader() {
-        if (!traceLoggerEnabled) {
-            return;
-        }
-
-        Map<String, String> customizationMap = getCustomizationMap();
-        if (MapUtils.isNotEmpty(customizationMap)) {
-            for (Map.Entry<String, String> entry : customizationMap.entrySet()) {
-                MDC.put(entry.getKey(), (traceLoggerMdcKeyShown ? entry.getKey() + "=" : StringUtils.EMPTY) + entry.getValue());
-            }
-        }
-
-        String traceId = getTraceId();
-        String spanId = getSpanId();
-        MDC.put(DiscoveryConstant.TRACE_ID, (traceLoggerMdcKeyShown ? DiscoveryConstant.TRACE_ID + "=" : StringUtils.EMPTY) + (StringUtils.isNotEmpty(traceId) ? traceId : StringUtils.EMPTY));
-        MDC.put(DiscoveryConstant.SPAN_ID, (traceLoggerMdcKeyShown ? DiscoveryConstant.SPAN_ID + "=" : StringUtils.EMPTY) + (StringUtils.isNotEmpty(spanId) ? spanId : StringUtils.EMPTY));
-        MDC.put(DiscoveryConstant.N_D_SERVICE_GROUP, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_GROUP + "=" : StringUtils.EMPTY) + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_GROUP));
-        MDC.put(DiscoveryConstant.N_D_SERVICE_TYPE, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_TYPE + "=" : StringUtils.EMPTY) + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_TYPE));
-        String serviceAppId = strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_APP_ID);
-        if (StringUtils.isNotEmpty(serviceAppId)) {
-            MDC.put(DiscoveryConstant.N_D_SERVICE_APP_ID, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_APP_ID + "=" : StringUtils.EMPTY) + serviceAppId);
-        }
-        MDC.put(DiscoveryConstant.N_D_SERVICE_ID, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_ID + "=" : StringUtils.EMPTY) + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_ID));
-        MDC.put(DiscoveryConstant.N_D_SERVICE_ADDRESS, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_ADDRESS + "=" : StringUtils.EMPTY) + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_ADDRESS));
-        MDC.put(DiscoveryConstant.N_D_SERVICE_VERSION, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_VERSION + "=" : StringUtils.EMPTY) + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_VERSION));
-        MDC.put(DiscoveryConstant.N_D_SERVICE_REGION, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_REGION + "=" : StringUtils.EMPTY) + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_REGION));
-        MDC.put(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_ENVIRONMENT + "=" : StringUtils.EMPTY) + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT));
-
-        LOG.debug("Trace chain information outputs to MDC...");
-    }
-
-    public void mdcLocal() {
+    public void mdcPut() {
         if (!traceLoggerEnabled) {
             return;
         }
@@ -118,63 +87,7 @@ public class StrategyTracer {
         LOG.debug("Trace chain context of MDC cleared...");
     }
 
-    public void debugHeader() {
-        if (!traceDebugEnabled) {
-            return;
-        }
-
-        System.out.println("---------------- Trace Information ---------------");
-        String traceId = getTraceId();
-        String spanId = getSpanId();
-        System.out.println(DiscoveryConstant.TRACE_ID + "=" + (StringUtils.isNotEmpty(traceId) ? traceId : StringUtils.EMPTY));
-        System.out.println(DiscoveryConstant.SPAN_ID + "=" + (StringUtils.isNotEmpty(spanId) ? spanId : StringUtils.EMPTY));
-        System.out.println(DiscoveryConstant.N_D_SERVICE_GROUP + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_GROUP));
-        System.out.println(DiscoveryConstant.N_D_SERVICE_TYPE + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_TYPE));
-        String serviceAppId = strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_APP_ID);
-        if (StringUtils.isNotEmpty(serviceAppId)) {
-            System.out.println(DiscoveryConstant.N_D_SERVICE_APP_ID + "=" + serviceAppId);
-        }
-        System.out.println(DiscoveryConstant.N_D_SERVICE_ID + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_ID));
-        System.out.println(DiscoveryConstant.N_D_SERVICE_ADDRESS + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_ADDRESS));
-        System.out.println(DiscoveryConstant.N_D_SERVICE_VERSION + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_VERSION));
-        System.out.println(DiscoveryConstant.N_D_SERVICE_REGION + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_REGION));
-        System.out.println(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT + "=" + strategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT));
-
-        String routeVersion = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION);
-        if (StringUtils.isNotEmpty(routeVersion)) {
-            System.out.println(DiscoveryConstant.N_D_VERSION + "=" + routeVersion);
-        }
-        String routeRegion = strategyContextHolder.getHeader(DiscoveryConstant.N_D_REGION);
-        if (StringUtils.isNotEmpty(routeRegion)) {
-            System.out.println(DiscoveryConstant.N_D_REGION + "=" + routeRegion);
-        }
-        String routeAddress = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ADDRESS);
-        if (StringUtils.isNotEmpty(routeAddress)) {
-            System.out.println(DiscoveryConstant.N_D_ADDRESS + "=" + routeAddress);
-        }
-        String routeEnvironment = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ENVIRONMENT);
-        if (StringUtils.isNotEmpty(routeEnvironment)) {
-            System.out.println(DiscoveryConstant.N_D_ENVIRONMENT + "=" + routeEnvironment);
-        }
-        String routeVersionWeight = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION_WEIGHT);
-        if (StringUtils.isNotEmpty(routeVersionWeight)) {
-            System.out.println(DiscoveryConstant.N_D_VERSION_WEIGHT + "=" + routeVersionWeight);
-        }
-        String routeRegionWeight = strategyContextHolder.getHeader(DiscoveryConstant.N_D_REGION_WEIGHT);
-        if (StringUtils.isNotEmpty(routeRegionWeight)) {
-            System.out.println(DiscoveryConstant.N_D_REGION_WEIGHT + "=" + routeRegionWeight);
-        }
-
-        Map<String, String> customizationMap = getCustomizationMap();
-        if (MapUtils.isNotEmpty(customizationMap)) {
-            for (Map.Entry<String, String> entry : customizationMap.entrySet()) {
-                System.out.println(entry.getKey() + "=" + entry.getValue());
-            }
-        }
-        System.out.println("--------------------------------------------------");
-    }
-
-    public void debugLocal() {
+    public void debug() {
         if (!traceDebugEnabled) {
             return;
         }
