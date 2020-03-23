@@ -156,15 +156,19 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
 | 框架版本 | 框架分支 | 框架状态 | Spring Cloud版本 | Spring Boot版本 | Spring Cloud Alibaba版本 |
 | --- | --- | --- | --- | --- | --- |
 | 6.0.0 | master | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status1.png) | Hoxton<br>Greenwich<br>Finchley | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
-| 5.6.0 | 5.x.x | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status2.png) | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
-| 4.15.0 | 4.x.x | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status2.png) | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
-| 3.15.0 | 3.x.x | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status2.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
-| 2.0.x | 2.x.x | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status3.png) | Dalston | 1.x.x.RELEASE | N/A |
-| 1.0.x | 1.x.x | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status3.png) | Camden | 1.x.x.RELEASE | N/A |
+| ~~5.6.0~~ | ~~5.x.x~~ | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status2.png) | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
+| ~~4.15.0~~ | ~~4.x.x~~ | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status2.png) | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
+| 3.15.0 | 3.x.x | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status1.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
+| ~~2.0.x~~ | ~~2.x.x~~ | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status3.png) | Dalston | 1.x.x.RELEASE | N/A |
+| ~~1.0.x~~ | ~~1.x.x~~ | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status3.png) | Camden | 1.x.x.RELEASE | N/A |
 
 ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status1.png) 表示迭代中 | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status2.png) 表示不维护，但可用 | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status3.png) 表示不维护，不可用，已废弃
 
-6.x.x版本同时适用于Finchley、Greenwich和Hoxton
+注意：
+1. 6.x.x版本同时适用于Finchley、Greenwich和Hoxton以及未来的更高版本，将继续维护
+2. 5.x.x（适用于Greenwich）和4.x.x（适用于Finchley）版本不再维护，并入到6.x.x版本，分别对应的5.6.0和4.15.0是最后一个稳定版本
+3. 3.x.x（适用于Edgware）为照顾老的技术栈公司，将继续维护
+4. 2.x.x和1.x.x已废弃
 
 二、使用方便。只需如下步骤：
 
