@@ -5,7 +5,7 @@
 
 每一个访问路过的朋友，如果您觉得这个开源框架不错，请顺手在页面右上角帮它[**Star**]一下
 
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Star1.jpg) 
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Star1.jpg)
 
 如果本文档由于Github网速原因无法完整阅读，请访问
 - [Nepxion Discovery【探索】微服务企业级解决方案(PDF版)](http://nepxion.gitee.io/docs/link-doc/discovery-solution-pdf.html)
