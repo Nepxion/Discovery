@@ -15,13 +15,13 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 
-import com.nepxion.discovery.plugin.strategy.zuul.tracer.ZuulStrategyTracer;
+import com.nepxion.discovery.plugin.strategy.zuul.monitor.ZuulStrategyMonitor;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 
 public class DefaultZuulStrategyClearFilter extends ZuulFilter implements ZuulStrategyClearFilter {
     @Autowired(required = false)
-    private List<ZuulStrategyTracer> zuulStrategyTracerList;
+    private List<ZuulStrategyMonitor> zuulStrategyMonitorList;
 
     @Override
     public String filterType() {
@@ -42,9 +42,9 @@ public class DefaultZuulStrategyClearFilter extends ZuulFilter implements ZuulSt
     public Object run() {
         // 调用链释放
         RequestContext context = RequestContext.getCurrentContext();
-        if (CollectionUtils.isNotEmpty(zuulStrategyTracerList)) {
-            for (ZuulStrategyTracer zuulStrategyTracer : zuulStrategyTracerList) {
-                zuulStrategyTracer.release(context);
+        if (CollectionUtils.isNotEmpty(zuulStrategyMonitorList)) {
+            for (ZuulStrategyMonitor zuulStrategyMonitor : zuulStrategyMonitorList) {
+                zuulStrategyMonitor.release(context);
             }
         }
 

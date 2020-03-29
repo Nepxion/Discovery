@@ -25,7 +25,7 @@ import com.nepxion.discovery.common.entity.StrategyHeaderEntity;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.zuul.constant.ZuulStrategyConstant;
-import com.nepxion.discovery.plugin.strategy.zuul.tracer.ZuulStrategyTracer;
+import com.nepxion.discovery.plugin.strategy.zuul.monitor.ZuulStrategyMonitor;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 
@@ -37,7 +37,7 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter impleme
     protected StrategyContextHolder strategyContextHolder;
 
     @Autowired(required = false)
-    private List<ZuulStrategyTracer> zuulStrategyTracerList;
+    private List<ZuulStrategyMonitor> zuulStrategyMonitorList;
 
     // 如果外界也传了相同的Header，例如，从Postman传递过来的Header，当下面的变量为true，以网关设置为优先，否则以外界传值为优先
     @Value("${" + ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_HEADER_PRIORITY + ":true}")
@@ -135,11 +135,11 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter impleme
 
         extendFilter();
 
-        // 调用链追踪
+        // 调用链监控
         RequestContext context = RequestContext.getCurrentContext();
-        if (CollectionUtils.isNotEmpty(zuulStrategyTracerList)) {
-            for (ZuulStrategyTracer zuulStrategyTracer : zuulStrategyTracerList) {
-                zuulStrategyTracer.trace(context);
+        if (CollectionUtils.isNotEmpty(zuulStrategyMonitorList)) {
+            for (ZuulStrategyMonitor zuulStrategyMonitor : zuulStrategyMonitorList) {
+                zuulStrategyMonitor.monitor(context);
             }
         }
 
