@@ -30,7 +30,7 @@ import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.gateway.constant.GatewayStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.gateway.context.GatewayStrategyContext;
-import com.nepxion.discovery.plugin.strategy.gateway.tracer.GatewayStrategyTracer;
+import com.nepxion.discovery.plugin.strategy.gateway.monitor.GatewayStrategyMonitor;
 
 public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrategyRouteFilter {
     @Autowired
@@ -40,7 +40,7 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
     protected StrategyContextHolder strategyContextHolder;
 
     @Autowired(required = false)
-    private List<GatewayStrategyTracer> gatewayStrategyTracerList;
+    private List<GatewayStrategyMonitor> gatewayStrategyMonitorList;
 
     // 如果外界也传了相同的Header，例如，从Postman传递过来的Header，当下面的变量为true，以网关设置为优先，否则以外界传值为优先
     @Value("${" + GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_HEADER_PRIORITY + ":true}")
@@ -141,10 +141,10 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
         // 把新的ServerWebExchange放入ThreadLocal中
         GatewayStrategyContext.getCurrentContext().setExchange(newExchange);
 
-        // 调用链追踪
-        if (CollectionUtils.isNotEmpty(gatewayStrategyTracerList)) {
-            for (GatewayStrategyTracer gatewayStrategyTracer : gatewayStrategyTracerList) {
-                gatewayStrategyTracer.trace(finalExchange);
+        // 调用链监控
+        if (CollectionUtils.isNotEmpty(gatewayStrategyMonitorList)) {
+            for (GatewayStrategyMonitor gatewayStrategyMonitor : gatewayStrategyMonitorList) {
+                gatewayStrategyMonitor.monitor(finalExchange);
             }
         }
 

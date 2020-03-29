@@ -26,8 +26,8 @@ import com.nepxion.discovery.plugin.strategy.gateway.filter.DefaultGatewayStrate
 import com.nepxion.discovery.plugin.strategy.gateway.filter.DefaultGatewayStrategyRouteFilter;
 import com.nepxion.discovery.plugin.strategy.gateway.filter.GatewayStrategyClearFilter;
 import com.nepxion.discovery.plugin.strategy.gateway.filter.GatewayStrategyRouteFilter;
-import com.nepxion.discovery.plugin.strategy.gateway.tracer.DefaultGatewayStrategyTracer;
-import com.nepxion.discovery.plugin.strategy.gateway.tracer.GatewayStrategyTracer;
+import com.nepxion.discovery.plugin.strategy.gateway.monitor.DefaultGatewayStrategyMonitor;
+import com.nepxion.discovery.plugin.strategy.gateway.monitor.GatewayStrategyMonitor;
 import com.nepxion.discovery.plugin.strategy.gateway.wrapper.DefaultCallableWrapper;
 import com.nepxion.discovery.plugin.strategy.wrapper.CallableWrapper;
 
@@ -49,9 +49,9 @@ public class GatewayStrategyAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACE_ENABLED, matchIfMissing = false)
-    public GatewayStrategyTracer gatewayStrategyTracer() {
-        return new DefaultGatewayStrategyTracer();
+    @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_MONITOR_ENABLED, matchIfMissing = false)
+    public GatewayStrategyMonitor gatewayStrategyMonitor() {
+        return new DefaultGatewayStrategyMonitor();
     }
 
     @Bean

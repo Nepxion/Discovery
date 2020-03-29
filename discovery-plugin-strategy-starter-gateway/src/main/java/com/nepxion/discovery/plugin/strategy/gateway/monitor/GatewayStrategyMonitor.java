@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.gateway.tracer;
+package com.nepxion.discovery.plugin.strategy.gateway.monitor;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -11,8 +11,8 @@ package com.nepxion.discovery.plugin.strategy.gateway.tracer;
 
 import org.springframework.web.server.ServerWebExchange;
 
-public interface GatewayStrategyTracer {
-    void trace(ServerWebExchange exchange);
+public interface GatewayStrategyMonitor {
+    void monitor(ServerWebExchange exchange);
 
     void release(ServerWebExchange exchange);
 }
