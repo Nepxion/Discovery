@@ -10,6 +10,7 @@ package com.nepxion.discovery.plugin.strategy.service.sentinel.configuration;
  * @version 1.0
  */
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,19 +22,21 @@ import com.nepxion.discovery.plugin.strategy.sentinel.constant.SentinelStrategyC
 import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.ServiceSentinelRequestOriginParser;
 
 @Configuration
-@ConditionalOnProperty(value = SentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_ENABLED, matchIfMissing = false)
 public class ServiceSentinelStrategyAutoConfiguration {
     @Bean
+    @ConditionalOnMissingBean
     public CommonFilter commonFilter() {
         return new CommonFilter();
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public SentinelResourceAspect serviceSentinelResourceAspect() {
         return new SentinelResourceAspect();
     }
 
     @Bean
+    @ConditionalOnProperty(value = SentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_ENABLED, matchIfMissing = false)
     public RequestOriginParser serviceSentinelRequestOriginParser() {
         return new ServiceSentinelRequestOriginParser();
     }
