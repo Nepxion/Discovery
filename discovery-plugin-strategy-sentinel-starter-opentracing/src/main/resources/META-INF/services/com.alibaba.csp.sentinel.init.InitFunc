@@ -1,1 +1,1 @@
-com.nepxion.discovery.plugin.strategy.sentinel.opentracing.func.SentinelOpenTracingInitFunc
+com.nepxion.discovery.plugin.strategy.sentinel.opentracing.monitor.SentinelOpentracingTracerInitFunc

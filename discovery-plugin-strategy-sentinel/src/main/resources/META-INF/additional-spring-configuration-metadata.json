@@ -35,6 +35,18 @@
 			"type": "java.lang.String",
 			"defaultValue": "classpath:sentinel-param-flow.json",
 			"description": "Strategy sentinel param flow path, it can be classpath:xxx.json or file:xxx.json."
+		},
+		{
+			"name": "spring.application.strategy.tracer.sentinel.rule.output.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether strategy tracer sentinel rule output is enabled."
+		},
+		{
+			"name": "spring.application.strategy.tracer.sentinel.args.output.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": false,
+			"description": "Whether strategy tracer sentinel args output is enabled."
 		}
 	]
 }
