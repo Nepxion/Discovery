@@ -12,23 +12,19 @@ package com.nepxion.discovery.plugin.strategy.service.wrapper;
 
 import java.util.concurrent.Callable;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
+import com.nepxion.discovery.plugin.strategy.monitor.StrategyTracerContext;
 import com.nepxion.discovery.plugin.strategy.service.context.RestStrategyContext;
-import com.nepxion.discovery.plugin.strategy.tracer.StrategyTracerContextManager;
 import com.nepxion.discovery.plugin.strategy.wrapper.CallableWrapper;
 
 public class DefaultCallableWrapper implements CallableWrapper {
-    @Autowired(required = false)
-    private StrategyTracerContextManager strategyTracerContextManager;
-
     @Override
     public <T> Callable<T> wrapCallable(Callable<T> callable) {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
 
-        Object tracerContext = getTracerContext();
+        Object span = StrategyTracerContext.getCurrentContext().getSpan();
 
         return new Callable<T>() {
             @Override
@@ -36,39 +32,15 @@ public class DefaultCallableWrapper implements CallableWrapper {
                 try {
                     RestStrategyContext.getCurrentContext().setRequestAttributes(requestAttributes);
 
-                    setTracerContext(tracerContext);
+                    StrategyTracerContext.getCurrentContext().setSpan(span);
 
                     return callable.call();
                 } finally {
                     RestStrategyContext.clearCurrentContext();
 
-                    clearTracerContext();
+                    StrategyTracerContext.clearCurrentContext();
                 }
             }
         };
-    }
-
-    private Object getTracerContext() {
-        if (strategyTracerContextManager == null) {
-            return null;
-        }
-
-        return strategyTracerContextManager.getContext();
-    }
-
-    private void setTracerContext(Object context) {
-        if (strategyTracerContextManager == null) {
-            return;
-        }
-
-        strategyTracerContextManager.setContext(context);
-    }
-
-    private void clearTracerContext() {
-        if (strategyTracerContextManager == null) {
-            return;
-        }
-
-        strategyTracerContextManager.clearContext();
     }
 }
