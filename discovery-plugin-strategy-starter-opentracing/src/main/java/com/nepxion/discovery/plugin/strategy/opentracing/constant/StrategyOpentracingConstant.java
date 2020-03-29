@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.tracer;
+package com.nepxion.discovery.plugin.strategy.opentracing.constant;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -9,10 +9,6 @@ package com.nepxion.discovery.plugin.strategy.tracer;
  * @version 1.0
  */
 
-public interface StrategyTracerContextManager {
-    Object getContext();
-
-    void setContext(Object context);
-
-    void clearContext();
+public class StrategyOpentracingConstant {
+    public static final String OPENTRACING_TYPE = "Opentracing";
 }

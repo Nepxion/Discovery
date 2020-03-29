@@ -35,15 +35,12 @@
         <module>discovery-plugin-strategy-sentinel-starter-apollo</module>
         <module>discovery-plugin-strategy-sentinel-starter-nacos</module>
         <module>discovery-plugin-strategy-sentinel-starter-opentracing</module>
-        <module>discovery-plugin-strategy-opentracing</module>
         <module>discovery-plugin-strategy-starter-service</module>
         <module>discovery-plugin-strategy-starter-service-sentinel</module>
-        <module>discovery-plugin-strategy-starter-service-opentracing</module>
         <module>discovery-plugin-strategy-starter-zuul</module>
-        <module>discovery-plugin-strategy-starter-zuul-opentracing</module>
         <module>discovery-plugin-strategy-starter-gateway</module>
-        <module>discovery-plugin-strategy-starter-gateway-opentracing</module>
         <module>discovery-plugin-strategy-starter-hystrix</module>
+        <module>discovery-plugin-strategy-starter-opentracing</module>
         <module>discovery-plugin-test-starter</module>
         <module>discovery-console</module>
         <module>discovery-console-starter-apollo</module>
@@ -230,12 +227,6 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>discovery-plugin-strategy-opentracing</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-strategy-starter-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -248,19 +239,7 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>discovery-plugin-strategy-starter-service-opentracing</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-strategy-starter-zuul</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>discovery-plugin-strategy-starter-zuul-opentracing</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -272,13 +251,13 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>discovery-plugin-strategy-starter-gateway-opentracing</artifactId>
+                <artifactId>discovery-plugin-strategy-starter-hystrix</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>discovery-plugin-strategy-starter-hystrix</artifactId>
+                <artifactId>discovery-plugin-strategy-starter-opentracing</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

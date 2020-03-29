@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.tracer;
+package com.nepxion.discovery.plugin.strategy.monitor;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -14,8 +14,6 @@ import java.util.Map;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jboss.logging.MDC;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -25,9 +23,7 @@ import com.nepxion.discovery.plugin.strategy.adapter.StrategyTracerAdapter;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 
-public class StrategyTracer {
-    private static final Logger LOG = LoggerFactory.getLogger(StrategyTracer.class);
-
+public class StrategyLogger {
     @Autowired
     protected PluginAdapter pluginAdapter;
 
@@ -35,64 +31,63 @@ public class StrategyTracer {
     protected StrategyContextHolder strategyContextHolder;
 
     @Autowired(required = false)
+    protected StrategyTracer strategyTracer;
+
+    @Autowired(required = false)
     protected StrategyTracerAdapter strategyTracerAdapter;
 
-    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACE_LOGGER_ENABLED + ":false}")
-    protected Boolean traceLoggerEnabled;
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_LOGGER_ENABLED + ":false}")
+    protected Boolean loggerEnabled;
 
-    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACE_LOGGER_MDC_KEY_SHOWN + ":true}")
-    protected Boolean traceLoggerMdcKeyShown;
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_LOGGER_MDC_KEY_SHOWN + ":true}")
+    protected Boolean loggerMdcKeyShown;
 
-    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACE_DEBUG_ENABLED + ":false}")
-    protected Boolean traceDebugEnabled;
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_LOGGER_DEBUG_ENABLED + ":false}")
+    protected Boolean loggerDebugEnabled;
 
-    public void mdcPut() {
-        if (!traceLoggerEnabled) {
+    public void loggerOutput() {
+        if (!loggerEnabled) {
             return;
         }
 
         Map<String, String> customizationMap = getCustomizationMap();
         if (MapUtils.isNotEmpty(customizationMap)) {
             for (Map.Entry<String, String> entry : customizationMap.entrySet()) {
-                MDC.put(entry.getKey(), (traceLoggerMdcKeyShown ? entry.getKey() + "=" : StringUtils.EMPTY) + entry.getValue());
+                MDC.put(entry.getKey(), (loggerMdcKeyShown ? entry.getKey() + "=" : StringUtils.EMPTY) + entry.getValue());
             }
         }
 
         String traceId = getTraceId();
         String spanId = getSpanId();
-        MDC.put(DiscoveryConstant.TRACE_ID, (traceLoggerMdcKeyShown ? DiscoveryConstant.TRACE_ID + "=" : StringUtils.EMPTY) + (StringUtils.isNotEmpty(traceId) ? traceId : StringUtils.EMPTY));
-        MDC.put(DiscoveryConstant.SPAN_ID, (traceLoggerMdcKeyShown ? DiscoveryConstant.SPAN_ID + "=" : StringUtils.EMPTY) + (StringUtils.isNotEmpty(spanId) ? spanId : StringUtils.EMPTY));
-        MDC.put(DiscoveryConstant.N_D_SERVICE_GROUP, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_GROUP + "=" : StringUtils.EMPTY) + pluginAdapter.getGroup());
-        MDC.put(DiscoveryConstant.N_D_SERVICE_TYPE, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_TYPE + "=" : StringUtils.EMPTY) + pluginAdapter.getServiceType());
+        MDC.put(DiscoveryConstant.TRACE_ID, (loggerMdcKeyShown ? DiscoveryConstant.TRACE_ID + "=" : StringUtils.EMPTY) + (StringUtils.isNotEmpty(traceId) ? traceId : StringUtils.EMPTY));
+        MDC.put(DiscoveryConstant.SPAN_ID, (loggerMdcKeyShown ? DiscoveryConstant.SPAN_ID + "=" : StringUtils.EMPTY) + (StringUtils.isNotEmpty(spanId) ? spanId : StringUtils.EMPTY));
+        MDC.put(DiscoveryConstant.N_D_SERVICE_GROUP, (loggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_GROUP + "=" : StringUtils.EMPTY) + pluginAdapter.getGroup());
+        MDC.put(DiscoveryConstant.N_D_SERVICE_TYPE, (loggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_TYPE + "=" : StringUtils.EMPTY) + pluginAdapter.getServiceType());
         String serviceAppId = pluginAdapter.getServiceAppId();
         if (StringUtils.isNotEmpty(serviceAppId)) {
-            MDC.put(DiscoveryConstant.N_D_SERVICE_APP_ID, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_APP_ID + "=" : StringUtils.EMPTY) + serviceAppId);
+            MDC.put(DiscoveryConstant.N_D_SERVICE_APP_ID, (loggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_APP_ID + "=" : StringUtils.EMPTY) + serviceAppId);
         }
-        MDC.put(DiscoveryConstant.N_D_SERVICE_ID, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_ID + "=" : StringUtils.EMPTY) + pluginAdapter.getServiceId());
-        MDC.put(DiscoveryConstant.N_D_SERVICE_ADDRESS, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_ADDRESS + "=" : StringUtils.EMPTY) + pluginAdapter.getHost() + ":" + pluginAdapter.getPort());
-        MDC.put(DiscoveryConstant.N_D_SERVICE_VERSION, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_VERSION + "=" : StringUtils.EMPTY) + pluginAdapter.getVersion());
-        MDC.put(DiscoveryConstant.N_D_SERVICE_REGION, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_REGION + "=" : StringUtils.EMPTY) + pluginAdapter.getRegion());
-        MDC.put(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, (traceLoggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_ENVIRONMENT + "=" : StringUtils.EMPTY) + pluginAdapter.getEnvironment());
-
-        LOG.debug("Trace chain information outputs to MDC...");
+        MDC.put(DiscoveryConstant.N_D_SERVICE_ID, (loggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_ID + "=" : StringUtils.EMPTY) + pluginAdapter.getServiceId());
+        MDC.put(DiscoveryConstant.N_D_SERVICE_ADDRESS, (loggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_ADDRESS + "=" : StringUtils.EMPTY) + pluginAdapter.getHost() + ":" + pluginAdapter.getPort());
+        MDC.put(DiscoveryConstant.N_D_SERVICE_VERSION, (loggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_VERSION + "=" : StringUtils.EMPTY) + pluginAdapter.getVersion());
+        MDC.put(DiscoveryConstant.N_D_SERVICE_REGION, (loggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_REGION + "=" : StringUtils.EMPTY) + pluginAdapter.getRegion());
+        MDC.put(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, (loggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_ENVIRONMENT + "=" : StringUtils.EMPTY) + pluginAdapter.getEnvironment());
     }
 
-    public void mdcClear() {
-        if (!traceLoggerEnabled) {
+    public void loggerClear() {
+        if (!loggerEnabled) {
             return;
         }
 
         MDC.clear();
-
-        LOG.debug("Trace chain context of MDC cleared...");
     }
 
-    public void debug() {
-        if (!traceDebugEnabled) {
+    public void loggerDebug() {
+        if (!loggerDebugEnabled) {
             return;
         }
 
-        System.out.println("---------------- Trace Information ---------------");
+        System.out.println("------------------ Logger Debug ------------------");
         String traceId = getTraceId();
         String spanId = getSpanId();
         System.out.println(DiscoveryConstant.TRACE_ID + "=" + (StringUtils.isNotEmpty(traceId) ? traceId : StringUtils.EMPTY));
@@ -143,15 +138,11 @@ public class StrategyTracer {
         System.out.println("--------------------------------------------------");
     }
 
-    public PluginAdapter getPluginAdapter() {
-        return pluginAdapter;
-    }
-
-    public StrategyContextHolder getStrategyContextHolder() {
-        return strategyContextHolder;
-    }
-
     public String getTraceId() {
+        if (strategyTracer != null) {
+            return strategyTracer.getTraceId();
+        }
+
         if (strategyTracerAdapter != null) {
             return strategyTracerAdapter.getTraceId();
         }
@@ -160,6 +151,10 @@ public class StrategyTracer {
     }
 
     public String getSpanId() {
+        if (strategyTracer != null) {
+            return strategyTracer.getSpanId();
+        }
+
         if (strategyTracerAdapter != null) {
             return strategyTracerAdapter.getSpanId();
         }

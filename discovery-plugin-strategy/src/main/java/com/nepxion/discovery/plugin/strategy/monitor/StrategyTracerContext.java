@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.opentracing.context;
+package com.nepxion.discovery.plugin.strategy.monitor;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -9,24 +9,22 @@ package com.nepxion.discovery.plugin.opentracing.context;
  * @version 1.0
  */
 
-import io.opentracing.Span;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class StrategyOpentracingContext {
-    private static final ThreadLocal<StrategyOpentracingContext> THREAD_LOCAL = new ThreadLocal<StrategyOpentracingContext>() {
+public class StrategyTracerContext {
+    private static final ThreadLocal<StrategyTracerContext> THREAD_LOCAL = new ThreadLocal<StrategyTracerContext>() {
         @Override
-        protected StrategyOpentracingContext initialValue() {
-            return new StrategyOpentracingContext();
+        protected StrategyTracerContext initialValue() {
+            return new StrategyTracerContext();
         }
     };
 
-    private Span span;
+    private Object span;
 
-    public static StrategyOpentracingContext getCurrentContext() {
+    public static StrategyTracerContext getCurrentContext() {
         return THREAD_LOCAL.get();
     }
 
@@ -34,11 +32,11 @@ public class StrategyOpentracingContext {
         THREAD_LOCAL.remove();
     }
 
-    public Span getSpan() {
+    public Object getSpan() {
         return span;
     }
 
-    public void setSpan(Span span) {
+    public void setSpan(Object span) {
         this.span = span;
     }
 

@@ -18,8 +18,11 @@ public class StrategyConstant {
     public static final String SPRING_APPLICATION_STRATEGY_REGISTER_ISOLATION_ENABLED = "spring.application.strategy.register.isolation.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_CONSUMER_ISOLATION_ENABLED = "spring.application.strategy.consumer.isolation.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_PROVIDER_ISOLATION_ENABLED = "spring.application.strategy.provider.isolation.enabled";
-    public static final String SPRING_APPLICATION_STRATEGY_TRACE_ENABLED = "spring.application.strategy.trace.enabled";
-    public static final String SPRING_APPLICATION_STRATEGY_TRACE_LOGGER_ENABLED = "spring.application.strategy.trace.logger.enabled";
-    public static final String SPRING_APPLICATION_STRATEGY_TRACE_LOGGER_MDC_KEY_SHOWN = "spring.application.strategy.trace.logger.mdc.key.shown";
-    public static final String SPRING_APPLICATION_STRATEGY_TRACE_DEBUG_ENABLED = "spring.application.strategy.trace.debug.enabled";
+
+    public static final String SPRING_APPLICATION_STRATEGY_MONITOR_ENABLED = "spring.application.strategy.monitor.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_LOGGER_ENABLED = "spring.application.strategy.logger.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_LOGGER_MDC_KEY_SHOWN = "spring.application.strategy.logger.mdc.key.shown";
+    public static final String SPRING_APPLICATION_STRATEGY_LOGGER_DEBUG_ENABLED = "spring.application.strategy.logger.debug.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_TRACER_SEPARATE_SPAN_ENABLED = "spring.application.strategy.tracer.separate.span.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_TRACER_RULE_OUTPUT_ENABLED = "spring.application.strategy.tracer.rule.output.enabled";
 }
