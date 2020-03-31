@@ -35,12 +35,14 @@
         <module>discovery-plugin-strategy-sentinel-starter-apollo</module>
         <module>discovery-plugin-strategy-sentinel-starter-nacos</module>
         <module>discovery-plugin-strategy-sentinel-starter-opentracing</module>
+        <module>discovery-plugin-strategy-sentinel-starter-skywalking</module>
         <module>discovery-plugin-strategy-starter-service</module>
         <module>discovery-plugin-strategy-starter-service-sentinel</module>
         <module>discovery-plugin-strategy-starter-zuul</module>
         <module>discovery-plugin-strategy-starter-gateway</module>
         <module>discovery-plugin-strategy-starter-hystrix</module>
         <module>discovery-plugin-strategy-starter-opentracing</module>
+        <module>discovery-plugin-strategy-starter-skywalking</module>
         <module>discovery-plugin-test-starter</module>
         <module>discovery-console</module>
         <module>discovery-console-starter-apollo</module>
@@ -71,6 +73,7 @@
         <sentinel.version>1.7.1</sentinel.version>
         <opentracing.version>0.33.0</opentracing.version>
         <opentracing.spring.cloud.version>0.5.0</opentracing.spring.cloud.version>
+        <opentracing.skywalking.version>7.0.0</opentracing.skywalking.version>
         <spring.cloud.version>Hoxton.SR3</spring.cloud.version>
         <spring.cloud.alibaba.version>2.2.0.RELEASE</spring.cloud.alibaba.version>
         <spring.boot.version>2.2.5.RELEASE</spring.boot.version>
@@ -227,6 +230,12 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-strategy-sentinel-starter-skywalking</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-strategy-starter-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -258,6 +267,12 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-strategy-starter-opentracing</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-strategy-starter-skywalking</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -433,6 +448,12 @@
                 <groupId>io.opentracing.contrib</groupId>
                 <artifactId>opentracing-spring-cloud-starter</artifactId>
                 <version>${opentracing.spring.cloud.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.skywalking</groupId>
+                <artifactId>apm-toolkit-opentracing</artifactId>
+                <version>${opentracing.skywalking.version}</version>
             </dependency>
 
             <dependency>

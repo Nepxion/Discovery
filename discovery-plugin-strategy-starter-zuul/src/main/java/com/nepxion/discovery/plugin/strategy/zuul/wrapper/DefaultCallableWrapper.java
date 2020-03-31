@@ -27,6 +27,8 @@ public class DefaultCallableWrapper implements CallableWrapper {
         Map<String, String> headers = RequestContext.getCurrentContext().getZuulRequestHeaders();
 
         Object span = StrategyTracerContext.getCurrentContext().getSpan();
+        String traceId = StrategyTracerContext.getCurrentContext().getTraceId();
+        String spanId = StrategyTracerContext.getCurrentContext().getSpanId();
 
         return new Callable<T>() {
             @Override
@@ -36,6 +38,12 @@ public class DefaultCallableWrapper implements CallableWrapper {
                     ZuulStrategyContext.getCurrentContext().setHeaders(headers);
 
                     StrategyTracerContext.getCurrentContext().setSpan(span);
+                    if (traceId != null) {
+                        StrategyTracerContext.getCurrentContext().setTraceId(traceId);
+                    }
+                    if (spanId != null) {
+                        StrategyTracerContext.getCurrentContext().setSpanId(spanId);
+                    }
 
                     return callable.call();
                 } finally {

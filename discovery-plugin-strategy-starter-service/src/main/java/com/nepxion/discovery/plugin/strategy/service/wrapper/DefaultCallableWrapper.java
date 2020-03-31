@@ -25,6 +25,8 @@ public class DefaultCallableWrapper implements CallableWrapper {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
 
         Object span = StrategyTracerContext.getCurrentContext().getSpan();
+        String traceId = StrategyTracerContext.getCurrentContext().getTraceId();
+        String spanId = StrategyTracerContext.getCurrentContext().getSpanId();
 
         return new Callable<T>() {
             @Override
@@ -33,6 +35,12 @@ public class DefaultCallableWrapper implements CallableWrapper {
                     RestStrategyContext.getCurrentContext().setRequestAttributes(requestAttributes);
 
                     StrategyTracerContext.getCurrentContext().setSpan(span);
+                    if (traceId != null) {
+                        StrategyTracerContext.getCurrentContext().setTraceId(traceId);
+                    }
+                    if (spanId != null) {
+                        StrategyTracerContext.getCurrentContext().setSpanId(spanId);
+                    }
 
                     return callable.call();
                 } finally {

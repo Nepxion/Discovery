@@ -23,6 +23,8 @@ public class StrategyTracerContext {
     };
 
     private Object span;
+    private String traceId;
+    private String spanId;
 
     public static StrategyTracerContext getCurrentContext() {
         return THREAD_LOCAL.get();
@@ -38,6 +40,22 @@ public class StrategyTracerContext {
 
     public void setSpan(Object span) {
         this.span = span;
+    }
+
+    public String getTraceId() {
+        return traceId;
+    }
+
+    public void setTraceId(String traceId) {
+        this.traceId = traceId;
+    }
+
+    public String getSpanId() {
+        return spanId;
+    }
+
+    public void setSpanId(String spanId) {
+        this.spanId = spanId;
     }
 
     @Override
