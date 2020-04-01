@@ -9,6 +9,7 @@ package com.nepxion.discovery.plugin.strategy.opentracing.configuration;
  * @version 1.0
  */
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,6 +34,7 @@ public class StrategyOpentracingAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_MONITOR_ENABLED, matchIfMissing = false)
     public StrategyTracer strategyTracer() {
         return new StrategyOpentracingTracer();
