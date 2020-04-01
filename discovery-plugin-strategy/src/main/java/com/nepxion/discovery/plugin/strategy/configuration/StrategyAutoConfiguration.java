@@ -25,6 +25,7 @@ import com.nepxion.discovery.plugin.strategy.isolation.ConsumerIsolationLoadBala
 import com.nepxion.discovery.plugin.strategy.isolation.ConsumerIsolationRegisterStrategy;
 import com.nepxion.discovery.plugin.strategy.matcher.DiscoveryAntPathMatcherStrategy;
 import com.nepxion.discovery.plugin.strategy.matcher.DiscoveryMatcherStrategy;
+import com.nepxion.discovery.plugin.strategy.monitor.DefaultStrategyLogger;
 import com.nepxion.discovery.plugin.strategy.monitor.StrategyLogger;
 import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
 
@@ -60,9 +61,10 @@ public class StrategyAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_MONITOR_ENABLED, matchIfMissing = false)
     public StrategyLogger strategyLogger() {
-        return new StrategyLogger();
+        return new DefaultStrategyLogger();
     }
 
     @Bean
