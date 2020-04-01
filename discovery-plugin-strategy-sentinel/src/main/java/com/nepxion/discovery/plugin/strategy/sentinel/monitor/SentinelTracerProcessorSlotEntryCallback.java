@@ -9,6 +9,8 @@ package com.nepxion.discovery.plugin.strategy.sentinel.monitor;
  * @version 1.0
  */
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.alibaba.csp.sentinel.context.Context;
 import com.alibaba.csp.sentinel.node.DefaultNode;
 import com.alibaba.csp.sentinel.slotchain.ProcessorSlotEntryCallback;
@@ -16,6 +18,8 @@ import com.alibaba.csp.sentinel.slotchain.ResourceWrapper;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.alibaba.fastjson.JSON;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
+import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.strategy.sentinel.constant.SentinelStrategyConstant;
 
 public abstract class SentinelTracerProcessorSlotEntryCallback<S> implements ProcessorSlotEntryCallback<DefaultNode> {
@@ -31,7 +35,22 @@ public abstract class SentinelTracerProcessorSlotEntryCallback<S> implements Pro
     public void onBlocked(BlockException e, Context context, ResourceWrapper resourceWrapper, DefaultNode param, int count, Object... args) {
         S span = buildSpan();
 
+        PluginAdapter pluginAdapter = PluginContextAware.getStaticApplicationContext().getBean(PluginAdapter.class);
+
         outputSpan(span, DiscoveryConstant.TAG_COMPONENT_NAME, context.getName());
+        outputSpan(span, DiscoveryConstant.PLUGIN, DiscoveryConstant.PLUGIN_VALUE);
+        outputSpan(span, DiscoveryConstant.N_D_SERVICE_GROUP, pluginAdapter.getGroup());
+        outputSpan(span, DiscoveryConstant.N_D_SERVICE_TYPE, pluginAdapter.getServiceType());
+        String serviceAppId = pluginAdapter.getServiceAppId();
+        if (StringUtils.isNotEmpty(serviceAppId)) {
+            outputSpan(span, DiscoveryConstant.N_D_SERVICE_APP_ID, serviceAppId);
+        }
+        outputSpan(span, DiscoveryConstant.N_D_SERVICE_ID, pluginAdapter.getServiceId());
+        outputSpan(span, DiscoveryConstant.N_D_SERVICE_ADDRESS, pluginAdapter.getHost() + ":" + pluginAdapter.getPort());
+        outputSpan(span, DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion());
+        outputSpan(span, DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion());
+        outputSpan(span, DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, pluginAdapter.getEnvironment());
+
         outputSpan(span, SentinelStrategyConstant.ORIGIN, context.getOrigin());
         outputSpan(span, SentinelStrategyConstant.ASYNC, String.valueOf(context.isAsync()));
         outputSpan(span, SentinelStrategyConstant.RESOURCE_NAME, resourceWrapper.getName());
