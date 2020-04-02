@@ -32,12 +32,6 @@
 			"name": "spring.application.strategy.business.request.headers",
 			"type": "java.lang.String",
 			"description": "Strategy business request headers."
-		},
-		{
-			"name": "spring.application.strategy.method.context.output.enabled",
-			"type": "java.lang.Boolean",
-			"defaultValue": false,
-			"description": "Whether method context output is enabled."
 		}
 	]
 }

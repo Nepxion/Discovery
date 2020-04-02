@@ -25,6 +25,7 @@ public class StrategyConstant {
     public static final String SPRING_APPLICATION_STRATEGY_LOGGER_DEBUG_ENABLED = "spring.application.strategy.logger.debug.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_TRACER_SEPARATE_SPAN_ENABLED = "spring.application.strategy.tracer.separate.span.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_TRACER_RULE_OUTPUT_ENABLED = "spring.application.strategy.tracer.rule.output.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_TRACER_METHOD_CONTEXT_OUTPUT_ENABLED = "spring.application.strategy.tracer.method.context.output.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_TRACER_SPAN_VALUE = "spring.application.strategy.tracer.span.value";
     public static final String SPRING_APPLICATION_STRATEGY_TRACER_SPAN_TAG_PLUGIN_VALUE = "spring.application.strategy.tracer.span.tag.plugin.value";
 }

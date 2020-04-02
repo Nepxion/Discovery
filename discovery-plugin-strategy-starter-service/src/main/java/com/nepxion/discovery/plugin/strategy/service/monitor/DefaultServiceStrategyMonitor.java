@@ -20,12 +20,12 @@ import org.springframework.beans.factory.annotation.Value;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.util.ClassUtil;
+import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.monitor.StrategyMonitor;
-import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 
 public class DefaultServiceStrategyMonitor extends StrategyMonitor implements ServiceStrategyMonitor {
-    @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_METHOD_CONTEXT_OUTPUT_ENABLED + ":false}")
-    protected Boolean methodContextOutputEnabled;
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACER_METHOD_CONTEXT_OUTPUT_ENABLED + ":false}")
+    protected Boolean tracerMethodContextOutputEnabled;
 
     @Autowired(required = false)
     private List<ServiceStrategyMonitorAdapter> serviceStrategyMonitorAdapterList;
@@ -67,7 +67,7 @@ public class DefaultServiceStrategyMonitor extends StrategyMonitor implements Se
         contextMap.put("* " + DiscoveryConstant.CLASS, className);
         contextMap.put("* " + DiscoveryConstant.METHOD, methodName);
 
-        if (methodContextOutputEnabled) {
+        if (tracerMethodContextOutputEnabled) {
             String[] methodParameterNames = interceptor.getMethodParameterNames(invocation);
             Object[] arguments = interceptor.getArguments(invocation);
             Map<String, Object> parameterMap = ClassUtil.getParameterMap(methodParameterNames, arguments);
