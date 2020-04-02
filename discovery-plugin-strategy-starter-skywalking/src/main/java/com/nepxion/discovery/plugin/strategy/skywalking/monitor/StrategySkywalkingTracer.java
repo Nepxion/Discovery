@@ -14,6 +14,7 @@ import io.opentracing.Tracer;
 import io.opentracing.tag.Tags;
 
 import java.lang.reflect.Field;
+import java.util.Map;
 
 import org.apache.skywalking.apm.toolkit.opentracing.SkywalkingTracer;
 
@@ -41,10 +42,9 @@ public class StrategySkywalkingTracer extends AbstractStrategyTracer<Span> {
     }
 
     @Override
-    protected void errorSpan(Span span, String className, String methodName, Throwable e) {
+    protected void errorSpan(Span span, Map<String, String> contextMap, Throwable e) {
         span.log(new ImmutableMap.Builder<String, Object>()
-                .put(DiscoveryConstant.CLASS, className)
-                .put(DiscoveryConstant.METHOD, methodName)
+                .putAll(contextMap)
                 .put(DiscoveryConstant.EVENT, Tags.ERROR.getKey())
                 .put(DiscoveryConstant.ERROR_OBJECT, e)
                 .build());
@@ -55,7 +55,7 @@ public class StrategySkywalkingTracer extends AbstractStrategyTracer<Span> {
         span.finish();
     }
 
-    //  该方法永远不会被用到
+    //  璇ユ柟娉曟案杩滀笉浼氳鐢ㄥ埌
     @Override
     protected Span getActiveSpan() {
         return null;

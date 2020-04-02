@@ -16,7 +16,7 @@ public interface StrategyTracer {
 
     void spanOutput(Map<String, String> contextMap);
 
-    void spanError(String className, String methodName, Throwable e);
+    void spanError(Map<String, String> contextMap, Throwable e);
 
     void spanFinish();
 

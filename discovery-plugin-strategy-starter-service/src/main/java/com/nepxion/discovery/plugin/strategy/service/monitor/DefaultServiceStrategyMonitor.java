@@ -37,6 +37,29 @@ public class DefaultServiceStrategyMonitor extends StrategyMonitor implements Se
         loggerOutput();
         loggerDebug();
 
+        Map<String, String> contextMap = createContextMap(interceptor, invocation, returnValue);
+
+        spanOutput(contextMap);
+    }
+
+    @Override
+    public void error(ServiceStrategyMonitorInterceptor interceptor, MethodInvocation invocation, Throwable e) {
+        // 一般来说，日志方式对异常不需要做特殊处理，但必须也要把上下文参数放在MDC里，否则链路中异常环节会串不起来
+        loggerOutput();
+
+        Map<String, String> contextMap = createContextMap(interceptor, invocation, null);
+
+        spanError(contextMap, e);
+    }
+
+    @Override
+    public void release(ServiceStrategyMonitorInterceptor interceptor, MethodInvocation invocation) {
+        loggerClear();
+
+        spanFinish();
+    }
+
+    private Map<String, String> createContextMap(ServiceStrategyMonitorInterceptor interceptor, MethodInvocation invocation, Object returnValue) {
         Map<String, String> contextMap = new HashMap<String, String>();
 
         String className = interceptor.getMethod(invocation).getDeclaringClass().getName();
@@ -58,21 +81,6 @@ public class DefaultServiceStrategyMonitor extends StrategyMonitor implements Se
             }
         }
 
-        spanOutput(contextMap);
-    }
-
-    @Override
-    public void error(ServiceStrategyMonitorInterceptor interceptor, MethodInvocation invocation, Throwable e) {
-        // 一般来说，日志方式对异常不需要做特殊处理，但必须也要把上下文参数放在MDC里，否则链路中异常环节会串不起来
-        loggerOutput();
-
-        spanError(interceptor.getMethod(invocation).getDeclaringClass().getName(), interceptor.getMethodName(invocation), e);
-    }
-
-    @Override
-    public void release(ServiceStrategyMonitorInterceptor interceptor, MethodInvocation invocation) {
-        loggerClear();
-
-        spanFinish();
+        return contextMap;
     }
 }

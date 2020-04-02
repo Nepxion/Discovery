@@ -13,6 +13,8 @@ import io.opentracing.Span;
 import io.opentracing.Tracer;
 import io.opentracing.tag.Tags;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.collect.ImmutableMap;
@@ -34,10 +36,9 @@ public class StrategyOpentracingTracer extends AbstractStrategyTracer<Span> {
     }
 
     @Override
-    protected void errorSpan(Span span, String className, String methodName, Throwable e) {
+    protected void errorSpan(Span span, Map<String, String> contextMap, Throwable e) {
         span.log(new ImmutableMap.Builder<String, Object>()
-                .put(DiscoveryConstant.CLASS, className)
-                .put(DiscoveryConstant.METHOD, methodName)
+                .putAll(contextMap)
                 .put(DiscoveryConstant.EVENT, Tags.ERROR.getKey())
                 .put(DiscoveryConstant.ERROR_OBJECT, e)
                 .build());
