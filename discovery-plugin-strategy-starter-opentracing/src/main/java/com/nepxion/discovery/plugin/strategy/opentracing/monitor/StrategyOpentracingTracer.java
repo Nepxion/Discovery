@@ -25,7 +25,7 @@ public class StrategyOpentracingTracer extends AbstractStrategyTracer<Span> {
 
     @Override
     protected Span buildSpan() {
-        return tracer.buildSpan(DiscoveryConstant.SPAN_VALUE).start();
+        return tracer.buildSpan(tracerSpanValue).start();
     }
 
     @Override

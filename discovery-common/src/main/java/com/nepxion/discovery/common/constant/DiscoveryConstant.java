@@ -100,11 +100,9 @@ public class DiscoveryConstant {
 
     public static final String TRACE_ID = "trace-id";
     public static final String SPAN_ID = "span-id";
-    public static final String SPAN_VALUE = "GRAY";
-    public static final String TAG_COMPONENT_NAME = "component"; 
-    public static final String TAG_COMPONENT_VALUE = "gray";
-    public static final String PLUGIN = "plugin";
-    public static final String PLUGIN_VALUE = "Nepxion Discovery";
+    public static final String SPAN_VALUE = "NEPXION";
+    public static final String SPAN_TAG_COMPONENT_NAME = "component"; 
+    public static final String SPAN_TAG_COMPONENT_VALUE = "Nepxion Discovery";
 
     public static final String CLASS = "class";
     public static final String METHOD = "method";

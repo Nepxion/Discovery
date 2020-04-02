@@ -41,6 +41,12 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACER_RULE_OUTPUT_ENABLED + ":true}")
     protected Boolean tracerRuleOutputEnabled;
 
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACER_SPAN_VALUE + ":" + DiscoveryConstant.SPAN_VALUE + "}")
+    protected String tracerSpanValue;
+
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACER_SPAN_TAG_COMPONENT_VALUE + ":" + DiscoveryConstant.SPAN_TAG_COMPONENT_VALUE + "}")
+    protected String tracerSpanComponentValue;
+
     @Override
     public void spanBuild() {
         if (!tracerSeparateSpanEnabled) {
@@ -75,9 +81,8 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
         }
 
         if (tracerSeparateSpanEnabled) {
-            outputSpan(span, DiscoveryConstant.TAG_COMPONENT_NAME, DiscoveryConstant.TAG_COMPONENT_VALUE);
+            outputSpan(span, DiscoveryConstant.SPAN_TAG_COMPONENT_NAME, tracerSpanComponentValue);
         }
-        outputSpan(span, DiscoveryConstant.PLUGIN, DiscoveryConstant.PLUGIN_VALUE);
         outputSpan(span, DiscoveryConstant.TRACE_ID, toTraceId(span));
         outputSpan(span, DiscoveryConstant.SPAN_ID, toSpanId(span));
         outputSpan(span, DiscoveryConstant.N_D_SERVICE_GROUP, pluginAdapter.getGroup());

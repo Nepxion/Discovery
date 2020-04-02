@@ -81,6 +81,18 @@
 			"type": "java.lang.Boolean",
 			"defaultValue": true,
 			"description": "Whether strategy tracer rule output is enabled."
+		},
+		{
+			"name": "spring.application.strategy.tracer.span.value",
+			"type": "java.lang.String",
+			"defaultValue": "NEPXION",
+			"description": "Strategy tracer span group value."
+		},
+		{
+			"name": "spring.application.strategy.tracer.span.tag.component.value",
+			"type": "java.lang.String",
+			"defaultValue": "Nepxion Discovery",
+			"description": "Strategy tracer span group tag component value."
 		}
 	]
 }

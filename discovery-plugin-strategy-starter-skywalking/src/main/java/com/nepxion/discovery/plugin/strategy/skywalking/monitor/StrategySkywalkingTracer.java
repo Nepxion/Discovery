@@ -27,7 +27,7 @@ public class StrategySkywalkingTracer extends AbstractStrategyTracer<Span> {
 
     @Override
     protected Span buildSpan() {
-        Span span = tracer.buildSpan(DiscoveryConstant.SPAN_VALUE).start();
+        Span span = tracer.buildSpan(tracerSpanValue).start();
 
         StrategyTracerContext.getCurrentContext().setTraceId(createTraceId());
         StrategyTracerContext.getCurrentContext().setSpanId(createSpanId());
