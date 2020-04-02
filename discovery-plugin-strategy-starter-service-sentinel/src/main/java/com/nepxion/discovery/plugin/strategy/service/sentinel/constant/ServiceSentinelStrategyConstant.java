@@ -11,5 +11,6 @@ package com.nepxion.discovery.plugin.strategy.service.sentinel.constant;
  */
 
 public class ServiceSentinelStrategyConstant {
+    public static final String SPRING_APPLICATION_STRATEGY_SERVICE_SENTINEL_LIMIT_APP_ENABLED = "spring.application.strategy.service.sentinel.limit.app.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_SERVICE_SENTINEL_REQUEST_ORIGIN_KEY = "spring.application.strategy.service.sentinel.request.origin.key";
 }

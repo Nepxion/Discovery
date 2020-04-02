@@ -18,11 +18,12 @@ import org.springframework.context.annotation.Configuration;
 import com.alibaba.csp.sentinel.adapter.servlet.CommonFilter;
 import com.alibaba.csp.sentinel.adapter.servlet.callback.RequestOriginParser;
 import com.alibaba.csp.sentinel.annotation.aspectj.SentinelResourceAspect;
-import com.nepxion.discovery.plugin.strategy.sentinel.constant.SentinelStrategyConstant;
+import com.nepxion.discovery.plugin.strategy.service.sentinel.constant.ServiceSentinelStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.ServiceSentinelRequestOriginParser;
 
 @Configuration
 public class ServiceSentinelStrategyAutoConfiguration {
+    // 下述两个类是原生Sentinel功能的保证
     @Bean
     @ConditionalOnMissingBean
     public CommonFilter commonFilter() {
@@ -36,7 +37,7 @@ public class ServiceSentinelStrategyAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(value = SentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_ENABLED, matchIfMissing = false)
+    @ConditionalOnProperty(value = ServiceSentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SERVICE_SENTINEL_LIMIT_APP_ENABLED, matchIfMissing = false)
     public RequestOriginParser serviceSentinelRequestOriginParser() {
         return new ServiceSentinelRequestOriginParser();
     }
