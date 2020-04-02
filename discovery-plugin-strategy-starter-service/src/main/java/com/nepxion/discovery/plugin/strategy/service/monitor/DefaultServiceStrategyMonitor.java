@@ -10,14 +10,21 @@ package com.nepxion.discovery.plugin.strategy.service.monitor;
  */
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.aopalliance.intercept.MethodInvocation;
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.util.ClassUtil;
 import com.nepxion.discovery.plugin.strategy.monitor.StrategyMonitor;
 
 public class DefaultServiceStrategyMonitor extends StrategyMonitor implements ServiceStrategyMonitor {
+    @Autowired(required = false)
+    private List<ServiceStrategyMonitorAdapter> serviceStrategyMonitorAdapterList;
+
     @Override
     public void monitor(ServiceStrategyMonitorInterceptor interceptor, MethodInvocation invocation) {
         spanBuild();
@@ -25,9 +32,20 @@ public class DefaultServiceStrategyMonitor extends StrategyMonitor implements Se
         loggerOutput();
         loggerDebug();
 
+        String className = interceptor.getMethod(invocation).getDeclaringClass().getName();
+        String methodName = interceptor.getMethodName(invocation);
+        String[] methodParameterNames = interceptor.getMethodParameterNames(invocation);
+        Object[] arguments = interceptor.getArguments(invocation);
+        Map<String, Object> parameterMap = ClassUtil.getParameterMap(methodParameterNames, arguments);
+
         Map<String, String> contextMap = new HashMap<String, String>();
-        contextMap.put(DiscoveryConstant.CLASS, interceptor.getMethod(invocation).getDeclaringClass().getName());
-        contextMap.put(DiscoveryConstant.METHOD, interceptor.getMethodName(invocation));
+        contextMap.put(DiscoveryConstant.CLASS, className);
+        contextMap.put(DiscoveryConstant.METHOD, methodName);
+        if (CollectionUtils.isNotEmpty(serviceStrategyMonitorAdapterList)) {
+            for (ServiceStrategyMonitorAdapter serviceStrategyMonitorAdapter : serviceStrategyMonitorAdapterList) {
+                contextMap.putAll(serviceStrategyMonitorAdapter.getCustomizationMap(interceptor, invocation, parameterMap));
+            }
+        }
 
         spanOutput(contextMap);
     }

@@ -9,12 +9,11 @@ package com.nepxion.discovery.plugin.strategy.service.aop;
  * @version 1.0
  */
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.aopalliance.intercept.MethodInvocation;
-import org.apache.commons.lang3.ArrayUtils;
 
+import com.nepxion.discovery.common.util.ClassUtil;
 import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.context.RpcStrategyContext;
 import com.nepxion.matrix.proxy.aop.AbstractInterceptor;
@@ -22,28 +21,14 @@ import com.nepxion.matrix.proxy.aop.AbstractInterceptor;
 public class RpcStrategyInterceptor extends AbstractInterceptor {
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        Class<?> proxiedClass = getProxiedClass(invocation);
+        Class<?> clazz = getMethod(invocation).getDeclaringClass();
         String methodName = getMethodName(invocation);
         String[] methodParameterNames = getMethodParameterNames(invocation);
         Object[] arguments = getArguments(invocation);
-
-        Map<String, Object> parameterMap = new LinkedHashMap<String, Object>();
-        if (ArrayUtils.isNotEmpty(arguments)) {
-            for (int i = 0; i < arguments.length; i++) {
-                String parameterName = null;
-                if (ArrayUtils.isNotEmpty(methodParameterNames)) {
-                    parameterName = methodParameterNames[i];
-                } else {
-                    parameterName = String.valueOf(i);
-                }
-                Object argument = arguments[i];
-
-                parameterMap.put(parameterName, argument);
-            }
-        }
+        Map<String, Object> parameterMap = ClassUtil.getParameterMap(methodParameterNames, arguments);
 
         RpcStrategyContext context = RpcStrategyContext.getCurrentContext();
-        context.add(ServiceStrategyConstant.CLASS, proxiedClass);
+        context.add(ServiceStrategyConstant.CLASS, clazz);
         context.add(ServiceStrategyConstant.METHOD, methodName);
         context.add(ServiceStrategyConstant.PARAMETER_MAP, parameterMap);
 
