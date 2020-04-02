@@ -32,14 +32,18 @@ import com.nepxion.discovery.plugin.strategy.sentinel.parser.SentinelSystemRuleP
 public class SentinelStrategyAutoConfiguration {
     private static final Logger LOG = LoggerFactory.getLogger(SentinelStrategyAutoConfiguration.class);
 
-    @Autowired
+    @Autowired(required = false)
     private SentinelRuleLoader sentinelRuleLoader;
 
     @PostConstruct
     public void initialize() {
         LOG.info("-------------- Load Sentinel Config --------------");
 
-        sentinelRuleLoader.load();
+        if (sentinelRuleLoader != null) {
+            sentinelRuleLoader.load();
+        } else {
+            LOG.error("Sentinel rule loader isn't provided");
+        }
 
         LOG.info("--------------------------------------------------");
     }
