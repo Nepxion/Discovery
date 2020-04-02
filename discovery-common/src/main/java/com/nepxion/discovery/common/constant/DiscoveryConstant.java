@@ -106,6 +106,7 @@ public class DiscoveryConstant {
 
     public static final String CLASS = "class";
     public static final String METHOD = "method";
+    public static final String PARAMETER = "parameter"; 
     public static final String RETURN = "return";
     public static final String PARAMETER_MAP = "parameterMap";
     public static final String EVENT = "event";

@@ -14,5 +14,5 @@ import java.util.Map;
 import org.aopalliance.intercept.MethodInvocation;
 
 public interface ServiceStrategyMonitorAdapter {
-    Map<String, String> getCustomizationMap(ServiceStrategyMonitorInterceptor interceptor, MethodInvocation invocation, Map<String, Object> parameterMap);
+    Map<String, String> getCustomizationMap(ServiceStrategyMonitorInterceptor interceptor, MethodInvocation invocation, Map<String, Object> parameterMap, Object returnValue);
 }

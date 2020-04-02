@@ -16,12 +16,17 @@ import java.util.Map;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.util.ClassUtil;
 import com.nepxion.discovery.plugin.strategy.monitor.StrategyMonitor;
+import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 
 public class DefaultServiceStrategyMonitor extends StrategyMonitor implements ServiceStrategyMonitor {
+    @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_METHOD_CONTEXT_OUTPUT_ENABLED + ":false}")
+    protected Boolean methodContextOutputEnabled;
+
     @Autowired(required = false)
     private List<ServiceStrategyMonitorAdapter> serviceStrategyMonitorAdapterList;
 
@@ -36,17 +41,20 @@ public class DefaultServiceStrategyMonitor extends StrategyMonitor implements Se
 
         String className = interceptor.getMethod(invocation).getDeclaringClass().getName();
         String methodName = interceptor.getMethodName(invocation);
-        contextMap.put(DiscoveryConstant.CLASS, className);
-        contextMap.put(DiscoveryConstant.METHOD, methodName);
+        contextMap.put("* " + DiscoveryConstant.CLASS, className);
+        contextMap.put("* " + DiscoveryConstant.METHOD, methodName);
 
-        // 开关
-        String[] methodParameterNames = interceptor.getMethodParameterNames(invocation);
-        Object[] arguments = interceptor.getArguments(invocation);
-        Map<String, Object> parameterMap = ClassUtil.getParameterMap(methodParameterNames, arguments);
-        if (CollectionUtils.isNotEmpty(serviceStrategyMonitorAdapterList)) {
-            for (ServiceStrategyMonitorAdapter serviceStrategyMonitorAdapter : serviceStrategyMonitorAdapterList) {
-                contextMap.putAll(serviceStrategyMonitorAdapter.getCustomizationMap(interceptor, invocation, parameterMap));
-                contextMap.put(DiscoveryConstant.RETURN, returnValue.toString());
+        if (methodContextOutputEnabled) {
+            String[] methodParameterNames = interceptor.getMethodParameterNames(invocation);
+            Object[] arguments = interceptor.getArguments(invocation);
+            Map<String, Object> parameterMap = ClassUtil.getParameterMap(methodParameterNames, arguments);
+            if (CollectionUtils.isNotEmpty(serviceStrategyMonitorAdapterList)) {
+                for (ServiceStrategyMonitorAdapter serviceStrategyMonitorAdapter : serviceStrategyMonitorAdapterList) {
+                    Map<String, String> customizationMap = serviceStrategyMonitorAdapter.getCustomizationMap(interceptor, invocation, parameterMap, returnValue);
+                    for (Map.Entry<String, String> entry : customizationMap.entrySet()) {
+                        contextMap.put("* " + entry.getKey(), entry.getValue());
+                    }
+                }
             }
         }
 
