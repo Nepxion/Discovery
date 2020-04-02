@@ -27,7 +27,7 @@ public class StrategySkywalkingTracer extends AbstractStrategyTracer<Span> {
 
     @Override
     protected Span buildSpan() {
-        Span span = tracer.buildSpan(tracerSpanValue).start();
+        Span span = tracer.buildSpan(tracerSpanValue).startManual();
 
         StrategyTracerContext.getCurrentContext().setTraceId(createTraceId());
         StrategyTracerContext.getCurrentContext().setSpanId(createSpanId());
@@ -55,9 +55,10 @@ public class StrategySkywalkingTracer extends AbstractStrategyTracer<Span> {
         span.finish();
     }
 
+    //  该方法永远不会被用到
     @Override
     protected Span getActiveSpan() {
-        return tracer.activeSpan();
+        return null;
     }
 
     @Override
