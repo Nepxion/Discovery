@@ -13,8 +13,8 @@ import java.util.Map;
 
 import org.aopalliance.intercept.MethodInvocation;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.util.ClassUtil;
-import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.context.RpcStrategyContext;
 import com.nepxion.matrix.proxy.aop.AbstractInterceptor;
 
@@ -28,9 +28,9 @@ public class RpcStrategyInterceptor extends AbstractInterceptor {
         Map<String, Object> parameterMap = ClassUtil.getParameterMap(methodParameterNames, arguments);
 
         RpcStrategyContext context = RpcStrategyContext.getCurrentContext();
-        context.add(ServiceStrategyConstant.CLASS, clazz);
-        context.add(ServiceStrategyConstant.METHOD, methodName);
-        context.add(ServiceStrategyConstant.PARAMETER_MAP, parameterMap);
+        context.add(DiscoveryConstant.CLASS, clazz);
+        context.add(DiscoveryConstant.METHOD, methodName);
+        context.add(DiscoveryConstant.PARAMETER_MAP, parameterMap);
 
         try {
             return invocation.proceed();
