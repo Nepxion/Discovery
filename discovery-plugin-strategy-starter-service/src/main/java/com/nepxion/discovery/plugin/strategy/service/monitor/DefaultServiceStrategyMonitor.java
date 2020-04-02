@@ -26,24 +26,27 @@ public class DefaultServiceStrategyMonitor extends StrategyMonitor implements Se
     private List<ServiceStrategyMonitorAdapter> serviceStrategyMonitorAdapterList;
 
     @Override
-    public void monitor(ServiceStrategyMonitorInterceptor interceptor, MethodInvocation invocation) {
+    public void monitor(ServiceStrategyMonitorInterceptor interceptor, MethodInvocation invocation, Object returnValue) {
         spanBuild();
 
         loggerOutput();
         loggerDebug();
 
+        Map<String, String> contextMap = new HashMap<String, String>();
+
         String className = interceptor.getMethod(invocation).getDeclaringClass().getName();
         String methodName = interceptor.getMethodName(invocation);
+        contextMap.put(DiscoveryConstant.CLASS, className);
+        contextMap.put(DiscoveryConstant.METHOD, methodName);
+
+        // 开关
         String[] methodParameterNames = interceptor.getMethodParameterNames(invocation);
         Object[] arguments = interceptor.getArguments(invocation);
         Map<String, Object> parameterMap = ClassUtil.getParameterMap(methodParameterNames, arguments);
-
-        Map<String, String> contextMap = new HashMap<String, String>();
-        contextMap.put(DiscoveryConstant.CLASS, className);
-        contextMap.put(DiscoveryConstant.METHOD, methodName);
         if (CollectionUtils.isNotEmpty(serviceStrategyMonitorAdapterList)) {
             for (ServiceStrategyMonitorAdapter serviceStrategyMonitorAdapter : serviceStrategyMonitorAdapterList) {
                 contextMap.putAll(serviceStrategyMonitorAdapter.getCustomizationMap(interceptor, invocation, parameterMap));
+                contextMap.put(DiscoveryConstant.RETURN, returnValue.toString());
             }
         }
 

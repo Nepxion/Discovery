@@ -28,14 +28,16 @@ public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         try {
+            Object returnValue = invocation.proceed();
+
             // 调用链监控
             if (CollectionUtils.isNotEmpty(serviceStrategyMonitorList)) {
                 for (ServiceStrategyMonitor serviceStrategyMonitor : serviceStrategyMonitorList) {
-                    serviceStrategyMonitor.monitor(this, invocation);
+                    serviceStrategyMonitor.monitor(this, invocation, returnValue);
                 }
             }
 
-            return invocation.proceed();
+            return returnValue;
         } catch (Throwable e) {
             if (CollectionUtils.isNotEmpty(serviceStrategyMonitorList)) {
                 for (ServiceStrategyMonitor serviceStrategyMonitor : serviceStrategyMonitorList) {
