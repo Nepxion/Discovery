@@ -89,10 +89,10 @@
 			"description": "Strategy tracer span group value."
 		},
 		{
-			"name": "spring.application.strategy.tracer.span.tag.component.value",
+			"name": "spring.application.strategy.tracer.span.tag.plugin.value",
 			"type": "java.lang.String",
 			"defaultValue": "Nepxion Discovery",
-			"description": "Strategy tracer span group tag component value."
+			"description": "Strategy tracer span group tag plugin value."
 		}
 	]
 }

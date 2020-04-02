@@ -37,7 +37,7 @@ public abstract class SentinelTracerProcessorSlotEntryCallback<S> implements Pro
 
         PluginAdapter pluginAdapter = PluginContextAware.getStaticApplicationContext().getBean(PluginAdapter.class);
 
-        outputSpan(span, DiscoveryConstant.SPAN_TAG_COMPONENT_NAME, context.getName());
+        outputSpan(span, DiscoveryConstant.SPAN_TAG_PLUGIN_NAME, context.getName());
         outputSpan(span, DiscoveryConstant.N_D_SERVICE_GROUP, pluginAdapter.getGroup());
         outputSpan(span, DiscoveryConstant.N_D_SERVICE_TYPE, pluginAdapter.getServiceType());
         String serviceAppId = pluginAdapter.getServiceAppId();
