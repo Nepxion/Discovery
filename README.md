@@ -15,7 +15,7 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
 - 支持阿里巴巴Nacos、Eureka、Consul和Zookeeper四个服务注册发现中心
 - 支持阿里巴巴Nacos、携程Apollo和Redis三个远程配置中心
 - 支持阿里巴巴Sentinel和Hystrix两个熔断隔离限流降级中间件
-- 支持Uber Jaeger和Twitter Zipkin等遵循Opentracing规范的调用链中间件
+- 支持Uber Jaeger、Twitter Zipkin、Skywalking等符合OpenTracing和OpenTelemetry调用链中间件
 - 支持Prometheus、Grafana和Spring Boot Admin监控中间件
 - 支持Spring Cloud Gateway、Zuul网关和微服务三大模块的灰度发布和路由等一系列功能
 - 支持和兼容Spring Cloud Edgware版、Finchley版、Greenwich版和Hoxton版
@@ -24,8 +24,8 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
 - 灰度发布。基于规则订阅的全链路灰度发布，包括切换发布（版本匹配发布、区域匹配发布）和平滑发布（版本权重发布、区域权重发布）
 - 灰度路由。基于Header传递的全链路灰度路由，包括切换路由（版本匹配路由、区域匹配路由、机器IP和端口匹配路由）和平滑路由（版本权重路由、区域权重路由）。可以在网关过滤器、前端界面、负载均衡策略类三个地方实现路由功能
 - 组合式灰度发布和路由，灰度发布和灰度路由的多种组合式规则和策略，前端灰度&网关灰度路由组合式策略
-- 服务监控。包括调用链监控（Tracing）和指标监控（Metrics），CNCF技术委员会通过OpenTelemetry规范整合基于Tracing的OpenTracing规范（官方推荐Jaeger做Backend）和基于Metrics的OpenSensus规范（官方推荐Prometheus做Backend）
-    - 调用链监控（Tracing）包括Header方式、Opentracing方式、日志方式等单个或者组合式的全链路灰度调用链，支持对Sentinel自动埋点。Opentracing方式不支持Edgware版（Spring Boot 1.x.x）
+- 服务监控。包括调用链监控（Tracing）、日志监控（Logging）、指标监控（Metrics），CNCF技术委员会通过OpenTelemetry规范整合基于Tracing的OpenTracing规范（官方推荐Jaeger做Backend）和基于Metrics的OpenSensus规范（官方推荐Prometheus做Backend）。框架支持OpenTracing、OpenTelemetry、Jaeger、Skywalking
+    - 调用链监控（Tracing）包括Header方式、调用链方式、日志方式等单个或者组合式的全链路灰度调用链，支持对Sentinel自动埋点。调用链方式不支持Edgware版（Spring Boot 1.x.x）
     - 指标监控（Metrics）包括Prometheus、Grafana、Spring Boot Admin
 - 服务隔离。基于组和黑/白名单的全链路服务隔离，包括注册准入隔离（基于黑/白名单，包括组和IP地址的准入、最大注册数限制的准入）、消费端隔离（基于组的负载均衡的隔离、基于黑/白名单的IP地址的隔离）和提供端隔离（基于组的Header传值策略的隔离）
 - 环境隔离和路由。基于元数据Metadata的env参数进行隔离，当调用端实例和提供端实例的元数据Metadata环境配置值相等才能调用。环境隔离下，调用端实例找不到符合条件的提供端实例，把流量路由到一个通用或者备份环境。支持网关独立部署和非独立部署两种场景下，动态调度子环境的能力
@@ -47,7 +47,7 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
 
 [**Spring Cloud Alibaba**] 阿里巴巴中间件部门开发的Spring Cloud增强套件，致力于提供微服务开发的一站式解决方案。此项目包含开发分布式应用微服务的必需组件，方便开发者通过Spring Cloud编程模型轻松使用这些组件来开发分布式应用服务。依托Spring Cloud Alibaba，只需要添加一些注解和少量配置，就可以将Spring Cloud应用接入阿里微服务解决方案，通过阿里中间件来迅速搭建分布式应用系统
 
-[**OpenTracing**] OpenTracing已进入CNCF，正在为全球的分布式追踪系统提供统一的概念、规范、架构和数据标准。它通过提供平台无关、厂商无关的API，使得开发人员能够方便的添加（或更换）追踪系统的实现。对于存在多样化的技术栈共存的调用链中，Opentracing适配Java、C、Go和.Net等技术栈，实现全链路分布式追踪功能。迄今为止，Uber Jaeger、Twitter Zipkin和Apache Skywalking已经适配了Opentracing规范
+[**OpenTracing**] OpenTracing已进入CNCF，正在为全球的分布式追踪系统提供统一的概念、规范、架构和数据标准。它通过提供平台无关、厂商无关的API，使得开发人员能够方便的添加（或更换）追踪系统的实现。对于存在多样化的技术栈共存的调用链中，OpenTracing适配Java、C、Go和.Net等技术栈，实现全链路分布式追踪功能。迄今为止，Uber Jaeger、Twitter Zipkin和Apache Skywalking已经适配了OpenTracing规范
 
 本框架成为阿里巴巴中间件Nacos和Spring Cloud Alibaba项目的相关开源
 <img src="https://github.com/HaojunRen/Docs/raw/master/discovery-doc/AwardNacos1.jpg" alt="Nacos" width="50%"><img src="https://github.com/HaojunRen/Docs/raw/master/discovery-doc/AwardSCA1.jpg" alt="Spring Cloud Alibaba" width="50%">
@@ -158,7 +158,7 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
 | 6.0.0 | master | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status1.png) | Hoxton<br>Greenwich<br>Finchley | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
 | ~~5.6.0~~ | ~~5.x.x~~ | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status2.png) | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
 | ~~4.15.0~~ | ~~4.x.x~~ | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status2.png) | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
-| 3.15.0 | 3.x.x | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status1.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
+| 3.16.0 | master-3.x.x | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status1.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
 | ~~2.0.x~~ | ~~2.x.x~~ | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status3.png) | Dalston | 1.x.x.RELEASE | N/A |
 | ~~1.0.x~~ | ~~1.x.x~~ | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status3.png) | Camden | 1.x.x.RELEASE | N/A |
 
@@ -430,15 +430,17 @@ Spring Boot Admin监控平台
 | discovery-plugin-strategy-sentinel-starter-local | 路由策略的Sentinel Local Starter |
 | discovery-plugin-strategy-sentinel-starter-apollo | 路由策略的Sentinel Apollo Starter |
 | discovery-plugin-strategy-sentinel-starter-nacos | 路由策略的Sentinel Nacos Starter |
-| discovery-plugin-strategy-opentracing | 调用链的opentracing |
+| discovery-plugin-strategy-sentinel-starter-opentracing | 路由策略的Sentinel OpenTracing Starter |
+| discovery-plugin-strategy-sentinel-starter-opentelemetry | 路由策略的Sentinel OpenTelemetry Starter |
+| discovery-plugin-strategy-sentinel-starter-skywalking | 路由策略的Sentinel Skywalking Starter |
 | discovery-plugin-strategy-starter-service | 路由策略的Service Starter |
 | discovery-plugin-strategy-starter-service-sentinel | 路由策略的Service Sentinel Starter |
-| discovery-plugin-strategy-starter-service-opentracing | 调用链的Service Opentracing Starter |
 | discovery-plugin-strategy-starter-zuul | 路由策略的Zuul Starter |
-| discovery-plugin-strategy-starter-zuul-opentracing | 调用链的Zuul Opentracing Starter |
 | discovery-plugin-strategy-starter-gateway | 路由策略的Spring Cloud Gateway Starter |
-| discovery-plugin-strategy-starter-gateway-opentracing | 调用链的Spring Cloud Gateway Opentracing Starter |
 | discovery-plugin-strategy-starter-hystrix | 路由策略下，Hystrix做线程模式的服务隔离必须引入的插件 Starter |
+| discovery-plugin-strategy-starter-opentracing | 路由策略的Spring Cloud OpenTracing Starter |
+| discovery-plugin-strategy-starter-opentelemetry | 路由策略的Spring Cloud OpenTelemetry Starter |
+| discovery-plugin-strategy-starter-skywalking | 路由策略的Spring Cloud Skywalking Starter |
 | discovery-plugin-test-starter | 自动化测试 Starter |
 | discovery-console | 控制平台，集成接口给UI |
 | discovery-console-starter-apollo | 控制平台的Apollo Starter |
@@ -565,29 +567,14 @@ spring.application.discovery.control.enabled=false
 </dependency>
 ```
 
-调用链Opentracing功能引入，支持微服务端、网关Zuul端和网关Spring Cloud Gateway端。注意，该模块支持F版或更高版本
+调用链功能引入，包含三大调用链，支持微服务端、网关Zuul端和网关Spring Cloud Gateway端。注意，该模块支持F版或更高版本，且不能同时引入
 ```xml
 微服务端引入
-[选择引入] 调用链Opentracing，如需要，请引入
 <dependency>
     <groupId>com.nepxion</groupId>
-    <artifactId>discovery-plugin-strategy-starter-service-opentracing</artifactId>
-    <version>${discovery.version}</version>
-</dependency>
-
-网关Zuul端引入
-[选择引入] 调用链Opentracing，如需要，请引入
-<dependency>
-    <groupId>com.nepxion</groupId>
-    <artifactId>discovery-plugin-strategy-starter-zuul-opentracing</artifactId>
-    <version>${discovery.version}</version>
-</dependency>
-
-网关Spring Cloud Gateway端引入
-[选择引入] 调用链Opentracing，如需要，请引入
-<dependency>
-    <groupId>com.nepxion</groupId>
-    <artifactId>discovery-plugin-strategy-starter-gateway-opentracing</artifactId>
+    <artifactId>discovery-plugin-strategy-sentinel-starter-opentracing</artifactId>
+    <artifactId>discovery-plugin-strategy-sentinel-starter-opentelemetry</artifactId>	
+    <artifactId>discovery-plugin-strategy-sentinel-starter-skywalking</artifactId>
     <version>${discovery.version}</version>
 </dependency>
 ```
@@ -603,7 +590,7 @@ spring.application.discovery.control.enabled=false
 
 ### 兼容
 版本兼容情况
-- 3.x.x版本不支持Spring Cloud Gateway和Opentracing，其它版本都支持
+- 3.x.x版本不支持Spring Cloud Gateway和调用链，其它版本都支持
 
 中间件兼容情况
 - Consul
@@ -1304,9 +1291,9 @@ spring.application.strategy.tracer.method.context.output.enabled=true
 spring.application.strategy.tracer.span.value=NEPXION
 # 显示在调用链界面上灰度Span Tag的插件名称，建议改成具有公司特色的框架产品的描述。缺失则默认为Nepxion Discovery
 spring.application.strategy.tracer.span.tag.plugin.value=Nepxion Discovery
-# 启动和关闭Sentinel调用链上规则在Span上的输出，主意：原生的Sentinel不是Spring技术栈，下面参数必须通过-D方式或者System.setProperty方式等设置进去。缺失则默认为true
+# 启动和关闭Sentinel调用链上规则在Span上的输出，注意：原生的Sentinel不是Spring技术栈，下面参数必须通过-D方式或者System.setProperty方式等设置进去。缺失则默认为true
 spring.application.strategy.tracer.sentinel.rule.output.enabled=true
-# 启动和关闭Sentinel调用链上方法入参在Span上的输出，主意：原生的Sentinel不是Spring技术栈，下面参数必须通过-D方式或者System.setProperty方式等设置进去。缺失则默认为false
+# 启动和关闭Sentinel调用链上方法入参在Span上的输出，注意：原生的Sentinel不是Spring技术栈，下面参数必须通过-D方式或者System.setProperty方式等设置进去。缺失则默认为false
 spring.application.strategy.tracer.sentinel.args.output.enabled=true
 
 # 开启服务端实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
@@ -1415,9 +1402,9 @@ spring.application.strategy.tracer.rule.output.enabled=true
 spring.application.strategy.tracer.span.value=NEPXION
 # 显示在调用链界面上灰度Span Tag的插件名称，建议改成具有公司特色的框架产品的描述。缺失则默认为Nepxion Discovery
 spring.application.strategy.tracer.span.tag.plugin.value=Nepxion Discovery
-# 启动和关闭Sentinel调用链上规则在Span上的输出，主意：原生的Sentinel不是Spring技术栈，下面参数必须通过-D方式或者System.setProperty方式等设置进去。缺失则默认为true
+# 启动和关闭Sentinel调用链上规则在Span上的输出，注意：原生的Sentinel不是Spring技术栈，下面参数必须通过-D方式或者System.setProperty方式等设置进去。缺失则默认为true
 spring.application.strategy.tracer.sentinel.rule.output.enabled=true
-# 启动和关闭Sentinel调用链上方法入参在Span上的输出，主意：原生的Sentinel不是Spring技术栈，下面参数必须通过-D方式或者System.setProperty方式等设置进去。缺失则默认为false
+# 启动和关闭Sentinel调用链上方法入参在Span上的输出，注意：原生的Sentinel不是Spring技术栈，下面参数必须通过-D方式或者System.setProperty方式等设置进去。缺失则默认为false
 spring.application.strategy.tracer.sentinel.args.output.enabled=true
 
 # 开启Spring Cloud Gateway网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
@@ -1509,9 +1496,9 @@ spring.application.strategy.tracer.rule.output.enabled=true
 spring.application.strategy.tracer.span.value=NEPXION
 # 显示在调用链界面上灰度Span Tag的插件名称，建议改成具有公司特色的框架产品的描述。缺失则默认为Nepxion Discovery
 spring.application.strategy.tracer.span.tag.plugin.value=Nepxion Discovery
-# 启动和关闭Sentinel调用链上规则在Span上的输出，主意：原生的Sentinel不是Spring技术栈，下面参数必须通过-D方式或者System.setProperty方式等设置进去。缺失则默认为true
+# 启动和关闭Sentinel调用链上规则在Span上的输出，注意：原生的Sentinel不是Spring技术栈，下面参数必须通过-D方式或者System.setProperty方式等设置进去。缺失则默认为true
 spring.application.strategy.tracer.sentinel.rule.output.enabled=true
-# 启动和关闭Sentinel调用链上方法入参在Span上的输出，主意：原生的Sentinel不是Spring技术栈，下面参数必须通过-D方式或者System.setProperty方式等设置进去。缺失则默认为false
+# 启动和关闭Sentinel调用链上方法入参在Span上的输出，注意：原生的Sentinel不是Spring技术栈，下面参数必须通过-D方式或者System.setProperty方式等设置进去。缺失则默认为false
 spring.application.strategy.tracer.sentinel.args.output.enabled=true
 
 # 开启Zuul网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
