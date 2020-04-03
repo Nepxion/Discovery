@@ -77,7 +77,7 @@ public class StrategySkywalkingTracer extends AbstractStrategyTracer<Span> {
         }
 
         try {
-            Object traceId = ReflectionUtils.invokeStaticMethod("org.apache.skywalking.apm.agent.core.context.ContextManager", "getGlobalTraceId");
+            Object traceId = StrategySkywalkingTracerResolver.invokeStaticMethod("org.apache.skywalking.apm.agent.core.context.ContextManager", "getGlobalTraceId");
             if (traceId != null) {
                 return traceId.toString();
             }
@@ -93,13 +93,13 @@ public class StrategySkywalkingTracer extends AbstractStrategyTracer<Span> {
         }
 
         try {
-            Object traceContext = ReflectionUtils.invokeStaticMethod("org.apache.skywalking.apm.agent.core.context.ContextManager", "get");
+            Object traceContext = StrategySkywalkingTracerResolver.invokeStaticMethod("org.apache.skywalking.apm.agent.core.context.ContextManager", "get");
             if (traceContext != null) {
                 if (traceContext.getClass().getName().equals("org.apache.skywalking.apm.agent.core.context.TracingContext")) {
-                    Field fieldSegment = ReflectionUtils.findField(traceContext.getClass(), "segment");
-                    Object segment = ReflectionUtils.getField(fieldSegment, traceContext);
-                    Field fieldSegmentId = ReflectionUtils.findField(segment.getClass(), "traceSegmentId");
-                    String segmentId = ReflectionUtils.getField(fieldSegmentId, segment).toString();
+                    Field fieldSegment = StrategySkywalkingTracerResolver.findField(traceContext.getClass(), "segment");
+                    Object segment = StrategySkywalkingTracerResolver.getField(fieldSegment, traceContext);
+                    Field fieldSegmentId = StrategySkywalkingTracerResolver.findField(segment.getClass(), "traceSegmentId");
+                    String segmentId = StrategySkywalkingTracerResolver.getField(fieldSegmentId, segment).toString();
 
                     return segmentId;
                 } else {

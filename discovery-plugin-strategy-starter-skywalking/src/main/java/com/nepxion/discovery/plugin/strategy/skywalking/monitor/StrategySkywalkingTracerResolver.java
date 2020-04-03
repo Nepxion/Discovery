@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public abstract class ReflectionUtils {
+public abstract class StrategySkywalkingTracerResolver {
     private static final Method[] NO_METHODS = new Method[0];
     private static final Field[] NO_FIELDS = new Field[0];
     private static final Map<Class<?>, Method[]> declaredMethodsCache = new ConcurrentHashMap<>(256);
@@ -44,7 +44,7 @@ public abstract class ReflectionUtils {
         }
     };
 
-    public ReflectionUtils() {
+    public StrategySkywalkingTracerResolver() {
     }
 
     public static Field findField(Class<?> clazz, String name) {
@@ -379,7 +379,7 @@ public abstract class ReflectionUtils {
                     methods.remove(methodBeingOverriddenWithCovariantReturnType);
                 }
 
-                if (!knownSignature && !ReflectionUtils.isCglibRenamedMethod(method)) {
+                if (!knownSignature && !StrategySkywalkingTracerResolver.isCglibRenamedMethod(method)) {
                     methods.add(method);
                 }
 
@@ -501,7 +501,7 @@ public abstract class ReflectionUtils {
         } else {
             doWithFields(src.getClass(), new FieldCallback() {
                 public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
-                    ReflectionUtils.makeAccessible(field);
+                    StrategySkywalkingTracerResolver.makeAccessible(field);
                     Object srcValue = field.get(src);
                     field.set(dest, srcValue);
                 }
