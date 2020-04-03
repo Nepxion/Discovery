@@ -215,6 +215,7 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
     - [网关端全链路路由策略的灰度发布规则](#网关端全链路路由策略的灰度发布规则)
     - [自定义的灰度发布规则](#自定义的灰度发布规则)
     - [动态改变规则](#动态改变规则)
+    - [动态改变版本](#动态改变版本)
 - [策略定义](#策略定义)
     - [版本匹配的灰度路由策略](#版本匹配的灰度路由策略)
     - [区域匹配的灰度路由策略](#区域匹配的灰度路由策略)
@@ -327,6 +328,8 @@ Spring Boot Admin监控平台
     - 上述场景中，我们也可以通过配给不同区域的权重（流量比例），根据需求，A访问B的流量在B1和B2（B1和B2所属不同区域）进行调拨
 - 多数据源的数据库灰度控制
     - 我们事先为微服务配置多套数据源，通过灰度发布实时切换数据源
+- 动态改变微服务版本
+    - 在A/B测试中，通过动态改变版本，不重启微服务，达到访问版本的路径改变
 - 路由策略的灰度控制
     - 在业务REST调用上，在Header上传入服务名和版本对应关系的Json字符串，后端若干个服务会把请求路由到指定版本的服务器上
     - 在业务REST调用上，在Header上传入区域（region）名，后端若干个服务会把请求路由到指定区域（region）名的服务器上
@@ -349,6 +352,7 @@ Spring Boot Admin监控平台
 - 实现用户业务层面的控制
     - 使用者可以通过订阅业务参数的变化，实现特色化的灰度发布，例如，多数据源的数据库切换的灰度发布
 - 实现灰度发布
+    - 通过版本的动态改变，实现切换灰度发布
     - 通过版本匹配规则的改变，实现切换灰度发布
     - 通过版本权重规则的改变，实现平滑灰度发布
     - 通过区域匹配规则的改变，实现切换灰度发布
@@ -357,6 +361,7 @@ Spring Boot Admin监控平台
 - 实现通过事件总线机制（EventBus）的功能，实现发布/订阅功能
     - 对接远程配置中心，集成Nacos和Redis，异步接受远程配置中心主动推送规则信息，动态改变微服务的规则
     - 异步接受Rest主动推送规则信息，动态改变微服务的规则，支持同步和异步推送两种方式
+    - 动态改变微服务的版本，支持同步和异步推送两种方式
     - 在服务注册层面的控制中，一旦禁止注册的条件触发，主动推送异步事件，以便使用者订阅
 - 实现通过Listener机制进行扩展
     - 使用者可以对服务注册发现核心事件进行监听
@@ -376,11 +381,13 @@ Spring Boot Admin监控平台
 - IP地址，即根据微服务上报的它所在机器的IP地址。本系统内部强制以IP地址上报，禁止HostName上报，杜绝Spring Cloud应用在Docker或者Kubernetes部署时候出现问题
 - 规则定义和策略定义，规则定义即通过XML或者Json定义既有格式的规则；策略定义即通过Http Header的策略方式传递路由信息
 - 本地版本，即初始化读取本地配置文件获取的版本，也可以是第一次读取远程配置中心获取的版本。本地版本和初始版本是同一个概念
+- 动态版本，即灰度发布时的版本。动态版本和灰度版本是同一个概念
 - 本地规则，即初始化读取本地配置文件获取的规则，也可以是第一次读取远程配置中心获取的规则。本地规则和初始规则是同一个概念
 - 动态规则，即灰度发布时的规则。动态规则和灰度规则是同一个概念
-- 事件总线，即基于Google Guava的EventBus构建的组件。通过事件总线可以推送动态规则的更新和删除
+- 事件总线，即基于Google Guava的EventBus构建的组件。通过事件总线可以推送动态版本和动态规则的更新和删除
 - 远程配置中心，即可以存储规则配置XML格式的配置中心，可以包括不限于Nacos，Redis，Apollo，DisConf，Spring Cloud Config
 - 配置（Config）和规则（Rule），在本系统中属于同一个概念，例如更新配置，即更新规则；例如远程配置中心存储的配置，即规则XML
+- 服务端口和管理端口，即服务端口指在配置文件的server.port值，管理端口指management.port（E版）值或者management.server.port（F版或以上）值
 
 ## 架构工程
 ### 架构
@@ -434,6 +441,7 @@ Spring Boot Admin监控平台
 | discovery-plugin-strategy-starter-opentracing | 路由策略的Spring Cloud OpenTracing Starter |
 | discovery-plugin-strategy-starter-opentelemetry | 路由策略的Spring Cloud OpenTelemetry Starter |
 | discovery-plugin-strategy-starter-skywalking | 路由策略的Spring Cloud Skywalking Starter |
+| discovery-plugin-strategy-starter-agent | 路由策略的Spring Cloud Agent Starter |
 | discovery-plugin-test-starter | 自动化测试 Starter |
 | discovery-console | 控制平台，集成接口给UI |
 | discovery-console-starter-apollo | 控制平台的Apollo Starter |
@@ -568,6 +576,15 @@ spring.application.discovery.control.enabled=false
     <artifactId>discovery-plugin-strategy-sentinel-starter-opentracing</artifactId>
     <artifactId>discovery-plugin-strategy-sentinel-starter-opentelemetry</artifactId>	
     <artifactId>discovery-plugin-strategy-sentinel-starter-skywalking</artifactId>
+    <version>${discovery.version}</version>
+</dependency>
+```
+
+异步跨线程Agent的引入，解决灰度路由Header传递是在Hystrix线程池隔离模式或者线程池异步调用Feign或者RestTemplate在线程上下文切换时候丢失Header的问题
+```xml
+<dependency>
+    <groupId>com.nepxion</groupId>
+    <artifactId>discovery-plugin-strategy-starter-agent</artifactId>
     <version>${discovery.version}</version>
 </dependency>
 ```
@@ -997,6 +1014,16 @@ spring.application.strategy.zuul.header.priority=false
     - 局部推送是基于Group+ServiceId来推送的，就是同一个Group下同一个ServiceId的服务集群独立拥有一个规则配置，如果采用这种方式，需要在每个微服务集群下做一次灰度发布。优点是独立封闭，本服务集群灰度发布失败不会影响到其它服务集群，缺点是相对繁琐
     - 全局推送是基于Group来推送的（接口参数中的ServiceId由Group来代替），就是同一个Group下所有服务集群共同拥有一个规则配置，如果采用这种方式，只需要做一次灰度发布，所有服务集群都生效。优点是非常简便，缺点具有一定风险，因为这个规则配置掌握着所有服务集群的命运。全局推送用于全链路灰度发布
     - 如果既执行了全局推送，又执行了局部推送，那么，当服务运行中，优先接受最后一次推送的规则；当服务重新启动的时候，优先读取局部推送的规则
+
+### 动态改变版本
+注意：动态改变版本，只允许发生在调用链的起点，例如网关，如果没有网关，则取第一个服务，其它层级的服务不能使用该功能
+
+微服务启动的时候，由于版本已经写死在application.properties里，使用者希望改变一下版本，而不重启微服务，达到访问版本的路径改变
+- 版本分为本地版本和动态版本
+- 本地版本是通过在application.properties里配置的，在微服务启动的时候读取
+- 动态版本是通过POST方式动态设置
+- 多版本灰度获取版本值的时候，先获取动态版本，如果不存在，再获取本地版本
+- 版本不会持久化到远程配置中心，一旦微服务死掉后，再次启动，拿到的还是本地版本，所以动态改变版本策略属于临时灰度发布手段
 
 ## 策略定义
 策略是通过REST或者RPC调用传递Header或者参数，达到路由策略的目的。使用者可以实现跟业务有关的路由策略，根据业务参数的不同，负载均衡到不同的服务器，其核心代码参考discovery-plugin-strategy以及它的扩展
