@@ -47,28 +47,58 @@
 			"description": "Whether strategy provider isolation is enabled."
 		},
 		{
-			"name": "spring.application.strategy.trace.enabled",
+			"name": "spring.application.strategy.monitor.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": false,
-			"description": "Whether strategy trace is enabled."
+			"description": "Whether strategy monitor is enabled. If disabled, tracer and logger are all disabled"
 		},
 		{
-			"name": "spring.application.strategy.trace.logger.enabled",
+			"name": "spring.application.strategy.logger.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": false,
-			"description": "Whether strategy trace logger is enabled."
+			"description": "Whether strategy logger is enabled."
 		},
 		{
-			"name": "spring.application.strategy.trace.logger.mdc.key.shown",
+			"name": "spring.application.strategy.logger.mdc.key.shown",
 			"type": "java.lang.Boolean",
 			"defaultValue": true,
-			"description": "Whether strategy trace logger mdc key is shown."
+			"description": "Whether strategy logger mdc key is shown."
 		},
 		{
-			"name": "spring.application.strategy.trace.debug.enabled",
+			"name": "spring.application.strategy.logger.debug.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": false,
-			"description": "Whether strategy trace debug is enabled."
+			"description": "Whether strategy logger debug is enabled."
+		},
+		{
+			"name": "spring.application.strategy.tracer.separate.span.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether strategy tracer separate span is enabled."
+		},
+		{
+			"name": "spring.application.strategy.tracer.rule.output.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether strategy tracer rule output is enabled."
+		},
+		{
+			"name": "spring.application.strategy.tracer.method.context.output.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": false,
+			"description": "Whether strategy tracer method context output is enabled."
+		},
+		{
+			"name": "spring.application.strategy.tracer.span.value",
+			"type": "java.lang.String",
+			"defaultValue": "NEPXION",
+			"description": "Strategy tracer span group value."
+		},
+		{
+			"name": "spring.application.strategy.tracer.span.tag.plugin.value",
+			"type": "java.lang.String",
+			"defaultValue": "Nepxion Discovery",
+			"description": "Strategy tracer span group tag plugin value."
 		}
 	]
 }

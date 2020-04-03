@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.service.tracer;
+package com.nepxion.discovery.plugin.strategy.service.monitor;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -18,7 +18,7 @@ import com.nepxion.matrix.proxy.aop.DefaultAutoScanProxy;
 import com.nepxion.matrix.proxy.mode.ProxyMode;
 import com.nepxion.matrix.proxy.mode.ScanMode;
 
-public class ServiceStrategyTracerAutoScanProxy extends DefaultAutoScanProxy {
+public class ServiceStrategyMonitorAutoScanProxy extends DefaultAutoScanProxy {
     private static final long serialVersionUID = 2204522253627697121L;
 
     private String[] commonInterceptorNames;
@@ -26,14 +26,14 @@ public class ServiceStrategyTracerAutoScanProxy extends DefaultAutoScanProxy {
     @SuppressWarnings("rawtypes")
     private Class[] classAnnotations;
 
-    public ServiceStrategyTracerAutoScanProxy(String scanPackages) {
+    public ServiceStrategyMonitorAutoScanProxy(String scanPackages) {
         super(scanPackages, ProxyMode.BY_CLASS_ANNOTATION_ONLY, ScanMode.FOR_CLASS_ANNOTATION_ONLY);
     }
 
     @Override
     protected String[] getCommonInterceptorNames() {
         if (commonInterceptorNames == null) {
-            commonInterceptorNames = new String[] { "serviceStrategyTracerInterceptor" };
+            commonInterceptorNames = new String[] { "serviceStrategyMonitorInterceptor" };
         }
 
         return commonInterceptorNames;

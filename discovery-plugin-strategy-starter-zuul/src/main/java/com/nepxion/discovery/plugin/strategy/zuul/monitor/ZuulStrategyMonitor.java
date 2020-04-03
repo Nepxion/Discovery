@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.zuul.tracer;
+package com.nepxion.discovery.plugin.strategy.zuul.monitor;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -11,8 +11,8 @@ package com.nepxion.discovery.plugin.strategy.zuul.tracer;
 
 import com.netflix.zuul.context.RequestContext;
 
-public interface ZuulStrategyTracer {
-    void trace(RequestContext context);
+public interface ZuulStrategyMonitor {
+    void monitor(RequestContext context);
 
     void release(RequestContext context);
 }

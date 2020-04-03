@@ -16,9 +16,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledStrategy;
-import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyContextHolder;
 import com.netflix.loadbalancer.Server;
 
@@ -82,8 +82,8 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
         String filterVersion = "1.0";
         String filterBusinessValue = "abc";
         if (StringUtils.equals(serviceId, filterServiceId) && StringUtils.equals(version, filterVersion)) {
-            if (attributes.containsKey(ServiceStrategyConstant.PARAMETER_MAP)) {
-                Map<String, Object> parameterMap = (Map<String, Object>) attributes.get(ServiceStrategyConstant.PARAMETER_MAP);
+            if (attributes.containsKey(DiscoveryConstant.PARAMETER_MAP)) {
+                Map<String, Object> parameterMap = (Map<String, Object>) attributes.get(DiscoveryConstant.PARAMETER_MAP);
                 String value = parameterMap.get("value").toString();
                 if (StringUtils.isNotEmpty(value) && value.contains(filterBusinessValue)) {
                     LOG.info("过滤条件：当serviceId={} && version={} && 业务参数含有'{}'的时候，不能被Ribbon负载均衡到", filterServiceId, filterVersion, filterBusinessValue);

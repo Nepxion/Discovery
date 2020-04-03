@@ -10,6 +10,7 @@ package com.nepxion.discovery.plugin.strategy.service.sentinel.configuration;
  * @version 1.0
  */
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,23 +18,26 @@ import org.springframework.context.annotation.Configuration;
 import com.alibaba.csp.sentinel.adapter.servlet.CommonFilter;
 import com.alibaba.csp.sentinel.adapter.servlet.callback.RequestOriginParser;
 import com.alibaba.csp.sentinel.annotation.aspectj.SentinelResourceAspect;
-import com.nepxion.discovery.plugin.strategy.sentinel.constant.SentinelStrategyConstant;
+import com.nepxion.discovery.plugin.strategy.service.sentinel.constant.ServiceSentinelStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.ServiceSentinelRequestOriginParser;
 
 @Configuration
-@ConditionalOnProperty(value = SentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_ENABLED, matchIfMissing = false)
 public class ServiceSentinelStrategyAutoConfiguration {
+    // 下述两个类是原生Sentinel功能的保证
     @Bean
+    @ConditionalOnMissingBean
     public CommonFilter commonFilter() {
         return new CommonFilter();
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public SentinelResourceAspect serviceSentinelResourceAspect() {
         return new SentinelResourceAspect();
     }
 
     @Bean
+    @ConditionalOnProperty(value = ServiceSentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SERVICE_SENTINEL_LIMIT_APP_ENABLED, matchIfMissing = false)
     public RequestOriginParser serviceSentinelRequestOriginParser() {
         return new ServiceSentinelRequestOriginParser();
     }

@@ -98,13 +98,15 @@ public class DiscoveryConstant {
 
     public static final String TRACE_ID = "trace-id";
     public static final String SPAN_ID = "span-id";
-    public static final String SPAN_VALUE = "GRAY";
-    public static final String TAG_COMPONENT_VALUE = "gray";
-    public static final String PLUGIN = "plugin";
-    public static final String PLUGIN_VALUE = "Nepxion Discovery";
+    public static final String SPAN_VALUE = "NEPXION";
+    public static final String SPAN_TAG_PLUGIN_NAME = "plugin"; 
+    public static final String SPAN_TAG_PLUGIN_VALUE = "Nepxion Discovery";
 
     public static final String CLASS = "class";
     public static final String METHOD = "method";
+    public static final String PARAMETER = "parameter"; 
+    public static final String RETURN = "return";
+    public static final String PARAMETER_MAP = "parameterMap";
     public static final String EVENT = "event";
     public static final String ERROR_OBJECT = "error.object";
 

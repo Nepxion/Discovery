@@ -1285,24 +1285,26 @@ spring.application.strategy.register.isolation.enabled=true
 spring.application.strategy.consumer.isolation.enabled=true
 # 启动和关闭提供端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
 spring.application.strategy.provider.isolation.enabled=true
-# 启动和关闭调用链。缺失则默认为false
-spring.application.strategy.trace.enabled=true
-# 启动和关闭调用链的日志输出。缺失则默认为false
-spring.application.strategy.trace.logger.enabled=true
-# 调用链的日志输出中，是否显示MDC前面的Key。缺失则默认为true
-spring.application.strategy.trace.logger.mdc.key.shown=true
-# 启动和关闭调用链的Opentracing输出，支持F版或更高版本的配置，其它版本不需要该行配置。缺失则默认为false
-spring.application.strategy.trace.opentracing.enabled=true
-# 启动和关闭调用链的灰度信息在Opentracing中以独立的Span节点输出，如果关闭，则灰度信息输出到原生的Span节点中。缺失则默认为true
-spring.application.strategy.trace.opentracing.separate.span.enabled=true
-# 启动和关闭调用链的灰度规则策略信息在Opentracing中的输出。缺失则默认为false
-spring.application.strategy.trace.opentracing.rule.output.enabled=true
-# 启动和关闭调用链的Debug日志打印，注意每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
-spring.application.strategy.trace.debug.enabled=true
+
+# 启动和关闭监控，一旦关闭，调用链和日志输出都将关闭。缺失则默认为false
+spring.application.strategy.monitor.enabled=true
+# 启动和关闭日志输出。缺失则默认为false
+spring.application.strategy.logger.enabled=true
+# 日志输出中，是否显示MDC前面的Key。缺失则默认为true
+spring.application.strategy.logger.mdc.key.shown=true
+# 启动和关闭Debug日志打印，注意每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
+spring.application.strategy.logger.debug.enabled=true
+# 启动和关闭调用链的灰度信息以独立的Span节点输出，如果关闭，则灰度信息输出到原生的Span节点中（Skywalking不支持原生模式）。缺失则默认为true
+spring.application.strategy.tracer.separate.span.enabled=true
+# 启动和关闭调用链的灰度规则策略信息输出。缺失则默认为true
+spring.application.strategy.tracer.rule.output.enabled=true
+# 启动和关闭类方法上入参和出参输出到调用链
+spring.application.strategy.tracer.method.context.output.enabled=true
+
 # 开启服务端实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
 spring.application.strategy.hystrix.threadlocal.supported=true
 
-# 启动和关闭Sentinel限流降级熔断权限等功能。缺失则默认为false
+# 启动和关闭Sentinel限流降级熔断权限等原生功能的数据来源扩展和调用链埋点输出。缺失则默认为false
 spring.application.strategy.sentinel.enabled=true
 # 流控规则文件路径。缺失则默认为classpath:sentinel-flow.json
 spring.application.strategy.sentinel.flow.path=classpath:sentinel-flow.json
@@ -1316,6 +1318,8 @@ spring.application.strategy.sentinel.system.path=classpath:sentinel-system.json
 spring.application.strategy.sentinel.param.flow.path=classpath:sentinel-param-flow.json
 # 服务端执行规则时候，以Http请求中的Header值作为关键Key。缺失则默认为n-d-service-id，即以服务名作为关键Key
 spring.application.strategy.service.sentinel.request.origin.key=n-d-service-id
+# 启动和关闭Sentinel LimitApp限流等功能。缺失则默认为false
+spring.application.strategy.service.sentinel.limit.app.enabled=true
 
 # 启动和关闭环境隔离，环境隔离指调用端实例和提供端实例的元数据Metadata环境配置值相等才能调用。缺失则默认为false
 spring.application.environment.isolation.enabled=true
@@ -1386,20 +1390,20 @@ spring.application.strategy.gateway.original.header.ignored=true
 spring.application.strategy.register.isolation.enabled=true
 # 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
 spring.application.strategy.consumer.isolation.enabled=true
-# 启动和关闭调用链。缺失则默认为false
-spring.application.strategy.trace.enabled=true
-# 启动和关闭调用链的日志输出。缺失则默认为false
-spring.application.strategy.trace.logger.enabled=true
-# 调用链的日志输出中，是否显示MDC前面的Key。缺失则默认为true
-spring.application.strategy.trace.logger.mdc.key.shown=true
-# 启动和关闭调用链的Opentracing输出，支持F版或更高版本的配置，其它版本不需要该行配置。缺失则默认为false
-spring.application.strategy.trace.opentracing.enabled=true
-# 启动和关闭调用链的灰度信息在Opentracing中以独立的Span节点输出，如果关闭，则灰度信息输出到原生的Span节点中。缺失则默认为true
-spring.application.strategy.trace.opentracing.separate.span.enabled=true
-# 启动和关闭调用链的灰度规则策略信息在Opentracing中的输出。缺失则默认为false
-spring.application.strategy.trace.opentracing.rule.output.enabled=true
-# 启动和关闭调用链的Debug日志打印，注意每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
-spring.application.strategy.trace.debug.enabled=true
+
+# 启动和关闭监控，一旦关闭，调用链和日志输出都将关闭。缺失则默认为false
+spring.application.strategy.monitor.enabled=true
+# 启动和关闭日志输出。缺失则默认为false
+spring.application.strategy.logger.enabled=true
+# 日志输出中，是否显示MDC前面的Key。缺失则默认为true
+spring.application.strategy.logger.mdc.key.shown=true
+# 启动和关闭Debug日志打印，注意每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
+spring.application.strategy.logger.debug.enabled=true
+# 启动和关闭调用链的灰度信息以独立的Span节点输出，如果关闭，则灰度信息输出到原生的Span节点中（Skywalking不支持原生模式）。缺失则默认为true
+spring.application.strategy.tracer.separate.span.enabled=true
+# 启动和关闭调用链的灰度规则策略信息输出。缺失则默认为true
+spring.application.strategy.tracer.rule.output.enabled=true
+
 # 开启Spring Cloud Gateway网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
 spring.application.strategy.hystrix.threadlocal.supported=true
 
@@ -1472,20 +1476,20 @@ spring.application.strategy.zuul.original.header.ignored=true
 spring.application.strategy.register.isolation.enabled=true
 # 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
 spring.application.strategy.consumer.isolation.enabled=true
-# 启动和关闭调用链。缺失则默认为false
-spring.application.strategy.trace.enabled=true
-# 启动和关闭调用链的日志输出。缺失则默认为false
-spring.application.strategy.trace.logger.enabled=true
-# 调用链的日志输出中，是否显示MDC前面的Key。缺失则默认为true
-spring.application.strategy.trace.logger.mdc.key.shown=true
-# 启动和关闭调用链的Opentracing输出，支持F版或更高版本的配置，其它版本不需要该行配置。缺失则默认为false
-spring.application.strategy.trace.opentracing.enabled=true
-# 启动和关闭调用链的灰度信息在Opentracing中以独立的Span节点输出，如果关闭，则灰度信息输出到原生的Span节点中。缺失则默认为true
-spring.application.strategy.trace.opentracing.separate.span.enabled=true
-# 启动和关闭调用链的灰度规则策略信息在Opentracing中的输出。缺失则默认为false
-spring.application.strategy.trace.opentracing.rule.output.enabled=true
-# 启动和关闭调用链的Debug日志打印，注意每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
-spring.application.strategy.trace.debug.enabled=true
+
+# 启动和关闭监控，一旦关闭，调用链和日志输出都将关闭。缺失则默认为false
+spring.application.strategy.monitor.enabled=true
+# 启动和关闭日志输出。缺失则默认为false
+spring.application.strategy.logger.enabled=true
+# 日志输出中，是否显示MDC前面的Key。缺失则默认为true
+spring.application.strategy.logger.mdc.key.shown=true
+# 启动和关闭Debug日志打印，注意每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
+spring.application.strategy.logger.debug.enabled=true
+# 启动和关闭调用链的灰度信息以独立的Span节点输出，如果关闭，则灰度信息输出到原生的Span节点中（Skywalking不支持原生模式）。缺失则默认为true
+spring.application.strategy.tracer.separate.span.enabled=true
+# 启动和关闭调用链的灰度规则策略信息输出。缺失则默认为true
+spring.application.strategy.tracer.rule.output.enabled=true
+
 # 开启Zuul网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
 spring.application.strategy.hystrix.threadlocal.supported=true
 
