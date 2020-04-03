@@ -22,7 +22,7 @@ public class SentinelSkywalkingTracerProcessorSlotEntryCallback extends Sentinel
     
     @Override
     protected Span buildSpan() {
-        return tracer.buildSpan(SentinelStrategyConstant.SPAN_NAME).start();
+        return tracer.buildSpan(SentinelStrategyConstant.SPAN_NAME).startManual();
     }
 
     @Override
