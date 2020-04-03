@@ -441,6 +441,7 @@ Spring Boot Admin监控平台
 | discovery-plugin-strategy-starter-opentracing | 路由策略的Spring Cloud OpenTracing Starter |
 | discovery-plugin-strategy-starter-opentelemetry | 路由策略的Spring Cloud OpenTelemetry Starter |
 | discovery-plugin-strategy-starter-skywalking | 路由策略的Spring Cloud Skywalking Starter |
+| discovery-plugin-strategy-starter-agent | 路由策略的Spring Cloud Agent Starter |
 | discovery-plugin-test-starter | 自动化测试 Starter |
 | discovery-console | 控制平台，集成接口给UI |
 | discovery-console-starter-apollo | 控制平台的Apollo Starter |
@@ -575,6 +576,15 @@ spring.application.discovery.control.enabled=false
     <artifactId>discovery-plugin-strategy-sentinel-starter-opentracing</artifactId>
     <artifactId>discovery-plugin-strategy-sentinel-starter-opentelemetry</artifactId>	
     <artifactId>discovery-plugin-strategy-sentinel-starter-skywalking</artifactId>
+    <version>${discovery.version}</version>
+</dependency>
+```
+
+异步跨线程Agent的引入，解决灰度路由Header传递是在Hystrix线程池隔离模式或者线程池异步调用Feign或者RestTemplate在线程上下文切换时候丢失Header的问题
+```xml
+<dependency>
+    <groupId>com.nepxion</groupId>
+    <artifactId>discovery-plugin-strategy-starter-agent</artifactId>
     <version>${discovery.version}</version>
 </dependency>
 ```
