@@ -28,16 +28,19 @@ public abstract class StrategySkywalkingTracerResolver {
     private static final Field[] NO_FIELDS = new Field[0];
     private static final Map<Class<?>, Method[]> declaredMethodsCache = new ConcurrentHashMap<>(256);
     private static final Map<Class<?>, Field[]> declaredFieldsCache = new ConcurrentHashMap<>(256);
+
     public static final MethodFilter NON_BRIDGED_METHODS = new MethodFilter() {
         public boolean matches(Method method) {
             return !method.isBridge();
         }
     };
+
     public static final MethodFilter USER_DECLARED_METHODS = new MethodFilter() {
         public boolean matches(Method method) {
             return !method.isBridge() && method.getDeclaringClass() != Object.class;
         }
     };
+
     public static final FieldFilter COPYABLE_FIELDS = new FieldFilter() {
         public boolean matches(Field field) {
             return !Modifier.isStatic(field.getModifiers()) && !Modifier.isFinal(field.getModifiers());
@@ -45,6 +48,7 @@ public abstract class StrategySkywalkingTracerResolver {
     };
 
     public StrategySkywalkingTracerResolver() {
+
     }
 
     public static Field findField(Class<?> clazz, String name) {
@@ -52,9 +56,6 @@ public abstract class StrategySkywalkingTracerResolver {
     }
 
     public static Field findField(Class<?> clazz, String name, Class<?> type) {
-        //        Assert.notNull(clazz, "Class must not be null");
-        //        Assert.isTrue(name != null || type != null, "Either name or type of the field must be specified");
-
         for (Class searchType = clazz; Object.class != searchType && searchType != null; searchType = searchType.getSuperclass()) {
             Field[] fields = getDeclaredFields(searchType);
             Field[] var5 = fields;
@@ -76,6 +77,7 @@ public abstract class StrategySkywalkingTracerResolver {
             field.set(target, value);
         } catch (IllegalAccessException var4) {
             handleReflectionException(var4);
+
             throw new IllegalStateException("Unexpected reflection exception - " + var4.getClass().getName() + ": " + var4.getMessage());
         }
     }
@@ -86,6 +88,7 @@ public abstract class StrategySkywalkingTracerResolver {
             return field.get(target);
         } catch (IllegalAccessException var3) {
             handleReflectionException(var3);
+
             throw new IllegalStateException("Unexpected reflection exception - " + var3.getClass().getName() + ": " + var3.getMessage());
         }
     }
@@ -95,9 +98,6 @@ public abstract class StrategySkywalkingTracerResolver {
     }
 
     public static Method findMethod(Class<?> clazz, String name, Class... paramTypes) {
-        //        Assert.notNull(clazz, "Class must not be null");
-        //        Assert.notNull(name, "Method name must not be null");
-
         for (Class searchType = clazz; searchType != null; searchType = searchType.getSuperclass()) {
             Method[] methods = searchType.isInterface() ? searchType.getMethods() : getDeclaredMethods(searchType);
             Method[] var5 = methods;
@@ -140,29 +140,10 @@ public abstract class StrategySkywalkingTracerResolver {
             return method.invoke(target, args);
         } catch (Exception var4) {
             handleReflectionException(var4);
+
             throw new IllegalStateException("Should never get here");
         }
     }
-
-    //    public static Object invokeJdbcMethod(Method method, Object target) throws SQLException {
-    //        return invokeJdbcMethod(method, target, new Object[0]);
-    //    }
-    //
-    //    public static Object invokeJdbcMethod(Method method, Object target, Object... args) throws SQLException {
-    //        try {
-    //            return method.invoke(target, args);
-    //        } catch (IllegalAccessException var4) {
-    //            handleReflectionException(var4);
-    //        } catch (InvocationTargetException var5) {
-    //            if(var5.getTargetException() instanceof SQLException) {
-    //                throw (SQLException)var5.getTargetException();
-    //            }
-    //
-    //            handleInvocationTargetException(var5);
-    //        }
-    //
-    //        throw new IllegalStateException("Should never get here");
-    //    }
 
     public static void handleReflectionException(Exception ex) {
         if (ex instanceof NoSuchMethodException) {
@@ -207,7 +188,6 @@ public abstract class StrategySkywalkingTracerResolver {
     }
 
     public static boolean declaresException(Method method, Class<?> exceptionType) {
-        //        Assert.notNull(method, "Method must not be null");
         Class[] declaredExceptions = method.getExceptionTypes();
         Class[] var3 = declaredExceptions;
         int var4 = declaredExceptions.length;
@@ -224,6 +204,7 @@ public abstract class StrategySkywalkingTracerResolver {
 
     public static boolean isPublicStaticFinal(Field field) {
         int modifiers = field.getModifiers();
+
         return Modifier.isPublic(modifiers) && Modifier.isStatic(modifiers) && Modifier.isFinal(modifiers);
     }
 
@@ -250,6 +231,7 @@ public abstract class StrategySkywalkingTracerResolver {
         } else {
             try {
                 Object.class.getDeclaredMethod(method.getName(), method.getParameterTypes());
+
                 return true;
             } catch (Exception var2) {
                 return false;
@@ -289,7 +271,6 @@ public abstract class StrategySkywalkingTracerResolver {
         if ((!Modifier.isPublic(ctor.getModifiers()) || !Modifier.isPublic(ctor.getDeclaringClass().getModifiers())) && !ctor.isAccessible()) {
             ctor.setAccessible(true);
         }
-
     }
 
     public static void doWithLocalMethods(Class<?> clazz, MethodCallback mc) {
@@ -306,7 +287,6 @@ public abstract class StrategySkywalkingTracerResolver {
                 throw new IllegalStateException("Not allowed to access method \'" + method.getName() + "\': " + var8);
             }
         }
-
     }
 
     public static void doWithMethods(Class<?> clazz, MethodCallback mc) {
@@ -341,7 +321,6 @@ public abstract class StrategySkywalkingTracerResolver {
                 doWithMethods(var11, mc, mf);
             }
         }
-
     }
 
     public static Method[] getAllDeclaredMethods(Class<?> leafClass) {
@@ -351,6 +330,7 @@ public abstract class StrategySkywalkingTracerResolver {
                 methods.add(method);
             }
         });
+
         return (Method[]) methods.toArray(new Method[methods.size()]);
     }
 
@@ -382,14 +362,13 @@ public abstract class StrategySkywalkingTracerResolver {
                 if (!knownSignature && !StrategySkywalkingTracerResolver.isCglibRenamedMethod(method)) {
                     methods.add(method);
                 }
-
             }
         });
+
         return (Method[]) methods.toArray(new Method[methods.size()]);
     }
 
     private static Method[] getDeclaredMethods(Class<?> clazz) {
-        //        Assert.notNull(clazz, "Class must not be null");
         Method[] result = (Method[]) declaredMethodsCache.get(clazz);
         if (result == null) {
             Method[] declaredMethods = clazz.getDeclaredMethods();
@@ -451,7 +430,6 @@ public abstract class StrategySkywalkingTracerResolver {
                 throw new IllegalStateException("Not allowed to access field \'" + field.getName() + "\': " + var7);
             }
         }
-
     }
 
     public static void doWithFields(Class<?> clazz, FieldCallback fc) {
@@ -479,11 +457,9 @@ public abstract class StrategySkywalkingTracerResolver {
 
             targetClass = targetClass.getSuperclass();
         } while (targetClass != null && targetClass != Object.class);
-
     }
 
     private static Field[] getDeclaredFields(Class<?> clazz) {
-        //        Assert.notNull(clazz, "Class must not be null");
         Field[] result = (Field[]) declaredFieldsCache.get(clazz);
         if (result == null) {
             result = clazz.getDeclaredFields();
@@ -494,8 +470,6 @@ public abstract class StrategySkywalkingTracerResolver {
     }
 
     public static void shallowCopyFieldState(final Object src, final Object dest) {
-        //        Assert.notNull(src, "Source for field copy cannot be null");
-        //        Assert.notNull(dest, "Destination for field copy cannot be null");
         if (!src.getClass().isAssignableFrom(dest.getClass())) {
             throw new IllegalArgumentException("Destination class [" + dest.getClass().getName() + "] must be same or subclass as source class [" + src.getClass().getName() + "]");
         } else {
@@ -574,6 +548,7 @@ public abstract class StrategySkywalkingTracerResolver {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
+
         return null;
     }
 }
