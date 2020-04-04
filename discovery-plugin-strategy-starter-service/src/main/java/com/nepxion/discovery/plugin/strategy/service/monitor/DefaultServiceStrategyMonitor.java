@@ -24,6 +24,9 @@ import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.monitor.StrategyMonitor;
 
 public class DefaultServiceStrategyMonitor extends StrategyMonitor implements ServiceStrategyMonitor {
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACER_ENABLED + ":false}")
+    protected Boolean tracerEnabled;
+
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACER_METHOD_CONTEXT_OUTPUT_ENABLED + ":false}")
     protected Boolean tracerMethodContextOutputEnabled;
 
@@ -60,6 +63,10 @@ public class DefaultServiceStrategyMonitor extends StrategyMonitor implements Se
     }
 
     private Map<String, String> createContextMap(ServiceStrategyMonitorInterceptor interceptor, MethodInvocation invocation, Object returnValue) {
+        if (!tracerEnabled) {
+            return null;
+        }
+
         Map<String, String> contextMap = new HashMap<String, String>();
 
         String className = interceptor.getMethod(invocation).getDeclaringClass().getName();
