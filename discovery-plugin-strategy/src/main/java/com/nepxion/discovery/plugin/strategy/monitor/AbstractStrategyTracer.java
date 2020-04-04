@@ -35,6 +35,9 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
     @Autowired(required = false)
     protected StrategyLogger strategyLogger;
 
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACER_ENABLED + ":false}")
+    protected Boolean tracerEnabled;
+
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACER_SEPARATE_SPAN_ENABLED + ":true}")
     protected Boolean tracerSeparateSpanEnabled;
 
@@ -49,6 +52,10 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
 
     @Override
     public void spanBuild() {
+        if (!tracerEnabled) {
+            return;
+        }
+
         if (!tracerSeparateSpanEnabled) {
             return;
         }
@@ -60,6 +67,10 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
 
     @Override
     public void spanOutput(Map<String, String> contextMap) {
+        if (!tracerEnabled) {
+            return;
+        }
+
         S span = getCurrentSpan();
         if (span == null) {
             LOG.error("Span not found in context to trace put");
@@ -127,6 +138,10 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
 
     @Override
     public void spanError(Map<String, String> contextMap, Throwable e) {
+        if (!tracerEnabled) {
+            return;
+        }
+
         if (!tracerSeparateSpanEnabled) {
             return;
         }
@@ -143,6 +158,10 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
 
     @Override
     public void spanFinish() {
+        if (!tracerEnabled) {
+            return;
+        }
+
         if (!tracerSeparateSpanEnabled) {
             return;
         }
@@ -164,6 +183,10 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
 
     @Override
     public String getTraceId() {
+        if (!tracerEnabled) {
+            return null;
+        }
+
         S span = getCurrentSpan();
         if (span != null) {
             return toTraceId(span);
@@ -173,6 +196,10 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
     }
 
     public String getSpanId() {
+        if (!tracerEnabled) {
+            return null;
+        }
+
         S span = getCurrentSpan();
         if (span != null) {
             return toSpanId(span);
