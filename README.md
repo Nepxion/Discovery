@@ -16,6 +16,7 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
 - 支持阿里巴巴Nacos、携程Apollo和Redis三个远程配置中心
 - 支持阿里巴巴Sentinel和Hystrix两个熔断隔离限流降级中间件
 - 支持Uber Jaeger、Twitter Zipkin、Skywalking等符合OpenTracing和OpenTelemetry调用链中间件
+- 支持Java Agent解决异步跨线程ThreadLocal上下文传递
 - 支持Prometheus、Grafana和Spring Boot Admin监控中间件
 - 支持Spring Cloud Gateway、Zuul网关和微服务三大模块的灰度发布和路由等一系列功能
 - 支持和兼容Spring Cloud Edgware版、Finchley版、Greenwich版和Hoxton版
@@ -508,7 +509,7 @@ Spring Boot Admin监控平台
 </dependency>
 ```
 
-[选择引入] 路由策略时候，Hystrix做线程模式的服务隔离必须引入的插件，信号量模式不需要引入
+[选择引入] 路由策略时候，Hystrix线程池隔离模式下必须引入该插件。灰度路由Header和调用链Span在Hystrix线程池隔离模式（信号量模式不需要引入）下传递时，通过线程上下文切换会存在丢失Header的问题，通过该插件解决，支持微服务端、网关Zuul端和网关Spring Cloud Gateway端
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -580,7 +581,7 @@ spring.application.discovery.control.enabled=false
 </dependency>
 ```
 
-异步跨线程Agent的引入，解决灰度路由Header传递是在Hystrix线程池隔离模式或者线程池异步调用Feign或者RestTemplate在线程上下文切换时候丢失Header的问题
+异步跨线程Agent的引入，灰度路由Header和调用链Span在Hystrix线程池隔离模式下或者线程池异步调用Feign或者RestTemplate时，通过线程上下文切换会存在丢失Header的问题，通过该插件解决，支持微服务端、网关Zuul端和网关Spring Cloud Gateway端
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
