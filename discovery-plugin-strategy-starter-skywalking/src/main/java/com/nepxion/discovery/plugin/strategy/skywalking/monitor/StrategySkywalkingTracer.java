@@ -13,7 +13,6 @@ import io.opentracing.Span;
 import io.opentracing.Tracer;
 import io.opentracing.tag.Tags;
 
-import java.lang.reflect.Field;
 import java.util.Map;
 
 import org.apache.skywalking.apm.toolkit.opentracing.SkywalkingTracer;
@@ -72,43 +71,18 @@ public class StrategySkywalkingTracer extends AbstractStrategyTracer<Span> {
     }
 
     private String createTraceId() {
-        if (System.getProperties().get("skywalking.agent.service_name") == null) {
+        try {
+            return StrategySkywalkingTracerResolver.getTraceId();
+        } catch (Exception e) {
             return null;
         }
-
-        try {
-            Object traceId = StrategySkywalkingTracerResolver.invokeStaticMethod("org.apache.skywalking.apm.agent.core.context.ContextManager", "getGlobalTraceId");
-            if (traceId != null) {
-                return traceId.toString();
-            }
-        } catch (Exception e) {
-        }
-
-        return null;
     }
 
     private String createSpanId() {
-        if (System.getProperties().get("skywalking.agent.service_name") == null) {
+        try {
+            return StrategySkywalkingTracerResolver.getSpanId();
+        } catch (Exception e) {
             return null;
         }
-
-        try {
-            Object traceContext = StrategySkywalkingTracerResolver.invokeStaticMethod("org.apache.skywalking.apm.agent.core.context.ContextManager", "get");
-            if (traceContext != null) {
-                if (traceContext.getClass().getName().equals("org.apache.skywalking.apm.agent.core.context.TracingContext")) {
-                    Field fieldSegment = StrategySkywalkingTracerResolver.findField(traceContext.getClass(), "segment");
-                    Object segment = StrategySkywalkingTracerResolver.getField(fieldSegment, traceContext);
-                    Field fieldSegmentId = StrategySkywalkingTracerResolver.findField(segment.getClass(), "traceSegmentId");
-                    String segmentId = StrategySkywalkingTracerResolver.getField(fieldSegmentId, segment).toString();
-
-                    return segmentId;
-                } else {
-                    return null;
-                }
-            }
-        } catch (Exception e) {
-        }
-
-        return null;
     }
 }

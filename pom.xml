@@ -75,6 +75,8 @@
         <opentracing.version>0.33.0</opentracing.version>
         <opentracing.spring.cloud.version>0.5.1</opentracing.spring.cloud.version>
         <opentracing.skywalking.version>7.0.0</opentracing.skywalking.version>
+        <reflectasm.version>1.11.9</reflectasm.version>
+        <asm.version>8.0.1</asm.version>
         <spring.cloud.version>Hoxton.SR3</spring.cloud.version>
         <spring.cloud.alibaba.version>2.2.0.RELEASE</spring.cloud.alibaba.version>
         <spring.boot.version>2.2.5.RELEASE</spring.boot.version>
@@ -461,6 +463,18 @@
                 <groupId>org.apache.skywalking</groupId>
                 <artifactId>apm-toolkit-opentracing</artifactId>
                 <version>${opentracing.skywalking.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.esotericsoftware</groupId>
+                <artifactId>reflectasm</artifactId>
+                <version>${reflectasm.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.ow2.asm</groupId>
+                <artifactId>asm</artifactId>
+                <version>${asm.version}</version>
             </dependency>
 
             <dependency>
