@@ -28,7 +28,7 @@ public class StrategySkywalkingTracerResolver {
     private static final Map<Class<?>, Field[]> declaredFieldsCache = new ConcurrentHashMap<>(256);
     private static final Map<String, AtomicInteger> classLoadFailedTimes = new ConcurrentHashMap<>();
 
-    public static Object invokeMethod(String className, String name, Object... parameters) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, ClassNotFoundException {
+    public static Object invokeStaticMethod(String className, String name, Object... parameters) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, ClassNotFoundException {
         try {
             if (classLoadFailedTimes.get(className) != null) {
                 if (classLoadFailedTimes.get(className).get() > 20) {
@@ -57,8 +57,8 @@ public class StrategySkywalkingTracerResolver {
     }
 
     public static Method findMethod(Class<?> clazz, String name, Class<?>... parameterTypes) {
-        for (Class<?> searchType = clazz; searchType != null; searchType = searchType.getSuperclass()) {
-            Method[] methods = searchType.isInterface() ? searchType.getMethods() : getDeclaredMethods(searchType);
+        for (Class<?> searchClass = clazz; searchClass != null; searchClass = searchClass.getSuperclass()) {
+            Method[] methods = searchClass.isInterface() ? searchClass.getMethods() : getDeclaredMethods(searchClass);
             for (int i = 0; i < methods.length; ++i) {
                 Method method = methods[i];
                 if (name.equals(method.getName()) && (parameterTypes == null || Arrays.equals(parameterTypes, method.getParameterTypes()))) {
@@ -71,8 +71,8 @@ public class StrategySkywalkingTracerResolver {
     }
 
     public static Method findMethodIngoreParameters(Class<?> clazz, String name) {
-        for (Class<?> searchType = clazz; searchType != null; searchType = searchType.getSuperclass()) {
-            Method[] methods = searchType.isInterface() ? searchType.getMethods() : getDeclaredMethods(searchType);
+        for (Class<?> searchClass = clazz; searchClass != null; searchClass = searchClass.getSuperclass()) {
+            Method[] methods = searchClass.isInterface() ? searchClass.getMethods() : getDeclaredMethods(searchClass);
             for (int i = 0; i < methods.length; ++i) {
                 Method method = methods[i];
                 if (name.equals(method.getName())) {

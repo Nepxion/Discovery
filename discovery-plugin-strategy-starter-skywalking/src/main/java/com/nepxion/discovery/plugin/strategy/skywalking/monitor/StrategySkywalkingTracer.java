@@ -77,7 +77,7 @@ public class StrategySkywalkingTracer extends AbstractStrategyTracer<Span> {
         }
 
         try {
-            Object traceId = StrategySkywalkingTracerResolver.invokeMethod("org.apache.skywalking.apm.agent.core.context.ContextManager", "getGlobalTraceId");
+            Object traceId = StrategySkywalkingTracerResolver.invokeStaticMethod("org.apache.skywalking.apm.agent.core.context.ContextManager", "getGlobalTraceId");
             if (traceId != null) {
                 return traceId.toString();
             }
@@ -93,7 +93,7 @@ public class StrategySkywalkingTracer extends AbstractStrategyTracer<Span> {
         }
 
         try {
-            Object traceContext = StrategySkywalkingTracerResolver.invokeMethod("org.apache.skywalking.apm.agent.core.context.ContextManager", "get");
+            Object traceContext = StrategySkywalkingTracerResolver.invokeStaticMethod("org.apache.skywalking.apm.agent.core.context.ContextManager", "get");
             if (traceContext != null) {
                 if (traceContext.getClass().getName().equals("org.apache.skywalking.apm.agent.core.context.TracingContext")) {
                     Field fieldSegment = StrategySkywalkingTracerResolver.findField(traceContext.getClass(), "segment");
