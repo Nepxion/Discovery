@@ -23,11 +23,12 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public abstract class StrategySkywalkingTracerResolver {
+public class StrategySkywalkingTracerResolver {
     private static final Method[] NO_METHODS = new Method[0];
     private static final Field[] NO_FIELDS = new Field[0];
     private static final Map<Class<?>, Method[]> declaredMethodsCache = new ConcurrentHashMap<>(256);
     private static final Map<Class<?>, Field[]> declaredFieldsCache = new ConcurrentHashMap<>(256);
+    private static final Map<String, AtomicInteger> classLoadFailedTimes = new ConcurrentHashMap<>();
 
     public static final MethodFilter NON_BRIDGED_METHODS = new MethodFilter() {
         public boolean matches(Method method) {
@@ -47,22 +48,15 @@ public abstract class StrategySkywalkingTracerResolver {
         }
     };
 
-    public StrategySkywalkingTracerResolver() {
-
-    }
-
     public static Field findField(Class<?> clazz, String name) {
-        return findField(clazz, name, (Class) null);
+        return findField(clazz, name, (Class<?>) null);
     }
 
     public static Field findField(Class<?> clazz, String name, Class<?> type) {
-        for (Class searchType = clazz; Object.class != searchType && searchType != null; searchType = searchType.getSuperclass()) {
+        for (Class<?> searchType = clazz; Object.class != searchType && searchType != null; searchType = searchType.getSuperclass()) {
             Field[] fields = getDeclaredFields(searchType);
-            Field[] var5 = fields;
-            int var6 = fields.length;
-
-            for (int var7 = 0; var7 < var6; ++var7) {
-                Field field = var5[var7];
+            for (int i = 0; i < fields.length; ++i) {
+                Field field = fields[i];
                 if ((name == null || name.equals(field.getName())) && (type == null || type.equals(field.getType()))) {
                     return field;
                 }
@@ -75,21 +69,22 @@ public abstract class StrategySkywalkingTracerResolver {
     public static void setField(Field field, Object target, Object value) {
         try {
             field.set(target, value);
-        } catch (IllegalAccessException var4) {
-            handleReflectionException(var4);
+        } catch (IllegalAccessException e) {
+            handleReflectionException(e);
 
-            throw new IllegalStateException("Unexpected reflection exception - " + var4.getClass().getName() + ": " + var4.getMessage());
+            throw new IllegalStateException("Unexpected reflection exception - " + e.getClass().getName() + ": " + e.getMessage());
         }
     }
 
     public static Object getField(Field field, Object target) {
         try {
             field.setAccessible(true);
-            return field.get(target);
-        } catch (IllegalAccessException var3) {
-            handleReflectionException(var3);
 
-            throw new IllegalStateException("Unexpected reflection exception - " + var3.getClass().getName() + ": " + var3.getMessage());
+            return field.get(target);
+        } catch (IllegalAccessException e) {
+            handleReflectionException(e);
+
+            throw new IllegalStateException("Unexpected reflection exception - " + e.getClass().getName() + ": " + e.getMessage());
         }
     }
 
@@ -97,14 +92,11 @@ public abstract class StrategySkywalkingTracerResolver {
         return findMethod(clazz, name, new Class[0]);
     }
 
-    public static Method findMethod(Class<?> clazz, String name, Class... paramTypes) {
-        for (Class searchType = clazz; searchType != null; searchType = searchType.getSuperclass()) {
+    public static Method findMethod(Class<?> clazz, String name, Class<?>... paramTypes) {
+        for (Class<?> searchType = clazz; searchType != null; searchType = searchType.getSuperclass()) {
             Method[] methods = searchType.isInterface() ? searchType.getMethods() : getDeclaredMethods(searchType);
-            Method[] var5 = methods;
-            int var6 = methods.length;
-
-            for (int var7 = 0; var7 < var6; ++var7) {
-                Method method = var5[var7];
+            for (int i = 0; i < methods.length; ++i) {
+                Method method = methods[i];
                 if (name.equals(method.getName()) && (paramTypes == null || Arrays.equals(paramTypes, method.getParameterTypes()))) {
                     return method;
                 }
@@ -115,13 +107,10 @@ public abstract class StrategySkywalkingTracerResolver {
     }
 
     public static Method findMethodIngoreParam(Class<?> clazz, String name) {
-        for (Class searchType = clazz; searchType != null; searchType = searchType.getSuperclass()) {
+        for (Class<?> searchType = clazz; searchType != null; searchType = searchType.getSuperclass()) {
             Method[] methods = searchType.isInterface() ? searchType.getMethods() : getDeclaredMethods(searchType);
-            Method[] var5 = methods;
-            int var6 = methods.length;
-
-            for (int var7 = 0; var7 < var6; ++var7) {
-                Method method = var5[var7];
+            for (int i = 0; i < methods.length; ++i) {
+                Method method = methods[i];
                 if (name.equals(method.getName())) {
                     return method;
                 }
@@ -138,63 +127,59 @@ public abstract class StrategySkywalkingTracerResolver {
     public static Object invokeMethod(Method method, Object target, Object... args) {
         try {
             return method.invoke(target, args);
-        } catch (Exception var4) {
-            handleReflectionException(var4);
+        } catch (Exception e) {
+            handleReflectionException(e);
 
             throw new IllegalStateException("Should never get here");
         }
     }
 
-    public static void handleReflectionException(Exception ex) {
-        if (ex instanceof NoSuchMethodException) {
-            throw new IllegalStateException("Method not found: " + ex.getMessage());
-        } else if (ex instanceof IllegalAccessException) {
-            throw new IllegalStateException("Could not access method: " + ex.getMessage());
+    public static void handleReflectionException(Exception e) {
+        if (e instanceof NoSuchMethodException) {
+            throw new IllegalStateException("Method not found: " + e.getMessage());
+        } else if (e instanceof IllegalAccessException) {
+            throw new IllegalStateException("Could not access method: " + e.getMessage());
         } else {
-            if (ex instanceof InvocationTargetException) {
-                handleInvocationTargetException((InvocationTargetException) ex);
+            if (e instanceof InvocationTargetException) {
+                handleInvocationTargetException((InvocationTargetException) e);
             }
-
-            if (ex instanceof RuntimeException) {
-                throw (RuntimeException) ex;
+            if (e instanceof RuntimeException) {
+                throw (RuntimeException) e;
             } else {
-                throw new UndeclaredThrowableException(ex);
+                throw new UndeclaredThrowableException(e);
             }
         }
     }
 
-    public static void handleInvocationTargetException(InvocationTargetException ex) {
-        rethrowRuntimeException(ex.getTargetException());
+    public static void handleInvocationTargetException(InvocationTargetException e) {
+        rethrowRuntimeException(e.getTargetException());
     }
 
-    public static void rethrowRuntimeException(Throwable ex) {
-        if (ex instanceof RuntimeException) {
-            throw (RuntimeException) ex;
-        } else if (ex instanceof Error) {
-            throw (Error) ex;
+    public static void rethrowRuntimeException(Throwable e) {
+        if (e instanceof RuntimeException) {
+            throw (RuntimeException) e;
+        } else if (e instanceof Error) {
+            throw (Error) e;
         } else {
-            throw new UndeclaredThrowableException(ex);
+            throw new UndeclaredThrowableException(e);
         }
     }
 
-    public static void rethrowException(Throwable ex) throws Exception {
-        if (ex instanceof Exception) {
-            throw (Exception) ex;
-        } else if (ex instanceof Error) {
-            throw (Error) ex;
+    public static void rethrowException(Throwable e) throws Exception {
+        if (e instanceof Exception) {
+            throw (Exception) e;
+        } else if (e instanceof Error) {
+            throw (Error) e;
         } else {
-            throw new UndeclaredThrowableException(ex);
+            throw new UndeclaredThrowableException(e);
         }
     }
 
     public static boolean declaresException(Method method, Class<?> exceptionType) {
-        Class[] declaredExceptions = method.getExceptionTypes();
-        Class[] var3 = declaredExceptions;
-        int var4 = declaredExceptions.length;
-
-        for (int var5 = 0; var5 < var4; ++var5) {
-            Class declaredException = var3[var5];
-            if (declaredException.isAssignableFrom(exceptionType)) {
+        Class<?>[] exceptionTypes = method.getExceptionTypes();
+        for (int i = 0; i < exceptionTypes.length; ++i) {
+            Class<?> type = exceptionTypes[i];
+            if (type.isAssignableFrom(exceptionType)) {
                 return true;
             }
         }
@@ -210,7 +195,8 @@ public abstract class StrategySkywalkingTracerResolver {
 
     public static boolean isEqualsMethod(Method method) {
         if (method != null && method.getName().equals("equals")) {
-            Class[] paramTypes = method.getParameterTypes();
+            Class<?>[] paramTypes = method.getParameterTypes();
+
             return paramTypes.length == 1 && paramTypes[0] == Object.class;
         } else {
             return false;
@@ -233,14 +219,14 @@ public abstract class StrategySkywalkingTracerResolver {
                 Object.class.getDeclaredMethod(method.getName(), method.getParameterTypes());
 
                 return true;
-            } catch (Exception var2) {
+            } catch (Exception e) {
                 return false;
             }
         }
     }
 
-    public static boolean isCglibRenamedMethod(Method renamedMethod) {
-        String name = renamedMethod.getName();
+    public static boolean isCglibRenamedMethod(Method method) {
+        String name = method.getName();
         if (!name.startsWith("CGLIB$")) {
             return false;
         } else {
@@ -257,14 +243,12 @@ public abstract class StrategySkywalkingTracerResolver {
         if ((!Modifier.isPublic(field.getModifiers()) || !Modifier.isPublic(field.getDeclaringClass().getModifiers()) || Modifier.isFinal(field.getModifiers())) && !field.isAccessible()) {
             field.setAccessible(true);
         }
-
     }
 
     public static void makeAccessible(Method method) {
         if ((!Modifier.isPublic(method.getModifiers()) || !Modifier.isPublic(method.getDeclaringClass().getModifiers())) && !method.isAccessible()) {
             method.setAccessible(true);
         }
-
     }
 
     public static void makeAccessible(Constructor<?> ctor) {
@@ -273,77 +257,65 @@ public abstract class StrategySkywalkingTracerResolver {
         }
     }
 
-    public static void doWithLocalMethods(Class<?> clazz, MethodCallback mc) {
+    public static void doWithLocalMethods(Class<?> clazz, MethodCallback methodCallback) {
         Method[] methods = getDeclaredMethods(clazz);
-        Method[] var3 = methods;
-        int var4 = methods.length;
-
-        for (int var5 = 0; var5 < var4; ++var5) {
-            Method method = var3[var5];
-
+        for (int i = 0; i < methods.length; ++i) {
+            Method method = methods[i];
             try {
-                mc.doWith(method);
-            } catch (IllegalAccessException var8) {
-                throw new IllegalStateException("Not allowed to access method \'" + method.getName() + "\': " + var8);
+                methodCallback.doWith(method);
+            } catch (IllegalAccessException e) {
+                throw new IllegalStateException("Not allowed to access method '" + method.getName() + "': " + e);
             }
         }
     }
 
-    public static void doWithMethods(Class<?> clazz, MethodCallback mc) {
-        doWithMethods(clazz, mc, (MethodFilter) null);
+    public static void doWithMethods(Class<?> clazz, MethodCallback methodCallback) {
+        doWithMethods(clazz, methodCallback, (MethodFilter) null);
     }
 
-    public static void doWithMethods(Class<?> clazz, MethodCallback mc, MethodFilter mf) {
+    public static void doWithMethods(Class<?> clazz, MethodCallback methodCallback, MethodFilter methodFilter) {
         Method[] methods = getDeclaredMethods(clazz);
-        Method[] var4 = methods;
-        int var5 = methods.length;
-
-        int var6;
-        for (var6 = 0; var6 < var5; ++var6) {
-            Method superIfc = var4[var6];
-            if (mf == null || mf.matches(superIfc)) {
+        for (int i = 0; i < methods.length; ++i) {
+            Method method = methods[i];
+            if (methodFilter == null || methodFilter.matches(method)) {
                 try {
-                    mc.doWith(superIfc);
-                } catch (IllegalAccessException var9) {
-                    throw new IllegalStateException("Not allowed to access method \'" + superIfc.getName() + "\': " + var9);
+                    methodCallback.doWith(method);
+                } catch (IllegalAccessException e) {
+                    throw new IllegalStateException("Not allowed to access method '" + method.getName() + "': " + e);
                 }
             }
         }
-
         if (clazz.getSuperclass() != null) {
-            doWithMethods(clazz.getSuperclass(), mc, mf);
+            doWithMethods(clazz.getSuperclass(), methodCallback, methodFilter);
         } else if (clazz.isInterface()) {
-            Class[] var10 = clazz.getInterfaces();
-            var5 = var10.length;
-
-            for (var6 = 0; var6 < var5; ++var6) {
-                Class var11 = var10[var6];
-                doWithMethods(var11, mc, mf);
+            Class<?>[] interfaces = clazz.getInterfaces();
+            for (int i = 0; i < interfaces.length; ++i) {
+                Class<?> interfaze = interfaces[i];
+                doWithMethods(interfaze, methodCallback, methodFilter);
             }
         }
     }
 
-    public static Method[] getAllDeclaredMethods(Class<?> leafClass) {
-        final ArrayList methods = new ArrayList(32);
-        doWithMethods(leafClass, new MethodCallback() {
+    public static Method[] getAllDeclaredMethods(Class<?> clazz) {
+        final ArrayList<Method> methods = new ArrayList<Method>(32);
+        doWithMethods(clazz, new MethodCallback() {
             public void doWith(Method method) {
                 methods.add(method);
             }
         });
 
-        return (Method[]) methods.toArray(new Method[methods.size()]);
+        return methods.toArray(new Method[methods.size()]);
     }
 
-    public static Method[] getUniqueDeclaredMethods(Class<?> leafClass) {
-        final ArrayList methods = new ArrayList(32);
-        doWithMethods(leafClass, new MethodCallback() {
+    public static Method[] getUniqueDeclaredMethods(Class<?> clazz) {
+        final ArrayList<Method> methods = new ArrayList<Method>(32);
+        doWithMethods(clazz, new MethodCallback() {
             public void doWith(Method method) {
                 boolean knownSignature = false;
                 Method methodBeingOverriddenWithCovariantReturnType = null;
-                Iterator var4 = methods.iterator();
-
-                while (var4.hasNext()) {
-                    Method existingMethod = (Method) var4.next();
+                Iterator<Method> iterator = methods.iterator();
+                while (iterator.hasNext()) {
+                    Method existingMethod = iterator.next();
                     if (method.getName().equals(existingMethod.getName()) && Arrays.equals(method.getParameterTypes(), existingMethod.getParameterTypes())) {
                         if (existingMethod.getReturnType() != method.getReturnType() && existingMethod.getReturnType().isAssignableFrom(method.getReturnType())) {
                             methodBeingOverriddenWithCovariantReturnType = existingMethod;
@@ -354,38 +326,34 @@ public abstract class StrategySkywalkingTracerResolver {
                         break;
                     }
                 }
-
                 if (methodBeingOverriddenWithCovariantReturnType != null) {
                     methods.remove(methodBeingOverriddenWithCovariantReturnType);
                 }
-
-                if (!knownSignature && !StrategySkywalkingTracerResolver.isCglibRenamedMethod(method)) {
+                if (!knownSignature && !isCglibRenamedMethod(method)) {
                     methods.add(method);
                 }
             }
         });
 
-        return (Method[]) methods.toArray(new Method[methods.size()]);
+        return methods.toArray(new Method[methods.size()]);
     }
 
     private static Method[] getDeclaredMethods(Class<?> clazz) {
-        Method[] result = (Method[]) declaredMethodsCache.get(clazz);
+        Method[] result = declaredMethodsCache.get(clazz);
         if (result == null) {
             Method[] declaredMethods = clazz.getDeclaredMethods();
-            List defaultMethods = findConcreteMethodsOnInterfaces(clazz);
+            List<?> defaultMethods = findConcreteMethodsOnInterfaces(clazz);
             if (defaultMethods != null) {
                 result = new Method[declaredMethods.length + defaultMethods.size()];
                 System.arraycopy(declaredMethods, 0, result, 0, declaredMethods.length);
                 int index = declaredMethods.length;
-
-                for (Iterator var5 = defaultMethods.iterator(); var5.hasNext(); ++index) {
-                    Method defaultMethod = (Method) var5.next();
+                for (Iterator<?> iterator = defaultMethods.iterator(); iterator.hasNext(); ++index) {
+                    Method defaultMethod = (Method) iterator.next();
                     result[index] = defaultMethod;
                 }
             } else {
                 result = declaredMethods;
             }
-
             declaredMethodsCache.put(clazz, result.length == 0 ? NO_METHODS : result);
         }
 
@@ -393,23 +361,18 @@ public abstract class StrategySkywalkingTracerResolver {
     }
 
     private static List<Method> findConcreteMethodsOnInterfaces(Class<?> clazz) {
-        ArrayList result = null;
-        Class[] var2 = clazz.getInterfaces();
-        int var3 = var2.length;
-
-        for (int var4 = 0; var4 < var3; ++var4) {
-            Class ifc = var2[var4];
-            Method[] var6 = ifc.getMethods();
-            int var7 = var6.length;
-
-            for (int var8 = 0; var8 < var7; ++var8) {
-                Method ifcMethod = var6[var8];
-                if (!Modifier.isAbstract(ifcMethod.getModifiers())) {
+        ArrayList<Method> result = null;
+        Class<?>[] interfaces = clazz.getInterfaces();
+        for (int i = 0; i < interfaces.length; ++i) {
+            Class<?> interfaze = interfaces[i];
+            Method[] methods = interfaze.getMethods();
+            for (int j = 0; j < methods.length; ++j) {
+                Method method = methods[j];
+                if (!Modifier.isAbstract(method.getModifiers())) {
                     if (result == null) {
-                        result = new ArrayList();
+                        result = new ArrayList<Method>();
                     }
-
-                    result.add(ifcMethod);
+                    result.add(method);
                 }
             }
         }
@@ -417,46 +380,37 @@ public abstract class StrategySkywalkingTracerResolver {
         return result;
     }
 
-    public static void doWithLocalFields(Class<?> clazz, FieldCallback fc) {
-        Field[] var2 = getDeclaredFields(clazz);
-        int var3 = var2.length;
-
-        for (int var4 = 0; var4 < var3; ++var4) {
-            Field field = var2[var4];
-
+    public static void doWithLocalFields(Class<?> clazz, FieldCallback fieldCallback) {
+        Field[] fields = getDeclaredFields(clazz);
+        for (int i = 0; i < fields.length; ++i) {
+            Field field = fields[i];
             try {
-                fc.doWith(field);
-            } catch (IllegalAccessException var7) {
-                throw new IllegalStateException("Not allowed to access field \'" + field.getName() + "\': " + var7);
+                fieldCallback.doWith(field);
+            } catch (IllegalAccessException e) {
+                throw new IllegalStateException("Not allowed to access field '" + field.getName() + "': " + e);
             }
         }
     }
 
-    public static void doWithFields(Class<?> clazz, FieldCallback fc) {
-        doWithFields(clazz, fc, (FieldFilter) null);
+    public static void doWithFields(Class<?> clazz, FieldCallback fieldCallback) {
+        doWithFields(clazz, fieldCallback, (FieldFilter) null);
     }
 
-    public static void doWithFields(Class<?> clazz, FieldCallback fc, FieldFilter ff) {
-        Class targetClass = clazz;
-
+    public static void doWithFields(Class<?> clazz, FieldCallback fieldCallback, FieldFilter fieldFilter) {
         do {
-            Field[] fields = getDeclaredFields(targetClass);
-            Field[] var5 = fields;
-            int var6 = fields.length;
-
-            for (int var7 = 0; var7 < var6; ++var7) {
-                Field field = var5[var7];
-                if (ff == null || ff.matches(field)) {
+            Field[] fields = getDeclaredFields(clazz);
+            for (int i = 0; i < fields.length; ++i) {
+                Field field = fields[i];
+                if (fieldFilter == null || fieldFilter.matches(field)) {
                     try {
-                        fc.doWith(field);
-                    } catch (IllegalAccessException var10) {
-                        throw new IllegalStateException("Not allowed to access field \'" + field.getName() + "\': " + var10);
+                        fieldCallback.doWith(field);
+                    } catch (IllegalAccessException e) {
+                        throw new IllegalStateException("Not allowed to access field '" + field.getName() + "': " + e);
                     }
                 }
             }
-
-            targetClass = targetClass.getSuperclass();
-        } while (targetClass != null && targetClass != Object.class);
+            clazz = clazz.getSuperclass();
+        } while (clazz != null && clazz != Object.class);
     }
 
     private static Field[] getDeclaredFields(Class<?> clazz) {
@@ -475,7 +429,7 @@ public abstract class StrategySkywalkingTracerResolver {
         } else {
             doWithFields(src.getClass(), new FieldCallback() {
                 public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
-                    StrategySkywalkingTracerResolver.makeAccessible(field);
+                    makeAccessible(field);
                     Object srcValue = field.get(src);
                     field.set(dest, srcValue);
                 }
@@ -489,27 +443,28 @@ public abstract class StrategySkywalkingTracerResolver {
     }
 
     public interface FieldFilter {
-        boolean matches(Field var1);
+        boolean matches(Field field);
     }
 
     public interface FieldCallback {
-        void doWith(Field var1) throws IllegalArgumentException, IllegalAccessException;
+        void doWith(Field method) throws IllegalArgumentException, IllegalAccessException;
     }
 
     public interface MethodFilter {
-        boolean matches(Method var1);
+        boolean matches(Method method);
     }
 
     public interface MethodCallback {
-        void doWith(Method var1) throws IllegalArgumentException, IllegalAccessException;
+        void doWith(Method method) throws IllegalArgumentException, IllegalAccessException;
     }
 
     public static <T> T getFieldValue(Object object, String fieldName, Class<T> clazzT) {
         return getFieldValueWithSuper(object, fieldName, 0, clazzT);
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T getFieldValueWithSuper(Object object, String fieldName, int superLevel, Class<T> clazzT) {
-        Class clazz = object.getClass();
+        Class<?> clazz = object.getClass();
         while (superLevel > 0) {
             clazz = clazz.getSuperclass();
         }
@@ -523,8 +478,6 @@ public abstract class StrategySkywalkingTracerResolver {
         }
     }
 
-    public static Map<String, AtomicInteger> classLoadFailedTimes = new ConcurrentHashMap<>();
-
     public static Object invokeStaticMethod(String className, String name, Object... params) {
         try {
             if (classLoadFailedTimes.get(className) != null) {
@@ -532,9 +485,10 @@ public abstract class StrategySkywalkingTracerResolver {
                     return null;
                 }
             }
-            Class clazz = Thread.currentThread().getContextClassLoader().loadClass(className);
+            Class<?> clazz = Thread.currentThread().getContextClassLoader().loadClass(className);
             Method method = findMethodIngoreParam(clazz, name);
             method.setAccessible(true);
+
             return method.invoke(null, params);
         } catch (ClassNotFoundException e) {
             if (classLoadFailedTimes.get(className) == null) {
