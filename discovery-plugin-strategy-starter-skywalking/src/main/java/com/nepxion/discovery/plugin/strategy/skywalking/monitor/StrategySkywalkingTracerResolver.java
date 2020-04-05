@@ -88,12 +88,12 @@ public class StrategySkywalkingTracerResolver {
         Method[] result = declaredMethodsCache.get(clazz);
         if (result == null) {
             Method[] declaredMethods = clazz.getDeclaredMethods();
-            List<?> defaultMethods = findConcreteMethodsOnInterfaces(clazz);
+            List<Method> defaultMethods = findConcreteMethodsOnInterfaces(clazz);
             if (defaultMethods != null) {
                 result = new Method[declaredMethods.length + defaultMethods.size()];
                 System.arraycopy(declaredMethods, 0, result, 0, declaredMethods.length);
                 int index = declaredMethods.length;
-                for (Iterator<?> iterator = defaultMethods.iterator(); iterator.hasNext(); ++index) {
+                for (Iterator<Method> iterator = defaultMethods.iterator(); iterator.hasNext(); ++index) {
                     Method defaultMethod = (Method) iterator.next();
                     result[index] = defaultMethod;
                 }
