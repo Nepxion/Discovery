@@ -23,6 +23,7 @@ import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.cache.PluginCache;
 import com.nepxion.discovery.plugin.framework.cache.RuleCache;
+import com.nepxion.discovery.plugin.framework.context.PluginContextHolder;
 import com.netflix.loadbalancer.Server;
 
 public abstract class AbstractPluginAdapter implements PluginAdapter {
@@ -31,6 +32,9 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Autowired
     protected PluginCache pluginCache;
+
+    @Autowired(required = false)
+    protected PluginContextHolder pluginContextHolder;
 
     @Autowired
     protected RuleCache ruleCache;
@@ -374,6 +378,18 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
         }
         if (StringUtils.isNotEmpty(group)) {
             stringBuilder.append("[G=" + group + "]");
+        }
+
+        if (pluginContextHolder != null) {
+            String traceId = pluginContextHolder.getTraceId();
+            if (StringUtils.isNotEmpty(traceId)) {
+                stringBuilder.append("[TID=" + traceId + "]");
+            }
+
+            String spanId = pluginContextHolder.getSpanId();
+            if (StringUtils.isNotEmpty(spanId)) {
+                stringBuilder.append("[SID=" + spanId + "]");
+            }
         }
 
         return stringBuilder.toString();

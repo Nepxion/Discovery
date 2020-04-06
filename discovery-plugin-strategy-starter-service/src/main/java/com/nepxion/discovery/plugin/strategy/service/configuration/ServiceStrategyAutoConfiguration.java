@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.web.client.RestTemplate;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.strategy.adapter.DefaultDiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledAdapter;
@@ -58,8 +59,8 @@ public class ServiceStrategyAutoConfiguration {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
         }
 
-        if (ServiceStrategyConstant.EXCLUSION_SCAN_PACKAGES.contains(scanPackages)) {
-            throw new DiscoveryException("It can't scan packages for '" + ServiceStrategyConstant.EXCLUSION_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
+        if (scanPackages.contains(ServiceStrategyConstant.ENDPOINT_SCAN_PACKAGES)) {
+            throw new DiscoveryException("It can't scan packages for '" + ServiceStrategyConstant.ENDPOINT_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
         }
 
         return new RpcStrategyAutoScanProxy(scanPackages);
@@ -73,8 +74,8 @@ public class ServiceStrategyAutoConfiguration {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
         }
 
-        if (ServiceStrategyConstant.EXCLUSION_SCAN_PACKAGES.contains(scanPackages)) {
-            throw new DiscoveryException("It can't scan packages for '" + ServiceStrategyConstant.EXCLUSION_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
+        if (scanPackages.contains(ServiceStrategyConstant.ENDPOINT_SCAN_PACKAGES)) {
+            throw new DiscoveryException("It can't scan packages for '" + ServiceStrategyConstant.ENDPOINT_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
         }
 
         return new RpcStrategyInterceptor();
@@ -130,8 +131,8 @@ public class ServiceStrategyAutoConfiguration {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
         }
 
-        if (ServiceStrategyConstant.EXCLUSION_SCAN_PACKAGES.contains(scanPackages)) {
-            throw new DiscoveryException("It can't scan packages for '" + ServiceStrategyConstant.EXCLUSION_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
+        if (scanPackages.contains(ServiceStrategyConstant.ENDPOINT_SCAN_PACKAGES)) {
+            throw new DiscoveryException("It can't scan packages for '" + ServiceStrategyConstant.ENDPOINT_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
         }
 
         return new ProviderIsolationStrategyAutoScanProxy(scanPackages);
@@ -146,8 +147,8 @@ public class ServiceStrategyAutoConfiguration {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
         }
 
-        if (ServiceStrategyConstant.EXCLUSION_SCAN_PACKAGES.contains(scanPackages)) {
-            throw new DiscoveryException("It can't scan packages for '" + ServiceStrategyConstant.EXCLUSION_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
+        if (scanPackages.contains(ServiceStrategyConstant.ENDPOINT_SCAN_PACKAGES)) {
+            throw new DiscoveryException("It can't scan packages for '" + ServiceStrategyConstant.ENDPOINT_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
         }
 
         return new ProviderIsolationStrategyInterceptor();
@@ -162,11 +163,11 @@ public class ServiceStrategyAutoConfiguration {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
         }
 
-        if (ServiceStrategyConstant.EXCLUSION_SCAN_PACKAGES.contains(scanPackages)) {
-            throw new DiscoveryException("It can't scan packages for '" + ServiceStrategyConstant.EXCLUSION_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
+        if (scanPackages.contains(ServiceStrategyConstant.ENDPOINT_SCAN_PACKAGES)) {
+            throw new DiscoveryException("It can't scan packages for '" + ServiceStrategyConstant.ENDPOINT_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
         }
 
-        return new ServiceStrategyMonitorAutoScanProxy(scanPackages);
+        return new ServiceStrategyMonitorAutoScanProxy(scanPackages.endsWith(DiscoveryConstant.SEPARATE) ? (scanPackages + ServiceStrategyConstant.ENDPOINT_SCAN_PACKAGES) : (scanPackages + DiscoveryConstant.SEPARATE + ServiceStrategyConstant.ENDPOINT_SCAN_PACKAGES));
     }
 
     @Bean
@@ -178,8 +179,8 @@ public class ServiceStrategyAutoConfiguration {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
         }
 
-        if (ServiceStrategyConstant.EXCLUSION_SCAN_PACKAGES.contains(scanPackages)) {
-            throw new DiscoveryException("It can't scan packages for '" + ServiceStrategyConstant.EXCLUSION_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
+        if (scanPackages.contains(ServiceStrategyConstant.ENDPOINT_SCAN_PACKAGES)) {
+            throw new DiscoveryException("It can't scan packages for '" + ServiceStrategyConstant.ENDPOINT_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
         }
 
         return new ServiceStrategyMonitorInterceptor();

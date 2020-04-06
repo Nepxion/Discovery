@@ -21,4 +21,8 @@ public interface PluginContextHolder {
     String getContextRouteVersionWeight();
 
     String getContextRouteRegionWeight();
+
+    String getTraceId();
+
+    String getSpanId();
 }

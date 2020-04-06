@@ -14,11 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.context.PluginContextHolder;
+import com.nepxion.discovery.plugin.strategy.monitor.StrategyLogger;
 import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
 
 public abstract class AbstractStrategyContextHolder implements PluginContextHolder, StrategyContextHolder {
     @Autowired
     protected StrategyWrapper strategyWrapper;
+
+    @Autowired(required = false)
+    protected StrategyLogger strategyLogger;
 
     @Override
     public String getContext(String name) {
@@ -98,5 +102,23 @@ public abstract class AbstractStrategyContextHolder implements PluginContextHold
     @Override
     public String getRouteRegionWeight() {
         return strategyWrapper.getRouteRegionWeight();
+    }
+
+    @Override
+    public String getTraceId() {
+        if (strategyLogger != null) {
+            return strategyLogger.getTraceId();
+        }
+
+        return null;
+    }
+
+    @Override
+    public String getSpanId() {
+        if (strategyLogger != null) {
+            return strategyLogger.getSpanId();
+        }
+
+        return null;
     }
 }
