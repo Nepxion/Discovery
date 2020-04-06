@@ -19,8 +19,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
-import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 import com.nepxion.matrix.proxy.aop.AbstractInterceptor;
 
 public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
@@ -37,7 +37,8 @@ public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
         try {
             String className = getMethod(invocation).getDeclaringClass().getName();
             String methodName = getMethodName(invocation);
-            if (StringUtils.equals(className, ServiceStrategyConstant.INSPECTOR_ENDPOINT_CLASS_NAME) && StringUtils.equals(methodName, ServiceStrategyConstant.INSPECTOR_ENDPOINT_METHOD_NAME)) {
+            // 拦截侦测请求  
+            if (StringUtils.equals(className, DiscoveryConstant.INSPECTOR_ENDPOINT_CLASS_NAME) && StringUtils.equals(methodName, DiscoveryConstant.INSPECTOR_ENDPOINT_METHOD_NAME)) {
                 // 调用链监控
                 if (CollectionUtils.isNotEmpty(serviceStrategyMonitorList)) {
                     for (ServiceStrategyMonitor serviceStrategyMonitor : serviceStrategyMonitorList) {

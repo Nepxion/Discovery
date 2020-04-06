@@ -16,6 +16,7 @@ import io.swagger.annotations.ApiParam;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,9 +26,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.InspectorEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
+import com.nepxion.discovery.plugin.framework.context.PluginContextHolder;
 
 @RestController
 @RequestMapping(path = "/inspector")
@@ -39,17 +42,24 @@ public class InspectorEndpoint {
     @Autowired
     private PluginAdapter pluginAdapter;
 
+    @Autowired(required = false)
+    private PluginContextHolder pluginContextHolder;
+
     @RequestMapping(path = "/inspect", method = RequestMethod.POST)
     @ApiOperation(value = "侦测全链路路由", notes = "", response = InspectorEntity.class, httpMethod = "POST")
     @ResponseBody
     public InspectorEntity inspect(@RequestBody @ApiParam(value = "侦测对象", required = true) InspectorEntity inspectorEntity) {
         List<String> serviceIdList = inspectorEntity.getServiceIdList();
         String result = inspectorEntity.getResult();
+        // 第一个节点信息来自于网关
+        if (StringUtils.isEmpty(result) && pluginContextHolder != null) {
+            result = pluginContextHolder.getContext(DiscoveryConstant.INSPECTOR_ENDPOINT_HEADER);
+        }
         inspectorEntity.setResult(pluginAdapter.getPluginInfo(result));
 
         if (CollectionUtils.isNotEmpty(serviceIdList)) {
             String serviceId = serviceIdList.get(0);
-            String url = "http://" + serviceId + "/inspector/inspect";
+            String url = "http://" + serviceId + DiscoveryConstant.INSPECTOR_ENDPOINT_URL;
 
             serviceIdList.remove(0);
 

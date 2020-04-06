@@ -136,6 +136,12 @@ public class DiscoveryConstant {
     public static final String DEFAULT = "default";
     public static final String UNKNOWN = "unknown";
 
+    public static final String ENDPOINT_SCAN_PACKAGES = "com.nepxion.discovery.plugin.admincenter.endpoint";
+    public static final String INSPECTOR_ENDPOINT_CLASS_NAME = "com.nepxion.discovery.plugin.admincenter.endpoint.InspectorEndpoint";
+    public static final String INSPECTOR_ENDPOINT_METHOD_NAME = "inspect";
+    public static final String INSPECTOR_ENDPOINT_URL = "/inspector/inspect";
+    public static final String INSPECTOR_ENDPOINT_HEADER = "endpoint-inspector-inspect";
+
     public static final String EXPRESSION_PREFIX = "H";
     public static final String EXPRESSION_REGEX = "\\#" + EXPRESSION_PREFIX + "\\['\\S+'\\]";
     public static final String EXPRESSION_SUB_PREFIX = "#" + EXPRESSION_PREFIX + "['";

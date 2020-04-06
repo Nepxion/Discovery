@@ -148,6 +148,12 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
             }
         }
 
+        // 拦截侦测请求
+        String path = finalExchange.getRequest().getPath().toString();
+        if (path.contains(DiscoveryConstant.INSPECTOR_ENDPOINT_URL)) {
+            GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.INSPECTOR_ENDPOINT_HEADER, pluginAdapter.getPluginInfo(null), true);
+        }
+
         return chain.filter(finalExchange);
     }
 
