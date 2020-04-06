@@ -34,9 +34,9 @@ public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
+        String className = getMethod(invocation).getDeclaringClass().getName();
+        String methodName = getMethodName(invocation);
         try {
-            String className = getMethod(invocation).getDeclaringClass().getName();
-            String methodName = getMethodName(invocation);
             // 拦截侦测请求  
             if (StringUtils.equals(className, DiscoveryConstant.INSPECTOR_ENDPOINT_CLASS_NAME) && StringUtils.equals(methodName, DiscoveryConstant.INSPECTOR_ENDPOINT_METHOD_NAME)) {
                 // 调用链监控
@@ -74,7 +74,7 @@ public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
                 }
             }
 
-            LOG.error("Method={} of class={} threw following exception with root cause", getMethodName(invocation), getMethod(invocation).getDeclaringClass().getName(), e);
+            LOG.error("Method={} of class={} threw following exception with root cause", methodName, className, e);
 
             throw e;
         } finally {
