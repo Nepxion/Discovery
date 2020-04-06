@@ -9,10 +9,8 @@ package com.nepxion.discovery.plugin.strategy.zuul.filter;
  * @version 1.0
  */
 
-import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,7 +35,7 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter impleme
     protected StrategyContextHolder strategyContextHolder;
 
     @Autowired(required = false)
-    private List<ZuulStrategyMonitor> zuulStrategyMonitorList;
+    private ZuulStrategyMonitor zuulStrategyMonitor;
 
     // 如果外界也传了相同的Header，例如，从Postman传递过来的Header，当下面的变量为true，以网关设置为优先，否则以外界传值为优先
     @Value("${" + ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_HEADER_PRIORITY + ":true}")
@@ -137,10 +135,8 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter impleme
 
         // 调用链监控
         RequestContext context = RequestContext.getCurrentContext();
-        if (CollectionUtils.isNotEmpty(zuulStrategyMonitorList)) {
-            for (ZuulStrategyMonitor zuulStrategyMonitor : zuulStrategyMonitorList) {
-                zuulStrategyMonitor.monitor(context);
-            }
+        if (zuulStrategyMonitor != null) {
+            zuulStrategyMonitor.monitor(context);
         }
 
         // 拦截侦测请求

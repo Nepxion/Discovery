@@ -137,7 +137,7 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
     }
 
     @Override
-    public void spanError(Map<String, String> contextMap, Throwable e) {
+    public void spanError(Throwable e) {
         if (!tracerEnabled) {
             return;
         }
@@ -153,7 +153,7 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
             return;
         }
 
-        errorSpan(span, contextMap, e);
+        errorSpan(span, e);
     }
 
     @Override
@@ -216,7 +216,7 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
 
     protected abstract void outputSpan(S span, String key, String value);
 
-    protected abstract void errorSpan(S span, Map<String, String> contextMap, Throwable e);
+    protected abstract void errorSpan(S span, Throwable e);
 
     protected abstract void finishSpan(S span);
 

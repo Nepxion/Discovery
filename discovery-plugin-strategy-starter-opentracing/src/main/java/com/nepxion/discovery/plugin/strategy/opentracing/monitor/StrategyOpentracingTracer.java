@@ -16,7 +16,6 @@ import io.opentracing.tag.Tags;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
@@ -37,11 +36,8 @@ public class StrategyOpentracingTracer extends AbstractStrategyTracer<Span> {
     }
 
     @Override
-    protected void errorSpan(Span span, Map<String, String> contextMap, Throwable e) {
+    protected void errorSpan(Span span, Throwable e) {
         Map<String, Object> map = new HashMap<String, Object>();
-        if (MapUtils.isNotEmpty(contextMap)) {
-            map.putAll(contextMap);
-        }
         map.put(DiscoveryConstant.EVENT, Tags.ERROR.getKey());
         map.put(DiscoveryConstant.ERROR_OBJECT, e);
 

@@ -12,10 +12,6 @@ package com.nepxion.discovery.plugin.strategy.skywalking.monitor;
 import io.opentracing.Tracer;
 import io.opentracing.tag.Tags;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.commons.collections4.MapUtils;
 import org.apache.skywalking.apm.toolkit.opentracing.SkywalkingTracer;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
@@ -35,15 +31,9 @@ public class StrategySkywalkingTracer extends AbstractStrategyTracer<StrategySky
     }
 
     @Override
-    protected void errorSpan(StrategySkywalkingSpan span, Map<String, String> contextMap, Throwable e) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        if (MapUtils.isNotEmpty(contextMap)) {
-            map.putAll(contextMap);
-        }
-        map.put(DiscoveryConstant.EVENT, Tags.ERROR.getKey());
-        map.put(DiscoveryConstant.ERROR_OBJECT, e);
-
-        span.log(map);
+    protected void errorSpan(StrategySkywalkingSpan span, Throwable e) {
+        span.setTag(DiscoveryConstant.EVENT, Tags.ERROR.getKey());
+        span.setTag(DiscoveryConstant.ERROR_OBJECT, e.getMessage());
     }
 
     @Override

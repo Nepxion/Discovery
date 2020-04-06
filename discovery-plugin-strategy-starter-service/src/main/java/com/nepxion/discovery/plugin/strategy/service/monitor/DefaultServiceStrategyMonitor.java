@@ -40,19 +40,12 @@ public class DefaultServiceStrategyMonitor extends StrategyMonitor implements Se
         loggerOutput();
         loggerDebug();
 
-        Map<String, String> contextMap = createContextMap(interceptor, invocation, returnValue);
-
-        spanOutput(contextMap);
+        spanOutput(createContextMap(interceptor, invocation, returnValue));
     }
 
     @Override
     public void error(ServiceStrategyMonitorInterceptor interceptor, MethodInvocation invocation, Throwable e) {
-        // 一般来说，日志方式对异常不需要做特殊处理，但必须也要把上下文参数放在MDC里，否则链路中异常环节会串不起来
-        loggerOutput();
-
-        Map<String, String> contextMap = createContextMap(interceptor, invocation, null);
-
-        spanError(contextMap, e);
+        spanError(e);
     }
 
     @Override
