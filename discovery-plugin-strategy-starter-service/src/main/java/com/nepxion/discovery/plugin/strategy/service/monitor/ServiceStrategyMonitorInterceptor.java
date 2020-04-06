@@ -9,10 +9,7 @@ package com.nepxion.discovery.plugin.strategy.service.monitor;
  * @version 1.0
  */
 
-import java.util.List;
-
 import org.aopalliance.intercept.MethodInvocation;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,20 +27,20 @@ public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
     protected Boolean tracerMethodContextOutputEnabled;
 
     @Autowired(required = false)
-    private List<ServiceStrategyMonitor> serviceStrategyMonitorList;
+    private ServiceStrategyMonitor serviceStrategyMonitor;
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         String className = getMethod(invocation).getDeclaringClass().getName();
         String methodName = getMethodName(invocation);
+        boolean isMonitored = false;
         try {
             // 拦截侦测请求  
             if (StringUtils.equals(className, DiscoveryConstant.INSPECTOR_ENDPOINT_CLASS_NAME) && StringUtils.equals(methodName, DiscoveryConstant.INSPECTOR_ENDPOINT_METHOD_NAME)) {
                 // 调用链监控
-                if (CollectionUtils.isNotEmpty(serviceStrategyMonitorList)) {
-                    for (ServiceStrategyMonitor serviceStrategyMonitor : serviceStrategyMonitorList) {
-                        serviceStrategyMonitor.monitor(this, invocation, null);
-                    }
+                if (serviceStrategyMonitor != null) {
+                    serviceStrategyMonitor.monitor(this, invocation, null);
+                    isMonitored = true;
                 }
 
                 return invocation.proceed();
@@ -55,10 +52,9 @@ public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
                 }
 
                 // 调用链监控
-                if (CollectionUtils.isNotEmpty(serviceStrategyMonitorList)) {
-                    for (ServiceStrategyMonitor serviceStrategyMonitor : serviceStrategyMonitorList) {
-                        serviceStrategyMonitor.monitor(this, invocation, returnValue);
-                    }
+                if (serviceStrategyMonitor != null) {
+                    serviceStrategyMonitor.monitor(this, invocation, returnValue);
+                    isMonitored = true;
                 }
 
                 if (!tracerMethodContextOutputEnabled) {
@@ -68,10 +64,11 @@ public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
                 return returnValue;
             }
         } catch (Throwable e) {
-            if (CollectionUtils.isNotEmpty(serviceStrategyMonitorList)) {
-                for (ServiceStrategyMonitor serviceStrategyMonitor : serviceStrategyMonitorList) {
-                    serviceStrategyMonitor.error(this, invocation, e);
+            if (serviceStrategyMonitor != null) {
+                if (!isMonitored) {
+                    serviceStrategyMonitor.monitor(this, invocation, null);
                 }
+                serviceStrategyMonitor.error(this, invocation, e);
             }
 
             LOG.error("Method={} of class={} threw following exception with root cause", methodName, className, e);
@@ -79,10 +76,8 @@ public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
             throw e;
         } finally {
             // 调用链释放
-            if (CollectionUtils.isNotEmpty(serviceStrategyMonitorList)) {
-                for (ServiceStrategyMonitor serviceStrategyMonitor : serviceStrategyMonitorList) {
-                    serviceStrategyMonitor.release(this, invocation);
-                }
+            if (serviceStrategyMonitor != null) {
+                serviceStrategyMonitor.release(this, invocation);
             }
         }
     }

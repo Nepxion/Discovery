@@ -50,9 +50,9 @@ public class StrategyMonitor {
         }
     }
 
-    public void spanError(Map<String, String> contextMap, Throwable e) {
+    public void spanError(Throwable e) {
         if (strategyTracer != null) {
-            strategyTracer.spanError(contextMap, e);
+            strategyTracer.spanError(e);
         }
     }
 

@@ -9,9 +9,6 @@ package com.nepxion.discovery.plugin.strategy.zuul.filter;
  * @version 1.0
  */
 
-import java.util.List;
-
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 
@@ -21,7 +18,7 @@ import com.netflix.zuul.context.RequestContext;
 
 public class DefaultZuulStrategyClearFilter extends ZuulFilter implements ZuulStrategyClearFilter {
     @Autowired(required = false)
-    private List<ZuulStrategyMonitor> zuulStrategyMonitorList;
+    private ZuulStrategyMonitor zuulStrategyMonitor;
 
     @Override
     public String filterType() {
@@ -42,10 +39,8 @@ public class DefaultZuulStrategyClearFilter extends ZuulFilter implements ZuulSt
     public Object run() {
         // 调用链释放
         RequestContext context = RequestContext.getCurrentContext();
-        if (CollectionUtils.isNotEmpty(zuulStrategyMonitorList)) {
-            for (ZuulStrategyMonitor zuulStrategyMonitor : zuulStrategyMonitorList) {
-                zuulStrategyMonitor.release(context);
-            }
+        if (zuulStrategyMonitor != null) {
+            zuulStrategyMonitor.release(context);
         }
 
         return null;
