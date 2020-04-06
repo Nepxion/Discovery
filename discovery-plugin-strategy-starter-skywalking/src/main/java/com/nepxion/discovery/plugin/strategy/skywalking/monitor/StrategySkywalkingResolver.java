@@ -15,12 +15,12 @@ import org.slf4j.LoggerFactory;
 import com.esotericsoftware.reflectasm.MethodAccess;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
-// 通过高性能reflectasm字节码反射框架来反射获取Skywalking的TraceId，不支持反射获取Skywalking的SpanId
-// 1. 由于Skywalking的ContextManager类未暴露出公共的获取SpanId的方法，reflectasm字节码反射不支持调用私有方法和属性
-// 2. 虽然可以通过method.setAccessible(true)方式访问私有方法和属性，但需要走Java原生反射方式，会较耗性能
-// 3. SpanId值以N/A值为代替，等Skywalking官方支持后，再行修改
-public class StrategySkywalkingTracerResolver {
-    private static final Logger LOG = LoggerFactory.getLogger(StrategySkywalkingTracerResolver.class);
+// 通过高性能reflectasm字节码增强反射框架来反射获取Skywalking的TraceId，不支持反射获取Skywalking的SpanId
+// 1. 由于Skywalking的ContextManager类未暴露出公共的获取SpanId的方法，reflectas反射不支持调用私有方法和属性
+// 2. 虽然可以通过method.setAccessible(true)方式访问私有方法和属性，但需要走Java原生反射方式，会比较耗性能
+// 3. SpanId值以N/A值为代替，等Skywalking官方支持后，再做修改
+public class StrategySkywalkingResolver {
+    private static final Logger LOG = LoggerFactory.getLogger(StrategySkywalkingResolver.class);
 
     private static MethodAccess contextManagerMethodAccess;
     private static int getGlobalTraceIdMethodIndex;

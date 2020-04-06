@@ -9,7 +9,6 @@ package com.nepxion.discovery.plugin.strategy.skywalking.monitor;
  * @version 1.0
  */
 
-import io.opentracing.Span;
 import io.opentracing.Tracer;
 import io.opentracing.tag.Tags;
 
@@ -20,28 +19,22 @@ import org.apache.skywalking.apm.toolkit.opentracing.SkywalkingTracer;
 import com.google.common.collect.ImmutableMap;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.strategy.monitor.AbstractStrategyTracer;
-import com.nepxion.discovery.plugin.strategy.monitor.StrategyTracerContext;
 
-public class StrategySkywalkingTracer extends AbstractStrategyTracer<Span> {
+public class StrategySkywalkingTracer extends AbstractStrategyTracer<StrategySkywalkingSpan> {
     private Tracer tracer = new SkywalkingTracer();
 
     @Override
-    protected Span buildSpan() {
-        Span span = tracer.buildSpan(tracerSpanValue).startManual();
-
-        StrategyTracerContext.getCurrentContext().setTraceId(createTraceId());
-        StrategyTracerContext.getCurrentContext().setSpanId(createSpanId());
-
-        return span;
+    protected StrategySkywalkingSpan buildSpan() {
+        return new StrategySkywalkingSpan(tracer.buildSpan(tracerSpanValue).startManual());
     }
 
     @Override
-    protected void outputSpan(Span span, String key, String value) {
+    protected void outputSpan(StrategySkywalkingSpan span, String key, String value) {
         span.setTag(key, value);
     }
 
     @Override
-    protected void errorSpan(Span span, Map<String, String> contextMap, Throwable e) {
+    protected void errorSpan(StrategySkywalkingSpan span, Map<String, String> contextMap, Throwable e) {
         span.log(new ImmutableMap.Builder<String, Object>()
                 .putAll(contextMap)
                 .put(DiscoveryConstant.EVENT, Tags.ERROR.getKey())
@@ -50,39 +43,23 @@ public class StrategySkywalkingTracer extends AbstractStrategyTracer<Span> {
     }
 
     @Override
-    protected void finishSpan(Span span) {
+    protected void finishSpan(StrategySkywalkingSpan span) {
         span.finish();
     }
 
     //  该方法永远不会被用到
     @Override
-    protected Span getActiveSpan() {
+    protected StrategySkywalkingSpan getActiveSpan() {
         return null;
     }
 
     @Override
-    protected String toTraceId(Span span) {
-        return StrategyTracerContext.getCurrentContext().getTraceId();
+    protected String toTraceId(StrategySkywalkingSpan span) {
+        return span.toTraceId();
     }
 
     @Override
-    protected String toSpanId(Span span) {
-        return StrategyTracerContext.getCurrentContext().getSpanId();
-    }
-
-    private String createTraceId() {
-        try {
-            return StrategySkywalkingTracerResolver.getTraceId();
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    private String createSpanId() {
-        try {
-            return StrategySkywalkingTracerResolver.getSpanId();
-        } catch (Exception e) {
-            return null;
-        }
+    protected String toSpanId(StrategySkywalkingSpan span) {
+        return span.toSpanId();
     }
 }
