@@ -112,7 +112,7 @@ public class StrategySkywalkingSpan implements Span {
 
     private String createTraceId() {
         try {
-            return StrategySkywalkingResolver.getTraceId();
+            return StrategySkywalkingResolver.createTraceId();
         } catch (Exception e) {
             return null;
         }
@@ -120,7 +120,7 @@ public class StrategySkywalkingSpan implements Span {
 
     private String createSpanId() {
         try {
-            return StrategySkywalkingResolver.getSpanId();
+            return StrategySkywalkingResolver.createSpanId();
         } catch (Exception e) {
             return null;
         }
