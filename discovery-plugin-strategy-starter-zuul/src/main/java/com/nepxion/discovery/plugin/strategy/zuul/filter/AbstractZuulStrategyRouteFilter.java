@@ -143,6 +143,12 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter impleme
             }
         }
 
+        // 拦截侦测请求
+        String path = context.getRequest().getServletPath();
+        if (path.contains(DiscoveryConstant.INSPECTOR_ENDPOINT_URL)) {
+            ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.INSPECTOR_ENDPOINT_HEADER, pluginAdapter.getPluginInfo(null), true);
+        }
+
         return null;
     }
 

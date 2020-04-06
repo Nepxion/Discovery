@@ -16,8 +16,4 @@ public class ServiceStrategyConstant {
     public static final String SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_DEBUG_ENABLED = "spring.application.strategy.rest.intercept.debug.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_CONTEXT_REQUEST_HEADERS = "spring.application.strategy.context.request.headers";
     public static final String SPRING_APPLICATION_STRATEGY_BUSINESS_REQUEST_HEADERS = "spring.application.strategy.business.request.headers";
-
-    public static final String ENDPOINT_SCAN_PACKAGES = "com.nepxion.discovery.plugin.admincenter.endpoint";
-    public static final String INSPECTOR_ENDPOINT_CLASS_NAME = "com.nepxion.discovery.plugin.admincenter.endpoint.InspectorEndpoint";
-    public static final String INSPECTOR_ENDPOINT_METHOD_NAME = "inspect"; 
 }

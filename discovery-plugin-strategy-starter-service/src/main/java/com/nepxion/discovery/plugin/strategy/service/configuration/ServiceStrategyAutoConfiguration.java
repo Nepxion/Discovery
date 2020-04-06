@@ -59,8 +59,8 @@ public class ServiceStrategyAutoConfiguration {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
         }
 
-        if (scanPackages.contains(ServiceStrategyConstant.ENDPOINT_SCAN_PACKAGES)) {
-            throw new DiscoveryException("It can't scan packages for '" + ServiceStrategyConstant.ENDPOINT_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
+        if (scanPackages.contains(DiscoveryConstant.ENDPOINT_SCAN_PACKAGES)) {
+            throw new DiscoveryException("It can't scan packages for '" + DiscoveryConstant.ENDPOINT_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
         }
 
         return new RpcStrategyAutoScanProxy(scanPackages);
@@ -74,8 +74,8 @@ public class ServiceStrategyAutoConfiguration {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
         }
 
-        if (scanPackages.contains(ServiceStrategyConstant.ENDPOINT_SCAN_PACKAGES)) {
-            throw new DiscoveryException("It can't scan packages for '" + ServiceStrategyConstant.ENDPOINT_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
+        if (scanPackages.contains(DiscoveryConstant.ENDPOINT_SCAN_PACKAGES)) {
+            throw new DiscoveryException("It can't scan packages for '" + DiscoveryConstant.ENDPOINT_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
         }
 
         return new RpcStrategyInterceptor();
@@ -131,8 +131,8 @@ public class ServiceStrategyAutoConfiguration {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
         }
 
-        if (scanPackages.contains(ServiceStrategyConstant.ENDPOINT_SCAN_PACKAGES)) {
-            throw new DiscoveryException("It can't scan packages for '" + ServiceStrategyConstant.ENDPOINT_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
+        if (scanPackages.contains(DiscoveryConstant.ENDPOINT_SCAN_PACKAGES)) {
+            throw new DiscoveryException("It can't scan packages for '" + DiscoveryConstant.ENDPOINT_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
         }
 
         return new ProviderIsolationStrategyAutoScanProxy(scanPackages);
@@ -147,8 +147,8 @@ public class ServiceStrategyAutoConfiguration {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
         }
 
-        if (scanPackages.contains(ServiceStrategyConstant.ENDPOINT_SCAN_PACKAGES)) {
-            throw new DiscoveryException("It can't scan packages for '" + ServiceStrategyConstant.ENDPOINT_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
+        if (scanPackages.contains(DiscoveryConstant.ENDPOINT_SCAN_PACKAGES)) {
+            throw new DiscoveryException("It can't scan packages for '" + DiscoveryConstant.ENDPOINT_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
         }
 
         return new ProviderIsolationStrategyInterceptor();
@@ -163,11 +163,11 @@ public class ServiceStrategyAutoConfiguration {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
         }
 
-        if (scanPackages.contains(ServiceStrategyConstant.ENDPOINT_SCAN_PACKAGES)) {
-            throw new DiscoveryException("It can't scan packages for '" + ServiceStrategyConstant.ENDPOINT_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
+        if (scanPackages.contains(DiscoveryConstant.ENDPOINT_SCAN_PACKAGES)) {
+            throw new DiscoveryException("It can't scan packages for '" + DiscoveryConstant.ENDPOINT_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
         }
 
-        return new ServiceStrategyMonitorAutoScanProxy(scanPackages.endsWith(DiscoveryConstant.SEPARATE) ? (scanPackages + ServiceStrategyConstant.ENDPOINT_SCAN_PACKAGES) : (scanPackages + DiscoveryConstant.SEPARATE + ServiceStrategyConstant.ENDPOINT_SCAN_PACKAGES));
+        return new ServiceStrategyMonitorAutoScanProxy(scanPackages.endsWith(DiscoveryConstant.SEPARATE) ? (scanPackages + DiscoveryConstant.ENDPOINT_SCAN_PACKAGES) : (scanPackages + DiscoveryConstant.SEPARATE + DiscoveryConstant.ENDPOINT_SCAN_PACKAGES));
     }
 
     @Bean
@@ -179,8 +179,8 @@ public class ServiceStrategyAutoConfiguration {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
         }
 
-        if (scanPackages.contains(ServiceStrategyConstant.ENDPOINT_SCAN_PACKAGES)) {
-            throw new DiscoveryException("It can't scan packages for '" + ServiceStrategyConstant.ENDPOINT_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
+        if (scanPackages.contains(DiscoveryConstant.ENDPOINT_SCAN_PACKAGES)) {
+            throw new DiscoveryException("It can't scan packages for '" + DiscoveryConstant.ENDPOINT_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
         }
 
         return new ServiceStrategyMonitorInterceptor();
