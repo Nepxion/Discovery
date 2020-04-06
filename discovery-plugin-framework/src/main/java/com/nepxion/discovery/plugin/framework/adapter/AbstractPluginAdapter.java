@@ -365,8 +365,8 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
             stringBuilder.append(previousPluginInfo + " -> ");
         }
 
-        stringBuilder.append(serviceId);
-        stringBuilder.append("[" + host + ":" + port + "]");
+        stringBuilder.append("[ID=" + serviceId + "]");
+        stringBuilder.append("[H=" + host + ":" + port + "]");
         if (StringUtils.isNotEmpty(version)) {
             stringBuilder.append("[V=" + version + "]");
         }
