@@ -25,6 +25,7 @@ public class ExpressionStrategyTest {
         System.out.println(test1());
         System.out.println(test2());
         System.out.println(test3());
+        System.out.println(test4());
     }
 
     private static boolean test1() {
@@ -62,7 +63,25 @@ public class ExpressionStrategyTest {
         return list;
     }
 
-    private static int test3() {
+    private static List<String> test3() {
+        String regex = "\\[\\S+\\]";
+        Pattern pattern = Pattern.compile(regex);
+
+        String expression = "[ID=solar-service-a][H=172.27.208.1:3001][V=1.0][R=dev][E=env1][G=solar-group][TID=123][SID=N/A]";
+        expression = StringUtils.replace(expression, "][", "] [");
+        Matcher matcher = pattern.matcher(expression);
+
+        List<String> list = new ArrayList<String>();
+        while (matcher.find()) {
+            String group = matcher.group();
+            String value = StringUtils.substringBetween(group, "[", "]");
+            list.add(value);
+        }
+
+        return list;
+    }
+
+    private static int test4() {
         String expression = "#H['a-A'] != '123' || #H['b//SS'] != '456' && #H['C**44!!66'] == '123'";
         String key = "#H['";
 
