@@ -13,12 +13,14 @@ import java.util.List;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
+import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 import com.nepxion.matrix.proxy.aop.AbstractInterceptor;
 
 public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
@@ -33,24 +35,37 @@ public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         try {
-            Object returnValue = null;
-
-            if (tracerMethodContextOutputEnabled) {
-                returnValue = invocation.proceed();
-            }
-
-            // 调用链监控
-            if (CollectionUtils.isNotEmpty(serviceStrategyMonitorList)) {
-                for (ServiceStrategyMonitor serviceStrategyMonitor : serviceStrategyMonitorList) {
-                    serviceStrategyMonitor.monitor(this, invocation, returnValue);
+            String className = getMethod(invocation).getDeclaringClass().getName();
+            String methodName = getMethodName(invocation);
+            if (StringUtils.equals(className, ServiceStrategyConstant.INSPECTOR_ENDPOINT_CLASS_NAME) && StringUtils.equals(methodName, ServiceStrategyConstant.INSPECTOR_ENDPOINT_METHOD_NAME)) {
+                // 调用链监控
+                if (CollectionUtils.isNotEmpty(serviceStrategyMonitorList)) {
+                    for (ServiceStrategyMonitor serviceStrategyMonitor : serviceStrategyMonitorList) {
+                        serviceStrategyMonitor.monitor(this, invocation, null);
+                    }
                 }
-            }
 
-            if (!tracerMethodContextOutputEnabled) {
-                returnValue = invocation.proceed();
-            }
+                return invocation.proceed();
+            } else {
+                Object returnValue = null;
 
-            return returnValue;
+                if (tracerMethodContextOutputEnabled) {
+                    returnValue = invocation.proceed();
+                }
+
+                // 调用链监控
+                if (CollectionUtils.isNotEmpty(serviceStrategyMonitorList)) {
+                    for (ServiceStrategyMonitor serviceStrategyMonitor : serviceStrategyMonitorList) {
+                        serviceStrategyMonitor.monitor(this, invocation, returnValue);
+                    }
+                }
+
+                if (!tracerMethodContextOutputEnabled) {
+                    returnValue = invocation.proceed();
+                }
+
+                return returnValue;
+            }
         } catch (Throwable e) {
             if (CollectionUtils.isNotEmpty(serviceStrategyMonitorList)) {
                 for (ServiceStrategyMonitor serviceStrategyMonitor : serviceStrategyMonitorList) {
