@@ -1298,6 +1298,8 @@ spring.application.strategy.tracer.enabled=true
 spring.application.strategy.tracer.separate.span.enabled=true
 # 启动和关闭调用链的灰度规则策略信息输出。缺失则默认为true
 spring.application.strategy.tracer.rule.output.enabled=true
+# 启动和关闭调用链的异常信息是否以详细格式输出。缺失则默认为false
+spring.application.strategy.tracer.exception.detail.output.enabled=true
 # 启动和关闭类方法上入参和出参输出到调用链。缺失则默认为false
 spring.application.strategy.tracer.method.context.output.enabled=true
 # 显示在调用链界面上灰度Span的名称，建议改成具有公司特色的框架产品名称。缺失则默认为NEPXION
@@ -1413,6 +1415,8 @@ spring.application.strategy.tracer.enabled=true
 spring.application.strategy.tracer.separate.span.enabled=true
 # 启动和关闭调用链的灰度规则策略信息输出。缺失则默认为true
 spring.application.strategy.tracer.rule.output.enabled=true
+# 启动和关闭调用链的异常信息是否以详细格式输出。缺失则默认为false
+spring.application.strategy.tracer.exception.detail.output.enabled=true
 # 显示在调用链界面上灰度Span的名称，建议改成具有公司特色的框架产品名称。缺失则默认为NEPXION
 spring.application.strategy.tracer.span.value=NEPXION
 # 显示在调用链界面上灰度Span Tag的插件名称，建议改成具有公司特色的框架产品的描述。缺失则默认为Nepxion Discovery
@@ -1509,6 +1513,8 @@ spring.application.strategy.tracer.enabled=true
 spring.application.strategy.tracer.separate.span.enabled=true
 # 启动和关闭调用链的灰度规则策略信息输出。缺失则默认为true
 spring.application.strategy.tracer.rule.output.enabled=true
+# 启动和关闭调用链的异常信息是否以详细格式输出。缺失则默认为false
+spring.application.strategy.tracer.exception.detail.output.enabled=true
 # 显示在调用链界面上灰度Span的名称，建议改成具有公司特色的框架产品名称。缺失则默认为NEPXION
 spring.application.strategy.tracer.span.value=NEPXION
 # 显示在调用链界面上灰度Span Tag的插件名称，建议改成具有公司特色的框架产品的描述。缺失则默认为Nepxion Discovery

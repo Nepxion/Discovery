@@ -89,6 +89,12 @@
 			"description": "Whether strategy tracer rule output is enabled."
 		},
 		{
+			"name": "spring.application.strategy.tracer.exception.detail.output.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": false,
+			"description": "Whether strategy tracer exception detail output is enabled."
+		},
+		{
 			"name": "spring.application.strategy.tracer.method.context.output.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": false,
