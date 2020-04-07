@@ -68,7 +68,7 @@ public class StrategySkywalkingResolver {
         try {
             if (classLoadFailedTimes.get(className) != null) {
                 if (classLoadFailedTimes.get(className).get() > 20) {
-                    return null;
+                    throw new IllegalArgumentException("Class load failed times > 20 times");
                 }
             }
             Class<?> clazz = Thread.currentThread().getContextClassLoader().loadClass(className);
@@ -168,8 +168,8 @@ public class StrategySkywalkingResolver {
     }
 
     public static Field findField(Class<?> clazz, String name, Class<?> type) {
-        for (Class<?> searchType = clazz; Object.class != searchType && searchType != null; searchType = searchType.getSuperclass()) {
-            Field[] fields = getDeclaredFields(searchType);
+        for (Class<?> searchClass = clazz; Object.class != searchClass && searchClass != null; searchClass = searchClass.getSuperclass()) {
+            Field[] fields = getDeclaredFields(searchClass);
             for (int i = 0; i < fields.length; ++i) {
                 Field field = fields[i];
                 if ((name == null || name.equals(field.getName())) && (type == null || type.equals(field.getType()))) {
@@ -199,10 +199,5 @@ public class StrategySkywalkingResolver {
         }
 
         return result;
-    }
-
-    public static void clearCache() {
-        declaredMethodsCache.clear();
-        declaredFieldsCache.clear();
     }
 }
