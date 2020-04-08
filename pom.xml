@@ -64,8 +64,8 @@
         <dom4j.version>1.6.1</dom4j.version>
         <swagger.version>2.7.0</swagger.version>
         <apollo.client.version>1.6.0</apollo.client.version>
-        <nacos.client.version>1.2.0</nacos.client.version>
-        <sentinel.version>1.7.1</sentinel.version>
+        <nacos.client.version>1.2.1</nacos.client.version>
+        <sentinel.version>1.7.2</sentinel.version>
         <spring.cloud.version>Edgware.SR6</spring.cloud.version>
         <spring.cloud.alibaba.version>1.5.1.RELEASE</spring.cloud.alibaba.version>
         <spring.boot.version>1.5.22.RELEASE</spring.boot.version>
