@@ -32,9 +32,7 @@ public class DefaultCallableWrapper implements CallableWrapper {
                 try {
                     RestStrategyContext.getCurrentContext().setRequestAttributes(requestAttributes);
 
-                    if (span != null) {
-                        StrategyTracerContext.getCurrentContext().setSpan(span);
-                    }
+                    StrategyTracerContext.getCurrentContext().setSpan(span);
 
                     return callable.call();
                 } finally {

@@ -35,9 +35,7 @@ public class DefaultCallableWrapper implements CallableWrapper {
                     ZuulStrategyContext.getCurrentContext().setRequest(request);
                     ZuulStrategyContext.getCurrentContext().setHeaders(headers);
 
-                    if (span != null) {
-                        StrategyTracerContext.getCurrentContext().setSpan(span);
-                    }
+                    StrategyTracerContext.getCurrentContext().setSpan(span);
 
                     return callable.call();
                 } finally {

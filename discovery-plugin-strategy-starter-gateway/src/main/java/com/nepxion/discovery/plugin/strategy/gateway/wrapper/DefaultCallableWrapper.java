@@ -31,9 +31,7 @@ public class DefaultCallableWrapper implements CallableWrapper {
                 try {
                     GatewayStrategyContext.getCurrentContext().setExchange(exchange);
 
-                    if (span != null) {
-                        StrategyTracerContext.getCurrentContext().setSpan(span);
-                    }
+                    StrategyTracerContext.getCurrentContext().setSpan(span);
 
                     return callable.call();
                 } finally {
