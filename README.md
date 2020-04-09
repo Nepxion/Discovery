@@ -59,7 +59,7 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
 - 由于源码中带有的示例功能比较齐全，较为复杂。强烈建议，先学习[指南示例](https://github.com/Nepxion/DiscoveryGuide)
 
 ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Attention.png) 鸣谢
-- 感谢阿里巴巴中间件Nacos和Sentinel团队，尤其是Nacos负责人@于怀，Sentinel负责人@子衿，Spring Cloud Alibaba负责人@亦盏、@洛夜的技术支持
+- 感谢阿里巴巴中间件Nacos和Sentinel团队，尤其是Nacos负责人@于怀，Sentinel负责人@子衿，Spring Cloud Alibaba负责人@小马哥、@亦盏、@洛夜的技术支持
 - 感谢携程Apollo团队，尤其是@宋顺，特意开发OpenApi包和技术支持
 - 感谢代码贡献者，包括@WeihuaWang，@张顺，@Esun，@liumapp，@terranhu，@JikaiSun，@HaoHuang，@FanYang，@Ankeway等
 - 感谢为本框架进行测试验证和问题分析定位的同学，包括@张龙，@CongweiXu，@fan，@阿神，@慕紫，@郝俊仁，@Windon，@杨成，@李鹏，@任学会等
