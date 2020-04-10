@@ -35,7 +35,7 @@ public class StrategySkywalkingResolver {
 
         Object traceId = invokeStaticMethod("org.apache.skywalking.apm.agent.core.context.ContextManager", "getGlobalTraceId");
         if (traceId == null) {
-            throw new IllegalArgumentException("ContextManager.getGlobalTraceId() returns null");
+            throw new IllegalArgumentException("ContextManager.getGlobalTraceId() return null");
         }
 
         return traceId.toString();
@@ -48,7 +48,7 @@ public class StrategySkywalkingResolver {
 
         Object traceContext = invokeStaticMethod("org.apache.skywalking.apm.agent.core.context.ContextManager", "get");
         if (traceContext == null) {
-            throw new IllegalArgumentException("ContextManager.get() returns null");
+            throw new IllegalArgumentException("ContextManager.get() return null");
         }
 
         String segmentId = null;
