@@ -38,7 +38,6 @@
         <module>discovery-plugin-strategy-starter-service-sentinel</module>
         <module>discovery-plugin-strategy-starter-zuul</module>
         <module>discovery-plugin-strategy-starter-hystrix</module>
-        <module>discovery-plugin-strategy-starter-agent</module>
         <module>discovery-plugin-test-starter</module>
         <module>discovery-console</module>
         <module>discovery-console-starter-apollo</module>
@@ -235,12 +234,6 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-strategy-starter-hystrix</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>discovery-plugin-strategy-starter-agent</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
