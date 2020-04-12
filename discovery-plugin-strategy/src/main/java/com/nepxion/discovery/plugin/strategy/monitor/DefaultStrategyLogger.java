@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Value;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.strategy.adapter.StrategyTracerAdapter;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 
@@ -30,11 +29,8 @@ public class DefaultStrategyLogger implements StrategyLogger {
     @Autowired
     protected StrategyContextHolder strategyContextHolder;
 
-    @Autowired(required = false)
-    protected StrategyTracer strategyTracer;
-
-    @Autowired(required = false)
-    protected StrategyTracerAdapter strategyTracerAdapter;
+    @Autowired
+    protected StrategyMonitorContext strategyMonitorContext;
 
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_LOGGER_ENABLED + ":false}")
     protected Boolean loggerEnabled;
@@ -51,15 +47,15 @@ public class DefaultStrategyLogger implements StrategyLogger {
             return;
         }
 
-        Map<String, String> customizationMap = getCustomizationMap();
+        Map<String, String> customizationMap = strategyMonitorContext.getCustomizationMap();
         if (MapUtils.isNotEmpty(customizationMap)) {
             for (Map.Entry<String, String> entry : customizationMap.entrySet()) {
                 MDC.put(entry.getKey(), (loggerMdcKeyShown ? entry.getKey() + "=" : StringUtils.EMPTY) + entry.getValue());
             }
         }
 
-        String traceId = getTraceId();
-        String spanId = getSpanId();
+        String traceId = strategyMonitorContext.getTraceId();
+        String spanId = strategyMonitorContext.getSpanId();
         MDC.put(DiscoveryConstant.TRACE_ID, (loggerMdcKeyShown ? DiscoveryConstant.TRACE_ID + "=" : StringUtils.EMPTY) + (StringUtils.isNotEmpty(traceId) ? traceId : StringUtils.EMPTY));
         MDC.put(DiscoveryConstant.SPAN_ID, (loggerMdcKeyShown ? DiscoveryConstant.SPAN_ID + "=" : StringUtils.EMPTY) + (StringUtils.isNotEmpty(spanId) ? spanId : StringUtils.EMPTY));
         MDC.put(DiscoveryConstant.N_D_SERVICE_GROUP, (loggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_GROUP + "=" : StringUtils.EMPTY) + pluginAdapter.getGroup());
@@ -91,8 +87,8 @@ public class DefaultStrategyLogger implements StrategyLogger {
         }
 
         System.out.println("------------------ Logger Debug ------------------");
-        String traceId = getTraceId();
-        String spanId = getSpanId();
+        String traceId = strategyMonitorContext.getTraceId();
+        String spanId = strategyMonitorContext.getSpanId();
         System.out.println(DiscoveryConstant.TRACE_ID + "=" + (StringUtils.isNotEmpty(traceId) ? traceId : StringUtils.EMPTY));
         System.out.println(DiscoveryConstant.SPAN_ID + "=" + (StringUtils.isNotEmpty(spanId) ? spanId : StringUtils.EMPTY));
         System.out.println(DiscoveryConstant.N_D_SERVICE_GROUP + "=" + pluginAdapter.getGroup());
@@ -132,47 +128,12 @@ public class DefaultStrategyLogger implements StrategyLogger {
             System.out.println(DiscoveryConstant.N_D_REGION_WEIGHT + "=" + routeRegionWeight);
         }
 
-        Map<String, String> customizationMap = getCustomizationMap();
+        Map<String, String> customizationMap = strategyMonitorContext.getCustomizationMap();
         if (MapUtils.isNotEmpty(customizationMap)) {
             for (Map.Entry<String, String> entry : customizationMap.entrySet()) {
                 System.out.println(entry.getKey() + "=" + entry.getValue());
             }
         }
         System.out.println("--------------------------------------------------");
-    }
-
-    @Override
-    public String getTraceId() {
-        if (strategyTracer != null) {
-            return strategyTracer.getTraceId();
-        }
-
-        if (strategyTracerAdapter != null) {
-            return strategyTracerAdapter.getTraceId();
-        }
-
-        return null;
-    }
-
-    @Override
-    public String getSpanId() {
-        if (strategyTracer != null) {
-            return strategyTracer.getSpanId();
-        }
-
-        if (strategyTracerAdapter != null) {
-            return strategyTracerAdapter.getSpanId();
-        }
-
-        return null;
-    }
-
-    @Override
-    public Map<String, String> getCustomizationMap() {
-        if (strategyTracerAdapter != null) {
-            return strategyTracerAdapter.getCustomizationMap();
-        }
-
-        return null;
     }
 }
