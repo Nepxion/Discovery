@@ -434,15 +434,18 @@ Spring Boot Admin监控平台
 | discovery-plugin-strategy-sentinel-starter-opentracing | 路由策略的Sentinel OpenTracing Starter |
 | discovery-plugin-strategy-sentinel-starter-opentelemetry | 路由策略的Sentinel OpenTelemetry Starter |
 | discovery-plugin-strategy-sentinel-starter-skywalking | 路由策略的Sentinel Skywalking Starter |
+| discovery-plugin-strategy-sentinel-starter-pinpoint | 路由策略的Sentinel PinPoint Starter |
 | discovery-plugin-strategy-starter-service | 路由策略的Service Starter |
 | discovery-plugin-strategy-starter-service-sentinel | 路由策略的Service Sentinel Starter |
 | discovery-plugin-strategy-starter-zuul | 路由策略的Zuul Starter |
 | discovery-plugin-strategy-starter-gateway | 路由策略的Spring Cloud Gateway Starter |
 | discovery-plugin-strategy-starter-hystrix | 路由策略下，Hystrix做线程模式的服务隔离必须引入的插件 Starter |
-| discovery-plugin-strategy-starter-opentracing | 路由策略的Spring Cloud OpenTracing Starter |
-| discovery-plugin-strategy-starter-opentelemetry | 路由策略的Spring Cloud OpenTelemetry Starter |
-| discovery-plugin-strategy-starter-skywalking | 路由策略的Spring Cloud Skywalking Starter |
-| discovery-plugin-strategy-starter-agent | 路由策略的Spring Cloud Agent Starter |
+| discovery-plugin-strategy-starter-opentracing | 路由策略的OpenTracing Starter |
+| discovery-plugin-strategy-starter-opentelemetry | 路由策略的OpenTelemetry Starter |
+| discovery-plugin-strategy-starter-skywalking | 路由策略的Skywalking Starter |
+| discovery-plugin-strategy-starter-pinpoint | 路由策略的PinPoint Starter |
+| discovery-plugin-strategy-starter-logger | 路由策略的Logger Starter |
+| discovery-plugin-strategy-starter-agent | 路由策略的Agent Starter |
 | discovery-plugin-test-starter | 自动化测试 Starter |
 | discovery-console | 控制平台，集成接口给UI |
 | discovery-console-starter-apollo | 控制平台的Apollo Starter |
