@@ -39,7 +39,7 @@ public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
             if (StringUtils.equals(className, DiscoveryConstant.INSPECTOR_ENDPOINT_CLASS_NAME) && StringUtils.equals(methodName, DiscoveryConstant.INSPECTOR_ENDPOINT_METHOD_NAME)) {
                 // 调用链监控
                 if (serviceStrategyMonitor != null) {
-                    serviceStrategyMonitor.monitor(this, invocation, null);
+                    serviceStrategyMonitor.monitor(this, invocation, "* Not monitored");
                     isMonitored = true;
                 }
 
