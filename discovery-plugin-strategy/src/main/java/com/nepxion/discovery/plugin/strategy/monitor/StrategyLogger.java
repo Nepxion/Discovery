@@ -9,18 +9,10 @@ package com.nepxion.discovery.plugin.strategy.monitor;
  * @version 1.0
  */
 
-import java.util.Map;
-
 public interface StrategyLogger {
     void loggerOutput();
 
     void loggerClear();
 
     void loggerDebug();
-
-    String getTraceId();
-
-    String getSpanId();
-
-    Map<String, String> getCustomizationMap();
 }

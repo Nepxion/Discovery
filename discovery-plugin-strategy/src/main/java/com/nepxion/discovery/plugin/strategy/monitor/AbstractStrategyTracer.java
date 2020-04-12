@@ -32,8 +32,8 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
     @Autowired
     protected StrategyContextHolder strategyContextHolder;
 
-    @Autowired(required = false)
-    protected StrategyLogger strategyLogger;
+    @Autowired
+    protected StrategyMonitorContext strategyMonitorContext;
 
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACER_ENABLED + ":false}")
     protected Boolean tracerEnabled;
@@ -84,7 +84,7 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
             }
         }
 
-        Map<String, String> customizationMap = getCustomizationMap();
+        Map<String, String> customizationMap = strategyMonitorContext.getCustomizationMap();
         if (MapUtils.isNotEmpty(customizationMap)) {
             for (Map.Entry<String, String> entry : customizationMap.entrySet()) {
                 outputSpan(span, entry.getKey(), entry.getValue());
@@ -206,10 +206,6 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
         }
 
         return null;
-    }
-
-    public Map<String, String> getCustomizationMap() {
-        return strategyLogger.getCustomizationMap();
     }
 
     protected abstract S buildSpan();

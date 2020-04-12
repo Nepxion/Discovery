@@ -69,16 +69,4 @@ public class StrategyMonitor {
     public StrategyTracer getStrategyTracer() {
         return strategyTracer;
     }
-
-    public String getTraceId() {
-        return strategyLogger.getTraceId();
-    }
-
-    public String getSpanId() {
-        return strategyLogger.getSpanId();
-    }
-
-    public Map<String, String> getCustomizationMap() {
-        return strategyLogger.getCustomizationMap();
-    }
 }
