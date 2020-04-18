@@ -142,8 +142,8 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
       <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/fykj.png"></td>
       <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/xhjy.png"></td>
       <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/xywkj.png"></td>
-      <td></td>
-      <td></td>
+      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/zyts.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/wx.png"></td>
     </tr>
   </tbody>
 </table>
