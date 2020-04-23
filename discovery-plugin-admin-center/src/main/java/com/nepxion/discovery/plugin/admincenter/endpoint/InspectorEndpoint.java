@@ -18,6 +18,8 @@ import java.util.List;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,6 +31,7 @@ import org.springframework.web.client.RestTemplate;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.InspectorEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
+import com.nepxion.discovery.common.util.UrlUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginContextHolder;
 
@@ -41,6 +44,9 @@ public class InspectorEndpoint {
 
     @Autowired
     private PluginAdapter pluginAdapter;
+
+    @Autowired
+    private DiscoveryClient discoveryClient;
 
     @Autowired(required = false)
     private PluginContextHolder pluginContextHolder;
@@ -59,7 +65,9 @@ public class InspectorEndpoint {
 
         if (CollectionUtils.isNotEmpty(serviceIdList)) {
             String serviceId = serviceIdList.get(0);
-            String url = "http://" + serviceId + DiscoveryConstant.INSPECTOR_ENDPOINT_URL;
+
+            String contextPath = getContextPath(serviceId);
+            String url = "http://" + serviceId + UrlUtil.formatContextPath(contextPath) + DiscoveryConstant.INSPECTOR_ENDPOINT_URL;
 
             serviceIdList.remove(0);
 
@@ -71,5 +79,16 @@ public class InspectorEndpoint {
         } else {
             return inspectorEntity;
         }
+    }
+
+    private String getContextPath(String serviceId) {
+        ServiceInstance instance = null;
+        try {
+            instance = discoveryClient.getInstances(serviceId).get(0);
+        } catch (Exception e) {
+            throw new DiscoveryException("Failed to execute to inspect, serviceId=" + serviceId, e);
+        }
+
+        return pluginAdapter.getInstanceContextPath(instance);
     }
 }
