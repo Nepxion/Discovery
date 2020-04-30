@@ -34,38 +34,64 @@ public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
         String className = getMethod(invocation).getDeclaringClass().getName();
         String methodName = getMethodName(invocation);
         boolean isMonitored = false;
+        boolean isMethodContextMonitored = false;
         try {
             // 拦截侦测请求  
             if (StringUtils.equals(className, DiscoveryConstant.INSPECTOR_ENDPOINT_CLASS_NAME) && StringUtils.equals(methodName, DiscoveryConstant.INSPECTOR_ENDPOINT_METHOD_NAME)) {
                 // 调用链监控
                 if (serviceStrategyMonitor != null) {
-                    serviceStrategyMonitor.monitor(this, invocation, "* Not monitored");
+                    // 通用输出
+                    serviceStrategyMonitor.monitor(this, invocation);
                     isMonitored = true;
+
+                    // 方法上下文输出
+                    serviceStrategyMonitor.monitor(this, invocation, "* Not monitored");
+                    isMethodContextMonitored = true;
                 }
 
                 return invocation.proceed();
             } else {
-                Object returnValue = null;
-
-                if (tracerMethodContextOutputEnabled) {
-                    returnValue = invocation.proceed();
-                }
-
                 // 调用链监控
                 if (serviceStrategyMonitor != null) {
-                    serviceStrategyMonitor.monitor(this, invocation, returnValue);
+                    // 通用输出
+                    serviceStrategyMonitor.monitor(this, invocation);
                     isMonitored = true;
                 }
 
-                if (!tracerMethodContextOutputEnabled) {
+                Object returnValue = null;
+                if (tracerMethodContextOutputEnabled) {
+                    // 先执行调用，根据调用结果再输出监控结果
+                    returnValue = invocation.proceed();
+
+                    // 调用链监控
+                    if (serviceStrategyMonitor != null) {
+                        // 方法上下文输出
+                        serviceStrategyMonitor.monitor(this, invocation, returnValue);
+                        isMethodContextMonitored = true;
+                    }
+                } else {
+                    // 调用链监控
+                    if (serviceStrategyMonitor != null) {
+                        // 方法上下文输出
+                        serviceStrategyMonitor.monitor(this, invocation, returnValue);
+                        isMethodContextMonitored = true;
+                    }
+
+                    // 后执行调用
                     returnValue = invocation.proceed();
                 }
 
                 return returnValue;
             }
         } catch (Throwable e) {
+            // 调用链异常监控
             if (serviceStrategyMonitor != null) {
                 if (!isMonitored) {
+                    // 通用输出
+                    serviceStrategyMonitor.monitor(this, invocation);
+                }
+                if (!isMethodContextMonitored) {
+                    // 方法上下文输出
                     serviceStrategyMonitor.monitor(this, invocation, null);
                 }
                 serviceStrategyMonitor.error(this, invocation, e);
