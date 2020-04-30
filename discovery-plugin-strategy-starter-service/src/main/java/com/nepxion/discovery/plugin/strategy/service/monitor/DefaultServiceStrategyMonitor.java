@@ -34,12 +34,15 @@ public class DefaultServiceStrategyMonitor extends StrategyMonitor implements Se
     private List<ServiceStrategyMonitorAdapter> serviceStrategyMonitorAdapterList;
 
     @Override
-    public void monitor(ServiceStrategyMonitorInterceptor interceptor, MethodInvocation invocation, Object returnValue) {
+    public void monitor(ServiceStrategyMonitorInterceptor interceptor, MethodInvocation invocation) {
         spanBuild();
 
         loggerOutput();
         loggerDebug();
+    }
 
+    @Override
+    public void monitor(ServiceStrategyMonitorInterceptor interceptor, MethodInvocation invocation, Object returnValue) {
         spanOutput(createContextMap(interceptor, invocation, returnValue));
     }
 
