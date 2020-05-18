@@ -16,6 +16,8 @@ public class NacosConstant extends PropertyKeyConst {
     public static final String NACOS_SERVER_ADDR = "nacos.server-addr";
     public static final String NACOS_ACCESS_KEY = "nacos.access-key";
     public static final String NACOS_SECRET_KEY = "nacos.secret-key";
+    public static final String NACOS_USERNAME = "nacos.username";
+    public static final String NACOS_PASSWORD = "nacos.password";
     public static final String NACOS_PLUGIN_NAMESPACE = "nacos.plugin.namespace";
     public static final String NACOS_PLUGIN_CLUSTER_NAME = "nacos.plugin.cluster-name";
     public static final String NACOS_PLUGIN_CONTEXT_PATH = "nacos.plugin.context-path";

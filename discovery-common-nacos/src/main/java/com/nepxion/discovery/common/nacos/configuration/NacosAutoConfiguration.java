@@ -62,6 +62,16 @@ public class NacosAutoConfiguration {
             properties.put(NacosConstant.SECRET_KEY, secretKey);
         }
 
+        String username = environment.getProperty(NacosConstant.NACOS_USERNAME);
+        if (StringUtils.isNotEmpty(username)) {
+            properties.put(NacosConstant.USERNAME, username);
+        }
+
+        String password = environment.getProperty(NacosConstant.NACOS_PASSWORD);
+        if (StringUtils.isNotEmpty(password)) {
+            properties.put(NacosConstant.PASSWORD, password);
+        }
+
         String namespace = environment.getProperty(NacosConstant.NACOS_PLUGIN_NAMESPACE);
         if (StringUtils.isNotEmpty(namespace)) {
             properties.put(NacosConstant.NAMESPACE, namespace);
