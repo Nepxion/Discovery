@@ -14,12 +14,7 @@ import io.opentracing.SpanContext;
 
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class StrategySkywalkingSpan implements Span {
-    private static final Logger LOG = LoggerFactory.getLogger(StrategySkywalkingSpan.class);
-
     private Span span;
     private String traceId;
     private String spanId;
