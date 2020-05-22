@@ -167,8 +167,8 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
 
 注意：
 - 6.x.x版本（同时适用于Finchley、Greenwich和Hoxton以及未来的更高版本），将继续维护
-- 5.x.x版本（适用于Greenwich）不再维护，并入到6.x.x版本，对应的5.6.0是最后一个稳定版本
-- 4.x.x版本（适用于Finchley）不再维护，并入到6.x.x版本，对应的4.15.0是最后一个稳定版本
+- 5.x.x版本（适用于Greenwich）不再维护，并入到6.x.x版本，不建议使用
+- 4.x.x版本（适用于Finchley）不再维护，并入到6.x.x版本，不建议使用
 - 3.x.x版本（适用于Edgware）为了照顾老的技术栈公司，将继续维护
 - 2.x.x版本（适用于Dalston）已废弃
 - 1.x.x版本（适用于Camden）已废弃
