@@ -15,4 +15,5 @@ public class ApolloConstant implements ConfigConsts {
     public static final String APOLLO_TYPE = "Apollo";
     public static final String APOLLO_BOOTSTRAP_NAMESPACES = "apollo.bootstrap.namespaces";
     public static final String APOLLO_PLUGIN_NAMESPACE = "apollo.plugin.namespace";
+    public static final String SEPARATE = ",";
 }
