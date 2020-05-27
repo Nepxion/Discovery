@@ -41,10 +41,10 @@ public class ApolloAutoConfiguration {
 
     public static String getNamespace(Environment environment) {
         String namespace = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_NAMESPACE);
-        if (StringUtils.isEmpty(namespace)) {
+        if (StringUtils.isEmpty(namespace) || namespace.contains(ApolloConstant.SEPARATE)) {
             namespace = environment.getProperty(ApolloConstant.APOLLO_BOOTSTRAP_NAMESPACES);
         }
-        if (StringUtils.isEmpty(namespace)) {
+        if (StringUtils.isEmpty(namespace) || namespace.contains(ApolloConstant.SEPARATE)) {
             namespace = ApolloConstant.NAMESPACE_APPLICATION;
         }
 
