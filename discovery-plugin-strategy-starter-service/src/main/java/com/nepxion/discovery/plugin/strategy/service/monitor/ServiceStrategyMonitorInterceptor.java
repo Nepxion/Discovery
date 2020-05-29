@@ -45,7 +45,7 @@ public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
                     isMonitored = true;
 
                     // 方法上下文输出
-                    serviceStrategyMonitor.monitor(this, invocation, "* Not monitored");
+                    serviceStrategyMonitor.monitor(this, invocation, "* " + DiscoveryConstant.IGNORED);
                     isMethodContextMonitored = true;
                 }
 

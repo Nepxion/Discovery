@@ -135,6 +135,7 @@ public class DiscoveryConstant {
     public static final String NA = "N/A";
     public static final String DEFAULT = "default";
     public static final String UNKNOWN = "unknown";
+    public static final String IGNORED = "ignored";
 
     public static final String ENDPOINT_SCAN_PACKAGES = "com.nepxion.discovery.plugin.admincenter.endpoint";
     public static final String INSPECTOR_ENDPOINT_CLASS_NAME = "com.nepxion.discovery.plugin.admincenter.endpoint.InspectorEndpoint";
