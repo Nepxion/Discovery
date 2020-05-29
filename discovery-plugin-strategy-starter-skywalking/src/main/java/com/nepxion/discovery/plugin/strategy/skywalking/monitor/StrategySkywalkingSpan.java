@@ -9,12 +9,14 @@ package com.nepxion.discovery.plugin.strategy.skywalking.monitor;
  * @version 1.0
  */
 
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import io.opentracing.Span;
 import io.opentracing.SpanContext;
-import org.apache.skywalking.apm.toolkit.trace.TraceContext;
 
 import java.util.Map;
+
+import org.apache.skywalking.apm.toolkit.trace.TraceContext;
+
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
 public class StrategySkywalkingSpan implements Span {
     private Span span;
@@ -114,6 +116,8 @@ public class StrategySkywalkingSpan implements Span {
 
     private String createTraceId() {
         try {
+            // return StrategySkywalkingResolver.createTraceId();
+
             return TraceContext.traceId();
         } catch (Exception e) {
             return null;
@@ -122,6 +126,8 @@ public class StrategySkywalkingSpan implements Span {
 
     private String createSpanId() {
         try {
+            // return StrategySkywalkingResolver.createSpanId();
+
             return DiscoveryConstant.IGNORED;
         } catch (Exception e) {
             return null;
