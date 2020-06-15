@@ -27,6 +27,6 @@ public class DiscoveryAgent {
         PluginFinder.load(transformTemplate);
 
         instrumentation.addTransformer(new DispatcherClassFileTransformer(transformTemplate));
-        System.setProperty(DiscoveryAgent.class.getSimpleName(), DiscoveryConstant.DISCOVERY_VERSION);
+        System.setProperty(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_AGENT_VERSION, DiscoveryConstant.DISCOVERY_VERSION);
     }
 }
