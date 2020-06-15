@@ -1,7 +1,5 @@
 package com.nepxion.discovery.plugin.strategy.starter.agent;
 
-import java.lang.instrument.Instrumentation;
-
 /**
  * <p>Title: Nepxion Discovery</p>
  * <p>Description: Nepxion Discovery</p>
@@ -11,8 +9,10 @@ import java.lang.instrument.Instrumentation;
  * @version 1.0
  */
 
+import java.lang.instrument.Instrumentation;
+
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.plugin.strategy.starter.agent.log.SampleLogger;
+import com.nepxion.discovery.plugin.strategy.starter.agent.logger.SampleLogger;
 import com.nepxion.discovery.plugin.strategy.starter.agent.plugin.PluginFinder;
 import com.nepxion.discovery.plugin.strategy.starter.agent.transform.DispatcherClassFileTransformer;
 import com.nepxion.discovery.plugin.strategy.starter.agent.transformer.TransformTemplate;

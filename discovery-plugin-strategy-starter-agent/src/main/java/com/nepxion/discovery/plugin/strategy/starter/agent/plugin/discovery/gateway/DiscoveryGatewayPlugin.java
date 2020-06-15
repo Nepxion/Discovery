@@ -1,7 +1,5 @@
 package com.nepxion.discovery.plugin.strategy.starter.agent.plugin.discovery.gateway;
 
-import java.security.ProtectionDomain;
-
 /**
  * <p>Title: Nepxion Discovery</p>
  * <p>Description: Nepxion Discovery</p>
@@ -11,7 +9,9 @@ import java.security.ProtectionDomain;
  * @version 1.0
  */
 
-import com.nepxion.discovery.plugin.strategy.starter.agent.log.SampleLogger;
+import java.security.ProtectionDomain;
+
+import com.nepxion.discovery.plugin.strategy.starter.agent.logger.SampleLogger;
 import com.nepxion.discovery.plugin.strategy.starter.agent.match.ClassMatcher;
 import com.nepxion.discovery.plugin.strategy.starter.agent.match.Matchers;
 import com.nepxion.discovery.plugin.strategy.starter.agent.plugin.Plugin;

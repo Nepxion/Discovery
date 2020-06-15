@@ -19,7 +19,7 @@ import java.lang.reflect.Method;
 import java.security.ProtectionDomain;
 
 import com.nepxion.discovery.plugin.strategy.starter.agent.async.AsyncContextAccessor;
-import com.nepxion.discovery.plugin.strategy.starter.agent.log.SampleLogger;
+import com.nepxion.discovery.plugin.strategy.starter.agent.logger.SampleLogger;
 import com.nepxion.discovery.plugin.strategy.starter.agent.match.InterfaceMatcher;
 import com.nepxion.discovery.plugin.strategy.starter.agent.match.Matchers;
 import com.nepxion.discovery.plugin.strategy.starter.agent.plugin.Plugin;
@@ -72,6 +72,7 @@ public class ThreadPlugin extends Plugin {
                     ctMethod.insertBefore("com.nepxion.discovery.plugin.strategy.starter.agent.plugin.thread.interceptor.ThreadCallInterceptor.before(this);\n");
                     ctMethod.insertAfter("com.nepxion.discovery.plugin.strategy.starter.agent.plugin.thread.interceptor.ThreadCallInterceptor.after(this);\n");
                 }
+
                 return ctClass.toBytecode();
             } catch (Exception e) {
                 LOG.warn(String.format("transform %s error,message:", className), e);

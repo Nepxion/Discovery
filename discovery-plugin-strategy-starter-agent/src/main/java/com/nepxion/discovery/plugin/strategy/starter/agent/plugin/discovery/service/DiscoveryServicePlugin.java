@@ -9,7 +9,7 @@ package com.nepxion.discovery.plugin.strategy.starter.agent.plugin.discovery.ser
  * @version 1.0
  */
 
-import com.nepxion.discovery.plugin.strategy.starter.agent.log.SampleLogger;
+import com.nepxion.discovery.plugin.strategy.starter.agent.logger.SampleLogger;
 import com.nepxion.discovery.plugin.strategy.starter.agent.match.ClassMatcher;
 import com.nepxion.discovery.plugin.strategy.starter.agent.match.Matchers;
 import com.nepxion.discovery.plugin.strategy.starter.agent.plugin.Plugin;

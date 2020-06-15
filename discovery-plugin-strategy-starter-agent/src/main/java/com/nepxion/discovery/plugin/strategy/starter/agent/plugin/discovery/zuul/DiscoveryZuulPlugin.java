@@ -11,7 +11,7 @@ package com.nepxion.discovery.plugin.strategy.starter.agent.plugin.discovery.zuu
 
 import java.security.ProtectionDomain;
 
-import com.nepxion.discovery.plugin.strategy.starter.agent.log.SampleLogger;
+import com.nepxion.discovery.plugin.strategy.starter.agent.logger.SampleLogger;
 import com.nepxion.discovery.plugin.strategy.starter.agent.match.ClassMatcher;
 import com.nepxion.discovery.plugin.strategy.starter.agent.match.Matchers;
 import com.nepxion.discovery.plugin.strategy.starter.agent.plugin.Plugin;
@@ -33,6 +33,7 @@ public class DiscoveryZuulPlugin extends Plugin {
             @Override
             public byte[] doInTransform(ClassLoader classLoader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) {
                 ThreadLocalCopier.register(new ZuulStrategyContextHook());
+
                 return null;
             }
         });
