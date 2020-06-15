@@ -1,19 +1,23 @@
 package com.nepxion.discovery.plugin.strategy.starter.agent.transformer;
 
-import com.nepxion.discovery.plugin.strategy.starter.agent.match.*;
-
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * <p>Title: Nepxion Discovery</p>
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
- *
  * @author zifeihan
  * @version 1.0
  */
+
+import java.util.HashMap;
+import java.util.Map;
+
+import com.nepxion.discovery.plugin.strategy.starter.agent.match.ClassMatcher;
+import com.nepxion.discovery.plugin.strategy.starter.agent.match.ClassNameMatcher;
+import com.nepxion.discovery.plugin.strategy.starter.agent.match.InterfaceMatcher;
+import com.nepxion.discovery.plugin.strategy.starter.agent.match.MatcherOperator;
+import com.nepxion.discovery.plugin.strategy.starter.agent.match.PackageOperator;
+
 public class TransformTemplate {
     private final Map<ClassMatcher, TransformCallback> register = new HashMap<>();
     private final Map<String, ClassMatcher> classMatcherFinder = new HashMap<>();
@@ -26,8 +30,7 @@ public class TransformTemplate {
             classMatcherFinder.put(classNameMatcher.getClassName(), classMatcher);
         } else if (classMatcher instanceof InterfaceMatcher) {
             InterfaceMatcher interfaceMatcher = (InterfaceMatcher) classMatcher;
-            MatcherOperator matcherOperator = new MatcherOperator(
-                    new PackageOperator(interfaceMatcher.getBasePackageName()), interfaceMatcher);
+            MatcherOperator matcherOperator = new MatcherOperator(new PackageOperator(interfaceMatcher.getBasePackageName()), interfaceMatcher);
             interfaceMatcherFinder.put(matcherOperator, classMatcher);
         }
     }
@@ -44,6 +47,7 @@ public class TransformTemplate {
                 return entry.getValue();
             }
         }
+
         return classMatcherFinder.get(className);
     }
 

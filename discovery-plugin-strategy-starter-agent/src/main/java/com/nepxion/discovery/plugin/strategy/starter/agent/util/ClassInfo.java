@@ -1,5 +1,14 @@
 package com.nepxion.discovery.plugin.strategy.starter.agent.util;
 
+/**
+ * <p>Title: Nepxion Discovery</p>
+ * <p>Description: Nepxion Discovery</p>
+ * <p>Copyright: Copyright (c) 2017-2050</p>
+ * <p>Company: Nepxion</p>
+ * @author zifeihan
+ * @version 1.0
+ */
+
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.LoaderClassPath;
@@ -7,15 +16,6 @@ import javassist.LoaderClassPath;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- *
- * @author zifeihan
- * @version 1.0
- */
 public class ClassInfo {
     private final String className;
     private final byte[] classFileBuffer;
@@ -34,7 +34,9 @@ public class ClassInfo {
     }
 
     public CtClass getCtClass() throws IOException {
-        if (ctClass != null) return ctClass;
+        if (ctClass != null) {
+            return ctClass;
+        }
 
         final ClassPool classPool = new ClassPool(true);
         if (loader == null) {
@@ -47,6 +49,7 @@ public class ClassInfo {
         clazz.defrost();
 
         this.ctClass = clazz;
+
         return clazz;
     }
 }

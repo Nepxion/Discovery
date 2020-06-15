@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <artifactId>discovery-plugin-strategy-starter-agent</artifactId>
     <name>Nepxion Discovery Plugin Strategy Starter Agent</name>
     <modelVersion>4.0.0</modelVersion>
@@ -10,17 +8,16 @@
     <url>http://www.nepxion.com</url>
 
     <parent>
-        <artifactId>discovery</artifactId>
         <groupId>com.nepxion</groupId>
+        <artifactId>discovery</artifactId>
         <version>6.0.3-SR1</version>
     </parent>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.javassist</groupId>
-            <artifactId>javassist</artifactId>
-        </dependency>
+    <properties>
+        <shade.package>com.nepxion.discovery.plugin.strategy.starter.agent.dependencies</shade.package>
+    </properties>
 
+    <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>discovery-plugin-strategy-starter-service</artifactId>
@@ -38,11 +35,12 @@
             <artifactId>discovery-plugin-strategy-starter-gateway</artifactId>
             <scope>provided</scope>
         </dependency>
+    
+        <dependency>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
+        </dependency>
     </dependencies>
-
-    <properties>
-        <shade.package>com.nepxion.discovery.plugin.strategy.starter.agent.dependencies</shade.package>
-    </properties>
 
     <build>
         <plugins>
@@ -63,12 +61,9 @@
                             <createSourcesJar>true</createSourcesJar>
                             <shadeSourcesContent>true</shadeSourcesContent>
                             <transformers>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <manifestEntries>
-                                        <Premain-Class>
-                                            com.nepxion.discovery.plugin.strategy.starter.agent.DiscoveryAgent
-                                        </Premain-Class>
+                                        <Premain-Class>com.nepxion.discovery.plugin.strategy.starter.agent.DiscoveryAgent</Premain-Class>
                                         <Can-Redefine-Classes>true</Can-Redefine-Classes>
                                         <Can-Retransform-Classes>true</Can-Retransform-Classes>
                                     </manifestEntries>
@@ -86,5 +81,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

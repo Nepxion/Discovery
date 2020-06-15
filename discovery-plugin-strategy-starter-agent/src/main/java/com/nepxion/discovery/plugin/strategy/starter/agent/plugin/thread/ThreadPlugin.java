@@ -1,5 +1,23 @@
 package com.nepxion.discovery.plugin.strategy.starter.agent.plugin.thread;
 
+/**
+ * <p>Title: Nepxion Discovery</p>
+ * <p>Description: Nepxion Discovery</p>
+ * <p>Copyright: Copyright (c) 2017-2050</p>
+ * <p>Company: Nepxion</p>
+ * @author zifeihan
+ * @version 1.0
+ */
+
+import javassist.ClassPool;
+import javassist.CtClass;
+import javassist.CtConstructor;
+import javassist.CtField;
+import javassist.CtMethod;
+
+import java.lang.reflect.Method;
+import java.security.ProtectionDomain;
+
 import com.nepxion.discovery.plugin.strategy.starter.agent.async.AsyncContextAccessor;
 import com.nepxion.discovery.plugin.strategy.starter.agent.log.SampleLogger;
 import com.nepxion.discovery.plugin.strategy.starter.agent.match.InterfaceMatcher;
@@ -9,22 +27,8 @@ import com.nepxion.discovery.plugin.strategy.starter.agent.transformer.Transform
 import com.nepxion.discovery.plugin.strategy.starter.agent.transformer.TransformTemplate;
 import com.nepxion.discovery.plugin.strategy.starter.agent.util.ClassInfo;
 import com.nepxion.discovery.plugin.strategy.starter.agent.util.StringUtils;
-import javassist.*;
 
-import java.lang.reflect.Method;
-import java.security.ProtectionDomain;
-
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- *
- * @author zifeihan
- * @version 1.0
- */
 public class ThreadPlugin extends Plugin {
-
     private static final SampleLogger LOG = SampleLogger.getLogger(ThreadPlugin.class.getName());
 
     public ThreadPlugin(TransformTemplate transformTemplate) {
@@ -36,6 +40,7 @@ public class ThreadPlugin extends Plugin {
         String threadMatchPackage = System.getProperty(ThreadConstant.THREAD_MATCH_PACKAGE);
         if (StringUtils.isEmpty(threadMatchPackage)) {
             LOG.warn(String.format("%s is null, ignore thread context switch.", ThreadConstant.THREAD_MATCH_PACKAGE));
+
             return;
         }
         LOG.info(String.format("trace (%s) Runnable/Callable for thread context switch.", threadMatchPackage));
@@ -70,6 +75,7 @@ public class ThreadPlugin extends Plugin {
                 return ctClass.toBytecode();
             } catch (Exception e) {
                 LOG.warn(String.format("transform %s error,message:", className), e);
+
                 return null;
             }
         }
@@ -80,7 +86,6 @@ public class ThreadPlugin extends Plugin {
             ClassPool aDefault = ClassPool.getDefault();
             CtClass makeInterface = aDefault.makeInterface(clazz.getName());
             ctClass.addInterface(makeInterface);
-
 
             Method[] methods = clazz.getDeclaredMethods();
             if (methods.length != 2) {
@@ -137,9 +142,11 @@ public class ThreadPlugin extends Plugin {
                     ctMethod.insertBefore("com.nepxion.discovery.plugin.strategy.starter.agent.plugin.thread.interceptor.ThreadCallInterceptor.before(this);\n");
                     ctMethod.insertAfter("com.nepxion.discovery.plugin.strategy.starter.agent.plugin.thread.interceptor.ThreadCallInterceptor.after(this);\n");
                 }
+
                 return ctClass.toBytecode();
             } catch (Exception e) {
                 LOG.warn(String.format("transform %s error, message:", className), e);
+
                 return null;
             }
         }

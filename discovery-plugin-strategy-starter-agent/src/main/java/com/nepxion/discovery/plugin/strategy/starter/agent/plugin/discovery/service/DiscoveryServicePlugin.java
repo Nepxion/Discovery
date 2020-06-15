@@ -1,5 +1,13 @@
 package com.nepxion.discovery.plugin.strategy.starter.agent.plugin.discovery.service;
 
+/**
+ * <p>Title: Nepxion Discovery</p>
+ * <p>Description: Nepxion Discovery</p>
+ * <p>Copyright: Copyright (c) 2017-2050</p>
+ * <p>Company: Nepxion</p>
+ * @author zifeihan
+ * @version 1.0
+ */
 
 import com.nepxion.discovery.plugin.strategy.starter.agent.log.SampleLogger;
 import com.nepxion.discovery.plugin.strategy.starter.agent.match.ClassMatcher;
@@ -11,17 +19,7 @@ import com.nepxion.discovery.plugin.strategy.starter.agent.transformer.Transform
 
 import java.security.ProtectionDomain;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- *
- * @author zifeihan
- * @version 1.0
- */
 public class DiscoveryServicePlugin extends Plugin {
-
     private static final SampleLogger LOG = SampleLogger.getLogger(DiscoveryServicePlugin.class.getName());
 
     public DiscoveryServicePlugin(TransformTemplate transformTemplate) {
@@ -35,6 +33,7 @@ public class DiscoveryServicePlugin extends Plugin {
             @Override
             public byte[] doInTransform(ClassLoader classLoader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) {
                 ThreadLocalCopier.register(new RestStrategyContextHook());
+
                 return null;
             }
         });
