@@ -26,7 +26,7 @@ import com.nepxion.discovery.plugin.strategy.starter.agent.plugin.Plugin;
 import com.nepxion.discovery.plugin.strategy.starter.agent.transformer.TransformCallback;
 import com.nepxion.discovery.plugin.strategy.starter.agent.transformer.TransformTemplate;
 import com.nepxion.discovery.plugin.strategy.starter.agent.util.ClassInfo;
-import com.nepxion.discovery.plugin.strategy.starter.agent.util.StringUtils;
+import com.nepxion.discovery.plugin.strategy.starter.agent.util.StringUtil;
 
 public class ThreadPlugin extends Plugin {
     private static final SampleLogger LOG = SampleLogger.getLogger(ThreadPlugin.class.getName());
@@ -38,7 +38,7 @@ public class ThreadPlugin extends Plugin {
     @Override
     public void install() {
         String threadMatchPackage = System.getProperty(ThreadConstant.THREAD_MATCH_PACKAGE);
-        if (StringUtils.isEmpty(threadMatchPackage)) {
+        if (StringUtil.isEmpty(threadMatchPackage)) {
             LOG.warn(String.format("%s is null, ignore thread context switch.", ThreadConstant.THREAD_MATCH_PACKAGE));
 
             return;

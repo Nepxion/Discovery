@@ -9,7 +9,7 @@ package com.nepxion.discovery.plugin.strategy.starter.agent.util;
  * @version 1.0
  */
 
-public class StringUtils {
+public class StringUtil {
     public static boolean isEmpty(final String string) {
         return string == null || string.isEmpty();
     }

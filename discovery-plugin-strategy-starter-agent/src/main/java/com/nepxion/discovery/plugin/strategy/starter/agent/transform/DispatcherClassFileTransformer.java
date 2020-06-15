@@ -17,7 +17,7 @@ import com.nepxion.discovery.plugin.strategy.starter.agent.match.ClassMatcher;
 import com.nepxion.discovery.plugin.strategy.starter.agent.transformer.TransformCallback;
 import com.nepxion.discovery.plugin.strategy.starter.agent.transformer.TransformTemplate;
 import com.nepxion.discovery.plugin.strategy.starter.agent.util.ClassUtil;
-import com.nepxion.discovery.plugin.strategy.starter.agent.util.StringUtils;
+import com.nepxion.discovery.plugin.strategy.starter.agent.util.StringUtil;
 
 public class DispatcherClassFileTransformer implements ClassFileTransformer {
     private TransformTemplate transformTemplate;
@@ -28,7 +28,7 @@ public class DispatcherClassFileTransformer implements ClassFileTransformer {
 
     @Override
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
-        if (StringUtils.isEmpty(className)) {
+        if (StringUtil.isEmpty(className)) {
             return null;
         }
 
