@@ -9,11 +9,10 @@ package com.nepxion.discovery.plugin.strategy.starter.agent.plugin.thread;
  * @author zifeihan
  * @version 1.0
  */
-public interface ThreadLocalHook {
-    Object create();
+public class ThreadConstant {
+    public static final String THREAD_MATCH_PACKAGE = "thread.match.package";
 
-    void before(Object object);
+    public static final String RUNNABLE_CLASS_NAME = "java.lang.Runnable";
 
-    void after();
-
+    public static final String CALLABLE_CLASS_NAME = "java.util.concurrent.Callable";
 }

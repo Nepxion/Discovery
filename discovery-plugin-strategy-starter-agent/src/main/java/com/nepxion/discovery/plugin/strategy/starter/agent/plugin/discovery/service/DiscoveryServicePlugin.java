@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.starter.agent.plugin.discover;
+package com.nepxion.discovery.plugin.strategy.starter.agent.plugin.discovery.service;
 
 
 import com.nepxion.discovery.plugin.strategy.starter.agent.log.SampleLogger;
@@ -11,11 +11,20 @@ import com.nepxion.discovery.plugin.strategy.starter.agent.transformer.Transform
 
 import java.security.ProtectionDomain;
 
-public class DiscoverPlugin extends Plugin {
+/**
+ * <p>Title: Nepxion Discovery</p>
+ * <p>Description: Nepxion Discovery</p>
+ * <p>Copyright: Copyright (c) 2017-2050</p>
+ * <p>Company: Nepxion</p>
+ *
+ * @author zifeihan
+ * @version 1.0
+ */
+public class DiscoveryServicePlugin extends Plugin {
 
-    private final static SampleLogger logger = SampleLogger.getLogger(DiscoverPlugin.class.getName());
+    private static final SampleLogger LOG = SampleLogger.getLogger(DiscoveryServicePlugin.class.getName());
 
-    public DiscoverPlugin(TransformTemplate transformTemplate) {
+    public DiscoveryServicePlugin(TransformTemplate transformTemplate) {
         super(transformTemplate);
     }
 
@@ -29,15 +38,6 @@ public class DiscoverPlugin extends Plugin {
                 return null;
             }
         });
-
-        ClassMatcher classNameMatcher = Matchers.newClassNameMatcher("com.nepxion.discovery.plugin.strategy.monitor.StrategyTracerContext");
-        transformTemplate.transform(classNameMatcher, new TransformCallback() {
-            @Override
-            public byte[] doInTransform(ClassLoader classLoader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) {
-                ThreadLocalCopier.register(new StrategyTracerContextHook());
-                return null;
-            }
-        });
-        logger.info(String.format("%s install success", this.getClass().getSimpleName()));
+        LOG.info(String.format("%s install success", this.getClass().getSimpleName()));
     }
 }

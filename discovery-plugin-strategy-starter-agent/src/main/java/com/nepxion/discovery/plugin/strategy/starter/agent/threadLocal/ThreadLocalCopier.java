@@ -8,13 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author echo
+ * <p>Title: Nepxion Discovery</p>
+ * <p>Description: Nepxion Discovery</p>
+ * <p>Copyright: Copyright (c) 2017-2050</p>
+ * <p>Company: Nepxion</p>
+ *
+ * @author zifeihan
+ * @version 1.0
  */
 public class ThreadLocalCopier {
 
     private static List<ThreadLocalHook> threadHooks = new ArrayList<>();
 
-    private static SampleLogger logger = SampleLogger.getLogger(ThreadLocalCopier.class.getName());
+    private static final SampleLogger LOG = SampleLogger.getLogger(ThreadLocalCopier.class.getName());
 
     public static void register(ThreadLocalHook threadHook) {
         threadHooks.add(threadHook);
@@ -29,7 +35,7 @@ public class ThreadLocalCopier {
                 objects[i] = threadHook.create();
             }
         } catch (Exception e) {
-            logger.warn("create(construct) method for thread hook error,message:", e);
+            LOG.warn("create(construct) method for thread hook error, message:", e);
         }
         return objects;
     }
@@ -41,7 +47,7 @@ public class ThreadLocalCopier {
                 threadHook.before(objects[i]);
             }
         } catch (Exception e) {
-            logger.warn("before(run/call) method for thread hook error,message:", e);
+            LOG.warn("before(run/call) method for thread hook error, message:", e);
         }
     }
 
@@ -52,7 +58,7 @@ public class ThreadLocalCopier {
                 threadHook.after();
             }
         } catch (Exception e) {
-            logger.warn("after(run/call) method for thread hook error,message:", e);
+            LOG.warn("after(run/call) method for thread hook error, message:", e);
         }
     }
 }

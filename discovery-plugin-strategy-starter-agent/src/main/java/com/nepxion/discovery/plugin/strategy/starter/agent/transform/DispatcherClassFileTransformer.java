@@ -10,6 +10,15 @@ import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
 
+/**
+ * <p>Title: Nepxion Discovery</p>
+ * <p>Description: Nepxion Discovery</p>
+ * <p>Copyright: Copyright (c) 2017-2050</p>
+ * <p>Company: Nepxion</p>
+ *
+ * @author zifeihan
+ * @version 1.0
+ */
 public class DispatcherClassFileTransformer implements ClassFileTransformer {
 
     private TransformTemplate transformTemplate;
