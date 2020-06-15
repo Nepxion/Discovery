@@ -37,6 +37,6 @@ public class DiscoveryMonitorPlugin extends Plugin {
                 return null;
             }
         });
-        LOG.info(String.format("%s install success", this.getClass().getSimpleName()));
+        LOG.info(String.format("%s install successfully", this.getClass().getSimpleName()));
     }
 }

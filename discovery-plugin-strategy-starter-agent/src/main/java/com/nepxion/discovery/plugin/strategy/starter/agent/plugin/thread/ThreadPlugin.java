@@ -39,17 +39,17 @@ public class ThreadPlugin extends Plugin {
     public void install() {
         String threadMatchPackage = System.getProperty(ThreadConstant.THREAD_MATCH_PACKAGE);
         if (StringUtil.isEmpty(threadMatchPackage)) {
-            LOG.warn(String.format("%s is null, ignore thread context switch.", ThreadConstant.THREAD_MATCH_PACKAGE));
+            LOG.warn(String.format("Package (%s) is null, ignore thread context switch", ThreadConstant.THREAD_MATCH_PACKAGE));
 
             return;
         }
-        LOG.info(String.format("trace (%s) Runnable/Callable for thread context switch.", threadMatchPackage));
+        LOG.info(String.format("Trace (%s) Runnable/Callable for thread context switch", threadMatchPackage));
         InterfaceMatcher runnableInterfaceMatcher = Matchers.newPackageBasedMatcher(threadMatchPackage, ThreadConstant.RUNNABLE_CLASS_NAME);
         InterfaceMatcher callableInterfaceMatcher = Matchers.newPackageBasedMatcher(threadMatchPackage, ThreadConstant.CALLABLE_CLASS_NAME);
 
         transformTemplate.transform(runnableInterfaceMatcher, new RunnableTransformCallback());
         transformTemplate.transform(callableInterfaceMatcher, new CallableTransformCallback());
-        LOG.info(String.format("%s install success", this.getClass().getSimpleName()));
+        LOG.info(String.format("%s install successfully", this.getClass().getSimpleName()));
     }
 
     public static class RunnableTransformCallback implements TransformCallback {
@@ -75,7 +75,7 @@ public class ThreadPlugin extends Plugin {
 
                 return ctClass.toBytecode();
             } catch (Exception e) {
-                LOG.warn(String.format("transform %s error,message:", className), e);
+                LOG.warn(String.format("Transform %s error,message:", className), e);
 
                 return null;
             }
@@ -119,7 +119,7 @@ public class ThreadPlugin extends Plugin {
             ctClass.addMethod(m1);
             ctClass.addMethod(m2);
         } catch (Exception e) {
-            LOG.warn(String.format("add field %s error, message:", clazz.getName()), e);
+            LOG.warn(String.format("Add field %s error, message:", clazz.getName()), e);
         }
     }
 
@@ -146,7 +146,7 @@ public class ThreadPlugin extends Plugin {
 
                 return ctClass.toBytecode();
             } catch (Exception e) {
-                LOG.warn(String.format("transform %s error, message:", className), e);
+                LOG.warn(String.format("Transform %s error, message:", className), e);
 
                 return null;
             }

@@ -21,7 +21,7 @@ public class DiscoveryAgent {
     private final static AgentLogger LOG = AgentLogger.getLogger(DiscoveryAgent.class.getName());
 
     public static void premain(String agentArgs, Instrumentation instrumentation) {
-        LOG.info(String.format("%s agent on load.", DiscoveryAgent.class.getSimpleName()));
+        LOG.info(String.format("%s agent on load...", DiscoveryAgent.class.getSimpleName()));
         TransformTemplate transformTemplate = new TransformTemplate();
         PluginFinder.load(transformTemplate);
 

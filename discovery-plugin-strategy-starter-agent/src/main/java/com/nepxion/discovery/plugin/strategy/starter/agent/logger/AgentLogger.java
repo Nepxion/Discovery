@@ -25,7 +25,7 @@ public class AgentLogger {
         try {
             printStream = System.out;
         } catch (Exception e) {
-            LOG.warn("init log error:", e);
+            LOG.warn("Initialize logger error:", e);
         }
     }
 

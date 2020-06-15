@@ -31,7 +31,7 @@ public class ThreadLocalCopier {
                 objects[i] = threadHook.create();
             }
         } catch (Exception e) {
-            LOG.warn("create(construct) method for thread hook error, message:", e);
+            LOG.warn("Execute create(construct) method for thread hook error, message:", e);
         }
 
         return objects;
@@ -44,7 +44,7 @@ public class ThreadLocalCopier {
                 threadHook.before(objects[i]);
             }
         } catch (Exception e) {
-            LOG.warn("before(run/call) method for thread hook error, message:", e);
+            LOG.warn("Execute before(run/call) method for thread hook error, message:", e);
         }
     }
 
@@ -55,7 +55,7 @@ public class ThreadLocalCopier {
                 threadHook.after();
             }
         } catch (Exception e) {
-            LOG.warn("after(run/call) method for thread hook error, message:", e);
+            LOG.warn("Execute after(run/call) method for thread hook error, message:", e);
         }
     }
 }
