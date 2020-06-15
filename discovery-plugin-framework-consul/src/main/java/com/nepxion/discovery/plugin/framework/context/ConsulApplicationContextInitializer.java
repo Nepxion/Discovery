@@ -64,6 +64,8 @@ public class ConsulApplicationContextInitializer extends PluginApplicationContex
             metadata.add(DiscoveryConstant.SPRING_APPLICATION_TYPE + "=" + PluginContextAware.getApplicationType(environment));
             metadata.add(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN + "=" + ConsulConstant.CONSUL_TYPE);
             metadata.add(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_VERSION + "=" + DiscoveryConstant.DISCOVERY_VERSION);
+            String agentVersion = System.getProperty(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_AGENT_VERSION);
+            metadata.add(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_AGENT_VERSION + "=" + (StringUtils.isEmpty(agentVersion) ? DiscoveryConstant.UNKNOWN : agentVersion));
             metadata.add(DiscoveryConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED + "=" + PluginContextAware.isRegisterControlEnabled(environment));
             metadata.add(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED + "=" + PluginContextAware.isDiscoveryControlEnabled(environment));
             metadata.add(DiscoveryConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED + "=" + PluginContextAware.isConfigRestControlEnabled(environment));
