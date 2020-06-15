@@ -12,13 +12,13 @@ package com.nepxion.discovery.plugin.strategy.starter.agent;
 import java.lang.instrument.Instrumentation;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.plugin.strategy.starter.agent.logger.SampleLogger;
+import com.nepxion.discovery.plugin.strategy.starter.agent.logger.AgentLogger;
 import com.nepxion.discovery.plugin.strategy.starter.agent.plugin.PluginFinder;
 import com.nepxion.discovery.plugin.strategy.starter.agent.transform.DispatcherClassFileTransformer;
 import com.nepxion.discovery.plugin.strategy.starter.agent.transformer.TransformTemplate;
 
 public class DiscoveryAgent {
-    private final static SampleLogger LOG = SampleLogger.getLogger(DiscoveryAgent.class.getName());
+    private final static AgentLogger LOG = AgentLogger.getLogger(DiscoveryAgent.class.getName());
 
     public static void premain(String agentArgs, Instrumentation instrumentation) {
         LOG.info(String.format("%s agent on load.", DiscoveryAgent.class.getSimpleName()));

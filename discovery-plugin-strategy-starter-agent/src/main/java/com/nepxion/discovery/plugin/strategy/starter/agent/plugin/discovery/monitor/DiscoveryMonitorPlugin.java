@@ -9,7 +9,7 @@ package com.nepxion.discovery.plugin.strategy.starter.agent.plugin.discovery.mon
  * @version 1.0
  */
 
-import com.nepxion.discovery.plugin.strategy.starter.agent.logger.SampleLogger;
+import com.nepxion.discovery.plugin.strategy.starter.agent.logger.AgentLogger;
 import com.nepxion.discovery.plugin.strategy.starter.agent.match.ClassMatcher;
 import com.nepxion.discovery.plugin.strategy.starter.agent.match.Matchers;
 import com.nepxion.discovery.plugin.strategy.starter.agent.plugin.Plugin;
@@ -20,7 +20,7 @@ import com.nepxion.discovery.plugin.strategy.starter.agent.transformer.Transform
 import java.security.ProtectionDomain;
 
 public class DiscoveryMonitorPlugin extends Plugin {
-    private static final SampleLogger LOG = SampleLogger.getLogger(DiscoveryMonitorPlugin.class.getName());
+    private static final AgentLogger LOG = AgentLogger.getLogger(DiscoveryMonitorPlugin.class.getName());
 
     public DiscoveryMonitorPlugin(TransformTemplate transformTemplate) {
         super(transformTemplate);

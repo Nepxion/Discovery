@@ -12,11 +12,11 @@ package com.nepxion.discovery.plugin.strategy.starter.agent.threadLocal;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.nepxion.discovery.plugin.strategy.starter.agent.logger.SampleLogger;
+import com.nepxion.discovery.plugin.strategy.starter.agent.logger.AgentLogger;
 import com.nepxion.discovery.plugin.strategy.starter.agent.plugin.thread.ThreadLocalHook;
 
 public class ThreadLocalCopier {
-    private static final SampleLogger LOG = SampleLogger.getLogger(ThreadLocalCopier.class.getName());
+    private static final AgentLogger LOG = AgentLogger.getLogger(ThreadLocalCopier.class.getName());
     private static List<ThreadLocalHook> threadHooks = new ArrayList<>();
 
     public static void register(ThreadLocalHook threadHook) {

@@ -19,7 +19,7 @@ import java.lang.reflect.Method;
 import java.security.ProtectionDomain;
 
 import com.nepxion.discovery.plugin.strategy.starter.agent.async.AsyncContextAccessor;
-import com.nepxion.discovery.plugin.strategy.starter.agent.logger.SampleLogger;
+import com.nepxion.discovery.plugin.strategy.starter.agent.logger.AgentLogger;
 import com.nepxion.discovery.plugin.strategy.starter.agent.match.InterfaceMatcher;
 import com.nepxion.discovery.plugin.strategy.starter.agent.match.Matchers;
 import com.nepxion.discovery.plugin.strategy.starter.agent.plugin.Plugin;
@@ -29,7 +29,7 @@ import com.nepxion.discovery.plugin.strategy.starter.agent.util.ClassInfo;
 import com.nepxion.discovery.plugin.strategy.starter.agent.util.StringUtil;
 
 public class ThreadPlugin extends Plugin {
-    private static final SampleLogger LOG = SampleLogger.getLogger(ThreadPlugin.class.getName());
+    private static final AgentLogger LOG = AgentLogger.getLogger(ThreadPlugin.class.getName());
 
     public ThreadPlugin(TransformTemplate transformTemplate) {
         super(transformTemplate);
@@ -82,7 +82,7 @@ public class ThreadPlugin extends Plugin {
         }
     }
 
-    public static void addField(CtClass ctClass, Class clazz) {
+    public static void addField(CtClass ctClass, Class<?> clazz) {
         try {
             ClassPool aDefault = ClassPool.getDefault();
             CtClass makeInterface = aDefault.makeInterface(clazz.getName());

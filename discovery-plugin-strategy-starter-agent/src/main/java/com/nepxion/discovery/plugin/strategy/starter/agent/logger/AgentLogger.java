@@ -14,12 +14,12 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.MessageFormat;
 
-public class SampleLogger {
-    private final String messagePattern;
+public class AgentLogger {
+    private static final AgentLogger LOG = AgentLogger.getLogger(AgentLogger.class.getName());
 
     private static PrintStream printStream;
 
-    private static final SampleLogger LOG = SampleLogger.getLogger(SampleLogger.class.getName());
+    private final String messagePattern;
 
     static {
         try {
@@ -29,15 +29,15 @@ public class SampleLogger {
         }
     }
 
-    public SampleLogger(String loggerName) {
+    public AgentLogger(String loggerName) {
         if (loggerName == null) {
             throw new NullPointerException("loggerName must not be null");
         }
         this.messagePattern = "{0,date,yyyy-MM-dd HH:mm:ss} [{1}] (" + loggerName + ") {2}{3}";
     }
 
-    public static SampleLogger getLogger(String loggerName) {
-        return new SampleLogger(loggerName);
+    public static AgentLogger getLogger(String loggerName) {
+        return new AgentLogger(loggerName);
     }
 
     private String format(String logLevel, String msg, String exceptionMessage) {
@@ -46,6 +46,7 @@ public class SampleLogger {
         MessageFormat messageFormat = new MessageFormat(messagePattern);
         final long date = System.currentTimeMillis();
         Object[] parameter = { date, logLevel, msg, exceptionMessage };
+
         return messageFormat.format(parameter);
     }
 
@@ -82,6 +83,7 @@ public class SampleLogger {
         pw.println();
         throwable.printStackTrace(pw);
         pw.close();
+
         return sw.toString();
     }
 
@@ -89,6 +91,7 @@ public class SampleLogger {
         if (exceptionMessage == null) {
             return defaultValue;
         }
+
         return exceptionMessage;
     }
 }

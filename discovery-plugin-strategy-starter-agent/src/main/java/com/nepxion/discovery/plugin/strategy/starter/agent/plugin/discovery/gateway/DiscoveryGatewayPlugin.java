@@ -11,7 +11,7 @@ package com.nepxion.discovery.plugin.strategy.starter.agent.plugin.discovery.gat
 
 import java.security.ProtectionDomain;
 
-import com.nepxion.discovery.plugin.strategy.starter.agent.logger.SampleLogger;
+import com.nepxion.discovery.plugin.strategy.starter.agent.logger.AgentLogger;
 import com.nepxion.discovery.plugin.strategy.starter.agent.match.ClassMatcher;
 import com.nepxion.discovery.plugin.strategy.starter.agent.match.Matchers;
 import com.nepxion.discovery.plugin.strategy.starter.agent.plugin.Plugin;
@@ -20,7 +20,7 @@ import com.nepxion.discovery.plugin.strategy.starter.agent.transformer.Transform
 import com.nepxion.discovery.plugin.strategy.starter.agent.transformer.TransformTemplate;
 
 public class DiscoveryGatewayPlugin extends Plugin {
-    private static final SampleLogger LOG = SampleLogger.getLogger(DiscoveryGatewayPlugin.class.getName());
+    private static final AgentLogger LOG = AgentLogger.getLogger(DiscoveryGatewayPlugin.class.getName());
 
     public DiscoveryGatewayPlugin(TransformTemplate transformTemplate) {
         super(transformTemplate);
