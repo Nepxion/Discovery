@@ -11,7 +11,7 @@ package com.nepxion.discovery.plugin.strategy.starter.agent.plugin.discovery.ser
 
 import com.nepxion.discovery.plugin.strategy.starter.agent.logger.AgentLogger;
 import com.nepxion.discovery.plugin.strategy.starter.agent.matcher.ClassMatcher;
-import com.nepxion.discovery.plugin.strategy.starter.agent.matcher.Matchers;
+import com.nepxion.discovery.plugin.strategy.starter.agent.matcher.MatcherFactory;
 import com.nepxion.discovery.plugin.strategy.starter.agent.plugin.Plugin;
 import com.nepxion.discovery.plugin.strategy.starter.agent.threadlocal.ThreadLocalCopier;
 import com.nepxion.discovery.plugin.strategy.starter.agent.transformer.TransformCallback;
@@ -28,7 +28,7 @@ public class DiscoveryServicePlugin extends Plugin {
 
     @Override
     public void install() {
-        ClassMatcher classMatcher = Matchers.newClassNameMatcher("com.nepxion.discovery.plugin.strategy.service.context.RestStrategyContext");
+        ClassMatcher classMatcher = MatcherFactory.newClassNameMatcher("com.nepxion.discovery.plugin.strategy.service.context.RestStrategyContext");
         transformTemplate.transform(classMatcher, new TransformCallback() {
             @Override
             public byte[] doInTransform(ClassLoader classLoader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) {

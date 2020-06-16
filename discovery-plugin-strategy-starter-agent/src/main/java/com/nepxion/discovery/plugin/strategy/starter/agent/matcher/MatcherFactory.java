@@ -9,7 +9,7 @@ package com.nepxion.discovery.plugin.strategy.starter.agent.matcher;
  * @version 1.0
  */
 
-public class Matchers {
+public class MatcherFactory {
     public static ClassMatcher newClassNameMatcher(String classInternalName) {
         return new ClassNameMatcher(classInternalName);
     }

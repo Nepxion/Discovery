@@ -21,7 +21,7 @@ import java.security.ProtectionDomain;
 import com.nepxion.discovery.plugin.strategy.starter.agent.async.AsyncContextAccessor;
 import com.nepxion.discovery.plugin.strategy.starter.agent.logger.AgentLogger;
 import com.nepxion.discovery.plugin.strategy.starter.agent.matcher.InterfaceMatcher;
-import com.nepxion.discovery.plugin.strategy.starter.agent.matcher.Matchers;
+import com.nepxion.discovery.plugin.strategy.starter.agent.matcher.MatcherFactory;
 import com.nepxion.discovery.plugin.strategy.starter.agent.plugin.Plugin;
 import com.nepxion.discovery.plugin.strategy.starter.agent.transformer.TransformCallback;
 import com.nepxion.discovery.plugin.strategy.starter.agent.transformer.TransformTemplate;
@@ -44,8 +44,8 @@ public class ThreadPlugin extends Plugin {
             return;
         }
         LOG.info(String.format("Trace (%s) Runnable/Callable for thread context switch", threadMatchPackage));
-        InterfaceMatcher runnableInterfaceMatcher = Matchers.newPackageBasedMatcher(threadMatchPackage, ThreadConstant.RUNNABLE_CLASS_NAME);
-        InterfaceMatcher callableInterfaceMatcher = Matchers.newPackageBasedMatcher(threadMatchPackage, ThreadConstant.CALLABLE_CLASS_NAME);
+        InterfaceMatcher runnableInterfaceMatcher = MatcherFactory.newPackageBasedMatcher(threadMatchPackage, ThreadConstant.RUNNABLE_CLASS_NAME);
+        InterfaceMatcher callableInterfaceMatcher = MatcherFactory.newPackageBasedMatcher(threadMatchPackage, ThreadConstant.CALLABLE_CLASS_NAME);
 
         transformTemplate.transform(runnableInterfaceMatcher, new RunnableTransformCallback());
         transformTemplate.transform(callableInterfaceMatcher, new CallableTransformCallback());
