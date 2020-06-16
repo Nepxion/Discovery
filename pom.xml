@@ -43,7 +43,7 @@
         <module>discovery-plugin-strategy-starter-hystrix</module>
         <module>discovery-plugin-strategy-starter-opentracing</module>
         <module>discovery-plugin-strategy-starter-skywalking</module>
-        <module>discovery-plugin-strategy-starter-agent-core</module>
+        <module>discovery-plugin-strategy-starter-agent</module>
         <module>discovery-plugin-strategy-starter-agent-plugin</module>
         <module>discovery-plugin-test-starter</module>
         <module>discovery-console</module>
@@ -281,7 +281,7 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>discovery-plugin-strategy-starter-agent-core</artifactId>
+                <artifactId>discovery-plugin-strategy-starter-agent</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
