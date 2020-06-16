@@ -22,7 +22,7 @@ import com.nepxion.discovery.plugin.strategy.starter.agent.logger.AgentLogger;
 import com.nepxion.discovery.plugin.strategy.starter.agent.plugin.loader.PluginLoader;
 import com.nepxion.discovery.plugin.strategy.starter.agent.plugin.loader.URLClassLoaderFactory;
 import com.nepxion.discovery.plugin.strategy.starter.agent.plugin.thread.ThreadPlugin;
-import com.nepxion.discovery.plugin.strategy.starter.agent.util.FileUtils;
+import com.nepxion.discovery.plugin.strategy.starter.agent.util.FileUtil;
 
 public class PluginFinder {
     private static final AgentLogger LOG = AgentLogger.getLogger(PluginFinder.class.getName());
@@ -51,7 +51,7 @@ public class PluginFinder {
         if (checkDirectory(libDir)) {
             return Collections.emptyList();
         }
-        final File[] libFileList = FileUtils.listFiles(libDir, new String[] { ".jar" });
+        final File[] libFileList = FileUtil.listFiles(libDir, new String[] { ".jar" });
 
         List<URL> libURLList = toURLs(libFileList);
         URL agentDirUri = toURL(new File(agentLibPath));
@@ -79,7 +79,7 @@ public class PluginFinder {
 
     private static List<URL> toURLs(File[] jarFileList) {
         try {
-            URL[] jarURLArray = FileUtils.toURLs(jarFileList);
+            URL[] jarURLArray = FileUtil.toURLs(jarFileList);
 
             return Arrays.asList(jarURLArray);
         } catch (IOException e) {
@@ -89,7 +89,7 @@ public class PluginFinder {
 
     private static URL toURL(File file) {
         try {
-            return FileUtils.toURL(file);
+            return FileUtil.toURL(file);
         } catch (IOException e) {
             LOG.warn(file.getName() + ".toURL() failed.", e);
             throw new RuntimeException(file.getName() + ".toURL() failed.", e);

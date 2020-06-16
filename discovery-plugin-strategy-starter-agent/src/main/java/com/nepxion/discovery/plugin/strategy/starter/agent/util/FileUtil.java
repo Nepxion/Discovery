@@ -16,8 +16,8 @@ import java.net.URI;
 import java.net.URL;
 import java.util.List;
 
-public final class FileUtils {
-    private FileUtils() {
+public final class FileUtil {
+    private FileUtil() {
     }
 
     public static File[] listFiles(final File path, final List<String> fileExtensionList) {
