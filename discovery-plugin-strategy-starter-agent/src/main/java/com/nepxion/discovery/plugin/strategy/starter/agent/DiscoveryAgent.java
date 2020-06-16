@@ -12,10 +12,10 @@ package com.nepxion.discovery.plugin.strategy.starter.agent;
 import java.lang.instrument.Instrumentation;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.plugin.strategy.starter.agent.callback.TransformTemplate;
 import com.nepxion.discovery.plugin.strategy.starter.agent.logger.AgentLogger;
 import com.nepxion.discovery.plugin.strategy.starter.agent.plugin.PluginFinder;
-import com.nepxion.discovery.plugin.strategy.starter.agent.transform.DispatcherClassFileTransformer;
-import com.nepxion.discovery.plugin.strategy.starter.agent.transformer.TransformTemplate;
+import com.nepxion.discovery.plugin.strategy.starter.agent.transformer.DispatcherClassFileTransformer;
 
 public class DiscoveryAgent {
     private final static AgentLogger LOG = AgentLogger.getLogger(DiscoveryAgent.class.getName());

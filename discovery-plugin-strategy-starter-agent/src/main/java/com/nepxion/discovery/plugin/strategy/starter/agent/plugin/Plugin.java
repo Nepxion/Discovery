@@ -9,7 +9,7 @@ package com.nepxion.discovery.plugin.strategy.starter.agent.plugin;
  * @version 1.0
  */
 
-import com.nepxion.discovery.plugin.strategy.starter.agent.transformer.TransformTemplate;
+import com.nepxion.discovery.plugin.strategy.starter.agent.callback.TransformTemplate;
 
 public abstract class Plugin {
     protected final TransformTemplate transformTemplate;

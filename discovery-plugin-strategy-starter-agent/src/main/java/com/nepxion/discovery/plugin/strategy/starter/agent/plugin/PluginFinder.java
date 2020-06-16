@@ -9,12 +9,12 @@ package com.nepxion.discovery.plugin.strategy.starter.agent.plugin;
  * @version 1.0
  */
 
+import com.nepxion.discovery.plugin.strategy.starter.agent.callback.TransformTemplate;
 import com.nepxion.discovery.plugin.strategy.starter.agent.plugin.discovery.gateway.DiscoveryGatewayPlugin;
 import com.nepxion.discovery.plugin.strategy.starter.agent.plugin.discovery.monitor.DiscoveryMonitorPlugin;
 import com.nepxion.discovery.plugin.strategy.starter.agent.plugin.discovery.service.DiscoveryServicePlugin;
 import com.nepxion.discovery.plugin.strategy.starter.agent.plugin.discovery.zuul.DiscoveryZuulPlugin;
 import com.nepxion.discovery.plugin.strategy.starter.agent.plugin.thread.ThreadPlugin;
-import com.nepxion.discovery.plugin.strategy.starter.agent.transformer.TransformTemplate;
 
 public class PluginFinder {
     public static void load(TransformTemplate transformTemplate) {
