@@ -13,7 +13,7 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
 import com.nepxion.discovery.plugin.strategy.service.context.RestStrategyContext;
-import com.nepxion.discovery.plugin.strategy.starter.agent.core.threadlocal.ThreadLocalHook;
+import com.nepxion.discovery.plugin.strategy.starter.agent.threadlocal.ThreadLocalHook;
 
 public class RestStrategyContextHook implements ThreadLocalHook {
     @Override

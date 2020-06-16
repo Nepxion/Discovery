@@ -12,7 +12,7 @@ package com.nepxion.discovery.plugin.strategy.starter.agent.plugin.gateway;
 import org.springframework.web.server.ServerWebExchange;
 
 import com.nepxion.discovery.plugin.strategy.gateway.context.GatewayStrategyContext;
-import com.nepxion.discovery.plugin.strategy.starter.agent.core.threadlocal.ThreadLocalHook;
+import com.nepxion.discovery.plugin.strategy.starter.agent.threadlocal.ThreadLocalHook;
 
 public class GatewayStrategyContextHook implements ThreadLocalHook {
     @Override

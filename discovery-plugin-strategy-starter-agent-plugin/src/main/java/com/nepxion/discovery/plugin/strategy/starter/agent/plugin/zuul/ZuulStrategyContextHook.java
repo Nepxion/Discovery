@@ -13,7 +13,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.nepxion.discovery.plugin.strategy.starter.agent.core.threadlocal.ThreadLocalHook;
+import com.nepxion.discovery.plugin.strategy.starter.agent.threadlocal.ThreadLocalHook;
 import com.nepxion.discovery.plugin.strategy.zuul.context.ZuulStrategyContext;
 import com.netflix.zuul.context.RequestContext;
 

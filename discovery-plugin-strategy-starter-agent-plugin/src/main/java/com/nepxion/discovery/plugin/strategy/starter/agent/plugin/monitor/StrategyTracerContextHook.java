@@ -10,7 +10,7 @@ package com.nepxion.discovery.plugin.strategy.starter.agent.plugin.monitor;
  */
 
 import com.nepxion.discovery.plugin.strategy.monitor.StrategyTracerContext;
-import com.nepxion.discovery.plugin.strategy.starter.agent.core.threadlocal.ThreadLocalHook;
+import com.nepxion.discovery.plugin.strategy.starter.agent.threadlocal.ThreadLocalHook;
 
 public class StrategyTracerContextHook implements ThreadLocalHook {
     @Override

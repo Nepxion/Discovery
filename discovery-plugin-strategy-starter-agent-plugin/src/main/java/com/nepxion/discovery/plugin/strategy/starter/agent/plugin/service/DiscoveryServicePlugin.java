@@ -11,12 +11,12 @@ package com.nepxion.discovery.plugin.strategy.starter.agent.plugin.service;
 
 import java.security.ProtectionDomain;
 
-import com.nepxion.discovery.plugin.strategy.starter.agent.core.callback.TransformCallback;
-import com.nepxion.discovery.plugin.strategy.starter.agent.core.callback.TransformTemplate;
-import com.nepxion.discovery.plugin.strategy.starter.agent.core.matcher.ClassMatcher;
-import com.nepxion.discovery.plugin.strategy.starter.agent.core.matcher.MatcherFactory;
-import com.nepxion.discovery.plugin.strategy.starter.agent.core.plugin.Plugin;
-import com.nepxion.discovery.plugin.strategy.starter.agent.core.threadlocal.ThreadLocalCopier;
+import com.nepxion.discovery.plugin.strategy.starter.agent.callback.TransformCallback;
+import com.nepxion.discovery.plugin.strategy.starter.agent.callback.TransformTemplate;
+import com.nepxion.discovery.plugin.strategy.starter.agent.matcher.ClassMatcher;
+import com.nepxion.discovery.plugin.strategy.starter.agent.matcher.MatcherFactory;
+import com.nepxion.discovery.plugin.strategy.starter.agent.plugin.Plugin;
+import com.nepxion.discovery.plugin.strategy.starter.agent.threadlocal.ThreadLocalCopier;
 
 public class DiscoveryServicePlugin extends Plugin {
     @Override
