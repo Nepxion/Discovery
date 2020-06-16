@@ -588,10 +588,9 @@ spring.application.discovery.control.enabled=false
 </dependency>
 ```
 
-引入和启动方式，通过-javaagent启动。thread.scan.packages为Runnable，Callable，该目录下的相关目标对象都会被装饰。该目录最好精细和准确，这样可以减少被装饰的对象，目录如果有多个，用“;”分隔
+引入和启动方式，通过-javaagent启动。thread.scan.packages为Runnable，Callable所在的扫描目录，该目录下的Runnable，Callable对象都会被装饰。该目录最好精细和准确，这样可以减少被装饰的对象数提高性能，目录如果有多个，用“;”分隔
 ```xml
--javaagent:/xxx/target/discovery-plugin-strategy-starter-agent-{discovery.version}.jar
--Dthread.scan.packages=com.abc
+-javaagent:/xxx/yyy/discovery-plugin-strategy-starter-agent-{discovery.version}.jar -Dthread.scan.packages=com.abc.xyz
 ```
 
 自动化测试插件的引入
