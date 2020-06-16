@@ -5,28 +5,25 @@ package com.nepxion.discovery.plugin.strategy.starter.agent.plugin.thread;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author zifeihan
  * @version 1.0
  */
-
-import javassist.ClassPool;
-import javassist.CtClass;
-import javassist.CtConstructor;
-import javassist.CtField;
-import javassist.CtMethod;
-
-import java.lang.reflect.Method;
-import java.security.ProtectionDomain;
 
 import com.nepxion.discovery.plugin.strategy.starter.agent.async.AsyncContextAccessor;
 import com.nepxion.discovery.plugin.strategy.starter.agent.callback.TransformCallback;
 import com.nepxion.discovery.plugin.strategy.starter.agent.callback.TransformTemplate;
 import com.nepxion.discovery.plugin.strategy.starter.agent.logger.AgentLogger;
-import com.nepxion.discovery.plugin.strategy.starter.agent.matcher.InterfaceMatcher;
 import com.nepxion.discovery.plugin.strategy.starter.agent.matcher.MatcherFactory;
+import com.nepxion.discovery.plugin.strategy.starter.agent.matcher.MatcherOperator;
 import com.nepxion.discovery.plugin.strategy.starter.agent.plugin.Plugin;
 import com.nepxion.discovery.plugin.strategy.starter.agent.util.ClassInfo;
 import com.nepxion.discovery.plugin.strategy.starter.agent.util.StringUtil;
+import javassist.*;
+
+import java.lang.reflect.Method;
+import java.security.ProtectionDomain;
+import java.util.List;
 
 public class ThreadPlugin extends Plugin {
     private static final AgentLogger LOG = AgentLogger.getLogger(ThreadPlugin.class.getName());
@@ -40,15 +37,18 @@ public class ThreadPlugin extends Plugin {
         String threadScanPackages = System.getProperty(ThreadConstant.THREAD_SCAN_PACKAGES);
         if (StringUtil.isEmpty(threadScanPackages)) {
             LOG.warn(String.format("Thread scan packages (%s) is null, ignore thread context switch", ThreadConstant.THREAD_SCAN_PACKAGES));
-
             return;
         }
         LOG.info(String.format("Trace (%s) Runnable/Callable for thread context switch", threadScanPackages));
-        InterfaceMatcher runnableInterfaceMatcher = MatcherFactory.newPackageBasedMatcher(threadScanPackages, ThreadConstant.RUNNABLE_CLASS_NAME);
-        InterfaceMatcher callableInterfaceMatcher = MatcherFactory.newPackageBasedMatcher(threadScanPackages, ThreadConstant.CALLABLE_CLASS_NAME);
-
-        transformTemplate.transform(runnableInterfaceMatcher, new RunnableTransformCallback());
-        transformTemplate.transform(callableInterfaceMatcher, new CallableTransformCallback());
+        List<String> basePackages = StringUtil.tokenizeToStringList(threadScanPackages, ThreadConstant.THREAD_SCAN_PACKAGES_DELIMITERS);
+        RunnableTransformCallback runnableTransformCallback = new RunnableTransformCallback();
+        CallableTransformCallback callableTransformCallback = new CallableTransformCallback();
+        for (String basePackage : basePackages) {
+            MatcherOperator runnableInterfaceMatcherOperator = MatcherFactory.newPackageBasedMatcher(basePackage, ThreadConstant.RUNNABLE_CLASS_NAME);
+            MatcherOperator callableInterfaceMatcherOperator = MatcherFactory.newPackageBasedMatcher(basePackage, ThreadConstant.CALLABLE_CLASS_NAME);
+            transformTemplate.transform(runnableInterfaceMatcherOperator, runnableTransformCallback);
+            transformTemplate.transform(callableInterfaceMatcherOperator, callableTransformCallback);
+        }
         LOG.info(String.format("%s install successfully", this.getClass().getSimpleName()));
     }
 

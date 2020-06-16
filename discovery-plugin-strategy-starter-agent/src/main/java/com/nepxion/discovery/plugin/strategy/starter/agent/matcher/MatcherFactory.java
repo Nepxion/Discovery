@@ -5,6 +5,7 @@ package com.nepxion.discovery.plugin.strategy.starter.agent.matcher;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author zifeihan
  * @version 1.0
  */
@@ -14,7 +15,7 @@ public class MatcherFactory {
         return new ClassNameMatcher(classInternalName);
     }
 
-    public static InterfaceMatcher newPackageBasedMatcher(String basePackageName, String interfaceName) {
-        return new InterfaceMatcher(basePackageName, interfaceName);
+    public static MatcherOperator newPackageBasedMatcher(String basePackageName, String interfaceName) {
+        return new MatcherOperator(new PackageMatcher(basePackageName), new InterfaceMatcher(interfaceName));
     }
 }
