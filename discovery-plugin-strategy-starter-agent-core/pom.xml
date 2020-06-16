@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <artifactId>discovery-plugin-strategy-starter-agent-core</artifactId>
     <name>Nepxion Discovery Plugin Strategy Starter Agent Core</name>
     <modelVersion>4.0.0</modelVersion>
@@ -93,9 +91,7 @@
                         <configuration>
                             <tasks>
                                 <mkdir dir="${project.basedir}/../discovery-agent"/>
-                                <copy file="${project.build.directory}/${project.build.finalName}.jar"
-                                      tofile="${project.basedir}/../discovery-agent/${project.build.finalName}.jar"
-                                      overwrite="true"/>
+                                <copy file="${project.build.directory}/${project.build.finalName}.jar" tofile="${project.basedir}/../discovery-agent/${project.build.finalName}.jar" overwrite="true"/>
                                 <mkdir dir="${project.basedir}/../discovery-agent/plugin"/>
                             </tasks>
                         </configuration>
@@ -104,6 +100,4 @@
             </plugin>
         </plugins>
     </build>
-
-
 </project>

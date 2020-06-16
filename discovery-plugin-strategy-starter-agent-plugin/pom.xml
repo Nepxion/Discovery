@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <artifactId>discovery-plugin-strategy-starter-agent-plugin</artifactId>
-    <name>Nepxion Discovery Plugin Strategy Starter Agent Pligin</name>
+    <name>Nepxion Discovery Plugin Strategy Starter Agent Plugin</name>
     <modelVersion>4.0.0</modelVersion>
     <description>Nepxion Discovery is an enhancement for Spring Cloud Discovery</description>
     <url>http://www.nepxion.com</url>
@@ -66,9 +64,7 @@
                         </goals>
                         <configuration>
                             <tasks>
-                                <copy file="${project.build.directory}/${project.build.finalName}.jar"
-                                      tofile="${plugin.dest.dir}/${project.build.finalName}.jar"
-                                      overwrite="true"/>
+                                <copy file="${project.build.directory}/${project.build.finalName}.jar" tofile="${plugin.dest.dir}/${project.build.finalName}.jar" overwrite="true"/>
                             </tasks>
                         </configuration>
                     </execution>
