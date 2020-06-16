@@ -2,15 +2,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <artifactId>agent-core</artifactId>
+
+    <artifactId>discovery-plugin-strategy-starter-agent-core</artifactId>
     <name>Nepxion Discovery Plugin Strategy Starter Agent Core</name>
     <modelVersion>4.0.0</modelVersion>
     <description>Nepxion Discovery is an enhancement for Spring Cloud Discovery</description>
     <url>http://www.nepxion.com</url>
 
     <parent>
-        <artifactId>discovery-plugin-strategy-starter-agent</artifactId>
         <groupId>com.nepxion</groupId>
+        <artifactId>discovery</artifactId>
         <version>6.0.3-SR1</version>
     </parent>
 
@@ -103,4 +104,6 @@
             </plugin>
         </plugins>
     </build>
+
+
 </project>

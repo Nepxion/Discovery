@@ -43,7 +43,6 @@
         <module>discovery-plugin-strategy-starter-hystrix</module>
         <module>discovery-plugin-strategy-starter-opentracing</module>
         <module>discovery-plugin-strategy-starter-skywalking</module>
-        <module>discovery-plugin-strategy-starter-agent</module>
         <module>discovery-plugin-test-starter</module>
         <module>discovery-console</module>
         <module>discovery-console-starter-apollo</module>
@@ -56,6 +55,8 @@
         <module>discovery-springcloud-example-service</module>
         <module>discovery-springcloud-example-zuul</module>
         <module>discovery-springcloud-example-gateway</module>
+        <module>discovery-plugin-strategy-starter-agent-core</module>
+        <module>discovery-plugin-strategy-starter-agent-plugin</module>
     </modules>
 
     <properties>
@@ -88,7 +89,7 @@
         <dependencies>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>agent-core</artifactId>
+                <artifactId>discovery-plugin-strategy-starter-agent-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

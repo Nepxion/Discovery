@@ -44,6 +44,7 @@ public class PluginFinder {
     public static List<URL> getPlugin() {
         File agentDictionary = AgentPath.getPath();
         File plugins = new File(agentDictionary, "plugin");
+        LOG.info("agent plugin dir:" + plugins.getAbsolutePath());
         return resolveLib(plugins.getAbsolutePath());
     }
 
