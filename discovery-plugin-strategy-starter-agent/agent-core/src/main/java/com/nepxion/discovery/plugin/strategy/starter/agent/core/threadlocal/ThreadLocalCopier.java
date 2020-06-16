@@ -12,7 +12,6 @@ package com.nepxion.discovery.plugin.strategy.starter.agent.core.threadlocal;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.nepxion.discovery.plugin.strategy.starter.agent.core.plugin.thread.ThreadLocalHook;
 import com.nepxion.discovery.plugin.strategy.starter.agent.core.logger.AgentLogger;
 
 public class ThreadLocalCopier {

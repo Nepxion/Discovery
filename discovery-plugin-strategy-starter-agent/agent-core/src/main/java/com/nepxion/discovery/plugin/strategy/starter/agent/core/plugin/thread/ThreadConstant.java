@@ -1,5 +1,9 @@
 package com.nepxion.discovery.plugin.strategy.starter.agent.core.plugin.thread;
 
+
+import com.nepxion.discovery.plugin.strategy.starter.agent.core.plugin.thread.interceptor.ThreadCallInterceptor;
+import com.nepxion.discovery.plugin.strategy.starter.agent.core.plugin.thread.interceptor.ThreadConstructorInterceptor;
+
 /**
  * <p>Title: Nepxion Discovery</p>
  * <p>Description: Nepxion Discovery</p>
@@ -16,4 +20,10 @@ public class ThreadConstant {
     public static final String CALLABLE_CLASS_NAME = "java.util.concurrent.Callable";
 
     public static final String THREAD_SCAN_PACKAGES_DELIMITERS = ";";
+
+    public static final String CONSTRUCTOR_INTERCEPTOR = String.format("%s.before(this);\n", ThreadConstructorInterceptor.class.getName());
+
+    public static final String RUN_BEFORE_INTERCEPTOR = String.format("%s.before(this);\n", ThreadCallInterceptor.class.getName());
+
+    public static final String RUN_AFTER_INTERCEPTOR = String.format("%s.after(this);\n", ThreadCallInterceptor.class.getName());
 }

@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.starter.agent.core.plugin.thread;
+package com.nepxion.discovery.plugin.strategy.starter.agent.core.threadlocal;
 
 /**
  * <p>Title: Nepxion Discovery</p>

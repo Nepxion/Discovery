@@ -45,6 +45,7 @@ public class ThreadPlugin extends Plugin {
             transformTemplate.transform(runnableInterfaceMatcherOperator, runnableTransformCallback);
             transformTemplate.transform(callableInterfaceMatcherOperator, callableTransformCallback);
         }
+        LOG.info(String.format("%s install successfully", this.getClass().getSimpleName()));
     }
 
     public static class RunnableTransformCallback implements TransformCallback {
@@ -58,14 +59,13 @@ public class ThreadPlugin extends Plugin {
 
                 CtConstructor[] declaredConstructors = ctClass.getDeclaredConstructors();
                 for (CtConstructor ctConstructor : declaredConstructors) {
-                    String before = "com.nepxion.discovery.plugin.strategy.starter.agent.core.plugin.thread.interceptor.ThreadConstructorInterceptor.before(this);\n";
-                    ctConstructor.insertAfter(before);
+                    ctConstructor.insertAfter(ThreadConstant.CONSTRUCTOR_INTERCEPTOR);
                 }
 
                 CtMethod ctMethod = ctClass.getDeclaredMethod("run");
                 if (null != ctMethod) {
-                    ctMethod.insertBefore("com.nepxion.discovery.plugin.strategy.starter.agent.core.plugin.thread.interceptor.ThreadCallInterceptor.before(this);\n");
-                    ctMethod.insertAfter("com.nepxion.discovery.plugin.strategy.starter.agent.core.plugin.thread.interceptor.ThreadCallInterceptor.after(this);\n");
+                    ctMethod.insertBefore(ThreadConstant.RUN_BEFORE_INTERCEPTOR);
+                    ctMethod.insertAfter(ThreadConstant.RUN_AFTER_INTERCEPTOR);
                 }
 
                 return ctClass.toBytecode();
@@ -129,14 +129,13 @@ public class ThreadPlugin extends Plugin {
 
                 CtConstructor[] declaredConstructors = ctClass.getDeclaredConstructors();
                 for (CtConstructor ctConstructor : declaredConstructors) {
-                    String before = "com.nepxion.discovery.plugin.strategy.starter.agent.core.plugin.thread.interceptor.ThreadConstructorInterceptor.before(this);\n";
-                    ctConstructor.insertAfter(before);
+                    ctConstructor.insertAfter(ThreadConstant.CONSTRUCTOR_INTERCEPTOR);
                 }
 
                 CtMethod ctMethod = ctClass.getDeclaredMethod("call");
                 if (null != ctMethod) {
-                    ctMethod.insertBefore("com.nepxion.discovery.plugin.strategy.starter.agent.core.plugin.thread.interceptor.ThreadCallInterceptor.before(this);\n");
-                    ctMethod.insertAfter("com.nepxion.discovery.plugin.strategy.starter.agent.core.plugin.thread.interceptor.ThreadCallInterceptor.after(this);\n");
+                    ctMethod.insertBefore(ThreadConstant.RUN_BEFORE_INTERCEPTOR);
+                    ctMethod.insertAfter(ThreadConstant.RUN_AFTER_INTERCEPTOR);
                 }
 
                 return ctClass.toBytecode();

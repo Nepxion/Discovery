@@ -31,7 +31,6 @@ public class PluginFinder {
 
     public static void load(TransformTemplate transformTemplate) {
         new ThreadPlugin().install(transformTemplate);
-
         URL[] pluginUrls = getPlugin().toArray(new URL[]{});
         ClassLoader classLoader = URLClassLoaderFactory.createClassLoader("discovery.agent",
                 pluginUrls, PluginFinder.class.getClassLoader());
