@@ -5,7 +5,6 @@ package com.nepxion.discovery.plugin.strategy.starter.agent.core.util;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
- *
  * @author zifeihan
  * @version 1.0
  */
@@ -18,7 +17,6 @@ import java.net.URL;
 import java.util.List;
 
 public final class FileUtils {
-
     private FileUtils() {
     }
 
@@ -26,6 +24,7 @@ public final class FileUtils {
         Assert.requireNonNull(path, "path");
         Assert.requireNonNull(fileExtensionList, "fileExtensionList");
         final String[] fileExtensions = fileExtensionList.toArray(new String[0]);
+
         return listFiles(path, fileExtensions);
     }
 
@@ -42,6 +41,7 @@ public final class FileUtils {
                         return true;
                     }
                 }
+
                 return false;
             }
         });
@@ -53,26 +53,31 @@ public final class FileUtils {
 
     public static URL toURL(final File file) throws IOException {
         Assert.requireNonNull(file, "file");
+
         return toURL(file, new FileFunction());
     }
 
     public static URL toURL(final String filePath) throws IOException {
         Assert.requireNonNull(filePath, "filePath");
+
         return toURL(filePath, new FilePathFunction());
     }
 
     public static URL[] toURLs(final File[] files) throws IOException {
         Assert.requireNonNull(files, "files");
+
         return toURLs(files, new FileFunction());
     }
 
     public static URL[] toURLs(final String[] filePaths) throws IOException {
         Assert.requireNonNull(filePaths, "filePaths");
+
         return toURLs(filePaths, new FilePathFunction());
     }
 
     private static <T> URL toURL(final T source, final Function<T, URI> function) throws IOException {
         URI uri = function.apply(source);
+
         return uri.toURL();
     }
 
@@ -82,14 +87,13 @@ public final class FileUtils {
             T t = source[i];
             urls[i] = toURL(t, function);
         }
+
         return urls;
     }
 
     private interface Function<T, R> {
-
         R apply(T t);
     }
-
 
     private static class FileFunction implements Function<File, URI> {
         @Override
@@ -102,6 +106,7 @@ public final class FileUtils {
         @Override
         public URI apply(String filePath) {
             final File file = new File(filePath);
+
             return file.toURI();
         }
     }

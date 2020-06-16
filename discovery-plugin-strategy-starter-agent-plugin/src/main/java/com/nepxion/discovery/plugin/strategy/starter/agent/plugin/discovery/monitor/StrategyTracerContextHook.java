@@ -9,8 +9,8 @@ package com.nepxion.discovery.plugin.strategy.starter.agent.plugin.discovery.mon
  * @version 1.0
  */
 
-import com.nepxion.discovery.plugin.strategy.starter.agent.core.threadlocal.ThreadLocalHook;
 import com.nepxion.discovery.plugin.strategy.monitor.StrategyTracerContext;
+import com.nepxion.discovery.plugin.strategy.starter.agent.core.threadlocal.ThreadLocalHook;
 
 public class StrategyTracerContextHook implements ThreadLocalHook {
     @Override

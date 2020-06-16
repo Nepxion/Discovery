@@ -5,18 +5,17 @@ package com.nepxion.discovery.plugin.strategy.starter.agent.core;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
- *
  * @author zifeihan
  * @version 1.0
  */
 
+import java.lang.instrument.Instrumentation;
+
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.strategy.starter.agent.core.callback.TransformTemplate;
+import com.nepxion.discovery.plugin.strategy.starter.agent.core.logger.AgentLogger;
 import com.nepxion.discovery.plugin.strategy.starter.agent.core.plugin.PluginFinder;
 import com.nepxion.discovery.plugin.strategy.starter.agent.core.transformer.DispatcherClassFileTransformer;
-import com.nepxion.discovery.plugin.strategy.starter.agent.core.logger.AgentLogger;
-
-import java.lang.instrument.Instrumentation;
 
 public class DiscoveryAgent {
     private final static AgentLogger LOG = AgentLogger.getLogger(DiscoveryAgent.class.getName());

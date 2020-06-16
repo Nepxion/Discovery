@@ -5,25 +5,29 @@ package com.nepxion.discovery.plugin.strategy.starter.agent.core.plugin.thread;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
- *
  * @author zifeihan
  * @version 1.0
  */
 
-import com.nepxion.discovery.plugin.strategy.starter.agent.core.callback.TransformCallback;
-import com.nepxion.discovery.plugin.strategy.starter.agent.core.callback.TransformTemplate;
-import com.nepxion.discovery.plugin.strategy.starter.agent.core.matcher.MatcherOperator;
-import com.nepxion.discovery.plugin.strategy.starter.agent.core.plugin.Plugin;
-import com.nepxion.discovery.plugin.strategy.starter.agent.core.async.AsyncContextAccessor;
-import com.nepxion.discovery.plugin.strategy.starter.agent.core.logger.AgentLogger;
-import com.nepxion.discovery.plugin.strategy.starter.agent.core.matcher.MatcherFactory;
-import com.nepxion.discovery.plugin.strategy.starter.agent.core.util.ClassInfo;
-import com.nepxion.discovery.plugin.strategy.starter.agent.core.util.StringUtil;
-import javassist.*;
+import javassist.ClassPool;
+import javassist.CtClass;
+import javassist.CtConstructor;
+import javassist.CtField;
+import javassist.CtMethod;
 
 import java.lang.reflect.Method;
 import java.security.ProtectionDomain;
 import java.util.List;
+
+import com.nepxion.discovery.plugin.strategy.starter.agent.core.async.AsyncContextAccessor;
+import com.nepxion.discovery.plugin.strategy.starter.agent.core.callback.TransformCallback;
+import com.nepxion.discovery.plugin.strategy.starter.agent.core.callback.TransformTemplate;
+import com.nepxion.discovery.plugin.strategy.starter.agent.core.logger.AgentLogger;
+import com.nepxion.discovery.plugin.strategy.starter.agent.core.matcher.MatcherFactory;
+import com.nepxion.discovery.plugin.strategy.starter.agent.core.matcher.MatcherOperator;
+import com.nepxion.discovery.plugin.strategy.starter.agent.core.plugin.Plugin;
+import com.nepxion.discovery.plugin.strategy.starter.agent.core.util.ClassInfo;
+import com.nepxion.discovery.plugin.strategy.starter.agent.core.util.StringUtil;
 
 public class ThreadPlugin extends Plugin {
     private static final AgentLogger LOG = AgentLogger.getLogger(ThreadPlugin.class.getName());
@@ -33,6 +37,7 @@ public class ThreadPlugin extends Plugin {
         String threadScanPackages = System.getProperty(ThreadConstant.THREAD_SCAN_PACKAGES);
         if (StringUtil.isEmpty(threadScanPackages)) {
             LOG.warn(String.format("Thread scan packages (%s) is null, ignore thread context switch", ThreadConstant.THREAD_SCAN_PACKAGES));
+
             return;
         }
         LOG.info(String.format("Trace (%s) Runnable/Callable for thread context switch", threadScanPackages));

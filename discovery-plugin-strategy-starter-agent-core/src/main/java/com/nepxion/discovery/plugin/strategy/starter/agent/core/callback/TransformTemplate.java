@@ -5,17 +5,16 @@ package com.nepxion.discovery.plugin.strategy.starter.agent.core.callback;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
- *
  * @author zifeihan
  * @version 1.0
  */
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.nepxion.discovery.plugin.strategy.starter.agent.core.matcher.ClassMatcher;
 import com.nepxion.discovery.plugin.strategy.starter.agent.core.matcher.ClassNameMatcher;
 import com.nepxion.discovery.plugin.strategy.starter.agent.core.matcher.MatcherOperator;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class TransformTemplate {
     private final Map<ClassMatcher, TransformCallback> register = new HashMap<>();

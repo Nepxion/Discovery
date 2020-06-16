@@ -5,13 +5,13 @@ package com.nepxion.discovery.plugin.strategy.starter.agent.core.matcher;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
- *
  * @author zifeihan
  * @version 1.0
  */
 
-import com.nepxion.discovery.plugin.strategy.starter.agent.core.util.ClassInfo;
 import javassist.CtClass;
+
+import com.nepxion.discovery.plugin.strategy.starter.agent.core.util.ClassInfo;
 
 public class InterfaceMatcher implements ClassMatcher {
     private final String interfaceName;

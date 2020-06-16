@@ -9,11 +9,11 @@ package com.nepxion.discovery.plugin.strategy.starter.agent.plugin.discovery.ser
  * @version 1.0
  */
 
-import com.nepxion.discovery.plugin.strategy.starter.agent.core.threadlocal.ThreadLocalHook;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
 import com.nepxion.discovery.plugin.strategy.service.context.RestStrategyContext;
+import com.nepxion.discovery.plugin.strategy.starter.agent.core.threadlocal.ThreadLocalHook;
 
 public class RestStrategyContextHook implements ThreadLocalHook {
     @Override
