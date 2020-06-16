@@ -21,7 +21,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>discovery-plugin-strategy-starter-agent-core</artifactId>
+            <artifactId>discovery-plugin-strategy-starter-agent</artifactId>
             <scope>provided</scope>
         </dependency>
 
