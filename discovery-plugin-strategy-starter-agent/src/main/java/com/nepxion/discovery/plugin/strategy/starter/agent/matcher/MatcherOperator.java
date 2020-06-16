@@ -12,16 +12,16 @@ package com.nepxion.discovery.plugin.strategy.starter.agent.matcher;
 import com.nepxion.discovery.plugin.strategy.starter.agent.util.ClassInfo;
 
 public class MatcherOperator {
-    private final PackageOperator leftOperand;
+    private final PackageOperator leftPackageOperator;
     private final InterfaceMatcher interfaceMatcher;
 
-    public MatcherOperator(PackageOperator leftOperand, InterfaceMatcher interfaceMatcher) {
-        this.leftOperand = leftOperand;
+    public MatcherOperator(PackageOperator leftPackageOperator, InterfaceMatcher interfaceMatcher) {
+        this.leftPackageOperator = leftPackageOperator;
         this.interfaceMatcher = interfaceMatcher;
     }
 
     public boolean match(String className, ClassLoader loader, byte[] classfileBuffer) {
-        if (leftOperand.match(className)) {
+        if (leftPackageOperator.match(className)) {
             ClassInfo classInfo = new ClassInfo(className, classfileBuffer, loader);
 
             return interfaceMatcher.match(classInfo);
