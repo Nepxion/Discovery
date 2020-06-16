@@ -61,7 +61,7 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
 ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Attention.png) 鸣谢
 - 感谢阿里巴巴中间件Nacos和Sentinel团队，尤其是Nacos负责人@于怀，Sentinel负责人@子衿，Spring Cloud Alibaba负责人@小马哥、@亦盏、@洛夜的技术支持
 - 感谢携程Apollo团队，尤其是@宋顺，特意开发OpenApi包和技术支持
-- 感谢代码贡献者，包括@WeihuaWang，@张顺，@Esun，@liumapp，@terranhu，@JikaiSun，@HaoHuang，@FanYang，@Ankeway，@王瑞显等
+- 感谢代码贡献者，包括@zifeihan，@Ax1an，@WeihuaWang，@张顺，@Esun，@liumapp，@terranhu，@JikaiSun，@HaoHuang，@FanYang，@Ankeway等
 - 感谢为本框架进行测试验证和问题分析定位的同学，包括@张龙，@CongweiXu，@fan，@阿神，@慕紫，@郝俊仁，@Windon，@杨成，@李鹏，@任学会，@郭小伟等
 - 感谢为本框架提出宝贵意见和建议的同学
 - 感谢使用本框架的公司和企业。不完全统计，目前社区开源项目已经被如下公司使用或者调研：
@@ -440,6 +440,7 @@ Spring Boot Admin监控平台
 | discovery-plugin-strategy-starter-hystrix | 路由策略下，Hystrix做线程模式的服务隔离必须引入的插件 Starter |
 | discovery-plugin-strategy-starter-opentracing | 路由策略的OpenTracing Starter |
 | discovery-plugin-strategy-starter-skywalking | 路由策略的Skywalking Starter |
+| discovery-plugin-strategy-starter-agent | 路由策略的异步跨线程Agent Starter |
 | discovery-plugin-test-starter | 自动化测试 Starter |
 | discovery-console | 控制平台，集成接口给UI |
 | discovery-console-starter-apollo | 控制平台的Apollo Starter |
@@ -585,6 +586,12 @@ spring.application.discovery.control.enabled=false
     <artifactId>discovery-plugin-strategy-starter-agent</artifactId>
     <version>${discovery.version}</version>
 </dependency>
+```
+
+引入和启动方式，通过-javaagent启动。thread.scan.packages为Runnable，Callable，该目录下的相关目标对象都会被装饰。该目录最好精细和准确，这样可以减少被装饰的对象，目录如果有多个，用“;”分隔
+```xml
+-javaagent:/xxx/target/discovery-plugin-strategy-starter-agent-{discovery.version}.jar
+-Dthread.scan.packages=com.abc
 ```
 
 自动化测试插件的引入
