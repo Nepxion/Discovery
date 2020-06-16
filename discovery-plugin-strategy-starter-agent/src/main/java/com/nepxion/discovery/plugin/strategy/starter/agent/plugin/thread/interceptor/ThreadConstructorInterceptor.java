@@ -11,7 +11,7 @@ package com.nepxion.discovery.plugin.strategy.starter.agent.plugin.thread.interc
 
 import com.nepxion.discovery.plugin.strategy.starter.agent.async.AsyncContext;
 import com.nepxion.discovery.plugin.strategy.starter.agent.async.AsyncContextAccessor;
-import com.nepxion.discovery.plugin.strategy.starter.agent.threadLocal.ThreadLocalCopier;
+import com.nepxion.discovery.plugin.strategy.starter.agent.threadlocal.ThreadLocalCopier;
 
 public class ThreadConstructorInterceptor {
     public static void before(Object object) {

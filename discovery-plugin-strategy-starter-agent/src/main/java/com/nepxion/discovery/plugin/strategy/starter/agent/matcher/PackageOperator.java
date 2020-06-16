@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.starter.agent.match;
+package com.nepxion.discovery.plugin.strategy.starter.agent.matcher;
 
 /**
  * <p>Title: Nepxion Discovery</p>
