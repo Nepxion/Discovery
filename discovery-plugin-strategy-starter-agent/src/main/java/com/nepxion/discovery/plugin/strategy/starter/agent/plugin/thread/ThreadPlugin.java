@@ -37,15 +37,15 @@ public class ThreadPlugin extends Plugin {
 
     @Override
     public void install() {
-        String threadMatchPackage = System.getProperty(ThreadConstant.THREAD_MATCH_PACKAGE);
-        if (StringUtil.isEmpty(threadMatchPackage)) {
-            LOG.warn(String.format("Package (%s) is null, ignore thread context switch", ThreadConstant.THREAD_MATCH_PACKAGE));
+        String threadScanPackages = System.getProperty(ThreadConstant.THREAD_SCAN_PACKAGES);
+        if (StringUtil.isEmpty(threadScanPackages)) {
+            LOG.warn(String.format("Thread scan packages (%s) is null, ignore thread context switch", ThreadConstant.THREAD_SCAN_PACKAGES));
 
             return;
         }
-        LOG.info(String.format("Trace (%s) Runnable/Callable for thread context switch", threadMatchPackage));
-        InterfaceMatcher runnableInterfaceMatcher = MatcherFactory.newPackageBasedMatcher(threadMatchPackage, ThreadConstant.RUNNABLE_CLASS_NAME);
-        InterfaceMatcher callableInterfaceMatcher = MatcherFactory.newPackageBasedMatcher(threadMatchPackage, ThreadConstant.CALLABLE_CLASS_NAME);
+        LOG.info(String.format("Trace (%s) Runnable/Callable for thread context switch", threadScanPackages));
+        InterfaceMatcher runnableInterfaceMatcher = MatcherFactory.newPackageBasedMatcher(threadScanPackages, ThreadConstant.RUNNABLE_CLASS_NAME);
+        InterfaceMatcher callableInterfaceMatcher = MatcherFactory.newPackageBasedMatcher(threadScanPackages, ThreadConstant.CALLABLE_CLASS_NAME);
 
         transformTemplate.transform(runnableInterfaceMatcher, new RunnableTransformCallback());
         transformTemplate.transform(callableInterfaceMatcher, new CallableTransformCallback());

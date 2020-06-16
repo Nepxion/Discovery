@@ -10,7 +10,7 @@ package com.nepxion.discovery.plugin.strategy.starter.agent.plugin.thread;
  */
 
 public class ThreadConstant {
-    public static final String THREAD_MATCH_PACKAGE = "thread.match.package";
+    public static final String THREAD_SCAN_PACKAGES = "thread.scan.packages";
     public static final String RUNNABLE_CLASS_NAME = "java.lang.Runnable";
     public static final String CALLABLE_CLASS_NAME = "java.util.concurrent.Callable";
 }
