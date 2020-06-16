@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.starter.agent.plugin.discovery.service;
+package com.nepxion.discovery.plugin.strategy.starter.agent.plugin.service;
 
 /**
  * <p>Title: Nepxion Discovery</p>

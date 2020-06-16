@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.starter.agent.plugin.discovery.gateway;
+package com.nepxion.discovery.plugin.strategy.starter.agent.plugin.service;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -18,14 +18,14 @@ import com.nepxion.discovery.plugin.strategy.starter.agent.core.matcher.MatcherF
 import com.nepxion.discovery.plugin.strategy.starter.agent.core.plugin.Plugin;
 import com.nepxion.discovery.plugin.strategy.starter.agent.core.threadlocal.ThreadLocalCopier;
 
-public class DiscoveryGatewayPlugin extends Plugin {
+public class DiscoveryServicePlugin extends Plugin {
     @Override
     public void install(TransformTemplate transformTemplate) {
-        ClassMatcher classMatcher = MatcherFactory.newClassNameMatcher("com.nepxion.discovery.plugin.strategy.gateway.context.GatewayStrategyContext");
+        ClassMatcher classMatcher = MatcherFactory.newClassNameMatcher("com.nepxion.discovery.plugin.strategy.service.context.RestStrategyContext");
         transformTemplate.transform(classMatcher, new TransformCallback() {
             @Override
             public byte[] doInTransform(ClassLoader classLoader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) {
-                ThreadLocalCopier.register(new GatewayStrategyContextHook());
+                ThreadLocalCopier.register(new RestStrategyContextHook());
 
                 return null;
             }

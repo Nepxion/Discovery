@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.starter.agent.plugin.discovery.zuul;
+package com.nepxion.discovery.plugin.strategy.starter.agent.plugin.zuul;
 
 /**
  * <p>Title: Nepxion Discovery</p>

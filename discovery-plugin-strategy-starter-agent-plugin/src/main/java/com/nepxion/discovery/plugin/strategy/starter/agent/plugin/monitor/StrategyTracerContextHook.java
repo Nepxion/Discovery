@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.starter.agent.plugin.discovery.monitor;
+package com.nepxion.discovery.plugin.strategy.starter.agent.plugin.monitor;
 
 /**
  * <p>Title: Nepxion Discovery</p>

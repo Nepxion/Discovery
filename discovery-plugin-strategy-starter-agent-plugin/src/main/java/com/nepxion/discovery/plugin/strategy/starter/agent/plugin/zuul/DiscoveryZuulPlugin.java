@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.starter.agent.plugin.discovery.monitor;
+package com.nepxion.discovery.plugin.strategy.starter.agent.plugin.zuul;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -18,14 +18,14 @@ import com.nepxion.discovery.plugin.strategy.starter.agent.core.matcher.MatcherF
 import com.nepxion.discovery.plugin.strategy.starter.agent.core.plugin.Plugin;
 import com.nepxion.discovery.plugin.strategy.starter.agent.core.threadlocal.ThreadLocalCopier;
 
-public class DiscoveryMonitorPlugin extends Plugin {
+public class DiscoveryZuulPlugin extends Plugin {
     @Override
     public void install(TransformTemplate transformTemplate) {
-        ClassMatcher classNameMatcher = MatcherFactory.newClassNameMatcher("com.nepxion.discovery.plugin.strategy.monitor.StrategyTracerContext");
-        transformTemplate.transform(classNameMatcher, new TransformCallback() {
+        ClassMatcher classMatcher = MatcherFactory.newClassNameMatcher("com.nepxion.discovery.plugin.strategy.zuul.context.ZuulStrategyContext");
+        transformTemplate.transform(classMatcher, new TransformCallback() {
             @Override
             public byte[] doInTransform(ClassLoader classLoader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) {
-                ThreadLocalCopier.register(new StrategyTracerContextHook());
+                ThreadLocalCopier.register(new ZuulStrategyContextHook());
 
                 return null;
             }
