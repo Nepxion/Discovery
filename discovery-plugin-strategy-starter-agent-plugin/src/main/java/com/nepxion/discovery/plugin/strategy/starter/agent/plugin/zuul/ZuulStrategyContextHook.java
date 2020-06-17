@@ -33,12 +33,10 @@ public class ZuulStrategyContextHook implements ThreadLocalHook {
             Object[] objects = (Object[]) object;
 
             if (objects[0] instanceof HttpServletRequest) {
-                HttpServletRequest request = (HttpServletRequest) objects[0];
-                ZuulStrategyContext.getCurrentContext().setRequest(request);
+                ZuulStrategyContext.getCurrentContext().setRequest((HttpServletRequest) objects[0]);
             }
             if (objects[1] instanceof Map) {
-                Map<String, String> headers = (Map<String, String>) objects[1];
-                ZuulStrategyContext.getCurrentContext().setHeaders(headers);
+                ZuulStrategyContext.getCurrentContext().setHeaders((Map<String, String>) objects[1]);
             }
         }
     }
