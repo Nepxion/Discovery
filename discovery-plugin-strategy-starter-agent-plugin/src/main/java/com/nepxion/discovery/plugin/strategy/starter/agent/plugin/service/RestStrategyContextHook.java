@@ -9,13 +9,14 @@ package com.nepxion.discovery.plugin.strategy.starter.agent.plugin.service;
  * @version 1.0
  */
 
-import com.nepxion.discovery.plugin.strategy.service.context.RestStrategyContext;
-import com.nepxion.discovery.plugin.strategy.service.context.RpcStrategyContext;
-import com.nepxion.discovery.plugin.strategy.starter.agent.threadlocal.ThreadLocalHook;
+import java.util.Map;
+
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
-import java.util.Map;
+import com.nepxion.discovery.plugin.strategy.service.context.RestStrategyContext;
+import com.nepxion.discovery.plugin.strategy.service.context.RpcStrategyContext;
+import com.nepxion.discovery.plugin.strategy.starter.agent.threadlocal.ThreadLocalHook;
 
 public class RestStrategyContextHook implements ThreadLocalHook {
     @Override
@@ -23,9 +24,10 @@ public class RestStrategyContextHook implements ThreadLocalHook {
         RequestAttributes request = RequestContextHolder.getRequestAttributes();
         Map<String, Object> attributes = RpcStrategyContext.getCurrentContext().getAttributes();
 
-        return new Object[]{request, attributes};
+        return new Object[] { request, attributes };
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void before(Object object) {
         if (object.getClass().isArray()) {
