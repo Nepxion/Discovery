@@ -441,6 +441,7 @@ Spring Boot Admin监控平台
 | discovery-plugin-strategy-starter-opentracing | 路由策略的OpenTracing Starter |
 | discovery-plugin-strategy-starter-skywalking | 路由策略的Skywalking Starter |
 | discovery-plugin-strategy-starter-agent | 路由策略的异步跨线程Agent Starter |
+| discovery-plugin-strategy-starter-agent-plugin | 路由策略的异步跨线程Agent Plugin Starter |
 | discovery-plugin-test-starter | 自动化测试 Starter |
 | discovery-console | 控制平台，集成接口给UI |
 | discovery-console-starter-apollo | 控制平台的Apollo Starter |
@@ -586,11 +587,12 @@ spring.application.discovery.control.enabled=false
     <artifactId>discovery-plugin-strategy-starter-agent</artifactId>
     <version>${discovery.version}</version>
 </dependency>
-```
 
-引入和启动方式，通过-javaagent启动。thread.scan.packages为Runnable，Callable所在的扫描目录，该目录下的Runnable，Callable对象都会被装饰。该目录最好精细和准确，这样可以减少被装饰的对象数，提高性能，目录如果有多个，用“;”分隔
-```xml
--javaagent:/xxx/yyy/discovery-plugin-strategy-starter-agent-{discovery.version}.jar -Dthread.scan.packages=com.abc.xyz
+<dependency>
+    <groupId>com.nepxion</groupId>
+    <artifactId>discovery-plugin-strategy-starter-agent-plugin</artifactId>
+    <version>${discovery.version}</version>
+</dependency>
 ```
 
 自动化测试插件的引入
@@ -1270,6 +1272,8 @@ spring.application.strategy.control.enabled=true
 spring.application.strategy.zone.avoidance.rule.enabled=true
 # 启动和关闭路由策略的时候，对REST方式的调用拦截。缺失则默认为true
 spring.application.strategy.rest.intercept.enabled=true
+# 启动和关闭路由策略的时候，对REST方式在异步调用场景下在服务端的Request请求的装饰，当主线程先于子线程执行完的时候，Request会被Destory，导致Header仍旧拿不到，开启装饰，就可以确保拿到。缺失则默认为false
+spring.application.strategy.rest.request.decorator.enabled=true
 # 启动和关闭Header传递的Debug日志打印，注意每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
 spring.application.strategy.rest.intercept.debug.enabled=true
 # 路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于框架内置上下文Header，例如：trace-id, span-id等）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
