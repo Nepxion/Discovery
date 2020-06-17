@@ -9,27 +9,40 @@ package com.nepxion.discovery.plugin.strategy.starter.agent.plugin.service;
  * @version 1.0
  */
 
+import com.nepxion.discovery.plugin.strategy.service.context.RestStrategyContext;
+import com.nepxion.discovery.plugin.strategy.service.context.RpcStrategyContext;
+import com.nepxion.discovery.plugin.strategy.starter.agent.threadlocal.ThreadLocalHook;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
-import com.nepxion.discovery.plugin.strategy.service.context.RestStrategyContext;
-import com.nepxion.discovery.plugin.strategy.starter.agent.threadlocal.ThreadLocalHook;
+import java.util.Map;
 
 public class RestStrategyContextHook implements ThreadLocalHook {
     @Override
     public Object create() {
-        return RequestContextHolder.getRequestAttributes();
+        RequestAttributes request = RequestContextHolder.getRequestAttributes();
+        Map<String, Object> attributes = RpcStrategyContext.getCurrentContext().getAttributes();
+
+        return new Object[]{request, attributes};
     }
 
     @Override
     public void before(Object object) {
-        if (object instanceof RequestAttributes) {
-            RestStrategyContext.getCurrentContext().setRequestAttributes((RequestAttributes) object);
+        if (object.getClass().isArray()) {
+            Object[] objects = (Object[]) object;
+
+            if (objects[0] instanceof RequestAttributes) {
+                RestStrategyContext.getCurrentContext().setRequestAttributes((RequestAttributes) objects[0]);
+            }
+            if (objects[1] instanceof Map) {
+                RpcStrategyContext.getCurrentContext().setAttributes((Map<String, Object>) objects[1]);
+            }
         }
     }
 
     @Override
     public void after() {
         RestStrategyContext.clearCurrentContext();
+        RpcStrategyContext.clearCurrentContext();
     }
 }
