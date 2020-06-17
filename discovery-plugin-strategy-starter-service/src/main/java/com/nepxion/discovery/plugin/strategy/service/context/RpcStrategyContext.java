@@ -9,7 +9,6 @@ package com.nepxion.discovery.plugin.strategy.service.context;
  * @version 1.0
  */
 
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -26,7 +25,7 @@ public class RpcStrategyContext {
         }
     };
 
-    private final Map<String, Object> attributes = new LinkedHashMap<String, Object>();
+    private Map<String, Object> attributes = new LinkedHashMap<String, Object>();
 
     public static RpcStrategyContext getCurrentContext() {
         return THREAD_LOCAL.get();
@@ -59,7 +58,11 @@ public class RpcStrategyContext {
     }
 
     public Map<String, Object> getAttributes() {
-        return Collections.unmodifiableMap(attributes);
+        return attributes;
+    }
+
+    public void setAttributes(Map<String, Object> attributes) {
+        this.attributes = attributes;
     }
 
     @Override

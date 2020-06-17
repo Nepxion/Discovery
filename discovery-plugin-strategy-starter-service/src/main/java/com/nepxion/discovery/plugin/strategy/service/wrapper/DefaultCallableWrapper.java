@@ -10,6 +10,7 @@ package com.nepxion.discovery.plugin.strategy.service.wrapper;
  * @version 1.0
  */
 
+import java.util.Map;
 import java.util.concurrent.Callable;
 
 import org.springframework.web.context.request.RequestAttributes;
@@ -17,12 +18,14 @@ import org.springframework.web.context.request.RequestContextHolder;
 
 import com.nepxion.discovery.plugin.strategy.monitor.StrategyTracerContext;
 import com.nepxion.discovery.plugin.strategy.service.context.RestStrategyContext;
+import com.nepxion.discovery.plugin.strategy.service.context.RpcStrategyContext;
 import com.nepxion.discovery.plugin.strategy.wrapper.CallableWrapper;
 
 public class DefaultCallableWrapper implements CallableWrapper {
     @Override
     public <T> Callable<T> wrapCallable(Callable<T> callable) {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        Map<String, Object> attributes = RpcStrategyContext.getCurrentContext().getAttributes();
 
         Object span = StrategyTracerContext.getCurrentContext().getSpan();
 
@@ -31,12 +34,14 @@ public class DefaultCallableWrapper implements CallableWrapper {
             public T call() throws Exception {
                 try {
                     RestStrategyContext.getCurrentContext().setRequestAttributes(requestAttributes);
+                    RpcStrategyContext.getCurrentContext().setAttributes(attributes);
 
                     StrategyTracerContext.getCurrentContext().setSpan(span);
 
                     return callable.call();
                 } finally {
                     RestStrategyContext.clearCurrentContext();
+                    RpcStrategyContext.clearCurrentContext();
 
                     StrategyTracerContext.clearCurrentContext();
                 }
