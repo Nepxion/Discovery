@@ -14,14 +14,21 @@ import java.util.Map;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
+import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.context.RestStrategyContext;
 import com.nepxion.discovery.plugin.strategy.service.context.RpcStrategyContext;
+import com.nepxion.discovery.plugin.strategy.service.decorator.ServiceStrategyRequestDecoratorFactory;
 import com.nepxion.discovery.plugin.strategy.starter.agent.threadlocal.ThreadLocalHook;
 
 public class RestStrategyContextHook implements ThreadLocalHook {
+    private static boolean requestDecoratorEnabled = Boolean.valueOf(System.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REST_REQUEST_DECORATOR_ENABLED));
+
     @Override
     public Object create() {
         RequestAttributes request = RequestContextHolder.getRequestAttributes();
+        if (requestDecoratorEnabled) {
+            request = ServiceStrategyRequestDecoratorFactory.decorateRequestAttributes(request);
+        }
         Map<String, Object> attributes = RpcStrategyContext.getCurrentContext().getAttributes();
 
         return new Object[] { request, attributes };

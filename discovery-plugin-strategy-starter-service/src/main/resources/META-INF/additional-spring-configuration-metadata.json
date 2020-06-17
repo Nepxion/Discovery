@@ -18,6 +18,12 @@
 			"description": "Whether strategy rest intercept is enabled."
 		},
 		{
+			"name": "spring.application.strategy.rest.request.decorator.enabled",
+			"type": "java.lang.String",
+			"defaultValue": false,
+			"description": "Whether strategy rest request decorator is enabled."
+		},
+		{
 			"name": "spring.application.strategy.rest.intercept.debug.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": false,

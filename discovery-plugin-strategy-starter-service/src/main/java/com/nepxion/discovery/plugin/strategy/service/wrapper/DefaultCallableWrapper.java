@@ -13,18 +13,30 @@ package com.nepxion.discovery.plugin.strategy.service.wrapper;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
 import com.nepxion.discovery.plugin.strategy.monitor.StrategyTracerContext;
+import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.context.RestStrategyContext;
 import com.nepxion.discovery.plugin.strategy.service.context.RpcStrategyContext;
+import com.nepxion.discovery.plugin.strategy.service.decorator.ServiceStrategyRequestDecoratorFactory;
 import com.nepxion.discovery.plugin.strategy.wrapper.CallableWrapper;
 
 public class DefaultCallableWrapper implements CallableWrapper {
+    @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REST_REQUEST_DECORATOR_ENABLED + ":false}")
+    protected Boolean requestDecoratorEnabled;
+
     @Override
     public <T> Callable<T> wrapCallable(Callable<T> callable) {
-        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        RequestAttributes originRequestAttributes = RequestContextHolder.getRequestAttributes();
+        if (requestDecoratorEnabled) {
+            originRequestAttributes = ServiceStrategyRequestDecoratorFactory.decorateRequestAttributes(originRequestAttributes);
+        }
+
+        RequestAttributes requestAttributes = originRequestAttributes;
+
         Map<String, Object> attributes = RpcStrategyContext.getCurrentContext().getAttributes();
 
         Object span = StrategyTracerContext.getCurrentContext().getSpan();
