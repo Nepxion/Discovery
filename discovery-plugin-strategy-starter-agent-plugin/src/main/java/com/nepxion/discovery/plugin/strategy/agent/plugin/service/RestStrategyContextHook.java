@@ -27,7 +27,9 @@ public class RestStrategyContextHook implements ThreadLocalHook {
     public Object create() {
         RequestAttributes request = RequestContextHolder.getRequestAttributes();
         if (requestDecoratorEnabled) {
-            request = ServiceStrategyRequestDecoratorFactory.decorateRequestAttributes(request);
+            if (null != request) {
+                request = ServiceStrategyRequestDecoratorFactory.decorateRequestAttributes(request);
+            }
         }
         Map<String, Object> attributes = RpcStrategyContext.getCurrentContext().getAttributes();
 
