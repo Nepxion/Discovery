@@ -14,6 +14,7 @@ import com.nepxion.discovery.plugin.strategy.agent.plugin.thread.interceptor.Thr
 
 public class ThreadConstant {
     public static final String THREAD_SCAN_PACKAGES = "thread.scan.packages";
+    public static final String THREAD_REQUEST_DECORATOR_ENABLED = "thread.request.decorator.enabled";
     public static final String RUNNABLE_CLASS_NAME = "java.lang.Runnable";
     public static final String CALLABLE_CLASS_NAME = "java.util.concurrent.Callable";
 
