@@ -72,7 +72,7 @@ public class EnvironmentFilterLoadBalanceListener extends AbstractLoadBalanceLis
 
     @Override
     public int getOrder() {
-        // Highest priority
+        // After region filter
         return HIGHEST_PRECEDENCE + 3;
     }
 }
