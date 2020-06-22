@@ -11,8 +11,6 @@ package com.nepxion.discovery.plugin.strategy.service.monitor;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -21,8 +19,6 @@ import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.matrix.proxy.aop.AbstractInterceptor;
 
 public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
-    private static final Logger LOG = LoggerFactory.getLogger(ServiceStrategyMonitorInterceptor.class);
-
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACER_METHOD_CONTEXT_OUTPUT_ENABLED + ":false}")
     protected Boolean tracerMethodContextOutputEnabled;
 
@@ -96,8 +92,6 @@ public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
                 }
                 serviceStrategyMonitor.error(this, invocation, e);
             }
-
-            LOG.error("Method={} of class={} threw following exception with root cause", methodName, className, e);
 
             throw e;
         } finally {
