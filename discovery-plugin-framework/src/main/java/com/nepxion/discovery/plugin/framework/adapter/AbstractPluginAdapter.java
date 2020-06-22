@@ -51,6 +51,11 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     protected Map<String, String> emptyMetadata = new HashMap<String, String>();
 
     @Override
+    public String getPlugin() {
+        return getMetadata().get(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN);
+    }
+
+    @Override
     public String getGroupKey() {
         return groupKey;
     }
@@ -201,6 +206,11 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
+    public String getServerPlugin(Server server) {
+        return getServerMetadata(server).get(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN);
+    }
+
+    @Override
     public String getServerGroupKey(Server server) {
         String groupKey = getServerMetadata(server).get(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY);
 
@@ -283,6 +293,11 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
+    public String getInstancePlugin(ServiceInstance serviceInstance) {
+        return getInstanceMetadata(serviceInstance).get(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN);
+    }
+
+    @Override
     public String getInstanceGroupKey(ServiceInstance serviceInstance) {
         String groupKey = getInstanceMetadata(serviceInstance).get(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY);
 
@@ -352,6 +367,7 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Override
     public String getPluginInfo(String previousPluginInfo) {
+        String plugin = getPlugin();
         String serviceId = getServiceId();
         String host = getHost();
         int port = getPort();
@@ -366,6 +382,7 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
         }
 
         stringBuilder.append("[ID=" + serviceId + "]");
+        stringBuilder.append("[P=" + plugin + "]");
         stringBuilder.append("[H=" + host + ":" + port + "]");
         if (StringUtils.isNotEmpty(version)) {
             stringBuilder.append("[V=" + version + "]");
