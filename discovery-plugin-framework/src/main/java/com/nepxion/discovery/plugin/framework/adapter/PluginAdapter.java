@@ -17,6 +17,8 @@ import com.nepxion.discovery.common.entity.RuleEntity;
 import com.netflix.loadbalancer.Server;
 
 public interface PluginAdapter {
+    String getPlugin();
+
     String getGroupKey();
 
     String getGroup();
@@ -63,6 +65,8 @@ public interface PluginAdapter {
 
     Map<String, String> getServerMetadata(Server server);
 
+    String getServerPlugin(Server server);
+
     String getServerGroupKey(Server server);
 
     String getServerGroup(Server server);
@@ -80,6 +84,8 @@ public interface PluginAdapter {
     String getServerContextPath(Server server);
 
     Map<String, String> getInstanceMetadata(ServiceInstance serviceInstance);
+
+    String getInstancePlugin(ServiceInstance serviceInstance);
 
     String getInstanceGroupKey(ServiceInstance serviceInstance);
 
