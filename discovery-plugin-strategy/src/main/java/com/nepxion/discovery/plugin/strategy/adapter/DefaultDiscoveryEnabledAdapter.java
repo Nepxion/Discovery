@@ -21,7 +21,6 @@ import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginContextHolder;
-import com.nepxion.discovery.plugin.strategy.filter.StrategyRegionFilter;
 import com.nepxion.discovery.plugin.strategy.filter.StrategyVersionFilter;
 import com.nepxion.discovery.plugin.strategy.matcher.DiscoveryMatcherStrategy;
 import com.netflix.loadbalancer.Server;
@@ -36,9 +35,6 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     @Autowired(required = false)
     private StrategyVersionFilter strategyVersionFilter;
 
-    @Autowired(required = false)
-    private StrategyRegionFilter strategyRegionFilter;
-
     @Autowired
     protected PluginAdapter pluginAdapter;
 
@@ -47,12 +43,12 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
 
     @Override
     public boolean apply(Server server) {
-        boolean enabled = applyVersion(server);
+        boolean enabled = applyRegion(server);
         if (!enabled) {
             return false;
         }
 
-        enabled = applyRegion(server);
+        enabled = applyVersion(server);
         if (!enabled) {
             return false;
         }
@@ -64,6 +60,50 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
 
         return applyStrategy(server);
     }
+    
+    private boolean applyRegion(Server server) {
+        String regions = getRegions(server);
+        if (StringUtils.isEmpty(regions)) {
+            return true;
+        }
+
+        String region = pluginAdapter.getServerRegion(server);
+
+        // 如果精确匹配不满足，尝试用通配符匹配
+        List<String> regionList = StringUtil.splitToList(regions, DiscoveryConstant.SEPARATE);
+        if (regionList.contains(region)) {
+            return true;
+        }
+
+        // 通配符匹配。前者是通配表达式，后者是具体值
+        for (String regionPattern : regionList) {
+            if (discoveryMatcherStrategy.match(regionPattern, region)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @SuppressWarnings("unchecked")
+    private String getRegions(Server server) {
+        String regionValue = pluginContextHolder.getContextRouteRegion();
+        if (StringUtils.isEmpty(regionValue)) {
+            return null;
+        }
+
+        String serviceId = pluginAdapter.getServerServiceId(server);
+
+        String regions = null;
+        try {
+            Map<String, String> regionMap = JsonUtil.fromJson(regionValue, Map.class);
+            regions = regionMap.get(serviceId);
+        } catch (Exception e) {
+            regions = regionValue;
+        }
+
+        return regions;
+    }    
 
     private boolean applyVersion(Server server) {
         String versions = getVersions(server);
@@ -111,54 +151,6 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         }
 
         return versions;
-    }
-
-    private boolean applyRegion(Server server) {
-        String regions = getRegions(server);
-        if (StringUtils.isEmpty(regions)) {
-            if (strategyRegionFilter != null) {
-                return strategyRegionFilter.apply(server);
-            } else {
-                return true;
-            }
-        }
-
-        String region = pluginAdapter.getServerRegion(server);
-
-        // 如果精确匹配不满足，尝试用通配符匹配
-        List<String> regionList = StringUtil.splitToList(regions, DiscoveryConstant.SEPARATE);
-        if (regionList.contains(region)) {
-            return true;
-        }
-
-        // 通配符匹配。前者是通配表达式，后者是具体值
-        for (String regionPattern : regionList) {
-            if (discoveryMatcherStrategy.match(regionPattern, region)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    @SuppressWarnings("unchecked")
-    private String getRegions(Server server) {
-        String regionValue = pluginContextHolder.getContextRouteRegion();
-        if (StringUtils.isEmpty(regionValue)) {
-            return null;
-        }
-
-        String serviceId = pluginAdapter.getServerServiceId(server);
-
-        String regions = null;
-        try {
-            Map<String, String> regionMap = JsonUtil.fromJson(regionValue, Map.class);
-            regions = regionMap.get(serviceId);
-        } catch (Exception e) {
-            regions = regionValue;
-        }
-
-        return regions;
     }
 
     private boolean applyAddress(Server server) {
