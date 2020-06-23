@@ -20,6 +20,8 @@ import com.nepxion.discovery.plugin.strategy.condition.DefaultStrategyTypeCompar
 import com.nepxion.discovery.plugin.strategy.condition.HeaderExpressionStrategyCondition;
 import com.nepxion.discovery.plugin.strategy.condition.StrategyCondition;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
+import com.nepxion.discovery.plugin.strategy.filter.StrategyRegionFilter;
+import com.nepxion.discovery.plugin.strategy.filter.StrategyVersionFilter;
 import com.nepxion.discovery.plugin.strategy.isolation.ConsumerIsolationDiscoveryStrategy;
 import com.nepxion.discovery.plugin.strategy.isolation.ConsumerIsolationLoadBalanceStrategy;
 import com.nepxion.discovery.plugin.strategy.isolation.ConsumerIsolationRegisterStrategy;
@@ -59,6 +61,20 @@ public class StrategyAutoConfiguration {
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONSUMER_ISOLATION_ENABLED, matchIfMissing = false)
     public ConsumerIsolationLoadBalanceStrategy consumerIsolationLoadBalanceStrategy() {
         return new ConsumerIsolationLoadBalanceStrategy();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_VERSION_FILTER_ENABLED, matchIfMissing = false)
+    public StrategyVersionFilter strategyVersionFilter() {
+        return new StrategyVersionFilter();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_REGION_FILTER_ENABLED, matchIfMissing = false)
+    public StrategyRegionFilter strategyRegionFilter() {
+        return new StrategyRegionFilter();
     }
 
     @Bean
