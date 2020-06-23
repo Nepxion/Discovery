@@ -47,6 +47,18 @@
 			"description": "Whether strategy provider isolation is enabled."
 		},
 		{
+			"name": "spring.application.strategy.version.filter.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": false,
+			"description": "Whether strategy version filter is enabled."
+		},
+		{
+			"name": "spring.application.strategy.region.filter.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": false,
+			"description": "Whether strategy region filter is enabled."
+		},
+		{
 			"name": "spring.application.strategy.monitor.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": false,
