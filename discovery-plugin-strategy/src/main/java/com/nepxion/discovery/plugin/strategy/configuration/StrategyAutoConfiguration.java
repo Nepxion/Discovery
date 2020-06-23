@@ -16,11 +16,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.expression.TypeComparator;
 
+import com.nepxion.discovery.plugin.strategy.adapter.DefaultStrategyVersionFilterAdapter;
+import com.nepxion.discovery.plugin.strategy.adapter.StrategyVersionFilterAdapter;
 import com.nepxion.discovery.plugin.strategy.condition.DefaultStrategyTypeComparor;
 import com.nepxion.discovery.plugin.strategy.condition.HeaderExpressionStrategyCondition;
 import com.nepxion.discovery.plugin.strategy.condition.StrategyCondition;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
-import com.nepxion.discovery.plugin.strategy.filter.StrategyRegionFilter;
 import com.nepxion.discovery.plugin.strategy.filter.StrategyVersionFilter;
 import com.nepxion.discovery.plugin.strategy.isolation.ConsumerIsolationDiscoveryStrategy;
 import com.nepxion.discovery.plugin.strategy.isolation.ConsumerIsolationLoadBalanceStrategy;
@@ -72,9 +73,9 @@ public class StrategyAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_REGION_FILTER_ENABLED, matchIfMissing = false)
-    public StrategyRegionFilter strategyRegionFilter() {
-        return new StrategyRegionFilter();
+    @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_VERSION_FILTER_ENABLED, matchIfMissing = false)
+    public StrategyVersionFilterAdapter strategyVersionFilterAdapter() {
+        return new DefaultStrategyVersionFilterAdapter();
     }
 
     @Bean
