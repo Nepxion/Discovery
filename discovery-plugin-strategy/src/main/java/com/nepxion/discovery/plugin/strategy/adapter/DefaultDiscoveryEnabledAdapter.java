@@ -60,7 +60,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
 
         return applyStrategy(server);
     }
-    
+
     private boolean applyRegion(Server server) {
         String regions = getRegions(server);
         if (StringUtils.isEmpty(regions)) {
@@ -103,7 +103,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         }
 
         return regions;
-    }    
+    }
 
     private boolean applyVersion(Server server) {
         String versions = getVersions(server);
