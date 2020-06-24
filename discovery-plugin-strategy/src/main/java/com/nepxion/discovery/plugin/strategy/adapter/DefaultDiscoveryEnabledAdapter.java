@@ -61,8 +61,10 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         return applyStrategy(server);
     }
 
-    private boolean applyRegion(Server server) {
-        String regions = getRegions(server);
+    public boolean applyRegion(Server server) {
+        String serviceId = pluginAdapter.getServerServiceId(server);
+
+        String regions = getRegions(serviceId);
         if (StringUtils.isEmpty(regions)) {
             return true;
         }
@@ -86,13 +88,11 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     }
 
     @SuppressWarnings("unchecked")
-    private String getRegions(Server server) {
+    public String getRegions(String serviceId) {
         String regionValue = pluginContextHolder.getContextRouteRegion();
         if (StringUtils.isEmpty(regionValue)) {
             return null;
         }
-
-        String serviceId = pluginAdapter.getServerServiceId(server);
 
         String regions = null;
         try {
@@ -105,8 +105,10 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         return regions;
     }
 
-    private boolean applyVersion(Server server) {
-        String versions = getVersions(server);
+    public boolean applyVersion(Server server) {
+        String serviceId = pluginAdapter.getServerServiceId(server);
+
+        String versions = getVersions(serviceId);
         if (StringUtils.isEmpty(versions)) {
             if (strategyVersionFilter != null) {
                 return strategyVersionFilter.apply(server);
@@ -134,13 +136,11 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     }
 
     @SuppressWarnings("unchecked")
-    private String getVersions(Server server) {
+    public String getVersions(String serviceId) {
         String versionValue = pluginContextHolder.getContextRouteVersion();
         if (StringUtils.isEmpty(versionValue)) {
             return null;
         }
-
-        String serviceId = pluginAdapter.getServerServiceId(server);
 
         String versions = null;
         try {
@@ -153,8 +153,10 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         return versions;
     }
 
-    private boolean applyAddress(Server server) {
-        String addresses = getAddresses(server);
+    public boolean applyAddress(Server server) {
+        String serviceId = pluginAdapter.getServerServiceId(server);
+
+        String addresses = getAddresses(serviceId);
         if (StringUtils.isEmpty(addresses)) {
             return true;
         }
@@ -176,13 +178,11 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     }
 
     @SuppressWarnings("unchecked")
-    private String getAddresses(Server server) {
+    public String getAddresses(String serviceId) {
         String addressValue = pluginContextHolder.getContextRouteAddress();
         if (StringUtils.isEmpty(addressValue)) {
             return null;
         }
-
-        String serviceId = pluginAdapter.getServerServiceId(server);
 
         Map<String, String> addressMap = JsonUtil.fromJson(addressValue, Map.class);
         String addresses = addressMap.get(serviceId);
@@ -190,7 +190,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         return addresses;
     }
 
-    private boolean applyStrategy(Server server) {
+    public boolean applyStrategy(Server server) {
         if (CollectionUtils.isEmpty(discoveryEnabledStrategyList)) {
             return true;
         }
