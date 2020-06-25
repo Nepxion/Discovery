@@ -1,11 +1,11 @@
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Cover.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Cover.jpg)
 
 # Nepxion Discovery 框架架构
 [![Total lines](https://tokei.rs/b1/github/Nepxion/Discovery?category=lines)](https://tokei.rs/b1/github/Nepxion/Discovery?category=lines)  [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?label=license)](https://github.com/Nepxion/Discovery/blob/master/LICENSE)  [![Maven Central](https://img.shields.io/maven-central/v/com.nepxion/discovery.svg?label=maven%20central)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.nepxion%22%20AND%20discovery)  [![Javadocs](http://www.javadoc.io/badge/com.nepxion/discovery-plugin-framework.svg)](http://www.javadoc.io/doc/com.nepxion/discovery-plugin-framework)  [![Build Status](https://travis-ci.org/Nepxion/Discovery.svg?branch=master)](https://travis-ci.org/Nepxion/Discovery)  [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8e39a24e1be740c58b83fb81763ba317)](https://www.codacy.com/project/HaojunRen/Discovery/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nepxion/Discovery&amp;utm_campaign=Badge_Grade_Dashboard)
 
 每一个访问路过的朋友，如果您觉得这个开源框架不错，请顺手在页面右上角帮它[**Star**]一下
 
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Star1.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Star1.jpg)
 
 如果本文档由于Github网速原因无法完整阅读，请访问
 - [Nepxion Discovery【探索】微服务企业级解决方案(PDF版)](http://nepxion.gitee.io/docs/link-doc/discovery-solution-pdf.html)
@@ -51,14 +51,14 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
 [**OpenTracing**] OpenTracing已进入CNCF，正在为全球的分布式追踪系统提供统一的概念、规范、架构和数据标准。它通过提供平台无关、厂商无关的API，使得开发人员能够方便的添加（或更换）追踪系统的实现。对于存在多样化的技术栈共存的调用链中，OpenTracing适配Java、C、Go和.Net等技术栈，实现全链路分布式追踪功能。迄今为止，Uber Jaeger、Twitter Zipkin和Apache Skywalking已经适配了OpenTracing规范
 
 本框架成为阿里巴巴中间件Nacos和Spring Cloud Alibaba项目的相关开源
-<img src="https://github.com/HaojunRen/Docs/raw/master/discovery-doc/AwardNacos1.jpg" alt="Nacos" width="50%"><img src="https://github.com/HaojunRen/Docs/raw/master/discovery-doc/AwardSCA1.jpg" alt="Spring Cloud Alibaba" width="50%">
+<img src="http://nepxion.gitee.io/docs/discovery-doc/AwardNacos1.jpg" alt="Nacos" width="50%"><img src="http://nepxion.gitee.io/docs/discovery-doc/AwardSCA1.jpg" alt="Spring Cloud Alibaba" width="50%">
 
 现有的Spring Cloud微服务很方便引入该中间件，代码零侵入。鉴于Spring Cloud官方对Eureka和Hystrix不再做新功能的迭代，推荐用Nacos和Sentinel，它们对Spring Cloud灰度发布和路由更具出色的兼容性和友好性
 
-![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Attention.png) 建议
+![](http://nepxion.gitee.io/docs/discovery-doc/Attention.png) 建议
 - 由于源码中带有的示例功能比较齐全，较为复杂。强烈建议，先学习[指南示例](https://github.com/Nepxion/DiscoveryGuide)
 
-![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Attention.png) 鸣谢
+![](http://nepxion.gitee.io/docs/discovery-doc/Attention.png) 鸣谢
 - 感谢阿里巴巴中间件Nacos和Sentinel团队，尤其是Nacos负责人@于怀，Sentinel负责人@子衿，Spring Cloud Alibaba负责人@小马哥、@亦盏、@洛夜的技术支持
 - 感谢携程Apollo团队，尤其是@宋顺，特意开发OpenApi包和技术支持
 - 感谢代码贡献者，包括@zifeihan，@Ax1an，@WeihuaWang，@张顺，@Esun，@liumapp，@terranhu，@JikaiSun，@HaoHuang，@FanYang，@Ankeway，@liquanjin等
@@ -69,101 +69,101 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
 <table>
   <tbody>
     <tr align="center">
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/payh.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/payzt.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/zsyh.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/msyh.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/pfyhxyk.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/payh.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/payzt.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/zsyh.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/msyh.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/pfyhxyk.png"></td>
     </tr>
     <tr align="center">
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/tpybx.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/tpbx.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/zabx.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/zb.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/zgyd.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/tpybx.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/tpbx.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/zabx.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/zb.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/zgyd.png"></td>
     </tr>
     <tr align="center">
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/hd.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/bgy.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/hz.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/qwkg.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/zm.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/hd.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/bgy.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/hz.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/qwkg.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/zm.png"></td>
     </tr>
     <tr align="center">
-       <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/dfhk.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/sfkj.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/wkfy.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/rxkf.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/hexfjr.png"></td>
+       <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/dfhk.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/sfkj.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/wkfy.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/rxkf.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/hexfjr.png"></td>
     </tr>
     <tr align="center">
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/xmly.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/wjkj.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/dhrj.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/js.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/yjh.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/xmly.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/wjkj.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/dhrj.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/js.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/yjh.png"></td>
     </tr>
     <tr align="center">
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/zhxy.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/rdkj.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/tqkj.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/hjkj.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/yzf.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/zhxy.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/rdkj.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/tqkj.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/hjkj.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/yzf.png"></td>
     </tr>
     <tr align="center">
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/bjkj.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/qzkj.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/jwkj.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/zcwlkj.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/smgc.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/bjkj.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/qzkj.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/jwkj.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/zcwlkj.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/smgc.png"></td>
     </tr>
     <tr align="center">
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/qk365.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/daxxkj.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/mkxq.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/sbc.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/hrwlkj.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/qk365.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/daxxkj.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/mkxq.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/sbc.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/hrwlkj.png"></td>
     </tr>
     <tr align="center">
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/ywny.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/bqjr.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/crkj.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/yex.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/xg.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/ywny.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/bqjr.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/crkj.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/yex.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/xg.png"></td>
     </tr>
     <tr align="center">
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/zjxl.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/mlkj.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/bsd.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/tgdl.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/xd.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/zjxl.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/mlkj.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/bsd.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/tgdl.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/xd.png"></td>
     </tr>
     <tr align="center">
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/fykj.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/xhjy.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/xywkj.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/zyts.png"></td>
-      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/wx.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/fykj.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/xhjy.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/xywkj.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/zyts.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/wx.png"></td>
     </tr>
   </tbody>
 </table>
 
 为提供更好的专业级服务，请更多已经使用本框架的公司和企业联系我
 
-![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Attention.png) 特性
+![](http://nepxion.gitee.io/docs/discovery-doc/Attention.png) 特性
 
 一、兼容性强。支持如下版本：
 
 | 框架版本 | 框架分支 | 框架状态 | Spring Cloud版本 | Spring Boot版本 | Spring Cloud Alibaba版本 |
 | --- | --- | --- | --- | --- | --- |
-| 6.0.3 | master | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status1.png) | Hoxton<br>Greenwich<br>Finchley | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
-| ~~5.6.0~~ | ~~5.x.x~~ | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status2.png) | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
-| ~~4.15.0~~ | ~~4.x.x~~ | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status2.png) | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
-| 3.16.3 | master-3.x.x | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status1.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
-| ~~2.0.x~~ | ~~2.x.x~~ | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status3.png) | Dalston | 1.x.x.RELEASE | N/A |
-| ~~1.0.x~~ | ~~1.x.x~~ | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status3.png) | Camden | 1.x.x.RELEASE | N/A |
+| 6.0.3 | master | ![](http://nepxion.gitee.io/docs/discovery-doc/Status1.png) | Hoxton<br>Greenwich<br>Finchley | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
+| ~~5.6.0~~ | ~~5.x.x~~ | ![](http://nepxion.gitee.io/docs/discovery-doc/Status2.png) | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
+| ~~4.15.0~~ | ~~4.x.x~~ | ![](http://nepxion.gitee.io/docs/discovery-doc/Status2.png) | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
+| 3.16.3 | master-3.x.x | ![](http://nepxion.gitee.io/docs/discovery-doc/Status1.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
+| ~~2.0.x~~ | ~~2.x.x~~ | ![](http://nepxion.gitee.io/docs/discovery-doc/Status3.png) | Dalston | 1.x.x.RELEASE | N/A |
+| ~~1.0.x~~ | ~~1.x.x~~ | ![](http://nepxion.gitee.io/docs/discovery-doc/Status3.png) | Camden | 1.x.x.RELEASE | N/A |
 
-![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status1.png) 表示迭代中 | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status2.png) 表示不维护，但可用 | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status3.png) 表示不维护，不可用，已废弃
+![](http://nepxion.gitee.io/docs/discovery-doc/Status1.png) 表示迭代中 | ![](http://nepxion.gitee.io/docs/discovery-doc/Status2.png) 表示不维护，但可用 | ![](http://nepxion.gitee.io/docs/discovery-doc/Status3.png) 表示不维护，不可用，已废弃
 
 注意：
 - 6.x.x版本（同时适用于Finchley、Greenwich和Hoxton以及未来的更高版本），将继续维护
@@ -251,7 +251,7 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
 ## 请联系我
 微信、公众号和文档
 
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/zxing-doc/微信-1.jpg)![Alt text](https://github.com/HaojunRen/Docs/raw/master/zxing-doc/公众号-1.jpg)![Alt text](https://github.com/HaojunRen/Docs/raw/master/zxing-doc/文档-1.jpg)
+![Alt text](http://nepxion.gitee.io/docs/zxing-doc/微信-1.jpg)![Alt text](http://nepxion.gitee.io/docs/zxing-doc/公众号-1.jpg)![Alt text](http://nepxion.gitee.io/docs/zxing-doc/文档-1.jpg)
 
 ## 相关链接
 
@@ -267,38 +267,38 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
 ## 界面展示
 
 图形化灰度发布桌面程序
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Console1.jpg)
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Console2.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Console1.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Console2.jpg)
 图形化灰度发布Web平台
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Console14.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Console14.jpg)
 集成规则配置的Apollo配置中心
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Apollo.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Apollo.jpg)
 集成规则配置的Nacos配置中心
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Nacos1.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Nacos1.jpg)
 Nacos服务注册发现中心
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Nacos.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Nacos.jpg)
 集成Sentinel熔断隔离限流降级平台
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Sentinel1.jpg)
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Sentinel2.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Sentinel1.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Sentinel2.jpg)
 集成Opentracing + Uber Jaeger调用链平台
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Jaeger1.jpg)
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Jaeger2.jpg)
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Jaeger3.jpg)
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Jaeger4.jpg)
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Jaeger5.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Jaeger1.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Jaeger2.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Jaeger3.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Jaeger4.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Jaeger5.jpg)
 集成Sentinel + 灰度全链路监控
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Jaeger6.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Jaeger6.jpg)
 集成主流中间件 + 灰度全链路监控
 代码请从[指南示例高级版](https://github.com/Nepxion/DiscoveryGuide)获取，分支为premium。运行出下图强大效果的前提，需要事先搭建Nacos、Jaeger、ActiveMQ、MongoDB、RabbitMQ、Redis、RocketMQ以及MySQL数据库等环境
 使用者如果不想搭建环境，想直接观看效果，可以直接把[离线数据](https://github.com/Nepxion/DiscoveryGuide/raw/master/tracing.json)导入到Jaeger界面（JSON File栏，拖进去即可），观看到下图效果
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/JaegerPremium1.jpg)
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/JaegerPremium2.jpg)
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/JaegerPremium3.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/JaegerPremium1.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/JaegerPremium2.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/JaegerPremium3.jpg)
 集成Prometheus + Grafana监控平台
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Prometheus.jpg)
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Grafana.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Prometheus.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Grafana.jpg)
 Spring Boot Admin监控平台
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Admin1.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Admin1.jpg)
 
 ## 现有痛点
 现有的Spring Cloud微服务架构的痛点
@@ -394,15 +394,15 @@ Spring Boot Admin监控平台
 ### 架构
 服务治理架构图
 
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Govern.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Govern.jpg)
 
 全局架构图
 
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Architecture.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Architecture.jpg)
 
 模块结构图
 
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Module.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Module.jpg)
 
 ### 工程
 
@@ -1056,7 +1056,7 @@ Header的Key为"n-d-version"，value为：
 ```
 
 多版本灰度路由架构图
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/RouteVersion.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/RouteVersion.jpg)
 
 ### 区域匹配的灰度路由策略
 基于Feign/RestTemplate的REST调用的多区域灰度路由，在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只有dev区域的a服务，qa区域的b服务，dev和qa区域c服务，允许被调用到
@@ -1080,7 +1080,7 @@ d* - 表示调用范围为所有服务的d开头的所有区域
 ```
 
 多区域灰度路由架构图
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/RouteRegion.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/RouteRegion.jpg)
 
 特别注意：Spring Cloud内置zone的策略，功能跟region策略很相似，但zone策略不能跟自定义路由组合使用，故提供了更友好的region策略
 
@@ -1101,7 +1101,7 @@ Header的Key为"n-d-address"，value为：
 ```
 
 多IP和端口灰度路由架构图
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/RouteAddress.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/RouteAddress.jpg)
 
 ### 版本权重的灰度路由策略
 基于Feign/RestTemplate的REST调用的多版本权重灰度路由，在Header上传入服务名和版本流量百分比对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务的版本权重配比，那么只需要它们版本对于流量的百分比
@@ -1152,7 +1152,7 @@ dev=85;qa=15
 
 灰度方式区别图
 
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Difference.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Difference.jpg)
 
 ### 规则和策略的关系
 - 规则和策略，可以混合在一起工作，也关闭一项，让另一项单独工作
@@ -1592,7 +1592,7 @@ PORT端口号为服务端口或者管理端口都可以
 - 路由接口
 参考Swagger界面，如下图
 
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Swagger1.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Swagger1.jpg)
 
 ## 控制平台
 为UI提供相关接口，包括
@@ -1603,7 +1603,7 @@ PORT端口号为服务端口或者管理端口都可以
 - 控制平台接口
 参考Swagger界面，如下图
 
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Swagger2.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Swagger2.jpg)
 
 ## 监控平台
 Spring Boot Admin监控平台
@@ -1618,7 +1618,7 @@ Spring Boot Admin监控平台
 ## 界面工具
 
 ### 基于Apollo界面的灰度发布
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Apollo1.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Apollo1.jpg)
 - 参考Apollo官方文档[https://github.com/ctripcorp/apollo](https://github.com/ctripcorp/apollo)相关文档，搭建Apollo环境，以及熟悉相关的基本操作
 - 根据上图，做如下步骤操作
     - 设置页面中AppId和配置文件里面app.id一致
@@ -1633,7 +1633,7 @@ Spring Boot Admin监控平台
     - 如果业务配置和灰度配置在同一个namespace里且namespace只有一个，灰度配置可以通过apollo.bootstrap.namespaces或者apollo.plugin.namespace来指定（如果namespace为application则都不需要配置）
     - 如果业务配置和灰度配置不在同一个namespace里或者业务配置横跨几个namespace，灰度配置必须通过apollo.plugin.namespace来指定唯一的namespace
 ### 基于Nacos界面的灰度发布
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Nacos2.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Nacos2.jpg)
 - 参考Nacos官方文档[https://github.com/alibaba/nacos](https://github.com/alibaba/nacos)相关文档，搭建Nacos环境，以及熟悉相关的基本操作
 - 添加配置步骤跟Apollo配置界面中的“在页面中添加配置”操作项相似
 
@@ -1656,27 +1656,27 @@ Spring Boot Admin监控平台
     - 如果您是操作系统，请参考“Discovery灰度发布控制台.bat”，自行编写“Discovery灰度发布控制台.sh”脚本，启动桌面程序
 - 操作界面
     - 登录认证，用户名和密码为admin/admin或者nepxion/nepxion。顺便说一下，控制台支持简单的认证，用户名和密码配置在discovery-springcloud-example-console\bootstrap.properties中，您可以自己扩展AuthenticationResource并注入，实现更专业的认证功能
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Console0.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Console0.jpg)
     - 点击“显示服务拓扑”按钮，弹出“服务集群组过滤”对话框，列表是以服务所在的集群组列表（例如：eureka.instance.metadataMap.group=example-service-group），选择若干个并点击“确定”按钮，如果使用者想获取全部的服务集群（可能会耗性能），则直接点击“取消”按钮
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Console4.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Console4.jpg)
     - 从服务注册发现中心获取服务拓扑
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Console5.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Console5.jpg)
     - 执行灰度路由，选择一个服务，右键菜单“执行灰度路由”
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Console6.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Console6.jpg)
     - 通过“服务列表”切换，或者点击增加和删除服务按钮，确定灰度路由路径，点击“执行路由”
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Console7.jpg)
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Console2.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Console7.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Console2.jpg)
     - 推送模式设置，“异步推送”和“同步推送”，前者是推送完后立刻返回，后者是推送完后等待推送结果（包括规则XML解析的异常等都能在界面上反映出来）；“规则推送到远程配置中心”和“规则推送到服务或者服务集群”，前者是推送到配置中心（持久化），后者是推送到一个或者多个服务机器的内存（非持久化，重启后丢失）
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Console8.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Console8.jpg)
     - 执行灰度发布，选择一个服务或者服务组，右键菜单“执行灰度发布”，前者是通过单个服务实例执行灰度发布，后者是通过一组服务实例执行灰度发布
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Console9.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Console9.jpg)
     - 灰度发布，包括“更改版本”和“更改规则”，前者通过更改版本号去适配灰度规则中的版本匹配关系，后者直接修改规则。“更改版本”是推送到一个或者多个服务机器的内存（非持久化，重启后丢失），“更改规则”是根据不同的推送模式，两种方式都支持
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Console10.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Console10.jpg)
     - 全链路灰度发布，所有在同一个集群组（例如：eureka.instance.metadataMap.group=example-service-group）里的服务统一做灰度发布，即一个规则配置搞定所有服务的灰度发布。点击“全链路灰度发布”按钮，弹出“全链路灰度发布”对话框
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Console11.jpg)
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Console12.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Console11.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Console12.jpg)
     - 刷新灰度状态，选择一个服务或者服务组，右键菜单“刷新灰度状态”，查看某个服务或者服务组是否正在做灰度发布
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Console13.jpg)
+![Alt text](http://nepxion.gitee.io/docs/discovery-doc/Console13.jpg)
 - 操作视频（有点老，请参考学习）
     - 灰度发布-版本访问策略
         - 请访问[https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA](https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA)，获取更清晰的视频，注意一定要下载下来看，不要在线看，否则不清晰
