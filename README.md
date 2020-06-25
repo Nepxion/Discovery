@@ -417,15 +417,15 @@ Spring Boot Admin监控平台
 | discovery-plugin-framework-consul | 核心框架服务注册发现的Consul实现 |
 | discovery-plugin-framework-zookeeper | 核心框架服务注册发现的Zookeeper实现 |
 | discovery-plugin-framework-nacos | 核心框架服务注册发现的Nacos实现 |
-| discovery-plugin-config-center | 配置中心实现 |
+| discovery-plugin-config-center | 配置中心 |
 | discovery-plugin-config-center-starter-apollo | 配置中心的Apollo Starter |
 | discovery-plugin-config-center-starter-nacos | 配置中心的Nacos Starter |
 | discovery-plugin-config-center-starter-redis | 配置中心的Redis Starter |
-| discovery-plugin-admin-center | 管理中心实现 |
-| discovery-plugin-starter-eureka | 核心Eureka Starter |
-| discovery-plugin-starter-consul | 核心Consul Starter |
-| discovery-plugin-starter-zookeeper | 核心Zookeeper Starter |
-| discovery-plugin-starter-nacos | 核心Nacos Starter |
+| discovery-plugin-admin-center | 管理中心 |
+| discovery-plugin-starter-eureka | 核心框架的Eureka Starter |
+| discovery-plugin-starter-consul | 核心框架的Consul Starter |
+| discovery-plugin-starter-zookeeper | 核心框架的Zookeeper Starter |
+| discovery-plugin-starter-nacos | 核心框架的Nacos Starter |
 | discovery-plugin-strategy | 路由策略 |
 | discovery-plugin-strategy-sentinel | 路由策略的Sentinel |
 | discovery-plugin-strategy-sentinel-starter-local | 路由策略的Sentinel Local Starter |
