@@ -853,7 +853,7 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
         <!-- 策略中配置条件表达式中的Header来决策蓝绿和灰度，可以代替外部传入Header -->
         <headers>
             <header key="a" value="1"/>
-        </headers>		
+        </headers>
     </strategy-customization>
 
     <!-- 参数控制，由远程推送参数的改变，实现一些特色化的灰度发布，例如，基于数据库的灰度发布 -->
