@@ -9,7 +9,6 @@ package com.nepxion.discovery.plugin.example.service;
  * @version 1.0
  */
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -27,7 +26,6 @@ import com.nepxion.discovery.plugin.example.service.impl.MySubscriber;
 import com.nepxion.discovery.plugin.example.service.sentinel.MyRestTemplateBlockHandler;
 import com.nepxion.discovery.plugin.example.service.sentinel.MyRestTemplateFallbackHandler;
 import com.nepxion.discovery.plugin.example.service.sentinel.MySentinelFlowRuleParser;
-import com.nepxion.discovery.plugin.strategy.service.aop.RestTemplateStrategyInterceptor;
 
 @SpringBootApplication
 @EnableDiscoveryClient
@@ -44,13 +42,8 @@ public class DiscoveryApplicationA1 {
     @Bean
     @LoadBalanced
     @SentinelRestTemplate(blockHandler = "handleBlock", blockHandlerClass = MyRestTemplateBlockHandler.class, fallback = "handleFallback", fallbackClass = MyRestTemplateFallbackHandler.class)
-    public RestTemplate restTemplate(@Autowired(required = false) RestTemplateStrategyInterceptor restTemplateStrategyInterceptor) {
-        RestTemplate restTemplate = new RestTemplate();
-        if (restTemplateStrategyInterceptor != null) {
-            restTemplate.getInterceptors().add(restTemplateStrategyInterceptor);
-        }
-
-        return restTemplate;
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 
     @Bean
