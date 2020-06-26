@@ -18,7 +18,6 @@ import org.springframework.cloud.netflix.ribbon.RibbonClientConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.exception.DiscoveryException;
@@ -26,6 +25,7 @@ import com.nepxion.discovery.plugin.strategy.adapter.DefaultDiscoveryEnabledAdap
 import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.aop.FeignStrategyInterceptor;
+import com.nepxion.discovery.plugin.strategy.service.aop.RestTemplateBeanPostProcessor;
 import com.nepxion.discovery.plugin.strategy.service.aop.RestTemplateStrategyInterceptor;
 import com.nepxion.discovery.plugin.strategy.service.aop.RpcStrategyAutoScanProxy;
 import com.nepxion.discovery.plugin.strategy.service.aop.RpcStrategyInterceptor;
@@ -47,9 +47,6 @@ import com.nepxion.discovery.plugin.strategy.wrapper.CallableWrapper;
 public class ServiceStrategyAutoConfiguration {
     @Autowired
     private ConfigurableEnvironment environment;
-
-    @Autowired
-    private RestTemplate pluginRestTemplate;
 
     @Bean
     @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_RPC_INTERCEPT_ENABLED, matchIfMissing = false)
@@ -96,10 +93,13 @@ public class ServiceStrategyAutoConfiguration {
         String contextRequestHeaders = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_CONTEXT_REQUEST_HEADERS);
         String businessRequestHeaders = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_BUSINESS_REQUEST_HEADERS);
 
-        RestTemplateStrategyInterceptor restTemplateStrategyInterceptor = new RestTemplateStrategyInterceptor(contextRequestHeaders, businessRequestHeaders);
-        pluginRestTemplate.getInterceptors().add(restTemplateStrategyInterceptor);
+        return new RestTemplateStrategyInterceptor(contextRequestHeaders, businessRequestHeaders);
+    }
 
-        return restTemplateStrategyInterceptor;
+    @Bean
+    @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_ENABLED, matchIfMissing = true)
+    public RestTemplateBeanPostProcessor restTemplateBeanPostProcessor() {
+        return new RestTemplateBeanPostProcessor();
     }
 
     @Bean
