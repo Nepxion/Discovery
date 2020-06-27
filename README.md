@@ -5,6 +5,14 @@
 - [Nepxion Discovery【探索】微服务企业级解决方案(PDF版)](http://nepxion.gitee.io/docs/link-doc/discovery-solution-pdf.html)
 - [Nepxion Discovery【探索】架构篇(PDF版)](http://nepxion.gitee.io/docs/link-doc/discovery-framework-pdf.html) 或 [Nepxion Discovery【探索】架构篇(HTML版)](http://nepxion.gitee.io/docs/link-doc/discovery-framework.html)
 
+如果本代码由于Github网速原因无法快速阅读，请访问
+- [码云急速下载](https://gitee.com/mirrors/Nepxion-Discovery)
+
+完整代码指南，如下
+- 对于入门级玩家，请参考[指南示例极简版](https://github.com/Nepxion/DiscoveryGuide)获取，分支为simple，涉及到灰度发布和路由的基本功能
+- 对于熟练级玩家，请参考[指南示例精进版](https://github.com/Nepxion/DiscoveryGuide)获取，分支为master，涉及到本文档里的所有功能
+- 对于骨灰级玩家，请参考[指南示例高级版](https://github.com/Nepxion/DiscoveryGuide)获取，分支为premium，除了本文档里的所有功能之外，涉及到高级调用链ActiveMQ、MongoDB、RabbitMQ、Redis、RocketMQ以及MySQL等和灰度调用链的整合
+
 Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务注册发现、Ribbon负载均衡、Feign和RestTemplate调用等组件全方位增强的企业级微服务开源解决方案，更贴近企业级需求，更具有企业级的插件引入、开箱即用特征
 - 支持阿里巴巴Nacos、Eureka、Consul和Zookeeper四个服务注册发现中心
 - 支持阿里巴巴Nacos、携程Apollo和Redis三个远程配置中心
