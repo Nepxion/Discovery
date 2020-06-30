@@ -15,7 +15,7 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.web.client.RestTemplate;
 
 public class RestTemplateBeanPostProcessor implements BeanPostProcessor {
-    @Autowired(required = false)
+    @Autowired
     private RestTemplateStrategyInterceptor restTemplateStrategyInterceptor;
 
     @Override
