@@ -15,8 +15,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
@@ -25,8 +23,6 @@ import com.nepxion.discovery.plugin.strategy.zuul.constant.ZuulStrategyConstant;
 import com.netflix.zuul.context.RequestContext;
 
 public class ZuulStrategyContextHolder extends AbstractStrategyContextHolder {
-    private static final Logger LOG = LoggerFactory.getLogger(ZuulStrategyContextHolder.class);
-
     // 如果外界也传了相同的Header，例如，从Postman传递过来的Header，当下面的变量为true，以网关设置为优先，否则以外界传值为优先
     @Value("${" + ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_HEADER_PRIORITY + ":true}")
     protected Boolean zuulHeaderPriority;
@@ -57,7 +53,7 @@ public class ZuulStrategyContextHolder extends AbstractStrategyContextHolder {
     public String getHeader(String name) {
         HttpServletRequest request = getRequest();
         if (request == null) {
-            LOG.warn("The HttpServletRequest object is lost for thread switched, or it is got before context filter probably");
+            // LOG.warn("The HttpServletRequest object is lost for thread switched, or it is got before context filter probably");
 
             return null;
         }

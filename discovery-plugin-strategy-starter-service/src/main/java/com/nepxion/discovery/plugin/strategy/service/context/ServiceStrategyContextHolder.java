@@ -12,8 +12,6 @@ package com.nepxion.discovery.plugin.strategy.service.context;
 
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -23,8 +21,6 @@ import com.nepxion.discovery.plugin.strategy.context.AbstractStrategyContextHold
 import com.nepxion.discovery.plugin.strategy.service.filter.ServiceStrategyRouteFilter;
 
 public class ServiceStrategyContextHolder extends AbstractStrategyContextHolder {
-    private static final Logger LOG = LoggerFactory.getLogger(ServiceStrategyContextHolder.class);
-
     @Autowired
     private ServiceStrategyRouteFilter serviceStrategyRouteFilter;
 
@@ -45,7 +41,7 @@ public class ServiceStrategyContextHolder extends AbstractStrategyContextHolder 
     public String getHeader(String name) {
         ServletRequestAttributes attributes = getRestAttributes();
         if (attributes == null) {
-            LOG.warn("The ServletRequestAttributes object is lost for thread switched probably");
+            // LOG.warn("The ServletRequestAttributes object is lost for thread switched probably");
 
             return null;
         }
