@@ -89,6 +89,7 @@
     <exclude name="UseUtilityClass"/>
     <exclude name="UseVarargs"/>
   </rule>
+
   <rule ref="rulesets/java/empty.xml/EmptyCatchBlock">
     <properties>
         <property name="allowCommentedBlocks" value="true"/>
