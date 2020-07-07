@@ -5,7 +5,7 @@
 - [Nepxion Discovery【探索】微服务企业级解决方案(PDF版)](http://nepxion.gitee.io/docs/link-doc/discovery-solution-pdf.html)
 - [Nepxion Discovery【探索】架构篇(PDF版)](http://nepxion.gitee.io/docs/link-doc/discovery-framework-pdf.html) 或 [Nepxion Discovery【探索】架构篇(HTML版)](http://nepxion.gitee.io/docs/link-doc/discovery-framework.html)
 
-如果本代码由于Github网速原因无法快速阅读，请访问
+如果本代码由于Github网速原因无法快速阅读，请访问 
 - [Gitee同步镜像](https://gitee.com/Nepxion/Discovery)
 
 完整代码指南，如下
