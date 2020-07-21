@@ -7,6 +7,7 @@
 
 如果本代码由于Github网速原因无法快速阅读，请访问
 - [Gitee同步镜像](https://gitee.com/Nepxion/Discovery)
+- [Github原镜像](https://github.com/Nepxion/Discovery)
 
 完整代码指南，如下
 - 对于入门级玩家，请参考[指南示例极简版](https://github.com/Nepxion/DiscoveryGuide/tree/simple)获取，分支为simple
