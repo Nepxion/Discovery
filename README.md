@@ -9,10 +9,13 @@
 - [Gitee同步镜像](https://gitee.com/Nepxion/Discovery)
 - [Github原镜像](https://github.com/Nepxion/Discovery)
 
-完整代码指南，如下
+完整指南示例和文档，请访问
 - 对于入门级玩家，请参考[指南示例极简版](https://github.com/Nepxion/DiscoveryGuide/tree/simple)获取，分支为simple
 - 对于熟练级玩家，请参考[指南示例精进版](https://github.com/Nepxion/DiscoveryGuide/tree/master)获取，分支为master
 - 对于骨灰级玩家，请参考[指南示例高级版](https://github.com/Nepxion/DiscoveryGuide/tree/premium)获取，分支为premium
+
+![](http://nepxion.gitee.io/docs/discovery-doc/Attention.png) 提醒
+- Nepxion Discovery【探索】指南篇，即上面的三篇“指南示例”更为重要，不必请先阅读
 
 Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务注册发现、Ribbon负载均衡、Feign和RestTemplate调用等组件全方位增强的企业级微服务开源解决方案，更贴近企业级需求，更具有企业级的插件引入、开箱即用特征
 - 支持阿里巴巴Nacos、Eureka、Consul和Zookeeper四个服务注册发现中心
@@ -151,8 +154,8 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
     <tr align="center">
       <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/ylyh.png"></td>
       <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/sqhy.png"></td>
-      <td></td>
-      <td></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/rtdl.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/cjgy.png"></td>
       <td></td>
     </tr>
   </tbody>
