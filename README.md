@@ -552,7 +552,7 @@ Spring Boot Admin监控平台
 </dependency>
 ```
 - 灰度路由策略是不会对服务注册发现等逻辑产生影响，所以建议下面两项配置改为false
-```vb
+```
 # 开启和关闭服务注册层面的控制。一旦关闭，服务注册的黑/白名单过滤功能将失效，最大注册数的限制过滤功能将失效。缺失则默认为true
 spring.application.register.control.enabled=false
 # 开启和关闭服务发现层面的控制。一旦关闭，服务多版本调用的控制功能将失效，动态屏蔽指定IP地址的服务实例被发现的功能将失效。缺失则默认为true
@@ -999,7 +999,7 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
 - 在服务中，Header方式>配置中心或者本地rule.xml配置
 - 在网关中，通过如下配置，决定优先级
 
-```vb
+```
 # 当外界传值Header的时候，网关也设置并传递同名的Header，需要决定哪个Header传递到后边的服务去。如果下面开关为true，以网关设置为优先，否则以外界传值为优先。缺失则默认为true
 spring.application.strategy.gateway.header.priority=false
 
@@ -1176,24 +1176,24 @@ dev=85;qa=15
 元数据中的Group在一定意义上代表着系统ID或者系统逻辑分组，基于Group策略意味着只有同一个系统中的服务才能调用
 
 - 注册服务隔离，基于Group黑/白名单的策略，即当前的服务所在的Group，不在Group的黑名单或者在白名单里，才允许被注册。只需要在网关或者服务端，开启如下配置即可：
-```vb
+```
 # 启动和关闭注册的服务隔离（基于Group黑/白名单的策略）。缺失则默认为false
 spring.application.strategy.register.isolation.enabled=true
 ```
 黑/白名单通过如下方式配置
-```vb
+```
 spring.application.strategy.register.isolation.group.blacklist=
 spring.application.strategy.register.isolation.group.whitelist=
 ```
 
 - 消费端服务隔离，基于Group是否相同的策略，即消费端拿到的提供端列表，两者的Group必须相同。只需要在网关或者服务端，开启如下配置即可：
-```vb
+```
 # 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
 spring.application.strategy.consumer.isolation.enabled=true
 ```
 
 - 提供端服务隔离，基于Group是否相同的策略，即服务端被消费端调用，两者的Group必须相同，否则拒绝调用，异构系统可以通过Header方式传递n-d-service-group值进行匹配。只需要在服务端（不适用网关），开启如下配置即可：
-```vb
+```
 # 启动和关闭提供端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
 spring.application.strategy.provider.isolation.enabled=true
 
@@ -1210,7 +1210,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.gray.service.fei
 ## 配置文件
 ### 基础属性配置
 不同的服务注册发现组件对应的不同的配置值（region配置可选），请仔细阅读
-```vb
+```
 # Eureka config for discovery
 eureka.instance.metadataMap.group=xxx-service-group
 eureka.instance.metadataMap.version=1.0
@@ -1245,7 +1245,7 @@ management.server.port=5100
 
 ### 功能开关配置
 服务端配置
-```vb
+```
 # Plugin core config
 # 开启和关闭服务注册层面的控制。一旦关闭，服务注册的黑/白名单过滤功能将失效，最大注册数的限制过滤功能将失效。缺失则默认为true
 spring.application.register.control.enabled=true
@@ -1376,7 +1376,7 @@ spring.application.git.version.key={git.commit.id.abbrev}-{git.commit.time}
 ```
 
 Spring Cloud Gateway端配置
-```vb
+```
 # Plugin core config
 # 开启和关闭服务注册层面的控制。一旦关闭，服务注册的黑/白名单过滤功能将失效，最大注册数的限制过滤功能将失效。缺失则默认为true
 spring.application.register.control.enabled=true
@@ -1478,7 +1478,7 @@ spring.application.git.version.key={git.commit.id.abbrev}-{git.commit.time}
 ```
 
 Zuul端配置
-```vb
+```
 # Plugin core config
 # 开启和关闭服务注册层面的控制。一旦关闭，服务注册的黑/白名单过滤功能将失效，最大注册数的限制过滤功能将失效。缺失则默认为true
 spring.application.register.control.enabled=true
@@ -1717,7 +1717,7 @@ Spring Boot Admin监控平台
 - 优化方式
     - Spring Cloud Gateway，不需要优化
     - Zuul 1.x，优化如下
-```vb
+```
 zuul.host.max-per-route-connections=1000
 zuul.host.max-total-connections=1000
 zuul.semaphore.max-semaphores=5000
