@@ -58,7 +58,7 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
 
 现有的Spring Cloud微服务很方便引入该中间件，代码零侵入。鉴于Spring Cloud官方对Eureka和Hystrix不再做新功能的迭代，推荐用Nacos和Sentinel，它们对Spring Cloud灰度发布和路由更具出色的兼容性和友好性
 
-![](http://nepxion.gitee.io/docs/discovery-doc/Attention.png) 鸣谢
+![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 鸣谢
 - 感谢阿里巴巴中间件Nacos和Sentinel团队，尤其是Nacos负责人@彦林、@于怀，Sentinel负责人@宿何、@子衿，Spring Cloud Alibaba负责人@小马哥、@洛夜、@亦盏的技术支持
 - 感谢携程Apollo团队，尤其是@宋顺，特意开发OpenApi包和技术支持
 - 感谢代码贡献者，包括@zifeihan，@Ax1an，@WeihuaWang，@张顺，@Esun，@liumapp，@terranhu，@JikaiSun，@HaoHuang，@FanYang，@Ankeway，@liquanjin等
@@ -157,20 +157,20 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
 
 为提供更好的专业级服务，请更多已经使用本框架的公司和企业联系我
 
-![](http://nepxion.gitee.io/docs/icon-doc/Attention.png) 特性
+![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 特性
 
 一、兼容性强。支持如下版本：
 
 | 框架版本 | 框架分支 | 框架状态 | Spring Cloud版本 | Spring Boot版本 | Spring Cloud Alibaba版本 |
 | --- | --- | --- | --- | --- | --- |
-| 6.0.6 | master | ![](http://nepxion.gitee.io/docs/discovery-doc/Status1.png) | Hoxton<br>Greenwich<br>Finchley | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
-| ~~5.6.0~~ | ~~5.x.x~~ | ![](http://nepxion.gitee.io/docs/discovery-doc/Status2.png) | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
-| ~~4.15.0~~ | ~~4.x.x~~ | ![](http://nepxion.gitee.io/docs/discovery-doc/Status2.png) | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
-| 3.16.6 | master-3.x.x | ![](http://nepxion.gitee.io/docs/discovery-doc/Status1.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
-| ~~2.0.x~~ | ~~2.x.x~~ | ![](http://nepxion.gitee.io/docs/discovery-doc/Status3.png) | Dalston | 1.x.x.RELEASE | N/A |
-| ~~1.0.x~~ | ~~1.x.x~~ | ![](http://nepxion.gitee.io/docs/discovery-doc/Status3.png) | Camden | 1.x.x.RELEASE | N/A |
+| 6.0.6 | master | ![](http://nepxion.gitee.io/docs/icon-doc/status1.png) | Hoxton<br>Greenwich<br>Finchley | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
+| ~~5.6.0~~ | ~~5.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/status2.png) | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
+| ~~4.15.0~~ | ~~4.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/status2.png) | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
+| 3.16.6 | master-3.x.x | ![](http://nepxion.gitee.io/docs/icon-doc/status1.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
+| ~~2.0.x~~ | ~~2.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/status3.png) | Dalston | 1.x.x.RELEASE | N/A |
+| ~~1.0.x~~ | ~~1.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/status3.png) | Camden | 1.x.x.RELEASE | N/A |
 
-![](http://nepxion.gitee.io/docs/discovery-doc/Status1.png) 表示迭代中 | ![](http://nepxion.gitee.io/docs/discovery-doc/Status2.png) 表示不维护，但可用 | ![](http://nepxion.gitee.io/docs/discovery-doc/Status3.png) 表示不维护，不可用，已废弃
+![](http://nepxion.gitee.io/docs/icon-doc/status1.png) 表示迭代中 | ![](http://nepxion.gitee.io/docs/icon-doc/status2.png) 表示不维护，但可用 | ![](http://nepxion.gitee.io/docs/icon-doc/status3.png) 表示不维护，不可用，已废弃
 
 注意：
 - 6.x.x版本（同时适用于Finchley、Greenwich和Hoxton以及未来的更高版本），将继续维护
