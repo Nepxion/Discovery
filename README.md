@@ -6,7 +6,7 @@
 ![](http://nepxion.gitee.io/docs/icon-doc/navigator.png) Nepxion Discovery【探索】指南篇，**务必先阅读**，请访问
 - 对于入门级玩家，参考[指南示例极简版](https://github.com/Nepxion/DiscoveryGuide/tree/simple)获取，分支为simple。涉及到指南篇里的灰度发布和路由的基本功能
 - 对于熟练级玩家，参考[指南示例精进版](https://github.com/Nepxion/DiscoveryGuide/tree/master)获取，分支为master。除上述《极简版》功能外，涉及到指南篇里的绝大多数高级功能
-- 对于骨灰级玩家，参考[指南示例高级版](https://github.com/Nepxion/DiscoveryGuide/tree/premium)获取，分支为premium。除上述《精进版》功能外，涉及到指南篇里的高级调用链ActiveMQ、MongoDB、RabbitMQ、Redis、RocketMQ以及MySQL等和灰度调用链的整合
+- 对于骨灰级玩家，参考[指南示例高级版](https://github.com/Nepxion/DiscoveryGuide/tree/premium)获取，分支为premium。除上述《精进版》功能外，涉及到指南篇里的ActiveMQ、MongoDB、RabbitMQ、Redis、RocketMQ、MySQL等高级调用链和灰度调用链的整合
 
 ![](http://nepxion.gitee.io/docs/icon-doc/navigator.png) 如果本文档由于Github网速原因无法完整阅读，请访问
 - [Nepxion Discovery【探索】微服务企业级解决方案(PDF版)](http://nepxion.gitee.io/docs/link-doc/discovery-solution-pdf.html)
@@ -56,6 +56,7 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
 [**OpenTracing**] OpenTracing已进入CNCF，正在为全球的分布式追踪系统提供统一的概念、规范、架构和数据标准。它通过提供平台无关、厂商无关的API，使得开发人员能够方便的添加（或更换）追踪系统的实现。对于存在多样化的技术栈共存的调用链中，OpenTracing适配Java、C、Go和.Net等技术栈，实现全链路分布式追踪功能。迄今为止，Uber Jaeger、Twitter Zipkin和Apache Skywalking已经适配了OpenTracing规范
 
 本框架成为阿里巴巴中间件Nacos和Spring Cloud Alibaba项目的相关开源
+
 <img src="http://nepxion.gitee.io/docs/discovery-doc/AwardNacos1.jpg" alt="Nacos" width="50%"><img src="http://nepxion.gitee.io/docs/discovery-doc/AwardSCA1.jpg" alt="Spring Cloud Alibaba" width="50%">
 
 现有的Spring Cloud微服务很方便引入该中间件，代码零侵入。鉴于Spring Cloud官方对Eureka和Hystrix不再做新功能的迭代，推荐用Nacos和Sentinel，它们对Spring Cloud灰度发布和路由更具出色的兼容性和友好性
@@ -159,22 +160,22 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
 
 为提供更好的专业级服务，请更多已经使用本框架的公司和企业联系我
 
-![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 特性
+![](http://nepxion.gitee.io/docs/icon-doc/information.png) 特性
 
 一、兼容性强。支持如下版本：
 
 | 框架版本 | 框架分支 | 框架状态 | Spring Cloud版本 | Spring Boot版本 | Spring Cloud Alibaba版本 |
 | --- | --- | --- | --- | --- | --- |
-| 6.0.6 | master | ![](http://nepxion.gitee.io/docs/icon-doc/status1.png) | Hoxton<br>Greenwich<br>Finchley | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
-| ~~5.6.0~~ | ~~5.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/status2.png) | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
-| ~~4.15.0~~ | ~~4.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/status2.png) | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
-| 3.16.6 | master-3.x.x | ![](http://nepxion.gitee.io/docs/icon-doc/status1.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
-| ~~2.0.x~~ | ~~2.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/status3.png) | Dalston | 1.x.x.RELEASE | N/A |
-| ~~1.0.x~~ | ~~1.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/status3.png) | Camden | 1.x.x.RELEASE | N/A |
+| 6.0.6 | master | ![](http://nepxion.gitee.io/docs/icon-doc/confirm_24.png) | Hoxton<br>Greenwich<br>Finchley | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
+| ~~5.6.0~~ | ~~5.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
+| ~~4.15.0~~ | ~~4.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
+| 3.16.6 | master-3.x.x | ![](http://nepxion.gitee.io/docs/icon-doc/confirm_24.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
+| ~~2.0.x~~ | ~~2.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) | Dalston | 1.x.x.RELEASE | N/A |
+| ~~1.0.x~~ | ~~1.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) | Camden | 1.x.x.RELEASE | N/A |
 
-![](http://nepxion.gitee.io/docs/icon-doc/status1.png) 表示迭代中 | ![](http://nepxion.gitee.io/docs/icon-doc/status2.png) 表示不维护，但可用 | ![](http://nepxion.gitee.io/docs/icon-doc/status3.png) 表示不维护，不可用，已废弃
+![](http://nepxion.gitee.io/docs/icon-doc/confirm_24.png) 表示稳定版，维护中 | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) 表示过期版，不维护
 
-注意：
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：
 - 6.x.x版本（同时适用于Finchley、Greenwich和Hoxton以及未来的更高版本），将继续维护
 - 5.x.x版本（适用于Greenwich）不再维护，并入到6.x.x版本，不建议使用
 - 4.x.x版本（适用于Finchley）不再维护，并入到6.x.x版本，不建议使用
@@ -538,7 +539,7 @@ Spring Boot Admin监控平台
 </dependency>
 ```
 
-特别注意：中间件的引入一定要在所有层面保持一致，绝不允许出现类似如下情况，这也是常识
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：中间件的引入一定要在所有层面保持一致，绝不允许出现类似如下情况，这也是常识
 - 例如，网关用Eureka做服务注册发现，微服务用Consul做服务注册发现
 - 例如，控制平台用Nacos做远程配置中心，微服务用Redis做远程配置中心
 
@@ -577,13 +578,14 @@ spring.application.discovery.control.enabled=false
 </dependency>
 ```
 
-调用链功能引入，包含三大调用链，支持微服务端、网关Zuul端和网关Spring Cloud Gateway端。注意，该模块支持F版或更高版本，且不能同时引入
+调用链功能引入，包含三大调用链，支持微服务端、网关Zuul端和网关Spring Cloud Gateway端
+
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：该模块支持F版或更高版本，且不能同时引入
 ```xml
 微服务端引入
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-strategy-sentinel-starter-opentracing</artifactId>
-    <artifactId>discovery-plugin-strategy-sentinel-starter-opentelemetry</artifactId>	
     <artifactId>discovery-plugin-strategy-sentinel-starter-skywalking</artifactId>
     <version>${discovery.version}</version>
 </dependency>
@@ -657,7 +659,7 @@ spring.application.discovery.control.enabled=false
 ### 规则示例
 XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
 
-特别注意：服务名大小写规则
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：服务名大小写规则
 - 在配置文件（application.properties、application.yaml等）里，定义服务名（spring.application.name）不区分大小写
 - 在规则文件（XML、Json）里，引用的服务名必须小写
 - 在Nacos、Apollo、Redis等远程配置中心的Key，包含的服务名必须小写
@@ -988,7 +990,8 @@ XML示例（Json示例见discovery-springcloud-example-service下的rule.json）
     </strategy>
 2. 用法和基于Http Header头部传路由参数一致。前置是通过前端或者网关传入，后者是配置在配置文件里。让两者全部启用的时候，以前端或者网关传入Header方式优先
 ```
-特别注意
+
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：
 
 路由策略的入口有三个为例：
 - 从外界传入（例如：Postman），在Header上加入。例如：n-d-version={"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.0", "discovery-springcloud-example-c":"1.0;1.2"}
@@ -1031,7 +1034,7 @@ spring.application.strategy.zuul.header.priority=false
     - 如果既执行了全局推送，又执行了局部推送，那么，当服务运行中，优先接受最后一次推送的规则；当服务重新启动的时候，优先读取局部推送的规则
 
 ### 动态改变版本
-注意：动态改变版本，只允许发生在调用链的起点，例如网关，如果没有网关，则取第一个服务，其它层级的服务不能使用该功能
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：动态改变版本，只允许发生在调用链的起点，例如网关，如果没有网关，则取第一个服务，其它层级的服务不能使用该功能
 
 微服务启动的时候，由于版本已经写死在application.properties里，使用者希望改变一下版本，而不重启微服务，达到访问版本的路径改变
 - 版本分为本地版本和动态版本
@@ -1091,7 +1094,7 @@ d* - 表示调用范围为所有服务的d开头的所有区域
 多区域灰度路由架构图
 ![Alt text](http://nepxion.gitee.io/docs/discovery-doc/RouteRegion.jpg)
 
-特别注意：Spring Cloud内置zone的策略，功能跟region策略很相似，但zone策略不能跟自定义路由组合使用，故提供了更友好的region策略
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：Spring Cloud内置zone的策略，功能跟region策略很相似，但zone策略不能跟自定义路由组合使用，故提供了更友好的region策略
 
 ### IP和端口匹配的灰度路由策略
 基于Feign/RestTemplate的REST调用的多版本灰度路由，在Header上传入服务名和版本对应关系的Json字符串，如下表示，如果REST请求要经过a，b，c三个服务，那么只需要指定三个服务所给定的IP（或者IP和端口组合），允许被调用到
@@ -1283,7 +1286,7 @@ spring.application.strategy.zone.avoidance.rule.enabled=true
 spring.application.strategy.rest.intercept.enabled=true
 # 启动和关闭路由策略的时候，对REST方式在异步调用场景下在服务端的Request请求的装饰，当主线程先于子线程执行完的时候，Request会被Destory，导致Header仍旧拿不到，开启装饰，就可以确保拿到。缺失则默认为false
 spring.application.strategy.rest.request.decorator.enabled=true
-# 启动和关闭Header传递的Debug日志打印，注意每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
+# 启动和关闭Header传递的Debug日志打印，注意：每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
 spring.application.strategy.rest.intercept.debug.enabled=true
 # 路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于框架内置上下文Header，例如：trace-id, span-id等）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
 spring.application.strategy.context.request.headers=trace-id;span-id
@@ -1306,7 +1309,7 @@ spring.application.strategy.monitor.enabled=true
 spring.application.strategy.logger.enabled=true
 # 日志输出中，是否显示MDC前面的Key。缺失则默认为true
 spring.application.strategy.logger.mdc.key.shown=true
-# 启动和关闭Debug日志打印，注意每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
+# 启动和关闭Debug日志打印，注意：每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
 spring.application.strategy.logger.debug.enabled=true
 # 启动和关闭调用链输出。缺失则默认为false
 spring.application.strategy.tracer.enabled=true
@@ -1427,7 +1430,7 @@ spring.application.strategy.monitor.enabled=true
 spring.application.strategy.logger.enabled=true
 # 日志输出中，是否显示MDC前面的Key。缺失则默认为true
 spring.application.strategy.logger.mdc.key.shown=true
-# 启动和关闭Debug日志打印，注意每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
+# 启动和关闭Debug日志打印，注意：每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
 spring.application.strategy.logger.debug.enabled=true
 # 启动和关闭调用链输出。缺失则默认为false
 spring.application.strategy.tracer.enabled=true
@@ -1529,7 +1532,7 @@ spring.application.strategy.monitor.enabled=true
 spring.application.strategy.logger.enabled=true
 # 日志输出中，是否显示MDC前面的Key。缺失则默认为true
 spring.application.strategy.logger.mdc.key.shown=true
-# 启动和关闭Debug日志打印，注意每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
+# 启动和关闭Debug日志打印，注意：每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
 spring.application.strategy.logger.debug.enabled=true
 # 启动和关闭调用链输出。缺失则默认为false
 spring.application.strategy.tracer.enabled=true
