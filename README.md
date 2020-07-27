@@ -170,8 +170,8 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
 | ~~5.6.0~~ | ~~5.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
 | ~~4.15.0~~ | ~~4.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
 | 3.16.6 | master-3.x.x | ![](http://nepxion.gitee.io/docs/icon-doc/confirm_24.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
-| ~~2.0.x~~ | ~~2.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) | Dalston | 1.x.x.RELEASE | N/A |
-| ~~1.0.x~~ | ~~1.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) | Camden | 1.x.x.RELEASE | N/A |
+| ~~2.0.x~~ | ~~2.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) | Dalston | 1.x.x.RELEASE | 1.5.x.RELEASE |
+| ~~1.0.x~~ | ~~1.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) | Camden | 1.x.x.RELEASE | 1.5.x.RELEASE |
 
 ![](http://nepxion.gitee.io/docs/icon-doc/confirm_24.png) 表示稳定版，维护中 | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) 表示过期版，不维护
 
