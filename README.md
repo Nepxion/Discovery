@@ -1,22 +1,24 @@
 [^_^]:![](http://nepxion.gitee.io/docs/discovery-doc/Cover.jpg)
 
-# Nepxion Discovery【探索】架构篇
+<img src="http://nepxion.gitee.io/docs/discovery-doc/DiscoveryLogo.png" height="90" width="410">
+
+# Discovery【探索】架构篇
 [![Total lines](https://tokei.rs/b1/github/Nepxion/Discovery?category=lines)](https://tokei.rs/b1/github/Nepxion/Discovery?category=lines)  [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?label=license)](https://github.com/Nepxion/Discovery/blob/master/LICENSE)  [![Maven Central](https://img.shields.io/maven-central/v/com.nepxion/discovery.svg?label=maven%20central)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.nepxion%22%20AND%20discovery)  [![Javadocs](http://www.javadoc.io/badge/com.nepxion/discovery-plugin-framework.svg)](http://www.javadoc.io/doc/com.nepxion/discovery-plugin-framework)  [![Build Status](https://travis-ci.org/Nepxion/Discovery.svg?branch=master)](https://travis-ci.org/Nepxion/Discovery)  [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8e39a24e1be740c58b83fb81763ba317)](https://www.codacy.com/project/HaojunRen/Discovery/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nepxion/Discovery&amp;utm_campaign=Badge_Grade_Dashboard)
 
-![](http://nepxion.gitee.io/docs/icon-doc/navigator.png) Nepxion Discovery【探索】指南篇，**务必先阅读**，请访问
+![](http://nepxion.gitee.io/docs/icon-doc/navigator.png) Discovery【探索】指南篇，**务必先阅读**，请访问
 - 对于入门级玩家，参考[指南示例极简版](https://github.com/Nepxion/DiscoveryGuide/tree/simple)获取，分支为simple。涉及到指南篇里的灰度发布和路由的基本功能
 - 对于熟练级玩家，参考[指南示例精进版](https://github.com/Nepxion/DiscoveryGuide/tree/master)获取，分支为master。除上述《极简版》功能外，涉及到指南篇里的绝大多数高级功能
 - 对于骨灰级玩家，参考[指南示例高级版](https://github.com/Nepxion/DiscoveryGuide/tree/premium)获取，分支为premium。除上述《精进版》功能外，涉及到指南篇里的ActiveMQ、MongoDB、RabbitMQ、Redis、RocketMQ、MySQL等高级调用链和灰度调用链的整合
 
 ![](http://nepxion.gitee.io/docs/icon-doc/navigator.png) 如果本文档由于Github网速原因无法完整阅读，请访问
-- [Nepxion Discovery【探索】微服务企业级解决方案(PDF版)](http://nepxion.gitee.io/docs/link-doc/discovery-solution-pdf.html)
-- [Nepxion Discovery【探索】架构篇(PDF版)](http://nepxion.gitee.io/docs/link-doc/discovery-framework-pdf.html) 或 [Nepxion Discovery【探索】架构篇(HTML版)](http://nepxion.gitee.io/docs/link-doc/discovery-framework.html)
+- [Discovery【探索】微服务企业级解决方案(PDF版)](http://nepxion.gitee.io/docs/link-doc/discovery-solution-pdf.html)
+- [Discovery【探索】架构篇(PDF版)](http://nepxion.gitee.io/docs/link-doc/discovery-framework-pdf.html) 或 [Discovery【探索】架构篇(HTML版)](http://nepxion.gitee.io/docs/link-doc/discovery-framework.html)
 
 ![](http://nepxion.gitee.io/docs/icon-doc/navigator.png) 如果本代码由于Github网速原因无法快速阅读，请访问
 - [Gitee同步镜像](https://gitee.com/Nepxion/Discovery)
 - [Github原镜像](https://github.com/Nepxion/Discovery)
 
-Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务注册发现、Ribbon负载均衡、Feign和RestTemplate调用等组件全方位增强的企业级微服务开源解决方案，更贴近企业级需求，更具有企业级的插件引入、开箱即用特征
+Discovery【探索】框架架构，基于Spring Cloud Discovery服务注册发现、Ribbon负载均衡、Feign和RestTemplate调用等组件全方位增强的企业级微服务开源解决方案，更贴近企业级需求，更具有企业级的插件引入、开箱即用特征
 - 支持阿里巴巴Nacos、Eureka、Consul和Zookeeper四个服务注册发现中心
 - 支持阿里巴巴Nacos、携程Apollo和Redis三个远程配置中心
 - 支持阿里巴巴Sentinel和Hystrix两个熔断隔离限流降级中间件
