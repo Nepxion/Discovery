@@ -63,7 +63,7 @@ Discovery【探索】框架架构，基于Spring Cloud Discovery服务注册发�
 
 现有的Spring Cloud微服务很方便引入该中间件，代码零侵入。鉴于Spring Cloud官方对Eureka和Hystrix不再做新功能的迭代，推荐用Nacos和Sentinel，它们对Spring Cloud灰度发布和路由更具出色的兼容性和友好性
 
-![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 鸣谢
+![](http://nepxion.gitee.io/docs/icon-doc/information.png) 鸣谢
 - 感谢阿里巴巴中间件Nacos和Sentinel团队，尤其是Nacos负责人@彦林、@于怀，Sentinel负责人@宿何、@子衿，Spring Cloud Alibaba负责人@小马哥、@洛夜、@亦盏的技术支持
 - 感谢携程Apollo团队，尤其是@宋顺，特意开发OpenApi包和技术支持
 - 感谢代码贡献者，包括@zifeihan，@Ax1an，@WeihuaWang，@张顺，@Esun，@liumapp，@terranhu，@JikaiSun，@HaoHuang，@FanYang，@Ankeway，@liquanjin等
