@@ -440,6 +440,7 @@ Spring Boot Admin监控平台
 | discovery-plugin-starter-nacos | 核心框架的Nacos Starter |
 | discovery-plugin-strategy | 路由策略 |
 | discovery-plugin-strategy-sentinel | 路由策略的Sentinel |
+| discovery-plugin-strategy-sentinel-monitor | 路由策略的Sentinel监控 |
 | discovery-plugin-strategy-sentinel-starter-local | 路由策略的Sentinel Local Starter |
 | discovery-plugin-strategy-sentinel-starter-apollo | 路由策略的Sentinel Apollo Starter |
 | discovery-plugin-strategy-sentinel-starter-nacos | 路由策略的Sentinel Nacos Starter |
