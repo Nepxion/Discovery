@@ -31,6 +31,7 @@
         <module>discovery-plugin-starter-nacos</module>
         <module>discovery-plugin-strategy</module>
         <module>discovery-plugin-strategy-sentinel</module>
+        <module>discovery-plugin-strategy-sentinel-monitor</module>
         <module>discovery-plugin-strategy-sentinel-starter-local</module>
         <module>discovery-plugin-strategy-sentinel-starter-apollo</module>
         <module>discovery-plugin-strategy-sentinel-starter-nacos</module>
@@ -204,6 +205,12 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-strategy-sentinel</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-strategy-sentinel-monitor</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

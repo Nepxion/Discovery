@@ -17,7 +17,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>discovery-plugin-strategy-sentinel</artifactId>
+            <artifactId>discovery-plugin-strategy-sentinel-monitor</artifactId>
         </dependency>
 
         <dependency>

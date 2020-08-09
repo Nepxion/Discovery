@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.sentinel.monitor;
+package com.nepxion.discovery.plugin.strategy.sentinel.monitor.callback;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -20,11 +20,11 @@ import com.alibaba.fastjson.JSON;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
-import com.nepxion.discovery.plugin.strategy.sentinel.constant.SentinelStrategyConstant;
+import com.nepxion.discovery.plugin.strategy.sentinel.monitor.constant.SentinelStrategyMonitorConstant;
 
 public abstract class SentinelTracerProcessorSlotEntryCallback<S> implements ProcessorSlotEntryCallback<DefaultNode> {
-    private Boolean tracerSentinelRuleOutputEnabled = Boolean.valueOf(System.getProperty(SentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_TRACER_SENTINEL_RULE_OUTPUT_ENABLED, "true"));
-    private Boolean tracerSentinelArgsOutputEnabled = Boolean.valueOf(System.getProperty(SentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_TRACER_SENTINEL_ARGS_OUTPUT_ENABLED, "false"));
+    private Boolean tracerSentinelRuleOutputEnabled = Boolean.valueOf(System.getProperty(SentinelStrategyMonitorConstant.SPRING_APPLICATION_STRATEGY_TRACER_SENTINEL_RULE_OUTPUT_ENABLED, "true"));
+    private Boolean tracerSentinelArgsOutputEnabled = Boolean.valueOf(System.getProperty(SentinelStrategyMonitorConstant.SPRING_APPLICATION_STRATEGY_TRACER_SENTINEL_ARGS_OUTPUT_ENABLED, "false"));
 
     @Override
     public void onPass(Context context, ResourceWrapper resourceWrapper, DefaultNode param, int count, Object... args) throws Exception {
@@ -50,21 +50,21 @@ public abstract class SentinelTracerProcessorSlotEntryCallback<S> implements Pro
         outputSpan(span, DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion());
         outputSpan(span, DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, pluginAdapter.getEnvironment());
 
-        outputSpan(span, SentinelStrategyConstant.ORIGIN, context.getOrigin());
-        outputSpan(span, SentinelStrategyConstant.ASYNC, String.valueOf(context.isAsync()));
-        outputSpan(span, SentinelStrategyConstant.RESOURCE_NAME, resourceWrapper.getName());
-        outputSpan(span, SentinelStrategyConstant.RESOURCE_SHOW_NAME, resourceWrapper.getShowName());
-        outputSpan(span, SentinelStrategyConstant.RESOURCE_TYPE, String.valueOf(resourceWrapper.getResourceType()));
-        outputSpan(span, SentinelStrategyConstant.ENTRY_TYPE, resourceWrapper.getEntryType().toString());
-        outputSpan(span, SentinelStrategyConstant.RULE_LIMIT_APP, e.getRuleLimitApp());
+        outputSpan(span, SentinelStrategyMonitorConstant.ORIGIN, context.getOrigin());
+        outputSpan(span, SentinelStrategyMonitorConstant.ASYNC, String.valueOf(context.isAsync()));
+        outputSpan(span, SentinelStrategyMonitorConstant.RESOURCE_NAME, resourceWrapper.getName());
+        outputSpan(span, SentinelStrategyMonitorConstant.RESOURCE_SHOW_NAME, resourceWrapper.getShowName());
+        outputSpan(span, SentinelStrategyMonitorConstant.RESOURCE_TYPE, String.valueOf(resourceWrapper.getResourceType()));
+        outputSpan(span, SentinelStrategyMonitorConstant.ENTRY_TYPE, resourceWrapper.getEntryType().toString());
+        outputSpan(span, SentinelStrategyMonitorConstant.RULE_LIMIT_APP, e.getRuleLimitApp());
         if (tracerSentinelRuleOutputEnabled) {
-            outputSpan(span, SentinelStrategyConstant.RULE, e.getRule().toString());
+            outputSpan(span, SentinelStrategyMonitorConstant.RULE, e.getRule().toString());
         }
-        outputSpan(span, SentinelStrategyConstant.CAUSE, e.getClass().getName());
-        outputSpan(span, SentinelStrategyConstant.BLOCK_EXCEPTION, e.getMessage());
-        outputSpan(span, SentinelStrategyConstant.COUNT, String.valueOf(count));
+        outputSpan(span, SentinelStrategyMonitorConstant.CAUSE, e.getClass().getName());
+        outputSpan(span, SentinelStrategyMonitorConstant.BLOCK_EXCEPTION, e.getMessage());
+        outputSpan(span, SentinelStrategyMonitorConstant.COUNT, String.valueOf(count));
         if (tracerSentinelArgsOutputEnabled) {
-            outputSpan(span, SentinelStrategyConstant.ARGS, JSON.toJSONString(args));
+            outputSpan(span, SentinelStrategyMonitorConstant.ARGS, JSON.toJSONString(args));
         }
 
         finishSpan(span);
