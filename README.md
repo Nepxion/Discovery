@@ -179,8 +179,8 @@ Discovery【探索】框架架构，基于Spring Cloud Discovery服务注册发�
 
 ![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：
 - 6.x.x版本（同时适用于Finchley、Greenwich和Hoxton以及未来的更高版本），将继续维护
-- 5.x.x版本（适用于Greenwich）不再维护，并入到6.x.x版本，不建议使用
-- 4.x.x版本（适用于Finchley）不再维护，并入到6.x.x版本，不建议使用
+- 5.x.x版本（适用于Greenwich）已废弃
+- 4.x.x版本（适用于Finchley）已废弃
 - 3.x.x版本（适用于Edgware）为了照顾老的技术栈公司，将继续维护
 - 2.x.x版本（适用于Dalston）已废弃
 - 1.x.x版本（适用于Camden）已废弃
