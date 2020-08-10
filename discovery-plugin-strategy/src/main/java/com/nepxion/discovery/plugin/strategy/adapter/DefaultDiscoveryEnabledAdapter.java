@@ -30,13 +30,13 @@ import com.netflix.loadbalancer.Server;
 
 public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     @Autowired(required = false)
-    private List<DiscoveryEnabledStrategy> discoveryEnabledStrategyList;
+    protected List<DiscoveryEnabledStrategy> discoveryEnabledStrategyList;
 
     @Autowired
-    private DiscoveryMatcherStrategy discoveryMatcherStrategy;
+    protected DiscoveryMatcherStrategy discoveryMatcherStrategy;
 
     @Autowired(required = false)
-    private StrategyVersionFilter strategyVersionFilter;
+    protected StrategyVersionFilter strategyVersionFilter;
 
     @Autowired
     protected PluginAdapter pluginAdapter;
@@ -48,7 +48,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     protected DiscoveryClient discoveryClient;
 
     @Value("${" + DiscoveryConstant.SPRING_APPLICATION_ENVIRONMENT_ROUTE + ":" + DiscoveryConstant.SPRING_APPLICATION_ENVIRONMENT_ROUTE_VALUE + "}")
-    private String environmentRoute;
+    protected String environmentRoute;
 
     @Override
     public boolean apply(Server server) {
