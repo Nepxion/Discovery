@@ -168,10 +168,10 @@ Discovery【探索】框架架构，基于Spring Cloud Discovery服务注册发�
 
 | 框架版本 | 框架分支 | 框架状态 | Spring Cloud版本 | Spring Boot版本 | Spring Cloud Alibaba版本 |
 | --- | --- | --- | --- | --- | --- |
-| 6.0.6 | master | ![](http://nepxion.gitee.io/docs/icon-doc/confirm_24.png) | Hoxton<br>Greenwich<br>Finchley | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
+| 6.0.7 | master | ![](http://nepxion.gitee.io/docs/icon-doc/confirm_24.png) | Hoxton<br>Greenwich<br>Finchley | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
 | ~~5.6.0~~ | ~~5.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
 | ~~4.15.0~~ | ~~4.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
-| 3.16.6 | 3.x.x | ![](http://nepxion.gitee.io/docs/icon-doc/confirm_24.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
+| 3.16.7 | 3.x.x | ![](http://nepxion.gitee.io/docs/icon-doc/confirm_24.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
 | ~~2.0.x~~ | ~~2.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) | Dalston | 1.x.x.RELEASE | 1.5.x.RELEASE |
 | ~~1.0.x~~ | ~~1.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) | Camden | 1.x.x.RELEASE | 1.5.x.RELEASE |
 
@@ -1357,10 +1357,6 @@ spring.application.strategy.service.sentinel.limit.app.enabled=true
 # 启动和关闭调用对端服务，是否执行调用它的时候只取它的老的稳定版本的实例的策略。缺失则默认为false
 spring.application.strategy.version.filter.enabled=true
 
-# 启动和关闭环境隔离，环境隔离指调用端实例和提供端实例的元数据Metadata环境配置值相等才能调用。缺失则默认为false
-spring.application.environment.isolation.enabled=true
-# 启动和关闭环境路由，环境路由指在环境隔离下，调用端实例找不到符合条件的提供端实例，把流量路由到一个通用或者备份环境，例如：元数据Metadata环境配置值为common（该值可配置，但不允许为保留值default）。缺失则默认为false
-spring.application.environment.route.enabled=true
 # 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
 spring.application.environment.route=common
 
@@ -1459,10 +1455,6 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 # 启动和关闭调用对端服务，是否执行调用它的时候只取它的老的稳定版本的实例的策略。缺失则默认为false
 spring.application.strategy.version.filter.enabled=true
 
-# 启动和关闭环境隔离，环境隔离指调用端实例和提供端实例的元数据Metadata环境配置值相等才能调用。缺失则默认为false
-spring.application.environment.isolation.enabled=true
-# 启动和关闭环境路由，环境路由指在环境隔离下，调用端实例找不到符合条件的提供端实例，把流量路由到一个通用或者备份环境，例如：元数据Metadata环境配置值为common（该值可配置，但不允许为保留值default）。缺失则默认为false
-spring.application.environment.route.enabled=true
 # 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
 spring.application.environment.route=common
 
@@ -1561,10 +1553,6 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 # 启动和关闭调用对端服务，是否执行调用它的时候只取它的老的稳定版本的实例的策略。缺失则默认为false
 spring.application.strategy.version.filter.enabled=true
 
-# 启动和关闭环境隔离，环境隔离指调用端实例和提供端实例的元数据Metadata环境配置值相等才能调用。缺失则默认为false
-spring.application.environment.isolation.enabled=true
-# 启动和关闭环境路由，环境路由指在环境隔离下，调用端实例找不到符合条件的提供端实例，把流量路由到一个通用或者备份环境，例如：元数据Metadata环境配置值为common（该值可配置，但不允许为保留值default）。缺失则默认为false
-spring.application.environment.route.enabled=true
 # 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
 spring.application.environment.route=common
 
