@@ -12,7 +12,6 @@ package com.nepxion.discovery.plugin.framework.context;
 import java.io.IOException;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -93,8 +92,8 @@ public abstract class PluginApplicationContextInitializer implements Application
             for (Map.Entry<String, String> entry : propertiesMap.entrySet()) {
                 String key = entry.getKey();
                 String value = entry.getValue();
-                String property = environment.getProperty(key);
-                if (StringUtils.isEmpty(property)) {
+                // 如果已经设置，则尊重已经设置的值
+                if (environment.getProperty(key) == null && System.getProperty(key) == null) {
                     System.setProperty(key, value);
                 }
             }
