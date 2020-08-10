@@ -16,11 +16,8 @@ import org.springframework.cloud.netflix.ribbon.RibbonClientConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.strategy.adapter.DefaultDiscoveryEnabledAdapter;
-import com.nepxion.discovery.plugin.strategy.adapter.DefaultEnvironmentDiscoveryEnabledStrategy;
 import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledAdapter;
-import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledStrategy;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.wrapper.CallableWrapper;
 import com.nepxion.discovery.plugin.strategy.zuul.filter.DefaultZuulStrategyClearFilter;
@@ -59,12 +56,6 @@ public class ZuulStrategyAutoConfiguration {
     @ConditionalOnMissingBean
     public DiscoveryEnabledAdapter discoveryEnabledAdapter() {
         return new DefaultDiscoveryEnabledAdapter();
-    }
-
-    @Bean
-    @ConditionalOnProperty(value = DiscoveryConstant.SPRING_APPLICATION_ENVIRONMENT_ISOLATION_ENABLED, matchIfMissing = false)
-    public DiscoveryEnabledStrategy environmentDiscoveryEnabledStrategy() {
-        return new DefaultEnvironmentDiscoveryEnabledStrategy();
     }
 
     @Bean

@@ -16,6 +16,8 @@ public interface PluginContextHolder {
 
     String getContextRouteRegion();
 
+    String getContextRouteEnvironment();
+
     String getContextRouteAddress();
 
     String getContextRouteVersionWeight();

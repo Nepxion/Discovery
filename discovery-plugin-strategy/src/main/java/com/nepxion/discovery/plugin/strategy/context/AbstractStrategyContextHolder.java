@@ -50,6 +50,11 @@ public abstract class AbstractStrategyContextHolder implements PluginContextHold
     }
 
     @Override
+    public String getContextRouteEnvironment() {
+        return getContext(DiscoveryConstant.N_D_ENVIRONMENT);
+    }
+
+    @Override
     public String getContextRouteAddress() {
         String addressValue = getContext(DiscoveryConstant.N_D_ADDRESS);
         if (StringUtils.isEmpty(addressValue)) {

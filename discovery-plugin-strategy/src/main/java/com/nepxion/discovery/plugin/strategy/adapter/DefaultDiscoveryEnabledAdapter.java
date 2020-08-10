@@ -14,6 +14,9 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.util.CollectionUtils;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
@@ -41,9 +44,20 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     @Autowired
     protected PluginContextHolder pluginContextHolder;
 
+    @Autowired
+    protected DiscoveryClient discoveryClient;
+
+    @Value("${" + DiscoveryConstant.SPRING_APPLICATION_ENVIRONMENT_ROUTE + ":" + DiscoveryConstant.SPRING_APPLICATION_ENVIRONMENT_ROUTE_VALUE + "}")
+    private String environmentRoute;
+
     @Override
     public boolean apply(Server server) {
-        boolean enabled = applyRegion(server);
+        boolean enabled = applyEnvironment(server);
+        if (!enabled) {
+            return false;
+        }
+
+        enabled = applyRegion(server);
         if (!enabled) {
             return false;
         }
@@ -59,6 +73,35 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         }
 
         return applyStrategy(server);
+    }
+
+    public boolean applyEnvironment(Server server) {
+        String environmentValue = pluginContextHolder.getContextRouteEnvironment();
+        if (StringUtils.isEmpty(environmentValue)) {
+            return true;
+        }
+
+        String serviceId = pluginAdapter.getServerServiceId(server);
+        List<ServiceInstance> instances = discoveryClient.getInstances(serviceId);
+
+        boolean matched = false;
+        for (ServiceInstance instance : instances) {
+            String instanceEnvironment = pluginAdapter.getInstanceEnvironment(instance);
+            if (StringUtils.equals(environmentValue, instanceEnvironment)) {
+                matched = true;
+
+                break;
+            }
+        }
+
+        String environment = pluginAdapter.getServerEnvironment(server);
+        if (matched) {
+            // 匹配到传递过来的子环境Header的服务实例，返回匹配的子环境服务实例
+            return StringUtils.equals(environment, environmentValue);
+        } else {
+            // 没有匹配上，则寻址Common子环境，返回Common子环境的服务实力
+            return StringUtils.equals(environment, environmentRoute) || StringUtils.equals(environment, DiscoveryConstant.DEFAULT);
+        }
     }
 
     public boolean applyRegion(Server server) {
