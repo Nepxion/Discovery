@@ -28,22 +28,6 @@
                     <groupId>io.opentracing</groupId>
                     <artifactId>opentracing-api</artifactId>
                 </exclusion>
-                <exclusion>
-                    <groupId>io.opentracing</groupId>
-                    <artifactId>opentracing-noop</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>io.opentracing</groupId>
-            <artifactId>opentracing-noop</artifactId>
-            <version>${skywalking.opentracing.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>io.opentracing</groupId>
-                    <artifactId>opentracing-api</artifactId>
-                </exclusion>
             </exclusions>
         </dependency>
 
