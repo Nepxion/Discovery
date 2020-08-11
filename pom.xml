@@ -76,7 +76,8 @@
         <sentinel.version>1.7.1</sentinel.version>
         <opentracing.version>0.33.0</opentracing.version>
         <opentracing.spring.cloud.version>0.5.5</opentracing.spring.cloud.version>
-        <opentracing.skywalking.version>8.0.1</opentracing.skywalking.version>
+        <skywalking.version>8.0.1</skywalking.version>
+        <skywalking.opentracing.version>0.30.0</skywalking.opentracing.version>
         <javassist.version>3.23.2-GA</javassist.version>
         <spring.cloud.version>Hoxton.SR6</spring.cloud.version>
         <spring.cloud.alibaba.version>2.2.1.RELEASE</spring.cloud.alibaba.version>
@@ -475,13 +476,13 @@
             <dependency>
                 <groupId>org.apache.skywalking</groupId>
                 <artifactId>apm-toolkit-opentracing</artifactId>
-                <version>${opentracing.skywalking.version}</version>
+                <version>${skywalking.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.apache.skywalking</groupId>
                 <artifactId>apm-toolkit-trace</artifactId>
-                <version>${opentracing.skywalking.version}</version>
+                <version>${skywalking.version}</version>
             </dependency>
 
             <dependency>
