@@ -23,13 +23,13 @@
         <dependency>
             <groupId>org.apache.skywalking</groupId>
             <artifactId>apm-toolkit-opentracing</artifactId>
-            <version>${skywalking.version}</version>
+            <version>${opentracing.skywalking.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.skywalking</groupId>
             <artifactId>apm-toolkit-trace</artifactId>
-            <version>${skywalking.version}</version>
+            <version>${opentracing.skywalking.version}</version>
         </dependency>
     </dependencies>
 </project>
