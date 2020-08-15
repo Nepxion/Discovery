@@ -46,5 +46,7 @@ public class ConsoleApplicationContextInitializer implements ApplicationContextI
             boolean servletWebServerEnabled = applicationContext.getClass().getName().endsWith(DiscoveryConstant.ANNOTATION_CONFIG_SERVLET_WEB_SERVER_APPLICATION_CONTEXT);
             System.setProperty(DiscoveryConstant.SPRING_APPLICATION_SERVLET_WEB_SERVER_ENABLED, Boolean.toString(servletWebServerEnabled));
         }
+
+        System.setProperty(DiscoveryConstant.SPRING_APPLICATION_TYPE, DiscoveryConstant.CONSOLE_TYPE);
     }
 }

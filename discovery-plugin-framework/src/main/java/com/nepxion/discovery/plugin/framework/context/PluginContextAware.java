@@ -185,7 +185,7 @@ public class PluginContextAware implements ApplicationContextAware {
     }
 
     public static String getApplicationName(Environment environment) {
-        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_NAME);
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_NAME, String.class, DiscoveryConstant.UNKNOWN);
     }
 
     public static String getApplicationType(Environment environment) {
