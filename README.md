@@ -21,10 +21,10 @@
 Discovery【探索】框架架构，基于Spring Cloud Discovery服务注册发现、Ribbon负载均衡、Feign和RestTemplate调用等组件全方位增强的企业级微服务开源解决方案，更贴近企业级需求，更具有企业级的插件引入、开箱即用特征
 - 支持阿里巴巴Nacos、Eureka、Consul和Zookeeper四个服务注册发现中心
 - 支持阿里巴巴Nacos、携程Apollo和Redis三个远程配置中心
-- 支持阿里巴巴Sentinel和Hystrix两个熔断隔离限流降级中间件
-- 支持Uber Jaeger、Apache Skywalking等符合OpenTracing调用链中间件
+- 支持阿里巴巴Sentinel和Hystrix两个熔断限流降级权限中间件
+- 支持Uber Jaeger、Apache Skywalking两个符合OpenTracing规范的调用链中间件
+- 支持Prometheus Micrometer和Spring Boot Admin监控中间件
 - 支持Java Agent解决异步跨线程ThreadLocal上下文传递
-- 支持Prometheus、Grafana和Spring Boot Admin监控中间件
 - 支持Spring Cloud Gateway、Zuul网关和微服务三大模块的灰度发布和路由等一系列功能
 - 支持和兼容Spring Cloud Edgware版、Finchley版、Greenwich版和Hoxton版
 
