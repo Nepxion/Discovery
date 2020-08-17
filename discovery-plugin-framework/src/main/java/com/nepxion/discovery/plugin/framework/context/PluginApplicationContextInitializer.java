@@ -93,7 +93,7 @@ public abstract class PluginApplicationContextInitializer implements Application
                 String key = entry.getKey();
                 String value = entry.getValue();
                 // 如果已经设置，则尊重已经设置的值
-                if (environment.getProperty(key) == null && System.getProperty(key) == null) {
+                if (environment.getProperty(key) == null && System.getProperty(key) == null && System.getenv(key.toUpperCase()) == null) {
                     System.setProperty(key, value);
                 }
             }
