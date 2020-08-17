@@ -10,11 +10,9 @@ package com.nepxion.discovery.plugin.admincenter.configuration;
  */
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRule;
@@ -29,7 +27,7 @@ import com.nepxion.discovery.plugin.admincenter.endpoint.VersionEndpoint;
 import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
 
 @Configuration
-@Import(SwaggerConfiguration.class)
+@Import({ SwaggerConfiguration.class, CorsRegistryConfiguration.class })
 public class AdminAutoConfiguration {
     protected static class AdminEndpointConfiguration {
         @Bean
@@ -79,15 +77,6 @@ public class AdminAutoConfiguration {
         @Bean
         public SentinelParamEndpoint sentinelParamEndpoint() {
             return new SentinelParamEndpoint();
-        }
-    }
-
-    @ConditionalOnClass(WebMvcConfigurer.class)
-    protected static class WebMvcActivationConfiguration {
-        @Bean
-        @ConditionalOnProperty(value = "cors.registry.enabled", matchIfMissing = false)
-        public CorsRegistryConfiguration corsRegistryConfiguration() {
-            return new CorsRegistryConfiguration();
         }
     }
 }

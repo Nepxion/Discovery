@@ -10,11 +10,11 @@ package com.nepxion.discovery.plugin.framework.configuration;
  */
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cloud.netflix.ribbon.PropertiesFactory;
 import org.springframework.cloud.netflix.ribbon.RibbonClientConfiguration;
-import org.springframework.cloud.netflix.ribbon.RibbonClientName;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -33,7 +33,7 @@ import com.netflix.loadbalancer.ZoneAwareLoadBalancer;
 @Configuration
 @AutoConfigureAfter(RibbonClientConfiguration.class)
 public class PluginLoadBalanceConfiguration {
-    @RibbonClientName
+    @Value("${ribbon.client.name}")
     private String serviceId = "client";
 
     @Autowired

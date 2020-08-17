@@ -11,7 +11,7 @@
     <parent>
         <groupId>com.nepxion</groupId>
         <artifactId>discovery</artifactId>
-        <version>6.0.7</version>
+        <version>3.16.7</version>
     </parent>
 
     <dependencies>
@@ -22,13 +22,12 @@
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <artifactId>spring-cloud-starter-eureka</artifactId>
         </dependency>
 
         <dependency>
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
-            <version>1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

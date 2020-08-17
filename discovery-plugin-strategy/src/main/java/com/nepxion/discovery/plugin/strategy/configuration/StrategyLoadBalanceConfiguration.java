@@ -10,10 +10,10 @@ package com.nepxion.discovery.plugin.strategy.configuration;
  */
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.cloud.netflix.ribbon.PropertiesFactory;
 import org.springframework.cloud.netflix.ribbon.RibbonClientConfiguration;
-import org.springframework.cloud.netflix.ribbon.RibbonClientName;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -34,7 +34,7 @@ public class StrategyLoadBalanceConfiguration {
     @Autowired
     private ConfigurableEnvironment environment;
 
-    @RibbonClientName
+    @Value("${ribbon.client.name}")
     private String serviceId = "client";
 
     @Autowired

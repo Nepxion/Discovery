@@ -11,7 +11,7 @@
     <parent>
         <groupId>com.nepxion</groupId>
         <artifactId>discovery</artifactId>
-        <version>6.0.7</version>
+        <version>3.16.7</version>
     </parent>
 
     <properties>
@@ -36,7 +36,6 @@
         <dependency>
             <groupId>commons-configuration</groupId>
             <artifactId>commons-configuration</artifactId>
-            <version>${commons.configuration.version}</version>
         </dependency>
 
         <dependency>

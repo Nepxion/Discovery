@@ -9,14 +9,13 @@ package com.nepxion.discovery.plugin.framework.configuration;
  * @version 1.0
  */
 
-import org.apache.curator.x.discovery.ServiceDiscovery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.cloud.zookeeper.discovery.ZookeeperInstance;
 import org.springframework.cloud.zookeeper.discovery.ZookeeperRibbonClientConfiguration;
 import org.springframework.cloud.zookeeper.discovery.dependency.ConditionalOnDependenciesNotPassed;
 import org.springframework.cloud.zookeeper.discovery.dependency.ConditionalOnDependenciesPassed;
 import org.springframework.cloud.zookeeper.discovery.dependency.ZookeeperDependencies;
+import org.springframework.cloud.zookeeper.serviceregistry.ZookeeperServiceRegistry;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -30,6 +29,9 @@ import com.netflix.loadbalancer.ServerList;
 @AutoConfigureAfter(ZookeeperRibbonClientConfiguration.class)
 public class ZookeeperLoadBalanceConfiguration {
     @Autowired
+    private ZookeeperServiceRegistry registry;
+
+    @Autowired
     private ConfigurableEnvironment environment;
 
     @Autowired
@@ -37,8 +39,9 @@ public class ZookeeperLoadBalanceConfiguration {
 
     @Bean
     @ConditionalOnDependenciesPassed
-    public ServerList<?> ribbonServerListFromDependencies(IClientConfig config, ZookeeperDependencies zookeeperDependencies, ServiceDiscovery<ZookeeperInstance> serviceDiscovery) {
-        ZookeeperServerListDecorator serverList = new ZookeeperServerListDecorator(serviceDiscovery);
+    public ServerList<?> ribbonServerListFromDependencies(IClientConfig config, ZookeeperDependencies zookeeperDependencies) {
+        @SuppressWarnings("deprecation")
+        ZookeeperServerListDecorator serverList = new ZookeeperServerListDecorator(this.registry.getServiceDiscoveryRef().get());
         serverList.initFromDependencies(config, zookeeperDependencies);
         serverList.setEnvironment(environment);
         serverList.setLoadBalanceListenerExecutor(loadBalanceListenerExecutor);
@@ -49,8 +52,9 @@ public class ZookeeperLoadBalanceConfiguration {
 
     @Bean
     @ConditionalOnDependenciesNotPassed
-    public ServerList<?> ribbonServerList(IClientConfig config, ServiceDiscovery<ZookeeperInstance> serviceDiscovery) {
-        ZookeeperServerListDecorator serverList = new ZookeeperServerListDecorator(serviceDiscovery);
+    public ServerList<?> ribbonServerList(IClientConfig config) {
+        @SuppressWarnings("deprecation")
+        ZookeeperServerListDecorator serverList = new ZookeeperServerListDecorator(this.registry.getServiceDiscoveryRef().get());
         serverList.initWithNiwsConfig(config);
         serverList.setEnvironment(environment);
         serverList.setLoadBalanceListenerExecutor(loadBalanceListenerExecutor);

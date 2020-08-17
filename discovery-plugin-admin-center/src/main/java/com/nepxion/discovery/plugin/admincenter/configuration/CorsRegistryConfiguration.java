@@ -9,16 +9,14 @@ package com.nepxion.discovery.plugin.admincenter.configuration;
  * @version 1.0
  */
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
-@ConditionalOnClass(WebMvcConfigurer.class)
 @ConditionalOnProperty(value = "cors.registry.enabled", matchIfMissing = false)
-public class CorsRegistryConfiguration implements WebMvcConfigurer {
+public class CorsRegistryConfiguration extends WebMvcConfigurerAdapter {
     // 解决跨域问题
     @Override
     public void addCorsMappings(CorsRegistry registry) {

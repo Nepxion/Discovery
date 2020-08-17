@@ -75,6 +75,12 @@ public class DiscoveryClientDecorator implements DiscoveryClient {
         return discoveryClient.getServices();
     }
 
+    @Deprecated
+    @Override
+    public ServiceInstance getLocalServiceInstance() {
+        return discoveryClient.getLocalServiceInstance();
+    }
+
     @Override
     public String description() {
         return discoveryClient.description();
