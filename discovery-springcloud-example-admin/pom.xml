@@ -3,7 +3,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-springcloud-example-admin</artifactId>
-    <name>Nepxion Discovery Spring Cloud Example Admin</name>
+    <name>Nepxion Discovery Spring Cloud Example Admin</name> 
     <packaging>jar</packaging>
     <modelVersion>4.0.0</modelVersion>
     <version>1.0.0</version>
