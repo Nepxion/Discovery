@@ -1,4 +1,4 @@
-[^_^]:![](http://nepxion.gitee.io/docs/discovery-doc/Cover.jpg)
+[^_^]: ![](http://nepxion.gitee.io/docs/discovery-doc/Cover.jpg)
 
 <img src="http://nepxion.gitee.io/docs/discovery-doc/Banner.png">
 
