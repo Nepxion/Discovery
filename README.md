@@ -420,53 +420,53 @@ Spring Boot Admin监控平台
 
 | 工程名 | 描述 |
 | --- | --- |
-| discovery-common | 通用模块 |
-| discovery-common-apollo | 封装Apollo通用操作逻辑 |
-| discovery-common-nacos | 封装Nacos通用操作逻辑 |
-| discovery-common-redis | 封装Redis通用操作逻辑 |
-| discovery-plugin-framework | 核心框架 |
-| discovery-plugin-framework-eureka | 核心框架服务注册发现的Eureka实现 |
-| discovery-plugin-framework-consul | 核心框架服务注册发现的Consul实现 |
-| discovery-plugin-framework-zookeeper | 核心框架服务注册发现的Zookeeper实现 |
-| discovery-plugin-framework-nacos | 核心框架服务注册发现的Nacos实现 |
-| discovery-plugin-config-center | 配置中心 |
-| discovery-plugin-config-center-starter-apollo | 配置中心的Apollo Starter |
-| discovery-plugin-config-center-starter-nacos | 配置中心的Nacos Starter |
-| discovery-plugin-config-center-starter-redis | 配置中心的Redis Starter |
-| discovery-plugin-admin-center | 管理中心 |
-| discovery-plugin-starter-eureka | 核心框架的Eureka Starter |
-| discovery-plugin-starter-consul | 核心框架的Consul Starter |
-| discovery-plugin-starter-zookeeper | 核心框架的Zookeeper Starter |
-| discovery-plugin-starter-nacos | 核心框架的Nacos Starter |
-| discovery-plugin-strategy | 路由策略 |
-| discovery-plugin-strategy-sentinel | 路由策略的Sentinel |
-| discovery-plugin-strategy-sentinel-monitor | 路由策略的Sentinel监控 |
-| discovery-plugin-strategy-sentinel-starter-local | 路由策略的Sentinel Local Starter |
-| discovery-plugin-strategy-sentinel-starter-apollo | 路由策略的Sentinel Apollo Starter |
-| discovery-plugin-strategy-sentinel-starter-nacos | 路由策略的Sentinel Nacos Starter |
-| discovery-plugin-strategy-sentinel-starter-opentracing | 路由策略的Sentinel OpenTracing Starter |
-| discovery-plugin-strategy-sentinel-starter-skywalking | 路由策略的Sentinel Skywalking Starter |
-| discovery-plugin-strategy-starter-service | 路由策略的Service Starter |
-| discovery-plugin-strategy-starter-service-sentinel | 路由策略的Service Sentinel Starter |
-| discovery-plugin-strategy-starter-zuul | 路由策略的Zuul Starter |
-| discovery-plugin-strategy-starter-gateway | 路由策略的Spring Cloud Gateway Starter |
-| discovery-plugin-strategy-starter-hystrix | 路由策略下，Hystrix做线程模式的服务隔离必须引入的插件 Starter |
-| discovery-plugin-strategy-starter-opentracing | 路由策略的OpenTracing Starter |
-| discovery-plugin-strategy-starter-skywalking | 路由策略的Skywalking Starter |
-| discovery-plugin-strategy-starter-agent | 路由策略的异步跨线程Agent Starter |
-| discovery-plugin-strategy-starter-agent-plugin | 路由策略的异步跨线程Agent Plugin Starter |
-| discovery-plugin-test-starter | 自动化测试 Starter |
-| discovery-console | 控制平台，集成接口给UI |
-| discovery-console-starter-apollo | 控制平台的Apollo Starter |
-| discovery-console-starter-nacos | 控制平台的Nacos Starter |
-| discovery-console-starter-redis | 控制平台的Redis Starter |
-| discovery-console-desktop | 图形化灰度发布等桌面程序 |
-| discovery-springcloud-example-admin | Spring Boot Admin服务台示例 |
-| discovery-springcloud-example-console | 控制平台示例 |
-| discovery-springcloud-example-eureka | Eureka服务器示例 |
-| discovery-springcloud-example-service | 用于灰度发布的微服务示例 |
-| discovery-springcloud-example-zuul | 用于灰度发布的Zuul示例 |
-| discovery-springcloud-example-gateway | 用于灰度发布的Spring Cloud Gateway示例 |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-common | 通用模块 |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-common-apollo | 封装Apollo通用操作逻辑 |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-common-nacos | 封装Nacos通用操作逻辑 |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-common-redis | 封装Redis通用操作逻辑 |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-framework | 核心框架 |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-framework-eureka | 核心框架服务注册发现的Eureka实现 |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-framework-consul | 核心框架服务注册发现的Consul实现 |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-framework-zookeeper | 核心框架服务注册发现的Zookeeper实现 |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-framework-nacos | 核心框架服务注册发现的Nacos实现 |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-config-center | 配置中心 |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-config-center-starter-apollo | 配置中心的Apollo Starter |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-config-center-starter-nacos | 配置中心的Nacos Starter |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-config-center-starter-redis | 配置中心的Redis Starter |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-admin-center | 管理中心 |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-starter-eureka | 核心框架的Eureka Starter |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-starter-consul | 核心框架的Consul Starter |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-starter-zookeeper | 核心框架的Zookeeper Starter |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-starter-nacos | 核心框架的Nacos Starter |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy | 路由策略 |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-sentinel | 路由策略的Sentinel |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-sentinel-monitor | 路由策略的Sentinel监控 |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-sentinel-starter-local | 路由策略的Sentinel Local Starter |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-sentinel-starter-apollo | 路由策略的Sentinel Apollo Starter |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-sentinel-starter-nacos | 路由策略的Sentinel Nacos Starter |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-sentinel-starter-opentracing | 路由策略的Sentinel OpenTracing Starter |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-sentinel-starter-skywalking | 路由策略的Sentinel Skywalking Starter |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-service | 路由策略的Service Starter |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-service-sentinel | 路由策略的Service Sentinel Starter |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-zuul | 路由策略的Zuul Starter |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-gateway | 路由策略的Spring Cloud Gateway Starter |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-hystrix | 路由策略下，Hystrix做线程模式的服务隔离必须引入的插件 Starter |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-opentracing | 路由策略的OpenTracing Starter |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-skywalking | 路由策略的Skywalking Starter |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-agent | 路由策略的异步跨线程Agent Starter |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-agent-plugin | 路由策略的异步跨线程Agent Plugin Starter |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-test-starter | 自动化测试 Starter |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-console | 控制平台，集成接口给UI |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-console-starter-apollo | 控制平台的Apollo Starter |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-console-starter-nacos | 控制平台的Nacos Starter |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-console-starter-redis | 控制平台的Redis Starter |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-console-desktop | 图形化灰度发布等桌面程序 |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-springcloud-example-admin | Spring Boot Admin服务台示例 |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-springcloud-example-console | 控制平台示例 |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-springcloud-example-eureka | Eureka服务器示例 |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-springcloud-example-service | 用于灰度发布的微服务示例 |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-springcloud-example-zuul | 用于灰度发布的Zuul示例 |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-springcloud-example-gateway | 用于灰度发布的Spring Cloud Gateway示例 |
 
 ## 依赖兼容
 ### 依赖
