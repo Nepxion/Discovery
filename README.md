@@ -23,7 +23,7 @@ Discovery【探索】框架架构，基于Spring Cloud Discovery服务注册发�
 - 支持阿里巴巴Nacos、携程Apollo和Redis三个远程配置中心
 - 支持阿里巴巴Sentinel和Hystrix两个熔断限流降级权限中间件
 - 支持Uber Jaeger、Apache Skywalking两个符合OpenTracing规范的调用链中间件
-- 支持Prometheus Micrometer和Spring Boot Admin监控中间件
+- 支持Prometheus Micrometer和Spring Boot Admin两个指标中间件
 - 支持Java Agent解决异步跨线程ThreadLocal上下文传递
 - 支持Spring Cloud Gateway、Zuul网关和微服务三大模块的灰度发布和路由等一系列功能
 - 支持和兼容Spring Cloud Edgware版、Finchley版、Greenwich版和Hoxton版
