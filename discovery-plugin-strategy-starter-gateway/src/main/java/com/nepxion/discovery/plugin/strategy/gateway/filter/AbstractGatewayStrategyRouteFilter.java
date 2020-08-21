@@ -25,6 +25,7 @@ import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.StrategyCustomizationEntity;
 import com.nepxion.discovery.common.entity.StrategyHeaderEntity;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
+import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.gateway.constant.GatewayStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.gateway.context.GatewayStrategyContext;
@@ -39,6 +40,16 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
 
     @Autowired(required = false)
     private GatewayStrategyMonitor gatewayStrategyMonitor;
+
+    // 核心策略Header是否传递。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
+    // 1. n-d-version
+    // 2. n-d-region
+    // 3. n-d-address
+    // 4. n-d-version-weight
+    // 5. n-d-region-weight
+    // 6. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_CORE_HEADER_TRANSMISSION_ENABLED + ":true}")
+    protected Boolean coreHeaderTransmissionEnabled;
 
     // 如果外界也传了相同的Header，例如，从Postman传递过来的Header，当下面的变量为true，以网关设置为优先，否则以外界传值为优先
     @Value("${" + GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_HEADER_PRIORITY + ":true}")
@@ -81,36 +92,38 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
             }
         }
 
-        String routeVersion = getRouteVersion();
-        String routeRegion = getRouteRegion();
-        String routeAddress = getRouteAddress();
-        String routeVersionWeight = getRouteVersionWeight();
-        String routeRegionWeight = getRouteRegionWeight();
+        if (coreHeaderTransmissionEnabled) {
+            String routeVersion = getRouteVersion();
+            String routeRegion = getRouteRegion();
+            String routeAddress = getRouteAddress();
+            String routeVersionWeight = getRouteVersionWeight();
+            String routeRegionWeight = getRouteRegionWeight();
 
-        if (StringUtils.isNotEmpty(routeVersion)) {
-            GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_VERSION, routeVersion, gatewayHeaderPriority);
-        } else {
-            GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_VERSION, gatewayHeaderPriority, gatewayOriginalHeaderIgnored);
-        }
-        if (StringUtils.isNotEmpty(routeRegion)) {
-            GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_REGION, routeRegion, gatewayHeaderPriority);
-        } else {
-            GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_REGION, gatewayHeaderPriority, gatewayOriginalHeaderIgnored);
-        }
-        if (StringUtils.isNotEmpty(routeAddress)) {
-            GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_ADDRESS, routeAddress, gatewayHeaderPriority);
-        } else {
-            GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_ADDRESS, gatewayHeaderPriority, gatewayOriginalHeaderIgnored);
-        }
-        if (StringUtils.isNotEmpty(routeVersionWeight)) {
-            GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_VERSION_WEIGHT, routeVersionWeight, gatewayHeaderPriority);
-        } else {
-            GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_VERSION_WEIGHT, gatewayHeaderPriority, gatewayOriginalHeaderIgnored);
-        }
-        if (StringUtils.isNotEmpty(routeRegionWeight)) {
-            GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_REGION_WEIGHT, routeRegionWeight, gatewayHeaderPriority);
-        } else {
-            GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_REGION_WEIGHT, gatewayHeaderPriority, gatewayOriginalHeaderIgnored);
+            if (StringUtils.isNotEmpty(routeVersion)) {
+                GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_VERSION, routeVersion, gatewayHeaderPriority);
+            } else {
+                GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_VERSION, gatewayHeaderPriority, gatewayOriginalHeaderIgnored);
+            }
+            if (StringUtils.isNotEmpty(routeRegion)) {
+                GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_REGION, routeRegion, gatewayHeaderPriority);
+            } else {
+                GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_REGION, gatewayHeaderPriority, gatewayOriginalHeaderIgnored);
+            }
+            if (StringUtils.isNotEmpty(routeAddress)) {
+                GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_ADDRESS, routeAddress, gatewayHeaderPriority);
+            } else {
+                GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_ADDRESS, gatewayHeaderPriority, gatewayOriginalHeaderIgnored);
+            }
+            if (StringUtils.isNotEmpty(routeVersionWeight)) {
+                GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_VERSION_WEIGHT, routeVersionWeight, gatewayHeaderPriority);
+            } else {
+                GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_VERSION_WEIGHT, gatewayHeaderPriority, gatewayOriginalHeaderIgnored);
+            }
+            if (StringUtils.isNotEmpty(routeRegionWeight)) {
+                GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_REGION_WEIGHT, routeRegionWeight, gatewayHeaderPriority);
+            } else {
+                GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_REGION_WEIGHT, gatewayHeaderPriority, gatewayOriginalHeaderIgnored);
+            }
         }
 
         // 对于服务A -> 网关 -> 服务B调用链

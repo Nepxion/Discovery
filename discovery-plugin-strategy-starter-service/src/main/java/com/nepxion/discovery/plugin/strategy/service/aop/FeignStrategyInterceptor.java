@@ -23,9 +23,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.filter.ServiceStrategyRouteFilter;
 
 public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implements RequestInterceptor {
@@ -33,6 +35,16 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
 
     @Autowired
     private ServiceStrategyRouteFilter serviceStrategyRouteFilter;
+
+    // 核心策略Header是否传递。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
+    // 1. n-d-version
+    // 2. n-d-region
+    // 3. n-d-address
+    // 4. n-d-version-weight
+    // 5. n-d-region-weight
+    // 6. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_CORE_HEADER_TRANSMISSION_ENABLED + ":true}")
+    protected Boolean coreHeaderTransmissionEnabled;
 
     public FeignStrategyInterceptor(String contextRequestHeaders, String businessRequestHeaders) {
         super(contextRequestHeaders, businessRequestHeaders);
@@ -87,35 +99,37 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
             }
         }
 
-        Map<String, Collection<String>> headers = requestTemplate.headers();
-        if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_VERSION))) {
-            String routeVersion = serviceStrategyRouteFilter.getRouteVersion();
-            if (StringUtils.isNotEmpty(routeVersion)) {
-                requestTemplate.header(DiscoveryConstant.N_D_VERSION, routeVersion);
+        if (coreHeaderTransmissionEnabled) {
+            Map<String, Collection<String>> headers = requestTemplate.headers();
+            if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_VERSION))) {
+                String routeVersion = serviceStrategyRouteFilter.getRouteVersion();
+                if (StringUtils.isNotEmpty(routeVersion)) {
+                    requestTemplate.header(DiscoveryConstant.N_D_VERSION, routeVersion);
+                }
             }
-        }
-        if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_REGION))) {
-            String routeRegion = serviceStrategyRouteFilter.getRouteRegion();
-            if (StringUtils.isNotEmpty(routeRegion)) {
-                requestTemplate.header(DiscoveryConstant.N_D_REGION, routeRegion);
+            if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_REGION))) {
+                String routeRegion = serviceStrategyRouteFilter.getRouteRegion();
+                if (StringUtils.isNotEmpty(routeRegion)) {
+                    requestTemplate.header(DiscoveryConstant.N_D_REGION, routeRegion);
+                }
             }
-        }
-        if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_ADDRESS))) {
-            String routeAddress = serviceStrategyRouteFilter.getRouteAddress();
-            if (StringUtils.isNotEmpty(routeAddress)) {
-                requestTemplate.header(DiscoveryConstant.N_D_ADDRESS, routeAddress);
+            if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_ADDRESS))) {
+                String routeAddress = serviceStrategyRouteFilter.getRouteAddress();
+                if (StringUtils.isNotEmpty(routeAddress)) {
+                    requestTemplate.header(DiscoveryConstant.N_D_ADDRESS, routeAddress);
+                }
             }
-        }
-        if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_VERSION_WEIGHT))) {
-            String routeVersionWeight = serviceStrategyRouteFilter.getRouteVersionWeight();
-            if (StringUtils.isNotEmpty(routeVersionWeight)) {
-                requestTemplate.header(DiscoveryConstant.N_D_VERSION_WEIGHT, routeVersionWeight);
+            if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_VERSION_WEIGHT))) {
+                String routeVersionWeight = serviceStrategyRouteFilter.getRouteVersionWeight();
+                if (StringUtils.isNotEmpty(routeVersionWeight)) {
+                    requestTemplate.header(DiscoveryConstant.N_D_VERSION_WEIGHT, routeVersionWeight);
+                }
             }
-        }
-        if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_REGION_WEIGHT))) {
-            String routeRegionWeight = serviceStrategyRouteFilter.getRouteRegionWeight();
-            if (StringUtils.isNotEmpty(routeRegionWeight)) {
-                requestTemplate.header(DiscoveryConstant.N_D_REGION_WEIGHT, routeRegionWeight);
+            if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_REGION_WEIGHT))) {
+                String routeRegionWeight = serviceStrategyRouteFilter.getRouteRegionWeight();
+                if (StringUtils.isNotEmpty(routeRegionWeight)) {
+                    requestTemplate.header(DiscoveryConstant.N_D_REGION_WEIGHT, routeRegionWeight);
+                }
             }
         }
     }
