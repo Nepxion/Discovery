@@ -20,6 +20,7 @@ public class StrategyConstant {
     public static final String SPRING_APPLICATION_STRATEGY_PROVIDER_ISOLATION_ENABLED = "spring.application.strategy.provider.isolation.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_VERSION_FILTER_ENABLED = "spring.application.strategy.version.filter.enabled";
 
+    public static final String SPRING_APPLICATION_STRATEGY_CORE_HEADER_TRANSMISSION_ENABLED = "spring.application.strategy.core.header.transmission.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_MONITOR_ENABLED = "spring.application.strategy.monitor.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_LOGGER_ENABLED = "spring.application.strategy.logger.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_LOGGER_MDC_KEY_SHOWN = "spring.application.strategy.logger.mdc.key.shown";

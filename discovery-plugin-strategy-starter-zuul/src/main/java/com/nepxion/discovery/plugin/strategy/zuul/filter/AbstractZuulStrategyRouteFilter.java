@@ -21,6 +21,7 @@ import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.StrategyCustomizationEntity;
 import com.nepxion.discovery.common.entity.StrategyHeaderEntity;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
+import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.zuul.constant.ZuulStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.zuul.monitor.ZuulStrategyMonitor;
@@ -36,6 +37,16 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter impleme
 
     @Autowired(required = false)
     private ZuulStrategyMonitor zuulStrategyMonitor;
+
+    // 核心策略Header是否传递。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
+    // 1. n-d-version
+    // 2. n-d-region
+    // 3. n-d-address
+    // 4. n-d-version-weight
+    // 5. n-d-region-weight
+    // 6. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_CORE_HEADER_TRANSMISSION_ENABLED + ":true}")
+    protected Boolean coreHeaderTransmissionEnabled;
 
     // 如果外界也传了相同的Header，例如，从Postman传递过来的Header，当下面的变量为true，以网关设置为优先，否则以外界传值为优先
     @Value("${" + ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_HEADER_PRIORITY + ":true}")
@@ -82,37 +93,39 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter impleme
             }
         }
 
-        String routeVersion = getRouteVersion();
-        String routeRegion = getRouteRegion();
-        String routeAddress = getRouteAddress();
-        String routeVersionWeight = getRouteVersionWeight();
-        String routeRegionWeight = getRouteRegionWeight();
+        if (coreHeaderTransmissionEnabled) {
+            String routeVersion = getRouteVersion();
+            String routeRegion = getRouteRegion();
+            String routeAddress = getRouteAddress();
+            String routeVersionWeight = getRouteVersionWeight();
+            String routeRegionWeight = getRouteRegionWeight();
 
-        // 通过过滤器设置路由Header头部信息，并全链路传递到服务端
-        if (StringUtils.isNotEmpty(routeVersion)) {
-            ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_VERSION, routeVersion, zuulHeaderPriority);
-        } else {
-            ZuulStrategyFilterResolver.ignoreHeader(DiscoveryConstant.N_D_VERSION, zuulHeaderPriority, zuulOriginalHeaderIgnored);
-        }
-        if (StringUtils.isNotEmpty(routeRegion)) {
-            ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_REGION, routeRegion, zuulHeaderPriority);
-        } else {
-            ZuulStrategyFilterResolver.ignoreHeader(DiscoveryConstant.N_D_REGION, zuulHeaderPriority, zuulOriginalHeaderIgnored);
-        }
-        if (StringUtils.isNotEmpty(routeAddress)) {
-            ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_ADDRESS, routeAddress, zuulHeaderPriority);
-        } else {
-            ZuulStrategyFilterResolver.ignoreHeader(DiscoveryConstant.N_D_ADDRESS, zuulHeaderPriority, zuulOriginalHeaderIgnored);
-        }
-        if (StringUtils.isNotEmpty(routeVersionWeight)) {
-            ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_VERSION_WEIGHT, routeVersionWeight, zuulHeaderPriority);
-        } else {
-            ZuulStrategyFilterResolver.ignoreHeader(DiscoveryConstant.N_D_VERSION_WEIGHT, zuulHeaderPriority, zuulOriginalHeaderIgnored);
-        }
-        if (StringUtils.isNotEmpty(routeRegionWeight)) {
-            ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_REGION_WEIGHT, routeRegionWeight, zuulHeaderPriority);
-        } else {
-            ZuulStrategyFilterResolver.ignoreHeader(DiscoveryConstant.N_D_REGION_WEIGHT, zuulHeaderPriority, zuulOriginalHeaderIgnored);
+            // 通过过滤器设置路由Header头部信息，并全链路传递到服务端
+            if (StringUtils.isNotEmpty(routeVersion)) {
+                ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_VERSION, routeVersion, zuulHeaderPriority);
+            } else {
+                ZuulStrategyFilterResolver.ignoreHeader(DiscoveryConstant.N_D_VERSION, zuulHeaderPriority, zuulOriginalHeaderIgnored);
+            }
+            if (StringUtils.isNotEmpty(routeRegion)) {
+                ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_REGION, routeRegion, zuulHeaderPriority);
+            } else {
+                ZuulStrategyFilterResolver.ignoreHeader(DiscoveryConstant.N_D_REGION, zuulHeaderPriority, zuulOriginalHeaderIgnored);
+            }
+            if (StringUtils.isNotEmpty(routeAddress)) {
+                ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_ADDRESS, routeAddress, zuulHeaderPriority);
+            } else {
+                ZuulStrategyFilterResolver.ignoreHeader(DiscoveryConstant.N_D_ADDRESS, zuulHeaderPriority, zuulOriginalHeaderIgnored);
+            }
+            if (StringUtils.isNotEmpty(routeVersionWeight)) {
+                ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_VERSION_WEIGHT, routeVersionWeight, zuulHeaderPriority);
+            } else {
+                ZuulStrategyFilterResolver.ignoreHeader(DiscoveryConstant.N_D_VERSION_WEIGHT, zuulHeaderPriority, zuulOriginalHeaderIgnored);
+            }
+            if (StringUtils.isNotEmpty(routeRegionWeight)) {
+                ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_REGION_WEIGHT, routeRegionWeight, zuulHeaderPriority);
+            } else {
+                ZuulStrategyFilterResolver.ignoreHeader(DiscoveryConstant.N_D_REGION_WEIGHT, zuulHeaderPriority, zuulOriginalHeaderIgnored);
+            }
         }
 
         // 对于服务A -> 网关 -> 服务B调用链
