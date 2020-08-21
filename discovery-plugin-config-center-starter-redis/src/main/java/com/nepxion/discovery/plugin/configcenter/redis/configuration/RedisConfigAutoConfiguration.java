@@ -74,22 +74,19 @@ public class RedisConfigAutoConfiguration {
 
     @Bean
     public MessageListenerAdapter partialMessageListenerAdapter(RedisConfigAdapter configAdapter) {
-        String groupKey = pluginAdapter.getGroupKey();
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
 
-        LOG.info("Subscribe {} config from {} server, {}={}, serviceId={}", configAdapter.getConfigScope(false), configAdapter.getConfigType(), groupKey, group, serviceId);
+        LOG.info("Subscribe {} config from {} server, group={}, dataId={}", configAdapter.getConfigScope(false), configAdapter.getConfigType(), group, serviceId);
 
         return new MessageListenerAdapter(configAdapter, "subscribePartialConfig");
     }
 
     @Bean
     public MessageListenerAdapter globalMessageListenerAdapter(RedisConfigAdapter configAdapter) {
-        String groupKey = pluginAdapter.getGroupKey();
         String group = pluginAdapter.getGroup();
-        String serviceId = pluginAdapter.getServiceId();
 
-        LOG.info("Subscribe {} config from {} server, {}={}, serviceId={}", configAdapter.getConfigScope(true), configAdapter.getConfigType(), groupKey, group, serviceId);
+        LOG.info("Subscribe {} config from {} server, group={}, dataId={}", configAdapter.getConfigScope(true), configAdapter.getConfigType(), group, group);
 
         return new MessageListenerAdapter(configAdapter, "subscribeGlobalConfig");
     }
