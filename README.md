@@ -2668,11 +2668,10 @@ spring.application.strategy.business.request.headers=user;mobile
 
 ## 全链路侦测
 通过内置基于LoadBalanced RestTemplate方式的/inspector/inspect接口方法，实现全链路侦测，可以查看全链路中调用的各个服务的版本、区域、子环境、IP地址等是否符合预期，是否满足灰度条件，该接口可以集成到使用者的界面中，就可以规避通过Postman工具或者调用链系统去判断，有利于节省人工成本。使用方式
-```
-1. 执行Post请求
-2. 请求的路径：http://[网关URL]/[服务名1]/inspector/inspect
-3. 请求的内容：{"serviceIdList":["服务名2", "服务名3", ....]}。服务名不分前后次序
-```
+
+- 执行Post请求
+- 请求的路径：http://[网关URL]/[服务名1]/inspector/inspect
+- 请求的内容：{"serviceIdList":["服务名2", "服务名3", ....]}。服务名不分前后次序
 
 ## 全链路服务侧注解
 服务侧对于RPC方式的调用拦截、消费端的服务隔离和调用链三项功能，默认映射到RestController类（含有@RestController注解），并配合如下的扫描路径才能工作
@@ -3275,10 +3274,12 @@ spring.application.git.generator.path=classpath:git.properties
 ### Docker容器化
 ![](http://nepxion.gitee.io/docs/icon-doc/information.png) Spring 2.3.x支持Docker分层部署，步骤也更简单，请参考Polaris【北极星】企业级云原生微服务框架里的介绍
 
-- 搭建Windows10操作系统或者Linux操作系统下的Docker环境
-    - Windows10环境下，具体步骤参考[Docker安装步骤](https://github.com/Nepxion/Thunder/blob/master/thunder-spring-boot-docker-example/README.md)
-    - Linux环境请自行研究
-- 需要在4个工程下的pom.xml里增加spring-boot-maven-plugin和docker-maven-plugin
+① 搭建Windows10操作系统或者Linux操作系统下的Docker环境
+
+- Windows10环境下，具体步骤参考[Docker安装步骤](https://github.com/Nepxion/Thunder/blob/master/thunder-spring-boot-docker-example/README.md)
+- Linux环境请自行研究
+
+② 需要在4个工程下的pom.xml里增加spring-boot-maven-plugin和docker-maven-plugin
 ```xml
 <plugin>
     <groupId>org.springframework.boot</groupId>
@@ -3319,15 +3320,19 @@ spring.application.git.generator.path=classpath:git.properties
     </configuration>
 </plugin>
 ```
-- 拷贝discovery-guide-docker目录下的所有脚本文件到根目录下
-- 所有脚本文件下的MIDDLEWARE_HOST=10.0.75.1改成使用者本地物理IP地址（Docker是不能去连接容器外地址为localhost的中间件服务器）
-- 全自动部署和运行Docker化的服务。在根目录下
-    - 一键运行install-docker-gateway.bat或者.sh，把Spring Cloud Gateway网关全自动部署且运行起来
-    - 一键运行install-docker-zuul.bat或者.sh，把Zuul网关全自动部署且运行起来
-    - 一键运行install-docker-service-xx.bat或者.sh，把微服务全自动部署且运行起来。注意，必须依次运行，即等上一个部署完毕后才能执行下一个
-    - 一键运行install-docker-console.bat或者.sh，把控制平台全自动部署且运行起来
-    - 一键运行install-docker-admin.bat或者.sh，把监控平台全自动部署且运行起来	
-- 上述步骤为演示步骤，和DevOps平台结合在一起，更为完美
+③ 拷贝discovery-guide-docker目录下的所有脚本文件到根目录下
+
+④ 所有脚本文件下的MIDDLEWARE_HOST=10.0.75.1改成使用者本地物理IP地址（Docker是不能去连接容器外地址为localhost的中间件服务器）
+
+⑤ 全自动部署和运行Docker化的服务。在根目录下
+
+- 一键运行install-docker-gateway.bat或者.sh，把Spring Cloud Gateway网关全自动部署且运行起来
+- 一键运行install-docker-zuul.bat或者.sh，把Zuul网关全自动部署且运行起来
+- 一键运行install-docker-service-xx.bat或者.sh，把微服务全自动部署且运行起来。注意，必须依次运行，即等上一个部署完毕后才能执行下一个
+- 一键运行install-docker-console.bat或者.sh，把控制平台全自动部署且运行起来
+- 一键运行install-docker-admin.bat或者.sh，把监控平台全自动部署且运行起来	
+
+⑥ 上述步骤为演示步骤，和DevOps平台结合在一起，更为完美
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Docker.jpg)
 
@@ -3412,6 +3417,7 @@ gray.weight.testcase.result.offset=5
 ![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：对于带有注解@DTestConfig的测试用例，要用到Spring的Spel语法格式（即group = "#group", serviceId = "#serviceId"），需要引入Java8的带"-parameters"编译方式，见上面的<compilerArgs>参数设置
 
 在IDE环境里需要设置"-parameters"的Compiler Argument
+
 - Eclipse加"-parameters"参数：https://www.concretepage.com/java/jdk-8/java-8-reflection-access-to-parameter-names-of-method-and-constructor-with-maven-gradle-and-eclipse-using-parameters-compiler-argument
 - Idea加"-parameters"参数：http://blog.csdn.net/royal_lr/article/details/52279993
 
@@ -3572,6 +3578,7 @@ public class DiscoveryGuideTestCases {
 
 #### 扩展调用测试
 除了支持灰度自动化测试外，使用者可扩展出以远程配置中心内容做变更的自动化测试。以阿里巴巴的Sentinel为例子，测试实现方式如下
+
 - 远程配置中心约定，Apollo上Key的格式为{group}-{serviceId}-sentinel，Nacos上Group为代码中的{group}，Data ID为{serviceId}-{suffix}，即{serviceId}-sentinel
 - 执行测试用例前，把执行限流降级熔断等逻辑的内容（executePath = "sentinel-test.xml"）推送到远程配置中心
 - 执行测试用例，通过断言Assert来判断测试结果
@@ -3694,9 +3701,9 @@ A service 1.1 version weight=60.1667%
 压力测试，基于wrk的异步压力测试框架，能用很少的线程压测出很大的并发量，使用简单方便
 
 ### 测试环境
-- 准备两台机器部署Spring Cloud应用
-- 准备一台机器部署网关（Spring Cloud或者Zuul）
-- 准备一台机器部署压测工具
+① 准备两台机器部署Spring Cloud应用
+② 准备一台机器部署网关（Spring Cloud或者Zuul）
+③ 准备一台机器部署压测工具
 
 | 服务 | 配置 | 数目 |
 | --- | --- | --- |
@@ -3704,9 +3711,11 @@ A service 1.1 version weight=60.1667%
 | Zuul 1.x | 16C 32G | 1 |
 | Service | 4C 8G | 2 |
 
-- 优化方式
-    - Spring Cloud Gateway，不需要优化
-    - Zuul 1.x，优化如下
+④ 优化方式
+
+- Spring Cloud Gateway，不需要优化
+- Zuul 1.x，优化如下
+
 ```
 zuul.host.max-per-route-connections=1000
 zuul.host.max-total-connections=1000
@@ -3745,41 +3754,64 @@ zuul.semaphore.max-semaphores=5000
 ## 附录
 
 ### 中间件服务器下载地址
-- Consul
-    - Consul服务器版本不限制，推荐用最新版本，从[https://releases.hashicorp.com/consul/](https://releases.hashicorp.com/consul/)获取
-    - 功能界面主页，[http://localhost:8500](http://localhost:8500)
-- Zookeeper
-    - Spring Cloud F版或以上，必须采用Zookeeper服务器的3.5.x服务器版本（或者更高），从[http://zookeeper.apache.org/releases.html#download](http://zookeeper.apache.org/releases.html#download)获取
-    - Spring Cloud E版，Zookeeper服务器版本不限制
-- Eureka
-    - 跟Spring Cloud版本保持一致，自行搭建服务器
-    - 功能界面主页，[http://localhost:9528](http://localhost:9528)
-- Apollo
-    - Apollo服务器版本，推荐用最新版本，从[https://github.com/ctripcorp/apollo/releases](https://github.com/ctripcorp/apollo/releases)获取
-    - 功能界面主页，[http://localhost:8088](http://localhost:8088)
-- Nacos
-    - Nacos服务器版本，推荐用最新版本，从[https://github.com/alibaba/nacos/releases](https://github.com/alibaba/nacos/releases)获取
-    - 功能界面主页，[http://localhost:8848/nacos/index.html](http://localhost:8848/nacos/index.html)
-- Redis
-    - Redis服务器版本，推荐用最新版本，从[https://redis.io/](https://redis.io/)获取
-- Sentinel
-    - Sentinel服务器版本，推荐用最新版本，从[https://github.com/alibaba/Sentinel/releases](https://github.com/alibaba/Sentinel/releases)获取
-    - 功能界面主页，[http://localhost:8075/#/dashboard](http://localhost:8075/#/dashboard)
-- Prometheus
-    - Prometheus服务器版本，推荐用最新版本，从[https://github.com/prometheus/prometheus/releases](https://github.com/prometheus/prometheus/releases)获取
-    - 功能界面主页，[http://localhost:9090](http://localhost:9090)
-- Grafana
-    - Grafana服务器版本，推荐用最新版本，从[https://grafana.com/grafana/download?platform=windows](https://grafana.com/grafana/download?platform=windows)获取
-    - 功能界面主页，[http://localhost:3000](http://localhost:3000)
-- Jaeger
-    - Jaeger服务器版本，推荐用最新版本，从[https://github.com/jaegertracing/jaeger/releases](https://github.com/jaegertracing/jaeger/releases)获取
-    - 功能界面主页，[http://localhost:16686](http://localhost:16686)
-- Zipkin
-    - Zipkin服务器版本，推荐用最新版本，从[https://search.maven.org/remote_content?g=io.zipkin&a=zipkin-server&v=LATEST&c=exec](https://search.maven.org/remote_content?g=io.zipkin&a=zipkin-server&v=LATEST&c=exec)获取
-    - 功能界面主页，[http://localhost:9411/zipkin](http://localhost:9411/zipkin)
-- Spring Boot Admin
-    - 跟Spring Boot版本保持一致，自行搭建服务器。从[https://github.com/codecentric/spring-boot-admin](https://github.com/codecentric/spring-boot-admin)获取
-    - 功能界面主页，[http://localhost:6002](http://localhost:6002)
+① Consul
+
+- Consul服务器版本不限制，推荐用最新版本，从[https://releases.hashicorp.com/consul/](https://releases.hashicorp.com/consul/)获取
+- 功能界面主页，[http://localhost:8500](http://localhost:8500)
+
+② Zookeeper
+
+- Spring Cloud F版或以上，必须采用Zookeeper服务器的3.5.x服务器版本（或者更高），从[http://zookeeper.apache.org/releases.html#download](http://zookeeper.apache.org/releases.html#download)获取
+- Spring Cloud E版，Zookeeper服务器版本不限制
+
+③ Eureka
+
+- 跟Spring Cloud版本保持一致，自行搭建服务器
+- 功能界面主页，[http://localhost:9528](http://localhost:9528)
+
+④ Apollo
+
+- Apollo服务器版本，推荐用最新版本，从[https://github.com/ctripcorp/apollo/releases](https://github.com/ctripcorp/apollo/releases)获取
+- 功能界面主页，[http://localhost:8088](http://localhost:8088)
+
+⑤ Nacos
+
+- Nacos服务器版本，推荐用最新版本，从[https://github.com/alibaba/nacos/releases](https://github.com/alibaba/nacos/releases)获取
+- 功能界面主页，[http://localhost:8848/nacos/index.html](http://localhost:8848/nacos/index.html)
+
+⑥ Redis
+
+- Redis服务器版本，推荐用最新版本，从[https://redis.io/](https://redis.io/)获取
+
+⑦ Sentinel
+
+- Sentinel服务器版本，推荐用最新版本，从[https://github.com/alibaba/Sentinel/releases](https://github.com/alibaba/Sentinel/releases)获取
+- 功能界面主页，[http://localhost:8075/#/dashboard](http://localhost:8075/#/dashboard)
+
+⑧ Prometheus
+
+- Prometheus服务器版本，推荐用最新版本，从[https://github.com/prometheus/prometheus/releases](https://github.com/prometheus/prometheus/releases)获取
+- 功能界面主页，[http://localhost:9090](http://localhost:9090)
+
+⑨ Grafana
+
+- Grafana服务器版本，推荐用最新版本，从[https://grafana.com/grafana/download?platform=windows](https://grafana.com/grafana/download?platform=windows)获取
+- 功能界面主页，[http://localhost:3000](http://localhost:3000)
+
+⑩ Jaeger
+
+- Jaeger服务器版本，推荐用最新版本，从[https://github.com/jaegertracing/jaeger/releases](https://github.com/jaegertracing/jaeger/releases)获取
+- 功能界面主页，[http://localhost:16686](http://localhost:16686)
+
+⑪ Zipkin
+
+- Zipkin服务器版本，推荐用最新版本，从[https://search.maven.org/remote_content?g=io.zipkin&a=zipkin-server&v=LATEST&c=exec](https://search.maven.org/remote_content?g=io.zipkin&a=zipkin-server&v=LATEST&c=exec)获取
+- 功能界面主页，[http://localhost:9411/zipkin](http://localhost:9411/zipkin)
+
+⑫ Spring Boot Admin
+
+- 跟Spring Boot版本保持一致，自行搭建服务器。从[https://github.com/codecentric/spring-boot-admin](https://github.com/codecentric/spring-boot-admin)获取
+- 功能界面主页，[http://localhost:6002](http://localhost:6002)
 
 ## Star走势图
 
