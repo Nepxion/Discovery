@@ -49,12 +49,12 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 - 支持和兼容Spring Cloud Edgware版、Finchley版、Greenwich版和Hoxton版
 
 ② 微服务框架支持的应用功能，如下
-- 基于Header传递的全链路灰度路由，网关为路由触发点。采用配置中心配置路由策略映射在网关过滤器中植入Header信息而实现，路由策略传递到全链路服务中，可以在前端界面、网关过滤器、负载均衡策略类三个地方实现路由功能。路由方式主要包括
+- 基于Header传递的全链路灰度路由，网关为路由触发点。采用配置中心配置路由策略映射在网关过滤器中植入Header信息而实现，路由策略传递到全链路服务中。使用者可以在前端界面、网关过滤器、负载均衡策略类三个地方触发路由功能。主要包括
     - 匹配路由。包括版本匹配路由、区域匹配路由、IP地址和端口匹配路由
     - 权重路由。包括版本权重路由、区域权重路由
     - 动态变更元数据路由
-    - 全局订阅式的路由。此为变种方案
-- 基于规则订阅的全链路灰度发布。采用配置中心配置灰度规则映射在全链路服务而实现，所有服务都订阅一个共享配置。发布方式主要包括
+    - 全局订阅式的路由
+- 基于规则订阅的全链路灰度发布。采用配置中心配置灰度规则映射在全链路服务而实现，所有服务都订阅一个共享配置。主要包括
     - 匹配发布。包括版本匹配发布、区域匹配发布
     - 权重发布。包括版本权重发布、区域权重发布
 - 基于灰度发布和灰度路由的多种组合式规则策略。主要包括
@@ -80,23 +80,23 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
     - 基于IP地址和端口的防护
     - 基于自定义任意的业务参数组合的防护
 - 基于Hystrix的全链路服务限流熔断和灰度融合
-- 全链路监控。包括全链路调用链监控（Tracing）、全链路日志监控（Logging）、全链路指标监控（Metrics）。框架支持符合OpenTracing规范的Uber Jaeger、Apache Skywalking
+- 全链路监控。包括全链路调用链监控（Tracing）、全链路日志监控（Logging）、全链路指标监控（Metrics）
     - 全链路调用链监控（Tracing）。包括Header方式、调用链方式、日志方式等单个或者组合式的全链路灰度调用链，支持对Sentinel自动埋点。调用链方式不支持Edgware版（Spring Boot 1.x.x）
-    - 全链路指标监控（Metrics）。包括Prometheus、Grafana、Spring Boot Admin
+    - 全链路指标监控（Metrics）
 - 全链路Header传递
 - 全链路侦测
 - 全链路服务侧注解
 - 全链路服务侧API权限
-- 异步跨线程Agent。包括插件获取、使用和扩展
-- 元数据Metadata自动化策略。包括
+- 异步跨线程Agent。主要包括插件获取、使用和扩展
+- 元数据Metadata自动化策略。主要包括
     - 基于服务名前缀自动创建灰度组名
     - 基于Git插件自动创建灰度版本号
 - 元数据Metadata运维平台策略
 - 同城双活多机房切换。基于区域匹配发布或者路由的同城双活多机房切换
 - 数据库灰度发布。基于多数据源的数据库灰度发布，内置简单的数据库灰度发布策略
-- 灰度路由和发布的自动化测试。包括
+- 灰度路由和发布的自动化测试。主要包括
     - 基于Spring Boot/Spring Cloud自动化测试，包括普通调用测试、灰度调用测试和扩展调用测试（可扩展出阿里巴巴Sentinel、FF4j功能开关等自动化测试）
-    - 基于wrk的性能压力测试
+    - 基于WRK的性能压力测试
 - Docker容器化和Kubernetes平台的无缝支持部署
 
 ③ 微服务框架支持的重要中间件，如下
@@ -105,14 +105,18 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 - [**Spring Cloud Alibaba**] 阿里巴巴中间件部门开发的Spring Cloud增强套件，致力于提供微服务开发的一站式解决方案。此项目包含开发分布式应用微服务的必需组件，方便开发者通过Spring Cloud编程模型轻松使用这些组件来开发分布式应用服务。依托Spring Cloud Alibaba，只需要添加一些注解和少量配置，就可以将Spring Cloud应用接入阿里微服务解决方案，通过阿里中间件来迅速搭建分布式应用系统
 - [**OpenTracing**] OpenTracing已进入CNCF，正在为全球的分布式追踪系统提供统一的概念、规范、架构和数据标准。它通过提供平台无关、厂商无关的API，使得开发人员能够方便的添加（或更换）追踪系统的实现。对于存在多样化的技术栈共存的调用链中，OpenTracing适配Java、C、Go和.Net等技术栈，实现全链路分布式追踪功能。迄今为止，Uber Jaeger、Twitter Zipkin和Apache Skywalking已经适配了OpenTracing规范。CNCF技术委员会通过OpenTelemetry规范整合基于Tracing的OpenTracing规范（官方推荐Jaeger做Backend）和基于Metrics的OpenSensus规范（官方推荐Prometheus做Backend）
 
-④ 框架支持易用性表现，如下
+④ 框架支持易用性表现，简单步骤如下
 - 引入相关依赖到pom.xml
-- 设置元数据MetaData，为微服务定义一个所属组名（group）或者应用名（application）或者通过服务名前缀来自动产生服务组名，定义一个版本号（version）或者通过Git插件方式自动产生版本号，定义一个所属区域名（region），定义一个所属环境（env）。这四个元数据按需设置
+- 设置元数据MetaData。如下四个元数据可以按需设置
+    - 为微服务定义一个所属组名（group）或者应用名（application）或者通过服务名前缀来自动产生服务组名
+	- 定义一个版本号（version）或者通过Git插件方式自动产生版本号
+    - 定义一个所属区域名（region）
+    - 定义一个所属环境（env）
 - 执行采用“约定大于配置”的方式，使用者可以开启和关闭相关功能项或者属性值，达到最佳配置
 - 规则策略文件设置和推送
 
 ## 鸣谢
-![](http://nepxion.gitee.io/docs/icon-doc/information.png) 鸣谢，如下
+![](http://nepxion.gitee.io/docs/icon-doc/information.png) 鸣谢
 - 感谢阿里巴巴中间件Nacos、Sentinel和Spring Cloud Alibaba团队，尤其是Nacos负责人@彦林、@于怀，Sentinel负责人@宿何、@子衿，Spring Cloud Alibaba负责人@小马哥、@洛夜、@亦盏的技术支持
 - 感谢携程Apollo团队，尤其是@宋顺，特意开发OpenApi包和技术支持
 - 感谢代码贡献者，包括@zifeihan，@Ax1an，@WeihuaWang，@张顺，@Esun，@liumapp，@terranhu，@JikaiSun，@HaoHuang，@FanYang，@Ankeway，@liquanjin等
@@ -429,7 +433,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 
 - 灰度发布（规则）和灰度路由（策略），可以并行在一起工作，也关闭一项，让另一项单独工作
 - 灰度发布（规则）和灰度路由（策略），一起工作的时候，先执行规则过滤逻辑，再执行策略过滤逻辑
-- 灰度发布（规则）和灰度路由（策略）关闭
+- 灰度发布（规则）和灰度路由（策略）关闭方式
     - 灰度发布（规则）关闭，spring.application.register.control.enabled=false和spring.application.discovery.control.enabled=false
     - 灰度路由（策略）关闭，spring.application.strategy.control.enabled=false
 
@@ -449,6 +453,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
     - 如果既执行了全局推送，又执行了局部推送，那么，当服务运行中，优先接受最后一次推送的规则策略；当服务重新启动的时候，优先读取局部推送的规则策略
 
 ② 动态改变版本
+
 ![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：动态改变版本，只允许发生在调用链的起点，例如网关，如果没有网关，则取第一个服务，其它层级的服务不能使用该功能
 
 微服务启动的时候，由于版本已经写死在application.properties里，使用者希望改变一下版本，而不重启微服务，达到访问版本的路径改变
@@ -516,9 +521,11 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Difference.jpg)
 
-- 基于网关为触点的Header传递的全链路灰度路由，适用于网关前置部署方式的企业。域网关部署模式下，最适用于该方式；非域网关部署模式下，开启并行灰度路由下的版本优选策略
-- 基于全局订阅方式的全链路灰度发布，适用于网关部署方式比较弱化的企业
-- 基于全局订阅和Header传递组合式全链路灰度路由，上述两种方式的结合体，是比较理想和节省成本的落地方式
+① 基于网关为触点的Header传递的全链路灰度路由，适用于网关前置部署方式的企业。域网关部署模式下，最适用于该方式；非域网关部署模式下，开启并行灰度路由下的版本优选策略
+
+② 基于全局订阅方式的全链路灰度发布，适用于网关部署方式比较弱化的企业
+
+③ 基于全局订阅和Header传递组合式全链路灰度路由，上述两种方式的结合体，是比较理想和节省成本的落地方式
 
 - 服务治理架构图
 
@@ -594,7 +601,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
     <version>${discovery.version}</version>
 </dependency>
 ```
-- Hystrix防护插件。Hystrix线程池隔离模式（信号量隔离模式不需要引入）下必须引入该插件，灰度路由Header和调用链Span在Hystrix线程池隔离模式下传递时，通过线程上下文切换会存在丢失Header的问题，通过该插件解决，支持微服务端、网关Zuul端和网关Spring Cloud Gateway端
+- Hystrix防护插件。Hystrix线程池隔离模式（信号量隔离模式不需要引入）下必须引入该插件，灰度路由Header和调用链Span在Hystrix线程池隔离模式下传递时，通过线程上下文切换会存在丢失Header的问题。通过该插件解决，支持微服务端、网关Zuul端和网关Spring Cloud Gateway端
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -619,6 +626,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 ⑥ 调用链插件依赖引入
 
 调用链功能引入，支持微服务端、网关Zuul端和网关Spring Cloud Gateway端
+
 ![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：该模块支持F版或更高版本，且不能同时引入
 ```xml
 微服务端引入
@@ -632,7 +640,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 
 ⑦ 异步跨线程Agent依赖引入
 
-异步跨线程Agent的引入，通过Java Agent方式启动。灰度路由Header和调用链Span在Hystrix线程池隔离模式下或者线程、线程池、@Async注解等异步调用Feign或者RestTemplate时，通过线程上下文切换会存在丢失Header的问题，通过该插件解决，支持微服务端、网关Zuul端和网关Spring Cloud Gateway端
+异步跨线程Agent的引入，通过Java Agent方式启动。灰度路由Header和调用链Span在Hystrix线程池隔离模式下或者线程、线程池、@Async注解等异步调用Feign或者RestTemplate时，通过线程上下文切换会存在丢失Header的问题。通过该插件解决，支持微服务端、网关Zuul端和网关Spring Cloud Gateway端
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -657,17 +665,23 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 ```
 
 ## 准备工作
-为了更好的阐述框架的各项功能，本文围绕指南示例进行阐述，请使用者先进行下面的准备工作。指南示例以Nacos为服务注册中心和配置中心展开介绍，使用者可自行换成其它服务注册中心和配置中心
+为了更好的阐述框架的各项功能，本文围绕指南示例展开，请使用者先进行下面的准备工作。指南示例以Nacos为服务注册中心和配置中心展开介绍，使用者可自行换成其它服务注册中心和配置中心
 
 ### 环境搭建
-- 下载代码
-    - Git clone https://github.com/Nepxion/DiscoveryGuide.git 
-- 代码导入IDE
-- 下载Nacos服务器
-    - 从[https://github.com/alibaba/nacos/releases](https://github.com/alibaba/nacos/releases)获取nacos-server-x.x.x.zip，并解压
-- 启动Nacos服务器
-    - Windows环境下，运行bin目录下的startup.cmd
-    - Linux环境下，运行bin目录下的startup.sh
+① 下载代码
+
+② Git clone https://github.com/Nepxion/DiscoveryGuide.git 
+
+③ 代码导入IDE
+
+④ 下载Nacos服务器
+
+- 从[https://github.com/alibaba/nacos/releases](https://github.com/alibaba/nacos/releases)获取nacos-server-x.x.x.zip，并解压
+
+⑤ 启动Nacos服务器
+
+- Windows环境下，运行bin目录下的startup.cmd
+- Linux环境下，运行bin目录下的startup.sh
 
 ### 启动服务 
 - 在IDE中，启动四个应用服务和两个网关服务，控制平台服务和监控平台服务可选，如下
@@ -718,10 +732,15 @@ zuul -> [ID=discovery-guide-service-a][P=Nacos][H=192.168.0.107:3001][V=1.0][R=d
 - 启动源码工程下的discovery-springcloud-example-console/ConsoleApplication
 - 启动源码工程下的discovery-console-desktop/ConsoleLauncher
 - 通过admin/admin登录，点击“显示服务拓扑”按钮，将呈现如下界面
+
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide5-2.jpg)
+
 - 在加入上述规则策略前，选中网关节点，右键点击“执行灰度路由”，在弹出路由界面中，依次加入“discovery-guide-service-a”和“discovery-guide-service-b”，点击“执行路由”按钮，将呈现如下界面
+
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide5-3.jpg)
+
 - 在加入上述规则策略后，在路由界面中，再次点击“执行路由”按钮，将呈现如下界面
+
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide5-4.jpg)
 
 ## 基于Header传递方式的灰度路由策略
@@ -1878,30 +1897,35 @@ XML最全的示例如下，Json示例见源码discovery-springcloud-example-serv
 ## 基于多方式的规则策略推送
 
 ### 基于远程配置中心的规则策略订阅推送
-① Apollo订阅推送界面
+Apollo订阅推送界面
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Apollo1.jpg)
-- 参考Apollo官方文档[https://github.com/ctripcorp/apollo](https://github.com/ctripcorp/apollo)相关文档，搭建Apollo环境，以及熟悉相关的基本操作
-- 根据上图，做如下步骤操作
-    - 设置页面中AppId和配置文件里面app.id一致
-    - 设置页面中Namespace和配置文件里面apollo.plugin.namespace一致，如果配置文件里不设置，那么页面默认采用内置的“application”
-    - 在页面中添加配置
-        - 局部配置方式：一个服务集群（eureka.instance.metadataMap.group和spring.application.name都相同的服务）对应一个配置文件，通过group+serviceId方式添加，Key为“group-serviceId”，Value为Xml或者Json格式的规则策略内容。group取值于配置文件里的eureka.instance.metadataMap.group配置项，serviceId取值于spring.application.name配置项目
-        - 全局配置方式：一组服务集群（eureka.instance.metadataMap.group相同，但spring.application.name可以不相同的服务）对应一个配置文件，通过group方式添加，Key为“group-group”，Value为Xml或者Json格式的规则内容。group取值于配置文件里的eureka.instance.metadataMap.group配置项
-        - 强烈建议局部配置方式和全局配置方式不要混用，否则连使用者自己都无法搞清楚到底是哪种配置方式在起作用
-    - 其他更多参数，例如evn, cluster等，请自行参考Apollo官方文档，保持一致
-- 特别注意
-    - 局部配置方式建议使用Apollo的私有（private）配置方式，全局配置方式必须采用Apollo的共享（public）配置方式
-    - 如果业务配置和灰度配置在同一个namespace里且namespace只有一个，灰度配置可以通过apollo.bootstrap.namespaces或者apollo.plugin.namespace来指定（如果namespace为application则都不需要配置）
-    - 如果业务配置和灰度配置不在同一个namespace里或者业务配置横跨几个namespace，灰度配置必须通过apollo.plugin.namespace来指定唯一的namespace
 
-② Nacos订阅推送界面
+① 参考Apollo官方文档[https://github.com/ctripcorp/apollo](https://github.com/ctripcorp/apollo)相关文档，搭建Apollo环境，以及熟悉相关的基本操作
+
+② 根据上图，做如下步骤操作
+
+- 设置页面中AppId和配置文件里面app.id一致
+- 设置页面中Namespace和配置文件里面apollo.plugin.namespace一致，如果配置文件里不设置，那么页面默认采用内置的“application”
+- 在页面中添加配置
+    - 局部配置方式：一个服务集群（eureka.instance.metadataMap.group和spring.application.name都相同的服务）对应一个配置文件，通过group+serviceId方式添加，Key为“group-serviceId”，Value为Xml或者Json格式的规则策略内容。group取值于配置文件里的eureka.instance.metadataMap.group配置项，serviceId取值于spring.application.name配置项目
+    - 全局配置方式：一组服务集群（eureka.instance.metadataMap.group相同，但spring.application.name可以不相同的服务）对应一个配置文件，通过group方式添加，Key为“group-group”，Value为Xml或者Json格式的规则内容。group取值于配置文件里的eureka.instance.metadataMap.group配置项
+    - 强烈建议局部配置方式和全局配置方式不要混用，否则连使用者自己都无法搞清楚到底是哪种配置方式在起作用
+- 其他更多参数，例如evn, cluster等，请自行参考Apollo官方文档，保持一致
+
+③ 特别注意
+
+- 局部配置方式建议使用Apollo的私有（private）配置方式，全局配置方式必须采用Apollo的共享（public）配置方式
+- 如果业务配置和灰度配置在同一个namespace里且namespace只有一个，灰度配置可以通过apollo.bootstrap.namespaces或者apollo.plugin.namespace来指定（如果namespace为application则都不需要配置）
+- 如果业务配置和灰度配置不在同一个namespace里或者业务配置横跨几个namespace，灰度配置必须通过apollo.plugin.namespace来指定唯一的namespace
+
+Nacos订阅推送界面
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Nacos2.jpg)
 - 参考Nacos官方文档[https://github.com/alibaba/nacos](https://github.com/alibaba/nacos)相关文档，搭建Nacos环境，以及熟悉相关的基本操作
 - 添加配置步骤跟Apollo配置界面中的“在页面中添加配置”操作项相似
 
-③ Redis订阅推送界面
+Redis订阅推送界面
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Redis.jpg)
 
@@ -1917,57 +1941,87 @@ XML最全的示例如下，Json示例见源码discovery-springcloud-example-serv
 ### 基于图形化界面的规则策略推送
 ![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 下面两种方式有点古老，并不再维护，请斟酌使用
 
-① 基于图形化桌面程序的灰度发布
+基于图形化桌面程序的灰度发布
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console1.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console2.jpg)
 
-- 桌面程序对Windows和Mac操作系统都支持，但在Mac操作系统中界面显示有点瑕疵，但不影响功能使用
-- Clone [https://github.com/Nepxion/Discovery.git](https://github.com/Nepxion/Discovery.git)获取源码
-- 通过IDE启动
-    - 运行discovery-console-desktop\ConsoleLauncher.java启动
-- 通过脚本启动
-    - 在discovery-console-desktop目录下执行mvn clean install，target目录下将产生discovery-console-desktop-[版本号]-release的目录
-    - 进入discovery-console-desktop-[版本号]-release，请修改config/console.properties中的url，该地址指向控制平台的地址
-    - 运行“Discovery灰度发布控制台.bat”，启动桌面程序
-    - 如果您是操作系统，请参考“Discovery灰度发布控制台.bat”，自行编写“Discovery灰度发布控制台.sh”脚本，启动桌面程序
-- 操作界面
-    - 登录认证，用户名和密码为admin/admin或者nepxion/nepxion。顺便说一下，控制台支持简单的认证，用户名和密码配置在discovery-springcloud-example-console\bootstrap.properties中，您可以自己扩展AuthenticationResource并注入，实现更专业的认证功能
+① 桌面程序对Windows和Mac操作系统都支持，但在Mac操作系统中界面显示有点瑕疵，但不影响功能使用
+
+② Clone [https://github.com/Nepxion/Discovery.git](https://github.com/Nepxion/Discovery.git)获取源码
+
+③ 通过IDE启动
+
+- 运行discovery-console-desktop\ConsoleLauncher.java启动
+
+④ 通过脚本启动
+
+- 在discovery-console-desktop目录下执行mvn clean install，target目录下将产生discovery-console-desktop-[版本号]-release的目录
+- 进入discovery-console-desktop-[版本号]-release，请修改config/console.properties中的url，该地址指向控制平台的地址
+- 运行“Discovery灰度发布控制台.bat”，启动桌面程序
+- 如果您是操作系统，请参考“Discovery灰度发布控制台.bat”，自行编写“Discovery灰度发布控制台.sh”脚本，启动桌面程序
+
+⑤ 操作界面
+
+- 登录认证，用户名和密码为admin/admin或者nepxion/nepxion。顺便说一下，控制台支持简单的认证，用户名和密码配置在discovery-springcloud-example-console\bootstrap.properties中，您可以自己扩展AuthenticationResource并注入，实现更专业的认证功能
+
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console0.jpg)
-    - 点击“显示服务拓扑”按钮，弹出“服务集群组过滤”对话框，列表是以服务所在的集群组列表（例如：eureka.instance.metadataMap.group=example-service-group），选择若干个并点击“确定”按钮，如果使用者想获取全部的服务集群（可能会耗性能），则直接点击“取消”按钮
+
+- 点击“显示服务拓扑”按钮，弹出“服务集群组过滤”对话框，列表是以服务所在的集群组列表（例如：eureka.instance.metadataMap.group=example-service-group），选择若干个并点击“确定”按钮，如果使用者想获取全部的服务集群（可能会耗性能），则直接点击“取消”按钮
+
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console4.jpg)
-    - 从服务注册发现中心获取服务拓扑
+
+- 从服务注册发现中心获取服务拓扑
+
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console5.jpg)
-    - 执行灰度路由，选择一个服务，右键菜单“执行灰度路由”
+
+- 执行灰度路由，选择一个服务，右键菜单“执行灰度路由”
+
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console6.jpg)
-    - 通过“服务列表”切换，或者点击增加和删除服务按钮，确定灰度路由路径，点击“执行路由”
+
+- 通过“服务列表”切换，或者点击增加和删除服务按钮，确定灰度路由路径，点击“执行路由”
+
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console7.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console2.jpg)
-    - 推送模式设置，“异步推送”和“同步推送”，前者是推送完后立刻返回，后者是推送完后等待推送结果（包括规则XML解析的异常等都能在界面上反映出来）；“规则推送到远程配置中心”和“规则推送到服务或者服务集群”，前者是推送到配置中心（持久化），后者是推送到一个或者多个服务机器的内存（非持久化，重启后丢失）
+
+- 推送模式设置，“异步推送”和“同步推送”，前者是推送完后立刻返回，后者是推送完后等待推送结果（包括规则XML解析的异常等都能在界面上反映出来）；“规则推送到远程配置中心”和“规则推送到服务或者服务集群”，前者是推送到配置中心（持久化），后者是推送到一个或者多个服务机器的内存（非持久化，重启后丢失）
+
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console8.jpg)
-    - 执行灰度发布，选择一个服务或者服务组，右键菜单“执行灰度发布”，前者是通过单个服务实例执行灰度发布，后者是通过一组服务实例执行灰度发布
+
+- 执行灰度发布，选择一个服务或者服务组，右键菜单“执行灰度发布”，前者是通过单个服务实例执行灰度发布，后者是通过一组服务实例执行灰度发布
+
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console9.jpg)
-    - 灰度发布，包括“更改版本”和“更改规则”，前者通过更改版本号去适配灰度规则中的版本匹配关系，后者直接修改规则。“更改版本”是推送到一个或者多个服务机器的内存（非持久化，重启后丢失），“更改规则”是根据不同的推送模式，两种方式都支持
+
+- 灰度发布，包括“更改版本”和“更改规则”，前者通过更改版本号去适配灰度规则中的版本匹配关系，后者直接修改规则。“更改版本”是推送到一个或者多个服务机器的内存（非持久化，重启后丢失），“更改规则”是根据不同的推送模式，两种方式都支持
+
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console10.jpg)
-    - 全链路灰度发布，所有在同一个集群组（例如：eureka.instance.metadataMap.group=example-service-group）里的服务统一做灰度发布，即一个规则配置搞定所有服务的灰度发布。点击“全链路灰度发布”按钮，弹出“全链路灰度发布”对话框
+
+- 全链路灰度发布，所有在同一个集群组（例如：eureka.instance.metadataMap.group=example-service-group）里的服务统一做灰度发布，即一个规则配置搞定所有服务的灰度发布。点击“全链路灰度发布”按钮，弹出“全链路灰度发布”对话框
+
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console11.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console12.jpg)
-    - 刷新灰度状态，选择一个服务或者服务组，右键菜单“刷新灰度状态”，查看某个服务或者服务组是否正在做灰度发布
-![](http://nepxion.gitee.io/docs/discovery-doc/Console13.jpg)
-- 操作视频
-    - 灰度发布-版本访问策略
-        - 请访问[https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA](https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA)，获取更清晰的视频，注意一定要下载下来看，不要在线看，否则不清晰
-        - 请访问[http://www.iqiyi.com/w_19rzwzovrl.html](http://www.iqiyi.com/w_19rzwzovrl.html)，视频清晰度改成720P，然后最大化播放
-    - 灰度发布-版本权重策略
-        - 请访问[https://pan.baidu.com/s/1VXPatJ6zrUeos7uTQwM3Kw](https://pan.baidu.com/s/1VXPatJ6zrUeos7uTQwM3Kw)，获取更清晰的视频，注意一定要下载下来看，不要在线看，否则不清晰
-        - 请访问[http://www.iqiyi.com/w_19rzs9pll1.html](http://www.iqiyi.com/w_19rzs9pll1.html)，视频清晰度改成720P，然后最大化播放
-    - 灰度发布-全链路策略
-        - 请访问[https://pan.baidu.com/s/1XQSKCZUykc6t04xzfrFHsg](https://pan.baidu.com/s/1XQSKCZUykc6t04xzfrFHsg)，获取更清晰的视频，注意一定要下载下来看，不要在线看，否则不清晰
-        - 请访问[http://www.iqiyi.com/w_19s1e0zf95.html](http://www.iqiyi.com/w_19s1e0zf95.html)，视频清晰度改成720P，然后最大化播放
 
-② 基于图形化Web程序的灰度发布
+- 刷新灰度状态，选择一个服务或者服务组，右键菜单“刷新灰度状态”，查看某个服务或者服务组是否正在做灰度发布
+
+![](http://nepxion.gitee.io/docs/discovery-doc/Console13.jpg)
+
+⑥ 操作视频
+
+- 灰度发布-版本访问策略
+    - 请访问[https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA](https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA)，获取更清晰的视频，注意一定要下载下来看，不要在线看，否则不清晰
+    - 请访问[http://www.iqiyi.com/w_19rzwzovrl.html](http://www.iqiyi.com/w_19rzwzovrl.html)，视频清晰度改成720P，然后最大化播放
+- 灰度发布-版本权重策略
+    - 请访问[https://pan.baidu.com/s/1VXPatJ6zrUeos7uTQwM3Kw](https://pan.baidu.com/s/1VXPatJ6zrUeos7uTQwM3Kw)，获取更清晰的视频，注意一定要下载下来看，不要在线看，否则不清晰
+    - 请访问[http://www.iqiyi.com/w_19rzs9pll1.html](http://www.iqiyi.com/w_19rzs9pll1.html)，视频清晰度改成720P，然后最大化播放
+- 灰度发布-全链路策略
+    - 请访问[https://pan.baidu.com/s/1XQSKCZUykc6t04xzfrFHsg](https://pan.baidu.com/s/1XQSKCZUykc6t04xzfrFHsg)，获取更清晰的视频，注意一定要下载下来看，不要在线看，否则不清晰
+    - 请访问[http://www.iqiyi.com/w_19s1e0zf95.html](http://www.iqiyi.com/w_19s1e0zf95.html)，视频清晰度改成720P，然后最大化播放
+
+基于图形化Web程序的灰度发布
+
 - 参考[图形化Web](https://github.com/Nepxion/DiscoveryUI)
 - 操作过程跟“基于图形化桌面程序的灰度发布”类似
+
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console14.jpg)
 
 ## 基于组和黑白名单的全链路服务隔离和准入
@@ -2072,9 +2126,14 @@ spring.application.environment.route=common
 ![](http://nepxion.gitee.io/docs/icon-doc/information.png) 下面方式也可以通过Spring Cloud Alibaba Sentinel功能来实现
 
 封装NacosDataSource和ApolloDataSource，支持Nacos和Apollo两个远程配置中心，零代码实现Sentinel功能。更多的远程配置中心，请参照Sentinel官方的DataSource并自行集成
+
+- Nacos的Key格式
 ```
-1. Nacos的Key格式：Group为元数据中配置的[组名]，Data Id为[服务名]-[规则类型]
-2. Apollo的Key格式：[组名]-[服务名]-[规则类型]
+Group为元数据中配置的[组名]，Data Id为[服务名]-[规则类型]
+```
+- Apollo的Key格式
+```
+[组名]-[服务名]-[规则类型]
 ```
 
 支持远程配置中心和本地规则文件的读取逻辑，即优先读取远程配置，如果不存在或者规则错误，则读取本地规则文件。动态实现远程配置中心对于规则的热刷新
@@ -2409,10 +2468,10 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 #### 调用链输出方式
 调用链输出方式以OpenUber Jaeger为例来说明
 
-1. 从[网盘文档](https://pan.baidu.com/s/1i57rXaNKPuhGRqZ2MONZOA)获取，Windows操作系统下解压后运行jaeger.bat，Mac和Lunix操作系统请自行研究
-2. 执行Postman调用后，访问[http://localhost:16686](http://localhost:16686)查看灰度调用链
-3. 灰度调用链支持WebMvc和WebFlux两种方式，以NEPXION字样的标记来标识
-4. 支持对Sentinel自动埋点
+- 从[网盘文档](https://pan.baidu.com/s/1i57rXaNKPuhGRqZ2MONZOA)获取，Windows操作系统下解压后运行jaeger.bat，Mac和Lunix操作系统请自行研究
+- 执行Postman调用后，访问[http://localhost:16686](http://localhost:16686)查看灰度调用链
+- 灰度调用链支持WebMvc和WebFlux两种方式，以NEPXION字样的标记来标识
+- 支持对Sentinel自动埋点
 
 集成Opentracing + Uber Jaeger调用链平台
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger1.jpg)
@@ -2431,13 +2490,14 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 ![](http://nepxion.gitee.io/docs/discovery-doc/JaegerPremium2.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/JaegerPremium3.jpg)
 
-附录 Skywalking
+集成Opentracing + Apache Skywalking调用链平台
 ![](http://nepxion.gitee.io/docs/discovery-doc/Skywalking1.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Skywalking2.jpg)
 
 ![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 请注意如下配置，将决定终端界面的显示
-1. 如果开启，灰度信息输出到独立的Span节点中，意味着在界面显示中，灰度信息通过独立的NEPXION Span节点来显示。优点是信息简洁明了，缺点是Span节点会增长一倍
-2. 如果关闭，灰度信息输出到原生的Span节点中，意味着在界面显示中，灰度信息会和原生Span节点的调用信息、协议信息等混在一起，缺点是信息庞杂混合，优点是Span节点数不会增长
+
+- 如果开启，灰度信息输出到独立的Span节点中，意味着在界面显示中，灰度信息通过独立的NEPXION Span节点来显示。优点是信息简洁明了，缺点是Span节点会增长一倍
+- 如果关闭，灰度信息输出到原生的Span节点中，意味着在界面显示中，灰度信息会和原生Span节点的调用信息、协议信息等混在一起，缺点是信息庞杂混合，优点是Span节点数不会增长
 ```
 # 启动和关闭调用链的灰度信息以独立的Span节点输出，如果关闭，则灰度信息输出到原生的Span节点中（Skywalking不支持原生模式）。缺失则默认为true
 spring.application.strategy.tracer.separate.span.enabled=true
@@ -2608,11 +2668,10 @@ spring.application.strategy.business.request.headers=user;mobile
 
 ## 全链路侦测
 通过内置基于LoadBalanced RestTemplate方式的/inspector/inspect接口方法，实现全链路侦测，可以查看全链路中调用的各个服务的版本、区域、子环境、IP地址等是否符合预期，是否满足灰度条件，该接口可以集成到使用者的界面中，就可以规避通过Postman工具或者调用链系统去判断，有利于节省人工成本。使用方式
-```
-1. 执行Post请求
-2. 请求的路径：http://[网关URL]/[服务名1]/inspector/inspect
-3. 请求的内容：{"serviceIdList":["服务名2", "服务名3", ....]}。服务名不分前后次序
-```
+
+- 执行Post请求
+- 请求的路径：http://[网关URL]/[服务名1]/inspector/inspect
+- 请求的内容：{"serviceIdList":["服务名2", "服务名3", ....]}。服务名不分前后次序
 
 ## 全链路服务侧注解
 服务侧对于RPC方式的调用拦截、消费端的服务隔离和调用链三项功能，默认映射到RestController类（含有@RestController注解），并配合如下的扫描路径才能工作
@@ -3215,10 +3274,12 @@ spring.application.git.generator.path=classpath:git.properties
 ### Docker容器化
 ![](http://nepxion.gitee.io/docs/icon-doc/information.png) Spring 2.3.x支持Docker分层部署，步骤也更简单，请参考Polaris【北极星】企业级云原生微服务框架里的介绍
 
-- 搭建Windows10操作系统或者Linux操作系统下的Docker环境
-    - Windows10环境下，具体步骤参考[Docker安装步骤](https://github.com/Nepxion/Thunder/blob/master/thunder-spring-boot-docker-example/README.md)
-    - Linux环境请自行研究
-- 需要在4个工程下的pom.xml里增加spring-boot-maven-plugin和docker-maven-plugin
+① 搭建Windows10操作系统或者Linux操作系统下的Docker环境
+
+- Windows10环境下，具体步骤参考[Docker安装步骤](https://github.com/Nepxion/Thunder/blob/master/thunder-spring-boot-docker-example/README.md)
+- Linux环境请自行研究
+
+② 需要在4个工程下的pom.xml里增加spring-boot-maven-plugin和docker-maven-plugin
 ```xml
 <plugin>
     <groupId>org.springframework.boot</groupId>
@@ -3259,15 +3320,19 @@ spring.application.git.generator.path=classpath:git.properties
     </configuration>
 </plugin>
 ```
-- 拷贝discovery-guide-docker目录下的所有脚本文件到根目录下
-- 所有脚本文件下的MIDDLEWARE_HOST=10.0.75.1改成使用者本地物理IP地址（Docker是不能去连接容器外地址为localhost的中间件服务器）
-- 全自动部署和运行Docker化的服务。在根目录下
-    - 一键运行install-docker-gateway.bat或者.sh，把Spring Cloud Gateway网关全自动部署且运行起来
-    - 一键运行install-docker-zuul.bat或者.sh，把Zuul网关全自动部署且运行起来
-    - 一键运行install-docker-service-xx.bat或者.sh，把微服务全自动部署且运行起来。注意，必须依次运行，即等上一个部署完毕后才能执行下一个
-    - 一键运行install-docker-console.bat或者.sh，把控制平台全自动部署且运行起来
-    - 一键运行install-docker-admin.bat或者.sh，把监控平台全自动部署且运行起来	
-- 上述步骤为演示步骤，和DevOps平台结合在一起，更为完美
+③ 拷贝discovery-guide-docker目录下的所有脚本文件到根目录下
+
+④ 所有脚本文件下的MIDDLEWARE_HOST=10.0.75.1改成使用者本地物理IP地址（Docker是不能去连接容器外地址为localhost的中间件服务器）
+
+⑤ 全自动部署和运行Docker化的服务。在根目录下
+
+- 一键运行install-docker-gateway.bat或者.sh，把Spring Cloud Gateway网关全自动部署且运行起来
+- 一键运行install-docker-zuul.bat或者.sh，把Zuul网关全自动部署且运行起来
+- 一键运行install-docker-service-xx.bat或者.sh，把微服务全自动部署且运行起来。注意，必须依次运行，即等上一个部署完毕后才能执行下一个
+- 一键运行install-docker-console.bat或者.sh，把控制平台全自动部署且运行起来
+- 一键运行install-docker-admin.bat或者.sh，把监控平台全自动部署且运行起来	
+
+⑥ 上述步骤为演示步骤，和DevOps平台结合在一起，更为完美
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Docker.jpg)
 
@@ -3352,6 +3417,7 @@ gray.weight.testcase.result.offset=5
 ![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：对于带有注解@DTestConfig的测试用例，要用到Spring的Spel语法格式（即group = "#group", serviceId = "#serviceId"），需要引入Java8的带"-parameters"编译方式，见上面的<compilerArgs>参数设置
 
 在IDE环境里需要设置"-parameters"的Compiler Argument
+
 - Eclipse加"-parameters"参数：https://www.concretepage.com/java/jdk-8/java-8-reflection-access-to-parameter-names-of-method-and-constructor-with-maven-gradle-and-eclipse-using-parameters-compiler-argument
 - Idea加"-parameters"参数：http://blog.csdn.net/royal_lr/article/details/52279993
 
@@ -3512,6 +3578,7 @@ public class DiscoveryGuideTestCases {
 
 #### 扩展调用测试
 除了支持灰度自动化测试外，使用者可扩展出以远程配置中心内容做变更的自动化测试。以阿里巴巴的Sentinel为例子，测试实现方式如下
+
 - 远程配置中心约定，Apollo上Key的格式为{group}-{serviceId}-sentinel，Nacos上Group为代码中的{group}，Data ID为{serviceId}-{suffix}，即{serviceId}-sentinel
 - 执行测试用例前，把执行限流降级熔断等逻辑的内容（executePath = "sentinel-test.xml"）推送到远程配置中心
 - 执行测试用例，通过断言Assert来判断测试结果
@@ -3634,9 +3701,9 @@ A service 1.1 version weight=60.1667%
 压力测试，基于wrk的异步压力测试框架，能用很少的线程压测出很大的并发量，使用简单方便
 
 ### 测试环境
-- 准备两台机器部署Spring Cloud应用
-- 准备一台机器部署网关（Spring Cloud或者Zuul）
-- 准备一台机器部署压测工具
+① 准备两台机器部署Spring Cloud应用
+② 准备一台机器部署网关（Spring Cloud或者Zuul）
+③ 准备一台机器部署压测工具
 
 | 服务 | 配置 | 数目 |
 | --- | --- | --- |
@@ -3644,9 +3711,11 @@ A service 1.1 version weight=60.1667%
 | Zuul 1.x | 16C 32G | 1 |
 | Service | 4C 8G | 2 |
 
-- 优化方式
-    - Spring Cloud Gateway，不需要优化
-    - Zuul 1.x，优化如下
+④ 优化方式
+
+- Spring Cloud Gateway，不需要优化
+- Zuul 1.x，优化如下
+
 ```
 zuul.host.max-per-route-connections=1000
 zuul.host.max-total-connections=1000
@@ -3685,41 +3754,64 @@ zuul.semaphore.max-semaphores=5000
 ## 附录
 
 ### 中间件服务器下载地址
-- Consul
-    - Consul服务器版本不限制，推荐用最新版本，从[https://releases.hashicorp.com/consul/](https://releases.hashicorp.com/consul/)获取
-    - 功能界面主页，[http://localhost:8500](http://localhost:8500)
-- Zookeeper
-    - Spring Cloud F版或以上，必须采用Zookeeper服务器的3.5.x服务器版本（或者更高），从[http://zookeeper.apache.org/releases.html#download](http://zookeeper.apache.org/releases.html#download)获取
-    - Spring Cloud E版，Zookeeper服务器版本不限制
-- Eureka
-    - 跟Spring Cloud版本保持一致，自行搭建服务器
-    - 功能界面主页，[http://localhost:9528](http://localhost:9528)
-- Apollo
-    - Apollo服务器版本，推荐用最新版本，从[https://github.com/ctripcorp/apollo/releases](https://github.com/ctripcorp/apollo/releases)获取
-    - 功能界面主页，[http://localhost:8088](http://localhost:8088)
-- Nacos
-    - Nacos服务器版本，推荐用最新版本，从[https://github.com/alibaba/nacos/releases](https://github.com/alibaba/nacos/releases)获取
-    - 功能界面主页，[http://localhost:8848/nacos/index.html](http://localhost:8848/nacos/index.html)
-- Redis
-    - Redis服务器版本，推荐用最新版本，从[https://redis.io/](https://redis.io/)获取
-- Sentinel
-    - Sentinel服务器版本，推荐用最新版本，从[https://github.com/alibaba/Sentinel/releases](https://github.com/alibaba/Sentinel/releases)获取
-    - 功能界面主页，[http://localhost:8075/#/dashboard](http://localhost:8075/#/dashboard)
-- Prometheus
-    - Prometheus服务器版本，推荐用最新版本，从[https://github.com/prometheus/prometheus/releases](https://github.com/prometheus/prometheus/releases)获取
-    - 功能界面主页，[http://localhost:9090](http://localhost:9090)
-- Grafana
-    - Grafana服务器版本，推荐用最新版本，从[https://grafana.com/grafana/download?platform=windows](https://grafana.com/grafana/download?platform=windows)获取
-    - 功能界面主页，[http://localhost:3000](http://localhost:3000)
-- Jaeger
-    - Jaeger服务器版本，推荐用最新版本，从[https://github.com/jaegertracing/jaeger/releases](https://github.com/jaegertracing/jaeger/releases)获取
-    - 功能界面主页，[http://localhost:16686](http://localhost:16686)
-- Zipkin
-    - Zipkin服务器版本，推荐用最新版本，从[https://search.maven.org/remote_content?g=io.zipkin&a=zipkin-server&v=LATEST&c=exec](https://search.maven.org/remote_content?g=io.zipkin&a=zipkin-server&v=LATEST&c=exec)获取
-    - 功能界面主页，[http://localhost:9411/zipkin](http://localhost:9411/zipkin)
-- Spring Boot Admin
-    - 跟Spring Boot版本保持一致，自行搭建服务器。从[https://github.com/codecentric/spring-boot-admin](https://github.com/codecentric/spring-boot-admin)获取
-    - 功能界面主页，[http://localhost:6002](http://localhost:6002)
+① Consul
+
+- Consul服务器版本不限制，推荐用最新版本，从[https://releases.hashicorp.com/consul/](https://releases.hashicorp.com/consul/)获取
+- 功能界面主页，[http://localhost:8500](http://localhost:8500)
+
+② Zookeeper
+
+- Spring Cloud F版或以上，必须采用Zookeeper服务器的3.5.x服务器版本（或者更高），从[http://zookeeper.apache.org/releases.html#download](http://zookeeper.apache.org/releases.html#download)获取
+- Spring Cloud E版，Zookeeper服务器版本不限制
+
+③ Eureka
+
+- 跟Spring Cloud版本保持一致，自行搭建服务器
+- 功能界面主页，[http://localhost:9528](http://localhost:9528)
+
+④ Apollo
+
+- Apollo服务器版本，推荐用最新版本，从[https://github.com/ctripcorp/apollo/releases](https://github.com/ctripcorp/apollo/releases)获取
+- 功能界面主页，[http://localhost:8088](http://localhost:8088)
+
+⑤ Nacos
+
+- Nacos服务器版本，推荐用最新版本，从[https://github.com/alibaba/nacos/releases](https://github.com/alibaba/nacos/releases)获取
+- 功能界面主页，[http://localhost:8848/nacos/index.html](http://localhost:8848/nacos/index.html)
+
+⑥ Redis
+
+- Redis服务器版本，推荐用最新版本，从[https://redis.io/](https://redis.io/)获取
+
+⑦ Sentinel
+
+- Sentinel服务器版本，推荐用最新版本，从[https://github.com/alibaba/Sentinel/releases](https://github.com/alibaba/Sentinel/releases)获取
+- 功能界面主页，[http://localhost:8075/#/dashboard](http://localhost:8075/#/dashboard)
+
+⑧ Prometheus
+
+- Prometheus服务器版本，推荐用最新版本，从[https://github.com/prometheus/prometheus/releases](https://github.com/prometheus/prometheus/releases)获取
+- 功能界面主页，[http://localhost:9090](http://localhost:9090)
+
+⑨ Grafana
+
+- Grafana服务器版本，推荐用最新版本，从[https://grafana.com/grafana/download?platform=windows](https://grafana.com/grafana/download?platform=windows)获取
+- 功能界面主页，[http://localhost:3000](http://localhost:3000)
+
+⑩ Jaeger
+
+- Jaeger服务器版本，推荐用最新版本，从[https://github.com/jaegertracing/jaeger/releases](https://github.com/jaegertracing/jaeger/releases)获取
+- 功能界面主页，[http://localhost:16686](http://localhost:16686)
+
+⑪ Zipkin
+
+- Zipkin服务器版本，推荐用最新版本，从[https://search.maven.org/remote_content?g=io.zipkin&a=zipkin-server&v=LATEST&c=exec](https://search.maven.org/remote_content?g=io.zipkin&a=zipkin-server&v=LATEST&c=exec)获取
+- 功能界面主页，[http://localhost:9411/zipkin](http://localhost:9411/zipkin)
+
+⑫ Spring Boot Admin
+
+- 跟Spring Boot版本保持一致，自行搭建服务器。从[https://github.com/codecentric/spring-boot-admin](https://github.com/codecentric/spring-boot-admin)获取
+- 功能界面主页，[http://localhost:6002](http://localhost:6002)
 
 ## Star走势图
 
