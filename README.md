@@ -2463,7 +2463,7 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 ![](http://nepxion.gitee.io/docs/discovery-doc/JaegerPremium2.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/JaegerPremium3.jpg)
 
-附录 Skywalking
+集成Opentracing + Apache Skywalking调用链平台
 ![](http://nepxion.gitee.io/docs/discovery-doc/Skywalking1.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Skywalking2.jpg)
 
