@@ -433,7 +433,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 
 - 灰度发布（规则）和灰度路由（策略），可以并行在一起工作，也关闭一项，让另一项单独工作
 - 灰度发布（规则）和灰度路由（策略），一起工作的时候，先执行规则过滤逻辑，再执行策略过滤逻辑
-- 灰度发布（规则）和灰度路由（策略）关闭
+- 灰度发布（规则）和灰度路由（策略）关闭方式
     - 灰度发布（规则）关闭，spring.application.register.control.enabled=false和spring.application.discovery.control.enabled=false
     - 灰度路由（策略）关闭，spring.application.strategy.control.enabled=false
 
@@ -522,7 +522,9 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 ![](http://nepxion.gitee.io/docs/discovery-doc/Difference.jpg)
 
 ① 基于网关为触点的Header传递的全链路灰度路由，适用于网关前置部署方式的企业。域网关部署模式下，最适用于该方式；非域网关部署模式下，开启并行灰度路由下的版本优选策略
+
 ② 基于全局订阅方式的全链路灰度发布，适用于网关部署方式比较弱化的企业
+
 ③ 基于全局订阅和Header传递组合式全链路灰度路由，上述两种方式的结合体，是比较理想和节省成本的落地方式
 
 - 服务治理架构图
@@ -666,14 +668,20 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 为了更好的阐述框架的各项功能，本文围绕指南示例展开，请使用者先进行下面的准备工作。指南示例以Nacos为服务注册中心和配置中心展开介绍，使用者可自行换成其它服务注册中心和配置中心
 
 ### 环境搭建
-- 下载代码
-    - Git clone https://github.com/Nepxion/DiscoveryGuide.git 
-- 代码导入IDE
-- 下载Nacos服务器
-    - 从[https://github.com/alibaba/nacos/releases](https://github.com/alibaba/nacos/releases)获取nacos-server-x.x.x.zip，并解压
-- 启动Nacos服务器
-    - Windows环境下，运行bin目录下的startup.cmd
-    - Linux环境下，运行bin目录下的startup.sh
+① 下载代码
+
+② Git clone https://github.com/Nepxion/DiscoveryGuide.git 
+
+③ 代码导入IDE
+
+④ 下载Nacos服务器
+
+- 从[https://github.com/alibaba/nacos/releases](https://github.com/alibaba/nacos/releases)获取nacos-server-x.x.x.zip，并解压
+
+⑤ 启动Nacos服务器
+
+- Windows环境下，运行bin目录下的startup.cmd
+- Linux环境下，运行bin目录下的startup.sh
 
 ### 启动服务 
 - 在IDE中，启动四个应用服务和两个网关服务，控制平台服务和监控平台服务可选，如下
