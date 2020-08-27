@@ -2126,9 +2126,14 @@ spring.application.environment.route=common
 ![](http://nepxion.gitee.io/docs/icon-doc/information.png) 下面方式也可以通过Spring Cloud Alibaba Sentinel功能来实现
 
 封装NacosDataSource和ApolloDataSource，支持Nacos和Apollo两个远程配置中心，零代码实现Sentinel功能。更多的远程配置中心，请参照Sentinel官方的DataSource并自行集成
+
+- Nacos的Key格式
 ```
-1. Nacos的Key格式：Group为元数据中配置的[组名]，Data Id为[服务名]-[规则类型]
-2. Apollo的Key格式：[组名]-[服务名]-[规则类型]
+Group为元数据中配置的[组名]，Data Id为[服务名]-[规则类型]
+```
+- Apollo的Key格式
+```
+[组名]-[服务名]-[规则类型]
 ```
 
 支持远程配置中心和本地规则文件的读取逻辑，即优先读取远程配置，如果不存在或者规则错误，则读取本地规则文件。动态实现远程配置中心对于规则的热刷新
@@ -2463,10 +2468,10 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 #### 调用链输出方式
 调用链输出方式以OpenUber Jaeger为例来说明
 
-1. 从[网盘文档](https://pan.baidu.com/s/1i57rXaNKPuhGRqZ2MONZOA)获取，Windows操作系统下解压后运行jaeger.bat，Mac和Lunix操作系统请自行研究
-2. 执行Postman调用后，访问[http://localhost:16686](http://localhost:16686)查看灰度调用链
-3. 灰度调用链支持WebMvc和WebFlux两种方式，以NEPXION字样的标记来标识
-4. 支持对Sentinel自动埋点
+- 从[网盘文档](https://pan.baidu.com/s/1i57rXaNKPuhGRqZ2MONZOA)获取，Windows操作系统下解压后运行jaeger.bat，Mac和Lunix操作系统请自行研究
+- 执行Postman调用后，访问[http://localhost:16686](http://localhost:16686)查看灰度调用链
+- 灰度调用链支持WebMvc和WebFlux两种方式，以NEPXION字样的标记来标识
+- 支持对Sentinel自动埋点
 
 集成Opentracing + Uber Jaeger调用链平台
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger1.jpg)
@@ -2490,8 +2495,9 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 ![](http://nepxion.gitee.io/docs/discovery-doc/Skywalking2.jpg)
 
 ![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 请注意如下配置，将决定终端界面的显示
-1. 如果开启，灰度信息输出到独立的Span节点中，意味着在界面显示中，灰度信息通过独立的NEPXION Span节点来显示。优点是信息简洁明了，缺点是Span节点会增长一倍
-2. 如果关闭，灰度信息输出到原生的Span节点中，意味着在界面显示中，灰度信息会和原生Span节点的调用信息、协议信息等混在一起，缺点是信息庞杂混合，优点是Span节点数不会增长
+
+- 如果开启，灰度信息输出到独立的Span节点中，意味着在界面显示中，灰度信息通过独立的NEPXION Span节点来显示。优点是信息简洁明了，缺点是Span节点会增长一倍
+- 如果关闭，灰度信息输出到原生的Span节点中，意味着在界面显示中，灰度信息会和原生Span节点的调用信息、协议信息等混在一起，缺点是信息庞杂混合，优点是Span节点数不会增长
 ```
 # 启动和关闭调用链的灰度信息以独立的Span节点输出，如果关闭，则灰度信息输出到原生的Span节点中（Skywalking不支持原生模式）。缺失则默认为true
 spring.application.strategy.tracer.separate.span.enabled=true
