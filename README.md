@@ -3581,11 +3581,13 @@ public class DiscoveryGuideTestCases {
 
 ① 远程配置中心约定
 
-    - Apollo上Key的格式为{group}-{serviceId}-sentinel
-    - Nacos上Group为代码中的{group}，Data ID为{serviceId}-{suffix}，即{serviceId}-sentinel
+- Apollo上Key的格式为{group}-{serviceId}-sentinel
+- Nacos上Group为代码中的{group}，Data ID为{serviceId}-{suffix}，即{serviceId}-sentinel
 
 ② 执行测试用例前，把执行限流降级熔断等逻辑的内容（executePath = "sentinel-test.xml"）推送到远程配置中心
+
 ③ 执行测试用例，通过断言Assert来判断测试结果
+
 ④ 执行测试用例后，把修改过的内容（resetPath = "sentinel-default.xml"）复原，再推送一次到远程配置中心
 
 ```java
@@ -3702,7 +3704,7 @@ A service 1.1 version weight=60.1667%
 ```
 
 ## 压力测试
-压力测试，基于wrk的异步压力测试框架，能用很少的线程压测出很大的并发量，使用简单方便
+压力测试，基于WRK的异步压力测试框架，能用很少的线程压测出很大的并发量，使用简单方便
 
 ### 测试环境
 ① 准备两台机器部署Spring Cloud应用
@@ -3729,11 +3731,11 @@ zuul.semaphore.max-semaphores=5000
 ```
 
 ### 测试介绍
-- 使用wrk脚本进行性能测试，wrk脚本示例，请参考[压测脚本](https://github.com/Nepxion/DiscoveryGuide/tree/master/discovery-guide-test-automation/post.lua)，下面的测试命令行可以不必带脚本参数
-- 使用wrk详细说明参考[https://github.com/wg/wrk](https://github.com/wg/wrk)
+- 使用WRK脚本进行性能测试，WRK脚本示例，请参考[压测脚本](https://github.com/Nepxion/DiscoveryGuide/tree/master/discovery-guide-test-automation/post.lua)，下面的测试命令行可以不必带脚本参数
+- 使用WRK详细说明参考[https://github.com/wg/wrk](https://github.com/wg/wrk)
 
 ### 测试步骤
-- 登录到wrk的机器，进入wrk目录
+- 登录到WRK的机器，进入WRK目录
 - 运行命令 wrk -t64 -c2000 -d30s -H "id: 123" -H "token: abc" --timeout=2s --latency --script=post.lua http://localhost:5001/discovery-guide-service-a/invoke/gateway
 ```
 使用方法: wrk <选项> <被测HTTP服务的URL>
