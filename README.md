@@ -80,9 +80,9 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
     - 基于IP地址和端口的防护
     - 基于自定义任意的业务参数组合的防护
 - 基于Hystrix的全链路服务限流熔断和灰度融合
-- 全链路监控。包括全链路调用链监控（Tracing）、全链路日志监控（Logging）、全链路指标监控（Metrics）。框架支持符合OpenTracing规范的Uber Jaeger、Apache Skywalking
-    - 全链路调用链监控（Tracing）。包括Header方式、调用链方式、日志方式等单个或者组合式的全链路灰度调用链，支持对Sentinel自动埋点。调用链方式不支持Edgware版（Spring Boot 1.x.x）
-    - 全链路指标监控（Metrics）。包括Prometheus、Grafana、Spring Boot Admin
+- 全链路监控。包括全链路调用链监控（Tracing）、全链路日志监控（Logging）、全链路指标监控（Metrics）
+    - 全链路调用链监控（Tracing）。包括Header方式、调用链方式、日志方式等单个或者组合式的全链路灰度调用链，支持对Sentinel自动埋点。调用链方式不支持Edgware版（Spring Boot 1.x.x）。框架支持符合OpenTracing规范的Uber Jaeger、Apache Skywalking
+    - 全链路指标监控（Metrics）。框架支持Prometheus、Grafana、Spring Boot Admin
 - 全链路Header传递
 - 全链路侦测
 - 全链路服务侧注解
@@ -620,6 +620,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 ⑥ 调用链插件依赖引入
 
 调用链功能引入，支持微服务端、网关Zuul端和网关Spring Cloud Gateway端
+
 ![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：该模块支持F版或更高版本，且不能同时引入
 ```xml
 微服务端引入
