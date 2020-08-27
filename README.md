@@ -81,8 +81,8 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
     - 基于自定义任意的业务参数组合的防护
 - 基于Hystrix的全链路服务限流熔断和灰度融合
 - 全链路监控。包括全链路调用链监控（Tracing）、全链路日志监控（Logging）、全链路指标监控（Metrics）
-    - 全链路调用链监控（Tracing）。包括Header方式、调用链方式、日志方式等单个或者组合式的全链路灰度调用链，支持对Sentinel自动埋点。调用链方式不支持Edgware版（Spring Boot 1.x.x）。框架支持符合OpenTracing规范的Uber Jaeger、Apache Skywalking
-    - 全链路指标监控（Metrics）。框架支持Prometheus、Grafana、Spring Boot Admin
+    - 全链路调用链监控（Tracing）。包括Header方式、调用链方式、日志方式等单个或者组合式的全链路灰度调用链，支持对Sentinel自动埋点。调用链方式不支持Edgware版（Spring Boot 1.x.x）
+    - 全链路指标监控（Metrics）
 - 全链路Header传递
 - 全链路侦测
 - 全链路服务侧注解
@@ -105,9 +105,13 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 - [**Spring Cloud Alibaba**] 阿里巴巴中间件部门开发的Spring Cloud增强套件，致力于提供微服务开发的一站式解决方案。此项目包含开发分布式应用微服务的必需组件，方便开发者通过Spring Cloud编程模型轻松使用这些组件来开发分布式应用服务。依托Spring Cloud Alibaba，只需要添加一些注解和少量配置，就可以将Spring Cloud应用接入阿里微服务解决方案，通过阿里中间件来迅速搭建分布式应用系统
 - [**OpenTracing**] OpenTracing已进入CNCF，正在为全球的分布式追踪系统提供统一的概念、规范、架构和数据标准。它通过提供平台无关、厂商无关的API，使得开发人员能够方便的添加（或更换）追踪系统的实现。对于存在多样化的技术栈共存的调用链中，OpenTracing适配Java、C、Go和.Net等技术栈，实现全链路分布式追踪功能。迄今为止，Uber Jaeger、Twitter Zipkin和Apache Skywalking已经适配了OpenTracing规范。CNCF技术委员会通过OpenTelemetry规范整合基于Tracing的OpenTracing规范（官方推荐Jaeger做Backend）和基于Metrics的OpenSensus规范（官方推荐Prometheus做Backend）
 
-④ 框架支持易用性表现，如下
+④ 框架支持易用性表现，简单步骤如下
 - 引入相关依赖到pom.xml
-- 设置元数据MetaData，为微服务定义一个所属组名（group）或者应用名（application）或者通过服务名前缀来自动产生服务组名，定义一个版本号（version）或者通过Git插件方式自动产生版本号，定义一个所属区域名（region），定义一个所属环境（env）。这四个元数据可以按需设置
+- 设置元数据MetaData。如下四个元数据可以按需设置
+    - 为微服务定义一个所属组名（group）或者应用名（application）或者通过服务名前缀来自动产生服务组名
+	- 定义一个版本号（version）或者通过Git插件方式自动产生版本号
+    - 定义一个所属区域名（region）
+    - 定义一个所属环境（env）
 - 执行采用“约定大于配置”的方式，使用者可以开启和关闭相关功能项或者属性值，达到最佳配置
 - 规则策略文件设置和推送
 
