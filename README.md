@@ -599,7 +599,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
     <version>${discovery.version}</version>
 </dependency>
 ```
-- Hystrix防护插件。Hystrix线程池隔离模式（信号量隔离模式不需要引入）下必须引入该插件，灰度路由Header和调用链Span在Hystrix线程池隔离模式下传递时，通过线程上下文切换会存在丢失Header的问题，通过该插件解决，支持微服务端、网关Zuul端和网关Spring Cloud Gateway端
+- Hystrix防护插件。Hystrix线程池隔离模式（信号量隔离模式不需要引入）下必须引入该插件，灰度路由Header和调用链Span在Hystrix线程池隔离模式下传递时，通过线程上下文切换会存在丢失Header的问题。通过该插件解决，支持微服务端、网关Zuul端和网关Spring Cloud Gateway端
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -638,7 +638,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 
 ⑦ 异步跨线程Agent依赖引入
 
-异步跨线程Agent的引入，通过Java Agent方式启动。灰度路由Header和调用链Span在Hystrix线程池隔离模式下或者线程、线程池、@Async注解等异步调用Feign或者RestTemplate时，通过线程上下文切换会存在丢失Header的问题，通过该插件解决，支持微服务端、网关Zuul端和网关Spring Cloud Gateway端
+异步跨线程Agent的引入，通过Java Agent方式启动。灰度路由Header和调用链Span在Hystrix线程池隔离模式下或者线程、线程池、@Async注解等异步调用Feign或者RestTemplate时，通过线程上下文切换会存在丢失Header的问题。通过该插件解决，支持微服务端、网关Zuul端和网关Spring Cloud Gateway端
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -663,7 +663,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 ```
 
 ## 准备工作
-为了更好的阐述框架的各项功能，本文围绕指南示例进行阐述，请使用者先进行下面的准备工作。指南示例以Nacos为服务注册中心和配置中心展开介绍，使用者可自行换成其它服务注册中心和配置中心
+为了更好的阐述框架的各项功能，本文围绕指南示例展开，请使用者先进行下面的准备工作。指南示例以Nacos为服务注册中心和配置中心展开介绍，使用者可自行换成其它服务注册中心和配置中心
 
 ### 环境搭建
 - 下载代码
