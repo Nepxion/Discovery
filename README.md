@@ -3704,7 +3704,7 @@ A service 1.1 version weight=60.1667%
 ```
 
 ## 压力测试
-压力测试，基于wrk的异步压力测试框架，能用很少的线程压测出很大的并发量，使用简单方便
+压力测试，基于WRK的异步压力测试框架，能用很少的线程压测出很大的并发量，使用简单方便
 
 ### 测试环境
 ① 准备两台机器部署Spring Cloud应用
@@ -3731,11 +3731,11 @@ zuul.semaphore.max-semaphores=5000
 ```
 
 ### 测试介绍
-- 使用wrk脚本进行性能测试，wrk脚本示例，请参考[压测脚本](https://github.com/Nepxion/DiscoveryGuide/tree/master/discovery-guide-test-automation/post.lua)，下面的测试命令行可以不必带脚本参数
-- 使用wrk详细说明参考[https://github.com/wg/wrk](https://github.com/wg/wrk)
+- 使用WRK脚本进行性能测试，WRK脚本示例，请参考[压测脚本](https://github.com/Nepxion/DiscoveryGuide/tree/master/discovery-guide-test-automation/post.lua)，下面的测试命令行可以不必带脚本参数
+- 使用WRK详细说明参考[https://github.com/wg/wrk](https://github.com/wg/wrk)
 
 ### 测试步骤
-- 登录到wrk的机器，进入wrk目录
+- 登录到WRK的机器，进入WRK目录
 - 运行命令 wrk -t64 -c2000 -d30s -H "id: 123" -H "token: abc" --timeout=2s --latency --script=post.lua http://localhost:5001/discovery-guide-service-a/invoke/gateway
 ```
 使用方法: wrk <选项> <被测HTTP服务的URL>
