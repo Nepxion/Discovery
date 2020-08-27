@@ -3581,11 +3581,13 @@ public class DiscoveryGuideTestCases {
 
 ① 远程配置中心约定
 
-    - Apollo上Key的格式为{group}-{serviceId}-sentinel
-    - Nacos上Group为代码中的{group}，Data ID为{serviceId}-{suffix}，即{serviceId}-sentinel
+- Apollo上Key的格式为{group}-{serviceId}-sentinel
+- Nacos上Group为代码中的{group}，Data ID为{serviceId}-{suffix}，即{serviceId}-sentinel
 
 ② 执行测试用例前，把执行限流降级熔断等逻辑的内容（executePath = "sentinel-test.xml"）推送到远程配置中心
+
 ③ 执行测试用例，通过断言Assert来判断测试结果
+
 ④ 执行测试用例后，把修改过的内容（resetPath = "sentinel-default.xml"）复原，再推送一次到远程配置中心
 
 ```java
