@@ -2477,6 +2477,19 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 - 灰度调用链支持WebMvc和WebFlux两种方式，以NEPXION字样的标记来标识
 - 支持对Sentinel自动埋点
 
+![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 注意：因为OpenTracing规范不仅仅只被Jaeger所遵守，所以框架并没有直接引入Jaeger包，需要使用者自行引入，可以参照指南示例中的pom.xml引用
+```xml
+<dependency>
+    <groupId>io.opentracing.contrib</groupId>
+    <artifactId>opentracing-spring-cloud-starter</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>io.opentracing.contrib</groupId>
+    <artifactId>opentracing-spring-jaeger-starter</artifactId>
+</dependency>
+```
+
 集成Opentracing + Uber Jaeger调用链平台
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger1.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger2.jpg)
