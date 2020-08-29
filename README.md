@@ -700,7 +700,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 ### 启动服务 
 - 在IDE中，启动四个应用服务和两个网关服务，控制平台服务和监控平台服务可选，如下
 
-| 类名 | 微服务 | 服务端口 | 版本 | 区域 | 子环境 |
+| 类名 | 微服务 | 服务端口 | 版本 | 区域 | 环境 |
 | --- | --- | --- | --- | --- | -- | 
 | DiscoveryGuideServiceA1.java | A1 | 3001 | 1.0 | dev | env1 |
 | DiscoveryGuideServiceA2.java | A2 | 3002 | 1.1 | qa | common |
@@ -2124,8 +2124,8 @@ spring.application.environment.route=common
 ```
 
 整个隔离和路由的逻辑如下
-- 如果存在子环境，优先寻址子环境的服务实例
-- 如果不存在子环境，则寻址Common环境的服务实例（未设置元数据Metadata的env参数的服务实例也归为Common环境）
+- 如果存在环境，优先寻址环境的服务实例
+- 如果不存在环境，则寻址Common环境的服务实例（未设置元数据Metadata的env参数的服务实例也归为Common环境）
 - 如果Common环境也不存在，则调用失败
 - 如果没有传递环境Header（n-d-env）值，则执行Spring Cloud Ribbon轮询策略
 
@@ -2694,7 +2694,7 @@ spring.application.strategy.business.request.headers=user;mobile
 ```
 
 ## 全链路侦测
-通过内置基于LoadBalanced RestTemplate方式的/inspector/inspect接口方法，实现全链路侦测，可以查看全链路中调用的各个服务的版本、区域、子环境、IP地址等是否符合预期，是否满足灰度条件，该接口可以集成到使用者的界面中，就可以规避通过Postman工具或者调用链系统去判断，有利于节省人工成本。使用方式
+通过内置基于LoadBalanced RestTemplate方式的/inspector/inspect接口方法，实现全链路侦测，可以查看全链路中调用的各个服务的版本、区域、环境、IP地址等是否符合预期，是否满足灰度条件，该接口可以集成到使用者的界面中，就可以规避通过Postman工具或者调用链系统去判断，有利于节省人工成本。使用方式
 
 - 执行Post请求
 - 请求的路径：http://[网关URL]/[服务名1]/inspector/inspect
