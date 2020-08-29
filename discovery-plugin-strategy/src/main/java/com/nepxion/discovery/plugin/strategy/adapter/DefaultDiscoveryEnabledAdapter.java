@@ -96,10 +96,10 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
 
         String environment = pluginAdapter.getServerEnvironment(server);
         if (matched) {
-            // 匹配到传递过来的子环境Header的服务实例，返回匹配的子环境服务实例
+            // 匹配到传递过来的环境Header的服务实例，返回匹配的环境的服务实例
             return StringUtils.equals(environment, environmentValue);
         } else {
-            // 没有匹配上，则寻址Common子环境，返回Common子环境的服务实力
+            // 没有匹配上，则寻址Common环境，返回Common环境的服务实例
             return StringUtils.equals(environment, environmentRoute) || StringUtils.equals(environment, DiscoveryConstant.DEFAULT);
         }
     }
