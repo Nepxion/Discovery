@@ -39,7 +39,7 @@
 - [指南Gitee同步镜像](https://gitee.com/Nepxion/PolarisGuide)
 - [指南Github原镜像](https://github.com/Nepxion/PolarisGuide)
 
-![](http://nepxion.gitee.io/docs/icon-doc/information.png) 两套框架联合架构图
+![](http://nepxion.gitee.io/docs/icon-doc/information.png) 联合架构图
 
 ![](http://nepxion.gitee.io/docs/polaris-doc/Architecture.jpg)
 
