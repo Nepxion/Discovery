@@ -19,8 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -35,8 +33,6 @@ import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyCon
 import com.nepxion.discovery.plugin.strategy.service.filter.ServiceStrategyRouteFilter;
 
 public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor implements ClientHttpRequestInterceptor {
-    private static final Logger LOG = LoggerFactory.getLogger(RestTemplateStrategyInterceptor.class);
-
     @Autowired
     private ServiceStrategyRouteFilter serviceStrategyRouteFilter;
 
@@ -52,10 +48,6 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
 
     public RestTemplateStrategyInterceptor(String contextRequestHeaders, String businessRequestHeaders) {
         super(contextRequestHeaders, businessRequestHeaders);
-
-        LOG.info("------- RestTemplate Intercept Information -------");
-        LOG.info("RestTemplate desires to intercept customer headers are {}", requestHeaderList);
-        LOG.info("--------------------------------------------------");
     }
 
     @Override
@@ -103,7 +95,14 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
             String headerValue = previousRequest.getHeader(headerName);
             boolean isHeaderContains = isHeaderContainsExcludeInner(headerName.toLowerCase());
             if (isHeaderContains) {
-                headers.add(headerName, headerValue);
+                if (restTemplateCoreHeaderTransmissionEnabled) {
+                    headers.add(headerName, headerValue);
+                } else {
+                    boolean isCoreHeaderContains = isCoreHeaderContains(headerName);
+                    if (!isCoreHeaderContains) {
+                        headers.add(headerName, headerValue);
+                    }
+                }
             }
         }
 
@@ -146,7 +145,7 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
             return;
         }
 
-        System.out.println("------- Intercept Output Header Information ------");
+        System.out.println("------- " + getInterceptorName() + " Intercept Output Header Information ------");
         HttpHeaders headers = request.getHeaders();
         for (Iterator<Entry<String, List<String>>> iterator = headers.entrySet().iterator(); iterator.hasNext();) {
             Entry<String, List<String>> header = iterator.next();
@@ -159,5 +158,10 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
             }
         }
         System.out.println("--------------------------------------------------");
+    }
+
+    @Override
+    protected String getInterceptorName() {
+        return "RestTemplate";
     }
 }
