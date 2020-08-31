@@ -16,6 +16,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -28,6 +30,8 @@ import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyCon
 import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyContextHolder;
 
 public abstract class AbstractStrategyInterceptor {
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractStrategyInterceptor.class);
+
     @Autowired
     protected ConfigurableEnvironment environment;
 
@@ -49,6 +53,10 @@ public abstract class AbstractStrategyInterceptor {
         if (StringUtils.isNotEmpty(businessRequestHeaders)) {
             requestHeaderList.addAll(StringUtil.splitToList(businessRequestHeaders.toLowerCase(), DiscoveryConstant.SEPARATE));
         }
+
+        LOG.info("------- " + getInterceptorName() + " Intercept Information -------");
+        LOG.info(getInterceptorName() + " desires to intercept customer headers are {}", requestHeaderList);
+        LOG.info("--------------------------------------------------");
     }
 
     protected void interceptInputHeader() {
@@ -67,7 +75,7 @@ public abstract class AbstractStrategyInterceptor {
             return;
         }
 
-        System.out.println("------- Intercept Input Header Information -------");
+        System.out.println("------- " + getInterceptorName() + " Intercept Input Header Information -------");
         while (headerNames.hasMoreElements()) {
             String headerName = headerNames.nextElement();
             boolean isHeaderContains = isHeaderContains(headerName.toLowerCase());
@@ -96,4 +104,14 @@ public abstract class AbstractStrategyInterceptor {
                 !StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_ENVIRONMENT);
         // return isHeaderContains(headerName) && !headerName.startsWith(DiscoveryConstant.N_D_SERVICE_PREFIX);
     }
+
+    protected boolean isCoreHeaderContains(String headerName) {
+        return StringUtils.equals(headerName, DiscoveryConstant.N_D_VERSION) ||
+                StringUtils.equals(headerName, DiscoveryConstant.N_D_REGION) ||
+                StringUtils.equals(headerName, DiscoveryConstant.N_D_ADDRESS) ||
+                StringUtils.equals(headerName, DiscoveryConstant.N_D_VERSION_WEIGHT) ||
+                StringUtils.equals(headerName, DiscoveryConstant.N_D_REGION_WEIGHT);
+    }
+
+    protected abstract String getInterceptorName();
 }

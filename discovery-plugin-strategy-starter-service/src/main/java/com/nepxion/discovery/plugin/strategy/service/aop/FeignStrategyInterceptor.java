@@ -20,8 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -31,8 +29,6 @@ import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyCon
 import com.nepxion.discovery.plugin.strategy.service.filter.ServiceStrategyRouteFilter;
 
 public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implements RequestInterceptor {
-    private static final Logger LOG = LoggerFactory.getLogger(FeignStrategyInterceptor.class);
-
     @Autowired
     private ServiceStrategyRouteFilter serviceStrategyRouteFilter;
 
@@ -48,10 +44,6 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
 
     public FeignStrategyInterceptor(String contextRequestHeaders, String businessRequestHeaders) {
         super(contextRequestHeaders, businessRequestHeaders);
-
-        LOG.info("----------- Feign Intercept Information ----------");
-        LOG.info("Feign desires to intercept customer headers are {}", requestHeaderList);
-        LOG.info("--------------------------------------------------");
     }
 
     @Override
@@ -95,7 +87,14 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
             String headerValue = previousRequest.getHeader(headerName);
             boolean isHeaderContains = isHeaderContainsExcludeInner(headerName.toLowerCase());
             if (isHeaderContains) {
-                requestTemplate.header(headerName, headerValue);
+                if (feignCoreHeaderTransmissionEnabled) {
+                    requestTemplate.header(headerName, headerValue);
+                } else {
+                    boolean isCoreHeaderContains = isCoreHeaderContains(headerName);
+                    if (!isCoreHeaderContains) {
+                        requestTemplate.header(headerName, headerValue);
+                    }
+                }
             }
         }
 
@@ -139,7 +138,7 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
             return;
         }
 
-        System.out.println("------- Intercept Output Header Information ------");
+        System.out.println("------- " + getInterceptorName() + " Intercept Output Header Information ------");
         Map<String, Collection<String>> headers = requestTemplate.headers();
         for (Map.Entry<String, Collection<String>> entry : headers.entrySet()) {
             String headerName = entry.getKey();
@@ -151,5 +150,10 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
             }
         }
         System.out.println("--------------------------------------------------");
+    }
+
+    @Override
+    protected String getInterceptorName() {
+        return "Feign";
     }
 }
