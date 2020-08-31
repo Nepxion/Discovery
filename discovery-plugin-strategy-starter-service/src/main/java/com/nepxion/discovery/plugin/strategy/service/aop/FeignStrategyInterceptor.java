@@ -27,6 +27,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.filter.ServiceStrategyRouteFilter;
+import com.nepxion.discovery.plugin.strategy.util.StrategyUtil;
 
 public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implements RequestInterceptor {
     @Autowired
@@ -90,7 +91,7 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
                 if (feignCoreHeaderTransmissionEnabled) {
                     requestTemplate.header(headerName, headerValue);
                 } else {
-                    boolean isCoreHeaderContains = isCoreHeaderContains(headerName);
+                    boolean isCoreHeaderContains = StrategyUtil.isCoreHeaderContains(headerName);
                     if (!isCoreHeaderContains) {
                         requestTemplate.header(headerName, headerValue);
                     }

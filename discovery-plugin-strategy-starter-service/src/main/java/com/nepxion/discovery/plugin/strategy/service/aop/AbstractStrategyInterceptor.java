@@ -28,6 +28,7 @@ import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyContextHolder;
+import com.nepxion.discovery.plugin.strategy.util.StrategyUtil;
 
 public abstract class AbstractStrategyInterceptor {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractStrategyInterceptor.class);
@@ -93,24 +94,9 @@ public abstract class AbstractStrategyInterceptor {
     }
 
     protected boolean isHeaderContainsExcludeInner(String headerName) {
-        return isHeaderContains(headerName) &&
-                !StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_GROUP) &&
-                !StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_TYPE) &&
-                !StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_APP_ID) &&
-                !StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_ID) &&
-                !StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_ADDRESS) &&
-                !StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_VERSION) &&
-                !StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_REGION) &&
-                !StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_ENVIRONMENT);
-        // return isHeaderContains(headerName) && !headerName.startsWith(DiscoveryConstant.N_D_SERVICE_PREFIX);
-    }
+        return isHeaderContains(headerName) && !StrategyUtil.isInnerHeaderContains(headerName);
 
-    protected boolean isCoreHeaderContains(String headerName) {
-        return StringUtils.equals(headerName, DiscoveryConstant.N_D_VERSION) ||
-                StringUtils.equals(headerName, DiscoveryConstant.N_D_REGION) ||
-                StringUtils.equals(headerName, DiscoveryConstant.N_D_ADDRESS) ||
-                StringUtils.equals(headerName, DiscoveryConstant.N_D_VERSION_WEIGHT) ||
-                StringUtils.equals(headerName, DiscoveryConstant.N_D_REGION_WEIGHT);
+        // return isHeaderContains(headerName) && !headerName.startsWith(DiscoveryConstant.N_D_SERVICE_PREFIX);
     }
 
     protected abstract String getInterceptorName();
