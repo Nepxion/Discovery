@@ -25,7 +25,6 @@ import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.StrategyCustomizationEntity;
 import com.nepxion.discovery.common.entity.StrategyHeaderEntity;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.gateway.constant.GatewayStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.gateway.context.GatewayStrategyContext;
@@ -41,16 +40,6 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
     @Autowired(required = false)
     private GatewayStrategyMonitor gatewayStrategyMonitor;
 
-    // 核心策略Header是否传递。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
-    // 1. n-d-version
-    // 2. n-d-region
-    // 3. n-d-address
-    // 4. n-d-version-weight
-    // 5. n-d-region-weight
-    // 6. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
-    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_CORE_HEADER_TRANSMISSION_ENABLED + ":true}")
-    protected Boolean coreHeaderTransmissionEnabled;
-
     // 如果外界也传了相同的Header，例如，从Postman传递过来的Header，当下面的变量为true，以网关设置为优先，否则以外界传值为优先
     @Value("${" + GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_HEADER_PRIORITY + ":true}")
     protected Boolean gatewayHeaderPriority;
@@ -58,6 +47,16 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
     // 当以网关设置为优先的时候，网关未配置Header，而外界配置了Header，仍旧忽略外界的Header
     @Value("${" + GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_ORIGINAL_HEADER_IGNORED + ":true}")
     protected Boolean gatewayOriginalHeaderIgnored;
+
+    // Gateway上核心策略Header是否传递。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
+    // 1. n-d-version
+    // 2. n-d-region
+    // 3. n-d-address
+    // 4. n-d-version-weight
+    // 5. n-d-region-weight
+    // 6. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
+    @Value("${" + GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_CORE_HEADER_TRANSMISSION_ENABLED + ":true}")
+    protected Boolean gatewayCoreHeaderTransmissionEnabled;
 
     @Value("${" + GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_ROUTE_FILTER_ORDER + ":" + GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_ROUTE_FILTER_ORDER_VALUE + "}")
     protected Integer filterOrder;
@@ -92,7 +91,7 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
             }
         }
 
-        if (coreHeaderTransmissionEnabled) {
+        if (gatewayCoreHeaderTransmissionEnabled) {
             String routeVersion = getRouteVersion();
             String routeRegion = getRouteRegion();
             String routeAddress = getRouteAddress();

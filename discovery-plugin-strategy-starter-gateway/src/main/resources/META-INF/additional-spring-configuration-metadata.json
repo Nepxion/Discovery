@@ -17,6 +17,12 @@
 			"type": "java.lang.Boolean",
 			"defaultValue": true,
 			"description": "Whether strategy gateway original header ignored is enabled."
+		},
+		{
+			"name": "spring.application.strategy.gateway.core.header.transmission.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether strategy gateway core header transmission is enabled."
 		}
 	]
 }

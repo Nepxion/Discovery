@@ -17,6 +17,12 @@
 			"type": "java.lang.Boolean",
 			"defaultValue": true,
 			"description": "Whether strategy zuul original header ignored is enabled."
+		},
+		{
+			"name": "spring.application.strategy.zuul.core.header.transmission.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether strategy zuul core header transmission is enabled."
 		}
 	]
 }

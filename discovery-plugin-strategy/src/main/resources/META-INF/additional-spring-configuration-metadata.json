@@ -53,12 +53,6 @@
 			"description": "Whether strategy version filter is enabled."
 		},
 		{
-			"name": "spring.application.strategy.core.header.transmission.enabled",
-			"type": "java.lang.Boolean",
-			"defaultValue": true,
-			"description": "Whether strategy core header transmission is enabled."
-		},
-		{
 			"name": "spring.application.strategy.monitor.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": false,
