@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.strategy.context.AbstractStrategyContextHolder;
+import com.nepxion.discovery.plugin.strategy.util.StrategyUtil;
 import com.nepxion.discovery.plugin.strategy.zuul.constant.ZuulStrategyConstant;
 import com.netflix.zuul.context.RequestContext;
 
@@ -30,6 +30,16 @@ public class ZuulStrategyContextHolder extends AbstractStrategyContextHolder {
     // 当以网关设置为优先的时候，网关未配置Header，而外界配置了Header，仍旧忽略外界的Header
     @Value("${" + ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_ORIGINAL_HEADER_IGNORED + ":true}")
     protected Boolean zuulOriginalHeaderIgnored;
+
+    // Zuul上核心策略Header是否传递。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
+    // 1. n-d-version
+    // 2. n-d-region
+    // 3. n-d-address
+    // 4. n-d-version-weight
+    // 5. n-d-region-weight
+    // 6. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
+    @Value("${" + ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_CORE_HEADER_TRANSMISSION_ENABLED + ":true}")
+    protected Boolean zuulCoreHeaderTransmissionEnabled;
 
     public HttpServletRequest getRequest() {
         HttpServletRequest request = ZuulStrategyContext.getCurrentContext().getRequest();
@@ -58,11 +68,18 @@ public class ZuulStrategyContextHolder extends AbstractStrategyContextHolder {
             return null;
         }
 
+        if (!zuulCoreHeaderTransmissionEnabled) {
+            boolean isCoreHeaderContains = StrategyUtil.isCoreHeaderContains(name);
+            if (isCoreHeaderContains) {
+                return null;
+            }
+        }
+
         if (zuulHeaderPriority) {
             // 来自于Zuul Filter的Header
             String header = getZuulRequestHeaders().get(name);
             if (StringUtils.isEmpty(header)) {
-                if (isRouteValue(name) && zuulOriginalHeaderIgnored) {
+                if (StrategyUtil.isCoreHeaderContains(name) && zuulOriginalHeaderIgnored) {
                     header = null;
                 } else {
                     // 来自于外界的Header
@@ -81,13 +98,5 @@ public class ZuulStrategyContextHolder extends AbstractStrategyContextHolder {
 
             return header;
         }
-    }
-
-    private boolean isRouteValue(String name) {
-        return StringUtils.equals(name, DiscoveryConstant.N_D_VERSION) ||
-                StringUtils.equals(name, DiscoveryConstant.N_D_REGION) ||
-                StringUtils.equals(name, DiscoveryConstant.N_D_ADDRESS) ||
-                StringUtils.equals(name, DiscoveryConstant.N_D_VERSION_WEIGHT) ||
-                StringUtils.equals(name, DiscoveryConstant.N_D_REGION_WEIGHT);
     }
 }

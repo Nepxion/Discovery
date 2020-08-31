@@ -32,8 +32,12 @@ public class GatewayStrategyFilterResolver {
 
     public static void ignoreHeader(ServerHttpRequest.Builder requestBuilder, String headerName, Boolean gatewayHeaderPriority, Boolean gatewayOriginalHeaderIgnored) {
         if (gatewayHeaderPriority && gatewayOriginalHeaderIgnored) {
-            // 需要把外界的Header清除
-            requestBuilder.headers(headers -> headers.remove(headerName));
+            ignoreHeader(requestBuilder, headerName);
         }
+    }
+
+    public static void ignoreHeader(ServerHttpRequest.Builder requestBuilder, String headerName) {
+        // 需要把外界的Header清除
+        requestBuilder.headers(headers -> headers.remove(headerName));
     }
 }

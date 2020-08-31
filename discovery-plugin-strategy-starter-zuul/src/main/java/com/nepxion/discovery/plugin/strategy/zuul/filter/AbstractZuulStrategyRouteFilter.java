@@ -125,6 +125,12 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter impleme
             } else {
                 ZuulStrategyFilterResolver.ignoreHeader(DiscoveryConstant.N_D_REGION_WEIGHT, zuulHeaderPriority, zuulOriginalHeaderIgnored);
             }
+        } else {
+            ZuulStrategyFilterResolver.ignoreHeader(DiscoveryConstant.N_D_VERSION);
+            ZuulStrategyFilterResolver.ignoreHeader(DiscoveryConstant.N_D_REGION);
+            ZuulStrategyFilterResolver.ignoreHeader(DiscoveryConstant.N_D_ADDRESS);
+            ZuulStrategyFilterResolver.ignoreHeader(DiscoveryConstant.N_D_VERSION_WEIGHT);
+            ZuulStrategyFilterResolver.ignoreHeader(DiscoveryConstant.N_D_REGION_WEIGHT);
         }
 
         // 对于服务A -> 网关 -> 服务B调用链
