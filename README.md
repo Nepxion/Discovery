@@ -998,7 +998,10 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 # 4. n-d-version-weight
 # 5. n-d-region-weight
 # 6. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
-spring.application.strategy.core.header.transmission.enabled=true
+spring.application.strategy.gateway.core.header.transmission.enabled=true
+spring.application.strategy.zuul.core.header.transmission.enabled=true
+spring.application.strategy.feign.core.header.transmission.enabled=true
+spring.application.strategy.rest.template.core.header.transmission.enabled=true
 ```
 
 ### 配置全链路灰度条件命中和灰度匹配组合式策略
@@ -3002,6 +3005,22 @@ spring.application.strategy.control.enabled=true
 spring.application.strategy.zone.avoidance.rule.enabled=true
 # 启动和关闭路由策略的时候，对REST方式的调用拦截。缺失则默认为true
 spring.application.strategy.rest.intercept.enabled=true
+# 启动和关闭Feign上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
+# 1. n-d-version
+# 2. n-d-region
+# 3. n-d-address
+# 4. n-d-version-weight
+# 5. n-d-region-weight
+# 6. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
+spring.application.strategy.feign.core.header.transmission.enabled=true
+# 启动和关闭RestTemplate上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
+# 1. n-d-version
+# 2. n-d-region
+# 3. n-d-address
+# 4. n-d-version-weight
+# 5. n-d-region-weight
+# 6. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
+spring.application.strategy.rest.template.core.header.transmission.enabled=true
 # 启动和关闭路由策略的时候，对REST方式在异步调用场景下在服务端的Request请求的装饰，当主线程先于子线程执行完的时候，Request会被Destory，导致Header仍旧拿不到，开启装饰，就可以确保拿到。缺失则默认为false
 spring.application.strategy.rest.request.decorator.enabled=true
 # 启动和关闭Header传递的Debug日志打印，注意：每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
@@ -3021,14 +3040,6 @@ spring.application.strategy.consumer.isolation.enabled=true
 # 启动和关闭提供端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
 spring.application.strategy.provider.isolation.enabled=true
 
-# 启动和关闭核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
-# 1. n-d-version
-# 2. n-d-region
-# 3. n-d-address
-# 4. n-d-version-weight
-# 5. n-d-region-weight
-# 6. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
-spring.application.strategy.core.header.transmission.enabled=false
 # 启动和关闭监控，一旦关闭，调用链和日志输出都将关闭。缺失则默认为false
 spring.application.strategy.monitor.enabled=true
 # 启动和关闭日志输出。缺失则默认为false
@@ -3141,19 +3152,19 @@ spring.application.strategy.gateway.route.filter.order=9000
 spring.application.strategy.gateway.header.priority=false
 # 当以网关设置为优先的时候，网关未配置Header，而外界配置了Header，仍旧忽略外界的Header。缺失则默认为true
 spring.application.strategy.gateway.original.header.ignored=true
-# 启动和关闭注册的服务隔离（基于Group黑/白名单的策略）。缺失则默认为false
-spring.application.strategy.register.isolation.enabled=true
-# 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
-spring.application.strategy.consumer.isolation.enabled=true
-
-# 启动和关闭核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
+# 启动和关闭网关上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
 # 1. n-d-version
 # 2. n-d-region
 # 3. n-d-address
 # 4. n-d-version-weight
 # 5. n-d-region-weight
 # 6. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
-spring.application.strategy.core.header.transmission.enabled=false
+spring.application.strategy.gateway.core.header.transmission.enabled=true
+# 启动和关闭注册的服务隔离（基于Group黑/白名单的策略）。缺失则默认为false
+spring.application.strategy.register.isolation.enabled=true
+# 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
+spring.application.strategy.consumer.isolation.enabled=true
+
 # 启动和关闭监控，一旦关闭，调用链和日志输出都将关闭。缺失则默认为false
 spring.application.strategy.monitor.enabled=true
 # 启动和关闭日志输出。缺失则默认为false
@@ -3247,19 +3258,19 @@ spring.application.strategy.zuul.route.filter.order=0
 spring.application.strategy.zuul.header.priority=false
 # 当以网关设置为优先的时候，网关未配置Header，而外界配置了Header，仍旧忽略外界的Header。缺失则默认为true
 spring.application.strategy.zuul.original.header.ignored=true
-# 启动和关闭注册的服务隔离（基于Group黑/白名单的策略）。缺失则默认为false
-spring.application.strategy.register.isolation.enabled=true
-# 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
-spring.application.strategy.consumer.isolation.enabled=true
-
-# 启动和关闭核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
+# 启动和关闭网关上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
 # 1. n-d-version
 # 2. n-d-region
 # 3. n-d-address
 # 4. n-d-version-weight
 # 5. n-d-region-weight
 # 6. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
-spring.application.strategy.core.header.transmission.enabled=false
+spring.application.strategy.zuul.core.header.transmission.enabled=true
+# 启动和关闭注册的服务隔离（基于Group黑/白名单的策略）。缺失则默认为false
+spring.application.strategy.register.isolation.enabled=true
+# 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
+spring.application.strategy.consumer.isolation.enabled=true
+
 # 启动和关闭监控，一旦关闭，调用链和日志输出都将关闭。缺失则默认为false
 spring.application.strategy.monitor.enabled=true
 # 启动和关闭日志输出。缺失则默认为false
