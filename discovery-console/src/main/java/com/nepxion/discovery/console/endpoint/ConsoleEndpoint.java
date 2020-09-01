@@ -109,6 +109,13 @@ public class ConsoleEndpoint {
         return getServices();
     }
 
+    @RequestMapping(path = "/gateways", method = RequestMethod.GET)
+    @ApiOperation(value = "获取服务注册中心的网关名列表", notes = "", response = List.class, httpMethod = "GET")
+    @ResponseBody
+    public List<String> gateways() {
+        return getGateways();
+    }
+
     @RequestMapping(path = "/instances/{serviceId}", method = RequestMethod.GET)
     @ApiOperation(value = "获取服务注册中心的服务实例列表", notes = "", response = List.class, httpMethod = "GET")
     @ResponseBody
@@ -291,6 +298,26 @@ public class ConsoleEndpoint {
 
     public List<ServiceInstance> getInstances(String serviceId) {
         return discoveryClient.getInstances(serviceId);
+    }
+
+    public List<String> getGateways() {
+        List<String> gateways = new ArrayList<String>();
+        List<String> services = getServices();
+        for (String service : services) {
+            List<ServiceInstance> serviceInstances = getInstances(service);
+            for (ServiceInstance serviceInstance : serviceInstances) {
+                Map<String, String> metadata = serviceInstance.getMetadata();
+                String serviceId = serviceInstance.getServiceId().toLowerCase();
+                String serviceType = metadata.get(DiscoveryConstant.SPRING_APPLICATION_TYPE);
+                if (StringUtils.equals(serviceType, DiscoveryConstant.GATEWAY_TYPE)) {
+                    if (!gateways.contains(serviceId)) {
+                        gateways.add(serviceId);
+                    }
+                }
+            }
+        }
+
+        return gateways;
     }
 
     public List<InstanceEntity> getInstanceList(String service) {
