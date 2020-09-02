@@ -72,6 +72,10 @@ public class DiscoveryConstant {
     public static final String REACH_MAX_LIMITED_COUNT = "reach max limited count";
     public static final String REGISTER_ISOLATION = "register isolation";
 
+    public static final String LOCAL_TYPE = "local";
+    public static final String REMOTE_GLOBAL_TYPE = "remote-global";
+    public static final String REMOTE_PARTIAL_TYPE = "remote-partial";
+
     public static final String VERSION = "version";
     public static final String REGION = "region";
     public static final String ENVIRONMENT = "env";
