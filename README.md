@@ -816,7 +816,7 @@ zuul -> [ID=discovery-guide-service-a][P=Nacos][H=192.168.0.107:3001][V=1.0][R=d
 ```
 "discovery-guide-service-b":"1.*;1.2.?"
 ```
-表示discovery-guide-service-b服务的版本调用范围是1开头的所有版本，或者是1.2开头的所有版本（末尾必须是1个字符）
+表示discovery-guide-service-b服务的版本调用范围是1开头的所有版本，或者是1.2开头的所有版本（末尾必须是1个字符），多个用分号隔开
 
 版本灰度路由架构图
 
@@ -867,7 +867,7 @@ d* - 表示调用范围为所有服务的d开头的所有区域
 ```
 "discovery-guide-service-b":"d*;q?"
 ```
-表示discovery-guide-service-b服务的区域调用范围是d开头的所有区域，或者是q开头的所有区域（末尾必须是1个字符）
+表示discovery-guide-service-b服务的区域调用范围是d开头的所有区域，或者是q开头的所有区域（末尾必须是1个字符），多个用分号隔开
 
 区域灰度路由架构图
 
@@ -920,7 +920,7 @@ d* - 表示调用范围为所有服务的d开头的所有区域
 ```
 "discovery-guide-service-b":"3*;400?"
 ```
-表示discovery-guide-service-b服务的端口调用范围是3开头的所有端口，或者是4开头的所有端口（末尾必须是1个字符）
+表示discovery-guide-service-b服务的端口调用范围是3开头的所有端口，或者是4开头的所有端口（末尾必须是1个字符），多个用分号隔开
 
 IP地址和端口灰度路由架构图
 
