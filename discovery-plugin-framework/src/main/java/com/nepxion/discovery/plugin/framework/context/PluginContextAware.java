@@ -128,6 +128,10 @@ public class PluginContextAware implements ApplicationContextAware {
         return getApplicationType(environment);
     }
 
+    public String getApplicationUUId() {
+        return getApplicationUUId(environment);
+    }
+
     public String getGroupKey() {
         return getGroupKey(environment);
     }
@@ -190,6 +194,10 @@ public class PluginContextAware implements ApplicationContextAware {
 
     public static String getApplicationType(Environment environment) {
         return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_TYPE, String.class, DiscoveryConstant.UNKNOWN);
+    }
+
+    public static String getApplicationUUId(Environment environment) {
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_UUID, String.class, DiscoveryConstant.UNKNOWN);
     }
 
     public static String getGroupKey(Environment environment) {

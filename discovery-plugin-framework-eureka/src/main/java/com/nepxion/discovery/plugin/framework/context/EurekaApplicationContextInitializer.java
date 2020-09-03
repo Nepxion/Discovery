@@ -10,7 +10,6 @@ package com.nepxion.discovery.plugin.framework.context;
  */
 
 import java.util.Map;
-import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
@@ -61,9 +60,9 @@ public class EurekaApplicationContextInitializer extends PluginApplicationContex
             }
 
             metadata.put(DiscoveryConstant.SPRING_BOOT_VERSION, SpringBootVersion.getVersion());
-            metadata.put(DiscoveryConstant.SPRING_APPLICATION_UUID, UUID.randomUUID().toString());
             metadata.put(DiscoveryConstant.SPRING_APPLICATION_NAME, PluginContextAware.getApplicationName(environment));
             metadata.put(DiscoveryConstant.SPRING_APPLICATION_TYPE, PluginContextAware.getApplicationType(environment));
+            metadata.put(DiscoveryConstant.SPRING_APPLICATION_UUID, PluginContextAware.getApplicationUUId(environment));
             metadata.put(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN, EurekaConstant.EUREKA_TYPE);
             metadata.put(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_VERSION, DiscoveryConstant.DISCOVERY_VERSION);
             String agentVersion = System.getProperty(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_AGENT_VERSION);

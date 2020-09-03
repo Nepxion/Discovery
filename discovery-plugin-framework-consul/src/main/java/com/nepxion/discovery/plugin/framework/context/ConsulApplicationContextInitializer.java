@@ -10,7 +10,6 @@ package com.nepxion.discovery.plugin.framework.context;
  */
 
 import java.util.List;
-import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
@@ -61,9 +60,9 @@ public class ConsulApplicationContextInitializer extends PluginApplicationContex
             }
 
             metadata.add(DiscoveryConstant.SPRING_BOOT_VERSION + "=" + SpringBootVersion.getVersion());
-            metadata.add(DiscoveryConstant.SPRING_APPLICATION_UUID + "=" + UUID.randomUUID().toString());
             metadata.add(DiscoveryConstant.SPRING_APPLICATION_NAME + "=" + PluginContextAware.getApplicationName(environment));
             metadata.add(DiscoveryConstant.SPRING_APPLICATION_TYPE + "=" + PluginContextAware.getApplicationType(environment));
+            metadata.add(DiscoveryConstant.SPRING_APPLICATION_UUID + "=" + PluginContextAware.getApplicationUUId(environment));
             metadata.add(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN + "=" + ConsulConstant.CONSUL_TYPE);
             metadata.add(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_VERSION + "=" + DiscoveryConstant.DISCOVERY_VERSION);
             String agentVersion = System.getProperty(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_AGENT_VERSION);
