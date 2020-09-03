@@ -57,28 +57,44 @@ public class ConfigInitializer {
 
         LOG.info("------------- Load Discovery Config --------------");
 
-        String remoteConfig = getRemoteConfig();
-        if (StringUtils.isNotEmpty(remoteConfig)) {
-            try {
-                RuleEntity ruleEntity = pluginConfigParser.parse(remoteConfig);
-                pluginAdapter.setDynamicRule(ruleEntity);
-            } catch (Exception e) {
-                LOG.error("Parse config failed", e);
+        String[] remoteConfigList = getRemoteConfigList();
+        if (remoteConfigList != null) {
+            String partialRemoteConfig = remoteConfigList[0];
+            if (StringUtils.isNotEmpty(partialRemoteConfig)) {
+                try {
+                    RuleEntity ruleEntity = pluginConfigParser.parse(partialRemoteConfig);
+                    pluginAdapter.setDynamicPartialRule(ruleEntity);
+                } catch (Exception e) {
+                    LOG.error("Parse partial remote config failed", e);
+                }
+            }
+
+            String globalRemoteConfig = remoteConfigList[1];
+            if (StringUtils.isNotEmpty(globalRemoteConfig)) {
+                try {
+                    RuleEntity ruleEntity = pluginConfigParser.parse(globalRemoteConfig);
+                    pluginAdapter.setDynamicGlobalRule(ruleEntity);
+                } catch (Exception e) {
+                    LOG.error("Parse partial remote config failed", e);
+                }
             }
         }
 
-        String localConfig = getLocalConfig();
-        if (StringUtils.isNotEmpty(localConfig)) {
-            try {
-                RuleEntity ruleEntity = pluginConfigParser.parse(localConfig);
-                pluginAdapter.setLocalRule(ruleEntity);
-            } catch (Exception e) {
-                LOG.error("Parse config failed", e);
+        String[] localConfigList = getLocalConfigList();
+        if (localConfigList != null) {
+            String localConfig = localConfigList[0];
+            if (StringUtils.isNotEmpty(localConfig)) {
+                try {
+                    RuleEntity ruleEntity = pluginConfigParser.parse(localConfig);
+                    pluginAdapter.setLocalRule(ruleEntity);
+                } catch (Exception e) {
+                    LOG.error("Parse local config failed", e);
+                }
             }
         }
 
-        if (StringUtils.isEmpty(remoteConfig) && StringUtils.isEmpty(localConfig)) {
-            LOG.info("No config is found");
+        if (remoteConfigList == null && localConfigList == null) {
+            LOG.info("No configs are found");
         }
 
         // 初始化配置的时候，不应该触发fireParameterChanged的EventBus事件
@@ -87,19 +103,17 @@ public class ConfigInitializer {
         LOG.info("--------------------------------------------------");
     }
 
-    private String getRemoteConfig() {
+    private String[] getRemoteConfigList() {
         if (remoteConfigLoader != null) {
-            String config = null;
+            String[] configList = null;
 
             try {
-                config = remoteConfigLoader.getConfig();
+                configList = remoteConfigLoader.getConfigList();
             } catch (Exception e) {
-                LOG.warn("Get remote config failed", e);
+                LOG.warn("Get remote config list failed", e);
             }
 
-            if (StringUtils.isNotEmpty(config)) {
-                return config;
-            }
+            return configList;
         } else {
             LOG.info("Remote config loader isn't provided");
         }
@@ -107,19 +121,15 @@ public class ConfigInitializer {
         return null;
     }
 
-    private String getLocalConfig() {
-        String config = null;
+    private String[] getLocalConfigList() {
+        String[] configList = null;
 
         try {
-            config = localConfigLoader.getConfig();
+            configList = localConfigLoader.getConfigList();
         } catch (Exception e) {
-            LOG.warn("Get local config failed", e);
+            LOG.warn("Get local config list failed", e);
         }
 
-        if (StringUtils.isNotEmpty(config)) {
-            return config;
-        }
-
-        return null;
+        return configList;
     }
 }

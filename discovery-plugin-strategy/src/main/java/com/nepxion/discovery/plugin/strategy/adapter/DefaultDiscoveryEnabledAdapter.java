@@ -252,7 +252,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         }
 
         // 如果精确匹配不满足，尝试用通配符匹配
-        List<String> addressList = strategyBlacklistEntity.getIdList();
+        List<String> addressList = strategyBlacklistEntity.getAddressList();
         if (addressList.contains(server.getHostPort()) || addressList.contains(server.getHost()) || addressList.contains(String.valueOf(server.getPort()))) {
             return false;
         }

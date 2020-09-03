@@ -12,9 +12,8 @@ package com.nepxion.discovery.common.entity;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
 public enum RuleType {
-    LOCAL(DiscoveryConstant.LOCAL_TYPE, DiscoveryConstant.LOCAL_TYPE),
-    REMOTE_GLOBAL(DiscoveryConstant.REMOTE_GLOBAL_TYPE, DiscoveryConstant.REMOTE_GLOBAL_TYPE), 
-    REMOTE_PARTIAL(DiscoveryConstant.REMOTE_PARTIAL_TYPE, DiscoveryConstant.REMOTE_PARTIAL_TYPE);
+    DYNAMIC_GLOBAL_RULE(DiscoveryConstant.DYNAMIC_GLOBAL_RULE, DiscoveryConstant.DYNAMIC_GLOBAL_RULE), 
+    DYNAMIC_PARTIAL_RULE(DiscoveryConstant.DYNAMIC_PARTIAL_RULE, DiscoveryConstant.DYNAMIC_PARTIAL_RULE);
 
     private String value;
     private String description;

@@ -10,5 +10,5 @@ package com.nepxion.discovery.plugin.configcenter.loader;
  */
 
 public interface ConfigLoader {
-    String getConfig() throws Exception;
+    String[] getConfigList() throws Exception;
 }

@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.eventbus.Subscribe;
 import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.RuleType;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.config.PluginConfigParser;
@@ -58,16 +59,24 @@ public class PluginSubscriber {
             throw new DiscoveryException("RuleUpdatedEvent can't be null");
         }
 
+        RuleType ruleType = ruleUpdatedEvent.getRuleType();
         String rule = ruleUpdatedEvent.getRule();
         try {
             RuleEntity ruleEntity = pluginConfigParser.parse(rule);
-            pluginAdapter.setDynamicRule(ruleEntity);
+            switch (ruleType) {
+                case DYNAMIC_GLOBAL_RULE:
+                    pluginAdapter.setDynamicGlobalRule(ruleEntity);
+                    break;
+                case DYNAMIC_PARTIAL_RULE:
+                    pluginAdapter.setDynamicPartialRule(ruleEntity);
+                    break;
+            }
 
             pluginEventWapper.fireParameterChanged();
         } catch (Exception e) {
             LOG.error("Parse rule xml failed", e);
 
-            pluginEventWapper.fireRuleFailure(new RuleFailureEvent(rule, e));
+            pluginEventWapper.fireRuleFailure(new RuleFailureEvent(ruleType, rule, e));
 
             throw e;
         }
@@ -90,7 +99,15 @@ public class PluginSubscriber {
             throw new DiscoveryException("RuleClearedEvent can't be null");
         }
 
-        pluginAdapter.clearDynamicRule();
+        RuleType ruleType = ruleClearedEvent.getRuleType();
+        switch (ruleType) {
+            case DYNAMIC_GLOBAL_RULE:
+                pluginAdapter.clearDynamicGlobalRule();
+                break;
+            case DYNAMIC_PARTIAL_RULE:
+                pluginAdapter.clearDynamicPartialRule();
+                break;
+        }
 
         pluginEventWapper.fireParameterChanged();
 

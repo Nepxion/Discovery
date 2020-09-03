@@ -57,9 +57,17 @@ public interface PluginAdapter {
 
     RuleEntity getDynamicRule();
 
-    void setDynamicRule(RuleEntity ruleEntity);
+    RuleEntity getDynamicPartialRule();
 
-    void clearDynamicRule();
+    void setDynamicPartialRule(RuleEntity ruleEntity);
+
+    void clearDynamicPartialRule();
+
+    RuleEntity getDynamicGlobalRule();
+
+    void setDynamicGlobalRule(RuleEntity ruleEntity);
+
+    void clearDynamicGlobalRule();
 
     String getRegion();
 

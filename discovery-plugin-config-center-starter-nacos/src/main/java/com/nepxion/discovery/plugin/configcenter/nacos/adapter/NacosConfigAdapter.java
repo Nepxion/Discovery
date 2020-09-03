@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.nacos.api.config.listener.Listener;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.RuleType;
 import com.nepxion.discovery.common.nacos.constant.NacosConstant;
 import com.nepxion.discovery.common.nacos.operation.NacosOperation;
 import com.nepxion.discovery.common.nacos.operation.NacosSubscribeCallback;
@@ -48,26 +49,24 @@ public class NacosConfigAdapter extends ConfigAdapter {
     private Listener globalListener;
 
     @Override
-    public String getConfig() throws Exception {
-        String config = getConfig(false);
-        if (StringUtils.isNotEmpty(config)) {
-            LOG.info("Found {} config from {} server", getConfigScope(false), getConfigType());
+    public String[] getConfigList() throws Exception {
+        String[] configList = new String[2];
+        configList[0] = getConfig(false);
+        configList[1] = getConfig(true);
 
-            return config;
+        if (StringUtils.isNotEmpty(configList[0])) {
+            LOG.info("Found {} config from {} server", getConfigScope(false), getConfigType());
         } else {
             LOG.info("No {} config is found from {} server", getConfigScope(false), getConfigType());
         }
 
-        config = getConfig(true);
-        if (StringUtils.isNotEmpty(config)) {
+        if (StringUtils.isNotEmpty(configList[1])) {
             LOG.info("Found {} config from {} server", getConfigScope(true), getConfigType());
-
-            return config;
         } else {
             LOG.info("No {} config is found from {} server", getConfigScope(true), getConfigType());
         }
 
-        return null;
+        return configList;
     }
 
     private String getConfig(boolean globalConfig) throws Exception {
@@ -88,6 +87,7 @@ public class NacosConfigAdapter extends ConfigAdapter {
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
         String dataId = globalConfig ? group : serviceId;
+        RuleType ruleType = globalConfig ? RuleType.DYNAMIC_GLOBAL_RULE : RuleType.DYNAMIC_PARTIAL_RULE;
 
         LOG.info("Subscribe {} config from {} server, group={}, dataId={}", getConfigScope(globalConfig), getConfigType(), group, dataId);
 
@@ -104,14 +104,14 @@ public class NacosConfigAdapter extends ConfigAdapter {
                             rule = ruleEntity.getContent();
                         }
                         if (!StringUtils.equals(rule, config)) {
-                            fireRuleUpdated(new RuleUpdatedEvent(config), true);
+                            fireRuleUpdated(new RuleUpdatedEvent(ruleType, config), true);
                         } else {
                             LOG.info("Updated {} config from {} server is same as current config, ignore to update, group={}, dataId={}", getConfigScope(globalConfig), getConfigType(), group, dataId);
                         }
                     } else {
                         LOG.info("Get {} config cleared event from {} server, group={}, dataId={}", getConfigScope(globalConfig), getConfigType(), group, dataId);
 
-                        fireRuleCleared(new RuleClearedEvent(), true);
+                        fireRuleCleared(new RuleClearedEvent(ruleType), true);
                     }
                 }
             });
