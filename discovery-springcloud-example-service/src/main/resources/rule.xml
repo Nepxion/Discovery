@@ -214,7 +214,7 @@
 
         <!-- 多个Address节点形式 -->
         <!-- <address value="192.168.43.101:1201"/>
-        <address value="92.168.*.102"/>
+        <address value="192.168.*.102"/>
         <address value="1301"/> -->
     </strategy-blacklist>
 
