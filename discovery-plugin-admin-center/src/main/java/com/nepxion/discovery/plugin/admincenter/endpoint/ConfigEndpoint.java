@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.RuleType;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
@@ -96,7 +97,7 @@ public class ConfigEndpoint {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Config rest control is disabled");
         }
 
-        pluginEventWapper.fireRuleUpdated(new RuleUpdatedEvent(config), async);
+        pluginEventWapper.fireRuleUpdated(new RuleUpdatedEvent(RuleType.DYNAMIC_PARTIAL_RULE, config), async);
 
         // return ResponseEntity.ok().build();
 
@@ -114,13 +115,13 @@ public class ConfigEndpoint {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Config rest control is disabled");
         }
 
-        pluginEventWapper.fireRuleCleared(new RuleClearedEvent(), async);
+        pluginEventWapper.fireRuleCleared(new RuleClearedEvent(RuleType.DYNAMIC_PARTIAL_RULE), async);
 
         return ResponseEntity.ok().body(DiscoveryConstant.OK);
     }
 
     private ResponseEntity<List<String>> view(boolean async) {
-        List<String> ruleList = new ArrayList<String>(2);
+        List<String> ruleList = new ArrayList<String>(3);
 
         String localRuleContent = StringUtils.EMPTY;
         RuleEntity localRuleEntity = pluginAdapter.getLocalRule();
@@ -128,14 +129,21 @@ public class ConfigEndpoint {
             localRuleContent = localRuleEntity.getContent();
         }
 
-        String dynamicRuleContent = StringUtils.EMPTY;
-        RuleEntity dynamicRuleEntity = pluginAdapter.getDynamicRule();
-        if (dynamicRuleEntity != null && StringUtils.isNotEmpty(dynamicRuleEntity.getContent())) {
-            dynamicRuleContent = dynamicRuleEntity.getContent();
+        String dynamicGlobalRuleContent = StringUtils.EMPTY;
+        RuleEntity dynamicGlobalRuleEntity = pluginAdapter.getDynamicGlobalRule();
+        if (dynamicGlobalRuleEntity != null && StringUtils.isNotEmpty(dynamicGlobalRuleEntity.getContent())) {
+            dynamicGlobalRuleContent = dynamicGlobalRuleEntity.getContent();
+        }
+
+        String dynamicPartialRuleContent = StringUtils.EMPTY;
+        RuleEntity dynamicPartialRuleEntity = pluginAdapter.getDynamicPartialRule();
+        if (dynamicPartialRuleEntity != null && StringUtils.isNotEmpty(dynamicPartialRuleEntity.getContent())) {
+            dynamicPartialRuleContent = dynamicPartialRuleEntity.getContent();
         }
 
         ruleList.add(localRuleContent);
-        ruleList.add(dynamicRuleContent);
+        ruleList.add(dynamicGlobalRuleContent);
+        ruleList.add(dynamicPartialRuleContent);
 
         return ResponseEntity.ok().body(ruleList);
     }

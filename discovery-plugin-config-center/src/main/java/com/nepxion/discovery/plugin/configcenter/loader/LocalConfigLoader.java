@@ -19,10 +19,13 @@ public abstract class LocalConfigLoader implements ConfigLoader {
     private ApplicationContext applicationContext;
 
     @Override
-    public String getConfig() throws Exception {
+    public String[] getConfigList() throws Exception {
         String path = getPath();
 
-        return FileContextUtil.getText(applicationContext, path);
+        String[] config = new String[1];
+        config[0] = FileContextUtil.getText(applicationContext, path);
+
+        return config;
     }
 
     protected abstract String getPath();

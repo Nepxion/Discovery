@@ -20,6 +20,7 @@ import org.springframework.cloud.client.serviceregistry.Registration;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.RuleEntityWrapper;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.cache.PluginCache;
 import com.nepxion.discovery.plugin.framework.cache.RuleCache;
@@ -180,14 +181,51 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
         return ruleCache.get(DiscoveryConstant.DYNAMIC_RULE);
     }
 
-    @Override
-    public void setDynamicRule(RuleEntity ruleEntity) {
-        ruleCache.put(DiscoveryConstant.DYNAMIC_RULE, ruleEntity);
+    // 从动态全局规则和动态局部规则缓存组装出最终的动态规则
+    private void assembleDynamicRule() {
+        RuleEntity dynamicPartialRule = getDynamicPartialRule();
+        RuleEntity dynamicGlobalRule = getDynamicGlobalRule();
+
+        RuleEntity dynamicRule = RuleEntityWrapper.assemble(dynamicPartialRule, dynamicGlobalRule);
+        ruleCache.put(DiscoveryConstant.DYNAMIC_RULE, dynamicRule);
     }
 
     @Override
-    public void clearDynamicRule() {
-        ruleCache.clear(DiscoveryConstant.DYNAMIC_RULE);
+    public RuleEntity getDynamicPartialRule() {
+        return ruleCache.get(DiscoveryConstant.DYNAMIC_PARTIAL_RULE);
+    }
+
+    @Override
+    public void setDynamicPartialRule(RuleEntity ruleEntity) {
+        ruleCache.put(DiscoveryConstant.DYNAMIC_PARTIAL_RULE, ruleEntity);
+
+        assembleDynamicRule();
+    }
+
+    @Override
+    public void clearDynamicPartialRule() {
+        ruleCache.clear(DiscoveryConstant.DYNAMIC_PARTIAL_RULE);
+
+        assembleDynamicRule();
+    }
+
+    @Override
+    public RuleEntity getDynamicGlobalRule() {
+        return ruleCache.get(DiscoveryConstant.DYNAMIC_GLOBAL_RULE);
+    }
+
+    @Override
+    public void setDynamicGlobalRule(RuleEntity ruleEntity) {
+        ruleCache.put(DiscoveryConstant.DYNAMIC_GLOBAL_RULE, ruleEntity);
+
+        assembleDynamicRule();
+    }
+
+    @Override
+    public void clearDynamicGlobalRule() {
+        ruleCache.clear(DiscoveryConstant.DYNAMIC_GLOBAL_RULE);
+
+        assembleDynamicRule();
     }
 
     @Override

@@ -19,8 +19,6 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class RuleEntity implements Serializable {
     private static final long serialVersionUID = 7079024435084528751L;
 
-    private RuleType ruleType;
-
     private RegisterEntity registerEntity;
     private DiscoveryEntity discoveryEntity;
     private StrategyEntity strategyEntity;
@@ -28,14 +26,6 @@ public class RuleEntity implements Serializable {
     private StrategyBlacklistEntity strategyBlacklistEntity;
     private ParameterEntity parameterEntity;
     private String content;
-
-    public RuleType getRuleType() {
-        return ruleType;
-    }
-
-    public void setRuleType(RuleType ruleType) {
-        this.ruleType = ruleType;
-    }
 
     public RegisterEntity getRegisterEntity() {
         return registerEntity;
