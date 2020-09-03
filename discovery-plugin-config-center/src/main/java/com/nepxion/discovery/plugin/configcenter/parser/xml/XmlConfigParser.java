@@ -36,6 +36,7 @@ import com.nepxion.discovery.common.entity.RegionFilterEntity;
 import com.nepxion.discovery.common.entity.RegionWeightEntity;
 import com.nepxion.discovery.common.entity.RegisterEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.StrategyBlacklistEntity;
 import com.nepxion.discovery.common.entity.StrategyConditionBlueGreenEntity;
 import com.nepxion.discovery.common.entity.StrategyConditionGrayEntity;
 import com.nepxion.discovery.common.entity.StrategyCustomizationEntity;
@@ -105,6 +106,11 @@ public class XmlConfigParser implements PluginConfigParser {
             throw new DiscoveryException("Allow only one element[" + ConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME + "] to be configed");
         }
 
+        int strategyBlacklistElementCount = element.elements(ConfigConstant.STRATEGY_BLACKLIST_ELEMENT_NAME).size();
+        if (strategyBlacklistElementCount > 1) {
+            throw new DiscoveryException("Allow only one element[" + ConfigConstant.STRATEGY_BLACKLIST_ELEMENT_NAME + "] to be configed");
+        }
+
         int parameterElementCount = element.elements(ConfigConstant.PARAMETER_ELEMENT_NAME).size();
         if (parameterElementCount > 1) {
             throw new DiscoveryException("Allow only one element[" + ConfigConstant.PARAMETER_ELEMENT_NAME + "] to be configed");
@@ -114,6 +120,7 @@ public class XmlConfigParser implements PluginConfigParser {
         DiscoveryEntity discoveryEntity = null;
         StrategyEntity strategyEntity = null;
         StrategyCustomizationEntity strategyCustomizationEntity = null;
+        StrategyBlacklistEntity strategyBlacklistEntity = null;
         ParameterEntity parameterEntity = null;
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
@@ -132,6 +139,9 @@ public class XmlConfigParser implements PluginConfigParser {
                 } else if (StringUtils.equals(childElement.getName(), ConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME)) {
                     strategyCustomizationEntity = new StrategyCustomizationEntity();
                     parseStrategyCustomization(childElement, strategyCustomizationEntity);
+                } else if (StringUtils.equals(childElement.getName(), ConfigConstant.STRATEGY_BLACKLIST_ELEMENT_NAME)) {
+                    strategyBlacklistEntity = new StrategyBlacklistEntity();
+                    parseStrategyBlacklist(childElement, strategyBlacklistEntity);
                 } else if (StringUtils.equals(childElement.getName(), ConfigConstant.PARAMETER_ELEMENT_NAME)) {
                     parameterEntity = new ParameterEntity();
                     parseParameter(childElement, parameterEntity);
@@ -144,6 +154,7 @@ public class XmlConfigParser implements PluginConfigParser {
         ruleEntity.setDiscoveryEntity(discoveryEntity);
         ruleEntity.setStrategyEntity(strategyEntity);
         ruleEntity.setStrategyCustomizationEntity(strategyCustomizationEntity);
+        ruleEntity.setStrategyBlacklistEntity(strategyBlacklistEntity);
         ruleEntity.setParameterEntity(parameterEntity);
         ruleEntity.setContent(config);
 
@@ -270,6 +281,28 @@ public class XmlConfigParser implements PluginConfigParser {
                     parseStrategyRoute(childElement, strategyCustomizationEntity);
                 } else if (StringUtils.equals(childElement.getName(), ConfigConstant.HEADERS_ELEMENT_NAME)) {
                     parseStrategyHeader(childElement, strategyCustomizationEntity);
+                }
+            }
+        }
+    }
+
+    @SuppressWarnings("rawtypes")
+    private void parseStrategyBlacklist(Element element, StrategyBlacklistEntity strategyBlacklistEntity) {
+        for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
+            Object childElementObject = elementIterator.next();
+            if (childElementObject instanceof Element) {
+                Element childElement = (Element) childElementObject;
+
+                Attribute valueAttribute = childElement.attribute(ConfigConstant.VALUE_ATTRIBUTE_NAME);
+                if (valueAttribute == null) {
+                    throw new DiscoveryException("Attribute[" + ConfigConstant.VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                }
+                String value = valueAttribute.getData().toString().trim();
+                List<String> valueList = StringUtil.splitToList(value, DiscoveryConstant.SEPARATE);
+                if (StringUtils.equals(childElement.getName(), ConfigConstant.ID_ELEMENT_NAME)) {
+                    strategyBlacklistEntity.getIdList().addAll(valueList);
+                } else if (StringUtils.equals(childElement.getName(), ConfigConstant.ADDRESS_ELEMENT_NAME)) {
+                    strategyBlacklistEntity.getAddressList().addAll(valueList);
                 }
             }
         }

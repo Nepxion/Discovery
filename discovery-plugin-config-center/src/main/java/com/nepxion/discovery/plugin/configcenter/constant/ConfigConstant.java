@@ -16,14 +16,16 @@ public class ConfigConstant {
     public static final String REGISTER_ELEMENT_NAME = "register";
     public static final String DISCOVERY_ELEMENT_NAME = "discovery";
     public static final String STRATEGY_ELEMENT_NAME = "strategy";
-    public static final String PARAMETER_ELEMENT_NAME = "parameter";
     public static final String STRATEGY_CUSTOMIZATION_ELEMENT_NAME = "strategy-customization";
+    public static final String STRATEGY_BLACKLIST_ELEMENT_NAME = "strategy-blacklist";
+    public static final String PARAMETER_ELEMENT_NAME = "parameter";
     public static final String CONDITIONS = "conditions";
     public static final String CONDITION_ELEMENT_NAME = "condition";
     public static final String ROUTES_ELEMENT_NAME = "routes";
     public static final String ROUTE_ELEMENT_NAME = "route";
     public static final String HEADERS_ELEMENT_NAME = "headers";
     public static final String HEADER_ELEMENT_NAME = "header";
+    public static final String ID_ELEMENT_NAME = "id";
     public static final String SERVICE_ELEMENT_NAME = "service";
     public static final String BLACKLIST_ELEMENT_NAME = "blacklist";
     public static final String WHITELIST_ELEMENT_NAME = "whitelist";
