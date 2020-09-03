@@ -96,6 +96,11 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
+    public String getServiceUUId() {
+        return getMetadata().get(DiscoveryConstant.SPRING_APPLICATION_UUID);
+    }
+
+    @Override
     public String getHost() {
         return registration.getHost();
     }
@@ -253,6 +258,11 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
+    public String getServerServiceUUId(Server server) {
+        return getServerMetadata(server).get(DiscoveryConstant.SPRING_APPLICATION_UUID);
+    }
+
+    @Override
     public String getServerVersion(Server server) {
         String serverVersion = getServerMetadata(server).get(DiscoveryConstant.VERSION);
         if (StringUtils.isEmpty(serverVersion)) {
@@ -328,6 +338,11 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     @Override
     public String getInstanceServiceId(ServiceInstance serviceInstance) {
         return serviceInstance.getServiceId().toLowerCase();
+    }
+
+    @Override
+    public String getInstanceServiceUUId(ServiceInstance serviceInstance) {
+        return getInstanceMetadata(serviceInstance).get(DiscoveryConstant.SPRING_APPLICATION_UUID);
     }
 
     @Override

@@ -20,6 +20,8 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.util.CollectionUtils;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.StrategyBlacklistEntity;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
@@ -68,6 +70,11 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         }
 
         enabled = applyAddress(server);
+        if (!enabled) {
+            return false;
+        }
+
+        enabled = applyBlacklist(server);
         if (!enabled) {
             return false;
         }
@@ -231,6 +238,40 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         String addresses = addressMap.get(serviceId);
 
         return addresses;
+    }
+
+    public boolean applyBlacklist(Server server) {
+        RuleEntity ruleEntity = pluginAdapter.getRule();
+        if (ruleEntity == null) {
+            return true;
+        }
+
+        StrategyBlacklistEntity strategyBlacklistEntity = ruleEntity.getStrategyBlacklistEntity();
+        if (strategyBlacklistEntity == null) {
+            return true;
+        }
+
+        // 如果精确匹配不满足，尝试用通配符匹配
+        List<String> addressList = strategyBlacklistEntity.getIdList();
+        if (addressList.contains(server.getHostPort()) || addressList.contains(server.getHost()) || addressList.contains(String.valueOf(server.getPort()))) {
+            return false;
+        }
+
+        // 通配符匹配。前者是通配表达式，后者是具体值
+        for (String addressPattern : addressList) {
+            if (discoveryMatcherStrategy.match(addressPattern, server.getHostPort()) || discoveryMatcherStrategy.match(addressPattern, server.getHost()) || discoveryMatcherStrategy.match(addressPattern, String.valueOf(server.getPort()))) {
+                return false;
+            }
+        }
+
+        String serviceUUId = pluginAdapter.getServerServiceUUId(server);
+
+        List<String> idList = strategyBlacklistEntity.getIdList();
+        if (idList.contains(serviceUUId)) {
+            return false;
+        }
+
+        return true;
     }
 
     public boolean applyStrategy(Server server) {
