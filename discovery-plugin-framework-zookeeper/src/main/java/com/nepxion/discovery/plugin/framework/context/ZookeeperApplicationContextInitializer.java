@@ -10,6 +10,7 @@ package com.nepxion.discovery.plugin.framework.context;
  */
 
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
@@ -60,6 +61,7 @@ public class ZookeeperApplicationContextInitializer extends PluginApplicationCon
             }
 
             metadata.put(DiscoveryConstant.SPRING_BOOT_VERSION, SpringBootVersion.getVersion());
+            metadata.put(DiscoveryConstant.SPRING_APPLICATION_ID, UUID.randomUUID().toString());
             metadata.put(DiscoveryConstant.SPRING_APPLICATION_NAME, PluginContextAware.getApplicationName(environment));
             metadata.put(DiscoveryConstant.SPRING_APPLICATION_TYPE, PluginContextAware.getApplicationType(environment));
             metadata.put(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN, ZookeeperConstant.ZOOKEEPER_TYPE);
