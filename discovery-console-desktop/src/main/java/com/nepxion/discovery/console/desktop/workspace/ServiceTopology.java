@@ -441,7 +441,7 @@ public class ServiceTopology extends AbstractTopology {
         instance.setVersion(versions.get(0));
         instance.setDynamicVersion(versions.get(1));
         instance.setRule(rules.get(0));
-        instance.setDynamicRule(rules.get(1));
+        instance.setDynamicRule(rules.get(2));
 
         updateNode(node, instance);
     }
@@ -1032,7 +1032,7 @@ public class ServiceTopology extends AbstractTopology {
             updateRuleButton.setPreferredSize(new Dimension(updateRuleButton.getPreferredSize().width, 30));
 
             clearRuleButton = new JClassicButton(createClearRuleAction());
-            updateRuleButton.setPreferredSize(new Dimension(clearRuleButton.getPreferredSize().width, 30));
+            clearRuleButton.setPreferredSize(new Dimension(clearRuleButton.getPreferredSize().width, 30));
 
             JPanel toolBar = new JPanel();
             toolBar.setLayout(new BoxLayout(toolBar, BoxLayout.X_AXIS));
