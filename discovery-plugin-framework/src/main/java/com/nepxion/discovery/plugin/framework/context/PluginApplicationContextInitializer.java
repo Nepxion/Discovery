@@ -11,6 +11,7 @@ package com.nepxion.discovery.plugin.framework.context;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,7 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.core.Ordered;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.banner.BannerConstant;
@@ -33,7 +35,7 @@ import com.nepxion.discovery.plugin.framework.generator.GitGenerator;
 import com.nepxion.discovery.plugin.framework.generator.GroupGenerator;
 import com.taobao.text.Color;
 
-public abstract class PluginApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+public abstract class PluginApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext>, Ordered {
     private static final Logger LOG = LoggerFactory.getLogger(PluginApplicationContextInitializer.class);
 
     @Override
@@ -60,6 +62,11 @@ public abstract class PluginApplicationContextInitializer implements Application
 
             boolean servletWebServerEnabled = applicationContext.getClass().getName().endsWith(DiscoveryConstant.ANNOTATION_CONFIG_SERVLET_WEB_SERVER_APPLICATION_CONTEXT);
             System.setProperty(DiscoveryConstant.SPRING_APPLICATION_SERVLET_WEB_SERVER_ENABLED, Boolean.toString(servletWebServerEnabled));
+
+            String uuid = UUID.randomUUID().toString();
+            System.setProperty(DiscoveryConstant.SPRING_APPLICATION_UUID, uuid);
+            
+            initializeDefaultProperties(applicationContext);
         }
 
         applicationContext.getBeanFactory().addBeanPostProcessor(new InstantiationAwareBeanPostProcessorAdapter() {
@@ -74,15 +81,9 @@ public abstract class PluginApplicationContextInitializer implements Application
                 }
             }
         });
-
-        initializeDefaultProperties(applicationContext);
     }
 
     private void initializeDefaultProperties(ConfigurableApplicationContext applicationContext) {
-        if (applicationContext instanceof AnnotationConfigApplicationContext) {
-            return;
-        }
-
         ConfigurableEnvironment environment = applicationContext.getEnvironment();
         String path = PluginContextAware.getDefaultPropertiesPath(environment);
 
@@ -128,6 +129,11 @@ public abstract class PluginApplicationContextInitializer implements Application
         }
 
         return null;
+    }
+
+    @Override
+    public int getOrder() {
+        return Ordered.HIGHEST_PRECEDENCE;
     }
 
     protected abstract Object afterInitialization(ConfigurableApplicationContext applicationContext, Object bean, String beanName) throws BeansException;
