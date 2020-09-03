@@ -346,6 +346,20 @@
             }
         }
     }, 
+    "strategyBlacklistEntity": {
+        "idList": [
+            "e92edde5-0153-4ec8-9cbb-b4d3f415aa33", 
+            "af043384-c8a5-451e-88f4-457914e8e3bc", 
+            "xxx", 
+            "yyy"
+        ], 
+        "addressList": [
+            "192.168.43.101:1201", 
+            "10.10.1.1", 
+            "1.1.1.1:8080", 
+            "2.2.2.2"
+        ]
+    }, 
     "parameterEntity": {
         "parameterMap": {
             "discovery-springcloud-example-a": {
