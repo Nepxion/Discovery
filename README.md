@@ -97,6 +97,9 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
     - 全链路灰度条件权重和灰度匹配组合式策略
     - 前端灰度和网关灰度路由组合式策略
     - 全链路灰度权重和灰度匹配组合式规则
+- 基于服务下线实时性的流量绝对无损。服务下线场景中，流量需要实现实时性的绝对无损。采用下线之前，把服务实例添加到屏蔽名单中，负载均衡不会去寻址该服务实例。下线之后，清除该名单。主要包括
+    - 通过全局唯一ID进行屏蔽，ID对应于元数据spring.application.uuid字段，适用于Docker和Kubernetes上IP地址不确定的场景
+    - 通过IP地址或者端口或者IP地址+端口进行屏蔽。适用于IP地址确定的场景
 - 基于多方式的规则策略推送。主要包括
     - 基于远程配置中心的规则策略订阅推送
     - 基于Swagger和Rest的规则策略推送
@@ -307,6 +310,9 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
         - [局部区域权重灰度规则](#局部区域权重灰度规则)
     - [配置全链路灰度权重和灰度匹配组合式规则](#配置全链路灰度权重和灰度匹配组合式规则)
     - [数据库灰度发布规则](#数据库灰度发布规则)
+- [基于服务下线实时性的流量绝对无损](#基于服务下线实时性的流量绝对无损)
+    - [配置全局唯一ID屏蔽策略](#配置全局唯一ID屏蔽策略)
+    - [配置IP地址和端口屏蔽策略](#配置IP地址和端口屏蔽策略)
 - [基于多格式的规则策略定义](#基于多格式的规则策略定义)
     - [规则策略格式定义](#规则策略格式定义)
     - [规则策略内容定义](#规则策略内容定义)
@@ -959,7 +965,7 @@ n-d-version=gray
 n-d-version={"discovery-guide-service-a":"gray", "discovery-guide-service-b":"stable"}
 ```
 
-新上线的服务实例版本为gray，等灰度成功后，通过注册中心的Open API接口变更服务版本为stable
+新上线的服务实例版本为gray，等灰度成功后，通过注册中心的Open API接口变更服务版本为stable，或者在注册中心界面手工修改
 
 - Nacos Open API变更元数据
 ```
@@ -1704,6 +1710,44 @@ spring.application.strategy.version.filter.enabled=true
 </rule>
 ```
 
+## 基于服务下线实时性的流量绝对无损
+服务下线场景中，由于Ribbon负载均衡组件存在着缓存机制，当被调用的服务实例已经下线，而调用的服务实例还暂时缓存着它，直到下个心跳周期才会把已下线的服务实例剔除，在此期间，会造成流量有损
+
+框架提供流量的实时性的绝对无损。采用下线之前，把服务实例添加到屏蔽名单中，负载均衡不会去寻址该服务实例。下线之后，清除该名单。实现该方式，需要通过DevOps调用注册中心的Open API推送或者在注册中心界面手工修改，通过全局订阅方式实现，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名）
+
+### 配置全局唯一ID屏蔽策略
+全局唯一ID对应于元数据spring.application.uuid字段，框架会自动把该ID注册到注册中心。此用法适用于Docker和Kubernetes上IP地址不确定的场景，策略内容如下，采用如下两种方式之一均可
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy-blacklist>
+        <!-- 单个ID形式。如果多个用“;”分隔，不允许出现空格 -->
+        <id value="e92edde5-0153-4ec8-9cbb-b4d3f415aa33;af043384-c8a5-451e-88f4-457914e8e3bc"/>
+
+        <!-- 多个ID节点形式 -->
+        <!-- <id value="e92edde5-0153-4ec8-9cbb-b4d3f415aa33"/>
+        <id value="af043384-c8a5-451e-88f4-457914e8e3bc"/> -->
+    </strategy-blacklist>
+</rule>
+```
+
+### 配置IP地址和端口屏蔽策略
+通过IP地址或者端口或者IP地址+端口进行屏蔽，支持通配符方式。此用法适用于IP地址确定的场景，策略内容如下，采用如下两种方式之一均可
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy-blacklist>
+        <!-- 单个Address形式。如果多个用“;”分隔，不允许出现空格 -->
+        <address value="192.168.43.101:1201;192.168.*.102;1301"/>
+
+        <!-- 多个Address节点形式 -->
+        <!-- <address value="192.168.43.101:1201"/>
+        <address value="192.168.*.102"/>
+        <address value="1301"/> -->
+    </strategy-blacklist>
+</rule>
+```
+
 ## 基于多格式的规则策略定义
 
 ### 规则策略格式定义
@@ -1926,6 +1970,26 @@ XML最全的示例如下，Json示例见源码discovery-springcloud-example-serv
             <header key="a" value="1"/>
         </headers>
     </strategy-customization>
+
+    <!-- 策略路由上服务屏蔽黑名单。一般适用于服务下线场景，流量实现实时性的绝对无损：下线之前，把服务实例添加到下面屏蔽名单中，负载均衡不会去寻址该服务实例。下线之后，清除该名单。该配置运行在全局订阅模式下 -->
+    <strategy-blacklist>
+        <!-- 通过全局唯一ID进行屏蔽，ID对应于元数据spring.application.uuid字段，适用于Docker和K8s上IP地址不确定的场景 -->
+        <!-- 单个ID形式。如果多个用“;”分隔，不允许出现空格 -->
+        <id value="e92edde5-0153-4ec8-9cbb-b4d3f415aa33;af043384-c8a5-451e-88f4-457914e8e3bc"/>
+
+        <!-- 多个ID节点形式 -->
+        <!-- <id value="e92edde5-0153-4ec8-9cbb-b4d3f415aa33"/>
+        <id value="af043384-c8a5-451e-88f4-457914e8e3bc"/> -->
+
+        <!-- 通过IP地址或者端口或者IP地址+端口进行屏蔽。适用于IP地址确定的场景 -->
+        <!-- 单个Address形式。如果多个用“;”分隔，不允许出现空格 -->
+        <address value="192.168.43.101:1201;192.168.*.102;1301"/>
+
+        <!-- 多个Address节点形式 -->
+        <!-- <address value="192.168.43.101:1201"/>
+        <address value="192.168.*.102"/>
+        <address value="1301"/> -->
+    </strategy-blacklist>
 
     <!-- 参数控制，由远程推送参数的改变，实现一些特色化的灰度发布，例如，基于数据库的灰度发布 -->
     <parameter>
