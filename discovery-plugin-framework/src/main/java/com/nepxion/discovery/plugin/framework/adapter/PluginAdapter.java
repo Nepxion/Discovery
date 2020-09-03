@@ -25,9 +25,11 @@ public interface PluginAdapter {
 
     String getServiceType();
 
+    String getServiceId();
+
     String getServiceAppId();
 
-    String getServiceId();
+    String getServiceUUId();
 
     String getHost();
 
@@ -75,6 +77,8 @@ public interface PluginAdapter {
 
     String getServerServiceId(Server server);
 
+    String getServerServiceUUId(Server server);
+
     String getServerVersion(Server server);
 
     String getServerRegion(Server server);
@@ -94,6 +98,8 @@ public interface PluginAdapter {
     String getInstanceServiceType(ServiceInstance serviceInstance);
 
     String getInstanceServiceId(ServiceInstance serviceInstance);
+
+    String getInstanceServiceUUId(ServiceInstance serviceInstance);
 
     String getInstanceVersion(ServiceInstance serviceInstance);
 
