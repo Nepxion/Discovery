@@ -74,7 +74,10 @@ public class XmlConfigParser implements PluginConfigParser {
             RuleEntity ruleEntity = parseRoot(config, rootElement);
 
             // Just for Json text print
-            // System.out.println(JsonUtil.toJson(ruleEntity));
+            /*System.out.println("**************************************************");
+            ruleEntity.setContent("");
+            System.out.println(JsonUtil.toJson(ruleEntity));
+            System.out.println("**************************************************");*/
 
             return ruleEntity;
         } catch (Exception e) {
