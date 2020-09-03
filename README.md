@@ -82,13 +82,16 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 - 基于Header传递的全链路灰度路由，网关为路由触发点。采用配置中心配置路由策略映射在网关过滤器中植入Header信息而实现，路由策略传递到全链路服务中。主要包括
     - 匹配路由。包括版本匹配路由、区域匹配路由、IP地址和端口匹配路由
     - 权重路由。包括版本权重路由、区域权重路由
-    - 动态变更元数据路由
-    - 全局订阅式路由。此方式为基于Header传递和基于规则订阅两种方式的合成方案
     - 前端触发路由
     - 网关过滤器触发路由
     - 负载均衡策略类触发路由
     - 并行路由下的版本优选路由
     - 异步场景下的触发路由
+- 基于动态变更元数据的全链路灰度路由
+- 基于全局订阅式的全链路灰度路由
+- 基于服务下线实时性的流量绝对无损策略。主要包括
+    - 通过全局唯一ID进行屏蔽。适用于Docker和Kubernetes上IP地址不确定的场景
+    - 通过IP地址或者端口或者IP地址+端口进行屏蔽。适用于IP地址确定的场景
 - 基于规则订阅的全链路灰度发布。采用配置中心配置灰度规则映射在全链路服务而实现，所有服务都订阅一个共享配置。主要包括
     - 匹配发布。包括版本匹配发布、区域匹配发布
     - 权重发布。包括版本权重发布、区域权重发布
@@ -97,9 +100,6 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
     - 全链路灰度条件权重和灰度匹配组合式策略
     - 前端灰度和网关灰度路由组合式策略
     - 全链路灰度权重和灰度匹配组合式规则
-- 基于服务下线实时性的流量绝对无损。服务下线场景中，流量需要实现实时性的绝对无损。采用下线之前，把服务实例添加到屏蔽名单中，负载均衡不会去寻址该服务实例。下线之后，清除该名单。主要包括
-    - 通过全局唯一ID进行屏蔽，ID对应于元数据spring.application.uuid字段，适用于Docker和Kubernetes上IP地址不确定的场景
-    - 通过IP地址或者端口或者IP地址+端口进行屏蔽。适用于IP地址确定的场景
 - 基于多方式的规则策略推送。主要包括
     - 基于远程配置中心的规则策略订阅推送
     - 基于Swagger和Rest的规则策略推送
@@ -288,8 +288,6 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
         - [区域匹配灰度路由策略](#区域匹配灰度路由策略)
         - [区域权重灰度路由策略](#区域权重灰度路由策略)
         - [IP地址和端口匹配灰度路由策略](#IP地址和端口匹配灰度路由策略)
-        - [动态变更元数据的灰度路由策略](#动态变更元数据的灰度路由策略)
-        - [全局订阅式的灰度路由策略](#全局订阅式的灰度路由策略)
     - [配置全链路灰度条件命中和灰度匹配组合式策略](#配置全链路灰度条件命中和灰度匹配组合式策略)
     - [配置全链路灰度条件权重和灰度匹配组合式策略](#配置全链路灰度条件权重和灰度匹配组合式策略)
     - [配置前端灰度和网关灰度路由组合式策略](#配置前端灰度和网关灰度路由组合式策略)
@@ -298,7 +296,12 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
         - [通过业务参数在过滤器中自定义灰度路由策略](#通过业务参数在过滤器中自定义灰度路由策略)
         - [通过业务参数在策略类中自定义灰度路由策略](#通过业务参数在策略类中自定义灰度路由策略)
     - [并行灰度路由下的版本优选策略](#并行灰度路由下的版本优选策略)
-    - [基于异步场景的全链路灰度路由策略](#基于异步场景的全链路灰度路由策略)
+    - [异步场景的全链路灰度路由策略](#异步场景的全链路灰度路由策略)
+- [基于动态变更元数据的灰度路由策略](#基于动态变更元数据的灰度路由策略)
+- [基于全局订阅式的灰度路由策略](#基于全局订阅式的灰度路由策略)	
+- [基于服务下线实时性的流量绝对无损策略](#基于服务下线实时性的流量绝对无损策略)
+    - [配置全局唯一ID屏蔽策略](#配置全局唯一ID屏蔽策略)
+    - [配置IP地址和端口屏蔽策略](#配置IP地址和端口屏蔽策略)
 - [基于订阅方式的全链路灰度发布规则](#基于订阅方式的全链路灰度发布规则)
     - [配置全链路灰度匹配规则](#配置全链路灰度匹配规则)
         - [版本匹配灰度规则](#版本匹配灰度规则)
@@ -310,9 +313,6 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
         - [局部区域权重灰度规则](#局部区域权重灰度规则)
     - [配置全链路灰度权重和灰度匹配组合式规则](#配置全链路灰度权重和灰度匹配组合式规则)
     - [数据库灰度发布规则](#数据库灰度发布规则)
-- [基于服务下线实时性的流量绝对无损](#基于服务下线实时性的流量绝对无损)
-    - [配置全局唯一ID屏蔽策略](#配置全局唯一ID屏蔽策略)
-    - [配置IP地址和端口屏蔽策略](#配置IP地址和端口屏蔽策略)
 - [基于多格式的规则策略定义](#基于多格式的规则策略定义)
     - [规则策略格式定义](#规则策略格式定义)
     - [规则策略内容定义](#规则策略内容定义)
@@ -932,90 +932,6 @@ IP地址和端口灰度路由架构图
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/RouteAddress.jpg)
 
-#### 动态变更元数据的灰度路由策略
-利用注册中心的Open API接口动态变更服务实例的元数据，达到稳定版本和灰度版本流量控制的目的。以Nacos的版本匹配为例
-老的稳定版本的服务实例配置元数据
-```
-spring.cloud.nacos.discovery.metadata.version=stable
-```
-新的灰度版本的服务实例配置元数据
-```
-spring.cloud.nacos.discovery.metadata.version=gray
-```
-参考如下配置，第一种方式表示所有的服务流量走灰度版本，第二种方式表示a服务流量走灰度版本，b服务流量走稳定版本
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-    <strategy>
-        <version>gray</version>
-    </strategy>
-</rule>
-```
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-    <strategy>
-        <version>{"discovery-guide-service-a":"gray", "discovery-guide-service-b":"stable"}</version>
-    </strategy>
-</rule>
-```
-也可以通过如下的Header传递
-```
-n-d-version=gray
-n-d-version={"discovery-guide-service-a":"gray", "discovery-guide-service-b":"stable"}
-```
-
-新上线的服务实例版本为gray，等灰度成功后，通过注册中心的Open API接口变更服务版本为stable，或者在注册中心界面手工修改
-
-- Nacos Open API变更元数据
-```
-curl -X PUT 'http://ip:port/nacos/v1/ns/service?serviceName={appId}&metadata=version%3stable'
-```
-
-- Eureka Open API变更元数据
-```
-curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=stable'
-```
-
-- Consul Open API变更元数据
-
-自行研究
-
-- Zookeeper Open API变更元数据
-
-自行研究
-
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意的是，该方案利用第三方注册中心的Open API达到控制目的，具有一定的延迟性，不如本框架那样具有灰度发布实时生效的特征
-
-#### 全局订阅式的灰度路由策略
-通过全链路传递Header实现灰度路由，会存在一定的困难，框架提供另外一种很简单的方式来规避Header传递，但能达到Header传递一样的效果。以版本匹配为例
-
-增加版本匹配的灰度策略，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名），策略内容如下，实现a服务走1.0版本，b服务走1.1版本
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-    <strategy>
-        <version>{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.1"}</version>
-    </strategy>
-</rule>
-```
-![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-10.jpg)
-
-如果采用上述方式，可以考虑开启下面的开关
-```
-# 启动和关闭核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
-# 1. n-d-version
-# 2. n-d-region
-# 3. n-d-address
-# 4. n-d-version-weight
-# 5. n-d-region-weight
-# 6. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
-spring.application.strategy.gateway.core.header.transmission.enabled=true
-spring.application.strategy.zuul.core.header.transmission.enabled=true
-spring.application.strategy.feign.core.header.transmission.enabled=true
-spring.application.strategy.rest.template.core.header.transmission.enabled=true
-```
-
 ### 配置全链路灰度条件命中和灰度匹配组合式策略
 属于全链路蓝绿部署的范畴。既适用于Zuul和Spring Cloud Gateway网关，也适用于Service微服务，一般来说，网关已经加了，服务上就不需要加，当不存在的网关的时候，服务就可以考虑加上
 
@@ -1558,7 +1474,7 @@ spring.application.strategy.rpc.intercept.enabled=true
 spring.application.strategy.version.filter.enabled=true
 ```
 
-### 基于异步场景的全链路灰度路由策略
+### 异步场景的全链路灰度路由策略
 当若干个服务之间调用，存在异步场景，如下
 - 调用时候，启用了Hystrix线程池隔离机制
 - 线程池里的线程触发调用
@@ -1567,6 +1483,128 @@ spring.application.strategy.version.filter.enabled=true
 参考Hystrix线程池隔离模式下的解决方案
 
 参考异步跨线程Agent的解决方案
+
+## 基于动态变更元数据的灰度路由策略
+利用注册中心的Open API接口动态变更服务实例的元数据，达到稳定版本和灰度版本流量控制的目的。以Nacos的版本匹配为例
+老的稳定版本的服务实例配置元数据
+```
+spring.cloud.nacos.discovery.metadata.version=stable
+```
+新的灰度版本的服务实例配置元数据
+```
+spring.cloud.nacos.discovery.metadata.version=gray
+```
+参考如下配置，第一种方式表示所有的服务流量走灰度版本，第二种方式表示a服务流量走灰度版本，b服务流量走稳定版本
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy>
+        <version>gray</version>
+    </strategy>
+</rule>
+```
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy>
+        <version>{"discovery-guide-service-a":"gray", "discovery-guide-service-b":"stable"}</version>
+    </strategy>
+</rule>
+```
+也可以通过如下的Header传递
+```
+n-d-version=gray
+n-d-version={"discovery-guide-service-a":"gray", "discovery-guide-service-b":"stable"}
+```
+
+新上线的服务实例版本为gray，等灰度成功后，通过注册中心的Open API接口变更服务版本为stable，或者在注册中心界面手工修改
+
+- Nacos Open API变更元数据
+```
+curl -X PUT 'http://ip:port/nacos/v1/ns/service?serviceName={appId}&metadata=version%3stable'
+```
+
+- Eureka Open API变更元数据
+```
+curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=stable'
+```
+
+- Consul Open API变更元数据
+
+自行研究
+
+- Zookeeper Open API变更元数据
+
+自行研究
+
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意的是，该方案利用第三方注册中心的Open API达到控制目的，具有一定的延迟性，不如本框架那样具有灰度发布实时生效的特征
+
+## 基于全局订阅式的灰度路由策略
+通过全链路传递Header实现灰度路由，会存在一定的困难，框架提供另外一种很简单的方式来规避Header传递，但能达到Header传递一样的效果。以版本匹配为例
+
+增加版本匹配的灰度策略，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名），策略内容如下，实现a服务走1.0版本，b服务走1.1版本
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy>
+        <version>{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.1"}</version>
+    </strategy>
+</rule>
+```
+![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-10.jpg)
+
+如果采用上述方式，可以考虑开启下面的开关
+```
+# 启动和关闭核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
+# 1. n-d-version
+# 2. n-d-region
+# 3. n-d-address
+# 4. n-d-version-weight
+# 5. n-d-region-weight
+# 6. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
+spring.application.strategy.gateway.core.header.transmission.enabled=true
+spring.application.strategy.zuul.core.header.transmission.enabled=true
+spring.application.strategy.feign.core.header.transmission.enabled=true
+spring.application.strategy.rest.template.core.header.transmission.enabled=true
+```
+
+## 基于服务下线实时性的流量绝对无损策略
+服务下线场景中，由于Ribbon负载均衡组件存在着缓存机制，当被调用的服务实例已经下线，而调用的服务实例还暂时缓存着它，直到下个心跳周期才会把已下线的服务实例剔除，在此期间，会造成流量有损
+
+框架提供流量的实时性的绝对无损。采用下线之前，把服务实例添加到屏蔽名单中，负载均衡不会去寻址该服务实例。下线之后，清除该名单。实现该方式，需要通过DevOps调用注册中心的Open API推送或者在注册中心界面手工修改，通过全局订阅方式实现，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名）
+
+### 配置全局唯一ID屏蔽策略
+全局唯一ID对应于元数据spring.application.uuid字段，框架会自动把该ID注册到注册中心。此用法适用于Docker和Kubernetes上IP地址不确定的场景，策略内容如下，采用如下两种方式之一均可
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy-blacklist>
+        <!-- 单个ID形式。如果多个用“;”分隔，不允许出现空格 -->
+        <id value="e92edde5-0153-4ec8-9cbb-b4d3f415aa33;af043384-c8a5-451e-88f4-457914e8e3bc"/>
+
+        <!-- 多个ID节点形式 -->
+        <!-- <id value="e92edde5-0153-4ec8-9cbb-b4d3f415aa33"/>
+        <id value="af043384-c8a5-451e-88f4-457914e8e3bc"/> -->
+    </strategy-blacklist>
+</rule>
+```
+
+### 配置IP地址和端口屏蔽策略
+通过IP地址或者端口或者IP地址+端口进行屏蔽，支持通配符方式。此用法适用于IP地址确定的场景，策略内容如下，采用如下两种方式之一均可
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy-blacklist>
+        <!-- 单个Address形式。如果多个用“;”分隔，不允许出现空格 -->
+        <address value="192.168.43.101:1201;192.168.*.102;1301"/>
+
+        <!-- 多个Address节点形式 -->
+        <!-- <address value="192.168.43.101:1201"/>
+        <address value="192.168.*.102"/>
+        <address value="1301"/> -->
+    </strategy-blacklist>
+</rule>
+```
 
 ## 基于订阅方式的全链路灰度发布规则
 在Nacos配置中心，增加全链路灰度发布规则
@@ -1707,44 +1745,6 @@ spring.application.strategy.version.filter.enabled=true
         <service service-name="discovery-guide-service-a" key="database" value="qa"/>
         <service service-name="discovery-guide-service-b" key="database" value="prod"/>
     </parameter>
-</rule>
-```
-
-## 基于服务下线实时性的流量绝对无损
-服务下线场景中，由于Ribbon负载均衡组件存在着缓存机制，当被调用的服务实例已经下线，而调用的服务实例还暂时缓存着它，直到下个心跳周期才会把已下线的服务实例剔除，在此期间，会造成流量有损
-
-框架提供流量的实时性的绝对无损。采用下线之前，把服务实例添加到屏蔽名单中，负载均衡不会去寻址该服务实例。下线之后，清除该名单。实现该方式，需要通过DevOps调用注册中心的Open API推送或者在注册中心界面手工修改，通过全局订阅方式实现，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名）
-
-### 配置全局唯一ID屏蔽策略
-全局唯一ID对应于元数据spring.application.uuid字段，框架会自动把该ID注册到注册中心。此用法适用于Docker和Kubernetes上IP地址不确定的场景，策略内容如下，采用如下两种方式之一均可
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-    <strategy-blacklist>
-        <!-- 单个ID形式。如果多个用“;”分隔，不允许出现空格 -->
-        <id value="e92edde5-0153-4ec8-9cbb-b4d3f415aa33;af043384-c8a5-451e-88f4-457914e8e3bc"/>
-
-        <!-- 多个ID节点形式 -->
-        <!-- <id value="e92edde5-0153-4ec8-9cbb-b4d3f415aa33"/>
-        <id value="af043384-c8a5-451e-88f4-457914e8e3bc"/> -->
-    </strategy-blacklist>
-</rule>
-```
-
-### 配置IP地址和端口屏蔽策略
-通过IP地址或者端口或者IP地址+端口进行屏蔽，支持通配符方式。此用法适用于IP地址确定的场景，策略内容如下，采用如下两种方式之一均可
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-    <strategy-blacklist>
-        <!-- 单个Address形式。如果多个用“;”分隔，不允许出现空格 -->
-        <address value="192.168.43.101:1201;192.168.*.102;1301"/>
-
-        <!-- 多个Address节点形式 -->
-        <!-- <address value="192.168.43.101:1201"/>
-        <address value="192.168.*.102"/>
-        <address value="1301"/> -->
-    </strategy-blacklist>
 </rule>
 ```
 
