@@ -438,7 +438,8 @@ public class RouterTopology extends AbstractTopology {
                     RouterEntity routerEntity = (RouterEntity) userObject;
                     rules = ServiceController.getRules(routerEntity);
                 }
-                String dynamicRule = rules.get(1);
+                String dynamicPartialRule = rules.get(2);
+                String dynamicGlobalRule = rules.get(1);
                 String localRule = rules.get(0);
 
                 if (rulePanel == null) {
@@ -446,7 +447,8 @@ public class RouterTopology extends AbstractTopology {
                     rulePanel.setPreferredSize(new Dimension(800, 600));
                 }
 
-                rulePanel.setDynamicRule(dynamicRule);
+                rulePanel.setDynamicPartialRule(dynamicPartialRule);
+                rulePanel.setDynamicGlobalRule(dynamicGlobalRule);
                 rulePanel.setLocalRule(localRule);
 
                 JBasicOptionPane.showOptionDialog(HandleManager.getFrame(RouterTopology.this), rulePanel, ConsoleLocale.getString("view_rule"), JBasicOptionPane.DEFAULT_OPTION, JBasicOptionPane.PLAIN_MESSAGE, ConsoleIconFactory.getSwingIcon("banner/property.png"), new Object[] { SwingLocale.getString("close") }, null, true);
@@ -459,8 +461,10 @@ public class RouterTopology extends AbstractTopology {
     private class RulePanel extends JPanel {
         private static final long serialVersionUID = 1L;
 
-        private JBasicTextArea dynamicRuleTextArea;
-        private JPanel dynamicRulePanel;
+        private JBasicTextArea dynamicPartialRuleTextArea;
+        private JPanel dynamicPartialRulePanel;
+        private JBasicTextArea dynamicGlobalRuleTextArea;
+        private JPanel dynamicGlobalRulePanel;
         private JBasicTextArea localRuleTextArea;
         private JPanel localRulePanel;
         private JBasicTabbedPane ruleTabbedPane;
@@ -471,11 +475,17 @@ public class RouterTopology extends AbstractTopology {
         }
 
         private JBasicTabbedPane createRuleTabbedPane() {
-            dynamicRuleTextArea = new JBasicTextArea();
-            dynamicRulePanel = new JPanel();
-            dynamicRulePanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
-            dynamicRulePanel.setLayout(new BorderLayout());
-            dynamicRulePanel.add(new JBasicScrollPane(dynamicRuleTextArea), BorderLayout.CENTER);
+            dynamicPartialRuleTextArea = new JBasicTextArea();
+            dynamicPartialRulePanel = new JPanel();
+            dynamicPartialRulePanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+            dynamicPartialRulePanel.setLayout(new BorderLayout());
+            dynamicPartialRulePanel.add(new JBasicScrollPane(dynamicPartialRuleTextArea), BorderLayout.CENTER);
+
+            dynamicGlobalRuleTextArea = new JBasicTextArea();
+            dynamicGlobalRulePanel = new JPanel();
+            dynamicGlobalRulePanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+            dynamicGlobalRulePanel.setLayout(new BorderLayout());
+            dynamicGlobalRulePanel.add(new JBasicScrollPane(dynamicGlobalRuleTextArea), BorderLayout.CENTER);
 
             localRuleTextArea = new JBasicTextArea();
             localRulePanel = new JPanel();
@@ -484,14 +494,19 @@ public class RouterTopology extends AbstractTopology {
             localRulePanel.add(new JBasicScrollPane(localRuleTextArea), BorderLayout.CENTER);
 
             ruleTabbedPane = new JBasicTabbedPane();
-            ruleTabbedPane.addTab(ConsoleLocale.getString("label_dynamic_rule"), dynamicRulePanel, ConsoleLocale.getString("label_dynamic_rule"));
+            ruleTabbedPane.addTab(ConsoleLocale.getString("label_dynamic_partial_rule"), dynamicPartialRulePanel, ConsoleLocale.getString("label_dynamic_partial_rule"));
+            ruleTabbedPane.addTab(ConsoleLocale.getString("label_dynamic_global_rule"), dynamicGlobalRulePanel, ConsoleLocale.getString("label_dynamic_global_rule"));
             ruleTabbedPane.addTab(ConsoleLocale.getString("label_local_rule"), localRulePanel, ConsoleLocale.getString("label_local_rule"));
 
             return ruleTabbedPane;
         }
 
-        public void setDynamicRule(String dynamicRule) {
-            dynamicRuleTextArea.setText(dynamicRule);
+        public void setDynamicPartialRule(String dynamicPartialRule) {
+            dynamicPartialRuleTextArea.setText(dynamicPartialRule);
+        }
+
+        public void setDynamicGlobalRule(String dynamicGlobalRule) {
+            dynamicGlobalRuleTextArea.setText(dynamicGlobalRule);
         }
 
         public void setLocalRule(String localRule) {
