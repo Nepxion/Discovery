@@ -24,10 +24,9 @@ import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.zuul.constant.ZuulStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.zuul.monitor.ZuulStrategyMonitor;
-import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 
-public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter implements ZuulStrategyRouteFilter {
+public abstract class AbstractZuulStrategyRouteFilter extends ZuulStrategyRouteFilter {
     @Autowired
     protected PluginAdapter pluginAdapter;
 
@@ -98,6 +97,8 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter impleme
             String routeAddress = getRouteAddress();
             String routeVersionWeight = getRouteVersionWeight();
             String routeRegionWeight = getRouteRegionWeight();
+            String routeIdBlacklist = getRouteIdBlacklist();
+            String routeAddressBlacklist = getRouteAddressBlacklist();
 
             // 通过过滤器设置路由Header头部信息，并全链路传递到服务端
             if (StringUtils.isNotEmpty(routeVersion)) {
@@ -125,12 +126,24 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulFilter impleme
             } else {
                 ZuulStrategyFilterResolver.ignoreHeader(DiscoveryConstant.N_D_REGION_WEIGHT, zuulHeaderPriority, zuulOriginalHeaderIgnored);
             }
+            if (StringUtils.isNotEmpty(routeIdBlacklist)) {
+                ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_ID_BLACKLIST, routeIdBlacklist, zuulHeaderPriority);
+            } else {
+                ZuulStrategyFilterResolver.ignoreHeader(DiscoveryConstant.N_D_ID_BLACKLIST, zuulHeaderPriority, zuulOriginalHeaderIgnored);
+            }
+            if (StringUtils.isNotEmpty(routeAddressBlacklist)) {
+                ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_ADDRESS_BLACKLIST, routeAddressBlacklist, zuulHeaderPriority);
+            } else {
+                ZuulStrategyFilterResolver.ignoreHeader(DiscoveryConstant.N_D_ADDRESS_BLACKLIST, zuulHeaderPriority, zuulOriginalHeaderIgnored);
+            }
         } else {
             ZuulStrategyFilterResolver.ignoreHeader(DiscoveryConstant.N_D_VERSION);
             ZuulStrategyFilterResolver.ignoreHeader(DiscoveryConstant.N_D_REGION);
             ZuulStrategyFilterResolver.ignoreHeader(DiscoveryConstant.N_D_ADDRESS);
             ZuulStrategyFilterResolver.ignoreHeader(DiscoveryConstant.N_D_VERSION_WEIGHT);
             ZuulStrategyFilterResolver.ignoreHeader(DiscoveryConstant.N_D_REGION_WEIGHT);
+            ZuulStrategyFilterResolver.ignoreHeader(DiscoveryConstant.N_D_ID_BLACKLIST);
+            ZuulStrategyFilterResolver.ignoreHeader(DiscoveryConstant.N_D_ADDRESS_BLACKLIST);
         }
 
         // 对于服务A -> 网关 -> 服务B调用链

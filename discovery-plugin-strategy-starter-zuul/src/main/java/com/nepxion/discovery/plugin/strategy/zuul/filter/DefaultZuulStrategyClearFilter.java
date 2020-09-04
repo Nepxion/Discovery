@@ -13,10 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 
 import com.nepxion.discovery.plugin.strategy.zuul.monitor.ZuulStrategyMonitor;
-import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 
-public class DefaultZuulStrategyClearFilter extends ZuulFilter implements ZuulStrategyClearFilter {
+public class DefaultZuulStrategyClearFilter extends ZuulStrategyClearFilter {
     @Autowired(required = false)
     private ZuulStrategyMonitor zuulStrategyMonitor;
 

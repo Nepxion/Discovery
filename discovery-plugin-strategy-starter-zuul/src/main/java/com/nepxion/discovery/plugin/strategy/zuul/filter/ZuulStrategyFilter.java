@@ -9,8 +9,8 @@ package com.nepxion.discovery.plugin.strategy.zuul.filter;
  * @version 1.0
  */
 
-import com.nepxion.discovery.plugin.strategy.filter.StrategyRouteFilter;
+import com.netflix.zuul.ZuulFilter;
 
-public abstract class ZuulStrategyRouteFilter extends ZuulStrategyFilter implements StrategyRouteFilter {
+public abstract class ZuulStrategyFilter extends ZuulFilter {
 
 }
