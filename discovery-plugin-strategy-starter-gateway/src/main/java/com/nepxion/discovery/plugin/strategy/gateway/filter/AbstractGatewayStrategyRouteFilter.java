@@ -97,6 +97,8 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
             String routeAddress = getRouteAddress();
             String routeVersionWeight = getRouteVersionWeight();
             String routeRegionWeight = getRouteRegionWeight();
+            String routeIdBlacklist = getRouteIdBlacklist();
+            String routeAddressBlacklist = getRouteAddressBlacklist();
 
             if (StringUtils.isNotEmpty(routeVersion)) {
                 GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_VERSION, routeVersion, gatewayHeaderPriority);
@@ -123,12 +125,24 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
             } else {
                 GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_REGION_WEIGHT, gatewayHeaderPriority, gatewayOriginalHeaderIgnored);
             }
+            if (StringUtils.isNotEmpty(routeIdBlacklist)) {
+                GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_ID_BLACKLIST, routeIdBlacklist, gatewayHeaderPriority);
+            } else {
+                GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_ID_BLACKLIST, gatewayHeaderPriority, gatewayOriginalHeaderIgnored);
+            }
+            if (StringUtils.isNotEmpty(routeAddressBlacklist)) {
+                GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_ADDRESS_BLACKLIST, routeAddressBlacklist, gatewayHeaderPriority);
+            } else {
+                GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_ADDRESS_BLACKLIST, gatewayHeaderPriority, gatewayOriginalHeaderIgnored);
+            }
         } else {
             GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_VERSION);
             GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_REGION);
             GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_ADDRESS);
             GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_VERSION_WEIGHT);
             GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_REGION_WEIGHT);
+            GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_ID_BLACKLIST);
+            GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_ADDRESS_BLACKLIST);
         }
 
         // 对于服务A -> 网关 -> 服务B调用链

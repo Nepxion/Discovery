@@ -41,4 +41,14 @@ public class DefaultGatewayStrategyRouteFilter extends AbstractGatewayStrategyRo
     public String getRouteRegionWeight() {
         return strategyWrapper.getRouteRegionWeight();
     }
+
+    @Override
+    public String getRouteIdBlacklist() {
+        return strategyWrapper.getRouteIdBlacklist();
+    }
+
+    @Override
+    public String getRouteAddressBlacklist() {
+        return strategyWrapper.getRouteAddressBlacklist();
+    }
 }
