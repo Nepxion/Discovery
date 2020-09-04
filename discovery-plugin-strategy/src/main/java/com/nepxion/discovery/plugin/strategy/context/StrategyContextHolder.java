@@ -21,4 +21,8 @@ public interface StrategyContextHolder {
     String getRouteVersionWeight();
 
     String getRouteRegionWeight();
+
+    String getRouteIdBlacklist();
+
+    String getRouteAddressBlacklist();
 }

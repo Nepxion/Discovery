@@ -133,6 +133,14 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
             if (StringUtils.isNotEmpty(routeRegionWeight)) {
                 outputSpan(span, DiscoveryConstant.N_D_REGION_WEIGHT, routeRegionWeight);
             }
+            String idBlacklist = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ID_BLACKLIST);
+            if (StringUtils.isNotEmpty(idBlacklist)) {
+                outputSpan(span, DiscoveryConstant.N_D_ID_BLACKLIST, idBlacklist);
+            }
+            String addressBlacklist = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ADDRESS_BLACKLIST);
+            if (StringUtils.isNotEmpty(addressBlacklist)) {
+                outputSpan(span, DiscoveryConstant.N_D_ADDRESS_BLACKLIST, addressBlacklist);
+            }
         }
     }
 

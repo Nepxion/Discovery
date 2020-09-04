@@ -85,6 +85,26 @@ public abstract class AbstractStrategyContextHolder implements PluginContextHold
     }
 
     @Override
+    public String getContextRouteIdBlacklist() {
+        String idBlacklistValue = getContext(DiscoveryConstant.N_D_ID_BLACKLIST);
+        if (StringUtils.isEmpty(idBlacklistValue)) {
+            idBlacklistValue = getRouteIdBlacklist();
+        }
+
+        return idBlacklistValue;
+    }
+
+    @Override
+    public String getContextRouteAddressBlacklist() {
+        String addressBlacklistValue = getContext(DiscoveryConstant.N_D_ADDRESS_BLACKLIST);
+        if (StringUtils.isEmpty(addressBlacklistValue)) {
+            addressBlacklistValue = getRouteAddressBlacklist();
+        }
+
+        return addressBlacklistValue;
+    }
+
+    @Override
     public String getRouteVersion() {
         return strategyWrapper.getRouteVersion();
     }
@@ -107,6 +127,16 @@ public abstract class AbstractStrategyContextHolder implements PluginContextHold
     @Override
     public String getRouteRegionWeight() {
         return strategyWrapper.getRouteRegionWeight();
+    }
+
+    @Override
+    public String getRouteIdBlacklist() {
+        return strategyWrapper.getRouteIdBlacklist();
+    }
+
+    @Override
+    public String getRouteAddressBlacklist() {
+        return strategyWrapper.getRouteAddressBlacklist();
     }
 
     @Override

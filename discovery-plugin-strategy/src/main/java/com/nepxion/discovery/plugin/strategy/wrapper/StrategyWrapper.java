@@ -24,6 +24,7 @@ import com.nepxion.discovery.common.entity.AddressWeightEntity;
 import com.nepxion.discovery.common.entity.MapWeightEntity;
 import com.nepxion.discovery.common.entity.RegionWeightEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.StrategyBlacklistEntity;
 import com.nepxion.discovery.common.entity.StrategyConditionBlueGreenEntity;
 import com.nepxion.discovery.common.entity.StrategyConditionGrayEntity;
 import com.nepxion.discovery.common.entity.StrategyCustomizationEntity;
@@ -99,6 +100,32 @@ public class StrategyWrapper {
         }
 
         return routeRegionWeight;
+    }
+
+    // 从远程配置中心或者本地配置文件获取全局唯一ID黑名单屏蔽配置。如果是远程配置中心，则值会动态改变
+    public String getRouteIdBlacklist() {
+        RuleEntity ruleEntity = pluginAdapter.getRule();
+        if (ruleEntity != null) {
+            StrategyBlacklistEntity strategyBlacklistEntity = ruleEntity.getStrategyBlacklistEntity();
+            if (strategyBlacklistEntity != null) {
+                return strategyBlacklistEntity.toIds();
+            }
+        }
+
+        return null;
+    }
+
+    // 从远程配置中心或者本地配置文件获取IP地址和端口黑名单屏蔽配置。如果是远程配置中心，则值会动态改变
+    public String getRouteAddressBlacklist() {
+        RuleEntity ruleEntity = pluginAdapter.getRule();
+        if (ruleEntity != null) {
+            StrategyBlacklistEntity strategyBlacklistEntity = ruleEntity.getStrategyBlacklistEntity();
+            if (strategyBlacklistEntity != null) {
+                return strategyBlacklistEntity.toAddresses();
+            }
+        }
+
+        return null;
     }
 
     // 从远程配置中心或者本地配置文件获取版本路由配置。如果是远程配置中心，则值会动态改变
