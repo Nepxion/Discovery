@@ -9,9 +9,6 @@ package com.nepxion.discovery.plugin.strategy.zuul.filter;
  * @version 1.0
  */
 
-import com.netflix.zuul.IZuulFilter;
-import com.netflix.zuul.ZuulFilter;
-
-public interface ZuulStrategyClearFilter extends IZuulFilter, Comparable<ZuulFilter> {
+public abstract class ZuulStrategyClearFilter extends ZuulStrategyFilter {
 
 }
