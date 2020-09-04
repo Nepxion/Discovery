@@ -98,6 +98,8 @@ public class DiscoveryConstant {
     public static final String N_D_ADDRESS = "n-d-address";
     public static final String N_D_VERSION_WEIGHT = "n-d-version-weight";
     public static final String N_D_REGION_WEIGHT = "n-d-region-weight";
+    public static final String N_D_ID_BLACKLIST = "n-d-id-blacklist";
+    public static final String N_D_ADDRESS_BLACKLIST = "n-d-address-blacklist";
 
     public static final String TRACE_ID = "trace-id";
     public static final String SPAN_ID = "span-id";
