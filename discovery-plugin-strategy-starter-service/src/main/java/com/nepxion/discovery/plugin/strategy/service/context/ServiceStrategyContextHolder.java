@@ -73,4 +73,14 @@ public class ServiceStrategyContextHolder extends AbstractStrategyContextHolder 
     public String getRouteRegionWeight() {
         return serviceStrategyRouteFilter.getRouteRegionWeight();
     }
+
+    @Override
+    public String getRouteIdBlacklist() {
+        return serviceStrategyRouteFilter.getRouteIdBlacklist();
+    }
+
+    @Override
+    public String getRouteAddressBlacklist() {
+        return serviceStrategyRouteFilter.getRouteAddressBlacklist();
+    }
 }
