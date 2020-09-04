@@ -9,14 +9,8 @@ package com.nepxion.discovery.plugin.strategy.service.filter;
  * @version 1.0
  */
 
-public interface ServiceStrategyRouteFilter {
-    String getRouteVersion();
+import com.nepxion.discovery.plugin.strategy.filter.StrategyRouteFilter;
 
-    String getRouteRegion();
+public interface ServiceStrategyRouteFilter extends StrategyRouteFilter {
 
-    String getRouteAddress();
-
-    String getRouteVersionWeight();
-
-    String getRouteRegionWeight();
 }

@@ -138,6 +138,18 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
                     headers.add(DiscoveryConstant.N_D_REGION_WEIGHT, routeRegionWeight);
                 }
             }
+            if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_ID_BLACKLIST))) {
+                String routeIdBlacklist = serviceStrategyRouteFilter.getRouteIdBlacklist();
+                if (StringUtils.isNotEmpty(routeIdBlacklist)) {
+                    headers.add(DiscoveryConstant.N_D_ID_BLACKLIST, routeIdBlacklist);
+                }
+            }
+            if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_ADDRESS_BLACKLIST))) {
+                String routeAddressBlacklist = serviceStrategyRouteFilter.getRouteAddressBlacklist();
+                if (StringUtils.isNotEmpty(routeAddressBlacklist)) {
+                    headers.add(DiscoveryConstant.N_D_ADDRESS_BLACKLIST, routeAddressBlacklist);
+                }
+            }
         }
     }
 

@@ -76,6 +76,16 @@ public class DefaultServiceStrategyRouteFilter extends AbstractServiceStrategyRo
         }
     }
 
+    @Override
+    public String getRouteIdBlacklist() {
+        return strategyWrapper.getRouteIdBlacklist();
+    }
+
+    @Override
+    public String getRouteAddressBlacklist() {
+        return strategyWrapper.getRouteAddressBlacklist();
+    }
+
     public Map<String, String> getHeaderMap() {
         RuleEntity ruleEntity = pluginAdapter.getRule();
         if (ruleEntity != null) {
