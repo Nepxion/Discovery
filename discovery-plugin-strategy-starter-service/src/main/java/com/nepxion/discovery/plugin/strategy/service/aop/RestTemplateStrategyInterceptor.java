@@ -43,7 +43,9 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
     // 3. n-d-address
     // 4. n-d-version-weight
     // 5. n-d-region-weight
-    // 6. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
+    // 6. n-d-id-blacklist
+    // 7. n-d-address-blacklist
+    // 8. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
     @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REST_TEMPLATE_CORE_HEADER_TRANSMISSION_ENABLED + ":true}")
     protected Boolean restTemplateCoreHeaderTransmissionEnabled;
 
