@@ -20,8 +20,6 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.util.CollectionUtils;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.common.entity.RuleEntity;
-import com.nepxion.discovery.common.entity.StrategyBlacklistEntity;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
@@ -74,7 +72,12 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
             return false;
         }
 
-        enabled = applyBlacklist(server);
+        enabled = applyIdBlacklist(server);
+        if (!enabled) {
+            return false;
+        }
+
+        enabled = applyAddressBlacklist(server);
         if (!enabled) {
             return false;
         }
@@ -240,19 +243,30 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         return addresses;
     }
 
-    public boolean applyBlacklist(Server server) {
-        RuleEntity ruleEntity = pluginAdapter.getRule();
-        if (ruleEntity == null) {
+    public boolean applyIdBlacklist(Server server) {
+        String ids = pluginContextHolder.getContextRouteIdBlacklist();
+        if (StringUtils.isEmpty(ids)) {
             return true;
         }
 
-        StrategyBlacklistEntity strategyBlacklistEntity = ruleEntity.getStrategyBlacklistEntity();
-        if (strategyBlacklistEntity == null) {
+        String serviceUUId = pluginAdapter.getServerServiceUUId(server);
+
+        List<String> idList = StringUtil.splitToList(ids, DiscoveryConstant.SEPARATE);
+        if (idList.contains(serviceUUId)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean applyAddressBlacklist(Server server) {
+        String addresses = pluginContextHolder.getContextRouteAddressBlacklist();
+        if (StringUtils.isEmpty(addresses)) {
             return true;
         }
 
         // 如果精确匹配不满足，尝试用通配符匹配
-        List<String> addressList = strategyBlacklistEntity.getAddressList();
+        List<String> addressList = StringUtil.splitToList(addresses, DiscoveryConstant.SEPARATE);
         if (addressList.contains(server.getHostPort()) || addressList.contains(server.getHost()) || addressList.contains(String.valueOf(server.getPort()))) {
             return false;
         }
@@ -262,13 +276,6 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
             if (discoveryMatcherStrategy.match(addressPattern, server.getHostPort()) || discoveryMatcherStrategy.match(addressPattern, server.getHost()) || discoveryMatcherStrategy.match(addressPattern, String.valueOf(server.getPort()))) {
                 return false;
             }
-        }
-
-        String serviceUUId = pluginAdapter.getServerServiceUUId(server);
-
-        List<String> idList = strategyBlacklistEntity.getIdList();
-        if (idList.contains(serviceUUId)) {
-            return false;
         }
 
         return true;

@@ -127,6 +127,14 @@ public class DefaultStrategyLogger implements StrategyLogger {
         if (StringUtils.isNotEmpty(routeRegionWeight)) {
             System.out.println(DiscoveryConstant.N_D_REGION_WEIGHT + "=" + routeRegionWeight);
         }
+        String idBlacklist = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ID_BLACKLIST);
+        if (StringUtils.isNotEmpty(idBlacklist)) {
+            System.out.println(DiscoveryConstant.N_D_ID_BLACKLIST + "=" + idBlacklist);
+        }
+        String addressBlacklist = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ADDRESS_BLACKLIST);
+        if (StringUtils.isNotEmpty(addressBlacklist)) {
+            System.out.println(DiscoveryConstant.N_D_ADDRESS_BLACKLIST + "=" + addressBlacklist);
+        }
 
         Map<String, String> customizationMap = strategyMonitorContext.getCustomizationMap();
         if (MapUtils.isNotEmpty(customizationMap)) {
