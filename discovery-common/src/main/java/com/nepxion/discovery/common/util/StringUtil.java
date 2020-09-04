@@ -12,8 +12,11 @@ package com.nepxion.discovery.common.util;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
 public class StringUtil {
     public static List<String> splitToList(String value, String separate) {
@@ -24,6 +27,25 @@ public class StringUtil {
         String[] valueArray = StringUtils.split(value, separate);
 
         return Arrays.asList(valueArray);
+    }
+
+    public static String convertToString(List<String> list) {
+        if (CollectionUtils.isNotEmpty(list)) {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            for (int i = 0; i < list.size(); i++) {
+                String value = list.get(i);
+
+                stringBuilder.append(value);
+                if (i < list.size() - 1) {
+                    stringBuilder.append(DiscoveryConstant.SEPARATE);
+                }
+            }
+
+            return stringBuilder.toString();
+        }
+
+        return null;
     }
 
     public static String simulateText(String value, int size, String padValue) {
