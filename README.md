@@ -89,7 +89,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
     - 异步场景下的触发路由
 - 基于动态变更元数据的全链路灰度路由
 - 基于全局订阅式的全链路灰度路由
-- 基于服务下线实时性的流量绝对无损策略。主要包括
+- 基于服务下线实时性的流量绝对无损策略。支持全局订阅和Header全链路传递两种方式，主要包括
     - 通过全局唯一ID进行屏蔽。适用于Docker和Kubernetes上IP地址不确定的场景
     - 通过IP地址或者端口或者IP地址+端口进行屏蔽。适用于IP地址确定的场景
 - 基于规则订阅的全链路灰度发布。采用配置中心配置灰度规则映射在全链路服务而实现，所有服务都订阅一个共享配置。主要包括
@@ -824,6 +824,8 @@ zuul -> [ID=discovery-guide-service-a][P=Nacos][H=192.168.0.107:3001][V=1.0][R=d
 ```
 表示discovery-guide-service-b服务的版本调用范围是1开头的所有版本，或者是1.2开头的所有版本（末尾必须是1个字符），多个用分号隔开
 
+也可以通过全链路传递Header方式实现，参考[通过前端传入灰度路由策略](#通过前端传入灰度路由策略)
+
 版本灰度路由架构图
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/RouteVersion.jpg)
@@ -845,6 +847,8 @@ zuul -> [ID=discovery-guide-service-a][P=Nacos][H=192.168.0.107:3001][V=1.0][R=d
 1. <version-weight>1.0=90;1.1=10</version-weight>
 2. <version-weight>{"discovery-guide-service-a":"1.0=90;1.1=10", "discovery-guide-service-b":"1.0=90;1.1=10"}</version-weight>
 ```
+
+也可以通过全链路传递Header方式实现，参考[通过前端传入灰度路由策略](#通过前端传入灰度路由策略)
 
 #### 区域匹配灰度路由策略
 增加Zuul的基于区域匹配路由的灰度策略，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现从Zuul发起的调用都走区域为dev的服务
@@ -875,6 +879,8 @@ d* - 表示调用范围为所有服务的d开头的所有区域
 ```
 表示discovery-guide-service-b服务的区域调用范围是d开头的所有区域，或者是q开头的所有区域（末尾必须是1个字符），多个用分号隔开
 
+也可以通过全链路传递Header方式实现，参考[通过前端传入灰度路由策略](#通过前端传入灰度路由策略)
+
 区域灰度路由架构图
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/RouteRegion.jpg)
@@ -896,6 +902,8 @@ d* - 表示调用范围为所有服务的d开头的所有区域
 1. <region-weight>dev=85;qa=15</region-weight>
 2. <region-weight>{"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-service-b":"dev=85;qa=15"}</region-weight>
 ```
+
+也可以通过全链路传递Header方式实现，参考[通过前端传入灰度路由策略](#通过前端传入灰度路由策略)
 
 #### IP地址和端口匹配灰度路由策略
 增加Zuul的基于IP地址和端口匹配的灰度策略，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现从Zuul发起的调用走指定IP地址和端口，或者指定IP地址，或者指定端口（下面策略以端口为例）的服务
@@ -927,6 +935,8 @@ d* - 表示调用范围为所有服务的d开头的所有区域
 "discovery-guide-service-b":"3*;400?"
 ```
 表示discovery-guide-service-b服务的端口调用范围是3开头的所有端口，或者是4开头的所有端口（末尾必须是1个字符），多个用分号隔开
+
+也可以通过全链路传递Header方式实现，参考[通过前端传入灰度路由策略](#通过前端传入灰度路由策略)
 
 IP地址和端口灰度路由架构图
 
@@ -1150,6 +1160,16 @@ IP地址和端口灰度路由架构图
 1. n-d-env=env1
 ```
 
+- 服务下线实时性的流量绝对无损，全局唯一ID屏蔽策略
+```
+1. n-d-id-blacklist=e92edde5-0153-4ec8-9cbb-b4d3f415aa33;af043384-c8a5-451e-88f4-457914e8e3bc
+```
+
+- 服务下线实时性的流量绝对无损，IP地址和端口屏蔽策略
+```
+1. n-d-address-blacklist=192.168.43.101:1201;192.168.*.102;1301
+```
+
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-6.jpg)
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-7.jpg)
@@ -1180,6 +1200,10 @@ public String getRouteAddress();
 public String getRouteVersionWeight();
 
 public String getRouteRegionWeight();
+
+public String getRouteIdBlacklist();
+
+public String getRouteAddressBlacklist();
 ```
 
 GatewayStrategyRouteFilter示例
@@ -1511,7 +1535,7 @@ spring.cloud.nacos.discovery.metadata.version=gray
     </strategy>
 </rule>
 ```
-也可以通过如下的Header传递
+也可以通过全链路传递Header方式实现，参考[通过前端传入灰度路由策略](#通过前端传入灰度路由策略)
 ```
 n-d-version=gray
 n-d-version={"discovery-guide-service-a":"gray", "discovery-guide-service-b":"stable"}
@@ -1561,7 +1585,9 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 # 3. n-d-address
 # 4. n-d-version-weight
 # 5. n-d-region-weight
-# 6. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
+# 6. n-d-id-blacklist
+# 7. n-d-address-blacklist
+# 8. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
 spring.application.strategy.gateway.core.header.transmission.enabled=true
 spring.application.strategy.zuul.core.header.transmission.enabled=true
 spring.application.strategy.feign.core.header.transmission.enabled=true
@@ -1589,6 +1615,8 @@ spring.application.strategy.rest.template.core.header.transmission.enabled=true
 </rule>
 ```
 
+也可以通过全链路传递Header方式实现，参考[通过前端传入灰度路由策略](#通过前端传入灰度路由策略)
+
 ### 配置IP地址和端口屏蔽策略
 通过IP地址或者端口或者IP地址+端口进行屏蔽，支持通配符方式。此用法适用于IP地址确定的场景，策略内容如下，采用如下两种方式之一均可
 ```xml
@@ -1605,6 +1633,8 @@ spring.application.strategy.rest.template.core.header.transmission.enabled=true
     </strategy-blacklist>
 </rule>
 ```
+
+也可以通过全链路传递Header方式实现，参考[通过前端传入灰度路由策略](#通过前端传入灰度路由策略)
 
 ## 基于订阅方式的全链路灰度发布规则
 在Nacos配置中心，增加全链路灰度发布规则
@@ -2550,7 +2580,7 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 ### 全链路调用链监控-Tracing
 调用链监控，在本文主要指灰度调用链监控。快速入门操作，请访问操作视频[Nepxion Discovery 灰度发布路由调用链](https://pan.baidu.com/s/1PbksbZKVY7reBrnVb3RS6Q)，注意一定要下载下来看，不要在线看，否则不清晰
 
-灰度调用链主要包括如下12个参数，以n-d-service开头的是必须的，其它是可选的或者按照场景而定。使用者可以自行定义要传递的调用链参数，例如：traceId, spanId等；也可以自行定义要传递的业务调用链参数，例如：mobile, user等
+灰度调用链主要包括如下15个参数，以n-d-service开头的是必须的，其它是可选的或者按照场景而定。使用者可以自行定义要传递的调用链参数，例如：traceId, spanId等；也可以自行定义要传递的业务调用链参数，例如：mobile, user等
 ```
 1. n-d-service-group - 服务所属组或者应用
 2. n-d-service-type - 服务类型，分为“网关”和“服务”
@@ -2561,9 +2591,12 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 7. n-d-service-env - 服务所属环境
 8. n-d-version - 版本路由值
 9. n-d-region - 区域路由值
-10. n-d-address - 地址路由值
-11. n-d-version-weight - 版本权重路由值
-12. n-d-region-weight - 区域权重路由值
+10. n-d-env - 环境值
+11. n-d-address - 地址路由值
+12. n-d-version-weight - 版本权重路由值
+13. n-d-region-weight - 区域权重路由值
+14. n-d-id-blacklist - 全局唯一ID屏蔽值
+15. n-d-address-blacklist - IP地址和端口屏蔽值
 ```
 灰度调用链输出分为Header方式、调用链方式、日志MDC方式，三种方式可以并存使用。调用链方式支持WebMvc和WebFlux
 
@@ -3081,7 +3114,9 @@ spring.application.strategy.rest.intercept.enabled=true
 # 3. n-d-address
 # 4. n-d-version-weight
 # 5. n-d-region-weight
-# 6. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
+# 6. n-d-id-blacklist
+# 7. n-d-address-blacklist
+# 8. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
 spring.application.strategy.feign.core.header.transmission.enabled=true
 # 启动和关闭RestTemplate上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
 # 1. n-d-version
@@ -3089,7 +3124,9 @@ spring.application.strategy.feign.core.header.transmission.enabled=true
 # 3. n-d-address
 # 4. n-d-version-weight
 # 5. n-d-region-weight
-# 6. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
+# 6. n-d-id-blacklist
+# 7. n-d-address-blacklist
+# 8. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
 spring.application.strategy.rest.template.core.header.transmission.enabled=true
 # 启动和关闭路由策略的时候，对REST方式在异步调用场景下在服务端的Request请求的装饰，当主线程先于子线程执行完的时候，Request会被Destory，导致Header仍旧拿不到，开启装饰，就可以确保拿到。缺失则默认为false
 spring.application.strategy.rest.request.decorator.enabled=true
@@ -3228,7 +3265,9 @@ spring.application.strategy.gateway.original.header.ignored=true
 # 3. n-d-address
 # 4. n-d-version-weight
 # 5. n-d-region-weight
-# 6. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
+# 6. n-d-id-blacklist
+# 7. n-d-address-blacklist
+# 8. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
 spring.application.strategy.gateway.core.header.transmission.enabled=true
 # 启动和关闭注册的服务隔离（基于Group黑/白名单的策略）。缺失则默认为false
 spring.application.strategy.register.isolation.enabled=true
@@ -3334,7 +3373,9 @@ spring.application.strategy.zuul.original.header.ignored=true
 # 3. n-d-address
 # 4. n-d-version-weight
 # 5. n-d-region-weight
-# 6. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
+# 6. n-d-id-blacklist
+# 7. n-d-address-blacklist
+# 8. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
 spring.application.strategy.zuul.core.header.transmission.enabled=true
 # 启动和关闭注册的服务隔离（基于Group黑/白名单的策略）。缺失则默认为false
 spring.application.strategy.register.isolation.enabled=true
