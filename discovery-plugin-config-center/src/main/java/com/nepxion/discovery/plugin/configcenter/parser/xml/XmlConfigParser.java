@@ -291,6 +291,8 @@ public class XmlConfigParser implements PluginConfigParser {
 
     @SuppressWarnings("rawtypes")
     private void parseStrategyBlacklist(Element element, StrategyBlacklistEntity strategyBlacklistEntity) {
+        List<String> idList = new ArrayList<String>();
+        List<String> addressList = new ArrayList<String>();
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
             if (childElementObject instanceof Element) {
@@ -303,12 +305,15 @@ public class XmlConfigParser implements PluginConfigParser {
                 String value = valueAttribute.getData().toString().trim();
                 List<String> valueList = StringUtil.splitToList(value, DiscoveryConstant.SEPARATE);
                 if (StringUtils.equals(childElement.getName(), ConfigConstant.ID_ELEMENT_NAME)) {
-                    strategyBlacklistEntity.getIdList().addAll(valueList);
+                    idList.addAll(valueList);
                 } else if (StringUtils.equals(childElement.getName(), ConfigConstant.ADDRESS_ELEMENT_NAME)) {
-                    strategyBlacklistEntity.getAddressList().addAll(valueList);
+                    addressList.addAll(valueList);
                 }
             }
         }
+
+        strategyBlacklistEntity.setIdList(idList);
+        strategyBlacklistEntity.setAddressList(addressList);
     }
 
     @SuppressWarnings("rawtypes")
