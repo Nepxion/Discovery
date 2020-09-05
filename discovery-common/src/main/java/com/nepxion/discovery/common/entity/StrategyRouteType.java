@@ -11,7 +11,7 @@ package com.nepxion.discovery.common.entity;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
-public enum StrategyType {
+public enum StrategyRouteType {
     VERSION(DiscoveryConstant.VERSION, DiscoveryConstant.VERSION), 
     REGION(DiscoveryConstant.REGION, DiscoveryConstant.REGION), 
     ADDRESS(DiscoveryConstant.ADDRESS, DiscoveryConstant.ADDRESS), 
@@ -21,7 +21,7 @@ public enum StrategyType {
     private String value;
     private String description;
 
-    private StrategyType(String value, String description) {
+    private StrategyRouteType(String value, String description) {
         this.value = value;
         this.description = description;
     }
@@ -34,8 +34,8 @@ public enum StrategyType {
         return description;
     }
 
-    public static StrategyType fromString(String value) {
-        for (StrategyType type : StrategyType.values()) {
+    public static StrategyRouteType fromString(String value) {
+        for (StrategyRouteType type : StrategyRouteType.values()) {
             if (type.getValue().equalsIgnoreCase(value)) {
                 return type;
             }
