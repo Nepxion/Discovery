@@ -94,41 +94,49 @@ public class PluginAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public HostFilterRegisterListener hostFilterRegisterListener() {
         return new HostFilterRegisterListener();
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public CountFilterRegisterListener countFilterRegisterListener() {
         return new CountFilterRegisterListener();
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public HostFilterDiscoveryListener hostFilterDiscoveryListener() {
         return new HostFilterDiscoveryListener();
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public VersionFilterDiscoveryListener versionFilterDiscoveryListener() {
         return new VersionFilterDiscoveryListener();
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public RegionFilterDiscoveryListener regionFilterDiscoveryListener() {
         return new RegionFilterDiscoveryListener();
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public HostFilterLoadBalanceListener hostFilterLoadBalanceListener() {
         return new HostFilterLoadBalanceListener();
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public VersionFilterLoadBalanceListener versionFilterLoadBalanceListener() {
         return new VersionFilterLoadBalanceListener();
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public RegionFilterLoadBalanceListener regionFilterLoadBalanceListener() {
         return new RegionFilterLoadBalanceListener();
     }

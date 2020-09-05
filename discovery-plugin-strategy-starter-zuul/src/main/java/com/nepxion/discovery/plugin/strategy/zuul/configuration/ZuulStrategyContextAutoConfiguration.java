@@ -10,6 +10,7 @@ package com.nepxion.discovery.plugin.strategy.zuul.configuration;
  */
 
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cloud.netflix.ribbon.RibbonClientConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +21,7 @@ import com.nepxion.discovery.plugin.strategy.zuul.context.ZuulStrategyContextHol
 @AutoConfigureBefore(RibbonClientConfiguration.class)
 public class ZuulStrategyContextAutoConfiguration {
     @Bean
+    @ConditionalOnMissingBean
     public ZuulStrategyContextHolder zuulStrategyContextHolder() {
         return new ZuulStrategyContextHolder();
     }
