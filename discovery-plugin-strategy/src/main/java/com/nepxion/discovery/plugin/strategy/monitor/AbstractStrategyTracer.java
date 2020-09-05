@@ -107,6 +107,7 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
         outputSpan(span, DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion());
         outputSpan(span, DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion());
         outputSpan(span, DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, pluginAdapter.getEnvironment());
+        outputSpan(span, DiscoveryConstant.N_D_SERVICE_ZONE, pluginAdapter.getZone());
 
         if (tracerRuleOutputEnabled) {
             String routeVersion = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION);

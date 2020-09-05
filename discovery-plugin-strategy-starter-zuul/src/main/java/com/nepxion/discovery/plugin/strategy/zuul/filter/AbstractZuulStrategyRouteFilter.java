@@ -163,6 +163,7 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulStrategyRouteF
         ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion(), false);
         ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion(), false);
         ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, pluginAdapter.getEnvironment(), false);
+        ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_ZONE, pluginAdapter.getZone(), false);
 
         extendFilter();
 

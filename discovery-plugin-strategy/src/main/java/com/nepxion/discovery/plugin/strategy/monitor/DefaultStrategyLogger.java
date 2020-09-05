@@ -69,6 +69,7 @@ public class DefaultStrategyLogger implements StrategyLogger {
         MDC.put(DiscoveryConstant.N_D_SERVICE_VERSION, (loggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_VERSION + "=" : StringUtils.EMPTY) + pluginAdapter.getVersion());
         MDC.put(DiscoveryConstant.N_D_SERVICE_REGION, (loggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_REGION + "=" : StringUtils.EMPTY) + pluginAdapter.getRegion());
         MDC.put(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, (loggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_ENVIRONMENT + "=" : StringUtils.EMPTY) + pluginAdapter.getEnvironment());
+        MDC.put(DiscoveryConstant.N_D_SERVICE_ZONE, (loggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_ZONE + "=" : StringUtils.EMPTY) + pluginAdapter.getZone());
     }
 
     @Override
@@ -102,6 +103,7 @@ public class DefaultStrategyLogger implements StrategyLogger {
         System.out.println(DiscoveryConstant.N_D_SERVICE_VERSION + "=" + pluginAdapter.getVersion());
         System.out.println(DiscoveryConstant.N_D_SERVICE_REGION + "=" + pluginAdapter.getRegion());
         System.out.println(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT + "=" + pluginAdapter.getEnvironment());
+        System.out.println(DiscoveryConstant.N_D_SERVICE_ZONE + "=" + pluginAdapter.getZone()); 
 
         String routeVersion = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION);
         if (StringUtils.isNotEmpty(routeVersion)) {
