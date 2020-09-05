@@ -22,8 +22,8 @@ public class SentinelUpdateRestInvoker extends AbstractRestInvoker {
     private String type;
     private String rule;
 
-    public SentinelUpdateRestInvoker(List<ServiceInstance> serviceInstances, RestTemplate restTemplate, String type, String rule) {
-        super(serviceInstances, restTemplate);
+    public SentinelUpdateRestInvoker(List<ServiceInstance> instances, RestTemplate restTemplate, String type, String rule) {
+        super(instances, restTemplate);
 
         this.type = type.trim();
         this.rule = rule;
@@ -50,8 +50,8 @@ public class SentinelUpdateRestInvoker extends AbstractRestInvoker {
     }
 
     @Override
-    protected void checkPermission(ServiceInstance serviceInstance) throws Exception {
-        checkConfigRestControlPermission(serviceInstance);
+    protected void checkPermission(ServiceInstance instance) throws Exception {
+        checkConfigRestControlPermission(instance);
     }
 
     private String getPrefixPath(String type) {

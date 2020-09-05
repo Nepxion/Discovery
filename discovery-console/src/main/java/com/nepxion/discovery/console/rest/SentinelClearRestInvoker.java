@@ -18,8 +18,8 @@ import org.springframework.web.client.RestTemplate;
 public class SentinelClearRestInvoker extends AbstractRestInvoker {
     private String type;
 
-    public SentinelClearRestInvoker(List<ServiceInstance> serviceInstances, RestTemplate restTemplate, String type) {
-        super(serviceInstances, restTemplate);
+    public SentinelClearRestInvoker(List<ServiceInstance> instances, RestTemplate restTemplate, String type) {
+        super(instances, restTemplate);
 
         this.type = type.trim();
     }
@@ -40,8 +40,8 @@ public class SentinelClearRestInvoker extends AbstractRestInvoker {
     }
 
     @Override
-    protected void checkPermission(ServiceInstance serviceInstance) throws Exception {
-        checkConfigRestControlPermission(serviceInstance);
+    protected void checkPermission(ServiceInstance instance) throws Exception {
+        checkConfigRestControlPermission(instance);
     }
 
     private String getPrefixPath(String type) {

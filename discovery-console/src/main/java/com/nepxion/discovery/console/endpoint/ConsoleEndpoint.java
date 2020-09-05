@@ -304,10 +304,10 @@ public class ConsoleEndpoint {
         List<String> gateways = new ArrayList<String>();
         List<String> services = getServices();
         for (String service : services) {
-            List<ServiceInstance> serviceInstances = getInstances(service);
-            for (ServiceInstance serviceInstance : serviceInstances) {
-                Map<String, String> metadata = serviceInstance.getMetadata();
-                String serviceId = serviceInstance.getServiceId().toLowerCase();
+            List<ServiceInstance> instances = getInstances(service);
+            for (ServiceInstance instance : instances) {
+                Map<String, String> metadata = instance.getMetadata();
+                String serviceId = instance.getServiceId().toLowerCase();
                 String serviceType = metadata.get(DiscoveryConstant.SPRING_APPLICATION_TYPE);
                 if (StringUtils.equals(serviceType, DiscoveryConstant.GATEWAY_TYPE)) {
                     if (!gateways.contains(serviceId)) {
@@ -321,17 +321,17 @@ public class ConsoleEndpoint {
     }
 
     public List<InstanceEntity> getInstanceList(String service) {
-        List<ServiceInstance> serviceInstances = getInstances(service);
-        List<InstanceEntity> instanceEntityList = new ArrayList<InstanceEntity>(serviceInstances.size());
-        for (ServiceInstance serviceInstance : serviceInstances) {
-            Map<String, String> metadata = serviceInstance.getMetadata();
-            String serviceId = serviceInstance.getServiceId().toLowerCase();
+        List<ServiceInstance> instances = getInstances(service);
+        List<InstanceEntity> instanceEntityList = new ArrayList<InstanceEntity>(instances.size());
+        for (ServiceInstance instance : instances) {
+            Map<String, String> metadata = instance.getMetadata();
+            String serviceId = instance.getServiceId().toLowerCase();
             String serviceType = metadata.get(DiscoveryConstant.SPRING_APPLICATION_TYPE);
             String version = metadata.get(DiscoveryConstant.VERSION);
             String region = metadata.get(DiscoveryConstant.REGION);
             String environment = metadata.get(DiscoveryConstant.ENVIRONMENT);
-            String host = serviceInstance.getHost();
-            int port = serviceInstance.getPort();
+            String host = instance.getHost();
+            int port = instance.getPort();
 
             InstanceEntity instanceEntity = new InstanceEntity();
             instanceEntity.setServiceType(serviceType);
@@ -424,49 +424,49 @@ public class ConsoleEndpoint {
     }
 
     private ResponseEntity<?> executeConfigUpdate(String serviceId, String config, boolean async) {
-        List<ServiceInstance> serviceInstances = getInstances(serviceId);
+        List<ServiceInstance> instances = getInstances(serviceId);
 
-        ConfigUpdateRestInvoker configUpdateRestInvoker = new ConfigUpdateRestInvoker(serviceInstances, consoleRestTemplate, config, async);
+        ConfigUpdateRestInvoker configUpdateRestInvoker = new ConfigUpdateRestInvoker(instances, consoleRestTemplate, config, async);
 
         return configUpdateRestInvoker.invoke();
     }
 
     private ResponseEntity<?> executeConfigClear(String serviceId, boolean async) {
-        List<ServiceInstance> serviceInstances = getInstances(serviceId);
+        List<ServiceInstance> instances = getInstances(serviceId);
 
-        ConfigClearRestInvoker configClearRestInvoker = new ConfigClearRestInvoker(serviceInstances, consoleRestTemplate, async);
+        ConfigClearRestInvoker configClearRestInvoker = new ConfigClearRestInvoker(instances, consoleRestTemplate, async);
 
         return configClearRestInvoker.invoke();
     }
 
     private ResponseEntity<?> executeVersionUpdate(String serviceId, String version, boolean async) {
-        List<ServiceInstance> serviceInstances = getInstances(serviceId);
+        List<ServiceInstance> instances = getInstances(serviceId);
 
-        VersionUpdateRestInvoker versionUpdateRestInvoker = new VersionUpdateRestInvoker(serviceInstances, consoleRestTemplate, version, async);
+        VersionUpdateRestInvoker versionUpdateRestInvoker = new VersionUpdateRestInvoker(instances, consoleRestTemplate, version, async);
 
         return versionUpdateRestInvoker.invoke();
     }
 
     private ResponseEntity<?> executeVersionClear(String serviceId, String version, boolean async) {
-        List<ServiceInstance> serviceInstances = getInstances(serviceId);
+        List<ServiceInstance> instances = getInstances(serviceId);
 
-        VersionClearRestInvoker versionClearRestInvoker = new VersionClearRestInvoker(serviceInstances, consoleRestTemplate, version, async);
+        VersionClearRestInvoker versionClearRestInvoker = new VersionClearRestInvoker(instances, consoleRestTemplate, version, async);
 
         return versionClearRestInvoker.invoke();
     }
 
     private ResponseEntity<?> executeSentinelUpdate(String serviceId, String ruleType, String rule) {
-        List<ServiceInstance> serviceInstances = getInstances(serviceId);
+        List<ServiceInstance> instances = getInstances(serviceId);
 
-        SentinelUpdateRestInvoker sentinelUpdateRestInvoker = new SentinelUpdateRestInvoker(serviceInstances, consoleRestTemplate, ruleType, rule);
+        SentinelUpdateRestInvoker sentinelUpdateRestInvoker = new SentinelUpdateRestInvoker(instances, consoleRestTemplate, ruleType, rule);
 
         return sentinelUpdateRestInvoker.invoke();
     }
 
     private ResponseEntity<?> executeSentinelClear(String serviceId, String ruleType) {
-        List<ServiceInstance> serviceInstances = getInstances(serviceId);
+        List<ServiceInstance> instances = getInstances(serviceId);
 
-        SentinelClearRestInvoker sentinelClearRestInvoker = new SentinelClearRestInvoker(serviceInstances, consoleRestTemplate, ruleType);
+        SentinelClearRestInvoker sentinelClearRestInvoker = new SentinelClearRestInvoker(instances, consoleRestTemplate, ruleType);
 
         return sentinelClearRestInvoker.invoke();
     }
