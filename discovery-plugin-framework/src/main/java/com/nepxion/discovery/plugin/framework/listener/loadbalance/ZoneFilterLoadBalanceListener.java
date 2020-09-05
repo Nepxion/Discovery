@@ -44,7 +44,7 @@ public class ZoneFilterLoadBalanceListener extends AbstractLoadBalanceListener {
                     iterator.remove();
                 }
             } else {
-                // 可用区不存在：路由开关打开，可路由到其它可用区；路由开关关闭，不可路由到其它可用区，即删除所有zone配置值不相等的提供端实例
+                // 可用区不存在：路由开关打开，可路由到其它可用区；路由开关关闭，不可路由到其它可用区或者不归属任何可用区，即删除所有zone配置值不相等的提供端实例
                 if (!zoneRouteEnabled) {
                     if (!StringUtils.equals(serverZone, zone)) {
                         iterator.remove();
