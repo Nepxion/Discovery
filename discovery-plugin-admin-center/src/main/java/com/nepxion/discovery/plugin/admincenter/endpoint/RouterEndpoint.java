@@ -115,6 +115,7 @@ public class RouterEndpoint {
         String version = pluginAdapter.getVersion();
         String region = pluginAdapter.getRegion();
         String environment = pluginAdapter.getEnvironment();
+        String zone = pluginAdapter.getZone();
         String host = pluginAdapter.getHost();
         int port = pluginAdapter.getPort();
         int weight = -1;
@@ -126,6 +127,7 @@ public class RouterEndpoint {
         routerEntity.setVersion(version);
         routerEntity.setRegion(region);
         routerEntity.setEnvironment(environment);
+        routerEntity.setZone(zone);
         routerEntity.setHost(host);
         routerEntity.setPort(port);
         routerEntity.setWeight(weight);
@@ -154,6 +156,7 @@ public class RouterEndpoint {
             String version = pluginAdapter.getInstanceVersion(instance);
             String region = pluginAdapter.getInstanceRegion(instance);
             String environment = pluginAdapter.getInstanceEnvironment(instance);
+            String zone = pluginAdapter.getInstanceZone(instance);
             String host = instance.getHost();
             int port = instance.getPort();
             int weight = getWeight(routeServiceId, version, region);
@@ -165,6 +168,7 @@ public class RouterEndpoint {
             routerEntity.setVersion(version);
             routerEntity.setRegion(region);
             routerEntity.setEnvironment(environment);
+            routerEntity.setZone(zone);
             routerEntity.setHost(host);
             routerEntity.setPort(port);
             routerEntity.setWeight(weight);

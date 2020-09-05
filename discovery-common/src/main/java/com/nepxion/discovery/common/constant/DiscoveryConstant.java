@@ -78,8 +78,8 @@ public class DiscoveryConstant {
     public static final String VERSION = "version";
     public static final String REGION = "region";
     public static final String ENVIRONMENT = "env";
-    public static final String ADDRESS = "address";
     public static final String ZONE = "zone";
+    public static final String ADDRESS = "address";
     public static final String VERSION_WEIGHT = "version-weight";
     public static final String REGION_WEIGHT = "region-weight";
 

@@ -26,6 +26,7 @@ public class RouterEntity implements Serializable {
     private String version;
     private String region;
     private String environment;
+    private String zone;
     private String host;
     private int port;
     private int weight = -1;
@@ -71,6 +72,14 @@ public class RouterEntity implements Serializable {
 
     public void setEnvironment(String environment) {
         this.environment = environment;
+    }
+
+    public String getZone() {
+        return zone;
+    }
+
+    public void setZone(String zone) {
+        this.zone = zone;
     }
 
     public String getHost() {
