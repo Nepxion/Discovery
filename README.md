@@ -112,6 +112,9 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 - 基于Env的全链路环境隔离和路由。主要包括
     - 环境隔离。基于服务实例的元数据Metadata的env参数和全链路传递的环境Header值进行比对实现隔离
     - 环境路由。基于调用端实例找不到符合条件的提供端实例，把流量路由到一个通用或者备份环境
+- 基于Zone的全链路可用区亲和性隔离和路由。主要包括
+    - 可用区亲和性隔离。基于调用端实例和提供端实例的元数据Metadata的zone配置值相等实现隔离
+    - 可用区亲和性路由。基于调用端实例找不到同一可用区的提供端实例，把流量路由到其它可用区或者不归属任何可用区
 - 基于Sentinel的全链路服务限流熔断降级权限。除了支持Sentinel原生五个相关规则外，扩展LimitApp的机制，整合灰度路由，通过动态的Http Header方式实现组合式防护机制。主要包括
     - 基于服务名的防护
     - 基于灰度组的防护
@@ -335,6 +338,9 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 - [基于Env的全链路环境隔离和路由](#基于Env的全链路环境隔离和路由)
     - [环境隔离](#环境隔离)
     - [环境路由](#环境路由)
+- [基于Zone的全链路可用区亲和性隔离和路由](#基于Zone的全链路可用区亲和性隔离和路由)
+    - [可用区亲和性隔离](#可用区亲和性隔离)
+    - [可用区亲和性路由](#可用区亲和性路由)
 - [基于Sentinel的全链路服务限流熔断降级权限和灰度融合](#基于Sentinel的全链路服务限流熔断降级权限和灰度融合)
     - [原生Sentinel注解](#原生Sentinel注解)
     - [原生Sentinel规则](#原生Sentinel规则)
@@ -2191,11 +2197,43 @@ spring.cloud.nacos.discovery.metadata.env=env1
 spring.application.environment.route=common
 ```
 
-整个隔离和路由的逻辑如下
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意事项
+
 - 如果存在环境，优先寻址环境的服务实例
 - 如果不存在环境，则寻址Common环境的服务实例（未设置元数据Metadata的env参数的服务实例也归为Common环境）
 - 如果Common环境也不存在，则调用失败
 - 如果没有传递环境Header（n-d-env）值，则执行Spring Cloud Ribbon轮询策略
+- 环境隔离和路由适用于测试环境，性能压测等场景
+
+## 基于Zone的全链路可用区亲和性隔离和路由
+
+![](http://nepxion.gitee.io/docs/discovery-doc/IsolationZone.jpg)
+
+### 可用区亲和性隔离
+基于调用端实例和提供端实例的元数据Metadata的zone配置值相等实现隔离
+```
+spring.cloud.nacos.discovery.metadata.zone=zone
+```
+通过如下开关进行开启和关闭
+```
+# 启动和关闭可用区亲和性，即同一个可用区的服务才能调用，同一个可用区的条件是调用端实例和提供端实例的元数据Metadata的zone配置值必须相等。缺失则默认为false
+spring.application.zone.affinity.enabled=false
+```
+
+### 可用区亲和性路由
+在可用区亲和性隔离执行的时候，调用端实例找不到同一可用区的提供端实例，把流量路由到其它可用区或者不归属任何可用区
+
+通过如下开关进行开启和关闭
+```
+# 启动和关闭可用区亲和性失败后的路由，即调用端实例没有找到同一个可用区的提供端实例的时候，当开关打开，可路由到其它可用区或者不归属任何可用区，当开关关闭，则直接调用失败。缺失则默认为true
+spring.application.zone.route.enabled=true
+```
+
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意事项
+
+- 不归属任何可用区，含义是服务实例未设置任何zone元数据值。可用区亲和性路由功能，是为了尽量保证流量不损失
+- 如果采用Eureka注册中心，Ribbon本身就具有可用区亲和性功能，跟本框架类似。如果使用者采用了Eureka注册中心下的Ribbon可用区亲和性功能，请关闭本框架提供的相似功能，以免冲突
+- 本框架提供的可用区亲和性功能适用于一切注册中心
 
 ## 基于Sentinel的全链路服务限流熔断降级权限和灰度融合
 
@@ -2988,22 +3026,25 @@ eureka.instance.metadataMap.group=xxx-service-group
 eureka.instance.metadataMap.version=1.0
 eureka.instance.metadataMap.region=dev
 eureka.instance.metadataMap.env=env1
+eureka.instance.metadataMap.zone=zone1
 
 # Consul config for discovery
 # 参考https://springcloud.cc/spring-cloud-consul.html - 元数据和Consul标签
-spring.cloud.consul.discovery.tags=group=xxx-service-group,version=1.0,region=dev,env=env1
+spring.cloud.consul.discovery.tags=group=xxx-service-group,version=1.0,region=dev,env=env1,zone=zone1
 
 # Zookeeper config for discovery
 spring.cloud.zookeeper.discovery.metadata.group=xxx-service-group
 spring.cloud.zookeeper.discovery.metadata.version=1.0
 spring.cloud.zookeeper.discovery.metadata.region=dev
 spring.cloud.zookeeper.discovery.metadata.env=env1
+spring.cloud.zookeeper.discovery.metadata.zone=zone1
 
 # Nacos config for discovery
-spring.cloud.nacos.discovery.metadata.group=example-service-group
+spring.cloud.nacos.discovery.metadata.group=xxx-service-group
 spring.cloud.nacos.discovery.metadata.version=1.0
 spring.cloud.nacos.discovery.metadata.region=dev
 spring.cloud.nacos.discovery.metadata.env=env1
+spring.cloud.nacos.discovery.metadata.zone=zone1
 
 # Management config
 # E版配置方式
@@ -3146,6 +3187,11 @@ spring.application.strategy.version.filter.enabled=true
 # 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
 spring.application.environment.route=common
 
+# 启动和关闭可用区亲和性，即同一个可用区的服务才能调用，同一个可用区的条件是调用端实例和提供端实例的元数据Metadata的zone配置值必须相等。缺失则默认为false
+spring.application.zone.affinity.enabled=true
+# 启动和关闭可用区亲和性失败后的路由，即调用端实例没有找到同一个可用区的提供端实例的时候，当开关打开，可路由到其它可用区或者不归属任何可用区，当开关关闭，则直接调用失败。缺失则默认为true
+spring.application.zone.route.enabled=true
+
 # 开启和关闭使用服务名前缀来作为服务组名。缺失则默认为false
 spring.application.group.generator.enabled=true
 # 服务名前缀的截断长度，必须大于0
@@ -3254,6 +3300,11 @@ spring.application.strategy.version.filter.enabled=true
 # 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
 spring.application.environment.route=common
 
+# 启动和关闭可用区亲和性，即同一个可用区的服务才能调用，同一个可用区的条件是调用端实例和提供端实例的元数据Metadata的zone配置值必须相等。缺失则默认为false
+spring.application.zone.affinity.enabled=true
+# 启动和关闭可用区亲和性失败后的路由，即调用端实例没有找到同一个可用区的提供端实例的时候，当开关打开，可路由到其它可用区或者不归属任何可用区，当开关关闭，则直接调用失败。缺失则默认为true
+spring.application.zone.route.enabled=true
+
 # 开启和关闭使用服务名前缀来作为服务组名。缺失则默认为false
 spring.application.group.generator.enabled=true
 # 服务名前缀的截断长度，必须大于0
@@ -3361,6 +3412,11 @@ spring.application.strategy.version.filter.enabled=true
 
 # 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
 spring.application.environment.route=common
+
+# 启动和关闭可用区亲和性，即同一个可用区的服务才能调用，同一个可用区的条件是调用端实例和提供端实例的元数据Metadata的zone配置值必须相等。缺失则默认为false
+spring.application.zone.affinity.enabled=true
+# 启动和关闭可用区亲和性失败后的路由，即调用端实例没有找到同一个可用区的提供端实例的时候，当开关打开，可路由到其它可用区或者不归属任何可用区，当开关关闭，则直接调用失败。缺失则默认为true
+spring.application.zone.route.enabled=true
 
 # 开启和关闭使用服务名前缀来作为服务组名。缺失则默认为false
 spring.application.group.generator.enabled=true
