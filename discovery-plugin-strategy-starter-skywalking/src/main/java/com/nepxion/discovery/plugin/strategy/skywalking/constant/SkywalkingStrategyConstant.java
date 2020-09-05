@@ -9,6 +9,6 @@ package com.nepxion.discovery.plugin.strategy.skywalking.constant;
  * @version 1.0
  */
 
-public class StrategySkywalkingConstant {
+public class SkywalkingStrategyConstant {
     public static final String SKYWALKING_TYPE = "Skywalking";
 }

@@ -24,7 +24,7 @@ import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.monitor.AbstractStrategyTracer;
 
-public class StrategyOpentracingTracer extends AbstractStrategyTracer<Span> {
+public class OpentracingStrategyTracer extends AbstractStrategyTracer<Span> {
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACER_EXCEPTION_DETAIL_OUTPUT_ENABLED + ":false}")
     protected Boolean tracerExceptionDetailOutputEnabled;
 

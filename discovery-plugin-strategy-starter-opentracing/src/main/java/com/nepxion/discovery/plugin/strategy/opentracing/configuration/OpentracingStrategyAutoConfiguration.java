@@ -20,23 +20,23 @@ import com.nepxion.banner.LogoBanner;
 import com.nepxion.banner.NepxionBanner;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.monitor.StrategyTracer;
-import com.nepxion.discovery.plugin.strategy.opentracing.constant.StrategyOpentracingConstant;
-import com.nepxion.discovery.plugin.strategy.opentracing.monitor.StrategyOpentracingTracer;
+import com.nepxion.discovery.plugin.strategy.opentracing.constant.OpentracingStrategyConstant;
+import com.nepxion.discovery.plugin.strategy.opentracing.monitor.OpentracingStrategyTracer;
 import com.taobao.text.Color;
 
 @Configuration
 @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTROL_ENABLED, matchIfMissing = true)
-public class StrategyOpentracingAutoConfiguration {
+public class OpentracingStrategyAutoConfiguration {
     static {
-        LogoBanner logoBanner = new LogoBanner(StrategyOpentracingAutoConfiguration.class, "/com/nepxion/opentracing/resource/logo.txt", "Welcome to Nepxion", 9, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta, Color.red, Color.green, Color.cyan }, true);
+        LogoBanner logoBanner = new LogoBanner(OpentracingStrategyAutoConfiguration.class, "/com/nepxion/opentracing/resource/logo.txt", "Welcome to Nepxion", 9, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta, Color.red, Color.green, Color.cyan }, true);
 
-        NepxionBanner.show(logoBanner, new Description("Tracer:", StrategyOpentracingConstant.OPENTRACING_TYPE, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
+        NepxionBanner.show(logoBanner, new Description("Tracer:", OpentracingStrategyConstant.OPENTRACING_TYPE, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
     }
 
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_MONITOR_ENABLED, matchIfMissing = false)
     public StrategyTracer strategyTracer() {
-        return new StrategyOpentracingTracer();
+        return new OpentracingStrategyTracer();
     }
 }

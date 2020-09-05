@@ -9,6 +9,6 @@ package com.nepxion.discovery.plugin.strategy.opentracing.constant;
  * @version 1.0
  */
 
-public class StrategyOpentracingConstant {
+public class OpentracingStrategyConstant {
     public static final String OPENTRACING_TYPE = "Opentracing";
 }

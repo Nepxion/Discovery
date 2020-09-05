@@ -18,12 +18,12 @@ import org.apache.skywalking.apm.toolkit.trace.TraceContext;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
-public class StrategySkywalkingSpan implements Span {
+public class SkywalkingStrategySpan implements Span {
     private Span span;
     private String traceId;
     private String spanId;
 
-    public StrategySkywalkingSpan(Span span) {
+    public SkywalkingStrategySpan(Span span) {
         this.span = span;
         this.traceId = createTraceId();
         this.spanId = createSpanId();
