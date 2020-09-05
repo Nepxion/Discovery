@@ -30,38 +30,38 @@ import com.nepxion.discovery.common.util.UrlUtil;
 public abstract class AbstractRestInvoker {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractRestInvoker.class);
 
-    protected List<ServiceInstance> serviceInstances;
+    protected List<ServiceInstance> instances;
     protected RestTemplate restTemplate;
     protected boolean async;
 
-    public AbstractRestInvoker(List<ServiceInstance> serviceInstances, RestTemplate restTemplate) {
-        this(serviceInstances, restTemplate, false);
+    public AbstractRestInvoker(List<ServiceInstance> instances, RestTemplate restTemplate) {
+        this(instances, restTemplate, false);
     }
 
-    public AbstractRestInvoker(List<ServiceInstance> serviceInstances, RestTemplate restTemplate, boolean async) {
-        this.serviceInstances = serviceInstances;
+    public AbstractRestInvoker(List<ServiceInstance> instances, RestTemplate restTemplate, boolean async) {
+        this.instances = instances;
         this.restTemplate = restTemplate;
         this.async = async;
     }
 
     public ResponseEntity<?> invoke() {
-        if (CollectionUtils.isEmpty(serviceInstances)) {
+        if (CollectionUtils.isEmpty(instances)) {
             LOG.warn("No service instances found");
 
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No service instances found");
         }
 
         List<ResultEntity> resultEntityList = new ArrayList<ResultEntity>();
-        for (ServiceInstance serviceInstance : serviceInstances) {
-            Map<String, String> metadata = serviceInstance.getMetadata();
-            String host = serviceInstance.getHost();
-            int port = serviceInstance.getPort();
+        for (ServiceInstance instance : instances) {
+            Map<String, String> metadata = instance.getMetadata();
+            String host = instance.getHost();
+            int port = instance.getPort();
             String contextPath = metadata.get(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH);
             String url = "http://" + host + ":" + port + UrlUtil.formatContextPath(contextPath) + getSuffixPath();
 
             String result = null;
             try {
-                checkPermission(serviceInstance);
+                checkPermission(instance);
 
                 result = doRest(url);
                 if (!StringUtils.equals(result, DiscoveryConstant.OK)) {
@@ -88,8 +88,8 @@ public abstract class AbstractRestInvoker {
         return async ? DiscoveryConstant.ASYNC : DiscoveryConstant.SYNC;
     }
 
-    protected void checkDiscoveryControlPermission(ServiceInstance serviceInstance) {
-        Map<String, String> metadata = serviceInstance.getMetadata();
+    protected void checkDiscoveryControlPermission(ServiceInstance instance) {
+        Map<String, String> metadata = instance.getMetadata();
 
         String discoveryControlEnabled = metadata.get(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED);
         if (StringUtils.isEmpty(discoveryControlEnabled)) {
@@ -101,8 +101,8 @@ public abstract class AbstractRestInvoker {
         }
     }
 
-    protected void checkConfigRestControlPermission(ServiceInstance serviceInstance) {
-        Map<String, String> metadata = serviceInstance.getMetadata();
+    protected void checkConfigRestControlPermission(ServiceInstance instance) {
+        Map<String, String> metadata = instance.getMetadata();
 
         String configRestControlEnabled = metadata.get(DiscoveryConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED);
         if (StringUtils.isEmpty(configRestControlEnabled)) {
@@ -120,5 +120,5 @@ public abstract class AbstractRestInvoker {
 
     protected abstract String doRest(String url);
 
-    protected abstract void checkPermission(ServiceInstance serviceInstance) throws Exception;
+    protected abstract void checkPermission(ServiceInstance instance) throws Exception;
 }

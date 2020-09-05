@@ -17,8 +17,8 @@ import org.springframework.web.client.RestTemplate;
 public class VersionClearRestInvoker extends AbstractRestInvoker {
     private String version;
 
-    public VersionClearRestInvoker(List<ServiceInstance> serviceInstances, RestTemplate restTemplate, String version, boolean async) {
-        super(serviceInstances, restTemplate, async);
+    public VersionClearRestInvoker(List<ServiceInstance> instances, RestTemplate restTemplate, String version, boolean async) {
+        super(instances, restTemplate, async);
 
         this.version = version;
     }
@@ -39,8 +39,8 @@ public class VersionClearRestInvoker extends AbstractRestInvoker {
     }
 
     @Override
-    protected void checkPermission(ServiceInstance serviceInstance) throws Exception {
-        checkDiscoveryControlPermission(serviceInstance);
-        checkConfigRestControlPermission(serviceInstance);
+    protected void checkPermission(ServiceInstance instance) throws Exception {
+        checkDiscoveryControlPermission(instance);
+        checkConfigRestControlPermission(instance);
     }
 }

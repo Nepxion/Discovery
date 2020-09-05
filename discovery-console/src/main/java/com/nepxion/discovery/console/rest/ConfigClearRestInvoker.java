@@ -15,8 +15,8 @@ import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.web.client.RestTemplate;
 
 public class ConfigClearRestInvoker extends AbstractRestInvoker {
-    public ConfigClearRestInvoker(List<ServiceInstance> serviceInstances, RestTemplate restTemplate, boolean async) {
-        super(serviceInstances, restTemplate, async);
+    public ConfigClearRestInvoker(List<ServiceInstance> instances, RestTemplate restTemplate, boolean async) {
+        super(instances, restTemplate, async);
     }
 
     @Override
@@ -35,8 +35,8 @@ public class ConfigClearRestInvoker extends AbstractRestInvoker {
     }
 
     @Override
-    protected void checkPermission(ServiceInstance serviceInstance) throws Exception {
-        checkDiscoveryControlPermission(serviceInstance);
-        checkConfigRestControlPermission(serviceInstance);
+    protected void checkPermission(ServiceInstance instance) throws Exception {
+        checkDiscoveryControlPermission(instance);
+        checkConfigRestControlPermission(instance);
     }
 }

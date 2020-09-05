@@ -20,8 +20,8 @@ import org.springframework.web.client.RestTemplate;
 public class ConfigUpdateRestInvoker extends AbstractRestInvoker {
     private String config;
 
-    public ConfigUpdateRestInvoker(List<ServiceInstance> serviceInstances, RestTemplate restTemplate, String config, boolean async) {
-        super(serviceInstances, restTemplate, async);
+    public ConfigUpdateRestInvoker(List<ServiceInstance> instances, RestTemplate restTemplate, String config, boolean async) {
+        super(instances, restTemplate, async);
 
         this.config = config;
     }
@@ -47,8 +47,8 @@ public class ConfigUpdateRestInvoker extends AbstractRestInvoker {
     }
 
     @Override
-    protected void checkPermission(ServiceInstance serviceInstance) throws Exception {
-        checkDiscoveryControlPermission(serviceInstance);
-        checkConfigRestControlPermission(serviceInstance);
+    protected void checkPermission(ServiceInstance instance) throws Exception {
+        checkDiscoveryControlPermission(instance);
+        checkConfigRestControlPermission(instance);
     }
 }
