@@ -97,6 +97,7 @@ public class ServiceStrategyAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_ENABLED, matchIfMissing = true)
     public RestTemplateBeanPostProcessor restTemplateBeanPostProcessor() {
         return new RestTemplateBeanPostProcessor();
@@ -187,6 +188,7 @@ public class ServiceStrategyAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_HYSTRIX_THREADLOCAL_SUPPORTED, matchIfMissing = false)
     public CallableWrapper callableWrapper() {
         return new DefaultCallableWrapper();

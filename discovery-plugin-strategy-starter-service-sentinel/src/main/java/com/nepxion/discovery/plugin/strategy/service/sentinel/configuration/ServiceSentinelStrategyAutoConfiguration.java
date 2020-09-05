@@ -37,6 +37,7 @@ public class ServiceSentinelStrategyAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     @ConditionalOnProperty(value = ServiceSentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SERVICE_SENTINEL_LIMIT_APP_ENABLED, matchIfMissing = false)
     public RequestOriginParser serviceSentinelRequestOriginParser() {
         return new ServiceSentinelRequestOriginParser();

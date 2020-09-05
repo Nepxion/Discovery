@@ -93,6 +93,7 @@ public class StrategyAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public StrategyWrapper strategyWrapper() {
         return new StrategyWrapper();
     }
