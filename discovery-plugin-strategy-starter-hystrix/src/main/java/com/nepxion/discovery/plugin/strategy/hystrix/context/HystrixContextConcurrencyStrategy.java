@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.plugin.strategy.wrapper.CallableWrapper;
+import com.nepxion.discovery.plugin.strategy.wrapper.StrategyCallableWrapper;
 import com.netflix.hystrix.HystrixThreadPoolKey;
 import com.netflix.hystrix.HystrixThreadPoolProperties;
 import com.netflix.hystrix.strategy.HystrixPlugins;
@@ -33,12 +33,13 @@ import com.netflix.hystrix.strategy.properties.HystrixProperty;
 // 使用线程隔离模式时，无法获取ThreadLocal中信息，自定义并发策略解决
 public class HystrixContextConcurrencyStrategy extends HystrixConcurrencyStrategy {
     @Autowired
-    private CallableWrapper wrapper;
-    private HystrixConcurrencyStrategy delegate;
+    private StrategyCallableWrapper strategyCallableWrapper;
+
+    private HystrixConcurrencyStrategy hystrixConcurrencyStrategy;
 
     public HystrixContextConcurrencyStrategy() {
         // HystrixPlugins只能注册一次策略，保留原对象
-        this.delegate = HystrixPlugins.getInstance().getConcurrencyStrategy();
+        this.hystrixConcurrencyStrategy = HystrixPlugins.getInstance().getConcurrencyStrategy();
 
         // Keeps references of existing Hystrix plugins.
         HystrixCommandExecutionHook commandExecutionHook = HystrixPlugins.getInstance().getCommandExecutionHook();
@@ -58,26 +59,26 @@ public class HystrixContextConcurrencyStrategy extends HystrixConcurrencyStrateg
 
     @Override
     public BlockingQueue<Runnable> getBlockingQueue(int maxQueueSize) {
-        return delegate.getBlockingQueue(maxQueueSize);
+        return hystrixConcurrencyStrategy.getBlockingQueue(maxQueueSize);
     }
 
     @Override
     public <T> HystrixRequestVariable<T> getRequestVariable(HystrixRequestVariableLifecycle<T> rv) {
-        return delegate.getRequestVariable(rv);
+        return hystrixConcurrencyStrategy.getRequestVariable(rv);
     }
 
     @Override
     public ThreadPoolExecutor getThreadPool(HystrixThreadPoolKey threadPoolKey, HystrixProperty<Integer> corePoolSize, HystrixProperty<Integer> maximumPoolSize, HystrixProperty<Integer> keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue) {
-        return delegate.getThreadPool(threadPoolKey, corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue);
+        return hystrixConcurrencyStrategy.getThreadPool(threadPoolKey, corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue);
     }
 
     @Override
     public ThreadPoolExecutor getThreadPool(HystrixThreadPoolKey threadPoolKey, HystrixThreadPoolProperties threadPoolProperties) {
-        return delegate.getThreadPool(threadPoolKey, threadPoolProperties);
+        return hystrixConcurrencyStrategy.getThreadPool(threadPoolKey, threadPoolProperties);
     }
 
     @Override
     public <T> Callable<T> wrapCallable(Callable<T> callable) {
-        return wrapper.wrapCallable(callable);
+        return strategyCallableWrapper.wrapCallable(callable);
     }
 }
