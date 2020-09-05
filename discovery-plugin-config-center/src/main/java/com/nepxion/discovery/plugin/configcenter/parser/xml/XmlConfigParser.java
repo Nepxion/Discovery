@@ -43,7 +43,7 @@ import com.nepxion.discovery.common.entity.StrategyCustomizationEntity;
 import com.nepxion.discovery.common.entity.StrategyEntity;
 import com.nepxion.discovery.common.entity.StrategyHeaderEntity;
 import com.nepxion.discovery.common.entity.StrategyRouteEntity;
-import com.nepxion.discovery.common.entity.StrategyType;
+import com.nepxion.discovery.common.entity.StrategyRouteType;
 import com.nepxion.discovery.common.entity.VersionEntity;
 import com.nepxion.discovery.common.entity.VersionFilterEntity;
 import com.nepxion.discovery.common.entity.VersionWeightEntity;
@@ -857,8 +857,8 @@ public class XmlConfigParser implements PluginConfigParser {
                         throw new DiscoveryException("Attribute[" + ConfigConstant.TYPE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                     }
                     String type = typeAttribute.getData().toString().trim();
-                    StrategyType strategyType = StrategyType.fromString(type);
-                    strategyRouteEntity.setType(strategyType);
+                    StrategyRouteType strategyRouteType = StrategyRouteType.fromString(type);
+                    strategyRouteEntity.setType(strategyRouteType);
 
                     String value = childElement.getTextTrim();
                     strategyRouteEntity.setValue(value);
