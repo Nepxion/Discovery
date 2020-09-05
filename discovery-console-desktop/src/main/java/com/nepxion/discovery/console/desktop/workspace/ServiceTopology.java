@@ -93,7 +93,7 @@ public class ServiceTopology extends AbstractTopology {
     private static final long serialVersionUID = 1L;
 
     private LocationEntity groupLocationEntity = new LocationEntity(120, 250, 280, 0);
-    private LocationEntity nodeLocationEntity = new LocationEntity(0, 0, 120, 120);
+    private LocationEntity nodeLocationEntity = new LocationEntity(0, 0, 120, 150);
     private TopologyEntity serviceGroupEntity = new TopologyEntity(TopologyEntityType.SERVICE_GROUP, TopologyStyleType.LARGE, true);
     private TopologyEntity notServiceGroupEntity = new TopologyEntity(TopologyEntityType.GATEWAY_GROUP, TopologyStyleType.LARGE, true);
     private TopologyEntity serviceNodeEntity = new TopologyEntity(TopologyEntityType.SERVICE, TopologyStyleType.MIDDLE, false);
@@ -388,13 +388,13 @@ public class ServiceTopology extends AbstractTopology {
             stringBuilder.append("]");
         }
         if (StringUtils.isNotEmpty(instance.getRegion())) {
-            stringBuilder.append("\n [R=").append(instance.getRegion()).append("]");
+            stringBuilder.append("\n [Reion=").append(instance.getRegion()).append("]");
         }
         if (StringUtils.isNotEmpty(instance.getEnvironment())) {
-            stringBuilder.append("\n [E=").append(instance.getEnvironment()).append("]");
+            stringBuilder.append("\n [Env=").append(instance.getEnvironment()).append("]");
         }
         if (StringUtils.isNotEmpty(instance.getZone())) {
-            stringBuilder.append("\n [Z=").append(instance.getZone()).append("]");
+            stringBuilder.append("\n [Zone=").append(instance.getZone()).append("]");
         }
 
         return ButtonManager.getHtmlText(stringBuilder.toString());

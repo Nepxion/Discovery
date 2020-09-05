@@ -237,13 +237,13 @@ public class RouterTopology extends AbstractTopology {
             stringBuilder.append("\n [V").append(instance.getVersion()).append("]");
         }
         if (StringUtils.isNotEmpty(instance.getRegion())) {
-            stringBuilder.append("\n [R=").append(instance.getRegion()).append("]");
+            stringBuilder.append("\n [Region=").append(instance.getRegion()).append("]");
         }
         if (StringUtils.isNotEmpty(instance.getEnvironment())) {
-            stringBuilder.append("\n [E=").append(instance.getEnvironment()).append("]");
+            stringBuilder.append("\n [Env=").append(instance.getEnvironment()).append("]");
         }
         if (StringUtils.isNotEmpty(instance.getZone())) {
-            stringBuilder.append("\n [Z=").append(instance.getZone()).append("]");
+            stringBuilder.append("\n [Zone=").append(instance.getZone()).append("]");
         }
 
         return ButtonManager.getHtmlText(stringBuilder.toString());
@@ -264,6 +264,9 @@ public class RouterTopology extends AbstractTopology {
         }
         if (StringUtils.isNotEmpty(routerEntity.getEnvironment())) {
             stringBuilder.append("\n [Env=").append(routerEntity.getEnvironment()).append("]");
+        }
+        if (StringUtils.isNotEmpty(routerEntity.getZone())) {
+            stringBuilder.append("\n [Zone=").append(routerEntity.getZone()).append("]");
         }
 
         return ButtonManager.getHtmlText(stringBuilder.toString());
