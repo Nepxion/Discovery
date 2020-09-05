@@ -39,12 +39,12 @@ public class ZoneFilterDiscoveryListener extends AbstractDiscoveryListener {
             ServiceInstance instance = iterator.next();
             String instanceZone = pluginAdapter.getInstanceZone(instance);
             if (validated) {
-                // 可用区存在：执行可用区亲和性，即调用端实例和提供端实例的元数据Metadata的Zone配置值相等才能调用
+                // 可用区存在：执行可用区亲和性，即调用端实例和提供端实例的元数据Metadata的zone配置值相等才能调用
                 if (!StringUtils.equals(instanceZone, zone)) {
                     iterator.remove();
                 }
             } else {
-                // 可用区不存在：路由开关打开，可路由到其它可用区；路由开关关闭，不可路由到其它可用区，即删除所有Zone配置值不相等的提供端实例
+                // 可用区不存在：路由开关打开，可路由到其它可用区；路由开关关闭，不可路由到其它可用区，即删除所有zone配置值不相等的提供端实例
                 if (!zoneRouteEnabled) {
                     if (!StringUtils.equals(instanceZone, zone)) {
                         iterator.remove();
@@ -54,7 +54,7 @@ public class ZoneFilterDiscoveryListener extends AbstractDiscoveryListener {
         }
     }
 
-    // 判断可用区是否存在。只要调用端实例和至少一个提供端实例的元数据Metadata的Zone配置值相等，就表示可用区存在
+    // 判断可用区是否存在。只要调用端实例和至少一个提供端实例的元数据Metadata的zone配置值相等，就表示可用区存在
     private boolean validate(List<ServiceInstance> instances, String zone) {
         for (ServiceInstance instance : instances) {
             String instanceZone = pluginAdapter.getInstanceZone(instance);
