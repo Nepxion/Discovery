@@ -89,7 +89,6 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
     - 负载均衡策略类触发路由
     - 并行路由下的版本优选路由
     - 异步场景下的触发路由
-- 基于动态变更元数据的全链路灰度路由
 - 基于全局订阅式的全链路灰度路由
 - 基于服务下线实时性的流量绝对无损策略。支持全局订阅和Header全链路传递两种方式，主要包括
     - 通过全局唯一ID进行屏蔽。适用于Docker和Kubernetes上IP地址不确定的场景
@@ -299,7 +298,6 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
         - [通过业务参数在策略类中自定义灰度路由策略](#通过业务参数在策略类中自定义灰度路由策略)
     - [并行灰度路由下的版本优选策略](#并行灰度路由下的版本优选策略)
     - [异步场景的全链路灰度路由策略](#异步场景的全链路灰度路由策略)
-- [基于动态变更元数据的灰度路由策略](#基于动态变更元数据的灰度路由策略)
 - [基于全局订阅式的灰度路由策略](#基于全局订阅式的灰度路由策略)	
 - [基于服务下线实时性的流量绝对无损策略](#基于服务下线实时性的流量绝对无损策略)
     - [配置全局唯一ID屏蔽策略](#配置全局唯一ID屏蔽策略)
@@ -1509,61 +1507,6 @@ spring.application.strategy.version.filter.enabled=true
 参考Hystrix线程池隔离模式下的解决方案
 
 参考异步跨线程Agent的解决方案
-
-## 基于动态变更元数据的灰度路由策略
-利用注册中心的Open API接口动态变更服务实例的元数据，达到稳定版本和灰度版本流量控制的目的。以Nacos的版本匹配为例
-老的稳定版本的服务实例配置元数据
-```
-spring.cloud.nacos.discovery.metadata.version=stable
-```
-新的灰度版本的服务实例配置元数据
-```
-spring.cloud.nacos.discovery.metadata.version=gray
-```
-参考如下配置，第一种方式表示所有的服务流量走灰度版本，第二种方式表示a服务流量走灰度版本，b服务流量走稳定版本
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-    <strategy>
-        <version>gray</version>
-    </strategy>
-</rule>
-```
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-    <strategy>
-        <version>{"discovery-guide-service-a":"gray", "discovery-guide-service-b":"stable"}</version>
-    </strategy>
-</rule>
-```
-也可以通过全链路传递Header方式实现，参考[通过前端传入灰度路由策略](#通过前端传入灰度路由策略)
-```
-n-d-version=gray
-n-d-version={"discovery-guide-service-a":"gray", "discovery-guide-service-b":"stable"}
-```
-
-新上线的服务实例版本为gray，等灰度成功后，通过注册中心的Open API接口变更服务版本为stable，或者在注册中心界面手工修改
-
-- Nacos Open API变更元数据
-```
-curl -X PUT 'http://ip:port/nacos/v1/ns/service?serviceName={appId}&metadata=version%3stable'
-```
-
-- Eureka Open API变更元数据
-```
-curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=stable'
-```
-
-- Consul Open API变更元数据
-
-自行研究
-
-- Zookeeper Open API变更元数据
-
-自行研究
-
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意的是，该方案利用第三方注册中心的Open API达到控制目的，具有一定的延迟性，不如本框架那样具有灰度发布实时生效的特征
 
 ## 基于全局订阅式的灰度路由策略
 通过全链路传递Header实现灰度路由，会存在一定的困难，框架提供另外一种很简单的方式来规避Header传递，但能达到Header传递一样的效果。以版本匹配为例
