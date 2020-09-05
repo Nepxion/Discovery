@@ -23,8 +23,8 @@ public class MyDiscoveryListener extends AbstractDiscoveryListener {
     public void onGetInstances(String serviceId, List<ServiceInstance> instances) {
         Iterator<ServiceInstance> iterator = instances.iterator();
         while (iterator.hasNext()) {
-            ServiceInstance serviceInstance = iterator.next();
-            String group = pluginAdapter.getInstanceGroup(serviceInstance);
+            ServiceInstance instance = iterator.next();
+            String group = pluginAdapter.getInstanceGroup(instance);
             if (StringUtils.equals(group, "mygroup2")) {
                 iterator.remove();
 
