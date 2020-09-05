@@ -58,6 +58,7 @@ public class GatewayStrategyAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_HYSTRIX_THREADLOCAL_SUPPORTED, matchIfMissing = false)
     public CallableWrapper callableWrapper() {
         return new DefaultCallableWrapper();
