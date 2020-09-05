@@ -16,11 +16,11 @@ import java.util.concurrent.Callable;
 import javax.servlet.http.HttpServletRequest;
 
 import com.nepxion.discovery.plugin.strategy.monitor.StrategyTracerContext;
-import com.nepxion.discovery.plugin.strategy.wrapper.CallableWrapper;
+import com.nepxion.discovery.plugin.strategy.wrapper.StrategyCallableWrapper;
 import com.nepxion.discovery.plugin.strategy.zuul.context.ZuulStrategyContext;
 import com.netflix.zuul.context.RequestContext;
 
-public class DefaultCallableWrapper implements CallableWrapper {
+public class ZuulStrategyCallableWrapper implements StrategyCallableWrapper {
     @Override
     public <T> Callable<T> wrapCallable(Callable<T> callable) {
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
