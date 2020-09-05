@@ -29,14 +29,14 @@ public class ConsumerIsolationDiscoveryStrategy extends AbstractDiscoveryListene
     public void onGetInstances(String serviceId, List<ServiceInstance> instances) {
         Iterator<ServiceInstance> iterator = instances.iterator();
         while (iterator.hasNext()) {
-            ServiceInstance serviceInstance = iterator.next();
+            ServiceInstance instance = iterator.next();
 
-            String instanceServiceType = pluginAdapter.getInstanceServiceType(serviceInstance);
+            String instanceServiceType = pluginAdapter.getInstanceServiceType(instance);
             if (StringUtils.equals(instanceServiceType, DiscoveryConstant.GATEWAY_TYPE)) {
                 continue;
             }
 
-            String instanceGroup = pluginAdapter.getInstanceGroup(serviceInstance);
+            String instanceGroup = pluginAdapter.getInstanceGroup(instance);
             String group = pluginAdapter.getGroup();
             if (!StringUtils.equals(instanceGroup, group)) {
                 iterator.remove();
