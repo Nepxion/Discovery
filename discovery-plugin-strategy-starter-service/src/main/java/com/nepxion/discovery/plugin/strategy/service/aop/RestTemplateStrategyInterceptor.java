@@ -78,6 +78,7 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
         headers.add(DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion());
         headers.add(DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion());
         headers.add(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, pluginAdapter.getEnvironment());
+        headers.add(DiscoveryConstant.N_D_SERVICE_ZONE, pluginAdapter.getZone());
     }
 
     private void applyOuterHeader(HttpRequest request) {

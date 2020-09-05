@@ -32,6 +32,7 @@ public class StrategyUtil {
                 StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_ADDRESS) ||
                 StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_VERSION) ||
                 StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_REGION) ||
-                StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_ENVIRONMENT);
+                StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_ENVIRONMENT) ||
+                StringUtils.equals(headerName, DiscoveryConstant.N_D_SERVICE_ZONE);
     }
 }
