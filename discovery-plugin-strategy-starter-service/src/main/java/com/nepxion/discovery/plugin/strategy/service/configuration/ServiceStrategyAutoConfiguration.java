@@ -25,7 +25,7 @@ import com.nepxion.discovery.plugin.strategy.adapter.DefaultDiscoveryEnabledAdap
 import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.aop.FeignStrategyInterceptor;
-import com.nepxion.discovery.plugin.strategy.service.aop.RestTemplateBeanPostProcessor;
+import com.nepxion.discovery.plugin.strategy.service.aop.RestTemplateStrategyBeanPostProcessor;
 import com.nepxion.discovery.plugin.strategy.service.aop.RestTemplateStrategyInterceptor;
 import com.nepxion.discovery.plugin.strategy.service.aop.RpcStrategyAutoScanProxy;
 import com.nepxion.discovery.plugin.strategy.service.aop.RpcStrategyInterceptor;
@@ -99,8 +99,8 @@ public class ServiceStrategyAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_ENABLED, matchIfMissing = true)
-    public RestTemplateBeanPostProcessor restTemplateBeanPostProcessor() {
-        return new RestTemplateBeanPostProcessor();
+    public RestTemplateStrategyBeanPostProcessor restTemplateStrategyBeanPostProcessor() {
+        return new RestTemplateStrategyBeanPostProcessor();
     }
 
     @Bean
