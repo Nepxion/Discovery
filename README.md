@@ -7,6 +7,8 @@
 
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-2.3.3.RELEASE-blue?logo=Spring)](https://search.maven.org/artifact/org.springframework.boot/spring-boot)  [![Spring Cloud](https://img.shields.io/badge/Spring%20Cloud-Hoxton.SR8-blue?logo=Spring)](https://search.maven.org/search?q=g:org.springframework.cloud%20AND%20a:spring-cloud-dependencies&core=gav)  [![Spring Cloud Alibaba](https://img.shields.io/badge/Spring%20Cloud%20Alibaba-2.2.2.RELEASE-blue?logo=Spring)](https://search.maven.org/search?q=g:com.alibaba.cloud%20AND%20a:spring-cloud-alibaba-dependencies&core=gav)
 
+[![Discovery DOC PPT](https://img.shields.io/badge/Discovery%20Doc-PPT-brightgreen?logo=Microsoft%20PowerPoint)](http://nepxion.gitee.io/docs/link-doc/discovery-ppt.html)  [![Discovery DOC PDF](https://img.shields.io/badge/Discovery%20Doc-PDF-brightgreen?logo=Adobe%20Acrobat%20Reader)](http://nepxion.gitee.io/docs/link-doc/discovery-pdf.html)  [![Discovery DOC HTML](https://img.shields.io/badge/Discovery%20Doc-HTML-brightgreen?logo=Microsoft%20Edge)](http://nepxion.gitee.io/docs/link-doc/discovery-html.html)
+
 ![](http://nepxion.gitee.io/docs/discovery-doc/Logo64.png) Discovery【探索】微服务企业级解决方案
 
 ① Discovery【探索】微服务企业级解决方案文档
