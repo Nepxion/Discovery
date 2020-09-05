@@ -16,9 +16,9 @@ import org.springframework.web.server.ServerWebExchange;
 
 import com.nepxion.discovery.plugin.strategy.gateway.context.GatewayStrategyContext;
 import com.nepxion.discovery.plugin.strategy.monitor.StrategyTracerContext;
-import com.nepxion.discovery.plugin.strategy.wrapper.CallableWrapper;
+import com.nepxion.discovery.plugin.strategy.wrapper.StrategyCallableWrapper;
 
-public class DefaultCallableWrapper implements CallableWrapper {
+public class GatewayStrategyCallableWrapper implements StrategyCallableWrapper {
     @Override
     public <T> Callable<T> wrapCallable(Callable<T> callable) {
         ServerWebExchange exchange = GatewayStrategyContext.getCurrentContext().getExchange();
