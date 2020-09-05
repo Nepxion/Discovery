@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.StrategyConditionEntity;
-import com.nepxion.discovery.common.entity.StrategyType;
+import com.nepxion.discovery.common.entity.StrategyRouteType;
 import com.nepxion.discovery.plugin.strategy.condition.StrategyCondition;
 import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
 
@@ -58,13 +58,13 @@ public class StrategyEndpoint {
     @RequestMapping(path = "/validate-route", method = RequestMethod.GET)
     @ApiOperation(value = "校验策略的全链路路由", notes = "", response = String.class, httpMethod = "GET")
     @ResponseBody
-    public ResponseEntity<String> validateVersionRoute(@RequestParam @ApiParam(value = "策略类型，例如：version, region, address, version-weight, region-weight", required = true) String strategyType, @RequestParam(required = false, defaultValue = "") @ApiParam(value = "变量赋值，例如：a=1;b=1。如果多个用“;”分隔，不允许出现空格。允许为空", required = false, defaultValue = "") String validation) {
-        StrategyType type = StrategyType.fromString(strategyType);
+    public ResponseEntity<String> validateVersionRoute(@RequestParam @ApiParam(value = "路由策略类型，例如：version, region, address, version-weight, region-weight", required = true) String routeType, @RequestParam(required = false, defaultValue = "") @ApiParam(value = "变量赋值，例如：a=1;b=1。如果多个用“;”分隔，不允许出现空格。允许为空", required = false, defaultValue = "") String validation) {
+        StrategyRouteType strategyRouteType = StrategyRouteType.fromString(routeType);
 
         Map<String, String> map = splitToMap(validation);
 
         String route = null;
-        switch (type) {
+        switch (strategyRouteType) {
             case VERSION:
                 route = strategyWrapper.getRouteVersion(map);
                 break;
