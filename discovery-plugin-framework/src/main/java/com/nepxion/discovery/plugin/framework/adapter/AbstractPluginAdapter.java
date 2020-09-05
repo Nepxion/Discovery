@@ -112,11 +112,6 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
-    public String getContextPath() {
-        return getMetadata().get(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH);
-    }
-
-    @Override
     public Map<String, String> getMetadata() {
         return registration.getMetadata();
     }
@@ -249,6 +244,21 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
+    public String getZone() {
+        String zone = getMetadata().get(DiscoveryConstant.ZONE);
+        if (StringUtils.isEmpty(zone)) {
+            zone = DiscoveryConstant.DEFAULT;
+        }
+
+        return zone;
+    }
+
+    @Override
+    public String getContextPath() {
+        return getMetadata().get(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH);
+    }
+
+    @Override
     public String getServerPlugin(Server server) {
         return getServerMetadata(server).get(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN);
     }
@@ -331,23 +341,33 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
+    public String getServerZone(Server server) {
+        String serverZone = getServerMetadata(server).get(DiscoveryConstant.ZONE);
+        if (StringUtils.isEmpty(serverZone)) {
+            serverZone = DiscoveryConstant.DEFAULT;
+        }
+
+        return serverZone;
+    }
+
+    @Override
     public String getServerContextPath(Server server) {
         return getServerMetadata(server).get(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH);
     }
 
     @Override
-    public Map<String, String> getInstanceMetadata(ServiceInstance serviceInstance) {
-        return serviceInstance.getMetadata();
+    public Map<String, String> getInstanceMetadata(ServiceInstance instance) {
+        return instance.getMetadata();
     }
 
     @Override
-    public String getInstancePlugin(ServiceInstance serviceInstance) {
-        return getInstanceMetadata(serviceInstance).get(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN);
+    public String getInstancePlugin(ServiceInstance instance) {
+        return getInstanceMetadata(instance).get(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN);
     }
 
     @Override
-    public String getInstanceGroupKey(ServiceInstance serviceInstance) {
-        String groupKey = getInstanceMetadata(serviceInstance).get(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY);
+    public String getInstanceGroupKey(ServiceInstance instance) {
+        String groupKey = getInstanceMetadata(instance).get(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY);
 
         if (StringUtils.isEmpty(groupKey)) {
             groupKey = DiscoveryConstant.GROUP;
@@ -357,10 +377,10 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
-    public String getInstanceGroup(ServiceInstance serviceInstance) {
-        String instanceGroupKey = getInstanceGroupKey(serviceInstance);
+    public String getInstanceGroup(ServiceInstance instance) {
+        String instanceGroupKey = getInstanceGroupKey(instance);
 
-        String instanceGroup = getInstanceMetadata(serviceInstance).get(instanceGroupKey);
+        String instanceGroup = getInstanceMetadata(instance).get(instanceGroupKey);
         if (StringUtils.isEmpty(instanceGroup)) {
             instanceGroup = DiscoveryConstant.DEFAULT;
         }
@@ -369,23 +389,23 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
-    public String getInstanceServiceType(ServiceInstance serviceInstance) {
-        return getInstanceMetadata(serviceInstance).get(DiscoveryConstant.SPRING_APPLICATION_TYPE);
+    public String getInstanceServiceType(ServiceInstance instance) {
+        return getInstanceMetadata(instance).get(DiscoveryConstant.SPRING_APPLICATION_TYPE);
     }
 
     @Override
-    public String getInstanceServiceId(ServiceInstance serviceInstance) {
-        return serviceInstance.getServiceId().toLowerCase();
+    public String getInstanceServiceId(ServiceInstance instance) {
+        return instance.getServiceId().toLowerCase();
     }
 
     @Override
-    public String getInstanceServiceUUId(ServiceInstance serviceInstance) {
-        return getInstanceMetadata(serviceInstance).get(DiscoveryConstant.SPRING_APPLICATION_UUID);
+    public String getInstanceServiceUUId(ServiceInstance instance) {
+        return getInstanceMetadata(instance).get(DiscoveryConstant.SPRING_APPLICATION_UUID);
     }
 
     @Override
-    public String getInstanceVersion(ServiceInstance serviceInstance) {
-        String instanceVersion = getInstanceMetadata(serviceInstance).get(DiscoveryConstant.VERSION);
+    public String getInstanceVersion(ServiceInstance instance) {
+        String instanceVersion = getInstanceMetadata(instance).get(DiscoveryConstant.VERSION);
         if (StringUtils.isEmpty(instanceVersion)) {
             instanceVersion = DiscoveryConstant.DEFAULT;
         }
@@ -394,8 +414,8 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
-    public String getInstanceRegion(ServiceInstance serviceInstance) {
-        String instanceRegion = getInstanceMetadata(serviceInstance).get(DiscoveryConstant.REGION);
+    public String getInstanceRegion(ServiceInstance instance) {
+        String instanceRegion = getInstanceMetadata(instance).get(DiscoveryConstant.REGION);
         if (StringUtils.isEmpty(instanceRegion)) {
             instanceRegion = DiscoveryConstant.DEFAULT;
         }
@@ -404,8 +424,8 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
-    public String getInstanceEnvironment(ServiceInstance serviceInstance) {
-        String instanceEnvironment = getInstanceMetadata(serviceInstance).get(DiscoveryConstant.ENVIRONMENT);
+    public String getInstanceEnvironment(ServiceInstance instance) {
+        String instanceEnvironment = getInstanceMetadata(instance).get(DiscoveryConstant.ENVIRONMENT);
         if (StringUtils.isEmpty(instanceEnvironment)) {
             instanceEnvironment = DiscoveryConstant.DEFAULT;
         }
@@ -414,8 +434,18 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
-    public String getInstanceContextPath(ServiceInstance serviceInstance) {
-        return getInstanceMetadata(serviceInstance).get(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH);
+    public String getInstanceZone(ServiceInstance instance) {
+        String instanceZone = getInstanceMetadata(instance).get(DiscoveryConstant.ZONE);
+        if (StringUtils.isEmpty(instanceZone)) {
+            instanceZone = DiscoveryConstant.DEFAULT;
+        }
+
+        return instanceZone;
+    }
+
+    @Override
+    public String getInstanceContextPath(ServiceInstance instance) {
+        return getInstanceMetadata(instance).get(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH);
     }
 
     @Override
@@ -427,6 +457,7 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
         String version = getVersion();
         String region = getRegion();
         String environment = getEnvironment();
+        String zone = getZone();
         String group = getGroup();
 
         StringBuilder stringBuilder = new StringBuilder();
@@ -445,6 +476,9 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
         }
         if (StringUtils.isNotEmpty(environment)) {
             stringBuilder.append("[E=" + environment + "]");
+        }
+        if (StringUtils.isNotEmpty(zone)) {
+            stringBuilder.append("[Z=" + zone + "]");
         }
         if (StringUtils.isNotEmpty(group)) {
             stringBuilder.append("[G=" + group + "]");

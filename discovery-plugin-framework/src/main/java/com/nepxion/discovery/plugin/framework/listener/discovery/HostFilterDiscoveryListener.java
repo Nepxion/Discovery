@@ -65,8 +65,8 @@ public class HostFilterDiscoveryListener extends AbstractDiscoveryListener {
 
         Iterator<ServiceInstance> iterator = instances.iterator();
         while (iterator.hasNext()) {
-            ServiceInstance serviceInstance = iterator.next();
-            String host = serviceInstance.getHost();
+            ServiceInstance instance = iterator.next();
+            String host = instance.getHost();
             switch (filterType) {
                 case BLACKLIST:
                     if (validateBlacklist(allFilterValueList, host)) {

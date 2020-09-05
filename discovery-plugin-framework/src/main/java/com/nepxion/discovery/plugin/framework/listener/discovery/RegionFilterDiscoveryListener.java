@@ -105,8 +105,8 @@ public class RegionFilterDiscoveryListener extends AbstractDiscoveryListener {
             } else {
                 Iterator<ServiceInstance> iterator = instances.iterator();
                 while (iterator.hasNext()) {
-                    ServiceInstance serviceInstance = iterator.next();
-                    String instanceRegion = pluginAdapter.getInstanceRegion(serviceInstance);
+                    ServiceInstance instance = iterator.next();
+                    String instanceRegion = pluginAdapter.getInstanceRegion(instance);
                     if (!allNoFilterValueList.contains(instanceRegion)) {
                         iterator.remove();
                     }

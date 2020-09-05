@@ -105,8 +105,8 @@ public class VersionFilterDiscoveryListener extends AbstractDiscoveryListener {
             } else {
                 Iterator<ServiceInstance> iterator = instances.iterator();
                 while (iterator.hasNext()) {
-                    ServiceInstance serviceInstance = iterator.next();
-                    String instanceVersion = pluginAdapter.getInstanceVersion(serviceInstance);
+                    ServiceInstance instance = iterator.next();
+                    String instanceVersion = pluginAdapter.getInstanceVersion(instance);
                     if (!allNoFilterValueList.contains(instanceVersion)) {
                         iterator.remove();
                     }
