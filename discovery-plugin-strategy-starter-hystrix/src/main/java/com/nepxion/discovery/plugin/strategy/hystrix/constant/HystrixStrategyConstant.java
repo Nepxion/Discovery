@@ -9,6 +9,6 @@ package com.nepxion.discovery.plugin.strategy.hystrix.constant;
  * @version 1.0
  */
 
-public class HystrixConstant {
+public class HystrixStrategyConstant {
     public static final String HYSTRIX_TYPE = "Hystrix";
 }
