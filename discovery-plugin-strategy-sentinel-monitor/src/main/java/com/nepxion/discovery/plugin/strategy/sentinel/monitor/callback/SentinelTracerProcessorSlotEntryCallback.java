@@ -49,6 +49,7 @@ public abstract class SentinelTracerProcessorSlotEntryCallback<S> implements Pro
         outputSpan(span, DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion());
         outputSpan(span, DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion());
         outputSpan(span, DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, pluginAdapter.getEnvironment());
+        outputSpan(span, DiscoveryConstant.N_D_SERVICE_ZONE, pluginAdapter.getZone());
 
         outputSpan(span, SentinelStrategyMonitorConstant.ORIGIN, context.getOrigin());
         outputSpan(span, SentinelStrategyMonitorConstant.ASYNC, String.valueOf(context.isAsync()));
