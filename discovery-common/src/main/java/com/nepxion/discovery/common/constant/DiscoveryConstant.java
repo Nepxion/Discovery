@@ -32,6 +32,8 @@ public class DiscoveryConstant {
     public static final String SPRING_APPLICATION_NO_SERVERS_NOTIFY_ENABLED = "spring.application.no.servers.notify.enabled";
     public static final String SPRING_APPLICATION_ENVIRONMENT_ROUTE = "spring.application.environment.route";
     public static final String SPRING_APPLICATION_ENVIRONMENT_ROUTE_VALUE = "common";
+    public static final String SPRING_APPLICATION_ZONE_AFFINITY_ENABLED = "spring.application.zone.affinity.enabled";
+    public static final String SPRING_APPLICATION_ZONE_ROUTE_ENABLED = "spring.application.zone.route.enabled";
 
     public static final String CONTEXT_PATH = "server.servlet.context-path";
 
@@ -79,6 +81,7 @@ public class DiscoveryConstant {
     public static final String REGION = "region";
     public static final String ENVIRONMENT = "env";
     public static final String ADDRESS = "address";
+    public static final String ZONE = "zone";
     public static final String VERSION_WEIGHT = "version-weight";
     public static final String REGION_WEIGHT = "region-weight";
 
@@ -93,6 +96,7 @@ public class DiscoveryConstant {
     public static final String N_D_SERVICE_VERSION = "n-d-service-version";
     public static final String N_D_SERVICE_REGION = "n-d-service-region";
     public static final String N_D_SERVICE_ENVIRONMENT = "n-d-service-env";
+    public static final String N_D_SERVICE_ZONE = "n-d-service-zone";
 
     public static final String N_D_VERSION = "n-d-version";
     public static final String N_D_REGION = "n-d-region";

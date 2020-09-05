@@ -35,8 +35,6 @@ public interface PluginAdapter {
 
     int getPort();
 
-    String getContextPath();
-
     Map<String, String> getMetadata();
 
     String getVersion();
@@ -73,6 +71,10 @@ public interface PluginAdapter {
 
     String getEnvironment();
 
+    String getZone();
+
+    String getContextPath();
+
     Map<String, String> getServerMetadata(Server server);
 
     String getServerPlugin(Server server);
@@ -93,29 +95,33 @@ public interface PluginAdapter {
 
     String getServerEnvironment(Server server);
 
+    String getServerZone(Server server);
+
     String getServerContextPath(Server server);
 
-    Map<String, String> getInstanceMetadata(ServiceInstance serviceInstance);
+    Map<String, String> getInstanceMetadata(ServiceInstance instance);
 
-    String getInstancePlugin(ServiceInstance serviceInstance);
+    String getInstancePlugin(ServiceInstance instance);
 
-    String getInstanceGroupKey(ServiceInstance serviceInstance);
+    String getInstanceGroupKey(ServiceInstance instance);
 
-    String getInstanceGroup(ServiceInstance serviceInstance);
+    String getInstanceGroup(ServiceInstance instance);
 
-    String getInstanceServiceType(ServiceInstance serviceInstance);
+    String getInstanceServiceType(ServiceInstance instance);
 
-    String getInstanceServiceId(ServiceInstance serviceInstance);
+    String getInstanceServiceId(ServiceInstance instance);
 
-    String getInstanceServiceUUId(ServiceInstance serviceInstance);
+    String getInstanceServiceUUId(ServiceInstance instance);
 
-    String getInstanceVersion(ServiceInstance serviceInstance);
+    String getInstanceVersion(ServiceInstance instance);
 
-    String getInstanceRegion(ServiceInstance serviceInstance);
+    String getInstanceRegion(ServiceInstance instance);
 
-    String getInstanceEnvironment(ServiceInstance serviceInstance);
+    String getInstanceEnvironment(ServiceInstance instance);
 
-    String getInstanceContextPath(ServiceInstance serviceInstance);
+    String getInstanceZone(ServiceInstance instance);
+
+    String getInstanceContextPath(ServiceInstance instance);
 
     String getPluginInfo(String previousPluginInfo);
 }
