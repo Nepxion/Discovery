@@ -330,6 +330,7 @@ public class ConsoleEndpoint {
             String version = metadata.get(DiscoveryConstant.VERSION);
             String region = metadata.get(DiscoveryConstant.REGION);
             String environment = metadata.get(DiscoveryConstant.ENVIRONMENT);
+            String zone = metadata.get(DiscoveryConstant.ZONE);
             String host = instance.getHost();
             int port = instance.getPort();
 
@@ -339,6 +340,7 @@ public class ConsoleEndpoint {
             instanceEntity.setVersion(version);
             instanceEntity.setRegion(region);
             instanceEntity.setEnvironment(environment);
+            instanceEntity.setZone(zone);
             instanceEntity.setHost(host);
             instanceEntity.setPort(port);
             instanceEntity.setMetadata(metadata);

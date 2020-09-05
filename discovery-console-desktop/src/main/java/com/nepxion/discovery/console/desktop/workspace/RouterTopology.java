@@ -237,10 +237,13 @@ public class RouterTopology extends AbstractTopology {
             stringBuilder.append("\n [V").append(instance.getVersion()).append("]");
         }
         if (StringUtils.isNotEmpty(instance.getRegion())) {
-            stringBuilder.append("\n [Region=").append(instance.getRegion()).append("]");
+            stringBuilder.append("\n [R=").append(instance.getRegion()).append("]");
         }
         if (StringUtils.isNotEmpty(instance.getEnvironment())) {
-            stringBuilder.append("\n [Env=").append(instance.getEnvironment()).append("]");
+            stringBuilder.append("\n [E=").append(instance.getEnvironment()).append("]");
+        }
+        if (StringUtils.isNotEmpty(instance.getZone())) {
+            stringBuilder.append("\n [Z=").append(instance.getZone()).append("]");
         }
 
         return ButtonManager.getHtmlText(stringBuilder.toString());
