@@ -21,7 +21,7 @@ import com.nepxion.discovery.plugin.strategy.gateway.monitor.GatewayStrategyMoni
 
 public class DefaultGatewayStrategyClearFilter implements GatewayStrategyClearFilter {
     @Autowired(required = false)
-    private GatewayStrategyMonitor gatewayStrategyMonitor;
+    protected GatewayStrategyMonitor gatewayStrategyMonitor;
 
     @Override
     public int getOrder() {
