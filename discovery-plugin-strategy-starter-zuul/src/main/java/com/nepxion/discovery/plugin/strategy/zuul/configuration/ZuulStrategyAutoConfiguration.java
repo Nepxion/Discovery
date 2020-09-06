@@ -19,13 +19,13 @@ import org.springframework.context.annotation.Configuration;
 import com.nepxion.discovery.plugin.strategy.adapter.DefaultDiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
-import com.nepxion.discovery.plugin.strategy.wrapper.StrategyCallableWrapper;
 import com.nepxion.discovery.plugin.strategy.zuul.filter.DefaultZuulStrategyClearFilter;
 import com.nepxion.discovery.plugin.strategy.zuul.filter.DefaultZuulStrategyRouteFilter;
 import com.nepxion.discovery.plugin.strategy.zuul.filter.ZuulStrategyClearFilter;
 import com.nepxion.discovery.plugin.strategy.zuul.filter.ZuulStrategyRouteFilter;
 import com.nepxion.discovery.plugin.strategy.zuul.monitor.DefaultZuulStrategyMonitor;
 import com.nepxion.discovery.plugin.strategy.zuul.monitor.ZuulStrategyMonitor;
+import com.nepxion.discovery.plugin.strategy.zuul.wrapper.DefaultZuulStrategyCallableWrapper;
 import com.nepxion.discovery.plugin.strategy.zuul.wrapper.ZuulStrategyCallableWrapper;
 
 @Configuration
@@ -54,14 +54,14 @@ public class ZuulStrategyAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public DiscoveryEnabledAdapter discoveryEnabledAdapter() {
-        return new DefaultDiscoveryEnabledAdapter();
+    @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_HYSTRIX_THREADLOCAL_SUPPORTED, matchIfMissing = false)
+    public ZuulStrategyCallableWrapper zuulStrategyCallableWrapper() {
+        return new DefaultZuulStrategyCallableWrapper();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_HYSTRIX_THREADLOCAL_SUPPORTED, matchIfMissing = false)
-    public StrategyCallableWrapper strategyCallableWrapper() {
-        return new ZuulStrategyCallableWrapper();
+    public DiscoveryEnabledAdapter discoveryEnabledAdapter() {
+        return new DefaultDiscoveryEnabledAdapter();
     }
 }

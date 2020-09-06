@@ -10,40 +10,8 @@ package com.nepxion.discovery.plugin.strategy.zuul.wrapper;
  * @version 1.0
  */
 
-import java.util.Map;
-import java.util.concurrent.Callable;
-
-import javax.servlet.http.HttpServletRequest;
-
-import com.nepxion.discovery.plugin.strategy.monitor.StrategyTracerContext;
 import com.nepxion.discovery.plugin.strategy.wrapper.StrategyCallableWrapper;
-import com.nepxion.discovery.plugin.strategy.zuul.context.ZuulStrategyContext;
-import com.netflix.zuul.context.RequestContext;
 
-public class ZuulStrategyCallableWrapper implements StrategyCallableWrapper {
-    @Override
-    public <T> Callable<T> wrapCallable(Callable<T> callable) {
-        HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
-        Map<String, String> headers = RequestContext.getCurrentContext().getZuulRequestHeaders();
+public interface ZuulStrategyCallableWrapper extends StrategyCallableWrapper {
 
-        Object span = StrategyTracerContext.getCurrentContext().getSpan();
-
-        return new Callable<T>() {
-            @Override
-            public T call() throws Exception {
-                try {
-                    ZuulStrategyContext.getCurrentContext().setRequest(request);
-                    ZuulStrategyContext.getCurrentContext().setHeaders(headers);
-
-                    StrategyTracerContext.getCurrentContext().setSpan(span);
-
-                    return callable.call();
-                } finally {
-                    ZuulStrategyContext.clearCurrentContext();
-
-                    StrategyTracerContext.clearCurrentContext();
-                }
-            }
-        };
-    }
 }
