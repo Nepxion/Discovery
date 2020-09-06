@@ -13,11 +13,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginContextHolder;
 import com.nepxion.discovery.plugin.strategy.monitor.StrategyMonitorContext;
 import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
 
 public abstract class AbstractStrategyContextHolder implements PluginContextHolder, StrategyContextHolder {
+    @Autowired
+    protected PluginAdapter pluginAdapter;
+
     @Autowired
     protected StrategyWrapper strategyWrapper;
 
@@ -155,5 +159,13 @@ public abstract class AbstractStrategyContextHolder implements PluginContextHold
         }
 
         return null;
+    }
+
+    public PluginAdapter getPluginAdapter() {
+        return pluginAdapter;
+    }
+
+    public StrategyWrapper getStrategyWrapper() {
+        return strategyWrapper;
     }
 }
