@@ -35,7 +35,7 @@ import com.nepxion.discovery.plugin.strategy.util.StrategyUtil;
 
 public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor implements ClientHttpRequestInterceptor {
     @Autowired
-    private ServiceStrategyRouteFilter serviceStrategyRouteFilter;
+    protected ServiceStrategyRouteFilter serviceStrategyRouteFilter;
 
     // RestTemplate核心策略Header是否传递。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
     // 1. n-d-version

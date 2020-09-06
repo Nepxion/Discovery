@@ -16,7 +16,7 @@ import org.springframework.web.client.RestTemplate;
 
 public class RestTemplateStrategyBeanPostProcessor implements BeanPostProcessor {
     @Autowired
-    private RestTemplateStrategyInterceptor restTemplateStrategyInterceptor;
+    protected RestTemplateStrategyInterceptor restTemplateStrategyInterceptor;
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {

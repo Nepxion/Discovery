@@ -15,7 +15,7 @@ import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
 
 public class DefaultZuulStrategyRouteFilter extends AbstractZuulStrategyRouteFilter {
     @Autowired
-    private StrategyWrapper strategyWrapper;
+    protected StrategyWrapper strategyWrapper;
 
     @Override
     public String getRouteVersion() {
@@ -50,5 +50,9 @@ public class DefaultZuulStrategyRouteFilter extends AbstractZuulStrategyRouteFil
     @Override
     public String getRouteAddressBlacklist() {
         return strategyWrapper.getRouteAddressBlacklist();
+    }
+
+    public StrategyWrapper getStrategyWrapper() {
+        return strategyWrapper;
     }
 }

@@ -16,15 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.StrategyCustomizationEntity;
 import com.nepxion.discovery.common.entity.StrategyHeaderEntity;
-import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
 
 public class DefaultServiceStrategyRouteFilter extends AbstractServiceStrategyRouteFilter {
     @Autowired
-    private PluginAdapter pluginAdapter;
-
-    @Autowired
-    private StrategyWrapper strategyWrapper;
+    protected StrategyWrapper strategyWrapper;
 
     @Override
     public String getRouteVersion() {
@@ -99,5 +95,9 @@ public class DefaultServiceStrategyRouteFilter extends AbstractServiceStrategyRo
         }
 
         return null;
+    }
+
+    public StrategyWrapper getStrategyWrapper() {
+        return strategyWrapper;
     }
 }

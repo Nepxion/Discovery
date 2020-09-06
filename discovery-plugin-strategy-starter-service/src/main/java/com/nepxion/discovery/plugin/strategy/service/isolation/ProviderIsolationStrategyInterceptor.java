@@ -24,7 +24,7 @@ public class ProviderIsolationStrategyInterceptor extends AbstractInterceptor {
     protected StrategyContextHolder strategyContextHolder;
 
     @Autowired
-    private PluginAdapter pluginAdapter;
+    protected PluginAdapter pluginAdapter;
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {

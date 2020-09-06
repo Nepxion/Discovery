@@ -23,7 +23,7 @@ public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
     protected Boolean tracerMethodContextOutputEnabled;
 
     @Autowired(required = false)
-    private ServiceStrategyMonitor serviceStrategyMonitor;
+    protected ServiceStrategyMonitor serviceStrategyMonitor;
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
