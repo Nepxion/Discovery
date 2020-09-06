@@ -12,18 +12,16 @@ package com.nepxion.discovery.plugin.strategy.service.context;
 
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.StrategyCustomizationEntity;
+import com.nepxion.discovery.common.entity.StrategyHeaderEntity;
 import com.nepxion.discovery.plugin.strategy.context.AbstractStrategyContextHolder;
-import com.nepxion.discovery.plugin.strategy.service.filter.ServiceStrategyRouteFilter;
 
 public class ServiceStrategyContextHolder extends AbstractStrategyContextHolder {
-    @Autowired
-    protected ServiceStrategyRouteFilter serviceStrategyRouteFilter;
-
     public ServletRequestAttributes getRestAttributes() {
         RequestAttributes requestAttributes = RestStrategyContext.getCurrentContext().getRequestAttributes();
         if (requestAttributes == null) {
@@ -51,36 +49,67 @@ public class ServiceStrategyContextHolder extends AbstractStrategyContextHolder 
 
     @Override
     public String getRouteVersion() {
-        return serviceStrategyRouteFilter.getRouteVersion();
+        Map<String, String> headerMap = getHeaderMap();
+        if (headerMap == null) {
+            return super.getRouteVersion();
+        } else {
+            return strategyWrapper.getRouteVersion(headerMap);
+        }
     }
 
     @Override
     public String getRouteRegion() {
-        return serviceStrategyRouteFilter.getRouteRegion();
+        Map<String, String> headerMap = getHeaderMap();
+        if (headerMap == null) {
+            return super.getRouteRegion();
+        } else {
+            return strategyWrapper.getRouteRegion(headerMap);
+        }
     }
 
     @Override
     public String getRouteAddress() {
-        return serviceStrategyRouteFilter.getRouteAddress();
+        Map<String, String> headerMap = getHeaderMap();
+        if (headerMap == null) {
+            return super.getRouteAddress();
+        } else {
+            return strategyWrapper.getRouteAddress(headerMap);
+        }
     }
 
     @Override
     public String getRouteVersionWeight() {
-        return serviceStrategyRouteFilter.getRouteVersionWeight();
+        Map<String, String> headerMap = getHeaderMap();
+        if (headerMap == null) {
+            return super.getRouteVersionWeight();
+        } else {
+            return strategyWrapper.getRouteVersionWeight(headerMap);
+        }
     }
 
     @Override
     public String getRouteRegionWeight() {
-        return serviceStrategyRouteFilter.getRouteRegionWeight();
+        Map<String, String> headerMap = getHeaderMap();
+        if (headerMap == null) {
+            return super.getRouteRegionWeight();
+        } else {
+            return strategyWrapper.getRouteRegionWeight(headerMap);
+        }
     }
 
-    @Override
-    public String getRouteIdBlacklist() {
-        return serviceStrategyRouteFilter.getRouteIdBlacklist();
-    }
+    public Map<String, String> getHeaderMap() {
+        // 内置Header
+        RuleEntity ruleEntity = pluginAdapter.getRule();
+        if (ruleEntity != null) {
+            StrategyCustomizationEntity strategyCustomizationEntity = ruleEntity.getStrategyCustomizationEntity();
+            if (strategyCustomizationEntity != null) {
+                StrategyHeaderEntity strategyHeaderEntity = strategyCustomizationEntity.getStrategyHeaderEntity();
+                if (strategyHeaderEntity != null) {
+                    return strategyHeaderEntity.getHeaderMap();
+                }
+            }
+        }
 
-    @Override
-    public String getRouteAddressBlacklist() {
-        return serviceStrategyRouteFilter.getRouteAddressBlacklist();
+        return null;
     }
 }

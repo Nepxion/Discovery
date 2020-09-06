@@ -38,8 +38,8 @@ import com.nepxion.discovery.plugin.strategy.service.monitor.DefaultServiceStrat
 import com.nepxion.discovery.plugin.strategy.service.monitor.ServiceStrategyMonitor;
 import com.nepxion.discovery.plugin.strategy.service.monitor.ServiceStrategyMonitorAutoScanProxy;
 import com.nepxion.discovery.plugin.strategy.service.monitor.ServiceStrategyMonitorInterceptor;
+import com.nepxion.discovery.plugin.strategy.service.wrapper.DefaultServiceStrategyCallableWrapper;
 import com.nepxion.discovery.plugin.strategy.service.wrapper.ServiceStrategyCallableWrapper;
-import com.nepxion.discovery.plugin.strategy.wrapper.StrategyCallableWrapper;
 
 @Configuration
 @AutoConfigureBefore(RibbonClientConfiguration.class)
@@ -105,6 +105,13 @@ public class ServiceStrategyAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
+    @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_ENABLED, matchIfMissing = true)
+    public DiscoveryEnabledAdapter discoveryEnabledAdapter() {
+        return new DefaultDiscoveryEnabledAdapter();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
     public ServiceStrategyRouteFilter serviceStrategyRouteFilter() {
         return new DefaultServiceStrategyRouteFilter();
     }
@@ -114,13 +121,6 @@ public class ServiceStrategyAutoConfiguration {
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_MONITOR_ENABLED, matchIfMissing = false)
     public ServiceStrategyMonitor serviceStrategyMonitor() {
         return new DefaultServiceStrategyMonitor();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_ENABLED, matchIfMissing = true)
-    public DiscoveryEnabledAdapter discoveryEnabledAdapter() {
-        return new DefaultDiscoveryEnabledAdapter();
     }
 
     @Bean
@@ -190,7 +190,7 @@ public class ServiceStrategyAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_HYSTRIX_THREADLOCAL_SUPPORTED, matchIfMissing = false)
-    public StrategyCallableWrapper strategyCallableWrapper() {
-        return new ServiceStrategyCallableWrapper();
+    public ServiceStrategyCallableWrapper serviceStrategyCallableWrapper() {
+        return new DefaultServiceStrategyCallableWrapper();
     }
 }
