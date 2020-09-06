@@ -718,7 +718,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 ### 环境搭建
 ① 下载代码
 
-② Git clone https://github.com/Nepxion/DiscoveryGuide.git 
+② Git clone https://github.com/Nepxion/DiscoveryGuide.git
 
 ③ 代码导入IDE
 
@@ -734,16 +734,16 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 ### 启动服务 
 - 在IDE中，启动四个应用服务和两个网关服务，控制平台服务和监控平台服务可选，如下
 
-| 类名 | 微服务 | 服务端口 | 版本 | 区域 | 环境 |
-| --- | --- | --- | --- | --- | -- | 
-| DiscoveryGuideServiceA1.java | A1 | 3001 | 1.0 | dev | env1 |
-| DiscoveryGuideServiceA2.java | A2 | 3002 | 1.1 | qa | common |
-| DiscoveryGuideServiceB1.java | B1 | 4001 | 1.0 | qa | env1 |
-| DiscoveryGuideServiceB2.java | B2 | 4002 | 1.1 | dev | common | 
-| DiscoveryGuideGateway.java | Gateway | 5001 | 1.0 | 无 | 无 |
-| DiscoveryGuideZuul.java | Zuul | 5002 | 1.0 | 无 | 无 |
-| DiscoveryGuideConsole.java | Console | 6001 | 1.0 | 无 | 无 |
-| DiscoveryGuideAdmin.java | Admin | 6002 | 1.0 | 无 | 无 |
+| 类名 | 微服务 | 服务端口 | 版本 | 区域 | 环境 | 可用区
+| --- | --- | --- | --- | --- | -- | -- | 
+| DiscoveryGuideServiceA1.java | A1 | 3001 | 1.0 | dev | env1 | zone1 |
+| DiscoveryGuideServiceA2.java | A2 | 3002 | 1.1 | qa | common | zone2 |
+| DiscoveryGuideServiceB1.java | B1 | 4001 | 1.0 | qa | env1 | zone1 |
+| DiscoveryGuideServiceB2.java | B2 | 4002 | 1.1 | dev | common | zone2 |
+| DiscoveryGuideGateway.java | Gateway | 5001 | 1.0 | 无 | 无 | 无 |
+| DiscoveryGuideZuul.java | Zuul | 5002 | 1.0 | 无 | 无 | 无 |
+| DiscoveryGuideConsole.java | Console | 6001 | 1.0 | 无 | 无 | 无 |
+| DiscoveryGuideAdmin.java | Admin | 6002 | 1.0 | 无 | 无 | 无 |
 
 - 部署拓扑图
 ![](http://nepxion.gitee.io/docs/discovery-doc/BasicTopology.jpg)
@@ -756,7 +756,7 @@ API网关 -> 服务A（两个实例） -> 服务B（两个实例）
 ### 环境验证
 ① 通过Postman工具验证
 
-- 导入Postman的测试脚本，[脚本地址](https://github.com/Nepxion/DiscoveryGuide/raw/master/postman.json)
+- 导入Postman的测试脚本postman.json（位于根目录下）
 
 - 在Postman中执行目录结构下 ”Nepxion“ -> ”Discovery指南网关接口“ -> ”Gateway网关调用示例“，调用地址为[http://localhost:5001/discovery-guide-service-a/invoke/gateway](http://localhost:5001/discovery-guide-service-a/invoke/gateway)，相关的Header值已经预设，供开发者修改。测试通过Spring Cloud Gateway网关的调用结果，结果为如下格式
 ```
@@ -1561,6 +1561,7 @@ spring.application.strategy.rest.template.core.header.transmission.enabled=true
     </strategy-blacklist>
 </rule>
 ```
+![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-11.jpg)
 
 也可以通过全链路传递Header方式实现，参考[通过前端传入灰度路由策略](#通过前端传入灰度路由策略)
 
@@ -1580,6 +1581,7 @@ spring.application.strategy.rest.template.core.header.transmission.enabled=true
     </strategy-blacklist>
 </rule>
 ```
+![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-12.jpg)
 
 也可以通过全链路传递Header方式实现，参考[通过前端传入灰度路由策略](#通过前端传入灰度路由策略)
 
@@ -2617,7 +2619,7 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 
 集成主流中间件 + 灰度全链路监控
 代码请从[指南示例高级版](https://github.com/Nepxion/DiscoveryGuide)获取，分支为premium。运行出下图强大效果的前提，需要事先搭建Nacos、Jaeger、ActiveMQ、MongoDB、RabbitMQ、Redis、RocketMQ以及MySQL数据库等环境
-使用者如果不想搭建环境，想直接观看效果，可以直接把[离线数据](https://github.com/Nepxion/DiscoveryGuide/raw/master/tracing.json)导入到Jaeger界面（JSON File栏，拖进去即可），观看到下图效果
+使用者如果不想搭建环境，想直接观看效果，可以直接把离线数据tracing.json（位于根目录下）导入到Jaeger界面（JSON File栏，拖进去即可），观看到下图效果
 ![](http://nepxion.gitee.io/docs/discovery-doc/JaegerPremium1.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/JaegerPremium2.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/JaegerPremium3.jpg)
@@ -2787,6 +2789,7 @@ spring.application.strategy.tracer.sentinel.args.output.enabled=true
 
 #### Spring-Boot-Admin监控方式
 ![](http://nepxion.gitee.io/docs/discovery-doc/Admin1.jpg)
+![](http://nepxion.gitee.io/docs/discovery-doc/Admin4.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Admin7.jpg)
 
 ## 全链路Header传递
