@@ -583,10 +583,6 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Govern.jpg)
 
-- 全局架构图
-
-![](http://nepxion.gitee.io/docs/discovery-doc/Architecture.jpg)
-
 - 模块结构图
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Module.jpg)
