@@ -764,14 +764,14 @@ API网关 -> 服务A（两个实例） -> 服务B（两个实例）
 
 - 在Postman中执行目录结构下 ”Nepxion“ -> ”Discovery指南网关接口“ -> ”Gateway网关调用示例“，调用地址为[http://localhost:5001/discovery-guide-service-a/invoke/gateway](http://localhost:5001/discovery-guide-service-a/invoke/gateway)，相关的Header值已经预设，供开发者修改。测试通过Spring Cloud Gateway网关的调用结果，结果为如下格式
 ```
-gateway -> [ID=discovery-guide-service-a][P=Nacos][H=192.168.0.107:3001][V=1.0][R=dev][E=env1][G=discovery-guide-group][TID=48682.7508.15870951148324081][SID=49570.77.15870951148480000] 
--> [ID=discovery-guide-service-b][P=Nacos][H=192.168.0.107:4001][V=1.0][R=qa][E=env1][G=discovery-guide-group][TID=48682.7508.15870951148324081][SID=49571.85.15870951189970000]
+gateway -> [ID=discovery-guide-service-a][P=Nacos][H=192.168.0.107:3001][V=1.0][R=dev][E=env1][Z=zone1][G=discovery-guide-group][TID=48682.7508.15870951148324081][SID=49570.77.15870951148480000] 
+-> [ID=discovery-guide-service-b][P=Nacos][H=192.168.0.107:4001][V=1.0][R=qa][E=env1][Z=zone2][G=discovery-guide-group][TID=48682.7508.15870951148324081][SID=49571.85.15870951189970000]
 ```
 
 - 在Postman中执行目录结构下 ”Nepxion“ -> ”Discovery指南网关接口“ -> ”Zuul网关调用示例“，调用地址为[http://localhost:5002/discovery-guide-service-a/invoke/zuul](http://localhost:5002/discovery-guide-service-a/invoke/zuul)，相关的Header值已经预设，供开发者修改。测试通过Zuul网关的调用结果，结果为如下格式
 ```
-zuul -> [ID=discovery-guide-service-a][P=Nacos][H=192.168.0.107:3001][V=1.0][R=dev][E=env1][G=discovery-guide-group][TID=48682.7508.15870951148324081][SID=49570.77.15870951148480000] 
--> [ID=discovery-guide-service-b][P=Nacos][H=192.168.0.107:4001][V=1.0][R=qa][E=env1][G=discovery-guide-group][TID=48682.7508.15870951148324081][SID=49571.85.15870951189970000]
+zuul -> [ID=discovery-guide-service-a][P=Nacos][H=192.168.0.107:3001][V=1.0][R=dev][E=env1][Z=zone1][G=discovery-guide-group][TID=48682.7508.15870951148324081][SID=49570.77.15870951148480000] 
+-> [ID=discovery-guide-service-b][P=Nacos][H=192.168.0.107:4001][V=1.0][R=qa][E=env1][Z=zone2][G=discovery-guide-group][TID=48682.7508.15870951148324081][SID=49571.85.15870951189970000]
 ```
 
 - 上述步骤在下面每次更改规则策略的时候执行，并验证结果和规则策略的期望值是否相同
@@ -2593,7 +2593,7 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 
 - 从[网盘文档](https://pan.baidu.com/s/1i57rXaNKPuhGRqZ2MONZOA)获取，Windows操作系统下解压后运行jaeger.bat，Mac和Lunix操作系统请自行研究
 - 执行Postman调用后，访问[http://localhost:16686](http://localhost:16686)查看灰度调用链
-- 灰度调用链支持WebMvc和WebFlux两种方式，以NEPXION字样的标记来标识
+- 灰度调用链支持WebMvc和WebFlux两种方式，以NEPXION字样（可自定义）的标记来标识
 - 支持对Sentinel自动埋点
 
 ![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：因为OpenTracing规范不仅仅只被Jaeger所遵守，所以框架并没有直接引入Jaeger包，需要使用者自行引入，可以参照指南示例中的pom.xml引用
@@ -2609,14 +2609,14 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 </dependency>
 ```
 
-集成Opentracing + Uber Jaeger调用链平台
+集成Opentracing + Uber Jaeger灰度全链路监控
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger1.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger2.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger3.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger4.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger5.jpg)
 
-集成Sentinel + 灰度全链路监控
+集成Opentracing + Uber Jaeger + Sentinel限流熔断降级权限埋点全链路监控
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger6.jpg)
 
 集成主流中间件 + 灰度全链路监控
@@ -2626,9 +2626,13 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 ![](http://nepxion.gitee.io/docs/discovery-doc/JaegerPremium2.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/JaegerPremium3.jpg)
 
-集成Opentracing + Apache Skywalking调用链平台
+集成Opentracing + Apache Skywalking限流熔断降级权限全链路监控
 ![](http://nepxion.gitee.io/docs/discovery-doc/Skywalking1.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Skywalking2.jpg)
+
+集成Opentracing + Apache Skywalking + Sentinel埋点全链路监控
+![](http://nepxion.gitee.io/docs/discovery-doc/Skywalking3.jpg)
+![](http://nepxion.gitee.io/docs/discovery-doc/Skywalking4.jpg)
 
 ![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 请注意如下配置，将决定终端界面的显示
 
