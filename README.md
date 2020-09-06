@@ -734,16 +734,16 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 ### 启动服务 
 - 在IDE中，启动四个应用服务和两个网关服务，控制平台服务和监控平台服务可选，如下
 
-| 类名 | 微服务 | 服务端口 | 版本 | 区域 | 环境 |
-| --- | --- | --- | --- | --- | -- | 
-| DiscoveryGuideServiceA1.java | A1 | 3001 | 1.0 | dev | env1 |
-| DiscoveryGuideServiceA2.java | A2 | 3002 | 1.1 | qa | common |
-| DiscoveryGuideServiceB1.java | B1 | 4001 | 1.0 | qa | env1 |
-| DiscoveryGuideServiceB2.java | B2 | 4002 | 1.1 | dev | common | 
-| DiscoveryGuideGateway.java | Gateway | 5001 | 1.0 | 无 | 无 |
-| DiscoveryGuideZuul.java | Zuul | 5002 | 1.0 | 无 | 无 |
-| DiscoveryGuideConsole.java | Console | 6001 | 1.0 | 无 | 无 |
-| DiscoveryGuideAdmin.java | Admin | 6002 | 1.0 | 无 | 无 |
+| 类名 | 微服务 | 服务端口 | 版本 | 区域 | 环境 | 可用区
+| --- | --- | --- | --- | --- | -- | -- | 
+| DiscoveryGuideServiceA1.java | A1 | 3001 | 1.0 | dev | env1 | zone1 |
+| DiscoveryGuideServiceA2.java | A2 | 3002 | 1.1 | qa | common | zone2 |
+| DiscoveryGuideServiceB1.java | B1 | 4001 | 1.0 | qa | env1 | zone1 |
+| DiscoveryGuideServiceB2.java | B2 | 4002 | 1.1 | dev | common | zone2 |
+| DiscoveryGuideGateway.java | Gateway | 5001 | 1.0 | 无 | 无 | 无 |
+| DiscoveryGuideZuul.java | Zuul | 5002 | 1.0 | 无 | 无 | 无 |
+| DiscoveryGuideConsole.java | Console | 6001 | 1.0 | 无 | 无 | 无 |
+| DiscoveryGuideAdmin.java | Admin | 6002 | 1.0 | 无 | 无 | 无 |
 
 - 部署拓扑图
 ![](http://nepxion.gitee.io/docs/discovery-doc/BasicTopology.jpg)
@@ -1561,6 +1561,7 @@ spring.application.strategy.rest.template.core.header.transmission.enabled=true
     </strategy-blacklist>
 </rule>
 ```
+![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-11.jpg)
 
 也可以通过全链路传递Header方式实现，参考[通过前端传入灰度路由策略](#通过前端传入灰度路由策略)
 
@@ -1580,6 +1581,7 @@ spring.application.strategy.rest.template.core.header.transmission.enabled=true
     </strategy-blacklist>
 </rule>
 ```
+![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-12.jpg)
 
 也可以通过全链路传递Header方式实现，参考[通过前端传入灰度路由策略](#通过前端传入灰度路由策略)
 
