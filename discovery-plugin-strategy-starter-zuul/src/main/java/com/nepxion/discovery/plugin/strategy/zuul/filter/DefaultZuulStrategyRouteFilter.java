@@ -11,48 +11,48 @@ package com.nepxion.discovery.plugin.strategy.zuul.filter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
+import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 
 public class DefaultZuulStrategyRouteFilter extends AbstractZuulStrategyRouteFilter {
     @Autowired
-    protected StrategyWrapper strategyWrapper;
+    protected StrategyContextHolder strategyContextHolder;
 
     @Override
     public String getRouteVersion() {
-        return strategyWrapper.getRouteVersion();
+        return strategyContextHolder.getRouteVersion();
     }
 
     @Override
     public String getRouteRegion() {
-        return strategyWrapper.getRouteRegion();
+        return strategyContextHolder.getRouteRegion();
     }
 
     @Override
     public String getRouteAddress() {
-        return strategyWrapper.getRouteAddress();
+        return strategyContextHolder.getRouteAddress();
     }
 
     @Override
     public String getRouteVersionWeight() {
-        return strategyWrapper.getRouteVersionWeight();
+        return strategyContextHolder.getRouteVersionWeight();
     }
 
     @Override
     public String getRouteRegionWeight() {
-        return strategyWrapper.getRouteRegionWeight();
+        return strategyContextHolder.getRouteRegionWeight();
     }
 
     @Override
     public String getRouteIdBlacklist() {
-        return strategyWrapper.getRouteIdBlacklist();
+        return strategyContextHolder.getRouteIdBlacklist();
     }
 
     @Override
     public String getRouteAddressBlacklist() {
-        return strategyWrapper.getRouteAddressBlacklist();
+        return strategyContextHolder.getRouteAddressBlacklist();
     }
 
-    public StrategyWrapper getStrategyWrapper() {
-        return strategyWrapper;
+    public StrategyContextHolder getStrategyContextHolder() {
+        return strategyContextHolder;
     }
 }

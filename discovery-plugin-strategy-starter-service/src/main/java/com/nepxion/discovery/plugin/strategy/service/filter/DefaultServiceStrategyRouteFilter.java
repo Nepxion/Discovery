@@ -9,95 +9,50 @@ package com.nepxion.discovery.plugin.strategy.service.filter;
  * @version 1.0
  */
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.common.entity.RuleEntity;
-import com.nepxion.discovery.common.entity.StrategyCustomizationEntity;
-import com.nepxion.discovery.common.entity.StrategyHeaderEntity;
-import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
+import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 
 public class DefaultServiceStrategyRouteFilter extends AbstractServiceStrategyRouteFilter {
     @Autowired
-    protected StrategyWrapper strategyWrapper;
+    protected StrategyContextHolder strategyContextHolder;
 
     @Override
     public String getRouteVersion() {
-        Map<String, String> headerMap = getHeaderMap();
-        if (headerMap == null) {
-            return strategyWrapper.getRouteVersion();
-        } else {
-            return strategyWrapper.getRouteVersion(headerMap);
-        }
+        return strategyContextHolder.getRouteVersion();
     }
 
     @Override
     public String getRouteRegion() {
-        Map<String, String> headerMap = getHeaderMap();
-        if (headerMap == null) {
-            return strategyWrapper.getRouteRegion();
-        } else {
-            return strategyWrapper.getRouteRegion(headerMap);
-        }
+        return strategyContextHolder.getRouteRegion();
     }
 
     @Override
     public String getRouteAddress() {
-        Map<String, String> headerMap = getHeaderMap();
-        if (headerMap == null) {
-            return strategyWrapper.getRouteAddress();
-        } else {
-            return strategyWrapper.getRouteAddress(headerMap);
-        }
+        return strategyContextHolder.getRouteAddress();
     }
 
     @Override
     public String getRouteVersionWeight() {
-        Map<String, String> headerMap = getHeaderMap();
-        if (headerMap == null) {
-            return strategyWrapper.getRouteVersionWeight();
-        } else {
-            return strategyWrapper.getRouteVersionWeight(headerMap);
-        }
+        return strategyContextHolder.getRouteVersionWeight();
     }
 
     @Override
     public String getRouteRegionWeight() {
-        Map<String, String> headerMap = getHeaderMap();
-        if (headerMap == null) {
-            return strategyWrapper.getRouteRegionWeight();
-        } else {
-            return strategyWrapper.getRouteRegionWeight(headerMap);
-        }
+        return strategyContextHolder.getRouteRegionWeight();
     }
 
     @Override
     public String getRouteIdBlacklist() {
-        return strategyWrapper.getRouteIdBlacklist();
+        return strategyContextHolder.getRouteIdBlacklist();
     }
 
     @Override
     public String getRouteAddressBlacklist() {
-        return strategyWrapper.getRouteAddressBlacklist();
+        return strategyContextHolder.getRouteAddressBlacklist();
     }
 
-    public Map<String, String> getHeaderMap() {
-        RuleEntity ruleEntity = pluginAdapter.getRule();
-        if (ruleEntity != null) {
-            StrategyCustomizationEntity strategyCustomizationEntity = ruleEntity.getStrategyCustomizationEntity();
-            if (strategyCustomizationEntity != null) {
-                StrategyHeaderEntity strategyHeaderEntity = strategyCustomizationEntity.getStrategyHeaderEntity();
-                if (strategyHeaderEntity != null) {
-                    return strategyHeaderEntity.getHeaderMap();
-                }
-            }
-        }
-
-        return null;
-    }
-
-    public StrategyWrapper getStrategyWrapper() {
-        return strategyWrapper;
+    public StrategyContextHolder getStrategyContextHolder() {
+        return strategyContextHolder;
     }
 }
