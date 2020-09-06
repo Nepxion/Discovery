@@ -25,7 +25,7 @@
 - [指南Github原镜像](https://github.com/Nepxion/DiscoveryGuide)
 
 ④ Discovery【探索】微服务框架指南示例说明
-- 对于入门级玩家，参考[指南示例极简版](https://github.com/Nepxion/DiscoveryGuide/tree/simple)，分支为simple。涉及到指南篇里的灰度路由和发布的基本功能，![](http://nepxion.gitee.io/docs/icon-doc/error_message.png) 参考[新手快速入门](https://gitee.com/nepxion/DiscoveryGuide/blob/simple/GUIDE.md)
+- 对于入门级玩家，参考[指南示例极简版](https://github.com/Nepxion/DiscoveryGuide/tree/simple)，分支为simple。涉及到指南篇里的灰度路由和发布的基本功能，![](http://nepxion.gitee.io/docs/icon-doc/information_message.png) 参考[新手快速入门](https://gitee.com/nepxion/DiscoveryGuide/blob/simple/GUIDE.md)
 - 对于熟练级玩家，参考[指南示例精进版](https://github.com/Nepxion/DiscoveryGuide/tree/master)，分支为master。除上述《极简版》功能外，涉及到指南篇里的绝大多数高级功能
 - 对于骨灰级玩家，参考[指南示例高级版](https://github.com/Nepxion/DiscoveryGuide/tree/premium)，分支为premium。除上述《精进版》功能外，涉及到指南篇里的ActiveMQ、MongoDB、RabbitMQ、Redis、RocketMQ、MySQL等高级调用链和灰度调用链的整合
 
