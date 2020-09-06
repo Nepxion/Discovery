@@ -25,7 +25,6 @@ import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.StrategyCustomizationEntity;
 import com.nepxion.discovery.common.entity.StrategyHeaderEntity;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.gateway.constant.GatewayStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.gateway.context.GatewayStrategyContext;
 import com.nepxion.discovery.plugin.strategy.gateway.monitor.GatewayStrategyMonitor;
@@ -33,9 +32,6 @@ import com.nepxion.discovery.plugin.strategy.gateway.monitor.GatewayStrategyMoni
 public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrategyRouteFilter {
     @Autowired
     protected PluginAdapter pluginAdapter;
-
-    @Autowired
-    protected StrategyContextHolder strategyContextHolder;
 
     @Autowired(required = false)
     protected GatewayStrategyMonitor gatewayStrategyMonitor;
@@ -76,24 +72,25 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
         // 通过过滤器设置路由Header头部信息，并全链路传递到服务端
         ServerHttpRequest.Builder requestBuilder = exchange.getRequest().mutate();
 
-        RuleEntity ruleEntity = pluginAdapter.getRule();
-        if (ruleEntity != null) {
-            StrategyCustomizationEntity strategyCustomizationEntity = ruleEntity.getStrategyCustomizationEntity();
-            if (strategyCustomizationEntity != null) {
-                StrategyHeaderEntity strategyHeaderEntity = strategyCustomizationEntity.getStrategyHeaderEntity();
-                if (strategyHeaderEntity != null) {
-                    Map<String, String> headerMap = strategyHeaderEntity.getHeaderMap();
-                    for (Map.Entry<String, String> entry : headerMap.entrySet()) {
-                        String key = entry.getKey();
-                        String value = entry.getValue();
+        if (gatewayCoreHeaderTransmissionEnabled) {
+            // 内置Header
+            RuleEntity ruleEntity = pluginAdapter.getRule();
+            if (ruleEntity != null) {
+                StrategyCustomizationEntity strategyCustomizationEntity = ruleEntity.getStrategyCustomizationEntity();
+                if (strategyCustomizationEntity != null) {
+                    StrategyHeaderEntity strategyHeaderEntity = strategyCustomizationEntity.getStrategyHeaderEntity();
+                    if (strategyHeaderEntity != null) {
+                        Map<String, String> headerMap = strategyHeaderEntity.getHeaderMap();
+                        for (Map.Entry<String, String> entry : headerMap.entrySet()) {
+                            String key = entry.getKey();
+                            String value = entry.getValue();
 
-                        GatewayStrategyFilterResolver.setHeader(requestBuilder, key, value, gatewayHeaderPriority);
+                            GatewayStrategyFilterResolver.setHeader(requestBuilder, key, value, gatewayHeaderPriority);
+                        }
                     }
                 }
             }
-        }
 
-        if (gatewayCoreHeaderTransmissionEnabled) {
             String routeVersion = getRouteVersion();
             String routeRegion = getRouteRegion();
             String routeAddress = getRouteAddress();
@@ -194,9 +191,5 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
 
     public PluginAdapter getPluginAdapter() {
         return pluginAdapter;
-    }
-
-    public StrategyContextHolder getStrategyContextHolder() {
-        return strategyContextHolder;
     }
 }
