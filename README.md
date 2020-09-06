@@ -25,7 +25,7 @@
 - [指南Github原镜像](https://github.com/Nepxion/DiscoveryGuide)
 
 ④ Discovery【探索】微服务框架指南示例说明
-- 对于入门级玩家，参考[指南示例极简版](https://github.com/Nepxion/DiscoveryGuide/tree/simple)，分支为simple。涉及到指南篇里的灰度路由和发布的基本功能
+- 对于入门级玩家，参考[指南示例极简版](https://github.com/Nepxion/DiscoveryGuide/tree/simple)，分支为simple。涉及到指南篇里的灰度路由和发布的基本功能，![](http://nepxion.gitee.io/docs/icon-doc/error_message.png) 参考[新手快速入门](https://gitee.com/nepxion/DiscoveryGuide/blob/simple/GUIDE.md)
 - 对于熟练级玩家，参考[指南示例精进版](https://github.com/Nepxion/DiscoveryGuide/tree/master)，分支为master。除上述《极简版》功能外，涉及到指南篇里的绝大多数高级功能
 - 对于骨灰级玩家，参考[指南示例高级版](https://github.com/Nepxion/DiscoveryGuide/tree/premium)，分支为premium。除上述《精进版》功能外，涉及到指南篇里的ActiveMQ、MongoDB、RabbitMQ、Redis、RocketMQ、MySQL等高级调用链和灰度调用链的整合
 
@@ -716,17 +716,15 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 为了更好的阐述框架的各项功能，本文围绕指南示例展开，请使用者先进行下面的准备工作。指南示例以Nacos为服务注册中心和配置中心展开介绍，使用者可自行换成其它服务注册中心和配置中心
 
 ### 环境搭建
-① 下载代码
+① 下载代码，Git clone [https://github.com/Nepxion/DiscoveryGuide.git](https://github.com/Nepxion/DiscoveryGuide.git)
 
-② Git clone https://github.com/Nepxion/DiscoveryGuide.git 
+② 代码导入IDE
 
-③ 代码导入IDE
-
-④ 下载Nacos服务器
+③ 下载Nacos服务器
 
 - 从[https://github.com/alibaba/nacos/releases](https://github.com/alibaba/nacos/releases)获取nacos-server-x.x.x.zip，并解压
 
-⑤ 启动Nacos服务器
+④ 启动Nacos服务器
 
 - Windows环境下，运行bin目录下的startup.cmd
 - Linux环境下，运行bin目录下的startup.sh
@@ -756,7 +754,7 @@ API网关 -> 服务A（两个实例） -> 服务B（两个实例）
 ### 环境验证
 ① 通过Postman工具验证
 
-- 导入Postman的测试脚本，[脚本地址](https://github.com/Nepxion/DiscoveryGuide/raw/master/postman.json)
+- 导入Postman的测试脚本postman.json（位于根目录下）
 
 - 在Postman中执行目录结构下 ”Nepxion“ -> ”Discovery指南网关接口“ -> ”Gateway网关调用示例“，调用地址为[http://localhost:5001/discovery-guide-service-a/invoke/gateway](http://localhost:5001/discovery-guide-service-a/invoke/gateway)，相关的Header值已经预设，供开发者修改。测试通过Spring Cloud Gateway网关的调用结果，结果为如下格式
 ```
@@ -2619,7 +2617,7 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 
 集成主流中间件 + 灰度全链路监控
 代码请从[指南示例高级版](https://github.com/Nepxion/DiscoveryGuide)获取，分支为premium。运行出下图强大效果的前提，需要事先搭建Nacos、Jaeger、ActiveMQ、MongoDB、RabbitMQ、Redis、RocketMQ以及MySQL数据库等环境
-使用者如果不想搭建环境，想直接观看效果，可以直接把[离线数据](https://github.com/Nepxion/DiscoveryGuide/raw/master/tracing.json)导入到Jaeger界面（JSON File栏，拖进去即可），观看到下图效果
+使用者如果不想搭建环境，想直接观看效果，可以直接把离线数据tracing.json（位于根目录下）导入到Jaeger界面（JSON File栏，拖进去即可），观看到下图效果
 ![](http://nepxion.gitee.io/docs/discovery-doc/JaegerPremium1.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/JaegerPremium2.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/JaegerPremium3.jpg)
