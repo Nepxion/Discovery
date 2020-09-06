@@ -17,7 +17,7 @@ import com.netflix.zuul.context.RequestContext;
 
 public class DefaultZuulStrategyClearFilter extends ZuulStrategyClearFilter {
     @Autowired(required = false)
-    private ZuulStrategyMonitor zuulStrategyMonitor;
+    protected ZuulStrategyMonitor zuulStrategyMonitor;
 
     @Override
     public String filterType() {

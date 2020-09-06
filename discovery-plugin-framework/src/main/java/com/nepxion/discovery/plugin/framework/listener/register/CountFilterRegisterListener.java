@@ -24,7 +24,7 @@ import com.nepxion.discovery.plugin.framework.event.RegisterFailureEvent;
 
 public class CountFilterRegisterListener extends AbstractRegisterListener {
     @Autowired
-    private DiscoveryClientDecorator discoveryClient;
+    protected DiscoveryClientDecorator discoveryClient;
 
     @Override
     public void onRegister(Registration registration) {

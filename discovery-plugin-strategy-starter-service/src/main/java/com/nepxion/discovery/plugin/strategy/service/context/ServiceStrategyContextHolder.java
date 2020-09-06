@@ -22,7 +22,7 @@ import com.nepxion.discovery.plugin.strategy.service.filter.ServiceStrategyRoute
 
 public class ServiceStrategyContextHolder extends AbstractStrategyContextHolder {
     @Autowired
-    private ServiceStrategyRouteFilter serviceStrategyRouteFilter;
+    protected ServiceStrategyRouteFilter serviceStrategyRouteFilter;
 
     public ServletRequestAttributes getRestAttributes() {
         RequestAttributes requestAttributes = RestStrategyContext.getCurrentContext().getRequestAttributes();

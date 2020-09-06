@@ -19,7 +19,7 @@ import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 
 public abstract class DefaultDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
     @Autowired
-    private ApplicationContext applicationContext;
+    protected ApplicationContext applicationContext;
 
     @Autowired
     protected PluginAdapter pluginAdapter;

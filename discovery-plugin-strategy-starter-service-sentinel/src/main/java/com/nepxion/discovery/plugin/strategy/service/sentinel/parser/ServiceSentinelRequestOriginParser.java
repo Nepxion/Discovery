@@ -24,10 +24,10 @@ import com.nepxion.discovery.plugin.strategy.service.sentinel.constant.ServiceSe
 
 public class ServiceSentinelRequestOriginParser implements RequestOriginParser {
     @Value("${" + ServiceSentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SERVICE_SENTINEL_REQUEST_ORIGIN_KEY + ":" + DiscoveryConstant.N_D_SERVICE_ID + "}")
-    private String requestOriginKey;
+    protected String requestOriginKey;
 
     @Autowired(required = false)
-    private ServiceSentinelRequestOriginAdapter serviceSentinelRequestOriginAdapter;
+    protected ServiceSentinelRequestOriginAdapter serviceSentinelRequestOriginAdapter;
 
     public ServiceSentinelRequestOriginParser() {
         WebCallbackManager.setRequestOriginParser(this);

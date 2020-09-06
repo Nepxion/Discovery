@@ -23,7 +23,7 @@ import com.netflix.loadbalancer.Server;
 // 当目标服务的元数据中的Group和本服务不相等，禁止被本服务负载均衡。如果是网关，则不做处理
 public class ConsumerIsolationLoadBalanceStrategy extends AbstractLoadBalanceListener {
     @Autowired
-    private PluginAdapter pluginAdapter;
+    protected PluginAdapter pluginAdapter;
 
     @Override
     public void onGetServers(String serviceId, List<? extends Server> servers) {

@@ -34,7 +34,7 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulStrategyRouteF
     protected StrategyContextHolder strategyContextHolder;
 
     @Autowired(required = false)
-    private ZuulStrategyMonitor zuulStrategyMonitor;
+    protected ZuulStrategyMonitor zuulStrategyMonitor;
 
     // 如果外界也传了相同的Header，例如，从Postman传递过来的Header，当下面的变量为true，以网关设置为优先，否则以外界传值为优先
     @Value("${" + ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_HEADER_PRIORITY + ":true}")
