@@ -16,7 +16,9 @@ public enum StrategyRouteType {
     REGION(DiscoveryConstant.REGION, DiscoveryConstant.REGION), 
     ADDRESS(DiscoveryConstant.ADDRESS, DiscoveryConstant.ADDRESS), 
     VERSION_WEIGHT(DiscoveryConstant.VERSION_WEIGHT, DiscoveryConstant.VERSION_WEIGHT), 
-    REGION_WEIGHT(DiscoveryConstant.REGION_WEIGHT, DiscoveryConstant.REGION_WEIGHT);
+    REGION_WEIGHT(DiscoveryConstant.REGION_WEIGHT, DiscoveryConstant.REGION_WEIGHT), 
+    ID_BLACKLIST(DiscoveryConstant.ID_BLACKLIST, DiscoveryConstant.ID_BLACKLIST), 
+    ADDRESS_BLACKLIST(DiscoveryConstant.ADDRESS_BLACKLIST, DiscoveryConstant.ADDRESS_BLACKLIST);
 
     private String value;
     private String description;

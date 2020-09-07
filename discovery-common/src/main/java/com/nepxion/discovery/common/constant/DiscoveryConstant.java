@@ -84,6 +84,8 @@ public class DiscoveryConstant {
     public static final String ADDRESS = "address";
     public static final String VERSION_WEIGHT = "version-weight";
     public static final String REGION_WEIGHT = "region-weight";
+    public static final String ID_BLACKLIST = "id-blacklist";
+    public static final String ADDRESS_BLACKLIST = "address-blacklist";
 
     public static final String N_D_PREFIX = "n-d-";
     public static final String N_D_SERVICE_PREFIX = "n-d-service";

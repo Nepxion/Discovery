@@ -13,10 +13,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,9 +23,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.StrategyConditionEntity;
 import com.nepxion.discovery.common.entity.StrategyRouteType;
+import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.strategy.condition.StrategyCondition;
 import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
 
@@ -48,7 +46,7 @@ public class StrategyEndpoint {
         StrategyConditionEntity strategyConditionEntity = new StrategyConditionEntity();
         strategyConditionEntity.setConditionHeader(condition);
 
-        Map<String, String> map = splitToMap(validation);
+        Map<String, String> map = StringUtil.splitToMap(validation);
 
         boolean validated = strategyCondition.isTriggered(strategyConditionEntity, map);
 
@@ -58,10 +56,10 @@ public class StrategyEndpoint {
     @RequestMapping(path = "/validate-route", method = RequestMethod.GET)
     @ApiOperation(value = "校验策略的全链路路由", notes = "", response = String.class, httpMethod = "GET")
     @ResponseBody
-    public ResponseEntity<String> validateVersionRoute(@RequestParam @ApiParam(value = "路由策略类型，例如：version, region, address, version-weight, region-weight", required = true) String routeType, @RequestParam(required = false, defaultValue = "") @ApiParam(value = "变量赋值，例如：a=1;b=1。如果多个用“;”分隔，不允许出现空格。允许为空", required = false, defaultValue = "") String validation) {
+    public ResponseEntity<String> validateVersionRoute(@RequestParam @ApiParam(value = "路由策略类型，例如：version, region, address, version-weight, region-weight, id-blacklist, address-blacklist", required = true) String routeType, @RequestParam(required = false, defaultValue = "") @ApiParam(value = "变量赋值，例如：a=1;b=1。如果多个用“;”分隔，不允许出现空格，允许为空。如果选择最后两项策略类型，则不需要变量赋值", required = false, defaultValue = "") String validation) {
         StrategyRouteType strategyRouteType = StrategyRouteType.fromString(routeType);
 
-        Map<String, String> map = splitToMap(validation);
+        Map<String, String> map = StringUtil.splitToMap(validation);
 
         String route = null;
         switch (strategyRouteType) {
@@ -80,22 +78,14 @@ public class StrategyEndpoint {
             case REGION_WEIGHT:
                 route = strategyWrapper.getRouteRegionWeight(map);
                 break;
+            case ID_BLACKLIST:
+                route = strategyWrapper.getRouteIdBlacklist();
+                break;
+            case ADDRESS_BLACKLIST:
+                route = strategyWrapper.getRouteAddressBlacklist();
+                break;
         }
 
         return ResponseEntity.ok().body(route);
-    }
-
-    private Map<String, String> splitToMap(String value) {
-        Map<String, String> map = new HashMap<String, String>();
-
-        if (StringUtils.isNotEmpty(value)) {
-            String[] separateArray = StringUtils.split(value, DiscoveryConstant.SEPARATE);
-            for (String separateValue : separateArray) {
-                String[] equalsArray = StringUtils.split(separateValue, DiscoveryConstant.EQUALS);
-                map.put(equalsArray[0].trim(), equalsArray[1].trim());
-            }
-        }
-
-        return map;
     }
 }

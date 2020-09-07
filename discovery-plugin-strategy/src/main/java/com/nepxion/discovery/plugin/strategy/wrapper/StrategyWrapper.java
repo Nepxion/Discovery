@@ -328,6 +328,10 @@ public class StrategyWrapper {
                 return StringUtils.isNotEmpty(strategyConditionBlueGreenEntity.getVersionWeightId());
             case REGION_WEIGHT:
                 return StringUtils.isNotEmpty(strategyConditionBlueGreenEntity.getRegionWeightId());
+            case ID_BLACKLIST:
+                break;
+            case ADDRESS_BLACKLIST:
+                break;
         }
 
         return false;

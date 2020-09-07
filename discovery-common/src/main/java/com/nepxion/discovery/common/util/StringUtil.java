@@ -10,7 +10,9 @@ package com.nepxion.discovery.common.util;
  */
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.FileUtils;
@@ -27,6 +29,20 @@ public class StringUtil {
         String[] valueArray = StringUtils.split(value, separate);
 
         return Arrays.asList(valueArray);
+    }
+
+    public static Map<String, String> splitToMap(String value) {
+        Map<String, String> map = new HashMap<String, String>();
+
+        if (StringUtils.isNotEmpty(value)) {
+            String[] separateArray = StringUtils.split(value, DiscoveryConstant.SEPARATE);
+            for (String separateValue : separateArray) {
+                String[] equalsArray = StringUtils.split(separateValue, DiscoveryConstant.EQUALS);
+                map.put(equalsArray[0].trim(), equalsArray[1].trim());
+            }
+        }
+
+        return map;
     }
 
     public static String convertToString(List<String> list) {
