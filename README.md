@@ -744,6 +744,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 | DiscoveryGuideAdmin.java | Admin | 6002 | 1.0 | 无 | 无 | 无 |
 
 - 部署拓扑图
+
 ![](http://nepxion.gitee.io/docs/discovery-doc/BasicTopology.jpg)
 
 全链路路径， 如下
@@ -952,8 +953,11 @@ IP地址和端口灰度路由架构图
 ![](http://nepxion.gitee.io/docs/discovery-doc/EscapeCharacter1.jpg)
 
 从Http Header获取到值进行逻辑判断，例如Http Header的Key为a，它的格式表示为#H['a']，H为Header的首字母。假如路由触发的条件为a等于1，b小于等于2，c不等于3，那么表达式可以写为
+
 ![](http://nepxion.gitee.io/docs/discovery-doc/EscapeCharacter2.jpg)
+
 特殊符号必须转义，所以表达式必须改成如下
+
 ![](http://nepxion.gitee.io/docs/discovery-doc/EscapeCharacter3.jpg)
 
 ![](http://nepxion.gitee.io/docs/icon-doc/warning.png) Spel表达式需要注意的地方
@@ -2174,7 +2178,9 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 Reject to invoke because of isolation with different service group
 ```
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide6-1.jpg)
+
 如果加上n-d-service-group=discovery-guide-group的Header，那么两者保持Group相同，则调用通过。这是解决异构系统调用微服务被隔离的一种手段
+
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide6-2.jpg)
 
 ## 基于Env的全链路环境隔离和路由
@@ -2236,6 +2242,7 @@ spring.application.zone.route.enabled=true
 ## 基于Sentinel的全链路服务限流熔断降级权限和灰度融合
 
 集成Sentinel熔断隔离限流降级平台
+
 ![](http://nepxion.gitee.io/docs/discovery-doc/Sentinel3.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Sentinel4.jpg)
 
@@ -2608,6 +2615,7 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 ```
 
 集成Opentracing + Uber Jaeger灰度全链路监控
+
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger1.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger2.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger3.jpg)
@@ -2615,20 +2623,24 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger5.jpg)
 
 集成Opentracing + Uber Jaeger + Sentinel限流熔断降级权限埋点全链路监控
+
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger6.jpg)
 
 集成主流中间件 + 灰度全链路监控
 代码请从[指南示例高级版](https://github.com/Nepxion/DiscoveryGuide)获取，分支为premium。运行出下图强大效果的前提，需要事先搭建Nacos、Jaeger、ActiveMQ、MongoDB、RabbitMQ、Redis、RocketMQ以及MySQL数据库等环境
 使用者如果不想搭建环境，想直接观看效果，可以直接把离线数据tracing.json（位于根目录下）导入到Jaeger界面（JSON File栏，拖进去即可），观看到下图效果
+
 ![](http://nepxion.gitee.io/docs/discovery-doc/JaegerPremium1.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/JaegerPremium2.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/JaegerPremium3.jpg)
 
 集成Opentracing + Apache Skywalking限流熔断降级权限全链路监控
+
 ![](http://nepxion.gitee.io/docs/discovery-doc/Skywalking1.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Skywalking2.jpg)
 
 集成Opentracing + Apache Skywalking + Sentinel埋点全链路监控
+
 ![](http://nepxion.gitee.io/docs/discovery-doc/Skywalking3.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Skywalking4.jpg)
 
@@ -2778,9 +2790,11 @@ spring.application.strategy.tracer.sentinel.args.output.enabled=true
 可以单独输出，也可以结合调用链一起组合输出，使用方式跟调用链方式类似 
 
 参考在IDE控制台打印的结果
+
 ![](http://nepxion.gitee.io/docs/discovery-doc/Tracer.jpg)
 
 ### 全链路指标监控-Metrics
+
 #### Prometheus监控方式
 ![](http://nepxion.gitee.io/docs/discovery-doc/Prometheus.jpg)
 
