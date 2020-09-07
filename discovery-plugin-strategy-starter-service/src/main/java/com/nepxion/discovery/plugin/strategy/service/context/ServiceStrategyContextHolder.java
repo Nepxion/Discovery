@@ -16,9 +16,6 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.nepxion.discovery.common.entity.RuleEntity;
-import com.nepxion.discovery.common.entity.StrategyCustomizationEntity;
-import com.nepxion.discovery.common.entity.StrategyHeaderEntity;
 import com.nepxion.discovery.plugin.strategy.context.AbstractStrategyContextHolder;
 
 public class ServiceStrategyContextHolder extends AbstractStrategyContextHolder {
@@ -46,70 +43,12 @@ public class ServiceStrategyContextHolder extends AbstractStrategyContextHolder 
 
         return attributes.getRequest().getHeader(name);
     }
-
+    
+    // 如果配置了内置条件Header，强制使用内置条件Header的模式
+    // 该模式只适用于服务层。不希望在服务层处理的这么复杂，且一般情况下，不会在服务层内置条件Header
+    // 该模式不适用于网关层。网关层需要处理条件Header外部优先，还是内部优先
     @Override
-    public String getRouteVersion() {
-        Map<String, String> headerMap = getHeaderMap();
-        if (headerMap == null) {
-            return super.getRouteVersion();
-        } else {
-            return strategyWrapper.getRouteVersion(headerMap);
-        }
-    }
-
-    @Override
-    public String getRouteRegion() {
-        Map<String, String> headerMap = getHeaderMap();
-        if (headerMap == null) {
-            return super.getRouteRegion();
-        } else {
-            return strategyWrapper.getRouteRegion(headerMap);
-        }
-    }
-
-    @Override
-    public String getRouteAddress() {
-        Map<String, String> headerMap = getHeaderMap();
-        if (headerMap == null) {
-            return super.getRouteAddress();
-        } else {
-            return strategyWrapper.getRouteAddress(headerMap);
-        }
-    }
-
-    @Override
-    public String getRouteVersionWeight() {
-        Map<String, String> headerMap = getHeaderMap();
-        if (headerMap == null) {
-            return super.getRouteVersionWeight();
-        } else {
-            return strategyWrapper.getRouteVersionWeight(headerMap);
-        }
-    }
-
-    @Override
-    public String getRouteRegionWeight() {
-        Map<String, String> headerMap = getHeaderMap();
-        if (headerMap == null) {
-            return super.getRouteRegionWeight();
-        } else {
-            return strategyWrapper.getRouteRegionWeight(headerMap);
-        }
-    }
-
-    public Map<String, String> getHeaderMap() {
-        // 内置Header
-        RuleEntity ruleEntity = pluginAdapter.getRule();
-        if (ruleEntity != null) {
-            StrategyCustomizationEntity strategyCustomizationEntity = ruleEntity.getStrategyCustomizationEntity();
-            if (strategyCustomizationEntity != null) {
-                StrategyHeaderEntity strategyHeaderEntity = strategyCustomizationEntity.getStrategyHeaderEntity();
-                if (strategyHeaderEntity != null) {
-                    return strategyHeaderEntity.getHeaderMap();
-                }
-            }
-        }
-
-        return null;
+    protected boolean isInnerConditionHeaderForced() {
+        return true;
     }
 }
