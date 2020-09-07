@@ -29,6 +29,7 @@ import com.nepxion.discovery.common.entity.StrategyConditionBlueGreenEntity;
 import com.nepxion.discovery.common.entity.StrategyConditionGrayEntity;
 import com.nepxion.discovery.common.entity.StrategyCustomizationEntity;
 import com.nepxion.discovery.common.entity.StrategyEntity;
+import com.nepxion.discovery.common.entity.StrategyHeaderEntity;
 import com.nepxion.discovery.common.entity.StrategyRouteEntity;
 import com.nepxion.discovery.common.entity.StrategyRouteType;
 import com.nepxion.discovery.common.entity.VersionWeightEntity;
@@ -45,61 +46,27 @@ public class StrategyWrapper {
 
     // 从远程配置中心或者本地配置文件获取版本路由配置。如果是远程配置中心，则值会动态改变
     public String getRouteVersion() {
-        String routeVersion = getConditionBlueGreenRouteVersion(null);
-        if (StringUtils.isEmpty(routeVersion)) {
-            routeVersion = getConditionGrayRouteVersion(null);
-            if (StringUtils.isEmpty(routeVersion)) {
-                routeVersion = getGlobalRouteVersion();
-            }
-        }
-
-        return routeVersion;
+        return getRouteVersion(null);
     }
 
     // 从远程配置中心或者本地配置文件获取区域路由配置。如果是远程配置中心，则值会动态改变
     public String getRouteRegion() {
-        String routeRegion = getConditionBlueGreenRouteRegion(null);
-        if (StringUtils.isEmpty(routeRegion)) {
-            routeRegion = getConditionGrayRouteRegion(null);
-            if (StringUtils.isEmpty(routeRegion)) {
-                routeRegion = getGlobalRouteRegion();
-            }
-        }
-
-        return routeRegion;
+        return getRouteRegion(null);
     }
 
     // 从远程配置中心或者本地配置文件获取IP地址和端口路由配置。如果是远程配置中心，则值会动态改变
     public String getRouteAddress() {
-        String routeAddress = getConditionBlueGreenRouteAddress(null);
-        if (StringUtils.isEmpty(routeAddress)) {
-            routeAddress = getConditionGrayRouteAddress(null);
-            if (StringUtils.isEmpty(routeAddress)) {
-                routeAddress = getGlobalRouteAddress();
-            }
-        }
-
-        return routeAddress;
+        return getRouteAddress(null);
     }
 
     // 从远程配置中心或者本地配置文件获取版本权重配置。如果是远程配置中心，则值会动态改变
     public String getRouteVersionWeight() {
-        String routeVersionWeight = getConditionBlueGreenRouteVersionWeight(null);
-        if (StringUtils.isEmpty(routeVersionWeight)) {
-            routeVersionWeight = getGlobalRouteVersionWeight();
-        }
-
-        return routeVersionWeight;
+        return getRouteVersionWeight(null);
     }
 
     // 从远程配置中心或者本地配置文件获取区域权重配置。如果是远程配置中心，则值会动态改变
     public String getRouteRegionWeight() {
-        String routeRegionWeight = getConditionBlueGreenRouteRegionWeight(null);
-        if (StringUtils.isEmpty(routeRegionWeight)) {
-            routeRegionWeight = getGlobalRouteRegionWeight();
-        }
-
-        return routeRegionWeight;
+        return getRouteRegionWeight(null);
     }
 
     // 从远程配置中心或者本地配置文件获取全局唯一ID黑名单屏蔽配置。如果是远程配置中心，则值会动态改变
@@ -489,6 +456,22 @@ public class StrategyWrapper {
                             return strategyRouteEntity;
                         }
                     }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    // 内置Header
+    public Map<String, String> getHeaderMap() {
+        RuleEntity ruleEntity = pluginAdapter.getRule();
+        if (ruleEntity != null) {
+            StrategyCustomizationEntity strategyCustomizationEntity = ruleEntity.getStrategyCustomizationEntity();
+            if (strategyCustomizationEntity != null) {
+                StrategyHeaderEntity strategyHeaderEntity = strategyCustomizationEntity.getStrategyHeaderEntity();
+                if (strategyHeaderEntity != null) {
+                    return strategyHeaderEntity.getHeaderMap();
                 }
             }
         }

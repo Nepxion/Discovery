@@ -9,6 +9,8 @@ package com.nepxion.discovery.plugin.strategy.context;
  * @version 1.0
  */
 
+import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -110,27 +112,62 @@ public abstract class AbstractStrategyContextHolder implements PluginContextHold
 
     @Override
     public String getRouteVersion() {
-        return strategyWrapper.getRouteVersion();
+        boolean isInnerConditionHeaderForced = isInnerConditionHeaderForced();
+        if (isInnerConditionHeaderForced) {
+            Map<String, String> headerMap = strategyWrapper.getHeaderMap();
+
+            return strategyWrapper.getRouteVersion(headerMap);
+        } else {
+            return strategyWrapper.getRouteVersion();
+        }
     }
 
     @Override
     public String getRouteRegion() {
-        return strategyWrapper.getRouteRegion();
+        boolean isInnerConditionHeaderForced = isInnerConditionHeaderForced();
+        if (isInnerConditionHeaderForced) {
+            Map<String, String> headerMap = strategyWrapper.getHeaderMap();
+
+            return strategyWrapper.getRouteRegion(headerMap);
+        } else {
+            return strategyWrapper.getRouteRegion();
+        }
     }
 
     @Override
     public String getRouteAddress() {
-        return strategyWrapper.getRouteAddress();
+        boolean isInnerConditionHeaderForced = isInnerConditionHeaderForced();
+        if (isInnerConditionHeaderForced) {
+            Map<String, String> headerMap = strategyWrapper.getHeaderMap();
+
+            return strategyWrapper.getRouteAddress(headerMap);
+        } else {
+            return strategyWrapper.getRouteAddress();
+        }
     }
 
     @Override
     public String getRouteVersionWeight() {
-        return strategyWrapper.getRouteVersionWeight();
+        boolean isInnerConditionHeaderForced = isInnerConditionHeaderForced();
+        if (isInnerConditionHeaderForced) {
+            Map<String, String> headerMap = strategyWrapper.getHeaderMap();
+
+            return strategyWrapper.getRouteVersionWeight(headerMap);
+        } else {
+            return strategyWrapper.getRouteVersionWeight();
+        }
     }
 
     @Override
     public String getRouteRegionWeight() {
-        return strategyWrapper.getRouteRegionWeight();
+        boolean isInnerConditionHeaderForced = isInnerConditionHeaderForced();
+        if (isInnerConditionHeaderForced) {
+            Map<String, String> headerMap = strategyWrapper.getHeaderMap();
+
+            return strategyWrapper.getRouteRegionWeight(headerMap);
+        } else {
+            return strategyWrapper.getRouteRegionWeight();
+        }
     }
 
     @Override
@@ -167,5 +204,12 @@ public abstract class AbstractStrategyContextHolder implements PluginContextHold
 
     public StrategyWrapper getStrategyWrapper() {
         return strategyWrapper;
+    }
+
+    // 如果配置了内置条件Header，强制使用内置条件Header的模式
+    // 该模式只适用于服务层。不希望在服务层处理的这么复杂，且一般情况下，不会在服务层内置条件Header
+    // 该模式不适用于网关层。网关层需要处理条件Header外部优先，还是内部优先
+    protected boolean isInnerConditionHeaderForced() {
+        return false;
     }
 }

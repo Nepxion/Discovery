@@ -11,16 +11,15 @@ package com.nepxion.discovery.plugin.strategy.zuul.filter;
 
 import java.util.Map;
 
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.common.entity.RuleEntity;
-import com.nepxion.discovery.common.entity.StrategyCustomizationEntity;
-import com.nepxion.discovery.common.entity.StrategyHeaderEntity;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
+import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
 import com.nepxion.discovery.plugin.strategy.zuul.constant.ZuulStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.zuul.monitor.ZuulStrategyMonitor;
 import com.netflix.zuul.context.RequestContext;
@@ -28,6 +27,9 @@ import com.netflix.zuul.context.RequestContext;
 public abstract class AbstractZuulStrategyRouteFilter extends ZuulStrategyRouteFilter {
     @Autowired
     protected PluginAdapter pluginAdapter;
+
+    @Autowired
+    protected StrategyWrapper strategyWrapper;
 
     @Autowired(required = false)
     protected ZuulStrategyMonitor zuulStrategyMonitor;
@@ -73,21 +75,14 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulStrategyRouteF
     @Override
     public Object run() {
         if (zuulCoreHeaderTransmissionEnabled) {
-            // 内置Header
-            RuleEntity ruleEntity = pluginAdapter.getRule();
-            if (ruleEntity != null) {
-                StrategyCustomizationEntity strategyCustomizationEntity = ruleEntity.getStrategyCustomizationEntity();
-                if (strategyCustomizationEntity != null) {
-                    StrategyHeaderEntity strategyHeaderEntity = strategyCustomizationEntity.getStrategyHeaderEntity();
-                    if (strategyHeaderEntity != null) {
-                        Map<String, String> headerMap = strategyHeaderEntity.getHeaderMap();
-                        for (Map.Entry<String, String> entry : headerMap.entrySet()) {
-                            String key = entry.getKey();
-                            String value = entry.getValue();
+            // 内置Header预先塞入
+            Map<String, String> headerMap = strategyWrapper.getHeaderMap();
+            if (MapUtils.isNotEmpty(headerMap)) {
+                for (Map.Entry<String, String> entry : headerMap.entrySet()) {
+                    String key = entry.getKey();
+                    String value = entry.getValue();
 
-                            ZuulStrategyFilterResolver.setHeader(key, value, zuulHeaderPriority);
-                        }
-                    }
+                    ZuulStrategyFilterResolver.setHeader(key, value, zuulHeaderPriority);
                 }
             }
 
