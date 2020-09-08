@@ -2031,14 +2031,14 @@ Redis订阅推送界面
 ### 基于图形化界面的规则策略推送
 ![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 下面两种方式有点古老，并不再维护，请斟酌使用
 
-基于图形化桌面程序的灰度发布
+基于图形化桌面程序的灰度发布路由
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console1.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console2.jpg)
 
 ① 桌面程序对Windows和Mac操作系统都支持，但在Mac操作系统中界面显示有点瑕疵，但不影响功能使用
 
-② Clone [https://github.com/Nepxion/Discovery.git](https://github.com/Nepxion/Discovery.git)获取源码
+② 下载代码，Git clone [https://github.com/Nepxion/Discovery.git](https://github.com/Nepxion/Discovery.git)
 
 ③ 通过IDE启动
 
@@ -2095,19 +2095,16 @@ Redis订阅推送界面
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console13.jpg)
 
+⑥ 动画效果
+
+参考[图形化桌面程序的灰度发布路由动画效果](http://nepxion.gitee.io/videos/discovery-video/DiscoveryConsole.gif)
+
 ⑥ 操作视频
 
-- 灰度发布-版本访问策略
-    - 请访问[https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA](https://pan.baidu.com/s/1eq_N56VbgSCaTXYQ5aKqiA)，获取更清晰的视频，注意一定要下载下来看，不要在线看，否则不清晰
-    - 请访问[http://www.iqiyi.com/w_19rzwzovrl.html](http://www.iqiyi.com/w_19rzwzovrl.html)，视频清晰度改成720P，然后最大化播放
-- 灰度发布-版本权重策略
-    - 请访问[https://pan.baidu.com/s/1VXPatJ6zrUeos7uTQwM3Kw](https://pan.baidu.com/s/1VXPatJ6zrUeos7uTQwM3Kw)，获取更清晰的视频，注意一定要下载下来看，不要在线看，否则不清晰
-    - 请访问[http://www.iqiyi.com/w_19rzs9pll1.html](http://www.iqiyi.com/w_19rzs9pll1.html)，视频清晰度改成720P，然后最大化播放
-- 灰度发布-全链路策略
-    - 请访问[https://pan.baidu.com/s/1XQSKCZUykc6t04xzfrFHsg](https://pan.baidu.com/s/1XQSKCZUykc6t04xzfrFHsg)，获取更清晰的视频，注意一定要下载下来看，不要在线看，否则不清晰
-    - 请访问[http://www.iqiyi.com/w_19s1e0zf95.html](http://www.iqiyi.com/w_19s1e0zf95.html)，视频清晰度改成720P，然后最大化播放
+- 灰度发布的版本匹配功能，参考[Discovery灰度发布版本匹配演示视频](http://nepxion.gitee.io/videos/discovery-video/DiscoveryGrayRlease.wmv)
+- 灰度路由的版本匹配功能，参考[Discovery灰度路由版本匹配链演示视频](http://nepxion.gitee.io/videos/discovery-video/DiscoveryGrayRoute.wmv)
 
-基于图形化Web程序的灰度发布
+基于图形化Web程序的灰度发布路由
 
 - 参考[图形化Web](https://github.com/Nepxion/DiscoveryUI)
 - 操作过程跟“基于图形化桌面程序的灰度发布”类似
@@ -2566,7 +2563,7 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 ## 全链路监控
 
 ### 全链路调用链监控-Tracing
-调用链监控，在本文主要指灰度调用链监控。快速入门操作，请访问操作视频[Nepxion Discovery 灰度发布路由调用链](https://pan.baidu.com/s/1PbksbZKVY7reBrnVb3RS6Q)，注意一定要下载下来看，不要在线看，否则不清晰
+调用链监控，在本文主要指灰度调用链监控。快速入门操作，参考[Discovery灰度发布路由调用链演示视频](http://nepxion.gitee.io/videos/discovery-video/DiscoveryJaeger.wmv)
 
 灰度调用链主要包括如下15个参数，以n-d-service开头的是必须的，其它是可选的或者按照场景而定。使用者可以自行定义要传递的调用链参数，例如：traceId, spanId等；也可以自行定义要传递的业务调用链参数，例如：mobile, user等
 ```
@@ -2596,7 +2593,7 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 #### 调用链输出方式
 调用链输出方式以OpenUber Jaeger为例来说明
 
-- 从[网盘文档](https://pan.baidu.com/s/1i57rXaNKPuhGRqZ2MONZOA)获取，Windows操作系统下解压后运行jaeger.bat，Mac和Lunix操作系统请自行研究
+- Jaeger服务器版本，推荐用最新版本，从[https://github.com/jaegertracing/jaeger/releases](https://github.com/jaegertracing/jaeger/releases)获取
 - 执行Postman调用后，访问[http://localhost:16686](http://localhost:16686)查看灰度调用链
 - 灰度调用链支持WebMvc和WebFlux两种方式，以NEPXION字样（可自定义）的标记来标识
 - 支持对Sentinel自动埋点
@@ -3923,7 +3920,7 @@ zuul.semaphore.max-semaphores=5000
 ```
 
 ### 测试介绍
-- 使用WRK脚本进行性能测试，WRK脚本示例，请参考[压测脚本](https://github.com/Nepxion/DiscoveryGuide/tree/master/discovery-guide-test-automation/post.lua)，下面的测试命令行可以不必带脚本参数
+- 使用WRK脚本进行性能测试，WRK脚本参考post.lua（位于discovery-guide-test-automation目录下），不带参数运行
 - 使用WRK详细说明参考[https://github.com/wg/wrk](https://github.com/wg/wrk)
 
 ### 测试步骤
