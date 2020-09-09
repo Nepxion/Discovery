@@ -63,8 +63,6 @@
         <dom4j.version>1.6.1</dom4j.version>
         <swagger.version>2.7.0</swagger.version>
         <apollo.client.version>1.6.0</apollo.client.version>
-        <nacos.client.version>1.2.1</nacos.client.version>
-        <sentinel.version>1.7.1</sentinel.version>
         <spring.cloud.version>Edgware.SR6</spring.cloud.version>
         <spring.cloud.alibaba.version>1.5.1.RELEASE</spring.cloud.alibaba.version>
         <spring.boot.version>1.5.22.RELEASE</spring.boot.version>
@@ -343,54 +341,6 @@
                 <groupId>com.ctrip.framework.apollo</groupId>
                 <artifactId>apollo-openapi</artifactId>
                 <version>${apollo.client.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba.nacos</groupId>
-                <artifactId>nacos-client</artifactId>
-                <version>${nacos.client.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba.csp</groupId>
-                <artifactId>sentinel-annotation-aspectj</artifactId>
-                <version>${sentinel.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba.csp</groupId>
-                <artifactId>sentinel-transport-common</artifactId>
-                <version>${sentinel.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba.csp</groupId>
-                <artifactId>sentinel-transport-simple-http</artifactId>
-                <version>${sentinel.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba.csp</groupId>
-                <artifactId>sentinel-web-servlet</artifactId>
-                <version>${sentinel.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba.csp</groupId>
-                <artifactId>sentinel-parameter-flow-control</artifactId>
-                <version>${sentinel.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba.csp</groupId>
-                <artifactId>sentinel-datasource-apollo</artifactId>
-                <version>${sentinel.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba.csp</groupId>
-                <artifactId>sentinel-datasource-nacos</artifactId>
-                <version>${sentinel.version}</version>
             </dependency>
 
             <dependency>
