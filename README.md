@@ -1556,21 +1556,21 @@ n-d-version={"discovery-guide-service-a":"gray", "discovery-guide-service-b":"st
 
 新上线的服务实例版本为gray，即默认是灰度版本。等灰度成功后，通过注册中心的Open API接口变更服务版本为stable，或者在注册中心界面手工修改
 
-① Nacos Open API变更元数据
+- Nacos Open API变更元数据
 ```
 curl -X PUT 'http://ip:port/nacos/v1/ns/service?serviceName={appId}&metadata=version%3stable'
 ```
 
-② Eureka Open API变更元数据
+- Eureka Open API变更元数据
 ```
 curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=stable'
 ```
 
-③ Consul Open API变更元数据
+- Consul Open API变更元数据
 
 自行研究
 
-④ Zookeeper Open API变更元数据
+- Zookeeper Open API变更元数据
 
 自行研究
 
