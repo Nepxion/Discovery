@@ -1,41 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <groupId>com.nepxion</groupId>
     <artifactId>discovery-springcloud-example-eureka</artifactId>
     <name>Nepxion Discovery Spring Cloud Example Eureka</name>
     <packaging>jar</packaging>
     <modelVersion>4.0.0</modelVersion>
-    <version>1.0.0</version>
     <description>Nepxion Discovery is an enhancement for Spring Cloud Discovery</description>
     <url>http://www.nepxion.com</url>
 
-    <properties>
-        <spring.cloud.version>Edgware.SR6</spring.cloud.version>
-        <spring.boot.version>1.5.22.RELEASE</spring.boot.version>
-        <java.version>1.8</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring.cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring.boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+    <parent>
+        <groupId>com.nepxion</groupId>
+        <artifactId>discovery</artifactId>
+        <version>3.17.0-SNAPSHOT</version>
+    </parent>
 
     <dependencies>
         <dependency>
