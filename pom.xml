@@ -61,8 +61,8 @@
     </modules>
 
     <properties>
-        <eventbus.version>2.0.12</eventbus.version>
-        <matrix.version>2.0.7</matrix.version>
+        <eventbus.version>2.0.13</eventbus.version>
+        <matrix.version>2.0.8</matrix.version>
         <banner.version>1.0.2</banner.version>
         <commons.lang3.version>3.6</commons.lang3.version>
         <commons.collections4.version>4.1</commons.collections4.version>
@@ -78,7 +78,6 @@
         <spring.cloud.version>Hoxton.SR8</spring.cloud.version>
         <spring.cloud.alibaba.version>2.2.1.RELEASE</spring.cloud.alibaba.version>
         <spring.boot.version>2.3.3.RELEASE</spring.boot.version>
-        <disruptor.version>3.3.7</disruptor.version>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -434,27 +433,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.lmax</groupId>
-            <artifactId>disruptor</artifactId>
-            <version>${disruptor.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-1.2-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
 
     <build>
         <plugins>
