@@ -1,5 +1,5 @@
-org.springframework.context.ApplicationContextInitializer=\
-com.nepxion.discovery.plugin.strategy.gateway.context.GatewayStrategyApplicationContextInitializer
+org.springframework.boot.env.EnvironmentPostProcessor=\
+com.nepxion.discovery.plugin.strategy.gateway.context.GatewayStrategyEnvironmentPostProcessor
 
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.nepxion.discovery.plugin.strategy.configuration.StrategyAutoConfiguration,\
