@@ -65,9 +65,10 @@ public class DiscoveryConstant {
     public static final String PORT = "port";
     public static final String METADATA = "metadata";
 
-    public static final String SERVICE_TYPE = "service";
-    public static final String GATEWAY_TYPE = "gateway";
-    public static final String CONSOLE_TYPE = "console";
+    public static final String SERVICE = "service";
+    public static final String GATEWAY = "gateway";
+    public static final String CONSOLE = "console";
+    public static final String TEST = "test";
 
     public static final String DYNAMIC_VERSION = "dynamicVersion";
     public static final String RULE = "rule";
