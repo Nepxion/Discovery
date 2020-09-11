@@ -11,7 +11,6 @@ package com.nepxion.discovery.plugin.framework.context;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,9 +61,6 @@ public abstract class PluginApplicationContextInitializer implements Application
 
             boolean servletWebServerEnabled = applicationContext.getClass().getName().endsWith(DiscoveryConstant.ANNOTATION_CONFIG_SERVLET_WEB_SERVER_APPLICATION_CONTEXT);
             System.setProperty(DiscoveryConstant.SPRING_APPLICATION_SERVLET_WEB_SERVER_ENABLED, Boolean.toString(servletWebServerEnabled));
-
-            String uuid = UUID.randomUUID().toString();
-            System.setProperty(DiscoveryConstant.SPRING_APPLICATION_UUID, uuid);
             
             initializeDefaultProperties(applicationContext);
         }
@@ -133,7 +129,7 @@ public abstract class PluginApplicationContextInitializer implements Application
 
     @Override
     public int getOrder() {
-        return Ordered.HIGHEST_PRECEDENCE;
+        return Ordered.HIGHEST_PRECEDENCE + 1;
     }
 
     protected abstract Object afterInitialization(ConfigurableApplicationContext applicationContext, Object bean, String beanName) throws BeansException;

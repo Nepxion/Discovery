@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.ApplicationType;
 import com.nepxion.discovery.common.entity.InstanceEntity;
 import com.nepxion.discovery.common.entity.InstanceEntityWrapper;
 import com.nepxion.discovery.common.entity.UserEntity;
@@ -309,7 +310,7 @@ public class ConsoleEndpoint {
                 Map<String, String> metadata = instance.getMetadata();
                 String serviceId = instance.getServiceId().toLowerCase();
                 String serviceType = metadata.get(DiscoveryConstant.SPRING_APPLICATION_TYPE);
-                if (StringUtils.equals(serviceType, DiscoveryConstant.GATEWAY_TYPE)) {
+                if (StringUtils.equals(serviceType, ApplicationType.GATEWAY.toString())) {
                     if (!gateways.contains(serviceId)) {
                         gateways.add(serviceId);
                     }

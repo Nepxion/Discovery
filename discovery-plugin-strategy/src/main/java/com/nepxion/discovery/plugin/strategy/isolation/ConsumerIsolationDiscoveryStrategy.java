@@ -16,7 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.ApplicationType;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.listener.discovery.AbstractDiscoveryListener;
 
@@ -32,7 +32,7 @@ public class ConsumerIsolationDiscoveryStrategy extends AbstractDiscoveryListene
             ServiceInstance instance = iterator.next();
 
             String instanceServiceType = pluginAdapter.getInstanceServiceType(instance);
-            if (StringUtils.equals(instanceServiceType, DiscoveryConstant.GATEWAY_TYPE)) {
+            if (StringUtils.equals(instanceServiceType, ApplicationType.GATEWAY.toString())) {
                 continue;
             }
 
