@@ -18,7 +18,6 @@ import com.nepxion.banner.Description;
 import com.nepxion.banner.LogoBanner;
 import com.nepxion.banner.NepxionBanner;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.common.entity.ApplicationType;
 import com.taobao.text.Color;
 
 public class TestApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
@@ -44,7 +43,5 @@ public class TestApplicationContextInitializer implements ApplicationContextInit
 
             NepxionBanner.show(logoBanner, new Description(BannerConstant.VERSION + ":", DiscoveryConstant.DISCOVERY_VERSION, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
         }
-
-        System.setProperty(DiscoveryConstant.SPRING_APPLICATION_TYPE, ApplicationType.TEST.toString());
     }
 }
