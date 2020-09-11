@@ -13,10 +13,11 @@ import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.ApplicationType;
 
 public class GatewayStrategyApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
-        System.setProperty(DiscoveryConstant.SPRING_APPLICATION_TYPE, DiscoveryConstant.GATEWAY_TYPE);
+        System.setProperty(DiscoveryConstant.SPRING_APPLICATION_TYPE, ApplicationType.GATEWAY.toString());
     }
 }
