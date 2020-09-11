@@ -1,5 +1,5 @@
-org.springframework.context.ApplicationContextInitializer=\
-com.nepxion.discovery.plugin.strategy.zuul.context.ZuulStrategyApplicationContextInitializer
+org.springframework.boot.env.EnvironmentPostProcessor=\
+com.nepxion.discovery.plugin.strategy.zuul.context.ZuulStrategyEnvironmentPostProcessor
 
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.nepxion.discovery.plugin.strategy.configuration.StrategyAutoConfiguration,\
