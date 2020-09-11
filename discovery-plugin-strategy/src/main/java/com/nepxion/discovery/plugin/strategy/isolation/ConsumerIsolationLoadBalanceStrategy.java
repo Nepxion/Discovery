@@ -16,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.ApplicationType;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.AbstractLoadBalanceListener;
 import com.netflix.loadbalancer.Server;
@@ -32,7 +33,7 @@ public class ConsumerIsolationLoadBalanceStrategy extends AbstractLoadBalanceLis
             Server server = iterator.next();
 
             String serverServiceType = pluginAdapter.getServerServiceType(server);
-            if (StringUtils.equals(serverServiceType, DiscoveryConstant.GATEWAY_TYPE)) {
+            if (StringUtils.equals(serverServiceType, ApplicationType.GATEWAY.toString())) {
                 continue;
             }
 

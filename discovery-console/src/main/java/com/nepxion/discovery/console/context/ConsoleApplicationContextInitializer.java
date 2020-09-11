@@ -18,6 +18,7 @@ import com.nepxion.banner.Description;
 import com.nepxion.banner.LogoBanner;
 import com.nepxion.banner.NepxionBanner;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.ApplicationType;
 import com.taobao.text.Color;
 
 public class ConsoleApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
@@ -47,6 +48,6 @@ public class ConsoleApplicationContextInitializer implements ApplicationContextI
             System.setProperty(DiscoveryConstant.SPRING_APPLICATION_SERVLET_WEB_SERVER_ENABLED, Boolean.toString(servletWebServerEnabled));
         }
 
-        System.setProperty(DiscoveryConstant.SPRING_APPLICATION_TYPE, DiscoveryConstant.CONSOLE_TYPE);
+        System.setProperty(DiscoveryConstant.SPRING_APPLICATION_TYPE, ApplicationType.CONSOLE.toString());
     }
 }
