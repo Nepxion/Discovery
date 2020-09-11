@@ -61,7 +61,7 @@ public abstract class PluginApplicationContextInitializer implements Application
 
             boolean servletWebServerEnabled = applicationContext.getClass().getName().endsWith(DiscoveryConstant.ANNOTATION_CONFIG_SERVLET_WEB_SERVER_APPLICATION_CONTEXT);
             System.setProperty(DiscoveryConstant.SPRING_APPLICATION_SERVLET_WEB_SERVER_ENABLED, Boolean.toString(servletWebServerEnabled));
-            
+
             initializeDefaultProperties(applicationContext);
         }
 
