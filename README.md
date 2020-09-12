@@ -412,7 +412,8 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 ![](http://nepxion.gitee.io/docs/zxing-doc/微信-1.jpg)![](http://nepxion.gitee.io/docs/zxing-doc/公众号-1.jpg)![](http://nepxion.gitee.io/docs/zxing-doc/文档-1.jpg)
 
 ## 相关版本
-![](http://nepxion.gitee.io/docs/icon-doc/warning_message.png) 下面Spring Boot版本和Spring Cloud Alibaba版本版本需要在版本号后面加上.RELEASE
+![](http://nepxion.gitee.io/docs/icon-doc/question_message.png) 提醒：Spring Boot版本和Spring Cloud Alibaba版本需要在版本号后面加上.RELEASE<br>
+![](http://nepxion.gitee.io/docs/icon-doc/warning_message.png) 注意：Hoxton SR5或者以上的版本才支持Spring Boot 2.3.x.RELEASE版本
 
 | 框架版本 | 框架分支 | 框架状态 | Spring Cloud版本 | Spring Boot版本 | Spring Cloud Alibaba版本 |
 | --- | --- | --- | --- | --- | --- |
@@ -425,7 +426,6 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 
 ![](http://nepxion.gitee.io/docs/icon-doc/confirm_24.png) 表示维护中 | ![](http://nepxion.gitee.io/docs/icon-doc/arrow_up_24.png) 表示不维护，但可用，强烈建议升级 | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) 表示不维护，不可用，已废弃
 
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：Hoxton SR5或者以上的版本才支持Spring Boot 2.3.x.RELEASE版本
 - 6.x.x版本（同时适用于Finchley、Greenwich和Hoxton以及未来的更高版本），将继续维护
 - 5.x.x版本（适用于Greenwich）已废弃
 - 4.x.x版本（适用于Finchley）已废弃
