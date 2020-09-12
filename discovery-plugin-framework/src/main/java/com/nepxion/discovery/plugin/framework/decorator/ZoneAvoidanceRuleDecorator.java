@@ -104,7 +104,7 @@ public class ZoneAvoidanceRuleDecorator extends ZoneAvoidanceRule {
                 try {
                     return strategyMapWeightRandomLoadBalance.choose(serverList, strategyWeightFilterEntity);
                 } catch (Exception e) {
-                    LOG.error("Execute strategy weight-random-loadbalance failed, it will use default loadbalance", e);
+                    // LOG.error("Execute strategy weight-random-loadbalance failed, it will use default loadbalance", e);
 
                     return super.choose(key);
                 }
@@ -122,7 +122,7 @@ public class ZoneAvoidanceRuleDecorator extends ZoneAvoidanceRule {
                     try {
                         return ruleMapWeightRandomLoadBalance.choose(serverList, ruleWeightFilterEntity);
                     } catch (Exception e) {
-                        LOG.error("Execute rule weight-random-loadbalance failed, it will use default loadbalance", e);
+                        // LOG.error("Execute rule weight-random-loadbalance failed, it will use default loadbalance", e);
 
                         return super.choose(key);
                     }
