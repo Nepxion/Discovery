@@ -13,8 +13,6 @@ import java.util.Map;
 
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -24,8 +22,6 @@ import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 
 public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractStrategyTracer.class);
-
     @Autowired
     protected PluginAdapter pluginAdapter;
 
@@ -73,7 +69,7 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
 
         S span = getCurrentSpan();
         if (span == null) {
-            LOG.error("Span not found in context to trace put");
+            // LOG.error("Span not found in context to trace put");
 
             return;
         }
@@ -157,7 +153,7 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
 
         S span = getCurrentSpan();
         if (span == null) {
-            LOG.error("Span not found in context to trace error");
+            // LOG.error("Span not found in context to trace error");
 
             return;
         }
@@ -179,7 +175,7 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
         if (span != null) {
             finishSpan(span);
         } else {
-            LOG.error("Span not found in context to trace clear");
+            // LOG.error("Span not found in context to trace clear");
         }
 
         StrategyTracerContext.clearCurrentContext();
