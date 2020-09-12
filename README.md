@@ -412,7 +412,8 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 ![](http://nepxion.gitee.io/docs/zxing-doc/微信-1.jpg)![](http://nepxion.gitee.io/docs/zxing-doc/公众号-1.jpg)![](http://nepxion.gitee.io/docs/zxing-doc/文档-1.jpg)
 
 ## 相关版本
-![](http://nepxion.gitee.io/docs/icon-doc/question_message.png) 提醒：Spring Boot版本和Spring Cloud Alibaba版本需要在版本号后面加上.RELEASE<br>
+![](http://nepxion.gitee.io/docs/icon-doc/question_message.png) 提醒：Spring Boot版本和Spring Cloud Alibaba版本需要在版本号后面加上.RELEASE
+
 ![](http://nepxion.gitee.io/docs/icon-doc/warning_message.png) 注意：Hoxton SR5或者以上的版本才支持Spring Boot 2.3.x.RELEASE版本
 
 | 框架版本 | 框架分支 | 框架状态 | Spring Cloud版本 | Spring Boot版本 | Spring Cloud Alibaba版本 |
