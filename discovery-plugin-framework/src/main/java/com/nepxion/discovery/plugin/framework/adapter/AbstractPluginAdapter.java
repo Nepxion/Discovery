@@ -113,7 +113,6 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Override
     public Map<String, String> getMetadata() {
-        // 获取本服务静态元数据，当元数据通过Open API方式变更后，本服务是不会更新的
         return registration.getMetadata();
     }
 

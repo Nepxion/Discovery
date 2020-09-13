@@ -24,8 +24,8 @@ public class NacosServerListDecorator extends NacosServerList {
 
     private LoadBalanceListenerExecutor loadBalanceListenerExecutor;
 
-    public NacosServerListDecorator(NacosDiscoveryProperties discoveryProperties) {
-        super(discoveryProperties);
+    public NacosServerListDecorator(NacosDiscoveryProperties nacosDiscoveryProperties) {
+        super(nacosDiscoveryProperties);
     }
 
     @Override
