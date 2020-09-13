@@ -153,15 +153,38 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 - [**Spring Cloud Alibaba**] 阿里巴巴中间件部门开发的Spring Cloud增强套件，致力于提供微服务开发的一站式解决方案。此项目包含开发分布式应用微服务的必需组件，方便开发者通过Spring Cloud编程模型轻松使用这些组件来开发分布式应用服务。依托Spring Cloud Alibaba，只需要添加一些注解和少量配置，就可以将Spring Cloud应用接入阿里微服务解决方案，通过阿里中间件来迅速搭建分布式应用系统
 - [**OpenTracing**] OpenTracing已进入CNCF，正在为全球的分布式追踪系统提供统一的概念、规范、架构和数据标准。它通过提供平台无关、厂商无关的API，使得开发人员能够方便的添加（或更换）追踪系统的实现。对于存在多样化的技术栈共存的调用链中，OpenTracing适配Java、C、Go和.Net等技术栈，实现全链路分布式追踪功能。迄今为止，Uber Jaeger、Twitter Zipkin和Apache Skywalking已经适配了OpenTracing规范。CNCF技术委员会通过OpenTelemetry规范整合基于Tracing的OpenTracing规范（官方推荐Jaeger做Backend）和基于Metrics的OpenSensus规范（官方推荐Prometheus做Backend）
 
-④ 框架支持易用性表现，简单步骤如下
+④ 微服务框架易用性表现，如下
 - 引入相关依赖到pom.xml
-- 设置元数据MetaData。如下四个元数据可以按需设置
-    - 定义所属组名（group）或者应用名（application），也可以通过服务名前缀来自动产生服务组名
+- 设置元数据MetaData。如下五个元数据可以按需设置
+    - 定义所属组名（group），也可以通过服务名前缀来自动产生服务组名
     - 定义版本号（version），也可以通过Git插件方式自动产生版本号
     - 定义所属区域名（region）
     - 定义所属环境（env）
+    - 定义所属可用区（zone）	
 - 执行采用“约定大于配置”的准则，使用者也可以开启和关闭相关功能项或者属性值，达到最佳配置
-- 规则策略文件设置和推送
+- 规则策略文件设置和推送，或者通过Header方式传递
+
+⑤ 微服务框架版本兼容列表，如下
+
+![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 提醒：版本号右边， `↑` 表示>=该版本号， `↓` 表示<=该版本号
+
+| 框架版本 | 框架分支 | 框架状态 | Spring Cloud版本 | Spring Boot版本 | Spring Cloud Alibaba版本 |
+| --- | --- | --- | --- | --- | --- |
+| 6.1.0 | master | ![](http://nepxion.gitee.io/docs/icon-doc/confirm_24.png) | Hoxton.SR5 `↑`<br>Hoxton<br>Greenwich<br>Finchley | 2.3.x.RELEASE<br>2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
+| ~~5.6.0~~ | ~~5.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
+| ~~4.15.0~~ | ~~4.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
+| 3.17.0 | 3.x.x | ![](http://nepxion.gitee.io/docs/icon-doc/arrow_up_24.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
+| ~~2.0.x~~ | ~~2.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) | Dalston | 1.x.x.RELEASE | N/A |
+| ~~1.0.x~~ | ~~1.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) | Camden | 1.x.x.RELEASE | N/A |
+
+![](http://nepxion.gitee.io/docs/icon-doc/confirm_24.png) 表示维护中 | ![](http://nepxion.gitee.io/docs/icon-doc/arrow_up_24.png) 表示不维护，但可用，强烈建议升级 | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) 表示不维护，不可用，已废弃
+
+- 6.x.x版本（同时适用于Finchley、Greenwich和Hoxton以及未来的更高版本），将继续维护
+- 5.x.x版本（适用于Greenwich）已废弃
+- 4.x.x版本（适用于Finchley）已废弃
+- 3.x.x版本（适用于Edgware）不维护，但可用，强烈建议升级
+- 2.x.x版本（适用于Dalston）已废弃
+- 1.x.x版本（适用于Camden）已废弃
 
 ## 鸣谢
 ![](http://nepxion.gitee.io/docs/icon-doc/information.png) 鸣谢
@@ -271,7 +294,6 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 - [简介](#简介)
 - [鸣谢](#鸣谢)
 - [请联系我](#请联系我)
-- [相关版本](#相关版本)
 - [相关链接](#相关链接)
     - [源码主页](#源码主页)
     - [指南主页](#指南主页)
@@ -410,27 +432,6 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 微信、公众号和文档
 
 ![](http://nepxion.gitee.io/docs/zxing-doc/微信-1.jpg)![](http://nepxion.gitee.io/docs/zxing-doc/公众号-1.jpg)![](http://nepxion.gitee.io/docs/zxing-doc/文档-1.jpg)
-
-## 相关版本
-![](http://nepxion.gitee.io/docs/icon-doc/question_message.png) 提醒：版本号右边 `↑` 表示>=该版本号， `↓` 表示<=该版本号
-
-| 框架版本 | 框架分支 | 框架状态 | Spring Cloud版本 | Spring Boot版本 | Spring Cloud Alibaba版本 |
-| --- | --- | --- | --- | --- | --- |
-| 6.1.0 | master | ![](http://nepxion.gitee.io/docs/icon-doc/confirm_24.png) | Hoxton.SR5 `↑`<br>Hoxton<br>Greenwich<br>Finchley | 2.3.x.RELEASE<br>2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
-| ~~5.6.0~~ | ~~5.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
-| ~~4.15.0~~ | ~~4.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
-| 3.17.0 | 3.x.x | ![](http://nepxion.gitee.io/docs/icon-doc/arrow_up_24.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
-| ~~2.0.x~~ | ~~2.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) | Dalston | 1.x.x.RELEASE | N/A |
-| ~~1.0.x~~ | ~~1.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) | Camden | 1.x.x.RELEASE | N/A |
-
-![](http://nepxion.gitee.io/docs/icon-doc/confirm_24.png) 表示维护中 | ![](http://nepxion.gitee.io/docs/icon-doc/arrow_up_24.png) 表示不维护，但可用，强烈建议升级 | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) 表示不维护，不可用，已废弃
-
-- 6.x.x版本（同时适用于Finchley、Greenwich和Hoxton以及未来的更高版本），将继续维护
-- 5.x.x版本（适用于Greenwich）已废弃
-- 4.x.x版本（适用于Finchley）已废弃
-- 3.x.x版本（适用于Edgware）不维护，但可用，强烈建议升级
-- 2.x.x版本（适用于Dalston）已废弃
-- 1.x.x版本（适用于Camden）已废弃
 
 ## 相关链接
 
