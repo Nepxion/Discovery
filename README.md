@@ -3612,7 +3612,7 @@ spring.application.test.scan.packages=com.nepxion.discovery.guide.test
 # 测试用例的配置内容推送时，是否打印配置日志。缺失则默认为true
 spring.application.test.config.print.enabled=true
 # 测试用例的配置内容推送后，等待生效的时间。推送远程配置中心后，再通知各服务更新自身的配置缓存，需要一定的时间，缺失则默认为3000
-spring.application.test.config.operation.await.time=8000
+spring.application.test.config.operation.await.time=5000
 # 测试用例的配置内容推送的控制台地址。控制台是连接服务注册发现中心、远程配置中心和服务的纽带
 spring.application.test.console.url=http://localhost:6001/
 
@@ -3831,32 +3831,43 @@ public class DiscoveryGuideTestCases {
 ```
 
 #### 扩展调用测试
-除了支持灰度自动化测试外，使用者可扩展出以远程配置中心内容做变更的自动化测试。以阿里巴巴的Sentinel为例子，测试实现方式如下
+除了支持灰度自动化测试外，使用者可扩展出以远程配置中心内容做变更的自动化测试。以阿里巴巴的Sentinel的权限功能为例子，参考PolarisGuide，测试实现方式如下
 
 ① 远程配置中心约定
 
 - Nacos的Key格式
 ```
-Group为代码中的{group}，Data ID为{serviceId}-{suffix}，即{serviceId}-sentinel
+Group为DEFAULT_GROUP，Data ID为sentinel-authority-${spring.application.name}。每个服务都专享自己的Sentinel规则
 ```
 - Apollo的Key格式
 ```
-{group}-{serviceId}-sentinel
+namespace为application，Key为sentinel-authority。每个服务都专享自己的Sentinel规则
 ```
-② 执行测试用例前，把执行限流降级熔断等逻辑的内容（executePath = "sentinel-test.xml"）推送到远程配置中心
+② 执行测试用例前，把执行限流降级熔断等逻辑的内容（executePath = "sentinel-authority-2.json"）推送到远程配置中心
 
 ③ 执行测试用例，通过断言Assert来判断测试结果
 
-④ 执行测试用例后，把修改过的内容（resetPath = "sentinel-default.xml"）复原，再推送一次到远程配置中心
+④ 执行测试用例后，把修改过的内容（resetPath = "sentinel-authority-1.json"）复原，再推送一次到远程配置中心
 
 ```java
-public class DiscoveryGuideTestCases {
+public class PolarisTestCases {
     @Autowired
     private TestRestTemplate testRestTemplate;
 
-    @DTestConfig(group = "#group", serviceId = "#serviceId", suffix = "sentinel" executePath = "sentinel-test.xml", resetPath = "sentinel-default.xml")
-    public void testSentinel(String group, String serviceId, String testUrl) {
-        ...
+    @DTestConfig(group = "DEFAULT_GROUP", serviceId = "sentinel-authority-polaris-service-b", executePath = "sentinel-authority-2.json", resetPath = "sentinel-authority-1.json")
+    public void testSentinelAuthority1(String testUrl) {
+        int count = 0;
+        for (int i = 0; i < 4; i++) {
+            String result = testRestTemplate.postForEntity(testUrl, "gateway", String.class).getBody();
+
+            LOG.info("Result{} : {}", i + 1, result);
+
+            if (result.contains("AuthorityRule")) {
+                count++;
+            }
+        }
+
+        Assert.assertEquals(count, 4);
     }
 }
 ```
