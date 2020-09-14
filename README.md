@@ -197,7 +197,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 
 <img src="http://nepxion.gitee.io/docs/discovery-doc/AwardNacos1.jpg" alt="Nacos" width="50%"><img src="http://nepxion.gitee.io/docs/discovery-doc/AwardSCA1.jpg" alt="Spring Cloud Alibaba" width="50%">
 
-- 感谢使用本框架的公司和企业。不完全统计，目前社区开源项目已经被如下公司使用或者调研
+- 感谢支持和使用本框架的公司和企业。不完全统计，目前社区开源项目已经被如下公司使用或者调研
 
 <table>
   <tbody>
