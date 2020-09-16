@@ -363,18 +363,18 @@
                 {
                     "parameterMap": {
                         "service-name": "discovery-springcloud-example-a", 
-                        "tag-type": "version", 
+                        "tag-key": "version", 
                         "tag-value": "1.0", 
-                        "key": "database", 
+                        "key": "ShardingSphere", 
                         "value": "db1"
                     }
                 }, 
                 {
                     "parameterMap": {
                         "service-name": "discovery-springcloud-example-a", 
-                        "tag-type": "version", 
+                        "tag-key": "version", 
                         "tag-value": "1.1", 
-                        "key": "database", 
+                        "key": "ShardingSphere", 
                         "value": "db2"
                     }
                 }
@@ -383,18 +383,18 @@
                 {
                     "parameterMap": {
                         "service-name": "discovery-springcloud-example-b", 
-                        "tag-type": "region", 
+                        "tag-key": "region", 
                         "tag-value": "dev", 
-                        "key": "mq", 
+                        "key": "RocketMQ", 
                         "value": "queue1"
                     }
                 }, 
                 {
                     "parameterMap": {
                         "service-name": "discovery-springcloud-example-b", 
-                        "tag-type": "region", 
+                        "tag-key": "region", 
                         "tag-value": "qa", 
-                        "key": "mq", 
+                        "key": "RocketMQ", 
                         "value": "queue2"
                     }
                 }
@@ -403,18 +403,18 @@
                 {
                     "parameterMap": {
                         "service-name": "discovery-springcloud-example-c", 
-                        "tag-type": "env", 
+                        "tag-key": "env", 
                         "tag-value": "env1", 
-                        "key": "database", 
+                        "key": "ShardingSphere", 
                         "value": "db1"
                     }
                 }, 
                 {
                     "parameterMap": {
                         "service-name": "discovery-springcloud-example-c", 
-                        "tag-type": "env", 
+                        "tag-key": "env", 
                         "tag-value": "env1", 
-                        "key": "database", 
+                        "key": "ShardingSphere", 
                         "value": "db2"
                     }
                 }
@@ -423,18 +423,18 @@
                 {
                     "parameterMap": {
                         "service-name": "discovery-springcloud-example-d", 
-                        "tag-type": "zone", 
+                        "tag-key": "zone", 
                         "tag-value": "zone1", 
-                        "key": "mq", 
+                        "key": "RocketMQ", 
                         "value": "queue1"
                     }
                 }, 
                 {
                     "parameterMap": {
                         "service-name": "discovery-springcloud-example-d", 
-                        "tag-type": "zone", 
+                        "tag-key": "zone", 
                         "tag-value": "zone2", 
-                        "key": "mq", 
+                        "key": "RocketMQ", 
                         "value": "queue2"
                     }
                 }
@@ -443,18 +443,18 @@
                 {
                     "parameterMap": {
                         "service-name": "discovery-springcloud-example-e", 
-                        "tag-type": "address", 
+                        "tag-key": "address", 
                         "tag-value": "192.168.43.101:1201", 
-                        "key": "database", 
+                        "key": "ShardingSphere", 
                         "value": "db1"
                     }
                 }, 
                 {
                     "parameterMap": {
                         "service-name": "discovery-springcloud-example-e", 
-                        "tag-type": "address", 
+                        "tag-key": "address", 
                         "tag-value": "192.168.43.102:1201", 
-                        "key": "database", 
+                        "key": "ShardingSphere", 
                         "value": "db2"
                     }
                 }
