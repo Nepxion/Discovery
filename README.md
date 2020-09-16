@@ -1837,6 +1837,7 @@ public class MySubscriber {
 # 启动和关闭在服务启动的时候参数订阅事件发送。缺失则默认为true
 spring.application.parameter.event.onstart.enabled=true
 ```
+具体参考[https://github.com/Nepxion/DiscoveryContrib](https://github.com/Nepxion/DiscoveryContrib)里的实现方式
 
 ## 基于多格式的规则策略定义
 
