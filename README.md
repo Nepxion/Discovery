@@ -1816,6 +1816,9 @@ spring.application.strategy.rest.template.core.header.transmission.enabled=true
 ```java
 @EventBus
 public class MySubscriber {
+    @Autowired
+    private PluginAdapter pluginAdapter;
+
     @Subscribe
     public void onParameterChanged(ParameterChangedEvent parameterChangedEvent) {
         ParameterEntity parameterEntity = parameterChangedEvent.getParameterEntity();
