@@ -1804,7 +1804,7 @@ spring.application.strategy.rest.template.core.header.transmission.enabled=true
         <service service-name="discovery-guide-service-b" tag-key="region" tag-value="dev" key="RocketMQ" value="queue1"/>
         <service service-name="discovery-guide-service-b" tag-key="region" tag-value="qa" key="RocketMQ" value="queue2"/>
         <service service-name="discovery-guide-service-c" tag-key="env" tag-value="env1" key="ShardingSphere" value="db1"/>
-        <service service-name="discovery-guide-service-c" tag-key="env" tag-value="env1" key="ShardingSphere" value="db2"/>
+        <service service-name="discovery-guide-service-c" tag-key="env" tag-value="env2" key="ShardingSphere" value="db2"/>
         <service service-name="discovery-guide-service-d" tag-key="zone" tag-value="zone1" key="RocketMQ" value="queue1"/>
         <service service-name="discovery-guide-service-d" tag-key="zone" tag-value="zone2" key="RocketMQ" value="queue2"/>
         <service service-name="discovery-guide-service-e" tag-key="address" tag-value="192.168.43.101:1201" key="ShardingSphere" value="db1"/>
@@ -2088,7 +2088,7 @@ XML最全的示例如下，Json示例见源码discovery-springcloud-example-serv
         <service service-name="discovery-springcloud-example-b" tag-key="region" tag-value="dev" key="RocketMQ" value="queue1"/>
         <service service-name="discovery-springcloud-example-b" tag-key="region" tag-value="qa" key="RocketMQ" value="queue2"/>
         <service service-name="discovery-springcloud-example-c" tag-key="env" tag-value="env1" key="ShardingSphere" value="db1"/>
-        <service service-name="discovery-springcloud-example-c" tag-key="env" tag-value="env1" key="ShardingSphere" value="db2"/>
+        <service service-name="discovery-springcloud-example-c" tag-key="env" tag-value="env2" key="ShardingSphere" value="db2"/>
         <service service-name="discovery-springcloud-example-d" tag-key="zone" tag-value="zone1" key="RocketMQ" value="queue1"/>
         <service service-name="discovery-springcloud-example-d" tag-key="zone" tag-value="zone2" key="RocketMQ" value="queue2"/>
         <service service-name="discovery-springcloud-example-e" tag-key="address" tag-value="192.168.43.101:1201" key="ShardingSphere" value="db1"/>
