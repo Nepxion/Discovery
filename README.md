@@ -141,7 +141,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
     - 基于Git插件自动创建灰度版本号
 - 元数据Metadata运维平台策略
 - 同城双活多机房切换。基于区域匹配发布或者路由的同城双活多机房切换
-- 数据库灰度发布。基于多数据源的数据库灰度发布，内置简单的数据库灰度发布策略
+- 数据库和消息队列灰度发布。基于多Datasource的数据库灰度发布，基于多Queue的消息队列灰度发布
 - 灰度路由和发布的自动化测试。主要包括
     - 基于Spring Boot/Spring Cloud自动化测试，包括普通调用测试、灰度调用测试和扩展调用测试
     - 基于WRK的性能压力测试
@@ -341,7 +341,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
         - [全局区域权重灰度规则](#全局区域权重灰度规则)
         - [局部区域权重灰度规则](#局部区域权重灰度规则)
     - [配置全链路灰度权重和灰度匹配组合式规则](#配置全链路灰度权重和灰度匹配组合式规则)
-    - [数据库灰度发布规则](#数据库灰度发布规则)
+    - [数据库和消息队列灰度发布规则](#数据库和消息队列灰度发布规则)
 - [基于多格式的规则策略定义](#基于多格式的规则策略定义)
     - [规则策略格式定义](#规则策略格式定义)
     - [规则策略内容定义](#规则策略内容定义)
@@ -1786,19 +1786,30 @@ spring.application.strategy.rest.template.core.header.transmission.enabled=true
 ```
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide5-1.jpg)
 
-### 数据库灰度发布规则
-通过订阅业务参数的变化，实现参数化灰度发布，例如，多数据源的数据库切换的灰度发布
+### 数据库和消息队列灰度发布
+通过订阅业务参数的变化，实现参数化灰度发布，例如，基于多Datasource的数据库灰度发布，基于多Queue的消息队列灰度发布
 
 增加参数化灰度规则，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名），规则内容如下，实现功能
-- a服务指向测试数据库（database的value为qa）
-- b服务指向生产数据库（database的value为prod）
-- a服务上线后，执行数据库灰度发布，改对应value为prod，结合ShardingSphere等多数据源中间件，实现实时无缝切换，即可实现数据库灰度发布
+- 服务a在版本为1.0的时候，数据库的数据源指向db1；服务a在版本为1.1的时候，数据库的数据源指向db2
+- 服务b在区域为dev的时候，消息队列指向queue1；服务b在区域为dev的时候，消息队列指向queue2
+- 服务c在环境为env1的时候，数据库的数据源指向db1；服务c在环境为env2的时候，数据库的数据源指向db2
+- 服务d在可用区为zone1的时候，消息队列指向queue1；服务d在可用区为zone2的时候，消息队列指向queue2
+- 服务c在IP地址和端口为192.168.43.101:1201的时候，数据库的数据源指向db1；服务c在IP地址和端口为192.168.43.102:1201的时候，数据库的数据源指向db2
+上述功能都可以通过动态切换来实现，具体请自行对接相关的数据库和消息队列中间件
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
     <parameter>
-        <service service-name="discovery-guide-service-a" key="database" value="qa"/>
-        <service service-name="discovery-guide-service-b" key="database" value="prod"/>
+        <service service-name="discovery-guide-service-a" tag-type="version" tag-value="1.0" key="database" value="db1"/>
+        <service service-name="discovery-guide-service-a" tag-type="version" tag-value="1.1" key="database" value="db2"/>
+        <service service-name="discovery-guide-service-b" tag-type="region" tag-value="dev" key="mq" value="queue1"/>
+        <service service-name="discovery-guide-service-b" tag-type="region" tag-value="qa" key="mq" value="queue2"/>
+        <service service-name="discovery-guide-service-c" tag-type="env" tag-value="env1" key="database" value="db1"/>
+        <service service-name="discovery-guide-service-c" tag-type="env" tag-value="env1" key="database" value="db2"/>
+        <service service-name="discovery-guide-service-d" tag-type="zone" tag-value="zone1" key="mq" value="queue1"/>
+        <service service-name="discovery-guide-service-d" tag-type="zone" tag-value="zone2" key="mq" value="queue2"/>
+        <service service-name="discovery-guide-service-e" tag-type="address" tag-value="192.168.43.101:1201" key="database" value="db1"/>
+        <service service-name="discovery-guide-service-e" tag-type="address" tag-value="192.168.43.102:1201" key="database" value="db2"/>
     </parameter>
 </rule>
 ```
@@ -2046,12 +2057,23 @@ XML最全的示例如下，Json示例见源码discovery-springcloud-example-serv
         <address value="1301"/> -->
     </strategy-blacklist>
 
-    <!-- 参数控制，由远程推送参数的改变，实现一些特色化的灰度发布，例如，基于数据库的灰度发布 -->
+    <!-- 参数控制，由远程推送参数的改变，实现一些特色化的灰度发布，例如，基于数据库和消息队列的灰度发布 -->
     <parameter>
-        <!-- 服务a和c分别有两个库的配置，分别是测试数据库（database的value为qa）和生产数据库（database的value为prod） -->
-        <!-- 上线后，一开始数据库指向测试数据库，对应value为qa，然后灰度发布的时候，改对应value为prod，即实现数据库的灰度发布 -->
-        <service service-name="discovery-springcloud-example-a" key="database" value="qa"/>
-        <service service-name="discovery-springcloud-example-c" key="database" value="prod"/>
+        <!-- 服务a在版本为1.0的时候，数据库的数据源指向db1；服务a在版本为1.1的时候，数据库的数据源指向db2 -->
+        <!-- 服务b在区域为dev的时候，消息队列指向queue1；服务b在区域为dev的时候，消息队列指向queue2 -->
+        <!-- 服务c在环境为env1的时候，数据库的数据源指向db1；服务c在环境为env2的时候，数据库的数据源指向db2 -->
+        <!-- 服务d在可用区为zone1的时候，消息队列指向queue1；服务d在可用区为zone2的时候，消息队列指向queue2 -->
+        <!-- 服务c在IP地址和端口为192.168.43.101:1201的时候，数据库的数据源指向db1；服务c在IP地址和端口为192.168.43.102:1201的时候，数据库的数据源指向db2 -->
+        <service service-name="discovery-springcloud-example-a" tag-type="version" tag-value="1.0" key="database" value="db1"/>
+        <service service-name="discovery-springcloud-example-a" tag-type="version" tag-value="1.1" key="database" value="db2"/>
+        <service service-name="discovery-springcloud-example-b" tag-type="region" tag-value="dev" key="mq" value="queue1"/>
+        <service service-name="discovery-springcloud-example-b" tag-type="region" tag-value="qa" key="mq" value="queue2"/>
+        <service service-name="discovery-springcloud-example-c" tag-type="env" tag-value="env1" key="database" value="db1"/>
+        <service service-name="discovery-springcloud-example-c" tag-type="env" tag-value="env1" key="database" value="db2"/>
+        <service service-name="discovery-springcloud-example-d" tag-type="zone" tag-value="zone1" key="mq" value="queue1"/>
+        <service service-name="discovery-springcloud-example-d" tag-type="zone" tag-value="zone2" key="mq" value="queue2"/>
+        <service service-name="discovery-springcloud-example-e" tag-type="address" tag-value="192.168.43.101:1201" key="database" value="db1"/>
+        <service service-name="discovery-springcloud-example-e" tag-type="address" tag-value="192.168.43.102:1201" key="database" value="db2"/>
     </parameter>
 </rule>
 ```
