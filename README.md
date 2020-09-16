@@ -1795,7 +1795,6 @@ spring.application.strategy.rest.template.core.header.transmission.enabled=true
 - 服务c在环境为env1的时候，数据库的数据源指向db1；服务c在环境为env2的时候，数据库的数据源指向db2
 - 服务d在可用区为zone1的时候，消息队列指向queue1；服务d在可用区为zone2的时候，消息队列指向queue2
 - 服务c在IP地址和端口为192.168.43.101:1201的时候，数据库的数据源指向db1；服务c在IP地址和端口为192.168.43.102:1201的时候，数据库的数据源指向db2
-上述功能都可以通过动态切换来实现，具体请自行对接相关的数据库和消息队列中间件
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
@@ -1812,6 +1811,23 @@ spring.application.strategy.rest.template.core.header.transmission.enabled=true
         <service service-name="discovery-guide-service-e" tag-type="address" tag-value="192.168.43.102:1201" key="database" value="db2"/>
     </parameter>
 </rule>
+```
+通过事件总线方式，对参数改变动态实现监听，并在此类里自行对接相关的数据库和消息队列中间件的切换和驱动
+```java
+@EventBus
+public class MySubscriber {
+    @Subscribe
+    public void onParameterChanged(ParameterChangedEvent parameterChangedEvent) {
+        ParameterEntity parameterEntity = parameterChangedEvent.getParameterEntity();
+        String serviceId = pluginAdapter.getServiceId();
+        List<ParameterServiceEntity> parameterServiceEntityList = null;
+        if (parameterEntity != null) {
+            Map<String, List<ParameterServiceEntity>> parameterServiceMap = parameterEntity.getParameterServiceMap();
+            parameterServiceEntityList = parameterServiceMap.get(serviceId);
+        }
+        System.out.println("========== 获取动态参数, serviceId=" + serviceId + ", parameterServiceEntityList=" + parameterServiceEntityList);
+    }
+}
 ```
 
 ## 基于多格式的规则策略定义
