@@ -1786,7 +1786,7 @@ spring.application.strategy.rest.template.core.header.transmission.enabled=true
 ```
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide5-1.jpg)
 
-### 数据库和消息队列灰度发布
+### 数据库和消息队列灰度发布规则
 通过订阅业务参数的变化，实现参数化灰度发布，例如，基于多Datasource的数据库灰度发布，基于多Queue的消息队列灰度发布
 
 增加参数化灰度规则，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名），规则内容如下，实现功能
