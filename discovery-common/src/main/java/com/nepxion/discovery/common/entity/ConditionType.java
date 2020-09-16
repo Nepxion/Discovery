@@ -9,9 +9,11 @@ package com.nepxion.discovery.common.entity;
  * @version 1.0
  */
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
+
 public enum ConditionType {
-    BLUE_GREEN("blue-green", "blue-green"),
-    GRAY("gray", "gray");
+    BLUE_GREEN(DiscoveryConstant.BLUE_GREEN, DiscoveryConstant.BLUE_GREEN),
+    GRAY(DiscoveryConstant.GRAY, DiscoveryConstant.GRAY);
 
     private String value;
     private String description;
