@@ -1799,16 +1799,16 @@ spring.application.strategy.rest.template.core.header.transmission.enabled=true
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
     <parameter>
-        <service service-name="discovery-guide-service-a" tag-type="version" tag-value="1.0" key="database" value="db1"/>
-        <service service-name="discovery-guide-service-a" tag-type="version" tag-value="1.1" key="database" value="db2"/>
-        <service service-name="discovery-guide-service-b" tag-type="region" tag-value="dev" key="mq" value="queue1"/>
-        <service service-name="discovery-guide-service-b" tag-type="region" tag-value="qa" key="mq" value="queue2"/>
-        <service service-name="discovery-guide-service-c" tag-type="env" tag-value="env1" key="database" value="db1"/>
-        <service service-name="discovery-guide-service-c" tag-type="env" tag-value="env1" key="database" value="db2"/>
-        <service service-name="discovery-guide-service-d" tag-type="zone" tag-value="zone1" key="mq" value="queue1"/>
-        <service service-name="discovery-guide-service-d" tag-type="zone" tag-value="zone2" key="mq" value="queue2"/>
-        <service service-name="discovery-guide-service-e" tag-type="address" tag-value="192.168.43.101:1201" key="database" value="db1"/>
-        <service service-name="discovery-guide-service-e" tag-type="address" tag-value="192.168.43.102:1201" key="database" value="db2"/>
+        <service service-name="discovery-guide-service-a" tag-key="version" tag-value="1.0" key="ShardingSphere" value="db1"/>
+        <service service-name="discovery-guide-service-a" tag-key="version" tag-value="1.1" key="ShardingSphere" value="db2"/>
+        <service service-name="discovery-guide-service-b" tag-key="region" tag-value="dev" key="RocketMQ" value="queue1"/>
+        <service service-name="discovery-guide-service-b" tag-key="region" tag-value="qa" key="RocketMQ" value="queue2"/>
+        <service service-name="discovery-guide-service-c" tag-key="env" tag-value="env1" key="ShardingSphere" value="db1"/>
+        <service service-name="discovery-guide-service-c" tag-key="env" tag-value="env1" key="ShardingSphere" value="db2"/>
+        <service service-name="discovery-guide-service-d" tag-key="zone" tag-value="zone1" key="RocketMQ" value="queue1"/>
+        <service service-name="discovery-guide-service-d" tag-key="zone" tag-value="zone2" key="RocketMQ" value="queue2"/>
+        <service service-name="discovery-guide-service-e" tag-key="address" tag-value="192.168.43.101:1201" key="ShardingSphere" value="db1"/>
+        <service service-name="discovery-guide-service-e" tag-key="address" tag-value="192.168.43.102:1201" key="ShardingSphere" value="db2"/>
     </parameter>
 </rule>
 ```
@@ -2083,16 +2083,16 @@ XML最全的示例如下，Json示例见源码discovery-springcloud-example-serv
         <!-- 服务c在环境为env1的时候，数据库的数据源指向db1；服务c在环境为env2的时候，数据库的数据源指向db2 -->
         <!-- 服务d在可用区为zone1的时候，消息队列指向queue1；服务d在可用区为zone2的时候，消息队列指向queue2 -->
         <!-- 服务c在IP地址和端口为192.168.43.101:1201的时候，数据库的数据源指向db1；服务c在IP地址和端口为192.168.43.102:1201的时候，数据库的数据源指向db2 -->
-        <service service-name="discovery-springcloud-example-a" tag-type="version" tag-value="1.0" key="database" value="db1"/>
-        <service service-name="discovery-springcloud-example-a" tag-type="version" tag-value="1.1" key="database" value="db2"/>
-        <service service-name="discovery-springcloud-example-b" tag-type="region" tag-value="dev" key="mq" value="queue1"/>
-        <service service-name="discovery-springcloud-example-b" tag-type="region" tag-value="qa" key="mq" value="queue2"/>
-        <service service-name="discovery-springcloud-example-c" tag-type="env" tag-value="env1" key="database" value="db1"/>
-        <service service-name="discovery-springcloud-example-c" tag-type="env" tag-value="env1" key="database" value="db2"/>
-        <service service-name="discovery-springcloud-example-d" tag-type="zone" tag-value="zone1" key="mq" value="queue1"/>
-        <service service-name="discovery-springcloud-example-d" tag-type="zone" tag-value="zone2" key="mq" value="queue2"/>
-        <service service-name="discovery-springcloud-example-e" tag-type="address" tag-value="192.168.43.101:1201" key="database" value="db1"/>
-        <service service-name="discovery-springcloud-example-e" tag-type="address" tag-value="192.168.43.102:1201" key="database" value="db2"/>
+        <service service-name="discovery-springcloud-example-a" tag-key="version" tag-value="1.0" key="ShardingSphere" value="db1"/>
+        <service service-name="discovery-springcloud-example-a" tag-key="version" tag-value="1.1" key="ShardingSphere" value="db2"/>
+        <service service-name="discovery-springcloud-example-b" tag-key="region" tag-value="dev" key="RocketMQ" value="queue1"/>
+        <service service-name="discovery-springcloud-example-b" tag-key="region" tag-value="qa" key="RocketMQ" value="queue2"/>
+        <service service-name="discovery-springcloud-example-c" tag-key="env" tag-value="env1" key="ShardingSphere" value="db1"/>
+        <service service-name="discovery-springcloud-example-c" tag-key="env" tag-value="env1" key="ShardingSphere" value="db2"/>
+        <service service-name="discovery-springcloud-example-d" tag-key="zone" tag-value="zone1" key="RocketMQ" value="queue1"/>
+        <service service-name="discovery-springcloud-example-d" tag-key="zone" tag-value="zone2" key="RocketMQ" value="queue2"/>
+        <service service-name="discovery-springcloud-example-e" tag-key="address" tag-value="192.168.43.101:1201" key="ShardingSphere" value="db1"/>
+        <service service-name="discovery-springcloud-example-e" tag-key="address" tag-value="192.168.43.102:1201" key="ShardingSphere" value="db2"/>
     </parameter>
 </rule>
 ```
