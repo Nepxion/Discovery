@@ -119,6 +119,12 @@
 			"type": "java.lang.Boolean",
 			"defaultValue": true,
 			"description": "Whether zone route is enabled."
+		},
+		{
+			"name": "spring.application.parameter.event.onstart.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether parameter event onstart is enabled."
 		}
 	]
 }

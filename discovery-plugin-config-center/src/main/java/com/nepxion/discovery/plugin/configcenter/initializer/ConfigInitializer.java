@@ -15,13 +15,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.plugin.configcenter.loader.LocalConfigLoader;
 import com.nepxion.discovery.plugin.configcenter.loader.RemoteConfigLoader;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.config.PluginConfigParser;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
+import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
 
 public class ConfigInitializer {
     private static final Logger LOG = LoggerFactory.getLogger(ConfigInitializer.class);
@@ -35,14 +38,17 @@ public class ConfigInitializer {
     @Autowired
     private PluginConfigParser pluginConfigParser;
 
-    // @Autowired
-    // private PluginEventWapper pluginEventWapper;
+    @Autowired
+    private PluginEventWapper pluginEventWapper;
 
     @Autowired
     private LocalConfigLoader localConfigLoader;
 
     @Autowired(required = false)
     private RemoteConfigLoader remoteConfigLoader;
+
+    @Value("${" + DiscoveryConstant.SPRING_APPLICATION_PARAMETER_EVENT_ONSTART_ENABLED + ":true}")
+    private Boolean parameterEventOnstartEnabled;
 
     @PostConstruct
     public void initialize() {
@@ -97,8 +103,10 @@ public class ConfigInitializer {
             LOG.info("No configs are found");
         }
 
-        // 初始化配置的时候，不应该触发fireParameterChanged的EventBus事件
-        // pluginEventWapper.fireParameterChanged();
+        // 初始化配置的时候，是否触发fireParameterChanged的EventBus事件
+        if (parameterEventOnstartEnabled) {
+            pluginEventWapper.fireParameterChanged();
+        }
 
         LOG.info("--------------------------------------------------");
     }
