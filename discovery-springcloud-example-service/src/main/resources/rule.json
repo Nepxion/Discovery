@@ -413,7 +413,7 @@
                     "parameterMap": {
                         "service-name": "discovery-springcloud-example-c", 
                         "tag-key": "env", 
-                        "tag-value": "env1", 
+                        "tag-value": "env2", 
                         "key": "ShardingSphere", 
                         "value": "db2"
                     }
