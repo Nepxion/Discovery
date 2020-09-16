@@ -108,6 +108,12 @@ public class DiscoveryConstant {
     public static final String N_D_ID_BLACKLIST = "n-d-id-blacklist";
     public static final String N_D_ADDRESS_BLACKLIST = "n-d-address-blacklist";
 
+    public static final String BLUE_GREEN = "blue-green";
+    public static final String GRAY = "gray";
+
+    public static final String BLACKLIST = "blacklist";
+    public static final String WHITELIST = "whitelist";
+
     public static final String TRACE_ID = "trace-id";
     public static final String SPAN_ID = "span-id";
     public static final String SPAN_VALUE = "NEPXION";

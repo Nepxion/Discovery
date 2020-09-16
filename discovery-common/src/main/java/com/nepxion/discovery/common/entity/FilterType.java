@@ -9,9 +9,11 @@ package com.nepxion.discovery.common.entity;
  * @version 1.0
  */
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
+
 public enum FilterType {
-    BLACKLIST("blacklist", "blacklist"),
-    WHITELIST("whitelist", "whitelist");
+    BLACKLIST(DiscoveryConstant.BLACKLIST, DiscoveryConstant.BLACKLIST),
+    WHITELIST(DiscoveryConstant.WHITELIST, DiscoveryConstant.WHITELIST);
 
     private String value;
     private String description;
