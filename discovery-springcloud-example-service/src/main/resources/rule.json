@@ -358,13 +358,108 @@
         ]
     }, 
     "parameterEntity": {
-        "parameterMap": {
-            "discovery-springcloud-example-a": {
-                "database": "qa"
-            }, 
-            "discovery-springcloud-example-c": {
-                "database": "prod"
-            }
+        "parameterServiceMap": {
+            "discovery-springcloud-example-a": [
+                {
+                    "parameterMap": {
+                        "service-name": "discovery-springcloud-example-a", 
+                        "tag-type": "version", 
+                        "tag-value": "1.0", 
+                        "key": "database", 
+                        "value": "db1"
+                    }
+                }, 
+                {
+                    "parameterMap": {
+                        "service-name": "discovery-springcloud-example-a", 
+                        "tag-type": "version", 
+                        "tag-value": "1.1", 
+                        "key": "database", 
+                        "value": "db2"
+                    }
+                }
+            ], 
+            "discovery-springcloud-example-b": [
+                {
+                    "parameterMap": {
+                        "service-name": "discovery-springcloud-example-b", 
+                        "tag-type": "region", 
+                        "tag-value": "dev", 
+                        "key": "mq", 
+                        "value": "queue1"
+                    }
+                }, 
+                {
+                    "parameterMap": {
+                        "service-name": "discovery-springcloud-example-b", 
+                        "tag-type": "region", 
+                        "tag-value": "qa", 
+                        "key": "mq", 
+                        "value": "queue2"
+                    }
+                }
+            ], 
+            "discovery-springcloud-example-c": [
+                {
+                    "parameterMap": {
+                        "service-name": "discovery-springcloud-example-c", 
+                        "tag-type": "env", 
+                        "tag-value": "env1", 
+                        "key": "database", 
+                        "value": "db1"
+                    }
+                }, 
+                {
+                    "parameterMap": {
+                        "service-name": "discovery-springcloud-example-c", 
+                        "tag-type": "env", 
+                        "tag-value": "env1", 
+                        "key": "database", 
+                        "value": "db2"
+                    }
+                }
+            ], 
+            "discovery-springcloud-example-d": [
+                {
+                    "parameterMap": {
+                        "service-name": "discovery-springcloud-example-d", 
+                        "tag-type": "zone", 
+                        "tag-value": "zone1", 
+                        "key": "mq", 
+                        "value": "queue1"
+                    }
+                }, 
+                {
+                    "parameterMap": {
+                        "service-name": "discovery-springcloud-example-d", 
+                        "tag-type": "zone", 
+                        "tag-value": "zone2", 
+                        "key": "mq", 
+                        "value": "queue2"
+                    }
+                }
+            ], 
+            "discovery-springcloud-example-e": [
+                {
+                    "parameterMap": {
+                        "service-name": "discovery-springcloud-example-e", 
+                        "tag-type": "address", 
+                        "tag-value": "192.168.43.101:1201", 
+                        "key": "database", 
+                        "value": "db1"
+                    }
+                }, 
+                {
+                    "parameterMap": {
+                        "service-name": "discovery-springcloud-example-e", 
+                        "tag-type": "address", 
+                        "tag-value": "192.168.43.102:1201", 
+                        "key": "database", 
+                        "value": "db2"
+                    }
+                }
+            ]
         }
-    }
+    }, 
+    "content": ""
 }

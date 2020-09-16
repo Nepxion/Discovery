@@ -218,11 +218,22 @@
         <address value="1301"/> -->
     </strategy-blacklist>
 
-    <!-- 参数控制，由远程推送参数的改变，实现一些特色化的灰度发布，例如，基于数据库的灰度发布 -->
+    <!-- 参数控制，由远程推送参数的改变，实现一些特色化的灰度发布，例如，基于数据库和消息队列的灰度发布 -->
     <parameter>
-        <!-- 服务a和c分别有两个库的配置，分别是测试数据库（database的value为qa）和生产数据库（database的value为prod） -->
-        <!-- 上线后，一开始数据库指向测试数据库，对应value为qa，然后灰度发布的时候，改对应value为prod，即实现数据库的灰度发布 -->
-        <service service-name="discovery-springcloud-example-a" key="database" value="qa"/>
-        <service service-name="discovery-springcloud-example-c" key="database" value="prod"/>
+        <!-- 服务a在版本为1.0的时候，数据库的数据源指向db1；服务a在版本为1.1的时候，数据库的数据源指向db2 -->
+        <!-- 服务b在区域为dev的时候，消息队列指向queue1；服务b在区域为dev的时候，消息队列指向queue2 -->
+        <!-- 服务c在环境为env1的时候，数据库的数据源指向db1；服务c在环境为env2的时候，数据库的数据源指向db2 -->
+        <!-- 服务d在可用区为zone1的时候，消息队列指向queue1；服务d在可用区为zone2的时候，消息队列指向queue2 -->
+        <!-- 服务c在IP地址和端口为192.168.43.101:1201的时候，数据库的数据源指向db1；服务c在IP地址和端口为192.168.43.102:1201的时候，数据库的数据源指向db2 -->
+        <service service-name="discovery-springcloud-example-a" tag-type="version" tag-value="1.0" key="database" value="db1"/>
+        <service service-name="discovery-springcloud-example-a" tag-type="version" tag-value="1.1" key="database" value="db2"/>
+        <service service-name="discovery-springcloud-example-b" tag-type="region" tag-value="dev" key="mq" value="queue1"/>
+        <service service-name="discovery-springcloud-example-b" tag-type="region" tag-value="qa" key="mq" value="queue2"/>
+        <service service-name="discovery-springcloud-example-c" tag-type="env" tag-value="env1" key="database" value="db1"/>
+        <service service-name="discovery-springcloud-example-c" tag-type="env" tag-value="env1" key="database" value="db2"/>
+        <service service-name="discovery-springcloud-example-d" tag-type="zone" tag-value="zone1" key="mq" value="queue1"/>
+        <service service-name="discovery-springcloud-example-d" tag-type="zone" tag-value="zone2" key="mq" value="queue2"/>
+        <service service-name="discovery-springcloud-example-e" tag-type="address" tag-value="192.168.43.101:1201" key="database" value="db1"/>
+        <service service-name="discovery-springcloud-example-e" tag-type="address" tag-value="192.168.43.102:1201" key="database" value="db2"/>
     </parameter>
 </rule>

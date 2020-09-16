@@ -31,6 +31,7 @@ import com.nepxion.discovery.common.entity.FilterHolderEntity;
 import com.nepxion.discovery.common.entity.FilterType;
 import com.nepxion.discovery.common.entity.HostFilterEntity;
 import com.nepxion.discovery.common.entity.ParameterEntity;
+import com.nepxion.discovery.common.entity.ParameterServiceEntity;
 import com.nepxion.discovery.common.entity.RegionEntity;
 import com.nepxion.discovery.common.entity.RegionFilterEntity;
 import com.nepxion.discovery.common.entity.RegionWeightEntity;
@@ -316,9 +317,9 @@ public class XmlConfigParser implements PluginConfigParser {
         strategyBlacklistEntity.setAddressList(addressList);
     }
 
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     private void parseParameter(Element element, ParameterEntity parameterEntity) {
-        Map<String, Map<String, String>> parameterMap = parameterEntity.getParameterMap();
+        Map<String, List<ParameterServiceEntity>> parameterServiceMap = parameterEntity.getParameterServiceMap();
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
             if (childElementObject instanceof Element) {
@@ -331,24 +332,22 @@ public class XmlConfigParser implements PluginConfigParser {
                     }
                     String serviceName = serviceNameAttribute.getData().toString().trim();
 
-                    Attribute keyAttribute = childElement.attribute(ConfigConstant.KEY_ATTRIBUTE_NAME);
-                    if (keyAttribute == null) {
-                        throw new DiscoveryException("Attribute[" + ConfigConstant.KEY_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
-                    }
-                    String key = keyAttribute.getData().toString().trim();
+                    ParameterServiceEntity parameterServiceEntity = new ParameterServiceEntity();
 
-                    Attribute valueAttribute = childElement.attribute(ConfigConstant.VALUE_ATTRIBUTE_NAME);
-                    if (valueAttribute == null) {
-                        throw new DiscoveryException("Attribute[" + ConfigConstant.VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
-                    }
-                    String value = valueAttribute.getData().toString().trim();
+                    for (Iterator<Attribute> iterator = childElement.attributeIterator(); iterator.hasNext();) {
+                        Attribute attribute = iterator.next();
+                        String key = attribute.getName();
+                        String value = attribute.getData().toString().trim();
 
-                    Map<String, String> parameter = parameterMap.get(serviceName);
-                    if (parameter == null) {
-                        parameter = new LinkedHashMap<String, String>();
-                        parameterMap.put(serviceName, parameter);
+                        parameterServiceEntity.getParameterMap().put(key, value);
                     }
-                    parameter.put(key, value);
+
+                    List<ParameterServiceEntity> parameterServiceList = parameterServiceMap.get(serviceName);
+                    if (parameterServiceList == null) {
+                        parameterServiceList = new ArrayList<ParameterServiceEntity>();
+                        parameterServiceMap.put(serviceName, parameterServiceList);
+                    }
+                    parameterServiceList.add(parameterServiceEntity);
                 }
             }
         }

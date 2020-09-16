@@ -9,12 +9,14 @@ package com.nepxion.discovery.plugin.example.service.impl;
  * @version 1.0
  */
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.eventbus.Subscribe;
 import com.nepxion.discovery.common.entity.ParameterEntity;
+import com.nepxion.discovery.common.entity.ParameterServiceEntity;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.event.ParameterChangedEvent;
 import com.nepxion.discovery.plugin.framework.event.RegisterFailureEvent;
@@ -47,12 +49,12 @@ public class MySubscriber {
     public void onParameterChanged(ParameterChangedEvent parameterChangedEvent) {
         ParameterEntity parameterEntity = parameterChangedEvent.getParameterEntity();
         String serviceId = pluginAdapter.getServiceId();
-        Map<String, String> parameter = null;
+        List<ParameterServiceEntity> parameterServiceEntityList = null;
         if (parameterEntity != null) {
-            Map<String, Map<String, String>> parameterMap = parameterEntity.getParameterMap();
-            parameter = parameterMap.get(serviceId);
+            Map<String, List<ParameterServiceEntity>> parameterServiceMap = parameterEntity.getParameterServiceMap();
+            parameterServiceEntityList = parameterServiceMap.get(serviceId);
         }
-        System.out.println("========== 获取动态参数, serviceId=" + serviceId + ", parameter=" + parameter);
+        System.out.println("========== 获取动态参数, serviceId=" + serviceId + ", parameterServiceEntityList=" + parameterServiceEntityList);
     }
 
     @Subscribe
