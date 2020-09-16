@@ -11,7 +11,6 @@ package com.nepxion.discovery.common.entity;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -19,17 +18,17 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class ParameterEntity implements Serializable {
-    private static final long serialVersionUID = -5135099669922746855L;
+public class ParameterServiceEntity implements Serializable {
+    private static final long serialVersionUID = 3102584092049806966L;
 
-    private Map<String, List<ParameterServiceEntity>> parameterServiceMap = new LinkedHashMap<String, List<ParameterServiceEntity>>();
+    private Map<String, String> parameterMap = new LinkedHashMap<String, String>();
 
-    public Map<String, List<ParameterServiceEntity>> getParameterServiceMap() {
-        return parameterServiceMap;
+    public Map<String, String> getParameterMap() {
+        return parameterMap;
     }
 
-    public void setParameterServiceMap(Map<String, List<ParameterServiceEntity>> parameterServiceMap) {
-        this.parameterServiceMap = parameterServiceMap;
+    public void setParameterMap(Map<String, String> parameterMap) {
+        this.parameterMap = parameterMap;
     }
 
     @Override
