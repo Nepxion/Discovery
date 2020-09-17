@@ -11,7 +11,7 @@ package com.nepxion.discovery.common.entity;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
-public enum ApplicationType {
+public enum ServiceType {
     SERVICE(DiscoveryConstant.SERVICE, DiscoveryConstant.SERVICE), 
     GATEWAY(DiscoveryConstant.GATEWAY, DiscoveryConstant.GATEWAY), 
     CONSOLE(DiscoveryConstant.CONSOLE, DiscoveryConstant.CONSOLE), 
@@ -20,7 +20,7 @@ public enum ApplicationType {
     private String value;
     private String description;
 
-    private ApplicationType(String value, String description) {
+    private ServiceType(String value, String description) {
         this.value = value;
         this.description = description;
     }
@@ -33,8 +33,8 @@ public enum ApplicationType {
         return description;
     }
 
-    public static ApplicationType fromString(String value) {
-        for (ApplicationType type : ApplicationType.values()) {
+    public static ServiceType fromString(String value) {
+        for (ServiceType type : ServiceType.values()) {
             if (type.getValue().equalsIgnoreCase(value)) {
                 return type;
             }
