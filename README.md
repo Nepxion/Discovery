@@ -2983,6 +2983,11 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 3. 线程、线程池的扫描目录为自定义Runnable，Callable对象所在类的目录
 ```	
 
+参考指南示例中的异步服务启动参数。扫描目录中的三个包名，视具体场景按需配置
+```xml
+-javaagent:C:/opt/discovery-agent/discovery-plugin-strategy-starter-agent-6.1.0.jar -Dthread.scan.packages=org.springframework.aop.interceptor;com.netflix.hystrix;com.nepxion.discovery.guide.service.feign
+```
+
 ### 插件扩展
 - 根据规范开发一个插件，插件提供了钩子函数，在某个类被加载的时候，可以注册一个事件到线程上下文切换事件当中，实现业务自定义ThreadLocal的跨线程传递。参考：discovery-plugin-strategy-starter-agent-plugin模块的com.nepxion.discovery.plugin.strategy.starter.agent.plugin.service下的实现方式
 - plugin目录为放置需要在线程切换时进行ThreadLocal传递的自定义插件。业务自定义插件开发完后，放入到plugin目录下即可
