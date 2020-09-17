@@ -17,13 +17,13 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.StandardEnvironment;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.common.entity.ApplicationType;
+import com.nepxion.discovery.common.entity.ServiceType;
 
 public class ConsoleEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
         if (StringUtils.equals(environment.getClass().getName(), StandardEnvironment.class.getName())) {
-            System.setProperty(DiscoveryConstant.SPRING_APPLICATION_TYPE, ApplicationType.CONSOLE.toString());
+            System.setProperty(DiscoveryConstant.SPRING_APPLICATION_TYPE, ServiceType.CONSOLE.toString());
         }
     }
 
