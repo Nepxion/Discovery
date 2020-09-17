@@ -33,7 +33,6 @@
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-transport-simple-http</artifactId>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
