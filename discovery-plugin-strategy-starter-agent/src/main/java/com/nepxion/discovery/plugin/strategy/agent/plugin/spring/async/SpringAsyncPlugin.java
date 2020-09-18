@@ -52,9 +52,11 @@ public class SpringAsyncPlugin extends Plugin {
                             method.insertBefore(sb.toString());
                         }
                     }
+
                     return ctClass.toBytecode();
                 } catch (Exception e) {
                     LOG.warn(String.format("Transform %s error,message:", className), e);
+
                     return null;
                 }
             }
