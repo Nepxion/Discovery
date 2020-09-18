@@ -44,7 +44,7 @@ public class SpringAsyncPlugin extends Plugin {
                         for (int i = 0; i < parameterTypes.length; i++) {
                             final String paramTypeName = parameterTypes[i].getName();
                             if (CALLABLE_CLASS_NAME.equals(paramTypeName)) {
-                                sb.append(String.format("$%d = %s($%d);", i + 1, WrapCallable.class.getName(), i + 1));
+                                sb.append(String.format("$%d = new %s($%d);", i + 1, WrapCallable.class.getName(), i + 1));
                             }
                         }
 
