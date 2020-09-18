@@ -16,12 +16,17 @@ import java.security.ProtectionDomain;
 
 import com.nepxion.discovery.plugin.strategy.agent.callback.TransformCallback;
 import com.nepxion.discovery.plugin.strategy.agent.callback.TransformTemplate;
+import com.nepxion.discovery.plugin.strategy.agent.logger.AgentLogger;
 import com.nepxion.discovery.plugin.strategy.agent.matcher.ClassMatcher;
 import com.nepxion.discovery.plugin.strategy.agent.matcher.MatcherFactory;
 import com.nepxion.discovery.plugin.strategy.agent.plugin.Plugin;
 import com.nepxion.discovery.plugin.strategy.agent.util.ClassInfo;
 
 public class SpringAsyncPlugin extends Plugin {
+    public static final String CALLABLE_CLASS_NAME = "java.util.concurrent.Callable";
+
+    private static final AgentLogger LOG = AgentLogger.getLogger(SpringAsyncPlugin.class.getName());
+
     @Override
     public void install(TransformTemplate transformTemplate) {
         ClassMatcher classNameMatcher = MatcherFactory.newClassNameMatcher("org.springframework.aop.interceptor.AsyncExecutionAspectSupport");
@@ -34,21 +39,22 @@ public class SpringAsyncPlugin extends Plugin {
                     CtClass ctClass = classInfo.getCtClass();
                     CtMethod method = ctClass.getMethod("doSubmit", "(Ljava/util/concurrent/Callable;Lorg/springframework/core/task/AsyncTaskExecutor;Ljava/lang/Class;)Ljava/lang/Object;");
                     if (null != method) {
-                        String code = "";
+                        StringBuffer sb = new StringBuffer();
                         CtClass[] parameterTypes = method.getParameterTypes();
                         for (int i = 0; i < parameterTypes.length; i++) {
                             final String paramTypeName = parameterTypes[i].getName();
-                            if ("java.util.concurrent.Callable".equals(paramTypeName)) {
-                                code += String.format("$%d = new com.nepxion.discovery.plugin.strategy.agent.plugin.spring.async.WrapCallable($%d);", i + 1, i + 1);
+                            if (CALLABLE_CLASS_NAME.equals(paramTypeName)) {
+                                sb.append(String.format("$%d = %s($%d);", i + 1, WrapCallable.class.getName(), i + 1));
                             }
                         }
 
-                        if (code.length() > 0) {
-                            method.insertBefore(code);
+                        if (sb.length() > 0) {
+                            method.insertBefore(sb.toString());
                         }
                     }
                     return ctClass.toBytecode();
                 } catch (Exception e) {
+                    LOG.warn(String.format("Transform %s error,message:", className), e);
                     return null;
                 }
             }
