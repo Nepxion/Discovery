@@ -1,10 +1,5 @@
 package com.nepxion.discovery.plugin.strategy.agent.plugin.spring.async;
 
-import com.nepxion.discovery.plugin.strategy.agent.async.AsyncContext;
-import com.nepxion.discovery.plugin.strategy.agent.async.AsyncContextAccessor;
-import com.nepxion.discovery.plugin.strategy.agent.threadlocal.ThreadLocalCopier;
-import java.util.concurrent.Callable;
-
 /**
  * <p>Title: Nepxion Discovery</p>
  * <p>Description: Nepxion Discovery</p>
@@ -14,8 +9,13 @@ import java.util.concurrent.Callable;
  * @version 1.0
  */
 
-public class WrapCallable<T> implements AsyncContextAccessor, Callable<T> {
+import java.util.concurrent.Callable;
 
+import com.nepxion.discovery.plugin.strategy.agent.async.AsyncContext;
+import com.nepxion.discovery.plugin.strategy.agent.async.AsyncContextAccessor;
+import com.nepxion.discovery.plugin.strategy.agent.threadlocal.ThreadLocalCopier;
+
+public class WrapCallable<T> implements AsyncContextAccessor, Callable<T> {
     private Callable<T> callable;
     private AsyncContext asyncContext;
 
