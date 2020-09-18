@@ -187,7 +187,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 - 1.x.x版本（适用于Camden）已废弃
 
 ## 鸣谢
-![](http://nepxion.gitee.io/docs/icon-doc/star3.png) 鸣谢
+![](http://nepxion.gitee.io/docs/icon-doc/star3.png) 郑重鸣谢
 - 感谢阿里巴巴中间件Nacos、Sentinel和Spring Cloud Alibaba团队，尤其是Nacos负责人@彦林、@于怀，Sentinel负责人@宿何、@子衿，Spring Cloud Alibaba负责人@小马哥、@洛夜、@亦盏的技术支持
 - 感谢携程Apollo团队，尤其是@宋顺，特意开发OpenApi包和技术支持
 - 感谢代码贡献者，包括@zifeihan，@Ax1an，@WeihuaWang，@张顺，@Esun，@liumapp，@terranhu，@JikaiSun，@HaoHuang，@FanYang，@Ankeway，@liquanjin等
