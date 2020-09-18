@@ -2364,7 +2364,7 @@ spring.application.zone.route.enabled=true
 
 通过集成Sentinel，在服务端实现该功能
 
-![](http://nepxion.gitee.io/docs/icon-doc/information.png) 下面方式也可以通过Spring Cloud Alibaba Sentinel功能来实现
+![](http://nepxion.gitee.io/docs/icon-doc/information.png) 由于该块功能早于Spring Cloud Alibaba Sentinel而产生，下述功能可以通过Spring Cloud Alibaba Sentinel功能来实现
 
 封装NacosDataSource和ApolloDataSource，支持Nacos和Apollo两个远程配置中心，零代码实现Sentinel功能。更多的远程配置中心，请参照Sentinel官方的DataSource并自行集成
 
