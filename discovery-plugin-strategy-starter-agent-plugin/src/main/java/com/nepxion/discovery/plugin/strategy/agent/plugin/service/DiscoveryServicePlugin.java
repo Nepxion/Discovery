@@ -25,7 +25,7 @@ public class DiscoveryServicePlugin extends Plugin {
         transformTemplate.transform(classMatcher, new TransformCallback() {
             @Override
             public byte[] doInTransform(ClassLoader classLoader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) {
-                ThreadLocalCopier.register(new RestStrategyContextHook());
+                ThreadLocalCopier.register(new ServiceStrategyContextHook());
 
                 return null;
             }

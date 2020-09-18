@@ -20,7 +20,7 @@ import com.nepxion.discovery.plugin.strategy.service.context.RestStrategyContext
 import com.nepxion.discovery.plugin.strategy.service.context.RpcStrategyContext;
 import com.nepxion.discovery.plugin.strategy.service.decorator.ServiceStrategyRequestDecoratorFactory;
 
-public class RestStrategyContextHook implements ThreadLocalHook {
+public class ServiceStrategyContextHook implements ThreadLocalHook {
     private Boolean requestDecoratorEnabled = Boolean.valueOf(System.getProperty(ThreadConstant.THREAD_REQUEST_DECORATOR_ENABLED, "true"));
 
     @Override
