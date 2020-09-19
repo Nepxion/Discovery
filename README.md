@@ -1562,8 +1562,9 @@ n-d-version={"discovery-guide-service-a":"gray", "discovery-guide-service-b":"st
 
 - Nacos Open API变更元数据
 ```
-curl -X PUT 'http://ip:port/nacos/v1/ns/service?serviceName={appId}&metadata=version%3stable'
+curl -X PUT 'http://ip:port/nacos/v1/ns/instance?serviceName={appId}&ip={ip}&port={port}&metadata={"version", "stable"}
 ```
+Nacos Open Api使用手册，参考[https://nacos.io/zh-cn/docs/open-api.html](https://nacos.io/zh-cn/docs/open-api.html)
 
 - Eureka Open API变更元数据
 ```
