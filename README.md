@@ -535,15 +535,15 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 | <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-framework-consul | 核心框架服务注册发现的Consul实现 |
 | <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-framework-zookeeper | 核心框架服务注册发现的Zookeeper实现 |
 | <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-framework-nacos | 核心框架服务注册发现的Nacos实现 |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-register-center-starter-eureka | 注册中心的Eureka Starter |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-register-center-starter-consul | 注册中心的Consul Starter |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-register-center-starter-zookeeper | 注册中心的Zookeeper Starter |
+| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-register-center-starter-nacos | 注册中心的Nacos Starter |
 | <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-config-center | 配置中心 |
 | <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-config-center-starter-apollo | 配置中心的Apollo Starter |
 | <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-config-center-starter-nacos | 配置中心的Nacos Starter |
 | <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-config-center-starter-redis | 配置中心的Redis Starter |
 | <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-admin-center | 管理中心 |
-| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-starter-eureka | 核心框架的Eureka Starter |
-| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-starter-consul | 核心框架的Consul Starter |
-| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-starter-zookeeper | 核心框架的Zookeeper Starter |
-| <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-starter-nacos | 核心框架的Nacos Starter |
 | <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy | 路由策略 |
 | <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-sentinel | 路由策略的Sentinel |
 | <img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-sentinel-monitor | 路由策略的Sentinel监控 |
@@ -601,10 +601,10 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
-    <artifactId>discovery-plugin-starter-nacos</artifactId>
-    <artifactId>discovery-plugin-starter-eureka</artifactId>
-    <artifactId>discovery-plugin-starter-consul</artifactId>
-    <artifactId>discovery-plugin-starter-zookeeper</artifactId>
+    <artifactId>discovery-plugin-register-center-starter-nacos</artifactId>
+    <artifactId>discovery-plugin-register-center-starter-eureka</artifactId>
+    <artifactId>discovery-plugin-register-center-starter-consul</artifactId>
+    <artifactId>discovery-plugin-register-center-starter-zookeeper</artifactId>
     <version>${discovery.version}</version>
 </dependency>
 ```
