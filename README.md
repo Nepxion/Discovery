@@ -2986,7 +2986,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 
 参考指南示例中的异步服务启动参数。扫描目录中的三个包名，视具体场景按需配置
 ```xml
--javaagent:C:/opt/discovery-agent/discovery-plugin-strategy-starter-agent-6.1.0.jar -Dthread.scan.packages=org.springframework.aop.interceptor;com.netflix.hystrix;com.nepxion.discovery.guide.service.feign
+-javaagent:C:/opt/discovery-agent/discovery-plugin-strategy-starter-agent-${version}.jar -Dthread.scan.packages=org.springframework.aop.interceptor;com.netflix.hystrix;com.nepxion.discovery.guide.service.feign
 ```
 
 ### 插件扩展
