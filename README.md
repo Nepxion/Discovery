@@ -2964,7 +2964,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 ### 插件获取
 插件获取方式有两种方式
 - 通过[https://github.com/Nepxion/Discovery/releases](https://github.com/Nepxion/Discovery/releases)下载最新版本的Discovery Agent
-- 编译[https://github.com/Nepxion/Discovery](https://github.com/Nepxion/Discovery)的master分支，执行mvn clean install,产生discovery-agent目录
+- 编译[https://github.com/Nepxion/Discovery](https://github.com/Nepxion/Discovery)的master分支，执行mvn clean install，产生discovery-agent目录
 
 ### 插件使用
 - discovery-plugin-strategy-starter-agent-`$`{discovery.version}.jar为Agent引导启动程序，JVM启动时进行加载；discovery-agent/plugin目录包含discovery-plugin-strategy-starter-agent-plugin-`$`{discovery.version}.jar为nepxion-discovery自带的实现方案，业务系统可以自定义plugin，解决业务自己定义的上下文跨线程传递
