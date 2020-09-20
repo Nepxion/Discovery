@@ -2967,10 +2967,10 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 - 编译[https://github.com/Nepxion/Discovery](https://github.com/Nepxion/Discovery)的master分支，执行mvn clean install,产生discovery-agent目录
 
 ### 插件使用
-- discovery-plugin-strategy-starter-agent-{discovery.version}.jar为Agent引导启动程序，JVM启动时进行加载；discovery-agent/plugin目录包含discovery-plugin-strategy-starter-agent-plugin-{discovery.version}.jar为nepxion-discovery自带的实现方案，业务系统可以自定义plugin，解决业务自己定义的上下文跨线程传递
+- discovery-plugin-strategy-starter-agent-${discovery.version}.jar为Agent引导启动程序，JVM启动时进行加载；discovery-agent/plugin目录包含discovery-plugin-strategy-starter-agent-plugin-${discovery.version}.jar为nepxion-discovery自带的实现方案，业务系统可以自定义plugin，解决业务自己定义的上下文跨线程传递
 - 通过如下-javaagent启动
 ```xml
--javaagent:/discovery-agent/discovery-plugin-strategy-starter-agent-{discovery.version}.jar -Dthread.scan.packages=com.abc;com.xyz
+-javaagent:/discovery-agent/discovery-plugin-strategy-starter-agent-${discovery.version}.jar -Dthread.scan.packages=com.abc;com.xyz
 ```
 
 参数说明
@@ -2986,7 +2986,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 
 参考指南示例中的异步服务启动参数。扫描目录中的三个包名，视具体场景按需配置
 ```xml
--javaagent:C:/opt/discovery-agent/discovery-plugin-strategy-starter-agent-${version}.jar -Dthread.scan.packages=org.springframework.aop.interceptor;com.netflix.hystrix;com.nepxion.discovery.guide.service.feign
+-javaagent:C:/opt/discovery-agent/discovery-plugin-strategy-starter-agent-${discovery.version}.jar -Dthread.scan.packages=org.springframework.aop.interceptor;com.netflix.hystrix;com.nepxion.discovery.guide.service.feign
 ```
 
 ### 插件扩展
