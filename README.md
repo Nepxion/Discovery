@@ -692,24 +692,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 </dependency>
 ```
 
-⑦ 异步跨线程Agent依赖引入
-
-异步跨线程Agent的引入，通过Java Agent方式启动。灰度路由Header和调用链Span在Hystrix线程池隔离模式下或者线程、线程池、@Async注解等异步调用Feign或者RestTemplate时，通过线程上下文切换会存在丢失Header的问题。通过该插件解决，支持微服务端、网关Zuul端和网关Spring Cloud Gateway端
-```xml
-<dependency>
-    <groupId>com.nepxion</groupId>
-    <artifactId>discovery-plugin-strategy-starter-agent</artifactId>
-    <version>${discovery.version}</version>
-</dependency>
-
-<dependency>
-    <groupId>com.nepxion</groupId>
-    <artifactId>discovery-plugin-strategy-starter-agent-plugin</artifactId>
-    <version>${discovery.version}</version>
-</dependency>
-```
-
-⑧ 自动化测试插件依赖引入
+⑦ 自动化测试插件依赖引入
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -717,6 +700,14 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
     <version>${discovery.version}</version>
 </dependency>
 ```
+
+⑧ 异步跨线程Agent引入
+
+异步跨线程Agent的引入，通过Java Agent方式启动。灰度路由Header和调用链Span在Hystrix线程池隔离模式下或者线程、线程池、@Async注解等异步调用Feign或者RestTemplate时，通过线程上下文切换会存在丢失Header的问题。通过该插件解决，支持微服务端、网关Zuul端和网关Spring Cloud Gateway端
+```xml
+-javaagent:/discovery-agent/discovery-plugin-strategy-starter-agent-${discovery.version}.jar -Dthread.scan.packages=com.abc;com.xyz
+```
+具体参考下文
 
 ## 准备工作
 为了更好的阐述框架的各项功能，本文围绕指南示例展开，请使用者先进行下面的准备工作。指南示例以Nacos为服务注册中心和配置中心展开介绍，使用者可自行换成其它服务注册中心和配置中心
