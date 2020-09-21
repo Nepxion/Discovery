@@ -3641,9 +3641,21 @@ spring.application.git.generator.path=classpath:git.properties
 - 一键运行install-docker-console.bat或者.sh，把控制平台全自动部署且运行起来
 - 一键运行install-docker-admin.bat或者.sh，把监控平台全自动部署且运行起来	
 
-⑥ 上述步骤为演示步骤，和DevOps平台结合在一起，更为完美
+上述步骤为演示步骤，和DevOps平台结合在一起，更为完美
+
+⑥ Docker运行效果
+
+- Docker Desktop
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Docker.jpg)
+
+- Docker Windows
+
+![](http://nepxion.gitee.io/docs/polaris-doc/DockerWindows.jpg)
+
+- Docker Linux
+
+![](http://nepxion.gitee.io/docs/polaris-doc/DockerLinux.jpg)
 
 ### Kubernetes平台支持
 请自行研究
