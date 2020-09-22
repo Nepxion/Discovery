@@ -21,9 +21,4 @@ public class DiscoveryGatewayPlugin extends AbstractPlugin {
     protected String getHookClassName() {
         return "com.nepxion.discovery.plugin.strategy.agent.plugin.gateway.GatewayStrategyContextHook";
     }
-
-    @Override
-    protected Class<?> getPluginClass() {
-        return DiscoveryGatewayPlugin.class;
-    }
 }
