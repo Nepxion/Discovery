@@ -13,11 +13,11 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.nepxion.discovery.plugin.strategy.agent.threadlocal.ThreadLocalHook;
+import com.nepxion.discovery.plugin.strategy.agent.plugin.AbstractHook;
 import com.nepxion.discovery.plugin.strategy.zuul.context.ZuulStrategyContext;
 import com.netflix.zuul.context.RequestContext;
 
-public class ZuulStrategyContextHook implements ThreadLocalHook {
+public class ZuulStrategyContextHook extends AbstractHook {
     @Override
     public Object create() {
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
