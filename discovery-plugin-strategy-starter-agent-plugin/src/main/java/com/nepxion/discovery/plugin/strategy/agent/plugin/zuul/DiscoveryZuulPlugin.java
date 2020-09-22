@@ -19,6 +19,6 @@ public class DiscoveryZuulPlugin extends AbstractPlugin {
 
     @Override
     protected String getHookClassName() {
-        return "com.nepxion.discovery.plugin.strategy.agent.plugin.zuul.ZuulStrategyContextHook";
+        return ZuulStrategyContextHook.class.getName();
     }
 }

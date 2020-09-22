@@ -29,8 +29,8 @@ public class SpringAsyncPlugin extends Plugin {
 
     @Override
     public void install(TransformTemplate transformTemplate) {
-        ClassMatcher classNameMatcher = MatcherFactory.newClassNameMatcher("org.springframework.aop.interceptor.AsyncExecutionAspectSupport");
-        transformTemplate.transform(classNameMatcher, new TransformCallback() {
+        ClassMatcher classMatcher = MatcherFactory.newClassNameMatcher("org.springframework.aop.interceptor.AsyncExecutionAspectSupport");
+        transformTemplate.transform(classMatcher, new TransformCallback() {
             @Override
             public byte[] doInTransform(ClassLoader classLoader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) {
 

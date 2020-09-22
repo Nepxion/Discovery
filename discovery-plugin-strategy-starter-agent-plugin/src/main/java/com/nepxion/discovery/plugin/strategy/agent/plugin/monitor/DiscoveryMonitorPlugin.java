@@ -19,6 +19,6 @@ public class DiscoveryMonitorPlugin extends AbstractPlugin {
 
     @Override
     protected String getHookClassName() {
-        return "com.nepxion.discovery.plugin.strategy.agent.plugin.monitor.StrategyTracerContextHook";
+        return StrategyTracerContextHook.class.getName();
     }
 }

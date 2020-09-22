@@ -9,6 +9,9 @@ package com.nepxion.discovery.plugin.strategy.agent.plugin;
  * @version 1.0
  */
 
+import java.net.URLClassLoader;
+import java.security.ProtectionDomain;
+
 import com.nepxion.discovery.plugin.strategy.agent.callback.TransformCallback;
 import com.nepxion.discovery.plugin.strategy.agent.callback.TransformTemplate;
 import com.nepxion.discovery.plugin.strategy.agent.loader.AgentClassLoader;
@@ -16,9 +19,6 @@ import com.nepxion.discovery.plugin.strategy.agent.logger.AgentLogger;
 import com.nepxion.discovery.plugin.strategy.agent.matcher.ClassMatcher;
 import com.nepxion.discovery.plugin.strategy.agent.matcher.MatcherFactory;
 import com.nepxion.discovery.plugin.strategy.agent.threadlocal.ThreadLocalCopier;
-
-import java.net.URLClassLoader;
-import java.security.ProtectionDomain;
 
 public abstract class AbstractPlugin extends Plugin {
     private final static AgentLogger LOG = AgentLogger.getLogger(AbstractPlugin.class.getName());
@@ -48,5 +48,4 @@ public abstract class AbstractPlugin extends Plugin {
     protected abstract String getMatcherClassName();
 
     protected abstract String getHookClassName();
-
 }
