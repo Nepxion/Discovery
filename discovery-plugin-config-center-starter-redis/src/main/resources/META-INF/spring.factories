@@ -1,3 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.nepxion.discovery.common.redis.configuration.RedisAutoConfiguration,\
-com.nepxion.discovery.plugin.configcenter.redis.configuration.RedisConfigAutoConfiguration

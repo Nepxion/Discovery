@@ -1,3 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.nepxion.discovery.plugin.strategy.sentinel.configuration.SentinelStrategyAutoConfiguration,\
-com.nepxion.discovery.plugin.strategy.sentinel.apollo.configuration.SentinelStrategyApolloAutoConfiguration

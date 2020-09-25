@@ -1,2 +1,0 @@
-org.springframework.context.ApplicationContextInitializer=\
-com.nepxion.discovery.plugin.example.service.context.MyApplicationContextInitializer
