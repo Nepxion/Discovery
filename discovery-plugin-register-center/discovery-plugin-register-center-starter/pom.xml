@@ -19,5 +19,15 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>discovery-plugin-framework-starter</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>discovery-plugin-config-center-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>discovery-plugin-admin-center-starter</artifactId>
+        </dependency>
     </dependencies>
 </project>
