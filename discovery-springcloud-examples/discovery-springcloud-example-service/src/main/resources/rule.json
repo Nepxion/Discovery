@@ -1,0 +1,465 @@
+{
+    "registerEntity": {
+        "hostFilterEntity": {
+            "filterType": "BLACKLIST", 
+            "filterValueList": [
+                "10.10", 
+                "11.11"
+            ], 
+            "filterMap": {
+                "discovery-springcloud-example-a": [
+                    "172.16"
+                ]
+            }
+        }, 
+        "countFilterEntity": {
+            "filterValue": 10000, 
+            "filterMap": {
+                "discovery-springcloud-example-a": 5000
+            }
+        }
+    }, 
+    "discoveryEntity": {
+        "hostFilterEntity": {
+            "filterType": "BLACKLIST", 
+            "filterValueList": [
+                "10.10", 
+                "11.11"
+            ], 
+            "filterMap": {
+                "discovery-springcloud-example-b": [
+                    "172.16"
+                ]
+            }
+        }, 
+        "versionFilterEntity": {
+            "versionEntityMap": {
+                "discovery-springcloud-example-a": [
+                    {
+                        "consumerServiceName": "discovery-springcloud-example-a", 
+                        "providerServiceName": "discovery-springcloud-example-b", 
+                        "consumerVersionValueList": [
+                            "1.0"
+                        ], 
+                        "providerVersionValueList": [
+                            "1.0"
+                        ]
+                    }, 
+                    {
+                        "consumerServiceName": "discovery-springcloud-example-a", 
+                        "providerServiceName": "discovery-springcloud-example-b", 
+                        "consumerVersionValueList": [
+                            "1.1"
+                        ], 
+                        "providerVersionValueList": [
+                            "1.1"
+                        ]
+                    }
+                ], 
+                "discovery-springcloud-example-b": [
+                    {
+                        "consumerServiceName": "discovery-springcloud-example-b", 
+                        "providerServiceName": "discovery-springcloud-example-c", 
+                        "consumerVersionValueList": [
+                            "1.0"
+                        ], 
+                        "providerVersionValueList": [
+                            "1.0", 
+                            "1.1"
+                        ]
+                    }, 
+                    {
+                        "consumerServiceName": "discovery-springcloud-example-b", 
+                        "providerServiceName": "discovery-springcloud-example-c", 
+                        "consumerVersionValueList": [
+                            "1.1"
+                        ], 
+                        "providerVersionValueList": [
+                            "1.2"
+                        ]
+                    }
+                ]
+            }
+        }, 
+        "regionFilterEntity": {
+            "regionEntityMap": {
+                "discovery-springcloud-example-a": [
+                    {
+                        "consumerServiceName": "discovery-springcloud-example-a", 
+                        "providerServiceName": "discovery-springcloud-example-b", 
+                        "consumerRegionValueList": [
+                            "dev"
+                        ], 
+                        "providerRegionValueList": [
+                            "dev"
+                        ]
+                    }, 
+                    {
+                        "consumerServiceName": "discovery-springcloud-example-a", 
+                        "providerServiceName": "discovery-springcloud-example-b", 
+                        "consumerRegionValueList": [
+                            "qa"
+                        ], 
+                        "providerRegionValueList": [
+                            "qa"
+                        ]
+                    }
+                ], 
+                "discovery-springcloud-example-b": [
+                    {
+                        "consumerServiceName": "discovery-springcloud-example-b", 
+                        "providerServiceName": "discovery-springcloud-example-c", 
+                        "consumerRegionValueList": [
+                            "dev"
+                        ], 
+                        "providerRegionValueList": [
+                            "dev"
+                        ]
+                    }, 
+                    {
+                        "consumerServiceName": "discovery-springcloud-example-b", 
+                        "providerServiceName": "discovery-springcloud-example-c", 
+                        "consumerRegionValueList": [
+                            "qa"
+                        ], 
+                        "providerRegionValueList": [
+                            "qa"
+                        ]
+                    }
+                ]
+            }
+        }, 
+        "weightFilterEntity": {
+            "versionWeightEntityMap": {
+                "discovery-springcloud-example-b": [
+                    {
+                        "weightMap": {
+                            "1.0": 90, 
+                            "1.1": 10
+                        }, 
+                        "consumerServiceName": "discovery-springcloud-example-b", 
+                        "providerServiceName": "discovery-springcloud-example-c", 
+                        "type": "VERSION"
+                    }
+                ]
+            }, 
+            "versionWeightEntityList": [
+                {
+                    "weightMap": {
+                        "1.0": 90, 
+                        "1.1": 10
+                    }, 
+                    "consumerServiceName": null, 
+                    "providerServiceName": "discovery-springcloud-example-c", 
+                    "type": "VERSION"
+                }
+            ], 
+            "versionWeightEntity": {
+                "weightMap": {
+                    "1.0": 90, 
+                    "1.1": 10
+                }
+            }, 
+            "regionWeightEntityMap": {
+                "discovery-springcloud-example-b": [
+                    {
+                        "weightMap": {
+                            "dev": 85, 
+                            "qa": 15
+                        }, 
+                        "consumerServiceName": "discovery-springcloud-example-b", 
+                        "providerServiceName": "discovery-springcloud-example-c", 
+                        "type": "REGION"
+                    }
+                ]
+            }, 
+            "regionWeightEntityList": [
+                {
+                    "weightMap": {
+                        "dev": 85, 
+                        "qa": 15
+                    }, 
+                    "consumerServiceName": null, 
+                    "providerServiceName": "discovery-springcloud-example-c", 
+                    "type": "REGION"
+                }
+            ], 
+            "regionWeightEntity": {
+                "weightMap": {
+                    "dev": 85, 
+                    "qa": 15
+                }
+            }
+        }
+    }, 
+    "strategyEntity": {
+        "versionValue": "{\"discovery-springcloud-example-a\":\"1.0\", \"discovery-springcloud-example-b\":\"1.0\", \"discovery-springcloud-example-c\":\"1.0;1.2\"}", 
+        "regionValue": "{\"discovery-springcloud-example-a\":\"qa;dev\", \"discovery-springcloud-example-b\":\"dev\", \"discovery-springcloud-example-c\":\"qa\"}", 
+        "addressValue": "{\"discovery-springcloud-example-a\":\"192.168.43.101:1100\", \"discovery-springcloud-example-b\":\"192.168.43.101:1201\", \"discovery-springcloud-example-c\":\"192.168.43.101:1300\"}", 
+        "versionWeightValue": "{\"discovery-springcloud-example-a\":\"1.0=90;1.1=10\", \"discovery-springcloud-example-b\":\"1.0=90;1.1=10\", \"discovery-springcloud-example-c\":\"1.0=90;1.1=10\"}", 
+        "regionWeightValue": "{\"discovery-springcloud-example-a\":\"dev=85;qa=15\", \"discovery-springcloud-example-b\":\"dev=85;qa=15\", \"discovery-springcloud-example-c\":\"dev=85;qa=15\"}"
+    }, 
+    "strategyCustomizationEntity": {
+        "strategyConditionBlueGreenEntityList": [
+            {
+                "id": "1", 
+                "conditionHeader": "#H['a'] == '1' && #H['b'] == '2'", 
+                "versionId": "a-1", 
+                "regionId": "b-1", 
+                "addressId": "c-1", 
+                "versionWeightId": "d-1", 
+                "regionWeightId": "e-1"
+            }, 
+            {
+                "id": "2", 
+                "conditionHeader": "#H['c'] == '3'", 
+                "versionId": "a-2", 
+                "regionId": "b-2", 
+                "addressId": "c-2", 
+                "versionWeightId": "d-2", 
+                "regionWeightId": "e-2"
+            }
+        ], 
+        "strategyConditionGrayEntityList": [
+            {
+                "id": "1", 
+                "conditionHeader": "#H['a'] == '1' && #H['b'] == '2'", 
+                "versionWeightEntity": {
+                    "weightMap": {
+                        "a-1": 10, 
+                        "a-2": 90
+                    }
+                }, 
+                "regionWeightEntity": {
+                    "weightMap": {
+                        "b-1": 20, 
+                        "b-2": 80
+                    }
+                }, 
+                "addressWeightEntity": {
+                    "weightMap": {
+                        "c-1": 30, 
+                        "c-2": 70
+                    }
+                }
+            }, 
+            {
+                "id": "2", 
+                "conditionHeader": "#H['c'] == '3'", 
+                "versionWeightEntity": {
+                    "weightMap": {
+                        "a-1": 90, 
+                        "a-2": 10
+                    }
+                }, 
+                "regionWeightEntity": {
+                    "weightMap": {
+                        "b-1": 80, 
+                        "b-2": 20
+                    }
+                }, 
+                "addressWeightEntity": {
+                    "weightMap": {
+                        "c-1": 70, 
+                        "c-2": 30
+                    }
+                }
+            }, 
+            {
+                "id": "3", 
+                "conditionHeader": null, 
+                "versionWeightEntity": {
+                    "weightMap": {
+                        "a-1": 5, 
+                        "a-2": 95
+                    }
+                }, 
+                "regionWeightEntity": {
+                    "weightMap": {
+                        "b-1": 5, 
+                        "b-2": 95
+                    }
+                }, 
+                "addressWeightEntity": {
+                    "weightMap": {
+                        "c-1": 5, 
+                        "c-2": 95
+                    }
+                }
+            }
+        ], 
+        "strategyRouteEntityList": [
+            {
+                "id": "a-1", 
+                "type": "VERSION", 
+                "value": "{\"discovery-springcloud-example-a\":\"1.0\", \"discovery-springcloud-example-b\":\"1.0\", \"discovery-springcloud-example-c\":\"1.0;1.2\"}"
+            }, 
+            {
+                "id": "a-2", 
+                "type": "VERSION", 
+                "value": "{\"discovery-springcloud-example-a\":\"1.1\", \"discovery-springcloud-example-b\":\"1.1\", \"discovery-springcloud-example-c\":\"1.2\"}"
+            }, 
+            {
+                "id": "b-1", 
+                "type": "REGION", 
+                "value": "{\"discovery-springcloud-example-a\":\"qa;dev\", \"discovery-springcloud-example-b\":\"dev\", \"discovery-springcloud-example-c\":\"qa\"}"
+            }, 
+            {
+                "id": "b-2", 
+                "type": "REGION", 
+                "value": "{\"discovery-springcloud-example-a\":\"qa\", \"discovery-springcloud-example-b\":\"qa\", \"discovery-springcloud-example-c\":\"qa\"}"
+            }, 
+            {
+                "id": "c-1", 
+                "type": "ADDRESS", 
+                "value": "{\"discovery-springcloud-example-a\":\"192.168.43.101:1100\", \"discovery-springcloud-example-b\":\"192.168.43.101:1201\", \"discovery-springcloud-example-c\":\"192.168.43.101:1300\"}"
+            }, 
+            {
+                "id": "c-2", 
+                "type": "ADDRESS", 
+                "value": "{\"discovery-springcloud-example-a\":\"192.168.43.101:1101\", \"discovery-springcloud-example-b\":\"192.168.43.101:1201\", \"discovery-springcloud-example-c\":\"192.168.43.101:1301\"}"
+            }, 
+            {
+                "id": "d-1", 
+                "type": "VERSION_WEIGHT", 
+                "value": "{\"discovery-springcloud-example-a\":\"1.0=90;1.1=10\", \"discovery-springcloud-example-b\":\"1.0=90;1.1=10\", \"discovery-springcloud-example-c\":\"1.0=90;1.1=10\"}"
+            }, 
+            {
+                "id": "d-2", 
+                "type": "VERSION_WEIGHT", 
+                "value": "{\"discovery-springcloud-example-a\":\"1.0=10;1.1=90\", \"discovery-springcloud-example-b\":\"1.0=10;1.1=90\", \"discovery-springcloud-example-c\":\"1.0=10;1.1=90\"}"
+            }, 
+            {
+                "id": "e-1", 
+                "type": "REGION_WEIGHT", 
+                "value": "{\"discovery-springcloud-example-a\":\"dev=85;qa=15\", \"discovery-springcloud-example-b\":\"dev=85;qa=15\", \"discovery-springcloud-example-c\":\"dev=85;qa=15\"}"
+            }, 
+            {
+                "id": "e-2", 
+                "type": "REGION_WEIGHT", 
+                "value": "{\"discovery-springcloud-example-a\":\"dev=15;qa=85\", \"discovery-springcloud-example-b\":\"dev=15;qa=85\", \"discovery-springcloud-example-c\":\"dev=15;qa=85\"}"
+            }
+        ], 
+        "strategyHeaderEntity": {
+            "headerMap": {
+                "a": "1"
+            }
+        }
+    }, 
+    "strategyBlacklistEntity": {
+        "idList": [
+            "e92edde5-0153-4ec8-9cbb-b4d3f415aa33", 
+            "af043384-c8a5-451e-88f4-457914e8e3bc"
+        ], 
+        "addressList": [
+            "192.168.43.101:1201", 
+            "192.168.*.102", 
+            "1301"
+        ]
+    }, 
+    "parameterEntity": {
+        "parameterServiceMap": {
+            "discovery-springcloud-example-a": [
+                {
+                    "parameterMap": {
+                        "service-name": "discovery-springcloud-example-a", 
+                        "tag-key": "version", 
+                        "tag-value": "1.0", 
+                        "key": "ShardingSphere", 
+                        "value": "db1"
+                    }
+                }, 
+                {
+                    "parameterMap": {
+                        "service-name": "discovery-springcloud-example-a", 
+                        "tag-key": "version", 
+                        "tag-value": "1.1", 
+                        "key": "ShardingSphere", 
+                        "value": "db2"
+                    }
+                }
+            ], 
+            "discovery-springcloud-example-b": [
+                {
+                    "parameterMap": {
+                        "service-name": "discovery-springcloud-example-b", 
+                        "tag-key": "region", 
+                        "tag-value": "dev", 
+                        "key": "RocketMQ", 
+                        "value": "queue1"
+                    }
+                }, 
+                {
+                    "parameterMap": {
+                        "service-name": "discovery-springcloud-example-b", 
+                        "tag-key": "region", 
+                        "tag-value": "qa", 
+                        "key": "RocketMQ", 
+                        "value": "queue2"
+                    }
+                }
+            ], 
+            "discovery-springcloud-example-c": [
+                {
+                    "parameterMap": {
+                        "service-name": "discovery-springcloud-example-c", 
+                        "tag-key": "env", 
+                        "tag-value": "env1", 
+                        "key": "ShardingSphere", 
+                        "value": "db1"
+                    }
+                }, 
+                {
+                    "parameterMap": {
+                        "service-name": "discovery-springcloud-example-c", 
+                        "tag-key": "env", 
+                        "tag-value": "env2", 
+                        "key": "ShardingSphere", 
+                        "value": "db2"
+                    }
+                }
+            ], 
+            "discovery-springcloud-example-d": [
+                {
+                    "parameterMap": {
+                        "service-name": "discovery-springcloud-example-d", 
+                        "tag-key": "zone", 
+                        "tag-value": "zone1", 
+                        "key": "RocketMQ", 
+                        "value": "queue1"
+                    }
+                }, 
+                {
+                    "parameterMap": {
+                        "service-name": "discovery-springcloud-example-d", 
+                        "tag-key": "zone", 
+                        "tag-value": "zone2", 
+                        "key": "RocketMQ", 
+                        "value": "queue2"
+                    }
+                }
+            ], 
+            "discovery-springcloud-example-e": [
+                {
+                    "parameterMap": {
+                        "service-name": "discovery-springcloud-example-e", 
+                        "tag-key": "address", 
+                        "tag-value": "192.168.43.101:1201", 
+                        "key": "ShardingSphere", 
+                        "value": "db1"
+                    }
+                }, 
+                {
+                    "parameterMap": {
+                        "service-name": "discovery-springcloud-example-e", 
+                        "tag-key": "address", 
+                        "tag-value": "192.168.43.102:1201", 
+                        "key": "ShardingSphere", 
+                        "value": "db2"
+                    }
+                }
+            ]
+        }
+    }, 
+    "content": ""
+}

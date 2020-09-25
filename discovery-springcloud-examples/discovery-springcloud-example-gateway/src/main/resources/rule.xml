@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <discovery>
+        <version>
+            <!-- 表示网关g的1.0，允许访问提供端服务a的1.0版本 -->
+            <service consumer-service-name="discovery-springcloud-example-gateway" provider-service-name="discovery-springcloud-example-a" consumer-version-value="1.0" provider-version-value="1.0"/>
+            <!-- 表示网关g的1.1，允许访问提供端服务a的1.1版本 -->
+            <service consumer-service-name="discovery-springcloud-example-gateway" provider-service-name="discovery-springcloud-example-a" consumer-version-value="1.1" provider-version-value="1.1"/>
+        </version>
+    </discovery>
+</rule>

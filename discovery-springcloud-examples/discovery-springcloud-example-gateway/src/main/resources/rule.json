@@ -1,0 +1,30 @@
+{
+    "discoveryEntity": {
+        "versionFilterEntity": {
+            "versionEntityMap": {
+                "discovery-springcloud-example-gateway": [
+                    {
+                        "consumerServiceName": "discovery-springcloud-example-gateway", 
+                        "providerServiceName": "discovery-springcloud-example-a", 
+                        "consumerVersionValueList": [
+                            "1.0"
+                        ], 
+                        "providerVersionValueList": [
+                            "1.0"
+                        ]
+                    }, 
+                    {
+                        "consumerServiceName": "discovery-springcloud-example-gateway", 
+                        "providerServiceName": "discovery-springcloud-example-a", 
+                        "consumerVersionValueList": [
+                            "1.1"
+                        ], 
+                        "providerVersionValueList": [
+                            "1.1"
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+}
