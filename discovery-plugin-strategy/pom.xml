@@ -3,7 +3,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <artifactId>discovery-plugin-strategy</artifactId>
     <name>Nepxion Discovery Plugin Strategy</name>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
     <modelVersion>4.0.0</modelVersion>
     <description>Nepxion Discovery is an enhancement for Spring Cloud Discovery</description>
     <url>http://www.nepxion.com</url>
@@ -14,10 +14,23 @@
         <version>6.3.0-SNAPSHOT</version>
     </parent>
 
-    <dependencies>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>discovery-plugin-framework</artifactId>
-        </dependency>
-    </dependencies>
+    <modules>
+        <module>discovery-plugin-strategy-starter</module>
+        <module>discovery-plugin-strategy-starter-service</module>
+        <module>discovery-plugin-strategy-starter-service-sentinel</module>
+        <module>discovery-plugin-strategy-starter-zuul</module>
+        <module>discovery-plugin-strategy-starter-gateway</module>
+        <module>discovery-plugin-strategy-starter-hystrix</module>
+        <module>discovery-plugin-strategy-starter-opentracing</module>
+        <module>discovery-plugin-strategy-starter-skywalking</module>
+        <module>discovery-plugin-strategy-starter-sentinel</module>
+        <module>discovery-plugin-strategy-starter-sentinel-monitor</module>
+        <module>discovery-plugin-strategy-starter-sentinel-local</module>
+        <module>discovery-plugin-strategy-starter-sentinel-apollo</module>
+        <module>discovery-plugin-strategy-starter-sentinel-nacos</module>
+        <module>discovery-plugin-strategy-starter-sentinel-opentracing</module>
+        <module>discovery-plugin-strategy-starter-sentinel-skywalking</module>		
+        <module>discovery-plugin-strategy-starter-agent</module>
+        <module>discovery-plugin-strategy-starter-agent-plugin</module>
+    </modules>
 </project>
