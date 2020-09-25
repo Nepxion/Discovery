@@ -1,0 +1,5 @@
+org.springframework.context.ApplicationContextInitializer=\
+com.nepxion.discovery.plugin.registercenter.consul.context.ConsulApplicationContextInitializer
+
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.nepxion.discovery.plugin.registercenter.consul.configuration.ConsulAutoConfiguration

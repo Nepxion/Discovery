@@ -1,0 +1,8 @@
+org.springframework.boot.env.EnvironmentPostProcessor=\
+com.nepxion.discovery.plugin.test.automation.context.TestEnvironmentPostProcessor
+
+org.springframework.context.ApplicationContextInitializer=\
+com.nepxion.discovery.plugin.test.automation.context.TestApplicationContextInitializer
+
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.nepxion.discovery.plugin.test.automation.configuration.TestAutoConfiguration

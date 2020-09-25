@@ -1,0 +1,5 @@
+org.springframework.context.ApplicationContextInitializer=\
+com.nepxion.discovery.plugin.registercenter.eureka.context.EurekaApplicationContextInitializer
+
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.nepxion.discovery.plugin.registercenter.eureka.configuration.EurekaAutoConfiguration
