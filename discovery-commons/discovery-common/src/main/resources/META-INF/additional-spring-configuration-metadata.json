@@ -1,0 +1,130 @@
+{
+	"properties": [
+		{
+			"name": "spring.application.register.control.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether register control is enabled."
+		},
+		{
+			"name": "spring.application.discovery.control.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether discovery control is enabled."
+		},
+		{
+			"name": "spring.application.config.rest.control.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether config rest control is enabled."
+		},
+		{
+			"name": "spring.application.config.format",
+			"type": "java.lang.String",
+			"defaultValue": "xml",
+			"description": "Config format, it can be xml or json."
+		},
+		{
+			"name": "spring.application.config.path",
+			"type": "java.lang.String",
+			"defaultValue": "classpath:rule.xml",
+			"description": "Config path, it can be classpath:xxx or file:xxx."
+		},
+		{
+			"name": "spring.application.group.key",
+			"type": "java.lang.String",
+			"defaultValue": "group",
+			"description": "Group key."
+		},
+		{
+			"name": "spring.application.default.properties.path",
+			"type": "java.lang.String",
+			"defaultValue": "spring-application-default.properties",
+			"description": "Default properties path, it can be classpath:xxx or file:xxx."
+		},
+		{
+			"name": "spring.application.group.generator.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": false,
+			"description": "Whether group generator is enabled."
+		},
+		{
+			"name": "spring.application.group.generator.length",
+			"type": "java.lang.Integer",
+			"defaultValue": -1,
+			"description": "Group generator length."
+		},
+		{
+			"name": "spring.application.group.generator.character",
+			"type": "java.lang.String",
+			"defaultValue": "",
+			"description": "Group generator character."
+		},
+		{
+			"name": "spring.application.git.generator.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": false,
+			"description": "Whether git generator is enabled."
+		},
+		{
+			"name": "spring.application.git.generator.path",
+			"type": "java.lang.String",
+			"defaultValue": "classpath:git.json",
+			"description": "Git generator path, it can be classpath:xxx or file:xxx."
+		},
+		{
+			"name": "spring.application.git.version.key",
+			"type": "java.lang.String",
+			"defaultValue": "git.commit.id",
+			"description": "Git version key, it can be git.commit.id or git.build.version or another."
+		},
+		{
+			"name": "spring.application.no.servers.retry.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": false,
+			"description": "Whether no server retry is enabled."
+		},
+		{
+			"name": "spring.application.no.servers.retry.times",
+			"type": "java.lang.Integer",
+			"defaultValue": 5,
+			"description": "No servers for retry times."
+		},
+		{
+			"name": "spring.application.no.servers.retry.await.time",
+			"type": "java.lang.Integer",
+			"defaultValue": 2000,
+			"description": "No servers for retry await time."
+		},
+		{
+			"name": "spring.application.no.servers.notify.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": false,
+			"description": "Whether no server notify is enabled."
+		},
+		{
+			"name": "spring.application.environment.route",
+			"type": "java.lang.String",
+			"defaultValue": "common",
+			"description": "An environment will be routed to."
+		},
+		{
+			"name": "spring.application.zone.affinity.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": false,
+			"description": "Whether zone affinity is enabled."
+		},
+		{
+			"name": "spring.application.zone.route.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether zone route is enabled."
+		},
+		{
+			"name": "spring.application.parameter.event.onstart.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether parameter event onstart is enabled."
+		}
+	]
+}
