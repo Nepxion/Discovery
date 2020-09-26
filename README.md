@@ -2995,6 +2995,67 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 - 根据规范开发一个插件，插件提供了钩子函数，在某个类被加载的时候，可以注册一个事件到线程上下文切换事件当中，实现业务自定义ThreadLocal的跨线程传递。参考：discovery-plugin-strategy-starter-agent-plugin模块的com.nepxion.discovery.plugin.strategy.starter.agent.plugin.service下的实现方式
 - plugin目录为放置需要在线程切换时进行ThreadLocal传递的自定义插件。业务自定义插件开发完后，放入到plugin目录下即可
 
+具体步骤介绍，如下
+- 新建一个模块，引入如下依赖
+```java
+<dependency>
+    <groupId>${project.groupId}</groupId>
+    <artifactId>discovery-plugin-strategy-starter-agent</artifactId>
+    <scope>provided</scope>
+</dependency>
+```
+- 新建一个ThreadLocalHook类继承AbstractThreadLocalHook，参考GatewayStrategyContextHook
+```java
+public class GatewayStrategyContextHook extends AbstractThreadLocalHook {
+    @Override
+    public Object create() {
+        // 从主线程的ThreadLocal里获取并返回上下文对象 
+        return GatewayStrategyContext.getCurrentContext().getExchange();
+    }
+
+    @Override
+    public void before(Object object) {
+        // 把create方法里获取到的上下文对象放置到子线程的ThreadLocal里
+        if (object instanceof ServerWebExchange) {
+            GatewayStrategyContext.getCurrentContext().setExchange((ServerWebExchange) object);
+        }
+    }
+
+    @Override
+    public void after() {
+        // 线程结束，销毁上下文对象
+        GatewayStrategyContext.clearCurrentContext();
+    }
+}
+```
+- 新建一个Plugin类继承AbstractPlugin，参考DiscoveryGatewayPlugin
+```java
+public class DiscoveryGatewayPlugin extends AbstractPlugin {
+    @Override
+    protected String getMatcherClassName() {
+        // 返回存储ThreadLocal对象的类名，由于插件是可以插拔的，所以必须是字符串形式，不允许是显式引入类
+        return "com.nepxion.discovery.plugin.strategy.gateway.context.GatewayStrategyContext";
+    }
+
+    @Override
+    protected String getHookClassName() {
+        // 返回ThreadLocalHook类名
+        return GatewayStrategyContextHook.class.getName();
+    }
+}
+```
+- 定义SPI扩展，在src/main/resources/META-INF/services目录下定义SPI文件
+
+名称为固定如下格式
+```
+com.nepxion.discovery.plugin.strategy.agent.plugin.Plugin
+```
+内容为Plugin类的全路径（以DiscoveryGatewayPlugin为例）
+```
+com.nepxion.discovery.plugin.strategy.agent.plugin.gateway.DiscoveryGatewayPlugin
+```
+- 上述自定义插件的方式，即可解决使用者在线程切换时丢失ThreadLocal上下文的问题
+
 ## 元数据Metadata自动化策略
 
 ### 基于服务名前缀自动创建灰度组名
