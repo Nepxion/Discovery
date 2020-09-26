@@ -2928,6 +2928,7 @@ spring.application.strategy.tracer.sentinel.args.output.enabled=true
 
 #### Spring-Boot-Admin监控方式
 ![](http://nepxion.gitee.io/docs/discovery-doc/Admin1.jpg)
+![](http://nepxion.gitee.io/docs/discovery-doc/Admin6.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Admin7.jpg)
 
 ## 全链路Header传递
@@ -4177,61 +4178,81 @@ zuul.semaphore.max-semaphores=5000
 ## 附录
 
 ### 中间件服务器下载地址
-① Consul
+![](http://nepxion.gitee.io/docs/icon-doc/information_message.png) 注册中心
+
+① Nacos
+
+- Nacos服务器版本，推荐用最新版本，从[https://github.com/alibaba/nacos/releases](https://github.com/alibaba/nacos/releases)获取
+- 功能界面主页，[http://localhost:8848/nacos/index.html](http://localhost:8848/nacos/index.html)
+
+② Consul
 
 - Consul服务器版本不限制，推荐用最新版本，从[https://releases.hashicorp.com/consul/](https://releases.hashicorp.com/consul/)获取
 - 功能界面主页，[http://localhost:8500](http://localhost:8500)
-
-② Zookeeper
-
-- Spring Cloud F版或以上，必须采用Zookeeper服务器的3.5.x服务器版本（或者更高），从[http://zookeeper.apache.org/releases.html#download](http://zookeeper.apache.org/releases.html#download)获取
-- Spring Cloud E版，Zookeeper服务器版本不限制
 
 ③ Eureka
 
 - 跟Spring Cloud版本保持一致，自行搭建服务器
 - 功能界面主页，[http://localhost:9528](http://localhost:9528)
 
-④ Apollo
+④ Zookeeper
 
-- Apollo服务器版本，推荐用最新版本，从[https://github.com/ctripcorp/apollo/releases](https://github.com/ctripcorp/apollo/releases)获取
-- 功能界面主页，[http://localhost:8088](http://localhost:8088)
+- Spring Cloud F版或以上，必须采用Zookeeper服务器的3.5.x服务器版本（或者更高），从[http://zookeeper.apache.org/releases.html#download](http://zookeeper.apache.org/releases.html#download)获取
+- Spring Cloud E版，Zookeeper服务器版本不限制
 
-⑤ Nacos
+![](http://nepxion.gitee.io/docs/icon-doc/information_message.png) 配置中心
+
+① Nacos
 
 - Nacos服务器版本，推荐用最新版本，从[https://github.com/alibaba/nacos/releases](https://github.com/alibaba/nacos/releases)获取
 - 功能界面主页，[http://localhost:8848/nacos/index.html](http://localhost:8848/nacos/index.html)
 
-⑥ Redis
+② Apollo
+
+- Apollo服务器版本，推荐用最新版本，从[https://github.com/ctripcorp/apollo/releases](https://github.com/ctripcorp/apollo/releases)获取
+- 功能界面主页，[http://localhost:8088](http://localhost:8088)
+
+③ Redis
 
 - Redis服务器版本，推荐用最新版本，从[https://redis.io/](https://redis.io/)获取
 
-⑦ Sentinel
+![](http://nepxion.gitee.io/docs/icon-doc/information_message.png) 限流熔断
+
+① Sentinel
 
 - Sentinel服务器版本，推荐用最新版本，从[https://github.com/alibaba/Sentinel/releases](https://github.com/alibaba/Sentinel/releases)获取
 - 功能界面主页，[http://localhost:8075/#/dashboard](http://localhost:8075/#/dashboard)
 
-⑧ Prometheus
+![](http://nepxion.gitee.io/docs/icon-doc/information_message.png) 调用链监控
 
-- Prometheus服务器版本，推荐用最新版本，从[https://github.com/prometheus/prometheus/releases](https://github.com/prometheus/prometheus/releases)获取
-- 功能界面主页，[http://localhost:9090](http://localhost:9090)
-
-⑨ Grafana
-
-- Grafana服务器版本，推荐用最新版本，从[https://grafana.com/grafana/download?platform=windows](https://grafana.com/grafana/download?platform=windows)获取
-- 功能界面主页，[http://localhost:3000](http://localhost:3000)
-
-⑩ Jaeger
+① Jaeger
 
 - Jaeger服务器版本，推荐用最新版本，从[https://github.com/jaegertracing/jaeger/releases](https://github.com/jaegertracing/jaeger/releases)获取
 - 功能界面主页，[http://localhost:16686](http://localhost:16686)
 
-⑪ Zipkin
+② Skywalking
+
+- Skywalking服务器版本，推荐用最新版本，从[http://skywalking.apache.org/downloads/](http://skywalking.apache.org/downloads/)获取
+- 功能界面主页，[http://127.0.0.1:8080/](http://127.0.0.1:8080/)
+
+③ Zipkin
 
 - Zipkin服务器版本，推荐用最新版本，从[https://search.maven.org/remote_content?g=io.zipkin&a=zipkin-server&v=LATEST&c=exec](https://search.maven.org/remote_content?g=io.zipkin&a=zipkin-server&v=LATEST&c=exec)获取
 - 功能界面主页，[http://localhost:9411/zipkin](http://localhost:9411/zipkin)
 
-⑫ Spring Boot Admin
+![](http://nepxion.gitee.io/docs/icon-doc/information_message.png) 指标监控
+
+① Prometheus
+
+- Prometheus服务器版本，推荐用最新版本，从[https://github.com/prometheus/prometheus/releases](https://github.com/prometheus/prometheus/releases)获取
+- 功能界面主页，[http://localhost:9090](http://localhost:9090)
+
+② Grafana
+
+- Grafana服务器版本，推荐用最新版本，从[https://grafana.com/grafana/download?platform=windows](https://grafana.com/grafana/download?platform=windows)获取
+- 功能界面主页，[http://localhost:3000](http://localhost:3000)
+
+③ Spring Boot Admin
 
 - 跟Spring Boot版本保持一致，自行搭建服务器。从[https://github.com/codecentric/spring-boot-admin](https://github.com/codecentric/spring-boot-admin)获取
 - 功能界面主页，[http://localhost:6002](http://localhost:6002)
