@@ -14,13 +14,13 @@ import java.util.Map;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
-import com.nepxion.discovery.plugin.strategy.agent.plugin.AbstractHook;
 import com.nepxion.discovery.plugin.strategy.agent.plugin.thread.ThreadConstant;
+import com.nepxion.discovery.plugin.strategy.agent.threadlocal.AbstractThreadLocalHook;
 import com.nepxion.discovery.plugin.strategy.service.context.RestStrategyContext;
 import com.nepxion.discovery.plugin.strategy.service.context.RpcStrategyContext;
 import com.nepxion.discovery.plugin.strategy.service.decorator.ServiceStrategyRequestDecoratorFactory;
 
-public class ServiceStrategyContextHook extends AbstractHook {
+public class ServiceStrategyContextHook extends AbstractThreadLocalHook {
     private Boolean requestDecoratorEnabled = Boolean.valueOf(System.getProperty(ThreadConstant.THREAD_REQUEST_DECORATOR_ENABLED, "true"));
 
     @Override

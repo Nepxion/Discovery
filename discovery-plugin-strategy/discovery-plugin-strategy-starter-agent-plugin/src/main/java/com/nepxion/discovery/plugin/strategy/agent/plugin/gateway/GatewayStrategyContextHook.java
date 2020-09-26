@@ -11,10 +11,10 @@ package com.nepxion.discovery.plugin.strategy.agent.plugin.gateway;
 
 import org.springframework.web.server.ServerWebExchange;
 
-import com.nepxion.discovery.plugin.strategy.agent.plugin.AbstractHook;
+import com.nepxion.discovery.plugin.strategy.agent.threadlocal.AbstractThreadLocalHook;
 import com.nepxion.discovery.plugin.strategy.gateway.context.GatewayStrategyContext;
 
-public class GatewayStrategyContextHook extends AbstractHook {
+public class GatewayStrategyContextHook extends AbstractThreadLocalHook {
     @Override
     public Object create() {
         return GatewayStrategyContext.getCurrentContext().getExchange();
