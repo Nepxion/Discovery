@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <artifactId>discovery-springcloud-example-zuul</artifactId>
-    <name>Nepxion Discovery Spring Cloud Example Zuul</name>
+    <artifactId>discovery-springcloud-example-service</artifactId>
+    <name>Nepxion Discovery Spring Cloud Example Service</name>
     <packaging>jar</packaging>
     <modelVersion>4.0.0</modelVersion>
     <description>Nepxion Discovery is an enhancement for Spring Cloud Discovery</description>
@@ -10,7 +10,7 @@
 
     <parent>
         <groupId>com.nepxion</groupId>
-        <artifactId>discovery-springcloud-examples</artifactId>
+        <artifactId>discovery-springcloud-example</artifactId>
         <version>6.3.0-SNAPSHOT</version>
     </parent>
 
@@ -48,14 +48,19 @@
 
         <dependency>
             <groupId>com.nepxion</groupId>
-            <artifactId>discovery-plugin-strategy-starter-zuul</artifactId>
+            <artifactId>discovery-plugin-strategy-starter-service</artifactId>
         </dependency>
 
-        <!-- 当Zuul用Hystrix做线程隔离的时候，才需要导入下面的包 -->
+        <!-- 当服务用Hystrix做线程隔离的时候，才需要导入下面的包 -->
         <!-- <dependency>
             <groupId>com.nepxion</groupId>
             <artifactId>discovery-plugin-strategy-starter-hystrix</artifactId>
         </dependency> -->
+
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>de.codecentric</groupId>

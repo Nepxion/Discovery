@@ -10,7 +10,7 @@
 
     <parent>
         <groupId>com.nepxion</groupId>
-        <artifactId>discovery-springcloud-examples</artifactId>
+        <artifactId>discovery-springcloud-example</artifactId>
         <version>6.3.0-SNAPSHOT</version>
     </parent>
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <artifactId>discovery-springcloud-example-console</artifactId>
-    <name>Nepxion Discovery Spring Cloud Example Console</name>
+    <artifactId>discovery-springcloud-example-admin</artifactId>
+    <name>Nepxion Discovery Spring Cloud Example Admin</name>
     <packaging>jar</packaging>
     <modelVersion>4.0.0</modelVersion>
     <description>Nepxion Discovery is an enhancement for Spring Cloud Discovery</description>
@@ -10,7 +10,7 @@
 
     <parent>
         <groupId>com.nepxion</groupId>
-        <artifactId>discovery-springcloud-examples</artifactId>
+        <artifactId>discovery-springcloud-example</artifactId>
         <version>6.3.0-SNAPSHOT</version>
     </parent>
 
@@ -32,13 +32,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.nepxion</groupId>
-            <!-- <artifactId>discovery-console-starter-apollo</artifactId> -->
-            <artifactId>discovery-console-starter-nacos</artifactId>
-            <!-- <artifactId>discovery-console-starter-redis</artifactId> -->
-        </dependency>
-
-        <dependency>
             <!-- <groupId>org.springframework.cloud</groupId> -->
             <!-- <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId> -->
             <!-- <artifactId>spring-cloud-starter-consul-discovery</artifactId> -->
@@ -50,7 +43,7 @@
 
         <dependency>
             <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-starter-client</artifactId>
+            <artifactId>spring-boot-admin-starter-server</artifactId>
         </dependency>
     </dependencies>
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <artifactId>discovery-springcloud-example-service</artifactId>
-    <name>Nepxion Discovery Spring Cloud Example Service</name>
+    <artifactId>discovery-springcloud-example-console</artifactId>
+    <name>Nepxion Discovery Spring Cloud Example Console</name>
     <packaging>jar</packaging>
     <modelVersion>4.0.0</modelVersion>
     <description>Nepxion Discovery is an enhancement for Spring Cloud Discovery</description>
@@ -10,7 +10,7 @@
 
     <parent>
         <groupId>com.nepxion</groupId>
-        <artifactId>discovery-springcloud-examples</artifactId>
+        <artifactId>discovery-springcloud-example</artifactId>
         <version>6.3.0-SNAPSHOT</version>
     </parent>
 
@@ -33,33 +33,19 @@
     <dependencies>
         <dependency>
             <groupId>com.nepxion</groupId>
-            <!-- <artifactId>discovery-plugin-register-center-starter-eureka</artifactId> -->
-            <!-- <artifactId>discovery-plugin-register-center-starter-consul</artifactId> -->
-            <!-- <artifactId>discovery-plugin-register-center-starter-zookeeper</artifactId> -->
-            <artifactId>discovery-plugin-register-center-starter-nacos</artifactId>
+            <!-- <artifactId>discovery-console-starter-apollo</artifactId> -->
+            <artifactId>discovery-console-starter-nacos</artifactId>
+            <!-- <artifactId>discovery-console-starter-redis</artifactId> -->
         </dependency>
 
         <dependency>
-            <groupId>com.nepxion</groupId>
-            <!-- <artifactId>discovery-plugin-config-center-starter-apollo</artifactId> -->
-            <artifactId>discovery-plugin-config-center-starter-nacos</artifactId>
-            <!-- <artifactId>discovery-plugin-config-center-starter-redis</artifactId> -->
-        </dependency>
+            <!-- <groupId>org.springframework.cloud</groupId> -->
+            <!-- <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId> -->
+            <!-- <artifactId>spring-cloud-starter-consul-discovery</artifactId> -->
+            <!-- <artifactId>spring-cloud-starter-zookeeper-discovery</artifactId> -->
 
-        <dependency>
-            <groupId>com.nepxion</groupId>
-            <artifactId>discovery-plugin-strategy-starter-service</artifactId>
-        </dependency>
-
-        <!-- 当服务用Hystrix做线程隔离的时候，才需要导入下面的包 -->
-        <!-- <dependency>
-            <groupId>com.nepxion</groupId>
-            <artifactId>discovery-plugin-strategy-starter-hystrix</artifactId>
-        </dependency> -->
-
-        <dependency>
             <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
 
         <dependency>
