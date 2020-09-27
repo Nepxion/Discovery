@@ -23,6 +23,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>discovery-plugin-strategy-starter</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
