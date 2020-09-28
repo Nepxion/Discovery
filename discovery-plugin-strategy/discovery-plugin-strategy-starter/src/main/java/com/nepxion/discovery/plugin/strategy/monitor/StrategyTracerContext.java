@@ -6,8 +6,11 @@ package com.nepxion.discovery.plugin.strategy.monitor;
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
  * @author Haojun Ren
+ * @author zifeihan
  * @version 1.0
  */
+
+import java.util.LinkedList;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -22,22 +25,42 @@ public class StrategyTracerContext {
         }
     };
 
-    private Object span;
+    private LinkedList<Object> spanList = new LinkedList<Object>();
 
     public static StrategyTracerContext getCurrentContext() {
         return THREAD_LOCAL.get();
     }
 
     public static void clearCurrentContext() {
-        THREAD_LOCAL.remove();
+        StrategyTracerContext strategyTracerContext = THREAD_LOCAL.get();
+        if (strategyTracerContext == null) {
+            return;
+        }
+
+        LinkedList<Object> spanList = strategyTracerContext.getSpanList();
+        if (!spanList.isEmpty()) {
+            spanList.removeLast();
+        }
+
+        if (spanList.isEmpty()) {
+            THREAD_LOCAL.remove();
+        }
     }
 
     public Object getSpan() {
-        return span;
+        if (spanList.isEmpty()) {
+            return null;
+        }
+
+        return spanList.getLast();
     }
 
     public void setSpan(Object span) {
-        this.span = span;
+        spanList.addLast(span);
+    }
+
+    private LinkedList<Object> getSpanList() {
+        return spanList;
     }
 
     @Override
