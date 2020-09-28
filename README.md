@@ -3786,6 +3786,8 @@ gray.weight.testcase.result.offset=5
 
 ### 测试用例
 
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：当使用Eureka注册中心的时候，因为Spring Cloud内嵌了Eureka可用区亲和性功能，会自动开启该策略，则导致某些自动化测试用例失败。需要把所有服务实例的元数据zone值改成相同或者也可以把该行元数据删除，然后进行自动化测试
+
 #### 测试包引入
 ```xml
 <dependencies>
