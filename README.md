@@ -9,7 +9,7 @@
 
 [![Discovery DOC PPT](https://img.shields.io/badge/Discovery%20Doc-PPT-brightgreen?logo=Microsoft%20PowerPoint)](http://nepxion.gitee.io/docs/link-doc/discovery-ppt.html)  [![Discovery DOC PDF](https://img.shields.io/badge/Discovery%20Doc-PDF-brightgreen?logo=Adobe%20Acrobat%20Reader)](http://nepxion.gitee.io/docs/link-doc/discovery-pdf.html)  [![Discovery DOC HTML](https://img.shields.io/badge/Discovery%20Doc-HTML-brightgreen?logo=Microsoft%20Edge)](http://nepxion.gitee.io/docs/link-doc/discovery-html.html)
 
-![](http://nepxion.gitee.io/docs/icon-doc/star3.png) 如果您觉得本框架具有一定的参考价值和帮助，请不吝在页面右上角 [**Star**] 一下
+![](http://nepxion.gitee.io/docs/icon-doc/star3.png) 如果您觉得本框架具有一定的参考价值和借鉴意义，请帮忙在页面右上角 [**Star**]
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Logo64.png) Discovery【探索】微服务企业级解决方案
 
