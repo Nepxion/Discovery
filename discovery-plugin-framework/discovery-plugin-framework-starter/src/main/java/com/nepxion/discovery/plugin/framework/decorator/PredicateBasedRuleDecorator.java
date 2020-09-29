@@ -17,10 +17,9 @@ import javax.annotation.PostConstruct;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Lazy;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
@@ -44,22 +43,17 @@ public abstract class PredicateBasedRuleDecorator extends PredicateBasedRule {
     private Integer retryAwaitTime;
 
     @Autowired
-    private ApplicationContext applicationContext;
+    private PluginAdapter pluginAdapter;
 
     @Autowired
-    private PluginAdapter pluginAdapter;
+    @Lazy
+    private PluginContextHolder pluginContextHolder;
 
     private StrategyMapWeightRandomLoadBalance strategyMapWeightRandomLoadBalance;
     private RuleMapWeightRandomLoadBalance ruleMapWeightRandomLoadBalance;
 
     @PostConstruct
     private void initialize() {
-        PluginContextHolder pluginContextHolder = null;
-        try {
-            pluginContextHolder = applicationContext.getBean(PluginContextHolder.class);
-        } catch (BeansException e) {
-
-        }
         strategyMapWeightRandomLoadBalance = new StrategyMapWeightRandomLoadBalance(pluginAdapter, pluginContextHolder);
         ruleMapWeightRandomLoadBalance = new RuleMapWeightRandomLoadBalance(pluginAdapter);
     }
