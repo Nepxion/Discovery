@@ -9,27 +9,19 @@ package com.nepxion.discovery.plugin.strategy.adapter;
  * @version 1.0
  */
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Lazy;
 
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 
 public abstract class DefaultDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
     @Autowired
-    protected ApplicationContext applicationContext;
-
-    @Autowired
     protected PluginAdapter pluginAdapter;
 
+    @Autowired
+    @Lazy
     protected StrategyContextHolder strategyContextHolder;
-
-    @PostConstruct
-    private void initialize() {
-        strategyContextHolder = applicationContext.getBean(StrategyContextHolder.class);
-    }
 
     public PluginAdapter getPluginAdapter() {
         return pluginAdapter;

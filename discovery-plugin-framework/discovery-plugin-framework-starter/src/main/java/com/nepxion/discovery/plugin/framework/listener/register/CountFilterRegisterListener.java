@@ -13,6 +13,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.serviceregistry.Registration;
+import org.springframework.context.annotation.Lazy;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.CountFilterEntity;
@@ -24,6 +25,7 @@ import com.nepxion.discovery.plugin.framework.event.RegisterFailureEvent;
 
 public class CountFilterRegisterListener extends AbstractRegisterListener {
     @Autowired
+    @Lazy
     protected DiscoveryClientDecorator discoveryClient;
 
     @Override
