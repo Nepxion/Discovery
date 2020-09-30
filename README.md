@@ -57,6 +57,10 @@
 
 ![](http://nepxion.gitee.io/docs/polaris-doc/Layer.jpg)
 
+![](http://nepxion.gitee.io/docs/icon-doc/information.png) Discovery【探索】实施方案图
+
+![](http://nepxion.gitee.io/docs/polaris-doc/All.jpg)
+
 ![](http://nepxion.gitee.io/docs/icon-doc/information.png) Discovery【探索】域网关实施图
 
 ![](http://nepxion.gitee.io/docs/polaris-doc/DomainEnable.jpg)
