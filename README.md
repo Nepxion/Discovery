@@ -38,12 +38,12 @@
 - [Polaris【北极星】企业级云原生微服务框架(HTML版)](http://nepxion.gitee.io/docs/link-doc/polaris-html.html)
 
 ② Polaris【北极星】企业级云原生微服务框架源码。请访问Gitee镜像获得最佳体验
-- [源码Gitee同步镜像](https://gitee.com/Nepxion/Polaris)
-- [源码Github原镜像](https://github.com/Nepxion/Polaris)
+- [源码Gitee同步镜像](https://gitee.com/polaris-paas/polaris-sdk)
+- [源码Github原镜像](https://github.com/polaris-paas/polaris-sdk)
 
 ③ Polaris【北极星】企业级云原生微服务框架指南示例源码。请访问Gitee镜像获得最佳体验
-- [指南Gitee同步镜像](https://gitee.com/Nepxion/PolarisGuide)
-- [指南Github原镜像](https://github.com/Nepxion/PolarisGuide)
+- [指南Gitee同步镜像](https://gitee.com/polaris-paas/polaris-guide)
+- [指南Github原镜像](https://github.com/polaris-paas/polaris-guide)
 
 ![](http://nepxion.gitee.io/docs/icon-doc/information.png) Discovery【探索】和Polaris【北极星】联合架构图
 
