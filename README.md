@@ -1247,6 +1247,8 @@ public class MyGatewayStrategyRouteFilter extends DefaultGatewayStrategyRouteFil
     private static final String DEFAULT_B_ROUTE_VERSION = "{\"discovery-guide-service-a\":\"1.1\", \"discovery-guide-service-b\":\"1.0\"}";
     private static final String DEFAULT_A_ROUTE_REGION = "{\"discovery-guide-service-a\":\"dev\", \"discovery-guide-service-b\":\"qa\"}";
     private static final String DEFAULT_B_ROUTE_REGION = "{\"discovery-guide-service-a\":\"qa\", \"discovery-guide-service-b\":\"dev\"}";
+    private static final String DEFAULT_A_ROUTE_ENVIRONMENT = "env1";
+    private static final String DEFAULT_B_ROUTE_ENVIRONMENT = "common";
 
     @Value("${a.route.version:" + DEFAULT_A_ROUTE_VERSION + "}")
     private String aRouteVersion;
@@ -1259,6 +1261,12 @@ public class MyGatewayStrategyRouteFilter extends DefaultGatewayStrategyRouteFil
 
     @Value("${b.route.region:" + DEFAULT_B_ROUTE_REGION + "}")
     private String bRouteRegion;
+
+    @Value("${a.route.env:" + DEFAULT_A_ROUTE_ENVIRONMENT + "}")
+    private String aRouteEnvironment;
+
+    @Value("${b.route.env:" + DEFAULT_B_ROUTE_ENVIRONMENT + "}")
+    private String bRouteEnvironment;
 
     // 自定义根据Header全链路版本匹配
     @Override
@@ -1300,8 +1308,28 @@ public class MyGatewayStrategyRouteFilter extends DefaultGatewayStrategyRouteFil
         return super.getRouteRegion();
     }
 
+    // 自定义根据Cookie全链路环境隔离
+    @Override
+    public String getRouteEnvironment() {
+        String user = strategyContextHolder.getCookie("user");
+
+        LOG.info("自定义根据Cookie全链路环境隔离, Cookie user={}", user);
+
+        if (StringUtils.equals(user, "zhangsan")) {
+            LOG.info("执行全链路环境隔离={}", aRouteEnvironment);
+
+            return aRouteEnvironment;
+        } else if (StringUtils.equals(user, "lisi")) {
+            LOG.info("执行全链路环境隔离={}", bRouteEnvironment);
+
+            return bRouteEnvironment;
+        }
+
+        return super.getRouteEnvironment();
+    }
+
     // 自定义全链路版本权重
-    /*@Override
+    @Override
     public String getRouteVersion() {
         LOG.info("自定义全链路版本权重");
 
@@ -1311,7 +1339,7 @@ public class MyGatewayStrategyRouteFilter extends DefaultGatewayStrategyRouteFil
         MapWeightRandom<String, Double> weightRandom = new MapWeightRandom<String, Double>(weightList);
 
         return weightRandom.random();
-    }*/
+    }
 }
 ```
 在配置类里@Bean方式进行过滤类创建，覆盖框架内置的过滤类
@@ -1335,6 +1363,8 @@ public class MyZuulStrategyRouteFilter extends DefaultZuulStrategyRouteFilter {
     private static final String DEFAULT_B_ROUTE_VERSION = "{\"discovery-guide-service-a\":\"1.1\", \"discovery-guide-service-b\":\"1.0\"}";
     private static final String DEFAULT_A_ROUTE_REGION = "{\"discovery-guide-service-a\":\"dev\", \"discovery-guide-service-b\":\"qa\"}";
     private static final String DEFAULT_B_ROUTE_REGION = "{\"discovery-guide-service-a\":\"qa\", \"discovery-guide-service-b\":\"dev\"}";
+    private static final String DEFAULT_A_ROUTE_ENVIRONMENT = "env1";
+    private static final String DEFAULT_B_ROUTE_ENVIRONMENT = "common";
 
     @Value("${a.route.version:" + DEFAULT_A_ROUTE_VERSION + "}")
     private String aRouteVersion;
@@ -1347,6 +1377,12 @@ public class MyZuulStrategyRouteFilter extends DefaultZuulStrategyRouteFilter {
 
     @Value("${b.route.region:" + DEFAULT_B_ROUTE_REGION + "}")
     private String bRouteRegion;
+
+    @Value("${a.route.env:" + DEFAULT_A_ROUTE_ENVIRONMENT + "}")
+    private String aRouteEnvironment;
+
+    @Value("${b.route.env:" + DEFAULT_B_ROUTE_ENVIRONMENT + "}")
+    private String bRouteEnvironment;
 
     // 自定义根据Header全链路版本匹配
     @Override
@@ -1388,8 +1424,28 @@ public class MyZuulStrategyRouteFilter extends DefaultZuulStrategyRouteFilter {
         return super.getRouteRegion();
     }
 
+    // 自定义根据Cookie全链路环境隔离
+    @Override
+    public String getRouteEnvironment() {
+        String user = strategyContextHolder.getCookie("user");
+
+        LOG.info("自定义根据Cookie全链路环境隔离, Cookie user={}", user);
+
+        if (StringUtils.equals(user, "zhangsan")) {
+            LOG.info("执行全链路环境隔离={}", aRouteEnvironment);
+
+            return aRouteEnvironment;
+        } else if (StringUtils.equals(user, "lisi")) {
+            LOG.info("执行全链路环境隔离={}", bRouteEnvironment);
+
+            return bRouteEnvironment;
+        }
+
+        return super.getRouteEnvironment();
+    }
+
     // 自定义全链路版本权重
-    /*@Override
+    @Override
     public String getRouteVersion() {
         LOG.info("自定义全链路版本权重");
 
@@ -1399,7 +1455,7 @@ public class MyZuulStrategyRouteFilter extends DefaultZuulStrategyRouteFilter {
         MapWeightRandom<String, Double> weightRandom = new MapWeightRandom<String, Double>(weightList);
 
         return weightRandom.random();
-    }*/
+    }
 }
 ```
 在配置类里@Bean方式进行过滤类创建，覆盖框架内置的过滤类
@@ -1425,6 +1481,8 @@ public class MyServiceStrategyRouteFilter extends DefaultServiceStrategyRouteFil
     private static final String DEFAULT_B_ROUTE_VERSION = "{\"discovery-guide-service-a\":\"1.1\", \"discovery-guide-service-b\":\"1.0\"}";
     private static final String DEFAULT_A_ROUTE_REGION = "{\"discovery-guide-service-a\":\"dev\", \"discovery-guide-service-b\":\"qa\"}";
     private static final String DEFAULT_B_ROUTE_REGION = "{\"discovery-guide-service-a\":\"qa\", \"discovery-guide-service-b\":\"dev\"}";
+    private static final String DEFAULT_A_ROUTE_ENVIRONMENT = "env1";
+    private static final String DEFAULT_B_ROUTE_ENVIRONMENT = "common";
 
     @Value("${a.route.version:" + DEFAULT_A_ROUTE_VERSION + "}")
     private String aRouteVersion;
@@ -1437,6 +1495,12 @@ public class MyServiceStrategyRouteFilter extends DefaultServiceStrategyRouteFil
 
     @Value("${b.route.region:" + DEFAULT_B_ROUTE_REGION + "}")
     private String bRouteRegion;
+
+    @Value("${a.route.env:" + DEFAULT_A_ROUTE_ENVIRONMENT + "}")
+    private String aRouteEnvironment;
+
+    @Value("${b.route.env:" + DEFAULT_B_ROUTE_ENVIRONMENT + "}")
+    private String bRouteEnvironment;
 
     // 自定义根据Header全链路版本匹配
     // 当网关有对应策略传入时，以网关策略优先，此处逻辑无效
@@ -1480,9 +1544,30 @@ public class MyServiceStrategyRouteFilter extends DefaultServiceStrategyRouteFil
         return super.getRouteRegion();
     }
 
+    // 自定义根据Cookie全链路环境隔离
+    // 当网关有对应策略传入时，以网关策略优先，此处逻辑无效
+    @Override
+    public String getRouteEnvironment() {
+        String user = strategyContextHolder.getCookie("user");
+
+        LOG.info("自定义根据Cookie全链路环境隔离, Cookie user={}", user);
+
+        if (StringUtils.equals(user, "zhangsan")) {
+            LOG.info("执行全链路环境隔离={}", aRouteEnvironment);
+
+            return aRouteEnvironment;
+        } else if (StringUtils.equals(user, "lisi")) {
+            LOG.info("执行全链路环境隔离={}", bRouteEnvironment);
+
+            return bRouteEnvironment;
+        }
+
+        return super.getRouteEnvironment();
+    }
+
     // 自定义全链路版本权重
     // 当网关有对应策略传入时，以网关策略优先，此处逻辑无效
-    /*@Override
+    @Override
     public String getRouteVersion() {
         LOG.info("自定义全链路版本权重");
 
@@ -1492,7 +1577,7 @@ public class MyServiceStrategyRouteFilter extends DefaultServiceStrategyRouteFil
         MapWeightRandom<String, Double> weightRandom = new MapWeightRandom<String, Double>(weightList);
 
         return weightRandom.random();
-    }*/
+    }
 }
 ```
 在配置类里@Bean方式进行过滤类创建，覆盖框架内置的过滤类
