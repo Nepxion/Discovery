@@ -2753,9 +2753,9 @@ public class MyServiceSentinelRequestOriginAdapter extends DefaultServiceSentine
     @Override
     public String parseOrigin(HttpServletRequest request) {
         String version = request.getHeader(DiscoveryConstant.N_D_SERVICE_VERSION);
-        String user = request.getHeader("user");
+        String location = request.getHeader("location");
 
-        return version + "&" + user;
+        return version + "&" + location;
     }
 }
 ```
@@ -2767,12 +2767,12 @@ public ServiceSentinelRequestOriginAdapter ServiceSentinelRequestOriginAdapter()
 }
 ```
 
-增加服务discovery-guide-service-b的规则，Group为discovery-guide-group，Data Id为discovery-guide-service-b-sentinel-authority，规则内容如下，表示版本为1.0且传入的Http Header的user=zhangsan，同时满足这两个条件下的所有服务都允许访问服务discovery-guide-service-b
+增加服务discovery-guide-service-b的规则，Group为discovery-guide-group，Data Id为discovery-guide-service-b-sentinel-authority，规则内容如下，表示版本为1.0且传入的Http Header的location=shanghai，同时满足这两个条件下的所有服务都允许访问服务discovery-guide-service-b
 ```
 [
     {
         "resource": "sentinel-resource",
-        "limitApp": "1.0&zhangsan",
+        "limitApp": "1.0&shanghai",
         "strategy": 0
     }
 ]
@@ -2780,15 +2780,15 @@ public ServiceSentinelRequestOriginAdapter ServiceSentinelRequestOriginAdapter()
 
 运行效果
 
-- 当传递的Http Header中user=zhangsan，当全链路调用中，API网关负载均衡discovery-guide-service-a服务到1.0版本后再去调用discovery-guide-service-b服务，最终调用成功
+- 当传递的Http Header中location=shanghai，当全链路调用中，API网关负载均衡discovery-guide-service-a服务到1.0版本后再去调用discovery-guide-service-b服务，最终调用成功
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide7-6.jpg)
 
-- 当传递的Http Header中user=lisi，不满足条件，最终调用在discovery-guide-service-b服务端被拒绝掉
+- 当传递的Http Header中location=beijing，不满足条件，最终调用在discovery-guide-service-b服务端被拒绝掉
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide7-7.jpg)
 
-- 当传递的Http Header中user=zhangsan，满足条件之一，当全链路调用中，API网关负载均衡discovery-guide-service-a服务到1.1版本后再去调用discovery-guide-service-b服务，不满足version=1.0的条件，最终调用在discovery-guide-service-b服务端被拒绝掉
+- 当传递的Http Header中location=shanghai，满足条件之一，当全链路调用中，API网关负载均衡discovery-guide-service-a服务到1.1版本后再去调用discovery-guide-service-b服务，不满足version=1.0的条件，最终调用在discovery-guide-service-b服务端被拒绝掉
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide7-8.jpg)
 
