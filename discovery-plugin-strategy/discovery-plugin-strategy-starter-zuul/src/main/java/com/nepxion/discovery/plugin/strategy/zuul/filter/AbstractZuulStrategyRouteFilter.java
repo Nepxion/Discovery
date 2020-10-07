@@ -74,6 +74,12 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulStrategyRouteF
 
     @Override
     public Object run() {
+        String routeEnvironment = getRouteEnvironment();
+        // 通过过滤器设置路由Header头部信息，并全链路传递到服务端
+        if (StringUtils.isNotEmpty(routeEnvironment)) {
+            ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_ENVIRONMENT, routeEnvironment, false);
+        }
+
         if (zuulCoreHeaderTransmissionEnabled) {
             // 内置Header预先塞入
             Map<String, String> headerMap = strategyWrapper.getHeaderMap();
@@ -93,7 +99,6 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulStrategyRouteF
             String routeRegionWeight = getRouteRegionWeight();
             String routeIdBlacklist = getRouteIdBlacklist();
             String routeAddressBlacklist = getRouteAddressBlacklist();
-
             // 通过过滤器设置路由Header头部信息，并全链路传递到服务端
             if (StringUtils.isNotEmpty(routeVersion)) {
                 ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_VERSION, routeVersion, zuulHeaderPriority);
