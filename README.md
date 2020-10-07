@@ -1234,13 +1234,17 @@ public String getRouteAddressBlacklist();
 
 GatewayStrategyRouteFilter示例
 
-在代码里根据不同的Header选择不同的路由路径，示例提供全链路条件命中和全链路随机权重两种方式
+在代码里根据不同的Header选择不同的路由路径，示例提供全链路匹配和全链路权重两种方式
 ```java
 // 适用于A/B Testing或者更根据某业务参数决定灰度路由路径。可以结合配置中心分别配置A/B两条路径，可以动态改变并通知
 // 当Header中传来的用户为张三，执行一条路由路径；为李四，执行另一条路由路径
 public class MyGatewayStrategyRouteFilter extends DefaultGatewayStrategyRouteFilter {
+    private static final Logger LOG = LoggerFactory.getLogger(MyGatewayStrategyRouteFilter.class);
+
     private static final String DEFAULT_A_ROUTE_VERSION = "{\"discovery-guide-service-a\":\"1.0\", \"discovery-guide-service-b\":\"1.1\"}";
     private static final String DEFAULT_B_ROUTE_VERSION = "{\"discovery-guide-service-a\":\"1.1\", \"discovery-guide-service-b\":\"1.0\"}";
+    private static final String DEFAULT_A_ROUTE_REGION = "{\"discovery-guide-service-a\":\"dev\", \"discovery-guide-service-b\":\"qa\"}";
+    private static final String DEFAULT_B_ROUTE_REGION = "{\"discovery-guide-service-a\":\"qa\", \"discovery-guide-service-b\":\"dev\"}";
 
     @Value("${a.route.version:" + DEFAULT_A_ROUTE_VERSION + "}")
     private String aRouteVersion;
@@ -1248,28 +1252,62 @@ public class MyGatewayStrategyRouteFilter extends DefaultGatewayStrategyRouteFil
     @Value("${b.route.version:" + DEFAULT_B_ROUTE_VERSION + "}")
     private String bRouteVersion;
 
-    // 全链路条件命中
+    @Value("${a.route.region:" + DEFAULT_A_ROUTE_REGION + "}")
+    private String aRouteRegion;
+
+    @Value("${b.route.region:" + DEFAULT_B_ROUTE_REGION + "}")
+    private String bRouteRegion;
+
+    // 自定义根据Header全链路版本匹配
     @Override
     public String getRouteVersion() {
         String user = strategyContextHolder.getHeader("user");
 
+        LOG.info("自定义根据Header全链路版本匹配, Header user={}", user);
+
         if (StringUtils.equals(user, "zhangsan")) {
+            LOG.info("执行全链路版本路由={}", aRouteVersion);
+
             return aRouteVersion;
         } else if (StringUtils.equals(user, "lisi")) {
+            LOG.info("执行全链路版本路由={}", bRouteVersion);
+
             return bRouteVersion;
         }
 
         return super.getRouteVersion();
     }
 
-    // 全链路随机权重
+    // 自定义根据Parameter全链路区域匹配
+    @Override
+    public String getRouteRegion() {
+        String user = strategyContextHolder.getParameter("user");
+
+        LOG.info("自定义根据Parameter全链路区域匹配, Parameter user={}", user);
+
+        if (StringUtils.equals(user, "zhangsan")) {
+            LOG.info("执行全链路区域路由={}", aRouteRegion);
+
+            return aRouteRegion;
+        } else if (StringUtils.equals(user, "lisi")) {
+            LOG.info("执行全链路区域路由={}", bRouteRegion);
+
+            return bRouteRegion;
+        }
+
+        return super.getRouteRegion();
+    }
+
+    // 自定义全链路版本权重
     /*@Override
     public String getRouteVersion() {
-        List<Pair<String, Double>> list = new ArrayList<Pair<String, Double>>();
-        list.add(new ImmutablePair<String, Double>(DEFAULT_A_ROUTE_VERSION, 30D));
-        list.add(new ImmutablePair<String, Double>(DEFAULT_B_ROUTE_VERSION, 70D));
-        MapWeightRandom<String, Double> weightRandom = new MapWeightRandom<String, Double>(list);
-        
+        LOG.info("自定义全链路版本权重");
+
+        List<Pair<String, Double>> weightList = new ArrayList<Pair<String, Double>>();
+        weightList.add(new ImmutablePair<String, Double>(aRouteVersion, 30D));
+        weightList.add(new ImmutablePair<String, Double>(bRouteVersion, 70D));
+        MapWeightRandom<String, Double> weightRandom = new MapWeightRandom<String, Double>(weightList);
+
         return weightRandom.random();
     }*/
 }
@@ -1284,13 +1322,17 @@ public GatewayStrategyRouteFilter gatewayStrategyRouteFilter() {
 
 ZuulStrategyRouteFilter示例
 
-在代码里根据不同的Header选择不同的路由路径，示例提供全链路条件命中和全链路随机权重两种方式
+在代码里根据不同的Header选择不同的路由路径，示例提供全链路匹配和全链路权重两种方式
 ```java
 // 适用于A/B Testing或者更根据某业务参数决定灰度路由路径。可以结合配置中心分别配置A/B两条路径，可以动态改变并通知
 // 当Header中传来的用户为张三，执行一条路由路径；为李四，执行另一条路由路径
 public class MyZuulStrategyRouteFilter extends DefaultZuulStrategyRouteFilter {
+    private static final Logger LOG = LoggerFactory.getLogger(MyZuulStrategyRouteFilter.class);
+
     private static final String DEFAULT_A_ROUTE_VERSION = "{\"discovery-guide-service-a\":\"1.0\", \"discovery-guide-service-b\":\"1.1\"}";
     private static final String DEFAULT_B_ROUTE_VERSION = "{\"discovery-guide-service-a\":\"1.1\", \"discovery-guide-service-b\":\"1.0\"}";
+    private static final String DEFAULT_A_ROUTE_REGION = "{\"discovery-guide-service-a\":\"dev\", \"discovery-guide-service-b\":\"qa\"}";
+    private static final String DEFAULT_B_ROUTE_REGION = "{\"discovery-guide-service-a\":\"qa\", \"discovery-guide-service-b\":\"dev\"}";
 
     @Value("${a.route.version:" + DEFAULT_A_ROUTE_VERSION + "}")
     private String aRouteVersion;
@@ -1298,28 +1340,62 @@ public class MyZuulStrategyRouteFilter extends DefaultZuulStrategyRouteFilter {
     @Value("${b.route.version:" + DEFAULT_B_ROUTE_VERSION + "}")
     private String bRouteVersion;
 
-    // 全链路条件命中
+    @Value("${a.route.region:" + DEFAULT_A_ROUTE_REGION + "}")
+    private String aRouteRegion;
+
+    @Value("${b.route.region:" + DEFAULT_B_ROUTE_REGION + "}")
+    private String bRouteRegion;
+
+    // 自定义根据Header全链路版本匹配
     @Override
     public String getRouteVersion() {
         String user = strategyContextHolder.getHeader("user");
 
+        LOG.info("自定义根据Header全链路版本匹配, Header user={}", user);
+
         if (StringUtils.equals(user, "zhangsan")) {
+            LOG.info("执行全链路版本路由={}", aRouteVersion);
+
             return aRouteVersion;
         } else if (StringUtils.equals(user, "lisi")) {
+            LOG.info("执行全链路版本路由={}", bRouteVersion);
+
             return bRouteVersion;
         }
 
         return super.getRouteVersion();
     }
 
-    // 全链路随机权重
+    // 自定义根据Parameter全链路区域匹配
+    @Override
+    public String getRouteRegion() {
+        String user = strategyContextHolder.getParameter("user");
+
+        LOG.info("自定义根据Parameter全链路区域匹配, Parameter user={}", user);
+
+        if (StringUtils.equals(user, "zhangsan")) {
+            LOG.info("执行全链路区域路由={}", aRouteRegion);
+
+            return aRouteRegion;
+        } else if (StringUtils.equals(user, "lisi")) {
+            LOG.info("执行全链路区域路由={}", bRouteRegion);
+
+            return bRouteRegion;
+        }
+
+        return super.getRouteRegion();
+    }
+
+    // 自定义全链路版本权重
     /*@Override
     public String getRouteVersion() {
-        List<Pair<String, Double>> list = new ArrayList<Pair<String, Double>>();
-        list.add(new ImmutablePair<String, Double>(DEFAULT_A_ROUTE_VERSION, 30D));
-        list.add(new ImmutablePair<String, Double>(DEFAULT_B_ROUTE_VERSION, 70D));
-        MapWeightRandom<String, Double> weightRandom = new MapWeightRandom<String, Double>(list);
-        
+        LOG.info("自定义全链路版本权重");
+
+        List<Pair<String, Double>> weightList = new ArrayList<Pair<String, Double>>();
+        weightList.add(new ImmutablePair<String, Double>(aRouteVersion, 30D));
+        weightList.add(new ImmutablePair<String, Double>(bRouteVersion, 70D));
+        MapWeightRandom<String, Double> weightRandom = new MapWeightRandom<String, Double>(weightList);
+
         return weightRandom.random();
     }*/
 }
@@ -1334,13 +1410,19 @@ public ZuulStrategyRouteFilter zuulStrategyRouteFilter() {
 
 ServiceStrategyRouteFilter示例
 
-在代码里根据不同的Header选择不同的路由路径，示例提供全链路条件命中和全链路随机权重两种方式
+在代码里根据不同的Header选择不同的路由路径，示例提供全链路匹配和全链路权重两种方式
+
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：当网关有对应策略传入时，以网关策略优先，服务侧的过滤器无效
 ```java
 // 适用于A/B Testing或者更根据某业务参数决定灰度路由路径。可以结合配置中心分别配置A/B两条路径，可以动态改变并通知
 // 当Header中传来的用户为张三，执行一条路由路径；为李四，执行另一条路由路径
 public class MyServiceStrategyRouteFilter extends DefaultServiceStrategyRouteFilter {
-    private static final String DEFAULT_A_ROUTE_VERSION = "{\"discovery-guide-service-b\":\"1.1\"}";
-    private static final String DEFAULT_B_ROUTE_VERSION = "{\"discovery-guide-service-b\":\"1.0\"}";
+    private static final Logger LOG = LoggerFactory.getLogger(MyServiceStrategyRouteFilter.class);
+
+    private static final String DEFAULT_A_ROUTE_VERSION = "{\"discovery-guide-service-a\":\"1.0\", \"discovery-guide-service-b\":\"1.1\"}";
+    private static final String DEFAULT_B_ROUTE_VERSION = "{\"discovery-guide-service-a\":\"1.1\", \"discovery-guide-service-b\":\"1.0\"}";
+    private static final String DEFAULT_A_ROUTE_REGION = "{\"discovery-guide-service-a\":\"dev\", \"discovery-guide-service-b\":\"qa\"}";
+    private static final String DEFAULT_B_ROUTE_REGION = "{\"discovery-guide-service-a\":\"qa\", \"discovery-guide-service-b\":\"dev\"}";
 
     @Value("${a.route.version:" + DEFAULT_A_ROUTE_VERSION + "}")
     private String aRouteVersion;
@@ -1348,28 +1430,65 @@ public class MyServiceStrategyRouteFilter extends DefaultServiceStrategyRouteFil
     @Value("${b.route.version:" + DEFAULT_B_ROUTE_VERSION + "}")
     private String bRouteVersion;
 
-    // 全链路条件命中
+    @Value("${a.route.region:" + DEFAULT_A_ROUTE_REGION + "}")
+    private String aRouteRegion;
+
+    @Value("${b.route.region:" + DEFAULT_B_ROUTE_REGION + "}")
+    private String bRouteRegion;
+
+    // 自定义根据Header全链路版本匹配
+    // 当网关有对应策略传入时，以网关策略优先，此处逻辑无效
     @Override
     public String getRouteVersion() {
         String user = strategyContextHolder.getHeader("user");
 
+        LOG.info("自定义根据Header全链路版本匹配, Header user={}", user);
+
         if (StringUtils.equals(user, "zhangsan")) {
+            LOG.info("执行全链路版本路由={}", aRouteVersion);
+
             return aRouteVersion;
         } else if (StringUtils.equals(user, "lisi")) {
+            LOG.info("执行全链路版本路由={}", bRouteVersion);
+
             return bRouteVersion;
         }
 
         return super.getRouteVersion();
     }
 
-    // 全链路随机权重
+    // 自定义根据Parameter全链路区域匹配
+    // 当网关有对应策略传入时，以网关策略优先，此处逻辑无效
+    @Override
+    public String getRouteRegion() {
+        String user = strategyContextHolder.getParameter("user");
+
+        LOG.info("自定义根据Parameter全链路区域匹配, Parameter user={}", user);
+
+        if (StringUtils.equals(user, "zhangsan")) {
+            LOG.info("执行全链路区域路由={}", aRouteRegion);
+
+            return aRouteRegion;
+        } else if (StringUtils.equals(user, "lisi")) {
+            LOG.info("执行全链路区域路由={}", bRouteRegion);
+
+            return bRouteRegion;
+        }
+
+        return super.getRouteRegion();
+    }
+
+    // 自定义全链路版本权重
+    // 当网关有对应策略传入时，以网关策略优先，此处逻辑无效
     /*@Override
     public String getRouteVersion() {
-        List<Pair<String, Double>> list = new ArrayList<Pair<String, Double>>();
-        list.add(new ImmutablePair<String, Double>(DEFAULT_A_ROUTE_VERSION, 30D));
-        list.add(new ImmutablePair<String, Double>(DEFAULT_B_ROUTE_VERSION, 70D));
-        MapWeightRandom<String, Double> weightRandom = new MapWeightRandom<String, Double>(list);
-        
+        LOG.info("自定义全链路版本权重");
+
+        List<Pair<String, Double>> weightList = new ArrayList<Pair<String, Double>>();
+        weightList.add(new ImmutablePair<String, Double>(aRouteVersion, 30D));
+        weightList.add(new ImmutablePair<String, Double>(bRouteVersion, 70D));
+        MapWeightRandom<String, Double> weightRandom = new MapWeightRandom<String, Double>(weightList);
+
         return weightRandom.random();
     }*/
 }
