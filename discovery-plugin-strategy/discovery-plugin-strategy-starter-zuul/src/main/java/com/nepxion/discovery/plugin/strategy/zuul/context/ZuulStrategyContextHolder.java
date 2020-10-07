@@ -101,4 +101,16 @@ public class ZuulStrategyContextHolder extends AbstractStrategyContextHolder {
             return header;
         }
     }
+
+    @Override
+    public String getParameter(String name) {
+        HttpServletRequest request = getRequest();
+        if (request == null) {
+            // LOG.warn("The HttpServletRequest object is lost for thread switched, or it is got before context filter probably");
+
+            return null;
+        }
+
+        return request.getParameter(name);
+    }
 }
