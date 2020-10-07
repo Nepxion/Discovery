@@ -13,48 +13,49 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 
+// 负载均衡中执行路由过滤
 public class DefaultServiceStrategyRouteFilter extends AbstractServiceStrategyRouteFilter {
     @Autowired
     protected StrategyContextHolder strategyContextHolder;
 
     @Override
     public String getRouteVersion() {
-        return strategyContextHolder.getRouteVersion();
+        return null;
     }
 
     @Override
     public String getRouteRegion() {
-        return strategyContextHolder.getRouteRegion();
+        return null;
     }
 
     @Override
     public String getRouteEnvironment() {
-        return strategyContextHolder.getRouteEnvironment();
+        return null;
     }
 
     @Override
     public String getRouteAddress() {
-        return strategyContextHolder.getRouteAddress();
+        return null;
     }
 
     @Override
     public String getRouteVersionWeight() {
-        return strategyContextHolder.getRouteVersionWeight();
+        return null;
     }
 
     @Override
     public String getRouteRegionWeight() {
-        return strategyContextHolder.getRouteRegionWeight();
+        return null;
     }
 
     @Override
     public String getRouteIdBlacklist() {
-        return strategyContextHolder.getRouteIdBlacklist();
+        return null;
     }
 
     @Override
     public String getRouteAddressBlacklist() {
-        return strategyContextHolder.getRouteAddressBlacklist();
+        return null;
     }
 
     public StrategyContextHolder getStrategyContextHolder() {
