@@ -1221,6 +1221,8 @@ public String getRouteVersion();
 
 public String getRouteRegion();
 
+public String getRouteEnvironment();
+
 public String getRouteAddress();
 
 public String getRouteVersionWeight();
