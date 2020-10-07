@@ -95,6 +95,9 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
     - 负载均衡策略类触发路由
     - 并行路由下的版本优选路由
     - 异步场景下的触发路由
+- 基于Parameter传递的灰度路由，网关为路由触发点。结合Header传递实现全链路灰度
+- 基于方法参数的灰度路由，服务为路由触发点
+- 基于域名的灰度路由，网关为路由触发点。结合Header传递实现全链路灰度
 - 基于动态变更元数据的全链路灰度路由
 - 基于全局订阅式的全链路灰度路由
 - 基于服务下线实时性的流量绝对无损策略。支持全局订阅和Header全链路传递两种方式，主要包括
@@ -343,6 +346,9 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
         - [通过业务参数在策略类中自定义灰度路由策略](#通过业务参数在策略类中自定义灰度路由策略)
     - [并行灰度路由下的版本优选策略](#并行灰度路由下的版本优选策略)
     - [异步场景的全链路灰度路由策略](#异步场景的全链路灰度路由策略)
+- [基于Parameter传递方式的灰度路由策略](#基于Parameter传递方式的灰度路由策略)
+- [基于方法参数的灰度路由策略](#基于方法参数的灰度路由策略)
+- [基于域名的灰度路由策略](#基于域名的灰度路由策略)
 - [基于动态变更元数据的灰度路由策略](#基于动态变更元数据的灰度路由策略)
 - [基于全局订阅式的灰度路由策略](#基于全局订阅式的灰度路由策略)	
 - [基于服务下线实时性的流量绝对无损策略](#基于服务下线实时性的流量绝对无损策略)
@@ -1232,6 +1238,8 @@ public String getRouteIdBlacklist();
 public String getRouteAddressBlacklist();
 ```
 
+以下示例以版本路由为例
+
 GatewayStrategyRouteFilter示例
 
 在代码里根据不同的Header选择不同的路由路径，示例提供全链路匹配和全链路权重两种方式
@@ -1243,20 +1251,12 @@ public class MyGatewayStrategyRouteFilter extends DefaultGatewayStrategyRouteFil
 
     private static final String DEFAULT_A_ROUTE_VERSION = "{\"discovery-guide-service-a\":\"1.0\", \"discovery-guide-service-b\":\"1.1\"}";
     private static final String DEFAULT_B_ROUTE_VERSION = "{\"discovery-guide-service-a\":\"1.1\", \"discovery-guide-service-b\":\"1.0\"}";
-    private static final String DEFAULT_A_ROUTE_REGION = "{\"discovery-guide-service-a\":\"dev\", \"discovery-guide-service-b\":\"qa\"}";
-    private static final String DEFAULT_B_ROUTE_REGION = "{\"discovery-guide-service-a\":\"qa\", \"discovery-guide-service-b\":\"dev\"}";
 
     @Value("${a.route.version:" + DEFAULT_A_ROUTE_VERSION + "}")
     private String aRouteVersion;
 
     @Value("${b.route.version:" + DEFAULT_B_ROUTE_VERSION + "}")
     private String bRouteVersion;
-
-    @Value("${a.route.region:" + DEFAULT_A_ROUTE_REGION + "}")
-    private String aRouteRegion;
-
-    @Value("${b.route.region:" + DEFAULT_B_ROUTE_REGION + "}")
-    private String bRouteRegion;
 
     // 自定义根据Header全链路版本匹配
     @Override
@@ -1276,26 +1276,6 @@ public class MyGatewayStrategyRouteFilter extends DefaultGatewayStrategyRouteFil
         }
 
         return super.getRouteVersion();
-    }
-
-    // 自定义根据Parameter全链路区域匹配
-    @Override
-    public String getRouteRegion() {
-        String user = strategyContextHolder.getParameter("user");
-
-        LOG.info("自定义根据Parameter全链路区域匹配, Parameter user={}", user);
-
-        if (StringUtils.equals(user, "zhangsan")) {
-            LOG.info("执行全链路区域路由={}", aRouteRegion);
-
-            return aRouteRegion;
-        } else if (StringUtils.equals(user, "lisi")) {
-            LOG.info("执行全链路区域路由={}", bRouteRegion);
-
-            return bRouteRegion;
-        }
-
-        return super.getRouteRegion();
     }
 
     // 自定义全链路版本权重
@@ -1331,20 +1311,12 @@ public class MyZuulStrategyRouteFilter extends DefaultZuulStrategyRouteFilter {
 
     private static final String DEFAULT_A_ROUTE_VERSION = "{\"discovery-guide-service-a\":\"1.0\", \"discovery-guide-service-b\":\"1.1\"}";
     private static final String DEFAULT_B_ROUTE_VERSION = "{\"discovery-guide-service-a\":\"1.1\", \"discovery-guide-service-b\":\"1.0\"}";
-    private static final String DEFAULT_A_ROUTE_REGION = "{\"discovery-guide-service-a\":\"dev\", \"discovery-guide-service-b\":\"qa\"}";
-    private static final String DEFAULT_B_ROUTE_REGION = "{\"discovery-guide-service-a\":\"qa\", \"discovery-guide-service-b\":\"dev\"}";
 
     @Value("${a.route.version:" + DEFAULT_A_ROUTE_VERSION + "}")
     private String aRouteVersion;
 
     @Value("${b.route.version:" + DEFAULT_B_ROUTE_VERSION + "}")
     private String bRouteVersion;
-
-    @Value("${a.route.region:" + DEFAULT_A_ROUTE_REGION + "}")
-    private String aRouteRegion;
-
-    @Value("${b.route.region:" + DEFAULT_B_ROUTE_REGION + "}")
-    private String bRouteRegion;
 
     // 自定义根据Header全链路版本匹配
     @Override
@@ -1364,26 +1336,6 @@ public class MyZuulStrategyRouteFilter extends DefaultZuulStrategyRouteFilter {
         }
 
         return super.getRouteVersion();
-    }
-
-    // 自定义根据Parameter全链路区域匹配
-    @Override
-    public String getRouteRegion() {
-        String user = strategyContextHolder.getParameter("user");
-
-        LOG.info("自定义根据Parameter全链路区域匹配, Parameter user={}", user);
-
-        if (StringUtils.equals(user, "zhangsan")) {
-            LOG.info("执行全链路区域路由={}", aRouteRegion);
-
-            return aRouteRegion;
-        } else if (StringUtils.equals(user, "lisi")) {
-            LOG.info("执行全链路区域路由={}", bRouteRegion);
-
-            return bRouteRegion;
-        }
-
-        return super.getRouteRegion();
     }
 
     // 自定义全链路版本权重
@@ -1421,20 +1373,12 @@ public class MyServiceStrategyRouteFilter extends DefaultServiceStrategyRouteFil
 
     private static final String DEFAULT_A_ROUTE_VERSION = "{\"discovery-guide-service-a\":\"1.0\", \"discovery-guide-service-b\":\"1.1\"}";
     private static final String DEFAULT_B_ROUTE_VERSION = "{\"discovery-guide-service-a\":\"1.1\", \"discovery-guide-service-b\":\"1.0\"}";
-    private static final String DEFAULT_A_ROUTE_REGION = "{\"discovery-guide-service-a\":\"dev\", \"discovery-guide-service-b\":\"qa\"}";
-    private static final String DEFAULT_B_ROUTE_REGION = "{\"discovery-guide-service-a\":\"qa\", \"discovery-guide-service-b\":\"dev\"}";
 
     @Value("${a.route.version:" + DEFAULT_A_ROUTE_VERSION + "}")
     private String aRouteVersion;
 
     @Value("${b.route.version:" + DEFAULT_B_ROUTE_VERSION + "}")
     private String bRouteVersion;
-
-    @Value("${a.route.region:" + DEFAULT_A_ROUTE_REGION + "}")
-    private String aRouteRegion;
-
-    @Value("${b.route.region:" + DEFAULT_B_ROUTE_REGION + "}")
-    private String bRouteRegion;
 
     // 自定义根据Header全链路版本匹配
     // 当网关有对应策略传入时，以网关策略优先，此处逻辑无效
@@ -1455,27 +1399,6 @@ public class MyServiceStrategyRouteFilter extends DefaultServiceStrategyRouteFil
         }
 
         return super.getRouteVersion();
-    }
-
-    // 自定义根据Parameter全链路区域匹配
-    // 当网关有对应策略传入时，以网关策略优先，此处逻辑无效
-    @Override
-    public String getRouteRegion() {
-        String user = strategyContextHolder.getParameter("user");
-
-        LOG.info("自定义根据Parameter全链路区域匹配, Parameter user={}", user);
-
-        if (StringUtils.equals(user, "zhangsan")) {
-            LOG.info("执行全链路区域路由={}", aRouteRegion);
-
-            return aRouteRegion;
-        } else if (StringUtils.equals(user, "lisi")) {
-            LOG.info("执行全链路区域路由={}", bRouteRegion);
-
-            return bRouteRegion;
-        }
-
-        return super.getRouteRegion();
     }
 
     // 自定义全链路版本权重
@@ -1544,7 +1467,190 @@ public DiscoveryEnabledStrategy discoveryEnabledStrategy() {
     return new MyDiscoveryEnabledStrategy();
 }
 ```
-在网关和服务中支持基于Rest Header传递的自定义灰度路由策略，除此之外，服务还支持基于Rpc方法参数传递的自定义灰度路由策略，它包括接口名、方法名、参数名或参数值等多种形式。下面的示例表示在服务中同时开启基于Rest Header传递和Rpc方法参数传递的自定义组合式灰度路由策略，DefaultDiscoveryEnabledStrategy可以有多个，框架会组合判断
+
+### 并行灰度路由下的版本优选策略
+防止多个网关上并行实时灰度路由产生混乱，对处于非灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；灰度状态的服务，还是根据传递的Header版本号进行匹配
+优选的方式，对版本号进行排序，取第一个版本号，所以此方案的前置条件是必须版本号是规律的有次序，例如，以时间戳的方式
+
+需要通过如下开关开启该功能
+```
+# 启动和关闭调用对端服务，是否执行调用它的时候只取它的老的稳定版本的实例的策略。缺失则默认为false
+spring.application.strategy.version.filter.enabled=true
+```
+
+### 异步场景的全链路灰度路由策略
+当若干个服务之间调用，存在异步场景，如下
+- 调用时候，启用了Hystrix线程池隔离机制
+- 线程池里的线程触发调用
+- 新创建单个线程触发调用
+
+参考Hystrix线程池隔离模式下的解决方案
+
+参考异步跨线程Agent的解决方案
+
+## 基于Parameter传递方式的灰度路由策略
+通过过滤器传递Http Parameter，并并转化为Http Header传递全链路灰度路由策略
+下面代码既适用于Zuul和Spring Cloud Gateway网关，也适用于Service微服务，一般来说，网关已经加了，服务就不需要加，当不存在的网关的时候，服务上就可以考虑。继承GatewayStrategyRouteFilter、ZuulStrategyRouteFilter或者ServiceStrategyRouteFilter，覆盖掉如下方法中的一个或者多个，通过@Bean方式覆盖框架内置的过滤类
+```java
+public String getRouteVersion();
+
+public String getRouteRegion();
+
+public String getRouteAddress();
+
+public String getRouteVersionWeight();
+
+public String getRouteRegionWeight();
+
+public String getRouteIdBlacklist();
+
+public String getRouteAddressBlacklist();
+```
+
+以下示例以区域路由为例
+
+GatewayStrategyRouteFilter示例
+
+```java
+// 适用于A/B Testing或者更根据某业务参数决定灰度路由路径。可以结合配置中心分别配置A/B两条路径，可以动态改变并通知
+// 当Header中传来的用户为张三，执行一条路由路径；为李四，执行另一条路由路径
+public class MyGatewayStrategyRouteFilter extends DefaultGatewayStrategyRouteFilter {
+    private static final Logger LOG = LoggerFactory.getLogger(MyGatewayStrategyRouteFilter.class);
+
+    private static final String DEFAULT_A_ROUTE_REGION = "{\"discovery-guide-service-a\":\"dev\", \"discovery-guide-service-b\":\"qa\"}";
+    private static final String DEFAULT_B_ROUTE_REGION = "{\"discovery-guide-service-a\":\"qa\", \"discovery-guide-service-b\":\"dev\"}";
+
+    @Value("${a.route.region:" + DEFAULT_A_ROUTE_REGION + "}")
+    private String aRouteRegion;
+
+    @Value("${b.route.region:" + DEFAULT_B_ROUTE_REGION + "}")
+    private String bRouteRegion;
+
+    // 自定义根据Parameter全链路区域匹配
+    @Override
+    public String getRouteRegion() {
+        String user = strategyContextHolder.getParameter("user");
+
+        LOG.info("自定义根据Parameter全链路区域匹配, Parameter user={}", user);
+
+        if (StringUtils.equals(user, "zhangsan")) {
+            LOG.info("执行全链路区域路由={}", aRouteRegion);
+
+            return aRouteRegion;
+        } else if (StringUtils.equals(user, "lisi")) {
+            LOG.info("执行全链路区域路由={}", bRouteRegion);
+
+            return bRouteRegion;
+        }
+
+        return super.getRouteRegion();
+    }
+}
+```
+在配置类里@Bean方式进行过滤类创建，覆盖框架内置的过滤类
+```java
+@Bean
+public GatewayStrategyRouteFilter gatewayStrategyRouteFilter() {
+    return new MyGatewayStrategyRouteFilter();
+}
+```
+
+ZuulStrategyRouteFilter示例
+
+```java
+// 适用于A/B Testing或者更根据某业务参数决定灰度路由路径。可以结合配置中心分别配置A/B两条路径，可以动态改变并通知
+// 当Header中传来的用户为张三，执行一条路由路径；为李四，执行另一条路由路径
+public class MyZuulStrategyRouteFilter extends DefaultZuulStrategyRouteFilter {
+    private static final Logger LOG = LoggerFactory.getLogger(MyZuulStrategyRouteFilter.class);
+
+    private static final String DEFAULT_A_ROUTE_REGION = "{\"discovery-guide-service-a\":\"dev\", \"discovery-guide-service-b\":\"qa\"}";
+    private static final String DEFAULT_B_ROUTE_REGION = "{\"discovery-guide-service-a\":\"qa\", \"discovery-guide-service-b\":\"dev\"}";
+
+    @Value("${a.route.region:" + DEFAULT_A_ROUTE_REGION + "}")
+    private String aRouteRegion;
+
+    @Value("${b.route.region:" + DEFAULT_B_ROUTE_REGION + "}")
+    private String bRouteRegion;
+
+    // 自定义根据Parameter全链路区域匹配
+    @Override
+    public String getRouteRegion() {
+        String user = strategyContextHolder.getParameter("user");
+
+        LOG.info("自定义根据Parameter全链路区域匹配, Parameter user={}", user);
+
+        if (StringUtils.equals(user, "zhangsan")) {
+            LOG.info("执行全链路区域路由={}", aRouteRegion);
+
+            return aRouteRegion;
+        } else if (StringUtils.equals(user, "lisi")) {
+            LOG.info("执行全链路区域路由={}", bRouteRegion);
+
+            return bRouteRegion;
+        }
+
+        return super.getRouteRegion();
+    }
+}
+```
+在配置类里@Bean方式进行过滤类创建，覆盖框架内置的过滤类
+```java
+@Bean
+public ZuulStrategyRouteFilter zuulStrategyRouteFilter() {
+    return new MyZuulStrategyRouteFilter();
+}
+```
+
+ServiceStrategyRouteFilter示例
+
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：当网关有对应策略传入时，以网关策略优先，服务侧的过滤器无效
+```java
+// 适用于A/B Testing或者更根据某业务参数决定灰度路由路径。可以结合配置中心分别配置A/B两条路径，可以动态改变并通知
+// 当Header中传来的用户为张三，执行一条路由路径；为李四，执行另一条路由路径
+public class MyServiceStrategyRouteFilter extends DefaultServiceStrategyRouteFilter {
+    private static final Logger LOG = LoggerFactory.getLogger(MyServiceStrategyRouteFilter.class);
+
+    private static final String DEFAULT_A_ROUTE_REGION = "{\"discovery-guide-service-a\":\"dev\", \"discovery-guide-service-b\":\"qa\"}";
+    private static final String DEFAULT_B_ROUTE_REGION = "{\"discovery-guide-service-a\":\"qa\", \"discovery-guide-service-b\":\"dev\"}";
+
+    @Value("${a.route.region:" + DEFAULT_A_ROUTE_REGION + "}")
+    private String aRouteRegion;
+
+    @Value("${b.route.region:" + DEFAULT_B_ROUTE_REGION + "}")
+    private String bRouteRegion;
+
+    // 自定义根据Parameter全链路区域匹配
+    // 当网关有对应策略传入时，以网关策略优先，此处逻辑无效
+    @Override
+    public String getRouteRegion() {
+        String user = strategyContextHolder.getParameter("user");
+
+        LOG.info("自定义根据Parameter全链路区域匹配, Parameter user={}", user);
+
+        if (StringUtils.equals(user, "zhangsan")) {
+            LOG.info("执行全链路区域路由={}", aRouteRegion);
+
+            return aRouteRegion;
+        } else if (StringUtils.equals(user, "lisi")) {
+            LOG.info("执行全链路区域路由={}", bRouteRegion);
+
+            return bRouteRegion;
+        }
+
+        return super.getRouteRegion();
+    }
+}
+```
+在配置类里@Bean方式进行过滤类创建，覆盖框架内置的过滤类
+```java
+@Bean
+public ServiceStrategyRouteFilter serviceStrategyRouteFilter() {
+    return new MyServiceStrategyRouteFilter();
+}
+```
+
+## 基于方法参数的灰度路由策略
+服务侧支持基于Rpc方法参数传递的自定义灰度路由策略，它包括接口名、方法名、参数名或参数值等多种形式
 ```java
 // 实现了组合策略，版本路由策略+区域路由策略+IP和端口路由策略+自定义策略
 public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
@@ -1556,47 +1662,10 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
     @Autowired
     private ServiceStrategyContextHolder serviceStrategyContextHolder;
 
-    @Override
-    public boolean apply(Server server) {
-        boolean enabled = applyFromHeader(server);
-        if (!enabled) {
-            return false;
-        }
-
-        return applyFromMethod(server);
-    }
-
-    // 根据REST调用传来的Header参数（例如：mobile），选取执行调用请求的服务实例
-    private boolean applyFromHeader(Server server) {
-        String mobile = serviceStrategyContextHolder.getHeader("mobile");
-        String serviceId = pluginAdapter.getServerServiceId(server);
-        String version = pluginAdapter.getServerVersion(server);
-        String region = pluginAdapter.getServerRegion(server);
-        String environment = pluginAdapter.getServerEnvironment(server);
-        String address = server.getHostPort();
-
-        LOG.info("负载均衡用户定制触发：mobile={}, serviceId={}, version={}, region={}, env={}, address={}", mobile, serviceId, version, region, environment, address);
-
-        if (StringUtils.isNotEmpty(mobile)) {
-            // 手机号以移动138开头，路由到1.0版本的服务上
-            if (mobile.startsWith("138") && StringUtils.equals(version, "1.0")) {
-                return true;
-                // 手机号以联通133开头，路由到2.0版本的服务上
-            } else if (mobile.startsWith("133") && StringUtils.equals(version, "1.1")) {
-                return true;
-            } else {
-                // 其它情况，直接拒绝请求
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     // 根据RPC调用传来的方法参数（例如接口名、方法名、参数名或参数值等），选取执行调用请求的服务实例
     // 本示例只作用在discovery-guide-service-a服务上
-    @SuppressWarnings("unchecked")
-    private boolean applyFromMethod(Server server) {
+    @Override
+    public boolean apply(Server server) {
         Map<String, Object> attributes = serviceStrategyContextHolder.getRpcAttributes();
         String serviceId = pluginAdapter.getServerServiceId(server);
         String version = pluginAdapter.getServerVersion(server);
@@ -1627,31 +1696,20 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
     }
 }
 ```
+在配置类里@Bean方式进行策略类创建
+```java
+@Bean
+public DiscoveryEnabledStrategy discoveryEnabledStrategy() {
+    return new MyDiscoveryEnabledStrategy();
+}
+```
 需要通过如下开关开启该功能
 ```
 # 启动和关闭路由策略的时候，对RPC方式的调用拦截。缺失则默认为false
 spring.application.strategy.rpc.intercept.enabled=true
 ```
 
-### 并行灰度路由下的版本优选策略
-防止多个网关上并行实时灰度路由产生混乱，对处于非灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；灰度状态的服务，还是根据传递的Header版本号进行匹配
-优选的方式，对版本号进行排序，取第一个版本号，所以此方案的前置条件是必须版本号是规律的有次序，例如，以时间戳的方式
-
-需要通过如下开关开启该功能
-```
-# 启动和关闭调用对端服务，是否执行调用它的时候只取它的老的稳定版本的实例的策略。缺失则默认为false
-spring.application.strategy.version.filter.enabled=true
-```
-
-### 异步场景的全链路灰度路由策略
-当若干个服务之间调用，存在异步场景，如下
-- 调用时候，启用了Hystrix线程池隔离机制
-- 线程池里的线程触发调用
-- 新创建单个线程触发调用
-
-参考Hystrix线程池隔离模式下的解决方案
-
-参考异步跨线程Agent的解决方案
+## 基于域名的灰度路由策略
 
 ## 基于动态变更元数据的灰度路由策略
 利用注册中心的Open API接口动态变更服务实例的元数据，达到稳定版本和灰度版本流量灰度控制的目的。以Nacos的版本匹配为例
@@ -2748,7 +2806,7 @@ spring.application.strategy.service.sentinel.limit.app.enabled=true
 #### 自定义业务参数的组合式防护机制
 通过适配类实现自定义业务参数的组合式防护机制
 ```java
-// 自定义版本号+用户名，实现组合式熔断
+// 自定义版本号+地域名，实现组合式熔断
 public class MyServiceSentinelRequestOriginAdapter extends DefaultServiceSentinelRequestOriginAdapter {
     @Override
     public String parseOrigin(HttpServletRequest request) {
