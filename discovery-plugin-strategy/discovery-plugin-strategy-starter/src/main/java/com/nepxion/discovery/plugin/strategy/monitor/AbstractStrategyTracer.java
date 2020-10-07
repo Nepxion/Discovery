@@ -114,13 +114,13 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
             if (StringUtils.isNotEmpty(routeRegion)) {
                 outputSpan(span, DiscoveryConstant.N_D_REGION, routeRegion);
             }
-            String routeAddress = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ADDRESS);
-            if (StringUtils.isNotEmpty(routeAddress)) {
-                outputSpan(span, DiscoveryConstant.N_D_ADDRESS, routeAddress);
-            }
             String routeEnvironment = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ENVIRONMENT);
             if (StringUtils.isNotEmpty(routeEnvironment)) {
                 outputSpan(span, DiscoveryConstant.N_D_ENVIRONMENT, routeEnvironment);
+            }
+            String routeAddress = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ADDRESS);
+            if (StringUtils.isNotEmpty(routeAddress)) {
+                outputSpan(span, DiscoveryConstant.N_D_ADDRESS, routeAddress);
             }
             String routeVersionWeight = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION_WEIGHT);
             if (StringUtils.isNotEmpty(routeVersionWeight)) {

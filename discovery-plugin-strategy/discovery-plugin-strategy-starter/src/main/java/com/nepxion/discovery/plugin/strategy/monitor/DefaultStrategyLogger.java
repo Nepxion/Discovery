@@ -113,13 +113,13 @@ public class DefaultStrategyLogger implements StrategyLogger {
         if (StringUtils.isNotEmpty(routeRegion)) {
             System.out.println(DiscoveryConstant.N_D_REGION + "=" + routeRegion);
         }
-        String routeAddress = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ADDRESS);
-        if (StringUtils.isNotEmpty(routeAddress)) {
-            System.out.println(DiscoveryConstant.N_D_ADDRESS + "=" + routeAddress);
-        }
         String routeEnvironment = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ENVIRONMENT);
         if (StringUtils.isNotEmpty(routeEnvironment)) {
             System.out.println(DiscoveryConstant.N_D_ENVIRONMENT + "=" + routeEnvironment);
+        }
+        String routeAddress = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ADDRESS);
+        if (StringUtils.isNotEmpty(routeAddress)) {
+            System.out.println(DiscoveryConstant.N_D_ADDRESS + "=" + routeAddress);
         }
         String routeVersionWeight = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION_WEIGHT);
         if (StringUtils.isNotEmpty(routeVersionWeight)) {
