@@ -28,6 +28,11 @@ public class DefaultServiceStrategyRouteFilter extends AbstractServiceStrategyRo
     }
 
     @Override
+    public String getRouteEnvironment() {
+        return strategyContextHolder.getRouteEnvironment();
+    }
+
+    @Override
     public String getRouteAddress() {
         return strategyContextHolder.getRouteAddress();
     }
