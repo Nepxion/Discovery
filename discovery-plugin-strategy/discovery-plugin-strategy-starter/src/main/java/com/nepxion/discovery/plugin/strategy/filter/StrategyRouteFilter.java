@@ -14,6 +14,8 @@ public interface StrategyRouteFilter {
 
     String getRouteRegion();
 
+    String getRouteEnvironment();
+
     String getRouteAddress();
 
     String getRouteVersionWeight();

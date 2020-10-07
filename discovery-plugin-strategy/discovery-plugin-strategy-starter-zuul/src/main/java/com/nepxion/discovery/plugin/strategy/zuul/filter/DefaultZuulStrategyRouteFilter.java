@@ -28,6 +28,11 @@ public class DefaultZuulStrategyRouteFilter extends AbstractZuulStrategyRouteFil
     }
 
     @Override
+    public String getRouteEnvironment() {
+        return strategyContextHolder.getRouteEnvironment();
+    }
+
+    @Override
     public String getRouteAddress() {
         return strategyContextHolder.getRouteAddress();
     }

@@ -18,6 +18,8 @@ public interface StrategyContextHolder {
 
     String getRouteRegion();
 
+    String getRouteEnvironment();
+
     String getRouteAddress();
 
     String getRouteVersionWeight();
