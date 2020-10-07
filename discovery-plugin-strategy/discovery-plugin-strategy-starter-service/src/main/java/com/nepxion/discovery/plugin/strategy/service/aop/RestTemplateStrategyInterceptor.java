@@ -30,12 +30,12 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
-import com.nepxion.discovery.plugin.strategy.service.filter.ServiceStrategyRouteFilter;
+import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.util.StrategyUtil;
 
 public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor implements ClientHttpRequestInterceptor {
     @Autowired
-    protected ServiceStrategyRouteFilter serviceStrategyRouteFilter;
+    protected ServiceStrategyContextHolder serviceStrategyContextHolder;
 
     // RestTemplate核心策略Header是否传递。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
     // 1. n-d-version
@@ -112,49 +112,49 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
 
         if (restTemplateCoreHeaderTransmissionEnabled) {
             if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_VERSION))) {
-                String routeVersion = serviceStrategyRouteFilter.getRouteVersion();
+                String routeVersion = serviceStrategyContextHolder.getRouteVersion();
                 if (StringUtils.isNotEmpty(routeVersion)) {
                     headers.add(DiscoveryConstant.N_D_VERSION, routeVersion);
                 }
             }
             if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_REGION))) {
-                String routeRegion = serviceStrategyRouteFilter.getRouteRegion();
+                String routeRegion = serviceStrategyContextHolder.getRouteRegion();
                 if (StringUtils.isNotEmpty(routeRegion)) {
                     headers.add(DiscoveryConstant.N_D_REGION, routeRegion);
                 }
             }
             if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_ENVIRONMENT))) {
-                String routeEnvironment = serviceStrategyRouteFilter.getRouteEnvironment();
+                String routeEnvironment = serviceStrategyContextHolder.getRouteEnvironment();
                 if (StringUtils.isNotEmpty(routeEnvironment)) {
                     headers.add(DiscoveryConstant.N_D_ENVIRONMENT, routeEnvironment);
                 }
             }
             if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_ADDRESS))) {
-                String routeAddress = serviceStrategyRouteFilter.getRouteAddress();
+                String routeAddress = serviceStrategyContextHolder.getRouteAddress();
                 if (StringUtils.isNotEmpty(routeAddress)) {
                     headers.add(DiscoveryConstant.N_D_ADDRESS, routeAddress);
                 }
             }
             if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_VERSION_WEIGHT))) {
-                String routeVersionWeight = serviceStrategyRouteFilter.getRouteVersionWeight();
+                String routeVersionWeight = serviceStrategyContextHolder.getRouteVersionWeight();
                 if (StringUtils.isNotEmpty(routeVersionWeight)) {
                     headers.add(DiscoveryConstant.N_D_VERSION_WEIGHT, routeVersionWeight);
                 }
             }
             if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_REGION_WEIGHT))) {
-                String routeRegionWeight = serviceStrategyRouteFilter.getRouteRegionWeight();
+                String routeRegionWeight = serviceStrategyContextHolder.getRouteRegionWeight();
                 if (StringUtils.isNotEmpty(routeRegionWeight)) {
                     headers.add(DiscoveryConstant.N_D_REGION_WEIGHT, routeRegionWeight);
                 }
             }
             if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_ID_BLACKLIST))) {
-                String routeIdBlacklist = serviceStrategyRouteFilter.getRouteIdBlacklist();
+                String routeIdBlacklist = serviceStrategyContextHolder.getRouteIdBlacklist();
                 if (StringUtils.isNotEmpty(routeIdBlacklist)) {
                     headers.add(DiscoveryConstant.N_D_ID_BLACKLIST, routeIdBlacklist);
                 }
             }
             if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_ADDRESS_BLACKLIST))) {
-                String routeAddressBlacklist = serviceStrategyRouteFilter.getRouteAddressBlacklist();
+                String routeAddressBlacklist = serviceStrategyContextHolder.getRouteAddressBlacklist();
                 if (StringUtils.isNotEmpty(routeAddressBlacklist)) {
                     headers.add(DiscoveryConstant.N_D_ADDRESS_BLACKLIST, routeAddressBlacklist);
                 }
