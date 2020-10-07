@@ -14,6 +14,8 @@ public interface StrategyContextHolder {
 
     String getParameter(String name);
 
+    String getCookie(String name);
+
     String getRouteVersion();
 
     String getRouteRegion();

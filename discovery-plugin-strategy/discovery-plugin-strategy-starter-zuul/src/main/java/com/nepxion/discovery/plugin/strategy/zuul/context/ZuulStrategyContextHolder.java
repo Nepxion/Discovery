@@ -12,6 +12,7 @@ package com.nepxion.discovery.plugin.strategy.zuul.context;
 
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -112,5 +113,39 @@ public class ZuulStrategyContextHolder extends AbstractStrategyContextHolder {
         }
 
         return request.getParameter(name);
+    }
+
+    public Cookie getHttpCookie(String name) {
+        HttpServletRequest request = getRequest();
+        if (request == null) {
+            // LOG.warn("The HttpServletRequest object is lost for thread switched, or it is got before context filter probably");
+
+            return null;
+        }
+
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null) {
+            return null;
+        }
+
+        for (int i = 0; i < cookies.length; i++) {
+            Cookie cookie = cookies[i];
+            String cookieName = cookie.getName();
+            if (StringUtils.equals(cookieName, name)) {
+                return cookie;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public String getCookie(String name) {
+        Cookie cookie = getHttpCookie(name);
+        if (cookie != null) {
+            return cookie.getValue();
+        }
+
+        return null;
     }
 }

@@ -123,6 +123,12 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
                     headers.add(DiscoveryConstant.N_D_REGION, routeRegion);
                 }
             }
+            if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_ENVIRONMENT))) {
+                String routeEnvironment = serviceStrategyRouteFilter.getRouteEnvironment();
+                if (StringUtils.isNotEmpty(routeEnvironment)) {
+                    headers.add(DiscoveryConstant.N_D_ENVIRONMENT, routeEnvironment);
+                }
+            }
             if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_ADDRESS))) {
                 String routeAddress = serviceStrategyRouteFilter.getRouteAddress();
                 if (StringUtils.isNotEmpty(routeAddress)) {

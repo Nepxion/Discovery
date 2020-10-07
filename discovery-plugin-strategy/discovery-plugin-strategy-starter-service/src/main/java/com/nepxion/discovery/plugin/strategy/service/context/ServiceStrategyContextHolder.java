@@ -12,6 +12,9 @@ package com.nepxion.discovery.plugin.strategy.service.context;
 
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -54,6 +57,40 @@ public class ServiceStrategyContextHolder extends AbstractStrategyContextHolder 
         }
 
         return attributes.getRequest().getParameter(name);
+    }
+
+    public Cookie getHttpCookie(String name) {
+        ServletRequestAttributes attributes = getRestAttributes();
+        if (attributes == null) {
+            // LOG.warn("The ServletRequestAttributes object is lost for thread switched probably");
+
+            return null;
+        }
+
+        Cookie[] cookies = attributes.getRequest().getCookies();
+        if (cookies == null) {
+            return null;
+        }
+
+        for (int i = 0; i < cookies.length; i++) {
+            Cookie cookie = cookies[i];
+            String cookieName = cookie.getName();
+            if (StringUtils.equals(cookieName, name)) {
+                return cookie;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public String getCookie(String name) {
+        Cookie cookie = getHttpCookie(name);
+        if (cookie != null) {
+            return cookie.getValue();
+        }
+
+        return null;
     }
 
     // 如果配置了内置条件Header，强制使用内置条件Header的模式
