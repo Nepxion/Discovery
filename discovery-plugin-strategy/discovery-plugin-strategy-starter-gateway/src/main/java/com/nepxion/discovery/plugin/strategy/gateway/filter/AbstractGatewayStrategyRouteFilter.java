@@ -74,6 +74,12 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
         // 通过过滤器设置路由Header头部信息，并全链路传递到服务端
         ServerHttpRequest.Builder requestBuilder = exchange.getRequest().mutate();
 
+        String routeEnvironment = getRouteEnvironment();
+        // 通过过滤器设置路由Header头部信息，并全链路传递到服务端
+        if (StringUtils.isNotEmpty(routeEnvironment)) {
+            GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_ENVIRONMENT, routeEnvironment, false);
+        }
+
         if (gatewayCoreHeaderTransmissionEnabled) {
             // 内置Header预先塞入
             Map<String, String> headerMap = strategyWrapper.getHeaderMap();
@@ -93,7 +99,6 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
             String routeRegionWeight = getRouteRegionWeight();
             String routeIdBlacklist = getRouteIdBlacklist();
             String routeAddressBlacklist = getRouteAddressBlacklist();
-
             if (StringUtils.isNotEmpty(routeVersion)) {
                 GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_VERSION, routeVersion, gatewayHeaderPriority);
             } else {
