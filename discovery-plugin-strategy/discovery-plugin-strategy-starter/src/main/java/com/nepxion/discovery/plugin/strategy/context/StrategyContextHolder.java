@@ -12,6 +12,8 @@ package com.nepxion.discovery.plugin.strategy.context;
 public interface StrategyContextHolder {
     String getHeader(String name);
 
+    String getParameter(String name);
+
     String getRouteVersion();
 
     String getRouteRegion();

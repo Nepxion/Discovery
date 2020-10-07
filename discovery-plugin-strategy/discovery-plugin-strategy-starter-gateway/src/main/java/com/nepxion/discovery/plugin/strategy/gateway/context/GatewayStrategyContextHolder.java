@@ -29,4 +29,16 @@ public class GatewayStrategyContextHolder extends AbstractStrategyContextHolder 
 
         return exchange.getRequest().getHeaders().getFirst(name);
     }
+
+    @Override
+    public String getParameter(String name) {
+        ServerWebExchange exchange = getExchange();
+        if (exchange == null) {
+            // LOG.warn("The ServerWebExchange object is lost for thread switched, or it is got before context filter probably");
+
+            return null;
+        }
+
+        return exchange.getRequest().getQueryParams().getFirst(name);
+    }
 }
