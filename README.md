@@ -92,7 +92,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
     - 权重路由。包括版本权重路由、区域权重路由
     - 前端触发路由
     - 网关过滤器触发路由。包括基于Header、Query Parameter、Cookie、域名为触发的路由
-    - 负载均衡策略类触发路由。包括基于Header、Query Parameter、Cookie、域名、RPC Method为触发的路由
+    - 负载均衡策略类触发路由。包括基于Header、Query Parameter、Cookie、域名、RPC Method为触发的路由，并支持前三个参数的混合策略表达式，优先级Header > Query Parameter > Cookie
     - 并行路由下的版本优选路由
     - 异步场景下的触发路由
 - 基于动态变更元数据的全链路灰度路由
