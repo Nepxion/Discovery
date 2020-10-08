@@ -1838,7 +1838,7 @@ spring.application.strategy.version.filter.enabled=true
 
 自定义方式参考[通过业务参数在过滤器中自定义灰度路由策略](#通过业务参数在过滤器中自定义灰度路由策略)
 
-本地测试请在hosts文件中配置
+本地测试，为验证结果，请事先在hosts文件中配置如下
 ```
 127.0.0.1 common.nepxion.com
 127.0.0.1 env1.nepxion.com
