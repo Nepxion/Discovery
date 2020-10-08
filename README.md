@@ -1824,16 +1824,26 @@ spring.application.strategy.version.filter.enabled=true
 参考[异步跨线程Agent](#异步跨线程Agent)
 
 ## 基于Query-Parameter的全链路灰度路由
+通过取值Query Parameter方式，即可实现既定功能
+
+[http://localhost:5001/discovery-guide-service-a/invoke/gateway?a=1](http://localhost:5001/discovery-guide-service-a/invoke/gateway?a=1)
+
+[http://localhost:5001/discovery-guide-service-a/invoke/gateway?a=2](http://localhost:5001/discovery-guide-service-a/invoke/gateway?a=2)
+
 策略表达式的用法和Header类似
 
 自定义方式参考[通过业务参数在过滤器中自定义灰度路由策略](#通过业务参数在过滤器中自定义灰度路由策略)
 
 ## 基于Cookie的全链路灰度路由
+通过取值Cookie方式，即可实现既定功能
+
 策略表达式的用法和Header类似
 
 自定义方式参考[通过业务参数在过滤器中自定义灰度路由策略](#通过业务参数在过滤器中自定义灰度路由策略)
 
 ## 基于域名的全链路灰度路由
+通过取值域名前缀等方式，即可实现既定功能
+
 策略表达式的用法和Header类似
 
 自定义方式参考[通过业务参数在过滤器中自定义灰度路由策略](#通过业务参数在过滤器中自定义灰度路由策略)
@@ -1853,7 +1863,9 @@ spring.application.strategy.version.filter.enabled=true
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-16.jpg)
 
 ## 基于RPC-Method的全链路灰度路由
-只适用于业务侧
+通过取值RPC调用中的方法入参方式，即可实现既定功能
+
+只适用于服务侧
 
 自定义方式参考[通过业务参数在策略类中自定义灰度路由策略](#通过业务参数在策略类中自定义灰度路由策略)
 
