@@ -482,4 +482,13 @@ public class StrategyWrapper {
 
         return null;
     }
+
+    public String getHeader(String name) {
+        Map<String, String> headerMap = getHeaderMap();
+        if (MapUtils.isNotEmpty(headerMap)) {
+            return headerMap.get(name);
+        }
+
+        return null;
+    }
 }
