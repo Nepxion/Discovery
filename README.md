@@ -985,6 +985,16 @@ IP地址和端口灰度路由架构图
 - null满足不等于。当某个Header未传值，但又指定了该Header不等于的表达式，那么正则结果是true。例如，表达式为#H['a'] != '2'，但a作为Header未传递进来，即为null，判断结果为true
 
 增加组合式的灰度策略，支持版本匹配、区域匹配、IP地址和端口匹配、版本权重匹配、区域权重匹配。以版本匹配为例，Group为discovery-guide-group，Data Id为discovery-guide-gateway，或者，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现功能
+![](http://nepxion.gitee.io/docs/icon-doc/information.png) 需要注意
+- 支持Header、Query Parameter、Cookie三种参数。例如，下面表达式，a、b、c的值可以来自Header、Query Parameter、Cookie中的任何一种。为兼容老的用法，统一以header节点来描述
+- 支持Header、Query Parameter、Cookie混合策略表达式，例如，下面表达式，a的值可以来自于Header，b的值可以来自于Query Parameter，c的值可以来自于Cookie。如果同一个值同时存在于Header、Query Parameter、Cookie，优先级Header > Query Parameter > Cookie
+
+```
+<condition id="condition2" header="#H['a'] == '1' &amp;&amp; #H['b'] == '2' &amp;&amp; #H['c'] == '3'" version-id="version-route1"/>
+```
+
+具体使用逻辑如下
+
 ```
 1. 当外部调用带有的Http Header中的值a=1同时b=2
    <condition>节点中header="#H['a'] == '1' &amp;&amp; #H['b'] == '2'"对应的version-id="version-route1"，找到下面
