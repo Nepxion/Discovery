@@ -1838,6 +1838,20 @@ spring.application.strategy.version.filter.enabled=true
 
 自定义方式参考[通过业务参数在过滤器中自定义灰度路由策略](#通过业务参数在过滤器中自定义灰度路由策略)
 
+本地测试请在hosts文件中配置
+```
+127.0.0.1 common.nepxion.com
+127.0.0.1 env1.nepxion.com
+127.0.0.1 env2.nepxion.com
+```
+
+根据[通过业务参数在过滤器中自定义灰度路由策略](#通过业务参数在过滤器中自定义灰度路由策略)的示例，以根据域名全链路环境隔离为例，根据域名前缀中的环境名路由到相应的全链路环境中
+- 根据env1.nepxion.com域名路由到env1环境
+![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-15.jpg)
+
+- 根据common.nepxion.com域名路由到common环境
+![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-16.jpg)
+
 ## 基于RPC-Method的全链路灰度路由
 只适用于业务侧
 
