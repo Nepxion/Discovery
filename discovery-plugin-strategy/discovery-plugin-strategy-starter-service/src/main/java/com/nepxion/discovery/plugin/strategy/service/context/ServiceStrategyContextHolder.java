@@ -95,6 +95,28 @@ public class ServiceStrategyContextHolder extends AbstractStrategyContextHolder 
         return null;
     }
 
+    public String getRequestURL() {
+        ServletRequestAttributes attributes = getRestAttributes();
+        if (attributes == null) {
+            // LOG.warn("The ServletRequestAttributes object is lost for thread switched probably");
+
+            return null;
+        }
+
+        return attributes.getRequest().getRequestURL().toString();
+    }
+
+    public String getRequestURI() {
+        ServletRequestAttributes attributes = getRestAttributes();
+        if (attributes == null) {
+            // LOG.warn("The ServletRequestAttributes object is lost for thread switched probably");
+
+            return null;
+        }
+
+        return attributes.getRequest().getRequestURI();
+    }
+
     // 如果配置了内置条件Header，强制使用内置条件Header的模式
     // 该模式只适用于服务层。不希望在服务层处理的这么复杂，且一般情况下，不会在服务层内置Header
     // 该模式不适用于网关层。网关层会在过滤器中预先塞入内置Header
