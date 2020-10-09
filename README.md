@@ -1028,6 +1028,7 @@ IP地址和端口灰度路由架构图
    <headers>
        <header key="a" value="1"/>
    </headers>
+   当服务侧配置了内置Header，而网关也传递给对应Header给该服务，那么以网关传递的Header为优先
 
 5. 策略总共支持5种，可以单独一项使用，也可以多项叠加使用
    1）version 版本路由
