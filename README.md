@@ -3298,8 +3298,8 @@ spring.application.strategy.business.request.headers=user;mobile
 通过内置基于LoadBalanced RestTemplate方式的/inspector/inspect接口方法，实现全链路侦测，可以查看全链路中调用的各个服务的版本、区域、环境、IP地址等是否符合预期，是否满足灰度条件，该接口可以集成到使用者的界面中，就可以规避通过Postman工具或者调用链系统去判断，有利于节省人工成本。使用方式
 
 - 执行Post请求
-- 请求的路径：http://[网关URL]/[服务名1]/inspector/inspect
-- 请求的内容：{"serviceIdList":["服务名2", "服务名3", ....]}。服务名不分前后次序
+- 请求的路径：`http://[网关URL]/[服务名1]/inspector/inspect`
+- 请求的内容：`{"serviceIdList":["服务名2", "服务名3", ....]}`。服务名不分前后次序
 
 ## 全链路服务侧注解
 服务侧对于RPC方式的调用拦截、消费端的服务隔离和调用链三项功能，默认映射到RestController类（含有@RestController注解），并配合如下的扫描路径才能工作
