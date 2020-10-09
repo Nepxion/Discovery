@@ -1288,19 +1288,19 @@ public class MyGatewayStrategyRouteFilter extends DefaultGatewayStrategyRouteFil
     @Value("${b.route.address:" + DEFAULT_B_ROUTE_ADDRESS + "}")
     private String bRouteAddress;
 
-    // 自定义根据Header全链路版本匹配
+    // 自定义根据Header全链路版本匹配路由
     @Override
     public String getRouteVersion() {
         String user = strategyContextHolder.getHeader("user");
 
-        LOG.info("自定义根据Header全链路版本匹配, Header user={}", user);
+        LOG.info("自定义根据Header全链路版本匹配路由, Header user={}", user);
 
         if (StringUtils.equals(user, "zhangsan")) {
-            LOG.info("执行全链路版本路由={}", aRouteVersion);
+            LOG.info("执行全链路版本匹配路由={}", aRouteVersion);
 
             return aRouteVersion;
         } else if (StringUtils.equals(user, "lisi")) {
-            LOG.info("执行全链路版本路由={}", bRouteVersion);
+            LOG.info("执行全链路版本匹配路由={}", bRouteVersion);
 
             return bRouteVersion;
         }
@@ -1308,19 +1308,19 @@ public class MyGatewayStrategyRouteFilter extends DefaultGatewayStrategyRouteFil
         return super.getRouteVersion();
     }
 
-    // 自定义根据Parameter全链路区域匹配
+    // 自定义根据Parameter全链路区域匹配路由
     @Override
     public String getRouteRegion() {
         String user = strategyContextHolder.getParameter("user");
 
-        LOG.info("自定义根据Parameter全链路区域匹配, Parameter user={}", user);
+        LOG.info("自定义根据Parameter全链路区域匹配路由, Parameter user={}", user);
 
         if (StringUtils.equals(user, "zhangsan")) {
-            LOG.info("执行全链路区域路由={}", aRouteRegion);
+            LOG.info("执行全链路区域匹配路由={}", aRouteRegion);
 
             return aRouteRegion;
         } else if (StringUtils.equals(user, "lisi")) {
-            LOG.info("执行全链路区域路由={}", bRouteRegion);
+            LOG.info("执行全链路区域匹配路由={}", bRouteRegion);
 
             return bRouteRegion;
         }
@@ -1328,19 +1328,19 @@ public class MyGatewayStrategyRouteFilter extends DefaultGatewayStrategyRouteFil
         return super.getRouteRegion();
     }
 
-    // 自定义根据Cookie全链路IP地址和端口匹配
+    // 自定义根据Cookie全链路IP地址和端口匹配路由
     @Override
     public String getRouteAddress() {
         String user = strategyContextHolder.getCookie("user");
 
-        LOG.info("自定义根据Cookie全链路IP地址和端口匹配, Cookie user={}", user);
+        LOG.info("自定义根据Cookie全链路IP地址和端口匹配路由, Cookie user={}", user);
 
         if (StringUtils.equals(user, "zhangsan")) {
-            LOG.info("执行全链路IP地址和端口匹配={}", aRouteAddress);
+            LOG.info("执行全链路IP地址和端口匹配路由={}", aRouteAddress);
 
             return aRouteAddress;
         } else if (StringUtils.equals(user, "lisi")) {
-            LOG.info("执行全链路IP地址和端口匹配={}", bRouteAddress);
+            LOG.info("执行全链路IP地址和端口匹配路由={}", bRouteAddress);
 
             return bRouteAddress;
         }
@@ -1368,10 +1368,10 @@ public class MyGatewayStrategyRouteFilter extends DefaultGatewayStrategyRouteFil
         return super.getRouteEnvironment();
     }
 
-    // 自定义全链路版本权重
+    // 自定义全链路版本权重路由
     @Override
     public String getRouteVersion() {
-        LOG.info("自定义全链路版本权重");
+        LOG.info("自定义全链路版本权重路由");
 
         List<Pair<String, Double>> weightList = new ArrayList<Pair<String, Double>>();
         weightList.add(new ImmutablePair<String, Double>(aRouteVersion, 30D));
@@ -1424,19 +1424,19 @@ public class MyZuulStrategyRouteFilter extends DefaultZuulStrategyRouteFilter {
     @Value("${b.route.address:" + DEFAULT_B_ROUTE_ADDRESS + "}")
     private String bRouteAddress;
 
-    // 自定义根据Header全链路版本匹配
+    // 自定义根据Header全链路版本匹配路由
     @Override
     public String getRouteVersion() {
         String user = strategyContextHolder.getHeader("user");
 
-        LOG.info("自定义根据Header全链路版本匹配, Header user={}", user);
+        LOG.info("自定义根据Header全链路版本匹配路由, Header user={}", user);
 
         if (StringUtils.equals(user, "zhangsan")) {
-            LOG.info("执行全链路版本路由={}", aRouteVersion);
+            LOG.info("执行全链路版本匹配路由={}", aRouteVersion);
 
             return aRouteVersion;
         } else if (StringUtils.equals(user, "lisi")) {
-            LOG.info("执行全链路版本路由={}", bRouteVersion);
+            LOG.info("执行全链路版本匹配路由={}", bRouteVersion);
 
             return bRouteVersion;
         }
@@ -1444,19 +1444,19 @@ public class MyZuulStrategyRouteFilter extends DefaultZuulStrategyRouteFilter {
         return super.getRouteVersion();
     }
 
-    // 自定义根据Parameter全链路区域匹配
+    // 自定义根据Parameter全链路区域匹配路由
     @Override
     public String getRouteRegion() {
         String user = strategyContextHolder.getParameter("user");
 
-        LOG.info("自定义根据Parameter全链路区域匹配, Parameter user={}", user);
+        LOG.info("自定义根据Parameter全链路区域匹配路由, Parameter user={}", user);
 
         if (StringUtils.equals(user, "zhangsan")) {
-            LOG.info("执行全链路区域路由={}", aRouteRegion);
+            LOG.info("执行全链路区域匹配路由={}", aRouteRegion);
 
             return aRouteRegion;
         } else if (StringUtils.equals(user, "lisi")) {
-            LOG.info("执行全链路区域路由={}", bRouteRegion);
+            LOG.info("执行全链路区域匹配路由={}", bRouteRegion);
 
             return bRouteRegion;
         }
@@ -1464,19 +1464,19 @@ public class MyZuulStrategyRouteFilter extends DefaultZuulStrategyRouteFilter {
         return super.getRouteRegion();
     }
 
-    // 自定义根据Cookie全链路IP地址和端口匹配
+    // 自定义根据Cookie全链路IP地址和端口匹配路由
     @Override
     public String getRouteAddress() {
         String user = strategyContextHolder.getCookie("user");
 
-        LOG.info("自定义根据Cookie全链路IP地址和端口匹配, Cookie user={}", user);
+        LOG.info("自定义根据Cookie全链路IP地址和端口匹配路由, Cookie user={}", user);
 
         if (StringUtils.equals(user, "zhangsan")) {
-            LOG.info("执行全链路IP地址和端口匹配={}", aRouteAddress);
+            LOG.info("执行全链路IP地址和端口匹配路由={}", aRouteAddress);
 
             return aRouteAddress;
         } else if (StringUtils.equals(user, "lisi")) {
-            LOG.info("执行全链路IP地址和端口匹配={}", bRouteAddress);
+            LOG.info("执行全链路IP地址和端口匹配路由={}", bRouteAddress);
 
             return bRouteAddress;
         }
@@ -1505,10 +1505,10 @@ public class MyZuulStrategyRouteFilter extends DefaultZuulStrategyRouteFilter {
         return super.getRouteEnvironment();
     }
 
-    // 自定义全链路版本权重
+    // 自定义全链路版本权重路由
     @Override
     public String getRouteVersion() {
-        LOG.info("自定义全链路版本权重");
+        LOG.info("自定义全链路版本权重路由");
 
         List<Pair<String, Double>> weightList = new ArrayList<Pair<String, Double>>();
         weightList.add(new ImmutablePair<String, Double>(aRouteVersion, 30D));
@@ -1563,20 +1563,20 @@ public class MyServiceStrategyRouteFilter extends DefaultServiceStrategyRouteFil
     @Value("${b.route.address:" + DEFAULT_B_ROUTE_ADDRESS + "}")
     private String bRouteAddress;
 
-    // 自定义根据Header全链路版本匹配
+    // 自定义根据Header全链路版本匹配路由
     // 当网关有对应策略传入时，以网关策略优先，此处逻辑无效
     @Override
     public String getRouteVersion() {
         String user = strategyContextHolder.getHeader("user");
 
-        LOG.info("自定义根据Header全链路版本匹配, Header user={}", user);
+        LOG.info("自定义根据Header全链路版本匹配路由, Header user={}", user);
 
         if (StringUtils.equals(user, "zhangsan")) {
-            LOG.info("执行全链路版本路由={}", aRouteVersion);
+            LOG.info("执行全链路版本匹配路由={}", aRouteVersion);
 
             return aRouteVersion;
         } else if (StringUtils.equals(user, "lisi")) {
-            LOG.info("执行全链路版本路由={}", bRouteVersion);
+            LOG.info("执行全链路版本匹配路由={}", bRouteVersion);
 
             return bRouteVersion;
         }
@@ -1584,20 +1584,20 @@ public class MyServiceStrategyRouteFilter extends DefaultServiceStrategyRouteFil
         return super.getRouteVersion();
     }
 
-    // 自定义根据Parameter全链路区域匹配
+    // 自定义根据Parameter全链路区域匹配路由
     // 当网关有对应策略传入时，以网关策略优先，此处逻辑无效
     @Override
     public String getRouteRegion() {
         String user = strategyContextHolder.getParameter("user");
 
-        LOG.info("自定义根据Parameter全链路区域匹配, Parameter user={}", user);
+        LOG.info("自定义根据Parameter全链路区域匹配路由, Parameter user={}", user);
 
         if (StringUtils.equals(user, "zhangsan")) {
-            LOG.info("执行全链路区域路由={}", aRouteRegion);
+            LOG.info("执行全链路区域匹配路由={}", aRouteRegion);
 
             return aRouteRegion;
         } else if (StringUtils.equals(user, "lisi")) {
-            LOG.info("执行全链路区域路由={}", bRouteRegion);
+            LOG.info("执行全链路区域匹配路由={}", bRouteRegion);
 
             return bRouteRegion;
         }
@@ -1605,20 +1605,20 @@ public class MyServiceStrategyRouteFilter extends DefaultServiceStrategyRouteFil
         return super.getRouteRegion();
     }
 
-    // 自定义根据Cookie全链路IP地址和端口匹配
+    // 自定义根据Cookie全链路IP地址和端口匹配路由
     // 当网关有对应策略传入时，以网关策略优先，此处逻辑无效
     @Override
     public String getRouteAddress() {
         String user = strategyContextHolder.getCookie("user");
 
-        LOG.info("自定义根据Cookie全链路IP地址和端口匹配, Cookie user={}", user);
+        LOG.info("自定义根据Cookie全链路IP地址和端口匹配路由, Cookie user={}", user);
 
         if (StringUtils.equals(user, "zhangsan")) {
-            LOG.info("执行全链路IP地址和端口匹配={}", aRouteAddress);
+            LOG.info("执行全链路IP地址和端口匹配路由={}", aRouteAddress);
 
             return aRouteAddress;
         } else if (StringUtils.equals(user, "lisi")) {
-            LOG.info("执行全链路IP地址和端口匹配={}", bRouteAddress);
+            LOG.info("执行全链路IP地址和端口匹配路由={}", bRouteAddress);
 
             return bRouteAddress;
         }
@@ -1648,11 +1648,11 @@ public class MyServiceStrategyRouteFilter extends DefaultServiceStrategyRouteFil
         return super.getRouteEnvironment();
     }
 
-    // 自定义全链路版本权重
+    // 自定义全链路版本权重路由
     // 当网关有对应策略传入时，以网关策略优先，此处逻辑无效
     @Override
     public String getRouteVersion() {
-        LOG.info("自定义全链路版本权重");
+        LOG.info("自定义全链路版本权重路由");
 
         List<Pair<String, Double>> weightList = new ArrayList<Pair<String, Double>>();
         weightList.add(new ImmutablePair<String, Double>(aRouteVersion, 30D));
