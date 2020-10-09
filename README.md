@@ -1002,7 +1002,7 @@ IP地址和端口灰度路由架构图
 - 支持Header、Query Parameter、Cookie三种参数。例如，下面表达式，a、b、c的值可以来自Header、Query Parameter、Cookie中的任何一种。为兼容老的用法，统一以header节点来描述
 - 支持Header、Query Parameter、Cookie混合策略表达式，例如，下面表达式，a的值可以来自于Header，b的值可以来自于Query Parameter，c的值可以来自于Cookie。如果同一个值同时存在于Header、Query Parameter、Cookie，优先级Header > Query Parameter > Cookie
 
-`<condition id="condition2" header="#H['a'] == '1' &amp;&amp; #H['b'] == '2' &amp;&amp; #H['c'] == '3'" version-id="version-route1"/>`
+`<condition id="condition2" header="#H['a'] == '1' &amp;&amp; #H['b'] &lt;= '2' &amp;&amp; #H['c'] != '3'" version-id="version-route1"/>`
 
 ![](http://nepxion.gitee.io/docs/icon-doc/warning.png) Spel表达式的逻辑，需要注意
 - 任何值都大于null。当某个Header未传值，但又指定了该Header大于的表达式，那么正则结果是true。例如，表达式为#H['a'] > '2'，但a作为Header未传递进来，即为null，判断结果为false
@@ -1010,43 +1010,51 @@ IP地址和端口灰度路由架构图
 
 具体使用逻辑如下
 
+① 当外部调用带有的Http Header中的值a=1同时b=2
+
+`<condition>`节点中`header="#H['a'] == '1' &amp;&amp; #H['b'] == '2'"`对应的`version-id="version-route1"`，找到下面`<route>`节点中`id="version-route1" type="version"`的那项，那么路由即为
 ```
-1. 当外部调用带有的Http Header中的值a=1同时b=2
-   <condition>节点中header="#H['a'] == '1' &amp;&amp; #H['b'] == '2'"对应的version-id="version-route1"，找到下面
-   <route>节点中id="version-route1" type="version"的那项，那么路由即为
-   {"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}
+{"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}
+```
 
-2. 当外部调用带有的Http Header中的值a=1
-   <condition>节点中header="#H['a'] == '1'"对应的version-id="version-route2"，找到下面
-   <route>中id="version-route2" type="version"的那项，那么路由即为
-   {"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.1"}
+② 当外部调用带有的Http Header中的值a=1
 
-3. 当外部调用带有的Http Header中的值都不命中，那么执行顺序为
-   1）如果配置了权重路由（<conditions type="gray">节点下）的策略，则执行权重路由
-   2）如果权重路由策略未配置，则执行<strategy>节点中的全局缺省路由，那么路由即为
-   {"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
-   3）如果全局缺省路由未配置，则执行Spring Cloud Ribbon轮询策略
+`<condition>`节点中`header="#H['a'] == '1'"`对应的`version-id="version-route2"`，找到下面`<route>`中`id="version-route2" type="version"`的那项，那么路由即为
+```
+{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.1"}
+```
+
+③ 当外部调用带有的Http Header中的值都不命中
+
+- 执行`<strategy>`节点中的全局缺省路由，那么路由即为
+```
+{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
+```
+- 如果全局缺省路由未配置，则执行Spring Cloud Ribbon轮询策略
    
-4. 必须带有Header。假如不愿意从网关外部传入Header，那么支持策略下内置Header来决策蓝绿和灰度，可以代替外部传入Header，参考如下配置
-   注意：Spring Cloud Gateway在Finchley版不支持该方式
-   <headers>
-       <header key="a" value="1"/>
-   </headers>
-   当服务侧配置了内置Header，而网关也传递给对应Header给该服务，那么以网关传递的Header为优先
-
-5. 策略总共支持5种，可以单独一项使用，也可以多项叠加使用
-   1）version 版本路由
-   2）region 区域路由
-   3）address IP地址和端口路由
-   4）version-weight 版本权重路由
-   5）region-weight 区域权重路由
-
-6. 策略支持Spring Spel的条件表达式方式
-
-7. 策略支持Spring Matcher的通配符方式
-
-8. 支持并行实施。通过namespace（可以自定义）的Http Header进行发布隔离
+④ 必须带有Header。假如不愿意从网关外部传入Header，那么支持策略下内置Header来决策蓝绿和灰度，可以代替外部传入Header，参考如下配置
+```xml
+<headers>
+   <header key="a" value="1"/>
+</headers>
 ```
+内置Header一般使用场景为定时Job的服务调用灰度路由。当服务侧配置了内置Header，而网关也传递给对应Header给该服务，那么以网关传递的Header为优先
+
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：Spring Cloud Gateway在Finchley版不支持该方式
+
+⑤ 策略总共支持5种，可以单独一项使用，也可以多项叠加使用
+
+- version 版本路由
+- region 区域路由
+- address IP地址和端口路由
+- version-weight 版本权重路由
+- region-weight 区域权重路由
+
+⑥ 策略支持Spring Spel的条件表达式方式
+
+⑦ 策略支持Spring Matcher的通配符方式
+
+⑧ 支持并行实施。通过namespace（可以自定义）的Http Header进行发布隔离
 
 具体示例内容如下
 
