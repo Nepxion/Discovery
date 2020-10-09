@@ -96,6 +96,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
     - 并行路由下的版本优选路由
     - 异步场景下的触发路由
     - Header、Query Parameter、Cookie的混合策略表达式。优先级Header > Query Parameter > Cookie
+    - 内置Header支持定时Job灰度路由
 - 基于Query Parameter的全链路灰度路由
 - 基于Cookie的全链路灰度路由
 - 基于域名的全链路灰度路由
