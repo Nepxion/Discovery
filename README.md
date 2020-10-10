@@ -87,7 +87,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 - 支持和兼容Spring Cloud Edgware版、Finchley版、Greenwich版和Hoxton版
 
 ② 微服务框架支持的应用功能，如下
-- 基于Header传递的全链路灰度路由，网关为路由触发点。采用配置中心配置路由策略映射在网关过滤器中植入Header信息而实现，路由策略传递到全链路服务中。主要包括
+- 基于Header传递的全链路灰度路由。采用配置中心配置路由策略映射在网关或者服务过滤器中植入Header信息而实现，路由策略传递到全链路服务中。主要包括
     - 匹配路由。包括版本匹配路由、区域匹配路由、IP地址和端口匹配路由
     - 权重路由。包括版本权重路由、区域权重路由
     - 前端触发路由
@@ -168,7 +168,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
     - 定义所属环境Env
     - 定义所属可用区Zone
 - 执行采用“约定大于配置”的准则，使用者也可以开启和关闭相关功能项或者属性值，达到最佳配置
-- 规则策略文件设置和推送，或者通过Header、Query Parameter、Cookie触发，并通过Header方式全链路传递路由信息
+- 规则策略文件设置和推送，或者通过Header、Query Parameter、Cookie触发，并通过Header方式全链路传递路由策略
 
 ④ 微服务框架版本兼容列表，如下
 
