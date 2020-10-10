@@ -1683,7 +1683,7 @@ public ServiceStrategyRouteFilter serviceStrategyRouteFilter() {
 #### 通过业务参数在策略类中自定义灰度路由策略
 通过策略方式自定义灰度路由策略。下面代码既适用于Zuul和Spring Cloud Gateway网关，也适用于Service微服务，同时全链路中网关和服务都必须加该方式，DefaultDiscoveryEnabledStrategy可以有多个，框架会组合判断
 ```java
-// 实现了组合策略，版本路由策略+区域路由策略+IP和端口路由策略+自定义策略
+// 实现了组合策略，版本路由策略+区域路由策略+IP地址和端口路由策略+自定义策略
 public class MyDiscoveryEnabledStrategy extends DefaultDiscoveryEnabledStrategy {
     private static final Logger LOG = LoggerFactory.getLogger(MyDiscoveryEnabledStrategy.class);
 
@@ -1725,7 +1725,7 @@ public DiscoveryEnabledStrategy discoveryEnabledStrategy() {
 ```
 在网关和服务中支持基于Rest Header传递的自定义灰度路由策略，除此之外，服务还支持基于Rpc方法参数传递的自定义灰度路由策略，它包括接口名、方法名、参数名或参数值等多种形式。下面的示例表示在服务中同时开启基于Rest Header传递和Rpc方法参数传递的自定义组合式灰度路由策略，DefaultDiscoveryEnabledStrategy可以有多个，框架会组合判断
 ```java
-// 实现了组合策略，版本路由策略+区域路由策略+IP和端口路由策略+自定义策略
+// 实现了组合策略，版本路由策略+区域路由策略+IP地址和端口路由策略+自定义策略
 public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
     private static final Logger LOG = LoggerFactory.getLogger(MyDiscoveryEnabledStrategy.class);
 
@@ -2369,7 +2369,7 @@ XML最全的示例如下，Json示例见源码discovery-springcloud-example-serv
         <!-- 区域路由 -->
         <region>{"discovery-springcloud-example-a":"qa;dev", "discovery-springcloud-example-b":"dev", "discovery-springcloud-example-c":"qa"}</region>
         <!-- <region>dev</region> -->
-        <!-- IP和端口路由 -->
+        <!-- IP地址和端口路由 -->
         <address>{"discovery-springcloud-example-a":"192.168.43.101:1100", "discovery-springcloud-example-b":"192.168.43.101:1201", "discovery-springcloud-example-c":"192.168.43.101:1300"}</address>
         <!-- 权重流量配置有如下四种方式，优先级分别是由高到底，即先从第一种方式取权重流量值，取不到则到第二种方式取值，以此类推，最后仍取不到则忽略。使用者按照实际情况，选择一种即可 -->
         <!-- 版本权重路由 -->
