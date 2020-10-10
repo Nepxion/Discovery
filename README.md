@@ -118,10 +118,10 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
     - 基于远程配置中心的规则策略订阅推送
     - 基于Swagger和Rest的规则策略推送
     - 基于图形化界面的规则策略推送
-- 基于组（Group）和黑白名单的全链路服务隔离和准入。主要包括
-    - 服务注册发现准入。包括基于组（Group）黑白名单注册准入、基于IP地址黑白名单注册准入、基于最大注册数限制注册准入、基于IP地址黑白名单发现准入
-    - 消费端服务隔离。包括基于组（Group）负载均衡隔离
-    - 提供端服务隔离。包括基于组（Group）Header传值策略隔离
+- 基于组Group和黑白名单的全链路服务隔离和准入。主要包括
+    - 服务注册发现准入。包括基于组Group黑白名单注册准入、基于IP地址黑白名单注册准入、基于最大注册数限制注册准入、基于IP地址黑白名单发现准入
+    - 消费端服务隔离。包括基于组Group负载均衡隔离
+    - 提供端服务隔离。包括基于组Group Header传值策略隔离
 - 基于Env的全链路环境隔离和路由。主要包括
     - 环境隔离。基于服务实例的元数据Metadata的env参数和全链路传递的环境Header值进行比对实现隔离
     - 环境路由。基于调用端实例找不到符合条件的提供端实例，把流量路由到一个通用或者备份环境
@@ -137,9 +137,9 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
     - 基于自定义业务参数的组合式防护机制
 - 基于Hystrix的全链路服务限流熔断和灰度融合
 - 全链路监控。主要包括
-    - 全链路调用链监控（Tracing）
-    - 全链路日志监控（Logging）
-    - 全链路指标监控（Metrics）
+    - 全链路调用链监控
+    - 全链路日志监控
+    - 全链路指标监控
 - 全链路Header传递
 - 全链路侦测
 - 全链路服务侧注解
@@ -405,11 +405,11 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
         - [自定义业务参数的组合式防护机制](#自定义业务参数的组合式防护机制)
 - [基于Hystrix的全链路服务限流熔断和灰度融合](#基于Hystrix的全链路服务限流熔断和灰度融合)
 - [全链路监控](#全链路监控)
-    - [全链路调用链监控-Tracing](#全链路调用链监控-Tracing)
+    - [全链路调用链监控](#全链路调用链监控)
         - [Header输出方式](#Header输出方式)
         - [调用链输出方式](#调用链输出方式)
         - [日志输出方式](#日志输出方式)
-    - [全链路指标监控-Metrics](#全链路指标监控-Metrics)
+    - [全链路指标监控](#全链路指标监控)
         - [Prometheus监控方式](#Prometheus监控方式)
         - [Grafana监控方式](#Grafana监控方式)
         - [Spring-Boot-Admin监控方式](#Spring-Boot-Admin监控方式)
@@ -3034,7 +3034,7 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 
 ## 全链路监控
 
-### 全链路调用链监控-Tracing
+### 全链路调用链监控
 调用链监控，在本文主要指灰度调用链监控。快速入门操作，参考[Discovery灰度发布路由调用链演示视频](http://nepxion.gitee.io/videos/discovery-video/DiscoveryJaeger.wmv)
 
 灰度调用链主要包括如下15个参数，以n-d-service开头的是必须的，其它是可选的或者按照场景而定。使用者可以自行定义要传递的调用链参数，例如：traceId, spanId等；也可以自行定义要传递的业务调用链参数，例如：mobile, user等
@@ -3262,7 +3262,7 @@ spring.application.strategy.tracer.sentinel.args.output.enabled=true
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Tracer.jpg)
 
-### 全链路指标监控-Metrics
+### 全链路指标监控
 
 #### Prometheus监控方式
 ![](http://nepxion.gitee.io/docs/discovery-doc/Prometheus.jpg)
