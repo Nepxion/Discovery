@@ -95,8 +95,8 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
     - 负载均衡策略类触发路由
     - 并行路由下的版本优选路由
     - 异步场景下的触发路由
-    - Header、Query Parameter、Cookie的混合策略表达式。优先级Header > Query Parameter > Cookie
-    - 内置Header支持定时Job的服务调用灰度路由
+    - 通过Header、Query Parameter、Cookie支持混合策略表达式
+    - 通过内置Header支持定时Job的服务调用灰度路由
 - 基于Query Parameter的全链路灰度路由
 - 基于Cookie的全链路灰度路由
 - 基于域名的全链路灰度路由
@@ -118,10 +118,10 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
     - 基于远程配置中心的规则策略订阅推送
     - 基于Swagger和Rest的规则策略推送
     - 基于图形化界面的规则策略推送
-- 基于组（Group）和黑白名单的全链路服务隔离和准入。主要包括
-    - 服务注册发现准入。包括基于组（Group）黑白名单注册准入、基于IP地址黑白名单注册准入、基于最大注册数限制注册准入、基于IP地址黑白名单发现准入
-    - 消费端服务隔离。包括基于组（Group）负载均衡隔离
-    - 提供端服务隔离。包括基于组（Group）Header传值策略隔离
+- 基于组Group和黑白名单的全链路服务隔离和准入。主要包括
+    - 服务注册发现准入。包括基于组Group黑白名单注册准入、基于IP地址黑白名单注册准入、基于最大注册数限制注册准入、基于IP地址黑白名单发现准入
+    - 消费端服务隔离。包括基于组Group负载均衡隔离
+    - 提供端服务隔离。包括基于组Group Header传值策略隔离
 - 基于Env的全链路环境隔离和路由。主要包括
     - 环境隔离。基于服务实例的元数据Metadata的env参数和全链路传递的环境Header值进行比对实现隔离
     - 环境路由。基于调用端实例找不到符合条件的提供端实例，把流量路由到一个通用或者备份环境
@@ -137,9 +137,9 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
     - 基于自定义业务参数的组合式防护机制
 - 基于Hystrix的全链路服务限流熔断和灰度融合
 - 全链路监控。主要包括
-    - 全链路调用链监控（Tracing）
-    - 全链路日志监控（Logging）
-    - 全链路指标监控（Metrics）
+    - 全链路调用链监控
+    - 全链路日志监控
+    - 全链路指标监控
 - 全链路Header传递
 - 全链路侦测
 - 全链路服务侧注解
@@ -159,24 +159,18 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
     - 基于WRK的性能压力测试
 - Docker容器化和Kubernetes平台的无缝支持部署
 
-③ 微服务框架支持的重要中间件，如下
-- [**Nacos**] 阿里巴巴中间件部门开发的新一代集服务注册发现中心和配置中心为一体的中间件。它是构建以“服务”为中心的现代应用架构 (例如微服务范式、云原生范式) 的服务基础设施，支持几乎所有主流类型的“服务”的发现、配置和管理，更敏捷和容易地构建、交付和管理微服务平台
-- [**Sentinel**] 阿里巴巴中间件部门开发的新一代以流量为切入点，从流量控制、熔断降级、系统负载保护等多个维度保护服务的稳定性的分布式系统的流量防卫兵。它承接了阿里巴巴近10年的双十一大促流量的核心场景，例如秒杀（即突发流量控制在系统容量可以承受的范围）、消息削峰填谷、集群流量控制、实时熔断下游不可用应用等
-- [**Spring Cloud Alibaba**] 阿里巴巴中间件部门开发的Spring Cloud增强套件，致力于提供微服务开发的一站式解决方案。此项目包含开发分布式应用微服务的必需组件，方便开发者通过Spring Cloud编程模型轻松使用这些组件来开发分布式应用服务。依托Spring Cloud Alibaba，只需要添加一些注解和少量配置，就可以将Spring Cloud应用接入阿里微服务解决方案，通过阿里中间件来迅速搭建分布式应用系统
-- [**OpenTracing**] OpenTracing已进入CNCF，正在为全球的分布式追踪系统提供统一的概念、规范、架构和数据标准。它通过提供平台无关、厂商无关的API，使得开发人员能够方便的添加（或更换）追踪系统的实现。对于存在多样化的技术栈共存的调用链中，OpenTracing适配Java、C、Go和.Net等技术栈，实现全链路分布式追踪功能。迄今为止，Uber Jaeger、Twitter Zipkin和Apache Skywalking已经适配了OpenTracing规范。CNCF技术委员会通过OpenTelemetry规范整合基于Tracing的OpenTracing规范（官方推荐Jaeger做Backend）和基于Metrics的OpenSensus规范（官方推荐Prometheus做Backend）
-
-④ 微服务框架易用性表现，如下
+③ 微服务框架易用性表现，如下
 - 引入相关依赖到pom.xml
 - 设置元数据MetaData。如下五个元数据可以按需设置
-    - 定义所属组名（group），也可以通过服务名前缀来自动产生服务组名
-    - 定义版本号（version），也可以通过Git插件方式自动产生版本号
-    - 定义所属区域名（region）
-    - 定义所属环境（env）
-    - 定义所属可用区（zone）	
+    - 定义所属组名Group，也可以通过服务名前缀来自动产生服务组名
+    - 定义版本号Version，也可以通过Git插件方式自动产生版本号
+    - 定义所属区域名Region
+    - 定义所属环境Env
+    - 定义所属可用区Zone
 - 执行采用“约定大于配置”的准则，使用者也可以开启和关闭相关功能项或者属性值，达到最佳配置
-- 规则策略文件设置和推送，或者通过Header方式传递
+- 规则策略文件设置和推送，或者通过Header、Query Parameter、Cookie触发，并通过Header方式全链路传递路由信息
 
-⑤ 微服务框架版本兼容列表，如下
+④ 微服务框架版本兼容列表，如下
 
 ![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 提醒：版本号右边， `↑` 表示>=该版本号， `↓` 表示<=该版本号
 
@@ -411,11 +405,11 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
         - [自定义业务参数的组合式防护机制](#自定义业务参数的组合式防护机制)
 - [基于Hystrix的全链路服务限流熔断和灰度融合](#基于Hystrix的全链路服务限流熔断和灰度融合)
 - [全链路监控](#全链路监控)
-    - [全链路调用链监控-Tracing](#全链路调用链监控-Tracing)
+    - [全链路调用链监控](#全链路调用链监控)
         - [Header输出方式](#Header输出方式)
         - [调用链输出方式](#调用链输出方式)
         - [日志输出方式](#日志输出方式)
-    - [全链路指标监控-Metrics](#全链路指标监控-Metrics)
+    - [全链路指标监控](#全链路指标监控)
         - [Prometheus监控方式](#Prometheus监控方式)
         - [Grafana监控方式](#Grafana监控方式)
         - [Spring-Boot-Admin监控方式](#Spring-Boot-Admin监控方式)
@@ -3040,7 +3034,7 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 
 ## 全链路监控
 
-### 全链路调用链监控-Tracing
+### 全链路调用链监控
 调用链监控，在本文主要指灰度调用链监控。快速入门操作，参考[Discovery灰度发布路由调用链演示视频](http://nepxion.gitee.io/videos/discovery-video/DiscoveryJaeger.wmv)
 
 灰度调用链主要包括如下15个参数，以n-d-service开头的是必须的，其它是可选的或者按照场景而定。使用者可以自行定义要传递的调用链参数，例如：traceId, spanId等；也可以自行定义要传递的业务调用链参数，例如：mobile, user等
@@ -3268,7 +3262,7 @@ spring.application.strategy.tracer.sentinel.args.output.enabled=true
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Tracer.jpg)
 
-### 全链路指标监控-Metrics
+### 全链路指标监控
 
 #### Prometheus监控方式
 ![](http://nepxion.gitee.io/docs/discovery-doc/Prometheus.jpg)
