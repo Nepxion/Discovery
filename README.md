@@ -4084,17 +4084,7 @@ spring.application.git.generator.path=classpath:git.properties
 
 ⑥ Docker运行效果
 
-- Docker Desktop
-
 ![](http://nepxion.gitee.io/docs/discovery-doc/Docker.jpg)
-
-- Docker Windows
-
-![](http://nepxion.gitee.io/docs/polaris-doc/DockerWindows.jpg)
-
-- Docker Linux
-
-![](http://nepxion.gitee.io/docs/polaris-doc/DockerLinux.jpg)
 
 ### Kubernetes平台支持
 请自行研究
