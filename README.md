@@ -168,7 +168,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
     - 定义所属环境Env
     - 定义所属可用区Zone
 - 执行采用“约定大于配置”的准则，使用者也可以开启和关闭相关功能项或者属性值，达到最佳配置
-- 规则策略文件设置和推送，或者通过Header方式传递
+- 规则策略文件设置和推送，或者通过Header、Query Parameter、Cookie触发，并通过Header方式全链路传递路由信息
 
 ④ 微服务框架版本兼容列表，如下
 
