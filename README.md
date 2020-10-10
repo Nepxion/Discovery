@@ -1981,7 +1981,7 @@ spring.application.strategy.rest.template.core.header.transmission.enabled=true
 ## 基于服务下线实时性的流量绝对无损策略
 服务下线场景中，由于Ribbon负载均衡组件存在着缓存机制，当被调用的服务实例已经下线，而调用的服务实例还暂时缓存着它，直到下个心跳周期才会把已下线的服务实例剔除，在此期间，会造成流量有损
 
-框架提供流量的实时性的绝对无损。采用下线之前，把服务实例添加到屏蔽名单中，负载均衡不会去寻址该服务实例。下线之后，清除该名单。实现该方式，需要通过DevOps调用注册中心的Open API推送或者在注册中心界面手工修改，通过全局订阅方式实现，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名）
+框架提供流量的实时性的绝对无损。采用下线之前，把服务实例添加到屏蔽名单中，负载均衡不会去寻址该服务实例。下线之后，清除该名单。实现该方式，需要通过DevOps调用配置中心的Open API推送或者在配置中心界面手工修改，通过全局订阅方式实现，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名）
 
 ### 配置全局唯一ID屏蔽策略
 全局唯一ID对应于元数据spring.application.uuid字段，框架会自动把该ID注册到注册中心。此用法适用于Docker和Kubernetes上IP地址不确定的场景，策略内容如下，采用如下两种方式之一均可
@@ -2189,7 +2189,7 @@ public class MySubscriber {
             Map<String, List<ParameterServiceEntity>> parameterServiceMap = parameterEntity.getParameterServiceMap();
             parameterServiceEntityList = parameterServiceMap.get(serviceId);
         }
-        System.out.println("========== 获取动态参数, serviceId=" + serviceId + ", parameterServiceEntityList=" + parameterServiceEntityList);
+        // parameterServiceEntityList为动态参数列表
     }
 }
 ```
