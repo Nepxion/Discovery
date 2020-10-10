@@ -491,7 +491,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 - 动态规则，即灰度发布时的规则。动态规则和灰度规则是同一个概念
 - 事件总线，即基于Google Guava的EventBus构建的组件。通过事件总线可以推送动态规则策略和动态版本的更新和删除
 - 远程配置中心，即可以存储规则策略配置XML格式的配置中心，可以包括不限于Nacos，Redis，Apollo
-- 配置（Config）和规则（Rule）。在本系统中属于同一个概念，例如更新配置，即更新规则；例如远程配置中心存储的配置，即规则XML
+- 配置Config和规则Rule。在本系统中属于同一个概念，例如更新配置，即更新规则；例如远程配置中心存储的配置，即规则XML
 - 服务端口和管理端口。服务端口即在配置文件的server.port值，管理端口即management.port（E版）值或者management.server.port（F版或以上）值
 
 ![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 灰度发布（规则）和灰度路由（策略）
@@ -513,8 +513,15 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 - 灰度发布（规则）和灰度路由（策略），可以并行在一起工作，也关闭一项，让另一项单独工作
 - 灰度发布（规则）和灰度路由（策略），一起工作的时候，先执行规则过滤逻辑，再执行策略过滤逻辑
 - 灰度发布（规则）和灰度路由（策略）关闭方式
-    - 灰度发布（规则）关闭，spring.application.register.control.enabled=false和spring.application.discovery.control.enabled=false
-    - 灰度路由（策略）关闭，spring.application.strategy.control.enabled=false
+    - 灰度发布（规则）关闭
+```
+spring.application.register.control.enabled=false
+spring.application.discovery.control.enabled=false
+```
+    - 灰度路由（策略）关闭
+```
+spring.application.strategy.control.enabled=false
+```
 
 ![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 动态改变规则策略和动态改变版本
 
