@@ -513,12 +513,13 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 - 灰度发布（规则）和灰度路由（策略），可以并行在一起工作，也关闭一项，让另一项单独工作
 - 灰度发布（规则）和灰度路由（策略），一起工作的时候，先执行规则过滤逻辑，再执行策略过滤逻辑
 - 灰度发布（规则）和灰度路由（策略）关闭方式
-    - 灰度发布（规则）关闭
+
+① 灰度发布（规则）关闭
 ```
 spring.application.register.control.enabled=false
 spring.application.discovery.control.enabled=false
 ```
-    - 灰度路由（策略）关闭
+② 灰度路由（策略）关闭
 ```
 spring.application.strategy.control.enabled=false
 ```
