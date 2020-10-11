@@ -996,11 +996,11 @@ IP地址和端口灰度路由架构图
 
 从Http Header获取到值进行逻辑判断，例如Http Header的Key为a，它的格式表示为#H['a']，H为Header的首字母。假如路由触发的条件为a等于1，b小于等于2，c不等于3，那么表达式可以写为
 
-`#H['a'] == '1' && #H['b'] <= '2' && #H['c'] != '3'`
+#H['a'] `==` '1' `&&` #H['b'] `<=` '2' `&&` #H['c'] `!=` '3'
 
 特殊符号必须转义，所以表达式必须改成如下
 
-`#H['a'] == '1' &amp;&amp; #H['b'] &lt;= '2' &amp;&amp; #H['c'] != '3'`
+#H['a'] `==` '1' `&amp;&amp;` #H['b'] `&lt;=` '2' `&amp;&amp;` #H['c'] `!=` '3'
 
 增加组合式的灰度策略，支持版本匹配、区域匹配、IP地址和端口匹配、版本权重匹配、区域权重匹配。以版本匹配为例，Group为discovery-guide-group，Data Id为discovery-guide-gateway，或者，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现功能
 
