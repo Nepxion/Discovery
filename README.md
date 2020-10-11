@@ -996,11 +996,11 @@ IP地址和端口灰度路由架构图
 
 从Http Header获取到值进行逻辑判断，例如Http Header的Key为a，它的格式表示为#H['a']，H为Header的首字母。假如路由触发的条件为a等于1，b小于等于2，c不等于3，那么表达式可以写为
 
-#H['a'] == '1' && #H['b'] <= '2' && #H['c'] != '3'
+`#`H['a'] == '1' && `#`H['b'] <= '2' && `#`H['c'] != '3'
 
 特殊符号必须转义，所以表达式必须改成如下
 
-#H['a'] == '1' `&amp;&amp;` #H['b'] `&lt;`= '2' `&amp;&amp;` #H['c'] != '3'
+`#`H['a'] == '1' `&amp;&amp;` `#`H['b'] `&lt;`= '2' `&amp;&amp;` `#`H['c'] != '3'
 
 增加组合式的灰度策略，支持版本匹配、区域匹配、IP地址和端口匹配、版本权重匹配、区域权重匹配。以版本匹配为例，Group为discovery-guide-group，Data Id为discovery-guide-gateway，或者，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现功能
 
@@ -1016,14 +1016,14 @@ IP地址和端口灰度路由架构图
 
 ① 当外部调用带有的Http Header中的值a=1同时b=2
 
-`<condition>`节点中`header="#H['a'] == '1' &amp;&amp; #H['b'] == '2'"`对应的`version-id="version-route1"`，找到下面`<route>`节点中`id="version-route1" type="version"`的那项，那么路由即为
+`<condition>`节点中 **header="#H['a'] == '1' &amp;&amp; #H['b'] == '2'"** 对应的 **version-id="version-route1"** ，找到下面`<route>`节点中 **id="version-route1" type="version"** 的那项，那么路由即为
 ```
 {"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}
 ```
 
 ② 当外部调用带有的Http Header中的值a=1
 
-`<condition>`节点中`header="#H['a'] == '1'"`对应的`version-id="version-route2"`，找到下面`<route>`中`id="version-route2" type="version"`的那项，那么路由即为
+`<condition>`节点中 **header="#H['a'] == '1'"** 对应的 **version-id="version-route2"** ，找到下面`<route>`节点中 **id="version-route2" type="version"** 的那项，那么路由即为
 ```
 {"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.1"}
 ```
@@ -1036,7 +1036,7 @@ IP地址和端口灰度路由架构图
 ```
 - 如果全局缺省路由未配置，则执行Spring Cloud Ribbon轮询策略
    
-④ 必须带有Header。假如不愿意从网关外部传入Header，那么支持策略下内置Header来决策蓝绿和灰度，可以代替外部传入Header，参考如下配置
+④ 假如不愿意从网关外部传入Header，那么支持策略下内置Header来决策蓝绿和灰度，可以代替外部传入Header，参考如下配置
 ```xml
 <headers>
    <header key="a" value="1"/>
