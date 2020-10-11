@@ -1005,10 +1005,8 @@ IP地址和端口灰度路由架构图
 增加组合式的灰度策略，支持版本匹配、区域匹配、IP地址和端口匹配、版本权重匹配、区域权重匹配。以版本匹配为例，Group为discovery-guide-group，Data Id为discovery-guide-gateway，或者，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现功能
 
 ![](http://nepxion.gitee.io/docs/icon-doc/warning.png) Spel表达式的内容，需要注意
-- 支持Header、Query Parameter、Cookie三种参数。例如，下面表达式，a、b、c的值可以来自Header、Query Parameter、Cookie中的任何一种。为兼容老的用法，统一以header节点来描述
-- 支持Header、Query Parameter、Cookie混合策略表达式，例如，下面表达式，a的值可以来自于Header，b的值可以来自于Query Parameter，c的值可以来自于Cookie。如果同一个值同时存在于Header、Query Parameter、Cookie，优先级Header > Query Parameter > Cookie
-
-`<`condition id="condition2" header="#H['a'] == '1' `&amp;&amp;` #H['b'] `&lt;`= '2' `&amp;&amp;` #H['c'] != '3'" version-id="version-route1"/`>`
+- 支持Header、Query Parameter、Cookie三种参数。例如，上面表达式，a、b、c的值可以来自Header、Query Parameter、Cookie中的任何一种。为兼容老的用法，统一以header节点来描述
+- 支持Header、Query Parameter、Cookie混合策略表达式，例如，上面表达式，a的值可以来自于Header，b的值可以来自于Query Parameter，c的值可以来自于Cookie。如果同一个值同时存在于Header、Query Parameter、Cookie，优先级Header > Query Parameter > Cookie
 
 ![](http://nepxion.gitee.io/docs/icon-doc/warning.png) Spel表达式的逻辑，需要注意
 - 任何值都大于null。当某个Header未传值，但又指定了该Header大于的表达式，那么正则结果是true。例如，表达式为#H['a'] > '2'，但a作为Header未传递进来，即为null，判断结果为false
