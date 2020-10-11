@@ -1008,7 +1008,7 @@ IP地址和端口灰度路由架构图
 - 支持Header、Query Parameter、Cookie三种参数。例如，下面表达式，a、b、c的值可以来自Header、Query Parameter、Cookie中的任何一种。为兼容老的用法，统一以header节点来描述
 - 支持Header、Query Parameter、Cookie混合策略表达式，例如，下面表达式，a的值可以来自于Header，b的值可以来自于Query Parameter，c的值可以来自于Cookie。如果同一个值同时存在于Header、Query Parameter、Cookie，优先级Header > Query Parameter > Cookie
 
-`<condition id="condition2" header="#H['a'] == '1' &amp;&amp; #H['b'] &lt;= '2' &amp;&amp; #H['c'] != '3'" version-id="version-route1"/>`
+`<`condition id="condition2" header="#H['a'] == '1' `&amp;&amp;` #H['b'] `&lt;`= '2' `&amp;&amp;` #H['c'] != '3'" version-id="version-route1"/`>`
 
 ![](http://nepxion.gitee.io/docs/icon-doc/warning.png) Spel表达式的逻辑，需要注意
 - 任何值都大于null。当某个Header未传值，但又指定了该Header大于的表达式，那么正则结果是true。例如，表达式为#H['a'] > '2'，但a作为Header未传递进来，即为null，判断结果为false
