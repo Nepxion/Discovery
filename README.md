@@ -996,19 +996,17 @@ IP地址和端口灰度路由架构图
 
 从Http Header获取到值进行逻辑判断，例如Http Header的Key为a，它的格式表示为#H['a']，H为Header的首字母。假如路由触发的条件为a等于1，b小于等于2，c不等于3，那么表达式可以写为
 
-`#H['a'] == '1' && #H['b'] <= '2' && #H['c'] != '3'`
+`#`H['a'] == '1' && `#`H['b'] <= '2' && `#`H['c'] != '3'
 
 特殊符号必须转义，所以表达式必须改成如下
 
-`#H['a'] == '1' &amp;&amp; #H['b'] &lt;= '2' &amp;&amp; #H['c'] != '3'`
+`#`H['a'] == '1' `&amp;&amp;` `#`H['b'] `&lt;`= '2' `&amp;&amp;` `#`H['c'] != '3'
 
 增加组合式的灰度策略，支持版本匹配、区域匹配、IP地址和端口匹配、版本权重匹配、区域权重匹配。以版本匹配为例，Group为discovery-guide-group，Data Id为discovery-guide-gateway，或者，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现功能
 
 ![](http://nepxion.gitee.io/docs/icon-doc/warning.png) Spel表达式的内容，需要注意
-- 支持Header、Query Parameter、Cookie三种参数。例如，下面表达式，a、b、c的值可以来自Header、Query Parameter、Cookie中的任何一种。为兼容老的用法，统一以header节点来描述
-- 支持Header、Query Parameter、Cookie混合策略表达式，例如，下面表达式，a的值可以来自于Header，b的值可以来自于Query Parameter，c的值可以来自于Cookie。如果同一个值同时存在于Header、Query Parameter、Cookie，优先级Header > Query Parameter > Cookie
-
-`<condition id="condition2" header="#H['a'] == '1' &amp;&amp; #H['b'] &lt;= '2' &amp;&amp; #H['c'] != '3'" version-id="version-route1"/>`
+- 支持Header、Query Parameter、Cookie三种参数。例如，上面表达式，a、b、c的值可以来自Header、Query Parameter、Cookie中的任何一种。为兼容老的用法，统一以header节点来描述
+- 支持Header、Query Parameter、Cookie混合策略表达式，例如，上面表达式，a的值可以来自于Header，b的值可以来自于Query Parameter，c的值可以来自于Cookie。如果同一个值同时存在于Header、Query Parameter、Cookie，优先级Header > Query Parameter > Cookie
 
 ![](http://nepxion.gitee.io/docs/icon-doc/warning.png) Spel表达式的逻辑，需要注意
 - 任何值都大于null。当某个Header未传值，但又指定了该Header大于的表达式，那么正则结果是true。例如，表达式为#H['a'] > '2'，但a作为Header未传递进来，即为null，判断结果为false
@@ -1018,14 +1016,14 @@ IP地址和端口灰度路由架构图
 
 ① 当外部调用带有的Http Header中的值a=1同时b=2
 
-`<condition>`节点中`header="#H['a'] == '1' &amp;&amp; #H['b'] == '2'"`对应的`version-id="version-route1"`，找到下面`<route>`节点中`id="version-route1" type="version"`的那项，那么路由即为
+`<condition>`节点中 **header="#H['a'] == '1' &amp;&amp; #H['b'] == '2'"** 对应的 **version-id="version-route1"** ，找到下面`<route>`节点中 **id="version-route1" type="version"** 的那项，那么路由即为
 ```
 {"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}
 ```
 
 ② 当外部调用带有的Http Header中的值a=1
 
-`<condition>`节点中`header="#H['a'] == '1'"`对应的`version-id="version-route2"`，找到下面`<route>`中`id="version-route2" type="version"`的那项，那么路由即为
+`<condition>`节点中 **header="#H['a'] == '1'"** 对应的 **version-id="version-route2"** ，找到下面`<route>`节点中 **id="version-route2" type="version"** 的那项，那么路由即为
 ```
 {"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.1"}
 ```
@@ -1038,7 +1036,7 @@ IP地址和端口灰度路由架构图
 ```
 - 如果全局缺省路由未配置，则执行Spring Cloud Ribbon轮询策略
    
-④ 必须带有Header。假如不愿意从网关外部传入Header，那么支持策略下内置Header来决策蓝绿和灰度，可以代替外部传入Header，参考如下配置
+④ 假如不愿意从网关外部传入Header，那么支持策略下内置Header来决策蓝绿和灰度，可以代替外部传入Header，参考如下配置
 ```xml
 <headers>
    <header key="a" value="1"/>
