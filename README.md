@@ -3297,7 +3297,7 @@ spring.application.strategy.rest.intercept.debug.enabled=true
 # 灰度路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于框架内置上下文Header，例如：trace-id, span-id等）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
 spring.application.strategy.context.request.headers=trace-id;span-id
 # 灰度路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于业务系统子定义Header，例如：mobile）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
-spring.application.strategy.business.request.headers=user;mobile
+spring.application.strategy.business.request.headers=user;mobile;location
 ```
 
 ## 全链路侦测
