@@ -1000,7 +1000,7 @@ IP地址和端口灰度路由架构图
 
 特殊符号必须转义，所以表达式必须改成如下
 
-#H['a'] == '1' `&amp;&amp;` #H['b'] `&lt;`= '2' &amp;&amp; #H['c'] != '3'
+#H['a'] == '1' `&amp;&amp;` #H['b'] `&lt;`= '2' `&amp;&amp;` #H['c'] != '3'
 
 增加组合式的灰度策略，支持版本匹配、区域匹配、IP地址和端口匹配、版本权重匹配、区域权重匹配。以版本匹配为例，Group为discovery-guide-group，Data Id为discovery-guide-gateway，或者，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现功能
 
