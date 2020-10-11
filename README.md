@@ -3368,7 +3368,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 
 具体步骤介绍，如下
 - 新建一个模块，引入如下依赖
-```java
+```xml
 <dependency>
     <groupId>${project.groupId}</groupId>
     <artifactId>discovery-plugin-strategy-starter-agent</artifactId>
