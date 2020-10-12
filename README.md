@@ -541,7 +541,7 @@ spring.application.strategy.control.enabled=false
 - 规则策略可以持久化到远程配置中心，一旦微服务死掉后，再次启动，仍旧可以拿到灰度规则策略，所以动态改变规则策略策略属于永久灰度手段
 - 规则策略推送到远程配置中心可以分为局部推送和全局推送
     - 局部推送是基于Group+ServiceId来推送的，就是同一个Group下同一个ServiceId的服务集群独立拥有一个规则策略配置，如果采用这种方式，需要在每个微服务集群下做一次灰度。优点是独立封闭，本服务集群灰度失败不会影响到其它服务集群，缺点是相对繁琐
-    - 全局推送是基于Group来推送的（接口参数中的ServiceId由Group来代替），就是同一个Group下所有服务集群共同拥有一个规则策略配置，如果采用这种方式，只需要做一次灰度，所有服务集群都生效。优点是非常简便，缺点具有一定风险，因为这个规则策略配置掌握着所有服务集群的命运。全局推送用于全链路灰度
+    - 全局推送是基于Group来推送的（接口参数中的ServiceId由Group来代替），就是同一个Group下所有服务集群共同拥有一个规则策略配置，如果采用这种方式，只需要做一次灰度，所有服务集群都生效。优点是非常简便，缺点是具有一定风险，因为这个规则策略配置掌握着所有服务集群的命运。全局推送用于全链路灰度
     - 如果既执行了全局推送，又执行了局部推送，在服务运行期间或者服务重新启动，优先读取局部规则策略中的相应配置项，当局部规则策略的相应配置项不存在，则读取全局规则策略的相应配置项
 
 ② 动态改变版本
@@ -553,7 +553,7 @@ spring.application.strategy.control.enabled=false
 - 本地版本是通过在application.properties里配置的，在微服务启动的时候读取
 - 动态版本是通过POST方式动态设置
 - 获取版本值的时候，先获取动态版本，如果不存在，再获取本地版本
-- 版本不会持久化到远程配置中心，一旦微服务死掉后，再次启动，拿到的还是本地版本，所以动态改变版本策略属于临时灰度手段
+- 版本不会持久化到远程配置中心，一旦微服务重新启动，拿到的还是本地版本，所以动态改变版本策略属于临时灰度手段
 
 ## 工程架构
 
@@ -664,7 +664,7 @@ spring.application.strategy.control.enabled=false
 
 ③ 路由策略依赖引入
 
-微服务端、网关Zuul端和网关Spring Cloud Gateway端三个路由策略插件，选择引入其中一个。该依赖提供灰度路由功能、Http Header传递等功能
+微服务端、网关Zuul端和网关Spring Cloud Gateway端三个路由策略插件，选择引入其中一个。该依赖提供灰度路由功能、Http Header、Query Parameter、Cookie触发和传递等功能
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -817,15 +817,15 @@ zuul
 - 下载[源码主页](https://github.com/Nepxion/Discovery)的工程，并导入IDE
 - 启动源码工程下的discovery-springcloud-example-console/ConsoleApplication
 - 启动源码工程下的discovery-console-desktop/ConsoleLauncher
-- 通过admin/admin登录，点击“显示服务拓扑”按钮，将呈现如下界面
+- 通过admin/admin登录，点击【显示服务拓扑】按钮，将呈现如下界面
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide5-2.jpg)
 
-- 在加入上述规则策略前，选中网关节点，右键点击“执行灰度路由”，在弹出路由界面中，依次加入“discovery-guide-service-a”和“discovery-guide-service-b”，点击“执行路由”按钮，将呈现如下界面
+- 在加入上述规则策略前，选中网关节点，右键点击【执行灰度路由】，在弹出路由界面中，依次加入“discovery-guide-service-a”和“discovery-guide-service-b”，点击【执行路由】按钮，将呈现如下界面
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide5-3.jpg)
 
-- 在加入上述规则策略后，在路由界面中，再次点击“执行路由”按钮，将呈现如下界面
+- 在加入上述规则策略后，在路由界面中，再次点击【执行路由】按钮，将呈现如下界面
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide5-4.jpg)
 
@@ -1112,7 +1112,7 @@ IP地址和端口灰度路由架构图
 - region 区域路由
 - address IP地址和端口路由
 
-③ 其它用法和“配置全链路灰度条件命中和灰度匹配组合式策略”一致
+③ 其它用法和[配置全链路灰度条件命中和灰度匹配组合式策略](#配置全链路灰度条件命中和灰度匹配组合式策略)一致
 
 具体示例内容如下
 
@@ -1144,11 +1144,11 @@ IP地址和端口灰度路由架构图
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-9.jpg)
 
 ### 配置前端灰度和网关灰度路由组合式策略
-当前端（例如：APP）和后端微服务同时存在多个版本时，可以执行“前端灰度&网关灰度路由组合式策略”
+当前端（例如：APP）和后端微服务同时存在多个版本时，可以执行[前端灰度&网关灰度路由组合式策略](#前端灰度&网关灰度路由组合式策略)
 
 例如：前端存在1.0和2.0版本，微服务存在1.0和2.0版本，由于存在版本不兼容的情况（前端1.0版本只能调用微服务的1.0版本，前端2.0版本只能调用微服务的2.0版本），那么前端调用网关时候，可以通过Header传递它的版本号给网关，网关根据前端版本号，去路由对应版本的微服务
 
-该场景可以用“通过业务参数在过滤器中自定义灰度路由策略”的方案来解决，如下
+该场景可以用[通过业务参数在过滤器中自定义灰度路由策略](#通过业务参数在过滤器中自定义灰度路由策略)的方案来解决，如下
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -2496,7 +2496,7 @@ Nacos订阅推送界面
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Nacos2.jpg)
 - 参考Nacos官方文档[https://github.com/alibaba/nacos](https://github.com/alibaba/nacos)相关文档，搭建Nacos环境，以及熟悉相关的基本操作
-- 添加配置步骤跟Apollo配置界面中的“在页面中添加配置”操作项相似
+- 添加配置步骤跟Apollo配置界面中的【在页面中添加配置】操作项相似
 
 Redis订阅推送界面
 
@@ -2540,7 +2540,7 @@ Redis订阅推送界面
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console0.jpg)
 
-- 点击“显示服务拓扑”按钮，弹出“服务集群组过滤”对话框，列表是以服务所在的集群组列表（例如：eureka.instance.metadataMap.group=example-service-group），选择若干个并点击“确定”按钮，如果使用者想获取全部的服务集群（可能会耗性能），则直接点击“取消”按钮
+- 点击【显示服务拓扑】按钮，弹出【服务集群组过滤】对话框，列表是以服务所在的集群组列表（例如：eureka.instance.metadataMap.group=example-service-group），选择若干个并点击【确定】按钮，如果使用者想获取全部的服务集群（可能会耗性能），则直接点击【取消】按钮
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console4.jpg)
 
@@ -2548,33 +2548,33 @@ Redis订阅推送界面
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console5.jpg)
 
-- 执行灰度路由，选择一个服务，右键菜单“执行灰度路由”
+- 执行灰度路由，选择一个服务，右键菜单【执行灰度路由】
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console6.jpg)
 
-- 通过“服务列表”切换，或者点击增加和删除服务按钮，确定灰度路由路径，点击“执行路由”
+- 通过【服务列表】切换，或者点击增加和删除服务按钮，确定灰度路由路径，点击【执行路由】
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console7.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console2.jpg)
 
-- 推送模式设置，“异步推送”和“同步推送”，前者是推送完后立刻返回，后者是推送完后等待推送结果（包括规则XML解析的异常等都能在界面上反映出来）；“规则推送到远程配置中心”和“规则推送到服务或者服务集群”，前者是推送到配置中心（持久化），后者是推送到一个或者多个服务机器的内存（非持久化，重启后丢失）
+- 推送模式设置，【异步推送】和【同步推送】，前者是推送完后立刻返回，后者是推送完后等待推送结果（包括规则XML解析的异常等都能在界面上反映出来）；【规则推送到远程配置中心】和【规则推送到服务或者服务集群】，前者是推送到配置中心（持久化），后者是推送到一个或者多个服务机器的内存（非持久化，重启后丢失）
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console8.jpg)
 
-- 执行灰度发布，选择一个服务或者服务组，右键菜单“执行灰度发布”，前者是通过单个服务实例执行灰度发布，后者是通过一组服务实例执行灰度发布
+- 执行灰度发布，选择一个服务或者服务组，右键菜单【执行灰度发布】，前者是通过单个服务实例执行灰度发布，后者是通过一组服务实例执行灰度发布
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console9.jpg)
 
-- 灰度发布，包括“更改版本”和“更改规则”，前者通过更改版本号去适配灰度规则中的版本匹配关系，后者直接修改规则。“更改版本”是推送到一个或者多个服务机器的内存（非持久化，重启后丢失），“更改规则”是根据不同的推送模式，两种方式都支持
+- 灰度发布，包括【更改版本】和【更改规则】，前者通过更改版本号去适配灰度规则中的版本匹配关系，后者直接修改规则。【更改版本】是推送到一个或者多个服务机器的内存（非持久化，重启后丢失），【更改规则】是根据不同的推送模式，两种方式都支持
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console10.jpg)
 
-- 全链路灰度发布，所有在同一个集群组（例如：eureka.instance.metadataMap.group=example-service-group）里的服务统一做灰度发布，即一个规则配置搞定所有服务的灰度发布。点击“全链路灰度发布”按钮，弹出“全链路灰度发布”对话框
+- 全链路灰度发布，所有在同一个集群组（例如：eureka.instance.metadataMap.group=example-service-group）里的服务统一做灰度发布，即一个规则配置搞定所有服务的灰度发布。点击【全链路灰度发布】按钮，弹出【全链路灰度发布】对话框
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console11.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console12.jpg)
 
-- 刷新灰度状态，选择一个服务或者服务组，右键菜单“刷新灰度状态”，查看某个服务或者服务组是否正在做灰度发布
+- 刷新灰度状态，选择一个服务或者服务组，右键菜单【刷新灰度状态】，查看某个服务或者服务组是否正在做灰度发布
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console13.jpg)
 
@@ -2590,7 +2590,7 @@ Redis订阅推送界面
 基于图形化Web程序的灰度发布路由
 
 - 参考[图形化Web](https://github.com/Nepxion/DiscoveryUI)
-- 操作过程跟“基于图形化桌面程序的灰度发布”类似
+- 操作过程跟[基于图形化桌面程序的灰度发布路由](#基于图形化桌面程序的灰度发布路由)类似
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console14.jpg)
 
