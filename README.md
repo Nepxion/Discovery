@@ -664,7 +664,7 @@ spring.application.strategy.control.enabled=false
 
 ③ 路由策略依赖引入
 
-微服务端、网关Zuul端和网关Spring Cloud Gateway端三个路由策略插件，选择引入其中一个。该依赖提供灰度路由功能、Http Header传递等功能
+微服务端、网关Zuul端和网关Spring Cloud Gateway端三个路由策略插件，选择引入其中一个。该依赖提供灰度路由功能、Http Header、Query Parameter、Cookie触发和传递等功能
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -817,15 +817,15 @@ zuul
 - 下载[源码主页](https://github.com/Nepxion/Discovery)的工程，并导入IDE
 - 启动源码工程下的discovery-springcloud-example-console/ConsoleApplication
 - 启动源码工程下的discovery-console-desktop/ConsoleLauncher
-- 通过admin/admin登录，点击“显示服务拓扑”按钮，将呈现如下界面
+- 通过admin/admin登录，点击【显示服务拓扑】按钮，将呈现如下界面
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide5-2.jpg)
 
-- 在加入上述规则策略前，选中网关节点，右键点击“执行灰度路由”，在弹出路由界面中，依次加入“discovery-guide-service-a”和“discovery-guide-service-b”，点击“执行路由”按钮，将呈现如下界面
+- 在加入上述规则策略前，选中网关节点，右键点击【执行灰度路由】，在弹出路由界面中，依次加入“discovery-guide-service-a”和“discovery-guide-service-b”，点击【执行路由】按钮，将呈现如下界面
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide5-3.jpg)
 
-- 在加入上述规则策略后，在路由界面中，再次点击“执行路由”按钮，将呈现如下界面
+- 在加入上述规则策略后，在路由界面中，再次点击【执行路由】按钮，将呈现如下界面
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide5-4.jpg)
 
@@ -1112,7 +1112,7 @@ IP地址和端口灰度路由架构图
 - region 区域路由
 - address IP地址和端口路由
 
-③ 其它用法和“配置全链路灰度条件命中和灰度匹配组合式策略”一致
+③ 其它用法和[配置全链路灰度条件命中和灰度匹配组合式策略](#配置全链路灰度条件命中和灰度匹配组合式策略)一致
 
 具体示例内容如下
 
@@ -1144,7 +1144,7 @@ IP地址和端口灰度路由架构图
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-9.jpg)
 
 ### 配置前端灰度和网关灰度路由组合式策略
-当前端（例如：APP）和后端微服务同时存在多个版本时，可以执行“前端灰度&网关灰度路由组合式策略”
+当前端（例如：APP）和后端微服务同时存在多个版本时，可以执行[前端灰度&网关灰度路由组合式策略](#前端灰度&网关灰度路由组合式策略)
 
 例如：前端存在1.0和2.0版本，微服务存在1.0和2.0版本，由于存在版本不兼容的情况（前端1.0版本只能调用微服务的1.0版本，前端2.0版本只能调用微服务的2.0版本），那么前端调用网关时候，可以通过Header传递它的版本号给网关，网关根据前端版本号，去路由对应版本的微服务
 
