@@ -500,7 +500,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 - 配置Config和规则Rule。在本系统中属于同一个概念，例如更新配置，即更新规则；例如远程配置中心存储的配置，即规则XML
 - 服务端口和管理端口。服务端口即在配置文件的server.port值，管理端口即management.port（E版）值或者management.server.port（F版或以上）值
 
-![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 灰度发布（规则）和灰度路由（策略）
+![](http://nepxion.gitee.io/docs/icon-doc/information.png) 灰度发布（规则）和灰度路由（策略）
 
 ① 灰度发布（规则）和灰度路由（策略）对比
 
@@ -530,7 +530,7 @@ spring.application.discovery.control.enabled=false
 spring.application.strategy.control.enabled=false
 ```
 
-![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 动态改变规则策略和动态改变版本
+![](http://nepxion.gitee.io/docs/icon-doc/information.png) 动态改变规则策略和动态改变版本
 
 ① 动态改变规则策略
 
@@ -813,7 +813,7 @@ zuul
 
 ② 通过图形化界面验证
 
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 该方式有点古老，并不再维护，请斟酌使用
+![](http://nepxion.gitee.io/docs/icon-doc/information.png) 该方式有点古老，并不再维护，请斟酌使用
 
 - 下载[源码主页](https://github.com/Nepxion/Discovery)的工程，并导入IDE
 - 启动源码工程下的discovery-springcloud-example-console/ConsoleApplication
@@ -2513,7 +2513,7 @@ Redis订阅推送界面
 ![](http://nepxion.gitee.io/docs/discovery-doc/Swagger2.jpg)
 
 ### 基于图形化界面的规则策略推送
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 下面两种方式有点古老，并不再维护，请斟酌使用
+![](http://nepxion.gitee.io/docs/icon-doc/information.png) 下面两种方式有点古老，并不再维护，请斟酌使用
 
 基于图形化桌面程序的灰度发布路由
 
@@ -4008,7 +4008,7 @@ spring.application.git.generator.path=classpath:git.properties
 ## Docker容器化和Kubernetes平台支持
 
 ### Docker容器化
-![](http://nepxion.gitee.io/docs/icon-doc/tip.png) Spring 2.3.x支持Docker分层部署，步骤也更简单，请参考Polaris【北极星】企业级云原生微服务框架里的介绍
+![](http://nepxion.gitee.io/docs/icon-doc/information.png) Spring 2.3.x支持Docker分层部署，步骤也更简单，请参考Polaris【北极星】企业级云原生微服务框架里的介绍
 
 ① 搭建Windows10操作系统或者Linux操作系统下的Docker环境
 
