@@ -99,8 +99,8 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
     - 异步场景下的触发路由
     - 通过Header、Query Parameter、Cookie支持混合策略表达式
     - 通过内置Header支持定时Job的服务调用灰度路由
-- 基于Query Parameter的全链路灰度路由。采用配置中心配置路由策略映射在网关或者服务上，支持根据用户自定义Query Parameter跟路由策略整合，最终转化为路由Header信息而实现，路由策略传递到全链路服务中。主要功能跟基于Header传递的全链路灰度路由一样
-- 基于Cookie的全链路灰度路由。采用配置中心配置路由策略映射在网关或者服务上，支持根据用户自定义Cookie跟路由策略整合，最终转化为路由Header信息而实现，路由策略传递到全链路服务中。主要功能跟基于Header传递的全链路灰度路由一样
+- 基于Query Parameter的全链路灰度路由。跟基于Header传递的全链路灰度路由一样，区别是支持根据用户自定义Query Parameter跟路由策略整合
+- 基于Cookie的全链路灰度路由。跟基于Header传递的全链路灰度路由一样，区别是支持根据用户自定义Cookie跟路由策略整合
 - 基于域名的全链路灰度路由。通过自定义过滤器解析域名映射成路由Header信息而实现，路由策略传递到全链路服务中
 - 基于RPC Method的全链路灰度路由。通过自定义负载均衡策略类解析RPC Method参数，进行负载均衡的实例决策而实现
 - 基于动态变更元数据的全链路灰度路由。通过某些提供动态改变元数据的Open API接口方式而实现
@@ -201,11 +201,11 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 ## 鸣谢
 ![](http://nepxion.gitee.io/docs/icon-doc/star4.png) 郑重致谢
 - 感谢阿里巴巴中间件Nacos、Sentinel和Spring Cloud Alibaba团队，尤其是Nacos负责人@彦林、@于怀，Sentinel负责人@宿何、@子衿，Spring Cloud Alibaba负责人@小马哥、@洛夜、@亦盏的技术支持
-- 感谢携程Apollo团队，尤其是@宋顺，特意开发Open API包和技术支持
+- 感谢携程Apollo团队，尤其是@宋顺的技术支持
 - 感谢代码贡献者，包括@zifeihan，@Ax1an，@WeihuaWang，@张顺，@Esun，@liumapp，@terranhu，@JikaiSun，@HaoHuang，@FanYang，@Ankeway，@liquanjin等
 - 感谢为本框架进行测试验证和问题分析定位的同学，包括@张龙，@CongweiXu，@fan，@阿神，@慕紫，@郝俊仁，@Windon，@杨成，@李鹏，@任学会，@郭小伟等
 - 感谢为本框架提出宝贵意见和建议的同学
-- 感谢阿里巴巴中间件Nacos和Spring Cloud Alibaba团队，纳本框架为相关开源项目
+- 感谢阿里巴巴中间件Nacos和Spring Cloud Alibaba团队，纳入本框架为相关开源项目
 
 <img src="http://nepxion.gitee.io/docs/discovery-doc/AwardNacos1.jpg" alt="Nacos" width="50%"><img src="http://nepxion.gitee.io/docs/discovery-doc/AwardSCA1.jpg" alt="Spring Cloud Alibaba" width="50%">
 
@@ -498,7 +498,6 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 - 事件总线，即基于Google Guava的EventBus构建的组件。通过事件总线可以推送动态规则策略和动态版本的更新和删除
 - 远程配置中心，即可以存储规则策略配置XML格式的配置中心，可以包括不限于Nacos，Redis，Apollo
 - 配置Config和规则Rule。在本系统中属于同一个概念，例如更新配置，即更新规则；例如远程配置中心存储的配置，即规则XML
-- 服务端口和管理端口。服务端口即在配置文件的server.port值，管理端口即management.port（E版）值或者management.server.port（F版或以上）值
 
 ![](http://nepxion.gitee.io/docs/icon-doc/information.png) 灰度发布（规则）和灰度路由（策略）
 
@@ -3601,15 +3600,6 @@ spring.cloud.nacos.discovery.metadata.version=1.0
 spring.cloud.nacos.discovery.metadata.region=dev
 spring.cloud.nacos.discovery.metadata.env=env1
 spring.cloud.nacos.discovery.metadata.zone=zone1
-
-# Management config
-# E版配置方式
-# 关闭访问Rest接口时候的权限验证
-management.security.enabled=false
-management.port=5100
-
-# F版或以上配置方式
-management.server.port=5100
 ```
 
 ### 功能开关配置
