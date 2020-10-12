@@ -829,7 +829,7 @@ zuul
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide5-4.jpg)
 
 ## 基于Header传递方式的灰度路由策略
-![](http://nepxion.gitee.io/docs/icon-doc/information.png) 本章节通过网关为触发点来介绍灰度路由策略功能，使用者也可以不通过网关，直接以微服务为触发点进行实施
+![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 本章节通过网关为触发点来介绍灰度路由策略功能，使用者也可以不通过网关，直接以微服务为触发点进行实施
 
 ### 配置网关灰度路由策略
 在Nacos配置中心，增加网关灰度路由策略
@@ -4006,7 +4006,7 @@ spring.application.git.generator.path=classpath:git.properties
 ## Docker容器化和Kubernetes平台支持
 
 ### Docker容器化
-![](http://nepxion.gitee.io/docs/icon-doc/information.png) Spring 2.3.x支持Docker分层部署，步骤也更简单，请参考Polaris【北极星】企业级云原生微服务框架里的介绍
+![](http://nepxion.gitee.io/docs/icon-doc/tip.png) Spring 2.3.x支持Docker分层部署，步骤也更简单，请参考Polaris【北极星】企业级云原生微服务框架里的介绍
 
 ① 搭建Windows10操作系统或者Linux操作系统下的Docker环境
 
