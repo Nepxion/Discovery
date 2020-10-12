@@ -1148,7 +1148,7 @@ IP地址和端口灰度路由架构图
 
 例如：前端存在1.0和2.0版本，微服务存在1.0和2.0版本，由于存在版本不兼容的情况（前端1.0版本只能调用微服务的1.0版本，前端2.0版本只能调用微服务的2.0版本），那么前端调用网关时候，可以通过Header传递它的版本号给网关，网关根据前端版本号，去路由对应版本的微服务
 
-该场景可以用“通过业务参数在过滤器中自定义灰度路由策略”的方案来解决，如下
+该场景可以用[通过业务参数在过滤器中自定义灰度路由策略](#通过业务参数在过滤器中自定义灰度路由策略)的方案来解决，如下
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -2496,7 +2496,7 @@ Nacos订阅推送界面
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Nacos2.jpg)
 - 参考Nacos官方文档[https://github.com/alibaba/nacos](https://github.com/alibaba/nacos)相关文档，搭建Nacos环境，以及熟悉相关的基本操作
-- 添加配置步骤跟Apollo配置界面中的“在页面中添加配置”操作项相似
+- 添加配置步骤跟Apollo配置界面中的【在页面中添加配置】操作项相似
 
 Redis订阅推送界面
 
@@ -2540,7 +2540,7 @@ Redis订阅推送界面
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console0.jpg)
 
-- 点击“显示服务拓扑”按钮，弹出“服务集群组过滤”对话框，列表是以服务所在的集群组列表（例如：eureka.instance.metadataMap.group=example-service-group），选择若干个并点击“确定”按钮，如果使用者想获取全部的服务集群（可能会耗性能），则直接点击“取消”按钮
+- 点击【显示服务拓扑】按钮，弹出【服务集群组过滤】对话框，列表是以服务所在的集群组列表（例如：eureka.instance.metadataMap.group=example-service-group），选择若干个并点击【确定】按钮，如果使用者想获取全部的服务集群（可能会耗性能），则直接点击【取消】按钮
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console4.jpg)
 
@@ -2548,33 +2548,33 @@ Redis订阅推送界面
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console5.jpg)
 
-- 执行灰度路由，选择一个服务，右键菜单“执行灰度路由”
+- 执行灰度路由，选择一个服务，右键菜单【执行灰度路由】
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console6.jpg)
 
-- 通过“服务列表”切换，或者点击增加和删除服务按钮，确定灰度路由路径，点击“执行路由”
+- 通过【服务列表】切换，或者点击增加和删除服务按钮，确定灰度路由路径，点击【执行路由】
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console7.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console2.jpg)
 
-- 推送模式设置，“异步推送”和“同步推送”，前者是推送完后立刻返回，后者是推送完后等待推送结果（包括规则XML解析的异常等都能在界面上反映出来）；“规则推送到远程配置中心”和“规则推送到服务或者服务集群”，前者是推送到配置中心（持久化），后者是推送到一个或者多个服务机器的内存（非持久化，重启后丢失）
+- 推送模式设置，【异步推送】和【同步推送】，前者是推送完后立刻返回，后者是推送完后等待推送结果（包括规则XML解析的异常等都能在界面上反映出来）；【规则推送到远程配置中心】和【规则推送到服务或者服务集群】，前者是推送到配置中心（持久化），后者是推送到一个或者多个服务机器的内存（非持久化，重启后丢失）
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console8.jpg)
 
-- 执行灰度发布，选择一个服务或者服务组，右键菜单“执行灰度发布”，前者是通过单个服务实例执行灰度发布，后者是通过一组服务实例执行灰度发布
+- 执行灰度发布，选择一个服务或者服务组，右键菜单【执行灰度发布】，前者是通过单个服务实例执行灰度发布，后者是通过一组服务实例执行灰度发布
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console9.jpg)
 
-- 灰度发布，包括“更改版本”和“更改规则”，前者通过更改版本号去适配灰度规则中的版本匹配关系，后者直接修改规则。“更改版本”是推送到一个或者多个服务机器的内存（非持久化，重启后丢失），“更改规则”是根据不同的推送模式，两种方式都支持
+- 灰度发布，包括【更改版本】和【更改规则】，前者通过更改版本号去适配灰度规则中的版本匹配关系，后者直接修改规则。【更改版本】是推送到一个或者多个服务机器的内存（非持久化，重启后丢失），【更改规则】是根据不同的推送模式，两种方式都支持
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console10.jpg)
 
-- 全链路灰度发布，所有在同一个集群组（例如：eureka.instance.metadataMap.group=example-service-group）里的服务统一做灰度发布，即一个规则配置搞定所有服务的灰度发布。点击“全链路灰度发布”按钮，弹出“全链路灰度发布”对话框
+- 全链路灰度发布，所有在同一个集群组（例如：eureka.instance.metadataMap.group=example-service-group）里的服务统一做灰度发布，即一个规则配置搞定所有服务的灰度发布。点击【全链路灰度发布】按钮，弹出【全链路灰度发布】对话框
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console11.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console12.jpg)
 
-- 刷新灰度状态，选择一个服务或者服务组，右键菜单“刷新灰度状态”，查看某个服务或者服务组是否正在做灰度发布
+- 刷新灰度状态，选择一个服务或者服务组，右键菜单【刷新灰度状态】，查看某个服务或者服务组是否正在做灰度发布
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console13.jpg)
 
@@ -2590,7 +2590,7 @@ Redis订阅推送界面
 基于图形化Web程序的灰度发布路由
 
 - 参考[图形化Web](https://github.com/Nepxion/DiscoveryUI)
-- 操作过程跟“基于图形化桌面程序的灰度发布”类似
+- 操作过程跟[基于图形化桌面程序的灰度发布路由](#基于图形化桌面程序的灰度发布路由)类似
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console14.jpg)
 
