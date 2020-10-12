@@ -130,7 +130,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 - 基于Zone的全链路可用区亲和性隔离和路由。主要包括
     - 可用区亲和性隔离。基于调用端实例和提供端实例的元数据Metadata的zone配置值相等实现隔离
     - 可用区亲和性路由。基于调用端实例找不到同一可用区的提供端实例，把流量路由到其它可用区或者不归属任何可用区
-- 基于Sentinel的全链路服务限流熔断降级权限。除了支持Sentinel原生五个相关规则外，扩展LimitApp的机制，整合灰度路由，通过动态的Http Header方式实现组合式防护机制。主要包括
+- 基于Sentinel的全链路服务限流熔断降级权限。除了支持Sentinel原生五个相关规则外，扩展LimitApp的机制，整合灰度路由，通过Header传递方式实现组合式防护机制。主要包括
     - 基于服务名的防护
     - 基于灰度组的防护
     - 基于灰度版本的防护
@@ -488,9 +488,9 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 
 ## 名词解释
 - E版、F版、G版、H版，即Spring Cloud的Edgware、Finchley、Greenwich、Hoxton的首字母，以此类推
-- 灰度发布和灰度路由。灰度发布即基于订阅方式的灰度功能，灰度路由即通过Http Header的传递路由信息的灰度功能，但它也能支持订阅方式
+- 灰度发布和灰度路由。灰度发布即基于订阅方式的灰度功能，灰度路由即通过Header传递路由信息的灰度功能，但它也能支持订阅方式
 - 匹配灰度和权重灰度。匹配灰度即在灰度的时候，没有过渡过程，用版本匹配的方式流量，直接从旧版本切换到新版本，权重灰度即在灰度的时候，有个过渡过程，可以根据实际情况，先给新版本分配低额流量，给旧版本分配高额流量，对新版本进行监测，如果没有问题，就继续把旧版的流量切换到新版本上
-- 规则定义和策略定义。规则定义即通过XML或者Json定义既有格式的规则，策略定义即通过Http Header的策略方式传递路由信息
+- 规则定义和策略定义。规则定义即通过XML或者Json定义既有格式的规则，策略定义即通过Header策略方式传递路由信息
 - 本地版本，即初始化读取本地配置文件获取的版本，也可以是第一次读取远程配置中心获取的版本。本地版本和初始版本是同一个概念
 - 动态版本，即灰度发布时的版本。动态版本和灰度版本是同一个概念。这里的动态版本跟通过注册中心动态元数据不是同一个概念
 - 本地规则，即初始化读取本地配置文件获取的规则，也可以是第一次读取远程配置中心获取的规则。本地规则和初始规则是同一个概念
@@ -664,7 +664,7 @@ spring.application.strategy.control.enabled=false
 
 ③ 路由策略依赖引入
 
-微服务端、网关Zuul端和网关Spring Cloud Gateway端三个路由策略插件，选择引入其中一个。该依赖提供灰度路由功能、Http Header、Query Parameter、Cookie触发和传递等功能
+微服务端、网关Zuul端和网关Spring Cloud Gateway端三个路由策略插件，选择引入其中一个。该依赖提供灰度路由功能、Header、Query Parameter、Cookie触发和传递等功能
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -995,7 +995,7 @@ IP地址和端口灰度路由架构图
 | `>` | `&gt;` | 大于号 | |
 | `'` | `&apos;` | 单引号 | |
 
-从Http Header获取到值进行逻辑判断，例如Http Header的Key为a，它的格式表示为#H['a']，H为Header的首字母。假如路由触发的条件为a等于1，b小于等于2，c不等于3，那么表达式可以写为
+从Header获取到值进行逻辑判断，例如Header的Key为a，它的格式表示为#H['a']，H为Header的首字母。假如路由触发的条件为a等于1，b小于等于2，c不等于3，那么表达式可以写为
 
 `#`H['a'] == '1' && `#`H['b'] <= '2' && `#`H['c'] != '3'
 
@@ -1015,21 +1015,21 @@ IP地址和端口灰度路由架构图
 
 具体使用逻辑如下
 
-① 当外部调用带有的Http Header中的值a=1同时b=2
+① 当外部调用带有的Header中的值a=1同时b=2
 
 `<condition>`节点中 **header="#H['a'] == '1' &amp;&amp; #H['b'] == '2'"** 对应的 **version-id="version-route1"** ，找到下面`<route>`节点中 **id="version-route1" type="version"** 的那项，那么路由即为
 ```
 {"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}
 ```
 
-② 当外部调用带有的Http Header中的值a=1
+② 当外部调用带有的Header中的值a=1
 
 `<condition>`节点中 **header="#H['a'] == '1'"** 对应的 **version-id="version-route2"** ，找到下面`<route>`节点中 **id="version-route2" type="version"** 的那项，那么路由即为
 ```
 {"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.1"}
 ```
 
-③ 当外部调用带有的Http Header中的值都不命中
+③ 当外部调用带有的Header中的值都不命中
 
 - 执行`<strategy>`节点中的全局缺省路由，那么路由即为
 ```
@@ -1059,7 +1059,7 @@ IP地址和端口灰度路由架构图
 
 ⑦ 策略支持Spring Matcher的通配符方式
 
-⑧ 支持并行实施。通过namespace（可以自定义）的Http Header进行发布隔离
+⑧ 支持并行实施。通过namespace（可以自定义）的Header进行发布隔离
 
 具体示例内容如下
 
@@ -1246,7 +1246,7 @@ spring.application.strategy.zuul.original.header.ignored=true
 ``` 
 
 #### 通过业务参数在过滤器中自定义灰度路由策略
-通过过滤器传递Http Header的方式传递全链路灰度路由策略
+通过过滤器传递Header的方式传递全链路灰度路由策略
 下面代码既适用于Zuul和Spring Cloud Gateway网关，也适用于Service微服务，一般来说，网关已经加了，服务就不需要加，当不存在的网关的时候，服务上就可以考虑。继承GatewayStrategyRouteFilter、ZuulStrategyRouteFilter或者ServiceStrategyRouteFilter，覆盖掉如下方法中的一个或者多个，通过@Bean方式覆盖框架内置的过滤类
 ```java
 public String getRouteVersion();
@@ -2997,7 +2997,7 @@ public ServiceSentinelRequestOriginAdapter ServiceSentinelRequestOriginAdapter()
 }
 ```
 
-增加服务discovery-guide-service-b的规则，Group为discovery-guide-group，Data Id为discovery-guide-service-b-sentinel-authority，规则内容如下，表示版本为1.0且传入的Http Header的location=shanghai，同时满足这两个条件下的所有服务都允许访问服务discovery-guide-service-b
+增加服务discovery-guide-service-b的规则，Group为discovery-guide-group，Data Id为discovery-guide-service-b-sentinel-authority，规则内容如下，表示版本为1.0且传入Header的location=shanghai，同时满足这两个条件下的所有服务都允许访问服务discovery-guide-service-b
 ```
 [
     {
@@ -3010,15 +3010,15 @@ public ServiceSentinelRequestOriginAdapter ServiceSentinelRequestOriginAdapter()
 
 运行效果
 
-- 当传递的Http Header中location=shanghai，当全链路调用中，API网关负载均衡discovery-guide-service-a服务到1.0版本后再去调用discovery-guide-service-b服务，最终调用成功
+- 当传递的Header中location=shanghai，当全链路调用中，API网关负载均衡discovery-guide-service-a服务到1.0版本后再去调用discovery-guide-service-b服务，最终调用成功
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide7-6.jpg)
 
-- 当传递的Http Header中location=beijing，不满足条件，最终调用在discovery-guide-service-b服务端被拒绝掉
+- 当传递的Header中location=beijing，不满足条件，最终调用在discovery-guide-service-b服务端被拒绝掉
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide7-7.jpg)
 
-- 当传递的Http Header中location=shanghai，满足条件之一，当全链路调用中，API网关负载均衡discovery-guide-service-a服务到1.1版本后再去调用discovery-guide-service-b服务，不满足version=1.0的条件，最终调用在discovery-guide-service-b服务端被拒绝掉
+- 当传递的Header中location=shanghai，满足条件之一，当全链路调用中，API网关负载均衡discovery-guide-service-a服务到1.1版本后再去调用discovery-guide-service-b服务，不满足version=1.0的条件，最终调用在discovery-guide-service-b服务端被拒绝掉
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide7-8.jpg)
 
