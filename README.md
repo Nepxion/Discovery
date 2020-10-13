@@ -97,6 +97,8 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
     - 负载均衡策略类触发路由
     - 并行路由下的版本优选路由
     - 异步场景下的触发路由
+    - 通过Spring Spel的条件表达式支持等于[=]、不等于[!=]、大于[>]、小于[<]、与[&&]、或[||]、匹配[matches]，以及加减乘除取模等全部标准Spring Spel表达式用法
+    - 通过Spring Matcher的通配符表达式支持多个通配[*]、单个通配[?]等全部标准的Spring Matcher表达式用法
     - 通过Header、Query Parameter、Cookie支持混合策略表达式
     - 通过内置Header支持定时Job的服务调用灰度路由
 - 基于Query Parameter的全链路灰度路由。跟基于Header传递的全链路灰度路由一样，区别是支持根据用户自定义Query Parameter跟路由策略整合
