@@ -76,7 +76,7 @@ public class StrategyVersionFilter {
         for (ServiceInstance instance : instances) {
             String version = pluginAdapter.getInstanceVersion(instance);
             // 当服务未接入本框架或者版本号未设置（表现出来的值为DiscoveryConstant.DEFAULT），并且在指定区域，不添加到认可列表
-            if (!versionList.contains(version) && StringUtils.isNotEmpty(version) && !StringUtils.equals(version, DiscoveryConstant.DEFAULT) && applyRegion(instance)) {
+            if (!versionList.contains(version) && StringUtils.isNotEmpty(version) && !StringUtils.equals(version, DiscoveryConstant.DEFAULT) && applyRegion(instance) && applyAddress(instance)) {
                 versionList.add(version);
             }
         }
@@ -89,7 +89,7 @@ public class StrategyVersionFilter {
         return versionList;
     }
 
-    private boolean applyRegion(ServiceInstance instance) {
+    public boolean applyRegion(ServiceInstance instance) {
         String serviceId = pluginAdapter.getInstanceServiceId(instance);
 
         String regions = getRegions(serviceId);
@@ -116,7 +116,7 @@ public class StrategyVersionFilter {
     }
 
     @SuppressWarnings("unchecked")
-    private String getRegions(String serviceId) {
+    public String getRegions(String serviceId) {
         String regionValue = pluginContextHolder.getContextRouteRegion();
         if (StringUtils.isEmpty(regionValue)) {
             return null;
@@ -131,5 +131,47 @@ public class StrategyVersionFilter {
         }
 
         return regions;
+    }
+
+    public boolean applyAddress(ServiceInstance instance) {
+        String serviceId = pluginAdapter.getInstanceServiceId(instance);
+
+        String addresses = getAddresses(serviceId);
+        if (StringUtils.isEmpty(addresses)) {
+            return true;
+        }
+
+        // 如果精确匹配不满足，尝试用通配符匹配
+        List<String> addressList = StringUtil.splitToList(addresses, DiscoveryConstant.SEPARATE);
+        if (addressList.contains(instance.getHost() + ":" + instance.getPort()) || addressList.contains(instance.getHost()) || addressList.contains(String.valueOf(instance.getPort()))) {
+            return true;
+        }
+
+        // 通配符匹配。前者是通配表达式，后者是具体值
+        for (String addressPattern : addressList) {
+            if (discoveryMatcherStrategy.match(addressPattern, instance.getHost() + ":" + instance.getPort()) || discoveryMatcherStrategy.match(addressPattern, instance.getHost()) || discoveryMatcherStrategy.match(addressPattern, String.valueOf(instance.getPort()))) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @SuppressWarnings("unchecked")
+    public String getAddresses(String serviceId) {
+        String addressValue = pluginContextHolder.getContextRouteAddress();
+        if (StringUtils.isEmpty(addressValue)) {
+            return null;
+        }
+
+        String addresses = null;
+        try {
+            Map<String, String> addressMap = JsonUtil.fromJson(addressValue, Map.class);
+            addresses = addressMap.get(serviceId);
+        } catch (Exception e) {
+            addresses = addressValue;
+        }
+
+        return addresses;
     }
 }
