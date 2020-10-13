@@ -62,12 +62,12 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
             return false;
         }
 
-        enabled = applyVersion(server);
+        enabled = applyAddress(server);
         if (!enabled) {
             return false;
         }
 
-        enabled = applyAddress(server);
+        enabled = applyVersion(server);
         if (!enabled) {
             return false;
         }
@@ -85,6 +85,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         return applyStrategy(server);
     }
 
+    // 环境隔离和路由不能和版本优选、版本转移一起使用
     public boolean applyEnvironment(Server server) {
         String environmentValue = pluginContextHolder.getContextRouteEnvironment();
         if (StringUtils.isEmpty(environmentValue)) {
@@ -158,6 +159,48 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         return regions;
     }
 
+    public boolean applyAddress(Server server) {
+        String serviceId = pluginAdapter.getServerServiceId(server);
+
+        String addresses = getAddresses(serviceId);
+        if (StringUtils.isEmpty(addresses)) {
+            return true;
+        }
+
+        // 如果精确匹配不满足，尝试用通配符匹配
+        List<String> addressList = StringUtil.splitToList(addresses, DiscoveryConstant.SEPARATE);
+        if (addressList.contains(server.getHostPort()) || addressList.contains(server.getHost()) || addressList.contains(String.valueOf(server.getPort()))) {
+            return true;
+        }
+
+        // 通配符匹配。前者是通配表达式，后者是具体值
+        for (String addressPattern : addressList) {
+            if (discoveryMatcherStrategy.match(addressPattern, server.getHostPort()) || discoveryMatcherStrategy.match(addressPattern, server.getHost()) || discoveryMatcherStrategy.match(addressPattern, String.valueOf(server.getPort()))) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @SuppressWarnings("unchecked")
+    public String getAddresses(String serviceId) {
+        String addressValue = pluginContextHolder.getContextRouteAddress();
+        if (StringUtils.isEmpty(addressValue)) {
+            return null;
+        }
+
+        String addresses = null;
+        try {
+            Map<String, String> addressMap = JsonUtil.fromJson(addressValue, Map.class);
+            addresses = addressMap.get(serviceId);
+        } catch (Exception e) {
+            addresses = addressValue;
+        }
+
+        return addresses;
+    }
+
     public boolean applyVersion(Server server) {
         String serviceId = pluginAdapter.getServerServiceId(server);
 
@@ -204,43 +247,6 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         }
 
         return versions;
-    }
-
-    public boolean applyAddress(Server server) {
-        String serviceId = pluginAdapter.getServerServiceId(server);
-
-        String addresses = getAddresses(serviceId);
-        if (StringUtils.isEmpty(addresses)) {
-            return true;
-        }
-
-        // 如果精确匹配不满足，尝试用通配符匹配
-        List<String> addressList = StringUtil.splitToList(addresses, DiscoveryConstant.SEPARATE);
-        if (addressList.contains(server.getHostPort()) || addressList.contains(server.getHost()) || addressList.contains(String.valueOf(server.getPort()))) {
-            return true;
-        }
-
-        // 通配符匹配。前者是通配表达式，后者是具体值
-        for (String addressPattern : addressList) {
-            if (discoveryMatcherStrategy.match(addressPattern, server.getHostPort()) || discoveryMatcherStrategy.match(addressPattern, server.getHost()) || discoveryMatcherStrategy.match(addressPattern, String.valueOf(server.getPort()))) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    @SuppressWarnings("unchecked")
-    public String getAddresses(String serviceId) {
-        String addressValue = pluginContextHolder.getContextRouteAddress();
-        if (StringUtils.isEmpty(addressValue)) {
-            return null;
-        }
-
-        Map<String, String> addressMap = JsonUtil.fromJson(addressValue, Map.class);
-        String addresses = addressMap.get(serviceId);
-
-        return addresses;
     }
 
     public boolean applyIdBlacklist(Server server) {
