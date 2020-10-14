@@ -24,6 +24,7 @@ import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginContextHolder;
+import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.filter.StrategyVersionFilter;
 import com.nepxion.discovery.plugin.strategy.matcher.DiscoveryMatcherStrategy;
 import com.netflix.loadbalancer.Server;
@@ -35,7 +36,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     @Autowired
     protected DiscoveryMatcherStrategy discoveryMatcherStrategy;
 
-    @Autowired(required = false)
+    @Autowired
     protected StrategyVersionFilter strategyVersionFilter;
 
     @Autowired
@@ -49,6 +50,12 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
 
     @Value("${" + DiscoveryConstant.SPRING_APPLICATION_ENVIRONMENT_ROUTE + ":" + DiscoveryConstant.SPRING_APPLICATION_ENVIRONMENT_ROUTE_VALUE + "}")
     protected String environmentRoute;
+
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_VERSION_FAILOVER_ENABLED + ":false}")
+    protected Boolean versionFailoverEnabled;
+
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_VERSION_PREFER_ENABLED + ":false}")
+    protected Boolean versionPreferEnabled;
 
     @Override
     public boolean apply(Server server) {
@@ -85,7 +92,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         return applyStrategy(server);
     }
 
-    // 环境隔离和路由不能和版本优选、版本转移一起使用
+    // 环境隔离和路由一般适用于测试环境，不能和版本偏好、版本故障转移策略一起使用
     public boolean applyEnvironment(Server server) {
         String environmentValue = pluginContextHolder.getContextRouteEnvironment();
         if (StringUtils.isEmpty(environmentValue)) {
@@ -206,10 +213,29 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
 
         String versions = getVersions(serviceId);
         if (StringUtils.isEmpty(versions)) {
-            if (strategyVersionFilter != null) {
+            // 版本偏好策略，非灰度路由场景下，路由到老的稳定版本的实例。其作用是防止多个网关上并行实施灰度版本路由产生混乱
+            if (versionPreferEnabled) {
                 return strategyVersionFilter.apply(server);
             } else {
                 return true;
+            }
+        } else {
+            // 版本故障转移策略，无法找到相应版本的服务实例，路由到老的稳定版本的实例。其作用是防止灰度版本路由人为设置错误，或者对应的版本实例发生灾难性的全部下线
+            if (versionFailoverEnabled) {
+                List<ServiceInstance> instances = discoveryClient.getInstances(serviceId);
+
+                boolean matched = false;
+                for (ServiceInstance instance : instances) {
+                    if (strategyVersionFilter.applyVersion(instance)) {
+                        matched = true;
+
+                        break;
+                    }
+                }
+
+                if (!matched) {
+                    return strategyVersionFilter.apply(server);
+                }
             }
         }
 

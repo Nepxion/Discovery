@@ -66,14 +66,12 @@ public class StrategyAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_VERSION_FILTER_ENABLED, matchIfMissing = false)
     public StrategyVersionFilter strategyVersionFilter() {
         return new StrategyVersionFilter();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_VERSION_FILTER_ENABLED, matchIfMissing = false)
     public StrategyVersionFilterAdapter strategyVersionFilterAdapter() {
         return new DefaultStrategyVersionFilterAdapter();
     }

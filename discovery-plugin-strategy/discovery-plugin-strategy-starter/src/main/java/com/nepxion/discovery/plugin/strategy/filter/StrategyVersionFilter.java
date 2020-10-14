@@ -75,7 +75,7 @@ public class StrategyVersionFilter {
         List<String> versionList = new ArrayList<String>();
         for (ServiceInstance instance : instances) {
             String version = pluginAdapter.getInstanceVersion(instance);
-            // 当服务未接入本框架或者版本号未设置（表现出来的值为DiscoveryConstant.DEFAULT），并且在指定区域，不添加到认可列表
+            // 当服务未接入本框架或者版本号未设置（表现出来的值为DiscoveryConstant.DEFAULT），并且在指定区域、指定IP地址和端口，不添加到认可列表
             if (!versionList.contains(version) && StringUtils.isNotEmpty(version) && !StringUtils.equals(version, DiscoveryConstant.DEFAULT) && applyRegion(instance) && applyAddress(instance)) {
                 versionList.add(version);
             }
@@ -173,5 +173,49 @@ public class StrategyVersionFilter {
         }
 
         return addresses;
+    }
+
+    public boolean applyVersion(ServiceInstance instance) {
+        String serviceId = pluginAdapter.getInstanceServiceId(instance);
+
+        String versions = getVersions(serviceId);
+        if (StringUtils.isEmpty(versions)) {
+            return true;
+        }
+
+        String version = pluginAdapter.getInstanceVersion(instance);
+
+        // 如果精确匹配不满足，尝试用通配符匹配
+        List<String> versionList = StringUtil.splitToList(versions, DiscoveryConstant.SEPARATE);
+        if (versionList.contains(version)) {
+            return true;
+        }
+
+        // 通配符匹配。前者是通配表达式，后者是具体值
+        for (String versionPattern : versionList) {
+            if (discoveryMatcherStrategy.match(versionPattern, version)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @SuppressWarnings("unchecked")
+    public String getVersions(String serviceId) {
+        String versionValue = pluginContextHolder.getContextRouteVersion();
+        if (StringUtils.isEmpty(versionValue)) {
+            return null;
+        }
+
+        String versions = null;
+        try {
+            Map<String, String> versionMap = JsonUtil.fromJson(versionValue, Map.class);
+            versions = versionMap.get(serviceId);
+        } catch (Exception e) {
+            versions = versionValue;
+        }
+
+        return versions;
     }
 }
