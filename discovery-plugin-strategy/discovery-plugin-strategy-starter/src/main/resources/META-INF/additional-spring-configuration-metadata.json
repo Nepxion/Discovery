@@ -47,10 +47,10 @@
 			"description": "Whether strategy provider isolation is enabled."
 		},
 		{
-			"name": "spring.application.strategy.version.filter.enabled",
+			"name": "spring.application.strategy.version.prefer.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": false,
-			"description": "Whether strategy version filter is enabled."
+			"description": "Whether strategy version prefer is enabled."
 		},
 		{
 			"name": "spring.application.strategy.monitor.enabled",
