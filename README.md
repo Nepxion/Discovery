@@ -95,7 +95,8 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
     - 前端触发路由
     - 过滤器触发路由
     - 负载均衡策略类触发路由
-    - 并行路由下的版本优选路由
+    - 灰度路由下的版本故障转移
+    - 并行灰度路由下的版本偏好
     - 异步场景下的触发路由
     - 通过Spring Spel的条件表达式支持等于[=]、不等于[!=]、大于[>]、小于[<]、与[&&]、或[||]、匹配[matches]，以及加减乘除取模等全部标准Spring Spel表达式用法
     - 通过Spring Matcher的通配符表达式支持多个通配[*]、单个通配[?]等全部标准的Spring Matcher表达式用法
@@ -349,7 +350,8 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
         - [通过前端传入灰度路由策略](#通过前端传入灰度路由策略)
         - [通过业务参数在过滤器中自定义灰度路由策略](#通过业务参数在过滤器中自定义灰度路由策略)
         - [通过业务参数在策略类中自定义灰度路由策略](#通过业务参数在策略类中自定义灰度路由策略)
-    - [并行灰度路由下的版本优选策略](#并行灰度路由下的版本优选策略)
+    - [灰度路由下的版本故障转移](#灰度路由下的版本故障转移)	
+    - [并行灰度路由下的版本偏好策略](#并行灰度路由下的版本偏好策略)
     - [异步场景的全链路灰度路由策略](#异步场景的全链路灰度路由策略)
 - [基于Query-Parameter的全链路灰度路由](#基于Query-Parameter的全链路灰度路由)
 - [基于Cookie的全链路灰度路由](#基于Cookie的全链路灰度路由)
@@ -621,7 +623,7 @@ spring.application.strategy.control.enabled=false
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Difference.jpg)
 
-① 基于网关为触点的Header传递的全链路灰度路由，适用于网关前置部署方式的企业。域网关部署模式下，最适用于该方式；非域网关部署模式下，开启并行灰度路由下的版本优选策略
+① 基于网关为触点的Header传递的全链路灰度路由，适用于网关前置部署方式的企业。域网关部署模式下，最适用于该方式；非域网关部署模式下，开启并行灰度路由下的版本偏好策略
 
 ② 基于全局订阅方式的全链路灰度发布，适用于网关部署方式比较弱化的企业
 
@@ -1817,14 +1819,25 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
 spring.application.strategy.rpc.intercept.enabled=true
 ```
 
-### 并行灰度路由下的版本优选策略
-防止多个网关上并行实时灰度路由产生混乱，对处于非灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；灰度状态的服务，还是根据传递的Header版本号进行匹配
-优选的方式，对版本号进行排序，取第一个版本号，所以此方案的前置条件是必须版本号是规律的有次序，例如，以时间戳的方式
+### 灰度路由下的版本故障转移
+版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例。其作用是防止灰度版本路由人为设置错误，或者对应的版本实例发生灾难性的全部下线，导致流量有损
+
+故障转移方式，对版本号进行排序，取第一个版本号，所以此方案的前置条件是必须版本号是规律的有次序，例如，以时间戳的方式
+需要通过如下开关开启该功能
+```
+# 启动和关闭版本故障转移。缺失则默认为false
+spring.application.strategy.version.failover.enabled=true
+```
+
+### 并行灰度路由下的版本偏好策略
+版本偏好，即非灰度路由场景下，路由到老的稳定版本的实例。其作用是防止多个网关上并行实施灰度版本路由产生混乱，对处于非灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；灰度状态的服务，还是根据传递的Header版本号进行匹配
+
+偏好方式，对版本号进行排序，取第一个版本号，所以此方案的前置条件是必须版本号是规律的有次序，例如，以时间戳的方式
 
 需要通过如下开关开启该功能
 ```
-# 启动和关闭调用对端服务，是否执行调用它的时候只取它的老的稳定版本的实例的策略。缺失则默认为false
-spring.application.strategy.version.filter.enabled=true
+# 启动和关闭版本偏好。缺失则默认为false
+spring.application.strategy.version.prefer.enabled=true
 ```
 
 ### 异步场景的全链路灰度路由策略
@@ -3728,9 +3741,12 @@ spring.application.strategy.service.sentinel.request.origin.key=n-d-service-id
 # 启动和关闭Sentinel LimitApp限流等功能。缺失则默认为false
 spring.application.strategy.service.sentinel.limit.app.enabled=true
 
-# 防止多个网关上并行实施灰度路由产生混乱，对处于非灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；灰度状态的服务，还是根据传递的Header版本号进行匹配
-# 启动和关闭调用对端服务，是否执行调用它的时候只取它的老的稳定版本的实例的策略。缺失则默认为false
-spring.application.strategy.version.filter.enabled=true
+# 版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例。其作用是防止灰度版本路由人为设置错误，或者对应的版本实例发生灾难性的全部下线，导致流量有损
+# 启动和关闭版本故障转移。缺失则默认为false
+spring.application.strategy.version.failover.enabled=true
+# 版本偏好，即非灰度路由场景下，路由到老的稳定版本的实例。其作用是防止多个网关上并行实施灰度版本路由产生混乱，对处于非灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；灰度状态的服务，还是根据传递的Header版本号进行匹配
+# 启动和关闭版本偏好。缺失则默认为false
+spring.application.strategy.version.prefer.enabled=true
 
 # 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
 spring.application.environment.route=common
@@ -3844,9 +3860,12 @@ spring.application.strategy.tracer.sentinel.args.output.enabled=true
 # 开启Spring Cloud Gateway网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
 spring.application.strategy.hystrix.threadlocal.supported=true
 
-# 防止多个网关上并行实施灰度路由产生混乱，对处于非灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；灰度状态的服务，还是根据传递的Header版本号进行匹配
-# 启动和关闭调用对端服务，是否执行调用它的时候只取它的老的稳定版本的实例的策略。缺失则默认为false
-spring.application.strategy.version.filter.enabled=true
+# 版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例。其作用是防止灰度版本路由人为设置错误，或者对应的版本实例发生灾难性的全部下线，导致流量有损
+# 启动和关闭版本故障转移。缺失则默认为false
+spring.application.strategy.version.failover.enabled=true
+# 版本偏好，即非灰度路由场景下，路由到老的稳定版本的实例。其作用是防止多个网关上并行实施灰度版本路由产生混乱，对处于非灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；灰度状态的服务，还是根据传递的Header版本号进行匹配
+# 启动和关闭版本偏好。缺失则默认为false
+spring.application.strategy.version.prefer.enabled=true
 
 # 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
 spring.application.environment.route=common
@@ -3960,9 +3979,12 @@ spring.application.strategy.tracer.sentinel.args.output.enabled=true
 # 开启Zuul网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
 spring.application.strategy.hystrix.threadlocal.supported=true
 
-# 防止多个网关上并行实施灰度路由产生混乱，对处于非灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；灰度状态的服务，还是根据传递的Header版本号进行匹配
-# 启动和关闭调用对端服务，是否执行调用它的时候只取它的老的稳定版本的实例的策略。缺失则默认为false
-spring.application.strategy.version.filter.enabled=true
+# 版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例。其作用是防止灰度版本路由人为设置错误，或者对应的版本实例发生灾难性的全部下线，导致流量有损
+# 启动和关闭版本故障转移。缺失则默认为false
+spring.application.strategy.version.failover.enabled=true
+# 版本偏好，即非灰度路由场景下，路由到老的稳定版本的实例。其作用是防止多个网关上并行实施灰度版本路由产生混乱，对处于非灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；灰度状态的服务，还是根据传递的Header版本号进行匹配
+# 启动和关闭版本偏好。缺失则默认为false
+spring.application.strategy.version.prefer.enabled=true
 
 # 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
 spring.application.environment.route=common
