@@ -16,6 +16,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 
@@ -44,11 +45,14 @@ public class StrategyVersionFilter {
     @Autowired
     protected DiscoveryClient discoveryClient;
 
+    @Value("${" + DiscoveryConstant.SPRING_APPLICATION_ENVIRONMENT_ROUTE + ":" + DiscoveryConstant.SPRING_APPLICATION_ENVIRONMENT_ROUTE_VALUE + "}")
+    protected String environmentRoute;
+
     public boolean apply(Server server) {
         // 获取对端服务的版本号
         String version = pluginAdapter.getServerVersion(server);
         // 当服务未接入本框架或者版本号未设置（表现出来的值为DiscoveryConstant.DEFAULT），则不过滤，返回
-        if (StringUtils.isEmpty(version) || StringUtils.equals(version, DiscoveryConstant.DEFAULT)) {
+        if (StringUtils.equals(version, DiscoveryConstant.DEFAULT)) {
             return true;
         }
 
@@ -75,8 +79,8 @@ public class StrategyVersionFilter {
         List<String> versionList = new ArrayList<String>();
         for (ServiceInstance instance : instances) {
             String version = pluginAdapter.getInstanceVersion(instance);
-            // 当服务未接入本框架或者版本号未设置（表现出来的值为DiscoveryConstant.DEFAULT），并且在指定区域、指定IP地址和端口，不添加到认可列表
-            if (!versionList.contains(version) && StringUtils.isNotEmpty(version) && !StringUtils.equals(version, DiscoveryConstant.DEFAULT) && applyRegion(instance) && applyAddress(instance) && applyIdBlacklist(instance) && applyAddressBlacklist(instance)) {
+            // 当服务未接入本框架或者版本号未设置（表现出来的值为DiscoveryConstant.DEFAULT），并且不在指定环境、指定区域、指定IP地址和端口、指定黑名单里，不添加到认可列表
+            if (!versionList.contains(version) && !StringUtils.equals(version, DiscoveryConstant.DEFAULT) && applyEnvironment(instance) && applyRegion(instance) && applyAddress(instance) && applyIdBlacklist(instance) && applyAddressBlacklist(instance)) {
                 versionList.add(version);
             }
         }
@@ -87,6 +91,35 @@ public class StrategyVersionFilter {
         }
 
         return versionList;
+    }
+
+    public boolean applyEnvironment(ServiceInstance instance) {
+        String environmentValue = pluginContextHolder.getContextRouteEnvironment();
+        if (StringUtils.isEmpty(environmentValue)) {
+            return true;
+        }
+
+        String serviceId = pluginAdapter.getInstanceServiceId(instance);
+        List<ServiceInstance> instances = discoveryClient.getInstances(serviceId);
+
+        boolean matched = false;
+        for (ServiceInstance serviceInstance : instances) {
+            String instanceEnvironment = pluginAdapter.getInstanceEnvironment(serviceInstance);
+            if (StringUtils.equals(environmentValue, instanceEnvironment)) {
+                matched = true;
+
+                break;
+            }
+        }
+
+        String environment = pluginAdapter.getInstanceEnvironment(instance);
+        if (matched) {
+            // 匹配到传递过来的环境Header的服务实例，返回匹配的环境的服务实例
+            return StringUtils.equals(environment, environmentValue);
+        } else {
+            // 没有匹配上，则寻址Common环境，返回Common环境的服务实例
+            return StringUtils.equals(environment, environmentRoute) || StringUtils.equals(environment, DiscoveryConstant.DEFAULT);
+        }
     }
 
     public boolean applyRegion(ServiceInstance instance) {
