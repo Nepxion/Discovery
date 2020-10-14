@@ -74,17 +74,17 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
             return false;
         }
 
-        enabled = applyVersion(server);
-        if (!enabled) {
-            return false;
-        }
-
         enabled = applyIdBlacklist(server);
         if (!enabled) {
             return false;
         }
 
         enabled = applyAddressBlacklist(server);
+        if (!enabled) {
+            return false;
+        }
+
+        enabled = applyVersion(server);
         if (!enabled) {
             return false;
         }
@@ -208,6 +208,44 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         return addresses;
     }
 
+    public boolean applyIdBlacklist(Server server) {
+        String ids = pluginContextHolder.getContextRouteIdBlacklist();
+        if (StringUtils.isEmpty(ids)) {
+            return true;
+        }
+
+        String serviceUUId = pluginAdapter.getServerServiceUUId(server);
+
+        List<String> idList = StringUtil.splitToList(ids, DiscoveryConstant.SEPARATE);
+        if (idList.contains(serviceUUId)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean applyAddressBlacklist(Server server) {
+        String addresses = pluginContextHolder.getContextRouteAddressBlacklist();
+        if (StringUtils.isEmpty(addresses)) {
+            return true;
+        }
+
+        // 如果精确匹配不满足，尝试用通配符匹配
+        List<String> addressList = StringUtil.splitToList(addresses, DiscoveryConstant.SEPARATE);
+        if (addressList.contains(server.getHostPort()) || addressList.contains(server.getHost()) || addressList.contains(String.valueOf(server.getPort()))) {
+            return false;
+        }
+
+        // 通配符匹配。前者是通配表达式，后者是具体值
+        for (String addressPattern : addressList) {
+            if (discoveryMatcherStrategy.match(addressPattern, server.getHostPort()) || discoveryMatcherStrategy.match(addressPattern, server.getHost()) || discoveryMatcherStrategy.match(addressPattern, String.valueOf(server.getPort()))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public boolean applyVersion(Server server) {
         String serviceId = pluginAdapter.getServerServiceId(server);
 
@@ -273,44 +311,6 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         }
 
         return versions;
-    }
-
-    public boolean applyIdBlacklist(Server server) {
-        String ids = pluginContextHolder.getContextRouteIdBlacklist();
-        if (StringUtils.isEmpty(ids)) {
-            return true;
-        }
-
-        String serviceUUId = pluginAdapter.getServerServiceUUId(server);
-
-        List<String> idList = StringUtil.splitToList(ids, DiscoveryConstant.SEPARATE);
-        if (idList.contains(serviceUUId)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public boolean applyAddressBlacklist(Server server) {
-        String addresses = pluginContextHolder.getContextRouteAddressBlacklist();
-        if (StringUtils.isEmpty(addresses)) {
-            return true;
-        }
-
-        // 如果精确匹配不满足，尝试用通配符匹配
-        List<String> addressList = StringUtil.splitToList(addresses, DiscoveryConstant.SEPARATE);
-        if (addressList.contains(server.getHostPort()) || addressList.contains(server.getHost()) || addressList.contains(String.valueOf(server.getPort()))) {
-            return false;
-        }
-
-        // 通配符匹配。前者是通配表达式，后者是具体值
-        for (String addressPattern : addressList) {
-            if (discoveryMatcherStrategy.match(addressPattern, server.getHostPort()) || discoveryMatcherStrategy.match(addressPattern, server.getHost()) || discoveryMatcherStrategy.match(addressPattern, String.valueOf(server.getPort()))) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     public boolean applyStrategy(Server server) {

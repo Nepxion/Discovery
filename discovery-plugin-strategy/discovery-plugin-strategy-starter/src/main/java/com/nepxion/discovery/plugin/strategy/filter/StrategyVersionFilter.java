@@ -76,7 +76,7 @@ public class StrategyVersionFilter {
         for (ServiceInstance instance : instances) {
             String version = pluginAdapter.getInstanceVersion(instance);
             // 当服务未接入本框架或者版本号未设置（表现出来的值为DiscoveryConstant.DEFAULT），并且在指定区域、指定IP地址和端口，不添加到认可列表
-            if (!versionList.contains(version) && StringUtils.isNotEmpty(version) && !StringUtils.equals(version, DiscoveryConstant.DEFAULT) && applyRegion(instance) && applyAddress(instance)) {
+            if (!versionList.contains(version) && StringUtils.isNotEmpty(version) && !StringUtils.equals(version, DiscoveryConstant.DEFAULT) && applyRegion(instance) && applyAddress(instance) && applyIdBlacklist(instance) && applyAddressBlacklist(instance)) {
                 versionList.add(version);
             }
         }
@@ -173,6 +173,44 @@ public class StrategyVersionFilter {
         }
 
         return addresses;
+    }
+
+    public boolean applyIdBlacklist(ServiceInstance instance) {
+        String ids = pluginContextHolder.getContextRouteIdBlacklist();
+        if (StringUtils.isEmpty(ids)) {
+            return true;
+        }
+
+        String serviceUUId = pluginAdapter.getInstanceServiceUUId(instance);
+
+        List<String> idList = StringUtil.splitToList(ids, DiscoveryConstant.SEPARATE);
+        if (idList.contains(serviceUUId)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean applyAddressBlacklist(ServiceInstance instance) {
+        String addresses = pluginContextHolder.getContextRouteAddressBlacklist();
+        if (StringUtils.isEmpty(addresses)) {
+            return true;
+        }
+
+        // 如果精确匹配不满足，尝试用通配符匹配
+        List<String> addressList = StringUtil.splitToList(addresses, DiscoveryConstant.SEPARATE);
+        if (addressList.contains(instance.getHost() + ":" + instance.getPort()) || addressList.contains(instance.getHost()) || addressList.contains(String.valueOf(instance.getPort()))) {
+            return false;
+        }
+
+        // 通配符匹配。前者是通配表达式，后者是具体值
+        for (String addressPattern : addressList) {
+            if (discoveryMatcherStrategy.match(addressPattern, instance.getHost() + ":" + instance.getPort()) || discoveryMatcherStrategy.match(addressPattern, instance.getHost()) || discoveryMatcherStrategy.match(addressPattern, String.valueOf(instance.getPort()))) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public boolean applyVersion(ServiceInstance instance) {
