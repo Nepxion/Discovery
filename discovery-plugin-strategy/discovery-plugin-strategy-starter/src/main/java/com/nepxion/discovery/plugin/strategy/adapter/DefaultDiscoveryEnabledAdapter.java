@@ -92,7 +92,6 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         return applyStrategy(server);
     }
 
-    // 环境隔离和路由一般适用于测试环境，不能和版本偏好、版本故障转移功能一起使用
     public boolean applyEnvironment(Server server) {
         String environmentValue = pluginContextHolder.getContextRouteEnvironment();
         if (StringUtils.isEmpty(environmentValue)) {
