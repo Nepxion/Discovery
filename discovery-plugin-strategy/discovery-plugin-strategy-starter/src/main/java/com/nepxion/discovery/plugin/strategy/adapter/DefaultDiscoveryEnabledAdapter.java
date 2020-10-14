@@ -92,7 +92,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         return applyStrategy(server);
     }
 
-    // 环境隔离和路由一般适用于测试环境，不能和版本偏好、版本故障转移策略一起使用
+    // 环境隔离和路由一般适用于测试环境，不能和版本偏好、版本故障转移功能一起使用
     public boolean applyEnvironment(Server server) {
         String environmentValue = pluginContextHolder.getContextRouteEnvironment();
         if (StringUtils.isEmpty(environmentValue)) {
@@ -213,14 +213,14 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
 
         String versions = getVersions(serviceId);
         if (StringUtils.isEmpty(versions)) {
-            // 版本偏好策略，非灰度路由场景下，路由到老的稳定版本的实例。其作用是防止多个网关上并行实施灰度版本路由产生混乱
+            // 版本偏好，即非灰度路由场景下，路由到老的稳定版本的实例。其作用是防止多个网关上并行实施灰度版本路由产生混乱
             if (versionPreferEnabled) {
                 return strategyVersionFilter.apply(server);
             } else {
                 return true;
             }
         } else {
-            // 版本故障转移策略，无法找到相应版本的服务实例，路由到老的稳定版本的实例。其作用是防止灰度版本路由人为设置错误，或者对应的版本实例发生灾难性的全部下线
+            // 版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例。其作用是防止灰度版本路由人为设置错误，或者对应的版本实例发生灾难性的全部下线，导致流量有损
             if (versionFailoverEnabled) {
                 List<ServiceInstance> instances = discoveryClient.getInstances(serviceId);
 
