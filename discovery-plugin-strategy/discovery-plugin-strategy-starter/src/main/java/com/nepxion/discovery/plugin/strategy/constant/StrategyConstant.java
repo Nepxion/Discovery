@@ -18,7 +18,8 @@ public class StrategyConstant {
     public static final String SPRING_APPLICATION_STRATEGY_REGISTER_ISOLATION_ENABLED = "spring.application.strategy.register.isolation.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_CONSUMER_ISOLATION_ENABLED = "spring.application.strategy.consumer.isolation.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_PROVIDER_ISOLATION_ENABLED = "spring.application.strategy.provider.isolation.enabled";
-    public static final String SPRING_APPLICATION_STRATEGY_VERSION_FILTER_ENABLED = "spring.application.strategy.version.filter.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_VERSION_FAILOVER_ENABLED = "spring.application.strategy.version.failover.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_VERSION_PREFER_ENABLED = "spring.application.strategy.version.prefer.enabled";
 
     public static final String SPRING_APPLICATION_STRATEGY_MONITOR_ENABLED = "spring.application.strategy.monitor.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_LOGGER_ENABLED = "spring.application.strategy.logger.enabled";
