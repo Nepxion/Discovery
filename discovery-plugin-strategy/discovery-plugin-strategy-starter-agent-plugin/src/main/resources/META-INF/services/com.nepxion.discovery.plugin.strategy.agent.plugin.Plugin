@@ -2,3 +2,4 @@ com.nepxion.discovery.plugin.strategy.agent.plugin.monitor.DiscoveryMonitorPlugi
 com.nepxion.discovery.plugin.strategy.agent.plugin.gateway.DiscoveryGatewayPlugin
 com.nepxion.discovery.plugin.strategy.agent.plugin.service.DiscoveryServicePlugin
 com.nepxion.discovery.plugin.strategy.agent.plugin.zuul.DiscoveryZuulPlugin
+com.nepxion.discovery.plugin.strategy.agent.plugin.mdc.MDCPlugin
