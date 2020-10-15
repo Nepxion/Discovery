@@ -11,6 +11,11 @@
 
 ![](http://nepxion.gitee.io/docs/icon-doc/star3.png) 如果您觉得本框架具有一定的参考价值和借鉴意义，请帮忙在页面右上角 [**Star**]
 
+
+首席作者简介
+
+任浩军，平安银行下一代 PaaS 平台 Halo 基础服务框架创始人，Nepxion 开源社区创始人，2020 年阿里巴巴中国云原生峰会出品人，Nacos Group Member，Spring Cloud Alibaba、Nacos、Sentinel、OpenTracing Committer & Contributors
+
 ![](http://nepxion.gitee.io/docs/discovery-doc/Logo64.png) Discovery【探索】微服务企业级解决方案
 
 ① Discovery【探索】微服务企业级解决方案文档
