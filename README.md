@@ -754,7 +754,7 @@ spring.application.strategy.control.enabled=false
 ⑧ 异步跨线程Agent引入
 
 异步跨线程Agent的引入，通过Java Agent方式启动。灰度路由Header和调用链Span在Hystrix线程池隔离模式下或者线程、线程池、@Async注解等异步调用Feign或者RestTemplate时，通过线程上下文切换会存在丢失Header的问题。通过该插件解决，支持微服务端、网关Zuul端和网关Spring Cloud Gateway端
-```xml
+```
 -javaagent:/discovery-agent/discovery-plugin-strategy-starter-agent-${discovery.version}.jar -Dthread.scan.packages=com.abc;com.xyz
 ```
 具体参考下文
@@ -3370,7 +3370,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 ### 插件使用
 - discovery-plugin-strategy-starter-agent-`$`{discovery.version}.jar为Agent引导启动程序，JVM启动时进行加载；discovery-agent/plugin目录包含discovery-plugin-strategy-starter-agent-plugin-`$`{discovery.version}.jar为nepxion-discovery自带的实现方案，业务系统可以自定义plugin，解决业务自己定义的上下文跨线程传递
 - 通过如下-javaagent启动
-```xml
+```
 -javaagent:/discovery-agent/discovery-plugin-strategy-starter-agent-${discovery.version}.jar -Dthread.scan.packages=com.abc;com.xyz
 ```
 
@@ -3379,7 +3379,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 - `-D`thread.scan.packages：Runnable，Callable对象所在的扫描目录，该目录下的Runnable，Callable对象都会被装饰。该目录最好精细和准确，这样可以减少被装饰的对象数，提高性能，目录如果有多个，用“;”分隔
 - `-D`thread.request.decorator.enabled：异步调用场景下在服务端的Request请求的装饰，当主线程先于子线程执行完的时候，Request会被Destory，导致Header仍旧拿不到，开启装饰，就可以确保拿到。默认为开启，根据实践经验，大多数场景下，需要开启该开关
 - `-D`thread.mdc.enabled：SLF4J MDC日志输出到异步子线程。默认关闭，如果需要，则开启该开关
-```xml
+```
 扫描目录thread.scan.packages定义，该参数只作用于服务侧，网关侧不需要加
 1. @Async场景下的扫描目录为org.springframework.aop.interceptor
 2. Hystrix线程池隔离场景下的扫描目录为com.netflix.hystrix
@@ -3387,7 +3387,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 ```	
 
 参考指南示例中的异步服务启动参数。扫描目录中的三个包名，视具体场景按需配置
-```xml
+```
 -javaagent:C:/opt/discovery-agent/discovery-plugin-strategy-starter-agent-${discovery.version}.jar -Dthread.scan.packages=org.springframework.aop.interceptor;com.netflix.hystrix;com.nepxion.discovery.guide.service.feign
 ```
 
