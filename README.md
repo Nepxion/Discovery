@@ -3442,6 +3442,12 @@ public class DiscoveryGatewayPlugin extends AbstractPlugin {
         // 返回ThreadLocalHook类名
         return GatewayStrategyContextHook.class.getName();
     }
+
+    @Override
+    protected boolean isEnabled() {
+        // 通过外部-Dthread.xxx.enabled=true/false的运行参数来控制当前Plugin是否生效。该方法在父类中定义的返回值为true，即缺省为生效
+        return Boolean.valueOf(System.getProperty("thread.xxx.enabled", "true"));
+    }
 }
 ```
 - 定义SPI扩展，在src/main/resources/META-INF/services目录下定义SPI文件
