@@ -21,9 +21,8 @@ import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.config.PluginConfigParser;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
-import com.nepxion.discovery.plugin.framework.listener.loadbalance.LoadBalanceListenerExecutor;
+import com.nepxion.discovery.plugin.framework.ribbon.RibbonProcessor;
 import com.nepxion.eventbus.annotation.EventBus;
-import com.netflix.loadbalancer.ZoneAwareLoadBalancer;
 
 @EventBus
 public class PluginSubscriber {
@@ -42,7 +41,7 @@ public class PluginSubscriber {
     private PluginEventWapper pluginEventWapper;
 
     @Autowired
-    private LoadBalanceListenerExecutor loadBalanceListenerExecutor;
+    private RibbonProcessor ribbonProcessor;
 
     @Subscribe
     public void onRuleUpdated(RuleUpdatedEvent ruleUpdatedEvent) {
@@ -187,13 +186,8 @@ public class PluginSubscriber {
         }
     }
 
+    // 当规则或者版本更新后，强制刷新Ribbon缓存
     private void refreshLoadBalancer() {
-        ZoneAwareLoadBalancer<?> loadBalancer = loadBalanceListenerExecutor.getLoadBalancer();
-        if (loadBalancer == null) {
-            return;
-        }
-
-        // 当规则或者版本更新后，强制刷新Ribbon缓存
-        loadBalancer.updateListOfServers();
+        ribbonProcessor.refreshLoadBalancer();
     }
 }
