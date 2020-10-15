@@ -3377,13 +3377,13 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 参数说明
 - /discovery-agent：Agent所在的目录，需要对应到实际的目录上
 - `-D`thread.scan.packages：Runnable，Callable对象所在的扫描目录，该目录下的Runnable，Callable对象都会被装饰。该目录最好精细和准确，这样可以减少被装饰的对象数，提高性能，目录如果有多个，用“;”分隔
-- `-D`thread.request.decorator.enabled：异步调用场景下在服务端的Request请求的装饰，当主线程先于子线程执行完的时候，Request会被Destory，导致Header仍旧拿不到，开启装饰，就可以确保拿到。默认为开启，根据实践经验，大多数场景下，需要开启这个开关
+- `-D`thread.request.decorator.enabled：异步调用场景下在服务端的Request请求的装饰，当主线程先于子线程执行完的时候，Request会被Destory，导致Header仍旧拿不到，开启装饰，就可以确保拿到。默认为开启，根据实践经验，大多数场景下，需要开启该开关
+- `-D`thread.mdc.enabled：SLF4J MDC日志输出到异步子线程。默认关闭，如果需要，则开启该开关
 ```xml
 扫描目录thread.scan.packages定义，该参数只作用于服务侧，网关侧不需要加
 1. @Async场景下的扫描目录为org.springframework.aop.interceptor
 2. Hystrix线程池隔离场景下的扫描目录为com.netflix.hystrix
 3. 线程、线程池的扫描目录为自定义Runnable，Callable对象所在类的目录
-4. SLF4J MDC日志输出默认关闭，需要通过-Dthread.mdc.enabled=true来开启
 ```	
 
 参考指南示例中的异步服务启动参数。扫描目录中的三个包名，视具体场景按需配置
