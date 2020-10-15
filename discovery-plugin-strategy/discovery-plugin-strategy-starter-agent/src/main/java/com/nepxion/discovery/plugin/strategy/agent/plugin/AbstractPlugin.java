@@ -45,6 +45,10 @@ public abstract class AbstractPlugin extends Plugin {
         });
     }
 
+    protected boolean isEnabled() {
+        return true;
+    }
+
     protected abstract String getMatcherClassName();
 
     protected abstract String getHookClassName();

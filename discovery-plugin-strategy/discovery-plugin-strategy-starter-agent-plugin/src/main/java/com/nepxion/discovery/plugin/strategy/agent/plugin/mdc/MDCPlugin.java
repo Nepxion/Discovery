@@ -12,6 +12,8 @@ package com.nepxion.discovery.plugin.strategy.agent.plugin.mdc;
 import com.nepxion.discovery.plugin.strategy.agent.plugin.AbstractPlugin;
 
 public class MDCPlugin extends AbstractPlugin {
+    private Boolean threadMDCEnabled = Boolean.valueOf(System.getProperty("thread.mdc.enabled", "false"));
+
     @Override
     protected String getMatcherClassName() {
         return "org.slf4j.MDC";
@@ -20,5 +22,10 @@ public class MDCPlugin extends AbstractPlugin {
     @Override
     protected String getHookClassName() {
         return MDCContextHook.class.getName();
+    }
+
+    @Override
+    protected boolean isEnabled() {
+        return threadMDCEnabled;
     }
 }
