@@ -22,11 +22,15 @@ import org.apache.commons.collections4.CollectionUtils;
 
 public class ServiceStrategyRequestDecorator extends HttpServletRequestWrapper {
     private Map<String, List<String>> headers;
+    private StringBuffer requestURL;
+    private String requestURI;
 
     public ServiceStrategyRequestDecorator(HttpServletRequest request) {
         super(request);
 
         headers = initializeHeaders(request);
+        requestURL = request.getRequestURL();
+        requestURI = request.getRequestURI();
     }
 
     private Map<String, List<String>> initializeHeaders(HttpServletRequest request) {
@@ -59,5 +63,15 @@ public class ServiceStrategyRequestDecorator extends HttpServletRequestWrapper {
     @Override
     public Enumeration<String> getHeaderNames() {
         return Collections.enumeration(headers.keySet());
+    }
+
+    @Override
+    public StringBuffer getRequestURL() {
+        return requestURL;
+    }
+
+    @Override
+    public String getRequestURI() {
+        return requestURI;
     }
 }
