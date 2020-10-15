@@ -39,6 +39,7 @@ import com.nepxion.discovery.plugin.framework.listener.loadbalance.ZoneFilterLoa
 import com.nepxion.discovery.plugin.framework.listener.register.CountFilterRegisterListener;
 import com.nepxion.discovery.plugin.framework.listener.register.HostFilterRegisterListener;
 import com.nepxion.discovery.plugin.framework.listener.register.RegisterListenerExecutor;
+import com.nepxion.discovery.plugin.framework.ribbon.RibbonProcessor;
 import com.nepxion.eventbus.annotation.EnableEventBus;
 
 @Configuration
@@ -78,6 +79,11 @@ public class PluginAutoConfiguration {
     @Bean
     public RuleCache ruleCache() {
         return new RuleCache();
+    }
+
+    @Bean
+    public RibbonProcessor ribbonProcessor() {
+        return new RibbonProcessor();
     }
 
     @Bean
