@@ -25,24 +25,27 @@ public abstract class AbstractPlugin extends Plugin {
 
     @Override
     public void install(TransformTemplate transformTemplate) {
-        String matcherClassName = getMatcherClassName();
-        Class<? extends AbstractPlugin> pluginClass = getClass();
+        boolean isEnabled = isEnabled();
+        if (isEnabled) {
+            String matcherClassName = getMatcherClassName();
+            Class<? extends AbstractPlugin> pluginClass = getClass();
 
-        ClassMatcher classMatcher = MatcherFactory.newClassNameMatcher(matcherClassName);
-        transformTemplate.transform(classMatcher, new TransformCallback() {
-            @Override
-            public byte[] doInTransform(ClassLoader classLoader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) {
-                try {
-                    String hookClassName = getHookClassName();
+            ClassMatcher classMatcher = MatcherFactory.newClassNameMatcher(matcherClassName);
+            transformTemplate.transform(classMatcher, new TransformCallback() {
+                @Override
+                public byte[] doInTransform(ClassLoader classLoader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) {
+                    try {
+                        String hookClassName = getHookClassName();
 
-                    ThreadLocalCopier.register(AgentClassLoader.load((URLClassLoader) pluginClass.getClassLoader(), classLoader, hookClassName));
-                } catch (Exception e) {
-                    LOG.warn(String.format("Load %s error", className), e);
+                        ThreadLocalCopier.register(AgentClassLoader.load((URLClassLoader) pluginClass.getClassLoader(), classLoader, hookClassName));
+                    } catch (Exception e) {
+                        LOG.warn(String.format("Load %s error", className), e);
+                    }
+
+                    return null;
                 }
-
-                return null;
-            }
-        });
+            });
+        }
     }
 
     protected boolean isEnabled() {
