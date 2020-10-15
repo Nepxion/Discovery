@@ -13,9 +13,9 @@
 
 ![](http://nepxion.gitee.io/docs/icon-doc/star1.png) 首席作者简介
 - Nepxion开源社区创始人
-- 平安银行下一代PaaS平台Halo基础服务框架创始人
 - 2020年阿里巴巴中国云原生峰会出品人
-- Nacos Group Member，Spring Cloud Alibaba、Nacos、Sentinel、OpenTracing等开源产品Committer & Contributor
+- Nacos Group Member
+- Spring Cloud Alibaba、Nacos、Sentinel、OpenTracing Committer & Contributor
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Logo64.png) Discovery【探索】微服务企业级解决方案
 
@@ -3441,6 +3441,12 @@ public class DiscoveryGatewayPlugin extends AbstractPlugin {
     protected String getHookClassName() {
         // 返回ThreadLocalHook类名
         return GatewayStrategyContextHook.class.getName();
+    }
+
+    @Override
+    protected boolean isEnabled() {
+        // 通过外部-Dthread.xxx.enabled=true/false的运行参数来控制当前Plugin是否生效。该方法在父类中定义的返回值为true，即缺省为生效
+        return Boolean.valueOf(System.getProperty("thread.xxx.enabled", "true"));
     }
 }
 ```
