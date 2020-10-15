@@ -3360,6 +3360,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 - Callable
 - Single Thread
 - Thread Pool
+- SLF4J MDC
 
 ### 插件获取
 插件获取方式有两种方式
@@ -3382,6 +3383,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 1. @Async场景下的扫描目录为org.springframework.aop.interceptor
 2. Hystrix线程池隔离场景下的扫描目录为com.netflix.hystrix
 3. 线程、线程池的扫描目录为自定义Runnable，Callable对象所在类的目录
+4. SLF4J MDC日志输出默认关闭，需要通过-Dthread.mdc.enabled=true来开启
 ```	
 
 参考指南示例中的异步服务启动参数。扫描目录中的三个包名，视具体场景按需配置
