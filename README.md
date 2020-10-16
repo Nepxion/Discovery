@@ -727,7 +727,7 @@ spring.application.strategy.control.enabled=false
 
 ⑥ 控制台依赖引入
 
-控制台对于配置中心中间件的三个插件，选择引入其中一个（也可以引入使用者自己的扩展）。该依赖提供配置中心、规则策略解析等功能
+控制台对于配置中心中间件的三个插件，选择引入其中一个（也可以引入使用者自己的扩展）。该依赖提供配置中心、规则策略推送等功能
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
