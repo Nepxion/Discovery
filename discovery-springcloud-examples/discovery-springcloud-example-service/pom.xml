@@ -47,6 +47,11 @@
         </dependency>
 
         <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>discovery-plugin-admin-center-starter</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.nepxion</groupId>
             <artifactId>discovery-plugin-strategy-starter-service</artifactId>
         </dependency>
