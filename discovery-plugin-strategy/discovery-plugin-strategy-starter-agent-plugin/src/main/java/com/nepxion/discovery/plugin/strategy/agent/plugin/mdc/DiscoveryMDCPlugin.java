@@ -11,7 +11,7 @@ package com.nepxion.discovery.plugin.strategy.agent.plugin.mdc;
 
 import com.nepxion.discovery.plugin.strategy.agent.plugin.AbstractPlugin;
 
-public class MDCPlugin extends AbstractPlugin {
+public class DiscoveryMDCPlugin extends AbstractPlugin {
     private Boolean threadMDCEnabled = Boolean.valueOf(System.getProperty("thread.mdc.enabled", "false"));
 
     @Override
