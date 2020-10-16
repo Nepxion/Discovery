@@ -659,9 +659,9 @@ spring.application.strategy.control.enabled=false
 </dependency>
 ```
 
-② 远程配置中心依赖引入
+② 配置中心依赖引入
 
-远程配置中心中间件的三个插件，选择引入其中一个（也可以引入使用者自己的扩展）。该依赖提供配置中心、规则策略解析等功能
+配置中心中间件的三个插件，选择引入其中一个（也可以引入使用者自己的扩展）。该依赖提供配置中心、规则策略解析等功能
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -672,7 +672,18 @@ spring.application.strategy.control.enabled=false
 </dependency>
 ```
 
-③ 路由策略依赖引入
+③ 管理中心依赖引入
+
+该依赖提供基于Swagger和Rest的配置接口、版本接口、策略接口、路由接口、全链路侦测接口、哨兵接口、Git信息接口等功能
+```xml
+<dependency>
+    <groupId>${project.groupId}</groupId>
+    <artifactId>discovery-plugin-admin-center-starter</artifactId>
+    <version>${discovery.version}</version>
+</dependency>
+```
+
+④ 路由策略依赖引入
 
 微服务端、网关Zuul端和网关Spring Cloud Gateway端三个路由策略插件，选择引入其中一个。该依赖提供灰度路由功能、Header、Query Parameter、Cookie触发和传递等功能
 ```xml
@@ -685,7 +696,7 @@ spring.application.strategy.control.enabled=false
 </dependency>
 ```
 
-④ 防护插件依赖引入
+⑤ 防护插件依赖引入
 
 - Sentinel防护插件。只适用于微服务端
 ```xml
@@ -714,9 +725,9 @@ spring.application.strategy.control.enabled=false
 </dependency>
 ```
 
-⑤ 控制台依赖引入
+⑥ 控制台依赖引入
 
-远程配置中心中间件的三个插件，选择引入其中一个（也可以引入使用者自己的扩展）。该依赖提供配置中心、规则策略解析等功能
+控制台对于配置中心中间件的三个插件，选择引入其中一个（也可以引入使用者自己的扩展）。该依赖提供配置中心、规则策略解析等功能
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -727,7 +738,7 @@ spring.application.strategy.control.enabled=false
 </dependency>
 ```
 
-⑥ 调用链插件依赖引入
+⑦ 调用链插件依赖引入
 
 调用链功能引入，支持微服务端、网关Zuul端和网关Spring Cloud Gateway端
 
@@ -742,7 +753,7 @@ spring.application.strategy.control.enabled=false
 </dependency>
 ```
 
-⑦ 自动化测试插件依赖引入
+⑧ 自动化测试插件依赖引入
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -751,7 +762,7 @@ spring.application.strategy.control.enabled=false
 </dependency>
 ```
 
-⑧ 异步跨线程Agent引入
+⑨ 异步跨线程Agent引入
 
 异步跨线程Agent的引入，通过Java Agent方式启动。灰度路由Header和调用链Span在Hystrix线程池隔离模式下或者线程、线程池、@Async注解等异步调用Feign或者RestTemplate时，通过线程上下文切换会存在丢失Header的问题。通过该插件解决，支持微服务端、网关Zuul端和网关Spring Cloud Gateway端
 ```
