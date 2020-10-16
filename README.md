@@ -3403,61 +3403,94 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 ```
 
 ### 插件扩展
-- 根据规范开发一个插件，插件提供了钩子函数，在某个类被加载的时候，可以注册一个事件到线程上下文切换事件当中，实现业务自定义ThreadLocal的跨线程传递。参考：discovery-plugin-strategy-starter-agent-plugin模块的com.nepxion.discovery.plugin.strategy.starter.agent.plugin.gateway下的实现方式
+- 根据规范开发一个插件，插件提供了钩子函数，在某个类被加载的时候，可以注册一个事件到线程上下文切换事件当中，实现业务自定义ThreadLocal的跨线程传递
 - plugin目录为放置需要在线程切换时进行ThreadLocal传递的自定义插件。业务自定义插件开发完后，放入到plugin目录下即可
 
 具体步骤介绍，如下
+- SDK侧的ThreadLocal上下文类
+```java
+public class CustomContext {
+    private static final ThreadLocal<CustomContext> THREAD_LOCAL = new ThreadLocal<CustomContext>() {
+        @Override
+        protected CustomContext initialValue() {
+            return new CustomContext();
+        }
+    };
+
+    public static CustomContext getCurrentContext() {
+        return THREAD_LOCAL.get();
+    }
+
+    public static void clearCurrentContext() {
+        THREAD_LOCAL.remove();
+    }
+
+    private Map<String, String> attributes = new HashMap<>();
+
+    public Map<String, String> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(Map<String, String> attributes) {
+        this.attributes = attributes;
+    }
+}
+```
 - 新建一个模块，引入如下依赖
 ```xml
 <dependency>
-    <groupId>${project.groupId}</groupId>
+    <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-strategy-starter-agent</artifactId>
+    <version>${discovery.version}</version>	
     <scope>provided</scope>
 </dependency>
 ```
-- 新建一个ThreadLocalHook类继承AbstractThreadLocalHook，参考GatewayStrategyContextHook
+- 新建一个ThreadLocalHook类继承AbstractThreadLocalHook
 ```java
-public class GatewayStrategyContextHook extends AbstractThreadLocalHook {
+public class CustomContextHook extends AbstractThreadLocalHook {
     @Override
     public Object create() {
-        // 从主线程的ThreadLocal里获取并返回上下文对象 
-        return GatewayStrategyContext.getCurrentContext().getExchange();
+        // 从主线程的ThreadLocal里获取并返回上下文对象
+        return CustomContext.getCurrentContext().getAttributes();
     }
 
     @Override
     public void before(Object object) {
         // 把create方法里获取到的上下文对象放置到子线程的ThreadLocal里
-        if (object instanceof ServerWebExchange) {
-            GatewayStrategyContext.getCurrentContext().setExchange((ServerWebExchange) object);
+        if (object instanceof Map) {
+            CustomContext.getCurrentContext().setAttributes((Map<String, String>) object);
         }
     }
 
     @Override
     public void after() {
         // 线程结束，销毁上下文对象
-        GatewayStrategyContext.clearCurrentContext();
+        CustomContext.clearCurrentContext();
     }
 }
 ```
-- 新建一个Plugin类继承AbstractPlugin，参考DiscoveryGatewayPlugin
+- 新建一个Plugin类继承AbstractPlugin
 ```java
-public class DiscoveryGatewayPlugin extends AbstractPlugin {
+public class CustomContextPlugin extends AbstractPlugin {
+    private Boolean threadCustomEnabled = Boolean.valueOf(System.getProperty("thread.custom.enabled", "false"));
+
     @Override
     protected String getMatcherClassName() {
         // 返回存储ThreadLocal对象的类名，由于插件是可以插拔的，所以必须是字符串形式，不允许是显式引入类
-        return "com.nepxion.discovery.plugin.strategy.gateway.context.GatewayStrategyContext";
+        return "org.example.CustomContext";
     }
 
     @Override
     protected String getHookClassName() {
         // 返回ThreadLocalHook类名
-        return GatewayStrategyContextHook.class.getName();
+        return CustomContextHook.class.getName();
     }
 
+    // 该方法可以不需要
     @Override
     protected boolean isEnabled() {
-        // 通过外部-Dthread.xxx.enabled=true/false的运行参数来控制当前Plugin是否生效。该方法在父类中定义的返回值为true，即缺省为生效
-        return Boolean.valueOf(System.getProperty("thread.xxx.enabled", "true"));
+        // 通过外部-Dthread.custom.enabled=true/false的运行参数来控制当前Plugin是否生效。该方法在父类中定义的返回值为true，即缺省为生效
+        return threadCustomEnabled;
     }
 }
 ```
@@ -3467,10 +3500,16 @@ public class DiscoveryGatewayPlugin extends AbstractPlugin {
 ```
 com.nepxion.discovery.plugin.strategy.agent.plugin.Plugin
 ```
-内容为Plugin类的全路径（以DiscoveryGatewayPlugin为例）
+内容为Plugin类的全路径
 ```
-com.nepxion.discovery.plugin.strategy.agent.plugin.gateway.DiscoveryGatewayPlugin
+org.example.CustomContextPlugin
 ```
+- 执行Maven编译，把编译后的包放在discovery-agent/plugin目录下
+- 给服务增加启动参数并启动，如下
+```
+-javaagent:C:/opt/discovery-agent/discovery-plugin-strategy-starter-agent-${discovery.version}.jar -Dthread.scan.packages=com.example.demo -Dthread.custom.enabled=true
+```
+- 完整示例，请参考[CustomAgent.zip](http://nepxion.gitee.io/videos/discovery-video/CustomAgent.wmv)，下载后把后缀wmv改成zip，并解压
 - 上述自定义插件的方式，即可解决使用者在线程切换时丢失ThreadLocal上下文的问题
 
 ## 元数据Metadata自动化策略
