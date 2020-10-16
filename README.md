@@ -3507,9 +3507,9 @@ org.example.CustomContextPlugin
 - 执行Maven编译，把编译后的包放在discovery-agent/plugin目录下
 - 给服务增加启动参数并启动，如下
 ```
--javaagent:C:/opt/discovery-agent/discovery-plugin-strategy-starter-agent-${discovery.version}.jar  -Dthread.scan.packages=com.example.demo -Dthread.custom.enabled=true
+-javaagent:C:/opt/discovery-agent/discovery-plugin-strategy-starter-agent-${discovery.version}.jar -Dthread.scan.packages=com.example.demo -Dthread.custom.enabled=true
 ```
-- 完整示例，请参考[custom-agent.zip](http://nepxion.gitee.io/videos/discovery-docs/custom-agent.zip)
+- 完整示例，请参考[custom-agent.zip](http://nepxion.gitee.io/docs/discovery-docs/custom-agent.zip)
 - 上述自定义插件的方式，即可解决使用者在线程切换时丢失ThreadLocal上下文的问题
 
 ## 元数据Metadata自动化策略
