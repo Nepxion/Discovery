@@ -773,7 +773,7 @@ spring.application.strategy.control.enabled=false
 
 异步跨线程Agent的引入，通过Java Agent方式启动。灰度路由Header和调用链Span在Hystrix线程池隔离模式下或者线程、线程池、@Async注解等异步调用Feign或者RestTemplate时，通过线程上下文切换会存在丢失Header的问题。通过该插件解决，支持微服务端、网关Zuul端和网关Spring Cloud Gateway端
 ```
--javaagent:/discovery-agent/discovery-agent-starter-${discovery.version}.jar -Dthread.scan.packages=com.abc;com.xyz
+-javaagent:/discovery-agent/discovery-agent-starter-${discovery.agent.version}.jar -Dthread.scan.packages=com.abc;com.xyz
 ```
 具体参考下文
 
@@ -3389,7 +3389,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 - discovery-agent-starter-`$`{discovery.version}.jar为Agent引导启动程序，JVM启动时进行加载；discovery-agent/plugin目录包含discovery-agent-starter-plugin-strategy-`$`{discovery.version}.jar为nepxion-discovery自带的实现方案，业务系统可以自定义plugin，解决业务自己定义的上下文跨线程传递
 - 通过如下-javaagent启动
 ```
--javaagent:/discovery-agent/discovery-agent-starter-${discovery.version}.jar -Dthread.scan.packages=com.abc;com.xyz
+-javaagent:/discovery-agent/discovery-agent-starter-${discovery.agent.version}.jar -Dthread.scan.packages=com.abc;com.xyz
 ```
 
 参数说明
@@ -3406,7 +3406,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 
 参考指南示例中的异步服务启动参数。扫描目录中的三个包名，视具体场景按需配置
 ```
--javaagent:C:/opt/discovery-agent/discovery-agent-starter-${discovery.version}.jar -Dthread.scan.packages=org.springframework.aop.interceptor;com.netflix.hystrix;com.nepxion.discovery.guide.service.feign
+-javaagent:C:/opt/discovery-agent/discovery-agent-starter-${discovery.agent.version}.jar -Dthread.scan.packages=org.springframework.aop.interceptor;com.netflix.hystrix;com.nepxion.discovery.guide.service.feign
 ```
 
 ### 插件扩展
@@ -3416,15 +3416,15 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 具体步骤介绍，如下
 - SDK侧的ThreadLocal上下文类
 ```java
-public class CustomContext {
-    private static final ThreadLocal<CustomContext> THREAD_LOCAL = new ThreadLocal<CustomContext>() {
+public class MyContext {
+    private static final ThreadLocal<MyContext> THREAD_LOCAL = new ThreadLocal<MyContext>() {
         @Override
-        protected CustomContext initialValue() {
-            return new CustomContext();
+        protected MyContext initialValue() {
+            return new MyContext();
         }
     };
 
-    public static CustomContext getCurrentContext() {
+    public static MyContext getCurrentContext() {
         return THREAD_LOCAL.get();
     }
 
@@ -3443,61 +3443,60 @@ public class CustomContext {
     }
 }
 ```
-- 新建一个模块，引入如下依赖
+- Agent侧新建一个模块，引入如下依赖
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
-    <artifactId>discovery-plugin-strategy-starter-agent</artifactId>
-    <version>${discovery.version}</version>	
+    <artifactId>discovery-agent-starter</artifactId>
+    <version>${discovery.agent.version}</version>
     <scope>provided</scope>
 </dependency>
 ```
-- 新建一个ThreadLocalHook类继承AbstractThreadLocalHook
+- Agent侧新建一个ThreadLocalHook类继承AbstractThreadLocalHook
 ```java
-public class CustomContextHook extends AbstractThreadLocalHook {
+public class MyContextHook extends AbstractThreadLocalHook {
     @Override
     public Object create() {
         // 从主线程的ThreadLocal里获取并返回上下文对象
-        return CustomContext.getCurrentContext().getAttributes();
+        return MyContext.getCurrentContext().getAttributes();
     }
 
     @Override
     public void before(Object object) {
         // 把create方法里获取到的上下文对象放置到子线程的ThreadLocal里
         if (object instanceof Map) {
-            CustomContext.getCurrentContext().setAttributes((Map<String, String>) object);
+            MyContext.getCurrentContext().setAttributes((Map<String, String>) object);
         }
     }
 
     @Override
     public void after() {
         // 线程结束，销毁上下文对象
-        CustomContext.clearCurrentContext();
+        MyContext.clearCurrentContext();
     }
 }
 ```
-- 新建一个Plugin类继承AbstractPlugin
+- Agent侧新建一个Plugin类继承AbstractPlugin
 ```java
-public class CustomContextPlugin extends AbstractPlugin {
-    private Boolean threadCustomEnabled = Boolean.valueOf(System.getProperty("thread.custom.enabled", "false"));
+public class MyContextPlugin extends AbstractPlugin {
+    private Boolean threadMyPluginEnabled = Boolean.valueOf(System.getProperty("thread.myplugin.enabled", "false"));
 
     @Override
     protected String getMatcherClassName() {
         // 返回存储ThreadLocal对象的类名，由于插件是可以插拔的，所以必须是字符串形式，不允许是显式引入类
-        return "org.example.CustomContext";
+        return "com.nepxion.discovery.guide.sdk.MyContext";
     }
 
     @Override
     protected String getHookClassName() {
         // 返回ThreadLocalHook类名
-        return CustomContextHook.class.getName();
+        return MyContextHook.class.getName();
     }
 
-    // 该方法可以不需要
     @Override
     protected boolean isEnabled() {
-        // 通过外部-Dthread.custom.enabled=true/false的运行参数来控制当前Plugin是否生效。该方法在父类中定义的返回值为true，即缺省为生效
-        return threadCustomEnabled;
+        // 通过外部-Dthread.myplugin.enabled=true/false的运行参数来控制当前Plugin是否生效。该方法在父类中定义的返回值为true，即缺省为生效
+        return threadMyPluginEnabled;
     }
 }
 ```
@@ -3505,16 +3504,16 @@ public class CustomContextPlugin extends AbstractPlugin {
 
 名称为固定如下格式
 ```
-com.nepxion.discovery.plugin.strategy.agent.plugin.Plugin
+com.nepxion.discovery.agent.plugin.Plugin
 ```
 内容为Plugin类的全路径
 ```
-org.example.CustomContextPlugin
+com.nepxion.discovery.guide.agent.MyContextPlugin
 ```
 - 执行Maven编译，把编译后的包放在discovery-agent/plugin目录下
 - 给服务增加启动参数并启动，如下
 ```
--javaagent:C:/opt/discovery-agent/discovery-agent-starter-${discovery.version}.jar -Dthread.scan.packages=com.example.demo -Dthread.custom.enabled=true
+-javaagent:C:/opt/discovery-agent/discovery-agent-starter-${discovery.agent.version}.jar -Dthread.scan.packages=com.nepxion.discovery.guide.application -Dthread.myplugin.enabled=true
 ```
 - 完整示例，请参考[CustomAgent.zip](http://nepxion.gitee.io/videos/discovery-video/CustomAgent.wmv)，下载后把后缀wmv改成zip，并解压
 - 上述自定义插件的方式，即可解决使用者在线程切换时丢失ThreadLocal上下文的问题
