@@ -11,7 +11,6 @@ package com.nepxion.discovery.plugin.strategy.agent;
 
 import java.lang.instrument.Instrumentation;
 
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.strategy.agent.callback.TransformTemplate;
 import com.nepxion.discovery.plugin.strategy.agent.logger.AgentLogger;
 import com.nepxion.discovery.plugin.strategy.agent.plugin.PluginFinder;
@@ -21,11 +20,13 @@ public class DiscoveryAgent {
     private final static AgentLogger LOG = AgentLogger.getLogger(DiscoveryAgent.class.getName());
 
     public static void premain(String agentArgs, Instrumentation instrumentation) {
-        LOG.info(String.format("%s agent on load, version %s", DiscoveryAgent.class.getSimpleName(), DiscoveryConstant.DISCOVERY_VERSION));
+        LOG.info(String.format("%s agent on load, version %s", DiscoveryAgent.class.getSimpleName(), DiscoveryAgentConstant.DISCOVERY_AGENT_VERSION));
+
         TransformTemplate transformTemplate = new TransformTemplate();
         PluginFinder.load(transformTemplate);
 
         instrumentation.addTransformer(new DispatcherClassFileTransformer(transformTemplate));
-        System.setProperty(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_AGENT_VERSION, DiscoveryConstant.DISCOVERY_VERSION);
+
+        System.setProperty(DiscoveryAgentConstant.SPRING_APPLICATION_DISCOVERY_AGENT_VERSION, DiscoveryAgentConstant.DISCOVERY_AGENT_VERSION);
     }
 }
