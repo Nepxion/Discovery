@@ -3323,6 +3323,7 @@ spring.application.strategy.tracer.sentinel.args.output.enabled=true
 
 #### Spring-Boot-Admin监控方式
 ![](http://nepxion.gitee.io/docs/discovery-doc/Admin1.jpg)
+![](http://nepxion.gitee.io/docs/discovery-doc/Admin2.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Admin7.jpg)
 
 ## 全链路Header传递
@@ -3579,6 +3580,40 @@ public class MyApplication {
 }
 ```
 
+输出结果，如下
+```
+2020-10-18 18:38:22.670  INFO 3780 --- [nio-8080-exec-1] c.n.d.guide.application.MyApplication    : 【主】线程ThreadLocal：{1=MyContext}
+2020-10-18 18:38:22.738  INFO 3780 --- [       Thread-8] c.n.d.guide.application.MyApplication    : 【子】线程ThreadLocal：{1=MyContext}
+2020-10-18 18:38:22.759  INFO 3780 --- [nio-8080-exec-2] c.n.d.guide.application.MyApplication    : 【主】线程ThreadLocal：{2=MyContext}
+2020-10-18 18:38:22.760  INFO 3780 --- [       Thread-9] c.n.d.guide.application.MyApplication    : 【子】线程ThreadLocal：{2=MyContext}
+2020-10-18 18:38:22.763  INFO 3780 --- [nio-8080-exec-3] c.n.d.guide.application.MyApplication    : 【主】线程ThreadLocal：{3=MyContext}
+2020-10-18 18:38:22.764  INFO 3780 --- [      Thread-10] c.n.d.guide.application.MyApplication    : 【子】线程ThreadLocal：{3=MyContext}
+2020-10-18 18:38:22.772  INFO 3780 --- [nio-8080-exec-4] c.n.d.guide.application.MyApplication    : 【主】线程ThreadLocal：{4=MyContext}
+2020-10-18 18:38:22.773  INFO 3780 --- [      Thread-11] c.n.d.guide.application.MyApplication    : 【子】线程ThreadLocal：{4=MyContext}
+2020-10-18 18:38:22.775  INFO 3780 --- [nio-8080-exec-5] c.n.d.guide.application.MyApplication    : 【主】线程ThreadLocal：{5=MyContext}
+2020-10-18 18:38:22.776  INFO 3780 --- [      Thread-12] c.n.d.guide.application.MyApplication    : 【子】线程ThreadLocal：{5=MyContext}
+2020-10-18 18:38:22.778  INFO 3780 --- [nio-8080-exec-6] c.n.d.guide.application.MyApplication    : 【主】线程ThreadLocal：{6=MyContext}
+2020-10-18 18:38:22.779  INFO 3780 --- [      Thread-13] c.n.d.guide.application.MyApplication    : 【子】线程ThreadLocal：{6=MyContext}
+2020-10-18 18:38:22.782  INFO 3780 --- [nio-8080-exec-7] c.n.d.guide.application.MyApplication    : 【主】线程ThreadLocal：{7=MyContext}
+2020-10-18 18:38:22.783  INFO 3780 --- [      Thread-14] c.n.d.guide.application.MyApplication    : 【子】线程ThreadLocal：{7=MyContext}
+2020-10-18 18:38:22.785  INFO 3780 --- [nio-8080-exec-8] c.n.d.guide.application.MyApplication    : 【主】线程ThreadLocal：{8=MyContext}
+2020-10-18 18:38:22.786  INFO 3780 --- [      Thread-15] c.n.d.guide.application.MyApplication    : 【子】线程ThreadLocal：{8=MyContext}
+2020-10-18 18:38:22.788  INFO 3780 --- [nio-8080-exec-9] c.n.d.guide.application.MyApplication    : 【主】线程ThreadLocal：{9=MyContext}
+2020-10-18 18:38:22.789  INFO 3780 --- [      Thread-16] c.n.d.guide.application.MyApplication    : 【子】线程ThreadLocal：{9=MyContext}
+2020-10-18 18:38:22.791  INFO 3780 --- [io-8080-exec-10] c.n.d.guide.application.MyApplication    : 【主】线程ThreadLocal：{10=MyContext}
+2020-10-18 18:38:22.792  INFO 3780 --- [      Thread-17] c.n.d.guide.application.MyApplication    : 【子】线程ThreadLocal：{10=MyContext}
+2020-10-18 18:38:27.738  INFO 3780 --- [       Thread-8] c.n.d.guide.application.MyApplication    : Sleep 5秒之后，【子】线程ThreadLocal：{1=MyContext} 
+2020-10-18 18:38:27.761  INFO 3780 --- [       Thread-9] c.n.d.guide.application.MyApplication    : Sleep 5秒之后，【子】线程ThreadLocal：{2=MyContext} 
+2020-10-18 18:38:27.764  INFO 3780 --- [      Thread-10] c.n.d.guide.application.MyApplication    : Sleep 5秒之后，【子】线程ThreadLocal：{3=MyContext} 
+2020-10-18 18:38:27.773  INFO 3780 --- [      Thread-11] c.n.d.guide.application.MyApplication    : Sleep 5秒之后，【子】线程ThreadLocal：{4=MyContext} 
+2020-10-18 18:38:27.776  INFO 3780 --- [      Thread-12] c.n.d.guide.application.MyApplication    : Sleep 5秒之后，【子】线程ThreadLocal：{5=MyContext} 
+2020-10-18 18:38:27.780  INFO 3780 --- [      Thread-13] c.n.d.guide.application.MyApplication    : Sleep 5秒之后，【子】线程ThreadLocal：{6=MyContext} 
+2020-10-18 18:38:27.783  INFO 3780 --- [      Thread-14] c.n.d.guide.application.MyApplication    : Sleep 5秒之后，【子】线程ThreadLocal：{7=MyContext} 
+2020-10-18 18:38:27.787  INFO 3780 --- [      Thread-15] c.n.d.guide.application.MyApplication    : Sleep 5秒之后，【子】线程ThreadLocal：{8=MyContext} 
+2020-10-18 18:38:27.789  INFO 3780 --- [      Thread-16] c.n.d.guide.application.MyApplication    : Sleep 5秒之后，【子】线程ThreadLocal：{9=MyContext} 
+2020-10-18 18:38:27.792  INFO 3780 --- [      Thread-17] c.n.d.guide.application.MyApplication    : Sleep 5秒之后，【子】线程ThreadLocal：{10=MyContext} 
+```
+
 完整示例，请参考[https://github.com/Nepxion/DiscoveryAgentGuide](https://github.com/Nepxion/DiscoveryAgentGuide)。上述自定义插件的方式，即可解决使用者在线程切换时丢失ThreadLocal上下文的问题
 
 ## 元数据Metadata自动化策略
@@ -3660,6 +3695,28 @@ spring.application.group.generator.character=-
 ```
 
 更多的配置方式，参考[https://github.com/git-commit-id/maven-git-commit-id-plugin/blob/master/maven/docs/using-the-plugin.md](https://github.com/git-commit-id/maven-git-commit-id-plugin/blob/master/maven/docs/using-the-plugin.md)
+
+可能需要增加下面的配置，保证Git相关文件被打包进去
+```xml
+<resources>
+    <resource>
+        <directory>src/main/java</directory>
+        <includes>
+            <include>**/*.xml</include>
+            <include>**/*.json</include>
+            <include>**/*.properties</include>
+        </includes>
+    </resource>
+    <resource>
+        <directory>src/main/resources</directory>
+        <includes>
+            <include>**/*.xml</include>
+            <include>**/*.json</include>
+            <include>**/*.properties</include>
+        </includes>
+    </resource>
+</resources>
+```
 
 - 增加配置项
 ```
