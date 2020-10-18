@@ -3386,7 +3386,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 - 编译[https://github.com/Nepxion/DiscoveryAgent](https://github.com/Nepxion/DiscoveryAgent)，执行Maven编译，产生discovery-agent目录
 
 ### 插件使用
-- discovery-agent-starter-`$`{discovery.version}.jar为Agent引导启动程序，JVM启动时进行加载；discovery-agent/plugin目录包含discovery-agent-starter-plugin-strategy-`$`{discovery.version}.jar为nepxion-discovery自带的实现方案，业务系统可以自定义plugin，解决业务自己定义的上下文跨线程传递
+- discovery-agent-starter-`$`{discovery.version}.jar为Agent引导启动程序，JVM启动时进行加载；discovery-agent/plugin目录包含discovery-agent-starter-plugin-strategy-`$`{discovery.version}.jar为Nepxion Discovery自带的实现方案，业务系统可以自定义plugin，解决业务自己定义的上下文跨线程传递
 - 通过如下-javaagent启动
 ```
 -javaagent:/discovery-agent/discovery-agent-starter-${discovery.agent.version}.jar -Dthread.scan.packages=com.abc;com.xyz
@@ -3527,6 +3527,8 @@ com.nepxion.discovery.guide.agent.MyContextPlugin
 -javaagent:C:/opt/discovery-agent/discovery-agent-starter-${discovery.agent.version}.jar -Dthread.scan.packages=com.nepxion.discovery.guide.application -Dthread.myplugin.enabled=true
 ```
 
+③ Application侧工作
+
 - 执行MyApplication，它模拟在主线程ThreadLocal放入Map数据，子线程通过DiscoveryAgent获取到该Map数据，并打印出来
 ```java
 @SpringBootApplication
@@ -3577,9 +3579,7 @@ public class MyApplication {
 }
 ```
 
-- 完整示例，请参考[https://github.com/Nepxion/DiscoveryAgentGuide](https://github.com/Nepxion/DiscoveryAgentGuide)
-
-- 上述自定义插件的方式，即可解决使用者在线程切换时丢失ThreadLocal上下文的问题
+完整示例，请参考[https://github.com/Nepxion/DiscoveryAgentGuide](https://github.com/Nepxion/DiscoveryAgentGuide)。上述自定义插件的方式，即可解决使用者在线程切换时丢失ThreadLocal上下文的问题
 
 ## 元数据Metadata自动化策略
 
