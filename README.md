@@ -3372,6 +3372,8 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 ## 异步跨线程Agent
 灰度路由Header和调用链Span在Hystrix线程池隔离模式下或者线程、线程池、@Async注解等异步调用Feign或者RestTemplate时，通过线程上下文切换会存在丢失Header的问题，通过下述步骤解决，同时适用于网关端和服务端。该方案可以替代Hystrix线程池隔离模式下的解决方案，也适用于其它有相同使用场景的基础框架和业务场景，例如：Dubbo
 
+ThreadLocal的作用是提供线程内的局部变量，在多线程环境下访问时能保证各个线程内的ThreadLocal变量各自独立。在异步场景下，由于出现线程切换的问题，例如主线程切换到子线程，会导致线程ThreadLocal上下文丢失。DiscoveryAgent通过Java Agent方式解决这些痛点
+
 涵盖所有Java框架的异步场景，解决如下7个异步场景下丢失线程ThreadLocal上下文的问题
 - `@`Async
 - Hystrix Thread Pool Isolation
