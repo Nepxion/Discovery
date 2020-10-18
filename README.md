@@ -3383,7 +3383,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 ### 插件获取
 插件获取方式有两种方式
 - 通过[https://github.com/Nepxion/Discovery/releases](https://github.com/Nepxion/Discovery/releases)下载最新版本的Discovery Agent
-- 编译[https://github.com/Nepxion/DiscoveryAgent](https://github.com/Nepxion/DiscoveryAgent)的master分支，执行mvn clean install，产生discovery-agent目录
+- 编译[https://github.com/Nepxion/DiscoveryAgent](https://github.com/Nepxion/DiscoveryAgent)，执行Maven编译，产生discovery-agent目录
 
 ### 插件使用
 - discovery-agent-starter-`$`{discovery.version}.jar为Agent引导启动程序，JVM启动时进行加载；discovery-agent/plugin目录包含discovery-agent-starter-plugin-strategy-`$`{discovery.version}.jar为nepxion-discovery自带的实现方案，业务系统可以自定义plugin，解决业务自己定义的上下文跨线程传递
@@ -3414,7 +3414,10 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 - plugin目录为放置需要在线程切换时进行ThreadLocal传递的自定义插件。业务自定义插件开发完后，放入到plugin目录下即可
 
 具体步骤介绍，如下
-- SDK侧的ThreadLocal上下文类
+
+① SDK侧工作
+
+- 新建ThreadLocal上下文类
 ```java
 public class MyContext {
     private static final ThreadLocal<MyContext> THREAD_LOCAL = new ThreadLocal<MyContext>() {
@@ -3443,7 +3446,10 @@ public class MyContext {
     }
 }
 ```
-- Agent侧新建一个模块，引入如下依赖
+
+② Agent侧工作
+
+- 新建一个模块，引入如下依赖
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -3452,7 +3458,8 @@ public class MyContext {
     <scope>provided</scope>
 </dependency>
 ```
-- Agent侧新建一个ThreadLocalHook类继承AbstractThreadLocalHook
+
+- 新建一个ThreadLocalHook类继承AbstractThreadLocalHook
 ```java
 public class MyContextHook extends AbstractThreadLocalHook {
     @Override
@@ -3476,7 +3483,8 @@ public class MyContextHook extends AbstractThreadLocalHook {
     }
 }
 ```
-- Agent侧新建一个Plugin类继承AbstractPlugin
+
+- 新建一个Plugin类继承AbstractPlugin
 ```java
 public class MyContextPlugin extends AbstractPlugin {
     private Boolean threadMyPluginEnabled = Boolean.valueOf(System.getProperty("thread.myplugin.enabled", "false"));
@@ -3500,6 +3508,7 @@ public class MyContextPlugin extends AbstractPlugin {
     }
 }
 ```
+
 - 定义SPI扩展，在src/main/resources/META-INF/services目录下定义SPI文件
 
 名称为固定如下格式
@@ -3510,12 +3519,66 @@ com.nepxion.discovery.agent.plugin.Plugin
 ```
 com.nepxion.discovery.guide.agent.MyContextPlugin
 ```
+
 - 执行Maven编译，把编译后的包放在discovery-agent/plugin目录下
+
 - 给服务增加启动参数并启动，如下
 ```
 -javaagent:C:/opt/discovery-agent/discovery-agent-starter-${discovery.agent.version}.jar -Dthread.scan.packages=com.nepxion.discovery.guide.application -Dthread.myplugin.enabled=true
 ```
-- 完整示例，请参考[CustomAgent.zip](http://nepxion.gitee.io/videos/discovery-video/CustomAgent.wmv)，下载后把后缀wmv改成zip，并解压
+
+- 执行MyApplication，它模拟在主线程ThreadLocal放入Map数据，子线程通过DiscoveryAgent获取到该Map数据，并打印出来
+```java
+@SpringBootApplication
+@RestController
+public class MyApplication {
+    private static final Logger LOG = LoggerFactory.getLogger(MyApplication.class);
+
+    public static void main(String[] args) {
+        SpringApplication.run(MyApplication.class, args);
+
+        invoke();
+    }
+
+    public static void invoke() {
+        RestTemplate restTemplate = new RestTemplate();
+
+        for (int i = 1; i <= 10; i++) {
+            restTemplate.getForEntity("http://localhost:8080/index/" + i, String.class).getBody();
+        }
+    }
+
+    @GetMapping("/index/{value}")
+    public String index(@PathVariable(value = "value") String value) throws InterruptedException {
+        Map<String, String> attributes = new HashMap<String, String>();
+        attributes.put(value, "MyContext");
+
+        MyContext.getCurrentContext().setAttributes(attributes);
+
+        LOG.info("【主】线程ThreadLocal：{}", MyContext.getCurrentContext().getAttributes());
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                LOG.info("【子】线程ThreadLocal：{}", MyContext.getCurrentContext().getAttributes());
+
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                LOG.info("Sleep 5秒之后，【子】线程ThreadLocal：{} ", MyContext.getCurrentContext().getAttributes());
+            }
+        }).start();
+
+        return "";
+    }
+}
+```
+
+- 完整示例，请参考[https://github.com/Nepxion/DiscoveryAgentGuide](https://github.com/Nepxion/DiscoveryAgentGuide)
+
 - 上述自定义插件的方式，即可解决使用者在线程切换时丢失ThreadLocal上下文的问题
 
 ## 元数据Metadata自动化策略
