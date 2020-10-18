@@ -766,7 +766,7 @@ spring.application.strategy.control.enabled=false
 
 异步跨线程Agent的引入，通过Java Agent方式启动。灰度路由Header和调用链Span在Hystrix线程池隔离模式下或者线程、线程池、@Async注解等异步调用Feign或者RestTemplate时，通过线程上下文切换会存在丢失Header的问题。通过该插件解决，支持微服务端、网关Zuul端和网关Spring Cloud Gateway端
 ```
--javaagent:/discovery-agent/discovery-plugin-strategy-starter-agent-${discovery.version}.jar -Dthread.scan.packages=com.abc;com.xyz
+-javaagent:/discovery-agent/discovery-agent-starter-${discovery.version}.jar -Dthread.scan.packages=com.abc;com.xyz
 ```
 具体参考下文
 
@@ -3366,7 +3366,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 
 涵盖所有Java框架的异步场景，解决如下6个异步场景下丢失线程上下文的问题
 - `@`Async
-- Hytrix Thread Pool Isolation
+- Hystrix Thread Pool Isolation
 - Runnable
 - Callable
 - Single Thread
@@ -3376,13 +3376,13 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 ### 插件获取
 插件获取方式有两种方式
 - 通过[https://github.com/Nepxion/Discovery/releases](https://github.com/Nepxion/Discovery/releases)下载最新版本的Discovery Agent
-- 编译[https://github.com/Nepxion/Discovery](https://github.com/Nepxion/Discovery)的master分支，执行mvn clean install，产生discovery-agent目录
+- 编译[https://github.com/Nepxion/DiscoveryAgent](https://github.com/Nepxion/DiscoveryAgent)的master分支，执行mvn clean install，产生discovery-agent目录
 
 ### 插件使用
-- discovery-plugin-strategy-starter-agent-`$`{discovery.version}.jar为Agent引导启动程序，JVM启动时进行加载；discovery-agent/plugin目录包含discovery-plugin-strategy-starter-agent-plugin-`$`{discovery.version}.jar为nepxion-discovery自带的实现方案，业务系统可以自定义plugin，解决业务自己定义的上下文跨线程传递
+- discovery-agent-starter-`$`{discovery.version}.jar为Agent引导启动程序，JVM启动时进行加载；discovery-agent/plugin目录包含discovery-agent-starter-plugin-strategy-`$`{discovery.version}.jar为nepxion-discovery自带的实现方案，业务系统可以自定义plugin，解决业务自己定义的上下文跨线程传递
 - 通过如下-javaagent启动
 ```
--javaagent:/discovery-agent/discovery-plugin-strategy-starter-agent-${discovery.version}.jar -Dthread.scan.packages=com.abc;com.xyz
+-javaagent:/discovery-agent/discovery-agent-starter-${discovery.version}.jar -Dthread.scan.packages=com.abc;com.xyz
 ```
 
 参数说明
@@ -3399,7 +3399,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 
 参考指南示例中的异步服务启动参数。扫描目录中的三个包名，视具体场景按需配置
 ```
--javaagent:C:/opt/discovery-agent/discovery-plugin-strategy-starter-agent-${discovery.version}.jar -Dthread.scan.packages=org.springframework.aop.interceptor;com.netflix.hystrix;com.nepxion.discovery.guide.service.feign
+-javaagent:C:/opt/discovery-agent/discovery-agent-starter-${discovery.version}.jar -Dthread.scan.packages=org.springframework.aop.interceptor;com.netflix.hystrix;com.nepxion.discovery.guide.service.feign
 ```
 
 ### 插件扩展
@@ -3507,7 +3507,7 @@ org.example.CustomContextPlugin
 - 执行Maven编译，把编译后的包放在discovery-agent/plugin目录下
 - 给服务增加启动参数并启动，如下
 ```
--javaagent:C:/opt/discovery-agent/discovery-plugin-strategy-starter-agent-${discovery.version}.jar -Dthread.scan.packages=com.example.demo -Dthread.custom.enabled=true
+-javaagent:C:/opt/discovery-agent/discovery-agent-starter-${discovery.version}.jar -Dthread.scan.packages=com.example.demo -Dthread.custom.enabled=true
 ```
 - 完整示例，请参考[CustomAgent.zip](http://nepxion.gitee.io/videos/discovery-video/CustomAgent.wmv)，下载后把后缀wmv改成zip，并解压
 - 上述自定义插件的方式，即可解决使用者在线程切换时丢失ThreadLocal上下文的问题
