@@ -3372,7 +3372,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 ## 异步跨线程Agent
 灰度路由Header和调用链Span在Hystrix线程池隔离模式下或者线程、线程池、@Async注解等异步调用Feign或者RestTemplate时，通过线程上下文切换会存在丢失Header的问题，通过下述步骤解决，同时适用于网关端和服务端。该方案可以替代Hystrix线程池隔离模式下的解决方案，也适用于其它有相同使用场景的基础框架和业务场景，例如：Dubbo
 
-涵盖所有Java框架的异步场景，解决如下7个异步场景下丢失线程上下文的问题
+涵盖所有Java框架的异步场景，解决如下7个异步场景下丢失线程ThreadLocal上下文的问题
 - `@`Async
 - Hystrix Thread Pool Isolation
 - Runnable
@@ -3383,7 +3383,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 
 ### 插件获取
 插件获取方式有两种方式
-- 通过[https://github.com/Nepxion/Discovery/releases](https://github.com/Nepxion/Discovery/releases)下载最新版本的Discovery Agent
+- 通过[https://github.com/Nepxion/DiscoveryAgent/releases](https://github.com/Nepxion/DiscoveryAgent/releases)下载最新版本的Discovery Agent
 - 编译[https://github.com/Nepxion/DiscoveryAgent](https://github.com/Nepxion/DiscoveryAgent)产生discovery-agent目录
 
 ### 插件使用
@@ -3395,15 +3395,12 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 
 参数说明
 - /discovery-agent：Agent所在的目录，需要对应到实际的目录上
-- `-D`thread.scan.packages：Runnable，Callable对象所在的扫描目录，该目录下的Runnable，Callable对象都会被装饰。该目录最好精细和准确，这样可以减少被装饰的对象数，提高性能，目录如果有多个，用“;”分隔
+- `-D`thread.scan.packages：Runnable，Callable对象所在的扫描目录，该目录下的Runnable，Callable对象都会被装饰。该目录最好精细和准确，这样可以减少被装饰的对象数，提高性能，目录如果有多个，用“;”分隔。该参数只作用于服务侧，网关侧不需要加。参数定义为
+    - `@`Async场景下的扫描目录对应为org.springframework.aop.interceptor
+    - Hystrix线程池隔离场景下的扫描目录对应为com.netflix.hystrix
+    - 线程，线程池的扫描目录对应为自定义Runnable，Callable对象所在类的目录
 - `-D`thread.request.decorator.enabled：异步调用场景下在服务端的Request请求的装饰，当主线程先于子线程执行完的时候，Request会被Destory，导致Header仍旧拿不到，开启装饰，就可以确保拿到。默认为开启，根据实践经验，大多数场景下，需要开启该开关
 - `-D`thread.mdc.enabled：SLF4J MDC日志输出到异步子线程。默认关闭，如果需要，则开启该开关
-```
-扫描目录thread.scan.packages定义，该参数只作用于服务侧，网关侧不需要加
-1. @Async场景下的扫描目录为org.springframework.aop.interceptor
-2. Hystrix线程池隔离场景下的扫描目录为com.netflix.hystrix
-3. 线程、线程池的扫描目录为自定义Runnable，Callable对象所在类的目录
-```	
 
 参考指南示例中的异步服务启动参数。扫描目录中的三个包名，视具体场景按需配置
 ```
