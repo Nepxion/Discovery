@@ -3345,7 +3345,6 @@ spring.application.strategy.tracer.sentinel.args.output.enabled=true
 
 #### Spring-Boot-Admin监控方式
 ![](http://nepxion.gitee.io/docs/discovery-doc/Admin1.jpg)
-![](http://nepxion.gitee.io/docs/discovery-doc/Admin2.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Admin7.jpg)
 
 ## 全链路Header传递
