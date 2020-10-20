@@ -2536,6 +2536,28 @@ Nacos订阅推送界面
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Nacos2.jpg)
 - 参考Nacos官方文档[https://github.com/alibaba/nacos](https://github.com/alibaba/nacos)相关文档，搭建Nacos环境，以及熟悉相关的基本操作
+- 下面配置中，nacos.server-addr必须要配置，其它配置可选
+```
+nacos.server-addr=localhost:8848
+# nacos.access-key=
+# nacos.secret-key=
+# nacos.plugin.namespace=application
+# nacos.plugin.cluster-name=
+# nacos.plugin.context-path=
+# nacos.plugin.config-long-poll-timeout=
+# nacos.plugin.config-retry-time=
+# nacos.plugin.max-retry=
+# nacos.plugin.endpoint=
+# nacos.plugin.endpoint-port=
+# nacos.plugin.is-use-endpoint-parsing-rule=
+# nacos.plugin.is-use-cloud-namespace-parsing=
+# nacos.plugin.encode=
+# nacos.plugin.naming-load-cache-at-start=
+# nacos.plugin.naming-client-beat-thread-count=
+# nacos.plugin.naming-polling-thread-count=
+# nacos.plugin.ram-role-name=
+# nacos.plugin.timout=
+```
 - 添加配置步骤跟Apollo配置界面中的【在页面中添加配置】操作项相似
 
 Redis订阅推送界面
