@@ -316,6 +316,8 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
     <tr align="center">
       <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/zscd.png"></td>
       <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/sp.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/gjdw.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/xyzs.png"></td>	  
     </tr>
   </tbody>
 </table>
