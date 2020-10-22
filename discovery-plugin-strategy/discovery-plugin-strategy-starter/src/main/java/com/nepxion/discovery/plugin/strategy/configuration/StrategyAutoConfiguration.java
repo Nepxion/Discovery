@@ -9,17 +9,13 @@ package com.nepxion.discovery.plugin.strategy.configuration;
  * @version 1.0
  */
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.cloud.netflix.ribbon.RibbonClients;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.expression.TypeComparator;
-
+import com.nepxion.discovery.plugin.strategy.adapter.DefaultStrategyConditionAdapter;
 import com.nepxion.discovery.plugin.strategy.adapter.DefaultStrategyVersionFilterAdapter;
 import com.nepxion.discovery.plugin.strategy.adapter.StrategyVersionFilterAdapter;
+import com.nepxion.discovery.plugin.strategy.condition.BodyStrategyConditionPredicate;
 import com.nepxion.discovery.plugin.strategy.condition.DefaultStrategyTypeComparor;
-import com.nepxion.discovery.plugin.strategy.condition.HeaderExpressionStrategyCondition;
+import com.nepxion.discovery.plugin.strategy.condition.HeaderStrategyConditionPredicate;
+import com.nepxion.discovery.plugin.strategy.condition.ParameterStrategyConditionPredicate;
 import com.nepxion.discovery.plugin.strategy.condition.StrategyCondition;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.filter.StrategyVersionFilter;
@@ -32,6 +28,12 @@ import com.nepxion.discovery.plugin.strategy.monitor.DefaultStrategyLogger;
 import com.nepxion.discovery.plugin.strategy.monitor.StrategyLogger;
 import com.nepxion.discovery.plugin.strategy.monitor.StrategyMonitorContext;
 import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.cloud.netflix.ribbon.RibbonClients;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.expression.TypeComparator;
 
 @Configuration
 @RibbonClients(defaultConfiguration = { StrategyLoadBalanceConfiguration.class })
@@ -105,6 +107,25 @@ public class StrategyAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public StrategyCondition strategyCondition() {
-        return new HeaderExpressionStrategyCondition();
+        return new DefaultStrategyConditionAdapter();
     }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ParameterStrategyConditionPredicate parameterStrategyConditionPredicate() {
+        return new ParameterStrategyConditionPredicate();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public BodyStrategyConditionPredicate bodyStrategyConditionPredicate() {
+        return new BodyStrategyConditionPredicate();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public HeaderStrategyConditionPredicate headerStrategyConditionPredicate() {
+        return new HeaderStrategyConditionPredicate();
+    }
+
 }

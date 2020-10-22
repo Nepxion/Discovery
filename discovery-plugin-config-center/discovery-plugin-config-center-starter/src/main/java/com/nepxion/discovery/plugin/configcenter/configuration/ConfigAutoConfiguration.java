@@ -9,20 +9,19 @@ package com.nepxion.discovery.plugin.configcenter.configuration;
  * @version 1.0
  */
 
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.configcenter.context.ConfigContextClosedHandler;
 import com.nepxion.discovery.plugin.configcenter.initializer.ConfigInitializer;
 import com.nepxion.discovery.plugin.configcenter.loader.LocalConfigLoader;
 import com.nepxion.discovery.plugin.configcenter.parser.json.JsonConfigParser;
-import com.nepxion.discovery.plugin.configcenter.parser.xml.XmlConfigParser;
+import com.nepxion.discovery.plugin.configcenter.parser.xml.XmlConfigParserExt;
 import com.nepxion.discovery.plugin.framework.config.PluginConfigParser;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ConfigAutoConfiguration {
@@ -33,7 +32,7 @@ public class ConfigAutoConfiguration {
     public PluginConfigParser pluginConfigParser() {
         String configFormat = pluginContextAware.getConfigFormat();
         if (StringUtils.equals(configFormat, DiscoveryConstant.XML_FORMAT)) {
-            return new XmlConfigParser();
+            return new XmlConfigParserExt();
         } else if (StringUtils.equals(configFormat, DiscoveryConstant.JSON_FORMAT)) {
             return new JsonConfigParser();
         }

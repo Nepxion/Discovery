@@ -22,6 +22,7 @@ import com.nepxion.discovery.common.entity.StrategyConditionEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
 
+@Deprecated
 public class HeaderExpressionStrategyCondition extends AbstractStrategyCondition {
     private Pattern pattern = Pattern.compile(DiscoveryConstant.EXPRESSION_REGEX);
 

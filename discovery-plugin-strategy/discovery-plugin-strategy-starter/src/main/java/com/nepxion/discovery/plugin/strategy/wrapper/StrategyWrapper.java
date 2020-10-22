@@ -12,6 +12,7 @@ package com.nepxion.discovery.plugin.strategy.wrapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
@@ -286,6 +287,16 @@ public class StrategyWrapper {
             if (strategyCustomizationEntity != null) {
                 List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList = strategyCustomizationEntity.getStrategyConditionBlueGreenEntityList();
                 if (CollectionUtils.isNotEmpty(strategyConditionBlueGreenEntityList)) {
+                    // 如果condition只有version-id的，则直接命中： <condition id="3" version-id="versionId" />;否则进行匹配筛选
+                    Optional<StrategyConditionBlueGreenEntity> optional =
+                            strategyConditionBlueGreenEntityList.parallelStream()
+                                    .filter(condition -> StringUtils.isBlank(condition.getConditionHeader()) &&
+                                            StringUtils.isBlank(condition.getParam()) &&
+                                            StringUtils.isBlank(condition.getBody()))
+                                    .findAny();
+                    if (optional.isPresent()) {
+                        return optional.get();
+                    }
                     StrategyConditionBlueGreenEntity expressionStrategyConditionBlueGreenEntity = getTriggeredExpressionStrategyConditionBlueGreenEntity(strategyConditionBlueGreenEntityList, strategyRouteType, headerMap);
                     if (expressionStrategyConditionBlueGreenEntity != null) {
                         return expressionStrategyConditionBlueGreenEntity;
@@ -384,6 +395,7 @@ public class StrategyWrapper {
                     if (globalStrategyConditionGrayEntity != null) {
                         return globalStrategyConditionGrayEntity;
                     } else {
+                        //  gray的配置，如果没有header，则直接命中
                         StrategyConditionGrayEntity expressionStrategyConditionGrayEntity = getTriggeredExpressionStrategyConditionGrayEntity(strategyConditionGrayEntityList, headerMap);
                         if (expressionStrategyConditionGrayEntity != null) {
                             return expressionStrategyConditionGrayEntity;
@@ -407,6 +419,12 @@ public class StrategyWrapper {
         return null;
     }
 
+    /**
+     * 根据header选择灰度策略规则
+     * @param strategyConditionGrayEntityList
+     * @param headerMap
+     * @return
+     */
     private StrategyConditionGrayEntity getTriggeredExpressionStrategyConditionGrayEntity(List<StrategyConditionGrayEntity> strategyConditionGrayEntityList, Map<String, String> headerMap) {
         for (StrategyConditionGrayEntity strategyConditionGrayEntity : strategyConditionGrayEntityList) {
             boolean isTriggered = false;

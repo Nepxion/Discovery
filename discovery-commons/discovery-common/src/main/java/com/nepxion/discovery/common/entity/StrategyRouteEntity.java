@@ -1,6 +1,8 @@
 package com.nepxion.discovery.common.entity;
 
 /**
+ *  strategy-customization的route节点对象
+ *
  * <p>Title: Nepxion Discovery</p>
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>

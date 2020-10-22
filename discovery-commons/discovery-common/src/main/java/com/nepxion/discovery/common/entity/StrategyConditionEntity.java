@@ -9,18 +9,26 @@ package com.nepxion.discovery.common.entity;
  * @version 1.0
  */
 
-import java.io.Serializable;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
+import java.io.Serializable;
 
 public class StrategyConditionEntity implements Serializable {
     private static final long serialVersionUID = 1249482860170990672L;
 
     private String id;
     private String conditionHeader;
+    /**
+     * get参数
+     */
+    private String param;
+    /**
+     * post参数
+     */
+    private String body;
 
     public String getId() {
         return id;
@@ -36,6 +44,22 @@ public class StrategyConditionEntity implements Serializable {
 
     public void setConditionHeader(String conditionHeader) {
         this.conditionHeader = conditionHeader;
+    }
+
+    public String getParam() {
+        return param;
+    }
+
+    public void setParam(String param) {
+        this.param = param;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
     }
 
     @Override

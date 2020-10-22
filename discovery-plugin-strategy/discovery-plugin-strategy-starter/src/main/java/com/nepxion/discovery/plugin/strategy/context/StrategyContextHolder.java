@@ -1,5 +1,7 @@
 package com.nepxion.discovery.plugin.strategy.context;
 
+import java.util.Map;
+
 /**
  * <p>Title: Nepxion Discovery</p>
  * <p>Description: Nepxion Discovery</p>
@@ -11,6 +13,8 @@ package com.nepxion.discovery.plugin.strategy.context;
 
 public interface StrategyContextHolder {
     String getHeader(String name);
+
+    Map<String, String> getHeaders();
 
     String getParameter(String name);
 
@@ -31,4 +35,22 @@ public interface StrategyContextHolder {
     String getRouteIdBlacklist();
 
     String getRouteAddressBlacklist();
+
+    /**
+     * 获得调用方法
+     * @return
+     */
+    String getMethod();
+
+    /**
+     * 获得POST body
+     * @return
+     */
+    Map<String, Object> getBody();
+
+    /**
+     * 获得URI请求参数
+     * @return
+     */
+    Map<String, Object> getParam();
 }

@@ -31,4 +31,14 @@
         <module>discovery-plugin-strategy-starter-sentinel-opentracing</module>
         <module>discovery-plugin-strategy-starter-sentinel-skywalking</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.2.74</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

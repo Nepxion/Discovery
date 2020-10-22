@@ -24,15 +24,34 @@ public class WeightFilterEntity implements Serializable {
     private static final long serialVersionUID = 7313443273653189837L;
 
     // Consumer-service-name非空，作为Key，以Map方式存储
+    /**
+     * 例如配置：<service consumer-service-name="discovery-springcloud-example-b" provider-service-name="discovery-springcloud-example-c" provider-weight-value="1.0=90;1.1=10" type="version"/>
+     */
     private Map<String, List<WeightEntity>> versionWeightEntityMap;
     // Consumer-service-name为空，以List方式存储
+    /**
+     * 例如配置：<service provider-service-name="discovery-springcloud-example-c" provider-weight-value="1.0=90;1.1=10" type="version"/>
+     */
     private List<WeightEntity> versionWeightEntityList;
+
+    /**
+     * 例如配置：<version provider-weight-value="1.0=90;1.1=10"/>
+     */
     private VersionWeightEntity versionWeightEntity;
 
     // Consumer-service-name非空，作为Key，以Map方式存储
+    /**
+     * 例如配置：<service consumer-service-name="discovery-springcloud-example-b" provider-service-name="discovery-springcloud-example-c" provider-weight-value="dev=85;qa=15" type="region"/>
+     */
     private Map<String, List<WeightEntity>> regionWeightEntityMap;
     // Consumer-service-name为空，以List方式存储
+    /**
+     * 例如配置： <service provider-service-name="discovery-springcloud-example-c" provider-weight-value="dev=85;qa=15" type="region"/>
+     */
     private List<WeightEntity> regionWeightEntityList;
+    /**
+     * 例如配置：<region provider-weight-value="dev=85;qa=15"/>
+     */
     private RegionWeightEntity regionWeightEntity;
 
     public Map<String, List<WeightEntity>> getVersionWeightEntityMap() {

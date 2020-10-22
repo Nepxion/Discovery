@@ -10,8 +10,6 @@ package com.nepxion.discovery.plugin.strategy.sentinel.apollo.loader;
  * @version 1.0
  */
 
-import java.util.List;
-
 import com.alibaba.csp.sentinel.datasource.ReadableDataSource;
 import com.alibaba.csp.sentinel.datasource.apollo.ApolloDataSource;
 import com.alibaba.csp.sentinel.slots.block.authority.AuthorityRule;
@@ -19,42 +17,78 @@ import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRule;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRule;
 import com.alibaba.csp.sentinel.slots.system.SystemRule;
-import com.nepxion.discovery.common.apollo.configuration.ApolloAutoConfiguration;
 import com.nepxion.discovery.common.apollo.constant.ApolloConstant;
 import com.nepxion.discovery.plugin.strategy.sentinel.constant.SentinelStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.sentinel.loader.SentinelDataSourceRuleLoader;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.env.Environment;
+
+import java.util.List;
 
 public class SentinelApolloRuleLoader extends SentinelDataSourceRuleLoader {
     private String namespace;
 
     @Override
     public void initialize() {
-        namespace = ApolloAutoConfiguration.getNamespace(applicationContext.getEnvironment());
+        namespace = getNamespace(applicationContext.getEnvironment());
+    }
+
+    /**
+     * sentinel配置建议用单独配置，避免混乱
+     * @param environment
+     * @return
+     */
+    private String getNamespace(Environment environment) {
+        String namespace = environment.getProperty(ApolloConstant.APOLLO_SENTINEL_NAMESPACE);
+        if (StringUtils.isEmpty(namespace) || namespace.contains(ApolloConstant.SEPARATE)) {
+            namespace = ApolloConstant.APOLLO_PLUGIN_NAMESPACE;
+        }
+        return namespace;
     }
 
     @Override
     public ReadableDataSource<String, List<FlowRule>> getFlowRuleDataSource() {
-        return new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_FLOW_KEY, null, sentinelFlowRuleParser);
+//        String oldRuleKey = pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_FLOW_KEY;
+
+        //  sentinel dashboard和apollo同步时，不知道group，所以建议直接根据serviceId获取
+        String ruleKey = pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_FLOW_KEY;
+        return new ApolloDataSource<>(namespace, ruleKey, null, sentinelFlowRuleParser);
     }
 
     @Override
     public ReadableDataSource<String, List<DegradeRule>> getDegradeRuleDataSource() {
-        return new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_DEGRADE_KEY, null, sentinelDegradeRuleParser);
+//        String oldRuleKey = pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_DEGRADE_KEY;
+
+        //  sentinel dashboard和apollo同步时，不知道group，所以建议直接根据serviceId获取
+        String ruleKey = pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_DEGRADE_KEY;
+        return new ApolloDataSource<>(namespace, ruleKey, null, sentinelDegradeRuleParser);
     }
 
     @Override
     public ReadableDataSource<String, List<AuthorityRule>> getAuthorityRuleDataSource() {
-        return new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_AUTHORITY_KEY, null, sentinelAuthorityRuleParser);
+//        String oldRuleKey = pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_AUTHORITY_KEY;
+
+        //  sentinel dashboard和apollo同步时，不知道group，所以建议直接根据serviceId获取
+        String ruleKey = pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_AUTHORITY_KEY;
+        return new ApolloDataSource<>(namespace, ruleKey, null, sentinelAuthorityRuleParser);
     }
 
     @Override
     public ReadableDataSource<String, List<SystemRule>> getSystemRuleDataSource() {
-        return new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_SYSTEM_KEY, null, sentinelSystemRuleParser);
+//        String oldRuleKey = pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_SYSTEM_KEY;
+
+        //  sentinel dashboard和apollo同步时，不知道group，所以建议直接根据serviceId获取
+        String ruleKey = pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_SYSTEM_KEY;
+        return new ApolloDataSource<>(namespace, ruleKey, null, sentinelSystemRuleParser);
     }
 
     @Override
     public ReadableDataSource<String, List<ParamFlowRule>> getParamFlowRuleDataSource() {
-        return new ApolloDataSource<>(namespace, pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_PARAM_FLOW_KEY, null, sentinelParamFlowRuleParser);
+//        String oldRuleKey = pluginAdapter.getGroup() + "-" + pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_PARAM_FLOW_KEY;
+
+        //  sentinel dashboard和apollo同步时，不知道group，所以建议直接根据serviceId获取
+        String ruleKey = pluginAdapter.getServiceId() + "-" + SentinelStrategyConstant.SENTINEL_PARAM_FLOW_KEY;
+        return new ApolloDataSource<>(namespace, ruleKey, null, sentinelParamFlowRuleParser);
     }
 
     @Override

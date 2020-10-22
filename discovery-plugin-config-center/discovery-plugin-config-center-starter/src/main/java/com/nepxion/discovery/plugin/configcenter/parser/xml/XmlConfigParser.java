@@ -168,7 +168,7 @@ public class XmlConfigParser implements PluginConfigParser {
     }
 
     @SuppressWarnings("rawtypes")
-    private void parseRegister(Element element, RegisterEntity registerEntity) {
+    protected void parseRegister(Element element, RegisterEntity registerEntity) {
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
             if (childElementObject instanceof Element) {
@@ -186,7 +186,7 @@ public class XmlConfigParser implements PluginConfigParser {
     }
 
     @SuppressWarnings("rawtypes")
-    private void parseDiscovery(Element element, DiscoveryEntity discoveryEntity) {
+    protected void parseDiscovery(Element element, DiscoveryEntity discoveryEntity) {
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
             if (childElementObject instanceof Element) {
@@ -208,7 +208,7 @@ public class XmlConfigParser implements PluginConfigParser {
     }
 
     @SuppressWarnings("rawtypes")
-    private void parseStrategy(Element element, StrategyEntity strategyEntity) {
+    protected void parseStrategy(Element element, StrategyEntity strategyEntity) {
         int versionElementCount = element.elements(ConfigConstant.VERSION_ELEMENT_NAME).size();
         if (versionElementCount > 1) {
             throw new DiscoveryException("Allow only one element[" + ConfigConstant.VERSION_ELEMENT_NAME + "] to be configed");
@@ -260,7 +260,7 @@ public class XmlConfigParser implements PluginConfigParser {
     }
 
     @SuppressWarnings("rawtypes")
-    private void parseStrategyCustomization(Element element, StrategyCustomizationEntity strategyCustomizationEntity) {
+    protected void parseStrategyCustomization(Element element, StrategyCustomizationEntity strategyCustomizationEntity) {
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
             if (childElementObject instanceof Element) {
@@ -318,7 +318,7 @@ public class XmlConfigParser implements PluginConfigParser {
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    private void parseParameter(Element element, ParameterEntity parameterEntity) {
+    protected void parseParameter(Element element, ParameterEntity parameterEntity) {
         Map<String, List<ParameterServiceEntity>> parameterServiceMap = parameterEntity.getParameterServiceMap();
         for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Object childElementObject = elementIterator.next();
@@ -354,7 +354,7 @@ public class XmlConfigParser implements PluginConfigParser {
     }
 
     @SuppressWarnings("rawtypes")
-    private void parseHostFilter(Element element, String filterTypeValue, FilterHolderEntity filterHolderEntity) {
+    protected void parseHostFilter(Element element, String filterTypeValue, FilterHolderEntity filterHolderEntity) {
         HostFilterEntity hostFilterEntity = filterHolderEntity.getHostFilterEntity();
         if (hostFilterEntity != null) {
             throw new DiscoveryException("Allow only one filter element to be configed, [" + ConfigConstant.BLACKLIST_ELEMENT_NAME + "] or [" + ConfigConstant.WHITELIST_ELEMENT_NAME + "]");
@@ -698,7 +698,7 @@ public class XmlConfigParser implements PluginConfigParser {
     }
 
     @SuppressWarnings("rawtypes")
-    private void parseStrategyConditionBlueGreen(Element element, StrategyCustomizationEntity strategyCustomizationEntity) {
+    protected void parseStrategyConditionBlueGreen(Element element, StrategyCustomizationEntity strategyCustomizationEntity) {
         List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList = strategyCustomizationEntity.getStrategyConditionBlueGreenEntityList();
         if (strategyConditionBlueGreenEntityList != null) {
             throw new DiscoveryException("Allow only one element[" + ConfigConstant.CONDITIONS + "] for attribute[" + ConfigConstant.TYPE_ATTRIBUTE_NAME + "]'s value with '" + ConditionType.BLUE_GREEN + "' to be configed");
@@ -766,7 +766,7 @@ public class XmlConfigParser implements PluginConfigParser {
     }
 
     @SuppressWarnings("rawtypes")
-    private void parseStrategyConditionGray(Element element, StrategyCustomizationEntity strategyCustomizationEntity) {
+    protected void parseStrategyConditionGray(Element element, StrategyCustomizationEntity strategyCustomizationEntity) {
         List<StrategyConditionGrayEntity> strategyConditionGrayEntityList = strategyCustomizationEntity.getStrategyConditionGrayEntityList();
         if (strategyConditionGrayEntityList != null) {
             throw new DiscoveryException("Allow only one element[" + ConfigConstant.CONDITIONS + "] for attribute[" + ConfigConstant.TYPE_ATTRIBUTE_NAME + "]'s value with '" + ConditionType.GRAY + "' to be configed");
@@ -827,7 +827,7 @@ public class XmlConfigParser implements PluginConfigParser {
     }
 
     @SuppressWarnings("rawtypes")
-    private void parseStrategyRoute(Element element, StrategyCustomizationEntity strategyCustomizationEntity) {
+    protected void parseStrategyRoute(Element element, StrategyCustomizationEntity strategyCustomizationEntity) {
         List<StrategyRouteEntity> strategyRouteEntityList = strategyCustomizationEntity.getStrategyRouteEntityList();
         if (strategyRouteEntityList != null) {
             throw new DiscoveryException("Allow only one element[" + ConfigConstant.ROUTES_ELEMENT_NAME + "] to be configed");
@@ -869,7 +869,7 @@ public class XmlConfigParser implements PluginConfigParser {
     }
 
     @SuppressWarnings("rawtypes")
-    private void parseStrategyHeader(Element element, StrategyCustomizationEntity strategyCustomizationEntity) {
+    protected void parseStrategyHeader(Element element, StrategyCustomizationEntity strategyCustomizationEntity) {
         StrategyHeaderEntity strategyHeaderEntity = strategyCustomizationEntity.getStrategyHeaderEntity();
         if (strategyHeaderEntity != null) {
             throw new DiscoveryException("Allow only one element[" + ConfigConstant.HEADERS_ELEMENT_NAME + "] to be configed");

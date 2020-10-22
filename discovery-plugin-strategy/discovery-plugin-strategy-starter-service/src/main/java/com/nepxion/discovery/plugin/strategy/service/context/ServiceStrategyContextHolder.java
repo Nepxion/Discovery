@@ -10,10 +10,14 @@ package com.nepxion.discovery.plugin.strategy.service.context;
  * @version 1.0
  */
 
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 
+import com.nepxion.discovery.plugin.strategy.service.utils.RequestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestAttributes;
@@ -206,5 +210,33 @@ public class ServiceStrategyContextHolder extends AbstractStrategyContextHolder 
         }
 
         return routeAddressBlacklist;
+    }
+
+    @Override
+    public Map<String, String> getHeaders() {
+        Map<String, String> map = new HashMap<>(16);
+        Enumeration<String> enumeration = getRestAttributes().getRequest().getHeaderNames();
+        while (enumeration.hasMoreElements()) {
+            String headerName = enumeration.nextElement();
+            map.put(headerName, getRestAttributes().getRequest().getHeader(headerName));
+        }
+        return map;
+    }
+
+    @Override
+    public Map<String, Object> getBody() {
+        RequestBodyContext requestBodyContext = RequestBodyContext.getContext();
+        return requestBodyContext != null ? requestBodyContext.get() : null;
+    }
+
+    @Override
+    public Map<String, Object> getParam() {
+        HttpServletRequest request = getRestAttributes().getRequest();
+        return RequestUtils.paramsToMap(request.getQueryString());
+    }
+
+    @Override
+    public String getMethod() {
+        return getRestAttributes().getRequest().getMethod().toUpperCase();
     }
 }

@@ -9,8 +9,10 @@ package com.nepxion.discovery.plugin.strategy.service.configuration;
  * @version 1.0
  */
 
+import com.nepxion.discovery.plugin.strategy.service.filter.RequestBodyFilter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cloud.netflix.ribbon.RibbonClientConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,5 +26,15 @@ public class ServiceStrategyContextAutoConfiguration {
     @ConditionalOnMissingBean
     public ServiceStrategyContextHolder serviceStrategyContextHolder() {
         return new ServiceStrategyContextHolder();
+    }
+
+    @Bean
+    public FilterRegistrationBean requestBodyFilter() {
+        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+        registrationBean.setFilter(new RequestBodyFilter());
+        registrationBean.addUrlPatterns("/*");
+        registrationBean.setName(RequestBodyFilter.FILTER_NAME);
+        registrationBean.setOrder(1);
+        return registrationBean;
     }
 }

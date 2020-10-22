@@ -10,6 +10,8 @@ package com.nepxion.discovery.plugin.strategy.gateway.context;
  */
 
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.http.HttpCookie;
 import org.springframework.web.server.ServerWebExchange;
@@ -17,6 +19,8 @@ import org.springframework.web.server.ServerWebExchange;
 import com.nepxion.discovery.plugin.strategy.context.AbstractStrategyContextHolder;
 
 public class GatewayStrategyContextHolder extends AbstractStrategyContextHolder {
+    private static final String REQUEST_BODY_KEY = "gateway_request_body";
+
     public ServerWebExchange getExchange() {
         return GatewayStrategyContext.getCurrentContext().getExchange();
     }
@@ -75,5 +79,27 @@ public class GatewayStrategyContextHolder extends AbstractStrategyContextHolder 
         }
 
         return exchange.getRequest().getURI();
+    }
+
+    @Override
+    public Map<String, String> getHeaders() {
+        return getExchange().getRequest().getHeaders().toSingleValueMap();
+    }
+
+    @Override
+    public Map<String, Object> getBody() {
+        return (Map<String, Object>) getExchange().getAttributes().get(REQUEST_BODY_KEY);
+    }
+
+    @Override
+    public Map<String, Object> getParam() {
+        Map<String, Object> map = new HashMap<>(16);
+        map.putAll(getExchange().getRequest().getQueryParams().toSingleValueMap());
+        return map;
+    }
+
+    @Override
+    public String getMethod() {
+        return getExchange().getRequest().getMethodValue().toUpperCase();
     }
 }

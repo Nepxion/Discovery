@@ -222,4 +222,29 @@ public abstract class AbstractStrategyContextHolder implements PluginContextHold
     protected boolean isInnerConditionHeaderForced() {
         return false;
     }
+
+    @Override
+    public Map<String, String> getHeaders() {
+        return null;
+    }
+
+    @Override
+    public String getParameter(String name) {
+        return null;
+    }
+
+    @Override
+    public String getMethod() {
+        return null;
+    }
+
+    @Override
+    public Map<String, Object> getBody() {
+        return null;
+    }
+
+    @Override
+    public Map<String, Object> getParam() {
+        return null;
+    }
 }
