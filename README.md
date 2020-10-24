@@ -3179,12 +3179,12 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 ![](http://nepxion.gitee.io/docs/discovery-doc/JaegerPremium2.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/JaegerPremium3.jpg)
 
-集成Opentracing + Apache Skywalking限流熔断降级权限全链路监控
+集成Opentracing + Apache Skywalking灰度全链路监控
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Skywalking1.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Skywalking2.jpg)
 
-集成Opentracing + Apache Skywalking + Sentinel埋点全链路监控
+集成Opentracing + Apache Skywalking + Sentinel限流熔断降级权限埋点全链路监控
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Skywalking3.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Skywalking4.jpg)
