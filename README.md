@@ -170,7 +170,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
     - 基于WRK的性能压力测试
 - Docker容器化和Kubernetes平台的无缝支持部署
 
-![](http://nepxion.gitee.io/docs/icon-doc/information.png) 基于RESTful层面的功能全景
+![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 基于RESTful层面的功能全景
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Introduction.jpg)
 
