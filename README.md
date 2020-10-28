@@ -839,7 +839,7 @@ zuul
 -> [ID=discovery-guide-service-b][P=Nacos][H=192.168.0.107:4001][V=1.0][R=qa][E=env1][Z=zone2][G=discovery-guide-group][TID=48682.7508.15870951148324081][SID=49571.85.15870951189970000]
 ```
 
-- 在Postman中多种同步和异步的调用方式
+- 在Postman中多种同步和异步的调用方式，异步方式需要增加DiscoveryAgent，才能保证灰度路由成功
 
 | URL | 调用方式 |
 | --- | --- |
@@ -857,7 +857,7 @@ zuul
 - 下载[源码主页](https://github.com/Nepxion/Discovery)的工程，并导入IDE
 - 启动源码工程下的discovery-springcloud-example-console/ConsoleApplication
 - 启动源码工程下的discovery-console-desktop/ConsoleLauncher
-- 通过admin/admin登录，点击【显示服务拓扑】按钮，将呈现如下界面
+- 通过admin/admin或者nepxion/nepxion登录，点击【显示服务拓扑】按钮，将呈现如下界面
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide5-2.jpg)
 
@@ -3726,28 +3726,6 @@ spring.application.group.generator.character=-
 ```
 
 更多的配置方式，参考[https://github.com/git-commit-id/maven-git-commit-id-plugin/blob/master/maven/docs/using-the-plugin.md](https://github.com/git-commit-id/maven-git-commit-id-plugin/blob/master/maven/docs/using-the-plugin.md)
-
-可能需要增加下面的配置，保证Git相关文件被打包进去
-```xml
-<resources>
-    <resource>
-        <directory>src/main/java</directory>
-        <includes>
-            <include>**/*.xml</include>
-            <include>**/*.json</include>
-            <include>**/*.properties</include>
-        </includes>
-    </resource>
-    <resource>
-        <directory>src/main/resources</directory>
-        <includes>
-            <include>**/*.xml</include>
-            <include>**/*.json</include>
-            <include>**/*.properties</include>
-        </includes>
-    </resource>
-</resources>
-```
 
 - 增加配置项
 ```
