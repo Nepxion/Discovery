@@ -839,6 +839,15 @@ zuul
 -> [ID=discovery-guide-service-b][P=Nacos][H=192.168.0.107:4001][V=1.0][R=qa][E=env1][Z=zone2][G=discovery-guide-group][TID=48682.7508.15870951148324081][SID=49571.85.15870951189970000]
 ```
 
+- 在Postman中多种同步和异步的调用方式
+
+| URL | 调用方式 |
+| --- | --- |
+| /invoke/ | 同步调用 |
+| /invoke-async/ | @Async注解方式的异步调用 |
+| /invoke-thread/ | 单线程方式的异步调用 |
+| /invoke-threadpool/ | 线程池方式的异步调用 |
+
 - 上述步骤在下面每次更改规则策略的时候执行，并验证结果和规则策略的期望值是否相同
 
 ② 通过图形化界面验证
