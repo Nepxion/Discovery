@@ -173,6 +173,12 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-strategy-starter-opentelemetry</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-strategy-starter-opentracing</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -210,6 +216,12 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-strategy-starter-sentinel-monitor</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-strategy-starter-sentinel-opentelemetry</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
