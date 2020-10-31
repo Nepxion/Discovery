@@ -19,6 +19,13 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>discovery-plugin-strategy-starter-sentinel-monitor</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-api</artifactId>
+            <version>${opentelemetry.version}</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
