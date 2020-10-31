@@ -11,7 +11,6 @@ package com.nepxion.discovery.plugin.strategy.opentracing.monitor;
 
 import io.opentracing.Span;
 import io.opentracing.Tracer;
-import io.opentracing.tag.Tags;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,7 +43,7 @@ public class OpentracingStrategyTracer extends AbstractStrategyTracer<Span> {
     @Override
     protected void errorSpan(Span span, Throwable e) {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put(DiscoveryConstant.EVENT, Tags.ERROR.getKey());
+        map.put(DiscoveryConstant.EVENT, DiscoveryConstant.ERROR);
         if (tracerExceptionDetailOutputEnabled) {
             map.put(DiscoveryConstant.ERROR_OBJECT, ExceptionUtils.getStackTrace(e));
         } else {
