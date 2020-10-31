@@ -127,6 +127,7 @@ public class DiscoveryConstant {
     public static final String RETURN = "return";
     public static final String PARAMETER_MAP = "parameterMap";
     public static final String EVENT = "event";
+    public static final String ERROR = "error";
     public static final String ERROR_OBJECT = "error.object";
 
     public static final String XML_FORMAT = "xml";
