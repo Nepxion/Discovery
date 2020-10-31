@@ -11,7 +11,7 @@
     <parent>
         <groupId>com.nepxion</groupId>
         <artifactId>discovery-plugin-register-center</artifactId>
-        <version>6.3.3</version>
+        <version>6.3.5-SNAPSHOT</version>
     </parent>
 
     <dependencies>
