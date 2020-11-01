@@ -88,7 +88,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 - 支持阿里巴巴Nacos、Eureka、Consul和Zookeeper四个服务注册发现中心
 - 支持阿里巴巴Nacos、携程Apollo和Redis三个远程配置中心
 - 支持阿里巴巴Sentinel和Hystrix两个熔断限流降级权限中间件
-- 支持Uber Jaeger、Apache Skywalking两个符合OpenTracing规范的调用链中间件
+- 支持OpenTracing和OpenTelemetry规范下的调用链中间件，Uber Jaeger、Apache Skywalking和Zipkin等
 - 支持Prometheus Micrometer和Spring Boot Admin两个指标中间件
 - 支持Java Agent解决异步跨线程ThreadLocal上下文传递
 - 支持Spring Cloud Gateway、Zuul网关和微服务三大模块的灰度发布和路由等一系列功能
@@ -611,6 +611,7 @@ spring.application.strategy.control.enabled=false
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-zuul | 路由策略在Zuul网关端的Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-gateway | 路由策略在Spring Cloud Gateway网关端的Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-hystrix | 路由策略下，Hystrix做线程模式的服务隔离必须引入插件的Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-opentelemetry | 路由策略的OpenTelemetry调用链的Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-opentracing | 路由策略的OpenTracing调用链的Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-skywalking | 路由策略的Skywalking调用链的Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel | 路由策略的Sentinel Starter |
@@ -618,6 +619,7 @@ spring.application.strategy.control.enabled=false
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-apollo | 路由策略的Sentinel Apollo配置订阅的Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-nacos | 路由策略的Sentinel Nacos配置订阅的Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-monitor | 路由策略的Sentinel监控抽象的Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-opentelemetry | 路由策略的Sentinel OpenTelemetry调用链的Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-opentracing | 路由策略的Sentinel OpenTracing调用链的Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-skywalking | 路由策略的Sentinel Skywalking调用链的Starter |
 | <img src="http://nepxion.gitee.io/docs/icon-doc/direction_south.png"> discovery-plugin-test | 测试模块目录 |
@@ -766,6 +768,7 @@ spring.application.strategy.control.enabled=false
 微服务端引入
 <dependency>
     <groupId>com.nepxion</groupId>
+    <artifactId>discovery-plugin-strategy-sentinel-starter-opentelemetry</artifactId>
     <artifactId>discovery-plugin-strategy-sentinel-starter-opentracing</artifactId>
     <artifactId>discovery-plugin-strategy-sentinel-starter-skywalking</artifactId>
     <version>${discovery.version}</version>
