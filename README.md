@@ -1136,10 +1136,6 @@ IP地址和端口灰度路由架构图
             <route id="version-route1" type="version">{"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}</route>
             <route id="version-route2" type="version">{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.1"}</route>
         </routes>
-
-        <headers>
-            <header key="a" value="1"/>
-        </headers>
     </strategy-customization>
 </rule>
 ```
