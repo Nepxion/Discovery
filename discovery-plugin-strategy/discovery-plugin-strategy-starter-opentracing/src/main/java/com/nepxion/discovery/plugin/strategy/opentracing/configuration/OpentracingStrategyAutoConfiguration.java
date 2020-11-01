@@ -28,7 +28,7 @@ import com.taobao.text.Color;
 @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTROL_ENABLED, matchIfMissing = true)
 public class OpentracingStrategyAutoConfiguration {
     static {
-        LogoBanner logoBanner = new LogoBanner(OpentracingStrategyAutoConfiguration.class, "/com/nepxion/opentracing/resource/logo.txt", "Welcome to Nepxion", 7, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta, Color.red }, true);
+        LogoBanner logoBanner = new LogoBanner(OpentracingStrategyAutoConfiguration.class, "/com/nepxion/opentracing/resource/logo.txt", "Welcome to Nepxion", 8, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta, Color.red, Color.green }, true);
 
         NepxionBanner.show(logoBanner, new Description("Tracer:", OpentracingStrategyConstant.OPENTRACING_TYPE, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
     }
