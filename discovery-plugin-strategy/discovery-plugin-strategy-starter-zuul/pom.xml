@@ -5,7 +5,7 @@
     <name>Nepxion Discovery Plugin Strategy Starter Zuul</name>
     <packaging>jar</packaging>
     <modelVersion>4.0.0</modelVersion>
-    <description>Nepxion Discovery is an enhancement for Spring Cloud with gray, blue greeen, weight route, limitation, circuit breaker, degrade, failover, isolation, monitor, tracing</description>
+    <description>Nepxion Discovery is a solution for Spring Cloud with gray, blue green, weight, limitation, circuit breaker, degrade, isolation, monitor, tracing, dye, failover, async agent</description>
     <url>http://www.nepxion.com</url>
 
     <parent>
