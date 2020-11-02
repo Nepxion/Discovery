@@ -3446,6 +3446,7 @@ ThreadLocal的作用是提供线程内的局部变量，在多线程环境下访
     - `@`Async场景下的扫描目录对应为org.springframework.aop.interceptor
     - Hystrix线程池隔离场景下的扫描目录对应为com.netflix.hystrix
     - 线程，线程池的扫描目录对应为自定义Runnable，Callable对象所在类的目录
+    - 上述扫描路径如果含有`;`，可能会在某些操作系统中无法被识别，请用`""`进行引入，例如，-Dthread.scan.packages="com.abc;com.xyz"
 - `-D`thread.request.decorator.enabled：异步调用场景下在服务端的Request请求的装饰，当主线程先于子线程执行完的时候，Request会被Destory，导致Header仍旧拿不到，开启装饰，就可以确保拿到。默认为开启，根据实践经验，大多数场景下，需要开启该开关
 - `-D`thread.mdc.enabled：SLF4J MDC日志输出到异步子线程。默认关闭，如果需要，则开启该开关
 
