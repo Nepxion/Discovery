@@ -39,7 +39,7 @@ public class RedisConfigAdapter extends ConfigAdapter {
     private RedisOperation redisOperation;
 
     @Autowired
-    private RedisMessageListenerContainer redisMessageListenerContainer;
+    private RedisMessageListenerContainer configMessageListenerContainer;
 
     @Autowired
     private MessageListenerAdapter partialMessageListenerAdapter;
@@ -132,7 +132,7 @@ public class RedisConfigAdapter extends ConfigAdapter {
 
         LOG.info("Unsubscribe {} config from {} server, group={}, dataId={}", getConfigScope(globalConfig), getConfigType(), group, dataId);
 
-        redisMessageListenerContainer.removeMessageListener(messageListenerAdapter, new PatternTopic(group + "-" + dataId));
+        configMessageListenerContainer.removeMessageListener(messageListenerAdapter, new PatternTopic(group + "-" + dataId));
     }
 
     public String getConfigScope(boolean globalConfig) {

@@ -60,16 +60,16 @@ public class RedisConfigAutoConfiguration {
     private PluginAdapter pluginAdapter;
 
     @Bean
-    public RedisMessageListenerContainer redisMessageListenerContainer(MessageListenerAdapter partialMessageListenerAdapter, MessageListenerAdapter globalMessageListenerAdapter) {
+    public RedisMessageListenerContainer configMessageListenerContainer(MessageListenerAdapter partialMessageListenerAdapter, MessageListenerAdapter globalMessageListenerAdapter) {
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
 
-        RedisMessageListenerContainer redisMessageListenerContainer = new RedisMessageListenerContainer();
-        redisMessageListenerContainer.setConnectionFactory(redisConnectionFactory);
-        redisMessageListenerContainer.addMessageListener(partialMessageListenerAdapter, new PatternTopic(group + "-" + serviceId));
-        redisMessageListenerContainer.addMessageListener(globalMessageListenerAdapter, new PatternTopic(group + "-" + group));
+        RedisMessageListenerContainer configMessageListenerContainer = new RedisMessageListenerContainer();
+        configMessageListenerContainer.setConnectionFactory(redisConnectionFactory);
+        configMessageListenerContainer.addMessageListener(partialMessageListenerAdapter, new PatternTopic(group + "-" + serviceId));
+        configMessageListenerContainer.addMessageListener(globalMessageListenerAdapter, new PatternTopic(group + "-" + group));
 
-        return redisMessageListenerContainer;
+        return configMessageListenerContainer;
     }
 
     @Bean
