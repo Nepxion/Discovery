@@ -327,6 +327,13 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
       <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/hzty.png"></td>
       <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/sxmy.png"></td>
     </tr>
+    <tr align="center">
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/hw.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/pakj.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/szsl.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/yxkj.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="http://nepxion.gitee.io/docs/logo-doc/xalz.png"></td>
+    </tr>
   </tbody>
 </table>
 
@@ -334,7 +341,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 
 ![](http://nepxion.gitee.io/docs/icon-doc/chart_bar_32.png) 某大型互联网教育公司在生产环境全套接入Nepxion Discovery框架的服务实例数截至到2020年11月已达到2000个
 
-[^_^]: <img src="http://nepxion.gitee.io/docs/logo-doc/jieru.png" width="180"/>
+[^_^]: <img src="http://nepxion.gitee.io/docs/discovery-doc/Result.jpg" width="180"/>
 
 ## 目录
 - [简介](#简介)
