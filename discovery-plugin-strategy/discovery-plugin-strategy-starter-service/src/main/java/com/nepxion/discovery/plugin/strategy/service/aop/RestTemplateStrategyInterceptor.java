@@ -6,6 +6,7 @@ package com.nepxion.discovery.plugin.strategy.service.aop;
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
  * @author Haojun Ren
+ * @author Fengfeng Li
  * @version 1.0
  */
 
@@ -83,34 +84,31 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
 
     private void applyOuterHeader(HttpRequest request) {
         ServletRequestAttributes attributes = serviceStrategyContextHolder.getRestAttributes();
-        if (attributes == null) {
-            return;
-        }
-
-        HttpServletRequest previousRequest = attributes.getRequest();
-        Enumeration<String> headerNames = previousRequest.getHeaderNames();
-        if (headerNames == null) {
-            return;
-        }
-
-        HttpHeaders headers = request.getHeaders();
-        while (headerNames.hasMoreElements()) {
-            String headerName = headerNames.nextElement();
-            String headerValue = previousRequest.getHeader(headerName);
-            boolean isHeaderContains = isHeaderContainsExcludeInner(headerName.toLowerCase());
-            if (isHeaderContains) {
-                if (restTemplateCoreHeaderTransmissionEnabled) {
-                    headers.add(headerName, headerValue);
-                } else {
-                    boolean isCoreHeaderContains = StrategyUtil.isCoreHeaderContains(headerName);
-                    if (!isCoreHeaderContains) {
-                        headers.add(headerName, headerValue);
+        if (attributes != null) {
+            HttpServletRequest previousRequest = attributes.getRequest();
+            Enumeration<String> headerNames = previousRequest.getHeaderNames();
+            if (headerNames != null) {
+                HttpHeaders headers = request.getHeaders();
+                while (headerNames.hasMoreElements()) {
+                    String headerName = headerNames.nextElement();
+                    String headerValue = previousRequest.getHeader(headerName);
+                    boolean isHeaderContains = isHeaderContainsExcludeInner(headerName.toLowerCase());
+                    if (isHeaderContains) {
+                        if (restTemplateCoreHeaderTransmissionEnabled) {
+                            headers.add(headerName, headerValue);
+                        } else {
+                            boolean isCoreHeaderContains = StrategyUtil.isCoreHeaderContains(headerName);
+                            if (!isCoreHeaderContains) {
+                                headers.add(headerName, headerValue);
+                            }
+                        }
                     }
                 }
             }
         }
 
         if (restTemplateCoreHeaderTransmissionEnabled) {
+            HttpHeaders headers = request.getHeaders();
             if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_VERSION))) {
                 String routeVersion = serviceStrategyContextHolder.getRouteVersion();
                 if (StringUtils.isNotEmpty(routeVersion)) {
