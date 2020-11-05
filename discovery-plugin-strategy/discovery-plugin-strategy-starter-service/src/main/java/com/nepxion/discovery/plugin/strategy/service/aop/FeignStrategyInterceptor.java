@@ -6,6 +6,7 @@ package com.nepxion.discovery.plugin.strategy.service.aop;
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
  * @author Haojun Ren
+ * @author Fengfeng Li
  * @version 1.0
  */
 
@@ -76,27 +77,23 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
 
     private void applyOuterHeader(RequestTemplate requestTemplate) {
         ServletRequestAttributes attributes = serviceStrategyContextHolder.getRestAttributes();
-        if (attributes == null) {
-            return;
-        }
-
-        HttpServletRequest previousRequest = attributes.getRequest();
-        Enumeration<String> headerNames = previousRequest.getHeaderNames();
-        if (headerNames == null) {
-            return;
-        }
-
-        while (headerNames.hasMoreElements()) {
-            String headerName = headerNames.nextElement();
-            String headerValue = previousRequest.getHeader(headerName);
-            boolean isHeaderContains = isHeaderContainsExcludeInner(headerName.toLowerCase());
-            if (isHeaderContains) {
-                if (feignCoreHeaderTransmissionEnabled) {
-                    requestTemplate.header(headerName, headerValue);
-                } else {
-                    boolean isCoreHeaderContains = StrategyUtil.isCoreHeaderContains(headerName);
-                    if (!isCoreHeaderContains) {
-                        requestTemplate.header(headerName, headerValue);
+        if (attributes != null) {
+            HttpServletRequest previousRequest = attributes.getRequest();
+            Enumeration<String> headerNames = previousRequest.getHeaderNames();
+            if (headerNames != null) {
+                while (headerNames.hasMoreElements()) {
+                    String headerName = headerNames.nextElement();
+                    String headerValue = previousRequest.getHeader(headerName);
+                    boolean isHeaderContains = isHeaderContainsExcludeInner(headerName.toLowerCase());
+                    if (isHeaderContains) {
+                        if (feignCoreHeaderTransmissionEnabled) {
+                            requestTemplate.header(headerName, headerValue);
+                        } else {
+                            boolean isCoreHeaderContains = StrategyUtil.isCoreHeaderContains(headerName);
+                            if (!isCoreHeaderContains) {
+                                requestTemplate.header(headerName, headerValue);
+                            }
+                        }
                     }
                 }
             }
