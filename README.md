@@ -218,7 +218,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 
 <img src="http://nepxion.gitee.io/docs/discovery-doc/AwardNacos1.jpg" alt="Nacos" width="50%"><img src="http://nepxion.gitee.io/docs/discovery-doc/AwardSCA1.jpg" alt="Spring Cloud Alibaba" width="50%">
 
-- 感谢支持和使用本框架的公司和企业。不完全统计，目前社区开源项目已经被如下公司使用或者调研
+- 感谢支持和使用本框架的公司和企业。不完全统计，目前社区开源项目（包括本框架以及关联项目）已经被如下公司使用或者调研
 
 <table>
   <tbody>
@@ -255,7 +255,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/docs/logo-doc/yxkj.png"></td>
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/docs/logo-doc/dfhk.png"></td>
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/docs/logo-doc/dfqc.png"></td>
-      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/docs/logo-doc/hw.png"></td>
+      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/docs/logo-doc/华为.png"></td>
     </tr>
     <tr align="center">
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/docs/logo-doc/sfkj.png"></td>
