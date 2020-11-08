@@ -4845,5 +4845,4 @@ zuul.semaphore.max-semaphores=5000
 - 功能界面主页，[http://localhost:6002](http://localhost:6002)
 
 ## Star走势图
-
 [![Stargazers over time](https://starchart.cc/Nepxion/Discovery.svg)](https://starchart.cc/Nepxion/Discovery)
