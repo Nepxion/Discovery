@@ -3547,7 +3547,7 @@ public class MyContextPlugin extends AbstractPlugin {
     @Override
     protected String getMatcherClassName() {
         // 返回存储ThreadLocal对象的类名，由于插件是可以插拔的，所以必须是字符串形式，不允许是显式引入类
-        return "com.nepxion.discovery.guide.sdk.MyContext";
+        return "com.nepxion.discovery.example.sdk.MyContext";
     }
 
     @Override
@@ -3572,14 +3572,14 @@ com.nepxion.discovery.agent.plugin.Plugin
 ```
 内容为Plugin类的全路径
 ```
-com.nepxion.discovery.guide.agent.MyContextPlugin
+com.nepxion.discovery.example.agent.MyContextPlugin
 ```
 
 - 执行Maven编译，把编译后的包放在discovery-agent/plugin目录下
 
 - 给服务增加启动参数并启动，如下
 ```
--javaagent:C:/opt/discovery-agent/discovery-agent-starter-${discovery.agent.version}.jar -Dthread.scan.packages=com.nepxion.discovery.guide.application -Dthread.myplugin.enabled=true
+-javaagent:C:/opt/discovery-agent/discovery-agent-starter-${discovery.agent.version}.jar -Dthread.scan.packages=com.nepxion.discovery.example.application -Dthread.myplugin.enabled=true
 ```
 
 ③ Application侧工作
@@ -3636,39 +3636,73 @@ public class MyApplication {
 
 输出结果，如下
 ```
-2020-10-18 18:38:22.670  INFO 3780 --- [nio-8080-exec-1] c.n.d.guide.application.MyApplication    : 【主】线程ThreadLocal：{1=MyContext}
-2020-10-18 18:38:22.738  INFO 3780 --- [       Thread-8] c.n.d.guide.application.MyApplication    : 【子】线程ThreadLocal：{1=MyContext}
-2020-10-18 18:38:22.759  INFO 3780 --- [nio-8080-exec-2] c.n.d.guide.application.MyApplication    : 【主】线程ThreadLocal：{2=MyContext}
-2020-10-18 18:38:22.760  INFO 3780 --- [       Thread-9] c.n.d.guide.application.MyApplication    : 【子】线程ThreadLocal：{2=MyContext}
-2020-10-18 18:38:22.763  INFO 3780 --- [nio-8080-exec-3] c.n.d.guide.application.MyApplication    : 【主】线程ThreadLocal：{3=MyContext}
-2020-10-18 18:38:22.764  INFO 3780 --- [      Thread-10] c.n.d.guide.application.MyApplication    : 【子】线程ThreadLocal：{3=MyContext}
-2020-10-18 18:38:22.772  INFO 3780 --- [nio-8080-exec-4] c.n.d.guide.application.MyApplication    : 【主】线程ThreadLocal：{4=MyContext}
-2020-10-18 18:38:22.773  INFO 3780 --- [      Thread-11] c.n.d.guide.application.MyApplication    : 【子】线程ThreadLocal：{4=MyContext}
-2020-10-18 18:38:22.775  INFO 3780 --- [nio-8080-exec-5] c.n.d.guide.application.MyApplication    : 【主】线程ThreadLocal：{5=MyContext}
-2020-10-18 18:38:22.776  INFO 3780 --- [      Thread-12] c.n.d.guide.application.MyApplication    : 【子】线程ThreadLocal：{5=MyContext}
-2020-10-18 18:38:22.778  INFO 3780 --- [nio-8080-exec-6] c.n.d.guide.application.MyApplication    : 【主】线程ThreadLocal：{6=MyContext}
-2020-10-18 18:38:22.779  INFO 3780 --- [      Thread-13] c.n.d.guide.application.MyApplication    : 【子】线程ThreadLocal：{6=MyContext}
-2020-10-18 18:38:22.782  INFO 3780 --- [nio-8080-exec-7] c.n.d.guide.application.MyApplication    : 【主】线程ThreadLocal：{7=MyContext}
-2020-10-18 18:38:22.783  INFO 3780 --- [      Thread-14] c.n.d.guide.application.MyApplication    : 【子】线程ThreadLocal：{7=MyContext}
-2020-10-18 18:38:22.785  INFO 3780 --- [nio-8080-exec-8] c.n.d.guide.application.MyApplication    : 【主】线程ThreadLocal：{8=MyContext}
-2020-10-18 18:38:22.786  INFO 3780 --- [      Thread-15] c.n.d.guide.application.MyApplication    : 【子】线程ThreadLocal：{8=MyContext}
-2020-10-18 18:38:22.788  INFO 3780 --- [nio-8080-exec-9] c.n.d.guide.application.MyApplication    : 【主】线程ThreadLocal：{9=MyContext}
-2020-10-18 18:38:22.789  INFO 3780 --- [      Thread-16] c.n.d.guide.application.MyApplication    : 【子】线程ThreadLocal：{9=MyContext}
-2020-10-18 18:38:22.791  INFO 3780 --- [io-8080-exec-10] c.n.d.guide.application.MyApplication    : 【主】线程ThreadLocal：{10=MyContext}
-2020-10-18 18:38:22.792  INFO 3780 --- [      Thread-17] c.n.d.guide.application.MyApplication    : 【子】线程ThreadLocal：{10=MyContext}
-2020-10-18 18:38:27.738  INFO 3780 --- [       Thread-8] c.n.d.guide.application.MyApplication    : Sleep 5秒之后，【子】线程ThreadLocal：{1=MyContext} 
-2020-10-18 18:38:27.761  INFO 3780 --- [       Thread-9] c.n.d.guide.application.MyApplication    : Sleep 5秒之后，【子】线程ThreadLocal：{2=MyContext} 
-2020-10-18 18:38:27.764  INFO 3780 --- [      Thread-10] c.n.d.guide.application.MyApplication    : Sleep 5秒之后，【子】线程ThreadLocal：{3=MyContext} 
-2020-10-18 18:38:27.773  INFO 3780 --- [      Thread-11] c.n.d.guide.application.MyApplication    : Sleep 5秒之后，【子】线程ThreadLocal：{4=MyContext} 
-2020-10-18 18:38:27.776  INFO 3780 --- [      Thread-12] c.n.d.guide.application.MyApplication    : Sleep 5秒之后，【子】线程ThreadLocal：{5=MyContext} 
-2020-10-18 18:38:27.780  INFO 3780 --- [      Thread-13] c.n.d.guide.application.MyApplication    : Sleep 5秒之后，【子】线程ThreadLocal：{6=MyContext} 
-2020-10-18 18:38:27.783  INFO 3780 --- [      Thread-14] c.n.d.guide.application.MyApplication    : Sleep 5秒之后，【子】线程ThreadLocal：{7=MyContext} 
-2020-10-18 18:38:27.787  INFO 3780 --- [      Thread-15] c.n.d.guide.application.MyApplication    : Sleep 5秒之后，【子】线程ThreadLocal：{8=MyContext} 
-2020-10-18 18:38:27.789  INFO 3780 --- [      Thread-16] c.n.d.guide.application.MyApplication    : Sleep 5秒之后，【子】线程ThreadLocal：{9=MyContext} 
-2020-10-18 18:38:27.792  INFO 3780 --- [      Thread-17] c.n.d.guide.application.MyApplication    : Sleep 5秒之后，【子】线程ThreadLocal：{10=MyContext} 
+2020-11-09 00:08:14.330  INFO 16588 --- [nio-8080-exec-1] c.n.d.example.application.MyApplication  : 【主】线程ThreadLocal：{1=MyContext}
+2020-11-09 00:08:14.381  INFO 16588 --- [       Thread-4] c.n.d.example.application.MyApplication  : 【子】线程ThreadLocal：{1=MyContext}
+2020-11-09 00:08:14.402  INFO 16588 --- [nio-8080-exec-2] c.n.d.example.application.MyApplication  : 【主】线程ThreadLocal：{2=MyContext}
+2020-11-09 00:08:14.403  INFO 16588 --- [       Thread-5] c.n.d.example.application.MyApplication  : 【子】线程ThreadLocal：{2=MyContext}
+2020-11-09 00:08:14.405  INFO 16588 --- [nio-8080-exec-3] c.n.d.example.application.MyApplication  : 【主】线程ThreadLocal：{3=MyContext}
+2020-11-09 00:08:14.406  INFO 16588 --- [       Thread-6] c.n.d.example.application.MyApplication  : 【子】线程ThreadLocal：{3=MyContext}
+2020-11-09 00:08:14.414  INFO 16588 --- [nio-8080-exec-4] c.n.d.example.application.MyApplication  : 【主】线程ThreadLocal：{4=MyContext}
+2020-11-09 00:08:14.414  INFO 16588 --- [       Thread-7] c.n.d.example.application.MyApplication  : 【子】线程ThreadLocal：{4=MyContext}
+2020-11-09 00:08:14.417  INFO 16588 --- [nio-8080-exec-5] c.n.d.example.application.MyApplication  : 【主】线程ThreadLocal：{5=MyContext}
+2020-11-09 00:08:14.418  INFO 16588 --- [       Thread-8] c.n.d.example.application.MyApplication  : 【子】线程ThreadLocal：{5=MyContext}
+2020-11-09 00:08:14.421  INFO 16588 --- [nio-8080-exec-6] c.n.d.example.application.MyApplication  : 【主】线程ThreadLocal：{6=MyContext}
+2020-11-09 00:08:14.422  INFO 16588 --- [       Thread-9] c.n.d.example.application.MyApplication  : 【子】线程ThreadLocal：{6=MyContext}
+2020-11-09 00:08:14.424  INFO 16588 --- [nio-8080-exec-7] c.n.d.example.application.MyApplication  : 【主】线程ThreadLocal：{7=MyContext}
+2020-11-09 00:08:14.425  INFO 16588 --- [      Thread-10] c.n.d.example.application.MyApplication  : 【子】线程ThreadLocal：{7=MyContext}
+2020-11-09 00:08:14.427  INFO 16588 --- [nio-8080-exec-8] c.n.d.example.application.MyApplication  : 【主】线程ThreadLocal：{8=MyContext}
+2020-11-09 00:08:14.428  INFO 16588 --- [      Thread-11] c.n.d.example.application.MyApplication  : 【子】线程ThreadLocal：{8=MyContext}
+2020-11-09 00:08:14.430  INFO 16588 --- [nio-8080-exec-9] c.n.d.example.application.MyApplication  : 【主】线程ThreadLocal：{9=MyContext}
+2020-11-09 00:08:14.431  INFO 16588 --- [      Thread-12] c.n.d.example.application.MyApplication  : 【子】线程ThreadLocal：{9=MyContext}
+2020-11-09 00:08:14.433  INFO 16588 --- [io-8080-exec-10] c.n.d.example.application.MyApplication  : 【主】线程ThreadLocal：{10=MyContext}
+2020-11-09 00:08:14.434  INFO 16588 --- [      Thread-13] c.n.d.example.application.MyApplication  : 【子】线程ThreadLocal：{10=MyContext}
+2020-11-09 00:08:19.382  INFO 16588 --- [       Thread-4] c.n.d.example.application.MyApplication  : Sleep 5秒之后，【子】线程ThreadLocal：{1=MyContext} 
+2020-11-09 00:08:19.404  INFO 16588 --- [       Thread-5] c.n.d.example.application.MyApplication  : Sleep 5秒之后，【子】线程ThreadLocal：{2=MyContext} 
+2020-11-09 00:08:19.406  INFO 16588 --- [       Thread-6] c.n.d.example.application.MyApplication  : Sleep 5秒之后，【子】线程ThreadLocal：{3=MyContext} 
+2020-11-09 00:08:19.416  INFO 16588 --- [       Thread-7] c.n.d.example.application.MyApplication  : Sleep 5秒之后，【子】线程ThreadLocal：{4=MyContext} 
+2020-11-09 00:08:19.418  INFO 16588 --- [       Thread-8] c.n.d.example.application.MyApplication  : Sleep 5秒之后，【子】线程ThreadLocal：{5=MyContext} 
+2020-11-09 00:08:19.422  INFO 16588 --- [       Thread-9] c.n.d.example.application.MyApplication  : Sleep 5秒之后，【子】线程ThreadLocal：{6=MyContext} 
+2020-11-09 00:08:19.425  INFO 16588 --- [      Thread-10] c.n.d.example.application.MyApplication  : Sleep 5秒之后，【子】线程ThreadLocal：{7=MyContext} 
+2020-11-09 00:08:19.428  INFO 16588 --- [      Thread-11] c.n.d.example.application.MyApplication  : Sleep 5秒之后，【子】线程ThreadLocal：{8=MyContext} 
+2020-11-09 00:08:19.432  INFO 16588 --- [      Thread-12] c.n.d.example.application.MyApplication  : Sleep 5秒之后，【子】线程ThreadLocal：{9=MyContext} 
+2020-11-09 00:08:19.434  INFO 16588 --- [      Thread-13] c.n.d.example.application.MyApplication  : Sleep 5秒之后，【子】线程ThreadLocal：{10=MyContext} 
 ```
 
-完整示例，请参考[https://github.com/Nepxion/DiscoveryAgentGuide](https://github.com/Nepxion/DiscoveryAgentGuide)。上述自定义插件的方式，即可解决使用者在线程切换时丢失ThreadLocal上下文的问题
+如果不加异步Agent，则输出结果，如下，可以发现在子线程中ThreadLocal上下文全部都丢失
+```
+2020-11-09 00:01:40.133  INFO 16692 --- [nio-8080-exec-1] c.n.d.example.application.MyApplication  : 【主】线程ThreadLocal：{1=MyContext}
+2020-11-09 00:01:40.135  INFO 16692 --- [       Thread-8] c.n.d.example.application.MyApplication  : 【子】线程ThreadLocal：{}
+2020-11-09 00:01:40.158  INFO 16692 --- [nio-8080-exec-2] c.n.d.example.application.MyApplication  : 【主】线程ThreadLocal：{2=MyContext}
+2020-11-09 00:01:40.159  INFO 16692 --- [       Thread-9] c.n.d.example.application.MyApplication  : 【子】线程ThreadLocal：{}
+2020-11-09 00:01:40.162  INFO 16692 --- [nio-8080-exec-3] c.n.d.example.application.MyApplication  : 【主】线程ThreadLocal：{3=MyContext}
+2020-11-09 00:01:40.163  INFO 16692 --- [      Thread-10] c.n.d.example.application.MyApplication  : 【子】线程ThreadLocal：{}
+2020-11-09 00:01:40.170  INFO 16692 --- [nio-8080-exec-5] c.n.d.example.application.MyApplication  : 【主】线程ThreadLocal：{4=MyContext}
+2020-11-09 00:01:40.170  INFO 16692 --- [      Thread-11] c.n.d.example.application.MyApplication  : 【子】线程ThreadLocal：{}
+2020-11-09 00:01:40.173  INFO 16692 --- [nio-8080-exec-4] c.n.d.example.application.MyApplication  : 【主】线程ThreadLocal：{5=MyContext}
+2020-11-09 00:01:40.174  INFO 16692 --- [      Thread-12] c.n.d.example.application.MyApplication  : 【子】线程ThreadLocal：{}
+2020-11-09 00:01:40.176  INFO 16692 --- [nio-8080-exec-6] c.n.d.example.application.MyApplication  : 【主】线程ThreadLocal：{6=MyContext}
+2020-11-09 00:01:40.177  INFO 16692 --- [      Thread-13] c.n.d.example.application.MyApplication  : 【子】线程ThreadLocal：{}
+2020-11-09 00:01:40.179  INFO 16692 --- [nio-8080-exec-8] c.n.d.example.application.MyApplication  : 【主】线程ThreadLocal：{7=MyContext}
+2020-11-09 00:01:40.180  INFO 16692 --- [      Thread-14] c.n.d.example.application.MyApplication  : 【子】线程ThreadLocal：{}
+2020-11-09 00:01:40.182  INFO 16692 --- [nio-8080-exec-7] c.n.d.example.application.MyApplication  : 【主】线程ThreadLocal：{8=MyContext}
+2020-11-09 00:01:40.182  INFO 16692 --- [      Thread-15] c.n.d.example.application.MyApplication  : 【子】线程ThreadLocal：{}
+2020-11-09 00:01:40.185  INFO 16692 --- [nio-8080-exec-9] c.n.d.example.application.MyApplication  : 【主】线程ThreadLocal：{9=MyContext}
+2020-11-09 00:01:40.186  INFO 16692 --- [      Thread-16] c.n.d.example.application.MyApplication  : 【子】线程ThreadLocal：{}
+2020-11-09 00:01:40.188  INFO 16692 --- [io-8080-exec-10] c.n.d.example.application.MyApplication  : 【主】线程ThreadLocal：{10=MyContext}
+2020-11-09 00:01:40.189  INFO 16692 --- [      Thread-17] c.n.d.example.application.MyApplication  : 【子】线程ThreadLocal：{}
+2020-11-09 00:01:45.136  INFO 16692 --- [       Thread-8] c.n.d.example.application.MyApplication  : Sleep 5秒之后，【子】线程ThreadLocal：{} 
+2020-11-09 00:01:45.160  INFO 16692 --- [       Thread-9] c.n.d.example.application.MyApplication  : Sleep 5秒之后，【子】线程ThreadLocal：{} 
+2020-11-09 00:01:45.163  INFO 16692 --- [      Thread-10] c.n.d.example.application.MyApplication  : Sleep 5秒之后，【子】线程ThreadLocal：{} 
+2020-11-09 00:01:45.171  INFO 16692 --- [      Thread-11] c.n.d.example.application.MyApplication  : Sleep 5秒之后，【子】线程ThreadLocal：{} 
+2020-11-09 00:01:45.174  INFO 16692 --- [      Thread-12] c.n.d.example.application.MyApplication  : Sleep 5秒之后，【子】线程ThreadLocal：{} 
+2020-11-09 00:01:45.177  INFO 16692 --- [      Thread-13] c.n.d.example.application.MyApplication  : Sleep 5秒之后，【子】线程ThreadLocal：{} 
+2020-11-09 00:01:45.181  INFO 16692 --- [      Thread-14] c.n.d.example.application.MyApplication  : Sleep 5秒之后，【子】线程ThreadLocal：{} 
+2020-11-09 00:01:45.183  INFO 16692 --- [      Thread-15] c.n.d.example.application.MyApplication  : Sleep 5秒之后，【子】线程ThreadLocal：{} 
+2020-11-09 00:01:45.187  INFO 16692 --- [      Thread-16] c.n.d.example.application.MyApplication  : Sleep 5秒之后，【子】线程ThreadLocal：{} 
+2020-11-09 00:01:45.190  INFO 16692 --- [      Thread-17] c.n.d.example.application.MyApplication  : Sleep 5秒之后，【子】线程ThreadLocal：{} 
+```
+
+完整示例，请参考[https://github.com/Nepxion/DiscoveryAgent/tree/master/discovery-agent-example](https://github.com/Nepxion/DiscoveryAgent/tree/master/discovery-agent-example)。上述自定义插件的方式，即可解决使用者在线程切换时丢失ThreadLocal上下文的问题
 
 ## 元数据Metadata自动化策略
 
