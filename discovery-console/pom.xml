@@ -19,6 +19,5 @@
         <module>discovery-console-starter-apollo</module>
         <module>discovery-console-starter-nacos</module>
         <module>discovery-console-starter-redis</module>
-        <module>discovery-console-desktop</module>
     </modules>
 </project>
