@@ -88,7 +88,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 - 支持阿里巴巴Nacos、Eureka、Consul和Zookeeper四个服务注册发现中心
 - 支持阿里巴巴Nacos、携程Apollo和Redis三个远程配置中心
 - 支持阿里巴巴Sentinel和Hystrix两个熔断限流降级权限中间件
-- 支持OpenTracing和OpenTelemetry规范下的调用链中间件，Uber Jaeger、Apache Skywalking和Zipkin等
+- 支持OpenTracing和OpenTelemetry规范下的调用链中间件，Uber Jaeger、Apache SkyWalking和Zipkin等
 - 支持Prometheus Micrometer和Spring Boot Admin两个指标中间件
 - 支持Java Agent解决异步跨线程ThreadLocal上下文传递
 - 支持Spring Cloud Gateway、Zuul网关和微服务三大模块的灰度发布和路由等一系列功能
@@ -627,7 +627,7 @@ spring.application.strategy.control.enabled=false
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-hystrix | 路由策略下，Hystrix做线程模式的服务隔离必须引入插件的Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-opentelemetry | 路由策略的OpenTelemetry调用链的Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-opentracing | 路由策略的OpenTracing调用链的Starter |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-skywalking | 路由策略的Skywalking调用链的Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-skywalking | 路由策略的SkyWalking调用链的Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel | 路由策略的Sentinel Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-local | 路由策略的Sentinel Local配置订阅的Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-apollo | 路由策略的Sentinel Apollo配置订阅的Starter |
@@ -635,7 +635,7 @@ spring.application.strategy.control.enabled=false
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-monitor | 路由策略的Sentinel监控抽象的Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-opentelemetry | 路由策略的Sentinel OpenTelemetry调用链的Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-opentracing | 路由策略的Sentinel OpenTracing调用链的Starter |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-skywalking | 路由策略的Sentinel Skywalking调用链的Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-skywalking | 路由策略的Sentinel SkyWalking调用链的Starter |
 | <img src="http://nepxion.gitee.io/docs/icon-doc/direction_south.png"> discovery-plugin-test | 测试模块目录 |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-test-starter | 自动化测试的Starter |
 | <img src="http://nepxion.gitee.io/docs/icon-doc/direction_south.png"> discovery-console | 控制平台目录 |
@@ -3190,7 +3190,7 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 </dependency>
 ```
 
-集成Opentracing + Uber Jaeger灰度全链路监控
+集成OpenTracing + Uber Jaeger灰度全链路监控
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger1.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger2.jpg)
@@ -3198,7 +3198,7 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger4.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger5.jpg)
 
-集成Opentracing + Uber Jaeger + Sentinel限流熔断降级权限埋点全链路监控
+集成OpenTracing + Uber Jaeger + Sentinel限流熔断降级权限埋点全链路监控
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger6.jpg)
 
@@ -3210,22 +3210,22 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 ![](http://nepxion.gitee.io/docs/discovery-doc/JaegerPremium2.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/JaegerPremium3.jpg)
 
-集成Opentracing + Apache Skywalking灰度全链路监控
+集成OpenTracing + Apache SkyWalking灰度全链路监控
 
-![](http://nepxion.gitee.io/docs/discovery-doc/Skywalking1.jpg)
-![](http://nepxion.gitee.io/docs/discovery-doc/Skywalking2.jpg)
+![](http://nepxion.gitee.io/docs/discovery-doc/SkyWalking1.jpg)
+![](http://nepxion.gitee.io/docs/discovery-doc/SkyWalking2.jpg)
 
-集成Opentracing + Apache Skywalking + Sentinel限流熔断降级权限埋点全链路监控
+集成OpenTracing + Apache SkyWalking + Sentinel限流熔断降级权限埋点全链路监控
 
-![](http://nepxion.gitee.io/docs/discovery-doc/Skywalking3.jpg)
-![](http://nepxion.gitee.io/docs/discovery-doc/Skywalking4.jpg)
+![](http://nepxion.gitee.io/docs/discovery-doc/SkyWalking3.jpg)
+![](http://nepxion.gitee.io/docs/discovery-doc/SkyWalking4.jpg)
 
 ![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 请注意如下配置，将决定终端界面的显示
 
 - 如果开启，灰度信息输出到独立的Span节点中，意味着在界面显示中，灰度信息通过独立的NEPXION Span节点来显示
 - 如果关闭，灰度信息输出到原生的Span节点中，意味着在界面显示中，灰度信息会和原生Span节点的调用信息、协议信息等合在一起
 ```
-# 启动和关闭调用链的灰度信息以独立的Span节点输出，如果关闭，则灰度信息输出到原生的Span节点中（Skywalking不支持原生模式）。缺失则默认为true
+# 启动和关闭调用链的灰度信息以独立的Span节点输出，如果关闭，则灰度信息输出到原生的Span节点中（SkyWalking不支持原生模式）。缺失则默认为true
 spring.application.strategy.tracer.separate.span.enabled=true
 ```
 
@@ -3314,7 +3314,7 @@ spring.application.strategy.logger.mdc.key.shown=true
 spring.application.strategy.logger.debug.enabled=true
 # 启动和关闭调用链输出。缺失则默认为false
 spring.application.strategy.tracer.enabled=true
-# 启动和关闭调用链的灰度信息以独立的Span节点输出，如果关闭，则灰度信息输出到原生的Span节点中（Skywalking不支持原生模式）。缺失则默认为true
+# 启动和关闭调用链的灰度信息以独立的Span节点输出，如果关闭，则灰度信息输出到原生的Span节点中（SkyWalking不支持原生模式）。缺失则默认为true
 spring.application.strategy.tracer.separate.span.enabled=true
 # 启动和关闭调用链的灰度规则策略信息输出。缺失则默认为true
 spring.application.strategy.tracer.rule.output.enabled=true
@@ -3961,7 +3961,7 @@ spring.application.strategy.logger.mdc.key.shown=true
 spring.application.strategy.logger.debug.enabled=true
 # 启动和关闭调用链输出。缺失则默认为false
 spring.application.strategy.tracer.enabled=true
-# 启动和关闭调用链的灰度信息以独立的Span节点输出，如果关闭，则灰度信息输出到原生的Span节点中（Skywalking不支持原生模式）。缺失则默认为true
+# 启动和关闭调用链的灰度信息以独立的Span节点输出，如果关闭，则灰度信息输出到原生的Span节点中（SkyWalking不支持原生模式）。缺失则默认为true
 spring.application.strategy.tracer.separate.span.enabled=true
 # 启动和关闭调用链的灰度规则策略信息输出。缺失则默认为true
 spring.application.strategy.tracer.rule.output.enabled=true
@@ -4099,7 +4099,7 @@ spring.application.strategy.logger.mdc.key.shown=true
 spring.application.strategy.logger.debug.enabled=true
 # 启动和关闭调用链输出。缺失则默认为false
 spring.application.strategy.tracer.enabled=true
-# 启动和关闭调用链的灰度信息以独立的Span节点输出，如果关闭，则灰度信息输出到原生的Span节点中（Skywalking不支持原生模式）。缺失则默认为true
+# 启动和关闭调用链的灰度信息以独立的Span节点输出，如果关闭，则灰度信息输出到原生的Span节点中（SkyWalking不支持原生模式）。缺失则默认为true
 spring.application.strategy.tracer.separate.span.enabled=true
 # 启动和关闭调用链的灰度规则策略信息输出。缺失则默认为true
 spring.application.strategy.tracer.rule.output.enabled=true
@@ -4218,7 +4218,7 @@ spring.application.strategy.logger.mdc.key.shown=true
 spring.application.strategy.logger.debug.enabled=true
 # 启动和关闭调用链输出。缺失则默认为false
 spring.application.strategy.tracer.enabled=true
-# 启动和关闭调用链的灰度信息以独立的Span节点输出，如果关闭，则灰度信息输出到原生的Span节点中（Skywalking不支持原生模式）。缺失则默认为true
+# 启动和关闭调用链的灰度信息以独立的Span节点输出，如果关闭，则灰度信息输出到原生的Span节点中（SkyWalking不支持原生模式）。缺失则默认为true
 spring.application.strategy.tracer.separate.span.enabled=true
 # 启动和关闭调用链的灰度规则策略信息输出。缺失则默认为true
 spring.application.strategy.tracer.rule.output.enabled=true
@@ -4851,9 +4851,9 @@ zuul.semaphore.max-semaphores=5000
 - Jaeger服务器版本，推荐用最新版本，从[https://github.com/jaegertracing/jaeger/releases](https://github.com/jaegertracing/jaeger/releases)获取
 - 功能界面主页，[http://localhost:16686](http://localhost:16686)
 
-② Skywalking
+② SkyWalking
 
-- Skywalking服务器版本，推荐用最新版本，从[http://skywalking.apache.org/downloads/](http://skywalking.apache.org/downloads/)获取
+- SkyWalking服务器版本，推荐用最新版本，从[http://skywalking.apache.org/downloads/](http://skywalking.apache.org/downloads/)获取
 - 功能界面主页，[http://127.0.0.1:8080/](http://127.0.0.1:8080/)
 
 ③ Zipkin
