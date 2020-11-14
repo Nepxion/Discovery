@@ -30,7 +30,7 @@ public class OpenTelemetryStrategyAutoConfiguration {
     static {
         LogoBanner logoBanner = new LogoBanner(OpenTelemetryStrategyAutoConfiguration.class, "/com/nepxion/opentelemetry/resource/logo.txt", "Welcome to Nepxion", 8, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta, Color.red, Color.green }, true);
 
-        NepxionBanner.show(logoBanner, new Description("Tracer:", OpenTelemetryStrategyConstant.OPENTELEMETRY_TYPE, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
+        NepxionBanner.show(logoBanner, new Description("Tracing:", OpenTelemetryStrategyConstant.OPENTELEMETRY_TYPE, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
     }
 
     @Bean

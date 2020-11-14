@@ -12,10 +12,10 @@ package com.nepxion.discovery.plugin.strategy.sentinel.opentelemetry.monitor;
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.api.trace.Span;
 
-import com.nepxion.discovery.plugin.strategy.sentinel.monitor.callback.SentinelMonitorProcessorSlotEntryCallback;
+import com.nepxion.discovery.plugin.strategy.sentinel.monitor.callback.SentinelTracingProcessorSlotEntryCallback;
 import com.nepxion.discovery.plugin.strategy.sentinel.monitor.constant.SentinelStrategyMonitorConstant;
 
-public class SentinelOpenTelemetryProcessorSlotEntryCallback extends SentinelMonitorProcessorSlotEntryCallback<Span> {
+public class SentinelOpenTelemetryProcessorSlotEntryCallback extends SentinelTracingProcessorSlotEntryCallback<Span> {
     public static final String INSTRUMENTATION_NAME = "opentelemetry.trace.tracer.name";
 
     private String instrumentationName = System.getProperty(INSTRUMENTATION_NAME);

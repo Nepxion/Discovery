@@ -30,7 +30,7 @@ public class SkyWalkingStrategyAutoConfiguration {
     static {
         LogoBanner logoBanner = new LogoBanner(SkyWalkingStrategyAutoConfiguration.class, "/com/nepxion/skywalking/resource/logo.txt", "Welcome to Nepxion", 7, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta, Color.red }, true);
 
-        NepxionBanner.show(logoBanner, new Description("Tracer:", SkyWalkingStrategyConstant.SKYWALKING_TYPE, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
+        NepxionBanner.show(logoBanner, new Description("Tracing:", SkyWalkingStrategyConstant.SKYWALKING_TYPE, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
     }
 
     @Bean

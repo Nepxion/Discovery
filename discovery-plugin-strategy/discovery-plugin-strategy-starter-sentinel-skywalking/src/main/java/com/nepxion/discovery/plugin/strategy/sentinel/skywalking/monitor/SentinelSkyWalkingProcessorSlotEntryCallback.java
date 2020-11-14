@@ -14,10 +14,10 @@ import io.opentracing.Tracer;
 
 import org.apache.skywalking.apm.toolkit.opentracing.SkywalkingTracer;
 
-import com.nepxion.discovery.plugin.strategy.sentinel.monitor.callback.SentinelMonitorProcessorSlotEntryCallback;
+import com.nepxion.discovery.plugin.strategy.sentinel.monitor.callback.SentinelTracingProcessorSlotEntryCallback;
 import com.nepxion.discovery.plugin.strategy.sentinel.monitor.constant.SentinelStrategyMonitorConstant;
 
-public class SentinelSkyWalkingProcessorSlotEntryCallback extends SentinelMonitorProcessorSlotEntryCallback<Span> {
+public class SentinelSkyWalkingProcessorSlotEntryCallback extends SentinelTracingProcessorSlotEntryCallback<Span> {
     private Tracer tracer = new SkywalkingTracer();
     
     @Override

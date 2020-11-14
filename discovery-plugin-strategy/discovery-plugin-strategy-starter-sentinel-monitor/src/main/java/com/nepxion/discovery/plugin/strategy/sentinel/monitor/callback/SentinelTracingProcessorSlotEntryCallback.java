@@ -22,7 +22,7 @@ import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.strategy.sentinel.monitor.constant.SentinelStrategyMonitorConstant;
 
-public abstract class SentinelMonitorProcessorSlotEntryCallback<S> implements ProcessorSlotEntryCallback<DefaultNode> {
+public abstract class SentinelTracingProcessorSlotEntryCallback<S> implements ProcessorSlotEntryCallback<DefaultNode> {
     private Boolean tracerSentinelRuleOutputEnabled = Boolean.valueOf(System.getProperty(SentinelStrategyMonitorConstant.SPRING_APPLICATION_STRATEGY_TRACER_SENTINEL_RULE_OUTPUT_ENABLED, "true"));
     private Boolean tracerSentinelArgsOutputEnabled = Boolean.valueOf(System.getProperty(SentinelStrategyMonitorConstant.SPRING_APPLICATION_STRATEGY_TRACER_SENTINEL_ARGS_OUTPUT_ENABLED, "false"));
 
