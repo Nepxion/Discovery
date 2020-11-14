@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.nepxion.discovery.plugin.strategy.skywalking.configuration.SkywalkingStrategyAutoConfiguration
+com.nepxion.discovery.plugin.strategy.skywalking.configuration.SkyWalkingStrategyAutoConfiguration

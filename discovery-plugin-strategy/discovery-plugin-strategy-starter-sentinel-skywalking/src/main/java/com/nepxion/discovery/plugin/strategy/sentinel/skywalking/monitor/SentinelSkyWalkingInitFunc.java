@@ -12,9 +12,9 @@ package com.nepxion.discovery.plugin.strategy.sentinel.skywalking.monitor;
 import com.alibaba.csp.sentinel.init.InitFunc;
 import com.alibaba.csp.sentinel.slots.statistic.StatisticSlotCallbackRegistry;
 
-public class SentinelSkywalkingTracerInitFunc implements InitFunc {
+public class SentinelSkyWalkingInitFunc implements InitFunc {
     @Override
     public void init() throws Exception {
-        StatisticSlotCallbackRegistry.addEntryCallback(SentinelSkywalkingTracerProcessorSlotEntryCallback.class.getName(), new SentinelSkywalkingTracerProcessorSlotEntryCallback());
+        StatisticSlotCallbackRegistry.addEntryCallback(SentinelSkyWalkingProcessorSlotEntryCallback.class.getName(), new SentinelSkyWalkingProcessorSlotEntryCallback());
     }
 }

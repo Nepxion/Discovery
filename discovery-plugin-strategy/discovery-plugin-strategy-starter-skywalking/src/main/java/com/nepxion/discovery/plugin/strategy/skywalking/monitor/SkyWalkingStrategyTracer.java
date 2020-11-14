@@ -19,24 +19,24 @@ import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.monitor.AbstractStrategyTracer;
 
-public class SkywalkingStrategyTracer extends AbstractStrategyTracer<SkywalkingStrategySpan> {
+public class SkyWalkingStrategyTracer extends AbstractStrategyTracer<SkyWalkingStrategySpan> {
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACER_EXCEPTION_DETAIL_OUTPUT_ENABLED + ":false}")
     protected Boolean tracerExceptionDetailOutputEnabled;
 
     private Tracer tracer = new SkywalkingTracer();
 
     @Override
-    protected SkywalkingStrategySpan buildSpan() {
-        return new SkywalkingStrategySpan(tracer.buildSpan(tracerSpanValue).startManual());
+    protected SkyWalkingStrategySpan buildSpan() {
+        return new SkyWalkingStrategySpan(tracer.buildSpan(tracerSpanValue).startManual());
     }
 
     @Override
-    protected void outputSpan(SkywalkingStrategySpan span, String key, String value) {
+    protected void outputSpan(SkyWalkingStrategySpan span, String key, String value) {
         span.setTag(key, value);
     }
 
     @Override
-    protected void errorSpan(SkywalkingStrategySpan span, Throwable e) {
+    protected void errorSpan(SkyWalkingStrategySpan span, Throwable e) {
         if (tracerExceptionDetailOutputEnabled) {
             span.setTag(DiscoveryConstant.ERROR_OBJECT, ExceptionUtils.getStackTrace(e));
         } else {
@@ -45,23 +45,23 @@ public class SkywalkingStrategyTracer extends AbstractStrategyTracer<SkywalkingS
     }
 
     @Override
-    protected void finishSpan(SkywalkingStrategySpan span) {
+    protected void finishSpan(SkyWalkingStrategySpan span) {
         span.finish();
     }
 
     //  Never used probably
     @Override
-    protected SkywalkingStrategySpan getActiveSpan() {
+    protected SkyWalkingStrategySpan getActiveSpan() {
         return null;
     }
 
     @Override
-    protected String toTraceId(SkywalkingStrategySpan span) {
+    protected String toTraceId(SkyWalkingStrategySpan span) {
         return span.toTraceId();
     }
 
     @Override
-    protected String toSpanId(SkywalkingStrategySpan span) {
+    protected String toSpanId(SkyWalkingStrategySpan span) {
         return span.toSpanId();
     }
 }
