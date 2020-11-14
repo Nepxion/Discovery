@@ -12,9 +12,9 @@ package com.nepxion.discovery.plugin.strategy.sentinel.opentracing.monitor;
 import com.alibaba.csp.sentinel.init.InitFunc;
 import com.alibaba.csp.sentinel.slots.statistic.StatisticSlotCallbackRegistry;
 
-public class SentinelOpentracingTracerInitFunc implements InitFunc {
+public class SentinelOpenTracingInitFunc implements InitFunc {
     @Override
     public void init() throws Exception {
-        StatisticSlotCallbackRegistry.addEntryCallback(SentinelOpentracingTracerProcessorSlotEntryCallback.class.getName(), new SentinelOpentracingTracerProcessorSlotEntryCallback());
+        StatisticSlotCallbackRegistry.addEntryCallback(SentinelOpenTracingProcessorSlotEntryCallback.class.getName(), new SentinelOpenTracingProcessorSlotEntryCallback());
     }
 }
