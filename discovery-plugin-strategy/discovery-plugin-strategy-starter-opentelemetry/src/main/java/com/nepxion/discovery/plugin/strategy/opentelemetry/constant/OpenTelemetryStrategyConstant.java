@@ -9,6 +9,6 @@ package com.nepxion.discovery.plugin.strategy.opentelemetry.constant;
  * @version 1.0
  */
 
-public class OpentelemetryStrategyConstant {
-    public static final String OPENTELEMETRY_TYPE = "Opentelemetry";
+public class OpenTelemetryStrategyConstant {
+    public static final String OPENTELEMETRY_TYPE = "OpenTelemetry";
 }

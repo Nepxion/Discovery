@@ -20,23 +20,23 @@ import com.nepxion.banner.LogoBanner;
 import com.nepxion.banner.NepxionBanner;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.monitor.StrategyTracer;
-import com.nepxion.discovery.plugin.strategy.opentelemetry.constant.OpentelemetryStrategyConstant;
-import com.nepxion.discovery.plugin.strategy.opentelemetry.monitor.OpentelemetryStrategyTracer;
+import com.nepxion.discovery.plugin.strategy.opentelemetry.constant.OpenTelemetryStrategyConstant;
+import com.nepxion.discovery.plugin.strategy.opentelemetry.monitor.OpenTelemetryStrategyTracer;
 import com.taobao.text.Color;
 
 @Configuration
 @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTROL_ENABLED, matchIfMissing = true)
-public class OpentelemetryStrategyAutoConfiguration {
+public class OpenTelemetryStrategyAutoConfiguration {
     static {
-        LogoBanner logoBanner = new LogoBanner(OpentelemetryStrategyAutoConfiguration.class, "/com/nepxion/opentelemetry/resource/logo.txt", "Welcome to Nepxion", 8, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta, Color.red, Color.green }, true);
+        LogoBanner logoBanner = new LogoBanner(OpenTelemetryStrategyAutoConfiguration.class, "/com/nepxion/opentelemetry/resource/logo.txt", "Welcome to Nepxion", 8, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta, Color.red, Color.green }, true);
 
-        NepxionBanner.show(logoBanner, new Description("Tracer:", OpentelemetryStrategyConstant.OPENTELEMETRY_TYPE, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
+        NepxionBanner.show(logoBanner, new Description("Tracer:", OpenTelemetryStrategyConstant.OPENTELEMETRY_TYPE, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
     }
 
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_MONITOR_ENABLED, matchIfMissing = false)
     public StrategyTracer strategyTracer() {
-        return new OpentelemetryStrategyTracer();
+        return new OpenTelemetryStrategyTracer();
     }
 }

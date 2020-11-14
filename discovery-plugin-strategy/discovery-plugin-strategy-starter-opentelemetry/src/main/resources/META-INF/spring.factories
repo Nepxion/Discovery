@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.nepxion.discovery.plugin.strategy.opentelemetry.configuration.OpentelemetryStrategyAutoConfiguration
+com.nepxion.discovery.plugin.strategy.opentelemetry.configuration.OpenTelemetryStrategyAutoConfiguration
