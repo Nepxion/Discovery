@@ -9,8 +9,8 @@ package com.nepxion.discovery.plugin.strategy.opentelemetry.monitor;
  * @version 1.0
  */
 
-import io.opentelemetry.trace.Span;
-import io.opentelemetry.trace.Tracer;
+import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.api.trace.Tracer;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,18 +52,19 @@ public class OpentelemetryStrategyTracer extends AbstractStrategyTracer<Span> {
         span.end();
     }
 
+    //  Never used probably
     @Override
     protected Span getActiveSpan() {
-        return tracer.getCurrentSpan();
+        return null;
     }
 
     @Override
     protected String toTraceId(Span span) {
-        return span.getContext().getTraceIdAsHexString();
+        return span.getSpanContext().getTraceIdAsHexString();
     }
 
     @Override
     protected String toSpanId(Span span) {
-        return span.getContext().getSpanIdAsHexString();
+        return span.getSpanContext().getSpanIdAsHexString();
     }
 }

@@ -49,7 +49,7 @@ public class SkywalkingStrategyTracer extends AbstractStrategyTracer<SkywalkingS
         span.finish();
     }
 
-    //  该方法永远不会被用到
+    //  Never used probably
     @Override
     protected SkywalkingStrategySpan getActiveSpan() {
         return null;
