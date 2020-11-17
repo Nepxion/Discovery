@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -244,7 +245,7 @@ public class ConsoleEndpoint {
         try {
             map = StringUtil.splitToMap(validation);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Invalid format for validation input");
         }
 
         boolean validated = DiscoveryExpressionResolver.eval(condition, DiscoveryConstant.EXPRESSION_PREFIX, map, typeComparator);
@@ -258,7 +259,7 @@ public class ConsoleEndpoint {
 
             return ResponseEntity.ok().body(result);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ExceptionUtils.getStackTrace(e));
         }
     }
 
@@ -413,7 +414,7 @@ public class ConsoleEndpoint {
 
             return ResponseEntity.ok().body(result ? DiscoveryConstant.OK : DiscoveryConstant.NO);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ExceptionUtils.getStackTrace(e));
         }
     }
 
@@ -429,7 +430,7 @@ public class ConsoleEndpoint {
 
             return ResponseEntity.ok().body(result ? DiscoveryConstant.OK : DiscoveryConstant.NO);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ExceptionUtils.getStackTrace(e));
         }
     }
 
@@ -445,7 +446,7 @@ public class ConsoleEndpoint {
 
             return ResponseEntity.ok().body(config);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ExceptionUtils.getStackTrace(e));
         }
     }
 
