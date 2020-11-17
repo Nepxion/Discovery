@@ -97,7 +97,7 @@ public class RouterEndpoint {
     @RequestMapping(path = "/routes", method = RequestMethod.POST)
     @ApiOperation(value = "获取全路径的路由信息树", notes = "参数按调用服务名的前后次序排列，起始节点的服务名不能加上去。如果多个用“;”分隔，不允许出现空格", response = RouterEntity.class, httpMethod = "POST")
     @ResponseBody
-    public RouterEntity routes(@RequestBody @ApiParam(value = "例如：service-a;service-b", required = true) String routeServiceIds) {
+    public RouterEntity routes(@RequestBody @ApiParam(value = "格式示例：service-a;service-b", required = true) String routeServiceIds) {
         return routeTree(routeServiceIds);
     }
 

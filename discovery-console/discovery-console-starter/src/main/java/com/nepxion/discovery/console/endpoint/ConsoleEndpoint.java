@@ -240,7 +240,7 @@ public class ConsoleEndpoint {
     @RequestMapping(path = "/validate-expression", method = RequestMethod.GET)
     @ApiOperation(value = "校验策略的条件表达式", notes = "", response = Boolean.class, httpMethod = "GET")
     @ResponseBody
-    public ResponseEntity<?> validateExpression(@RequestParam @ApiParam(value = "条件表达式，例如：#H['a'] == '1' && #H['b'] != '2'。注意，引号是否为中文格式", required = true) String condition, @RequestParam(required = false, defaultValue = "") @ApiParam(value = "变量赋值，例如：a=1;b=1。如果多个用“;”分隔，不允许出现空格。允许为空", required = false, defaultValue = "") String validation) {
+    public ResponseEntity<?> validateExpression(@RequestParam @ApiParam(value = "条件表达式，格式示例：#H['a'] == '1' && #H['b'] != '2'。注意，引号是否为中文格式", required = true) String condition, @RequestParam(required = false, defaultValue = "") @ApiParam(value = "校验参数，格式示例：a=1;b=1。如果多个用“;”分隔，不允许出现空格。允许为空", required = false, defaultValue = "") String validation) {
         Map<String, String> map = null;
         try {
             map = StringUtil.splitToMap(validation);
