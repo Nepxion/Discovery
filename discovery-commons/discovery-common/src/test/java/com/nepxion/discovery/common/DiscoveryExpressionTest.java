@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.condition;
+package com.nepxion.discovery.common;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -18,9 +18,11 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.nepxion.discovery.common.expression.DiscoveryExpressionResolver;
+import com.nepxion.discovery.common.expression.DiscoveryTypeComparor;
 import com.nepxion.discovery.common.util.StringUtil;
 
-public class ExpressionStrategyTest {
+public class DiscoveryExpressionTest {
     public static void main(String[] args) {
         System.out.println(test1());
         System.out.println(test2());
@@ -43,7 +45,7 @@ public class ExpressionStrategyTest {
         headerMap.put("a", "1.2333");
         headerMap.put("b", "y");
 
-        return ExpressionStrategyResolver.eval(expression, "H", headerMap, new DefaultStrategyTypeComparor());
+        return DiscoveryExpressionResolver.eval(expression, "H", headerMap, new DiscoveryTypeComparor());
     }
 
     private static List<String> test2() {

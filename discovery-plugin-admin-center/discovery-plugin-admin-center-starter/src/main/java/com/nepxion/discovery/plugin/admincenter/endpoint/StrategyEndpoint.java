@@ -16,6 +16,7 @@ import io.swagger.annotations.ApiParam;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -42,11 +43,16 @@ public class StrategyEndpoint {
     @RequestMapping(path = "/validate-expression", method = RequestMethod.GET)
     @ApiOperation(value = "校验策略的条件表达式", notes = "", response = Boolean.class, httpMethod = "GET")
     @ResponseBody
-    public ResponseEntity<Boolean> validateExpression(@RequestParam @ApiParam(value = "条件表达式，例如：#H['a'] == '1' && #H['b'] != '2'", required = true) String condition, @RequestParam(required = false, defaultValue = "") @ApiParam(value = "变量赋值，例如：a=1;b=1。如果多个用“;”分隔，不允许出现空格。允许为空", required = false, defaultValue = "") String validation) {
+    public ResponseEntity<?> validateExpression(@RequestParam @ApiParam(value = "条件表达式，例如：#H['a'] == '1' && #H['b'] != '2'。注意，引号是否为中文格式", required = true) String condition, @RequestParam(required = false, defaultValue = "") @ApiParam(value = "变量赋值，例如：a=1;b=1。如果多个用“;”分隔，不允许出现空格。允许为空", required = false, defaultValue = "") String validation) {
         StrategyConditionEntity strategyConditionEntity = new StrategyConditionEntity();
         strategyConditionEntity.setConditionHeader(condition);
 
-        Map<String, String> map = StringUtil.splitToMap(validation);
+        Map<String, String> map = null;
+        try {
+            map = StringUtil.splitToMap(validation);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
 
         boolean validated = strategyCondition.isTriggered(strategyConditionEntity, map);
 
@@ -56,10 +62,15 @@ public class StrategyEndpoint {
     @RequestMapping(path = "/validate-route", method = RequestMethod.GET)
     @ApiOperation(value = "校验策略的全链路路由", notes = "", response = String.class, httpMethod = "GET")
     @ResponseBody
-    public ResponseEntity<String> validateVersionRoute(@RequestParam @ApiParam(value = "路由策略类型取值：version | region | address | version-weight | region-weight | id-blacklist | address-blacklist", required = true) String routeType, @RequestParam(required = false, defaultValue = "") @ApiParam(value = "变量赋值，例如：a=1;b=1。如果多个用“;”分隔，不允许出现空格，允许为空。如果选择最后两项策略类型，则不需要变量赋值", required = false, defaultValue = "") String validation) {
+    public ResponseEntity<?> validateVersionRoute(@RequestParam @ApiParam(value = "路由策略类型取值：version | region | address | version-weight | region-weight | id-blacklist | address-blacklist", required = true) String routeType, @RequestParam(required = false, defaultValue = "") @ApiParam(value = "变量赋值，例如：a=1;b=1。如果多个用“;”分隔，不允许出现空格，允许为空。如果选择最后两项策略类型，则不需要变量赋值", required = false, defaultValue = "") String validation) {
         StrategyRouteType strategyRouteType = StrategyRouteType.fromString(routeType);
 
-        Map<String, String> map = StringUtil.splitToMap(validation);
+        Map<String, String> map = null;
+        try {
+            map = StringUtil.splitToMap(validation);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
 
         String route = null;
         switch (strategyRouteType) {

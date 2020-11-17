@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.StrategyConditionEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
+import com.nepxion.discovery.common.expression.DiscoveryExpressionResolver;
 import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
 
 public class HeaderExpressionStrategyCondition extends AbstractStrategyCondition {
@@ -82,6 +83,6 @@ public class HeaderExpressionStrategyCondition extends AbstractStrategyCondition
 
         String conditionHeader = strategyConditionEntity.getConditionHeader();
 
-        return ExpressionStrategyResolver.eval(conditionHeader, DiscoveryConstant.EXPRESSION_PREFIX, headerMap, strategyTypeComparator);
+        return DiscoveryExpressionResolver.eval(conditionHeader, DiscoveryConstant.EXPRESSION_PREFIX, headerMap, strategyTypeComparator);
     }
 }
