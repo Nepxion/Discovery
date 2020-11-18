@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.util.JsonUtil;
-import com.nepxion.discovery.plugin.framework.config.PluginConfigParser;
+import com.nepxion.discovery.plugin.framework.parser.PluginConfigParser;
 
 public class JsonConfigParser implements PluginConfigParser {
     private static final Logger LOG = LoggerFactory.getLogger(JsonConfigParser.class);

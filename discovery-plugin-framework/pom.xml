@@ -16,5 +16,6 @@
 
     <modules>
         <module>discovery-plugin-framework-starter</module>
+        <module>discovery-plugin-framework-starter-parser</module>
     </modules>
 </project>
