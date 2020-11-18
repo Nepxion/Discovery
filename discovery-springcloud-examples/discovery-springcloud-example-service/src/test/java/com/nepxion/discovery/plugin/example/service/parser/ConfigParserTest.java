@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.example.service.config;
+package com.nepxion.discovery.plugin.example.service.parser;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -24,7 +24,7 @@ import com.nepxion.discovery.plugin.framework.parser.json.JsonConfigParser;
 import com.nepxion.discovery.plugin.framework.parser.xml.XmlConfigDeparser;
 import com.nepxion.discovery.plugin.framework.parser.xml.XmlConfigParser;
 
-public class XmlConfigTest {
+public class ConfigParserTest {
     public static void main(String[] args) {
         testXml();
         // testJson();
