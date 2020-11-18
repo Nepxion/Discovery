@@ -72,15 +72,7 @@ public class XmlConfigParser implements PluginConfigParser {
 
             Element rootElement = document.getRootElement();
 
-            RuleEntity ruleEntity = parseRoot(config, rootElement);
-
-            // Just for Json text print
-            /*System.out.println("**************************************************");
-            ruleEntity.setContent("");
-            System.out.println(JsonUtil.toJson(ruleEntity));
-            System.out.println("**************************************************");*/
-
-            return ruleEntity;
+            return parseRoot(config, rootElement);
         } catch (Exception e) {
             throw new DiscoveryException(e.getMessage(), e);
         }
@@ -88,7 +80,7 @@ public class XmlConfigParser implements PluginConfigParser {
 
     @SuppressWarnings("rawtypes")
     private RuleEntity parseRoot(String config, Element element) {
-        LOG.info("Start to parse rule xml...");
+        LOG.info("Start to parse rule from xml...");
 
         int registerElementCount = element.elements(ConfigConstant.REGISTER_ELEMENT_NAME).size();
         if (registerElementCount > 1) {

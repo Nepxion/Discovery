@@ -9,31 +9,27 @@ package com.nepxion.discovery.plugin.configcenter.parser.json;
  * @version 1.0
  */
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.util.JsonUtil;
-import com.nepxion.discovery.plugin.framework.config.PluginConfigParser;
+import com.nepxion.discovery.plugin.framework.config.PluginConfigDeparser;
 
-public class JsonConfigParser implements PluginConfigParser {
-    private static final Logger LOG = LoggerFactory.getLogger(JsonConfigParser.class);
+public class JsonConfigDeparser implements PluginConfigDeparser {
+    private static final Logger LOG = LoggerFactory.getLogger(JsonConfigDeparser.class);
 
     @Override
-    public RuleEntity parse(String config) {
-        if (StringUtils.isEmpty(config)) {
-            throw new DiscoveryException("Config is null or empty");
+    public String deparse(RuleEntity ruleEntity) {
+        if (ruleEntity == null) {
+            throw new DiscoveryException("RuleEntity is null");
         }
 
-        LOG.info("Start to parse rule from json...");
+        LOG.info("Start to deparse RuleEntity to json...");
 
         try {
-            RuleEntity ruleEntity = JsonUtil.fromJson(config, RuleEntity.class);
-            ruleEntity.setContent(config);
-
-            return ruleEntity;
+            return JsonUtil.toJson(ruleEntity);
         } catch (Exception e) {
             throw new DiscoveryException(e.getMessage(), e);
         }
