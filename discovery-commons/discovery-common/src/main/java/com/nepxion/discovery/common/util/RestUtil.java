@@ -14,7 +14,7 @@ import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.nepxion.discovery.common.handler.RestErrorHandler;
+import com.nepxion.discovery.common.handler.DiscoveryResponseErrorHandler;
 
 public class RestUtil {
     public static <T> T fromJson(RestTemplate restTemplate, String result, TypeReference<T> typeReference) {
@@ -32,10 +32,10 @@ public class RestUtil {
 
     public static String getCause(RestTemplate restTemplate) {
         ResponseErrorHandler responseErrorHandler = restTemplate.getErrorHandler();
-        if (responseErrorHandler instanceof RestErrorHandler) {
-            RestErrorHandler errorHandler = (RestErrorHandler) responseErrorHandler;
+        if (responseErrorHandler instanceof DiscoveryResponseErrorHandler) {
+            DiscoveryResponseErrorHandler discoveryResponseErrorHandler = (DiscoveryResponseErrorHandler) responseErrorHandler;
 
-            return errorHandler.getCause();
+            return discoveryResponseErrorHandler.getCause();
         }
 
         return null;

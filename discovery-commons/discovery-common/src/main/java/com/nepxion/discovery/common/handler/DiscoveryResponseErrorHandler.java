@@ -18,7 +18,7 @@ import org.springframework.web.client.DefaultResponseErrorHandler;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
-public class RestErrorHandler extends DefaultResponseErrorHandler {
+public class DiscoveryResponseErrorHandler extends DefaultResponseErrorHandler {
     private String cause;
 
     @Override
