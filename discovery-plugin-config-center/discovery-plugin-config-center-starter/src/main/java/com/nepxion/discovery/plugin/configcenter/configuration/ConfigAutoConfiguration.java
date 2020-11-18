@@ -19,10 +19,10 @@ import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.configcenter.context.ConfigContextClosedHandler;
 import com.nepxion.discovery.plugin.configcenter.initializer.ConfigInitializer;
 import com.nepxion.discovery.plugin.configcenter.loader.LocalConfigLoader;
-import com.nepxion.discovery.plugin.configcenter.parser.json.JsonConfigParser;
-import com.nepxion.discovery.plugin.configcenter.parser.xml.XmlConfigParser;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.parser.PluginConfigParser;
+import com.nepxion.discovery.plugin.framework.parser.json.JsonConfigParser;
+import com.nepxion.discovery.plugin.framework.parser.xml.XmlConfigParser;
 
 @Configuration
 public class ConfigAutoConfiguration {
