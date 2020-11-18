@@ -16,6 +16,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.nepxion.discovery.common.entity.CountFilterEntity;
 import com.nepxion.discovery.common.entity.DiscoveryEntity;
 import com.nepxion.discovery.common.entity.FilterHolderEntity;
 import com.nepxion.discovery.common.entity.FilterType;
@@ -83,6 +84,7 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
         stringBuilder.append(INDENT + "<" + XmlConfigConstant.REGISTER_ELEMENT_NAME + ">\n");
 
         deparseHostFilter(stringBuilder, registerEntity);
+        deparseCountFilter(stringBuilder, registerEntity);
 
         stringBuilder.append(INDENT + "</" + XmlConfigConstant.REGISTER_ELEMENT_NAME + ">\n");
     }
@@ -108,10 +110,6 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
     }
 
     private void deparseHostFilter(StringBuilder stringBuilder, FilterHolderEntity filterHolderEntity) {
-        if (filterHolderEntity == null) {
-            return;
-        }
-
         HostFilterEntity hostFilterEntity = filterHolderEntity.getHostFilterEntity();
         if (hostFilterEntity == null) {
             return;
@@ -129,13 +127,40 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
 
         for (Map.Entry<String, List<String>> entry : filterMap.entrySet()) {
             String serviceName = entry.getKey();
-            List<String> valueList = entry.getValue();
-            if (CollectionUtils.isEmpty(valueList)) {
+            List<String> filterValueList = entry.getValue();
+            if (CollectionUtils.isEmpty(filterValueList)) {
                 stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME + " " + XmlConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + serviceName + "\"/>\n");
             } else {
-                stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME + " " + XmlConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + serviceName + "\" " + XmlConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(valueList) + "\"/>\n");
+                stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME + " " + XmlConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + serviceName + "\" " + XmlConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(filterValueList) + "\"/>\n");
             }
         }
         stringBuilder.append(INDENT + INDENT + "</" + filterType.toString() + ">\n");
+    }
+
+    private void deparseCountFilter(StringBuilder stringBuilder, RegisterEntity registerEntity) {
+        CountFilterEntity countFilterEntity = registerEntity.getCountFilterEntity();
+        if (countFilterEntity == null) {
+            return;
+        }
+
+        Integer globalFilterValue = countFilterEntity.getFilterValue();
+        Map<String, Integer> filterMap = countFilterEntity.getFilterMap();
+
+        if (globalFilterValue == null) {
+            stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.COUNT_ELEMENT_NAME + ">\n");
+        } else {
+            stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.COUNT_ELEMENT_NAME + " " + XmlConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME + "=\"" + globalFilterValue + "\">\n");
+        }
+
+        for (Map.Entry<String, Integer> entry : filterMap.entrySet()) {
+            String serviceName = entry.getKey();
+            Integer filterValue = entry.getValue();
+            if (filterValue == null) {
+                stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME + " " + XmlConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + serviceName + "\"/>\n");
+            } else {
+                stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME + " " + XmlConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + serviceName + "\" " + XmlConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME + "=\"" + filterValue + "\"/>\n");
+            }
+        }
+        stringBuilder.append(INDENT + INDENT + "</" + XmlConfigConstant.COUNT_ELEMENT_NAME + ">\n");
     }
 }
