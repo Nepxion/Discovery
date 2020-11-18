@@ -21,8 +21,8 @@ import com.nepxion.discovery.plugin.configcenter.initializer.ConfigInitializer;
 import com.nepxion.discovery.plugin.configcenter.loader.LocalConfigLoader;
 import com.nepxion.discovery.plugin.configcenter.parser.json.JsonConfigParser;
 import com.nepxion.discovery.plugin.configcenter.parser.xml.XmlConfigParser;
-import com.nepxion.discovery.plugin.framework.config.PluginConfigParser;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
+import com.nepxion.discovery.plugin.framework.parser.PluginConfigParser;
 
 @Configuration
 public class ConfigAutoConfiguration {

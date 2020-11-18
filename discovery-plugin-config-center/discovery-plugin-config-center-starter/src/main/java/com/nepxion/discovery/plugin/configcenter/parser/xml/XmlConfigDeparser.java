@@ -29,7 +29,7 @@ import com.nepxion.discovery.common.entity.StrategyEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.configcenter.constant.ConfigConstant;
-import com.nepxion.discovery.plugin.framework.config.PluginConfigDeparser;
+import com.nepxion.discovery.plugin.framework.parser.PluginConfigDeparser;
 
 public class XmlConfigDeparser implements PluginConfigDeparser {
     private static final Logger LOG = LoggerFactory.getLogger(XmlConfigDeparser.class);
