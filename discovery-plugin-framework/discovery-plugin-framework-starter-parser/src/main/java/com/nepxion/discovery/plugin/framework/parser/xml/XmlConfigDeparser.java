@@ -27,6 +27,8 @@ import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.StrategyBlacklistEntity;
 import com.nepxion.discovery.common.entity.StrategyCustomizationEntity;
 import com.nepxion.discovery.common.entity.StrategyEntity;
+import com.nepxion.discovery.common.entity.VersionEntity;
+import com.nepxion.discovery.common.entity.VersionFilterEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.framework.parser.PluginConfigDeparser;
@@ -90,7 +92,16 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
     }
 
     private void deparseDiscovery(StringBuilder stringBuilder, DiscoveryEntity discoveryEntity) {
+        if (discoveryEntity == null) {
+            return;
+        }
 
+        stringBuilder.append(INDENT + "<" + XmlConfigConstant.DISCOVERY_ELEMENT_NAME + ">\n");
+
+        deparseHostFilter(stringBuilder, discoveryEntity);
+        deparseVersionFilter(stringBuilder, discoveryEntity);
+
+        stringBuilder.append(INDENT + "</" + XmlConfigConstant.DISCOVERY_ELEMENT_NAME + ">\n");
     }
 
     private void deparseStrategy(StringBuilder stringBuilder, StrategyEntity strategyEntity) {
@@ -162,5 +173,60 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
             }
         }
         stringBuilder.append(INDENT + INDENT + "</" + XmlConfigConstant.COUNT_ELEMENT_NAME + ">\n");
+    }
+
+    private void deparseVersionFilter(StringBuilder stringBuilder, DiscoveryEntity discoveryEntity) {
+        VersionFilterEntity versionFilterEntity = discoveryEntity.getVersionFilterEntity();
+        if (versionFilterEntity == null) {
+            return;
+        }
+
+        stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.VERSION_ELEMENT_NAME + ">\n");
+
+        Map<String, List<VersionEntity>> versionEntityMap = versionFilterEntity.getVersionEntityMap();
+        for (Map.Entry<String, List<VersionEntity>> entry : versionEntityMap.entrySet()) {
+            List<VersionEntity> versionEntityList = entry.getValue();
+            for (VersionEntity versionEntity : versionEntityList) {
+                String consumerServiceName = versionEntity.getConsumerServiceName();
+                String providerServiceName = versionEntity.getProviderServiceName();
+                List<String> consumerVersionValueList = versionEntity.getConsumerVersionValueList();
+                List<String> providerVersionValueList = versionEntity.getProviderVersionValueList();
+
+                stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME + " " + XmlConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + consumerServiceName + "\" " + XmlConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + providerServiceName + "\"");
+                if (consumerVersionValueList != null) {
+                    stringBuilder.append(" " + XmlConfigConstant.CONSUMER_VERSION_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(consumerVersionValueList) + "\"");
+                }
+                if (providerVersionValueList != null) {
+                    stringBuilder.append(" " + XmlConfigConstant.PROVIDER_VERSION_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(providerVersionValueList) + "\"");
+                }
+                stringBuilder.append("/>\n");
+            }
+        }
+
+        stringBuilder.append(INDENT + INDENT + "</" + XmlConfigConstant.VERSION_ELEMENT_NAME + ">\n");
+    }
+
+    private void deparseRegionFilter(StringBuilder stringBuilder, DiscoveryEntity discoveryEntity) {
+
+    }
+
+    private void deparseWeightFilter(StringBuilder stringBuilder, DiscoveryEntity discoveryEntity) {
+
+    }
+
+    private void deparseStrategyConditionBlueGreen(StringBuilder stringBuilder, StrategyCustomizationEntity strategyCustomizationEntity) {
+
+    }
+
+    private void deparseStrategyConditionGray(StringBuilder stringBuilder, StrategyCustomizationEntity strategyCustomizationEntity) {
+
+    }
+
+    private void deparseStrategyRoute(StringBuilder stringBuilder, StrategyCustomizationEntity strategyCustomizationEntity) {
+
+    }
+
+    private void deparseStrategyHeader(StringBuilder stringBuilder, StrategyCustomizationEntity strategyCustomizationEntity) {
+
     }
 }
