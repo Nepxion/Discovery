@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.configcenter.constant;
+package com.nepxion.discovery.plugin.framework.parser.xml;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -11,7 +11,7 @@ package com.nepxion.discovery.plugin.configcenter.constant;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
-public class ConfigConstant {
+public class XmlConfigConstant {
     public static final String RULE_ELEMENT_NAME = "rule";
     public static final String REGISTER_ELEMENT_NAME = "register";
     public static final String DISCOVERY_ELEMENT_NAME = "discovery";

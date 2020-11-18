@@ -19,10 +19,10 @@ import org.apache.commons.io.IOUtils;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.RuleEntity;
-import com.nepxion.discovery.plugin.configcenter.parser.json.JsonConfigDeparser;
-import com.nepxion.discovery.plugin.configcenter.parser.json.JsonConfigParser;
-import com.nepxion.discovery.plugin.configcenter.parser.xml.XmlConfigDeparser;
-import com.nepxion.discovery.plugin.configcenter.parser.xml.XmlConfigParser;
+import com.nepxion.discovery.plugin.framework.parser.json.JsonConfigDeparser;
+import com.nepxion.discovery.plugin.framework.parser.json.JsonConfigParser;
+import com.nepxion.discovery.plugin.framework.parser.xml.XmlConfigDeparser;
+import com.nepxion.discovery.plugin.framework.parser.xml.XmlConfigParser;
 
 public class XmlConfigTest {
     public static void main(String[] args) {

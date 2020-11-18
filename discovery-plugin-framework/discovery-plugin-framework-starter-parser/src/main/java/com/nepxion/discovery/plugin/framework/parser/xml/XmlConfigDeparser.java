@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.configcenter.parser.xml;
+package com.nepxion.discovery.plugin.framework.parser.xml;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -28,7 +28,6 @@ import com.nepxion.discovery.common.entity.StrategyCustomizationEntity;
 import com.nepxion.discovery.common.entity.StrategyEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.util.StringUtil;
-import com.nepxion.discovery.plugin.configcenter.constant.ConfigConstant;
 import com.nepxion.discovery.plugin.framework.parser.PluginConfigDeparser;
 
 public class XmlConfigDeparser implements PluginConfigDeparser {
@@ -64,7 +63,7 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
         ParameterEntity parameterEntity = ruleEntity.getParameterEntity();
 
         stringBuilder.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-        stringBuilder.append("<" + ConfigConstant.RULE_ELEMENT_NAME + ">\n");
+        stringBuilder.append("<" + XmlConfigConstant.RULE_ELEMENT_NAME + ">\n");
 
         deparseRegister(stringBuilder, registerEntity);
         deparseDiscovery(stringBuilder, discoveryEntity);
@@ -73,7 +72,7 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
         deparseStrategyBlacklist(stringBuilder, strategyBlacklistEntity);
         deparseParameter(stringBuilder, parameterEntity);
 
-        stringBuilder.append("</" + ConfigConstant.RULE_ELEMENT_NAME + ">");
+        stringBuilder.append("</" + XmlConfigConstant.RULE_ELEMENT_NAME + ">");
     }
 
     private void deparseRegister(StringBuilder stringBuilder, RegisterEntity registerEntity) {
@@ -81,11 +80,11 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
             return;
         }
 
-        stringBuilder.append(INDENT + "<" + ConfigConstant.REGISTER_ELEMENT_NAME + ">\n");
+        stringBuilder.append(INDENT + "<" + XmlConfigConstant.REGISTER_ELEMENT_NAME + ">\n");
 
         deparseHostFilter(stringBuilder, registerEntity);
 
-        stringBuilder.append(INDENT + "</" + ConfigConstant.REGISTER_ELEMENT_NAME + ">\n");
+        stringBuilder.append(INDENT + "</" + XmlConfigConstant.REGISTER_ELEMENT_NAME + ">\n");
     }
 
     private void deparseDiscovery(StringBuilder stringBuilder, DiscoveryEntity discoveryEntity) {
@@ -125,16 +124,16 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
         if (CollectionUtils.isEmpty(globalFilterValueList)) {
             stringBuilder.append(INDENT + INDENT + "<" + filterType.toString() + ">\n");
         } else {
-            stringBuilder.append(INDENT + INDENT + "<" + filterType.toString() + " " + ConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(globalFilterValueList) + "\">\n");
+            stringBuilder.append(INDENT + INDENT + "<" + filterType.toString() + " " + XmlConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(globalFilterValueList) + "\">\n");
         }
 
         for (Map.Entry<String, List<String>> entry : filterMap.entrySet()) {
             String serviceName = entry.getKey();
             List<String> valueList = entry.getValue();
             if (CollectionUtils.isEmpty(valueList)) {
-                stringBuilder.append(INDENT + INDENT + INDENT + "<" + ConfigConstant.SERVICE_ELEMENT_NAME + " " + ConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + serviceName + "\"/>\n");
+                stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME + " " + XmlConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + serviceName + "\"/>\n");
             } else {
-                stringBuilder.append(INDENT + INDENT + INDENT + "<" + ConfigConstant.SERVICE_ELEMENT_NAME + " " + ConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + serviceName + "\" " + ConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(valueList) + "\"/>\n");
+                stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME + " " + XmlConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + serviceName + "\" " + XmlConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(valueList) + "\"/>\n");
             }
         }
         stringBuilder.append(INDENT + INDENT + "</" + filterType.toString() + ">\n");

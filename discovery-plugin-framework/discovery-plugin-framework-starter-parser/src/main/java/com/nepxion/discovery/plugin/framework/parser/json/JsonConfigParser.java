@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.configcenter.parser.json;
+package com.nepxion.discovery.plugin.framework.parser.json;
 
 /**
  * <p>Title: Nepxion Discovery</p>
