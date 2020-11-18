@@ -46,7 +46,7 @@ import com.nepxion.discovery.common.entity.ServiceType;
 import com.nepxion.discovery.common.entity.UserEntity;
 import com.nepxion.discovery.common.expression.DiscoveryExpressionResolver;
 import com.nepxion.discovery.common.expression.DiscoveryTypeComparor;
-import com.nepxion.discovery.common.handler.RestErrorHandler;
+import com.nepxion.discovery.common.handler.DiscoveryResponseErrorHandler;
 import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.console.adapter.ConfigAdapter;
 import com.nepxion.discovery.console.authentication.AuthenticationResource;
@@ -80,7 +80,7 @@ public class ConsoleEndpoint {
 
     public ConsoleEndpoint() {
         consoleRestTemplate = new RestTemplate();
-        consoleRestTemplate.setErrorHandler(new RestErrorHandler());
+        consoleRestTemplate.setErrorHandler(new DiscoveryResponseErrorHandler());
     }
 
     @RequestMapping(path = "/authenticate", method = RequestMethod.POST)

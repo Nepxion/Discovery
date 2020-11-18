@@ -13,17 +13,17 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
 // Copy from Alibaba Sentinel project
-public class NamedThreadFactory implements ThreadFactory {
+public class DiscoveryNamedThreadFactory implements ThreadFactory {
     private AtomicInteger count = new AtomicInteger(1);
     private ThreadGroup group;
     private String namePrefix;
     private boolean daemon;
 
-    public NamedThreadFactory(String namePrefix) {
+    public DiscoveryNamedThreadFactory(String namePrefix) {
         this(namePrefix, false);
     }
 
-    public NamedThreadFactory(String namePrefix, boolean daemon) {
+    public DiscoveryNamedThreadFactory(String namePrefix, boolean daemon) {
         SecurityManager securityManager = System.getSecurityManager();
         this.group = securityManager != null ? securityManager.getThreadGroup() : Thread.currentThread().getThreadGroup();
         this.namePrefix = namePrefix;
