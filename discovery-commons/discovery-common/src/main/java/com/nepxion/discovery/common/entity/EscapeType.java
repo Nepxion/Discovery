@@ -38,6 +38,10 @@ public enum EscapeType {
     }
 
     public static String escape(String value) {
+        if (value == null) {
+            return null;
+        }
+
         EscapeType[] escapeTypes = EscapeType.values();
         for (int i = 0; i < escapeTypes.length; i++) {
             EscapeType escapeType = escapeTypes[i];

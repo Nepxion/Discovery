@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -157,6 +158,8 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
 
         deparseStrategyConditionBlueGreen(stringBuilder, strategyCustomizationEntity);
         deparseStrategyConditionGray(stringBuilder, strategyCustomizationEntity);
+
+        deparseStrategyHeader(stringBuilder, strategyCustomizationEntity);
 
         stringBuilder.append(INDENT + "</" + XmlConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME + ">\n");
     }
@@ -342,14 +345,18 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
 
         for (StrategyConditionBlueGreenEntity strategyConditionBlueGreenEntity : strategyConditionBlueGreenEntityList) {
             String id = strategyConditionBlueGreenEntity.getId();
-            String conditionHeader = strategyConditionBlueGreenEntity.getConditionHeader();
+            String conditionHeader = EscapeType.escape(strategyConditionBlueGreenEntity.getConditionHeader());
             String versionId = strategyConditionBlueGreenEntity.getVersionId();
             String regionId = strategyConditionBlueGreenEntity.getRegionId();
             String addressId = strategyConditionBlueGreenEntity.getAddressId();
             String versionWeightId = strategyConditionBlueGreenEntity.getVersionWeightId();
             String regionWeightId = strategyConditionBlueGreenEntity.getRegionWeightId();
 
-            stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.CONDITION_ELEMENT_NAME + " " + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + id + "\" " + XmlConfigConstant.HEADER_ATTRIBUTE_NAME + "=\"" + EscapeType.escape(conditionHeader) + "\"");
+            if (StringUtils.isNotEmpty(conditionHeader)) {
+                stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.CONDITION_ELEMENT_NAME + " " + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + id + "\" " + XmlConfigConstant.HEADER_ATTRIBUTE_NAME + "=\"" + conditionHeader + "\"");
+            } else {
+                stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.CONDITION_ELEMENT_NAME + " " + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + id + "\"");
+            }
             if (StringUtils.isNotEmpty(versionId)) {
                 stringBuilder.append(" " + XmlConfigConstant.VERSION_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + versionId + "\"");
             }
@@ -377,24 +384,28 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
             return;
         }
 
-        stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.CONDITIONS_ELEMENT_NAME + " " + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "=\"" + ConditionType.BLUE_GREEN.toString() + "\">\n");
+        stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.CONDITIONS_ELEMENT_NAME + " " + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "=\"" + ConditionType.GRAY.toString() + "\">\n");
 
         for (StrategyConditionGrayEntity strategyConditionGrayEntity : strategyConditionGrayEntityList) {
             String id = strategyConditionGrayEntity.getId();
-            String conditionHeader = strategyConditionGrayEntity.getConditionHeader();
+            String conditionHeader = EscapeType.escape(strategyConditionGrayEntity.getConditionHeader());
             VersionWeightEntity versionWeightEntity = strategyConditionGrayEntity.getVersionWeightEntity();
             RegionWeightEntity regionWeightEntity = strategyConditionGrayEntity.getRegionWeightEntity();
             AddressWeightEntity addressWeightEntity = strategyConditionGrayEntity.getAddressWeightEntity();
 
-            stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.CONDITION_ELEMENT_NAME + " " + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + id + "\" " + XmlConfigConstant.HEADER_ATTRIBUTE_NAME + "=\"" + EscapeType.escape(conditionHeader) + "\"");
+            if (StringUtils.isNotEmpty(conditionHeader)) {
+                stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.CONDITION_ELEMENT_NAME + " " + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + id + "\" " + XmlConfigConstant.HEADER_ATTRIBUTE_NAME + "=\"" + conditionHeader + "\"");
+            } else {
+                stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.CONDITION_ELEMENT_NAME + " " + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + id + "\"");
+            }
             if (versionWeightEntity != null) {
-                stringBuilder.append(" " + XmlConfigConstant.VERSION_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + versionId + "\"");
+                stringBuilder.append(" " + XmlConfigConstant.VERSION_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(versionWeightEntity.getWeightMap()) + "\"");
             }
             if (regionWeightEntity != null) {
-                stringBuilder.append(" " + XmlConfigConstant.REGION_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + regionId + "\"");
+                stringBuilder.append(" " + XmlConfigConstant.REGION_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(regionWeightEntity.getWeightMap()) + "\"");
             }
             if (addressWeightEntity != null) {
-                stringBuilder.append(" " + XmlConfigConstant.ADDRESS_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + addressId + "\"");
+                stringBuilder.append(" " + XmlConfigConstant.ADDRESS_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(addressWeightEntity.getWeightMap()) + "\"");
             }
             stringBuilder.append("/>\n");
         }
@@ -407,6 +418,25 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
     }
 
     private void deparseStrategyHeader(StringBuilder stringBuilder, StrategyCustomizationEntity strategyCustomizationEntity) {
+        StrategyHeaderEntity strategyHeaderEntity = strategyCustomizationEntity.getStrategyHeaderEntity();
+        if (strategyHeaderEntity == null) {
+            return;
+        }
 
+        Map<String, String> headerMap = strategyHeaderEntity.getHeaderMap();
+        if (MapUtils.isEmpty(headerMap)) {
+            return;
+        }
+
+        stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.HEADERS_ELEMENT_NAME + ">\n");
+
+        for (Map.Entry<String, String> entry : headerMap.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+
+            stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.HEADER_ELEMENT_NAME + " " + XmlConfigConstant.KEY_ATTRIBUTE_NAME + "=\"" + key + "\" " + XmlConfigConstant.VALUE_ATTRIBUTE_NAME + "=\"" + value + "\"/>\n");
+        }
+
+        stringBuilder.append(INDENT + INDENT + "</" + XmlConfigConstant.HEADERS_ELEMENT_NAME + ">\n");
     }
 }
