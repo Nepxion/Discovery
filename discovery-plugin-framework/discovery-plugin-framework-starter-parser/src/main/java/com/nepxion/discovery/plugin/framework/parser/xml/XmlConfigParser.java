@@ -258,7 +258,7 @@ public class XmlConfigParser implements PluginConfigParser {
             if (childElementObject instanceof Element) {
                 Element childElement = (Element) childElementObject;
 
-                if (StringUtils.equals(childElement.getName(), XmlConfigConstant.CONDITIONS)) {
+                if (StringUtils.equals(childElement.getName(), XmlConfigConstant.CONDITIONS_ELEMENT_NAME)) {
                     Attribute typeAttribute = childElement.attribute(XmlConfigConstant.TYPE_ATTRIBUTE_NAME);
                     if (typeAttribute == null) {
                         throw new DiscoveryException("Attribute[" + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
@@ -699,7 +699,7 @@ public class XmlConfigParser implements PluginConfigParser {
     private void parseStrategyConditionBlueGreen(Element element, StrategyCustomizationEntity strategyCustomizationEntity) {
         List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList = strategyCustomizationEntity.getStrategyConditionBlueGreenEntityList();
         if (strategyConditionBlueGreenEntityList != null) {
-            throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.CONDITIONS + "] for attribute[" + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "]'s value with '" + ConditionType.BLUE_GREEN + "' to be configed");
+            throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.CONDITIONS_ELEMENT_NAME + "] for attribute[" + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "]'s value with '" + ConditionType.BLUE_GREEN + "' to be configed");
         }
 
         strategyConditionBlueGreenEntityList = new ArrayList<StrategyConditionBlueGreenEntity>();
@@ -767,7 +767,7 @@ public class XmlConfigParser implements PluginConfigParser {
     private void parseStrategyConditionGray(Element element, StrategyCustomizationEntity strategyCustomizationEntity) {
         List<StrategyConditionGrayEntity> strategyConditionGrayEntityList = strategyCustomizationEntity.getStrategyConditionGrayEntityList();
         if (strategyConditionGrayEntityList != null) {
-            throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.CONDITIONS + "] for attribute[" + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "]'s value with '" + ConditionType.GRAY + "' to be configed");
+            throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.CONDITIONS_ELEMENT_NAME + "] for attribute[" + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "]'s value with '" + ConditionType.GRAY + "' to be configed");
         }
 
         strategyConditionGrayEntityList = new ArrayList<StrategyConditionGrayEntity>();

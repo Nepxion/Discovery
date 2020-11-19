@@ -19,7 +19,7 @@ public class XmlConfigConstant {
     public static final String STRATEGY_CUSTOMIZATION_ELEMENT_NAME = "strategy-customization";
     public static final String STRATEGY_BLACKLIST_ELEMENT_NAME = "strategy-blacklist";
     public static final String PARAMETER_ELEMENT_NAME = "parameter";
-    public static final String CONDITIONS = "conditions";
+    public static final String CONDITIONS_ELEMENT_NAME = "conditions";
     public static final String CONDITION_ELEMENT_NAME = "condition";
     public static final String ROUTES_ELEMENT_NAME = "routes";
     public static final String ROUTE_ELEMENT_NAME = "route";

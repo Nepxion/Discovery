@@ -13,11 +13,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.AddressWeightEntity;
+import com.nepxion.discovery.common.entity.ConditionType;
 import com.nepxion.discovery.common.entity.CountFilterEntity;
 import com.nepxion.discovery.common.entity.DiscoveryEntity;
+import com.nepxion.discovery.common.entity.EscapeType;
 import com.nepxion.discovery.common.entity.FilterHolderEntity;
 import com.nepxion.discovery.common.entity.FilterType;
 import com.nepxion.discovery.common.entity.HostFilterEntity;
@@ -25,13 +30,19 @@ import com.nepxion.discovery.common.entity.ParameterEntity;
 import com.nepxion.discovery.common.entity.ParameterServiceEntity;
 import com.nepxion.discovery.common.entity.RegionEntity;
 import com.nepxion.discovery.common.entity.RegionFilterEntity;
+import com.nepxion.discovery.common.entity.RegionWeightEntity;
 import com.nepxion.discovery.common.entity.RegisterEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.StrategyBlacklistEntity;
+import com.nepxion.discovery.common.entity.StrategyConditionBlueGreenEntity;
+import com.nepxion.discovery.common.entity.StrategyConditionGrayEntity;
 import com.nepxion.discovery.common.entity.StrategyCustomizationEntity;
 import com.nepxion.discovery.common.entity.StrategyEntity;
+import com.nepxion.discovery.common.entity.StrategyHeaderEntity;
+import com.nepxion.discovery.common.entity.StrategyRouteEntity;
 import com.nepxion.discovery.common.entity.VersionEntity;
 import com.nepxion.discovery.common.entity.VersionFilterEntity;
+import com.nepxion.discovery.common.entity.VersionWeightEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.framework.parser.PluginConfigDeparser;
@@ -138,7 +149,16 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
     }
 
     private void deparseStrategyCustomization(StringBuilder stringBuilder, StrategyCustomizationEntity strategyCustomizationEntity) {
+        stringBuilder.append(INDENT + "<" + XmlConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME + ">\n");
 
+        List<StrategyConditionGrayEntity> strategyConditionGrayEntityList = strategyCustomizationEntity.getStrategyConditionGrayEntityList();
+        List<StrategyRouteEntity> strategyRouteEntityList = strategyCustomizationEntity.getStrategyRouteEntityList();
+        StrategyHeaderEntity strategyHeaderEntity = strategyCustomizationEntity.getStrategyHeaderEntity();
+
+        deparseStrategyConditionBlueGreen(stringBuilder, strategyCustomizationEntity);
+        deparseStrategyConditionGray(stringBuilder, strategyCustomizationEntity);
+
+        stringBuilder.append(INDENT + "</" + XmlConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME + ">\n");
     }
 
     private void deparseStrategyBlacklist(StringBuilder stringBuilder, StrategyBlacklistEntity strategyBlacklistEntity) {
@@ -313,11 +333,73 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
     }
 
     private void deparseStrategyConditionBlueGreen(StringBuilder stringBuilder, StrategyCustomizationEntity strategyCustomizationEntity) {
+        List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList = strategyCustomizationEntity.getStrategyConditionBlueGreenEntityList();
+        if (CollectionUtils.isEmpty(strategyConditionBlueGreenEntityList)) {
+            return;
+        }
 
+        stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.CONDITIONS_ELEMENT_NAME + " " + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "=\"" + ConditionType.BLUE_GREEN.toString() + "\">\n");
+
+        for (StrategyConditionBlueGreenEntity strategyConditionBlueGreenEntity : strategyConditionBlueGreenEntityList) {
+            String id = strategyConditionBlueGreenEntity.getId();
+            String conditionHeader = strategyConditionBlueGreenEntity.getConditionHeader();
+            String versionId = strategyConditionBlueGreenEntity.getVersionId();
+            String regionId = strategyConditionBlueGreenEntity.getRegionId();
+            String addressId = strategyConditionBlueGreenEntity.getAddressId();
+            String versionWeightId = strategyConditionBlueGreenEntity.getVersionWeightId();
+            String regionWeightId = strategyConditionBlueGreenEntity.getRegionWeightId();
+
+            stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.CONDITION_ELEMENT_NAME + " " + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + id + "\" " + XmlConfigConstant.HEADER_ATTRIBUTE_NAME + "=\"" + EscapeType.escape(conditionHeader) + "\"");
+            if (StringUtils.isNotEmpty(versionId)) {
+                stringBuilder.append(" " + XmlConfigConstant.VERSION_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + versionId + "\"");
+            }
+            if (StringUtils.isNotEmpty(regionId)) {
+                stringBuilder.append(" " + XmlConfigConstant.REGION_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + regionId + "\"");
+            }
+            if (StringUtils.isNotEmpty(addressId)) {
+                stringBuilder.append(" " + XmlConfigConstant.ADDRESS_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + addressId + "\"");
+            }
+            if (StringUtils.isNotEmpty(versionWeightId)) {
+                stringBuilder.append(" " + XmlConfigConstant.VERSION_WEIGHT_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + versionWeightId + "\"");
+            }
+            if (StringUtils.isNotEmpty(regionWeightId)) {
+                stringBuilder.append(" " + XmlConfigConstant.REGION_WEIGHT_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + regionWeightId + "\"");
+            }
+            stringBuilder.append("/>\n");
+        }
+
+        stringBuilder.append(INDENT + INDENT + "</" + XmlConfigConstant.CONDITIONS_ELEMENT_NAME + ">\n");
     }
 
     private void deparseStrategyConditionGray(StringBuilder stringBuilder, StrategyCustomizationEntity strategyCustomizationEntity) {
+        List<StrategyConditionGrayEntity> strategyConditionGrayEntityList = strategyCustomizationEntity.getStrategyConditionGrayEntityList();
+        if (CollectionUtils.isEmpty(strategyConditionGrayEntityList)) {
+            return;
+        }
 
+        stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.CONDITIONS_ELEMENT_NAME + " " + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "=\"" + ConditionType.BLUE_GREEN.toString() + "\">\n");
+
+        for (StrategyConditionGrayEntity strategyConditionGrayEntity : strategyConditionGrayEntityList) {
+            String id = strategyConditionGrayEntity.getId();
+            String conditionHeader = strategyConditionGrayEntity.getConditionHeader();
+            VersionWeightEntity versionWeightEntity = strategyConditionGrayEntity.getVersionWeightEntity();
+            RegionWeightEntity regionWeightEntity = strategyConditionGrayEntity.getRegionWeightEntity();
+            AddressWeightEntity addressWeightEntity = strategyConditionGrayEntity.getAddressWeightEntity();
+
+            stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.CONDITION_ELEMENT_NAME + " " + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + id + "\" " + XmlConfigConstant.HEADER_ATTRIBUTE_NAME + "=\"" + EscapeType.escape(conditionHeader) + "\"");
+            if (versionWeightEntity != null) {
+                stringBuilder.append(" " + XmlConfigConstant.VERSION_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + versionId + "\"");
+            }
+            if (regionWeightEntity != null) {
+                stringBuilder.append(" " + XmlConfigConstant.REGION_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + regionId + "\"");
+            }
+            if (addressWeightEntity != null) {
+                stringBuilder.append(" " + XmlConfigConstant.ADDRESS_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + addressId + "\"");
+            }
+            stringBuilder.append("/>\n");
+        }
+
+        stringBuilder.append(INDENT + INDENT + "</" + XmlConfigConstant.CONDITIONS_ELEMENT_NAME + ">\n");
     }
 
     private void deparseStrategyRoute(StringBuilder stringBuilder, StrategyCustomizationEntity strategyCustomizationEntity) {
