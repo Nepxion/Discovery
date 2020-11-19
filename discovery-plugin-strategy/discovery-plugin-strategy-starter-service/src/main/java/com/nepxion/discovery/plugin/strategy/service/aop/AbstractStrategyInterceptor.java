@@ -49,10 +49,10 @@ public abstract class AbstractStrategyInterceptor {
 
     public AbstractStrategyInterceptor(String contextRequestHeaders, String businessRequestHeaders) {
         if (StringUtils.isNotEmpty(contextRequestHeaders)) {
-            requestHeaderList.addAll(StringUtil.splitToList(contextRequestHeaders.toLowerCase(), DiscoveryConstant.SEPARATE));
+            requestHeaderList.addAll(StringUtil.splitToList(contextRequestHeaders.toLowerCase()));
         }
         if (StringUtils.isNotEmpty(businessRequestHeaders)) {
-            requestHeaderList.addAll(StringUtil.splitToList(businessRequestHeaders.toLowerCase(), DiscoveryConstant.SEPARATE));
+            requestHeaderList.addAll(StringUtil.splitToList(businessRequestHeaders.toLowerCase()));
         }
 
         LOG.info("------- " + getInterceptorName() + " Intercept Information -------");

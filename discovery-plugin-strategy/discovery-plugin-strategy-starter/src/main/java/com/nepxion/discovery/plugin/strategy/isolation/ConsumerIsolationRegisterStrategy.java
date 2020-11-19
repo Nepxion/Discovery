@@ -48,7 +48,7 @@ public class ConsumerIsolationRegisterStrategy extends AbstractRegisterListener 
             return null;
         }
 
-        return StringUtil.splitToList(groupBlacklistText, DiscoveryConstant.SEPARATE);
+        return StringUtil.splitToList(groupBlacklistText);
     }
 
     protected List<String> getGroupWhitelist() {
@@ -57,7 +57,7 @@ public class ConsumerIsolationRegisterStrategy extends AbstractRegisterListener 
             return null;
         }
 
-        return StringUtil.splitToList(groupWhitelistText, DiscoveryConstant.SEPARATE);
+        return StringUtil.splitToList(groupWhitelistText);
     }
 
     private void onRegisterFailure(String group, String serviceId, String host, int port, boolean isBlacklist) {
