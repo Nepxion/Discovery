@@ -24,7 +24,6 @@ import com.nepxion.discovery.common.entity.ConditionType;
 import com.nepxion.discovery.common.entity.CountFilterEntity;
 import com.nepxion.discovery.common.entity.DiscoveryEntity;
 import com.nepxion.discovery.common.entity.EscapeType;
-import com.nepxion.discovery.common.entity.FilterHolderEntity;
 import com.nepxion.discovery.common.entity.FilterType;
 import com.nepxion.discovery.common.entity.HostFilterEntity;
 import com.nepxion.discovery.common.entity.ParameterEntity;
@@ -41,9 +40,13 @@ import com.nepxion.discovery.common.entity.StrategyCustomizationEntity;
 import com.nepxion.discovery.common.entity.StrategyEntity;
 import com.nepxion.discovery.common.entity.StrategyHeaderEntity;
 import com.nepxion.discovery.common.entity.StrategyRouteEntity;
+import com.nepxion.discovery.common.entity.StrategyRouteType;
 import com.nepxion.discovery.common.entity.VersionEntity;
 import com.nepxion.discovery.common.entity.VersionFilterEntity;
 import com.nepxion.discovery.common.entity.VersionWeightEntity;
+import com.nepxion.discovery.common.entity.WeightEntity;
+import com.nepxion.discovery.common.entity.WeightFilterEntity;
+import com.nepxion.discovery.common.entity.WeightType;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.framework.parser.PluginConfigDeparser;
@@ -60,11 +63,9 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
         }
 
         StringBuilder stringBuilder = new StringBuilder();
-
         deparseRoot(stringBuilder, ruleEntity);
 
         String rule = stringBuilder.toString();
-
         ruleEntity.setContent(rule);
 
         return rule;
@@ -82,54 +83,81 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
 
         stringBuilder.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
         stringBuilder.append("<" + XmlConfigConstant.RULE_ELEMENT_NAME + ">\n");
-
-        deparseRegister(stringBuilder, registerEntity);
-        deparseDiscovery(stringBuilder, discoveryEntity);
-        deparseStrategy(stringBuilder, strategyEntity);
-        deparseStrategyCustomization(stringBuilder, strategyCustomizationEntity);
-        deparseStrategyBlacklist(stringBuilder, strategyBlacklistEntity);
-        deparseParameter(stringBuilder, parameterEntity);
-
+        if (registerEntity != null) {
+            deparseRegister(stringBuilder, registerEntity);
+        }
+        if (discoveryEntity != null) {
+            deparseDiscovery(stringBuilder, discoveryEntity);
+        }
+        if (strategyEntity != null) {
+            deparseStrategy(stringBuilder, strategyEntity);
+        }
+        if (strategyCustomizationEntity != null) {
+            deparseStrategyCustomization(stringBuilder, strategyCustomizationEntity);
+        }
+        if (strategyBlacklistEntity != null) {
+            deparseStrategyBlacklist(stringBuilder, strategyBlacklistEntity);
+        }
+        if (parameterEntity != null) {
+            deparseParameter(stringBuilder, parameterEntity);
+        }
         stringBuilder.append("</" + XmlConfigConstant.RULE_ELEMENT_NAME + ">");
     }
 
     private void deparseRegister(StringBuilder stringBuilder, RegisterEntity registerEntity) {
-        if (registerEntity == null) {
-            return;
+        HostFilterEntity hostFilterEntity = registerEntity.getHostFilterEntity();
+        CountFilterEntity countFilterEntity = registerEntity.getCountFilterEntity();
+
+        if (hostFilterEntity != null || countFilterEntity != null) {
+            stringBuilder.append(INDENT + "<" + XmlConfigConstant.REGISTER_ELEMENT_NAME + ">\n");
         }
-
-        stringBuilder.append(INDENT + "<" + XmlConfigConstant.REGISTER_ELEMENT_NAME + ">\n");
-
-        deparseHostFilter(stringBuilder, registerEntity);
-        deparseCountFilter(stringBuilder, registerEntity);
-
-        stringBuilder.append(INDENT + "</" + XmlConfigConstant.REGISTER_ELEMENT_NAME + ">\n");
+        if (hostFilterEntity != null) {
+            deparseHostFilter(stringBuilder, hostFilterEntity);
+        }
+        if (countFilterEntity != null) {
+            deparseCountFilter(stringBuilder, countFilterEntity);
+        }
+        if (hostFilterEntity != null || countFilterEntity != null) {
+            stringBuilder.append(INDENT + "</" + XmlConfigConstant.REGISTER_ELEMENT_NAME + ">\n");
+        }
     }
 
     private void deparseDiscovery(StringBuilder stringBuilder, DiscoveryEntity discoveryEntity) {
-        if (discoveryEntity == null) {
-            return;
+        HostFilterEntity hostFilterEntity = discoveryEntity.getHostFilterEntity();
+        VersionFilterEntity versionFilterEntity = discoveryEntity.getVersionFilterEntity();
+        RegionFilterEntity regionFilterEntity = discoveryEntity.getRegionFilterEntity();
+        WeightFilterEntity weightFilterEntity = discoveryEntity.getWeightFilterEntity();
+
+        if (hostFilterEntity != null || versionFilterEntity != null || regionFilterEntity != null || weightFilterEntity != null) {
+            stringBuilder.append(INDENT + "<" + XmlConfigConstant.DISCOVERY_ELEMENT_NAME + ">\n");
         }
-
-        stringBuilder.append(INDENT + "<" + XmlConfigConstant.DISCOVERY_ELEMENT_NAME + ">\n");
-
-        deparseHostFilter(stringBuilder, discoveryEntity);
-        deparseVersionFilter(stringBuilder, discoveryEntity);
-        deparseRegionFilter(stringBuilder, discoveryEntity);
-        deparseWeightFilter(stringBuilder, discoveryEntity);
-
-        stringBuilder.append(INDENT + "</" + XmlConfigConstant.DISCOVERY_ELEMENT_NAME + ">\n");
+        if (hostFilterEntity != null) {
+            deparseHostFilter(stringBuilder, hostFilterEntity);
+        }
+        if (versionFilterEntity != null) {
+            deparseVersionFilter(stringBuilder, versionFilterEntity);
+        }
+        if (regionFilterEntity != null) {
+            deparseRegionFilter(stringBuilder, regionFilterEntity);
+        }
+        if (weightFilterEntity != null) {
+            deparseWeightFilter(stringBuilder, weightFilterEntity);
+        }
+        if (hostFilterEntity != null || versionFilterEntity != null || regionFilterEntity != null || weightFilterEntity != null) {
+            stringBuilder.append(INDENT + "</" + XmlConfigConstant.DISCOVERY_ELEMENT_NAME + ">\n");
+        }
     }
 
     private void deparseStrategy(StringBuilder stringBuilder, StrategyEntity strategyEntity) {
-        stringBuilder.append(INDENT + "<" + XmlConfigConstant.STRATEGY_ELEMENT_NAME + ">\n");
-
         String versionValue = strategyEntity.getVersionValue();
         String regionValue = strategyEntity.getRegionValue();
         String addressValue = strategyEntity.getAddressValue();
         String versionWeightValue = strategyEntity.getVersionWeightValue();
         String regionWeightValue = strategyEntity.getRegionWeightValue();
 
+        if (versionValue != null || regionValue != null || addressValue != null || versionWeightValue != null || regionWeightValue != null) {
+            stringBuilder.append(INDENT + "<" + XmlConfigConstant.STRATEGY_ELEMENT_NAME + ">\n");
+        }
         if (versionValue != null) {
             stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.VERSION_ELEMENT_NAME + ">" + versionValue + "</" + XmlConfigConstant.VERSION_ELEMENT_NAME + ">\n");
         }
@@ -145,298 +173,350 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
         if (regionWeightValue != null) {
             stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.REGION_WEIGHT_ELEMENT_NAME + ">" + regionWeightValue + "</" + XmlConfigConstant.REGION_WEIGHT_ELEMENT_NAME + ">\n");
         }
-
-        stringBuilder.append(INDENT + "</" + XmlConfigConstant.STRATEGY_ELEMENT_NAME + ">\n");
+        if (versionValue != null || regionValue != null || addressValue != null || versionWeightValue != null || regionWeightValue != null) {
+            stringBuilder.append(INDENT + "</" + XmlConfigConstant.STRATEGY_ELEMENT_NAME + ">\n");
+        }
     }
 
     private void deparseStrategyCustomization(StringBuilder stringBuilder, StrategyCustomizationEntity strategyCustomizationEntity) {
-        stringBuilder.append(INDENT + "<" + XmlConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME + ">\n");
-
+        List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList = strategyCustomizationEntity.getStrategyConditionBlueGreenEntityList();
         List<StrategyConditionGrayEntity> strategyConditionGrayEntityList = strategyCustomizationEntity.getStrategyConditionGrayEntityList();
         List<StrategyRouteEntity> strategyRouteEntityList = strategyCustomizationEntity.getStrategyRouteEntityList();
         StrategyHeaderEntity strategyHeaderEntity = strategyCustomizationEntity.getStrategyHeaderEntity();
 
-        deparseStrategyConditionBlueGreen(stringBuilder, strategyCustomizationEntity);
-        deparseStrategyConditionGray(stringBuilder, strategyCustomizationEntity);
-
-        deparseStrategyHeader(stringBuilder, strategyCustomizationEntity);
-
-        stringBuilder.append(INDENT + "</" + XmlConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME + ">\n");
+        if (CollectionUtils.isNotEmpty(strategyConditionBlueGreenEntityList) || CollectionUtils.isNotEmpty(strategyConditionGrayEntityList) || CollectionUtils.isNotEmpty(strategyRouteEntityList) || strategyHeaderEntity != null) {
+            stringBuilder.append(INDENT + "<" + XmlConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME + ">\n");
+        }
+        if (CollectionUtils.isNotEmpty(strategyConditionBlueGreenEntityList)) {
+            deparseStrategyConditionBlueGreen(stringBuilder, strategyConditionBlueGreenEntityList);
+        }
+        if (CollectionUtils.isNotEmpty(strategyConditionGrayEntityList)) {
+            deparseStrategyConditionGray(stringBuilder, strategyConditionGrayEntityList);
+        }
+        if (CollectionUtils.isNotEmpty(strategyRouteEntityList)) {
+            deparseStrategyRoute(stringBuilder, strategyRouteEntityList);
+        }
+        if (strategyHeaderEntity != null) {
+            deparseStrategyHeader(stringBuilder, strategyHeaderEntity);
+        }
+        if (CollectionUtils.isNotEmpty(strategyConditionBlueGreenEntityList) || CollectionUtils.isNotEmpty(strategyConditionGrayEntityList) || CollectionUtils.isNotEmpty(strategyRouteEntityList) || strategyHeaderEntity != null) {
+            stringBuilder.append(INDENT + "</" + XmlConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME + ">\n");
+        }
     }
 
     private void deparseStrategyBlacklist(StringBuilder stringBuilder, StrategyBlacklistEntity strategyBlacklistEntity) {
-        stringBuilder.append(INDENT + "<" + XmlConfigConstant.STRATEGY_BLACKLIST_ELEMENT_NAME + ">\n");
-
         List<String> idList = strategyBlacklistEntity.getIdList();
         List<String> addressList = strategyBlacklistEntity.getAddressList();
-
-        if (idList != null) {
+        if (CollectionUtils.isNotEmpty(idList) || CollectionUtils.isNotEmpty(addressList)) {
+            stringBuilder.append(INDENT + "<" + XmlConfigConstant.STRATEGY_BLACKLIST_ELEMENT_NAME + ">\n");
+        }
+        if (CollectionUtils.isNotEmpty(idList)) {
             stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.ID_ELEMENT_NAME + " " + XmlConfigConstant.VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(idList) + "\"/>\n");
         }
-        if (addressList != null) {
+        if (CollectionUtils.isNotEmpty(addressList)) {
             stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.ADDRESS_ELEMENT_NAME + " " + XmlConfigConstant.VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(addressList) + "\"/>\n");
         }
-
-        stringBuilder.append(INDENT + "</" + XmlConfigConstant.STRATEGY_BLACKLIST_ELEMENT_NAME + ">\n");
+        if (CollectionUtils.isNotEmpty(idList) || CollectionUtils.isNotEmpty(addressList)) {
+            stringBuilder.append(INDENT + "</" + XmlConfigConstant.STRATEGY_BLACKLIST_ELEMENT_NAME + ">\n");
+        }
     }
 
     private void deparseParameter(StringBuilder stringBuilder, ParameterEntity parameterEntity) {
-        stringBuilder.append(INDENT + "<" + XmlConfigConstant.PARAMETER_ELEMENT_NAME + ">\n");
-
         Map<String, List<ParameterServiceEntity>> parameterServiceMap = parameterEntity.getParameterServiceMap();
-        for (Map.Entry<String, List<ParameterServiceEntity>> parameterServiceEntry : parameterServiceMap.entrySet()) {
-            List<ParameterServiceEntity> parameterServiceEntityList = parameterServiceEntry.getValue();
-            if (CollectionUtils.isNotEmpty(parameterServiceEntityList)) {
-                for (ParameterServiceEntity parameterServiceEntity : parameterServiceEntityList) {
-                    stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME);
+        if (MapUtils.isNotEmpty(parameterServiceMap)) {
+            stringBuilder.append(INDENT + "<" + XmlConfigConstant.PARAMETER_ELEMENT_NAME + ">\n");
+            for (Map.Entry<String, List<ParameterServiceEntity>> parameterServiceEntry : parameterServiceMap.entrySet()) {
+                List<ParameterServiceEntity> parameterServiceEntityList = parameterServiceEntry.getValue();
+                if (CollectionUtils.isNotEmpty(parameterServiceEntityList)) {
+                    for (ParameterServiceEntity parameterServiceEntity : parameterServiceEntityList) {
+                        stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME);
 
-                    Map<String, String> parameterMap = parameterServiceEntity.getParameterMap();
-                    for (Map.Entry<String, String> parameterEntry : parameterMap.entrySet()) {
-                        String key = parameterEntry.getKey();
-                        String value = parameterEntry.getValue();
+                        Map<String, String> parameterMap = parameterServiceEntity.getParameterMap();
+                        for (Map.Entry<String, String> parameterEntry : parameterMap.entrySet()) {
+                            String key = parameterEntry.getKey();
+                            String value = parameterEntry.getValue();
 
-                        stringBuilder.append(" " + key + "=\"" + value + "\"");
+                            stringBuilder.append(" " + key + "=\"" + value + "\"");
+                        }
+                        stringBuilder.append("/>\n");
                     }
-
-                    stringBuilder.append("/>\n");
                 }
             }
+            stringBuilder.append(INDENT + "</" + XmlConfigConstant.PARAMETER_ELEMENT_NAME + ">\n");
         }
-
-        stringBuilder.append(INDENT + "</" + XmlConfigConstant.PARAMETER_ELEMENT_NAME + ">\n");
     }
 
-    private void deparseHostFilter(StringBuilder stringBuilder, FilterHolderEntity filterHolderEntity) {
-        HostFilterEntity hostFilterEntity = filterHolderEntity.getHostFilterEntity();
-        if (hostFilterEntity == null) {
-            return;
-        }
-
+    private void deparseHostFilter(StringBuilder stringBuilder, HostFilterEntity hostFilterEntity) {
         FilterType filterType = hostFilterEntity.getFilterType();
         List<String> globalFilterValueList = hostFilterEntity.getFilterValueList();
         Map<String, List<String>> filterMap = hostFilterEntity.getFilterMap();
 
-        if (CollectionUtils.isEmpty(globalFilterValueList)) {
-            stringBuilder.append(INDENT + INDENT + "<" + filterType.toString() + ">\n");
-        } else {
-            stringBuilder.append(INDENT + INDENT + "<" + filterType.toString() + " " + XmlConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(globalFilterValueList) + "\">\n");
-        }
-
-        for (Map.Entry<String, List<String>> entry : filterMap.entrySet()) {
-            String serviceName = entry.getKey();
-            List<String> filterValueList = entry.getValue();
-            if (CollectionUtils.isEmpty(filterValueList)) {
-                stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME + " " + XmlConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + serviceName + "\"/>\n");
+        if (CollectionUtils.isNotEmpty(globalFilterValueList) || MapUtils.isNotEmpty(filterMap)) {
+            if (CollectionUtils.isEmpty(globalFilterValueList)) {
+                stringBuilder.append(INDENT + INDENT + "<" + filterType.toString() + ">\n");
             } else {
-                stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME + " " + XmlConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + serviceName + "\" " + XmlConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(filterValueList) + "\"/>\n");
+                stringBuilder.append(INDENT + INDENT + "<" + filterType.toString() + " " + XmlConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(globalFilterValueList) + "\">\n");
             }
         }
-        stringBuilder.append(INDENT + INDENT + "</" + filterType.toString() + ">\n");
+        if (MapUtils.isNotEmpty(filterMap)) {
+            for (Map.Entry<String, List<String>> entry : filterMap.entrySet()) {
+                String serviceName = entry.getKey();
+                List<String> filterValueList = entry.getValue();
+                if (CollectionUtils.isEmpty(filterValueList)) {
+                    stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME + " " + XmlConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + serviceName + "\"/>\n");
+                } else {
+                    stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME + " " + XmlConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + serviceName + "\" " + XmlConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(filterValueList) + "\"/>\n");
+                }
+            }
+        }
+        if (CollectionUtils.isNotEmpty(globalFilterValueList) || MapUtils.isNotEmpty(filterMap)) {
+            stringBuilder.append(INDENT + INDENT + "</" + filterType.toString() + ">\n");
+        }
     }
 
-    private void deparseCountFilter(StringBuilder stringBuilder, RegisterEntity registerEntity) {
-        CountFilterEntity countFilterEntity = registerEntity.getCountFilterEntity();
-        if (countFilterEntity == null) {
-            return;
-        }
-
+    private void deparseCountFilter(StringBuilder stringBuilder, CountFilterEntity countFilterEntity) {
         Integer globalFilterValue = countFilterEntity.getFilterValue();
         Map<String, Integer> filterMap = countFilterEntity.getFilterMap();
 
-        if (globalFilterValue == null) {
-            stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.COUNT_ELEMENT_NAME + ">\n");
-        } else {
-            stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.COUNT_ELEMENT_NAME + " " + XmlConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME + "=\"" + globalFilterValue + "\">\n");
-        }
-
-        for (Map.Entry<String, Integer> entry : filterMap.entrySet()) {
-            String serviceName = entry.getKey();
-            Integer filterValue = entry.getValue();
-            if (filterValue == null) {
-                stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME + " " + XmlConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + serviceName + "\"/>\n");
+        if (globalFilterValue != null || MapUtils.isNotEmpty(filterMap)) {
+            if (globalFilterValue == null) {
+                stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.COUNT_ELEMENT_NAME + ">\n");
             } else {
-                stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME + " " + XmlConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + serviceName + "\" " + XmlConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME + "=\"" + filterValue + "\"/>\n");
+                stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.COUNT_ELEMENT_NAME + " " + XmlConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME + "=\"" + globalFilterValue + "\">\n");
             }
         }
-        stringBuilder.append(INDENT + INDENT + "</" + XmlConfigConstant.COUNT_ELEMENT_NAME + ">\n");
+        if (MapUtils.isNotEmpty(filterMap)) {
+            for (Map.Entry<String, Integer> entry : filterMap.entrySet()) {
+                String serviceName = entry.getKey();
+                Integer filterValue = entry.getValue();
+                if (filterValue == null) {
+                    stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME + " " + XmlConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + serviceName + "\"/>\n");
+                } else {
+                    stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME + " " + XmlConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + serviceName + "\" " + XmlConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME + "=\"" + filterValue + "\"/>\n");
+                }
+            }
+        }
+        if (globalFilterValue != null || MapUtils.isNotEmpty(filterMap)) {
+            stringBuilder.append(INDENT + INDENT + "</" + XmlConfigConstant.COUNT_ELEMENT_NAME + ">\n");
+        }
     }
 
-    private void deparseVersionFilter(StringBuilder stringBuilder, DiscoveryEntity discoveryEntity) {
-        VersionFilterEntity versionFilterEntity = discoveryEntity.getVersionFilterEntity();
-        if (versionFilterEntity == null) {
-            return;
-        }
-
-        stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.VERSION_ELEMENT_NAME + ">\n");
-
+    private void deparseVersionFilter(StringBuilder stringBuilder, VersionFilterEntity versionFilterEntity) {
         Map<String, List<VersionEntity>> versionEntityMap = versionFilterEntity.getVersionEntityMap();
-        for (Map.Entry<String, List<VersionEntity>> entry : versionEntityMap.entrySet()) {
-            List<VersionEntity> versionEntityList = entry.getValue();
-            for (VersionEntity versionEntity : versionEntityList) {
-                String consumerServiceName = versionEntity.getConsumerServiceName();
-                String providerServiceName = versionEntity.getProviderServiceName();
-                List<String> consumerVersionValueList = versionEntity.getConsumerVersionValueList();
-                List<String> providerVersionValueList = versionEntity.getProviderVersionValueList();
+        if (MapUtils.isNotEmpty(versionEntityMap)) {
+            stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.VERSION_ELEMENT_NAME + ">\n");
+            for (Map.Entry<String, List<VersionEntity>> entry : versionEntityMap.entrySet()) {
+                List<VersionEntity> versionEntityList = entry.getValue();
+                for (VersionEntity versionEntity : versionEntityList) {
+                    String consumerServiceName = versionEntity.getConsumerServiceName();
+                    String providerServiceName = versionEntity.getProviderServiceName();
+                    List<String> consumerVersionValueList = versionEntity.getConsumerVersionValueList();
+                    List<String> providerVersionValueList = versionEntity.getProviderVersionValueList();
 
-                stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME + " " + XmlConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + consumerServiceName + "\" " + XmlConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + providerServiceName + "\"");
-                if (consumerVersionValueList != null) {
-                    stringBuilder.append(" " + XmlConfigConstant.CONSUMER_VERSION_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(consumerVersionValueList) + "\"");
+                    stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME + " " + XmlConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + consumerServiceName + "\" " + XmlConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + providerServiceName + "\"");
+                    if (CollectionUtils.isNotEmpty(consumerVersionValueList)) {
+                        stringBuilder.append(" " + XmlConfigConstant.CONSUMER_VERSION_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(consumerVersionValueList) + "\"");
+                    }
+                    if (CollectionUtils.isNotEmpty(providerVersionValueList)) {
+                        stringBuilder.append(" " + XmlConfigConstant.PROVIDER_VERSION_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(providerVersionValueList) + "\"");
+                    }
+                    stringBuilder.append("/>\n");
                 }
-                if (providerVersionValueList != null) {
-                    stringBuilder.append(" " + XmlConfigConstant.PROVIDER_VERSION_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(providerVersionValueList) + "\"");
-                }
-                stringBuilder.append("/>\n");
             }
+            stringBuilder.append(INDENT + INDENT + "</" + XmlConfigConstant.VERSION_ELEMENT_NAME + ">\n");
         }
-
-        stringBuilder.append(INDENT + INDENT + "</" + XmlConfigConstant.VERSION_ELEMENT_NAME + ">\n");
     }
 
-    private void deparseRegionFilter(StringBuilder stringBuilder, DiscoveryEntity discoveryEntity) {
-        RegionFilterEntity regionFilterEntity = discoveryEntity.getRegionFilterEntity();
-        if (regionFilterEntity == null) {
-            return;
-        }
-
-        stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.REGION_ELEMENT_NAME + ">\n");
-
+    private void deparseRegionFilter(StringBuilder stringBuilder, RegionFilterEntity regionFilterEntity) {
         Map<String, List<RegionEntity>> regionEntityMap = regionFilterEntity.getRegionEntityMap();
-        for (Map.Entry<String, List<RegionEntity>> entry : regionEntityMap.entrySet()) {
-            List<RegionEntity> regionEntityList = entry.getValue();
-            for (RegionEntity regionEntity : regionEntityList) {
-                String consumerServiceName = regionEntity.getConsumerServiceName();
-                String providerServiceName = regionEntity.getProviderServiceName();
-                List<String> consumerVersionValueList = regionEntity.getConsumerRegionValueList();
-                List<String> providerVersionValueList = regionEntity.getProviderRegionValueList();
+        if (MapUtils.isNotEmpty(regionEntityMap)) {
+            stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.REGION_ELEMENT_NAME + ">\n");
+            for (Map.Entry<String, List<RegionEntity>> entry : regionEntityMap.entrySet()) {
+                List<RegionEntity> regionEntityList = entry.getValue();
+                for (RegionEntity regionEntity : regionEntityList) {
+                    String consumerServiceName = regionEntity.getConsumerServiceName();
+                    String providerServiceName = regionEntity.getProviderServiceName();
+                    List<String> consumerVersionValueList = regionEntity.getConsumerRegionValueList();
+                    List<String> providerVersionValueList = regionEntity.getProviderRegionValueList();
 
-                stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME + " " + XmlConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + consumerServiceName + "\" " + XmlConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + providerServiceName + "\"");
-                if (consumerVersionValueList != null) {
-                    stringBuilder.append(" " + XmlConfigConstant.CONSUMER_REGION_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(consumerVersionValueList) + "\"");
+                    stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME + " " + XmlConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + consumerServiceName + "\" " + XmlConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + providerServiceName + "\"");
+                    if (CollectionUtils.isNotEmpty(consumerVersionValueList)) {
+                        stringBuilder.append(" " + XmlConfigConstant.CONSUMER_REGION_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(consumerVersionValueList) + "\"");
+                    }
+                    if (CollectionUtils.isNotEmpty(providerVersionValueList)) {
+                        stringBuilder.append(" " + XmlConfigConstant.PROVIDER_REGION_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(providerVersionValueList) + "\"");
+                    }
+                    stringBuilder.append("/>\n");
                 }
-                if (providerVersionValueList != null) {
-                    stringBuilder.append(" " + XmlConfigConstant.PROVIDER_REGION_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(providerVersionValueList) + "\"");
-                }
-                stringBuilder.append("/>\n");
             }
+            stringBuilder.append(INDENT + INDENT + "</" + XmlConfigConstant.REGION_ELEMENT_NAME + ">\n");
         }
-
-        stringBuilder.append(INDENT + INDENT + "</" + XmlConfigConstant.REGION_ELEMENT_NAME + ">\n");
     }
 
-    private void deparseWeightFilter(StringBuilder stringBuilder, DiscoveryEntity discoveryEntity) {
-        RegionFilterEntity regionFilterEntity = discoveryEntity.getRegionFilterEntity();
-        if (regionFilterEntity == null) {
-            return;
-        }
+    private void deparseWeightFilter(StringBuilder stringBuilder, WeightFilterEntity weightFilterEntity) {
+        Map<String, List<WeightEntity>> versionWeightEntityMap = weightFilterEntity.getVersionWeightEntityMap();
+        List<WeightEntity> versionWeightEntityList = weightFilterEntity.getVersionWeightEntityList();
+        VersionWeightEntity versionWeightEntity = weightFilterEntity.getVersionWeightEntity();
+        Map<String, Integer> versionWeightMap = versionWeightEntity.getWeightMap();
+
+        Map<String, List<WeightEntity>> regionWeightEntityMap = weightFilterEntity.getRegionWeightEntityMap();
+        List<WeightEntity> regionWeightEntityList = weightFilterEntity.getRegionWeightEntityList();
+        RegionWeightEntity regionWeightEntity = weightFilterEntity.getRegionWeightEntity();
+        Map<String, Integer> regionWeightMap = regionWeightEntity.getWeightMap();
 
         stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.WEIGHT_ELEMENT_NAME + ">\n");
+        if (MapUtils.isNotEmpty(versionWeightEntityMap)) {
+            for (Map.Entry<String, List<WeightEntity>> entry : versionWeightEntityMap.entrySet()) {
+                List<WeightEntity> weightEntityList = entry.getValue();
 
+                if (CollectionUtils.isNotEmpty(weightEntityList)) {
+                    for (WeightEntity weightEntity : weightEntityList) {
+                        String consumerServiceName = weightEntity.getConsumerServiceName();
+                        String providerServiceName = weightEntity.getProviderServiceName();
+                        Map<String, Integer> weightMap = weightEntity.getWeightMap();
+                        WeightType type = weightEntity.getType();
+
+                        stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME + " " + XmlConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + consumerServiceName + "\" " + XmlConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + providerServiceName + "\" " + XmlConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(weightMap) + "\" " + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "=\"" + type + "\"/>\n");
+                    }
+                }
+            }
+        }
+        if (CollectionUtils.isNotEmpty(versionWeightEntityList)) {
+            for (WeightEntity weightEntity : versionWeightEntityList) {
+                String providerServiceName = weightEntity.getProviderServiceName();
+                Map<String, Integer> weightMap = weightEntity.getWeightMap();
+                WeightType type = weightEntity.getType();
+
+                stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME + " " + XmlConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + providerServiceName + "\" " + XmlConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(weightMap) + "\" " + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "=\"" + type + "\"/>\n");
+            }
+        }
+        if (MapUtils.isNotEmpty(versionWeightMap)) {
+            stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.VERSION_ELEMENT_NAME + " " + XmlConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(versionWeightMap) + "\"/>\n");
+        }
+        if (MapUtils.isNotEmpty(regionWeightEntityMap)) {
+            for (Map.Entry<String, List<WeightEntity>> entry : regionWeightEntityMap.entrySet()) {
+                List<WeightEntity> weightEntityList = entry.getValue();
+
+                if (CollectionUtils.isNotEmpty(weightEntityList)) {
+                    for (WeightEntity weightEntity : weightEntityList) {
+                        String consumerServiceName = weightEntity.getConsumerServiceName();
+                        String providerServiceName = weightEntity.getProviderServiceName();
+                        Map<String, Integer> weightMap = weightEntity.getWeightMap();
+                        WeightType type = weightEntity.getType();
+
+                        stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME + " " + XmlConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + consumerServiceName + "\" " + XmlConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + providerServiceName + "\" " + XmlConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(weightMap) + "\" " + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "=\"" + type + "\"/>\n");
+                    }
+                }
+            }
+        }
+        if (CollectionUtils.isNotEmpty(regionWeightEntityList)) {
+            for (WeightEntity weightEntity : regionWeightEntityList) {
+                String providerServiceName = weightEntity.getProviderServiceName();
+                Map<String, Integer> weightMap = weightEntity.getWeightMap();
+                WeightType type = weightEntity.getType();
+
+                stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME + " " + XmlConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + providerServiceName + "\" " + XmlConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(weightMap) + "\" " + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "=\"" + type + "\"/>\n");
+            }
+        }
+        if (MapUtils.isNotEmpty(regionWeightMap)) {
+            stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.REGION_ELEMENT_NAME + " " + XmlConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(regionWeightMap) + "\"/>\n");
+        }
         stringBuilder.append(INDENT + INDENT + "</" + XmlConfigConstant.WEIGHT_ELEMENT_NAME + ">\n");
-
     }
 
-    private void deparseStrategyConditionBlueGreen(StringBuilder stringBuilder, StrategyCustomizationEntity strategyCustomizationEntity) {
-        List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList = strategyCustomizationEntity.getStrategyConditionBlueGreenEntityList();
-        if (CollectionUtils.isEmpty(strategyConditionBlueGreenEntityList)) {
-            return;
+    private void deparseStrategyConditionBlueGreen(StringBuilder stringBuilder, List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList) {
+        if (CollectionUtils.isNotEmpty(strategyConditionBlueGreenEntityList)) {
+            stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.CONDITIONS_ELEMENT_NAME + " " + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "=\"" + ConditionType.BLUE_GREEN.toString() + "\">\n");
+            for (StrategyConditionBlueGreenEntity strategyConditionBlueGreenEntity : strategyConditionBlueGreenEntityList) {
+                String id = strategyConditionBlueGreenEntity.getId();
+                String conditionHeader = EscapeType.escape(strategyConditionBlueGreenEntity.getConditionHeader());
+                String versionId = strategyConditionBlueGreenEntity.getVersionId();
+                String regionId = strategyConditionBlueGreenEntity.getRegionId();
+                String addressId = strategyConditionBlueGreenEntity.getAddressId();
+                String versionWeightId = strategyConditionBlueGreenEntity.getVersionWeightId();
+                String regionWeightId = strategyConditionBlueGreenEntity.getRegionWeightId();
+
+                if (StringUtils.isNotEmpty(conditionHeader)) {
+                    stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.CONDITION_ELEMENT_NAME + " " + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + id + "\" " + XmlConfigConstant.HEADER_ATTRIBUTE_NAME + "=\"" + conditionHeader + "\"");
+                } else {
+                    stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.CONDITION_ELEMENT_NAME + " " + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + id + "\"");
+                }
+                if (versionId != null) {
+                    stringBuilder.append(" " + XmlConfigConstant.VERSION_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + versionId + "\"");
+                }
+                if (regionId != null) {
+                    stringBuilder.append(" " + XmlConfigConstant.REGION_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + regionId + "\"");
+                }
+                if (addressId != null) {
+                    stringBuilder.append(" " + XmlConfigConstant.ADDRESS_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + addressId + "\"");
+                }
+                if (versionWeightId != null) {
+                    stringBuilder.append(" " + XmlConfigConstant.VERSION_WEIGHT_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + versionWeightId + "\"");
+                }
+                if (regionWeightId != null) {
+                    stringBuilder.append(" " + XmlConfigConstant.REGION_WEIGHT_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + regionWeightId + "\"");
+                }
+                stringBuilder.append("/>\n");
+            }
+            stringBuilder.append(INDENT + INDENT + "</" + XmlConfigConstant.CONDITIONS_ELEMENT_NAME + ">\n");
         }
-
-        stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.CONDITIONS_ELEMENT_NAME + " " + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "=\"" + ConditionType.BLUE_GREEN.toString() + "\">\n");
-
-        for (StrategyConditionBlueGreenEntity strategyConditionBlueGreenEntity : strategyConditionBlueGreenEntityList) {
-            String id = strategyConditionBlueGreenEntity.getId();
-            String conditionHeader = EscapeType.escape(strategyConditionBlueGreenEntity.getConditionHeader());
-            String versionId = strategyConditionBlueGreenEntity.getVersionId();
-            String regionId = strategyConditionBlueGreenEntity.getRegionId();
-            String addressId = strategyConditionBlueGreenEntity.getAddressId();
-            String versionWeightId = strategyConditionBlueGreenEntity.getVersionWeightId();
-            String regionWeightId = strategyConditionBlueGreenEntity.getRegionWeightId();
-
-            if (StringUtils.isNotEmpty(conditionHeader)) {
-                stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.CONDITION_ELEMENT_NAME + " " + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + id + "\" " + XmlConfigConstant.HEADER_ATTRIBUTE_NAME + "=\"" + conditionHeader + "\"");
-            } else {
-                stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.CONDITION_ELEMENT_NAME + " " + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + id + "\"");
-            }
-            if (StringUtils.isNotEmpty(versionId)) {
-                stringBuilder.append(" " + XmlConfigConstant.VERSION_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + versionId + "\"");
-            }
-            if (StringUtils.isNotEmpty(regionId)) {
-                stringBuilder.append(" " + XmlConfigConstant.REGION_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + regionId + "\"");
-            }
-            if (StringUtils.isNotEmpty(addressId)) {
-                stringBuilder.append(" " + XmlConfigConstant.ADDRESS_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + addressId + "\"");
-            }
-            if (StringUtils.isNotEmpty(versionWeightId)) {
-                stringBuilder.append(" " + XmlConfigConstant.VERSION_WEIGHT_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + versionWeightId + "\"");
-            }
-            if (StringUtils.isNotEmpty(regionWeightId)) {
-                stringBuilder.append(" " + XmlConfigConstant.REGION_WEIGHT_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + regionWeightId + "\"");
-            }
-            stringBuilder.append("/>\n");
-        }
-
-        stringBuilder.append(INDENT + INDENT + "</" + XmlConfigConstant.CONDITIONS_ELEMENT_NAME + ">\n");
     }
 
-    private void deparseStrategyConditionGray(StringBuilder stringBuilder, StrategyCustomizationEntity strategyCustomizationEntity) {
-        List<StrategyConditionGrayEntity> strategyConditionGrayEntityList = strategyCustomizationEntity.getStrategyConditionGrayEntityList();
-        if (CollectionUtils.isEmpty(strategyConditionGrayEntityList)) {
-            return;
+    private void deparseStrategyConditionGray(StringBuilder stringBuilder, List<StrategyConditionGrayEntity> strategyConditionGrayEntityList) {
+        if (CollectionUtils.isNotEmpty(strategyConditionGrayEntityList)) {
+            stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.CONDITIONS_ELEMENT_NAME + " " + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "=\"" + ConditionType.GRAY.toString() + "\">\n");
+            for (StrategyConditionGrayEntity strategyConditionGrayEntity : strategyConditionGrayEntityList) {
+                String id = strategyConditionGrayEntity.getId();
+                String conditionHeader = EscapeType.escape(strategyConditionGrayEntity.getConditionHeader());
+                VersionWeightEntity versionWeightEntity = strategyConditionGrayEntity.getVersionWeightEntity();
+                RegionWeightEntity regionWeightEntity = strategyConditionGrayEntity.getRegionWeightEntity();
+                AddressWeightEntity addressWeightEntity = strategyConditionGrayEntity.getAddressWeightEntity();
+
+                if (StringUtils.isNotEmpty(conditionHeader)) {
+                    stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.CONDITION_ELEMENT_NAME + " " + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + id + "\" " + XmlConfigConstant.HEADER_ATTRIBUTE_NAME + "=\"" + conditionHeader + "\"");
+                } else {
+                    stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.CONDITION_ELEMENT_NAME + " " + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + id + "\"");
+                }
+                if (versionWeightEntity != null) {
+                    stringBuilder.append(" " + XmlConfigConstant.VERSION_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(versionWeightEntity.getWeightMap()) + "\"");
+                }
+                if (regionWeightEntity != null) {
+                    stringBuilder.append(" " + XmlConfigConstant.REGION_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(regionWeightEntity.getWeightMap()) + "\"");
+                }
+                if (addressWeightEntity != null) {
+                    stringBuilder.append(" " + XmlConfigConstant.ADDRESS_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(addressWeightEntity.getWeightMap()) + "\"");
+                }
+                stringBuilder.append("/>\n");
+            }
+            stringBuilder.append(INDENT + INDENT + "</" + XmlConfigConstant.CONDITIONS_ELEMENT_NAME + ">\n");
         }
-
-        stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.CONDITIONS_ELEMENT_NAME + " " + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "=\"" + ConditionType.GRAY.toString() + "\">\n");
-
-        for (StrategyConditionGrayEntity strategyConditionGrayEntity : strategyConditionGrayEntityList) {
-            String id = strategyConditionGrayEntity.getId();
-            String conditionHeader = EscapeType.escape(strategyConditionGrayEntity.getConditionHeader());
-            VersionWeightEntity versionWeightEntity = strategyConditionGrayEntity.getVersionWeightEntity();
-            RegionWeightEntity regionWeightEntity = strategyConditionGrayEntity.getRegionWeightEntity();
-            AddressWeightEntity addressWeightEntity = strategyConditionGrayEntity.getAddressWeightEntity();
-
-            if (StringUtils.isNotEmpty(conditionHeader)) {
-                stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.CONDITION_ELEMENT_NAME + " " + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + id + "\" " + XmlConfigConstant.HEADER_ATTRIBUTE_NAME + "=\"" + conditionHeader + "\"");
-            } else {
-                stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.CONDITION_ELEMENT_NAME + " " + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + id + "\"");
-            }
-            if (versionWeightEntity != null) {
-                stringBuilder.append(" " + XmlConfigConstant.VERSION_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(versionWeightEntity.getWeightMap()) + "\"");
-            }
-            if (regionWeightEntity != null) {
-                stringBuilder.append(" " + XmlConfigConstant.REGION_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(regionWeightEntity.getWeightMap()) + "\"");
-            }
-            if (addressWeightEntity != null) {
-                stringBuilder.append(" " + XmlConfigConstant.ADDRESS_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(addressWeightEntity.getWeightMap()) + "\"");
-            }
-            stringBuilder.append("/>\n");
-        }
-
-        stringBuilder.append(INDENT + INDENT + "</" + XmlConfigConstant.CONDITIONS_ELEMENT_NAME + ">\n");
     }
 
-    private void deparseStrategyRoute(StringBuilder stringBuilder, StrategyCustomizationEntity strategyCustomizationEntity) {
+    private void deparseStrategyRoute(StringBuilder stringBuilder, List<StrategyRouteEntity> strategyRouteEntityList) {
+        if (CollectionUtils.isNotEmpty(strategyRouteEntityList)) {
+            stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.ROUTES_ELEMENT_NAME + ">\n");
+            for (StrategyRouteEntity strategyRouteEntity : strategyRouteEntityList) {
+                String id = strategyRouteEntity.getId();
+                StrategyRouteType type = strategyRouteEntity.getType();
+                String value = strategyRouteEntity.getValue();
 
+                stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.ROUTE_ELEMENT_NAME + " " + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + id + "\" " + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "=\"" + type.getValue() + "\">" + value + "</" + XmlConfigConstant.ROUTE_ELEMENT_NAME + ">\n");
+            }
+            stringBuilder.append(INDENT + INDENT + "</" + XmlConfigConstant.ROUTES_ELEMENT_NAME + ">\n");
+        }
     }
 
-    private void deparseStrategyHeader(StringBuilder stringBuilder, StrategyCustomizationEntity strategyCustomizationEntity) {
-        StrategyHeaderEntity strategyHeaderEntity = strategyCustomizationEntity.getStrategyHeaderEntity();
-        if (strategyHeaderEntity == null) {
-            return;
-        }
-
+    private void deparseStrategyHeader(StringBuilder stringBuilder, StrategyHeaderEntity strategyHeaderEntity) {
         Map<String, String> headerMap = strategyHeaderEntity.getHeaderMap();
-        if (MapUtils.isEmpty(headerMap)) {
-            return;
+        if (MapUtils.isNotEmpty(headerMap)) {
+            stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.HEADERS_ELEMENT_NAME + ">\n");
+            for (Map.Entry<String, String> entry : headerMap.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+
+                stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.HEADER_ELEMENT_NAME + " " + XmlConfigConstant.KEY_ATTRIBUTE_NAME + "=\"" + key + "\" " + XmlConfigConstant.VALUE_ATTRIBUTE_NAME + "=\"" + value + "\"/>\n");
+            }
+            stringBuilder.append(INDENT + INDENT + "</" + XmlConfigConstant.HEADERS_ELEMENT_NAME + ">\n");
         }
-
-        stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.HEADERS_ELEMENT_NAME + ">\n");
-
-        for (Map.Entry<String, String> entry : headerMap.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue();
-
-            stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.HEADER_ELEMENT_NAME + " " + XmlConfigConstant.KEY_ATTRIBUTE_NAME + "=\"" + key + "\" " + XmlConfigConstant.VALUE_ATTRIBUTE_NAME + "=\"" + value + "\"/>\n");
-        }
-
-        stringBuilder.append(INDENT + INDENT + "</" + XmlConfigConstant.HEADERS_ELEMENT_NAME + ">\n");
     }
 }
