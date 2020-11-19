@@ -22,6 +22,8 @@ import com.nepxion.discovery.common.entity.FilterHolderEntity;
 import com.nepxion.discovery.common.entity.FilterType;
 import com.nepxion.discovery.common.entity.HostFilterEntity;
 import com.nepxion.discovery.common.entity.ParameterEntity;
+import com.nepxion.discovery.common.entity.RegionEntity;
+import com.nepxion.discovery.common.entity.RegionFilterEntity;
 import com.nepxion.discovery.common.entity.RegisterEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.StrategyBlacklistEntity;
@@ -100,6 +102,7 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
 
         deparseHostFilter(stringBuilder, discoveryEntity);
         deparseVersionFilter(stringBuilder, discoveryEntity);
+        deparseRegionFilter(stringBuilder, discoveryEntity);
 
         stringBuilder.append(INDENT + "</" + XmlConfigConstant.DISCOVERY_ELEMENT_NAME + ">\n");
     }
@@ -207,7 +210,34 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
     }
 
     private void deparseRegionFilter(StringBuilder stringBuilder, DiscoveryEntity discoveryEntity) {
+        RegionFilterEntity regionFilterEntity = discoveryEntity.getRegionFilterEntity();
+        if (regionFilterEntity == null) {
+            return;
+        }
 
+        stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.REGION_ELEMENT_NAME + ">\n");
+
+        Map<String, List<RegionEntity>> regionEntityMap = regionFilterEntity.getRegionEntityMap();
+        for (Map.Entry<String, List<RegionEntity>> entry : regionEntityMap.entrySet()) {
+            List<RegionEntity> regionEntityList = entry.getValue();
+            for (RegionEntity regionEntity : regionEntityList) {
+                String consumerServiceName = regionEntity.getConsumerServiceName();
+                String providerServiceName = regionEntity.getProviderServiceName();
+                List<String> consumerVersionValueList = regionEntity.getConsumerRegionValueList();
+                List<String> providerVersionValueList = regionEntity.getProviderRegionValueList();
+
+                stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME + " " + XmlConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + consumerServiceName + "\" " + XmlConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + providerServiceName + "\"");
+                if (consumerVersionValueList != null) {
+                    stringBuilder.append(" " + XmlConfigConstant.CONSUMER_REGION_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(consumerVersionValueList) + "\"");
+                }
+                if (providerVersionValueList != null) {
+                    stringBuilder.append(" " + XmlConfigConstant.PROVIDER_REGION_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(providerVersionValueList) + "\"");
+                }
+                stringBuilder.append("/>\n");
+            }
+        }
+
+        stringBuilder.append(INDENT + INDENT + "</" + XmlConfigConstant.REGION_ELEMENT_NAME + ">\n");
     }
 
     private void deparseWeightFilter(StringBuilder stringBuilder, DiscoveryEntity discoveryEntity) {
