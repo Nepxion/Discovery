@@ -46,6 +46,7 @@ import com.nepxion.discovery.common.entity.VersionFilterEntity;
 import com.nepxion.discovery.common.entity.VersionWeightEntity;
 import com.nepxion.discovery.common.entity.WeightEntity;
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
+import com.nepxion.discovery.common.entity.WeightType;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.framework.parser.PluginConfigDeparser;
@@ -70,7 +71,6 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
         return rule;
     }
 
-    // AAA
     private void deparseRoot(StringBuilder stringBuilder, RuleEntity ruleEntity) {
         LOG.info("Start to deparse RuleEntity to xml...");
 
@@ -104,7 +104,6 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
         stringBuilder.append("</" + XmlConfigConstant.RULE_ELEMENT_NAME + ">");
     }
 
-    // AAA
     private void deparseRegister(StringBuilder stringBuilder, RegisterEntity registerEntity) {
         HostFilterEntity hostFilterEntity = registerEntity.getHostFilterEntity();
         CountFilterEntity countFilterEntity = registerEntity.getCountFilterEntity();
@@ -123,7 +122,6 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
         }
     }
 
-    // AAA
     private void deparseDiscovery(StringBuilder stringBuilder, DiscoveryEntity discoveryEntity) {
         HostFilterEntity hostFilterEntity = discoveryEntity.getHostFilterEntity();
         VersionFilterEntity versionFilterEntity = discoveryEntity.getVersionFilterEntity();
@@ -150,7 +148,6 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
         }
     }
 
-    // AAA
     private void deparseStrategy(StringBuilder stringBuilder, StrategyEntity strategyEntity) {
         String versionValue = strategyEntity.getVersionValue();
         String regionValue = strategyEntity.getRegionValue();
@@ -181,7 +178,6 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
         }
     }
 
-    // AAA
     private void deparseStrategyCustomization(StringBuilder stringBuilder, StrategyCustomizationEntity strategyCustomizationEntity) {
         List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList = strategyCustomizationEntity.getStrategyConditionBlueGreenEntityList();
         List<StrategyConditionGrayEntity> strategyConditionGrayEntityList = strategyCustomizationEntity.getStrategyConditionGrayEntityList();
@@ -208,7 +204,6 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
         }
     }
 
-    // AAA
     private void deparseStrategyBlacklist(StringBuilder stringBuilder, StrategyBlacklistEntity strategyBlacklistEntity) {
         List<String> idList = strategyBlacklistEntity.getIdList();
         List<String> addressList = strategyBlacklistEntity.getAddressList();
@@ -226,7 +221,6 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
         }
     }
 
-    // AAA
     private void deparseParameter(StringBuilder stringBuilder, ParameterEntity parameterEntity) {
         Map<String, List<ParameterServiceEntity>> parameterServiceMap = parameterEntity.getParameterServiceMap();
         if (MapUtils.isNotEmpty(parameterServiceMap)) {
@@ -252,7 +246,6 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
         }
     }
 
-    // AAA
     private void deparseHostFilter(StringBuilder stringBuilder, HostFilterEntity hostFilterEntity) {
         FilterType filterType = hostFilterEntity.getFilterType();
         List<String> globalFilterValueList = hostFilterEntity.getFilterValueList();
@@ -281,7 +274,6 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
         }
     }
 
-    // AAA
     private void deparseCountFilter(StringBuilder stringBuilder, CountFilterEntity countFilterEntity) {
         Integer globalFilterValue = countFilterEntity.getFilterValue();
         Map<String, Integer> filterMap = countFilterEntity.getFilterMap();
@@ -309,7 +301,6 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
         }
     }
 
-    // AAA
     private void deparseVersionFilter(StringBuilder stringBuilder, VersionFilterEntity versionFilterEntity) {
         Map<String, List<VersionEntity>> versionEntityMap = versionFilterEntity.getVersionEntityMap();
         if (MapUtils.isNotEmpty(versionEntityMap)) {
@@ -336,7 +327,6 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
         }
     }
 
-    // AAA
     private void deparseRegionFilter(StringBuilder stringBuilder, RegionFilterEntity regionFilterEntity) {
         Map<String, List<RegionEntity>> regionEntityMap = regionFilterEntity.getRegionEntityMap();
         if (MapUtils.isNotEmpty(regionEntityMap)) {
@@ -367,17 +357,73 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
         Map<String, List<WeightEntity>> versionWeightEntityMap = weightFilterEntity.getVersionWeightEntityMap();
         List<WeightEntity> versionWeightEntityList = weightFilterEntity.getVersionWeightEntityList();
         VersionWeightEntity versionWeightEntity = weightFilterEntity.getVersionWeightEntity();
+        Map<String, Integer> versionWeightMap = versionWeightEntity.getWeightMap();
 
         Map<String, List<WeightEntity>> regionWeightEntityMap = weightFilterEntity.getRegionWeightEntityMap();
         List<WeightEntity> regionWeightEntityList = weightFilterEntity.getRegionWeightEntityList();
         RegionWeightEntity regionWeightEntity = weightFilterEntity.getRegionWeightEntity();
+        Map<String, Integer> regionWeightMap = regionWeightEntity.getWeightMap();
 
         stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.WEIGHT_ELEMENT_NAME + ">\n");
+        if (MapUtils.isNotEmpty(versionWeightEntityMap)) {
+            for (Map.Entry<String, List<WeightEntity>> entry : versionWeightEntityMap.entrySet()) {
+                List<WeightEntity> weightEntityList = entry.getValue();
 
+                if (CollectionUtils.isNotEmpty(weightEntityList)) {
+                    for (WeightEntity weightEntity : weightEntityList) {
+                        String consumerServiceName = weightEntity.getConsumerServiceName();
+                        String providerServiceName = weightEntity.getProviderServiceName();
+                        Map<String, Integer> weightMap = weightEntity.getWeightMap();
+                        WeightType type = weightEntity.getType();
+
+                        stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME + " " + XmlConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + consumerServiceName + "\" " + XmlConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + providerServiceName + "\" " + XmlConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(weightMap) + "\" " + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "=\"" + type + "\"/>\n");
+                    }
+                }
+            }
+        }
+        if (CollectionUtils.isNotEmpty(versionWeightEntityList)) {
+            for (WeightEntity weightEntity : versionWeightEntityList) {
+                String providerServiceName = weightEntity.getProviderServiceName();
+                Map<String, Integer> weightMap = weightEntity.getWeightMap();
+                WeightType type = weightEntity.getType();
+
+                stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME + " " + XmlConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + providerServiceName + "\" " + XmlConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(weightMap) + "\" " + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "=\"" + type + "\"/>\n");
+            }
+        }
+        if (MapUtils.isNotEmpty(versionWeightMap)) {
+            stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.VERSION_ELEMENT_NAME + " " + XmlConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(versionWeightMap) + "\"/>\n");
+        }
+        if (MapUtils.isNotEmpty(regionWeightEntityMap)) {
+            for (Map.Entry<String, List<WeightEntity>> entry : regionWeightEntityMap.entrySet()) {
+                List<WeightEntity> weightEntityList = entry.getValue();
+
+                if (CollectionUtils.isNotEmpty(weightEntityList)) {
+                    for (WeightEntity weightEntity : weightEntityList) {
+                        String consumerServiceName = weightEntity.getConsumerServiceName();
+                        String providerServiceName = weightEntity.getProviderServiceName();
+                        Map<String, Integer> weightMap = weightEntity.getWeightMap();
+                        WeightType type = weightEntity.getType();
+
+                        stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME + " " + XmlConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + consumerServiceName + "\" " + XmlConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + providerServiceName + "\" " + XmlConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(weightMap) + "\" " + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "=\"" + type + "\"/>\n");
+                    }
+                }
+            }
+        }
+        if (CollectionUtils.isNotEmpty(regionWeightEntityList)) {
+            for (WeightEntity weightEntity : regionWeightEntityList) {
+                String providerServiceName = weightEntity.getProviderServiceName();
+                Map<String, Integer> weightMap = weightEntity.getWeightMap();
+                WeightType type = weightEntity.getType();
+
+                stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME + " " + XmlConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME + "=\"" + providerServiceName + "\" " + XmlConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(weightMap) + "\" " + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "=\"" + type + "\"/>\n");
+            }
+        }
+        if (MapUtils.isNotEmpty(regionWeightMap)) {
+            stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.REGION_ELEMENT_NAME + " " + XmlConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(regionWeightMap) + "\"/>\n");
+        }
         stringBuilder.append(INDENT + INDENT + "</" + XmlConfigConstant.WEIGHT_ELEMENT_NAME + ">\n");
     }
 
-    // AAA
     private void deparseStrategyConditionBlueGreen(StringBuilder stringBuilder, List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList) {
         if (CollectionUtils.isNotEmpty(strategyConditionBlueGreenEntityList)) {
             stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.CONDITIONS_ELEMENT_NAME + " " + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "=\"" + ConditionType.BLUE_GREEN.toString() + "\">\n");
@@ -416,7 +462,6 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
         }
     }
 
-    // AAA
     private void deparseStrategyConditionGray(StringBuilder stringBuilder, List<StrategyConditionGrayEntity> strategyConditionGrayEntityList) {
         if (CollectionUtils.isNotEmpty(strategyConditionGrayEntityList)) {
             stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.CONDITIONS_ELEMENT_NAME + " " + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "=\"" + ConditionType.GRAY.toString() + "\">\n");
@@ -447,7 +492,6 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
         }
     }
 
-    // AAA
     private void deparseStrategyRoute(StringBuilder stringBuilder, List<StrategyRouteEntity> strategyRouteEntityList) {
         if (CollectionUtils.isNotEmpty(strategyRouteEntityList)) {
             stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.ROUTES_ELEMENT_NAME + ">\n");
@@ -462,7 +506,6 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
         }
     }
 
-    // AAA
     private void deparseStrategyHeader(StringBuilder stringBuilder, StrategyHeaderEntity strategyHeaderEntity) {
         Map<String, String> headerMap = strategyHeaderEntity.getHeaderMap();
         if (MapUtils.isNotEmpty(headerMap)) {
