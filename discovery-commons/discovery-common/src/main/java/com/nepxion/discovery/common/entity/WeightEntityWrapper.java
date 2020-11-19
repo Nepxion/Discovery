@@ -44,21 +44,23 @@ public class WeightEntityWrapper {
 
     public static void parseWeightEntity(MapWeightEntity weightEntity, String weightValue) {
         Map<String, Integer> weightMap = weightEntity.getWeightMap();
-        List<String> providerWeightValueList = StringUtil.splitToList(weightValue, DiscoveryConstant.SEPARATE);
-        for (String value : providerWeightValueList) {
-            String[] valueArray = StringUtils.split(value, DiscoveryConstant.EQUALS);
-            String key = valueArray[0].trim();
-            int weight = 0;
-            try {
-                weight = Integer.valueOf(valueArray[1].trim());
-                if (weight < 0) {
-                    weight = 0;
+        List<String> providerWeightValueList = StringUtil.splitToList(weightValue);
+        if (CollectionUtils.isNotEmpty(providerWeightValueList)) {
+            for (String value : providerWeightValueList) {
+                String[] valueArray = StringUtils.split(value, DiscoveryConstant.EQUALS);
+                String key = valueArray[0].trim();
+                int weight = 0;
+                try {
+                    weight = Integer.valueOf(valueArray[1].trim());
+                    if (weight < 0) {
+                        weight = 0;
+                    }
+                } catch (Exception e) {
+
                 }
-            } catch (Exception e) {
 
+                weightMap.put(key, weight);
             }
-
-            weightMap.put(key, weight);
         }
     }
 

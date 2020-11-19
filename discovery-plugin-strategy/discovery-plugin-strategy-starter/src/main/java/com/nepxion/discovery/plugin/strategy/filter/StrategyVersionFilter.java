@@ -133,7 +133,7 @@ public class StrategyVersionFilter {
         String region = pluginAdapter.getInstanceRegion(instance);
 
         // 如果精确匹配不满足，尝试用通配符匹配
-        List<String> regionList = StringUtil.splitToList(regions, DiscoveryConstant.SEPARATE);
+        List<String> regionList = StringUtil.splitToList(regions);
         if (regionList.contains(region)) {
             return true;
         }
@@ -175,7 +175,7 @@ public class StrategyVersionFilter {
         }
 
         // 如果精确匹配不满足，尝试用通配符匹配
-        List<String> addressList = StringUtil.splitToList(addresses, DiscoveryConstant.SEPARATE);
+        List<String> addressList = StringUtil.splitToList(addresses);
         if (addressList.contains(instance.getHost() + ":" + instance.getPort()) || addressList.contains(instance.getHost()) || addressList.contains(String.valueOf(instance.getPort()))) {
             return true;
         }
@@ -216,7 +216,7 @@ public class StrategyVersionFilter {
 
         String serviceUUId = pluginAdapter.getInstanceServiceUUId(instance);
 
-        List<String> idList = StringUtil.splitToList(ids, DiscoveryConstant.SEPARATE);
+        List<String> idList = StringUtil.splitToList(ids);
         if (idList.contains(serviceUUId)) {
             return false;
         }
@@ -231,7 +231,7 @@ public class StrategyVersionFilter {
         }
 
         // 如果精确匹配不满足，尝试用通配符匹配
-        List<String> addressList = StringUtil.splitToList(addresses, DiscoveryConstant.SEPARATE);
+        List<String> addressList = StringUtil.splitToList(addresses);
         if (addressList.contains(instance.getHost() + ":" + instance.getPort()) || addressList.contains(instance.getHost()) || addressList.contains(String.valueOf(instance.getPort()))) {
             return false;
         }
@@ -257,7 +257,7 @@ public class StrategyVersionFilter {
         String version = pluginAdapter.getInstanceVersion(instance);
 
         // 如果精确匹配不满足，尝试用通配符匹配
-        List<String> versionList = StringUtil.splitToList(versions, DiscoveryConstant.SEPARATE);
+        List<String> versionList = StringUtil.splitToList(versions);
         if (versionList.contains(version)) {
             return true;
         }

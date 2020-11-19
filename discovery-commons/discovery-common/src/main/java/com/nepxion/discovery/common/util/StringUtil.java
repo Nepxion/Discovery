@@ -21,6 +21,10 @@ import org.apache.commons.lang3.StringUtils;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
 public class StringUtil {
+    public static List<String> splitToList(String value) {
+        return splitToList(value, DiscoveryConstant.SEPARATE);
+    }
+
     public static List<String> splitToList(String value, String separate) {
         if (StringUtils.isEmpty(value)) {
             return null;
@@ -32,12 +36,20 @@ public class StringUtil {
     }
 
     public static Map<String, String> splitToMap(String value) {
+        return splitToMap(value, DiscoveryConstant.SEPARATE, DiscoveryConstant.EQUALS);
+    }
+
+    public static Map<String, String> splitToMap(String value, String separate, String equals) {
+        if (StringUtils.isEmpty(value)) {
+            return null;
+        }
+
         Map<String, String> map = new HashMap<String, String>();
 
         if (StringUtils.isNotEmpty(value)) {
-            String[] separateArray = StringUtils.split(value, DiscoveryConstant.SEPARATE);
+            String[] separateArray = StringUtils.split(value, separate);
             for (String separateValue : separateArray) {
-                String[] equalsArray = StringUtils.split(separateValue, DiscoveryConstant.EQUALS);
+                String[] equalsArray = StringUtils.split(separateValue, equals);
                 map.put(equalsArray[0].trim(), equalsArray[1].trim());
             }
         }

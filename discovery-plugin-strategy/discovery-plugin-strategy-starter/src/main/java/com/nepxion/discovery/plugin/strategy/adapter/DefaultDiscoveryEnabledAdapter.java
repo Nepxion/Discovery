@@ -132,7 +132,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         String region = pluginAdapter.getServerRegion(server);
 
         // 如果精确匹配不满足，尝试用通配符匹配
-        List<String> regionList = StringUtil.splitToList(regions, DiscoveryConstant.SEPARATE);
+        List<String> regionList = StringUtil.splitToList(regions);
         if (regionList.contains(region)) {
             return true;
         }
@@ -174,7 +174,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         }
 
         // 如果精确匹配不满足，尝试用通配符匹配
-        List<String> addressList = StringUtil.splitToList(addresses, DiscoveryConstant.SEPARATE);
+        List<String> addressList = StringUtil.splitToList(addresses);
         if (addressList.contains(server.getHostPort()) || addressList.contains(server.getHost()) || addressList.contains(String.valueOf(server.getPort()))) {
             return true;
         }
@@ -215,7 +215,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
 
         String serviceUUId = pluginAdapter.getServerServiceUUId(server);
 
-        List<String> idList = StringUtil.splitToList(ids, DiscoveryConstant.SEPARATE);
+        List<String> idList = StringUtil.splitToList(ids);
         if (idList.contains(serviceUUId)) {
             return false;
         }
@@ -230,7 +230,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         }
 
         // 如果精确匹配不满足，尝试用通配符匹配
-        List<String> addressList = StringUtil.splitToList(addresses, DiscoveryConstant.SEPARATE);
+        List<String> addressList = StringUtil.splitToList(addresses);
         if (addressList.contains(server.getHostPort()) || addressList.contains(server.getHost()) || addressList.contains(String.valueOf(server.getPort()))) {
             return false;
         }
@@ -279,7 +279,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         String version = pluginAdapter.getServerVersion(server);
 
         // 如果精确匹配不满足，尝试用通配符匹配
-        List<String> versionList = StringUtil.splitToList(versions, DiscoveryConstant.SEPARATE);
+        List<String> versionList = StringUtil.splitToList(versions);
         if (versionList.contains(version)) {
             return true;
         }

@@ -13,6 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,10 @@ public class StrategyEndpoint {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Invalid format for validation input");
         }
 
+        if (map == null) {
+            map = new HashMap<String, String>();
+        }
+
         boolean validated = strategyCondition.isTriggered(strategyConditionEntity, map);
 
         return ResponseEntity.ok().body(validated);
@@ -70,6 +75,10 @@ public class StrategyEndpoint {
             map = StringUtil.splitToMap(validation);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Invalid format for validation input");
+        }
+
+        if (map == null) {
+            map = new HashMap<String, String>();
         }
 
         String route = null;

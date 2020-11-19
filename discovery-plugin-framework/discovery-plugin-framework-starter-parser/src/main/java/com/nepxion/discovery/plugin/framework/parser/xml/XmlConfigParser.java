@@ -15,6 +15,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Attribute;
 import org.dom4j.Document;
@@ -295,17 +296,23 @@ public class XmlConfigParser implements PluginConfigParser {
                     throw new DiscoveryException("Attribute[" + XmlConfigConstant.VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                 }
                 String value = valueAttribute.getData().toString().trim();
-                List<String> valueList = StringUtil.splitToList(value, DiscoveryConstant.SEPARATE);
-                if (StringUtils.equals(childElement.getName(), XmlConfigConstant.ID_ELEMENT_NAME)) {
-                    idList.addAll(valueList);
-                } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.ADDRESS_ELEMENT_NAME)) {
-                    addressList.addAll(valueList);
+                List<String> valueList = StringUtil.splitToList(value);
+                if (CollectionUtils.isNotEmpty(valueList)) {
+                    if (StringUtils.equals(childElement.getName(), XmlConfigConstant.ID_ELEMENT_NAME)) {
+                        idList.addAll(valueList);
+                    } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.ADDRESS_ELEMENT_NAME)) {
+                        addressList.addAll(valueList);
+                    }
                 }
             }
         }
 
-        strategyBlacklistEntity.setIdList(idList);
-        strategyBlacklistEntity.setAddressList(addressList);
+        if (CollectionUtils.isNotEmpty(idList)) {
+            strategyBlacklistEntity.setIdList(idList);
+        }
+        if (CollectionUtils.isNotEmpty(addressList)) {
+            strategyBlacklistEntity.setAddressList(addressList);
+        }
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -357,7 +364,7 @@ public class XmlConfigParser implements PluginConfigParser {
         Attribute globalFilterAttribute = element.attribute(XmlConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME);
         if (globalFilterAttribute != null) {
             String globalFilterValue = globalFilterAttribute.getData().toString().trim();
-            List<String> globalFilterValueList = StringUtil.splitToList(globalFilterValue, DiscoveryConstant.SEPARATE);
+            List<String> globalFilterValueList = StringUtil.splitToList(globalFilterValue);
             hostFilterEntity.setFilterValueList(globalFilterValueList);
         }
 
@@ -378,7 +385,7 @@ public class XmlConfigParser implements PluginConfigParser {
                     List<String> filterValueList = null;
                     if (filterValueAttribute != null) {
                         String filterValue = filterValueAttribute.getData().toString().trim();
-                        filterValueList = StringUtil.splitToList(filterValue, DiscoveryConstant.SEPARATE);
+                        filterValueList = StringUtil.splitToList(filterValue);
                     }
                     filterMap.put(serviceName, filterValueList);
                 }
@@ -480,14 +487,14 @@ public class XmlConfigParser implements PluginConfigParser {
                     Attribute consumerVersionValueAttribute = childElement.attribute(XmlConfigConstant.CONSUMER_VERSION_VALUE_ATTRIBUTE_NAME);
                     if (consumerVersionValueAttribute != null) {
                         String consumerVersionValue = consumerVersionValueAttribute.getData().toString().trim();
-                        List<String> consumerVersionValueList = StringUtil.splitToList(consumerVersionValue, DiscoveryConstant.SEPARATE);
+                        List<String> consumerVersionValueList = StringUtil.splitToList(consumerVersionValue);
                         versionEntity.setConsumerVersionValueList(consumerVersionValueList);
                     }
 
                     Attribute providerVersionValueAttribute = childElement.attribute(XmlConfigConstant.PROVIDER_VERSION_VALUE_ATTRIBUTE_NAME);
                     if (providerVersionValueAttribute != null) {
                         String providerVersionValue = providerVersionValueAttribute.getData().toString().trim();
-                        List<String> providerVersionValueList = StringUtil.splitToList(providerVersionValue, DiscoveryConstant.SEPARATE);
+                        List<String> providerVersionValueList = StringUtil.splitToList(providerVersionValue);
                         versionEntity.setProviderVersionValueList(providerVersionValueList);
                     }
 
@@ -540,14 +547,14 @@ public class XmlConfigParser implements PluginConfigParser {
                     Attribute consumerRegionValueAttribute = childElement.attribute(XmlConfigConstant.CONSUMER_REGION_VALUE_ATTRIBUTE_NAME);
                     if (consumerRegionValueAttribute != null) {
                         String consumerRegionValue = consumerRegionValueAttribute.getData().toString().trim();
-                        List<String> consumerRegionValueList = StringUtil.splitToList(consumerRegionValue, DiscoveryConstant.SEPARATE);
+                        List<String> consumerRegionValueList = StringUtil.splitToList(consumerRegionValue);
                         regionEntity.setConsumerRegionValueList(consumerRegionValueList);
                     }
 
                     Attribute providerRegionValueAttribute = childElement.attribute(XmlConfigConstant.PROVIDER_REGION_VALUE_ATTRIBUTE_NAME);
                     if (providerRegionValueAttribute != null) {
                         String providerRegionValue = providerRegionValueAttribute.getData().toString().trim();
-                        List<String> providerRegionValueList = StringUtil.splitToList(providerRegionValue, DiscoveryConstant.SEPARATE);
+                        List<String> providerRegionValueList = StringUtil.splitToList(providerRegionValue);
                         regionEntity.setProviderRegionValueList(providerRegionValueList);
                     }
 

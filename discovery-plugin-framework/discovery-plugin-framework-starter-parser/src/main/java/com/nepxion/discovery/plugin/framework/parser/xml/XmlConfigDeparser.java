@@ -142,7 +142,19 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
     }
 
     private void deparseStrategyBlacklist(StringBuilder stringBuilder, StrategyBlacklistEntity strategyBlacklistEntity) {
+        stringBuilder.append(INDENT + "<" + XmlConfigConstant.STRATEGY_BLACKLIST_ELEMENT_NAME + ">\n");
 
+        List<String> idList = strategyBlacklistEntity.getIdList();
+        List<String> addressList = strategyBlacklistEntity.getAddressList();
+
+        if (idList != null) {
+            stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.ID_ELEMENT_NAME + " " + XmlConfigConstant.VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(idList) + "\"/>\n");
+        }
+        if (addressList != null) {
+            stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.ADDRESS_ELEMENT_NAME + " " + XmlConfigConstant.VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(addressList) + "\"/>\n");
+        }
+
+        stringBuilder.append(INDENT + "</" + XmlConfigConstant.STRATEGY_BLACKLIST_ELEMENT_NAME + ">\n");
     }
 
     private void deparseParameter(StringBuilder stringBuilder, ParameterEntity parameterEntity) {
