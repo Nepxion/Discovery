@@ -333,12 +333,12 @@ public class XmlConfigParser implements PluginConfigParser {
                         parameterServiceEntity.getParameterMap().put(key, value);
                     }
 
-                    List<ParameterServiceEntity> parameterServiceList = parameterServiceMap.get(serviceName);
-                    if (parameterServiceList == null) {
-                        parameterServiceList = new ArrayList<ParameterServiceEntity>();
-                        parameterServiceMap.put(serviceName, parameterServiceList);
+                    List<ParameterServiceEntity> parameterServiceEntityList = parameterServiceMap.get(serviceName);
+                    if (parameterServiceEntityList == null) {
+                        parameterServiceEntityList = new ArrayList<ParameterServiceEntity>();
+                        parameterServiceMap.put(serviceName, parameterServiceEntityList);
                     }
-                    parameterServiceList.add(parameterServiceEntity);
+                    parameterServiceEntityList.add(parameterServiceEntity);
                 }
             }
         }
