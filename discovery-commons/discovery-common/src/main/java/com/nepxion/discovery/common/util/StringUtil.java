@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -35,45 +36,70 @@ public class StringUtil {
         return Arrays.asList(valueArray);
     }
 
-    public static Map<String, String> splitToMap(String value) {
-        return splitToMap(value, DiscoveryConstant.SEPARATE, DiscoveryConstant.EQUALS);
+    public static String convertToString(List<String> list) {
+        return convertToString(list, DiscoveryConstant.SEPARATE);
     }
 
-    public static Map<String, String> splitToMap(String value, String separate, String equals) {
+    public static String convertToString(List<String> list, String separate) {
+        if (CollectionUtils.isEmpty(list)) {
+            return null;
+        }
+
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < list.size(); i++) {
+            String value = list.get(i);
+            stringBuilder.append(value);
+            if (i < list.size() - 1) {
+                stringBuilder.append(separate);
+            }
+        }
+
+        return stringBuilder.toString();
+    }
+
+    public static Map<String, String> splitToMap(String value) {
+        return splitToMap(value, DiscoveryConstant.EQUALS, DiscoveryConstant.SEPARATE);
+    }
+
+    public static Map<String, String> splitToMap(String value, String equals, String separate) {
         if (StringUtils.isEmpty(value)) {
             return null;
         }
 
         Map<String, String> map = new HashMap<String, String>();
-
-        if (StringUtils.isNotEmpty(value)) {
-            String[] separateArray = StringUtils.split(value, separate);
-            for (String separateValue : separateArray) {
-                String[] equalsArray = StringUtils.split(separateValue, equals);
-                map.put(equalsArray[0].trim(), equalsArray[1].trim());
-            }
+        String[] separateArray = StringUtils.split(value, separate);
+        for (String separateValue : separateArray) {
+            String[] equalsArray = StringUtils.split(separateValue, equals);
+            map.put(equalsArray[0].trim(), equalsArray[1].trim());
         }
 
         return map;
     }
 
-    public static String convertToString(List<String> list) {
-        if (CollectionUtils.isNotEmpty(list)) {
-            StringBuilder stringBuilder = new StringBuilder();
+    public static String convertToString(Map<String, ?> map) {
+        return convertToString(map, DiscoveryConstant.EQUALS, DiscoveryConstant.SEPARATE);
+    }
 
-            for (int i = 0; i < list.size(); i++) {
-                String value = list.get(i);
-
-                stringBuilder.append(value);
-                if (i < list.size() - 1) {
-                    stringBuilder.append(DiscoveryConstant.SEPARATE);
-                }
-            }
-
-            return stringBuilder.toString();
+    public static String convertToString(Map<String, ?> map, String equals, String separate) {
+        if (MapUtils.isEmpty(map)) {
+            return null;
         }
 
-        return null;
+        StringBuilder stringBuilder = new StringBuilder();
+        int index = 0;
+        for (Map.Entry<String, ?> entry : map.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            stringBuilder.append(key + equals + value);
+
+            if (index < map.size() - 1) {
+                stringBuilder.append(separate);
+            }
+
+            index++;
+        }
+
+        return stringBuilder.toString();
     }
 
     public static String simulateText(String value, int size, String padValue) {
