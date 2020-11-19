@@ -22,6 +22,7 @@ import com.nepxion.discovery.common.entity.FilterHolderEntity;
 import com.nepxion.discovery.common.entity.FilterType;
 import com.nepxion.discovery.common.entity.HostFilterEntity;
 import com.nepxion.discovery.common.entity.ParameterEntity;
+import com.nepxion.discovery.common.entity.ParameterServiceEntity;
 import com.nepxion.discovery.common.entity.RegionEntity;
 import com.nepxion.discovery.common.entity.RegionFilterEntity;
 import com.nepxion.discovery.common.entity.RegisterEntity;
@@ -103,12 +104,37 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
         deparseHostFilter(stringBuilder, discoveryEntity);
         deparseVersionFilter(stringBuilder, discoveryEntity);
         deparseRegionFilter(stringBuilder, discoveryEntity);
+        deparseWeightFilter(stringBuilder, discoveryEntity);
 
         stringBuilder.append(INDENT + "</" + XmlConfigConstant.DISCOVERY_ELEMENT_NAME + ">\n");
     }
 
     private void deparseStrategy(StringBuilder stringBuilder, StrategyEntity strategyEntity) {
+        stringBuilder.append(INDENT + "<" + XmlConfigConstant.STRATEGY_ELEMENT_NAME + ">\n");
 
+        String versionValue = strategyEntity.getVersionValue();
+        String regionValue = strategyEntity.getRegionValue();
+        String addressValue = strategyEntity.getAddressValue();
+        String versionWeightValue = strategyEntity.getVersionWeightValue();
+        String regionWeightValue = strategyEntity.getRegionWeightValue();
+
+        if (versionValue != null) {
+            stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.VERSION_ELEMENT_NAME + ">" + versionValue + "</" + XmlConfigConstant.VERSION_ELEMENT_NAME + ">\n");
+        }
+        if (regionValue != null) {
+            stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.REGION_ELEMENT_NAME + ">" + regionValue + "</" + XmlConfigConstant.REGION_ELEMENT_NAME + ">\n");
+        }
+        if (addressValue != null) {
+            stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.ADDRESS_ELEMENT_NAME + ">" + addressValue + "</" + XmlConfigConstant.ADDRESS_ELEMENT_NAME + ">\n");
+        }
+        if (versionWeightValue != null) {
+            stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.VERSION_WEIGHT_ELEMENT_NAME + ">" + versionWeightValue + "</" + XmlConfigConstant.VERSION_WEIGHT_ELEMENT_NAME + ">\n");
+        }
+        if (regionWeightValue != null) {
+            stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.REGION_WEIGHT_ELEMENT_NAME + ">" + regionWeightValue + "</" + XmlConfigConstant.REGION_WEIGHT_ELEMENT_NAME + ">\n");
+        }
+
+        stringBuilder.append(INDENT + "</" + XmlConfigConstant.STRATEGY_ELEMENT_NAME + ">\n");
     }
 
     private void deparseStrategyCustomization(StringBuilder stringBuilder, StrategyCustomizationEntity strategyCustomizationEntity) {
@@ -120,7 +146,29 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
     }
 
     private void deparseParameter(StringBuilder stringBuilder, ParameterEntity parameterEntity) {
+        stringBuilder.append(INDENT + "<" + XmlConfigConstant.PARAMETER_ELEMENT_NAME + ">\n");
 
+        Map<String, List<ParameterServiceEntity>> parameterServiceMap = parameterEntity.getParameterServiceMap();
+        for (Map.Entry<String, List<ParameterServiceEntity>> parameterServiceEntry : parameterServiceMap.entrySet()) {
+            List<ParameterServiceEntity> parameterServiceEntityList = parameterServiceEntry.getValue();
+            if (CollectionUtils.isNotEmpty(parameterServiceEntityList)) {
+                for (ParameterServiceEntity parameterServiceEntity : parameterServiceEntityList) {
+                    stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.SERVICE_ELEMENT_NAME);
+
+                    Map<String, String> parameterMap = parameterServiceEntity.getParameterMap();
+                    for (Map.Entry<String, String> parameterEntry : parameterMap.entrySet()) {
+                        String key = parameterEntry.getKey();
+                        String value = parameterEntry.getValue();
+
+                        stringBuilder.append(" " + key + "=\"" + value + "\"");
+                    }
+
+                    stringBuilder.append("/>\n");
+                }
+            }
+        }
+
+        stringBuilder.append(INDENT + "</" + XmlConfigConstant.PARAMETER_ELEMENT_NAME + ">\n");
     }
 
     private void deparseHostFilter(StringBuilder stringBuilder, FilterHolderEntity filterHolderEntity) {
@@ -241,6 +289,14 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
     }
 
     private void deparseWeightFilter(StringBuilder stringBuilder, DiscoveryEntity discoveryEntity) {
+        RegionFilterEntity regionFilterEntity = discoveryEntity.getRegionFilterEntity();
+        if (regionFilterEntity == null) {
+            return;
+        }
+
+        stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.WEIGHT_ELEMENT_NAME + ">\n");
+
+        stringBuilder.append(INDENT + INDENT + "</" + XmlConfigConstant.WEIGHT_ELEMENT_NAME + ">\n");
 
     }
 
