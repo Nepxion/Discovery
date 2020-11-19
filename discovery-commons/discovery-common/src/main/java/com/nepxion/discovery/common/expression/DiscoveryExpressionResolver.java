@@ -9,6 +9,7 @@ package com.nepxion.discovery.common.expression;
  * @version 1.0
  */
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.expression.ExpressionParser;
@@ -22,16 +23,10 @@ public class DiscoveryExpressionResolver {
     public static boolean eval(String expression, String key, Map<String, String> map, TypeComparator typeComparator) {
         StandardEvaluationContext context = new StandardEvaluationContext();
         context.setTypeComparator(typeComparator);
-        context.setVariable(key, map);
-
-        return eval(expression, context);
-    }
-
-    public static boolean eval(String expression, Map<String, Map<String, String>> map, TypeComparator typeComparator) {
-        StandardEvaluationContext context = new StandardEvaluationContext();
-        context.setTypeComparator(typeComparator);
-        for (Map.Entry<String, Map<String, String>> entry : map.entrySet()) {
-            context.setVariable(entry.getKey(), entry.getValue());
+        if (map != null) {
+            context.setVariable(key, map);
+        } else {
+            context.setVariable(key, new HashMap<String, String>());
         }
 
         return eval(expression, context);

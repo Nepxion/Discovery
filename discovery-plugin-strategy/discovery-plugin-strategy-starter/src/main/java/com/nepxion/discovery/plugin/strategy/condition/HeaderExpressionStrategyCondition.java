@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.StrategyConditionEntity;
-import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.expression.DiscoveryExpressionResolver;
 import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
 
@@ -77,10 +76,6 @@ public class HeaderExpressionStrategyCondition extends AbstractStrategyCondition
 
     @Override
     public boolean isTriggered(StrategyConditionEntity strategyConditionEntity, Map<String, String> headerMap) {
-        if (headerMap == null) {
-            throw new DiscoveryException("Header map can't be null");
-        }
-
         String conditionHeader = strategyConditionEntity.getConditionHeader();
 
         return DiscoveryExpressionResolver.eval(conditionHeader, DiscoveryConstant.EXPRESSION_PREFIX, headerMap, strategyTypeComparator);
