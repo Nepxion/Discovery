@@ -14,7 +14,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -247,10 +246,6 @@ public class ConsoleEndpoint {
             map = StringUtil.splitToMap(validation);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Invalid format for validation input");
-        }
-
-        if (map == null) {
-            map = new HashMap<String, String>();
         }
 
         boolean validated = DiscoveryExpressionResolver.eval(condition, DiscoveryConstant.EXPRESSION_PREFIX, map, typeComparator);
