@@ -64,9 +64,8 @@ public class ApolloConfigAdapter extends ConfigAdapter {
     }
 
     private String getConfig(boolean globalConfig) throws Exception {
-        String group = pluginAdapter.getGroup();
-        String serviceId = pluginAdapter.getServiceId();
-        String dataId = globalConfig ? group : serviceId;
+        String group = getGroup();
+        String dataId = getDataId(globalConfig);
 
         return apolloOperation.getConfig(group, dataId);
     }
@@ -78,9 +77,8 @@ public class ApolloConfigAdapter extends ConfigAdapter {
     }
 
     private ConfigChangeListener subscribeConfig(boolean globalConfig) {
-        String group = pluginAdapter.getGroup();
-        String serviceId = pluginAdapter.getServiceId();
-        String dataId = globalConfig ? group : serviceId;
+        String group = getGroup();
+        String dataId = getDataId(globalConfig);
         SubscriptionType subscriptionType = getSubscriptionType(globalConfig);
         RuleType ruleType = getRuleType(globalConfig);
         String configType = getConfigType();
@@ -129,9 +127,8 @@ public class ApolloConfigAdapter extends ConfigAdapter {
             return;
         }
 
-        String group = pluginAdapter.getGroup();
-        String serviceId = pluginAdapter.getServiceId();
-        String dataId = globalConfig ? group : serviceId;
+        String group = getGroup();
+        String dataId = getDataId(globalConfig);
         SubscriptionType subscriptionType = getSubscriptionType(globalConfig);
         String configType = getConfigType();
 
@@ -143,5 +140,20 @@ public class ApolloConfigAdapter extends ConfigAdapter {
     @Override
     public String getConfigType() {
         return ApolloConstant.APOLLO_TYPE;
+    }
+
+    private String getGroup() {
+        return pluginAdapter.getGroup();
+    }
+
+    private String getServiceId() {
+        return pluginAdapter.getServiceId();
+    }
+
+    private String getDataId(boolean globalConfig) {
+        String group = getGroup();
+        String serviceId = getServiceId();
+
+        return globalConfig ? group : serviceId;
     }
 }
