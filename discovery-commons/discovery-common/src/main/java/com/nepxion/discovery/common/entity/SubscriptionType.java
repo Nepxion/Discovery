@@ -11,13 +11,13 @@ package com.nepxion.discovery.common.entity;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
-public enum ConfigType {
+public enum SubscriptionType {
     PARTIAL(DiscoveryConstant.PARTIAL),
     GLOBAL(DiscoveryConstant.GLOBAL);
 
     private String value;
 
-    private ConfigType(String value) {
+    private SubscriptionType(String value) {
         this.value = value;
     }
 
@@ -25,8 +25,8 @@ public enum ConfigType {
         return value;
     }
 
-    public static ConfigType fromString(String value) {
-        for (ConfigType type : ConfigType.values()) {
+    public static SubscriptionType fromString(String value) {
+        for (SubscriptionType type : SubscriptionType.values()) {
             if (type.getValue().equalsIgnoreCase(value)) {
                 return type;
             }
