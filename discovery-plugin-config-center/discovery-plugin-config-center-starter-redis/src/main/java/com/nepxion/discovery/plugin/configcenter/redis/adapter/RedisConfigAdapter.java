@@ -19,7 +19,6 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 
 import com.nepxion.discovery.common.entity.RuleEntity;
-import com.nepxion.discovery.common.entity.RuleType;
 import com.nepxion.discovery.common.entity.SubscriptionType;
 import com.nepxion.discovery.common.redis.constant.RedisConstant;
 import com.nepxion.discovery.common.redis.operation.RedisOperation;
@@ -89,7 +88,6 @@ public class RedisConfigAdapter extends ConfigAdapter {
         String group = getGroup();
         String dataId = getDataId(globalConfig);
         SubscriptionType subscriptionType = getSubscriptionType(globalConfig);
-        RuleType ruleType = getRuleType(globalConfig);
         String configType = getConfigType();
 
         try {
@@ -105,14 +103,14 @@ public class RedisConfigAdapter extends ConfigAdapter {
                             rule = ruleEntity.getContent();
                         }
                         if (!StringUtils.equals(rule, config)) {
-                            fireRuleUpdated(new RuleUpdatedEvent(ruleType, config), true);
+                            fireRuleUpdated(new RuleUpdatedEvent(subscriptionType, config), true);
                         } else {
                             LOG.info("Updated {} config from {} server is same as current config, ignore to update, group={}, dataId={}", subscriptionType, configType, group, dataId);
                         }
                     } else {
                         LOG.info("Get {} config cleared event from {} server, group={}, dataId={}", subscriptionType, configType, group, dataId);
 
-                        fireRuleCleared(new RuleClearedEvent(ruleType), true);
+                        fireRuleCleared(new RuleClearedEvent(subscriptionType), true);
                     }
                 }
             });

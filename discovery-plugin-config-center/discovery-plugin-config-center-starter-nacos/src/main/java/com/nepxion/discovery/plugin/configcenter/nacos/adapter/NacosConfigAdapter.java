@@ -23,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.nacos.api.config.listener.Listener;
 import com.nepxion.discovery.common.entity.RuleEntity;
-import com.nepxion.discovery.common.entity.RuleType;
 import com.nepxion.discovery.common.entity.SubscriptionType;
 import com.nepxion.discovery.common.nacos.constant.NacosConstant;
 import com.nepxion.discovery.common.nacos.operation.NacosOperation;
@@ -88,7 +87,6 @@ public class NacosConfigAdapter extends ConfigAdapter {
         String group = getGroup();
         String dataId = getDataId(globalConfig);
         SubscriptionType subscriptionType = getSubscriptionType(globalConfig);
-        RuleType ruleType = getRuleType(globalConfig);
         String configType = getConfigType();
 
         LOG.info("Subscribe {} config from {} server, group={}, dataId={}", subscriptionType, configType, group, dataId);
@@ -106,14 +104,14 @@ public class NacosConfigAdapter extends ConfigAdapter {
                             rule = ruleEntity.getContent();
                         }
                         if (!StringUtils.equals(rule, config)) {
-                            fireRuleUpdated(new RuleUpdatedEvent(ruleType, config), true);
+                            fireRuleUpdated(new RuleUpdatedEvent(subscriptionType, config), true);
                         } else {
                             LOG.info("Updated {} config from {} server is same as current config, ignore to update, group={}, dataId={}", subscriptionType, configType, group, dataId);
                         }
                     } else {
                         LOG.info("Get {} config cleared event from {} server, group={}, dataId={}", subscriptionType, configType, group, dataId);
 
-                        fireRuleCleared(new RuleClearedEvent(ruleType), true);
+                        fireRuleCleared(new RuleClearedEvent(subscriptionType), true);
                     }
                 }
             });
