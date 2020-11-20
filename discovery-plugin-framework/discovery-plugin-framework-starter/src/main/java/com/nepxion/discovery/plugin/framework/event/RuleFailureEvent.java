@@ -11,23 +11,23 @@ package com.nepxion.discovery.plugin.framework.event;
 
 import java.io.Serializable;
 
-import com.nepxion.discovery.common.entity.RuleType;
+import com.nepxion.discovery.common.entity.SubscriptionType;
 
 public class RuleFailureEvent implements Serializable {
     private static final long serialVersionUID = 954041724496099958L;
 
-    private RuleType ruleType;
+    private SubscriptionType subscriptionType;
     private String rule;
     private Exception exception;
 
-    public RuleFailureEvent(RuleType ruleType, String rule, Exception exception) {
-        this.ruleType = ruleType;
+    public RuleFailureEvent(SubscriptionType subscriptionType, String rule, Exception exception) {
+        this.subscriptionType = subscriptionType;
         this.rule = rule;
         this.exception = exception;
     }
 
-    public RuleType getRuleType() {
-        return ruleType;
+    public SubscriptionType getSubscriptionType() {
+        return subscriptionType;
     }
 
     public String getRule() {

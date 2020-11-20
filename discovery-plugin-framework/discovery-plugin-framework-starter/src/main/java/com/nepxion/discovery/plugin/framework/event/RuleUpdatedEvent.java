@@ -11,21 +11,21 @@ package com.nepxion.discovery.plugin.framework.event;
 
 import java.io.Serializable;
 
-import com.nepxion.discovery.common.entity.RuleType;
+import com.nepxion.discovery.common.entity.SubscriptionType;
 
 public class RuleUpdatedEvent implements Serializable {
     private static final long serialVersionUID = 2315578803987663866L;
 
-    private RuleType ruleType;
+    private SubscriptionType subscriptionType;
     private String rule;
 
-    public RuleUpdatedEvent(RuleType ruleType, String rule) {
-        this.ruleType = ruleType;
+    public RuleUpdatedEvent(SubscriptionType subscriptionType, String rule) {
+        this.subscriptionType = subscriptionType;
         this.rule = rule;
     }
 
-    public RuleType getRuleType() {
-        return ruleType;
+    public SubscriptionType getSubscriptionType() {
+        return subscriptionType;
     }
 
     public String getRule() {

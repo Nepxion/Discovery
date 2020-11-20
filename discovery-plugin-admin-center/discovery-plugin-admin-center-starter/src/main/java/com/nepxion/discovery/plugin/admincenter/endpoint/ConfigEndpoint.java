@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.RuleEntity;
-import com.nepxion.discovery.common.entity.RuleType;
+import com.nepxion.discovery.common.entity.SubscriptionType;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
@@ -97,7 +97,7 @@ public class ConfigEndpoint {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Config rest control is disabled");
         }
 
-        pluginEventWapper.fireRuleUpdated(new RuleUpdatedEvent(RuleType.DYNAMIC_PARTIAL_RULE, config), async);
+        pluginEventWapper.fireRuleUpdated(new RuleUpdatedEvent(SubscriptionType.PARTIAL, config), async);
 
         // return ResponseEntity.ok().build();
 
@@ -115,7 +115,7 @@ public class ConfigEndpoint {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Config rest control is disabled");
         }
 
-        pluginEventWapper.fireRuleCleared(new RuleClearedEvent(RuleType.DYNAMIC_PARTIAL_RULE), async);
+        pluginEventWapper.fireRuleCleared(new RuleClearedEvent(SubscriptionType.PARTIAL), async);
 
         return ResponseEntity.ok().body(DiscoveryConstant.OK);
     }
