@@ -71,11 +71,11 @@ public class DiscoveryConstant {
     public static final String CONSOLE = "console";
     public static final String TEST = "test";
 
-    public static final String DYNAMIC_VERSION = "dynamicVersion";
+    public static final String DYNAMIC_VERSION = "dynamic-version";
     public static final String RULE = "rule";
-    public static final String DYNAMIC_RULE = "dynamicRule";
-    public static final String DYNAMIC_GLOBAL_RULE = "dynamicGlobalRule";
-    public static final String DYNAMIC_PARTIAL_RULE = "dynamicPartialRule";
+    public static final String DYNAMIC_RULE = "dynamic-rule";
+    public static final String DYNAMIC_GLOBAL_RULE = "dynamic-global-rule";
+    public static final String DYNAMIC_PARTIAL_RULE = "dynamic-partial-rule";
     public static final String REACH_MAX_LIMITED_COUNT = "reach max limited count";
     public static final String REGISTER_ISOLATION = "register isolation";
 
