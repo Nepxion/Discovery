@@ -110,6 +110,9 @@ public class DiscoveryConstant {
     public static final String N_D_ADDRESS_BLACKLIST = "n-d-address-blacklist";
 
     public static final String BLUE_GREEN = "blue-green";
+    public static final String BLUE_GREEN_BASIC = "blue-green-basic";
+    public static final String BLUE_BASIC = "blue-basic";
+
     public static final String PORTAL = "portal";
     public static final String BLUE = "blue";
     public static final String GREEN = "green";
@@ -117,9 +120,6 @@ public class DiscoveryConstant {
     public static final String GRAY = "gray";
     public static final String STABLE = "stable";
     public static final String UNDEFINED = "undefined";
-
-    public static final String BLUE_GREEN_BASIC = "blue-green-basic";
-    public static final String BLUE_BASIC = "blue-basic";
 
     public static final String MIDDLEWARE_BLUE_GREEN = "middleware-blue-green";
 

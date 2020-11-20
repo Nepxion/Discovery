@@ -500,7 +500,7 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
                 StrategyRouteType type = strategyRouteEntity.getType();
                 String value = strategyRouteEntity.getValue();
 
-                stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.ROUTE_ELEMENT_NAME + " " + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + id + "\" " + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "=\"" + type.getValue() + "\">" + value + "</" + XmlConfigConstant.ROUTE_ELEMENT_NAME + ">\n");
+                stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.ROUTE_ELEMENT_NAME + " " + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + id + "\" " + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "=\"" + type + "\">" + value + "</" + XmlConfigConstant.ROUTE_ELEMENT_NAME + ">\n");
             }
             stringBuilder.append(INDENT + INDENT + "</" + XmlConfigConstant.ROUTES_ELEMENT_NAME + ">\n");
         }
