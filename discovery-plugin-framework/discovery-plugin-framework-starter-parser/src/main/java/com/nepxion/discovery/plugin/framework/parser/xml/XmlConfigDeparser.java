@@ -429,7 +429,7 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
             stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.CONDITIONS_ELEMENT_NAME + " " + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "=\"" + ConditionType.BLUE_GREEN.toString() + "\">\n");
             for (StrategyConditionBlueGreenEntity strategyConditionBlueGreenEntity : strategyConditionBlueGreenEntityList) {
                 String id = strategyConditionBlueGreenEntity.getId();
-                String conditionHeader = EscapeType.escape(strategyConditionBlueGreenEntity.getConditionHeader());
+                String conditionHeader = EscapeType.escape(strategyConditionBlueGreenEntity.getConditionHeader(), true);
                 String versionId = strategyConditionBlueGreenEntity.getVersionId();
                 String regionId = strategyConditionBlueGreenEntity.getRegionId();
                 String addressId = strategyConditionBlueGreenEntity.getAddressId();
@@ -467,7 +467,7 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
             stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.CONDITIONS_ELEMENT_NAME + " " + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "=\"" + ConditionType.GRAY.toString() + "\">\n");
             for (StrategyConditionGrayEntity strategyConditionGrayEntity : strategyConditionGrayEntityList) {
                 String id = strategyConditionGrayEntity.getId();
-                String conditionHeader = EscapeType.escape(strategyConditionGrayEntity.getConditionHeader());
+                String conditionHeader = EscapeType.escape(strategyConditionGrayEntity.getConditionHeader(), true);
                 VersionWeightEntity versionWeightEntity = strategyConditionGrayEntity.getVersionWeightEntity();
                 RegionWeightEntity regionWeightEntity = strategyConditionGrayEntity.getRegionWeightEntity();
                 AddressWeightEntity addressWeightEntity = strategyConditionGrayEntity.getAddressWeightEntity();

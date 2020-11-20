@@ -37,7 +37,7 @@ public enum EscapeType {
         return source;
     }
 
-    public static String escape(String value) {
+    public static String escape(String value, boolean escaped) {
         if (value == null) {
             return null;
         }
@@ -45,7 +45,7 @@ public enum EscapeType {
         EscapeType[] escapeTypes = EscapeType.values();
         for (int i = 0; i < escapeTypes.length; i++) {
             EscapeType escapeType = escapeTypes[i];
-            value = value.replace(escapeType.getSource(), escapeType.getTarget());
+            value = value.replace(escaped ? escapeType.getSource() : escapeType.getTarget(), escaped ? escapeType.getTarget() : escapeType.getSource());
         }
 
         return value;
