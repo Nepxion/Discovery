@@ -11,6 +11,8 @@ package com.nepxion.discovery.plugin.configcenter.adapter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.nepxion.discovery.common.entity.RuleType;
+import com.nepxion.discovery.common.entity.SubscriptionType;
 import com.nepxion.discovery.plugin.configcenter.loader.RemoteConfigLoader;
 import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
 import com.nepxion.discovery.plugin.framework.event.RuleClearedEvent;
@@ -27,4 +29,14 @@ public abstract class ConfigAdapter extends RemoteConfigLoader {
     public void fireRuleCleared(RuleClearedEvent ruleClearedEvent, boolean async) {
         pluginEventWapper.fireRuleCleared(ruleClearedEvent, async);
     }
+
+    public SubscriptionType getSubscriptionType(boolean globalConfig) {
+        return globalConfig ? SubscriptionType.GLOBAL : SubscriptionType.PARTIAL;
+    }
+
+    public RuleType getRuleType(boolean globalConfig) {
+        return globalConfig ? RuleType.DYNAMIC_GLOBAL_RULE : RuleType.DYNAMIC_PARTIAL_RULE;
+    }
+
+    public abstract String getConfigType();
 }

@@ -24,6 +24,7 @@ import com.nepxion.banner.BannerConstant;
 import com.nepxion.banner.Description;
 import com.nepxion.banner.LogoBanner;
 import com.nepxion.banner.NepxionBanner;
+import com.nepxion.discovery.common.entity.SubscriptionType;
 import com.nepxion.discovery.common.redis.constant.RedisConstant;
 import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
 import com.nepxion.discovery.plugin.configcenter.redis.adapter.RedisConfigAdapter;
@@ -76,8 +77,10 @@ public class RedisConfigAutoConfiguration {
     public MessageListenerAdapter partialMessageListenerAdapter(RedisConfigAdapter configAdapter) {
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
+        SubscriptionType subscriptionType = configAdapter.getSubscriptionType(false);
+        String configType = configAdapter.getConfigType();
 
-        LOG.info("Subscribe {} config from {} server, group={}, dataId={}", configAdapter.getConfigScope(false), configAdapter.getConfigType(), group, serviceId);
+        LOG.info("Subscribe {} config from {} server, group={}, dataId={}", subscriptionType, configType, group, serviceId);
 
         return new MessageListenerAdapter(configAdapter, "subscribePartialConfig");
     }
@@ -85,8 +88,10 @@ public class RedisConfigAutoConfiguration {
     @Bean
     public MessageListenerAdapter globalMessageListenerAdapter(RedisConfigAdapter configAdapter) {
         String group = pluginAdapter.getGroup();
+        SubscriptionType subscriptionType = configAdapter.getSubscriptionType(true);
+        String configType = configAdapter.getConfigType();
 
-        LOG.info("Subscribe {} config from {} server, group={}, dataId={}", configAdapter.getConfigScope(true), configAdapter.getConfigType(), group, group);
+        LOG.info("Subscribe {} config from {} server, group={}, dataId={}", subscriptionType, configType, group, group);
 
         return new MessageListenerAdapter(configAdapter, "subscribeGlobalConfig");
     }
