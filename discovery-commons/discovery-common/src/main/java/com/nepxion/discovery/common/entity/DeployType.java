@@ -11,14 +11,13 @@ package com.nepxion.discovery.common.entity;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
-public enum WeightType {
-    VERSION(DiscoveryConstant.VERSION),
-    REGION(DiscoveryConstant.REGION),
-    ADDRESS(DiscoveryConstant.ADDRESS);
+public enum DeployType {
+    DOMAIN_GATEWAY(DiscoveryConstant.DOMAIN_GATEWAY),
+    NON_DOMAIN_GATEWAY(DiscoveryConstant.NON_DOMAIN_GATEWAY);
 
     private String value;
 
-    private WeightType(String value) {
+    private DeployType(String value) {
         this.value = value;
     }
 
@@ -26,8 +25,8 @@ public enum WeightType {
         return value;
     }
 
-    public static WeightType fromString(String value) {
-        for (WeightType type : WeightType.values()) {
+    public static DeployType fromString(String value) {
+        for (DeployType type : DeployType.values()) {
             if (type.getValue().equalsIgnoreCase(value)) {
                 return type;
             }
