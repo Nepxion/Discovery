@@ -12,23 +12,17 @@ package com.nepxion.discovery.common.entity;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
 public enum ConditionType {
-    BLUE_GREEN(DiscoveryConstant.BLUE_GREEN, DiscoveryConstant.BLUE_GREEN),
-    GRAY(DiscoveryConstant.GRAY, DiscoveryConstant.GRAY);
+    BLUE_GREEN(DiscoveryConstant.BLUE_GREEN),
+    GRAY(DiscoveryConstant.GRAY);
 
     private String value;
-    private String description;
 
-    private ConditionType(String value, String description) {
+    private ConditionType(String value) {
         this.value = value;
-        this.description = description;
     }
 
     public String getValue() {
         return value;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public static ConditionType fromString(String value) {

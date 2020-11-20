@@ -12,23 +12,17 @@ package com.nepxion.discovery.common.entity;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
 public enum RuleType {
-    DYNAMIC_GLOBAL_RULE(DiscoveryConstant.DYNAMIC_GLOBAL_RULE, DiscoveryConstant.DYNAMIC_GLOBAL_RULE), 
-    DYNAMIC_PARTIAL_RULE(DiscoveryConstant.DYNAMIC_PARTIAL_RULE, DiscoveryConstant.DYNAMIC_PARTIAL_RULE);
+    DYNAMIC_GLOBAL_RULE(DiscoveryConstant.DYNAMIC_GLOBAL_RULE), 
+    DYNAMIC_PARTIAL_RULE(DiscoveryConstant.DYNAMIC_PARTIAL_RULE);
 
     private String value;
-    private String description;
 
-    private RuleType(String value, String description) {
+    private RuleType(String value) {
         this.value = value;
-        this.description = description;
     }
 
     public String getValue() {
         return value;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public static RuleType fromString(String value) {

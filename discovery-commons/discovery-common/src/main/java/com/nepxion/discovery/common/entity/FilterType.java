@@ -12,23 +12,17 @@ package com.nepxion.discovery.common.entity;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
 public enum FilterType {
-    BLACKLIST(DiscoveryConstant.BLACKLIST, DiscoveryConstant.BLACKLIST),
-    WHITELIST(DiscoveryConstant.WHITELIST, DiscoveryConstant.WHITELIST);
+    BLACKLIST(DiscoveryConstant.BLACKLIST),
+    WHITELIST(DiscoveryConstant.WHITELIST);
 
     private String value;
-    private String description;
 
-    private FilterType(String value, String description) {
+    private FilterType(String value) {
         this.value = value;
-        this.description = description;
     }
 
     public String getValue() {
         return value;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public static FilterType fromString(String value) {
