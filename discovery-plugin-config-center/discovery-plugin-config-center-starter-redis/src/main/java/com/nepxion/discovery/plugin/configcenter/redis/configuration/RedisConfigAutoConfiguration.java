@@ -62,8 +62,8 @@ public class RedisConfigAutoConfiguration {
 
     @Bean
     public RedisMessageListenerContainer configMessageListenerContainer(MessageListenerAdapter partialMessageListenerAdapter, MessageListenerAdapter globalMessageListenerAdapter) {
-        String group = pluginAdapter.getGroup();
-        String serviceId = pluginAdapter.getServiceId();
+        String group = getGroup();
+        String serviceId = getServiceId();
 
         RedisMessageListenerContainer configMessageListenerContainer = new RedisMessageListenerContainer();
         configMessageListenerContainer.setConnectionFactory(redisConnectionFactory);
@@ -75,8 +75,8 @@ public class RedisConfigAutoConfiguration {
 
     @Bean
     public MessageListenerAdapter partialMessageListenerAdapter(RedisConfigAdapter configAdapter) {
-        String group = pluginAdapter.getGroup();
-        String serviceId = pluginAdapter.getServiceId();
+        String group = getGroup();
+        String serviceId = getServiceId();
         SubscriptionType subscriptionType = configAdapter.getSubscriptionType(false);
         String configType = configAdapter.getConfigType();
 
@@ -87,7 +87,7 @@ public class RedisConfigAutoConfiguration {
 
     @Bean
     public MessageListenerAdapter globalMessageListenerAdapter(RedisConfigAdapter configAdapter) {
-        String group = pluginAdapter.getGroup();
+        String group = getGroup();
         SubscriptionType subscriptionType = configAdapter.getSubscriptionType(true);
         String configType = configAdapter.getConfigType();
 
@@ -99,5 +99,13 @@ public class RedisConfigAutoConfiguration {
     @Bean
     public ConfigAdapter configAdapter() {
         return new RedisConfigAdapter();
+    }
+
+    private String getGroup() {
+        return pluginAdapter.getGroup();
+    }
+
+    private String getServiceId() {
+        return pluginAdapter.getServiceId();
     }
 }
