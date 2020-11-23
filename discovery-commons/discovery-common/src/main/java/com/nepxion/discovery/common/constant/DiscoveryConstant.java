@@ -121,8 +121,6 @@ public class DiscoveryConstant {
     public static final String STABLE = "stable";
     public static final String UNDEFINED = "undefined";
 
-    public static final String MIDDLEWARE_BLUE_GREEN = "middleware-blue-green";
-
     public static final String DOMAIN_GATEWAY = "domain-gateway";
     public static final String NON_DOMAIN_GATEWAY = "non-domain-gateway";
 
