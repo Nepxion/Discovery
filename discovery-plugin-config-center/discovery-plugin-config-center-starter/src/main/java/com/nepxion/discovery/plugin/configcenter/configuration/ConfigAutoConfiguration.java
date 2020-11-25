@@ -19,6 +19,7 @@ import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.configcenter.context.ConfigContextClosedHandler;
 import com.nepxion.discovery.plugin.configcenter.initializer.ConfigInitializer;
 import com.nepxion.discovery.plugin.configcenter.loader.LocalConfigLoader;
+import com.nepxion.discovery.plugin.configcenter.logger.ConfigLogger;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.parser.PluginConfigParser;
 import com.nepxion.discovery.plugin.framework.parser.json.JsonConfigParser;
@@ -59,5 +60,10 @@ public class ConfigAutoConfiguration {
     @Bean
     public ConfigContextClosedHandler configContextClosedHandler() {
         return new ConfigContextClosedHandler();
+    }
+
+    @Bean
+    public ConfigLogger configLogger() {
+        return new ConfigLogger();
     }
 }

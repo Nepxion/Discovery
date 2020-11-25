@@ -11,61 +11,27 @@ package com.nepxion.discovery.plugin.configcenter.apollo.adapter;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ctrip.framework.apollo.ConfigChangeListener;
 import com.nepxion.discovery.common.apollo.constant.ApolloConstant;
 import com.nepxion.discovery.common.apollo.operation.ApolloOperation;
 import com.nepxion.discovery.common.apollo.operation.ApolloSubscribeCallback;
-import com.nepxion.discovery.common.entity.RuleEntity;
-import com.nepxion.discovery.common.entity.SubscriptionType;
 import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
-import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.framework.event.RuleClearedEvent;
-import com.nepxion.discovery.plugin.framework.event.RuleUpdatedEvent;
+import com.nepxion.discovery.plugin.configcenter.logger.ConfigLogger;
 
 public class ApolloConfigAdapter extends ConfigAdapter {
-    private static final Logger LOG = LoggerFactory.getLogger(ApolloConfigAdapter.class);
-
-    @Autowired
-    private PluginAdapter pluginAdapter;
-
     @Autowired
     private ApolloOperation apolloOperation;
+
+    @Autowired
+    private ConfigLogger configLogger;
 
     private ConfigChangeListener partialListener;
     private ConfigChangeListener globalListener;
 
     @Override
-    public String[] getConfigList() throws Exception {
-        String[] configList = new String[2];
-        configList[0] = getConfig(false);
-        configList[1] = getConfig(true);
-
-        String configType = getConfigType();
-
-        if (StringUtils.isNotEmpty(configList[0])) {
-            LOG.info("Found {} config from {} server", getSubscriptionType(false), configType);
-        } else {
-            LOG.info("No {} config is found from {} server", getSubscriptionType(false), configType);
-        }
-
-        if (StringUtils.isNotEmpty(configList[1])) {
-            LOG.info("Found {} config from {} server", getSubscriptionType(true), configType);
-        } else {
-            LOG.info("No {} config is found from {} server", getSubscriptionType(true), configType);
-        }
-
-        return configList;
-    }
-
-    private String getConfig(boolean globalConfig) throws Exception {
-        String group = getGroup();
-        String dataId = getDataId(globalConfig);
-
+    public String getConfig(String group, String dataId) throws Exception {
         return apolloOperation.getConfig(group, dataId);
     }
 
@@ -78,37 +44,18 @@ public class ApolloConfigAdapter extends ConfigAdapter {
     private ConfigChangeListener subscribeConfig(boolean globalConfig) {
         String group = getGroup();
         String dataId = getDataId(globalConfig);
-        SubscriptionType subscriptionType = getSubscriptionType(globalConfig);
-        String configType = getConfigType();
 
-        LOG.info("Subscribe {} config from {} server, key={}-{}", subscriptionType, configType, group, dataId);
+        configLogger.logSubscribeStarted(globalConfig);
 
         try {
             return apolloOperation.subscribeConfig(group, dataId, new ApolloSubscribeCallback() {
                 @Override
                 public void callback(String config) {
-                    if (StringUtils.isNotEmpty(config)) {
-                        LOG.info("Get {} config updated event from {} server, key={}-{}", subscriptionType, configType, group, dataId);
-
-                        RuleEntity ruleEntity = pluginAdapter.getRule();
-                        String rule = null;
-                        if (ruleEntity != null) {
-                            rule = ruleEntity.getContent();
-                        }
-                        if (!StringUtils.equals(rule, config)) {
-                            fireRuleUpdated(new RuleUpdatedEvent(subscriptionType, config), true);
-                        } else {
-                            LOG.info("Updated {} config from {} server is same as current config, ignore to update, key={}-{}", subscriptionType, configType, group, dataId);
-                        }
-                    } else {
-                        LOG.info("Get {} config cleared event from {} server, key={}-{}", subscriptionType, configType, group, dataId);
-
-                        fireRuleCleared(new RuleClearedEvent(subscriptionType), true);
-                    }
+                    callbackConfig(config, globalConfig);
                 }
             });
         } catch (Exception e) {
-            LOG.error("Subscribe {} config from {} server failed, key={}-{}", subscriptionType, configType, group, dataId, e);
+            configLogger.logSubscribeFailed(e, globalConfig);
         }
 
         return null;
@@ -127,12 +74,14 @@ public class ApolloConfigAdapter extends ConfigAdapter {
 
         String group = getGroup();
         String dataId = getDataId(globalConfig);
-        SubscriptionType subscriptionType = getSubscriptionType(globalConfig);
-        String configType = getConfigType();
 
-        LOG.info("Unsubscribe {} config from {} server, key={}-{}", subscriptionType, configType, group, dataId);
+        configLogger.logUnsubscribeStarted(globalConfig);
 
-        apolloOperation.unsubscribeConfig(group, dataId, configListener);
+        try {
+            apolloOperation.unsubscribeConfig(group, dataId, configListener);
+        } catch (Exception e) {
+            configLogger.logUnsubscribeFailed(e, globalConfig);
+        }
     }
 
     @Override
@@ -140,18 +89,8 @@ public class ApolloConfigAdapter extends ConfigAdapter {
         return ApolloConstant.APOLLO_TYPE;
     }
 
-    private String getGroup() {
-        return pluginAdapter.getGroup();
-    }
-
-    private String getServiceId() {
-        return pluginAdapter.getServiceId();
-    }
-
-    private String getDataId(boolean globalConfig) {
-        String group = getGroup();
-        String serviceId = getServiceId();
-
-        return globalConfig ? group : serviceId;
+    @Override
+    public boolean isSingleKey() {
+        return true;
     }
 }

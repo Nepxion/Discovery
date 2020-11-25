@@ -67,21 +67,25 @@ public class ConfigInitializer {
         if (remoteConfigList != null) {
             String partialRemoteConfig = remoteConfigList[0];
             if (StringUtils.isNotEmpty(partialRemoteConfig)) {
+                LOG.info("Initialize partial remote config...");
+
                 try {
                     RuleEntity ruleEntity = pluginConfigParser.parse(partialRemoteConfig);
                     pluginAdapter.setDynamicPartialRule(ruleEntity);
                 } catch (Exception e) {
-                    LOG.error("Parse partial remote config failed", e);
+                    LOG.error("Initialize partial remote config failed", e);
                 }
             }
 
             String globalRemoteConfig = remoteConfigList[1];
             if (StringUtils.isNotEmpty(globalRemoteConfig)) {
+                LOG.info("Initialize global remote config...");
+
                 try {
                     RuleEntity ruleEntity = pluginConfigParser.parse(globalRemoteConfig);
                     pluginAdapter.setDynamicGlobalRule(ruleEntity);
                 } catch (Exception e) {
-                    LOG.error("Parse partial remote config failed", e);
+                    LOG.error("Initialize global remote config failed", e);
                 }
             }
         }
@@ -90,11 +94,13 @@ public class ConfigInitializer {
         if (localConfigList != null) {
             String localConfig = localConfigList[0];
             if (StringUtils.isNotEmpty(localConfig)) {
+                LOG.info("Initialize local config...");
+
                 try {
                     RuleEntity ruleEntity = pluginConfigParser.parse(localConfig);
                     pluginAdapter.setLocalRule(ruleEntity);
                 } catch (Exception e) {
-                    LOG.error("Parse local config failed", e);
+                    LOG.error("Initialize local config failed", e);
                 }
             }
         }
