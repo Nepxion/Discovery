@@ -10,11 +10,10 @@ package com.nepxion.discovery.plugin.configcenter.redis.configuration;
  * @version 1.0
  */
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
@@ -24,17 +23,15 @@ import com.nepxion.banner.BannerConstant;
 import com.nepxion.banner.Description;
 import com.nepxion.banner.LogoBanner;
 import com.nepxion.banner.NepxionBanner;
-import com.nepxion.discovery.common.entity.SubscriptionType;
 import com.nepxion.discovery.common.redis.constant.RedisConstant;
 import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
+import com.nepxion.discovery.plugin.configcenter.logger.ConfigLogger;
 import com.nepxion.discovery.plugin.configcenter.redis.adapter.RedisConfigAdapter;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.taobao.text.Color;
 
 @Configuration
 public class RedisConfigAutoConfiguration {
-    private static final Logger LOG = LoggerFactory.getLogger(RedisConfigAutoConfiguration.class);
-
     static {
         /*String bannerShown = System.getProperty(BannerConstant.BANNER_SHOWN, "true");
         if (Boolean.valueOf(bannerShown)) {
@@ -60,10 +57,14 @@ public class RedisConfigAutoConfiguration {
     @Autowired
     private PluginAdapter pluginAdapter;
 
+    @Autowired
+    @Lazy
+    private ConfigLogger configLogger;
+
     @Bean
     public RedisMessageListenerContainer configMessageListenerContainer(MessageListenerAdapter partialMessageListenerAdapter, MessageListenerAdapter globalMessageListenerAdapter) {
-        String group = getGroup();
-        String serviceId = getServiceId();
+        String group = pluginAdapter.getGroup();
+        String serviceId = pluginAdapter.getServiceId();
 
         RedisMessageListenerContainer configMessageListenerContainer = new RedisMessageListenerContainer();
         configMessageListenerContainer.setConnectionFactory(redisConnectionFactory);
@@ -75,23 +76,14 @@ public class RedisConfigAutoConfiguration {
 
     @Bean
     public MessageListenerAdapter partialMessageListenerAdapter(RedisConfigAdapter configAdapter) {
-        String group = getGroup();
-        String serviceId = getServiceId();
-        SubscriptionType subscriptionType = configAdapter.getSubscriptionType(false);
-        String configType = configAdapter.getConfigType();
-
-        LOG.info("Subscribe {} config from {} server, group={}, dataId={}", subscriptionType, configType, group, serviceId);
+        configLogger.logSubscribeStarted(false);
 
         return new MessageListenerAdapter(configAdapter, "subscribePartialConfig");
     }
 
     @Bean
     public MessageListenerAdapter globalMessageListenerAdapter(RedisConfigAdapter configAdapter) {
-        String group = getGroup();
-        SubscriptionType subscriptionType = configAdapter.getSubscriptionType(true);
-        String configType = configAdapter.getConfigType();
-
-        LOG.info("Subscribe {} config from {} server, group={}, dataId={}", subscriptionType, configType, group, group);
+        configLogger.logSubscribeStarted(true);
 
         return new MessageListenerAdapter(configAdapter, "subscribeGlobalConfig");
     }
@@ -99,13 +91,5 @@ public class RedisConfigAutoConfiguration {
     @Bean
     public ConfigAdapter configAdapter() {
         return new RedisConfigAdapter();
-    }
-
-    private String getGroup() {
-        return pluginAdapter.getGroup();
-    }
-
-    private String getServiceId() {
-        return pluginAdapter.getServiceId();
     }
 }

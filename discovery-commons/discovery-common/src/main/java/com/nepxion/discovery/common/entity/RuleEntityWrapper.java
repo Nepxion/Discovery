@@ -62,6 +62,14 @@ public class RuleEntityWrapper {
         }
         ruleEntity.setParameterEntity(parameterEntity);
 
+        String content = null;
+        if (partialRuleEntity != null && partialRuleEntity.getContent() != null) {
+            content = partialRuleEntity.getContent();
+        } else if (globalRuleEntity != null && globalRuleEntity.getContent() != null) {
+            content = globalRuleEntity.getContent();
+        }
+        ruleEntity.setContent(content);
+
         return ruleEntity;
     }
 }
