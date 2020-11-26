@@ -42,6 +42,11 @@ public class RedisConfigAdapter extends ConfigAdapter {
         return redisOperation.getConfig(group, dataId);
     }
 
+    @Override
+    public void subscribeConfig() {
+        // No need to implement, that is resolved in RedisConfigAutoConfiguration
+    }
+
     public void subscribePartialConfig(String config) {
         subscribeConfig(config, false);
     }
@@ -64,7 +69,7 @@ public class RedisConfigAdapter extends ConfigAdapter {
     }
 
     @Override
-    public void close() {
+    public void unsubscribeConfig() {
         unsubscribeConfig(partialMessageListenerAdapter, false);
         unsubscribeConfig(globalMessageListenerAdapter, true);
     }
@@ -92,7 +97,7 @@ public class RedisConfigAdapter extends ConfigAdapter {
     }
 
     @Override
-    public boolean isSingleKey() {
+    public boolean isConfigSingleKey() {
         return false;
     }
 }

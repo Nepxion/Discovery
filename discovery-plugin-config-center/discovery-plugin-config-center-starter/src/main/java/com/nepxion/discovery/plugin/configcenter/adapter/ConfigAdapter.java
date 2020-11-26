@@ -115,5 +115,5 @@ public abstract class ConfigAdapter extends RemoteConfigLoader {
 
     public abstract String getConfigType();
 
-    public abstract boolean isSingleKey();
+    public abstract boolean isConfigSingleKey();
 }

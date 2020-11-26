@@ -44,6 +44,7 @@ public class NacosConfigAdapter extends ConfigAdapter {
     }
 
     @PostConstruct
+    @Override
     public void subscribeConfig() {
         partialListener = subscribeConfig(false);
         globalListener = subscribeConfig(true);
@@ -70,7 +71,7 @@ public class NacosConfigAdapter extends ConfigAdapter {
     }
 
     @Override
-    public void close() {
+    public void unsubscribeConfig() {
         unsubscribeConfig(partialListener, false);
         unsubscribeConfig(globalListener, true);
 
@@ -100,7 +101,7 @@ public class NacosConfigAdapter extends ConfigAdapter {
     }
 
     @Override
-    public boolean isSingleKey() {
+    public boolean isConfigSingleKey() {
         return false;
     }
 }

@@ -22,7 +22,7 @@ public class ConfigContextClosedHandler implements ApplicationListener<ContextCl
     @Override
     public void onApplicationEvent(ContextClosedEvent event) {
         if (remoteConfigLoader != null) {
-            remoteConfigLoader.close();
+            remoteConfigLoader.unsubscribeConfig();
         }
     }
 }
