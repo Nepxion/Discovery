@@ -100,6 +100,6 @@ public class ConfigLogger {
     }
 
     private String getLogKey() {
-        return configAdapter.isSingleKey() ? "key={}-{}" : "group={}, dataId={}";
+        return configAdapter.isConfigSingleKey() ? "key={}-{}" : "group={}, dataId={}";
     }
 }

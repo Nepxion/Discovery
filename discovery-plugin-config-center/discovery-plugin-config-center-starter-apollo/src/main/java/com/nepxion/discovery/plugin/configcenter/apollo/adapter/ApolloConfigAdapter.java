@@ -36,6 +36,7 @@ public class ApolloConfigAdapter extends ConfigAdapter {
     }
 
     @PostConstruct
+    @Override
     public void subscribeConfig() {
         partialListener = subscribeConfig(false);
         globalListener = subscribeConfig(true);
@@ -62,7 +63,7 @@ public class ApolloConfigAdapter extends ConfigAdapter {
     }
 
     @Override
-    public void close() {
+    public void unsubscribeConfig() {
         unsubscribeConfig(partialListener, false);
         unsubscribeConfig(globalListener, true);
     }
@@ -90,7 +91,7 @@ public class ApolloConfigAdapter extends ConfigAdapter {
     }
 
     @Override
-    public boolean isSingleKey() {
+    public boolean isConfigSingleKey() {
         return true;
     }
 }
