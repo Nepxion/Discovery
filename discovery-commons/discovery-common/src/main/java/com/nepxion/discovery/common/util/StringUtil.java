@@ -31,7 +31,7 @@ public class StringUtil {
             return null;
         }
 
-        String[] valueArray = StringUtils.split(value, separate);
+        String[] valueArray = StringUtils.splitByWholeSeparator(value, separate);
 
         return Arrays.asList(valueArray);
     }
@@ -67,9 +67,9 @@ public class StringUtil {
         }
 
         Map<String, String> map = new HashMap<String, String>();
-        String[] separateArray = StringUtils.split(value, separate);
+        String[] separateArray = StringUtils.splitByWholeSeparator(value, separate);
         for (String separateValue : separateArray) {
-            String[] equalsArray = StringUtils.split(separateValue, equals);
+            String[] equalsArray = StringUtils.splitByWholeSeparator(separateValue, equals);
             map.put(equalsArray[0].trim(), equalsArray[1].trim());
         }
 

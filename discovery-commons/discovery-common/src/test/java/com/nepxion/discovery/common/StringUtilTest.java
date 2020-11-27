@@ -29,10 +29,10 @@ public class StringUtilTest {
         System.out.println(StringUtil.convertToString(new ArrayList<String>()));
         System.out.println(StringUtil.convertToString((List<String>) null));
 
-        List<String> list = StringUtil.splitToList("a;b;c", ";");
+        List<String> list = StringUtil.splitToList("a->b->c", "->");
         System.out.println(list);
 
-        String value = StringUtil.convertToString(list, ";");
+        String value = StringUtil.convertToString(list, "->");
         System.out.println(value);
     }
 
@@ -43,10 +43,10 @@ public class StringUtilTest {
         System.out.println(StringUtil.convertToString(new HashMap<String, String>()));
         System.out.println(StringUtil.convertToString((Map<String, String>) null));
 
-        Map<String, String> map = StringUtil.splitToMap("a=1;b=2", "=", ";");
+        Map<String, String> map = StringUtil.splitToMap("a==1&&b==2", "==", "&&");
         System.out.println(map);
 
-        String value = StringUtil.convertToString(map, "=", ";");
+        String value = StringUtil.convertToString(map, "==", "&&");
         System.out.println(value);
     }
 }
