@@ -15,13 +15,11 @@ import java.util.Map;
 import javax.servlet.http.Cookie;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.nepxion.discovery.plugin.strategy.context.AbstractStrategyContextHolder;
-import com.nepxion.discovery.plugin.strategy.service.filter.ServiceStrategyRouteFilter;
 
 public class ServiceStrategyContextHolder extends AbstractStrategyContextHolder {
     public ServletRequestAttributes getRestAttributes() {
@@ -115,96 +113,5 @@ public class ServiceStrategyContextHolder extends AbstractStrategyContextHolder 
         }
 
         return attributes.getRequest().getRequestURI();
-    }
-
-    // 如果配置了内置条件Header，强制使用内置条件Header的模式
-    // 该模式只适用于服务层。不希望在服务层处理的这么复杂，且一般情况下，不会在服务层内置Header
-    // 该模式不适用于网关层。网关层会在过滤器中预先塞入内置Header
-    @Override
-    protected boolean isInnerConditionHeaderForced() {
-        return true;
-    }
-
-    @Autowired
-    protected ServiceStrategyRouteFilter serviceStrategyRouteFilter;
-
-    @Override
-    public String getRouteVersion() {
-        String routeVersion = serviceStrategyRouteFilter.getRouteVersion();
-        if (StringUtils.isEmpty(routeVersion)) {
-            routeVersion = super.getRouteVersion();
-        }
-
-        return routeVersion;
-    }
-
-    @Override
-    public String getRouteRegion() {
-        String routeRegion = serviceStrategyRouteFilter.getRouteRegion();
-        if (StringUtils.isEmpty(routeRegion)) {
-            routeRegion = super.getRouteRegion();
-        }
-
-        return routeRegion;
-    }
-
-    @Override
-    public String getRouteEnvironment() {
-        String routeEnvironment = serviceStrategyRouteFilter.getRouteEnvironment();
-        if (StringUtils.isEmpty(routeEnvironment)) {
-            routeEnvironment = super.getRouteEnvironment();
-        }
-
-        return routeEnvironment;
-    }
-
-    @Override
-    public String getRouteAddress() {
-        String routeAddress = serviceStrategyRouteFilter.getRouteAddress();
-        if (StringUtils.isEmpty(routeAddress)) {
-            routeAddress = super.getRouteAddress();
-        }
-
-        return routeAddress;
-    }
-
-    @Override
-    public String getRouteVersionWeight() {
-        String routeVersionWeight = serviceStrategyRouteFilter.getRouteVersionWeight();
-        if (StringUtils.isEmpty(routeVersionWeight)) {
-            routeVersionWeight = super.getRouteVersionWeight();
-        }
-
-        return routeVersionWeight;
-    }
-
-    @Override
-    public String getRouteRegionWeight() {
-        String routeRegionWeight = serviceStrategyRouteFilter.getRouteRegionWeight();
-        if (StringUtils.isEmpty(routeRegionWeight)) {
-            routeRegionWeight = super.getRouteRegionWeight();
-        }
-
-        return routeRegionWeight;
-    }
-
-    @Override
-    public String getRouteIdBlacklist() {
-        String routeIdBlacklist = serviceStrategyRouteFilter.getRouteIdBlacklist();
-        if (StringUtils.isEmpty(routeIdBlacklist)) {
-            routeIdBlacklist = super.getRouteIdBlacklist();
-        }
-
-        return routeIdBlacklist;
-    }
-
-    @Override
-    public String getRouteAddressBlacklist() {
-        String routeAddressBlacklist = serviceStrategyRouteFilter.getRouteAddressBlacklist();
-        if (StringUtils.isEmpty(routeAddressBlacklist)) {
-            routeAddressBlacklist = super.getRouteAddressBlacklist();
-        }
-
-        return routeAddressBlacklist;
     }
 }
