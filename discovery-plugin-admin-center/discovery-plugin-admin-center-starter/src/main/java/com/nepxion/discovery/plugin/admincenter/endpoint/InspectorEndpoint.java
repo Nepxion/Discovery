@@ -57,7 +57,6 @@ public class InspectorEndpoint {
     public InspectorEntity inspect(@RequestBody @ApiParam(value = "侦测对象", required = true) InspectorEntity inspectorEntity) {
         List<String> serviceIdList = inspectorEntity.getServiceIdList();
         String result = inspectorEntity.getResult();
-        // 第一个节点信息来自于网关
         if (StringUtils.isEmpty(result) && pluginContextHolder != null) {
             result = pluginContextHolder.getContext(DiscoveryConstant.INSPECTOR_ENDPOINT_HEADER);
         }
