@@ -9,8 +9,8 @@ package com.nepxion.discovery.plugin.strategy.service.filter;
  * @version 1.0
  */
 
-import com.nepxion.discovery.plugin.strategy.filter.StrategyRouteFilter;
+import org.springframework.web.filter.OncePerRequestFilter;
 
-public abstract class ServiceStrategyRouteFilter extends ServiceStrategyFilter implements StrategyRouteFilter {
+public abstract class ServiceStrategyFilter extends OncePerRequestFilter {
 
 }
