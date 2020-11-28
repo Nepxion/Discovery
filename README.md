@@ -3912,6 +3912,8 @@ spring.application.strategy.control.enabled=true
 spring.application.strategy.zone.avoidance.rule.enabled=true
 # 启动和关闭路由策略的时候，对REST方式的调用拦截。缺失则默认为true
 spring.application.strategy.rest.intercept.enabled=true
+# 当外界传值Header的时候，服务也设置并传递同名的Header，需要决定哪个Header传递到后边的服务去，该开关依赖前置过滤器的开关。如果下面开关为true，以服务设置为优先，否则以外界传值为优先。缺失则默认为true
+spring.application.strategy.service.header.priority=true
 # 启动和关闭Feign上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
 # 1. n-d-version
 # 2. n-d-region
