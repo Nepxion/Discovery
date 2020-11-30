@@ -93,8 +93,6 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
                 }
             }
 
-            extendFilter(request, requestBuilder);
-
             String routeVersion = getRouteVersion();
             String routeRegion = getRouteRegion();
             String routeAddress = getRouteAddress();
@@ -182,10 +180,6 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
         }
 
         return chain.filter(newExchange);
-    }
-
-    protected void extendFilter(ServerHttpRequest request, ServerHttpRequest.Builder requestBuilder) {
-
     }
 
     public PluginAdapter getPluginAdapter() {
