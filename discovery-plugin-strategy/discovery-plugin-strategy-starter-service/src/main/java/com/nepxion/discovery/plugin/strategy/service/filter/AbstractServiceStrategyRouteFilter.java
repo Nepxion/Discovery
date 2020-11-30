@@ -75,6 +75,8 @@ public abstract class AbstractServiceStrategyRouteFilter extends ServiceStrategy
                 }
             }
 
+            extendFilter(serviceStrategyRouteFilterRequest);
+
             String routeVersion = getRouteVersion();
             String routeRegion = getRouteRegion();
             String routeAddress = getRouteAddress();
@@ -104,8 +106,6 @@ public abstract class AbstractServiceStrategyRouteFilter extends ServiceStrategy
                 ServiceStrategyFilterResolver.setHeader(serviceStrategyRouteFilterRequest, DiscoveryConstant.N_D_ADDRESS_BLACKLIST, routeAddressBlacklist, serviceHeaderPriority);
             }
         }
-
-        extendFilter(serviceStrategyRouteFilterRequest);
 
         filterChain.doFilter(serviceStrategyRouteFilterRequest, response);
     }

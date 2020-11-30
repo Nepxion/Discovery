@@ -92,6 +92,8 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulStrategyRouteF
                 }
             }
 
+            extendFilter();
+
             String routeVersion = getRouteVersion();
             String routeRegion = getRouteRegion();
             String routeAddress = getRouteAddress();
@@ -162,18 +164,17 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulStrategyRouteF
         ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, pluginAdapter.getEnvironment(), false);
         ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.N_D_SERVICE_ZONE, pluginAdapter.getZone(), false);
 
-        extendFilter();
-
-        // 调用链监控
         RequestContext context = RequestContext.getCurrentContext();
-        if (zuulStrategyMonitor != null) {
-            zuulStrategyMonitor.monitor(context);
-        }
 
         // 拦截侦测请求
         String path = context.getRequest().getServletPath();
         if (path.contains(DiscoveryConstant.INSPECTOR_ENDPOINT_URL)) {
             ZuulStrategyFilterResolver.setHeader(DiscoveryConstant.INSPECTOR_ENDPOINT_HEADER, pluginAdapter.getPluginInfo(null), true);
+        }
+
+        // 调用链监控
+        if (zuulStrategyMonitor != null) {
+            zuulStrategyMonitor.monitor(context);
         }
 
         return null;
