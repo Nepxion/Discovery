@@ -94,8 +94,6 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulStrategyRouteF
                 }
             }
 
-            extendFilter(context);
-
             String routeVersion = getRouteVersion();
             String routeRegion = getRouteRegion();
             String routeAddress = getRouteAddress();
@@ -178,10 +176,6 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulStrategyRouteF
         }
 
         return null;
-    }
-
-    protected void extendFilter(RequestContext context) {
-
     }
 
     public PluginAdapter getPluginAdapter() {

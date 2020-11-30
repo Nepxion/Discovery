@@ -75,8 +75,6 @@ public abstract class AbstractServiceStrategyRouteFilter extends ServiceStrategy
                 }
             }
 
-            extendFilter(serviceStrategyRouteFilterRequest);
-
             String routeVersion = getRouteVersion();
             String routeRegion = getRouteRegion();
             String routeAddress = getRouteAddress();
@@ -108,10 +106,6 @@ public abstract class AbstractServiceStrategyRouteFilter extends ServiceStrategy
         }
 
         filterChain.doFilter(serviceStrategyRouteFilterRequest, response);
-    }
-
-    protected void extendFilter(ServiceStrategyRouteFilterRequest serviceStrategyRouteFilterRequest) {
-
     }
 
     public PluginAdapter getPluginAdapter() {
