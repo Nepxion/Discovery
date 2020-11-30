@@ -72,7 +72,8 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
         GatewayStrategyContext.getCurrentContext().setExchange(exchange);
 
         // 通过过滤器设置路由Header头部信息，并全链路传递到服务端
-        ServerHttpRequest.Builder requestBuilder = exchange.getRequest().mutate();
+        ServerHttpRequest request = exchange.getRequest();
+        ServerHttpRequest.Builder requestBuilder = request.mutate();
 
         String routeEnvironment = getRouteEnvironment();
         // 通过过滤器设置路由Header头部信息，并全链路传递到服务端
@@ -91,6 +92,8 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
                     GatewayStrategyFilterResolver.setHeader(requestBuilder, key, value, gatewayHeaderPriority);
                 }
             }
+
+            extendFilter(request, requestBuilder);
 
             String routeVersion = getRouteVersion();
             String routeRegion = getRouteRegion();
@@ -161,32 +164,28 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
         GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, pluginAdapter.getEnvironment(), false);
         GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_SERVICE_ZONE, pluginAdapter.getZone(), false);
 
+        // 拦截侦测请求
+        String path = request.getPath().toString();
+        if (path.contains(DiscoveryConstant.INSPECTOR_ENDPOINT_URL)) {
+            GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.INSPECTOR_ENDPOINT_HEADER, pluginAdapter.getPluginInfo(null), true);
+        }
+
         ServerHttpRequest newRequest = requestBuilder.build();
         ServerWebExchange newExchange = exchange.mutate().request(newRequest).build();
-
-        ServerWebExchange extensionExchange = extendFilter(newExchange, chain);
-
-        ServerWebExchange finalExchange = extensionExchange != null ? extensionExchange : newExchange;
 
         // 把新的ServerWebExchange放入ThreadLocal中
         GatewayStrategyContext.getCurrentContext().setExchange(newExchange);
 
         // 调用链监控
         if (gatewayStrategyMonitor != null) {
-            gatewayStrategyMonitor.monitor(finalExchange);
+            gatewayStrategyMonitor.monitor(newExchange);
         }
 
-        // 拦截侦测请求
-        String path = finalExchange.getRequest().getPath().toString();
-        if (path.contains(DiscoveryConstant.INSPECTOR_ENDPOINT_URL)) {
-            GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.INSPECTOR_ENDPOINT_HEADER, pluginAdapter.getPluginInfo(null), true);
-        }
-
-        return chain.filter(finalExchange);
+        return chain.filter(newExchange);
     }
 
-    protected ServerWebExchange extendFilter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        return null;
+    protected void extendFilter(ServerHttpRequest serverHttpRequest, ServerHttpRequest.Builder requestBuilder) {
+
     }
 
     public PluginAdapter getPluginAdapter() {
