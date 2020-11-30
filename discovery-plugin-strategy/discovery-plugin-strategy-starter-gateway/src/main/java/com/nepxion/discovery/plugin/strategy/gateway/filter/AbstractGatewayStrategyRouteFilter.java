@@ -184,7 +184,7 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
         return chain.filter(newExchange);
     }
 
-    protected void extendFilter(ServerHttpRequest serverHttpRequest, ServerHttpRequest.Builder requestBuilder) {
+    protected void extendFilter(ServerHttpRequest request, ServerHttpRequest.Builder requestBuilder) {
 
     }
 
