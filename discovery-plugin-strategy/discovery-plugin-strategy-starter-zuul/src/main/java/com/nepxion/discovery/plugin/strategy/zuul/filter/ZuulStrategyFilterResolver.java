@@ -14,12 +14,10 @@ import org.apache.commons.lang3.StringUtils;
 import com.netflix.zuul.context.RequestContext;
 
 public class ZuulStrategyFilterResolver {
-    public static void setHeader(String headerName, String headerValue, Boolean zuulHeaderPriority) {
+    public static void setHeader(RequestContext context, String headerName, String headerValue, Boolean zuulHeaderPriority) {
         if (StringUtils.isEmpty(headerValue)) {
             return;
         }
-
-        RequestContext context = RequestContext.getCurrentContext();
 
         if (zuulHeaderPriority) {
             // 通过Zuul Filter的Header直接把外界的Header替换掉，并传递
@@ -33,15 +31,13 @@ public class ZuulStrategyFilterResolver {
         }
     }
 
-    public static void ignoreHeader(String headerName, Boolean zuulHeaderPriority, Boolean zuulOriginalHeaderIgnored) {
+    public static void ignoreHeader(RequestContext context, String headerName, Boolean zuulHeaderPriority, Boolean zuulOriginalHeaderIgnored) {
         if (zuulHeaderPriority && zuulOriginalHeaderIgnored) {
-            ignoreHeader(headerName);
+            ignoreHeader(context, headerName);
         }
     }
 
-    public static void ignoreHeader(String headerName) {
-        RequestContext context = RequestContext.getCurrentContext();
-
+    public static void ignoreHeader(RequestContext context, String headerName) {
         // 通过Zuul Filter的Header直接把外界的Header替换成空字符串
         context.addZuulRequestHeader(headerName, StringUtils.EMPTY);
     }
