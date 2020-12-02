@@ -120,7 +120,6 @@ public abstract class AbstractStrategyContextHolder implements PluginContextHold
 
     @Override
     public String getRouteRegion() {
-
         return strategyWrapper.getRouteRegion();
     }
 
