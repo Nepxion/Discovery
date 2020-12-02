@@ -17,11 +17,12 @@ public class ServiceStrategyFilterResolver {
             return;
         }
 
-        // 服务设置为优先的时候，直接把内置策略加入
+        // 内置策略，例如，AbstractServiceStrategyRouteFilter中String routeVersion = getRouteVersion();是从strategyWrapper.getRouteVersion()获取
+        // 服务设置为优先的时候，直接把内置策略加入。在负载均衡前，通过OncePerRequestFilter装饰方式代替掉外界的Header
         if (serviceHeaderPriority) {
             serviceStrategyRouteFilterRequest.addHeader(headerName, headerValue);
         } else {
-            // 外界传值为优先的时候，外界未传值，也需要把内置策略加入
+            // 外界传值为优先的时候，外界已传值，则返回；外界未传值，则需要把内置策略加入
             String originalHeaderValue = serviceStrategyRouteFilterRequest.getOriginalRequest().getHeader(headerName);
             if (StringUtils.isEmpty(originalHeaderValue)) {
                 serviceStrategyRouteFilterRequest.addHeader(headerName, headerValue);
