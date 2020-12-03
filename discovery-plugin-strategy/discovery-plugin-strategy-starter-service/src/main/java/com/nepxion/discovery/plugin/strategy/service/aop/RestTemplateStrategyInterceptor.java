@@ -20,8 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -37,8 +35,6 @@ import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyCont
 import com.nepxion.discovery.plugin.strategy.util.StrategyUtil;
 
 public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor implements ClientHttpRequestInterceptor {
-    private static final Logger LOG = LoggerFactory.getLogger(RestTemplateStrategyInterceptor.class);
-
     @Autowired
     protected ServiceStrategyContextHolder serviceStrategyContextHolder;
 
@@ -60,16 +56,12 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
 
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
-        try {
-            interceptInputHeader();
+        interceptInputHeader();
 
-            applyInnerHeader(request);
-            applyOuterHeader(request);
+        applyInnerHeader(request);
+        applyOuterHeader(request);
 
-            interceptOutputHeader(request);
-        } catch (Exception e) {
-            LOG.warn("RestTemplate strategy interceptor execute failed", e);
-        }
+        interceptOutputHeader(request);
 
         return execution.execute(request, body);
     }
