@@ -21,6 +21,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -31,6 +33,8 @@ import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyCont
 import com.nepxion.discovery.plugin.strategy.util.StrategyUtil;
 
 public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implements RequestInterceptor {
+    private static final Logger LOG = LoggerFactory.getLogger(FeignStrategyInterceptor.class);
+
     @Autowired
     protected ServiceStrategyContextHolder serviceStrategyContextHolder;
 
@@ -52,12 +56,16 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
 
     @Override
     public void apply(RequestTemplate requestTemplate) {
-        interceptInputHeader();
+        try {
+            interceptInputHeader();
 
-        applyInnerHeader(requestTemplate);
-        applyOuterHeader(requestTemplate);
+            applyInnerHeader(requestTemplate);
+            applyOuterHeader(requestTemplate);
 
-        interceptOutputHeader(requestTemplate);
+            interceptOutputHeader(requestTemplate);
+        } catch (Exception e) {
+            LOG.warn("Feign strategy interceptor execute failed", e);
+        }
     }
 
     private void applyInnerHeader(RequestTemplate requestTemplate) {
@@ -79,19 +87,21 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
         ServletRequestAttributes attributes = serviceStrategyContextHolder.getRestAttributes();
         if (attributes != null) {
             HttpServletRequest previousRequest = attributes.getRequest();
-            Enumeration<String> headerNames = previousRequest.getHeaderNames();
-            if (headerNames != null) {
-                while (headerNames.hasMoreElements()) {
-                    String headerName = headerNames.nextElement();
-                    String headerValue = previousRequest.getHeader(headerName);
-                    boolean isHeaderContains = isHeaderContainsExcludeInner(headerName.toLowerCase());
-                    if (isHeaderContains) {
-                        if (feignCoreHeaderTransmissionEnabled) {
-                            requestTemplate.header(headerName, headerValue);
-                        } else {
-                            boolean isCoreHeaderContains = StrategyUtil.isCoreHeaderContains(headerName);
-                            if (!isCoreHeaderContains) {
+            if (previousRequest != null) {
+                Enumeration<String> headerNames = previousRequest.getHeaderNames();
+                if (headerNames != null) {
+                    while (headerNames.hasMoreElements()) {
+                        String headerName = headerNames.nextElement();
+                        String headerValue = previousRequest.getHeader(headerName);
+                        boolean isHeaderContains = isHeaderContainsExcludeInner(headerName.toLowerCase());
+                        if (isHeaderContains) {
+                            if (feignCoreHeaderTransmissionEnabled) {
                                 requestTemplate.header(headerName, headerValue);
+                            } else {
+                                boolean isCoreHeaderContains = StrategyUtil.isCoreHeaderContains(headerName);
+                                if (!isCoreHeaderContains) {
+                                    requestTemplate.header(headerName, headerValue);
+                                }
                             }
                         }
                     }
