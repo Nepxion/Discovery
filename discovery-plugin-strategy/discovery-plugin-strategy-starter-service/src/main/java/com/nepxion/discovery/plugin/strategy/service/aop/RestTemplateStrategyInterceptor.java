@@ -94,22 +94,20 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
         ServletRequestAttributes attributes = serviceStrategyContextHolder.getRestAttributes();
         if (attributes != null) {
             HttpServletRequest previousRequest = attributes.getRequest();
-            if (previousRequest != null) {
-                Enumeration<String> headerNames = previousRequest.getHeaderNames();
-                if (headerNames != null) {
-                    HttpHeaders headers = request.getHeaders();
-                    while (headerNames.hasMoreElements()) {
-                        String headerName = headerNames.nextElement();
-                        String headerValue = previousRequest.getHeader(headerName);
-                        boolean isHeaderContains = isHeaderContainsExcludeInner(headerName.toLowerCase());
-                        if (isHeaderContains) {
-                            if (restTemplateCoreHeaderTransmissionEnabled) {
+            Enumeration<String> headerNames = previousRequest.getHeaderNames();
+            if (headerNames != null) {
+                HttpHeaders headers = request.getHeaders();
+                while (headerNames.hasMoreElements()) {
+                    String headerName = headerNames.nextElement();
+                    String headerValue = previousRequest.getHeader(headerName);
+                    boolean isHeaderContains = isHeaderContainsExcludeInner(headerName.toLowerCase());
+                    if (isHeaderContains) {
+                        if (restTemplateCoreHeaderTransmissionEnabled) {
+                            headers.add(headerName, headerValue);
+                        } else {
+                            boolean isCoreHeaderContains = StrategyUtil.isCoreHeaderContains(headerName);
+                            if (!isCoreHeaderContains) {
                                 headers.add(headerName, headerValue);
-                            } else {
-                                boolean isCoreHeaderContains = StrategyUtil.isCoreHeaderContains(headerName);
-                                if (!isCoreHeaderContains) {
-                                    headers.add(headerName, headerValue);
-                                }
                             }
                         }
                     }
