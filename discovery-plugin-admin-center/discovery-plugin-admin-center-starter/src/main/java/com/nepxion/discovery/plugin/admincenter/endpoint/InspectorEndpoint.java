@@ -17,6 +17,8 @@ import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -39,6 +41,8 @@ import com.nepxion.discovery.plugin.framework.context.PluginContextHolder;
 @RequestMapping(path = "/inspector")
 @Api(tags = { "全链路侦测接口" })
 public class InspectorEndpoint {
+    private static final Logger LOG = LoggerFactory.getLogger(InspectorEndpoint.class);
+
     @Autowired
     private RestTemplate pluginRestTemplate;
 
@@ -95,7 +99,11 @@ public class InspectorEndpoint {
                     return pluginRestTemplate.postForEntity(url, inspectorEntity, InspectorEntity.class).getBody();
                 }
             } catch (Exception e) {
-                throw new DiscoveryException("Failed to inspect, current serviceId=" + pluginAdapter.getServiceId() + ", next serviceId=" + nextServiceId + "url=" + url, e);
+                String exceptionMessage = "Failed to inspect, current serviceId=" + pluginAdapter.getServiceId() + ", next serviceId=" + nextServiceId + "url=" + url;
+
+                LOG.error(exceptionMessage, e);
+
+                throw new DiscoveryException(exceptionMessage, e);
             }
         } else {
             return inspectorEntity;
