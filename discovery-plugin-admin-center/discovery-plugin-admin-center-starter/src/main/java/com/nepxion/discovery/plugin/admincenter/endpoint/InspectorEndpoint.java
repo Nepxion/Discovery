@@ -88,7 +88,7 @@ public class InspectorEndpoint {
                 // 侦测中继节点如果是网关，走路由方式；如果是服务，走直调方式
                 String serviceType = pluginAdapter.getServiceType();
                 if (StringUtils.isNotEmpty(serviceType) && ServiceType.fromString(serviceType) == ServiceType.GATEWAY) {
-                    url = "http://" + pluginAdapter.getHost() + ":" + pluginAdapter.getPort() + contextPath + nextServiceId + DiscoveryConstant.INSPECTOR_ENDPOINT_URL;
+                    url = "http://" + pluginAdapter.getHost() + ":" + pluginAdapter.getPort() + contextPath + nextServiceId + "/" + DiscoveryConstant.INSPECTOR_ENDPOINT_URL;
 
                     // 路由方式不需要走负载均衡模式下的RestTemplate
                     return gatewayRestTemplate.postForEntity(url, inspectorEntity, InspectorEntity.class).getBody();
