@@ -25,11 +25,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.InspectorEntity;
+import com.nepxion.discovery.common.entity.ServiceType;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.util.UrlUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
@@ -51,29 +51,51 @@ public class InspectorEndpoint {
     @Autowired(required = false)
     private PluginContextHolder pluginContextHolder;
 
+    private RestTemplate gatewayRestTemplate;
+
+    public InspectorEndpoint() {
+        gatewayRestTemplate = new RestTemplate();
+    }
+
     @RequestMapping(path = "/inspect", method = RequestMethod.POST)
     @ApiOperation(value = "侦测全链路路由", notes = "", response = InspectorEntity.class, httpMethod = "POST")
     @ResponseBody
     public InspectorEntity inspect(@RequestBody @ApiParam(value = "侦测对象", required = true) InspectorEntity inspectorEntity) {
         List<String> serviceIdList = inspectorEntity.getServiceIdList();
         String result = inspectorEntity.getResult();
+
+        // 第一个侦测节点，不会产生侦测信息，需要通过Header方式埋入 
         if (StringUtils.isEmpty(result) && pluginContextHolder != null) {
             result = pluginContextHolder.getContext(DiscoveryConstant.INSPECTOR_ENDPOINT_HEADER);
         }
         inspectorEntity.setResult(pluginAdapter.getPluginInfo(result));
 
         if (CollectionUtils.isNotEmpty(serviceIdList)) {
-            String serviceId = serviceIdList.get(0);
+            // 获取侦测列表中的第一个服务，作为下一个侦测中继节点
+            String nextServiceId = serviceIdList.get(0);
 
-            String contextPath = getContextPath(serviceId);
-            String url = "http://" + serviceId + UrlUtil.formatContextPath(contextPath) + DiscoveryConstant.INSPECTOR_ENDPOINT_URL;
-
+            // 删除侦测列表中的第一个服务
             serviceIdList.remove(0);
 
+            String url = null;
             try {
-                return pluginRestTemplate.postForEntity(url, inspectorEntity, InspectorEntity.class).getBody();
-            } catch (RestClientException e) {
-                throw new DiscoveryException("Failed to execute to inspect, serviceId=" + serviceId + ", url=" + url, e);
+                String contextPath = getContextPath(nextServiceId);
+
+                // 侦测中继节点如果是网关，走路由方式；如果是服务，走直调方式
+                String serviceType = pluginAdapter.getServiceType();
+                if (StringUtils.isNotEmpty(serviceType) && ServiceType.fromString(serviceType) == ServiceType.GATEWAY) {
+                    url = "http://" + pluginAdapter.getHost() + ":" + pluginAdapter.getPort() + contextPath + nextServiceId + DiscoveryConstant.INSPECTOR_ENDPOINT_URL;
+
+                    // 路由方式不需要走负载均衡模式下的RestTemplate
+                    return gatewayRestTemplate.postForEntity(url, inspectorEntity, InspectorEntity.class).getBody();
+                } else {
+                    url = "http://" + nextServiceId + contextPath + DiscoveryConstant.INSPECTOR_ENDPOINT_URL;
+
+                    // 直调方式需要走负载均衡模式下的RestTemplate
+                    return pluginRestTemplate.postForEntity(url, inspectorEntity, InspectorEntity.class).getBody();
+                }
+            } catch (Exception e) {
+                throw new DiscoveryException("Failed to inspect, current serviceId=" + pluginAdapter.getServiceId() + ", next serviceId=" + nextServiceId + "url=" + url, e);
             }
         } else {
             return inspectorEntity;
@@ -81,13 +103,29 @@ public class InspectorEndpoint {
     }
 
     private String getContextPath(String serviceId) {
-        ServiceInstance instance = null;
-        try {
-            instance = discoveryClient.getInstances(serviceId).get(0);
-        } catch (Exception e) {
-            throw new DiscoveryException("Failed to execute to inspect, serviceId=" + serviceId, e);
+        ServiceInstance instance = getInstance(serviceId);
+
+        String contextPath = pluginAdapter.getInstanceContextPath(instance);
+        if (StringUtils.isEmpty(contextPath)) {
+            contextPath = "/";
         }
 
-        return pluginAdapter.getInstanceContextPath(instance);
+        return UrlUtil.formatContextPath(contextPath);
+    }
+
+    private ServiceInstance getInstance(String serviceId) {
+        List<ServiceInstance> instances = null;
+
+        try {
+            instances = discoveryClient.getInstances(serviceId);
+        } catch (Exception e) {
+            throw new DiscoveryException("Failed to get instance list, serviceId=" + serviceId, e);
+        }
+
+        if (CollectionUtils.isEmpty(instances)) {
+            throw new DiscoveryException("Instance list is empty, serviceId=" + serviceId);
+        }
+
+        return instances.get(0);
     }
 }
