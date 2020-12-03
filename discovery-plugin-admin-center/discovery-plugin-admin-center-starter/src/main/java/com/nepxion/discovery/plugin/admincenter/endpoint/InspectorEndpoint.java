@@ -99,7 +99,7 @@ public class InspectorEndpoint {
                     return pluginRestTemplate.postForEntity(url, inspectorEntity, InspectorEntity.class).getBody();
                 }
             } catch (Exception e) {
-                String exceptionMessage = "Failed to inspect, current serviceId=" + pluginAdapter.getServiceId() + ", next serviceId=" + nextServiceId + "url=" + url;
+                String exceptionMessage = "Failed to inspect, current serviceId=" + pluginAdapter.getServiceId() + ", next serviceId=" + nextServiceId + ", url=" + url;
 
                 LOG.error(exceptionMessage, e);
 
@@ -114,9 +114,6 @@ public class InspectorEndpoint {
         ServiceInstance instance = getInstance(serviceId);
 
         String contextPath = pluginAdapter.getInstanceContextPath(instance);
-        if (StringUtils.isEmpty(contextPath)) {
-            contextPath = "/";
-        }
 
         return UrlUtil.formatContextPath(contextPath);
     }
