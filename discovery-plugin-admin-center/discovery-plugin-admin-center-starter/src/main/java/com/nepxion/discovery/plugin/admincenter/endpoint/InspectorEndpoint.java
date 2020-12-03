@@ -31,7 +31,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.InspectorEntity;
-import com.nepxion.discovery.common.entity.ServiceType;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.util.UrlUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
@@ -54,12 +53,6 @@ public class InspectorEndpoint {
 
     @Autowired(required = false)
     private PluginContextHolder pluginContextHolder;
-
-    private RestTemplate gatewayRestTemplate;
-
-    public InspectorEndpoint() {
-        gatewayRestTemplate = new RestTemplate();
-    }
 
     @RequestMapping(path = "/inspect", method = RequestMethod.POST)
     @ApiOperation(value = "侦测全链路路由", notes = "", response = InspectorEntity.class, httpMethod = "POST")
@@ -85,19 +78,10 @@ public class InspectorEndpoint {
             try {
                 String contextPath = getContextPath(nextServiceId);
 
-                // 侦测中继节点如果是网关，走路由方式；如果是服务，走直调方式
-                String serviceType = pluginAdapter.getServiceType();
-                if (StringUtils.isNotEmpty(serviceType) && ServiceType.fromString(serviceType) == ServiceType.GATEWAY) {
-                    url = "http://" + pluginAdapter.getHost() + ":" + pluginAdapter.getPort() + contextPath + nextServiceId + "/" + DiscoveryConstant.INSPECTOR_ENDPOINT_URL;
+                url = "http://" + nextServiceId + contextPath + DiscoveryConstant.INSPECTOR_ENDPOINT_URL;
 
-                    // 路由方式不需要走负载均衡模式下的RestTemplate
-                    return gatewayRestTemplate.postForEntity(url, inspectorEntity, InspectorEntity.class).getBody();
-                } else {
-                    url = "http://" + nextServiceId + contextPath + DiscoveryConstant.INSPECTOR_ENDPOINT_URL;
-
-                    // 直调方式需要走负载均衡模式下的RestTemplate
-                    return pluginRestTemplate.postForEntity(url, inspectorEntity, InspectorEntity.class).getBody();
-                }
+                // 直调方式需要走负载均衡模式下的RestTemplate
+                return pluginRestTemplate.postForEntity(url, inspectorEntity, InspectorEntity.class).getBody();
             } catch (Exception e) {
                 String exceptionMessage = "Failed to inspect, current serviceId=" + pluginAdapter.getServiceId() + ", next serviceId=" + nextServiceId + ", url=" + url;
 
