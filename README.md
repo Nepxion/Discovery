@@ -1081,21 +1081,21 @@ IP地址和端口灰度路由架构图
 
 具体使用逻辑如下
 
-① 当外部调用带有的Header中的值a=1同时b=2
+① 当外部调用带有的Header中的值a=1同时b=2，执行绿路由
 
-`<condition>`节点中 **header="#H['a'] == '1' &amp;&amp; #H['b'] == '2'"** 对应的 **version-id="version-route1"** ，找到下面`<route>`节点中 **id="version-route1" type="version"** 的那项，那么路由即为
+`<condition>`节点中 **header="#H['a'] == '1' &amp;&amp; #H['b'] == '2'"** 对应的 **version-id="green-version-route"** ，找到下面`<route>`节点中 **id="green-version-route" type="version"** 的那项，那么路由即为
+```
+{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
+```
+
+② 当外部调用带有的Header中的值a=1，执行蓝路由
+
+`<condition>`节点中 **header="#H['a'] == '1'"** 对应的 **version-id="blue-version-route"** ，找到下面`<route>`节点中 **id="blue-version-route" type="version"** 的那项，那么路由即为
 ```
 {"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}
 ```
 
-② 当外部调用带有的Header中的值a=1
-
-`<condition>`节点中 **header="#H['a'] == '1'"** 对应的 **version-id="version-route2"** ，找到下面`<route>`节点中 **id="version-route2" type="version"** 的那项，那么路由即为
-```
-{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.1"}
-```
-
-③ 当外部调用带有的Header中的值都不命中
+③ 当外部调用带有的Header中的值都不命中，或者未传值，执行兜底路由
 
 - 执行`<strategy>`节点中的全局缺省路由，那么路由即为
 ```
@@ -1142,13 +1142,13 @@ IP地址和端口灰度路由架构图
         <!-- 全链路蓝绿部署：条件命中的匹配方式（第一优先级），支持版本匹配、区域匹配、IP地址和端口匹配、版本权重匹配、区域权重匹配 -->
         <!-- Header节点不允许缺失 -->
         <conditions type="blue-green">
-            <condition id="condition1" header="#H['a'] == '1'" version-id="version-route2"/>
-            <condition id="condition2" header="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="version-route1"/>
+            <condition id="blue-condition" header="#H['a'] == '1'" version-id="blue-version-route"/>
+            <condition id="green-condition" header="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="green-version-route"/>
         </conditions>
 
         <routes>
-            <route id="version-route1" type="version">{"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}</route>
-            <route id="version-route2" type="version">{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.1"}</route>
+            <route id="blue-version-route" type="version">{"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}</route>	
+            <route id="green-version-route" type="version">{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</route>
         </routes>
     </strategy-customization>
 </rule>
@@ -1161,12 +1161,12 @@ IP地址和端口灰度路由架构图
 属于全链路灰度发布的范畴。既适用于Zuul和Spring Cloud Gateway网关，也适用于Service微服务，一般来说，网关已经加了，服务上就不需要加，当不存在的网关的时候，服务就可以考虑加上
 
 增加组合式的灰度策略，支持版本匹配、区域匹配、IP地址和端口匹配。以版本匹配为例，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现功能
-- a服务1.0版本向网关提供90%的流量，1.1版本向网关提供10%的流量
-- a服务1.0版本只能访问b服务1.0版本，1.1版本只能访问b服务1.1版本
+- 稳定版本路由：a服务1.0版本向网关提供90%的流量，a服务1.0版本只能访问b服务1.0版本
+- 灰度版本路由：1.1版本向网关提供10%的流量，a服务1.1版本只能访问b服务1.1版本
 
 该功能的意义是，网关随机权重调用服务，而服务链路按照版本匹配方式调用
 
-① version-route1链路配比10%的流量，version-route2链路配比90%的流量
+① gray-version-route链路配比10%的流量，stable-version-route链路配比90%的流量
 
 ② 策略总共支持3种，可以单独一项使用，也可以多项叠加使用
 
@@ -1191,14 +1191,14 @@ IP地址和端口灰度路由架构图
         <!-- 全链路灰度发布：条件命中的随机权重（第二优先级），支持版本匹配、区域匹配、IP地址和端口匹配 -->
         <!-- Header节点允许缺失，当含Header和未含Header的配置并存时，以未含Header的配置为优先 -->
         <conditions type="gray">
-            <condition id="condition1" header="#H['a'] == '1'" version-id="version-route1=10;version-route2=90"/>
-            <condition id="condition2" header="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="version-route1=85;version-route2=15"/>
-            <condition id="condition3" version-id="version-route1=95;version-route2=5"/>
+            <condition id="gray-condition" header="#H['a'] == '1'" version-id="gray-version-route=10;stable-version-route=90"/>
+            <condition id="gray-condition" header="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="gray-version-route=85;stable-version-route=15"/>
+            <condition id="gray-condition" version-id="gray-version-route=95;stable-version-route=5"/>
         </conditions>
 
         <routes>
-            <route id="version-route1" type="version">{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</route>
-            <route id="version-route2" type="version">{"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}</route>
+            <route id="gray-version-route" type="version">{"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}</route>
+            <route id="stable-version-route" type="version">{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</route>
         </routes>
     </strategy-customization>
 </rule>
@@ -1217,13 +1217,13 @@ IP地址和端口灰度路由架构图
 <rule>
     <strategy-customization>
         <conditions type="blue-green">
-            <condition id="condition1" header="#H['app-version'] == '1.0'" version-id="version-route1"/>
-            <condition id="condition2" header="#H['app-version'] == '2.0'" version-id="version-route2"/>
+            <condition id="blue-condition" header="#H['app-version'] == '1.0'" version-id="blue-version-route"/>
+            <condition id="green-condition" header="#H['app-version'] == '2.0'" version-id="green-version-route"/>
         </conditions>
 
         <routes>
-            <route id="version-route1" type="version">{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</route>
-            <route id="version-route2" type="version">{"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}</route>
+            <route id="blue-version-route" type="version">{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</route>
+            <route id="green-version-route" type="version">{"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}</route>
         </routes>
     </strategy-customization>
 </rule>
@@ -1638,7 +1638,6 @@ public class MyServiceStrategyRouteFilter extends DefaultServiceStrategyRouteFil
     private String bRouteAddress;
 
     // 自定义根据Header全链路版本匹配路由
-    // 当网关有对应策略传入时，以网关策略优先，此处逻辑无效
     @Override
     public String getRouteVersion() {
         String user = strategyContextHolder.getHeader("user");
@@ -1659,7 +1658,6 @@ public class MyServiceStrategyRouteFilter extends DefaultServiceStrategyRouteFil
     }
 
     // 自定义根据Parameter全链路区域匹配路由
-    // 当网关有对应策略传入时，以网关策略优先，此处逻辑无效
     @Override
     public String getRouteRegion() {
         String user = strategyContextHolder.getParameter("user");
@@ -1680,7 +1678,6 @@ public class MyServiceStrategyRouteFilter extends DefaultServiceStrategyRouteFil
     }
 
     // 自定义根据Cookie全链路IP地址和端口匹配路由
-    // 当网关有对应策略传入时，以网关策略优先，此处逻辑无效
     @Override
     public String getRouteAddress() {
         String user = strategyContextHolder.getCookie("user");
@@ -1704,7 +1701,6 @@ public class MyServiceStrategyRouteFilter extends DefaultServiceStrategyRouteFil
     private ServiceStrategyContextHolder serviceStrategyContextHolder;
 
     // 自定义根据域名全链路环境隔离
-    // 当网关有对应策略传入时，以网关策略优先，此处逻辑无效
     @Override
     public String getRouteEnvironment() {
         String requestURL = serviceStrategyContextHolder.getRequestURL();
@@ -1723,7 +1719,6 @@ public class MyServiceStrategyRouteFilter extends DefaultServiceStrategyRouteFil
     }
 
     // 自定义全链路版本权重路由
-    // 当网关有对应策略传入时，以网关策略优先，此处逻辑无效
     @Override
     public String getRouteVersion() {
         LOG.info("自定义全链路版本权重路由");
