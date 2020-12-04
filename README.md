@@ -362,7 +362,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 
 ![](http://nepxion.gitee.io/docs/icon-doc/chart_bar_32.png) 某大型互联网教育公司在生产环境全套接入Nepxion Discovery框架的服务实例数截至到2020年12月已达到2600个
 
-<img src="http://nepxion.gitee.io/docs/discovery-doc/Result.jpg" width="250"/>
+<img src="http://nepxion.gitee.io/docs/discovery-doc/Result.jpg" width="150"/>
 
 ## 目录
 - [简介](#简介)
