@@ -42,7 +42,7 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
     // 5. n-d-region-weight
     // 6. n-d-id-blacklist
     // 7. n-d-address-blacklist
-    // 8. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
+    // 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
     @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_FEIGN_CORE_HEADER_TRANSMISSION_ENABLED + ":true}")
     protected Boolean feignCoreHeaderTransmissionEnabled;
 

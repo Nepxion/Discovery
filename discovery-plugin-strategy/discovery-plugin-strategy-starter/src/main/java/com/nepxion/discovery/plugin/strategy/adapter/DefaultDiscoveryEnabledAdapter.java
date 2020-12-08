@@ -250,14 +250,14 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
 
         String versions = getVersions(serviceId);
         if (StringUtils.isEmpty(versions)) {
-            // 版本偏好，即非灰度路由场景下，路由到老的稳定版本的实例。其作用是防止多个网关上并行实施灰度版本路由产生混乱
+            // 版本偏好，即非蓝绿灰度发布场景下，路由到老的稳定版本的实例
             if (versionPreferEnabled) {
                 return strategyVersionFilter.apply(server);
             } else {
                 return true;
             }
         } else {
-            // 版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例。其作用是防止灰度版本路由人为设置错误，或者对应的版本实例发生灾难性的全部下线，导致流量有损
+            // 版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例
             if (versionFailoverEnabled) {
                 List<ServiceInstance> instances = discoveryClient.getInstances(serviceId);
 
