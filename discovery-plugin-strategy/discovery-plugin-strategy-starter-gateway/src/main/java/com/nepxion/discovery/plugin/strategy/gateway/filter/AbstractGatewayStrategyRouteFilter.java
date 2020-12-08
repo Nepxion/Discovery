@@ -54,7 +54,7 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
     // 5. n-d-region-weight
     // 6. n-d-id-blacklist
     // 7. n-d-address-blacklist
-    // 8. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
+    // 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
     @Value("${" + GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_CORE_HEADER_TRANSMISSION_ENABLED + ":true}")
     protected Boolean gatewayCoreHeaderTransmissionEnabled;
 
