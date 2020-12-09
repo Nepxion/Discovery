@@ -88,7 +88,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 - 支持阿里巴巴Nacos、Eureka、Consul和Zookeeper四个服务注册发现中心
 - 支持阿里巴巴Nacos、携程Apollo和Redis三个远程配置中心
 - 支持阿里巴巴Sentinel和Hystrix两个熔断限流降级权限中间件
-- 支持OpenTracing和OpenTelemetry规范下的调用链中间件，Uber Jaeger、Apache SkyWalking和Zipkin等
+- 支持OpenTracing和OpenTelemetry规范下的调用链中间件，Jaeger、SkyWalking和Zipkin等
 - 支持Prometheus Micrometer和Spring Boot Admin两个指标中间件
 - 支持Java Agent解决异步跨线程ThreadLocal上下文传递
 - 支持Spring Cloud Gateway、Zuul网关和微服务三大模块的灰度发布和路由等一系列功能
@@ -3179,7 +3179,7 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 - 服务端通过Feign和RestTemplate拦截器传输Header值（参考Discovery源码中的FeignStrategyInterceptor.java和RestTemplateStrategyInterceptor.java）
 
 #### 调用链输出方式
-调用链输出方式以OpenUber Jaeger为例来说明
+调用链输出方式以OpenTracing + Jaeger为例来说明
 
 - Jaeger服务器版本，推荐用最新版本，从[https://github.com/jaegertracing/jaeger/releases](https://github.com/jaegertracing/jaeger/releases)获取
 - 执行Postman调用后，访问[http://localhost:16686](http://localhost:16686)查看灰度调用链
@@ -3199,7 +3199,7 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 </dependency>
 ```
 
-集成OpenTracing + Uber Jaeger灰度全链路监控
+集成OpenTracing + Jaeger灰度全链路监控
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger1.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger2.jpg)
@@ -3207,7 +3207,7 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger4.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger5.jpg)
 
-集成OpenTracing + Uber Jaeger + Sentinel限流熔断降级权限埋点全链路监控
+集成OpenTracing + Jaeger + Sentinel限流熔断降级权限埋点全链路监控
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger6.jpg)
 
@@ -3219,12 +3219,12 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 ![](http://nepxion.gitee.io/docs/discovery-doc/JaegerPremium2.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/JaegerPremium3.jpg)
 
-集成OpenTracing + Apache SkyWalking灰度全链路监控
+集成OpenTracing + SkyWalking灰度全链路监控
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/SkyWalking1.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/SkyWalking2.jpg)
 
-集成OpenTracing + Apache SkyWalking + Sentinel限流熔断降级权限埋点全链路监控
+集成OpenTracing + SkyWalking + Sentinel限流熔断降级权限埋点全链路监控
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/SkyWalking3.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/SkyWalking4.jpg)
