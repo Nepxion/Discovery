@@ -33,9 +33,9 @@
 - [指南Github原镜像](https://github.com/Nepxion/DiscoveryGuide)
 
 ④ Discovery【探索】微服务框架指南示例说明
-- 对于入门级玩家，参考[指南示例极简版](https://github.com/Nepxion/DiscoveryGuide/tree/simple)，分支为simple。涉及到指南篇里的灰度路由和发布的基本功能，![](http://nepxion.gitee.io/docs/icon-doc/information_message.png) 参考[新手快速入门](https://gitee.com/nepxion/DiscoveryGuide/blob/simple/GUIDE.md)
+- 对于入门级玩家，参考[指南示例极简版](https://github.com/Nepxion/DiscoveryGuide/tree/simple)，分支为simple。涉及到指南篇里的蓝绿灰度发布的基本功能，![](http://nepxion.gitee.io/docs/icon-doc/information_message.png) 参考[新手快速入门](https://gitee.com/nepxion/DiscoveryGuide/blob/simple/GUIDE.md)
 - 对于熟练级玩家，参考[指南示例精进版](https://github.com/Nepxion/DiscoveryGuide/tree/master)，分支为master。除上述《极简版》功能外，涉及到指南篇里的绝大多数高级功能
-- 对于骨灰级玩家，参考[指南示例高级版](https://github.com/Nepxion/DiscoveryGuide/tree/premium)，分支为premium。除上述《精进版》功能外，涉及到指南篇里的ActiveMQ、MongoDB、RabbitMQ、Redis、RocketMQ、MySQL等高级调用链和灰度调用链的整合
+- 对于骨灰级玩家，参考[指南示例高级版](https://github.com/Nepxion/DiscoveryGuide/tree/premium)，分支为premium。除上述《精进版》功能外，涉及到指南篇里的ActiveMQ、MongoDB、RabbitMQ、Redis、RocketMQ、MySQL等高级调用链和蓝绿灰度调用链的整合
 
 ![](http://nepxion.gitee.io/docs/polaris-doc/Logo64.png) Polaris【北极星】企业级云原生微服务框架
 
@@ -508,9 +508,9 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 - [Star走势图](#Star走势图)
 
 ## 请联系我
-微信、公众号和文档
+微信、钉钉、公众号和文档
 
-![](http://nepxion.gitee.io/docs/zxing-doc/微信-1.jpg)![](http://nepxion.gitee.io/docs/zxing-doc/公众号-1.jpg)![](http://nepxion.gitee.io/docs/zxing-doc/文档-1.jpg)
+![](http://nepxion.gitee.io/docs/zxing-doc/微信-1.jpg)![](http://nepxion.gitee.io/docs/zxing-doc/钉钉-1.jpg)![](http://nepxion.gitee.io/docs/zxing-doc/公众号-1.jpg)![](http://nepxion.gitee.io/docs/zxing-doc/文档-1.jpg)
 
 ## 相关链接
 
@@ -1898,7 +1898,7 @@ spring.application.strategy.version.failover.enabled=true
 ```
 
 ### 并行灰度路由下的版本偏好策略
-版本偏好，即非灰度路由场景下，路由到老的稳定版本的实例。其作用是防止多个网关上并行实施蓝绿灰度版本发布产生混乱，对处于非蓝绿灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；蓝绿灰度状态的服务，还是根据传递的Header版本号进行匹配
+版本偏好，版本偏好，即非蓝绿灰度发布场景下，路由到老的稳定版本的实例。其作用是防止多个网关上并行实施蓝绿灰度版本发布产生混乱，对处于非蓝绿灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；蓝绿灰度状态的服务，还是根据传递的Header版本号进行匹配
 
 偏好方式，对版本号进行排序，此解决方案的前置条件是版本号必须是规律的有次序，例如，以时间戳的方式。如果所有服务实例的版本号未设置，那么将转移到未设置版本号的实例上
 
