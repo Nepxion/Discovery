@@ -14,6 +14,7 @@ public class SentinelStrategyMonitorConstant {
     public static final String SPRING_APPLICATION_STRATEGY_TRACER_SENTINEL_RULE_OUTPUT_ENABLED = "spring.application.strategy.tracer.sentinel.rule.output.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_TRACER_SENTINEL_ARGS_OUTPUT_ENABLED = "spring.application.strategy.tracer.sentinel.args.output.enabled";
 
+    public static final String TRACER_NAME = "SENTINEL-TRACER";
     public static final String SPAN_NAME = "SENTINEL";
     public static final String ORIGIN = "origin";
     public static final String ASYNC = "async";

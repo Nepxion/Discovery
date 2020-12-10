@@ -18,7 +18,7 @@ import com.nepxion.discovery.plugin.strategy.sentinel.monitor.constant.SentinelS
 public class SentinelOpenTelemetryProcessorSlotEntryCallback extends SentinelTracingProcessorSlotEntryCallback<Span> {
     public static final String INSTRUMENTATION_NAME = "opentelemetry.trace.tracer.name";
 
-    private String instrumentationName = System.getProperty(INSTRUMENTATION_NAME);
+    private String instrumentationName = System.getProperty(INSTRUMENTATION_NAME, SentinelStrategyMonitorConstant.TRACER_NAME);
 
     @Override
     protected Span buildSpan() {
