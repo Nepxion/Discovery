@@ -82,7 +82,7 @@
 ![](http://nepxion.gitee.io/docs/polaris-doc/GlobalSub.jpg)
 
 ## 简介
-Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册发现、Ribbon负载均衡、Feign和RestTemplate调用等组件全方位增强的企业级微服务开源解决方案，更贴近企业级需求，更具有企业级的插件引入、开箱即用特征
+Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册发现、Ribbon负载均衡、Feign和RestTemplate调用、Spring Cloud Gateway和Zuul过滤等组件全方位增强的企业级微服务开源解决方案，更贴近企业级需求，更具有企业级的插件引入、开箱即用特征
 
 ① 微服务框架支持的基本功能，如下
 - 支持阿里巴巴Nacos、Eureka、Consul和Zookeeper四个服务注册发现中心
@@ -91,28 +91,52 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 - 支持OpenTracing和OpenTelemetry规范下的调用链中间件，Jaeger、SkyWalking和Zipkin等
 - 支持Prometheus Micrometer和Spring Boot Admin两个指标中间件
 - 支持Java Agent解决异步跨线程ThreadLocal上下文传递
-- 支持Spring Cloud Gateway、Zuul网关和微服务三大模块的灰度发布和路由等一系列功能
+- 支持Spring Spel解决蓝绿灰度参数的驱动逻辑
+- 支持Spring Matcher解决元数据匹配的通配逻辑
+- 支持Spring Cloud Gateway、Zuul网关和微服务三大模块的蓝绿灰度发布等一系列功能
 - 支持和兼容Spring Cloud Edgware版、Finchley版、Greenwich版和Hoxton版
 
 ② 微服务框架支持的应用功能，如下
-- 基于Header传递的全链路灰度路由。采用配置中心配置路由策略映射在网关或者服务上，支持根据用户自定义Header跟路由策略整合，最终转化为路由Header信息而实现，路由策略传递到全链路服务中。主要包括
-    - 匹配路由。包括版本匹配路由、区域匹配路由、IP地址和端口匹配路由
-    - 权重路由。包括版本权重路由、区域权重路由
-    - 前端触发路由
-    - 过滤器触发路由
-    - 负载均衡策略类触发路由
-    - 灰度路由下的版本故障转移
-    - 并行灰度路由下的版本偏好
-    - 异步场景下的触发路由
-    - 通过Spring Spel的条件表达式支持等于[=]、不等于[!=]、大于[>]、小于[<]、与[&&]、或[||]、匹配[matches]，以及加减乘除取模等全部标准Spring Spel表达式用法
-    - 通过Spring Matcher的通配符表达式支持多个通配[*]、单个通配[?]等全部标准的Spring Matcher表达式用法
-    - 通过Header、Parameter、Cookie支持混合策略表达式
-    - 通过内置Header支持定时Job的服务调用灰度路由
-- 基于Parameter的全链路灰度路由。跟基于Header传递的全链路灰度路由一样，区别是支持根据用户自定义Parameter跟路由策略整合。也支持过滤器和负载均衡策略类中自定义方式
-- 基于Cookie的全链路灰度路由。跟基于Header传递的全链路灰度路由一样，区别是支持根据用户自定义Cookie跟路由策略整合。也支持过滤器和负载均衡策略类中自定义方式
-- 基于域名的全链路灰度路由。通过自定义过滤器和负载均衡策略类解析域名映射成路由Header信息而实现，路由策略传递到全链路服务中
-- 基于RPC Method的全链路灰度路由。通过自定义过滤器和负载均衡策略类解析RPC Method参数实现路由
-- 基于动态变更元数据的全链路灰度路由。通过某些提供动态改变元数据的Open API接口方式而实现
+- 全链路蓝绿发布
+  - 全链路版本匹配蓝绿发布
+  - 全链路区域匹配蓝绿发布
+  - 全链路IP地址和端口匹配蓝绿发布
+  - 全链路蓝路由 | 绿路由 | 兜底路由、蓝路由 | 兜底路由的蓝绿路由类型
+- 全链路灰度发布
+  - 全链路版本权重灰度发布
+  - 全链路区域权重灰度发布
+  - 全链路IP地址和端口权重灰度发布
+  - 全链路稳定路由，灰度路由的灰度路由类型
+- 全链路蓝绿灰度发布
+  - 全链路网关、服务端到端实施
+  - 全链路蓝绿发布、灰度发布混合实施
+  - 全链路域网关、非域网关部署
+  - 全链路前端触发后端蓝绿灰度发布
+  - 全链路自定义网关、服务的过滤器、负载均衡策略类触发蓝绿灰度发布
+  - 全链路蓝绿灰度容灾：发布失败下的版本故障转移、并行发布下的版本偏好
+  - 服务下线场景下全链路蓝绿灰度，实时性的流量绝对无损
+  - 异步场景下全链路蓝绿灰度发布，异步Agent
+  - 全链路命名空间Namespace参数驱动的并行发布隔离
+  - 全链路Header、Parameter、Cookie、域名、RPC Method规则策略驱动
+  - 全链路条件表达式、通配表达式支持
+  - 全链路内置Header，支持定时Job的服务调用蓝绿灰度发布
+  - 全链路动态变更元数据的蓝绿灰度发布
+  
+
+
+
+全链路蓝绿灰度埋点和熔断埋点的调用链追踪、日志监测
+全链路子环境、可用区亲和性隔离和路由
+提供端服务隔离、消费端服务隔离、注册发现隔离和准入
+多活、多云、多机房流量切换
+
+本地和远程、局部和全局规则策略驱动
+配置中心、Swagger和Rest、第三方控制台规则策略推送
+插件式自动化、运维平台参数化、注册中心动态化、用户自定义的元数据流量染色
+限流、熔断、降级、授权、自定义和组合式防护
+图形化服务治理、发布编排建模、流量侦测
+蓝绿灰度流量自动化测试
+
 - 基于全局订阅式的全链路灰度路由。通过所有网关和服务共同订阅同一策略配置的方式而实现，规避Header、Parameter、Cookie使用或者传递
 - 基于服务下线实时性的流量绝对无损策略。支持全局订阅和Header全链路传递两种方式，主要包括
     - 通过全局唯一ID进行屏蔽。适用于Docker和Kubernetes上IP地址不确定的场景
@@ -933,7 +957,7 @@ zuul
 2. <version>{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</version>
 ```
 
-如果上述表达式还未满足需求，也可以采用通配符（具体详细用法，参考Spring AntPathMatcher）
+如果上述表达式还未满足需求，也可以采用通配表达式方式（具体详细用法，参考Spring AntPathMatcher）
 ```
 * - 表示调用范围为所有服务的所有版本
 1.* - 表示调用范围为所有服务的1开头的所有版本
@@ -988,7 +1012,7 @@ zuul
 2. <region>{"discovery-guide-service-a":"dev", "discovery-guide-service-b":"dev"}</region>
 ```
 
-如果上述表达式还未满足需求，也可以采用通配符（具体详细用法，参考Spring AntPathMatcher）
+如果上述表达式还未满足需求，也可以采用通配表达式方式（具体详细用法，参考Spring AntPathMatcher）
 ```
 * - 表示调用范围为所有服务的所有区域
 d* - 表示调用范围为所有服务的d开头的所有区域
@@ -1045,7 +1069,7 @@ d* - 表示调用范围为所有服务的d开头的所有区域
 2. <address>{"discovery-guide-service-a":"3001", "discovery-guide-service-b":"3001"}</address>
 ```
 
-如果上述表达式还未满足需求，也可以采用通配符（具体详细用法，参考Spring AntPathMatcher）
+如果上述表达式还未满足需求，也可以采用通配表达式方式（具体详细用法，参考Spring AntPathMatcher）
 ```
 * - 表示调用范围为所有服务的所有端口
 3* - 表示调用范围为所有服务的3开头的所有端口
@@ -1137,7 +1161,7 @@ IP地址和端口灰度路由架构图
 
 ⑥ 策略支持Spring Spel的条件表达式方式
 
-⑦ 策略支持Spring Matcher的通配符方式
+⑦ 策略支持Spring Matcher的通配方式
 
 ⑧ 支持并行实施。通过namespace（可以自定义）的Header进行发布隔离
 
@@ -2089,7 +2113,7 @@ spring.application.strategy.rest.template.core.header.transmission.enabled=true
 也可以通过全链路传递Header方式实现，参考[通过前端传入灰度路由策略](#通过前端传入灰度路由策略)
 
 ### 配置IP地址和端口屏蔽策略
-通过IP地址或者端口或者IP地址+端口进行屏蔽，支持通配符方式。此用法适用于IP地址确定的场景，策略内容如下，采用如下两种方式之一均可
+通过IP地址或者端口或者IP地址+端口进行屏蔽，支持通配方式。此用法适用于IP地址确定的场景，策略内容如下，采用如下两种方式之一均可
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
