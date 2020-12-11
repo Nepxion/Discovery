@@ -82,9 +82,10 @@
 ![](http://nepxion.gitee.io/docs/polaris-doc/GlobalSub.jpg)
 
 ## 简介
-Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册发现、Ribbon负载均衡、Feign和RestTemplate调用、Spring Cloud Gateway和Zuul过滤等组件全方位增强的企业级微服务开源解决方案，更贴近企业级需求，更具有企业级的插件引入、开箱即用特征
+Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba，Discovery服务注册发现、Ribbon负载均衡、Feign和RestTemplate调用、Spring Cloud Gateway和Zuul过滤等组件全方位增强的企业级微服务开源解决方案，更贴近企业级需求，更具有企业级的插件引入、开箱即用特征
 
 ① 微服务框架支持的基本功能，如下
+- 支持阿里巴巴Spring Cloud Alibaba中间件生态圈
 - 支持阿里巴巴Nacos、Eureka、Consul和Zookeeper四个服务注册发现中心
 - 支持阿里巴巴Nacos、携程Apollo和Redis三个远程配置中心
 - 支持阿里巴巴Sentinel和Hystrix两个熔断限流降级权限中间件
@@ -113,7 +114,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
   - 全链路自定义网关、服务的过滤器、负载均衡策略类触发蓝绿灰度发布
   - 全链路动态变更元数据的蓝绿灰度发布
   - 全链路蓝绿灰度容灾：发布失败下的版本故障转移、并行发布下的版本偏好
-  - 服务下线场景下全链路蓝绿灰度，实时性的流量绝对无损：全局唯一ID屏蔽、IP地址和端口屏蔽
+  - 服务下线场景下全链路蓝绿灰度发布，实时性的流量绝对无损：全局唯一ID屏蔽、IP地址和端口屏蔽
   - 异步场景下全链路蓝绿灰度发布，异步Agent
   - 全链路命名空间Namespace参数驱动的并行发布隔离
   - 全链路Header、Parameter、Cookie、域名、RPC Method等参数化规则策略驱动
@@ -402,7 +403,7 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
     - [全链路蓝绿灰度容灾](#全链路蓝绿灰度容灾)
         - [发布失败下的版本故障转移](#发布失败下的版本故障转移)
         - [并行发布下的版本偏好](#并行发布下的版本偏好)
-    - [服务下线场景下全链路蓝绿灰度](#服务下线场景下全链路蓝绿灰度)
+    - [服务下线场景下全链路蓝绿灰度发布](#服务下线场景下全链路蓝绿灰度发布)
         - [全局唯一ID屏蔽](#全局唯一ID屏蔽)
         - [IP地址和端口屏蔽](#IP地址和端口屏蔽)
     - [异步场景下全链路蓝绿灰度发布](#异步场景下全链路蓝绿灰度发布)
@@ -412,12 +413,6 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 
 
 - [基于Header传递方式的灰度路由策略](#基于Header传递方式的灰度路由策略)
-    - [配置网关灰度路由策略](#配置网关灰度路由策略)
-        - [版本匹配灰度路由策略](#版本匹配灰度路由策略)
-        - [版本权重灰度路由策略](#版本权重灰度路由策略)
-        - [区域匹配灰度路由策略](#区域匹配灰度路由策略)
-        - [区域权重灰度路由策略](#区域权重灰度路由策略)
-        - [IP地址和端口匹配灰度路由策略](#IP地址和端口匹配灰度路由策略)
     - [配置全链路灰度条件命中和灰度匹配组合式策略](#配置全链路灰度条件命中和灰度匹配组合式策略)
     - [配置全链路灰度条件权重和灰度匹配组合式策略](#配置全链路灰度条件权重和灰度匹配组合式策略)
     - [配置前端灰度和网关灰度路由组合式策略](#配置前端灰度和网关灰度路由组合式策略)
@@ -426,9 +421,6 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 - [基于域名的全链路灰度路由](#基于域名的全链路灰度路由)
 - [基于RPC-Method的全链路灰度路由](#基于RPC-Method的全链路灰度路由)
 - [基于全局订阅式的灰度路由策略](#基于全局订阅式的灰度路由策略)	
-- [基于服务下线实时性的流量绝对无损策略](#基于服务下线实时性的流量绝对无损策略)
-    - [配置全局唯一ID屏蔽策略](#配置全局唯一ID屏蔽策略)
-    - [配置IP地址和端口屏蔽策略](#配置IP地址和端口屏蔽策略)
 - [基于订阅方式的全链路灰度发布规则](#基于订阅方式的全链路灰度发布规则)
     - [配置全链路灰度匹配规则](#配置全链路灰度匹配规则)
         - [版本匹配灰度规则](#版本匹配灰度规则)
@@ -611,6 +603,17 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
 | --- | --- |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-agent-starter | 异步跨线程Agent Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-agent-starter-plugin-strategy | 路由策略的异步跨线程Agent Plugin Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-agent-starter-plugin-mdc | MDC日志的异步跨线程Agent Plugin Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-agent-example | 异步跨线程示例 |
+
+③ DiscoveryContrib工程清单
+
+| 工程名 | 描述 |
+| --- | --- |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-contrib-plugin-starter | 第三方非微服务范畴中间件的蓝绿灰度发布Contrib Plugin Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-contrib-plugin-starter-rocketmq | RocketMQ的蓝绿灰度发布Contrib Plugin Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-contrib-plugin-starter-shardingsphere | ShardingSphere日志的蓝绿灰度发布Contrib Plugin Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-contrib-example | 第三方非微服务范畴中间件的蓝绿灰度发布示例 |
 
 ### 架构核心
 - 灰度方式区别图
