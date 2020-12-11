@@ -176,20 +176,16 @@ Discovery【探索】微服务框架，基于Spring Cloud Discovery服务注册�
     - 基于WRK的性能压力测试
 - Docker容器化和Kubernetes平台的无缝支持部署
 
-![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 基于RESTful层面的功能全景
-
-![](http://nepxion.gitee.io/docs/discovery-doc/Introduction.jpg)
-
 ③ 微服务框架易用性表现，如下
 - 引入相关依赖到pom.xml
-- 设置元数据MetaData。如下五个元数据可以按需设置
-    - 定义所属组名Group，也可以通过服务名前缀来自动产生服务组名
-    - 定义版本号Version，也可以通过Git插件方式自动产生版本号
-    - 定义所属区域名Region
-    - 定义所属环境Env
-    - 定义所属可用区Zone
+- 元数据Metadata流量染色。5大元数据视不同的使用场景按需设置
+    - 定义所属组名：metadata.group，也可以通过服务名前缀来自动产生服务组名
+    - 定义版本号：metadata.version，也可以通过Git插件方式自动产生版本号
+    - 定义所属区域名：metadata.region
+    - 定义所属环境：metadata.env
+    - 定义所属可用区：metadata.zone
 - 执行采用“约定大于配置”的准则，使用者也可以开启和关闭相关功能项或者属性值，达到最佳配置
-- 规则策略文件设置和推送，或者通过Header、Parameter、Cookie触发，并通过Header方式全链路传递路由策略
+- 规则策略文件设置和推送，或者通过业务Header、Parameter、Cookie触发，并通过Json格式的Header路由策略全链路传递
 
 ④ 微服务框架版本兼容列表，如下
 
@@ -920,6 +916,10 @@ zuul
 
 ### 配置网关灰度路由策略
 在Nacos配置中心，增加网关灰度路由策略
+
+![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 基于RESTful层面的功能全景
+
+![](http://nepxion.gitee.io/docs/discovery-doc/Introduction.jpg)
 
 #### 版本匹配灰度路由策略
 增加Spring Cloud Gateway的基于版本匹配路由的灰度策略，Group为discovery-guide-group，Data Id为discovery-guide-gateway，策略内容如下，实现从Spring Cloud Gateway发起的调用都走版本为1.0的服务
