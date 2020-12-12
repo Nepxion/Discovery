@@ -1258,16 +1258,45 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 
 ### 全链路网关和服务端到端实施蓝绿灰度发布
 
+前端 -> 网关 -> 服务全链路调用中，可以实施端到端蓝绿灰度发布
+
+① 前端 -> 网关并行实施蓝绿灰度发布
+
+当外界传值Header的时候，网关也设置并传递同名的Header，需要决定哪个Header传递到后边的服务去。需要通过如下开关做控制
+```
+# 当外界传值Header的时候，网关也设置并传递同名的Header，需要决定哪个Header传递到后边的服务去。如果下面开关为true，以网关设置为优先，否则以外界传值为优先。缺失则默认为true
+spring.application.strategy.gateway.header.priority=false
+# 当以网关设置为优先的时候，网关未配置Header，而外界配置了Header，仍旧忽略外界的Header。缺失则默认为true
+spring.application.strategy.gateway.original.header.ignored=true
+
+# 当外界传值Header的时候，网关也设置并传递同名的Header，需要决定哪个Header传递到后边的服务去。如果下面开关为true，以网关设置为优先，否则以外界传值为优先。缺失则默认为true
+spring.application.strategy.zuul.header.priority=false
+# 当以网关设置为优先的时候，网关未配置Header，而外界配置了Header，仍旧忽略外界的Header。缺失则默认为true
+spring.application.strategy.zuul.original.header.ignored=true
+```
+
+② 网关 -> 服务并行实施蓝绿灰度发布
+
+当网关传值Header的时候，服务也设置并传递同名的Header，需要决定哪个Header传递到后边的服务去。需要通过如下开关做控制
+```
+# 当外界传值Header的时候，服务也设置并传递同名的Header，需要决定哪个Header传递到后边的服务去，该开关依赖前置过滤器的开关。如果下面开关为true，以服务设置为优先，否则以外界传值为优先。缺失则默认为true
+# spring.application.strategy.service.header.priority=true
+```
+
+### 全链路混合实施蓝绿灰度发布
+
+网关 -> 服务全链路调用中，可以混合实施蓝绿灰度发布
+
+① 网关上实施蓝绿发布，服务上实施灰度发布
+
+② 网关上实施灰度发布，服务上实施蓝绿发布
+
+上述两个发布场景，可以独立实施，互不影响，前提条件，需要控制服务上`header.priority`的开关
 
 
-### 通过其它方式设置灰度路由策略
-除了上面通过配置中心发布灰度规路由则外，还有如下三种方式，这三种方式既适用于Zuul和Spring Cloud Gateway网关，也适用于Service微服务
+
 
 #### 通过前端传入灰度路由策略
-
-![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 基于RESTful层面的功能全景
-
-![](http://nepxion.gitee.io/docs/discovery-doc/Introduction.jpg)
 
 通过前端（Postman）方式传入灰度路由策略，来代替配置中心方式，传递全链路路由策略
 
@@ -1319,22 +1348,9 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 1. n-d-address-blacklist=192.168.43.101:1201;192.168.*.102;1301
 ```
 
-![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-6.jpg)
+![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 基于前端传递蓝绿灰度策略的全景图
 
-![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-7.jpg)
-
-当外界传值Header的时候，网关也设置并传递同名的Header，需要决定哪个Header传递到后边的服务去。需要通过如下开关做控制
-```
-# 当外界传值Header的时候，网关也设置并传递同名的Header，需要决定哪个Header传递到后边的服务去。如果下面开关为true，以网关设置为优先，否则以外界传值为优先。缺失则默认为true
-spring.application.strategy.gateway.header.priority=false
-# 当以网关设置为优先的时候，网关未配置Header，而外界配置了Header，仍旧忽略外界的Header。缺失则默认为true
-spring.application.strategy.gateway.original.header.ignored=true
-
-# 当外界传值Header的时候，网关也设置并传递同名的Header，需要决定哪个Header传递到后边的服务去。如果下面开关为true，以网关设置为优先，否则以外界传值为优先。缺失则默认为true
-spring.application.strategy.zuul.header.priority=false
-# 当以网关设置为优先的时候，网关未配置Header，而外界配置了Header，仍旧忽略外界的Header。缺失则默认为true
-spring.application.strategy.zuul.original.header.ignored=true
-``` 
+![](http://nepxion.gitee.io/docs/discovery-doc/Introduction.jpg)
 
 #### 通过业务参数在过滤器中自定义灰度路由策略
 通过过滤器传递Header的方式传递全链路灰度路由策略
