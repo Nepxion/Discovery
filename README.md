@@ -868,7 +868,6 @@ zuul
 ### 全链路非条件驱动蓝绿发布
 
 #### 全链路版本匹配蓝绿发布
-
 增加Spring Cloud Gateway的版本匹配蓝绿发布策略，Group为discovery-guide-group，Data Id为discovery-guide-gateway，策略内容如下，实现从Spring Cloud Gateway发起的调用全链路都走版本为1.0的服务
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -896,7 +895,7 @@ zuul
 2. <version>{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</version>
 ```
 
-如果上述表达式还未满足需求，也可以采用通配表达式方式（具体详细用法，参考Spring AntPathMatcher）
+如果上述表达式还未满足需求，也可以采用通配表达式方式（具体详细用法，参考Spring AntPathMatcher），通过Spring Matcher的通配表达式，支持多个通配*、单个通配?等全部标准表达式用法
 ```
 * - 表示调用范围为所有版本
 1.* - 表示调用范围为1开头的所有版本
@@ -908,7 +907,7 @@ zuul
 ```
 表示discovery-guide-service-b服务的版本调用范围是1开头的所有版本，或者是1.2开头的所有版本（末尾必须是1个字符），多个用分号隔开
 
-![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 提醒：非条件驱动下的蓝绿发布跟全链路Header驱动下的蓝绿发布等效，例如
+![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 提醒：非条件驱动下的全链路蓝绿发布跟Header驱动下的全链路蓝绿发布等效，例如
 ```
 n-d-version=1.0
 n-d-version={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
@@ -919,7 +918,6 @@ n-d-version={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0
 ![](http://nepxion.gitee.io/docs/discovery-doc/RouteVersion.jpg)
 
 #### 全链路区域匹配蓝绿发布
-
 增加Zuul的区域匹配蓝绿发布策略，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现从Zuul发起的调用全链路都走区域为dev的服务
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -947,7 +945,7 @@ n-d-version={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0
 2. <region>{"discovery-guide-service-a":"dev", "discovery-guide-service-b":"dev"}</region>
 ```
 
-如果上述表达式还未满足需求，也可以采用通配表达式方式（具体详细用法，参考Spring AntPathMatcher）
+如果上述表达式还未满足需求，也可以采用通配表达式方式（具体详细用法，参考Spring AntPathMatcher），通过Spring Matcher的通配表达式，支持多个通配*、单个通配?等全部标准表达式用法
 ```
 * - 表示调用范围为所有区域
 d* - 表示调用范围为d开头的所有区域
@@ -959,7 +957,7 @@ d* - 表示调用范围为d开头的所有区域
 ```
 表示discovery-guide-service-b服务的区域调用范围是d开头的所有区域，或者是q开头的所有区域（末尾必须是1个字符），多个用分号隔开
 
-![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 提醒：非条件驱动下的蓝绿发布跟全链路Header驱动下的蓝绿发布等效，例如
+![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 提醒：非条件驱动下的全链路蓝绿发布跟Header驱动下的全链路蓝绿发布等效，例如
 ```
 n-d-region=dev
 n-d-region={"discovery-guide-service-a":"dev", "discovery-guide-service-b":"dev"}
@@ -970,7 +968,6 @@ n-d-region={"discovery-guide-service-a":"dev", "discovery-guide-service-b":"dev"
 ![](http://nepxion.gitee.io/docs/discovery-doc/RouteRegion.jpg)
 
 #### 全链路IP地址和端口匹配蓝绿发布
-
 增加Zuul的IP地址和端口匹配蓝绿发布策略，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现从Zuul发起的调用走指定IP地址和端口，或者指定IP地址，或者指定端口（下面策略以端口为例）的服务
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -1000,7 +997,7 @@ n-d-region={"discovery-guide-service-a":"dev", "discovery-guide-service-b":"dev"
 2. <address>{"discovery-guide-service-a":"3001", "discovery-guide-service-b":"3001"}</address>
 ```
 
-如果上述表达式还未满足需求，也可以采用通配表达式方式（具体详细用法，参考Spring AntPathMatcher）
+如果上述表达式还未满足需求，也可以采用通配表达式方式（具体详细用法，参考Spring AntPathMatcher），通过Spring Matcher的通配表达式，支持多个通配*、单个通配?等全部标准表达式用法
 ```
 * - 表示调用范围为所有端口
 3* - 表示调用范围为3开头的所有端口
@@ -1012,7 +1009,7 @@ n-d-region={"discovery-guide-service-a":"dev", "discovery-guide-service-b":"dev"
 ```
 表示discovery-guide-service-b服务的端口调用范围是3开头的所有端口，或者是4开头的所有端口（末尾必须是1个字符），多个用分号隔开
 
-![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 提醒：非条件驱动下的蓝绿发布跟全链路Header驱动下的蓝绿发布等效，例如
+![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 提醒：非条件驱动下的全链路蓝绿发布跟Header驱动下的全链路蓝绿发布等效，例如
 ```
 n-d-address=3001
 n-d-address={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"3001"}
@@ -1025,11 +1022,34 @@ IP地址和端口匹配蓝绿发布架构图
 ### 全链路条件驱动蓝绿发布
 
 #### 全链路版本条件匹配蓝绿发布
+通过Header、Parameter、Cookie驱动参数和条件表达式结合，实现基于版本匹配的蓝、绿、兜底三条路由驱动，实现全链路版本条件匹配蓝绿发布
 
-通过Spring Spel的条件表达式，支持等于=、不等于!=、大于>、小于<、与&&、或||、匹配matches，以及加减乘除取模等全部标准表达式用法
-通过Spring Matcher的通配表达式，支持多个通配*、单个通配?等全部标准表达式用法
+- 驱动参数
 
-对于策略保存在XML文件的场景，条件表达式对于特殊符号需要转义，见下面表格
+① Header、Parameter、Cookie参数传递。对于要驱动发布的参数，例如，业务参数user，可以选择Header、Parameter、Cookie其中任意一个传递，都是等效的
+
+② Header、Parameter、Cookie参数优先级。对于要驱动发布的参数，例如，业务参数user，如果在这三者中都存在，且值不相同，那么取值优先级Header > Parameter > Cookie
+
+③ Header、Parameter、Cookie参数混合。对于要驱动发布的参数，如果不止一个，例如，业务参数user、age、address，可以全部是Header或者Parameter或者Cookie，也可以是这三者混合传递：user通过Header传递，age通过Parameter传递，address通过Cookie传递
+
+- 条件表达式
+
+① Spring Spel的条件表达式，支持等于=、不等于!=、大于>、小于<、与&&、或||、匹配matches，以及加减乘除取模等全部标准表达式用法
+
+② Spring Spel的条件表达式，整合驱动参数
+
+例如，驱动参数分别为a、b、c，驱动条件为a等于1，b小于等于2，c不等于3，那么表达式可以写为
+
+`#`H['a'] == '1' && `#`H['b'] <= '2' && `#`H['c'] != '3'
+
+其中，`#`H['a']，Spring Spel表达式用来表述驱动参数a的专有格式
+
+③ Spring Spel的逻辑表达，注意点
+
+- 任何值都大于null。当某个参数未传值，但又指定了该参数大于的表达逻辑，那么表达式结果为false。例如，#H['a'] > '2'，但a未传递进来，a即null，则null > 2，表达式结果为false
+- null满足不等于。当某个参数未传值，但又指定了该该参数不等于的表达逻辑，那么表达式结果为true。例如，#H['a'] != '2'，但a未传递进来，a即null，则null != 2，表达式结果为true
+
+④ Spring Spel的符号转义，对XML格式的规则策略文件，保存在配置中心的时候，需要对表达式中的特殊符号进行转义
 
 | 符号 | 转义符 | 含义 | 备注 |
 | --- | --- | --- | --- |
@@ -1039,74 +1059,13 @@ IP地址和端口匹配蓝绿发布架构图
 | `>` | `&gt;` | 大于号 | |
 | `'` | `&apos;` | 单引号 | |
 
-从Header、Parameter、Cookie三个方式之一获取到值进行逻辑判断，例如Header的Key为a，它的格式表示为#H['a']。假如路由触发的条件为a等于1，b小于等于2，c不等于3，那么表达式可以写为
-
-`#`H['a'] == '1' && `#`H['b'] <= '2' && `#`H['c'] != '3'
-
-特殊符号必须转义，所以表达式必须改成如下
+对于上面示例，表达式必须改成如下
 
 `#`H['a'] == '1' `&amp;&amp;` `#`H['b'] `&lt;`= '2' `&amp;&amp;` `#`H['c'] != '3'
 
-增加组合式的灰度策略，支持版本匹配、区域匹配、IP地址和端口匹配、版本权重匹配、区域权重匹配。以版本匹配为例，Group为discovery-guide-group，Data Id为discovery-guide-gateway，或者，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现功能
+- 条件匹配蓝绿发布
 
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) Spel表达式的内容，需要注意
-- 支持Header、Parameter、Cookie三种参数。例如，上面表达式，a、b、c的值可以来自Header、Parameter、Cookie中的任何一种。为兼容老的用法，统一以header节点来描述
-- 支持Header、Parameter、Cookie混合策略表达式，例如，上面表达式，a的值可以来自于Header，b的值可以来自于Parameter，c的值可以来自于Cookie。如果同一个值同时存在于Header、Parameter、Cookie，优先级Header > Parameter > Cookie
-
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) Spel表达式的逻辑，需要注意
-- 任何值都大于null。当某个Header未传值，但又指定了该Header大于的表达式，那么正则结果是true。例如，表达式为#H['a'] > '2'，但a作为Header未传递进来，即为null，判断结果为false
-- null满足不等于。当某个Header未传值，但又指定了该Header不等于的表达式，那么正则结果是true。例如，表达式为#H['a'] != '2'，但a作为Header未传递进来，即为null，判断结果为true
-
-具体使用逻辑如下
-
-① 当外部调用带有的Header中的值a=1同时b=2，执行绿路由
-
-`<condition>`节点中 **header="#H['a'] == '1' &amp;&amp; #H['b'] == '2'"** 对应的 **version-id="green-version-route"** ，找到下面`<route>`节点中 **id="green-version-route" type="version"** 的那项，那么路由即为
-```
-{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
-```
-
-② 当外部调用带有的Header中的值a=1，执行蓝路由
-
-`<condition>`节点中 **header="#H['a'] == '1'"** 对应的 **version-id="blue-version-route"** ，找到下面`<route>`节点中 **id="blue-version-route" type="version"** 的那项，那么路由即为
-```
-{"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}
-```
-
-③ 当外部调用带有的Header中的值都不命中，或者未传值，执行兜底路由
-
-- 执行`<strategy>`节点中的全局缺省路由，那么路由即为
-```
-{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
-```
-- 如果全局缺省路由未配置，则执行Spring Cloud Ribbon轮询策略
-   
-④ 假如不愿意从网关外部传入Header，那么支持策略下内置Header来决策蓝绿和灰度，可以代替外部传入Header，参考如下配置
-```xml
-<headers>
-   <header key="a" value="1"/>
-</headers>
-```
-内置Header一般使用场景为定时Job的服务调用灰度路由。当服务侧配置了内置Header，而网关也传递给对应Header给该服务，那么以网关传递的Header为优先
-
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：Spring Cloud Gateway在Finchley版不支持该方式
-
-⑤ 策略总共支持5种，可以单独一项使用，也可以多项叠加使用
-
-- version 版本路由
-- region 区域路由
-- address IP地址和端口路由
-- version-weight 版本权重路由
-- region-weight 区域权重路由
-
-⑥ 策略支持Spring Spel的条件表达式方式
-
-⑦ 策略支持Spring Matcher的通配方式
-
-⑧ 支持并行实施。通过namespace（可以自定义）的Header进行发布隔离
-
-具体示例内容如下
-
+增加Spring Cloud Gateway的版本条件匹配蓝绿发布策略，Group为discovery-guide-group，Data Id为discovery-guide-gateway，策略内容如下
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
@@ -1133,6 +1092,54 @@ IP地址和端口匹配蓝绿发布架构图
 ```
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-8.jpg)
 
+具体使用逻辑如下
+
+① 当外部调用带有的Header中的值a=1同时b=2，执行绿路由
+
+`<condition>`节点中 **header="#H['a'] == '1' &amp;&amp; #H['b'] == '2'"** 对应的 **version-id="green-version-route"** ，找到下面`<route>`节点中 **id="green-version-route" type="version"** 的那项，那么路由即为
+```
+{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
+```
+
+② 当外部调用带有的Header中的值a=1，执行蓝路由
+
+`<condition>`节点中 **header="#H['a'] == '1'"** 对应的 **version-id="blue-version-route"** ，找到下面`<route>`节点中 **id="blue-version-route" type="version"** 的那项，那么路由即为
+```
+{"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}
+```
+
+③ 当外部调用带有的Header中的值都不命中，或者未传值，执行兜底路由
+
+- 执行`<strategy>`节点中的全局缺省路由，那么路由即为
+```
+{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
+```
+- 如果全局缺省路由未配置，则执行Spring Cloud Ribbon轮询策略
+   
+④ 假如不愿意从网关外部传入Header，那么支持策略下内置Header来决策蓝绿发布，可以代替外部传入Header，参考如下配置
+```xml
+<headers>
+   <header key="a" value="1"/>
+</headers>
+```
+内置Header一般使用场景为定时Job的服务调用灰度路由。当服务侧配置了内置Header，而网关也传递给对应Header给该服务，那么以网关传递的Header为优先
+
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：Spring Cloud Gateway在Finchley版不支持该方式
+
+⑤ 策略总共支持5种，可以单独一项使用，也可以多项叠加使用
+
+- version 版本
+- region 区域路
+- address IP地址和端口
+- version-weight 版本权重
+- region-weight 区域权重
+
+⑥ 策略支持Spring Spel的条件表达式方式
+
+⑦ 策略支持Spring Matcher的通配方式
+
+⑧ 支持并行实施。通过namespace参数进行发布隔离
+
 #### 全链路区域条件匹配蓝绿发布
 
 
@@ -1144,7 +1151,6 @@ IP地址和端口匹配蓝绿发布架构图
 ### 全链路非条件驱动灰度发布
 
 #### 全链路版本权重灰度发布
-
 增加Spring Cloud Gateway的版本权重灰度发布策略，Group为discovery-guide-group，Data Id为discovery-guide-gateway，策略内容如下，实现从Spring Cloud Gateway发起的调用全链路1.0版本流量权重为90%，1.1版本流量权重为10%
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -1172,14 +1178,13 @@ IP地址和端口匹配蓝绿发布架构图
 2. <version-weight>{"discovery-guide-service-a":"1.0=90;1.1=10", "discovery-guide-service-b":"1.0=90;1.1=10"}</version-weight>
 ```
 
-![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 提醒：非条件驱动下的灰度发布跟全链路Header驱动下的灰度发布等效，例如
+![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 提醒：非条件驱动下的全链路灰度发布跟Header驱动下的全链路灰度发布等效，例如
 ```
 n-d-version-weight=1.0=90;1.1=10
 n-d-version-weight={"discovery-guide-service-a":"1.0=90;1.1=10", "discovery-guide-service-b":"1.0=90;1.1=10"}
 ```
 
 #### 全链路区域权重灰度发布
-
 增加Zuul的区域权重灰度发布策略，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现从Zuul发起的调用全链路dev区域流量权重为85%，qa区域流量权重为15%
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -1207,7 +1212,7 @@ n-d-version-weight={"discovery-guide-service-a":"1.0=90;1.1=10", "discovery-guid
 2. <region-weight>{"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-service-b":"dev=85;qa=15"}</region-weight>
 ```
 
-![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 提醒：非条件驱动下的灰度发布跟全链路Header驱动下的灰度发布等效，例如
+![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 提醒：非条件驱动下的全链路灰度发布跟Header驱动下的全链路灰度发布等效，例如
 ```
 n-d-region-weight=dev=85;qa=15
 n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-service-b":"dev=85;qa=15"}
@@ -1217,45 +1222,11 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 
 #### 全链路版本条件权重灰度发布
 
-#### 全链路区域条件权重灰度发布
+跟`全链路版本条件匹配蓝绿发布`的基本使用方式类似，但有所区别
 
-#### 全链路IP地址和端口条件权重灰度发布
+![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 提醒：条件权重灰度发布也可以支持参数驱动，但一般不建议这么做
 
-
-
-
-
-
-
-
-### 配置全链路灰度条件命中和灰度匹配组合式策略
-属于全链路蓝绿部署的范畴。既适用于Zuul和Spring Cloud Gateway网关，也适用于Service微服务，一般来说，网关已经加了，服务上就不需要加，当不存在的网关的时候，服务就可以考虑加上
-
-
-
-内置基于Swagger的Rest接口，可以校验策略的条件表达式、校验策略的全链路路由
-
-### 配置全链路灰度条件权重和灰度匹配组合式策略
-属于全链路灰度发布的范畴。既适用于Zuul和Spring Cloud Gateway网关，也适用于Service微服务，一般来说，网关已经加了，服务上就不需要加，当不存在的网关的时候，服务就可以考虑加上
-
-增加组合式的灰度策略，支持版本匹配、区域匹配、IP地址和端口匹配。以版本匹配为例，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现功能
-- 稳定版本路由：a服务1.0版本向网关提供90%的流量，a服务1.0版本只能访问b服务1.0版本
-- 灰度版本路由：1.1版本向网关提供10%的流量，a服务1.1版本只能访问b服务1.1版本
-
-该功能的意义是，网关随机权重调用服务，而服务链路按照版本匹配方式调用
-
-① gray-version-route链路配比10%的流量，stable-version-route链路配比90%的流量
-
-② 策略总共支持3种，可以单独一项使用，也可以多项叠加使用
-
-- version 版本路由
-- region 区域路由
-- address IP地址和端口路由
-
-③ 其它用法和[配置全链路灰度条件命中和灰度匹配组合式策略](#配置全链路灰度条件命中和灰度匹配组合式策略)一致
-
-具体示例内容如下
-
+增加Zuul的版本条件权重灰度发布策略，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
@@ -1282,6 +1253,27 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 </rule>
 ```
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-9.jpg)
+
+具体使用逻辑如下
+
+① 稳定版本路由和灰度版本路由流量权重分配
+
+- 稳定版本路由：a服务1.0版本向网关提供90%的流量，a服务1.0版本只能访问b服务1.0版本
+- 灰度版本路由：a服务1.1版本向网关提供10%的流量，a服务1.1版本只能访问b服务1.1版本
+
+该功能的意义是，网关随机权重调用服务，而服务链路按照版本匹配方式调用
+
+② gray-version-route链路配比10%的流量，stable-version-route链路配比90%的流量
+
+③ 策略总共支持3种，可以单独一项使用，也可以多项叠加使用
+
+- version 版本
+- region 区域
+- address IP地址和端口
+
+#### 全链路区域条件权重灰度发布
+
+#### 全链路IP地址和端口条件权重灰度发布
 
 ### 配置前端灰度和网关灰度路由组合式策略
 当前端（例如：APP）和后端微服务同时存在多个版本时，可以执行[前端灰度&网关灰度路由组合式策略](#前端灰度&网关灰度路由组合式策略)
