@@ -860,8 +860,8 @@ zuul
 ### 全链路蓝绿发布
 
 #### 全链路版本匹配蓝绿发布
+① 非条件驱动下的版本匹配蓝绿发布
 
-##### 非条件驱动下的版本匹配蓝绿发布
 增加Spring Cloud Gateway的版本匹配蓝绿发布策略，Group为discovery-guide-group，Data Id为discovery-guide-gateway，策略内容如下，实现从Spring Cloud Gateway发起的调用都走版本为1.0的服务
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -901,19 +901,25 @@ zuul
 ```
 表示discovery-guide-service-b服务的版本调用范围是1开头的所有版本，或者是1.2开头的所有版本（末尾必须是1个字符），多个用分号隔开
 
+![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 提醒：非条件驱动下的蓝绿发布跟全链路Header驱动下的蓝绿发布等效，例如
+```
+n-d-version=1.0
+n-d-version={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
+```
+
 版本匹配蓝绿发布架构图
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/RouteVersion.jpg)
 
+② 条件驱动下的版本匹配蓝绿发布
 
-##### 条件驱动下的版本匹配蓝绿发布
 
 --------------------
 
 
 #### 全链路区域匹配蓝绿发布
+① 非条件驱动下的区域匹配蓝绿发布
 
-##### 非条件驱动下的区域匹配蓝绿发布
 增加Zuul的区域匹配蓝绿发布策略，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现从Zuul发起的调用都走区域为dev的服务
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -953,17 +959,24 @@ d* - 表示调用范围为d开头的所有区域
 ```
 表示discovery-guide-service-b服务的区域调用范围是d开头的所有区域，或者是q开头的所有区域（末尾必须是1个字符），多个用分号隔开
 
+![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 提醒：非条件驱动下的蓝绿发布跟全链路Header驱动下的蓝绿发布等效，例如
+```
+n-d-region=dev
+n-d-region={"discovery-guide-service-a":"dev", "discovery-guide-service-b":"dev"}
+```
+
 区域匹配蓝绿发布架构图
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/RouteRegion.jpg)
 
-##### 条件驱动下的区域匹配蓝绿发布
+② 条件驱动下的区域匹配蓝绿发布
+
 
 -----------------------
 
 #### 全链路IP地址和端口匹配蓝绿发布
+① 非条件驱动下的IP地址和端口匹配蓝绿发布
 
-##### 非条件驱动下的IP地址和端口匹配蓝绿发布
 增加Zuul的IP地址和端口匹配蓝绿发布策略，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现从Zuul发起的调用走指定IP地址和端口，或者指定IP地址，或者指定端口（下面策略以端口为例）的服务
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -1005,11 +1018,18 @@ d* - 表示调用范围为d开头的所有区域
 ```
 表示discovery-guide-service-b服务的端口调用范围是3开头的所有端口，或者是4开头的所有端口（末尾必须是1个字符），多个用分号隔开
 
+![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 提醒：非条件驱动下的蓝绿发布跟全链路Header驱动下的蓝绿发布等效，例如
+```
+n-d-address=3001
+n-d-address={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"3001"}
+```
+
 IP地址和端口匹配蓝绿发布架构图
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/RouteAddress.jpg)
 
-##### 条件驱动下的IP地址和端口匹配蓝绿发布
+② 条件驱动下的IP地址和端口匹配蓝绿发布
+
 
 -----------------------
 
