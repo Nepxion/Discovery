@@ -102,11 +102,11 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
   - 全链路版本匹配蓝绿发布
   - 全链路区域匹配蓝绿发布
   - 全链路IP地址和端口匹配蓝绿发布
-  - 全链路蓝路由 | 绿路由 | 兜底路由、蓝路由 | 兜底路由的蓝绿路由类型
+  - 全链路蓝 | 绿 | 兜底、蓝 | 兜底的蓝绿路由类型
   - 全链路版本权重灰度发布
   - 全链路区域权重灰度发布
   - 全链路IP地址和端口权重灰度发布
-  - 全链路稳定路由，灰度路由的灰度路由类型
+  - 全链路稳定、灰度的灰度路由类型
   - 全链路条件驱动和非条件驱动蓝绿灰度发布
   - 全链路网关、服务端到端实施蓝绿灰度发布
   - 全链路混合实施蓝绿灰度发布
@@ -807,8 +807,6 @@ API网关 -> 服务A（两个实例） -> 服务B（两个实例）
 ```
 
 ### 环境验证
-① 通过Postman工具验证
-
 - 导入Postman的测试脚本postman.json（位于根目录下）
 
 - 在Postman中执行目录结构下 ”Nepxion“ -> ”Discovery指南网关接口“ -> ”Gateway网关调用示例“，调用地址为[http://localhost:5001/discovery-guide-service-a/invoke/gateway](http://localhost:5001/discovery-guide-service-a/invoke/gateway)，相关的Header值已经预设，供开发者修改。执行通过Spring Cloud Gateway网关发起的调用，结果为如下格式
@@ -835,33 +833,6 @@ zuul
 | /invoke-threadpool/ | 线程池方式的异步调用 |
 
 - 上述步骤在下面每次更改规则策略的时候执行，并验证结果和规则策略的期望值是否相同
-
-② 通过图形化界面验证
-
-![](http://nepxion.gitee.io/docs/icon-doc/information.png) 该方式有点古老，并不再维护，请斟酌使用
-
-- 下载[源码主页](https://github.com/Nepxion/Discovery)的工程，并导入IDE
-- 启动源码工程下的discovery-springcloud-example-console/ConsoleApplication
-- 启动源码工程下的discovery-console-desktop/ConsoleLauncher
-- 通过admin/admin或者nepxion/nepxion登录，点击【显示服务拓扑】按钮，将呈现如下界面
-
-![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide5-2.jpg)
-
-- 在加入上述规则策略前，选中网关节点，右键点击【执行灰度路由】，在弹出路由界面中，依次加入“discovery-guide-service-a”和“discovery-guide-service-b”，点击【执行路由】按钮，将呈现如下界面
-
-![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide5-3.jpg)
-
-- 在加入上述规则策略后，在路由界面中，再次点击【执行路由】按钮，将呈现如下界面
-
-![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide5-4.jpg)
-
-![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 基于RESTful层面的功能全景
-
-![](http://nepxion.gitee.io/docs/discovery-doc/Introduction.jpg)
-
-
-
-
 
 ## 全链路蓝绿灰度发布
 
@@ -1122,11 +1093,17 @@ IP地址和端口匹配蓝绿发布架构图
    <header key="a" value="1"/>
 </headers>
 ```
-内置Header一般使用场景为定时Job的服务调用灰度路由。当服务侧配置了内置Header，而网关也传递给对应Header给该服务，那么以网关传递的Header为优先
+内置Header一般使用场景为定时Job的服务调用灰度路由。当服务侧配置了内置Header，而网关也传递给对应Header给该服务，通过开关来决定，网关传递的Header为优先还是服务侧内置的Header优先
 
 ![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：Spring Cloud Gateway在Finchley版不支持该方式
 
-⑤ 策略总共支持5种，可以单独一项使用，也可以多项叠加使用
+⑤ 路由类型支持如下
+
+- 蓝 | 绿 | 兜底，即上述提到的路由场景
+- 蓝 | 兜底，即绿路由缺省，那么兜底路由则为绿路由，逻辑更加简单的路由场景
+- 如果蓝路由和路由都缺省，那就只有兜底路由，即为[全链路版本匹配蓝绿发布](#全链路版本匹配蓝绿发布)的路由场景
+
+⑥ 策略总共支持5种，可以单独一项使用，也可以多项叠加使用
 
 - version 版本
 - region 区域路
@@ -1134,11 +1111,11 @@ IP地址和端口匹配蓝绿发布架构图
 - version-weight 版本权重
 - region-weight 区域权重
 
-⑥ 策略支持Spring Spel的条件表达式方式
+⑦ 策略支持Spring Spel的条件表达式方式
 
-⑦ 策略支持Spring Matcher的通配方式
+⑧ 策略支持Spring Matcher的通配方式
 
-⑧ 支持并行实施。通过namespace参数进行发布隔离
+⑨ 支持并行蓝绿发布，通过namespace参数进行蓝绿发布隔离
 
 #### 全链路区域条件匹配蓝绿发布
 
@@ -1279,41 +1256,15 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 
 跟`全链路版本条件权重灰度发布`相似
 
-### 配置前端灰度和网关灰度路由组合式策略
-当前端（例如：APP）和后端微服务同时存在多个版本时，可以执行[前端灰度&网关灰度路由组合式策略](#前端灰度&网关灰度路由组合式策略)
-
-例如：前端存在1.0和2.0版本，微服务存在1.0和2.0版本，由于存在版本不兼容的情况（前端1.0版本只能调用微服务的1.0版本，前端2.0版本只能调用微服务的2.0版本），那么前端调用网关时候，可以通过Header传递它的版本号给网关，网关根据前端版本号，去路由对应版本的微服务
-
-该场景可以用[通过业务参数在过滤器中自定义灰度路由策略](#通过业务参数在过滤器中自定义灰度路由策略)的方案来解决，如下
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-    <strategy-customization>
-        <conditions type="blue-green">
-            <condition id="blue-condition" header="#H['app-version'] == '1.0'" version-id="blue-version-route"/>
-            <condition id="green-condition" header="#H['app-version'] == '2.0'" version-id="green-version-route"/>
-        </conditions>
-
-        <routes>
-            <route id="blue-version-route" type="version">{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</route>
-            <route id="green-version-route" type="version">{"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}</route>
-        </routes>
-    </strategy-customization>
-</rule>
-```
-
-上述配置，模拟出全链路中，两条独立不受干扰的调用路径
-
-```
-1. APP v1.0 -> 网关 -> A服务 v1.0 -> B服务 v1.0
-2. APP v1.1 -> 网关 -> A服务 v1.1 -> B服务 v1.1
-```
-
 ### 通过其它方式设置灰度路由策略
 除了上面通过配置中心发布灰度规路由则外，还有如下三种方式，这三种方式既适用于Zuul和Spring Cloud Gateway网关，也适用于Service微服务
 
 #### 通过前端传入灰度路由策略
+
+![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 基于RESTful层面的功能全景
+
+![](http://nepxion.gitee.io/docs/discovery-doc/Introduction.jpg)
+
 通过前端（Postman）方式传入灰度路由策略，来代替配置中心方式，传递全链路路由策略
 
 ![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：当配置中心和界面都配置后，以界面传入优先
