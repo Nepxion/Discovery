@@ -107,6 +107,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
   - 全链路区域权重灰度发布
   - 全链路IP地址和端口权重灰度发布
   - 全链路稳定路由，灰度路由的灰度路由类型
+  - 全链路条件驱动和非条件驱动蓝绿灰度发布
   - 全链路网关、服务端到端实施蓝绿灰度发布
   - 全链路混合实施蓝绿灰度发布
   - 全链路域网关、非域网关部署
@@ -385,13 +386,11 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [环境验证](#环境验证)
 - [全链路蓝绿灰度发布](#全链路蓝绿灰度发布)
     - [全链路蓝绿发布](#全链路蓝绿发布)
-        - [全链路版本匹配蓝绿发布](#全链路版本匹配蓝绿发布)
-        - [全链路区域匹配蓝绿发布](#全链路区域匹配蓝绿发布)
-        - [全链路IP地址和端口匹配蓝绿发布](#全链路IP地址和端口匹配蓝绿发布)
+        - [全链路非条件驱动的蓝绿发布](#全链路非条件驱动的蓝绿发布)
+        - [全链路条件驱动的蓝绿发布](#全链路条件驱动的蓝绿发布)
     - [全链路灰度发布](#全链路灰度发布)
-        - [全链路版本权重灰度发布](#全链路版本权重灰度发布)
-        - [全链路区域权重灰度发布](#全链路区域权重灰度发布)
-        - [全链路IP地址和端口权重灰度发布](#全链路IP地址和端口权重灰度发布)
+        - [全链路非条件驱动的灰度发布](#全链路非条件驱动的灰度发布)
+        - [全链路条件驱动的灰度发布](#全链路条件驱动的灰度发布)
     - [全链路网关和服务端到端实施蓝绿灰度发布](#全链路网关和服务端到端实施蓝绿灰度发布)
     - [全链路混合实施蓝绿灰度发布](#全链路混合实施蓝绿灰度发布)
     - [全链路域网关和非域网关部署](#全链路域网关和非域网关部署)
@@ -859,8 +858,8 @@ zuul
 
 ### 全链路蓝绿发布
 
-#### 全链路版本匹配蓝绿发布
-① 非条件驱动下的版本匹配蓝绿发布
+#### 全链路非条件驱动的蓝绿发布
+![](http://nepxion.gitee.io/docs/icon-doc/information.png) 全链路版本匹配蓝绿发布
 
 增加Spring Cloud Gateway的版本匹配蓝绿发布策略，Group为discovery-guide-group，Data Id为discovery-guide-gateway，策略内容如下，实现从Spring Cloud Gateway发起的调用都走版本为1.0的服务
 ```xml
@@ -911,14 +910,7 @@ n-d-version={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/RouteVersion.jpg)
 
-② 条件驱动下的版本匹配蓝绿发布
-
-
---------------------
-
-
-#### 全链路区域匹配蓝绿发布
-① 非条件驱动下的区域匹配蓝绿发布
+![](http://nepxion.gitee.io/docs/icon-doc/information.png) 全链路区域匹配蓝绿发布
 
 增加Zuul的区域匹配蓝绿发布策略，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现从Zuul发起的调用都走区域为dev的服务
 ```xml
@@ -969,13 +961,7 @@ n-d-region={"discovery-guide-service-a":"dev", "discovery-guide-service-b":"dev"
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/RouteRegion.jpg)
 
-② 条件驱动下的区域匹配蓝绿发布
-
-
------------------------
-
-#### 全链路IP地址和端口匹配蓝绿发布
-① 非条件驱动下的IP地址和端口匹配蓝绿发布
+![](http://nepxion.gitee.io/docs/icon-doc/information.png) 全链路IP地址和端口匹配蓝绿发布
 
 增加Zuul的IP地址和端口匹配蓝绿发布策略，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现从Zuul发起的调用走指定IP地址和端口，或者指定IP地址，或者指定端口（下面策略以端口为例）的服务
 ```xml
@@ -1028,75 +1014,11 @@ IP地址和端口匹配蓝绿发布架构图
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/RouteAddress.jpg)
 
-② 条件驱动下的IP地址和端口匹配蓝绿发布
+#### 全链路条件驱动的蓝绿发布
+通过Spring Spel的条件表达式，支持等于=、不等于!=、大于>、小于<、与&&、或||、匹配matches，以及加减乘除取模等全部标准表达式用法
+通过Spring Matcher的通配表达式，支持多个通配*、单个通配?等全部标准表达式用法
 
-
------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## 基于Header传递方式的灰度路由策略
-
-### 配置网关灰度路由策略
-在Nacos配置中心，增加网关灰度路由策略
-
-
-#### 版本权重灰度路由策略
-增加Spring Cloud Gateway的基于版本权重路由的灰度策略，Group为discovery-guide-group，Data Id为discovery-guide-gateway，策略内容如下，实现从Spring Cloud Gateway发起的调用1.0版本流量调用为90%，1.1流量调用为10%
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-    <strategy>
-        <version-weight>1.0=90;1.1=10</version-weight>
-    </strategy>
-</rule>
-```
-![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-2.jpg)
-
-每个服务调用的版本权重都可以自行指定，见下面第二条。当所有服务都选相同版本权重的时候，可以简化成下面第一条
-```
-1. <version-weight>1.0=90;1.1=10</version-weight>
-2. <version-weight>{"discovery-guide-service-a":"1.0=90;1.1=10", "discovery-guide-service-b":"1.0=90;1.1=10"}</version-weight>
-```
-
-也可以通过全链路传递Header方式实现，参考[通过前端传入灰度路由策略](#通过前端传入灰度路由策略)
-
-
-#### 区域权重灰度路由策略
-增加Zuul的基于区域权重路由的灰度策略，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现从Zuul发起的调用dev区域流量调用为85%，qa区域流量调用为15%
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-    <strategy>
-        <region-weight>dev=85;qa=15</region-weight>
-    </strategy>
-</rule>
-```
-![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-4.jpg)
-
-每个服务调用的区域权重都可以自行指定，见下面第二条。当所有服务都选相同区域权重的时候，可以简化成下面第一条
-```
-1. <region-weight>dev=85;qa=15</region-weight>
-2. <region-weight>{"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-service-b":"dev=85;qa=15"}</region-weight>
-```
-
-也可以通过全链路传递Header方式实现，参考[通过前端传入灰度路由策略](#通过前端传入灰度路由策略)
-
-### 配置全链路灰度条件命中和灰度匹配组合式策略
-属于全链路蓝绿部署的范畴。既适用于Zuul和Spring Cloud Gateway网关，也适用于Service微服务，一般来说，网关已经加了，服务上就不需要加，当不存在的网关的时候，服务就可以考虑加上
-
-支持Spel表达式进行自定义策略，支持所有标准的Spel表达式，包括==，!=，>，>=，<，<=，&&，||等，由于策略保存在XML文件里，对于特殊符号需要转义，见下面表格
+对于策略保存在XML文件的场景，条件表达式对于特殊符号需要转义，见下面表格
 
 | 符号 | 转义符 | 含义 | 备注 |
 | --- | --- | --- | --- |
@@ -1106,7 +1028,7 @@ IP地址和端口匹配蓝绿发布架构图
 | `>` | `&gt;` | 大于号 | |
 | `'` | `&apos;` | 单引号 | |
 
-从Header获取到值进行逻辑判断，例如Header的Key为a，它的格式表示为#H['a']，H为Header的首字母。假如路由触发的条件为a等于1，b小于等于2，c不等于3，那么表达式可以写为
+从Header、Parameter、Cookie三个方式之一获取到值进行逻辑判断，例如Header的Key为a，它的格式表示为#H['a']。假如路由触发的条件为a等于1，b小于等于2，c不等于3，那么表达式可以写为
 
 `#`H['a'] == '1' && `#`H['b'] <= '2' && `#`H['c'] != '3'
 
@@ -1199,6 +1121,72 @@ IP地址和端口匹配蓝绿发布架构图
 </rule>
 ```
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-8.jpg)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 基于Header传递方式的灰度路由策略
+
+### 配置网关灰度路由策略
+在Nacos配置中心，增加网关灰度路由策略
+
+
+#### 版本权重灰度路由策略
+增加Spring Cloud Gateway的基于版本权重路由的灰度策略，Group为discovery-guide-group，Data Id为discovery-guide-gateway，策略内容如下，实现从Spring Cloud Gateway发起的调用1.0版本流量调用为90%，1.1流量调用为10%
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy>
+        <version-weight>1.0=90;1.1=10</version-weight>
+    </strategy>
+</rule>
+```
+![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-2.jpg)
+
+每个服务调用的版本权重都可以自行指定，见下面第二条。当所有服务都选相同版本权重的时候，可以简化成下面第一条
+```
+1. <version-weight>1.0=90;1.1=10</version-weight>
+2. <version-weight>{"discovery-guide-service-a":"1.0=90;1.1=10", "discovery-guide-service-b":"1.0=90;1.1=10"}</version-weight>
+```
+
+也可以通过全链路传递Header方式实现，参考[通过前端传入灰度路由策略](#通过前端传入灰度路由策略)
+
+
+#### 区域权重灰度路由策略
+增加Zuul的基于区域权重路由的灰度策略，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现从Zuul发起的调用dev区域流量调用为85%，qa区域流量调用为15%
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy>
+        <region-weight>dev=85;qa=15</region-weight>
+    </strategy>
+</rule>
+```
+![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-4.jpg)
+
+每个服务调用的区域权重都可以自行指定，见下面第二条。当所有服务都选相同区域权重的时候，可以简化成下面第一条
+```
+1. <region-weight>dev=85;qa=15</region-weight>
+2. <region-weight>{"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-service-b":"dev=85;qa=15"}</region-weight>
+```
+
+也可以通过全链路传递Header方式实现，参考[通过前端传入灰度路由策略](#通过前端传入灰度路由策略)
+
+### 配置全链路灰度条件命中和灰度匹配组合式策略
+属于全链路蓝绿部署的范畴。既适用于Zuul和Spring Cloud Gateway网关，也适用于Service微服务，一般来说，网关已经加了，服务上就不需要加，当不存在的网关的时候，服务就可以考虑加上
+
+
 
 内置基于Swagger的Rest接口，可以校验策略的条件表达式、校验策略的全链路路由
 
