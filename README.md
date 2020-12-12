@@ -1024,7 +1024,7 @@ IP地址和端口匹配蓝绿发布架构图
 #### 全链路版本条件匹配蓝绿发布
 通过Header、Parameter、Cookie驱动参数和条件表达式结合，实现基于版本匹配的蓝、绿、兜底三条路由驱动，实现全链路版本条件匹配蓝绿发布
 
-- 驱动参数
+![](http://nepxion.gitee.io/docs/icon-doc/information.png) 驱动参数
 
 ① Header、Parameter、Cookie参数传递。对于要驱动发布的参数，例如，业务参数user，可以选择Header、Parameter、Cookie其中任意一个传递，都是等效的
 
@@ -1032,7 +1032,7 @@ IP地址和端口匹配蓝绿发布架构图
 
 ③ Header、Parameter、Cookie参数混合。对于要驱动发布的参数，如果不止一个，例如，业务参数user、age、address，可以全部是Header或者Parameter或者Cookie，也可以是这三者混合传递：user通过Header传递，age通过Parameter传递，address通过Cookie传递
 
-- 条件表达式
+![](http://nepxion.gitee.io/docs/icon-doc/information.png) 条件表达式
 
 ① Spring Spel的条件表达式，支持等于=、不等于!=、大于>、小于<、与&&、或||、匹配matches，以及加减乘除取模等全部标准表达式用法
 
@@ -1063,7 +1063,7 @@ IP地址和端口匹配蓝绿发布架构图
 
 `#`H['a'] == '1' `&amp;&amp;` `#`H['b'] `&lt;`= '2' `&amp;&amp;` `#`H['c'] != '3'
 
-- 条件匹配蓝绿发布
+![](http://nepxion.gitee.io/docs/icon-doc/information.png) 条件匹配蓝绿发布
 
 增加Spring Cloud Gateway的版本条件匹配蓝绿发布策略，Group为discovery-guide-group，Data Id为discovery-guide-gateway，策略内容如下
 ```xml
@@ -1142,11 +1142,11 @@ IP地址和端口匹配蓝绿发布架构图
 
 #### 全链路区域条件匹配蓝绿发布
 
-
+跟`全链路版本条件匹配蓝绿发布`相似
 
 #### 全链路IP地址和端口条件匹配蓝绿发布
 
-
+跟`全链路版本条件匹配蓝绿发布`相似
 
 ### 全链路非条件驱动灰度发布
 
@@ -1222,9 +1222,7 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 
 #### 全链路版本条件权重灰度发布
 
-跟`全链路版本条件匹配蓝绿发布`的基本使用方式类似，但有所区别
-
-![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 提醒：条件权重灰度发布也可以支持参数驱动，但一般不建议这么做
+![](http://nepxion.gitee.io/docs/icon-doc/information.png) 条件权重灰度发布
 
 增加Zuul的版本条件权重灰度发布策略，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下
 ```xml
@@ -1271,9 +1269,15 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 - region 区域
 - address IP地址和端口
 
+![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 提醒：条件权重灰度发布也可以支持参数驱动，但一般不建议这么做
+
 #### 全链路区域条件权重灰度发布
 
+跟`全链路版本条件权重灰度发布`相似
+
 #### 全链路IP地址和端口条件权重灰度发布
+
+跟`全链路版本条件权重灰度发布`相似
 
 ### 配置前端灰度和网关灰度路由组合式策略
 当前端（例如：APP）和后端微服务同时存在多个版本时，可以执行[前端灰度&网关灰度路由组合式策略](#前端灰度&网关灰度路由组合式策略)
