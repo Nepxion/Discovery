@@ -741,7 +741,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 
 支持微服务端、网关Zuul端和网关Spring Cloud Gateway端，选择引入其中一个
 
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：该模块支持F版或更高版本
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意，该模块支持F版或更高版本
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -1015,7 +1015,7 @@ IP地址和端口匹配蓝绿发布架构图
 
 其中，`#`H['a']，Spring Spel表达式用来表述驱动参数a的专有格式
 
-③ Spring Spel的逻辑表达，注意点
+③ Spring Spel的逻辑表达，需要注意
 
 - 任何值都大于null。当某个参数未传值，但又指定了该参数大于的表达逻辑，那么表达式结果为false。例如，#H['a'] > '2'，但a未传递进来，a即null，则null > 2，表达式结果为false
 - null满足不等于。当某个参数未传值，但又指定了该该参数不等于的表达逻辑，那么表达式结果为true。例如，#H['a'] != '2'，但a未传递进来，a即null，则null != 2，表达式结果为true
@@ -1095,7 +1095,7 @@ IP地址和端口匹配蓝绿发布架构图
 ```
 内置Header一般使用场景为定时Job的服务调用灰度路由。当服务侧配置了内置Header，而网关也传递给对应Header给该服务，通过开关来决定，网关传递的Header为优先还是服务侧内置的Header优先
 
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：Spring Cloud Gateway在Finchley版不支持该方式
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意，Spring Cloud Gateway在Finchley版不支持该方式
 
 ⑤ 路由类型支持如下
 
@@ -1906,6 +1906,73 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
 spring.application.strategy.rpc.intercept.enabled=true
 ```
 
+## 全链路动态变更元数据的蓝绿灰度发布
+利用注册中心的Open API接口动态变更服务实例的元数据，达到稳定版本和灰度版本流量灰度控制的目的。以Nacos的版本匹配为例
+
+老的稳定版本的服务实例配置版本元数据，如下
+```
+spring.cloud.nacos.discovery.metadata.version=stable
+```
+新的稳定版本的服务实例配置版本元数据，如下
+```
+spring.cloud.nacos.discovery.metadata.version=gray
+```
+
+路由策略，如下
+
+表示所有的服务流量走灰度版本
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy>
+        <version>gray</version>
+    </strategy>
+</rule>
+```
+表示a服务流量走灰度版本，b服务流量走稳定版本
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy>
+        <version>{"discovery-guide-service-a":"gray", "discovery-guide-service-b":"stable"}</version>
+    </strategy>
+</rule>
+```
+也可以通过全链路传递Header方式实现
+```
+n-d-version=gray
+n-d-version={"discovery-guide-service-a":"gray", "discovery-guide-service-b":"stable"}
+```
+
+新上线的服务实例版本为gray，即默认是灰度版本。等灰度成功后，通过注册中心的Open API接口变更服务版本为stable，或者在注册中心界面手工修改
+
+- Nacos Open API变更元数据
+```
+curl -X PUT 'http://ip:port/nacos/v1/ns/instance?serviceName={appId}&ip={ip}&port={port}&metadata={"version", "stable"}'
+```
+Nacos Open API使用手册，参考[https://nacos.io/zh-cn/docs/open-api.html](https://nacos.io/zh-cn/docs/open-api.html)
+
+- Eureka Open API变更元数据
+```
+curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=stable'
+```
+
+- Consul Open API变更元数据
+
+自行研究
+
+- Zookeeper Open API变更元数据
+
+自行研究
+
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意
+
+① 并非所有的注册中心都支持动态元数据变更方式，需要使用者自行研究
+
+② 动态元数据变更方式利用第三方注册中心的Open API达到最终目的，其可能具有一定的延迟性，不如本框架那样具有灰度路由实时生效的特征，但比本框架动态变更灰度路由策略简单了一些
+
+③ 动态元数据变更方式只是让新的元数据驻留在内存里，并不持久化。当服务重启后，服务的元数据仍旧会以初始值为准
+
 ### 全链路蓝绿灰度容灾
 
 #### 发布失败下的版本故障转移
@@ -1988,73 +2055,6 @@ spring.application.strategy.version.prefer.enabled=true
 
 自定义方式参考[通过业务参数在策略类中自定义灰度路由策略](#通过业务参数在策略类中自定义灰度路由策略)
 
-## 基于动态变更元数据的灰度路由策略
-利用注册中心的Open API接口动态变更服务实例的元数据，达到稳定版本和灰度版本流量灰度控制的目的。以Nacos的版本匹配为例
-
-老的稳定版本的服务实例配置版本元数据，如下
-```
-spring.cloud.nacos.discovery.metadata.version=stable
-```
-新的稳定版本的服务实例配置版本元数据，如下
-```
-spring.cloud.nacos.discovery.metadata.version=gray
-```
-
-灰度路由策略，如下
-
-表示所有的服务流量走灰度版本
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-    <strategy>
-        <version>gray</version>
-    </strategy>
-</rule>
-```
-表示a服务流量走灰度版本，b服务流量走稳定版本
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-    <strategy>
-        <version>{"discovery-guide-service-a":"gray", "discovery-guide-service-b":"stable"}</version>
-    </strategy>
-</rule>
-```
-也可以通过全链路传递Header方式实现，参考[通过前端传入灰度路由策略](#通过前端传入灰度路由策略)
-```
-n-d-version=gray
-n-d-version={"discovery-guide-service-a":"gray", "discovery-guide-service-b":"stable"}
-```
-
-新上线的服务实例版本为gray，即默认是灰度版本。等灰度成功后，通过注册中心的Open API接口变更服务版本为stable，或者在注册中心界面手工修改
-
-- Nacos Open API变更元数据
-```
-curl -X PUT 'http://ip:port/nacos/v1/ns/instance?serviceName={appId}&ip={ip}&port={port}&metadata={"version", "stable"}'
-```
-Nacos Open API使用手册，参考[https://nacos.io/zh-cn/docs/open-api.html](https://nacos.io/zh-cn/docs/open-api.html)
-
-- Eureka Open API变更元数据
-```
-curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=stable'
-```
-
-- Consul Open API变更元数据
-
-自行研究
-
-- Zookeeper Open API变更元数据
-
-自行研究
-
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意
-
-① 并非所有的注册中心都支持动态元数据变更方式，需要使用者自行研究
-
-② 动态元数据变更方式利用第三方注册中心的Open API达到最终目的，其可能具有一定的延迟性，不如本框架那样具有灰度路由实时生效的特征，但比本框架动态变更灰度路由策略简单了一些
-
-③ 动态元数据变更方式只是让新的元数据驻留在内存里，并不持久化。当服务重启后，服务的元数据仍旧会以初始值为准
-
 ## 基于全局订阅式的灰度路由策略
 通过全链路传递Header实现灰度路由，会存在一定的困难，框架提供另外一种很简单的方式来规避Header传递，但能达到Header传递一样的效果。以版本匹配为例
 
@@ -2133,7 +2133,7 @@ spring.application.strategy.rest.template.core.header.transmission.enabled=true
 ## 基于订阅方式的全链路灰度发布规则
 在Nacos配置中心，增加全链路灰度发布规则
 
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：该功能和网关灰度路由和灰度权重功能会叠加，为了不影响演示效果，请先清除网关灰度路由的策略
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意，该功能和网关灰度路由和灰度权重功能会叠加，为了不影响演示效果，请先清除网关灰度路由的策略
 
 ### 配置全链路灰度匹配规则
 
@@ -2227,7 +2227,7 @@ spring.application.strategy.rest.template.core.header.transmission.enabled=true
 ```
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide4-4.jpg)
 
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：局部权重优先级高于全局权重，版本权重优先级高于区域权重
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意，局部权重优先级高于全局权重，版本权重优先级高于区域权重
 
 请执行Postman操作，请仔细观察服务被随机权重调用到的概率
 
@@ -2311,7 +2311,7 @@ spring.application.parameter.event.onstart.enabled=true
 ## 基于多格式的规则策略定义
 
 ### 规则策略格式定义
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：服务名大小写规则
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意，服务名大小写规则
 - 在配置文件（application.properties、application.yaml等）里，定义服务名（spring.application.name）不区分大小写
 - 在规则文件（XML、Json）里，引用的服务名必须小写
 - 在Nacos、Apollo、Redis等远程配置中心的Key，包含的服务名必须小写
@@ -2591,7 +2591,7 @@ Apollo订阅推送界面
     - 强烈建议局部配置方式和全局配置方式不要混用，否则连使用者自己都无法搞清楚到底是哪种配置方式在起作用
 - 其他更多参数，例如evn, cluster等，请自行参考Apollo官方文档，保持一致
 
-③ 特别注意
+③ 需要注意
 
 - 局部配置方式建议使用Apollo的私有（private）配置方式，全局配置方式必须采用Apollo的共享（public）配置方式
 - 如果业务配置和灰度配置在同一个namespace里且namespace只有一个，灰度配置可以通过apollo.bootstrap.namespaces或者apollo.plugin.namespace来指定（如果namespace为application则都不需要配置）
@@ -2751,7 +2751,7 @@ spring.application.strategy.register.isolation.group.whitelist=
 
 #### 自定义注册发现准入
 - 集成AbstractRegisterListener，实现自定义禁止注册
-- 集成AbstractDiscoveryListener，实现自定义禁止被发现。注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断
+- 集成AbstractDiscoveryListener，实现自定义禁止被发现。需要注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断
 - 集成AbstractLoadBalanceListener，实现自定义禁止被负载均衡
 
 ### 消费端服务隔离
@@ -2808,7 +2808,7 @@ spring.cloud.nacos.discovery.metadata.env=env1
 spring.application.environment.route=common
 ```
 
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意事项
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意
 
 - 如果存在环境，优先寻址环境的服务实例
 - 如果不存在环境，则寻址Common环境的服务实例（未设置元数据Metadata的env参数的服务实例也归为Common环境）
@@ -2840,7 +2840,7 @@ spring.application.zone.affinity.enabled=false
 spring.application.zone.route.enabled=true
 ```
 
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意事项
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意
 
 - 不归属任何可用区，含义是服务实例未设置任何zone元数据值。可用区亲和性路由功能，是为了尽量保证流量不损失
 - 如果采用Eureka注册中心，Ribbon本身就具有可用区亲和性功能，跟本框架类似。如果使用者采用了Eureka注册中心下的Ribbon可用区亲和性功能，请关闭本框架提供的相似功能，以免冲突
@@ -3208,7 +3208,7 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 - 灰度调用链支持WebMvc和WebFlux两种方式，以NEPXION字样（可自定义）的标记来标识
 - 支持对Sentinel自动埋点
 
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：因为OpenTracing规范不仅仅只被Jaeger所遵守，所以框架并没有直接引入Jaeger包，需要使用者自行引入，可以参照指南示例中的pom.xml引用
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意，因为OpenTracing规范不仅仅只被Jaeger所遵守，所以框架并没有直接引入Jaeger包，需要使用者自行引入，可以参照指南示例中的pom.xml引用
 ```xml
 <dependency>
     <groupId>io.opentracing.contrib</groupId>
@@ -3251,7 +3251,7 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 ![](http://nepxion.gitee.io/docs/discovery-doc/SkyWalking3.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/SkyWalking4.jpg)
 
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 请注意如下配置，将决定终端界面的显示
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意如下配置，将决定终端界面的显示
 
 - 如果开启，灰度信息输出到独立的Span节点中，意味着在界面显示中，灰度信息通过独立的NEPXION Span节点来显示
 - 如果关闭，灰度信息输出到原生的Span节点中，意味着在界面显示中，灰度信息会和原生Span节点的调用信息、协议信息等合在一起
@@ -3371,7 +3371,7 @@ spring.application.strategy.tracer.sentinel.rule.output.enabled=true
 spring.application.strategy.tracer.sentinel.args.output.enabled=true
 ```
 
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：OpenTracing对Finchley版的Spring Cloud Gateway的reactor-core包存在版本兼容性问题，如果使用者希望Finchley版的Spring Cloud Gateway上使用OpenTracing，需要做如下改造
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意，OpenTracing对Finchley版的Spring Cloud Gateway的reactor-core包存在版本兼容性问题，如果使用者希望Finchley版的Spring Cloud Gateway上使用OpenTracing，需要做如下改造
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -3854,7 +3854,7 @@ git.tags=
 git.total.commit.count=765
 ```
 
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：一般情况下，上述两个地方的配置都同时保持默认即可。对于一些特色化的用法，两个地方的配置项用法必须保持一致，例如
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意，一般情况下，上述两个地方的配置都同时保持默认即可。对于一些特色化的用法，两个地方的配置项用法必须保持一致，例如
 ```
 # 输出到工程根目录下
 <generateGitPropertiesFilename>${project.basedir}/git.json</generateGitPropertiesFilename>
@@ -4307,7 +4307,7 @@ spring.application.git.generator.path=classpath:git.properties
 ### 内置文件配置
 框架提供内置文件方式的配置spring-application-default.properties。如果使用者希望对框架做封装，并提供相应的默认配置，可以在src/main/resources目录下放置spring-application-default.properties
 
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：该文件在整个服务目录和包中只能出现一次
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意，该文件在整个服务目录和包中只能出现一次
 
 ## Docker容器化和Kubernetes平台支持
 
@@ -4368,7 +4368,7 @@ spring.application.git.generator.path=classpath:git.properties
 
 - 一键运行install-docker-gateway.bat或者.sh，把Spring Cloud Gateway网关全自动部署且运行起来
 - 一键运行install-docker-zuul.bat或者.sh，把Zuul网关全自动部署且运行起来
-- 一键运行install-docker-service-xx.bat或者.sh，把微服务全自动部署且运行起来。注意，必须依次运行，即等上一个部署完毕后才能执行下一个
+- 一键运行install-docker-service-xx.bat或者.sh，把微服务全自动部署且运行起来。需要注意，必须依次运行，即等上一个部署完毕后才能执行下一个
 - 一键运行install-docker-console.bat或者.sh，把控制平台全自动部署且运行起来
 - 一键运行install-docker-admin.bat或者.sh，把监控平台全自动部署且运行起来	
 
@@ -4438,7 +4438,7 @@ gray.weight.testcase.result.offset=5
 
 ### 测试用例
 
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：当使用Eureka注册中心的时候，因为Spring Cloud内嵌了Eureka可用区亲和性功能，会自动开启该策略，则导致某些自动化测试用例失败。需要把所有服务实例的元数据zone值改成相同或者也可以把该行元数据删除，然后进行自动化测试
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意，当使用Eureka注册中心的时候，因为Spring Cloud内嵌了Eureka可用区亲和性功能，会自动开启该策略，则导致某些自动化测试用例失败。需要把所有服务实例的元数据zone值改成相同或者也可以把该行元数据删除，然后进行自动化测试
 
 #### 测试包引入
 ```xml
@@ -4468,7 +4468,7 @@ gray.weight.testcase.result.offset=5
 </build>
 ```
 
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：对于带有注解@DTestConfig的测试用例，要用到Spring的Spel语法格式（即group = "#group", serviceId = "#serviceId"），需要引入Java8的带"-parameters"编译方式，见上面的<compilerArgs>参数设置
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意，对于带有注解@DTestConfig的测试用例，要用到Spring的Spel语法格式（即group = "#group", serviceId = "#serviceId"），需要引入Java8的带"-parameters"编译方式，见上面的<compilerArgs>参数设置
 
 在IDE环境里需要设置"-parameters"的Compiler Argument
 
