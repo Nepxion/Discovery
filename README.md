@@ -385,12 +385,21 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [启动服务](#启动服务)
     - [环境验证](#环境验证)
 - [全链路蓝绿灰度发布](#全链路蓝绿灰度发布)
-    - [全链路蓝绿发布](#全链路蓝绿发布)
-        - [全链路非条件驱动的蓝绿发布](#全链路非条件驱动的蓝绿发布)
-        - [全链路条件驱动的蓝绿发布](#全链路条件驱动的蓝绿发布)
-    - [全链路灰度发布](#全链路灰度发布)
-        - [全链路非条件驱动的灰度发布](#全链路非条件驱动的灰度发布)
-        - [全链路条件驱动的灰度发布](#全链路条件驱动的灰度发布)
+    - [全链路非条件驱动蓝绿发布](#全链路非条件驱动蓝绿发布)
+        - [全链路版本匹配蓝绿发布](#全链路版本匹配蓝绿发布)
+        - [全链路区域匹配蓝绿发布](#全链路区域匹配蓝绿发布)
+        - [全链路IP地址和端口匹配蓝绿发布](#全链路IP地址和端口匹配蓝绿发布)
+    - [全链路条件驱动蓝绿发布](#全链路条件驱动蓝绿发布)
+        - [全链路版本条件匹配蓝绿发布](#全链路版本条件匹配蓝绿发布)
+        - [全链路区域条件匹配蓝绿发布](#全链路区域条件匹配蓝绿发布)
+        - [全链路IP地址和端口条件匹配蓝绿发布](#全链路IP地址和端口条件匹配蓝绿发布)	
+    - [全链路非条件驱动灰度发布](#全链路非条件驱动灰度发布)
+        - [全链路版本权重灰度发布](#全链路版本权重灰度发布)
+        - [全链路区域权重灰度发布](#全链路区域权重灰度发布)
+    - [全链路条件驱动灰度发布](#全链路条件驱动灰度发布)
+        - [全链路版本条件权重灰度发布](#全链路版本条件权重灰度发布)
+        - [全链路区域条件权重灰度发布](#全链路区域条件权重灰度发布)	
+        - [全链路IP地址和端口权重条件灰度发布](#全链路IP地址和端口条件权重灰度发布)		
     - [全链路网关和服务端到端实施蓝绿灰度发布](#全链路网关和服务端到端实施蓝绿灰度发布)
     - [全链路混合实施蓝绿灰度发布](#全链路混合实施蓝绿灰度发布)
     - [全链路域网关和非域网关部署](#全链路域网关和非域网关部署)
@@ -856,10 +865,9 @@ zuul
 
 ## 全链路蓝绿灰度发布
 
-### 全链路蓝绿发布
+### 全链路非条件驱动蓝绿发布
 
-#### 全链路非条件驱动的蓝绿发布
-![](http://nepxion.gitee.io/docs/icon-doc/information.png) 全链路版本匹配蓝绿发布
+#### 全链路版本匹配蓝绿发布
 
 增加Spring Cloud Gateway的版本匹配蓝绿发布策略，Group为discovery-guide-group，Data Id为discovery-guide-gateway，策略内容如下，实现从Spring Cloud Gateway发起的调用全链路都走版本为1.0的服务
 ```xml
@@ -910,7 +918,7 @@ n-d-version={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/RouteVersion.jpg)
 
-![](http://nepxion.gitee.io/docs/icon-doc/information.png) 全链路区域匹配蓝绿发布
+#### 全链路区域匹配蓝绿发布
 
 增加Zuul的区域匹配蓝绿发布策略，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现从Zuul发起的调用全链路都走区域为dev的服务
 ```xml
@@ -961,7 +969,7 @@ n-d-region={"discovery-guide-service-a":"dev", "discovery-guide-service-b":"dev"
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/RouteRegion.jpg)
 
-![](http://nepxion.gitee.io/docs/icon-doc/information.png) 全链路IP地址和端口匹配蓝绿发布
+#### 全链路IP地址和端口匹配蓝绿发布
 
 增加Zuul的IP地址和端口匹配蓝绿发布策略，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现从Zuul发起的调用走指定IP地址和端口，或者指定IP地址，或者指定端口（下面策略以端口为例）的服务
 ```xml
@@ -1014,7 +1022,10 @@ IP地址和端口匹配蓝绿发布架构图
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/RouteAddress.jpg)
 
-#### 全链路条件驱动的蓝绿发布
+### 全链路条件驱动蓝绿发布
+
+#### 全链路版本条件匹配蓝绿发布
+
 通过Spring Spel的条件表达式，支持等于=、不等于!=、大于>、小于<、与&&、或||、匹配matches，以及加减乘除取模等全部标准表达式用法
 通过Spring Matcher的通配表达式，支持多个通配*、单个通配?等全部标准表达式用法
 
@@ -1122,10 +1133,17 @@ IP地址和端口匹配蓝绿发布架构图
 ```
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-8.jpg)
 
-### 全链路灰度发布
+#### 全链路区域条件匹配蓝绿发布
 
-#### 全链路非条件驱动的灰度发布
-![](http://nepxion.gitee.io/docs/icon-doc/information.png) 全链路版本权重灰度发布
+
+
+#### 全链路IP地址和端口条件匹配蓝绿发布
+
+
+
+### 全链路非条件驱动灰度发布
+
+#### 全链路版本权重灰度发布
 
 增加Spring Cloud Gateway的版本权重灰度发布策略，Group为discovery-guide-group，Data Id为discovery-guide-gateway，策略内容如下，实现从Spring Cloud Gateway发起的调用全链路1.0版本流量权重为90%，1.1版本流量权重为10%
 ```xml
@@ -1160,7 +1178,7 @@ n-d-version-weight=1.0=90;1.1=10
 n-d-version-weight={"discovery-guide-service-a":"1.0=90;1.1=10", "discovery-guide-service-b":"1.0=90;1.1=10"}
 ```
 
-![](http://nepxion.gitee.io/docs/icon-doc/information.png) 全链路区域权重灰度发布
+#### 全链路区域权重灰度发布
 
 增加Zuul的区域权重灰度发布策略，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现从Zuul发起的调用全链路dev区域流量权重为85%，qa区域流量权重为15%
 ```xml
@@ -1195,7 +1213,13 @@ n-d-region-weight=dev=85;qa=15
 n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-service-b":"dev=85;qa=15"}
 ```
 
-#### 全链路条件驱动的灰度发布
+### 全链路条件驱动灰度发布
+
+#### 全链路版本条件权重灰度发布
+
+#### 全链路区域条件权重灰度发布
+
+#### 全链路IP地址和端口条件权重灰度发布
 
 
 
