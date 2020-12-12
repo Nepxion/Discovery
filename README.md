@@ -823,7 +823,7 @@ zuul
 -> [ID=discovery-guide-service-b][P=Nacos][H=192.168.0.107:4001][V=1.0][R=qa][E=env1][Z=zone2][G=discovery-guide-group][TID=48682.7508.15870951148324081][SID=49571.85.15870951189970000]
 ```
 
-- 在Postman中多种同步和异步的调用方式，异步方式需要增加DiscoveryAgent，才能保证灰度路由成功
+- 在Postman中多种同步和异步的调用方式，异步方式需要增加DiscoveryAgent，才能保证蓝绿发布路由调用的成功
 
 | URL | 调用方式 |
 | --- | --- |
@@ -993,7 +993,7 @@ IP地址和端口匹配蓝绿发布架构图
 ### 全链路条件驱动蓝绿发布
 
 #### 全链路版本条件匹配蓝绿发布
-通过Header、Parameter、Cookie驱动参数和条件表达式结合，把业务定义的这三个驱动参数转化成全链路传递的路由策略Header，执行基于版本匹配的蓝、绿、兜底三条路由驱动，实现全链路版本条件匹配蓝绿发布
+通过Header、Parameter、Cookie驱动参数和条件表达式结合，把业务定义的这三个驱动参数转化成全链路传递的策略路由Header，执行基于版本匹配的蓝、绿、兜底三条路由驱动，实现全链路版本条件匹配蓝绿发布
 
 ![](http://nepxion.gitee.io/docs/icon-doc/information.png) 驱动参数
 
@@ -1093,7 +1093,7 @@ IP地址和端口匹配蓝绿发布架构图
    <header key="a" value="1"/>
 </headers>
 ```
-内置Header一般使用场景为定时Job的服务调用灰度路由。当服务侧配置了内置Header，而网关也传递给对应Header给该服务，通过开关来决定，网关传递的Header为优先还是服务侧内置的Header优先
+内置Header一般使用场景为定时Job的服务定时去调用其它服务，希望实施蓝绿灰度发布。当服务侧配置了内置Header，而网关也传递给对应Header给该服务，通过开关来决定，网关传递的Header为优先还是服务侧内置的Header优先
 
 ![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意，Spring Cloud Gateway在Finchley版不支持该方式
 
@@ -1969,7 +1969,7 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 
 ① 并非所有的注册中心都支持动态元数据变更方式，需要使用者自行研究
 
-② 动态元数据变更方式利用第三方注册中心的Open API达到最终目的，其可能具有一定的延迟性，不如本框架那样具有灰度路由实时生效的特征，但比本框架动态变更灰度路由策略简单了一些
+② 动态元数据变更方式利用第三方注册中心的Open API达到最终目的，其可能具有一定的延迟性，不如本框架那样具有蓝绿灰度发布实时生效的特征，但比本框架动态变更蓝绿灰度发布简单了一些
 
 ③ 动态元数据变更方式只是让新的元数据驻留在内存里，并不持久化。当服务重启后，服务的元数据仍旧会以初始值为准
 
@@ -1996,6 +1996,11 @@ spring.application.strategy.version.failover.enabled=true
 # 启动和关闭版本偏好。缺失则默认为false
 spring.application.strategy.version.prefer.enabled=true
 ```
+
+
+
+
+
 
 ### 异步场景的全链路灰度路由策略
 当若干个服务之间调用，存在异步场景，如下
