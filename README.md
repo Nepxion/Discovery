@@ -1118,11 +1118,9 @@ IP地址和端口匹配蓝绿发布架构图
 ⑨ 支持并行蓝绿发布，通过namespace参数进行蓝绿发布隔离
 
 #### 全链路区域条件匹配蓝绿发布
-
 跟[全链路版本条件匹配蓝绿发布](#全链路版本条件匹配蓝绿发布)相似
 
 #### 全链路IP地址和端口条件匹配蓝绿发布
-
 跟[全链路版本条件匹配蓝绿发布](#全链路版本条件匹配蓝绿发布)相似
 
 ### 全链路非条件驱动灰度发布
@@ -1198,7 +1196,6 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 ### 全链路条件驱动灰度发布
 
 #### 全链路版本条件权重灰度发布
-
 ![](http://nepxion.gitee.io/docs/icon-doc/information.png) 条件权重灰度发布
 
 增加Zuul的版本条件权重灰度发布策略，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下
@@ -1249,15 +1246,12 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 ![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 提醒：条件权重灰度发布也可以支持参数驱动，但一般不建议这么做
 
 #### 全链路区域条件权重灰度发布
-
 跟[全链路版本条件权重灰度发布](#全链路版本条件权重灰度发布)相似
 
 #### 全链路IP地址和端口条件权重灰度发布
-
 跟[全链路版本条件权重灰度发布](#全链路版本条件权重灰度发布)相似
 
 ### 全链路网关和服务端到端实施蓝绿灰度发布
-
 前端 -> 网关 -> 服务全链路调用中，可以实施端到端蓝绿灰度发布
 
 ① 前端 -> 网关并行实施蓝绿灰度发布
@@ -1284,7 +1278,6 @@ spring.application.strategy.zuul.original.header.ignored=true
 ```
 
 ### 全链路混合实施蓝绿灰度发布
-
 网关 -> 服务全链路调用中，可以混合实施蓝绿灰度发布
 
 ① 网关上实施蓝绿发布，服务上实施灰度发布
@@ -1293,14 +1286,17 @@ spring.application.strategy.zuul.original.header.ignored=true
 
 上述两个发布场景，可以独立实施，互不影响，前提条件，需要控制服务上`header.priority`的开关
 
+### 全链路域网关和非域网关部署
 
+① 域网关部署模式，即A部门服务访问B部门服务必须通过B部门网关。该部署模式下，本部门服务的蓝绿灰度发布只由本部门的网关来实施，其它部门无权对本部门服务实施蓝绿灰度发布，前提条件，需要控制网关上`header.priority`的开关
 
+② 非域网关部署模式，即A部门服务直接访问B部门服务。该部署模式下，会发生本部门服务的蓝绿灰度发布会由其它部门的网关或者服务来触发，当本部门服务和其它部门服务在同一时刻实施蓝绿灰度发布的时候，会产生混乱。解决方案请参考
 
-#### 通过前端传入灰度路由策略
+[并行发布下的版本偏好](#并行发布下的版本偏好)
 
-通过前端（Postman）方式传入灰度路由策略，来代替配置中心方式，传递全链路路由策略
+### 全链路前端触发后端蓝绿灰度发布
 
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：当配置中心和界面都配置后，以界面传入优先
+前端可以直接触发后端蓝绿灰度发布，前提条件，需要控制网关和服务上`header.priority`的开关
 
 - 版本匹配策略，Header格式如下任选一个
 ```
@@ -1352,9 +1348,10 @@ spring.application.strategy.zuul.original.header.ignored=true
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Introduction.jpg)
 
-#### 通过业务参数在过滤器中自定义灰度路由策略
-通过过滤器传递Header的方式传递全链路灰度路由策略
-下面代码既适用于Zuul和Spring Cloud Gateway网关，也适用于Service微服务，一般来说，网关已经加了，服务就不需要加，当不存在的网关的时候，服务上就可以考虑。继承GatewayStrategyRouteFilter、ZuulStrategyRouteFilter或者ServiceStrategyRouteFilter，覆盖掉如下方法中的一个或者多个，通过@Bean方式覆盖框架内置的过滤类
+### 全链路自定义蓝绿灰度发布
+
+#### 全链路自定义过滤器触发蓝绿灰度发布
+下面代码既适用于Zuul和Spring Cloud Gateway网关，也适用于微服务。继承DefaultGatewayStrategyRouteFilter、DefaultZuulStrategyRouteFilter和DefaultServiceStrategyRouteFilter，覆盖掉如下方法中的一个或者多个，通过@Bean方式覆盖框架内置的过滤类
 ```java
 public String getRouteVersion();
 
@@ -1374,10 +1371,8 @@ public String getRouteAddressBlacklist();
 ```
 
 GatewayStrategyRouteFilter示例
-
-在代码里根据不同的Header选择不同的路由路径，示例提供全链路匹配和全链路权重两种方式
 ```java
-// 适用于A/B Testing或者更根据某业务参数决定灰度路由路径。可以结合配置中心分别配置A/B两条路径，可以动态改变并通知
+// 适用于A/B Testing或者更根据某业务参数决定蓝绿灰度路由路径。可以结合配置中心分别配置A/B两条路径，可以动态改变并通知
 // 当Header中传来的用户为张三，执行一条路由路径；为李四，执行另一条路由路径
 public class MyGatewayStrategyRouteFilter extends DefaultGatewayStrategyRouteFilter {
     private static final Logger LOG = LoggerFactory.getLogger(MyGatewayStrategyRouteFilter.class);
@@ -1488,7 +1483,7 @@ public class MyGatewayStrategyRouteFilter extends DefaultGatewayStrategyRouteFil
     }
 
     // 自定义全链路版本权重路由
-    @Override
+    /*@Override
     public String getRouteVersion() {
         LOG.info("自定义全链路版本权重路由");
 
@@ -1498,7 +1493,7 @@ public class MyGatewayStrategyRouteFilter extends DefaultGatewayStrategyRouteFil
         MapWeightRandom<String, Double> weightRandom = new MapWeightRandom<String, Double>(weightList);
 
         return weightRandom.random();
-    }
+    }*/
 }
 ```
 在配置类里@Bean方式进行过滤类创建，覆盖框架内置的过滤类
@@ -1510,10 +1505,8 @@ public GatewayStrategyRouteFilter gatewayStrategyRouteFilter() {
 ```
 
 ZuulStrategyRouteFilter示例
-
-在代码里根据不同的Header选择不同的路由路径，示例提供全链路匹配和全链路权重两种方式
 ```java
-// 适用于A/B Testing或者更根据某业务参数决定灰度路由路径。可以结合配置中心分别配置A/B两条路径，可以动态改变并通知
+// 适用于A/B Testing或者更根据某业务参数决定蓝绿灰度路由路径。可以结合配置中心分别配置A/B两条路径，可以动态改变并通知
 // 当Header中传来的用户为张三，执行一条路由路径；为李四，执行另一条路由路径
 public class MyZuulStrategyRouteFilter extends DefaultZuulStrategyRouteFilter {
     private static final Logger LOG = LoggerFactory.getLogger(MyZuulStrategyRouteFilter.class);
@@ -1625,7 +1618,7 @@ public class MyZuulStrategyRouteFilter extends DefaultZuulStrategyRouteFilter {
     }
 
     // 自定义全链路版本权重路由
-    @Override
+    /*@Override
     public String getRouteVersion() {
         LOG.info("自定义全链路版本权重路由");
 
@@ -1635,7 +1628,7 @@ public class MyZuulStrategyRouteFilter extends DefaultZuulStrategyRouteFilter {
         MapWeightRandom<String, Double> weightRandom = new MapWeightRandom<String, Double>(weightList);
 
         return weightRandom.random();
-    }
+    }*/
 }
 ```
 在配置类里@Bean方式进行过滤类创建，覆盖框架内置的过滤类
@@ -1647,12 +1640,8 @@ public ZuulStrategyRouteFilter zuulStrategyRouteFilter() {
 ```
 
 ServiceStrategyRouteFilter示例
-
-在代码里根据不同的Header选择不同的路由路径，示例提供全链路匹配和全链路权重两种方式
-
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 注意：当网关有对应策略传入时，以网关策略优先，服务侧的过滤器无效
 ```java
-// 适用于A/B Testing或者更根据某业务参数决定灰度路由路径。可以结合配置中心分别配置A/B两条路径，可以动态改变并通知
+// 适用于A/B Testing或者更根据某业务参数决定蓝绿灰度路由路径。可以结合配置中心分别配置A/B两条路径，可以动态改变并通知
 // 当Header中传来的用户为张三，执行一条路由路径；为李四，执行另一条路由路径
 public class MyServiceStrategyRouteFilter extends DefaultServiceStrategyRouteFilter {
     private static final Logger LOG = LoggerFactory.getLogger(MyServiceStrategyRouteFilter.class);
@@ -1764,7 +1753,7 @@ public class MyServiceStrategyRouteFilter extends DefaultServiceStrategyRouteFil
     }
 
     // 自定义全链路版本权重路由
-    @Override
+    /*@Override
     public String getRouteVersion() {
         LOG.info("自定义全链路版本权重路由");
 
@@ -1774,7 +1763,7 @@ public class MyServiceStrategyRouteFilter extends DefaultServiceStrategyRouteFil
         MapWeightRandom<String, Double> weightRandom = new MapWeightRandom<String, Double>(weightList);
 
         return weightRandom.random();
-    }
+    }*/
 }
 ```
 在配置类里@Bean方式进行过滤类创建，覆盖框架内置的过滤类
@@ -1785,8 +1774,8 @@ public ServiceStrategyRouteFilter serviceStrategyRouteFilter() {
 }
 ```
 
-#### 通过业务参数在策略类中自定义灰度路由策略
-通过策略方式自定义灰度路由策略。下面代码既适用于Zuul和Spring Cloud Gateway网关，也适用于Service微服务，同时全链路中网关和服务都必须加该方式，DefaultDiscoveryEnabledStrategy可以有多个，框架会组合判断
+#### 全链路自定义负载均衡策略类触发蓝绿灰度发布
+下面代码既适用于Zuul和Spring Cloud Gateway网关，也适用于微服务。继承DefaultDiscoveryEnabledStrategy，可以有多个，通过@Bean方式注入
 ```java
 // 实现了组合策略，版本路由策略+区域路由策略+IP地址和端口路由策略+自定义策略
 public class MyDiscoveryEnabledStrategy extends DefaultDiscoveryEnabledStrategy {
@@ -1828,7 +1817,7 @@ public DiscoveryEnabledStrategy discoveryEnabledStrategy() {
     return new MyDiscoveryEnabledStrategy();
 }
 ```
-在网关和服务中支持基于Rest Header传递的自定义灰度路由策略，除此之外，服务还支持基于Rpc方法参数传递的自定义灰度路由策略，它包括接口名、方法名、参数名或参数值等多种形式。下面的示例表示在服务中同时开启基于Rest Header传递和Rpc方法参数传递的自定义组合式灰度路由策略，DefaultDiscoveryEnabledStrategy可以有多个，框架会组合判断
+服务除了支持网关那种基于Rest参数的方式之外，还支持基于Rpc方法参数的方式，它包括接口名、方法名、参数名或参数值等多种形式
 ```java
 // 实现了组合策略，版本路由策略+区域路由策略+IP地址和端口路由策略+自定义策略
 public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
@@ -1917,7 +1906,9 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
 spring.application.strategy.rpc.intercept.enabled=true
 ```
 
-### 灰度路由下的版本故障转移
+### 全链路蓝绿灰度容灾
+
+#### 发布失败下的版本故障转移
 版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例。其作用是防止蓝绿灰度版本发布人为设置错误，或者对应的版本实例发生灾难性的全部下线，导致流量有损
 
 故障转移方式，对版本号进行排序，此解决方案的前置条件是版本号必须是规律的有次序，例如，以时间戳的方式。如果所有服务实例的版本号未设置，那么将转移到未设置版本号的实例上
@@ -1928,7 +1919,7 @@ spring.application.strategy.rpc.intercept.enabled=true
 spring.application.strategy.version.failover.enabled=true
 ```
 
-### 并行灰度路由下的版本偏好策略
+#### 并行发布下的版本偏好
 版本偏好，即非蓝绿灰度发布场景下，路由到老的稳定版本的实例。其作用是防止多个网关上并行实施蓝绿灰度版本发布产生混乱，对处于非蓝绿灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；蓝绿灰度状态的服务，还是根据传递的Header版本号进行匹配
 
 偏好方式，对版本号进行排序，此解决方案的前置条件是版本号必须是规律的有次序，例如，以时间戳的方式。如果所有服务实例的版本号未设置，那么将转移到未设置版本号的实例上
