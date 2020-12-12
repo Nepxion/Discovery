@@ -114,6 +114,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
   - 全链路前端触发后端蓝绿灰度发布
   - 全链路自定义网关、服务的过滤器、负载均衡策略类触发蓝绿灰度发布
   - 全链路动态变更元数据的蓝绿灰度发布
+  - 全链路参数策略：Header参数策略、Parameter参数策略、Cookie参数策略、域名参数策略和RPC-Method参数策略
   - 全链路蓝绿灰度容灾：发布失败下的版本故障转移、并行发布下的版本偏好
   - 服务下线场景下全链路蓝绿灰度发布，实时性的流量绝对无损：全局唯一ID屏蔽、IP地址和端口屏蔽
   - 异步场景下全链路蓝绿灰度发布，异步Agent
@@ -152,7 +153,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - 全链路监控
     - 蓝绿灰度埋点和熔断埋点的调用链监控
     - 蓝绿灰度埋点和熔断埋点的日志监控
-- 全链路Header传递
 - 全链路服务侧注解
 - 全链路服务侧API权限
 - 元数据流量染色
@@ -380,7 +380,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [工程清单](#工程清单)
     - [架构核心](#架构核心)
     - [依赖引入](#依赖引入)	
-- [准备工作](#准备工作)	
+- [准备工作](#准备工作)
     - [环境搭建](#环境搭建)
     - [启动服务](#启动服务)
     - [环境验证](#环境验证)
@@ -398,8 +398,8 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [全链路区域权重灰度发布](#全链路区域权重灰度发布)
     - [全链路条件驱动灰度发布](#全链路条件驱动灰度发布)
         - [全链路版本条件权重灰度发布](#全链路版本条件权重灰度发布)
-        - [全链路区域条件权重灰度发布](#全链路区域条件权重灰度发布)	
-        - [全链路IP地址和端口权重条件灰度发布](#全链路IP地址和端口条件权重灰度发布)		
+        - [全链路区域条件权重灰度发布](#全链路区域条件权重灰度发布)
+        - [全链路IP地址和端口权重条件灰度发布](#全链路IP地址和端口条件权重灰度发布)
     - [全链路网关和服务端到端实施蓝绿灰度发布](#全链路网关和服务端到端实施蓝绿灰度发布)
     - [全链路混合实施蓝绿灰度发布](#全链路混合实施蓝绿灰度发布)
     - [全链路域网关和非域网关部署](#全链路域网关和非域网关部署)
@@ -408,6 +408,12 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [全链路自定义过滤器触发蓝绿灰度发布](#全链路自定义过滤器触发蓝绿灰度发布)
         - [全链路自定义负载均衡策略类触发蓝绿灰度发布](#全链路自定义负载均衡策略类触发蓝绿灰度发布)
     - [全链路动态变更元数据的蓝绿灰度发布](#全链路动态变更元数据的蓝绿灰度发布)
+    - [全链路参数策略](#全链路参数策略)
+        - [Header参数策略](#Header参数策略)
+        - [Parameter参数策略](#Parameter参数策略)
+        - [Cookie参数策略](#Cookie参数策略)
+        - [域名参数策略](#域名参数策略)
+        - [RPC-Method参数策略](#RPC-Method参数策略)
     - [全链路蓝绿灰度容灾](#全链路蓝绿灰度容灾)
         - [发布失败下的版本故障转移](#发布失败下的版本故障转移)
         - [并行发布下的版本偏好](#并行发布下的版本偏好)
@@ -420,25 +426,9 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [异步跨线程DiscoveryAgent扩展](#异步跨线程DiscoveryAgent扩展)
 
 
-- [基于Header传递方式的灰度路由策略](#基于Header传递方式的灰度路由策略)
-    - [配置全链路灰度条件命中和灰度匹配组合式策略](#配置全链路灰度条件命中和灰度匹配组合式策略)
-    - [配置全链路灰度条件权重和灰度匹配组合式策略](#配置全链路灰度条件权重和灰度匹配组合式策略)
-    - [配置前端灰度和网关灰度路由组合式策略](#配置前端灰度和网关灰度路由组合式策略)
-- [基于Parameter的全链路灰度路由](#基于Parameter的全链路灰度路由)
-- [基于Cookie的全链路灰度路由](#基于Cookie的全链路灰度路由)
-- [基于域名的全链路灰度路由](#基于域名的全链路灰度路由)
-- [基于RPC-Method的全链路灰度路由](#基于RPC-Method的全链路灰度路由)
+
 - [基于全局订阅式的灰度路由策略](#基于全局订阅式的灰度路由策略)	
 - [基于订阅方式的全链路灰度发布规则](#基于订阅方式的全链路灰度发布规则)
-    - [配置全链路灰度匹配规则](#配置全链路灰度匹配规则)
-        - [版本匹配灰度规则](#版本匹配灰度规则)
-        - [区域匹配灰度规则](#区域匹配灰度规则)
-    - [配置全链路灰度权重规则](#配置全链路灰度权重规则)
-        - [全局版本权重灰度规则](#全局版本权重灰度规则)
-        - [局部版本权重灰度规则](#局部版本权重灰度规则)
-        - [全局区域权重灰度规则](#全局区域权重灰度规则)
-        - [局部区域权重灰度规则](#局部区域权重灰度规则)
-    - [配置全链路灰度权重和灰度匹配组合式规则](#配置全链路灰度权重和灰度匹配组合式规则)
     - [数据库和消息队列灰度发布规则](#数据库和消息队列灰度发布规则)
 - [基于多格式的规则策略定义](#基于多格式的规则策略定义)
     - [规则策略格式定义](#规则策略格式定义)
@@ -1906,7 +1896,7 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
 spring.application.strategy.rpc.intercept.enabled=true
 ```
 
-## 全链路动态变更元数据的蓝绿灰度发布
+### 全链路动态变更元数据的蓝绿灰度发布
 利用注册中心的Open API接口动态变更服务实例的元数据，达到稳定版本和灰度版本流量灰度控制的目的。以Nacos的版本匹配为例
 
 老的稳定版本的服务实例配置版本元数据，如下
@@ -1973,6 +1963,58 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 
 ③ 动态元数据变更方式只是让新的元数据驻留在内存里，并不持久化。当服务重启后，服务的元数据仍旧会以初始值为准
 
+### 全链路参数策略
+
+#### Header参数策略
+标准Http传值方式
+
+框架会默认把相关的Header，进行全链路传递，可以通过如下配置进行。除此之外，凡是以“n-d-”开头的任何Header，框架都会默认全链路传递
+```
+# 启动和关闭路由策略的时候，对REST方式的调用拦截。缺失则默认为true
+spring.application.strategy.rest.intercept.enabled=true
+# 启动和关闭Header传递的Debug日志打印，注意：每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
+spring.application.strategy.rest.intercept.debug.enabled=true
+# 灰度路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于框架内置上下文Header，例如：trace-id, span-id等）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
+spring.application.strategy.context.request.headers=trace-id;span-id
+# 灰度路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于业务系统子定义Header，例如：mobile）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
+spring.application.strategy.business.request.headers=user;mobile;location
+```
+
+#### Parameter参数策略
+标准Http传值方式
+
+[http://localhost:5001/discovery-guide-service-a/invoke/gateway?a=1](http://localhost:5001/discovery-guide-service-a/invoke/gateway?a=1)
+
+[http://localhost:5001/discovery-guide-service-a/invoke/gateway?a=2](http://localhost:5001/discovery-guide-service-a/invoke/gateway?a=2)
+
+#### Cookie参数策略
+标准Http传值方式
+
+#### 域名参数策略
+通过取值域名前缀等方式，即可实现既定功能
+
+本地测试，为验证结果，请事先在hosts文件中配置如下
+```
+127.0.0.1 common.nepxion.com
+127.0.0.1 env1.nepxion.com
+127.0.0.1 env2.nepxion.com
+```
+
+参考[全链路自定义过滤器触发蓝绿灰度发布](#全链路自定义过滤器触发蓝绿灰度发布)示例，以根据域名全链路环境隔离为例，根据域名前缀中的环境名路由到相应的全链路环境中
+- 根据env1.nepxion.com域名路由到env1环境
+
+![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-15.jpg)
+
+- 根据common.nepxion.com域名路由到common环境
+
+![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-16.jpg)
+
+#### RPC-Method参数策略
+
+通过取值RPC调用中的方法入参等方式，即可实现既定功能，该方式只适用于服务侧
+
+参考[全链路自定义负载均衡策略类触发蓝绿灰度发布](#全链路自定义负载均衡策略类触发蓝绿灰度发布)示例
+
 ### 全链路蓝绿灰度容灾
 
 #### 发布失败下的版本故障转移
@@ -2012,53 +2054,7 @@ spring.application.strategy.version.prefer.enabled=true
 
 参考[异步跨线程Agent](#异步跨线程Agent)
 
-## 基于Parameter的全链路灰度路由
-通过取值Parameter方式，即可实现既定功能
 
-[http://localhost:5001/discovery-guide-service-a/invoke/gateway?a=1](http://localhost:5001/discovery-guide-service-a/invoke/gateway?a=1)
-
-[http://localhost:5001/discovery-guide-service-a/invoke/gateway?a=2](http://localhost:5001/discovery-guide-service-a/invoke/gateway?a=2)
-
-策略表达式的用法和Header类似
-
-自定义方式参考[通过业务参数在过滤器中自定义灰度路由策略](#通过业务参数在过滤器中自定义灰度路由策略)
-
-## 基于Cookie的全链路灰度路由
-通过取值Cookie方式，即可实现既定功能
-
-策略表达式的用法和Header类似
-
-自定义方式参考[通过业务参数在过滤器中自定义灰度路由策略](#通过业务参数在过滤器中自定义灰度路由策略)
-
-## 基于域名的全链路灰度路由
-通过取值域名前缀等方式，即可实现既定功能
-
-策略表达式的用法和Header类似
-
-自定义方式参考[通过业务参数在过滤器中自定义灰度路由策略](#通过业务参数在过滤器中自定义灰度路由策略)
-
-本地测试，为验证结果，请事先在hosts文件中配置如下
-```
-127.0.0.1 common.nepxion.com
-127.0.0.1 env1.nepxion.com
-127.0.0.1 env2.nepxion.com
-```
-
-根据[通过业务参数在过滤器中自定义灰度路由策略](#通过业务参数在过滤器中自定义灰度路由策略)的示例，以根据域名全链路环境隔离为例，根据域名前缀中的环境名路由到相应的全链路环境中
-- 根据env1.nepxion.com域名路由到env1环境
-
-![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-15.jpg)
-
-- 根据common.nepxion.com域名路由到common环境
-
-![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-16.jpg)
-
-## 基于RPC-Method的全链路灰度路由
-通过取值RPC调用中的方法入参方式，即可实现既定功能
-
-只适用于服务侧
-
-自定义方式参考[通过业务参数在策略类中自定义灰度路由策略](#通过业务参数在策略类中自定义灰度路由策略)
 
 ## 基于全局订阅式的灰度路由策略
 通过全链路传递Header实现灰度路由，会存在一定的困难，框架提供另外一种很简单的方式来规避Header传递，但能达到Header传递一样的效果。以版本匹配为例
@@ -2084,7 +2080,7 @@ spring.application.strategy.version.prefer.enabled=true
 # 5. n-d-region-weight
 # 6. n-d-id-blacklist
 # 7. n-d-address-blacklist
-# 8. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
+# 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
 spring.application.strategy.gateway.core.header.transmission.enabled=true
 spring.application.strategy.zuul.core.header.transmission.enabled=true
 spring.application.strategy.feign.core.header.transmission.enabled=true
@@ -2134,131 +2130,6 @@ spring.application.strategy.rest.template.core.header.transmission.enabled=true
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-12.jpg)
 
 也可以通过全链路传递Header方式实现，参考[通过前端传入灰度路由策略](#通过前端传入灰度路由策略)
-
-## 基于订阅方式的全链路灰度发布规则
-在Nacos配置中心，增加全链路灰度发布规则
-
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意，该功能和网关灰度路由和灰度权重功能会叠加，为了不影响演示效果，请先清除网关灰度路由的策略
-
-### 配置全链路灰度匹配规则
-
-#### 版本匹配灰度规则
-增加版本匹配的灰度规则，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名），规则内容如下，实现a服务1.0版本只能访问b服务1.0版本，a服务1.1版本只能访问b服务1.1版本
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-    <discovery>
-        <version>
-            <service consumer-service-name="discovery-guide-service-a" provider-service-name="discovery-guide-service-b" consumer-version-value="1.0" provider-version-value="1.0"/>
-            <service consumer-service-name="discovery-guide-service-a" provider-service-name="discovery-guide-service-b" consumer-version-value="1.1" provider-version-value="1.1"/>
-        </version>
-    </discovery>
-</rule>
-```
-![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide3-1.jpg)
-
-#### 区域匹配灰度规则
-增加区域匹配的灰度规则，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名），规则内容如下，实现dev区域的a服务只能访问dev区域的b服务，qa区域的a服务只能访问qa区域的b服务
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-    <discovery>
-        <region>
-            <service consumer-service-name="discovery-guide-service-a" provider-service-name="discovery-guide-service-b" consumer-region-value="dev" provider-region-value="dev"/>
-            <service consumer-service-name="discovery-guide-service-a" provider-service-name="discovery-guide-service-b" consumer-region-value="qa" provider-region-value="qa"/>
-        </region>
-    </discovery>
-</rule>
-```
-![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide3-2.jpg)
-
-### 配置全链路灰度权重规则
-
-#### 全局版本权重灰度规则
-增加全局版本权重的灰度规则，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名），规则内容如下，实现版本为1.0的服务提供90%的流量，版本为1.1的服务提供10%的流量
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-    <discovery>
-        <weight>
-            <version provider-weight-value="1.0=90;1.1=10"/>
-        </weight>
-    </discovery>
-</rule>
-```
-![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide4-1.jpg)
-
-#### 局部版本权重灰度规则
-增加局部版本权重的灰度规则，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名），规则内容如下，实现a服务1.0版本提供90%的流量，1.1版本提供10%的流量；b服务1.0版本提供20%的流量，1.1版本提供80%的流量
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-    <discovery>
-        <weight>
-            <service provider-service-name="discovery-guide-service-a" provider-weight-value="1.0=90;1.1=10" type="version"/>
-            <service provider-service-name="discovery-guide-service-b" provider-weight-value="1.0=20;1.1=80" type="version"/>
-        </weight>
-    </discovery>
-</rule>
-```
-![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide4-2.jpg)
-
-#### 全局区域权重灰度规则
-增加全局区域权重的灰度规则，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名），规则内容如下，实现区域为dev的服务提供90%的流量，区域为qa的服务提供10%的流量
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-    <discovery>
-        <weight>
-            <region provider-weight-value="dev=90;qa=10"/>
-        </weight>
-    </discovery>
-</rule>
-```
-![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide4-3.jpg)
-
-#### 局部区域权重灰度规则
-增加局部区域权重的灰度规则，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名），规则内容如下，实现a服务dev区域提供90%的流量，qa区域提供10%的流量；b服务dev区域提供20%的流量，qa区域提供80%的流量
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-    <discovery>
-        <weight>
-            <service provider-service-name="discovery-guide-service-a" provider-weight-value="dev=90;qa=10" type="region"/>
-            <service provider-service-name="discovery-guide-service-b" provider-weight-value="dev=20;qa=80" type="region"/>
-        </weight>
-    </discovery>
-</rule>
-```
-![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide4-4.jpg)
-
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意，局部权重优先级高于全局权重，版本权重优先级高于区域权重
-
-请执行Postman操作，请仔细观察服务被随机权重调用到的概率
-
-### 配置全链路灰度权重和灰度匹配组合式规则
-增加组合式的灰度规则，支持版本匹配和区域匹配。以版本匹配为例，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名），规则内容如下，实现功能
-- a服务1.0版本向网关提供90%的流量，1.1版本向网关提供10%的流量
-- a服务1.0版本只能访问b服务1.0版本，1.1版本只能访问b服务1.1版本
-
-该功能的意义是，网关随机权重调用服务，而服务链路按照版本匹配方式调用
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-    <discovery>
-        <version>
-            <service consumer-service-name="discovery-guide-service-a" provider-service-name="discovery-guide-service-b" consumer-version-value="1.0" provider-version-value="1.0"/>
-            <service consumer-service-name="discovery-guide-service-a" provider-service-name="discovery-guide-service-b" consumer-version-value="1.1" provider-version-value="1.1"/>
-        </version>
-
-        <weight>
-            <service consumer-service-name="discovery-guide-gateway" provider-service-name="discovery-guide-service-a" provider-weight-value="1.0=90;1.1=10" type="version"/>
-            <service consumer-service-name="discovery-guide-zuul" provider-service-name="discovery-guide-service-a" provider-weight-value="1.0=90;1.1=10" type="version"/>
-        </weight>
-    </discovery>
-</rule>
-```
-![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide5-1.jpg)
 
 ### 数据库和消息队列灰度发布规则
 通过订阅业务参数的变化，实现参数化灰度发布，例如，基于多Datasource的数据库灰度发布，基于多Queue的消息队列灰度发布
@@ -3417,19 +3288,6 @@ spring.application.strategy.tracer.sentinel.args.output.enabled=true
 ![](http://nepxion.gitee.io/docs/discovery-doc/Admin1.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Admin7.jpg)
 
-## 全链路Header传递
-框架会默认把相关的Header，进行全链路传递，可以通过如下配置进行。除此之外，凡是以“n-d-”开头的任何Header，框架都会默认全链路传递
-```
-# 启动和关闭路由策略的时候，对REST方式的调用拦截。缺失则默认为true
-spring.application.strategy.rest.intercept.enabled=true
-# 启动和关闭Header传递的Debug日志打印，注意：每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
-spring.application.strategy.rest.intercept.debug.enabled=true
-# 灰度路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于框架内置上下文Header，例如：trace-id, span-id等）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
-spring.application.strategy.context.request.headers=trace-id;span-id
-# 灰度路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于业务系统子定义Header，例如：mobile）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
-spring.application.strategy.business.request.headers=user;mobile;location
-```
-
 ## 全链路侦测
 通过内置基于LoadBalanced RestTemplate方式的/inspector/inspect接口方法，实现全链路侦测，可以查看全链路中调用的各个服务的版本、区域、环境、可用区、IP地址和端口等是否符合预期，是否满足灰度条件，该接口可以集成到使用者的界面中，就可以规避通过Postman工具或者调用链系统去判断，有利于节省人工成本。使用方式，如下
 
@@ -3958,7 +3816,7 @@ spring.application.strategy.service.header.priority=true
 # 5. n-d-region-weight
 # 6. n-d-id-blacklist
 # 7. n-d-address-blacklist
-# 8. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
+# 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
 spring.application.strategy.feign.core.header.transmission.enabled=true
 # 启动和关闭RestTemplate上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
 # 1. n-d-version
@@ -3968,7 +3826,7 @@ spring.application.strategy.feign.core.header.transmission.enabled=true
 # 5. n-d-region-weight
 # 6. n-d-id-blacklist
 # 7. n-d-address-blacklist
-# 8. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
+# 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
 spring.application.strategy.rest.template.core.header.transmission.enabled=true
 # 启动和关闭路由策略的时候，对REST方式在异步调用场景下在服务端的Request请求的装饰，当主线程先于子线程执行完的时候，Request会被Destory，导致Header仍旧拿不到，开启装饰，就可以确保拿到。缺失则默认为false
 spring.application.strategy.rest.request.decorator.enabled=true
@@ -4120,7 +3978,7 @@ spring.application.strategy.gateway.original.header.ignored=true
 # 5. n-d-region-weight
 # 6. n-d-id-blacklist
 # 7. n-d-address-blacklist
-# 8. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
+# 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
 spring.application.strategy.gateway.core.header.transmission.enabled=true
 # 启动和关闭注册的服务隔离（基于Group黑/白名单的策略）。缺失则默认为false
 spring.application.strategy.register.isolation.enabled=true
@@ -4239,7 +4097,7 @@ spring.application.strategy.zuul.original.header.ignored=true
 # 5. n-d-region-weight
 # 6. n-d-id-blacklist
 # 7. n-d-address-blacklist
-# 8. n-d-env (不属于灰度蓝绿范畴的Header，只要外部传入就会全程传递)
+# 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
 spring.application.strategy.zuul.core.header.transmission.enabled=true
 # 启动和关闭注册的服务隔离（基于Group黑/白名单的策略）。缺失则默认为false
 spring.application.strategy.register.isolation.enabled=true
