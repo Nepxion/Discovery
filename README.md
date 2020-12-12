@@ -847,18 +847,20 @@ zuul
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide5-4.jpg)
 
-## 基于Header传递方式的灰度路由策略
-![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 本章节通过网关为触发点来介绍灰度路由策略功能，使用者也可以不通过网关，直接以微服务为触发点进行实施
-
-### 配置网关灰度路由策略
-在Nacos配置中心，增加网关灰度路由策略
-
 ![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 基于RESTful层面的功能全景
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Introduction.jpg)
 
-#### 版本匹配灰度路由策略
-增加Spring Cloud Gateway的基于版本匹配路由的灰度策略，Group为discovery-guide-group，Data Id为discovery-guide-gateway，策略内容如下，实现从Spring Cloud Gateway发起的调用都走版本为1.0的服务
+
+
+
+
+## 全链路蓝绿灰度发布
+
+### 全链路版本匹配蓝绿发布
+
+#### 非条件驱动下的版本匹配蓝绿发布
+增加Spring Cloud Gateway的版本匹配蓝绿发布策略，Group为discovery-guide-group，Data Id为discovery-guide-gateway，策略内容如下，实现从Spring Cloud Gateway发起的调用都走版本为1.0的服务
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
@@ -869,7 +871,17 @@ zuul
 ```
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-1.jpg)
 
-每个服务调用的版本都可以自行指定，见下面第二条。当所有服务都选同一版本的时候，可以简化成下面第一条
+如果希望每个服务的版本分别指定，那么策略内容如下，实现从Spring Cloud Gateway发起的调用走1.0版本的a服务，走1.1版本的b服务
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy>
+        <version>{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.1"}</version>
+    </strategy>
+</rule>
+```
+
+当所有服务都选同一版本的时候，下面第1条和第2条是等效的
 ```
 1. <version>1.0</version>
 2. <version>{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</version>
@@ -877,20 +889,146 @@ zuul
 
 如果上述表达式还未满足需求，也可以采用通配表达式方式（具体详细用法，参考Spring AntPathMatcher）
 ```
-* - 表示调用范围为所有服务的所有版本
-1.* - 表示调用范围为所有服务的1开头的所有版本
+* - 表示调用范围为所有版本
+1.* - 表示调用范围为1开头的所有版本
 ```
-或者
+
+例如
 ```
 "discovery-guide-service-b":"1.*;1.2.?"
 ```
 表示discovery-guide-service-b服务的版本调用范围是1开头的所有版本，或者是1.2开头的所有版本（末尾必须是1个字符），多个用分号隔开
 
-也可以通过全链路传递Header方式实现，参考[通过前端传入灰度路由策略](#通过前端传入灰度路由策略)
-
-版本灰度路由架构图
+版本匹配蓝绿发布架构图
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/RouteVersion.jpg)
+
+
+#### 条件驱动下的版本匹配蓝绿发布
+
+--------------------
+
+
+### 全链路区域匹配蓝绿发布
+
+#### 非条件驱动下的区域匹配蓝绿发布
+增加Zuul的区域匹配蓝绿发布策略，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现从Zuul发起的调用都走区域为dev的服务
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy>
+        <region>dev</region>
+    </strategy>
+</rule>
+```
+![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-3.jpg)
+
+如果希望每个服务的版本分别指定，那么策略内容如下，实现从Zuul发起的调用走dev区域的a服务，走qa区域的b服务
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy>
+        <version>{"discovery-guide-service-a":"dev", "discovery-guide-service-b":"qa"}</version>
+    </strategy>
+</rule>
+```
+
+当所有服务都选同一区域的时候，下面第1条和第2条是等效的
+```
+1. <region>dev</region>
+2. <region>{"discovery-guide-service-a":"dev", "discovery-guide-service-b":"dev"}</region>
+```
+
+如果上述表达式还未满足需求，也可以采用通配表达式方式（具体详细用法，参考Spring AntPathMatcher）
+```
+* - 表示调用范围为所有区域
+d* - 表示调用范围为d开头的所有区域
+```
+
+例如
+```
+"discovery-guide-service-b":"d*;q?"
+```
+表示discovery-guide-service-b服务的区域调用范围是d开头的所有区域，或者是q开头的所有区域（末尾必须是1个字符），多个用分号隔开
+
+区域匹配蓝绿发布架构图
+
+![](http://nepxion.gitee.io/docs/discovery-doc/RouteRegion.jpg)
+
+#### 条件驱动下的区域匹配蓝绿发布
+
+-----------------------
+
+### 全链路IP地址和端口匹配蓝绿发布
+
+#### 非条件驱动下的IP地址和端口匹配蓝绿发布
+增加Zuul的IP地址和端口匹配蓝绿发布策略，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现从Zuul发起的调用走指定IP地址和端口，或者指定IP地址，或者指定端口（下面策略以端口为例）的服务
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy>
+        <!-- <address>127.0.0.1:3001</address> -->
+        <!-- <address>127.0.0.1</address> -->
+        <address>3001</address>
+    </strategy>
+</rule>
+```
+![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-5.jpg)
+
+如果希望每个服务的IP地址或者端口分别指定，那么策略内容如下，实现从Zuul发起的调用走3001端口的a服务，走4001端口的b服务
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy>
+        <address>{"discovery-guide-service-a":"3001", "discovery-guide-service-b":"4001"}</address>
+    </strategy>
+</rule>
+```
+
+当所有服务都选同一端口的时候，下面第1条和第2条是等效的
+```
+1. <address>3001</address>
+2. <address>{"discovery-guide-service-a":"3001", "discovery-guide-service-b":"3001"}</address>
+```
+
+如果上述表达式还未满足需求，也可以采用通配表达式方式（具体详细用法，参考Spring AntPathMatcher）
+```
+* - 表示调用范围为所有端口
+3* - 表示调用范围为3开头的所有端口
+```
+
+例如
+```
+"discovery-guide-service-b":"3*;400?"
+```
+表示discovery-guide-service-b服务的端口调用范围是3开头的所有端口，或者是4开头的所有端口（末尾必须是1个字符），多个用分号隔开
+
+IP地址和端口匹配蓝绿发布架构图
+
+![](http://nepxion.gitee.io/docs/discovery-doc/RouteAddress.jpg)
+
+#### 条件驱动下的IP地址和端口匹配蓝绿发布
+
+-----------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 基于Header传递方式的灰度路由策略
+
+### 配置网关灰度路由策略
+在Nacos配置中心，增加网关灰度路由策略
+
 
 #### 版本权重灰度路由策略
 增加Spring Cloud Gateway的基于版本权重路由的灰度策略，Group为discovery-guide-group，Data Id为discovery-guide-gateway，策略内容如下，实现从Spring Cloud Gateway发起的调用1.0版本流量调用为90%，1.1流量调用为10%
@@ -912,40 +1050,6 @@ zuul
 
 也可以通过全链路传递Header方式实现，参考[通过前端传入灰度路由策略](#通过前端传入灰度路由策略)
 
-#### 区域匹配灰度路由策略
-增加Zuul的基于区域匹配路由的灰度策略，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现从Zuul发起的调用都走区域为dev的服务
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-    <strategy>
-        <region>dev</region>
-    </strategy>
-</rule>
-```
-![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-3.jpg)
-
-每个服务调用的区域都可以自行指定，见下面第二条。当所有服务都选同一区域的时候，可以简化成下面第一条
-```
-1. <region>dev</region>
-2. <region>{"discovery-guide-service-a":"dev", "discovery-guide-service-b":"dev"}</region>
-```
-
-如果上述表达式还未满足需求，也可以采用通配表达式方式（具体详细用法，参考Spring AntPathMatcher）
-```
-* - 表示调用范围为所有服务的所有区域
-d* - 表示调用范围为所有服务的d开头的所有区域
-```
-或者
-```
-"discovery-guide-service-b":"d*;q?"
-```
-表示discovery-guide-service-b服务的区域调用范围是d开头的所有区域，或者是q开头的所有区域（末尾必须是1个字符），多个用分号隔开
-
-也可以通过全链路传递Header方式实现，参考[通过前端传入灰度路由策略](#通过前端传入灰度路由策略)
-
-区域灰度路由架构图
-
-![](http://nepxion.gitee.io/docs/discovery-doc/RouteRegion.jpg)
 
 #### 区域权重灰度路由策略
 增加Zuul的基于区域权重路由的灰度策略，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现从Zuul发起的调用dev区域流量调用为85%，qa区域流量调用为15%
@@ -966,43 +1070,6 @@ d* - 表示调用范围为所有服务的d开头的所有区域
 ```
 
 也可以通过全链路传递Header方式实现，参考[通过前端传入灰度路由策略](#通过前端传入灰度路由策略)
-
-#### IP地址和端口匹配灰度路由策略
-增加Zuul的基于IP地址和端口匹配的灰度策略，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现从Zuul发起的调用走指定IP地址和端口，或者指定IP地址，或者指定端口（下面策略以端口为例）的服务
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-    <strategy>
-        <!-- <address>127.0.0.1:3001</address> -->
-        <!-- <address>127.0.0.1</address> -->
-        <address>3001</address>
-    </strategy>
-</rule>
-```
-![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-5.jpg)
-
-每个服务调用的端口都可以自行指定，见下面第二条。当所有服务都选同一端口的时候，可以简化成下面第一条（单机版不适用于该策略）
-```
-1. <address>3001</address>
-2. <address>{"discovery-guide-service-a":"3001", "discovery-guide-service-b":"3001"}</address>
-```
-
-如果上述表达式还未满足需求，也可以采用通配表达式方式（具体详细用法，参考Spring AntPathMatcher）
-```
-* - 表示调用范围为所有服务的所有端口
-3* - 表示调用范围为所有服务的3开头的所有端口
-```
-或者
-```
-"discovery-guide-service-b":"3*;400?"
-```
-表示discovery-guide-service-b服务的端口调用范围是3开头的所有端口，或者是4开头的所有端口（末尾必须是1个字符），多个用分号隔开
-
-也可以通过全链路传递Header方式实现，参考[通过前端传入灰度路由策略](#通过前端传入灰度路由策略)
-
-IP地址和端口灰度路由架构图
-
-![](http://nepxion.gitee.io/docs/discovery-doc/RouteAddress.jpg)
 
 ### 配置全链路灰度条件命中和灰度匹配组合式策略
 属于全链路蓝绿部署的范畴。既适用于Zuul和Spring Cloud Gateway网关，也适用于Service微服务，一般来说，网关已经加了，服务上就不需要加，当不存在的网关的时候，服务就可以考虑加上
