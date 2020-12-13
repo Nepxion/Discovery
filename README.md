@@ -162,10 +162,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - 服务治理
     - 发布编排建模
     - 流量侦测
-- 异步跨线程Agent。主要包括
-    - 插件获取
-    - 插件使用
-    - 插件扩展
 - 蓝绿灰度流量测试
     - 基于Spring Boot/Spring Cloud自动化测试
     - 基于WRK的性能压力测试
@@ -347,7 +343,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     </tr>
     <tr align="center">
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/docs/logo-doc/中商惠民.png"></td>
-      <td width="20%"></td>
+      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/docs/logo-doc/果果乐学.png"></td>
       <td width="20%"></td>
       <td width="20%"></td>
       <td width="20%"></td>
@@ -434,8 +430,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - [全链路可用区亲和性隔离和路由](#全链路可用区亲和性隔离和路由)
     - [全链路可用区亲和性隔离](#全链路可用区亲和性隔离)
     - [全链路可用区亲和性路由](#全链路可用区亲和性路由)
-
-
 - [全链路服务隔离和准入](#全链路服务隔离和准入)
     - [消费端服务隔离](#消费端服务隔离)
         - [基于组负载均衡隔离](#基于组负载均衡隔离)
@@ -473,13 +467,14 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [Prometheus监控方式](#Prometheus监控方式)
         - [Grafana监控方式](#Grafana监控方式)
         - [Spring-Boot-Admin监控方式](#Spring-Boot-Admin监控方式)
-- [全链路侦测](#全链路侦测)
+- [全链路蓝绿灰度流量侦测](#全链路蓝绿灰度流量侦测)
 - [全链路服务侧注解](#全链路服务侧注解)
 - [全链路服务侧API权限](#全链路服务侧API权限)
-- [元数据Metadata自动化策略](#元数据Metadata自动化策略)
-    - [基于服务名前缀自动创建灰度组名](#基于服务名前缀自动创建灰度组名)
-    - [基于Git插件自动创建灰度版本号](#基于Git插件自动创建灰度版本号)
-- [元数据Metadata运维平台策略](#元数据Metadata运维平台策略)
+- [元数据流量染色](#元数据流量染色)
+    - [基于服务名前缀自动创建组名](#基于服务名前缀自动创建组名)
+    - [基于Git插件自动创建版本号](#基于Git插件自动创建版本号)
+    - [基于运维平台运行参数自动创建版本号](#基于运维平台运行参数自动创建版本号)
+    - [基于用户自定义创建版本号](#基于用户自定义创建版本号)
 - [配置文件](#配置文件)
     - [基础属性配置](#基础属性配置)
     - [功能开关配置](#功能开关配置)
@@ -495,7 +490,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [测试包引入](#测试包引入)
         - [测试入口程序](#测试入口程序)
         - [普通调用测试](#普通调用测试)
-        - [灰度调用测试](#灰度调用测试)
+        - [蓝绿灰度调用测试](#蓝绿灰度调用测试)
         - [扩展调用测试](#扩展调用测试)
     - [测试报告](#测试报告)
 - [压力测试](#压力测试)
@@ -3367,7 +3362,7 @@ public ServiceSentinelRequestOriginAdapter ServiceSentinelRequestOriginAdapter()
 ### 全链路调用链监控
 调用链监控，在本文主要指灰度调用链监控。快速入门操作，参考[Discovery灰度发布路由调用链演示视频](http://nepxion.gitee.io/videos/discovery-video/DiscoveryJaeger.wmv)
 
-灰度调用链主要包括如下15个参数，以n-d-service开头的是必须的，其它是可选的或者按照场景而定。使用者可以自行定义要传递的调用链参数，例如：traceId, spanId等；也可以自行定义要传递的业务调用链参数，例如：mobile, user等
+灰度调用链主要包括如下15个参数，以n-d-service开头的是必选的，其它是可选的或者按照场景而定。使用者可以自行定义要传递的调用链参数，例如：traceId, spanId等；也可以自行定义要传递的业务调用链参数，例如：mobile, user等
 ```
 1. n-d-service-group - 服务所属组或者应用
 2. n-d-service-type - 服务类型，分为“网关”和“服务”
@@ -3604,17 +3599,32 @@ spring.application.strategy.tracer.sentinel.args.output.enabled=true
 ![](http://nepxion.gitee.io/docs/discovery-doc/Admin1.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Admin7.jpg)
 
-## 全链路侦测
+## 全链路蓝绿灰度流量侦测
 通过内置基于LoadBalanced RestTemplate方式的/inspector/inspect接口方法，实现全链路侦测，可以查看全链路中调用的各个服务的版本、区域、环境、可用区、IP地址和端口等是否符合预期，是否满足灰度条件，该接口可以集成到使用者的界面中，就可以规避通过Postman工具或者调用链系统去判断，有利于节省人工成本。使用方式，如下
 
-- 执行Post请求
-- 请求的路径
+执行Post请求，请求的路径和内容分成网关为入口和服务为入口两种场景
+
+① 网关为入口的侦测请求
+
+路径为
 ```
-http://[网关URL]/[服务名1]/inspector/inspect
+http://[网关IP:PORT]/[服务名1]/inspector/inspect
 ```
-- 请求的内容
+内容为
 ```
 {"serviceIdList":["服务名2", "服务名3", ....]}
+```
+服务名不分前后次序
+
+② 服务为入口的侦测请求
+
+路径为
+```
+http://[服务IP:PORT]/inspector/inspect
+```
+内容为
+```
+{"serviceIdList":["服务名1", "服务名2", ....]}
 ```
 服务名不分前后次序
 
@@ -3634,9 +3644,9 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 
 请参考[权限代码](https://github.com/Nepxion/DiscoveryGuide/blob/master/discovery-guide-service/src/main/java/com/nepxion/discovery/guide/service/permission)
 
-## 元数据Metadata自动化策略
+## 元数据流量染色
 
-### 基于服务名前缀自动创建灰度组名
+### 基于服务名前缀自动创建组名
 通过指定长度截断或者标志截断服务名的前缀来自动创建灰度组名，这样就可以避免使用者手工维护灰度组名。当两者都启用的时候，截断方式的组名优先级要高于手工配置的组名
 
 - 增加配置项
@@ -3649,7 +3659,7 @@ spring.application.group.generator.length=15
 spring.application.group.generator.character=-
 ```
 
-### 基于Git插件自动创建灰度版本号
+### 基于Git插件自动创建版本号
 通过集成插件git-commit-id-plugin，通过产生git信息文件的方式，获取git.commit.id（最后一次代码的提交ID）或者git.build.version（对应到Maven工程的版本）来自动创建灰度版本号，这样就可以避免使用者手工维护灰度版本号。当两者都启用的时候，Git插件方式的版本号优先级要高于手工配置的版本号
 
 - 增加Git编译插件
@@ -3768,11 +3778,14 @@ spring.application.git.generator.path=file:git.json
 
 内置基于Swagger的Rest接口，可以供外部查询当前服务的Git信息
 
-## 元数据Metadata运维平台策略
+### 基于运维平台运行参数自动创建版本号
 外部系统（例如：运维发布平台）在远程启动微服务的时候，可以通过参数传递来动态改变元数据或者增加运维特色的参数，最后注册到远程配置中心。有如下两种方式
 - 通过Program arguments来传递，它的用法是前面加“--”。支持Eureka、Zookeeper和Nacos的增量覆盖，Consul由于使用了全量覆盖的tag方式，不适用改变单个元数据的方式。例如：--spring.cloud.nacos.discovery.metadata.version=1.0
 - 通过VM arguments来传递，它的用法是前面加“-D”。支持上述所有的注册组件，它的限制是变量前面必须要加“metadata.”，推荐使用该方式。例如：-Dmetadata.version=1.0
 - 两种方式尽量避免同时用
+
+### 基于用户自定义创建版本号
+参考[基础属性配置](#基础属性配置)
 
 ## 配置文件
 ### 基础属性配置
@@ -4291,7 +4304,7 @@ spring.application.git.generator.path=classpath:git.properties
 请自行研究
 
 ## 自动化测试
-自动化测试，基于Spring Boot/Spring Cloud的自动化测试框架，包括普通调用测试、灰度调用测试和扩展调用测试（例如：支持阿里巴巴的Sentinel，FF4j的功能开关等）。通过注解形式，跟Spring Boot内置的测试机制集成，使用简单方便。该自动化测试框架的现实意义，可以把服务注册发现中心、远程配置中心、负载均衡、灰度发布、熔断降级限流、功能开关、Feign或者RestTemplate调用等中间件或者组件，一条龙组合起来进行自动化测试
+自动化测试，基于Spring Boot/Spring Cloud的自动化测试框架，包括普通调用测试、蓝绿灰度调用测试和扩展调用测试（例如：支持阿里巴巴的Sentinel，FF4j的功能开关等）。通过注解形式，跟Spring Boot内置的测试机制集成，使用简单方便。该自动化测试框架的现实意义，可以把服务注册发现中心、远程配置中心、负载均衡、灰度发布、熔断降级限流、功能开关、Feign或者RestTemplate调用等中间件或者组件，一条龙组合起来进行自动化测试
 
 自动化测试代码参考[指南示例自动化测试](https://github.com/Nepxion/DiscoveryGuide/tree/master/discovery-guide-test-automation)
 
@@ -4457,7 +4470,7 @@ public class DiscoveryGuideTestCases {
 }
 ```
 
-#### 灰度调用测试
+#### 蓝绿灰度调用测试
 在测试方法上面增加注解@DTestConfig，通过断言Assert来判断测试结果。注解DTestConfig注解内容如下
 ```java
 @Target({ ElementType.METHOD, ElementType.TYPE })
