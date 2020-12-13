@@ -1173,7 +1173,7 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 ### 全链路条件灰度发布
 
 #### 全链路版本条件权重灰度发布
-![](http://nepxion.gitee.io/docs/icon-doc/information.png) 条件权重灰度发布
+![](http://nepxion.gitee.io/docs/icon-doc/information.png) 规则策略配置
 
 增加Zuul的版本条件权重灰度发布策略，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下
 ```xml
@@ -1205,12 +1205,12 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 
 ![](http://nepxion.gitee.io/docs/icon-doc/information.png) 规则策略解释
 
+网关随机权重调用服务，服务链路按照版本匹配方式调用
+
 ① 稳定版本路由和灰度版本路由流量权重分配
 
 - 稳定版本路由：a服务1.0版本向网关提供90%的流量，a服务1.0版本只能访问b服务1.0版本
 - 灰度版本路由：a服务1.1版本向网关提供10%的流量，a服务1.1版本只能访问b服务1.1版本
-
-该功能的意义是，网关随机权重调用服务，而服务链路按照版本匹配方式调用
 
 ② gray-version-route链路配比10%的流量，stable-version-route链路配比90%的流量
 
