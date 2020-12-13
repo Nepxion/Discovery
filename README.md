@@ -610,16 +610,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-contrib-example | 第三方非微服务范畴中间件的蓝绿灰度发布示例 |
 
 ### 架构核心
-- 灰度方式区别图
-
-![](http://nepxion.gitee.io/docs/discovery-doc/Difference.jpg)
-
-① 基于API网关为入口的全链路蓝绿灰度发布，适用于API网关前置部署方式的企业。域网关部署模式下，最适用于该方式；非域网关部署模式下，开启并行蓝绿灰度发布下的版本偏好策略
-
-② 基于全局订阅的全链路蓝绿灰度发布，适用于API网关部署方式比较弱化的企业
-
-③ 基于全局订阅和Header传递组合式全链路蓝绿灰度发布，上述两种方式的结合体，是比较理想和节省成本的落地方式
-
 - 服务治理架构图
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Govern.jpg)
