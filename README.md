@@ -362,6 +362,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [源码主页](#源码主页)
     - [指南主页](#指南主页)
     - [文档主页](#文档主页)
+    - [贡献主页](#贡献主页)	
 - [工程架构](#工程架构)
     - [工程清单](#工程清单)
     - [架构核心](#架构核心)
@@ -517,6 +518,30 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 
 ### 文档主页
 [文档主页](https://gitee.com/Nepxion/Docs/tree/master/web-doc)
+
+### 贡献主页
+
+感谢carl.zhao撰写的框架架构和源码分析的系列文档
+
+[1、Nepxion Discovery：Spring Cloud灰度发布神器](https://carlzone.blog.csdn.net/article/details/109787397)
+
+[2、Nepxion Discovery 灰度发布初体验](https://carlzone.blog.csdn.net/article/details/109839808)
+
+[3、Nepxion Discovery 项目结构简介](https://carlzone.blog.csdn.net/article/details/110183368)
+
+[4、Nepxion Discovery 之 Spring Cloud 服务注册抽象](https://carlzone.blog.csdn.net/article/details/110428485)
+
+[5、Nepxion Discovery 之 服务注册发现增强](https://carlzone.blog.csdn.net/article/details/110505550)
+
+[6、Nepxion Discovery 之 Spring Cloud 负载均衡处理](https://carlzone.blog.csdn.net/article/details/110678839)
+
+[7、Nepxion Discovery 之 对 Spring Cloud 负载均衡扩展支持服务灰度发布](https://carlzone.blog.csdn.net/article/details/110625764)
+
+[8、Nepxion Discovery 之配置中心支持灰度配置](https://carlzone.blog.csdn.net/article/details/110913399)
+
+[9、Nepxion Discovery 之服务灰度发布参数的支持](https://carlzone.blog.csdn.net/article/details/110946620)
+
+[10、Nepxion Discovery 之对网关和微服务三大模式的支持](https://blog.csdn.net/u012410733/article/details/111026618)
 
 ## 工程架构
 
