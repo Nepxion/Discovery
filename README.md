@@ -139,9 +139,9 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - Sentinel基于环境的防护
     - Sentinel基于可用区的防护
     - Sentinel基于IP地址和端口的防护
-    - Sentinel基于自定义Header、Parameter、Cookie的防护
-    - Sentinel基于自定义业务参数的防护
-    - Sentinel基于自定义外置参数和元数据组合的防护
+    - Sentinel自定义Header、Parameter、Cookie的防护
+    - Sentinel自定义业务参数的防护
+    - Sentinel自定义组合式的防护
     - Hystrix基于异步场景下蓝绿灰度发布
 - 全链路监控
     - 蓝绿灰度埋点和熔断埋点的调用链监控
@@ -460,8 +460,10 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [基于组的防护](#基于组的防护)
         - [基于版本的防护](#基于版本的防护)
         - [基于区域的防护](#基于区域的防护)
-        - [基于IP地址和端口的防护](#基于IP地址和端口的防护)
-        - [自定义业务参数的组合式防护机制](#自定义业务参数的组合式防护机制)
+        - [基于环境的防护](#基于环境的防护)
+        - [基于可用区的防护](#基于可用区的防护)
+        - [基于IP地址和端口的防护](#基于IP地址和端口的防护)	
+        - [自定义组合式的防护](#自定义组合式的防护)
 - [全链路监控](#全链路监控)
     - [全链路调用链监控](#全链路调用链监控)
         - [Header输出方式](#Header输出方式)
@@ -3170,9 +3172,15 @@ public class BFeignImpl extends AbstractFeignImpl implements BFeign {
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide7-5.jpg)
 
 ### 基于Sentinel-LimitApp扩展的防护
-该方式对于上面5种规则都有效，这里以授权规则展开阐述
+该功能对于上面5种规则都有效，这里以授权规则展开阐述
 
 授权规则中，limitApp，如果有多个，可以通过“,”分隔。"strategy": 0 表示白名单，"strategy": 1 表示黑名单
+
+支持如下开关开启该动能，默认是关闭的
+```
+# 启动和关闭Sentinel LimitApp限流等功能。缺失则默认为false
+spring.application.strategy.service.sentinel.limit.app.enabled=true
+```
 
 #### 基于服务名的防护
 修改配置项Sentinel Request Origin Key为服务名Header，修改授权规则中limitApp为对应的服务名，可实现基于服务名的防护
@@ -3250,6 +3258,44 @@ spring.application.strategy.service.sentinel.request.origin.key=n-d-service-regi
 ]
 ```
 
+#### 基于环境的防护
+修改配置项Sentinel Request Origin Key为环境Header，修改授权规则中limitApp为对应的环境，可实现基于环境的防护
+
+配置项
+```
+spring.application.strategy.service.sentinel.request.origin.key=n-d-service-env
+```
+
+增加服务discovery-guide-service-b的规则，Group为discovery-guide-group，Data Id为discovery-guide-service-b-sentinel-authority，规则内容如下，表示环境为env1的所有服务都允许访问服务discovery-guide-service-b
+```
+[
+    {
+        "resource": "sentinel-resource",
+        "limitApp": "env1",
+        "strategy": 0
+    }
+]
+```
+
+#### 基于可用区的防护
+修改配置项Sentinel Request Origin Key为可用区Header，修改授权规则中limitApp为对应的可用区，可实现基于可用区的防护
+
+配置项
+```
+spring.application.strategy.service.sentinel.request.origin.key=n-d-service-zone
+```
+
+增加服务discovery-guide-service-b的规则，Group为discovery-guide-group，Data Id为discovery-guide-service-b-sentinel-authority，规则内容如下，表示可用区为zone1的所有服务都允许访问服务discovery-guide-service-b
+```
+[
+    {
+        "resource": "sentinel-resource",
+        "limitApp": "zone1",
+        "strategy": 0
+    }
+]
+```
+
 #### 基于IP地址和端口的防护
 修改配置项Sentinel Request Origin Key为IP地址和端口Header，修改授权规则中limitApp为对应的区域值，可实现基于IP地址和端口的防护
 
@@ -3269,14 +3315,8 @@ spring.application.strategy.service.sentinel.request.origin.key=n-d-service-addr
 ]
 ```
 
-支持如下开关开启该动能，默认是关闭的
-```
-# 启动和关闭Sentinel LimitApp限流等功能。缺失则默认为false
-spring.application.strategy.service.sentinel.limit.app.enabled=true
-```
-
-#### 自定义业务参数的组合式防护机制
-通过适配类实现自定义业务参数的组合式防护机制
+#### 自定义组合式的防护
+通过适配类实现自定义组合式的防护，支持自定义Header、Parameter、Cookie参数的防护，自定义业务参数的防护，以及自定义前两者组合式的防护
 ```java
 // 自定义版本号+地域名，实现组合式熔断
 public class MyServiceSentinelRequestOriginAdapter extends DefaultServiceSentinelRequestOriginAdapter {
