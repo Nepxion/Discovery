@@ -2080,27 +2080,12 @@ spring.application.strategy.version.failover.enabled=true
 spring.application.strategy.version.prefer.enabled=true
 ```
 
+### 服务下线场景下全链路蓝绿灰度发布
+服务下线场景下，由于Ribbon负载均衡组件存在着缓存机制，当被提供端服务实例已经下线，而消费端服务实例还暂时缓存着它，直到下个心跳周期才会把已下线的服务实例剔除，在此期间，如果发生调用，会造成流量有损
 
+框架提供流量的实时性绝对无损策略。采用下线之前，把服务实例添加到屏蔽名单中，负载均衡不会去寻址该服务实例。下线之后，清除该名单。实现该方式，需要通过DevOps调用配置中心的Open API推送或者在配置中心界面手工修改，通过全局订阅方式实现，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名）
 
-
-
-
-### 异步场景的全链路灰度路由策略
-当若干个服务之间调用，存在异步场景，如下
-- 调用时候，启用了Hystrix线程池隔离机制
-- 线程池里的线程触发调用
-- 新创建单个线程触发调用
-
-参考[基于Hystrix的全链路服务限流熔断和灰度融合](#基于Hystrix的全链路服务限流熔断和灰度融合)
-
-参考[异步跨线程Agent](#异步跨线程Agent)
-
-## 基于服务下线实时性的流量绝对无损策略
-服务下线场景中，由于Ribbon负载均衡组件存在着缓存机制，当被调用的服务实例已经下线，而调用的服务实例还暂时缓存着它，直到下个心跳周期才会把已下线的服务实例剔除，在此期间，会造成流量有损
-
-框架提供流量的实时性的绝对无损。采用下线之前，把服务实例添加到屏蔽名单中，负载均衡不会去寻址该服务实例。下线之后，清除该名单。实现该方式，需要通过DevOps调用配置中心的Open API推送或者在配置中心界面手工修改，通过全局订阅方式实现，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名）
-
-### 配置全局唯一ID屏蔽策略
+#### 全局唯一ID屏蔽
 全局唯一ID对应于元数据spring.application.uuid字段，框架会自动把该ID注册到注册中心。此用法适用于Docker和Kubernetes上IP地址不确定的场景，策略内容如下，采用如下两种方式之一均可
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -2117,9 +2102,9 @@ spring.application.strategy.version.prefer.enabled=true
 ```
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-11.jpg)
 
-也可以通过全链路传递Header方式实现，参考[通过前端传入灰度路由策略](#通过前端传入灰度路由策略)
+也可以通过全链路传递Header方式实现
 
-### 配置IP地址和端口屏蔽策略
+#### IP地址和端口屏蔽
 通过IP地址或者端口或者IP地址+端口进行屏蔽，支持通配方式。此用法适用于IP地址确定的场景，策略内容如下，采用如下两种方式之一均可
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -2137,7 +2122,17 @@ spring.application.strategy.version.prefer.enabled=true
 ```
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-12.jpg)
 
-也可以通过全链路传递Header方式实现，参考[通过前端传入灰度路由策略](#通过前端传入灰度路由策略)
+也可以通过全链路传递Header方式实现
+
+### 异步场景的全链路灰度路由策略
+当若干个服务之间调用，存在异步场景，如下
+- 调用时候，启用了Hystrix线程池隔离机制
+- 线程池里的线程触发调用
+- 新创建单个线程触发调用
+
+参考[基于Hystrix的全链路服务限流熔断和灰度融合](#基于Hystrix的全链路服务限流熔断和灰度融合)
+
+参考[异步跨线程Agent](#异步跨线程Agent)
 
 ### 数据库和消息队列灰度发布规则
 通过订阅业务参数的变化，实现参数化灰度发布，例如，基于多Datasource的数据库灰度发布，基于多Queue的消息队列灰度发布
