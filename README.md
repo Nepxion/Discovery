@@ -573,7 +573,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-console-starter-apollo | 控制平台的Apollo Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-console-starter-nacos | 控制平台的Nacos Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-console-starter-redis | 控制平台的Redis Starter |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-console-desktop | 图形化灰度发布等桌面程序 |
 | <img src="http://nepxion.gitee.io/docs/icon-doc/direction_south.png"> discovery-springcloud-examples | 示例目录 |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-springcloud-example-admin | Spring Boot Admin服务台示例 |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-springcloud-example-console | 控制平台示例 |
@@ -1353,9 +1352,9 @@ A部门服务直接访问B部门服务
 spring.application.strategy.rest.intercept.enabled=true
 # 启动和关闭Header传递的Debug日志打印，注意：每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
 spring.application.strategy.rest.intercept.debug.enabled=true
-# 灰度路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于框架内置上下文Header，例如：trace-id, span-id等）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
+# 路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于框架内置上下文Header，例如：trace-id, span-id等）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
 spring.application.strategy.context.request.headers=trace-id;span-id
-# 灰度路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于业务系统子定义Header，例如：mobile）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
+# 路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于业务系统子定义Header，例如：mobile）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
 spring.application.strategy.business.request.headers=user;mobile;location
 ```
 
@@ -1399,7 +1398,7 @@ spring.application.strategy.business.request.headers=user;mobile;location
 ### 全局订阅式蓝绿灰度发布
 如果使用者不希望通过全链路传递Header实现蓝绿灰度发布，框架提供另外一种很简单的方式来规避Header传递，但能达到Header传递一样的效果。以版本匹配为例
 
-增加版本匹配的灰度策略，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名），策略内容如下，实现a服务走1.0版本，b服务走1.1版本
+增加版本匹配的蓝绿发布策略，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名），策略内容如下，实现a服务走1.0版本，b服务走1.1版本
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
@@ -2125,7 +2124,7 @@ spring.application.strategy.version.prefer.enabled=true
 ### 全链路数据库和消息队列蓝绿发布
 通过订阅业务参数的变化，实现参数化蓝绿发布，例如，基于多Datasource的数据库蓝绿发布，基于多Queue的消息队列蓝绿发布
 
-增加参数化灰度规则，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名），规则内容如下，实现功能
+增加参数化蓝绿发布规则，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名），规则内容如下，实现功能
 - 服务a在版本为1.0的时候，数据库的数据源指向db1；服务a在版本为1.1的时候，数据库的数据源指向db2
 - 服务b在区域为dev的时候，消息队列指向queue1；服务b在区域为dev的时候，消息队列指向queue2
 - 服务c在环境为env1的时候，数据库的数据源指向db1；服务c在环境为env2的时候，数据库的数据源指向db2
@@ -2721,7 +2720,7 @@ XML最全的示例如下，Json示例见源码discovery-springcloud-example-serv
         <address value="1301"/> -->
     </strategy-blacklist>
 
-    <!-- 参数控制，由远程推送参数的改变，实现一些特色化的灰度发布，例如，基于数据库和消息队列的灰度发布 -->
+    <!-- 参数控制，由远程推送参数的改变，实现一些特色化的蓝绿发布，例如，基于数据库和消息队列的蓝绿发布 -->
     <parameter>
         <!-- 服务a在版本为1.0的时候，数据库的数据源指向db1；服务a在版本为1.1的时候，数据库的数据源指向db2 -->
         <!-- 服务b在区域为dev的时候，消息队列指向queue1；服务b在区域为dev的时候，消息队列指向queue2 -->
@@ -2764,8 +2763,8 @@ Apollo订阅推送界面
 ③ 需要注意
 
 - 局部配置方式建议使用Apollo的私有（private）配置方式，全局配置方式必须采用Apollo的共享（public）配置方式
-- 如果业务配置和灰度配置在同一个namespace里且namespace只有一个，灰度配置可以通过apollo.bootstrap.namespaces或者apollo.plugin.namespace来指定（如果namespace为application则都不需要配置）
-- 如果业务配置和灰度配置不在同一个namespace里或者业务配置横跨几个namespace，灰度配置必须通过apollo.plugin.namespace来指定唯一的namespace
+- 如果业务配置和蓝绿灰度配置在同一个namespace里且namespace只有一个，蓝绿灰度配置可以通过apollo.bootstrap.namespaces或者apollo.plugin.namespace来指定（如果namespace为application则都不需要配置）
+- 如果业务配置和蓝绿灰度配置不在同一个namespace里或者业务配置横跨几个namespace，蓝绿灰度配置必须通过apollo.plugin.namespace来指定唯一的namespace
 
 Nacos订阅推送界面
 
@@ -2971,7 +2970,7 @@ spring.application.strategy.consumer.isolation.enabled=true
 # 启动和关闭提供端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
 spring.application.strategy.provider.isolation.enabled=true
 
-# 灰度路由策略的时候，需要指定对业务RestController类的扫描路径。此项配置作用于RPC方式的调用拦截和消费端的服务隔离两项工作
+# 路由策略的时候，需要指定对业务RestController类的扫描路径。此项配置作用于RPC方式的调用拦截和消费端的服务隔离两项工作
 spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.feign
 ```
 
@@ -3360,9 +3359,9 @@ public ServiceSentinelRequestOriginAdapter ServiceSentinelRequestOriginAdapter()
 ## 全链路监控
 
 ### 全链路调用链监控
-调用链监控，在本文主要指灰度调用链监控。快速入门操作，参考[Discovery灰度发布路由调用链演示视频](http://nepxion.gitee.io/videos/discovery-video/DiscoveryJaeger.wmv)
+调用链监控，在本文主要指蓝绿灰度调用链监控
 
-灰度调用链主要包括如下15个参数，以n-d-service开头的是必选的，其它是可选的或者按照场景而定。使用者可以自行定义要传递的调用链参数，例如：traceId, spanId等；也可以自行定义要传递的业务调用链参数，例如：mobile, user等
+蓝绿灰度调用链主要包括如下15个参数，以n-d-service开头的是必选的，其它是可选的或者按照场景而定。使用者可以自行定义要传递的调用链参数，例如：traceId, spanId等；也可以自行定义要传递的业务调用链参数，例如：mobile, user等
 ```
 1. n-d-service-group - 服务所属组或者应用
 2. n-d-service-type - 服务类型，分为“网关”和“服务”
@@ -3380,7 +3379,7 @@ public ServiceSentinelRequestOriginAdapter ServiceSentinelRequestOriginAdapter()
 14. n-d-id-blacklist - 全局唯一ID屏蔽值
 15. n-d-address-blacklist - IP地址和端口屏蔽值
 ```
-灰度调用链输出分为Header方式、调用链方式、日志MDC方式，三种方式可以并存使用。调用链方式支持WebMvc和WebFlux
+蓝绿灰度调用链输出分为Header方式、调用链方式、日志MDC方式，三种方式可以并存使用。调用链方式支持WebMvc和WebFlux
 
 #### Header输出方式
 - Spring Cloud Gateway网关端自行会传输Header值（参考Discovery源码中的AbstractGatewayStrategyRouteFilter.java）
@@ -3391,8 +3390,8 @@ public ServiceSentinelRequestOriginAdapter ServiceSentinelRequestOriginAdapter()
 调用链输出方式以OpenTracing + Jaeger为例来说明
 
 - Jaeger服务器版本，推荐用最新版本，从[https://github.com/jaegertracing/jaeger/releases](https://github.com/jaegertracing/jaeger/releases)获取
-- 执行Postman调用后，访问[http://localhost:16686](http://localhost:16686)查看灰度调用链
-- 灰度调用链支持WebMvc和WebFlux两种方式，以NEPXION字样（可自定义）的标记来标识
+- 执行Postman调用后，访问[http://localhost:16686](http://localhost:16686)查看蓝绿灰度调用链
+- 蓝绿灰度调用链支持WebMvc和WebFlux两种方式，以NEPXION字样（可自定义）的标记来标识
 - 支持对Sentinel自动埋点
 
 ![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意，因为OpenTracing规范不仅仅只被Jaeger所遵守，所以框架并没有直接引入Jaeger包，需要使用者自行引入，可以参照指南示例中的pom.xml引用
@@ -3408,7 +3407,7 @@ public ServiceSentinelRequestOriginAdapter ServiceSentinelRequestOriginAdapter()
 </dependency>
 ```
 
-集成OpenTracing + Jaeger灰度全链路监控
+集成OpenTracing + Jaeger蓝绿灰度全链路监控
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger1.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger2.jpg)
@@ -3420,7 +3419,7 @@ public ServiceSentinelRequestOriginAdapter ServiceSentinelRequestOriginAdapter()
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger6.jpg)
 
-集成主流中间件 + 灰度全链路监控
+集成主流中间件 + 蓝绿灰度全链路监控
 代码请从[指南示例高级版](https://github.com/Nepxion/DiscoveryGuide)获取，分支为premium。运行出下图强大效果的前提，需要事先搭建Nacos、Jaeger、ActiveMQ、MongoDB、RabbitMQ、Redis、RocketMQ以及MySQL数据库等环境
 使用者如果不想搭建环境，想直接观看效果，可以直接把离线数据tracing.json（位于根目录下）导入到Jaeger界面（JSON File栏，拖进去即可），观看到下图效果
 
@@ -3428,7 +3427,7 @@ public ServiceSentinelRequestOriginAdapter ServiceSentinelRequestOriginAdapter()
 ![](http://nepxion.gitee.io/docs/discovery-doc/JaegerPremium2.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/JaegerPremium3.jpg)
 
-集成OpenTracing + SkyWalking灰度全链路监控
+集成OpenTracing + SkyWalking蓝绿灰度全链路监控
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/SkyWalking1.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/SkyWalking2.jpg)
@@ -3440,10 +3439,10 @@ public ServiceSentinelRequestOriginAdapter ServiceSentinelRequestOriginAdapter()
 
 ![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意如下配置，将决定终端界面的显示
 
-- 如果开启，灰度信息输出到独立的Span节点中，意味着在界面显示中，灰度信息通过独立的NEPXION Span节点来显示
-- 如果关闭，灰度信息输出到原生的Span节点中，意味着在界面显示中，灰度信息会和原生Span节点的调用信息、协议信息等合在一起
+- 如果开启，蓝绿灰度信息输出到独立的Span节点中，意味着在界面显示中，蓝绿灰度信息通过独立的NEPXION Span节点来显示
+- 如果关闭，蓝绿灰度信息输出到原生的Span节点中，意味着在界面显示中，蓝绿灰度信息会和原生Span节点的调用信息、协议信息等合在一起
 ```
-# 启动和关闭调用链的灰度信息以独立的Span节点输出，如果关闭，则灰度信息输出到原生的Span节点中（SkyWalking不支持原生模式）。缺失则默认为true
+# 启动和关闭调用链的蓝绿灰度信息以独立的Span节点输出，如果关闭，则蓝绿灰度信息输出到原生的Span节点中（SkyWalking不支持原生模式）。缺失则默认为true
 spring.application.strategy.tracer.separate.span.enabled=true
 ```
 
@@ -3532,9 +3531,9 @@ spring.application.strategy.logger.mdc.key.shown=true
 spring.application.strategy.logger.debug.enabled=true
 # 启动和关闭调用链输出。缺失则默认为false
 spring.application.strategy.tracer.enabled=true
-# 启动和关闭调用链的灰度信息以独立的Span节点输出，如果关闭，则灰度信息输出到原生的Span节点中（SkyWalking不支持原生模式）。缺失则默认为true
+# 启动和关闭调用链的蓝绿灰度信息以独立的Span节点输出，如果关闭，则蓝绿灰度信息输出到原生的Span节点中（SkyWalking不支持原生模式）。缺失则默认为true
 spring.application.strategy.tracer.separate.span.enabled=true
-# 启动和关闭调用链的灰度规则策略信息输出。缺失则默认为true
+# 启动和关闭调用链的蓝绿灰度规则策略信息输出。缺失则默认为true
 spring.application.strategy.tracer.rule.output.enabled=true
 # 启动和关闭调用链的异常信息是否以详细格式输出。缺失则默认为false
 spring.application.strategy.tracer.exception.detail.output.enabled=true
@@ -3542,11 +3541,11 @@ spring.application.strategy.tracer.exception.detail.output.enabled=true
 spring.application.strategy.tracer.method.context.output.enabled=true
 ```
 
-对于灰度Span输出在调用链界面上的显示，提供如下配置
+对于蓝绿灰度Span输出在调用链界面上的显示，提供如下配置
 ```
-# 显示在调用链界面上灰度Span的名称，建议改成具有公司特色的框架产品名称。缺失则默认为NEPXION
+# 显示在调用链界面上蓝绿灰度Span的名称，建议改成具有公司特色的框架产品名称。缺失则默认为NEPXION
 spring.application.strategy.tracer.span.value=NEPXION
-# 显示在调用链界面上灰度Span Tag的插件名称，建议改成具有公司特色的框架产品的描述。缺失则默认为Nepxion Discovery
+# 显示在调用链界面上蓝绿灰度Span Tag的插件名称，建议改成具有公司特色的框架产品的描述。缺失则默认为Nepxion Discovery
 spring.application.strategy.tracer.span.tag.plugin.value=Nepxion Discovery
 ```
 
@@ -3600,7 +3599,7 @@ spring.application.strategy.tracer.sentinel.args.output.enabled=true
 ![](http://nepxion.gitee.io/docs/discovery-doc/Admin7.jpg)
 
 ## 全链路蓝绿灰度流量侦测
-通过内置基于LoadBalanced RestTemplate方式的/inspector/inspect接口方法，实现全链路侦测，可以查看全链路中调用的各个服务的版本、区域、环境、可用区、IP地址和端口等是否符合预期，是否满足灰度条件，该接口可以集成到使用者的界面中，就可以规避通过Postman工具或者调用链系统去判断，有利于节省人工成本。使用方式，如下
+通过内置基于LoadBalanced RestTemplate方式的/inspector/inspect接口方法，实现全链路侦测，可以查看全链路中调用的各个服务的版本、区域、环境、可用区、IP地址和端口等是否符合预期，是否满足蓝绿灰度条件，该接口可以集成到使用者的界面中，就可以规避通过Postman工具或者调用链系统去判断，有利于节省人工成本。使用方式，如下
 
 执行Post请求，请求的路径和内容分成网关为入口和服务为入口两种场景
 
@@ -3631,7 +3630,7 @@ http://[服务IP:PORT]/inspector/inspect
 ## 全链路服务侧注解
 服务侧对于RPC方式的调用拦截、消费端的服务隔离和调用链三项功能，默认映射到RestController类（含有@RestController注解），并配合如下的扫描路径才能工作
 ```
-# 灰度路由策略的时候，需要指定对业务RestController类的扫描路径。此项配置作用于RPC方式的调用拦截、消费端的服务隔离和调用链三项功能
+# 路由策略的时候，需要指定对业务RestController类的扫描路径。此项配置作用于RPC方式的调用拦截、消费端的服务隔离和调用链三项功能
 spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.feign
 ```
 当使用者不希望只局限于RestController类（含有@RestController注解）方式，而要求在任何类中实现上述功能，那么框架提供@ServiceStrategy注解，使用者把它加在类头部即可，可以达到和@RestController注解同样的效果
@@ -3647,7 +3646,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 ## 元数据流量染色
 
 ### 基于服务名前缀自动创建组名
-通过指定长度截断或者标志截断服务名的前缀来自动创建灰度组名，这样就可以避免使用者手工维护灰度组名。当两者都启用的时候，截断方式的组名优先级要高于手工配置的组名
+通过指定长度截断或者标志截断服务名的前缀来自动创建组名，这样就可以避免使用者手工维护组名。当两者都启用的时候，截断方式的组名优先级要高于手工配置的组名
 
 - 增加配置项
 ```
@@ -3660,7 +3659,7 @@ spring.application.group.generator.character=-
 ```
 
 ### 基于Git插件自动创建版本号
-通过集成插件git-commit-id-plugin，通过产生git信息文件的方式，获取git.commit.id（最后一次代码的提交ID）或者git.build.version（对应到Maven工程的版本）来自动创建灰度版本号，这样就可以避免使用者手工维护灰度版本号。当两者都启用的时候，Git插件方式的版本号优先级要高于手工配置的版本号
+通过集成插件git-commit-id-plugin，通过产生git信息文件的方式，获取git.commit.id（最后一次代码的提交ID）或者git.build.version（对应到Maven工程的版本）来自动创建版本号，这样就可以避免使用者手工维护版本号。当两者都启用的时候，Git插件方式的版本号优先级要高于手工配置的版本号
 
 - 增加Git编译插件
 
@@ -3855,6 +3854,10 @@ spring.application.strategy.control.enabled=true
 spring.application.strategy.zone.avoidance.rule.enabled=true
 # 启动和关闭路由策略的时候，对REST方式的调用拦截。缺失则默认为true
 spring.application.strategy.rest.intercept.enabled=true
+# 启动和关闭路由策略的时候，对REST方式在异步调用场景下在服务端的Request请求的装饰，当主线程先于子线程执行完的时候，Request会被Destory，导致Header仍旧拿不到，开启装饰，就可以确保拿到。缺失则默认为false
+spring.application.strategy.rest.request.decorator.enabled=false
+# 启动和关闭Header传递的Debug日志打印，注意：每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
+spring.application.strategy.rest.intercept.debug.enabled=true
 # 当外界传值Header的时候，服务也设置并传递同名的Header，需要决定哪个Header传递到后边的服务去，该开关依赖前置过滤器的开关。如果下面开关为true，以服务设置为优先，否则以外界传值为优先。缺失则默认为true
 spring.application.strategy.service.header.priority=true
 # 启动和关闭Feign上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
@@ -3877,10 +3880,6 @@ spring.application.strategy.feign.core.header.transmission.enabled=true
 # 7. n-d-address-blacklist
 # 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
 spring.application.strategy.rest.template.core.header.transmission.enabled=true
-# 启动和关闭路由策略的时候，对REST方式在异步调用场景下在服务端的Request请求的装饰，当主线程先于子线程执行完的时候，Request会被Destory，导致Header仍旧拿不到，开启装饰，就可以确保拿到。缺失则默认为false
-spring.application.strategy.rest.request.decorator.enabled=true
-# 启动和关闭Header传递的Debug日志打印，注意：每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
-spring.application.strategy.rest.intercept.debug.enabled=true
 # 路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于框架内置上下文Header，例如：trace-id, span-id等）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
 spring.application.strategy.context.request.headers=trace-id;span-id
 # 路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于业务系统子定义Header，例如：mobile）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
@@ -3906,17 +3905,17 @@ spring.application.strategy.logger.mdc.key.shown=true
 spring.application.strategy.logger.debug.enabled=true
 # 启动和关闭调用链输出。缺失则默认为false
 spring.application.strategy.tracer.enabled=true
-# 启动和关闭调用链的灰度信息以独立的Span节点输出，如果关闭，则灰度信息输出到原生的Span节点中（SkyWalking不支持原生模式）。缺失则默认为true
+# 启动和关闭调用链的蓝绿灰度信息以独立的Span节点输出，如果关闭，则蓝绿灰度信息输出到原生的Span节点中（SkyWalking不支持原生模式）。缺失则默认为true
 spring.application.strategy.tracer.separate.span.enabled=true
-# 启动和关闭调用链的灰度规则策略信息输出。缺失则默认为true
+# 启动和关闭调用链的蓝绿灰度规则策略信息输出。缺失则默认为true
 spring.application.strategy.tracer.rule.output.enabled=true
 # 启动和关闭调用链的异常信息是否以详细格式输出。缺失则默认为false
 spring.application.strategy.tracer.exception.detail.output.enabled=true
 # 启动和关闭类方法上入参和出参输出到调用链。缺失则默认为false
 spring.application.strategy.tracer.method.context.output.enabled=true
-# 显示在调用链界面上灰度Span的名称，建议改成具有公司特色的框架产品名称。缺失则默认为NEPXION
+# 显示在调用链界面上蓝绿灰度Span的名称，建议改成具有公司特色的框架产品名称。缺失则默认为NEPXION
 spring.application.strategy.tracer.span.value=NEPXION
-# 显示在调用链界面上灰度Span Tag的插件名称，建议改成具有公司特色的框架产品的描述。缺失则默认为Nepxion Discovery
+# 显示在调用链界面上蓝绿灰度Span Tag的插件名称，建议改成具有公司特色的框架产品的描述。缺失则默认为Nepxion Discovery
 spring.application.strategy.tracer.span.tag.plugin.value=Nepxion Discovery
 # 启动和关闭Sentinel调用链上规则在Span上的输出，注意：原生的Sentinel不是Spring技术栈，下面参数必须通过-D方式或者System.setProperty方式等设置进去。缺失则默认为true
 spring.application.strategy.tracer.sentinel.rule.output.enabled=true
@@ -3943,10 +3942,10 @@ spring.application.strategy.service.sentinel.request.origin.key=n-d-service-id
 # 启动和关闭Sentinel LimitApp限流等功能。缺失则默认为false
 spring.application.strategy.service.sentinel.limit.app.enabled=true
 
-# 版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例。其作用是防止灰度版本路由人为设置错误，或者对应的版本实例发生灾难性的全部下线，导致流量有损
+# 版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例。其作用是防止蓝绿灰度版本发布人为设置错误，或者对应的版本实例发生灾难性的全部下线，导致流量有损
 # 启动和关闭版本故障转移。缺失则默认为false
 spring.application.strategy.version.failover.enabled=true
-# 版本偏好，即非灰度路由场景下，路由到老的稳定版本的实例。其作用是防止多个网关上并行实施灰度版本路由产生混乱，对处于非灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；灰度状态的服务，还是根据传递的Header版本号进行匹配
+# 版本偏好，即非蓝绿灰度发布场景下，路由到老的稳定版本的实例。其作用是防止多个网关上并行实施蓝绿灰度版本发布产生混乱，对处于非蓝绿灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；蓝绿灰度状态的服务，还是根据传递的Header版本号进行匹配
 # 启动和关闭版本偏好。缺失则默认为false
 spring.application.strategy.version.prefer.enabled=true
 
@@ -4044,15 +4043,15 @@ spring.application.strategy.logger.mdc.key.shown=true
 spring.application.strategy.logger.debug.enabled=true
 # 启动和关闭调用链输出。缺失则默认为false
 spring.application.strategy.tracer.enabled=true
-# 启动和关闭调用链的灰度信息以独立的Span节点输出，如果关闭，则灰度信息输出到原生的Span节点中（SkyWalking不支持原生模式）。缺失则默认为true
+# 启动和关闭调用链的蓝绿灰度信息以独立的Span节点输出，如果关闭，则蓝绿灰度信息输出到原生的Span节点中（SkyWalking不支持原生模式）。缺失则默认为true
 spring.application.strategy.tracer.separate.span.enabled=true
-# 启动和关闭调用链的灰度规则策略信息输出。缺失则默认为true
+# 启动和关闭调用链的蓝绿灰度规则策略信息输出。缺失则默认为true
 spring.application.strategy.tracer.rule.output.enabled=true
 # 启动和关闭调用链的异常信息是否以详细格式输出。缺失则默认为false
 spring.application.strategy.tracer.exception.detail.output.enabled=true
-# 显示在调用链界面上灰度Span的名称，建议改成具有公司特色的框架产品名称。缺失则默认为NEPXION
+# 显示在调用链界面上蓝绿灰度Span的名称，建议改成具有公司特色的框架产品名称。缺失则默认为NEPXION
 spring.application.strategy.tracer.span.value=NEPXION
-# 显示在调用链界面上灰度Span Tag的插件名称，建议改成具有公司特色的框架产品的描述。缺失则默认为Nepxion Discovery
+# 显示在调用链界面上蓝绿灰度Span Tag的插件名称，建议改成具有公司特色的框架产品的描述。缺失则默认为Nepxion Discovery
 spring.application.strategy.tracer.span.tag.plugin.value=Nepxion Discovery
 # 启动和关闭Sentinel调用链上规则在Span上的输出，注意：原生的Sentinel不是Spring技术栈，下面参数必须通过-D方式或者System.setProperty方式等设置进去。缺失则默认为true
 spring.application.strategy.tracer.sentinel.rule.output.enabled=true
@@ -4062,10 +4061,10 @@ spring.application.strategy.tracer.sentinel.args.output.enabled=true
 # 开启Spring Cloud Gateway网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
 spring.application.strategy.hystrix.threadlocal.supported=true
 
-# 版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例。其作用是防止灰度版本路由人为设置错误，或者对应的版本实例发生灾难性的全部下线，导致流量有损
+# 版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例。其作用是防止蓝绿灰度版本发布人为设置错误，或者对应的版本实例发生灾难性的全部下线，导致流量有损
 # 启动和关闭版本故障转移。缺失则默认为false
 spring.application.strategy.version.failover.enabled=true
-# 版本偏好，即非灰度路由场景下，路由到老的稳定版本的实例。其作用是防止多个网关上并行实施灰度版本路由产生混乱，对处于非灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；灰度状态的服务，还是根据传递的Header版本号进行匹配
+# 版本偏好，即非蓝绿灰度发布场景下，路由到老的稳定版本的实例。其作用是防止多个网关上并行实施蓝绿灰度版本发布产生混乱，对处于非蓝绿灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；蓝绿灰度状态的服务，还是根据传递的Header版本号进行匹配
 # 启动和关闭版本偏好。缺失则默认为false
 spring.application.strategy.version.prefer.enabled=true
 
@@ -4163,15 +4162,15 @@ spring.application.strategy.logger.mdc.key.shown=true
 spring.application.strategy.logger.debug.enabled=true
 # 启动和关闭调用链输出。缺失则默认为false
 spring.application.strategy.tracer.enabled=true
-# 启动和关闭调用链的灰度信息以独立的Span节点输出，如果关闭，则灰度信息输出到原生的Span节点中（SkyWalking不支持原生模式）。缺失则默认为true
+# 启动和关闭调用链的蓝绿灰度信息以独立的Span节点输出，如果关闭，则蓝绿灰度信息输出到原生的Span节点中（SkyWalking不支持原生模式）。缺失则默认为true
 spring.application.strategy.tracer.separate.span.enabled=true
-# 启动和关闭调用链的灰度规则策略信息输出。缺失则默认为true
+# 启动和关闭调用链的蓝绿灰度规则策略信息输出。缺失则默认为true
 spring.application.strategy.tracer.rule.output.enabled=true
 # 启动和关闭调用链的异常信息是否以详细格式输出。缺失则默认为false
 spring.application.strategy.tracer.exception.detail.output.enabled=true
-# 显示在调用链界面上灰度Span的名称，建议改成具有公司特色的框架产品名称。缺失则默认为NEPXION
+# 显示在调用链界面上蓝绿灰度Span的名称，建议改成具有公司特色的框架产品名称。缺失则默认为NEPXION
 spring.application.strategy.tracer.span.value=NEPXION
-# 显示在调用链界面上灰度Span Tag的插件名称，建议改成具有公司特色的框架产品的描述。缺失则默认为Nepxion Discovery
+# 显示在调用链界面上蓝绿灰度Span Tag的插件名称，建议改成具有公司特色的框架产品的描述。缺失则默认为Nepxion Discovery
 spring.application.strategy.tracer.span.tag.plugin.value=Nepxion Discovery
 # 启动和关闭Sentinel调用链上规则在Span上的输出，注意：原生的Sentinel不是Spring技术栈，下面参数必须通过-D方式或者System.setProperty方式等设置进去。缺失则默认为true
 spring.application.strategy.tracer.sentinel.rule.output.enabled=true
@@ -4181,10 +4180,10 @@ spring.application.strategy.tracer.sentinel.args.output.enabled=true
 # 开启Zuul网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
 spring.application.strategy.hystrix.threadlocal.supported=true
 
-# 版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例。其作用是防止灰度版本路由人为设置错误，或者对应的版本实例发生灾难性的全部下线，导致流量有损
+# 版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例。其作用是防止蓝绿灰度版本发布人为设置错误，或者对应的版本实例发生灾难性的全部下线，导致流量有损
 # 启动和关闭版本故障转移。缺失则默认为false
 spring.application.strategy.version.failover.enabled=true
-# 版本偏好，即非灰度路由场景下，路由到老的稳定版本的实例。其作用是防止多个网关上并行实施灰度版本路由产生混乱，对处于非灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；灰度状态的服务，还是根据传递的Header版本号进行匹配
+# 版本偏好，即非蓝绿灰度发布场景下，路由到老的稳定版本的实例。其作用是防止多个网关上并行实施蓝绿灰度版本发布产生混乱，对处于非蓝绿灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；蓝绿灰度状态的服务，还是根据传递的Header版本号进行匹配
 # 启动和关闭版本偏好。缺失则默认为false
 spring.application.strategy.version.prefer.enabled=true
 
@@ -4304,7 +4303,7 @@ spring.application.git.generator.path=classpath:git.properties
 请自行研究
 
 ## 自动化测试
-自动化测试，基于Spring Boot/Spring Cloud的自动化测试框架，包括普通调用测试、蓝绿灰度调用测试和扩展调用测试（例如：支持阿里巴巴的Sentinel，FF4j的功能开关等）。通过注解形式，跟Spring Boot内置的测试机制集成，使用简单方便。该自动化测试框架的现实意义，可以把服务注册发现中心、远程配置中心、负载均衡、灰度发布、熔断降级限流、功能开关、Feign或者RestTemplate调用等中间件或者组件，一条龙组合起来进行自动化测试
+自动化测试，基于Spring Boot/Spring Cloud的自动化测试框架，包括普通调用测试、蓝绿灰度调用测试和扩展调用测试（例如：支持阿里巴巴的Sentinel，FF4j的功能开关等）。通过注解形式，跟Spring Boot内置的测试机制集成，使用简单方便。该自动化测试框架的现实意义，可以把服务注册发现中心、远程配置中心、负载均衡、蓝绿灰度发布、熔断降级限流、功能开关、Feign或者RestTemplate调用等中间件或者组件，一条龙组合起来进行自动化测试
 
 自动化测试代码参考[指南示例自动化测试](https://github.com/Nepxion/DiscoveryGuide/tree/master/discovery-guide-test-automation)
 
@@ -4524,7 +4523,7 @@ public class DiscoveryGuideTestCases {
 }
 ```
 
-灰度配置文件gray-strategy-version-1.xml的内容如下
+蓝绿灰度配置文件gray-strategy-version-1.xml的内容如下
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
@@ -4534,7 +4533,7 @@ public class DiscoveryGuideTestCases {
 </rule>
 ```
 
-灰度配置文件gray-default.xml的内容如下
+蓝绿灰度配置文件gray-default.xml的内容如下
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
@@ -4543,7 +4542,7 @@ public class DiscoveryGuideTestCases {
 ```
 
 #### 扩展调用测试
-除了支持灰度自动化测试外，使用者可扩展出以远程配置中心内容做变更的自动化测试。以阿里巴巴的Sentinel的权限功能为例子，参考PolarisGuide，测试实现方式如下
+除了支持蓝绿灰度自动化测试外，使用者可扩展出以远程配置中心内容做变更的自动化测试。以阿里巴巴的Sentinel的权限功能为例子，参考PolarisGuide，测试实现方式如下
 
 ① 远程配置中心约定
 
