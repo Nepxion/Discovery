@@ -414,6 +414,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [服务下线场景下全链路蓝绿灰度发布](#服务下线场景下全链路蓝绿灰度发布)
         - [全局唯一ID屏蔽](#全局唯一ID屏蔽)
         - [IP地址和端口屏蔽](#IP地址和端口屏蔽)
+    - [全链路数据库和消息队列蓝绿发布](#全链路数据库和消息队列蓝绿发布)
 - [异步场景下全链路蓝绿灰度发布](#异步场景下全链路蓝绿灰度发布)
     - [异步场景下DiscoveryAgent解决方案](#异步场景下DiscoveryAgent解决方案)
         - [异步跨线程DiscoveryAgent获取](#异步跨线程DiscoveryAgent获取)
@@ -421,8 +422,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [异步跨线程DiscoveryAgent扩展](#异步跨线程DiscoveryAgent扩展)
     - [异步场景下Hystrix线程池隔离解决方案](#异步场景下Hystrix线程池隔离解决方案)
 
-
-- [数据库和消息队列灰度发布规则](#数据库和消息队列灰度发布规则)
 - [基于多格式的规则策略定义](#基于多格式的规则策略定义)
     - [规则策略格式定义](#规则策略格式定义)
     - [规则策略内容定义](#规则策略内容定义)
@@ -463,7 +462,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [基于灰度区域的防护机制](#基于灰度区域的防护机制)
         - [基于IP地址和端口的防护机制](#基于IP地址和端口的防护机制)
         - [自定义业务参数的组合式防护机制](#自定义业务参数的组合式防护机制)
-- [基于Hystrix的全链路服务限流熔断和灰度融合](#基于Hystrix的全链路服务限流熔断和灰度融合)
 - [全链路监控](#全链路监控)
     - [全链路调用链监控](#全链路调用链监控)
         - [Header输出方式](#Header输出方式)
@@ -2127,6 +2125,59 @@ spring.application.strategy.version.prefer.enabled=true
 
 也可以通过全链路传递Header方式实现
 
+### 全链路数据库和消息队列蓝绿发布
+通过订阅业务参数的变化，实现参数化蓝绿发布，例如，基于多Datasource的数据库蓝绿发布，基于多Queue的消息队列蓝绿发布
+
+增加参数化灰度规则，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名），规则内容如下，实现功能
+- 服务a在版本为1.0的时候，数据库的数据源指向db1；服务a在版本为1.1的时候，数据库的数据源指向db2
+- 服务b在区域为dev的时候，消息队列指向queue1；服务b在区域为dev的时候，消息队列指向queue2
+- 服务c在环境为env1的时候，数据库的数据源指向db1；服务c在环境为env2的时候，数据库的数据源指向db2
+- 服务d在可用区为zone1的时候，消息队列指向queue1；服务d在可用区为zone2的时候，消息队列指向queue2
+- 服务c在IP地址和端口为192.168.43.101:1201的时候，数据库的数据源指向db1；服务c在IP地址和端口为192.168.43.102:1201的时候，数据库的数据源指向db2
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <parameter>
+        <service service-name="discovery-guide-service-a" tag-key="version" tag-value="1.0" key="ShardingSphere" value="db1"/>
+        <service service-name="discovery-guide-service-a" tag-key="version" tag-value="1.1" key="ShardingSphere" value="db2"/>
+        <service service-name="discovery-guide-service-b" tag-key="region" tag-value="dev" key="RocketMQ" value="queue1"/>
+        <service service-name="discovery-guide-service-b" tag-key="region" tag-value="qa" key="RocketMQ" value="queue2"/>
+        <service service-name="discovery-guide-service-c" tag-key="env" tag-value="env1" key="ShardingSphere" value="db1"/>
+        <service service-name="discovery-guide-service-c" tag-key="env" tag-value="env2" key="ShardingSphere" value="db2"/>
+        <service service-name="discovery-guide-service-d" tag-key="zone" tag-value="zone1" key="RocketMQ" value="queue1"/>
+        <service service-name="discovery-guide-service-d" tag-key="zone" tag-value="zone2" key="RocketMQ" value="queue2"/>
+        <service service-name="discovery-guide-service-e" tag-key="address" tag-value="192.168.43.101:1201" key="ShardingSphere" value="db1"/>
+        <service service-name="discovery-guide-service-e" tag-key="address" tag-value="192.168.43.102:1201" key="ShardingSphere" value="db2"/>
+    </parameter>
+</rule>
+```
+通过事件总线方式，对参数改变动态实现监听，并在此类里自行对接相关的数据库和消息队列中间件的切换和驱动
+```java
+@EventBus
+public class MySubscriber {
+    @Autowired
+    private PluginAdapter pluginAdapter;
+
+    @Subscribe
+    public void onParameterChanged(ParameterChangedEvent parameterChangedEvent) {
+        ParameterEntity parameterEntity = parameterChangedEvent.getParameterEntity();
+        String serviceId = pluginAdapter.getServiceId();
+        List<ParameterServiceEntity> parameterServiceEntityList = null;
+        if (parameterEntity != null) {
+            Map<String, List<ParameterServiceEntity>> parameterServiceMap = parameterEntity.getParameterServiceMap();
+            parameterServiceEntityList = parameterServiceMap.get(serviceId);
+        }
+        // parameterServiceEntityList为动态参数列表
+    }
+}
+```
+使用者可以通过如下开关，决定在服务启动过程中，读到参数配置的时候，是否要发送一个事件触发数据库和消息队列中间件的切换
+```
+# 启动和关闭在服务启动的时候参数订阅事件发送。缺失则默认为true
+spring.application.parameter.event.onstart.enabled=true
+```
+参考[https://github.com/Nepxion/DiscoveryContrib](https://github.com/Nepxion/DiscoveryContrib)里的实现方式
+
 ## 异步场景下全链路蓝绿灰度发布
 
 ### 异步场景下DiscoveryAgent解决方案
@@ -2429,59 +2480,6 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 ```
 
 该方案也可以通过[异步场景下DiscoveryAgent解决方案](#异步场景下DiscoveryAgent解决方案)解决
-
-### 数据库和消息队列灰度发布规则
-通过订阅业务参数的变化，实现参数化灰度发布，例如，基于多Datasource的数据库灰度发布，基于多Queue的消息队列灰度发布
-
-增加参数化灰度规则，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名），规则内容如下，实现功能
-- 服务a在版本为1.0的时候，数据库的数据源指向db1；服务a在版本为1.1的时候，数据库的数据源指向db2
-- 服务b在区域为dev的时候，消息队列指向queue1；服务b在区域为dev的时候，消息队列指向queue2
-- 服务c在环境为env1的时候，数据库的数据源指向db1；服务c在环境为env2的时候，数据库的数据源指向db2
-- 服务d在可用区为zone1的时候，消息队列指向queue1；服务d在可用区为zone2的时候，消息队列指向queue2
-- 服务c在IP地址和端口为192.168.43.101:1201的时候，数据库的数据源指向db1；服务c在IP地址和端口为192.168.43.102:1201的时候，数据库的数据源指向db2
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-    <parameter>
-        <service service-name="discovery-guide-service-a" tag-key="version" tag-value="1.0" key="ShardingSphere" value="db1"/>
-        <service service-name="discovery-guide-service-a" tag-key="version" tag-value="1.1" key="ShardingSphere" value="db2"/>
-        <service service-name="discovery-guide-service-b" tag-key="region" tag-value="dev" key="RocketMQ" value="queue1"/>
-        <service service-name="discovery-guide-service-b" tag-key="region" tag-value="qa" key="RocketMQ" value="queue2"/>
-        <service service-name="discovery-guide-service-c" tag-key="env" tag-value="env1" key="ShardingSphere" value="db1"/>
-        <service service-name="discovery-guide-service-c" tag-key="env" tag-value="env2" key="ShardingSphere" value="db2"/>
-        <service service-name="discovery-guide-service-d" tag-key="zone" tag-value="zone1" key="RocketMQ" value="queue1"/>
-        <service service-name="discovery-guide-service-d" tag-key="zone" tag-value="zone2" key="RocketMQ" value="queue2"/>
-        <service service-name="discovery-guide-service-e" tag-key="address" tag-value="192.168.43.101:1201" key="ShardingSphere" value="db1"/>
-        <service service-name="discovery-guide-service-e" tag-key="address" tag-value="192.168.43.102:1201" key="ShardingSphere" value="db2"/>
-    </parameter>
-</rule>
-```
-通过事件总线方式，对参数改变动态实现监听，并在此类里自行对接相关的数据库和消息队列中间件的切换和驱动
-```java
-@EventBus
-public class MySubscriber {
-    @Autowired
-    private PluginAdapter pluginAdapter;
-
-    @Subscribe
-    public void onParameterChanged(ParameterChangedEvent parameterChangedEvent) {
-        ParameterEntity parameterEntity = parameterChangedEvent.getParameterEntity();
-        String serviceId = pluginAdapter.getServiceId();
-        List<ParameterServiceEntity> parameterServiceEntityList = null;
-        if (parameterEntity != null) {
-            Map<String, List<ParameterServiceEntity>> parameterServiceMap = parameterEntity.getParameterServiceMap();
-            parameterServiceEntityList = parameterServiceMap.get(serviceId);
-        }
-        // parameterServiceEntityList为动态参数列表
-    }
-}
-```
-使用者可以通过如下开关，决定在服务启动过程中，读到参数配置的时候，是否要发送一个事件触发数据库和消息队列中间件的切换
-```
-# 启动和关闭在服务启动的时候参数订阅事件发送。缺失则默认为true
-spring.application.parameter.event.onstart.enabled=true
-```
-参考[https://github.com/Nepxion/DiscoveryContrib](https://github.com/Nepxion/DiscoveryContrib)里的实现方式
 
 ## 基于多格式的规则策略定义
 
