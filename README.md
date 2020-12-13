@@ -435,18 +435,19 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [全链路可用区亲和性隔离](#全链路可用区亲和性隔离)
     - [全链路可用区亲和性路由](#全链路可用区亲和性路由)
 
-- [基于组和黑白名单的全链路服务隔离和准入](#基于组和黑白名单的全链路服务隔离和准入)
-    - [服务注册发现准入](#服务注册发现准入)
+
+- [全链路服务隔离和准入](#全链路服务隔离和准入)
+    - [消费端服务隔离](#消费端服务隔离)
+        - [基于组负载均衡隔离](#基于组负载均衡隔离)
+    - [提供端服务隔离](#提供端服务隔离)
+        - [基于组Header传值策略隔离](#基于组Header传值策略隔离)
+    - [注册发现隔离和准入](#注册发现隔离和准入)
         - [基于组黑白名单注册准入](#基于组黑白名单注册准入)
         - [基于IP地址黑白名单注册准入](#基于IP地址黑白名单注册准入)
         - [基于最大注册数限制注册准入](#基于最大注册数限制注册准入)
         - [基于IP地址黑白名单发现准入](#基于IP地址黑白名单发现准入)
         - [自定义注册发现准入](#自定义注册发现准入)
-    - [消费端服务隔离](#消费端服务隔离)
-        - [基于组负载均衡隔离](#基于组负载均衡隔离)
-    - [提供端服务隔离](#提供端服务隔离)
-        - [基于组Header传值策略隔离](#基于组Header传值策略隔离)
-- [基于Sentinel的全链路服务限流熔断降级权限和灰度融合](#基于Sentinel的全链路服务限流熔断降级权限和灰度融合)
+- [全链路服务限流熔断降级权限](#全链路服务限流熔断降级权限)
     - [原生Sentinel注解](#原生Sentinel注解)
     - [原生Sentinel规则](#原生Sentinel规则)
         - [流控规则](#流控规则)
@@ -454,12 +455,12 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [授权规则](#授权规则)
         - [系统规则](#系统规则)
         - [热点参数流控规则](#热点参数流控规则)	
-    - [基于灰度路由和Sentinel-LimitApp扩展的防护机制](#基于灰度路由和Sentinel-LimitApp扩展的防护机制)
-        - [基于服务名的防护机制](#基于服务名的防护机制)
-        - [基于灰度组的防护机制](#基于灰度组的防护机制)
-        - [基于灰度版本的防护机制](#基于灰度版本的防护机制)
-        - [基于灰度区域的防护机制](#基于灰度区域的防护机制)
-        - [基于IP地址和端口的防护机制](#基于IP地址和端口的防护机制)
+    - [基于Sentinel-LimitApp扩展的防护](#基于Sentinel-LimitApp扩展的防护)
+        - [基于服务名的防护](#基于服务名的防护)
+        - [基于组的防护](#基于组的防护)
+        - [基于版本的防护](#基于版本的防护)
+        - [基于区域的防护](#基于区域的防护)
+        - [基于IP地址和端口的防护](#基于IP地址和端口的防护)
         - [自定义业务参数的组合式防护机制](#自定义业务参数的组合式防护机制)
 - [全链路监控](#全链路监控)
     - [全链路调用链监控](#全链路调用链监控)
@@ -2949,41 +2950,7 @@ spring.application.zone.route.enabled=true
 - 如果采用Eureka注册中心，Ribbon本身就具有可用区亲和性功能，跟本框架类似。如果使用者采用了Eureka注册中心下的Ribbon可用区亲和性功能，请关闭本框架提供的相似功能，以免冲突
 - 本框架提供的可用区亲和性功能适用于一切注册中心
 
-
-
-
-## 基于组和黑白名单的全链路服务隔离和准入
-
-### 服务注册发现准入
-
-#### 基于组黑白名单注册准入
-微服务启动的时候，它所属的Group不在Group的黑名单或者在白名单里，才允许被注册。只需要在网关或者服务端，开启如下配置即可
-```
-# 启动和关闭注册的服务隔离（基于Group黑/白名单的策略）。缺失则默认为false
-spring.application.strategy.register.isolation.enabled=true
-```
-黑/白名单通过如下方式配置
-```
-spring.application.strategy.register.isolation.group.blacklist=
-spring.application.strategy.register.isolation.group.whitelist=
-```
-#### 基于IP地址黑白名单注册准入
-微服务启动的时候，禁止指定的IP地址注册到注册中心。支持黑/白名单，白名单表示只允许指定IP地址前缀注册，黑名单表示不允许指定IP地址前缀注册
-- 全局过滤，指注册到服务注册发现中心的所有微服务，只有IP地址包含在全局过滤字段的前缀中，都允许注册（对于白名单而言），或者不允许注册（对于黑名单而言）
-- 局部过滤，指专门针对某个微服务而言，那么真正的过滤条件是全局过滤 + 局部过滤结合在一起
-
-#### 基于最大注册数限制注册准入
-微服务启动的时候，一旦微服务集群下注册的实例数目已经达到上限（可配置），将禁止后续的微服务进行注册
-- 全局配置值，只下面配置所有的微服务集群，最多能注册多少个
-- 局部配置值，指专门针对某个微服务而言，如果该值如存在，全局配置值失效
-
-#### 基于IP地址黑白名单发现准入
-微服务启动的时候，禁止指定的IP地址被服务发现。它使用的方式和[基于IP地址黑白名单注册准入](#基于IP地址黑白名单注册准入)一致
-
-#### 自定义注册发现准入
-- 集成AbstractRegisterListener，实现自定义禁止注册
-- 集成AbstractDiscoveryListener，实现自定义禁止被发现。需要注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断
-- 集成AbstractLoadBalanceListener，实现自定义禁止被负载均衡
+## 全链路服务隔离和准入
 
 ### 消费端服务隔离
 
@@ -3021,7 +2988,38 @@ Reject to invoke because of isolation with different service group
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide6-2.jpg)
 
-## 基于Sentinel的全链路服务限流熔断降级权限和灰度融合
+### 注册发现隔离和准入
+
+#### 基于组黑白名单注册准入
+微服务启动的时候，它所属的Group不在Group的黑名单或者在白名单里，才允许被注册。只需要在网关或者服务端，开启如下配置即可
+```
+# 启动和关闭注册的服务隔离（基于Group黑/白名单的策略）。缺失则默认为false
+spring.application.strategy.register.isolation.enabled=true
+```
+黑/白名单通过如下方式配置
+```
+spring.application.strategy.register.isolation.group.blacklist=
+spring.application.strategy.register.isolation.group.whitelist=
+```
+#### 基于IP地址黑白名单注册准入
+微服务启动的时候，禁止指定的IP地址注册到注册中心。支持黑/白名单，白名单表示只允许指定IP地址前缀注册，黑名单表示不允许指定IP地址前缀注册
+- 全局过滤，指注册到服务注册发现中心的所有微服务，只有IP地址包含在全局过滤字段的前缀中，都允许注册（对于白名单而言），或者不允许注册（对于黑名单而言）
+- 局部过滤，指专门针对某个微服务而言，那么真正的过滤条件是全局过滤 + 局部过滤结合在一起
+
+#### 基于最大注册数限制注册准入
+微服务启动的时候，一旦微服务集群下注册的实例数目已经达到上限（可配置），将禁止后续的微服务进行注册
+- 全局配置值，只下面配置所有的微服务集群，最多能注册多少个
+- 局部配置值，指专门针对某个微服务而言，如果该值如存在，全局配置值失效
+
+#### 基于IP地址黑白名单发现准入
+微服务启动的时候，禁止指定的IP地址被服务发现。它使用的方式和[基于IP地址黑白名单注册准入](#基于IP地址黑白名单注册准入)一致
+
+#### 自定义注册发现准入
+- 集成AbstractRegisterListener，实现自定义禁止注册
+- 集成AbstractDiscoveryListener，实现自定义禁止被发现。需要注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断
+- 集成AbstractLoadBalanceListener，实现自定义禁止被负载均衡
+
+## 全链路服务限流熔断降级权限
 
 集成Sentinel熔断隔离限流降级平台
 
@@ -3171,13 +3169,13 @@ public class BFeignImpl extends AbstractFeignImpl implements BFeign {
 ```
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide7-5.jpg)
 
-### 基于灰度路由和Sentinel-LimitApp扩展的防护机制
+### 基于Sentinel-LimitApp扩展的防护
 该方式对于上面5种规则都有效，这里以授权规则展开阐述
 
 授权规则中，limitApp，如果有多个，可以通过“,”分隔。"strategy": 0 表示白名单，"strategy": 1 表示黑名单
 
-#### 基于服务名的防护机制
-修改配置项Sentinel Request Origin Key为服务名的Header名称，修改授权规则中limitApp为对应的服务名，可实现基于服务名的防护机制
+#### 基于服务名的防护
+修改配置项Sentinel Request Origin Key为服务名Header，修改授权规则中limitApp为对应的服务名，可实现基于服务名的防护
 
 配置项，该配置项默认为n-d-service-id，可以不配置
 ```
@@ -3195,8 +3193,8 @@ spring.application.strategy.service.sentinel.request.origin.key=n-d-service-id
 ]
 ```
 
-#### 基于灰度组的防护机制
-修改配置项Sentinel Request Origin Key为灰度组的Header名称，修改授权规则中limitApp为对应的组名，可实现基于组名的防护机制
+#### 基于组的防护
+修改配置项Sentinel Request Origin Key为组Header，修改授权规则中limitApp为对应的组名，可实现基于组的防护
 
 配置项
 ```
@@ -3214,8 +3212,8 @@ spring.application.strategy.service.sentinel.request.origin.key=n-d-service-grou
 ]
 ```
 
-#### 基于灰度版本的防护机制
-修改配置项Sentinel Request Origin Key为灰度版本的Header名称，修改授权规则中limitApp为对应的版本，可实现基于版本的防护机制
+#### 基于版本的防护
+修改配置项Sentinel Request Origin Key为版本Header，修改授权规则中limitApp为对应的版本，可实现基于版本的防护机制
 
 配置项
 ```
@@ -3233,8 +3231,8 @@ spring.application.strategy.service.sentinel.request.origin.key=n-d-service-vers
 ]
 ```
 
-#### 基于灰度区域的防护机制
-修改配置项Sentinel Request Origin Key为灰度区域的Header名称，修改授权规则中limitApp为对应的区域，可实现基于区域的防护机制
+#### 基于区域的防护
+修改配置项Sentinel Request Origin Key为区域Header，修改授权规则中limitApp为对应的区域，可实现基于区域的防护
 
 配置项
 ```
@@ -3252,8 +3250,8 @@ spring.application.strategy.service.sentinel.request.origin.key=n-d-service-regi
 ]
 ```
 
-#### 基于IP地址和端口的防护机制
-修改配置项Sentinel Request Origin Key为灰度区域的Header名称，修改授权规则中limitApp为对应的区域值，可实现基于IP地址和端口的防护机制
+#### 基于IP地址和端口的防护
+修改配置项Sentinel Request Origin Key为IP地址和端口Header，修改授权规则中limitApp为对应的区域值，可实现基于IP地址和端口的防护
 
 配置项
 ```
