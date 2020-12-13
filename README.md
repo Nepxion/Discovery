@@ -1011,7 +1011,7 @@ IP地址和端口匹配蓝绿发布架构图
 
 `#`H['a'] == '1' `&amp;&amp;` `#`H['b'] `&lt;`= '2' `&amp;&amp;` `#`H['c'] != '3'
 
-![](http://nepxion.gitee.io/docs/icon-doc/information.png) 条件匹配蓝绿发布
+![](http://nepxion.gitee.io/docs/icon-doc/information.png) 规则策略配置
 
 增加Spring Cloud Gateway的版本条件匹配蓝绿发布策略，Group为discovery-guide-group，Data Id为discovery-guide-gateway，策略内容如下
 ```xml
@@ -1040,7 +1040,7 @@ IP地址和端口匹配蓝绿发布架构图
 ```
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-8.jpg)
 
-具体使用逻辑如下
+![](http://nepxion.gitee.io/docs/icon-doc/information.png) 规则策略解释
 
 ① 当外部调用带有的Header中的值a=1同时b=2，执行绿路由
 
@@ -1203,7 +1203,7 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 ```
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-9.jpg)
 
-具体使用逻辑如下
+![](http://nepxion.gitee.io/docs/icon-doc/information.png) 规则策略解释
 
 ① 稳定版本路由和灰度版本路由流量权重分配
 
@@ -1220,7 +1220,7 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 - region 区域
 - address IP地址和端口
 
-![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 提醒：条件权重灰度发布也可以支持参数驱动，但一般不建议这么做
+![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 提醒：条件权重灰度发布支持参数驱动，但建议使用无参方式
 
 #### 全链路区域条件权重灰度发布
 参考[全链路版本条件权重灰度发布](#全链路版本条件权重灰度发布)
