@@ -111,7 +111,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
   - 全链路动态变更元数据的蓝绿灰度发布
   - 全链路蓝绿灰度发布容灾：发布失败下的版本故障转移、并行发布下的版本偏好
   - 服务下线场景下全链路蓝绿灰度发布，实时性的流量绝对无损：全局唯一ID屏蔽、IP地址和端口屏蔽
-  - 异步场景下全链路蓝绿灰度发布，异步Agent
+  - 异步场景下全链路蓝绿灰度发布：异步跨线程Agent、Hystrix线程池隔离增强插件
   - 全链路命名空间Namespace参数驱动的并行发布隔离
   - 全链路Header、Parameter、Cookie、域名、RPC Method等参数化规则策略驱动
   - 全链路本地和远程、局部和全局无参数化规则策略驱动
@@ -120,14 +120,13 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - 全链路规则策略推送
     - 基于配置中心的规则策略订阅推送
     - 基于Swagger和Rest的规则策略推送
-    - 基于第三方控制台规则策略推送
     - 基于图形化桌面端和Web端的规则策略推送
 - 全链路环境隔离和路由
-    - 环境隔离
-    - 环境路由
+    - 全链路环境隔离
+    - 全链路环境路由
 - 全链路可用区亲和性隔离和路由
-    - 可用区亲和性隔离
-    - 可用区亲和性路由
+    - 全链路可用区亲和性隔离
+    - 全链路可用区亲和性路由
 - 全链路服务隔离和准入
     - 消费端服务隔离
     - 提供端服务隔离
@@ -421,15 +420,21 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [异步跨线程DiscoveryAgent使用](#异步跨线程DiscoveryAgent使用)
         - [异步跨线程DiscoveryAgent扩展](#异步跨线程DiscoveryAgent扩展)
     - [异步场景下Hystrix线程池隔离解决方案](#异步场景下Hystrix线程池隔离解决方案)
-
-- [基于多格式的规则策略定义](#基于多格式的规则策略定义)
+- [规则策略定义](#规则策略定义)
     - [规则策略格式定义](#规则策略格式定义)
     - [规则策略内容定义](#规则策略内容定义)
     - [规则策略示例](#规则策略示例)
-- [基于多方式的规则策略推送](#基于多方式的规则策略推送)
-    - [基于远程配置中心的规则策略订阅推送](#基于远程配置中心的规则策略订阅推送)
+- [规则策略推送](#规则策略推送)
+    - [基于配置中心的规则策略订阅推送](#基于远程配置中心的规则策略订阅推送)
     - [基于Swagger和Rest的规则策略推送](#基于Swagger和Rest的规则策略推送)
-    - [基于图形化界面的规则策略推送](#基于图形化界面的规则策略推送)
+    - [基于图形化桌面端和Web端的规则策略推送](#基于图形化桌面端和Web端的规则策略推送)
+- [全链路环境隔离和路由](#全链路环境隔离和路由)
+    - [全链路环境隔离](#全链路环境隔离)
+    - [全链路环境路由](#全链路环境路由)
+- [全链路可用区亲和性隔离和路由](#全链路可用区亲和性隔离和路由)
+    - [全链路可用区亲和性隔离](#全链路可用区亲和性隔离)
+    - [全链路可用区亲和性路由](#全链路可用区亲和性路由)
+
 - [基于组和黑白名单的全链路服务隔离和准入](#基于组和黑白名单的全链路服务隔离和准入)
     - [服务注册发现准入](#服务注册发现准入)
         - [基于组黑白名单注册准入](#基于组黑白名单注册准入)
@@ -441,12 +446,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [基于组负载均衡隔离](#基于组负载均衡隔离)
     - [提供端服务隔离](#提供端服务隔离)
         - [基于组Header传值策略隔离](#基于组Header传值策略隔离)
-- [基于Env的全链路环境隔离和路由](#基于Env的全链路环境隔离和路由)
-    - [环境隔离](#环境隔离)
-    - [环境路由](#环境路由)
-- [基于Zone的全链路可用区亲和性隔离和路由](#基于Zone的全链路可用区亲和性隔离和路由)
-    - [可用区亲和性隔离](#可用区亲和性隔离)
-    - [可用区亲和性路由](#可用区亲和性路由)
 - [基于Sentinel的全链路服务限流熔断降级权限和灰度融合](#基于Sentinel的全链路服务限流熔断降级权限和灰度融合)
     - [原生Sentinel注解](#原生Sentinel注解)
     - [原生Sentinel规则](#原生Sentinel规则)
@@ -2481,7 +2480,7 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 
 该方案也可以通过[异步场景下DiscoveryAgent解决方案](#异步场景下DiscoveryAgent解决方案)解决
 
-## 基于多格式的规则策略定义
+## 规则策略定义
 
 ### 规则策略格式定义
 ![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意，服务名大小写规则
@@ -2745,7 +2744,7 @@ XML最全的示例如下，Json示例见源码discovery-springcloud-example-serv
 </rule>
 ```
 
-## 基于多方式的规则策略推送
+## 规则策略推送
 
 ### 基于远程配置中心的规则策略订阅推送
 Apollo订阅推送界面
@@ -2811,7 +2810,7 @@ Redis订阅推送界面
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Swagger2.jpg)
 
-### 基于图形化界面的规则策略推送
+### 基于图形化桌面端和Web端的规则策略推送
 ![](http://nepxion.gitee.io/docs/icon-doc/information.png) 下面两种方式有点古老，并不再维护，请斟酌使用
 
 基于图形化桌面程序的灰度发布路由
@@ -2890,9 +2889,68 @@ Redis订阅推送界面
 基于图形化Web程序的灰度发布路由
 
 - 参考[图形化Web](https://github.com/Nepxion/DiscoveryUI)
-- 操作过程跟[基于图形化界面的规则策略推送](#基于图形化界面的规则策略推送)类似
+- 操作过程跟[基于图形化桌面端和Web端的规则策略推送](#基于图形化桌面端和Web端的规则策略推送)类似
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Console14.jpg)
+
+## 全链路环境隔离和路由
+基于服务实例的元数据Metadata的env参数和全链路传递的环境Header值进行对比实现隔离，当从网关传递来的环境Header（n-d-env）值和提供端实例的元数据Metadata环境配置值相等才能调用。环境隔离下，调用端实例找不到符合条件的提供端实例，把流量路由到一个通用或者备份环境
+
+![](http://nepxion.gitee.io/docs/discovery-doc/IsolationEnvironment.jpg)
+
+### 全链路环境隔离
+在网关或者服务端，配置环境元数据，在同一套环境下，env值必须是一样的，这样才能达到在同一个注册中心下，环境隔离的目的
+```
+spring.cloud.nacos.discovery.metadata.env=env1
+```
+
+### 全链路环境路由
+在环境隔离执行的时候，如果无法找到对应的环境，则会路由到一个通用或者备份环境，默认为env为common的环境，可以通过如下参数进行更改
+```
+# 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
+spring.application.environment.route=common
+```
+
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意
+
+- 如果存在环境，优先寻址环境的服务实例
+- 如果不存在环境，则寻址Common环境的服务实例（未设置元数据Metadata的env参数的服务实例也归为Common环境）
+- 如果Common环境也不存在，则调用失败
+- 如果没有传递环境Header（n-d-env）值，则执行Spring Cloud Ribbon轮询策略
+- 环境隔离和路由适用于测试环境，性能压测等场景
+
+## 全链路可用区亲和性隔离和路由
+
+![](http://nepxion.gitee.io/docs/discovery-doc/IsolationZone.jpg)
+
+### 全链路可用区亲和性隔离
+基于调用端实例和提供端实例的元数据Metadata的zone配置值进行对比实现隔离
+```
+spring.cloud.nacos.discovery.metadata.zone=zone
+```
+通过如下开关进行开启和关闭
+```
+# 启动和关闭可用区亲和性，即同一个可用区的服务才能调用，同一个可用区的条件是调用端实例和提供端实例的元数据Metadata的zone配置值必须相等。缺失则默认为false
+spring.application.zone.affinity.enabled=false
+```
+
+### 全链路可用区亲和性路由
+在可用区亲和性隔离执行的时候，调用端实例找不到同一可用区的提供端实例，把流量路由到其它可用区或者不归属任何可用区
+
+通过如下开关进行开启和关闭
+```
+# 启动和关闭可用区亲和性失败后的路由，即调用端实例没有找到同一个可用区的提供端实例的时候，当开关打开，可路由到其它可用区或者不归属任何可用区，当开关关闭，则直接调用失败。缺失则默认为true
+spring.application.zone.route.enabled=true
+```
+
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意
+
+- 不归属任何可用区，含义是服务实例未设置任何zone元数据值。可用区亲和性路由功能，是为了尽量保证流量不损失
+- 如果采用Eureka注册中心，Ribbon本身就具有可用区亲和性功能，跟本框架类似。如果使用者采用了Eureka注册中心下的Ribbon可用区亲和性功能，请关闭本框架提供的相似功能，以免冲突
+- 本框架提供的可用区亲和性功能适用于一切注册中心
+
+
+
 
 ## 基于组和黑白名单的全链路服务隔离和准入
 
@@ -2962,62 +3020,6 @@ Reject to invoke because of isolation with different service group
 如果加上n-d-service-group=discovery-guide-group的Header，那么两者保持Group相同，则调用通过。这是解决异构系统调用微服务被隔离的一种手段
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide6-2.jpg)
-
-## 基于Env的全链路环境隔离和路由
-基于服务实例的元数据Metadata的env参数和全链路传递的环境Header值进行对比实现隔离，当从网关传递来的环境Header（n-d-env）值和提供端实例的元数据Metadata环境配置值相等才能调用。环境隔离下，调用端实例找不到符合条件的提供端实例，把流量路由到一个通用或者备份环境
-
-![](http://nepxion.gitee.io/docs/discovery-doc/IsolationEnvironment.jpg)
-
-### 环境隔离
-在网关或者服务端，配置环境元数据，在同一套环境下，env值必须是一样的，这样才能达到在同一个注册中心下，环境隔离的目的
-```
-spring.cloud.nacos.discovery.metadata.env=env1
-```
-
-### 环境路由
-在环境隔离执行的时候，如果无法找到对应的环境，则会路由到一个通用或者备份环境，默认为env为common的环境，可以通过如下参数进行更改
-```
-# 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
-spring.application.environment.route=common
-```
-
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意
-
-- 如果存在环境，优先寻址环境的服务实例
-- 如果不存在环境，则寻址Common环境的服务实例（未设置元数据Metadata的env参数的服务实例也归为Common环境）
-- 如果Common环境也不存在，则调用失败
-- 如果没有传递环境Header（n-d-env）值，则执行Spring Cloud Ribbon轮询策略
-- 环境隔离和路由适用于测试环境，性能压测等场景
-
-## 基于Zone的全链路可用区亲和性隔离和路由
-
-![](http://nepxion.gitee.io/docs/discovery-doc/IsolationZone.jpg)
-
-### 可用区亲和性隔离
-基于调用端实例和提供端实例的元数据Metadata的zone配置值进行对比实现隔离
-```
-spring.cloud.nacos.discovery.metadata.zone=zone
-```
-通过如下开关进行开启和关闭
-```
-# 启动和关闭可用区亲和性，即同一个可用区的服务才能调用，同一个可用区的条件是调用端实例和提供端实例的元数据Metadata的zone配置值必须相等。缺失则默认为false
-spring.application.zone.affinity.enabled=false
-```
-
-### 可用区亲和性路由
-在可用区亲和性隔离执行的时候，调用端实例找不到同一可用区的提供端实例，把流量路由到其它可用区或者不归属任何可用区
-
-通过如下开关进行开启和关闭
-```
-# 启动和关闭可用区亲和性失败后的路由，即调用端实例没有找到同一个可用区的提供端实例的时候，当开关打开，可路由到其它可用区或者不归属任何可用区，当开关关闭，则直接调用失败。缺失则默认为true
-spring.application.zone.route.enabled=true
-```
-
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意
-
-- 不归属任何可用区，含义是服务实例未设置任何zone元数据值。可用区亲和性路由功能，是为了尽量保证流量不损失
-- 如果采用Eureka注册中心，Ribbon本身就具有可用区亲和性功能，跟本框架类似。如果使用者采用了Eureka注册中心下的Ribbon可用区亲和性功能，请关闭本框架提供的相似功能，以免冲突
-- 本框架提供的可用区亲和性功能适用于一切注册中心
 
 ## 基于Sentinel的全链路服务限流熔断降级权限和灰度融合
 
