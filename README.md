@@ -109,7 +109,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
   - 全链路稳定、灰度的灰度路由类型
   - 全链路条件驱动和非条件驱动蓝绿灰度发布
   - 全链路网关、服务端到端实施蓝绿灰度发布
-  - 全链路混合实施蓝绿灰度发布
+  - 全链路网关、服务端混合实施蓝绿灰度发布
   - 全链路域网关、非域网关部署
   - 全链路前端触发后端蓝绿灰度发布
   - 全链路自定义网关、服务的过滤器、负载均衡策略类触发蓝绿灰度发布
@@ -400,8 +400,9 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [全链路版本条件权重灰度发布](#全链路版本条件权重灰度发布)
         - [全链路区域条件权重灰度发布](#全链路区域条件权重灰度发布)
         - [全链路IP地址和端口权重条件灰度发布](#全链路IP地址和端口条件权重灰度发布)
-    - [全链路网关和服务端到端实施蓝绿灰度发布](#全链路网关和服务端到端实施蓝绿灰度发布)
-    - [全链路混合实施蓝绿灰度发布](#全链路混合实施蓝绿灰度发布)
+    - [全链路端到端混合实施蓝绿灰度发布](#全链路端到端混合实施蓝绿灰度发布)
+        - [全链路端到端实施蓝绿灰度发布](#全链路端到端实施蓝绿灰度发布)
+        - [全链路混合实施蓝绿灰度发布](#全链路混合实施蓝绿灰度发布)
     - [全链路域网关和非域网关部署](#全链路域网关和非域网关部署)
     - [全链路前端触发后端蓝绿灰度发布](#全链路前端触发后端蓝绿灰度发布)
     - [全链路自定义蓝绿灰度发布](#全链路自定义蓝绿灰度发布)
@@ -1094,10 +1095,10 @@ IP地址和端口匹配蓝绿发布架构图
 ⑨ 支持并行蓝绿发布，通过namespace参数进行蓝绿发布隔离
 
 #### 全链路区域条件匹配蓝绿发布
-跟[全链路版本条件匹配蓝绿发布](#全链路版本条件匹配蓝绿发布)相似
+参考[全链路版本条件匹配蓝绿发布](#全链路版本条件匹配蓝绿发布)
 
 #### 全链路IP地址和端口条件匹配蓝绿发布
-跟[全链路版本条件匹配蓝绿发布](#全链路版本条件匹配蓝绿发布)相似
+参考[全链路版本条件匹配蓝绿发布](#全链路版本条件匹配蓝绿发布)
 
 ### 全链路灰度发布
 
@@ -1188,8 +1189,8 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
         <!-- 全链路灰度发布：条件命中的随机权重（第二优先级），支持版本匹配、区域匹配、IP地址和端口匹配 -->
         <!-- Header节点允许缺失，当含Header和未含Header的配置并存时，以未含Header的配置为优先 -->
         <conditions type="gray">
-            <condition id="gray-condition" header="#H['a'] == '1'" version-id="gray-version-route=10;stable-version-route=90"/>
-            <condition id="gray-condition" header="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="gray-version-route=85;stable-version-route=15"/>
+            <!-- <condition id="gray-condition" header="#H['a'] == '1'" version-id="gray-version-route=10;stable-version-route=90"/> -->
+            <!-- <condition id="gray-condition" header="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="gray-version-route=85;stable-version-route=15"/> -->
             <condition id="gray-condition" version-id="gray-version-route=95;stable-version-route=5"/>
         </conditions>
 
@@ -1222,12 +1223,14 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 ![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 提醒：条件权重灰度发布也可以支持参数驱动，但一般不建议这么做
 
 #### 全链路区域条件权重灰度发布
-跟[全链路版本条件权重灰度发布](#全链路版本条件权重灰度发布)相似
+参考[全链路版本条件权重灰度发布](#全链路版本条件权重灰度发布)
 
 #### 全链路IP地址和端口条件权重灰度发布
-跟[全链路版本条件权重灰度发布](#全链路版本条件权重灰度发布)相似
+参考[全链路版本条件权重灰度发布](#全链路版本条件权重灰度发布)
 
-### 全链路网关和服务端到端实施蓝绿灰度发布
+### 全链路端到端混合实施蓝绿灰度发布
+
+#### 全链路端到端实施蓝绿灰度发布
 前端 -> 网关 -> 服务全链路调用中，可以实施端到端蓝绿灰度发布
 
 ① 前端 -> 网关并行实施蓝绿灰度发布
@@ -1253,7 +1256,7 @@ spring.application.strategy.zuul.original.header.ignored=true
 # spring.application.strategy.service.header.priority=true
 ```
 
-### 全链路混合实施蓝绿灰度发布
+#### 全链路混合实施蓝绿灰度发布
 网关 -> 服务全链路调用中，可以混合实施蓝绿灰度发布
 
 ① 网关上实施蓝绿发布，服务上实施灰度发布
@@ -1266,9 +1269,7 @@ spring.application.strategy.zuul.original.header.ignored=true
 
 ① 域网关部署模式，即A部门服务访问B部门服务必须通过B部门网关。该部署模式下，本部门服务的蓝绿灰度发布只由本部门的网关来实施，其它部门无权对本部门服务实施蓝绿灰度发布，前提条件，需要控制网关上`header.priority`的开关
 
-② 非域网关部署模式，即A部门服务直接访问B部门服务。该部署模式下，会发生本部门服务的蓝绿灰度发布会由其它部门的网关或者服务来触发，当本部门服务和其它部门服务在同一时刻实施蓝绿灰度发布的时候，会产生混乱。解决方案请参考
-
-[并行发布下的版本偏好](#并行发布下的版本偏好)
+② 非域网关部署模式，即A部门服务直接访问B部门服务。该部署模式下，会发生本部门服务的蓝绿灰度发布会由其它部门的网关或者服务来触发，当本部门服务和其它部门服务在同一时刻实施蓝绿灰度发布的时候，会产生混乱。解决方案，参考[并行发布下的版本偏好](#并行发布下的版本偏好)
 
 ### 全链路前端触发后端蓝绿灰度发布
 
@@ -2168,7 +2169,7 @@ public class MySubscriber {
 # 启动和关闭在服务启动的时候参数订阅事件发送。缺失则默认为true
 spring.application.parameter.event.onstart.enabled=true
 ```
-具体参考[https://github.com/Nepxion/DiscoveryContrib](https://github.com/Nepxion/DiscoveryContrib)里的实现方式
+参考[https://github.com/Nepxion/DiscoveryContrib](https://github.com/Nepxion/DiscoveryContrib)里的实现方式
 
 ## 基于多格式的规则策略定义
 
