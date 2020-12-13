@@ -1075,7 +1075,7 @@ IP地址和端口匹配蓝绿发布架构图
 ⑥ 策略总共支持5种，可以单独一项使用，也可以多项叠加使用
 
 - version 版本
-- region 区域路
+- region 区域
 - address IP地址和端口
 - version-weight 版本权重
 - region-weight 区域权重
@@ -1089,8 +1089,18 @@ IP地址和端口匹配蓝绿发布架构图
 #### 全链路区域条件匹配蓝绿发布
 参考[全链路版本条件匹配蓝绿发布](#全链路版本条件匹配蓝绿发布)
 
+用法相似，只需要把规则策略中
+- 属性`version-id`替换成`region-id`
+- 属性`type="version"`替换成`type="region"`
+- 节点`route`对应的Json中版本替换成区域
+
 #### 全链路IP地址和端口条件匹配蓝绿发布
 参考[全链路版本条件匹配蓝绿发布](#全链路版本条件匹配蓝绿发布)
+
+用法相似，只需要把规则策略中
+- 属性`version-id`替换成`address-id`
+- 属性`type="version"`替换成`type="address"`
+- 节点`route`对应的Json中版本替换成IP地址和端口
 
 ### 全链路灰度发布
 
@@ -1217,8 +1227,18 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 #### 全链路区域条件权重灰度发布
 参考[全链路版本条件权重灰度发布](#全链路版本条件权重灰度发布)
 
+用法相似，只需要把规则策略中
+- 属性`version-id`替换成`region-id`
+- 属性`type="version"`替换成`type="region"`
+- 节点`route`对应的Json中版本替换成区域
+
 #### 全链路IP地址和端口条件权重灰度发布
 参考[全链路版本条件权重灰度发布](#全链路版本条件权重灰度发布)
+
+用法相似，只需要把规则策略中
+- 属性`version-id`替换成`address-id`
+- 属性`type="version"`替换成`type="address"`
+- 节点`route`对应的Json中版本替换成IP地址和端口
 
 ### 全链路端到端混合实施蓝绿灰度发布
 
