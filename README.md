@@ -466,13 +466,16 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [自定义组合式的防护](#自定义组合式的防护)
 - [全链路监控](#全链路监控)
     - [全链路调用链监控](#全链路调用链监控)
-        - [Header输出方式](#Header输出方式)
-        - [调用链输出方式](#调用链输出方式)
-        - [日志输出方式](#日志输出方式)
+        - [蓝绿灰度埋点调用链监控](#蓝绿灰度埋点调用链监控)
+        - [蓝绿灰度埋点Debug辅助监控](#蓝绿灰度埋点Debug辅助监控)
+        - [Sentinel熔断埋点调用链监控](#Sentinel熔断埋点调用链监控)
+        - [自定义埋点调用链监控](#自定义埋点调用链监控)
+    - [全链路日志监控](#全链路日志监控)
+        - [蓝绿灰度埋点日志监控](#蓝绿灰度埋点日志监控)
     - [全链路指标监控](#全链路指标监控)
-        - [Prometheus监控方式](#Prometheus监控方式)
-        - [Grafana监控方式](#Grafana监控方式)
-        - [Spring-Boot-Admin监控方式](#Spring-Boot-Admin监控方式)
+        - [Prometheus监控](#Prometheus监控)
+        - [Grafana监控](#Grafana监控)
+        - [Spring-Boot-Admin监控](#Spring-Boot-Admin监控)
 - [全链路服务侧注解](#全链路服务侧注解)
 - [全链路服务侧API权限](#全链路服务侧API权限)
 - [元数据流量染色](#元数据流量染色)
@@ -3421,12 +3424,14 @@ public ServiceSentinelRequestOriginAdapter ServiceSentinelRequestOriginAdapter()
 ## 全链路监控
 
 ### 全链路调用链监控
-调用链监控，在本文主要指蓝绿灰度调用链监控
 
-蓝绿灰度调用链主要包括如下15个参数，以n-d-service开头的是必选的，其它是可选的或者按照场景而定。使用者可以自行定义要传递的调用链参数，例如：traceId, spanId等；也可以自行定义要传递的业务调用链参数，例如：mobile, user等
+#### 蓝绿灰度埋点调用链监控
+① 内置蓝绿灰度埋点
+
+内置蓝绿灰度埋点，包括如下
 ```
 1. n-d-service-group - 服务所属组或者应用
-2. n-d-service-type - 服务类型，分为“网关”和“服务”
+2. n-d-service-type - 服务类型，分为网关端 | 服务端 | 控制台端 | 测试端，使用者只需要关注前两个即可
 3. n-d-service-id - 服务ID
 4. n-d-service-address - 服务地址，包括Host和Port
 5. n-d-service-version - 服务版本
@@ -3434,76 +3439,103 @@ public ServiceSentinelRequestOriginAdapter ServiceSentinelRequestOriginAdapter()
 7. n-d-service-env - 服务所属环境
 8. n-d-version - 版本路由值
 9. n-d-region - 区域路由值
-10. n-d-env - 环境值
+10. n-d-env - 环境路由值
 11. n-d-address - 地址路由值
 12. n-d-version-weight - 版本权重路由值
 13. n-d-region-weight - 区域权重路由值
 14. n-d-id-blacklist - 全局唯一ID屏蔽值
 15. n-d-address-blacklist - IP地址和端口屏蔽值
 ```
-蓝绿灰度调用链输出分为Header方式、调用链方式、日志MDC方式，三种方式可以并存使用。调用链方式支持WebMvc和WebFlux
+- n-d-service开头的埋点代表是服务自身的属性
+- n-d-开头的埋点是蓝绿灰度传递的策略路由值
 
-#### Header输出方式
-- Spring Cloud Gateway网关端自行会传输Header值（参考Discovery源码中的AbstractGatewayStrategyRouteFilter.java）
-- Zuul网关端自行会传输Header值（参考Discovery源码中的AbstractZuulStrategyRouteFilter.java）
-- 服务端通过Feign和RestTemplate拦截器传输Header值（参考Discovery源码中的FeignStrategyInterceptor.java和RestTemplateStrategyInterceptor.java）
+② 外置自定义埋点
 
-#### 调用链输出方式
-调用链输出方式以OpenTracing + Jaeger为例来说明
+用户可以自定义外置埋点
+- 自定义要传递的调用链参数，例如：traceId，spanId等
+- 自定义要传递的业务参数，例如：mobile，user等
 
-- Jaeger服务器版本，推荐用最新版本，从[https://github.com/jaegertracing/jaeger/releases](https://github.com/jaegertracing/jaeger/releases)获取
-- 执行Postman调用后，访问[http://localhost:16686](http://localhost:16686)查看蓝绿灰度调用链
-- 蓝绿灰度调用链支持WebMvc和WebFlux两种方式，以NEPXION字样（可自定义）的标记来标识
-- 支持对Sentinel自动埋点
+③ 跟调用链中间件集成
 
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意，因为OpenTracing规范不仅仅只被Jaeger所遵守，所以框架并没有直接引入Jaeger包，需要使用者自行引入，可以参照指南示例中的pom.xml引用
-```xml
-<dependency>
-    <groupId>io.opentracing.contrib</groupId>
-    <artifactId>opentracing-spring-cloud-starter</artifactId>
-</dependency>
-
-<dependency>
-    <groupId>io.opentracing.contrib</groupId>
-    <artifactId>opentracing-spring-jaeger-starter</artifactId>
-</dependency>
-```
-
-集成OpenTracing + Jaeger蓝绿灰度全链路监控
+- 集成OpenTracing + Jaeger蓝绿灰度全链路监控
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger2.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger3.jpg)
-
-集成OpenTracing + Jaeger + Sentinel限流熔断降级权限埋点全链路监控
-
-![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger6.jpg)
-
-集成主流中间件 + 蓝绿灰度全链路监控
-代码请从[指南示例高级版](https://github.com/Nepxion/DiscoveryGuide)获取，分支为premium。运行出下图强大效果的前提，需要事先搭建Nacos、Jaeger、ActiveMQ、MongoDB、RabbitMQ、Redis、RocketMQ以及MySQL数据库等环境
-使用者如果不想搭建环境，想直接观看效果，可以直接把离线数据tracing.json（位于根目录下）导入到Jaeger界面（JSON File栏，拖进去即可），观看到下图效果
-
 ![](http://nepxion.gitee.io/docs/discovery-doc/JaegerPremium1.jpg)
 
-集成OpenTracing + SkyWalking蓝绿灰度全链路监控
+- 集成OpenTracing + SkyWalking蓝绿灰度全链路监控
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/SkyWalking1.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/SkyWalking2.jpg)
 
-集成OpenTracing + SkyWalking + Sentinel限流熔断降级权限埋点全链路监控
+#### 蓝绿灰度埋点Debug辅助监控
+Debug辅助监控只是通过普通的System.out.println方式输出，便于开发人员在IDE上调试，在生产环境下不建议开启
+
+① 网关端和服务端自身蓝绿灰度埋点Debug辅助监控
+```
+------------------ Logger Debug ------------------
+trace-id=dade3982ae65e9e1
+span-id=997e31021e9fce20
+n-d-service-group=discovery-guide-group
+n-d-service-type=service
+n-d-service-id=discovery-guide-service-a
+n-d-service-address=172.27.208.1:3001
+n-d-service-version=1.0
+n-d-service-region=dev
+n-d-service-env=env1
+n-d-service-zone=zone1
+n-d-version={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
+mobile=13812345678
+user=
+--------------------------------------------------
+```
+
+② 服务端Feign或者RestTemplate拦截输入的蓝绿灰度埋点Debug辅助监控
+```
+------- Feign Intercept Input Header Information -------
+n-d-service-group=discovery-guide-group
+n-d-version={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
+n-d-service-type=gateway
+n-d-service-id=discovery-guide-zuul
+n-d-service-env=default
+mobile=13812345678
+n-d-service-region=default
+n-d-service-zone=default
+n-d-service-address=172.27.208.1:5002
+n-d-service-version=1.0
+--------------------------------------------------
+```
+
+③ 服务端Feign或者RestTemplate拦截输出的蓝绿灰度埋点Debug辅助监控
+```
+------- Feign Intercept Output Header Information ------
+mobile=[13812345678]
+n-d-service-address=[172.27.208.1:3001]
+n-d-service-env=[env1]
+n-d-service-group=[discovery-guide-group]
+n-d-service-id=[discovery-guide-service-a]
+n-d-service-region=[dev]
+n-d-service-type=[service]
+n-d-service-version=[1.0]
+n-d-service-zone=[zone1]
+n-d-version=[{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}]
+--------------------------------------------------
+```
+
+#### Sentinel熔断埋点调用链监控
+
+- 集成OpenTracing + Jaeger + Sentinel限流熔断降级权限埋点全链路监控
+
+![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger6.jpg)
+
+- 集成OpenTracing + SkyWalking + Sentinel限流熔断降级权限埋点全链路监控
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/SkyWalking3.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/SkyWalking4.jpg)
 
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意如下配置，将决定终端界面的显示
+#### 自定义埋点调用链监控
+① 自定义调用链上下文参数的创建，继承DefaultStrategyTracerAdapter
 
-- 如果开启，蓝绿灰度信息输出到独立的Span节点中，意味着在界面显示中，蓝绿灰度信息通过独立的NEPXION Span节点来显示
-- 如果关闭，蓝绿灰度信息输出到原生的Span节点中，意味着在界面显示中，蓝绿灰度信息会和原生Span节点的调用信息、协议信息等合在一起
-```
-# 启动和关闭调用链的蓝绿灰度信息以独立的Span节点输出，如果关闭，则蓝绿灰度信息输出到原生的Span节点中（SkyWalking不支持原生模式）。缺失则默认为true
-spring.application.strategy.tracer.separate.span.enabled=true
-```
-
-自定义调用链上下文参数的创建（该类不是必须的），继承DefaultStrategyTracerAdapter
 ```java
 // 自定义调用链上下文参数的创建
 // 对于getTraceId和getSpanId方法，在OpenTracing等调用链中间件引入的情况下，由调用链中间件决定，在这里定义不会起作用；在OpenTracing等调用链中间件未引入的情况下，在这里定义才有效，下面代码中表示从Http Header中获取，并全链路传递
@@ -3529,7 +3561,7 @@ public class MyStrategyTracerAdapter extends DefaultStrategyTracerAdapter {
     }
 }
 ```
-在配置类里@Bean方式进行调用链类创建，覆盖框架内置的调用链类
+在配置类里@Bean方式进行调用链类创建，覆盖框架内置的调用链适配器
 ```java
 @Bean
 public StrategyTracerAdapter strategyTracerAdapter() {
@@ -3537,7 +3569,7 @@ public StrategyTracerAdapter strategyTracerAdapter() {
 }
 ```
 
-自定义类方法上入参和出参输出到调用链（该类不是必须的），继承ServiceStrategyMonitorAdapter
+② 自定义类方法上入参和出参输出到调用链，继承ServiceStrategyMonitorAdapter
 ```java
 // 自定义类方法上入参和出参输出到调用链
 // parameterMap格式：
@@ -3562,7 +3594,7 @@ public ServiceStrategyMonitorAdapter serviceStrategyMonitorAdapter() {
 }
 ```
 
-业务方法上获取TraceId和SpanId
+③ 业务方法上获取TraceId和SpanId
 ```java
 public class MyClass {
     @Autowired
@@ -3576,7 +3608,7 @@ public class MyClass {
 }
 ```
 
-对于调用链功能的开启和关闭，需要通过如下开关做控制
+对于全链路监控功能的开启和关闭，需要通过如下开关做控制
 ```
 # 启动和关闭监控，一旦关闭，调用链和日志输出都将关闭。缺失则默认为false
 spring.application.strategy.monitor.enabled=true
@@ -3596,18 +3628,10 @@ spring.application.strategy.tracer.rule.output.enabled=true
 spring.application.strategy.tracer.exception.detail.output.enabled=true
 # 启动和关闭类方法上入参和出参输出到调用链。缺失则默认为false
 spring.application.strategy.tracer.method.context.output.enabled=true
-```
-
-对于蓝绿灰度Span输出在调用链界面上的显示，提供如下配置
-```
 # 显示在调用链界面上蓝绿灰度Span的名称，建议改成具有公司特色的框架产品名称。缺失则默认为NEPXION
 spring.application.strategy.tracer.span.value=NEPXION
 # 显示在调用链界面上蓝绿灰度Span Tag的插件名称，建议改成具有公司特色的框架产品的描述。缺失则默认为Nepxion Discovery
 spring.application.strategy.tracer.span.tag.plugin.value=Nepxion Discovery
-```
-
-对Sentinel自动埋点，有如下两个参数默认处于关闭状态，但因为原生的Sentinel不是Spring技术栈，下面参数必须通过-D方式或者System.setProperty方式等设置进去
-```
 # 启动和关闭Sentinel调用链上规则在Span上的输出，注意：原生的Sentinel不是Spring技术栈，下面参数必须通过-D方式或者System.setProperty方式等设置进去。缺失则默认为true
 spring.application.strategy.tracer.sentinel.rule.output.enabled=true
 # 启动和关闭Sentinel调用链上方法入参在Span上的输出，注意：原生的Sentinel不是Spring技术栈，下面参数必须通过-D方式或者System.setProperty方式等设置进去。缺失则默认为false
@@ -3636,22 +3660,74 @@ spring.application.strategy.tracer.sentinel.args.output.enabled=true
 ```
 上述方式也适用于其它引入了低版本reactor-core包版本兼容性的场景
 
-#### 日志输出方式
-可以单独输出，也可以结合调用链一起组合输出，使用方式跟调用链方式类似 
+### 全链路日志监控
 
-参考在IDE控制台打印的结果
+#### 蓝绿灰度埋点日志监控
+
+蓝绿灰度埋点日志输出，需要使用者配置logback.xml或者log4j.xml日志格式，参考如下
+```xml
+<!-- Logback configuration. See http://logback.qos.ch/manual/index.html -->
+<configuration scan="true" scanPeriod="10 seconds">
+    <!-- Simple file output -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- encoder defaults to ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
+        <encoder>
+            <pattern>discovery %date %level [%thread] [%X{trace-id}] [%X{span-id}] [%X{n-d-service-group}] [%X{n-d-service-type}] [%X{n-d-service-app-id}] [%X{n-d-service-id}] [%X{n-d-service-address}] [%X{n-d-service-version}] [%X{n-d-service-region}] [%X{n-d-service-env}] [%X{n-d-service-zone}] [%X{mobile}] [%X{user}] %logger{10} [%file:%line] - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>log/discovery-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>50MB</maxFileSize>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <!-- Safely log to the same file from multiple JVMs. Degrades performance! -->
+        <prudent>true</prudent>
+    </appender>
+
+    <appender name="FILE_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>512</queueSize>
+        <appender-ref ref="FILE" />
+    </appender>
+
+    <!-- Console output -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoder defaults to ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
+        <encoder>
+            <pattern>discovery %date %level [%thread] [%X{trace-id}] [%X{span-id}] [%X{n-d-service-group}] [%X{n-d-service-type}] [%X{n-d-service-app-id}] [%X{n-d-service-id}] [%X{n-d-service-address}] [%X{n-d-service-version}] [%X{n-d-service-region}] [%X{n-d-service-env}] [%X{n-d-service-zone}] [%X{mobile}] [%X{user}] %logger{10} [%file:%line] - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!-- Only log level WARN and above -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+    </appender>
+
+    <!-- For loggers in the these namespaces, log at all levels. -->
+    <logger name="pedestal" level="ALL" />
+    <logger name="hammock-cafe" level="ALL" />
+    <logger name="user" level="ALL" />
+
+    <root level="INFO">
+        <!-- <appender-ref ref="FILE_ASYNC" /> -->
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>
+```
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Tracer.jpg)
 
 ### 全链路指标监控
 
-#### Prometheus监控方式
+#### Prometheus监控
 ![](http://nepxion.gitee.io/docs/discovery-doc/Prometheus.jpg)
 
-#### Grafana监控方式
+#### Grafana监控
 ![](http://nepxion.gitee.io/docs/discovery-doc/Grafana.jpg)
 
-#### Spring-Boot-Admin监控方式
+#### Spring-Boot-Admin监控
 ![](http://nepxion.gitee.io/docs/discovery-doc/Admin1.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Admin7.jpg)
 
