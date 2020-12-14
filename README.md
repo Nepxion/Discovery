@@ -2075,6 +2075,27 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 
 ## 全链路蓝绿灰度发布编排建模和流量侦测
 
+① 获取图形化桌面端
+
+桌面端获取方式有两种方式
+- 通过[https://github.com/Nepxion/DiscoveryUI/releases](https://github.com/Nepxion/DiscoveryUI/releases)下载最新版本的discovery-desktop-release
+- 编译[https://github.com/Nepxion/DiscoveryUI](https://github.com/Nepxion/DiscoveryUI)下的desktop，在target目录下，产生discovery-desktop-release
+
+② 启动控制台
+- 通过[https://github.com/Nepxion/DiscoveryPlatform](https://github.com/Nepxion/DiscoveryPlatform)下载最新版本的控制台
+- 导入IDE或者编译成Spring Boot程序运行
+- 运行之前，先修改src/main/resources/bootstrap.properties的相关配置，包括注册中心和配置中心的地址等
+
+③ 启动图形化桌面端
+- 修改config/console.properties中的url，指向控制台的地址
+- 在Windows操作系统下，运行startup.bat，在Mac或者Linux操作系统下，运行startup.sh
+
+④ 登录图形化桌面端
+
+登录认证，用户名和密码为admin/admin或者nepxion/nepxion。控制台支持简单的认证，用户名和密码配置在上述控制台的bootstrap.properties中，使用者可以自己扩展AuthenticationResource并注入，实现更专业的认证功能
+
+![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryDesktop8.jpg)
+
 ### 编排建模
 - 蓝绿发布编排建模界面
 
@@ -2873,87 +2894,8 @@ Redis订阅推送界面
 ![](http://nepxion.gitee.io/docs/discovery-doc/Swagger2.jpg)
 
 ### 基于图形化桌面端和Web端的规则策略推送
-![](http://nepxion.gitee.io/docs/icon-doc/information.png) 下面两种方式有点古老，并不再维护，请斟酌使用
 
-基于图形化桌面程序的灰度发布路由
-
-![](http://nepxion.gitee.io/docs/discovery-doc/Console1.jpg)
-![](http://nepxion.gitee.io/docs/discovery-doc/Console2.jpg)
-
-① 桌面程序对Windows和Mac操作系统都支持，但在Mac操作系统中界面显示有点瑕疵，但不影响功能使用
-
-② 下载代码，Git clone [https://github.com/Nepxion/Discovery.git](https://github.com/Nepxion/Discovery.git)
-
-③ 通过IDE启动
-
-- 运行discovery-console-desktop\ConsoleLauncher.java启动
-
-④ 通过脚本启动
-
-- 在discovery-console-desktop目录下执行mvn clean install，target目录下将产生discovery-console-desktop-[版本号]-release的目录
-- 进入discovery-console-desktop-[版本号]-release，请修改config/console.properties中的url，该地址指向控制平台的地址
-- 运行“Discovery灰度发布控制台.bat”，启动桌面程序
-- 如果您是操作系统，请参考“Discovery灰度发布控制台.bat”，自行编写“Discovery灰度发布控制台.sh”脚本，启动桌面程序
-
-⑤ 操作界面
-
-- 登录认证，用户名和密码为admin/admin或者nepxion/nepxion。顺便说一下，控制台支持简单的认证，用户名和密码配置在discovery-springcloud-example-console\bootstrap.properties中，您可以自己扩展AuthenticationResource并注入，实现更专业的认证功能
-
-![](http://nepxion.gitee.io/docs/discovery-doc/Console0.jpg)
-
-- 点击【显示服务拓扑】按钮，弹出【服务集群组过滤】对话框，列表是以服务所在的集群组列表（例如：eureka.instance.metadataMap.group=example-service-group），选择若干个并点击【确定】按钮，如果使用者想获取全部的服务集群（可能会耗性能），则直接点击【取消】按钮
-
-![](http://nepxion.gitee.io/docs/discovery-doc/Console4.jpg)
-
-- 从服务注册发现中心获取服务拓扑
-
-![](http://nepxion.gitee.io/docs/discovery-doc/Console5.jpg)
-
-- 执行灰度路由，选择一个服务，右键菜单【执行灰度路由】
-
-![](http://nepxion.gitee.io/docs/discovery-doc/Console6.jpg)
-
-- 通过【服务列表】切换，或者点击增加和删除服务按钮，确定灰度路由路径，点击【执行路由】
-
-![](http://nepxion.gitee.io/docs/discovery-doc/Console7.jpg)
-![](http://nepxion.gitee.io/docs/discovery-doc/Console2.jpg)
-
-- 推送模式设置，【异步推送】和【同步推送】，前者是推送完后立刻返回，后者是推送完后等待推送结果（包括规则XML解析的异常等都能在界面上反映出来）；【规则推送到远程配置中心】和【规则推送到服务或者服务集群】，前者是推送到配置中心（持久化），后者是推送到一个或者多个服务机器的内存（非持久化，重启后丢失）
-
-![](http://nepxion.gitee.io/docs/discovery-doc/Console8.jpg)
-
-- 执行灰度发布，选择一个服务或者服务组，右键菜单【执行灰度发布】，前者是通过单个服务实例执行灰度发布，后者是通过一组服务实例执行灰度发布
-
-![](http://nepxion.gitee.io/docs/discovery-doc/Console9.jpg)
-
-- 灰度发布，包括【更改版本】和【更改规则】，前者通过更改版本号去适配灰度规则中的版本匹配关系，后者直接修改规则。【更改版本】是推送到一个或者多个服务机器的内存（非持久化，重启后丢失），【更改规则】是根据不同的推送模式，两种方式都支持
-
-![](http://nepxion.gitee.io/docs/discovery-doc/Console10.jpg)
-
-- 全链路灰度发布，所有在同一个集群组（例如：eureka.instance.metadataMap.group=example-service-group）里的服务统一做灰度发布，即一个规则配置搞定所有服务的灰度发布。点击【全链路灰度发布】按钮，弹出【全链路灰度发布】对话框
-
-![](http://nepxion.gitee.io/docs/discovery-doc/Console11.jpg)
-![](http://nepxion.gitee.io/docs/discovery-doc/Console12.jpg)
-
-- 刷新灰度状态，选择一个服务或者服务组，右键菜单【刷新灰度状态】，查看某个服务或者服务组是否正在做灰度发布
-
-![](http://nepxion.gitee.io/docs/discovery-doc/Console13.jpg)
-
-⑥ 动画效果
-
-参考[图形化桌面程序的灰度发布路由动画效果](http://nepxion.gitee.io/videos/discovery-video/DiscoveryConsole.gif)
-
-⑥ 操作视频
-
-- 灰度发布的版本匹配功能，参考[Discovery灰度发布版本匹配演示视频](http://nepxion.gitee.io/videos/discovery-video/DiscoveryGrayRlease.wmv)
-- 灰度路由的版本匹配功能，参考[Discovery灰度路由版本匹配链演示视频](http://nepxion.gitee.io/videos/discovery-video/DiscoveryGrayRoute.wmv)
-
-基于图形化Web程序的灰度发布路由
-
-- 参考[图形化Web](https://github.com/Nepxion/DiscoveryUI)
-- 操作过程跟[基于图形化桌面端和Web端的规则策略推送](#基于图形化桌面端和Web端的规则策略推送)类似
-
-![](http://nepxion.gitee.io/docs/discovery-doc/Console14.jpg)
+参考[全链路蓝绿灰度发布编排建模和流量侦测](#全链路蓝绿灰度发布编排建模和流量侦测)
 
 ## 全链路环境隔离和路由
 基于服务实例的元数据Metadata的env参数和全链路传递的环境Header值进行对比实现隔离，当从网关传递来的环境Header（n-d-env）值和提供端实例的元数据Metadata环境配置值相等才能调用。环境隔离下，调用端实例找不到符合条件的提供端实例，把流量路由到一个通用或者备份环境
