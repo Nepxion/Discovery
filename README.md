@@ -2139,6 +2139,18 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 
 - 灰度发布编排建模界面
 
+① 导航栏上选择【全链路服务灰度发布】
+
+![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryDesktop13.jpg)
+
+根据[全链路版本条件权重灰度发布](#全链路版本条件权重灰度发布)示例中的场景
+
+② 在“灰度条件”中，“灰度条件”（灰度流量占比）选择95%，“稳定条件”（稳定流量占比）会自动切换成5%
+
+其它步骤跟[蓝绿发布编排建模界面](#蓝绿发布编排建模界面)相似，但比其简单
+
+![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryDesktop14.jpg)
+
 ### 流量侦测
 - 蓝绿发布流量侦测界面
 
