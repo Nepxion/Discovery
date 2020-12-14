@@ -3463,11 +3463,8 @@ public ServiceSentinelRequestOriginAdapter ServiceSentinelRequestOriginAdapter()
 
 集成OpenTracing + Jaeger蓝绿灰度全链路监控
 
-![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger1.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger2.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger3.jpg)
-![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger4.jpg)
-![](http://nepxion.gitee.io/docs/discovery-doc/Jaeger5.jpg)
 
 集成OpenTracing + Jaeger + Sentinel限流熔断降级权限埋点全链路监控
 
@@ -3478,8 +3475,6 @@ public ServiceSentinelRequestOriginAdapter ServiceSentinelRequestOriginAdapter()
 使用者如果不想搭建环境，想直接观看效果，可以直接把离线数据tracing.json（位于根目录下）导入到Jaeger界面（JSON File栏，拖进去即可），观看到下图效果
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/JaegerPremium1.jpg)
-![](http://nepxion.gitee.io/docs/discovery-doc/JaegerPremium2.jpg)
-![](http://nepxion.gitee.io/docs/discovery-doc/JaegerPremium3.jpg)
 
 集成OpenTracing + SkyWalking蓝绿灰度全链路监控
 
