@@ -110,15 +110,26 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
   - 全局订阅式蓝绿灰度发布
   - 全链路自定义网关、服务的过滤器、负载均衡策略类触发蓝绿灰度发布
   - 全链路动态变更元数据的蓝绿灰度发布
-  - 全链路蓝绿灰度发布容灾：发布失败下的版本故障转移、并行发布下的版本偏好
-  - 服务下线场景下全链路蓝绿灰度发布，实时性的流量绝对无损：全局唯一ID屏蔽、IP地址和端口屏蔽
-  - 异步场景下全链路蓝绿灰度发布：异步跨线程Agent插件、Hystrix线程池隔离插件
   - 全链路命名空间Namespace参数驱动的并行发布隔离
   - 全链路Header、Parameter、Cookie、域名、RPC Method等参数化规则策略驱动
   - 全链路本地和远程、局部和全局无参数化规则策略驱动
   - 全链路条件表达式、通配表达式支持
   - 全链路内置Header，支持定时Job的服务调用蓝绿灰度发布
-  - 全链路数据库和消息队列蓝绿发布：基于多Datasource的数据库蓝绿发布、基于多Queue的消息队列蓝绿发布
+- 全链路蓝绿灰度发布编排建模和流量侦测
+    - 编排建模
+    - 流量侦测
+- 全链路蓝绿灰度发布容灾
+  - 发布失败下的版本故障转移
+  - 并行发布下的版本偏好
+- 服务下线场景下全链路蓝绿灰度发布，实时性的流量绝对无损
+  - 全局唯一ID屏蔽
+  - IP地址和端口屏蔽
+- 异步场景下全链路蓝绿灰度发布
+  - 异步跨线程Agent插件
+  - Hystrix线程池隔离插件
+- 全链路数据库和消息队列蓝绿发布
+  - 基于多Datasource的数据库蓝绿发布
+  - 基于多Queue的消息队列蓝绿发布
 - 全链路规则策略推送
     - 基于远程配置中心的规则策略订阅推送
     - 基于Swagger和Rest的规则策略推送
@@ -147,7 +158,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - 全链路监控
     - 蓝绿灰度埋点和熔断埋点的调用链监控
     - 蓝绿灰度埋点和熔断埋点的日志监控
-- 全链路蓝绿灰度流量侦测
 - 全链路服务侧注解
 - 全链路服务侧API权限
 - 元数据流量染色
@@ -157,10 +167,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - 注册中心动态化的元数据流量染色
     - 用户自定义的元数据流量染色
 - 多活、多云、多机房流量切换
-- 图形化桌面
-    - 服务治理
-    - 发布编排建模
-    - 流量侦测
 - Docker容器化和Kubernetes平台的无缝支持部署
 - 自动化测试、压力测试
 
@@ -401,19 +407,22 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [全链路自定义过滤器触发蓝绿灰度发布](#全链路自定义过滤器触发蓝绿灰度发布)
         - [全链路自定义负载均衡策略类触发蓝绿灰度发布](#全链路自定义负载均衡策略类触发蓝绿灰度发布)
     - [全链路动态变更元数据的蓝绿灰度发布](#全链路动态变更元数据的蓝绿灰度发布)
-    - [全链路蓝绿灰度发布容灾](#全链路蓝绿灰度发布容灾)
-        - [发布失败下的版本故障转移](#发布失败下的版本故障转移)
-        - [并行发布下的版本偏好](#并行发布下的版本偏好)
-    - [服务下线场景下全链路蓝绿灰度发布](#服务下线场景下全链路蓝绿灰度发布)
-        - [全局唯一ID屏蔽](#全局唯一ID屏蔽)
-        - [IP地址和端口屏蔽](#IP地址和端口屏蔽)
-    - [全链路数据库和消息队列蓝绿发布](#全链路数据库和消息队列蓝绿发布)
+- [全链路蓝绿灰度发布编排建模和流量侦测](#全链路蓝绿灰度发布编排建模和流量侦测)
+    - [编排建模](#编排建模)
+    - [流量侦测](#流量侦测)
+- [全链路蓝绿灰度发布容灾](#全链路蓝绿灰度发布容灾)
+    - [发布失败下的版本故障转移](#发布失败下的版本故障转移)
+    - [并行发布下的版本偏好](#并行发布下的版本偏好)
+- [服务下线场景下全链路蓝绿灰度发布](#服务下线场景下全链路蓝绿灰度发布)
+    - [全局唯一ID屏蔽](#全局唯一ID屏蔽)
+    - [IP地址和端口屏蔽](#IP地址和端口屏蔽)
 - [异步场景下全链路蓝绿灰度发布](#异步场景下全链路蓝绿灰度发布)
     - [异步场景下DiscoveryAgent解决方案](#异步场景下DiscoveryAgent解决方案)
         - [异步跨线程DiscoveryAgent获取](#异步跨线程DiscoveryAgent获取)
         - [异步跨线程DiscoveryAgent使用](#异步跨线程DiscoveryAgent使用)
         - [异步跨线程DiscoveryAgent扩展](#异步跨线程DiscoveryAgent扩展)
     - [异步场景下Hystrix线程池隔离解决方案](#异步场景下Hystrix线程池隔离解决方案)
+- [全链路数据库和消息队列蓝绿发布](#全链路数据库和消息队列蓝绿发布)
 - [规则策略定义](#规则策略定义)
     - [规则策略格式定义](#规则策略格式定义)
     - [规则策略内容定义](#规则策略内容定义)
@@ -465,7 +474,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [Prometheus监控方式](#Prometheus监控方式)
         - [Grafana监控方式](#Grafana监控方式)
         - [Spring-Boot-Admin监控方式](#Spring-Boot-Admin监控方式)
-- [全链路蓝绿灰度流量侦测](#全链路蓝绿灰度流量侦测)
 - [全链路服务侧注解](#全链路服务侧注解)
 - [全链路服务侧API权限](#全链路服务侧API权限)
 - [元数据流量染色](#元数据流量染色)
@@ -2065,9 +2073,43 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 
 ③ 动态元数据变更方式只是让新的元数据驻留在内存里，并不持久化。当服务重启后，服务的元数据仍旧会以初始值为准
 
-### 全链路蓝绿灰度发布容灾
+## 全链路发布编排建模和流量侦测
 
-#### 发布失败下的版本故障转移
+### 编排建模
+① 蓝绿发布编排建模界面
+
+① 灰度发布编排建模界面
+
+### 流量侦测
+① 蓝绿发布流量侦测界面
+
+② 蓝绿发布流量侦测界面
+
+附录：流量侦测接口
+
+通过`discovery-plugin-admin-center-starter`内置基于LoadBalanced RestTemplate的接口方法，实现全链路侦测，用于查看全链路中调用的各个服务的版本、区域、环境、可用区、IP地址和端口等是否符合和满足蓝绿灰度条件。使用方式，如下
+
+- 请求方式
+```
+POST
+```
+- 请求路径
+
+网关为入口，路径为
+```
+http://[网关IP:PORT]/[A服务名]/inspector/inspect
+```
+服务为入口，路径为
+```
+http://[A服务IP:PORT]/inspector/inspect
+```
+- 请求内容，服务名列表不分前后次序
+```
+{"serviceIdList":["B服务名", "C服务名", ....]}
+
+## 全链路蓝绿灰度发布容灾
+
+### 发布失败下的版本故障转移
 版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例。其作用是防止蓝绿灰度版本发布人为设置错误，或者对应的版本实例发生灾难性的全部下线，导致流量有损
 
 故障转移方式，对版本号进行排序，此解决方案的前置条件是版本号必须是规律的有次序，例如，以时间戳的方式。如果所有服务实例的版本号未设置，那么将转移到未设置版本号的实例上
@@ -2078,7 +2120,7 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 spring.application.strategy.version.failover.enabled=true
 ```
 
-#### 并行发布下的版本偏好
+### 并行发布下的版本偏好
 版本偏好，即非蓝绿灰度发布场景下，路由到老的稳定版本的实例。其作用是防止多个网关上并行实施蓝绿灰度版本发布产生混乱，对处于非蓝绿灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；蓝绿灰度状态的服务，还是根据传递的Header版本号进行匹配
 
 偏好方式，对版本号进行排序，此解决方案的前置条件是版本号必须是规律的有次序，例如，以时间戳的方式。如果所有服务实例的版本号未设置，那么将转移到未设置版本号的实例上
@@ -2089,12 +2131,12 @@ spring.application.strategy.version.failover.enabled=true
 spring.application.strategy.version.prefer.enabled=true
 ```
 
-### 服务下线场景下全链路蓝绿灰度发布
+## 服务下线场景下全链路蓝绿灰度发布
 服务下线场景下，由于Ribbon负载均衡组件存在着缓存机制，当被提供端服务实例已经下线，而消费端服务实例还暂时缓存着它，直到下个心跳周期才会把已下线的服务实例剔除，在此期间，如果发生调用，会造成流量有损
 
 框架提供流量的实时性绝对无损策略。采用下线之前，把服务实例添加到屏蔽名单中，负载均衡不会去寻址该服务实例。下线之后，清除该名单。实现该方式，需要通过DevOps调用配置中心的Open API推送或者在配置中心界面手工修改，通过全局订阅方式实现，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名）
 
-#### 全局唯一ID屏蔽
+### 全局唯一ID屏蔽
 全局唯一ID对应于元数据spring.application.uuid字段，框架会自动把该ID注册到注册中心。此用法适用于Docker和Kubernetes上IP地址不确定的场景，策略内容如下，采用如下两种方式之一均可
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -2113,7 +2155,7 @@ spring.application.strategy.version.prefer.enabled=true
 
 也可以通过全链路传递Header方式实现
 
-#### IP地址和端口屏蔽
+### IP地址和端口屏蔽
 通过IP地址或者端口或者IP地址+端口进行屏蔽，支持通配方式。此用法适用于IP地址确定的场景，策略内容如下，采用如下两种方式之一均可
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -2132,59 +2174,6 @@ spring.application.strategy.version.prefer.enabled=true
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-12.jpg)
 
 也可以通过全链路传递Header方式实现
-
-### 全链路数据库和消息队列蓝绿发布
-通过订阅业务参数的变化，实现参数化蓝绿发布，例如，基于多Datasource的数据库蓝绿发布，基于多Queue的消息队列蓝绿发布
-
-增加参数化蓝绿发布规则，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名），规则内容如下，实现功能
-- 服务a在版本为1.0的时候，数据库的数据源指向db1；服务a在版本为1.1的时候，数据库的数据源指向db2
-- 服务b在区域为dev的时候，消息队列指向queue1；服务b在区域为dev的时候，消息队列指向queue2
-- 服务c在环境为env1的时候，数据库的数据源指向db1；服务c在环境为env2的时候，数据库的数据源指向db2
-- 服务d在可用区为zone1的时候，消息队列指向queue1；服务d在可用区为zone2的时候，消息队列指向queue2
-- 服务c在IP地址和端口为192.168.43.101:1201的时候，数据库的数据源指向db1；服务c在IP地址和端口为192.168.43.102:1201的时候，数据库的数据源指向db2
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-    <parameter>
-        <service service-name="discovery-guide-service-a" tag-key="version" tag-value="1.0" key="ShardingSphere" value="db1"/>
-        <service service-name="discovery-guide-service-a" tag-key="version" tag-value="1.1" key="ShardingSphere" value="db2"/>
-        <service service-name="discovery-guide-service-b" tag-key="region" tag-value="dev" key="RocketMQ" value="queue1"/>
-        <service service-name="discovery-guide-service-b" tag-key="region" tag-value="qa" key="RocketMQ" value="queue2"/>
-        <service service-name="discovery-guide-service-c" tag-key="env" tag-value="env1" key="ShardingSphere" value="db1"/>
-        <service service-name="discovery-guide-service-c" tag-key="env" tag-value="env2" key="ShardingSphere" value="db2"/>
-        <service service-name="discovery-guide-service-d" tag-key="zone" tag-value="zone1" key="RocketMQ" value="queue1"/>
-        <service service-name="discovery-guide-service-d" tag-key="zone" tag-value="zone2" key="RocketMQ" value="queue2"/>
-        <service service-name="discovery-guide-service-e" tag-key="address" tag-value="192.168.43.101:1201" key="ShardingSphere" value="db1"/>
-        <service service-name="discovery-guide-service-e" tag-key="address" tag-value="192.168.43.102:1201" key="ShardingSphere" value="db2"/>
-    </parameter>
-</rule>
-```
-通过事件总线方式，对参数改变动态实现监听，并在此类里自行对接相关的数据库和消息队列中间件的切换和驱动
-```java
-@EventBus
-public class MySubscriber {
-    @Autowired
-    private PluginAdapter pluginAdapter;
-
-    @Subscribe
-    public void onParameterChanged(ParameterChangedEvent parameterChangedEvent) {
-        ParameterEntity parameterEntity = parameterChangedEvent.getParameterEntity();
-        String serviceId = pluginAdapter.getServiceId();
-        List<ParameterServiceEntity> parameterServiceEntityList = null;
-        if (parameterEntity != null) {
-            Map<String, List<ParameterServiceEntity>> parameterServiceMap = parameterEntity.getParameterServiceMap();
-            parameterServiceEntityList = parameterServiceMap.get(serviceId);
-        }
-        // parameterServiceEntityList为动态参数列表
-    }
-}
-```
-使用者可以通过如下开关，决定在服务启动过程中，读到参数配置的时候，是否要发送一个事件触发数据库和消息队列中间件的切换
-```
-# 启动和关闭在服务启动的时候参数订阅事件发送。缺失则默认为true
-spring.application.parameter.event.onstart.enabled=true
-```
-参考[https://github.com/Nepxion/DiscoveryContrib](https://github.com/Nepxion/DiscoveryContrib)里的实现方式
 
 ## 异步场景下全链路蓝绿灰度发布
 
@@ -2488,6 +2477,59 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 ```
 
 该方案也可以通过[异步场景下DiscoveryAgent解决方案](#异步场景下DiscoveryAgent解决方案)解决
+
+## 全链路数据库和消息队列蓝绿发布
+通过订阅业务参数的变化，实现参数化蓝绿发布，例如，基于多Datasource的数据库蓝绿发布，基于多Queue的消息队列蓝绿发布
+
+增加参数化蓝绿发布规则，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名），规则内容如下，实现功能
+- 服务a在版本为1.0的时候，数据库的数据源指向db1；服务a在版本为1.1的时候，数据库的数据源指向db2
+- 服务b在区域为dev的时候，消息队列指向queue1；服务b在区域为dev的时候，消息队列指向queue2
+- 服务c在环境为env1的时候，数据库的数据源指向db1；服务c在环境为env2的时候，数据库的数据源指向db2
+- 服务d在可用区为zone1的时候，消息队列指向queue1；服务d在可用区为zone2的时候，消息队列指向queue2
+- 服务c在IP地址和端口为192.168.43.101:1201的时候，数据库的数据源指向db1；服务c在IP地址和端口为192.168.43.102:1201的时候，数据库的数据源指向db2
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <parameter>
+        <service service-name="discovery-guide-service-a" tag-key="version" tag-value="1.0" key="ShardingSphere" value="db1"/>
+        <service service-name="discovery-guide-service-a" tag-key="version" tag-value="1.1" key="ShardingSphere" value="db2"/>
+        <service service-name="discovery-guide-service-b" tag-key="region" tag-value="dev" key="RocketMQ" value="queue1"/>
+        <service service-name="discovery-guide-service-b" tag-key="region" tag-value="qa" key="RocketMQ" value="queue2"/>
+        <service service-name="discovery-guide-service-c" tag-key="env" tag-value="env1" key="ShardingSphere" value="db1"/>
+        <service service-name="discovery-guide-service-c" tag-key="env" tag-value="env2" key="ShardingSphere" value="db2"/>
+        <service service-name="discovery-guide-service-d" tag-key="zone" tag-value="zone1" key="RocketMQ" value="queue1"/>
+        <service service-name="discovery-guide-service-d" tag-key="zone" tag-value="zone2" key="RocketMQ" value="queue2"/>
+        <service service-name="discovery-guide-service-e" tag-key="address" tag-value="192.168.43.101:1201" key="ShardingSphere" value="db1"/>
+        <service service-name="discovery-guide-service-e" tag-key="address" tag-value="192.168.43.102:1201" key="ShardingSphere" value="db2"/>
+    </parameter>
+</rule>
+```
+通过事件总线方式，对参数改变动态实现监听，并在此类里自行对接相关的数据库和消息队列中间件的切换和驱动
+```java
+@EventBus
+public class MySubscriber {
+    @Autowired
+    private PluginAdapter pluginAdapter;
+
+    @Subscribe
+    public void onParameterChanged(ParameterChangedEvent parameterChangedEvent) {
+        ParameterEntity parameterEntity = parameterChangedEvent.getParameterEntity();
+        String serviceId = pluginAdapter.getServiceId();
+        List<ParameterServiceEntity> parameterServiceEntityList = null;
+        if (parameterEntity != null) {
+            Map<String, List<ParameterServiceEntity>> parameterServiceMap = parameterEntity.getParameterServiceMap();
+            parameterServiceEntityList = parameterServiceMap.get(serviceId);
+        }
+        // parameterServiceEntityList为动态参数列表
+    }
+}
+```
+使用者可以通过如下开关，决定在服务启动过程中，读到参数配置的时候，是否要发送一个事件触发数据库和消息队列中间件的切换
+```
+# 启动和关闭在服务启动的时候参数订阅事件发送。缺失则默认为true
+spring.application.parameter.event.onstart.enabled=true
+```
+参考[https://github.com/Nepxion/DiscoveryContrib](https://github.com/Nepxion/DiscoveryContrib)里的实现方式
 
 ## 规则策略定义
 
@@ -3609,35 +3651,6 @@ spring.application.strategy.tracer.sentinel.args.output.enabled=true
 #### Spring-Boot-Admin监控方式
 ![](http://nepxion.gitee.io/docs/discovery-doc/Admin1.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Admin7.jpg)
-
-## 全链路蓝绿灰度流量侦测
-通过内置基于LoadBalanced RestTemplate方式的/inspector/inspect接口方法，实现全链路侦测，可以查看全链路中调用的各个服务的版本、区域、环境、可用区、IP地址和端口等是否符合预期，是否满足蓝绿灰度条件，该接口可以集成到使用者的界面中，就可以规避通过Postman工具或者调用链系统去判断，有利于节省人工成本。使用方式，如下
-
-执行Post请求，请求的路径和内容分成网关为入口和服务为入口两种场景
-
-① 网关为入口的侦测请求
-
-路径为
-```
-http://[网关IP:PORT]/[服务名1]/inspector/inspect
-```
-内容为
-```
-{"serviceIdList":["服务名2", "服务名3", ....]}
-```
-服务名不分前后次序
-
-② 服务为入口的侦测请求
-
-路径为
-```
-http://[服务IP:PORT]/inspector/inspect
-```
-内容为
-```
-{"serviceIdList":["服务名1", "服务名2", ....]}
-```
-服务名不分前后次序
 
 ## 全链路服务侧注解
 服务侧对于RPC方式的调用拦截、消费端的服务隔离和调用链三项功能，默认映射到RestController类（含有@RestController注解），并配合如下的扫描路径才能工作
