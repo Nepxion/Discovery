@@ -2079,7 +2079,7 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 
 桌面端获取方式有两种方式
 - 通过[https://github.com/Nepxion/DiscoveryUI/releases](https://github.com/Nepxion/DiscoveryUI/releases)下载最新版本的discovery-desktop-release
-- 编译[https://github.com/Nepxion/DiscoveryUI](https://github.com/Nepxion/DiscoveryUI)下的desktop，在target目录下，产生discovery-desktop-release
+- 编译[https://github.com/Nepxion/DiscoveryUI](https://github.com/Nepxion/DiscoveryUI)下的desktop，在target目录下产生discovery-desktop-release
 
 ② 启动控制台
 - 通过[https://github.com/Nepxion/DiscoveryPlatform](https://github.com/Nepxion/DiscoveryPlatform)下载最新版本的控制台
@@ -2094,10 +2094,44 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 
 登录认证，用户名和密码为admin/admin或者nepxion/nepxion。控制台支持简单的认证，用户名和密码配置在上述控制台的bootstrap.properties中，使用者可以自己扩展AuthenticationResource并注入，实现更专业的认证功能
 
-![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryDesktop8.jpg)
+ ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryDesktop8.jpg)
 
 ### 编排建模
+
+编排建模工具，只提供最经典和常用的蓝绿灰度发布场景功能，并不覆盖框架所有的功能
+
 - 蓝绿发布编排建模界面
+
+![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryDesktop9.jpg)
+
+①  导航栏上选择【全链路服务蓝绿发布】
+
+②  `全链路服务蓝绿发布`界面的工具栏上，点击【新建】按钮，弹出【新建配置】对话框
+
+③ `订阅参数`项。选择 `局部订阅`或者`全局订阅`，通过下拉菜单`订阅组名`和`订阅服务名`，`订阅服务名`可以选择网关（以网关为发布入口）或者服务（以服务为发布入口）。如果是`全局订阅`，则不需要选择`订阅服务名`。
+
+④ `部署参数`项。选择 `域网关模式`（发布界面上提供只属于`订阅组`下的服务列表）或者`非域网模式`（发布界面上提供所有服务列表）
+
+④ `发布策略`项。选择 `版本策略`或者`区域策略`
+
+⑤ 点击【确定】按钮后，进行蓝绿发布编排建模
+
+根据[全链路版本条件匹配蓝绿发布](#全链路版本条件匹配蓝绿发布)示例中的场景
+
+⑥ 在`蓝绿条件`中，`蓝条件`输入a==1，`绿条件`输入a==1&&b==2。使用者可以通过`条件校验`来判断条件是否正确，例如，在`绿条件`区的校验文本框里，输入a=1，执行校验，将提示`校验结果:false`，输入a=1;b=2，将提示`校验结果:true`
+
+⑦ 在`蓝绿编排`中，分别选择如下服务以及其版本，并点击【添加】按钮，把路由链路添加到拓扑图上
+
+服务discovery-guide-service-a，`蓝版本` 1.1，`绿版本` 1.0， `兜底版本` 1.0<br>
+服务discovery-guide-service-b，`蓝版本` 1.1，`绿版本` 1.0， `兜底版本` 1.0<br>
+
+![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryDesktop10.jpg)
+
+⑧ 如果希望内置Header参数，可以`蓝绿参数`的文本框中输入
+
+⑨ 编排建模完毕，点击工具栏上【保存】按钮进行保存，也可以先点击【预览】按钮，查看规则策略后再保存。使用者可以访问Nacos界面查看相关的规则策略是否已经存在
+
+![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryDesktop11.jpg)
 
 - 灰度发布编排建模界面
 
