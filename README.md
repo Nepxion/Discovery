@@ -110,7 +110,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
   - 全局订阅式蓝绿灰度发布
   - 全链路自定义网关、服务的过滤器、负载均衡策略类触发蓝绿灰度发布
   - 全链路动态变更元数据的蓝绿灰度发布
-  - 全链路命名空间Namespace参数驱动的并行发布隔离
   - 全链路Header、Parameter、Cookie、域名、RPC Method等参数化规则策略驱动
   - 全链路本地和远程、局部和全局无参数化规则策略驱动
   - 全链路条件表达式、通配表达式支持
@@ -161,24 +160,24 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - 全链路服务侧注解
 - 全链路服务侧API权限
 - 元数据流量染色
-    - 插件式自动化的元数据流量染色
+    - Git插件自动化的元数据流量染色
     - 服务名前缀的元数据流量染色
     - 运维平台参数化的元数据流量染色
     - 注册中心动态化的元数据流量染色
     - 用户自定义的元数据流量染色
 - 多活、多云、多机房流量切换
-- Docker容器化和Kubernetes平台的无缝支持部署
+- Docker容器化和Kubernetes平台无缝支持部署
 - 自动化测试、压力测试
 
 ③ 微服务框架易用性表现，如下
 - 引入相关依赖到pom.xml
 - 元数据Metadata流量染色。5大元数据根据不同的使用场景按需设置
-    - 定义所属组名：metadata.group，也可以通过服务名前缀来自动产生服务组名
-    - 定义版本号：metadata.version，也可以通过Git插件方式自动产生版本号
-    - 定义所属区域名：metadata.region
-    - 定义所属环境：metadata.env
-    - 定义所属可用区：metadata.zone
-- 执行采用“约定大于配置”的准则，使用者根据不同的使用场景开启和关闭相关功能项或者属性值，达到最佳配置
+    - 定义所属组名 - metadata.group，也可以通过服务名前缀来自动产生服务组名
+    - 定义版本号 - metadata.version，也可以通过Git插件方式自动产生版本号
+    - 定义所属区域名 - metadata.region
+    - 定义所属环境 - metadata.env
+    - 定义所属可用区 - metadata.zone
+- 执行采用【约定大于配置】的准则，使用者根据不同的使用场景开启和关闭相关功能项或者属性值，达到最佳配置
 - 规则策略文件设置和推送，或者通过业务Header、Parameter、Cookie触发，并通过Json格式的Header路由策略全链路传递
 
 ④ 微服务框架版本兼容列表，如下
@@ -477,8 +476,8 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - [全链路服务侧注解](#全链路服务侧注解)
 - [全链路服务侧API权限](#全链路服务侧API权限)
 - [元数据流量染色](#元数据流量染色)
-    - [基于服务名前缀自动创建组名](#基于服务名前缀自动创建组名)
     - [基于Git插件自动创建版本号](#基于Git插件自动创建版本号)
+    - [基于服务名前缀自动创建组名](#基于服务名前缀自动创建组名)
     - [基于运维平台运行参数自动创建版本号](#基于运维平台运行参数自动创建版本号)
     - [基于用户自定义创建版本号](#基于用户自定义创建版本号)
 - [配置文件](#配置文件)
@@ -530,9 +529,9 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 ### 贡献主页
 
 感谢carl.zhao撰写的框架架构和源码分析的系列文档
-- [Nepxion Discovery：Spring Cloud灰度发布神器](https://carlzone.blog.csdn.net/article/details/109787397)
-- [Nepxion Discovery 灰度发布初体验](https://carlzone.blog.csdn.net/article/details/109839808)
-- [Nepxion Discovery 项目结构简介](https://carlzone.blog.csdn.net/article/details/110183368)
+- [Nepxion Discovery 之 Spring Cloud灰度发布神器](https://carlzone.blog.csdn.net/article/details/109787397)
+- [Nepxion Discovery 之 灰度发布初体验](https://carlzone.blog.csdn.net/article/details/109839808)
+- [Nepxion Discovery 之 项目结构简介](https://carlzone.blog.csdn.net/article/details/110183368)
 - [Nepxion Discovery 之 Spring Cloud 服务注册抽象](https://carlzone.blog.csdn.net/article/details/110428485)
 - [Nepxion Discovery 之 服务注册发现增强](https://carlzone.blog.csdn.net/article/details/110505550)
 - [Nepxion Discovery 之 Spring Cloud 负载均衡处理](https://carlzone.blog.csdn.net/article/details/110678839)
@@ -1100,8 +1099,6 @@ IP地址和端口匹配蓝绿发布架构图
 ⑦ 策略支持Spring Spel的条件表达式方式
 
 ⑧ 策略支持Spring Matcher的通配方式
-
-⑨ 支持并行蓝绿发布，通过namespace参数进行蓝绿发布隔离
 
 #### 全链路区域条件匹配蓝绿发布
 参考[全链路版本条件匹配蓝绿发布](#全链路版本条件匹配蓝绿发布)
@@ -2459,7 +2456,7 @@ public class MyApplication {
 完整示例，请参考[https://github.com/Nepxion/DiscoveryAgent/tree/master/discovery-agent-example](https://github.com/Nepxion/DiscoveryAgent/tree/master/discovery-agent-example)。上述自定义插件的方式，即可解决使用者在线程切换时丢失ThreadLocal上下文的问题
 
 ### 异步场景下Hystrix线程池隔离解决方案
-通过引入Hystrix组件实现服务限流熔断的功能。全链路策略路由Header和调用链Span在Hystrix线程池隔离模式（信号量模式不需要引入）下传递时，通过线程上下文切换会存在丢失Header的问题，通过下述步骤解决，同时适用于网关端和服务端
+全链路策略路由Header和调用链Span在Hystrix线程池隔离模式（信号量模式不需要引入）下传递时，通过线程上下文切换会存在丢失Header的问题，通过下述步骤解决，同时适用于网关端和服务端
 
 ① Pom引入
 ```xml
@@ -2480,7 +2477,9 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 该方案也可以通过[异步场景下DiscoveryAgent解决方案](#异步场景下DiscoveryAgent解决方案)解决
 
 ## 全链路数据库和消息队列蓝绿发布
-通过订阅业务参数的变化，实现参数化蓝绿发布，例如，基于多Datasource的数据库蓝绿发布，基于多Queue的消息队列蓝绿发布
+通过订阅相关参数的变化，实现参数化蓝绿发布，可用于如下场景
+- 基于多Datasource的数据库蓝绿发布
+- 基于多Queue的消息队列蓝绿发布
 
 增加参数化蓝绿发布规则，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名），规则内容如下，实现功能
 - 服务a在版本为1.0的时候，数据库的数据源指向db1；服务a在版本为1.1的时候，数据库的数据源指向db2
@@ -3671,19 +3670,6 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 
 ## 元数据流量染色
 
-### 基于服务名前缀自动创建组名
-通过指定长度截断或者标志截断服务名的前缀来自动创建组名，这样就可以避免使用者手工维护组名。当两者都启用的时候，截断方式的组名优先级要高于手工配置的组名
-
-- 增加配置项
-```
-# 开启和关闭使用服务名前缀来作为服务组名。缺失则默认为false
-spring.application.group.generator.enabled=true
-# 服务名前缀的截断长度，必须大于0
-spring.application.group.generator.length=15
-# 服务名前缀的截断标志。当截断长度配置了，则取截断长度方式，否则取截断标志方式
-spring.application.group.generator.character=-
-```
-
 ### 基于Git插件自动创建版本号
 通过集成插件git-commit-id-plugin，通过产生git信息文件的方式，获取git.commit.id（最后一次代码的提交ID）或者git.build.version（对应到Maven工程的版本）来自动创建版本号，这样就可以避免使用者手工维护版本号。当两者都启用的时候，Git插件方式的版本号优先级要高于手工配置的版本号
 
@@ -3802,6 +3788,19 @@ spring.application.git.generator.path=file:git.json
 ```
 
 内置基于Swagger的Rest接口，可以供外部查询当前服务的Git信息
+
+### 基于服务名前缀自动创建组名
+通过指定长度截断或者标志截断服务名的前缀来自动创建组名，这样就可以避免使用者手工维护组名。当两者都启用的时候，截断方式的组名优先级要高于手工配置的组名
+
+- 增加配置项
+```
+# 开启和关闭使用服务名前缀来作为服务组名。缺失则默认为false
+spring.application.group.generator.enabled=true
+# 服务名前缀的截断长度，必须大于0
+spring.application.group.generator.length=15
+# 服务名前缀的截断标志。当截断长度配置了，则取截断长度方式，否则取截断标志方式
+spring.application.group.generator.character=-
+```
 
 ### 基于运维平台运行参数自动创建版本号
 外部系统（例如：运维发布平台）在远程启动微服务的时候，可以通过参数传递来动态改变元数据或者增加运维特色的参数，最后注册到远程配置中心。有如下两种方式
