@@ -1413,7 +1413,7 @@ spring.application.strategy.business.request.headers=user;mobile;location
 参考[全链路自定义负载均衡策略类触发蓝绿灰度发布](#全链路自定义负载均衡策略类触发蓝绿灰度发布)示例
 
 ### 全局订阅式蓝绿灰度发布
-如果使用者不希望通过全链路传递Header实现蓝绿灰度发布，框架提供另外一种很简单的方式来规避Header传递，但能达到Header传递一样的效果。以版本匹配为例
+如果使用者不希望通过全链路传递Header实现蓝绿灰度发布，框架提供另外一种规避Header传递的方式，即全局订阅式蓝绿灰度发布，也能达到Header传递一样的效果。以全链路版本匹配蓝绿发布为例
 
 增加版本匹配的蓝绿发布策略，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名），策略内容如下，实现a服务走1.0版本，b服务走1.1版本
 ```xml
@@ -2135,7 +2135,9 @@ spring.application.strategy.version.prefer.enabled=true
 框架提供流量的实时性绝对无损策略。采用下线之前，把服务实例添加到屏蔽名单中，负载均衡不会去寻址该服务实例。下线之后，清除该名单。实现该方式，需要通过DevOps调用配置中心的Open API推送或者在配置中心界面手工修改，通过全局订阅方式实现，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名）
 
 ### 全局唯一ID屏蔽
-全局唯一ID对应于元数据spring.application.uuid字段，框架会自动把该ID注册到注册中心。此用法适用于Docker和Kubernetes上IP地址不确定的场景，策略内容如下，采用如下两种方式之一均可
+① 远程配置方式
+
+全局唯一ID对应于元数据spring.application.uuid字段，框架会自动把该ID注册到注册中心，不需要用户自己配置，此用法适用于Docker和Kubernetes上IP地址不确定的场景。策略内容如下，采用如下两种方式之一均可
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
@@ -2151,10 +2153,14 @@ spring.application.strategy.version.prefer.enabled=true
 ```
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-11.jpg)
 
-也可以通过全链路传递Header方式实现
+② 全链路Header传递方式
+
+n-d-id-blacklist=e92edde5-0153-4ec8-9cbb-b4d3f415aa33;af043384-c8a5-451e-88f4-457914e8e3bc
 
 ### IP地址和端口屏蔽
-通过IP地址或者端口或者IP地址+端口进行屏蔽，支持通配方式。此用法适用于IP地址确定的场景，策略内容如下，采用如下两种方式之一均可
+① 远程配置方式
+
+通过IP地址或者端口或者IP地址+端口进行屏蔽，支持通配表达式方式，此用法适用于IP地址确定的场景。策略内容如下，采用如下两种方式之一均可
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
@@ -2171,7 +2177,9 @@ spring.application.strategy.version.prefer.enabled=true
 ```
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryGuide2-12.jpg)
 
-也可以通过全链路传递Header方式实现
+② 全链路Header传递方式
+
+n-d-address-blacklist=192.168.43.101:1201;192.168.*.102;1301
 
 ## 异步场景下全链路蓝绿灰度发布
 
@@ -3769,7 +3777,7 @@ git.tags=
 git.total.commit.count=765
 ```
 
-![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意，一般情况下，上述两个地方的配置都同时保持默认即可。对于一些特色化的用法，两个地方的配置项用法必须保持一致，例如
+![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意，一般情况下，上述两个地方的配置都同时保持默认即可。对于一些特殊的用法，两个地方的配置项用法必须保持一致，例如
 ```
 # 输出到工程根目录下
 <generateGitPropertiesFilename>${project.basedir}/git.json</generateGitPropertiesFilename>
@@ -3798,9 +3806,9 @@ spring.application.group.generator.character=-
 ```
 
 ### 基于运维平台运行参数自动创建版本号
-外部系统（例如：运维发布平台）在远程启动微服务的时候，可以通过参数传递来动态改变元数据或者增加运维特色的参数，最后注册到远程配置中心。有如下两种方式
-- 通过Program arguments来传递，它的用法是前面加“--”。支持Eureka、Zookeeper和Nacos的增量覆盖，Consul由于使用了全量覆盖的tag方式，不适用改变单个元数据的方式。例如：--spring.cloud.nacos.discovery.metadata.version=1.0
+运维平台在启动微服务的时候，可以通过参数方式初始化元数据，框架会自动把它注册到远程注册中心。有如下两种方式
 - 通过VM arguments来传递，它的用法是前面加“-D”。支持上述所有的注册组件，它的限制是变量前面必须要加“metadata.”，推荐使用该方式。例如：-Dmetadata.version=1.0
+- 通过Program arguments来传递，它的用法是前面加“--”。支持Eureka、Zookeeper和Nacos的增量覆盖，Consul由于使用了全量覆盖的tag方式，不适用改变单个元数据的方式。例如：--spring.cloud.nacos.discovery.metadata.version=1.0
 - 两种方式尽量避免同时用
 
 ### 基于用户自定义创建版本号
