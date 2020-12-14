@@ -44,6 +44,7 @@ public class DefaultServiceStrategyCallableWrapper implements ServiceStrategyCal
             @Override
             public T call() throws Exception {
                 try {
+                    RequestContextHolder.setRequestAttributes(requestAttributes);
                     RestStrategyContext.getCurrentContext().setRequestAttributes(requestAttributes);
                     RpcStrategyContext.getCurrentContext().setAttributes(attributes);
 
@@ -51,6 +52,7 @@ public class DefaultServiceStrategyCallableWrapper implements ServiceStrategyCal
 
                     return callable.call();
                 } finally {
+                    RequestContextHolder.resetRequestAttributes();
                     RestStrategyContext.clearCurrentContext();
                     RpcStrategyContext.clearCurrentContext();
 
