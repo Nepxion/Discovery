@@ -2248,13 +2248,13 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 
 #### 全链路蓝绿灰度发布混合流量侦测
 
-① 先蓝绿后灰度
+① 全链路蓝绿发布 + 灰度发布混合模式下流量侦测
 
 在网关上配置了蓝绿发布规则策略，在a服务上配置了灰度发布规则策略
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryDesktop5.jpg)
 
-① 先灰度后蓝绿
+① 全链路灰度发布 + 蓝绿发布混合模式下流量侦测
 
 在网关上配置了灰度发布规则策略，在a服务上配置了蓝绿发布规则策略
 
