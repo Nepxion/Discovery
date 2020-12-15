@@ -119,6 +119,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
   - 全链路灰度发布编排建模
   - 全链路蓝绿发布流量侦测
   - 全链路灰度发布流量侦测
+  - 全链路蓝绿灰度发布混合流量侦测
 - 全链路蓝绿灰度发布容灾
   - 发布失败下的版本故障转移
   - 并行发布下的版本偏好
@@ -415,6 +416,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [全链路流量侦测](#全链路流量侦测)
         - [全链路蓝绿发布流量侦测](#全链路蓝绿发布流量侦测)
         - [全链路灰度发布流量侦测](#全链路灰度发布流量侦测)
+        - [全链路蓝绿灰度发布混合流量侦测](#全链路蓝绿灰度发布混合流量侦测)
 - [全链路蓝绿灰度发布容灾](#全链路蓝绿灰度发布容灾)
     - [发布失败下的版本故障转移](#发布失败下的版本故障转移)
     - [并行发布下的版本偏好](#并行发布下的版本偏好)
@@ -1115,6 +1117,8 @@ IP地址和端口匹配蓝绿发布架构图
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryDesktop10.jpg)
 
+![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryDesktop15.jpg)
+
 #### 全链路区域条件匹配蓝绿发布
 参考[全链路版本条件匹配蓝绿发布](#全链路版本条件匹配蓝绿发布)
 
@@ -1256,6 +1260,8 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 ![](http://nepxion.gitee.io/docs/icon-doc/information.png) 上述方式，可以通过[全链路灰度发布编排建模](#全链路灰度发布编排建模)方式执行，并通过[全链路灰度发布流量侦测](#全链路灰度发布流量侦测)进行验证
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryDesktop14.jpg)
+
+![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryDesktop17.jpg)
 
 #### 全链路区域条件权重灰度发布
 参考[全链路版本条件权重灰度发布](#全链路版本条件权重灰度发布)
@@ -2215,6 +2221,10 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryDesktop16.jpg)
 
+⑧ 支持直接n-d-version策略路由Header驱动的蓝绿发布流量侦测
+
+![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryDesktop7.jpg)
+
 #### 全链路灰度发布流量侦测
 
 ① 导航栏上选择〔全链路服务流量侦测〕
@@ -2227,14 +2237,28 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 
 ④ 在〔侦测执行〕中，〔次数〕项的值越大，灰度权重百分比越准确
 
-其它步骤跟[全链路蓝绿发布编排建模](#全链路蓝绿发布编排建模)相似，但比其简单
+其它步骤跟[全链路蓝绿发布流量侦测](#全链路蓝绿发布流量侦测)相似，但比其简单
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryDesktop17.jpg)
 
 从上述截图中，可以看到
 
+- 执行〔网关〕->〔a服务1.1版本〕->〔b服务1.1版本〕的〔灰度路由〕权重百分比95%左右
 - 执行〔网关〕->〔a服务1.0版本〕->〔b服务1.0版本〕的〔稳定路由〕权重百分比5%左右
-- 执行〔网关〕->〔a服务1.1版本〕->〔b服务1.1版本〕的〔稳定路由〕权重百分比95%左右
+
+#### 全链路蓝绿灰度发布混合流量侦测
+
+① 先蓝绿后灰度
+
+在网关上配置了蓝绿发布规则策略，在a服务上配置了灰度发布规则策略
+
+![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryDesktop5.jpg)
+
+① 先灰度后蓝绿
+
+在网关上配置了灰度发布规则策略，在a服务上配置了蓝绿发布规则策略
+
+![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryDesktop6.jpg)
 
 附录：全链路流量侦测接口
 
