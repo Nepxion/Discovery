@@ -801,6 +801,8 @@ API网关 -> 服务A（两个实例） -> 服务B（两个实例）
 ```
 
 ### 环境验证
+通过Postman工具验证
+
 - 导入Postman的测试脚本postman.json（位于根目录下）
 
 - 在Postman中执行目录结构下〔Nepxion〕->〔Discovery指南网关接口〕->〔Gateway网关调用示例〕，调用地址为[http://localhost:5001/discovery-guide-service-a/invoke/gateway](http://localhost:5001/discovery-guide-service-a/invoke/gateway)，相关的Header值已经预设，供开发者修改。执行通过Spring Cloud Gateway网关发起的调用，结果为如下格式
