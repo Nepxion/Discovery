@@ -803,14 +803,14 @@ API网关 -> 服务A（两个实例） -> 服务B（两个实例）
 ### 环境验证
 - 导入Postman的测试脚本postman.json（位于根目录下）
 
-- 在Postman中执行目录结构下 ”Nepxion“ -> ”Discovery指南网关接口“ -> ”Gateway网关调用示例“，调用地址为[http://localhost:5001/discovery-guide-service-a/invoke/gateway](http://localhost:5001/discovery-guide-service-a/invoke/gateway)，相关的Header值已经预设，供开发者修改。执行通过Spring Cloud Gateway网关发起的调用，结果为如下格式
+- 在Postman中执行目录结构下〔Nepxion〕->〔Discovery指南网关接口〕->〔Gateway网关调用示例〕，调用地址为[http://localhost:5001/discovery-guide-service-a/invoke/gateway](http://localhost:5001/discovery-guide-service-a/invoke/gateway)，相关的Header值已经预设，供开发者修改。执行通过Spring Cloud Gateway网关发起的调用，结果为如下格式
 ```
 gateway 
 -> [ID=discovery-guide-service-a][P=Nacos][H=192.168.0.107:3001][V=1.0][R=dev][E=env1][Z=zone1][G=discovery-guide-group][TID=48682.7508.15870951148324081][SID=49570.77.15870951148480000] 
 -> [ID=discovery-guide-service-b][P=Nacos][H=192.168.0.107:4001][V=1.0][R=qa][E=env1][Z=zone2][G=discovery-guide-group][TID=48682.7508.15870951148324081][SID=49571.85.15870951189970000]
 ```
 
-- 在Postman中执行目录结构下 ”Nepxion“ -> ”Discovery指南网关接口“ -> ”Zuul网关调用示例“，调用地址为[http://localhost:5002/discovery-guide-service-a/invoke/zuul](http://localhost:5002/discovery-guide-service-a/invoke/zuul)，相关的Header值已经预设，供开发者修改。执行通过Zuul网关发起的调用，结果为如下格式
+- 在Postman中执行目录结构下〔Nepxion〕->〔Discovery指南网关接口〕->〔Zuul网关调用示例〕，调用地址为[http://localhost:5002/discovery-guide-service-a/invoke/zuul](http://localhost:5002/discovery-guide-service-a/invoke/zuul)，相关的Header值已经预设，供开发者修改。执行通过Zuul网关发起的调用，结果为如下格式
 ```
 zuul 
 -> [ID=discovery-guide-service-a][P=Nacos][H=192.168.0.107:3001][V=1.0][R=dev][E=env1][Z=zone1][G=discovery-guide-group][TID=48682.7508.15870951148324081][SID=49570.77.15870951148480000] 
@@ -1380,7 +1380,7 @@ A部门服务直接访问B部门服务
 
 基于标准Http传值方式
 
-框架会默认把相关的Header，进行全链路传递，可以通过如下配置进行。除此之外，凡是以“n-d-”开头的任何Header，框架都会默认全链路传递
+框架会默认把相关的Header，进行全链路传递，可以通过如下配置进行。除此之外，凡是以n-d-开头的任何Header，框架都会默认全链路传递
 ```
 # 启动和关闭路由策略的时候，对REST方式的调用拦截。缺失则默认为true
 spring.application.strategy.rest.intercept.enabled=true
@@ -2118,50 +2118,50 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryDesktop9.jpg)
 
-① 导航栏上选择【全链路服务蓝绿发布】
+① 导航栏上选择〔全链路服务蓝绿发布〕
 
-② “全链路服务蓝绿发布”界面的工具栏上，点击【新建】按钮，弹出【新建配置】对话框。确认下面选项后，点击【确定】按钮后，进行全链路蓝绿发布编排建模
+② 〔全链路服务蓝绿发布〕界面的工具栏上，点击【新建】按钮，弹出【新建配置】对话框。确认下面选项后，点击【确定】按钮后，进行全链路蓝绿发布编排建模
 
-- “订阅参数”项。选择“局部订阅”或者“全局订阅”，通过下拉菜单“订阅组名”和“订阅服务名”，“订阅服务名”可以选择网关（以网关为发布入口）或者服务（以服务为发布入口）。如果是“全局订阅”，则不需要选择“订阅服务名”
-- “部署参数”项。选择“域网关模式”（发布界面上提供只属于“订阅组”下的服务列表）或者“非域网模式”（发布界面上提供所有服务列表）
-- “发布策略”项。选择“版本策略”或者“区域策略”
-- “路由类型”项。选择“蓝 | 绿 | 兜底”或者“蓝 | 兜底”
+- 〔订阅参数〕项。选择〔局部订阅〕或者〔全局订阅〕，通过下拉菜单〔订阅组名〕和〔订阅服务名〕，〔订阅服务名〕可以选择网关（以网关为发布入口）或者服务（以服务为发布入口）。如果是〔全局订阅〕，则不需要选择〔订阅服务名〕
+- 〔部署参数〕项。选择〔域网关模式〕（发布界面上提供只属于〔订阅组〕下的服务列表）或者〔非域网模式〕（发布界面上提供所有服务列表）
+- 〔发布策略〕项。选择〔版本策略〕或者〔区域策略〕
+- 〔路由类型〕项。选择〔蓝 | 绿 | 兜底〕或者〔蓝 | 兜底〕
 
 根据[全链路版本条件匹配蓝绿发布](#全链路版本条件匹配蓝绿发布)示例中的场景
 
-③ 在“蓝绿条件”中，分别输入“蓝条件”和“绿条件”
+③ 在〔蓝绿条件〕中，分别输入〔蓝条件〕和〔绿条件〕
 
-- “蓝条件”输入a==1
-- “绿条件”输入a==1&&b==2
+- 〔蓝条件〕输入a==1
+- 〔绿条件〕输入a==1&&b==2
 
-使用者可以通过“条件校验”来判断条件是否正确。例如，在“绿条件”区的校验文本框里，输入a=1，执行校验，将提示“校验结果:false”，输入a=1;b=2，将提示“校验结果:true”
+使用者可以通过〔条件校验〕来判断条件是否正确。例如，在〔绿条件〕区的校验文本框里，输入a=1，执行校验，将提示〔校验结果:false〕，输入a=1;b=2，将提示〔校验结果:true〕
 
-④ 在“蓝绿编排”中，分别选择如下服务以及其版本，并点击【添加】按钮，把路由链路添加到拓扑图上
+④ 在〔蓝绿编排〕中，分别选择如下服务以及其版本，并点击【添加】按钮，把路由链路添加到拓扑图上
 
-- 服务discovery-guide-service-a，“蓝版本” 1.1，“绿版本” 1.0，“兜底版本” 1.0
-- 服务discovery-guide-service-b，“蓝版本” 1.1，“绿版本” 1.0，“兜底版本” 1.0
+- 服务discovery-guide-service-a，〔蓝版本〕=1.1，〔绿版本〕=1.0，〔兜底版本〕=1.0
+- 服务discovery-guide-service-b，〔蓝版本〕=1.1，〔绿版本〕=1.0，〔兜底版本〕=1.0
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryDesktop10.jpg)
 
-⑤ 如果希望内置Header参数，可以“蓝绿参数”的文本框中输入
+⑤ 如果希望内置Header参数，可以〔蓝绿参数〕的文本框中输入
 
 ⑥ 全链路编排建模完毕，点击工具栏上【保存】按钮进行保存，也可以先点击【预览】按钮，在弹出的【预览配置】对话框中，确认规则策略无误后再保存。使用者可以访问Nacos界面查看相关的规则策略是否已经存在
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryDesktop11.jpg)
 
-⑦ 对于已经存在的策略配置，可以通过点击工具栏上【打开】按钮，在弹出的【打开配置】对话框中，根据上述逻辑相似，确定“订阅参数”项后，选择“打开远程配置”（载入Nacos上对应的规则策略）或者“打开本地配置”（载入本地硬盘上规则策略文件rule.xml）
+⑦ 对于已经存在的策略配置，可以通过点击工具栏上【打开】按钮，在弹出的【打开配置】对话框中，根据上述逻辑相似，确定〔订阅参数〕项后，选择〔打开远程配置〕（载入Nacos上对应的规则策略）或者〔打开本地配置〕（载入本地硬盘上规则策略文件rule.xml）
 
 ⑧ 对于已经存在的策略配置，如果想重置清除掉，点击工具栏上【重置】按钮进行重置清除
 
 #### 全链路灰度发布编排建模
 
-① 导航栏上选择【全链路服务灰度发布】
+① 导航栏上选择〔全链路服务灰度发布〕
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/DiscoveryDesktop13.jpg)
 
 根据[全链路版本条件权重灰度发布](#全链路版本条件权重灰度发布)示例中的场景
 
-② 在“灰度条件”中，“灰度条件”（灰度流量占比）选择95%，“稳定条件”（稳定流量占比）会自动切换成5%
+② 在〔灰度条件〕中，〔灰度条件〕（灰度流量占比）选择95%，〔稳定条件〕（稳定流量占比）会自动切换成5%
 
 其它步骤跟[全链路蓝绿发布编排建模](#全链路蓝绿发布编排建模)相似，但比其简单
 
@@ -2906,10 +2906,10 @@ Apollo订阅推送界面
 ② 根据上图，做如下步骤操作
 
 - 设置页面中AppId和配置文件里面app.id一致
-- 设置页面中Namespace和配置文件里面apollo.plugin.namespace一致，如果配置文件里不设置，那么页面默认采用内置的“application”
+- 设置页面中Namespace和配置文件里面apollo.plugin.namespace一致，如果配置文件里不设置，那么页面默认采用内置的application
 - 在页面中添加配置
-    - 局部配置方式：一个服务集群（eureka.instance.metadataMap.group和spring.application.name都相同的服务）对应一个配置文件，通过group+serviceId方式添加，Key为“group-serviceId”，Value为Xml或者Json格式的规则策略内容。group取值于配置文件里的eureka.instance.metadataMap.group配置项，serviceId取值于spring.application.name配置项目
-    - 全局配置方式：一组服务集群（eureka.instance.metadataMap.group相同，但spring.application.name可以不相同的服务）对应一个配置文件，通过group方式添加，Key为“group-group”，Value为Xml或者Json格式的规则内容。group取值于配置文件里的eureka.instance.metadataMap.group配置项
+    - 局部配置方式：一个服务集群（eureka.instance.metadataMap.group和spring.application.name都相同的服务）对应一个配置文件，通过group+serviceId方式添加，Key为group-serviceId，Value为Xml或者Json格式的规则策略内容。group取值于配置文件里的eureka.instance.metadataMap.group配置项，serviceId取值于spring.application.name配置项目
+    - 全局配置方式：一组服务集群（eureka.instance.metadataMap.group相同，但spring.application.name可以不相同的服务）对应一个配置文件，通过group方式添加，Key为group-group，Value为Xml或者Json格式的规则内容。group取值于配置文件里的eureka.instance.metadataMap.group配置项
     - 强烈建议局部配置方式和全局配置方式不要混用，否则连使用者自己都无法搞清楚到底是哪种配置方式在起作用
 - 其他更多参数，例如evn, cluster等，请自行参考Apollo官方文档，保持一致
 
@@ -3892,8 +3892,8 @@ spring.application.group.generator.character=-
 
 ### 基于运维平台运行参数自动创建版本号
 运维平台在启动微服务的时候，可以通过参数方式初始化元数据，框架会自动把它注册到远程注册中心。有如下两种方式
-- 通过VM arguments来传递，它的用法是前面加“-D”。支持上述所有的注册组件，它的限制是变量前面必须要加“metadata.”，推荐使用该方式。例如：-Dmetadata.version=1.0
-- 通过Program arguments来传递，它的用法是前面加“--”。支持Eureka、Zookeeper和Nacos的增量覆盖，Consul由于使用了全量覆盖的tag方式，不适用改变单个元数据的方式。例如：--spring.cloud.nacos.discovery.metadata.version=1.0
+- 通过VM arguments来传递，它的用法是前面加-D。支持上述所有的注册组件，它的限制是变量前面必须要加metadata.，推荐使用该方式。例如：-Dmetadata.version=1.0
+- 通过Program arguments来传递，它的用法是前面加--。支持Eureka、Zookeeper和Nacos的增量覆盖，Consul由于使用了全量覆盖的tag方式，不适用改变单个元数据的方式。例如：--spring.cloud.nacos.discovery.metadata.version=1.0
 - 两种方式尽量避免同时用
 
 ### 基于用户自定义创建版本号
