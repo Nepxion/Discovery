@@ -808,17 +808,19 @@ API网关 -> 服务A（两个实例） -> 服务B（两个实例）
 - 导入Postman的测试脚本postman.json（位于根目录下）
 
 - 在Postman中执行目录结构下〔Nepxion〕->〔Discovery指南网关接口〕->〔Gateway网关调用示例〕，调用地址为[http://localhost:5001/discovery-guide-service-a/invoke/gateway](http://localhost:5001/discovery-guide-service-a/invoke/gateway)，相关的Header值已经预设，供开发者修改。执行通过Spring Cloud Gateway网关发起的调用，结果为如下格式
+
 ```
 gateway 
--> [ID=discovery-guide-service-a][P=Nacos][H=192.168.0.107:3001][V=1.0][R=dev][E=env1][Z=zone1][G=discovery-guide-group][TID=48682.7508.15870951148324081][SID=49570.77.15870951148480000] 
--> [ID=discovery-guide-service-b][P=Nacos][H=192.168.0.107:4001][V=1.0][R=qa][E=env1][Z=zone2][G=discovery-guide-group][TID=48682.7508.15870951148324081][SID=49571.85.15870951189970000]
+-> [ID=discovery-guide-service-a][T=service][P=Nacos][H=192.168.0.107:3001][V=1.0][R=dev][E=env1][Z=zone1][G=discovery-guide-group][TID=48682.7508.15870951148324081][SID=49570.77.15870951148480000] 
+-> [ID=discovery-guide-service-b][T=service][P=Nacos][H=192.168.0.107:4001][V=1.0][R=qa][E=env1][Z=zone2][G=discovery-guide-group][TID=48682.7508.15870951148324081][SID=49571.85.15870951189970000]
 ```
 
 - 在Postman中执行目录结构下〔Nepxion〕->〔Discovery指南网关接口〕->〔Zuul网关调用示例〕，调用地址为[http://localhost:5002/discovery-guide-service-a/invoke/zuul](http://localhost:5002/discovery-guide-service-a/invoke/zuul)，相关的Header值已经预设，供开发者修改。执行通过Zuul网关发起的调用，结果为如下格式
+
 ```
 zuul 
--> [ID=discovery-guide-service-a][P=Nacos][H=192.168.0.107:3001][V=1.0][R=dev][E=env1][Z=zone1][G=discovery-guide-group][TID=48682.7508.15870951148324081][SID=49570.77.15870951148480000] 
--> [ID=discovery-guide-service-b][P=Nacos][H=192.168.0.107:4001][V=1.0][R=qa][E=env1][Z=zone2][G=discovery-guide-group][TID=48682.7508.15870951148324081][SID=49571.85.15870951189970000]
+-> [ID=discovery-guide-service-a][T=service][P=Nacos][H=192.168.0.107:3001][V=1.0][R=dev][E=env1][Z=zone1][G=discovery-guide-group][TID=48682.7508.15870951148324081][SID=49570.77.15870951148480000] 
+-> [ID=discovery-guide-service-b][T=service][P=Nacos][H=192.168.0.107:4001][V=1.0][R=qa][E=env1][Z=zone2][G=discovery-guide-group][TID=48682.7508.15870951148324081][SID=49571.85.15870951189970000]
 ```
 
 - 在Postman中多种同步和异步的调用方式，异步方式需要增加DiscoveryAgent，才能保证蓝绿发布路由调用的成功
@@ -1341,30 +1343,35 @@ A部门服务直接访问B部门服务
 
 #### 全链路驱动方式
 - 版本匹配策略，Header格式如下任选一个
+
 ```
 1. n-d-version=1.0
 2. n-d-version={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
 ```
 
 - 版本权重策略，Header格式如下任选一个
+
 ```
 1. n-d-version-weight=1.0=90;1.1=10
 2. n-d-version-weight={"discovery-guide-service-a":"1.0=90;1.1=10", "discovery-guide-service-b":"1.0=90;1.1=10"}
 ```
 
 - 区域匹配策略，Header格式如下任选一个
+
 ```
 1. n-d-region=qa
 2. n-d-region={"discovery-guide-service-a":"qa", "discovery-guide-service-b":"qa"}
 ```
 
 - 区域权重策略，Header格式如下任选一个
+
 ```
 1. n-d-region-weight=dev=99;qa=1
 2. n-d-region-weight={"discovery-guide-service-a":"dev=99;qa=1", "discovery-guide-service-b":"dev=99;qa=1"}
 ```
 
 - IP地址和端口匹配策略，Header格式如下任选一个
+
 ```
 1. n-d-address={"discovery-guide-service-a":"127.0.0.1:3001", "discovery-guide-service-b":"127.0.0.1:4002"}
 2. n-d-address={"discovery-guide-service-a":"127.0.0.1", "discovery-guide-service-b":"127.0.0.1"}
@@ -1372,16 +1379,19 @@ A部门服务直接访问B部门服务
 ```
 
 - 环境隔离下动态环境匹配策略
+
 ```
 1. n-d-env=env1
 ```
 
 - 服务下线实时性的流量绝对无损，全局唯一ID屏蔽策略
+
 ```
 1. n-d-id-blacklist=e92edde5-0153-4ec8-9cbb-b4d3f415aa33;af043384-c8a5-451e-88f4-457914e8e3bc
 ```
 
 - 服务下线实时性的流量绝对无损，IP地址和端口屏蔽策略
+
 ```
 1. n-d-address-blacklist=192.168.43.101:1201;192.168.*.102;1301
 ```
@@ -2340,7 +2350,9 @@ spring.application.strategy.version.prefer.enabled=true
 
 ② 全链路Header传递方式
 
+```
 n-d-id-blacklist=e92edde5-0153-4ec8-9cbb-b4d3f415aa33;af043384-c8a5-451e-88f4-457914e8e3bc
+```
 
 ### IP地址和端口屏蔽
 ① 远程配置方式
@@ -2364,7 +2376,9 @@ n-d-id-blacklist=e92edde5-0153-4ec8-9cbb-b4d3f415aa33;af043384-c8a5-451e-88f4-45
 
 ② 全链路Header传递方式
 
+```
 n-d-address-blacklist=192.168.43.101:1201;192.168.*.102;1301
+```
 
 ## 异步场景下全链路蓝绿灰度发布
 
@@ -2390,10 +2404,13 @@ ThreadLocal的作用是提供线程内的局部变量，在多线程环境下访
 #### 异步跨线程DiscoveryAgent使用
 - discovery-agent-starter-`$`{discovery.version}.jar为Agent引导启动程序，JVM启动时进行加载；discovery-agent/plugin目录包含discovery-agent-starter-plugin-strategy-`$`{discovery.version}.jar为Nepxion Discovery自带的实现方案，业务系统可以自定义plugin，解决业务自己定义的上下文跨线程传递
 - 通过如下-javaagent启动，基本格式，如下
+
 ```
 -javaagent:/discovery-agent/discovery-agent-starter-${discovery.agent.version}.jar -Dthread.scan.packages=com.abc;com.xyz
 ```
+
 例如
+
 ```
 -javaagent:C:/opt/discovery-agent/discovery-agent-starter-${discovery.agent.version}.jar -Dthread.scan.packages=org.springframework.aop.interceptor;com.netflix.hystrix;com.nepxion.discovery.guide.service.feign
 ```
@@ -2522,6 +2539,7 @@ com.nepxion.discovery.example.agent.MyContextPlugin
 - 执行Maven编译，把编译后的包放在discovery-agent/plugin目录下
 
 - 给服务增加启动参数并启动，如下
+
 ```
 -javaagent:C:/opt/discovery-agent/discovery-agent-starter-${discovery.agent.version}.jar -Dthread.scan.packages=com.nepxion.discovery.example.application -Dthread.myplugin.enabled=true
 ```
@@ -4792,6 +4810,7 @@ public class PolarisTestCases {
 
 ### 测试报告
 - 路由策略测试报告样例
+
 ```
 ---------- Run automation testcase :: testNoGray() ----------
 Result1 : gateway -> discovery-guide-service-a[192.168.0.107:3001][V=1.0][R=dev][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4001][V=1.0][R=qa][G=discovery-guide-group]
@@ -4841,6 +4860,7 @@ Result : B service qa region weight=13.8%
 ```
 
 - 路由规则测试报告样例
+
 ```
 ---------- Run automation testcase :: testStrategyCustomizationGray() ----------
 Header : [a:"1", b:"2"]
