@@ -24,7 +24,7 @@ import com.nepxion.discovery.plugin.strategy.service.context.RpcStrategyContext;
 import com.nepxion.discovery.plugin.strategy.service.decorator.ServiceStrategyRequestDecoratorFactory;
 
 public class DefaultServiceStrategyCallableWrapper implements ServiceStrategyCallableWrapper {
-    @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REST_REQUEST_DECORATOR_ENABLED + ":false}")
+    @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REST_REQUEST_DECORATOR_ENABLED + ":true}")
     protected Boolean requestDecoratorEnabled;
 
     @Override

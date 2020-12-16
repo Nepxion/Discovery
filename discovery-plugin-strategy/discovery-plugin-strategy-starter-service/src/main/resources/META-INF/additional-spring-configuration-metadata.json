@@ -20,7 +20,7 @@
 		{
 			"name": "spring.application.strategy.rest.request.decorator.enabled",
 			"type": "java.lang.String",
-			"defaultValue": false,
+			"defaultValue": true,
 			"description": "Whether strategy rest request decorator is enabled."
 		},
 		{
