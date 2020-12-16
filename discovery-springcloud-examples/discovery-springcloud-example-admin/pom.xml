@@ -15,7 +15,7 @@
     </parent>
 
     <properties>
-        <spring.boot.admin.version>2.3.0</spring.boot.admin.version>
+        <spring.boot.admin.version>2.3.1</spring.boot.admin.version>
     </properties>
 
     <dependencyManagement>
