@@ -4087,8 +4087,8 @@ spring.application.strategy.control.enabled=true
 spring.application.strategy.zone.avoidance.rule.enabled=true
 # 启动和关闭路由策略的时候，对REST方式的调用拦截。缺失则默认为true
 spring.application.strategy.rest.intercept.enabled=true
-# 启动和关闭路由策略的时候，对REST方式在异步调用场景下在服务端的Request请求的装饰，当主线程先于子线程执行完的时候，Request会被Destory，导致Header仍旧拿不到，开启装饰，就可以确保拿到。缺失则默认为false
-spring.application.strategy.rest.request.decorator.enabled=false
+# 启动和关闭路由策略的时候，对REST方式在异步调用场景下在服务端的Request请求的装饰，当主线程先于子线程执行完的时候，Request会被Destory，导致Header仍旧拿不到，开启装饰，就可以确保拿到。缺失则默认为true
+spring.application.strategy.rest.request.decorator.enabled=true
 # 启动和关闭Header传递的Debug日志打印，注意：每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
 spring.application.strategy.rest.intercept.debug.enabled=true
 # 当外界传值Header的时候，服务也设置并传递同名的Header，需要决定哪个Header传递到后边的服务去，该开关依赖前置过滤器的开关。如果下面开关为true，以服务设置为优先，否则以外界传值为优先。缺失则默认为true
