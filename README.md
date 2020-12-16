@@ -2695,6 +2695,7 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 ② 基于多Queue的消息队列蓝绿发布
 
 增加参数化蓝绿发布规则，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名），规则内容如下，实现功能
+
 ① 服务a在版本为1.0的时候，数据库的数据源指向db1；服务a在版本为1.1的时候，数据库的数据源指向db2
 
 ② 服务b在区域为dev的时候，消息队列指向queue1；服务b在区域为dev的时候，消息队列指向queue2
