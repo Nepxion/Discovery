@@ -2478,6 +2478,7 @@ public class MyContext {
 ② Agent侧工作
 
 - 新建一个模块，引入如下依赖
+
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -2488,6 +2489,7 @@ public class MyContext {
 ```
 
 - 新建一个ThreadLocalHook类继承AbstractThreadLocalHook
+
 ```java
 public class MyContextHook extends AbstractThreadLocalHook {
     @Override
@@ -2513,6 +2515,7 @@ public class MyContextHook extends AbstractThreadLocalHook {
 ```
 
 - 新建一个Plugin类继承AbstractPlugin
+
 ```java
 public class MyContextPlugin extends AbstractPlugin {
     private Boolean threadMyPluginEnabled = Boolean.valueOf(System.getProperty("thread.myplugin.enabled", "false"));
@@ -4020,6 +4023,7 @@ spring.application.git.generator.path=file:git.json
 通过指定长度截断或者标志截断服务名的前缀来自动创建组名，这样就可以避免使用者手工维护组名。当两者都启用的时候，截断方式的组名优先级要高于手工配置的组名
 
 - 增加配置项
+
 ```
 # 开启和关闭使用服务名前缀来作为服务组名。缺失则默认为false
 spring.application.group.generator.enabled=true
@@ -4799,13 +4803,17 @@ public class DiscoveryGuideTestCases {
 ① 远程配置中心约定
 
 - Nacos的Key格式
+
 ```
 Group为DEFAULT_GROUP，Data ID为sentinel-authority-${spring.application.name}。每个服务都专享自己的Sentinel规则
 ```
+
 - Apollo的Key格式
+
 ```
 namespace为application，Key为sentinel-authority。每个服务都专享自己的Sentinel规则
 ```
+
 ② 执行测试用例前，把执行限流降级熔断等逻辑的内容（executePath = "sentinel-authority-2.json"）推送到远程配置中心
 
 ③ 执行测试用例，通过断言Assert来判断测试结果
