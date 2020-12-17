@@ -696,6 +696,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 ⑤ 防护插件依赖引入
 
 - Sentinel防护插件。只适用于微服务端
+
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -703,7 +704,9 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     <version>${discovery.version}</version>
 </dependency>
 ```
+
 - Sentinel防护的数据源插件，选择引入其中一个
+
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -713,7 +716,9 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     <version>${discovery.version}</version>
 </dependency>
 ```
+
 - Hystrix防护插件。Hystrix线程池隔离模式下必须引入该插件
+
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -1091,9 +1096,11 @@ IP地址和端口匹配蓝绿发布架构图
 ③ 当外部调用带有的Header中的值都不命中，或者未传值，执行兜底路由
 
 - 执行`<strategy>`节点中的全局缺省路由，那么路由即为
+
 ```
 {"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
 ```
+
 - 如果全局缺省路由未配置，则执行Spring Cloud Ribbon轮询策略
    
 ④ 假如不愿意从网关外部传入Header，那么支持策略下内置Header来决策蓝绿发布，可以代替外部传入Header，参考如下配置
@@ -2088,12 +2095,14 @@ n-d-version={"discovery-guide-service-a":"gray", "discovery-guide-service-b":"st
 新上线的服务实例版本为gray，即默认是灰度版本。等灰度成功后，通过注册中心的Open API接口变更服务版本为stable，或者在注册中心界面手工修改
 
 - Nacos Open API变更元数据
+
 ```
 curl -X PUT 'http://ip:port/nacos/v1/ns/instance?serviceName={appId}&ip={ip}&port={port}&metadata={"version", "stable"}'
 ```
 Nacos Open API使用手册，参考[https://nacos.io/zh-cn/docs/open-api.html](https://nacos.io/zh-cn/docs/open-api.html)
 
 - Eureka Open API变更元数据
+
 ```
 curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=stable'
 ```
@@ -2436,6 +2445,7 @@ ThreadLocal的作用是提供线程内的局部变量，在多线程环境下访
 ① SDK侧工作
 
 - 新建ThreadLocal上下文类
+
 ```java
 public class MyContext {
     private static final ThreadLocal<MyContext> THREAD_LOCAL = new ThreadLocal<MyContext>() {
@@ -2549,6 +2559,7 @@ com.nepxion.discovery.example.agent.MyContextPlugin
 ③ Application侧工作
 
 - 执行MyApplication，它模拟在主线程ThreadLocal放入Map数据，子线程通过DiscoveryAgent获取到该Map数据，并打印出来
+
 ```java
 @SpringBootApplication
 @RestController
@@ -3046,6 +3057,7 @@ Nacos订阅推送界面
 ![](http://nepxion.gitee.io/docs/discovery-doc/Nacos2.jpg)
 - 参考Nacos官方文档[https://github.com/alibaba/nacos](https://github.com/alibaba/nacos)相关文档，搭建Nacos环境，以及熟悉相关的基本操作
 - 下面配置中，nacos.server-addr必须要配置，其它配置可选
+
 ```
 nacos.server-addr=localhost:8848
 # nacos.access-key=
@@ -3067,6 +3079,7 @@ nacos.server-addr=localhost:8848
 # nacos.plugin.ram-role-name=
 # nacos.plugin.timout=
 ```
+
 - 添加配置步骤跟Apollo配置界面中的【在页面中添加配置】操作项相似
 
 Redis订阅推送界面
@@ -3225,10 +3238,13 @@ spring.application.strategy.register.isolation.group.whitelist=
 封装NacosDataSource和ApolloDataSource，支持Nacos和Apollo两个远程配置中心，零代码实现Sentinel功能。更多的远程配置中心，请参照Sentinel官方的DataSource并自行集成
 
 - Nacos的Key格式
+
 ```
 Group为元数据中配置的[组名]，Data Id为[服务名]-[规则类型]
 ```
+
 - Apollo的Key格式
+
 ```
 [组名]-[服务名]-[规则类型]
 ```
@@ -3946,6 +3962,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 更多的配置方式，参考[https://github.com/git-commit-id/maven-git-commit-id-plugin/blob/master/maven/docs/using-the-plugin.md](https://github.com/git-commit-id/maven-git-commit-id-plugin/blob/master/maven/docs/using-the-plugin.md)
 
 - 增加配置项
+
 ```
 # 开启和关闭使用Git信息中的字段单个或者多个组合来作为服务版本号。缺失则默认为false
 spring.application.git.generator.enabled=true
@@ -4955,6 +4972,7 @@ zuul.semaphore.max-semaphores=5000
 ### 测试步骤
 - 登录到WRK的机器，进入WRK目录
 - 运行命令 wrk -t64 -c2000 -d30s -H "id: 123" -H "token: abc" --timeout=2s --latency --script=post.lua http://localhost:5001/discovery-guide-service-a/invoke/gateway
+
 ```
 使用方法: wrk <选项> <被测HTTP服务的URL>
   Options:
@@ -4966,6 +4984,7 @@ zuul.semaphore.max-semaphores=5000
         --latency     在压测结束后，打印延迟统计信息
         --timeout     超时时间
 ```
+
 - 等待结果，Requests/sec 表示每秒处理的请求数
 
 基于WRK极限压测，报告如下
