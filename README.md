@@ -20,7 +20,7 @@
 ![](http://nepxion.gitee.io/docs/discovery-doc/Logo64.png) Discovery【探索】微服务企业级解决方案
 
 ① Discovery【探索】微服务企业级解决方案文档
-- [Discovery【探索】微服务企业级解决方案(WIKI版)](http://nepxion.gitee.io/wiki/discovery)
+- [Discovery【探索】微服务企业级解决方案(WIKI版)](http://nepxion.com/discovery)
 - [Discovery【探索】微服务企业级解决方案(PPT版)](http://nepxion.gitee.io/docs/link-doc/discovery-ppt.html)
 - [Discovery【探索】微服务企业级解决方案(PDF版)](http://nepxion.gitee.io/docs/link-doc/discovery-pdf.html)
 - [Discovery【探索】微服务企业级解决方案(HTML版)](http://nepxion.gitee.io/docs/link-doc/discovery-html.html)
@@ -41,7 +41,7 @@
 ![](http://nepxion.gitee.io/docs/polaris-doc/Logo64.png) Polaris【北极星】企业级云原生微服务框架
 
 ① Polaris【北极星】企业级云原生微服务框架文档
-- [Polaris【北极星】企业级云原生微服务框架(WIKI版)](http://nepxion.gitee.io/wiki/polaris/)
+- [Polaris【北极星】企业级云原生微服务框架(WIKI版)](http://nepxion.com/polaris)
 - [Polaris【北极星】企业级云原生微服务框架(PDF版)](http://nepxion.gitee.io/docs/link-doc/polaris-pdf.html)
 - [Polaris【北极星】企业级云原生微服务框架(HTML版)](http://nepxion.gitee.io/docs/link-doc/polaris-html.html)
 
