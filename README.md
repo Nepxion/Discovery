@@ -552,6 +552,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - [Nepxion Discovery - 配置中心支持灰度配置](https://carlzone.blog.csdn.net/article/details/110913399)
 - [Nepxion Discovery - 服务灰度发布参数的支持](https://carlzone.blog.csdn.net/article/details/110946620)
 - [Nepxion Discovery - 对网关和微服务三大模式的支持](https://blog.csdn.net/u012410733/article/details/111026618)
+- [Nepxion Discovery - 全链路界面操作蓝绿灰度发布](https://blog.csdn.net/u012410733/article/details/111304744)
 
 ## 工程架构
 
