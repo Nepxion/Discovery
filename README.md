@@ -541,7 +541,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 
 ### 贡献主页
 
-感谢carl.zhao撰写的框架架构和源码分析的系列文档
 - [Nepxion Discovery - Spring Cloud灰度发布神器](https://carlzone.blog.csdn.net/article/details/109787397)
 - [Nepxion Discovery - 灰度发布初体验](https://carlzone.blog.csdn.net/article/details/109839808)
 - [Nepxion Discovery - 项目结构简介](https://carlzone.blog.csdn.net/article/details/110183368)
