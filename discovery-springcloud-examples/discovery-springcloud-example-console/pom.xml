@@ -35,7 +35,8 @@
             <groupId>com.nepxion</groupId>
             <!-- <artifactId>discovery-console-starter-apollo</artifactId> -->
             <artifactId>discovery-console-starter-nacos</artifactId>
-            <!-- <artifactId>discovery-console-starter-redis</artifactId> -->
+            <!-- <artifactId>discovery-plugin-config-center-starter-redis</artifactId>
+            <artifactId>discovery-plugin-config-center-starter-zookeeper</artifactId> -->
         </dependency>
 
         <dependency>

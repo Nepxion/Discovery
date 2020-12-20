@@ -19,5 +19,6 @@
         <module>discovery-common-apollo</module>
         <module>discovery-common-nacos</module>
         <module>discovery-common-redis</module>
+        <module>discovery-common-zookeeper</module>
     </modules>
 </project>
