@@ -89,7 +89,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 ① 微服务框架支持的基本功能，如下
 - 支持阿里巴巴Spring Cloud Alibaba中间件生态圈
 - 支持阿里巴巴Nacos、Eureka、Consul和Zookeeper四个服务注册发现中心
-- 支持阿里巴巴Nacos、携程Apollo和Redis三个远程配置中心
+- 支持阿里巴巴Nacos、携程Apollo、Redis和Zookeeper四个远程配置中心
 - 支持阿里巴巴Sentinel和Hystrix两个熔断限流降级权限中间件
 - 支持OpenTracing和OpenTelemetry规范下的调用链中间件，Jaeger、SkyWalking和Zipkin等
 - 支持Prometheus Micrometer和Spring Boot Admin两个指标中间件
@@ -571,6 +571,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-common-apollo | 封装Apollo通用操作逻辑 |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-common-nacos | 封装Nacos通用操作逻辑 |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-common-redis | 封装Redis通用操作逻辑 |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-common-zookeeper | 封装Zookeeper通用操作逻辑 |
 | <img src="http://nepxion.gitee.io/docs/icon-doc/direction_south.png"> discovery-plugin-framework | 基本框架目录 |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-framework-starter| 基本框架的Starter |
 | <img src="http://nepxion.gitee.io/docs/icon-doc/direction_south.png"> discovery-plugin-register-center | 注册中心目录 |
@@ -584,6 +585,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-config-center-starter-apollo | 配置中心的Apollo Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-config-center-starter-nacos | 配置中心的Nacos Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-config-center-starter-redis | 配置中心的Redis Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-config-center-starter-zookeeper | 配置中心的Zookeeper Starter |
 | <img src="http://nepxion.gitee.io/docs/icon-doc/direction_south.png"> discovery-plugin-admin-center | 管理中心目录 |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-admin-center-starter | 管理中心的Starter |
 | <img src="http://nepxion.gitee.io/docs/icon-doc/direction_south.png"> discovery-plugin-strategy | 路由策略目录 |
@@ -611,6 +613,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-console-starter-apollo | 控制平台的Apollo Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-console-starter-nacos | 控制平台的Nacos Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-console-starter-redis | 控制平台的Redis Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-console-starter-zookeeper | 控制平台的Zookeeper Starter |
 | <img src="http://nepxion.gitee.io/docs/icon-doc/direction_south.png"> discovery-springcloud-examples | 示例目录 |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-springcloud-example-admin | Spring Boot Admin服务台示例 |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-springcloud-example-console | 控制平台示例 |
@@ -664,13 +667,14 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 
 ② 配置中心依赖引入
 
-配置中心中间件的三个插件，选择引入其中一个
+配置中心中间件的四个插件，选择引入其中一个
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-config-center-starter-apollo</artifactId>
     <artifactId>discovery-plugin-config-center-starter-nacos</artifactId>
     <artifactId>discovery-plugin-config-center-starter-redis</artifactId>
+    <artifactId>discovery-plugin-config-center-starter-zookeeper</artifactId>
     <version>${discovery.version}</version>
 </dependency>
 ```
@@ -735,13 +739,14 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 
 ⑥ 控制台依赖引入
 
-控制台对于配置中心中间件的三个插件，选择引入其中一个
+控制台对于配置中心中间件的四个插件，选择引入其中一个
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-console-starter-apollo</artifactId>
     <artifactId>discovery-console-starter-nacos</artifactId>
     <artifactId>discovery-console-starter-redis</artifactId>
+    <artifactId>discovery-console-starter-zookeeper</artifactId>
     <version>${discovery.version}</version>
 </dependency>
 ```
