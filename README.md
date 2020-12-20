@@ -370,6 +370,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - [请联系我](#请联系我)
 - [相关链接](#相关链接)
     - [源码主页](#源码主页)
+    - [发布主页](#发布主页)
     - [指南主页](#指南主页)
     - [文档主页](#文档主页)
     - [贡献主页](#贡献主页)	
@@ -530,6 +531,11 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 [Discovery源码主页](https://github.com/Nepxion/Discovery)
 
 [Polaris源码主页](https://github.com/Nepxion/Polaris)
+
+### 发布主页
+[DiscoveryAgent](https://github.com/Nepxion/DiscoveryAgent/releases)
+
+[DiscoveryDesktop](https://github.com/Nepxion/DiscoveryUI/releases)
 
 ### 指南主页
 [Discovery指南主页](https://github.com/Nepxion/DiscoveryGuide)
@@ -1018,8 +1024,15 @@ IP地址和端口匹配蓝绿发布架构图
 
 通过Spring Spel的matches条件表达式
 
-- `[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}`，用来判断入参是否为`邮件格式`
-- `[a-z]{3}2`，用来判断入参是否为`三个字母，结尾等于2`
+- 可通过如下表达式，判断入参是否为`邮件格式`
+```
+[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}
+```
+
+- 可通过如下表达式，判断入参是否为`三个字母，结尾等于2`
+```
+[a-z]{3}2
+```
 
 ② Spring Spel的条件表达式，整合驱动参数
 
