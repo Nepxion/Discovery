@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.nepxion.discovery.common.zookeeper.configuration.ZookeeperAutoConfiguration,\
+com.nepxion.discovery.console.zookeeper.configuration.ZookeeperConfigAutoConfiguration
