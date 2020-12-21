@@ -495,7 +495,8 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [基于运维平台运行参数自动创建版本号](#基于运维平台运行参数自动创建版本号)
     - [基于用户自定义创建版本号](#基于用户自定义创建版本号)
 - [配置文件](#配置文件)
-    - [基础属性配置](#基础属性配置)
+    - [流量染色配置](#流量染色配置)
+    - [中间件属性配置](#中间件属性配置)
     - [功能开关配置](#功能开关配置)
     - [内置文件配置](#内置文件配置)
 - [Docker容器化和Kubernetes平台支持](#Docker容器化和Kubernetes平台支持)
@@ -4061,11 +4062,11 @@ spring.application.group.generator.character=-
 - 两种方式尽量避免同时用
 
 ### 基于用户自定义创建版本号
-参考[基础属性配置](#基础属性配置)
+参考[流量染色配置](#流量染色配置)
 
 ## 配置文件
-### 基础属性配置
-不同的服务注册发现组件对应的不同的配置值，请仔细阅读
+
+### 流量染色配置
 ```
 # Eureka config for discovery
 eureka.instance.metadataMap.group=xxx-service-group
@@ -4093,8 +4094,133 @@ spring.cloud.nacos.discovery.metadata.env=env1
 spring.cloud.nacos.discovery.metadata.zone=zone1
 ```
 
+### 中间件属性配置
+① 注册中心配置
+
+- Nacos注册中心配置
+
+```
+# Nacos config for discovery
+spring.cloud.nacos.discovery.server-addr=localhost:8848
+# spring.cloud.nacos.discovery.namespace=discovery
+```
+
+- Eureka注册中心配置
+
+```
+# Eureka config for discovery
+eureka.client.serviceUrl.defaultZone=http://localhost:9528/eureka/
+eureka.instance.preferIpAddress=true
+```
+
+- Consul注册中心配置
+
+```
+# Consul config for discovery
+spring.cloud.consul.host=localhost
+spring.cloud.consul.port=8500
+spring.cloud.consul.discovery.preferIpAddress=true
+```
+
+- Zookeeper注册中心配置
+
+```
+# Zookeeper config for discovery
+spring.cloud.zookeeper.connectString=localhost:2181
+spring.cloud.zookeeper.discovery.instancePort=${server.port}
+spring.cloud.zookeeper.discovery.root=/spring-cloud
+spring.cloud.zookeeper.discovery.preferIpAddress=true
+```
+
+② 配置中心配置
+
+蓝绿灰度发布专用配置
+
+- Apollo配置中心配置
+
+```
+# Apollo config for rule
+app.id=discovery
+apollo.meta=http://localhost:8080
+# apollo.plugin.namespace=application
+```
+
+- Nacos配置中心配置
+
+```
+# Nacos config for rule
+nacos.server-addr=localhost:8848
+# nacos.access-key=
+# nacos.secret-key=
+# nacos.plugin.namespace=application
+# nacos.plugin.cluster-name=
+# nacos.plugin.context-path=
+# nacos.plugin.config-long-poll-timeout=
+# nacos.plugin.config-retry-time=
+# nacos.plugin.max-retry=
+# nacos.plugin.endpoint=
+# nacos.plugin.endpoint-port=
+# nacos.plugin.is-use-endpoint-parsing-rule=
+# nacos.plugin.is-use-cloud-namespace-parsing=
+# nacos.plugin.encode=
+# nacos.plugin.naming-load-cache-at-start=
+# nacos.plugin.naming-client-beat-thread-count=
+# nacos.plugin.naming-polling-thread-count=
+# nacos.plugin.ram-role-name=
+# nacos.plugin.timout=
+```
+
+- Redis配置中心配置
+
+```
+# Redis config for rule
+spring.redis.host=localhost
+spring.redis.port=6379
+spring.redis.password=
+spring.redis.database=0
+```
+
+- Zookeeper配置中心配置
+
+```
+# Zookeeper config for rule
+zookeeper.connect-string=localhost:2181
+zookeeper.retry-count=3
+zookeeper.sleep-time=3000
+```
+
+③ 监控中心配置
+
+- OpenTracing + Jaeger监控中心配置
+
+```
+# OpenTracing config for jaeger
+opentracing.jaeger.enabled=true
+opentracing.jaeger.http-sender.url=http://localhost:14268/api/traces
+```
+
+- SkyWalking监控中心配置
+
+```
+-javaagent:C:/opt/skywalking-agent/skywalking-agent.jar -Dskywalking.agent.service_name=discovery-guide-service-a
+```
+
+- Spring Boot Admin监控中心配置
+
+```
+# Spring boot admin config
+spring.boot.admin.client.instance.prefer-ip=true
+spring.boot.admin.client.url=http://localhost:5555
+```
+
+④ 异步跨线程Agent配置
+
+```
+-javaagent:C:/opt/discovery-agent/discovery-agent-starter-${discovery.agent.version}.jar -Dthread.scan.packages=org.springframework.aop.interceptor;com.netflix.hystrix;com.nepxion.discovery.guide.service.feign
+```
+
 ### 功能开关配置
-服务端配置
+① 服务端配置
 ```
 # Plugin core config
 # 开启和关闭服务注册层面的控制。一旦关闭，服务注册的黑/白名单过滤功能将失效，最大注册数的限制过滤功能将失效。缺失则默认为true
@@ -4254,7 +4380,7 @@ spring.application.git.version.key={git.commit.id.abbrev}-{git.commit.time}
 # spring.application.git.version.key={git.build.version}-{git.commit.time}
 ```
 
-Spring Cloud Gateway端配置
+② Spring Cloud Gateway端配置
 ```
 # Plugin core config
 # 开启和关闭服务注册层面的控制。一旦关闭，服务注册的黑/白名单过滤功能将失效，最大注册数的限制过滤功能将失效。缺失则默认为true
@@ -4373,7 +4499,7 @@ spring.application.git.version.key={git.commit.id.abbrev}-{git.commit.time}
 # spring.application.git.version.key={git.build.version}-{git.commit.time}
 ```
 
-Zuul端配置
+③ Zuul端配置
 ```
 # Plugin core config
 # 开启和关闭服务注册层面的控制。一旦关闭，服务注册的黑/白名单过滤功能将失效，最大注册数的限制过滤功能将失效。缺失则默认为true
