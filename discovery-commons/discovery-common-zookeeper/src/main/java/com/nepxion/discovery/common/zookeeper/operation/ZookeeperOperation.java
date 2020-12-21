@@ -71,7 +71,7 @@ public class ZookeeperOperation {
                     return;
                 }
 
-                String config = convertConfigFrom(curatorFramework, path);
+                String config = convertConfig(curatorFramework, path);
 
                 zookeeperSubscribeCallback.callback(config);
             }
@@ -99,10 +99,10 @@ public class ZookeeperOperation {
     }
 
     public String convertConfig(String path) throws Exception {
-        return convertConfigFrom(curatorFramework, path);
+        return convertConfig(curatorFramework, path);
     }
 
-    public String convertConfigFrom(CuratorFramework curatorFramework, String path) throws Exception {
+    public String convertConfig(CuratorFramework curatorFramework, String path) throws Exception {
         byte[] bytes = curatorFramework.getData().forPath(path);
 
         return new String(bytes);
