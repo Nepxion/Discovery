@@ -5,11 +5,12 @@ package com.nepxion.discovery.plugin.strategy.sentinel.opentelemetry.monitor;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ * @author Weihua Wang
  * @author Haojun Ren
  * @version 1.0
  */
 
-import io.opentelemetry.api.OpenTelemetry;
+import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.trace.Span;
 
 import com.nepxion.discovery.plugin.strategy.sentinel.monitor.callback.SentinelTracingProcessorSlotEntryCallback;
@@ -22,7 +23,7 @@ public class SentinelOpenTelemetryProcessorSlotEntryCallback extends SentinelTra
 
     @Override
     protected Span buildSpan() {
-        return OpenTelemetry.getGlobalTracer(instrumentationName).spanBuilder(SentinelStrategyMonitorConstant.SPAN_NAME).startSpan();
+        return GlobalOpenTelemetry.getTracer(instrumentationName).spanBuilder(SentinelStrategyMonitorConstant.SPAN_NAME).startSpan();
     }
 
     @Override
