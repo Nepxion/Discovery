@@ -78,7 +78,6 @@ public class XmlConfigParser implements PluginConfigParser {
         }
     }
 
-    @SuppressWarnings("rawtypes")
     private RuleEntity parseRoot(String config, Element element) {
         LOG.info("Start to parse rule from xml...");
 
@@ -118,30 +117,27 @@ public class XmlConfigParser implements PluginConfigParser {
         StrategyCustomizationEntity strategyCustomizationEntity = null;
         StrategyBlacklistEntity strategyBlacklistEntity = null;
         ParameterEntity parameterEntity = null;
-        for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
-            Object childElementObject = elementIterator.next();
-            if (childElementObject instanceof Element) {
-                Element childElement = (Element) childElementObject;
+        for (Iterator<Element> elementIterator = element.elementIterator(); elementIterator.hasNext();) {
+            Element childElement = elementIterator.next();
 
-                if (StringUtils.equals(childElement.getName(), XmlConfigConstant.REGISTER_ELEMENT_NAME)) {
-                    registerEntity = new RegisterEntity();
-                    parseRegister(childElement, registerEntity);
-                } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.DISCOVERY_ELEMENT_NAME)) {
-                    discoveryEntity = new DiscoveryEntity();
-                    parseDiscovery(childElement, discoveryEntity);
-                } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.STRATEGY_ELEMENT_NAME)) {
-                    strategyEntity = new StrategyEntity();
-                    parseStrategy(childElement, strategyEntity);
-                } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME)) {
-                    strategyCustomizationEntity = new StrategyCustomizationEntity();
-                    parseStrategyCustomization(childElement, strategyCustomizationEntity);
-                } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.STRATEGY_BLACKLIST_ELEMENT_NAME)) {
-                    strategyBlacklistEntity = new StrategyBlacklistEntity();
-                    parseStrategyBlacklist(childElement, strategyBlacklistEntity);
-                } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.PARAMETER_ELEMENT_NAME)) {
-                    parameterEntity = new ParameterEntity();
-                    parseParameter(childElement, parameterEntity);
-                }
+            if (StringUtils.equals(childElement.getName(), XmlConfigConstant.REGISTER_ELEMENT_NAME)) {
+                registerEntity = new RegisterEntity();
+                parseRegister(childElement, registerEntity);
+            } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.DISCOVERY_ELEMENT_NAME)) {
+                discoveryEntity = new DiscoveryEntity();
+                parseDiscovery(childElement, discoveryEntity);
+            } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.STRATEGY_ELEMENT_NAME)) {
+                strategyEntity = new StrategyEntity();
+                parseStrategy(childElement, strategyEntity);
+            } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME)) {
+                strategyCustomizationEntity = new StrategyCustomizationEntity();
+                parseStrategyCustomization(childElement, strategyCustomizationEntity);
+            } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.STRATEGY_BLACKLIST_ELEMENT_NAME)) {
+                strategyBlacklistEntity = new StrategyBlacklistEntity();
+                parseStrategyBlacklist(childElement, strategyBlacklistEntity);
+            } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.PARAMETER_ELEMENT_NAME)) {
+                parameterEntity = new ParameterEntity();
+                parseParameter(childElement, parameterEntity);
             }
         }
 
@@ -159,47 +155,38 @@ public class XmlConfigParser implements PluginConfigParser {
         return ruleEntity;
     }
 
-    @SuppressWarnings("rawtypes")
     private void parseRegister(Element element, RegisterEntity registerEntity) {
-        for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
-            Object childElementObject = elementIterator.next();
-            if (childElementObject instanceof Element) {
-                Element childElement = (Element) childElementObject;
+        for (Iterator<Element> elementIterator = element.elementIterator(); elementIterator.hasNext();) {
+            Element childElement = elementIterator.next();
 
-                if (StringUtils.equals(childElement.getName(), XmlConfigConstant.BLACKLIST_ELEMENT_NAME)) {
-                    parseHostFilter(childElement, XmlConfigConstant.BLACKLIST_ELEMENT_NAME, registerEntity);
-                } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.WHITELIST_ELEMENT_NAME)) {
-                    parseHostFilter(childElement, XmlConfigConstant.WHITELIST_ELEMENT_NAME, registerEntity);
-                } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.COUNT_ELEMENT_NAME)) {
-                    parseCountFilter(childElement, registerEntity);
-                }
+            if (StringUtils.equals(childElement.getName(), XmlConfigConstant.BLACKLIST_ELEMENT_NAME)) {
+                parseHostFilter(childElement, XmlConfigConstant.BLACKLIST_ELEMENT_NAME, registerEntity);
+            } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.WHITELIST_ELEMENT_NAME)) {
+                parseHostFilter(childElement, XmlConfigConstant.WHITELIST_ELEMENT_NAME, registerEntity);
+            } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.COUNT_ELEMENT_NAME)) {
+                parseCountFilter(childElement, registerEntity);
             }
         }
     }
 
-    @SuppressWarnings("rawtypes")
     private void parseDiscovery(Element element, DiscoveryEntity discoveryEntity) {
-        for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
-            Object childElementObject = elementIterator.next();
-            if (childElementObject instanceof Element) {
-                Element childElement = (Element) childElementObject;
+        for (Iterator<Element> elementIterator = element.elementIterator(); elementIterator.hasNext();) {
+            Element childElement = elementIterator.next();
 
-                if (StringUtils.equals(childElement.getName(), XmlConfigConstant.BLACKLIST_ELEMENT_NAME)) {
-                    parseHostFilter(childElement, XmlConfigConstant.BLACKLIST_ELEMENT_NAME, discoveryEntity);
-                } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.WHITELIST_ELEMENT_NAME)) {
-                    parseHostFilter(childElement, XmlConfigConstant.WHITELIST_ELEMENT_NAME, discoveryEntity);
-                } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.VERSION_ELEMENT_NAME)) {
-                    parseVersionFilter(childElement, discoveryEntity);
-                } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.REGION_ELEMENT_NAME)) {
-                    parseRegionFilter(childElement, discoveryEntity);
-                } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.WEIGHT_ELEMENT_NAME)) {
-                    parseWeightFilter(childElement, discoveryEntity);
-                }
+            if (StringUtils.equals(childElement.getName(), XmlConfigConstant.BLACKLIST_ELEMENT_NAME)) {
+                parseHostFilter(childElement, XmlConfigConstant.BLACKLIST_ELEMENT_NAME, discoveryEntity);
+            } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.WHITELIST_ELEMENT_NAME)) {
+                parseHostFilter(childElement, XmlConfigConstant.WHITELIST_ELEMENT_NAME, discoveryEntity);
+            } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.VERSION_ELEMENT_NAME)) {
+                parseVersionFilter(childElement, discoveryEntity);
+            } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.REGION_ELEMENT_NAME)) {
+                parseRegionFilter(childElement, discoveryEntity);
+            } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.WEIGHT_ELEMENT_NAME)) {
+                parseWeightFilter(childElement, discoveryEntity);
             }
         }
     }
 
-    @SuppressWarnings("rawtypes")
     private void parseStrategy(Element element, StrategyEntity strategyEntity) {
         int versionElementCount = element.elements(XmlConfigConstant.VERSION_ELEMENT_NAME).size();
         if (versionElementCount > 1) {
@@ -226,83 +213,72 @@ public class XmlConfigParser implements PluginConfigParser {
             throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.REGION_WEIGHT_ELEMENT_NAME + "] to be configed");
         }
 
-        for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
-            Object childElementObject = elementIterator.next();
-            if (childElementObject instanceof Element) {
-                Element childElement = (Element) childElementObject;
+        for (Iterator<Element> elementIterator = element.elementIterator(); elementIterator.hasNext();) {
+            Element childElement = elementIterator.next();
 
-                if (StringUtils.equals(childElement.getName(), XmlConfigConstant.VERSION_ELEMENT_NAME)) {
-                    String versionValue = childElement.getTextTrim();
-                    strategyEntity.setVersionValue(versionValue);
-                } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.REGION_ELEMENT_NAME)) {
-                    String regionValue = childElement.getTextTrim();
-                    strategyEntity.setRegionValue(regionValue);
-                } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.ADDRESS_ELEMENT_NAME)) {
-                    String addressValue = childElement.getTextTrim();
-                    strategyEntity.setAddressValue(addressValue);
-                } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.VERSION_WEIGHT_ELEMENT_NAME)) {
-                    String versionWeightValue = childElement.getTextTrim();
-                    strategyEntity.setVersionWeightValue(versionWeightValue);
-                } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.REGION_WEIGHT_ELEMENT_NAME)) {
-                    String regionWeightValue = childElement.getTextTrim();
-                    strategyEntity.setRegionWeightValue(regionWeightValue);
-                }
+            if (StringUtils.equals(childElement.getName(), XmlConfigConstant.VERSION_ELEMENT_NAME)) {
+                String versionValue = childElement.getTextTrim();
+                strategyEntity.setVersionValue(versionValue);
+            } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.REGION_ELEMENT_NAME)) {
+                String regionValue = childElement.getTextTrim();
+                strategyEntity.setRegionValue(regionValue);
+            } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.ADDRESS_ELEMENT_NAME)) {
+                String addressValue = childElement.getTextTrim();
+                strategyEntity.setAddressValue(addressValue);
+            } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.VERSION_WEIGHT_ELEMENT_NAME)) {
+                String versionWeightValue = childElement.getTextTrim();
+                strategyEntity.setVersionWeightValue(versionWeightValue);
+            } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.REGION_WEIGHT_ELEMENT_NAME)) {
+                String regionWeightValue = childElement.getTextTrim();
+                strategyEntity.setRegionWeightValue(regionWeightValue);
             }
         }
     }
 
-    @SuppressWarnings("rawtypes")
     private void parseStrategyCustomization(Element element, StrategyCustomizationEntity strategyCustomizationEntity) {
-        for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
-            Object childElementObject = elementIterator.next();
-            if (childElementObject instanceof Element) {
-                Element childElement = (Element) childElementObject;
+        for (Iterator<Element> elementIterator = element.elementIterator(); elementIterator.hasNext();) {
+            Element childElement = elementIterator.next();
 
-                if (StringUtils.equals(childElement.getName(), XmlConfigConstant.CONDITIONS_ELEMENT_NAME)) {
-                    Attribute typeAttribute = childElement.attribute(XmlConfigConstant.TYPE_ATTRIBUTE_NAME);
-                    if (typeAttribute == null) {
-                        throw new DiscoveryException("Attribute[" + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
-                    }
-                    String type = typeAttribute.getData().toString().trim();
-                    ConditionType conditionType = ConditionType.fromString(type);
-                    switch (conditionType) {
-                        case BLUE_GREEN:
-                            parseStrategyConditionBlueGreen(childElement, strategyCustomizationEntity);
-                            break;
-                        case GRAY:
-                            parseStrategyConditionGray(childElement, strategyCustomizationEntity);
-                            break;
-                    }
-                } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.ROUTES_ELEMENT_NAME)) {
-                    parseStrategyRoute(childElement, strategyCustomizationEntity);
-                } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.HEADERS_ELEMENT_NAME)) {
-                    parseStrategyHeader(childElement, strategyCustomizationEntity);
+            if (StringUtils.equals(childElement.getName(), XmlConfigConstant.CONDITIONS_ELEMENT_NAME)) {
+                Attribute typeAttribute = childElement.attribute(XmlConfigConstant.TYPE_ATTRIBUTE_NAME);
+                if (typeAttribute == null) {
+                    throw new DiscoveryException("Attribute[" + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                 }
+                String type = typeAttribute.getData().toString().trim();
+                ConditionType conditionType = ConditionType.fromString(type);
+                switch (conditionType) {
+                    case BLUE_GREEN:
+                        parseStrategyConditionBlueGreen(childElement, strategyCustomizationEntity);
+                        break;
+                    case GRAY:
+                        parseStrategyConditionGray(childElement, strategyCustomizationEntity);
+                        break;
+                }
+            } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.ROUTES_ELEMENT_NAME)) {
+                parseStrategyRoute(childElement, strategyCustomizationEntity);
+            } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.HEADERS_ELEMENT_NAME)) {
+                parseStrategyHeader(childElement, strategyCustomizationEntity);
             }
         }
     }
 
-    @SuppressWarnings("rawtypes")
     private void parseStrategyBlacklist(Element element, StrategyBlacklistEntity strategyBlacklistEntity) {
         List<String> idList = new ArrayList<String>();
         List<String> addressList = new ArrayList<String>();
-        for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
-            Object childElementObject = elementIterator.next();
-            if (childElementObject instanceof Element) {
-                Element childElement = (Element) childElementObject;
+        for (Iterator<Element> elementIterator = element.elementIterator(); elementIterator.hasNext();) {
+            Element childElement = elementIterator.next();
 
-                Attribute valueAttribute = childElement.attribute(XmlConfigConstant.VALUE_ATTRIBUTE_NAME);
-                if (valueAttribute == null) {
-                    throw new DiscoveryException("Attribute[" + XmlConfigConstant.VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
-                }
-                String value = valueAttribute.getData().toString().trim();
-                List<String> valueList = StringUtil.splitToList(value);
-                if (CollectionUtils.isNotEmpty(valueList)) {
-                    if (StringUtils.equals(childElement.getName(), XmlConfigConstant.ID_ELEMENT_NAME)) {
-                        idList.addAll(valueList);
-                    } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.ADDRESS_ELEMENT_NAME)) {
-                        addressList.addAll(valueList);
-                    }
+            Attribute valueAttribute = childElement.attribute(XmlConfigConstant.VALUE_ATTRIBUTE_NAME);
+            if (valueAttribute == null) {
+                throw new DiscoveryException("Attribute[" + XmlConfigConstant.VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+            }
+            String value = valueAttribute.getData().toString().trim();
+            List<String> valueList = StringUtil.splitToList(value);
+            if (CollectionUtils.isNotEmpty(valueList)) {
+                if (StringUtils.equals(childElement.getName(), XmlConfigConstant.ID_ELEMENT_NAME)) {
+                    idList.addAll(valueList);
+                } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.ADDRESS_ELEMENT_NAME)) {
+                    addressList.addAll(valueList);
                 }
             }
         }
@@ -315,43 +291,38 @@ public class XmlConfigParser implements PluginConfigParser {
         }
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     private void parseParameter(Element element, ParameterEntity parameterEntity) {
         Map<String, List<ParameterServiceEntity>> parameterServiceMap = parameterEntity.getParameterServiceMap();
-        for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
-            Object childElementObject = elementIterator.next();
-            if (childElementObject instanceof Element) {
-                Element childElement = (Element) childElementObject;
+        for (Iterator<Element> elementIterator = element.elementIterator(); elementIterator.hasNext();) {
+            Element childElement = elementIterator.next();
 
-                if (StringUtils.equals(childElement.getName(), XmlConfigConstant.SERVICE_ELEMENT_NAME)) {
-                    Attribute serviceNameAttribute = childElement.attribute(XmlConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME);
-                    if (serviceNameAttribute == null) {
-                        throw new DiscoveryException("Attribute[" + XmlConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
-                    }
-                    String serviceName = serviceNameAttribute.getData().toString().trim();
-
-                    ParameterServiceEntity parameterServiceEntity = new ParameterServiceEntity();
-
-                    for (Iterator<Attribute> iterator = childElement.attributeIterator(); iterator.hasNext();) {
-                        Attribute attribute = iterator.next();
-                        String key = attribute.getName();
-                        String value = attribute.getData().toString().trim();
-
-                        parameterServiceEntity.getParameterMap().put(key, value);
-                    }
-
-                    List<ParameterServiceEntity> parameterServiceEntityList = parameterServiceMap.get(serviceName);
-                    if (parameterServiceEntityList == null) {
-                        parameterServiceEntityList = new ArrayList<ParameterServiceEntity>();
-                        parameterServiceMap.put(serviceName, parameterServiceEntityList);
-                    }
-                    parameterServiceEntityList.add(parameterServiceEntity);
+            if (StringUtils.equals(childElement.getName(), XmlConfigConstant.SERVICE_ELEMENT_NAME)) {
+                Attribute serviceNameAttribute = childElement.attribute(XmlConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME);
+                if (serviceNameAttribute == null) {
+                    throw new DiscoveryException("Attribute[" + XmlConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                 }
+                String serviceName = serviceNameAttribute.getData().toString().trim();
+
+                ParameterServiceEntity parameterServiceEntity = new ParameterServiceEntity();
+
+                for (Iterator<Attribute> iterator = childElement.attributeIterator(); iterator.hasNext();) {
+                    Attribute attribute = iterator.next();
+                    String key = attribute.getName();
+                    String value = attribute.getData().toString().trim();
+
+                    parameterServiceEntity.getParameterMap().put(key, value);
+                }
+
+                List<ParameterServiceEntity> parameterServiceEntityList = parameterServiceMap.get(serviceName);
+                if (parameterServiceEntityList == null) {
+                    parameterServiceEntityList = new ArrayList<ParameterServiceEntity>();
+                    parameterServiceMap.put(serviceName, parameterServiceEntityList);
+                }
+                parameterServiceEntityList.add(parameterServiceEntity);
             }
         }
     }
 
-    @SuppressWarnings("rawtypes")
     private void parseHostFilter(Element element, String filterTypeValue, FilterHolderEntity filterHolderEntity) {
         HostFilterEntity hostFilterEntity = filterHolderEntity.getHostFilterEntity();
         if (hostFilterEntity != null) {
@@ -369,33 +340,28 @@ public class XmlConfigParser implements PluginConfigParser {
         }
 
         Map<String, List<String>> filterMap = hostFilterEntity.getFilterMap();
-        for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
-            Object childElementObject = elementIterator.next();
-            if (childElementObject instanceof Element) {
-                Element childElement = (Element) childElementObject;
-
-                if (StringUtils.equals(childElement.getName(), XmlConfigConstant.SERVICE_ELEMENT_NAME)) {
-                    Attribute serviceNameAttribute = childElement.attribute(XmlConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME);
-                    if (serviceNameAttribute == null) {
-                        throw new DiscoveryException("Attribute[" + XmlConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
-                    }
-                    String serviceName = serviceNameAttribute.getData().toString().trim();
-
-                    Attribute filterValueAttribute = childElement.attribute(XmlConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME);
-                    List<String> filterValueList = null;
-                    if (filterValueAttribute != null) {
-                        String filterValue = filterValueAttribute.getData().toString().trim();
-                        filterValueList = StringUtil.splitToList(filterValue);
-                    }
-                    filterMap.put(serviceName, filterValueList);
+        for (Iterator<Element> elementIterator = element.elementIterator(); elementIterator.hasNext();) {
+            Element childElement = elementIterator.next();
+            if (StringUtils.equals(childElement.getName(), XmlConfigConstant.SERVICE_ELEMENT_NAME)) {
+                Attribute serviceNameAttribute = childElement.attribute(XmlConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME);
+                if (serviceNameAttribute == null) {
+                    throw new DiscoveryException("Attribute[" + XmlConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                 }
+                String serviceName = serviceNameAttribute.getData().toString().trim();
+
+                Attribute filterValueAttribute = childElement.attribute(XmlConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME);
+                List<String> filterValueList = null;
+                if (filterValueAttribute != null) {
+                    String filterValue = filterValueAttribute.getData().toString().trim();
+                    filterValueList = StringUtil.splitToList(filterValue);
+                }
+                filterMap.put(serviceName, filterValueList);
             }
         }
 
         filterHolderEntity.setHostFilterEntity(hostFilterEntity);
     }
 
-    @SuppressWarnings("rawtypes")
     private void parseCountFilter(Element element, RegisterEntity registerEntity) {
         CountFilterEntity countFilterEntity = registerEntity.getCountFilterEntity();
         if (countFilterEntity != null) {
@@ -419,40 +385,35 @@ public class XmlConfigParser implements PluginConfigParser {
         }
 
         Map<String, Integer> filterMap = countFilterEntity.getFilterMap();
-        for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
-            Object childElementObject = elementIterator.next();
-            if (childElementObject instanceof Element) {
-                Element childElement = (Element) childElementObject;
+        for (Iterator<Element> elementIterator = element.elementIterator(); elementIterator.hasNext();) {
+            Element childElement = elementIterator.next();
+            if (StringUtils.equals(childElement.getName(), XmlConfigConstant.SERVICE_ELEMENT_NAME)) {
+                Attribute serviceNameAttribute = childElement.attribute(XmlConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME);
+                if (serviceNameAttribute == null) {
+                    throw new DiscoveryException("Attribute[" + XmlConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                }
+                String serviceName = serviceNameAttribute.getData().toString().trim();
 
-                if (StringUtils.equals(childElement.getName(), XmlConfigConstant.SERVICE_ELEMENT_NAME)) {
-                    Attribute serviceNameAttribute = childElement.attribute(XmlConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME);
-                    if (serviceNameAttribute == null) {
-                        throw new DiscoveryException("Attribute[" + XmlConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
-                    }
-                    String serviceName = serviceNameAttribute.getData().toString().trim();
-
-                    Integer value = null;
-                    Attribute filterValueAttribute = childElement.attribute(XmlConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME);
-                    if (filterValueAttribute != null) {
-                        String filterValue = filterValueAttribute.getData().toString().trim();
-                        if (StringUtils.isNotEmpty(filterValue)) {
-                            try {
-                                value = Integer.valueOf(filterValue);
-                            } catch (Exception e) {
-                                throw new DiscoveryException("Attribute[" + XmlConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME + "] value in element[" + childElement.getName() + "] is invalid, must be int type", e);
-                            }
+                Integer value = null;
+                Attribute filterValueAttribute = childElement.attribute(XmlConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME);
+                if (filterValueAttribute != null) {
+                    String filterValue = filterValueAttribute.getData().toString().trim();
+                    if (StringUtils.isNotEmpty(filterValue)) {
+                        try {
+                            value = Integer.valueOf(filterValue);
+                        } catch (Exception e) {
+                            throw new DiscoveryException("Attribute[" + XmlConfigConstant.FILTER_VALUE_ATTRIBUTE_NAME + "] value in element[" + childElement.getName() + "] is invalid, must be int type", e);
                         }
                     }
-
-                    filterMap.put(serviceName, value);
                 }
+
+                filterMap.put(serviceName, value);
             }
         }
 
         registerEntity.setCountFilterEntity(countFilterEntity);
     }
 
-    @SuppressWarnings("rawtypes")
     private void parseVersionFilter(Element element, DiscoveryEntity discoveryEntity) {
         VersionFilterEntity versionFilterEntity = discoveryEntity.getVersionFilterEntity();
         if (versionFilterEntity != null) {
@@ -462,57 +423,53 @@ public class XmlConfigParser implements PluginConfigParser {
         versionFilterEntity = new VersionFilterEntity();
 
         Map<String, List<VersionEntity>> versionEntityMap = versionFilterEntity.getVersionEntityMap();
-        for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
-            Object childElementObject = elementIterator.next();
-            if (childElementObject instanceof Element) {
-                Element childElement = (Element) childElementObject;
+        for (Iterator<Element> elementIterator = element.elementIterator(); elementIterator.hasNext();) {
+            Element childElement = elementIterator.next();
 
-                if (StringUtils.equals(childElement.getName(), XmlConfigConstant.SERVICE_ELEMENT_NAME)) {
-                    VersionEntity versionEntity = new VersionEntity();
+            if (StringUtils.equals(childElement.getName(), XmlConfigConstant.SERVICE_ELEMENT_NAME)) {
+                VersionEntity versionEntity = new VersionEntity();
 
-                    Attribute consumerServiceNameAttribute = childElement.attribute(XmlConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME);
-                    if (consumerServiceNameAttribute == null) {
-                        throw new DiscoveryException("Attribute[" + XmlConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
-                    }
-                    String consumerServiceName = consumerServiceNameAttribute.getData().toString().trim();
-                    versionEntity.setConsumerServiceName(consumerServiceName);
-
-                    Attribute providerServiceNameAttribute = childElement.attribute(XmlConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME);
-                    if (providerServiceNameAttribute == null) {
-                        throw new DiscoveryException("Attribute[" + XmlConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
-                    }
-                    String providerServiceName = providerServiceNameAttribute.getData().toString().trim();
-                    versionEntity.setProviderServiceName(providerServiceName);
-
-                    Attribute consumerVersionValueAttribute = childElement.attribute(XmlConfigConstant.CONSUMER_VERSION_VALUE_ATTRIBUTE_NAME);
-                    if (consumerVersionValueAttribute != null) {
-                        String consumerVersionValue = consumerVersionValueAttribute.getData().toString().trim();
-                        List<String> consumerVersionValueList = StringUtil.splitToList(consumerVersionValue);
-                        versionEntity.setConsumerVersionValueList(consumerVersionValueList);
-                    }
-
-                    Attribute providerVersionValueAttribute = childElement.attribute(XmlConfigConstant.PROVIDER_VERSION_VALUE_ATTRIBUTE_NAME);
-                    if (providerVersionValueAttribute != null) {
-                        String providerVersionValue = providerVersionValueAttribute.getData().toString().trim();
-                        List<String> providerVersionValueList = StringUtil.splitToList(providerVersionValue);
-                        versionEntity.setProviderVersionValueList(providerVersionValueList);
-                    }
-
-                    List<VersionEntity> versionEntityList = versionEntityMap.get(consumerServiceName);
-                    if (versionEntityList == null) {
-                        versionEntityList = new ArrayList<VersionEntity>();
-                        versionEntityMap.put(consumerServiceName, versionEntityList);
-                    }
-
-                    versionEntityList.add(versionEntity);
+                Attribute consumerServiceNameAttribute = childElement.attribute(XmlConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME);
+                if (consumerServiceNameAttribute == null) {
+                    throw new DiscoveryException("Attribute[" + XmlConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                 }
+                String consumerServiceName = consumerServiceNameAttribute.getData().toString().trim();
+                versionEntity.setConsumerServiceName(consumerServiceName);
+
+                Attribute providerServiceNameAttribute = childElement.attribute(XmlConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME);
+                if (providerServiceNameAttribute == null) {
+                    throw new DiscoveryException("Attribute[" + XmlConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                }
+                String providerServiceName = providerServiceNameAttribute.getData().toString().trim();
+                versionEntity.setProviderServiceName(providerServiceName);
+
+                Attribute consumerVersionValueAttribute = childElement.attribute(XmlConfigConstant.CONSUMER_VERSION_VALUE_ATTRIBUTE_NAME);
+                if (consumerVersionValueAttribute != null) {
+                    String consumerVersionValue = consumerVersionValueAttribute.getData().toString().trim();
+                    List<String> consumerVersionValueList = StringUtil.splitToList(consumerVersionValue);
+                    versionEntity.setConsumerVersionValueList(consumerVersionValueList);
+                }
+
+                Attribute providerVersionValueAttribute = childElement.attribute(XmlConfigConstant.PROVIDER_VERSION_VALUE_ATTRIBUTE_NAME);
+                if (providerVersionValueAttribute != null) {
+                    String providerVersionValue = providerVersionValueAttribute.getData().toString().trim();
+                    List<String> providerVersionValueList = StringUtil.splitToList(providerVersionValue);
+                    versionEntity.setProviderVersionValueList(providerVersionValueList);
+                }
+
+                List<VersionEntity> versionEntityList = versionEntityMap.get(consumerServiceName);
+                if (versionEntityList == null) {
+                    versionEntityList = new ArrayList<VersionEntity>();
+                    versionEntityMap.put(consumerServiceName, versionEntityList);
+                }
+
+                versionEntityList.add(versionEntity);
             }
         }
 
         discoveryEntity.setVersionFilterEntity(versionFilterEntity);
     }
 
-    @SuppressWarnings("rawtypes")
     private void parseRegionFilter(Element element, DiscoveryEntity discoveryEntity) {
         RegionFilterEntity regionFilterEntity = discoveryEntity.getRegionFilterEntity();
         if (regionFilterEntity != null) {
@@ -522,57 +479,53 @@ public class XmlConfigParser implements PluginConfigParser {
         regionFilterEntity = new RegionFilterEntity();
 
         Map<String, List<RegionEntity>> regionEntityMap = regionFilterEntity.getRegionEntityMap();
-        for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
-            Object childElementObject = elementIterator.next();
-            if (childElementObject instanceof Element) {
-                Element childElement = (Element) childElementObject;
+        for (Iterator<Element> elementIterator = element.elementIterator(); elementIterator.hasNext();) {
+            Element childElement = elementIterator.next();
 
-                if (StringUtils.equals(childElement.getName(), XmlConfigConstant.SERVICE_ELEMENT_NAME)) {
-                    RegionEntity regionEntity = new RegionEntity();
+            if (StringUtils.equals(childElement.getName(), XmlConfigConstant.SERVICE_ELEMENT_NAME)) {
+                RegionEntity regionEntity = new RegionEntity();
 
-                    Attribute consumerServiceNameAttribute = childElement.attribute(XmlConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME);
-                    if (consumerServiceNameAttribute == null) {
-                        throw new DiscoveryException("Attribute[" + XmlConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
-                    }
-                    String consumerServiceName = consumerServiceNameAttribute.getData().toString().trim();
-                    regionEntity.setConsumerServiceName(consumerServiceName);
-
-                    Attribute providerServiceNameAttribute = childElement.attribute(XmlConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME);
-                    if (providerServiceNameAttribute == null) {
-                        throw new DiscoveryException("Attribute[" + XmlConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
-                    }
-                    String providerServiceName = providerServiceNameAttribute.getData().toString().trim();
-                    regionEntity.setProviderServiceName(providerServiceName);
-
-                    Attribute consumerRegionValueAttribute = childElement.attribute(XmlConfigConstant.CONSUMER_REGION_VALUE_ATTRIBUTE_NAME);
-                    if (consumerRegionValueAttribute != null) {
-                        String consumerRegionValue = consumerRegionValueAttribute.getData().toString().trim();
-                        List<String> consumerRegionValueList = StringUtil.splitToList(consumerRegionValue);
-                        regionEntity.setConsumerRegionValueList(consumerRegionValueList);
-                    }
-
-                    Attribute providerRegionValueAttribute = childElement.attribute(XmlConfigConstant.PROVIDER_REGION_VALUE_ATTRIBUTE_NAME);
-                    if (providerRegionValueAttribute != null) {
-                        String providerRegionValue = providerRegionValueAttribute.getData().toString().trim();
-                        List<String> providerRegionValueList = StringUtil.splitToList(providerRegionValue);
-                        regionEntity.setProviderRegionValueList(providerRegionValueList);
-                    }
-
-                    List<RegionEntity> regionEntityList = regionEntityMap.get(consumerServiceName);
-                    if (regionEntityList == null) {
-                        regionEntityList = new ArrayList<RegionEntity>();
-                        regionEntityMap.put(consumerServiceName, regionEntityList);
-                    }
-
-                    regionEntityList.add(regionEntity);
+                Attribute consumerServiceNameAttribute = childElement.attribute(XmlConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME);
+                if (consumerServiceNameAttribute == null) {
+                    throw new DiscoveryException("Attribute[" + XmlConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                 }
+                String consumerServiceName = consumerServiceNameAttribute.getData().toString().trim();
+                regionEntity.setConsumerServiceName(consumerServiceName);
+
+                Attribute providerServiceNameAttribute = childElement.attribute(XmlConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME);
+                if (providerServiceNameAttribute == null) {
+                    throw new DiscoveryException("Attribute[" + XmlConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                }
+                String providerServiceName = providerServiceNameAttribute.getData().toString().trim();
+                regionEntity.setProviderServiceName(providerServiceName);
+
+                Attribute consumerRegionValueAttribute = childElement.attribute(XmlConfigConstant.CONSUMER_REGION_VALUE_ATTRIBUTE_NAME);
+                if (consumerRegionValueAttribute != null) {
+                    String consumerRegionValue = consumerRegionValueAttribute.getData().toString().trim();
+                    List<String> consumerRegionValueList = StringUtil.splitToList(consumerRegionValue);
+                    regionEntity.setConsumerRegionValueList(consumerRegionValueList);
+                }
+
+                Attribute providerRegionValueAttribute = childElement.attribute(XmlConfigConstant.PROVIDER_REGION_VALUE_ATTRIBUTE_NAME);
+                if (providerRegionValueAttribute != null) {
+                    String providerRegionValue = providerRegionValueAttribute.getData().toString().trim();
+                    List<String> providerRegionValueList = StringUtil.splitToList(providerRegionValue);
+                    regionEntity.setProviderRegionValueList(providerRegionValueList);
+                }
+
+                List<RegionEntity> regionEntityList = regionEntityMap.get(consumerServiceName);
+                if (regionEntityList == null) {
+                    regionEntityList = new ArrayList<RegionEntity>();
+                    regionEntityMap.put(consumerServiceName, regionEntityList);
+                }
+
+                regionEntityList.add(regionEntity);
             }
         }
 
         discoveryEntity.setRegionFilterEntity(regionFilterEntity);
     }
 
-    @SuppressWarnings("rawtypes")
     private void parseWeightFilter(Element element, DiscoveryEntity discoveryEntity) {
         WeightFilterEntity weightFilterEntity = discoveryEntity.getWeightFilterEntity();
         if (weightFilterEntity != null) {
@@ -591,111 +544,107 @@ public class XmlConfigParser implements PluginConfigParser {
         weightFilterEntity.setRegionWeightEntityMap(regionWeightEntityMap);
         weightFilterEntity.setRegionWeightEntityList(regionWeightEntityList);
 
-        for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
-            Object childElementObject = elementIterator.next();
-            if (childElementObject instanceof Element) {
-                Element childElement = (Element) childElementObject;
+        for (Iterator<Element> elementIterator = element.elementIterator(); elementIterator.hasNext();) {
+            Element childElement = elementIterator.next();
 
-                if (StringUtils.equals(childElement.getName(), XmlConfigConstant.SERVICE_ELEMENT_NAME)) {
-                    WeightEntity weightEntity = new WeightEntity();
+            if (StringUtils.equals(childElement.getName(), XmlConfigConstant.SERVICE_ELEMENT_NAME)) {
+                WeightEntity weightEntity = new WeightEntity();
 
-                    Attribute typeAttribute = childElement.attribute(XmlConfigConstant.TYPE_ATTRIBUTE_NAME);
-                    if (typeAttribute == null) {
-                        throw new DiscoveryException("Attribute[" + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
-                    }
-                    String type = typeAttribute.getData().toString().trim();
-                    WeightType weightType = WeightType.fromString(type);
-                    weightEntity.setType(weightType);
-
-                    Attribute consumerServiceNameAttribute = childElement.attribute(XmlConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME);
-                    String consumerServiceName = null;
-                    if (consumerServiceNameAttribute != null) {
-                        consumerServiceName = consumerServiceNameAttribute.getData().toString().trim();
-                    }
-                    weightEntity.setConsumerServiceName(consumerServiceName);
-
-                    Attribute providerServiceNameAttribute = childElement.attribute(XmlConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME);
-                    if (providerServiceNameAttribute == null) {
-                        throw new DiscoveryException("Attribute[" + XmlConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
-                    }
-                    String providerServiceName = providerServiceNameAttribute.getData().toString().trim();
-                    weightEntity.setProviderServiceName(providerServiceName);
-
-                    Attribute providerWeightValueAttribute = childElement.attribute(XmlConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME);
-                    if (providerWeightValueAttribute == null) {
-                        throw new DiscoveryException("Attribute[" + XmlConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
-                    }
-                    String providerWeightValue = providerWeightValueAttribute.getData().toString().trim();
-
-                    WeightEntityWrapper.parseWeightEntity(weightEntity, providerWeightValue);
-
-                    if (StringUtils.isNotEmpty(consumerServiceName)) {
-                        if (weightType == WeightType.VERSION) {
-                            List<WeightEntity> list = versionWeightEntityMap.get(consumerServiceName);
-                            if (list == null) {
-                                list = new ArrayList<WeightEntity>();
-                                versionWeightEntityMap.put(consumerServiceName, list);
-                            }
-
-                            list.add(weightEntity);
-                        } else if (weightType == WeightType.REGION) {
-                            List<WeightEntity> list = regionWeightEntityMap.get(consumerServiceName);
-                            if (list == null) {
-                                list = new ArrayList<WeightEntity>();
-                                regionWeightEntityMap.put(consumerServiceName, list);
-                            }
-
-                            list.add(weightEntity);
-                        }
-                    } else {
-                        if (weightType == WeightType.VERSION) {
-                            versionWeightEntityList.add(weightEntity);
-                        } else if (weightType == WeightType.REGION) {
-                            regionWeightEntityList.add(weightEntity);
-                        }
-                    }
-                } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.VERSION_ELEMENT_NAME)) {
-                    VersionWeightEntity versionWeightEntity = weightFilterEntity.getVersionWeightEntity();
-                    if (versionWeightEntity != null) {
-                        throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.VERSION_ELEMENT_NAME + "] to be configed");
-                    }
-
-                    versionWeightEntity = new VersionWeightEntity();
-
-                    Attribute providerWeightValueAttribute = childElement.attribute(XmlConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME);
-                    if (providerWeightValueAttribute == null) {
-                        throw new DiscoveryException("Attribute[" + XmlConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
-                    }
-                    String providerWeightValue = providerWeightValueAttribute.getData().toString().trim();
-
-                    WeightEntityWrapper.parseWeightEntity(versionWeightEntity, providerWeightValue);
-
-                    weightFilterEntity.setVersionWeightEntity(versionWeightEntity);
-                } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.REGION_ELEMENT_NAME)) {
-                    RegionWeightEntity regionWeightEntity = weightFilterEntity.getRegionWeightEntity();
-                    if (regionWeightEntity != null) {
-                        throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.REGION_ELEMENT_NAME + "] to be configed");
-                    }
-
-                    regionWeightEntity = new RegionWeightEntity();
-
-                    Attribute providerWeightValueAttribute = childElement.attribute(XmlConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME);
-                    if (providerWeightValueAttribute == null) {
-                        throw new DiscoveryException("Attribute[" + XmlConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
-                    }
-                    String providerWeightValue = providerWeightValueAttribute.getData().toString().trim();
-
-                    WeightEntityWrapper.parseWeightEntity(regionWeightEntity, providerWeightValue);
-
-                    weightFilterEntity.setRegionWeightEntity(regionWeightEntity);
+                Attribute typeAttribute = childElement.attribute(XmlConfigConstant.TYPE_ATTRIBUTE_NAME);
+                if (typeAttribute == null) {
+                    throw new DiscoveryException("Attribute[" + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                 }
+                String type = typeAttribute.getData().toString().trim();
+                WeightType weightType = WeightType.fromString(type);
+                weightEntity.setType(weightType);
+
+                Attribute consumerServiceNameAttribute = childElement.attribute(XmlConfigConstant.CONSUMER_SERVICE_NAME_ATTRIBUTE_NAME);
+                String consumerServiceName = null;
+                if (consumerServiceNameAttribute != null) {
+                    consumerServiceName = consumerServiceNameAttribute.getData().toString().trim();
+                }
+                weightEntity.setConsumerServiceName(consumerServiceName);
+
+                Attribute providerServiceNameAttribute = childElement.attribute(XmlConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME);
+                if (providerServiceNameAttribute == null) {
+                    throw new DiscoveryException("Attribute[" + XmlConfigConstant.PROVIDER_SERVICE_NAME_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                }
+                String providerServiceName = providerServiceNameAttribute.getData().toString().trim();
+                weightEntity.setProviderServiceName(providerServiceName);
+
+                Attribute providerWeightValueAttribute = childElement.attribute(XmlConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME);
+                if (providerWeightValueAttribute == null) {
+                    throw new DiscoveryException("Attribute[" + XmlConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                }
+                String providerWeightValue = providerWeightValueAttribute.getData().toString().trim();
+
+                WeightEntityWrapper.parseWeightEntity(weightEntity, providerWeightValue);
+
+                if (StringUtils.isNotEmpty(consumerServiceName)) {
+                    if (weightType == WeightType.VERSION) {
+                        List<WeightEntity> list = versionWeightEntityMap.get(consumerServiceName);
+                        if (list == null) {
+                            list = new ArrayList<WeightEntity>();
+                            versionWeightEntityMap.put(consumerServiceName, list);
+                        }
+
+                        list.add(weightEntity);
+                    } else if (weightType == WeightType.REGION) {
+                        List<WeightEntity> list = regionWeightEntityMap.get(consumerServiceName);
+                        if (list == null) {
+                            list = new ArrayList<WeightEntity>();
+                            regionWeightEntityMap.put(consumerServiceName, list);
+                        }
+
+                        list.add(weightEntity);
+                    }
+                } else {
+                    if (weightType == WeightType.VERSION) {
+                        versionWeightEntityList.add(weightEntity);
+                    } else if (weightType == WeightType.REGION) {
+                        regionWeightEntityList.add(weightEntity);
+                    }
+                }
+            } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.VERSION_ELEMENT_NAME)) {
+                VersionWeightEntity versionWeightEntity = weightFilterEntity.getVersionWeightEntity();
+                if (versionWeightEntity != null) {
+                    throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.VERSION_ELEMENT_NAME + "] to be configed");
+                }
+
+                versionWeightEntity = new VersionWeightEntity();
+
+                Attribute providerWeightValueAttribute = childElement.attribute(XmlConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME);
+                if (providerWeightValueAttribute == null) {
+                    throw new DiscoveryException("Attribute[" + XmlConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                }
+                String providerWeightValue = providerWeightValueAttribute.getData().toString().trim();
+
+                WeightEntityWrapper.parseWeightEntity(versionWeightEntity, providerWeightValue);
+
+                weightFilterEntity.setVersionWeightEntity(versionWeightEntity);
+            } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.REGION_ELEMENT_NAME)) {
+                RegionWeightEntity regionWeightEntity = weightFilterEntity.getRegionWeightEntity();
+                if (regionWeightEntity != null) {
+                    throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.REGION_ELEMENT_NAME + "] to be configed");
+                }
+
+                regionWeightEntity = new RegionWeightEntity();
+
+                Attribute providerWeightValueAttribute = childElement.attribute(XmlConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME);
+                if (providerWeightValueAttribute == null) {
+                    throw new DiscoveryException("Attribute[" + XmlConfigConstant.PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                }
+                String providerWeightValue = providerWeightValueAttribute.getData().toString().trim();
+
+                WeightEntityWrapper.parseWeightEntity(regionWeightEntity, providerWeightValue);
+
+                weightFilterEntity.setRegionWeightEntity(regionWeightEntity);
             }
         }
 
         discoveryEntity.setWeightFilterEntity(weightFilterEntity);
     }
 
-    @SuppressWarnings("rawtypes")
     private void parseStrategyConditionBlueGreen(Element element, StrategyCustomizationEntity strategyCustomizationEntity) {
         List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList = strategyCustomizationEntity.getStrategyConditionBlueGreenEntityList();
         if (strategyConditionBlueGreenEntityList != null) {
@@ -705,65 +654,61 @@ public class XmlConfigParser implements PluginConfigParser {
         strategyConditionBlueGreenEntityList = new ArrayList<StrategyConditionBlueGreenEntity>();
         strategyCustomizationEntity.setStrategyConditionBlueGreenEntityList(strategyConditionBlueGreenEntityList);
 
-        for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
-            Object childElementObject = elementIterator.next();
-            if (childElementObject instanceof Element) {
-                Element childElement = (Element) childElementObject;
+        for (Iterator<Element> elementIterator = element.elementIterator(); elementIterator.hasNext();) {
+            Element childElement = elementIterator.next();
 
-                if (StringUtils.equals(childElement.getName(), XmlConfigConstant.CONDITION_ELEMENT_NAME)) {
-                    StrategyConditionBlueGreenEntity strategyConditionBlueGreenEntity = new StrategyConditionBlueGreenEntity();
+            if (StringUtils.equals(childElement.getName(), XmlConfigConstant.CONDITION_ELEMENT_NAME)) {
+                StrategyConditionBlueGreenEntity strategyConditionBlueGreenEntity = new StrategyConditionBlueGreenEntity();
 
-                    Attribute idAttribute = childElement.attribute(XmlConfigConstant.ID_ATTRIBUTE_NAME);
-                    if (idAttribute == null) {
-                        throw new DiscoveryException("Attribute[" + XmlConfigConstant.ID_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
-                    }
-                    String id = idAttribute.getData().toString().trim();
-                    strategyConditionBlueGreenEntity.setId(id);
-
-                    Attribute headerAttribute = childElement.attribute(XmlConfigConstant.HEADER_ATTRIBUTE_NAME);
-                    if (headerAttribute == null) {
-                        throw new DiscoveryException("Attribute[" + XmlConfigConstant.HEADER_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
-                    }
-                    String header = headerAttribute.getData().toString().trim();
-                    strategyConditionBlueGreenEntity.setConditionHeader(header);
-
-                    Attribute versionIdAttribute = childElement.attribute(XmlConfigConstant.VERSION_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME);
-                    if (versionIdAttribute != null) {
-                        String versionId = versionIdAttribute.getData().toString().trim();
-                        strategyConditionBlueGreenEntity.setVersionId(versionId);
-                    }
-
-                    Attribute regionIdAttribute = childElement.attribute(XmlConfigConstant.REGION_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME);
-                    if (regionIdAttribute != null) {
-                        String regionId = regionIdAttribute.getData().toString().trim();
-                        strategyConditionBlueGreenEntity.setRegionId(regionId);
-                    }
-
-                    Attribute addressIdAttribute = childElement.attribute(XmlConfigConstant.ADDRESS_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME);
-                    if (addressIdAttribute != null) {
-                        String addressId = addressIdAttribute.getData().toString().trim();
-                        strategyConditionBlueGreenEntity.setAddressId(addressId);
-                    }
-
-                    Attribute versionWeightIdAttribute = childElement.attribute(XmlConfigConstant.VERSION_WEIGHT_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME);
-                    if (versionWeightIdAttribute != null) {
-                        String versionWeightId = versionWeightIdAttribute.getData().toString().trim();
-                        strategyConditionBlueGreenEntity.setVersionWeightId(versionWeightId);
-                    }
-
-                    Attribute regionWeightIdAttribute = childElement.attribute(XmlConfigConstant.REGION_WEIGHT_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME);
-                    if (regionWeightIdAttribute != null) {
-                        String regionWeightId = regionWeightIdAttribute.getData().toString().trim();
-                        strategyConditionBlueGreenEntity.setRegionWeightId(regionWeightId);
-                    }
-
-                    strategyConditionBlueGreenEntityList.add(strategyConditionBlueGreenEntity);
+                Attribute idAttribute = childElement.attribute(XmlConfigConstant.ID_ATTRIBUTE_NAME);
+                if (idAttribute == null) {
+                    throw new DiscoveryException("Attribute[" + XmlConfigConstant.ID_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                 }
+                String id = idAttribute.getData().toString().trim();
+                strategyConditionBlueGreenEntity.setId(id);
+
+                Attribute headerAttribute = childElement.attribute(XmlConfigConstant.HEADER_ATTRIBUTE_NAME);
+                if (headerAttribute == null) {
+                    throw new DiscoveryException("Attribute[" + XmlConfigConstant.HEADER_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                }
+                String header = headerAttribute.getData().toString().trim();
+                strategyConditionBlueGreenEntity.setConditionHeader(header);
+
+                Attribute versionIdAttribute = childElement.attribute(XmlConfigConstant.VERSION_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME);
+                if (versionIdAttribute != null) {
+                    String versionId = versionIdAttribute.getData().toString().trim();
+                    strategyConditionBlueGreenEntity.setVersionId(versionId);
+                }
+
+                Attribute regionIdAttribute = childElement.attribute(XmlConfigConstant.REGION_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME);
+                if (regionIdAttribute != null) {
+                    String regionId = regionIdAttribute.getData().toString().trim();
+                    strategyConditionBlueGreenEntity.setRegionId(regionId);
+                }
+
+                Attribute addressIdAttribute = childElement.attribute(XmlConfigConstant.ADDRESS_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME);
+                if (addressIdAttribute != null) {
+                    String addressId = addressIdAttribute.getData().toString().trim();
+                    strategyConditionBlueGreenEntity.setAddressId(addressId);
+                }
+
+                Attribute versionWeightIdAttribute = childElement.attribute(XmlConfigConstant.VERSION_WEIGHT_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME);
+                if (versionWeightIdAttribute != null) {
+                    String versionWeightId = versionWeightIdAttribute.getData().toString().trim();
+                    strategyConditionBlueGreenEntity.setVersionWeightId(versionWeightId);
+                }
+
+                Attribute regionWeightIdAttribute = childElement.attribute(XmlConfigConstant.REGION_WEIGHT_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME);
+                if (regionWeightIdAttribute != null) {
+                    String regionWeightId = regionWeightIdAttribute.getData().toString().trim();
+                    strategyConditionBlueGreenEntity.setRegionWeightId(regionWeightId);
+                }
+
+                strategyConditionBlueGreenEntityList.add(strategyConditionBlueGreenEntity);
             }
         }
     }
 
-    @SuppressWarnings("rawtypes")
     private void parseStrategyConditionGray(Element element, StrategyCustomizationEntity strategyCustomizationEntity) {
         List<StrategyConditionGrayEntity> strategyConditionGrayEntityList = strategyCustomizationEntity.getStrategyConditionGrayEntityList();
         if (strategyConditionGrayEntityList != null) {
@@ -773,58 +718,54 @@ public class XmlConfigParser implements PluginConfigParser {
         strategyConditionGrayEntityList = new ArrayList<StrategyConditionGrayEntity>();
         strategyCustomizationEntity.setStrategyConditionGrayEntityList(strategyConditionGrayEntityList);
 
-        for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
-            Object childElementObject = elementIterator.next();
-            if (childElementObject instanceof Element) {
-                Element childElement = (Element) childElementObject;
+        for (Iterator<Element> elementIterator = element.elementIterator(); elementIterator.hasNext();) {
+            Element childElement = elementIterator.next();
 
-                if (StringUtils.equals(childElement.getName(), XmlConfigConstant.CONDITION_ELEMENT_NAME)) {
-                    StrategyConditionGrayEntity strategyConditionGrayEntity = new StrategyConditionGrayEntity();
+            if (StringUtils.equals(childElement.getName(), XmlConfigConstant.CONDITION_ELEMENT_NAME)) {
+                StrategyConditionGrayEntity strategyConditionGrayEntity = new StrategyConditionGrayEntity();
 
-                    Attribute idAttribute = childElement.attribute(XmlConfigConstant.ID_ATTRIBUTE_NAME);
-                    if (idAttribute == null) {
-                        throw new DiscoveryException("Attribute[" + XmlConfigConstant.ID_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
-                    }
-                    String id = idAttribute.getData().toString().trim();
-                    strategyConditionGrayEntity.setId(id);
-
-                    Attribute headerAttribute = childElement.attribute(XmlConfigConstant.HEADER_ATTRIBUTE_NAME);
-                    if (headerAttribute != null) {
-                        String header = headerAttribute.getData().toString().trim();
-                        strategyConditionGrayEntity.setConditionHeader(header);
-                    }
-
-                    Attribute versionIdAttribute = childElement.attribute(XmlConfigConstant.VERSION_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME);
-                    if (versionIdAttribute != null) {
-                        String versionId = versionIdAttribute.getData().toString().trim();
-                        VersionWeightEntity versionWeightEntity = new VersionWeightEntity();
-                        WeightEntityWrapper.parseWeightEntity(versionWeightEntity, versionId);
-                        strategyConditionGrayEntity.setVersionWeightEntity(versionWeightEntity);
-                    }
-
-                    Attribute regionIdAttribute = childElement.attribute(XmlConfigConstant.REGION_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME);
-                    if (regionIdAttribute != null) {
-                        String regionId = regionIdAttribute.getData().toString().trim();
-                        RegionWeightEntity regionWeightEntity = new RegionWeightEntity();
-                        WeightEntityWrapper.parseWeightEntity(regionWeightEntity, regionId);
-                        strategyConditionGrayEntity.setRegionWeightEntity(regionWeightEntity);
-                    }
-
-                    Attribute addressIdAttribute = childElement.attribute(XmlConfigConstant.ADDRESS_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME);
-                    if (addressIdAttribute != null) {
-                        String addressId = addressIdAttribute.getData().toString().trim();
-                        AddressWeightEntity addressWeightEntity = new AddressWeightEntity();
-                        WeightEntityWrapper.parseWeightEntity(addressWeightEntity, addressId);
-                        strategyConditionGrayEntity.setAddressWeightEntity(addressWeightEntity);
-                    }
-
-                    strategyConditionGrayEntityList.add(strategyConditionGrayEntity);
+                Attribute idAttribute = childElement.attribute(XmlConfigConstant.ID_ATTRIBUTE_NAME);
+                if (idAttribute == null) {
+                    throw new DiscoveryException("Attribute[" + XmlConfigConstant.ID_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                 }
+                String id = idAttribute.getData().toString().trim();
+                strategyConditionGrayEntity.setId(id);
+
+                Attribute headerAttribute = childElement.attribute(XmlConfigConstant.HEADER_ATTRIBUTE_NAME);
+                if (headerAttribute != null) {
+                    String header = headerAttribute.getData().toString().trim();
+                    strategyConditionGrayEntity.setConditionHeader(header);
+                }
+
+                Attribute versionIdAttribute = childElement.attribute(XmlConfigConstant.VERSION_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME);
+                if (versionIdAttribute != null) {
+                    String versionId = versionIdAttribute.getData().toString().trim();
+                    VersionWeightEntity versionWeightEntity = new VersionWeightEntity();
+                    WeightEntityWrapper.parseWeightEntity(versionWeightEntity, versionId);
+                    strategyConditionGrayEntity.setVersionWeightEntity(versionWeightEntity);
+                }
+
+                Attribute regionIdAttribute = childElement.attribute(XmlConfigConstant.REGION_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME);
+                if (regionIdAttribute != null) {
+                    String regionId = regionIdAttribute.getData().toString().trim();
+                    RegionWeightEntity regionWeightEntity = new RegionWeightEntity();
+                    WeightEntityWrapper.parseWeightEntity(regionWeightEntity, regionId);
+                    strategyConditionGrayEntity.setRegionWeightEntity(regionWeightEntity);
+                }
+
+                Attribute addressIdAttribute = childElement.attribute(XmlConfigConstant.ADDRESS_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME);
+                if (addressIdAttribute != null) {
+                    String addressId = addressIdAttribute.getData().toString().trim();
+                    AddressWeightEntity addressWeightEntity = new AddressWeightEntity();
+                    WeightEntityWrapper.parseWeightEntity(addressWeightEntity, addressId);
+                    strategyConditionGrayEntity.setAddressWeightEntity(addressWeightEntity);
+                }
+
+                strategyConditionGrayEntityList.add(strategyConditionGrayEntity);
             }
         }
     }
 
-    @SuppressWarnings("rawtypes")
     private void parseStrategyRoute(Element element, StrategyCustomizationEntity strategyCustomizationEntity) {
         List<StrategyRouteEntity> strategyRouteEntityList = strategyCustomizationEntity.getStrategyRouteEntityList();
         if (strategyRouteEntityList != null) {
@@ -834,39 +775,35 @@ public class XmlConfigParser implements PluginConfigParser {
         strategyRouteEntityList = new ArrayList<StrategyRouteEntity>();
         strategyCustomizationEntity.setStrategyRouteEntityList(strategyRouteEntityList);
 
-        for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
-            Object childElementObject = elementIterator.next();
-            if (childElementObject instanceof Element) {
-                Element childElement = (Element) childElementObject;
+        for (Iterator<Element> elementIterator = element.elementIterator(); elementIterator.hasNext();) {
+            Element childElement = elementIterator.next();
 
-                if (StringUtils.equals(childElement.getName(), XmlConfigConstant.ROUTE_ELEMENT_NAME)) {
-                    StrategyRouteEntity strategyRouteEntity = new StrategyRouteEntity();
+            if (StringUtils.equals(childElement.getName(), XmlConfigConstant.ROUTE_ELEMENT_NAME)) {
+                StrategyRouteEntity strategyRouteEntity = new StrategyRouteEntity();
 
-                    Attribute idAttribute = childElement.attribute(XmlConfigConstant.ID_ATTRIBUTE_NAME);
-                    if (idAttribute == null) {
-                        throw new DiscoveryException("Attribute[" + XmlConfigConstant.ID_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
-                    }
-                    String id = idAttribute.getData().toString().trim();
-                    strategyRouteEntity.setId(id);
-
-                    Attribute typeAttribute = childElement.attribute(XmlConfigConstant.TYPE_ATTRIBUTE_NAME);
-                    if (typeAttribute == null) {
-                        throw new DiscoveryException("Attribute[" + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
-                    }
-                    String type = typeAttribute.getData().toString().trim();
-                    StrategyRouteType strategyRouteType = StrategyRouteType.fromString(type);
-                    strategyRouteEntity.setType(strategyRouteType);
-
-                    String value = childElement.getTextTrim();
-                    strategyRouteEntity.setValue(value);
-
-                    strategyRouteEntityList.add(strategyRouteEntity);
+                Attribute idAttribute = childElement.attribute(XmlConfigConstant.ID_ATTRIBUTE_NAME);
+                if (idAttribute == null) {
+                    throw new DiscoveryException("Attribute[" + XmlConfigConstant.ID_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                 }
+                String id = idAttribute.getData().toString().trim();
+                strategyRouteEntity.setId(id);
+
+                Attribute typeAttribute = childElement.attribute(XmlConfigConstant.TYPE_ATTRIBUTE_NAME);
+                if (typeAttribute == null) {
+                    throw new DiscoveryException("Attribute[" + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                }
+                String type = typeAttribute.getData().toString().trim();
+                StrategyRouteType strategyRouteType = StrategyRouteType.fromString(type);
+                strategyRouteEntity.setType(strategyRouteType);
+
+                String value = childElement.getTextTrim();
+                strategyRouteEntity.setValue(value);
+
+                strategyRouteEntityList.add(strategyRouteEntity);
             }
         }
     }
 
-    @SuppressWarnings("rawtypes")
     private void parseStrategyHeader(Element element, StrategyCustomizationEntity strategyCustomizationEntity) {
         StrategyHeaderEntity strategyHeaderEntity = strategyCustomizationEntity.getStrategyHeaderEntity();
         if (strategyHeaderEntity != null) {
@@ -876,26 +813,23 @@ public class XmlConfigParser implements PluginConfigParser {
         strategyHeaderEntity = new StrategyHeaderEntity();
         strategyCustomizationEntity.setStrategyHeaderEntity(strategyHeaderEntity);
 
-        for (Iterator elementIterator = element.elementIterator(); elementIterator.hasNext();) {
-            Object childElementObject = elementIterator.next();
-            if (childElementObject instanceof Element) {
-                Element childElement = (Element) childElementObject;
+        for (Iterator<Element> elementIterator = element.elementIterator(); elementIterator.hasNext();) {
+            Element childElement = elementIterator.next();
 
-                if (StringUtils.equals(childElement.getName(), XmlConfigConstant.HEADER_ELEMENT_NAME)) {
-                    Attribute keyAttribute = childElement.attribute(XmlConfigConstant.KEY_ATTRIBUTE_NAME);
-                    if (keyAttribute == null) {
-                        throw new DiscoveryException("Attribute[" + XmlConfigConstant.KEY_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
-                    }
-                    String key = keyAttribute.getData().toString().trim();
-
-                    Attribute valueAttribute = childElement.attribute(XmlConfigConstant.VALUE_ATTRIBUTE_NAME);
-                    if (valueAttribute == null) {
-                        throw new DiscoveryException("Attribute[" + XmlConfigConstant.VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
-                    }
-                    String value = valueAttribute.getData().toString().trim();
-
-                    strategyHeaderEntity.getHeaderMap().put(key, value);
+            if (StringUtils.equals(childElement.getName(), XmlConfigConstant.HEADER_ELEMENT_NAME)) {
+                Attribute keyAttribute = childElement.attribute(XmlConfigConstant.KEY_ATTRIBUTE_NAME);
+                if (keyAttribute == null) {
+                    throw new DiscoveryException("Attribute[" + XmlConfigConstant.KEY_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
                 }
+                String key = keyAttribute.getData().toString().trim();
+
+                Attribute valueAttribute = childElement.attribute(XmlConfigConstant.VALUE_ATTRIBUTE_NAME);
+                if (valueAttribute == null) {
+                    throw new DiscoveryException("Attribute[" + XmlConfigConstant.VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                }
+                String value = valueAttribute.getData().toString().trim();
+
+                strategyHeaderEntity.getHeaderMap().put(key, value);
             }
         }
     }
