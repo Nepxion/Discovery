@@ -342,6 +342,7 @@ public class XmlConfigParser implements PluginConfigParser {
         Map<String, List<String>> filterMap = hostFilterEntity.getFilterMap();
         for (Iterator<Element> elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Element childElement = elementIterator.next();
+
             if (StringUtils.equals(childElement.getName(), XmlConfigConstant.SERVICE_ELEMENT_NAME)) {
                 Attribute serviceNameAttribute = childElement.attribute(XmlConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME);
                 if (serviceNameAttribute == null) {
@@ -387,6 +388,7 @@ public class XmlConfigParser implements PluginConfigParser {
         Map<String, Integer> filterMap = countFilterEntity.getFilterMap();
         for (Iterator<Element> elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Element childElement = elementIterator.next();
+
             if (StringUtils.equals(childElement.getName(), XmlConfigConstant.SERVICE_ELEMENT_NAME)) {
                 Attribute serviceNameAttribute = childElement.attribute(XmlConfigConstant.SERVICE_NAME_ATTRIBUTE_NAME);
                 if (serviceNameAttribute == null) {
