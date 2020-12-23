@@ -355,27 +355,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/docs/logo-doc/蓝亮.png"></td>
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/docs/logo-doc/吹星屯.png"></td>
     </tr>
-    <tr align="center">
-      <td width="20%">预留</td>
-      <td width="20%">预留</td>
-      <td width="20%">预留</td>
-      <td width="20%">预留</td>
-      <td width="20%">预留</td>
-    </tr>
-    <tr align="center">
-      <td width="20%">预留</td>
-      <td width="20%">预留</td>
-      <td width="20%">预留</td>
-      <td width="20%">预留</td>
-      <td width="20%">预留</td>
-    </tr>
-    <tr align="center">
-      <td width="20%">预留</td>
-      <td width="20%">预留</td>
-      <td width="20%">预留</td>
-      <td width="20%">预留</td>
-      <td width="20%">预留</td>
-    </tr>
   </tbody>
 </table>
 
@@ -3099,7 +3078,6 @@ Apollo订阅推送界面
 - 在页面中添加配置
     - 局部配置方式：一个服务集群（eureka.instance.metadataMap.group和spring.application.name都相同的服务）对应一个配置文件，通过group+serviceId方式添加，Key为group-serviceId，Value为Xml或者Json格式的规则策略内容。group取值于配置文件里的eureka.instance.metadataMap.group配置项，serviceId取值于spring.application.name配置项目
     - 全局配置方式：一组服务集群（eureka.instance.metadataMap.group相同，但spring.application.name可以不相同的服务）对应一个配置文件，通过group方式添加，Key为group-group，Value为Xml或者Json格式的规则内容。group取值于配置文件里的eureka.instance.metadataMap.group配置项
-    - 强烈建议局部配置方式和全局配置方式不要混用，否则连使用者自己都无法搞清楚到底是哪种配置方式在起作用
 - 其他更多参数，例如evn, cluster等，请自行参考Apollo官方文档，保持一致
 
 ③ 需要注意
@@ -3112,29 +3090,6 @@ Nacos订阅推送界面
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Nacos2.jpg)
 - 参考Nacos官方文档[https://github.com/alibaba/nacos](https://github.com/alibaba/nacos)相关文档，搭建Nacos环境，以及熟悉相关的基本操作
-- 下面配置中，nacos.server-addr必须要配置，其它配置可选
-
-```
-nacos.server-addr=localhost:8848
-# nacos.access-key=
-# nacos.secret-key=
-# nacos.plugin.namespace=application
-# nacos.plugin.cluster-name=
-# nacos.plugin.context-path=
-# nacos.plugin.config-long-poll-timeout=
-# nacos.plugin.config-retry-time=
-# nacos.plugin.max-retry=
-# nacos.plugin.endpoint=
-# nacos.plugin.endpoint-port=
-# nacos.plugin.is-use-endpoint-parsing-rule=
-# nacos.plugin.is-use-cloud-namespace-parsing=
-# nacos.plugin.encode=
-# nacos.plugin.naming-load-cache-at-start=
-# nacos.plugin.naming-client-beat-thread-count=
-# nacos.plugin.naming-polling-thread-count=
-# nacos.plugin.ram-role-name=
-# nacos.plugin.timout=
-```
 
 - 添加配置步骤跟Apollo配置界面中的【在页面中添加配置】操作项相似
 
