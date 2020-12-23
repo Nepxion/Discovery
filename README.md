@@ -356,26 +356,26 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/docs/logo-doc/吹星屯.png"></td>
     </tr>
     <tr align="center">
-      <td width="20%"></td>
-      <td width="20%"></td>
-      <td width="20%"></td>
-      <td width="20%"></td>
-      <td width="20%"></td>
+      <td width="20%">预留</td>
+      <td width="20%">预留</td>
+      <td width="20%">预留</td>
+      <td width="20%">预留</td>
+      <td width="20%">预留</td>
     </tr>
     <tr align="center">
-      <td width="20%"></td>
-      <td width="20%"></td>
-      <td width="20%"></td>
-      <td width="20%"></td>
-      <td width="20%"></td>
+      <td width="20%">预留</td>
+      <td width="20%">预留</td>
+      <td width="20%">预留</td>
+      <td width="20%">预留</td>
+      <td width="20%">预留</td>
     </tr>
     <tr align="center">
-      <td width="20%"></td>
-      <td width="20%"></td>
-      <td width="20%"></td>
-      <td width="20%"></td>
-      <td width="20%"></td>
-    </tr>	
+      <td width="20%">预留</td>
+      <td width="20%">预留</td>
+      <td width="20%">预留</td>
+      <td width="20%">预留</td>
+      <td width="20%">预留</td>
+    </tr>
   </tbody>
 </table>
 
