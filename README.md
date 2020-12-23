@@ -3887,7 +3887,7 @@ spring.application.strategy.tracer.sentinel.args.output.enabled=true
 
 #### Spring-Boot-Admin监控
 ![](http://nepxion.gitee.io/docs/discovery-doc/Admin1.jpg)
-[^_^]: ![](http://nepxion.gitee.io/docs/discovery-doc/Admin7.jpg)
+![](http://nepxion.gitee.io/docs/discovery-doc/Admin7.jpg)
 
 ## 全链路服务侧注解
 服务侧对于RPC方式的调用拦截、消费端的服务隔离和调用链三项功能，默认映射到RestController类（含有@RestController注解），并配合如下的扫描路径才能工作
