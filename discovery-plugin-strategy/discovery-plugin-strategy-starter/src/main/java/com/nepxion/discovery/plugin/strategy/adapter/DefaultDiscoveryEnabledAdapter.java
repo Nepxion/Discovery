@@ -48,8 +48,14 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     @Autowired
     protected DiscoveryClient discoveryClient;
 
-    @Value("${" + DiscoveryConstant.SPRING_APPLICATION_ENVIRONMENT_ROUTE + ":" + DiscoveryConstant.SPRING_APPLICATION_ENVIRONMENT_ROUTE_VALUE + "}")
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_ENVIRONMENT_ROUTE + ":" + StrategyConstant.SPRING_APPLICATION_STRATEGY_ENVIRONMENT_ROUTE_VALUE + "}")
     protected String environmentRoute;
+
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_ZONE_AFFINITY_ENABLED + ":false}")
+    protected Boolean zoneAffinityEnabled;
+
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_ZONE_ROUTE_ENABLED + ":true}")
+    protected Boolean zoneRouteEnabled;
 
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_VERSION_FAILOVER_ENABLED + ":false}")
     protected Boolean versionFailoverEnabled;
@@ -60,6 +66,11 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     @Override
     public boolean apply(Server server) {
         boolean enabled = applyEnvironment(server);
+        if (!enabled) {
+            return false;
+        }
+
+        enabled = applyZone(server);
         if (!enabled) {
             return false;
         }
@@ -118,6 +129,44 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         } else {
             // 没有匹配上，则寻址Common环境，返回Common环境的服务实例
             return StringUtils.equals(environment, environmentRoute) || StringUtils.equals(environment, DiscoveryConstant.DEFAULT);
+        }
+    }
+
+    public boolean applyZone(Server server) {
+        if (!zoneAffinityEnabled) {
+            return true;
+        }
+
+        String zone = pluginAdapter.getZone();
+        // 当服务未接入本框架或者版本号未设置（表现出来的值为DiscoveryConstant.DEFAULT），则不过滤，返回
+        if (StringUtils.equals(zone, DiscoveryConstant.DEFAULT)) {
+            return true;
+        }
+
+        String serviceId = pluginAdapter.getServerServiceId(server);
+        List<ServiceInstance> instances = discoveryClient.getInstances(serviceId);
+
+        boolean matched = false;
+        for (ServiceInstance instance : instances) {
+            String instanceZone = pluginAdapter.getInstanceZone(instance);
+            if (StringUtils.equals(zone, instanceZone)) {
+                matched = true;
+
+                break;
+            }
+        }
+
+        String serverZone = pluginAdapter.getServerZone(server);
+        if (matched) {
+            // 可用区存在：执行可用区亲和性，即调用端实例和提供端实例的元数据Metadata的zone配置值相等才能调用
+            return StringUtils.equals(serverZone, zone);
+        } else {
+            // 可用区不存在：路由开关打开，可路由到其它可用区；路由开关关闭，不可路由到其它可用区或者不归属任何可用区
+            if (zoneRouteEnabled) {
+                return true;
+            } else {
+                return StringUtils.equals(serverZone, zone);
+            }
         }
     }
 

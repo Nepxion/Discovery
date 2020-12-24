@@ -29,13 +29,11 @@ import com.nepxion.discovery.plugin.framework.listener.discovery.DiscoveryListen
 import com.nepxion.discovery.plugin.framework.listener.discovery.HostFilterDiscoveryListener;
 import com.nepxion.discovery.plugin.framework.listener.discovery.RegionFilterDiscoveryListener;
 import com.nepxion.discovery.plugin.framework.listener.discovery.VersionFilterDiscoveryListener;
-import com.nepxion.discovery.plugin.framework.listener.discovery.ZoneFilterDiscoveryListener;
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.HostFilterLoadBalanceListener;
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.LoadBalanceListenerExecutor;
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.NotificationLoadBalanceListener;
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.RegionFilterLoadBalanceListener;
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.VersionFilterLoadBalanceListener;
-import com.nepxion.discovery.plugin.framework.listener.loadbalance.ZoneFilterLoadBalanceListener;
 import com.nepxion.discovery.plugin.framework.listener.register.CountFilterRegisterListener;
 import com.nepxion.discovery.plugin.framework.listener.register.HostFilterRegisterListener;
 import com.nepxion.discovery.plugin.framework.listener.register.RegisterListenerExecutor;
@@ -133,13 +131,6 @@ public class PluginAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    @ConditionalOnProperty(value = DiscoveryConstant.SPRING_APPLICATION_ZONE_AFFINITY_ENABLED, matchIfMissing = false)
-    public ZoneFilterDiscoveryListener zoneFilterDiscoveryListener() {
-        return new ZoneFilterDiscoveryListener();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
     public HostFilterLoadBalanceListener hostFilterLoadBalanceListener() {
         return new HostFilterLoadBalanceListener();
     }
@@ -154,13 +145,6 @@ public class PluginAutoConfiguration {
     @ConditionalOnMissingBean
     public RegionFilterLoadBalanceListener regionFilterLoadBalanceListener() {
         return new RegionFilterLoadBalanceListener();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    @ConditionalOnProperty(value = DiscoveryConstant.SPRING_APPLICATION_ZONE_AFFINITY_ENABLED, matchIfMissing = false)
-    public ZoneFilterLoadBalanceListener zoneFilterLoadBalanceListener() {
-        return new ZoneFilterLoadBalanceListener();
     }
 
     @Bean

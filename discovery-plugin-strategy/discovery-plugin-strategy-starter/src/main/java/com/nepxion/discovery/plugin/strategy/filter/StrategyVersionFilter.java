@@ -26,6 +26,7 @@ import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginContextHolder;
 import com.nepxion.discovery.plugin.strategy.adapter.StrategyVersionFilterAdapter;
+import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.matcher.DiscoveryMatcherStrategy;
 import com.netflix.loadbalancer.Server;
 
@@ -45,8 +46,14 @@ public class StrategyVersionFilter {
     @Autowired
     protected DiscoveryClient discoveryClient;
 
-    @Value("${" + DiscoveryConstant.SPRING_APPLICATION_ENVIRONMENT_ROUTE + ":" + DiscoveryConstant.SPRING_APPLICATION_ENVIRONMENT_ROUTE_VALUE + "}")
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_ENVIRONMENT_ROUTE + ":" + StrategyConstant.SPRING_APPLICATION_STRATEGY_ENVIRONMENT_ROUTE_VALUE + "}")
     protected String environmentRoute;
+
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_ZONE_AFFINITY_ENABLED + ":false}")
+    protected Boolean zoneAffinityEnabled;
+
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_ZONE_ROUTE_ENABLED + ":true}")
+    protected Boolean zoneRouteEnabled;
 
     public boolean apply(Server server) {
         // 获取对端服务的版本号
@@ -79,8 +86,8 @@ public class StrategyVersionFilter {
         List<String> versionList = new ArrayList<String>();
         for (ServiceInstance instance : instances) {
             String version = pluginAdapter.getInstanceVersion(instance);
-            // 当服务未接入本框架或者版本号未设置（表现出来的值为DiscoveryConstant.DEFAULT），并且不在指定环境、指定区域、指定IP地址和端口、指定黑名单里，不添加到认可列表
-            if (!versionList.contains(version) && !StringUtils.equals(version, DiscoveryConstant.DEFAULT) && applyEnvironment(instance) && applyRegion(instance) && applyAddress(instance) && applyIdBlacklist(instance) && applyAddressBlacklist(instance)) {
+            // 当服务未接入本框架或者版本号未设置（表现出来的值为DiscoveryConstant.DEFAULT），并且不在指定环境、指定区域、指定可用区、指定IP地址和端口、指定黑名单里，不添加到认可列表
+            if (!versionList.contains(version) && !StringUtils.equals(version, DiscoveryConstant.DEFAULT) && applyEnvironment(instance) && applyZone(instance) && applyRegion(instance) && applyAddress(instance) && applyIdBlacklist(instance) && applyAddressBlacklist(instance)) {
                 versionList.add(version);
             }
         }
@@ -119,6 +126,44 @@ public class StrategyVersionFilter {
         } else {
             // 没有匹配上，则寻址Common环境，返回Common环境的服务实例
             return StringUtils.equals(environment, environmentRoute) || StringUtils.equals(environment, DiscoveryConstant.DEFAULT);
+        }
+    }
+
+    public boolean applyZone(ServiceInstance instance) {
+        if (!zoneAffinityEnabled) {
+            return true;
+        }
+
+        String zone = pluginAdapter.getZone();
+        // 当服务未接入本框架或者版本号未设置（表现出来的值为DiscoveryConstant.DEFAULT），则不过滤，返回
+        if (StringUtils.equals(zone, DiscoveryConstant.DEFAULT)) {
+            return true;
+        }
+
+        String serviceId = pluginAdapter.getInstanceServiceId(instance);
+        List<ServiceInstance> instances = discoveryClient.getInstances(serviceId);
+
+        boolean matched = false;
+        for (ServiceInstance serviceInstance : instances) {
+            String instanceZone = pluginAdapter.getInstanceZone(serviceInstance);
+            if (StringUtils.equals(zone, instanceZone)) {
+                matched = true;
+
+                break;
+            }
+        }
+
+        String instanceZone = pluginAdapter.getInstanceZone(instance);
+        if (matched) {
+            // 可用区存在：执行可用区亲和性，即调用端实例和提供端实例的元数据Metadata的zone配置值相等才能调用
+            return StringUtils.equals(instanceZone, zone);
+        } else {
+            // 可用区不存在：路由开关打开，可路由到其它可用区；路由开关关闭，不可路由到其它可用区或者不归属任何可用区
+            if (zoneRouteEnabled) {
+                return true;
+            } else {
+                return StringUtils.equals(instanceZone, zone);
+            }
         }
     }
 
