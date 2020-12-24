@@ -3125,7 +3125,7 @@ spring.cloud.nacos.discovery.metadata.env=env1
 在环境隔离执行的时候，如果无法找到对应的环境，则会路由到一个通用或者备份环境，默认为env为common的环境，可以通过如下参数进行更改
 ```
 # 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
-spring.application.environment.route=common
+spring.application.strategy.environment.route=common
 ```
 
 ![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意
@@ -3148,7 +3148,7 @@ spring.cloud.nacos.discovery.metadata.zone=zone
 通过如下开关进行开启和关闭
 ```
 # 启动和关闭可用区亲和性，即同一个可用区的服务才能调用，同一个可用区的条件是调用端实例和提供端实例的元数据Metadata的zone配置值必须相等。缺失则默认为false
-spring.application.zone.affinity.enabled=false
+spring.application.strategy.zone.affinity.enabled=false
 ```
 
 ### 全链路可用区亲和性路由
@@ -3157,7 +3157,7 @@ spring.application.zone.affinity.enabled=false
 通过如下开关进行开启和关闭
 ```
 # 启动和关闭可用区亲和性失败后的路由，即调用端实例没有找到同一个可用区的提供端实例的时候，当开关打开，可路由到其它可用区或者不归属任何可用区，当开关关闭，则直接调用失败。缺失则默认为true
-spring.application.zone.route.enabled=true
+spring.application.strategy.zone.route.enabled=true
 ```
 
 ![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意
@@ -4331,20 +4331,20 @@ spring.application.strategy.service.sentinel.request.origin.key=n-d-service-id
 # 启动和关闭Sentinel LimitApp限流等功能。缺失则默认为false
 spring.application.strategy.service.sentinel.limit.app.enabled=true
 
+# 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
+spring.application.strategy.environment.route=common
+
+# 启动和关闭可用区亲和性，即同一个可用区的服务才能调用，同一个可用区的条件是调用端实例和提供端实例的元数据Metadata的zone配置值必须相等。缺失则默认为false
+spring.application.strategy.zone.affinity.enabled=true
+# 启动和关闭可用区亲和性失败后的路由，即调用端实例没有找到同一个可用区的提供端实例的时候，当开关打开，可路由到其它可用区或者不归属任何可用区，当开关关闭，则直接调用失败。缺失则默认为true
+spring.application.strategy.zone.route.enabled=true
+
 # 版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例。其作用是防止蓝绿灰度版本发布人为设置错误，或者对应的版本实例发生灾难性的全部下线，导致流量有损
 # 启动和关闭版本故障转移。缺失则默认为false
 spring.application.strategy.version.failover.enabled=true
 # 版本偏好，即非蓝绿灰度发布场景下，路由到老的稳定版本的实例。其作用是防止多个网关上并行实施蓝绿灰度版本发布产生混乱，对处于非蓝绿灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；蓝绿灰度状态的服务，还是根据传递的Header版本号进行匹配
 # 启动和关闭版本偏好。缺失则默认为false
 spring.application.strategy.version.prefer.enabled=true
-
-# 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
-spring.application.environment.route=common
-
-# 启动和关闭可用区亲和性，即同一个可用区的服务才能调用，同一个可用区的条件是调用端实例和提供端实例的元数据Metadata的zone配置值必须相等。缺失则默认为false
-spring.application.zone.affinity.enabled=true
-# 启动和关闭可用区亲和性失败后的路由，即调用端实例没有找到同一个可用区的提供端实例的时候，当开关打开，可路由到其它可用区或者不归属任何可用区，当开关关闭，则直接调用失败。缺失则默认为true
-spring.application.zone.route.enabled=true
 
 # 启动和关闭在服务启动的时候参数订阅事件发送。缺失则默认为true
 spring.application.parameter.event.onstart.enabled=true
@@ -4450,20 +4450,20 @@ spring.application.strategy.tracer.sentinel.args.output.enabled=true
 # 开启Spring Cloud Gateway网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
 spring.application.strategy.hystrix.threadlocal.supported=true
 
+# 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
+spring.application.strategy.environment.route=common
+
+# 启动和关闭可用区亲和性，即同一个可用区的服务才能调用，同一个可用区的条件是调用端实例和提供端实例的元数据Metadata的zone配置值必须相等。缺失则默认为false
+spring.application.strategy.zone.affinity.enabled=true
+# 启动和关闭可用区亲和性失败后的路由，即调用端实例没有找到同一个可用区的提供端实例的时候，当开关打开，可路由到其它可用区或者不归属任何可用区，当开关关闭，则直接调用失败。缺失则默认为true
+spring.application.strategy.zone.route.enabled=true
+
 # 版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例。其作用是防止蓝绿灰度版本发布人为设置错误，或者对应的版本实例发生灾难性的全部下线，导致流量有损
 # 启动和关闭版本故障转移。缺失则默认为false
 spring.application.strategy.version.failover.enabled=true
 # 版本偏好，即非蓝绿灰度发布场景下，路由到老的稳定版本的实例。其作用是防止多个网关上并行实施蓝绿灰度版本发布产生混乱，对处于非蓝绿灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；蓝绿灰度状态的服务，还是根据传递的Header版本号进行匹配
 # 启动和关闭版本偏好。缺失则默认为false
 spring.application.strategy.version.prefer.enabled=true
-
-# 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
-spring.application.environment.route=common
-
-# 启动和关闭可用区亲和性，即同一个可用区的服务才能调用，同一个可用区的条件是调用端实例和提供端实例的元数据Metadata的zone配置值必须相等。缺失则默认为false
-spring.application.zone.affinity.enabled=true
-# 启动和关闭可用区亲和性失败后的路由，即调用端实例没有找到同一个可用区的提供端实例的时候，当开关打开，可路由到其它可用区或者不归属任何可用区，当开关关闭，则直接调用失败。缺失则默认为true
-spring.application.zone.route.enabled=true
 
 # 启动和关闭在服务启动的时候参数订阅事件发送。缺失则默认为true
 spring.application.parameter.event.onstart.enabled=true
@@ -4569,20 +4569,20 @@ spring.application.strategy.tracer.sentinel.args.output.enabled=true
 # 开启Zuul网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
 spring.application.strategy.hystrix.threadlocal.supported=true
 
+# 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
+spring.application.strategy.environment.route=common
+
+# 启动和关闭可用区亲和性，即同一个可用区的服务才能调用，同一个可用区的条件是调用端实例和提供端实例的元数据Metadata的zone配置值必须相等。缺失则默认为false
+spring.application.strategy.zone.affinity.enabled=true
+# 启动和关闭可用区亲和性失败后的路由，即调用端实例没有找到同一个可用区的提供端实例的时候，当开关打开，可路由到其它可用区或者不归属任何可用区，当开关关闭，则直接调用失败。缺失则默认为true
+spring.application.strategy.zone.route.enabled=true
+
 # 版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例。其作用是防止蓝绿灰度版本发布人为设置错误，或者对应的版本实例发生灾难性的全部下线，导致流量有损
 # 启动和关闭版本故障转移。缺失则默认为false
 spring.application.strategy.version.failover.enabled=true
 # 版本偏好，即非蓝绿灰度发布场景下，路由到老的稳定版本的实例。其作用是防止多个网关上并行实施蓝绿灰度版本发布产生混乱，对处于非蓝绿灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；蓝绿灰度状态的服务，还是根据传递的Header版本号进行匹配
 # 启动和关闭版本偏好。缺失则默认为false
 spring.application.strategy.version.prefer.enabled=true
-
-# 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
-spring.application.environment.route=common
-
-# 启动和关闭可用区亲和性，即同一个可用区的服务才能调用，同一个可用区的条件是调用端实例和提供端实例的元数据Metadata的zone配置值必须相等。缺失则默认为false
-spring.application.zone.affinity.enabled=true
-# 启动和关闭可用区亲和性失败后的路由，即调用端实例没有找到同一个可用区的提供端实例的时候，当开关打开，可路由到其它可用区或者不归属任何可用区，当开关关闭，则直接调用失败。缺失则默认为true
-spring.application.zone.route.enabled=true
 
 # 启动和关闭在服务启动的时候参数订阅事件发送。缺失则默认为true
 spring.application.parameter.event.onstart.enabled=true
