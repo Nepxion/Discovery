@@ -1441,7 +1441,7 @@ A部门服务直接访问B部门服务
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Introduction.jpg)
 
-### 全链路参数策略
+#### 全链路参数策略
 ① Header参数策略
 
 基于标准Http传值方式
@@ -3628,6 +3628,14 @@ public ServiceSentinelRequestOriginAdapter ServiceSentinelRequestOriginAdapter()
 
 #### 蓝绿灰度埋点Debug辅助监控
 Debug辅助监控只是通过普通的System.out.println方式输出，便于开发人员在IDE上调试，在生产环境下不建议开启
+
+对于Debug辅助监控功能的开启和关闭，需要通过如下开关做控制
+```
+# 启动和关闭Header传递的Debug日志打印，注意：每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
+spring.application.strategy.rest.intercept.debug.enabled=true
+# 启动和关闭Debug日志打印，注意：每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
+spring.application.strategy.logger.debug.enabled=true
+```
 
 ① 网关端和服务端自身蓝绿灰度埋点Debug辅助监控
 ```
