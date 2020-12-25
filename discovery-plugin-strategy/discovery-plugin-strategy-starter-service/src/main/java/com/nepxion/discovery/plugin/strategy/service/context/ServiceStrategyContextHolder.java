@@ -54,8 +54,7 @@ public class ServiceStrategyContextHolder extends AbstractStrategyContextHolder 
         return request;
     }
 
-    @Override
-    public String getHeader(String name) {
+    public String getWebMvcHeader(String name) {
         HttpServletRequest request = getHttpServletRequest();
         if (request == null) {
             return null;
@@ -64,8 +63,7 @@ public class ServiceStrategyContextHolder extends AbstractStrategyContextHolder 
         return request.getHeader(name);
     }
 
-    @Override
-    public String getParameter(String name) {
+    public String getWebMvcParameter(String name) {
         HttpServletRequest request = getHttpServletRequest();
         if (request == null) {
             return null;
@@ -74,7 +72,7 @@ public class ServiceStrategyContextHolder extends AbstractStrategyContextHolder 
         return request.getParameter(name);
     }
 
-    public Cookie getHttpCookie(String name) {
+    public Cookie getWebMvcHttpCookie(String name) {
         HttpServletRequest request = getHttpServletRequest();
         if (request == null) {
             return null;
@@ -96,9 +94,8 @@ public class ServiceStrategyContextHolder extends AbstractStrategyContextHolder 
         return null;
     }
 
-    @Override
-    public String getCookie(String name) {
-        Cookie cookie = getHttpCookie(name);
+    public String getWebMvcCookie(String name) {
+        Cookie cookie = getWebMvcHttpCookie(name);
         if (cookie != null) {
             return cookie.getValue();
         }
@@ -106,7 +103,7 @@ public class ServiceStrategyContextHolder extends AbstractStrategyContextHolder 
         return null;
     }
 
-    public String getRequestURL() {
+    public String getWebMvcRequestURL() {
         HttpServletRequest request = getHttpServletRequest();
         if (request == null) {
             return null;
@@ -115,12 +112,35 @@ public class ServiceStrategyContextHolder extends AbstractStrategyContextHolder 
         return request.getRequestURL().toString();
     }
 
-    public String getRequestURI() {
+    public String getWebMvcRequestURI() {
         HttpServletRequest request = getHttpServletRequest();
         if (request == null) {
             return null;
         }
 
         return request.getRequestURI();
+    }
+
+    @Override
+    public String getHeader(String name) {
+        return getWebMvcHeader(name);
+    }
+
+    @Override
+    public String getParameter(String name) {
+        return getWebMvcParameter(name);
+    }
+
+    @Override
+    public String getCookie(String name) {
+        return getWebMvcCookie(name);
+    }
+
+    public String getRequestURL() {
+        return getWebMvcRequestURL();
+    }
+
+    public String getRequestURI() {
+        return getWebMvcRequestURI();
     }
 }
