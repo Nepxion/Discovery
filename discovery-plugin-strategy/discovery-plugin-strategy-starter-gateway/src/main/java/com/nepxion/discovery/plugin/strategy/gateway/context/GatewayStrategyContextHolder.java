@@ -12,6 +12,7 @@ package com.nepxion.discovery.plugin.strategy.gateway.context;
 import java.net.URI;
 
 import org.springframework.http.HttpCookie;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.server.ServerWebExchange;
 
 import com.nepxion.discovery.plugin.strategy.context.AbstractStrategyContextHolder;
@@ -21,8 +22,7 @@ public class GatewayStrategyContextHolder extends AbstractStrategyContextHolder 
         return GatewayStrategyContext.getCurrentContext().getExchange();
     }
 
-    @Override
-    public String getHeader(String name) {
+    public ServerHttpRequest getServerHttpRequest() {
         ServerWebExchange exchange = getExchange();
         if (exchange == null) {
             // LOG.warn("The ServerWebExchange object is lost for thread switched, or it is got before context filter probably");
@@ -30,30 +30,36 @@ public class GatewayStrategyContextHolder extends AbstractStrategyContextHolder 
             return null;
         }
 
-        return exchange.getRequest().getHeaders().getFirst(name);
+        return exchange.getRequest();
+    }
+
+    @Override
+    public String getHeader(String name) {
+        ServerHttpRequest request = getServerHttpRequest();
+        if (request == null) {
+            return null;
+        }
+
+        return request.getHeaders().getFirst(name);
     }
 
     @Override
     public String getParameter(String name) {
-        ServerWebExchange exchange = getExchange();
-        if (exchange == null) {
-            // LOG.warn("The ServerWebExchange object is lost for thread switched, or it is got before context filter probably");
-
+        ServerHttpRequest request = getServerHttpRequest();
+        if (request == null) {
             return null;
         }
 
-        return exchange.getRequest().getQueryParams().getFirst(name);
+        return request.getQueryParams().getFirst(name);
     }
 
     public HttpCookie getHttpCookie(String name) {
-        ServerWebExchange exchange = getExchange();
-        if (exchange == null) {
-            // LOG.warn("The ServerWebExchange object is lost for thread switched, or it is got before context filter probably");
-
+        ServerHttpRequest request = getServerHttpRequest();
+        if (request == null) {
             return null;
         }
 
-        return exchange.getRequest().getCookies().getFirst(name);
+        return request.getCookies().getFirst(name);
     }
 
     @Override
@@ -67,13 +73,11 @@ public class GatewayStrategyContextHolder extends AbstractStrategyContextHolder 
     }
 
     public URI getURI() {
-        ServerWebExchange exchange = getExchange();
-        if (exchange == null) {
-            // LOG.warn("The ServerWebExchange object is lost for thread switched, or it is got before context filter probably");
-
+        ServerHttpRequest request = getServerHttpRequest();
+        if (request == null) {
             return null;
         }
 
-        return exchange.getRequest().getURI();
+        return request.getURI();
     }
 }
