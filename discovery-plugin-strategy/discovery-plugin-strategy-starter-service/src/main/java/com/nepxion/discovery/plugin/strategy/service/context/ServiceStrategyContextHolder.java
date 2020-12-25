@@ -13,6 +13,7 @@ package com.nepxion.discovery.plugin.strategy.service.context;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.context.request.RequestAttributes;
@@ -35,8 +36,7 @@ public class ServiceStrategyContextHolder extends AbstractStrategyContextHolder 
         return RpcStrategyContext.getCurrentContext().getAttributes();
     }
 
-    @Override
-    public String getHeader(String name) {
+    public HttpServletRequest getHttpServletRequest() {
         ServletRequestAttributes attributes = getRestAttributes();
         if (attributes == null) {
             // LOG.warn("The ServletRequestAttributes object is lost for thread switched probably");
@@ -44,30 +44,43 @@ public class ServiceStrategyContextHolder extends AbstractStrategyContextHolder 
             return null;
         }
 
-        return attributes.getRequest().getHeader(name);
+        HttpServletRequest request = attributes.getRequest();
+        if (request == null) {
+            // LOG.warn("The HttpServletRequest object is lost for thread switched probably");
+
+            return null;
+        }
+
+        return request;
+    }
+
+    @Override
+    public String getHeader(String name) {
+        HttpServletRequest request = getHttpServletRequest();
+        if (request == null) {
+            return null;
+        }
+
+        return request.getHeader(name);
     }
 
     @Override
     public String getParameter(String name) {
-        ServletRequestAttributes attributes = getRestAttributes();
-        if (attributes == null) {
-            // LOG.warn("The ServletRequestAttributes object is lost for thread switched probably");
-
+        HttpServletRequest request = getHttpServletRequest();
+        if (request == null) {
             return null;
         }
 
-        return attributes.getRequest().getParameter(name);
+        return request.getParameter(name);
     }
 
     public Cookie getHttpCookie(String name) {
-        ServletRequestAttributes attributes = getRestAttributes();
-        if (attributes == null) {
-            // LOG.warn("The ServletRequestAttributes object is lost for thread switched probably");
-
+        HttpServletRequest request = getHttpServletRequest();
+        if (request == null) {
             return null;
         }
 
-        Cookie[] cookies = attributes.getRequest().getCookies();
+        Cookie[] cookies = request.getCookies();
         if (cookies == null) {
             return null;
         }
@@ -94,24 +107,20 @@ public class ServiceStrategyContextHolder extends AbstractStrategyContextHolder 
     }
 
     public String getRequestURL() {
-        ServletRequestAttributes attributes = getRestAttributes();
-        if (attributes == null) {
-            // LOG.warn("The ServletRequestAttributes object is lost for thread switched probably");
-
+        HttpServletRequest request = getHttpServletRequest();
+        if (request == null) {
             return null;
         }
 
-        return attributes.getRequest().getRequestURL().toString();
+        return request.getRequestURL().toString();
     }
 
     public String getRequestURI() {
-        ServletRequestAttributes attributes = getRestAttributes();
-        if (attributes == null) {
-            // LOG.warn("The ServletRequestAttributes object is lost for thread switched probably");
-
+        HttpServletRequest request = getHttpServletRequest();
+        if (request == null) {
             return null;
         }
 
-        return attributes.getRequest().getRequestURI();
+        return request.getRequestURI();
     }
 }
