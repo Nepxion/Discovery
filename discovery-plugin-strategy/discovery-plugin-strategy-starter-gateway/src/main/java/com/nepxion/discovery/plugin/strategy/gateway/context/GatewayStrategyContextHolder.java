@@ -30,7 +30,14 @@ public class GatewayStrategyContextHolder extends AbstractStrategyContextHolder 
             return null;
         }
 
-        return exchange.getRequest();
+        ServerHttpRequest request = exchange.getRequest();
+        if (request == null) {
+            // LOG.warn("The ServerHttpRequest object is lost for thread switched, or it is got before context filter probably");
+
+            return null;
+        }
+
+        return request;
     }
 
     @Override
