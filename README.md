@@ -3208,17 +3208,6 @@ Reject to invoke because of isolation with different service group
 
 ### 注册发现隔离和准入
 
-#### 基于组黑白名单注册准入
-微服务启动的时候，它所属的Group不在Group的黑名单或者在白名单里，才允许被注册。只需要在网关或者服务端，开启如下配置即可
-```
-# 启动和关闭注册的服务隔离（基于Group黑/白名单的策略）。缺失则默认为false
-spring.application.strategy.register.isolation.enabled=true
-```
-黑/白名单通过如下方式配置
-```
-spring.application.strategy.register.isolation.group.blacklist=
-spring.application.strategy.register.isolation.group.whitelist=
-```
 #### 基于IP地址黑白名单注册准入
 微服务启动的时候，禁止指定的IP地址注册到注册中心。支持黑/白名单，白名单表示只允许指定IP地址前缀注册，黑名单表示不允许指定IP地址前缀注册
 - 全局过滤，指注册到服务注册发现中心的所有微服务，只有IP地址包含在全局过滤字段的前缀中，都允许注册（对于白名单而言），或者不允许注册（对于黑名单而言）
@@ -4287,8 +4276,6 @@ spring.application.strategy.business.request.headers=token
 spring.application.strategy.rpc.intercept.enabled=true
 # 路由策略的时候，需要指定对业务RestController类的扫描路径。此项配置作用于RPC方式的调用拦截、消费端的服务隔离和调用链三项功能
 spring.application.strategy.scan.packages=com.nepxion.discovery.plugin.example.service.feign
-# 启动和关闭注册的服务隔离（基于Group黑/白名单的策略）。缺失则默认为false
-spring.application.strategy.register.isolation.enabled=true
 # 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
 spring.application.strategy.consumer.isolation.enabled=true
 # 启动和关闭提供端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
@@ -4427,8 +4414,6 @@ spring.application.strategy.gateway.original.header.ignored=true
 # 7. n-d-address-blacklist
 # 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
 spring.application.strategy.gateway.core.header.transmission.enabled=true
-# 启动和关闭注册的服务隔离（基于Group黑/白名单的策略）。缺失则默认为false
-spring.application.strategy.register.isolation.enabled=true
 # 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
 spring.application.strategy.consumer.isolation.enabled=true
 
@@ -4546,8 +4531,6 @@ spring.application.strategy.zuul.original.header.ignored=true
 # 7. n-d-address-blacklist
 # 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
 spring.application.strategy.zuul.core.header.transmission.enabled=true
-# 启动和关闭注册的服务隔离（基于Group黑/白名单的策略）。缺失则默认为false
-spring.application.strategy.register.isolation.enabled=true
 # 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
 spring.application.strategy.consumer.isolation.enabled=true
 
