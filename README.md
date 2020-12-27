@@ -1969,7 +1969,7 @@ public class MyDiscoveryEnabledStrategy extends DefaultDiscoveryEnabledStrategy 
         String version = pluginAdapter.getServerVersion(server);
         String region = pluginAdapter.getServerRegion(server);
         String environment = pluginAdapter.getServerEnvironment(server);
-        String address = server.getHost() + ":" + server.getPort()
+        String address = server.getHost() + ":" + server.getPort();
 
         LOG.info("负载均衡用户定制触发：mobile={}, serviceId={}, version={}, region={}, env={}, address={}", mobile, serviceId, version, region, environment, address);
 
@@ -2026,7 +2026,7 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
         String version = pluginAdapter.getServerVersion(server);
         String region = pluginAdapter.getServerRegion(server);
         String environment = pluginAdapter.getServerEnvironment(server);
-        String address = server.getHost() + ":" + server.getPort()
+        String address = server.getHost() + ":" + server.getPort();
 
         LOG.info("负载均衡用户定制触发：mobile={}, serviceId={}, version={}, region={}, env={}, address={}", mobile, serviceId, version, region, environment, address);
 
@@ -2055,7 +2055,7 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
         String version = pluginAdapter.getServerVersion(server);
         String region = pluginAdapter.getServerRegion(server);
         String environment = pluginAdapter.getServerEnvironment(server);
-        String address = server.getHost() + ":" + server.getPort()
+        String address = server.getHost() + ":" + server.getPort();
 
         LOG.info("负载均衡用户定制触发：attributes={}, serviceId={}, version={}, region={}, env={}, address={}", attributes, serviceId, version, region, environment, address);
 
