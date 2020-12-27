@@ -20,6 +20,7 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.util.CollectionUtils;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.ServiceType;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
@@ -48,6 +49,9 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     @Autowired
     protected DiscoveryClient discoveryClient;
 
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_CONSUMER_ISOLATION_ENABLED + ":false}")
+    protected Boolean consumerIsolationEnabled;
+
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_ENVIRONMENT_ROUTE + ":" + StrategyConstant.SPRING_APPLICATION_STRATEGY_ENVIRONMENT_ROUTE_VALUE + "}")
     protected String environmentRoute;
 
@@ -65,7 +69,12 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
 
     @Override
     public boolean apply(Server server) {
-        boolean enabled = applyEnvironment(server);
+        boolean enabled = applyGroup(server);
+        if (!enabled) {
+            return false;
+        }
+
+        enabled = applyEnvironment(server);
         if (!enabled) {
             return false;
         }
@@ -101,6 +110,22 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         }
 
         return applyStrategy(server);
+    }
+
+    public boolean applyGroup(Server server) {
+        if (!consumerIsolationEnabled) {
+            return true;
+        }
+
+        String serverServiceType = pluginAdapter.getServerServiceType(server);
+        if (StringUtils.equals(serverServiceType, ServiceType.GATEWAY.toString())) {
+            return true;
+        }
+
+        String serverGroup = pluginAdapter.getServerGroup(server);
+        String group = pluginAdapter.getGroup();
+
+        return StringUtils.equals(serverGroup, group);
     }
 
     public boolean applyEnvironment(Server server) {
