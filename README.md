@@ -455,7 +455,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [提供端服务隔离](#提供端服务隔离)
         - [基于组Header传值策略隔离](#基于组Header传值策略隔离)
     - [注册发现隔离和准入](#注册发现隔离和准入)
-        - [基于组黑白名单注册准入](#基于组黑白名单注册准入)
         - [基于IP地址黑白名单注册准入](#基于IP地址黑白名单注册准入)
         - [基于最大注册数限制注册准入](#基于最大注册数限制注册准入)
         - [基于IP地址黑白名单发现准入](#基于IP地址黑白名单发现准入)
@@ -562,6 +561,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - [Nepxion Discovery - 对网关和微服务三大模式的支持](https://blog.csdn.net/u012410733/article/details/111026618)
 - [Nepxion Discovery - 全链路界面操作蓝绿灰度发布](https://blog.csdn.net/u012410733/article/details/111304744)
 - [Nepxion Discovery - Discovery Agent 解决异步场景线程 ThreadLocal 上下文丢失问题](https://blog.csdn.net/u012410733/article/details/111405081)
+- [Nepxion Discovery - 全链路调用链监控](https://carlzone.blog.csdn.net/article/details/111806972)
 
 ## 工程架构
 
