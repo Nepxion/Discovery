@@ -23,8 +23,6 @@ import com.nepxion.discovery.plugin.strategy.condition.HeaderExpressionStrategyC
 import com.nepxion.discovery.plugin.strategy.condition.StrategyCondition;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.filter.StrategyVersionFilter;
-import com.nepxion.discovery.plugin.strategy.isolation.ConsumerIsolationDiscoveryStrategy;
-import com.nepxion.discovery.plugin.strategy.isolation.ConsumerIsolationLoadBalanceStrategy;
 import com.nepxion.discovery.plugin.strategy.isolation.ConsumerIsolationRegisterStrategy;
 import com.nepxion.discovery.plugin.strategy.matcher.DiscoveryAntPathMatcherStrategy;
 import com.nepxion.discovery.plugin.strategy.matcher.DiscoveryMatcherStrategy;
@@ -48,20 +46,6 @@ public class StrategyAutoConfiguration {
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_REGISTER_ISOLATION_ENABLED, matchIfMissing = false)
     public ConsumerIsolationRegisterStrategy consumerIsolationRegisterStrategy() {
         return new ConsumerIsolationRegisterStrategy();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONSUMER_ISOLATION_ENABLED, matchIfMissing = false)
-    public ConsumerIsolationDiscoveryStrategy consumerIsolationDiscoveryStrategy() {
-        return new ConsumerIsolationDiscoveryStrategy();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONSUMER_ISOLATION_ENABLED, matchIfMissing = false)
-    public ConsumerIsolationLoadBalanceStrategy consumerIsolationLoadBalanceStrategy() {
-        return new ConsumerIsolationLoadBalanceStrategy();
     }
 
     @Bean
