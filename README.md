@@ -99,6 +99,8 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - 支持Spring Cloud Gateway、Zuul网关和微服务三大模块的蓝绿灰度发布等一系列功能
 - 支持和兼容Spring Cloud Edgware版、Finchley版、Greenwich版和Hoxton版
 
+![](http://nepxion.gitee.io/docs/discovery-doc/Diagram.jpg)
+
 ② 微服务框架支持的应用功能，如下
 - 全链路蓝绿灰度发布
   - 全链路版本、区域、 IP地址和端口匹配蓝绿发布
