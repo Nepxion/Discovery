@@ -25,7 +25,6 @@ import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.cache.PluginCache;
 import com.nepxion.discovery.plugin.framework.cache.RuleCache;
 import com.nepxion.discovery.plugin.framework.context.PluginContextHolder;
-import com.netflix.loadbalancer.Server;
 
 public abstract class AbstractPluginAdapter implements PluginAdapter {
     @Autowired
@@ -259,12 +258,12 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
-    public String getServerPlugin(Server server) {
+    public String getServerPlugin(ServiceInstance server) {
         return getServerMetadata(server).get(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN);
     }
 
     @Override
-    public String getServerGroupKey(Server server) {
+    public String getServerGroupKey(ServiceInstance server) {
         String groupKey = getServerMetadata(server).get(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY);
 
         if (StringUtils.isEmpty(groupKey)) {
@@ -275,7 +274,7 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
-    public String getServerGroup(Server server) {
+    public String getServerGroup(ServiceInstance server) {
         String serverGroupKey = getServerGroupKey(server);
 
         String serverGroup = getServerMetadata(server).get(serverGroupKey);
@@ -287,15 +286,15 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
-    public String getServerServiceType(Server server) {
+    public String getServerServiceType(ServiceInstance server) {
         return getServerMetadata(server).get(DiscoveryConstant.SPRING_APPLICATION_TYPE);
     }
 
     @Override
-    public String getServerServiceId(Server server) {
+    public String getServerServiceId(ServiceInstance server) {
         String serviceId = getServerMetadata(server).get(DiscoveryConstant.SPRING_APPLICATION_NAME);
         if (StringUtils.isEmpty(serviceId)) {
-            serviceId = server.getMetaInfo().getAppName();
+            serviceId = server.getServiceId();
         }
 
         if (StringUtils.isEmpty(serviceId)) {
@@ -306,12 +305,12 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
-    public String getServerServiceUUId(Server server) {
+    public String getServerServiceUUId(ServiceInstance server) {
         return getServerMetadata(server).get(DiscoveryConstant.SPRING_APPLICATION_UUID);
     }
 
     @Override
-    public String getServerVersion(Server server) {
+    public String getServerVersion(ServiceInstance server) {
         String serverVersion = getServerMetadata(server).get(DiscoveryConstant.VERSION);
         if (StringUtils.isEmpty(serverVersion)) {
             serverVersion = DiscoveryConstant.DEFAULT;
@@ -321,7 +320,7 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
-    public String getServerRegion(Server server) {
+    public String getServerRegion(ServiceInstance server) {
         String serverRegion = getServerMetadata(server).get(DiscoveryConstant.REGION);
         if (StringUtils.isEmpty(serverRegion)) {
             serverRegion = DiscoveryConstant.DEFAULT;
@@ -331,7 +330,7 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
-    public String getServerEnvironment(Server server) {
+    public String getServerEnvironment(ServiceInstance server) {
         String serverEnvironment = getServerMetadata(server).get(DiscoveryConstant.ENVIRONMENT);
         if (StringUtils.isEmpty(serverEnvironment)) {
             serverEnvironment = DiscoveryConstant.DEFAULT;
@@ -341,7 +340,7 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
-    public String getServerZone(Server server) {
+    public String getServerZone(ServiceInstance server) {
         String serverZone = getServerMetadata(server).get(DiscoveryConstant.ZONE);
         if (StringUtils.isEmpty(serverZone)) {
             serverZone = DiscoveryConstant.DEFAULT;
@@ -351,7 +350,7 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
-    public String getServerContextPath(Server server) {
+    public String getServerContextPath(ServiceInstance server) {
         return getServerMetadata(server).get(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH);
     }
 

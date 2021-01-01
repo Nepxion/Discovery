@@ -15,12 +15,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledStrategy;
 import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyContextHolder;
-import com.netflix.loadbalancer.Server;
 
 // 实现了组合策略，版本路由策略+区域路由策略+IP地址和端口路由策略+自定义策略
 public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
@@ -33,7 +33,7 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
     private ServiceStrategyContextHolder serviceStrategyContextHolder;
 
     @Override
-    public boolean apply(Server server) {
+    public boolean apply(ServiceInstance server) {
         // 对Rest调用传来的Header参数（例如：token）做策略
         boolean enabled = applyFromHeader(server);
         if (!enabled) {
@@ -45,7 +45,7 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
     }
 
     // 根据REST调用传来的Header参数（例如：token），选取执行调用请求的服务实例
-    private boolean applyFromHeader(Server server) {
+    private boolean applyFromHeader(ServiceInstance server) {
         String token = serviceStrategyContextHolder.getHeader("token");
         String serviceId = pluginAdapter.getServerServiceId(server);
         String version = pluginAdapter.getServerVersion(server);
@@ -68,7 +68,7 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
 
     // 根据RPC调用传来的方法参数（例如接口名、方法名、参数名或参数值等），选取执行调用请求的服务实例
     @SuppressWarnings("unchecked")
-    private boolean applyFromMethod(Server server) {
+    private boolean applyFromMethod(ServiceInstance server) {
         Map<String, Object> attributes = serviceStrategyContextHolder.getRpcAttributes();
         String serviceId = pluginAdapter.getServerServiceId(server);
         String version = pluginAdapter.getServerVersion(server);

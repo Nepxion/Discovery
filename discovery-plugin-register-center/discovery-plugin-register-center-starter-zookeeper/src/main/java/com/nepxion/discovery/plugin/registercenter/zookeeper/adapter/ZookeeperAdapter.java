@@ -14,14 +14,14 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.zookeeper.discovery.ZookeeperServer;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.zookeeper.discovery.ZookeeperServiceInstance;
 import org.springframework.cloud.zookeeper.serviceregistry.ZookeeperRegistration;
 import org.springframework.core.env.Environment;
 
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.adapter.AbstractPluginAdapter;
 import com.nepxion.discovery.plugin.registercenter.zookeeper.constant.ZookeeperConstant;
-import com.netflix.loadbalancer.Server;
 
 public class ZookeeperAdapter extends AbstractPluginAdapter {
     @Autowired
@@ -63,11 +63,11 @@ public class ZookeeperAdapter extends AbstractPluginAdapter {
     }
 
     @Override
-    public Map<String, String> getServerMetadata(Server server) {
-        if (server instanceof ZookeeperServer) {
-            ZookeeperServer zookeeperServer = (ZookeeperServer) server;
+    public Map<String, String> getServerMetadata(ServiceInstance server) {
+        if (server instanceof ZookeeperServiceInstance) {
+            ZookeeperServiceInstance zookeeperServer = (ZookeeperServiceInstance) server;
 
-            return zookeeperServer.getInstance().getPayload().getMetadata();
+            return zookeeperServer.getMetadata();
         }
 
         return emptyMetadata;

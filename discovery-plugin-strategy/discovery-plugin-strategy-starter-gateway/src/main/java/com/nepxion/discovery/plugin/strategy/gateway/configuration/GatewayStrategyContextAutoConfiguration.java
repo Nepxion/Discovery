@@ -9,16 +9,14 @@ package com.nepxion.discovery.plugin.strategy.gateway.configuration;
  * @version 1.0
  */
 
-import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.cloud.netflix.ribbon.RibbonClientConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.nepxion.discovery.plugin.strategy.gateway.context.GatewayStrategyContextHolder;
 
 @Configuration
-@AutoConfigureBefore(RibbonClientConfiguration.class)
+// @AutoConfigureBefore(RibbonClientConfiguration.class)
 public class GatewayStrategyContextAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean

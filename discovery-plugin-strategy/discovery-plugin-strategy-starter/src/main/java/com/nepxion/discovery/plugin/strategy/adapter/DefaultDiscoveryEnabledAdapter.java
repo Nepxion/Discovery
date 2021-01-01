@@ -28,7 +28,6 @@ import com.nepxion.discovery.plugin.framework.context.PluginContextHolder;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.filter.StrategyVersionFilter;
 import com.nepxion.discovery.plugin.strategy.matcher.DiscoveryMatcherStrategy;
-import com.netflix.loadbalancer.Server;
 
 public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     @Autowired(required = false)
@@ -68,7 +67,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     protected Boolean versionPreferEnabled;
 
     @Override
-    public boolean apply(Server server) {
+    public boolean apply(ServiceInstance server) {
         boolean enabled = applyGroup(server);
         if (!enabled) {
             return false;
@@ -112,7 +111,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         return applyStrategy(server);
     }
 
-    public boolean applyGroup(Server server) {
+    public boolean applyGroup(ServiceInstance server) {
         if (!consumerIsolationEnabled) {
             return true;
         }
@@ -128,7 +127,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         return StringUtils.equals(serverGroup, group);
     }
 
-    public boolean applyEnvironment(Server server) {
+    public boolean applyEnvironment(ServiceInstance server) {
         String environmentValue = pluginContextHolder.getContextRouteEnvironment();
         if (StringUtils.isEmpty(environmentValue)) {
             return true;
@@ -157,7 +156,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         }
     }
 
-    public boolean applyZone(Server server) {
+    public boolean applyZone(ServiceInstance server) {
         if (!zoneAffinityEnabled) {
             return true;
         }
@@ -195,7 +194,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         }
     }
 
-    public boolean applyRegion(Server server) {
+    public boolean applyRegion(ServiceInstance server) {
         String serviceId = pluginAdapter.getServerServiceId(server);
 
         String regions = getRegions(serviceId);
@@ -239,7 +238,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         return regions;
     }
 
-    public boolean applyAddress(Server server) {
+    public boolean applyAddress(ServiceInstance server) {
         String serviceId = pluginAdapter.getServerServiceId(server);
 
         String addresses = getAddresses(serviceId);
@@ -281,7 +280,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         return addresses;
     }
 
-    public boolean applyIdBlacklist(Server server) {
+    public boolean applyIdBlacklist(ServiceInstance server) {
         String ids = pluginContextHolder.getContextRouteIdBlacklist();
         if (StringUtils.isEmpty(ids)) {
             return true;
@@ -297,7 +296,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         return true;
     }
 
-    public boolean applyAddressBlacklist(Server server) {
+    public boolean applyAddressBlacklist(ServiceInstance server) {
         String addresses = pluginContextHolder.getContextRouteAddressBlacklist();
         if (StringUtils.isEmpty(addresses)) {
             return true;
@@ -319,7 +318,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         return true;
     }
 
-    public boolean applyVersion(Server server) {
+    public boolean applyVersion(ServiceInstance server) {
         String serviceId = pluginAdapter.getServerServiceId(server);
 
         String versions = getVersions(serviceId);
@@ -386,7 +385,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         return versions;
     }
 
-    public boolean applyStrategy(Server server) {
+    public boolean applyStrategy(ServiceInstance server) {
         if (CollectionUtils.isEmpty(discoveryEnabledStrategyList)) {
             return true;
         }

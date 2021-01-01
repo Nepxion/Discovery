@@ -11,15 +11,16 @@ package com.nepxion.discovery.plugin.registercenter.eureka.adapter;
 
 import java.util.Map;
 
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.netflix.eureka.EurekaServiceInstance;
+
 import com.nepxion.discovery.plugin.framework.adapter.AbstractPluginAdapter;
-import com.netflix.loadbalancer.Server;
-import com.netflix.niws.loadbalancer.DiscoveryEnabledServer;
 
 public class EurekaAdapter extends AbstractPluginAdapter {
     @Override
-    public Map<String, String> getServerMetadata(Server server) {
-        if (server instanceof DiscoveryEnabledServer) {
-            DiscoveryEnabledServer discoveryEnabledServer = (DiscoveryEnabledServer) server;
+    public Map<String, String> getServerMetadata(ServiceInstance server) {
+        if (server instanceof EurekaServiceInstance) {
+            EurekaServiceInstance discoveryEnabledServer = (EurekaServiceInstance) server;
 
             return discoveryEnabledServer.getInstanceInfo().getMetadata();
         }

@@ -11,15 +11,16 @@ package com.nepxion.discovery.plugin.registercenter.nacos.adapter;
 
 import java.util.Map;
 
-import com.alibaba.cloud.nacos.ribbon.NacosServer;
+import org.springframework.cloud.client.ServiceInstance;
+
+import com.alibaba.cloud.nacos.NacosServiceInstance;
 import com.nepxion.discovery.plugin.framework.adapter.AbstractPluginAdapter;
-import com.netflix.loadbalancer.Server;
 
 public class NacosAdapter extends AbstractPluginAdapter {
     @Override
-    public Map<String, String> getServerMetadata(Server server) {
-        if (server instanceof NacosServer) {
-            NacosServer nacosServer = (NacosServer) server;
+    public Map<String, String> getServerMetadata(ServiceInstance server) {
+        if (server instanceof NacosServiceInstance) {
+            NacosServiceInstance nacosServer = (NacosServiceInstance) server;
 
             return nacosServer.getMetadata();
         }

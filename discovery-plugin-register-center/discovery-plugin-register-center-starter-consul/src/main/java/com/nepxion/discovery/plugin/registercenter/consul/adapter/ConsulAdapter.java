@@ -11,16 +11,16 @@ package com.nepxion.discovery.plugin.registercenter.consul.adapter;
 
 import java.util.Map;
 
-import org.springframework.cloud.consul.discovery.ConsulServer;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.consul.discovery.ConsulServiceInstance;
 
 import com.nepxion.discovery.plugin.framework.adapter.AbstractPluginAdapter;
-import com.netflix.loadbalancer.Server;
 
 public class ConsulAdapter extends AbstractPluginAdapter {
     @Override
-    public Map<String, String> getServerMetadata(Server server) {
-        if (server instanceof ConsulServer) {
-            ConsulServer consulServer = (ConsulServer) server;
+    public Map<String, String> getServerMetadata(ServiceInstance server) {
+        if (server instanceof ConsulServiceInstance) {
+            ConsulServiceInstance consulServer = (ConsulServiceInstance) server;
 
             return consulServer.getMetadata();
         }

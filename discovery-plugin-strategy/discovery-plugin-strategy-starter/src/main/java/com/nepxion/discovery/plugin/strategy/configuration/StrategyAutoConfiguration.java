@@ -11,7 +11,6 @@ package com.nepxion.discovery.plugin.strategy.configuration;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.cloud.netflix.ribbon.RibbonClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.expression.TypeComparator;
@@ -31,7 +30,7 @@ import com.nepxion.discovery.plugin.strategy.monitor.StrategyMonitorContext;
 import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
 
 @Configuration
-@RibbonClients(defaultConfiguration = { StrategyLoadBalanceConfiguration.class })
+// @RibbonClients(defaultConfiguration = { StrategyLoadBalanceConfiguration.class })
 @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTROL_ENABLED, matchIfMissing = true)
 public class StrategyAutoConfiguration {
     @Bean

@@ -14,7 +14,6 @@ import java.util.Map;
 import org.springframework.cloud.client.ServiceInstance;
 
 import com.nepxion.discovery.common.entity.RuleEntity;
-import com.netflix.loadbalancer.Server;
 
 public interface PluginAdapter {
     String getPlugin();
@@ -75,29 +74,29 @@ public interface PluginAdapter {
 
     String getContextPath();
 
-    Map<String, String> getServerMetadata(Server server);
+    Map<String, String> getServerMetadata(ServiceInstance server);
 
-    String getServerPlugin(Server server);
+    String getServerPlugin(ServiceInstance server);
 
-    String getServerGroupKey(Server server);
+    String getServerGroupKey(ServiceInstance server);
 
-    String getServerGroup(Server server);
+    String getServerGroup(ServiceInstance server);
 
-    String getServerServiceType(Server server);
+    String getServerServiceType(ServiceInstance server);
 
-    String getServerServiceId(Server server);
+    String getServerServiceId(ServiceInstance server);
 
-    String getServerServiceUUId(Server server);
+    String getServerServiceUUId(ServiceInstance server);
 
-    String getServerVersion(Server server);
+    String getServerVersion(ServiceInstance server);
 
-    String getServerRegion(Server server);
+    String getServerRegion(ServiceInstance server);
 
-    String getServerEnvironment(Server server);
+    String getServerEnvironment(ServiceInstance server);
 
-    String getServerZone(Server server);
+    String getServerZone(ServiceInstance server);
 
-    String getServerContextPath(Server server);
+    String getServerContextPath(ServiceInstance server);
 
     Map<String, String> getInstanceMetadata(ServiceInstance instance);
 

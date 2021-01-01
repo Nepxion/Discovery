@@ -59,7 +59,7 @@ public class StrategyVersionFilter {
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_ZONE_ROUTE_ENABLED + ":true}")
     protected Boolean zoneRouteEnabled;
 
-    public boolean apply(Server server) {
+    public boolean apply(ServiceInstance server) {
         // 获取对端服务的版本号
         String version = pluginAdapter.getServerVersion(server);
         // 当服务未接入本框架或者版本号未设置（表现出来的值为DiscoveryConstant.DEFAULT），则不过滤，返回
@@ -81,7 +81,7 @@ public class StrategyVersionFilter {
         return filterVersionList.contains(version);
     }
 
-    private List<String> getVersionList(Server server) {
+    private List<String> getVersionList(ServiceInstance server) {
         // 获取对端服务的服务名
         String serviceId = pluginAdapter.getServerServiceId(server);
         // 从负载均衡缓存获取对端服务列表

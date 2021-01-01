@@ -9,8 +9,8 @@ package com.nepxion.discovery.plugin.strategy.adapter;
  * @version 1.0
  */
 
-import com.netflix.loadbalancer.Server;
+import org.springframework.cloud.client.ServiceInstance;
 
 public interface DiscoveryEnabledAdapter {
-    boolean apply(Server server);
+    boolean apply(ServiceInstance server);
 }
