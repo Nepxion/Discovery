@@ -14,13 +14,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.ServiceType;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
@@ -45,6 +46,9 @@ public class StrategyVersionFilter {
 
     @Autowired
     protected DiscoveryClient discoveryClient;
+
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_CONSUMER_ISOLATION_ENABLED + ":false}")
+    protected Boolean consumerIsolationEnabled;
 
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_ENVIRONMENT_ROUTE + ":" + StrategyConstant.SPRING_APPLICATION_STRATEGY_ENVIRONMENT_ROUTE_VALUE + "}")
     protected String environmentRoute;
@@ -87,7 +91,7 @@ public class StrategyVersionFilter {
         for (ServiceInstance instance : instances) {
             String version = pluginAdapter.getInstanceVersion(instance);
             // 当服务未接入本框架或者版本号未设置（表现出来的值为DiscoveryConstant.DEFAULT），并且不在指定环境、指定区域、指定可用区、指定IP地址和端口、指定黑名单里，不添加到认可列表
-            if (!versionList.contains(version) && !StringUtils.equals(version, DiscoveryConstant.DEFAULT) && applyEnvironment(instance) && applyZone(instance) && applyRegion(instance) && applyAddress(instance) && applyIdBlacklist(instance) && applyAddressBlacklist(instance)) {
+            if (!versionList.contains(version) && !StringUtils.equals(version, DiscoveryConstant.DEFAULT) && applyGroup(instance) && applyEnvironment(instance) && applyZone(instance) && applyRegion(instance) && applyAddress(instance) && applyIdBlacklist(instance) && applyAddressBlacklist(instance)) {
                 versionList.add(version);
             }
         }
@@ -98,6 +102,22 @@ public class StrategyVersionFilter {
         }
 
         return versionList;
+    }
+
+    public boolean applyGroup(ServiceInstance instance) {
+        if (!consumerIsolationEnabled) {
+            return true;
+        }
+
+        String instanceServiceType = pluginAdapter.getInstanceServiceType(instance);
+        if (StringUtils.equals(instanceServiceType, ServiceType.GATEWAY.toString())) {
+            return true;
+        }
+
+        String instanceGroup = pluginAdapter.getInstanceGroup(instance);
+        String group = pluginAdapter.getGroup();
+
+        return StringUtils.equals(instanceGroup, group);
     }
 
     public boolean applyEnvironment(ServiceInstance instance) {

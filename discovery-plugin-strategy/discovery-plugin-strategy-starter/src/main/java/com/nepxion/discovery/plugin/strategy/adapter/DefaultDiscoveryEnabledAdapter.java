@@ -20,6 +20,7 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.util.CollectionUtils;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.ServiceType;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
@@ -48,6 +49,9 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     @Autowired
     protected DiscoveryClient discoveryClient;
 
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_CONSUMER_ISOLATION_ENABLED + ":false}")
+    protected Boolean consumerIsolationEnabled;
+
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_ENVIRONMENT_ROUTE + ":" + StrategyConstant.SPRING_APPLICATION_STRATEGY_ENVIRONMENT_ROUTE_VALUE + "}")
     protected String environmentRoute;
 
@@ -65,7 +69,12 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
 
     @Override
     public boolean apply(Server server) {
-        boolean enabled = applyEnvironment(server);
+        boolean enabled = applyGroup(server);
+        if (!enabled) {
+            return false;
+        }
+
+        enabled = applyEnvironment(server);
         if (!enabled) {
             return false;
         }
@@ -101,6 +110,22 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         }
 
         return applyStrategy(server);
+    }
+
+    public boolean applyGroup(Server server) {
+        if (!consumerIsolationEnabled) {
+            return true;
+        }
+
+        String serverServiceType = pluginAdapter.getServerServiceType(server);
+        if (StringUtils.equals(serverServiceType, ServiceType.GATEWAY.toString())) {
+            return true;
+        }
+
+        String serverGroup = pluginAdapter.getServerGroup(server);
+        String group = pluginAdapter.getGroup();
+
+        return StringUtils.equals(serverGroup, group);
     }
 
     public boolean applyEnvironment(Server server) {
@@ -224,13 +249,13 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
 
         // 如果精确匹配不满足，尝试用通配符匹配
         List<String> addressList = StringUtil.splitToList(addresses);
-        if (addressList.contains(server.getHostPort()) || addressList.contains(server.getHost()) || addressList.contains(String.valueOf(server.getPort()))) {
+        if (addressList.contains(server.getHost() + ":" + server.getPort()) || addressList.contains(server.getHost()) || addressList.contains(String.valueOf(server.getPort()))) {
             return true;
         }
 
         // 通配符匹配。前者是通配表达式，后者是具体值
         for (String addressPattern : addressList) {
-            if (discoveryMatcherStrategy.match(addressPattern, server.getHostPort()) || discoveryMatcherStrategy.match(addressPattern, server.getHost()) || discoveryMatcherStrategy.match(addressPattern, String.valueOf(server.getPort()))) {
+            if (discoveryMatcherStrategy.match(addressPattern, server.getHost() + ":" + server.getPort()) || discoveryMatcherStrategy.match(addressPattern, server.getHost()) || discoveryMatcherStrategy.match(addressPattern, String.valueOf(server.getPort()))) {
                 return true;
             }
         }
@@ -280,13 +305,13 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
 
         // 如果精确匹配不满足，尝试用通配符匹配
         List<String> addressList = StringUtil.splitToList(addresses);
-        if (addressList.contains(server.getHostPort()) || addressList.contains(server.getHost()) || addressList.contains(String.valueOf(server.getPort()))) {
+        if (addressList.contains(server.getHost() + ":" + server.getPort()) || addressList.contains(server.getHost()) || addressList.contains(String.valueOf(server.getPort()))) {
             return false;
         }
 
         // 通配符匹配。前者是通配表达式，后者是具体值
         for (String addressPattern : addressList) {
-            if (discoveryMatcherStrategy.match(addressPattern, server.getHostPort()) || discoveryMatcherStrategy.match(addressPattern, server.getHost()) || discoveryMatcherStrategy.match(addressPattern, String.valueOf(server.getPort()))) {
+            if (discoveryMatcherStrategy.match(addressPattern, server.getHost() + ":" + server.getPort()) || discoveryMatcherStrategy.match(addressPattern, server.getHost()) || discoveryMatcherStrategy.match(addressPattern, String.valueOf(server.getPort()))) {
                 return false;
             }
         }
