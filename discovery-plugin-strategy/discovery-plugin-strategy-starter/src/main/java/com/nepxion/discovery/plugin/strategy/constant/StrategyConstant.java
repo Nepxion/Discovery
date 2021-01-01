@@ -12,7 +12,6 @@ package com.nepxion.discovery.plugin.strategy.constant;
 public class StrategyConstant {
     public static final String SPRING_APPLICATION_STRATEGY_CONTROL_ENABLED = "spring.application.strategy.control.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_ZONE_AVOIDANCE_RULE_ENABLED = "spring.application.strategy.zone.avoidance.rule.enabled";
-    public static final String SPRING_APPLICATION_STRATEGY_HYSTRIX_THREADLOCAL_SUPPORTED = "spring.application.strategy.hystrix.threadlocal.supported";
     public static final String SPRING_APPLICATION_STRATEGY_CONSUMER_ISOLATION_ENABLED = "spring.application.strategy.consumer.isolation.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_PROVIDER_ISOLATION_ENABLED = "spring.application.strategy.provider.isolation.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_ENVIRONMENT_ROUTE = "spring.application.strategy.environment.route";

@@ -13,12 +13,6 @@
 			"description": "Whether strategy zone avoidance rul is enabled."
 		},
 		{
-			"name": "spring.application.strategy.hystrix.threadlocal.supported",
-			"type": "java.lang.Boolean",
-			"defaultValue": false,
-			"description": "Whether strategy hystrix threadlocal supported is enabled."
-		},
-		{
 			"name": "spring.application.strategy.consumer.isolation.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": false,

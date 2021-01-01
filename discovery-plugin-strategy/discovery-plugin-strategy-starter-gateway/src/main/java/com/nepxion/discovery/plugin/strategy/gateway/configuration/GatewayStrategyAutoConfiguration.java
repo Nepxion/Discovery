@@ -25,8 +25,6 @@ import com.nepxion.discovery.plugin.strategy.gateway.filter.GatewayStrategyClear
 import com.nepxion.discovery.plugin.strategy.gateway.filter.GatewayStrategyRouteFilter;
 import com.nepxion.discovery.plugin.strategy.gateway.monitor.DefaultGatewayStrategyMonitor;
 import com.nepxion.discovery.plugin.strategy.gateway.monitor.GatewayStrategyMonitor;
-import com.nepxion.discovery.plugin.strategy.gateway.wrapper.DefaultGatewayStrategyCallableWrapper;
-import com.nepxion.discovery.plugin.strategy.gateway.wrapper.GatewayStrategyCallableWrapper;
 
 @Configuration
 @AutoConfigureBefore(RibbonClientConfiguration.class)
@@ -49,13 +47,6 @@ public class GatewayStrategyAutoConfiguration {
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_MONITOR_ENABLED, matchIfMissing = false)
     public GatewayStrategyMonitor gatewayStrategyMonitor() {
         return new DefaultGatewayStrategyMonitor();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_HYSTRIX_THREADLOCAL_SUPPORTED, matchIfMissing = false)
-    public GatewayStrategyCallableWrapper gatewayStrategyCallableWrapper() {
-        return new DefaultGatewayStrategyCallableWrapper();
     }
 
     @Bean

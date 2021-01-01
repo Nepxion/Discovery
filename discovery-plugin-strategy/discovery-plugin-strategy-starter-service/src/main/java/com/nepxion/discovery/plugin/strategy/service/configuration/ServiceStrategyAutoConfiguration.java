@@ -38,8 +38,6 @@ import com.nepxion.discovery.plugin.strategy.service.monitor.DefaultServiceStrat
 import com.nepxion.discovery.plugin.strategy.service.monitor.ServiceStrategyMonitor;
 import com.nepxion.discovery.plugin.strategy.service.monitor.ServiceStrategyMonitorAutoScanProxy;
 import com.nepxion.discovery.plugin.strategy.service.monitor.ServiceStrategyMonitorInterceptor;
-import com.nepxion.discovery.plugin.strategy.service.wrapper.DefaultServiceStrategyCallableWrapper;
-import com.nepxion.discovery.plugin.strategy.service.wrapper.ServiceStrategyCallableWrapper;
 
 @Configuration
 @AutoConfigureBefore(RibbonClientConfiguration.class)
@@ -185,12 +183,5 @@ public class ServiceStrategyAutoConfiguration {
         }
 
         return new ServiceStrategyMonitorInterceptor();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_HYSTRIX_THREADLOCAL_SUPPORTED, matchIfMissing = false)
-    public ServiceStrategyCallableWrapper serviceStrategyCallableWrapper() {
-        return new DefaultServiceStrategyCallableWrapper();
     }
 }

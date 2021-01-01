@@ -175,19 +175,7 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>discovery-plugin-strategy-starter-zuul</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-strategy-starter-gateway</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>discovery-plugin-strategy-starter-hystrix</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
