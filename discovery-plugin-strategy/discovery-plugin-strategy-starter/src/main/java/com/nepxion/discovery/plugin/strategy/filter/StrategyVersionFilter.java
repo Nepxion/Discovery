@@ -29,7 +29,6 @@ import com.nepxion.discovery.plugin.framework.context.PluginContextHolder;
 import com.nepxion.discovery.plugin.strategy.adapter.StrategyVersionFilterAdapter;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.matcher.DiscoveryMatcherStrategy;
-import com.netflix.loadbalancer.Server;
 
 public class StrategyVersionFilter {
     @Autowired
