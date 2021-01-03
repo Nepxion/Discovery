@@ -9,8 +9,8 @@ package com.nepxion.discovery.plugin.strategy.adapter;
  * @version 1.0
  */
 
-import org.springframework.cloud.client.ServiceInstance;
+import com.nepxion.discovery.plugin.framework.loadbalance.DiscoveryEnabledLoadBalance;
 
-public interface DiscoveryEnabledAdapter {
-    boolean apply(ServiceInstance server);
+public interface DiscoveryEnabledAdapter extends DiscoveryEnabledLoadBalance {
+
 }
