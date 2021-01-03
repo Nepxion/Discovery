@@ -15,24 +15,24 @@ import java.util.List;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.cloud.client.ServiceInstance;
 
 import com.nepxion.discovery.plugin.framework.loadbalance.WeightRandomLoadBalance;
-import com.netflix.loadbalancer.Server;
 
 public abstract class AbstractMapWeightRandomLoadBalance<T> implements WeightRandomLoadBalance<T> {
     @Override
-    public Server choose(List<Server> serverList, T t) {
+    public ServiceInstance choose(List<ServiceInstance> serverList, T t) {
         if (CollectionUtils.isEmpty(serverList)) {
             return null;
         }
 
-        List<Pair<Server, Integer>> weightPairList = new ArrayList<Pair<Server, Integer>>();
-        for (Server server : serverList) {
+        List<Pair<ServiceInstance, Integer>> weightPairList = new ArrayList<Pair<ServiceInstance, Integer>>();
+        for (ServiceInstance server : serverList) {
             int weight = getWeight(server, t);
-            weightPairList.add(new ImmutablePair<Server, Integer>(server, weight));
+            weightPairList.add(new ImmutablePair<ServiceInstance, Integer>(server, weight));
         }
 
-        MapWeightRandom<Server, Integer> weightRandom = new MapWeightRandom<Server, Integer>(weightPairList);
+        MapWeightRandom<ServiceInstance, Integer> weightRandom = new MapWeightRandom<ServiceInstance, Integer>(weightPairList);
 
         return weightRandom.random();
     }

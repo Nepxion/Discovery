@@ -11,9 +11,10 @@ package com.nepxion.discovery.plugin.framework.loadbalance.weight;
 
 import java.util.List;
 
+import org.springframework.cloud.client.ServiceInstance;
+
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginContextHolder;
-import com.netflix.loadbalancer.Server;
 
 public abstract class AbstractWeightRandomLoadBalanceAdapter<T> {
     protected PluginAdapter pluginAdapter;
@@ -28,8 +29,8 @@ public abstract class AbstractWeightRandomLoadBalanceAdapter<T> {
         this.pluginContextHolder = pluginContextHolder;
     }
 
-    public boolean checkWeight(List<Server> serverList, T t) {
-        for (Server server : serverList) {
+    public boolean checkWeight(List<ServiceInstance> serverList, T t) {
+        for (ServiceInstance server : serverList) {
             int weight = getWeight(server, t);
             if (weight < 0) {
                 return false;
@@ -41,5 +42,5 @@ public abstract class AbstractWeightRandomLoadBalanceAdapter<T> {
 
     public abstract T getT();
 
-    public abstract int getWeight(Server server, T t);
+    public abstract int getWeight(ServiceInstance server, T t);
 }

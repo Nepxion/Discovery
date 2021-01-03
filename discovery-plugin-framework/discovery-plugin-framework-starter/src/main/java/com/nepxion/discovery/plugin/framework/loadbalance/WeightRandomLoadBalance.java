@@ -11,14 +11,14 @@ package com.nepxion.discovery.plugin.framework.loadbalance;
 
 import java.util.List;
 
-import com.netflix.loadbalancer.Server;
+import org.springframework.cloud.client.ServiceInstance;
 
 public interface WeightRandomLoadBalance<T> {
     T getT();
 
-    int getWeight(Server server, T t);
+    int getWeight(ServiceInstance server, T t);
 
-    boolean checkWeight(List<Server> serverList, T t);
+    boolean checkWeight(List<ServiceInstance> serverList, T t);
 
-    Server choose(List<Server> serverList, T t);
+    ServiceInstance choose(List<ServiceInstance> serverList, T t);
 }

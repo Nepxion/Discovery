@@ -11,10 +11,11 @@ package com.nepxion.discovery.plugin.framework.loadbalance.weight;
 
 import java.util.List;
 
+import org.springframework.cloud.client.ServiceInstance;
+
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginContextHolder;
-import com.netflix.loadbalancer.Server;
 
 public class StrategyMapWeightRandomLoadBalance extends AbstractMapWeightRandomLoadBalance<WeightFilterEntity> {
     private StrategyWeightRandomLoadBalanceAdapter strategyWeightRandomLoadBalanceAdapter;
@@ -29,12 +30,12 @@ public class StrategyMapWeightRandomLoadBalance extends AbstractMapWeightRandomL
     }
 
     @Override
-    public int getWeight(Server server, WeightFilterEntity weightFilterEntity) {
+    public int getWeight(ServiceInstance server, WeightFilterEntity weightFilterEntity) {
         return strategyWeightRandomLoadBalanceAdapter.getWeight(server, weightFilterEntity);
     }
 
     @Override
-    public boolean checkWeight(List<Server> serverList, WeightFilterEntity weightFilterEntity) {
+    public boolean checkWeight(List<ServiceInstance> serverList, WeightFilterEntity weightFilterEntity) {
         return strategyWeightRandomLoadBalanceAdapter.checkWeight(serverList, weightFilterEntity);
     }
 }

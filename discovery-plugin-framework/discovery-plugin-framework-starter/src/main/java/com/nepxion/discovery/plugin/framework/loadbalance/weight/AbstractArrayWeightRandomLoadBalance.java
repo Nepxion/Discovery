@@ -12,22 +12,22 @@ package com.nepxion.discovery.plugin.framework.loadbalance.weight;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.cloud.client.ServiceInstance;
 
 import com.nepxion.discovery.plugin.framework.loadbalance.WeightRandomLoadBalance;
-import com.netflix.loadbalancer.Server;
 
 public abstract class AbstractArrayWeightRandomLoadBalance<T> implements WeightRandomLoadBalance<T> {
     private ArrayWeightRandom arrayWeightRandom = new ArrayWeightRandom();
 
     @Override
-    public Server choose(List<Server> serverList, T t) {
+    public ServiceInstance choose(List<ServiceInstance> serverList, T t) {
         if (CollectionUtils.isEmpty(serverList)) {
             return null;
         }
 
         int[] weights = new int[serverList.size()];
         for (int i = 0; i < serverList.size(); i++) {
-            Server server = serverList.get(i);
+            ServiceInstance server = serverList.get(i);
             weights[i] = getWeight(server, t);
         }
 

@@ -9,12 +9,13 @@ package com.nepxion.discovery.plugin.framework.loadbalance.weight;
  * @version 1.0
  */
 
+import org.springframework.cloud.client.ServiceInstance;
+
 import com.nepxion.discovery.common.entity.DiscoveryEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.WeightEntityWrapper;
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.netflix.loadbalancer.Server;
 
 public class RuleWeightRandomLoadBalanceAdapter extends AbstractWeightRandomLoadBalanceAdapter<WeightFilterEntity> {
     public RuleWeightRandomLoadBalanceAdapter(PluginAdapter pluginAdapter) {
@@ -39,7 +40,7 @@ public class RuleWeightRandomLoadBalanceAdapter extends AbstractWeightRandomLoad
     }
 
     @Override
-    public int getWeight(Server server, WeightFilterEntity weightFilterEntity) {
+    public int getWeight(ServiceInstance server, WeightFilterEntity weightFilterEntity) {
         String providerServiceId = pluginAdapter.getServerServiceId(server);
         String providerVersion = pluginAdapter.getServerVersion(server);
         String providerRegion = pluginAdapter.getServerRegion(server);
