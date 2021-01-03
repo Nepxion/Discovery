@@ -35,7 +35,7 @@
         <swagger.version>2.7.0</swagger.version>
         <apollo.client.version>1.7.0</apollo.client.version>
         <nacos.client.version>1.2.1</nacos.client.version>
-        <zookeeper.curator.version>4.3.0</zookeeper.curator.version>
+        <zookeeper.curator.version>2.11.1</zookeeper.curator.version>
         <spring.cloud.version>Edgware.SR6</spring.cloud.version>
         <spring.cloud.alibaba.version>1.5.1.RELEASE</spring.cloud.alibaba.version>
         <spring.boot.version>1.5.22.RELEASE</spring.boot.version>
