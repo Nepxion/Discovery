@@ -38,7 +38,6 @@ import com.nepxion.discovery.plugin.strategy.service.monitor.ServiceStrategyMoni
 import com.nepxion.discovery.plugin.strategy.service.monitor.ServiceStrategyMonitorInterceptor;
 
 @Configuration
-// @AutoConfigureBefore(RibbonClientConfiguration.class)
 @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTROL_ENABLED, matchIfMissing = true)
 public class ServiceStrategyAutoConfiguration {
     @Autowired

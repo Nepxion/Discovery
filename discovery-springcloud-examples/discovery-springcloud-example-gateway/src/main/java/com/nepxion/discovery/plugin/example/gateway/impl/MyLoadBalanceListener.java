@@ -13,17 +13,17 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cloud.client.ServiceInstance;
 
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.AbstractLoadBalanceListener;
-import com.netflix.loadbalancer.Server;
 
 // 当目标服务的元数据中的Group为mygroup2，禁止被本服务负载均衡
 public class MyLoadBalanceListener extends AbstractLoadBalanceListener {
     @Override
-    public void onGetServers(String serviceId, List<? extends Server> servers) {
-        Iterator<? extends Server> iterator = servers.iterator();
+    public void onGetServers(String serviceId, List<? extends ServiceInstance> servers) {
+        Iterator<? extends ServiceInstance> iterator = servers.iterator();
         while (iterator.hasNext()) {
-            Server server = iterator.next();
+            ServiceInstance server = iterator.next();
             String group = pluginAdapter.getServerGroup(server);
             if (StringUtils.equals(group, "mygroup3")) {
                 iterator.remove();

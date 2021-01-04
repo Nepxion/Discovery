@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Configuration;
 import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyContextHolder;
 
 @Configuration
-// @AutoConfigureBefore(RibbonClientConfiguration.class)
 public class ServiceStrategyContextAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean

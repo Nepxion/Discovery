@@ -25,7 +25,6 @@ import com.nepxion.discovery.plugin.strategy.gateway.monitor.DefaultGatewayStrat
 import com.nepxion.discovery.plugin.strategy.gateway.monitor.GatewayStrategyMonitor;
 
 @Configuration
-// @AutoConfigureBefore(RibbonClientConfiguration.class)
 @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTROL_ENABLED, matchIfMissing = true)
 public class GatewayStrategyAutoConfiguration {
     @Bean
