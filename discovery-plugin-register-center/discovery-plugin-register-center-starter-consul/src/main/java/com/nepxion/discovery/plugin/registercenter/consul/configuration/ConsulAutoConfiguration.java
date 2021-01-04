@@ -9,6 +9,7 @@ package com.nepxion.discovery.plugin.registercenter.consul.configuration;
  * @version 1.0
  */
 
+import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,11 +18,13 @@ import com.nepxion.banner.Description;
 import com.nepxion.banner.LogoBanner;
 import com.nepxion.banner.NepxionBanner;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
+import com.nepxion.discovery.plugin.framework.configuration.PluginLoadBalanceConfiguration;
 import com.nepxion.discovery.plugin.registercenter.consul.adapter.ConsulAdapter;
 import com.nepxion.discovery.plugin.registercenter.consul.constant.ConsulConstant;
 import com.taobao.text.Color;
 
 @Configuration
+@LoadBalancerClients(defaultConfiguration = { PluginLoadBalanceConfiguration.class })
 public class ConsulAutoConfiguration {
     static {
         /*String bannerShown = System.getProperty(BannerConstant.BANNER_SHOWN, "true");

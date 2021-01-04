@@ -203,5 +203,4 @@ public class RoundRobinLoadBalancerDecorator implements ReactorServiceInstanceLo
 
         return new DefaultResponse(instance);
     }
-
 }
