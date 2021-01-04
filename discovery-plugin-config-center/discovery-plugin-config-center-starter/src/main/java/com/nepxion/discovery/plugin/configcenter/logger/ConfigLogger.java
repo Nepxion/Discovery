@@ -19,10 +19,14 @@ import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
 public class ConfigLogger {
     private static final Logger LOG = LoggerFactory.getLogger(ConfigLogger.class);
 
-    @Autowired
+    @Autowired(required = false)
     private ConfigAdapter configAdapter;
 
     public void logSubscribeStarted(boolean globalConfig) {
+        if (configAdapter == null) {
+            return;
+        }
+
         String group = configAdapter.getGroup();
         String dataId = configAdapter.getDataId(globalConfig);
         SubscriptionType subscriptionType = configAdapter.getSubscriptionType(globalConfig);
@@ -32,6 +36,10 @@ public class ConfigLogger {
     }
 
     public void logSubscribeFailed(Exception e, boolean globalConfig) {
+        if (configAdapter == null) {
+            return;
+        }
+
         String group = configAdapter.getGroup();
         String dataId = configAdapter.getDataId(globalConfig);
         SubscriptionType subscriptionType = configAdapter.getSubscriptionType(globalConfig);
@@ -41,6 +49,10 @@ public class ConfigLogger {
     }
 
     public void logUnsubscribeStarted(boolean globalConfig) {
+        if (configAdapter == null) {
+            return;
+        }
+
         String group = configAdapter.getGroup();
         String dataId = configAdapter.getDataId(globalConfig);
         SubscriptionType subscriptionType = configAdapter.getSubscriptionType(globalConfig);
@@ -50,6 +62,10 @@ public class ConfigLogger {
     }
 
     public void logUnsubscribeFailed(Exception e, boolean globalConfig) {
+        if (configAdapter == null) {
+            return;
+        }
+
         String group = configAdapter.getGroup();
         String dataId = configAdapter.getDataId(globalConfig);
         SubscriptionType subscriptionType = configAdapter.getSubscriptionType(globalConfig);
@@ -59,6 +75,10 @@ public class ConfigLogger {
     }
 
     public void logFound(boolean globalConfig) {
+        if (configAdapter == null) {
+            return;
+        }
+
         SubscriptionType subscriptionType = configAdapter.getSubscriptionType(globalConfig);
         String configType = configAdapter.getConfigType();
 
@@ -66,6 +86,10 @@ public class ConfigLogger {
     }
 
     public void logNotFound(boolean globalConfig) {
+        if (configAdapter == null) {
+            return;
+        }
+
         SubscriptionType subscriptionType = configAdapter.getSubscriptionType(globalConfig);
         String configType = configAdapter.getConfigType();
 
@@ -73,6 +97,10 @@ public class ConfigLogger {
     }
 
     public void logUpdatedEvent(boolean globalConfig) {
+        if (configAdapter == null) {
+            return;
+        }
+
         String group = configAdapter.getGroup();
         String dataId = configAdapter.getDataId(globalConfig);
         SubscriptionType subscriptionType = configAdapter.getSubscriptionType(globalConfig);
@@ -82,6 +110,10 @@ public class ConfigLogger {
     }
 
     public void logClearedEvent(boolean globalConfig) {
+        if (configAdapter == null) {
+            return;
+        }
+
         String group = configAdapter.getGroup();
         String dataId = configAdapter.getDataId(globalConfig);
         SubscriptionType subscriptionType = configAdapter.getSubscriptionType(globalConfig);
@@ -91,6 +123,10 @@ public class ConfigLogger {
     }
 
     public void logUpdatedSame(boolean globalConfig) {
+        if (configAdapter == null) {
+            return;
+        }
+
         String group = configAdapter.getGroup();
         String dataId = configAdapter.getDataId(globalConfig);
         SubscriptionType subscriptionType = configAdapter.getSubscriptionType(globalConfig);
@@ -100,6 +136,10 @@ public class ConfigLogger {
     }
 
     private String getLogKey() {
+        if (configAdapter == null) {
+            return null;
+        }
+
         return configAdapter.isConfigSingleKey() ? "key={}-{}" : "group={}, dataId={}";
     }
 }
