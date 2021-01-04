@@ -58,7 +58,7 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
         String filterServiceId = "discovery-springcloud-example-c";
         String filterToken = "123";
         if (StringUtils.equals(serviceId, filterServiceId) && StringUtils.isNotEmpty(token) && token.contains(filterToken)) {
-            LOG.info("过滤条件：当serviceId={} && Token含有'{}'的时候，不能被Ribbon负载均衡到", filterServiceId, filterToken);
+            LOG.info("过滤条件：当serviceId={} && Token含有'{}'的时候，不能被负载均衡到", filterServiceId, filterToken);
 
             return false;
         }
@@ -86,7 +86,7 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
                 Map<String, Object> parameterMap = (Map<String, Object>) attributes.get(DiscoveryConstant.PARAMETER_MAP);
                 String value = parameterMap.get("value").toString();
                 if (StringUtils.isNotEmpty(value) && value.contains(filterBusinessValue)) {
-                    LOG.info("过滤条件：当serviceId={} && version={} && 业务参数含有'{}'的时候，不能被Ribbon负载均衡到", filterServiceId, filterVersion, filterBusinessValue);
+                    LOG.info("过滤条件：当serviceId={} && version={} && 业务参数含有'{}'的时候，不能被负载均衡到", filterServiceId, filterVersion, filterBusinessValue);
 
                     return false;
                 }
