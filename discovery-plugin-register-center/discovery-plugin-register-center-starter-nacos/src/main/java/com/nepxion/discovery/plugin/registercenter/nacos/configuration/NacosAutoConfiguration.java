@@ -9,7 +9,6 @@ package com.nepxion.discovery.plugin.registercenter.nacos.configuration;
  * @version 1.0
  */
 
-import org.springframework.cloud.netflix.ribbon.RibbonClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,13 +17,11 @@ import com.nepxion.banner.Description;
 import com.nepxion.banner.LogoBanner;
 import com.nepxion.banner.NepxionBanner;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.framework.configuration.PluginLoadBalanceConfiguration;
 import com.nepxion.discovery.plugin.registercenter.nacos.adapter.NacosAdapter;
 import com.nepxion.discovery.plugin.registercenter.nacos.constant.NacosConstant;
 import com.taobao.text.Color;
 
 @Configuration
-@RibbonClients(defaultConfiguration = { PluginLoadBalanceConfiguration.class, NacosLoadBalanceConfiguration.class })
 public class NacosAutoConfiguration {
     static {
         /*String bannerShown = System.getProperty(BannerConstant.BANNER_SHOWN, "true");

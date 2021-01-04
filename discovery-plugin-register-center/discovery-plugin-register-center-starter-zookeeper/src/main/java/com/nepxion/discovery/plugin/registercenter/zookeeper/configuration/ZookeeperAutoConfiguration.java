@@ -9,7 +9,6 @@ package com.nepxion.discovery.plugin.registercenter.zookeeper.configuration;
  * @version 1.0
  */
 
-import org.springframework.cloud.netflix.ribbon.RibbonClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,13 +17,11 @@ import com.nepxion.banner.Description;
 import com.nepxion.banner.LogoBanner;
 import com.nepxion.banner.NepxionBanner;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.framework.configuration.PluginLoadBalanceConfiguration;
 import com.nepxion.discovery.plugin.registercenter.zookeeper.adapter.ZookeeperAdapter;
 import com.nepxion.discovery.plugin.registercenter.zookeeper.constant.ZookeeperConstant;
 import com.taobao.text.Color;
 
 @Configuration
-@RibbonClients(defaultConfiguration = { PluginLoadBalanceConfiguration.class, ZookeeperLoadBalanceConfiguration.class })
 public class ZookeeperAutoConfiguration {
     static {
         /*String bannerShown = System.getProperty(BannerConstant.BANNER_SHOWN, "true");
