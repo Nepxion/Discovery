@@ -17,23 +17,23 @@ import java.util.Map;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cloud.client.ServiceInstance;
 
 import com.nepxion.discovery.common.entity.DiscoveryEntity;
 import com.nepxion.discovery.common.entity.RegionEntity;
 import com.nepxion.discovery.common.entity.RegionFilterEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
-import com.netflix.loadbalancer.Server;
 
 public class RegionFilterLoadBalanceListener extends AbstractLoadBalanceListener {
     @Override
-    public void onGetServers(String serviceId, List<? extends Server> servers) {
+    public void onGetServers(String serviceId, List<? extends ServiceInstance> servers) {
         String consumerServiceId = pluginAdapter.getServiceId();
         String consumerServiceRegion = pluginAdapter.getRegion();
 
         applyRegionFilter(consumerServiceId, consumerServiceRegion, serviceId, servers);
     }
 
-    private void applyRegionFilter(String consumerServiceId, String consumerServiceRegion, String providerServiceId, List<? extends Server> servers) {
+    private void applyRegionFilter(String consumerServiceId, String consumerServiceRegion, String providerServiceId, List<? extends ServiceInstance> servers) {
         // 如果消费端未配置区域号，那么它可以调用提供端所有服务，需要符合规范，极力避免该情况发生
         if (StringUtils.isEmpty(consumerServiceRegion)) {
             return;
@@ -103,9 +103,9 @@ public class RegionFilterLoadBalanceListener extends AbstractLoadBalanceListener
             if (allNoFilterValueList.isEmpty()) {
                 return;
             } else {
-                Iterator<? extends Server> iterator = servers.iterator();
+                Iterator<? extends ServiceInstance> iterator = servers.iterator();
                 while (iterator.hasNext()) {
-                    Server server = iterator.next();
+                    ServiceInstance server = iterator.next();
                     String serverRegion = pluginAdapter.getServerRegion(server);
                     if (!allNoFilterValueList.contains(serverRegion)) {
                         iterator.remove();

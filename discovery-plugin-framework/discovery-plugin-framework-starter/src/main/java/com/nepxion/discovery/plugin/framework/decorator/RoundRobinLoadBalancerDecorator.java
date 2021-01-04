@@ -48,6 +48,7 @@ import org.springframework.cloud.loadbalancer.core.SelectedInstanceCallback;
 import org.springframework.cloud.loadbalancer.core.ServiceInstanceListSupplier;
 
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
+import com.nepxion.discovery.plugin.framework.listener.loadbalance.LoadBalanceListenerExecutor;
 import com.nepxion.discovery.plugin.framework.loadbalance.DiscoveryEnabledLoadBalance;
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.RuleMapWeightRandomLoadBalance;
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.StrategyMapWeightRandomLoadBalance;
@@ -76,6 +77,9 @@ public class RoundRobinLoadBalancerDecorator implements ReactorServiceInstanceLo
 
     @Autowired
     private DiscoveryEnabledLoadBalance discoveryEnabledLoadBalance;
+
+    @Autowired
+    private LoadBalanceListenerExecutor loadBalanceListenerExecutor;
 
     /**
      * @param serviceInstanceListSupplierProvider a provider of
@@ -178,6 +182,8 @@ public class RoundRobinLoadBalancerDecorator implements ReactorServiceInstanceLo
                 roundRobinInstances.add(instance);
             }
         }
+
+        loadBalanceListenerExecutor.onGetServers(serviceId, instances);
 
         if (roundRobinInstances.isEmpty()) {
             if (log.isWarnEnabled()) {

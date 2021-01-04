@@ -11,9 +11,10 @@ package com.nepxion.discovery.plugin.framework.listener.loadbalance;
 
 import java.util.List;
 
+import org.springframework.cloud.client.ServiceInstance;
+
 import com.nepxion.discovery.plugin.framework.listener.Listener;
-import com.netflix.loadbalancer.Server;
 
 public interface LoadBalanceListener extends Listener {
-    void onGetServers(String serviceId, List<? extends Server> servers);
+    void onGetServers(String serviceId, List<? extends ServiceInstance> servers);
 }

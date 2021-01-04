@@ -15,20 +15,20 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.cloud.client.ServiceInstance;
 
 import com.nepxion.discovery.common.entity.DiscoveryEntity;
 import com.nepxion.discovery.common.entity.FilterType;
 import com.nepxion.discovery.common.entity.HostFilterEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
-import com.netflix.loadbalancer.Server;
 
 public class HostFilterLoadBalanceListener extends AbstractLoadBalanceListener {
     @Override
-    public void onGetServers(String serviceId, List<? extends Server> servers) {
+    public void onGetServers(String serviceId, List<? extends ServiceInstance> servers) {
         applyHostFilter(serviceId, servers);
     }
 
-    private void applyHostFilter(String providerServiceId, List<? extends Server> servers) {
+    private void applyHostFilter(String providerServiceId, List<? extends ServiceInstance> servers) {
         RuleEntity ruleEntity = pluginAdapter.getRule();
         if (ruleEntity == null) {
             return;
@@ -63,9 +63,9 @@ public class HostFilterLoadBalanceListener extends AbstractLoadBalanceListener {
             allFilterValueList.addAll(filterValueList);
         }
 
-        Iterator<? extends Server> iterator = servers.iterator();
+        Iterator<? extends ServiceInstance> iterator = servers.iterator();
         while (iterator.hasNext()) {
-            Server server = iterator.next();
+            ServiceInstance server = iterator.next();
             String host = server.getHost();
             switch (filterType) {
                 case BLACKLIST:

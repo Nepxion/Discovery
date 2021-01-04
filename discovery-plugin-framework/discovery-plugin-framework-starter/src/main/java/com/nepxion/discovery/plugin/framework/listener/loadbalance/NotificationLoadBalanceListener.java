@@ -13,14 +13,13 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.netflix.loadbalancer.Server;
+import org.springframework.cloud.client.ServiceInstance;
 
 public class NotificationLoadBalanceListener extends AbstractLoadBalanceListener {
     private static final Logger LOG = LoggerFactory.getLogger(NotificationLoadBalanceListener.class);
 
     @Override
-    public void onGetServers(String serviceId, List<? extends Server> servers) {
+    public void onGetServers(String serviceId, List<? extends ServiceInstance> servers) {
         if (servers.size() == 0) {
             LOG.warn("********** No server instances found for serviceId={}, perhaps they are isolated, filtered or not registered **********", serviceId);
         }
