@@ -41,7 +41,6 @@ import com.nepxion.discovery.plugin.framework.listener.register.HostFilterRegist
 import com.nepxion.discovery.plugin.framework.listener.register.RegisterListenerExecutor;
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.RuleMapWeightRandomLoadBalance;
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.StrategyMapWeightRandomLoadBalance;
-import com.nepxion.discovery.plugin.framework.ribbon.RibbonProcessor;
 import com.nepxion.eventbus.annotation.EnableEventBus;
 
 @Configuration
@@ -81,11 +80,6 @@ public class PluginAutoConfiguration {
     @Bean
     public RuleCache ruleCache() {
         return new RuleCache();
-    }
-
-    @Bean
-    public RibbonProcessor ribbonProcessor() {
-        return new RibbonProcessor();
     }
 
     @Bean

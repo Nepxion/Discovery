@@ -21,7 +21,6 @@ import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.parser.PluginConfigParser;
-import com.nepxion.discovery.plugin.framework.ribbon.RibbonProcessor;
 import com.nepxion.eventbus.annotation.EventBus;
 
 @EventBus
@@ -39,9 +38,6 @@ public class PluginSubscriber {
 
     @Autowired
     private PluginEventWapper pluginEventWapper;
-
-    @Autowired
-    private RibbonProcessor ribbonProcessor;
 
     @Subscribe
     public void onRuleUpdated(RuleUpdatedEvent ruleUpdatedEvent) {
@@ -186,8 +182,8 @@ public class PluginSubscriber {
         }
     }
 
-    // 当规则或者版本更新后，强制刷新Ribbon缓存
+    // 当规则或者版本更新后，强制刷新负载均衡缓存
     private void refreshLoadBalancer() {
-        ribbonProcessor.refreshLoadBalancer();
+
     }
 }
