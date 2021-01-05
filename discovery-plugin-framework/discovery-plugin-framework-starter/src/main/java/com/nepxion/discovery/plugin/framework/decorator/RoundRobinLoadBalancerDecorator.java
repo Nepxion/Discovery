@@ -175,24 +175,24 @@ public class RoundRobinLoadBalancerDecorator implements ReactorServiceInstanceLo
     }
 
     protected Response<ServiceInstance> getEnabledInstanceResponse(List<ServiceInstance> instances) {
-        List<ServiceInstance> roundRobinInstances = new ArrayList<ServiceInstance>();
+        List<ServiceInstance> filterInstances = new ArrayList<ServiceInstance>();
         for (ServiceInstance instance : instances) {
             boolean enabled = discoveryEnabledLoadBalance.apply(instance);
             if (enabled) {
-                roundRobinInstances.add(instance);
+                filterInstances.add(instance);
             }
         }
 
-        loadBalanceListenerExecutor.onGetServers(serviceId, instances);
+        loadBalanceListenerExecutor.onGetServers(serviceId, filterInstances);
 
-        if (roundRobinInstances.isEmpty()) {
+        if (filterInstances.isEmpty()) {
             if (log.isWarnEnabled()) {
                 log.warn("No servers available for service: " + serviceId);
             }
             return new EmptyResponse();
         }
 
-        return getRoundRobinInstanceResponse(roundRobinInstances);
+        return getRoundRobinInstanceResponse(filterInstances);
     }
 
     protected Response<ServiceInstance> getRoundRobinInstanceResponse(List<ServiceInstance> instances) {
