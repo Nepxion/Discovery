@@ -2435,6 +2435,7 @@ n-d-address-blacklist=192.168.43.101:1201;192.168.*.102;1301
 ThreadLocal的作用是提供线程内的局部变量，在多线程环境下访问时能保证各个线程内的ThreadLocal变量各自独立。在异步场景下，由于出现线程切换的问题，例如主线程切换到子线程，会导致线程ThreadLocal上下文丢失。DiscoveryAgent通过Java Agent方式解决这些痛点
 
 涵盖所有Java框架的异步场景，解决如下7个异步场景下丢失线程ThreadLocal上下文的问题
+- WebFlux Reactor
 - `@`Async
 - Hystrix Thread Pool Isolation
 - Runnable
@@ -2464,7 +2465,7 @@ ThreadLocal的作用是提供线程内的局部变量，在多线程环境下访
 
 参数说明
 - /discovery-agent：Agent所在的目录，需要对应到实际的目录上
-- `-D`thread.scan.packages：Runnable，Callable对象所在的扫描目录，该目录下的Runnable，Callable对象都会被装饰。该目录最好精细和准确，这样可以减少被装饰的对象数，提高性能，目录如果有多个，用“;”分隔。该参数只作用于服务侧，网关侧不需要加。参数定义为
+- `-D`thread.scan.packages：Runnable，Callable对象所在的扫描目录，该目录下的Runnable，Callable对象都会被装饰。该目录最好精细和准确，这样可以减少被装饰的对象数，提高性能，目录如果有多个，用“;”分隔。参数定义为
     - WebFlux Reactor异步场景下的扫描目录对应为reactor.core.scheduler，可以解决基于Reactor的Spring Cloud LoadBalancer异步负载均衡下的上下文传递
     - `@`Async场景下的扫描目录对应为org.springframework.aop.interceptor
     - Hystrix线程池隔离场景下的扫描目录对应为com.netflix.hystrix
