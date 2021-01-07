@@ -14,7 +14,7 @@
 ![](http://nepxion.gitee.io/docs/icon-doc/star1.png) 首席作者简介
 - Nepxion开源社区创始人
 - 2020年阿里巴巴中国云原生峰会出品人
-- Nacos Group Member
+- Nacos Group Member、Spring Cloud Alibaba Member
 - Spring Cloud Alibaba、Nacos、Sentinel、OpenTracing Committer & Contributor
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Logo64.png) Discovery【探索】微服务企业级解决方案
@@ -2460,19 +2460,21 @@ ThreadLocal的作用是提供线程内的局部变量，在多线程环境下访
 例如
 
 ```
--javaagent:C:/opt/discovery-agent/discovery-agent-starter-${discovery.agent.version}.jar -Dthread.scan.packages=reactor.core.scheduler;org.springframework.aop.interceptor;com.netflix.hystrix;com.nepxion.discovery.guide.service.feign
+-javaagent:C:/opt/discovery-agent/discovery-agent-starter-${discovery.agent.version}.jar -Dthread.scan.packages=reactor.core.publisher;org.springframework.aop.interceptor;com.netflix.hystrix;com.nepxion.discovery.guide.service.feign
 ```
 
 参数说明
 - /discovery-agent：Agent所在的目录，需要对应到实际的目录上
 - `-D`thread.scan.packages：Runnable，Callable对象所在的扫描目录，该目录下的Runnable，Callable对象都会被装饰。该目录最好精细和准确，这样可以减少被装饰的对象数，提高性能，目录如果有多个，用“;”分隔。参数定义为
-    - WebFlux Reactor异步场景下的扫描目录对应为reactor.core.scheduler，可以解决基于Reactor的Spring Cloud LoadBalancer异步负载均衡下的上下文传递
+    - WebFlux Reactor异步场景下的扫描目录对应为reactor.core.publisher，可以解决基于Reactor的Spring Cloud LoadBalancer异步负载均衡下的上下文传递
     - `@`Async场景下的扫描目录对应为org.springframework.aop.interceptor
     - Hystrix线程池隔离场景下的扫描目录对应为com.netflix.hystrix
     - 线程，线程池的扫描目录对应为自定义Runnable，Callable对象所在类的目录
     - 上述扫描路径如果含有“;”，可能会在某些操作系统中无法被识别，请用`""`进行引入，例如，-Dthread.scan.packages="com.abc;com.xyz"
 - `-D`thread.request.decorator.enabled：异步调用场景下在服务端的Request请求的装饰，当主线程先于子线程执行完的时候，Request会被Destory，导致Header仍旧拿不到，开启装饰，就可以确保拿到。默认为开启，根据实践经验，大多数场景下，需要开启该开关
 - `-D`thread.mdc.enabled：SLF4J MDC日志输出到异步子线程。默认关闭，如果需要，则开启该开关
+
+![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 提醒：对于扫描目录，请务必根据实际场景做配置，例如，不存在WebFlux Reactor的异步场景，就不必把reactor.core.publisher配置到扫描目录中
 
 #### 异步跨线程DiscoveryAgent扩展
 - 根据规范开发一个插件，插件提供了钩子函数，在某个类被加载的时候，可以注册一个事件到线程上下文切换事件当中，实现业务自定义ThreadLocal的跨线程传递
@@ -4205,7 +4207,7 @@ spring.boot.admin.client.url=http://localhost:5555
 ④ 异步跨线程Agent配置
 
 ```
--javaagent:C:/opt/discovery-agent/discovery-agent-starter-${discovery.agent.version}.jar -Dthread.scan.packages=reactor.core.scheduler;org.springframework.aop.interceptor;com.netflix.hystrix;com.nepxion.discovery.guide.service.feign
+-javaagent:C:/opt/discovery-agent/discovery-agent-starter-${discovery.agent.version}.jar -Dthread.scan.packages=reactor.core.publisher;org.springframework.aop.interceptor;com.netflix.hystrix;com.nepxion.discovery.guide.service.feign
 ```
 
 ### 功能开关配置
