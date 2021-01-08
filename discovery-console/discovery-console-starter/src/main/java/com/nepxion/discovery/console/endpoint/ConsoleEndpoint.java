@@ -40,6 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.constant.DiscoveryMetaDataConstant;
 import com.nepxion.discovery.common.entity.InstanceEntity;
 import com.nepxion.discovery.common.entity.InstanceEntityWrapper;
 import com.nepxion.discovery.common.entity.ServiceType;
@@ -333,7 +334,7 @@ public class ConsoleEndpoint {
             for (ServiceInstance instance : instances) {
                 Map<String, String> metadata = instance.getMetadata();
                 String serviceId = instance.getServiceId().toLowerCase();
-                String serviceType = metadata.get(DiscoveryConstant.SPRING_APPLICATION_TYPE);
+                String serviceType = metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_TYPE);
                 if (StringUtils.equals(serviceType, ServiceType.GATEWAY.toString())) {
                     if (!gateways.contains(serviceId)) {
                         gateways.add(serviceId);
@@ -351,7 +352,7 @@ public class ConsoleEndpoint {
         for (ServiceInstance instance : instances) {
             Map<String, String> metadata = instance.getMetadata();
             String serviceId = instance.getServiceId().toLowerCase();
-            String serviceType = metadata.get(DiscoveryConstant.SPRING_APPLICATION_TYPE);
+            String serviceType = metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_TYPE);
             String version = metadata.get(DiscoveryConstant.VERSION);
             String region = metadata.get(DiscoveryConstant.REGION);
             String environment = metadata.get(DiscoveryConstant.ENVIRONMENT);

@@ -20,6 +20,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.constant.DiscoveryMetaDataConstant;
 import com.nepxion.discovery.plugin.framework.adapter.ApplicationInfoAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginApplicationContextInitializer;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
@@ -61,24 +62,24 @@ public class ConsulApplicationContextInitializer extends PluginApplicationContex
                 metadata.set(MetadataUtil.getIndex(metadata, DiscoveryConstant.VERSION), DiscoveryConstant.VERSION + "=" + gitVersion);
             }
 
-            metadata.add(DiscoveryConstant.SPRING_BOOT_VERSION + "=" + SpringBootVersion.getVersion());
-            metadata.add(DiscoveryConstant.SPRING_APPLICATION_NAME + "=" + PluginContextAware.getApplicationName(environment));
-            metadata.add(DiscoveryConstant.SPRING_APPLICATION_TYPE + "=" + PluginContextAware.getApplicationType(environment));
-            metadata.add(DiscoveryConstant.SPRING_APPLICATION_UUID + "=" + PluginContextAware.getApplicationUUId(environment));
-            metadata.add(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN + "=" + ConsulConstant.CONSUL_TYPE);
-            metadata.add(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_VERSION + "=" + DiscoveryConstant.DISCOVERY_VERSION);
+            metadata.add(DiscoveryMetaDataConstant.SPRING_BOOT_VERSION + "=" + SpringBootVersion.getVersion());
+            metadata.add(DiscoveryMetaDataConstant.SPRING_APPLICATION_NAME + "=" + PluginContextAware.getApplicationName(environment));
+            metadata.add(DiscoveryMetaDataConstant.SPRING_APPLICATION_TYPE + "=" + PluginContextAware.getApplicationType(environment));
+            metadata.add(DiscoveryMetaDataConstant.SPRING_APPLICATION_UUID + "=" + PluginContextAware.getApplicationUUId(environment));
+            metadata.add(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN + "=" + ConsulConstant.CONSUL_TYPE);
+            metadata.add(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_VERSION + "=" + DiscoveryConstant.DISCOVERY_VERSION);
             String agentVersion = System.getProperty(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_AGENT_VERSION);
-            metadata.add(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_AGENT_VERSION + "=" + (StringUtils.isEmpty(agentVersion) ? DiscoveryConstant.UNKNOWN : agentVersion));
-            metadata.add(DiscoveryConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED + "=" + PluginContextAware.isRegisterControlEnabled(environment));
-            metadata.add(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED + "=" + PluginContextAware.isDiscoveryControlEnabled(environment));
-            metadata.add(DiscoveryConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED + "=" + PluginContextAware.isConfigRestControlEnabled(environment));
-            metadata.add(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY + "=" + groupKey);
-            metadata.add(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH + "=" + PluginContextAware.getContextPath(environment));
+            metadata.add(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_AGENT_VERSION + "=" + (StringUtils.isEmpty(agentVersion) ? DiscoveryConstant.UNKNOWN : agentVersion));
+            metadata.add(DiscoveryMetaDataConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED + "=" + PluginContextAware.isRegisterControlEnabled(environment));
+            metadata.add(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED + "=" + PluginContextAware.isDiscoveryControlEnabled(environment));
+            metadata.add(DiscoveryMetaDataConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED + "=" + PluginContextAware.isConfigRestControlEnabled(environment));
+            metadata.add(DiscoveryMetaDataConstant.SPRING_APPLICATION_GROUP_KEY + "=" + groupKey);
+            metadata.add(DiscoveryMetaDataConstant.SPRING_APPLICATION_CONTEXT_PATH + "=" + PluginContextAware.getContextPath(environment));
 
             try {
                 ApplicationInfoAdapter applicationInfoAdapter = applicationContext.getBean(ApplicationInfoAdapter.class);
                 if (applicationInfoAdapter != null) {
-                    metadata.add(DiscoveryConstant.APP_ID + "=" + applicationInfoAdapter.getAppId());
+                    metadata.add(DiscoveryMetaDataConstant.APP_ID + "=" + applicationInfoAdapter.getAppId());
                 }
             } catch (Exception e) {
 

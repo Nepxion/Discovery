@@ -14,17 +14,18 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.constant.DiscoveryMetaDataConstant;
 
 public class InstanceEntityWrapper {
     public static String getContextPath(InstanceEntity instanceEntity) {
         Map<String, String> metadata = instanceEntity.getMetadata();
 
-        return metadata.get(DiscoveryConstant.SPRING_APPLICATION_CONTEXT_PATH);
+        return metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_CONTEXT_PATH);
     }
 
     public static String getGroup(InstanceEntity instanceEntity) {
         Map<String, String> metadata = instanceEntity.getMetadata();
-        String groupKey = metadata.get(DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY);
+        String groupKey = metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_GROUP_KEY);
         if (StringUtils.isEmpty(groupKey)) {
             return StringUtils.EMPTY;
         }
@@ -39,7 +40,7 @@ public class InstanceEntityWrapper {
 
     public static String getPlugin(InstanceEntity instanceEntity) {
         Map<String, String> metadata = instanceEntity.getMetadata();
-        String plugin = metadata.get(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN);
+        String plugin = metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN);
         if (plugin == null) {
             return StringUtils.EMPTY;
         }
@@ -49,7 +50,7 @@ public class InstanceEntityWrapper {
 
     public static boolean isRegisterControlEnabled(InstanceEntity instanceEntity) {
         Map<String, String> metadata = instanceEntity.getMetadata();
-        String flag = metadata.get(DiscoveryConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED);
+        String flag = metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED);
         if (flag == null) {
             return true;
         }
@@ -59,7 +60,7 @@ public class InstanceEntityWrapper {
 
     public static boolean isDiscoveryControlEnabled(InstanceEntity instanceEntity) {
         Map<String, String> metadata = instanceEntity.getMetadata();
-        String flag = metadata.get(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED);
+        String flag = metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED);
         if (flag == null) {
             return true;
         }
@@ -69,7 +70,7 @@ public class InstanceEntityWrapper {
 
     public static boolean isConfigRestControlEnabled(InstanceEntity instanceEntity) {
         Map<String, String> metadata = instanceEntity.getMetadata();
-        String flag = metadata.get(DiscoveryConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED);
+        String flag = metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED);
         if (flag == null) {
             return true;
         }
