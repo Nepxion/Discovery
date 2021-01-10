@@ -9,11 +9,6 @@ package com.nepxion.discovery.common.etcd.operation;
  * @version 1.0
  */
 
-import java.nio.charset.StandardCharsets;
-import java.util.concurrent.ExecutionException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import io.etcd.jetcd.ByteSequence;
 import io.etcd.jetcd.Client;
 import io.etcd.jetcd.KV;
@@ -24,40 +19,52 @@ import io.etcd.jetcd.kv.GetResponse;
 import io.etcd.jetcd.watch.WatchEvent;
 import io.etcd.jetcd.watch.WatchResponse;
 
+import java.nio.charset.StandardCharsets;
+import java.util.concurrent.ExecutionException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class EtcdOperation {
     @Autowired
     private Client client;
 
     public String getConfig(String group, String serviceId) throws ExecutionException, InterruptedException {
-        String value = null;
-        KV kvClient = client.getKVClient();
         ByteSequence byteSequence = ByteSequence.from(group + "-" + serviceId, StandardCharsets.UTF_8);
+
+        KV kvClient = client.getKVClient();
         GetResponse getResponse = kvClient.get(byteSequence).get();
         if (getResponse.getKvs().size() > 0) {
             KeyValue keyValue = getResponse.getKvs().get(0);
-            value = keyValue.getValue().toString(StandardCharsets.UTF_8);
+
+            return keyValue.getValue().toString(StandardCharsets.UTF_8);
         }
-        return value;
+
+        return null;
     }
 
     public boolean deleteConfig(String group, String serviceId) throws ExecutionException, InterruptedException {
-        KV kvClient = client.getKVClient();
         ByteSequence byteSequence = ByteSequence.from(group + "-" + serviceId, StandardCharsets.UTF_8);
+
+        KV kvClient = client.getKVClient();
         kvClient.delete(byteSequence);
+
         return true;
     }
 
     public boolean putConfig(String group, String serviceId, String config) throws ExecutionException, InterruptedException {
-        KV kvClient = client.getKVClient();
         ByteSequence keyByteSequence = ByteSequence.from(group + "-" + serviceId, StandardCharsets.UTF_8);
         ByteSequence valueByteSequence = ByteSequence.from(config, StandardCharsets.UTF_8);
+
+        KV kvClient = client.getKVClient();
         kvClient.put(keyByteSequence, valueByteSequence);
+
         return true;
     }
 
     public Listener subscribeConfig(String group, String serviceId, EtcdSubscribeCallback etcdSubscribeCallback) throws Exception {
-        Watch watchClient = client.getWatchClient();
         ByteSequence byteSequence = ByteSequence.from(group + "-" + serviceId, StandardCharsets.UTF_8);
+
+        Watch watchClient = client.getWatchClient();
         Listener listener = new Listener() {
             @Override
             public void onNext(WatchResponse response) {
@@ -65,6 +72,7 @@ public class EtcdOperation {
                     KeyValue keyValue = event.getKeyValue();
                     if (keyValue != null) {
                         String config = keyValue.getValue().toString(StandardCharsets.UTF_8);
+
                         etcdSubscribeCallback.callback(config);
                     }
                 }
@@ -81,6 +89,7 @@ public class EtcdOperation {
             }
         };
         watchClient.watch(byteSequence, listener);
+
         return listener;
     }
 

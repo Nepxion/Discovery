@@ -9,6 +9,10 @@ package com.nepxion.discovery.common.etcd.configuration;
  * @version 1.0
  */
 
+import io.etcd.jetcd.ByteSequence;
+import io.etcd.jetcd.Client;
+import io.etcd.jetcd.ClientBuilder;
+
 import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.lang3.StringUtils;
@@ -20,10 +24,6 @@ import org.springframework.core.env.Environment;
 
 import com.nepxion.discovery.common.etcd.constant.EtcdConstant;
 import com.nepxion.discovery.common.etcd.operation.EtcdOperation;
-
-import io.etcd.jetcd.ByteSequence;
-import io.etcd.jetcd.Client;
-import io.etcd.jetcd.ClientBuilder;
 
 @Configuration
 public class EtcdAutoConfiguration {
@@ -54,6 +54,7 @@ public class EtcdAutoConfiguration {
             clientBuilder.password(ByteSequence.from(password, StandardCharsets.UTF_8));
         }
         clientBuilder.loadBalancerPolicy(EtcdConstant.ETCD_CLIENT_ROUND_ROBIN);
+
         return clientBuilder.build();
     }
 }

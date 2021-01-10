@@ -14,6 +14,5 @@ public class EtcdConstant {
     public static final String ETCD_SERVER_ADDR = "etcd.server.addr";
     public static final String ETCD_USERNAME = "etcd.username";
     public static final String ETCD_PASSWORD = "etcd.password";
-    
     public static final String ETCD_CLIENT_ROUND_ROBIN = "round_robin"; 
 }

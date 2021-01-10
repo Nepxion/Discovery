@@ -13,7 +13,6 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.constant.DiscoveryMetaDataConstant;
 
 public class InstanceEntityWrapper {
