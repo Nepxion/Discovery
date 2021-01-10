@@ -9,6 +9,8 @@ package com.nepxion.discovery.plugin.configcenter.etcd.adapter;
  * @version 1.0
  */
 
+import io.etcd.jetcd.Watch;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +20,6 @@ import com.nepxion.discovery.common.etcd.operation.EtcdOperation;
 import com.nepxion.discovery.common.etcd.operation.EtcdSubscribeCallback;
 import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
 import com.nepxion.discovery.plugin.configcenter.logger.ConfigLogger;
-
-import io.etcd.jetcd.Watch;
 
 public class EtcdConfigAdapter extends ConfigAdapter {
     @Autowired

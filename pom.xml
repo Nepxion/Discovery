@@ -77,7 +77,7 @@
                 <artifactId>discovery-common-zookeeper</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-common-etcd</artifactId>
@@ -389,7 +389,7 @@
                 <artifactId>curator-recipes</artifactId>
                 <version>${zookeeper.curator.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>io.etcd</groupId>
                 <artifactId>jetcd-core</artifactId>

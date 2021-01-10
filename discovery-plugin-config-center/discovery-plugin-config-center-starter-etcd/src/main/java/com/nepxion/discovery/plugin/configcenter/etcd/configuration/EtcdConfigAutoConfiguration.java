@@ -24,7 +24,7 @@ import com.taobao.text.Color;
 @Configuration
 public class EtcdConfigAutoConfiguration {
     static {
-        LogoBanner logoBanner = new LogoBanner(EtcdConfigAutoConfiguration.class, "/com/nepxion/etcd/resource/logo.txt", "Welcome to Nepxion", 9, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta, Color.red, Color.green, Color.cyan }, true);
+        LogoBanner logoBanner = new LogoBanner(EtcdConfigAutoConfiguration.class, "/com/nepxion/etcd/resource/logo.txt", "Welcome to Nepxion", 4, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue }, true);
         NepxionBanner.show(logoBanner, new Description("Config:", EtcdConstant.ETCD_TYPE, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
     }
 
