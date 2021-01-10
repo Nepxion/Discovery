@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <artifactId>discovery-commons</artifactId>
-    <name>Nepxion Discovery Commons</name>
-    <packaging>pom</packaging>
+    <artifactId>discovery-console-starter-etcd</artifactId>
+    <name>Nepxion Discovery Console Starter Etcd</name>
+    <packaging>jar</packaging>
     <modelVersion>4.0.0</modelVersion>
     <description>Nepxion Discovery is a solution for Spring Cloud with blue green, gray, weight, limitation, circuit breaker, degrade, isolation, monitor, tracing, dye, failover, async agent</description>
     <url>http://www.nepxion.com</url>
 
     <parent>
         <groupId>com.nepxion</groupId>
-        <artifactId>discovery</artifactId>
+        <artifactId>discovery-console</artifactId>
         <version>6.6.0-SNAPSHOT</version>
     </parent>
 
-    <modules>
-        <module>discovery-common</module>
-        <module>discovery-common-apollo</module>
-        <module>discovery-common-nacos</module>
-        <module>discovery-common-redis</module>
-        <module>discovery-common-zookeeper</module>
-        <module>discovery-common-etcd</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>discovery-console-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>discovery-common-etcd</artifactId>
+        </dependency>
+    </dependencies>
 </project>
