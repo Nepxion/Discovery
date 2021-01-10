@@ -42,7 +42,7 @@ public class EtcdOperation {
         return null;
     }
 
-    public boolean deleteConfig(String group, String serviceId) throws ExecutionException, InterruptedException {
+    public boolean removeConfig(String group, String serviceId) throws ExecutionException, InterruptedException {
         ByteSequence byteSequence = ByteSequence.from(group + "-" + serviceId, StandardCharsets.UTF_8);
 
         KV kvClient = client.getKVClient();
@@ -51,7 +51,7 @@ public class EtcdOperation {
         return true;
     }
 
-    public boolean putConfig(String group, String serviceId, String config) throws ExecutionException, InterruptedException {
+    public boolean publishConfig(String group, String serviceId, String config) throws ExecutionException, InterruptedException {
         ByteSequence keyByteSequence = ByteSequence.from(group + "-" + serviceId, StandardCharsets.UTF_8);
         ByteSequence valueByteSequence = ByteSequence.from(config, StandardCharsets.UTF_8);
 

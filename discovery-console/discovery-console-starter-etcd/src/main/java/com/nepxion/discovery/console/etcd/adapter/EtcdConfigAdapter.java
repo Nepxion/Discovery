@@ -21,12 +21,12 @@ public class EtcdConfigAdapter implements ConfigAdapter {
 
     @Override
     public boolean updateConfig(String group, String serviceId, String config) throws Exception {
-        return etcdOperation.putConfig(group, serviceId, config);
+        return etcdOperation.publishConfig(group, serviceId, config);
     }
 
     @Override
     public boolean clearConfig(String group, String serviceId) throws Exception {
-        return etcdOperation.deleteConfig(group, serviceId);
+        return etcdOperation.removeConfig(group, serviceId);
     }
 
     @Override
