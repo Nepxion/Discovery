@@ -12,19 +12,14 @@ package com.nepxion.discovery.plugin.framework.decorator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import javax.annotation.PostConstruct;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Lazy;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
-import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.framework.context.PluginContextHolder;
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.RuleMapWeightRandomLoadBalance;
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.StrategyMapWeightRandomLoadBalance;
 import com.netflix.loadbalancer.PredicateBasedRule;
@@ -43,20 +38,10 @@ public abstract class PredicateBasedRuleDecorator extends PredicateBasedRule {
     private Integer retryAwaitTime;
 
     @Autowired
-    private PluginAdapter pluginAdapter;
+    private StrategyMapWeightRandomLoadBalance strategyMapWeightRandomLoadBalance;
 
     @Autowired
-    @Lazy
-    private PluginContextHolder pluginContextHolder;
-
-    private StrategyMapWeightRandomLoadBalance strategyMapWeightRandomLoadBalance;
     private RuleMapWeightRandomLoadBalance ruleMapWeightRandomLoadBalance;
-
-    @PostConstruct
-    private void initialize() {
-        strategyMapWeightRandomLoadBalance = new StrategyMapWeightRandomLoadBalance(pluginAdapter, pluginContextHolder);
-        ruleMapWeightRandomLoadBalance = new RuleMapWeightRandomLoadBalance(pluginAdapter);
-    }
 
     // 必须执行getEligibleServers，否则叠加执行权重规则和版本区域策略会失效
     private List<Server> getServerList(Object key) {
@@ -98,8 +83,6 @@ public abstract class PredicateBasedRuleDecorator extends PredicateBasedRule {
                 try {
                     return strategyMapWeightRandomLoadBalance.choose(serverList, strategyWeightFilterEntity);
                 } catch (Exception e) {
-                    // LOG.error("Execute strategy weight-random-loadbalance failed, it will use default loadbalance", e);
-
                     return super.choose(key);
                 }
             } else {
@@ -116,8 +99,6 @@ public abstract class PredicateBasedRuleDecorator extends PredicateBasedRule {
                     try {
                         return ruleMapWeightRandomLoadBalance.choose(serverList, ruleWeightFilterEntity);
                     } catch (Exception e) {
-                        // LOG.error("Execute rule weight-random-loadbalance failed, it will use default loadbalance", e);
-
                         return super.choose(key);
                     }
                 } else {

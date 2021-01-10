@@ -9,8 +9,8 @@ package com.nepxion.discovery.plugin.strategy.adapter;
  * @version 1.0
  */
 
-import com.netflix.loadbalancer.Server;
+import com.nepxion.discovery.plugin.framework.loadbalance.DiscoveryEnabledLoadBalance;
 
-public interface DiscoveryEnabledAdapter {
-    boolean apply(Server server);
+public interface DiscoveryEnabledAdapter extends DiscoveryEnabledLoadBalance {
+
 }

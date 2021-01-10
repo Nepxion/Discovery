@@ -16,10 +16,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
+import com.nepxion.banner.BannerConstant;
+import com.nepxion.banner.Description;
+import com.nepxion.banner.LogoBanner;
+import com.nepxion.banner.NepxionBanner;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.cache.PluginCache;
 import com.nepxion.discovery.plugin.framework.cache.RuleCache;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
+import com.nepxion.discovery.plugin.framework.context.PluginContextHolder;
 import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
 import com.nepxion.discovery.plugin.framework.event.PluginSubscriber;
@@ -37,12 +43,21 @@ import com.nepxion.discovery.plugin.framework.listener.loadbalance.VersionFilter
 import com.nepxion.discovery.plugin.framework.listener.register.CountFilterRegisterListener;
 import com.nepxion.discovery.plugin.framework.listener.register.HostFilterRegisterListener;
 import com.nepxion.discovery.plugin.framework.listener.register.RegisterListenerExecutor;
+import com.nepxion.discovery.plugin.framework.loadbalance.weight.RuleMapWeightRandomLoadBalance;
+import com.nepxion.discovery.plugin.framework.loadbalance.weight.StrategyMapWeightRandomLoadBalance;
 import com.nepxion.discovery.plugin.framework.ribbon.RibbonProcessor;
 import com.nepxion.eventbus.annotation.EnableEventBus;
+import com.taobao.text.Color;
 
 @Configuration
 @EnableEventBus
 public class PluginAutoConfiguration {
+    static {
+        LogoBanner logoBanner = new LogoBanner(PluginAutoConfiguration.class, "/com/nepxion/ribbon/resource/logo.txt", "Welcome to Nepxion", 6, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta }, true);
+
+        NepxionBanner.show(logoBanner, new Description("LoadBalancer:", "Ribbon", 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
+    }
+
     @Bean
     @LoadBalanced
     public RestTemplate pluginRestTemplate() {
@@ -82,6 +97,16 @@ public class PluginAutoConfiguration {
     @Bean
     public RibbonProcessor ribbonProcessor() {
         return new RibbonProcessor();
+    }
+
+    @Bean
+    public RuleMapWeightRandomLoadBalance ruleMapWeightRandomLoadBalance(PluginAdapter pluginAdapter) {
+        return new RuleMapWeightRandomLoadBalance(pluginAdapter);
+    }
+
+    @Bean
+    public StrategyMapWeightRandomLoadBalance strategyMapWeightRandomLoadBalance(PluginAdapter pluginAdapter, PluginContextHolder pluginContextHolder) {
+        return new StrategyMapWeightRandomLoadBalance(pluginAdapter, pluginContextHolder);
     }
 
     @Bean

@@ -102,6 +102,24 @@ public class StringUtil {
         return stringBuilder.toString();
     }
 
+    public static Map<String, String> convertToMap(List<String> list) {
+        return convertToMap(list, DiscoveryConstant.EQUALS);
+    }
+
+    public static Map<String, String> convertToMap(List<String> list, String separate) {
+        if (list == null) {
+            return null;
+        }
+
+        Map<String, String> map = new HashMap<String, String>();
+        for (String value : list) {
+            String[] valueArray = StringUtils.splitByWholeSeparator(value, separate);
+            map.put(valueArray[0], valueArray[1]);
+        }
+
+        return map;
+    }
+
     public static String simulateText(String value, int size, String padValue) {
         return StringUtils.rightPad(value, size, padValue);
     }
