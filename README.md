@@ -89,7 +89,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 ① 微服务框架支持的基本功能，如下
 - 支持阿里巴巴Spring Cloud Alibaba中间件生态圈
 - 支持阿里巴巴Nacos、Eureka、Consul和Zookeeper四个服务注册发现中心
-- 支持阿里巴巴Nacos、携程Apollo、Redis和Zookeeper四个远程配置中心
+- 支持阿里巴巴Nacos、携程Apollo、Redis、Zookeeper、Consul和Etcd六个远程配置中心
 - 支持阿里巴巴Sentinel、Hystrix和Resilience4J三个熔断限流降级权限中间件
 - 支持OpenTracing和OpenTelemetry规范下的调用链中间件，Jaeger、SkyWalking和Zipkin等
 - 支持Prometheus Micrometer和Spring Boot Admin两个指标中间件
