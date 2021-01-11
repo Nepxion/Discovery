@@ -37,7 +37,8 @@ public class DiscoveryClientDecorator implements DiscoveryClient {
     public List<ServiceInstance> getInstances(String serviceId) {
         List<ServiceInstance> instances = getRealInstances(serviceId);
 
-        Boolean discoveryControlEnabled = PluginContextAware.isDiscoveryControlEnabled(environment);
+        // Spring Cloud 202x的Spring Cloud LoadBalancer负载均衡拉取实例列表会走DiscoveryClient.getInstances接口，如果在此进行过滤，会影响负载均衡实例列表，引入Bug，故取消该过滤功能
+        /*Boolean discoveryControlEnabled = PluginContextAware.isDiscoveryControlEnabled(environment);
         if (discoveryControlEnabled) {
             try {
                 DiscoveryListenerExecutor discoveryListenerExecutor = applicationContext.getBean(DiscoveryListenerExecutor.class);
@@ -45,7 +46,7 @@ public class DiscoveryClientDecorator implements DiscoveryClient {
             } catch (BeansException e) {
                 // LOG.warn("Get bean for DiscoveryListenerExecutor failed, ignore to executor listener");
             }
-        }
+        }*/
 
         return instances;
     }
