@@ -89,7 +89,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 ① 微服务框架支持的基本功能，如下
 - 支持阿里巴巴Spring Cloud Alibaba中间件生态圈
 - 支持阿里巴巴Nacos、Eureka、Consul和Zookeeper四个服务注册发现中心
-- 支持阿里巴巴Nacos、携程Apollo、Redis和Zookeeper四个远程配置中心
+- 支持阿里巴巴Nacos、携程Apollo、Redis、Zookeeper、Consul和Etcd六个远程配置中心
 - 支持阿里巴巴Sentinel、Hystrix和Resilience4J三个熔断限流降级权限中间件
 - 支持OpenTracing和OpenTelemetry规范下的调用链中间件，Jaeger、SkyWalking和Zipkin等
 - 支持Prometheus Micrometer和Spring Boot Admin两个指标中间件
@@ -4278,6 +4278,8 @@ spring.application.strategy.rest.template.core.header.transmission.enabled=true
 spring.application.strategy.context.request.headers=trace-id;span-id
 # 路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于业务系统自定义Header，例如：mobile）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
 spring.application.strategy.business.request.headers=token
+# 路由策略的时候，执行请求过滤，对指定包含的URI字段进行排除。缺失则默认为/actuator/，如果多个用“;”分隔，不允许出现空格
+spring.application.strategy.uri.filter.exclusion=/actuator/
 # 启动和关闭路由策略的时候，对RPC方式的调用拦截。缺失则默认为false
 spring.application.strategy.rpc.intercept.enabled=true
 # 路由策略的时候，需要指定对业务RestController类的扫描路径。此项配置作用于RPC方式的调用拦截、消费端的服务隔离和调用链三项功能
