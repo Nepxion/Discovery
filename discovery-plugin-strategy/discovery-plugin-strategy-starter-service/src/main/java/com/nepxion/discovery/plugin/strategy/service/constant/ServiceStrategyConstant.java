@@ -20,4 +20,5 @@ public class ServiceStrategyConstant {
     public static final String SPRING_APPLICATION_STRATEGY_REST_TEMPLATE_CORE_HEADER_TRANSMISSION_ENABLED = "spring.application.strategy.rest.template.core.header.transmission.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_CONTEXT_REQUEST_HEADERS = "spring.application.strategy.context.request.headers";
     public static final String SPRING_APPLICATION_STRATEGY_BUSINESS_REQUEST_HEADERS = "spring.application.strategy.business.request.headers";
+    public static final String SPRING_APPLICATION_STRATEGY_URI_FILTER_EXCLUSION = "spring.application.strategy.uri.filter.exclusion";
 }
