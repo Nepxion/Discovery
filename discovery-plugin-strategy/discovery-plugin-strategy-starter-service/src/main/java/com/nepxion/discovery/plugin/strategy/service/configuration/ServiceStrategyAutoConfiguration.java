@@ -30,7 +30,9 @@ import com.nepxion.discovery.plugin.strategy.service.aop.RestTemplateStrategyInt
 import com.nepxion.discovery.plugin.strategy.service.aop.RpcStrategyAutoScanProxy;
 import com.nepxion.discovery.plugin.strategy.service.aop.RpcStrategyInterceptor;
 import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
+import com.nepxion.discovery.plugin.strategy.service.filter.DefaultServiceStrategyFilterExclusion;
 import com.nepxion.discovery.plugin.strategy.service.filter.DefaultServiceStrategyRouteFilter;
+import com.nepxion.discovery.plugin.strategy.service.filter.ServiceStrategyFilterExclusion;
 import com.nepxion.discovery.plugin.strategy.service.filter.ServiceStrategyRouteFilter;
 import com.nepxion.discovery.plugin.strategy.service.isolation.ProviderIsolationStrategyAutoScanProxy;
 import com.nepxion.discovery.plugin.strategy.service.isolation.ProviderIsolationStrategyInterceptor;
@@ -114,6 +116,12 @@ public class ServiceStrategyAutoConfiguration {
     @ConditionalOnMissingBean
     public ServiceStrategyRouteFilter serviceStrategyRouteFilter() {
         return new DefaultServiceStrategyRouteFilter();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ServiceStrategyFilterExclusion serviceStrategyFilterExclusion() {
+        return new DefaultServiceStrategyFilterExclusion();
     }
 
     @Bean
