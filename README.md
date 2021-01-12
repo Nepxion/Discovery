@@ -849,6 +849,12 @@ zuul
 
 - 在Postman中多种同步和异步的调用方式，异步方式需要增加DiscoveryAgent，才能保证蓝绿发布路由调用的成功
 
+![](http://nepxion.gitee.io/docs/icon-doc/info_32.png) 特别提醒
+
+> 对于Spring Cloud 202x版，由于它采用的负载均衡Spring Cloud LoadBalancer是基于异步的WebFlux，所以必须加上DiscoveryAgent，如下方式
+
+> -javaagent:C:/opt/discovery-agent/discovery-agent-starter-${discovery.agent.version}.jar -Dthread.scan.packages=reactor.core.publisher
+
 | URL | 调用方式 |
 | --- | --- |
 | /invoke/ | 同步调用 |
