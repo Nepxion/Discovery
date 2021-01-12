@@ -10,11 +10,8 @@ package com.nepxion.discovery.plugin.strategy.service.filter;
  */
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
@@ -37,6 +33,9 @@ public abstract class AbstractServiceStrategyRouteFilter extends ServiceStrategy
 
     @Autowired
     protected StrategyWrapper strategyWrapper;
+
+    @Autowired
+    protected ServiceStrategyFilterExclusion serviceStrategyFilterExclusion;
 
     // 如果外界也传了相同的Header，例如，从Postman传递过来的Header，当下面的变量为true，以服务设置为优先，否则以外界传值为优先
     @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SERVICE_HEADER_PRIORITY + ":true}")
@@ -57,34 +56,10 @@ public abstract class AbstractServiceStrategyRouteFilter extends ServiceStrategy
     @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REST_TEMPLATE_CORE_HEADER_TRANSMISSION_ENABLED + ":true}")
     protected Boolean restTemplateCoreHeaderTransmissionEnabled;
 
-    @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_URI_FILTER_EXCLUSION + ":/actuator/}")
-    protected String uriFilterExclusion;
-
-    protected List<String> uriFilterExclusionList = new ArrayList<String>();
-
-    @PostConstruct
-    private void initialize() {
-        if (StringUtils.isEmpty(uriFilterExclusion)) {
-            return;
-        }
-
-        uriFilterExclusionList = StringUtil.splitToList(uriFilterExclusion);
-    }
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String uri = request.getRequestURI();
-
-        boolean isExcluded = false;
-        for (String uriFilterExclusionValue : uriFilterExclusionList) {
-            if (uri.contains(uriFilterExclusionValue)) {
-                isExcluded = true;
-
-                break;
-            }
-        }
-
-        if (isExcluded) {
+        boolean isExclusion = serviceStrategyFilterExclusion.isExclusion(request, response);
+        if (isExclusion) {
             return;
         }
 
