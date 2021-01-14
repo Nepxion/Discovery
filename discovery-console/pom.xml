@@ -20,7 +20,7 @@
         <module>discovery-console-starter-nacos</module>
         <module>discovery-console-starter-redis</module>
         <module>discovery-console-starter-zookeeper</module>
-        <module>discovery-console-starter-etcd</module>
         <module>discovery-console-starter-consul</module>
+        <module>discovery-console-starter-etcd</module>
     </modules>
 </project>

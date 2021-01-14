@@ -1,5 +1,14 @@
 package com.nepxion.discovery.common.consul.configuration;
 
+/**
+ * <p>Title: Nepxion Discovery</p>
+ * <p>Description: Nepxion Discovery</p>
+ * <p>Copyright: Copyright (c) 2017-2050</p>
+ * <p>Company: Nepxion</p>
+ * @author Congwei Xu
+ * @version 1.0
+ */
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -29,10 +38,8 @@ public class ConsulAutoConfiguration {
             throw new IllegalArgumentException(ConsulConstant.CONSUL_HOST + " can't be null or empty");
         }
 
-        int consulPort = environment.getProperty(ConsulConstant.CONSUL_PORT, int.class);
+        int consulPort = environment.getProperty(ConsulConstant.CONSUL_PORT, Integer.class);
 
-        ConsulClient consulClient = new ConsulClient(consulHost, consulPort);
-
-        return consulClient;
+        return new ConsulClient(consulHost, consulPort);
     }
 }
