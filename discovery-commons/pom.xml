@@ -21,5 +21,6 @@
         <module>discovery-common-redis</module>
         <module>discovery-common-zookeeper</module>
         <module>discovery-common-etcd</module>
+        <module>discovery-common-consul</module>
     </modules>
 </project>

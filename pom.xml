@@ -36,6 +36,7 @@
         <apollo.client.version>1.7.0</apollo.client.version>
         <zookeeper.curator.version>4.3.0</zookeeper.curator.version>
         <jetcd.version>0.5.4</jetcd.version>
+        <consul.version>1.4.2</consul.version>
         <opentelemetry.version>0.13.1</opentelemetry.version>
         <opentracing.version>0.33.0</opentracing.version>
         <skywalking.version>8.3.0</skywalking.version>
@@ -81,6 +82,12 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-common-etcd</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-common-consul</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -153,6 +160,18 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-config-center-starter-zookeeper</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-config-center-starter-etcd</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-config-center-starter-consul</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -394,6 +413,12 @@
                 <groupId>io.etcd</groupId>
                 <artifactId>jetcd-core</artifactId>
                 <version>${jetcd.version}</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>com.ecwid.consul</groupId>
+                <artifactId>consul-api</artifactId>
+                <version>${consul.version}</version>
             </dependency>
 
             <dependency>
