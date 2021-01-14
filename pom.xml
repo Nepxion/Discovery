@@ -81,13 +81,13 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>discovery-common-etcd</artifactId>
+                <artifactId>discovery-common-consul</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>discovery-common-consul</artifactId>
+                <artifactId>discovery-common-etcd</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -162,16 +162,16 @@
                 <artifactId>discovery-plugin-config-center-starter-zookeeper</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>discovery-plugin-config-center-starter-etcd</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            
+
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-config-center-starter-consul</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-config-center-starter-etcd</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -321,6 +321,18 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-console-starter-consul</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-console-starter-etcd</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>eventbus-aop-starter</artifactId>
                 <version>${eventbus.version}</version>
             </dependency>
@@ -410,15 +422,15 @@
             </dependency>
 
             <dependency>
-                <groupId>io.etcd</groupId>
-                <artifactId>jetcd-core</artifactId>
-                <version>${jetcd.version}</version>
-            </dependency>
-            
-            <dependency>
                 <groupId>com.ecwid.consul</groupId>
                 <artifactId>consul-api</artifactId>
                 <version>${consul.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.etcd</groupId>
+                <artifactId>jetcd-core</artifactId>
+                <version>${jetcd.version}</version>
             </dependency>
 
             <dependency>
