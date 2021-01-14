@@ -37,8 +37,8 @@
             <artifactId>discovery-console-starter-nacos</artifactId>
             <!-- <artifactId>discovery-console-starter-redis</artifactId>
             <artifactId>discovery-console-starter-zookeeper</artifactId>
-            <artifactId>discovery-console-starter-etcd</artifactId>
-            <artifactId>discovery-console-starter-consul</artifactId> -->
+            <artifactId>discovery-console-starter-consul</artifactId>
+            <artifactId>discovery-console-starter-etcd</artifactId> -->
         </dependency>
 
         <dependency>

@@ -93,6 +93,6 @@ public class EtcdConfigAdapter extends ConfigAdapter {
 
     @Override
     public boolean isConfigSingleKey() {
-        return false;
+        return true;
     }
 }

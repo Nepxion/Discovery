@@ -20,7 +20,7 @@
         <module>discovery-plugin-config-center-starter-nacos</module>
         <module>discovery-plugin-config-center-starter-redis</module>
         <module>discovery-plugin-config-center-starter-zookeeper</module>
-        <module>discovery-plugin-config-center-starter-etcd</module>
         <module>discovery-plugin-config-center-starter-consul</module>
+        <module>discovery-plugin-config-center-starter-etcd</module>
     </modules>
 </project>

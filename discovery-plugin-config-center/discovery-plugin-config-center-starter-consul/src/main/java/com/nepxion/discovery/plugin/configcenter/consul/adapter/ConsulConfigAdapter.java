@@ -54,7 +54,6 @@ public class ConsulConfigAdapter extends ConfigAdapter {
         } catch (Exception e) {
             configLogger.logSubscribeFailed(e, globalConfig);
         }
-
     }
 
     @Override
@@ -83,6 +82,6 @@ public class ConsulConfigAdapter extends ConfigAdapter {
 
     @Override
     public boolean isConfigSingleKey() {
-        return false;
+        return true;
     }
 }
