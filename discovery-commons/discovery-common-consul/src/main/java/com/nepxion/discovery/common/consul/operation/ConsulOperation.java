@@ -27,31 +27,30 @@ import com.nepxion.discovery.common.thread.DiscoveryNamedThreadFactory;
 public class ConsulOperation {
     private static final Logger LOG = LoggerFactory.getLogger(ConsulOperation.class);
 
-    // Request of query will hang until timeout (in second) or get updated value.
     private final int watchTimeout = 1;
 
-    // Record the data's index in Consul to watch the change.
-    // If lastIndex is smaller than the index of next query, it means that data has updated.
     private volatile long lastIndex;
 
     private volatile ConsulKVWatcher globalWatcher = null;
     private volatile ConsulKVWatcher partialWatcher = null;
 
-    private final ExecutorService watcherService = Executors.newSingleThreadExecutor(
-            new DiscoveryNamedThreadFactory("nepxion-consul-config-watcher", true));
+    private final ExecutorService watcherService = Executors.newSingleThreadExecutor(new DiscoveryNamedThreadFactory("nepxion-consul-config-watcher", true));
 
     @Autowired
     private ConsulClient client;
 
     public String getConfig(String group, String serviceId) {
-        Response<GetValue> keyValueResponse = client.getKVValue(group + "-" + serviceId);
-        if (keyValueResponse != null) {
-            if (keyValueResponse.getValue() != null) {
-                return keyValueResponse.getValue().getDecodedValue(StandardCharsets.UTF_8);
-            }
+        Response<GetValue> response = client.getKVValue(group + "-" + serviceId);
+        if (response == null) {
+            return null;
         }
 
-        return null;
+        GetValue getValue = response.getValue();
+        if (getValue == null) {
+            return null;
+        }
+
+        return response.getValue().getDecodedValue(StandardCharsets.UTF_8);
     }
 
     public boolean removeConfig(String group, String serviceId) {
@@ -104,8 +103,7 @@ public class ConsulOperation {
             }
 
             if (newValue == null) {
-                LOG.warn(
-                        "[ConsulOperation] WARN: initial config is null, you may have to check your consul config");
+                LOG.warn("[ConsulOperation] WARN: initial config is null, you may have to check your consul config");
             }
             consulSubscribeCallback.callback(newValue);
         } catch (Exception ex) {
@@ -114,10 +112,11 @@ public class ConsulOperation {
     }
 
     private class ConsulKVWatcher implements Runnable {
-        private volatile boolean running = true;
         private String group;
         private String serviceId;
         private ConsulSubscribeCallback consulSubscribeCallback;
+
+        private volatile boolean running = true;
 
         public ConsulKVWatcher(String group, String serviceId, ConsulSubscribeCallback consulSubscribeCallback) {
             this.group = group;
@@ -128,7 +127,6 @@ public class ConsulOperation {
         @Override
         public void run() {
             while (running) {
-                // It will be blocked until watchTimeout(s) if data has no update
                 Response<GetValue> response = getValue(group + "-" + serviceId, lastIndex, watchTimeout);
                 if (response == null) {
                     try {
@@ -156,28 +154,17 @@ public class ConsulOperation {
         }
     }
 
-    /**
-     * Get data from Consul immediately.
-     * @param key data key in Consul
-     * @return the value associated to the key, or null if error occurs
-     */
     private Response<GetValue> getValueImmediately(String key) {
         return getValue(key, -1, -1);
     }
 
-    /**
-     * Get data from Consul (blocking).
-     * @param key data key in Consul
-     * @param index the index of data in Consul.
-     * @param waitTime time(second) for waiting get updated value.
-     * @return the value associated to the key, or null if error occurs
-     */
     private Response<GetValue> getValue(String key, long index, long waitTime) {
         try {
             return client.getKVValue(key, new QueryParams(waitTime, index));
-        } catch (Throwable t) {
-            LOG.warn("[ConsulOperation] Failed to get value for key: " + key, t);
+        } catch (Exception e) {
+            LOG.warn("Failed to get value for key=" + key, e);
         }
+
         return null;
     }
 }
