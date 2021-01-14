@@ -22,6 +22,7 @@ public class ConsulListener implements Runnable {
     private String serviceId;
 
     private int timeout;
+    private String token;
 
     private ConsulClient consulClient;
     private ConsulSubscribeCallback consulSubscribeCallback;
@@ -29,10 +30,11 @@ public class ConsulListener implements Runnable {
     private volatile long lastIndex;
     private volatile boolean running = true;
 
-    public ConsulListener(String group, String serviceId, int timeout, ConsulClient consulClient, ConsulSubscribeCallback consulSubscribeCallback) {
+    public ConsulListener(String group, String serviceId, int timeout, String token, ConsulClient consulClient, ConsulSubscribeCallback consulSubscribeCallback) {
         this.group = group;
         this.serviceId = serviceId;
         this.timeout = timeout;
+        this.token = token;
         this.consulClient = consulClient;
         this.consulSubscribeCallback = consulSubscribeCallback;
 
@@ -40,7 +42,7 @@ public class ConsulListener implements Runnable {
     }
 
     private void initialize() {
-        Response<GetValue> response = consulClient.getKVValue(group + "-" + serviceId);
+        Response<GetValue> response = consulClient.getKVValue(group + "-" + serviceId, token);
         if (response != null) {
             lastIndex = response.getConsulIndex();
         }
@@ -49,7 +51,7 @@ public class ConsulListener implements Runnable {
     @Override
     public void run() {
         while (running) {
-            Response<GetValue> response = consulClient.getKVValue(group + "-" + serviceId, new QueryParams(timeout, lastIndex));
+            Response<GetValue> response = consulClient.getKVValue(group + "-" + serviceId, token, new QueryParams(timeout, lastIndex));
             if (response == null) {
                 try {
                     TimeUnit.MILLISECONDS.sleep(timeout * 1000);
