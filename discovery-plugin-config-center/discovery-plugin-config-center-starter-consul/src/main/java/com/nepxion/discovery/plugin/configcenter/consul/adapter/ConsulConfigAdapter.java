@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.configcenter.etcd.adapter;
+package com.nepxion.discovery.plugin.configcenter.consul.adapter;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -9,31 +9,38 @@ package com.nepxion.discovery.plugin.configcenter.etcd.adapter;
  * @version 1.0
  */
 
-import io.etcd.jetcd.Watch;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.common.etcd.constant.EtcdConstant;
-import com.nepxion.discovery.common.etcd.operation.EtcdOperation;
-import com.nepxion.discovery.common.etcd.operation.EtcdSubscribeCallback;
+import com.nepxion.discovery.common.consul.constant.ConsulConstant;
+import com.nepxion.discovery.common.consul.operation.ConsulListener;
+import com.nepxion.discovery.common.consul.operation.ConsulOperation;
+import com.nepxion.discovery.common.consul.operation.ConsulSubscribeCallback;
+import com.nepxion.discovery.common.thread.DiscoveryNamedThreadFactory;
 import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
 import com.nepxion.discovery.plugin.configcenter.logger.ConfigLogger;
 
-public class EtcdConfigAdapter extends ConfigAdapter {
+public class ConsulConfigAdapter extends ConfigAdapter {
+    private ExecutorService executorService = new ThreadPoolExecutor(2, 4, 0, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(1), new DiscoveryNamedThreadFactory("consul-config"), new ThreadPoolExecutor.DiscardOldestPolicy());
+
     @Autowired
-    private EtcdOperation etcdOperation;
+    private ConsulOperation consulOperation;
 
     @Autowired
     private ConfigLogger configLogger;
 
-    private Watch.Listener partialListener;
-    private Watch.Listener globalListener;
+    private ConsulListener partialListener;
+    private ConsulListener globalListener;
 
     @Override
     public String getConfig(String group, String dataId) throws Exception {
-        return etcdOperation.getConfig(group, dataId);
+        return consulOperation.getConfig(group, dataId);
     }
 
     @PostConstruct
@@ -43,14 +50,14 @@ public class EtcdConfigAdapter extends ConfigAdapter {
         globalListener = subscribeConfig(true);
     }
 
-    private Watch.Listener subscribeConfig(boolean globalConfig) {
+    private ConsulListener subscribeConfig(boolean globalConfig) {
         String group = getGroup();
         String dataId = getDataId(globalConfig);
 
         configLogger.logSubscribeStarted(globalConfig);
 
         try {
-            return etcdOperation.subscribeConfig(group, dataId, new EtcdSubscribeCallback() {
+            consulOperation.subscribeConfig(group, dataId, executorService, new ConsulSubscribeCallback() {
                 @Override
                 public void callback(String config) {
                     callbackConfig(config, globalConfig);
@@ -67,10 +74,12 @@ public class EtcdConfigAdapter extends ConfigAdapter {
     public void unsubscribeConfig() {
         unsubscribeConfig(partialListener, false);
         unsubscribeConfig(globalListener, true);
+
+        executorService.shutdownNow();
     }
 
-    private void unsubscribeConfig(Watch.Listener configListener, boolean globalConfig) {
-        if (configListener == null) {
+    private void unsubscribeConfig(ConsulListener consulListener, boolean globalConfig) {
+        if (consulListener == null) {
             return;
         }
 
@@ -80,7 +89,7 @@ public class EtcdConfigAdapter extends ConfigAdapter {
         configLogger.logUnsubscribeStarted(globalConfig);
 
         try {
-            etcdOperation.unsubscribeConfig(group, dataId, configListener);
+            consulOperation.unsubscribeConfig(group, dataId, consulListener);
         } catch (Exception e) {
             configLogger.logUnsubscribeFailed(e, globalConfig);
         }
@@ -88,7 +97,7 @@ public class EtcdConfigAdapter extends ConfigAdapter {
 
     @Override
     public String getConfigType() {
-        return EtcdConstant.ETCD_TYPE;
+        return ConsulConstant.CONSUL_TYPE;
     }
 
     @Override
