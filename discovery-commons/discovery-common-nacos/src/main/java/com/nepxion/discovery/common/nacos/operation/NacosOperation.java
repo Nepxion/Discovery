@@ -40,11 +40,11 @@ public class NacosOperation {
         return nacosConfigService.publishConfig(serviceId, group, config);
     }
 
-    public Listener subscribeConfig(String group, String serviceId, Executor executor, NacosSubscribeCallback subscribeCallback) throws NacosException {
+    public Listener subscribeConfig(String group, String serviceId, Executor executor, NacosSubscribeCallback nacosSubscribeCallback) throws NacosException {
         Listener configListener = new Listener() {
             @Override
             public void receiveConfigInfo(String config) {
-                subscribeCallback.callback(config);
+                nacosSubscribeCallback.callback(config);
             }
 
             @Override

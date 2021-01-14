@@ -25,13 +25,13 @@ public class ApolloOperation {
         return apolloConfig.getProperty(group + "-" + serviceId, null);
     }
 
-    public ConfigChangeListener subscribeConfig(String group, String serviceId, ApolloSubscribeCallback subscribeCallback) {
+    public ConfigChangeListener subscribeConfig(String group, String serviceId, ApolloSubscribeCallback apolloSubscribeCallback) {
         ConfigChangeListener configListener = new ConfigChangeListener() {
             @Override
             public void onChange(ConfigChangeEvent changeEvent) {
                 ConfigChange change = changeEvent.getChange(group + "-" + serviceId);
                 String config = change.getNewValue();
-                subscribeCallback.callback(config);
+                apolloSubscribeCallback.callback(config);
             }
         };
 

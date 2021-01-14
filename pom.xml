@@ -36,6 +36,8 @@
         <apollo.client.version>1.7.0</apollo.client.version>
         <nacos.client.version>1.2.1</nacos.client.version>
         <zookeeper.curator.version>2.11.1</zookeeper.curator.version>
+        <jetcd.version>0.5.4</jetcd.version>
+        <consul.version>1.4.5</consul.version>
         <spring.cloud.version>Edgware.SR6</spring.cloud.version>
         <spring.cloud.alibaba.version>1.5.1.RELEASE</spring.cloud.alibaba.version>
         <spring.boot.version>1.5.22.RELEASE</spring.boot.version>
@@ -72,6 +74,18 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-common-zookeeper</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-common-consul</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-common-etcd</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -144,6 +158,18 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-config-center-starter-zookeeper</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-config-center-starter-consul</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-config-center-starter-etcd</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -245,6 +271,18 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-console-starter-consul</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-console-starter-etcd</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>eventbus-aop-starter</artifactId>
                 <version>${eventbus.version}</version>
             </dependency>
@@ -337,6 +375,18 @@
                 <groupId>org.apache.curator</groupId>
                 <artifactId>curator-recipes</artifactId>
                 <version>${zookeeper.curator.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.ecwid.consul</groupId>
+                <artifactId>consul-api</artifactId>
+                <version>${consul.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.etcd</groupId>
+                <artifactId>jetcd-core</artifactId>
+                <version>${jetcd.version}</version>
             </dependency>
 
             <dependency>
