@@ -13,14 +13,19 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 
 import com.ecwid.consul.v1.ConsulClient;
 import com.ecwid.consul.v1.Response;
 import com.ecwid.consul.v1.kv.model.GetValue;
+import com.nepxion.discovery.common.consul.constant.ConsulConstant;
 
 public class ConsulOperation {
     @Autowired
     private ConsulClient consulClient;
+
+    @Autowired
+    private Environment environment;
 
     public String getConfig(String group, String serviceId) {
         Response<GetValue> response = consulClient.getKVValue(group + "-" + serviceId);
@@ -49,7 +54,9 @@ public class ConsulOperation {
     }
 
     public ConsulListener subscribeConfig(String group, String serviceId, ExecutorService executorService, ConsulSubscribeCallback consulSubscribeCallback) throws Exception {
-        ConsulListener consulListener = new ConsulListener(group, serviceId, consulClient, consulSubscribeCallback);
+        int timeout = environment.getProperty(ConsulConstant.CONSUL_TIMEOUT, Integer.class, ConsulConstant.CONSUL_DEFAULT_TIMEOUT);
+
+        ConsulListener consulListener = new ConsulListener(group, serviceId, timeout, consulClient, consulSubscribeCallback);
         executorService.submit(consulListener);
 
         return consulListener;

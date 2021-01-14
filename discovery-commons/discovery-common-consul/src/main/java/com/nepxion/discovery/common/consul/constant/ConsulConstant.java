@@ -13,4 +13,6 @@ public class ConsulConstant {
     public static final String CONSUL_TYPE = "Consul";
     public static final String CONSUL_HOST = "consul.host";
     public static final String CONSUL_PORT = "consul.port";
+    public static final String CONSUL_TIMEOUT = "consul.timeout";
+    public static final int CONSUL_DEFAULT_TIMEOUT = 1;
 }
