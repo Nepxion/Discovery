@@ -582,10 +582,12 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | --- | --- |
 | <img src="http://nepxion.gitee.io/docs/icon-doc/direction_south.png"> discovery-commons | 通用模块目录 |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-common | 通用模块 |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-common-apollo | 封装Apollo通用操作逻辑 |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-common-nacos | 封装Nacos通用操作逻辑 |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-common-redis | 封装Redis通用操作逻辑 |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-common-zookeeper | 封装Zookeeper通用操作逻辑 |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-common-apollo | 封装Apollo通用配置操作逻辑 |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-common-nacos | 封装Nacos通用配置操作逻辑 |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-common-redis | 封装Redis通用配置操作逻辑 |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-common-zookeeper | 封装Zookeeper通用配置操作逻辑 |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-common-consul | 封装Consul通用配置操作逻辑 |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-common-etcd | 封装Etcd通用配置操作逻辑 |
 | <img src="http://nepxion.gitee.io/docs/icon-doc/direction_south.png"> discovery-plugin-framework | 基本框架目录 |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-framework-starter| 基本框架的Starter |
 | <img src="http://nepxion.gitee.io/docs/icon-doc/direction_south.png"> discovery-plugin-register-center | 注册中心目录 |
@@ -600,6 +602,8 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-config-center-starter-nacos | 配置中心的Nacos Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-config-center-starter-redis | 配置中心的Redis Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-config-center-starter-zookeeper | 配置中心的Zookeeper Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-config-center-starter-consul | 配置中心的Consul Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-config-center-starter-etcd | 配置中心的Etcd Starter |
 | <img src="http://nepxion.gitee.io/docs/icon-doc/direction_south.png"> discovery-plugin-admin-center | 管理中心目录 |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-plugin-admin-center-starter | 管理中心的Starter |
 | <img src="http://nepxion.gitee.io/docs/icon-doc/direction_south.png"> discovery-plugin-strategy | 路由策略目录 |
@@ -628,6 +632,8 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-console-starter-nacos | 控制平台的Nacos Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-console-starter-redis | 控制平台的Redis Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-console-starter-zookeeper | 控制平台的Zookeeper Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-console-starter-consul | 控制平台的Consul Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-console-starter-etcd | 控制平台的Etcd Starter |
 | <img src="http://nepxion.gitee.io/docs/icon-doc/direction_south.png"> discovery-springcloud-examples | 示例目录 |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-springcloud-example-admin | Spring Boot Admin服务台示例 |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-springcloud-example-console | 控制平台示例 |
@@ -681,7 +687,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 
 ② 配置中心依赖引入
 
-配置中心中间件的四个插件，选择引入其中一个
+配置中心中间件的六个插件，选择引入其中一个
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -689,6 +695,8 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     <artifactId>discovery-plugin-config-center-starter-nacos</artifactId>
     <artifactId>discovery-plugin-config-center-starter-redis</artifactId>
     <artifactId>discovery-plugin-config-center-starter-zookeeper</artifactId>
+    <artifactId>discovery-plugin-config-center-starter-consul</artifactId>
+    <artifactId>discovery-plugin-config-center-starter-etcd</artifactId>
     <version>${discovery.version}</version>
 </dependency>
 ```
@@ -4081,8 +4089,16 @@ eureka.instance.metadataMap.env=env1
 eureka.instance.metadataMap.zone=zone1
 
 # Consul config for discovery
+# Spring Cloud 2020之前版本的配置方式
 # 参考https://springcloud.cc/spring-cloud-consul.html - 元数据和Consul标签
 spring.cloud.consul.discovery.tags=group=xxx-service-group,version=1.0,region=dev,env=env1,zone=zone1
+
+# Spring Cloud 2020之后版本的配置方式
+spring.cloud.consul.discovery.metadata.group=xxx-service-group
+spring.cloud.consul.discovery.metadata.version=1.0
+spring.cloud.consul.discovery.metadata.region=dev
+spring.cloud.consul.discovery.metadata.env=env1
+spring.cloud.consul.discovery.metadata.zone=zone1
 
 # Zookeeper config for discovery
 spring.cloud.zookeeper.discovery.metadata.group=xxx-service-group
@@ -4192,6 +4208,25 @@ spring.redis.database=0
 zookeeper.connect-string=localhost:2181
 zookeeper.retry-count=3
 zookeeper.sleep-time=3000
+```
+
+- Consul配置中心配置
+
+```
+# Consul config for rule
+consul.host=localhost
+consul.port=8500
+consul.timeout=1
+consul.token=
+```
+
+- Etcd配置中心配置
+
+```
+# Etcd config for rule
+etcd.server.addr=http://localhost:2379
+etcd.username=
+etcd.password=
 ```
 
 ③ 监控中心配置
@@ -5191,7 +5226,11 @@ zuul.semaphore.max-semaphores=5000
 
 ③ Redis
 
-- Redis服务器版本，推荐用最新版本，从[https://redis.io/](https://redis.io/)获取
+- Redis服务器版本，推荐用最新版本，从[https://redis.io](https://redis.io)获取
+
+④ Etcd
+
+- Etcd服务器版本，推荐用最新版本，从[https://github.com/etcd-io/etcd/releases](https://github.com/etcd-io/etcd/releases)获取
 
 ![](http://nepxion.gitee.io/docs/icon-doc/information_message.png) 限流熔断
 
@@ -5209,7 +5248,7 @@ zuul.semaphore.max-semaphores=5000
 
 ② SkyWalking
 
-- SkyWalking服务器版本，推荐用最新版本，从[http://skywalking.apache.org/downloads/](http://skywalking.apache.org/downloads/)获取
+- SkyWalking服务器版本，推荐用最新版本，从[http://skywalking.apache.org/downloads](http://skywalking.apache.org/downloads)获取
 - 功能界面主页，[http://127.0.0.1:8080/](http://127.0.0.1:8080/)
 
 ③ Zipkin
