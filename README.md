@@ -212,6 +212,18 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - 2.x.x版本（适用于Dalston）已废弃
 - 1.x.x版本（适用于Camden）已废弃
 
+⑤ 相关中间件版本列表，如下
+
+[![Guava](https://img.shields.io/maven-central/v/com.google.guava/guava.svg?label=Guava)](https://search.maven.org/artifact/com.google.guava/guava)  [![Caffeine](https://img.shields.io/maven-central/v/com.github.ben-manes.caffeine/caffeine.svg?label=Caffeine)](https://search.maven.org/artifact/com.github.ben-manes.caffeine/caffeine)  [![Dom4J](https://img.shields.io/maven-central/v/org.dom4j/dom4j.svg?label=Dom4J)](https://search.maven.org/artifact/org.dom4j/dom4j)  [![Swagger](https://img.shields.io/maven-central/v/io.springfox/springfox-swagger2?label=Swagger)](https://search.maven.org/artifact/io.springfox/springfox-swagger2)
+
+[![Apollo](https://img.shields.io/maven-central/v/com.ctrip.framework.apollo/apollo-client.svg?label=Apollo)](https://search.maven.org/artifact/com.ctrip.framework.apollo/apollo-client)  [![Nacos](https://img.shields.io/maven-central/v/com.alibaba.nacos/nacos-client.svg?label=Nacos)](https://search.maven.org/artifact/com.alibaba.nacos/nacos-client)  [![Sentinel](https://img.shields.io/maven-central/v/com.alibaba.csp/sentinel-core.svg?label=Sentinel)](https://search.maven.org/artifact/com.alibaba.csp/sentinel-core)
+
+[![Zookeeper Curator](https://img.shields.io/maven-central/v/org.apache.curator/curator-framework.svg?label=Zookeeper%20Curator)](https://search.maven.org/artifact/org.apache.curator/curator-framework)  [![Consul](https://img.shields.io/maven-central/v/com.ecwid.consul/consul-api.svg?label=Consul)](https://search.maven.org/artifact/com.ecwid.consul/consul-api)  [![JEtcd](https://img.shields.io/maven-central/v/io.etcd/jetcd-core.svg?label=JEtcd)](https://search.maven.org/artifact/io.etcd/jetcd-core)
+
+[![OpenTelemetry](https://img.shields.io/maven-central/v/io.opentelemetry/opentelemetry-api.svg?label=OpenTelemetry)](https://search.maven.org/artifact/io.opentelemetry/opentelemetry-api)  [![OpenTracing](https://img.shields.io/maven-central/v/io.opentracing/opentracing-api.svg?label=OpenTracing)](https://search.maven.org/artifact/io.opentracing/opentracing-api)  [![SkyWalking](https://img.shields.io/maven-central/v/org.apache.skywalking/apm-toolkit-opentracing.svg?label=SkyWalking)](https://search.maven.org/artifact/org.apache.skywalking/apm-toolkit-opentracing)
+
+[![Spring Cloud](https://img.shields.io/maven-central/v/org.springframework.cloud/spring-cloud-dependencies.svg?label=Spring%20Cloud)](https://search.maven.org/artifact/org.springframework.cloud/spring-cloud-dependencies)  [![Spring Cloud Alibaba](https://img.shields.io/maven-central/v/com.alibaba.cloud/spring-cloud-alibaba-dependencies.svg?label=Spring%20Cloud%20Alibaba)](https://search.maven.org/artifact/com.alibaba.cloud/spring-cloud-alibaba-dependencies)  [![Spring Boot](https://img.shields.io/maven-central/v/org.springframework.boot/spring-boot-dependencies.svg?label=Spring%20Boot)](https://search.maven.org/artifact/org.springframework.boot/spring-boot-dependencies)  [![Spring Boot](https://img.shields.io/maven-central/v/de.codecentric/spring-boot-admin-dependencies.svg?label=Spring%20Boot%20Admin)](https://search.maven.org/artifact/de.codecentric/spring-boot-admin-dependencies)
+
 ## 鸣谢
 ![](http://nepxion.gitee.io/docs/icon-doc/star4.png) 郑重致谢
 - 感谢阿里巴巴中间件Nacos、Sentinel和Spring Cloud Alibaba团队，尤其是Nacos负责人@彦林、@于怀，Sentinel负责人@宿何、@子衿，Spring Cloud Alibaba负责人@小马哥、@洛夜、@亦盏的技术支持
