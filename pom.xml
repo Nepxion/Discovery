@@ -37,12 +37,12 @@
         <zookeeper.curator.version>4.3.0</zookeeper.curator.version>
         <consul.version>1.4.5</consul.version>
         <jetcd.version>0.5.4</jetcd.version>
-        <opentelemetry.version>0.13.1</opentelemetry.version>
+        <opentelemetry.version>0.14.1</opentelemetry.version>
         <opentracing.version>0.33.0</opentracing.version>
         <skywalking.version>8.3.0</skywalking.version>
         <spring.cloud.version>Hoxton.SR9</spring.cloud.version>
-        <spring.cloud.alibaba.version>2.2.3.RELEASE</spring.cloud.alibaba.version>
-        <spring.boot.version>2.3.7.RELEASE</spring.boot.version>
+        <spring.cloud.alibaba.version>2.2.4.RELEASE</spring.cloud.alibaba.version>
+        <spring.boot.version>2.3.8.RELEASE</spring.boot.version>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
