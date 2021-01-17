@@ -680,6 +680,19 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-contrib-plugin-starter-shardingsphere | ShardingSphere日志的蓝绿灰度发布Contrib Plugin Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> discovery-contrib-example | 第三方非微服务范畴中间件的蓝绿灰度发布示例 |
 
+④ DiscoveryPlatform工程清单
+
+| 工程名 | 描述 |
+| --- | --- |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> platform | Nepxion Discovery 服务治理平台后端控制台 |
+
+⑤ DiscoveryUI工程清单
+
+| 工程名 | 描述 |
+| --- | --- |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> desktop | Nepxion Discovery 服务治理平台前端桌面版 |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/docs/icon-doc/direction_west.png"> web | Nepxion Discovery 服务治理平台前端Web版 |
+
 ### 架构核心
 - 服务治理架构图
 
