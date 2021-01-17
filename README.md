@@ -385,6 +385,27 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/docs/logo-doc/希捷速必达.png"></td>
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/docs/logo-doc/趣淘鲸.png"></td>
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/docs/logo-doc/创迹.png"></td>
+    </tr>
+    <tr align="center">
+      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/docs/logo-doc/诺基亚.png"></td>
+      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/docs/logo-doc/中科云谷.png"></td>
+      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/docs/logo-doc/希捷速必达.png"></td>
+      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/docs/logo-doc/趣淘鲸.png"></td>
+      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/docs/logo-doc/创迹.png"></td>
+    </tr>	
+    <tr align="center">
+      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/docs/logo-doc/诺基亚.png"></td>
+      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/docs/logo-doc/中科云谷.png"></td>
+      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/docs/logo-doc/希捷速必达.png"></td>
+      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/docs/logo-doc/趣淘鲸.png"></td>
+      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/docs/logo-doc/创迹.png"></td>
+    </tr>	
+    <tr align="center">
+      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/docs/logo-doc/诺基亚.png"></td>
+      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/docs/logo-doc/中科云谷.png"></td>
+      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/docs/logo-doc/希捷速必达.png"></td>
+      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/docs/logo-doc/趣淘鲸.png"></td>
+      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/docs/logo-doc/创迹.png"></td>
     </tr>	
   </tbody>
 </table>
