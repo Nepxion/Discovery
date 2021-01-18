@@ -71,7 +71,7 @@ public abstract class PluginApplicationContextInitializer implements Application
                 if (bean instanceof DiscoveryClient) {
                     DiscoveryClient discoveryClient = (DiscoveryClient) bean;
 
-                    return decorateDiscoveryClient(discoveryClient, applicationContext);
+                    return new DiscoveryClientDecorator(discoveryClient, applicationContext);
                 } else {
                     return afterInitialization(applicationContext, bean, beanName);
                 }
@@ -99,10 +99,6 @@ public abstract class PluginApplicationContextInitializer implements Application
         } catch (IOException e) {
 
         }
-    }
-
-    protected DiscoveryClient decorateDiscoveryClient(DiscoveryClient discoveryClient, ConfigurableApplicationContext applicationContext) {
-        return new DiscoveryClientDecorator(discoveryClient, applicationContext);
     }
 
     protected String getPrefixGroup(ConfigurableApplicationContext applicationContext) {
