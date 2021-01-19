@@ -3164,6 +3164,18 @@ Redis订阅推送界面
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Redis.jpg)
 
+Consul订阅推送界面
+
+![](http://nepxion.gitee.io/docs/discovery-doc/Consul.jpg)
+
+Zookeeper订阅推送界面
+
+略
+
+Etcd订阅推送界面
+
+略
+
 ### 基于Swagger和Rest的规则策略推送
 服务侧单个推送界面
 
@@ -4785,7 +4797,17 @@ spring.application.git.generator.path=classpath:git.properties
 
 ⑥ Docker运行效果
 
+- Docker Desktop
+
 ![](http://nepxion.gitee.io/docs/discovery-doc/Docker.jpg)
+
+- Docker Windows
+
+![](http://nepxion.gitee.io/docs/polaris-doc/DockerWindows.jpg)
+
+- Docker Linux
+
+![](http://nepxion.gitee.io/docs/polaris-doc/DockerLinux.jpg)
 
 ### Kubernetes平台支持
 请自行研究
