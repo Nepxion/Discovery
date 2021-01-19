@@ -58,6 +58,9 @@ public abstract class AbstractRestInvoker {
             String host = instance.getHost();
             int port = instance.getPort();
             String contextPath = metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_CONTEXT_PATH);
+            if (StringUtils.isEmpty(contextPath)) {
+                contextPath = "/";
+            }
             String url = "http://" + host + ":" + port + UrlUtil.formatContextPath(contextPath) + getSuffixPath();
 
             String result = null;

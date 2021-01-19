@@ -256,7 +256,12 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Override
     public String getContextPath() {
-        return getMetadata().get(DiscoveryMetaDataConstant.SPRING_APPLICATION_CONTEXT_PATH);
+        String contextPath = getMetadata().get(DiscoveryMetaDataConstant.SPRING_APPLICATION_CONTEXT_PATH);
+        if (StringUtils.isEmpty(contextPath)) {
+            contextPath = "/";
+        }
+
+        return contextPath;
     }
 
     @Override
@@ -353,7 +358,12 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Override
     public String getServerContextPath(Server server) {
-        return getServerMetadata(server).get(DiscoveryMetaDataConstant.SPRING_APPLICATION_CONTEXT_PATH);
+        String contextPath = getServerMetadata(server).get(DiscoveryMetaDataConstant.SPRING_APPLICATION_CONTEXT_PATH);
+        if (StringUtils.isEmpty(contextPath)) {
+            contextPath = "/";
+        }
+
+        return contextPath;
     }
 
     @Override
@@ -446,7 +456,12 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Override
     public String getInstanceContextPath(ServiceInstance instance) {
-        return getInstanceMetadata(instance).get(DiscoveryMetaDataConstant.SPRING_APPLICATION_CONTEXT_PATH);
+        String contextPath = getInstanceMetadata(instance).get(DiscoveryMetaDataConstant.SPRING_APPLICATION_CONTEXT_PATH);
+        if (StringUtils.isEmpty(contextPath)) {
+            contextPath = "/";
+        }
+
+        return contextPath;
     }
 
     @Override

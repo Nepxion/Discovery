@@ -19,7 +19,12 @@ public class InstanceEntityWrapper {
     public static String getContextPath(InstanceEntity instanceEntity) {
         Map<String, String> metadata = instanceEntity.getMetadata();
 
-        return metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_CONTEXT_PATH);
+        String contextPath = metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_CONTEXT_PATH);
+        if (StringUtils.isEmpty(contextPath)) {
+            contextPath = "/";
+        }
+
+        return contextPath;
     }
 
     public static String getGroup(InstanceEntity instanceEntity) {
