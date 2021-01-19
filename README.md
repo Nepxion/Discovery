@@ -2813,7 +2813,7 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 
 ① 服务a在版本为1.0的时候，数据库的数据源指向db1；服务a在版本为1.1的时候，数据库的数据源指向db2
 
-② 服务b在区域为dev的时候，消息队列指向queue1；服务b在区域为dev的时候，消息队列指向queue2
+② 服务b在区域为dev的时候，消息队列指向queue1；服务b在区域为qa的时候，消息队列指向queue2
 
 ③ 服务c在环境为env1的时候，数据库的数据源指向db1；服务c在环境为env2的时候，数据库的数据源指向db2
 
