@@ -18,10 +18,9 @@ import com.nepxion.discovery.common.constant.DiscoveryMetaDataConstant;
 public class InstanceEntityWrapper {
     public static String getContextPath(InstanceEntity instanceEntity) {
         Map<String, String> metadata = instanceEntity.getMetadata();
-
         String contextPath = metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_CONTEXT_PATH);
         if (StringUtils.isEmpty(contextPath)) {
-            contextPath = "/";
+            return "/";
         }
 
         return contextPath;
@@ -34,12 +33,12 @@ public class InstanceEntityWrapper {
             return StringUtils.EMPTY;
         }
 
-        String filter = metadata.get(groupKey);
-        if (filter == null) {
+        String group = metadata.get(groupKey);
+        if (group == null) {
             return StringUtils.EMPTY;
         }
 
-        return filter;
+        return group;
     }
 
     public static String getPlugin(InstanceEntity instanceEntity) {
