@@ -12,7 +12,6 @@ package com.nepxion.discovery.plugin.strategy.service.filter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.collections4.map.CaseInsensitiveMap;
 
 public class ServiceStrategyRouteFilterRequest extends HttpServletRequestWrapper {
     private HttpServletRequest originalRequest;
@@ -31,7 +31,8 @@ public class ServiceStrategyRouteFilterRequest extends HttpServletRequestWrapper
 
         this.originalRequest = request;
 
-        headers = new HashMap<String, String>();
+        // 不区分大小写Key的Map用于适配不同的Web容器对于大小写Header的不同处理逻辑
+        headers = new CaseInsensitiveMap<String, String>();
     }
 
     public void addHeader(String name, String value) {
