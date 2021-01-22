@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.collections4.map.CaseInsensitiveMap;
+import org.springframework.util.LinkedCaseInsensitiveMap;
 
 public class ServiceStrategyRouteFilterRequest extends HttpServletRequestWrapper {
     private HttpServletRequest originalRequest;
@@ -32,7 +32,7 @@ public class ServiceStrategyRouteFilterRequest extends HttpServletRequestWrapper
         this.originalRequest = request;
 
         // 不区分大小写Key的Map用于适配不同的Web容器对于大小写Header的不同处理逻辑
-        headers = new CaseInsensitiveMap<String, String>();
+        headers = new LinkedCaseInsensitiveMap<>();
     }
 
     public void addHeader(String name, String value) {
