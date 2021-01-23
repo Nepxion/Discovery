@@ -1166,6 +1166,8 @@ IP地址和端口匹配蓝绿发布架构图
 
 ![](http://nepxion.gitee.io/docs/icon-doc/information.png) 规则策略解释
 
+![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 特别提醒：表达式中**header="#H['a'] == '1'"**，变量**a**可以为Header、Parameter、Cookie之一。那么有使用者提出，既然可以是三者之一，为何用**header=**来表述？由于框架最早支持的是Header，后面陆续增加了另外两种方式，如果改掉，会造成用法上的不兼容，故不再修改。敬请使用者记住，**header=**适用于Header、Parameter、Cookie
+
 ① 当外部调用带有的Header中的值a=1同时b=2，执行绿路由
 
 `<condition>`节点中 **header="#H['a'] == '1' &amp;&amp; #H['b'] == '2'"** 对应的 **version-id="green-version-route"** ，找到下面`<route>`节点中 **id="green-version-route" type="version"** 的那项，那么路由即为
