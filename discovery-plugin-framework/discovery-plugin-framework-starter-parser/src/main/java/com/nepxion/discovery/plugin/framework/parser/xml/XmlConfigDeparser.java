@@ -429,15 +429,15 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
             stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.CONDITIONS_ELEMENT_NAME + " " + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "=\"" + ConditionType.BLUE_GREEN.toString() + "\">\n");
             for (StrategyConditionBlueGreenEntity strategyConditionBlueGreenEntity : strategyConditionBlueGreenEntityList) {
                 String id = strategyConditionBlueGreenEntity.getId();
-                String conditionHeader = EscapeType.escape(strategyConditionBlueGreenEntity.getConditionHeader(), true);
+                String expression = EscapeType.escape(strategyConditionBlueGreenEntity.getExpression(), true);
                 String versionId = strategyConditionBlueGreenEntity.getVersionId();
                 String regionId = strategyConditionBlueGreenEntity.getRegionId();
                 String addressId = strategyConditionBlueGreenEntity.getAddressId();
                 String versionWeightId = strategyConditionBlueGreenEntity.getVersionWeightId();
                 String regionWeightId = strategyConditionBlueGreenEntity.getRegionWeightId();
 
-                if (StringUtils.isNotEmpty(conditionHeader)) {
-                    stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.CONDITION_ELEMENT_NAME + " " + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + id + "\" " + XmlConfigConstant.HEADER_ATTRIBUTE_NAME + "=\"" + conditionHeader + "\"");
+                if (StringUtils.isNotEmpty(expression)) {
+                    stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.CONDITION_ELEMENT_NAME + " " + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + id + "\" " + XmlConfigConstant.EXPRESSION_ATTRIBUTE_NAME + "=\"" + expression + "\"");
                 } else {
                     stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.CONDITION_ELEMENT_NAME + " " + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + id + "\"");
                 }
@@ -467,13 +467,13 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
             stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.CONDITIONS_ELEMENT_NAME + " " + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "=\"" + ConditionType.GRAY.toString() + "\">\n");
             for (StrategyConditionGrayEntity strategyConditionGrayEntity : strategyConditionGrayEntityList) {
                 String id = strategyConditionGrayEntity.getId();
-                String conditionHeader = EscapeType.escape(strategyConditionGrayEntity.getConditionHeader(), true);
+                String expression = EscapeType.escape(strategyConditionGrayEntity.getExpression(), true);
                 VersionWeightEntity versionWeightEntity = strategyConditionGrayEntity.getVersionWeightEntity();
                 RegionWeightEntity regionWeightEntity = strategyConditionGrayEntity.getRegionWeightEntity();
                 AddressWeightEntity addressWeightEntity = strategyConditionGrayEntity.getAddressWeightEntity();
 
-                if (StringUtils.isNotEmpty(conditionHeader)) {
-                    stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.CONDITION_ELEMENT_NAME + " " + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + id + "\" " + XmlConfigConstant.HEADER_ATTRIBUTE_NAME + "=\"" + conditionHeader + "\"");
+                if (StringUtils.isNotEmpty(expression)) {
+                    stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.CONDITION_ELEMENT_NAME + " " + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + id + "\" " + XmlConfigConstant.EXPRESSION_ATTRIBUTE_NAME + "=\"" + expression + "\"");
                 } else {
                     stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.CONDITION_ELEMENT_NAME + " " + XmlConfigConstant.ID_ATTRIBUTE_NAME + "=\"" + id + "\"");
                 }

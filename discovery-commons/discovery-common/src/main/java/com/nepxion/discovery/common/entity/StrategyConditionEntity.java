@@ -20,7 +20,7 @@ public class StrategyConditionEntity implements Serializable {
     private static final long serialVersionUID = 1249482860170990672L;
 
     private String id;
-    private String conditionHeader;
+    private String expression;
 
     public String getId() {
         return id;
@@ -30,12 +30,12 @@ public class StrategyConditionEntity implements Serializable {
         this.id = id;
     }
 
-    public String getConditionHeader() {
-        return conditionHeader;
+    public String getExpression() {
+        return expression;
     }
 
-    public void setConditionHeader(String conditionHeader) {
-        this.conditionHeader = conditionHeader;
+    public void setExpression(String expression) {
+        this.expression = expression;
     }
 
     @Override

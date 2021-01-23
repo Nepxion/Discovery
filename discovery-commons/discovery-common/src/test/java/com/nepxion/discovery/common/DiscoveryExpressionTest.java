@@ -39,13 +39,13 @@ public class DiscoveryExpressionTest {
         // String expression = "#H['a'] != '123' || #H['b'] != '456'";
         // String expression = "#H['a'] < '2' && #H['b'] == '3'";
         String expression = "#H['a'] matches '[a-z]{3}2'";
-        Map<String, String> headerMap = new HashMap<String, String>();
-        // headerMap.put("a", "123");
-        // headerMap.put("b", "456");
-        headerMap.put("a", "1.2333");
-        headerMap.put("b", "y");
+        Map<String, String> map = new HashMap<String, String>();
+        // map.put("a", "123");
+        // map.put("b", "456");
+        map.put("a", "1.2333");
+        map.put("b", "y");
 
-        return DiscoveryExpressionResolver.eval(expression, "H", headerMap, new DiscoveryTypeComparor());
+        return DiscoveryExpressionResolver.eval(expression, "H", map, new DiscoveryTypeComparor());
     }
 
     private static List<String> test2() {

@@ -19,7 +19,7 @@ import org.springframework.expression.TypeComparator;
 import com.nepxion.discovery.plugin.strategy.adapter.DefaultStrategyVersionFilterAdapter;
 import com.nepxion.discovery.plugin.strategy.adapter.StrategyVersionFilterAdapter;
 import com.nepxion.discovery.plugin.strategy.condition.DefaultStrategyTypeComparor;
-import com.nepxion.discovery.plugin.strategy.condition.HeaderExpressionStrategyCondition;
+import com.nepxion.discovery.plugin.strategy.condition.ExpressionStrategyCondition;
 import com.nepxion.discovery.plugin.strategy.condition.StrategyCondition;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.filter.StrategyVersionFilter;
@@ -81,6 +81,6 @@ public class StrategyAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public StrategyCondition strategyCondition() {
-        return new HeaderExpressionStrategyCondition();
+        return new ExpressionStrategyCondition();
     }
 }
