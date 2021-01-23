@@ -1149,10 +1149,10 @@ IP地址和端口匹配蓝绿发布架构图
     <!-- 基于Http Header传递的定制化策略路由，支持蓝绿部署和灰度发布两种模式。如果都不命中，则执行上面的全局缺省路由 -->
     <strategy-customization>
         <!-- 全链路蓝绿部署：条件命中的匹配方式（第一优先级），支持版本匹配、区域匹配、IP地址和端口匹配、版本权重匹配、区域权重匹配 -->
-        <!-- Header节点不允许缺失 -->
+        <!-- Expression节点不允许缺失 -->
         <conditions type="blue-green">
-            <condition id="blue-condition" header="#H['a'] == '1'" version-id="blue-version-route"/>
-            <condition id="green-condition" header="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="green-version-route"/>
+            <condition id="blue-condition" expression="#H['a'] == '1'" version-id="blue-version-route"/>
+            <condition id="green-condition" expression="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="green-version-route"/>
         </conditions>
 
         <routes>
@@ -1168,23 +1168,23 @@ IP地址和端口匹配蓝绿发布架构图
 
 ![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 特别提醒
 
-> 表达式中 **header="#H['a'] == '1'"** ，变量 **a** 可以为Header、Parameter、Cookie之一。那么有使用者提出，既然可以是三者之一，为何用 **header=** 来表述？由于框架最早支持的是Header，后面陆续增加了另外两种方式，如果改掉，会造成用法上的不兼容，故不再修改。敬请使用者记住， **header=**包含的变量，适用于Header、Parameter、Cookie任意一种或者任意组合
+> 从6.6.0版本之前，表达式格式为 **header="#H['a'] == '1'"** ，为准确体现变量 **a** 支持为Header、Parameter、Cookie中任意一个，从6.6.0版本之后，表达式格式改为 **expression="#H['a'] == '1'"** ，但也兼容 **header="#H['a'] == '1'"** 。即从6.6.0版本开始，用 **expression=""** 和 **header=""** 都可以
 
-① 当外部调用带有的Header中的值a=1同时b=2，执行绿路由
+① 当外部调用带有的Header/Parameter/Cookies中的值a=1同时b=2，执行绿路由
 
-`<condition>`节点中 **header="#H['a'] == '1' &amp;&amp; #H['b'] == '2'"** 对应的 **version-id="green-version-route"** ，找到下面`<route>`节点中 **id="green-version-route" type="version"** 的那项，那么路由即为
+`<condition>`节点中 **expression="#H['a'] == '1' &amp;&amp; #H['b'] == '2'"** 对应的 **version-id="green-version-route"** ，找到下面`<route>`节点中 **id="green-version-route" type="version"** 的那项，那么路由即为
 ```
 {"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
 ```
 
-② 当外部调用带有的Header中的值a=1，执行蓝路由
+② 当外部调用带有的Header/Parameter/Cookies中的值a=1，执行蓝路由
 
-`<condition>`节点中 **header="#H['a'] == '1'"** 对应的 **version-id="blue-version-route"** ，找到下面`<route>`节点中 **id="blue-version-route" type="version"** 的那项，那么路由即为
+`<condition>`节点中 **expression="#H['a'] == '1'"** 对应的 **version-id="blue-version-route"** ，找到下面`<route>`节点中 **id="blue-version-route" type="version"** 的那项，那么路由即为
 ```
 {"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}
 ```
 
-③ 当外部调用带有的Header中的值都不命中，或者未传值，执行兜底路由
+③ 当外部调用带有的Header/Parameter/Cookies中的值都不命中，或者未传值，执行兜底路由
 
 - 执行`<strategy>`节点中的全局缺省路由，那么路由即为
 
@@ -1194,7 +1194,7 @@ IP地址和端口匹配蓝绿发布架构图
 
 - 如果全局缺省路由未配置，则执行Spring Cloud Ribbon轮询策略
    
-④ 假如不愿意从网关外部传入Header，那么支持策略下内置Header来决策蓝绿发布，可以代替外部传入Header，参考如下配置
+④ 假如不愿意从网关外部传入Header/Parameter/Cookies，那么支持策略下内置Header来决策蓝绿发布，可以代替外部传入Header/Parameter/Cookies，参考如下配置
 ```xml
 <headers>
    <header key="a" value="1"/>
@@ -1338,8 +1338,8 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
         <!-- 全链路灰度发布：条件命中的随机权重（第二优先级），支持版本匹配、区域匹配、IP地址和端口匹配 -->
         <!-- Header节点允许缺失，当含Header和未含Header的配置并存时，以未含Header的配置为优先 -->
         <conditions type="gray">
-            <!-- <condition id="gray-condition" header="#H['a'] == '1'" version-id="gray-version-route=10;stable-version-route=90"/> -->
-            <!-- <condition id="gray-condition" header="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="gray-version-route=85;stable-version-route=15"/> -->
+            <!-- <condition id="gray-condition" expression="#H['a'] == '1'" version-id="gray-version-route=10;stable-version-route=90"/> -->
+            <!-- <condition id="gray-condition" expression="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="gray-version-route=85;stable-version-route=15"/> -->
             <condition id="gray-condition" version-id="gray-version-route=95;stable-version-route=5"/>
         </conditions>
 
@@ -3059,17 +3059,17 @@ XML最全的示例如下，Json示例见源码discovery-springcloud-example-serv
         <!-- 单引号 ' 转义为 &apos; -->
 
         <!-- 全链路蓝绿部署：条件命中的匹配方式（第一优先级），支持版本匹配、区域匹配、IP地址和端口匹配、版本权重匹配、区域权重匹配 -->
-        <!-- Header节点不允许缺失 -->
+        <!-- Expression节点不允许缺失 -->
         <conditions type="blue-green">
-            <condition id="1" header="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="a-1" region-id="b-1" address-id="c-1" version-weight-id="d-1" region-weight-id="e-1"/>
-            <condition id="2" header="#H['c'] == '3'" version-id="a-2" region-id="b-2" address-id="c-2" version-weight-id="d-2" region-weight-id="e-2"/>
+            <condition id="1" expression="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="a-1" region-id="b-1" address-id="c-1" version-weight-id="d-1" region-weight-id="e-1"/>
+            <condition id="2" expression="#H['c'] == '3'" version-id="a-2" region-id="b-2" address-id="c-2" version-weight-id="d-2" region-weight-id="e-2"/>
         </conditions>
 
         <!-- 全链路灰度发布：条件命中的随机权重（第二优先级），支持版本匹配、区域匹配、IP地址和端口匹配 -->
-        <!-- Header节点允许缺失，当含Header和未含Header的配置并存时，以未含Header的配置为优先 -->
+        <!-- Expression节点允许缺失，当含Expression和未含Expression的配置并存时，以未含Expression的配置为优先 -->
         <conditions type="gray">
-            <condition id="1" header="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="a-1=10;a-2=90" region-id="b-1=20;b-2=80" address-id="c-1=30;c-2=70"/>
-            <condition id="2" header="#H['c'] == '3'" version-id="a-1=90;a-2=10" region-id="b-1=80;b-2=20" address-id="c-1=70;c-2=30"/>
+            <condition id="1" expression="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="a-1=10;a-2=90" region-id="b-1=20;b-2=80" address-id="c-1=30;c-2=70"/>
+            <condition id="2" expression="#H['c'] == '3'" version-id="a-1=90;a-2=10" region-id="b-1=80;b-2=20" address-id="c-1=70;c-2=30"/>
             <condition id="3" version-id="a-1=5;a-2=95" region-id="b-1=5;b-2=95" address-id="c-1=5;c-2=95"/>
         </conditions>
 
