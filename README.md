@@ -1168,7 +1168,7 @@ IP地址和端口匹配蓝绿发布架构图
 
 ![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 特别提醒
 
-> 从6.6.0版本之前，表达式格式为 **header="#H['a'] == '1'"** ，为准确体现变量 **a** 支持为Header、Parameter、Cookie中任意一个，从6.6.0版本之后，表达式格式改为 **expression="#H['a'] == '1'"** ，但也兼容 **header="#H['a'] == '1'"** 。即从6.6.0版本开始，用 **expression=""** 和 **header=""** 都可以
+> 为准确体现相关变量（例如上文中的 **a** ）支持Header、Parameter、Cookie中的任意一个，在6.6.0版本之前，表达式格式为 **header="#H['a'] == '1'"** ，从6.6.0版本之后，表达式格式改为 **expression="#H['a'] == '1'"** ，但也兼容 **header="#H['a'] == '1'"** ，即从6.6.0版本开始，用 **expression=""** 和 **header=""** 都支持
 
 ① 当外部调用带有的Header/Parameter/Cookies中的值a=1同时b=2，执行绿路由
 
