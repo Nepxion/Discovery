@@ -203,7 +203,7 @@
         "strategyConditionBlueGreenEntityList": [
             {
                 "id": "1", 
-                "conditionHeader": "#H['a'] == '1' && #H['b'] == '2'", 
+                "expression": "#H['a'] == '1' && #H['b'] == '2'", 
                 "versionId": "a-1", 
                 "regionId": "b-1", 
                 "addressId": "c-1", 
@@ -212,7 +212,7 @@
             }, 
             {
                 "id": "2", 
-                "conditionHeader": "#H['c'] == '3'", 
+                "expression": "#H['c'] == '3'", 
                 "versionId": "a-2", 
                 "regionId": "b-2", 
                 "addressId": "c-2", 
@@ -223,7 +223,7 @@
         "strategyConditionGrayEntityList": [
             {
                 "id": "1", 
-                "conditionHeader": "#H['a'] == '1' && #H['b'] == '2'", 
+                "expression": "#H['a'] == '1' && #H['b'] == '2'", 
                 "versionWeightEntity": {
                     "weightMap": {
                         "a-1": 10, 
@@ -245,7 +245,7 @@
             }, 
             {
                 "id": "2", 
-                "conditionHeader": "#H['c'] == '3'", 
+                "expression": "#H['c'] == '3'", 
                 "versionWeightEntity": {
                     "weightMap": {
                         "a-1": 90, 
@@ -267,7 +267,7 @@
             }, 
             {
                 "id": "3", 
-                "conditionHeader": null, 
+                "expression": null, 
                 "versionWeightEntity": {
                     "weightMap": {
                         "a-1": 5, 
