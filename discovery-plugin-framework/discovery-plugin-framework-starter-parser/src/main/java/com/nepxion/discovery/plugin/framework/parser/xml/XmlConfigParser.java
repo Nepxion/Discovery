@@ -669,12 +669,24 @@ public class XmlConfigParser implements PluginConfigParser {
                 String id = idAttribute.getData().toString().trim();
                 strategyConditionBlueGreenEntity.setId(id);
 
+                Attribute expressionAttribute = childElement.attribute(XmlConfigConstant.EXPRESSION_ATTRIBUTE_NAME);
                 Attribute headerAttribute = childElement.attribute(XmlConfigConstant.HEADER_ATTRIBUTE_NAME);
-                if (headerAttribute == null) {
-                    throw new DiscoveryException("Attribute[" + XmlConfigConstant.HEADER_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+                if (expressionAttribute == null && headerAttribute == null) {
+                    throw new DiscoveryException("Attribute[" + XmlConfigConstant.EXPRESSION_ATTRIBUTE_NAME + "] and [" + XmlConfigConstant.HEADER_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] are all missing, at least one of them exists");
                 }
-                String header = headerAttribute.getData().toString().trim();
-                strategyConditionBlueGreenEntity.setConditionHeader(header);
+                if (expressionAttribute != null && headerAttribute != null) {
+                    throw new DiscoveryException("Attribute[" + XmlConfigConstant.EXPRESSION_ATTRIBUTE_NAME + "] and [" + XmlConfigConstant.HEADER_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] are all configed, only one of them exists");
+                }
+
+                if (expressionAttribute != null) {
+                    String expression = expressionAttribute.getData().toString().trim();
+                    strategyConditionBlueGreenEntity.setExpression(expression);
+                }
+
+                if (headerAttribute != null) {
+                    String expression = headerAttribute.getData().toString().trim();
+                    strategyConditionBlueGreenEntity.setExpression(expression);
+                }
 
                 Attribute versionIdAttribute = childElement.attribute(XmlConfigConstant.VERSION_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME);
                 if (versionIdAttribute != null) {
@@ -733,10 +745,20 @@ public class XmlConfigParser implements PluginConfigParser {
                 String id = idAttribute.getData().toString().trim();
                 strategyConditionGrayEntity.setId(id);
 
+                Attribute expressionAttribute = childElement.attribute(XmlConfigConstant.EXPRESSION_ATTRIBUTE_NAME);
                 Attribute headerAttribute = childElement.attribute(XmlConfigConstant.HEADER_ATTRIBUTE_NAME);
+                if (expressionAttribute != null && headerAttribute != null) {
+                    throw new DiscoveryException("Attribute[" + XmlConfigConstant.EXPRESSION_ATTRIBUTE_NAME + "] and [" + XmlConfigConstant.HEADER_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] are all configed, only one of them exists");
+                }
+
+                if (expressionAttribute != null) {
+                    String expression = expressionAttribute.getData().toString().trim();
+                    strategyConditionGrayEntity.setExpression(expression);
+                }
+
                 if (headerAttribute != null) {
-                    String header = headerAttribute.getData().toString().trim();
-                    strategyConditionGrayEntity.setConditionHeader(header);
+                    String expression = headerAttribute.getData().toString().trim();
+                    strategyConditionGrayEntity.setExpression(expression);
                 }
 
                 Attribute versionIdAttribute = childElement.attribute(XmlConfigConstant.VERSION_ELEMENT_NAME + DiscoveryConstant.DASH + XmlConfigConstant.ID_ATTRIBUTE_NAME);

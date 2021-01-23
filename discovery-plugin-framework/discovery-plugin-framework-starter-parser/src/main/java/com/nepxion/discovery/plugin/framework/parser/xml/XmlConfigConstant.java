@@ -49,6 +49,7 @@ public class XmlConfigConstant {
     public static final String KEY_ATTRIBUTE_NAME = "key";
     public static final String VALUE_ATTRIBUTE_NAME = "value";
     public static final String ID_ATTRIBUTE_NAME = "id";
+    public static final String EXPRESSION_ATTRIBUTE_NAME = "expression";
     public static final String HEADER_ATTRIBUTE_NAME = "header";
     public static final String TYPE_ATTRIBUTE_NAME = "type";
 }

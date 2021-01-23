@@ -58,8 +58,8 @@ public class StrategyCustomizationEntity implements Serializable {
         if (CollectionUtils.isNotEmpty(strategyConditionBlueGreenEntityList)) {
             Collections.sort(strategyConditionBlueGreenEntityList, new Comparator<StrategyConditionBlueGreenEntity>() {
                 public int compare(StrategyConditionBlueGreenEntity strategyConditionBlueGreenEntity1, StrategyConditionBlueGreenEntity strategyConditionBlueGreenEntity2) {
-                    Integer count1 = StringUtil.count(strategyConditionBlueGreenEntity1.getConditionHeader(), DiscoveryConstant.EXPRESSION_SUB_PREFIX);
-                    Integer count2 = StringUtil.count(strategyConditionBlueGreenEntity2.getConditionHeader(), DiscoveryConstant.EXPRESSION_SUB_PREFIX);
+                    Integer count1 = StringUtil.count(strategyConditionBlueGreenEntity1.getExpression(), DiscoveryConstant.EXPRESSION_SUB_PREFIX);
+                    Integer count2 = StringUtil.count(strategyConditionBlueGreenEntity2.getExpression(), DiscoveryConstant.EXPRESSION_SUB_PREFIX);
 
                     return count2.compareTo(count1);
                 }
@@ -70,8 +70,8 @@ public class StrategyCustomizationEntity implements Serializable {
         if (CollectionUtils.isNotEmpty(strategyConditionGrayEntityList)) {
             Collections.sort(strategyConditionGrayEntityList, new Comparator<StrategyConditionGrayEntity>() {
                 public int compare(StrategyConditionGrayEntity strategyConditionGrayEntity1, StrategyConditionGrayEntity strategyConditionGrayEntity2) {
-                    Integer count1 = StringUtil.count(strategyConditionGrayEntity1.getConditionHeader(), DiscoveryConstant.EXPRESSION_SUB_PREFIX);
-                    Integer count2 = StringUtil.count(strategyConditionGrayEntity2.getConditionHeader(), DiscoveryConstant.EXPRESSION_SUB_PREFIX);
+                    Integer count1 = StringUtil.count(strategyConditionGrayEntity1.getExpression(), DiscoveryConstant.EXPRESSION_SUB_PREFIX);
+                    Integer count2 = StringUtil.count(strategyConditionGrayEntity2.getExpression(), DiscoveryConstant.EXPRESSION_SUB_PREFIX);
 
                     return count2.compareTo(count1);
                 }

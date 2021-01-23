@@ -16,5 +16,5 @@ import com.nepxion.discovery.common.entity.StrategyConditionEntity;
 public interface StrategyCondition {
     boolean isTriggered(StrategyConditionEntity strategyConditionEntity);
 
-    boolean isTriggered(StrategyConditionEntity strategyConditionEntity, Map<String, String> headerMap);
+    boolean isTriggered(StrategyConditionEntity strategyConditionEntity, Map<String, String> map);
 }
