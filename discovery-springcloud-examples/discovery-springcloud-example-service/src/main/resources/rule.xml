@@ -22,7 +22,7 @@
         <!-- 表示下面所有服务，最大实例注册数为10000（全局配置） -->
         <count filter-value="10000">
             <!-- 表示下面服务，最大实例注册数为5000，全局配置值10000将不起作用，以局部配置值为准 -->
-            <service service-name="discovery-springcloud-example-a" filter-value="5000"/>
+            <service service-name="discovery-springcloud-example-a" filter-value="5000"/> 
         </count>
     </register>
 
