@@ -925,6 +925,10 @@ zuul
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/BlueGreen.jpg)
 
+![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 小贴士
+
+n-d-的含义：n为Nepxion首字母，d为Discovery首字母
+
 #### 全链路版本匹配蓝绿发布
 增加Spring Cloud Gateway的版本匹配蓝绿发布策略，Group为discovery-guide-group，Data Id为discovery-guide-gateway，策略内容如下，实现从Spring Cloud Gateway发起的调用全链路都走版本为1.0的服务
 ```xml
@@ -1117,6 +1121,10 @@ IP地址和端口匹配蓝绿发布架构图
 `#`H['a'] == '1' && `#`H['b'] <= '2' && `#`H['c'] != '3'
 
 其中，`#`H['a']，Spring Spel表达式用来表述驱动参数a的专有格式
+
+![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 小贴士
+
+H的含义：H为Http首字母，即取值Http类型的参数，包括Header、Parameter、Cookie
 
 ③ Spring Spel的逻辑表达，需要注意
 
