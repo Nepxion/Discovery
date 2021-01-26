@@ -10,11 +10,15 @@ package com.nepxion.discovery.plugin.strategy.zuul.context;
  * @version 1.0
  */
 
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -75,6 +79,32 @@ public class ZuulStrategyContextHolder extends AbstractStrategyContextHolder {
     }
 
     @Override
+    public Enumeration<String> getHeaderNames() {
+        HttpServletRequest request = getRequest();
+        if (request == null) {
+            return null;
+        }
+
+        Enumeration<String> headerNames = request.getHeaderNames();
+
+        Map<String, String> headers = getZuulRequestHeaders();
+        if (MapUtils.isNotEmpty(headers)) {
+            List<String> headerNameList = Collections.list(headerNames);
+
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                String headerName = entry.getKey();
+                if (!headerNameList.contains(headerName)) {
+                    headerNameList.add(headerName);
+                }
+            }
+
+            return Collections.enumeration(headerNameList);
+        }
+
+        return headerNames;
+    }
+
+    @Override
     public String getHeader(String name) {
         HttpServletRequest request = getRequest();
         if (request == null) {
@@ -90,7 +120,11 @@ public class ZuulStrategyContextHolder extends AbstractStrategyContextHolder {
 
         if (zuulHeaderPriority) {
             // 来自于Zuul Filter的Header
-            String header = getZuulRequestHeaders().get(name);
+            Map<String, String> headers = getZuulRequestHeaders();
+            String header = null;
+            if (MapUtils.isNotEmpty(headers)) {
+                header = headers.get(name);
+            }
             if (StringUtils.isEmpty(header)) {
                 if (StrategyUtil.isCoreHeaderContains(name) && zuulOriginalHeaderIgnored) {
                     header = null;
@@ -106,7 +140,10 @@ public class ZuulStrategyContextHolder extends AbstractStrategyContextHolder {
             String header = request.getHeader(name);
             if (StringUtils.isEmpty(header)) {
                 // 来自于Zuul Filter的Header
-                header = getZuulRequestHeaders().get(name);
+                Map<String, String> headers = getZuulRequestHeaders();
+                if (MapUtils.isNotEmpty(headers)) {
+                    header = headers.get(name);
+                }
             }
 
             return header;

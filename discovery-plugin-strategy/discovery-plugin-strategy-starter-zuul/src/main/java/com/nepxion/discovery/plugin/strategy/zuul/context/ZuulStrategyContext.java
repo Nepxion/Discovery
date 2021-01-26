@@ -28,8 +28,6 @@ public class ZuulStrategyContext {
     };
 
     private HttpServletRequest request;
-
-    // 只适用于Hystrix线程隔离模式下
     private Map<String, String> headers;
 
     public static ZuulStrategyContext getCurrentContext() {
