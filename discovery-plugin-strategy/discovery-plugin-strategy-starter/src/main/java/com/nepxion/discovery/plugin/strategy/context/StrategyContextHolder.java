@@ -9,7 +9,11 @@ package com.nepxion.discovery.plugin.strategy.context;
  * @version 1.0
  */
 
+import java.util.Enumeration;
+
 public interface StrategyContextHolder {
+    Enumeration<String> getHeaderNames();
+
     String getHeader(String name);
 
     String getParameter(String name);

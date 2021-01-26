@@ -22,6 +22,13 @@ public class StrategyConstant {
     public static final String SPRING_APPLICATION_STRATEGY_VERSION_FAILOVER_ENABLED = "spring.application.strategy.version.failover.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_VERSION_PREFER_ENABLED = "spring.application.strategy.version.prefer.enabled";
 
+    public static final String SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_ENABLED = "spring.application.strategy.rest.intercept.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_DEBUG_ENABLED = "spring.application.strategy.rest.intercept.debug.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_FEIGN_CORE_HEADER_TRANSMISSION_ENABLED = "spring.application.strategy.feign.core.header.transmission.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_REST_TEMPLATE_CORE_HEADER_TRANSMISSION_ENABLED = "spring.application.strategy.rest.template.core.header.transmission.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_CONTEXT_REQUEST_HEADERS = "spring.application.strategy.context.request.headers";
+    public static final String SPRING_APPLICATION_STRATEGY_BUSINESS_REQUEST_HEADERS = "spring.application.strategy.business.request.headers";
+
     public static final String SPRING_APPLICATION_STRATEGY_MONITOR_ENABLED = "spring.application.strategy.monitor.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_LOGGER_ENABLED = "spring.application.strategy.logger.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_LOGGER_MDC_KEY_SHOWN = "spring.application.strategy.logger.mdc.key.shown";
