@@ -10,6 +10,7 @@ package com.nepxion.discovery.plugin.strategy.service.context;
  * @version 1.0
  */
 
+import java.util.Enumeration;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -52,6 +53,16 @@ public class ServiceStrategyContextHolder extends AbstractStrategyContextHolder 
         }
 
         return request;
+    }
+
+    @Override
+    public Enumeration<String> getHeaderNames() {
+        HttpServletRequest request = getHttpServletRequest();
+        if (request == null) {
+            return null;
+        }
+
+        return request.getHeaderNames();
     }
 
     @Override

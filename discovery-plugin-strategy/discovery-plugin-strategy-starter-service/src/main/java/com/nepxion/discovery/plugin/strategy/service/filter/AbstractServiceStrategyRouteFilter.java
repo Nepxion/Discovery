@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
+import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
 
@@ -50,10 +51,10 @@ public abstract class AbstractServiceStrategyRouteFilter extends ServiceStrategy
     // 6. n-d-id-blacklist
     // 7. n-d-address-blacklist
     // 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
-    @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_FEIGN_CORE_HEADER_TRANSMISSION_ENABLED + ":true}")
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_FEIGN_CORE_HEADER_TRANSMISSION_ENABLED + ":true}")
     protected Boolean feignCoreHeaderTransmissionEnabled;
 
-    @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REST_TEMPLATE_CORE_HEADER_TRANSMISSION_ENABLED + ":true}")
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_REST_TEMPLATE_CORE_HEADER_TRANSMISSION_ENABLED + ":true}")
     protected Boolean restTemplateCoreHeaderTransmissionEnabled;
 
     @Override

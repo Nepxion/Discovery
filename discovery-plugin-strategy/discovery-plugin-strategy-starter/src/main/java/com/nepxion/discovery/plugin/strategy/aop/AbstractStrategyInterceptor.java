@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.service.aop;
+package com.nepxion.discovery.plugin.strategy.aop;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -13,21 +13,18 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
-import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyContextHolder;
+import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
+import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.util.StrategyUtil;
 
 public abstract class AbstractStrategyInterceptor {
@@ -40,9 +37,9 @@ public abstract class AbstractStrategyInterceptor {
     protected PluginAdapter pluginAdapter;
 
     @Autowired
-    protected ServiceStrategyContextHolder serviceStrategyContextHolder;
+    protected StrategyContextHolder strategyContextHolder;
 
-    @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_DEBUG_ENABLED + ":false}")
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_DEBUG_ENABLED + ":false}")
     protected Boolean interceptDebugEnabled;
 
     protected List<String> requestHeaderList = new ArrayList<String>();
@@ -65,28 +62,20 @@ public abstract class AbstractStrategyInterceptor {
             return;
         }
 
-        ServletRequestAttributes attributes = serviceStrategyContextHolder.getRestAttributes();
-        if (attributes == null) {
-            return;
-        }
+        Enumeration<String> headerNames = strategyContextHolder.getHeaderNames();
+        if (headerNames != null) {
+            System.out.println("------- " + getInterceptorName() + " Intercept Input Header Information -------");
+            while (headerNames.hasMoreElements()) {
+                String headerName = headerNames.nextElement();
+                boolean isHeaderContains = isHeaderContains(headerName.toLowerCase());
+                if (isHeaderContains) {
+                    String headerValue = strategyContextHolder.getHeader(headerName);
 
-        HttpServletRequest previousRequest = attributes.getRequest();
-        Enumeration<String> headerNames = previousRequest.getHeaderNames();
-        if (headerNames == null) {
-            return;
-        }
-
-        System.out.println("------- " + getInterceptorName() + " Intercept Input Header Information -------");
-        while (headerNames.hasMoreElements()) {
-            String headerName = headerNames.nextElement();
-            boolean isHeaderContains = isHeaderContains(headerName.toLowerCase());
-            if (isHeaderContains) {
-                String headerValue = previousRequest.getHeader(headerName);
-
-                System.out.println(headerName + "=" + headerValue);
+                    System.out.println(headerName + "=" + headerValue);
+                }
             }
+            System.out.println("--------------------------------------------------");
         }
-        System.out.println("--------------------------------------------------");
     }
 
     protected boolean isHeaderContains(String headerName) {

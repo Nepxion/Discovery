@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.service.aop;
+package com.nepxion.discovery.plugin.strategy.aop;
 
 /**
  * <p>Title: Nepxion Discovery</p>
