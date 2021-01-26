@@ -4062,6 +4062,28 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 
 更多的配置方式，参考[https://github.com/git-commit-id/maven-git-commit-id-plugin/blob/master/maven/docs/using-the-plugin.md](https://github.com/git-commit-id/maven-git-commit-id-plugin/blob/master/maven/docs/using-the-plugin.md)
 
+可能需要增加下面的配置，保证Git相关文件被打包进去
+```xml
+<resources>
+    <resource>
+        <directory>src/main/java</directory>
+        <includes>
+            <include>**/*.xml</include>
+            <include>**/*.json</include>
+            <include>**/*.properties</include>
+        </includes>
+    </resource>
+    <resource>
+        <directory>src/main/resources</directory>
+        <includes>
+            <include>**/*.xml</include>
+            <include>**/*.json</include>
+            <include>**/*.properties</include>
+        </includes>
+    </resource>
+</resources>
+```
+
 - 增加配置项
 
 ```
@@ -4598,6 +4620,36 @@ spring.application.git.generator.path=classpath:git.properties
 # 使用Git信息中的字段单个或者多个组合来作为服务版本号。缺失则默认为{git.commit.time}-{git.total.commit.count}
 spring.application.git.version.key={git.commit.id.abbrev}-{git.commit.time}
 # spring.application.git.version.key={git.build.version}-{git.commit.time}
+
+# 下面配置只适用于网关里直接进行Feign或者RestTemplate调用场景
+# 启动和关闭路由策略的时候，对REST方式的调用拦截。缺失则默认为true
+spring.application.strategy.rest.intercept.enabled=true
+# 启动和关闭Header传递的Debug日志打印，注意：每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
+spring.application.strategy.rest.intercept.debug.enabled=true
+# 启动和关闭Feign上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
+# 1. n-d-version
+# 2. n-d-region
+# 3. n-d-address
+# 4. n-d-version-weight
+# 5. n-d-region-weight
+# 6. n-d-id-blacklist
+# 7. n-d-address-blacklist
+# 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
+# spring.application.strategy.feign.core.header.transmission.enabled=false
+# 启动和关闭RestTemplate上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
+# 1. n-d-version
+# 2. n-d-region
+# 3. n-d-address
+# 4. n-d-version-weight
+# 5. n-d-region-weight
+# 6. n-d-id-blacklist
+# 7. n-d-address-blacklist
+# 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
+# spring.application.strategy.rest.template.core.header.transmission.enabled=false
+# 路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于框架内置上下文Header，例如：trace-id, span-id等）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
+spring.application.strategy.context.request.headers=trace-id;span-id
+# 路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于业务系统自定义Header，例如：mobile）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
+spring.application.strategy.business.request.headers=user;mobile;location
 ```
 
 ③ Zuul端配置
@@ -4715,6 +4767,36 @@ spring.application.git.generator.path=classpath:git.properties
 # 使用Git信息中的字段单个或者多个组合来作为服务版本号。缺失则默认为{git.commit.time}-{git.total.commit.count}
 # spring.application.git.version.key={git.commit.id.abbrev}-{git.commit.time}
 # spring.application.git.version.key={git.build.version}-{git.commit.time}
+
+# 下面配置只适用于网关里直接进行Feign或者RestTemplate调用场景
+# 启动和关闭路由策略的时候，对REST方式的调用拦截。缺失则默认为true
+spring.application.strategy.rest.intercept.enabled=true
+# 启动和关闭Header传递的Debug日志打印，注意：每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
+spring.application.strategy.rest.intercept.debug.enabled=true
+# 启动和关闭Feign上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
+# 1. n-d-version
+# 2. n-d-region
+# 3. n-d-address
+# 4. n-d-version-weight
+# 5. n-d-region-weight
+# 6. n-d-id-blacklist
+# 7. n-d-address-blacklist
+# 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
+# spring.application.strategy.feign.core.header.transmission.enabled=false
+# 启动和关闭RestTemplate上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
+# 1. n-d-version
+# 2. n-d-region
+# 3. n-d-address
+# 4. n-d-version-weight
+# 5. n-d-region-weight
+# 6. n-d-id-blacklist
+# 7. n-d-address-blacklist
+# 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
+# spring.application.strategy.rest.template.core.header.transmission.enabled=false
+# 路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于框架内置上下文Header，例如：trace-id, span-id等）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
+spring.application.strategy.context.request.headers=trace-id;span-id
+# 路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于业务系统自定义Header，例如：mobile）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
+spring.application.strategy.business.request.headers=user;mobile;location
 ```
 
 ### 内置文件配置
