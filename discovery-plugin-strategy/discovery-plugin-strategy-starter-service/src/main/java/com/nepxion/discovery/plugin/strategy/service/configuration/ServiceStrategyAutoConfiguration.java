@@ -22,8 +22,6 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
-import com.nepxion.discovery.plugin.strategy.service.aop.RpcStrategyAutoScanProxy;
-import com.nepxion.discovery.plugin.strategy.service.aop.RpcStrategyInterceptor;
 import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.filter.DefaultServiceStrategyFilterExclusion;
 import com.nepxion.discovery.plugin.strategy.service.filter.DefaultServiceStrategyRouteFilter;
@@ -35,6 +33,8 @@ import com.nepxion.discovery.plugin.strategy.service.monitor.DefaultServiceStrat
 import com.nepxion.discovery.plugin.strategy.service.monitor.ServiceStrategyMonitor;
 import com.nepxion.discovery.plugin.strategy.service.monitor.ServiceStrategyMonitorAutoScanProxy;
 import com.nepxion.discovery.plugin.strategy.service.monitor.ServiceStrategyMonitorInterceptor;
+import com.nepxion.discovery.plugin.strategy.service.rpc.RpcStrategyAutoScanProxy;
+import com.nepxion.discovery.plugin.strategy.service.rpc.RpcStrategyInterceptor;
 import com.nepxion.discovery.plugin.strategy.service.wrapper.DefaultServiceStrategyCallableWrapper;
 import com.nepxion.discovery.plugin.strategy.service.wrapper.ServiceStrategyCallableWrapper;
 
@@ -77,25 +77,6 @@ public class ServiceStrategyAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public ServiceStrategyRouteFilter serviceStrategyRouteFilter() {
-        return new DefaultServiceStrategyRouteFilter();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public ServiceStrategyFilterExclusion serviceStrategyFilterExclusion() {
-        return new DefaultServiceStrategyFilterExclusion();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_MONITOR_ENABLED, matchIfMissing = false)
-    public ServiceStrategyMonitor serviceStrategyMonitor() {
-        return new DefaultServiceStrategyMonitor();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_PROVIDER_ISOLATION_ENABLED, matchIfMissing = false)
     public ProviderIsolationStrategyAutoScanProxy providerIsolationStrategyAutoScanProxy() {
         String scanPackages = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES);
@@ -124,6 +105,25 @@ public class ServiceStrategyAutoConfiguration {
         }
 
         return new ProviderIsolationStrategyInterceptor();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ServiceStrategyRouteFilter serviceStrategyRouteFilter() {
+        return new DefaultServiceStrategyRouteFilter();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ServiceStrategyFilterExclusion serviceStrategyFilterExclusion() {
+        return new DefaultServiceStrategyFilterExclusion();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_MONITOR_ENABLED, matchIfMissing = false)
+    public ServiceStrategyMonitor serviceStrategyMonitor() {
+        return new DefaultServiceStrategyMonitor();
     }
 
     @Bean
