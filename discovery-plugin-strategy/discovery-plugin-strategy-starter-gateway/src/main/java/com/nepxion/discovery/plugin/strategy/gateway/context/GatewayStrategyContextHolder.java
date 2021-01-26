@@ -10,6 +10,9 @@ package com.nepxion.discovery.plugin.strategy.gateway.context;
  */
 
 import java.net.URI;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.Set;
 
 import org.springframework.http.HttpCookie;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -38,6 +41,18 @@ public class GatewayStrategyContextHolder extends AbstractStrategyContextHolder 
         }
 
         return request;
+    }
+
+    @Override
+    public Enumeration<String> getHeaderNames() {
+        ServerHttpRequest request = getServerHttpRequest();
+        if (request == null) {
+            return null;
+        }
+
+        Set<String> headerNameSet = request.getHeaders().keySet();
+
+        return Collections.enumeration(headerNameSet);
     }
 
     @Override
