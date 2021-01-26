@@ -22,7 +22,9 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.expression.TypeComparator;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 
+import com.nepxion.discovery.plugin.strategy.adapter.DefaultDiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.adapter.DefaultStrategyVersionFilterAdapter;
+import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.adapter.StrategyVersionFilterAdapter;
 import com.nepxion.discovery.plugin.strategy.aop.FeignStrategyInterceptor;
 import com.nepxion.discovery.plugin.strategy.aop.RestTemplateStrategyBeanPostProcessor;
@@ -43,6 +45,12 @@ import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
 @RibbonClients(defaultConfiguration = { StrategyLoadBalanceConfiguration.class })
 @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTROL_ENABLED, matchIfMissing = true)
 public class StrategyAutoConfiguration {
+    @Bean
+    @ConditionalOnMissingBean
+    public DiscoveryEnabledAdapter discoveryEnabledAdapter() {
+        return new DefaultDiscoveryEnabledAdapter();
+    }
+
     @Bean
     @ConditionalOnMissingBean
     public DiscoveryMatcherStrategy discoveryMatcherStrategy() {
