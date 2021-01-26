@@ -21,8 +21,6 @@ import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.exception.DiscoveryException;
-import com.nepxion.discovery.plugin.strategy.adapter.DefaultDiscoveryEnabledAdapter;
-import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.aop.RpcStrategyAutoScanProxy;
 import com.nepxion.discovery.plugin.strategy.service.aop.RpcStrategyInterceptor;
@@ -75,13 +73,6 @@ public class ServiceStrategyAutoConfiguration {
         }
 
         return new RpcStrategyInterceptor();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_ENABLED, matchIfMissing = true)
-    public DiscoveryEnabledAdapter discoveryEnabledAdapter() {
-        return new DefaultDiscoveryEnabledAdapter();
     }
 
     @Bean
