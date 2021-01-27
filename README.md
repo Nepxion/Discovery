@@ -104,39 +104,39 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 
 ② 微服务框架支持的应用功能，如下
 - 全链路蓝绿灰度发布
-  - 全链路版本、区域、 IP地址和端口匹配蓝绿发布
-  - 全链路版本、区域、 IP地址和端口权重灰度发布
-  - 全链路蓝 | 绿 | 兜底、蓝 | 兜底的蓝绿路由类型
-  - 全链路稳定、灰度的灰度路由类型
-  - 全链路网关、服务端到端混合蓝绿灰度发布
-  - 全链路域网关、非域网关部署
-  - 全链路条件驱动、非条件驱动  
-  - 全链路前端触发后端蓝绿灰度发布
-  - 全局订阅式蓝绿灰度发布
-  - 全链路自定义网关、服务的过滤器、负载均衡策略类触发蓝绿灰度发布
-  - 全链路动态变更元数据的蓝绿灰度发布
-  - 全链路Header、Parameter、Cookie、域名、RPC Method等参数化规则策略驱动
-  - 全链路本地和远程、局部和全局无参数化规则策略驱动
-  - 全链路条件表达式、通配表达式支持
-  - 全链路内置Header，支持定时Job的服务调用蓝绿灰度发布
+    - 全链路版本、区域、 IP地址和端口匹配蓝绿发布
+    - 全链路版本、区域、 IP地址和端口权重灰度发布
+    - 全链路蓝 | 绿 | 兜底、蓝 | 兜底的蓝绿路由类型
+    - 全链路稳定、灰度的灰度路由类型
+    - 全链路网关、服务端到端混合蓝绿灰度发布
+    - 全链路域网关、非域网关部署
+    - 全链路条件驱动、非条件驱动  
+    - 全链路前端触发后端蓝绿灰度发布
+    - 全局订阅式蓝绿灰度发布
+    - 全链路自定义网关、服务的过滤器、负载均衡策略类触发蓝绿灰度发布
+    - 全链路动态变更元数据的蓝绿灰度发布
+    - 全链路Header、Parameter、Cookie、域名、RPC Method等参数化规则策略驱动
+    - 全链路本地和远程、局部和全局无参数化规则策略驱动
+    - 全链路条件表达式、通配表达式支持
+    - 全链路内置Header，支持定时Job的服务调用蓝绿灰度发布
 - 全链路蓝绿灰度发布编排建模和流量侦测
-  - 全链路蓝绿发布编排建模
-  - 全链路灰度发布编排建模
-  - 全链路蓝绿发布流量侦测
-  - 全链路灰度发布流量侦测
-  - 全链路蓝绿灰度发布混合流量侦测
+    - 全链路蓝绿发布编排建模
+    - 全链路灰度发布编排建模
+    - 全链路蓝绿发布流量侦测
+    - 全链路灰度发布流量侦测
+    - 全链路蓝绿灰度发布混合流量侦测
 - 全链路蓝绿灰度发布容灾
-  - 发布失败下的版本故障转移
-  - 并行发布下的版本偏好
+    - 发布失败下的版本故障转移
+    - 并行发布下的版本偏好
 - 服务下线场景下全链路蓝绿灰度发布，实时性的流量绝对无损
-  - 全局唯一ID屏蔽
-  - IP地址和端口屏蔽
+    - 全局唯一ID屏蔽
+    - IP地址和端口屏蔽
 - 异步场景下全链路蓝绿灰度发布
-  - 异步跨线程Agent插件
-  - Hystrix线程池隔离插件
+    - 异步跨线程Agent插件
+    - Hystrix线程池隔离插件
 - 全链路数据库和消息队列蓝绿发布
-  - 基于多Datasource的数据库蓝绿发布
-  - 基于多Queue的消息队列蓝绿发布
+    - 基于多Datasource的数据库蓝绿发布
+    - 基于多Queue的消息队列蓝绿发布
 - 全链路规则策略推送
     - 基于远程配置中心的规则策略订阅推送
     - 基于Swagger和Rest的规则策略推送
@@ -3388,6 +3388,8 @@ Reject to invoke because of isolation with different service group
 
 集成Sentinel熔断隔离限流降级平台
 
+![](http://nepxion.gitee.io/docs/discovery-doc/Sentinel1.jpg)
+![](http://nepxion.gitee.io/docs/discovery-doc/Sentinel2.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Sentinel3.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Sentinel4.jpg)
 
@@ -4044,6 +4046,8 @@ spring.application.strategy.tracer.sentinel.args.output.enabled=true
 
 #### Spring-Boot-Admin监控
 ![](http://nepxion.gitee.io/docs/discovery-doc/Admin1.jpg)
+![](http://nepxion.gitee.io/docs/discovery-doc/Admin4.jpg)
+![](http://nepxion.gitee.io/docs/discovery-doc/Admin5.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Admin7.jpg)
 
 ## 全链路服务侧注解
