@@ -19,7 +19,7 @@ import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyContextHolder;
 import com.nepxion.matrix.proxy.aop.AbstractInterceptor;
 
-public class ProviderIsolationStrategyInterceptor extends AbstractInterceptor {
+public class ServiceProviderIsolationStrategyInterceptor extends AbstractInterceptor {
     @Autowired
     protected PluginAdapter pluginAdapter;
 
