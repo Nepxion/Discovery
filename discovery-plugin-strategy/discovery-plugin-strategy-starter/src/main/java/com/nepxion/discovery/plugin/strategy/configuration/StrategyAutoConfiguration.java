@@ -9,7 +9,7 @@ package com.nepxion.discovery.plugin.strategy.configuration;
  * @version 1.0
  */
 
-import feign.RequestInterceptor;
+import feign.Feign;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.expression.TypeComparator;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.plugin.strategy.adapter.DefaultDiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.adapter.DefaultStrategyVersionFilterAdapter;
@@ -101,7 +101,7 @@ public class StrategyAutoConfiguration {
         return new ExpressionStrategyCondition();
     }
 
-    @ConditionalOnClass(RequestInterceptor.class)
+    @ConditionalOnClass(Feign.class)
     protected static class FeignStrategyConfiguration {
         @Autowired
         private ConfigurableEnvironment environment;
@@ -116,7 +116,7 @@ public class StrategyAutoConfiguration {
         }
     }
 
-    @ConditionalOnClass(ClientHttpRequestInterceptor.class)
+    @ConditionalOnClass(RestTemplate.class)
     protected static class RestTemplateStrategyConfiguration {
         @Autowired
         private ConfigurableEnvironment environment;
