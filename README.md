@@ -4343,6 +4343,8 @@ nacos.server-addr=localhost:8848
 # nacos.plugin.naming-load-cache-at-start=
 # nacos.plugin.naming-client-beat-thread-count=
 # nacos.plugin.naming-polling-thread-count=
+# nacos.plugin.naming-request-domain-max-retry-count=
+# nacos.plugin.naming-push-empty-protection=
 # nacos.plugin.ram-role-name=
 # nacos.plugin.timout=
 ```
