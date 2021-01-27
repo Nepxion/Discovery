@@ -32,6 +32,8 @@ public class NacosConstant extends PropertyKeyConst {
     public static final String NACOS_PLUGIN_NAMING_LOAD_CACHE_AT_START = "nacos.plugin.naming-load-cache-at-start";
     public static final String NACOS_PLUGIN_NAMING_CLIENT_BEAT_THREAD_COUNT = "nacos.plugin.naming-client-beat-thread-count";
     public static final String NACOS_PLUGIN_NAMING_POLLING_THREAD_COUNT = "nacos.plugin.naming-polling-thread-count";
+    public static final String NACOS_PLUGIN_NAMING_REQUEST_DOMAIN_RETRY_COUNT = "nacos.plugin.naming-request-domain-max-retry-count";
+    public static final String NACOS_PLUGIN_NAMING_PUSH_EMPTY_PROTECTION = "nacos.plugin.naming-push-empty-protection";
     public static final String NACOS_PLUGIN_RAM_ROLE_NAME = "nacos.plugin.ram-role-name";
     public static final String NACOS_PLUGIN_ENABLE_REMOTE_SYNC_CONFIG = "nacos.plugin.enable-remote-sync-config";
     public static final String NACOS_PLUGIN_TIMEOUT = "nacos.plugin.timout";
