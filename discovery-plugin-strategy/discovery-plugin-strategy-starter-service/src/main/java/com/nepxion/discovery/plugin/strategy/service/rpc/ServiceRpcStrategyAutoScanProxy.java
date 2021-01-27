@@ -18,7 +18,7 @@ import com.nepxion.matrix.proxy.aop.DefaultAutoScanProxy;
 import com.nepxion.matrix.proxy.mode.ProxyMode;
 import com.nepxion.matrix.proxy.mode.ScanMode;
 
-public class RpcStrategyAutoScanProxy extends DefaultAutoScanProxy {
+public class ServiceRpcStrategyAutoScanProxy extends DefaultAutoScanProxy {
     private static final long serialVersionUID = 8436914718400274011L;
 
     private String[] commonInterceptorNames;
@@ -26,14 +26,14 @@ public class RpcStrategyAutoScanProxy extends DefaultAutoScanProxy {
     @SuppressWarnings("rawtypes")
     private Class[] classAnnotations;
 
-    public RpcStrategyAutoScanProxy(String scanPackages) {
+    public ServiceRpcStrategyAutoScanProxy(String scanPackages) {
         super(scanPackages, ProxyMode.BY_CLASS_ANNOTATION_ONLY, ScanMode.FOR_CLASS_ANNOTATION_ONLY);
     }
 
     @Override
     protected String[] getCommonInterceptorNames() {
         if (commonInterceptorNames == null) {
-            commonInterceptorNames = new String[] { "rpcStrategyInterceptor" };
+            commonInterceptorNames = new String[] { "serviceRpcStrategyInterceptor" };
         }
 
         return commonInterceptorNames;

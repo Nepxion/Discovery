@@ -18,7 +18,7 @@ import com.nepxion.discovery.common.util.ClassUtil;
 import com.nepxion.discovery.plugin.strategy.service.context.RpcStrategyContext;
 import com.nepxion.matrix.proxy.aop.AbstractInterceptor;
 
-public class RpcStrategyInterceptor extends AbstractInterceptor {
+public class ServiceRpcStrategyInterceptor extends AbstractInterceptor {
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         Class<?> clazz = getMethod(invocation).getDeclaringClass();

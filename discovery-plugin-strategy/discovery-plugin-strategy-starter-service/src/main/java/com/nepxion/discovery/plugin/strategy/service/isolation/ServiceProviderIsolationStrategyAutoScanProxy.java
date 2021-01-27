@@ -18,7 +18,7 @@ import com.nepxion.matrix.proxy.aop.DefaultAutoScanProxy;
 import com.nepxion.matrix.proxy.mode.ProxyMode;
 import com.nepxion.matrix.proxy.mode.ScanMode;
 
-public class ProviderIsolationStrategyAutoScanProxy extends DefaultAutoScanProxy {
+public class ServiceProviderIsolationStrategyAutoScanProxy extends DefaultAutoScanProxy {
     private static final long serialVersionUID = 6147822053647878553L;
 
     private String[] commonInterceptorNames;
@@ -26,14 +26,14 @@ public class ProviderIsolationStrategyAutoScanProxy extends DefaultAutoScanProxy
     @SuppressWarnings("rawtypes")
     private Class[] classAnnotations;
 
-    public ProviderIsolationStrategyAutoScanProxy(String scanPackages) {
+    public ServiceProviderIsolationStrategyAutoScanProxy(String scanPackages) {
         super(scanPackages, ProxyMode.BY_CLASS_ANNOTATION_ONLY, ScanMode.FOR_CLASS_ANNOTATION_ONLY);
     }
 
     @Override
     protected String[] getCommonInterceptorNames() {
         if (commonInterceptorNames == null) {
-            commonInterceptorNames = new String[] { "providerIsolationStrategyInterceptor" };
+            commonInterceptorNames = new String[] { "serviceProviderIsolationStrategyInterceptor" };
         }
 
         return commonInterceptorNames;
