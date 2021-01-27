@@ -101,7 +101,7 @@ public class StrategyAutoConfiguration {
         return new ExpressionStrategyCondition();
     }
 
-    @ConditionalOnClass({ RequestInterceptor.class })
+    @ConditionalOnClass(RequestInterceptor.class)
     protected static class FeignStrategyConfiguration {
         @Autowired
         private ConfigurableEnvironment environment;
@@ -116,7 +116,7 @@ public class StrategyAutoConfiguration {
         }
     }
 
-    @ConditionalOnClass({ ClientHttpRequestInterceptor.class })
+    @ConditionalOnClass(ClientHttpRequestInterceptor.class)
     protected static class RestTemplateStrategyConfiguration {
         @Autowired
         private ConfigurableEnvironment environment;

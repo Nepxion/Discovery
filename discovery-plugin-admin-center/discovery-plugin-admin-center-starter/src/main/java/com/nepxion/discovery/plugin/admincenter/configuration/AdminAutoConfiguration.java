@@ -58,7 +58,7 @@ public class AdminAutoConfiguration {
         }
     }
 
-    @ConditionalOnClass({ StrategyWrapper.class })
+    @ConditionalOnClass(StrategyWrapper.class)
     protected static class StrategyEndpointConfiguration {
         @Bean
         public StrategyEndpoint strategyEndpoint() {
@@ -66,7 +66,7 @@ public class AdminAutoConfiguration {
         }
     }
 
-    @ConditionalOnClass({ FlowRule.class })
+    @ConditionalOnClass(FlowRule.class)
     protected static class SentinelCoreEndpointConfiguration {
         @Bean
         public SentinelCoreEndpoint sentinelCoreEndpoint() {
@@ -74,7 +74,7 @@ public class AdminAutoConfiguration {
         }
     }
 
-    @ConditionalOnClass({ ParamFlowRule.class })
+    @ConditionalOnClass(ParamFlowRule.class)
     protected static class SentinelParamEndpointConfiguration {
         @Bean
         public SentinelParamEndpoint sentinelParamEndpoint() {
