@@ -142,6 +142,16 @@ public class NacosAutoConfiguration {
             properties.put(NacosConstant.NAMING_POLLING_THREAD_COUNT, namingPollingThreadCount);
         }
 
+        String namingRequestDomainRetryCount = environment.getProperty(NacosConstant.NACOS_PLUGIN_NAMING_REQUEST_DOMAIN_RETRY_COUNT);
+        if (StringUtils.isNotEmpty(namingRequestDomainRetryCount)) {
+            properties.put(NacosConstant.NAMING_REQUEST_DOMAIN_RETRY_COUNT, namingRequestDomainRetryCount);
+        }
+
+        String namingPushEmptyProtection = environment.getProperty(NacosConstant.NACOS_PLUGIN_NAMING_PUSH_EMPTY_PROTECTION);
+        if (StringUtils.isNotEmpty(namingPushEmptyProtection)) {
+            properties.put(NacosConstant.NAMING_PUSH_EMPTY_PROTECTION, namingPushEmptyProtection);
+        }
+
         String ramRoleName = environment.getProperty(NacosConstant.NACOS_PLUGIN_RAM_ROLE_NAME);
         if (StringUtils.isNotEmpty(ramRoleName)) {
             properties.put(NacosConstant.RAM_ROLE_NAME, ramRoleName);
