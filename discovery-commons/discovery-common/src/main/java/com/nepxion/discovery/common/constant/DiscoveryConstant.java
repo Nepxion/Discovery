@@ -30,7 +30,7 @@ public class DiscoveryConstant {
     public static final String SPRING_APPLICATION_NO_SERVERS_NOTIFY_ENABLED = "spring.application.no.servers.notify.enabled";
     public static final String SPRING_APPLICATION_PARAMETER_EVENT_ONSTART_ENABLED = "spring.application.parameter.event.onstart.enabled";
 
-     public static final String CONTEXT_PATH = "server.contextPath";
+    public static final String CONTEXT_PATH = "server.contextPath";
 
     public static final String SPRING_APPLICATION_GROUP_GENERATOR_ENABLED = "spring.application.group.generator.enabled";
     public static final String SPRING_APPLICATION_GROUP_GENERATOR_LENGTH = "spring.application.group.generator.length";
