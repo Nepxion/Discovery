@@ -18,8 +18,6 @@ public class DiscoveryConstant {
     public static final String SPRING_APPLICATION_REGISTER_CONTROL_ENABLED = "spring.application.register.control.enabled";
     public static final String SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED = "spring.application.discovery.control.enabled";
     public static final String SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED = "spring.application.config.rest.control.enabled";
-    public static final String SPRING_APPLICATION_SERVLET_WEB_SERVER_ENABLED = "spring.application.servlet.web.server.enabled";
-    public static final String SPRING_APPLICATION_REACTIVE_WEB_SERVER_ENABLED = "spring.application.reactive.web.server.enabled";
     public static final String SPRING_APPLICATION_CONFIG_FORMAT = "spring.application.config.format";
     public static final String SPRING_APPLICATION_CONFIG_PATH = "spring.application.config.path";
     public static final String SPRING_APPLICATION_GROUP_KEY = "spring.application.group.key";
@@ -33,9 +31,6 @@ public class DiscoveryConstant {
     public static final String SPRING_APPLICATION_PARAMETER_EVENT_ONSTART_ENABLED = "spring.application.parameter.event.onstart.enabled";
 
     public static final String CONTEXT_PATH = "server.servlet.context-path";
-
-    public static final String ANNOTATION_CONFIG_SERVLET_WEB_SERVER_APPLICATION_CONTEXT = "AnnotationConfigServletWebServerApplicationContext";
-    public static final String ANNOTATION_CONFIG_REACTIVE_WEB_SERVER_APPLICATION_CONTEXT = "AnnotationConfigReactiveWebServerApplicationContext";
 
     public static final String SPRING_APPLICATION_GROUP_GENERATOR_ENABLED = "spring.application.group.generator.enabled";
     public static final String SPRING_APPLICATION_GROUP_GENERATOR_LENGTH = "spring.application.group.generator.length";
