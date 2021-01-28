@@ -23,6 +23,7 @@ import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.exception.NacosException;
 import com.nepxion.discovery.common.nacos.constant.NacosConstant;
 import com.nepxion.discovery.common.nacos.operation.NacosOperation;
+import com.nepxion.discovery.common.util.PropertiesUtil;
 
 @Configuration
 public class NacosAutoConfiguration {
@@ -72,7 +73,7 @@ public class NacosAutoConfiguration {
             properties.put(NacosConstant.PASSWORD, password);
         }
 
-        String namespace = environment.getProperty(NacosConstant.NACOS_PLUGIN_NAMESPACE);
+        /*String namespace = environment.getProperty(NacosConstant.NACOS_PLUGIN_NAMESPACE);
         if (StringUtils.isNotEmpty(namespace)) {
             properties.put(NacosConstant.NAMESPACE, namespace);
         }
@@ -155,9 +156,11 @@ public class NacosAutoConfiguration {
         String ramRoleName = environment.getProperty(NacosConstant.NACOS_PLUGIN_RAM_ROLE_NAME);
         if (StringUtils.isNotEmpty(ramRoleName)) {
             properties.put(NacosConstant.RAM_ROLE_NAME, ramRoleName);
-        }
+        }*/
 
         properties.put(NacosConstant.ENABLE_REMOTE_SYNC_CONFIG, Boolean.toString(enableRemoteSyncConfig));
+
+        PropertiesUtil.enrichProperties(properties, environment, NacosConstant.NACOS_PLUGIN_PREFIX, true, true);
 
         return properties;
     }
