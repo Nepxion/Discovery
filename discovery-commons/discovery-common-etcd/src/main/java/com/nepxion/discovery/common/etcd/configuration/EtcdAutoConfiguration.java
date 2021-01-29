@@ -42,6 +42,7 @@ public class EtcdAutoConfiguration {
         if (StringUtils.isBlank(serverAddr)) {
             throw new IllegalArgumentException(EtcdConstant.ETCD_SERVER_ADDR + " can't be null or empty");
         }
+
         ClientBuilder clientBuilder = Client.builder().endpoints(serverAddr);
 
         String username = environment.getProperty(EtcdConstant.ETCD_USERNAME);

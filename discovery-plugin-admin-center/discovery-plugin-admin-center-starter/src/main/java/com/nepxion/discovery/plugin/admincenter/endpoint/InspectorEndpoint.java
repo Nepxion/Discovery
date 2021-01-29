@@ -65,7 +65,9 @@ public class InspectorEndpoint {
         if (StringUtils.isEmpty(result) && pluginContextHolder != null) {
             result = pluginContextHolder.getContext(DiscoveryConstant.INSPECTOR_ENDPOINT_HEADER);
         }
-        inspectorEntity.setResult(pluginAdapter.getPluginInfo(result));
+
+        String pluginInfo = pluginAdapter.getPluginInfo(result);
+        inspectorEntity.setResult(pluginInfo);
 
         if (CollectionUtils.isNotEmpty(serviceIdList)) {
             // 获取侦测列表中的第一个服务，作为下一个侦测中继节点
