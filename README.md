@@ -4408,7 +4408,7 @@ opentracing.jaeger.http-sender.url=http://localhost:14268/api/traces
 ```
 # Spring boot admin config
 spring.boot.admin.client.instance.prefer-ip=true
-spring.boot.admin.client.url=http://localhost:5555
+spring.boot.admin.client.url=http://localhost:9728
 ```
 
 ④ 异步跨线程Agent配置
