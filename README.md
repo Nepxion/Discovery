@@ -194,13 +194,13 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 
 | 框架版本 | 框架分支 | 框架状态 | Spring Cloud版本 | Spring Boot版本 | Spring Cloud Alibaba版本 |
 | --- | --- | --- | --- | --- | --- |
-| 7.x.x | master | ![](http://nepxion.gitee.io/docs/icon-doc/confirm_24.png) | 202x.x.x | 2.4.1 `↑` | N/A |
-| 6.x.x | 6.x.x | ![](http://nepxion.gitee.io/docs/icon-doc/confirm_24.png) | Hoxton.SR5 `↑`<br>Hoxton<br>Greenwich<br>Finchley | 2.3.x.RELEASE<br>2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
-| ~~5.x.x~~ | ~~5.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
-| ~~4.x.x~~ | ~~4.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
-| 3.x.x | 3.x.x | ![](http://nepxion.gitee.io/docs/icon-doc/arrow_up_24.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
-| ~~2.x.x~~ | ~~2.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) | Dalston | 1.x.x.RELEASE | 1.5.x.RELEASE |
-| ~~1.x.x~~ | ~~1.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) | Camden | 1.x.x.RELEASE | 1.5.x.RELEASE |
+| 7.0.0 | master | ![](http://nepxion.gitee.io/docs/icon-doc/confirm_24.png) | 202x.x.x | 2.4.1 `↑` | 202x.x |
+| 6.6.0 | 6.x.x | ![](http://nepxion.gitee.io/docs/icon-doc/confirm_24.png) | Hoxton.SR5 `↑`<br>Hoxton<br>Greenwich<br>Finchley | 2.3.x.RELEASE<br>2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
+| ~~5.6.0~~ | ~~5.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
+| ~~4.15.0~~ | ~~4.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
+| 3.22.0 | 3.x.x | ![](http://nepxion.gitee.io/docs/icon-doc/arrow_up_24.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
+| ~~2.0.x~~ | ~~2.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) | Dalston | 1.x.x.RELEASE | 1.5.x.RELEASE |
+| ~~1.0.x~~ | ~~1.x.x~~ | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) | Camden | 1.x.x.RELEASE | 1.5.x.RELEASE |
 
 ![](http://nepxion.gitee.io/docs/icon-doc/confirm_24.png) 表示维护中 | ![](http://nepxion.gitee.io/docs/icon-doc/arrow_up_24.png) 表示不维护，但可用，强烈建议升级 | ![](http://nepxion.gitee.io/docs/icon-doc/delete_24.png) 表示不维护，不可用，已废弃
 
@@ -912,7 +912,7 @@ zuul
 
 - 在Postman中多种同步和异步的调用方式，异步方式需要增加DiscoveryAgent，才能保证蓝绿发布路由调用的成功
 
-![](http://nepxion.gitee.io/docs/icon-doc/information.png) 特别提醒
+![](http://nepxion.gitee.io/docs/icon-doc/information.png) 〔Spring Cloud 202x版〕特别提醒
 
 > 对于Spring Cloud 202x版，由于它采用的负载均衡Spring Cloud LoadBalancer是基于异步的WebFlux，所以必须加上DiscoveryAgent，如下方式
 
@@ -2094,6 +2094,11 @@ public ServiceStrategyRouteFilter serviceStrategyRouteFilter() {
 ```
 
 #### 全链路自定义负载均衡策略类触发蓝绿灰度发布
+
+![](http://nepxion.gitee.io/docs/icon-doc/information.png) 〔Spring Cloud 202x版〕特别提醒
+
+> 对于Spring Cloud 202x版，由于它已经移除了Ribbon，所以apply(Server server)方法上的入参，com.netflix.loadbalancer.Server需要改成org.springframework.cloud.client.ServiceInstance
+
 下面代码既适用于Zuul和Spring Cloud Gateway网关，也适用于微服务。继承DefaultDiscoveryEnabledStrategy，可以有多个，通过@Bean方式注入
 ```java
 // 实现了组合策略，版本路由策略+区域路由策略+IP地址和端口路由策略+自定义策略
@@ -4245,16 +4250,8 @@ eureka.instance.metadataMap.env=env1
 eureka.instance.metadataMap.zone=zone1
 
 # Consul config for discovery
-# Spring Cloud 2020之前版本的配置方式
 # 参考https://springcloud.cc/spring-cloud-consul.html - 元数据和Consul标签
 spring.cloud.consul.discovery.tags=group=xxx-service-group,version=1.0,region=dev,env=env1,zone=zone1
-
-# Spring Cloud 2020之后版本的配置方式
-spring.cloud.consul.discovery.metadata.group=xxx-service-group
-spring.cloud.consul.discovery.metadata.version=1.0
-spring.cloud.consul.discovery.metadata.region=dev
-spring.cloud.consul.discovery.metadata.env=env1
-spring.cloud.consul.discovery.metadata.zone=zone1
 
 # Zookeeper config for discovery
 spring.cloud.zookeeper.discovery.metadata.group=xxx-service-group
@@ -4269,6 +4266,31 @@ spring.cloud.nacos.discovery.metadata.version=1.0
 spring.cloud.nacos.discovery.metadata.region=dev
 spring.cloud.nacos.discovery.metadata.env=env1
 spring.cloud.nacos.discovery.metadata.zone=zone1
+```
+
+![](http://nepxion.gitee.io/docs/icon-doc/information.png) 〔Spring Cloud 202x版〕特别提醒
+
+> 对于Spring Cloud 202x版，由于它重构了Consul元数据的方式，需要通过如下方式配置
+
+```
+# Consul config for discovery
+spring.cloud.consul.discovery.metadata.group=xxx-service-group
+spring.cloud.consul.discovery.metadata.version=1.0
+spring.cloud.consul.discovery.metadata.region=dev
+spring.cloud.consul.discovery.metadata.env=env1
+spring.cloud.consul.discovery.metadata.zone=zone1
+```
+
+> 对于用户自动的Consul元数据的Key，不能带有包含“.”，“@”等字符，否则服务无法启动，但允许包含“_”，“-”等字符，参考如下配置
+
+```
+# 合法格式
+spring.cloud.consul.discovery.metadata.my_data=abc
+spring.cloud.consul.discovery.metadata.my-data=abc
+
+# 非法格式
+spring.cloud.consul.discovery.metadata.my.data=abc
+spring.cloud.consul.discovery.metadata.my@data=abc
 ```
 
 ### 中间件属性配置
