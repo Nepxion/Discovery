@@ -4469,6 +4469,8 @@ spring.application.no.servers.retry.times=5
 spring.application.no.servers.retry.await.time=2000
 # 负载均衡下，消费端尝试获取对应提供端服务实例列表为空的时候，通过日志方式通知。缺失则默认为false
 spring.application.no.servers.notify.enabled=false
+# 由于Nacos注册中心会自动把服务名处理成GROUP@@SERVICE_ID的格式，导致根据服务名去获取元数据的时候会找不到。通过如下开关开启是否要过滤掉GROUP前缀。缺失则默认为true
+spring.application.nacos.service.id.filter.enabled=true
 
 # Plugin strategy config
 # 开启和关闭路由策略的控制。一旦关闭，路由策略功能将失效。缺失则默认为true
@@ -4629,6 +4631,8 @@ spring.application.no.servers.retry.times=5
 spring.application.no.servers.retry.await.time=2000
 # 负载均衡下，消费端尝试获取对应提供端服务实例列表为空的时候，通过日志方式通知。缺失则默认为false
 spring.application.no.servers.notify.enabled=false
+# 由于Nacos注册中心会自动把服务名处理成GROUP@@SERVICE_ID的格式，导致根据服务名去获取元数据的时候会找不到。通过如下开关开启是否要过滤掉GROUP前缀。缺失则默认为true
+spring.application.nacos.service.id.filter.enabled=true
 
 # Plugin strategy config
 # 开启和关闭路由策略的控制。一旦关闭，路由策略功能将失效。缺失则默认为true
@@ -4776,6 +4780,8 @@ spring.application.no.servers.retry.times=5
 spring.application.no.servers.retry.await.time=2000
 # 负载均衡下，消费端尝试获取对应提供端服务实例列表为空的时候，通过日志方式通知。缺失则默认为false
 spring.application.no.servers.notify.enabled=false
+# 由于Nacos注册中心会自动把服务名处理成GROUP@@SERVICE_ID的格式，导致根据服务名去获取元数据的时候会找不到。通过如下开关开启是否要过滤掉GROUP前缀。缺失则默认为true
+spring.application.nacos.service.id.filter.enabled=true
 
 # Plugin strategy config
 # 开启和关闭路由策略的控制。一旦关闭，路由策略功能将失效。缺失则默认为true
