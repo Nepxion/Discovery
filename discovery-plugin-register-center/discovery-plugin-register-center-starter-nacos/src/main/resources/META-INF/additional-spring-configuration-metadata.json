@@ -1,0 +1,10 @@
+{
+	"properties": [
+		{
+			"name": "spring.application.nacos.service.id.filter.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether nacos service id filter is enabled."
+		}
+	]
+}

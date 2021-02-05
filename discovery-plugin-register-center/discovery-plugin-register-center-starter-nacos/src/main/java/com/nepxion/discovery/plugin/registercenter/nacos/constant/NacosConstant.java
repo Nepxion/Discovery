@@ -11,4 +11,5 @@ package com.nepxion.discovery.plugin.registercenter.nacos.constant;
 
 public class NacosConstant {
     public static final String NACOS_TYPE = "Nacos";
+    public static final String SPRING_APPLICATION_NACOS_SERVICE_ID_FILTER_ENABLED = "spring.application.nacos.service.id.filter.enabled";
 }
