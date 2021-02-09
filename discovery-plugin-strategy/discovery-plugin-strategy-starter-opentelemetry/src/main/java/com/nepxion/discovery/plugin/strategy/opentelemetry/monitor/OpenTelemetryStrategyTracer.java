@@ -60,11 +60,11 @@ public class OpenTelemetryStrategyTracer extends AbstractStrategyTracer<Span> {
 
     @Override
     protected String toTraceId(Span span) {
-        return span.getSpanContext().getTraceIdAsHexString();
+        return span.getSpanContext().getTraceId();
     }
 
     @Override
     protected String toSpanId(Span span) {
-        return span.getSpanContext().getSpanIdAsHexString();
+        return span.getSpanContext().getSpanId();
     }
 }
