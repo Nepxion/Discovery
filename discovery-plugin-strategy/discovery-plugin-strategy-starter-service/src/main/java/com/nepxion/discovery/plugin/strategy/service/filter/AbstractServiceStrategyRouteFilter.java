@@ -61,6 +61,8 @@ public abstract class AbstractServiceStrategyRouteFilter extends ServiceStrategy
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         boolean isExclusion = serviceStrategyFilterExclusion.isExclusion(request, response);
         if (isExclusion) {
+            filterChain.doFilter(request, response);
+
             return;
         }
 
