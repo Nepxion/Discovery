@@ -62,6 +62,7 @@ public abstract class AbstractServiceStrategyRouteFilter extends ServiceStrategy
         boolean isExclusion = serviceStrategyFilterExclusion.isExclusion(request, response);
         if (isExclusion) {
             filterChain.doFilter(request, response);
+
             return;
         }
 
