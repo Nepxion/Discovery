@@ -85,6 +85,12 @@
 			"description": "Whether strategy rest template core header transmission is enabled."
 		},
 		{
+			"name": "spring.application.strategy.web.client.core.header.transmission.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether strategy web client core header transmission is enabled."
+		},
+		{
 			"name": "spring.application.strategy.context.request.headers",
 			"type": "java.lang.String",
 			"description": "Strategy context request headers."

@@ -12,6 +12,7 @@ package com.nepxion.discovery.plugin.strategy.configuration;
 import feign.Feign;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -21,6 +22,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.expression.TypeComparator;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.nepxion.discovery.plugin.strategy.adapter.DefaultDiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.adapter.DefaultStrategyVersionFilterAdapter;
@@ -29,6 +31,8 @@ import com.nepxion.discovery.plugin.strategy.adapter.StrategyVersionFilterAdapte
 import com.nepxion.discovery.plugin.strategy.aop.FeignStrategyInterceptor;
 import com.nepxion.discovery.plugin.strategy.aop.RestTemplateStrategyBeanPostProcessor;
 import com.nepxion.discovery.plugin.strategy.aop.RestTemplateStrategyInterceptor;
+import com.nepxion.discovery.plugin.strategy.aop.WebClientStrategyBeanPostProcessor;
+import com.nepxion.discovery.plugin.strategy.aop.WebClientStrategyInterceptor;
 import com.nepxion.discovery.plugin.strategy.condition.DefaultStrategyTypeComparor;
 import com.nepxion.discovery.plugin.strategy.condition.ExpressionStrategyCondition;
 import com.nepxion.discovery.plugin.strategy.condition.StrategyCondition;
@@ -135,6 +139,29 @@ public class StrategyAutoConfiguration {
         @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_ENABLED, matchIfMissing = true)
         public RestTemplateStrategyBeanPostProcessor restTemplateStrategyBeanPostProcessor() {
             return new RestTemplateStrategyBeanPostProcessor();
+        }
+    }
+
+    @ConditionalOnClass(WebClient.class)
+    @ConditionalOnBean(WebClient.Builder.class)
+    protected static class WebClientStrategyConfiguration {
+        @Autowired
+        private ConfigurableEnvironment environment;
+
+        @Bean
+        @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_ENABLED, matchIfMissing = true)
+        public WebClientStrategyInterceptor webClientStrategyInterceptor() {
+            String contextRequestHeaders = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTEXT_REQUEST_HEADERS);
+            String businessRequestHeaders = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_BUSINESS_REQUEST_HEADERS);
+
+            return new WebClientStrategyInterceptor(contextRequestHeaders, businessRequestHeaders);
+        }
+
+        @Bean
+        @ConditionalOnMissingBean
+        @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_ENABLED, matchIfMissing = true)
+        public WebClientStrategyBeanPostProcessor webClientStrategyBeanPostProcessor() {
+            return new WebClientStrategyBeanPostProcessor();
         }
     }
 }
