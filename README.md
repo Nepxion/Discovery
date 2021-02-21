@@ -85,7 +85,7 @@
 ![](http://nepxion.gitee.io/docs/polaris-doc/GlobalSub.jpg)
 
 ## 简介
-Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba，Discovery服务注册发现、Ribbon负载均衡、Feign和RestTemplate调用、Spring Cloud Gateway和Zuul过滤等组件全方位增强的企业级微服务开源解决方案，更贴近企业级需求，更具有企业级的插件引入、开箱即用特征
+Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba，Discovery服务注册发现、Ribbon & Spring Cloud LoadBalancer负载均衡、Feign & RestTemplate & WebClient调用、Spring Cloud Gateway & Zuul过滤等组件全方位增强的企业级微服务开源解决方案，更贴近企业级需求，更具有企业级的插件引入、开箱即用特征
 
 ① 微服务框架支持的基本功能，如下
 - 支持阿里巴巴Spring Cloud Alibaba中间件生态圈
@@ -1600,9 +1600,9 @@ A部门服务直接访问B部门服务
 spring.application.strategy.rest.intercept.enabled=true
 # 启动和关闭Header传递的Debug日志打印，注意：每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
 spring.application.strategy.rest.intercept.debug.enabled=true
-# 路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于框架内置上下文Header，例如：trace-id, span-id等）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
+# 路由策略的时候，对REST方式调用拦截的时候（支持Feign、RestTemplate或者WebClient调用），希望把来自外部自定义的Header参数（用于框架内置上下文Header，例如：trace-id, span-id等）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
 spring.application.strategy.context.request.headers=trace-id;span-id
-# 路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于业务系统自定义Header，例如：mobile）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
+# 路由策略的时候，对REST方式调用拦截的时候（支持Feign、RestTemplate或者WebClient调用），希望把来自外部自定义的Header参数（用于业务系统自定义Header，例如：mobile）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
 spring.application.strategy.business.request.headers=user;mobile;location
 ```
 
@@ -1672,6 +1672,7 @@ spring.application.strategy.gateway.core.header.transmission.enabled=true
 spring.application.strategy.zuul.core.header.transmission.enabled=true
 spring.application.strategy.feign.core.header.transmission.enabled=true
 spring.application.strategy.rest.template.core.header.transmission.enabled=true
+spring.application.strategy.web.client.core.header.transmission.enabled=true
 ```
 
 ### 全链路自定义蓝绿灰度发布
@@ -2579,7 +2580,7 @@ n-d-address-blacklist=192.168.43.101:1201;192.168.*.102;1301
 ## 异步场景下全链路蓝绿灰度发布
 
 ### 异步场景下DiscoveryAgent解决方案
-全链路策略路由Header和调用链Span在Hystrix线程池隔离模式下或者线程、线程池、@Async注解等异步调用Feign或者RestTemplate时，通过线程上下文切换会存在丢失Header的问题，通过下述步骤解决，同时适用于网关端和服务端。该方案可以替代Hystrix线程池隔离模式下的解决方案，也适用于其它有相同使用场景的基础框架和业务场景，例如：Dubbo
+全链路策略路由Header和调用链Span在Hystrix线程池隔离模式下或者线程、线程池、@Async注解等异步调用Feign、RestTemplate或者WebClient时，通过线程上下文切换会存在丢失Header的问题，通过下述步骤解决，同时适用于网关端和服务端。该方案可以替代Hystrix线程池隔离模式下的解决方案，也适用于其它有相同使用场景的基础框架和业务场景，例如：Dubbo
 
 ThreadLocal的作用是提供线程内的局部变量，在多线程环境下访问时能保证各个线程内的ThreadLocal变量各自独立。在异步场景下，由于出现线程切换的问题，例如主线程切换到子线程，会导致线程ThreadLocal上下文丢失。DiscoveryAgent通过Java Agent方式解决这些痛点
 
@@ -3819,7 +3820,7 @@ user=
 --------------------------------------------------
 ```
 
-② 服务端Feign或者RestTemplate拦截输入的蓝绿灰度埋点Debug辅助监控
+② 服务端Feign、RestTemplate或者WebClient拦截输入的蓝绿灰度埋点Debug辅助监控
 ```
 ------- Feign Intercept Input Header Information -------
 n-d-service-group=discovery-guide-group
@@ -3835,7 +3836,7 @@ n-d-service-version=1.0
 --------------------------------------------------
 ```
 
-③ 服务端Feign或者RestTemplate拦截输出的蓝绿灰度埋点Debug辅助监控
+③ 服务端Feign、RestTemplate或者支持WebClient调用拦截输出的蓝绿灰度埋点Debug辅助监控
 ```
 ------- Feign Intercept Output Header Information ------
 mobile=[13812345678]
@@ -4514,9 +4515,19 @@ spring.application.strategy.feign.core.header.transmission.enabled=true
 # 7. n-d-address-blacklist
 # 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
 spring.application.strategy.rest.template.core.header.transmission.enabled=true
-# 路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于框架内置上下文Header，例如：trace-id, span-id等）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
+# 启动和关闭WebClient上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
+# 1. n-d-version
+# 2. n-d-region
+# 3. n-d-address
+# 4. n-d-version-weight
+# 5. n-d-region-weight
+# 6. n-d-id-blacklist
+# 7. n-d-address-blacklist
+# 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
+spring.application.strategy.web.client.core.header.transmission.enabled=true
+# 路由策略的时候，对REST方式调用拦截的时候（支持Feign、RestTemplate或者WebClient调用），希望把来自外部自定义的Header参数（用于框架内置上下文Header，例如：trace-id, span-id等）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
 spring.application.strategy.context.request.headers=trace-id;span-id
-# 路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于业务系统自定义Header，例如：mobile）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
+# 路由策略的时候，对REST方式调用拦截的时候（支持Feign、RestTemplate或者WebClient调用），希望把来自外部自定义的Header参数（用于业务系统自定义Header，例如：mobile）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
 spring.application.strategy.business.request.headers=token
 # 路由策略的时候，执行请求过滤，对指定包含的URI字段进行排除。缺失则默认为/actuator/，如果多个用“;”分隔，不允许出现空格
 spring.application.strategy.uri.filter.exclusion=/actuator/
@@ -4729,7 +4740,7 @@ spring.application.git.generator.path=classpath:git.properties
 spring.application.git.version.key={git.commit.id.abbrev}-{git.commit.time}
 # spring.application.git.version.key={git.build.version}-{git.commit.time}
 
-# 下面配置只适用于网关里直接进行Feign或者RestTemplate调用场景
+# 下面配置只适用于网关里直接进行Feign、RestTemplate或者WebClient调用场景
 # 启动和关闭路由策略的时候，对REST方式的调用拦截。缺失则默认为true
 spring.application.strategy.rest.intercept.enabled=true
 # 启动和关闭Header传递的Debug日志打印，注意：每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
@@ -4743,7 +4754,7 @@ spring.application.strategy.rest.intercept.debug.enabled=true
 # 6. n-d-id-blacklist
 # 7. n-d-address-blacklist
 # 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
-# spring.application.strategy.feign.core.header.transmission.enabled=false
+spring.application.strategy.feign.core.header.transmission.enabled=true
 # 启动和关闭RestTemplate上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
 # 1. n-d-version
 # 2. n-d-region
@@ -4753,10 +4764,20 @@ spring.application.strategy.rest.intercept.debug.enabled=true
 # 6. n-d-id-blacklist
 # 7. n-d-address-blacklist
 # 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
-# spring.application.strategy.rest.template.core.header.transmission.enabled=false
-# 路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于框架内置上下文Header，例如：trace-id, span-id等）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
+spring.application.strategy.rest.template.core.header.transmission.enabled=true
+# 启动和关闭WebClient上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
+# 1. n-d-version
+# 2. n-d-region
+# 3. n-d-address
+# 4. n-d-version-weight
+# 5. n-d-region-weight
+# 6. n-d-id-blacklist
+# 7. n-d-address-blacklist
+# 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
+spring.application.strategy.web.client.core.header.transmission.enabled=true
+# 路由策略的时候，对REST方式调用拦截的时候（支持Feign、RestTemplate或者WebClient调用），希望把来自外部自定义的Header参数（用于框架内置上下文Header，例如：trace-id, span-id等）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
 spring.application.strategy.context.request.headers=trace-id;span-id
-# 路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于业务系统自定义Header，例如：mobile）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
+# 路由策略的时候，对REST方式调用拦截的时候（支持Feign、RestTemplate或者WebClient调用），希望把来自外部自定义的Header参数（用于业务系统自定义Header，例如：mobile）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
 spring.application.strategy.business.request.headers=user;mobile;location
 ```
 
@@ -4878,7 +4899,7 @@ spring.application.git.generator.path=classpath:git.properties
 # spring.application.git.version.key={git.commit.id.abbrev}-{git.commit.time}
 # spring.application.git.version.key={git.build.version}-{git.commit.time}
 
-# 下面配置只适用于网关里直接进行Feign或者RestTemplate调用场景
+# 下面配置只适用于网关里直接进行Feign、RestTemplate或者WebClient调用场景
 # 启动和关闭路由策略的时候，对REST方式的调用拦截。缺失则默认为true
 spring.application.strategy.rest.intercept.enabled=true
 # 启动和关闭Header传递的Debug日志打印，注意：每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
@@ -4892,7 +4913,7 @@ spring.application.strategy.rest.intercept.debug.enabled=true
 # 6. n-d-id-blacklist
 # 7. n-d-address-blacklist
 # 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
-# spring.application.strategy.feign.core.header.transmission.enabled=false
+spring.application.strategy.feign.core.header.transmission.enabled=true
 # 启动和关闭RestTemplate上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
 # 1. n-d-version
 # 2. n-d-region
@@ -4902,10 +4923,20 @@ spring.application.strategy.rest.intercept.debug.enabled=true
 # 6. n-d-id-blacklist
 # 7. n-d-address-blacklist
 # 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
-# spring.application.strategy.rest.template.core.header.transmission.enabled=false
-# 路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于框架内置上下文Header，例如：trace-id, span-id等）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
+spring.application.strategy.rest.template.core.header.transmission.enabled=true
+# 启动和关闭WebClient上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
+# 1. n-d-version
+# 2. n-d-region
+# 3. n-d-address
+# 4. n-d-version-weight
+# 5. n-d-region-weight
+# 6. n-d-id-blacklist
+# 7. n-d-address-blacklist
+# 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
+spring.application.strategy.web.client.core.header.transmission.enabled=true
+# 路由策略的时候，对REST方式调用拦截的时候（支持Feign、RestTemplate或者WebClient调用），希望把来自外部自定义的Header参数（用于框架内置上下文Header，例如：trace-id, span-id等）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
 spring.application.strategy.context.request.headers=trace-id;span-id
-# 路由策略的时候，对REST方式调用拦截的时候（支持Feign或者RestTemplate调用），希望把来自外部自定义的Header参数（用于业务系统自定义Header，例如：mobile）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
+# 路由策略的时候，对REST方式调用拦截的时候（支持Feign、RestTemplate或者WebClient调用），希望把来自外部自定义的Header参数（用于业务系统自定义Header，例如：mobile）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
 spring.application.strategy.business.request.headers=user;mobile;location
 ```
 
@@ -4997,7 +5028,7 @@ spring.application.strategy.business.request.headers=user;mobile;location
 请自行研究
 
 ## 自动化测试
-自动化测试，基于Spring Boot/Spring Cloud的自动化测试框架，包括普通调用测试、蓝绿灰度调用测试和扩展调用测试（例如：支持阿里巴巴的Sentinel，FF4j的功能开关等）。通过注解形式，跟Spring Boot内置的测试机制集成，使用简单方便。该自动化测试框架的现实意义，可以把服务注册发现中心、远程配置中心、负载均衡、蓝绿灰度发布、熔断降级限流、功能开关、Feign或者RestTemplate调用等中间件或者组件，一条龙组合起来进行自动化测试
+自动化测试，基于Spring Boot/Spring Cloud的自动化测试框架，包括普通调用测试、蓝绿灰度调用测试和扩展调用测试（例如：支持阿里巴巴的Sentinel，FF4j的功能开关等）。通过注解形式，跟Spring Boot内置的测试机制集成，使用简单方便。该自动化测试框架的现实意义，可以把服务注册发现中心、远程配置中心、负载均衡、蓝绿灰度发布、熔断降级限流、功能开关、Feign、RestTemplate或者WebClient调用等中间件或者组件，一条龙组合起来进行自动化测试
 
 自动化测试代码参考[指南示例自动化测试](https://github.com/Nepxion/DiscoveryGuide/tree/master/discovery-guide-test-automation)
 
