@@ -3962,9 +3962,9 @@ spring.application.strategy.tracer.method.context.output.enabled=true
 spring.application.strategy.tracer.span.value=NEPXION
 # 显示在调用链界面上蓝绿灰度Span Tag的插件名称，建议改成具有公司特色的框架产品的描述。缺失则默认为Nepxion Discovery
 spring.application.strategy.tracer.span.tag.plugin.value=Nepxion Discovery
-# 启动和关闭Sentinel调用链上规则在Span上的输出，注意：原生的Sentinel不是Spring技术栈，下面参数必须通过-D方式或者System.setProperty方式等设置进去。缺失则默认为true
+# 启动和关闭Sentinel调用链上规则在Span上的输出。缺失则默认为true
 spring.application.strategy.tracer.sentinel.rule.output.enabled=true
-# 启动和关闭Sentinel调用链上方法入参在Span上的输出，注意：原生的Sentinel不是Spring技术栈，下面参数必须通过-D方式或者System.setProperty方式等设置进去。缺失则默认为false
+# 启动和关闭Sentinel调用链上方法入参在Span上的输出。缺失则默认为false
 spring.application.strategy.tracer.sentinel.args.output.enabled=true
 ```
 
@@ -4562,9 +4562,9 @@ spring.application.strategy.tracer.method.context.output.enabled=true
 spring.application.strategy.tracer.span.value=NEPXION
 # 显示在调用链界面上蓝绿灰度Span Tag的插件名称，建议改成具有公司特色的框架产品的描述。缺失则默认为Nepxion Discovery
 spring.application.strategy.tracer.span.tag.plugin.value=Nepxion Discovery
-# 启动和关闭Sentinel调用链上规则在Span上的输出，注意：原生的Sentinel不是Spring技术栈，下面参数必须通过-D方式或者System.setProperty方式等设置进去。缺失则默认为true
+# 启动和关闭Sentinel调用链上规则在Span上的输出。缺失则默认为true
 spring.application.strategy.tracer.sentinel.rule.output.enabled=true
-# 启动和关闭Sentinel调用链上方法入参在Span上的输出，注意：原生的Sentinel不是Spring技术栈，下面参数必须通过-D方式或者System.setProperty方式等设置进去。缺失则默认为false
+# 启动和关闭Sentinel调用链上方法入参在Span上的输出。缺失则默认为false
 spring.application.strategy.tracer.sentinel.args.output.enabled=true
 
 # 开启服务端实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
@@ -4698,9 +4698,9 @@ spring.application.strategy.tracer.exception.detail.output.enabled=true
 spring.application.strategy.tracer.span.value=NEPXION
 # 显示在调用链界面上蓝绿灰度Span Tag的插件名称，建议改成具有公司特色的框架产品的描述。缺失则默认为Nepxion Discovery
 spring.application.strategy.tracer.span.tag.plugin.value=Nepxion Discovery
-# 启动和关闭Sentinel调用链上规则在Span上的输出，注意：原生的Sentinel不是Spring技术栈，下面参数必须通过-D方式或者System.setProperty方式等设置进去。缺失则默认为true
+# 启动和关闭Sentinel调用链上规则在Span上的输出。缺失则默认为true
 spring.application.strategy.tracer.sentinel.rule.output.enabled=true
-# 启动和关闭Sentinel调用链上方法入参在Span上的输出，注意：原生的Sentinel不是Spring技术栈，下面参数必须通过-D方式或者System.setProperty方式等设置进去。缺失则默认为false
+# 启动和关闭Sentinel调用链上方法入参在Span上的输出。缺失则默认为false
 spring.application.strategy.tracer.sentinel.args.output.enabled=true
 
 # 开启Spring Cloud Gateway网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
@@ -4857,9 +4857,9 @@ spring.application.strategy.tracer.exception.detail.output.enabled=true
 spring.application.strategy.tracer.span.value=NEPXION
 # 显示在调用链界面上蓝绿灰度Span Tag的插件名称，建议改成具有公司特色的框架产品的描述。缺失则默认为Nepxion Discovery
 spring.application.strategy.tracer.span.tag.plugin.value=Nepxion Discovery
-# 启动和关闭Sentinel调用链上规则在Span上的输出，注意：原生的Sentinel不是Spring技术栈，下面参数必须通过-D方式或者System.setProperty方式等设置进去。缺失则默认为true
+# 启动和关闭Sentinel调用链上规则在Span上的输出。缺失则默认为true
 spring.application.strategy.tracer.sentinel.rule.output.enabled=true
-# 启动和关闭Sentinel调用链上方法入参在Span上的输出，注意：原生的Sentinel不是Spring技术栈，下面参数必须通过-D方式或者System.setProperty方式等设置进去。缺失则默认为false
+# 启动和关闭Sentinel调用链上方法入参在Span上的输出。缺失则默认为false
 spring.application.strategy.tracer.sentinel.args.output.enabled=true
 
 # 开启Zuul网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
