@@ -10,6 +10,8 @@ package com.nepxion.discovery.plugin.strategy.sentinel.monitor.callback;
  */
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.Environment;
 
 import com.alibaba.csp.sentinel.context.Context;
 import com.alibaba.csp.sentinel.node.DefaultNode;
@@ -23,9 +25,6 @@ import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.strategy.sentinel.monitor.constant.SentinelStrategyMonitorConstant;
 
 public abstract class SentinelTracingProcessorSlotEntryCallback<S> implements ProcessorSlotEntryCallback<DefaultNode> {
-    private Boolean tracerSentinelRuleOutputEnabled = Boolean.valueOf(System.getProperty(SentinelStrategyMonitorConstant.SPRING_APPLICATION_STRATEGY_TRACER_SENTINEL_RULE_OUTPUT_ENABLED, "true"));
-    private Boolean tracerSentinelArgsOutputEnabled = Boolean.valueOf(System.getProperty(SentinelStrategyMonitorConstant.SPRING_APPLICATION_STRATEGY_TRACER_SENTINEL_ARGS_OUTPUT_ENABLED, "false"));
-
     @Override
     public void onPass(Context context, ResourceWrapper resourceWrapper, DefaultNode param, int count, Object... args) throws Exception {
 
@@ -35,8 +34,13 @@ public abstract class SentinelTracingProcessorSlotEntryCallback<S> implements Pr
     public void onBlocked(BlockException e, Context context, ResourceWrapper resourceWrapper, DefaultNode param, int count, Object... args) {
         S span = buildSpan();
 
-        PluginAdapter pluginAdapter = PluginContextAware.getStaticApplicationContext().getBean(PluginAdapter.class);
+        ApplicationContext applicationContext = PluginContextAware.getStaticApplicationContext();
+        PluginAdapter pluginAdapter = applicationContext.getBean(PluginAdapter.class);
 
+        Environment environment = PluginContextAware.getStaticEnvironment();
+        Boolean tracerSentinelRuleOutputEnabled = environment.getProperty(SentinelStrategyMonitorConstant.SPRING_APPLICATION_STRATEGY_TRACER_SENTINEL_RULE_OUTPUT_ENABLED, Boolean.class, Boolean.TRUE);
+        Boolean tracerSentinelArgsOutputEnabled = environment.getProperty(SentinelStrategyMonitorConstant.SPRING_APPLICATION_STRATEGY_TRACER_SENTINEL_ARGS_OUTPUT_ENABLED, Boolean.class, Boolean.FALSE);
+      
         outputSpan(span, DiscoveryConstant.SPAN_TAG_PLUGIN_NAME, context.getName());
         outputSpan(span, DiscoveryConstant.N_D_SERVICE_GROUP, pluginAdapter.getGroup());
         outputSpan(span, DiscoveryConstant.N_D_SERVICE_TYPE, pluginAdapter.getServiceType());

@@ -13,16 +13,20 @@ package com.nepxion.discovery.plugin.strategy.sentinel.opentelemetry.monitor;
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.trace.Span;
 
+import org.springframework.core.env.Environment;
+
+import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.strategy.sentinel.monitor.callback.SentinelTracingProcessorSlotEntryCallback;
 import com.nepxion.discovery.plugin.strategy.sentinel.monitor.constant.SentinelStrategyMonitorConstant;
 
 public class SentinelOpenTelemetryProcessorSlotEntryCallback extends SentinelTracingProcessorSlotEntryCallback<Span> {
     public static final String INSTRUMENTATION_NAME = "opentelemetry.trace.tracer.name";
 
-    private String instrumentationName = System.getProperty(INSTRUMENTATION_NAME, SentinelStrategyMonitorConstant.TRACER_NAME);
-
     @Override
     protected Span buildSpan() {
+        Environment environment = PluginContextAware.getStaticEnvironment();
+        String instrumentationName = environment.getProperty(INSTRUMENTATION_NAME, String.class, SentinelStrategyMonitorConstant.TRACER_NAME);
+
         return GlobalOpenTelemetry.getTracer(instrumentationName).spanBuilder(SentinelStrategyMonitorConstant.SPAN_NAME).startSpan();
     }
 
