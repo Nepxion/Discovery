@@ -4146,28 +4146,6 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 
 更多的配置方式，参考[https://github.com/git-commit-id/maven-git-commit-id-plugin/blob/master/maven/docs/using-the-plugin.md](https://github.com/git-commit-id/maven-git-commit-id-plugin/blob/master/maven/docs/using-the-plugin.md)
 
-可能需要增加下面的配置，保证Git相关文件被打包进去
-```xml
-<resources>
-    <resource>
-        <directory>src/main/java</directory>
-        <includes>
-            <include>**/*.xml</include>
-            <include>**/*.json</include>
-            <include>**/*.properties</include>
-        </includes>
-    </resource>
-    <resource>
-        <directory>src/main/resources</directory>
-        <includes>
-            <include>**/*.xml</include>
-            <include>**/*.json</include>
-            <include>**/*.properties</include>
-        </includes>
-    </resource>
-</resources>
-```
-
 - 增加配置项
 
 ```
