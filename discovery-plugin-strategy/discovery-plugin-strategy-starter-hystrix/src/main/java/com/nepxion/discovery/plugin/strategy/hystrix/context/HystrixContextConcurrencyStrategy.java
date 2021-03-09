@@ -80,6 +80,7 @@ public class HystrixContextConcurrencyStrategy extends HystrixConcurrencyStrateg
     @Override
     public <T> Callable<T> wrapCallable(Callable<T> callable) {
         Callable<T> originCallable = hystrixConcurrencyStrategy.wrapCallable(callable);
+
         return strategyCallableWrapper.wrapCallable(originCallable);
     }
 }
