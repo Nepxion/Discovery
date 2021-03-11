@@ -11,7 +11,7 @@
     <parent>
         <groupId>com.nepxion</groupId>
         <artifactId>discovery-plugin-test</artifactId>
-        <version>3.23.0</version>
+        <version>3.24.0-SNAPSHOT</version>
     </parent>
 
     <dependencies>
