@@ -164,15 +164,15 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulStrategyRouteF
         ZuulStrategyFilterResolver.setHeader(context, DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, pluginAdapter.getEnvironment(), false);
         ZuulStrategyFilterResolver.setHeader(context, DiscoveryConstant.N_D_SERVICE_ZONE, pluginAdapter.getZone(), false);
 
+        // 调用链监控
+        if (zuulStrategyMonitor != null) {
+            zuulStrategyMonitor.monitor(context);
+        }
+
         // 拦截侦测请求
         String path = context.getRequest().getServletPath();
         if (path.contains(DiscoveryConstant.INSPECTOR_ENDPOINT_URL)) {
             ZuulStrategyFilterResolver.setHeader(context, DiscoveryConstant.INSPECTOR_ENDPOINT_HEADER, pluginAdapter.getPluginInfo(null), true);
-        }
-
-        // 调用链监控
-        if (zuulStrategyMonitor != null) {
-            zuulStrategyMonitor.monitor(context);
         }
 
         return null;

@@ -162,6 +162,11 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
         GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, pluginAdapter.getEnvironment(), false);
         GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_SERVICE_ZONE, pluginAdapter.getZone(), false);
 
+        // 调用链监控
+        if (gatewayStrategyMonitor != null) {
+            gatewayStrategyMonitor.monitor(exchange);
+        }
+
         // 拦截侦测请求
         String path = request.getPath().toString();
         if (path.contains(DiscoveryConstant.INSPECTOR_ENDPOINT_URL)) {
@@ -173,11 +178,6 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
 
         // 把新的ServerWebExchange放入ThreadLocal中
         GatewayStrategyContext.getCurrentContext().setExchange(newExchange);
-
-        // 调用链监控
-        if (gatewayStrategyMonitor != null) {
-            gatewayStrategyMonitor.monitor(newExchange);
-        }
 
         return chain.filter(newExchange);
     }
