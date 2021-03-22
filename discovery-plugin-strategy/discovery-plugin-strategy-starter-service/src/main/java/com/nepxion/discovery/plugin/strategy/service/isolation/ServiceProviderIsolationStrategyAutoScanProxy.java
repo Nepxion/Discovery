@@ -11,7 +11,12 @@ package com.nepxion.discovery.plugin.strategy.service.isolation;
 
 import java.lang.annotation.Annotation;
 
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nepxion.discovery.plugin.strategy.service.annotation.ServiceStrategy;
 import com.nepxion.matrix.proxy.aop.DefaultAutoScanProxy;
@@ -26,8 +31,11 @@ public class ServiceProviderIsolationStrategyAutoScanProxy extends DefaultAutoSc
     @SuppressWarnings("rawtypes")
     private Class[] classAnnotations;
 
+    @SuppressWarnings("rawtypes")
+    private Class[] methodAnnotations;
+
     public ServiceProviderIsolationStrategyAutoScanProxy(String scanPackages) {
-        super(scanPackages, ProxyMode.BY_CLASS_ANNOTATION_ONLY, ScanMode.FOR_CLASS_ANNOTATION_ONLY);
+        super(scanPackages, ProxyMode.BY_CLASS_OR_METHOD_ANNOTATION, ScanMode.FOR_CLASS_OR_METHOD_ANNOTATION);
     }
 
     @Override
@@ -43,9 +51,19 @@ public class ServiceProviderIsolationStrategyAutoScanProxy extends DefaultAutoSc
     @Override
     protected Class<? extends Annotation>[] getClassAnnotations() {
         if (classAnnotations == null) {
-            classAnnotations = new Class[] { RestController.class, ServiceStrategy.class };
+            classAnnotations = new Class[] { ServiceStrategy.class };
         }
 
         return classAnnotations;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected Class<? extends Annotation>[] getMethodAnnotations() {
+        if (methodAnnotations == null) {
+            methodAnnotations = new Class[] { RequestMapping.class, GetMapping.class, PostMapping.class, PutMapping.class, DeleteMapping.class, PatchMapping.class };
+        }
+
+        return methodAnnotations;
     }
 }
