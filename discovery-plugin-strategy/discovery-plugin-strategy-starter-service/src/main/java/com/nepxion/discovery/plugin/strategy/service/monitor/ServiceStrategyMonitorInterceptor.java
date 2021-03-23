@@ -13,6 +13,7 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.InitBinder;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
@@ -27,6 +28,11 @@ public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
+        boolean hasInitBinderAnnotation = getMethod(invocation).isAnnotationPresent(InitBinder.class);
+        if (hasInitBinderAnnotation) {
+            return invocation.proceed();
+        }
+
         String className = getMethod(invocation).getDeclaringClass().getName();
         String methodName = getMethodName(invocation);
         boolean isMonitored = false;

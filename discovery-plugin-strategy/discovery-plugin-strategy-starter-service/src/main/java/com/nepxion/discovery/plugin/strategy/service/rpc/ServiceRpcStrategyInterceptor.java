@@ -12,6 +12,7 @@ package com.nepxion.discovery.plugin.strategy.service.rpc;
 import java.util.Map;
 
 import org.aopalliance.intercept.MethodInvocation;
+import org.springframework.web.bind.annotation.InitBinder;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.util.ClassUtil;
@@ -21,6 +22,11 @@ import com.nepxion.matrix.proxy.aop.AbstractInterceptor;
 public class ServiceRpcStrategyInterceptor extends AbstractInterceptor {
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
+        boolean hasInitBinderAnnotation = getMethod(invocation).isAnnotationPresent(InitBinder.class);
+        if (hasInitBinderAnnotation) {
+            return invocation.proceed();
+        }
+
         Class<?> clazz = getMethod(invocation).getDeclaringClass();
         String methodName = getMethodName(invocation);
         String[] methodParameterNames = getMethodParameterNames(invocation);
