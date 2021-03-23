@@ -12,6 +12,7 @@ package com.nepxion.discovery.plugin.strategy.service.isolation;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.InitBinder;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.exception.DiscoveryException;
@@ -28,6 +29,11 @@ public class ServiceProviderIsolationStrategyInterceptor extends AbstractInterce
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
+        boolean hasInitBinderAnnotation = getMethod(invocation).isAnnotationPresent(InitBinder.class);
+        if (hasInitBinderAnnotation) {
+            return invocation.proceed();
+        }
+
         String groupHeader = serviceStrategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_GROUP);
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
