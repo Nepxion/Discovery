@@ -17,6 +17,14 @@
 - Nacos Group Member、Spring Cloud Alibaba Member
 - Spring Cloud Alibaba、Nacos、Sentinel、OpenTracing Committer & Contributor
 
+![](http://nepxion.gitee.io/docs/icon-doc/star2.png) 商业化合作
+- VIP远程技术支持、培训、答疑，价格888元一天
+- Polaris源码，价格8888元一套
+
+添加微信1394997联系作者，并通过如下微信支付相关商业费用
+
+![](http://nepxion.gitee.io/docs/zxing-doc/微信支付.jpg)
+
 ![](http://nepxion.gitee.io/docs/discovery-doc/Logo64.png) Discovery【探索】微服务企业级解决方案
 
 ① Discovery【探索】微服务企业级解决方案文档
