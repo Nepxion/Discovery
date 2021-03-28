@@ -19,8 +19,9 @@
 - Spring Cloud Alibaba、Nacos、Sentinel、OpenTracing Committer & Contributor
 
 ![](http://nepxion.gitee.io/docs/icon-doc/star2.png) 商业化合作
-- VIP远程技术支持、培训、答疑，价格888元一天
-- Polaris源码，价格8888元一套
+- VIP远程技术支持、培训、答疑，价格288元一天
+- Discovery 7.0.0（对应到Spring Cloud 2020版）源码，价格2888元一套
+- Polaris源码，价格2888元一套
 
 添加微信1394997联系作者，并通过如下微信支付相关商业费用
 
