@@ -46,11 +46,13 @@ public class NacosAutoConfiguration {
     public static Properties createNacosProperties(Environment environment, boolean enableRemoteSyncConfig) {
         Properties properties = new Properties();
 
+        // 支持从spring.cloud.nacos.config前缀方式获取
+        PropertiesUtil.enrichProperties(properties, environment, NacosConstant.SPRING_CLOUD_NACOS_CONFIG_PREFIX, true, true);
+
+        // 支持从Nepxion自定义的方式获取
         String serverAddr = environment.getProperty(NacosConstant.NACOS_SERVER_ADDR);
         if (StringUtils.isNotEmpty(serverAddr)) {
             properties.put(NacosConstant.SERVER_ADDR, serverAddr);
-        } else {
-            throw new IllegalArgumentException(NacosConstant.NACOS_SERVER_ADDR + " can't be null or empty");
         }
 
         String accessKey = environment.getProperty(NacosConstant.NACOS_ACCESS_KEY);

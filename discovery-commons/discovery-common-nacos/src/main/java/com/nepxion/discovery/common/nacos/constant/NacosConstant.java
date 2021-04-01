@@ -39,5 +39,7 @@ public class NacosConstant extends PropertyKeyConst {
     public static final String NACOS_PLUGIN_TIMEOUT = "nacos.plugin.timout";
     public static final long NACOS_PLUGIN_DEFAULT_TIMEOUT = 30000;
 
+    public static final String SPRING_CLOUD_NACOS_CONFIG_PREFIX = "spring.cloud.nacos.config";
+
     public static final String NACOS_PLUGIN_PREFIX = "nacos.plugin";
 }
