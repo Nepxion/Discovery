@@ -15,5 +15,5 @@
 @title Nepxion Discovery
 @color 0a
 
-call mvn versions:set -DgenerateBackupPoms=false -DnewVersion=6.8.0
+call mvn versions:set -DgenerateBackupPoms=false -DnewVersion=6.9.0-SNAPSHOT
 pause
