@@ -4349,6 +4349,7 @@ apollo.meta=http://localhost:8080
 
 - Nacos配置中心配置
 
+6.9.0或者3.25.0以前的版本，配置是独立的
 ```
 # Nacos config for rule
 nacos.server-addr=localhost:8848
@@ -4374,6 +4375,18 @@ nacos.server-addr=localhost:8848
 # nacos.plugin.naming-push-empty-protection=
 # nacos.plugin.ram-role-name=
 # nacos.plugin.timout=
+```
+
+6.8.0或者3.24.0以后的版本，新的配置跟spring.cloud.nacos.config实现共享，不需要重复配置
+
+下面的新旧配置效果等同，如果新旧配置同时出现，则取值旧配置方式
+```
+# Nacos config for rule
+nacos.server-addr=localhost:8848（旧的配置方式）
+spring.cloud.nacos.config.server-addr=localhost:8848（新的配置方式）
+
+nacos.plugin.namespace=application（旧的配置方式）
+spring.cloud.nacos.config.namespace=application（新的配置方式）
 ```
 
 - Redis配置中心配置
