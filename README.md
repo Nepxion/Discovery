@@ -4493,8 +4493,6 @@ spring.application.no.servers.notify.enabled=false
 spring.application.nacos.service.id.filter.enabled=true
 
 # Plugin strategy config
-# 开启和关闭路由策略的控制。一旦关闭，路由策略功能将失效。缺失则默认为true
-spring.application.strategy.control.enabled=true
 # 开启和关闭Ribbon默认的ZoneAvoidanceRule负载均衡策略。一旦关闭，则使用RoundRobin简单轮询负载均衡策略。缺失则默认为true
 spring.application.strategy.zone.avoidance.rule.enabled=true
 # 启动和关闭路由策略的时候，对REST方式的调用拦截。缺失则默认为true
@@ -4667,8 +4665,6 @@ spring.application.no.servers.notify.enabled=false
 spring.application.nacos.service.id.filter.enabled=true
 
 # Plugin strategy config
-# 开启和关闭路由策略的控制。一旦关闭，路由策略功能将失效。缺失则默认为true
-spring.application.strategy.control.enabled=true
 # 开启和关闭Ribbon默认的ZoneAvoidanceRule负载均衡策略。一旦关闭，则使用RoundRobin简单轮询负载均衡策略。缺失则默认为true
 spring.application.strategy.zone.avoidance.rule.enabled=true
 # 路由策略过滤器的执行顺序（Order）。缺失则默认为9000
@@ -4828,8 +4824,6 @@ spring.application.no.servers.notify.enabled=false
 spring.application.nacos.service.id.filter.enabled=true
 
 # Plugin strategy config
-# 开启和关闭路由策略的控制。一旦关闭，路由策略功能将失效。缺失则默认为true
-spring.application.strategy.control.enabled=true
 # 开启和关闭Ribbon默认的ZoneAvoidanceRule负载均衡策略。一旦关闭，则使用RoundRobin简单轮询负载均衡策略。缺失则默认为true
 spring.application.strategy.zone.avoidance.rule.enabled=true
 # 路由策略过滤器的执行顺序（Order）。缺失则默认为0
