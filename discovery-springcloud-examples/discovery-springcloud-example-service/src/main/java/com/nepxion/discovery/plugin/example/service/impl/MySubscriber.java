@@ -18,6 +18,7 @@ import com.google.common.eventbus.Subscribe;
 import com.nepxion.discovery.common.entity.ParameterEntity;
 import com.nepxion.discovery.common.entity.ParameterServiceEntity;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
+import com.nepxion.discovery.plugin.framework.event.AlarmEvent;
 import com.nepxion.discovery.plugin.framework.event.ParameterChangedEvent;
 import com.nepxion.discovery.plugin.framework.event.RegisterFailureEvent;
 import com.nepxion.discovery.plugin.framework.event.RuleClearedEvent;
@@ -61,4 +62,9 @@ public class MySubscriber {
     public void onRegisterFailure(RegisterFailureEvent registerFailureEvent) {
         System.out.println("========== 注册失败, eventType=" + registerFailureEvent.getEventType() + ", eventDescription=" + registerFailureEvent.getEventDescription() + ", serviceId=" + registerFailureEvent.getServiceId() + ", host=" + registerFailureEvent.getHost() + ", port=" + registerFailureEvent.getPort());
     }
+
+    @Subscribe
+    public void onAlarm(AlarmEvent alarmEvent) {
+        System.out.println("========== 告警上下文=" + alarmEvent.getContextMap());
+    }    
 }
