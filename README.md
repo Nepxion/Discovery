@@ -3959,6 +3959,8 @@ public class MyClass {
 ```
 # 启动和关闭监控，一旦关闭，调用链和日志输出都将关闭。缺失则默认为false
 spring.application.strategy.monitor.enabled=true
+# 启动和关闭告警，一旦关闭，蓝绿灰度上下文输出都将关闭。缺失则默认为false
+spring.application.strategy.alarm.enabled=true
 # 启动和关闭日志输出。缺失则默认为false
 spring.application.strategy.logger.enabled=true
 # 日志输出中，是否显示MDC前面的Key。缺失则默认为true
@@ -4550,6 +4552,8 @@ spring.application.strategy.provider.isolation.enabled=true
 
 # 启动和关闭监控，一旦关闭，调用链和日志输出都将关闭。缺失则默认为false
 spring.application.strategy.monitor.enabled=true
+# 启动和关闭告警，一旦关闭，蓝绿灰度上下文输出都将关闭。缺失则默认为false
+spring.application.strategy.alarm.enabled=true
 # 启动和关闭日志输出。缺失则默认为false
 spring.application.strategy.logger.enabled=true
 # 日志输出中，是否显示MDC前面的Key。缺失则默认为true
@@ -4688,6 +4692,8 @@ spring.application.strategy.consumer.isolation.enabled=true
 
 # 启动和关闭监控，一旦关闭，调用链和日志输出都将关闭。缺失则默认为false
 spring.application.strategy.monitor.enabled=true
+# 启动和关闭告警，一旦关闭，蓝绿灰度上下文输出都将关闭。缺失则默认为false
+spring.application.strategy.alarm.enabled=true
 # 启动和关闭日志输出。缺失则默认为false
 spring.application.strategy.logger.enabled=true
 # 日志输出中，是否显示MDC前面的Key。缺失则默认为true
