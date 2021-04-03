@@ -39,6 +39,8 @@ public class DefaultServiceStrategyMonitor extends StrategyMonitor implements Se
 
         loggerOutput();
         loggerDebug();
+
+        alarm();
     }
 
     @Override

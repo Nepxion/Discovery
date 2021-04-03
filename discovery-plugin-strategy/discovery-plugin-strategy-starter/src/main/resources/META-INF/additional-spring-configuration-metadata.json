@@ -165,6 +165,12 @@
 			"type": "java.lang.String",
 			"defaultValue": "Nepxion Discovery",
 			"description": "Strategy tracer span group tag plugin value."
+		},
+		{
+			"name": "spring.application.strategy.alarm.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": false,
+			"description": "Whether strategy alarm is enabled."
 		}
 	]
 }

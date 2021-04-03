@@ -41,4 +41,5 @@ public class StrategyConstant {
     public static final String SPRING_APPLICATION_STRATEGY_TRACER_METHOD_CONTEXT_OUTPUT_ENABLED = "spring.application.strategy.tracer.method.context.output.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_TRACER_SPAN_VALUE = "spring.application.strategy.tracer.span.value";
     public static final String SPRING_APPLICATION_STRATEGY_TRACER_SPAN_TAG_PLUGIN_VALUE = "spring.application.strategy.tracer.span.tag.plugin.value";
+    public static final String SPRING_APPLICATION_STRATEGY_ALARM_ENABLED = "spring.application.strategy.alarm.enabled";
 }
