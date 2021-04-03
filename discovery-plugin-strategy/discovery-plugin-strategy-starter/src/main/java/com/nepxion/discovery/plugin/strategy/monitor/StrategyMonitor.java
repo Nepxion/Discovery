@@ -20,6 +20,9 @@ public class StrategyMonitor {
     @Autowired(required = false)
     protected StrategyTracer strategyTracer;
 
+    @Autowired(required = false)
+    protected StrategyAlarm strategyAlarm;
+
     public void loggerOutput() {
         if (strategyLogger != null) {
             strategyLogger.loggerOutput();
@@ -62,11 +65,21 @@ public class StrategyMonitor {
         }
     }
 
+    public void alarm() {
+        if (strategyAlarm != null) {
+            strategyAlarm.alarm();
+        }
+    }
+
     public StrategyLogger getStrategyLogger() {
         return strategyLogger;
     }
 
     public StrategyTracer getStrategyTracer() {
         return strategyTracer;
+    }
+
+    public StrategyAlarm getStrategyAlarm() {
+        return strategyAlarm;
     }
 }
