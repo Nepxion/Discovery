@@ -552,6 +552,8 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [自定义埋点调用链监控](#自定义埋点调用链监控)
     - [全链路日志监控](#全链路日志监控)
         - [蓝绿灰度埋点日志监控](#蓝绿灰度埋点日志监控)
+    - [全链路告警监控](#全链路告警监控)
+        - [蓝绿灰度告警监控](#蓝绿灰度告警监控)
     - [全链路指标监控](#全链路指标监控)
         - [Prometheus监控](#Prometheus监控)
         - [Grafana监控](#Grafana监控)
@@ -4068,6 +4070,46 @@ spring.application.strategy.tracer.sentinel.args.output.enabled=true
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Tracer.jpg)
 
+### 全链路告警监控
+
+#### 蓝绿灰度告警监控
+全链路蓝绿灰度实施过程中，使用者需要快速判断蓝绿灰度是否已经生效，可以通过
+
+- Debug开关开启，通过控制台输出去判断相关蓝绿灰度Header是否传递，是否相同
+- 依托监控调用链中间件，通过埋点输出去判断相关蓝绿灰度Header是否传递，是否相同
+
+上述方式需要人工观察和干预，并不友好，使用者也可以通过集成如下蓝绿灰度告警监控模块来实现
+
+① 网关和服务加上下面的类
+```java
+@EventBus
+public class MySubscriber {
+    @Subscribe
+    public void onAlarm(AlarmEvent alarmEvent) {
+        // 通过事件总线把告警数据alarmEvent.getContextMap()存储到ElasticSearch、MessageQueue、数据库等
+    }
+}
+```
+并开启如下开关
+```
+# 启动和关闭告警，一旦关闭，蓝绿灰度上下文输出都将关闭。缺失则默认为false
+spring.application.strategy.alarm.enabled=true
+```
+② 通过事件总线把告警数据alarmEvent.getContextMap()存储到ElasticSearch、MessageQueue、数据库等
+
+③ 根据端到端的traceId对应的蓝绿灰度Header是否传递，是否相同，判断蓝绿灰度是否成功
+
+④ 如果不相同，结合DevOps系统发送告警邮件或者通知
+
+⑤ 上下文具体信息列表参考源码：
+```java
+com.nepxion.discovery.plugin.strategy.monitor.DefaultStrategyAlarm
+```
+示例如下：
+```
+{n-d-service-group=discovery-guide-group, n-d-version={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}, n-d-service-type=service, n-d-service-id=discovery-guide-service-b, n-d-service-env=env1, mobile=, n-d-service-region=qa, span-id=c37b54d7fec6bd07, n-d-service-zone=zone1, n-d-service-address=192.168.0.107:4001, trace-id=64c79e1ef68eecf3, n-d-service-version=1.0}
+```
+
 ### 全链路指标监控
 
 #### Prometheus监控
@@ -5023,14 +5065,6 @@ spring.application.strategy.business.request.headers=user;mobile;location
 - Docker Desktop
 
 ![](http://nepxion.gitee.io/docs/discovery-doc/Docker.jpg)
-
-- Docker Windows
-
-![](http://nepxion.gitee.io/docs/polaris-doc/DockerWindows.jpg)
-
-- Docker Linux
-
-![](http://nepxion.gitee.io/docs/polaris-doc/DockerLinux.jpg)
 
 ### Kubernetes平台支持
 请自行研究
