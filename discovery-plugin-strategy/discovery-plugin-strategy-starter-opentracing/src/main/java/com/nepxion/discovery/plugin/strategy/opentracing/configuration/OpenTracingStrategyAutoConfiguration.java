@@ -25,7 +25,6 @@ import com.nepxion.discovery.plugin.strategy.opentracing.monitor.OpenTracingStra
 import com.taobao.text.Color;
 
 @Configuration
-@ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTROL_ENABLED, matchIfMissing = true)
 public class OpenTracingStrategyAutoConfiguration {
     static {
         LogoBanner logoBanner = new LogoBanner(OpenTracingStrategyAutoConfiguration.class, "/com/nepxion/opentracing/resource/logo.txt", "Welcome to Nepxion", 8, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta, Color.red, Color.green }, true);

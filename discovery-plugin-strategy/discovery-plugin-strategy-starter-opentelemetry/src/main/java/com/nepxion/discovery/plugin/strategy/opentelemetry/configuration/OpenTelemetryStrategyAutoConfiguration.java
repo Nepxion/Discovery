@@ -25,7 +25,6 @@ import com.nepxion.discovery.plugin.strategy.opentelemetry.monitor.OpenTelemetry
 import com.taobao.text.Color;
 
 @Configuration
-@ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTROL_ENABLED, matchIfMissing = true)
 public class OpenTelemetryStrategyAutoConfiguration {
     static {
         LogoBanner logoBanner = new LogoBanner(OpenTelemetryStrategyAutoConfiguration.class, "/com/nepxion/opentelemetry/resource/logo.txt", "Welcome to Nepxion", 8, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta, Color.red, Color.green }, true);

@@ -25,7 +25,6 @@ import com.nepxion.discovery.plugin.strategy.skywalking.monitor.SkyWalkingStrate
 import com.taobao.text.Color;
 
 @Configuration
-@ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTROL_ENABLED, matchIfMissing = true)
 public class SkyWalkingStrategyAutoConfiguration {
     static {
         LogoBanner logoBanner = new LogoBanner(SkyWalkingStrategyAutoConfiguration.class, "/com/nepxion/skywalking/resource/logo.txt", "Welcome to Nepxion", 7, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta, Color.red }, true);
