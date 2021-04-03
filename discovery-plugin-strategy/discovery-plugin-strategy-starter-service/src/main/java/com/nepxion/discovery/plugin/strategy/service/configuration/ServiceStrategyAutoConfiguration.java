@@ -40,7 +40,6 @@ import com.nepxion.discovery.plugin.strategy.service.wrapper.ServiceStrategyCall
 
 @Configuration
 @AutoConfigureBefore(RibbonClientConfiguration.class)
-@ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTROL_ENABLED, matchIfMissing = true)
 public class ServiceStrategyAutoConfiguration {
     @Autowired
     private ConfigurableEnvironment environment;

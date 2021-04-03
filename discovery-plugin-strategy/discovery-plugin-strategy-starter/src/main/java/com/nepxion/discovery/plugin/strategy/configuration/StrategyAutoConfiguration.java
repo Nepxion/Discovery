@@ -45,7 +45,6 @@ import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
 
 @Configuration
 @RibbonClients(defaultConfiguration = { StrategyLoadBalanceConfiguration.class })
-@ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTROL_ENABLED, matchIfMissing = true)
 public class StrategyAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean

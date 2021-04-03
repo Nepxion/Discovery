@@ -28,7 +28,6 @@ import com.nepxion.discovery.plugin.strategy.zuul.wrapper.ZuulStrategyCallableWr
 
 @Configuration
 @AutoConfigureBefore(RibbonClientConfiguration.class)
-@ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTROL_ENABLED, matchIfMissing = true)
 public class ZuulStrategyAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
