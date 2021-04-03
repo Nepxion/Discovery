@@ -72,4 +72,8 @@ public class PluginEventWapper {
     public void fireRegisterFailure(RegisterFailureEvent registerFailureEvent) {
         pluginPublisher.asyncPublish(registerFailureEvent);
     }
+
+    public void fireAlarm(AlarmEvent alarmEvent) {
+        pluginPublisher.asyncPublish(alarmEvent);
+    }
 }
