@@ -1271,7 +1271,7 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
 
 ![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 特别提醒
 
-> 为准确体现相关变量（例如上文中的 **a** ）支持Header、Parameter、Cookie中的任意一个，在6.6.0版本之前，表达式格式为 **header="#H['a'] == '1'"** ，从6.6.0版本开始，表达式格式改为 **expression="#H['a'] == '1'"** ，但也兼容 **header="#H['a'] == '1'"** ，即从6.6.0版本开始，用 **expression=""** 和 **header=""** 都支持
+> 为准确体现相关变量（例如上文中的 **a** ）支持Header、Parameter、Cookie中的任意一个，表达式格式为 **expression="#H['a'] == '1'"**
 
 ① 当外部调用带有的Header/Parameter/Cookies中的值a=1同时b=2，执行绿路由
 
