@@ -66,5 +66,5 @@ public class MySubscriber {
     @Subscribe
     public void onAlarm(AlarmEvent alarmEvent) {
         System.out.println("========== 告警上下文=" + alarmEvent.getContextMap());
-    }    
+    }
 }
