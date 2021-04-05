@@ -28,8 +28,8 @@ public class EtcdConfigAdapter extends ConfigAdapter {
     @Autowired
     private ConfigLogger configLogger;
 
-    private Watch.Listener partialListener;
-    private Watch.Listener globalListener;
+    private Watch partialWatchClient;
+    private Watch globalWatchClient;
 
     @Override
     public String getConfig(String group, String dataId) throws Exception {
@@ -39,11 +39,11 @@ public class EtcdConfigAdapter extends ConfigAdapter {
     @PostConstruct
     @Override
     public void subscribeConfig() {
-        partialListener = subscribeConfig(false);
-        globalListener = subscribeConfig(true);
+        this.partialWatchClient = subscribeConfig(false);
+        this.globalWatchClient = subscribeConfig(true);
     }
 
-    private Watch.Listener subscribeConfig(boolean globalConfig) {
+    private Watch subscribeConfig(boolean globalConfig) {
         String group = getGroup();
         String dataId = getDataId(globalConfig);
 
@@ -65,12 +65,12 @@ public class EtcdConfigAdapter extends ConfigAdapter {
 
     @Override
     public void unsubscribeConfig() {
-        unsubscribeConfig(partialListener, false);
-        unsubscribeConfig(globalListener, true);
+        unsubscribeConfig(this.partialWatchClient, false);
+        unsubscribeConfig(this.globalWatchClient, true);
     }
 
-    private void unsubscribeConfig(Watch.Listener configListener, boolean globalConfig) {
-        if (configListener == null) {
+    private void unsubscribeConfig(Watch watchClient, boolean globalConfig) {
+        if (watchClient == null) {
             return;
         }
 
@@ -80,7 +80,7 @@ public class EtcdConfigAdapter extends ConfigAdapter {
         configLogger.logUnsubscribeStarted(globalConfig);
 
         try {
-            etcdOperation.unsubscribeConfig(group, dataId, configListener);
+            etcdOperation.unsubscribeConfig(group, dataId, watchClient);
         } catch (Exception e) {
             configLogger.logUnsubscribeFailed(e, globalConfig);
         }

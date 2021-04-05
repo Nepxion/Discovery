@@ -22,9 +22,10 @@ import io.etcd.jetcd.watch.WatchResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutionException;
 
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class EtcdOperation {
+public class EtcdOperation implements DisposableBean {
     @Autowired
     private Client client;
 
@@ -61,7 +62,7 @@ public class EtcdOperation {
         return true;
     }
 
-    public Listener subscribeConfig(String group, String serviceId, EtcdSubscribeCallback etcdSubscribeCallback) throws Exception {
+    public Watch subscribeConfig(String group, String serviceId, EtcdSubscribeCallback etcdSubscribeCallback) throws Exception {
         ByteSequence byteSequence = ByteSequence.from(group + "-" + serviceId, StandardCharsets.UTF_8);
 
         Watch watchClient = client.getWatchClient();
@@ -90,12 +91,19 @@ public class EtcdOperation {
         };
         watchClient.watch(byteSequence, listener);
 
-        return listener;
+        return watchClient;
     }
 
-    public void unsubscribeConfig(String group, String serviceId, Listener listener) throws Exception {
-        if (client != null) {
-            client.close();
+    public void unsubscribeConfig(String group, String serviceId, Watch watchClient) {
+        if (null != watchClient) {
+            watchClient.close();
+        }
+    }
+
+    @Override
+    public void destroy() {
+        if (null != this.client) {
+            this.client.close();
         }
     }
 }
