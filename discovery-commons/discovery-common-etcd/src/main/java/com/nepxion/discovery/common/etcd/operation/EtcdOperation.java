@@ -61,7 +61,7 @@ public class EtcdOperation {
         return true;
     }
 
-    public Listener subscribeConfig(String group, String serviceId, EtcdSubscribeCallback etcdSubscribeCallback) throws Exception {
+    public Watch subscribeConfig(String group, String serviceId, EtcdSubscribeCallback etcdSubscribeCallback) throws Exception {
         ByteSequence byteSequence = ByteSequence.from(group + "-" + serviceId, StandardCharsets.UTF_8);
 
         Watch watchClient = client.getWatchClient();
@@ -90,10 +90,16 @@ public class EtcdOperation {
         };
         watchClient.watch(byteSequence, listener);
 
-        return listener;
+        return watchClient;
     }
 
-    public void unsubscribeConfig(String group, String serviceId, Listener listener) throws Exception {
+    public void unsubscribeConfig(String group, String serviceId, Watch watchClient) {
+        if (watchClient != null) {
+            watchClient.close();
+        }
+    }
+
+    public void close() {
         if (client != null) {
             client.close();
         }
