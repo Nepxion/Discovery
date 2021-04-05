@@ -4396,7 +4396,7 @@ apollo.meta=http://localhost:8080
 ```
 # Nacos config for rule
 spring.cloud.nacos.config.server-addr=localhost:8848
-spring.cloud.nacos.config.namespace=application
+# spring.cloud.nacos.config.namespace=application
 ```
 
 - Redis配置中心配置
