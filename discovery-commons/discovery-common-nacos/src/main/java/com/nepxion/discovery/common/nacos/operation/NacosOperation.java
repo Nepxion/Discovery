@@ -11,6 +11,7 @@ package com.nepxion.discovery.common.nacos.operation;
 
 import java.util.concurrent.Executor;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
@@ -27,9 +28,12 @@ public class NacosOperation {
     private Environment environment;
 
     public String getConfig(String group, String serviceId) throws NacosException {
-        long timeout = environment.getProperty(NacosConstant.NACOS_PLUGIN_TIMEOUT, Long.class, NacosConstant.NACOS_PLUGIN_DEFAULT_TIMEOUT);
+        String timeout = environment.getProperty(NacosConstant.NACOS_PLUGIN_TIMEOUT);
+        if (StringUtils.isEmpty(timeout)) {
+            timeout = environment.getProperty(NacosConstant.SPRING_CLOUD_NACOS_CONFIG_TIMEOUT);
+        }
 
-        return nacosConfigService.getConfig(serviceId, group, timeout);
+        return nacosConfigService.getConfig(serviceId, group, StringUtils.isNotEmpty(timeout) ? Long.valueOf(timeout) : NacosConstant.NACOS_DEFAULT_TIMEOUT);
     }
 
     public boolean removeConfig(String group, String serviceId) throws NacosException {
