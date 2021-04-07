@@ -4290,6 +4290,16 @@ spring.application.group.generator.character=-
 ## 配置文件
 
 ### 流量染色配置
+统一注册中心配置方式，适用于所有注册中心
+```
+spring.cloud.discovery.metadata.group=xxx-service-group
+spring.cloud.discovery.metadata.version=1.0
+spring.cloud.discovery.metadata.region=dev
+spring.cloud.discovery.metadata.env=env1
+spring.cloud.discovery.metadata.zone=zone1
+```
+
+不同注册中心原生配置方式
 ```
 # Eureka config for discovery
 eureka.instance.metadataMap.group=xxx-service-group
