@@ -86,7 +86,7 @@ public class NacosApplicationContextInitializer extends PluginApplicationContext
 
             }
 
-            MetadataUtil.filter(metadata);
+            MetadataUtil.filter(metadata, environment);
 
             return bean;
         } else {

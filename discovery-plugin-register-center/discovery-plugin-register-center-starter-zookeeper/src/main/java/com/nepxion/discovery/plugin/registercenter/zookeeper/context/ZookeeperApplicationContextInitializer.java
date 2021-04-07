@@ -85,7 +85,7 @@ public class ZookeeperApplicationContextInitializer extends PluginApplicationCon
 
             }
 
-            MetadataUtil.filter(metadata);
+            MetadataUtil.filter(metadata, environment);
 
             return bean;
         } else {

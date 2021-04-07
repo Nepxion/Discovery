@@ -85,7 +85,7 @@ public class ConsulApplicationContextInitializer extends PluginApplicationContex
 
             }
 
-            MetadataUtil.filter(metadata);
+            MetadataUtil.filter(metadata, environment);
 
             return bean;
         } else {
