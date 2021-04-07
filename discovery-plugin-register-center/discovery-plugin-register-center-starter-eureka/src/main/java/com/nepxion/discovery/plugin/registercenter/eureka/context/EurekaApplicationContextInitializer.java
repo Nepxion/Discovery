@@ -85,7 +85,7 @@ public class EurekaApplicationContextInitializer extends PluginApplicationContex
 
             }
 
-            MetadataUtil.filter(metadata);
+            MetadataUtil.filter(metadata, environment);
 
             return bean;
         } else {

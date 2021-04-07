@@ -14,11 +14,19 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import org.springframework.core.env.Environment;
+
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.util.PropertiesUtil;
 
 public class MetadataUtil {
-    public static void filter(Map<String, String> metadata) {
+    public static void filter(Map<String, String> metadata, Environment environment) {
         Properties properties = System.getProperties();
+
+        // 支持spring.cloud.discovery.metadata.xyz配置获取
+        PropertiesUtil.enrichProperties(properties, environment, DiscoveryConstant.SPRING_CLOUD_DISCOVERY_PREFIX, false, true);
+
+        // 支持从-Dmetadata.xyz参数获取
         Set<String> propertyNames = properties.stringPropertyNames();
         for (String propertyName : propertyNames) {
             if (propertyName.startsWith(DiscoveryConstant.METADATA + ".")) {
@@ -29,8 +37,13 @@ public class MetadataUtil {
         }
     }
 
-    public static void filter(List<String> metadata) {
+    public static void filter(List<String> metadata, Environment environment) {
         Properties properties = System.getProperties();
+
+        // 支持spring.cloud.discovery.metadata.xyz配置获取
+        PropertiesUtil.enrichProperties(properties, environment, DiscoveryConstant.SPRING_CLOUD_DISCOVERY_PREFIX, false, true);
+
+        // 支持从-Dmetadata.xyz参数获取
         Set<String> propertyNames = properties.stringPropertyNames();
         for (String propertyName : propertyNames) {
             if (propertyName.startsWith(DiscoveryConstant.METADATA + ".")) {

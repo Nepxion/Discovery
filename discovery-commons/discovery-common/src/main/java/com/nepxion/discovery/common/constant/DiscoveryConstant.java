@@ -56,6 +56,7 @@ public class DiscoveryConstant {
     public static final String HOST = "host";
     public static final String PORT = "port";
     public static final String METADATA = "metadata";
+    public static final String SPRING_CLOUD_DISCOVERY_PREFIX = "spring.cloud.discovery";
 
     public static final String SERVICE = "service";
     public static final String GATEWAY = "gateway";
