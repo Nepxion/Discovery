@@ -20,6 +20,7 @@ import org.springframework.core.env.Environment;
 
 import com.alibaba.spring.util.PropertySourcesUtils;
 
+// Copy from Spring Cloud Alibaba project
 public class PropertiesUtil {
     public static final Pattern PATTERN = Pattern.compile("-(\\w)");
 
