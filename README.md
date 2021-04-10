@@ -14,7 +14,7 @@
 ![](http://nepxion.gitee.io/docs/icon-doc/star1.png) 首席作者简介
 - Nepxion开源社区创始人
 - 2020年阿里巴巴中国云原生峰会出品人
-- 2020年阿里巴巴技术峰会上海站演讲嘉宾
+- 2021年阿里巴巴技术峰会上海站演讲嘉宾
 - 2021年荣获陆奇博士主持的奇绩资本，进行风险投资的关注和调研
 - 2021年入选Gitee最有价值开源项目
 - Nacos Group Member、Spring Cloud Alibaba Member
@@ -2605,7 +2605,7 @@ n-d-address-blacklist=192.168.43.101:1201;192.168.*.102;1301
 
 ThreadLocal的作用是提供线程内的局部变量，在多线程环境下访问时能保证各个线程内的ThreadLocal变量各自独立。在异步场景下，由于出现线程切换的问题，例如主线程切换到子线程，会导致线程ThreadLocal上下文丢失。DiscoveryAgent通过Java Agent方式解决这些痛点
 
-涵盖所有Java框架的异步场景，解决如下7个异步场景下丢失线程ThreadLocal上下文的问题
+涵盖所有Java框架的异步场景，解决如下8个异步场景下丢失线程ThreadLocal上下文的问题
 - WebFlux Reactor
 - `@`Async
 - Hystrix Thread Pool Isolation
