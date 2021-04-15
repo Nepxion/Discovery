@@ -9,7 +9,9 @@ package com.nepxion.discovery.plugin.strategy.gateway.configuration;
  * @version 1.0
  */
 
+import org.apache.skywalking.apm.agent.core.context.TracingContext;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.netflix.ribbon.RibbonClientConfiguration;
@@ -21,6 +23,7 @@ import com.nepxion.discovery.plugin.strategy.gateway.filter.DefaultGatewayStrate
 import com.nepxion.discovery.plugin.strategy.gateway.filter.DefaultGatewayStrategyRouteFilter;
 import com.nepxion.discovery.plugin.strategy.gateway.filter.GatewayStrategyClearFilter;
 import com.nepxion.discovery.plugin.strategy.gateway.filter.GatewayStrategyRouteFilter;
+import com.nepxion.discovery.plugin.strategy.gateway.filter.SkyWalkingGatewayStrategyFilter;
 import com.nepxion.discovery.plugin.strategy.gateway.monitor.DefaultGatewayStrategyMonitor;
 import com.nepxion.discovery.plugin.strategy.gateway.monitor.GatewayStrategyMonitor;
 import com.nepxion.discovery.plugin.strategy.gateway.wrapper.DefaultGatewayStrategyCallableWrapper;
@@ -53,5 +56,14 @@ public class GatewayStrategyAutoConfiguration {
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_HYSTRIX_THREADLOCAL_SUPPORTED, matchIfMissing = false)
     public GatewayStrategyCallableWrapper gatewayStrategyCallableWrapper() {
         return new DefaultGatewayStrategyCallableWrapper();
+    }
+
+    @ConditionalOnClass(TracingContext.class)
+    protected static class SkywalkingStrategyConfiguration {
+        @Bean
+        @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_MONITOR_ENABLED, matchIfMissing = false)
+        public SkyWalkingGatewayStrategyFilter skyWalkingGatewayStrategyFilter() {
+            return new SkyWalkingGatewayStrategyFilter();
+        }
     }
 }

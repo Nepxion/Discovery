@@ -17,6 +17,8 @@ import java.util.Map;
 import org.apache.skywalking.apm.toolkit.trace.TraceContext;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.plugin.strategy.monitor.StrategySpan;
+import com.nepxion.discovery.plugin.strategy.monitor.StrategyTracerContext;
 
 public class SkyWalkingStrategySpan implements Span {
     private Span span;
@@ -116,7 +118,16 @@ public class SkyWalkingStrategySpan implements Span {
 
     private String createTraceId() {
         try {
-            return TraceContext.traceId();
+            Object span = StrategyTracerContext.getCurrentContext().getSpan();
+            if (span != null) {
+                // 该方式适用在WebFlux模式下
+                StrategySpan strategySpan = (StrategySpan) span;
+
+                return strategySpan.getTraceId();
+            } else {
+                // 该方式适用在WebMvc模式下
+                return TraceContext.traceId();
+            }
         } catch (Exception e) {
             return null;
         }
