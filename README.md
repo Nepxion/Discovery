@@ -21,9 +21,8 @@
 - Spring Cloud Alibaba、Nacos、Sentinel、OpenTracing Committer & Contributor
 
 ![](http://nepxion.gitee.io/docs/icon-doc/star2.png) 商业化合作
-- VIP远程技术支持、培训、答疑，价格288元一天
-- Discovery 7.0.0（对应到Spring Cloud 2020版）源码，价格2888元一套
-- Polaris源码，价格2888元一套
+- Discovery 7.0.0（对应到Spring Cloud 2020版）源码，价格6888元一套，远程技术支持、培训、答疑
+- Polaris（Discovery高级版）源码，价格6888元一套，远程技术支持、培训、答疑
 
 添加微信1394997联系作者，并通过如下微信支付相关商业费用
 
@@ -3358,7 +3357,7 @@ spring.application.strategy.zone.route.enabled=true
 
 - 不归属任何可用区，含义是服务实例未设置任何zone元数据值。可用区亲和性路由功能，是为了尽量保证流量不损失
 - 本框架提供的可用区亲和性功能适用于一切注册中心
-- 如果采用Eureka注册中心，Ribbon本身就具有可用区亲和性功能，跟本框架类似。通过如下开关，来选择使用Eureka原生的功能（只有亲和性隔离，没有亲和性路由），还是本框架的功能
+- 如果采用Eureka注册中心，Ribbon本身就具有可用区亲和性功能，跟本框架类似。通过如下开关，来选择使用Eureka原生的功能，还是本框架的功能
 
 ```
 # 启动和关闭Eureka原生的可用区亲和性。当采用的注册中心是Eureka，并希望使用本框架的可用区亲和性功能，需要关闭Eureka原生的可用区亲和性功能，因为两者是冲突的
