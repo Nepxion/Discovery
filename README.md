@@ -23,8 +23,7 @@
 ![](http://nepxion.gitee.io/docs/icon-doc/star2.png) 商业化合作
 - Discovery 7.0.0（对应到Spring Cloud 2020版）源码，价格6888元一套，远程技术支持、培训、答疑
 - Polaris（Discovery高级版）源码，价格6888元一套，远程技术支持、培训、答疑
-
-添加微信1394997联系作者，并通过如下微信支付相关商业费用
+- 添加微信1394997，通过如下微信支付相关商业费用
 
 ![](http://nepxion.gitee.io/docs/zxing-doc/微信支付.jpg)
 
