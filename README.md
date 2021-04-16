@@ -3357,8 +3357,12 @@ spring.application.strategy.zone.route.enabled=true
 ![](http://nepxion.gitee.io/docs/icon-doc/warning.png) 需要注意
 
 - 不归属任何可用区，含义是服务实例未设置任何zone元数据值。可用区亲和性路由功能，是为了尽量保证流量不损失
-- 如果采用Eureka注册中心，Ribbon本身就具有可用区亲和性功能，跟本框架类似。如果使用者采用了Eureka注册中心下的Ribbon可用区亲和性功能，请关闭本框架提供的相似功能，以免冲突
 - 本框架提供的可用区亲和性功能适用于一切注册中心
+- 如果采用Eureka注册中心，Ribbon本身就具有可用区亲和性功能，跟本框架类似。通过如下开关，来选择使用Eureka原生的功能，还是本框架的功能
+```
+# 启动和关闭Eureka原生的可用区亲和性。当采用的注册中心是Eureka，并希望使用本框架的可用区亲和性功能，需要关闭Eureka原生的可用区亲和性功能，因为两者是冲突的
+niws.loadbalancer.zoneAvoidanceRule.enabled=false
+```
 
 ## 全链路服务隔离和准入
 
@@ -4626,6 +4630,8 @@ spring.application.strategy.environment.route=common
 spring.application.strategy.zone.affinity.enabled=true
 # 启动和关闭可用区亲和性失败后的路由，即调用端实例没有找到同一个可用区的提供端实例的时候，当开关打开，可路由到其它可用区或者不归属任何可用区，当开关关闭，则直接调用失败。缺失则默认为true
 spring.application.strategy.zone.route.enabled=true
+# 启动和关闭Eureka原生的可用区亲和性。当采用的注册中心是Eureka，并希望使用本框架的可用区亲和性功能，需要关闭Eureka原生的可用区亲和性功能，因为两者是冲突的
+niws.loadbalancer.zoneAvoidanceRule.enabled=false
 
 # 版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例。其作用是防止蓝绿灰度版本发布人为设置错误，或者对应的版本实例发生灾难性的全部下线，导致流量有损
 # 启动和关闭版本故障转移。缺失则默认为false
@@ -4745,6 +4751,8 @@ spring.application.strategy.environment.route=common
 spring.application.strategy.zone.affinity.enabled=true
 # 启动和关闭可用区亲和性失败后的路由，即调用端实例没有找到同一个可用区的提供端实例的时候，当开关打开，可路由到其它可用区或者不归属任何可用区，当开关关闭，则直接调用失败。缺失则默认为true
 spring.application.strategy.zone.route.enabled=true
+# 启动和关闭Eureka原生的可用区亲和性。当采用的注册中心是Eureka，并希望使用本框架的可用区亲和性功能，需要关闭Eureka原生的可用区亲和性功能，因为两者是冲突的
+niws.loadbalancer.zoneAvoidanceRule.enabled=false
 
 # 版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例。其作用是防止蓝绿灰度版本发布人为设置错误，或者对应的版本实例发生灾难性的全部下线，导致流量有损
 # 启动和关闭版本故障转移。缺失则默认为false
@@ -4902,6 +4910,8 @@ spring.application.strategy.environment.route=common
 spring.application.strategy.zone.affinity.enabled=true
 # 启动和关闭可用区亲和性失败后的路由，即调用端实例没有找到同一个可用区的提供端实例的时候，当开关打开，可路由到其它可用区或者不归属任何可用区，当开关关闭，则直接调用失败。缺失则默认为true
 spring.application.strategy.zone.route.enabled=true
+# 启动和关闭Eureka原生的可用区亲和性。当采用的注册中心是Eureka，并希望使用本框架的可用区亲和性功能，需要关闭Eureka原生的可用区亲和性功能，因为两者是冲突的
+niws.loadbalancer.zoneAvoidanceRule.enabled=false
 
 # 版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例。其作用是防止蓝绿灰度版本发布人为设置错误，或者对应的版本实例发生灾难性的全部下线，导致流量有损
 # 启动和关闭版本故障转移。缺失则默认为false
