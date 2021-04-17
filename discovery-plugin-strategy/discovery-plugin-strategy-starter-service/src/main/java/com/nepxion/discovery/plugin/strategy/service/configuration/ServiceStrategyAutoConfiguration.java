@@ -15,15 +15,14 @@ import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.netflix.ribbon.RibbonClientConfiguration;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.exception.DiscoveryException;
-import com.nepxion.discovery.common.util.SpringBootUtil;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
+import com.nepxion.discovery.plugin.strategy.extractor.StrategyPackagesExtractor;
 import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.filter.DefaultServiceStrategyFilterExclusion;
 import com.nepxion.discovery.plugin.strategy.service.filter.DefaultServiceStrategyRouteFilter;
@@ -47,14 +46,14 @@ public class ServiceStrategyAutoConfiguration {
     private ConfigurableEnvironment environment;
 
     @Autowired
-    private ConfigurableApplicationContext applicationContext;
+    private StrategyPackagesExtractor strategyPackagesExtractor;
 
     @Bean
     @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_RPC_INTERCEPT_ENABLED, matchIfMissing = false)
     public ServiceRpcStrategyAutoScanProxy serviceRpcStrategyAutoScanProxy() {
         String scanPackages = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES);
         if (StringUtils.isEmpty(scanPackages)) {
-            scanPackages = SpringBootUtil.convertBasePackages(applicationContext);
+            scanPackages = strategyPackagesExtractor.getBasePackages();
         }
 
         if (StringUtils.isEmpty(scanPackages)) {
@@ -73,7 +72,7 @@ public class ServiceStrategyAutoConfiguration {
     public ServiceRpcStrategyInterceptor serviceRpcStrategyInterceptor() {
         String scanPackages = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES);
         if (StringUtils.isEmpty(scanPackages)) {
-            scanPackages = SpringBootUtil.convertBasePackages(applicationContext);
+            scanPackages = strategyPackagesExtractor.getBasePackages();
         }
 
         if (StringUtils.isEmpty(scanPackages)) {
@@ -93,7 +92,7 @@ public class ServiceStrategyAutoConfiguration {
     public ServiceProviderIsolationStrategyAutoScanProxy serviceProviderIsolationStrategyAutoScanProxy() {
         String scanPackages = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES);
         if (StringUtils.isEmpty(scanPackages)) {
-            scanPackages = SpringBootUtil.convertBasePackages(applicationContext);
+            scanPackages = strategyPackagesExtractor.getBasePackages();
         }
 
         if (StringUtils.isEmpty(scanPackages)) {
@@ -113,7 +112,7 @@ public class ServiceStrategyAutoConfiguration {
     public ServiceProviderIsolationStrategyInterceptor serviceProviderIsolationStrategyInterceptor() {
         String scanPackages = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES);
         if (StringUtils.isEmpty(scanPackages)) {
-            scanPackages = SpringBootUtil.convertBasePackages(applicationContext);
+            scanPackages = strategyPackagesExtractor.getBasePackages();
         }
 
         if (StringUtils.isEmpty(scanPackages)) {
@@ -152,7 +151,7 @@ public class ServiceStrategyAutoConfiguration {
     public ServiceStrategyMonitorAutoScanProxy serviceStrategyMonitorAutoScanProxy() {
         String scanPackages = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES);
         if (StringUtils.isEmpty(scanPackages)) {
-            scanPackages = SpringBootUtil.convertBasePackages(applicationContext);
+            scanPackages = strategyPackagesExtractor.getBasePackages();
         }
 
         if (StringUtils.isEmpty(scanPackages)) {
@@ -172,7 +171,7 @@ public class ServiceStrategyAutoConfiguration {
     public ServiceStrategyMonitorInterceptor serviceStrategyMonitorInterceptor() {
         String scanPackages = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES);
         if (StringUtils.isEmpty(scanPackages)) {
-            scanPackages = SpringBootUtil.convertBasePackages(applicationContext);
+            scanPackages = strategyPackagesExtractor.getBasePackages();
         }
 
         if (StringUtils.isEmpty(scanPackages)) {
