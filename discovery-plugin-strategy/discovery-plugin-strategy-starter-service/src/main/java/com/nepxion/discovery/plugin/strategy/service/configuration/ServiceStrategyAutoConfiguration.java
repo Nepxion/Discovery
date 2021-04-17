@@ -53,7 +53,7 @@ public class ServiceStrategyAutoConfiguration {
     public ServiceRpcStrategyAutoScanProxy serviceRpcStrategyAutoScanProxy() {
         String scanPackages = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES);
         if (StringUtils.isEmpty(scanPackages)) {
-            scanPackages = strategyPackagesExtractor.getBasePackages();
+            scanPackages = strategyPackagesExtractor.getAllPackages();
         }
 
         if (StringUtils.isEmpty(scanPackages)) {
@@ -72,7 +72,7 @@ public class ServiceStrategyAutoConfiguration {
     public ServiceRpcStrategyInterceptor serviceRpcStrategyInterceptor() {
         String scanPackages = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES);
         if (StringUtils.isEmpty(scanPackages)) {
-            scanPackages = strategyPackagesExtractor.getBasePackages();
+            scanPackages = strategyPackagesExtractor.getAllPackages();
         }
 
         if (StringUtils.isEmpty(scanPackages)) {
@@ -92,7 +92,7 @@ public class ServiceStrategyAutoConfiguration {
     public ServiceProviderIsolationStrategyAutoScanProxy serviceProviderIsolationStrategyAutoScanProxy() {
         String scanPackages = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES);
         if (StringUtils.isEmpty(scanPackages)) {
-            scanPackages = strategyPackagesExtractor.getBasePackages();
+            scanPackages = strategyPackagesExtractor.getAllPackages();
         }
 
         if (StringUtils.isEmpty(scanPackages)) {
@@ -112,7 +112,7 @@ public class ServiceStrategyAutoConfiguration {
     public ServiceProviderIsolationStrategyInterceptor serviceProviderIsolationStrategyInterceptor() {
         String scanPackages = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES);
         if (StringUtils.isEmpty(scanPackages)) {
-            scanPackages = strategyPackagesExtractor.getBasePackages();
+            scanPackages = strategyPackagesExtractor.getAllPackages();
         }
 
         if (StringUtils.isEmpty(scanPackages)) {
@@ -151,7 +151,7 @@ public class ServiceStrategyAutoConfiguration {
     public ServiceStrategyMonitorAutoScanProxy serviceStrategyMonitorAutoScanProxy() {
         String scanPackages = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES);
         if (StringUtils.isEmpty(scanPackages)) {
-            scanPackages = strategyPackagesExtractor.getBasePackages();
+            scanPackages = strategyPackagesExtractor.getAllPackages();
         }
 
         if (StringUtils.isEmpty(scanPackages)) {
@@ -171,7 +171,7 @@ public class ServiceStrategyAutoConfiguration {
     public ServiceStrategyMonitorInterceptor serviceStrategyMonitorInterceptor() {
         String scanPackages = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES);
         if (StringUtils.isEmpty(scanPackages)) {
-            scanPackages = strategyPackagesExtractor.getBasePackages();
+            scanPackages = strategyPackagesExtractor.getAllPackages();
         }
 
         if (StringUtils.isEmpty(scanPackages)) {
