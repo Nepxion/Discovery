@@ -15,12 +15,14 @@ import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.netflix.ribbon.RibbonClientConfiguration;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.exception.DiscoveryException;
+import com.nepxion.discovery.common.util.SpringBootUtil;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.filter.DefaultServiceStrategyFilterExclusion;
@@ -44,10 +46,17 @@ public class ServiceStrategyAutoConfiguration {
     @Autowired
     private ConfigurableEnvironment environment;
 
+    @Autowired
+    private ConfigurableApplicationContext applicationContext;
+
     @Bean
     @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_RPC_INTERCEPT_ENABLED, matchIfMissing = false)
     public ServiceRpcStrategyAutoScanProxy serviceRpcStrategyAutoScanProxy() {
         String scanPackages = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES);
+        if (StringUtils.isEmpty(scanPackages)) {
+            scanPackages = SpringBootUtil.convertBasePackages(applicationContext);
+        }
+
         if (StringUtils.isEmpty(scanPackages)) {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
         }
@@ -63,6 +72,10 @@ public class ServiceStrategyAutoConfiguration {
     @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_RPC_INTERCEPT_ENABLED, matchIfMissing = false)
     public ServiceRpcStrategyInterceptor serviceRpcStrategyInterceptor() {
         String scanPackages = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES);
+        if (StringUtils.isEmpty(scanPackages)) {
+            scanPackages = SpringBootUtil.convertBasePackages(applicationContext);
+        }
+
         if (StringUtils.isEmpty(scanPackages)) {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
         }
@@ -80,6 +93,10 @@ public class ServiceStrategyAutoConfiguration {
     public ServiceProviderIsolationStrategyAutoScanProxy serviceProviderIsolationStrategyAutoScanProxy() {
         String scanPackages = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES);
         if (StringUtils.isEmpty(scanPackages)) {
+            scanPackages = SpringBootUtil.convertBasePackages(applicationContext);
+        }
+
+        if (StringUtils.isEmpty(scanPackages)) {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
         }
 
@@ -95,6 +112,10 @@ public class ServiceStrategyAutoConfiguration {
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_PROVIDER_ISOLATION_ENABLED, matchIfMissing = false)
     public ServiceProviderIsolationStrategyInterceptor serviceProviderIsolationStrategyInterceptor() {
         String scanPackages = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES);
+        if (StringUtils.isEmpty(scanPackages)) {
+            scanPackages = SpringBootUtil.convertBasePackages(applicationContext);
+        }
+
         if (StringUtils.isEmpty(scanPackages)) {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
         }
@@ -131,6 +152,10 @@ public class ServiceStrategyAutoConfiguration {
     public ServiceStrategyMonitorAutoScanProxy serviceStrategyMonitorAutoScanProxy() {
         String scanPackages = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES);
         if (StringUtils.isEmpty(scanPackages)) {
+            scanPackages = SpringBootUtil.convertBasePackages(applicationContext);
+        }
+
+        if (StringUtils.isEmpty(scanPackages)) {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
         }
 
@@ -146,6 +171,10 @@ public class ServiceStrategyAutoConfiguration {
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_MONITOR_ENABLED, matchIfMissing = false)
     public ServiceStrategyMonitorInterceptor serviceStrategyMonitorInterceptor() {
         String scanPackages = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES);
+        if (StringUtils.isEmpty(scanPackages)) {
+            scanPackages = SpringBootUtil.convertBasePackages(applicationContext);
+        }
+
         if (StringUtils.isEmpty(scanPackages)) {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
         }
