@@ -37,6 +37,7 @@ import com.nepxion.discovery.plugin.strategy.condition.DefaultStrategyTypeCompar
 import com.nepxion.discovery.plugin.strategy.condition.ExpressionStrategyCondition;
 import com.nepxion.discovery.plugin.strategy.condition.StrategyCondition;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
+import com.nepxion.discovery.plugin.strategy.extractor.StrategyPackagesExtractor;
 import com.nepxion.discovery.plugin.strategy.filter.StrategyVersionFilter;
 import com.nepxion.discovery.plugin.strategy.matcher.DiscoveryAntPathMatcherStrategy;
 import com.nepxion.discovery.plugin.strategy.matcher.DiscoveryMatcherStrategy;
@@ -72,6 +73,11 @@ public class StrategyAutoConfiguration {
     @ConditionalOnMissingBean
     public StrategyVersionFilterAdapter strategyVersionFilterAdapter() {
         return new DefaultStrategyVersionFilterAdapter();
+    }
+
+    @Bean
+    public StrategyPackagesExtractor strategyPackagesExtractor() {
+        return new StrategyPackagesExtractor();
     }
 
     @Bean
