@@ -107,4 +107,10 @@ public class ZookeeperOperation {
 
         return new String(bytes);
     }
+
+    public void close() {
+        if (curatorFramework != null) {
+            curatorFramework.close();
+        }
+    }
 }
