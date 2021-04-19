@@ -66,6 +66,7 @@ public class ZookeeperConfigAdapter extends ConfigAdapter {
     public void unsubscribeConfig() {
         unsubscribeConfig(partialListener, false);
         unsubscribeConfig(globalListener, true);
+
         zookeeperOperation.close();
     }
 

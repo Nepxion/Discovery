@@ -7,18 +7,20 @@ package com.nepxion.discovery.plugin.configcenter.redis.adapter;
  * <p>Company: Nepxion</p>
  * @author Haojun Ren
  * @author JiKai Sun
+ * @author pegasus
  * @version 1.0
  */
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.listener.PatternTopic;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 
 import com.nepxion.discovery.common.redis.constant.RedisConstant;
 import com.nepxion.discovery.common.redis.operation.RedisOperation;
 import com.nepxion.discovery.common.redis.operation.RedisSubscribeCallback;
 import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
 import com.nepxion.discovery.plugin.configcenter.logger.ConfigLogger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.listener.PatternTopic;
-import org.springframework.data.redis.listener.RedisMessageListenerContainer;
-import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 
 public class RedisConfigAdapter extends ConfigAdapter {
     @Autowired
@@ -71,9 +73,11 @@ public class RedisConfigAdapter extends ConfigAdapter {
     public void unsubscribeConfig() {
         unsubscribeConfig(partialMessageListenerAdapter, false);
         unsubscribeConfig(globalMessageListenerAdapter, true);
+
         try {
             configMessageListenerContainer.destroy();
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+
         }
     }
 
