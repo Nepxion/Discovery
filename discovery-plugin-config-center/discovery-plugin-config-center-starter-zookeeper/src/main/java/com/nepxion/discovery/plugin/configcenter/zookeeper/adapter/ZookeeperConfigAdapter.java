@@ -6,6 +6,7 @@ package com.nepxion.discovery.plugin.configcenter.zookeeper.adapter;
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
  * @author rotten
+  * @author pegasus
  * @version 1.0
  */
 
@@ -66,6 +67,8 @@ public class ZookeeperConfigAdapter extends ConfigAdapter {
     public void unsubscribeConfig() {
         unsubscribeConfig(partialListener, false);
         unsubscribeConfig(globalListener, true);
+
+        zookeeperOperation.close();
     }
 
     private void unsubscribeConfig(TreeCacheListener configListener, boolean globalConfig) {

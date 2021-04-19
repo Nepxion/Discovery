@@ -6,6 +6,7 @@ package com.nepxion.discovery.common.zookeeper.operation;
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
  * @author rotten
+ * @author pegasus
  * @version 1.0
  */
 
@@ -106,5 +107,11 @@ public class ZookeeperOperation {
         byte[] bytes = curatorFramework.getData().forPath(path);
 
         return new String(bytes);
+    }
+
+    public void close() {
+        if (curatorFramework != null) {
+            curatorFramework.close();
+        }
     }
 }

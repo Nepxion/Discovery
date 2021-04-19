@@ -7,6 +7,7 @@ package com.nepxion.discovery.plugin.configcenter.redis.adapter;
  * <p>Company: Nepxion</p>
  * @author Haojun Ren
  * @author JiKai Sun
+ * @author pegasus
  * @version 1.0
  */
 
@@ -72,6 +73,12 @@ public class RedisConfigAdapter extends ConfigAdapter {
     public void unsubscribeConfig() {
         unsubscribeConfig(partialMessageListenerAdapter, false);
         unsubscribeConfig(globalMessageListenerAdapter, true);
+
+        try {
+            configMessageListenerContainer.destroy();
+        } catch (Exception e) {
+
+        }
     }
 
     private void unsubscribeConfig(MessageListenerAdapter messageListenerAdapter, boolean globalConfig) {
