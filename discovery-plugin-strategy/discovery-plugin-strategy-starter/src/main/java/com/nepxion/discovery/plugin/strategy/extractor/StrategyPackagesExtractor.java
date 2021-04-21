@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -33,6 +35,8 @@ import org.springframework.util.ClassUtils;
 import com.nepxion.discovery.common.util.StringUtil;
 
 public class StrategyPackagesExtractor implements BeanDefinitionRegistryPostProcessor, ApplicationContextAware {
+    private static final Logger LOG = LoggerFactory.getLogger(StrategyPackagesExtractor.class);
+
     private ApplicationContext applicationContext;
 
     private List<String> basePackagesList;
@@ -56,31 +60,35 @@ public class StrategyPackagesExtractor implements BeanDefinitionRegistryPostProc
 
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
-        basePackagesList = AutoConfigurationPackages.get(applicationContext);
-        if (CollectionUtils.isNotEmpty(basePackagesList)) {
-            basePackages = StringUtil.convertToString(basePackagesList);
+        try {
+            basePackagesList = AutoConfigurationPackages.get(applicationContext);
+            if (CollectionUtils.isNotEmpty(basePackagesList)) {
+                basePackages = StringUtil.convertToString(basePackagesList);
 
-            for (String value : basePackagesList) {
-                if (!allPackagesList.contains(value)) {
-                    allPackagesList.add(value);
+                for (String value : basePackagesList) {
+                    if (!allPackagesList.contains(value)) {
+                        allPackagesList.add(value);
+                    }
                 }
             }
-        }
 
-        scanningPackagesSet = getComponentScanningPackages(registry, basePackagesList);
-        if (CollectionUtils.isNotEmpty(scanningPackagesSet)) {
-            List<String> scanningPackagesList = new ArrayList<String>(scanningPackagesSet);
-            scanningPackages = StringUtil.convertToString(scanningPackagesList);
+            scanningPackagesSet = getComponentScanningPackages(registry, basePackagesList);
+            if (CollectionUtils.isNotEmpty(scanningPackagesSet)) {
+                List<String> scanningPackagesList = new ArrayList<String>(scanningPackagesSet);
+                scanningPackages = StringUtil.convertToString(scanningPackagesList);
 
-            for (String value : scanningPackagesList) {
-                if (!allPackagesList.contains(value)) {
-                    allPackagesList.add(value);
+                for (String value : scanningPackagesList) {
+                    if (!allPackagesList.contains(value)) {
+                        allPackagesList.add(value);
+                    }
                 }
             }
-        }
 
-        if (CollectionUtils.isNotEmpty(allPackagesList)) {
-            allPackages = StringUtil.convertToString(allPackagesList);
+            if (CollectionUtils.isNotEmpty(allPackagesList)) {
+                allPackages = StringUtil.convertToString(allPackagesList);
+            }
+        } catch (Exception e) {
+            LOG.warn("Get base and scanning packages failed, skip it...");
         }
     }
 
