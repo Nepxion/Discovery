@@ -87,6 +87,12 @@ public class StrategyPackagesExtractor implements BeanDefinitionRegistryPostProc
             if (CollectionUtils.isNotEmpty(allPackagesList)) {
                 allPackages = StringUtil.convertToString(allPackagesList);
             }
+
+            LOG.info("--------- Auto Scan Packages Information ---------");
+            LOG.info("Base Packages is {}", basePackagesList);
+            LOG.info("Scanning Packages is {}", scanningPackagesSet);
+            LOG.info("All Packages is {}", allPackagesList);
+            LOG.info("--------------------------------------------------");
         } catch (Exception e) {
             LOG.warn("Get base and scanning packages failed, skip it...");
         }
@@ -124,8 +130,15 @@ public class StrategyPackagesExtractor implements BeanDefinitionRegistryPostProc
             String beanClassName = definition.getBeanClassName();
             if (definition instanceof AnnotatedBeanDefinition && beanClassName != null) {
                 String beanPackage = ClassUtils.getPackageName(beanClassName);
-                for (String basePackage : basePackages) {
-                    if (beanPackage.equals(basePackage) || beanPackage.startsWith(basePackage + '.')) {
+                for (String pkg : basePackages) {
+                    if (beanPackage.equals(pkg) || beanPackage.startsWith(pkg + '.')) {
+                        AnnotatedBeanDefinition annotatedDefinition = (AnnotatedBeanDefinition) definition;
+                        addComponentScanningPackages(packages, annotatedDefinition.getMetadata());
+                        break;
+                    }
+                }
+                for (String pkg : packages) {
+                    if (beanPackage.equals(pkg) || beanPackage.startsWith(pkg + '.')) {
                         AnnotatedBeanDefinition annotatedDefinition = (AnnotatedBeanDefinition) definition;
                         addComponentScanningPackages(packages, annotatedDefinition.getMetadata());
                         break;
