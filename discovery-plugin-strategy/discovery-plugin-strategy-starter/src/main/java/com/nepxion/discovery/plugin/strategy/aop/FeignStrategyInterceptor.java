@@ -150,7 +150,7 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
             return;
         }
 
-        System.out.println("------- " + getInterceptorName() + " Intercept Output Header Information ------");
+        System.out.println("-------- Feign Intercept Output Header Information ---------");
         Map<String, Collection<String>> headers = requestTemplate.headers();
         for (Map.Entry<String, Collection<String>> entry : headers.entrySet()) {
             String headerName = entry.getKey();
@@ -161,7 +161,7 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
                 System.out.println(headerName + "=" + headerValue);
             }
         }
-        System.out.println("--------------------------------------------------");
+        System.out.println("------------------------------------------------------------");
     }
 
     @Override

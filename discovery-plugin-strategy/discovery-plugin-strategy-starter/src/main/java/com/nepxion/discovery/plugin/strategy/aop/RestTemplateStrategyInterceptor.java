@@ -158,7 +158,7 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
             return;
         }
 
-        System.out.println("------- " + getInterceptorName() + " Intercept Output Header Information ------");
+        System.out.println("----- RestTemplate Intercept Output Header Information -----");
         HttpHeaders headers = request.getHeaders();
         for (Iterator<Entry<String, List<String>>> iterator = headers.entrySet().iterator(); iterator.hasNext();) {
             Entry<String, List<String>> header = iterator.next();
@@ -170,7 +170,7 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
                 System.out.println(headerName + "=" + headerValue);
             }
         }
-        System.out.println("--------------------------------------------------");
+        System.out.println("------------------------------------------------------------");
     }
 
     @Override

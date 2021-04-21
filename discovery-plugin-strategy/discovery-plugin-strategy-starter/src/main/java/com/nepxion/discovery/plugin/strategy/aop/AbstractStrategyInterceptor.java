@@ -52,8 +52,10 @@ public abstract class AbstractStrategyInterceptor {
             requestHeaderList.addAll(StringUtil.splitToList(businessRequestHeaders.toLowerCase()));
         }
 
-        LOG.info("------- " + getInterceptorName() + " Intercept Information -------");
-        LOG.info(getInterceptorName() + " desires to intercept customer headers are {}", requestHeaderList);
+        String interceptorName = getInterceptorName();
+
+        LOG.info("--------- Strategy Intercept Information ---------");
+        LOG.info("{} desires to intercept customer headers are {}", interceptorName, requestHeaderList);
         LOG.info("--------------------------------------------------");
     }
 
@@ -64,7 +66,14 @@ public abstract class AbstractStrategyInterceptor {
 
         Enumeration<String> headerNames = strategyContextHolder.getHeaderNames();
         if (headerNames != null) {
-            System.out.println("------- " + getInterceptorName() + " Intercept Input Header Information -------");
+            String interceptorName = getInterceptorName();
+            if (StringUtils.equals(interceptorName, "Feign")) {
+                System.out.println("--------- Feign Intercept Input Header Information ---------");              
+            } else if (StringUtils.equals(interceptorName, "RestTemplate")) {
+                System.out.println("----- RestTemplate Intercept Input Header Information ------");
+            } else if (StringUtils.equals(interceptorName, "WebClient")) {
+                System.out.println("------- WebClient Intercept Input Header Information -------");
+            }
             while (headerNames.hasMoreElements()) {
                 String headerName = headerNames.nextElement();
                 boolean isHeaderContains = isHeaderContains(headerName.toLowerCase());
@@ -74,7 +83,7 @@ public abstract class AbstractStrategyInterceptor {
                     System.out.println(headerName + "=" + headerValue);
                 }
             }
-            System.out.println("--------------------------------------------------");
+            System.out.println("------------------------------------------------------------");
         }
     }
 

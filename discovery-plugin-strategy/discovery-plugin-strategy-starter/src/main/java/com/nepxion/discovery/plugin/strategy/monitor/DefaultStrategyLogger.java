@@ -87,7 +87,7 @@ public class DefaultStrategyLogger implements StrategyLogger {
             return;
         }
 
-        System.out.println("------------------ Logger Debug ------------------");
+        System.out.println("----------------------- Logger Debug -----------------------");      
         String traceId = strategyMonitorContext.getTraceId();
         String spanId = strategyMonitorContext.getSpanId();
         System.out.println(DiscoveryConstant.TRACE_ID + "=" + (StringUtils.isNotEmpty(traceId) ? traceId : StringUtils.EMPTY));
@@ -144,6 +144,6 @@ public class DefaultStrategyLogger implements StrategyLogger {
                 System.out.println(entry.getKey() + "=" + entry.getValue());
             }
         }
-        System.out.println("--------------------------------------------------");
+        System.out.println("------------------------------------------------------------");
     }
 }

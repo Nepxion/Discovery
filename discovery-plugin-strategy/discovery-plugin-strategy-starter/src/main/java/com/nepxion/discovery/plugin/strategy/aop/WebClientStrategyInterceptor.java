@@ -161,7 +161,7 @@ public class WebClientStrategyInterceptor extends AbstractStrategyInterceptor im
             return;
         }
 
-        System.out.println("------- " + getInterceptorName() + " Intercept Output Header Information ------");
+        System.out.println("------ WebClient Intercept Output Header Information -------");
         HttpHeaders headers = request.headers();
         for (Iterator<Entry<String, List<String>>> iterator = headers.entrySet().iterator(); iterator.hasNext();) {
             Entry<String, List<String>> header = iterator.next();
@@ -173,7 +173,7 @@ public class WebClientStrategyInterceptor extends AbstractStrategyInterceptor im
                 System.out.println(headerName + "=" + headerValue);
             }
         }
-        System.out.println("--------------------------------------------------");
+        System.out.println("------------------------------------------------------------");
     }
 
     @Override
