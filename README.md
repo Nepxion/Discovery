@@ -3835,7 +3835,7 @@ spring.application.strategy.logger.debug.enabled=true
 
 ① 网关端和服务端自身蓝绿灰度埋点Debug辅助监控
 ```
------------------- Logger Debug ------------------
+----------------------- Logger Debug -----------------------
 trace-id=dade3982ae65e9e1
 span-id=997e31021e9fce20
 n-d-service-group=discovery-guide-group
@@ -3849,12 +3849,12 @@ n-d-service-zone=zone1
 n-d-version={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
 mobile=13812345678
 user=
---------------------------------------------------
+------------------------------------------------------------
 ```
 
 ② 服务端Feign、RestTemplate或者WebClient拦截输入的蓝绿灰度埋点Debug辅助监控
 ```
-------- Feign Intercept Input Header Information -------
+--------- Feign Intercept Input Header Information ---------
 n-d-service-group=discovery-guide-group
 n-d-version={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
 n-d-service-type=gateway
@@ -3865,12 +3865,12 @@ n-d-service-region=default
 n-d-service-zone=default
 n-d-service-address=172.27.208.1:5002
 n-d-service-version=1.0
---------------------------------------------------
+------------------------------------------------------------
 ```
 
 ③ 服务端Feign、RestTemplate或者支持WebClient调用拦截输出的蓝绿灰度埋点Debug辅助监控
 ```
-------- Feign Intercept Output Header Information ------
+-------- Feign Intercept Output Header Information ---------
 mobile=[13812345678]
 n-d-service-address=[172.27.208.1:3001]
 n-d-service-env=[env1]
@@ -3881,7 +3881,7 @@ n-d-service-type=[service]
 n-d-service-version=[1.0]
 n-d-service-zone=[zone1]
 n-d-version=[{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}]
---------------------------------------------------
+------------------------------------------------------------
 ```
 
 #### Sentinel熔断埋点调用链监控
