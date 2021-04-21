@@ -89,9 +89,9 @@ public class StrategyPackagesExtractor implements BeanDefinitionRegistryPostProc
             }
 
             LOG.info("--------- Auto Scan Packages Information ---------");
-            LOG.info("Base Packages is {}", basePackagesList);
-            LOG.info("Scanning Packages is {}", scanningPackagesSet);
-            LOG.info("All Packages is {}", allPackagesList);
+            LOG.info("Base packages is {}", basePackagesList);
+            LOG.info("Scanning packages is {}", scanningPackagesSet);
+            LOG.info("All packages is {}", allPackagesList);
             LOG.info("--------------------------------------------------");
         } catch (Exception e) {
             LOG.warn("Get base and scanning packages failed, skip it...");
