@@ -1258,15 +1258,11 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
-    <!-- 基于Http Header传递的策略路由，全局缺省路由（第三优先级） -->
     <strategy>
         <version>{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</version>
     </strategy>
     
-    <!-- 基于Http Header传递的定制化策略路由，支持蓝绿部署和灰度发布两种模式。如果都不命中，则执行上面的全局缺省路由 -->
     <strategy-customization>
-        <!-- 全链路蓝绿部署：条件命中的匹配方式（第一优先级），支持版本匹配、区域匹配、IP地址和端口匹配、版本权重匹配、区域权重匹配 -->
-        <!-- Expression节点不允许缺失 -->
         <conditions type="blue-green">
             <condition id="blue-condition" expression="#H['a'] == '1'" version-id="blue-version-route"/>
             <condition id="green-condition" expression="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="green-version-route"/>
@@ -1445,15 +1441,11 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
-    <!-- 基于Http Header传递的策略路由，全局缺省路由（第三优先级） -->
     <strategy>
         <version>{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</version>
     </strategy>
 
-    <!-- 基于Http Header传递的定制化策略路由，支持蓝绿部署和灰度发布两种模式。如果都不命中，则执行上面的全局缺省路由 -->
     <strategy-customization>
-        <!-- 全链路灰度发布：条件命中的随机权重（第二优先级），支持版本匹配、区域匹配、IP地址和端口匹配 -->
-        <!-- Expression节点允许缺失，当含Expression和未含Expression的配置并存时，以未含Expression的配置为优先 -->
         <conditions type="gray">
             <!-- <condition id="gray-condition" expression="#H['a'] == '1'" version-id="gray-version-route=10;stable-version-route=90"/> -->
             <!-- <condition id="gray-condition" expression="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="gray-version-route=85;stable-version-route=15"/> -->
