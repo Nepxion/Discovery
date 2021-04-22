@@ -579,6 +579,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [基于服务名前缀自动创建组名](#基于服务名前缀自动创建组名)
     - [基于运维平台运行参数自动创建版本号](#基于运维平台运行参数自动创建版本号)
     - [基于用户自定义创建版本号](#基于用户自定义创建版本号)
+- [自动扫描目录](#自动扫描目录)
 - [配置文件](#配置文件)
     - [流量染色配置](#流量染色配置)
     - [中间件属性配置](#中间件属性配置)
@@ -4132,9 +4133,6 @@ com.nepxion.discovery.plugin.strategy.monitor.DefaultStrategyAlarm
 ![](http://nepxion.gitee.io/docs/discovery-doc/Grafana.jpg)
 
 #### Spring-Boot-Admin监控
-![](http://nepxion.gitee.io/docs/discovery-doc/Admin1.jpg)
-![](http://nepxion.gitee.io/docs/discovery-doc/Admin4.jpg)
-![](http://nepxion.gitee.io/docs/discovery-doc/Admin5.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Admin7.jpg)
 
 ## 全链路服务侧注解
@@ -4297,6 +4295,61 @@ spring.application.group.generator.character=-
 
 ### 基于用户自定义创建版本号
 参考[流量染色配置](#流量染色配置)
+
+## 自动扫描目录
+自动扫描目录功能为省掉手工配置扫描目录而设定的，当使用者手工配置了扫描目录，则采用使用者配置的目录，如果没配置，则采用自动扫描目录的方式
+
+如下配置是手工配置扫描目录的样例
+```
+# 路由策略的时候，需要指定对业务RestController类的扫描路径。此项配置作用于RPC方式的调用拦截、消费端的服务隔离和调用链三项功能
+spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service
+```
+
+① 自动扫描目录的配置
+```
+# 启动和关闭自动扫描目录，当扫描目录未人工配置的时候，可以通过自动扫描方式决定扫描目录。缺失则默认为true
+spring.application.strategy.auto.scan.packages.enabled=true
+# 启动和关闭嵌套扫描，嵌套扫描指扫描非本工程下外部包的目录，可以支持多层嵌套。缺失则默认为false
+spring.application.strategy.auto.scan.recursion.enabled=false
+```
+
+② 自动扫描目录的逻辑
+
+在假设的场景中，SpringBoot入口设定扫描目录为com.a，com.a目录下有个Spring对象通过ComponentScan方式设定扫描目录为com.b，com.b目录下有个Spring对象通过ComponentScan方式设定扫描目录为com.c，那么最终计算出来的目录为
+
+嵌套扫描下，得到的扫描目录是
+```
+SpringBoot入口所在的目录;com.a;com.b;com.c
+```
+
+非嵌套扫描下，得到的扫描目录是
+```
+SpringBoot入口所在的目录;com.a
+```
+
+③ 扩展获取自动扫描目录
+
+使用者可以通过如下代码得到自动扫描目录
+```java
+public class MyService {
+    @Autowired
+    private StrategyPackagesExtractor strategyPackagesExtractor;
+
+    public void getPackages() {
+        // 获取@SpringBootApplication所在类入口的扫描目录（一般只有一个），返回List<String>类型
+        strategyPackagesExtractor.getBasePackagesList();
+
+        // 获取所有嵌套的扫描目录（包括当前工程的所有类中@SpringBootApplication和@ComponentScan注解设定的扫描目录），返回List<String>类型
+        strategyPackagesExtractor.getScanningPackagesList();
+
+        // 上面两种目录的相加，返回List<String>类型
+        strategyPackagesExtractor.getAllPackagesList();
+
+        // 上面两种目录的相加，返回分号分隔的String类型
+        strategyPackagesExtractor.getAllPackages();
+    }
+}
+```
 
 ## 配置文件
 
@@ -4648,6 +4701,11 @@ spring.application.strategy.version.prefer.enabled=true
 # 启动和关闭在服务启动的时候参数订阅事件发送。缺失则默认为true
 spring.application.parameter.event.onstart.enabled=true
 
+# 启动和关闭自动扫描目录，当扫描目录未人工配置的时候，可以通过自动扫描方式决定扫描目录。缺失则默认为true
+spring.application.strategy.auto.scan.packages.enabled=true
+# 启动和关闭嵌套扫描，嵌套扫描指扫描非本工程下外部包的目录，可以支持多层嵌套。缺失则默认为false
+spring.application.strategy.auto.scan.recursion.enabled=false
+
 # 开启和关闭使用服务名前缀来作为服务组名。缺失则默认为false
 spring.application.group.generator.enabled=true
 # 服务名前缀的截断长度，必须大于0
@@ -4768,6 +4826,11 @@ spring.application.strategy.version.prefer.enabled=true
 
 # 启动和关闭在服务启动的时候参数订阅事件发送。缺失则默认为true
 spring.application.parameter.event.onstart.enabled=true
+
+# 启动和关闭自动扫描目录，当扫描目录未人工配置的时候，可以通过自动扫描方式决定扫描目录。缺失则默认为true
+spring.application.strategy.auto.scan.packages.enabled=true
+# 启动和关闭嵌套扫描，嵌套扫描指扫描非本工程下外部包的目录，可以支持多层嵌套。缺失则默认为false
+spring.application.strategy.auto.scan.recursion.enabled=false
 
 # 开启和关闭使用服务名前缀来作为服务组名。缺失则默认为false
 spring.application.group.generator.enabled=true
@@ -4927,6 +4990,11 @@ spring.application.strategy.version.prefer.enabled=true
 
 # 启动和关闭在服务启动的时候参数订阅事件发送。缺失则默认为true
 spring.application.parameter.event.onstart.enabled=true
+
+# 启动和关闭自动扫描目录，当扫描目录未人工配置的时候，可以通过自动扫描方式决定扫描目录。缺失则默认为true
+spring.application.strategy.auto.scan.packages.enabled=true
+# 启动和关闭嵌套扫描，嵌套扫描指扫描非本工程下外部包的目录，可以支持多层嵌套。缺失则默认为false
+spring.application.strategy.auto.scan.recursion.enabled=false
 
 # 开启和关闭使用服务名前缀来作为服务组名。缺失则默认为false
 spring.application.group.generator.enabled=true
