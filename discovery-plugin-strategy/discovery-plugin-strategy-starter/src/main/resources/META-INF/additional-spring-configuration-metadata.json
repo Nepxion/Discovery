@@ -175,7 +175,7 @@
 		{
 			"name": "spring.application.strategy.auto.scan.recursion.enabled",
 			"type": "java.lang.Boolean",
-			"defaultValue": false,
+			"defaultValue": true,
 			"description": "Whether strategy auto scan recursion is enabled."
 		}
 	]
