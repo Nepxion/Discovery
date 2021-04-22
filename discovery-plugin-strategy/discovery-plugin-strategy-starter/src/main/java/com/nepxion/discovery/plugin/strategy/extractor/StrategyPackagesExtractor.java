@@ -145,7 +145,7 @@ public class StrategyPackagesExtractor implements BeanDefinitionRegistryPostProc
                     }
                 }
 
-                Boolean autoScanRecursionEnabled = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_AUTO_SCAN_RECURSION_ENABLED, Boolean.class, Boolean.FALSE);
+                Boolean autoScanRecursionEnabled = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_AUTO_SCAN_RECURSION_ENABLED, Boolean.class, Boolean.TRUE);
                 if (autoScanRecursionEnabled) {
                     for (String pkg : packages) {
                         if (beanPackage.equals(pkg) || beanPackage.startsWith(pkg + '.')) {
