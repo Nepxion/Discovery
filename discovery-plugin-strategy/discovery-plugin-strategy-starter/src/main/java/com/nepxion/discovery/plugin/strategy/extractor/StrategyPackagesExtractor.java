@@ -70,7 +70,7 @@ public class StrategyPackagesExtractor implements BeanDefinitionRegistryPostProc
         try {
             allPackagesList = new ArrayList<String>();
 
-            basePackagesList = AutoConfigurationPackages.get(applicationContext);
+            basePackagesList = getBasePackages();
             if (CollectionUtils.isNotEmpty(basePackagesList)) {
                 for (String pkg : basePackagesList) {
                     if (!allPackagesList.contains(pkg)) {
@@ -116,6 +116,10 @@ public class StrategyPackagesExtractor implements BeanDefinitionRegistryPostProc
 
     public String getAllPackages() {
         return allPackages;
+    }
+
+    protected List<String> getBasePackages() {
+        return AutoConfigurationPackages.get(applicationContext);
     }
 
     protected Set<String> getComponentScanningPackages(BeanDefinitionRegistry registry, List<String> basePackages) {
