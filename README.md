@@ -4344,9 +4344,6 @@ public class MyService {
 
         // 上面两种目录的相加，返回List<String>类型
         strategyPackagesExtractor.getAllPackagesList();
-
-        // 上面两种目录的相加，返回分号分隔的String类型
-        strategyPackagesExtractor.getAllPackages();
     }
 }
 ```
