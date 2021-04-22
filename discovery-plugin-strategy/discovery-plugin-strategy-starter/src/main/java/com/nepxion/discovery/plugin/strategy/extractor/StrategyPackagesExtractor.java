@@ -46,8 +46,10 @@ public class StrategyPackagesExtractor implements BeanDefinitionRegistryPostProc
     private List<String> basePackagesList;
     private List<String> scanningPackagesList;
     private Set<String> scanningPackagesSet;
-
     private List<String> allPackagesList;
+
+    private String basePackages;
+    private String scanningPackages;
     private String allPackages;
 
     @Override
@@ -71,8 +73,10 @@ public class StrategyPackagesExtractor implements BeanDefinitionRegistryPostProc
         try {
             allPackagesList = new ArrayList<String>();
 
-            basePackagesList = getBasePackages();
+            basePackagesList = getComponentBasePackages();
             if (CollectionUtils.isNotEmpty(basePackagesList)) {
+                basePackages = StringUtil.convertToString(basePackagesList);
+
                 for (String pkg : basePackagesList) {
                     if (!allPackagesList.contains(pkg)) {
                         allPackagesList.add(pkg);
@@ -83,6 +87,8 @@ public class StrategyPackagesExtractor implements BeanDefinitionRegistryPostProc
             scanningPackagesSet = getComponentScanningPackages(registry, basePackagesList);
             if (CollectionUtils.isNotEmpty(scanningPackagesSet)) {
                 scanningPackagesList = new ArrayList<String>(scanningPackagesSet);
+                scanningPackages = StringUtil.convertToString(scanningPackagesList);
+
                 for (String pkg : scanningPackagesList) {
                     if (!allPackagesList.contains(pkg)) {
                         allPackagesList.add(pkg);
@@ -116,11 +122,19 @@ public class StrategyPackagesExtractor implements BeanDefinitionRegistryPostProc
         return allPackagesList;
     }
 
+    public String getBasePackages() {
+        return basePackages;
+    }
+
+    public String getScanningPackages() {
+        return scanningPackages;
+    }
+
     public String getAllPackages() {
         return allPackages;
     }
 
-    protected List<String> getBasePackages() {
+    protected List<String> getComponentBasePackages() {
         return AutoConfigurationPackages.get(applicationContext);
     }
 
