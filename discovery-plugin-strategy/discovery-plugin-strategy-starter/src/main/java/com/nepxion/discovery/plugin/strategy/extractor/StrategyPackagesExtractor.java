@@ -6,6 +6,7 @@ package com.nepxion.discovery.plugin.strategy.extractor;
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
  * @author Xun Zhong
+ * @author Haojun Ren
  * @version 1.0
  */
 
@@ -29,28 +30,29 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.annotation.AnnotationAttributes;
+import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.ClassUtils;
 
 import com.nepxion.discovery.common.util.StringUtil;
+import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 
 public class StrategyPackagesExtractor implements BeanDefinitionRegistryPostProcessor, ApplicationContextAware {
     private static final Logger LOG = LoggerFactory.getLogger(StrategyPackagesExtractor.class);
 
     private ApplicationContext applicationContext;
+    private Environment environment;
 
     private List<String> basePackagesList;
-    private String basePackages;
-
     private Set<String> scanningPackagesSet;
-    private String scanningPackages;
 
-    private List<String> allPackagesList = new ArrayList<String>();
+    private List<String> allPackagesList;
     private String allPackages;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
+        this.environment = applicationContext.getEnvironment();
     }
 
     @Override
@@ -60,26 +62,28 @@ public class StrategyPackagesExtractor implements BeanDefinitionRegistryPostProc
 
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
+        Boolean autoScanPackagesEnabled = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_AUTO_SCAN_PACKAGES_ENABLED, Boolean.class, Boolean.TRUE);
+        if (!autoScanPackagesEnabled) {
+            return;
+        }
+
         try {
+            allPackagesList = new ArrayList<String>();
+
             basePackagesList = AutoConfigurationPackages.get(applicationContext);
             if (CollectionUtils.isNotEmpty(basePackagesList)) {
-                basePackages = StringUtil.convertToString(basePackagesList);
-
-                for (String value : basePackagesList) {
-                    if (!allPackagesList.contains(value)) {
-                        allPackagesList.add(value);
+                for (String pkg : basePackagesList) {
+                    if (!allPackagesList.contains(pkg)) {
+                        allPackagesList.add(pkg);
                     }
                 }
             }
 
             scanningPackagesSet = getComponentScanningPackages(registry, basePackagesList);
             if (CollectionUtils.isNotEmpty(scanningPackagesSet)) {
-                List<String> scanningPackagesList = new ArrayList<String>(scanningPackagesSet);
-                scanningPackages = StringUtil.convertToString(scanningPackagesList);
-
-                for (String value : scanningPackagesList) {
-                    if (!allPackagesList.contains(value)) {
-                        allPackagesList.add(value);
+                for (String pkg : scanningPackagesSet) {
+                    if (!allPackagesList.contains(pkg)) {
+                        allPackagesList.add(pkg);
                     }
                 }
             }
@@ -102,16 +106,8 @@ public class StrategyPackagesExtractor implements BeanDefinitionRegistryPostProc
         return basePackagesList;
     }
 
-    public String getBasePackages() {
-        return basePackages;
-    }
-
     public Set<String> getScanningPackagesSet() {
         return scanningPackagesSet;
-    }
-
-    public String getScanningPackages() {
-        return scanningPackages;
     }
 
     public List<String> getAllPackagesList() {
@@ -123,6 +119,10 @@ public class StrategyPackagesExtractor implements BeanDefinitionRegistryPostProc
     }
 
     protected Set<String> getComponentScanningPackages(BeanDefinitionRegistry registry, List<String> basePackages) {
+        if (CollectionUtils.isEmpty(basePackages)) {
+            return null;
+        }
+
         Set<String> packages = new LinkedHashSet<>();
         String[] names = registry.getBeanDefinitionNames();
         for (String name : names) {
@@ -134,18 +134,25 @@ public class StrategyPackagesExtractor implements BeanDefinitionRegistryPostProc
                     if (beanPackage.equals(pkg) || beanPackage.startsWith(pkg + '.')) {
                         AnnotatedBeanDefinition annotatedDefinition = (AnnotatedBeanDefinition) definition;
                         addComponentScanningPackages(packages, annotatedDefinition.getMetadata());
+
                         break;
                     }
                 }
-                for (String pkg : packages) {
-                    if (beanPackage.equals(pkg) || beanPackage.startsWith(pkg + '.')) {
-                        AnnotatedBeanDefinition annotatedDefinition = (AnnotatedBeanDefinition) definition;
-                        addComponentScanningPackages(packages, annotatedDefinition.getMetadata());
-                        break;
+
+                Boolean autoScanRecursionEnabled = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_AUTO_SCAN_RECURSION_ENABLED, Boolean.class, Boolean.FALSE);
+                if (autoScanRecursionEnabled) {
+                    for (String pkg : packages) {
+                        if (beanPackage.equals(pkg) || beanPackage.startsWith(pkg + '.')) {
+                            AnnotatedBeanDefinition annotatedDefinition = (AnnotatedBeanDefinition) definition;
+                            addComponentScanningPackages(packages, annotatedDefinition.getMetadata());
+
+                            break;
+                        }
                     }
                 }
             }
         }
+
         return packages;
     }
 

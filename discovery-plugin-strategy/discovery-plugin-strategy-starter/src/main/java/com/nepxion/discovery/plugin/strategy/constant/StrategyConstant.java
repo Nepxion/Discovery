@@ -41,4 +41,7 @@ public class StrategyConstant {
     public static final String SPRING_APPLICATION_STRATEGY_TRACER_SPAN_VALUE = "spring.application.strategy.tracer.span.value";
     public static final String SPRING_APPLICATION_STRATEGY_TRACER_SPAN_TAG_PLUGIN_VALUE = "spring.application.strategy.tracer.span.tag.plugin.value";
     public static final String SPRING_APPLICATION_STRATEGY_ALARM_ENABLED = "spring.application.strategy.alarm.enabled";
+
+    public static final String SPRING_APPLICATION_STRATEGY_AUTO_SCAN_PACKAGES_ENABLED = "spring.application.strategy.auto.scan.packages.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_AUTO_SCAN_RECURSION_ENABLED = "spring.application.strategy.auto.scan.recursion.enabled";
 }
