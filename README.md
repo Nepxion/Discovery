@@ -4309,8 +4309,8 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service
 ```
 # 启动和关闭自动扫描目录，当扫描目录未人工配置的时候，可以通过自动扫描方式决定扫描目录。缺失则默认为true
 spring.application.strategy.auto.scan.packages.enabled=true
-# 启动和关闭嵌套扫描，嵌套扫描指扫描非本工程下外部包的目录，可以支持多层嵌套。缺失则默认为true
-spring.application.strategy.auto.scan.recursion.enabled=true
+# 启动和关闭嵌套扫描，嵌套扫描指扫描非本工程下外部包的目录，可以支持多层嵌套。缺失则默认为false
+spring.application.strategy.auto.scan.recursion.enabled=false
 ```
 
 ② 自动扫描目录的逻辑
@@ -4703,8 +4703,8 @@ spring.application.parameter.event.onstart.enabled=true
 
 # 启动和关闭自动扫描目录，当扫描目录未人工配置的时候，可以通过自动扫描方式决定扫描目录。缺失则默认为true
 spring.application.strategy.auto.scan.packages.enabled=true
-# 启动和关闭嵌套扫描，嵌套扫描指扫描非本工程下外部包的目录，可以支持多层嵌套。缺失则默认为true
-spring.application.strategy.auto.scan.recursion.enabled=true
+# 启动和关闭嵌套扫描，嵌套扫描指扫描非本工程下外部包的目录，可以支持多层嵌套。缺失则默认为false
+spring.application.strategy.auto.scan.recursion.enabled=false
 
 # 开启和关闭使用服务名前缀来作为服务组名。缺失则默认为false
 spring.application.group.generator.enabled=true
@@ -4829,8 +4829,8 @@ spring.application.parameter.event.onstart.enabled=true
 
 # 启动和关闭自动扫描目录，当扫描目录未人工配置的时候，可以通过自动扫描方式决定扫描目录。缺失则默认为true
 spring.application.strategy.auto.scan.packages.enabled=true
-# 启动和关闭嵌套扫描，嵌套扫描指扫描非本工程下外部包的目录，可以支持多层嵌套。缺失则默认为true
-spring.application.strategy.auto.scan.recursion.enabled=true
+# 启动和关闭嵌套扫描，嵌套扫描指扫描非本工程下外部包的目录，可以支持多层嵌套。缺失则默认为false
+spring.application.strategy.auto.scan.recursion.enabled=false
 
 # 开启和关闭使用服务名前缀来作为服务组名。缺失则默认为false
 spring.application.group.generator.enabled=true
@@ -4993,8 +4993,8 @@ spring.application.parameter.event.onstart.enabled=true
 
 # 启动和关闭自动扫描目录，当扫描目录未人工配置的时候，可以通过自动扫描方式决定扫描目录。缺失则默认为true
 spring.application.strategy.auto.scan.packages.enabled=true
-# 启动和关闭嵌套扫描，嵌套扫描指扫描非本工程下外部包的目录，可以支持多层嵌套。缺失则默认为true
-spring.application.strategy.auto.scan.recursion.enabled=true
+# 启动和关闭嵌套扫描，嵌套扫描指扫描非本工程下外部包的目录，可以支持多层嵌套。缺失则默认为false
+spring.application.strategy.auto.scan.recursion.enabled=false
 
 # 开启和关闭使用服务名前缀来作为服务组名。缺失则默认为false
 spring.application.group.generator.enabled=true
