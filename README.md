@@ -4401,7 +4401,7 @@ spring.cloud.consul.discovery.metadata.env=env1
 spring.cloud.consul.discovery.metadata.zone=zone1
 ```
 
-> 对于用户自动的Consul元数据的Key，不能带有包含“.”，“@”等字符，否则服务无法启动，但允许包含“_”，“-”等字符，参考如下配置
+> 对于用户自定义的Consul元数据的Key，不能带有包含“.”，“@”等字符，否则服务无法启动，但允许包含“_”，“-”等字符，参考如下配置
 
 ```
 # 合法格式
