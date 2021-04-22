@@ -143,6 +143,8 @@ public class StrategyPackagesExtractor implements BeanDefinitionRegistryPostProc
             return null;
         }
 
+        Boolean autoScanRecursionEnabled = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_AUTO_SCAN_RECURSION_ENABLED, Boolean.class, Boolean.FALSE);
+
         Set<String> packages = new LinkedHashSet<>();
         String[] names = registry.getBeanDefinitionNames();
         for (String name : names) {
@@ -159,7 +161,6 @@ public class StrategyPackagesExtractor implements BeanDefinitionRegistryPostProc
                     }
                 }
 
-                Boolean autoScanRecursionEnabled = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_AUTO_SCAN_RECURSION_ENABLED, Boolean.class, Boolean.FALSE);
                 if (autoScanRecursionEnabled) {
                     for (String pkg : packages) {
                         if (beanPackage.equals(pkg) || beanPackage.startsWith(pkg + '.')) {
