@@ -44,6 +44,7 @@ public class StrategyPackagesExtractor implements BeanDefinitionRegistryPostProc
     private Environment environment;
 
     private List<String> basePackagesList;
+    private List<String> scanningPackagesList;
     private Set<String> scanningPackagesSet;
 
     private List<String> allPackagesList;
@@ -81,7 +82,8 @@ public class StrategyPackagesExtractor implements BeanDefinitionRegistryPostProc
 
             scanningPackagesSet = getComponentScanningPackages(registry, basePackagesList);
             if (CollectionUtils.isNotEmpty(scanningPackagesSet)) {
-                for (String pkg : scanningPackagesSet) {
+                scanningPackagesList = new ArrayList<String>(scanningPackagesSet);
+                for (String pkg : scanningPackagesList) {
                     if (!allPackagesList.contains(pkg)) {
                         allPackagesList.add(pkg);
                     }
@@ -94,7 +96,7 @@ public class StrategyPackagesExtractor implements BeanDefinitionRegistryPostProc
 
             LOG.info("--------- Auto Scan Packages Information ---------");
             LOG.info("Base packages is {}", basePackagesList);
-            LOG.info("Scanning packages is {}", scanningPackagesSet);
+            LOG.info("Scanning packages is {}", scanningPackagesList);
             LOG.info("All packages is {}", allPackagesList);
             LOG.info("--------------------------------------------------");
         } catch (Exception e) {
@@ -106,8 +108,8 @@ public class StrategyPackagesExtractor implements BeanDefinitionRegistryPostProc
         return basePackagesList;
     }
 
-    public Set<String> getScanningPackagesSet() {
-        return scanningPackagesSet;
+    public List<String> getScanningPackagesList() {
+        return scanningPackagesList;
     }
 
     public List<String> getAllPackagesList() {
