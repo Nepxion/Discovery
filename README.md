@@ -43,7 +43,7 @@
 - [指南Gitee同步镜像](https://gitee.com/Nepxion/DiscoveryGuide)
 - [指南Github原镜像](https://github.com/Nepxion/DiscoveryGuide)
 
-④ Discovery【探索】微服务框架指南示例说明
+④ Discovery【探索】微服务企业级解决方案指南示例说明
 - 对于入门级玩家，参考[6.x.x指南示例极简版](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simple)，分支为6.x.x-simple。涉及到指南篇里的蓝绿灰度发布的基本功能，![](http://nepxion.gitee.io/docs/icon-doc/information_message.png) 参考[新手快速入门](https://gitee.com/nepxion/DiscoveryGuide/blob/6.x.x-simple/GUIDE.md)
 - 对于熟练级玩家，参考[6.x.x指南示例精进版](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x)，分支为6.x.x。除上述《极简版》功能外，涉及到指南篇里的绝大多数高级功能
 - 对于骨灰级玩家，参考[6.x.x指南示例高级版](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-complex)，分支为6.x.x-complex。除上述《精进版》功能外，涉及到指南篇里的ActiveMQ、MongoDB、RabbitMQ、Redis、RocketMQ、MySQL等高级调用链和蓝绿灰度调用链的整合
@@ -63,6 +63,10 @@
 ③ Polaris【北极星】企业级云原生微服务框架指南示例源码。请访问Gitee镜像获得最佳体验
 - [指南Gitee同步镜像](https://gitee.com/polaris-paas/polaris-guide)
 - [指南Github原镜像](https://github.com/polaris-paas/polaris-guide)
+
+④ Polaris【北极星】企业级云原生微服务框架指南示例说明
+- Spring Cloud旧版本，参考[1.x.x指南示例](https://github.com/polaris-paas/polaris-guide/tree/1.x.x)，分支为1.x.x
+- Spring Cloud新版本，参考[2.x.x指南示例](https://github.com/polaris-paas/polaris-guide/tree/master)，分支为master
 
 ![](http://nepxion.gitee.io/docs/icon-doc/Logo64.png) Discovery【探索】和Polaris【北极星】架构体系
 
@@ -453,11 +457,12 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [发布主页](#发布主页)
     - [指南主页](#指南主页)
     - [文档主页](#文档主页)
-    - [贡献主页](#贡献主页)	
+    - [贡献主页](#贡献主页)
+    - [入门主页](#入门主页)
 - [工程架构](#工程架构)
     - [工程清单](#工程清单)
     - [架构核心](#架构核心)
-    - [依赖引入](#依赖引入)	
+    - [依赖引入](#依赖引入)
 - [准备工作](#准备工作)
     - [环境搭建](#环境搭建)
     - [启动服务](#启动服务)
@@ -548,7 +553,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [降级规则](#降级规则)
         - [授权规则](#授权规则)
         - [系统规则](#系统规则)
-        - [热点参数流控规则](#热点参数流控规则)	
+        - [热点参数流控规则](#热点参数流控规则)
     - [基于Sentinel-LimitApp扩展的防护](#基于Sentinel-LimitApp扩展的防护)
         - [基于服务名的防护](#基于服务名的防护)
         - [基于组的防护](#基于组的防护)
@@ -633,7 +638,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 [文档主页](https://gitee.com/Nepxion/Docs/tree/master/web-doc)
 
 ### 贡献主页
-
 - [Nepxion Discovery - Spring Cloud灰度发布神器](https://carlzone.blog.csdn.net/article/details/109787397)
 - [Nepxion Discovery - 灰度发布初体验](https://carlzone.blog.csdn.net/article/details/109839808)
 - [Nepxion Discovery - 项目结构简介](https://carlzone.blog.csdn.net/article/details/110183368)
@@ -647,6 +651,10 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - [Nepxion Discovery - 全链路界面操作蓝绿灰度发布](https://blog.csdn.net/u012410733/article/details/111304744)
 - [Nepxion Discovery - Discovery Agent 解决异步场景线程 ThreadLocal 上下文丢失问题](https://blog.csdn.net/u012410733/article/details/111405081)
 - [Nepxion Discovery - 全链路调用链监控](https://carlzone.blog.csdn.net/article/details/111806972)
+
+### 入门主页
+- [Gitee Wiki](https://gitee.com/nepxion/Discovery/wikis/pages)
+- [Github Wiki](https://github.com/Nepxion/Discovery/wiki)
 
 ## 工程架构
 
