@@ -21,8 +21,8 @@
 - Spring Cloud Alibaba、Nacos、Sentinel、OpenTracing Committer & Contributor
 
 ![](http://nepxion.gitee.io/docs/icon-doc/star2.png) 商业化合作
-- Discovery 7.0.0（对应到Spring Cloud 2020版）源码，价格6888元一套，远程技术支持、生产落地
-- Polaris（Discovery高级版）源码，价格6888元一套，远程技术支持、生产落地
+- DiscoveryX（7.0.0版，支持Spring Cloud 202x版）源码，价格6888元一套，远程技术支持、生产落地
+- Polaris（Discovery高级版，支持Finchley版、Greenwich版、Hoxton版和Spring Cloud 202x版）源码，价格6888元一套，远程技术支持、生产落地
 - 添加微信1394997，通过如下微信支付相关商业费用
 
 ![](http://nepxion.gitee.io/docs/zxing-doc/微信支付.jpg)
