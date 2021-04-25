@@ -2643,12 +2643,6 @@ ThreadLocal的作用是提供线程内的局部变量，在多线程环境下访
 - 通过如下-javaagent启动，基本格式，如下
 
 ```
--javaagent:/discovery-agent/discovery-agent-starter-${discovery.agent.version}.jar -Dthread.scan.packages=com.abc;com.xyz
-```
-
-例如
-
-```
 -javaagent:C:/opt/discovery-agent/discovery-agent-starter-${discovery.agent.version}.jar -Dthread.scan.packages=com.nepxion.discovery.guide.service.feign
 ```
 
@@ -2673,13 +2667,6 @@ agent.plugin.thread.scan.packages=reactor.core.publisher;org.springframework.aop
 - WebFlux Reactor异步场景下的扫描目录对应为reactor.core.publisher，可以解决基于Reactor的Spring Cloud LoadBalancer异步负载均衡下的上下文传递
 - `@`Async场景下的扫描目录对应为org.springframework.aop.interceptor
 - Hystrix线程池隔离场景下的扫描目录对应为com.netflix.hystrix
-
-![](http://nepxion.gitee.io/docs/icon-doc/tip.png) 特别提醒
-
-当扫描目录下没有Runnable/Callable/Thread/ThreadPool等异步类存在，那么thread.scan.packages也不需要配置，最终启动命令行简化为
-```
--javaagent:C:/opt/discovery-agent/discovery-agent-starter-${discovery.agent.version}.jar
-```
 
 #### 异步跨线程DiscoveryAgent扩展
 - 根据规范开发一个插件，插件提供了钩子函数，在某个类被加载的时候，可以注册一个事件到线程上下文切换事件当中，实现业务自定义ThreadLocal的跨线程传递
