@@ -3463,8 +3463,6 @@ Reject to invoke because of isolation with different service group
 
 集成Sentinel熔断隔离限流降级平台
 
-![](http://nepxion.gitee.io/docs/discovery-doc/Sentinel1.jpg)
-![](http://nepxion.gitee.io/docs/discovery-doc/Sentinel2.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Sentinel3.jpg)
 ![](http://nepxion.gitee.io/docs/discovery-doc/Sentinel4.jpg)
 
