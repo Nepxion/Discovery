@@ -2616,11 +2616,30 @@ n-d-address-blacklist=192.168.43.101:1201;192.168.*.102;1301
 ```
 
 ## 异步场景下全链路蓝绿灰度发布
+Discovery框架存在着如下全链路传递上下文的场景，包括
+- 策略路由Header全链路从网关传递到服务
+- 调用链埋点链路从网关传递到服务
+- 业务自定义的上下文的传递
+
+上述上下文会在如下异步场景中丢失，包括
+- WebFlux Reactor响应式异步
+- Spring异步，@Async注解异步
+- Hystrix线程池隔离模式异步
+- 线程，线程池异步
+- SLF4J日志异步
+
+通过DiscoveryAgent，解决上述痛点。Discovery框架利用DiscoveryAgent字节码增强技术，完美解决各种调用场景下的异步，包括
+- Spring Cloud Gateway过滤器中的上下文传递
+- Zuul过滤器中的上下文传递
+- Feign拦截器中的上下文转发
+- RestTemplate拦截器中的上下文转发
+- WebClient拦截器中的上下文转发
 
 ### 异步场景下DiscoveryAgent解决方案
-全链路策略路由Header和调用链Span在Hystrix线程池隔离模式下或者线程、线程池、@Async注解等异步调用Feign、RestTemplate或者WebClient时，通过线程上下文切换会存在丢失Header的问题，通过下述步骤解决，同时适用于网关端和服务端。该方案可以替代Hystrix线程池隔离模式下的解决方案，也适用于其它有相同使用场景的基础框架和业务场景，例如：Dubbo
 
-ThreadLocal的作用是提供线程内的局部变量，在多线程环境下访问时能保证各个线程内的ThreadLocal变量各自独立。在异步场景下，由于出现线程切换的问题，例如主线程切换到子线程，会导致线程ThreadLocal上下文丢失。DiscoveryAgent通过Java Agent方式解决这些痛点
+ThreadLocal的作用是提供线程内的局部变量，在多线程环境下访问时能保证各个线程内的ThreadLocal变量各自独立。在异步场景下，由于出现线程切换的问题，例如，主线程切换到子线程，会导致线程ThreadLocal上下文丢失。DiscoveryAgent通过Java Agent方式解决这些痛点
+
+![](http://nepxion.gitee.io/docs/icon-doc/information.png) DiscoveryAgent不仅适用于Discovery框架，也适用于一切具有类似使用场景的基础框架（例如：Dubbo）和业务场景
 
 涵盖所有Java框架的异步场景，解决如下8个异步场景下丢失线程ThreadLocal上下文的问题
 - WebFlux Reactor
