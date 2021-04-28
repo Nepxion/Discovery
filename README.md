@@ -2636,9 +2636,9 @@ Discovery框架存在着如下全链路传递上下文的场景，包括
 - WebClient拦截器中的上下文转发
 
 ### 异步场景下DiscoveryAgent解决方案
-ThreadLocal的作用是提供线程内的局部变量，在多线程环境下访问时能保证各个线程内的ThreadLocal变量各自独立。在异步场景下，由于出现线程切换的问题，例如，主线程切换到子线程，会导致线程ThreadLocal上下文丢失。DiscoveryAgent通过Java Agent方式解决这些痛点
-
 ![](http://nepxion.gitee.io/docs/icon-doc/information.png) DiscoveryAgent不仅适用于Discovery框架，也适用于一切具有类似使用场景的基础框架（例如：Dubbo）和业务系统
+
+ThreadLocal的作用是提供线程内的局部变量，在多线程环境下访问时能保证各个线程内的ThreadLocal变量各自独立。在异步场景下，由于出现线程切换的问题，例如，主线程切换到子线程，会导致线程ThreadLocal上下文丢失。DiscoveryAgent通过Java Agent方式解决这些痛点
 
 涵盖所有Java框架的异步场景，解决如下8个异步场景下丢失线程ThreadLocal上下文的问题
 - WebFlux Reactor
@@ -2655,11 +2655,30 @@ ThreadLocal的作用是提供线程内的局部变量，在多线程环境下访
 - 通过[https://github.com/Nepxion/DiscoveryAgent/releases](https://github.com/Nepxion/DiscoveryAgent/releases)下载最新版本的Discovery Agent
 - 编译[https://github.com/Nepxion/DiscoveryAgent](https://github.com/Nepxion/DiscoveryAgent)产生discovery-agent目录
 
+#### 异步跨线程DiscoveryAgent清单
+① discovery-agent-starter-`$`{discovery.version}.jar为Agent引导启动程序，JVM启动时进行加载
+
+② agent.config为基准扫描目录配置文件
+
+绝大多数情况下不需要修改，当然使用者也可以增加和删除agent.config的基准扫描目录。默认配置如下
+```
+# Base thread scan packages
+agent.plugin.thread.scan.packages=reactor.core.publisher;org.springframework.aop.interceptor;com.netflix.hystrix
+```
+
+基准扫描目录，含义如下
+- WebFlux Reactor异步场景下的扫描目录对应为reactor.core.publisher
+- `@`Async场景下的扫描目录对应为org.springframework.aop.interceptor
+- Hystrix线程池隔离场景下的扫描目录对应为com.netflix.hystrix
+
+③ plugin/discovery-agent-starter-plugin-strategy-`$`{discovery.version}.jar插件，解决Nepxion Discovery上下文异步场景
+
+④ plugin/discovery-agent-starter-plugin-mdc-`$`{discovery.version}.jar插件，解决SLF4J MDC日志上下文异步场景
+
+⑤ 业务系统可以自定义plugin，解决业务自己定义的上下文异步场景
+
 #### 异步跨线程DiscoveryAgent使用
 ① 使用示例
-- discovery-agent-starter-`$`{discovery.version}.jar为Agent引导启动程序，JVM启动时进行加载
-- discovery-agent/plugin目录包含discovery-agent-starter-plugin-strategy-`$`{discovery.version}.jar为Nepxion Discovery自带的实现方案
-- 业务系统可以自定义plugin，解决业务自己定义的上下文跨线程处理
 - 通过如下-javaagent启动，基本格式，如下
 
 ```
@@ -2674,19 +2693,6 @@ ThreadLocal的作用是提供线程内的局部变量，在多线程环境下访
 - `-D`thread.service.enabled：服务端策略Header输出到异步子线程。默认开启
 - `-D`thread.mdc.enabled：SLF4J MDC日志输出到异步子线程。默认开启
 - `-D`thread.request.decorator.enabled：异步调用场景下在服务端的Request请求的装饰，当主线程先于子线程执行完的时候，Request会被Destory，导致Header仍旧拿不到，开启装饰，就可以确保拿到。默认为开启，根据实践经验，大多数场景下，需要开启该开关
-
-③ 基准扫描目录配置文件
-
-配置文件名为agent.config。绝大多数情况下不需要修改，当然使用者也可以增加和删除agent.config的基准扫描目录。默认配置如下
-```
-# Base thread scan packages
-agent.plugin.thread.scan.packages=reactor.core.publisher;org.springframework.aop.interceptor;com.netflix.hystrix
-```
-
-基准扫描目录包括如下
-- WebFlux Reactor异步场景下的扫描目录对应为reactor.core.publisher，可以解决基于Reactor的Spring Cloud LoadBalancer异步负载均衡下的上下文传递
-- `@`Async场景下的扫描目录对应为org.springframework.aop.interceptor
-- Hystrix线程池隔离场景下的扫描目录对应为com.netflix.hystrix
 
 #### 异步跨线程DiscoveryAgent扩展
 - 根据规范开发一个插件，插件提供了钩子函数，在某个类被加载的时候，可以注册一个事件到线程上下文切换事件当中，实现业务自定义ThreadLocal的跨线程传递
