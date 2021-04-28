@@ -2687,7 +2687,11 @@ agent.plugin.thread.scan.packages=reactor.core.publisher;org.springframework.aop
 
 ② 参数说明
 - C:/opt/discovery-agent：Agent所在的目录，需要对应到实际的目录上
-- `-D`thread.scan.packages：Runnable/Callable/Thread/ThreadPool等异步类所在的扫描目录，该目录下的Runnable/Callable/Thread/ThreadPool等异步类都会被装饰。该目录最好精细和准确，这样可以减少被装饰的对象数，提高性能，目录如果有多个，用“;”分隔。扫描目录如果含有“;”，可能会在某些操作系统中无法被识别，请用`""`进行引入，例如，-Dthread.scan.packages="com.abc;com.xyz"
+- `-D`thread.scan.packages：Runnable/Callable/Thread/ThreadPool等异步类所在的扫描目录，该目录下的异步类都会被装饰
+    - 扫描目录最好精细和准确，目录越详细，越可以减少被装饰的对象数，从一定程度上可以提高性能
+    - 扫描目录如果有多个，用“;”分隔
+    - 扫描目录如果含有“;”，可能会在某些操作系统中无法被识别，请用`""`进行引入，例如，`-Dthread.scan.packages="com.abc;com.xyz"`
+    - 扫描目录下没有Runnable/Callable/Thread/ThreadPool等异步类存在，那么thread.scan.packages也不需要配置，最终启动命令行简化为`-javaagent:C:/opt/discovery-agent/discovery-agent-starter-${discovery.agent.version}.jar`
 - `-D`thread.gateway.enabled：Spring Cloud Gateway端策略Header输出到异步子线程。默认开启
 - `-D`thread.zuul.enabled：Zuul端策略Header输出到异步子线程。默认开启
 - `-D`thread.service.enabled：服务端策略Header输出到异步子线程。默认开启
