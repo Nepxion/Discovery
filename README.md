@@ -2618,7 +2618,7 @@ n-d-address-blacklist=192.168.43.101:1201;192.168.*.102;1301
 ## 异步场景下全链路蓝绿灰度发布
 Discovery框架存在着如下全链路传递上下文的场景，包括
 - 策略路由Header全链路从网关传递到服务
-- 调用链埋点链路从网关传递到服务
+- 调用链埋点全链路从网关传递到服务
 - 业务自定义的上下文的传递
 
 上述上下文会在如下异步场景中丢失，包括
@@ -2686,7 +2686,7 @@ agent.plugin.thread.scan.packages=reactor.core.publisher;org.springframework.aop
 ```
 
 ② 参数说明
-- /discovery-agent：Agent所在的目录，需要对应到实际的目录上
+- C:/opt/discovery-agent：Agent所在的目录，需要对应到实际的目录上
 - `-D`thread.scan.packages：Runnable/Callable/Thread/ThreadPool等异步类所在的扫描目录，该目录下的Runnable/Callable/Thread/ThreadPool等异步类都会被装饰。该目录最好精细和准确，这样可以减少被装饰的对象数，提高性能，目录如果有多个，用“;”分隔。扫描目录如果含有“;”，可能会在某些操作系统中无法被识别，请用`""`进行引入，例如，-Dthread.scan.packages="com.abc;com.xyz"
 - `-D`thread.gateway.enabled：Spring Cloud Gateway端策略Header输出到异步子线程。默认开启
 - `-D`thread.zuul.enabled：Zuul端策略Header输出到异步子线程。默认开启
