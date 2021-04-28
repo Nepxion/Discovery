@@ -2638,7 +2638,7 @@ Discovery框架存在着如下全链路传递上下文的场景，包括
 ### 异步场景下DiscoveryAgent解决方案
 ThreadLocal的作用是提供线程内的局部变量，在多线程环境下访问时能保证各个线程内的ThreadLocal变量各自独立。在异步场景下，由于出现线程切换的问题，例如，主线程切换到子线程，会导致线程ThreadLocal上下文丢失。DiscoveryAgent通过Java Agent方式解决这些痛点
 
-![](http://nepxion.gitee.io/docs/icon-doc/information.png) DiscoveryAgent不仅适用于Discovery框架，也适用于一切具有类似使用场景的基础框架（例如：Dubbo）和业务场景
+![](http://nepxion.gitee.io/docs/icon-doc/information.png) DiscoveryAgent不仅适用于Discovery框架，也适用于一切具有类似使用场景的基础框架（例如：Dubbo）和业务系统
 
 涵盖所有Java框架的异步场景，解决如下8个异步场景下丢失线程ThreadLocal上下文的问题
 - WebFlux Reactor
@@ -2657,7 +2657,9 @@ ThreadLocal的作用是提供线程内的局部变量，在多线程环境下访
 
 #### 异步跨线程DiscoveryAgent使用
 ① 使用示例
-- discovery-agent-starter-`$`{discovery.version}.jar为Agent引导启动程序，JVM启动时进行加载；discovery-agent/plugin目录包含discovery-agent-starter-plugin-strategy-`$`{discovery.version}.jar为Nepxion Discovery自带的实现方案，业务系统可以自定义plugin，解决业务自己定义的上下文跨线程传递
+- discovery-agent-starter-`$`{discovery.version}.jar为Agent引导启动程序，JVM启动时进行加载
+- discovery-agent/plugin目录包含discovery-agent-starter-plugin-strategy-`$`{discovery.version}.jar为Nepxion Discovery自带的实现方案
+- 业务系统可以自定义plugin，解决业务自己定义的上下文跨线程处理
 - 通过如下-javaagent启动，基本格式，如下
 
 ```
