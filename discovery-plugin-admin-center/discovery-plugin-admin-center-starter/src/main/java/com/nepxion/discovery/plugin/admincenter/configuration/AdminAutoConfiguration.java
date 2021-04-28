@@ -5,28 +5,23 @@ package com.nepxion.discovery.plugin.admincenter.configuration;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
+ * @author Ning Zhang
  * @version 1.0
  */
 
+import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
+import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRule;
+import com.nepxion.discovery.plugin.admincenter.endpoint.*;
+import com.nepxion.discovery.plugin.framework.adapter.DynamicRouteAdapter;
+import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
-import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRule;
-import com.nepxion.discovery.plugin.admincenter.endpoint.ConfigEndpoint;
-import com.nepxion.discovery.plugin.admincenter.endpoint.GitEndpoint;
-import com.nepxion.discovery.plugin.admincenter.endpoint.InspectorEndpoint;
-import com.nepxion.discovery.plugin.admincenter.endpoint.RouterEndpoint;
-import com.nepxion.discovery.plugin.admincenter.endpoint.SentinelCoreEndpoint;
-import com.nepxion.discovery.plugin.admincenter.endpoint.SentinelParamEndpoint;
-import com.nepxion.discovery.plugin.admincenter.endpoint.StrategyEndpoint;
-import com.nepxion.discovery.plugin.admincenter.endpoint.VersionEndpoint;
-import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
 
 @Configuration
 @Import(SwaggerConfiguration.class)
@@ -88,6 +83,14 @@ public class AdminAutoConfiguration {
         @ConditionalOnProperty(value = "cors.registry.enabled", matchIfMissing = false)
         public CorsRegistryConfiguration corsRegistryConfiguration() {
             return new CorsRegistryConfiguration();
+        }
+    }
+
+    @ConditionalOnClass(DynamicRouteAdapter.class)
+    protected static class DynamicRouteAdapterConfiguration {
+        @Bean
+        public DynamicRouteEndpoint dynamicRouteEndpoint() {
+            return new DynamicRouteEndpoint();
         }
     }
 }
