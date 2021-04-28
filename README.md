@@ -639,7 +639,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 [Polaris指南主页](https://github.com/Nepxion/PolarisGuide)
 
 ### 文档主页
-[文档主页](https://gitee.com/Nepxion/Docs/tree/master/web-doc)
+[文档主页](https://gitee.com/Nepxion/Discovery/tree/wiki/docs/web-doc)
 
 ### 贡献主页
 - [Nepxion Discovery - Spring Cloud灰度发布神器](https://carlzone.blog.csdn.net/article/details/109787397)
