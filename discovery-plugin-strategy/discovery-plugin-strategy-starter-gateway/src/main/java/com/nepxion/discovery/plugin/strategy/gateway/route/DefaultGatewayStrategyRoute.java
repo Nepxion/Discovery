@@ -73,15 +73,11 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
 
                 isChanged = true;
             }
-        }
 
-        for (Map.Entry<String, RouteDefinition> entry : newRouteDefinitionMap.entrySet()) {
-            String routeId = entry.getKey();
             if (currentRouteDefinitionMap.containsKey(routeId)) {
                 RouteDefinition currentRouteDefinition = currentRouteDefinitionMap.get(routeId);
-                RouteDefinition newRouteDefinition = entry.getValue();
-                if (!currentRouteDefinition.equals(newRouteDefinition)) {
-                    modify(newRouteDefinition);
+                if (!currentRouteDefinition.equals(routeDefinition)) {
+                    modify(routeDefinition);
 
                     isChanged = true;
                 }

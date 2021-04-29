@@ -54,15 +54,11 @@ public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements Zuul
 
                 isChanged = true;
             }
-        }
 
-        for (Map.Entry<String, ZuulProperties.ZuulRoute> entry : newRouteMap.entrySet()) {
-            String routeId = entry.getKey();
             if (currentRouteMap.containsKey(routeId)) {
                 ZuulProperties.ZuulRoute currentRoute = currentRouteMap.get(routeId);
-                ZuulProperties.ZuulRoute newRoute = entry.getValue();
-                if (!currentRoute.equals(newRoute)) {
-                    modify(newRoute);
+                if (!currentRoute.equals(route)) {
+                    modify(route);
 
                     isChanged = true;
                 }
