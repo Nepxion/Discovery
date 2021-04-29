@@ -16,6 +16,4 @@ public class GatewayStrategyConstant {
     public static final String SPRING_APPLICATION_STRATEGY_GATEWAY_ORIGINAL_HEADER_IGNORED = "spring.application.strategy.gateway.original.header.ignored";
     public static final String SPRING_APPLICATION_STRATEGY_GATEWAY_CORE_HEADER_TRANSMISSION_ENABLED = "spring.application.strategy.gateway.core.header.transmission.enabled";
     public static final int SPRING_APPLICATION_STRATEGY_GATEWAY_ROUTE_FILTER_ORDER_VALUE = 9000;
-    public static final String SERVICE_NAME = "service_name";
-    public static final String ROUTE_PATH = "route_path";
 }

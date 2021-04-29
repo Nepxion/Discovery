@@ -46,8 +46,8 @@ public class GatewayStrategyRouteEndpoint {
     @ApiOperation(value = "查看网关已经生效的路由列表", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     public ResponseEntity<List<String>> view() {
-        List<String> routeList = gatewayStrategyRoute.view();
+        List<String> gatewayStrategyRouteList = gatewayStrategyRoute.view();
 
-        return ResponseEntity.ok(routeList);
+        return ResponseEntity.ok(gatewayStrategyRouteList);
     }
 }

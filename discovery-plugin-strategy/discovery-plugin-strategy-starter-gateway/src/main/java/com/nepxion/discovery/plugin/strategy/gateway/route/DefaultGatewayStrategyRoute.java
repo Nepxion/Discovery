@@ -36,10 +36,12 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.nepxion.discovery.plugin.strategy.gateway.constant.GatewayStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.gateway.entity.GatewayStrategyRouteEntity;
 
 public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, ApplicationEventPublisherAware {
+    public static final String SERVICE_NAME = "service_name";
+    public static final String ROUTE_PATH = "route_path";
+
     @Autowired
     private RouteDefinitionLocator routeDefinitionLocator;
 
@@ -127,8 +129,8 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
         routeDefinition.setId(gatewayStrategyRouteEntity.getRouteId());
 
         Map<String, Object> metadata = new HashMap<>();
-        metadata.put(GatewayStrategyConstant.SERVICE_NAME, gatewayStrategyRouteEntity.getServiceName());
-        metadata.put(GatewayStrategyConstant.ROUTE_PATH, getRoutePath(gatewayStrategyRouteEntity));
+        metadata.put(SERVICE_NAME, gatewayStrategyRouteEntity.getServiceName());
+        metadata.put(ROUTE_PATH, getRoutePath(gatewayStrategyRouteEntity));
         routeDefinition.setMetadata(metadata);
 
         String value = gatewayStrategyRouteEntity.getUri();
