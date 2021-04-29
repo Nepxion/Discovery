@@ -45,15 +45,15 @@ public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements Zuul
         Map<String, ZuulProperties.ZuulRoute> newRouteMap = zuulStrategyRouteEntityList.stream().collect(Collectors.toMap(ZuulStrategyRouteEntity::getRouteId, this::convertRoute));
         Map<String, ZuulProperties.ZuulRoute> currentRouteMap = locateRoutes();
 
-        List<ZuulProperties.ZuulRoute> insertRoute = new ArrayList<>(newRouteMap.size());
-        List<ZuulProperties.ZuulRoute> updateRoute = new ArrayList<>(newRouteMap.size());
-        List<ZuulProperties.ZuulRoute> deleteRoute = new ArrayList<>(newRouteMap.size());
+        List<ZuulProperties.ZuulRoute> insertRouteList = new ArrayList<>(newRouteMap.size());
+        List<ZuulProperties.ZuulRoute> updateRouteList = new ArrayList<>(newRouteMap.size());
+        List<ZuulProperties.ZuulRoute> deleteRouteList = new ArrayList<>(newRouteMap.size());
 
         for (Map.Entry<String, ZuulProperties.ZuulRoute> entry : newRouteMap.entrySet()) {
             String routeId = entry.getKey();
             ZuulRoute route = entry.getValue();
             if (!currentRouteMap.containsKey(routeId)) {
-                insertRoute.add(route);
+                insertRouteList.add(route);
             }
         }
 
@@ -63,7 +63,7 @@ public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements Zuul
                 ZuulProperties.ZuulRoute currentRoute = currentRouteMap.get(routeId);
                 ZuulProperties.ZuulRoute newRoute = entry.getValue();
                 if (!currentRoute.equals(newRoute)) {
-                    updateRoute.add(newRoute);
+                    updateRouteList.add(newRoute);
                 }
             }
         }
@@ -72,23 +72,23 @@ public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements Zuul
             String routeId = entry.getKey();
             ZuulRoute route = entry.getValue();
             if (!newRouteMap.containsKey(routeId)) {
-                deleteRoute.add(route);
+                deleteRouteList.add(route);
             }
         }
 
-        for (ZuulProperties.ZuulRoute route : insertRoute) {
+        for (ZuulProperties.ZuulRoute route : insertRouteList) {
             add(route);
         }
 
-        for (ZuulProperties.ZuulRoute route : updateRoute) {
+        for (ZuulProperties.ZuulRoute route : updateRouteList) {
             modify(route);
         }
 
-        for (ZuulProperties.ZuulRoute route : deleteRoute) {
+        for (ZuulProperties.ZuulRoute route : deleteRouteList) {
             delete(route);
         }
 
-        if (!insertRoute.isEmpty() || !updateRoute.isEmpty() || !deleteRoute.isEmpty()) {
+        if (!insertRouteList.isEmpty() || !updateRouteList.isEmpty() || !deleteRouteList.isEmpty()) {
             applicationEventPublisher.publishEvent(new RoutesRefreshedEvent(this));
         }
     }

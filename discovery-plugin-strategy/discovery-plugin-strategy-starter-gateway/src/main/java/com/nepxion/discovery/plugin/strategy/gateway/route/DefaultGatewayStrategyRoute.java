@@ -63,15 +63,15 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
         Map<String, RouteDefinition> newRouteDefinitionMap = gatewayStrategyRouteEntityList.stream().collect(Collectors.toMap(GatewayStrategyRouteEntity::getRouteId, this::convertRoute));
         Map<String, RouteDefinition> currentRouteDefinitionMap = locateRoutes();
 
-        List<RouteDefinition> insertRouteDefinition = new ArrayList<>(newRouteDefinitionMap.size());
-        List<RouteDefinition> updateRouteDefinition = new ArrayList<>(newRouteDefinitionMap.size());
-        List<RouteDefinition> deleteRouteDefinition = new ArrayList<>(newRouteDefinitionMap.size());
+        List<RouteDefinition> insertRouteDefinitionList = new ArrayList<>(newRouteDefinitionMap.size());
+        List<RouteDefinition> updateRouteDefinitionList = new ArrayList<>(newRouteDefinitionMap.size());
+        List<RouteDefinition> deleteRouteDefinitionList = new ArrayList<>(newRouteDefinitionMap.size());
 
         for (Map.Entry<String, RouteDefinition> entry : newRouteDefinitionMap.entrySet()) {
             String routeId = entry.getKey();
             RouteDefinition routeDefinition = entry.getValue();
             if (!currentRouteDefinitionMap.containsKey(routeId)) {
-                insertRouteDefinition.add(routeDefinition);
+                insertRouteDefinitionList.add(routeDefinition);
             }
         }
 
@@ -81,7 +81,7 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
                 RouteDefinition currentRouteDefinition = currentRouteDefinitionMap.get(routeId);
                 RouteDefinition newRouteDefinition = entry.getValue();
                 if (!currentRouteDefinition.equals(newRouteDefinition)) {
-                    updateRouteDefinition.add(newRouteDefinition);
+                    updateRouteDefinitionList.add(newRouteDefinition);
                 }
             }
         }
@@ -90,23 +90,23 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
             String routeId = entry.getKey();
             RouteDefinition routeDefinition = entry.getValue();
             if (!newRouteDefinitionMap.containsKey(routeId)) {
-                deleteRouteDefinition.add(routeDefinition);
+                deleteRouteDefinitionList.add(routeDefinition);
             }
         }
 
-        for (RouteDefinition routeDefinition : insertRouteDefinition) {
+        for (RouteDefinition routeDefinition : insertRouteDefinitionList) {
             add(routeDefinition);
         }
 
-        for (RouteDefinition routeDefinition : updateRouteDefinition) {
+        for (RouteDefinition routeDefinition : updateRouteDefinitionList) {
             modify(routeDefinition);
         }
 
-        for (RouteDefinition routeDefinition : deleteRouteDefinition) {
+        for (RouteDefinition routeDefinition : deleteRouteDefinitionList) {
             delete(routeDefinition);
         }
 
-        if (!insertRouteDefinition.isEmpty() || !updateRouteDefinition.isEmpty() || !deleteRouteDefinition.isEmpty()) {
+        if (!insertRouteDefinitionList.isEmpty() || !updateRouteDefinitionList.isEmpty() || !deleteRouteDefinitionList.isEmpty()) {
             applicationEventPublisher.publishEvent(new RefreshRoutesEvent(this));
         }
     }
