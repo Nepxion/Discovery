@@ -63,15 +63,15 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
         Map<String, RouteDefinition> newRouteDefinitionMap = gatewayStrategyRouteEntityList.stream().collect(Collectors.toMap(GatewayStrategyRouteEntity::getRouteId, this::convertRoute));
         Map<String, RouteDefinition> currentRouteDefinitionMap = locateRoutes();
 
-        List<RouteDefinition> insertRouteDefinitionList = new ArrayList<>(newRouteDefinitionMap.size());
-        List<RouteDefinition> updateRouteDefinitionList = new ArrayList<>(newRouteDefinitionMap.size());
-        List<RouteDefinition> deleteRouteDefinitionList = new ArrayList<>(newRouteDefinitionMap.size());
+        boolean isChanged = false;
 
         for (Map.Entry<String, RouteDefinition> entry : newRouteDefinitionMap.entrySet()) {
             String routeId = entry.getKey();
             RouteDefinition routeDefinition = entry.getValue();
             if (!currentRouteDefinitionMap.containsKey(routeId)) {
-                insertRouteDefinitionList.add(routeDefinition);
+                add(routeDefinition);
+
+                isChanged = true;
             }
         }
 
@@ -81,7 +81,9 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
                 RouteDefinition currentRouteDefinition = currentRouteDefinitionMap.get(routeId);
                 RouteDefinition newRouteDefinition = entry.getValue();
                 if (!currentRouteDefinition.equals(newRouteDefinition)) {
-                    updateRouteDefinitionList.add(newRouteDefinition);
+                    modify(newRouteDefinition);
+
+                    isChanged = true;
                 }
             }
         }
@@ -90,23 +92,13 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
             String routeId = entry.getKey();
             RouteDefinition routeDefinition = entry.getValue();
             if (!newRouteDefinitionMap.containsKey(routeId)) {
-                deleteRouteDefinitionList.add(routeDefinition);
+                delete(routeDefinition);
+
+                isChanged = true;
             }
         }
 
-        for (RouteDefinition routeDefinition : insertRouteDefinitionList) {
-            add(routeDefinition);
-        }
-
-        for (RouteDefinition routeDefinition : updateRouteDefinitionList) {
-            modify(routeDefinition);
-        }
-
-        for (RouteDefinition routeDefinition : deleteRouteDefinitionList) {
-            delete(routeDefinition);
-        }
-
-        if (!insertRouteDefinitionList.isEmpty() || !updateRouteDefinitionList.isEmpty() || !deleteRouteDefinitionList.isEmpty()) {
+        if (isChanged) {
             applicationEventPublisher.publishEvent(new RefreshRoutesEvent(this));
         }
     }

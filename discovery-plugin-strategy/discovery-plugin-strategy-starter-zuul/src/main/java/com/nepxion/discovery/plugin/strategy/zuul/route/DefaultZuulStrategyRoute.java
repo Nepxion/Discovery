@@ -9,7 +9,6 @@ package com.nepxion.discovery.plugin.strategy.zuul.route;
  * @version 1.0
  */
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,15 +44,15 @@ public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements Zuul
         Map<String, ZuulProperties.ZuulRoute> newRouteMap = zuulStrategyRouteEntityList.stream().collect(Collectors.toMap(ZuulStrategyRouteEntity::getRouteId, this::convertRoute));
         Map<String, ZuulProperties.ZuulRoute> currentRouteMap = locateRoutes();
 
-        List<ZuulProperties.ZuulRoute> insertRouteList = new ArrayList<>(newRouteMap.size());
-        List<ZuulProperties.ZuulRoute> updateRouteList = new ArrayList<>(newRouteMap.size());
-        List<ZuulProperties.ZuulRoute> deleteRouteList = new ArrayList<>(newRouteMap.size());
+        boolean isChanged = false;
 
         for (Map.Entry<String, ZuulProperties.ZuulRoute> entry : newRouteMap.entrySet()) {
             String routeId = entry.getKey();
             ZuulRoute route = entry.getValue();
             if (!currentRouteMap.containsKey(routeId)) {
-                insertRouteList.add(route);
+                add(route);
+
+                isChanged = true;
             }
         }
 
@@ -63,7 +62,9 @@ public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements Zuul
                 ZuulProperties.ZuulRoute currentRoute = currentRouteMap.get(routeId);
                 ZuulProperties.ZuulRoute newRoute = entry.getValue();
                 if (!currentRoute.equals(newRoute)) {
-                    updateRouteList.add(newRoute);
+                    modify(newRoute);
+
+                    isChanged = true;
                 }
             }
         }
@@ -72,23 +73,13 @@ public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements Zuul
             String routeId = entry.getKey();
             ZuulRoute route = entry.getValue();
             if (!newRouteMap.containsKey(routeId)) {
-                deleteRouteList.add(route);
+                delete(route);
+
+                isChanged = true;
             }
         }
 
-        for (ZuulProperties.ZuulRoute route : insertRouteList) {
-            add(route);
-        }
-
-        for (ZuulProperties.ZuulRoute route : updateRouteList) {
-            modify(route);
-        }
-
-        for (ZuulProperties.ZuulRoute route : deleteRouteList) {
-            delete(route);
-        }
-
-        if (!insertRouteList.isEmpty() || !updateRouteList.isEmpty() || !deleteRouteList.isEmpty()) {
+        if (isChanged) {
             applicationEventPublisher.publishEvent(new RoutesRefreshedEvent(this));
         }
     }
@@ -111,7 +102,7 @@ public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements Zuul
         for (Map.Entry<String, ZuulProperties.ZuulRoute> entry : locateRouteMap.entrySet()) {
             String routeId = entry.getKey();
             ZuulRoute route = entry.getValue();
-            
+
             routeMap.put(routeId, route);
         }
 
