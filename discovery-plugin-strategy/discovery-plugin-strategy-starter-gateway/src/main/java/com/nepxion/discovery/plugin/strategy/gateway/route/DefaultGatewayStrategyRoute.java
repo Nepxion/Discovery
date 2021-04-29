@@ -159,7 +159,7 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
         return routeDefinition;
     }
 
-    private static String getRoutePath(GatewayStrategyRouteEntity gatewayStrategyRouteEntity) {
+    private String getRoutePath(GatewayStrategyRouteEntity gatewayStrategyRouteEntity) {
         String filters = gatewayStrategyRouteEntity.getFilters();
         String predicates = gatewayStrategyRouteEntity.getPredicates();
 
