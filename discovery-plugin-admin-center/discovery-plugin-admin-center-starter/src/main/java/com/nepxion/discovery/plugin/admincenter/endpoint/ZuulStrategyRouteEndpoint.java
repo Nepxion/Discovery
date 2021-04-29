@@ -34,7 +34,7 @@ public class ZuulStrategyRouteEndpoint {
     private ZuulStrategyRoute zuulStrategyRoute;
 
     @RequestMapping(path = "/update", method = RequestMethod.POST)
-    @ApiOperation(value = "推送更新网关当前路由列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "推送更新网关当前的路由列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<Boolean> update(@RequestBody ArrayList<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList) {
         zuulStrategyRoute.update(zuulStrategyRouteEntityList);
