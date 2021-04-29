@@ -41,7 +41,7 @@ public class StrategyEndpoint {
     private StrategyWrapper strategyWrapper;
 
     @RequestMapping(path = "/validate-expression", method = RequestMethod.GET)
-    @ApiOperation(value = "校验策略的条件表达式", notes = "", response = Boolean.class, httpMethod = "GET")
+    @ApiOperation(value = "校验策略的条件表达式", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     public ResponseEntity<?> validateExpression(@RequestParam @ApiParam(value = "条件表达式，格式示例：#H['a'] == '1' && #H['b'] != '2'。注意，引号是否为中文格式", required = true) String expression, @RequestParam(required = false, defaultValue = "") @ApiParam(value = "校验参数，格式示例：a=1;b=1。如果多个用“;”分隔，不允许出现空格。允许为空", required = false, defaultValue = "") String validation) {
         StrategyConditionEntity strategyConditionEntity = new StrategyConditionEntity();
@@ -60,7 +60,7 @@ public class StrategyEndpoint {
     }
 
     @RequestMapping(path = "/validate-route", method = RequestMethod.GET)
-    @ApiOperation(value = "校验策略的全链路路由", notes = "", response = String.class, httpMethod = "GET")
+    @ApiOperation(value = "校验策略的全链路路由", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     public ResponseEntity<?> validateVersionRoute(@RequestParam @ApiParam(value = "路由策略类型取值：version | region | address | version-weight | region-weight | id-blacklist | address-blacklist", required = true) String routeType, @RequestParam(required = false, defaultValue = "") @ApiParam(value = "校验参数，格式示例：a=1;b=1。如果多个用“;”分隔，不允许出现空格，允许为空。如果选择最后两项策略类型，则不需要校验参数", required = false, defaultValue = "") String validation) {
         StrategyRouteType strategyRouteType = StrategyRouteType.fromString(routeType);

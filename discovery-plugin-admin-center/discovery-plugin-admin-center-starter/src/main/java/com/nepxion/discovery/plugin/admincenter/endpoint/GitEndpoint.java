@@ -33,7 +33,7 @@ public class GitEndpoint {
     private GitGenerator gitGenerator;
 
     @RequestMapping(path = "/map", method = RequestMethod.GET)
-    @ApiOperation(value = "获取Git信息的Map格式", notes = "", response = Map.class, httpMethod = "GET")
+    @ApiOperation(value = "获取Git信息的Map格式", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     public ResponseEntity<Map<String, String>> map() {
         Map<String, String> map = gitGenerator != null ? gitGenerator.getMap() : new HashMap<String, String>();
@@ -42,7 +42,7 @@ public class GitEndpoint {
     }
 
     @RequestMapping(path = "/text", method = RequestMethod.GET)
-    @ApiOperation(value = "获取Git信息的文本格式", notes = "", response = String.class, httpMethod = "GET")
+    @ApiOperation(value = "获取Git信息的文本格式", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     public ResponseEntity<String> text() {
         String text = gitGenerator != null ? gitGenerator.getText() : StringUtils.EMPTY;
