@@ -115,7 +115,7 @@ public class SentinelCoreEndpoint {
     }
 
     @RequestMapping(path = "/view-flow-rules", method = RequestMethod.GET)
-    @ApiOperation(value = "获取流控规则列表", notes = "", response = List.class, httpMethod = "GET")
+    @ApiOperation(value = "获取流控规则列表", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     public ResponseEntity<List<FlowRule>> viewFlowRules() {
         return ResponseEntity.ok().body(FlowRuleManager.getRules());
@@ -154,7 +154,7 @@ public class SentinelCoreEndpoint {
     }
 
     @RequestMapping(path = "/view-degrade-rules", method = RequestMethod.GET)
-    @ApiOperation(value = "获取降级规则列表", notes = "", response = List.class, httpMethod = "GET")
+    @ApiOperation(value = "获取降级规则列表", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     public ResponseEntity<List<DegradeRule>> viewDegradeRules() {
         return ResponseEntity.ok().body(DegradeRuleManager.getRules());
@@ -232,7 +232,7 @@ public class SentinelCoreEndpoint {
     }
 
     @RequestMapping(path = "/view-system-rules", method = RequestMethod.GET)
-    @ApiOperation(value = "获取系统规则列表", notes = "", response = List.class, httpMethod = "GET")
+    @ApiOperation(value = "获取系统规则列表", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     public ResponseEntity<List<SystemRule>> viewSystemRules() {
         return ResponseEntity.ok().body(SystemRuleManager.getRules());
