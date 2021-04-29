@@ -46,6 +46,8 @@ public class DynamicRouteEndpoint {
     @ApiOperation(value = "查看网关当前已生效的路由列表", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     public ResponseEntity<List<String>> view() {
-        return ResponseEntity.ok(strategyDynamicRouteAdapter.view());
+        List<String> dynamicRouteList = strategyDynamicRouteAdapter.view();
+
+        return ResponseEntity.ok(dynamicRouteList);
     }
 }
