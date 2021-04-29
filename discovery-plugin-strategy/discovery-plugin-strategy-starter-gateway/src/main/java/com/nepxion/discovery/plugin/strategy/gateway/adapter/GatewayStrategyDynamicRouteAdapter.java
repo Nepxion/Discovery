@@ -5,27 +5,10 @@ package com.nepxion.discovery.plugin.strategy.gateway.adapter;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
- *
  * @author Ning Zhang
  * @version 1.0
  */
 
-import com.nepxion.discovery.common.entity.DynamicRouteEntity;
-import com.nepxion.discovery.plugin.framework.adapter.DynamicRouteAdapter;
-import com.nepxion.discovery.plugin.strategy.gateway.constant.GatewayStrategyConstant;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.gateway.config.GatewayProperties;
-import org.springframework.cloud.gateway.event.RefreshRoutesEvent;
-import org.springframework.cloud.gateway.filter.FilterDefinition;
-import org.springframework.cloud.gateway.handler.predicate.PredicateDefinition;
-import org.springframework.cloud.gateway.route.RouteDefinition;
-import org.springframework.cloud.gateway.route.RouteDefinitionLocator;
-import org.springframework.cloud.gateway.route.RouteDefinitionWriter;
-import org.springframework.cloud.gateway.support.NotFoundException;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.ApplicationEventPublisherAware;
-import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -39,37 +22,59 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class GatewayStrategyDynamicRouteAdapter implements DynamicRouteAdapter, ApplicationEventPublisherAware {
-    private ApplicationEventPublisher publisher;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.gateway.config.GatewayProperties;
+import org.springframework.cloud.gateway.event.RefreshRoutesEvent;
+import org.springframework.cloud.gateway.filter.FilterDefinition;
+import org.springframework.cloud.gateway.handler.predicate.PredicateDefinition;
+import org.springframework.cloud.gateway.route.RouteDefinition;
+import org.springframework.cloud.gateway.route.RouteDefinitionLocator;
+import org.springframework.cloud.gateway.route.RouteDefinitionWriter;
+import org.springframework.cloud.gateway.support.NotFoundException;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import com.nepxion.discovery.common.entity.DynamicRouteEntity;
+import com.nepxion.discovery.plugin.strategy.adapter.StrategyDynamicRouteAdapter;
+import com.nepxion.discovery.plugin.strategy.gateway.constant.GatewayStrategyConstant;
+
+public class GatewayStrategyDynamicRouteAdapter implements StrategyDynamicRouteAdapter, ApplicationEventPublisherAware {
     @Autowired
     private RouteDefinitionLocator routeDefinitionLocator;
+
     @Autowired
     private RouteDefinitionWriter routeDefinitionWriter;
+
     @Autowired
     private GatewayProperties gatewayProperties;
 
+    private ApplicationEventPublisher applicationEventPublisher;
+
     @Override
     public void setApplicationEventPublisher(final ApplicationEventPublisher applicationEventPublisher) {
-        this.publisher = applicationEventPublisher;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     @Override
     public void update(final List<DynamicRouteEntity> dynamicRouteEntityList) {
-        final Map<String, RouteDefinition> routeDefinitionMap = dynamicRouteEntityList.stream().collect(Collectors.toMap(DynamicRouteEntity::getRouteId, this::toRouteDefinition));
-        final Map<String, RouteDefinition> currentRouteMap = this.listRouteDefinition();
-        final List<RouteDefinition> insertRouteDefinition = new ArrayList<>(routeDefinitionMap.size());
-        final List<RouteDefinition> updateRouteDefinition = new ArrayList<>(routeDefinitionMap.size());
-        final List<RouteDefinition> deleteRouteDefinition = new ArrayList<>(routeDefinitionMap.size());
+        final Map<String, RouteDefinition> dynamicRouteDefinitionMap = dynamicRouteEntityList.stream().collect(Collectors.toMap(DynamicRouteEntity::getRouteId, this::toRouteDefinition));
+        final Map<String, RouteDefinition> currentRouteDefinitionMap = locateRoutes();
 
-        for (final Map.Entry<String, RouteDefinition> pair : routeDefinitionMap.entrySet()) {
-            if (!currentRouteMap.containsKey(pair.getKey())) {
+        final List<RouteDefinition> insertRouteDefinition = new ArrayList<>(dynamicRouteDefinitionMap.size());
+        final List<RouteDefinition> updateRouteDefinition = new ArrayList<>(dynamicRouteDefinitionMap.size());
+        final List<RouteDefinition> deleteRouteDefinition = new ArrayList<>(dynamicRouteDefinitionMap.size());
+
+        for (final Map.Entry<String, RouteDefinition> pair : dynamicRouteDefinitionMap.entrySet()) {
+            if (!currentRouteDefinitionMap.containsKey(pair.getKey())) {
                 insertRouteDefinition.add(pair.getValue());
             }
         }
 
-        for (final Map.Entry<String, RouteDefinition> pair : routeDefinitionMap.entrySet()) {
-            if (currentRouteMap.containsKey(pair.getKey())) {
-                final RouteDefinition currentRouteDefinition = currentRouteMap.get(pair.getKey());
+        for (final Map.Entry<String, RouteDefinition> pair : dynamicRouteDefinitionMap.entrySet()) {
+            if (currentRouteDefinitionMap.containsKey(pair.getKey())) {
+                final RouteDefinition currentRouteDefinition = currentRouteDefinitionMap.get(pair.getKey());
                 final RouteDefinition newRouteDefinition = pair.getValue();
                 if (!currentRouteDefinition.equals(newRouteDefinition)) {
                     updateRouteDefinition.add(newRouteDefinition);
@@ -77,43 +82,46 @@ public class GatewayStrategyDynamicRouteAdapter implements DynamicRouteAdapter, 
             }
         }
 
-        for (final Map.Entry<String, RouteDefinition> pair : currentRouteMap.entrySet()) {
-            if (!routeDefinitionMap.containsKey(pair.getKey())) {
+        for (final Map.Entry<String, RouteDefinition> pair : currentRouteDefinitionMap.entrySet()) {
+            if (!dynamicRouteDefinitionMap.containsKey(pair.getKey())) {
                 deleteRouteDefinition.add(pair.getValue());
             }
         }
 
         for (final RouteDefinition routeDefinition : insertRouteDefinition) {
-            this.add(routeDefinition);
+            add(routeDefinition);
         }
+
         for (final RouteDefinition routeDefinition : updateRouteDefinition) {
-            this.modify(routeDefinition);
+            modify(routeDefinition);
         }
+
         for (final RouteDefinition routeDefinition : deleteRouteDefinition) {
-            this.delete(routeDefinition);
+            delete(routeDefinition);
         }
 
         if (!insertRouteDefinition.isEmpty() || !updateRouteDefinition.isEmpty() || !deleteRouteDefinition.isEmpty()) {
-            this.publisher.publishEvent(new RefreshRoutesEvent(this));
+            applicationEventPublisher.publishEvent(new RefreshRoutesEvent(this));
         }
     }
 
     @Override
     public List<String> view() {
-        return listRouteDefinition().values().stream().map(RouteDefinition::toString).collect(Collectors.toList());
+        return locateRoutes().values().stream().map(RouteDefinition::toString).collect(Collectors.toList());
     }
 
-    private Map<String, RouteDefinition> listRouteDefinition() {
+    private Map<String, RouteDefinition> locateRoutes() {
         final Map<String, RouteDefinition> result = new HashMap<>();
-        final Flux<RouteDefinition> routeDefinitions = this.routeDefinitionLocator.getRouteDefinitions();
+        final Flux<RouteDefinition> routeDefinitions = routeDefinitionLocator.getRouteDefinitions();
         routeDefinitions.subscribe(routeDefinition -> result.put(routeDefinition.getId(), routeDefinition));
+
         return result;
     }
 
     private void add(final RouteDefinition routeDefinition) {
         Disposable disposable = null;
         try {
-            disposable = this.routeDefinitionWriter.save(Mono.just(routeDefinition)).subscribe();
+            disposable = routeDefinitionWriter.save(Mono.just(routeDefinition)).subscribe();
         } finally {
             if (null != disposable) {
                 disposable.dispose();
@@ -122,14 +130,14 @@ public class GatewayStrategyDynamicRouteAdapter implements DynamicRouteAdapter, 
     }
 
     private void modify(final RouteDefinition routeDefinition) {
-        this.delete(routeDefinition);
-        this.add(routeDefinition);
+        delete(routeDefinition);
+        add(routeDefinition);
     }
 
     private void delete(final RouteDefinition routeDefinition) {
         Disposable disposable = null;
         try {
-            disposable = this.routeDefinitionWriter
+            disposable = routeDefinitionWriter
                     .delete(Mono.just(routeDefinition.getId()))
                     .onErrorResume(new Function<Throwable, Mono<? extends Void>>() {
                         @Override
@@ -141,8 +149,10 @@ public class GatewayStrategyDynamicRouteAdapter implements DynamicRouteAdapter, 
                                         return routeCandidate.getId().equals(routeDefinition.getId());
                                     }
                                 });
+
                                 return Mono.empty();
                             }
+
                             return Mono.error(throwable);
                         }
                     }).subscribe();
@@ -154,34 +164,35 @@ public class GatewayStrategyDynamicRouteAdapter implements DynamicRouteAdapter, 
     }
 
     private RouteDefinition toRouteDefinition(final DynamicRouteEntity dynamicRouteEntity) {
-        final RouteDefinition result = new RouteDefinition();
-        result.setId(dynamicRouteEntity.getRouteId());
-        result.setOrder(dynamicRouteEntity.getOrderNum());
-        result.setMetadata(new HashMap<>());
-        result.getMetadata().put(GatewayStrategyConstant.SERVICE_NAME, dynamicRouteEntity.getServiceName());
-        result.getMetadata().put(GatewayStrategyConstant.ROUTE_PATH, getRoutePath(dynamicRouteEntity));
+        final RouteDefinition routeDefinition = new RouteDefinition();
+        routeDefinition.setId(dynamicRouteEntity.getRouteId());
+        routeDefinition.setOrder(dynamicRouteEntity.getOrderNum());
+        routeDefinition.setMetadata(new HashMap<>());
+        routeDefinition.getMetadata().put(GatewayStrategyConstant.SERVICE_NAME, dynamicRouteEntity.getServiceName());
+        routeDefinition.getMetadata().put(GatewayStrategyConstant.ROUTE_PATH, getRoutePath(dynamicRouteEntity));
 
-        final String strUri = dynamicRouteEntity.getUri();
+        final String value = dynamicRouteEntity.getUri();
         URI uri;
-        if (strUri.startsWith("http")) {
-            uri = UriComponentsBuilder.fromHttpUrl(strUri).build().toUri();
+        if (value.startsWith("http")) {
+            uri = UriComponentsBuilder.fromHttpUrl(value).build().toUri();
         } else {
-            uri = URI.create(strUri);
+            uri = URI.create(value);
         }
-        result.setUri(uri);
+        routeDefinition.setUri(uri);
 
         final List<PredicateDefinition> predicateDefinitionList = new ArrayList<>();
         for (final String text : dynamicRouteEntity.getPredicates().split(";")) {
             predicateDefinitionList.add(new PredicateDefinition(text));
         }
-        result.setPredicates(predicateDefinitionList);
+        routeDefinition.setPredicates(predicateDefinitionList);
 
         final List<FilterDefinition> filterDefinitionList = new ArrayList<>();
         for (final String text : dynamicRouteEntity.getFilters().split(";")) {
             filterDefinitionList.add(new FilterDefinition(text));
         }
-        result.setFilters(filterDefinitionList);
-        return result;
+        routeDefinition.setFilters(filterDefinitionList);
+
+        return routeDefinition;
     }
 
     private static String getRoutePath(final DynamicRouteEntity dynamicRouteEntity) {
@@ -196,6 +207,7 @@ public class GatewayStrategyDynamicRouteAdapter implements DynamicRouteAdapter, 
         if (!StringUtils.isEmpty(filters) && filters.contains("stripprefix=")) {
             stripPrefix = Integer.parseInt(StringUtils.removeStart(filters, "stripprefix="));
         }
+
         if (!StringUtils.isEmpty(predicates) && predicates.contains("path=")) {
             predicates = StringUtils.removeStart(predicates, "path=");
         }
@@ -214,8 +226,10 @@ public class GatewayStrategyDynamicRouteAdapter implements DynamicRouteAdapter, 
                     end = endTemp;
                 }
             }
+
             return predicates.substring(start, end + 1);
         }
+
         return dynamicRouteEntity.getServiceName();
     }
 }

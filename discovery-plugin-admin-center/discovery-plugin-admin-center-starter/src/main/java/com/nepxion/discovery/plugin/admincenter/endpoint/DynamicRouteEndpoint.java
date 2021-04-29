@@ -5,48 +5,47 @@ package com.nepxion.discovery.plugin.admincenter.endpoint;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
- *
  * @author Ning Zhang
  * @version 1.0
  */
 
-import com.nepxion.discovery.common.entity.DynamicRouteEntity;
-import com.nepxion.discovery.plugin.framework.adapter.DynamicRouteAdapter;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.nepxion.discovery.common.entity.DynamicRouteEntity;
+import com.nepxion.discovery.plugin.strategy.adapter.StrategyDynamicRouteAdapter;
+
 @RestController
 @RequestMapping(path = "/gateway-dynamic-route")
-@Api(tags = {"网关动态路由接口"})
+@Api(tags = { "网关动态路由接口" })
 public class DynamicRouteEndpoint {
-    @Autowired(required = false)
-    private DynamicRouteAdapter dynamicRouteAdapter;
+    @Autowired
+    private StrategyDynamicRouteAdapter strategyDynamicRouteAdapter;
 
-    @ApiOperation(value = "更新网关当前的路由", response = ResponseEntity.class, httpMethod = "POST")
-    @PostMapping("/update")
-    public synchronized ResponseEntity<Boolean> update(@RequestBody final ArrayList<DynamicRouteEntity> dynamicRouteEntities) {
-        if (dynamicRouteAdapter == null) {
-            return ResponseEntity.ok(false);
-        }
-        dynamicRouteAdapter.update(dynamicRouteEntities);
+    @RequestMapping(path = "/update", method = RequestMethod.POST)
+    @ApiOperation(value = "推送更新网关当前路由列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    public ResponseEntity<Boolean> update(@RequestBody ArrayList<DynamicRouteEntity> dynamicRouteEntityList) {
+        strategyDynamicRouteAdapter.update(dynamicRouteEntityList);
+
         return ResponseEntity.ok(true);
     }
 
-    @ApiOperation(value = "获取网关当前已生效的路由信息", response = ResponseEntity.class, httpMethod = "POST")
-    @PostMapping(value = "/view")
+    @RequestMapping(path = "/view", method = RequestMethod.GET)
+    @ApiOperation(value = "查看网关当前已生效的路由列表", notes = "", response = ResponseEntity.class, httpMethod = "GET")
+    @ResponseBody
     public ResponseEntity<List<String>> view() {
-        if (dynamicRouteAdapter == null) {
-            return ResponseEntity.ok(null);
-        }
-        return ResponseEntity.ok(dynamicRouteAdapter.view());
+        return ResponseEntity.ok(strategyDynamicRouteAdapter.view());
     }
 }

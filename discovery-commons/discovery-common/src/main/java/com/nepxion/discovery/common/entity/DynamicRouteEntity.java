@@ -5,17 +5,16 @@ package com.nepxion.discovery.common.entity;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
- *
  * @author Ning Zhang
  * @version 1.0
  */
+
+import java.io.Serializable;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-
-import java.io.Serializable;
 
 public class DynamicRouteEntity implements Serializable {
     private static final long serialVersionUID = -3322655604556029821L;
@@ -81,7 +80,7 @@ public class DynamicRouteEntity implements Serializable {
     }
 
     @Override
-    public boolean equals(final Object object) {
+    public boolean equals(Object object) {
         return EqualsBuilder.reflectionEquals(this, object);
     }
 
