@@ -17,7 +17,13 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>discovery-plugin-strategy-starter</artifactId>
+            <artifactId>discovery-plugin-strategy-starter-gateway</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>discovery-plugin-strategy-starter-zuul</artifactId>
             <scope>provided</scope>
         </dependency>
 

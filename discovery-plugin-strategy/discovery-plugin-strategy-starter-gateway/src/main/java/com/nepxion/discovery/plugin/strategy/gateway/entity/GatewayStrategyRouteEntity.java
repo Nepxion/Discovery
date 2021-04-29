@@ -1,4 +1,4 @@
-package com.nepxion.discovery.common.entity;
+package com.nepxion.discovery.plugin.strategy.gateway.entity;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -16,29 +16,37 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class DynamicRouteEntity implements Serializable {
-    private static final long serialVersionUID = -3322655604556029821L;
+public class GatewayStrategyRouteEntity implements Serializable {
+    private static final long serialVersionUID = 8552414941889295450L;
 
     private String routeId;
-    private String uri;
     private String serviceName;
+    private String uri;
     private String predicates;
     private String filters;
-    private Integer orderNum;
+    private Integer order;
 
     public String getRouteId() {
         return routeId;
     }
 
-    public void setRouteId(final String routeId) {
+    public void setRouteId(String routeId) {
         this.routeId = routeId;
+    }
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
     }
 
     public String getUri() {
         return uri;
     }
 
-    public void setUri(final String uri) {
+    public void setUri(String uri) {
         this.uri = uri;
     }
 
@@ -46,7 +54,7 @@ public class DynamicRouteEntity implements Serializable {
         return predicates;
     }
 
-    public void setPredicates(final String predicates) {
+    public void setPredicates(String predicates) {
         this.predicates = predicates;
     }
 
@@ -54,24 +62,16 @@ public class DynamicRouteEntity implements Serializable {
         return filters;
     }
 
-    public void setFilters(final String filters) {
+    public void setFilters(String filters) {
         this.filters = filters;
     }
 
-    public Integer getOrderNum() {
-        return orderNum;
+    public Integer getOrder() {
+        return order;
     }
 
-    public void setOrderNum(final Integer orderNum) {
-        this.orderNum = orderNum;
-    }
-
-    public String getServiceName() {
-        return serviceName;
-    }
-
-    public void setServiceName(final String serviceName) {
-        this.serviceName = serviceName;
+    public void setOrder(Integer order) {
+        this.order = order;
     }
 
     @Override

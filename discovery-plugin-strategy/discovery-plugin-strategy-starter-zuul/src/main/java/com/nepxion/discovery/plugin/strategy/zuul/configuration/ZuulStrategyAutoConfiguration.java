@@ -19,15 +19,15 @@ import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.nepxion.discovery.plugin.strategy.adapter.StrategyDynamicRouteAdapter;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
-import com.nepxion.discovery.plugin.strategy.zuul.adapter.ZuulStrategyDynamicRouteAdapter;
 import com.nepxion.discovery.plugin.strategy.zuul.filter.DefaultZuulStrategyClearFilter;
 import com.nepxion.discovery.plugin.strategy.zuul.filter.DefaultZuulStrategyRouteFilter;
 import com.nepxion.discovery.plugin.strategy.zuul.filter.ZuulStrategyClearFilter;
 import com.nepxion.discovery.plugin.strategy.zuul.filter.ZuulStrategyRouteFilter;
 import com.nepxion.discovery.plugin.strategy.zuul.monitor.DefaultZuulStrategyMonitor;
 import com.nepxion.discovery.plugin.strategy.zuul.monitor.ZuulStrategyMonitor;
+import com.nepxion.discovery.plugin.strategy.zuul.route.DefaultZuulStrategyRoute;
+import com.nepxion.discovery.plugin.strategy.zuul.route.ZuulStrategyRoute;
 import com.nepxion.discovery.plugin.strategy.zuul.wrapper.DefaultZuulStrategyCallableWrapper;
 import com.nepxion.discovery.plugin.strategy.zuul.wrapper.ZuulStrategyCallableWrapper;
 
@@ -57,8 +57,8 @@ public class ZuulStrategyAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public StrategyDynamicRouteAdapter zuulStrategyDynamicRouteAdapter(final ServerProperties serverProperties, final ZuulProperties zuulProperties) {
-        return new ZuulStrategyDynamicRouteAdapter(serverProperties.getServlet().getContextPath(), zuulProperties);
+    public ZuulStrategyRoute zuulStrategyRoute(ServerProperties serverProperties, ZuulProperties zuulProperties) {
+        return new DefaultZuulStrategyRoute(serverProperties.getServlet().getContextPath(), zuulProperties);
     }
 
     @Bean

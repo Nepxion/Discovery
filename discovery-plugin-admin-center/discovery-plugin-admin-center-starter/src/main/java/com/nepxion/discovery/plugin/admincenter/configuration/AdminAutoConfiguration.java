@@ -23,7 +23,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRule;
 import com.nepxion.discovery.plugin.admincenter.endpoint.ConfigEndpoint;
-import com.nepxion.discovery.plugin.admincenter.endpoint.DynamicRouteEndpoint;
+import com.nepxion.discovery.plugin.admincenter.endpoint.GatewayStrategyRouteEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.GitEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.InspectorEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.RouterEndpoint;
@@ -31,8 +31,10 @@ import com.nepxion.discovery.plugin.admincenter.endpoint.SentinelCoreEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.SentinelParamEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.StrategyEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.VersionEndpoint;
-import com.nepxion.discovery.plugin.strategy.adapter.StrategyDynamicRouteAdapter;
+import com.nepxion.discovery.plugin.admincenter.endpoint.ZuulStrategyRouteEndpoint;
+import com.nepxion.discovery.plugin.strategy.gateway.route.GatewayStrategyRoute;
 import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
+import com.nepxion.discovery.plugin.strategy.zuul.route.ZuulStrategyRoute;
 
 @Configuration
 @Import(SwaggerConfiguration.class)
@@ -89,11 +91,19 @@ public class AdminAutoConfiguration {
         }
     }
 
-    @ConditionalOnBean(StrategyDynamicRouteAdapter.class)
-    protected static class DynamicRouteEndpointConfiguration {
+    @ConditionalOnBean(GatewayStrategyRoute.class)
+    protected static class GatewayStrategyRouteEndpointConfiguration {
         @Bean
-        public DynamicRouteEndpoint dynamicRouteEndpoint() {
-            return new DynamicRouteEndpoint();
+        public GatewayStrategyRouteEndpoint gatewayStrategyRouteEndpoint() {
+            return new GatewayStrategyRouteEndpoint();
+        }
+    }
+
+    @ConditionalOnBean(ZuulStrategyRoute.class)
+    protected static class ZuulStrategyRouteEndpointConfiguration {
+        @Bean
+        public ZuulStrategyRouteEndpoint zuulStrategyRouteEndpoint() {
+            return new ZuulStrategyRouteEndpoint();
         }
     }
 

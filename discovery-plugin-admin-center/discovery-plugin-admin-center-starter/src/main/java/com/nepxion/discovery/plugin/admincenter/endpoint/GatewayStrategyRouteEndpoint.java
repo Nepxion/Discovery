@@ -23,31 +23,31 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nepxion.discovery.common.entity.DynamicRouteEntity;
-import com.nepxion.discovery.plugin.strategy.adapter.StrategyDynamicRouteAdapter;
+import com.nepxion.discovery.plugin.strategy.gateway.entity.GatewayStrategyRouteEntity;
+import com.nepxion.discovery.plugin.strategy.gateway.route.GatewayStrategyRoute;
 
 @RestController
-@RequestMapping(path = "/gateway-dynamic-route")
+@RequestMapping(path = "/gateway-route")
 @Api(tags = { "网关动态路由接口" })
-public class DynamicRouteEndpoint {
+public class GatewayStrategyRouteEndpoint {
     @Autowired
-    private StrategyDynamicRouteAdapter strategyDynamicRouteAdapter;
+    private GatewayStrategyRoute gatewayStrategyRoute;
 
     @RequestMapping(path = "/update", method = RequestMethod.POST)
     @ApiOperation(value = "推送更新网关当前路由列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<Boolean> update(@RequestBody ArrayList<DynamicRouteEntity> dynamicRouteEntityList) {
-        strategyDynamicRouteAdapter.update(dynamicRouteEntityList);
+    public ResponseEntity<Boolean> update(@RequestBody ArrayList<GatewayStrategyRouteEntity> gatewayStrategyRouteEntityList) {
+        gatewayStrategyRoute.update(gatewayStrategyRouteEntityList);
 
         return ResponseEntity.ok(true);
     }
 
     @RequestMapping(path = "/view", method = RequestMethod.GET)
-    @ApiOperation(value = "查看网关当前已生效的路由列表", notes = "", response = ResponseEntity.class, httpMethod = "GET")
+    @ApiOperation(value = "查看网关已经生效的路由列表", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     public ResponseEntity<List<String>> view() {
-        List<String> dynamicRouteList = strategyDynamicRouteAdapter.view();
+        List<String> routeList = gatewayStrategyRoute.view();
 
-        return ResponseEntity.ok(dynamicRouteList);
+        return ResponseEntity.ok(routeList);
     }
 }

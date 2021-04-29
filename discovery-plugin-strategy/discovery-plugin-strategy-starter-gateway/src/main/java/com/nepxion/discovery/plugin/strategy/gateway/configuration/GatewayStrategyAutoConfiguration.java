@@ -19,9 +19,7 @@ import org.springframework.cloud.netflix.ribbon.RibbonClientConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.nepxion.discovery.plugin.strategy.adapter.StrategyDynamicRouteAdapter;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
-import com.nepxion.discovery.plugin.strategy.gateway.adapter.GatewayStrategyDynamicRouteAdapter;
 import com.nepxion.discovery.plugin.strategy.gateway.filter.DefaultGatewayStrategyClearFilter;
 import com.nepxion.discovery.plugin.strategy.gateway.filter.DefaultGatewayStrategyRouteFilter;
 import com.nepxion.discovery.plugin.strategy.gateway.filter.GatewayStrategyClearFilter;
@@ -29,6 +27,8 @@ import com.nepxion.discovery.plugin.strategy.gateway.filter.GatewayStrategyRoute
 import com.nepxion.discovery.plugin.strategy.gateway.filter.SkyWalkingGatewayStrategyFilter;
 import com.nepxion.discovery.plugin.strategy.gateway.monitor.DefaultGatewayStrategyMonitor;
 import com.nepxion.discovery.plugin.strategy.gateway.monitor.GatewayStrategyMonitor;
+import com.nepxion.discovery.plugin.strategy.gateway.route.DefaultGatewayStrategyRoute;
+import com.nepxion.discovery.plugin.strategy.gateway.route.GatewayStrategyRoute;
 import com.nepxion.discovery.plugin.strategy.gateway.wrapper.DefaultGatewayStrategyCallableWrapper;
 import com.nepxion.discovery.plugin.strategy.gateway.wrapper.GatewayStrategyCallableWrapper;
 
@@ -56,8 +56,8 @@ public class GatewayStrategyAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public StrategyDynamicRouteAdapter gatewayStrategyDynamicRouteAdapter() {
-        return new GatewayStrategyDynamicRouteAdapter();
+    public GatewayStrategyRoute gatewayStrategyRoute() {
+        return new DefaultGatewayStrategyRoute();
     }
 
     @Bean
