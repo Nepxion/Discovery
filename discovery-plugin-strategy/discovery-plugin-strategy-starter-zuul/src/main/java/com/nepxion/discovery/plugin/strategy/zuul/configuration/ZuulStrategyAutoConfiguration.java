@@ -40,10 +40,10 @@ public class ZuulStrategyAutoConfiguration {
         return new DefaultZuulStrategyRouteFilter();
     }
 
+    // 只用于调用链
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_MONITOR_ENABLED, matchIfMissing = false)
-    // 只用于调用链
     public ZuulStrategyClearFilter zuulStrategyClearFilter() {
         return new DefaultZuulStrategyClearFilter();
     }
