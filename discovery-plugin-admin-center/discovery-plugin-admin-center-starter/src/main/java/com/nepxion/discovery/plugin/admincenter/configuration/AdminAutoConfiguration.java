@@ -16,13 +16,16 @@ import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRule;
 import com.nepxion.discovery.plugin.admincenter.endpoint.*;
 import com.nepxion.discovery.plugin.framework.adapter.DynamicRouteAdapter;
 import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.Ordered;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+@AutoConfigureOrder(Ordered.LOWEST_PRECEDENCE)
 @Configuration
 @Import(SwaggerConfiguration.class)
 public class AdminAutoConfiguration {
@@ -87,7 +90,7 @@ public class AdminAutoConfiguration {
     }
 
     @ConditionalOnClass(DynamicRouteAdapter.class)
-    protected static class DynamicRouteAdapterConfiguration {
+    protected static class DynamicRouteEndpointConfiguration {
         @Bean
         public DynamicRouteEndpoint dynamicRouteEndpoint() {
             return new DynamicRouteEndpoint();

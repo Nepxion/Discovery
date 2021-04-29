@@ -7,12 +7,9 @@ package com.nepxion.discovery.plugin.strategy.gateway.configuration;
  * <p>Company: Nepxion</p>
  *
  * @author Haojun Ren
- * @author Ning Zhang
  * @version 1.0
  */
 
-import com.nepxion.discovery.plugin.framework.adapter.DynamicRouteAdapter;
-import com.nepxion.discovery.plugin.strategy.gateway.adapter.GatewayDynamicRouteAdapter;
 import com.nepxion.discovery.plugin.strategy.gateway.context.GatewayStrategyContextHolder;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -27,11 +24,5 @@ public class GatewayStrategyContextAutoConfiguration {
     @ConditionalOnMissingBean
     public GatewayStrategyContextHolder gatewayStrategyContextHolder() {
         return new GatewayStrategyContextHolder();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public DynamicRouteAdapter gatewayDynamicRouteAdapter() {
-        return new GatewayDynamicRouteAdapter();
     }
 }

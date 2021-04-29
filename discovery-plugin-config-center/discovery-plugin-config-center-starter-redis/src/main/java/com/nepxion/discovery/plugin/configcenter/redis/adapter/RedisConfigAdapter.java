@@ -7,7 +7,7 @@ package com.nepxion.discovery.plugin.configcenter.redis.adapter;
  * <p>Company: Nepxion</p>
  * @author Haojun Ren
  * @author JiKai Sun
- * @author pegasus
+ * @author Ning Zhang
  * @version 1.0
  */
 

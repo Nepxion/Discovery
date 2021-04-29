@@ -1,9 +1,5 @@
 package com.nepxion.discovery.plugin.framework.adapter;
 
-import com.nepxion.discovery.common.entity.RouteEntity;
-
-import java.util.List;
-
 /**
  * <p>Title: Nepxion Discovery</p>
  * <p>Description: Nepxion Discovery</p>
@@ -13,8 +9,13 @@ import java.util.List;
  * @author Ning Zhang
  * @version 1.0
  */
+
+import com.nepxion.discovery.common.entity.DynamicRouteEntity;
+
+import java.util.List;
+
 public interface DynamicRouteAdapter {
-    void update(final List<RouteEntity> newRouteList);
+    void update(final List<DynamicRouteEntity> dynamicRouteEntityList);
 
     List<String> view();
 }

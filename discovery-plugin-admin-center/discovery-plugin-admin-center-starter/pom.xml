@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <artifactId>discovery-plugin-admin-center-starter</artifactId>
     <name>Nepxion Discovery Plugin Admin Center Starter</name>
     <packaging>jar</packaging>
@@ -15,11 +15,6 @@
     </parent>
 
     <dependencies>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>discovery-plugin-framework-starter</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>discovery-plugin-strategy-starter</artifactId>

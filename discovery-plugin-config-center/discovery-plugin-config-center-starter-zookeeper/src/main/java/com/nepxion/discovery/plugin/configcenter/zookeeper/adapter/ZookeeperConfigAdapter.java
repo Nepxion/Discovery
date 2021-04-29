@@ -6,7 +6,7 @@ package com.nepxion.discovery.plugin.configcenter.zookeeper.adapter;
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
  * @author rotten
-  * @author pegasus
+ * @author Ning Zhang
  * @version 1.0
  */
 

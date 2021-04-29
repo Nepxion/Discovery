@@ -1,12 +1,5 @@
 package com.nepxion.discovery.common.entity;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
-import java.io.Serializable;
-
 /**
  * <p>Title: Nepxion Discovery</p>
  * <p>Description: Nepxion Discovery</p>
@@ -16,7 +9,15 @@ import java.io.Serializable;
  * @author Ning Zhang
  * @version 1.0
  */
-public class RouteEntity implements Serializable {
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+import java.io.Serializable;
+
+public class DynamicRouteEntity implements Serializable {
     private static final long serialVersionUID = -3322655604556029821L;
 
     private String routeId;

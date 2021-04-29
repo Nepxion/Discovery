@@ -1,20 +1,5 @@
 package com.nepxion.discovery.plugin.strategy.zuul.adapter;
 
-import com.google.common.collect.Sets;
-import com.nepxion.discovery.common.entity.RouteEntity;
-import com.nepxion.discovery.plugin.framework.adapter.DynamicRouteAdapter;
-import org.springframework.cloud.netflix.zuul.RoutesRefreshedEvent;
-import org.springframework.cloud.netflix.zuul.filters.RefreshableRouteLocator;
-import org.springframework.cloud.netflix.zuul.filters.SimpleRouteLocator;
-import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.ApplicationEventPublisherAware;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 /**
  * <p>Title: Nepxion Discovery</p>
  * <p>Description: Nepxion Discovery</p>
@@ -24,36 +9,53 @@ import java.util.stream.Collectors;
  * @author Ning Zhang
  * @version 1.0
  */
-public class ZuulDynamicRouteAdapter extends SimpleRouteLocator implements DynamicRouteAdapter, RefreshableRouteLocator, ApplicationEventPublisherAware {
-    private ApplicationEventPublisher publisher;
-    private ZuulProperties zuulProperties;
 
-    public ZuulDynamicRouteAdapter(final String servletPath,
-                                   final ZuulProperties properties) {
+import com.google.common.collect.Sets;
+import com.nepxion.discovery.common.entity.DynamicRouteEntity;
+import com.nepxion.discovery.plugin.framework.adapter.DynamicRouteAdapter;
+import org.springframework.cloud.netflix.zuul.RoutesRefreshedEvent;
+import org.springframework.cloud.netflix.zuul.filters.RefreshableRouteLocator;
+import org.springframework.cloud.netflix.zuul.filters.SimpleRouteLocator;
+import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+public class ZuulStrategyDynamicRouteAdapter extends SimpleRouteLocator implements DynamicRouteAdapter, RefreshableRouteLocator, ApplicationEventPublisherAware {
+    private ApplicationEventPublisher publisher;
+    private final ZuulProperties zuulProperties;
+
+    public ZuulStrategyDynamicRouteAdapter(final String servletPath,
+                                           final ZuulProperties properties) {
         super(servletPath, properties);
-        zuulProperties = properties;
+        this.zuulProperties = properties;
     }
 
     @Override
     public void setApplicationEventPublisher(final ApplicationEventPublisher applicationEventPublisher) {
-        publisher = applicationEventPublisher;
+        this.publisher = applicationEventPublisher;
     }
 
     @Override
-    public void update(final List<RouteEntity> newRouteList) {
-        final Map<String, ZuulProperties.ZuulRoute> newRouteMap = newRouteList.stream().collect(Collectors.toMap(RouteEntity::getUri, this::toZuulRoute));
-        final Map<String, ZuulProperties.ZuulRoute> currentRouteMap = super.locateRoutes();
-        final List<ZuulProperties.ZuulRoute> insertRouteDefinition = new ArrayList<>(newRouteMap.size());
-        final List<ZuulProperties.ZuulRoute> updateRouteDefinition = new ArrayList<>(newRouteMap.size());
-        final List<ZuulProperties.ZuulRoute> deleteRouteDefinition = new ArrayList<>(newRouteMap.size());
+    public void update(final List<DynamicRouteEntity> dynamicRouteEntityList) {
+        final Map<String, ZuulProperties.ZuulRoute> zuulRouteMap = dynamicRouteEntityList.stream().collect(Collectors.toMap(DynamicRouteEntity::getRouteId, this::toZuulRoute));
+        final Map<String, ZuulProperties.ZuulRoute> currentRouteMap = this.locateRoutes();
+        final List<ZuulProperties.ZuulRoute> insertRouteDefinition = new ArrayList<>(zuulRouteMap.size());
+        final List<ZuulProperties.ZuulRoute> updateRouteDefinition = new ArrayList<>(zuulRouteMap.size());
+        final List<ZuulProperties.ZuulRoute> deleteRouteDefinition = new ArrayList<>(zuulRouteMap.size());
 
-        for (final Map.Entry<String, ZuulProperties.ZuulRoute> pair : newRouteMap.entrySet()) {
+        for (final Map.Entry<String, ZuulProperties.ZuulRoute> pair : zuulRouteMap.entrySet()) {
             if (!currentRouteMap.containsKey(pair.getKey())) {
                 insertRouteDefinition.add(pair.getValue());
             }
         }
 
-        for (final Map.Entry<String, ZuulProperties.ZuulRoute> pair : newRouteMap.entrySet()) {
+        for (final Map.Entry<String, ZuulProperties.ZuulRoute> pair : zuulRouteMap.entrySet()) {
             if (currentRouteMap.containsKey(pair.getKey())) {
                 final ZuulProperties.ZuulRoute currentRouteDefinition = currentRouteMap.get(pair.getKey());
                 final ZuulProperties.ZuulRoute newRouteDefinition = pair.getValue();
@@ -64,7 +66,7 @@ public class ZuulDynamicRouteAdapter extends SimpleRouteLocator implements Dynam
         }
 
         for (final Map.Entry<String, ZuulProperties.ZuulRoute> pair : currentRouteMap.entrySet()) {
-            if (!newRouteMap.containsKey(pair.getKey())) {
+            if (!zuulRouteMap.containsKey(pair.getKey())) {
                 deleteRouteDefinition.add(pair.getValue());
             }
         }
@@ -80,7 +82,7 @@ public class ZuulDynamicRouteAdapter extends SimpleRouteLocator implements Dynam
         }
 
         if (!insertRouteDefinition.isEmpty() || !updateRouteDefinition.isEmpty() || !deleteRouteDefinition.isEmpty()) {
-            publisher.publishEvent(new RoutesRefreshedEvent(this));
+            this.publisher.publishEvent(new RoutesRefreshedEvent(this));
         }
     }
 
@@ -94,15 +96,21 @@ public class ZuulDynamicRouteAdapter extends SimpleRouteLocator implements Dynam
         super.doRefresh();
     }
 
-    private ZuulProperties.ZuulRoute toZuulRoute(final RouteEntity routeEntity) {
-        if (routeEntity == null) {
-            return null;
+    @Override
+    protected Map<String, ZuulProperties.ZuulRoute> locateRoutes() {
+        final Map<String, ZuulProperties.ZuulRoute> zuulRouteMap = super.locateRoutes();
+        final Map<String, ZuulProperties.ZuulRoute> result = new LinkedHashMap<>((int) (0.75 / zuulRouteMap.size()));
+        for (final Map.Entry<String, ZuulProperties.ZuulRoute> pair : zuulRouteMap.entrySet()) {
+            result.put(pair.getValue().getId(), pair.getValue());
         }
+        return result;
+    }
 
+    private ZuulProperties.ZuulRoute toZuulRoute(final DynamicRouteEntity dynamicRouteEntity) {
         final ZuulProperties.ZuulRoute result = new ZuulProperties.ZuulRoute();
-        result.setId(routeEntity.getRouteId());
-        result.setPath(routeEntity.getUri());
-        result.setServiceId(routeEntity.getServiceName());
+        result.setId(dynamicRouteEntity.getRouteId());
+        result.setPath(dynamicRouteEntity.getUri());
+        result.setServiceId(dynamicRouteEntity.getServiceName());
         result.setUrl(null);
         result.setStripPrefix(true);
         result.setRetryable(null);
@@ -112,14 +120,14 @@ public class ZuulDynamicRouteAdapter extends SimpleRouteLocator implements Dynam
     }
 
     private void add(final ZuulProperties.ZuulRoute zuulRoute) {
-        zuulProperties.getRoutes().put(zuulRoute.getId(), zuulRoute);
+        this.zuulProperties.getRoutes().put(zuulRoute.getId(), zuulRoute);
     }
 
     private void modify(final ZuulProperties.ZuulRoute zuulRoute) {
-        zuulProperties.getRoutes().put(zuulRoute.getId(), zuulRoute);
+        this.zuulProperties.getRoutes().put(zuulRoute.getId(), zuulRoute);
     }
 
     private void delete(final ZuulProperties.ZuulRoute zuulRoute) {
-        zuulProperties.getRoutes().remove(zuulRoute.getId());
+        this.zuulProperties.getRoutes().remove(zuulRoute.getId());
     }
 }
