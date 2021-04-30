@@ -83,8 +83,7 @@ public class ZuulStrategyRouteEntity implements Serializable {
     }
 
     public void setSensitiveHeaders(Set<String> sensitiveHeaders) {
-        this.sensitiveHeaders = new LinkedHashSet<>(sensitiveHeaders);
-        this.customSensitiveHeaders = true;
+        this.sensitiveHeaders = sensitiveHeaders;
     }
 
     public boolean isCustomSensitiveHeaders() {

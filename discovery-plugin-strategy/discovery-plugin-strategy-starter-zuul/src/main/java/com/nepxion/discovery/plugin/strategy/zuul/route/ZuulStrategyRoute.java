@@ -14,7 +14,16 @@ import java.util.List;
 import com.nepxion.discovery.plugin.strategy.zuul.entity.ZuulStrategyRouteEntity;
 
 public interface ZuulStrategyRoute {
-    void update(List<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList);
+    void add(ZuulStrategyRouteEntity zuulStrategyRouteEntity);
 
-    List<String> view();
+    // 网关路由对象列表，只允许包含2个动态路由对象，第一个为旧对象，第二个为新对象
+    void modify(List<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList);
+
+    void delete(String path);
+
+    void deleteAll(String serviceId);
+
+    List<String> view(String serviceId);
+
+    List<String> viewAll();
 }

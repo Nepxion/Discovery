@@ -9,13 +9,16 @@ package com.nepxion.discovery.plugin.strategy.zuul.route;
  * @version 1.0
  */
 
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +26,9 @@ import org.springframework.cloud.netflix.zuul.RoutesRefreshedEvent;
 import org.springframework.cloud.netflix.zuul.filters.RefreshableRouteLocator;
 import org.springframework.cloud.netflix.zuul.filters.SimpleRouteLocator;
 import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;
-import org.springframework.cloud.netflix.zuul.filters.ZuulProperties.ZuulRoute;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
+import org.springframework.util.CollectionUtils;
 
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.strategy.zuul.entity.ZuulStrategyRouteEntity;
@@ -53,63 +56,143 @@ public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements Zuul
 
     @PostConstruct
     public void retrieve() {
-        if (zuulStrategyRouteAdapter != null) {
-            List<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList = zuulStrategyRouteAdapter.retrieve();
-
-            update(zuulStrategyRouteEntityList);
+        if (zuulStrategyRouteAdapter == null) {
+            return;
         }
+
+        Map<String, ZuulStrategyRouteEntity> newRouteMap = zuulStrategyRouteAdapter.retrieve();
+        if (MapUtils.isEmpty(newRouteMap)) {
+            throw new DiscoveryException("Zuul dynamic routes are empty");
+        }
+
+        Map<String, ZuulProperties.ZuulRoute> routeMap = locateRoutes();
+
+        for (Map.Entry<String, ZuulStrategyRouteEntity> entry : newRouteMap.entrySet()) {
+            String path = entry.getKey();
+            ZuulStrategyRouteEntity zuulStrategyRouteEntity = entry.getValue();
+
+            // 如果从数据库等持久化的地方获取到的动态路由配置和配置文件里的静态路由配置存在重复的情况，则静态路由会被覆盖掉
+            if (routeMap.containsKey(path)) {
+                deleteRoute(path);
+            }
+
+            ZuulProperties.ZuulRoute route = convert(zuulStrategyRouteEntity);
+            addRoute(route);
+        }
+
+        LOG.info("Retrieved Zuul dynamic routes count={}", newRouteMap.size());
+
+        applicationEventPublisher.publishEvent(new RoutesRefreshedEvent(this));
     }
 
     @Override
-    public void update(List<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList) {
-        if (zuulStrategyRouteEntityList == null) {
-            throw new DiscoveryException("Zuul dynamic routes can't be null");
+    public void add(ZuulStrategyRouteEntity zuulStrategyRouteEntity) {
+        if (zuulStrategyRouteEntity == null) {
+            throw new DiscoveryException("Zuul dynamic route is null");
         }
 
-        LOG.info("Updated Zuul dynamic routes={}", zuulStrategyRouteEntityList);
-
-        Map<String, ZuulProperties.ZuulRoute> newRouteMap = zuulStrategyRouteEntityList.stream().collect(Collectors.toMap(ZuulStrategyRouteEntity::getRouteId, this::convertRoute));
-        Map<String, ZuulProperties.ZuulRoute> currentRouteMap = locateRoutes();
-
-        boolean isChanged = false;
-
-        for (Map.Entry<String, ZuulProperties.ZuulRoute> entry : newRouteMap.entrySet()) {
-            String routeId = entry.getKey();
-            ZuulRoute route = entry.getValue();
-            if (!currentRouteMap.containsKey(routeId)) {
-                add(route);
-
-                isChanged = true;
-            }
-
-            if (currentRouteMap.containsKey(routeId)) {
-                ZuulProperties.ZuulRoute currentRoute = currentRouteMap.get(routeId);
-                if (!currentRoute.equals(route)) {
-                    modify(route);
-
-                    isChanged = true;
-                }
-            }
+        Map<String, ZuulProperties.ZuulRoute> routeMap = locateRoutes();
+        String path = zuulStrategyRouteEntity.getPath();
+        if (routeMap.containsKey(path)) {
+            throw new DiscoveryException("Zuul dynamic route for path=[" + path + "] exists");
         }
 
-        for (Map.Entry<String, ZuulProperties.ZuulRoute> entry : currentRouteMap.entrySet()) {
-            String routeId = entry.getKey();
-            ZuulRoute route = entry.getValue();
-            if (!newRouteMap.containsKey(routeId)) {
-                delete(route);
+        ZuulProperties.ZuulRoute route = convert(zuulStrategyRouteEntity);
+        addRoute(route);
 
-                isChanged = true;
-            }
-        }
+        LOG.info("Added Zuul dynamic route={}", route);
 
-        if (isChanged) {
-            applicationEventPublisher.publishEvent(new RoutesRefreshedEvent(this));
-        }
+        applicationEventPublisher.publishEvent(new RoutesRefreshedEvent(this));
     }
 
     @Override
-    public List<String> view() {
-        return super.locateRoutes().values().stream().map(ZuulProperties.ZuulRoute::toString).collect(Collectors.toList());
+    public void modify(List<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList) {
+        if (CollectionUtils.isEmpty(zuulStrategyRouteEntityList)) {
+            throw new DiscoveryException("Zuul dynamic routes are empty");
+        }
+
+        if (zuulStrategyRouteEntityList.size() != 2) {
+            throw new DiscoveryException("Zuul dynamic routes size must be two");
+        }
+
+        Map<String, ZuulProperties.ZuulRoute> routeMap = locateRoutes();
+        String path = zuulStrategyRouteEntityList.get(0).getPath();
+        if (!routeMap.containsKey(path)) {
+            throw new DiscoveryException("Zuul dynamic route for path=[" + path + "] not exists");
+        }
+
+        deleteRoute(path);
+
+        ZuulProperties.ZuulRoute route = convert(zuulStrategyRouteEntityList.get(1));
+        modifyRoute(route);
+
+        LOG.info("Modified Zuul dynamic route={}", route);
+
+        applicationEventPublisher.publishEvent(new RoutesRefreshedEvent(this));
+    }
+
+    @Override
+    public void delete(String path) {
+        if (StringUtils.isEmpty(path)) {
+            throw new DiscoveryException("Zuul dynamic route path is empty");
+        }
+
+        Map<String, ZuulProperties.ZuulRoute> routeMap = locateRoutes();
+        if (!routeMap.containsKey(path)) {
+            throw new DiscoveryException("Zuul dynamic route for path=[" + path + "] not exists");
+        }
+
+        deleteRoute(path);
+
+        LOG.info("Deleted Zuul dynamic route path={}", path);
+
+        applicationEventPublisher.publishEvent(new RoutesRefreshedEvent(this));
+    }
+
+    @Override
+    public void deleteAll(String serviceId) {
+        if (StringUtils.isEmpty(serviceId)) {
+            throw new DiscoveryException("ServiceId is empty");
+        }
+
+        Map<String, ZuulProperties.ZuulRoute> routeMap = locateRoutes();
+        for (Iterator<Map.Entry<String, ZuulProperties.ZuulRoute>> iterator = routeMap.entrySet().iterator(); iterator.hasNext();) {
+            Map.Entry<String, ZuulProperties.ZuulRoute> entry = iterator.next();
+            ZuulProperties.ZuulRoute route = entry.getValue();
+            if (StringUtils.equals(serviceId, route.getServiceId())) {
+                String zuulStrategyRoutePath = route.getPath();
+
+                deleteRoute(zuulStrategyRoutePath);
+            }
+        }
+
+        LOG.info("Deleted Zuul dynamic route for serviceId={}", serviceId);
+
+        applicationEventPublisher.publishEvent(new RoutesRefreshedEvent(this));
+    }
+
+    @Override
+    public List<String> view(String serviceId) {
+        if (StringUtils.isEmpty(serviceId)) {
+            throw new DiscoveryException("ServiceId is empty");
+        }
+
+        List<String> zuulStrategyRouteList = new ArrayList<String>();
+
+        Map<String, ZuulProperties.ZuulRoute> routeMap = locateRoutes();
+        for (Map.Entry<String, ZuulProperties.ZuulRoute> entry : routeMap.entrySet()) {
+            ZuulProperties.ZuulRoute route = entry.getValue();
+            if (StringUtils.equals(serviceId, route.getServiceId())) {
+                zuulStrategyRouteList.add(route.toString());
+            }
+        }
+
+        return zuulStrategyRouteList;
+    }
+
+    @Override
+    public List<String> viewAll() {
+        return locateRoutes().values().stream().map(ZuulProperties.ZuulRoute::toString).collect(Collectors.toList());
     }
 
     @Override
@@ -117,43 +200,29 @@ public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements Zuul
         doRefresh();
     }
 
-    @Override
-    protected Map<String, ZuulProperties.ZuulRoute> locateRoutes() {
-        Map<String, ZuulProperties.ZuulRoute> locateRouteMap = super.locateRoutes();
-        Map<String, ZuulProperties.ZuulRoute> routeMap = new LinkedHashMap<>((int) (0.75 / locateRouteMap.size()));
-
-        for (Map.Entry<String, ZuulProperties.ZuulRoute> entry : locateRouteMap.entrySet()) {
-            String routeId = entry.getKey();
-            ZuulRoute route = entry.getValue();
-
-            routeMap.put(routeId, route);
-        }
-
-        return routeMap;
-    }
-
-    private ZuulProperties.ZuulRoute convertRoute(ZuulStrategyRouteEntity zuulStrategyRouteEntity) {
+    private ZuulProperties.ZuulRoute convert(ZuulStrategyRouteEntity zuulStrategyRouteEntity) {
         ZuulProperties.ZuulRoute route = new ZuulProperties.ZuulRoute();
-        route.setId(zuulStrategyRouteEntity.getRouteId());
+        route.setId(StringUtils.isNotBlank(zuulStrategyRouteEntity.getRouteId()) ? zuulStrategyRouteEntity.getRouteId() : zuulStrategyRouteEntity.getServiceName());
         route.setServiceId(zuulStrategyRouteEntity.getServiceName());
         route.setPath(zuulStrategyRouteEntity.getPath());
         route.setUrl(zuulStrategyRouteEntity.getUrl());
         route.setStripPrefix(zuulStrategyRouteEntity.isStripPrefix());
         route.setRetryable(zuulStrategyRouteEntity.getRetryable());
         route.setSensitiveHeaders(zuulStrategyRouteEntity.getSensitiveHeaders());
+        route.setCustomSensitiveHeaders(zuulStrategyRouteEntity.getSensitiveHeaders() != null && !zuulStrategyRouteEntity.getSensitiveHeaders().isEmpty());
 
         return route;
     }
 
-    private void add(ZuulProperties.ZuulRoute route) {
-        zuulProperties.getRoutes().put(route.getId(), route);
+    private void addRoute(ZuulProperties.ZuulRoute route) {
+        zuulProperties.getRoutes().put(route.getPath(), route);
     }
 
-    private void modify(ZuulProperties.ZuulRoute route) {
-        zuulProperties.getRoutes().put(route.getId(), route);
+    private void modifyRoute(ZuulProperties.ZuulRoute route) {
+        zuulProperties.getRoutes().put(route.getPath(), route);
     }
 
-    private void delete(ZuulProperties.ZuulRoute route) {
-        zuulProperties.getRoutes().remove(route.getId());
+    private void deleteRoute(String path) {
+        zuulProperties.getRoutes().remove(path);
     }
 }

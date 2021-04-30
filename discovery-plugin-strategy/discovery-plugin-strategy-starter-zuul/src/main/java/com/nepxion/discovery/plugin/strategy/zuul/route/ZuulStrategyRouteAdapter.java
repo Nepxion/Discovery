@@ -9,10 +9,11 @@ package com.nepxion.discovery.plugin.strategy.zuul.route;
  * @version 1.0
  */
 
-import java.util.List;
+import java.util.Map;
 
 import com.nepxion.discovery.plugin.strategy.zuul.entity.ZuulStrategyRouteEntity;
 
 public interface ZuulStrategyRouteAdapter {
-    List<ZuulStrategyRouteEntity> retrieve();
+    // Key为Path
+    Map<String, ZuulStrategyRouteEntity> retrieve();
 }
