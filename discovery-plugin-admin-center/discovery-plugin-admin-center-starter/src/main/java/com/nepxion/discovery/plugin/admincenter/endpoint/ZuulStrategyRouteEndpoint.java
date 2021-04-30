@@ -72,11 +72,11 @@ public class ZuulStrategyRouteEndpoint {
     @RequestMapping(path = "/delete", method = RequestMethod.POST)
     @ApiOperation(value = "删除网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> delete(@RequestBody @ApiParam(value = "服务名", required = true) String serviceId) {
+    public ResponseEntity<?> delete(@RequestBody @ApiParam(value = "路由ID", required = true) String routeId) {
         try {
-            zuulStrategyRoute.delete(serviceId);
+            zuulStrategyRoute.delete(routeId);
         } catch (Exception e) {
-            LOG.error("Delete Zuul dynamic route by serviecId failed", e);
+            LOG.error("Delete Zuul dynamic route by routeId failed", e);
 
             return ExceptionUtil.getExceptionResponseEntity(e, false);
         }
@@ -85,16 +85,20 @@ public class ZuulStrategyRouteEndpoint {
     }
 
     @RequestMapping(path = "/view", method = RequestMethod.POST)
-    @ApiOperation(value = "根据服务名查看全部网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "根据路由ID查看全部网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> view(@RequestBody @ApiParam(value = "服务名", required = true) String serviceId) {
+    public ResponseEntity<?> view(@RequestBody @ApiParam(value = "路由ID", required = true) String routeId) {
         ZuulStrategyRouteEntity zuulStrategyRouteEntity = null;
         try {
-            zuulStrategyRouteEntity = zuulStrategyRoute.view(serviceId);
+            zuulStrategyRouteEntity = zuulStrategyRoute.view(routeId);
         } catch (Exception e) {
             LOG.error("View Zuul dynamic routes by serviecId failed", e);
 
             return ExceptionUtil.getExceptionResponseEntity(e, false);
+        }
+
+        if (zuulStrategyRouteEntity == null) {
+            return ResponseEntity.ok().body("Zuul dynamic route not found");
         }
 
         return ResponseEntity.ok().body(zuulStrategyRouteEntity);

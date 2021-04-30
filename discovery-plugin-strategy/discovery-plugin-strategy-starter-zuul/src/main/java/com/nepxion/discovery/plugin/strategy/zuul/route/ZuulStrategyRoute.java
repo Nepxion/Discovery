@@ -19,9 +19,9 @@ public interface ZuulStrategyRoute {
     // 网关路由对象列表，只允许包含2个动态路由对象，第一个为旧对象，第二个为新对象
     void modify(List<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList);
 
-    void delete(String serviceId);
+    void delete(String routeId);
 
-    ZuulStrategyRouteEntity view(String serviceId);
+    ZuulStrategyRouteEntity view(String routeId);
 
     List<ZuulStrategyRouteEntity> viewAll();
 }

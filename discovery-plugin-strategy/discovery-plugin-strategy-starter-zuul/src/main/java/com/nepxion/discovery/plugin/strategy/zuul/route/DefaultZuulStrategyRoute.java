@@ -32,7 +32,7 @@ import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.strategy.zuul.entity.ZuulStrategyRouteEntity;
 
 // Zuul的存储结构
-// zuulProperties.getRoutes()返回值的Key为serviceId
+// zuulProperties.getRoutes()返回值的Key为routeId
 // locateRoutes()返回值的Key为path
 public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements ZuulStrategyRoute, RefreshableRouteLocator, ApplicationEventPublisherAware {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultZuulStrategyRoute.class);
@@ -133,30 +133,30 @@ public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements Zuul
     }
 
     @Override
-    public void delete(String serviceId) {
-        if (StringUtils.isEmpty(serviceId)) {
-            throw new DiscoveryException("ServiceId is empty");
+    public void delete(String routeId) {
+        if (StringUtils.isEmpty(routeId)) {
+            throw new DiscoveryException("RouteId is empty");
         }
 
-        ZuulProperties.ZuulRoute route = getRoute(serviceId);
+        ZuulProperties.ZuulRoute route = getRoute(routeId);
         if (route == null) {
-            throw new DiscoveryException("Zuul dynamic route for serviceId=[" + serviceId + "] not exists");
+            throw new DiscoveryException("Zuul dynamic route for routeId=[" + routeId + "] not exists");
         }
 
         deleteRoute(route);
 
-        LOG.info("Deleted Zuul dynamic route for serviceId={}", serviceId);
+        LOG.info("Deleted Zuul dynamic route for routeId={}", routeId);
 
         applicationEventPublisher.publishEvent(new RoutesRefreshedEvent(this));
     }
 
     @Override
-    public ZuulStrategyRouteEntity view(String serviceId) {
-        if (StringUtils.isEmpty(serviceId)) {
-            throw new DiscoveryException("ServiceId is empty");
+    public ZuulStrategyRouteEntity view(String routeId) {
+        if (StringUtils.isEmpty(routeId)) {
+            throw new DiscoveryException("RouteId is empty");
         }
 
-        ZuulProperties.ZuulRoute route = getRoute(serviceId);
+        ZuulProperties.ZuulRoute route = getRoute(routeId);
         if (route == null) {
             return null;
         }
@@ -211,11 +211,11 @@ public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements Zuul
         return zuulStrategyRouteEntity;
     }
 
-    private ZuulProperties.ZuulRoute getRoute(String serviceId) {
+    private ZuulProperties.ZuulRoute getRoute(String routeId) {
         Map<String, ZuulProperties.ZuulRoute> routeMap = locateRoutes();
         for (Map.Entry<String, ZuulProperties.ZuulRoute> entry : routeMap.entrySet()) {
             ZuulProperties.ZuulRoute route = entry.getValue();
-            if (StringUtils.equals(serviceId, route.getServiceId())) {
+            if (StringUtils.equals(routeId, route.getId())) {
                 return route;
             }
         }
@@ -224,14 +224,14 @@ public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements Zuul
     }
 
     private void addRoute(ZuulProperties.ZuulRoute route) {
-        zuulProperties.getRoutes().put(route.getServiceId(), route);
+        zuulProperties.getRoutes().put(route.getId(), route);
     }
 
     private void modifyRoute(ZuulProperties.ZuulRoute route) {
-        zuulProperties.getRoutes().put(route.getServiceId(), route);
+        zuulProperties.getRoutes().put(route.getId(), route);
     }
 
     private void deleteRoute(ZuulProperties.ZuulRoute route) {
-        zuulProperties.getRoutes().remove(route.getServiceId());
+        zuulProperties.getRoutes().remove(route.getId());
     }
 }
