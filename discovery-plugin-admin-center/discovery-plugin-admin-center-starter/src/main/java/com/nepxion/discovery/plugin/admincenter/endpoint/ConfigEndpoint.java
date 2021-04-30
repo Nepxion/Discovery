@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -146,18 +145,5 @@ public class ConfigEndpoint {
         ruleList.add(dynamicPartialRuleContent);
 
         return ResponseEntity.ok().body(ruleList);
-    }
-
-    protected ResponseEntity<String> toExceptionResponseEntity(Exception e, boolean showDetail) {
-        String message = null;
-        if (showDetail) {
-            message = ExceptionUtils.getStackTrace(e);
-        } else {
-            message = e.getMessage();
-        }
-
-        message = "An internal error occurred while processing your request\n" + message;
-
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
     }
 }
