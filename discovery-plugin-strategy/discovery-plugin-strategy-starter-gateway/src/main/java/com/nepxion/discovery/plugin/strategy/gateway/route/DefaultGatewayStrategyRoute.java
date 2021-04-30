@@ -71,16 +71,20 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
     @PostConstruct
     public void retrieve() {
         if (gatewayStrategyRouteAdapter != null) {
-            List<GatewayStrategyRouteEntity> gatewayStrategyRouteEntityList = gatewayStrategyRouteAdapter.retrieve();
+            try {
+                List<GatewayStrategyRouteEntity> gatewayStrategyRouteEntityList = gatewayStrategyRouteAdapter.retrieve();
 
-            update(gatewayStrategyRouteEntityList);
+                update(gatewayStrategyRouteEntityList);
+            } catch (Exception e) {
+                LOG.warn("Spring Cloud Gateway dynamic routes can't be null");
+            }
         }
     }
 
     @Override
     public void update(List<GatewayStrategyRouteEntity> gatewayStrategyRouteEntityList) {
         if (gatewayStrategyRouteEntityList == null) {
-            throw new DiscoveryException("Spring Cloud Gateway dynamic routes can't be null");
+            throw new DiscoveryException("Spring Cloud Gateway dynamic routes are null");
         }
 
         LOG.info("Updated Spring Cloud Gateway dynamic routes={}", gatewayStrategyRouteEntityList);

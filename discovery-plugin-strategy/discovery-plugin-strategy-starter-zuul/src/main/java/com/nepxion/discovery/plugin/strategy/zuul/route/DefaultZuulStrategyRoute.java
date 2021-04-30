@@ -54,16 +54,20 @@ public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements Zuul
     @PostConstruct
     public void retrieve() {
         if (zuulStrategyRouteAdapter != null) {
-            List<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList = zuulStrategyRouteAdapter.retrieve();
+            try {
+                List<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList = zuulStrategyRouteAdapter.retrieve();
 
-            update(zuulStrategyRouteEntityList);
+                update(zuulStrategyRouteEntityList);
+            } catch (Exception e) {
+                LOG.warn("Zuul dynamic routes can't be null");
+            }
         }
     }
 
     @Override
     public void update(List<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList) {
         if (zuulStrategyRouteEntityList == null) {
-            throw new DiscoveryException("Zuul dynamic routes can't be null");
+            throw new DiscoveryException("Zuul dynamic routes are null");
         }
 
         LOG.info("Updated Zuul dynamic routes={}", zuulStrategyRouteEntityList);
