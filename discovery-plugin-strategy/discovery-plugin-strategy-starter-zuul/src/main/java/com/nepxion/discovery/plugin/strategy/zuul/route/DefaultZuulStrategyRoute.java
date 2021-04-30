@@ -26,7 +26,6 @@ import org.springframework.cloud.netflix.zuul.filters.SimpleRouteLocator;
 import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
-import org.springframework.util.CollectionUtils;
 
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.strategy.zuul.entity.ZuulStrategyRouteEntity;
@@ -107,24 +106,18 @@ public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements Zuul
     }
 
     @Override
-    public void modify(List<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList) {
-        if (CollectionUtils.isEmpty(zuulStrategyRouteEntityList)) {
-            throw new DiscoveryException("Zuul dynamic routes are empty");
+    public void modify(ZuulStrategyRouteEntity zuulStrategyRouteEntity) {
+        if (zuulStrategyRouteEntity == null) {
+            throw new DiscoveryException("Zuul dynamic route is null");
         }
 
-        if (zuulStrategyRouteEntityList.size() != 2) {
-            throw new DiscoveryException("Zuul dynamic routes size must be two");
+        String routeId = zuulStrategyRouteEntity.getRouteId();
+        ZuulProperties.ZuulRoute route = getRoute(routeId);
+        if (route == null) {
+            throw new DiscoveryException("Zuul dynamic route for routeId=[" + routeId + "] not exists");
         }
 
-        Map<String, ZuulProperties.ZuulRoute> routeMap = locateRoutes();
-        String path = zuulStrategyRouteEntityList.get(0).getPath();
-        if (!routeMap.containsKey(path)) {
-            throw new DiscoveryException("Zuul dynamic route for path=[" + path + "] not exists");
-        }
-
-        deleteRoute(routeMap.get(path));
-
-        ZuulProperties.ZuulRoute route = convert(zuulStrategyRouteEntityList.get(1));
+        route = convert(zuulStrategyRouteEntity);
         modifyRoute(route);
 
         LOG.info("Modified Zuul dynamic route={}", route);

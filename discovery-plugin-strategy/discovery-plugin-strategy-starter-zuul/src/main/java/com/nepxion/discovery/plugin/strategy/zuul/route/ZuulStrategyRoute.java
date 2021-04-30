@@ -16,8 +16,7 @@ import com.nepxion.discovery.plugin.strategy.zuul.entity.ZuulStrategyRouteEntity
 public interface ZuulStrategyRoute {
     void add(ZuulStrategyRouteEntity zuulStrategyRouteEntity);
 
-    // 网关路由对象列表，只允许包含2个动态路由对象，第一个为旧对象，第二个为新对象
-    void modify(List<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList);
+    void modify(ZuulStrategyRouteEntity zuulStrategyRouteEntity);
 
     void delete(String routeId);
 

@@ -57,9 +57,9 @@ public class ZuulStrategyRouteEndpoint {
     @RequestMapping(path = "/modify", method = RequestMethod.POST)
     @ApiOperation(value = "修改网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> modify(@RequestBody @ApiParam(value = "网关路由对象列表，只允许包含2个动态路由对象，第一个为旧对象，第二个为新对象", required = true) List<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList) {
+    public ResponseEntity<?> modify(@RequestBody @ApiParam(value = "网关路由对象", required = true) ZuulStrategyRouteEntity zuulStrategyRouteEntity) {
         try {
-            zuulStrategyRoute.modify(zuulStrategyRouteEntityList);
+            zuulStrategyRoute.modify(zuulStrategyRouteEntity);
         } catch (Exception e) {
             LOG.error("Modify Zuul dynamic route failed", e);
 
