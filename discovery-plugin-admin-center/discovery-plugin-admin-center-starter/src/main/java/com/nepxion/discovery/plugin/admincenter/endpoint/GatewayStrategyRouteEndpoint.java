@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nepxion.discovery.common.entity.GatewayRouteEntity;
+import com.nepxion.discovery.plugin.strategy.gateway.entity.GatewayStrategyRouteEntity;
 import com.nepxion.discovery.plugin.strategy.gateway.route.GatewayStrategyRoute;
 
 @RestController
@@ -36,9 +36,9 @@ public class GatewayStrategyRouteEndpoint {
     @RequestMapping(path = "/update", method = RequestMethod.POST)
     @ApiOperation(value = "推送更新网关当前的路由列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<Boolean> update(@RequestBody ArrayList<GatewayRouteEntity> gatewayRouteEntityList) {
+    public ResponseEntity<Boolean> update(@RequestBody ArrayList<GatewayStrategyRouteEntity> gatewayStrategyRouteEntityList) {
         try {
-            gatewayStrategyRoute.update(gatewayRouteEntityList);
+            gatewayStrategyRoute.update(gatewayStrategyRouteEntityList);
         } catch (Exception e) {
             return ResponseEntity.ok(false);
         }

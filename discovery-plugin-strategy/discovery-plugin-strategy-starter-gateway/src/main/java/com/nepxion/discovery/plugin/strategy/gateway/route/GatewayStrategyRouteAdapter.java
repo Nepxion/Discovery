@@ -11,8 +11,8 @@ package com.nepxion.discovery.plugin.strategy.gateway.route;
 
 import java.util.List;
 
-import com.nepxion.discovery.common.entity.GatewayRouteEntity;
+import com.nepxion.discovery.plugin.strategy.gateway.entity.GatewayStrategyRouteEntity;
 
 public interface GatewayStrategyRouteAdapter {
-    List<GatewayRouteEntity> retrieve();
+    List<GatewayStrategyRouteEntity> retrieve();
 }
