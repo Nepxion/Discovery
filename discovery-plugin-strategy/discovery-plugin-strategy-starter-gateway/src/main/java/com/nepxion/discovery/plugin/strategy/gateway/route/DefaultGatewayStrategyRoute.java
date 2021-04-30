@@ -71,22 +71,27 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
     @PostConstruct
     public void retrieve() {
         if (gatewayStrategyRouteAdapter != null) {
-            List<GatewayStrategyRouteEntity> gatewayStrategyRouteEntityList = gatewayStrategyRouteAdapter.retrieve();
+            try {
+                List<GatewayStrategyRouteEntity> gatewayStrategyRouteEntityList = gatewayStrategyRouteAdapter.retrieve();
 
-            update(gatewayStrategyRouteEntityList);
+                update(gatewayStrategyRouteEntityList);
+            } catch (Exception e) {
+                LOG.warn("Spring Cloud Gateway dynamic routes can't be null");
+            }
         }
     }
 
     @Override
     public void update(List<GatewayStrategyRouteEntity> gatewayStrategyRouteEntityList) {
         if (gatewayStrategyRouteEntityList == null) {
-            throw new DiscoveryException("Spring Cloud Gateway dynamic routes can't be null");
+            throw new DiscoveryException("Spring Cloud Gateway dynamic routes are null");
         }
 
-        LOG.info("Updated Spring Cloud Gateway dynamic routes={}", gatewayStrategyRouteEntityList);
+        Map<String, RouteDefinition> newRouteDefinitionMap = gatewayStrategyRouteEntityList.stream().collect(Collectors.toMap(GatewayStrategyRouteEntity::getRouteId, this::convert));
 
-        Map<String, RouteDefinition> newRouteDefinitionMap = gatewayStrategyRouteEntityList.stream().collect(Collectors.toMap(GatewayStrategyRouteEntity::getRouteId, this::convertRoute));
-        Map<String, RouteDefinition> currentRouteDefinitionMap = locateRoutes();
+        LOG.info("Updated Spring Cloud Gateway dynamic routes={}", newRouteDefinitionMap);
+
+        Map<String, RouteDefinition> currentRouteDefinitionMap = locate();
 
         boolean isChanged = false;
 
@@ -94,7 +99,7 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
             String routeId = entry.getKey();
             RouteDefinition routeDefinition = entry.getValue();
             if (!currentRouteDefinitionMap.containsKey(routeId)) {
-                add(routeDefinition);
+                addRoute(routeDefinition);
 
                 isChanged = true;
             }
@@ -102,7 +107,7 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
             if (currentRouteDefinitionMap.containsKey(routeId)) {
                 RouteDefinition currentRouteDefinition = currentRouteDefinitionMap.get(routeId);
                 if (!currentRouteDefinition.equals(routeDefinition)) {
-                    modify(routeDefinition);
+                    modifyRoute(routeDefinition);
 
                     isChanged = true;
                 }
@@ -113,7 +118,7 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
             String routeId = entry.getKey();
             RouteDefinition routeDefinition = entry.getValue();
             if (!newRouteDefinitionMap.containsKey(routeId)) {
-                delete(routeDefinition);
+                deleteRoute(routeDefinition);
 
                 isChanged = true;
             }
@@ -126,10 +131,10 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
 
     @Override
     public List<String> view() {
-        return locateRoutes().values().stream().map(RouteDefinition::toString).collect(Collectors.toList());
+        return locate().values().stream().map(RouteDefinition::toString).collect(Collectors.toList());
     }
 
-    private Map<String, RouteDefinition> locateRoutes() {
+    private Map<String, RouteDefinition> locate() {
         Map<String, RouteDefinition> routeDefinitionMap = new HashMap<>();
         Flux<RouteDefinition> routeDefinitions = routeDefinitionLocator.getRouteDefinitions();
         routeDefinitions.subscribe(routeDefinition -> routeDefinitionMap.put(routeDefinition.getId(), routeDefinition));
@@ -137,13 +142,13 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
         return routeDefinitionMap;
     }
 
-    private RouteDefinition convertRoute(GatewayStrategyRouteEntity gatewayStrategyRouteEntity) {
+    private RouteDefinition convert(GatewayStrategyRouteEntity gatewayStrategyRouteEntity) {
         RouteDefinition routeDefinition = new RouteDefinition();
         routeDefinition.setId(gatewayStrategyRouteEntity.getRouteId());
 
         Map<String, Object> metadata = new HashMap<>();
         metadata.put(SERVICE_NAME, gatewayStrategyRouteEntity.getServiceName());
-        metadata.put(ROUTE_PATH, getRoutePath(gatewayStrategyRouteEntity));
+        metadata.put(ROUTE_PATH, getPath(gatewayStrategyRouteEntity));
         routeDefinition.setMetadata(metadata);
 
         String value = gatewayStrategyRouteEntity.getUri();
@@ -174,7 +179,7 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
         return routeDefinition;
     }
 
-    private String getRoutePath(GatewayStrategyRouteEntity gatewayStrategyRouteEntity) {
+    private String getPath(GatewayStrategyRouteEntity gatewayStrategyRouteEntity) {
         String filters = gatewayStrategyRouteEntity.getFilters();
         String predicates = gatewayStrategyRouteEntity.getPredicates();
 
@@ -216,7 +221,7 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
         return predicates.substring(start, end + 1);
     }
 
-    private void add(RouteDefinition routeDefinition) {
+    private void addRoute(RouteDefinition routeDefinition) {
         Disposable disposable = null;
         try {
             disposable = routeDefinitionWriter.save(Mono.just(routeDefinition)).subscribe();
@@ -227,12 +232,12 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
         }
     }
 
-    private void modify(RouteDefinition routeDefinition) {
-        delete(routeDefinition);
-        add(routeDefinition);
+    private void modifyRoute(RouteDefinition routeDefinition) {
+        deleteRoute(routeDefinition);
+        addRoute(routeDefinition);
     }
 
-    private void delete(RouteDefinition routeDefinition) {
+    private void deleteRoute(RouteDefinition routeDefinition) {
         Disposable disposable = null;
         try {
             disposable = routeDefinitionWriter
