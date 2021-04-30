@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.util.ExceptionUtil;
 import com.nepxion.discovery.plugin.strategy.zuul.entity.ZuulStrategyRouteEntity;
 import com.nepxion.discovery.plugin.strategy.zuul.route.ZuulStrategyRoute;
@@ -39,7 +40,7 @@ public class ZuulStrategyRouteEndpoint {
     private ZuulStrategyRoute zuulStrategyRoute;
 
     @RequestMapping(path = "/add", method = RequestMethod.POST)
-    @ApiOperation(value = "增加单个网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "增加网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> add(@RequestBody @ApiParam(value = "网关路由对象", required = true) ZuulStrategyRouteEntity zuulStrategyRouteEntity) {
         try {
@@ -50,11 +51,11 @@ public class ZuulStrategyRouteEndpoint {
             return ExceptionUtil.getExceptionResponseEntity(e, false);
         }
 
-        return ResponseEntity.ok(true);
+        return ResponseEntity.ok().body(DiscoveryConstant.OK);
     }
 
     @RequestMapping(path = "/modify", method = RequestMethod.POST)
-    @ApiOperation(value = "修改单个网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "修改网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> modify(@RequestBody @ApiParam(value = "网关路由对象列表，只允许包含2个动态路由对象，第一个为旧对象，第二个为新对象", required = true) List<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList) {
         try {
@@ -65,68 +66,53 @@ public class ZuulStrategyRouteEndpoint {
             return ExceptionUtil.getExceptionResponseEntity(e, false);
         }
 
-        return ResponseEntity.ok(true);
+        return ResponseEntity.ok().body(DiscoveryConstant.OK);
     }
 
     @RequestMapping(path = "/delete", method = RequestMethod.POST)
-    @ApiOperation(value = "删除单个网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "删除网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> delete(@RequestBody @ApiParam(value = "网关路由路径", required = true) String path) {
+    public ResponseEntity<?> delete(@RequestBody @ApiParam(value = "服务名", required = true) String serviceId) {
         try {
-            zuulStrategyRoute.delete(path);
+            zuulStrategyRoute.delete(serviceId);
         } catch (Exception e) {
-            LOG.error("Delete Zuul dynamic route failed", e);
+            LOG.error("Delete Zuul dynamic route by serviecId failed", e);
 
             return ExceptionUtil.getExceptionResponseEntity(e, false);
         }
 
-        return ResponseEntity.ok(true);
-    }
-
-    @RequestMapping(path = "/delete-all", method = RequestMethod.POST)
-    @ApiOperation(value = "根据服务名删除全部网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
-    @ResponseBody
-    public ResponseEntity<?> deleteAll(@RequestBody @ApiParam(value = "服务名", required = true) String serviceId) {
-        try {
-            zuulStrategyRoute.deleteAll(serviceId);
-        } catch (Exception e) {
-            LOG.error("Delete Zuul dynamic routes by serviceId failed", e);
-
-            return ExceptionUtil.getExceptionResponseEntity(e, false);
-        }
-
-        return ResponseEntity.ok(true);
+        return ResponseEntity.ok().body(DiscoveryConstant.OK);
     }
 
     @RequestMapping(path = "/view", method = RequestMethod.POST)
     @ApiOperation(value = "根据服务名查看全部网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> view(@RequestBody @ApiParam(value = "服务名", required = true) String serviceId) {
-        List<String> zuulStrategyRouteList = null;
+        ZuulStrategyRouteEntity zuulStrategyRouteEntity = null;
         try {
-            zuulStrategyRouteList = zuulStrategyRoute.view(serviceId);
+            zuulStrategyRouteEntity = zuulStrategyRoute.view(serviceId);
         } catch (Exception e) {
             LOG.error("View Zuul dynamic routes by serviecId failed", e);
 
             return ExceptionUtil.getExceptionResponseEntity(e, false);
         }
 
-        return ResponseEntity.ok(zuulStrategyRouteList);
+        return ResponseEntity.ok().body(zuulStrategyRouteEntity);
     }
 
     @RequestMapping(path = "/view-all", method = RequestMethod.POST)
     @ApiOperation(value = "查看网关全部网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> viewAll() {
-        List<String> zuulStrategyRouteList = null;
+        List<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList = null;
         try {
-            zuulStrategyRouteList = zuulStrategyRoute.viewAll();
+            zuulStrategyRouteEntityList = zuulStrategyRoute.viewAll();
         } catch (Exception e) {
             LOG.error("View all Zuul dynamic routes failed", e);
 
             return ExceptionUtil.getExceptionResponseEntity(e, false);
         }
 
-        return ResponseEntity.ok(zuulStrategyRouteList);
+        return ResponseEntity.ok().body(zuulStrategyRouteEntityList);
     }
 }
