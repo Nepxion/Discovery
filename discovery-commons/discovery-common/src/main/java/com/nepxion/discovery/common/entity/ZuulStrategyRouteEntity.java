@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.zuul.entity;
+package com.nepxion.discovery.common.entity;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -9,7 +9,6 @@ package com.nepxion.discovery.plugin.strategy.zuul.entity;
  * @version 1.0
  */
 
-import java.io.Serializable;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -18,33 +17,15 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class ZuulStrategyRouteEntity implements Serializable {
+public class ZuulStrategyRouteEntity extends PortalStrategyRouteEntity {
     private static final long serialVersionUID = 7174491897992085456L;
 
-    private String routeId;
-    private String serviceName;
     private String path;
     private String url;
     private boolean stripPrefix = true;
     private Boolean retryable;
     private Set<String> sensitiveHeaders = new LinkedHashSet<>();
     private boolean customSensitiveHeaders = false;
-
-    public String getRouteId() {
-        return routeId;
-    }
-
-    public void setRouteId(String routeId) {
-        this.routeId = routeId;
-    }
-
-    public String getServiceName() {
-        return serviceName;
-    }
-
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
-    }
 
     public String getPath() {
         return path;

@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.gateway.entity;
+package com.nepxion.discovery.common.entity;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -9,38 +9,18 @@ package com.nepxion.discovery.plugin.strategy.gateway.entity;
  * @version 1.0
  */
 
-import java.io.Serializable;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class GatewayStrategyRouteEntity implements Serializable {
+public class GatewayStrategyRouteEntity extends PortalStrategyRouteEntity {
     private static final long serialVersionUID = 8552414941889295450L;
 
-    private String routeId;
-    private String serviceName;
     private String uri;
     private String predicates;
     private String filters;
     private Integer order;
-
-    public String getRouteId() {
-        return routeId;
-    }
-
-    public void setRouteId(String routeId) {
-        this.routeId = routeId;
-    }
-
-    public String getServiceName() {
-        return serviceName;
-    }
-
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
-    }
 
     public String getUri() {
         return uri;

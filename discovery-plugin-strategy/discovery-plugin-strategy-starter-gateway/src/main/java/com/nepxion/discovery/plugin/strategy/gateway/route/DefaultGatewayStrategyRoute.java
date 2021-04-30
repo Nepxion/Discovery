@@ -38,7 +38,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.nepxion.discovery.plugin.strategy.gateway.entity.GatewayStrategyRouteEntity;
+import com.nepxion.discovery.common.entity.GatewayStrategyRouteEntity;
 
 public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, ApplicationEventPublisherAware {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultGatewayStrategyRoute.class);
