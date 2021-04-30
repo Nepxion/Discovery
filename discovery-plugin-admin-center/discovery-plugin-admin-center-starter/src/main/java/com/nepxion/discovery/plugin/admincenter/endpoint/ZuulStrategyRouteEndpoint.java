@@ -92,13 +92,13 @@ public class ZuulStrategyRouteEndpoint {
         try {
             zuulStrategyRouteEntity = zuulStrategyRoute.view(routeId);
         } catch (Exception e) {
-            LOG.error("View Zuul dynamic routes by serviecId failed", e);
+            LOG.error("View Zuul dynamic routes by routeId failed", e);
 
             return ExceptionUtil.getExceptionResponseEntity(e, false);
         }
 
         if (zuulStrategyRouteEntity == null) {
-            return ResponseEntity.ok().body("Zuul dynamic route not found");
+            return ResponseEntity.ok().body("Zuul dynamic route for routeId=[" + routeId + "] not found");
         }
 
         return ResponseEntity.ok().body(zuulStrategyRouteEntity);

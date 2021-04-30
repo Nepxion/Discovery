@@ -68,8 +68,8 @@ public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements Zuul
         Map<String, ZuulProperties.ZuulRoute> routeMap = locateRoutes();
 
         for (Map.Entry<String, ZuulStrategyRouteEntity> entry : newRouteMap.entrySet()) {
-            String path = entry.getKey();
             ZuulStrategyRouteEntity zuulStrategyRouteEntity = entry.getValue();
+            String path = zuulStrategyRouteEntity.getPath();
 
             // 如果从数据库等持久化的地方获取到的动态路由配置和配置文件里的静态路由配置存在重复的情况，则静态路由会被覆盖掉
             if (routeMap.containsKey(path)) {
@@ -94,7 +94,7 @@ public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements Zuul
         Map<String, ZuulProperties.ZuulRoute> routeMap = locateRoutes();
         String path = zuulStrategyRouteEntity.getPath();
         if (routeMap.containsKey(path)) {
-            throw new DiscoveryException("Zuul dynamic route for path=[" + path + "] exists");
+            throw new DiscoveryException("Zuul dynamic route for path=[" + path + "] duplicated");
         }
 
         ZuulProperties.ZuulRoute route = convert(zuulStrategyRouteEntity);
@@ -114,7 +114,7 @@ public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements Zuul
         String routeId = zuulStrategyRouteEntity.getRouteId();
         ZuulProperties.ZuulRoute route = getRoute(routeId);
         if (route == null) {
-            throw new DiscoveryException("Zuul dynamic route for routeId=[" + routeId + "] not exists");
+            throw new DiscoveryException("Zuul dynamic route for routeId=[" + routeId + "] not found");
         }
 
         route = convert(zuulStrategyRouteEntity);
@@ -133,7 +133,7 @@ public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements Zuul
 
         ZuulProperties.ZuulRoute route = getRoute(routeId);
         if (route == null) {
-            throw new DiscoveryException("Zuul dynamic route for routeId=[" + routeId + "] not exists");
+            throw new DiscoveryException("Zuul dynamic route for routeId=[" + routeId + "] not found");
         }
 
         deleteRoute(route);

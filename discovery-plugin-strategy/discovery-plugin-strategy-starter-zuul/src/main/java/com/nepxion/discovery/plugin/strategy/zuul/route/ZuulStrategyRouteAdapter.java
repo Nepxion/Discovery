@@ -14,6 +14,5 @@ import java.util.Map;
 import com.nepxion.discovery.plugin.strategy.zuul.entity.ZuulStrategyRouteEntity;
 
 public interface ZuulStrategyRouteAdapter {
-    // Key为Path
     Map<String, ZuulStrategyRouteEntity> retrieve();
 }
