@@ -28,6 +28,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 
 import com.nepxion.discovery.common.entity.ZuulRouteEntity;
+import com.nepxion.discovery.common.exception.DiscoveryException;
 
 public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements ZuulStrategyRoute, RefreshableRouteLocator, ApplicationEventPublisherAware {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultZuulStrategyRoute.class);
@@ -61,7 +62,11 @@ public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements Zuul
 
     @Override
     public void update(List<ZuulRouteEntity> zuulRouteEntityList) {
-        LOG.info("Updated Zuul strategy routes={}", zuulRouteEntityList);
+        if (zuulRouteEntityList == null) {
+            throw new DiscoveryException("Zuul dynamic routes can't be null");
+        }
+
+        LOG.info("Updated Zuul dynamic routes={}", zuulRouteEntityList);
 
         Map<String, ZuulProperties.ZuulRoute> newRouteMap = zuulRouteEntityList.stream().collect(Collectors.toMap(ZuulRouteEntity::getRouteId, this::convertRoute));
         Map<String, ZuulProperties.ZuulRoute> currentRouteMap = locateRoutes();

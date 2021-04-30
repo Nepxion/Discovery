@@ -37,7 +37,11 @@ public class ZuulStrategyRouteEndpoint {
     @ApiOperation(value = "推送更新网关当前的路由列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<Boolean> update(@RequestBody ArrayList<ZuulRouteEntity> zuulRouteEntityList) {
-        zuulStrategyRoute.update(zuulRouteEntityList);
+        try {
+            zuulStrategyRoute.update(zuulRouteEntityList);
+        } catch (Exception e) {
+            return ResponseEntity.ok(false);
+        }
 
         return ResponseEntity.ok(true);
     }

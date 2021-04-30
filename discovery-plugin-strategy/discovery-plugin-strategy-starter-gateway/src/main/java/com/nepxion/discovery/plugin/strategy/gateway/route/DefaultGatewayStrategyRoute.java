@@ -41,6 +41,7 @@ import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.nepxion.discovery.common.entity.GatewayRouteEntity;
+import com.nepxion.discovery.common.exception.DiscoveryException;
 
 public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, ApplicationEventPublisherAware {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultGatewayStrategyRoute.class);
@@ -78,7 +79,11 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
 
     @Override
     public void update(List<GatewayRouteEntity> gatewayRouteEntityList) {
-        LOG.info("Updated Spring Cloud Gateway strategy routes={}", gatewayRouteEntityList);
+        if (gatewayRouteEntityList == null) {
+            throw new DiscoveryException("Spring Cloud Gateway dynamic routes can't be null");
+        }
+
+        LOG.info("Updated Spring Cloud Gateway dynamic routes={}", gatewayRouteEntityList);
 
         Map<String, RouteDefinition> newRouteDefinitionMap = gatewayRouteEntityList.stream().collect(Collectors.toMap(GatewayRouteEntity::getRouteId, this::convertRoute));
         Map<String, RouteDefinition> currentRouteDefinitionMap = locateRoutes();
