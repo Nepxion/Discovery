@@ -22,6 +22,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,11 +57,23 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
     @Autowired
     private GatewayProperties gatewayProperties;
 
+    @Autowired(required = false)
+    private GatewayStrategyRouteAdapter gatewayStrategyRouteAdapter;
+
     private ApplicationEventPublisher applicationEventPublisher;
 
     @Override
     public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
         this.applicationEventPublisher = applicationEventPublisher;
+    }
+
+    @PostConstruct
+    public void retrieve() {
+        if (gatewayStrategyRouteAdapter != null) {
+            List<GatewayRouteEntity> gatewayRouteEntityList = gatewayStrategyRouteAdapter.retrieve();
+
+            update(gatewayRouteEntityList);
+        }
     }
 
     @Override
