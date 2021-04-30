@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nepxion.discovery.common.entity.ZuulStrategyRouteEntity;
+import com.nepxion.discovery.common.entity.ZuulRouteEntity;
 import com.nepxion.discovery.plugin.strategy.zuul.route.ZuulStrategyRoute;
 
 @RestController
@@ -36,8 +36,8 @@ public class ZuulStrategyRouteEndpoint {
     @RequestMapping(path = "/update", method = RequestMethod.POST)
     @ApiOperation(value = "推送更新网关当前的路由列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<Boolean> update(@RequestBody ArrayList<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList) {
-        zuulStrategyRoute.update(zuulStrategyRouteEntityList);
+    public ResponseEntity<Boolean> update(@RequestBody ArrayList<ZuulRouteEntity> zuulRouteEntityList) {
+        zuulStrategyRoute.update(zuulRouteEntityList);
 
         return ResponseEntity.ok(true);
     }

@@ -16,7 +16,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class PortalStrategyRouteEntity implements Serializable {
+public class PortalRouteEntity implements Serializable {
     private static final long serialVersionUID = 6616934895692371125L;
 
     private String routeId;

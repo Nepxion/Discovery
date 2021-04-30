@@ -17,7 +17,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class ZuulStrategyRouteEntity extends PortalStrategyRouteEntity {
+public class ZuulRouteEntity extends PortalRouteEntity {
     private static final long serialVersionUID = 7174491897992085456L;
 
     private String path;

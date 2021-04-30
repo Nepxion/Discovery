@@ -38,7 +38,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.nepxion.discovery.common.entity.GatewayStrategyRouteEntity;
+import com.nepxion.discovery.common.entity.GatewayRouteEntity;
 
 public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, ApplicationEventPublisherAware {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultGatewayStrategyRoute.class);
@@ -63,10 +63,10 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
     }
 
     @Override
-    public void update(List<GatewayStrategyRouteEntity> gatewayStrategyRouteEntityList) {
-        LOG.info("Updated Spring Cloud Gateway strategy routes={}", gatewayStrategyRouteEntityList);
+    public void update(List<GatewayRouteEntity> gatewayRouteEntityList) {
+        LOG.info("Updated Spring Cloud Gateway strategy routes={}", gatewayRouteEntityList);
 
-        Map<String, RouteDefinition> newRouteDefinitionMap = gatewayStrategyRouteEntityList.stream().collect(Collectors.toMap(GatewayStrategyRouteEntity::getRouteId, this::convertRoute));
+        Map<String, RouteDefinition> newRouteDefinitionMap = gatewayRouteEntityList.stream().collect(Collectors.toMap(GatewayRouteEntity::getRouteId, this::convertRoute));
         Map<String, RouteDefinition> currentRouteDefinitionMap = locateRoutes();
 
         boolean isChanged = false;
@@ -118,16 +118,16 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
         return routeDefinitionMap;
     }
 
-    private RouteDefinition convertRoute(GatewayStrategyRouteEntity gatewayStrategyRouteEntity) {
+    private RouteDefinition convertRoute(GatewayRouteEntity gatewayRouteEntity) {
         RouteDefinition routeDefinition = new RouteDefinition();
-        routeDefinition.setId(gatewayStrategyRouteEntity.getRouteId());
+        routeDefinition.setId(gatewayRouteEntity.getRouteId());
 
         Map<String, Object> metadata = new HashMap<>();
-        metadata.put(SERVICE_NAME, gatewayStrategyRouteEntity.getServiceName());
-        metadata.put(ROUTE_PATH, getRoutePath(gatewayStrategyRouteEntity));
+        metadata.put(SERVICE_NAME, gatewayRouteEntity.getServiceName());
+        metadata.put(ROUTE_PATH, getRoutePath(gatewayRouteEntity));
         routeDefinition.setMetadata(metadata);
 
-        String value = gatewayStrategyRouteEntity.getUri();
+        String value = gatewayRouteEntity.getUri();
         URI uri;
         if (value.startsWith("http")) {
             uri = UriComponentsBuilder.fromHttpUrl(value).build().toUri();
@@ -137,30 +137,30 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
         routeDefinition.setUri(uri);
 
         List<PredicateDefinition> predicateDefinitionList = new ArrayList<>();
-        String[] predicateArray = gatewayStrategyRouteEntity.getPredicates().split(";");
+        String[] predicateArray = gatewayRouteEntity.getPredicates().split(";");
         for (String predicate : predicateArray) {
             predicateDefinitionList.add(new PredicateDefinition(predicate));
         }
         routeDefinition.setPredicates(predicateDefinitionList);
 
         List<FilterDefinition> filterDefinitionList = new ArrayList<>();
-        String[] filterArray = gatewayStrategyRouteEntity.getFilters().split(";");
+        String[] filterArray = gatewayRouteEntity.getFilters().split(";");
         for (String filter : filterArray) {
             filterDefinitionList.add(new FilterDefinition(filter));
         }
         routeDefinition.setFilters(filterDefinitionList);
 
-        routeDefinition.setOrder(gatewayStrategyRouteEntity.getOrder());
+        routeDefinition.setOrder(gatewayRouteEntity.getOrder());
 
         return routeDefinition;
     }
 
-    private String getRoutePath(GatewayStrategyRouteEntity gatewayStrategyRouteEntity) {
-        String filters = gatewayStrategyRouteEntity.getFilters();
-        String predicates = gatewayStrategyRouteEntity.getPredicates();
+    private String getRoutePath(GatewayRouteEntity gatewayRouteEntity) {
+        String filters = gatewayRouteEntity.getFilters();
+        String predicates = gatewayRouteEntity.getPredicates();
 
         if (filters == null || predicates == null) {
-            return gatewayStrategyRouteEntity.getServiceName();
+            return gatewayRouteEntity.getServiceName();
         }
 
         filters = filters.toLowerCase();
@@ -171,7 +171,7 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
         }
 
         if (stripPrefix == null) {
-            return gatewayStrategyRouteEntity.getServiceName();
+            return gatewayRouteEntity.getServiceName();
         }
 
         predicates = predicates.toLowerCase();

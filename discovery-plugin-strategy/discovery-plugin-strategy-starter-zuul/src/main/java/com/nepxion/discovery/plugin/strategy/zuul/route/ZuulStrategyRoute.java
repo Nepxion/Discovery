@@ -11,10 +11,10 @@ package com.nepxion.discovery.plugin.strategy.zuul.route;
 
 import java.util.List;
 
-import com.nepxion.discovery.common.entity.ZuulStrategyRouteEntity;
+import com.nepxion.discovery.common.entity.ZuulRouteEntity;
 
 public interface ZuulStrategyRoute {
-    void update(List<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList);
+    void update(List<ZuulRouteEntity> zuulRouteEntityList);
 
     List<String> view();
 }

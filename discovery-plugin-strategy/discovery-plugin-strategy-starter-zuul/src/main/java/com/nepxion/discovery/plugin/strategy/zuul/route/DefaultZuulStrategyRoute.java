@@ -24,7 +24,7 @@ import org.springframework.cloud.netflix.zuul.filters.ZuulProperties.ZuulRoute;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 
-import com.nepxion.discovery.common.entity.ZuulStrategyRouteEntity;
+import com.nepxion.discovery.common.entity.ZuulRouteEntity;
 
 public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements ZuulStrategyRoute, RefreshableRouteLocator, ApplicationEventPublisherAware {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultZuulStrategyRoute.class);
@@ -44,10 +44,10 @@ public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements Zuul
     }
 
     @Override
-    public void update(List<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList) {
-        LOG.info("Updated Zuul strategy routes={}", zuulStrategyRouteEntityList);
+    public void update(List<ZuulRouteEntity> zuulRouteEntityList) {
+        LOG.info("Updated Zuul strategy routes={}", zuulRouteEntityList);
 
-        Map<String, ZuulProperties.ZuulRoute> newRouteMap = zuulStrategyRouteEntityList.stream().collect(Collectors.toMap(ZuulStrategyRouteEntity::getRouteId, this::convertRoute));
+        Map<String, ZuulProperties.ZuulRoute> newRouteMap = zuulRouteEntityList.stream().collect(Collectors.toMap(ZuulRouteEntity::getRouteId, this::convertRoute));
         Map<String, ZuulProperties.ZuulRoute> currentRouteMap = locateRoutes();
 
         boolean isChanged = false;
@@ -111,15 +111,15 @@ public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements Zuul
         return routeMap;
     }
 
-    private ZuulProperties.ZuulRoute convertRoute(ZuulStrategyRouteEntity zuulStrategyRouteEntity) {
+    private ZuulProperties.ZuulRoute convertRoute(ZuulRouteEntity zuulRouteEntity) {
         ZuulProperties.ZuulRoute route = new ZuulProperties.ZuulRoute();
-        route.setId(zuulStrategyRouteEntity.getRouteId());
-        route.setServiceId(zuulStrategyRouteEntity.getServiceName());
-        route.setPath(zuulStrategyRouteEntity.getPath());
-        route.setUrl(zuulStrategyRouteEntity.getUrl());
-        route.setStripPrefix(zuulStrategyRouteEntity.isStripPrefix());
-        route.setRetryable(zuulStrategyRouteEntity.getRetryable());
-        route.setSensitiveHeaders(zuulStrategyRouteEntity.getSensitiveHeaders());
+        route.setId(zuulRouteEntity.getRouteId());
+        route.setServiceId(zuulRouteEntity.getServiceName());
+        route.setPath(zuulRouteEntity.getPath());
+        route.setUrl(zuulRouteEntity.getUrl());
+        route.setStripPrefix(zuulRouteEntity.isStripPrefix());
+        route.setRetryable(zuulRouteEntity.getRetryable());
+        route.setSensitiveHeaders(zuulRouteEntity.getSensitiveHeaders());
 
         return route;
     }

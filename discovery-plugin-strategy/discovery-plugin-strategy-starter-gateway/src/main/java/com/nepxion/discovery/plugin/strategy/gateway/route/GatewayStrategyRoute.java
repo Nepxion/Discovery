@@ -11,10 +11,10 @@ package com.nepxion.discovery.plugin.strategy.gateway.route;
 
 import java.util.List;
 
-import com.nepxion.discovery.common.entity.GatewayStrategyRouteEntity;
+import com.nepxion.discovery.common.entity.GatewayRouteEntity;
 
 public interface GatewayStrategyRoute {
-    void update(List<GatewayStrategyRouteEntity> gatewayStrategyRouteEntityList);
+    void update(List<GatewayRouteEntity> gatewayRouteEntityList);
 
     List<String> view();
 }

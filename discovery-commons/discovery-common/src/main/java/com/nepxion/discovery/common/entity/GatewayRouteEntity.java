@@ -14,7 +14,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class GatewayStrategyRouteEntity extends PortalStrategyRouteEntity {
+public class GatewayRouteEntity extends PortalRouteEntity {
     private static final long serialVersionUID = 8552414941889295450L;
 
     private String uri;
