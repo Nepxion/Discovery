@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cloud.netflix.zuul.RoutesRefreshedEvent;
 import org.springframework.cloud.netflix.zuul.filters.RefreshableRouteLocator;
 import org.springframework.cloud.netflix.zuul.filters.SimpleRouteLocator;
@@ -25,6 +27,8 @@ import org.springframework.context.ApplicationEventPublisherAware;
 import com.nepxion.discovery.plugin.strategy.zuul.entity.ZuulStrategyRouteEntity;
 
 public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements ZuulStrategyRoute, RefreshableRouteLocator, ApplicationEventPublisherAware {
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultZuulStrategyRoute.class);
+
     private ZuulProperties zuulProperties;
     private ApplicationEventPublisher applicationEventPublisher;
 
@@ -41,6 +45,8 @@ public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements Zuul
 
     @Override
     public void update(List<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList) {
+        LOG.info("Updated Zuul strategy routes={}", zuulStrategyRouteEntityList);
+
         Map<String, ZuulProperties.ZuulRoute> newRouteMap = zuulStrategyRouteEntityList.stream().collect(Collectors.toMap(ZuulStrategyRouteEntity::getRouteId, this::convertRoute));
         Map<String, ZuulProperties.ZuulRoute> currentRouteMap = locateRoutes();
 

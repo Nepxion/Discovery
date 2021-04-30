@@ -23,6 +23,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.config.GatewayProperties;
 import org.springframework.cloud.gateway.event.RefreshRoutesEvent;
@@ -39,6 +41,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.nepxion.discovery.plugin.strategy.gateway.entity.GatewayStrategyRouteEntity;
 
 public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, ApplicationEventPublisherAware {
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultGatewayStrategyRoute.class);
+
     public static final String SERVICE_NAME = "service_name";
     public static final String ROUTE_PATH = "route_path";
 
@@ -60,6 +64,8 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
 
     @Override
     public void update(List<GatewayStrategyRouteEntity> gatewayStrategyRouteEntityList) {
+        LOG.info("Updated Spring Cloud Gateway strategy routes={}", gatewayStrategyRouteEntityList);
+
         Map<String, RouteDefinition> newRouteDefinitionMap = gatewayStrategyRouteEntityList.stream().collect(Collectors.toMap(GatewayStrategyRouteEntity::getRouteId, this::convertRoute));
         Map<String, RouteDefinition> currentRouteDefinitionMap = locateRoutes();
 
