@@ -40,14 +40,12 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.strategy.gateway.entity.GatewayStrategyRouteEntity;
 
 public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, ApplicationEventPublisherAware {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultGatewayStrategyRoute.class);
-
-    public static final String SERVICE_NAME = "service_name";
-    public static final String ROUTE_PATH = "route_path";
 
     @Autowired
     private RouteDefinitionLocator routeDefinitionLocator;
@@ -87,7 +85,7 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
             throw new DiscoveryException("Spring Cloud Gateway dynamic routes are null");
         }
 
-        Map<String, RouteDefinition> newRouteDefinitionMap = gatewayStrategyRouteEntityList.stream().collect(Collectors.toMap(GatewayStrategyRouteEntity::getRouteId, this::convert));
+        Map<String, RouteDefinition> newRouteDefinitionMap = gatewayStrategyRouteEntityList.stream().collect(Collectors.toMap(GatewayStrategyRouteEntity::getId, this::convert));
 
         LOG.info("Updated Spring Cloud Gateway dynamic routes={}", newRouteDefinitionMap);
 
@@ -144,11 +142,11 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
 
     private RouteDefinition convert(GatewayStrategyRouteEntity gatewayStrategyRouteEntity) {
         RouteDefinition routeDefinition = new RouteDefinition();
-        routeDefinition.setId(gatewayStrategyRouteEntity.getRouteId());
+        routeDefinition.setId(gatewayStrategyRouteEntity.getId());
 
         Map<String, Object> metadata = new HashMap<>();
-        metadata.put(SERVICE_NAME, gatewayStrategyRouteEntity.getServiceName());
-        metadata.put(ROUTE_PATH, getPath(gatewayStrategyRouteEntity));
+        metadata.put(DiscoveryConstant.SERVICE_ID, gatewayStrategyRouteEntity.getServiceId());
+        metadata.put(DiscoveryConstant.PATH, getPath(gatewayStrategyRouteEntity));
         routeDefinition.setMetadata(metadata);
 
         String value = gatewayStrategyRouteEntity.getUri();
@@ -184,7 +182,7 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
         String predicates = gatewayStrategyRouteEntity.getPredicates();
 
         if (filters == null || predicates == null) {
-            return gatewayStrategyRouteEntity.getServiceName();
+            return gatewayStrategyRouteEntity.getServiceId();
         }
 
         filters = filters.toLowerCase();
@@ -195,7 +193,7 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
         }
 
         if (stripPrefix == null) {
-            return gatewayStrategyRouteEntity.getServiceName();
+            return gatewayStrategyRouteEntity.getServiceId();
         }
 
         predicates = predicates.toLowerCase();
