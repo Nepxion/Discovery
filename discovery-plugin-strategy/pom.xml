@@ -25,9 +25,6 @@
         <module>discovery-plugin-strategy-starter-opentracing</module>
         <module>discovery-plugin-strategy-starter-skywalking</module>
         <module>discovery-plugin-strategy-starter-sentinel</module>
-        <module>discovery-plugin-strategy-starter-sentinel-local</module>
-        <module>discovery-plugin-strategy-starter-sentinel-apollo</module>
-        <module>discovery-plugin-strategy-starter-sentinel-nacos</module>
         <module>discovery-plugin-strategy-starter-sentinel-monitor</module>
         <module>discovery-plugin-strategy-starter-sentinel-opentelemetry</module>
         <module>discovery-plugin-strategy-starter-sentinel-opentracing</module>
