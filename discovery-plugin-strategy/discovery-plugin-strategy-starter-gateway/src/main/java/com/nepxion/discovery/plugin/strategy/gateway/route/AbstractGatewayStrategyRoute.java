@@ -127,46 +127,16 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
             throw new DiscoveryException("Gateway dynamic routes are null");
         }
 
-        Map<String, RouteDefinition> newRouteDefinitionMap = gatewayStrategyRouteEntityList.stream().collect(Collectors.toMap(GatewayStrategyRouteEntity::getId, this::convertRoute));
+        clearRoutes();
 
-        LOG.info("Updated Gateway dynamic routes={}", newRouteDefinitionMap);
-
-        Map<String, RouteDefinition> currentRouteDefinitionMap = locateRoutes();
-
-        boolean isChanged = false;
-
-        for (Map.Entry<String, RouteDefinition> entry : newRouteDefinitionMap.entrySet()) {
-            String routeId = entry.getKey();
-            RouteDefinition routeDefinition = entry.getValue();
-            if (!currentRouteDefinitionMap.containsKey(routeId)) {
-                addRoute(routeDefinition);
-
-                isChanged = true;
-            }
-
-            if (currentRouteDefinitionMap.containsKey(routeId)) {
-                RouteDefinition currentRouteDefinition = currentRouteDefinitionMap.get(routeId);
-                if (!currentRouteDefinition.equals(routeDefinition)) {
-                    modifyRoute(routeDefinition);
-
-                    isChanged = true;
-                }
-            }
+        for (GatewayStrategyRouteEntity gatewayStrategyRouteEntity : gatewayStrategyRouteEntityList) {
+            RouteDefinition routeDefinition = convertRoute(gatewayStrategyRouteEntity);
+            addRoute(routeDefinition);
         }
 
-        for (Map.Entry<String, RouteDefinition> entry : currentRouteDefinitionMap.entrySet()) {
-            String routeId = entry.getKey();
-            RouteDefinition routeDefinition = entry.getValue();
-            if (!newRouteDefinitionMap.containsKey(routeId)) {
-                deleteRoute(routeDefinition);
+        LOG.info("Updated Gateway dynamic routes count={}", gatewayStrategyRouteEntityList.size());
 
-                isChanged = true;
-            }
-        }
-
-        if (isChanged) {
-            applicationEventPublisher.publishEvent(new RefreshRoutesEvent(this));
-        }
+        applicationEventPublisher.publishEvent(new RefreshRoutesEvent(this));
     }
 
     @Override
@@ -293,6 +263,14 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
             if (disposable != null) {
                 disposable.dispose();
             }
+        }
+    }
+
+    private void clearRoutes() {
+        Map<String, RouteDefinition> routeDefinitionMap = locateRoutes();
+        for (Map.Entry<String, RouteDefinition> entry : routeDefinitionMap.entrySet()) {
+            RouteDefinition routeDefinition = entry.getValue();
+            deleteRoute(routeDefinition);
         }
     }
 }
