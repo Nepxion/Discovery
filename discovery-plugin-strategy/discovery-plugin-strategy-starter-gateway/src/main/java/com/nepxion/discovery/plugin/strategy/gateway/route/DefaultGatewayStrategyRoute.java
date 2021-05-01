@@ -85,7 +85,7 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
             throw new DiscoveryException("Spring Cloud Gateway dynamic routes are null");
         }
 
-        Map<String, RouteDefinition> newRouteDefinitionMap = gatewayStrategyRouteEntityList.stream().collect(Collectors.toMap(GatewayStrategyRouteEntity::getId, this::convert));
+        Map<String, RouteDefinition> newRouteDefinitionMap = gatewayStrategyRouteEntityList.stream().collect(Collectors.toMap(GatewayStrategyRouteEntity::getId, this::convertRoute));
 
         LOG.info("Updated Spring Cloud Gateway dynamic routes={}", newRouteDefinitionMap);
 
@@ -140,7 +140,7 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
         return routeDefinitionMap;
     }
 
-    private RouteDefinition convert(GatewayStrategyRouteEntity gatewayStrategyRouteEntity) {
+    private RouteDefinition convertRoute(GatewayStrategyRouteEntity gatewayStrategyRouteEntity) {
         RouteDefinition routeDefinition = new RouteDefinition();
         routeDefinition.setId(gatewayStrategyRouteEntity.getId());
 
@@ -262,5 +262,9 @@ public class DefaultGatewayStrategyRoute implements GatewayStrategyRoute, Applic
                 disposable.dispose();
             }
         }
+    }
+
+    private void clearRoutes() {
+
     }
 }
