@@ -6,6 +6,7 @@ package com.nepxion.discovery.plugin.admincenter.endpoint;
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
  * @author Ning Zhang
+ * @author Haojun Ren
  * @version 1.0
  */
 
@@ -88,9 +89,9 @@ public class ZuulStrategyRouteEndpoint {
     @RequestMapping(path = "/updateAll", method = RequestMethod.POST)
     @ApiOperation(value = "更新全部网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> updateAll(@RequestBody @ApiParam(value = "网关路由对象列表", required = true) Map<String, ZuulStrategyRouteEntity> zuulStrategyRouteEntityMap) {
+    public ResponseEntity<?> updateAll(@RequestBody @ApiParam(value = "网关路由对象列表", required = true) List<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList) {
         try {
-            zuulStrategyRoute.updateAll(zuulStrategyRouteEntityMap);
+            zuulStrategyRoute.updateAll(zuulStrategyRouteEntityList);
         } catch (Exception e) {
             LOG.error("Update all Zuul dynamic routes failed", e);
 

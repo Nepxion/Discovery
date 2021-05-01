@@ -6,6 +6,7 @@ package com.nepxion.discovery.plugin.strategy.zuul.route;
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
  * @author Ning Zhang
+ * @author Haojun Ren
  * @version 1.0
  */
 
@@ -13,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -107,21 +107,19 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
     }
 
     @Override
-    public void updateAll(Map<String, ZuulStrategyRouteEntity> zuulStrategyRouteEntityMap) {
-        if (MapUtils.isEmpty(zuulStrategyRouteEntityMap)) {
-            throw new DiscoveryException("Zuul dynamic routes are empty");
+    public void updateAll(List<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList) {
+        if (zuulStrategyRouteEntityList == null) {
+            throw new DiscoveryException("Zuul dynamic routes are null");
         }
 
         clearRoutes();
 
-        for (Map.Entry<String, ZuulStrategyRouteEntity> entry : zuulStrategyRouteEntityMap.entrySet()) {
-            ZuulStrategyRouteEntity zuulStrategyRouteEntity = entry.getValue();
-
+        for (ZuulStrategyRouteEntity zuulStrategyRouteEntity : zuulStrategyRouteEntityList) {
             ZuulProperties.ZuulRoute route = convertRoute(zuulStrategyRouteEntity);
             addRoute(route);
         }
 
-        LOG.info("Updated Zuul dynamic routes count={}", zuulStrategyRouteEntityMap.size());
+        LOG.info("Updated Zuul dynamic routes count={}", zuulStrategyRouteEntityList.size());
 
         applicationEventPublisher.publishEvent(new RoutesRefreshedEvent(this));
     }

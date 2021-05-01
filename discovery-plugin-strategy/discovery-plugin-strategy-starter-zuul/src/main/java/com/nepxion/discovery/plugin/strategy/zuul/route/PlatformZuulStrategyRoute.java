@@ -5,11 +5,12 @@ package com.nepxion.discovery.plugin.strategy.zuul.route;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
- * @author Ning Zhang
+ * @author Haojun Ren
  * @version 1.0
  */
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 
@@ -25,16 +26,8 @@ public class PlatformZuulStrategyRoute extends AbstractZuulStrategyRoute {
 
     @PostConstruct
     public void initialize() {
-        Map<String, ZuulStrategyRouteEntity> zuulStrategyRouteEntityMap = getAll();
-        if (zuulStrategyRouteEntityMap == null) {
-            return;
-        }
-
-        updateAll(zuulStrategyRouteEntityMap);
-    }
-
-    public Map<String, ZuulStrategyRouteEntity> getAll() {
-        // 从数据库里获取路由信息
-        return null;
+        // 从数据库里获取动态路由列表
+        List<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList = new ArrayList<ZuulStrategyRouteEntity>();
+        updateAll(zuulStrategyRouteEntityList);
     }
 }
