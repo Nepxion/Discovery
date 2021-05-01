@@ -58,7 +58,7 @@ public class ZuulStrategyAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public ZuulStrategyRoute zuulStrategyRoute(ServerProperties serverProperties, ZuulProperties zuulProperties) {
-        return new DefaultZuulStrategyRoute(serverProperties.getServlet().getContextPath(), zuulProperties);
+        return new DefaultZuulStrategyRoute(serverProperties.getContextPath(), zuulProperties);
     }
 
     @Bean

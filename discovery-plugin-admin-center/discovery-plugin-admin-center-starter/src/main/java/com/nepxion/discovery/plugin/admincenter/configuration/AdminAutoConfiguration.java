@@ -6,13 +6,17 @@ package com.nepxion.discovery.plugin.admincenter.configuration;
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
  * @author Haojun Ren
+ * @author Ning Zhang
  * @version 1.0
  */
 
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.Ordered;
 
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRule;
@@ -24,10 +28,13 @@ import com.nepxion.discovery.plugin.admincenter.endpoint.SentinelCoreEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.SentinelParamEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.StrategyEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.VersionEndpoint;
+import com.nepxion.discovery.plugin.admincenter.endpoint.ZuulStrategyRouteEndpoint;
 import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
+import com.nepxion.discovery.plugin.strategy.zuul.route.ZuulStrategyRoute;
 
 @Configuration
 @Import({ SwaggerConfiguration.class, CorsRegistryConfiguration.class })
+@AutoConfigureOrder(Ordered.LOWEST_PRECEDENCE)
 public class AdminAutoConfiguration {
     protected static class AdminEndpointConfiguration {
         @Bean
@@ -77,6 +84,14 @@ public class AdminAutoConfiguration {
         @Bean
         public SentinelParamEndpoint sentinelParamEndpoint() {
             return new SentinelParamEndpoint();
+        }
+    }
+
+    @ConditionalOnBean(ZuulStrategyRoute.class)
+    protected static class ZuulStrategyRouteEndpointConfiguration {
+        @Bean
+        public ZuulStrategyRouteEndpoint zuulStrategyRouteEndpoint() {
+            return new ZuulStrategyRouteEndpoint();
         }
     }
 }
