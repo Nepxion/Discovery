@@ -143,7 +143,6 @@ public class DiscoveryConstant {
     public static final String PROPERTIES_FORMAT = "properties";
     public static final String PREFIX_CLASSPATH = "classpath:";
     public static final String PREFIX_FILE = "file:";
-    public static final String PATH = "path";
 
     public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
     public static final String ENCODING_UTF_8 = "UTF-8";
