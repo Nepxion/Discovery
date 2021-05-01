@@ -23,6 +23,8 @@ public interface ZuulStrategyRoute {
 
     void updateAll(List<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList);
 
+    void updateAll(String zuulStrategyRouteConfig);
+
     ZuulStrategyRouteEntity view(String routeId);
 
     List<ZuulStrategyRouteEntity> viewAll();

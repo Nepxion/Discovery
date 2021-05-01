@@ -24,7 +24,9 @@ import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.nepxion.discovery.common.exception.DiscoveryException;
+import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.plugin.strategy.zuul.entity.ZuulStrategyRouteEntity;
 
 // Zuul的存储结构
@@ -128,6 +130,18 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
         LOG.info("Updated Zuul dynamic routes count={}", zuulStrategyRouteEntityList.size());
 
         applicationEventPublisher.publishEvent(new RoutesRefreshedEvent(this));
+    }
+
+    @Override
+    public void updateAll(String zuulStrategyRouteConfig) {
+        if (StringUtils.isEmpty(zuulStrategyRouteConfig)) {
+            throw new DiscoveryException("Zuul dynamic route config is empty");
+        }
+
+        List<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList = JsonUtil.fromJson(zuulStrategyRouteConfig, new TypeReference<List<ZuulStrategyRouteEntity>>() {
+        });
+
+        updateAll(zuulStrategyRouteEntityList);
     }
 
     @Override

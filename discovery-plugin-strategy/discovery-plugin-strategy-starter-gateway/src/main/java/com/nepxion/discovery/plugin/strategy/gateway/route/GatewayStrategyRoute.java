@@ -22,6 +22,8 @@ public interface GatewayStrategyRoute {
 
     void updateAll(List<GatewayStrategyRouteEntity> gatewayStrategyRouteEntityList);
 
+    void updateAll(String gatewayStrategyRouteConfig);
+
     GatewayStrategyRouteEntity view(String routeId);
 
     List<GatewayStrategyRouteEntity> viewAll();
