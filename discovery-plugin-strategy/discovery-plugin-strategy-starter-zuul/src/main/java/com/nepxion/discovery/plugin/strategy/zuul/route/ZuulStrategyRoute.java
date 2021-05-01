@@ -10,6 +10,7 @@ package com.nepxion.discovery.plugin.strategy.zuul.route;
  */
 
 import java.util.List;
+import java.util.Map;
 
 import com.nepxion.discovery.plugin.strategy.zuul.entity.ZuulStrategyRouteEntity;
 
@@ -19,6 +20,8 @@ public interface ZuulStrategyRoute {
     void modify(ZuulStrategyRouteEntity zuulStrategyRouteEntity);
 
     void delete(String routeId);
+
+    void updateAll(Map<String, ZuulStrategyRouteEntity> zuulStrategyRouteEntityMap);
 
     ZuulStrategyRouteEntity view(String routeId);
 

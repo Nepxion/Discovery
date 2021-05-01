@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,6 +78,21 @@ public class ZuulStrategyRouteEndpoint {
             zuulStrategyRoute.delete(routeId);
         } catch (Exception e) {
             LOG.error("Delete Zuul dynamic route by routeId failed", e);
+
+            return ExceptionUtil.getExceptionResponseEntity(e, false);
+        }
+
+        return ResponseEntity.ok().body(DiscoveryConstant.OK);
+    }
+
+    @RequestMapping(path = "/updateAll", method = RequestMethod.POST)
+    @ApiOperation(value = "删除网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    public ResponseEntity<?> updateAll(@RequestBody @ApiParam(value = "网关路由对象列表", required = true) Map<String, ZuulStrategyRouteEntity> zuulStrategyRouteEntityMap) {
+        try {
+            zuulStrategyRoute.updateAll(zuulStrategyRouteEntityMap);
+        } catch (Exception e) {
+            LOG.error("Update all Zuul dynamic routes failed", e);
 
             return ExceptionUtil.getExceptionResponseEntity(e, false);
         }
