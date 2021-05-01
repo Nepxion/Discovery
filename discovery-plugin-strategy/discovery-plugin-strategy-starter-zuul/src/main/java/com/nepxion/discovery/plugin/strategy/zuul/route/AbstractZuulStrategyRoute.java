@@ -54,9 +54,15 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
             throw new DiscoveryException("Zuul dynamic route is null");
         }
 
-        Map<String, ZuulProperties.ZuulRoute> routeMap = locateRoutes();
+        Map<String, ZuulProperties.ZuulRoute> idRoutesMap = zuulProperties.getRoutes();
+        String id = zuulStrategyRouteEntity.getId();
+        if (idRoutesMap.containsKey(id)) {
+            throw new DiscoveryException("Zuul dynamic route for id=[" + id + "] is duplicated");
+        }
+
+        Map<String, ZuulProperties.ZuulRoute> pathRouteMap = locateRoutes();
         String path = zuulStrategyRouteEntity.getPath();
-        if (routeMap.containsKey(path)) {
+        if (pathRouteMap.containsKey(path)) {
             throw new DiscoveryException("Zuul dynamic route for path=[" + path + "] is duplicated");
         }
 
