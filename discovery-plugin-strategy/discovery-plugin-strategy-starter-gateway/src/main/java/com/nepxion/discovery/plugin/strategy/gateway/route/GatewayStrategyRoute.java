@@ -14,7 +14,15 @@ import java.util.List;
 import com.nepxion.discovery.plugin.strategy.gateway.entity.GatewayStrategyRouteEntity;
 
 public interface GatewayStrategyRoute {
-    void update(List<GatewayStrategyRouteEntity> gatewayStrategyRouteEntityList);
+    void add(GatewayStrategyRouteEntity gatewayStrategyRouteEntityList);
 
-    List<String> view();
+    void modify(GatewayStrategyRouteEntity gatewayStrategyRouteEntityList);
+
+    void delete(String routeId);
+
+    void updateAll(List<GatewayStrategyRouteEntity> gatewayStrategyRouteEntityList);
+
+    GatewayStrategyRouteEntity view(String routeId);
+
+    List<GatewayStrategyRouteEntity> viewAll();
 }

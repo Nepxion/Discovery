@@ -10,6 +10,7 @@ package com.nepxion.discovery.plugin.strategy.gateway.entity;
  */
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -20,10 +21,9 @@ public class GatewayStrategyRouteEntity implements Serializable {
     private static final long serialVersionUID = 8552414941889295450L;
 
     private String id;
-    private String serviceId;
     private String uri;
-    private String predicates;
-    private String filters;
+    private List<String> predicates;
+    private List<String> filters;
     private Integer order;
 
     public String getId() {
@@ -34,14 +34,6 @@ public class GatewayStrategyRouteEntity implements Serializable {
         this.id = id;
     }
 
-    public String getServiceId() {
-        return serviceId;
-    }
-
-    public void setServiceId(String serviceId) {
-        this.serviceId = serviceId;
-    }
-
     public String getUri() {
         return uri;
     }
@@ -50,19 +42,19 @@ public class GatewayStrategyRouteEntity implements Serializable {
         this.uri = uri;
     }
 
-    public String getPredicates() {
+    public List<String> getPredicates() {
         return predicates;
     }
 
-    public void setPredicates(String predicates) {
+    public void setPredicates(List<String> predicates) {
         this.predicates = predicates;
     }
 
-    public String getFilters() {
+    public List<String> getFilters() {
         return filters;
     }
 
-    public void setFilters(String filters) {
+    public void setFilters(List<String> filters) {
         this.filters = filters;
     }
 
