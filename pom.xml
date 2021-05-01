@@ -17,6 +17,7 @@
         <module>discovery-plugin-config-center</module>
         <module>discovery-plugin-admin-center</module>
         <module>discovery-plugin-strategy</module>
+        <module>discovery-plugin-strategy-datasource</module>
         <module>discovery-plugin-test</module>
         <module>discovery-console</module>
         <module>discovery-springcloud-examples</module>
