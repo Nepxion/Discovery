@@ -9,14 +9,12 @@ package com.nepxion.discovery.plugin.admincenter.endpoint;
  * @version 1.0
  */
 
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.common.util.ExceptionUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 import java.util.List;
 
-import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +25,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.util.ExceptionUtil;
 import com.nepxion.discovery.plugin.strategy.gateway.entity.GatewayStrategyRouteEntity;
 import com.nepxion.discovery.plugin.strategy.gateway.route.GatewayStrategyRoute;
 
 @RestController
 @RequestMapping(path = "/gateway-route")
-@Api(tags = {"网关动态路由接口"})
+@Api(tags = { "网关动态路由接口" })
 public class GatewayStrategyRouteEndpoint {
     private static final Logger LOG = LoggerFactory.getLogger(GatewayStrategyRouteEndpoint.class);
 

@@ -10,12 +10,22 @@ package com.nepxion.discovery.plugin.strategy.gateway.route;
  * @version 1.0
  */
 
-import com.nepxion.discovery.common.exception.DiscoveryException;
-import com.nepxion.discovery.plugin.strategy.gateway.entity.GatewayStrategyRouteEntity;
+import reactor.core.Disposable;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.config.GatewayProperties;
 import org.springframework.cloud.gateway.event.RefreshRoutesEvent;
@@ -28,25 +38,23 @@ import org.springframework.cloud.gateway.support.NotFoundException;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.web.util.UriComponentsBuilder;
-import reactor.core.Disposable;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
-import java.net.URI;
-import java.util.*;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
+import com.nepxion.discovery.common.exception.DiscoveryException;
+import com.nepxion.discovery.plugin.strategy.gateway.entity.GatewayStrategyRouteEntity;
 
 public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRoute, ApplicationEventPublisherAware {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractGatewayStrategyRoute.class);
-    private ApplicationEventPublisher applicationEventPublisher;
+
     @Autowired
     private RouteDefinitionLocator routeDefinitionLocator;
+
     @Autowired
     private RouteDefinitionWriter routeDefinitionWriter;
+
     @Autowired
     private GatewayProperties gatewayProperties;
+
+    private ApplicationEventPublisher applicationEventPublisher;
 
     @Override
     public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
@@ -59,10 +67,10 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
             throw new DiscoveryException("Gateway dynamic route is null");
         }
 
-        Map<String, RouteDefinition> idRouteDefinitionMap = locateRoutes();
+        Map<String, RouteDefinition> routeDefinitionMap = locateRoutes();
         String routeId = gatewayStrategyRouteEntity.getId();
-        if (idRouteDefinitionMap.containsKey(routeId)) {
-            throw new DiscoveryException("Gateway dynamic route for id=[" + routeId + "] is duplicated");
+        if (routeDefinitionMap.containsKey(routeId)) {
+            throw new DiscoveryException("Gateway dynamic route for routeId=[" + routeId + "] is duplicated");
         }
 
         RouteDefinition routeDefinition = convertRoute(gatewayStrategyRouteEntity);
@@ -79,10 +87,10 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
             throw new DiscoveryException("Gateway dynamic route is null");
         }
 
-        Map<String, RouteDefinition> idRouteDefinitionMap = locateRoutes();
+        Map<String, RouteDefinition> routeDefinitionMap = locateRoutes();
         String routeId = gatewayStrategyRouteEntity.getId();
 
-        if (!idRouteDefinitionMap.containsKey(routeId)) {
+        if (!routeDefinitionMap.containsKey(routeId)) {
             throw new DiscoveryException("Gateway dynamic route for routeId=[" + routeId + "] isn't found");
         }
 
@@ -100,8 +108,8 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
             throw new DiscoveryException("RouteId is empty");
         }
 
-        Map<String, RouteDefinition> idRouteDefinitionMap = locateRoutes();
-        RouteDefinition routeDefinition = idRouteDefinitionMap.get(routeId);
+        Map<String, RouteDefinition> routeDefinitionMap = locateRoutes();
+        RouteDefinition routeDefinition = routeDefinitionMap.get(routeId);
         if (routeDefinition == null) {
             throw new DiscoveryException("Gateway dynamic route for routeId=[" + routeId + "] isn't found");
         }
@@ -116,12 +124,12 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
     @Override
     public void updateAll(List<GatewayStrategyRouteEntity> gatewayStrategyRouteEntityList) {
         if (gatewayStrategyRouteEntityList == null) {
-            throw new DiscoveryException("Spring Cloud Gateway dynamic routes are null");
+            throw new DiscoveryException("Gateway dynamic routes are null");
         }
 
         Map<String, RouteDefinition> newRouteDefinitionMap = gatewayStrategyRouteEntityList.stream().collect(Collectors.toMap(GatewayStrategyRouteEntity::getId, this::convertRoute));
 
-        LOG.info("Updated Spring Cloud Gateway dynamic routes={}", newRouteDefinitionMap);
+        LOG.info("Updated Gateway dynamic routes={}", newRouteDefinitionMap);
 
         Map<String, RouteDefinition> currentRouteDefinitionMap = locateRoutes();
 
@@ -177,10 +185,10 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
 
     @Override
     public List<GatewayStrategyRouteEntity> viewAll() {
-        List<GatewayStrategyRouteEntity> gatewayStrategyRouteEntityList = new ArrayList<>();
+        List<GatewayStrategyRouteEntity> gatewayStrategyRouteEntityList = new ArrayList<GatewayStrategyRouteEntity>();
 
-        Map<String, RouteDefinition> idRouteDefinitionMap = locateRoutes();
-        for (Map.Entry<String, RouteDefinition> entry : idRouteDefinitionMap.entrySet()) {
+        Map<String, RouteDefinition> routeDefinitionMap = locateRoutes();
+        for (Map.Entry<String, RouteDefinition> entry : routeDefinitionMap.entrySet()) {
             RouteDefinition routeDefinition = entry.getValue();
             GatewayStrategyRouteEntity gatewayStrategyRouteEntity = convertRoute(routeDefinition);
             gatewayStrategyRouteEntityList.add(gatewayStrategyRouteEntity);
@@ -190,13 +198,12 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
     }
 
     private Map<String, RouteDefinition> locateRoutes() {
-        Map<String, RouteDefinition> routeDefinitionMap = new HashMap<>();
+        Map<String, RouteDefinition> routeDefinitionMap = new HashMap<String, RouteDefinition>();
         Flux<RouteDefinition> routeDefinitions = routeDefinitionLocator.getRouteDefinitions();
         routeDefinitions.subscribe(routeDefinition -> routeDefinitionMap.put(routeDefinition.getId(), routeDefinition));
 
         return routeDefinitionMap;
     }
-
 
     private RouteDefinition convertRoute(GatewayStrategyRouteEntity gatewayStrategyRouteEntity) {
         RouteDefinition routeDefinition = new RouteDefinition();
@@ -204,20 +211,21 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
         routeDefinition.setUri(convertURI(gatewayStrategyRouteEntity.getUri()));
 
         List<String> predicateList = gatewayStrategyRouteEntity.getPredicates();
-        List<PredicateDefinition> predicateDefinitionList = new ArrayList<>(predicateList.size());
+        List<PredicateDefinition> predicateDefinitionList = new ArrayList<PredicateDefinition>(predicateList.size());
         for (String predicate : predicateList) {
             predicateDefinitionList.add(new PredicateDefinition(predicate));
         }
         routeDefinition.setPredicates(predicateDefinitionList);
 
         List<String> filterList = gatewayStrategyRouteEntity.getFilters();
-        List<FilterDefinition> filterDefinitionList = new ArrayList<>(gatewayStrategyRouteEntity.getFilters().size());
+        List<FilterDefinition> filterDefinitionList = new ArrayList<FilterDefinition>(gatewayStrategyRouteEntity.getFilters().size());
         for (String filter : filterList) {
             filterDefinitionList.add(new FilterDefinition(filter));
         }
         routeDefinition.setFilters(filterDefinitionList);
 
         routeDefinition.setOrder(gatewayStrategyRouteEntity.getOrder());
+
         return routeDefinition;
     }
 
@@ -228,16 +236,18 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
         gatewayStrategyRouteEntity.setPredicates(routeDefinition.getPredicates().stream().map(PredicateDefinition::toString).collect(Collectors.toList()));
         gatewayStrategyRouteEntity.setFilters(routeDefinition.getFilters().stream().map(FilterDefinition::toString).collect(Collectors.toList()));
         gatewayStrategyRouteEntity.setOrder(routeDefinition.getOrder());
+
         return gatewayStrategyRouteEntity;
     }
 
-    private URI convertURI(String strUri) {
+    private URI convertURI(String value) {
         URI uri;
-        if (strUri.toLowerCase().startsWith("http") || strUri.toLowerCase().startsWith("https")) {
-            uri = UriComponentsBuilder.fromHttpUrl(strUri).build().toUri();
+        if (value.toLowerCase().startsWith("http") || value.toLowerCase().startsWith("https")) {
+            uri = UriComponentsBuilder.fromHttpUrl(value).build().toUri();
         } else {
-            uri = URI.create(strUri);
+            uri = URI.create(value);
         }
+
         return uri;
     }
 
