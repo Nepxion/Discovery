@@ -9,10 +9,7 @@ package com.nepxion.discovery.plugin.configcenter.consul.adapter;
  * @version 1.0
  */
 
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
 
@@ -22,12 +19,12 @@ import com.nepxion.discovery.common.consul.constant.ConsulConstant;
 import com.nepxion.discovery.common.consul.operation.ConsulListener;
 import com.nepxion.discovery.common.consul.operation.ConsulOperation;
 import com.nepxion.discovery.common.consul.operation.ConsulSubscribeCallback;
-import com.nepxion.discovery.common.thread.DiscoveryNamedThreadFactory;
+import com.nepxion.discovery.common.thread.DiscoveryThreadPoolFactory;
 import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
 import com.nepxion.discovery.plugin.configcenter.logger.ConfigLogger;
 
 public class ConsulConfigAdapter extends ConfigAdapter {
-    private ExecutorService executorService = new ThreadPoolExecutor(2, 4, 0, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(1), new DiscoveryNamedThreadFactory("consul-config"), new ThreadPoolExecutor.DiscardOldestPolicy());
+    private ExecutorService executorService = DiscoveryThreadPoolFactory.getExecutorService("consul-config");
 
     @Autowired
     private ConsulOperation consulOperation;
