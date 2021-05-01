@@ -113,10 +113,6 @@ public class ZuulStrategyRouteEndpoint {
             return ExceptionUtil.getExceptionResponseEntity(e, false);
         }
 
-        if (zuulStrategyRouteEntity == null) {
-            return ResponseEntity.ok().body("Zuul dynamic route for routeId=[" + routeId + "] isn't found");
-        }
-
         return ResponseEntity.ok().body(zuulStrategyRouteEntity);
     }
 

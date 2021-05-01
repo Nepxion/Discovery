@@ -132,7 +132,7 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
 
         ZuulProperties.ZuulRoute route = getRoute(routeId);
         if (route == null) {
-            return null;
+            throw new DiscoveryException("Zuul dynamic route for routeId=[" + routeId + "] isn't found");
         }
 
         return convertRoute(route);
