@@ -85,7 +85,7 @@ public class ZuulStrategyRouteEndpoint {
     }
 
     @RequestMapping(path = "/view", method = RequestMethod.POST)
-    @ApiOperation(value = "根据路由ID查看全部网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "根据路由ID查看网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> view(@RequestBody @ApiParam(value = "路由ID", required = true) String routeId) {
         ZuulStrategyRouteEntity zuulStrategyRouteEntity = null;
@@ -98,7 +98,7 @@ public class ZuulStrategyRouteEndpoint {
         }
 
         if (zuulStrategyRouteEntity == null) {
-            return ResponseEntity.ok().body("Zuul dynamic route for routeId=[" + routeId + "] not found");
+            return ResponseEntity.ok().body("Zuul dynamic route for routeId=[" + routeId + "] isn't found");
         }
 
         return ResponseEntity.ok().body(zuulStrategyRouteEntity);

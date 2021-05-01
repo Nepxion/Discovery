@@ -21,8 +21,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class ZuulStrategyRouteEntity implements Serializable {
     private static final long serialVersionUID = 7174491897992085456L;
 
-    private String routeId;
-    private String serviceName;
+    private String id;
+    private String serviceId;
     private String path;
     private String url;
     private boolean stripPrefix = true;
@@ -30,20 +30,20 @@ public class ZuulStrategyRouteEntity implements Serializable {
     private Set<String> sensitiveHeaders = new LinkedHashSet<>();
     private boolean customSensitiveHeaders = false;
 
-    public String getRouteId() {
-        return routeId;
+    public String getId() {
+        return id;
     }
 
-    public void setRouteId(String routeId) {
-        this.routeId = routeId;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getServiceName() {
-        return serviceName;
+    public String getServiceId() {
+        return serviceId;
     }
 
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
+    public void setServiceId(String serviceId) {
+        this.serviceId = serviceId;
     }
 
     public String getPath() {

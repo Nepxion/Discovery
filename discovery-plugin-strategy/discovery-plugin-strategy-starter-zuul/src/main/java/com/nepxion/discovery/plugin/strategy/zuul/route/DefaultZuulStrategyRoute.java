@@ -94,7 +94,7 @@ public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements Zuul
         Map<String, ZuulProperties.ZuulRoute> routeMap = locateRoutes();
         String path = zuulStrategyRouteEntity.getPath();
         if (routeMap.containsKey(path)) {
-            throw new DiscoveryException("Zuul dynamic route for path=[" + path + "] duplicated");
+            throw new DiscoveryException("Zuul dynamic route for path=[" + path + "] is duplicated");
         }
 
         ZuulProperties.ZuulRoute route = convert(zuulStrategyRouteEntity);
@@ -111,10 +111,10 @@ public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements Zuul
             throw new DiscoveryException("Zuul dynamic route is null");
         }
 
-        String routeId = zuulStrategyRouteEntity.getRouteId();
+        String routeId = zuulStrategyRouteEntity.getId();
         ZuulProperties.ZuulRoute route = getRoute(routeId);
         if (route == null) {
-            throw new DiscoveryException("Zuul dynamic route for routeId=[" + routeId + "] not found");
+            throw new DiscoveryException("Zuul dynamic route for routeId=[" + routeId + "] isn't found");
         }
 
         route = convert(zuulStrategyRouteEntity);
@@ -133,7 +133,7 @@ public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements Zuul
 
         ZuulProperties.ZuulRoute route = getRoute(routeId);
         if (route == null) {
-            throw new DiscoveryException("Zuul dynamic route for routeId=[" + routeId + "] not found");
+            throw new DiscoveryException("Zuul dynamic route for routeId=[" + routeId + "] isn't found");
         }
 
         deleteRoute(route);
@@ -178,8 +178,8 @@ public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements Zuul
 
     private ZuulProperties.ZuulRoute convert(ZuulStrategyRouteEntity zuulStrategyRouteEntity) {
         ZuulProperties.ZuulRoute route = new ZuulProperties.ZuulRoute();
-        route.setId(StringUtils.isNotBlank(zuulStrategyRouteEntity.getRouteId()) ? zuulStrategyRouteEntity.getRouteId() : zuulStrategyRouteEntity.getServiceName());
-        route.setServiceId(zuulStrategyRouteEntity.getServiceName());
+        route.setId(StringUtils.isNotBlank(zuulStrategyRouteEntity.getId()) ? zuulStrategyRouteEntity.getId() : zuulStrategyRouteEntity.getServiceId());
+        route.setServiceId(zuulStrategyRouteEntity.getServiceId());
         route.setPath(zuulStrategyRouteEntity.getPath());
         route.setUrl(zuulStrategyRouteEntity.getUrl());
         route.setStripPrefix(zuulStrategyRouteEntity.isStripPrefix());
@@ -192,8 +192,8 @@ public class DefaultZuulStrategyRoute extends SimpleRouteLocator implements Zuul
 
     private ZuulStrategyRouteEntity convert(ZuulProperties.ZuulRoute route) {
         ZuulStrategyRouteEntity zuulStrategyRouteEntity = new ZuulStrategyRouteEntity();
-        zuulStrategyRouteEntity.setRouteId(route.getId());
-        zuulStrategyRouteEntity.setServiceName(route.getServiceId());
+        zuulStrategyRouteEntity.setId(route.getId());
+        zuulStrategyRouteEntity.setServiceId(route.getServiceId());
         zuulStrategyRouteEntity.setPath(route.getPath());
         zuulStrategyRouteEntity.setUrl(route.getUrl());
         zuulStrategyRouteEntity.setStripPrefix(route.isStripPrefix());
