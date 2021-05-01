@@ -86,7 +86,7 @@ public class ZuulStrategyRouteEndpoint {
     }
 
     @RequestMapping(path = "/updateAll", method = RequestMethod.POST)
-    @ApiOperation(value = "删除网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "更新全部网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> updateAll(@RequestBody @ApiParam(value = "网关路由对象列表", required = true) Map<String, ZuulStrategyRouteEntity> zuulStrategyRouteEntityMap) {
         try {
@@ -121,7 +121,7 @@ public class ZuulStrategyRouteEndpoint {
     }
 
     @RequestMapping(path = "/view-all", method = RequestMethod.POST)
-    @ApiOperation(value = "查看网关全部网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "查看全部网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> viewAll() {
         List<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList = null;
