@@ -124,12 +124,12 @@ public class DiscoveryConstant {
     public static final String TRACE_ID = "trace-id";
     public static final String SPAN_ID = "span-id";
     public static final String SPAN_VALUE = "NEPXION";
-    public static final String SPAN_TAG_PLUGIN_NAME = "plugin"; 
+    public static final String SPAN_TAG_PLUGIN_NAME = "plugin";
     public static final String SPAN_TAG_PLUGIN_VALUE = "Nepxion Discovery";
 
     public static final String CLASS = "class";
     public static final String METHOD = "method";
-    public static final String PARAMETER = "parameter"; 
+    public static final String PARAMETER = "parameter";
     public static final String RETURN = "return";
     public static final String PARAMETER_MAP = "parameterMap";
     public static final String EVENT = "event";
@@ -143,6 +143,7 @@ public class DiscoveryConstant {
     public static final String PROPERTIES_FORMAT = "properties";
     public static final String PREFIX_CLASSPATH = "classpath:";
     public static final String PREFIX_FILE = "file:";
+    public static final String PATH = "path";
 
     public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
     public static final String ENCODING_UTF_8 = "UTF-8";
