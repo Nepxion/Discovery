@@ -94,6 +94,7 @@ public class AdminAutoConfiguration {
     @ConditionalOnBean(GatewayStrategyRoute.class)
     protected static class GatewayStrategyRouteEndpointConfiguration {
         @Bean
+        @ConditionalOnProperty(value = "spring.cloud.gateway.discovery.locator.enabled", havingValue = "false", matchIfMissing = true)
         public GatewayStrategyRouteEndpoint gatewayStrategyRouteEndpoint() {
             return new GatewayStrategyRouteEndpoint();
         }
