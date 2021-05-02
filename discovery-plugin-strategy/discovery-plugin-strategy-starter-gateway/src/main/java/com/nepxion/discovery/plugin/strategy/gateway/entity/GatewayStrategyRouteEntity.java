@@ -27,7 +27,7 @@ public class GatewayStrategyRouteEntity implements Serializable {
     private String uri;
     private List<String> predicates = new ArrayList<String>();
     private List<String> filters = new ArrayList<String>();
-    private Integer order;
+    private int order = 0;
     private Map<String, Object> metadata = new HashMap<String, Object>();
 
     public String getId() {
@@ -62,11 +62,11 @@ public class GatewayStrategyRouteEntity implements Serializable {
         this.filters = filters;
     }
 
-    public Integer getOrder() {
+    public int getOrder() {
         return order;
     }
 
-    public void setOrder(Integer order) {
+    public void setOrder(int order) {
         this.order = order;
     }
 
@@ -75,7 +75,9 @@ public class GatewayStrategyRouteEntity implements Serializable {
     }
 
     public void setMetadata(Map<String, Object> metadata) {
-        this.metadata = metadata;
+        if (metadata != null) {
+            this.metadata = metadata;
+        }
     }
 
     @Override
