@@ -32,6 +32,5 @@
         <module>discovery-plugin-strategy-starter-sentinel-opentelemetry</module>
         <module>discovery-plugin-strategy-starter-sentinel-opentracing</module>
         <module>discovery-plugin-strategy-starter-sentinel-skywalking</module>
-        <module>discovery-plugin-strategy-starter-platform</module>
     </modules>
 </project>
