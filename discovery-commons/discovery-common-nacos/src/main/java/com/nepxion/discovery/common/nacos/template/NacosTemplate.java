@@ -19,7 +19,6 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.nacos.api.config.listener.Listener;
-import com.alibaba.nacos.api.exception.NacosException;
 import com.nepxion.discovery.common.nacos.operation.NacosOperation;
 import com.nepxion.discovery.common.nacos.operation.NacosSubscribeCallback;
 import com.nepxion.discovery.common.thread.DiscoveryThreadPoolFactory;
@@ -46,7 +45,7 @@ public abstract class NacosTemplate implements DisposableBean {
             String config = nacosOperation.getConfig(group, dataId);
 
             callbackConfig(config);
-        } catch (NacosException e) {
+        } catch (Exception e) {
             LOG.info("Get {} config from Nacos server failed, group={}, dataId={}", configType, group, dataId, e);
         }
 
