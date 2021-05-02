@@ -58,6 +58,10 @@ public class PropertiesUtil {
         }
     }
 
+    public static String resolveKey(String key) {
+        return resolveKey(PATTERN, key);
+    }
+
     public static String resolveKey(Pattern pattern, String key) {
         Matcher matcher = pattern.matcher(key);
         StringBuffer stringBuffer = new StringBuffer();
