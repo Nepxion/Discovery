@@ -1,4 +1,4 @@
-package com.nepxion.discovery.common.apollo.template;
+package com.nepxion.discovery.common.apollo.proccessor;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -20,8 +20,8 @@ import com.ctrip.framework.apollo.ConfigChangeListener;
 import com.nepxion.discovery.common.apollo.operation.ApolloOperation;
 import com.nepxion.discovery.common.apollo.operation.ApolloSubscribeCallback;
 
-public abstract class ApolloTemplate implements DisposableBean {
-    private static final Logger LOG = LoggerFactory.getLogger(ApolloTemplate.class);
+public abstract class ApolloProcessor implements DisposableBean {
+    private static final Logger LOG = LoggerFactory.getLogger(ApolloProcessor.class);
 
     @Autowired
     private ApolloOperation apolloOperation;
@@ -29,7 +29,7 @@ public abstract class ApolloTemplate implements DisposableBean {
     private ConfigChangeListener configListener;
 
     @PostConstruct
-    public void subscribe() {
+    public void initialize() {
         String key = getKey();
         String configType = getConfigType();
 
