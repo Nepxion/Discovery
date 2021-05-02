@@ -209,7 +209,7 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
         routeDefinition.setFilters(filterDefinitionList);
 
         routeDefinition.setOrder(gatewayStrategyRouteEntity.getOrder());
-
+        routeDefinition.setMetadata(gatewayStrategyRouteEntity.getMetadata());
         return routeDefinition;
     }
 
@@ -217,11 +217,32 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
         GatewayStrategyRouteEntity gatewayStrategyRouteEntity = new GatewayStrategyRouteEntity();
         gatewayStrategyRouteEntity.setId(routeDefinition.getId());
         gatewayStrategyRouteEntity.setUri(routeDefinition.getUri().toString());
-        gatewayStrategyRouteEntity.setPredicates(routeDefinition.getPredicates().stream().map(PredicateDefinition::toString).collect(Collectors.toList()));
-        gatewayStrategyRouteEntity.setFilters(routeDefinition.getFilters().stream().map(FilterDefinition::toString).collect(Collectors.toList()));
+        gatewayStrategyRouteEntity.setPredicates(convertPredicates(routeDefinition.getPredicates()));
+        gatewayStrategyRouteEntity.setFilters(convertFilters(routeDefinition.getFilters()));
         gatewayStrategyRouteEntity.setOrder(routeDefinition.getOrder());
-
+        gatewayStrategyRouteEntity.setMetadata(routeDefinition.getMetadata());
         return gatewayStrategyRouteEntity;
+    }
+
+    private List<String> convertPredicates(List<PredicateDefinition> predicateDefinitionList) {
+        List<String> predicateList = new ArrayList<>();
+        for (PredicateDefinition predicateDefinition : predicateDefinitionList) {
+            String name = predicateDefinition.getName();
+            Map<String, String> args = predicateDefinition.getArgs();
+            predicateList.add(String.format("%s=%s", name, StringUtils.join(args.values(), ",")));
+        }
+
+        return predicateList;
+    }
+
+    private List<String> convertFilters(List<FilterDefinition> filterDefinitionList) {
+        List<String> filterList = new ArrayList<>();
+        for (FilterDefinition filterDefinition : filterDefinitionList) {
+            String name = filterDefinition.getName();
+            Map<String, String> args = filterDefinition.getArgs();
+            filterList.add(String.format("%s=%s", name, StringUtils.join(args.values(), ",")));
+        }
+        return filterList;
     }
 
     private URI convertURI(String value) {

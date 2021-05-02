@@ -11,6 +11,7 @@ package com.nepxion.discovery.plugin.strategy.gateway.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -25,6 +26,7 @@ public class GatewayStrategyRouteEntity implements Serializable {
     private List<String> predicates;
     private List<String> filters;
     private Integer order;
+    private Map<String, Object> metadata;
 
     public String getId() {
         return id;
@@ -64,6 +66,14 @@ public class GatewayStrategyRouteEntity implements Serializable {
 
     public void setOrder(Integer order) {
         this.order = order;
+    }
+
+    public Map<String, Object> getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(Map<String, Object> metadata) {
+        this.metadata = metadata;
     }
 
     @Override
