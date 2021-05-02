@@ -210,6 +210,7 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
 
         routeDefinition.setOrder(gatewayStrategyRouteEntity.getOrder());
         routeDefinition.setMetadata(gatewayStrategyRouteEntity.getMetadata());
+
         return routeDefinition;
     }
 
@@ -221,11 +222,12 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
         gatewayStrategyRouteEntity.setFilters(convertFilters(routeDefinition.getFilters()));
         gatewayStrategyRouteEntity.setOrder(routeDefinition.getOrder());
         gatewayStrategyRouteEntity.setMetadata(routeDefinition.getMetadata());
+
         return gatewayStrategyRouteEntity;
     }
 
     private List<String> convertPredicates(List<PredicateDefinition> predicateDefinitionList) {
-        List<String> predicateList = new ArrayList<>();
+        List<String> predicateList = new ArrayList<String>();
         for (PredicateDefinition predicateDefinition : predicateDefinitionList) {
             String name = predicateDefinition.getName();
             Map<String, String> args = predicateDefinition.getArgs();
@@ -236,12 +238,13 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
     }
 
     private List<String> convertFilters(List<FilterDefinition> filterDefinitionList) {
-        List<String> filterList = new ArrayList<>();
+        List<String> filterList = new ArrayList<String>();
         for (FilterDefinition filterDefinition : filterDefinitionList) {
             String name = filterDefinition.getName();
             Map<String, String> args = filterDefinition.getArgs();
             filterList.add(String.format("%s=%s", name, StringUtils.join(args.values(), ",")));
         }
+
         return filterList;
     }
 
