@@ -1,4 +1,4 @@
-package com.nepxion.discovery.common.nacos.template;
+package com.nepxion.discovery.common.nacos.proccessor;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -23,8 +23,8 @@ import com.nepxion.discovery.common.nacos.operation.NacosOperation;
 import com.nepxion.discovery.common.nacos.operation.NacosSubscribeCallback;
 import com.nepxion.discovery.common.thread.DiscoveryThreadPoolFactory;
 
-public abstract class NacosTemplate implements DisposableBean {
-    private static final Logger LOG = LoggerFactory.getLogger(NacosTemplate.class);
+public abstract class NacosProcessor implements DisposableBean {
+    private static final Logger LOG = LoggerFactory.getLogger(NacosProcessor.class);
 
     private ExecutorService executorService = DiscoveryThreadPoolFactory.getExecutorService("nacos-config");
 
@@ -34,7 +34,7 @@ public abstract class NacosTemplate implements DisposableBean {
     private Listener configListener;
 
     @PostConstruct
-    public void subscribe() {
+    public void initialize() {
         String group = getGroup();
         String dataId = getDataId();
         String configType = getConfigType();
