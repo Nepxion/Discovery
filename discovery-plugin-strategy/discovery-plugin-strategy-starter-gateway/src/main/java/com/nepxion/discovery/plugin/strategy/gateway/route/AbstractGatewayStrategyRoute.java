@@ -143,7 +143,9 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
     @Override
     public void updateAll(String gatewayStrategyRouteConfig) {
         if (StringUtils.isEmpty(gatewayStrategyRouteConfig)) {
-            throw new DiscoveryException("Gateway dynamic route config is empty");
+            LOG.info("Gateway dynamic route config is empty");
+
+            return;
         }
 
         List<GatewayStrategyRouteEntity> gatewayStrategyRouteEntityList = JsonUtil.fromJson(gatewayStrategyRouteConfig, new TypeReference<List<GatewayStrategyRouteEntity>>() {

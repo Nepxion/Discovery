@@ -135,7 +135,9 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
     @Override
     public void updateAll(String zuulStrategyRouteConfig) {
         if (StringUtils.isEmpty(zuulStrategyRouteConfig)) {
-            throw new DiscoveryException("Zuul dynamic route config is empty");
+            LOG.info("Zuul dynamic route config is empty");
+
+            return;
         }
 
         List<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList = JsonUtil.fromJson(zuulStrategyRouteConfig, new TypeReference<List<ZuulStrategyRouteEntity>>() {
