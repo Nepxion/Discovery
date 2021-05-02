@@ -10,6 +10,8 @@ package com.nepxion.discovery.plugin.strategy.gateway.entity;
  */
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,10 +25,10 @@ public class GatewayStrategyRouteEntity implements Serializable {
 
     private String id;
     private String uri;
-    private List<String> predicates;
-    private List<String> filters;
+    private List<String> predicates = new ArrayList<String>();
+    private List<String> filters = new ArrayList<String>();
     private Integer order;
-    private Map<String, Object> metadata;
+    private Map<String, Object> metadata = new HashMap<String, Object>();
 
     public String getId() {
         return id;
