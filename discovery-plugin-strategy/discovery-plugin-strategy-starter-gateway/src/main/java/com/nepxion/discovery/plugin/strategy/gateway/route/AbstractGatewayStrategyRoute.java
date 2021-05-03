@@ -63,7 +63,7 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
     }
 
     @Override
-    public void add(GatewayStrategyRouteEntity gatewayStrategyRouteEntity) {
+    public synchronized void add(GatewayStrategyRouteEntity gatewayStrategyRouteEntity) {
         if (gatewayStrategyRouteEntity == null) {
             throw new DiscoveryException("Gateway dynamic route is null");
         }
@@ -83,7 +83,7 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
     }
 
     @Override
-    public void modify(GatewayStrategyRouteEntity gatewayStrategyRouteEntity) {
+    public synchronized void modify(GatewayStrategyRouteEntity gatewayStrategyRouteEntity) {
         if (gatewayStrategyRouteEntity == null) {
             throw new DiscoveryException("Gateway dynamic route is null");
         }
@@ -104,7 +104,7 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
     }
 
     @Override
-    public void delete(String routeId) {
+    public synchronized void delete(String routeId) {
         if (StringUtils.isEmpty(routeId)) {
             throw new DiscoveryException("RouteId is empty");
         }
@@ -123,7 +123,7 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
     }
 
     @Override
-    public void updateAll(List<GatewayStrategyRouteEntity> gatewayStrategyRouteEntityList) {
+    public synchronized void updateAll(List<GatewayStrategyRouteEntity> gatewayStrategyRouteEntityList) {
         if (gatewayStrategyRouteEntityList == null) {
             throw new DiscoveryException("Gateway dynamic routes are null");
         }
@@ -141,7 +141,7 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
     }
 
     @Override
-    public void updateAll(String gatewayStrategyRouteConfig) {
+    public synchronized void updateAll(String gatewayStrategyRouteConfig) {
         if (StringUtils.isEmpty(gatewayStrategyRouteConfig)) {
             LOG.info("Gateway dynamic route config is empty");
 
