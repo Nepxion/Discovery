@@ -24,23 +24,23 @@ public class ZookeeperOperation {
     private CuratorFramework curatorFramework;
 
     public String getConfig(String group, String serviceId) throws Exception {
-        boolean hasPath = hasPath(group, serviceId);
-        if (hasPath) {
+        String path = getPath(group, serviceId);
+
+        boolean hasPath = hasPath(path);
+        if (!hasPath) {
             return StringUtils.EMPTY;
         }
-
-        String path = getPath(group, serviceId);
 
         return convertConfig(path);
     }
 
     public boolean removeConfig(String group, String serviceId) throws Exception {
-        boolean hasPath = hasPath(group, serviceId);
-        if (hasPath) {
+        String path = getPath(group, serviceId);
+
+        boolean hasPath = hasPath(path);
+        if (!hasPath) {
             return false;
         }
-
-        String path = getPath(group, serviceId);
 
         curatorFramework.delete().forPath(path);
 
@@ -48,9 +48,12 @@ public class ZookeeperOperation {
     }
 
     public boolean publishConfig(String group, String serviceId, String config) throws Exception {
-        String path = getPath(group, serviceId);
         byte[] bytes = config.getBytes();
+        if (bytes == null) {
+            return false;
+        }
 
+        String path = getPath(group, serviceId);
         Stat stat = curatorFramework.checkExists().forPath(path);
         if (stat == null) {
             curatorFramework.create().creatingParentContainersIfNeeded().withMode(CreateMode.PERSISTENT).forPath(path, bytes);
@@ -67,12 +70,22 @@ public class ZookeeperOperation {
         TreeCacheListener configListener = new TreeCacheListener() {
             @Override
             public void childEvent(CuratorFramework curatorFramework, TreeCacheEvent event) throws Exception {
-                boolean hasPath = hasPath(group, serviceId);
-                if (hasPath) {
+                TreeCacheEvent.Type eventType = event.getType();
+                if (eventType != TreeCacheEvent.Type.NODE_ADDED && eventType != TreeCacheEvent.Type.NODE_UPDATED && eventType != TreeCacheEvent.Type.NODE_REMOVED) {
                     return;
                 }
 
-                String config = convertConfig(curatorFramework, path);
+                String config = null;
+                if (eventType == TreeCacheEvent.Type.NODE_ADDED || eventType == TreeCacheEvent.Type.NODE_UPDATED) {
+                    String eventPath = event.getData().getPath();
+                    if (!StringUtils.equals(eventPath, path)) {
+                        return;
+                    }
+
+                    config = convertConfig(curatorFramework, path);
+                } else {
+                    config = StringUtils.EMPTY;
+                }
 
                 zookeeperSubscribeCallback.callback(config);
             }
@@ -89,14 +102,18 @@ public class ZookeeperOperation {
         TreeCache.newBuilder(curatorFramework, path).build().getListenable().removeListener(configListener);
     }
 
+    public String getPath(String group, String serviceId) {
+        return String.format("/%s/%s", group, serviceId);
+    }
+
+    public boolean hasPath(String path) throws Exception {
+        return curatorFramework.checkExists().forPath(path) != null;
+    }
+
     public boolean hasPath(String group, String serviceId) throws Exception {
         String path = getPath(group, serviceId);
 
-        return curatorFramework.checkExists().forPath(path) == null;
-    }
-
-    public String getPath(String group, String serviceId) {
-        return String.format("/%s/%s", group, serviceId);
+        return hasPath(path);
     }
 
     public String convertConfig(String path) throws Exception {
@@ -105,6 +122,9 @@ public class ZookeeperOperation {
 
     public String convertConfig(CuratorFramework curatorFramework, String path) throws Exception {
         byte[] bytes = curatorFramework.getData().forPath(path);
+        if (bytes == null) {
+            return null;
+        }
 
         return new String(bytes);
     }

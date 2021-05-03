@@ -54,7 +54,7 @@ public class ConsulConfigAdapter extends ConfigAdapter {
         configLogger.logSubscribeStarted(globalConfig);
 
         try {
-            consulOperation.subscribeConfig(group, dataId, executorService, new ConsulSubscribeCallback() {
+            return consulOperation.subscribeConfig(group, dataId, executorService, new ConsulSubscribeCallback() {
                 @Override
                 public void callback(String config) {
                     callbackConfig(config, globalConfig);
