@@ -148,49 +148,49 @@ public class ConsoleEndpoint {
     }
 
     @RequestMapping(path = "/remote-config/update/{group}/{serviceId}", method = RequestMethod.POST)
-    @ApiOperation(value = "推送更新规则配置信息到远程配置中心", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "更新规则配置到远程配置中心", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> remoteConfigUpdate(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名。当全局推送模式下，服务名必须由组名来代替", required = true) String serviceId, @RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
         return executeRemoteConfigUpdate(group, serviceId, config);
     }
 
     @RequestMapping(path = "/remote-config/clear/{group}/{serviceId}", method = RequestMethod.POST)
-    @ApiOperation(value = "清除规则配置信息到远程配置中心", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "清除规则配置到远程配置中心", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> remoteConfigClear(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名。当全局推送模式下，服务名必须由组名来代替", required = true) String serviceId) {
         return executeRemoteConfigClear(group, serviceId);
     }
 
     @RequestMapping(path = "/remote-config/view/{group}/{serviceId}", method = RequestMethod.GET)
-    @ApiOperation(value = "查看远程配置中心的规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "GET")
+    @ApiOperation(value = "查看远程配置中心的规则配置", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     public ResponseEntity<?> remoteConfigView(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名。当全局推送模式下，服务名必须由组名来代替", required = true) String serviceId) {
         return executeRemoteConfigView(group, serviceId);
     }
 
     @RequestMapping(path = "/config/update-async/{serviceId}", method = RequestMethod.POST)
-    @ApiOperation(value = "批量异步推送更新规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "批量异步更新规则配置", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> configUpdateAsync(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
         return executeConfigUpdate(serviceId, config, true);
     }
 
     @RequestMapping(path = "/config/update-sync/{serviceId}", method = RequestMethod.POST)
-    @ApiOperation(value = "批量同步推送更新规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "批量同步更新规则配置", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> configUpdateSync(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
         return executeConfigUpdate(serviceId, config, false);
     }
 
     @RequestMapping(path = "/config/clear-async/{serviceId}", method = RequestMethod.POST)
-    @ApiOperation(value = "批量异步清除更新的规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "批量异步清除规则配置", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> configClearAsync(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
         return executeConfigClear(serviceId, true);
     }
 
     @RequestMapping(path = "/config/clear-sync/{serviceId}", method = RequestMethod.POST)
-    @ApiOperation(value = "批量同步清除更新的规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "批量同步清除规则配置", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> configClearSync(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
         return executeConfigClear(serviceId, false);

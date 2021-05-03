@@ -49,35 +49,35 @@ public class ConfigEndpoint {
     private PluginEventWapper pluginEventWapper;
 
     @RequestMapping(path = "/update-async", method = RequestMethod.POST)
-    @ApiOperation(value = "异步推送更新规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "异步更新规则配置", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> updateAsync(@RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
         return update(config, true);
     }
 
     @RequestMapping(path = "/update-sync", method = RequestMethod.POST)
-    @ApiOperation(value = "同步推送更新规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "同步更新规则配置", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> updateSync(@RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
         return update(config, false);
     }
 
     @RequestMapping(path = "/clear-async", method = RequestMethod.POST)
-    @ApiOperation(value = "异步清除更新的规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "异步清除规则配置", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> clearAsync() {
         return clear(true);
     }
 
     @RequestMapping(path = "/clear-sync", method = RequestMethod.POST)
-    @ApiOperation(value = "同步清除更新的规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "同步清除规则配置", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> clearSync() {
         return clear(false);
     }
 
     @RequestMapping(path = "/view", method = RequestMethod.GET)
-    @ApiOperation(value = "查看本地和更新的规则配置信息", notes = "", response = ResponseEntity.class, httpMethod = "GET")
+    @ApiOperation(value = "查看本地和更新的规则配置", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     public ResponseEntity<List<String>> view() {
         return view(false);
