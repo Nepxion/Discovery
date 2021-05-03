@@ -13,8 +13,10 @@ package com.nepxion.discovery.common.redis.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 
 import com.nepxion.discovery.common.redis.operation.RedisOperation;
 
@@ -22,6 +24,17 @@ import com.nepxion.discovery.common.redis.operation.RedisOperation;
 public class RedisAutoConfiguration {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    private RedisConnectionFactory redisConnectionFactory;
+
+    @Bean
+    public RedisMessageListenerContainer configMessageListenerContainer() {
+        RedisMessageListenerContainer configMessageListenerContainer = new RedisMessageListenerContainer();
+        configMessageListenerContainer.setConnectionFactory(redisConnectionFactory);
+
+        return configMessageListenerContainer;
+    }
 
     @Bean
     public HashOperations<String, String, String> hashOperations() {
