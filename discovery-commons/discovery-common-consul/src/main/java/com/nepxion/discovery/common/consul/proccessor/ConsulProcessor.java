@@ -1,4 +1,4 @@
-package com.nepxion.discovery.common.nacos.proccessor;
+package com.nepxion.discovery.common.consul.proccessor;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -18,43 +18,44 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.alibaba.nacos.api.config.listener.Listener;
-import com.nepxion.discovery.common.nacos.constant.NacosConstant;
-import com.nepxion.discovery.common.nacos.operation.NacosOperation;
-import com.nepxion.discovery.common.nacos.operation.NacosSubscribeCallback;
+import com.nepxion.discovery.common.consul.constant.ConsulConstant;
+import com.nepxion.discovery.common.consul.operation.ConsulListener;
+import com.nepxion.discovery.common.consul.operation.ConsulOperation;
+import com.nepxion.discovery.common.consul.operation.ConsulSubscribeCallback;
 import com.nepxion.discovery.common.thread.DiscoveryThreadPoolFactory;
 
-public abstract class NacosProcessor implements DisposableBean {
-    private static final Logger LOG = LoggerFactory.getLogger(NacosProcessor.class);
+public abstract class ConsulProcessor implements DisposableBean {
+    private static final Logger LOG = LoggerFactory.getLogger(ConsulProcessor.class);
 
-    private ExecutorService executorService = DiscoveryThreadPoolFactory.getExecutorService("nacos-config");
+    private ExecutorService executorService = DiscoveryThreadPoolFactory.getExecutorService("consul-config");
 
     @Autowired
-    private NacosOperation nacosOperation;
+    private ConsulOperation consulOperation;
 
-    private Listener configListener;
+    private ConsulListener consulListener;
 
     @PostConstruct
     public void initialize() {
         String group = getGroup();
         String dataId = getDataId();
+        String key = group + "-" + dataId;
         String description = getDescription();
         String configType = getConfigType();
 
-        LOG.info("Get {} config from {} server, group={}, dataId={}", description, configType, group, dataId);
+        LOG.info("Get {} config from {} server, key={}", description, configType, key);
 
         try {
-            String config = nacosOperation.getConfig(group, dataId);
+            String config = consulOperation.getConfig(group, dataId);
 
             callbackConfig(config);
         } catch (Exception e) {
-            LOG.info("Get {} config from {} server failed, group={}, dataId={}", description, configType, group, dataId, e);
+            LOG.info("Get {} config from {} server failed, key={}", description, configType, key, e);
         }
 
-        LOG.info("Subscribe {} config from {} server, group={}, dataId={}", description, configType, group, dataId);
+        LOG.info("Subscribe {} config from {} server, key={}", description, configType, key);
 
         try {
-            configListener = nacosOperation.subscribeConfig(group, dataId, executorService, new NacosSubscribeCallback() {
+            consulListener = consulOperation.subscribeConfig(group, dataId, executorService, new ConsulSubscribeCallback() {
                 @Override
                 public void callback(String config) {
                     try {
@@ -65,34 +66,35 @@ public abstract class NacosProcessor implements DisposableBean {
                 }
             });
         } catch (Exception e) {
-            LOG.error("Subscribe {} config from {} server failed, group={}, dataId={}", description, configType, group, dataId, e);
+            LOG.error("Subscribe {} config from {} server failed, key={}", description, configType, key, e);
         }
     }
 
     @Override
     public void destroy() {
-        if (configListener == null) {
+        if (consulListener == null) {
             return;
         }
 
         String group = getGroup();
         String dataId = getDataId();
+        String key = group + "-" + dataId;
         String description = getDescription();
         String configType = getConfigType();
 
-        LOG.info("Unsubscribe {} config from {} server, group={}, dataId={}", description, configType, group, dataId);
+        LOG.info("Unsubscribe {} config from {} server, key={}", description, configType, key);
 
         try {
-            nacosOperation.unsubscribeConfig(group, dataId, configListener);
+            consulOperation.unsubscribeConfig(group, dataId, consulListener);
         } catch (Exception e) {
-            LOG.error("Unsubscribe {} config from {} server failed, group={}, dataId={}", description, configType, group, dataId, e);
+            LOG.error("Unsubscribe {} config from {} server failed, key={}", description, configType, key, e);
         }
 
         executorService.shutdownNow();
     }
 
     public String getConfigType() {
-        return NacosConstant.NACOS_TYPE;
+        return ConsulConstant.CONSUL_TYPE;
     }
 
     public abstract String getGroup();
