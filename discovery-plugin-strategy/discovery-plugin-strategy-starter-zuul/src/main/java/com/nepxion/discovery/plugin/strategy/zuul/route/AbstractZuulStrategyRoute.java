@@ -51,7 +51,7 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
     }
 
     @Override
-    public void add(ZuulStrategyRouteEntity zuulStrategyRouteEntity) {
+    public synchronized void add(ZuulStrategyRouteEntity zuulStrategyRouteEntity) {
         if (zuulStrategyRouteEntity == null) {
             throw new DiscoveryException("Zuul dynamic route is null");
         }
@@ -77,7 +77,7 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
     }
 
     @Override
-    public void modify(ZuulStrategyRouteEntity zuulStrategyRouteEntity) {
+    public synchronized void modify(ZuulStrategyRouteEntity zuulStrategyRouteEntity) {
         if (zuulStrategyRouteEntity == null) {
             throw new DiscoveryException("Zuul dynamic route is null");
         }
@@ -97,7 +97,7 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
     }
 
     @Override
-    public void delete(String routeId) {
+    public synchronized void delete(String routeId) {
         if (StringUtils.isEmpty(routeId)) {
             throw new DiscoveryException("RouteId is empty");
         }
@@ -115,7 +115,7 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
     }
 
     @Override
-    public void updateAll(List<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList) {
+    public synchronized void updateAll(List<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList) {
         if (zuulStrategyRouteEntityList == null) {
             throw new DiscoveryException("Zuul dynamic routes are null");
         }
@@ -133,7 +133,7 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
     }
 
     @Override
-    public void updateAll(String zuulStrategyRouteConfig) {
+    public synchronized void updateAll(String zuulStrategyRouteConfig) {
         if (StringUtils.isEmpty(zuulStrategyRouteConfig)) {
             LOG.info("Zuul dynamic route config is empty");
 
