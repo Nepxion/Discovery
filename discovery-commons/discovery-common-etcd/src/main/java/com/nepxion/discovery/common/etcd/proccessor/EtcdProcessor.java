@@ -1,4 +1,4 @@
-package com.nepxion.discovery.common.apollo.proccessor;
+package com.nepxion.discovery.common.etcd.proccessor;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -9,6 +9,8 @@ package com.nepxion.discovery.common.apollo.proccessor;
  * @version 1.0
  */
 
+import io.etcd.jetcd.Watch;
+
 import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
@@ -16,18 +18,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.ctrip.framework.apollo.ConfigChangeListener;
-import com.nepxion.discovery.common.apollo.constant.ApolloConstant;
-import com.nepxion.discovery.common.apollo.operation.ApolloOperation;
-import com.nepxion.discovery.common.apollo.operation.ApolloSubscribeCallback;
+import com.nepxion.discovery.common.etcd.constant.EtcdConstant;
+import com.nepxion.discovery.common.etcd.operation.EtcdOperation;
+import com.nepxion.discovery.common.etcd.operation.EtcdSubscribeCallback;
 
-public abstract class ApolloProcessor implements DisposableBean {
-    private static final Logger LOG = LoggerFactory.getLogger(ApolloProcessor.class);
+public abstract class EtcdProcessor implements DisposableBean {
+    private static final Logger LOG = LoggerFactory.getLogger(EtcdProcessor.class);
 
     @Autowired
-    private ApolloOperation apolloOperation;
+    private EtcdOperation etcdOperation;
 
-    private ConfigChangeListener configListener;
+    private Watch watchClient;
 
     @PostConstruct
     public void initialize() {
@@ -40,7 +41,7 @@ public abstract class ApolloProcessor implements DisposableBean {
         LOG.info("Get {} config from {} server, key={}", description, configType, key);
 
         try {
-            String config = apolloOperation.getConfig(group, dataId);
+            String config = etcdOperation.getConfig(group, dataId);
 
             callbackConfig(config);
         } catch (Exception e) {
@@ -50,7 +51,7 @@ public abstract class ApolloProcessor implements DisposableBean {
         LOG.info("Subscribe {} config from {} server, key={}", description, configType, key);
 
         try {
-            configListener = apolloOperation.subscribeConfig(group, dataId, new ApolloSubscribeCallback() {
+            watchClient = etcdOperation.subscribeConfig(group, dataId, new EtcdSubscribeCallback() {
                 @Override
                 public void callback(String config) {
                     try {
@@ -67,7 +68,7 @@ public abstract class ApolloProcessor implements DisposableBean {
 
     @Override
     public void destroy() {
-        if (configListener == null) {
+        if (watchClient == null) {
             return;
         }
 
@@ -80,14 +81,14 @@ public abstract class ApolloProcessor implements DisposableBean {
         LOG.info("Unsubscribe {} config from {} server, key={}", description, configType, key);
 
         try {
-            apolloOperation.unsubscribeConfig(group, dataId, configListener);
+            etcdOperation.unsubscribeConfig(group, dataId, watchClient);
         } catch (Exception e) {
             LOG.error("Unsubscribe {} config from {} server failed, key={}", description, configType, key, e);
         }
     }
 
     public String getConfigType() {
-        return ApolloConstant.APOLLO_TYPE;
+        return EtcdConstant.ETCD_TYPE;
     }
 
     public abstract String getGroup();
