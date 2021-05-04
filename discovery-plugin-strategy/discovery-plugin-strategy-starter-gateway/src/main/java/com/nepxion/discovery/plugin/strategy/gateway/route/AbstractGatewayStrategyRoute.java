@@ -41,7 +41,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.util.JsonUtil;
+import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
 import com.nepxion.discovery.plugin.strategy.gateway.entity.GatewayStrategyRouteEntity;
+import com.nepxion.discovery.plugin.strategy.gateway.event.GatewayStrategyAddRouteEvent;
+import com.nepxion.discovery.plugin.strategy.gateway.event.GatewayStrategyDeleteRouteEvent;
+import com.nepxion.discovery.plugin.strategy.gateway.event.GatewayStrategyModifyRouteEvent;
+import com.nepxion.discovery.plugin.strategy.gateway.event.GatewayStrategyUpdateAllRouteEvent;
 
 public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRoute, ApplicationEventPublisherAware {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractGatewayStrategyRoute.class);
@@ -54,6 +59,9 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
 
     @Autowired
     private GatewayProperties gatewayProperties;
+
+    @Autowired
+    private PluginPublisher pluginPublisher;
 
     private ApplicationEventPublisher applicationEventPublisher;
 
@@ -80,6 +88,8 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
         LOG.info("Added Gateway dynamic route={}", routeDefinition);
 
         applicationEventPublisher.publishEvent(new RefreshRoutesEvent(this));
+
+        pluginPublisher.asyncPublish(new GatewayStrategyAddRouteEvent(gatewayStrategyRouteEntity));
     }
 
     @Override
@@ -101,6 +111,8 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
         LOG.info("Modified Gateway dynamic route={}", routeDefinition);
 
         applicationEventPublisher.publishEvent(new RefreshRoutesEvent(this));
+
+        pluginPublisher.asyncPublish(new GatewayStrategyModifyRouteEvent(gatewayStrategyRouteEntity));
     }
 
     @Override
@@ -120,6 +132,8 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
         LOG.info("Deleted Gateway dynamic route for routeId={}", routeId);
 
         applicationEventPublisher.publishEvent(new RefreshRoutesEvent(this));
+
+        pluginPublisher.asyncPublish(new GatewayStrategyDeleteRouteEvent(routeId));
     }
 
     @Override
@@ -138,6 +152,8 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
         LOG.info("Updated Gateway dynamic routes count={}", gatewayStrategyRouteEntityList.size());
 
         applicationEventPublisher.publishEvent(new RefreshRoutesEvent(this));
+
+        pluginPublisher.asyncPublish(new GatewayStrategyUpdateAllRouteEvent(gatewayStrategyRouteEntityList));
     }
 
     @Override
