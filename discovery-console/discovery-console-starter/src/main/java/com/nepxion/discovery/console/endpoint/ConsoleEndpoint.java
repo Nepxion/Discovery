@@ -53,6 +53,10 @@ import com.nepxion.discovery.console.adapter.ConfigAdapter;
 import com.nepxion.discovery.console.authentication.AuthenticationResource;
 import com.nepxion.discovery.console.rest.ConfigClearRestInvoker;
 import com.nepxion.discovery.console.rest.ConfigUpdateRestInvoker;
+import com.nepxion.discovery.console.rest.RouteAddRestInvoker;
+import com.nepxion.discovery.console.rest.RouteDeleteRestInvoker;
+import com.nepxion.discovery.console.rest.RouteModifyRestInvoker;
+import com.nepxion.discovery.console.rest.RouteUpdateAllRestInvoker;
 import com.nepxion.discovery.console.rest.SentinelClearRestInvoker;
 import com.nepxion.discovery.console.rest.SentinelUpdateRestInvoker;
 import com.nepxion.discovery.console.rest.VersionClearRestInvoker;
@@ -236,6 +240,34 @@ public class ConsoleEndpoint {
     @ResponseBody
     public ResponseEntity<?> sentinelClear(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @PathVariable(value = "ruleType") @ApiParam(value = "哨兵规则类型", required = true) String ruleType) {
         return executeSentinelClear(serviceId, ruleType);
+    }
+
+    @RequestMapping(path = "/route/add/{serviceId}/{gateType}", method = RequestMethod.POST)
+    @ApiOperation(value = "增加网关路由", notes = "网关类型取值： gateway | zuul。gateway为Spring Cloud Gateway, zull为Netflix Zuul", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    public ResponseEntity<?> gatewayRouteAdd(@PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @PathVariable(value = "gateType") @ApiParam(value = "网关类型", required = true) String gateType, @RequestBody(required = true) @ApiParam(value = "网关路由对象") String json) {
+        return executeRouteAdd(serviceId, gateType, json);
+    }
+
+    @RequestMapping(path = "/route/modify/{serviceId}/{gateType}", method = RequestMethod.POST)
+    @ApiOperation(value = "修改网关路由", notes = "网关类型取值： gateway | zuul。gateway为Spring Cloud Gateway, zull为Netflix Zuul", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    public ResponseEntity<?> gatewayRouteModify(@PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @PathVariable(value = "gateType") @ApiParam(value = "网关类型", required = true) String gateType, @RequestBody(required = true) @ApiParam(value = "网关路由对象") String json) {
+        return executeRouteModify(serviceId, gateType, json);
+    }
+
+    @RequestMapping(path = "/route/delete/{serviceId}/{gateType}", method = RequestMethod.POST)
+    @ApiOperation(value = "删除网关路由", notes = "网关类型取值： gateway | zuul。gateway为Spring Cloud Gateway, zull为Netflix Zuul", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    public ResponseEntity<?> gatewayRouteDelete(@PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @PathVariable(value = "gateType") @ApiParam(value = "网关类型", required = true) String gateType, @RequestBody(required = true) @ApiParam(value = "路由ID") String routeId) {
+        return executeRouteDelete(serviceId, gateType, routeId);
+    }
+
+    @RequestMapping(path = "/route/update-all/{serviceId}/{gateType}", method = RequestMethod.POST)
+    @ApiOperation(value = "更新全部网关路由", notes = "网关类型取值： gateway | zuul。gateway为Spring Cloud Gateway, zull为Netflix Zuul", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    public ResponseEntity<?> gatewayRouteUpdateAll(@PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @PathVariable(value = "gateType") @ApiParam(value = "网关类型", required = true) String gateType, @RequestBody(required = true) @ApiParam(value = "网关路由对象列表") String json) {
+        return executeRouteUpdateAll(serviceId, gateType, json);
     }
 
     @RequestMapping(path = "/validate-expression", method = RequestMethod.GET)
@@ -497,5 +529,37 @@ public class ConsoleEndpoint {
         SentinelClearRestInvoker sentinelClearRestInvoker = new SentinelClearRestInvoker(instances, consoleRestTemplate, ruleType);
 
         return sentinelClearRestInvoker.invoke();
+    }
+
+    private ResponseEntity<?> executeRouteAdd(String serviceId, String gatewayType, String json) {
+        List<ServiceInstance> instances = getInstances(serviceId);
+
+        RouteAddRestInvoker routeAddRestInvoker = new RouteAddRestInvoker(instances, consoleRestTemplate, gatewayType, json);
+
+        return routeAddRestInvoker.invoke();
+    }
+
+    private ResponseEntity<?> executeRouteModify(String serviceId, String gatewayType, String json) {
+        List<ServiceInstance> instances = getInstances(serviceId);
+
+        RouteModifyRestInvoker routeModifyRestInvoker = new RouteModifyRestInvoker(instances, consoleRestTemplate, gatewayType, json);
+
+        return routeModifyRestInvoker.invoke();
+    }
+
+    private ResponseEntity<?> executeRouteDelete(String serviceId, String gatewayType, String routeId) {
+        List<ServiceInstance> instances = getInstances(serviceId);
+
+        RouteDeleteRestInvoker routeDeleteRestInvoker = new RouteDeleteRestInvoker(instances, consoleRestTemplate, gatewayType, routeId);
+
+        return routeDeleteRestInvoker.invoke();
+    }
+
+    private ResponseEntity<?> executeRouteUpdateAll(String serviceId, String gatewayType, String json) {
+        List<ServiceInstance> instances = getInstances(serviceId);
+
+        RouteUpdateAllRestInvoker routeUpdateAllRestInvoker = new RouteUpdateAllRestInvoker(instances, consoleRestTemplate, gatewayType, json);
+
+        return routeUpdateAllRestInvoker.invoke();
     }
 }
