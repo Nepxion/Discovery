@@ -4141,7 +4141,11 @@ spring.application.strategy.tracer.sentinel.args.output.enabled=true
 public class MySubscriber {
     @Subscribe
     public void onAlarm(AlarmEvent alarmEvent) {
-        // 通过事件总线把告警数据alarmEvent.getContextMap()存储到ElasticSearch、MessageQueue、数据库等
+        // 在本告警中告警类型为StrategyConstant.STRATEGY_ALARM_HEADER的静态变量值
+        String alarmType = alarmEvent.getAlarmType();
+
+        // 通过事件总线把告警数据alarmMap存储到ElasticSearch、MessageQueue、数据库等
+        Map<String, String> alarmMap = alarmEvent.getAlarmMap();
     }
 }
 ```
@@ -4150,13 +4154,13 @@ public class MySubscriber {
 # 启动和关闭告警，一旦关闭，蓝绿灰度上下文输出都将关闭。缺失则默认为false
 spring.application.strategy.alarm.enabled=true
 ```
-② 通过事件总线把告警数据alarmEvent.getContextMap()存储到ElasticSearch、MessageQueue、数据库等
+② 通过事件总线把告警数据存储到ElasticSearch、MessageQueue、数据库等
 
 ③ 根据端到端的traceId对应的蓝绿灰度Header是否传递，是否相同，判断蓝绿灰度是否成功
 
 ④ 如果不相同，结合DevOps系统发送告警邮件或者通知
 
-⑤ 上下文具体信息列表参考源码：
+⑤ 告警数据具体信息列表参考源码：
 ```java
 com.nepxion.discovery.plugin.strategy.monitor.DefaultStrategyAlarm
 ```
