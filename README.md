@@ -526,6 +526,11 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [异步跨线程DiscoveryAgent扩展](#异步跨线程DiscoveryAgent扩展)
     - [异步场景下Hystrix线程池隔离解决方案](#异步场景下Hystrix线程池隔离解决方案)
 - [全链路数据库和消息队列蓝绿发布](#全链路数据库和消息队列蓝绿发布)
+- [网关动态路由](#网关动态路由)
+    - [网关动态路由接入](#网关动态路由接入)
+    - [Spring-Cloud-Gateway网关动态路由](#Spring-Cloud-Gateway网关动态路由)
+    - [Zuul网关动态路由](#Zuul网关动态路由)
+- [统一配置订阅执行器](#统一配置订阅执行器)
 - [规则策略定义](#规则策略定义)
     - [规则策略格式定义](#规则策略格式定义)
     - [规则策略内容定义](#规则策略内容定义)
@@ -2516,24 +2521,12 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 
 通过discovery-plugin-admin-center-starter内置基于LoadBalanced RestTemplate的接口方法，实现全链路侦测，用于查看全链路中调用的各个服务的版本、区域、环境、可用区、IP地址和端口等是否符合和满足蓝绿灰度条件。使用方式，如下
 
-① 请求方式
-```
-POST
-```
-② 请求路径
+| 操作 | 路径 | 内容 | 方式 |
+| --- | --- | --- | --- |
+| 网关为入口 | `http://[网关IP:PORT]/[A服务名]/inspector/inspect` | `{"serviceIdList":["B服务名", "C服务名", ....]}` | POST |
+| 服务为入口 | `http://[A服务IP:PORT]/inspector/inspect` | `{"serviceIdList":["B服务名", "C服务名", ....]}` | POST |
 
-网关为入口，路径为
-```
-http://[网关IP:PORT]/[A服务名]/inspector/inspect
-```
-服务为入口，路径为
-```
-http://[A服务IP:PORT]/inspector/inspect
-```
-③ 请求内容，服务名列表不分前后次序
-```
-{"serviceIdList":["B服务名", "C服务名", ....]}
-```
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：内容项中服务名列表不分前后次序
 
 ## 全链路蓝绿灰度发布容灾
 
@@ -3027,6 +3020,307 @@ public class MySubscriber {
 spring.application.parameter.event.onstart.enabled=true
 ```
 参考[https://github.com/Nepxion/DiscoveryContrib](https://github.com/Nepxion/DiscoveryContrib)里的实现方式
+
+## 网关动态路由
+网关动态路由功能，主要包括
+
+- 路由动态添加
+- 路由动态修改
+- 路由动态删除
+- 路由动态批量更新
+- 路由查询
+- 路由动态变更后，通过事件总线方式发出事件通知
+
+上述操作，可以通过
+
+- 网关暴露Rest Endpoint接口实施
+- 控制台暴露Rest Endpoint接口，对同一个网关下若干个实例批量实施
+- 网关订阅配置中心（包括Nacos、Apollo、Consul、Etcd、Redis、Zookeeper）批量实施
+
+### 网关动态路由接入
+如果使用者希望通过网关订阅配置中心方式，则需要加网关接入平台插件
+
+```xml
+<dependency>
+    <groupId>com.nepxion</groupId>
+    <artifactId>discovery-platform-starter-client</artifactId>
+    <version>${discovery.platform.version}</version>
+</dependency>
+```
+
+### Spring-Cloud-Gateway网关动态路由
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：Zuul网关在自动路由模式下，动态路由可以工作
+
+① Spring Cloud Gateway网关的动态路由配置格式
+
+- 精简配置
+
+```
+[
+    {
+        "id": "route0", 
+        "uri": "lb://discovery-guide-service-a", 
+        "predicates": [
+            "Path=/discovery-guide-service-a/**,/x/**,/y/**"
+        ], 
+        "filters": [
+            "StripPrefix=1"
+        ]
+    }
+]
+```
+
+- 完整配置
+
+```
+[
+    {
+        "id": "route0", 
+        "uri": "lb://discovery-guide-service-a", 
+        "predicates": [
+            "Path=/discovery-guide-service-a/**,/x/**,/y/**"
+        ], 
+        "filters": [
+            "StripPrefix=1"
+        ], 
+        "order": 0,
+        "metadata": {}
+    }
+]
+```
+
+② Spring Cloud Gateway网关的Rest Endpoint接口
+
+| 操作 | 路径 | 内容 | 方式 |
+| --- | --- | --- | --- |
+| 增加网关路由 | `http://[网关IP:PORT]/gateway-route/add` | 单个动态路由配置 | POST |
+| 修改网关路由 | `http://[网关IP:PORT]/gateway-route/modify` | 单个动态路由配置 | POST |
+| 删除网关路由 | `http://[网关IP:PORT]/gateway-route/delete` | 路由ID | POST |
+| 更新全部网关路由 | `http://[网关IP:PORT]/gateway-route/update-all` | 多个动态路由配置 | POST |
+| 根据路由ID查看网关路由 | `http://[网关IP:PORT]/gateway-route/view` | 路由ID | POST |
+| 查看全部网关路由| `http://[网关IP:PORT]/gateway-route/view-all` | 无 | POST |
+
+③ 控制台的Rest Endpoint接口
+
+| 操作 | 路径 | 内容 | 方式 |
+| --- | --- | --- | --- |
+| 增加网关路由 | `http://[控制台IP:PORT]/route/add/{serviceId}/gateway` | 单个动态路由配置 | POST |
+| 修改网关路由 | `http://[控制台IP:PORT]/route/modify/{serviceId}/gateway` | 单个动态路由配置 | POST |
+| 删除网关路由 | `http://[控制台IP:PORT]/route/delete/{serviceId}/gateway` | 路由ID | POST |
+| 更新全部网关路由 | `http://[控制台IP:PORT]/route/update-all/{serviceId}/gateway` | 多个动态路由配置 | POST |
+
+④ 网关订阅配置中心
+
+- Key为
+    - Nacos配置中心，Group为nepxion，DataId为网关服务名
+    - 其它配置中心，Key的格式为nepxion-网关服务名
+- Value为多个动态路由配置
+
+⑤ 事件总线通知的订阅
+
+```java
+@EventBus
+public class MySubscriber {
+    @Subscribe
+    public void onGatewayStrategyRouteAdded(GatewayStrategyRouteAddedEvent gatewayStrategyRouteAddedEvent) {
+        System.out.println("增加网关路由=" + gatewayStrategyRouteAddedEvent.getGatewayStrategyRouteEntity());
+    }
+
+    @Subscribe
+    public void onGatewayStrategyRouteModified(GatewayStrategyRouteModifiedEvent gatewayStrategyRouteModifiedEvent) {
+        System.out.println("修改网关路由=" + gatewayStrategyRouteModifiedEvent.getGatewayStrategyRouteEntity());
+    }
+
+    @Subscribe
+    public void onGatewayStrategyRouteDeleted(GatewayStrategyRouteDeletedEvent gatewayStrategyRouteDeletedEvent) {
+        System.out.println("删除网关路由=" + gatewayStrategyRouteDeletedEvent.getRouteId());
+    }
+
+    @Subscribe
+    public void onGatewayStrategyRouteUpdatedAll(GatewayStrategyRouteUpdatedAllEvent gatewayStrategyRouteUpdatedAllEvent) {
+        System.out.println("更新全部网关路由=" + gatewayStrategyRouteUpdatedAllEvent.getGatewayStrategyRouteEntityList());
+    }
+}
+```
+
+### Zuul网关动态路由
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：Spring Cloud Gateway网关在自动路由模式下，动态路由不能工作
+
+① Zuul网关的动态路由配置格式
+
+- 精简配置
+
+```
+[
+    {
+        "id": "route0",
+        "serviceId": "discovery-guide-service-a",
+        "path": "/discovery-guide-service-a/**"
+    },
+    {
+        "id": "route1",
+        "serviceId": "discovery-guide-service-a",
+        "path": "/x/**"
+    },
+    {
+        "id": "route2",
+        "serviceId": "discovery-guide-service-a",
+        "path": "/y/**"
+    }
+]
+```
+
+如果希望一个服务只映射一个动态路由路径，则不需要id，可以简化为
+
+```
+[
+    {
+        "serviceId": "discovery-guide-service-a",
+        "path": "/x/**"
+    }
+]
+```
+
+- 完整配置
+
+```
+[
+    {
+        "id": "route0",
+        "serviceId": "discovery-guide-service-a",
+        "path": "/discovery-guide-service-a/**",
+        "url": null,
+        "stripPrefix": true,
+        "retryable": null,
+        "sensitiveHeaders": [],
+        "customSensitiveHeaders": false
+    },
+    {
+        "id": "route1",
+        "serviceId": "discovery-guide-service-a",
+        "path": "/x/**",
+        "url": null,
+        "stripPrefix": true,
+        "retryable": null,
+        "sensitiveHeaders": [],
+        "customSensitiveHeaders": false
+    },
+    {
+        "id": "route2",
+        "serviceId": "discovery-guide-service-a",
+        "path": "/y/**",
+        "url": null,
+        "stripPrefix": true,
+        "retryable": null,
+        "sensitiveHeaders": [],
+        "customSensitiveHeaders": false
+    }
+]
+```
+
+② Zuul网关的Rest Endpoint接口
+
+| 操作 | 路径 | 内容 | 方式 |
+| --- | --- | --- | --- |
+| 增加网关路由 | `http://[网关IP:PORT]/zuul-route/add` | 单个动态路由配置 | POST |
+| 修改网关路由 | `http://[网关IP:PORT]/zuul-route/modify` | 单个动态路由配置 | POST |
+| 删除网关路由 | `http://[网关IP:PORT]/zuul-route/delete` | 路由ID | POST |
+| 更新全部网关路由 | `http://[网关IP:PORT]/zuul-route/update-all` | 多个动态路由配置 | POST |
+| 根据路由ID查看网关路由 | `http://[网关IP:PORT]/zuul-route/view` | 路由ID | POST |
+| 查看全部网关路由| `http://[网关IP:PORT]/zuul-route/view-all` | 无 | POST |
+
+③ 控制台的Rest Endpoint接口
+
+| 操作 | 路径 | 内容 | 方式 |
+| --- | --- | --- | --- |
+| 增加网关路由 | `http://[控制台IP:PORT]/route/add/{serviceId}/zuul` | 单个动态路由配置 | POST |
+| 修改网关路由 | `http://[控制台IP:PORT]/route/modify/{serviceId}/zuul` | 单个动态路由配置 | POST |
+| 删除网关路由 | `http://[控制台IP:PORT]/route/delete/{serviceId}/zuul` | 路由ID | POST |
+| 更新全部网关路由 | `http://[控制台IP:PORT]/route/update-all/{serviceId}/zuul` | 多个动态路由配置 | POST |
+
+④ 网关订阅配置中心
+
+- Key为
+    - Nacos配置中心，Group为nepxion，DataId为网关服务名
+    - 其它配置中心，Key的格式为nepxion-网关服务名
+- Value为多个动态路由配置
+
+⑤ 事件总线通知的订阅
+
+```java
+@EventBus
+public class MySubscriber {
+    @Subscribe
+    public void onZuulStrategyRouteAdded(ZuulStrategyRouteAddedEvent zuulStrategyRouteAddedEvent) {
+        System.out.println("增加网关路由=" + zuulStrategyRouteAddedEvent.getZuulStrategyRouteEntity());
+    }
+
+    @Subscribe
+    public void onZuulStrategyRouteModified(ZuulStrategyRouteModifiedEvent zuulStrategyRouteModifiedEvent) {
+        System.out.println("修改网关路由=" + zuulStrategyRouteModifiedEvent.getZuulStrategyRouteEntity());
+    }
+
+    @Subscribe
+    public void onZuulStrategyRouteDeleted(ZuulStrategyRouteDeletedEvent zuulStrategyRouteDeletedEvent) {
+        System.out.println("删除网关路由=" + zuulStrategyRouteDeletedEvent.getRouteId());
+    }
+
+    @Subscribe
+    public void onZuulStrategyRouteUpdatedAll(ZuulStrategyRouteUpdatedAllEvent zuulStrategyRouteUpdatedAllEvent) {
+        System.out.println("更新全部网关路由=" + zuulStrategyRouteUpdatedAllEvent.getZuulStrategyRouteEntityList());
+    }
+}
+```
+
+## 统一配置订阅执行器
+
+统一配置订阅执行器，基于Nacos、Apollo、Consul、Etcd、Redis、Zookeeper六种配置中心，通过封装适配成同样的写法，通过切换继承类，可切换配置中心，无须修改其它代码
+
+Spring Cloud配置动态刷新机制固化在一个比较单一的场景（例如，通过@Value方式）里，无法满足更灵活更高级的订阅场景，例如，Spring Cloud Gateway和Zuul网关通过改变配置中心的路由信息无法动态刷新路由路径
+
+本框架提供更简单灵活的实现方式，以Nacos为例子，使用者先确定订阅的Group和DataId，在Nacos界面填入这两个参数对应的配置内容，然后通过回调方法处理业务逻辑。具体使用方式，如下
+```java
+// 把继承类（extends）换成如下任何一个，即可切换配置中心，代码无需任何变动
+// 1. NacosProcessor
+// 2. ApolloProcessor
+// 3. ConsulProcessor
+// 4. EtcdProcessor
+// 5. ZookeeperProcessor
+// 6. RedisProcessor
+// Group和DataId自行决定，需要注意
+// 1. 对于Nacos配置中心，Group和DataId需要和界面相对应
+// 2. 对于其它配置中心，Key的格式为Group-DataId
+// 3. 千万不能和蓝绿灰度发布的Group和DataId冲突
+public class MyGatewayStrategyRouteProcessor extends NacosProcessor {
+    // private String group = "DEFAULT_GROUP";
+    private String group = "nepxion";
+
+    @Value("${" + DiscoveryConstant.SPRING_APPLICATION_NAME + "}")
+    private String dataId;
+
+    @Override
+    public String getGroup() {
+        return group;
+    }
+
+    @Override
+    public String getDataId() {
+        return dataId;
+    }
+
+    @Override
+    public String getDescription() {
+        // description为日志打印显示而设置，作用是帮助使用者在日志上定位订阅是否在执行。例如，下行的返回值表示为网关动态路由的订阅
+        return "Gateway dynamic route";
+    }
+
+    @Override
+    public void callbackConfig(String config) {
+        // config为配置中心对应键值的内容变更，使用者可以根据此变更对业务模块做回调处理
+        System.out.println(config);
+    }
+}
+```
 
 ## 规则策略定义
 
