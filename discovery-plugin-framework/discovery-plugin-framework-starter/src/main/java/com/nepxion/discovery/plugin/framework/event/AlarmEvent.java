@@ -15,13 +15,19 @@ import java.util.Map;
 public class AlarmEvent implements Serializable {
     private static final long serialVersionUID = 5966845230262521754L;
 
-    private Map<String, String> contextMap;
+    private String alarmType;
+    private Map<String, String> alarmMap;
 
-    public AlarmEvent(Map<String, String> contextMap) {
-        this.contextMap = contextMap;
+    public AlarmEvent(String alarmType, Map<String, String> alarmMap) {
+        this.alarmType = alarmType;
+        this.alarmMap = alarmMap;
     }
 
-    public Map<String, String> getContextMap() {
-        return contextMap;
+    public String getAlarmType() {
+        return alarmType;
+    }
+
+    public Map<String, String> getAlarmMap() {
+        return alarmMap;
     }
 }
