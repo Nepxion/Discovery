@@ -84,7 +84,7 @@ public class GatewayStrategyRouteEndpoint {
         return ResponseEntity.ok().body(DiscoveryConstant.OK);
     }
 
-    @RequestMapping(path = "/updateAll", method = RequestMethod.POST)
+    @RequestMapping(path = "/update-all", method = RequestMethod.POST)
     @ApiOperation(value = "更新全部网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> updateAll(@RequestBody @ApiParam(value = "网关路由对象列表", required = true) List<GatewayStrategyRouteEntity> gatewayStrategyRouteEntityList) {
