@@ -4480,6 +4480,9 @@ com.nepxion.discovery.plugin.strategy.monitor.DefaultStrategyAlarm
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Grafana.jpg)
 
 #### Spring-Boot-Admin监控
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Admin1.jpg)
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Admin4.jpg)
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Admin5.jpg)
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Admin7.jpg)
 
 ## 全链路服务侧注解
@@ -5472,6 +5475,14 @@ spring.application.strategy.business.request.headers=user;mobile;location
 - Docker Desktop
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Docker.jpg)
+
+- Docker Windows
+
+![](http://nepxion.gitee.io/discovery/docs/polaris-doc/DockerWindows.jpg)
+
+- Docker Linux
+
+![](http://nepxion.gitee.io/discovery/docs/polaris-doc/DockerLinux.jpg)
 
 ### Kubernetes平台支持
 请自行研究
