@@ -105,7 +105,7 @@ public class DefaultStrategyAlarm implements StrategyAlarm {
         onAlarm(contextMap);
     }
 
-    private void onAlarm(Map<String, String> contextMap) {
-        pluginEventWapper.fireAlarm(new AlarmEvent(contextMap));
+    private void onAlarm(Map<String, String> alarmMap) {
+        pluginEventWapper.fireAlarm(new AlarmEvent(StrategyConstant.STRATEGY_ALARM_HEADER, alarmMap));
     }
 }
