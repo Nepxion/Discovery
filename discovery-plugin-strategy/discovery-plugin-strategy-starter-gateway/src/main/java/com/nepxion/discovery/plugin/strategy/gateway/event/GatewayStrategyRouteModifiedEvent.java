@@ -13,12 +13,12 @@ import java.io.Serializable;
 
 import com.nepxion.discovery.plugin.strategy.gateway.entity.GatewayStrategyRouteEntity;
 
-public class GatewayStrategyAddRouteEvent implements Serializable {
-    private static final long serialVersionUID = -5614788825646267155L;
+public class GatewayStrategyRouteModifiedEvent implements Serializable {
+    private static final long serialVersionUID = -64955673371333231L;
 
     private GatewayStrategyRouteEntity gatewayStrategyRouteEntity;
 
-    public GatewayStrategyAddRouteEvent(GatewayStrategyRouteEntity gatewayStrategyRouteEntity) {
+    public GatewayStrategyRouteModifiedEvent(GatewayStrategyRouteEntity gatewayStrategyRouteEntity) {
         this.gatewayStrategyRouteEntity = gatewayStrategyRouteEntity;
     }
 

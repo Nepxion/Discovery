@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.zuul.event;
+package com.nepxion.discovery.plugin.strategy.gateway.event;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -11,12 +11,12 @@ package com.nepxion.discovery.plugin.strategy.zuul.event;
 
 import java.io.Serializable;
 
-public class ZuulStrategyDeleteRouteEvent implements Serializable {
-    private static final long serialVersionUID = -819386359251658004L;
+public class GatewayStrategyRouteDeletedEvent implements Serializable {
+    private static final long serialVersionUID = 9073567694566348300L;
 
     private String routeId;
 
-    public ZuulStrategyDeleteRouteEvent(String routeId) {
+    public GatewayStrategyRouteDeletedEvent(String routeId) {
         this.routeId = routeId;
     }
 

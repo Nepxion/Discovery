@@ -43,10 +43,10 @@ import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
 import com.nepxion.discovery.plugin.strategy.gateway.entity.GatewayStrategyRouteEntity;
-import com.nepxion.discovery.plugin.strategy.gateway.event.GatewayStrategyAddRouteEvent;
-import com.nepxion.discovery.plugin.strategy.gateway.event.GatewayStrategyDeleteRouteEvent;
-import com.nepxion.discovery.plugin.strategy.gateway.event.GatewayStrategyModifyRouteEvent;
-import com.nepxion.discovery.plugin.strategy.gateway.event.GatewayStrategyUpdateAllRouteEvent;
+import com.nepxion.discovery.plugin.strategy.gateway.event.GatewayStrategyRouteAddedEvent;
+import com.nepxion.discovery.plugin.strategy.gateway.event.GatewayStrategyRouteDeletedEvent;
+import com.nepxion.discovery.plugin.strategy.gateway.event.GatewayStrategyRouteModifiedEvent;
+import com.nepxion.discovery.plugin.strategy.gateway.event.GatewayStrategyRouteUpdatedAllEvent;
 
 public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRoute, ApplicationEventPublisherAware {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractGatewayStrategyRoute.class);
@@ -89,7 +89,7 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
 
         applicationEventPublisher.publishEvent(new RefreshRoutesEvent(this));
 
-        pluginPublisher.asyncPublish(new GatewayStrategyAddRouteEvent(gatewayStrategyRouteEntity));
+        pluginPublisher.asyncPublish(new GatewayStrategyRouteAddedEvent(gatewayStrategyRouteEntity));
     }
 
     @Override
@@ -112,7 +112,7 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
 
         applicationEventPublisher.publishEvent(new RefreshRoutesEvent(this));
 
-        pluginPublisher.asyncPublish(new GatewayStrategyModifyRouteEvent(gatewayStrategyRouteEntity));
+        pluginPublisher.asyncPublish(new GatewayStrategyRouteModifiedEvent(gatewayStrategyRouteEntity));
     }
 
     @Override
@@ -133,7 +133,7 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
 
         applicationEventPublisher.publishEvent(new RefreshRoutesEvent(this));
 
-        pluginPublisher.asyncPublish(new GatewayStrategyDeleteRouteEvent(routeId));
+        pluginPublisher.asyncPublish(new GatewayStrategyRouteDeletedEvent(routeId));
     }
 
     @Override
@@ -153,7 +153,7 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
 
         applicationEventPublisher.publishEvent(new RefreshRoutesEvent(this));
 
-        pluginPublisher.asyncPublish(new GatewayStrategyUpdateAllRouteEvent(gatewayStrategyRouteEntityList));
+        pluginPublisher.asyncPublish(new GatewayStrategyRouteUpdatedAllEvent(gatewayStrategyRouteEntityList));
     }
 
     @Override
