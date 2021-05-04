@@ -17,6 +17,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.netflix.zuul.RoutesRefreshedEvent;
 import org.springframework.cloud.netflix.zuul.filters.RefreshableRouteLocator;
 import org.springframework.cloud.netflix.zuul.filters.SimpleRouteLocator;
@@ -27,13 +28,21 @@ import org.springframework.context.ApplicationEventPublisherAware;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.util.JsonUtil;
+import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
 import com.nepxion.discovery.plugin.strategy.zuul.entity.ZuulStrategyRouteEntity;
+import com.nepxion.discovery.plugin.strategy.zuul.event.ZuulStrategyAddRouteEvent;
+import com.nepxion.discovery.plugin.strategy.zuul.event.ZuulStrategyDeleteRouteEvent;
+import com.nepxion.discovery.plugin.strategy.zuul.event.ZuulStrategyModifyRouteEvent;
+import com.nepxion.discovery.plugin.strategy.zuul.event.ZuulStrategyUpdateAllRouteEvent;
 
 // Zuul的存储结构
 // zuulProperties.getRoutes()返回值的Key为routeId
 // locateRoutes()返回值的Key为path
 public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator implements ZuulStrategyRoute, RefreshableRouteLocator, ApplicationEventPublisherAware {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractZuulStrategyRoute.class);
+
+    @Autowired
+    private PluginPublisher pluginPublisher;
 
     private ZuulProperties zuulProperties;
 
@@ -74,6 +83,8 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
         LOG.info("Added Zuul dynamic route={}", route);
 
         applicationEventPublisher.publishEvent(new RoutesRefreshedEvent(this));
+
+        pluginPublisher.asyncPublish(new ZuulStrategyAddRouteEvent(zuulStrategyRouteEntity));
     }
 
     @Override
@@ -94,6 +105,8 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
         LOG.info("Modified Zuul dynamic route={}", route);
 
         applicationEventPublisher.publishEvent(new RoutesRefreshedEvent(this));
+
+        pluginPublisher.asyncPublish(new ZuulStrategyModifyRouteEvent(zuulStrategyRouteEntity));
     }
 
     @Override
@@ -112,6 +125,8 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
         LOG.info("Deleted Zuul dynamic route for routeId={}", routeId);
 
         applicationEventPublisher.publishEvent(new RoutesRefreshedEvent(this));
+
+        pluginPublisher.asyncPublish(new ZuulStrategyDeleteRouteEvent(routeId));
     }
 
     @Override
@@ -130,6 +145,8 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
         LOG.info("Updated Zuul dynamic routes count={}", zuulStrategyRouteEntityList.size());
 
         applicationEventPublisher.publishEvent(new RoutesRefreshedEvent(this));
+
+        pluginPublisher.asyncPublish(new ZuulStrategyUpdateAllRouteEvent(zuulStrategyRouteEntityList));
     }
 
     @Override
