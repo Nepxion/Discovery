@@ -30,10 +30,10 @@ import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
 import com.nepxion.discovery.plugin.strategy.zuul.entity.ZuulStrategyRouteEntity;
-import com.nepxion.discovery.plugin.strategy.zuul.event.ZuulStrategyAddRouteEvent;
-import com.nepxion.discovery.plugin.strategy.zuul.event.ZuulStrategyDeleteRouteEvent;
-import com.nepxion.discovery.plugin.strategy.zuul.event.ZuulStrategyModifyRouteEvent;
-import com.nepxion.discovery.plugin.strategy.zuul.event.ZuulStrategyUpdateAllRouteEvent;
+import com.nepxion.discovery.plugin.strategy.zuul.event.ZuulStrategyRouteAddedEvent;
+import com.nepxion.discovery.plugin.strategy.zuul.event.ZuulStrategyRouteDeletedEvent;
+import com.nepxion.discovery.plugin.strategy.zuul.event.ZuulStrategyRouteModifiedEvent;
+import com.nepxion.discovery.plugin.strategy.zuul.event.ZuulStrategyRouteUpdatedAllEvent;
 
 // Zuul的存储结构
 // zuulProperties.getRoutes()返回值的Key为routeId
@@ -84,7 +84,7 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
 
         applicationEventPublisher.publishEvent(new RoutesRefreshedEvent(this));
 
-        pluginPublisher.asyncPublish(new ZuulStrategyAddRouteEvent(zuulStrategyRouteEntity));
+        pluginPublisher.asyncPublish(new ZuulStrategyRouteAddedEvent(zuulStrategyRouteEntity));
     }
 
     @Override
@@ -106,7 +106,7 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
 
         applicationEventPublisher.publishEvent(new RoutesRefreshedEvent(this));
 
-        pluginPublisher.asyncPublish(new ZuulStrategyModifyRouteEvent(zuulStrategyRouteEntity));
+        pluginPublisher.asyncPublish(new ZuulStrategyRouteModifiedEvent(zuulStrategyRouteEntity));
     }
 
     @Override
@@ -126,7 +126,7 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
 
         applicationEventPublisher.publishEvent(new RoutesRefreshedEvent(this));
 
-        pluginPublisher.asyncPublish(new ZuulStrategyDeleteRouteEvent(routeId));
+        pluginPublisher.asyncPublish(new ZuulStrategyRouteDeletedEvent(routeId));
     }
 
     @Override
@@ -146,7 +146,7 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
 
         applicationEventPublisher.publishEvent(new RoutesRefreshedEvent(this));
 
-        pluginPublisher.asyncPublish(new ZuulStrategyUpdateAllRouteEvent(zuulStrategyRouteEntityList));
+        pluginPublisher.asyncPublish(new ZuulStrategyRouteUpdatedAllEvent(zuulStrategyRouteEntityList));
     }
 
     @Override
