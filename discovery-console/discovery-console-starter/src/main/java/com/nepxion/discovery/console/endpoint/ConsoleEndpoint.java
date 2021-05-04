@@ -242,32 +242,32 @@ public class ConsoleEndpoint {
         return executeSentinelClear(serviceId, ruleType);
     }
 
-    @RequestMapping(path = "/route/add/{serviceId}/{gateType}", method = RequestMethod.POST)
+    @RequestMapping(path = "/route/add/{serviceId}/{gatewayType}", method = RequestMethod.POST)
     @ApiOperation(value = "增加网关路由", notes = "网关类型取值： gateway | zuul。gateway为Spring Cloud Gateway, zull为Netflix Zuul", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> gatewayRouteAdd(@PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @PathVariable(value = "gateType") @ApiParam(value = "网关类型", required = true) String gateType, @RequestBody(required = true) @ApiParam(value = "网关路由对象") String json) {
-        return executeRouteAdd(serviceId, gateType, json);
+    public ResponseEntity<?> gatewayRouteAdd(@PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @PathVariable(value = "gatewayType") @ApiParam(value = "网关类型", required = true) String gatewayType, @RequestBody(required = true) @ApiParam(value = "网关路由对象") String json) {
+        return executeRouteAdd(serviceId, gatewayType, json);
     }
 
-    @RequestMapping(path = "/route/modify/{serviceId}/{gateType}", method = RequestMethod.POST)
+    @RequestMapping(path = "/route/modify/{serviceId}/{gatewayType}", method = RequestMethod.POST)
     @ApiOperation(value = "修改网关路由", notes = "网关类型取值： gateway | zuul。gateway为Spring Cloud Gateway, zull为Netflix Zuul", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> gatewayRouteModify(@PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @PathVariable(value = "gateType") @ApiParam(value = "网关类型", required = true) String gateType, @RequestBody(required = true) @ApiParam(value = "网关路由对象") String json) {
-        return executeRouteModify(serviceId, gateType, json);
+    public ResponseEntity<?> gatewayRouteModify(@PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @PathVariable(value = "gatewayType") @ApiParam(value = "网关类型", required = true) String gatewayType, @RequestBody(required = true) @ApiParam(value = "网关路由对象") String json) {
+        return executeRouteModify(serviceId, gatewayType, json);
     }
 
-    @RequestMapping(path = "/route/delete/{serviceId}/{gateType}", method = RequestMethod.POST)
+    @RequestMapping(path = "/route/delete/{serviceId}/{gatewayType}", method = RequestMethod.POST)
     @ApiOperation(value = "删除网关路由", notes = "网关类型取值： gateway | zuul。gateway为Spring Cloud Gateway, zull为Netflix Zuul", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> gatewayRouteDelete(@PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @PathVariable(value = "gateType") @ApiParam(value = "网关类型", required = true) String gateType, @RequestBody(required = true) @ApiParam(value = "路由ID") String routeId) {
-        return executeRouteDelete(serviceId, gateType, routeId);
+    public ResponseEntity<?> gatewayRouteDelete(@PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @PathVariable(value = "gatewayType") @ApiParam(value = "网关类型", required = true) String gatewayType, @RequestBody(required = true) @ApiParam(value = "路由ID") String routeId) {
+        return executeRouteDelete(serviceId, gatewayType, routeId);
     }
 
-    @RequestMapping(path = "/route/update-all/{serviceId}/{gateType}", method = RequestMethod.POST)
+    @RequestMapping(path = "/route/update-all/{serviceId}/{gatewayType}", method = RequestMethod.POST)
     @ApiOperation(value = "更新全部网关路由", notes = "网关类型取值： gateway | zuul。gateway为Spring Cloud Gateway, zull为Netflix Zuul", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> gatewayRouteUpdateAll(@PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @PathVariable(value = "gateType") @ApiParam(value = "网关类型", required = true) String gateType, @RequestBody(required = true) @ApiParam(value = "网关路由对象列表") String json) {
-        return executeRouteUpdateAll(serviceId, gateType, json);
+    public ResponseEntity<?> gatewayRouteUpdateAll(@PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @PathVariable(value = "gatewayType") @ApiParam(value = "网关类型", required = true) String gatewayType, @RequestBody(required = true) @ApiParam(value = "网关路由对象列表") String json) {
+        return executeRouteUpdateAll(serviceId, gatewayType, json);
     }
 
     @RequestMapping(path = "/validate-expression", method = RequestMethod.GET)
