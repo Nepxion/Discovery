@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -142,16 +143,52 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
             throw new DiscoveryException("Gateway dynamic routes are null");
         }
 
-        clearRoutes();
+        final Map<String, RouteDefinition> dynamicRouteDefinitionMap = gatewayStrategyRouteEntityList.stream().collect(Collectors.toMap(GatewayStrategyRouteEntity::getId, this::convertRoute));
+        final Map<String, RouteDefinition> currentRouteDefinitionMap = locateRoutes();
 
-        for (GatewayStrategyRouteEntity gatewayStrategyRouteEntity : gatewayStrategyRouteEntityList) {
-            RouteDefinition routeDefinition = convertRoute(gatewayStrategyRouteEntity);
+        final List<RouteDefinition> insertRouteDefinitionList = new ArrayList<>(dynamicRouteDefinitionMap.size());
+        final List<RouteDefinition> updateRouteDefinitionList = new ArrayList<>(dynamicRouteDefinitionMap.size());
+        final List<RouteDefinition> deleteRouteDefinitionList = new ArrayList<>(dynamicRouteDefinitionMap.size());
+
+        for (final Map.Entry<String, RouteDefinition> pair : dynamicRouteDefinitionMap.entrySet()) {
+            if (!currentRouteDefinitionMap.containsKey(pair.getKey())) {
+                insertRouteDefinitionList.add(pair.getValue());
+            }
+        }
+
+        for (final Map.Entry<String, RouteDefinition> pair : dynamicRouteDefinitionMap.entrySet()) {
+            if (currentRouteDefinitionMap.containsKey(pair.getKey())) {
+                final RouteDefinition currentRouteDefinition = currentRouteDefinitionMap.get(pair.getKey());
+                final RouteDefinition newRouteDefinition = pair.getValue();
+                if (!currentRouteDefinition.equals(newRouteDefinition)) {
+                    updateRouteDefinitionList.add(newRouteDefinition);
+                }
+            }
+        }
+
+        for (final Map.Entry<String, RouteDefinition> pair : currentRouteDefinitionMap.entrySet()) {
+            if (!dynamicRouteDefinitionMap.containsKey(pair.getKey())) {
+                deleteRouteDefinitionList.add(pair.getValue());
+            }
+        }
+
+        for (final RouteDefinition routeDefinition : insertRouteDefinitionList) {
             addRoute(routeDefinition);
         }
 
-        LOG.info("Updated Gateway dynamic routes count={}", gatewayStrategyRouteEntityList.size());
+        for (final RouteDefinition routeDefinition : updateRouteDefinitionList) {
+            modifyRoute(routeDefinition);
+        }
 
-        applicationEventPublisher.publishEvent(new RefreshRoutesEvent(this));
+        for (final RouteDefinition routeDefinition : deleteRouteDefinitionList) {
+            deleteRoute(routeDefinition);
+        }
+
+        if (!insertRouteDefinitionList.isEmpty() || !updateRouteDefinitionList.isEmpty() || !deleteRouteDefinitionList.isEmpty()) {
+            applicationEventPublisher.publishEvent(new RefreshRoutesEvent(this));
+        }
+
+        LOG.info("Updated Gateway dynamic routes count={}", gatewayStrategyRouteEntityList.size());
 
         pluginPublisher.asyncPublish(new GatewayStrategyRouteUpdatedAllEvent(gatewayStrategyRouteEntityList));
     }
@@ -318,14 +355,6 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
             if (disposable != null) {
                 disposable.dispose();
             }
-        }
-    }
-
-    private void clearRoutes() {
-        Map<String, RouteDefinition> routeDefinitionMap = locateRoutes();
-        for (Map.Entry<String, RouteDefinition> entry : routeDefinitionMap.entrySet()) {
-            RouteDefinition routeDefinition = entry.getValue();
-            deleteRoute(routeDefinition);
         }
     }
 }

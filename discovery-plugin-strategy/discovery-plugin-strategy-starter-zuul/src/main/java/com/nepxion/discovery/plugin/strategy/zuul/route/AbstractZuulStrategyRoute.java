@@ -13,6 +13,7 @@ package com.nepxion.discovery.plugin.strategy.zuul.route;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -135,16 +136,52 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
             throw new DiscoveryException("Zuul dynamic routes are null");
         }
 
-        clearRoutes();
+        final Map<String, ZuulProperties.ZuulRoute> dynamicZuulRouteMap = zuulStrategyRouteEntityList.stream().collect(Collectors.toMap(ZuulStrategyRouteEntity::getId, this::convertRoute));
+        final Map<String, ZuulProperties.ZuulRoute> currentZuulRouteMap = locateRoutes();
 
-        for (ZuulStrategyRouteEntity zuulStrategyRouteEntity : zuulStrategyRouteEntityList) {
-            ZuulProperties.ZuulRoute route = convertRoute(zuulStrategyRouteEntity);
-            addRoute(route);
+        final List<ZuulProperties.ZuulRoute> insertZuulRouteList = new ArrayList<>(dynamicZuulRouteMap.size());
+        final List<ZuulProperties.ZuulRoute> updateZuulRouteList = new ArrayList<>(dynamicZuulRouteMap.size());
+        final List<ZuulProperties.ZuulRoute> deleteZuulRouteList = new ArrayList<>(dynamicZuulRouteMap.size());
+
+        for (final Map.Entry<String, ZuulProperties.ZuulRoute> pair : dynamicZuulRouteMap.entrySet()) {
+            if (!currentZuulRouteMap.containsKey(pair.getKey())) {
+                insertZuulRouteList.add(pair.getValue());
+            }
+        }
+
+        for (final Map.Entry<String, ZuulProperties.ZuulRoute> pair : dynamicZuulRouteMap.entrySet()) {
+            if (currentZuulRouteMap.containsKey(pair.getKey())) {
+                final ZuulProperties.ZuulRoute currentZuulRoute = currentZuulRouteMap.get(pair.getKey());
+                final ZuulProperties.ZuulRoute newZuulRoute = pair.getValue();
+                if (!currentZuulRoute.equals(newZuulRoute)) {
+                    updateZuulRouteList.add(newZuulRoute);
+                }
+            }
+        }
+
+        for (final Map.Entry<String, ZuulProperties.ZuulRoute> pair : currentZuulRouteMap.entrySet()) {
+            if (!dynamicZuulRouteMap.containsKey(pair.getKey())) {
+                deleteZuulRouteList.add(pair.getValue());
+            }
+        }
+
+        for (final ZuulProperties.ZuulRoute zuulRoute : insertZuulRouteList) {
+            addRoute(zuulRoute);
+        }
+
+        for (final ZuulProperties.ZuulRoute zuulRoute : updateZuulRouteList) {
+            modifyRoute(zuulRoute);
+        }
+
+        for (final ZuulProperties.ZuulRoute zuulRoute : deleteZuulRouteList) {
+            deleteRoute(zuulRoute);
+        }
+
+        if (!insertZuulRouteList.isEmpty() || !updateZuulRouteList.isEmpty() || !deleteZuulRouteList.isEmpty()) {
+            applicationEventPublisher.publishEvent(new RoutesRefreshedEvent(this));
         }
 
         LOG.info("Updated Zuul dynamic routes count={}", zuulStrategyRouteEntityList.size());
-
-        applicationEventPublisher.publishEvent(new RoutesRefreshedEvent(this));
 
         pluginPublisher.asyncPublish(new ZuulStrategyRouteUpdatedAllEvent(zuulStrategyRouteEntityList));
     }
