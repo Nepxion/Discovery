@@ -12,6 +12,11 @@ package com.nepxion.discovery.common.constant;
 public class DiscoveryConstant {
     public static final String DISCOVERY_VERSION = "3.27.0-SNAPSHOT";
 
+    public static final String NEPXION = "nepxion";
+    public static final String NEPXION_UPPERCASE = "NEPXION";
+    public static final String NEPXION_FIRST_UPPERCASE = "Nepxion";
+    public static final String NEPXION_DISCOVERY = "Nepxion Discovery";
+
     public static final String SPRING_APPLICATION_DISCOVERY_PLUGIN = "spring.application.discovery.plugin";
     public static final String SPRING_APPLICATION_DISCOVERY_VERSION = "spring.application.discovery.version";
     public static final String SPRING_APPLICATION_DISCOVERY_AGENT_VERSION = "spring.application.discovery.agent.version";
@@ -123,9 +128,7 @@ public class DiscoveryConstant {
 
     public static final String TRACE_ID = "trace-id";
     public static final String SPAN_ID = "span-id";
-    public static final String SPAN_VALUE = "NEPXION";
     public static final String SPAN_TAG_PLUGIN_NAME = "plugin";
-    public static final String SPAN_TAG_PLUGIN_VALUE = "Nepxion Discovery";
 
     public static final String CLASS = "class";
     public static final String METHOD = "method";
