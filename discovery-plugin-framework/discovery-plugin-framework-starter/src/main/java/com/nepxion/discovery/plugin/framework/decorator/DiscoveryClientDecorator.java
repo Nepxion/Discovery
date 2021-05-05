@@ -33,6 +33,10 @@ public class DiscoveryClientDecorator implements DiscoveryClient {
         this.environment = applicationContext.getEnvironment();
     }
 
+    public DiscoveryClient getRealDiscoveryClient() {
+        return discoveryClient;
+    }
+
     @Override
     public List<ServiceInstance> getInstances(String serviceId) {
         List<ServiceInstance> instances = getRealInstances(serviceId);
