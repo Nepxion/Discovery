@@ -50,6 +50,6 @@ public class RouteModifyRestInvoker extends AbstractRestInvoker {
 
     @Override
     protected void checkPermission(ServiceInstance instance) throws Exception {
-        checkConfigRestControlPermission(instance);
+
     }
 }

@@ -30,7 +30,7 @@ public class RouteUpdateAllRestInvoker extends AbstractRestInvoker {
 
     @Override
     protected String getInfo() {
-        return "Route all updated";
+        return "Route updated all";
     }
 
     @Override
@@ -50,6 +50,6 @@ public class RouteUpdateAllRestInvoker extends AbstractRestInvoker {
 
     @Override
     protected void checkPermission(ServiceInstance instance) throws Exception {
-        checkConfigRestControlPermission(instance);
+
     }
 }
