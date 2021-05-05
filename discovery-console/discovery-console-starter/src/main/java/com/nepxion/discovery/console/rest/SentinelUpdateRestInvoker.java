@@ -51,7 +51,7 @@ public class SentinelUpdateRestInvoker extends AbstractRestInvoker {
 
     @Override
     protected void checkPermission(ServiceInstance instance) throws Exception {
-        checkConfigRestControlPermission(instance);
+
     }
 
     private String getPrefixPath(String type) {
