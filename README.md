@@ -3046,7 +3046,9 @@ spring.application.parameter.event.onstart.enabled=true
 - 网关订阅配置中心（包括Nacos、Apollo、Consul、Etcd、Redis、Zookeeper）批量实施
 
 ### 网关动态路由接入
-如果使用者希望通过网关订阅配置中心方式，则需要加网关接入平台插件
+使用者希望通过网关订阅配置中心方式，可以选择如下方式之一
+
+① 把网关接入平台插件加入到服务中，通过网关接入平台的界面操作实施
 
 ```xml
 <dependency>
@@ -3055,6 +3057,22 @@ spring.application.parameter.event.onstart.enabled=true
     <version>${discovery.platform.version}</version>
 </dependency>
 ```
+
+② 自定义代码实现，通过配置中心的界面操作实施
+
+- Spring-Cloud-Gateway网关参考[Spring-Cloud-Gateway网关动态路由](#Spring-Cloud-Gateway网关动态路由)中`④ 网关订阅配置中心`
+- Zuul网关参考[Zuul网关动态路由](#Zuul网关动态路由)中`④ 网关订阅配置中心`
+
+
+使用者需要注意网关订阅配置中心的用法
+
+- Key为
+    - Nacos配置中心，Group为{group}，DataId为网关服务名
+    - 其它配置中心，Key的格式为{group}-网关服务名
+    - {group}默认为nepxion，使用者可以通过spring.application.strategy.dynamic.route.group进行修改
+- Value为多个动态路由配置
+    - Spring-Cloud-Gateway网关参考[Spring-Cloud-Gateway网关动态路由](#Spring-Cloud-Gateway网关动态路由)中`① Spring Cloud Gateway网关的动态路由配置格式`
+    - Zuul网关参考[Zuul网关动态路由](#Zuul网关动态路由)中`Zuul网关的动态路由配置格式`
 
 ### Spring-Cloud-Gateway网关动态路由
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：Zuul网关在自动路由模式下，动态路由可以工作
@@ -3119,10 +3137,60 @@ spring.application.parameter.event.onstart.enabled=true
 
 ④ 网关订阅配置中心
 
-- Key为
-    - Nacos配置中心，Group为nepxion，DataId为网关服务名
-    - 其它配置中心，Key的格式为nepxion-网关服务名
-- Value为多个动态路由配置
+增加网关订阅执行器，参考如下类，并仔细阅读下面的说明
+```java
+// 把继承类（extends）换成如下任何一个，即可切换配置中心，代码无需任何变动
+// 1. NacosProcessor
+// 2. ApolloProcessor
+// 3. ConsulProcessor
+// 4. EtcdProcessor
+// 5. ZookeeperProcessor
+// 6. RedisProcessor
+// Group和DataId自行决定，需要注意
+// 1. 对于Nacos配置中心，Group和DataId需要和界面相对应
+// 2. 对于其它配置中心，Key的格式为Group-DataId
+// 3. 千万不能和蓝绿灰度发布的Group和DataId冲突
+public class MyGatewayStrategyRouteProcessor extends NacosProcessor {
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_DYNAMIC_ROUTE_GROUP + ":" + DiscoveryConstant.NEPXION + "}")
+    private String group;
+
+    /*@Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_DYNAMIC_ROUTE_GROUP + ":DEFAULT_GROUP}")
+    private String group;*/
+
+    @Value("${" + DiscoveryConstant.SPRING_APPLICATION_NAME + "}")
+    private String dataId;
+
+    @Autowired
+    private GatewayStrategyRoute gatewayStrategyRoute;
+
+    @Override
+    public String getGroup() {
+        return group;
+    }
+
+    @Override
+    public String getDataId() {
+        return dataId;
+    }
+
+    @Override
+    public String getDescription() {
+        return "Gateway dynamic route";
+    }
+
+    @Override
+    public void callbackConfig(String config) {
+        gatewayStrategyRoute.updateAll(config);
+    }
+}
+```
+在配置类里@Bean方式进行网关配置订阅执行器
+```java
+@Bean
+public MyGatewayStrategyRouteProcessor gatewayStrategyRouteProcessor() {
+    return new MyGatewayStrategyRouteProcessor();
+}
+```
 
 ⑤ 事件总线通知的订阅
 
@@ -3248,10 +3316,60 @@ public class MySubscriber {
 
 ④ 网关订阅配置中心
 
-- Key为
-    - Nacos配置中心，Group为nepxion，DataId为网关服务名
-    - 其它配置中心，Key的格式为nepxion-网关服务名
-- Value为多个动态路由配置
+增加网关订阅执行器，参考如下类，并仔细阅读下面的说明
+```java
+// 把继承类（extends）换成如下任何一个，即可切换配置中心，代码无需任何变动
+// 1. NacosProcessor
+// 2. ApolloProcessor
+// 3. ConsulProcessor
+// 4. EtcdProcessor
+// 5. ZookeeperProcessor
+// 6. RedisProcessor
+// Group和DataId自行决定，需要注意
+// 1. 对于Nacos配置中心，Group和DataId需要和界面相对应
+// 2. 对于其它配置中心，Key的格式为Group-DataId
+// 3. 千万不能和蓝绿灰度发布的Group和DataId冲突
+public class MyZuulStrategyRouteProcessor extends NacosProcessor {
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_DYNAMIC_ROUTE_GROUP + ":" + DiscoveryConstant.NEPXION + "}")
+    private String group;
+
+    /*@Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_DYNAMIC_ROUTE_GROUP + ":DEFAULT_GROUP}")
+    private String group;*/
+
+    @Value("${" + DiscoveryConstant.SPRING_APPLICATION_NAME + "}")
+    private String dataId;
+
+    @Autowired
+    private ZuulStrategyRoute zuulStrategyRoute;
+
+    @Override
+    public String getGroup() {
+        return group;
+    }
+
+    @Override
+    public String getDataId() {
+        return dataId;
+    }
+
+    @Override
+    public String getDescription() {
+        return "Zuul dynamic route";
+    }
+
+    @Override
+    public void callbackConfig(String config) {
+        zuulStrategyRoute.updateAll(config);
+    }
+}
+```
+在配置类里@Bean方式进行网关配置订阅执行器
+```java
+@Bean
+public MyZuulStrategyRouteProcessor zuulStrategyRouteProcessor() {
+    return new MyZuulStrategyRouteProcessor();
+}
+```
 
 ⑤ 事件总线通知的订阅
 
@@ -4480,9 +4598,7 @@ com.nepxion.discovery.plugin.strategy.monitor.DefaultStrategyAlarm
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Grafana.jpg)
 
 #### Spring-Boot-Admin监控
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Admin1.jpg)
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Admin4.jpg)
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Admin5.jpg)
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Admin7.jpg)
 
 ## 全链路服务侧注解
@@ -5179,6 +5295,11 @@ spring.application.strategy.auto.scan.packages.enabled=true
 # 启动和关闭嵌套扫描，嵌套扫描指扫描非本工程下外部包的目录，可以支持多层嵌套。缺失则默认为false
 spring.application.strategy.auto.scan.recursion.enabled=false
 
+# 开启Spring Cloud Gateway网关动态路由时，订阅配置中心动态路由变更的主键group值。缺失则默认为nepxion
+# Nacos配置中心，Group为{group}，DataId为网关服务名
+# 其它配置中心，Key的格式为{group}-网关服务名
+spring.application.strategy.dynamic.route.group=nepxion
+
 # 开启和关闭使用服务名前缀来作为服务组名。缺失则默认为false
 spring.application.group.generator.enabled=true
 # 服务名前缀的截断长度，必须大于0
@@ -5343,6 +5464,11 @@ spring.application.strategy.auto.scan.packages.enabled=true
 # 启动和关闭嵌套扫描，嵌套扫描指扫描非本工程下外部包的目录，可以支持多层嵌套。缺失则默认为false
 spring.application.strategy.auto.scan.recursion.enabled=false
 
+# 开启Zuul网关动态路由时，订阅配置中心动态路由变更的主键group值。缺失则默认为nepxion
+# Nacos配置中心，Group为{group}，DataId为网关服务名
+# 其它配置中心，Key的格式为{group}-网关服务名
+spring.application.strategy.dynamic.route.group=nepxion
+
 # 开启和关闭使用服务名前缀来作为服务组名。缺失则默认为false
 spring.application.group.generator.enabled=true
 # 服务名前缀的截断长度，必须大于0
@@ -5475,14 +5601,6 @@ spring.application.strategy.business.request.headers=user;mobile;location
 - Docker Desktop
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Docker.jpg)
-
-- Docker Windows
-
-![](http://nepxion.gitee.io/discovery/docs/polaris-doc/DockerWindows.jpg)
-
-- Docker Linux
-
-![](http://nepxion.gitee.io/discovery/docs/polaris-doc/DockerLinux.jpg)
 
 ### Kubernetes平台支持
 请自行研究
