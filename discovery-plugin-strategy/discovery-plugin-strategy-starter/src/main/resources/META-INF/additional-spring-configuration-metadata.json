@@ -152,13 +152,13 @@
 			"name": "spring.application.strategy.tracer.span.value",
 			"type": "java.lang.String",
 			"defaultValue": "NEPXION",
-			"description": "Strategy tracer span group value."
+			"description": "Strategy tracer span value."
 		},
 		{
 			"name": "spring.application.strategy.tracer.span.tag.plugin.value",
 			"type": "java.lang.String",
 			"defaultValue": "Nepxion Discovery",
-			"description": "Strategy tracer span group tag plugin value."
+			"description": "Strategy tracer span tag plugin value."
 		},
 		{
 			"name": "spring.application.strategy.alarm.enabled",
@@ -177,6 +177,12 @@
 			"type": "java.lang.Boolean",
 			"defaultValue": false,
 			"description": "Whether strategy auto scan recursion is enabled."
+		},
+		{
+			"name": "spring.application.strategy.dynamic.route.group",
+			"type": "java.lang.String",
+			"defaultValue": "nepxion",
+			"description": "Strategy dynamic route group."
 		}
 	]
 }

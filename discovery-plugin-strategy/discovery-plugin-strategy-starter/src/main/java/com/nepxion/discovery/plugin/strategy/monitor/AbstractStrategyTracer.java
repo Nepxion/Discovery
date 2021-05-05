@@ -40,10 +40,10 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACER_RULE_OUTPUT_ENABLED + ":true}")
     protected Boolean tracerRuleOutputEnabled;
 
-    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACER_SPAN_VALUE + ":" + DiscoveryConstant.SPAN_VALUE + "}")
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACER_SPAN_VALUE + ":" + DiscoveryConstant.NEPXION_UPPERCASE + "}")
     protected String tracerSpanValue;
 
-    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACER_SPAN_TAG_PLUGIN_VALUE + ":" + DiscoveryConstant.SPAN_TAG_PLUGIN_VALUE + "}")
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACER_SPAN_TAG_PLUGIN_VALUE + ":" + DiscoveryConstant.NEPXION_DISCOVERY + "}")
     protected String tracerSpanPluginValue;
 
     @Override
