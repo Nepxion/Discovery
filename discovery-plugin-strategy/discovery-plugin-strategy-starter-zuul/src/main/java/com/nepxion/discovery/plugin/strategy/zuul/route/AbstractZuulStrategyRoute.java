@@ -136,54 +136,61 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
             throw new DiscoveryException("Zuul dynamic routes are null");
         }
 
-        final Map<String, ZuulProperties.ZuulRoute> dynamicZuulRouteMap = zuulStrategyRouteEntityList.stream().collect(Collectors.toMap(ZuulStrategyRouteEntity::getId, this::convertRoute));
-        final Map<String, ZuulProperties.ZuulRoute> currentZuulRouteMap = locateRoutes();
+        Map<String, ZuulProperties.ZuulRoute> dynamicRouteMap = zuulStrategyRouteEntityList.stream().collect(Collectors.toMap(ZuulStrategyRouteEntity::getId, this::convertRoute));
+        Map<String, ZuulProperties.ZuulRoute> currentRouteMap = locateRoutes();
 
-        final List<ZuulProperties.ZuulRoute> insertZuulRouteList = new ArrayList<>(dynamicZuulRouteMap.size());
-        final List<ZuulProperties.ZuulRoute> updateZuulRouteList = new ArrayList<>(dynamicZuulRouteMap.size());
-        final List<ZuulProperties.ZuulRoute> deleteZuulRouteList = new ArrayList<>(dynamicZuulRouteMap.size());
+        List<ZuulProperties.ZuulRoute> addRouteList = new ArrayList<ZuulProperties.ZuulRoute>(dynamicRouteMap.size());
+        List<ZuulProperties.ZuulRoute> modifyRouteList = new ArrayList<ZuulProperties.ZuulRoute>(dynamicRouteMap.size());
+        List<ZuulProperties.ZuulRoute> deleteRouteList = new ArrayList<ZuulProperties.ZuulRoute>(dynamicRouteMap.size());
 
-        for (final Map.Entry<String, ZuulProperties.ZuulRoute> pair : dynamicZuulRouteMap.entrySet()) {
-            if (!currentZuulRouteMap.containsKey(pair.getKey())) {
-                insertZuulRouteList.add(pair.getValue());
+        for (Map.Entry<String, ZuulProperties.ZuulRoute> entry : dynamicRouteMap.entrySet()) {
+            String routeId = entry.getKey();
+            ZuulProperties.ZuulRoute route = entry.getValue();
+            if (!currentRouteMap.containsKey(routeId)) {
+                addRouteList.add(route);
             }
         }
 
-        for (final Map.Entry<String, ZuulProperties.ZuulRoute> pair : dynamicZuulRouteMap.entrySet()) {
-            if (currentZuulRouteMap.containsKey(pair.getKey())) {
-                final ZuulProperties.ZuulRoute currentZuulRoute = currentZuulRouteMap.get(pair.getKey());
-                final ZuulProperties.ZuulRoute newZuulRoute = pair.getValue();
-                if (!currentZuulRoute.equals(newZuulRoute)) {
-                    updateZuulRouteList.add(newZuulRoute);
+        for (Map.Entry<String, ZuulProperties.ZuulRoute> entry : dynamicRouteMap.entrySet()) {
+            String routeId = entry.getKey();
+            ZuulProperties.ZuulRoute route = entry.getValue();
+            if (currentRouteMap.containsKey(routeId)) {
+                ZuulProperties.ZuulRoute currentZuulRoute = currentRouteMap.get(routeId);
+                if (!currentZuulRoute.equals(route)) {
+                    modifyRouteList.add(route);
                 }
             }
         }
 
-        for (final Map.Entry<String, ZuulProperties.ZuulRoute> pair : currentZuulRouteMap.entrySet()) {
-            if (!dynamicZuulRouteMap.containsKey(pair.getKey())) {
-                deleteZuulRouteList.add(pair.getValue());
+        for (Map.Entry<String, ZuulProperties.ZuulRoute> entry : currentRouteMap.entrySet()) {
+            String routeId = entry.getKey();
+            ZuulProperties.ZuulRoute route = entry.getValue();
+            if (!dynamicRouteMap.containsKey(routeId)) {
+                deleteRouteList.add(route);
             }
         }
 
-        for (final ZuulProperties.ZuulRoute zuulRoute : insertZuulRouteList) {
+        for (ZuulProperties.ZuulRoute zuulRoute : addRouteList) {
             addRoute(zuulRoute);
         }
 
-        for (final ZuulProperties.ZuulRoute zuulRoute : updateZuulRouteList) {
+        for (ZuulProperties.ZuulRoute zuulRoute : modifyRouteList) {
             modifyRoute(zuulRoute);
         }
 
-        for (final ZuulProperties.ZuulRoute zuulRoute : deleteZuulRouteList) {
+        for (ZuulProperties.ZuulRoute zuulRoute : deleteRouteList) {
             deleteRoute(zuulRoute);
         }
 
-        if (!insertZuulRouteList.isEmpty() || !updateZuulRouteList.isEmpty() || !deleteZuulRouteList.isEmpty()) {
+        LOG.info("Updated Zuul all dynamic routes count={}", zuulStrategyRouteEntityList.size());
+        LOG.info("::::: Added Zuul dynamic routes count={}", addRouteList.size());
+        LOG.info("::::: Modified Zuul dynamic routes count={}", modifyRouteList.size());
+        LOG.info("::::: Deleted Zuul dynamic routes count={}", deleteRouteList.size());
+
+        if (!addRouteList.isEmpty() || !modifyRouteList.isEmpty() || !deleteRouteList.isEmpty()) {
             applicationEventPublisher.publishEvent(new RoutesRefreshedEvent(this));
+            pluginPublisher.asyncPublish(new ZuulStrategyRouteUpdatedAllEvent(zuulStrategyRouteEntityList));
         }
-
-        LOG.info("Updated Zuul dynamic routes count={}", zuulStrategyRouteEntityList.size());
-
-        pluginPublisher.asyncPublish(new ZuulStrategyRouteUpdatedAllEvent(zuulStrategyRouteEntityList));
     }
 
     @Override
@@ -233,7 +240,7 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
         doRefresh();
     }
 
-    private ZuulProperties.ZuulRoute convertRoute(ZuulStrategyRouteEntity zuulStrategyRouteEntity) {
+    public ZuulProperties.ZuulRoute convertRoute(ZuulStrategyRouteEntity zuulStrategyRouteEntity) {
         ZuulProperties.ZuulRoute route = new ZuulProperties.ZuulRoute();
         route.setId(StringUtils.isNotBlank(zuulStrategyRouteEntity.getId()) ? zuulStrategyRouteEntity.getId() : zuulStrategyRouteEntity.getServiceId());
         route.setServiceId(zuulStrategyRouteEntity.getServiceId());
@@ -247,7 +254,7 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
         return route;
     }
 
-    private ZuulStrategyRouteEntity convertRoute(ZuulProperties.ZuulRoute route) {
+    public ZuulStrategyRouteEntity convertRoute(ZuulProperties.ZuulRoute route) {
         ZuulStrategyRouteEntity zuulStrategyRouteEntity = new ZuulStrategyRouteEntity();
         zuulStrategyRouteEntity.setId(route.getId());
         zuulStrategyRouteEntity.setServiceId(route.getServiceId());
@@ -261,7 +268,7 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
         return zuulStrategyRouteEntity;
     }
 
-    private ZuulProperties.ZuulRoute getRoute(String routeId) {
+    public ZuulProperties.ZuulRoute getRoute(String routeId) {
         Map<String, ZuulProperties.ZuulRoute> routeMap = locateRoutes();
         for (Map.Entry<String, ZuulProperties.ZuulRoute> entry : routeMap.entrySet()) {
             ZuulProperties.ZuulRoute route = entry.getValue();
@@ -273,19 +280,19 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
         return null;
     }
 
-    private void addRoute(ZuulProperties.ZuulRoute route) {
+    public void addRoute(ZuulProperties.ZuulRoute route) {
         zuulProperties.getRoutes().put(route.getId(), route);
     }
 
-    private void modifyRoute(ZuulProperties.ZuulRoute route) {
+    public void modifyRoute(ZuulProperties.ZuulRoute route) {
         zuulProperties.getRoutes().put(route.getId(), route);
     }
 
-    private void deleteRoute(ZuulProperties.ZuulRoute route) {
+    public void deleteRoute(ZuulProperties.ZuulRoute route) {
         zuulProperties.getRoutes().remove(route.getId());
     }
 
-    private void clearRoutes() {
+    public void clearRoutes() {
         zuulProperties.getRoutes().clear();
     }
 }
