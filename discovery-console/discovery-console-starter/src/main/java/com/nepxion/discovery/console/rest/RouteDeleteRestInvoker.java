@@ -12,9 +12,6 @@ package com.nepxion.discovery.console.rest;
 import java.util.List;
 
 import org.springframework.cloud.client.ServiceInstance;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 
 public class RouteDeleteRestInvoker extends AbstractRestInvoker {
@@ -40,12 +37,7 @@ public class RouteDeleteRestInvoker extends AbstractRestInvoker {
 
     @Override
     protected String doRest(String url) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-
-        HttpEntity<String> entity = new HttpEntity<String>(routeId, headers);
-
-        return restTemplate.postForEntity(url, entity, String.class).getBody();
+        return restTemplate.postForEntity(url, getInvokeEntity(routeId), String.class).getBody();
     }
 
     @Override

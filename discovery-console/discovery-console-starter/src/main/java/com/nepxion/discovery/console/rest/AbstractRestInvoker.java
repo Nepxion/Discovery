@@ -18,13 +18,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.client.ServiceInstance;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.constant.DiscoveryMetaDataConstant;
 import com.nepxion.discovery.common.entity.ResultEntity;
+import com.nepxion.discovery.common.exception.DiscoveryException;
+import com.nepxion.discovery.common.util.ResponseUtil;
 import com.nepxion.discovery.common.util.RestUtil;
 import com.nepxion.discovery.common.util.UrlUtil;
 
@@ -45,11 +48,11 @@ public abstract class AbstractRestInvoker {
         this.async = async;
     }
 
-    public ResponseEntity<?> invoke() {
+    public List<ResultEntity> invoke() {
         if (CollectionUtils.isEmpty(instances)) {
             LOG.warn("No service instances found");
 
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No service instances found");
+            throw new DiscoveryException("No service instances found");
         }
 
         List<ResultEntity> resultEntityList = new ArrayList<ResultEntity>();
@@ -68,11 +71,11 @@ public abstract class AbstractRestInvoker {
                 checkPermission(instance);
 
                 result = doRest(url);
-                if (!StringUtils.equals(result, DiscoveryConstant.OK)) {
+                if (!StringUtils.equals(result, "true")) {
                     result = RestUtil.getCause(restTemplate);
                 }
             } catch (Exception e) {
-                result = e.getMessage();
+                result = ResponseUtil.getFailureMessage(e);
             }
 
             ResultEntity resultEntity = new ResultEntity();
@@ -85,11 +88,24 @@ public abstract class AbstractRestInvoker {
         String info = getInfo();
         LOG.info(info + " results=\n{}", resultEntityList);
 
-        return ResponseEntity.ok().body(resultEntityList);
+        return resultEntityList;
     }
 
     protected String getInvokeType() {
         return async ? DiscoveryConstant.ASYNC : DiscoveryConstant.SYNC;
+    }
+
+    protected HttpHeaders getInvokeHeaders() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+
+        return headers;
+    }
+
+    protected HttpEntity<String> getInvokeEntity(String content) {
+        HttpHeaders headers = getInvokeHeaders();
+
+        return new HttpEntity<String>(content, headers);
     }
 
     protected void checkDiscoveryControlPermission(ServiceInstance instance) {
@@ -97,11 +113,11 @@ public abstract class AbstractRestInvoker {
 
         String discoveryControlEnabled = metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED);
         if (StringUtils.isEmpty(discoveryControlEnabled)) {
-            throw new IllegalArgumentException("No metadata for key=" + DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED);
+            throw new DiscoveryException("No metadata for key=" + DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED);
         }
 
         if (!Boolean.valueOf(discoveryControlEnabled)) {
-            throw new IllegalArgumentException("Discovery control is disabled");
+            throw new DiscoveryException("Discovery control is disabled");
         }
     }
 
@@ -110,11 +126,11 @@ public abstract class AbstractRestInvoker {
 
         String configRestControlEnabled = metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED);
         if (StringUtils.isEmpty(configRestControlEnabled)) {
-            throw new IllegalArgumentException("No metadata for key=" + DiscoveryMetaDataConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED);
+            throw new DiscoveryException("No metadata for key=" + DiscoveryMetaDataConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED);
         }
 
         if (!Boolean.valueOf(configRestControlEnabled)) {
-            throw new IllegalArgumentException("Config rest control is disabled");
+            throw new DiscoveryException("Config rest control is disabled");
         }
     }
 

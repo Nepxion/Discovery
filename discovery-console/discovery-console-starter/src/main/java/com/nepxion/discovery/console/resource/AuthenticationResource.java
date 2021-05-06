@@ -1,4 +1,4 @@
-package com.nepxion.discovery.console.authentication;
+package com.nepxion.discovery.console.resource;
 
 /**
  * <p>Title: Nepxion Discovery</p>
