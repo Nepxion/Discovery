@@ -42,7 +42,7 @@ public class ServiceResourceImpl implements ServiceResource {
         } else {
             realDiscoveryClient = discoveryClient;
         }
-        
+
         if (realDiscoveryClient instanceof CompositeDiscoveryClient) {
             CompositeDiscoveryClient compositeDiscoveryClient = (CompositeDiscoveryClient) realDiscoveryClient;
             List<DiscoveryClient> discoveryClients = compositeDiscoveryClient.getDiscoveryClients();
