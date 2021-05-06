@@ -194,10 +194,13 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
         LOG.info("::::: Modified Gateway dynamic routes count={}", modifyRouteDefinitionList.size());
         LOG.info("::::: Deleted Gateway dynamic routes count={}", deleteRouteDefinitionList.size());
 
-        if (!addRouteDefinitionList.isEmpty() || !modifyRouteDefinitionList.isEmpty() || !deleteRouteDefinitionList.isEmpty()) {
-            applicationEventPublisher.publishEvent(new RefreshRoutesEvent(this));
-            pluginPublisher.asyncPublish(new GatewayStrategyRouteUpdatedAllEvent(gatewayStrategyRouteEntityList));
+        if (addRouteDefinitionList.isEmpty() && modifyRouteDefinitionList.isEmpty() && deleteRouteDefinitionList.isEmpty()) {
+            return;
         }
+
+        applicationEventPublisher.publishEvent(new RefreshRoutesEvent(this));
+
+        pluginPublisher.asyncPublish(new GatewayStrategyRouteUpdatedAllEvent(gatewayStrategyRouteEntityList));
     }
 
     @Override

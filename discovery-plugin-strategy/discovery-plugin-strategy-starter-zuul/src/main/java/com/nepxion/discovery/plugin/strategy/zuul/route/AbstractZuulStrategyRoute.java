@@ -187,10 +187,13 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
         LOG.info("::::: Modified Zuul dynamic routes count={}", modifyRouteList.size());
         LOG.info("::::: Deleted Zuul dynamic routes count={}", deleteRouteList.size());
 
-        if (!addRouteList.isEmpty() || !modifyRouteList.isEmpty() || !deleteRouteList.isEmpty()) {
-            applicationEventPublisher.publishEvent(new RoutesRefreshedEvent(this));
-            pluginPublisher.asyncPublish(new ZuulStrategyRouteUpdatedAllEvent(zuulStrategyRouteEntityList));
+        if (addRouteList.isEmpty() && modifyRouteList.isEmpty() && deleteRouteList.isEmpty()) {
+            return;
         }
+
+        applicationEventPublisher.publishEvent(new RoutesRefreshedEvent(this));
+
+        pluginPublisher.asyncPublish(new ZuulStrategyRouteUpdatedAllEvent(zuulStrategyRouteEntityList));
     }
 
     @Override
