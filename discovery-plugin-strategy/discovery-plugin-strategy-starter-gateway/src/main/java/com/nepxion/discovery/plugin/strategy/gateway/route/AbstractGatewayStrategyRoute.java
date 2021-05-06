@@ -16,9 +16,12 @@ import reactor.core.publisher.Mono;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -143,6 +146,11 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
             throw new DiscoveryException("Gateway dynamic routes are null");
         }
 
+        boolean isIdDuplicated = isIdDuplicated(gatewayStrategyRouteEntityList);
+        if (isIdDuplicated) {
+            throw new DiscoveryException("Gateway dynamic routes have duplicated routeIds");
+        }
+
         Map<String, RouteDefinition> dynamicRouteDefinitionMap = gatewayStrategyRouteEntityList.stream().collect(Collectors.toMap(GatewayStrategyRouteEntity::getId, this::convertRoute));
         Map<String, RouteDefinition> currentRouteDefinitionMap = locateRoutes();
 
@@ -251,6 +259,17 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
         routeDefinitions.subscribe(routeDefinition -> routeDefinitionMap.put(routeDefinition.getId(), routeDefinition));
 
         return routeDefinitionMap;
+    }
+
+    private boolean isIdDuplicated(List<GatewayStrategyRouteEntity> gatewayStrategyRouteEntityList) {
+        Set<GatewayStrategyRouteEntity> gatewayStrategyRouteEntitySet = new TreeSet<GatewayStrategyRouteEntity>(new Comparator<GatewayStrategyRouteEntity>() {
+            public int compare(GatewayStrategyRouteEntity gatewayStrategyRouteEntity1, GatewayStrategyRouteEntity gatewayStrategyRouteEntity2) {
+                return gatewayStrategyRouteEntity1.getId().compareTo(gatewayStrategyRouteEntity2.getId());
+            }
+        });
+        gatewayStrategyRouteEntitySet.addAll(gatewayStrategyRouteEntityList);
+
+        return gatewayStrategyRouteEntitySet.size() < gatewayStrategyRouteEntityList.size();
     }
 
     public RouteDefinition convertRoute(GatewayStrategyRouteEntity gatewayStrategyRouteEntity) {

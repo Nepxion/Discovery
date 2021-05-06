@@ -11,8 +11,11 @@ package com.nepxion.discovery.plugin.strategy.zuul.route;
  */
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -94,13 +97,19 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
             throw new DiscoveryException("Zuul dynamic route is null");
         }
 
+        Map<String, ZuulProperties.ZuulRoute> idRouteMap = zuulProperties.getRoutes();
         String routeId = zuulStrategyRouteEntity.getId();
-        ZuulProperties.ZuulRoute route = getRoute(routeId);
-        if (route == null) {
+        if (!idRouteMap.containsKey(routeId)) {
             throw new DiscoveryException("Zuul dynamic route for routeId=[" + routeId + "] isn't found");
         }
 
-        route = convertRoute(zuulStrategyRouteEntity);
+        Map<String, ZuulProperties.ZuulRoute> pathRouteMap = locateRoutes();
+        String path = zuulStrategyRouteEntity.getPath();
+        if (pathRouteMap.containsKey(path)) {
+            throw new DiscoveryException("Zuul dynamic route for path=[" + path + "] is duplicated");
+        }
+
+        ZuulProperties.ZuulRoute route = convertRoute(zuulStrategyRouteEntity);
         modifyRoute(route);
 
         LOG.info("Modified Zuul dynamic route={}", route);
@@ -116,11 +125,12 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
             throw new DiscoveryException("RouteId is empty");
         }
 
-        ZuulProperties.ZuulRoute route = getRoute(routeId);
-        if (route == null) {
+        Map<String, ZuulProperties.ZuulRoute> idRouteMap = zuulProperties.getRoutes();
+        if (!idRouteMap.containsKey(routeId)) {
             throw new DiscoveryException("Zuul dynamic route for routeId=[" + routeId + "] isn't found");
         }
 
+        ZuulProperties.ZuulRoute route = idRouteMap.get(routeId);
         deleteRoute(route);
 
         LOG.info("Deleted Zuul dynamic route for routeId={}", routeId);
@@ -134,6 +144,16 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
     public synchronized void updateAll(List<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList) {
         if (zuulStrategyRouteEntityList == null) {
             throw new DiscoveryException("Zuul dynamic routes are null");
+        }
+
+        boolean isIdDuplicated = isIdDuplicated(zuulStrategyRouteEntityList);
+        if (isIdDuplicated) {
+            throw new DiscoveryException("Zuul dynamic routes have duplicated routeIds");
+        }
+
+        boolean isPathDuplicated = isPathDuplicated(zuulStrategyRouteEntityList);
+        if (isPathDuplicated) {
+            throw new DiscoveryException("Zuul dynamic routes have duplicated paths");
         }
 
         Map<String, ZuulProperties.ZuulRoute> dynamicRouteMap = zuulStrategyRouteEntityList.stream().collect(Collectors.toMap(ZuulStrategyRouteEntity::getId, this::convertRoute));
@@ -216,10 +236,12 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
             throw new DiscoveryException("RouteId is empty");
         }
 
-        ZuulProperties.ZuulRoute route = getRoute(routeId);
-        if (route == null) {
+        Map<String, ZuulProperties.ZuulRoute> idRouteMap = zuulProperties.getRoutes();
+        if (!idRouteMap.containsKey(routeId)) {
             throw new DiscoveryException("Zuul dynamic route for routeId=[" + routeId + "] isn't found");
         }
+
+        ZuulProperties.ZuulRoute route = idRouteMap.get(routeId);
 
         return convertRoute(route);
     }
@@ -241,6 +263,28 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
     @Override
     public void refresh() {
         doRefresh();
+    }
+
+    private boolean isIdDuplicated(List<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList) {
+        Set<ZuulStrategyRouteEntity> zuulStrategyRouteEntitySet = new TreeSet<ZuulStrategyRouteEntity>(new Comparator<ZuulStrategyRouteEntity>() {
+            public int compare(ZuulStrategyRouteEntity zuulStrategyRouteEntity1, ZuulStrategyRouteEntity zuulStrategyRouteEntity2) {
+                return zuulStrategyRouteEntity1.getId().compareTo(zuulStrategyRouteEntity2.getId());
+            }
+        });
+        zuulStrategyRouteEntitySet.addAll(zuulStrategyRouteEntityList);
+
+        return zuulStrategyRouteEntitySet.size() < zuulStrategyRouteEntityList.size();
+    }
+
+    private boolean isPathDuplicated(List<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList) {
+        Set<ZuulStrategyRouteEntity> zuulStrategyRouteEntitySet = new TreeSet<ZuulStrategyRouteEntity>(new Comparator<ZuulStrategyRouteEntity>() {
+            public int compare(ZuulStrategyRouteEntity zuulStrategyRouteEntity1, ZuulStrategyRouteEntity zuulStrategyRouteEntity2) {
+                return zuulStrategyRouteEntity1.getPath().compareTo(zuulStrategyRouteEntity2.getPath());
+            }
+        });
+        zuulStrategyRouteEntitySet.addAll(zuulStrategyRouteEntityList);
+
+        return zuulStrategyRouteEntitySet.size() < zuulStrategyRouteEntityList.size();
     }
 
     public ZuulProperties.ZuulRoute convertRoute(ZuulStrategyRouteEntity zuulStrategyRouteEntity) {
@@ -269,18 +313,6 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
         zuulStrategyRouteEntity.setCustomSensitiveHeaders(route.isCustomSensitiveHeaders());
 
         return zuulStrategyRouteEntity;
-    }
-
-    public ZuulProperties.ZuulRoute getRoute(String routeId) {
-        Map<String, ZuulProperties.ZuulRoute> routeMap = locateRoutes();
-        for (Map.Entry<String, ZuulProperties.ZuulRoute> entry : routeMap.entrySet()) {
-            ZuulProperties.ZuulRoute route = entry.getValue();
-            if (StringUtils.equals(routeId, route.getId())) {
-                return route;
-            }
-        }
-
-        return null;
     }
 
     public void addRoute(ZuulProperties.ZuulRoute route) {
