@@ -1,4 +1,4 @@
-package com.nepxion.discovery.console.authentication;
+package com.nepxion.discovery.console.resource;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
 import com.nepxion.discovery.common.entity.UserEntity;
+import com.nepxion.discovery.common.exception.DiscoveryException;
 
 public class AuthenticationResourceImpl implements AuthenticationResource {
     @Autowired
@@ -28,7 +29,7 @@ public class AuthenticationResourceImpl implements AuthenticationResource {
         if (StringUtils.isNotEmpty(passwordValue)) {
             return StringUtils.equals(password, passwordValue);
         } else {
-            throw new IllegalArgumentException("Not exists for [" + userId + "]");
+            throw new DiscoveryException("No password found for [" + userId + "]");
         }
     }
 }
