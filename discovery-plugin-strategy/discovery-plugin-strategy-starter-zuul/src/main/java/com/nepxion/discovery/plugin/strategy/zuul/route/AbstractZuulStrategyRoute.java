@@ -137,7 +137,7 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
         }
 
         Map<String, ZuulProperties.ZuulRoute> dynamicRouteMap = zuulStrategyRouteEntityList.stream().collect(Collectors.toMap(ZuulStrategyRouteEntity::getId, this::convertRoute));
-        Map<String, ZuulProperties.ZuulRoute> currentRouteMap = locateRoutes();
+        Map<String, ZuulProperties.ZuulRoute> currentRouteMap = zuulProperties.getRoutes();
 
         List<ZuulProperties.ZuulRoute> addRouteList = new ArrayList<ZuulProperties.ZuulRoute>(dynamicRouteMap.size());
         List<ZuulProperties.ZuulRoute> modifyRouteList = new ArrayList<ZuulProperties.ZuulRoute>(dynamicRouteMap.size());
