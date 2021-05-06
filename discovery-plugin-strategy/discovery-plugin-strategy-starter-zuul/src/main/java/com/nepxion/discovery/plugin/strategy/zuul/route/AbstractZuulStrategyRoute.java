@@ -155,8 +155,8 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
             String routeId = entry.getKey();
             ZuulProperties.ZuulRoute route = entry.getValue();
             if (currentRouteMap.containsKey(routeId)) {
-                ZuulProperties.ZuulRoute currentZuulRoute = currentRouteMap.get(routeId);
-                if (!currentZuulRoute.equals(route)) {
+                ZuulProperties.ZuulRoute currentRoute = currentRouteMap.get(routeId);
+                if (!currentRoute.equals(route)) {
                     modifyRouteList.add(route);
                 }
             }
