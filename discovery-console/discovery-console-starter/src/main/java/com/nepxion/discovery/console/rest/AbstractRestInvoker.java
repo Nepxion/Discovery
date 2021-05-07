@@ -30,25 +30,29 @@ import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.util.ResponseUtil;
 import com.nepxion.discovery.common.util.RestUtil;
 import com.nepxion.discovery.common.util.UrlUtil;
+import com.nepxion.discovery.console.resource.ServiceResource;
 
 public abstract class AbstractRestInvoker {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractRestInvoker.class);
 
-    protected List<ServiceInstance> instances;
+    protected ServiceResource serviceResource;
+    protected String serviceId;
     protected RestTemplate restTemplate;
     protected boolean async;
 
-    public AbstractRestInvoker(List<ServiceInstance> instances, RestTemplate restTemplate) {
-        this(instances, restTemplate, false);
+    public AbstractRestInvoker(ServiceResource serviceResource, String serviceId, RestTemplate restTemplate) {
+        this(serviceResource, serviceId, restTemplate, false);
     }
 
-    public AbstractRestInvoker(List<ServiceInstance> instances, RestTemplate restTemplate, boolean async) {
-        this.instances = instances;
+    public AbstractRestInvoker(ServiceResource serviceResource, String serviceId, RestTemplate restTemplate, boolean async) {
+        this.serviceResource = serviceResource;
+        this.serviceId = serviceId;
         this.restTemplate = restTemplate;
         this.async = async;
     }
 
     public List<ResultEntity> invoke() {
+        List<ServiceInstance> instances = serviceResource.getInstances(serviceId);
         if (CollectionUtils.isEmpty(instances)) {
             LOG.warn("No service instances found");
 
@@ -64,6 +68,7 @@ public abstract class AbstractRestInvoker {
             if (StringUtils.isEmpty(contextPath)) {
                 contextPath = "/";
             }
+
             String url = "http://" + host + ":" + port + UrlUtil.formatContextPath(contextPath) + getSuffixPath();
 
             String result = null;
@@ -85,8 +90,9 @@ public abstract class AbstractRestInvoker {
             resultEntityList.add(resultEntity);
         }
 
-        String info = getInfo();
-        LOG.info(info + " results=\n{}", resultEntityList);
+        String description = getDescription();
+
+        LOG.info(description + " results=\n{}", resultEntityList);
 
         return resultEntityList;
     }
@@ -134,11 +140,13 @@ public abstract class AbstractRestInvoker {
         }
     }
 
-    protected abstract String getInfo();
+    protected void checkPermission(ServiceInstance instance) throws Exception {
+
+    }
+
+    protected abstract String getDescription();
 
     protected abstract String getSuffixPath();
 
     protected abstract String doRest(String url);
-
-    protected abstract void checkPermission(ServiceInstance instance) throws Exception;
 }

@@ -9,44 +9,36 @@ package com.nepxion.discovery.console.rest;
  * @version 1.0
  */
 
-import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.web.client.RestTemplate;
+
+import com.nepxion.discovery.console.resource.ServiceResource;
 
 public class SentinelUpdateRestInvoker extends AbstractRestInvoker {
     private String type;
     private String rule;
 
-    public SentinelUpdateRestInvoker(List<ServiceInstance> instances, RestTemplate restTemplate, String type, String rule) {
-        super(instances, restTemplate);
+    public SentinelUpdateRestInvoker(ServiceResource serviceResource, String serviceId, RestTemplate restTemplate, String type, String rule) {
+        super(serviceResource, serviceId, restTemplate);
 
         this.type = type.trim();
         this.rule = rule;
     }
 
     @Override
-    protected String getInfo() {
+    protected String getDescription() {
         return "Sentinel rules updated";
     }
 
     @Override
     protected String getSuffixPath() {
-        return getPrefixPath(type) + "/update-" + type + "-rules";
+        String path = StringUtils.equals(type, "param-flow") ? "sentinel-param" : "sentinel-core";
+
+        return path + "/update-" + type + "-rules";
     }
 
     @Override
     protected String doRest(String url) {
         return restTemplate.postForEntity(url, getInvokeEntity(rule), String.class).getBody();
-    }
-
-    @Override
-    protected void checkPermission(ServiceInstance instance) throws Exception {
-
-    }
-
-    private String getPrefixPath(String type) {
-        return StringUtils.equals(type, "param-flow") ? "sentinel-param" : "sentinel-core";
     }
 }

@@ -26,27 +26,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.common.entity.InstanceEntity;
 import com.nepxion.discovery.common.entity.ResultEntity;
 import com.nepxion.discovery.common.entity.UserEntity;
-import com.nepxion.discovery.common.handler.DiscoveryResponseErrorHandler;
 import com.nepxion.discovery.common.util.ResponseUtil;
 import com.nepxion.discovery.console.resource.AuthenticationResource;
 import com.nepxion.discovery.console.resource.ConfigResource;
+import com.nepxion.discovery.console.resource.RouteResource;
+import com.nepxion.discovery.console.resource.SentinelResource;
 import com.nepxion.discovery.console.resource.ServiceResource;
 import com.nepxion.discovery.console.resource.StrategyResource;
-import com.nepxion.discovery.console.rest.ConfigClearRestInvoker;
-import com.nepxion.discovery.console.rest.ConfigUpdateRestInvoker;
-import com.nepxion.discovery.console.rest.RouteAddRestInvoker;
-import com.nepxion.discovery.console.rest.RouteDeleteRestInvoker;
-import com.nepxion.discovery.console.rest.RouteModifyRestInvoker;
-import com.nepxion.discovery.console.rest.RouteUpdateAllRestInvoker;
-import com.nepxion.discovery.console.rest.SentinelClearRestInvoker;
-import com.nepxion.discovery.console.rest.SentinelUpdateRestInvoker;
-import com.nepxion.discovery.console.rest.VersionClearRestInvoker;
-import com.nepxion.discovery.console.rest.VersionUpdateRestInvoker;
+import com.nepxion.discovery.console.resource.VersionResource;
 
 @RestController
 @RequestMapping(path = "/console")
@@ -62,14 +53,16 @@ public class ConsoleEndpoint {
     private ConfigResource configResource;
 
     @Autowired
+    private VersionResource versionResource;
+
+    @Autowired
+    private SentinelResource sentinelResource;
+
+    @Autowired
+    private RouteResource routeResource;
+
+    @Autowired
     private StrategyResource strategyResource;
-
-    private RestTemplate consoleRestTemplate;
-
-    public ConsoleEndpoint() {
-        consoleRestTemplate = new RestTemplate();
-        consoleRestTemplate.setErrorHandler(new DiscoveryResponseErrorHandler());
-    }
 
     @RequestMapping(path = "/authenticate", method = RequestMethod.POST)
     @ApiOperation(value = "登录认证", notes = "", response = ResponseEntity.class, httpMethod = "POST")
@@ -228,15 +221,15 @@ public class ConsoleEndpoint {
     @RequestMapping(path = "/route/add/{gatewayType}/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "增加网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> gatewayRouteAdd(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： gateway | zuul。gateway指Spring Cloud Gateway, zull指Netflix Zuul", defaultValue = "gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "网关路由对象内容，JSON格式") String json) {
-        return doRouteAdd(gatewayType, serviceId, json);
+    public ResponseEntity<?> gatewayRouteAdd(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： gateway | zuul。gateway指Spring Cloud Gateway, zull指Netflix Zuul", defaultValue = "gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "网关路由对象内容，JSON格式") String route) {
+        return doRouteAdd(gatewayType, serviceId, route);
     }
 
     @RequestMapping(path = "/route/modify/{gatewayType}/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "修改网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> gatewayRouteModify(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： gateway | zuul。gateway指Spring Cloud Gateway, zull指Netflix Zuul", defaultValue = "gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "网关路由对象内容，JSON格式") String json) {
-        return doRouteModify(gatewayType, serviceId, json);
+    public ResponseEntity<?> gatewayRouteModify(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： gateway | zuul。gateway指Spring Cloud Gateway, zull指Netflix Zuul", defaultValue = "gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "网关路由对象内容，JSON格式") String route) {
+        return doRouteModify(gatewayType, serviceId, route);
     }
 
     @RequestMapping(path = "/route/delete/{gatewayType}/{serviceId}", method = RequestMethod.POST)
@@ -249,8 +242,8 @@ public class ConsoleEndpoint {
     @RequestMapping(path = "/route/update-all/{gatewayType}/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "更新全部网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> gatewayRouteUpdateAll(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： gateway | zuul。gateway指Spring Cloud Gateway, zull指Netflix Zuul", defaultValue = "gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "网关路由对象列表内容，JSON格式") String json) {
-        return doRouteUpdateAll(gatewayType, serviceId, json);
+    public ResponseEntity<?> gatewayRouteUpdateAll(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： gateway | zuul。gateway指Spring Cloud Gateway, zull指Netflix Zuul", defaultValue = "gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "网关路由对象列表内容，JSON格式") String route) {
+        return doRouteUpdateAll(gatewayType, serviceId, route);
     }
 
     @RequestMapping(path = "/validate-expression", method = RequestMethod.GET)
@@ -352,7 +345,7 @@ public class ConsoleEndpoint {
 
     private ResponseEntity<?> doRemoteConfigUpdate(String group, String serviceId, String config) {
         try {
-            boolean result = configResource.updateConfig(group, serviceId, config);
+            boolean result = configResource.updateRemoteConfig(group, serviceId, config);
 
             return ResponseUtil.getSuccessResponse(result);
         } catch (Exception e) {
@@ -362,7 +355,7 @@ public class ConsoleEndpoint {
 
     private ResponseEntity<?> doRemoteConfigClear(String group, String serviceId) {
         try {
-            boolean result = configResource.clearConfig(group, serviceId);
+            boolean result = configResource.clearRemoteConfig(group, serviceId);
 
             return ResponseUtil.getSuccessResponse(result);
         } catch (Exception e) {
@@ -372,7 +365,7 @@ public class ConsoleEndpoint {
 
     private ResponseEntity<?> doRemoteConfigView(String group, String serviceId) {
         try {
-            String config = configResource.getConfig(group, serviceId);
+            String config = configResource.getRemoteConfig(group, serviceId);
 
             return ResponseUtil.getSuccessResponse(config);
         } catch (Exception e) {
@@ -382,10 +375,7 @@ public class ConsoleEndpoint {
 
     private ResponseEntity<?> doConfigUpdate(String serviceId, String config, boolean async) {
         try {
-            List<ServiceInstance> instances = serviceResource.getInstances(serviceId);
-
-            ConfigUpdateRestInvoker configUpdateRestInvoker = new ConfigUpdateRestInvoker(instances, consoleRestTemplate, config, async);
-            List<ResultEntity> resultEntityList = configUpdateRestInvoker.invoke();
+            List<ResultEntity> resultEntityList = configResource.updateConfig(serviceId, config, async);
 
             return ResponseUtil.getSuccessResponse(resultEntityList);
         } catch (Exception e) {
@@ -395,10 +385,7 @@ public class ConsoleEndpoint {
 
     private ResponseEntity<?> doConfigClear(String serviceId, boolean async) {
         try {
-            List<ServiceInstance> instances = serviceResource.getInstances(serviceId);
-
-            ConfigClearRestInvoker configClearRestInvoker = new ConfigClearRestInvoker(instances, consoleRestTemplate, async);
-            List<ResultEntity> resultEntityList = configClearRestInvoker.invoke();
+            List<ResultEntity> resultEntityList = configResource.clearConfig(serviceId, async);
 
             return ResponseUtil.getSuccessResponse(resultEntityList);
         } catch (Exception e) {
@@ -408,10 +395,7 @@ public class ConsoleEndpoint {
 
     private ResponseEntity<?> doVersionUpdate(String serviceId, String version, boolean async) {
         try {
-            List<ServiceInstance> instances = serviceResource.getInstances(serviceId);
-
-            VersionUpdateRestInvoker versionUpdateRestInvoker = new VersionUpdateRestInvoker(instances, consoleRestTemplate, version, async);
-            List<ResultEntity> resultEntityList = versionUpdateRestInvoker.invoke();
+            List<ResultEntity> resultEntityList = versionResource.updateVersion(serviceId, version, async);
 
             return ResponseUtil.getSuccessResponse(resultEntityList);
         } catch (Exception e) {
@@ -421,10 +405,7 @@ public class ConsoleEndpoint {
 
     private ResponseEntity<?> doVersionClear(String serviceId, String version, boolean async) {
         try {
-            List<ServiceInstance> instances = serviceResource.getInstances(serviceId);
-
-            VersionClearRestInvoker versionClearRestInvoker = new VersionClearRestInvoker(instances, consoleRestTemplate, version, async);
-            List<ResultEntity> resultEntityList = versionClearRestInvoker.invoke();
+            List<ResultEntity> resultEntityList = versionResource.clearVersion(serviceId, version, async);
 
             return ResponseUtil.getSuccessResponse(resultEntityList);
         } catch (Exception e) {
@@ -434,10 +415,7 @@ public class ConsoleEndpoint {
 
     private ResponseEntity<?> doSentinelUpdate(String ruleType, String serviceId, String rule) {
         try {
-            List<ServiceInstance> instances = serviceResource.getInstances(serviceId);
-
-            SentinelUpdateRestInvoker sentinelUpdateRestInvoker = new SentinelUpdateRestInvoker(instances, consoleRestTemplate, ruleType, rule);
-            List<ResultEntity> resultEntityList = sentinelUpdateRestInvoker.invoke();
+            List<ResultEntity> resultEntityList = sentinelResource.updateSentinel(ruleType, serviceId, rule);
 
             return ResponseUtil.getSuccessResponse(resultEntityList);
         } catch (Exception e) {
@@ -447,10 +425,7 @@ public class ConsoleEndpoint {
 
     private ResponseEntity<?> doSentinelClear(String ruleType, String serviceId) {
         try {
-            List<ServiceInstance> instances = serviceResource.getInstances(serviceId);
-
-            SentinelClearRestInvoker sentinelClearRestInvoker = new SentinelClearRestInvoker(instances, consoleRestTemplate, ruleType);
-            List<ResultEntity> resultEntityList = sentinelClearRestInvoker.invoke();
+            List<ResultEntity> resultEntityList = sentinelResource.clearSentinel(ruleType, serviceId);
 
             return ResponseUtil.getSuccessResponse(resultEntityList);
         } catch (Exception e) {
@@ -458,12 +433,9 @@ public class ConsoleEndpoint {
         }
     }
 
-    private ResponseEntity<?> doRouteAdd(String gatewayType, String serviceId, String json) {
+    private ResponseEntity<?> doRouteAdd(String gatewayType, String serviceId, String route) {
         try {
-            List<ServiceInstance> instances = serviceResource.getInstances(serviceId);
-
-            RouteAddRestInvoker routeAddRestInvoker = new RouteAddRestInvoker(instances, consoleRestTemplate, gatewayType, json);
-            List<ResultEntity> resultEntityList = routeAddRestInvoker.invoke();
+            List<ResultEntity> resultEntityList = routeResource.addRoute(gatewayType, serviceId, route);
 
             return ResponseUtil.getSuccessResponse(resultEntityList);
         } catch (Exception e) {
@@ -471,12 +443,9 @@ public class ConsoleEndpoint {
         }
     }
 
-    private ResponseEntity<?> doRouteModify(String gatewayType, String serviceId, String json) {
+    private ResponseEntity<?> doRouteModify(String gatewayType, String serviceId, String route) {
         try {
-            List<ServiceInstance> instances = serviceResource.getInstances(serviceId);
-
-            RouteModifyRestInvoker routeModifyRestInvoker = new RouteModifyRestInvoker(instances, consoleRestTemplate, gatewayType, json);
-            List<ResultEntity> resultEntityList = routeModifyRestInvoker.invoke();
+            List<ResultEntity> resultEntityList = routeResource.modifyRoute(gatewayType, serviceId, route);
 
             return ResponseUtil.getSuccessResponse(resultEntityList);
         } catch (Exception e) {
@@ -486,10 +455,7 @@ public class ConsoleEndpoint {
 
     private ResponseEntity<?> doRouteDelete(String gatewayType, String serviceId, String routeId) {
         try {
-            List<ServiceInstance> instances = serviceResource.getInstances(serviceId);
-
-            RouteDeleteRestInvoker routeDeleteRestInvoker = new RouteDeleteRestInvoker(instances, consoleRestTemplate, gatewayType, routeId);
-            List<ResultEntity> resultEntityList = routeDeleteRestInvoker.invoke();
+            List<ResultEntity> resultEntityList = routeResource.deleteRoute(gatewayType, serviceId, routeId);
 
             return ResponseUtil.getSuccessResponse(resultEntityList);
         } catch (Exception e) {
@@ -497,13 +463,9 @@ public class ConsoleEndpoint {
         }
     }
 
-    private ResponseEntity<?> doRouteUpdateAll(String gatewayType, String serviceId, String json) {
-
+    private ResponseEntity<?> doRouteUpdateAll(String gatewayType, String serviceId, String route) {
         try {
-            List<ServiceInstance> instances = serviceResource.getInstances(serviceId);
-
-            RouteUpdateAllRestInvoker routeUpdateAllRestInvoker = new RouteUpdateAllRestInvoker(instances, consoleRestTemplate, gatewayType, json);
-            List<ResultEntity> resultEntityList = routeUpdateAllRestInvoker.invoke();
+            List<ResultEntity> resultEntityList = routeResource.updateAllRoute(gatewayType, serviceId, route);
 
             return ResponseUtil.getSuccessResponse(resultEntityList);
         } catch (Exception e) {

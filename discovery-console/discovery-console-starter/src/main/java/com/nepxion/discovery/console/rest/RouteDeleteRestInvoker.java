@@ -9,24 +9,23 @@ package com.nepxion.discovery.console.rest;
  * @version 1.0
  */
 
-import java.util.List;
-
-import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.web.client.RestTemplate;
+
+import com.nepxion.discovery.console.resource.ServiceResource;
 
 public class RouteDeleteRestInvoker extends AbstractRestInvoker {
     private String type;
     private String routeId;
 
-    public RouteDeleteRestInvoker(List<ServiceInstance> instances, RestTemplate restTemplate, String type, String routeId) {
-        super(instances, restTemplate);
+    public RouteDeleteRestInvoker(ServiceResource serviceResource, String serviceId, RestTemplate restTemplate, String type, String routeId) {
+        super(serviceResource, serviceId, restTemplate);
 
         this.type = type.trim();
         this.routeId = routeId;
     }
 
     @Override
-    protected String getInfo() {
+    protected String getDescription() {
         return "Route deleted";
     }
 
@@ -38,10 +37,5 @@ public class RouteDeleteRestInvoker extends AbstractRestInvoker {
     @Override
     protected String doRest(String url) {
         return restTemplate.postForEntity(url, getInvokeEntity(routeId), String.class).getBody();
-    }
-
-    @Override
-    protected void checkPermission(ServiceInstance instance) throws Exception {
-
     }
 }

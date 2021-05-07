@@ -9,12 +9,20 @@ package com.nepxion.discovery.console.resource;
  * @version 1.0
  */
 
+import java.util.List;
+
+import com.nepxion.discovery.common.entity.ResultEntity;
+
 public interface ConfigResource {
     String getConfigType();
 
-    boolean updateConfig(String group, String serviceId, String config) throws Exception;
+    boolean updateRemoteConfig(String group, String serviceId, String config) throws Exception;
 
-    boolean clearConfig(String group, String serviceId) throws Exception;
+    boolean clearRemoteConfig(String group, String serviceId) throws Exception;
 
-    String getConfig(String group, String serviceId) throws Exception;
+    String getRemoteConfig(String group, String serviceId) throws Exception;
+
+    List<ResultEntity> updateConfig(String serviceId, String config, boolean async);
+
+    List<ResultEntity> clearConfig(String serviceId, boolean async);
 }
