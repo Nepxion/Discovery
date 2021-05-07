@@ -9,18 +9,18 @@ package com.nepxion.discovery.console.rest;
  * @version 1.0
  */
 
-import java.util.List;
-
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.web.client.RestTemplate;
 
+import com.nepxion.discovery.console.resource.ServiceResource;
+
 public class ConfigClearRestInvoker extends AbstractRestInvoker {
-    public ConfigClearRestInvoker(List<ServiceInstance> instances, RestTemplate restTemplate, boolean async) {
-        super(instances, restTemplate, async);
+    public ConfigClearRestInvoker(ServiceResource serviceResource, String serviceId, RestTemplate restTemplate, boolean async) {
+        super(serviceResource, serviceId, restTemplate, async);
     }
 
     @Override
-    protected String getInfo() {
+    protected String getDescription() {
         return "Config cleared";
     }
 

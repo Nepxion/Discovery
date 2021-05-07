@@ -9,24 +9,23 @@ package com.nepxion.discovery.console.rest;
  * @version 1.0
  */
 
-import java.util.List;
-
-import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.web.client.RestTemplate;
+
+import com.nepxion.discovery.console.resource.ServiceResource;
 
 public class RouteAddRestInvoker extends AbstractRestInvoker {
     private String type;
-    private String json;
+    private String route;
 
-    public RouteAddRestInvoker(List<ServiceInstance> instances, RestTemplate restTemplate, String type, String json) {
-        super(instances, restTemplate);
+    public RouteAddRestInvoker(ServiceResource serviceResource, String serviceId, RestTemplate restTemplate, String type, String route) {
+        super(serviceResource, serviceId, restTemplate);
 
         this.type = type.trim();
-        this.json = json;
+        this.route = route;
     }
 
     @Override
-    protected String getInfo() {
+    protected String getDescription() {
         return "Route added";
     }
 
@@ -37,11 +36,6 @@ public class RouteAddRestInvoker extends AbstractRestInvoker {
 
     @Override
     protected String doRest(String url) {
-        return restTemplate.postForEntity(url, getInvokeEntity(json), String.class).getBody();
-    }
-
-    @Override
-    protected void checkPermission(ServiceInstance instance) throws Exception {
-
+        return restTemplate.postForEntity(url, getInvokeEntity(route), String.class).getBody();
     }
 }

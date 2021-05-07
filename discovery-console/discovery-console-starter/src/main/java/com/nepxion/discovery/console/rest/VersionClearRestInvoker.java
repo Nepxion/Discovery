@@ -9,22 +9,22 @@ package com.nepxion.discovery.console.rest;
  * @version 1.0
  */
 
-import java.util.List;
-
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.web.client.RestTemplate;
+
+import com.nepxion.discovery.console.resource.ServiceResource;
 
 public class VersionClearRestInvoker extends AbstractRestInvoker {
     private String version;
 
-    public VersionClearRestInvoker(List<ServiceInstance> instances, RestTemplate restTemplate, String version, boolean async) {
-        super(instances, restTemplate, async);
+    public VersionClearRestInvoker(ServiceResource serviceResource, String serviceId, RestTemplate restTemplate, boolean async, String version) {
+        super(serviceResource, serviceId, restTemplate, async);
 
         this.version = version;
     }
 
     @Override
-    protected String getInfo() {
+    protected String getDescription() {
         return "Version cleared";
     }
 
