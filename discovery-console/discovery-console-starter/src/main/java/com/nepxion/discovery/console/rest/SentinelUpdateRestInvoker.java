@@ -12,6 +12,8 @@ package com.nepxion.discovery.console.rest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
+import com.nepxion.discovery.common.exception.DiscoveryException;
+import com.nepxion.discovery.console.constant.ConsoleConstant;
 import com.nepxion.discovery.console.resource.ServiceResource;
 
 public class SentinelUpdateRestInvoker extends AbstractRestInvoker {
@@ -21,8 +23,12 @@ public class SentinelUpdateRestInvoker extends AbstractRestInvoker {
     public SentinelUpdateRestInvoker(ServiceResource serviceResource, String serviceId, RestTemplate restTemplate, String type, String rule) {
         super(serviceResource, serviceId, restTemplate);
 
-        this.type = type.trim();
+        this.type = type.toLowerCase().trim();
         this.rule = rule;
+
+        if (!ConsoleConstant.SENTINEL_TYPES.contains(type)) {
+            throw new DiscoveryException("Invalid sentinel type for '" + type + "', it must be one of " + ConsoleConstant.SENTINEL_TYPES);
+        }
     }
 
     @Override
