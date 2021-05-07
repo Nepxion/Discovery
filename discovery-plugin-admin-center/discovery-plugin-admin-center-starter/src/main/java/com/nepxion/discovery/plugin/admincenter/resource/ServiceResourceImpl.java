@@ -26,11 +26,10 @@ import com.nepxion.discovery.common.constant.DiscoveryMetaDataConstant;
 import com.nepxion.discovery.common.entity.InstanceEntity;
 import com.nepxion.discovery.common.entity.InstanceEntityWrapper;
 import com.nepxion.discovery.common.entity.ServiceType;
+import com.nepxion.discovery.plugin.admincenter.constant.AdminConstant;
 import com.nepxion.discovery.plugin.framework.decorator.DiscoveryClientDecorator;
 
 public class ServiceResourceImpl implements ServiceResource {
-    private static final String[] DISCOVERY_TYPES = { "Eureka", "Consul", "Zookeeper", "Nacos" };
-
     @Autowired
     private DiscoveryClient discoveryClient;
 
@@ -48,8 +47,8 @@ public class ServiceResourceImpl implements ServiceResource {
             List<DiscoveryClient> discoveryClients = compositeDiscoveryClient.getDiscoveryClients();
             for (DiscoveryClient client : discoveryClients) {
                 String discoveryDescription = client.description();
-                for (int i = 0; i < DISCOVERY_TYPES.length; i++) {
-                    String discoveryType = DISCOVERY_TYPES[i];
+                for (int i = 0; i < AdminConstant.DISCOVERY_TYPES.length; i++) {
+                    String discoveryType = AdminConstant.DISCOVERY_TYPES[i];
                     if (discoveryDescription.toLowerCase().contains(discoveryType.toLowerCase())) {
                         return discoveryType;
                     }
@@ -57,8 +56,8 @@ public class ServiceResourceImpl implements ServiceResource {
             }
         } else {
             String discoveryDescription = realDiscoveryClient.description();
-            for (int i = 0; i < DISCOVERY_TYPES.length; i++) {
-                String discoveryType = DISCOVERY_TYPES[i];
+            for (int i = 0; i < AdminConstant.DISCOVERY_TYPES.length; i++) {
+                String discoveryType = AdminConstant.DISCOVERY_TYPES[i];
                 if (discoveryDescription.toLowerCase().contains(discoveryType.toLowerCase())) {
                     return discoveryType;
                 }

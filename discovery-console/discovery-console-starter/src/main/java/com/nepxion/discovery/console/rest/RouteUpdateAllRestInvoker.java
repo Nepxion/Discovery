@@ -11,6 +11,8 @@ package com.nepxion.discovery.console.rest;
 
 import org.springframework.web.client.RestTemplate;
 
+import com.nepxion.discovery.common.exception.DiscoveryException;
+import com.nepxion.discovery.console.constant.ConsoleConstant;
 import com.nepxion.discovery.console.resource.ServiceResource;
 
 public class RouteUpdateAllRestInvoker extends AbstractRestInvoker {
@@ -20,8 +22,12 @@ public class RouteUpdateAllRestInvoker extends AbstractRestInvoker {
     public RouteUpdateAllRestInvoker(ServiceResource serviceResource, String serviceId, RestTemplate restTemplate, String type, String route) {
         super(serviceResource, serviceId, restTemplate);
 
-        this.type = type.trim();
+        this.type = type.toLowerCase().trim();
         this.route = route;
+
+        if (!ConsoleConstant.GATEWAY_TYPES.contains(type)) {
+            throw new DiscoveryException("Invalid gateway type for '" + type + "', it must be one of " + ConsoleConstant.GATEWAY_TYPES);
+        }
     }
 
     @Override
