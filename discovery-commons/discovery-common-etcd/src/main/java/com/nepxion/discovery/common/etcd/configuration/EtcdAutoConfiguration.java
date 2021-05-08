@@ -24,6 +24,7 @@ import org.springframework.core.env.Environment;
 
 import com.nepxion.discovery.common.etcd.constant.EtcdConstant;
 import com.nepxion.discovery.common.etcd.operation.EtcdOperation;
+import com.nepxion.discovery.common.exception.DiscoveryException;
 
 @Configuration
 public class EtcdAutoConfiguration {
@@ -40,7 +41,7 @@ public class EtcdAutoConfiguration {
     public Client client() {
         String serverAddr = environment.getProperty(EtcdConstant.ETCD_SERVER_ADDR);
         if (StringUtils.isBlank(serverAddr)) {
-            throw new IllegalArgumentException(EtcdConstant.ETCD_SERVER_ADDR + " can't be null or empty");
+            throw new DiscoveryException(EtcdConstant.ETCD_SERVER_ADDR + " can't be null or empty");
         }
 
         ClientBuilder clientBuilder = Client.builder().endpoints(serverAddr);

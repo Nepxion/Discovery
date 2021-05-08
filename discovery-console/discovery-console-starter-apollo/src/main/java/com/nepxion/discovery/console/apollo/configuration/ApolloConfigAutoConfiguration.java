@@ -20,6 +20,7 @@ import com.nepxion.banner.BannerConstant;
 import com.nepxion.banner.Description;
 import com.nepxion.banner.LogoBanner;
 import com.nepxion.banner.NepxionBanner;
+import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.console.adapter.ConfigAdapter;
 import com.nepxion.discovery.console.apollo.adapter.ApolloConfigAdapter;
 import com.nepxion.discovery.console.apollo.constant.ApolloConstant;
@@ -55,12 +56,12 @@ public class ApolloConfigAutoConfiguration {
     public ApolloOpenApiClient openApiClient() {
         String portalUrl = environment.getProperty(ApolloConstant.APOLLO_PORTAL_URL);
         if (StringUtils.isEmpty(portalUrl)) {
-            throw new IllegalArgumentException(ApolloConstant.APOLLO_PORTAL_URL + " can't be null or empty");
+            throw new DiscoveryException(ApolloConstant.APOLLO_PORTAL_URL + " can't be null or empty");
         }
 
         String token = environment.getProperty(ApolloConstant.APOLLO_TOKEN);
         if (StringUtils.isEmpty(token)) {
-            throw new IllegalArgumentException(ApolloConstant.APOLLO_TOKEN + " can't be null or empty");
+            throw new DiscoveryException(ApolloConstant.APOLLO_TOKEN + " can't be null or empty");
         }
 
         int connectTimeout = environment.getProperty(ApolloConstant.APOLLO_CONNECT_TIMEOUT, Integer.class, ApolloConstant.DEFAULT_CONNECT_TIMEOUT);

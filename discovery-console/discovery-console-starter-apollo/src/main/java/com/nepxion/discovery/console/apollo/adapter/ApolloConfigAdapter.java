@@ -19,6 +19,7 @@ import org.springframework.core.env.Environment;
 import com.ctrip.framework.apollo.openapi.client.ApolloOpenApiClient;
 import com.ctrip.framework.apollo.openapi.dto.NamespaceReleaseDTO;
 import com.ctrip.framework.apollo.openapi.dto.OpenItemDTO;
+import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.console.adapter.ConfigAdapter;
 import com.nepxion.discovery.console.apollo.constant.ApolloConstant;
 
@@ -33,17 +34,17 @@ public class ApolloConfigAdapter implements ConfigAdapter {
     public boolean updateConfig(String group, String serviceId, String config) throws Exception {
         String appId = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_APP_ID);
         if (StringUtils.isEmpty(appId)) {
-            throw new IllegalArgumentException(ApolloConstant.APOLLO_PLUGIN_APP_ID + " can't be null or empty");
+            throw new DiscoveryException(ApolloConstant.APOLLO_PLUGIN_APP_ID + " can't be null or empty");
         }
 
         String env = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_ENV);
         if (StringUtils.isEmpty(env)) {
-            throw new IllegalArgumentException(ApolloConstant.APOLLO_PLUGIN_ENV + " can't be null or empty");
+            throw new DiscoveryException(ApolloConstant.APOLLO_PLUGIN_ENV + " can't be null or empty");
         }
 
         String operator = environment.getProperty(ApolloConstant.APOLLO_OPERATOR);
         if (StringUtils.isEmpty(operator)) {
-            throw new IllegalArgumentException(ApolloConstant.APOLLO_OPERATOR + " can't be null or empty");
+            throw new DiscoveryException(ApolloConstant.APOLLO_OPERATOR + " can't be null or empty");
         }
 
         String cluster = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_CLUSTER, String.class, ApolloConstant.APOLLO_DEFAULT_CLUSTER);
@@ -77,17 +78,17 @@ public class ApolloConfigAdapter implements ConfigAdapter {
     public boolean clearConfig(String group, String serviceId) throws Exception {
         String appId = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_APP_ID);
         if (StringUtils.isEmpty(appId)) {
-            throw new IllegalArgumentException(ApolloConstant.APOLLO_PLUGIN_APP_ID + " can't be null or empty");
+            throw new DiscoveryException(ApolloConstant.APOLLO_PLUGIN_APP_ID + " can't be null or empty");
         }
 
         String env = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_ENV);
         if (StringUtils.isEmpty(env)) {
-            throw new IllegalArgumentException(ApolloConstant.APOLLO_PLUGIN_ENV + " can't be null or empty");
+            throw new DiscoveryException(ApolloConstant.APOLLO_PLUGIN_ENV + " can't be null or empty");
         }
 
         String operator = environment.getProperty(ApolloConstant.APOLLO_OPERATOR);
         if (StringUtils.isEmpty(operator)) {
-            throw new IllegalArgumentException(ApolloConstant.APOLLO_OPERATOR + " can't be null or empty");
+            throw new DiscoveryException(ApolloConstant.APOLLO_OPERATOR + " can't be null or empty");
         }
 
         String cluster = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_CLUSTER, String.class, ApolloConstant.APOLLO_DEFAULT_CLUSTER);
@@ -112,12 +113,12 @@ public class ApolloConfigAdapter implements ConfigAdapter {
     public String getConfig(String group, String serviceId) throws Exception {
         String appId = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_APP_ID);
         if (StringUtils.isEmpty(appId)) {
-            throw new IllegalArgumentException(ApolloConstant.APOLLO_PLUGIN_APP_ID + " can't be null or empty");
+            throw new DiscoveryException(ApolloConstant.APOLLO_PLUGIN_APP_ID + " can't be null or empty");
         }
 
         String env = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_ENV);
         if (StringUtils.isEmpty(env)) {
-            throw new IllegalArgumentException(ApolloConstant.APOLLO_PLUGIN_ENV + " can't be null or empty");
+            throw new DiscoveryException(ApolloConstant.APOLLO_PLUGIN_ENV + " can't be null or empty");
         }
 
         String cluster = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_CLUSTER, String.class, ApolloConstant.APOLLO_DEFAULT_CLUSTER);
