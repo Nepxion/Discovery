@@ -19,6 +19,7 @@ import org.springframework.core.env.Environment;
 import com.ecwid.consul.v1.ConsulClient;
 import com.nepxion.discovery.common.consul.constant.ConsulConstant;
 import com.nepxion.discovery.common.consul.operation.ConsulOperation;
+import com.nepxion.discovery.common.exception.DiscoveryException;
 
 @Configuration
 public class ConsulAutoConfiguration {
@@ -35,7 +36,7 @@ public class ConsulAutoConfiguration {
     public ConsulClient consulClient() {
         String consulHost = environment.getProperty(ConsulConstant.CONSUL_HOST);
         if (StringUtils.isBlank(consulHost)) {
-            throw new IllegalArgumentException(ConsulConstant.CONSUL_HOST + " can't be null or empty");
+            throw new DiscoveryException(ConsulConstant.CONSUL_HOST + " can't be null or empty");
         }
 
         int consulPort = environment.getProperty(ConsulConstant.CONSUL_PORT, Integer.class);

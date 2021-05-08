@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
+import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.zookeeper.constant.ZookeeperConstant;
 import com.nepxion.discovery.common.zookeeper.operation.ZookeeperOperation;
 
@@ -37,7 +38,7 @@ public class ZookeeperAutoConfiguration {
     public CuratorFramework curatorFramework() {
         String connectString = environment.getProperty(ZookeeperConstant.ZOOKEEPER_CONNECT_STRING);
         if (StringUtils.isEmpty(connectString)) {
-            throw new IllegalArgumentException(ZookeeperConstant.ZOOKEEPER_CONNECT_STRING + " can't be null or empty");
+            throw new DiscoveryException(ZookeeperConstant.ZOOKEEPER_CONNECT_STRING + " can't be null or empty");
         }
 
         String retryCount = environment.getProperty(ZookeeperConstant.ZOOKEEPER_RETRY_COUNT, ZookeeperConstant.ZOOKEEPER_DEFAULT_RETRY_COUNT_VALUE);
