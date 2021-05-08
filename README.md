@@ -749,7 +749,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-platform-starter-server | 控制平台服务端 Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-platform-starter-server-mysql | 控制平台服务端的数据库MySQL插件 Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-platform-starter-server-h2 | 控制平台服务端的内存H2插件 Starter|
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-platform-starter-server-script | 控制平台服务端的数据库脚本 |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-platform-starter-server-ui | 控制平台服务端界面 |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-platform-starter-client | 控制平台客户端 Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-platform-application | 控制平台服务端可执行应用 |
