@@ -36,6 +36,8 @@ public abstract class NacosProcessor implements DisposableBean {
 
     @PostConstruct
     public void initialize() {
+        beforeInitialization();
+
         String group = getGroup();
         String dataId = getDataId();
         String description = getDescription();
@@ -67,6 +69,8 @@ public abstract class NacosProcessor implements DisposableBean {
         } catch (Exception e) {
             LOG.error("Subscribe {} config from {} server failed, group={}, dataId={}", description, configType, group, dataId, e);
         }
+
+        afterInitialization();
     }
 
     @Override
@@ -93,6 +97,14 @@ public abstract class NacosProcessor implements DisposableBean {
 
     public String getConfigType() {
         return NacosConstant.NACOS_TYPE;
+    }
+
+    public void beforeInitialization() {
+
+    }
+
+    public void afterInitialization() {
+
     }
 
     public abstract String getGroup();
