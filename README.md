@@ -3050,35 +3050,6 @@ spring.application.parameter.event.onstart.enabled=true
 - 控制台暴露Rest Endpoint接口，对同一个网关下若干个实例批量实施
 - 网关订阅配置中心（包括Nacos、Apollo、Consul、Etcd、Redis、Zookeeper）批量实施
 
-### 网关动态路由接入
-使用者希望通过网关订阅配置中心方式，可以选择如下方式之一
-
-① 把网关接入平台插件加入到服务中，通过网关接入平台的界面操作实施
-
-```xml
-<dependency>
-    <groupId>com.nepxion</groupId>
-    <artifactId>discovery-platform-starter-client</artifactId>
-    <version>${discovery.platform.version}</version>
-</dependency>
-```
-
-② 自定义代码实现，通过配置中心的界面操作实施
-
-- Spring-Cloud-Gateway网关参考[Spring-Cloud-Gateway网关动态路由](#Spring-Cloud-Gateway网关动态路由)中`④ 网关订阅配置中心`
-- Zuul网关参考[Zuul网关动态路由](#Zuul网关动态路由)中`④ 网关订阅配置中心`
-
-
-使用者需要注意网关订阅配置中心的用法
-
-- Key为
-    - Nacos配置中心，Group为{group}，DataId为网关服务名
-    - 其它配置中心，Key的格式为{group}-网关服务名
-    - {group}默认为nepxion，使用者可以通过spring.application.strategy.dynamic.route.group进行修改
-- Value为多个动态路由配置
-    - Spring-Cloud-Gateway网关参考[Spring-Cloud-Gateway网关动态路由](#Spring-Cloud-Gateway网关动态路由)中`① Spring Cloud Gateway网关的动态路由配置格式`
-    - Zuul网关参考[Zuul网关动态路由](#Zuul网关动态路由)中`Zuul网关的动态路由配置格式`
-
 ### Spring-Cloud-Gateway网关动态路由
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：Zuul网关在自动路由模式下，动态路由可以工作
 
@@ -3142,59 +3113,28 @@ spring.application.parameter.event.onstart.enabled=true
 
 ④ 网关订阅配置中心
 
-增加网关订阅执行器，参考如下类，并仔细阅读下面的说明
-```java
-// 把继承类（extends）换成如下任何一个，即可切换配置中心，代码无需任何变动
-// 1. NacosProcessor
-// 2. ApolloProcessor
-// 3. ConsulProcessor
-// 4. EtcdProcessor
-// 5. ZookeeperProcessor
-// 6. RedisProcessor
-// Group和DataId自行决定，需要注意
-// 1. 对于Nacos配置中心，Group和DataId需要和界面相对应
-// 2. 对于其它配置中心，Key的格式为Group-DataId
-// 3. 千万不能和蓝绿灰度发布的Group和DataId冲突
-public class MyGatewayStrategyRouteProcessor extends NacosProcessor {
-    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_DYNAMIC_ROUTE_GROUP + ":" + DiscoveryConstant.NEPXION + "}")
-    private String group;
+网关订阅配置中心的使用方式，如下
 
-    /*@Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_DYNAMIC_ROUTE_GROUP + ":DEFAULT_GROUP}")
-    private String group;*/
+- Key为
+    - Nacos配置中心，Group为{group}，DataId为{网关serviceId}-dynamic-route
+    - 其它配置中心，Key的格式为{group}-{网关serviceId}-dynamic-route
+    - {group}为蓝绿灰度的组名，即注册中心元数据group值
+- Value参考`① Spring Cloud Gateway网关的动态路由配置格式`
 
-    @Value("${" + DiscoveryConstant.SPRING_APPLICATION_NAME + "}")
-    private String dataId;
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide7-9.jpg)
 
-    @Autowired
-    private GatewayStrategyRoute gatewayStrategyRoute;
-
-    @Override
-    public String getGroup() {
-        return group;
-    }
-
-    @Override
-    public String getDataId() {
-        return dataId;
-    }
-
-    @Override
-    public String getDescription() {
-        return "Gateway dynamic route";
-    }
-
-    @Override
-    public void callbackConfig(String config) {
-        gatewayStrategyRoute.updateAll(config);
-    }
-}
+支持如下开关开启该动能，默认是关闭的
 ```
-在配置类里@Bean方式进行网关配置订阅执行器
-```java
-@Bean
-public MyGatewayStrategyRouteProcessor gatewayStrategyRouteProcessor() {
-    return new MyGatewayStrategyRouteProcessor();
-}
+# 开启和关闭网关订阅配置中心的动态路由策略。缺失则默认为false
+spring.application.strategy.gateway.dynamic.route.enabled=true
+```
+
+配置中心配置的网关动态路由推送到网关后，网关会自动根据已经存在的路由表进行判断后实施增删改操作，而不是全部清空后再全部插入，这样有助于提高性能和安全性。网关控制台上会打印出如下日志
+```
+Updated Gateway all dynamic routes count=3
+::::: Added Gateway dynamic routes count=1
+::::: Modified Gateway dynamic routes count=1
+::::: Deleted Gateway dynamic routes count=1
 ```
 
 ⑤ 事件总线通知的订阅
@@ -3321,59 +3261,28 @@ public class MySubscriber {
 
 ④ 网关订阅配置中心
 
-增加网关订阅执行器，参考如下类，并仔细阅读下面的说明
-```java
-// 把继承类（extends）换成如下任何一个，即可切换配置中心，代码无需任何变动
-// 1. NacosProcessor
-// 2. ApolloProcessor
-// 3. ConsulProcessor
-// 4. EtcdProcessor
-// 5. ZookeeperProcessor
-// 6. RedisProcessor
-// Group和DataId自行决定，需要注意
-// 1. 对于Nacos配置中心，Group和DataId需要和界面相对应
-// 2. 对于其它配置中心，Key的格式为Group-DataId
-// 3. 千万不能和蓝绿灰度发布的Group和DataId冲突
-public class MyZuulStrategyRouteProcessor extends NacosProcessor {
-    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_DYNAMIC_ROUTE_GROUP + ":" + DiscoveryConstant.NEPXION + "}")
-    private String group;
+网关订阅配置中心的使用方式，如下
 
-    /*@Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_DYNAMIC_ROUTE_GROUP + ":DEFAULT_GROUP}")
-    private String group;*/
+- Key为
+    - Nacos配置中心，Group为{group}，DataId为{网关serviceId}-dynamic-route
+    - 其它配置中心，Key的格式为{group}-{网关serviceId}-dynamic-route
+    - {group}为蓝绿灰度的组名，即注册中心元数据group值
+- Value参考`① Zuul网关的动态路由配置格式`
 
-    @Value("${" + DiscoveryConstant.SPRING_APPLICATION_NAME + "}")
-    private String dataId;
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide7-10.jpg)
 
-    @Autowired
-    private ZuulStrategyRoute zuulStrategyRoute;
-
-    @Override
-    public String getGroup() {
-        return group;
-    }
-
-    @Override
-    public String getDataId() {
-        return dataId;
-    }
-
-    @Override
-    public String getDescription() {
-        return "Zuul dynamic route";
-    }
-
-    @Override
-    public void callbackConfig(String config) {
-        zuulStrategyRoute.updateAll(config);
-    }
-}
+支持如下开关开启该动能，默认是关闭的
 ```
-在配置类里@Bean方式进行网关配置订阅执行器
-```java
-@Bean
-public MyZuulStrategyRouteProcessor zuulStrategyRouteProcessor() {
-    return new MyZuulStrategyRouteProcessor();
-}
+# 开启和关闭网关订阅配置中心的动态路由策略。缺失则默认为false
+spring.application.strategy.zuul.dynamic.route.enabled=true
+```
+
+配置中心配置的网关动态路由推送到网关后，网关会自动根据已经存在的路由表进行判断后实施增删改操作，而不是全部清空后再全部插入，这样有助于提高性能和安全性。网关控制台上会打印出如下日志
+```
+Updated Zuul all dynamic routes count=3
+::::: Added Zuul dynamic routes count=1
+::::: Modified Zuul dynamic routes count=1
+::::: Deleted Zuul dynamic routes count=1
 ```
 
 ⑤ 事件总线通知的订阅
@@ -5232,6 +5141,8 @@ spring.application.strategy.gateway.route.filter.order=9000
 spring.application.strategy.gateway.header.priority=false
 # 当以网关设置为优先的时候，网关未配置Header，而外界配置了Header，仍旧忽略外界的Header。缺失则默认为true
 spring.application.strategy.gateway.original.header.ignored=true
+# 开启和关闭网关订阅配置中心的动态路由策略。缺失则默认为false
+spring.application.strategy.gateway.dynamic.route.enabled=true
 # 启动和关闭网关上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
 # 1. n-d-version
 # 2. n-d-region
@@ -5403,6 +5314,8 @@ spring.application.strategy.zuul.route.filter.order=0
 spring.application.strategy.zuul.header.priority=false
 # 当以网关设置为优先的时候，网关未配置Header，而外界配置了Header，仍旧忽略外界的Header。缺失则默认为true
 spring.application.strategy.zuul.original.header.ignored=true
+# 开启和关闭网关订阅配置中心的动态路由策略。缺失则默认为false
+spring.application.strategy.zuul.dynamic.route.enabled=true
 # 启动和关闭网关上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
 # 1. n-d-version
 # 2. n-d-region
