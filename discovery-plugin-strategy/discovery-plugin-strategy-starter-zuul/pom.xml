@@ -21,44 +21,44 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-zuul</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.nepxion</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>discovery-common-nacos</artifactId>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>com.nepxion</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>discovery-common-apollo</artifactId>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>com.nepxion</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>discovery-common-redis</artifactId>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>com.nepxion</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>discovery-common-zookeeper</artifactId>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>com.nepxion</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>discovery-common-consul</artifactId>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>com.nepxion</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>discovery-common-etcd</artifactId>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zuul</artifactId>
         </dependency>
     </dependencies>
 </project>
