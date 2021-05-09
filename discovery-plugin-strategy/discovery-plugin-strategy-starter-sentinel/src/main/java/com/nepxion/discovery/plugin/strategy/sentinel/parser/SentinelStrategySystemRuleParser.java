@@ -12,14 +12,14 @@ package com.nepxion.discovery.plugin.strategy.sentinel.parser;
 import java.util.List;
 
 import com.alibaba.csp.sentinel.datasource.Converter;
-import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRule;
+import com.alibaba.csp.sentinel.slots.system.SystemRule;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 
-public class SentinelParamFlowRuleParser implements Converter<String, List<ParamFlowRule>> {
+public class SentinelStrategySystemRuleParser implements Converter<String, List<SystemRule>> {
     @Override
-    public List<ParamFlowRule> convert(String source) {
-        return JSON.parseObject(source, new TypeReference<List<ParamFlowRule>>() {
+    public List<SystemRule> convert(String source) {
+        return JSON.parseObject(source, new TypeReference<List<SystemRule>>() {
         });
     }
 }

@@ -12,14 +12,14 @@ package com.nepxion.discovery.plugin.strategy.sentinel.parser;
 import java.util.List;
 
 import com.alibaba.csp.sentinel.datasource.Converter;
-import com.alibaba.csp.sentinel.slots.block.authority.AuthorityRule;
+import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRule;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 
-public class SentinelAuthorityRuleParser implements Converter<String, List<AuthorityRule>> {
+public class SentinelStrategyDegradeRuleParser implements Converter<String, List<DegradeRule>> {
     @Override
-    public List<AuthorityRule> convert(String source) {
-        return JSON.parseObject(source, new TypeReference<List<AuthorityRule>>() {
+    public List<DegradeRule> convert(String source) {
+        return JSON.parseObject(source, new TypeReference<List<DegradeRule>>() {
         });
     }
 }
