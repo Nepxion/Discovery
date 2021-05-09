@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.gateway.route;
+package com.nepxion.discovery.plugin.strategy.gateway.processor;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -11,11 +11,12 @@ package com.nepxion.discovery.plugin.strategy.gateway.route;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.common.etcd.proccessor.EtcdProcessor;
+import com.nepxion.discovery.common.consul.proccessor.ConsulProcessor;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.gateway.constant.GatewayStrategyConstant;
+import com.nepxion.discovery.plugin.strategy.gateway.route.GatewayStrategyRoute;
 
-public class GatewayRouteEtcdProcessor extends EtcdProcessor {
+public class GatewayStrategyRouteConsulProcessor extends ConsulProcessor {
     @Autowired
     private PluginAdapter pluginAdapter;
 

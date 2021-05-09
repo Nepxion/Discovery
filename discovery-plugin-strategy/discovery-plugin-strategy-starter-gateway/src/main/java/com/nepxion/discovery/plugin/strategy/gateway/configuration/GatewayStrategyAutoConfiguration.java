@@ -34,13 +34,13 @@ import com.nepxion.discovery.plugin.strategy.gateway.filter.GatewayStrategyRoute
 import com.nepxion.discovery.plugin.strategy.gateway.filter.SkyWalkingGatewayStrategyFilter;
 import com.nepxion.discovery.plugin.strategy.gateway.monitor.DefaultGatewayStrategyMonitor;
 import com.nepxion.discovery.plugin.strategy.gateway.monitor.GatewayStrategyMonitor;
+import com.nepxion.discovery.plugin.strategy.gateway.processor.GatewayStrategyRouteApolloProcessor;
+import com.nepxion.discovery.plugin.strategy.gateway.processor.GatewayStrategyRouteConsulProcessor;
+import com.nepxion.discovery.plugin.strategy.gateway.processor.GatewayStrategyRouteEtcdProcessor;
+import com.nepxion.discovery.plugin.strategy.gateway.processor.GatewayStrategyRouteNacosProcessor;
+import com.nepxion.discovery.plugin.strategy.gateway.processor.GatewayStrategyRouteRedisProcessor;
+import com.nepxion.discovery.plugin.strategy.gateway.processor.GatewayStrategyRouteZookeeperProcessor;
 import com.nepxion.discovery.plugin.strategy.gateway.route.DefaultGatewayStrategyRoute;
-import com.nepxion.discovery.plugin.strategy.gateway.route.GatewayRouteApolloProcessor;
-import com.nepxion.discovery.plugin.strategy.gateway.route.GatewayRouteConsulProcessor;
-import com.nepxion.discovery.plugin.strategy.gateway.route.GatewayRouteEtcdProcessor;
-import com.nepxion.discovery.plugin.strategy.gateway.route.GatewayRouteNacosProcessor;
-import com.nepxion.discovery.plugin.strategy.gateway.route.GatewayRouteRedisProcessor;
-import com.nepxion.discovery.plugin.strategy.gateway.route.GatewayRouteZookeeperProcessor;
 import com.nepxion.discovery.plugin.strategy.gateway.route.GatewayStrategyRoute;
 import com.nepxion.discovery.plugin.strategy.gateway.wrapper.DefaultGatewayStrategyCallableWrapper;
 import com.nepxion.discovery.plugin.strategy.gateway.wrapper.GatewayStrategyCallableWrapper;
@@ -85,8 +85,8 @@ public class GatewayStrategyAutoConfiguration {
     protected static class GatewayRouteNacosConfiguration {
         @Bean
         @ConditionalOnProperty(value = "spring.cloud.gateway.discovery.locator.enabled", havingValue = "false", matchIfMissing = true)
-        public NacosProcessor nacosProcessor() {
-            return new GatewayRouteNacosProcessor();
+        public NacosProcessor gatewayStrategyRouteNacosProcessor() {
+            return new GatewayStrategyRouteNacosProcessor();
         }
     }
 
@@ -95,8 +95,8 @@ public class GatewayStrategyAutoConfiguration {
     protected static class GatewayRouteApolloConfiguration {
         @Bean
         @ConditionalOnProperty(value = "spring.cloud.gateway.discovery.locator.enabled", havingValue = "false", matchIfMissing = true)
-        public ApolloProcessor apolloProcessor() {
-            return new GatewayRouteApolloProcessor();
+        public ApolloProcessor gatewayStrategyRouteApolloProcessor() {
+            return new GatewayStrategyRouteApolloProcessor();
         }
     }
 
@@ -105,8 +105,8 @@ public class GatewayStrategyAutoConfiguration {
     protected static class GatewayRouteRedisConfiguration {
         @Bean
         @ConditionalOnProperty(value = "spring.cloud.gateway.discovery.locator.enabled", havingValue = "false", matchIfMissing = true)
-        public RedisProcessor redisProcessor() {
-            return new GatewayRouteRedisProcessor();
+        public RedisProcessor gatewayStrategyRouteRedisProcessor() {
+            return new GatewayStrategyRouteRedisProcessor();
         }
     }
 
@@ -115,8 +115,8 @@ public class GatewayStrategyAutoConfiguration {
     protected static class GatewayRouteZookeeperConfiguration {
         @Bean
         @ConditionalOnProperty(value = "spring.cloud.gateway.discovery.locator.enabled", havingValue = "false", matchIfMissing = true)
-        public ZookeeperProcessor zookeeperProcessor() {
-            return new GatewayRouteZookeeperProcessor();
+        public ZookeeperProcessor gatewayStrategyRouteZookeeperProcessor() {
+            return new GatewayStrategyRouteZookeeperProcessor();
         }
     }
 
@@ -125,8 +125,8 @@ public class GatewayStrategyAutoConfiguration {
     protected static class GatewayRouteConsulConfiguration {
         @Bean
         @ConditionalOnProperty(value = "spring.cloud.gateway.discovery.locator.enabled", havingValue = "false", matchIfMissing = true)
-        public ConsulProcessor consulProcessor() {
-            return new GatewayRouteConsulProcessor();
+        public ConsulProcessor gatewayStrategyRouteConsulProcessor() {
+            return new GatewayStrategyRouteConsulProcessor();
         }
     }
 
@@ -135,8 +135,8 @@ public class GatewayStrategyAutoConfiguration {
     protected static class GatewayRouteEtcdConfiguration {
         @Bean
         @ConditionalOnProperty(value = "spring.cloud.gateway.discovery.locator.enabled", havingValue = "false", matchIfMissing = true)
-        public EtcdProcessor etcdProcessor() {
-            return new GatewayRouteEtcdProcessor();
+        public EtcdProcessor gatewayStrategyRouteEtcdProcessor() {
+            return new GatewayStrategyRouteEtcdProcessor();
         }
     }
 

@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.gateway.route;
+package com.nepxion.discovery.plugin.strategy.gateway.processor;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -14,8 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.nepxion.discovery.common.nacos.proccessor.NacosProcessor;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.gateway.constant.GatewayStrategyConstant;
+import com.nepxion.discovery.plugin.strategy.gateway.route.GatewayStrategyRoute;
 
-public class GatewayRouteNacosProcessor extends NacosProcessor {
+public class GatewayStrategyRouteNacosProcessor extends NacosProcessor {
     @Autowired
     private PluginAdapter pluginAdapter;
 
