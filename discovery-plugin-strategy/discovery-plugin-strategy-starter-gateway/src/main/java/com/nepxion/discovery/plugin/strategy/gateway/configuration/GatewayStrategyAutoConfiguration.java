@@ -19,7 +19,14 @@ import org.springframework.cloud.netflix.ribbon.RibbonClientConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.nepxion.discovery.common.apollo.proccessor.ApolloProcessor;
+import com.nepxion.discovery.common.consul.proccessor.ConsulProcessor;
+import com.nepxion.discovery.common.etcd.proccessor.EtcdProcessor;
+import com.nepxion.discovery.common.nacos.proccessor.NacosProcessor;
+import com.nepxion.discovery.common.redis.proccessor.RedisProcessor;
+import com.nepxion.discovery.common.zookeeper.proccessor.ZookeeperProcessor;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
+import com.nepxion.discovery.plugin.strategy.gateway.constant.GatewayStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.gateway.filter.DefaultGatewayStrategyClearFilter;
 import com.nepxion.discovery.plugin.strategy.gateway.filter.DefaultGatewayStrategyRouteFilter;
 import com.nepxion.discovery.plugin.strategy.gateway.filter.GatewayStrategyClearFilter;
@@ -28,6 +35,12 @@ import com.nepxion.discovery.plugin.strategy.gateway.filter.SkyWalkingGatewayStr
 import com.nepxion.discovery.plugin.strategy.gateway.monitor.DefaultGatewayStrategyMonitor;
 import com.nepxion.discovery.plugin.strategy.gateway.monitor.GatewayStrategyMonitor;
 import com.nepxion.discovery.plugin.strategy.gateway.route.DefaultGatewayStrategyRoute;
+import com.nepxion.discovery.plugin.strategy.gateway.route.GatewayRouteApolloProcessor;
+import com.nepxion.discovery.plugin.strategy.gateway.route.GatewayRouteConsulProcessor;
+import com.nepxion.discovery.plugin.strategy.gateway.route.GatewayRouteEtcdProcessor;
+import com.nepxion.discovery.plugin.strategy.gateway.route.GatewayRouteNacosProcessor;
+import com.nepxion.discovery.plugin.strategy.gateway.route.GatewayRouteRedisProcessor;
+import com.nepxion.discovery.plugin.strategy.gateway.route.GatewayRouteZookeeperProcessor;
 import com.nepxion.discovery.plugin.strategy.gateway.route.GatewayStrategyRoute;
 import com.nepxion.discovery.plugin.strategy.gateway.wrapper.DefaultGatewayStrategyCallableWrapper;
 import com.nepxion.discovery.plugin.strategy.gateway.wrapper.GatewayStrategyCallableWrapper;
@@ -65,6 +78,66 @@ public class GatewayStrategyAutoConfiguration {
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_HYSTRIX_THREADLOCAL_SUPPORTED, matchIfMissing = false)
     public GatewayStrategyCallableWrapper gatewayStrategyCallableWrapper() {
         return new DefaultGatewayStrategyCallableWrapper();
+    }
+
+    @ConditionalOnClass(NacosProcessor.class)
+    @ConditionalOnProperty(value = GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_DYNAMIC_ROUTE_ENABLED, matchIfMissing = false)
+    protected static class GatewayRouteNacosConfiguration {
+        @Bean
+        @ConditionalOnProperty(value = "spring.cloud.gateway.discovery.locator.enabled", havingValue = "false", matchIfMissing = true)
+        public NacosProcessor nacosProcessor() {
+            return new GatewayRouteNacosProcessor();
+        }
+    }
+
+    @ConditionalOnClass(ApolloProcessor.class)
+    @ConditionalOnProperty(value = GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_DYNAMIC_ROUTE_ENABLED, matchIfMissing = false)
+    protected static class GatewayRouteApolloConfiguration {
+        @Bean
+        @ConditionalOnProperty(value = "spring.cloud.gateway.discovery.locator.enabled", havingValue = "false", matchIfMissing = true)
+        public ApolloProcessor apolloProcessor() {
+            return new GatewayRouteApolloProcessor();
+        }
+    }
+
+    @ConditionalOnClass(RedisProcessor.class)
+    @ConditionalOnProperty(value = GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_DYNAMIC_ROUTE_ENABLED, matchIfMissing = false)
+    protected static class GatewayRouteRedisConfiguration {
+        @Bean
+        @ConditionalOnProperty(value = "spring.cloud.gateway.discovery.locator.enabled", havingValue = "false", matchIfMissing = true)
+        public RedisProcessor redisProcessor() {
+            return new GatewayRouteRedisProcessor();
+        }
+    }
+
+    @ConditionalOnClass(ZookeeperProcessor.class)
+    @ConditionalOnProperty(value = GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_DYNAMIC_ROUTE_ENABLED, matchIfMissing = false)
+    protected static class GatewayRouteZookeeperConfiguration {
+        @Bean
+        @ConditionalOnProperty(value = "spring.cloud.gateway.discovery.locator.enabled", havingValue = "false", matchIfMissing = true)
+        public ZookeeperProcessor zookeeperProcessor() {
+            return new GatewayRouteZookeeperProcessor();
+        }
+    }
+
+    @ConditionalOnClass(ConsulProcessor.class)
+    @ConditionalOnProperty(value = GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_DYNAMIC_ROUTE_ENABLED, matchIfMissing = false)
+    protected static class GatewayRouteConsulConfiguration {
+        @Bean
+        @ConditionalOnProperty(value = "spring.cloud.gateway.discovery.locator.enabled", havingValue = "false", matchIfMissing = true)
+        public ConsulProcessor consulProcessor() {
+            return new GatewayRouteConsulProcessor();
+        }
+    }
+
+    @ConditionalOnClass(EtcdProcessor.class)
+    @ConditionalOnProperty(value = GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_DYNAMIC_ROUTE_ENABLED, matchIfMissing = false)
+    protected static class GatewayRouteEtcdConfiguration {
+        @Bean
+        @ConditionalOnProperty(value = "spring.cloud.gateway.discovery.locator.enabled", havingValue = "false", matchIfMissing = true)
+        public EtcdProcessor etcdProcessor() {
+            return new GatewayRouteEtcdProcessor();
+        }
     }
 
     @ConditionalOnClass(TracingContext.class)
