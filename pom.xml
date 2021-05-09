@@ -218,24 +218,6 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>discovery-plugin-strategy-starter-sentinel-local</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>discovery-plugin-strategy-starter-sentinel-apollo</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>discovery-plugin-strategy-starter-sentinel-nacos</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-test-starter-automation</artifactId>
                 <version>${project.version}</version>
             </dependency>
