@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.zuul.route;
+package com.nepxion.discovery.plugin.strategy.zuul.processor;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -11,11 +11,12 @@ package com.nepxion.discovery.plugin.strategy.zuul.route;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.common.consul.proccessor.ConsulProcessor;
+import com.nepxion.discovery.common.apollo.proccessor.ApolloProcessor;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.zuul.constant.ZuulStrategyConstant;
+import com.nepxion.discovery.plugin.strategy.zuul.route.ZuulStrategyRoute;
 
-public class ZuulRouteConsulProcessor extends ConsulProcessor {
+public class ZuulStrategyRouteApolloProcessor extends ApolloProcessor {
     @Autowired
     private PluginAdapter pluginAdapter;
 
