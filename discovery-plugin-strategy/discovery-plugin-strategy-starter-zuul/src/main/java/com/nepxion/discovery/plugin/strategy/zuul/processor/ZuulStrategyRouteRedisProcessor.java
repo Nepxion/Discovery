@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.zuul.route;
+package com.nepxion.discovery.plugin.strategy.zuul.processor;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -14,8 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.nepxion.discovery.common.redis.proccessor.RedisProcessor;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.zuul.constant.ZuulStrategyConstant;
+import com.nepxion.discovery.plugin.strategy.zuul.route.ZuulStrategyRoute;
 
-public class ZuulRouteRedisProcessor extends RedisProcessor {
+public class ZuulStrategyRouteRedisProcessor extends RedisProcessor {
     @Autowired
     private PluginAdapter pluginAdapter;
 

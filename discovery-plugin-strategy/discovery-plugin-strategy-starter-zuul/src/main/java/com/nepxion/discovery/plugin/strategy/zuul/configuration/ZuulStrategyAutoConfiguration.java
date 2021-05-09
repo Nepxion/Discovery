@@ -34,13 +34,13 @@ import com.nepxion.discovery.plugin.strategy.zuul.filter.ZuulStrategyClearFilter
 import com.nepxion.discovery.plugin.strategy.zuul.filter.ZuulStrategyRouteFilter;
 import com.nepxion.discovery.plugin.strategy.zuul.monitor.DefaultZuulStrategyMonitor;
 import com.nepxion.discovery.plugin.strategy.zuul.monitor.ZuulStrategyMonitor;
+import com.nepxion.discovery.plugin.strategy.zuul.processor.ZuulStrategyRouteApolloProcessor;
+import com.nepxion.discovery.plugin.strategy.zuul.processor.ZuulStrategyRouteConsulProcessor;
+import com.nepxion.discovery.plugin.strategy.zuul.processor.ZuulStrategyRouteEtcdProcessor;
+import com.nepxion.discovery.plugin.strategy.zuul.processor.ZuulStrategyRouteNacosProcessor;
+import com.nepxion.discovery.plugin.strategy.zuul.processor.ZuulStrategyRouteRedisProcessor;
+import com.nepxion.discovery.plugin.strategy.zuul.processor.ZuulStrategyRouteZookeeperProcessor;
 import com.nepxion.discovery.plugin.strategy.zuul.route.DefaultZuulStrategyRoute;
-import com.nepxion.discovery.plugin.strategy.zuul.route.ZuulRouteApolloProcessor;
-import com.nepxion.discovery.plugin.strategy.zuul.route.ZuulRouteConsulProcessor;
-import com.nepxion.discovery.plugin.strategy.zuul.route.ZuulRouteEtcdProcessor;
-import com.nepxion.discovery.plugin.strategy.zuul.route.ZuulRouteNacosProcessor;
-import com.nepxion.discovery.plugin.strategy.zuul.route.ZuulRouteRedisProcessor;
-import com.nepxion.discovery.plugin.strategy.zuul.route.ZuulRouteZookeeperProcessor;
 import com.nepxion.discovery.plugin.strategy.zuul.route.ZuulStrategyRoute;
 import com.nepxion.discovery.plugin.strategy.zuul.wrapper.DefaultZuulStrategyCallableWrapper;
 import com.nepxion.discovery.plugin.strategy.zuul.wrapper.ZuulStrategyCallableWrapper;
@@ -86,8 +86,8 @@ public class ZuulStrategyAutoConfiguration {
     @ConditionalOnProperty(value = ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_DYNAMIC_ROUTE_ENABLED, matchIfMissing = false)
     protected static class ZuulRouteNacosConfiguration {
         @Bean
-        public NacosProcessor nacosProcessor() {
-            return new ZuulRouteNacosProcessor();
+        public NacosProcessor zuulStrategyRouteNacosProcessor() {
+            return new ZuulStrategyRouteNacosProcessor();
         }
     }
 
@@ -95,8 +95,8 @@ public class ZuulStrategyAutoConfiguration {
     @ConditionalOnProperty(value = ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_DYNAMIC_ROUTE_ENABLED, matchIfMissing = false)
     protected static class ZuulRouteApolloConfiguration {
         @Bean
-        public ApolloProcessor apolloProcessor() {
-            return new ZuulRouteApolloProcessor();
+        public ApolloProcessor zuulStrategyRouteApolloProcessor() {
+            return new ZuulStrategyRouteApolloProcessor();
         }
     }
 
@@ -104,8 +104,8 @@ public class ZuulStrategyAutoConfiguration {
     @ConditionalOnProperty(value = ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_DYNAMIC_ROUTE_ENABLED, matchIfMissing = false)
     protected static class ZuulRouteRedisConfiguration {
         @Bean
-        public RedisProcessor redisProcessor() {
-            return new ZuulRouteRedisProcessor();
+        public RedisProcessor zuulStrategyRouteRedisProcessor() {
+            return new ZuulStrategyRouteRedisProcessor();
         }
     }
 
@@ -113,8 +113,8 @@ public class ZuulStrategyAutoConfiguration {
     @ConditionalOnProperty(value = ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_DYNAMIC_ROUTE_ENABLED, matchIfMissing = false)
     protected static class ZuulRouteZookeeperConfiguration {
         @Bean
-        public ZookeeperProcessor zookeeperProcessor() {
-            return new ZuulRouteZookeeperProcessor();
+        public ZookeeperProcessor zuulStrategyRouteZookeeperProcessor() {
+            return new ZuulStrategyRouteZookeeperProcessor();
         }
     }
 
@@ -122,8 +122,8 @@ public class ZuulStrategyAutoConfiguration {
     @ConditionalOnProperty(value = ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_DYNAMIC_ROUTE_ENABLED, matchIfMissing = false)
     protected static class ZuulRouteConsulConfiguration {
         @Bean
-        public ConsulProcessor consulProcessor() {
-            return new ZuulRouteConsulProcessor();
+        public ConsulProcessor zuulStrategyRouteConsulProcessor() {
+            return new ZuulStrategyRouteConsulProcessor();
         }
     }
 
@@ -131,8 +131,8 @@ public class ZuulStrategyAutoConfiguration {
     @ConditionalOnProperty(value = ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_DYNAMIC_ROUTE_ENABLED, matchIfMissing = false)
     protected static class ZuulRouteEtcdConfiguration {
         @Bean
-        public EtcdProcessor etcdProcessor() {
-            return new ZuulRouteEtcdProcessor();
+        public EtcdProcessor zuulStrategyRouteEtcdProcessor() {
+            return new ZuulStrategyRouteEtcdProcessor();
         }
     }
 }
