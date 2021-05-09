@@ -5048,10 +5048,11 @@ spring.application.strategy.sentinel.authority.path=classpath:sentinel-authority
 spring.application.strategy.sentinel.system.path=classpath:sentinel-system.json
 # 热点参数流控规则文件路径。缺失则默认为classpath:sentinel-param-flow.json
 spring.application.strategy.sentinel.param.flow.path=classpath:sentinel-param-flow.json
-# 服务端执行规则时候，以Http请求中的Header值作为关键Key。缺失则默认为n-d-service-id，即以服务名作为关键Key
-spring.application.strategy.service.sentinel.request.origin.key=n-d-service-id
+
 # 启动和关闭Sentinel LimitApp限流等功能。缺失则默认为false
 spring.application.strategy.service.sentinel.limit.app.enabled=true
+# 服务端执行规则时候，以Http请求中的Header值作为关键Key。缺失则默认为n-d-service-id，即以服务名作为关键Key
+spring.application.strategy.service.sentinel.request.origin.key=n-d-service-id
 
 # 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
 spring.application.strategy.environment.route=common
