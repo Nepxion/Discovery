@@ -11,6 +11,7 @@ package com.nepxion.discovery.plugin.strategy.zuul.configuration;
  */
 
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
@@ -19,7 +20,14 @@ import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.nepxion.discovery.common.apollo.proccessor.ApolloProcessor;
+import com.nepxion.discovery.common.consul.proccessor.ConsulProcessor;
+import com.nepxion.discovery.common.etcd.proccessor.EtcdProcessor;
+import com.nepxion.discovery.common.nacos.proccessor.NacosProcessor;
+import com.nepxion.discovery.common.redis.proccessor.RedisProcessor;
+import com.nepxion.discovery.common.zookeeper.proccessor.ZookeeperProcessor;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
+import com.nepxion.discovery.plugin.strategy.zuul.constant.ZuulStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.zuul.filter.DefaultZuulStrategyClearFilter;
 import com.nepxion.discovery.plugin.strategy.zuul.filter.DefaultZuulStrategyRouteFilter;
 import com.nepxion.discovery.plugin.strategy.zuul.filter.ZuulStrategyClearFilter;
@@ -27,6 +35,12 @@ import com.nepxion.discovery.plugin.strategy.zuul.filter.ZuulStrategyRouteFilter
 import com.nepxion.discovery.plugin.strategy.zuul.monitor.DefaultZuulStrategyMonitor;
 import com.nepxion.discovery.plugin.strategy.zuul.monitor.ZuulStrategyMonitor;
 import com.nepxion.discovery.plugin.strategy.zuul.route.DefaultZuulStrategyRoute;
+import com.nepxion.discovery.plugin.strategy.zuul.route.ZuulRouteApolloProcessor;
+import com.nepxion.discovery.plugin.strategy.zuul.route.ZuulRouteConsulProcessor;
+import com.nepxion.discovery.plugin.strategy.zuul.route.ZuulRouteEtcdProcessor;
+import com.nepxion.discovery.plugin.strategy.zuul.route.ZuulRouteNacosProcessor;
+import com.nepxion.discovery.plugin.strategy.zuul.route.ZuulRouteRedisProcessor;
+import com.nepxion.discovery.plugin.strategy.zuul.route.ZuulRouteZookeeperProcessor;
 import com.nepxion.discovery.plugin.strategy.zuul.route.ZuulStrategyRoute;
 import com.nepxion.discovery.plugin.strategy.zuul.wrapper.DefaultZuulStrategyCallableWrapper;
 import com.nepxion.discovery.plugin.strategy.zuul.wrapper.ZuulStrategyCallableWrapper;
@@ -40,7 +54,7 @@ public class ZuulStrategyAutoConfiguration {
         return new DefaultZuulStrategyRouteFilter();
     }
 
-    // 只用于调用链
+    // 只用于监控模块的调用链
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_MONITOR_ENABLED, matchIfMissing = false)
@@ -66,5 +80,59 @@ public class ZuulStrategyAutoConfiguration {
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_HYSTRIX_THREADLOCAL_SUPPORTED, matchIfMissing = false)
     public ZuulStrategyCallableWrapper zuulStrategyCallableWrapper() {
         return new DefaultZuulStrategyCallableWrapper();
+    }
+
+    @ConditionalOnClass(NacosProcessor.class)
+    @ConditionalOnProperty(value = ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_DYNAMIC_ROUTE_ENABLED, matchIfMissing = false)
+    protected static class ZuulRouteNacosConfiguration {
+        @Bean
+        public NacosProcessor nacosProcessor() {
+            return new ZuulRouteNacosProcessor();
+        }
+    }
+
+    @ConditionalOnClass(ApolloProcessor.class)
+    @ConditionalOnProperty(value = ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_DYNAMIC_ROUTE_ENABLED, matchIfMissing = false)
+    protected static class ZuulRouteApolloConfiguration {
+        @Bean
+        public ApolloProcessor apolloProcessor() {
+            return new ZuulRouteApolloProcessor();
+        }
+    }
+
+    @ConditionalOnClass(RedisProcessor.class)
+    @ConditionalOnProperty(value = ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_DYNAMIC_ROUTE_ENABLED, matchIfMissing = false)
+    protected static class ZuulRouteRedisConfiguration {
+        @Bean
+        public RedisProcessor redisProcessor() {
+            return new ZuulRouteRedisProcessor();
+        }
+    }
+
+    @ConditionalOnClass(ZookeeperProcessor.class)
+    @ConditionalOnProperty(value = ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_DYNAMIC_ROUTE_ENABLED, matchIfMissing = false)
+    protected static class ZuulRouteZookeeperConfiguration {
+        @Bean
+        public ZookeeperProcessor zookeeperProcessor() {
+            return new ZuulRouteZookeeperProcessor();
+        }
+    }
+
+    @ConditionalOnClass(ConsulProcessor.class)
+    @ConditionalOnProperty(value = ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_DYNAMIC_ROUTE_ENABLED, matchIfMissing = false)
+    protected static class ZuulRouteConsulConfiguration {
+        @Bean
+        public ConsulProcessor consulProcessor() {
+            return new ZuulRouteConsulProcessor();
+        }
+    }
+
+    @ConditionalOnClass(EtcdProcessor.class)
+    @ConditionalOnProperty(value = ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_DYNAMIC_ROUTE_ENABLED, matchIfMissing = false)
+    protected static class ZuulRouteEtcdConfiguration {
+        @Bean
+        public EtcdProcessor etcdProcessor() {
+            return new ZuulRouteEtcdProcessor();
+        }
     }
 }
