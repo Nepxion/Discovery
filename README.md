@@ -716,10 +716,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-opentelemetry | 路由策略的OpenTelemetry调用链的Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-opentracing | 路由策略的OpenTracing调用链的Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-skywalking | 路由策略的SkyWalking调用链的Starter |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel | 路由策略的Sentinel Starter |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-local | 路由策略的Sentinel Local配置订阅的Starter |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-apollo | 路由策略的Sentinel Apollo配置订阅的Starter |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-nacos | 路由策略的Sentinel Nacos配置订阅的Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-datasource | 路由策略的Sentinel Datasource Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-monitor | 路由策略的Sentinel监控抽象的Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-opentelemetry | 路由策略的Sentinel OpenTelemetry调用链的Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-opentracing | 路由策略的Sentinel OpenTracing调用链的Starter |
@@ -855,14 +852,12 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 </dependency>
 ```
 
-- Sentinel防护的数据源插件，选择引入其中一个
+- Sentinel防护的数据源插件
 
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
-    <artifactId>discovery-plugin-strategy-sentinel-starter-nacos</artifactId>
-    <artifactId>discovery-plugin-strategy-sentinel-starter-apollo</artifactId>
-    <artifactId>discovery-plugin-strategy-sentinel-starter-local</artifactId>
+    <artifactId>discovery-plugin-strategy-starter-sentinel-datasource</artifactId>
     <version>${discovery.version}</version>
 </dependency>
 ```
@@ -899,9 +894,9 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
-    <artifactId>discovery-plugin-strategy-sentinel-starter-opentelemetry</artifactId>
-    <artifactId>discovery-plugin-strategy-sentinel-starter-opentracing</artifactId>
-    <artifactId>discovery-plugin-strategy-sentinel-starter-skywalking</artifactId>
+    <artifactId>discovery-plugin-strategy-starter-sentinel-opentelemetry</artifactId>
+    <artifactId>discovery-plugin-strategy-starter-sentinel-opentracing</artifactId>
+    <artifactId>discovery-plugin-strategy-starter-sentinel-skywalking</artifactId>
     <version>${discovery.version}</version>
 </dependency>
 ```
@@ -3835,7 +3830,7 @@ Group为元数据中配置的[组名]，Data Id为[服务名]-[规则类型]
 支持如下开关开启该动能，默认是关闭的
 ```
 # 启动和关闭Sentinel限流降级熔断权限等原生功能的数据来源扩展。缺失则默认为false
-spring.application.strategy.sentinel.enabled=true
+spring.application.strategy.sentinel.datasource.enabled=true
 ```
 
 ### 原生Sentinel注解
@@ -5042,7 +5037,7 @@ spring.application.strategy.tracer.sentinel.args.output.enabled=true
 spring.application.strategy.hystrix.threadlocal.supported=true
 
 # 启动和关闭Sentinel限流降级熔断权限等原生功能的数据来源扩展。缺失则默认为false
-spring.application.strategy.sentinel.enabled=true
+spring.application.strategy.sentinel.datasource.enabled=true
 # 流控规则文件路径。缺失则默认为classpath:sentinel-flow.json
 spring.application.strategy.sentinel.flow.path=classpath:sentinel-flow.json
 # 降级规则文件路径。缺失则默认为classpath:sentinel-degrade.json
