@@ -45,7 +45,5 @@ public class StrategyConstant {
     public static final String SPRING_APPLICATION_STRATEGY_AUTO_SCAN_PACKAGES_ENABLED = "spring.application.strategy.auto.scan.packages.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_AUTO_SCAN_RECURSION_ENABLED = "spring.application.strategy.auto.scan.recursion.enabled";
 
-    public static final String SPRING_APPLICATION_STRATEGY_DYNAMIC_ROUTE_GROUP = "spring.application.strategy.dynamic.route.group";
-
     public static final String STRATEGY_ALARM_HEADER="strategy-alarm-header";
 }
