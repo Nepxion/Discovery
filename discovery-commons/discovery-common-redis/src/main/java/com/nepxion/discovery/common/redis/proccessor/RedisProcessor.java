@@ -31,6 +31,8 @@ public abstract class RedisProcessor implements DisposableBean {
 
     @PostConstruct
     public void initialize() {
+        beforeInitialization();
+
         String group = getGroup();
         String dataId = getDataId();
         String description = getDescription();
@@ -47,6 +49,8 @@ public abstract class RedisProcessor implements DisposableBean {
         }
 
         redisOperation.subscribeConfig(group, dataId, this, "subscribeConfig");
+
+        afterInitialization();
     }
 
     public void subscribeConfig(String config) {
@@ -95,6 +99,14 @@ public abstract class RedisProcessor implements DisposableBean {
 
     public String getConfigType() {
         return RedisConstant.REDIS_TYPE;
+    }
+
+    public void beforeInitialization() {
+
+    }
+
+    public void afterInitialization() {
+
     }
 
     public abstract String getGroup();

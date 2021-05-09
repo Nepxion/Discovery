@@ -32,6 +32,8 @@ public abstract class EtcdProcessor implements DisposableBean {
 
     @PostConstruct
     public void initialize() {
+        beforeInitialization();
+
         String group = getGroup();
         String dataId = getDataId();
         String key = group + "-" + dataId;
@@ -64,6 +66,8 @@ public abstract class EtcdProcessor implements DisposableBean {
         } catch (Exception e) {
             LOG.error("Subscribe {} config from {} server failed, key={}", description, configType, key, e);
         }
+
+        afterInitialization();
     }
 
     @Override
@@ -89,6 +93,14 @@ public abstract class EtcdProcessor implements DisposableBean {
 
     public String getConfigType() {
         return EtcdConstant.ETCD_TYPE;
+    }
+
+    public void beforeInitialization() {
+
+    }
+
+    public void afterInitialization() {
+
     }
 
     public abstract String getGroup();

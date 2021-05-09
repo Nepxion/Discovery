@@ -31,6 +31,8 @@ public abstract class ZookeeperProcessor implements DisposableBean {
 
     @PostConstruct
     public void initialize() {
+        beforeInitialization();
+
         String group = getGroup();
         String dataId = getDataId();
         String key = group + "-" + dataId;
@@ -63,6 +65,8 @@ public abstract class ZookeeperProcessor implements DisposableBean {
         } catch (Exception e) {
             LOG.error("Subscribe {} config from {} server failed, key={}", description, configType, key, e);
         }
+
+        afterInitialization();
     }
 
     @Override
@@ -88,6 +92,14 @@ public abstract class ZookeeperProcessor implements DisposableBean {
 
     public String getConfigType() {
         return ZookeeperConstant.ZOOKEEPER_TYPE;
+    }
+
+    public void beforeInitialization() {
+
+    }
+
+    public void afterInitialization() {
+
     }
 
     public abstract String getGroup();
