@@ -239,7 +239,7 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>discovery-plugin-strategy-starter-sentinel</artifactId>
+                <artifactId>discovery-plugin-strategy-starter-sentinel-datasource</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
