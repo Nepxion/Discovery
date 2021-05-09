@@ -21,8 +21,5 @@
         <module>discovery-plugin-strategy-starter-zuul</module>
         <module>discovery-plugin-strategy-starter-hystrix</module>
         <module>discovery-plugin-strategy-starter-sentinel</module>
-        <module>discovery-plugin-strategy-starter-sentinel-local</module>
-        <module>discovery-plugin-strategy-starter-sentinel-apollo</module>
-        <module>discovery-plugin-strategy-starter-sentinel-nacos</module>
     </modules>
 </project>
