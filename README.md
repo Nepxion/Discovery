@@ -3349,8 +3349,8 @@ public class MyConfigProcessor extends NacosProcessor {
 
     @Override
     public String getDescription() {
-        // description为日志打印显示而设置，作用是帮助使用者在日志上定位订阅是否在执行。例如，下行的返回值表示为网关动态路由的订阅
-        return "Gateway dynamic route";
+        // description为日志打印显示而设置，作用是帮助使用者在日志上定位订阅是否在执行
+        return "My operation";
     }
 
     @Override
