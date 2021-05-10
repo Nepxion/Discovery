@@ -9,6 +9,7 @@ package com.nepxion.discovery.plugin.framework.configuration;
  * @version 1.0
  */
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -105,7 +106,7 @@ public class PluginAutoConfiguration {
     }
 
     @Bean
-    public StrategyMapWeightRandomLoadBalance strategyMapWeightRandomLoadBalance(PluginAdapter pluginAdapter, PluginContextHolder pluginContextHolder) {
+    public StrategyMapWeightRandomLoadBalance strategyMapWeightRandomLoadBalance(PluginAdapter pluginAdapter, @Autowired(required = false) PluginContextHolder pluginContextHolder) {
         return new StrategyMapWeightRandomLoadBalance(pluginAdapter, pluginContextHolder);
     }
 
