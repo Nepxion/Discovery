@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.util;
+package com.nepxion.discovery.common.util;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -21,12 +21,12 @@ import org.springframework.context.ApplicationContext;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
-public class FileContextUtil {
-    private static final Logger LOG = LoggerFactory.getLogger(FileContextUtil.class);
+public class FileUtil {
+    private static final Logger LOG = LoggerFactory.getLogger(FileUtil.class);
 
     public static File getFile(ApplicationContext applicationContext, String path) {
         if (StringUtils.isEmpty(path)) {
-            throw new IllegalArgumentException("File path isn't set");
+            throw new IllegalArgumentException("File path doesn't set");
         }
 
         LOG.info("File path is {}", path);
@@ -44,7 +44,7 @@ public class FileContextUtil {
 
     public static InputStream getInputStream(ApplicationContext applicationContext, String path) {
         if (StringUtils.isEmpty(path)) {
-            throw new IllegalArgumentException("File path isn't set");
+            throw new IllegalArgumentException("File path doesn't set");
         }
 
         LOG.info("File path is {}", path);
