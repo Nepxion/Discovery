@@ -3127,10 +3127,10 @@ spring.application.strategy.gateway.dynamic.route.enabled=true
 配置中心配置的网关动态路由推送到网关后，网关会自动根据已经存在的路由表进行判断后实施增删改操作，而不是全部清空后再全部插入，这样有助于提高性能和安全性。网关控制台上会打印出如下日志
 ```
 --- Gateway Dynamic Routes Update Information ----
-Updated Gateway dynamic routes count=3
-* Added count=1
-* Modified count=1
-* Deleted count=1
+Total count=3
+Added count=1
+Modified count=1
+Deleted count=1
 --------------------------------------------------
 ```
 
@@ -3277,10 +3277,10 @@ spring.application.strategy.zuul.dynamic.route.enabled=true
 配置中心配置的网关动态路由推送到网关后，网关会自动根据已经存在的路由表进行判断后实施增删改操作，而不是全部清空后再全部插入，这样有助于提高性能和安全性。网关控制台上会打印出如下日志
 ```
 ----- Zuul Dynamic Routes Update Information -----
-Updated Zuul dynamic routes count=3
-* Added count=0
-* Modified count=0
-* Deleted count=0
+Total count=3
+Added count=1
+Modified count=1
+Deleted count=1
 --------------------------------------------------
 ```
 
