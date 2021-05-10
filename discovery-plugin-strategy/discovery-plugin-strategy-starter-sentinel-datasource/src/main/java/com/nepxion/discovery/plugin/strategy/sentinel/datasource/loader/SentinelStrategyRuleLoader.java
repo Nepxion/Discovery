@@ -23,7 +23,7 @@ import com.alibaba.csp.sentinel.slots.block.flow.FlowRuleManager;
 import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRuleManager;
 import com.alibaba.csp.sentinel.slots.system.SystemRuleManager;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.plugin.framework.util.FileContextUtil;
+import com.nepxion.discovery.common.util.FileUtil;
 import com.nepxion.discovery.plugin.strategy.sentinel.datasource.constant.SentinelStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.sentinel.datasource.entity.SentinelStrategyRuleType;
 import com.nepxion.discovery.plugin.strategy.sentinel.datasource.parser.SentinelStrategyAuthorityRuleParser;
@@ -143,7 +143,7 @@ public class SentinelStrategyRuleLoader {
     }
 
     public String getRules(String path) {
-        String rules = FileContextUtil.getText(applicationContext, path);
+        String rules = FileUtil.getText(applicationContext, path);
 
         return StringUtils.isNotEmpty(rules) ? rules : SentinelStrategyConstant.SENTINEL_STRATEGY_EMPTY_RULE;
     }

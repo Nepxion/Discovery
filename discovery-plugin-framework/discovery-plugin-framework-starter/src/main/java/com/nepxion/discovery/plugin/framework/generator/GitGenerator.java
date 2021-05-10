@@ -26,9 +26,9 @@ import org.springframework.context.ApplicationContext;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.property.DiscoveryProperties;
+import com.nepxion.discovery.common.util.FileUtil;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
-import com.nepxion.discovery.plugin.framework.util.FileContextUtil;
 
 public class GitGenerator {
     private static final Logger LOG = LoggerFactory.getLogger(GitGenerator.class);
@@ -62,7 +62,7 @@ public class GitGenerator {
     }
 
     private void initializeText() {
-        text = FileContextUtil.getText(applicationContext, generatorPath);
+        text = FileUtil.getText(applicationContext, generatorPath);
     }
 
     private void initializeJsonMap() {
