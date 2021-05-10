@@ -3330,7 +3330,7 @@ Spring Cloud配置动态刷新机制固化在一个比较单一的场景（例�
 // 1. 对于Nacos配置中心，Group和DataId需要和界面相对应
 // 2. 对于其它配置中心，Key的格式为Group-DataId
 // 3. 千万不能和蓝绿灰度发布的Group和DataId冲突
-public class MyGatewayStrategyRouteProcessor extends NacosProcessor {
+public class MyConfigProcessor extends NacosProcessor {
     // private String group = "DEFAULT_GROUP";
     private String group = "nepxion";
 
