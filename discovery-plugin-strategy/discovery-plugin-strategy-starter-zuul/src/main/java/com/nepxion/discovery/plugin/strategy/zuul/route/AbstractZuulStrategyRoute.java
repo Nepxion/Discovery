@@ -203,7 +203,7 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
         }
 
         LOG.info("----- Zuul Dynamic Routes Update Information -----");
-        LOG.info("Updated Zuul all dynamic routes count={}", zuulStrategyRouteEntityList.size());
+        LOG.info("Updated Zuul dynamic routes count={}", zuulStrategyRouteEntityList.size());
         LOG.info("* Added count={}", addRouteList.size());
         LOG.info("* Modified count={}", modifyRouteList.size());
         LOG.info("* Deleted count={}", deleteRouteList.size());
