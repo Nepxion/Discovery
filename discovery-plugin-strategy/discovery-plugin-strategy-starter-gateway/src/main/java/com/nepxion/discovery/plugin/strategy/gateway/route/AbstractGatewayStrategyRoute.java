@@ -198,10 +198,10 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
         }
 
         LOG.info("--- Gateway Dynamic Routes Update Information ----");
-        LOG.info("Updated Gateway dynamic routes count={}", gatewayStrategyRouteEntityList.size());
-        LOG.info("* Added count={}", addRouteDefinitionList.size());
-        LOG.info("* Modified count={}", modifyRouteDefinitionList.size());
-        LOG.info("* Deleted count={}", deleteRouteDefinitionList.size());
+        LOG.info("Total count={}", gatewayStrategyRouteEntityList.size());
+        LOG.info("Added count={}", addRouteDefinitionList.size());
+        LOG.info("Modified count={}", modifyRouteDefinitionList.size());
+        LOG.info("Deleted count={}", deleteRouteDefinitionList.size());
         LOG.info("--------------------------------------------------");
 
         if (addRouteDefinitionList.isEmpty() && modifyRouteDefinitionList.isEmpty() && deleteRouteDefinitionList.isEmpty()) {
