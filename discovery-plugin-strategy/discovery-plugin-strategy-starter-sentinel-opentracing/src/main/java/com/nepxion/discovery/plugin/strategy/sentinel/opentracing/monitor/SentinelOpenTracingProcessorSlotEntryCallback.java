@@ -12,10 +12,10 @@ package com.nepxion.discovery.plugin.strategy.sentinel.opentracing.monitor;
 import io.opentracing.Span;
 import io.opentracing.util.GlobalTracer;
 
-import com.nepxion.discovery.plugin.strategy.sentinel.monitor.callback.SentinelTracingProcessorSlotEntryCallback;
+import com.nepxion.discovery.plugin.strategy.sentinel.monitor.callback.SentinelTracerProcessorSlotEntryCallback;
 import com.nepxion.discovery.plugin.strategy.sentinel.monitor.constant.SentinelStrategyMonitorConstant;
 
-public class SentinelOpenTracingProcessorSlotEntryCallback extends SentinelTracingProcessorSlotEntryCallback<Span> {
+public class SentinelOpenTracingProcessorSlotEntryCallback extends SentinelTracerProcessorSlotEntryCallback<Span> {
     @Override
     protected Span buildSpan() {
         return GlobalTracer.get().buildSpan(SentinelStrategyMonitorConstant.SPAN_NAME).start();

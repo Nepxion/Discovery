@@ -24,7 +24,7 @@ import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.strategy.sentinel.monitor.constant.SentinelStrategyMonitorConstant;
 
-public abstract class SentinelTracingProcessorSlotEntryCallback<S> implements ProcessorSlotEntryCallback<DefaultNode> {
+public abstract class SentinelTracerProcessorSlotEntryCallback<S> implements ProcessorSlotEntryCallback<DefaultNode> {
     @Override
     public void onPass(Context context, ResourceWrapper resourceWrapper, DefaultNode param, int count, Object... args) throws Exception {
 

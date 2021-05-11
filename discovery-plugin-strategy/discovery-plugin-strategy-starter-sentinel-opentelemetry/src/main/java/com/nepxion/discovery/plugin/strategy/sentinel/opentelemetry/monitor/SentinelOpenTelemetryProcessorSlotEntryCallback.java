@@ -16,10 +16,10 @@ import io.opentelemetry.api.trace.Span;
 import org.springframework.core.env.Environment;
 
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
-import com.nepxion.discovery.plugin.strategy.sentinel.monitor.callback.SentinelTracingProcessorSlotEntryCallback;
+import com.nepxion.discovery.plugin.strategy.sentinel.monitor.callback.SentinelTracerProcessorSlotEntryCallback;
 import com.nepxion.discovery.plugin.strategy.sentinel.monitor.constant.SentinelStrategyMonitorConstant;
 
-public class SentinelOpenTelemetryProcessorSlotEntryCallback extends SentinelTracingProcessorSlotEntryCallback<Span> {
+public class SentinelOpenTelemetryProcessorSlotEntryCallback extends SentinelTracerProcessorSlotEntryCallback<Span> {
     public static final String INSTRUMENTATION_NAME = "opentelemetry.trace.tracer.name";
 
     @Override
