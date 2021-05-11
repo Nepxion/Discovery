@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.service.sentinel.adapter;
+package com.nepxion.discovery.plugin.strategy.sentinel.limiter.adapter;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -11,6 +11,6 @@ package com.nepxion.discovery.plugin.strategy.service.sentinel.adapter;
 
 import javax.servlet.http.HttpServletRequest;
 
-public interface ServiceSentinelRequestOriginAdapter {
+public interface SentinelStrategyRequestOriginAdapter {
     String parseOrigin(HttpServletRequest request);
 }

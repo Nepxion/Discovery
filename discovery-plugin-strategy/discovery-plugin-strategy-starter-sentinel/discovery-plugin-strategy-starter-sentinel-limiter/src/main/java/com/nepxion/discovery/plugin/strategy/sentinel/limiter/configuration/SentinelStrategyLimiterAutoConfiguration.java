@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.service.sentinel.configuration;
+package com.nepxion.discovery.plugin.strategy.sentinel.limiter.configuration;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -18,12 +18,12 @@ import org.springframework.context.annotation.Configuration;
 import com.alibaba.csp.sentinel.adapter.servlet.CommonFilter;
 import com.alibaba.csp.sentinel.adapter.servlet.callback.RequestOriginParser;
 import com.alibaba.csp.sentinel.annotation.aspectj.SentinelResourceAspect;
-import com.nepxion.discovery.plugin.strategy.service.sentinel.constant.ServiceSentinelStrategyConstant;
-import com.nepxion.discovery.plugin.strategy.service.sentinel.parser.ServiceSentinelRequestOriginParser;
+import com.nepxion.discovery.plugin.strategy.sentinel.limiter.constant.SentinelStrategyLimiterConstant;
+import com.nepxion.discovery.plugin.strategy.sentinel.limiter.parser.SentinelStrategyRequestOriginParser;
 
 @Configuration
-public class ServiceSentinelStrategyAutoConfiguration {
-    // 下述两个类是原生Sentinel功能的保证
+@ConditionalOnProperty(value = SentinelStrategyLimiterConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_LIMIT_APP_ENABLED, matchIfMissing = false)
+public class SentinelStrategyLimiterAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public CommonFilter commonFilter() {
@@ -32,14 +32,13 @@ public class ServiceSentinelStrategyAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public SentinelResourceAspect serviceSentinelResourceAspect() {
+    public SentinelResourceAspect sentinelResourceAspect() {
         return new SentinelResourceAspect();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    @ConditionalOnProperty(value = ServiceSentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SERVICE_SENTINEL_LIMIT_APP_ENABLED, matchIfMissing = false)
-    public RequestOriginParser serviceSentinelRequestOriginParser() {
-        return new ServiceSentinelRequestOriginParser();
+    public RequestOriginParser sentinelStrategyRequestOriginParser() {
+        return new SentinelStrategyRequestOriginParser();
     }
 }

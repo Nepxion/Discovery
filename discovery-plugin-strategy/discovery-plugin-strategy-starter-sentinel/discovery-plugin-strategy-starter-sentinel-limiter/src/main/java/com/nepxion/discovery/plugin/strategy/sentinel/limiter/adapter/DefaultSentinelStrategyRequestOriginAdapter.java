@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.service.sentinel.adapter;
+package com.nepxion.discovery.plugin.strategy.sentinel.limiter.adapter;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -14,10 +14,10 @@ import org.springframework.beans.factory.annotation.Value;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.strategy.service.sentinel.constant.ServiceSentinelStrategyConstant;
+import com.nepxion.discovery.plugin.strategy.sentinel.limiter.constant.SentinelStrategyLimiterConstant;
 
-public abstract class DefaultServiceSentinelRequestOriginAdapter implements ServiceSentinelRequestOriginAdapter {
-    @Value("${" + ServiceSentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SERVICE_SENTINEL_REQUEST_ORIGIN_KEY + ":" + DiscoveryConstant.N_D_SERVICE_ID + "}")
+public abstract class DefaultSentinelStrategyRequestOriginAdapter implements SentinelStrategyRequestOriginAdapter {
+    @Value("${" + SentinelStrategyLimiterConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_REQUEST_ORIGIN_KEY + ":" + DiscoveryConstant.N_D_SERVICE_ID + "}")
     protected String requestOriginKey;
 
     @Autowired

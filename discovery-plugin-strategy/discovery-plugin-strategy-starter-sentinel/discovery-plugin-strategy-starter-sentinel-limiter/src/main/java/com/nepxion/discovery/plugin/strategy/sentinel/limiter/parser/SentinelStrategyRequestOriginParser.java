@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.service.sentinel.parser;
+package com.nepxion.discovery.plugin.strategy.sentinel.limiter.parser;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -19,24 +19,24 @@ import org.springframework.beans.factory.annotation.Value;
 import com.alibaba.csp.sentinel.adapter.servlet.callback.RequestOriginParser;
 import com.alibaba.csp.sentinel.adapter.servlet.callback.WebCallbackManager;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.plugin.strategy.service.sentinel.adapter.ServiceSentinelRequestOriginAdapter;
-import com.nepxion.discovery.plugin.strategy.service.sentinel.constant.ServiceSentinelStrategyConstant;
+import com.nepxion.discovery.plugin.strategy.sentinel.limiter.adapter.SentinelStrategyRequestOriginAdapter;
+import com.nepxion.discovery.plugin.strategy.sentinel.limiter.constant.SentinelStrategyLimiterConstant;
 
-public class ServiceSentinelRequestOriginParser implements RequestOriginParser {
-    @Value("${" + ServiceSentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SERVICE_SENTINEL_REQUEST_ORIGIN_KEY + ":" + DiscoveryConstant.N_D_SERVICE_ID + "}")
+public class SentinelStrategyRequestOriginParser implements RequestOriginParser {
+    @Value("${" + SentinelStrategyLimiterConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_REQUEST_ORIGIN_KEY + ":" + DiscoveryConstant.N_D_SERVICE_ID + "}")
     protected String requestOriginKey;
 
     @Autowired(required = false)
-    protected ServiceSentinelRequestOriginAdapter serviceSentinelRequestOriginAdapter;
+    protected SentinelStrategyRequestOriginAdapter sentinelStrategyRequestOriginAdapter;
 
-    public ServiceSentinelRequestOriginParser() {
+    public SentinelStrategyRequestOriginParser() {
         WebCallbackManager.setRequestOriginParser(this);
     }
 
     @Override
     public String parseOrigin(HttpServletRequest request) {
-        if (serviceSentinelRequestOriginAdapter != null) {
-            return serviceSentinelRequestOriginAdapter.parseOrigin(request);
+        if (sentinelStrategyRequestOriginAdapter != null) {
+            return sentinelStrategyRequestOriginAdapter.parseOrigin(request);
         } else {
             String requestOriginValue = request.getHeader(requestOriginKey);
 
