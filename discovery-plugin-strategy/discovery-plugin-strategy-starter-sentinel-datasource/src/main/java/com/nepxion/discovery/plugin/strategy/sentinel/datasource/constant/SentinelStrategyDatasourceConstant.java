@@ -10,7 +10,7 @@ package com.nepxion.discovery.plugin.strategy.sentinel.datasource.constant;
  * @version 1.0
  */
 
-public class SentinelStrategyConstant {
+public class SentinelStrategyDatasourceConstant {
     public static final String SENTINEL_TYPE = "Sentinel";
 
     public static final String SPRING_APPLICATION_STRATEGY_SENTINEL_DATASOURCE_ENABLED = "spring.application.strategy.sentinel.datasource.enabled";

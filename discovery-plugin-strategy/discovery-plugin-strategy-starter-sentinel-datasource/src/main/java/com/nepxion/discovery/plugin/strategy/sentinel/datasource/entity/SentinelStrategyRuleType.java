@@ -1,13 +1,22 @@
 package com.nepxion.discovery.plugin.strategy.sentinel.datasource.entity;
 
-import com.nepxion.discovery.plugin.strategy.sentinel.datasource.constant.SentinelStrategyConstant;
+/**
+ * <p>Title: Nepxion Discovery</p>
+ * <p>Description: Nepxion Discovery</p>
+ * <p>Copyright: Copyright (c) 2017-2050</p>
+ * <p>Company: Nepxion</p>
+ * @author Haojun Ren
+ * @version 1.0
+ */
+
+import com.nepxion.discovery.plugin.strategy.sentinel.datasource.constant.SentinelStrategyDatasourceConstant;
 
 public enum SentinelStrategyRuleType {
-    FLOW(SentinelStrategyConstant.SENTINEL_STRATEGY_FLOW_KEY, SentinelStrategyConstant.SENTINEL_STRATEGY_FLOW_DESCRIPTION), 
-    DEGRADE(SentinelStrategyConstant.SENTINEL_STRATEGY_DEGRADE_KEY, SentinelStrategyConstant.SENTINEL_STRATEGY_DEGRADE_DESCRIPTION), 
-    AUTHORITY(SentinelStrategyConstant.SENTINEL_STRATEGY_AUTHORITY_KEY, SentinelStrategyConstant.SENTINEL_STRATEGY_AUTHORITY_DESCRIPTION), 
-    SYSTEM(SentinelStrategyConstant.SENTINEL_STRATEGY_SYSTEM_KEY, SentinelStrategyConstant.SENTINEL_STRATEGY_SYSTEM_DESCRIPTION), 
-    PARAM_FLOW(SentinelStrategyConstant.SENTINEL_STRATEGY_PARAM_FLOW_KEY, SentinelStrategyConstant.SENTINEL_STRATEGY_PARAM_FLOW_DESCRIPTION);
+    FLOW(SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_FLOW_KEY, SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_FLOW_DESCRIPTION), 
+    DEGRADE(SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_DEGRADE_KEY, SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_DEGRADE_DESCRIPTION), 
+    AUTHORITY(SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_AUTHORITY_KEY, SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_AUTHORITY_DESCRIPTION), 
+    SYSTEM(SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_SYSTEM_KEY, SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_SYSTEM_DESCRIPTION), 
+    PARAM_FLOW(SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_PARAM_FLOW_KEY, SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_PARAM_FLOW_DESCRIPTION);
 
     private String value;
     private String description;

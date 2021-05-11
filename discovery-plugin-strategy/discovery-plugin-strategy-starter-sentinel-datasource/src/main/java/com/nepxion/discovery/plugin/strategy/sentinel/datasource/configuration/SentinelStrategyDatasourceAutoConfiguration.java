@@ -25,7 +25,7 @@ import com.nepxion.discovery.common.etcd.proccessor.EtcdProcessor;
 import com.nepxion.discovery.common.nacos.proccessor.NacosProcessor;
 import com.nepxion.discovery.common.redis.proccessor.RedisProcessor;
 import com.nepxion.discovery.common.zookeeper.proccessor.ZookeeperProcessor;
-import com.nepxion.discovery.plugin.strategy.sentinel.datasource.constant.SentinelStrategyConstant;
+import com.nepxion.discovery.plugin.strategy.sentinel.datasource.constant.SentinelStrategyDatasourceConstant;
 import com.nepxion.discovery.plugin.strategy.sentinel.datasource.entity.SentinelStrategyRuleType;
 import com.nepxion.discovery.plugin.strategy.sentinel.datasource.loader.SentinelStrategyRuleLoader;
 import com.nepxion.discovery.plugin.strategy.sentinel.datasource.parser.SentinelStrategyAuthorityRuleParser;
@@ -42,12 +42,12 @@ import com.nepxion.discovery.plugin.strategy.sentinel.datasource.processor.Senti
 import com.taobao.text.Color;
 
 @Configuration
-@ConditionalOnProperty(value = SentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_DATASOURCE_ENABLED, matchIfMissing = false)
-public class SentinelStrategyAutoConfiguration {
+@ConditionalOnProperty(value = SentinelStrategyDatasourceConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_DATASOURCE_ENABLED, matchIfMissing = false)
+public class SentinelStrategyDatasourceAutoConfiguration {
     static {
-        LogoBanner logoBanner = new LogoBanner(SentinelStrategyAutoConfiguration.class, "/com/nepxion/sentinel/resource/logo.txt", "Welcome to Nepxion", 8, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta, Color.red, Color.green }, true);
+        LogoBanner logoBanner = new LogoBanner(SentinelStrategyDatasourceAutoConfiguration.class, "/com/nepxion/sentinel/resource/logo.txt", "Welcome to Nepxion", 8, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta, Color.red, Color.green }, true);
 
-        NepxionBanner.show(logoBanner, new Description("Protect:", SentinelStrategyConstant.SENTINEL_TYPE, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
+        NepxionBanner.show(logoBanner, new Description("Protect:", SentinelStrategyDatasourceConstant.SENTINEL_TYPE, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
     }
 
     @Bean
