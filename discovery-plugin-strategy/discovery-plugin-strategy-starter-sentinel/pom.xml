@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <artifactId>discovery-plugin-strategy-starter-sentinel</artifactId>
+    <name>Nepxion Discovery Plugin Strategy Starter Sentinel</name>
+    <packaging>pom</packaging>
+    <modelVersion>4.0.0</modelVersion>
+    <description>Nepxion Discovery is a solution for Spring Cloud with blue green, gray, weight, limitation, circuit breaker, degrade, isolation, monitor, tracing, dye, failover, async agent</description>
+    <url>http://www.nepxion.com</url>
+
+    <parent>
+        <groupId>com.nepxion</groupId>
+        <artifactId>discovery-plugin-strategy</artifactId>
+        <version>6.11.0-SNAPSHOT</version>
+    </parent>
+
+    <modules>
+        <module>discovery-plugin-strategy-starter-sentinel-datasource</module>
+        <module>discovery-plugin-strategy-starter-sentinel-limiter</module>
+        <module>discovery-plugin-strategy-starter-sentinel-monitor</module>
+        <module>discovery-plugin-strategy-starter-sentinel-opentelemetry</module>
+        <module>discovery-plugin-strategy-starter-sentinel-opentracing</module>
+        <module>discovery-plugin-strategy-starter-sentinel-skywalking</module>
+    </modules>
+</project>

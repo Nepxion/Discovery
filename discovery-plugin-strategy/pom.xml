@@ -17,17 +17,12 @@
     <modules>
         <module>discovery-plugin-strategy-starter</module>
         <module>discovery-plugin-strategy-starter-service</module>
-        <module>discovery-plugin-strategy-starter-service-sentinel</module>
         <module>discovery-plugin-strategy-starter-zuul</module>
         <module>discovery-plugin-strategy-starter-gateway</module>
         <module>discovery-plugin-strategy-starter-hystrix</module>
+        <module>discovery-plugin-strategy-starter-sentinel</module>
         <module>discovery-plugin-strategy-starter-opentelemetry</module>
         <module>discovery-plugin-strategy-starter-opentracing</module>
         <module>discovery-plugin-strategy-starter-skywalking</module>
-        <module>discovery-plugin-strategy-starter-sentinel-datasource</module>
-        <module>discovery-plugin-strategy-starter-sentinel-monitor</module>
-        <module>discovery-plugin-strategy-starter-sentinel-opentelemetry</module>
-        <module>discovery-plugin-strategy-starter-sentinel-opentracing</module>
-        <module>discovery-plugin-strategy-starter-sentinel-skywalking</module>
     </modules>
 </project>
