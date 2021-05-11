@@ -709,18 +709,19 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_south.png"> discovery-plugin-strategy | 路由策略目录 |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter | 路由策略的Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-service | 路由策略在微服务端的Starter |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-service-sentinel | 路由策略在微服务端的Sentinel Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-zuul | 路由策略在Zuul网关端的Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-gateway | 路由策略在Spring Cloud Gateway网关端的Starter |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-hystrix | 路由策略下，Hystrix做线程模式的服务隔离必须引入插件的Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-hystrix | 路由策略的Hystrix线程池隔离模式插件的Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-opentelemetry | 路由策略的OpenTelemetry调用链的Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-opentracing | 路由策略的OpenTracing调用链的Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-skywalking | 路由策略的SkyWalking调用链的Starter |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-datasource | 路由策略的Sentinel Datasource Starter |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-monitor | 路由策略的Sentinel监控抽象的Starter |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-opentelemetry | 路由策略的Sentinel OpenTelemetry调用链的Starter |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-opentracing | 路由策略的Sentinel OpenTracing调用链的Starter |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-skywalking | 路由策略的Sentinel SkyWalking调用链的Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_south.png"> discovery-plugin-strategy-starter-sentinel | Sentinel目录 |
+| &nbsp;&nbsp;&nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-datasource | 路由策略的Sentinel配置中心的Starter |
+| &nbsp;&nbsp;&nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-limiter | 路由策略的Sentinel Limiter高级限流熔断的Starter |
+| &nbsp;&nbsp;&nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-monitor | 路由策略的Sentinel监控抽象的Starter |
+| &nbsp;&nbsp;&nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-opentelemetry | 路由策略的Sentinel OpenTelemetry调用链的Starter |
+| &nbsp;&nbsp;&nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-opentracing | 路由策略的Sentinel OpenTracing调用链的Starter |
+| &nbsp;&nbsp;&nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-skywalking | 路由策略的Sentinel SkyWalking调用链的Starter |
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_south.png"> discovery-plugin-test | 测试模块目录 |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-test-starter | 自动化测试的Starter |
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_south.png"> discovery-console | 控制平台目录 |
@@ -842,22 +843,22 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 
 ⑤ 防护插件依赖引入
 
-- Sentinel防护插件。只适用于微服务端
-
-```xml
-<dependency>
-    <groupId>com.nepxion</groupId>
-    <artifactId>discovery-plugin-strategy-starter-service-sentinel</artifactId>
-    <version>${discovery.version}</version>
-</dependency>
-```
-
 - Sentinel防护的数据源插件
 
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
     <artifactId>discovery-plugin-strategy-starter-sentinel-datasource</artifactId>
+    <version>${discovery.version}</version>
+</dependency>
+```
+
+- Sentinel防护的Sentinel Limiter高级限流熔断插件。只适用于Servlet模式
+
+```xml
+<dependency>
+    <groupId>com.nepxion</groupId>
+    <artifactId>discovery-plugin-strategy-starter-sentinel-limiter</artifactId>
     <version>${discovery.version}</version>
 </dependency>
 ```
@@ -3965,7 +3966,7 @@ public class BFeignImpl extends AbstractFeignImpl implements BFeign {
 支持如下开关开启该动能，默认是关闭的
 ```
 # 启动和关闭Sentinel LimitApp限流等功能。缺失则默认为false
-spring.application.strategy.service.sentinel.limit.app.enabled=true
+spring.application.strategy.sentinel.limit.app.enabled=true
 ```
 
 #### 基于服务名的防护
@@ -3973,7 +3974,7 @@ spring.application.strategy.service.sentinel.limit.app.enabled=true
 
 配置项，该配置项默认为n-d-service-id，可以不配置
 ```
-spring.application.strategy.service.sentinel.request.origin.key=n-d-service-id
+spring.application.strategy.sentinel.request.origin.key=n-d-service-id
 ```
 
 增加服务discovery-guide-service-b的规则，Group为discovery-guide-group，Data Id为discovery-guide-service-b-sentinel-authority，规则内容如下，表示所有discovery-guide-service-a服务允许访问discovery-guide-service-b服务
@@ -3992,7 +3993,7 @@ spring.application.strategy.service.sentinel.request.origin.key=n-d-service-id
 
 配置项
 ```
-spring.application.strategy.service.sentinel.request.origin.key=n-d-service-group
+spring.application.strategy.sentinel.request.origin.key=n-d-service-group
 ```
 
 增加服务discovery-guide-service-b的规则，Group为discovery-guide-group，Data Id为discovery-guide-service-b-sentinel-authority，规则内容如下，表示隶属my-group组的所有服务都允许访问服务discovery-guide-service-b
@@ -4011,7 +4012,7 @@ spring.application.strategy.service.sentinel.request.origin.key=n-d-service-grou
 
 配置项
 ```
-spring.application.strategy.service.sentinel.request.origin.key=n-d-service-version
+spring.application.strategy.sentinel.request.origin.key=n-d-service-version
 ```
 
 增加服务discovery-guide-service-b的规则，Group为discovery-guide-group，Data Id为discovery-guide-service-b-sentinel-authority，规则内容如下，表示版本为1.0的所有服务都允许访问服务discovery-guide-service-b
@@ -4030,7 +4031,7 @@ spring.application.strategy.service.sentinel.request.origin.key=n-d-service-vers
 
 配置项
 ```
-spring.application.strategy.service.sentinel.request.origin.key=n-d-service-region
+spring.application.strategy.sentinel.request.origin.key=n-d-service-region
 ```
 
 增加服务discovery-guide-service-b的规则，Group为discovery-guide-group，Data Id为discovery-guide-service-b-sentinel-authority，规则内容如下，表示区域为dev的所有服务都允许访问服务discovery-guide-service-b
@@ -4049,7 +4050,7 @@ spring.application.strategy.service.sentinel.request.origin.key=n-d-service-regi
 
 配置项
 ```
-spring.application.strategy.service.sentinel.request.origin.key=n-d-service-env
+spring.application.strategy.sentinel.request.origin.key=n-d-service-env
 ```
 
 增加服务discovery-guide-service-b的规则，Group为discovery-guide-group，Data Id为discovery-guide-service-b-sentinel-authority，规则内容如下，表示环境为env1的所有服务都允许访问服务discovery-guide-service-b
@@ -4068,7 +4069,7 @@ spring.application.strategy.service.sentinel.request.origin.key=n-d-service-env
 
 配置项
 ```
-spring.application.strategy.service.sentinel.request.origin.key=n-d-service-zone
+spring.application.strategy.sentinel.request.origin.key=n-d-service-zone
 ```
 
 增加服务discovery-guide-service-b的规则，Group为discovery-guide-group，Data Id为discovery-guide-service-b-sentinel-authority，规则内容如下，表示可用区为zone1的所有服务都允许访问服务discovery-guide-service-b
@@ -4087,7 +4088,7 @@ spring.application.strategy.service.sentinel.request.origin.key=n-d-service-zone
 
 配置项
 ```
-spring.application.strategy.service.sentinel.request.origin.key=n-d-service-address
+spring.application.strategy.sentinel.request.origin.key=n-d-service-address
 ```
 
 增加服务discovery-guide-service-b的规则，Group为discovery-guide-group，Data Id为discovery-guide-service-b-sentinel-authority，规则内容如下，表示地址和端口为192.168.0.88:8081和192.168.0.88:8082的服务都允许访问服务discovery-guide-service-b
@@ -4105,7 +4106,7 @@ spring.application.strategy.service.sentinel.request.origin.key=n-d-service-addr
 通过适配类实现自定义组合式的防护，支持自定义Header、Parameter、Cookie参数的防护，自定义业务参数的防护，以及自定义前两者组合式的防护
 ```java
 // 自定义版本号+地域名，实现组合式熔断
-public class MyServiceSentinelRequestOriginAdapter extends DefaultServiceSentinelRequestOriginAdapter {
+public class MySentinelStrategyRequestOriginAdapter extends DefaultSentinelStrategyRequestOriginAdapter {
     @Override
     public String parseOrigin(HttpServletRequest request) {
         String version = request.getHeader(DiscoveryConstant.N_D_SERVICE_VERSION);
@@ -4118,8 +4119,8 @@ public class MyServiceSentinelRequestOriginAdapter extends DefaultServiceSentine
 在配置类里@Bean方式进行适配类创建
 ```java
 @Bean
-public ServiceSentinelRequestOriginAdapter ServiceSentinelRequestOriginAdapter() {
-    return new MyServiceSentinelRequestOriginAdapter();
+public SentinelStrategyRequestOriginAdapter sentinelStrategyRequestOriginAdapter() {
+    return new MySentinelStrategyRequestOriginAdapter();
 }
 ```
 
@@ -5053,10 +5054,10 @@ spring.application.strategy.sentinel.system.path=classpath:sentinel-system.json
 # 热点参数流控规则文件路径。缺失则默认为classpath:sentinel-param-flow.json
 spring.application.strategy.sentinel.param.flow.path=classpath:sentinel-param-flow.json
 
-# 启动和关闭Sentinel LimitApp限流等功能。缺失则默认为false
-spring.application.strategy.service.sentinel.limit.app.enabled=true
-# 服务端执行规则时候，以Http请求中的Header值作为关键Key。缺失则默认为n-d-service-id，即以服务名作为关键Key
-spring.application.strategy.service.sentinel.request.origin.key=n-d-service-id
+# 启动和关闭Sentinel LimitApp高级限流熔断功能。缺失则默认为false
+spring.application.strategy.sentinel.limit.app.enabled=true
+# 执行Sentinel LimitApp高级限流熔断时候，以Http请求中的Header值作为关键Key。缺失则默认为n-d-service-id，即以服务名作为关键Key
+spring.application.strategy.sentinel.request.origin.key=n-d-service-id
 
 # 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
 spring.application.strategy.environment.route=common
