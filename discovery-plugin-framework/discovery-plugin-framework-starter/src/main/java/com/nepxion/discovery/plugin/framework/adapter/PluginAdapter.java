@@ -73,7 +73,11 @@ public interface PluginAdapter {
 
     String getZone();
 
+    String getProtocol();
+
     String getContextPath();
+
+    String getFormatContextPath();
 
     Map<String, String> getServerMetadata(Server server);
 
@@ -97,7 +101,11 @@ public interface PluginAdapter {
 
     String getServerZone(Server server);
 
+    String getServerProtocol(Server server);
+
     String getServerContextPath(Server server);
+
+    String getServerFormatContextPath(Server server);
 
     Map<String, String> getInstanceMetadata(ServiceInstance instance);
 
@@ -121,7 +129,11 @@ public interface PluginAdapter {
 
     String getInstanceZone(ServiceInstance instance);
 
+    String getInstanceProtocol(ServiceInstance instance);
+
     String getInstanceContextPath(ServiceInstance instance);
+
+    String getInstanceFormatContextPath(ServiceInstance instance);
 
     String getPluginInfo(String previousPluginInfo);
 }
