@@ -56,6 +56,7 @@ public class DiscoveryConstant {
     public static final String SPRING_APPLICATION_UUID = "spring.application.uuid";
     public static final String SPRING_APPLICATION_NAME = "spring.application.name";
     public static final String SPRING_APPLICATION_TYPE = "spring.application.type";
+    public static final String SPRING_APPLICATION_PROTOCOL = "spring.application.protocol";
     public static final String GROUP = "group";
     public static final String SERVICE_ID = "serviceId";
     public static final String HOST = "host";

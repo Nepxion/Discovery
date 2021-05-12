@@ -30,6 +30,7 @@ public class RouterEntity implements Serializable {
     private String host;
     private int port;
     private int weight = -1;
+    private String protocol;
     private String contextPath;
 
     private List<RouterEntity> nexts = new ArrayList<RouterEntity>();
@@ -104,6 +105,14 @@ public class RouterEntity implements Serializable {
 
     public void setWeight(int weight) {
         this.weight = weight;
+    }
+
+    public String getProtocol() {
+        return protocol;
+    }
+
+    public void setProtocol(String protocol) {
+        this.protocol = protocol;
     }
 
     public String getContextPath() {
