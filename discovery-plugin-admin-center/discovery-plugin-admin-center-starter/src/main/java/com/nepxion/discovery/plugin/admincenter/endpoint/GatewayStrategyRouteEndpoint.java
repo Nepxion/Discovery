@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -63,15 +64,15 @@ public class GatewayStrategyRouteEndpoint {
         return doUpdateAll(gatewayStrategyRouteEntityList);
     }
 
-    @RequestMapping(path = "/view", method = RequestMethod.POST)
-    @ApiOperation(value = "根据路由ID查看网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @RequestMapping(path = "/view/{routeId}", method = RequestMethod.GET)
+    @ApiOperation(value = "根据路由Id查看网关路由", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
-    public ResponseEntity<?> view(@RequestBody @ApiParam(value = "路由ID", required = true) String routeId) {
+    public ResponseEntity<?> view(@PathVariable(value = "routeId") @ApiParam(value = "路由Id", required = true) String routeId) {
         return doView(routeId);
     }
 
-    @RequestMapping(path = "/view-all", method = RequestMethod.POST)
-    @ApiOperation(value = "查看全部网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @RequestMapping(path = "/view-all", method = RequestMethod.GET)
+    @ApiOperation(value = "查看全部网关路由", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     public ResponseEntity<?> viewAll() {
         return doViewAll();
@@ -113,7 +114,6 @@ public class GatewayStrategyRouteEndpoint {
 
             return ResponseUtil.getSuccessResponse(true);
         } catch (Exception e) {
-
             return ResponseUtil.getFailureResponse(e);
         }
     }
