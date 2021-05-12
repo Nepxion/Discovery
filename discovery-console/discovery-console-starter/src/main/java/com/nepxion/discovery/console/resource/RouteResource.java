@@ -21,4 +21,6 @@ public interface RouteResource {
     List<ResultEntity> deleteRoute(String gatewayType, String serviceId, String routeId);
 
     List<ResultEntity> updateAllRoute(String gatewayType, String serviceId, String route);
+
+    List<ResultEntity> viewAllRoute(String gatewayType, String serviceId);
 }

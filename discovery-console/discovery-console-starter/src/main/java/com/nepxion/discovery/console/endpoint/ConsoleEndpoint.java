@@ -176,74 +176,102 @@ public class ConsoleEndpoint {
         return doConfigClear(serviceId, false);
     }
 
+    @RequestMapping(path = "/config/view/{serviceId}", method = RequestMethod.GET)
+    @ApiOperation(value = "批量查看规则配置", notes = "", response = ResponseEntity.class, httpMethod = "GET")
+    @ResponseBody
+    public ResponseEntity<?> configView(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
+        return doConfigView(serviceId);
+    }
+
     @RequestMapping(path = "/version/update-async/{serviceId}", method = RequestMethod.POST)
-    @ApiOperation(value = "批量异步更新服务的动态版本", notes = "根据指定的localVersion更新服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接更新服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "批量异步更新动态版本", notes = "根据指定的localVersion更新服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接更新服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> versionUpdateAsync(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "版本号，格式为${dynamicVersion}或者${dynamicVersion};${localVersion}", required = true) String version) {
         return doVersionUpdate(serviceId, version, true);
     }
 
     @RequestMapping(path = "/version/update-sync/{serviceId}", method = RequestMethod.POST)
-    @ApiOperation(value = "批量同步更新服务的动态版本", notes = "根据指定的localVersion更新服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接更新服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "批量同步更新动态版本", notes = "根据指定的localVersion更新服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接更新服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> versionUpdateSync(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "版本号，格式为${dynamicVersion}或者${dynamicVersion};${localVersion}", required = true) String version) {
         return doVersionUpdate(serviceId, version, false);
     }
 
     @RequestMapping(path = "/version/clear-async/{serviceId}", method = RequestMethod.POST)
-    @ApiOperation(value = "批量异步清除服务的动态版本", notes = "根据指定的localVersion清除服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接清除服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "批量异步清除动态版本", notes = "根据指定的localVersion清除服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接清除服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> versionClearAsync(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody(required = false) @ApiParam(value = "版本号，指localVersion，可以为空") String version) {
         return doVersionClear(serviceId, version, true);
     }
 
     @RequestMapping(path = "/version/clear-sync/{serviceId}", method = RequestMethod.POST)
-    @ApiOperation(value = "批量同步清除服务的动态版本", notes = "根据指定的localVersion清除服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接清除服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "批量同步清除动态版本", notes = "根据指定的localVersion清除服务的dynamicVersion。如果输入的localVersion不匹配服务的localVersion，则忽略；如果如果输入的localVersion为空，则直接清除服务的dynamicVersion", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> versionClearSync(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody(required = false) @ApiParam(value = "版本号，指localVersion，可以为空") String version) {
         return doVersionClear(serviceId, version, false);
     }
 
+    @RequestMapping(path = "/version/view/{serviceId}", method = RequestMethod.GET)
+    @ApiOperation(value = "批量查看版本", notes = "", response = ResponseEntity.class, httpMethod = "GET")
+    @ResponseBody
+    public ResponseEntity<?> versionView(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
+        return doVersionView(serviceId);
+    }
+
     @RequestMapping(path = "/sentinel/update/{ruleType}/{serviceId}", method = RequestMethod.POST)
-    @ApiOperation(value = "更新哨兵规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "批量更新哨兵规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> sentinelUpdate(@PathVariable(value = "ruleType") @ApiParam(value = "哨兵规则类型。取值： flow | degrade | authority | system | param-flow", defaultValue = "flow", required = true) String ruleType, @PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "哨兵规则内容，JSON格式", required = true) String rule) {
         return doSentinelUpdate(ruleType, serviceId, rule);
     }
 
     @RequestMapping(path = "/sentinel/clear/{ruleType}/{serviceId}", method = RequestMethod.POST)
-    @ApiOperation(value = "清除哨兵规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "批量清除哨兵规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> sentinelClear(@PathVariable(value = "ruleType") @ApiParam(value = "哨兵规则类型。取值： flow | degrade | authority | system | param-flow", defaultValue = "flow", required = true) String ruleType, @PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
         return doSentinelClear(ruleType, serviceId);
     }
 
+    @RequestMapping(path = "/sentinel/view/{ruleType}/{serviceId}", method = RequestMethod.GET)
+    @ApiOperation(value = "批量查看哨兵规则列表", notes = "", response = ResponseEntity.class, httpMethod = "GET")
+    @ResponseBody
+    public ResponseEntity<?> sentinelView(@PathVariable(value = "ruleType") @ApiParam(value = "哨兵规则类型。取值： flow | degrade | authority | system | param-flow", defaultValue = "flow", required = true) String ruleType, @PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
+        return doSentinelView(ruleType, serviceId);
+    }
+
     @RequestMapping(path = "/route/add/{gatewayType}/{serviceId}", method = RequestMethod.POST)
-    @ApiOperation(value = "增加网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "批量增加网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> gatewayRouteAdd(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： gateway | zuul。gateway指Spring Cloud Gateway, zull指Netflix Zuul", defaultValue = "gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "网关路由对象内容，JSON格式") String route) {
         return doRouteAdd(gatewayType, serviceId, route);
     }
 
     @RequestMapping(path = "/route/modify/{gatewayType}/{serviceId}", method = RequestMethod.POST)
-    @ApiOperation(value = "修改网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "批量修改网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> gatewayRouteModify(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： gateway | zuul。gateway指Spring Cloud Gateway, zull指Netflix Zuul", defaultValue = "gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "网关路由对象内容，JSON格式") String route) {
         return doRouteModify(gatewayType, serviceId, route);
     }
 
     @RequestMapping(path = "/route/delete/{gatewayType}/{serviceId}", method = RequestMethod.POST)
-    @ApiOperation(value = "删除网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "批量删除网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> gatewayRouteDelete(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： gateway | zuul。gateway指Spring Cloud Gateway, zull指Netflix Zuul", defaultValue = "gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "路由ID") String routeId) {
         return doRouteDelete(gatewayType, serviceId, routeId);
     }
 
     @RequestMapping(path = "/route/update-all/{gatewayType}/{serviceId}", method = RequestMethod.POST)
-    @ApiOperation(value = "更新全部网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "批量更新全部网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> gatewayRouteUpdateAll(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： gateway | zuul。gateway指Spring Cloud Gateway, zull指Netflix Zuul", defaultValue = "gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "网关路由对象列表内容，JSON格式") String route) {
         return doRouteUpdateAll(gatewayType, serviceId, route);
+    }
+
+    @RequestMapping(path = "/route/view-all/{gatewayType}/{serviceId}", method = RequestMethod.GET)
+    @ApiOperation(value = "批量查看全部网关路由", notes = "", response = ResponseEntity.class, httpMethod = "GET")
+    @ResponseBody
+    public ResponseEntity<?> gatewayRouteViewAll(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： gateway | zuul。gateway指Spring Cloud Gateway, zull指Netflix Zuul", defaultValue = "gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId) {
+        return doRouteViewAll(gatewayType, serviceId);
     }
 
     @RequestMapping(path = "/validate-expression", method = RequestMethod.GET)
@@ -393,6 +421,16 @@ public class ConsoleEndpoint {
         }
     }
 
+    private ResponseEntity<?> doConfigView(String serviceId) {
+        try {
+            List<ResultEntity> resultEntityList = configResource.viewConfig(serviceId);
+
+            return ResponseUtil.getSuccessResponse(resultEntityList);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
+    }
+
     private ResponseEntity<?> doVersionUpdate(String serviceId, String version, boolean async) {
         try {
             List<ResultEntity> resultEntityList = versionResource.updateVersion(serviceId, version, async);
@@ -413,6 +451,16 @@ public class ConsoleEndpoint {
         }
     }
 
+    private ResponseEntity<?> doVersionView(String serviceId) {
+        try {
+            List<ResultEntity> resultEntityList = versionResource.viewVersion(serviceId);
+
+            return ResponseUtil.getSuccessResponse(resultEntityList);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
+    }
+
     private ResponseEntity<?> doSentinelUpdate(String ruleType, String serviceId, String rule) {
         try {
             List<ResultEntity> resultEntityList = sentinelResource.updateSentinel(ruleType, serviceId, rule);
@@ -426,6 +474,16 @@ public class ConsoleEndpoint {
     private ResponseEntity<?> doSentinelClear(String ruleType, String serviceId) {
         try {
             List<ResultEntity> resultEntityList = sentinelResource.clearSentinel(ruleType, serviceId);
+
+            return ResponseUtil.getSuccessResponse(resultEntityList);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
+    }
+
+    private ResponseEntity<?> doSentinelView(String ruleType, String serviceId) {
+        try {
+            List<ResultEntity> resultEntityList = sentinelResource.viewSentinel(ruleType, serviceId);
 
             return ResponseUtil.getSuccessResponse(resultEntityList);
         } catch (Exception e) {
@@ -466,6 +524,16 @@ public class ConsoleEndpoint {
     private ResponseEntity<?> doRouteUpdateAll(String gatewayType, String serviceId, String route) {
         try {
             List<ResultEntity> resultEntityList = routeResource.updateAllRoute(gatewayType, serviceId, route);
+
+            return ResponseUtil.getSuccessResponse(resultEntityList);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
+    }
+
+    private ResponseEntity<?> doRouteViewAll(String gatewayType, String serviceId) {
+        try {
+            List<ResultEntity> resultEntityList = routeResource.viewAllRoute(gatewayType, serviceId);
 
             return ResponseUtil.getSuccessResponse(resultEntityList);
         } catch (Exception e) {

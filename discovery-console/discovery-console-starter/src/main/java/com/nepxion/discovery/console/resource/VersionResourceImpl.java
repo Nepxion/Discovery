@@ -17,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import com.nepxion.discovery.common.entity.ResultEntity;
 import com.nepxion.discovery.console.rest.VersionClearRestInvoker;
 import com.nepxion.discovery.console.rest.VersionUpdateRestInvoker;
+import com.nepxion.discovery.console.rest.VersionViewRestInvoker;
 
 public class VersionResourceImpl implements VersionResource {
     @Autowired
@@ -37,5 +38,12 @@ public class VersionResourceImpl implements VersionResource {
         VersionClearRestInvoker versionClearRestInvoker = new VersionClearRestInvoker(serviceResource, serviceId, consoleRestTemplate, async, version);
 
         return versionClearRestInvoker.invoke();
+    }
+
+    @Override
+    public List<ResultEntity> viewVersion(String serviceId) {
+        VersionViewRestInvoker versionViewRestInvoker = new VersionViewRestInvoker(serviceResource, serviceId, consoleRestTemplate);
+
+        return versionViewRestInvoker.invoke();
     }
 }

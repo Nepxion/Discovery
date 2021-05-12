@@ -21,6 +21,7 @@ import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.console.adapter.ConfigAdapter;
 import com.nepxion.discovery.console.rest.ConfigClearRestInvoker;
 import com.nepxion.discovery.console.rest.ConfigUpdateRestInvoker;
+import com.nepxion.discovery.console.rest.ConfigViewRestInvoker;
 
 public class ConfigResourceImpl implements ConfigResource {
     private static final Logger LOG = LoggerFactory.getLogger(ConfigResourceImpl.class);
@@ -90,5 +91,12 @@ public class ConfigResourceImpl implements ConfigResource {
         ConfigClearRestInvoker configClearRestInvoker = new ConfigClearRestInvoker(serviceResource, serviceId, consoleRestTemplate, async);
 
         return configClearRestInvoker.invoke();
+    }
+
+    @Override
+    public List<ResultEntity> viewConfig(String serviceId) {
+        ConfigViewRestInvoker configViewRestInvoker = new ConfigViewRestInvoker(serviceResource, serviceId, consoleRestTemplate);
+
+        return configViewRestInvoker.invoke();
     }
 }

@@ -19,6 +19,7 @@ import com.nepxion.discovery.console.rest.RouteAddRestInvoker;
 import com.nepxion.discovery.console.rest.RouteDeleteRestInvoker;
 import com.nepxion.discovery.console.rest.RouteModifyRestInvoker;
 import com.nepxion.discovery.console.rest.RouteUpdateAllRestInvoker;
+import com.nepxion.discovery.console.rest.RouteViewAllRestInvoker;
 
 public class RouteResourceImpl implements RouteResource {
     @Autowired
@@ -53,5 +54,12 @@ public class RouteResourceImpl implements RouteResource {
         RouteUpdateAllRestInvoker routeUpdateAllRestInvoker = new RouteUpdateAllRestInvoker(serviceResource, serviceId, consoleRestTemplate, gatewayType, route);
 
         return routeUpdateAllRestInvoker.invoke();
+    }
+
+    @Override
+    public List<ResultEntity> viewAllRoute(String gatewayType, String serviceId) {
+        RouteViewAllRestInvoker routeViewAllRestInvoker = new RouteViewAllRestInvoker(serviceResource, serviceId, consoleRestTemplate, gatewayType);
+
+        return routeViewAllRestInvoker.invoke();
     }
 }

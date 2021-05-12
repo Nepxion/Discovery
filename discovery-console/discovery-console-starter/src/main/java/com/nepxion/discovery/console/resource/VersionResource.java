@@ -17,4 +17,6 @@ public interface VersionResource {
     List<ResultEntity> updateVersion(String serviceId, String version, boolean async);
 
     List<ResultEntity> clearVersion(String serviceId, String version, boolean async);
+
+    List<ResultEntity> viewVersion(String serviceId);
 }
