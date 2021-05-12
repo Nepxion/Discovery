@@ -17,4 +17,6 @@ public interface SentinelResource {
     List<ResultEntity> updateSentinel(String ruleType, String serviceId, String rule);
 
     List<ResultEntity> clearSentinel(String ruleType, String serviceId);
+
+    List<ResultEntity> viewSentinel(String ruleType, String serviceId);
 }

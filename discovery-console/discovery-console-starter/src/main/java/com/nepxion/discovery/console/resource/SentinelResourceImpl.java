@@ -17,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import com.nepxion.discovery.common.entity.ResultEntity;
 import com.nepxion.discovery.console.rest.SentinelClearRestInvoker;
 import com.nepxion.discovery.console.rest.SentinelUpdateRestInvoker;
+import com.nepxion.discovery.console.rest.SentinelViewRestInvoker;
 
 public class SentinelResourceImpl implements SentinelResource {
     @Autowired
@@ -37,5 +38,12 @@ public class SentinelResourceImpl implements SentinelResource {
         SentinelClearRestInvoker sentinelClearRestInvoker = new SentinelClearRestInvoker(serviceResource, serviceId, consoleRestTemplate, ruleType);
 
         return sentinelClearRestInvoker.invoke();
+    }
+
+    @Override
+    public List<ResultEntity> viewSentinel(String ruleType, String serviceId) {
+        SentinelViewRestInvoker sentinelViewRestInvoker = new SentinelViewRestInvoker(serviceResource, serviceId, consoleRestTemplate, ruleType);
+
+        return sentinelViewRestInvoker.invoke();
     }
 }

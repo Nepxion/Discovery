@@ -25,4 +25,6 @@ public interface ConfigResource {
     List<ResultEntity> updateConfig(String serviceId, String config, boolean async);
 
     List<ResultEntity> clearConfig(String serviceId, boolean async);
+
+    List<ResultEntity> viewConfig(String serviceId);
 }
