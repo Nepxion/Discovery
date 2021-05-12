@@ -256,7 +256,7 @@ public class ConsoleEndpoint {
     @RequestMapping(path = "/route/delete/{gatewayType}/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "批量删除网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> gatewayRouteDelete(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： gateway | zuul。gateway指Spring Cloud Gateway, zull指Netflix Zuul", defaultValue = "gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "路由ID") String routeId) {
+    public ResponseEntity<?> gatewayRouteDelete(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： gateway | zuul。gateway指Spring Cloud Gateway, zull指Netflix Zuul", defaultValue = "gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "路由Id") String routeId) {
         return doRouteDelete(gatewayType, serviceId, routeId);
     }
 
