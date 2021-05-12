@@ -13,10 +13,6 @@ import org.apache.commons.lang3.StringUtils;
 
 public class UrlUtil {
     public static String formatUrl(String url) {
-        if (!url.startsWith("http://")) {
-            url = "http://" + url;
-        }
-
         if (!url.endsWith("/")) {
             url = url + "/";
         }
