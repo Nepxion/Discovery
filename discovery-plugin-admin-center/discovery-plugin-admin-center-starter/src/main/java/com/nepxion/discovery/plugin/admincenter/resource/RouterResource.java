@@ -18,7 +18,7 @@ public interface RouterResource {
 
     List<RouterEntity> getRouterEntityList(String routeServiceId);
 
-    List<RouterEntity> getRouterEntityList(String routeServiceId, String routeHost, int routePort, String routeContextPath);
+    List<RouterEntity> getRouterEntityList(String routeServiceId, String routeProtocol, String routeHost, int routePort, String routeContextPath);
 
     RouterEntity routeTree(String routeServiceIds);
 }

@@ -29,7 +29,6 @@ import com.nepxion.discovery.common.entity.WeightEntityWrapper;
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.util.JsonUtil;
-import com.nepxion.discovery.common.util.UrlUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 
 public class RouterResourceImpl implements RouterResource {
@@ -56,7 +55,8 @@ public class RouterResourceImpl implements RouterResource {
         String host = pluginAdapter.getHost();
         int port = pluginAdapter.getPort();
         int weight = -1;
-        String contextPath = pluginAdapter.getContextPath();
+        String protocol = pluginAdapter.getProtocol();
+        String contextPath = pluginAdapter.getFormatContextPath();
 
         RouterEntity routerEntity = new RouterEntity();
         routerEntity.setServiceType(serviceType);
@@ -68,6 +68,7 @@ public class RouterResourceImpl implements RouterResource {
         routerEntity.setHost(host);
         routerEntity.setPort(port);
         routerEntity.setWeight(weight);
+        routerEntity.setProtocol(protocol);
         routerEntity.setContextPath(contextPath);
 
         return routerEntity;
@@ -98,7 +99,8 @@ public class RouterResourceImpl implements RouterResource {
             String host = instance.getHost();
             int port = instance.getPort();
             int weight = getWeight(routeServiceId, version, region);
-            String contextPath = pluginAdapter.getInstanceContextPath(instance);
+            String protocol = pluginAdapter.getInstanceProtocol(instance);
+            String contextPath = pluginAdapter.getInstanceFormatContextPath(instance);
 
             RouterEntity routerEntity = new RouterEntity();
             routerEntity.setServiceType(serviceType);
@@ -110,6 +112,7 @@ public class RouterResourceImpl implements RouterResource {
             routerEntity.setHost(host);
             routerEntity.setPort(port);
             routerEntity.setWeight(weight);
+            routerEntity.setProtocol(protocol);
             routerEntity.setContextPath(contextPath);
 
             routerEntityList.add(routerEntity);
@@ -119,8 +122,8 @@ public class RouterResourceImpl implements RouterResource {
     }
 
     @Override
-    public List<RouterEntity> getRouterEntityList(String routeServiceId, String routeHost, int routePort, String routeContextPath) {
-        String url = "http://" + routeHost + ":" + routePort + UrlUtil.formatContextPath(routeContextPath) + "router/route/" + routeServiceId;
+    public List<RouterEntity> getRouterEntityList(String routeServiceId, String routeProtocol, String routeHost, int routePort, String routeContextPath) {
+        String url = routeProtocol + "://" + routeHost + ":" + routePort + routeContextPath + "router/route/" + routeServiceId;
 
         String result = null;
         try {
@@ -168,9 +171,10 @@ public class RouterResourceImpl implements RouterResource {
                 for (RouterEntity routerEntity : routerEntityList) {
                     String routeHost = routerEntity.getHost();
                     int routePort = routerEntity.getPort();
+                    String routeProtocol = routerEntity.getProtocol();
                     String routeContextPath = routerEntity.getContextPath();
 
-                    route(routerEntity, serviceId, routeHost, routePort, routeContextPath);
+                    route(routerEntity, serviceId, routeProtocol, routeHost, routePort, routeContextPath);
 
                     retrieveRouterEntityList(routerEntityMap, routerDepth).addAll(routerEntity.getNexts());
                 }
@@ -189,8 +193,8 @@ public class RouterResourceImpl implements RouterResource {
         }
     }
 
-    private void route(RouterEntity routerEntity, String routeServiceId, String routeHost, int routePort, String routeContextPath) {
-        List<RouterEntity> routerEntityList = getRouterEntityList(routeServiceId, routeHost, routePort, routeContextPath);
+    private void route(RouterEntity routerEntity, String routeServiceId, String routeProtocol, String routeHost, int routePort, String routeContextPath) {
+        List<RouterEntity> routerEntityList = getRouterEntityList(routeServiceId, routeProtocol, routeHost, routePort, routeContextPath);
         if (CollectionUtils.isNotEmpty(routerEntityList)) {
             routerEntity.getNexts().addAll(routerEntityList);
         }

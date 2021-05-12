@@ -49,11 +49,11 @@ public class RouterEndpoint {
         return doNativeRoute(routeServiceId);
     }
 
-    @RequestMapping(path = "/route/{routeServiceId}/{routeHost}/{routePort}/{routeContextPath}", method = RequestMethod.GET)
+    @RequestMapping(path = "/route/{routeServiceId}/{routeProtocol}/{routeHost}/{routePort}/{routeContextPath}", method = RequestMethod.GET)
     @ApiOperation(value = "获取指定节点（根据IP地址和端口）可访问其他节点（根据服务名）的路由信息列表", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
-    public ResponseEntity<?> route(@PathVariable(value = "routeServiceId") @ApiParam(value = "目标服务名", required = true) String routeServiceId, @PathVariable(value = "routeHost") @ApiParam(value = "目标服务所在机器的IP地址", required = true) String routeHost, @PathVariable(value = "routePort") @ApiParam(value = "目标服务所在机器的端口号", required = true) int routePort, @PathVariable(value = "routeContextPath") @ApiParam(value = "目标服务的调用路径前缀", defaultValue = "/", required = true) String routeContextPath) {
-        return doRemoteRoute(routeServiceId, routeHost, routePort, routeContextPath);
+    public ResponseEntity<?> route(@PathVariable(value = "routeServiceId") @ApiParam(value = "目标服务名", required = true) String routeServiceId, @PathVariable(value = "routeProtocol") @ApiParam(value = "目标服务采用的协议。取值： http | https", defaultValue = "http", required = true) String routeProtocol, @PathVariable(value = "routeHost") @ApiParam(value = "目标服务所在机器的IP地址", required = true) String routeHost, @PathVariable(value = "routePort") @ApiParam(value = "目标服务所在机器的端口号", required = true) int routePort, @PathVariable(value = "routeContextPath") @ApiParam(value = "目标服务的调用路径前缀", defaultValue = "/", required = true) String routeContextPath) {
+        return doRemoteRoute(routeServiceId, routeProtocol, routeHost, routePort, routeContextPath);
     }
 
     @RequestMapping(path = "/routes", method = RequestMethod.POST)
@@ -83,9 +83,9 @@ public class RouterEndpoint {
         }
     }
 
-    private ResponseEntity<?> doRemoteRoute(String routeServiceId, String routeHost, int routePort, String routeContextPath) {
+    private ResponseEntity<?> doRemoteRoute(String routeServiceId, String routeProtocol, String routeHost, int routePort, String routeContextPath) {
         try {
-            List<RouterEntity> routerEntityList = routerResource.getRouterEntityList(routeServiceId, routeHost, routePort, routeContextPath);
+            List<RouterEntity> routerEntityList = routerResource.getRouterEntityList(routeServiceId, routeProtocol, routeHost, routePort, routeContextPath);
 
             return ResponseUtil.getSuccessResponse(routerEntityList);
         } catch (Exception e) {
