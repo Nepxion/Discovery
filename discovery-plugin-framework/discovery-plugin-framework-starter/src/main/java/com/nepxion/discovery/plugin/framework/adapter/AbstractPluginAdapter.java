@@ -23,6 +23,7 @@ import com.nepxion.discovery.common.constant.DiscoveryMetaDataConstant;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.RuleEntityWrapper;
 import com.nepxion.discovery.common.exception.DiscoveryException;
+import com.nepxion.discovery.common.util.UrlUtil;
 import com.nepxion.discovery.plugin.framework.cache.PluginCache;
 import com.nepxion.discovery.plugin.framework.cache.RuleCache;
 import com.nepxion.discovery.plugin.framework.context.PluginContextHolder;
@@ -260,6 +261,16 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
+    public String getProtocol() {
+        String protocol = getMetadata().get(DiscoveryMetaDataConstant.SPRING_APPLICATION_PROTOCOL);
+        if (StringUtils.isEmpty(protocol)) {
+            protocol = "http";
+        }
+
+        return protocol;
+    }
+
+    @Override
     public String getContextPath() {
         String contextPath = getMetadata().get(DiscoveryMetaDataConstant.SPRING_APPLICATION_CONTEXT_PATH);
         if (StringUtils.isEmpty(contextPath)) {
@@ -267,6 +278,13 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
         }
 
         return contextPath;
+    }
+
+    @Override
+    public String getFormatContextPath() {
+        String contextPath = getContextPath();
+
+        return UrlUtil.formatContextPath(contextPath);
     }
 
     @Override
@@ -367,6 +385,16 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
+    public String getServerProtocol(Server server) {
+        String protocol = getServerMetadata(server).get(DiscoveryMetaDataConstant.SPRING_APPLICATION_PROTOCOL);
+        if (StringUtils.isEmpty(protocol)) {
+            protocol = "http";
+        }
+
+        return protocol;
+    }
+
+    @Override
     public String getServerContextPath(Server server) {
         String contextPath = getServerMetadata(server).get(DiscoveryMetaDataConstant.SPRING_APPLICATION_CONTEXT_PATH);
         if (StringUtils.isEmpty(contextPath)) {
@@ -374,6 +402,13 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
         }
 
         return contextPath;
+    }
+
+    @Override
+    public String getServerFormatContextPath(Server server) {
+        String contextPath = getServerContextPath(server);
+
+        return UrlUtil.formatContextPath(contextPath);
     }
 
     @Override
@@ -470,6 +505,16 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
+    public String getInstanceProtocol(ServiceInstance instance) {
+        String protocol = getInstanceMetadata(instance).get(DiscoveryMetaDataConstant.SPRING_APPLICATION_PROTOCOL);
+        if (StringUtils.isEmpty(protocol)) {
+            protocol = "http";
+        }
+
+        return protocol;
+    }
+
+    @Override
     public String getInstanceContextPath(ServiceInstance instance) {
         String contextPath = getInstanceMetadata(instance).get(DiscoveryMetaDataConstant.SPRING_APPLICATION_CONTEXT_PATH);
         if (StringUtils.isEmpty(contextPath)) {
@@ -477,6 +522,13 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
         }
 
         return contextPath;
+    }
+
+    @Override
+    public String getInstanceFormatContextPath(ServiceInstance instance) {
+        String contextPath = getInstanceContextPath(instance);
+
+        return UrlUtil.formatContextPath(contextPath);
     }
 
     @Override
