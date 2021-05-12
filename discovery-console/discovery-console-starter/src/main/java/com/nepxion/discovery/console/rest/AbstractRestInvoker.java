@@ -25,11 +25,11 @@ import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.constant.DiscoveryMetaDataConstant;
+import com.nepxion.discovery.common.entity.InstanceEntityWrapper;
 import com.nepxion.discovery.common.entity.ResultEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.util.ResponseUtil;
 import com.nepxion.discovery.common.util.RestUtil;
-import com.nepxion.discovery.common.util.UrlUtil;
 import com.nepxion.discovery.console.resource.ServiceResource;
 
 public abstract class AbstractRestInvoker {
@@ -64,12 +64,11 @@ public abstract class AbstractRestInvoker {
             Map<String, String> metadata = instance.getMetadata();
             String host = instance.getHost();
             int port = instance.getPort();
-            String contextPath = metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_CONTEXT_PATH);
-            if (StringUtils.isEmpty(contextPath)) {
-                contextPath = "/";
-            }
 
-            String url = "http://" + host + ":" + port + UrlUtil.formatContextPath(contextPath) + getSuffixPath();
+            String protocol = InstanceEntityWrapper.getProtocol(metadata);
+            String contextPath = InstanceEntityWrapper.getFormatContextPath(metadata);
+
+            String url = protocol + "://" + host + ":" + port + contextPath + getSuffixPath();
 
             String result = null;
             try {

@@ -23,7 +23,6 @@ import org.springframework.web.client.RestTemplate;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.InspectorEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
-import com.nepxion.discovery.common.util.UrlUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginContextHolder;
 
@@ -64,9 +63,12 @@ public class InspectorResourceImpl implements InspectorResource {
 
             String url = null;
             try {
-                String contextPath = getContextPath(nextServiceId);
+                ServiceInstance nextInstance = getInstance(nextServiceId);
 
-                url = "http://" + nextServiceId + contextPath + DiscoveryConstant.INSPECTOR_ENDPOINT_URL;
+                String protocol = pluginAdapter.getInstanceProtocol(nextInstance);
+                String contextPath = pluginAdapter.getInstanceFormatContextPath(nextInstance);
+
+                url = protocol + "://" + nextServiceId + contextPath + DiscoveryConstant.INSPECTOR_ENDPOINT_URL;
 
                 // 直调方式需要走负载均衡模式下的RestTemplate
                 return pluginRestTemplate.postForEntity(url, inspectorEntity, InspectorEntity.class).getBody();
@@ -80,14 +82,6 @@ public class InspectorResourceImpl implements InspectorResource {
         } else {
             return inspectorEntity;
         }
-    }
-
-    private String getContextPath(String serviceId) {
-        ServiceInstance instance = getInstance(serviceId);
-
-        String contextPath = pluginAdapter.getInstanceContextPath(instance);
-
-        return UrlUtil.formatContextPath(contextPath);
     }
 
     private ServiceInstance getInstance(String serviceId) {
