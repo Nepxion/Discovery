@@ -6,20 +6,21 @@ package com.nepxion.discovery.common.zookeeper.operation;
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
  * @author rotten
- * @author Ning Zhang
+ * @author Haojun Ren
  * @version 1.0
  */
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.curator.framework.CuratorFramework;
-import org.apache.curator.framework.recipes.cache.TreeCache;
-import org.apache.curator.framework.recipes.cache.TreeCacheEvent;
-import org.apache.curator.framework.recipes.cache.TreeCacheListener;
+import org.apache.curator.framework.recipes.cache.ChildData;
+import org.apache.curator.framework.recipes.cache.NodeCache;
+import org.apache.curator.framework.recipes.cache.NodeCacheListener;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.data.Stat;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class ZookeeperOperation {
+public class ZookeeperOperation implements DisposableBean {
     @Autowired
     private CuratorFramework curatorFramework;
 
@@ -64,26 +65,17 @@ public class ZookeeperOperation {
         return true;
     }
 
-    public TreeCacheListener subscribeConfig(String group, String serviceId, ZookeeperSubscribeCallback zookeeperSubscribeCallback) throws Exception {
+    public ZookeeperListener subscribeConfig(String group, String serviceId, ZookeeperSubscribeCallback zookeeperSubscribeCallback) throws Exception {
         String path = getPath(group, serviceId);
 
-        TreeCacheListener configListener = new TreeCacheListener() {
+        NodeCache nodeCache = new NodeCache(curatorFramework, path);
+        nodeCache.start(true);
+
+        NodeCacheListener nodeCacheListener = new NodeCacheListener() {
             @Override
-            public void childEvent(CuratorFramework curatorFramework, TreeCacheEvent event) throws Exception {
-                TreeCacheEvent.Type eventType = event.getType();
-                if (eventType != TreeCacheEvent.Type.NODE_ADDED && eventType != TreeCacheEvent.Type.NODE_UPDATED && eventType != TreeCacheEvent.Type.NODE_REMOVED) {
-                    return;
-                }
-
-                String config = null;
-                if (eventType == TreeCacheEvent.Type.NODE_ADDED || eventType == TreeCacheEvent.Type.NODE_UPDATED) {
-                    String eventPath = event.getData().getPath();
-                    if (!StringUtils.equals(eventPath, path)) {
-                        return;
-                    }
-
-                    config = convertConfig(curatorFramework, path);
-                } else {
+            public void nodeChanged() throws Exception {
+                String config = convertConfig(nodeCache);
+                if (config == null) {
                     config = StringUtils.EMPTY;
                 }
 
@@ -91,15 +83,14 @@ public class ZookeeperOperation {
             }
         };
 
-        TreeCache.newBuilder(curatorFramework, path).build().start().getListenable().addListener(configListener);
+        ZookeeperListener zookeeperListener = new ZookeeperListener(nodeCache, nodeCacheListener);
+        zookeeperListener.addListener();
 
-        return configListener;
+        return zookeeperListener;
     }
 
-    public void unsubscribeConfig(String group, String serviceId, TreeCacheListener configListener) {
-        String path = getPath(group, serviceId);
-
-        TreeCache.newBuilder(curatorFramework, path).build().getListenable().removeListener(configListener);
+    public void unsubscribeConfig(String group, String serviceId, ZookeeperListener zookeeperListener) throws Exception {
+        zookeeperListener.removeListener();
     }
 
     public String getPath(String group, String serviceId) {
@@ -129,9 +120,22 @@ public class ZookeeperOperation {
         return new String(bytes);
     }
 
-    public void close() {
-        if (curatorFramework != null) {
-            curatorFramework.close();
+    public String convertConfig(NodeCache nodeCache) throws Exception {
+        ChildData childData = nodeCache.getCurrentData();
+        if (childData == null) {
+            return null;
         }
+
+        byte[] bytes = childData.getData();
+        if (bytes == null) {
+            return null;
+        }
+
+        return new String(bytes);
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        curatorFramework.close();
     }
 }

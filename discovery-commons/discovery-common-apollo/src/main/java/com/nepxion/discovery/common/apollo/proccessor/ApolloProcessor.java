@@ -27,7 +27,7 @@ public abstract class ApolloProcessor implements DisposableBean {
     @Autowired
     private ApolloOperation apolloOperation;
 
-    private ConfigChangeListener configListener;
+    private ConfigChangeListener configChangeListener;
 
     @PostConstruct
     public void initialize() {
@@ -52,7 +52,7 @@ public abstract class ApolloProcessor implements DisposableBean {
         LOG.info("Subscribe {} config from {} server, key={}", description, configType, key);
 
         try {
-            configListener = apolloOperation.subscribeConfig(group, dataId, new ApolloSubscribeCallback() {
+            configChangeListener = apolloOperation.subscribeConfig(group, dataId, new ApolloSubscribeCallback() {
                 @Override
                 public void callback(String config) {
                     try {
@@ -71,7 +71,7 @@ public abstract class ApolloProcessor implements DisposableBean {
 
     @Override
     public void destroy() {
-        if (configListener == null) {
+        if (configChangeListener == null) {
             return;
         }
 
@@ -84,7 +84,7 @@ public abstract class ApolloProcessor implements DisposableBean {
         LOG.info("Unsubscribe {} config from {} server, key={}", description, configType, key);
 
         try {
-            apolloOperation.unsubscribeConfig(group, dataId, configListener);
+            apolloOperation.unsubscribeConfig(group, dataId, configChangeListener);
         } catch (Exception e) {
             LOG.error("Unsubscribe {} config from {} server failed, key={}", description, configType, key, e);
         }
