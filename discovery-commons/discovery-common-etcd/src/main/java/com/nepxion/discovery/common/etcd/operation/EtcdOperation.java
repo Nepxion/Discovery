@@ -106,6 +106,6 @@ public class EtcdOperation implements DisposableBean {
     public void destroy() throws Exception {
         client.close();
 
-        LOG.info("Shutting down Etcd Config...");
+        LOG.info("Shutting down JEtcd client...");
     }
 }

@@ -71,6 +71,6 @@ public class RedisOperation implements DisposableBean {
     public void destroy() throws Exception {
         configMessageListenerContainer.destroy();
 
-        LOG.info("Shutting down Redis Config...");
+        LOG.info("Shutting down Redis message listener...");
     }
 }
