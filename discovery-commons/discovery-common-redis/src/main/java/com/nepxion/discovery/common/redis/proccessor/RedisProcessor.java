@@ -11,19 +11,16 @@ package com.nepxion.discovery.common.redis.proccessor;
 
 import javax.annotation.PostConstruct;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 
+import com.nepxion.discovery.common.logger.ProcessorLogger;
 import com.nepxion.discovery.common.redis.constant.RedisConstant;
 import com.nepxion.discovery.common.redis.operation.RedisOperation;
 import com.nepxion.discovery.common.redis.operation.RedisSubscribeCallback;
 
 public abstract class RedisProcessor implements DisposableBean {
-    private static final Logger LOG = LoggerFactory.getLogger(RedisProcessor.class);
-
     @Autowired
     private RedisOperation redisOperation;
 
@@ -37,23 +34,24 @@ public abstract class RedisProcessor implements DisposableBean {
         String dataId = getDataId();
         String description = getDescription();
         String configType = getConfigType();
+        boolean isConfigSingleKey = isConfigSingleKey();
 
-        LOG.info("Get {} config from {} server, group={}, dataId={}", description, configType, group, dataId);
+        ProcessorLogger.logGetStarted(group, dataId, description, configType, isConfigSingleKey);
 
         try {
             String config = redisOperation.getConfig(group, dataId);
 
             callbackConfig(config);
         } catch (Exception e) {
-            LOG.info("Get {} config from {} server failed, group={}, dataId={}", description, configType, group, dataId, e);
+            ProcessorLogger.logGetFailed(group, dataId, description, configType, isConfigSingleKey, e);
         }
 
-        LOG.info("Subscribe {} config from {} server, group={}, dataId={}", description, configType, group, dataId);
+        ProcessorLogger.logSubscribeStarted(group, dataId, description, configType, isConfigSingleKey);
 
         try {
             messageListenerAdapter = redisOperation.subscribeConfig(group, dataId, this, "subscribeConfig");
         } catch (Exception e) {
-            LOG.error("Subscribe {} config from {} server failed, group={}, dataId={}", description, configType, group, dataId, e);
+            ProcessorLogger.logSubscribeFailed(group, dataId, description, configType, isConfigSingleKey, e);
         }
 
         afterInitialization();
@@ -68,7 +66,7 @@ public abstract class RedisProcessor implements DisposableBean {
                 try {
                     callbackConfig(config);
                 } catch (Exception e) {
-                    LOG.error("Callback {} config failed", description, e);
+                    ProcessorLogger.logCallbackFailed(description, e);
                 }
             }
         });
@@ -84,18 +82,23 @@ public abstract class RedisProcessor implements DisposableBean {
         String dataId = getDataId();
         String description = getDescription();
         String configType = getConfigType();
+        boolean isConfigSingleKey = isConfigSingleKey();
 
-        LOG.info("Unsubscribe {} config from {} server, group={}, dataId={}", description, configType, group, dataId);
+        ProcessorLogger.logUnsubscribeStarted(group, dataId, description, configType, isConfigSingleKey);
 
         try {
             redisOperation.unsubscribeConfig(group, dataId, messageListenerAdapter);
         } catch (Exception e) {
-            LOG.error("Unsubscribe {} config from {} server failed, group={}, dataId={}", description, configType, group, dataId, e);
+            ProcessorLogger.logUnsubscribeFailed(group, dataId, description, configType, isConfigSingleKey, e);
         }
     }
 
     public String getConfigType() {
         return RedisConstant.REDIS_TYPE;
+    }
+
+    public boolean isConfigSingleKey() {
+        return false;
     }
 
     public void beforeInitialization() {
