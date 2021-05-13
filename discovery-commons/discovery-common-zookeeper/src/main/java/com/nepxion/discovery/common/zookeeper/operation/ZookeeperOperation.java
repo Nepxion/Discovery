@@ -17,10 +17,14 @@ import org.apache.curator.framework.recipes.cache.NodeCache;
 import org.apache.curator.framework.recipes.cache.NodeCacheListener;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.data.Stat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class ZookeeperOperation implements DisposableBean {
+    private static final Logger LOG = LoggerFactory.getLogger(ZookeeperOperation.class);
+
     @Autowired
     private CuratorFramework curatorFramework;
 
@@ -137,5 +141,7 @@ public class ZookeeperOperation implements DisposableBean {
     @Override
     public void destroy() throws Exception {
         curatorFramework.close();
+
+        LOG.info("Shutting down Zookeeper client...");
     }
 }

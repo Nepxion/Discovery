@@ -12,6 +12,8 @@ package com.nepxion.discovery.common.nacos.operation;
 import java.util.concurrent.Executor;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -22,6 +24,8 @@ import com.alibaba.nacos.api.exception.NacosException;
 import com.nepxion.discovery.common.nacos.constant.NacosConstant;
 
 public class NacosOperation implements DisposableBean {
+    private static final Logger LOG = LoggerFactory.getLogger(NacosOperation.class);
+
     @Autowired
     private ConfigService nacosConfigService;
 
@@ -70,5 +74,7 @@ public class NacosOperation implements DisposableBean {
     @Override
     public void destroy() throws Exception {
         nacosConfigService.shutDown();
+
+        LOG.info("Shutting down Nacos client...");
     }
 }
