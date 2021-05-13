@@ -12,6 +12,7 @@ package com.nepxion.discovery.common.nacos.operation;
 import java.util.concurrent.Executor;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
@@ -20,7 +21,7 @@ import com.alibaba.nacos.api.config.listener.Listener;
 import com.alibaba.nacos.api.exception.NacosException;
 import com.nepxion.discovery.common.nacos.constant.NacosConstant;
 
-public class NacosOperation {
+public class NacosOperation implements DisposableBean {
     @Autowired
     private ConfigService nacosConfigService;
 
@@ -45,7 +46,7 @@ public class NacosOperation {
     }
 
     public Listener subscribeConfig(String group, String serviceId, Executor executor, NacosSubscribeCallback nacosSubscribeCallback) throws NacosException {
-        Listener configListener = new Listener() {
+        Listener listener = new Listener() {
             @Override
             public void receiveConfigInfo(String config) {
                 nacosSubscribeCallback.callback(config);
@@ -57,12 +58,17 @@ public class NacosOperation {
             }
         };
 
-        nacosConfigService.addListener(serviceId, group, configListener);
+        nacosConfigService.addListener(serviceId, group, listener);
 
-        return configListener;
+        return listener;
     }
 
-    public void unsubscribeConfig(String group, String serviceId, Listener configListener) {
-        nacosConfigService.removeListener(serviceId, group, configListener);
+    public void unsubscribeConfig(String group, String serviceId, Listener listener) {
+        nacosConfigService.removeListener(serviceId, group, listener);
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        nacosConfigService.shutDown();
     }
 }

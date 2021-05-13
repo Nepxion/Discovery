@@ -11,6 +11,7 @@ package com.nepxion.discovery.common.redis.operation;
  */
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -18,7 +19,7 @@ import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 
-public class RedisOperation {
+public class RedisOperation implements DisposableBean {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
@@ -62,11 +63,8 @@ public class RedisOperation {
         redisSubscribeCallback.callback(config);
     }
 
-    public void close() {
-        try {
-            configMessageListenerContainer.destroy();
-        } catch (Exception e) {
-
-        }
+    @Override
+    public void destroy() throws Exception {
+        configMessageListenerContainer.destroy();
     }
 }

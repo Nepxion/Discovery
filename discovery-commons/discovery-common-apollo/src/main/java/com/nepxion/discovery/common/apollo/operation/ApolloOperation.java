@@ -26,7 +26,7 @@ public class ApolloOperation {
     }
 
     public ConfigChangeListener subscribeConfig(String group, String serviceId, ApolloSubscribeCallback apolloSubscribeCallback) {
-        ConfigChangeListener configListener = new ConfigChangeListener() {
+        ConfigChangeListener configChangeListener = new ConfigChangeListener() {
             @Override
             public void onChange(ConfigChangeEvent changeEvent) {
                 ConfigChange change = changeEvent.getChange(group + "-" + serviceId);
@@ -35,12 +35,12 @@ public class ApolloOperation {
             }
         };
 
-        apolloConfig.addChangeListener(configListener, Sets.newHashSet(group + "-" + serviceId));
+        apolloConfig.addChangeListener(configChangeListener, Sets.newHashSet(group + "-" + serviceId));
 
-        return configListener;
+        return configChangeListener;
     }
 
-    public void unsubscribeConfig(String group, String serviceId, ConfigChangeListener configListener) {
-        apolloConfig.removeChangeListener(configListener);
+    public void unsubscribeConfig(String group, String serviceId, ConfigChangeListener configChangeListener) {
+        apolloConfig.removeChangeListener(configChangeListener);
     }
 }

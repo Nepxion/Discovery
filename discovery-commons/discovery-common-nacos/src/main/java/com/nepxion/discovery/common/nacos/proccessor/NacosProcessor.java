@@ -32,7 +32,7 @@ public abstract class NacosProcessor implements DisposableBean {
     @Autowired
     private NacosOperation nacosOperation;
 
-    private Listener configListener;
+    private Listener listener;
 
     @PostConstruct
     public void initialize() {
@@ -56,7 +56,7 @@ public abstract class NacosProcessor implements DisposableBean {
         LOG.info("Subscribe {} config from {} server, group={}, dataId={}", description, configType, group, dataId);
 
         try {
-            configListener = nacosOperation.subscribeConfig(group, dataId, executorService, new NacosSubscribeCallback() {
+            listener = nacosOperation.subscribeConfig(group, dataId, executorService, new NacosSubscribeCallback() {
                 @Override
                 public void callback(String config) {
                     try {
@@ -75,7 +75,7 @@ public abstract class NacosProcessor implements DisposableBean {
 
     @Override
     public void destroy() {
-        if (configListener == null) {
+        if (listener == null) {
             return;
         }
 
@@ -87,7 +87,7 @@ public abstract class NacosProcessor implements DisposableBean {
         LOG.info("Unsubscribe {} config from {} server, group={}, dataId={}", description, configType, group, dataId);
 
         try {
-            nacosOperation.unsubscribeConfig(group, dataId, configListener);
+            nacosOperation.unsubscribeConfig(group, dataId, listener);
         } catch (Exception e) {
             LOG.error("Unsubscribe {} config from {} server failed, group={}, dataId={}", description, configType, group, dataId, e);
         }

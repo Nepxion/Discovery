@@ -5,19 +5,19 @@ package com.nepxion.discovery.common.zookeeper.proccessor;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
- * @author rotten
+ * @author Haojun Ren
  * @version 1.0
  */
 
 import javax.annotation.PostConstruct;
 
-import org.apache.curator.framework.recipes.cache.TreeCacheListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.common.zookeeper.constant.ZookeeperConstant;
+import com.nepxion.discovery.common.zookeeper.operation.ZookeeperListener;
 import com.nepxion.discovery.common.zookeeper.operation.ZookeeperOperation;
 import com.nepxion.discovery.common.zookeeper.operation.ZookeeperSubscribeCallback;
 
@@ -27,7 +27,7 @@ public abstract class ZookeeperProcessor implements DisposableBean {
     @Autowired
     private ZookeeperOperation zookeeperOperation;
 
-    private TreeCacheListener configListener;
+    private ZookeeperListener zookeeperListener;
 
     @PostConstruct
     public void initialize() {
@@ -52,7 +52,7 @@ public abstract class ZookeeperProcessor implements DisposableBean {
         LOG.info("Subscribe {} config from {} server, key={}", description, configType, key);
 
         try {
-            configListener = zookeeperOperation.subscribeConfig(group, dataId, new ZookeeperSubscribeCallback() {
+            zookeeperListener = zookeeperOperation.subscribeConfig(group, dataId, new ZookeeperSubscribeCallback() {
                 @Override
                 public void callback(String config) {
                     try {
@@ -71,7 +71,7 @@ public abstract class ZookeeperProcessor implements DisposableBean {
 
     @Override
     public void destroy() {
-        if (configListener == null) {
+        if (zookeeperListener == null) {
             return;
         }
 
@@ -84,7 +84,7 @@ public abstract class ZookeeperProcessor implements DisposableBean {
         LOG.info("Unsubscribe {} config from {} server, key={}", description, configType, key);
 
         try {
-            zookeeperOperation.unsubscribeConfig(group, dataId, configListener);
+            zookeeperOperation.unsubscribeConfig(group, dataId, zookeeperListener);
         } catch (Exception e) {
             LOG.error("Unsubscribe {} config from {} server failed, key={}", description, configType, key, e);
         }
