@@ -22,10 +22,14 @@ import io.etcd.jetcd.watch.WatchResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutionException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class EtcdOperation implements DisposableBean {
+    private static final Logger LOG = LoggerFactory.getLogger(EtcdOperation.class);
+
     @Autowired
     private Client client;
 
@@ -101,5 +105,7 @@ public class EtcdOperation implements DisposableBean {
     @Override
     public void destroy() throws Exception {
         client.close();
+
+        LOG.info("Shutting down Etcd client...");
     }
 }

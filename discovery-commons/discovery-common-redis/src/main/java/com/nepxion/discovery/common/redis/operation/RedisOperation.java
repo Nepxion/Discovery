@@ -11,6 +11,8 @@ package com.nepxion.discovery.common.redis.operation;
  */
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
@@ -20,6 +22,8 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 
 public class RedisOperation implements DisposableBean {
+    private static final Logger LOG = LoggerFactory.getLogger(RedisOperation.class);
+
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
@@ -66,5 +70,7 @@ public class RedisOperation implements DisposableBean {
     @Override
     public void destroy() throws Exception {
         configMessageListenerContainer.destroy();
+
+        LOG.info("Shutting down Redis client...");
     }
 }
