@@ -75,8 +75,8 @@ public class NacosConfigAdapter extends ConfigAdapter {
         executorService.shutdownNow();
     }
 
-    private void unsubscribeConfig(Listener configListener, boolean globalConfig) {
-        if (configListener == null) {
+    private void unsubscribeConfig(Listener listener, boolean globalConfig) {
+        if (listener == null) {
             return;
         }
 
@@ -86,7 +86,7 @@ public class NacosConfigAdapter extends ConfigAdapter {
         configLogger.logUnsubscribeStarted(globalConfig);
 
         try {
-            nacosOperation.unsubscribeConfig(group, dataId, configListener);
+            nacosOperation.unsubscribeConfig(group, dataId, listener);
         } catch (Exception e) {
             configLogger.logUnsubscribeFailed(e, globalConfig);
         }

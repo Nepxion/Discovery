@@ -67,8 +67,6 @@ public class EtcdConfigAdapter extends ConfigAdapter {
     public void unsubscribeConfig() {
         unsubscribeConfig(partialWatchClient, false);
         unsubscribeConfig(globalWatchClient, true);
-
-        etcdOperation.close();
     }
 
     private void unsubscribeConfig(Watch watchClient, boolean globalConfig) {
