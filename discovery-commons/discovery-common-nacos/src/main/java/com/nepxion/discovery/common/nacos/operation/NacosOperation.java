@@ -75,6 +75,6 @@ public class NacosOperation implements DisposableBean {
     public void destroy() throws Exception {
         // nacosConfigService.shutDown();
 
-        LOG.info("Shutting down Nacos client...");
+        LOG.info("Shutting down Nacos Config...");
     }
 }
