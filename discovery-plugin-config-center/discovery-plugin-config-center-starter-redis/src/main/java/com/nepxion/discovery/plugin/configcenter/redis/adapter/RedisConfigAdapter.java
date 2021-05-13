@@ -42,8 +42,21 @@ public class RedisConfigAdapter extends ConfigAdapter {
     public void subscribeConfig() {
         String group = getGroup();
 
-        redisOperation.subscribeConfig(group, getDataId(false), this, "subscribePartialConfig");
-        redisOperation.subscribeConfig(group, getDataId(true), this, "subscribeGlobalConfig");
+        configLogger.logSubscribeStarted(false);
+
+        try {
+            partialMessageListenerAdapter = redisOperation.subscribeConfig(group, getDataId(false), this, "subscribePartialConfig");
+        } catch (Exception e) {
+            configLogger.logSubscribeFailed(e, false);
+        }
+
+        configLogger.logSubscribeStarted(true);
+
+        try {
+            globalMessageListenerAdapter = redisOperation.subscribeConfig(group, getDataId(true), this, "subscribeGlobalConfig");
+        } catch (Exception e) {
+            configLogger.logSubscribeFailed(e, true);
+        }
     }
 
     public void subscribePartialConfig(String config) {
@@ -55,18 +68,12 @@ public class RedisConfigAdapter extends ConfigAdapter {
     }
 
     private void subscribeConfig(String config, boolean globalConfig) {
-        configLogger.logSubscribeStarted(globalConfig);
-
-        try {
-            redisOperation.subscribeConfig(config, new RedisSubscribeCallback() {
-                @Override
-                public void callback(String config) {
-                    callbackConfig(config, globalConfig);
-                }
-            });
-        } catch (Exception e) {
-            configLogger.logSubscribeFailed(e, globalConfig);
-        }
+        redisOperation.subscribeConfig(config, new RedisSubscribeCallback() {
+            @Override
+            public void callback(String config) {
+                callbackConfig(config, globalConfig);
+            }
+        });
     }
 
     @Override

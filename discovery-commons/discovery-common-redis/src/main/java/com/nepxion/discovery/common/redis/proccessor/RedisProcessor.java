@@ -48,33 +48,30 @@ public abstract class RedisProcessor implements DisposableBean {
             LOG.info("Get {} config from {} server failed, group={}, dataId={}", description, configType, group, dataId, e);
         }
 
-        redisOperation.subscribeConfig(group, dataId, this, "subscribeConfig");
+        LOG.info("Subscribe {} config from {} server, group={}, dataId={}", description, configType, group, dataId);
+
+        try {
+            messageListenerAdapter = redisOperation.subscribeConfig(group, dataId, this, "subscribeConfig");
+        } catch (Exception e) {
+            LOG.error("Subscribe {} config from {} server failed, group={}, dataId={}", description, configType, group, dataId, e);
+        }
 
         afterInitialization();
     }
 
     public void subscribeConfig(String config) {
-        String group = getGroup();
-        String dataId = getDataId();
         String description = getDescription();
-        String configType = getConfigType();
 
-        LOG.info("Subscribe {} config from {} server, group={}, dataId={}", description, configType, group, dataId);
-
-        try {
-            redisOperation.subscribeConfig(config, new RedisSubscribeCallback() {
-                @Override
-                public void callback(String config) {
-                    try {
-                        callbackConfig(config);
-                    } catch (Exception e) {
-                        LOG.error("Callback {} config failed", description, e);
-                    }
+        redisOperation.subscribeConfig(config, new RedisSubscribeCallback() {
+            @Override
+            public void callback(String config) {
+                try {
+                    callbackConfig(config);
+                } catch (Exception e) {
+                    LOG.error("Callback {} config failed", description, e);
                 }
-            });
-        } catch (Exception e) {
-            LOG.error("Subscribe {} config from {} server failed, group={}, dataId={}", description, configType, group, dataId, e);
-        }
+            }
+        });
     }
 
     @Override
