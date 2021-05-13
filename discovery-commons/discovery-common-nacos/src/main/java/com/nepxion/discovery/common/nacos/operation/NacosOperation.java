@@ -69,6 +69,6 @@ public class NacosOperation implements DisposableBean {
 
     @Override
     public void destroy() throws Exception {
-        nacosConfigService.shutDown();
+        // nacosConfigService.shutDown();
     }
 }
