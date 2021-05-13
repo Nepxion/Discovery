@@ -142,6 +142,6 @@ public class ZookeeperOperation implements DisposableBean {
     public void destroy() throws Exception {
         curatorFramework.close();
 
-        LOG.info("Shutting down Zookeeper client...");
+        LOG.info("Shutting down Zookeeper Config...");
     }
 }
