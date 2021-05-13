@@ -73,8 +73,6 @@ public class RedisConfigAdapter extends ConfigAdapter {
     public void unsubscribeConfig() {
         unsubscribeConfig(partialMessageListenerAdapter, false);
         unsubscribeConfig(globalMessageListenerAdapter, true);
-
-        redisOperation.close();
     }
 
     private void unsubscribeConfig(MessageListenerAdapter messageListenerAdapter, boolean globalConfig) {

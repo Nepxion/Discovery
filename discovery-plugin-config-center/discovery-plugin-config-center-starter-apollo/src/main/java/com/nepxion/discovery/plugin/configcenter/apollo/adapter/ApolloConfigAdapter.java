@@ -27,8 +27,8 @@ public class ApolloConfigAdapter extends ConfigAdapter {
     @Autowired
     private ConfigLogger configLogger;
 
-    private ConfigChangeListener partialListener;
-    private ConfigChangeListener globalListener;
+    private ConfigChangeListener partialConfigChangeListener;
+    private ConfigChangeListener globalConfigChangeListener;
 
     @Override
     public String getConfig(String group, String dataId) throws Exception {
@@ -38,8 +38,8 @@ public class ApolloConfigAdapter extends ConfigAdapter {
     @PostConstruct
     @Override
     public void subscribeConfig() {
-        partialListener = subscribeConfig(false);
-        globalListener = subscribeConfig(true);
+        partialConfigChangeListener = subscribeConfig(false);
+        globalConfigChangeListener = subscribeConfig(true);
     }
 
     private ConfigChangeListener subscribeConfig(boolean globalConfig) {
@@ -64,12 +64,12 @@ public class ApolloConfigAdapter extends ConfigAdapter {
 
     @Override
     public void unsubscribeConfig() {
-        unsubscribeConfig(partialListener, false);
-        unsubscribeConfig(globalListener, true);
+        unsubscribeConfig(partialConfigChangeListener, false);
+        unsubscribeConfig(globalConfigChangeListener, true);
     }
 
-    private void unsubscribeConfig(ConfigChangeListener configListener, boolean globalConfig) {
-        if (configListener == null) {
+    private void unsubscribeConfig(ConfigChangeListener configChangeListener, boolean globalConfig) {
+        if (configChangeListener == null) {
             return;
         }
 
@@ -79,7 +79,7 @@ public class ApolloConfigAdapter extends ConfigAdapter {
         configLogger.logUnsubscribeStarted(globalConfig);
 
         try {
-            apolloOperation.unsubscribeConfig(group, dataId, configListener);
+            apolloOperation.unsubscribeConfig(group, dataId, configChangeListener);
         } catch (Exception e) {
             configLogger.logUnsubscribeFailed(e, globalConfig);
         }

@@ -32,8 +32,8 @@ public class ConsulConfigAdapter extends ConfigAdapter {
     @Autowired
     private ConfigLogger configLogger;
 
-    private ConsulListener partialListener;
-    private ConsulListener globalListener;
+    private ConsulListener partialConsulListener;
+    private ConsulListener globalConsulListener;
 
     @Override
     public String getConfig(String group, String dataId) throws Exception {
@@ -43,8 +43,8 @@ public class ConsulConfigAdapter extends ConfigAdapter {
     @PostConstruct
     @Override
     public void subscribeConfig() {
-        partialListener = subscribeConfig(false);
-        globalListener = subscribeConfig(true);
+        partialConsulListener = subscribeConfig(false);
+        globalConsulListener = subscribeConfig(true);
     }
 
     private ConsulListener subscribeConfig(boolean globalConfig) {
@@ -69,8 +69,8 @@ public class ConsulConfigAdapter extends ConfigAdapter {
 
     @Override
     public void unsubscribeConfig() {
-        unsubscribeConfig(partialListener, false);
-        unsubscribeConfig(globalListener, true);
+        unsubscribeConfig(partialConsulListener, false);
+        unsubscribeConfig(globalConsulListener, true);
 
         executorService.shutdownNow();
     }
