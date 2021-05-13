@@ -11,19 +11,16 @@ package com.nepxion.discovery.common.zookeeper.proccessor;
 
 import javax.annotation.PostConstruct;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.nepxion.discovery.common.logger.ProcessorLogger;
 import com.nepxion.discovery.common.zookeeper.constant.ZookeeperConstant;
 import com.nepxion.discovery.common.zookeeper.operation.ZookeeperListener;
 import com.nepxion.discovery.common.zookeeper.operation.ZookeeperOperation;
 import com.nepxion.discovery.common.zookeeper.operation.ZookeeperSubscribeCallback;
 
 public abstract class ZookeeperProcessor implements DisposableBean {
-    private static final Logger LOG = LoggerFactory.getLogger(ZookeeperProcessor.class);
-
     @Autowired
     private ZookeeperOperation zookeeperOperation;
 
@@ -35,21 +32,21 @@ public abstract class ZookeeperProcessor implements DisposableBean {
 
         String group = getGroup();
         String dataId = getDataId();
-        String key = group + "-" + dataId;
         String description = getDescription();
         String configType = getConfigType();
+        boolean isConfigSingleKey = isConfigSingleKey();
 
-        LOG.info("Get {} config from {} server, key={}", description, configType, key);
+        ProcessorLogger.logGetStarted(group, dataId, description, configType, isConfigSingleKey);
 
         try {
             String config = zookeeperOperation.getConfig(group, dataId);
 
             callbackConfig(config);
         } catch (Exception e) {
-            LOG.info("Get {} config from {} server failed, key={}", description, configType, key, e);
+            ProcessorLogger.logGetFailed(group, dataId, description, configType, isConfigSingleKey, e);
         }
 
-        LOG.info("Subscribe {} config from {} server, key={}", description, configType, key);
+        ProcessorLogger.logSubscribeStarted(group, dataId, description, configType, isConfigSingleKey);
 
         try {
             zookeeperListener = zookeeperOperation.subscribeConfig(group, dataId, new ZookeeperSubscribeCallback() {
@@ -58,12 +55,12 @@ public abstract class ZookeeperProcessor implements DisposableBean {
                     try {
                         callbackConfig(config);
                     } catch (Exception e) {
-                        LOG.error("Callback {} config failed", description, e);
+                        ProcessorLogger.logCallbackFailed(description, e);
                     }
                 }
             });
         } catch (Exception e) {
-            LOG.error("Subscribe {} config from {} server failed, key={}", description, configType, key, e);
+            ProcessorLogger.logSubscribeFailed(group, dataId, description, configType, isConfigSingleKey, e);
         }
 
         afterInitialization();
@@ -77,21 +74,25 @@ public abstract class ZookeeperProcessor implements DisposableBean {
 
         String group = getGroup();
         String dataId = getDataId();
-        String key = group + "-" + dataId;
         String description = getDescription();
         String configType = getConfigType();
+        boolean isConfigSingleKey = isConfigSingleKey();
 
-        LOG.info("Unsubscribe {} config from {} server, key={}", description, configType, key);
+        ProcessorLogger.logUnsubscribeStarted(group, dataId, description, configType, isConfigSingleKey);
 
         try {
             zookeeperOperation.unsubscribeConfig(group, dataId, zookeeperListener);
         } catch (Exception e) {
-            LOG.error("Unsubscribe {} config from {} server failed, key={}", description, configType, key, e);
+            ProcessorLogger.logUnsubscribeFailed(group, dataId, description, configType, isConfigSingleKey, e);
         }
     }
 
     public String getConfigType() {
         return ZookeeperConstant.ZOOKEEPER_TYPE;
+    }
+
+    public boolean isConfigSingleKey() {
+        return false;
     }
 
     public void beforeInitialization() {

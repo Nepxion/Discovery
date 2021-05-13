@@ -13,20 +13,17 @@ import java.util.concurrent.ExecutorService;
 
 import javax.annotation.PostConstruct;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.nacos.api.config.listener.Listener;
+import com.nepxion.discovery.common.logger.ProcessorLogger;
 import com.nepxion.discovery.common.nacos.constant.NacosConstant;
 import com.nepxion.discovery.common.nacos.operation.NacosOperation;
 import com.nepxion.discovery.common.nacos.operation.NacosSubscribeCallback;
 import com.nepxion.discovery.common.thread.DiscoveryThreadPoolFactory;
 
 public abstract class NacosProcessor implements DisposableBean {
-    private static final Logger LOG = LoggerFactory.getLogger(NacosProcessor.class);
-
     private ExecutorService executorService = DiscoveryThreadPoolFactory.getExecutorService("nacos-config");
 
     @Autowired
@@ -42,18 +39,19 @@ public abstract class NacosProcessor implements DisposableBean {
         String dataId = getDataId();
         String description = getDescription();
         String configType = getConfigType();
+        boolean isConfigSingleKey = isConfigSingleKey();
 
-        LOG.info("Get {} config from {} server, group={}, dataId={}", description, configType, group, dataId);
+        ProcessorLogger.logGetStarted(group, dataId, description, configType, isConfigSingleKey);
 
         try {
             String config = nacosOperation.getConfig(group, dataId);
 
             callbackConfig(config);
         } catch (Exception e) {
-            LOG.info("Get {} config from {} server failed, group={}, dataId={}", description, configType, group, dataId, e);
+            ProcessorLogger.logGetFailed(group, dataId, description, configType, isConfigSingleKey, e);
         }
 
-        LOG.info("Subscribe {} config from {} server, group={}, dataId={}", description, configType, group, dataId);
+        ProcessorLogger.logSubscribeStarted(group, dataId, description, configType, isConfigSingleKey);
 
         try {
             listener = nacosOperation.subscribeConfig(group, dataId, executorService, new NacosSubscribeCallback() {
@@ -62,12 +60,12 @@ public abstract class NacosProcessor implements DisposableBean {
                     try {
                         callbackConfig(config);
                     } catch (Exception e) {
-                        LOG.error("Callback {} config failed", description, e);
+                        ProcessorLogger.logCallbackFailed(description, e);
                     }
                 }
             });
         } catch (Exception e) {
-            LOG.error("Subscribe {} config from {} server failed, group={}, dataId={}", description, configType, group, dataId, e);
+            ProcessorLogger.logSubscribeFailed(group, dataId, description, configType, isConfigSingleKey, e);
         }
 
         afterInitialization();
@@ -83,13 +81,14 @@ public abstract class NacosProcessor implements DisposableBean {
         String dataId = getDataId();
         String description = getDescription();
         String configType = getConfigType();
+        boolean isConfigSingleKey = isConfigSingleKey();
 
-        LOG.info("Unsubscribe {} config from {} server, group={}, dataId={}", description, configType, group, dataId);
+        ProcessorLogger.logUnsubscribeStarted(group, dataId, description, configType, isConfigSingleKey);
 
         try {
             nacosOperation.unsubscribeConfig(group, dataId, listener);
         } catch (Exception e) {
-            LOG.error("Unsubscribe {} config from {} server failed, group={}, dataId={}", description, configType, group, dataId, e);
+            ProcessorLogger.logUnsubscribeFailed(group, dataId, description, configType, isConfigSingleKey, e);
         }
 
         executorService.shutdownNow();
@@ -97,6 +96,10 @@ public abstract class NacosProcessor implements DisposableBean {
 
     public String getConfigType() {
         return NacosConstant.NACOS_TYPE;
+    }
+
+    public boolean isConfigSingleKey() {
+        return false;
     }
 
     public void beforeInitialization() {
