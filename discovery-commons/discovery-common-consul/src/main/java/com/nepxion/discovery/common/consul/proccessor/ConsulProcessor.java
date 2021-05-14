@@ -41,16 +41,6 @@ public abstract class ConsulProcessor implements DisposableBean {
         String configType = getConfigType();
         boolean isConfigSingleKey = isConfigSingleKey();
 
-        ProcessorLogger.logGetStarted(group, dataId, description, configType, isConfigSingleKey);
-
-        try {
-            String config = consulOperation.getConfig(group, dataId);
-
-            callbackConfig(config);
-        } catch (Exception e) {
-            ProcessorLogger.logGetFailed(group, dataId, description, configType, isConfigSingleKey, e);
-        }
-
         ProcessorLogger.logSubscribeStarted(group, dataId, description, configType, isConfigSingleKey);
 
         try {
@@ -66,6 +56,16 @@ public abstract class ConsulProcessor implements DisposableBean {
             });
         } catch (Exception e) {
             ProcessorLogger.logSubscribeFailed(group, dataId, description, configType, isConfigSingleKey, e);
+        }
+
+        ProcessorLogger.logGetStarted(group, dataId, description, configType, isConfigSingleKey);
+
+        try {
+            String config = consulOperation.getConfig(group, dataId);
+
+            callbackConfig(config);
+        } catch (Exception e) {
+            ProcessorLogger.logGetFailed(group, dataId, description, configType, isConfigSingleKey, e);
         }
 
         afterInitialization();

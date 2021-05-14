@@ -36,16 +36,6 @@ public abstract class ApolloProcessor implements DisposableBean {
         String configType = getConfigType();
         boolean isConfigSingleKey = isConfigSingleKey();
 
-        ProcessorLogger.logGetStarted(group, dataId, description, configType, isConfigSingleKey);
-
-        try {
-            String config = apolloOperation.getConfig(group, dataId);
-
-            callbackConfig(config);
-        } catch (Exception e) {
-            ProcessorLogger.logGetFailed(group, dataId, description, configType, isConfigSingleKey, e);
-        }
-
         ProcessorLogger.logSubscribeStarted(group, dataId, description, configType, isConfigSingleKey);
 
         try {
@@ -61,6 +51,16 @@ public abstract class ApolloProcessor implements DisposableBean {
             });
         } catch (Exception e) {
             ProcessorLogger.logSubscribeFailed(group, dataId, description, configType, isConfigSingleKey, e);
+        }
+
+        ProcessorLogger.logGetStarted(group, dataId, description, configType, isConfigSingleKey);
+
+        try {
+            String config = apolloOperation.getConfig(group, dataId);
+
+            callbackConfig(config);
+        } catch (Exception e) {
+            ProcessorLogger.logGetFailed(group, dataId, description, configType, isConfigSingleKey, e);
         }
 
         afterInitialization();
