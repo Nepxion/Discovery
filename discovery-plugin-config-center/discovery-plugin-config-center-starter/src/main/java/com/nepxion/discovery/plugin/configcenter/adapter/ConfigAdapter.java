@@ -41,7 +41,7 @@ public abstract class ConfigAdapter extends RemoteConfigLoader {
     }
 
     public String getConfig(boolean globalConfig) throws Exception {
-        configLogger.logGetStarted(globalConfig);
+        logGetStarted(globalConfig);
 
         String group = getGroup();
         String dataId = getDataId(globalConfig);
@@ -49,9 +49,9 @@ public abstract class ConfigAdapter extends RemoteConfigLoader {
         String config = getConfig(group, dataId);
 
         if (StringUtils.isNotEmpty(config)) {
-            configLogger.logFound(globalConfig);
+            logFound(globalConfig);
         } else {
-            configLogger.logNotFound(globalConfig);
+            logNotFound(globalConfig);
         }
 
         return config;
@@ -61,7 +61,7 @@ public abstract class ConfigAdapter extends RemoteConfigLoader {
         SubscriptionType subscriptionType = getSubscriptionType(globalConfig);
 
         if (StringUtils.isNotEmpty(config)) {
-            configLogger.logUpdatedEvent(globalConfig);
+            logUpdatedEvent(globalConfig);
 
             RuleEntity ruleEntity = null;
             if (globalConfig) {
@@ -77,10 +77,10 @@ public abstract class ConfigAdapter extends RemoteConfigLoader {
             if (!StringUtils.equals(rule, config)) {
                 fireRuleUpdated(new RuleUpdatedEvent(subscriptionType, config), true);
             } else {
-                configLogger.logUpdatedSame(globalConfig);
+                logUpdatedSame(globalConfig);
             }
         } else {
-            configLogger.logClearedEvent(globalConfig);
+            logClearedEvent(globalConfig);
 
             fireRuleCleared(new RuleClearedEvent(subscriptionType), true);
         }
@@ -111,6 +111,46 @@ public abstract class ConfigAdapter extends RemoteConfigLoader {
 
     public SubscriptionType getSubscriptionType(boolean globalConfig) {
         return globalConfig ? SubscriptionType.GLOBAL : SubscriptionType.PARTIAL;
+    }
+
+    public void logGetStarted(boolean globalConfig) {
+        configLogger.logGetStarted(globalConfig);
+    }
+
+    public void logSubscribeStarted(boolean globalConfig) {
+        configLogger.logSubscribeStarted(globalConfig);
+    }
+
+    public void logSubscribeFailed(Exception e, boolean globalConfig) {
+        configLogger.logSubscribeFailed(e, globalConfig);
+    }
+
+    public void logUnsubscribeStarted(boolean globalConfig) {
+        configLogger.logUnsubscribeStarted(globalConfig);
+    }
+
+    public void logUnsubscribeFailed(Exception e, boolean globalConfig) {
+        configLogger.logUnsubscribeFailed(e, globalConfig);
+    }
+
+    public void logFound(boolean globalConfig) {
+        configLogger.logFound(globalConfig);
+    }
+
+    public void logNotFound(boolean globalConfig) {
+        configLogger.logNotFound(globalConfig);
+    }
+
+    public void logUpdatedEvent(boolean globalConfig) {
+        configLogger.logUpdatedEvent(globalConfig);
+    }
+
+    public void logClearedEvent(boolean globalConfig) {
+        configLogger.logClearedEvent(globalConfig);
+    }
+
+    public void logUpdatedSame(boolean globalConfig) {
+        configLogger.logUpdatedSame(globalConfig);
     }
 
     public abstract String getConfig(String group, String dataId) throws Exception;

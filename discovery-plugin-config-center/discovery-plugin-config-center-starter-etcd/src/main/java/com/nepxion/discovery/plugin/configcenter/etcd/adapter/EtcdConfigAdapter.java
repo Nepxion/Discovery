@@ -19,14 +19,10 @@ import com.nepxion.discovery.common.etcd.constant.EtcdConstant;
 import com.nepxion.discovery.common.etcd.operation.EtcdOperation;
 import com.nepxion.discovery.common.etcd.operation.EtcdSubscribeCallback;
 import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
-import com.nepxion.discovery.plugin.configcenter.logger.ConfigLogger;
 
 public class EtcdConfigAdapter extends ConfigAdapter {
     @Autowired
     private EtcdOperation etcdOperation;
-
-    @Autowired
-    private ConfigLogger configLogger;
 
     private Watch partialWatchClient;
     private Watch globalWatchClient;
@@ -47,7 +43,7 @@ public class EtcdConfigAdapter extends ConfigAdapter {
         String group = getGroup();
         String dataId = getDataId(globalConfig);
 
-        configLogger.logSubscribeStarted(globalConfig);
+        logSubscribeStarted(globalConfig);
 
         try {
             return etcdOperation.subscribeConfig(group, dataId, new EtcdSubscribeCallback() {
@@ -57,7 +53,7 @@ public class EtcdConfigAdapter extends ConfigAdapter {
                 }
             });
         } catch (Exception e) {
-            configLogger.logSubscribeFailed(e, globalConfig);
+            logSubscribeFailed(e, globalConfig);
         }
 
         return null;
@@ -77,12 +73,12 @@ public class EtcdConfigAdapter extends ConfigAdapter {
         String group = getGroup();
         String dataId = getDataId(globalConfig);
 
-        configLogger.logUnsubscribeStarted(globalConfig);
+        logUnsubscribeStarted(globalConfig);
 
         try {
             etcdOperation.unsubscribeConfig(group, dataId, watchClient);
         } catch (Exception e) {
-            configLogger.logUnsubscribeFailed(e, globalConfig);
+            logUnsubscribeFailed(e, globalConfig);
         }
     }
 
