@@ -11,16 +11,15 @@ package com.nepxion.discovery.common.apollo.proccessor;
 
 import javax.annotation.PostConstruct;
 
-import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ctrip.framework.apollo.ConfigChangeListener;
 import com.nepxion.discovery.common.apollo.constant.ApolloConstant;
 import com.nepxion.discovery.common.apollo.operation.ApolloOperation;
 import com.nepxion.discovery.common.apollo.operation.ApolloSubscribeCallback;
-import com.nepxion.discovery.common.logger.ProcessorLogger;
+import com.nepxion.discovery.common.processor.ConfigProcessor;
 
-public abstract class ApolloProcessor implements DisposableBean {
+public abstract class ApolloProcessor extends ConfigProcessor {
     @Autowired
     private ApolloOperation apolloOperation;
 
@@ -32,11 +31,8 @@ public abstract class ApolloProcessor implements DisposableBean {
 
         String group = getGroup();
         String dataId = getDataId();
-        String description = getDescription();
-        String configType = getConfigType();
-        boolean isConfigSingleKey = isConfigSingleKey();
 
-        ProcessorLogger.logSubscribeStarted(group, dataId, description, configType, isConfigSingleKey);
+        logSubscribeStarted();
 
         try {
             configChangeListener = apolloOperation.subscribeConfig(group, dataId, new ApolloSubscribeCallback() {
@@ -45,22 +41,22 @@ public abstract class ApolloProcessor implements DisposableBean {
                     try {
                         callbackConfig(config);
                     } catch (Exception e) {
-                        ProcessorLogger.logCallbackFailed(description, e);
+                        logCallbackFailed(e);
                     }
                 }
             });
         } catch (Exception e) {
-            ProcessorLogger.logSubscribeFailed(group, dataId, description, configType, isConfigSingleKey, e);
+            logSubscribeFailed(e);
         }
 
-        ProcessorLogger.logGetStarted(group, dataId, description, configType, isConfigSingleKey);
+        logGetStarted();
 
         try {
             String config = apolloOperation.getConfig(group, dataId);
 
             callbackConfig(config);
         } catch (Exception e) {
-            ProcessorLogger.logGetFailed(group, dataId, description, configType, isConfigSingleKey, e);
+            logGetFailed(e);
         }
 
         afterInitialization();
@@ -74,40 +70,23 @@ public abstract class ApolloProcessor implements DisposableBean {
 
         String group = getGroup();
         String dataId = getDataId();
-        String description = getDescription();
-        String configType = getConfigType();
-        boolean isConfigSingleKey = isConfigSingleKey();
 
-        ProcessorLogger.logUnsubscribeStarted(group, dataId, description, configType, isConfigSingleKey);
+        logUnsubscribeStarted();
 
         try {
             apolloOperation.unsubscribeConfig(group, dataId, configChangeListener);
         } catch (Exception e) {
-            ProcessorLogger.logUnsubscribeFailed(group, dataId, description, configType, isConfigSingleKey, e);
+            logUnsubscribeFailed(e);
         }
     }
 
+    @Override
     public String getConfigType() {
         return ApolloConstant.APOLLO_TYPE;
     }
 
+    @Override
     public boolean isConfigSingleKey() {
         return true;
     }
-
-    public void beforeInitialization() {
-
-    }
-
-    public void afterInitialization() {
-
-    }
-
-    public abstract String getGroup();
-
-    public abstract String getDataId();
-
-    public abstract String getDescription();
-
-    public abstract void callbackConfig(String config);
 }

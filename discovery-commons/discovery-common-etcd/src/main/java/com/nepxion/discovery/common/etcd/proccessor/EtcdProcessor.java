@@ -13,15 +13,14 @@ import io.etcd.jetcd.Watch;
 
 import javax.annotation.PostConstruct;
 
-import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.common.etcd.constant.EtcdConstant;
 import com.nepxion.discovery.common.etcd.operation.EtcdOperation;
 import com.nepxion.discovery.common.etcd.operation.EtcdSubscribeCallback;
-import com.nepxion.discovery.common.logger.ProcessorLogger;
+import com.nepxion.discovery.common.processor.ConfigProcessor;
 
-public abstract class EtcdProcessor implements DisposableBean {
+public abstract class EtcdProcessor extends ConfigProcessor {
     @Autowired
     private EtcdOperation etcdOperation;
 
@@ -33,11 +32,8 @@ public abstract class EtcdProcessor implements DisposableBean {
 
         String group = getGroup();
         String dataId = getDataId();
-        String description = getDescription();
-        String configType = getConfigType();
-        boolean isConfigSingleKey = isConfigSingleKey();
 
-        ProcessorLogger.logSubscribeStarted(group, dataId, description, configType, isConfigSingleKey);
+        logSubscribeStarted();
 
         try {
             watchClient = etcdOperation.subscribeConfig(group, dataId, new EtcdSubscribeCallback() {
@@ -46,22 +42,22 @@ public abstract class EtcdProcessor implements DisposableBean {
                     try {
                         callbackConfig(config);
                     } catch (Exception e) {
-                        ProcessorLogger.logCallbackFailed(description, e);
+                        logCallbackFailed(e);
                     }
                 }
             });
         } catch (Exception e) {
-            ProcessorLogger.logSubscribeFailed(group, dataId, description, configType, isConfigSingleKey, e);
+            logSubscribeFailed(e);
         }
 
-        ProcessorLogger.logGetStarted(group, dataId, description, configType, isConfigSingleKey);
+        logGetStarted();
 
         try {
             String config = etcdOperation.getConfig(group, dataId);
 
             callbackConfig(config);
         } catch (Exception e) {
-            ProcessorLogger.logGetFailed(group, dataId, description, configType, isConfigSingleKey, e);
+            logGetFailed(e);
         }
 
         afterInitialization();
@@ -75,40 +71,23 @@ public abstract class EtcdProcessor implements DisposableBean {
 
         String group = getGroup();
         String dataId = getDataId();
-        String description = getDescription();
-        String configType = getConfigType();
-        boolean isConfigSingleKey = isConfigSingleKey();
 
-        ProcessorLogger.logUnsubscribeStarted(group, dataId, description, configType, isConfigSingleKey);
+        logUnsubscribeStarted();
 
         try {
             etcdOperation.unsubscribeConfig(group, dataId, watchClient);
         } catch (Exception e) {
-            ProcessorLogger.logUnsubscribeFailed(group, dataId, description, configType, isConfigSingleKey, e);
+            logUnsubscribeFailed(e);
         }
     }
 
+    @Override
     public String getConfigType() {
         return EtcdConstant.ETCD_TYPE;
     }
 
+    @Override
     public boolean isConfigSingleKey() {
         return true;
     }
-
-    public void beforeInitialization() {
-
-    }
-
-    public void afterInitialization() {
-
-    }
-
-    public abstract String getGroup();
-
-    public abstract String getDataId();
-
-    public abstract String getDescription();
-
-    public abstract void callbackConfig(String config);
 }
