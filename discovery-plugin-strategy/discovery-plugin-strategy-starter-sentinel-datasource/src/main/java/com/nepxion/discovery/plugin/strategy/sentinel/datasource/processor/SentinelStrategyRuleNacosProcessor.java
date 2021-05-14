@@ -30,7 +30,7 @@ public class SentinelStrategyRuleNacosProcessor extends NacosProcessor {
     }
 
     @Override
-    public void beforeInitialization() {
+    public void afterInitialization() {
         sentinelStrategyRuleLoader.loadFileRules(sentinelStrategyRuleType);
     }
 

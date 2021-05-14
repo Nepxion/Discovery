@@ -30,7 +30,7 @@ public class SentinelStrategyRuleApolloProcessor extends ApolloProcessor {
     }
 
     @Override
-    public void beforeInitialization() {
+    public void afterInitialization() {
         sentinelStrategyRuleLoader.loadFileRules(sentinelStrategyRuleType);
     }
 

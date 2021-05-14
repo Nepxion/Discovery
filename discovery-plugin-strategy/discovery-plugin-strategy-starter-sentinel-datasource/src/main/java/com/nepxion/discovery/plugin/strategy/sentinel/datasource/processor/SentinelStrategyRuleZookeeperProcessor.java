@@ -30,7 +30,7 @@ public class SentinelStrategyRuleZookeeperProcessor extends ZookeeperProcessor {
     }
 
     @Override
-    public void beforeInitialization() {
+    public void afterInitialization() {
         sentinelStrategyRuleLoader.loadFileRules(sentinelStrategyRuleType);
     }
 

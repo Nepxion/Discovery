@@ -29,14 +29,16 @@ public class FileUtil {
             throw new IllegalArgumentException("File path doesn't set");
         }
 
-        LOG.info("File path is {}", path);
-
         try {
             String filePath = applicationContext.getEnvironment().resolvePlaceholders(path);
 
-            return applicationContext.getResource(filePath).getFile();
+            File file = applicationContext.getResource(filePath).getFile();
+
+            LOG.info("File [{}] is found", path);
+
+            return file;
         } catch (Exception e) {
-            LOG.warn("File [{}] isn't found or invalid, ignore to load...", path);
+            LOG.warn("File [{}] isn't found or valid, ignore to load...", path);
         }
 
         return null;
@@ -47,14 +49,16 @@ public class FileUtil {
             throw new IllegalArgumentException("File path doesn't set");
         }
 
-        LOG.info("File path is {}", path);
-
         try {
             String filePath = applicationContext.getEnvironment().resolvePlaceholders(path);
 
-            return applicationContext.getResource(filePath).getInputStream();
+            InputStream inputStream = applicationContext.getResource(filePath).getInputStream();
+
+            LOG.info("File [{}] is found", path);
+
+            return inputStream;
         } catch (Exception e) {
-            LOG.warn("File [{}] isn't found or invalid, ignore to load...", path);
+            LOG.warn("File [{}] isn't found or valid, ignore to load...", path);
         }
 
         return null;
