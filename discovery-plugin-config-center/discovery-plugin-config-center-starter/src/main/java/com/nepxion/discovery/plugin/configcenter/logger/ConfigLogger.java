@@ -22,6 +22,19 @@ public class ConfigLogger {
     @Autowired(required = false)
     private ConfigAdapter configAdapter;
 
+    public void logGetStarted(boolean globalConfig) {
+        if (configAdapter == null) {
+            return;
+        }
+
+        String group = configAdapter.getGroup();
+        String dataId = configAdapter.getDataId(globalConfig);
+        SubscriptionType subscriptionType = configAdapter.getSubscriptionType(globalConfig);
+        String configType = configAdapter.getConfigType();
+
+        LOG.info("Get {} config from {} server, " + getLogKey(), subscriptionType, configType, group, dataId);
+    }
+
     public void logSubscribeStarted(boolean globalConfig) {
         if (configAdapter == null) {
             return;

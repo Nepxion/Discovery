@@ -41,6 +41,8 @@ public abstract class ConfigAdapter extends RemoteConfigLoader {
     }
 
     public String getConfig(boolean globalConfig) throws Exception {
+        configLogger.logGetStarted(globalConfig);
+
         String group = getGroup();
         String dataId = getDataId(globalConfig);
 
