@@ -1,4 +1,4 @@
-package com.nepxion.discovery.common.logger;
+package com.nepxion.discovery.common.processor;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -12,8 +12,8 @@ package com.nepxion.discovery.common.logger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ProcessorLogger {
-    private static final Logger LOG = LoggerFactory.getLogger(ProcessorLogger.class);
+public class ConfigProcessorLogger {
+    private static final Logger LOG = LoggerFactory.getLogger(ConfigProcessorLogger.class);
 
     public static void logGetStarted(String group, String dataId, String description, String configType, boolean isConfigSingleKey) {
         LOG.info("Get {} config from {} server, " + getLogKey(isConfigSingleKey), description, configType, group, dataId);

@@ -13,17 +13,16 @@ import java.util.concurrent.ExecutorService;
 
 import javax.annotation.PostConstruct;
 
-import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.common.consul.constant.ConsulConstant;
 import com.nepxion.discovery.common.consul.operation.ConsulListener;
 import com.nepxion.discovery.common.consul.operation.ConsulOperation;
 import com.nepxion.discovery.common.consul.operation.ConsulSubscribeCallback;
-import com.nepxion.discovery.common.logger.ProcessorLogger;
+import com.nepxion.discovery.common.processor.ConfigProcessor;
 import com.nepxion.discovery.common.thread.DiscoveryThreadPoolFactory;
 
-public abstract class ConsulProcessor implements DisposableBean {
+public abstract class ConsulProcessor extends ConfigProcessor {
     private ExecutorService executorService = DiscoveryThreadPoolFactory.getExecutorService("consul-config");
 
     @Autowired
@@ -37,11 +36,8 @@ public abstract class ConsulProcessor implements DisposableBean {
 
         String group = getGroup();
         String dataId = getDataId();
-        String description = getDescription();
-        String configType = getConfigType();
-        boolean isConfigSingleKey = isConfigSingleKey();
 
-        ProcessorLogger.logSubscribeStarted(group, dataId, description, configType, isConfigSingleKey);
+        logSubscribeStarted();
 
         try {
             consulListener = consulOperation.subscribeConfig(group, dataId, executorService, new ConsulSubscribeCallback() {
@@ -50,22 +46,22 @@ public abstract class ConsulProcessor implements DisposableBean {
                     try {
                         callbackConfig(config);
                     } catch (Exception e) {
-                        ProcessorLogger.logCallbackFailed(description, e);
+                        logCallbackFailed(e);
                     }
                 }
             });
         } catch (Exception e) {
-            ProcessorLogger.logSubscribeFailed(group, dataId, description, configType, isConfigSingleKey, e);
+            logSubscribeFailed(e);
         }
 
-        ProcessorLogger.logGetStarted(group, dataId, description, configType, isConfigSingleKey);
+        logGetStarted();
 
         try {
             String config = consulOperation.getConfig(group, dataId);
 
             callbackConfig(config);
         } catch (Exception e) {
-            ProcessorLogger.logGetFailed(group, dataId, description, configType, isConfigSingleKey, e);
+            logGetFailed(e);
         }
 
         afterInitialization();
@@ -79,42 +75,25 @@ public abstract class ConsulProcessor implements DisposableBean {
 
         String group = getGroup();
         String dataId = getDataId();
-        String description = getDescription();
-        String configType = getConfigType();
-        boolean isConfigSingleKey = isConfigSingleKey();
 
-        ProcessorLogger.logUnsubscribeStarted(group, dataId, description, configType, isConfigSingleKey);
+        logUnsubscribeStarted();
 
         try {
             consulOperation.unsubscribeConfig(group, dataId, consulListener);
         } catch (Exception e) {
-            ProcessorLogger.logUnsubscribeFailed(group, dataId, description, configType, isConfigSingleKey, e);
+            logUnsubscribeFailed(e);
         }
 
         executorService.shutdownNow();
     }
 
+    @Override
     public String getConfigType() {
         return ConsulConstant.CONSUL_TYPE;
     }
 
+    @Override
     public boolean isConfigSingleKey() {
         return true;
     }
-
-    public void beforeInitialization() {
-
-    }
-
-    public void afterInitialization() {
-
-    }
-
-    public abstract String getGroup();
-
-    public abstract String getDataId();
-
-    public abstract String getDescription();
-
-    public abstract void callbackConfig(String config);
 }
