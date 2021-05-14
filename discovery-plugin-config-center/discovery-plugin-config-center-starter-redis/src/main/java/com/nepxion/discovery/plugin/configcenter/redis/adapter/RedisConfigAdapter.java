@@ -20,14 +20,10 @@ import com.nepxion.discovery.common.redis.constant.RedisConstant;
 import com.nepxion.discovery.common.redis.operation.RedisOperation;
 import com.nepxion.discovery.common.redis.operation.RedisSubscribeCallback;
 import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
-import com.nepxion.discovery.plugin.configcenter.logger.ConfigLogger;
 
 public class RedisConfigAdapter extends ConfigAdapter {
     @Autowired
     private RedisOperation redisOperation;
-
-    @Autowired
-    private ConfigLogger configLogger;
 
     private MessageListenerAdapter partialMessageListenerAdapter;
     private MessageListenerAdapter globalMessageListenerAdapter;
@@ -42,20 +38,20 @@ public class RedisConfigAdapter extends ConfigAdapter {
     public void subscribeConfig() {
         String group = getGroup();
 
-        configLogger.logSubscribeStarted(false);
+        logSubscribeStarted(false);
 
         try {
             partialMessageListenerAdapter = redisOperation.subscribeConfig(group, getDataId(false), this, "subscribePartialConfig");
         } catch (Exception e) {
-            configLogger.logSubscribeFailed(e, false);
+            logSubscribeFailed(e, false);
         }
 
-        configLogger.logSubscribeStarted(true);
+        logSubscribeStarted(true);
 
         try {
             globalMessageListenerAdapter = redisOperation.subscribeConfig(group, getDataId(true), this, "subscribeGlobalConfig");
         } catch (Exception e) {
-            configLogger.logSubscribeFailed(e, true);
+            logSubscribeFailed(e, true);
         }
     }
 
@@ -90,12 +86,12 @@ public class RedisConfigAdapter extends ConfigAdapter {
         String group = getGroup();
         String dataId = getDataId(globalConfig);
 
-        configLogger.logUnsubscribeStarted(globalConfig);
+        logUnsubscribeStarted(globalConfig);
 
         try {
             redisOperation.unsubscribeConfig(group, dataId, messageListenerAdapter);
         } catch (Exception e) {
-            configLogger.logUnsubscribeFailed(e, globalConfig);
+            logUnsubscribeFailed(e, globalConfig);
         }
     }
 

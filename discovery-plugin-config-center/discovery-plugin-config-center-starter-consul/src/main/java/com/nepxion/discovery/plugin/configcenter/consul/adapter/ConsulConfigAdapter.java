@@ -21,16 +21,12 @@ import com.nepxion.discovery.common.consul.operation.ConsulOperation;
 import com.nepxion.discovery.common.consul.operation.ConsulSubscribeCallback;
 import com.nepxion.discovery.common.thread.DiscoveryThreadPoolFactory;
 import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
-import com.nepxion.discovery.plugin.configcenter.logger.ConfigLogger;
 
 public class ConsulConfigAdapter extends ConfigAdapter {
     private ExecutorService executorService = DiscoveryThreadPoolFactory.getExecutorService("consul-config");
 
     @Autowired
     private ConsulOperation consulOperation;
-
-    @Autowired
-    private ConfigLogger configLogger;
 
     private ConsulListener partialConsulListener;
     private ConsulListener globalConsulListener;
@@ -51,7 +47,7 @@ public class ConsulConfigAdapter extends ConfigAdapter {
         String group = getGroup();
         String dataId = getDataId(globalConfig);
 
-        configLogger.logSubscribeStarted(globalConfig);
+        logSubscribeStarted(globalConfig);
 
         try {
             return consulOperation.subscribeConfig(group, dataId, executorService, new ConsulSubscribeCallback() {
@@ -61,7 +57,7 @@ public class ConsulConfigAdapter extends ConfigAdapter {
                 }
             });
         } catch (Exception e) {
-            configLogger.logSubscribeFailed(e, globalConfig);
+            logSubscribeFailed(e, globalConfig);
         }
 
         return null;
@@ -83,12 +79,12 @@ public class ConsulConfigAdapter extends ConfigAdapter {
         String group = getGroup();
         String dataId = getDataId(globalConfig);
 
-        configLogger.logUnsubscribeStarted(globalConfig);
+        logUnsubscribeStarted(globalConfig);
 
         try {
             consulOperation.unsubscribeConfig(group, dataId, consulListener);
         } catch (Exception e) {
-            configLogger.logUnsubscribeFailed(e, globalConfig);
+            logUnsubscribeFailed(e, globalConfig);
         }
     }
 

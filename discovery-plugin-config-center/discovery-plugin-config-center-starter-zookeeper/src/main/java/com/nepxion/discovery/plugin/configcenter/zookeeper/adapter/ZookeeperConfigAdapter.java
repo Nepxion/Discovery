@@ -19,14 +19,10 @@ import com.nepxion.discovery.common.zookeeper.operation.ZookeeperListener;
 import com.nepxion.discovery.common.zookeeper.operation.ZookeeperOperation;
 import com.nepxion.discovery.common.zookeeper.operation.ZookeeperSubscribeCallback;
 import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
-import com.nepxion.discovery.plugin.configcenter.logger.ConfigLogger;
 
 public class ZookeeperConfigAdapter extends ConfigAdapter {
     @Autowired
     private ZookeeperOperation zookeeperOperation;
-
-    @Autowired
-    private ConfigLogger configLogger;
 
     private ZookeeperListener partialZookeeperListener;
     private ZookeeperListener globalZookeeperListener;
@@ -47,7 +43,7 @@ public class ZookeeperConfigAdapter extends ConfigAdapter {
         String group = getGroup();
         String dataId = getDataId(globalConfig);
 
-        configLogger.logSubscribeStarted(globalConfig);
+        logSubscribeStarted(globalConfig);
 
         try {
             return zookeeperOperation.subscribeConfig(group, dataId, new ZookeeperSubscribeCallback() {
@@ -57,7 +53,7 @@ public class ZookeeperConfigAdapter extends ConfigAdapter {
                 }
             });
         } catch (Exception e) {
-            configLogger.logSubscribeFailed(e, globalConfig);
+            logSubscribeFailed(e, globalConfig);
         }
 
         return null;
@@ -77,12 +73,12 @@ public class ZookeeperConfigAdapter extends ConfigAdapter {
         String group = getGroup();
         String dataId = getDataId(globalConfig);
 
-        configLogger.logUnsubscribeStarted(globalConfig);
+        logUnsubscribeStarted(globalConfig);
 
         try {
             zookeeperOperation.unsubscribeConfig(group, dataId, zookeeperListener);
         } catch (Exception e) {
-            configLogger.logUnsubscribeFailed(e, globalConfig);
+            logUnsubscribeFailed(e, globalConfig);
         }
     }
 

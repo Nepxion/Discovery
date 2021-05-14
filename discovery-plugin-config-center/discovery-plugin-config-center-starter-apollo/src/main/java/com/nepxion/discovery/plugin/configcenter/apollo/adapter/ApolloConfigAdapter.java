@@ -18,14 +18,10 @@ import com.nepxion.discovery.common.apollo.constant.ApolloConstant;
 import com.nepxion.discovery.common.apollo.operation.ApolloOperation;
 import com.nepxion.discovery.common.apollo.operation.ApolloSubscribeCallback;
 import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
-import com.nepxion.discovery.plugin.configcenter.logger.ConfigLogger;
 
 public class ApolloConfigAdapter extends ConfigAdapter {
     @Autowired
     private ApolloOperation apolloOperation;
-
-    @Autowired
-    private ConfigLogger configLogger;
 
     private ConfigChangeListener partialConfigChangeListener;
     private ConfigChangeListener globalConfigChangeListener;
@@ -46,7 +42,7 @@ public class ApolloConfigAdapter extends ConfigAdapter {
         String group = getGroup();
         String dataId = getDataId(globalConfig);
 
-        configLogger.logSubscribeStarted(globalConfig);
+        logSubscribeStarted(globalConfig);
 
         try {
             return apolloOperation.subscribeConfig(group, dataId, new ApolloSubscribeCallback() {
@@ -56,7 +52,7 @@ public class ApolloConfigAdapter extends ConfigAdapter {
                 }
             });
         } catch (Exception e) {
-            configLogger.logSubscribeFailed(e, globalConfig);
+            logSubscribeFailed(e, globalConfig);
         }
 
         return null;
@@ -76,12 +72,12 @@ public class ApolloConfigAdapter extends ConfigAdapter {
         String group = getGroup();
         String dataId = getDataId(globalConfig);
 
-        configLogger.logUnsubscribeStarted(globalConfig);
+        logUnsubscribeStarted(globalConfig);
 
         try {
             apolloOperation.unsubscribeConfig(group, dataId, configChangeListener);
         } catch (Exception e) {
-            configLogger.logUnsubscribeFailed(e, globalConfig);
+            logUnsubscribeFailed(e, globalConfig);
         }
     }
 
