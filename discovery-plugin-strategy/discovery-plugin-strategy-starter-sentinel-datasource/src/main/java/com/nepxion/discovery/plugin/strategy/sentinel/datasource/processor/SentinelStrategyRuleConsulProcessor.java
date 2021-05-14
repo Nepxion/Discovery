@@ -30,7 +30,7 @@ public class SentinelStrategyRuleConsulProcessor extends ConsulProcessor {
     }
 
     @Override
-    public void beforeInitialization() {
+    public void afterInitialization() {
         sentinelStrategyRuleLoader.loadFileRules(sentinelStrategyRuleType);
     }
 

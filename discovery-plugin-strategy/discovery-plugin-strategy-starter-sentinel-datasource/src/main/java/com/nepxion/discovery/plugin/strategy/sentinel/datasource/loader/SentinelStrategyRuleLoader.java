@@ -72,37 +72,52 @@ public class SentinelStrategyRuleLoader {
         switch (sentinelStrategyRuleType) {
             case FLOW:
                 if (CollectionUtils.isEmpty(FlowRuleManager.getRules())) {
-                    loadRules(sentinelStrategyRuleType, getRules(sentinelStrategyFlowPath));
+                    String sentinelStrategyRule = getRules(sentinelStrategyFlowPath);
+                    if (StringUtils.isNotBlank(sentinelStrategyRule)) {
+                        loadRules(sentinelStrategyRuleType, sentinelStrategyRule);
+                    }
                 } else {
-                    LOG.info("{} exists, ignore to load from file", sentinelStrategyRuleType.getDescription());
+                    LOG.info("{} exists, ignore to load from file...", sentinelStrategyRuleType.getDescription());
                 }
                 break;
             case DEGRADE:
                 if (CollectionUtils.isEmpty(DegradeRuleManager.getRules())) {
-                    loadRules(sentinelStrategyRuleType, getRules(sentinelStrategyDegradePath));
+                    String sentinelStrategyRule = getRules(sentinelStrategyDegradePath);
+                    if (StringUtils.isNotBlank(sentinelStrategyRule)) {
+                        loadRules(sentinelStrategyRuleType, sentinelStrategyRule);
+                    }
                 } else {
-                    LOG.info("{} exists, ignore to load from file", sentinelStrategyRuleType.getDescription());
+                    LOG.info("{} exists, ignore to load from file...", sentinelStrategyRuleType.getDescription());
                 }
                 break;
             case AUTHORITY:
                 if (CollectionUtils.isEmpty(AuthorityRuleManager.getRules())) {
-                    loadRules(sentinelStrategyRuleType, getRules(sentinelStrategyAuthorityPath));
+                    String sentinelStrategyRule = getRules(sentinelStrategyAuthorityPath);
+                    if (StringUtils.isNotBlank(sentinelStrategyRule)) {
+                        loadRules(sentinelStrategyRuleType, sentinelStrategyRule);
+                    }
                 } else {
-                    LOG.info("{} exists, ignore to load from file", sentinelStrategyRuleType.getDescription());
+                    LOG.info("{} exists, ignore to load from file...", sentinelStrategyRuleType.getDescription());
                 }
                 break;
             case SYSTEM:
                 if (CollectionUtils.isEmpty(SystemRuleManager.getRules())) {
-                    loadRules(sentinelStrategyRuleType, getRules(sentinelStrategySystemPath));
+                    String sentinelStrategyRule = getRules(sentinelStrategySystemPath);
+                    if (StringUtils.isNotBlank(sentinelStrategyRule)) {
+                        loadRules(sentinelStrategyRuleType, sentinelStrategyRule);
+                    }
                 } else {
-                    LOG.info("{} exists, ignore to load from file", sentinelStrategyRuleType.getDescription());
+                    LOG.info("{} exists, ignore to load from file...", sentinelStrategyRuleType.getDescription());
                 }
                 break;
             case PARAM_FLOW:
                 if (CollectionUtils.isEmpty(ParamFlowRuleManager.getRules())) {
-                    loadRules(sentinelStrategyRuleType, getRules(sentinelStrategyParamFlowPath));
+                    String sentinelStrategyRule = getRules(sentinelStrategyParamFlowPath);
+                    if (StringUtils.isNotBlank(sentinelStrategyRule)) {
+                        loadRules(sentinelStrategyRuleType, sentinelStrategyRule);
+                    }
                 } else {
-                    LOG.info("{} exists, ignore to load from file", sentinelStrategyRuleType.getDescription());
+                    LOG.info("{} exists, ignore to load from file...", sentinelStrategyRuleType.getDescription());
                 }
                 break;
         }
@@ -143,8 +158,6 @@ public class SentinelStrategyRuleLoader {
     }
 
     public String getRules(String path) {
-        String rules = FileUtil.getText(applicationContext, path);
-
-        return StringUtils.isNotEmpty(rules) ? rules : SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_EMPTY_RULE;
+        return FileUtil.getText(applicationContext, path);
     }
 }

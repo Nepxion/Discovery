@@ -30,7 +30,7 @@ public class SentinelStrategyRuleRedisProcessor extends RedisProcessor {
     }
 
     @Override
-    public void beforeInitialization() {
+    public void afterInitialization() {
         sentinelStrategyRuleLoader.loadFileRules(sentinelStrategyRuleType);
     }
 

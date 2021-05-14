@@ -30,7 +30,7 @@ public class SentinelStrategyRuleEtcdProcessor extends EtcdProcessor {
     }
 
     @Override
-    public void beforeInitialization() {
+    public void afterInitialization() {
         sentinelStrategyRuleLoader.loadFileRules(sentinelStrategyRuleType);
     }
 
