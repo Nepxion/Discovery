@@ -32,16 +32,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.nepxion</groupId>
-            <!-- <artifactId>discovery-console-starter-apollo</artifactId> -->
-            <artifactId>discovery-console-starter-nacos</artifactId>
-            <!-- <artifactId>discovery-console-starter-redis</artifactId> -->
-            <!-- <artifactId>discovery-console-starter-zookeeper</artifactId> -->
-            <!-- <artifactId>discovery-console-starter-consul</artifactId> -->
-            <!-- <artifactId>discovery-console-starter-etcd</artifactId> -->
-        </dependency>
-
-        <dependency>
             <!-- <groupId>org.springframework.cloud</groupId> -->
             <!-- <artifactId>spring-cloud-starter-eureka</artifactId> -->
             <!-- <artifactId>spring-cloud-starter-consul-discovery</artifactId> -->
@@ -49,6 +39,16 @@
 
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nepxion</groupId>
+            <!-- <artifactId>discovery-console-starter-apollo</artifactId> -->
+            <artifactId>discovery-console-starter-nacos</artifactId>
+            <!-- <artifactId>discovery-console-starter-redis</artifactId> -->
+            <!-- <artifactId>discovery-console-starter-zookeeper</artifactId> -->
+            <!-- <artifactId>discovery-console-starter-consul</artifactId> -->
+            <!-- <artifactId>discovery-console-starter-etcd</artifactId> -->
         </dependency>
 
         <dependency>
