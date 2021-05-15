@@ -17,6 +17,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.StandardEnvironment;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.GatewayType;
 import com.nepxion.discovery.common.entity.ServiceType;
 
 public class ZuulStrategyEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
@@ -24,6 +25,7 @@ public class ZuulStrategyEnvironmentPostProcessor implements EnvironmentPostProc
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
         if (StringUtils.equals(environment.getClass().getName(), StandardEnvironment.class.getName())) {
             System.setProperty(DiscoveryConstant.SPRING_APPLICATION_TYPE, ServiceType.GATEWAY.toString());
+            System.setProperty(DiscoveryConstant.SPRING_APPLICATION_GATEWAY_TYPE, GatewayType.ZUUL.toString());
         }
     }
 
