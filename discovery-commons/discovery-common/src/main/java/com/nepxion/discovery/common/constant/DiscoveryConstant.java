@@ -70,9 +70,6 @@ public class DiscoveryConstant {
     public static final String CONSOLE = "console";
     public static final String TEST = "test";
 
-    public static final String SPRING_CLOUD_GATEWAY = "spring-cloud-gateway";
-    public static final String ZUUL = "zuul";
-
     public static final String DYNAMIC_VERSION = "dynamic-version";
     public static final String RULE = "rule";
     public static final String DYNAMIC_RULE = "dynamic-rule";

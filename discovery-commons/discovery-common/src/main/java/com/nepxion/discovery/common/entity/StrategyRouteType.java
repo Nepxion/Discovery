@@ -12,12 +12,12 @@ package com.nepxion.discovery.common.entity;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
 public enum StrategyRouteType {
-    VERSION(DiscoveryConstant.VERSION), 
-    REGION(DiscoveryConstant.REGION), 
-    ADDRESS(DiscoveryConstant.ADDRESS), 
-    VERSION_WEIGHT(DiscoveryConstant.VERSION_WEIGHT), 
-    REGION_WEIGHT(DiscoveryConstant.REGION_WEIGHT), 
-    ID_BLACKLIST(DiscoveryConstant.ID_BLACKLIST), 
+    VERSION(DiscoveryConstant.VERSION),
+    REGION(DiscoveryConstant.REGION),
+    ADDRESS(DiscoveryConstant.ADDRESS),
+    VERSION_WEIGHT(DiscoveryConstant.VERSION_WEIGHT),
+    REGION_WEIGHT(DiscoveryConstant.REGION_WEIGHT),
+    ID_BLACKLIST(DiscoveryConstant.ID_BLACKLIST),
     ADDRESS_BLACKLIST(DiscoveryConstant.ADDRESS_BLACKLIST);
 
     private String value;
