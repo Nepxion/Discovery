@@ -45,42 +45,49 @@ public class ServiceEndpoint {
     }
 
     @RequestMapping(path = "/groups", method = RequestMethod.GET)
-    @ApiOperation(value = "获取服务注册中心的服务组名列表", notes = "", response = ResponseEntity.class, httpMethod = "GET")
+    @ApiOperation(value = "获取注册中心的服务组名列表", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     public ResponseEntity<?> groups() {
         return doGroups();
     }
 
+    @RequestMapping(path = "/group/{serviceId}", method = RequestMethod.GET)
+    @ApiOperation(value = "获取注册中心的服务组名", notes = "", response = ResponseEntity.class, httpMethod = "GET")
+    @ResponseBody
+    public ResponseEntity<?> group(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
+        return doGroup(serviceId);
+    }
+
     @RequestMapping(path = "/services", method = RequestMethod.GET)
-    @ApiOperation(value = "获取服务注册中心的服务名列表", notes = "", response = ResponseEntity.class, httpMethod = "GET")
+    @ApiOperation(value = "获取注册中心的服务名列表", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     public ResponseEntity<?> services() {
         return doServices();
     }
 
     @RequestMapping(path = "/gateways", method = RequestMethod.GET)
-    @ApiOperation(value = "获取服务注册中心的网关名列表", notes = "", response = ResponseEntity.class, httpMethod = "GET")
+    @ApiOperation(value = "获取注册中心的网关名列表", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     public ResponseEntity<?> gateways() {
         return doGateways();
     }
 
     @RequestMapping(path = "/instances/{serviceId}", method = RequestMethod.GET)
-    @ApiOperation(value = "获取服务注册中心的服务实例列表", notes = "", response = ResponseEntity.class, httpMethod = "GET")
+    @ApiOperation(value = "获取注册中心的服务实例列表", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     public ResponseEntity<?> instances(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
         return doInstances(serviceId);
     }
 
     @RequestMapping(path = "/instance-list/{serviceId}", method = RequestMethod.GET)
-    @ApiOperation(value = "获取服务注册中心的服务实例列表（精简数据）", notes = "", response = ResponseEntity.class, httpMethod = "GET")
+    @ApiOperation(value = "获取注册中心的服务实例列表（精简数据）", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     public ResponseEntity<?> instanceList(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
         return doInstanceList(serviceId);
     }
 
     @RequestMapping(path = "/instance-map", method = RequestMethod.POST)
-    @ApiOperation(value = "获取服务注册中心的服务实例的Map（精简数据）", notes = "服务组名列表", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "获取注册中心的服务实例的Map（精简数据）", notes = "服务组名列表", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> instanceMap(@RequestBody @ApiParam(value = "服务组名列表，传入空列则可以获取全部服务实例数据", required = true) List<String> groups) {
         return doInstanceMap(groups);
@@ -101,6 +108,16 @@ public class ServiceEndpoint {
             List<String> groups = serviceResource.getGroups();
 
             return ResponseUtil.getSuccessResponse(groups);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
+    }
+
+    private ResponseEntity<?> doGroup(String serviceId) {
+        try {
+            String group = serviceResource.getGroup(serviceId);
+
+            return ResponseUtil.getSuccessResponse(group);
         } catch (Exception e) {
             return ResponseUtil.getFailureResponse(e);
         }

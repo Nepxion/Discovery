@@ -22,6 +22,8 @@ public interface ServiceResource {
 
     List<String> getGroups();
 
+    String getGroup(String serviceId);
+
     List<String> getServices();
 
     List<String> getGateways();
