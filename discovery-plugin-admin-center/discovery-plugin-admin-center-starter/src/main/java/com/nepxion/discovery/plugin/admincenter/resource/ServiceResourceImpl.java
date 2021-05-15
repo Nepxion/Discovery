@@ -87,6 +87,19 @@ public class ServiceResourceImpl implements ServiceResource {
     }
 
     @Override
+    public String getGroup(String serviceId) {
+        List<InstanceEntity> instanceEntityList = getInstanceList(serviceId);
+        for (InstanceEntity instance : instanceEntityList) {
+            String group = InstanceEntityWrapper.getGroup(instance);
+            if (StringUtils.isNotEmpty(group)) {
+                return group;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
     public List<String> getServices() {
         return discoveryClient.getServices();
     }
