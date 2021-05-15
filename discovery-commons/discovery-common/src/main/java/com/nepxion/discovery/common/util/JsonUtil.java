@@ -82,11 +82,6 @@ public class JsonUtil {
         }
     }
 
-    public static String prettyFormat(String json) throws JsonProcessingException {
-        Object val = objectMapper.readValue(json, Object.class);
-        return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(val);
-    }
-
     public static ObjectMapper getObjectMapper() {
         return objectMapper;
     }
