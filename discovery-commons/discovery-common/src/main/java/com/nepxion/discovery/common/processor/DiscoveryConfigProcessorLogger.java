@@ -12,8 +12,8 @@ package com.nepxion.discovery.common.processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ConfigProcessorLogger {
-    private static final Logger LOG = LoggerFactory.getLogger(ConfigProcessorLogger.class);
+public class DiscoveryConfigProcessorLogger {
+    private static final Logger LOG = LoggerFactory.getLogger(DiscoveryConfigProcessorLogger.class);
 
     public static void logGetStarted(String group, String dataId, String description, String configType, boolean isConfigSingleKey) {
         LOG.info("Get {} config from {} server, " + getLogKey(isConfigSingleKey), description, configType, group, dataId);

@@ -14,12 +14,12 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 
-import com.nepxion.discovery.common.processor.ConfigProcessor;
+import com.nepxion.discovery.common.processor.DiscoveryConfigProcessor;
 import com.nepxion.discovery.common.redis.constant.RedisConstant;
 import com.nepxion.discovery.common.redis.operation.RedisOperation;
 import com.nepxion.discovery.common.redis.operation.RedisSubscribeCallback;
 
-public abstract class RedisProcessor extends ConfigProcessor {
+public abstract class RedisProcessor extends DiscoveryConfigProcessor {
     @Autowired
     private RedisOperation redisOperation;
 

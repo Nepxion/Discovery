@@ -18,9 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.nepxion.discovery.common.etcd.constant.EtcdConstant;
 import com.nepxion.discovery.common.etcd.operation.EtcdOperation;
 import com.nepxion.discovery.common.etcd.operation.EtcdSubscribeCallback;
-import com.nepxion.discovery.common.processor.ConfigProcessor;
+import com.nepxion.discovery.common.processor.DiscoveryConfigProcessor;
 
-public abstract class EtcdProcessor extends ConfigProcessor {
+public abstract class EtcdProcessor extends DiscoveryConfigProcessor {
     @Autowired
     private EtcdOperation etcdOperation;
 
