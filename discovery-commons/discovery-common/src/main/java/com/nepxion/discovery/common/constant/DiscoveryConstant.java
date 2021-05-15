@@ -56,6 +56,7 @@ public class DiscoveryConstant {
     public static final String SPRING_APPLICATION_UUID = "spring.application.uuid";
     public static final String SPRING_APPLICATION_NAME = "spring.application.name";
     public static final String SPRING_APPLICATION_TYPE = "spring.application.type";
+    public static final String SPRING_APPLICATION_GATEWAY_TYPE = "spring.application.gateway.type";
     public static final String SPRING_APPLICATION_PROTOCOL = "spring.application.protocol";
     public static final String GROUP = "group";
     public static final String SERVICE_ID = "serviceId";
@@ -68,6 +69,9 @@ public class DiscoveryConstant {
     public static final String GATEWAY = "gateway";
     public static final String CONSOLE = "console";
     public static final String TEST = "test";
+
+    public static final String SPRING_CLOUD_GATEWAY = "spring-cloud-gateway";
+    public static final String ZUUL = "zuul";
 
     public static final String DYNAMIC_VERSION = "dynamic-version";
     public static final String RULE = "rule";
