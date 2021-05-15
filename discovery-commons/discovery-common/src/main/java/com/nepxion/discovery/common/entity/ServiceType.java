@@ -12,9 +12,9 @@ package com.nepxion.discovery.common.entity;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
 public enum ServiceType {
-    SERVICE(DiscoveryConstant.SERVICE), 
-    GATEWAY(DiscoveryConstant.GATEWAY), 
-    CONSOLE(DiscoveryConstant.CONSOLE), 
+    SERVICE(DiscoveryConstant.SERVICE),
+    GATEWAY(DiscoveryConstant.GATEWAY),
+    CONSOLE(DiscoveryConstant.CONSOLE),
     TEST(DiscoveryConstant.TEST);
 
     private String value;

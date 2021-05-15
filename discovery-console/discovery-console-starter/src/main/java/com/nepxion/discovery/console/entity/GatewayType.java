@@ -1,4 +1,4 @@
-package com.nepxion.discovery.common.entity;
+package com.nepxion.discovery.console.entity;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -9,11 +9,11 @@ package com.nepxion.discovery.common.entity;
  * @version 1.0
  */
 
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.console.constant.ConsoleConstant;
 
 public enum GatewayType {
-    SPRING_CLOUD_GATEWAY(DiscoveryConstant.SPRING_CLOUD_GATEWAY),  
-    ZUUL(DiscoveryConstant.ZUUL);
+    SPRING_CLOUD_GATEWAY(ConsoleConstant.SPRING_CLOUD_GATEWAY),
+    ZUUL(ConsoleConstant.ZUUL);
 
     private String value;
 
