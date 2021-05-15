@@ -12,10 +12,10 @@ package com.nepxion.discovery.plugin.strategy.sentinel.datasource.entity;
 import com.nepxion.discovery.plugin.strategy.sentinel.datasource.constant.SentinelStrategyDatasourceConstant;
 
 public enum SentinelStrategyRuleType {
-    FLOW(SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_FLOW_KEY, SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_FLOW_DESCRIPTION), 
-    DEGRADE(SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_DEGRADE_KEY, SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_DEGRADE_DESCRIPTION), 
-    AUTHORITY(SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_AUTHORITY_KEY, SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_AUTHORITY_DESCRIPTION), 
-    SYSTEM(SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_SYSTEM_KEY, SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_SYSTEM_DESCRIPTION), 
+    FLOW(SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_FLOW_KEY, SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_FLOW_DESCRIPTION),
+    DEGRADE(SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_DEGRADE_KEY, SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_DEGRADE_DESCRIPTION),
+    AUTHORITY(SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_AUTHORITY_KEY, SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_AUTHORITY_DESCRIPTION),
+    SYSTEM(SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_SYSTEM_KEY, SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_SYSTEM_DESCRIPTION),
     PARAM_FLOW(SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_PARAM_FLOW_KEY, SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_PARAM_FLOW_DESCRIPTION);
 
     private String value;
