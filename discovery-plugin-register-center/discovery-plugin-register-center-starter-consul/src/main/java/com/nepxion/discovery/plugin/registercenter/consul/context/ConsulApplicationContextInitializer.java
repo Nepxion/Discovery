@@ -65,6 +65,10 @@ public class ConsulApplicationContextInitializer extends PluginApplicationContex
             metadata.add(DiscoveryMetaDataConstant.SPRING_BOOT_VERSION + "=" + SpringBootVersion.getVersion());
             metadata.add(DiscoveryMetaDataConstant.SPRING_APPLICATION_NAME + "=" + PluginContextAware.getApplicationName(environment));
             metadata.add(DiscoveryMetaDataConstant.SPRING_APPLICATION_TYPE + "=" + PluginContextAware.getApplicationType(environment));
+            String applicationGatewayType = PluginContextAware.getApplicationGatewayType(environment);
+            if (StringUtils.isNotEmpty(applicationGatewayType)) {
+                metadata.add(DiscoveryMetaDataConstant.SPRING_APPLICATION_GATEWAY_TYPE + "=" + applicationGatewayType);
+            }
             metadata.add(DiscoveryMetaDataConstant.SPRING_APPLICATION_PROTOCOL + "=" + PluginContextAware.getApplicationProtocol(environment));
             metadata.add(DiscoveryMetaDataConstant.SPRING_APPLICATION_UUID + "=" + PluginContextAware.getApplicationUUId(environment));
             metadata.add(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN + "=" + ConsulConstant.CONSUL_TYPE);

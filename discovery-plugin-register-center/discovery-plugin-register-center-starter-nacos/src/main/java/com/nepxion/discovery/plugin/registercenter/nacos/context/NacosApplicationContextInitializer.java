@@ -66,6 +66,10 @@ public class NacosApplicationContextInitializer extends PluginApplicationContext
             metadata.put(DiscoveryMetaDataConstant.SPRING_BOOT_VERSION, SpringBootVersion.getVersion());
             metadata.put(DiscoveryMetaDataConstant.SPRING_APPLICATION_NAME, PluginContextAware.getApplicationName(environment));
             metadata.put(DiscoveryMetaDataConstant.SPRING_APPLICATION_TYPE, PluginContextAware.getApplicationType(environment));
+            String applicationGatewayType = PluginContextAware.getApplicationGatewayType(environment);
+            if (StringUtils.isNotEmpty(applicationGatewayType)) {
+                metadata.put(DiscoveryMetaDataConstant.SPRING_APPLICATION_GATEWAY_TYPE, applicationGatewayType);
+            }
             metadata.put(DiscoveryMetaDataConstant.SPRING_APPLICATION_PROTOCOL, PluginContextAware.getApplicationProtocol(environment));
             metadata.put(DiscoveryMetaDataConstant.SPRING_APPLICATION_UUID, PluginContextAware.getApplicationUUId(environment));
             metadata.put(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN, NacosConstant.NACOS_TYPE);

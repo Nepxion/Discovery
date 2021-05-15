@@ -196,6 +196,10 @@ public class PluginContextAware implements ApplicationContextAware {
         return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_TYPE, String.class, DiscoveryConstant.UNKNOWN);
     }
 
+    public static String getApplicationGatewayType(Environment environment) {
+        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_GATEWAY_TYPE, String.class);
+    }
+
     public static String getApplicationProtocol(Environment environment) {
         return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_PROTOCOL, String.class, "http");
     }

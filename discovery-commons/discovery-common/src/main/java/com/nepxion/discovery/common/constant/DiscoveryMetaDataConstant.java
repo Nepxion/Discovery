@@ -25,6 +25,7 @@ public class DiscoveryMetaDataConstant {
     public static final String SPRING_APPLICATION_UUID = "spring_application_uuid";
     public static final String SPRING_APPLICATION_NAME = "spring_application_name";
     public static final String SPRING_APPLICATION_TYPE = "spring_application_type";
+    public static final String SPRING_APPLICATION_GATEWAY_TYPE = "spring_application_gateway_type";
     public static final String SPRING_APPLICATION_PROTOCOL = "spring_application_protocol";
 
     public static final String SEPARATE = "_";
