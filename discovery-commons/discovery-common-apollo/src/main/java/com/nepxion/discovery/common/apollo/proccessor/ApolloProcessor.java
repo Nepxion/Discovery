@@ -17,9 +17,9 @@ import com.ctrip.framework.apollo.ConfigChangeListener;
 import com.nepxion.discovery.common.apollo.constant.ApolloConstant;
 import com.nepxion.discovery.common.apollo.operation.ApolloOperation;
 import com.nepxion.discovery.common.apollo.operation.ApolloSubscribeCallback;
-import com.nepxion.discovery.common.processor.ConfigProcessor;
+import com.nepxion.discovery.common.processor.DiscoveryConfigProcessor;
 
-public abstract class ApolloProcessor extends ConfigProcessor {
+public abstract class ApolloProcessor extends DiscoveryConfigProcessor {
     @Autowired
     private ApolloOperation apolloOperation;
 

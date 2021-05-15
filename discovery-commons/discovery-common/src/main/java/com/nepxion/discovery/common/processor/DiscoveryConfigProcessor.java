@@ -11,7 +11,7 @@ package com.nepxion.discovery.common.processor;
 
 import org.springframework.beans.factory.DisposableBean;
 
-public abstract class ConfigProcessor implements DisposableBean {
+public abstract class DiscoveryConfigProcessor implements DisposableBean {
     public void logGetStarted() {
         String group = getGroup();
         String dataId = getDataId();
@@ -19,7 +19,7 @@ public abstract class ConfigProcessor implements DisposableBean {
         String configType = getConfigType();
         boolean isConfigSingleKey = isConfigSingleKey();
 
-        ConfigProcessorLogger.logGetStarted(group, dataId, description, configType, isConfigSingleKey);
+        DiscoveryConfigProcessorLogger.logGetStarted(group, dataId, description, configType, isConfigSingleKey);
     }
 
     public void logGetFailed(Exception e) {
@@ -29,7 +29,7 @@ public abstract class ConfigProcessor implements DisposableBean {
         String configType = getConfigType();
         boolean isConfigSingleKey = isConfigSingleKey();
 
-        ConfigProcessorLogger.logGetFailed(group, dataId, description, configType, isConfigSingleKey, e);
+        DiscoveryConfigProcessorLogger.logGetFailed(group, dataId, description, configType, isConfigSingleKey, e);
     }
 
     public void logSubscribeStarted() {
@@ -39,7 +39,7 @@ public abstract class ConfigProcessor implements DisposableBean {
         String configType = getConfigType();
         boolean isConfigSingleKey = isConfigSingleKey();
 
-        ConfigProcessorLogger.logSubscribeStarted(group, dataId, description, configType, isConfigSingleKey);
+        DiscoveryConfigProcessorLogger.logSubscribeStarted(group, dataId, description, configType, isConfigSingleKey);
     }
 
     public void logSubscribeFailed(Exception e) {
@@ -49,7 +49,7 @@ public abstract class ConfigProcessor implements DisposableBean {
         String configType = getConfigType();
         boolean isConfigSingleKey = isConfigSingleKey();
 
-        ConfigProcessorLogger.logSubscribeFailed(group, dataId, description, configType, isConfigSingleKey, e);
+        DiscoveryConfigProcessorLogger.logSubscribeFailed(group, dataId, description, configType, isConfigSingleKey, e);
     }
 
     public void logUnsubscribeStarted() {
@@ -59,7 +59,7 @@ public abstract class ConfigProcessor implements DisposableBean {
         String configType = getConfigType();
         boolean isConfigSingleKey = isConfigSingleKey();
 
-        ConfigProcessorLogger.logUnsubscribeStarted(group, dataId, description, configType, isConfigSingleKey);
+        DiscoveryConfigProcessorLogger.logUnsubscribeStarted(group, dataId, description, configType, isConfigSingleKey);
     }
 
     public void logUnsubscribeFailed(Exception e) {
@@ -69,13 +69,13 @@ public abstract class ConfigProcessor implements DisposableBean {
         String configType = getConfigType();
         boolean isConfigSingleKey = isConfigSingleKey();
 
-        ConfigProcessorLogger.logUnsubscribeFailed(group, dataId, description, configType, isConfigSingleKey, e);
+        DiscoveryConfigProcessorLogger.logUnsubscribeFailed(group, dataId, description, configType, isConfigSingleKey, e);
     }
 
     public void logCallbackFailed(Exception e) {
         String description = getDescription();
 
-        ConfigProcessorLogger.logCallbackFailed(description, e);
+        DiscoveryConfigProcessorLogger.logCallbackFailed(description, e);
     }
 
     public void beforeInitialization() {

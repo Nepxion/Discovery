@@ -19,10 +19,10 @@ import com.nepxion.discovery.common.consul.constant.ConsulConstant;
 import com.nepxion.discovery.common.consul.operation.ConsulListener;
 import com.nepxion.discovery.common.consul.operation.ConsulOperation;
 import com.nepxion.discovery.common.consul.operation.ConsulSubscribeCallback;
-import com.nepxion.discovery.common.processor.ConfigProcessor;
+import com.nepxion.discovery.common.processor.DiscoveryConfigProcessor;
 import com.nepxion.discovery.common.thread.DiscoveryThreadPoolFactory;
 
-public abstract class ConsulProcessor extends ConfigProcessor {
+public abstract class ConsulProcessor extends DiscoveryConfigProcessor {
     private ExecutorService executorService = DiscoveryThreadPoolFactory.getExecutorService("consul-config");
 
     @Autowired

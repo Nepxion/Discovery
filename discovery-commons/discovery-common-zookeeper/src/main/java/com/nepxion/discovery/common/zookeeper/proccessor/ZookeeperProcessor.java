@@ -13,13 +13,13 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.common.processor.ConfigProcessor;
+import com.nepxion.discovery.common.processor.DiscoveryConfigProcessor;
 import com.nepxion.discovery.common.zookeeper.constant.ZookeeperConstant;
 import com.nepxion.discovery.common.zookeeper.operation.ZookeeperListener;
 import com.nepxion.discovery.common.zookeeper.operation.ZookeeperOperation;
 import com.nepxion.discovery.common.zookeeper.operation.ZookeeperSubscribeCallback;
 
-public abstract class ZookeeperProcessor extends ConfigProcessor {
+public abstract class ZookeeperProcessor extends DiscoveryConfigProcessor {
     @Autowired
     private ZookeeperOperation zookeeperOperation;
 

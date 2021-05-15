@@ -19,10 +19,10 @@ import com.alibaba.nacos.api.config.listener.Listener;
 import com.nepxion.discovery.common.nacos.constant.NacosConstant;
 import com.nepxion.discovery.common.nacos.operation.NacosOperation;
 import com.nepxion.discovery.common.nacos.operation.NacosSubscribeCallback;
-import com.nepxion.discovery.common.processor.ConfigProcessor;
+import com.nepxion.discovery.common.processor.DiscoveryConfigProcessor;
 import com.nepxion.discovery.common.thread.DiscoveryThreadPoolFactory;
 
-public abstract class NacosProcessor extends ConfigProcessor {
+public abstract class NacosProcessor extends DiscoveryConfigProcessor {
     private ExecutorService executorService = DiscoveryThreadPoolFactory.getExecutorService("nacos-config");
 
     @Autowired
