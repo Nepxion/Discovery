@@ -19,16 +19,19 @@ import org.springframework.web.client.DefaultResponseErrorHandler;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
 public class DiscoveryResponseErrorHandler extends DefaultResponseErrorHandler {
-    private String cause;
-
     @Override
     public void handleError(ClientHttpResponse response) throws IOException {
-        // 这里绝对不能关闭InputStream
         InputStream inputStream = response.getBody();
-        cause = IOUtils.toString(inputStream, DiscoveryConstant.ENCODING_UTF_8);
+        String cause = IOUtils.toString(inputStream, DiscoveryConstant.ENCODING_UTF_8);
+
+        DiscoveryResponseContext.getCurrentContext().setCause(cause);
     }
 
     public String getCause() {
+        String cause = DiscoveryResponseContext.getCurrentContext().getCause();
+
+        DiscoveryResponseContext.clearCurrentContext();
+
         return cause;
     }
 }

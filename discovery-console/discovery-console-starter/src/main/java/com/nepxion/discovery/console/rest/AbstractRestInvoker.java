@@ -84,6 +84,9 @@ public abstract class AbstractRestInvoker {
             }
 
             ResultEntity resultEntity = new ResultEntity();
+            resultEntity.setServiceId(serviceId);
+            resultEntity.setHost(host);
+            resultEntity.setPort(port);
             resultEntity.setUrl(url);
             resultEntity.setResult(result);
 
