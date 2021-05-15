@@ -27,11 +27,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nepxion.discovery.common.entity.GatewayType;
 import com.nepxion.discovery.common.entity.InstanceEntity;
 import com.nepxion.discovery.common.entity.ResultEntity;
 import com.nepxion.discovery.common.entity.UserEntity;
 import com.nepxion.discovery.common.util.ResponseUtil;
+import com.nepxion.discovery.console.entity.GatewayType;
+import com.nepxion.discovery.console.entity.SentinelRuleType;
 import com.nepxion.discovery.console.resource.AuthenticationResource;
 import com.nepxion.discovery.console.resource.ConfigResource;
 import com.nepxion.discovery.console.resource.RouteResource;
@@ -250,35 +251,35 @@ public class ConsoleEndpoint {
     @RequestMapping(path = "/route/add/{gatewayType}/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "批量增加网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> gatewayRouteAdd(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： gateway | zuul。gateway指Spring Cloud Gateway, zull指Netflix Zuul", defaultValue = "gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "网关路由对象内容，JSON格式") String route) {
+    public ResponseEntity<?> gatewayRouteAdd(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： spring-cloud-gateway | zuul。spring-cloud-gateway指Spring Cloud Gateway, zuul指Netflix Zuul", defaultValue = "gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "网关路由对象内容，JSON格式") String route) {
         return doRouteAdd(gatewayType, serviceId, route);
     }
 
     @RequestMapping(path = "/route/modify/{gatewayType}/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "批量修改网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> gatewayRouteModify(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： gateway | zuul。gateway指Spring Cloud Gateway, zull指Netflix Zuul", defaultValue = "gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "网关路由对象内容，JSON格式") String route) {
+    public ResponseEntity<?> gatewayRouteModify(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： spring-cloud-gateway | zuul。spring-cloud-gateway指Spring Cloud Gateway, zuul指Netflix Zuul", defaultValue = "gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "网关路由对象内容，JSON格式") String route) {
         return doRouteModify(gatewayType, serviceId, route);
     }
 
     @RequestMapping(path = "/route/delete/{gatewayType}/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "批量删除网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> gatewayRouteDelete(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： gateway | zuul。gateway指Spring Cloud Gateway, zull指Netflix Zuul", defaultValue = "gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "路由Id") String routeId) {
+    public ResponseEntity<?> gatewayRouteDelete(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： spring-cloud-gateway | zuul。spring-cloud-gateway指Spring Cloud Gateway, zuul指Netflix Zuul", defaultValue = "gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "路由Id") String routeId) {
         return doRouteDelete(gatewayType, serviceId, routeId);
     }
 
     @RequestMapping(path = "/route/update-all/{gatewayType}/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "批量更新全部网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> gatewayRouteUpdateAll(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： gateway | zuul。gateway指Spring Cloud Gateway, zull指Netflix Zuul", defaultValue = "gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "网关路由对象列表内容，JSON格式") String route) {
+    public ResponseEntity<?> gatewayRouteUpdateAll(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： spring-cloud-gateway | zuul。spring-cloud-gateway指Spring Cloud Gateway, zuul指Netflix Zuul", defaultValue = "gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "网关路由对象列表内容，JSON格式") String route) {
         return doRouteUpdateAll(gatewayType, serviceId, route);
     }
 
     @RequestMapping(path = "/route/view-all/{gatewayType}/{serviceId}", method = RequestMethod.GET)
     @ApiOperation(value = "批量查看全部网关路由", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
-    public ResponseEntity<?> gatewayRouteViewAll(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： gateway | zuul。gateway指Spring Cloud Gateway, zull指Netflix Zuul", defaultValue = "gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId) {
+    public ResponseEntity<?> gatewayRouteViewAll(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： spring-cloud-gateway | zuul。spring-cloud-gateway指Spring Cloud Gateway, zuul指Netflix Zuul", defaultValue = "gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId) {
         return doRouteViewAll(gatewayType, serviceId);
     }
 
@@ -481,7 +482,7 @@ public class ConsoleEndpoint {
 
     private ResponseEntity<?> doSentinelUpdate(String ruleType, String serviceId, String rule) {
         try {
-            List<ResultEntity> resultEntityList = sentinelResource.updateSentinel(ruleType, serviceId, rule);
+            List<ResultEntity> resultEntityList = sentinelResource.updateSentinel(SentinelRuleType.fromString(ruleType), serviceId, rule);
 
             return ResponseUtil.getSuccessResponse(resultEntityList);
         } catch (Exception e) {
@@ -491,7 +492,7 @@ public class ConsoleEndpoint {
 
     private ResponseEntity<?> doSentinelClear(String ruleType, String serviceId) {
         try {
-            List<ResultEntity> resultEntityList = sentinelResource.clearSentinel(ruleType, serviceId);
+            List<ResultEntity> resultEntityList = sentinelResource.clearSentinel(SentinelRuleType.fromString(ruleType), serviceId);
 
             return ResponseUtil.getSuccessResponse(resultEntityList);
         } catch (Exception e) {
@@ -501,7 +502,7 @@ public class ConsoleEndpoint {
 
     private ResponseEntity<?> doSentinelView(String ruleType, String serviceId) {
         try {
-            List<ResultEntity> resultEntityList = sentinelResource.viewSentinel(ruleType, serviceId);
+            List<ResultEntity> resultEntityList = sentinelResource.viewSentinel(SentinelRuleType.fromString(ruleType), serviceId);
 
             return ResponseUtil.getSuccessResponse(resultEntityList);
         } catch (Exception e) {
@@ -511,7 +512,7 @@ public class ConsoleEndpoint {
 
     private ResponseEntity<?> doRouteAdd(String gatewayType, String serviceId, String route) {
         try {
-            List<ResultEntity> resultEntityList = routeResource.addRoute(gatewayType, serviceId, route);
+            List<ResultEntity> resultEntityList = routeResource.addRoute(GatewayType.fromString(gatewayType), serviceId, route);
 
             return ResponseUtil.getSuccessResponse(resultEntityList);
         } catch (Exception e) {
@@ -521,7 +522,7 @@ public class ConsoleEndpoint {
 
     private ResponseEntity<?> doRouteModify(String gatewayType, String serviceId, String route) {
         try {
-            List<ResultEntity> resultEntityList = routeResource.modifyRoute(gatewayType, serviceId, route);
+            List<ResultEntity> resultEntityList = routeResource.modifyRoute(GatewayType.fromString(gatewayType), serviceId, route);
 
             return ResponseUtil.getSuccessResponse(resultEntityList);
         } catch (Exception e) {
@@ -531,7 +532,7 @@ public class ConsoleEndpoint {
 
     private ResponseEntity<?> doRouteDelete(String gatewayType, String serviceId, String routeId) {
         try {
-            List<ResultEntity> resultEntityList = routeResource.deleteRoute(gatewayType, serviceId, routeId);
+            List<ResultEntity> resultEntityList = routeResource.deleteRoute(GatewayType.fromString(gatewayType), serviceId, routeId);
 
             return ResponseUtil.getSuccessResponse(resultEntityList);
         } catch (Exception e) {
@@ -541,7 +542,7 @@ public class ConsoleEndpoint {
 
     private ResponseEntity<?> doRouteUpdateAll(String gatewayType, String serviceId, String route) {
         try {
-            List<ResultEntity> resultEntityList = routeResource.updateAllRoute(gatewayType, serviceId, route);
+            List<ResultEntity> resultEntityList = routeResource.updateAllRoute(GatewayType.fromString(gatewayType), serviceId, route);
 
             return ResponseUtil.getSuccessResponse(resultEntityList);
         } catch (Exception e) {
@@ -551,7 +552,7 @@ public class ConsoleEndpoint {
 
     private ResponseEntity<?> doRouteViewAll(String gatewayType, String serviceId) {
         try {
-            List<ResultEntity> resultEntityList = routeResource.viewAllRoute(gatewayType, serviceId);
+            List<ResultEntity> resultEntityList = routeResource.viewAllRoute(GatewayType.fromString(gatewayType), serviceId);
 
             return ResponseUtil.getSuccessResponse(resultEntityList);
         } catch (Exception e) {

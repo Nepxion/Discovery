@@ -23,11 +23,11 @@ import org.springframework.cloud.client.discovery.composite.CompositeDiscoveryCl
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.constant.DiscoveryMetaDataConstant;
-import com.nepxion.discovery.common.entity.GatewayType;
 import com.nepxion.discovery.common.entity.InstanceEntity;
 import com.nepxion.discovery.common.entity.InstanceEntityWrapper;
 import com.nepxion.discovery.common.entity.ServiceType;
 import com.nepxion.discovery.console.constant.ConsoleConstant;
+import com.nepxion.discovery.console.entity.GatewayType;
 
 public class ServiceResourceImpl implements ServiceResource {
     @Autowired

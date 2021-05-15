@@ -9,11 +9,15 @@ package com.nepxion.discovery.console.constant;
  * @version 1.0
  */
 
-import java.util.Arrays;
-import java.util.List;
-
 public class ConsoleConstant {
     public static final String[] DISCOVERY_TYPES = { "Eureka", "Consul", "Zookeeper", "Nacos" };
-    public static final List<String> GATEWAY_TYPES = Arrays.asList(new String[] { "gateway", "zuul" });
-    public static final List<String> SENTINEL_TYPES = Arrays.asList(new String[] { "flow", "degrade", "authority", "system", "param-flow" });
+    
+    public static final String SPRING_CLOUD_GATEWAY = "spring-cloud-gateway";
+    public static final String ZUUL = "zuul";
+
+    public static final String SENTINEL_FLOW = "flow";
+    public static final String SENTINEL_DEGRADE = "degrade";
+    public static final String SENTINEL_RULE_AUTHORITY = "authority";
+    public static final String SENTINEL_RULE_SYSTEM = "system";
+    public static final String SENTINEL_RULE_PARAM_FLOW = "param-flow";
 }
