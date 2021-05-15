@@ -11,21 +11,16 @@ package com.nepxion.discovery.console.rest;
 
 import org.springframework.web.client.RestTemplate;
 
-import com.nepxion.discovery.common.exception.DiscoveryException;
-import com.nepxion.discovery.console.constant.ConsoleConstant;
+import com.nepxion.discovery.console.entity.GatewayType;
 import com.nepxion.discovery.console.resource.ServiceResource;
 
 public class RouteViewAllRestInvoker extends AbstractRestInvoker {
-    private String type;
+    private GatewayType gatewayType;
 
-    public RouteViewAllRestInvoker(ServiceResource serviceResource, String serviceId, RestTemplate restTemplate, String type) {
+    public RouteViewAllRestInvoker(ServiceResource serviceResource, String serviceId, RestTemplate restTemplate, GatewayType gatewayType) {
         super(serviceResource, serviceId, restTemplate);
 
-        this.type = type.toLowerCase().trim();
-
-        if (!ConsoleConstant.GATEWAY_TYPES.contains(type)) {
-            throw new DiscoveryException("Invalid gateway type for '" + type + "', it must be one of " + ConsoleConstant.GATEWAY_TYPES);
-        }
+        this.gatewayType = gatewayType;
     }
 
     @Override
@@ -35,7 +30,7 @@ public class RouteViewAllRestInvoker extends AbstractRestInvoker {
 
     @Override
     protected String getSuffixPath() {
-        return type + "-route/view-all";
+        return gatewayType + "-route/view-all";
     }
 
     @Override

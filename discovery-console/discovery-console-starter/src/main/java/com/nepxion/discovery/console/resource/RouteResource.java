@@ -12,15 +12,16 @@ package com.nepxion.discovery.console.resource;
 import java.util.List;
 
 import com.nepxion.discovery.common.entity.ResultEntity;
+import com.nepxion.discovery.console.entity.GatewayType;
 
 public interface RouteResource {
-    List<ResultEntity> addRoute(String gatewayType, String serviceId, String route);
+    List<ResultEntity> addRoute(GatewayType gatewayType, String serviceId, String route);
 
-    List<ResultEntity> modifyRoute(String gatewayType, String serviceId, String route);
+    List<ResultEntity> modifyRoute(GatewayType gatewayType, String serviceId, String route);
 
-    List<ResultEntity> deleteRoute(String gatewayType, String serviceId, String routeId);
+    List<ResultEntity> deleteRoute(GatewayType gatewayType, String serviceId, String routeId);
 
-    List<ResultEntity> updateAllRoute(String gatewayType, String serviceId, String route);
+    List<ResultEntity> updateAllRoute(GatewayType gatewayType, String serviceId, String route);
 
-    List<ResultEntity> viewAllRoute(String gatewayType, String serviceId);
+    List<ResultEntity> viewAllRoute(GatewayType gatewayType, String serviceId);
 }

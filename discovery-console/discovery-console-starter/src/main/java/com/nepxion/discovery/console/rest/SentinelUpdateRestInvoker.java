@@ -12,23 +12,18 @@ package com.nepxion.discovery.console.rest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
-import com.nepxion.discovery.common.exception.DiscoveryException;
-import com.nepxion.discovery.console.constant.ConsoleConstant;
+import com.nepxion.discovery.console.entity.SentinelRuleType;
 import com.nepxion.discovery.console.resource.ServiceResource;
 
 public class SentinelUpdateRestInvoker extends AbstractRestInvoker {
-    private String type;
+    private SentinelRuleType ruleType;
     private String rule;
 
-    public SentinelUpdateRestInvoker(ServiceResource serviceResource, String serviceId, RestTemplate restTemplate, String type, String rule) {
+    public SentinelUpdateRestInvoker(ServiceResource serviceResource, String serviceId, RestTemplate restTemplate, SentinelRuleType ruleType, String rule) {
         super(serviceResource, serviceId, restTemplate);
 
-        this.type = type.toLowerCase().trim();
+        this.ruleType = ruleType;
         this.rule = rule;
-
-        if (!ConsoleConstant.SENTINEL_TYPES.contains(type)) {
-            throw new DiscoveryException("Invalid sentinel type for '" + type + "', it must be one of " + ConsoleConstant.SENTINEL_TYPES);
-        }
     }
 
     @Override
@@ -38,9 +33,9 @@ public class SentinelUpdateRestInvoker extends AbstractRestInvoker {
 
     @Override
     protected String getSuffixPath() {
-        String path = StringUtils.equals(type, "param-flow") ? "sentinel-param" : "sentinel-core";
+        String path = StringUtils.equals(ruleType.toString(), "param-flow") ? "sentinel-param" : "sentinel-core";
 
-        return path + "/update-" + type + "-rules";
+        return path + "/update-" + ruleType + "-rules";
     }
 
     @Override

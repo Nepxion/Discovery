@@ -12,11 +12,12 @@ package com.nepxion.discovery.console.resource;
 import java.util.List;
 
 import com.nepxion.discovery.common.entity.ResultEntity;
+import com.nepxion.discovery.console.entity.SentinelRuleType;
 
 public interface SentinelResource {
-    List<ResultEntity> updateSentinel(String ruleType, String serviceId, String rule);
+    List<ResultEntity> updateSentinel(SentinelRuleType ruleType, String serviceId, String rule);
 
-    List<ResultEntity> clearSentinel(String ruleType, String serviceId);
+    List<ResultEntity> clearSentinel(SentinelRuleType ruleType, String serviceId);
 
-    List<ResultEntity> viewSentinel(String ruleType, String serviceId);
+    List<ResultEntity> viewSentinel(SentinelRuleType ruleType, String serviceId);
 }

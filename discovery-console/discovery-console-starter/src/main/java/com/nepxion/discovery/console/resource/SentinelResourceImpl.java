@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.common.entity.ResultEntity;
+import com.nepxion.discovery.console.entity.SentinelRuleType;
 import com.nepxion.discovery.console.rest.SentinelClearRestInvoker;
 import com.nepxion.discovery.console.rest.SentinelUpdateRestInvoker;
 import com.nepxion.discovery.console.rest.SentinelViewRestInvoker;
@@ -27,21 +28,21 @@ public class SentinelResourceImpl implements SentinelResource {
     private RestTemplate consoleRestTemplate;
 
     @Override
-    public List<ResultEntity> updateSentinel(String ruleType, String serviceId, String rule) {
+    public List<ResultEntity> updateSentinel(SentinelRuleType ruleType, String serviceId, String rule) {
         SentinelUpdateRestInvoker sentinelUpdateRestInvoker = new SentinelUpdateRestInvoker(serviceResource, serviceId, consoleRestTemplate, ruleType, rule);
 
         return sentinelUpdateRestInvoker.invoke();
     }
 
     @Override
-    public List<ResultEntity> clearSentinel(String ruleType, String serviceId) {
+    public List<ResultEntity> clearSentinel(SentinelRuleType ruleType, String serviceId) {
         SentinelClearRestInvoker sentinelClearRestInvoker = new SentinelClearRestInvoker(serviceResource, serviceId, consoleRestTemplate, ruleType);
 
         return sentinelClearRestInvoker.invoke();
     }
 
     @Override
-    public List<ResultEntity> viewSentinel(String ruleType, String serviceId) {
+    public List<ResultEntity> viewSentinel(SentinelRuleType ruleType, String serviceId) {
         SentinelViewRestInvoker sentinelViewRestInvoker = new SentinelViewRestInvoker(serviceResource, serviceId, consoleRestTemplate, ruleType);
 
         return sentinelViewRestInvoker.invoke();

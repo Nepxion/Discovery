@@ -11,23 +11,18 @@ package com.nepxion.discovery.console.rest;
 
 import org.springframework.web.client.RestTemplate;
 
-import com.nepxion.discovery.common.exception.DiscoveryException;
-import com.nepxion.discovery.console.constant.ConsoleConstant;
+import com.nepxion.discovery.console.entity.GatewayType;
 import com.nepxion.discovery.console.resource.ServiceResource;
 
 public class RouteDeleteRestInvoker extends AbstractRestInvoker {
-    private String type;
+    private GatewayType gatewayType;
     private String routeId;
 
-    public RouteDeleteRestInvoker(ServiceResource serviceResource, String serviceId, RestTemplate restTemplate, String type, String routeId) {
+    public RouteDeleteRestInvoker(ServiceResource serviceResource, String serviceId, RestTemplate restTemplate, GatewayType gatewayType, String routeId) {
         super(serviceResource, serviceId, restTemplate);
 
-        this.type = type.toLowerCase().trim();
+        this.gatewayType = gatewayType;
         this.routeId = routeId;
-
-        if (!ConsoleConstant.GATEWAY_TYPES.contains(type)) {
-            throw new DiscoveryException("Invalid gateway type for '" + type + "', it must be one of " + ConsoleConstant.GATEWAY_TYPES);
-        }
     }
 
     @Override
@@ -37,7 +32,7 @@ public class RouteDeleteRestInvoker extends AbstractRestInvoker {
 
     @Override
     protected String getSuffixPath() {
-        return type + "-route/delete";
+        return gatewayType + "-route/delete";
     }
 
     @Override
