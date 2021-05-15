@@ -30,7 +30,7 @@ import com.nepxion.discovery.plugin.admincenter.resource.GatewayStrategyRouteRes
 import com.nepxion.discovery.plugin.strategy.gateway.entity.GatewayStrategyRouteEntity;
 
 @RestController
-@RequestMapping(path = "/gateway-route")
+@RequestMapping(path = "/spring-cloud-gateway-route")
 @Api(tags = { "网关动态路由接口" })
 public class GatewayStrategyRouteEndpoint {
     @Autowired

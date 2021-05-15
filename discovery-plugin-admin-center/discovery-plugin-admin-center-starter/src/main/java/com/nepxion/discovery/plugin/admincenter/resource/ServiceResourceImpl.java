@@ -23,7 +23,6 @@ import org.springframework.cloud.client.discovery.composite.CompositeDiscoveryCl
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.constant.DiscoveryMetaDataConstant;
-import com.nepxion.discovery.common.entity.GatewayType;
 import com.nepxion.discovery.common.entity.InstanceEntity;
 import com.nepxion.discovery.common.entity.InstanceEntityWrapper;
 import com.nepxion.discovery.common.entity.ServiceType;
@@ -108,28 +107,6 @@ public class ServiceResourceImpl implements ServiceResource {
                 String serviceId = instance.getServiceId().toLowerCase();
                 String serviceType = metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_TYPE);
                 if (StringUtils.equals(serviceType, ServiceType.GATEWAY.toString())) {
-                    if (!gateways.contains(serviceId)) {
-                        gateways.add(serviceId);
-                    }
-                }
-            }
-        }
-
-        return gateways;
-    }
-
-    @Override
-    public List<String> getGatewayList(GatewayType type) {
-        List<String> gateways = new ArrayList<String>();
-        List<String> services = getServices();
-        for (String service : services) {
-            List<ServiceInstance> instances = getInstances(service);
-            for (ServiceInstance instance : instances) {
-                Map<String, String> metadata = instance.getMetadata();
-                String serviceId = instance.getServiceId().toLowerCase();
-                String serviceType = metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_TYPE);
-                String gatewayType = metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_GATEWAY_TYPE);
-                if (StringUtils.equals(serviceType, ServiceType.GATEWAY.toString()) && StringUtils.equals(gatewayType, type.toString())) {
                     if (!gateways.contains(serviceId)) {
                         gateways.add(serviceId);
                     }
