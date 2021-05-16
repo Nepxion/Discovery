@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.event;
+package com.nepxion.discovery.common.event;
 
 /**
  * <p>Title: Nepxion Discovery</p>

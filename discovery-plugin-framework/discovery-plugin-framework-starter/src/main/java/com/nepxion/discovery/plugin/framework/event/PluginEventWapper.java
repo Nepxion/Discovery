@@ -12,6 +12,7 @@ package com.nepxion.discovery.plugin.framework.event;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.event.AlarmEvent;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 
 public class PluginEventWapper {
