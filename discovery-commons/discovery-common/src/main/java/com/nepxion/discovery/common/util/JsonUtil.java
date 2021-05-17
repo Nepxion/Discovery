@@ -56,7 +56,18 @@ public class JsonUtil {
         }
 
         try {
-            // return objectMapper.writeValueAsString(object);
+            return objectMapper.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            throw new IllegalArgumentException(e.getMessage(), e);
+        }
+    }
+
+    public static <T> String toPrettyJson(T object) {
+        if (object == null) {
+            throw new IllegalArgumentException("Object is null");
+        }
+
+        try {
             return objectMapper.writer(discoveryPrettyPrinter).writeValueAsString(object);
         } catch (JsonProcessingException e) {
             throw new IllegalArgumentException(e.getMessage(), e);
