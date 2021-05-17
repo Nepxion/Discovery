@@ -9,8 +9,9 @@ package com.nepxion.discovery.console.resource;
  * @version 1.0
  */
 
+import com.nepxion.discovery.common.entity.AuthenticationEntity;
 import com.nepxion.discovery.common.entity.UserEntity;
 
 public interface AuthenticationResource {
-    boolean authenticate(UserEntity userEntity) throws Exception;
+    AuthenticationEntity authenticate(UserEntity userEntity);
 }

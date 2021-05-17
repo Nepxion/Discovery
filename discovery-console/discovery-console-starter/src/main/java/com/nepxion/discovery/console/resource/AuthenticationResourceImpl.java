@@ -13,23 +13,31 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
+import com.nepxion.discovery.common.entity.AuthenticationEntity;
 import com.nepxion.discovery.common.entity.UserEntity;
-import com.nepxion.discovery.common.exception.DiscoveryException;
 
 public class AuthenticationResourceImpl implements AuthenticationResource {
     @Autowired
     private Environment environment;
 
     @Override
-    public boolean authenticate(UserEntity userEntity) throws Exception {
+    public AuthenticationEntity authenticate(UserEntity userEntity) {
+        AuthenticationEntity authenticationEntity = new AuthenticationEntity();
+
         String userId = userEntity.getUserId().trim();
         String password = userEntity.getPassword().trim();
 
         String passwordValue = environment.getProperty(userId);
         if (StringUtils.isNotEmpty(passwordValue)) {
-            return StringUtils.equals(password, passwordValue);
+            if (StringUtils.equals(password, passwordValue)) {
+                authenticationEntity.setPassed(true);
+            } else {
+                authenticationEntity.setError("Password mismatched");
+            }
         } else {
-            throw new DiscoveryException("No password found for [" + userId + "]");
+            authenticationEntity.setError("Account doesn't exist");
         }
+
+        return authenticationEntity;
     }
 }
