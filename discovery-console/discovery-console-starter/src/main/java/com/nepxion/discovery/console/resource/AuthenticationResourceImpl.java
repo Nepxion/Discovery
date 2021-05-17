@@ -32,7 +32,7 @@ public class AuthenticationResourceImpl implements AuthenticationResource {
             if (StringUtils.equals(password, passwordValue)) {
                 authenticationEntity.setPassed(true);
             } else {
-                authenticationEntity.setError("Password mismatched");
+                authenticationEntity.setError("Password is mismatched");
             }
         } else {
             authenticationEntity.setError("Account doesn't exist");
