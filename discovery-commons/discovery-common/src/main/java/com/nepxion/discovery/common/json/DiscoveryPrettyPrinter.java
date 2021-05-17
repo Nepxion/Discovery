@@ -14,7 +14,6 @@ import java.io.IOException;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.util.DefaultIndenter;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
-import com.fasterxml.jackson.core.util.Separators;
 
 public class DiscoveryPrettyPrinter extends DefaultPrettyPrinter {
     private static final long serialVersionUID = 7557042630980590487L;
@@ -38,10 +37,12 @@ public class DiscoveryPrettyPrinter extends DefaultPrettyPrinter {
     }
 
     @Override
-    public DiscoveryPrettyPrinter withSeparators(Separators separators) {
-        this._separators = separators;
-        this._objectFieldValueSeparatorWithSpaces = separators.getObjectFieldValueSeparator() + " ";
-        return this;
+    public void writeObjectFieldValueSeparator(JsonGenerator jg) throws IOException {
+        if (_spacesInObjectEntries) {
+            jg.writeRaw(": ");
+        } else {
+            jg.writeRaw(':');
+        }
     }
 
     @Override
