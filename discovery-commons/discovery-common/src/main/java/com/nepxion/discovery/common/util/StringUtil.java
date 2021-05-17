@@ -120,6 +120,14 @@ public class StringUtil {
         return map;
     }
 
+    public static String firstToUpperCase(String value) {
+        return StringUtils.capitalize(value);
+    }
+
+    public static String firstToLowerCase(String value) {
+        return StringUtils.uncapitalize(value);
+    }
+
     public static String simulateText(String value, int size, String padValue) {
         return StringUtils.rightPad(value, size, padValue);
     }
