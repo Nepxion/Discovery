@@ -19,14 +19,18 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import com.nepxion.discovery.common.json.DiscoveryPrettyPrinter;
 
 public class JsonUtil {
     private static ObjectMapper objectMapper;
+    private static DiscoveryPrettyPrinter discoveryPrettyPrinter;
 
     static {
         objectMapper = new ObjectMapper();
         // objectMapper.getSerializerProvider().setNullKeySerializer(new NullKeySerializer());
         // objectMapper.setDateFormat(new SimpleDateFormat(DiscoveryConstant.DATE_FORMAT));
+
+        discoveryPrettyPrinter = new DiscoveryPrettyPrinter();
     }
 
     public static class NullKeySerializer extends StdSerializer<Object> {
@@ -52,7 +56,8 @@ public class JsonUtil {
         }
 
         try {
-            return objectMapper.writeValueAsString(object);
+            // return objectMapper.writeValueAsString(object);
+            return objectMapper.writer(discoveryPrettyPrinter).writeValueAsString(object);
         } catch (JsonProcessingException e) {
             throw new IllegalArgumentException(e.getMessage(), e);
         }
