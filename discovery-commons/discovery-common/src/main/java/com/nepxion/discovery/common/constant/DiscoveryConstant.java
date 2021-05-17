@@ -110,6 +110,8 @@ public class DiscoveryConstant {
     public static final String N_D_ID_BLACKLIST = "n-d-id-blacklist";
     public static final String N_D_ADDRESS_BLACKLIST = "n-d-address-blacklist";
 
+    public static final String ACCESS_TOKEN = "access-token";
+
     public static final String BLUE_GREEN = "blue-green";
     public static final String BLUE_GREEN_BASIC = "blue-green-basic";
     public static final String BLUE_BASIC = "blue-basic";

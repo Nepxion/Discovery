@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nepxion.discovery.common.entity.AuthenticationEntity;
 import com.nepxion.discovery.common.entity.InstanceEntity;
 import com.nepxion.discovery.common.entity.ResultEntity;
 import com.nepxion.discovery.common.entity.UserEntity;
@@ -299,9 +300,9 @@ public class ConsoleEndpoint {
 
     private ResponseEntity<?> doAuthenticate(UserEntity userEntity) {
         try {
-            boolean result = authenticationResource.authenticate(userEntity);
+            AuthenticationEntity authenticationEntity = authenticationResource.authenticate(userEntity);
 
-            return ResponseUtil.getSuccessResponse(result);
+            return ResponseUtil.getSuccessResponse(authenticationEntity);
         } catch (Exception e) {
             return ResponseUtil.getFailureResponse(e);
         }
