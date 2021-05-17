@@ -29,7 +29,7 @@ public class JsonConfigDeparser implements PluginConfigDeparser {
         LOG.info("Start to deparse RuleEntity to json...");
 
         try {
-            return JsonUtil.toJson(ruleEntity);
+            return JsonUtil.toPrettyJson(ruleEntity);
         } catch (Exception e) {
             throw new DiscoveryException(e.getMessage(), e);
         }
