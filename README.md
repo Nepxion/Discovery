@@ -3120,9 +3120,9 @@ spring.application.parameter.event.onstart.enabled=true
 网关订阅配置中心的使用方式，如下
 
 - Key为
-    - Nacos配置中心，Group为{group}，DataId为{网关serviceId}-dynamic-route
-    - 其它配置中心，Key的格式为{group}-{网关serviceId}-dynamic-route
-    - {group}为蓝绿灰度的组名，即注册中心元数据group值
+    - Nacos、Redis、Zookeeper配置中心，Group为{group}，DataId为{网关serviceId}-dynamic-route
+    - Apollo、Consul、Etcd配置中心，Key的格式为{group}-{网关serviceId}-dynamic-route
+    - {group}为注册中心元数据group值
 - Value参考`① Spring Cloud Gateway网关的动态路由配置格式`
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide7-9.jpg)
@@ -3271,9 +3271,9 @@ public class MySubscriber {
 网关订阅配置中心的使用方式，如下
 
 - Key为
-    - Nacos配置中心，Group为{group}，DataId为{网关serviceId}-dynamic-route
-    - 其它配置中心，Key的格式为{group}-{网关serviceId}-dynamic-route
-    - {group}为蓝绿灰度的组名，即注册中心元数据group值
+    - Nacos、Redis、Zookeeper配置中心，Group为{group}，DataId为{网关serviceId}-dynamic-route
+    - Apollo、Consul、Etcd配置中心，Key的格式为{group}-{网关serviceId}-dynamic-route
+    - {group}为注册中心元数据group值
 - Value参考`① Zuul网关的动态路由配置格式`
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide7-10.jpg)
@@ -3337,8 +3337,8 @@ Spring Cloud配置动态刷新机制固化在一个比较单一的场景（例�
 // 5. ZookeeperProcessor
 // 6. RedisProcessor
 // Group和DataId自行决定，需要注意
-// 1. 对于Nacos配置中心，Group和DataId需要和界面相对应
-// 2. 对于其它配置中心，Key的格式为Group-DataId
+// 1. 对于Nacos、Redis、Zookeeper配置中心，Group和DataId需要和界面相对应
+// 2. 对于Apollo、Consul、Etcd配置中心，Key的格式为Group-DataId
 // 3. 千万不能和蓝绿灰度发布的Group和DataId冲突
 public class MyConfigProcessor extends NacosProcessor {
     // private String group = "DEFAULT_GROUP";
@@ -3825,19 +3825,14 @@ Reject to invoke because of isolation with different service group
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 由于该块功能早于Spring Cloud Alibaba Sentinel而产生，下述功能可以通过Spring Cloud Alibaba Sentinel功能来实现
 
-封装NacosDataSource和ApolloDataSource，支持Nacos和Apollo两个远程配置中心，零代码实现Sentinel功能。更多的远程配置中心，请参照Sentinel官方的DataSource并自行集成
+Sentinel订阅配置中心的使用方式，如下
 
-- Nacos的Key格式
+- Key为
+    - Nacos、Redis、Zookeeper配置中心，Group为{group}，DataId为{serviceId}-{规则类型}
+    - Apollo、Consul、Etcd配置中心，Key的格式为{group}-{serviceId}-{规则类型}
+    - {group}为注册中心元数据group值
+- Value为Json格式的规则
 
-```
-Group为元数据中配置的[组名]，Data Id为[服务名]-[规则类型]
-```
-
-- Apollo的Key格式
-
-```
-[组名]-[服务名]-[规则类型]
-```
 
 支持远程配置中心和本地规则文件的读取逻辑，即优先读取远程配置，如果不存在或者规则错误，则读取本地规则文件。动态实现远程配置中心对于规则的热刷新
 
