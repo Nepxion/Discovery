@@ -22,10 +22,12 @@ import com.nepxion.discovery.plugin.example.service.impl.MyDiscoveryEnabledStrat
 import com.nepxion.discovery.plugin.example.service.impl.MyDiscoveryListener;
 import com.nepxion.discovery.plugin.example.service.impl.MyLoadBalanceListener;
 import com.nepxion.discovery.plugin.example.service.impl.MyRegisterListener;
+import com.nepxion.discovery.plugin.example.service.impl.MyRouteFilter;
 import com.nepxion.discovery.plugin.example.service.impl.MySubscriber;
 import com.nepxion.discovery.plugin.example.service.sentinel.MyRestTemplateBlockHandler;
 import com.nepxion.discovery.plugin.example.service.sentinel.MyRestTemplateFallbackHandler;
 import com.nepxion.discovery.plugin.example.service.sentinel.MySentinelFlowRuleParser;
+import com.nepxion.discovery.plugin.strategy.service.filter.ServiceStrategyRouteFilter;
 
 @SpringBootApplication
 @EnableDiscoveryClient
@@ -47,6 +49,11 @@ public class DiscoveryApplicationA1 {
     @Bean
     public MySentinelFlowRuleParser mySentinelFlowRuleParser() {
         return new MySentinelFlowRuleParser();
+    }
+
+    @Bean
+    public ServiceStrategyRouteFilter serviceStrategyRouteFilter() {
+        return new MyRouteFilter();
     }
 
     @Bean

@@ -20,6 +20,7 @@ import com.nepxion.discovery.plugin.example.zuul.impl.MyDiscoveryListener;
 import com.nepxion.discovery.plugin.example.zuul.impl.MyLoadBalanceListener;
 import com.nepxion.discovery.plugin.example.zuul.impl.MyRegisterListener;
 import com.nepxion.discovery.plugin.example.zuul.impl.MyRouteFilter;
+import com.nepxion.discovery.plugin.example.zuul.impl.MySubscriber;
 import com.nepxion.discovery.plugin.strategy.zuul.filter.ZuulStrategyRouteFilter;
 
 @SpringBootApplication
@@ -53,5 +54,10 @@ public class DiscoveryApplicationZuul {
     @Bean
     public MyLoadBalanceListener myLoadBalanceListener() {
         return new MyLoadBalanceListener();
+    }
+
+    @Bean
+    public MySubscriber mySubscriber() {
+        return new MySubscriber();
     }
 }
