@@ -125,7 +125,7 @@ public class SentinelStrategyRuleLoader {
 
     public void loadRules(SentinelStrategyRuleType sentinelStrategyRuleType, String sentinelStrategyRule) {
         if (StringUtils.isBlank(sentinelStrategyRule)) {
-            sentinelStrategyRule = SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_EMPTY_RULE;
+            sentinelStrategyRule = DiscoveryConstant.EMPTY_JSON_RULE_MULTIPLE;
         }
 
         switch (sentinelStrategyRuleType) {

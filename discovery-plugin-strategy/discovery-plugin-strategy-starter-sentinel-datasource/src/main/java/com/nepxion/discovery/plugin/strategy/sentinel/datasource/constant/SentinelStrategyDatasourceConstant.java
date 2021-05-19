@@ -31,6 +31,4 @@ public class SentinelStrategyDatasourceConstant {
     public static final String SENTINEL_STRATEGY_AUTHORITY_DESCRIPTION = "Sentinel authority rules";
     public static final String SENTINEL_STRATEGY_SYSTEM_DESCRIPTION = "Sentinel system rules";
     public static final String SENTINEL_STRATEGY_PARAM_FLOW_DESCRIPTION = "Sentinel param flow rules";
-
-    public static final String SENTINEL_STRATEGY_EMPTY_RULE = "[]";
 }
