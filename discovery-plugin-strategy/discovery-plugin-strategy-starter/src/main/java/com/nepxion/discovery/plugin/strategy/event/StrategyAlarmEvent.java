@@ -1,4 +1,4 @@
-package com.nepxion.discovery.common.event;
+package com.nepxion.discovery.plugin.strategy.event;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -12,13 +12,13 @@ package com.nepxion.discovery.common.event;
 import java.io.Serializable;
 import java.util.Map;
 
-public class AlarmEvent implements Serializable {
+public class StrategyAlarmEvent implements Serializable {
     private static final long serialVersionUID = 5966845230262521754L;
 
     private String alarmType;
     private Map<String, String> alarmMap;
 
-    public AlarmEvent(String alarmType, Map<String, String> alarmMap) {
+    public StrategyAlarmEvent(String alarmType, Map<String, String> alarmMap) {
         this.alarmType = alarmType;
         this.alarmMap = alarmMap;
     }

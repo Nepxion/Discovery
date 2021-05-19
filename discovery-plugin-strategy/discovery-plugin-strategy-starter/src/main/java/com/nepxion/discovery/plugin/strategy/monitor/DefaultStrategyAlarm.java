@@ -18,11 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.common.event.AlarmEvent;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
+import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
+import com.nepxion.discovery.plugin.strategy.event.StrategyAlarmEvent;
 
 public class DefaultStrategyAlarm implements StrategyAlarm {
     @Autowired
@@ -35,7 +35,7 @@ public class DefaultStrategyAlarm implements StrategyAlarm {
     protected StrategyMonitorContext strategyMonitorContext;
 
     @Autowired
-    protected PluginEventWapper pluginEventWapper;
+    protected PluginPublisher pluginPublisher;
 
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_ALARM_ENABLED + ":false}")
     protected Boolean alarmEnabled;
@@ -106,6 +106,6 @@ public class DefaultStrategyAlarm implements StrategyAlarm {
     }
 
     private void onAlarm(Map<String, String> alarmMap) {
-        pluginEventWapper.fireAlarm(new AlarmEvent(StrategyConstant.STRATEGY_ALARM_HEADER, alarmMap));
+        pluginPublisher.asyncPublish(new StrategyAlarmEvent(StrategyConstant.STRATEGY_ALARM_HEADER, alarmMap));
     }
 }
