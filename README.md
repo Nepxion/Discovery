@@ -4255,7 +4255,7 @@ n-d-service-version=1.0
 ------------------------------------------------------------
 ```
 
-③ 服务端Feign、RestTemplate或者支持WebClient调用拦截输出的蓝绿灰度埋点Debug辅助监控
+③ 服务端Feign、RestTemplate或者WebClient调用拦截输出的蓝绿灰度埋点Debug辅助监控
 ```
 -------- Feign Intercept Output Header Information ---------
 mobile=[13812345678]
@@ -4335,7 +4335,7 @@ public class MyServiceStrategyMonitorAdapter implements ServiceStrategyMonitorAd
     }
 }
 ```
-在配置类里@Bean方式进行创建
+在配置类里@Bean方式进行监控适配类创建
 ```java
 @Bean
 public ServiceStrategyMonitorAdapter serviceStrategyMonitorAdapter() {
@@ -4615,6 +4615,28 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 ```
 
 更多的配置方式，参考[https://github.com/git-commit-id/maven-git-commit-id-plugin/blob/master/maven/docs/using-the-plugin.md](https://github.com/git-commit-id/maven-git-commit-id-plugin/blob/master/maven/docs/using-the-plugin.md)
+
+可能需要增加下面的配置，保证Git相关文件被打包进去
+```xml
+<resources>
+    <resource>
+        <directory>src/main/java</directory>
+        <includes>
+            <include>**/*.xml</include>
+            <include>**/*.json</include>
+            <include>**/*.properties</include>
+        </includes>
+    </resource>
+    <resource>
+        <directory>src/main/resources</directory>
+        <includes>
+            <include>**/*.xml</include>
+            <include>**/*.json</include>
+            <include>**/*.properties</include>
+        </includes>
+    </resource>
+</resources>
+```
 
 - 增加配置项
 
