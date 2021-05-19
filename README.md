@@ -3370,6 +3370,13 @@ public class MyConfigProcessor extends NacosProcessor {
     }
 }
 ```
+在配置类里@Bean方式进行执行器类创建
+```java
+@Bean
+public MyConfigProcessor myConfigProcessor() {
+    return new MyConfigProcessor();
+}
+```
 
 ## 规则策略定义
 
@@ -4248,7 +4255,7 @@ n-d-service-version=1.0
 ------------------------------------------------------------
 ```
 
-③ 服务端Feign、RestTemplate或者支持WebClient调用拦截输出的蓝绿灰度埋点Debug辅助监控
+③ 服务端Feign、RestTemplate或者WebClient调用拦截输出的蓝绿灰度埋点Debug辅助监控
 ```
 -------- Feign Intercept Output Header Information ---------
 mobile=[13812345678]
@@ -4328,7 +4335,7 @@ public class MyServiceStrategyMonitorAdapter implements ServiceStrategyMonitorAd
     }
 }
 ```
-在配置类里@Bean方式进行创建
+在配置类里@Bean方式进行监控适配类创建
 ```java
 @Bean
 public ServiceStrategyMonitorAdapter serviceStrategyMonitorAdapter() {
@@ -4485,6 +4492,13 @@ public class MySubscriber {
         // 通过事件总线把告警数据alarmMap存储到ElasticSearch、MessageQueue、数据库等
         Map<String, String> alarmMap = strategyAlarmEvent.getAlarmMap();
     }
+}
+```
+在配置类里@Bean方式进行订阅类创建
+```java
+@Bean
+public MySubscriber mySubscriber() {
+    return new MySubscriber();
 }
 ```
 并开启如下开关
