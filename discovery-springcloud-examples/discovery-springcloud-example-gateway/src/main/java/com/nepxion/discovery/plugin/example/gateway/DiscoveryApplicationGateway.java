@@ -20,6 +20,7 @@ import com.nepxion.discovery.plugin.example.gateway.impl.MyDiscoveryListener;
 import com.nepxion.discovery.plugin.example.gateway.impl.MyLoadBalanceListener;
 import com.nepxion.discovery.plugin.example.gateway.impl.MyRegisterListener;
 import com.nepxion.discovery.plugin.example.gateway.impl.MyRouteFilter;
+import com.nepxion.discovery.plugin.example.gateway.impl.MySubscriber;
 import com.nepxion.discovery.plugin.strategy.gateway.filter.GatewayStrategyRouteFilter;
 
 @SpringBootApplication
@@ -52,6 +53,11 @@ public class DiscoveryApplicationGateway {
     @Bean
     public MyLoadBalanceListener myLoadBalanceListener() {
         return new MyLoadBalanceListener();
+    }
+
+    @Bean
+    public MySubscriber mySubscriber() {
+        return new MySubscriber();
     }
 
     /*@Bean
