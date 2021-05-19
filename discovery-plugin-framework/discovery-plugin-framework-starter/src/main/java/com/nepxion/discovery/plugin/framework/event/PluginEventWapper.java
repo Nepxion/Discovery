@@ -12,7 +12,6 @@ package com.nepxion.discovery.plugin.framework.event;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.common.entity.RuleEntity;
-import com.nepxion.discovery.common.event.AlarmEvent;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 
 public class PluginEventWapper {
@@ -67,14 +66,11 @@ public class PluginEventWapper {
 
     public void fireParameterChanged() {
         RuleEntity ruleEntity = pluginAdapter.getRule();
+
         fireParameterChanged(new ParameterChangedEvent(ruleEntity != null ? ruleEntity.getParameterEntity() : null));
     }
 
     public void fireRegisterFailure(RegisterFailureEvent registerFailureEvent) {
         pluginPublisher.asyncPublish(registerFailureEvent);
-    }
-
-    public void fireAlarm(AlarmEvent alarmEvent) {
-        pluginPublisher.asyncPublish(alarmEvent);
     }
 }
