@@ -106,6 +106,6 @@ public class DefaultStrategyAlarm implements StrategyAlarm {
     }
 
     private void onAlarm(Map<String, String> alarmMap) {
-        pluginPublisher.asyncPublish(new StrategyAlarmEvent(StrategyConstant.STRATEGY_ALARM_HEADER, alarmMap));
+        pluginPublisher.asyncPublish(new StrategyAlarmEvent(StrategyConstant.STRATEGY_CONTEXT_ALARM, alarmMap));
     }
 }
