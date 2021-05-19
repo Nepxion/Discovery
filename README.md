@@ -4479,7 +4479,7 @@ spring.application.strategy.tracer.sentinel.args.output.enabled=true
 public class MySubscriber {
     @Subscribe
     public void onAlarm(StrategyAlarmEvent strategyAlarmEvent) {
-        // 在本告警中告警类型为StrategyConstant.STRATEGY_ALARM_HEADER的静态变量值
+        // 在本告警中告警类型为StrategyConstant.STRATEGY_CONTEXT_ALARM的静态变量值，表示蓝绿灰度上下文告警
         String alarmType = strategyAlarmEvent.getAlarmType();
 
         // 通过事件总线把告警数据alarmMap存储到ElasticSearch、MessageQueue、数据库等
