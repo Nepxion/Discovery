@@ -3054,7 +3054,7 @@ spring.application.parameter.event.onstart.enabled=true
 - 网关订阅配置中心（包括Nacos、Apollo、Consul、Etcd、Redis、Zookeeper）批量实施
 
 ### Spring-Cloud-Gateway网关动态路由
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：Zuul网关在自动路由模式下，动态路由可以工作
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：Spring Cloud Gateway网关在自动路由模式下，动态路由不能工作
 
 ① Spring Cloud Gateway网关的动态路由配置格式
 
@@ -3171,7 +3171,7 @@ public class MySubscriber {
 ```
 
 ### Zuul网关动态路由
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：Spring Cloud Gateway网关在自动路由模式下，动态路由不能工作
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：Zuul网关在自动路由模式下，动态路由可以工作
 
 ① Zuul网关的动态路由配置格式
 
