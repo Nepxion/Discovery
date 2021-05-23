@@ -9,7 +9,7 @@
 
 [![Discovery DOC PPT](https://img.shields.io/badge/Discovery%20Doc-PPT-brightgreen?logo=Microsoft%20PowerPoint)](http://nepxion.gitee.io/discovery/docs/link-doc/discovery-ppt.html)  [![Discovery DOC PDF](https://img.shields.io/badge/Discovery%20Doc-PDF-brightgreen?logo=Adobe%20Acrobat%20Reader)](http://nepxion.gitee.io/discovery/docs/link-doc/discovery-pdf.html)  [![Discovery DOC HTML](https://img.shields.io/badge/Discovery%20Doc-HTML-brightgreen?logo=Microsoft%20Edge)](http://nepxion.gitee.io/discovery/docs/link-doc/discovery-html.html)
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/star3.png) 如果您觉得本框架具有一定的参考价值和借鉴意义，请帮忙在页面右上角 [**Star**]
+如果您觉得本框架具有一定的参考价值和借鉴意义，请帮忙在页面右上角 [**Star**]
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/star1.png) 首席作者简介
 - Nepxion开源社区创始人
@@ -20,12 +20,32 @@
 - Nacos Group Member、Spring Cloud Alibaba Member
 - Spring Cloud Alibaba、Nacos、Sentinel、OpenTracing Committer & Contributor
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/star2.png) 商业化合作
-- DiscoveryX（7.0.0版，支持Spring Cloud 202x版）源码，价格6888元
-- Polaris（Discovery高级版，支持Finchley版、Greenwich版、Hoxton版和Spring Cloud 202x版）源码，价格6888元
-- 添加微信1394997，通过如下微信支付相关商业费用
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/star4.png) 商业化合作
 
-![](http://nepxion.gitee.io/discovery/docs/zxing-doc/微信支付.jpg)
+① Discovery系列
+
+| 框架名称 | 框架版本 | 支持Spring Cloud版本 | 使用许可 |
+| --- | --- | --- | --- |
+| Discovery | 1.x.x ~ 6.x.x | Camden ~ Hoxton | 开源，永久免费 |
+| DiscoveryX | 7.x.x | 202x | 闭源，商业许可 |
+
+② Polaris系列
+
+Polaris为Discovery高级定制版，特色功能
+
+- 基于Nepxion Discovery集成定制
+- 多云、多活、多机房流量调配
+- 跨云动态域名、跨环境适配
+- DCN、DSU、SET单元化部署
+- 组件灵活装配、配置对外屏蔽
+- 极简低代码PaaS平台
+
+| 框架名称 | 框架版本 | 支持Discovery版本 | 支持Spring Cloud版本 | 使用许可 |
+| --- | --- | --- | --- | --- |
+| Polaris | 1.x.x | 6.x.x | Finchley ~ Hoxton | 闭源，商业许可 |
+| Polaris | 2.x.x | 7.x.x | 202x | 闭源，商业许可 |
+
+有商业版需求的企业和用户，请添加微信1394997，联系作者，洽谈合作事宜
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Logo64.png) Discovery【探索】微服务企业级解决方案
 
@@ -260,7 +280,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | DiscoveryContrib | [![Total lines](https://tokei.rs/b1/github/Nepxion/DiscoveryContrib?category=lines)](https://tokei.rs/b1/github/Nepxion/DiscoveryContrib?category=lines) |
 
 ## 鸣谢
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/star4.png) 郑重致谢
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/star2.png) 郑重致谢
 - 感谢阿里巴巴中间件Nacos、Sentinel和Spring Cloud Alibaba团队，尤其是Nacos负责人@彦林、@于怀，Sentinel负责人@宿何、@子衿，Spring Cloud Alibaba负责人@良名、@小马哥、@洛夜、@亦盏的技术支持
 - 感谢携程Apollo团队，尤其是@宋顺的技术支持
 - 感谢所有Committers和Contributors
