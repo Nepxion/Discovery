@@ -43,6 +43,7 @@ import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
@@ -216,9 +217,7 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
     @Override
     public synchronized void updateAll(String gatewayStrategyRouteConfig) {
         if (StringUtils.isBlank(gatewayStrategyRouteConfig)) {
-            LOG.info("Gateway dynamic route config is empty");
-
-            return;
+            gatewayStrategyRouteConfig = DiscoveryConstant.EMPTY_JSON_RULE_MULTIPLE;
         }
 
         List<GatewayStrategyRouteEntity> gatewayStrategyRouteEntityList = JsonUtil.fromJson(gatewayStrategyRouteConfig, new TypeReference<List<GatewayStrategyRouteEntity>>() {

@@ -9,7 +9,6 @@ package com.nepxion.discovery.plugin.strategy.sentinel.datasource.loader;
  * @version 1.0
  */
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,95 +67,113 @@ public class SentinelStrategyRuleLoader {
     @Autowired
     private ApplicationContext applicationContext;
 
+    private boolean sentinelStrategyFlowRuleRetrieved = false;
+
+    private boolean sentinelStrategyDegradeRuleRetrieved = false;
+
+    private boolean sentinelStrategyAuthorityRuleRetrieved = false;
+
+    private boolean sentinelStrategySystemRuleRetrieved = false;
+
+    private boolean sentinelStrategyParamFlowRuleRetrieved = false;
+
     public void loadFileRules(SentinelStrategyRuleType sentinelStrategyRuleType) {
         String ruleTypeDescription = sentinelStrategyRuleType.getDescription();
 
         switch (sentinelStrategyRuleType) {
             case FLOW:
-                if (CollectionUtils.isEmpty(FlowRuleManager.getRules())) {
+                if (!sentinelStrategyFlowRuleRetrieved) {
                     String sentinelStrategyRule = getRules(sentinelStrategyFlowPath);
                     if (StringUtils.isNotBlank(sentinelStrategyRule)) {
                         loadRules(sentinelStrategyRuleType, sentinelStrategyRule);
                     }
                 } else {
-                    LOG.info("{} exists, ignore to load from file...", ruleTypeDescription);
+                    LOG.info("{} is retrieved from remote config, ignore to load from file...", ruleTypeDescription);
                 }
                 break;
             case DEGRADE:
-                if (CollectionUtils.isEmpty(DegradeRuleManager.getRules())) {
+                if (!sentinelStrategyDegradeRuleRetrieved) {
                     String sentinelStrategyRule = getRules(sentinelStrategyDegradePath);
                     if (StringUtils.isNotBlank(sentinelStrategyRule)) {
                         loadRules(sentinelStrategyRuleType, sentinelStrategyRule);
                     }
                 } else {
-                    LOG.info("{} exists, ignore to load from file...", ruleTypeDescription);
+                    LOG.info("{} is retrieved from remote config, ignore to load from file...", ruleTypeDescription);
                 }
                 break;
             case AUTHORITY:
-                if (CollectionUtils.isEmpty(AuthorityRuleManager.getRules())) {
+                if (!sentinelStrategyAuthorityRuleRetrieved) {
                     String sentinelStrategyRule = getRules(sentinelStrategyAuthorityPath);
                     if (StringUtils.isNotBlank(sentinelStrategyRule)) {
                         loadRules(sentinelStrategyRuleType, sentinelStrategyRule);
                     }
                 } else {
-                    LOG.info("{} exists, ignore to load from file...", ruleTypeDescription);
+                    LOG.info("{} is retrieved from remote config, ignore to load from file...", ruleTypeDescription);
                 }
                 break;
             case SYSTEM:
-                if (CollectionUtils.isEmpty(SystemRuleManager.getRules())) {
+                if (!sentinelStrategySystemRuleRetrieved) {
                     String sentinelStrategyRule = getRules(sentinelStrategySystemPath);
                     if (StringUtils.isNotBlank(sentinelStrategyRule)) {
                         loadRules(sentinelStrategyRuleType, sentinelStrategyRule);
                     }
                 } else {
-                    LOG.info("{} exists, ignore to load from file...", ruleTypeDescription);
+                    LOG.info("{} is retrieved from remote config, ignore to load from file...", ruleTypeDescription);
                 }
                 break;
             case PARAM_FLOW:
-                if (CollectionUtils.isEmpty(ParamFlowRuleManager.getRules())) {
+                if (!sentinelStrategyParamFlowRuleRetrieved) {
                     String sentinelStrategyRule = getRules(sentinelStrategyParamFlowPath);
                     if (StringUtils.isNotBlank(sentinelStrategyRule)) {
                         loadRules(sentinelStrategyRuleType, sentinelStrategyRule);
                     }
                 } else {
-                    LOG.info("{} exists, ignore to load from file...", ruleTypeDescription);
+                    LOG.info("{} is retrieved from remote config, ignore to load from file...", ruleTypeDescription);
                 }
                 break;
         }
     }
 
     public void loadRules(SentinelStrategyRuleType sentinelStrategyRuleType, String sentinelStrategyRule) {
-        String ruleTypeDescription = sentinelStrategyRuleType.getDescription();
-
         if (StringUtils.isBlank(sentinelStrategyRule)) {
-            LOG.info("{} config is empty", ruleTypeDescription);
-
-            return;
+            sentinelStrategyRule = DiscoveryConstant.EMPTY_JSON_RULE_MULTIPLE;
         }
+
+        String ruleTypeDescription = sentinelStrategyRuleType.getDescription();
 
         switch (sentinelStrategyRuleType) {
             case FLOW:
                 FlowRuleManager.loadRules(sentinelStrategyFlowRuleParser.convert(sentinelStrategyRule));
+
+                sentinelStrategyFlowRuleRetrieved = true;
 
                 LOG.info("Loaded {} count={}", ruleTypeDescription, FlowRuleManager.getRules().size());
                 break;
             case DEGRADE:
                 DegradeRuleManager.loadRules(sentinelStrategyDegradeRuleParser.convert(sentinelStrategyRule));
 
+                sentinelStrategyDegradeRuleRetrieved = true;
+
                 LOG.info("Loaded {} count={}", ruleTypeDescription, DegradeRuleManager.getRules().size());
                 break;
             case AUTHORITY:
                 AuthorityRuleManager.loadRules(sentinelStrategyAuthorityRuleParser.convert(sentinelStrategyRule));
+
+                sentinelStrategyAuthorityRuleRetrieved = true;
 
                 LOG.info("Loaded {} count={}", ruleTypeDescription, AuthorityRuleManager.getRules().size());
                 break;
             case SYSTEM:
                 SystemRuleManager.loadRules(sentinelStrategySystemRuleParser.convert(sentinelStrategyRule));
 
+                sentinelStrategySystemRuleRetrieved = true;
+
                 LOG.info("Loaded {} count={}", ruleTypeDescription, SystemRuleManager.getRules().size());
                 break;
             case PARAM_FLOW:
                 ParamFlowRuleManager.loadRules(sentinelStrategyParamFlowRuleParser.convert(sentinelStrategyRule));
+
+                sentinelStrategyParamFlowRuleRetrieved = true;
 
                 LOG.info("Loaded {} count={}", ruleTypeDescription, ParamFlowRuleManager.getRules().size());
                 break;

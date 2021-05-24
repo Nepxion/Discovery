@@ -30,6 +30,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
@@ -221,9 +222,7 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
     @Override
     public synchronized void updateAll(String zuulStrategyRouteConfig) {
         if (StringUtils.isBlank(zuulStrategyRouteConfig)) {
-            LOG.info("Zuul dynamic route config is empty");
-
-            return;
+            zuulStrategyRouteConfig = DiscoveryConstant.EMPTY_JSON_RULE_MULTIPLE;
         }
 
         List<ZuulStrategyRouteEntity> zuulStrategyRouteEntityList = JsonUtil.fromJson(zuulStrategyRouteConfig, new TypeReference<List<ZuulStrategyRouteEntity>>() {
