@@ -17,6 +17,7 @@ import io.etcd.jetcd.Watch;
 import io.etcd.jetcd.Watch.Listener;
 import io.etcd.jetcd.kv.GetResponse;
 import io.etcd.jetcd.watch.WatchEvent;
+import io.etcd.jetcd.watch.WatchEvent.EventType;
 import io.etcd.jetcd.watch.WatchResponse;
 
 import java.nio.charset.StandardCharsets;
@@ -74,11 +75,16 @@ public class EtcdOperation implements DisposableBean {
             @Override
             public void onNext(WatchResponse response) {
                 for (WatchEvent event : response.getEvents()) {
-                    KeyValue keyValue = event.getKeyValue();
-                    if (keyValue != null) {
-                        String config = keyValue.getValue().toString(StandardCharsets.UTF_8);
+                    EventType eventType = event.getEventType();
+                    if (eventType == EventType.PUT) {
+                        KeyValue keyValue = event.getKeyValue();
+                        if (keyValue != null) {
+                            String config = keyValue.getValue().toString(StandardCharsets.UTF_8);
 
-                        etcdSubscribeCallback.callback(config);
+                            etcdSubscribeCallback.callback(config);
+                        }
+                    } else if (eventType == EventType.DELETE) {
+                        etcdSubscribeCallback.callback(null);
                     }
                 }
             }
