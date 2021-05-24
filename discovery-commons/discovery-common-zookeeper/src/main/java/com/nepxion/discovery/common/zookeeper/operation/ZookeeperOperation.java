@@ -10,7 +10,6 @@ package com.nepxion.discovery.common.zookeeper.operation;
  * @version 1.0
  */
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.cache.ChildData;
 import org.apache.curator.framework.recipes.cache.NodeCache;
@@ -33,7 +32,7 @@ public class ZookeeperOperation implements DisposableBean {
 
         boolean hasPath = hasPath(path);
         if (!hasPath) {
-            return StringUtils.EMPTY;
+            return null;
         }
 
         return convertConfig(path);
@@ -79,9 +78,6 @@ public class ZookeeperOperation implements DisposableBean {
             @Override
             public void nodeChanged() throws Exception {
                 String config = convertConfig(nodeCache);
-                if (config == null) {
-                    config = StringUtils.EMPTY;
-                }
 
                 zookeeperSubscribeCallback.callback(config);
             }
