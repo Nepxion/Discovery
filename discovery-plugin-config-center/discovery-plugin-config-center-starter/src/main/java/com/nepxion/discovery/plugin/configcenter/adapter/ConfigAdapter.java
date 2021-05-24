@@ -48,7 +48,7 @@ public abstract class ConfigAdapter extends RemoteConfigLoader {
 
         String config = getConfig(group, dataId);
 
-        if (StringUtils.isNotEmpty(config)) {
+        if (StringUtils.isNotBlank(config)) {
             logFound(globalConfig);
         } else {
             logNotFound(globalConfig);
@@ -60,7 +60,7 @@ public abstract class ConfigAdapter extends RemoteConfigLoader {
     public void callbackConfig(String config, boolean globalConfig) {
         SubscriptionType subscriptionType = getSubscriptionType(globalConfig);
 
-        if (StringUtils.isNotEmpty(config)) {
+        if (StringUtils.isNotBlank(config)) {
             logUpdatedEvent(globalConfig);
 
             RuleEntity ruleEntity = null;
