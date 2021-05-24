@@ -23,6 +23,10 @@ public class DiscoveryConfigProcessorLogger {
         LOG.error("Get {} config from {} server failed, " + getLogKey(isConfigSingleKey), description, configType, group, dataId, e);
     }
 
+    public static void logNotFound(String description, String configType) {
+        LOG.info("Not found {} config from {} server", description, configType);
+    }
+
     public static void logSubscribeStarted(String group, String dataId, String description, String configType, boolean isConfigSingleKey) {
         LOG.info("Subscribe {} config from {} server, " + getLogKey(isConfigSingleKey), description, configType, group, dataId);
     }

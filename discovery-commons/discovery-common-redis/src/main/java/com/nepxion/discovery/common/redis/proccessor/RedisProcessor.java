@@ -44,8 +44,11 @@ public abstract class RedisProcessor extends DiscoveryConfigProcessor {
 
         try {
             String config = redisOperation.getConfig(group, dataId);
-
-            callbackConfig(config);
+            if (config != null) {
+                callbackConfig(config);
+            } else {
+                logNotFound();
+            }
         } catch (Exception e) {
             logGetFailed(e);
         }

@@ -53,8 +53,11 @@ public abstract class ApolloProcessor extends DiscoveryConfigProcessor {
 
         try {
             String config = apolloOperation.getConfig(group, dataId);
-
-            callbackConfig(config);
+            if (config != null) {
+                callbackConfig(config);
+            } else {
+                logNotFound();
+            }
         } catch (Exception e) {
             logGetFailed(e);
         }

@@ -58,8 +58,11 @@ public abstract class ConsulProcessor extends DiscoveryConfigProcessor {
 
         try {
             String config = consulOperation.getConfig(group, dataId);
-
-            callbackConfig(config);
+            if (config != null) {
+                callbackConfig(config);
+            } else {
+                logNotFound();
+            }
         } catch (Exception e) {
             logGetFailed(e);
         }
