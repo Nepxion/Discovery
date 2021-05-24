@@ -215,7 +215,7 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
 
     @Override
     public synchronized void updateAll(String gatewayStrategyRouteConfig) {
-        if (StringUtils.isEmpty(gatewayStrategyRouteConfig)) {
+        if (StringUtils.isBlank(gatewayStrategyRouteConfig)) {
             LOG.info("Gateway dynamic route config is empty");
 
             return;
