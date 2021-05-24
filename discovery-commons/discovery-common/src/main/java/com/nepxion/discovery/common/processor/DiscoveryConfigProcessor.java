@@ -32,6 +32,13 @@ public abstract class DiscoveryConfigProcessor implements DisposableBean {
         DiscoveryConfigProcessorLogger.logGetFailed(group, dataId, description, configType, isConfigSingleKey, e);
     }
 
+    public void logNotFound() {
+        String description = getDescription();
+        String configType = getConfigType();
+
+        DiscoveryConfigProcessorLogger.logNotFound(description, configType);
+    }
+
     public void logSubscribeStarted() {
         String group = getGroup();
         String dataId = getDataId();
