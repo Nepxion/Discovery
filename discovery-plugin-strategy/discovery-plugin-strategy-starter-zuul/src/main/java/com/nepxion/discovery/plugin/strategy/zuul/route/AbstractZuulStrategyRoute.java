@@ -220,7 +220,7 @@ public abstract class AbstractZuulStrategyRoute extends SimpleRouteLocator imple
 
     @Override
     public synchronized void updateAll(String zuulStrategyRouteConfig) {
-        if (StringUtils.isEmpty(zuulStrategyRouteConfig)) {
+        if (StringUtils.isBlank(zuulStrategyRouteConfig)) {
             LOG.info("Zuul dynamic route config is empty");
 
             return;
