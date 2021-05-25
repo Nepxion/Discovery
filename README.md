@@ -5295,11 +5295,6 @@ spring.application.strategy.auto.scan.packages.enabled=true
 # 启动和关闭嵌套扫描，嵌套扫描指扫描非本工程下外部包的目录，可以支持多层嵌套。缺失则默认为false
 spring.application.strategy.auto.scan.recursion.enabled=false
 
-# 开启Spring Cloud Gateway网关动态路由时，订阅配置中心动态路由变更的主键group值。缺失则默认为nepxion
-# Nacos配置中心，Group为{group}，DataId为网关服务名
-# 其它配置中心，Key的格式为{group}-网关服务名
-spring.application.strategy.dynamic.route.group=nepxion
-
 # 开启和关闭使用服务名前缀来作为服务组名。缺失则默认为false
 spring.application.group.generator.enabled=true
 # 服务名前缀的截断长度，必须大于0
@@ -5465,11 +5460,6 @@ spring.application.parameter.event.onstart.enabled=true
 spring.application.strategy.auto.scan.packages.enabled=true
 # 启动和关闭嵌套扫描，嵌套扫描指扫描非本工程下外部包的目录，可以支持多层嵌套。缺失则默认为false
 spring.application.strategy.auto.scan.recursion.enabled=false
-
-# 开启Zuul网关动态路由时，订阅配置中心动态路由变更的主键group值。缺失则默认为nepxion
-# Nacos配置中心，Group为{group}，DataId为网关服务名
-# 其它配置中心，Key的格式为{group}-网关服务名
-spring.application.strategy.dynamic.route.group=nepxion
 
 # 开启和关闭使用服务名前缀来作为服务组名。缺失则默认为false
 spring.application.group.generator.enabled=true
