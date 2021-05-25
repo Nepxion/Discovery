@@ -1,3 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.nepxion.discovery.common.consul.configuration.ConsulAutoConfiguration,\
 com.nepxion.discovery.plugin.configcenter.consul.configuration.ConsulConfigAutoConfiguration
