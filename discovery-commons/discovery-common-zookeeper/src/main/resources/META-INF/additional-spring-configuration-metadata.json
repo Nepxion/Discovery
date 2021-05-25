@@ -1,0 +1,10 @@
+{
+	"properties": [
+		{
+			"name": "spring.application.config.zookeeper.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether config zookeeper is enabled."
+		}
+	]
+}

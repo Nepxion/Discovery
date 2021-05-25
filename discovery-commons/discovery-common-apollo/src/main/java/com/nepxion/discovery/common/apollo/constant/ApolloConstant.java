@@ -12,6 +12,8 @@ package com.nepxion.discovery.common.apollo.constant;
 import com.ctrip.framework.apollo.core.ConfigConsts;
 
 public class ApolloConstant implements ConfigConsts {
+    public static final String SPRING_APPLICATION_CONFIG_APOLLO_ENABLED = "spring.application.config.apollo.enabled";
+
     public static final String APOLLO_TYPE = "Apollo";
     public static final String APOLLO_BOOTSTRAP_NAMESPACES = "apollo.bootstrap.namespaces";
     public static final String APOLLO_PLUGIN_NAMESPACE = "apollo.plugin.namespace";

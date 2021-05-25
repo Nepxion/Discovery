@@ -10,6 +10,8 @@ package com.nepxion.discovery.common.etcd.constant;
  */
 
 public class EtcdConstant {
+    public static final String SPRING_APPLICATION_CONFIG_ETCD_ENABLED = "spring.application.config.etcd.enabled";
+
     public static final String ETCD_TYPE = "Etcd";
     public static final String ETCD_SERVER_ADDR = "etcd.server.addr";
     public static final String ETCD_USERNAME = "etcd.username";

@@ -10,6 +10,8 @@ package com.nepxion.discovery.common.zookeeper.constant;
  */
 
 public class ZookeeperConstant {
+    public static final String SPRING_APPLICATION_CONFIG_ZOOKEEPER_ENABLED = "spring.application.config.zookeeper.enabled";
+
     public static final String ZOOKEEPER_TYPE = "Zookeeper";
     public static final String ZOOKEEPER_CONNECT_STRING = "zookeeper.connect-string";
     public static final String ZOOKEEPER_RETRY_COUNT = "zookeeper.retry-count";
