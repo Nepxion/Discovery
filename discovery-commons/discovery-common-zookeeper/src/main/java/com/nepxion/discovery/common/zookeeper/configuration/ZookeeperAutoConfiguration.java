@@ -15,7 +15,6 @@ import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -25,7 +24,6 @@ import com.nepxion.discovery.common.zookeeper.constant.ZookeeperConstant;
 import com.nepxion.discovery.common.zookeeper.operation.ZookeeperOperation;
 
 @Configuration
-@ConditionalOnProperty(value = ZookeeperConstant.SPRING_APPLICATION_CONFIG_ZOOKEEPER_ENABLED, matchIfMissing = true)
 public class ZookeeperAutoConfiguration {
     @Autowired
     private Environment environment;

@@ -10,8 +10,6 @@ package com.nepxion.discovery.common.consul.constant;
  */
 
 public class ConsulConstant {
-    public static final String SPRING_APPLICATION_CONFIG_CONSUL_ENABLED = "spring.application.config.consul.enabled";
-
     public static final String CONSUL_TYPE = "Consul";
     public static final String CONSUL_HOST = "consul.host";
     public static final String CONSUL_PORT = "consul.port";
