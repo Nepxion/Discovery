@@ -12,6 +12,8 @@ package com.nepxion.discovery.common.nacos.constant;
 import com.alibaba.nacos.api.PropertyKeyConst;
 
 public class NacosConstant extends PropertyKeyConst {
+    public static final String SPRING_APPLICATION_CONFIG_NACOS_ENABLED = "spring.application.config.nacos.enabled";
+
     public static final String NACOS_TYPE = "Nacos";
     public static final String NACOS_PLUGIN_PREFIX = "nacos.plugin";
     public static final String NACOS_SERVER_ADDR = "nacos.server-addr";

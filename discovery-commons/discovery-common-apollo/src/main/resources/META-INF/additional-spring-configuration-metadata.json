@@ -1,0 +1,10 @@
+{
+	"properties": [
+		{
+			"name": "spring.application.config.apollo.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether config apollo is enabled."
+		}
+	]
+}
