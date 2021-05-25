@@ -5142,19 +5142,6 @@ spring.application.git.generator.path=classpath:git.properties
 # 使用Git信息中的字段单个或者多个组合来作为服务版本号。缺失则默认为{git.commit.time}-{git.total.commit.count}
 spring.application.git.version.key={git.commit.id.abbrev}-{git.commit.time}
 # spring.application.git.version.key={git.build.version}-{git.commit.time}
-
-# 启动和关闭Nacos配置中心的通用订阅。一旦关闭，蓝绿灰度、网关动态路由、Sentinel限流降级熔断权限等Nepxion Discovery自带配置中心订阅功能，自定义配置中心订阅功能都失效。缺失则默认为true
-spring.application.config.nacos.enabled=true
-# 启动和关闭Apollo配置中心的通用订阅。一旦关闭，蓝绿灰度、网关动态路由、Sentinel限流降级熔断权限等Nepxion Discovery自带配置中心订阅功能，自定义配置中心订阅功能都失效。缺失则默认为true
-spring.application.config.apollo.enabled=true
-# 启动和关闭Redis配置中心的通用订阅。一旦关闭，蓝绿灰度、网关动态路由、Sentinel限流降级熔断权限等Nepxion Discovery自带配置中心订阅功能，自定义配置中心订阅功能都失效。缺失则默认为true
-spring.application.config.redis.enabled=true
-# 启动和关闭Zookeeper配置中心的通用订阅。一旦关闭，蓝绿灰度、网关动态路由、Sentinel限流降级熔断权限等Nepxion Discovery自带配置中心订阅功能，自定义配置中心订阅功能都失效。缺失则默认为true
-spring.application.config.zookeeper.enabled=true
-# 启动和关闭Consul配置中心的通用订阅。一旦关闭，蓝绿灰度、网关动态路由、Sentinel限流降级熔断权限等Nepxion Discovery自带配置中心订阅功能，自定义配置中心订阅功能都失效。缺失则默认为true
-spring.application.config.consul.enabled=true
-# 启动和关闭Etcd配置中心的通用订阅。一旦关闭，蓝绿灰度、网关动态路由、Sentinel限流降级熔断权限等Nepxion Discovery自带配置中心订阅功能，自定义配置中心订阅功能都失效。缺失则默认为true
-spring.application.config.etcd.enabled=true
 ```
 
 ② Spring Cloud Gateway端配置
@@ -5288,19 +5275,6 @@ spring.application.git.generator.path=classpath:git.properties
 # 使用Git信息中的字段单个或者多个组合来作为服务版本号。缺失则默认为{git.commit.time}-{git.total.commit.count}
 spring.application.git.version.key={git.commit.id.abbrev}-{git.commit.time}
 # spring.application.git.version.key={git.build.version}-{git.commit.time}
-
-# 启动和关闭Nacos配置中心的通用订阅。一旦关闭，蓝绿灰度、网关动态路由、Sentinel限流降级熔断权限等Nepxion Discovery自带配置中心订阅功能，自定义配置中心订阅功能都失效。缺失则默认为true
-spring.application.config.nacos.enabled=true
-# 启动和关闭Apollo配置中心的通用订阅。一旦关闭，蓝绿灰度、网关动态路由、Sentinel限流降级熔断权限等Nepxion Discovery自带配置中心订阅功能，自定义配置中心订阅功能都失效。缺失则默认为true
-spring.application.config.apollo.enabled=true
-# 启动和关闭Redis配置中心的通用订阅。一旦关闭，蓝绿灰度、网关动态路由、Sentinel限流降级熔断权限等Nepxion Discovery自带配置中心订阅功能，自定义配置中心订阅功能都失效。缺失则默认为true
-spring.application.config.redis.enabled=true
-# 启动和关闭Zookeeper配置中心的通用订阅。一旦关闭，蓝绿灰度、网关动态路由、Sentinel限流降级熔断权限等Nepxion Discovery自带配置中心订阅功能，自定义配置中心订阅功能都失效。缺失则默认为true
-spring.application.config.zookeeper.enabled=true
-# 启动和关闭Consul配置中心的通用订阅。一旦关闭，蓝绿灰度、网关动态路由、Sentinel限流降级熔断权限等Nepxion Discovery自带配置中心订阅功能，自定义配置中心订阅功能都失效。缺失则默认为true
-spring.application.config.consul.enabled=true
-# 启动和关闭Etcd配置中心的通用订阅。一旦关闭，蓝绿灰度、网关动态路由、Sentinel限流降级熔断权限等Nepxion Discovery自带配置中心订阅功能，自定义配置中心订阅功能都失效。缺失则默认为true
-spring.application.config.etcd.enabled=true
 
 # 下面配置只适用于网关里直接进行Feign、RestTemplate或者WebClient调用场景
 # 启动和关闭路由策略的时候，对REST方式的调用拦截。缺失则默认为true
@@ -5472,19 +5446,6 @@ spring.application.git.generator.path=classpath:git.properties
 # 使用Git信息中的字段单个或者多个组合来作为服务版本号。缺失则默认为{git.commit.time}-{git.total.commit.count}
 # spring.application.git.version.key={git.commit.id.abbrev}-{git.commit.time}
 # spring.application.git.version.key={git.build.version}-{git.commit.time}
-
-# 启动和关闭Nacos配置中心的通用订阅。一旦关闭，蓝绿灰度、网关动态路由、Sentinel限流降级熔断权限等Nepxion Discovery自带配置中心订阅功能，自定义配置中心订阅功能都失效。缺失则默认为true
-spring.application.config.nacos.enabled=true
-# 启动和关闭Apollo配置中心的通用订阅。一旦关闭，蓝绿灰度、网关动态路由、Sentinel限流降级熔断权限等Nepxion Discovery自带配置中心订阅功能，自定义配置中心订阅功能都失效。缺失则默认为true
-spring.application.config.apollo.enabled=true
-# 启动和关闭Redis配置中心的通用订阅。一旦关闭，蓝绿灰度、网关动态路由、Sentinel限流降级熔断权限等Nepxion Discovery自带配置中心订阅功能，自定义配置中心订阅功能都失效。缺失则默认为true
-spring.application.config.redis.enabled=true
-# 启动和关闭Zookeeper配置中心的通用订阅。一旦关闭，蓝绿灰度、网关动态路由、Sentinel限流降级熔断权限等Nepxion Discovery自带配置中心订阅功能，自定义配置中心订阅功能都失效。缺失则默认为true
-spring.application.config.zookeeper.enabled=true
-# 启动和关闭Consul配置中心的通用订阅。一旦关闭，蓝绿灰度、网关动态路由、Sentinel限流降级熔断权限等Nepxion Discovery自带配置中心订阅功能，自定义配置中心订阅功能都失效。缺失则默认为true
-spring.application.config.consul.enabled=true
-# 启动和关闭Etcd配置中心的通用订阅。一旦关闭，蓝绿灰度、网关动态路由、Sentinel限流降级熔断权限等Nepxion Discovery自带配置中心订阅功能，自定义配置中心订阅功能都失效。缺失则默认为true
-spring.application.config.etcd.enabled=true
 
 # 下面配置只适用于网关里直接进行Feign、RestTemplate或者WebClient调用场景
 # 启动和关闭路由策略的时候，对REST方式的调用拦截。缺失则默认为true
