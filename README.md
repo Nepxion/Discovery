@@ -3148,7 +3148,7 @@ spring.application.parameter.event.onstart.enabled=true
     - Nacos、Redis、Zookeeper配置中心，Group为{group}，DataId为{网关serviceId}-dynamic-route
     - Apollo、Consul、Etcd配置中心，Key的格式为{group}-{网关serviceId}-dynamic-route
     - {group}为注册中心元数据group值
-- Value参考`① Spring Cloud Gateway网关的动态路由配置格式`
+- Value参考“① Spring Cloud Gateway网关的动态路由配置格式”
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide7-9.jpg)
 
@@ -3299,7 +3299,7 @@ public class MySubscriber {
     - Nacos、Redis、Zookeeper配置中心，Group为{group}，DataId为{网关serviceId}-dynamic-route
     - Apollo、Consul、Etcd配置中心，Key的格式为{group}-{网关serviceId}-dynamic-route
     - {group}为注册中心元数据group值
-- Value参考`① Zuul网关的动态路由配置格式`
+- Value参考“① Zuul网关的动态路由配置格式”
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide7-10.jpg)
 
