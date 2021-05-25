@@ -9,6 +9,8 @@ package com.nepxion.discovery.plugin.configcenter.context;
  * @version 1.0
  */
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
@@ -19,10 +21,14 @@ public class ConfigContextClosedHandler implements ApplicationListener<ContextCl
     @Autowired(required = false)
     private RemoteConfigLoader remoteConfigLoader;
 
+    private AtomicBoolean flag = new AtomicBoolean(false);
+
     @Override
     public void onApplicationEvent(ContextClosedEvent event) {
-        if (remoteConfigLoader != null) {
-            remoteConfigLoader.unsubscribeConfig();
+        if (flag.compareAndSet(false, true)) {
+            if (remoteConfigLoader != null) {
+                remoteConfigLoader.unsubscribeConfig();
+            }
         }
     }
 }
