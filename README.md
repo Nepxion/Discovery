@@ -4595,7 +4595,6 @@ com.nepxion.discovery.plugin.strategy.monitor.DefaultStrategyAlarm
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Grafana.jpg)
 
 #### Spring-Boot-Admin监控
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Admin4.jpg)
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Admin7.jpg)
 
 ## 全链路服务侧注解
