@@ -177,12 +177,6 @@
 			"type": "java.lang.Boolean",
 			"defaultValue": false,
 			"description": "Whether strategy auto scan recursion is enabled."
-		},
-		{
-			"name": "spring.application.strategy.dynamic.route.group",
-			"type": "java.lang.String",
-			"defaultValue": "nepxion",
-			"description": "Strategy dynamic route group."
 		}
 	]
 }
