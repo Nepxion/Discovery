@@ -3403,6 +3403,7 @@ public class MyConfigProcessor extends NacosProcessor {
 统一配置订阅执行器可以单独运行在Spring Boot应用上，它是一个通用的解决方案
 - 如果使用者希望脱离Nepxion Discovery以及Spring Cloud框架，使用者只需要引入如下依赖之一即可
 - 如果使用者正在使用Nepxion Discovery框架，则跟随它的内置引入即可，不需要额外引入如下依赖之一
+
 ```xml
 <dependency>
     <groupId>${project.groupId}</groupId>
