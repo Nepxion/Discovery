@@ -474,7 +474,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/遥望.png"></td>
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/老来网.png"></td>
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/万邑通.png"></td>
-      <td width="20%"></td>
+      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/边锋游戏.png"></td>
     </tr>
   </tbody>
 </table>
@@ -562,7 +562,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [异步场景下Hystrix线程池隔离解决方案](#异步场景下Hystrix线程池隔离解决方案)
 - [全链路数据库和消息队列蓝绿发布](#全链路数据库和消息队列蓝绿发布)
 - [网关动态路由](#网关动态路由)
-    - [网关动态路由接入](#网关动态路由接入)
     - [Spring-Cloud-Gateway网关动态路由](#Spring-Cloud-Gateway网关动态路由)
     - [Zuul网关动态路由](#Zuul网关动态路由)
 - [统一配置订阅执行器](#统一配置订阅执行器)
@@ -2565,8 +2564,8 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 
 | 操作 | 路径 | 内容 | 方式 |
 | --- | --- | --- | --- |
-| 网关为入口 | `http://[网关IP:PORT]/[A服务名]/inspector/inspect` | `{"serviceIdList":["B服务名", "C服务名", ....]}` | POST |
-| 服务为入口 | `http://[A服务IP:PORT]/inspector/inspect` | `{"serviceIdList":["B服务名", "C服务名", ....]}` | POST |
+| 网关为入口 | `http://`[网关IP:PORT]/[A服务名]/inspector/inspect | {"serviceIdList":["B服务名", "C服务名", ...]} | POST |
+| 服务为入口 | `http://`[A服务IP:PORT]/inspector/inspect | {"serviceIdList":["B服务名", "C服务名", ...]} | POST |
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：内容项中服务名列表不分前后次序
 
@@ -3124,22 +3123,22 @@ spring.application.parameter.event.onstart.enabled=true
 
 | 操作 | 路径 | 参数 | 方式 |
 | --- | --- | --- | --- |
-| 增加网关路由 | `http://[网关IP:PORT]/spring-cloud-gateway-route/add` | 单个动态路由配置 | POST |
-| 修改网关路由 | `http://[网关IP:PORT]/spring-cloud-gateway-route/modify` | 单个动态路由配置 | POST |
-| 删除网关路由 | `http://[网关IP:PORT]/spring-cloud-gateway-route/delete` | 路由Id | POST |
-| 更新全部网关路由 | `http://[网关IP:PORT]/spring-cloud-gateway-route/update-all` | 多个动态路由配置 | POST |
-| 根据路由Id查看网关路由 | `http://[网关IP:PORT]/spring-cloud-gateway-route/view` | 路由Id | GET |
-| 查看全部网关路由| `http://[网关IP:PORT]/spring-cloud-gateway-route/view-all` | 无 | GET |
+| 增加网关路由 | `http://`[网关IP:PORT]/spring-cloud-gateway-route/add | 单个动态路由配置 | POST |
+| 修改网关路由 | `http://`[网关IP:PORT]/spring-cloud-gateway-route/modify | 单个动态路由配置 | POST |
+| 删除网关路由 | `http://`[网关IP:PORT]/spring-cloud-gateway-route/delete | 路由Id | POST |
+| 更新全部网关路由 | `http://`[网关IP:PORT]/spring-cloud-gateway-route/update-all | 多个动态路由配置 | POST |
+| 根据路由Id查看网关路由 | `http://`[网关IP:PORT]/spring-cloud-gateway-route/view | 路由Id | GET |
+| 查看全部网关路由| `http://`[网关IP:PORT]/spring-cloud-gateway-route/view-all | 无 | GET |
 
 ③ 控制台的Rest Endpoint接口
 
 | 操作 | 路径 | 参数 | 方式 |
 | --- | --- | --- | --- |
-| 增加网关路由 | `http://[控制台IP:PORT]/route/add/spring-cloud-gateway/{serviceId}` | 单个动态路由配置 | POST |
-| 修改网关路由 | `http://[控制台IP:PORT]/route/modify/spring-cloud-gateway/{serviceId}` | 单个动态路由配置 | POST |
-| 删除网关路由 | `http://[控制台IP:PORT]/route/delete/spring-cloud-gateway/{serviceId}` | 路由Id | POST |
-| 更新全部网关路由 | `http://[控制台IP:PORT]/route/update-all/spring-cloud-gateway/{serviceId}` | 多个动态路由配置 | GET |
-| 查看全部网关路由| `http://[控制台IP:PORT]/route/view-all/spring-cloud-gateway/{serviceId}` | 无 | GET |
+| 增加网关路由 | `http://`[控制台IP:PORT]/route/add/spring-cloud-gateway/{serviceId} | 单个动态路由配置 | POST |
+| 修改网关路由 | `http://`[控制台IP:PORT]/route/modify/spring-cloud-gateway/{serviceId} | 单个动态路由配置 | POST |
+| 删除网关路由 | `http://`[控制台IP:PORT]/route/delete/spring-cloud-gateway/{serviceId} | 路由Id | POST |
+| 更新全部网关路由 | `http://`[控制台IP:PORT]/route/update-all/spring-cloud-gateway/{serviceId} | 多个动态路由配置 | GET |
+| 查看全部网关路由| `http://`[控制台IP:PORT]/route/view-all/spring-cloud-gateway/{serviceId} | 无 | GET |
 
 ④ 网关订阅配置中心
 
@@ -3275,22 +3274,22 @@ public class MySubscriber {
 
 | 操作 | 路径 | 参数 | 方式 |
 | --- | --- | --- | --- |
-| 增加网关路由 | `http://[网关IP:PORT]/zuul-route/add` | 单个动态路由配置 | POST |
-| 修改网关路由 | `http://[网关IP:PORT]/zuul-route/modify` | 单个动态路由配置 | POST |
-| 删除网关路由 | `http://[网关IP:PORT]/zuul-route/delete` | 路由Id | POST |
-| 更新全部网关路由 | `http://[网关IP:PORT]/zuul-route/update-all` | 多个动态路由配置 | POST |
-| 根据路由Id查看网关路由 | `http://[网关IP:PORT]/zuul-route/view` | 路由Id | GET |
-| 查看全部网关路由| `http://[网关IP:PORT]/zuul-route/view-all` | 无 | GET |
+| 增加网关路由 | `http://`[网关IP:PORT]/zuul-route/add | 单个动态路由配置 | POST |
+| 修改网关路由 | `http://`[网关IP:PORT]/zuul-route/modify | 单个动态路由配置 | POST |
+| 删除网关路由 | `http://`[网关IP:PORT]/zuul-route/delete | 路由Id | POST |
+| 更新全部网关路由 | `http://`[网关IP:PORT]/zuul-route/update-all | 多个动态路由配置 | POST |
+| 根据路由Id查看网关路由 | `http://`[网关IP:PORT]/zuul-route/view | 路由Id | GET |
+| 查看全部网关路由| `http://`[网关IP:PORT]/zuul-route/view-all | 无 | GET |
 
 ③ 控制台的Rest Endpoint接口
 
 | 操作 | 路径 | 参数 | 方式 |
 | --- | --- | --- | --- |
-| 增加网关路由 | `http://[控制台IP:PORT]/route/add/zuul/{serviceId}` | 单个动态路由配置 | POST |
-| 修改网关路由 | `http://[控制台IP:PORT]/route/modify/zuul/{serviceId}` | 单个动态路由配置 | POST |
-| 删除网关路由 | `http://[控制台IP:PORT]/route/delete/zuul/{serviceId}` | 路由Id | POST |
-| 更新全部网关路由 | `http://[控制台IP:PORT]/route/zuul/update-all/{serviceId}` | 多个动态路由配置 | GET |
-| 查看全部网关路由| `http://[控制台IP:PORT]/route/zuul/view-all/{serviceId}` | 无 | GET |
+| 增加网关路由 | `http://`[控制台IP:PORT]/route/add/zuul/{serviceId} | 单个动态路由配置 | POST |
+| 修改网关路由 | `http://`[控制台IP:PORT]/route/modify/zuul/{serviceId} | 单个动态路由配置 | POST |
+| 删除网关路由 | `http://`[控制台IP:PORT]/route/delete/zuul/{serviceId} | 路由Id | POST |
+| 更新全部网关路由 | `http://`[控制台IP:PORT]/route/zuul/update-all/{serviceId} | 多个动态路由配置 | GET |
+| 查看全部网关路由| `http://`[控制台IP:PORT]/route/zuul/view-all/{serviceId} | 无 | GET |
 
 ④ 网关订阅配置中心
 
