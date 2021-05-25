@@ -14,7 +14,6 @@ import java.util.Properties;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -27,7 +26,6 @@ import com.nepxion.discovery.common.nacos.operation.NacosOperation;
 import com.nepxion.discovery.common.util.PropertiesUtil;
 
 @Configuration
-@ConditionalOnProperty(value = NacosConstant.SPRING_APPLICATION_CONFIG_NACOS_ENABLED, matchIfMissing = true)
 public class NacosAutoConfiguration {
     @Autowired
     private Environment environment;

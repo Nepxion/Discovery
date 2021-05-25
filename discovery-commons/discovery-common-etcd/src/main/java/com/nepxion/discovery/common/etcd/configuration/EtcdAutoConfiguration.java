@@ -18,7 +18,6 @@ import java.nio.charset.StandardCharsets;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -28,7 +27,6 @@ import com.nepxion.discovery.common.etcd.operation.EtcdOperation;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 
 @Configuration
-@ConditionalOnProperty(value = EtcdConstant.SPRING_APPLICATION_CONFIG_ETCD_ENABLED, matchIfMissing = true)
 public class EtcdAutoConfiguration {
     @Autowired
     private Environment environment;

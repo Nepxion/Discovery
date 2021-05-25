@@ -11,7 +11,5 @@ package com.nepxion.discovery.common.redis.constant;
  */
 
 public class RedisConstant {
-    public static final String SPRING_APPLICATION_CONFIG_REDIS_ENABLED = "spring.application.config.redis.enabled";
-
     public static final String REDIS_TYPE = "Redis";
 }
