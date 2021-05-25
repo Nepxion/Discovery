@@ -3366,20 +3366,14 @@ Spring Cloud配置动态刷新机制固化在一个比较单一的场景（例�
 // 2. 对于Apollo、Consul、Etcd配置中心，Key的格式为Group-DataId
 // 3. 千万不能和蓝绿灰度发布的Group和DataId冲突
 public class MyConfigProcessor extends NacosProcessor {
-    // private String group = "DEFAULT_GROUP";
-    private String group = "nepxion";
-
-    @Value("${" + DiscoveryConstant.SPRING_APPLICATION_NAME + "}")
-    private String dataId;
-
     @Override
     public String getGroup() {
-        return group;
+        return "b";
     }
 
     @Override
     public String getDataId() {
-        return dataId;
+        return "a";
     }
 
     @Override
