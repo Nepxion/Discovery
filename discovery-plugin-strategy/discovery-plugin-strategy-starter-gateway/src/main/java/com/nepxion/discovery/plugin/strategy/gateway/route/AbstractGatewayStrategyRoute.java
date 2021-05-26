@@ -286,7 +286,7 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
         routeDefinition.setPredicates(predicateDefinitionList);
 
         List<String> filterList = gatewayStrategyRouteEntity.getFilters();
-        List<FilterDefinition> filterDefinitionList = new ArrayList<FilterDefinition>(gatewayStrategyRouteEntity.getFilters().size());
+        List<FilterDefinition> filterDefinitionList = new ArrayList<FilterDefinition>(filterList.size());
         for (String filter : filterList) {
             filterDefinitionList.add(new FilterDefinition(filter));
         }
