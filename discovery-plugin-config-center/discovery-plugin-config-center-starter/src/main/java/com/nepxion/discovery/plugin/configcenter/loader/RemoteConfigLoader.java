@@ -9,8 +9,15 @@ package com.nepxion.discovery.plugin.configcenter.loader;
  * @version 1.0
  */
 
-public abstract class RemoteConfigLoader implements ConfigLoader {
+import org.springframework.beans.factory.DisposableBean;
+
+public abstract class RemoteConfigLoader implements ConfigLoader, DisposableBean {
     public abstract void subscribeConfig();
 
     public abstract void unsubscribeConfig();
+
+    @Override
+    public void destroy() throws Exception {
+        unsubscribeConfig();
+    }
 }
