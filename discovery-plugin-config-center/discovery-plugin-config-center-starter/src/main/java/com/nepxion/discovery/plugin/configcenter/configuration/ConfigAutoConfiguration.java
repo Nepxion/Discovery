@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Configuration;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.exception.DiscoveryException;
-import com.nepxion.discovery.plugin.configcenter.context.ConfigContextClosedHandler;
 import com.nepxion.discovery.plugin.configcenter.initializer.ConfigInitializer;
 import com.nepxion.discovery.plugin.configcenter.loader.LocalConfigLoader;
 import com.nepxion.discovery.plugin.configcenter.logger.ConfigLogger;
@@ -55,11 +54,6 @@ public class ConfigAutoConfiguration {
     @Bean
     public ConfigInitializer configInitializer() {
         return new ConfigInitializer();
-    }
-
-    @Bean
-    public ConfigContextClosedHandler configContextClosedHandler() {
-        return new ConfigContextClosedHandler();
     }
 
     @Bean
