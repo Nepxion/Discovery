@@ -50,10 +50,10 @@ public class ZuulStrategyRouteEndpoint {
         return doModify(zuulStrategyRouteEntity);
     }
 
-    @RequestMapping(path = "/delete", method = RequestMethod.POST)
-    @ApiOperation(value = "删除网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @RequestMapping(path = "/delete/{routeId}", method = RequestMethod.DELETE)
+    @ApiOperation(value = "删除网关路由", notes = "", response = ResponseEntity.class, httpMethod = "DELETE")
     @ResponseBody
-    public ResponseEntity<?> delete(@RequestBody @ApiParam(value = "路由Id", required = true) String routeId) {
+    public ResponseEntity<?> delete(@PathVariable(value = "routeId") @ApiParam(value = "路由Id", required = true) String routeId) {
         return doDelete(routeId);
     }
 

@@ -32,11 +32,13 @@ public class RouteDeleteRestInvoker extends AbstractRestInvoker {
 
     @Override
     protected String getSuffixPath() {
-        return gatewayType + "-route/delete";
+        return gatewayType + "-route/delete/" + routeId;
     }
 
     @Override
     protected String doRest(String url) {
-        return restTemplate.postForEntity(url, getInvokeEntity(routeId), String.class).getBody();
+        restTemplate.delete(url);
+
+        return Boolean.TRUE.toString();
     }
 }
