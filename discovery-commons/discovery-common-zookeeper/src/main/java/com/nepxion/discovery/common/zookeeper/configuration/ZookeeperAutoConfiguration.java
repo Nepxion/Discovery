@@ -41,10 +41,10 @@ public class ZookeeperAutoConfiguration {
             throw new DiscoveryException(ZookeeperConstant.ZOOKEEPER_CONNECT_STRING + " can't be null or empty");
         }
 
-        String retryCount = environment.getProperty(ZookeeperConstant.ZOOKEEPER_RETRY_COUNT, ZookeeperConstant.ZOOKEEPER_DEFAULT_RETRY_COUNT_VALUE);
-        String sleepTime = environment.getProperty(ZookeeperConstant.ZOOKEEPER_SLEEP_TIME, ZookeeperConstant.ZOOKEEPER_DEFAULT_SLEEP_TIME_VALUE);
+        int retryCount = environment.getProperty(ZookeeperConstant.ZOOKEEPER_RETRY_COUNT, Integer.class, ZookeeperConstant.ZOOKEEPER_DEFAULT_RETRY_COUNT_VALUE);
+        int sleepTime = environment.getProperty(ZookeeperConstant.ZOOKEEPER_SLEEP_TIME, Integer.class, ZookeeperConstant.ZOOKEEPER_DEFAULT_SLEEP_TIME_VALUE);
 
-        CuratorFramework curatorFramework = CuratorFrameworkFactory.builder().connectString(connectString).retryPolicy(new ExponentialBackoffRetry(Integer.valueOf(sleepTime), Integer.valueOf(retryCount))).build();
+        CuratorFramework curatorFramework = CuratorFrameworkFactory.builder().connectString(connectString).retryPolicy(new ExponentialBackoffRetry(sleepTime, retryCount)).build();
         curatorFramework.start();
 
         return curatorFramework;

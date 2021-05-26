@@ -1,0 +1,19 @@
+{
+	"properties": [
+		{
+			"name": "etcd.server.addr",
+			"type": "java.lang.String",
+			"description": "Etcd server address."
+		},
+		{
+			"name": "etcd.username",
+			"type": "java.lang.String",
+			"description": "Etcd username."
+		},
+		{
+			"name": "etcd.password",
+			"type": "java.lang.String",
+			"description": "Etcd password."
+		}
+	]
+}
