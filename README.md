@@ -606,6 +606,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [基于可用区的防护](#基于可用区的防护)
         - [基于IP地址和端口的防护](#基于IP地址和端口的防护)	
         - [自定义组合式的防护](#自定义组合式的防护)
+    - [Sentinel-Rest-Endpoint](#Sentinel-Rest-Endpoint)
 - [全链路监控](#全链路监控)
     - [全链路调用链监控](#全链路调用链监控)
         - [蓝绿灰度埋点调用链监控](#蓝绿灰度埋点调用链监控)
@@ -2558,11 +2559,13 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop6.jpg)
 
-附录：全链路流量侦测接口
+③ 全链路流量侦测接口
 
 通过discovery-plugin-admin-center-starter内置基于LoadBalanced RestTemplate的接口方法，实现全链路侦测，用于查看全链路中调用的各个服务的版本、区域、环境、可用区、IP地址和端口等是否符合和满足蓝绿灰度条件。使用方式，如下
 
-| 操作 | 路径 | 内容 | 方式 |
+服务的Rest Endpoint接口
+
+| 操作 | 路径 | 参数 | 方式 |
 | --- | --- | --- | --- |
 | 网关为入口 | `http://`[网关IP:PORT]/[A服务名]/inspector/inspect | {"serviceIdList":["B服务名", "C服务名", ...]} | POST |
 | 服务为入口 | `http://`[A服务IP:PORT]/inspector/inspect | {"serviceIdList":["B服务名", "C服务名", ...]} | POST |
@@ -3892,7 +3895,6 @@ Reject to invoke because of isolation with different service group
 集成Sentinel熔断隔离限流降级平台
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Sentinel3.jpg)
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Sentinel4.jpg)
 
 通过集成Sentinel，在服务端实现该功能
 
@@ -4226,6 +4228,38 @@ public SentinelStrategyRequestOriginAdapter sentinelStrategyRequestOriginAdapter
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide7-8.jpg)
 
+### Sentinel-Rest-Endpoint
+
+① 服务的Rest Endpoint接口
+
+| 操作 | 路径 | 参数 | 方式 |
+| --- | --- | --- | --- |
+| 更新流控规则列表 | `http://`[IP:PORT]/sentinel-core/update-flow-rules | 多个规则配置 | POST |
+| 清除流控规则列表 | `http://`[IP:PORT]/sentinel-core/clear-flow-rules | 无 | POST |
+| 查看流控规则列表 | `http://`[IP:PORT]/sentinel-core/view-flow-rules | 无 | GET |
+| 更新降级规则列表 | `http://`[IP:PORT]/sentinel-core/update-degrade-rules | 多个规则配置 | POST |
+| 清除降级规则列表 | `http://`[IP:PORT]/sentinel-core/clear-degrade-rules | 无 | POST |
+| 查看降级规则列表 | `http://`[IP:PORT]/sentinel-core/view-degrade-rules | 无 | GET |
+| 更新授权规则列表 | `http://`[IP:PORT]/sentinel-core/update-authority-rules | 多个规则配置 | POST |
+| 清除授权规则列表 | `http://`[IP:PORT]/sentinel-core/clear-authority-rules | 无 | POST |
+| 查看授权规则列表 | `http://`[IP:PORT]/sentinel-core/view-authority-rules | 无 | GET |
+| 更新系统规则列表 | `http://`[IP:PORT]/sentinel-core/update-system-rules | 多个规则配置 | POST |
+| 清除系统规则列表 | `http://`[IP:PORT]/sentinel-core/clear-system-rules | 无 | POST |
+| 查看系统规则列表 | `http://`[IP:PORT]/sentinel-core/view-system-rules | 无 | GET |
+| 更新热点参数流控规则列表 | `http://`[IP:PORT]/sentinel-param/update-param-flow-rules | 多个规则配置 | POST |
+| 清除热点参数流控规则列表 | `http://`[IP:PORT]/sentinel-param/clear-param-flow-rules | 无 | POST |
+| 查看热点参数流控规则列表 | `http://`[IP:PORT]/sentinel-param/view-param-flow-rules | 无 | GET |
+
+② 控制台的Rest Endpoint接口
+
+| 操作 | 路径 | 参数 | 方式 |
+| --- | --- | --- | --- |
+| 批量更新哨兵规则列表 | `http://`[控制台IP:PORT]/sentinel/update/{ruleType}/{serviceId} | 多个规则配置 | POST |
+| 批量清除哨兵规则列表 | `http://`[控制台IP:PORT]/sentinel/clear/{ruleType}/{serviceId} | 无 | POST |
+| 批量查看哨兵规则列表 | `http://`[控制台IP:PORT]/sentinel/view/{ruleType}/{serviceId} | 无 | GET |
+
+ruleType为哨兵规则类型。取值： flow | degrade | authority | system | param-flow
+
 ## 全链路监控
 
 ### 全链路调用链监控
@@ -4265,7 +4299,6 @@ public SentinelStrategyRequestOriginAdapter sentinelStrategyRequestOriginAdapter
 - 集成OpenTracing + Jaeger蓝绿灰度全链路监控
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Jaeger2.jpg)
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Jaeger3.jpg)
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/JaegerPremium1.jpg)
 
 - 集成OpenTracing + SkyWalking蓝绿灰度全链路监控
