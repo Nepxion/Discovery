@@ -259,28 +259,28 @@ public class ConsoleEndpoint {
     @RequestMapping(path = "/route/add/{gatewayType}/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "批量增加网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> gatewayRouteAdd(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： spring-cloud-gateway | zuul。spring-cloud-gateway指Spring Cloud Gateway, zuul指Netflix Zuul", defaultValue = "spring-cloud-gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "网关路由对象内容，JSON格式") String route) {
+    public ResponseEntity<?> gatewayRouteAdd(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： spring-cloud-gateway | zuul。spring-cloud-gateway指Spring Cloud Gateway, zuul指Netflix Zuul", defaultValue = "spring-cloud-gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "网关路由对象内容，JSON格式", required = true) String route) {
         return doRouteAdd(gatewayType, serviceId, route);
     }
 
     @RequestMapping(path = "/route/modify/{gatewayType}/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "批量修改网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> gatewayRouteModify(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： spring-cloud-gateway | zuul。spring-cloud-gateway指Spring Cloud Gateway, zuul指Netflix Zuul", defaultValue = "spring-cloud-gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "网关路由对象内容，JSON格式") String route) {
+    public ResponseEntity<?> gatewayRouteModify(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： spring-cloud-gateway | zuul。spring-cloud-gateway指Spring Cloud Gateway, zuul指Netflix Zuul", defaultValue = "spring-cloud-gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "网关路由对象内容，JSON格式", required = true) String route) {
         return doRouteModify(gatewayType, serviceId, route);
     }
 
-    @RequestMapping(path = "/route/delete/{gatewayType}/{serviceId}", method = RequestMethod.POST)
-    @ApiOperation(value = "批量删除网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @RequestMapping(path = "/route/delete/{gatewayType}/{serviceId}/{routeId}", method = RequestMethod.DELETE)
+    @ApiOperation(value = "批量删除网关路由", notes = "", response = ResponseEntity.class, httpMethod = "DELETE")
     @ResponseBody
-    public ResponseEntity<?> gatewayRouteDelete(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： spring-cloud-gateway | zuul。spring-cloud-gateway指Spring Cloud Gateway, zuul指Netflix Zuul", defaultValue = "spring-cloud-gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "路由Id") String routeId) {
+    public ResponseEntity<?> gatewayRouteDelete(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： spring-cloud-gateway | zuul。spring-cloud-gateway指Spring Cloud Gateway, zuul指Netflix Zuul", defaultValue = "spring-cloud-gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @PathVariable(value = "routeId") @ApiParam(value = "路由Id", required = true) String routeId) {
         return doRouteDelete(gatewayType, serviceId, routeId);
     }
 
     @RequestMapping(path = "/route/update-all/{gatewayType}/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "批量更新全部网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> gatewayRouteUpdateAll(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： spring-cloud-gateway | zuul。spring-cloud-gateway指Spring Cloud Gateway, zuul指Netflix Zuul", defaultValue = "spring-cloud-gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "网关路由对象列表内容，JSON格式") String route) {
+    public ResponseEntity<?> gatewayRouteUpdateAll(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： spring-cloud-gateway | zuul。spring-cloud-gateway指Spring Cloud Gateway, zuul指Netflix Zuul", defaultValue = "spring-cloud-gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "网关路由对象列表内容，JSON格式", required = true) String route) {
         return doRouteUpdateAll(gatewayType, serviceId, route);
     }
 
