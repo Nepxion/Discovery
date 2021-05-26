@@ -3128,9 +3128,9 @@ spring.application.parameter.event.onstart.enabled=true
 | --- | --- | --- | --- |
 | 增加网关路由 | `http://`[网关IP:PORT]/spring-cloud-gateway-route/add | 单个动态路由配置 | POST |
 | 修改网关路由 | `http://`[网关IP:PORT]/spring-cloud-gateway-route/modify | 单个动态路由配置 | POST |
-| 删除网关路由 | `http://`[网关IP:PORT]/spring-cloud-gateway-route/delete | 路由Id | POST |
+| 删除网关路由 | `http://`[网关IP:PORT]/spring-cloud-gateway-route/delete/{routeId} | 无 | DELETE |
 | 更新全部网关路由 | `http://`[网关IP:PORT]/spring-cloud-gateway-route/update-all | 多个动态路由配置 | POST |
-| 根据路由Id查看网关路由 | `http://`[网关IP:PORT]/spring-cloud-gateway-route/view | 路由Id | GET |
+| 根据路由Id查看网关路由 | `http://`[网关IP:PORT]/spring-cloud-gateway-route/view/{routeId} | 无 | GET |
 | 查看全部网关路由| `http://`[网关IP:PORT]/spring-cloud-gateway-route/view-all | 无 | GET |
 
 ③ 控制台的Rest Endpoint接口
@@ -3139,7 +3139,7 @@ spring.application.parameter.event.onstart.enabled=true
 | --- | --- | --- | --- |
 | 增加网关路由 | `http://`[控制台IP:PORT]/route/add/spring-cloud-gateway/{serviceId} | 单个动态路由配置 | POST |
 | 修改网关路由 | `http://`[控制台IP:PORT]/route/modify/spring-cloud-gateway/{serviceId} | 单个动态路由配置 | POST |
-| 删除网关路由 | `http://`[控制台IP:PORT]/route/delete/spring-cloud-gateway/{serviceId} | 路由Id | POST |
+| 删除网关路由 | `http://`[控制台IP:PORT]/route/delete/spring-cloud-gateway/{serviceId}/{routeId} | 无 | DELETE |
 | 更新全部网关路由 | `http://`[控制台IP:PORT]/route/update-all/spring-cloud-gateway/{serviceId} | 多个动态路由配置 | GET |
 | 查看全部网关路由| `http://`[控制台IP:PORT]/route/view-all/spring-cloud-gateway/{serviceId} | 无 | GET |
 
@@ -3279,9 +3279,9 @@ public class MySubscriber {
 | --- | --- | --- | --- |
 | 增加网关路由 | `http://`[网关IP:PORT]/zuul-route/add | 单个动态路由配置 | POST |
 | 修改网关路由 | `http://`[网关IP:PORT]/zuul-route/modify | 单个动态路由配置 | POST |
-| 删除网关路由 | `http://`[网关IP:PORT]/zuul-route/delete | 路由Id | POST |
+| 删除网关路由 | `http://`[网关IP:PORT]/zuul-route/delete/{routeId} | 无 | DELETE |
 | 更新全部网关路由 | `http://`[网关IP:PORT]/zuul-route/update-all | 多个动态路由配置 | POST |
-| 根据路由Id查看网关路由 | `http://`[网关IP:PORT]/zuul-route/view | 路由Id | GET |
+| 根据路由Id查看网关路由 | `http://`[网关IP:PORT]/zuul-route/view/{routeId} | 无 | GET |
 | 查看全部网关路由| `http://`[网关IP:PORT]/zuul-route/view-all | 无 | GET |
 
 ③ 控制台的Rest Endpoint接口
@@ -3290,7 +3290,7 @@ public class MySubscriber {
 | --- | --- | --- | --- |
 | 增加网关路由 | `http://`[控制台IP:PORT]/route/add/zuul/{serviceId} | 单个动态路由配置 | POST |
 | 修改网关路由 | `http://`[控制台IP:PORT]/route/modify/zuul/{serviceId} | 单个动态路由配置 | POST |
-| 删除网关路由 | `http://`[控制台IP:PORT]/route/delete/zuul/{serviceId} | 路由Id | POST |
+| 删除网关路由 | `http://`[控制台IP:PORT]/route/delete/zuul/{serviceId}/{routeId} | 无 | DELETE |
 | 更新全部网关路由 | `http://`[控制台IP:PORT]/route/zuul/update-all/{serviceId} | 多个动态路由配置 | GET |
 | 查看全部网关路由| `http://`[控制台IP:PORT]/route/zuul/view-all/{serviceId} | 无 | GET |
 
