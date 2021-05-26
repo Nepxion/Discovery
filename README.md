@@ -3350,7 +3350,6 @@ public class MySubscriber {
 ```
 
 ## 统一配置订阅执行器
-
 统一配置订阅执行器，基于Nacos、Apollo、Consul、Etcd、Redis、Zookeeper六种配置中心，通过封装适配成同样的写法，通过切换继承类，可切换配置中心，无须修改其它代码
 
 Spring Cloud配置动态刷新机制固化在一个比较单一的场景（例如，通过@Value方式）里，无法满足更灵活更高级的订阅场景，例如，Spring Cloud Gateway和Zuul网关通过改变配置中心的路由信息无法动态刷新路由路径
