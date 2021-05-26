@@ -1,0 +1,53 @@
+{
+	"properties": [
+		{
+			"name": "apollo.portal-url",
+			"type": "java.lang.String",
+			"description": "Apollo portal url."
+		},
+		{
+			"name": "apollo.token",
+			"type": "java.lang.String",
+			"description": "Apollo token."
+		},
+		{
+			"name": "apollo.operator",
+			"type": "java.lang.String",
+			"description": "Apollo operator."
+		},
+		{
+			"name": "apollo.read-timeout",
+			"type": "java.lang.Integer",
+			"defaultValue": 5000,
+			"description": "Apollo read timeout."
+		},
+		{
+			"name": "apollo.connect-timeout",
+			"type": "java.lang.Integer",
+			"defaultValue": 1000,
+			"description": "Apollo connect timeout."
+		},
+		{
+			"name": "apollo.plugin.app.id",
+			"type": "java.lang.String",
+			"description": "Apollo plugin app id."
+		},
+		{
+			"name": "apollo.plugin.env",
+			"type": "java.lang.String",
+			"description": "Apollo plugin env."
+		},
+		{
+			"name": "apollo.plugin.cluster",
+			"type": "java.lang.String",
+			"defaultValue": "default",
+			"description": "Apollo plugin cluster."
+		},
+		{
+			"name": "apollo.plugin.namespace",
+			"type": "java.lang.String",
+			"defaultValue": "application",
+			"description": "Apollo plugin namespace."
+		}
+	]
+}

@@ -1,0 +1,25 @@
+{
+	"properties": [
+		{
+			"name": "consul.host",
+			"type": "java.lang.String",
+			"description": "Consul host."
+		},
+		{
+			"name": "consul.port",
+			"type": "java.lang.Integer",
+			"description": "Consul port."
+		},
+		{
+			"name": "consul.timeout",
+			"type": "java.lang.Integer",
+			"defaultValue": 1,
+			"description": "Consul timeout, default value is 1 second."
+		},
+		{
+			"name": "consul.token",
+			"type": "java.lang.String",
+			"description": "Consul token."
+		}
+	]
+}

@@ -1,0 +1,21 @@
+{
+	"properties": [
+		{
+			"name": "zookeeper.connect-string",
+			"type": "java.lang.String",
+			"description": "Zookeeper connect string."
+		},
+		{
+			"name": "zookeeper.retry-count",
+			"type": "java.lang.Integer",
+			"defaultValue": 3,
+			"description": "Zookeeper retry count."
+		},
+		{
+			"name": "zookeeper.sleep-time",
+			"type": "java.lang.Integer",
+			"defaultValue": 3000,
+			"description": "Zookeeper sleep time."
+		}
+	]
+}
