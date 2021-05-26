@@ -49,7 +49,7 @@ public class SentinelParamEndpoint {
     }
 
     @RequestMapping(path = "/view-param-flow-rules", method = RequestMethod.GET)
-    @ApiOperation(value = "获取热点参数流控规则列表", notes = "", response = ResponseEntity.class, httpMethod = "GET")
+    @ApiOperation(value = "查看热点参数流控规则列表", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     public ResponseEntity<?> viewParamFlowRules() {
         return doViewParamFlowRules();
