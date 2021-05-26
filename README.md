@@ -4769,6 +4769,11 @@ spring.application.git.generator.path=file:git.json
 
 内置基于Swagger的Rest接口，可以供外部查询当前服务的Git信息
 
+| 操作 | 路径 | 参数 | 方式 |
+| --- | --- | --- | --- |
+| 获取Git信息的Map格式 | `http://`[IP:PORT]/git/map | 无 | GET |
+| 获取Git信息的文本格式 | `http://`[IP:PORT]/git/text | 无 | GET |
+
 ### 基于服务名前缀自动创建组名
 通过指定长度截断或者标志截断服务名的前缀来自动创建组名，这样就可以避免使用者手工维护组名。当两者都启用的时候，截断方式的组名优先级要高于手工配置的组名
 
