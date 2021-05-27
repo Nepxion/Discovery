@@ -279,16 +279,30 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
         routeDefinition.setUri(convertURI(gatewayStrategyRouteEntity.getUri()));
 
         List<String> predicateList = gatewayStrategyRouteEntity.getPredicates();
-        List<PredicateDefinition> predicateDefinitionList = new ArrayList<PredicateDefinition>(predicateList.size());
+        List<GatewayStrategyRouteEntity.Predicate> userPredicates = gatewayStrategyRouteEntity.getUserPredicates();
+        List<PredicateDefinition> predicateDefinitionList = new ArrayList<PredicateDefinition>(predicateList.size() + userPredicates.size());
         for (String predicate : predicateList) {
             predicateDefinitionList.add(new PredicateDefinition(predicate));
+        }
+        for (GatewayStrategyRouteEntity.Predicate predicate : userPredicates) {
+            PredicateDefinition predicateDefinition = new PredicateDefinition();
+            predicateDefinition.setName(predicate.getName());
+            predicateDefinition.setArgs(predicate.getArgs());
+            predicateDefinitionList.add(predicateDefinition);
         }
         routeDefinition.setPredicates(predicateDefinitionList);
 
         List<String> filterList = gatewayStrategyRouteEntity.getFilters();
-        List<FilterDefinition> filterDefinitionList = new ArrayList<FilterDefinition>(filterList.size());
+        List<GatewayStrategyRouteEntity.Filter> userFilters = gatewayStrategyRouteEntity.getUserFilters();
+        List<FilterDefinition> filterDefinitionList = new ArrayList<FilterDefinition>(filterList.size() + userFilters.size());
         for (String filter : filterList) {
             filterDefinitionList.add(new FilterDefinition(filter));
+        }
+        for (GatewayStrategyRouteEntity.Filter filter : userFilters) {
+            FilterDefinition filterDefinition = new FilterDefinition();
+            filterDefinition.setName(filter.getName());
+            filterDefinition.setArgs(filter.getArgs());
+            filterDefinitionList.add(filterDefinition);
         }
         routeDefinition.setFilters(filterDefinitionList);
 
@@ -302,34 +316,59 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
         GatewayStrategyRouteEntity gatewayStrategyRouteEntity = new GatewayStrategyRouteEntity();
         gatewayStrategyRouteEntity.setId(routeDefinition.getId());
         gatewayStrategyRouteEntity.setUri(routeDefinition.getUri().toString());
-        gatewayStrategyRouteEntity.setPredicates(convertPredicates(routeDefinition.getPredicates()));
-        gatewayStrategyRouteEntity.setFilters(convertFilters(routeDefinition.getFilters()));
         gatewayStrategyRouteEntity.setOrder(routeDefinition.getOrder());
         gatewayStrategyRouteEntity.setMetadata(routeDefinition.getMetadata());
+
+        convertPredicates(routeDefinition.getPredicates(), gatewayStrategyRouteEntity.getPredicates(), gatewayStrategyRouteEntity.getUserPredicates());
+        convertFilters(routeDefinition.getFilters(), gatewayStrategyRouteEntity.getFilters(), gatewayStrategyRouteEntity.getUserFilters());
 
         return gatewayStrategyRouteEntity;
     }
 
-    public List<String> convertPredicates(List<PredicateDefinition> predicateDefinitionList) {
-        List<String> predicateList = new ArrayList<String>();
+    public void convertPredicates(List<PredicateDefinition> predicateDefinitionList, List<String> predicateList, List<GatewayStrategyRouteEntity.Predicate> userPredicateList) {
         for (PredicateDefinition predicateDefinition : predicateDefinitionList) {
             String name = predicateDefinition.getName();
             Map<String, String> args = predicateDefinition.getArgs();
-            predicateList.add(String.format("%s=%s", name, StringUtils.join(args.values(), ",")));
-        }
+            boolean internal = isInternal(args);
+            if (internal) {
+                predicateList.add(String.format("%s=%s", name, StringUtils.join(args.values(), ",")));
+            } else {
+                GatewayStrategyRouteEntity.Predicate predicate = new GatewayStrategyRouteEntity.Predicate();
+                predicate.setName(predicateDefinition.getName());
+                predicate.setArgs(predicateDefinition.getArgs());
 
-        return predicateList;
+                userPredicateList.add(predicate);
+            }
+        }
     }
 
-    public List<String> convertFilters(List<FilterDefinition> filterDefinitionList) {
-        List<String> filterList = new ArrayList<String>();
+    public void convertFilters(List<FilterDefinition> filterDefinitionList, List<String> filterList, List<GatewayStrategyRouteEntity.Filter> userFilterList) {
         for (FilterDefinition filterDefinition : filterDefinitionList) {
             String name = filterDefinition.getName();
             Map<String, String> args = filterDefinition.getArgs();
-            filterList.add(String.format("%s=%s", name, StringUtils.join(args.values(), ",")));
+            boolean internal = isInternal(args);
+            if (internal) {
+                filterList.add(String.format("%s=%s", name, StringUtils.join(args.values(), ",")));
+            } else {
+                GatewayStrategyRouteEntity.Filter filter = new GatewayStrategyRouteEntity.Filter();
+                filter.setName(filterDefinition.getName());
+                filter.setArgs(filterDefinition.getArgs());
+
+                userFilterList.add(filter);
+            }
+        }
+    }
+
+    public boolean isInternal(Map<String, String> args) {
+        for (Map.Entry<String, String> entry : args.entrySet()) {
+            String key = entry.getKey();
+            // 如果key包含_genkey_，表示为网关内置配置，例如，Path，RewritePath的key都会以_genkey_来命名
+            if (key.contains("_genkey_")) {
+                return true;
+            }
         }
 
-        return filterList;
+        return false;
     }
 
     public URI convertURI(String value) {

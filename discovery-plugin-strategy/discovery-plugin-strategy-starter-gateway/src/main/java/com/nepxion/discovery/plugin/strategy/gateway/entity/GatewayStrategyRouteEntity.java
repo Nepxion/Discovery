@@ -12,6 +12,7 @@ package com.nepxion.discovery.plugin.strategy.gateway.entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +27,9 @@ public class GatewayStrategyRouteEntity implements Serializable {
     private String id;
     private String uri;
     private List<String> predicates = new ArrayList<String>();
+    private List<Predicate> userPredicates = new ArrayList<Predicate>();
     private List<String> filters = new ArrayList<String>();
+    private List<Filter> userFilters = new ArrayList<Filter>();
     private int order = 0;
     private Map<String, Object> metadata = new HashMap<String, Object>();
 
@@ -54,12 +57,28 @@ public class GatewayStrategyRouteEntity implements Serializable {
         this.predicates = predicates;
     }
 
+    public List<Predicate> getUserPredicates() {
+        return userPredicates;
+    }
+
+    public void setUserPredicates(List<Predicate> userPredicates) {
+        this.userPredicates = userPredicates;
+    }
+
     public List<String> getFilters() {
         return filters;
     }
 
     public void setFilters(List<String> filters) {
         this.filters = filters;
+    }
+
+    public List<Filter> getUserFilters() {
+        return userFilters;
+    }
+
+    public void setUserFilters(List<Filter> userFilters) {
+        this.userFilters = userFilters;
     }
 
     public int getOrder() {
@@ -77,6 +96,86 @@ public class GatewayStrategyRouteEntity implements Serializable {
     public void setMetadata(Map<String, Object> metadata) {
         if (metadata != null) {
             this.metadata = metadata;
+        }
+    }
+
+    public static class Predicate {
+        private String name;
+        private Map<String, String> args = new LinkedHashMap<>();
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Map<String, String> getArgs() {
+            return args;
+        }
+
+        public void setArgs(Map<String, String> args) {
+            this.args = args;
+        }
+
+        public void addArg(String key, String value) {
+            this.args.put(key, value);
+        }
+
+        @Override
+        public int hashCode() {
+            return HashCodeBuilder.reflectionHashCode(this);
+        }
+
+        @Override
+        public boolean equals(Object object) {
+            return EqualsBuilder.reflectionEquals(this, object);
+        }
+
+        @Override
+        public String toString() {
+            return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+        }
+    }
+
+    public static class Filter {
+        private String name;
+        private Map<String, String> args = new LinkedHashMap<>();
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Map<String, String> getArgs() {
+            return args;
+        }
+
+        public void setArgs(Map<String, String> args) {
+            this.args = args;
+        }
+
+        public void addArg(String key, String value) {
+            this.args.put(key, value);
+        }
+
+        @Override
+        public int hashCode() {
+            return HashCodeBuilder.reflectionHashCode(this);
+        }
+
+        @Override
+        public boolean equals(Object object) {
+            return EqualsBuilder.reflectionEquals(this, object);
+        }
+
+        @Override
+        public String toString() {
+            return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
         }
     }
 
