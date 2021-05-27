@@ -5938,6 +5938,8 @@ public class DiscoveryGuideTestCases {
 
 ① 远程配置中心约定
 
+以Nacos和Apollo为例
+
 - Nacos的Key格式
 
 ```
@@ -6020,13 +6022,6 @@ Result : A service dev region weight=83.7667%
 Result : A service qa region weight=16.2333%
 Result : B service dev region weight=86.2%
 Result : B service qa region weight=13.8%
-* Passed
----------- Run automation testcase :: testStrategyCustomizationGray() ----------
-Header : [a:"1", b:"2"]
-Result1 : gateway -> discovery-guide-service-a[192.168.0.107:3002][V=1.1][R=qa][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4002][V=1.1][R=dev][G=discovery-guide-group]
-Result2 : gateway -> discovery-guide-service-a[192.168.0.107:3002][V=1.1][R=qa][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4002][V=1.1][R=dev][G=discovery-guide-group]
-Result3 : gateway -> discovery-guide-service-a[192.168.0.107:3002][V=1.1][R=qa][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4002][V=1.1][R=dev][G=discovery-guide-group]
-Result4 : gateway -> discovery-guide-service-a[192.168.0.107:3002][V=1.1][R=qa][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4002][V=1.1][R=dev][G=discovery-guide-group]
 * Passed
 ```
 
