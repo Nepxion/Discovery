@@ -1396,10 +1396,6 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 上述方式，可以通过[全链路蓝绿发布编排建模](#全链路蓝绿发布编排建模)方式执行，并通过[全链路蓝绿发布流量侦测](#全链路蓝绿发布流量侦测)进行验证
 
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop10.jpg)
-
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop15.jpg)
-
 #### 全链路区域条件匹配蓝绿发布
 参考[全链路版本条件匹配蓝绿发布](#全链路版本条件匹配蓝绿发布)
 
@@ -1540,10 +1536,6 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：条件权重灰度发布支持参数驱动，但建议使用无参方式，同时兜底路由（全局缺省路由）也不需要
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 上述方式，可以通过[全链路灰度发布编排建模](#全链路灰度发布编排建模)方式执行，并通过[全链路灰度发布流量侦测](#全链路灰度发布流量侦测)进行验证
-
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop14.jpg)
-
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop17.jpg)
 
 #### 全链路区域条件权重灰度发布
 参考[全链路版本条件权重灰度发布](#全链路版本条件权重灰度发布)
