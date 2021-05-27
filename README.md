@@ -3116,6 +3116,20 @@ spring.application.parameter.event.onstart.enabled=true
         "filters": [
             "StripPrefix=1"
         ], 
+        // 用户自定义断言器
+        "userPredicates": [],
+        // 用户自定义过滤器
+        "userFilters": [
+            {
+                "name": "Authentication",
+                "args": {
+                    "secretKey": "abc",
+                    "whiteList.0": "* swagger-ui.html",
+                    "whiteList.1": "* /swagger-resources/**",
+                    "whiteList.2": "* /doc.html",
+                }
+            }
+        ], 
         "order": 0,
         "metadata": {}
     }
