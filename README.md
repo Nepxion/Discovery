@@ -21,9 +21,7 @@
 - Nacos Group Member、Spring Cloud Alibaba Member
 - Spring Cloud Alibaba、Nacos、Sentinel、OpenTracing Committer & Contributor
 
-<img src="http://nepxion.gitee.io/discovery/docs/discovery-doc/CertificateGVP.jpg" alt="Nacos" width="52%"><img src="http://nepxion.gitee.io/discovery/docs/discovery-doc/CertificateSCACommitter.jpg" alt="Spring Cloud Alibaba" width="48%">
-
-<img src="http://nepxion.gitee.io/discovery/docs/discovery-doc/AwardNacos1.jpg" alt="Nacos" width="50%"><img src="http://nepxion.gitee.io/discovery/docs/discovery-doc/AwardSCA1.jpg" alt="Spring Cloud Alibaba" width="50%">
+<img src="http://nepxion.gitee.io/discovery/docs/discovery-doc/CertificateGVP.jpg" alt="Nacos" width="44%"><img src="http://nepxion.gitee.io/discovery/docs/discovery-doc/AwardNacos1.jpg" alt="Nacos" width="28%"><img src="http://nepxion.gitee.io/discovery/docs/discovery-doc/AwardSCA1.jpg" alt="Spring Cloud Alibaba" width="28%">
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/star4.png) 商业化合作
 
