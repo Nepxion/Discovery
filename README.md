@@ -1396,10 +1396,6 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 上述方式，可以通过[全链路蓝绿发布编排建模](#全链路蓝绿发布编排建模)方式执行，并通过[全链路蓝绿发布流量侦测](#全链路蓝绿发布流量侦测)进行验证
 
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop10.jpg)
-
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop15.jpg)
-
 #### 全链路区域条件匹配蓝绿发布
 参考[全链路版本条件匹配蓝绿发布](#全链路版本条件匹配蓝绿发布)
 
@@ -1540,10 +1536,6 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：条件权重灰度发布支持参数驱动，但建议使用无参方式，同时兜底路由（全局缺省路由）也不需要
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 上述方式，可以通过[全链路灰度发布编排建模](#全链路灰度发布编排建模)方式执行，并通过[全链路灰度发布流量侦测](#全链路灰度发布流量侦测)进行验证
-
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop14.jpg)
-
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop17.jpg)
 
 #### 全链路区域条件权重灰度发布
 参考[全链路版本条件权重灰度发布](#全链路版本条件权重灰度发布)
@@ -3117,9 +3109,64 @@ spring.application.parameter.event.onstart.enabled=true
         "filters": [
             "StripPrefix=1"
         ], 
-        // 用户自定义断言器
+        "order": 0,
+        "metadata": {}
+    }
+]
+```
+
+- 用户自定义断言器和过滤器的配置
+
+自定义方式描述网关内置断言器和过滤器
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：网关内置断言器和过滤器的args名称必须是`_genkey_序号`格式。例如，"_genkey_0": "/discovery-guide-service-a/**"
+
+```
+[
+    {
+        "id": "route0", 
+        "uri": "lb://discovery-guide-service-a",
+        "userPredicates": [
+            {
+                "name": "Path",
+                "args": {
+                    "_genkey_0": "/discovery-guide-service-a/**",
+                    "_genkey_1": "/x/**",
+                    "_genkey_2": "/y/**"
+                }
+            }
+        ],
+        "userFilters": [
+            {
+                "name": "StripPrefix",
+                "args": {
+                    "_genkey_0": "1"
+                }
+            }
+        ]
+    }
+]
+```
+
+自定义方式描述用户扩展的断言器和过滤器
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：用户扩展的断言器和过滤器Key必须遵循如下规则
+
+- List<String>结构，args名称必须是`list的变量名.序号`格式。例如，"whiteList.0": "* swagger-ui.html"
+- Map<String, String>结构，args名称必须是`map的变量名.map的key`格式。例如，"userMap.name": "jason"
+
+```
+[
+    {
+        "id": "route0", 
+        "uri": "lb://discovery-guide-service-a", 
+        "predicates": [
+            "Path=/discovery-guide-service-a/**,/x/**,/y/**"
+        ], 
+        "filters": [
+            "StripPrefix=1"
+        ], 
         "userPredicates": [],
-        // 用户自定义过滤器
         "userFilters": [
             {
                 "name": "CheckAuthentication",
@@ -3128,12 +3175,12 @@ spring.application.parameter.event.onstart.enabled=true
                     "whiteList.0": "* swagger-ui.html",
                     "whiteList.1": "* /swagger-resources/**",
                     "whiteList.2": "* /doc.html",
+                    "userMap.name": "jason",
+                    "userMap.age": "20",
                     "authInfoCarryStrategy": "AuthWriteToHeader"
                 }
             }
-        ], 
-        "order": 0,
-        "metadata": {}
+        ]
     }
 ]
 ```
@@ -4314,6 +4361,7 @@ ruleType为哨兵规则类型。取值： flow | degrade | authority | system | 
 - 集成OpenTracing + Jaeger蓝绿灰度全链路监控
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Jaeger2.jpg)
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Jaeger3.jpg)
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/JaegerPremium1.jpg)
 
 - 集成OpenTracing + SkyWalking蓝绿灰度全链路监控
@@ -5709,30 +5757,11 @@ gray.weight.testcase.result.offset=5
 
 #### 测试包引入
 ```xml
-<dependencies>
-    <dependency>
-        <groupId>com.nepxion</groupId>
-        <artifactId>discovery-plugin-test-starter</artifactId>
-        <version>${discovery.version}</version>
-    </dependency>
-</dependencies>
-
-<build>
-    <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-                <compilerArgs>
-                    <arg>-parameters</arg>
-                </compilerArgs>
-                <encoding>${project.build.sourceEncoding}</encoding>
-                <source>${java.version}</source>
-                <target>${java.version}</target>
-            </configuration>
-        </plugin>
-    </plugins>
-</build>
+<dependency>
+    <groupId>com.nepxion</groupId>
+    <artifactId>discovery-plugin-test-starter</artifactId>
+    <version>${discovery.version}</version>
+</dependency>
 ```
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 需要注意，对于带有注解@DTestConfig的测试用例，要用到Spring的Spel语法格式（即group = "#group", serviceId = "#serviceId"），需要引入Java8的带"-parameters"编译方式，见上面的<compilerArgs>参数设置
@@ -5902,6 +5931,8 @@ public class DiscoveryGuideTestCases {
 
 ① 远程配置中心约定
 
+以Nacos和Apollo为例
+
 - Nacos的Key格式
 
 ```
@@ -5944,8 +5975,15 @@ public class PolarisTestCases {
 ```
 
 ### 测试报告
+- 路由策略测试报告样例
 
 ```
+---------- Run automation testcase :: testNoGray() ----------
+Result1 : gateway -> discovery-guide-service-a[192.168.0.107:3001][V=1.0][R=dev][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4001][V=1.0][R=qa][G=discovery-guide-group]
+Result2 : gateway -> discovery-guide-service-a[192.168.0.107:3002][V=1.1][R=qa][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4001][V=1.0][R=qa][G=discovery-guide-group]
+Result3 : gateway -> discovery-guide-service-a[192.168.0.107:3001][V=1.0][R=dev][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4002][V=1.1][R=dev][G=discovery-guide-group]
+Result4 : gateway -> discovery-guide-service-a[192.168.0.107:3002][V=1.1][R=qa][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4002][V=1.1][R=dev][G=discovery-guide-group]
+* Passed
 ---------- Run automation testcase :: testEnabledStrategyGray1() ----------
 Header : [mobile:"138"]
 Result1 : gateway -> discovery-guide-service-a[192.168.0.107:3001][V=1.0][R=dev][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4001][V=1.0][R=qa][G=discovery-guide-group]
@@ -5991,6 +6029,51 @@ Result1 : gateway -> discovery-guide-service-a[192.168.0.107:3002][V=1.1][R=qa][
 Result2 : gateway -> discovery-guide-service-a[192.168.0.107:3002][V=1.1][R=qa][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4002][V=1.1][R=dev][G=discovery-guide-group]
 Result3 : gateway -> discovery-guide-service-a[192.168.0.107:3002][V=1.1][R=qa][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4002][V=1.1][R=dev][G=discovery-guide-group]
 Result4 : gateway -> discovery-guide-service-a[192.168.0.107:3002][V=1.1][R=qa][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4002][V=1.1][R=dev][G=discovery-guide-group]
+```
+
+- 路由规则测试报告样例
+
+```
+* Passed
+---------- Run automation testcase :: testVersionRuleGray() ----------
+Result1 : gateway -> discovery-guide-service-a[192.168.0.107:3002][V=1.1][R=qa][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4002][V=1.1][R=dev][G=discovery-guide-group]
+Result2 : gateway -> discovery-guide-service-a[192.168.0.107:3001][V=1.0][R=dev][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4001][V=1.0][R=qa][G=discovery-guide-group]
+Result3 : gateway -> discovery-guide-service-a[192.168.0.107:3002][V=1.1][R=qa][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4002][V=1.1][R=dev][G=discovery-guide-group]
+Result4 : gateway -> discovery-guide-service-a[192.168.0.107:3001][V=1.0][R=dev][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4001][V=1.0][R=qa][G=discovery-guide-group]
+* Passed
+---------- Run automation testcase :: testRegionRuleGray() ----------
+Result1 : gateway -> discovery-guide-service-a[192.168.0.107:3002][V=1.1][R=qa][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4001][V=1.0][R=qa][G=discovery-guide-group]
+Result2 : gateway -> discovery-guide-service-a[192.168.0.107:3001][V=1.0][R=dev][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4002][V=1.1][R=dev][G=discovery-guide-group]
+Result3 : gateway -> discovery-guide-service-a[192.168.0.107:3002][V=1.1][R=qa][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4001][V=1.0][R=qa][G=discovery-guide-group]
+Result4 : gateway -> discovery-guide-service-a[192.168.0.107:3001][V=1.0][R=dev][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4002][V=1.1][R=dev][G=discovery-guide-group]
+* Passed
+---------- Run automation testcase :: testVersionWeightRuleGray() ----------
+Sample count=3000
+Weight result offset desired=5%
+A service desired : 1.0 version weight=75%, 1.1 version weight=25%
+B service desired : 1.0 version weight=35%, 1.1 version weight=65%
+Result : A service 1.0 version weight=75.2667%
+Result : A service 1.1 version weight=24.7333%
+Result : B service 1.0 version weight=35.1667%
+Result : B service 1.1 version weight=64.8333%
+* Passed
+---------- Run automation testcase :: testRegionWeightRuleGray() ----------
+Sample count=3000
+Weight result offset desired=5%
+A service desired : dev region weight=95%, qa region weight=5%
+B service desired : dev region weight=95%, qa region weight=5%
+Result : A service dev region weight=94.9333%
+Result : A service qa region weight=5.0667%
+Result : B service dev region weight=95.0667%
+Result : B service qa region weight=4.9333%
+* Passed
+---------- Run automation testcase :: testVersionCompositeRuleGray() ----------
+Sample count=3000
+Weight result offset desired=5%
+A service desired : 1.0 version weight=40%, 1.1 version weight=60%
+Route desired : A Service 1.0 version -> B Service 1.0 version, A Service 1.1 version -> B Service 1.1 version
+Result : A service 1.0 version weight=39.8333%
+A service 1.1 version weight=60.1667%
 * Passed
 ```
 
