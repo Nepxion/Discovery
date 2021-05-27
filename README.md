@@ -3765,11 +3765,11 @@ Consul订阅推送界面
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Consul.jpg)
 
-Zookeeper订阅推送界面
-
-略
-
 Etcd订阅推送界面
+
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Etcd.jpg)
+
+Zookeeper订阅推送界面
 
 略
 
