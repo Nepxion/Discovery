@@ -5678,11 +5678,19 @@ spring.application.test.console.url=http://localhost:6001/
 gateway.group=discovery-guide-group
 gateway.service.id=discovery-guide-gateway
 gateway.test.url=http://localhost:5001/discovery-guide-service-a/invoke/gateway
+gateway.route0.test.url=http://localhost:5001/x/invoke/gateway
+gateway.route1.test.url=http://localhost:5001/y/invoke/gateway
+gateway.route2.test.url=http://localhost:5001/z/invoke/gateway
+gateway.inspect.url=http://localhost:5001/discovery-guide-service-a/inspector/inspect
 
 # Zuul网关配置
 zuul.group=discovery-guide-group
 zuul.service.id=discovery-guide-zuul
 zuul.test.url=http://localhost:5002/discovery-guide-service-a/invoke/zuul
+zuul.route0.test.url=http://localhost:5002/x/invoke/zuul
+zuul.route1.test.url=http://localhost:5002/y/invoke/zuul
+zuul.route2.test.url=http://localhost:5002/z/invoke/zuul
+zuul.inspect.url=http://localhost:5002/discovery-guide-service-a/inspector/inspect
 
 # 每个测试用例执行循环次数
 testcase.loop.times=1
@@ -5936,15 +5944,8 @@ public class PolarisTestCases {
 ```
 
 ### 测试报告
-- 路由策略测试报告样例
 
 ```
----------- Run automation testcase :: testNoGray() ----------
-Result1 : gateway -> discovery-guide-service-a[192.168.0.107:3001][V=1.0][R=dev][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4001][V=1.0][R=qa][G=discovery-guide-group]
-Result2 : gateway -> discovery-guide-service-a[192.168.0.107:3002][V=1.1][R=qa][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4001][V=1.0][R=qa][G=discovery-guide-group]
-Result3 : gateway -> discovery-guide-service-a[192.168.0.107:3001][V=1.0][R=dev][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4002][V=1.1][R=dev][G=discovery-guide-group]
-Result4 : gateway -> discovery-guide-service-a[192.168.0.107:3002][V=1.1][R=qa][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4002][V=1.1][R=dev][G=discovery-guide-group]
-* Passed
 ---------- Run automation testcase :: testEnabledStrategyGray1() ----------
 Header : [mobile:"138"]
 Result1 : gateway -> discovery-guide-service-a[192.168.0.107:3001][V=1.0][R=dev][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4001][V=1.0][R=qa][G=discovery-guide-group]
@@ -5984,57 +5985,12 @@ Result : A service qa region weight=16.2333%
 Result : B service dev region weight=86.2%
 Result : B service qa region weight=13.8%
 * Passed
-```
-
-- 路由规则测试报告样例
-
-```
 ---------- Run automation testcase :: testStrategyCustomizationGray() ----------
 Header : [a:"1", b:"2"]
 Result1 : gateway -> discovery-guide-service-a[192.168.0.107:3002][V=1.1][R=qa][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4002][V=1.1][R=dev][G=discovery-guide-group]
 Result2 : gateway -> discovery-guide-service-a[192.168.0.107:3002][V=1.1][R=qa][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4002][V=1.1][R=dev][G=discovery-guide-group]
 Result3 : gateway -> discovery-guide-service-a[192.168.0.107:3002][V=1.1][R=qa][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4002][V=1.1][R=dev][G=discovery-guide-group]
 Result4 : gateway -> discovery-guide-service-a[192.168.0.107:3002][V=1.1][R=qa][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4002][V=1.1][R=dev][G=discovery-guide-group]
-* Passed
----------- Run automation testcase :: testVersionRuleGray() ----------
-Result1 : gateway -> discovery-guide-service-a[192.168.0.107:3002][V=1.1][R=qa][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4002][V=1.1][R=dev][G=discovery-guide-group]
-Result2 : gateway -> discovery-guide-service-a[192.168.0.107:3001][V=1.0][R=dev][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4001][V=1.0][R=qa][G=discovery-guide-group]
-Result3 : gateway -> discovery-guide-service-a[192.168.0.107:3002][V=1.1][R=qa][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4002][V=1.1][R=dev][G=discovery-guide-group]
-Result4 : gateway -> discovery-guide-service-a[192.168.0.107:3001][V=1.0][R=dev][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4001][V=1.0][R=qa][G=discovery-guide-group]
-* Passed
----------- Run automation testcase :: testRegionRuleGray() ----------
-Result1 : gateway -> discovery-guide-service-a[192.168.0.107:3002][V=1.1][R=qa][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4001][V=1.0][R=qa][G=discovery-guide-group]
-Result2 : gateway -> discovery-guide-service-a[192.168.0.107:3001][V=1.0][R=dev][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4002][V=1.1][R=dev][G=discovery-guide-group]
-Result3 : gateway -> discovery-guide-service-a[192.168.0.107:3002][V=1.1][R=qa][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4001][V=1.0][R=qa][G=discovery-guide-group]
-Result4 : gateway -> discovery-guide-service-a[192.168.0.107:3001][V=1.0][R=dev][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4002][V=1.1][R=dev][G=discovery-guide-group]
-* Passed
----------- Run automation testcase :: testVersionWeightRuleGray() ----------
-Sample count=3000
-Weight result offset desired=5%
-A service desired : 1.0 version weight=75%, 1.1 version weight=25%
-B service desired : 1.0 version weight=35%, 1.1 version weight=65%
-Result : A service 1.0 version weight=75.2667%
-Result : A service 1.1 version weight=24.7333%
-Result : B service 1.0 version weight=35.1667%
-Result : B service 1.1 version weight=64.8333%
-* Passed
----------- Run automation testcase :: testRegionWeightRuleGray() ----------
-Sample count=3000
-Weight result offset desired=5%
-A service desired : dev region weight=95%, qa region weight=5%
-B service desired : dev region weight=95%, qa region weight=5%
-Result : A service dev region weight=94.9333%
-Result : A service qa region weight=5.0667%
-Result : B service dev region weight=95.0667%
-Result : B service qa region weight=4.9333%
-* Passed
----------- Run automation testcase :: testVersionCompositeRuleGray() ----------
-Sample count=3000
-Weight result offset desired=5%
-A service desired : 1.0 version weight=40%, 1.1 version weight=60%
-Route desired : A Service 1.0 version -> B Service 1.0 version, A Service 1.1 version -> B Service 1.1 version
-Result : A service 1.0 version weight=39.8333%
-A service 1.1 version weight=60.1667%
 * Passed
 ```
 
