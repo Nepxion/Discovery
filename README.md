@@ -14,11 +14,16 @@
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/star1.png) 首席作者简介
 - Nepxion开源社区创始人
 - 2020年阿里巴巴中国云原生峰会出品人
+- 2020年被Nacos和Spring Cloud Alibaba纳入相关开源项目
 - 2021年阿里巴巴技术峰会上海站演讲嘉宾
 - 2021年荣获陆奇博士主持的奇绩资本，进行风险投资的关注和调研
 - 2021年入选Gitee最有价值开源项目
 - Nacos Group Member、Spring Cloud Alibaba Member
 - Spring Cloud Alibaba、Nacos、Sentinel、OpenTracing Committer & Contributor
+
+<img src="http://nepxion.gitee.io/discovery/docs/discovery-doc/CertificateGVP.jpg" alt="Nacos" width="52%"><img src="http://nepxion.gitee.io/discovery/docs/discovery-doc/CertificateSCACommitter.jpg" alt="Spring Cloud Alibaba" width="48%">
+
+<img src="http://nepxion.gitee.io/discovery/docs/discovery-doc/AwardNacos1.jpg" alt="Nacos" width="50%"><img src="http://nepxion.gitee.io/discovery/docs/discovery-doc/AwardSCA1.jpg" alt="Spring Cloud Alibaba" width="50%">
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/star4.png) 商业化合作
 
@@ -286,10 +291,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - 感谢所有Committers和Contributors
 - 感谢所有帮忙分析和定位问题的同学
 - 感谢所有提出宝贵建议和意见的同学
-- 感谢阿里巴巴中间件Nacos和Spring Cloud Alibaba团队，纳入本框架为相关开源项目
-
-<img src="http://nepxion.gitee.io/discovery/docs/discovery-doc/AwardNacos1.jpg" alt="Nacos" width="50%"><img src="http://nepxion.gitee.io/discovery/docs/discovery-doc/AwardSCA1.jpg" alt="Spring Cloud Alibaba" width="50%">
-
 - 感谢支持和使用本框架的公司和企业。不完全统计，目前社区开源项目（包括本框架以及关联框架或组件）已经被如下公司使用或者调研
 
 <table>
