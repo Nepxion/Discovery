@@ -3121,12 +3121,13 @@ spring.application.parameter.event.onstart.enabled=true
         // 用户自定义过滤器
         "userFilters": [
             {
-                "name": "Authentication",
+                "name": "CheckAuthentication",
                 "args": {
                     "secretKey": "abc",
                     "whiteList.0": "* swagger-ui.html",
                     "whiteList.1": "* /swagger-resources/**",
                     "whiteList.2": "* /doc.html",
+                    "authInfoCarryStrategy": "AuthWriteToHeader"
                 }
             }
         ], 
