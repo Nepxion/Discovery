@@ -21,8 +21,6 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import com.nepxion.discovery.common.util.JsonUtil;
-
 public class GatewayStrategyRouteEntity implements Serializable {
     private static final long serialVersionUID = 8552414941889295450L;
 
@@ -99,34 +97,6 @@ public class GatewayStrategyRouteEntity implements Serializable {
         if (metadata != null) {
             this.metadata = metadata;
         }
-    }
-
-    public String getUserPredicatesJson() {
-        StringBuilder userPredicateStringBuilder = new StringBuilder();
-
-        for (Predicate predicate : getUserPredicates()) {
-            userPredicateStringBuilder.append(String.format("%s=%s, ", predicate.getName(), JsonUtil.toJson(predicate.getArgs())));
-        }
-
-        if (userPredicateStringBuilder.length() > 0) {
-            userPredicateStringBuilder.delete(userPredicateStringBuilder.length() - 2, userPredicateStringBuilder.length());
-        }
-
-        return userPredicateStringBuilder.toString();
-    }
-
-    public String getUserFiltersJson() {
-        StringBuilder userFilterStringBuilder = new StringBuilder();
-
-        for (Filter filter : getUserFilters()) {
-            userFilterStringBuilder.append(String.format("%s=%s, ", filter.getName(), JsonUtil.toJson(filter.getArgs())));
-        }
-
-        if (userFilterStringBuilder.length() > 0) {
-            userFilterStringBuilder.delete(userFilterStringBuilder.length() - 2, userFilterStringBuilder.length());
-        }
-
-        return userFilterStringBuilder.toString();
     }
 
     public static class Predicate extends Clause {
