@@ -3148,6 +3148,13 @@ spring.application.parameter.event.onstart.enabled=true
 ]
 ```
 
+在DiscoveryPlatform界面上，格式为
+
+```
+Path={"_genkey_0":"/discovery-guide-service-a/**", "_genkey_1":"/x/**", "_genkey_2":"/y/**"}
+StripPrefix={"_genkey_0":"1"}
+```
+
 自定义方式描述用户扩展的断言器和过滤器
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：用户扩展的断言器和过滤器Key必须遵循如下规则
@@ -3169,7 +3176,7 @@ spring.application.parameter.event.onstart.enabled=true
         "userPredicates": [],
         "userFilters": [
             {
-                "name": "CheckAuthentication",
+                "name": "Authentication",
                 "args": {
                     "secretKey": "abc",
                     "whiteList.0": "* swagger-ui.html",
@@ -3183,6 +3190,12 @@ spring.application.parameter.event.onstart.enabled=true
         ]
     }
 ]
+```
+
+在DiscoveryPlatform界面上，格式为
+
+```
+Authentication={"secretKey":"abc", "whiteList.0":"* swagger-ui.html", "whiteList.1":"* /swagger-resources/**", "whiteList.2":"* /doc.html", "userMap.name":"jason", "userMap.age":"20", "authInfoCarryStrategy":"AuthWriteToHeader"}
 ```
 
 ② Spring Cloud Gateway网关的Rest Endpoint接口
