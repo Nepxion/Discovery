@@ -5,7 +5,7 @@ package com.nepxion.discovery.plugin.strategy.gateway.entity;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
- * @author Ning Zhang
+ * @author Haojun Ren
  * @version 1.0
  */
 
@@ -20,6 +20,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
+import com.nepxion.discovery.common.util.JsonUtil;
 
 public class GatewayStrategyRouteEntity implements Serializable {
     private static final long serialVersionUID = 8552414941889295450L;
@@ -99,29 +101,36 @@ public class GatewayStrategyRouteEntity implements Serializable {
         }
     }
 
-    public static class Predicate {
-        private String name;
-        private Map<String, String> args = new LinkedHashMap<>();
+    public String getUserPredicatesJson() {
+        StringBuilder userPredicateStringBuilder = new StringBuilder();
 
-        public String getName() {
-            return name;
+        for (Predicate predicate : getUserPredicates()) {
+            userPredicateStringBuilder.append(String.format("%s=%s, ", predicate.getName(), JsonUtil.toJson(predicate.getArgs())));
         }
 
-        public void setName(String name) {
-            this.name = name;
+        if (userPredicateStringBuilder.length() > 0) {
+            userPredicateStringBuilder.delete(userPredicateStringBuilder.length() - 2, userPredicateStringBuilder.length());
         }
 
-        public Map<String, String> getArgs() {
-            return args;
+        return userPredicateStringBuilder.toString();
+    }
+
+    public String getUserFiltersJson() {
+        StringBuilder userFilterStringBuilder = new StringBuilder();
+
+        for (Filter filter : getUserFilters()) {
+            userFilterStringBuilder.append(String.format("%s=%s, ", filter.getName(), JsonUtil.toJson(filter.getArgs())));
         }
 
-        public void setArgs(Map<String, String> args) {
-            this.args = args;
+        if (userFilterStringBuilder.length() > 0) {
+            userFilterStringBuilder.delete(userFilterStringBuilder.length() - 2, userFilterStringBuilder.length());
         }
 
-        public void addArg(String key, String value) {
-            this.args.put(key, value);
-        }
+        return userFilterStringBuilder.toString();
+    }
+
+    public static class Predicate extends Clause {
+        private static final long serialVersionUID = -5113611207453059195L;
 
         @Override
         public int hashCode() {
@@ -139,7 +148,28 @@ public class GatewayStrategyRouteEntity implements Serializable {
         }
     }
 
-    public static class Filter {
+    public static class Filter extends Clause {
+        private static final long serialVersionUID = 4975847305584873755L;
+
+        @Override
+        public int hashCode() {
+            return HashCodeBuilder.reflectionHashCode(this);
+        }
+
+        @Override
+        public boolean equals(Object object) {
+            return EqualsBuilder.reflectionEquals(this, object);
+        }
+
+        @Override
+        public String toString() {
+            return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+        }
+    }
+
+    public static class Clause implements Serializable {
+        private static final long serialVersionUID = -6284675851623689077L;
+
         private String name;
         private Map<String, String> args = new LinkedHashMap<>();
 
