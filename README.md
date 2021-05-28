@@ -3115,9 +3115,9 @@ spring.application.parameter.event.onstart.enabled=true
 ]
 ```
 
-- 用户自定义断言器和过滤器的配置
+② 用户自定义断言器和过滤器的配置
 
-自定义方式描述网关内置断言器和过滤器
+- 自定义方式描述网关内置断言器和过滤器
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：网关内置断言器和过滤器的args名称必须是`_genkey_序号`格式。例如，"_genkey_0": "/discovery-guide-service-a/**"
 
@@ -3155,12 +3155,13 @@ Path={"_genkey_0":"/discovery-guide-service-a/**", "_genkey_1":"/x/**", "_genkey
 StripPrefix={"_genkey_0":"1"}
 ```
 
-自定义方式描述用户扩展的断言器和过滤器
+- 自定义方式描述用户扩展的断言器和过滤器
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：用户扩展的断言器和过滤器Key必须遵循如下规则
 
-- List<String>结构，args名称必须是`list的变量名.序号`格式。例如，"whiteList.0": "* swagger-ui.html"
-- Map<String, String>结构，args名称必须是`map的变量名.map的key`格式。例如，"userMap.name": "jason"
+List<String>结构，args名称必须是`list的变量名.序号`格式。例如，"whiteList.0": "* swagger-ui.html"
+
+Map<String, String>结构，args名称必须是`map的变量名.map的key`格式。例如，"userMap.name": "jason"
 
 ```
 [
@@ -3198,7 +3199,7 @@ StripPrefix={"_genkey_0":"1"}
 Authentication={"secretKey":"abc", "whiteList.0":"* swagger-ui.html", "whiteList.1":"* /swagger-resources/**", "whiteList.2":"* /doc.html", "userMap.name":"jason", "userMap.age":"20", "authInfoCarryStrategy":"AuthWriteToHeader"}
 ```
 
-② Spring Cloud Gateway网关的Rest Endpoint接口
+③ Spring Cloud Gateway网关的Rest Endpoint接口
 
 | 操作 | 路径 | 参数 | 方式 |
 | --- | --- | --- | --- |
@@ -3209,7 +3210,7 @@ Authentication={"secretKey":"abc", "whiteList.0":"* swagger-ui.html", "whiteList
 | 根据路由Id查看网关路由 | `http://`[网关IP:PORT]/spring-cloud-gateway-route/view/{routeId} | 无 | GET |
 | 查看全部网关路由| `http://`[网关IP:PORT]/spring-cloud-gateway-route/view-all | 无 | GET |
 
-③ 控制台的Rest Endpoint接口
+④ 控制台的Rest Endpoint接口
 
 | 操作 | 路径 | 参数 | 方式 |
 | --- | --- | --- | --- |
@@ -3219,7 +3220,7 @@ Authentication={"secretKey":"abc", "whiteList.0":"* swagger-ui.html", "whiteList
 | 更新全部网关路由 | `http://`[控制台IP:PORT]/route/update-all/spring-cloud-gateway/{serviceId} | 多个动态路由配置 | GET |
 | 查看全部网关路由| `http://`[控制台IP:PORT]/route/view-all/spring-cloud-gateway/{serviceId} | 无 | GET |
 
-④ 网关订阅配置中心
+⑤ 网关订阅配置中心
 
 网关订阅配置中心的使用方式，如下
 
@@ -3247,7 +3248,7 @@ Deleted count=1
 --------------------------------------------------
 ```
 
-⑤ 事件总线通知的订阅
+⑥ 事件总线通知的订阅
 
 ```java
 @EventBus
