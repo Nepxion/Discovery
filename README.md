@@ -3206,7 +3206,7 @@ Authentication={"secretKey":"abc", "whiteList.0":"* swagger-ui.html", "whiteList
 ```
 
 #### Spring-Cloud-Gateway网关Rest-Endpoint
-① Spring-Cloud-Gateway网关的Rest Endpoint接口
+① Spring Cloud Gateway网关的Rest Endpoint接口
 
 | 操作 | 路径 | 参数 | 方式 |
 | --- | --- | --- | --- |
