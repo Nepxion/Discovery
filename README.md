@@ -562,7 +562,16 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - [全链路数据库和消息队列蓝绿发布](#全链路数据库和消息队列蓝绿发布)
 - [网关动态路由](#网关动态路由)
     - [Spring-Cloud-Gateway网关动态路由](#Spring-Cloud-Gateway网关动态路由)
+        - [Spring-Cloud-Gateway网关动态路由配置](#Spring-Cloud-Gateway网关动态路由配置)
+        - [Spring-Cloud-Gateway网关自定义动态路由配置](#Spring-Cloud-Gateway网关自定义动态路由配置)
+        - [Spring-Cloud-Gateway网关Rest-Endpoint](#Spring-Cloud-Gateway网关Rest-Endpoint)
+        - [Spring-Cloud-Gateway网关订阅配置中心](#Spring-Cloud-Gateway网关订阅配置中心)
+        - [Spring-Cloud-Gateway网关事件总线通知的订阅](#Spring-Cloud-Gateway网关事件总线通知的订阅)
     - [Zuul网关动态路由](#Zuul网关动态路由)
+        - [Zuul网关动态路由配置](#Zuul网关动态路由配置)
+        - [Zuul网关Rest-Endpoint](#Zuul网关Rest-Endpoint)
+        - [Zuul网关订阅配置中心](#Zuul网关订阅配置中心)
+        - [Zuul网关事件总线通知的订阅](#Zuul网关事件总线通知的订阅)
 - [统一配置订阅执行器](#统一配置订阅执行器)
 - [规则策略定义](#规则策略定义)
     - [规则策略格式定义](#规则策略格式定义)
@@ -3077,9 +3086,8 @@ spring.application.parameter.event.onstart.enabled=true
 
 支持Spring Cloud Gateway网关官方断言器和过滤器，也支持用户自定义断言器和过滤器
 
-① Spring Cloud Gateway网关的动态路由配置格式
-
-- 精简配置
+#### Spring-Cloud-Gateway网关动态路由配置
+① 精简配置
 
 ```
 [
@@ -3096,7 +3104,7 @@ spring.application.parameter.event.onstart.enabled=true
 ]
 ```
 
-- 完整配置
+② 完整配置
 
 ```
 [
@@ -3115,9 +3123,8 @@ spring.application.parameter.event.onstart.enabled=true
 ]
 ```
 
-② 用户自定义断言器和过滤器的配置
-
-- 自定义方式描述网关内置断言器和过滤器
+#### Spring-Cloud-Gateway网关自定义动态路由配置
+① 自定义方式描述网关内置断言器和过滤器
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：网关内置断言器和过滤器的args名称必须是`_genkey_序号`格式。例如，"_genkey_0": "/discovery-guide-service-a/**"
 
@@ -3155,13 +3162,12 @@ Path={"_genkey_0":"/discovery-guide-service-a/**", "_genkey_1":"/x/**", "_genkey
 StripPrefix={"_genkey_0":"1"}
 ```
 
-- 自定义方式描述用户扩展的断言器和过滤器
+② 自定义方式描述用户扩展的断言器和过滤器
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：用户扩展的断言器和过滤器Key必须遵循如下规则
 
-List<String>结构，args名称必须是`list的变量名.序号`格式。例如，"whiteList.0": "* swagger-ui.html"
-
-Map<String, String>结构，args名称必须是`map的变量名.map的key`格式。例如，"userMap.name": "jason"
+- List<String>结构，args名称必须是`list的变量名.序号`格式。例如，"whiteList.0": "* swagger-ui.html"
+- Map<String, String>结构，args名称必须是`map的变量名.map的key`格式。例如，"userMap.name": "jason"
 
 ```
 [
@@ -3199,7 +3205,8 @@ Map<String, String>结构，args名称必须是`map的变量名.map的key`格式
 Authentication={"secretKey":"abc", "whiteList.0":"* swagger-ui.html", "whiteList.1":"* /swagger-resources/**", "whiteList.2":"* /doc.html", "userMap.name":"jason", "userMap.age":"20", "authInfoCarryStrategy":"AuthWriteToHeader"}
 ```
 
-③ Spring Cloud Gateway网关的Rest Endpoint接口
+#### Spring-Cloud-Gateway网关Rest-Endpoint
+① Spring-Cloud-Gateway网关的Rest Endpoint接口
 
 | 操作 | 路径 | 参数 | 方式 |
 | --- | --- | --- | --- |
@@ -3210,7 +3217,7 @@ Authentication={"secretKey":"abc", "whiteList.0":"* swagger-ui.html", "whiteList
 | 根据路由Id查看网关路由 | `http://`[网关IP:PORT]/spring-cloud-gateway-route/view/{routeId} | 无 | GET |
 | 查看全部网关路由| `http://`[网关IP:PORT]/spring-cloud-gateway-route/view-all | 无 | GET |
 
-④ 控制台的Rest Endpoint接口
+② 控制台的Rest Endpoint接口
 
 | 操作 | 路径 | 参数 | 方式 |
 | --- | --- | --- | --- |
@@ -3220,15 +3227,14 @@ Authentication={"secretKey":"abc", "whiteList.0":"* swagger-ui.html", "whiteList
 | 更新全部网关路由 | `http://`[控制台IP:PORT]/route/update-all/spring-cloud-gateway/{serviceId} | 多个动态路由配置 | GET |
 | 查看全部网关路由| `http://`[控制台IP:PORT]/route/view-all/spring-cloud-gateway/{serviceId} | 无 | GET |
 
-⑤ 网关订阅配置中心
-
+#### Spring-Cloud-Gateway网关订阅配置中心
 网关订阅配置中心的使用方式，如下
 
 - Key为
     - Nacos、Redis、Zookeeper配置中心，Group为{group}，DataId为{网关serviceId}-dynamic-route
     - Apollo、Consul、Etcd配置中心，Key的格式为{group}-{网关serviceId}-dynamic-route
     - {group}为注册中心元数据group值
-- Value参考“① Spring Cloud Gateway网关的动态路由配置格式”
+- Value参考[Spring-Cloud-Gateway网关动态路由配置](#Spring-Cloud-Gateway网关动态路由配置)
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide7-9.jpg)
 
@@ -3248,8 +3254,7 @@ Deleted count=1
 --------------------------------------------------
 ```
 
-⑥ 事件总线通知的订阅
-
+#### Spring-Cloud-Gateway网关事件总线通知的订阅
 ```java
 @EventBus
 public class MySubscriber {
@@ -3278,9 +3283,8 @@ public class MySubscriber {
 ### Zuul网关动态路由
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：Zuul网关在自动路由模式下，动态路由可以工作
 
-① Zuul网关的动态路由配置格式
-
-- 精简配置
+#### Zuul网关动态路由配置
+① 精简配置
 
 ```
 [
@@ -3313,7 +3317,7 @@ public class MySubscriber {
 ]
 ```
 
-- 完整配置
+② 完整配置
 
 ```
 [
@@ -3350,7 +3354,8 @@ public class MySubscriber {
 ]
 ```
 
-② Zuul网关的Rest Endpoint接口
+#### Zuul网关Rest-Endpoint
+① Zuul网关的Rest Endpoint接口
 
 | 操作 | 路径 | 参数 | 方式 |
 | --- | --- | --- | --- |
@@ -3361,7 +3366,7 @@ public class MySubscriber {
 | 根据路由Id查看网关路由 | `http://`[网关IP:PORT]/zuul-route/view/{routeId} | 无 | GET |
 | 查看全部网关路由| `http://`[网关IP:PORT]/zuul-route/view-all | 无 | GET |
 
-③ 控制台的Rest Endpoint接口
+② 控制台的Rest Endpoint接口
 
 | 操作 | 路径 | 参数 | 方式 |
 | --- | --- | --- | --- |
@@ -3371,15 +3376,14 @@ public class MySubscriber {
 | 更新全部网关路由 | `http://`[控制台IP:PORT]/route/zuul/update-all/{serviceId} | 多个动态路由配置 | GET |
 | 查看全部网关路由| `http://`[控制台IP:PORT]/route/zuul/view-all/{serviceId} | 无 | GET |
 
-④ 网关订阅配置中心
-
+#### Zuul网关订阅配置中心
 网关订阅配置中心的使用方式，如下
 
 - Key为
     - Nacos、Redis、Zookeeper配置中心，Group为{group}，DataId为{网关serviceId}-dynamic-route
     - Apollo、Consul、Etcd配置中心，Key的格式为{group}-{网关serviceId}-dynamic-route
     - {group}为注册中心元数据group值
-- Value参考“① Zuul网关的动态路由配置格式”
+- Value参考[Zuul网关动态路由配置](#Zuul网关动态路由配置)
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide7-10.jpg)
 
@@ -3399,8 +3403,7 @@ Deleted count=1
 --------------------------------------------------
 ```
 
-⑤ 事件总线通知的订阅
-
+#### Zuul网关事件总线通知的订阅
 ```java
 @EventBus
 public class MySubscriber {
