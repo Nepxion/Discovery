@@ -11,7 +11,7 @@ package com.nepxion.discovery.plugin.admincenter.resource;
 
 import java.util.List;
 
-import com.nepxion.discovery.plugin.strategy.zuul.entity.ZuulStrategyRouteEntity;
+import com.nepxion.discovery.common.entity.ZuulStrategyRouteEntity;
 
 public interface ZuulStrategyRouteResource {
     void add(ZuulStrategyRouteEntity zuulStrategyRouteEntity);

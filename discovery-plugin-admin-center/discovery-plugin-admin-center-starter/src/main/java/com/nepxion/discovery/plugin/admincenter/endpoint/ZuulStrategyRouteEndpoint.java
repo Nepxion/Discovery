@@ -25,9 +25,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nepxion.discovery.common.entity.ZuulStrategyRouteEntity;
 import com.nepxion.discovery.common.util.ResponseUtil;
 import com.nepxion.discovery.plugin.admincenter.resource.ZuulStrategyRouteResource;
-import com.nepxion.discovery.plugin.strategy.zuul.entity.ZuulStrategyRouteEntity;
 
 @RestController
 @RequestMapping(path = "/zuul-route")
