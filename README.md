@@ -3129,9 +3129,7 @@ spring.application.parameter.event.onstart.enabled=true
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：自定义方式描述网关内置断言器和过滤器的Key必须遵循如下规则
 
 - 对于没有显式args定义的配置，类似Path、StripPrefix这种配置，args名称必须是`_genkey_序号`格式。例如，"_genkey_0": "/discovery-guide-service-a/**"
-- 对于显式args定义的配置，类似Header、Cookie、Query这种配置，args名称遵照Spring Cloud Gateway内置格式，请查看相关文档或者源码
-
-例如，Header的KV格式为header -> regexp，Cookie的KV格式为name->regexp，Query的KV格式为param->regexp
+- 对于显式args定义的配置，类似Header、Cookie、Query这种配置，args名称遵照Spring Cloud Gateway内置格式，请查看相关文档或者源码。例如，Header的KV格式为header -> regexp，Cookie的KV格式为name->regexp，Query的KV格式为param->regexp
 
 ```
 [
