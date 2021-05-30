@@ -181,7 +181,7 @@ public class GatewayStrategyRouteEntity implements Serializable {
         }
     }
 
-    public static <T extends Clause> String parseClauseJson(List<T> clauses) {
+    public static <T extends Clause> String toClausesJson(List<T> clauses) {
         StringBuilder stringBuilder = new StringBuilder();
 
         for (Clause clause : clauses) {
