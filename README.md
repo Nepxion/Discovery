@@ -3126,7 +3126,10 @@ spring.application.parameter.event.onstart.enabled=true
 #### Spring-Cloud-Gateway网关自定义动态路由配置
 ① 自定义方式描述网关内置断言器和过滤器
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：网关内置断言器和过滤器的args名称必须是`_genkey_序号`格式。例如，"_genkey_0": "/discovery-guide-service-a/**"
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：自定义方式描述网关内置断言器和过滤器的Key必须遵循如下规则
+
+- 对于没有显式args定义的配置，类似Path、StripPrefix这种配置，args名称必须是`_genkey_序号`格式。例如，"_genkey_0": "/discovery-guide-service-a/**"
+- 对于显式args定义的配置，类似Header、Cookie、Query这种配置，args名称遵照Spring Cloud Gateway内置格式，请查看相关文档或者源码。例如，Header的KV格式为header -> regexp，Cookie的KV格式为name->regexp，Query的KV格式为param->regexp
 
 ```
 [
@@ -3140,6 +3143,48 @@ spring.application.parameter.event.onstart.enabled=true
                     "_genkey_0": "/discovery-guide-service-a/**",
                     "_genkey_1": "/x/**",
                     "_genkey_2": "/y/**"
+                }
+            },
+          {
+                "name": "Header",
+                "args": {
+                    "header": "a",
+                    "regexp": "1"
+                }
+            },
+            {
+                "name": "Header",
+                "args": {
+                    "header": "b",
+                    "regexp": "2"
+                }
+            },
+            {
+                "name": "Cookie",
+                "args": {
+                    "name": "c",
+                    "regexp": "3"
+                }
+            },
+            {
+                "name": "Cookie",
+                "args": {
+                    "name": "d",
+                    "regexp": "4"
+                }
+            },
+            {
+                "name": "Query",
+                "args": {
+                    "param": "e",
+                    "regexp": "5"
+                }
+            },
+            {
+                "name": "Query",
+                "args": {
+                    "param": "f",
+                    "regexp": "6"
                 }
             }
         ],
@@ -3160,11 +3205,18 @@ spring.application.parameter.event.onstart.enabled=true
 ```
 Path={"_genkey_0":"/discovery-guide-service-a/**", "_genkey_1":"/x/**", "_genkey_2":"/y/**"}
 StripPrefix={"_genkey_0":"1"}
+
+Header={"header":"a","regexp":"1"}
+Header={"header":"b","regexp":"2"}
+Cookie={"name":"c","regexp":"3"}
+Cookie={"name":"d","regexp":"4"}
+Query={"param":"e","regexp":"5"}
+Query={"param":"f","regexp":"6"}
 ```
 
 ② 自定义方式描述用户扩展的断言器和过滤器
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：用户扩展的断言器和过滤器Key必须遵循如下规则
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：自定义方式描述用户扩展的断言器和过滤器的Key必须遵循如下规则
 
 - List<String>结构，args名称必须是`list的变量名.序号`格式。例如，"whiteList.0": "* swagger-ui.html"
 - Map<String, String>结构，args名称必须是`map的变量名.map的key`格式。例如，"userMap.name": "jason"
@@ -4378,7 +4430,6 @@ ruleType为哨兵规则类型。取值： flow | degrade | authority | system | 
 - 集成OpenTracing + Jaeger蓝绿灰度全链路监控
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Jaeger2.jpg)
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Jaeger3.jpg)
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/JaegerPremium1.jpg)
 
 - 集成OpenTracing + SkyWalking蓝绿灰度全链路监控
