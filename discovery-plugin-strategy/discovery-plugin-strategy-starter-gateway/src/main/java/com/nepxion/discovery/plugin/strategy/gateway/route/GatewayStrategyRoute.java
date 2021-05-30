@@ -11,7 +11,7 @@ package com.nepxion.discovery.plugin.strategy.gateway.route;
 
 import java.util.List;
 
-import com.nepxion.discovery.plugin.strategy.gateway.entity.GatewayStrategyRouteEntity;
+import com.nepxion.discovery.common.entity.GatewayStrategyRouteEntity;
 
 public interface GatewayStrategyRoute {
     void add(GatewayStrategyRouteEntity gatewayStrategyRouteEntity);

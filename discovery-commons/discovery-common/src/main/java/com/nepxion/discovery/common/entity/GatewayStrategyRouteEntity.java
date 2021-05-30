@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.gateway.entity;
+package com.nepxion.discovery.common.entity;
 
 /**
  * <p>Title: Nepxion Discovery</p>

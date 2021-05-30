@@ -11,7 +11,7 @@ package com.nepxion.discovery.plugin.strategy.gateway.event;
 
 import java.io.Serializable;
 
-import com.nepxion.discovery.plugin.strategy.gateway.entity.GatewayStrategyRouteEntity;
+import com.nepxion.discovery.common.entity.GatewayStrategyRouteEntity;
 
 public class GatewayStrategyRouteModifiedEvent implements Serializable {
     private static final long serialVersionUID = -64955673371333231L;

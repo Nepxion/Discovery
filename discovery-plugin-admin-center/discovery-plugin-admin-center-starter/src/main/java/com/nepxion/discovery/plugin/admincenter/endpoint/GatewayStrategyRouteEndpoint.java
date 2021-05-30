@@ -25,9 +25,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nepxion.discovery.common.entity.GatewayStrategyRouteEntity;
 import com.nepxion.discovery.common.util.ResponseUtil;
 import com.nepxion.discovery.plugin.admincenter.resource.GatewayStrategyRouteResource;
-import com.nepxion.discovery.plugin.strategy.gateway.entity.GatewayStrategyRouteEntity;
 
 @RestController
 @RequestMapping(path = "/spring-cloud-gateway-route")

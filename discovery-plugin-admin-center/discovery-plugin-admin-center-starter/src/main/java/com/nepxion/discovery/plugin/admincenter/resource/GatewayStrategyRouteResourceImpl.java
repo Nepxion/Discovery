@@ -13,7 +13,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.plugin.strategy.gateway.entity.GatewayStrategyRouteEntity;
+import com.nepxion.discovery.common.entity.GatewayStrategyRouteEntity;
 import com.nepxion.discovery.plugin.strategy.gateway.route.GatewayStrategyRoute;
 
 public class GatewayStrategyRouteResourceImpl implements GatewayStrategyRouteResource {
