@@ -21,6 +21,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import com.nepxion.discovery.common.util.JsonUtil;
+
 public class GatewayStrategyRouteEntity implements Serializable {
     private static final long serialVersionUID = 8552414941889295450L;
 
@@ -177,6 +179,20 @@ public class GatewayStrategyRouteEntity implements Serializable {
         public String toString() {
             return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
         }
+    }
+
+    public static <T extends Clause> String parseClauseJson(List<T> clauses) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (Clause clause : clauses) {
+            stringBuilder.append(String.format("%s=%s, ", clause.getName(), JsonUtil.toJson(clause.getArgs())));
+        }
+
+        if (stringBuilder.length() > 0) {
+            stringBuilder.delete(stringBuilder.length() - 2, stringBuilder.length());
+        }
+
+        return stringBuilder.toString();
     }
 
     @Override
