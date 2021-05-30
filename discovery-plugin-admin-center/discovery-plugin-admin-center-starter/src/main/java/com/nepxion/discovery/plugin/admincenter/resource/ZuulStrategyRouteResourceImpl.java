@@ -13,7 +13,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.plugin.strategy.zuul.entity.ZuulStrategyRouteEntity;
+import com.nepxion.discovery.common.entity.ZuulStrategyRouteEntity;
 import com.nepxion.discovery.plugin.strategy.zuul.route.ZuulStrategyRoute;
 
 public class ZuulStrategyRouteResourceImpl implements ZuulStrategyRouteResource {

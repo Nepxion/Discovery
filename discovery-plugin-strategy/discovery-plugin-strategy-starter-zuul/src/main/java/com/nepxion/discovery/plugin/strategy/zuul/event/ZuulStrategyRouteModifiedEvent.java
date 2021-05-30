@@ -11,7 +11,7 @@ package com.nepxion.discovery.plugin.strategy.zuul.event;
 
 import java.io.Serializable;
 
-import com.nepxion.discovery.plugin.strategy.zuul.entity.ZuulStrategyRouteEntity;
+import com.nepxion.discovery.common.entity.ZuulStrategyRouteEntity;
 
 public class ZuulStrategyRouteModifiedEvent implements Serializable {
     private static final long serialVersionUID = 3805426536724590753L;
