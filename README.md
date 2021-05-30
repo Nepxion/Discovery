@@ -3212,8 +3212,8 @@ Header={"header":"a","regexp":"1"}
 Header={"header":"b","regexp":"2"}
 Cookie={"name":"c","regexp":"3"}
 Cookie={"name":"d","regexp":"4"}
-Query={"name":"e","regexp":"5"}
-Query={"name":"f","regexp":"6"}
+Query={"param":"e","regexp":"5"}
+Query={"param":"f","regexp":"6"}
 ```
 
 ② 自定义方式描述用户扩展的断言器和过滤器
