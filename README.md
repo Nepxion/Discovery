@@ -1132,6 +1132,12 @@ n-d-的含义：n为Nepxion首字母，d为Discovery首字母
 2. <version>{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</version>
 ```
 
+如果希望可调用的版本是多个，也可以表示成如下方式，即1.0版本和1.1版本的a服务和b服务都可以被调用到，下面第1条和第2条是等效的
+```
+1. <version>1.0;1.1</version>
+2. <version>{"discovery-guide-service-a":"1.0;1.1", "discovery-guide-service-b":"1.0;1.1"}</version>
+```
+
 如果上述表达式还未满足需求，也可以采用通配表达式方式（具体详细用法，参考Spring AntPathMatcher），通过Spring Matcher的通配表达式，支持多个通配*、单个通配?等全部标准表达式用法
 ```
 * - 表示调用范围为所有版本
@@ -1142,7 +1148,7 @@ n-d-的含义：n为Nepxion首字母，d为Discovery首字母
 ```
 "discovery-guide-service-b":"1.*;1.2.?"
 ```
-表示discovery-guide-service-b服务的版本调用范围是1开头的所有版本，或者是1.2开头的所有版本（末尾必须是1个字符），多个用分号隔开
+表示discovery-guide-service-b服务的调用范围是1开头的所有版本，或者调用范围是1.2开头的所有版本（末尾必须是1个字符），多个用分号隔开
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：非条件驱动下的全链路蓝绿发布跟Header驱动下的全链路蓝绿发布等效，例如
 ```
@@ -1182,6 +1188,12 @@ n-d-version={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0
 2. <region>{"discovery-guide-service-a":"dev", "discovery-guide-service-b":"dev"}</region>
 ```
 
+如果希望可调用区域是多个，也可以表示成如下方式，即dev区域和qa区域的a服务和b服务都可以被调用到，下面第1条和第2条是等效的
+```
+1. <region>dev;qa</region>
+2. <region>{"discovery-guide-service-a":"dev;qa", "discovery-guide-service-b":"dev;aq"}</region>
+```
+
 如果上述表达式还未满足需求，也可以采用通配表达式方式（具体详细用法，参考Spring AntPathMatcher），通过Spring Matcher的通配表达式，支持多个通配*、单个通配?等全部标准表达式用法
 ```
 * - 表示调用范围为所有区域
@@ -1192,7 +1204,7 @@ d* - 表示调用范围为d开头的所有区域
 ```
 "discovery-guide-service-b":"d*;q?"
 ```
-表示discovery-guide-service-b服务的区域调用范围是d开头的所有区域，或者是q开头的所有区域（末尾必须是1个字符），多个用分号隔开
+表示discovery-guide-service-b服务的调用范围是d开头的所有区域，或者调用范围是q开头的所有区域（末尾必须是1个字符），多个用分号隔开
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：非条件驱动下的全链路蓝绿发布跟Header驱动下的全链路蓝绿发布等效，例如
 ```
@@ -1234,6 +1246,12 @@ n-d-region={"discovery-guide-service-a":"dev", "discovery-guide-service-b":"dev"
 2. <address>{"discovery-guide-service-a":"3001", "discovery-guide-service-b":"3001"}</address>
 ```
 
+如果希望可调用端口是多个，也可以表示成如下方式，即3001端口和4001端口的a服务和b服务都可以被调用到，下面第1条和第2条是等效的
+```
+1. <address>3001;4001</address>
+2. <address>{"discovery-guide-service-a":"3001;4001", "discovery-guide-service-b":"3001;4001"}</address>
+```
+
 如果上述表达式还未满足需求，也可以采用通配表达式方式（具体详细用法，参考Spring AntPathMatcher），通过Spring Matcher的通配表达式，支持多个通配*、单个通配?等全部标准表达式用法
 ```
 * - 表示调用范围为所有端口
@@ -1244,7 +1262,7 @@ n-d-region={"discovery-guide-service-a":"dev", "discovery-guide-service-b":"dev"
 ```
 "discovery-guide-service-b":"3*;400?"
 ```
-表示discovery-guide-service-b服务的端口调用范围是3开头的所有端口，或者是4开头的所有端口（末尾必须是1个字符），多个用分号隔开
+表示discovery-guide-service-b服务的调用范围是3开头的所有端口，或者调用范围是4开头的所有端口（末尾必须是1个字符），多个用分号隔开
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：非条件驱动下的全链路蓝绿发布跟Header驱动下的全链路蓝绿发布等效，例如
 ```
@@ -1647,9 +1665,10 @@ A部门服务直接访问B部门服务
 - IP地址和端口匹配策略，Header格式如下任选一个
 
 ```
-1. n-d-address={"discovery-guide-service-a":"127.0.0.1:3001", "discovery-guide-service-b":"127.0.0.1:4002"}
-2. n-d-address={"discovery-guide-service-a":"127.0.0.1", "discovery-guide-service-b":"127.0.0.1"}
-3. n-d-address={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"4002"}
+1. n-d-address=3001;4002
+2. n-d-address={"discovery-guide-service-a":"127.0.0.1:3001", "discovery-guide-service-b":"127.0.0.1:4002"}
+3. n-d-address={"discovery-guide-service-a":"127.0.0.1", "discovery-guide-service-b":"127.0.0.1"}
+4. n-d-address={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"4002"}
 ```
 
 - 环境隔离下动态环境匹配策略
@@ -1658,16 +1677,20 @@ A部门服务直接访问B部门服务
 1. n-d-env=env1
 ```
 
-- 服务下线实时性的流量绝对无损，全局唯一ID屏蔽策略
+- 服务下线实时性的流量绝对无损，全局唯一ID屏蔽策略，Header格式如下任选一个
 
 ```
-1. n-d-id-blacklist=e92edde5-0153-4ec8-9cbb-b4d3f415aa33;af043384-c8a5-451e-88f4-457914e8e3bc
+1. n-d-id-blacklist=20210601-222214-909-1146-372-698;20210601-222623-277-4978-633-279
+2. n-d-id-blacklist={"discovery-guide-service-a":"20210601-222214-909-1146-372-698", "discovery-guide-service-b":"20210601-222623-277-4978-633-279"}
 ```
 
-- 服务下线实时性的流量绝对无损，IP地址和端口屏蔽策略
+- 服务下线实时性的流量绝对无损，IP地址和端口屏蔽策略，Header格式如下任选一个
 
 ```
-1. n-d-address-blacklist=192.168.43.101:1201;192.168.*.102;1301
+1. n-d-address=3001;4002
+2. n-d-address={"discovery-guide-service-a":"127.0.0.1:3001", "discovery-guide-service-b":"127.0.0.1:4002"}
+3. n-d-address={"discovery-guide-service-a":"127.0.0.1", "discovery-guide-service-b":"127.0.0.1"}
+4. n-d-address={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"4002"}
 ```
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 全链路前端触发后端蓝绿灰度发布全景功能
@@ -2602,54 +2625,112 @@ spring.application.strategy.version.prefer.enabled=true
 框架提供流量的实时性绝对无损策略。采用下线之前，把服务实例添加到屏蔽名单中，负载均衡不会去寻址该服务实例。下线之后，清除该名单。实现该方式，需要通过DevOps调用配置中心的Open API推送或者在配置中心界面手工修改，通过全局订阅方式实现，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名）
 
 ### 全局唯一ID屏蔽
-① 远程配置方式
+全局唯一ID对应于元数据spring.application.uuid字段，框架会自动把该ID注册到注册中心，不需要用户自己配置，支持通配表达式方式
 
-全局唯一ID对应于元数据spring.application.uuid字段，框架会自动把该ID注册到注册中心，不需要用户自己配置，此用法适用于Docker和Kubernetes上IP地址不确定的场景。策略内容如下，采用如下两种方式之一均可
+全局唯一ID的格式为
+```
+年月日（8位）-小时分钟秒（6位）-毫秒（3位）-随机数（4位）-随机数（3位）-随机数（3位）
+```
+
+前半部分精确到毫秒的设计，基本能保证ID的全局唯一，后半部分三重随机数，完全能保证ID的全局唯一，即当有两个服务实例毫秒级的同时启动，然后三次随机碰撞下来，得到三个相同的随机数后，同时满足这2个非常苛刻的条件才会使全局唯一ID变的不唯一
+
+增加Spring Cloud Gateway的全局唯一ID屏蔽策略，Group为discovery-guide-group，Data Id为discovery-guide-gateway，策略内容如下，实现从Spring Cloud Gateway发起的调用屏蔽指定全局唯一ID的服务
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
     <strategy-blacklist>
-        <!-- 单个ID形式。如果多个用“;”分隔，不允许出现空格 -->
-        <id value="e92edde5-0153-4ec8-9cbb-b4d3f415aa33;af043384-c8a5-451e-88f4-457914e8e3bc"/>
-
-        <!-- 多个ID节点形式 -->
-        <!-- <id value="e92edde5-0153-4ec8-9cbb-b4d3f415aa33"/>
-        <id value="af043384-c8a5-451e-88f4-457914e8e3bc"/> -->
+        <id>20210601-222214-909-1146-372-698</id>
     </strategy-blacklist>
 </rule>
 ```
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide2-11.jpg)
 
-② 全链路Header传递方式
-
+如果希望每个服务的全局唯一ID分别指定，那么策略内容如下，实现从Spring Cloud Gateway发起的调用屏蔽ID为20210601-222214-909-1146-372-698的a服务，屏蔽ID为20210601-222623-277-4978-633-279的b服务
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy>
+        <address>{"discovery-guide-service-a":"20210601-222214-909-1146-372-698", "discovery-guide-service-b":"20210601-222623-277-4978-633-279"}</address>
+    </strategy>
+</rule>
 ```
-n-d-id-blacklist=e92edde5-0153-4ec8-9cbb-b4d3f415aa33;af043384-c8a5-451e-88f4-457914e8e3bc
+
+如果忽略服务名，也可以表示成如下方式，即ID为20210601-222214-909-1146-372-698和20210601-222623-277-4978-633-279的服务都被屏蔽
+```
+<address>20210601-222214-909-1146-372-698;20210601-222623-277-4978-633-279</address>
+```
+
+如果上述表达式还未满足需求，也可以采用通配表达式方式（具体详细用法，参考Spring AntPathMatcher），通过Spring Matcher的通配表达式，支持多个通配*、单个通配?等全部标准表达式用法
+```
+20210601* - 表示屏蔽范围是2021年06月01日注册的实例口
+20210601-222214-909-1146-372-69? - 表示屏蔽范围是20210601-222214-909-1146-372-69开头ID的服务
+```
+
+例如
+```
+"discovery-guide-service-b":"20210601*;20210601-222214-909-1146-372-69?"
+```
+表示discovery-guide-service-b服务的屏蔽范围是2021年06月01日注册的实例，或者屏蔽范围是20210601-222214-909-1146-372-69开头ID的服务（末尾必须是1个字符），多个用分号隔开
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：跟Header驱动下的IP地址和端口屏蔽策略等效，例如
+```
+1. n-d-id-blacklist=20210601-222214-909-1146-372-698;20210601-222623-277-4978-633-279
+2. n-d-id-blacklist={"discovery-guide-service-a":"20210601-222214-909-1146-372-698", "discovery-guide-service-b":"20210601-222623-277-4978-633-279"}
 ```
 
 ### IP地址和端口屏蔽
-① 远程配置方式
+通过IP地址或者端口或者IP地址+端口进行屏蔽，支持通配表达式方式
 
-通过IP地址或者端口或者IP地址+端口进行屏蔽，支持通配表达式方式，此用法适用于IP地址确定的场景。策略内容如下，采用如下两种方式之一均可
+增加Zuul的IP地址和端口屏蔽策略，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现从Zuul发起的调用屏蔽指定IP地址和端口，或者指定IP地址，或者指定端口（下面策略以端口为例）的服务
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
     <strategy-blacklist>
-        <!-- 单个Address形式。如果多个用“;”分隔，不允许出现空格 -->
-        <address value="192.168.43.101:1201;192.168.*.102;1301"/>
-
-        <!-- 多个Address节点形式 -->
-        <!-- <address value="192.168.43.101:1201"/>
-        <address value="192.168.*.102"/>
-        <address value="1301"/> -->
+        <!-- <address>127.0.0.1:3001</address> -->
+        <!-- <address>127.0.0.1</address> -->
+        <address>3001</address>
     </strategy-blacklist>
 </rule>
 ```
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide2-12.jpg)
 
-② 全链路Header传递方式
-
+如果希望每个服务的IP地址或者端口分别指定，那么策略内容如下，实现从Zuul发起的屏蔽屏蔽3001端口的a服务，屏蔽4001端口的b服务
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy>
+        <address>{"discovery-guide-service-a":"3001", "discovery-guide-service-b":"4001"}</address>
+    </strategy>
+</rule>
 ```
-n-d-address-blacklist=192.168.43.101:1201;192.168.*.102;1301
+
+如果忽略服务名，也可以表示成如下方式，即3001和4001端口的服务都被屏蔽
+```
+<address>3001;4001</address>
+```
+
+当所有服务都选同一端口的时候，下面第1条和第2条是等效的
+```
+1. <address>3001</address>
+2. <address>{"discovery-guide-service-a":"3001", "discovery-guide-service-b":"3001"}</address>
+```
+
+如果上述表达式还未满足需求，也可以采用通配表达式方式（具体详细用法，参考Spring AntPathMatcher），通过Spring Matcher的通配表达式，支持多个通配*、单个通配?等全部标准表达式用法
+```
+* - 表示屏蔽为所有端口
+3* - 表示屏蔽范围为3开头的所有端口
+```
+
+例如
+```
+"discovery-guide-service-b":"3*;400?"
+```
+表示discovery-guide-service-b服务的屏蔽范围是3开头的所有端口，或者屏蔽范围是4开头的所有端口（末尾必须是1个字符），多个用分号隔开
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：跟Header驱动下的IP地址和端口屏蔽策略等效，例如
+```
+1. n-d-address-blacklist=3001
+2. n-d-address-blacklist={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"3001"}
 ```
 
 ## 异步场景下全链路蓝绿灰度发布
@@ -3801,24 +3882,12 @@ XML最全的示例如下，Json示例见源码discovery-springcloud-example-serv
         </headers>
     </strategy-customization>
 
-    <!-- 策略路由上服务屏蔽黑名单。一般适用于服务下线场景，流量实现实时性的绝对无损：下线之前，把服务实例添加到下面屏蔽名单中，负载均衡不会去寻址该服务实例。下线之后，清除该名单。该配置运行在全局订阅模式下 -->
+    <!-- 策略路由上服务屏蔽黑名单。一般适用于服务下线场景，流量实现实时性的绝对无损：下线之前，把服务实例添加到下面屏蔽名单中，负载均衡不会去寻址该服务实例。下线之后，清除该名单-->
     <strategy-blacklist>
-        <!-- 通过全局唯一ID进行屏蔽，ID对应于元数据spring.application.uuid字段，适用于Docker和K8s上IP地址不确定的场景 -->
-        <!-- 单个ID形式。如果多个用“;”分隔，不允许出现空格 -->
-        <id value="e92edde5-0153-4ec8-9cbb-b4d3f415aa33;af043384-c8a5-451e-88f4-457914e8e3bc"/>
-
-        <!-- 多个ID节点形式 -->
-        <!-- <id value="e92edde5-0153-4ec8-9cbb-b4d3f415aa33"/>
-        <id value="af043384-c8a5-451e-88f4-457914e8e3bc"/> -->
-
-        <!-- 通过IP地址或者端口或者IP地址+端口进行屏蔽。适用于IP地址确定的场景 -->
-        <!-- 单个Address形式。如果多个用“;”分隔，不允许出现空格 -->
-        <address value="192.168.43.101:1201;192.168.*.102;1301"/>
-
-        <!-- 多个Address节点形式 -->
-        <!-- <address value="192.168.43.101:1201"/>
-        <address value="192.168.*.102"/>
-        <address value="1301"/> -->
+        <!-- 通过全局唯一ID进行屏蔽，ID对应于元数据spring.application.uuid字段 -->
+        <id>{"discovery-springcloud-example-a":"20210601-222214-909-1146-372-698", "discovery-springcloud-example-b":"20210601-222623-277-4978-633-279", "discovery-springcloud-example-c":"20210601-222728-133-2597-222-609"}</id>
+        <!-- 通过IP地址或者端口或者IP地址+端口进行屏蔽 -->
+        <address>{"discovery-springcloud-example-a":"192.168.43.101:1100", "discovery-springcloud-example-b":"192.168.43.101:1201", "discovery-springcloud-example-c":"192.168.43.101:1300"}</address>        
     </strategy-blacklist>
 
     <!-- 参数控制，由远程推送参数的改变，实现一些特色化的蓝绿发布，例如，基于数据库和消息队列的蓝绿发布 -->
