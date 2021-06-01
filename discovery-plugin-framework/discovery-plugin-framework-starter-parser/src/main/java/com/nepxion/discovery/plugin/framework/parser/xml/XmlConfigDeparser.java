@@ -205,18 +205,18 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
     }
 
     private void deparseStrategyBlacklist(StringBuilder stringBuilder, StrategyBlacklistEntity strategyBlacklistEntity) {
-        List<String> idList = strategyBlacklistEntity.getIdList();
-        List<String> addressList = strategyBlacklistEntity.getAddressList();
-        if (CollectionUtils.isNotEmpty(idList) || CollectionUtils.isNotEmpty(addressList)) {
+        String idValue = strategyBlacklistEntity.getIdValue();
+        String addressValue = strategyBlacklistEntity.getAddressValue();
+        if (idValue != null || addressValue != null) {
             stringBuilder.append(INDENT + "<" + XmlConfigConstant.STRATEGY_BLACKLIST_ELEMENT_NAME + ">\n");
         }
-        if (CollectionUtils.isNotEmpty(idList)) {
-            stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.ID_ELEMENT_NAME + " " + XmlConfigConstant.VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(idList) + "\"/>\n");
+        if (idValue != null) {
+            stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.ID_ELEMENT_NAME + ">" + idValue + "</" + XmlConfigConstant.ID_ELEMENT_NAME + ">\n");
         }
-        if (CollectionUtils.isNotEmpty(addressList)) {
-            stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.ADDRESS_ELEMENT_NAME + " " + XmlConfigConstant.VALUE_ATTRIBUTE_NAME + "=\"" + StringUtil.convertToString(addressList) + "\"/>\n");
+        if (addressValue != null) {
+            stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.ADDRESS_ELEMENT_NAME + ">" + addressValue + "</" + XmlConfigConstant.ADDRESS_ELEMENT_NAME + ">\n");
         }
-        if (CollectionUtils.isNotEmpty(idList) || CollectionUtils.isNotEmpty(addressList)) {
+        if (idValue != null || addressValue != null) {
             stringBuilder.append(INDENT + "</" + XmlConfigConstant.STRATEGY_BLACKLIST_ELEMENT_NAME + ">\n");
         }
     }

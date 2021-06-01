@@ -10,57 +10,32 @@ package com.nepxion.discovery.common.entity;
  */
 
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.List;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import com.nepxion.discovery.common.util.StringUtil;
-
 public class StrategyBlacklistEntity implements Serializable {
     private static final long serialVersionUID = -5342596042988530380L;
 
-    private List<String> idList;
-    private List<String> addressList;
+    private String idValue;
+    private String addressValue;
 
-    private String ids;
-    private String addresses;
-
-    public List<String> getIdList() {
-        if (idList == null) {
-            return null;
-        }
-
-        return Collections.unmodifiableList(idList);
+    public String getIdValue() {
+        return idValue;
     }
 
-    public void setIdList(List<String> idList) {
-        this.idList = idList;
-        this.ids = StringUtil.convertToString(idList);
+    public void setIdValue(String idValue) {
+        this.idValue = idValue;
     }
 
-    public String toIds() {
-        return ids;
+    public String getAddressValue() {
+        return addressValue;
     }
 
-    public List<String> getAddressList() {
-        if (addressList == null) {
-            return null;
-        }
-
-        return Collections.unmodifiableList(addressList);
-    }
-
-    public void setAddressList(List<String> addressList) {
-        this.addressList = addressList;
-        this.addresses = StringUtil.convertToString(addressList);
-    }
-
-    public String toAddresses() {
-        return addresses;
+    public void setAddressValue(String addressValue) {
+        this.addressValue = addressValue;
     }
 
     @Override

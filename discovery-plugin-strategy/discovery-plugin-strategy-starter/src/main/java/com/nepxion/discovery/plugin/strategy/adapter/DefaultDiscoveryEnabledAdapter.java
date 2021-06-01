@@ -282,23 +282,53 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     }
 
     public boolean applyIdBlacklist(Server server) {
-        String ids = pluginContextHolder.getContextRouteIdBlacklist();
+        String serviceId = pluginAdapter.getServerServiceId(server);
+
+        String ids = getIdBlacklists(serviceId);
         if (StringUtils.isEmpty(ids)) {
             return true;
         }
 
-        String serviceUUId = pluginAdapter.getServerServiceUUId(server);
+        String id = pluginAdapter.getServerServiceUUId(server);
 
+        // 如果精确匹配不满足，尝试用通配符匹配
         List<String> idList = StringUtil.splitToList(ids);
-        if (idList.contains(serviceUUId)) {
+        if (idList.contains(id)) {
             return false;
+        }
+
+        // 通配符匹配。前者是通配表达式，后者是具体值
+        for (String idPattern : idList) {
+            if (discoveryMatcherStrategy.match(idPattern, id)) {
+                return false;
+            }
         }
 
         return true;
     }
 
+    @SuppressWarnings("unchecked")
+    public String getIdBlacklists(String serviceId) {
+        String idValue = pluginContextHolder.getContextRouteIdBlacklist();
+        if (StringUtils.isEmpty(idValue)) {
+            return null;
+        }
+
+        String ids = null;
+        try {
+            Map<String, String> idMap = JsonUtil.fromJson(idValue, Map.class);
+            ids = idMap.get(serviceId);
+        } catch (Exception e) {
+            ids = idValue;
+        }
+
+        return ids;
+    }
+
     public boolean applyAddressBlacklist(Server server) {
-        String addresses = pluginContextHolder.getContextRouteAddressBlacklist();
+        String serviceId = pluginAdapter.getServerServiceId(server);
+
+        String addresses = getAddressBlacklists(serviceId);
         if (StringUtils.isEmpty(addresses)) {
             return true;
         }
@@ -317,6 +347,24 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         }
 
         return true;
+    }
+
+    @SuppressWarnings("unchecked")
+    public String getAddressBlacklists(String serviceId) {
+        String addressValue = pluginContextHolder.getContextRouteAddressBlacklist();
+        if (StringUtils.isEmpty(addressValue)) {
+            return null;
+        }
+
+        String addresses = null;
+        try {
+            Map<String, String> addressMap = JsonUtil.fromJson(addressValue, Map.class);
+            addresses = addressMap.get(serviceId);
+        } catch (Exception e) {
+            addresses = addressValue;
+        }
+
+        return addresses;
     }
 
     public boolean applyVersion(Server server) {

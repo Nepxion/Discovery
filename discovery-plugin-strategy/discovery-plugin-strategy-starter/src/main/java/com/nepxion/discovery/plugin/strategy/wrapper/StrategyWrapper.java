@@ -75,7 +75,7 @@ public class StrategyWrapper {
         if (ruleEntity != null) {
             StrategyBlacklistEntity strategyBlacklistEntity = ruleEntity.getStrategyBlacklistEntity();
             if (strategyBlacklistEntity != null) {
-                return strategyBlacklistEntity.toIds();
+                return strategyBlacklistEntity.getIdValue();
             }
         }
 
@@ -88,7 +88,7 @@ public class StrategyWrapper {
         if (ruleEntity != null) {
             StrategyBlacklistEntity strategyBlacklistEntity = ruleEntity.getStrategyBlacklistEntity();
             if (strategyBlacklistEntity != null) {
-                return strategyBlacklistEntity.toAddresses();
+                return strategyBlacklistEntity.getAddressValue();
             }
         }
 

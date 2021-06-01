@@ -15,7 +15,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Attribute;
 import org.dom4j.Document;
@@ -263,31 +262,26 @@ public class XmlConfigParser implements PluginConfigParser {
     }
 
     private void parseStrategyBlacklist(Element element, StrategyBlacklistEntity strategyBlacklistEntity) {
-        List<String> idList = new ArrayList<String>();
-        List<String> addressList = new ArrayList<String>();
+        int idElementCount = element.elements(XmlConfigConstant.ID_ELEMENT_NAME).size();
+        if (idElementCount > 1) {
+            throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.ID_ELEMENT_NAME + "] to be configed");
+        }
+
+        int addressElementCount = element.elements(XmlConfigConstant.ADDRESS_ELEMENT_NAME).size();
+        if (addressElementCount > 1) {
+            throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.ADDRESS_ELEMENT_NAME + "] to be configed");
+        }
+
         for (Iterator<Element> elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Element childElement = elementIterator.next();
 
-            Attribute valueAttribute = childElement.attribute(XmlConfigConstant.VALUE_ATTRIBUTE_NAME);
-            if (valueAttribute == null) {
-                throw new DiscoveryException("Attribute[" + XmlConfigConstant.VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
+            if (StringUtils.equals(childElement.getName(), XmlConfigConstant.ID_ELEMENT_NAME)) {
+                String idValue = childElement.getTextTrim();
+                strategyBlacklistEntity.setIdValue(idValue);
+            } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.ADDRESS_ELEMENT_NAME)) {
+                String addressValue = childElement.getTextTrim();
+                strategyBlacklistEntity.setAddressValue(addressValue);
             }
-            String value = valueAttribute.getData().toString().trim();
-            List<String> valueList = StringUtil.splitToList(value);
-            if (CollectionUtils.isNotEmpty(valueList)) {
-                if (StringUtils.equals(childElement.getName(), XmlConfigConstant.ID_ELEMENT_NAME)) {
-                    idList.addAll(valueList);
-                } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.ADDRESS_ELEMENT_NAME)) {
-                    addressList.addAll(valueList);
-                }
-            }
-        }
-
-        if (CollectionUtils.isNotEmpty(idList)) {
-            strategyBlacklistEntity.setIdList(idList);
-        }
-        if (CollectionUtils.isNotEmpty(addressList)) {
-            strategyBlacklistEntity.setAddressList(addressList);
         }
     }
 
