@@ -1,0 +1,27 @@
+[
+    {
+        "id": "route0", 
+        "uri": "lb://discovery-springcloud-example-a", 
+        "predicates": [
+            "Path=/discovery-springcloud-example-a/**,/x/**,/y/**"
+        ], 
+        "filters": [
+            "StripPrefix=1"
+        ], 
+        "userPredicates": [],
+        "userFilters": [
+            {
+                "name": "Authentication",
+                "args": {
+                    "secretKey": "abc",
+                    "whiteList.0": "* swagger-ui.html",
+                    "whiteList.1": "* /swagger-resources/**",
+                    "whiteList.2": "* /doc.html",
+                    "userMap.name": "jason",
+                    "userMap.age": "20",
+                    "authInfoCarryStrategy": "AuthWriteToHeader"
+                }
+            }
+        ]
+    }
+]

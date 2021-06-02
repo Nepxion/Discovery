@@ -1,0 +1,66 @@
+[
+    {
+        "id": "route0", 
+        "uri": "lb://discovery-springcloud-example-a",
+        "userPredicates": [
+            {
+                "name": "Path",
+                "args": {
+                    "_genkey_0": "/discovery-springcloud-example-a/**",
+                    "_genkey_1": "/x/**",
+                    "_genkey_2": "/y/**"
+                }
+            },
+          {
+                "name": "Header",
+                "args": {
+                    "header": "a",
+                    "regexp": "1"
+                }
+            },
+            {
+                "name": "Header",
+                "args": {
+                    "header": "b",
+                    "regexp": "2"
+                }
+            },
+            {
+                "name": "Cookie",
+                "args": {
+                    "name": "c",
+                    "regexp": "3"
+                }
+            },
+            {
+                "name": "Cookie",
+                "args": {
+                    "name": "d",
+                    "regexp": "4"
+                }
+            },
+            {
+                "name": "Query",
+                "args": {
+                    "param": "e",
+                    "regexp": "5"
+                }
+            },
+            {
+                "name": "Query",
+                "args": {
+                    "param": "f",
+                    "regexp": "6"
+                }
+            }
+        ],
+        "userFilters": [
+            {
+                "name": "StripPrefix",
+                "args": {
+                    "_genkey_0": "1"
+                }
+            }
+        ]
+    }
+]
