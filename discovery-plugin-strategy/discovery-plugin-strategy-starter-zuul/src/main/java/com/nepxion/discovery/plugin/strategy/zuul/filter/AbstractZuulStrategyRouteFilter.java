@@ -77,6 +77,66 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulStrategyRouteF
         // 通过过滤器设置路由Header头部信息，并全链路传递到服务端
         RequestContext context = RequestContext.getCurrentContext();
 
+        // 处理内部Header的转发
+        applyInnerHeader(context);
+
+        // 处理外部Header的转发
+        applyOuterHeader(context);
+
+        // 调用链监控
+        if (zuulStrategyMonitor != null) {
+            zuulStrategyMonitor.monitor(context);
+        }
+
+        // 拦截侦测请求
+        String path = context.getRequest().getServletPath();
+        if (path.contains(DiscoveryConstant.INSPECTOR_ENDPOINT_URL)) {
+            ZuulStrategyFilterResolver.setHeader(context, DiscoveryConstant.INSPECTOR_ENDPOINT_HEADER, pluginAdapter.getPluginInfo(null), true);
+        }
+
+        return null;
+    }
+
+    // 处理内部Header的转发，即把本地服务的相关属性封装成Header转发到下游服务去
+    private void applyInnerHeader(RequestContext context) {
+        // 设置本地组名到Header中，并全链路传递
+        // 对于服务A -> 网关 -> 服务B调用链
+        // 域网关下(zuulHeaderPriority=true)，只传递网关自身的group，不传递上游服务A的group，起到基于组的网关端服务调用隔离
+        // 非域网关下(zuulHeaderPriority=false)，优先传递上游服务A的group，基于组的网关端服务调用隔离不生效，但可以实现基于相关参数的熔断限流等功能
+        ZuulStrategyFilterResolver.setHeader(context, DiscoveryConstant.N_D_SERVICE_GROUP, pluginAdapter.getGroup(), zuulHeaderPriority);
+
+        // 网关只负责传递服务A的相关参数（例如：serviceId），不传递自身的参数，实现基于相关参数的熔断限流等功能
+
+        // 设置本地服务类型到Header中，并全链路传递
+        ZuulStrategyFilterResolver.setHeader(context, DiscoveryConstant.N_D_SERVICE_TYPE, pluginAdapter.getServiceType(), false);
+
+        // 设置本地服务APPID到Header中，并全链路传递
+        String serviceAppId = pluginAdapter.getServiceAppId();
+        if (StringUtils.isNotEmpty(serviceAppId)) {
+            ZuulStrategyFilterResolver.setHeader(context, DiscoveryConstant.N_D_SERVICE_APP_ID, serviceAppId, false);
+        }
+
+        // 设置本地服务名到Header中，并全链路传递
+        ZuulStrategyFilterResolver.setHeader(context, DiscoveryConstant.N_D_SERVICE_ID, pluginAdapter.getServiceId(), false);
+
+        // 设置本地服务IP地址和端口到Header中，并全链路传递
+        ZuulStrategyFilterResolver.setHeader(context, DiscoveryConstant.N_D_SERVICE_ADDRESS, pluginAdapter.getHost() + ":" + pluginAdapter.getPort(), false);
+
+        // 设置本地服务版本号到Header中，并全链路传递
+        ZuulStrategyFilterResolver.setHeader(context, DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion(), false);
+
+        // 设置本地服务区域值到Header中，并全链路传递
+        ZuulStrategyFilterResolver.setHeader(context, DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion(), false);
+
+        // 设置本地服务环境值到Header中，并全链路传递
+        ZuulStrategyFilterResolver.setHeader(context, DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, pluginAdapter.getEnvironment(), false);
+
+        // 设置本地服务可用区到Header中，并全链路传递
+        ZuulStrategyFilterResolver.setHeader(context, DiscoveryConstant.N_D_SERVICE_ZONE, pluginAdapter.getZone(), false);
+    }
+
+    // 处理外部Header的转发，即外部服务传递过来的Header，中继转发到下游服务去
+    private void applyOuterHeader(RequestContext context) {
         // 获取环境匹配路由的配置
         String routeEnvironment = getRouteEnvironment();
 
@@ -197,54 +257,6 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulStrategyRouteF
             // 忽略IP地址和端口黑名单屏蔽Header
             ZuulStrategyFilterResolver.ignoreHeader(context, DiscoveryConstant.N_D_ADDRESS_BLACKLIST);
         }
-
-        // 设置本地组名到Header中，并全链路传递
-        // 对于服务A -> 网关 -> 服务B调用链
-        // 域网关下(zuulHeaderPriority=true)，只传递网关自身的group，不传递上游服务A的group，起到基于组的网关端服务调用隔离
-        // 非域网关下(zuulHeaderPriority=false)，优先传递上游服务A的group，基于组的网关端服务调用隔离不生效，但可以实现基于相关参数的熔断限流等功能
-        ZuulStrategyFilterResolver.setHeader(context, DiscoveryConstant.N_D_SERVICE_GROUP, pluginAdapter.getGroup(), zuulHeaderPriority);
-
-        // 网关只负责传递服务A的相关参数（例如：serviceId），不传递自身的参数，实现基于相关参数的熔断限流等功能
-
-        // 设置本地服务类型到Header中，并全链路传递
-        ZuulStrategyFilterResolver.setHeader(context, DiscoveryConstant.N_D_SERVICE_TYPE, pluginAdapter.getServiceType(), false);
-
-        // 设置本地服务APPID到Header中，并全链路传递
-        String serviceAppId = pluginAdapter.getServiceAppId();
-        if (StringUtils.isNotEmpty(serviceAppId)) {
-            ZuulStrategyFilterResolver.setHeader(context, DiscoveryConstant.N_D_SERVICE_APP_ID, serviceAppId, false);
-        }
-
-        // 设置本地服务名到Header中，并全链路传递
-        ZuulStrategyFilterResolver.setHeader(context, DiscoveryConstant.N_D_SERVICE_ID, pluginAdapter.getServiceId(), false);
-
-        // 设置本地服务IP地址和端口到Header中，并全链路传递
-        ZuulStrategyFilterResolver.setHeader(context, DiscoveryConstant.N_D_SERVICE_ADDRESS, pluginAdapter.getHost() + ":" + pluginAdapter.getPort(), false);
-
-        // 设置本地服务版本号到Header中，并全链路传递
-        ZuulStrategyFilterResolver.setHeader(context, DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion(), false);
-
-        // 设置本地服务区域值到Header中，并全链路传递
-        ZuulStrategyFilterResolver.setHeader(context, DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion(), false);
-
-        // 设置本地服务环境值到Header中，并全链路传递
-        ZuulStrategyFilterResolver.setHeader(context, DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, pluginAdapter.getEnvironment(), false);
-
-        // 设置本地服务可用区到Header中，并全链路传递
-        ZuulStrategyFilterResolver.setHeader(context, DiscoveryConstant.N_D_SERVICE_ZONE, pluginAdapter.getZone(), false);
-
-        // 调用链监控
-        if (zuulStrategyMonitor != null) {
-            zuulStrategyMonitor.monitor(context);
-        }
-
-        // 拦截侦测请求
-        String path = context.getRequest().getServletPath();
-        if (path.contains(DiscoveryConstant.INSPECTOR_ENDPOINT_URL)) {
-            ZuulStrategyFilterResolver.setHeader(context, DiscoveryConstant.INSPECTOR_ENDPOINT_HEADER, pluginAdapter.getPluginInfo(null), true);
-        }
-
-        return null;
     }
 
     public PluginAdapter getPluginAdapter() {
