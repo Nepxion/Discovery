@@ -69,6 +69,22 @@ public abstract class AbstractServiceStrategyRouteFilter extends ServiceStrategy
         // 通过过滤器设置路由Header头部信息，并全链路传递到服务端
         ServiceStrategyRouteFilterRequest serviceStrategyRouteFilterRequest = new ServiceStrategyRouteFilterRequest(request);
 
+        // 处理内部Header的转发
+        applyInnerHeader(serviceStrategyRouteFilterRequest);
+
+        // 处理外部Header的转发
+        applyOuterHeader(serviceStrategyRouteFilterRequest);
+
+        filterChain.doFilter(serviceStrategyRouteFilterRequest, response);
+    }
+
+    // 处理内部Header的转发，即把本地服务的相关属性封装成Header转发到下游服务去
+    private void applyInnerHeader(ServiceStrategyRouteFilterRequest serviceStrategyRouteFilterRequest) {
+        // 通过Spring OncePerRequestFilter实现Header前置拦截外部Header，内部Header不需要处理
+    }
+
+    // 处理外部Header的转发，即外部服务传递过来的Header，中继转发到下游服务去
+    private void applyOuterHeader(ServiceStrategyRouteFilterRequest serviceStrategyRouteFilterRequest) {
         // 获取环境匹配路由的配置
         String routeEnvironment = getRouteEnvironment();
 
@@ -145,8 +161,6 @@ public abstract class AbstractServiceStrategyRouteFilter extends ServiceStrategy
                 ServiceStrategyFilterResolver.setHeader(serviceStrategyRouteFilterRequest, DiscoveryConstant.N_D_ADDRESS_BLACKLIST, routeAddressBlacklist, serviceHeaderPriority);
             }
         }
-
-        filterChain.doFilter(serviceStrategyRouteFilterRequest, response);
     }
 
     public PluginAdapter getPluginAdapter() {
