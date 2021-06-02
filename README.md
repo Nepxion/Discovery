@@ -2632,7 +2632,7 @@ spring.application.strategy.version.prefer.enabled=true
 年月日（8位）-小时分钟秒（6位）-毫秒（3位）-随机数（4位）-随机数（3位）-随机数（3位）
 ```
 
-前半部分精确到毫秒的设计，基本能保证ID的全局唯一，后半部分三重随机数，完全能保证ID的全局唯一，即当有两个服务实例毫秒级的同时启动，然后三次随机碰撞下来，得到三个相同的随机数后，同时满足这2个非常苛刻的条件才会使全局唯一ID变的不唯一
+前半部分精确到毫秒的设计，基本能保证ID的全局唯一，后半部分三重随机数，完全能保证ID的全局唯一。全局唯一失效的前提是，两个服务实例必须是毫秒级的同时启动，同时三次随机碰撞下来，得到完全三个相同的随机数后
 
 增加Spring Cloud Gateway的全局唯一ID屏蔽策略，Group为discovery-guide-group，Data Id为discovery-guide-gateway，策略内容如下，实现从Spring Cloud Gateway发起的调用屏蔽指定全局唯一ID的服务
 ```xml
