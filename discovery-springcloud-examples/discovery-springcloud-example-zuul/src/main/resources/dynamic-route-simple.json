@@ -1,0 +1,17 @@
+[
+    {
+        "id": "route0",
+        "serviceId": "discovery-springcloud-example-a",
+        "path": "/discovery-springcloud-example-a/**"
+    },
+    {
+        "id": "route1",
+        "serviceId": "discovery-springcloud-example-a",
+        "path": "/x/**"
+    },
+    {
+        "id": "route2",
+        "serviceId": "discovery-springcloud-example-a",
+        "path": "/y/**"
+    }
+]
