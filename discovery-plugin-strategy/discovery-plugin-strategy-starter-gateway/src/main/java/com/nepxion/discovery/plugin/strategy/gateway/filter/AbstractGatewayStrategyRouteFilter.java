@@ -75,11 +75,11 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpRequest.Builder requestBuilder = request.mutate();
 
+        // 获取环境匹配路由的配置
         String routeEnvironment = getRouteEnvironment();
 
-        // 通过过滤器设置路由Header头部信息，并全链路传递到服务端
+        // 设置环境匹配路由的配置到Header中
         if (StringUtils.isNotEmpty(routeEnvironment)) {
-            // 设置本地服务环境号到Header中，并全链路传递
             GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_ENVIRONMENT, routeEnvironment, false);
         }
 
@@ -115,8 +115,6 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
 
             // 获取IP地址和端口黑名单屏蔽的配置
             String routeAddressBlacklist = getRouteAddressBlacklist();
-
-            // 通过过滤器设置路由Header头部信息，并全链路传递到服务端
 
             // 设置版本匹配路由的配置到Header中
             // 如果配置为空，根据网关设置优先级，执行忽略Header设置的相关逻辑
