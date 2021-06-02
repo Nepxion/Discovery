@@ -53,11 +53,16 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
 
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
+        // 拦截打印输入的Header
         interceptInputHeader();
 
+        // 处理内部Header的转发
         applyInnerHeader(request);
+
+        // 处理外部Header的转发
         applyOuterHeader(request);
 
+        // 拦截打印输出的Header
         interceptOutputHeader(request);
 
         return execution.execute(request, body);
@@ -98,7 +103,7 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
         headers.add(DiscoveryConstant.N_D_SERVICE_ZONE, pluginAdapter.getZone());
     }
 
-    // 处理外部Header的转发，即上游服务（包括网关）传递过来的Header，中继转发到下游服务去
+    // 处理外部Header的转发，即外部服务传递过来的Header，中继转发到下游服务去
     private void applyOuterHeader(HttpRequest request) {
         Enumeration<String> headerNames = strategyContextHolder.getHeaderNames();
         if (headerNames != null) {
