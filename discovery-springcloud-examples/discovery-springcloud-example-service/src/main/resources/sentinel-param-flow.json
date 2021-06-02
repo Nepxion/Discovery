@@ -1,0 +1,15 @@
+[
+	{
+		"resource": "sentinel-resource",
+		"limitApp": "default",
+		"grade": 1,
+		"paramIdx": 0,
+		"count": 1,
+		"controlBehavior": 0,
+		"maxQueueingTimeMs": 0,
+		"burstCount": 0,
+		"durationInSec": 1,
+		"paramFlowItemList": [],
+		"clusterMode": false
+	}
+]

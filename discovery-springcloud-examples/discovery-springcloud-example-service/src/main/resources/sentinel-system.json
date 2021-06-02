@@ -1,0 +1,11 @@
+[
+	{
+		"resource": null,
+		"limitApp": null,
+		"highestSystemLoad": -1.0,
+		"highestCpuUsage": -1.0,
+		"qps": 200.0,
+		"avgRt": -1,
+		"maxThread": -1
+	}
+]

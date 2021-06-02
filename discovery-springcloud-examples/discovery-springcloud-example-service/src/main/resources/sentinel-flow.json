@@ -1,0 +1,15 @@
+[
+	{
+		"resource": "sentinel-resource",
+		"limitApp": "default",
+		"grade": 1,
+		"count": 1,
+		"strategy": 0,
+		"refResource": null,
+		"controlBehavior": 0,
+		"warmUpPeriodSec": 10,
+		"maxQueueingTimeMs": 500,
+		"clusterMode": false,
+		"clusterConfig": null
+	}
+]
