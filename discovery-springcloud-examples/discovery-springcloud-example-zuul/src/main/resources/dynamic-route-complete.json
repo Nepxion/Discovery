@@ -1,0 +1,32 @@
+[
+    {
+        "id": "route0",
+        "serviceId": "discovery-springcloud-example-a",
+        "path": "/discovery-springcloud-example-a/**",
+        "url": null,
+        "stripPrefix": true,
+        "retryable": null,
+        "sensitiveHeaders": [],
+        "customSensitiveHeaders": false
+    },
+    {
+        "id": "route1",
+        "serviceId": "discovery-springcloud-example-a",
+        "path": "/x/**",
+        "url": null,
+        "stripPrefix": true,
+        "retryable": null,
+        "sensitiveHeaders": [],
+        "customSensitiveHeaders": false
+    },
+    {
+        "id": "route2",
+        "serviceId": "discovery-springcloud-example-a",
+        "path": "/y/**",
+        "url": null,
+        "stripPrefix": true,
+        "retryable": null,
+        "sensitiveHeaders": [],
+        "customSensitiveHeaders": false
+    }
+]
