@@ -5838,6 +5838,14 @@ spring.application.strategy.business.request.headers=user;mobile;location
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Docker.jpg)
 
+- Docker Windows
+
+![](http://nepxion.gitee.io/discovery/docs/polaris-doc/DockerWindows.jpg)
+
+- Docker Linux
+
+![](http://nepxion.gitee.io/discovery/docs/polaris-doc/DockerLinux.jpg)
+
 ### Kubernetes平台支持
 请自行研究
 
