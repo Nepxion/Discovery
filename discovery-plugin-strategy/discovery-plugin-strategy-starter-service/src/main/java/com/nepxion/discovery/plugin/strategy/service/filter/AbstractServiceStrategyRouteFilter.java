@@ -66,10 +66,13 @@ public abstract class AbstractServiceStrategyRouteFilter extends ServiceStrategy
             return;
         }
 
+        // 通过过滤器设置路由Header头部信息，并全链路传递到服务端
         ServiceStrategyRouteFilterRequest serviceStrategyRouteFilterRequest = new ServiceStrategyRouteFilterRequest(request);
 
+        // 获取环境匹配路由的配置
         String routeEnvironment = getRouteEnvironment();
-        // 通过过滤器设置路由Header头部信息，并全链路传递到服务端
+
+        // 设置环境匹配路由的配置到Header中
         if (StringUtils.isNotEmpty(routeEnvironment)) {
             ServiceStrategyFilterResolver.setHeader(serviceStrategyRouteFilterRequest, DiscoveryConstant.N_D_ENVIRONMENT, routeEnvironment, false);
         }
@@ -86,31 +89,58 @@ public abstract class AbstractServiceStrategyRouteFilter extends ServiceStrategy
                 }
             }
 
+            // 获取版本匹配路由的配置
             String routeVersion = getRouteVersion();
+
+            // 获取区域匹配路由的配置
             String routeRegion = getRouteRegion();
+
+            // 获取IP地址和端口匹配路由的配置
             String routeAddress = getRouteAddress();
+
+            // 获取版本权重路由的配置
             String routeVersionWeight = getRouteVersionWeight();
+
+            // 获取区域权重路由的配置
             String routeRegionWeight = getRouteRegionWeight();
+
+            // 获取全局唯一ID黑名单屏蔽的配置
             String routeIdBlacklist = getRouteIdBlacklist();
+
+            // 获取IP地址和端口黑名单屏蔽的配置
             String routeAddressBlacklist = getRouteAddressBlacklist();
+
+            // 设置版本匹配路由的配置到Header中
             if (StringUtils.isNotEmpty(routeVersion)) {
                 ServiceStrategyFilterResolver.setHeader(serviceStrategyRouteFilterRequest, DiscoveryConstant.N_D_VERSION, routeVersion, serviceHeaderPriority);
             }
+
+            // 设置区域匹配路由的配置到Header中
             if (StringUtils.isNotEmpty(routeRegion)) {
                 ServiceStrategyFilterResolver.setHeader(serviceStrategyRouteFilterRequest, DiscoveryConstant.N_D_REGION, routeRegion, serviceHeaderPriority);
             }
+
+            // 设置IP地址和端口匹配路由的配置到Header中
             if (StringUtils.isNotEmpty(routeAddress)) {
                 ServiceStrategyFilterResolver.setHeader(serviceStrategyRouteFilterRequest, DiscoveryConstant.N_D_ADDRESS, routeAddress, serviceHeaderPriority);
             }
+
+            // 设置版本权重路由的配置到Header中
             if (StringUtils.isNotEmpty(routeVersionWeight)) {
                 ServiceStrategyFilterResolver.setHeader(serviceStrategyRouteFilterRequest, DiscoveryConstant.N_D_VERSION_WEIGHT, routeVersionWeight, serviceHeaderPriority);
             }
+
+            // 设置区域权重路由的配置到Header中
             if (StringUtils.isNotEmpty(routeRegionWeight)) {
                 ServiceStrategyFilterResolver.setHeader(serviceStrategyRouteFilterRequest, DiscoveryConstant.N_D_REGION_WEIGHT, routeRegionWeight, serviceHeaderPriority);
             }
+
+            // 设置全局唯一ID黑名单屏蔽的配置到Header中
             if (StringUtils.isNotEmpty(routeIdBlacklist)) {
                 ServiceStrategyFilterResolver.setHeader(serviceStrategyRouteFilterRequest, DiscoveryConstant.N_D_ID_BLACKLIST, routeIdBlacklist, serviceHeaderPriority);
             }
+
+            // 设置IP地址和端口黑名单屏蔽的配置到Header中
             if (StringUtils.isNotEmpty(routeAddressBlacklist)) {
                 ServiceStrategyFilterResolver.setHeader(serviceStrategyRouteFilterRequest, DiscoveryConstant.N_D_ADDRESS_BLACKLIST, routeAddressBlacklist, serviceHeaderPriority);
             }
