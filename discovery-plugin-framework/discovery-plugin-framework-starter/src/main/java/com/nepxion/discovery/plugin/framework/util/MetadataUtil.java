@@ -20,29 +20,37 @@ import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.util.PropertiesUtil;
 
 public class MetadataUtil {
+    // 过滤设置元数据到Metadata Map
     public static void filter(Map<String, String> metadata, Environment environment) {
         Properties properties = System.getProperties();
 
+        // 统一注册中心元数据的设置方式
         // 支持spring.cloud.discovery.metadata.xyz配置获取
         PropertiesUtil.enrichProperties(properties, environment, DiscoveryConstant.SPRING_CLOUD_DISCOVERY_PREFIX, false, true);
 
+        // 运维参数元数据的设置方式
         // 支持从-Dmetadata.xyz参数获取
         Set<String> propertyNames = properties.stringPropertyNames();
         for (String propertyName : propertyNames) {
             if (propertyName.startsWith(DiscoveryConstant.METADATA + ".")) {
                 String key = propertyName.substring((DiscoveryConstant.METADATA + ".").length());
                 String value = properties.get(propertyName).toString();
+
                 metadata.put(key, value);
             }
         }
     }
 
+    // 过滤设置元数据到Metadata List
+    // 该方式适用于Consul元数据的模式
     public static void filter(List<String> metadata, Environment environment) {
         Properties properties = System.getProperties();
 
+        // 统一注册中心元数据的设置方式
         // 支持spring.cloud.discovery.metadata.xyz配置获取
         PropertiesUtil.enrichProperties(properties, environment, DiscoveryConstant.SPRING_CLOUD_DISCOVERY_PREFIX, false, true);
 
+        // 运维参数元数据的设置方式
         // 支持从-Dmetadata.xyz参数获取
         Set<String> propertyNames = properties.stringPropertyNames();
         for (String propertyName : propertyNames) {
