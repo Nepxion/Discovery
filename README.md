@@ -5838,6 +5838,14 @@ spring.application.strategy.business.request.headers=user;mobile;location
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Docker.jpg)
 
+- Docker Windows
+
+![](http://nepxion.gitee.io/discovery/docs/polaris-doc/DockerWindows.jpg)
+
+- Docker Linux
+
+![](http://nepxion.gitee.io/discovery/docs/polaris-doc/DockerLinux.jpg)
+
 ### Kubernetes平台支持
 请自行研究
 
@@ -5913,6 +5921,27 @@ gray.weight.testcase.result.offset=5
 
 - Eclipse加"-parameters"参数：https://www.concretepage.com/java/jdk-8/java-8-reflection-access-to-parameter-names-of-method-and-constructor-with-maven-gradle-and-eclipse-using-parameters-compiler-argument
 - Idea加"-parameters"参数：http://blog.csdn.net/royal_lr/article/details/52279993
+
+如果通过Spring Boot打包来执行，则需要增加如下插件
+
+```xml
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <compilerArgs>
+                    <arg>-parameters</arg>
+                </compilerArgs>
+                <encoding>${project.build.sourceEncoding}</encoding>
+                <source>${java.version}</source>
+                <target>${java.version}</target>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+```
 
 #### 测试入口程序
 结合Spring Boot Junit，TestApplication.class为测试框架内置应用启动程序，DiscoveryGuideTestConfiguration用于初始化所有测试用例类。在测试方法上面加入JUnit的@Test注解
