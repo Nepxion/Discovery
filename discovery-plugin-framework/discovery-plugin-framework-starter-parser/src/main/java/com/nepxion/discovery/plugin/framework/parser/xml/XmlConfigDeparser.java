@@ -65,10 +65,10 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
         StringBuilder stringBuilder = new StringBuilder();
         deparseRoot(stringBuilder, ruleEntity);
 
-        String rule = stringBuilder.toString();
-        ruleEntity.setContent(rule);
+        String config = stringBuilder.toString();
+        ruleEntity.setContent(config);
 
-        return rule;
+        return config;
     }
 
     private void deparseRoot(StringBuilder stringBuilder, RuleEntity ruleEntity) {
