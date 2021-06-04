@@ -10,7 +10,7 @@ package com.nepxion.discovery.common.util;
  */
 
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -66,11 +66,41 @@ public class StringUtil {
             return null;
         }
 
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new LinkedHashMap<String, String>();
         String[] separateArray = StringUtils.splitByWholeSeparator(value, separate);
         for (String separateValue : separateArray) {
             String[] equalsArray = StringUtils.splitByWholeSeparator(separateValue, equals);
             map.put(equalsArray[0].trim(), equalsArray[1].trim());
+        }
+
+        return map;
+    }
+
+    public static Map<String, List<String>> splitToComplexMap(String value) {
+        return splitToComplexMap(value, DiscoveryConstant.SEPARATE);
+    }
+
+    // Json {"a":"1;2", "b":"3;4"} -> Map {a=[1, 2], b=[3, 4]}
+    // String "1;2;3;4"-> Map {unknown=[1, 2, 3, 4]}
+    @SuppressWarnings("unchecked")
+    public static Map<String, List<String>> splitToComplexMap(String value, String separate) {
+        if (StringUtils.isEmpty(value)) {
+            return null;
+        }
+
+        Map<String, List<String>> map = new LinkedHashMap<String, List<String>>();
+        try {
+            Map<String, String> jsonMap = JsonUtil.fromJson(value, Map.class);
+            for (Map.Entry<String, String> entry : jsonMap.entrySet()) {
+                String key = entry.getKey();
+                String valueList = entry.getValue();
+
+                map.put(key, StringUtil.splitToList(valueList, separate));
+            }
+        } catch (Exception e) {
+            List<String> valueList = StringUtil.splitToList(value, separate);
+
+            map.put(DiscoveryConstant.UNKNOWN, valueList);
         }
 
         return map;
@@ -111,7 +141,7 @@ public class StringUtil {
             return null;
         }
 
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new LinkedHashMap<String, String>();
         for (String value : list) {
             String[] valueArray = StringUtils.splitByWholeSeparator(value, separate);
             map.put(valueArray[0], valueArray[1]);
