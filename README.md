@@ -4605,7 +4605,7 @@ public class MyStrategyTracerAdapter extends DefaultStrategyTracerAdapter {
 
     @Override
     public Map<String, String> getCustomizationMap() {
-        Map<String, String> customizationMap = new HashMap<String, String>();
+        Map<String, String> customizationMap = new LinkedHashMap<String, String>();
         customizationMap.put("mobile", StringUtils.isNotEmpty(strategyContextHolder.getHeader("mobile")) ? strategyContextHolder.getHeader("mobile") : StringUtils.EMPTY);
         customizationMap.put("user", StringUtils.isNotEmpty(strategyContextHolder.getHeader("user")) ? strategyContextHolder.getHeader("user") : StringUtils.EMPTY);
 
@@ -4630,7 +4630,7 @@ public StrategyTracerAdapter strategyTracerAdapter() {
 public class MyServiceStrategyMonitorAdapter implements ServiceStrategyMonitorAdapter {
     @Override
     public Map<String, String> getCustomizationMap(ServiceStrategyMonitorInterceptor interceptor, MethodInvocation invocation, Map<String, Object> parameterMap, Object returnValue) {
-        Map<String, String> customizationMap = new HashMap<String, String>();
+        Map<String, String> customizationMap = new LinkedHashMap<String, String>();
         customizationMap.put(DiscoveryConstant.PARAMETER, parameterMap.toString());
         customizationMap.put(DiscoveryConstant.RETURN, returnValue != null ? returnValue.toString() : null);
 
