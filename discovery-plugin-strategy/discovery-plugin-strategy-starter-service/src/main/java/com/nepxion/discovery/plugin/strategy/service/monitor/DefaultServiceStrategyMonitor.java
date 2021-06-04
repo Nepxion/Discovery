@@ -9,7 +9,7 @@ package com.nepxion.discovery.plugin.strategy.service.monitor;
  * @version 1.0
  */
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -65,7 +65,7 @@ public class DefaultServiceStrategyMonitor extends StrategyMonitor implements Se
             return null;
         }
 
-        Map<String, String> contextMap = new HashMap<String, String>();
+        Map<String, String> contextMap = new LinkedHashMap<String, String>();
 
         String className = interceptor.getMethod(invocation).getDeclaringClass().getName();
         String methodName = interceptor.getMethodName(invocation);
