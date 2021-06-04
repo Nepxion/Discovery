@@ -1,0 +1,14 @@
+[
+    {
+        "id": "route0", 
+        "uri": "lb://discovery-springcloud-example-a", 
+        "predicates": [
+            "Path=/discovery-springcloud-example-a/**,/x/**,/y/**"
+        ], 
+        "filters": [
+            "StripPrefix=1"
+        ], 
+        "order": 0,
+        "metadata": {}
+    }
+]
