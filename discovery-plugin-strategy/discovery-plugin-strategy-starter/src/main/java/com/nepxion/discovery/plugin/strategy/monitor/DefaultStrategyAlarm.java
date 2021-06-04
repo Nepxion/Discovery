@@ -9,7 +9,7 @@ package com.nepxion.discovery.plugin.strategy.monitor;
  * @version 1.0
  */
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.collections4.MapUtils;
@@ -46,7 +46,7 @@ public class DefaultStrategyAlarm implements StrategyAlarm {
             return;
         }
 
-        Map<String, String> contextMap = new HashMap<String, String>();
+        Map<String, String> contextMap = new LinkedHashMap<String, String>();
         String traceId = strategyMonitorContext.getTraceId();
         String spanId = strategyMonitorContext.getSpanId();
         contextMap.put(DiscoveryConstant.TRACE_ID, (StringUtils.isNotEmpty(traceId) ? traceId : StringUtils.EMPTY));
