@@ -125,6 +125,10 @@ Polaris为Discovery高级定制版，特色功能
 
 ![](http://nepxion.gitee.io/discovery/docs/polaris-doc/GlobalSub.jpg)
 
+⑧ Discovery【探索】配置中心发布订阅图
+
+![](http://nepxion.gitee.io/discovery/docs/polaris-doc/Config.jpg)
+
 ## 简介
 Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba，Discovery服务注册发现、Ribbon & Spring Cloud LoadBalancer负载均衡、Feign & RestTemplate & WebClient调用、Spring Cloud Gateway & Zuul过滤等组件全方位增强的企业级微服务开源解决方案，更贴近企业级需求，更具有企业级的插件引入、开箱即用特征
 
