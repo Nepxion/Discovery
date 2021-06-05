@@ -1527,14 +1527,17 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
+    <!-- 无参驱动方式下，不需要兜底路由（全局缺省路由） -->
     <strategy>
         <version>{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</version>
     </strategy>
 
     <strategy-customization>
         <conditions type="gray">
+            <!-- 有参驱动方式，有expression节点 -->
             <!-- <condition id="gray-condition" expression="#H['a'] == '1'" version-id="gray-version-route=10;stable-version-route=90"/> -->
             <!-- <condition id="gray-condition" expression="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="gray-version-route=85;stable-version-route=15"/> -->
+            <!-- 无参驱动方式，无expression节点 -->
             <condition id="gray-condition" version-id="gray-version-route=95;stable-version-route=5"/>
         </conditions>
 
@@ -1564,7 +1567,7 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 - region 区域
 - address IP地址和端口
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：条件权重灰度发布支持参数驱动，但建议使用无参方式，同时兜底路由（全局缺省路由）也不需要
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：条件权重灰度发布支持参数驱动，但建议使用无参驱动方式，同时兜底路由（全局缺省路由）也不需要
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 上述方式，可以通过[全链路灰度发布编排建模](#全链路灰度发布编排建模)方式执行，并通过[全链路灰度发布流量侦测](#全链路灰度发布流量侦测)进行验证
 
