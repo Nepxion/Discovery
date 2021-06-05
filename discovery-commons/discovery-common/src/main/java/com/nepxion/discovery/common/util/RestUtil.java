@@ -82,21 +82,21 @@ public class RestUtil {
         try {
             return JsonUtil.fromJson(result, typeReference);
         } catch (Exception e) {
-            String cause = getCause(restTemplate);
-            if (StringUtils.isNotEmpty(cause)) {
-                throw new IllegalArgumentException(cause);
+            String error = getError(restTemplate);
+            if (StringUtils.isNotEmpty(error)) {
+                throw new IllegalArgumentException(error);
             }
 
             throw e;
         }
     }
 
-    public static String getCause(RestTemplate restTemplate) {
+    public static String getError(RestTemplate restTemplate) {
         ResponseErrorHandler responseErrorHandler = restTemplate.getErrorHandler();
         if (responseErrorHandler instanceof DiscoveryResponseErrorHandler) {
             DiscoveryResponseErrorHandler discoveryResponseErrorHandler = (DiscoveryResponseErrorHandler) responseErrorHandler;
 
-            return discoveryResponseErrorHandler.getCause();
+            return discoveryResponseErrorHandler.getError();
         }
 
         return null;

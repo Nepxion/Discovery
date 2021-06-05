@@ -22,16 +22,16 @@ public class DiscoveryResponseErrorHandler extends DefaultResponseErrorHandler {
     @Override
     public void handleError(ClientHttpResponse response) throws IOException {
         InputStream inputStream = response.getBody();
-        String cause = IOUtils.toString(inputStream, DiscoveryConstant.ENCODING_UTF_8);
+        String error = IOUtils.toString(inputStream, DiscoveryConstant.ENCODING_UTF_8);
 
-        DiscoveryResponseContext.getCurrentContext().setCause(cause);
+        DiscoveryResponseErrorContext.getCurrentContext().setError(error);
     }
 
-    public String getCause() {
-        String cause = DiscoveryResponseContext.getCurrentContext().getCause();
+    public String getError() {
+        String error = DiscoveryResponseErrorContext.getCurrentContext().getError();
 
-        DiscoveryResponseContext.clearCurrentContext();
+        DiscoveryResponseErrorContext.clearCurrentContext();
 
-        return cause;
+        return error;
     }
 }
