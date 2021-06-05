@@ -10,28 +10,25 @@ package com.nepxion.discovery.common.handler;
  */
 
 import java.io.IOException;
-import java.io.InputStream;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.DefaultResponseErrorHandler;
-
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
 public class DiscoveryResponseErrorHandler extends DefaultResponseErrorHandler {
     @Override
     public void handleError(ClientHttpResponse response) throws IOException {
-        InputStream inputStream = response.getBody();
-        String cause = IOUtils.toString(inputStream, DiscoveryConstant.ENCODING_UTF_8);
-
-        DiscoveryResponseContext.getCurrentContext().setCause(cause);
+        try {
+            super.handleError(response);
+        } catch (Exception e) {
+            DiscoveryResponseContext.getCurrentContext().setError(e);
+        }
     }
 
-    public String getCause() {
-        String cause = DiscoveryResponseContext.getCurrentContext().getCause();
+    public Exception getError() {
+        Exception error = DiscoveryResponseContext.getCurrentContext().getError();
 
         DiscoveryResponseContext.clearCurrentContext();
 
-        return cause;
+        return error;
     }
 }
