@@ -22,7 +22,7 @@ public class DiscoveryResponseContext {
         }
     };
 
-    private Exception error;
+    private String cause;
 
     public static DiscoveryResponseContext getCurrentContext() {
         return THREAD_LOCAL.get();
@@ -32,12 +32,12 @@ public class DiscoveryResponseContext {
         THREAD_LOCAL.remove();
     }
 
-    public Exception getError() {
-        return error;
+    public String getCause() {
+        return cause;
     }
 
-    public void setError(Exception error) {
-        this.error = error;
+    public void setCause(String cause) {
+        this.cause = cause;
     }
 
     @Override
