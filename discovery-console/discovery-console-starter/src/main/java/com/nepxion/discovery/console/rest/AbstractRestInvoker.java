@@ -75,9 +75,9 @@ public abstract class AbstractRestInvoker {
                 checkPermission(instance);
 
                 result = doRest(url);
-                String cause = RestUtil.getCause(restTemplate);
-                if (StringUtils.isNotEmpty(cause)) {
-                    result = cause;
+                Exception error = RestUtil.getError(restTemplate);
+                if (error != null) {
+                    result = ResponseUtil.getFailureMessage(error);
                 }
             } catch (Exception e) {
                 result = ResponseUtil.getFailureMessage(e);
