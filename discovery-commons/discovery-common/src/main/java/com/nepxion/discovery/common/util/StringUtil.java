@@ -81,7 +81,7 @@ public class StringUtil {
     }
 
     // Json {"a":"1;2", "b":"3;4"} -> Map {a=[1, 2], b=[3, 4]}
-    // String "1;2;3;4"-> Map {unknown=[1, 2, 3, 4]}
+    // String "1;2;3;4"-> Map {undefined=[1, 2, 3, 4]}
     @SuppressWarnings("unchecked")
     public static Map<String, List<String>> splitToComplexMap(String value, String separate) {
         if (StringUtils.isEmpty(value)) {
@@ -93,9 +93,9 @@ public class StringUtil {
             Map<String, String> jsonMap = JsonUtil.fromJson(value, Map.class);
             for (Map.Entry<String, String> entry : jsonMap.entrySet()) {
                 String key = entry.getKey();
-                String valueList = entry.getValue();
+                String list = entry.getValue();
 
-                map.put(key, StringUtil.splitToList(valueList, separate));
+                map.put(key, StringUtil.splitToList(list, separate));
             }
         } catch (Exception e) {
             List<String> valueList = StringUtil.splitToList(value, separate);
@@ -130,6 +130,34 @@ public class StringUtil {
         }
 
         return stringBuilder.toString();
+    }
+
+    public static String convertToComplexString(Map<String, List<String>> map) {
+        return convertToComplexString(map, DiscoveryConstant.SEPARATE);
+    }
+
+    // Map {a=[1, 2], b=[3, 4]} -> Json {"a":"1;2", "b":"3;4"}
+    // Map {undefined=[1, 2, 3, 4]} -> String "1;2;3;4"
+    public static String convertToComplexString(Map<String, List<String>> map, String separate) {
+        if (MapUtils.isEmpty(map)) {
+            return null;
+        }
+
+        if (map.size() == 1 && map.containsKey(DiscoveryConstant.UNDEFINED)) {
+            List<String> value = map.get(DiscoveryConstant.UNDEFINED);
+
+            return convertToString(value);
+        } else {
+            Map<String, String> jsonMap = new LinkedHashMap<String, String>();
+            for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+                String key = entry.getKey();
+                List<String> value = entry.getValue();
+
+                jsonMap.put(key, convertToString(value));
+            }
+
+            return JsonUtil.toJson(jsonMap);
+        }
     }
 
     public static Map<String, String> convertToMap(List<String> list) {
