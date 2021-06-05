@@ -14,17 +14,17 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class DiscoveryResponseContext {
-    private static final ThreadLocal<DiscoveryResponseContext> THREAD_LOCAL = new ThreadLocal<DiscoveryResponseContext>() {
+public class DiscoveryResponseErrorContext {
+    private static final ThreadLocal<DiscoveryResponseErrorContext> THREAD_LOCAL = new ThreadLocal<DiscoveryResponseErrorContext>() {
         @Override
-        protected DiscoveryResponseContext initialValue() {
-            return new DiscoveryResponseContext();
+        protected DiscoveryResponseErrorContext initialValue() {
+            return new DiscoveryResponseErrorContext();
         }
     };
 
-    private String cause;
+    private String error;
 
-    public static DiscoveryResponseContext getCurrentContext() {
+    public static DiscoveryResponseErrorContext getCurrentContext() {
         return THREAD_LOCAL.get();
     }
 
@@ -32,12 +32,12 @@ public class DiscoveryResponseContext {
         THREAD_LOCAL.remove();
     }
 
-    public String getCause() {
-        return cause;
+    public String getError() {
+        return error;
     }
 
-    public void setCause(String cause) {
-        this.cause = cause;
+    public void setError(String error) {
+        this.error = error;
     }
 
     @Override
