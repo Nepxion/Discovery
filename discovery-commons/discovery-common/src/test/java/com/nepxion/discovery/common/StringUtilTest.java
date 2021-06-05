@@ -10,16 +10,20 @@ package com.nepxion.discovery.common;
  */
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.util.StringUtil;
 
 public class StringUtilTest {
     public static void main(String[] args) {
-        test1();
-        test2();
+        //        test1();
+        //        test2();
+        test3();
     }
 
     private static void test1() {
@@ -48,5 +52,24 @@ public class StringUtilTest {
 
         String value = StringUtil.convertToString(map, "==", "&&");
         System.out.println(value);
+    }
+
+    private static void test3() {
+        Map<String, List<String>> map1 = new LinkedHashMap<String, List<String>>();
+        map1.put("a", Arrays.asList("1", "2"));
+        map1.put("b", Arrays.asList("3", "4"));
+
+        String value1 = StringUtil.convertToComplexString(map1);
+
+        System.out.println(value1);
+        System.out.println(StringUtil.splitToComplexMap(value1));
+
+        Map<String, List<String>> map2 = new LinkedHashMap<String, List<String>>();
+        map2.put(DiscoveryConstant.UNDEFINED, Arrays.asList("1", "2"));
+
+        String value2 = StringUtil.convertToComplexString(map2);
+
+        System.out.println(value2);
+        System.out.println(StringUtil.splitToComplexMap(value2));
     }
 }
