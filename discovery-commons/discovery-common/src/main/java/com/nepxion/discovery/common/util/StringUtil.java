@@ -100,7 +100,7 @@ public class StringUtil {
         } catch (Exception e) {
             List<String> valueList = StringUtil.splitToList(value, separate);
 
-            map.put(DiscoveryConstant.UNKNOWN, valueList);
+            map.put(DiscoveryConstant.UNDEFINED, valueList);
         }
 
         return map;
