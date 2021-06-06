@@ -53,6 +53,7 @@ import com.nepxion.discovery.common.entity.WeightEntityWrapper;
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
 import com.nepxion.discovery.common.entity.WeightType;
 import com.nepxion.discovery.common.exception.DiscoveryException;
+import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.framework.parser.PluginConfigParser;
 import com.nepxion.discovery.plugin.framework.parser.xml.dom4j.Dom4JReader;
@@ -255,7 +256,7 @@ public class XmlConfigParser implements PluginConfigParser {
                 }
             } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.ROUTES_ELEMENT_NAME)) {
                 parseStrategyRoute(childElement, strategyCustomizationEntity);
-            } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.HEADERS_ELEMENT_NAME)) {
+            } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.HEADER_ELEMENT_NAME)) {
                 parseStrategyHeader(childElement, strategyCustomizationEntity);
             }
         }
@@ -822,33 +823,19 @@ public class XmlConfigParser implements PluginConfigParser {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void parseStrategyHeader(Element element, StrategyCustomizationEntity strategyCustomizationEntity) {
         StrategyHeaderEntity strategyHeaderEntity = strategyCustomizationEntity.getStrategyHeaderEntity();
         if (strategyHeaderEntity != null) {
-            throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.HEADERS_ELEMENT_NAME + "] to be configed");
+            throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.HEADER_ELEMENT_NAME + "] to be configed");
         }
 
         strategyHeaderEntity = new StrategyHeaderEntity();
         strategyCustomizationEntity.setStrategyHeaderEntity(strategyHeaderEntity);
 
-        for (Iterator<Element> elementIterator = element.elementIterator(); elementIterator.hasNext();) {
-            Element childElement = elementIterator.next();
+        String headerValue = element.getTextTrim();
 
-            if (StringUtils.equals(childElement.getName(), XmlConfigConstant.HEADER_ELEMENT_NAME)) {
-                Attribute keyAttribute = childElement.attribute(XmlConfigConstant.KEY_ATTRIBUTE_NAME);
-                if (keyAttribute == null) {
-                    throw new DiscoveryException("Attribute[" + XmlConfigConstant.KEY_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
-                }
-                String key = keyAttribute.getData().toString().trim();
-
-                Attribute valueAttribute = childElement.attribute(XmlConfigConstant.VALUE_ATTRIBUTE_NAME);
-                if (valueAttribute == null) {
-                    throw new DiscoveryException("Attribute[" + XmlConfigConstant.VALUE_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] is missing");
-                }
-                String value = valueAttribute.getData().toString().trim();
-
-                strategyHeaderEntity.getHeaderMap().put(key, value);
-            }
-        }
+        Map<String, String> headerMap = JsonUtil.fromJson(headerValue, Map.class);
+        strategyHeaderEntity.getHeaderMap().putAll(headerMap);
     }
 }
