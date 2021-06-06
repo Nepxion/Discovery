@@ -23,7 +23,6 @@ public class XmlConfigConstant {
     public static final String CONDITION_ELEMENT_NAME = "condition";
     public static final String ROUTES_ELEMENT_NAME = "routes";
     public static final String ROUTE_ELEMENT_NAME = "route";
-    public static final String HEADERS_ELEMENT_NAME = "headers";
     public static final String HEADER_ELEMENT_NAME = "header";
     public static final String ID_ELEMENT_NAME = "id";
     public static final String SERVICE_ELEMENT_NAME = "service";
@@ -46,8 +45,6 @@ public class XmlConfigConstant {
     public static final String CONSUMER_REGION_VALUE_ATTRIBUTE_NAME = "consumer-region-value";
     public static final String PROVIDER_REGION_VALUE_ATTRIBUTE_NAME = "provider-region-value";
     public static final String PROVIDER_WEIGHT_VALUE_ATTRIBUTE_NAME = "provider-weight-value";
-    public static final String KEY_ATTRIBUTE_NAME = "key";
-    public static final String VALUE_ATTRIBUTE_NAME = "value";
     public static final String ID_ATTRIBUTE_NAME = "id";
     public static final String EXPRESSION_ATTRIBUTE_NAME = "expression";
     public static final String HEADER_ATTRIBUTE_NAME = "header";

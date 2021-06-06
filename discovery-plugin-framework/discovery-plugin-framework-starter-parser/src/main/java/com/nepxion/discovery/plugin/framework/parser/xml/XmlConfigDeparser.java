@@ -48,6 +48,7 @@ import com.nepxion.discovery.common.entity.WeightEntity;
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
 import com.nepxion.discovery.common.entity.WeightType;
 import com.nepxion.discovery.common.exception.DiscoveryException;
+import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.framework.parser.PluginConfigDeparser;
 
@@ -509,14 +510,7 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
     private void deparseStrategyHeader(StringBuilder stringBuilder, StrategyHeaderEntity strategyHeaderEntity) {
         Map<String, String> headerMap = strategyHeaderEntity.getHeaderMap();
         if (MapUtils.isNotEmpty(headerMap)) {
-            stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.HEADERS_ELEMENT_NAME + ">\n");
-            for (Map.Entry<String, String> entry : headerMap.entrySet()) {
-                String key = entry.getKey();
-                String value = entry.getValue();
-
-                stringBuilder.append(INDENT + INDENT + INDENT + "<" + XmlConfigConstant.HEADER_ELEMENT_NAME + " " + XmlConfigConstant.KEY_ATTRIBUTE_NAME + "=\"" + key + "\" " + XmlConfigConstant.VALUE_ATTRIBUTE_NAME + "=\"" + value + "\"/>\n");
-            }
-            stringBuilder.append(INDENT + INDENT + "</" + XmlConfigConstant.HEADERS_ELEMENT_NAME + ">\n");
+            stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.HEADER_ELEMENT_NAME + ">" + JsonUtil.toJson(headerMap) + "</" + XmlConfigConstant.HEADER_ELEMENT_NAME + ">\n");
         }
     }
 }
