@@ -1387,9 +1387,7 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
    
 ④ 假如不愿意从网关外部传入Header/Parameter/Cookies，那么支持策略下内置Header来决策蓝绿发布，可以代替外部传入Header/Parameter/Cookies，参考如下配置
 ```xml
-<headers>
-   <header key="a" value="1"/>
-</headers>
+<header>{"a":"1", "b":"2", "c":"3"}</header>
 ```
 内置Header一般使用场景为定时Job的服务定时去调用其它服务，希望实施蓝绿灰度发布。当服务侧配置了内置Header，而网关也传递给对应Header给该服务，通过开关来决定，网关传递的Header为优先还是服务侧内置的Header优先
 
@@ -3872,9 +3870,7 @@ XML最全的示例如下，Json示例见源码discovery-springcloud-example-serv
         </routes>
 
         <!-- 策略中配置条件表达式中的Header来决策蓝绿和灰度，可以代替外部传入Header -->
-        <headers>
-            <header key="a" value="1"/>
-        </headers>
+        <header>{"a":"1", "b":"2", "c":"3"}</header>
     </strategy-customization>
 
     <!-- 策略路由上服务屏蔽黑名单。一般适用于服务下线场景，流量实现实时性的绝对无损：下线之前，把服务实例添加到下面屏蔽名单中，负载均衡不会去寻址该服务实例。下线之后，清除该名单-->
