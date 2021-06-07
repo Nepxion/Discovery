@@ -498,9 +498,9 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [源码主页](#源码主页)
     - [发布主页](#发布主页)
     - [指南主页](#指南主页)
-    - [文档主页](#文档主页)
-    - [贡献主页](#贡献主页)
     - [入门主页](#入门主页)
+    - [文档主页](#文档主页)
+    - [博客主页](#博客主页)
 - [工程架构](#工程架构)
     - [工程清单](#工程清单)
     - [架构核心](#架构核心)
@@ -690,15 +690,16 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 
 [Polaris指南主页](https://github.com/Nepxion/PolarisGuide)
 
+### 入门主页
+[Gitee Wiki](https://gitee.com/nepxion/Discovery/wikis/pages)
+
+[Github Wiki](https://github.com/Nepxion/Discovery/wiki)
+
 ### 文档主页
 [文档主页](https://gitee.com/Nepxion/Discovery/tree/wiki/docs/web-doc)
 
 ### 博客主页
 [博客主页](https://blog.csdn.net/u012410733/category_10633202.html?spm=1001.2014.3001.5482)
-
-### 入门主页
-- [Gitee Wiki](https://gitee.com/nepxion/Discovery/wikis/pages)
-- [Github Wiki](https://github.com/Nepxion/Discovery/wiki)
 
 ## 工程架构
 
