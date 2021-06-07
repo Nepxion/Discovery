@@ -40,11 +40,11 @@ public class ConfigParserTest {
         System.out.println("**************************************************");
 
         System.out.println("**************************************************");
-        System.out.println(new XmlConfigDeparser().deparse(ruleEntity));
+        new XmlConfigDeparser().deparse(ruleEntity);
         System.out.println("**************************************************");
 
         System.out.println("**************************************************");
-        System.out.println(new JsonConfigDeparser().deparse(ruleEntity));
+        new JsonConfigDeparser().deparse(ruleEntity);
         System.out.println("**************************************************");
     }
 
@@ -58,11 +58,11 @@ public class ConfigParserTest {
         System.out.println("**************************************************");
 
         System.out.println("**************************************************");
-        System.out.println(new JsonConfigDeparser().deparse(ruleEntity));
+        new JsonConfigDeparser().deparse(ruleEntity);
         System.out.println("**************************************************");
 
         System.out.println("**************************************************");
-        System.out.println(new XmlConfigDeparser().deparse(ruleEntity));
+        new XmlConfigDeparser().deparse(ruleEntity);
         System.out.println("**************************************************");
     }
 

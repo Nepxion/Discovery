@@ -69,6 +69,8 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
         String config = stringBuilder.toString();
         ruleEntity.setContent(config);
 
+        LOG.info("Rule content=\n{}", config);
+
         return config;
     }
 
