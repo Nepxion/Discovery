@@ -13,13 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.common.entity.DiscoveryEntity;
-import com.nepxion.discovery.common.entity.ParameterEntity;
-import com.nepxion.discovery.common.entity.RegisterEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
-import com.nepxion.discovery.common.entity.StrategyBlacklistEntity;
-import com.nepxion.discovery.common.entity.StrategyCustomizationEntity;
-import com.nepxion.discovery.common.entity.StrategyEntity;
 import com.nepxion.discovery.plugin.framework.parser.PluginConfigDeparser;
 import com.nepxion.discovery.plugin.framework.parser.PluginConfigParser;
 
@@ -45,40 +39,7 @@ public class RuleResourceImpl implements RuleResource {
 
     @Override
     public void updateRemoteRuleEntity(String group, String serviceId, RuleEntity ruleEntity) throws Exception {
-        // 先从远程配置中心拉一遍，确保其它已有规则不会被当前规则覆盖掉
-        RuleEntity remoteRuleEntity = getRemoteRuleEntity(group, serviceId);
-
-        RegisterEntity registerEntity = ruleEntity.getRegisterEntity();
-        if (registerEntity != null) {
-            remoteRuleEntity.setRegisterEntity(registerEntity);
-        }
-
-        DiscoveryEntity discoveryEntity = ruleEntity.getDiscoveryEntity();
-        if (discoveryEntity != null) {
-            remoteRuleEntity.setDiscoveryEntity(discoveryEntity);
-        }
-
-        StrategyEntity strategyEntity = ruleEntity.getStrategyEntity();
-        if (strategyEntity != null) {
-            remoteRuleEntity.setStrategyEntity(strategyEntity);
-        }
-
-        StrategyCustomizationEntity strategyCustomizationEntity = ruleEntity.getStrategyCustomizationEntity();
-        if (strategyCustomizationEntity != null) {
-            remoteRuleEntity.setStrategyCustomizationEntity(strategyCustomizationEntity);
-        }
-
-        StrategyBlacklistEntity strategyBlacklistEntity = ruleEntity.getStrategyBlacklistEntity();
-        if (strategyBlacklistEntity != null) {
-            remoteRuleEntity.setStrategyBlacklistEntity(strategyBlacklistEntity);
-        }
-
-        ParameterEntity parameterEntity = ruleEntity.getParameterEntity();
-        if (parameterEntity != null) {
-            remoteRuleEntity.setParameterEntity(parameterEntity);
-        }
-
-        String config = fromRuleEntity(remoteRuleEntity);
+        String config = fromRuleEntity(ruleEntity);
 
         configResource.updateRemoteConfig(group, serviceId, config);
     }

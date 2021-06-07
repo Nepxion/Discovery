@@ -33,6 +33,8 @@ public class JsonConfigParser implements PluginConfigParser {
             RuleEntity ruleEntity = JsonUtil.fromJson(config, RuleEntity.class);
             ruleEntity.setContent(config);
 
+            LOG.info("Rule content=\n{}", config);
+
             return ruleEntity;
         } catch (Exception e) {
             throw new DiscoveryException(e.getMessage(), e);
