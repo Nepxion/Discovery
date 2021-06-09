@@ -10,5 +10,5 @@ package com.nepxion.discovery.plugin.strategy.hystrix.constant;
  */
 
 public class HystrixStrategyConstant {
-    public static final String HYSTRIX_TYPE = "Hystrix";
+
 }
