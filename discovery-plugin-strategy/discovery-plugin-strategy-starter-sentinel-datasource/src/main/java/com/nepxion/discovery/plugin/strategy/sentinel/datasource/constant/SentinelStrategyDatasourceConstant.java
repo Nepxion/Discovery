@@ -11,8 +11,6 @@ package com.nepxion.discovery.plugin.strategy.sentinel.datasource.constant;
  */
 
 public class SentinelStrategyDatasourceConstant {
-    public static final String SENTINEL_TYPE = "Sentinel";
-
     public static final String SPRING_APPLICATION_STRATEGY_SENTINEL_DATASOURCE_ENABLED = "spring.application.strategy.sentinel.datasource.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_SENTINEL_FLOW_PATH = "spring.application.strategy.sentinel.flow.path";
     public static final String SPRING_APPLICATION_STRATEGY_SENTINEL_DEGRADE_PATH = "spring.application.strategy.sentinel.degrade.path";
