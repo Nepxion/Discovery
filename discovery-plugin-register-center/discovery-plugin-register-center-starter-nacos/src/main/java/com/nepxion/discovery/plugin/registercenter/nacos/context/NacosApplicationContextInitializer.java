@@ -21,11 +21,11 @@ import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
 import com.alibaba.cloud.nacos.registry.NacosServiceRegistry;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.constant.DiscoveryMetaDataConstant;
+import com.nepxion.discovery.common.entity.DiscoveryType;
 import com.nepxion.discovery.plugin.framework.adapter.ApplicationInfoAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginApplicationContextInitializer;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.util.MetadataUtil;
-import com.nepxion.discovery.plugin.registercenter.nacos.constant.NacosConstant;
 import com.nepxion.discovery.plugin.registercenter.nacos.decorator.NacosServiceRegistryDecorator;
 
 public class NacosApplicationContextInitializer extends PluginApplicationContextInitializer {
@@ -72,7 +72,7 @@ public class NacosApplicationContextInitializer extends PluginApplicationContext
             }
             metadata.put(DiscoveryMetaDataConstant.SPRING_APPLICATION_PROTOCOL, PluginContextAware.getApplicationProtocol(environment));
             metadata.put(DiscoveryMetaDataConstant.SPRING_APPLICATION_UUID, PluginContextAware.getApplicationUUId(environment));
-            metadata.put(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN, NacosConstant.NACOS_TYPE);
+            metadata.put(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN, DiscoveryType.NACOS.toString());
             metadata.put(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_VERSION, DiscoveryConstant.DISCOVERY_VERSION);
             String agentVersion = System.getProperty(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_AGENT_VERSION);
             metadata.put(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_AGENT_VERSION, StringUtils.isEmpty(agentVersion) ? DiscoveryConstant.UNKNOWN : agentVersion);

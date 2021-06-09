@@ -21,11 +21,11 @@ import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.constant.DiscoveryMetaDataConstant;
+import com.nepxion.discovery.common.entity.DiscoveryType;
 import com.nepxion.discovery.plugin.framework.adapter.ApplicationInfoAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginApplicationContextInitializer;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.util.MetadataUtil;
-import com.nepxion.discovery.plugin.registercenter.consul.constant.ConsulConstant;
 import com.nepxion.discovery.plugin.registercenter.consul.decorator.ConsulServiceRegistryDecorator;
 
 public class ConsulApplicationContextInitializer extends PluginApplicationContextInitializer {
@@ -71,7 +71,7 @@ public class ConsulApplicationContextInitializer extends PluginApplicationContex
             }
             metadata.add(DiscoveryMetaDataConstant.SPRING_APPLICATION_PROTOCOL + "=" + PluginContextAware.getApplicationProtocol(environment));
             metadata.add(DiscoveryMetaDataConstant.SPRING_APPLICATION_UUID + "=" + PluginContextAware.getApplicationUUId(environment));
-            metadata.add(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN + "=" + ConsulConstant.CONSUL_TYPE);
+            metadata.add(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN + "=" + DiscoveryType.CONSUL);
             metadata.add(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_VERSION + "=" + DiscoveryConstant.DISCOVERY_VERSION);
             String agentVersion = System.getProperty(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_AGENT_VERSION);
             metadata.add(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_AGENT_VERSION + "=" + (StringUtils.isEmpty(agentVersion) ? DiscoveryConstant.UNKNOWN : agentVersion));

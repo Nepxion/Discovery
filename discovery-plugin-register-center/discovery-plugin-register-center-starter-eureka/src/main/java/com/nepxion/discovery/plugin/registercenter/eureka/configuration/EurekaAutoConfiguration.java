@@ -17,10 +17,10 @@ import com.nepxion.banner.BannerConstant;
 import com.nepxion.banner.Description;
 import com.nepxion.banner.LogoBanner;
 import com.nepxion.banner.NepxionBanner;
+import com.nepxion.discovery.common.entity.DiscoveryType;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.configuration.PluginLoadBalanceConfiguration;
 import com.nepxion.discovery.plugin.registercenter.eureka.adapter.EurekaAdapter;
-import com.nepxion.discovery.plugin.registercenter.eureka.constant.EurekaConstant;
 import com.taobao.text.Color;
 
 @Configuration
@@ -42,7 +42,7 @@ public class EurekaAutoConfiguration {
 
         LogoBanner logoBanner = new LogoBanner(EurekaAutoConfiguration.class, "/com/nepxion/eureka/resource/logo.txt", "Welcome to Nepxion", 6, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta }, true);
 
-        NepxionBanner.show(logoBanner, new Description("Discovery:", EurekaConstant.EUREKA_TYPE, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
+        NepxionBanner.show(logoBanner, new Description("Discovery:", DiscoveryType.EUREKA.toString(), 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
     }
 
     @Bean
