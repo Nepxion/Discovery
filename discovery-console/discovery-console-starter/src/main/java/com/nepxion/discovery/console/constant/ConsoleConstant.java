@@ -10,9 +10,5 @@ package com.nepxion.discovery.console.constant;
  */
 
 public class ConsoleConstant {
-    public static final String SENTINEL_FLOW = "flow";
-    public static final String SENTINEL_DEGRADE = "degrade";
-    public static final String SENTINEL_RULE_AUTHORITY = "authority";
-    public static final String SENTINEL_RULE_SYSTEM = "system";
-    public static final String SENTINEL_RULE_PARAM_FLOW = "param-flow";
+
 }

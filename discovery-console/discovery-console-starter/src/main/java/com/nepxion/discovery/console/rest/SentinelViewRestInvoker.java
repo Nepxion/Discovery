@@ -12,7 +12,7 @@ package com.nepxion.discovery.console.rest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
-import com.nepxion.discovery.console.entity.SentinelRuleType;
+import com.nepxion.discovery.common.entity.SentinelRuleType;
 import com.nepxion.discovery.console.resource.ServiceResource;
 
 public class SentinelViewRestInvoker extends AbstractRestInvoker {

@@ -201,4 +201,10 @@ public class DiscoveryConstant {
     public static final String OPENTELEMETRY = "OpenTelemetry";
     public static final String OPENTRACING = "OpenTracing";
     public static final String SKYWALKING = "SkyWalking";
+
+    public static final String SENTINEL_FLOW = "flow";
+    public static final String SENTINEL_DEGRADE = "degrade";
+    public static final String SENTINEL_AUTHORITY = "authority";
+    public static final String SENTINEL_SYSTEM = "system";
+    public static final String SENTINEL_PARAM_FLOW = "param-flow";
 }

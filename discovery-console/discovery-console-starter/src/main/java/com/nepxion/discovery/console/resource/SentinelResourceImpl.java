@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.common.entity.ResultEntity;
-import com.nepxion.discovery.console.entity.SentinelRuleType;
+import com.nepxion.discovery.common.entity.SentinelRuleType;
 import com.nepxion.discovery.console.rest.SentinelClearRestInvoker;
 import com.nepxion.discovery.console.rest.SentinelUpdateRestInvoker;
 import com.nepxion.discovery.console.rest.SentinelViewRestInvoker;
