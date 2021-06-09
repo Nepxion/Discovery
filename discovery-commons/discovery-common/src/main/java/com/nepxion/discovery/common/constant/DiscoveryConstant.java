@@ -190,6 +190,8 @@ public class DiscoveryConstant {
     public static final String CONSUL = "Consul";
     public static final String ETCD = "Etcd";
     public static final String EUREKA = "Eureka";
+    public static final String RIBBON = "Ribbon";
+    public static final String SPRING_CLOUD_LOADBALANCER = "Spring Cloud LoadBalancer";
     public static final String HYSTRIX = "Hystrix";
     public static final String SENTINEL = "Sentinel";
     public static final String OPENTELEMETRY = "OpenTelemetry";
