@@ -180,7 +180,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - 异步跨线程Agent插件
     - Hystrix线程池隔离插件
 - 全链路数据库和消息队列蓝绿发布
-    - 基于多Datasource的数据库蓝绿发布
+    - 基于多DataSource的数据库蓝绿发布
     - 基于多Queue的消息队列蓝绿发布
 - 网关动态路由
     - 路由动态添加
@@ -3080,7 +3080,7 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 ## 全链路数据库和消息队列蓝绿发布
 通过订阅相关参数的变化，实现参数化蓝绿发布，可用于如下场景
 
-① 基于多Datasource的数据库蓝绿发布
+① 基于多DataSource的数据库蓝绿发布
 
 ② 基于多Queue的消息队列蓝绿发布
 
