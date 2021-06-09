@@ -95,7 +95,7 @@ public class ServiceEndpoint {
 
     private ResponseEntity<?> doDiscoveryType() {
         try {
-            String discoveryType = serviceResource.getDiscoveryType();
+            String discoveryType = serviceResource.getDiscoveryType().toString();
 
             return ResponseUtil.getSuccessResponse(discoveryType);
         } catch (Exception e) {

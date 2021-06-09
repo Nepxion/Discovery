@@ -23,10 +23,10 @@ import org.springframework.cloud.client.discovery.composite.CompositeDiscoveryCl
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.constant.DiscoveryMetaDataConstant;
+import com.nepxion.discovery.common.entity.DiscoveryType;
 import com.nepxion.discovery.common.entity.InstanceEntity;
 import com.nepxion.discovery.common.entity.InstanceEntityWrapper;
 import com.nepxion.discovery.common.entity.ServiceType;
-import com.nepxion.discovery.plugin.admincenter.constant.AdminConstant;
 import com.nepxion.discovery.plugin.framework.decorator.DiscoveryClientDecorator;
 
 public class ServiceResourceImpl implements ServiceResource {
@@ -34,7 +34,7 @@ public class ServiceResourceImpl implements ServiceResource {
     private DiscoveryClient discoveryClient;
 
     @Override
-    public String getDiscoveryType() {
+    public DiscoveryType getDiscoveryType() {
         DiscoveryClient realDiscoveryClient = null;
         if (discoveryClient instanceof DiscoveryClientDecorator) {
             realDiscoveryClient = ((DiscoveryClientDecorator) discoveryClient).getRealDiscoveryClient();
@@ -47,24 +47,26 @@ public class ServiceResourceImpl implements ServiceResource {
             List<DiscoveryClient> discoveryClients = compositeDiscoveryClient.getDiscoveryClients();
             for (DiscoveryClient client : discoveryClients) {
                 String discoveryDescription = client.description();
-                for (int i = 0; i < AdminConstant.DISCOVERY_TYPES.length; i++) {
-                    String discoveryType = AdminConstant.DISCOVERY_TYPES[i];
-                    if (discoveryDescription.toLowerCase().contains(discoveryType.toLowerCase())) {
+                DiscoveryType[] discoveryTypes = DiscoveryType.values();
+                for (int i = 0; i < discoveryTypes.length; i++) {
+                    DiscoveryType discoveryType = discoveryTypes[i];
+                    if (discoveryDescription.toLowerCase().contains(discoveryType.toString().toLowerCase())) {
                         return discoveryType;
                     }
                 }
             }
         } else {
             String discoveryDescription = realDiscoveryClient.description();
-            for (int i = 0; i < AdminConstant.DISCOVERY_TYPES.length; i++) {
-                String discoveryType = AdminConstant.DISCOVERY_TYPES[i];
-                if (discoveryDescription.toLowerCase().contains(discoveryType.toLowerCase())) {
+            DiscoveryType[] discoveryTypes = DiscoveryType.values();
+            for (int i = 0; i < discoveryTypes.length; i++) {
+                DiscoveryType discoveryType = discoveryTypes[i];
+                if (discoveryDescription.toLowerCase().contains(discoveryType.toString().toLowerCase())) {
                     return discoveryType;
                 }
             }
         }
 
-        return DiscoveryConstant.UNKNOWN;
+        return null;
     }
 
     @Override

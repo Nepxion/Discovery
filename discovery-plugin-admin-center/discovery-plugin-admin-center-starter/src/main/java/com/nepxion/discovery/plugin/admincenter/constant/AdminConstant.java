@@ -10,5 +10,5 @@ package com.nepxion.discovery.plugin.admincenter.constant;
  */
 
 public class AdminConstant {
-    public static final String[] DISCOVERY_TYPES = { "Eureka", "Consul", "Zookeeper", "Nacos" };
+
 }
