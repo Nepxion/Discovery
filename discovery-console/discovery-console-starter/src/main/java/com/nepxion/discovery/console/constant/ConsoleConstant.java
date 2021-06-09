@@ -10,9 +10,6 @@ package com.nepxion.discovery.console.constant;
  */
 
 public class ConsoleConstant {
-    public static final String SPRING_CLOUD_GATEWAY = "spring-cloud-gateway";
-    public static final String ZUUL = "zuul";
-
     public static final String SENTINEL_FLOW = "flow";
     public static final String SENTINEL_DEGRADE = "degrade";
     public static final String SENTINEL_RULE_AUTHORITY = "authority";

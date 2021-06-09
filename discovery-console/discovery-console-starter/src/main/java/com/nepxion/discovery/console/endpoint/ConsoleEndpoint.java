@@ -28,11 +28,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nepxion.discovery.common.entity.AuthenticationEntity;
+import com.nepxion.discovery.common.entity.GatewayType;
 import com.nepxion.discovery.common.entity.InstanceEntity;
 import com.nepxion.discovery.common.entity.ResultEntity;
 import com.nepxion.discovery.common.entity.UserEntity;
 import com.nepxion.discovery.common.util.ResponseUtil;
-import com.nepxion.discovery.console.entity.GatewayType;
 import com.nepxion.discovery.console.entity.SentinelRuleType;
 import com.nepxion.discovery.console.resource.AuthenticationResource;
 import com.nepxion.discovery.console.resource.ConfigResource;

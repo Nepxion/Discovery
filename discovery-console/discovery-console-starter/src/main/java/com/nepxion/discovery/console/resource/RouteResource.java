@@ -11,8 +11,8 @@ package com.nepxion.discovery.console.resource;
 
 import java.util.List;
 
+import com.nepxion.discovery.common.entity.GatewayType;
 import com.nepxion.discovery.common.entity.ResultEntity;
-import com.nepxion.discovery.console.entity.GatewayType;
 
 public interface RouteResource {
     List<ResultEntity> addRoute(GatewayType gatewayType, String serviceId, String route);

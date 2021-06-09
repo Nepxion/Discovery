@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nepxion.discovery.common.entity.GatewayType;
 import com.nepxion.discovery.common.entity.InstanceEntity;
 import com.nepxion.discovery.common.util.ResponseUtil;
 import com.nepxion.discovery.plugin.admincenter.resource.ServiceResource;
@@ -70,6 +71,13 @@ public class ServiceEndpoint {
     @ResponseBody
     public ResponseEntity<?> gateways() {
         return doGateways();
+    }
+
+    @RequestMapping(path = "/gateway-list/{gatewayType}", method = RequestMethod.GET)
+    @ApiOperation(value = "获取服务注册中心的网关名列表（根据网关类型）", notes = "", response = ResponseEntity.class, httpMethod = "GET")
+    @ResponseBody
+    public ResponseEntity<?> gatewayList(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： spring-cloud-gateway | zuul", defaultValue = "spring-cloud-gateway", required = true) String gatewayType) {
+        return doGatewayList(gatewayType);
     }
 
     @RequestMapping(path = "/instances/{serviceId}", method = RequestMethod.GET)
@@ -138,6 +146,16 @@ public class ServiceEndpoint {
             List<String> gateways = serviceResource.getGateways();
 
             return ResponseUtil.getSuccessResponse(gateways);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
+    }
+
+    private ResponseEntity<?> doGatewayList(String gatewayType) {
+        try {
+            List<String> gatewayList = serviceResource.getGatewayList(GatewayType.fromString(gatewayType));
+
+            return ResponseUtil.getSuccessResponse(gatewayList);
         } catch (Exception e) {
             return ResponseUtil.getFailureResponse(e);
         }
