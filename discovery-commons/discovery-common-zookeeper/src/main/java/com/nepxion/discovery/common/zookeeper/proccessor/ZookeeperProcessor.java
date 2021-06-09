@@ -13,8 +13,8 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.nepxion.discovery.common.entity.ConfigType;
 import com.nepxion.discovery.common.processor.DiscoveryConfigProcessor;
-import com.nepxion.discovery.common.zookeeper.constant.ZookeeperConstant;
 import com.nepxion.discovery.common.zookeeper.operation.ZookeeperListener;
 import com.nepxion.discovery.common.zookeeper.operation.ZookeeperOperation;
 import com.nepxion.discovery.common.zookeeper.operation.ZookeeperSubscribeCallback;
@@ -84,12 +84,7 @@ public abstract class ZookeeperProcessor extends DiscoveryConfigProcessor {
     }
 
     @Override
-    public String getConfigType() {
-        return ZookeeperConstant.ZOOKEEPER_TYPE;
-    }
-
-    @Override
-    public boolean isConfigSingleKey() {
-        return false;
+    public ConfigType getConfigType() {
+        return ConfigType.ZOOKEEPER;
     }
 }

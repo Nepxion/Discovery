@@ -14,9 +14,9 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ctrip.framework.apollo.ConfigChangeListener;
-import com.nepxion.discovery.common.apollo.constant.ApolloConstant;
 import com.nepxion.discovery.common.apollo.operation.ApolloOperation;
 import com.nepxion.discovery.common.apollo.operation.ApolloSubscribeCallback;
+import com.nepxion.discovery.common.entity.ConfigType;
 import com.nepxion.discovery.common.processor.DiscoveryConfigProcessor;
 
 public abstract class ApolloProcessor extends DiscoveryConfigProcessor {
@@ -84,12 +84,7 @@ public abstract class ApolloProcessor extends DiscoveryConfigProcessor {
     }
 
     @Override
-    public String getConfigType() {
-        return ApolloConstant.APOLLO_TYPE;
-    }
-
-    @Override
-    public boolean isConfigSingleKey() {
-        return true;
+    public ConfigType getConfigType() {
+        return ConfigType.APOLLO;
     }
 }

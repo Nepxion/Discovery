@@ -11,12 +11,14 @@ package com.nepxion.discovery.common.processor;
 
 import org.springframework.beans.factory.DisposableBean;
 
+import com.nepxion.discovery.common.entity.ConfigType;
+
 public abstract class DiscoveryConfigProcessor implements DisposableBean {
     public void logGetStarted() {
         String group = getGroup();
         String dataId = getDataId();
         String description = getDescription();
-        String configType = getConfigType();
+        ConfigType configType = getConfigType();
         boolean isConfigSingleKey = isConfigSingleKey();
 
         DiscoveryConfigProcessorLogger.logGetStarted(group, dataId, description, configType, isConfigSingleKey);
@@ -26,7 +28,7 @@ public abstract class DiscoveryConfigProcessor implements DisposableBean {
         String group = getGroup();
         String dataId = getDataId();
         String description = getDescription();
-        String configType = getConfigType();
+        ConfigType configType = getConfigType();
         boolean isConfigSingleKey = isConfigSingleKey();
 
         DiscoveryConfigProcessorLogger.logGetFailed(group, dataId, description, configType, isConfigSingleKey, e);
@@ -34,7 +36,7 @@ public abstract class DiscoveryConfigProcessor implements DisposableBean {
 
     public void logNotFound() {
         String description = getDescription();
-        String configType = getConfigType();
+        ConfigType configType = getConfigType();
 
         DiscoveryConfigProcessorLogger.logNotFound(description, configType);
     }
@@ -43,7 +45,7 @@ public abstract class DiscoveryConfigProcessor implements DisposableBean {
         String group = getGroup();
         String dataId = getDataId();
         String description = getDescription();
-        String configType = getConfigType();
+        ConfigType configType = getConfigType();
         boolean isConfigSingleKey = isConfigSingleKey();
 
         DiscoveryConfigProcessorLogger.logSubscribeStarted(group, dataId, description, configType, isConfigSingleKey);
@@ -53,7 +55,7 @@ public abstract class DiscoveryConfigProcessor implements DisposableBean {
         String group = getGroup();
         String dataId = getDataId();
         String description = getDescription();
-        String configType = getConfigType();
+        ConfigType configType = getConfigType();
         boolean isConfigSingleKey = isConfigSingleKey();
 
         DiscoveryConfigProcessorLogger.logSubscribeFailed(group, dataId, description, configType, isConfigSingleKey, e);
@@ -63,7 +65,7 @@ public abstract class DiscoveryConfigProcessor implements DisposableBean {
         String group = getGroup();
         String dataId = getDataId();
         String description = getDescription();
-        String configType = getConfigType();
+        ConfigType configType = getConfigType();
         boolean isConfigSingleKey = isConfigSingleKey();
 
         DiscoveryConfigProcessorLogger.logUnsubscribeStarted(group, dataId, description, configType, isConfigSingleKey);
@@ -73,7 +75,7 @@ public abstract class DiscoveryConfigProcessor implements DisposableBean {
         String group = getGroup();
         String dataId = getDataId();
         String description = getDescription();
-        String configType = getConfigType();
+        ConfigType configType = getConfigType();
         boolean isConfigSingleKey = isConfigSingleKey();
 
         DiscoveryConfigProcessorLogger.logUnsubscribeFailed(group, dataId, description, configType, isConfigSingleKey, e);
@@ -85,6 +87,12 @@ public abstract class DiscoveryConfigProcessor implements DisposableBean {
         DiscoveryConfigProcessorLogger.logCallbackFailed(description, e);
     }
 
+    public boolean isConfigSingleKey() {
+        ConfigType configType = getConfigType();
+
+        return ConfigType.isSingleKey(configType);
+    }
+
     public void beforeInitialization() {
 
     }
@@ -93,9 +101,7 @@ public abstract class DiscoveryConfigProcessor implements DisposableBean {
 
     }
 
-    public abstract String getConfigType();
-
-    public abstract boolean isConfigSingleKey();
+    public abstract ConfigType getConfigType();
 
     public abstract String getGroup();
 
