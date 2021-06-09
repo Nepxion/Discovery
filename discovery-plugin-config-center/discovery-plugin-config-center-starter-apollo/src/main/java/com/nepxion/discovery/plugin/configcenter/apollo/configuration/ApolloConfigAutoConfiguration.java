@@ -16,7 +16,7 @@ import com.nepxion.banner.BannerConstant;
 import com.nepxion.banner.Description;
 import com.nepxion.banner.LogoBanner;
 import com.nepxion.banner.NepxionBanner;
-import com.nepxion.discovery.common.apollo.constant.ApolloConstant;
+import com.nepxion.discovery.common.entity.ConfigType;
 import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
 import com.nepxion.discovery.plugin.configcenter.apollo.adapter.ApolloApplicationInfoAdapter;
 import com.nepxion.discovery.plugin.configcenter.apollo.adapter.ApolloConfigAdapter;
@@ -43,7 +43,7 @@ public class ApolloConfigAutoConfiguration {
 
         LogoBanner logoBanner = new LogoBanner(ApolloConfigAutoConfiguration.class, "/com/nepxion/apollo/resource/logo.txt", "Welcome to Nepxion", 6, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta }, true);
 
-        NepxionBanner.show(logoBanner, new Description("Config:", ApolloConstant.APOLLO_TYPE, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
+        NepxionBanner.show(logoBanner, new Description("Config:", ConfigType.APOLLO.toString(), 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
     }
 
     @Bean

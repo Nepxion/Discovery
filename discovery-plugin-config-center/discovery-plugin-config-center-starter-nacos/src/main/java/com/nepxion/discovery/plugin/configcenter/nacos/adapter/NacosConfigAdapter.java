@@ -16,7 +16,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.nacos.api.config.listener.Listener;
-import com.nepxion.discovery.common.nacos.constant.NacosConstant;
+import com.nepxion.discovery.common.entity.ConfigType;
 import com.nepxion.discovery.common.nacos.operation.NacosOperation;
 import com.nepxion.discovery.common.nacos.operation.NacosSubscribeCallback;
 import com.nepxion.discovery.common.thread.DiscoveryThreadPoolFactory;
@@ -89,12 +89,7 @@ public class NacosConfigAdapter extends ConfigAdapter {
     }
 
     @Override
-    public String getConfigType() {
-        return NacosConstant.NACOS_TYPE;
-    }
-
-    @Override
-    public boolean isConfigSingleKey() {
-        return false;
+    public ConfigType getConfigType() {
+        return ConfigType.NACOS;
     }
 }
