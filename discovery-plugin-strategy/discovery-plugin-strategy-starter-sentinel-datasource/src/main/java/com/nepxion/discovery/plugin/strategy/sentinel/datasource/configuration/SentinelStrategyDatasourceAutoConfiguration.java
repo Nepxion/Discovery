@@ -21,6 +21,7 @@ import com.nepxion.banner.LogoBanner;
 import com.nepxion.banner.NepxionBanner;
 import com.nepxion.discovery.common.apollo.proccessor.ApolloProcessor;
 import com.nepxion.discovery.common.consul.proccessor.ConsulProcessor;
+import com.nepxion.discovery.common.entity.ProtectorType;
 import com.nepxion.discovery.common.etcd.proccessor.EtcdProcessor;
 import com.nepxion.discovery.common.nacos.proccessor.NacosProcessor;
 import com.nepxion.discovery.common.redis.proccessor.RedisProcessor;
@@ -47,7 +48,7 @@ public class SentinelStrategyDatasourceAutoConfiguration {
     static {
         LogoBanner logoBanner = new LogoBanner(SentinelStrategyDatasourceAutoConfiguration.class, "/com/nepxion/sentinel/resource/logo.txt", "Welcome to Nepxion", 8, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta, Color.red, Color.green }, true);
 
-        NepxionBanner.show(logoBanner, new Description("Protect:", SentinelStrategyDatasourceConstant.SENTINEL_TYPE, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
+        NepxionBanner.show(logoBanner, new Description("Protector:", ProtectorType.SENTINEL.toString(), 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
     }
 
     @Bean
