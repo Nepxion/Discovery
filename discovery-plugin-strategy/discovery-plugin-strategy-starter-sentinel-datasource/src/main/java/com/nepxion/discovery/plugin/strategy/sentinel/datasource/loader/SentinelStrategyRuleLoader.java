@@ -23,7 +23,7 @@ import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRuleManager;
 import com.alibaba.csp.sentinel.slots.system.SystemRuleManager;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.util.FileUtil;
-import com.nepxion.discovery.plugin.strategy.sentinel.datasource.constant.SentinelStrategyDatasourceConstant;
+import com.nepxion.discovery.plugin.strategy.sentinel.datasource.constant.SentinelStrategyDataSourceConstant;
 import com.nepxion.discovery.plugin.strategy.sentinel.datasource.entity.SentinelStrategyRuleType;
 import com.nepxion.discovery.plugin.strategy.sentinel.datasource.parser.SentinelStrategyAuthorityRuleParser;
 import com.nepxion.discovery.plugin.strategy.sentinel.datasource.parser.SentinelStrategyDegradeRuleParser;
@@ -34,19 +34,19 @@ import com.nepxion.discovery.plugin.strategy.sentinel.datasource.parser.Sentinel
 public class SentinelStrategyRuleLoader {
     private static final Logger LOG = LoggerFactory.getLogger(SentinelStrategyRuleLoader.class);
 
-    @Value("${" + SentinelStrategyDatasourceConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_FLOW_PATH + ":" + DiscoveryConstant.PREFIX_CLASSPATH + SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_FLOW_KEY + "." + DiscoveryConstant.JSON_FORMAT + "}")
+    @Value("${" + SentinelStrategyDataSourceConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_FLOW_PATH + ":" + DiscoveryConstant.PREFIX_CLASSPATH + SentinelStrategyDataSourceConstant.SENTINEL_STRATEGY_FLOW_KEY + "." + DiscoveryConstant.JSON_FORMAT + "}")
     private String sentinelStrategyFlowPath;
 
-    @Value("${" + SentinelStrategyDatasourceConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_DEGRADE_PATH + ":" + DiscoveryConstant.PREFIX_CLASSPATH + SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_DEGRADE_KEY + "." + DiscoveryConstant.JSON_FORMAT + "}")
+    @Value("${" + SentinelStrategyDataSourceConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_DEGRADE_PATH + ":" + DiscoveryConstant.PREFIX_CLASSPATH + SentinelStrategyDataSourceConstant.SENTINEL_STRATEGY_DEGRADE_KEY + "." + DiscoveryConstant.JSON_FORMAT + "}")
     private String sentinelStrategyDegradePath;
 
-    @Value("${" + SentinelStrategyDatasourceConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_AUTHORITY_PATH + ":" + DiscoveryConstant.PREFIX_CLASSPATH + SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_AUTHORITY_KEY + "." + DiscoveryConstant.JSON_FORMAT + "}")
+    @Value("${" + SentinelStrategyDataSourceConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_AUTHORITY_PATH + ":" + DiscoveryConstant.PREFIX_CLASSPATH + SentinelStrategyDataSourceConstant.SENTINEL_STRATEGY_AUTHORITY_KEY + "." + DiscoveryConstant.JSON_FORMAT + "}")
     private String sentinelStrategyAuthorityPath;
 
-    @Value("${" + SentinelStrategyDatasourceConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_SYSTEM_PATH + ":" + DiscoveryConstant.PREFIX_CLASSPATH + SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_SYSTEM_KEY + "." + DiscoveryConstant.JSON_FORMAT + "}")
+    @Value("${" + SentinelStrategyDataSourceConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_SYSTEM_PATH + ":" + DiscoveryConstant.PREFIX_CLASSPATH + SentinelStrategyDataSourceConstant.SENTINEL_STRATEGY_SYSTEM_KEY + "." + DiscoveryConstant.JSON_FORMAT + "}")
     private String sentinelStrategySystemPath;
 
-    @Value("${" + SentinelStrategyDatasourceConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_PARAM_FLOW_PATH + ":" + DiscoveryConstant.PREFIX_CLASSPATH + SentinelStrategyDatasourceConstant.SENTINEL_STRATEGY_PARAM_FLOW_KEY + "." + DiscoveryConstant.JSON_FORMAT + "}")
+    @Value("${" + SentinelStrategyDataSourceConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_PARAM_FLOW_PATH + ":" + DiscoveryConstant.PREFIX_CLASSPATH + SentinelStrategyDataSourceConstant.SENTINEL_STRATEGY_PARAM_FLOW_KEY + "." + DiscoveryConstant.JSON_FORMAT + "}")
     private String sentinelStrategyParamFlowPath;
 
     @Autowired
