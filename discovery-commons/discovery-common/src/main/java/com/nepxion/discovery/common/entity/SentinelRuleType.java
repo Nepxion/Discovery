@@ -1,4 +1,4 @@
-package com.nepxion.discovery.console.entity;
+package com.nepxion.discovery.common.entity;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -9,14 +9,14 @@ package com.nepxion.discovery.console.entity;
  * @version 1.0
  */
 
-import com.nepxion.discovery.console.constant.ConsoleConstant;
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
 public enum SentinelRuleType {
-    FLOW(ConsoleConstant.SENTINEL_FLOW),
-    DEGRADE(ConsoleConstant.SENTINEL_DEGRADE),
-    AUTHORITY(ConsoleConstant.SENTINEL_RULE_AUTHORITY),
-    SYSTEM(ConsoleConstant.SENTINEL_RULE_SYSTEM),
-    PARAM_FLOW(ConsoleConstant.SENTINEL_RULE_PARAM_FLOW);
+    FLOW(DiscoveryConstant.SENTINEL_FLOW),
+    DEGRADE(DiscoveryConstant.SENTINEL_DEGRADE),
+    AUTHORITY(DiscoveryConstant.SENTINEL_AUTHORITY),
+    SYSTEM(DiscoveryConstant.SENTINEL_SYSTEM),
+    PARAM_FLOW(DiscoveryConstant.SENTINEL_PARAM_FLOW);
 
     private String value;
 
