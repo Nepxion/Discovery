@@ -10,5 +10,5 @@ package com.nepxion.discovery.plugin.strategy.skywalking.constant;
  */
 
 public class SkyWalkingStrategyConstant {
-    public static final String SKYWALKING_TYPE = "SkyWalking";
+
 }

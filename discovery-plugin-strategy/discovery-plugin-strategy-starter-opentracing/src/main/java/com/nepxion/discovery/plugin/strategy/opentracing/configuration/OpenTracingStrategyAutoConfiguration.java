@@ -18,9 +18,9 @@ import com.nepxion.banner.BannerConstant;
 import com.nepxion.banner.Description;
 import com.nepxion.banner.LogoBanner;
 import com.nepxion.banner.NepxionBanner;
+import com.nepxion.discovery.common.entity.TracingType;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.monitor.StrategyTracer;
-import com.nepxion.discovery.plugin.strategy.opentracing.constant.OpenTracingStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.opentracing.monitor.OpenTracingStrategyTracer;
 import com.taobao.text.Color;
 
@@ -29,7 +29,7 @@ public class OpenTracingStrategyAutoConfiguration {
     static {
         LogoBanner logoBanner = new LogoBanner(OpenTracingStrategyAutoConfiguration.class, "/com/nepxion/opentracing/resource/logo.txt", "Welcome to Nepxion", 8, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta, Color.red, Color.green }, true);
 
-        NepxionBanner.show(logoBanner, new Description("Tracing:", OpenTracingStrategyConstant.OPENTRACING_TYPE, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
+        NepxionBanner.show(logoBanner, new Description("Tracing:", TracingType.OPENTRACING.toString(), 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
     }
 
     @Bean
