@@ -10,5 +10,5 @@ package com.nepxion.discovery.plugin.registercenter.consul.constant;
  */
 
 public class ConsulConstant {
-    public static final String CONSUL_TYPE = "Consul";
+
 }
