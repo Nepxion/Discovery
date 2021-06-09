@@ -12,6 +12,7 @@ package com.nepxion.discovery.plugin.configcenter.adapter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.nepxion.discovery.common.entity.ConfigType;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.SubscriptionType;
 import com.nepxion.discovery.plugin.configcenter.loader.RemoteConfigLoader;
@@ -153,9 +154,13 @@ public abstract class ConfigAdapter extends RemoteConfigLoader {
         configLogger.logUpdatedSame(globalConfig);
     }
 
+    public boolean isConfigSingleKey() {
+        ConfigType configType = getConfigType();
+
+        return ConfigType.isSingleKey(configType);
+    }
+
     public abstract String getConfig(String group, String dataId) throws Exception;
 
-    public abstract String getConfigType();
-
-    public abstract boolean isConfigSingleKey();
+    public abstract ConfigType getConfigType();
 }

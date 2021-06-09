@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.nepxion.discovery.common.entity.ConfigType;
 import com.nepxion.discovery.common.entity.SubscriptionType;
 import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
 
@@ -30,7 +31,7 @@ public class ConfigLogger {
         String group = configAdapter.getGroup();
         String dataId = configAdapter.getDataId(globalConfig);
         SubscriptionType subscriptionType = configAdapter.getSubscriptionType(globalConfig);
-        String configType = configAdapter.getConfigType();
+        ConfigType configType = configAdapter.getConfigType();
 
         LOG.info("Get {} config from {} server, " + getLogKey(), subscriptionType, configType, group, dataId);
     }
@@ -43,7 +44,7 @@ public class ConfigLogger {
         String group = configAdapter.getGroup();
         String dataId = configAdapter.getDataId(globalConfig);
         SubscriptionType subscriptionType = configAdapter.getSubscriptionType(globalConfig);
-        String configType = configAdapter.getConfigType();
+        ConfigType configType = configAdapter.getConfigType();
 
         LOG.info("Subscribe {} config from {} server, " + getLogKey(), subscriptionType, configType, group, dataId);
     }
@@ -56,7 +57,7 @@ public class ConfigLogger {
         String group = configAdapter.getGroup();
         String dataId = configAdapter.getDataId(globalConfig);
         SubscriptionType subscriptionType = configAdapter.getSubscriptionType(globalConfig);
-        String configType = configAdapter.getConfigType();
+        ConfigType configType = configAdapter.getConfigType();
 
         LOG.error("Subscribe {} config from {} server failed, " + getLogKey(), subscriptionType, configType, group, dataId, e);
     }
@@ -69,7 +70,7 @@ public class ConfigLogger {
         String group = configAdapter.getGroup();
         String dataId = configAdapter.getDataId(globalConfig);
         SubscriptionType subscriptionType = configAdapter.getSubscriptionType(globalConfig);
-        String configType = configAdapter.getConfigType();
+        ConfigType configType = configAdapter.getConfigType();
 
         LOG.info("Unsubscribe {} config from {} server, " + getLogKey(), subscriptionType, configType, group, dataId);
     }
@@ -82,7 +83,7 @@ public class ConfigLogger {
         String group = configAdapter.getGroup();
         String dataId = configAdapter.getDataId(globalConfig);
         SubscriptionType subscriptionType = configAdapter.getSubscriptionType(globalConfig);
-        String configType = configAdapter.getConfigType();
+        ConfigType configType = configAdapter.getConfigType();
 
         LOG.error("Unsubscribe {} config from {} server failed, " + getLogKey(), subscriptionType, configType, group, dataId, e);
     }
@@ -93,7 +94,7 @@ public class ConfigLogger {
         }
 
         SubscriptionType subscriptionType = configAdapter.getSubscriptionType(globalConfig);
-        String configType = configAdapter.getConfigType();
+        ConfigType configType = configAdapter.getConfigType();
 
         LOG.info("Found {} config from {} server", subscriptionType, configType);
     }
@@ -104,7 +105,7 @@ public class ConfigLogger {
         }
 
         SubscriptionType subscriptionType = configAdapter.getSubscriptionType(globalConfig);
-        String configType = configAdapter.getConfigType();
+        ConfigType configType = configAdapter.getConfigType();
 
         LOG.info("Not found {} config from {} server", subscriptionType, configType);
     }
@@ -117,7 +118,7 @@ public class ConfigLogger {
         String group = configAdapter.getGroup();
         String dataId = configAdapter.getDataId(globalConfig);
         SubscriptionType subscriptionType = configAdapter.getSubscriptionType(globalConfig);
-        String configType = configAdapter.getConfigType();
+        ConfigType configType = configAdapter.getConfigType();
 
         LOG.info("Get {} config updated event from {} server, " + getLogKey(), subscriptionType, configType, group, dataId);
     }
@@ -130,7 +131,7 @@ public class ConfigLogger {
         String group = configAdapter.getGroup();
         String dataId = configAdapter.getDataId(globalConfig);
         SubscriptionType subscriptionType = configAdapter.getSubscriptionType(globalConfig);
-        String configType = configAdapter.getConfigType();
+        ConfigType configType = configAdapter.getConfigType();
 
         LOG.info("Get {} config cleared event from {} server, " + getLogKey(), subscriptionType, configType, group, dataId);
     }
@@ -143,7 +144,7 @@ public class ConfigLogger {
         String group = configAdapter.getGroup();
         String dataId = configAdapter.getDataId(globalConfig);
         SubscriptionType subscriptionType = configAdapter.getSubscriptionType(globalConfig);
-        String configType = configAdapter.getConfigType();
+        ConfigType configType = configAdapter.getConfigType();
 
         LOG.info("Updated {} config from {} server is same as current config, ignore to update, " + getLogKey(), subscriptionType, configType, group, dataId);
     }

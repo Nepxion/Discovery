@@ -17,7 +17,7 @@ import com.nepxion.banner.BannerConstant;
 import com.nepxion.banner.Description;
 import com.nepxion.banner.LogoBanner;
 import com.nepxion.banner.NepxionBanner;
-import com.nepxion.discovery.common.redis.constant.RedisConstant;
+import com.nepxion.discovery.common.entity.ConfigType;
 import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
 import com.nepxion.discovery.plugin.configcenter.redis.adapter.RedisConfigAdapter;
 import com.taobao.text.Color;
@@ -40,7 +40,7 @@ public class RedisConfigAutoConfiguration {
 
         LogoBanner logoBanner = new LogoBanner(RedisConfigAutoConfiguration.class, "/com/nepxion/redis/resource/logo.txt", "Welcome to Nepxion", 5, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow }, true);
 
-        NepxionBanner.show(logoBanner, new Description("Config:", RedisConstant.REDIS_TYPE, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
+        NepxionBanner.show(logoBanner, new Description("Config:", ConfigType.REDIS.toString(), 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
     }
 
     @Bean

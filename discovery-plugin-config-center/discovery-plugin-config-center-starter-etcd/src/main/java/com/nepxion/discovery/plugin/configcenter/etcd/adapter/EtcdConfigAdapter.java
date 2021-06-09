@@ -15,7 +15,7 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.common.etcd.constant.EtcdConstant;
+import com.nepxion.discovery.common.entity.ConfigType;
 import com.nepxion.discovery.common.etcd.operation.EtcdOperation;
 import com.nepxion.discovery.common.etcd.operation.EtcdSubscribeCallback;
 import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
@@ -83,12 +83,7 @@ public class EtcdConfigAdapter extends ConfigAdapter {
     }
 
     @Override
-    public String getConfigType() {
-        return EtcdConstant.ETCD_TYPE;
-    }
-
-    @Override
-    public boolean isConfigSingleKey() {
-        return true;
+    public ConfigType getConfigType() {
+        return ConfigType.ETCD;
     }
 }
