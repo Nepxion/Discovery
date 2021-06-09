@@ -9,6 +9,8 @@ package com.nepxion.discovery.console.adapter;
  * @version 1.0
  */
 
+import com.nepxion.discovery.common.entity.ConfigType;
+
 public interface ConfigAdapter {
     boolean updateConfig(String group, String serviceId, String config) throws Exception;
 
@@ -16,5 +18,5 @@ public interface ConfigAdapter {
 
     String getConfig(String group, String serviceId) throws Exception;
 
-    String getConfigType();
+    ConfigType getConfigType();
 }

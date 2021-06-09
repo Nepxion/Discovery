@@ -310,7 +310,7 @@ public class ConsoleEndpoint {
 
     private ResponseEntity<?> doDiscoveryType() {
         try {
-            String discoveryType = serviceResource.getDiscoveryType();
+            String discoveryType = serviceResource.getDiscoveryType().toString();
 
             return ResponseUtil.getSuccessResponse(discoveryType);
         } catch (Exception e) {
@@ -320,7 +320,7 @@ public class ConsoleEndpoint {
 
     private ResponseEntity<?> doConfigType() {
         try {
-            String configType = configResource.getConfigType();
+            String configType = configResource.getConfigType().toString();
 
             return ResponseUtil.getSuccessResponse(configType);
         } catch (Exception e) {

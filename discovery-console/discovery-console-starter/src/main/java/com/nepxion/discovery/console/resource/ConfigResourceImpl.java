@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 
+import com.nepxion.discovery.common.entity.ConfigType;
 import com.nepxion.discovery.common.entity.ResultEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.console.adapter.ConfigAdapter;
@@ -36,7 +37,7 @@ public class ConfigResourceImpl implements ConfigResource {
     private RestTemplate consoleRestTemplate;
 
     @Override
-    public String getConfigType() {
+    public ConfigType getConfigType() {
         if (configAdapter == null) {
             LOG.error("Remote config adapter isn't provided");
 
