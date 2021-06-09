@@ -19,6 +19,7 @@ import org.springframework.core.env.Environment;
 import com.ctrip.framework.apollo.openapi.client.ApolloOpenApiClient;
 import com.ctrip.framework.apollo.openapi.dto.NamespaceReleaseDTO;
 import com.ctrip.framework.apollo.openapi.dto.OpenItemDTO;
+import com.nepxion.discovery.common.entity.ConfigType;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.console.adapter.ConfigAdapter;
 import com.nepxion.discovery.console.apollo.constant.ApolloConstant;
@@ -128,7 +129,7 @@ public class ApolloConfigAdapter implements ConfigAdapter {
     }
 
     @Override
-    public String getConfigType() {
-        return ApolloConstant.APOLLO_TYPE;
+    public ConfigType getConfigType() {
+        return ConfigType.APOLLO;
     }
 }

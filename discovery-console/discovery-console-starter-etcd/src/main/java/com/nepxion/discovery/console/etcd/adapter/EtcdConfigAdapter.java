@@ -11,7 +11,7 @@ package com.nepxion.discovery.console.etcd.adapter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.common.etcd.constant.EtcdConstant;
+import com.nepxion.discovery.common.entity.ConfigType;
 import com.nepxion.discovery.common.etcd.operation.EtcdOperation;
 import com.nepxion.discovery.console.adapter.ConfigAdapter;
 
@@ -35,7 +35,7 @@ public class EtcdConfigAdapter implements ConfigAdapter {
     }
 
     @Override
-    public String getConfigType() {
-        return EtcdConstant.ETCD_TYPE;
+    public ConfigType getConfigType() {
+        return ConfigType.ETCD;
     }
 }
