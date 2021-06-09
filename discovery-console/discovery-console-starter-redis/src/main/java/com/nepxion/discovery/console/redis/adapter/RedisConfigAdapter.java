@@ -12,7 +12,7 @@ package com.nepxion.discovery.console.redis.adapter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.common.redis.constant.RedisConstant;
+import com.nepxion.discovery.common.entity.ConfigType;
 import com.nepxion.discovery.common.redis.operation.RedisOperation;
 import com.nepxion.discovery.console.adapter.ConfigAdapter;
 
@@ -36,7 +36,7 @@ public class RedisConfigAdapter implements ConfigAdapter {
     }
 
     @Override
-    public String getConfigType() {
-        return RedisConstant.REDIS_TYPE;
+    public ConfigType getConfigType() {
+        return ConfigType.REDIS;
     }
 }

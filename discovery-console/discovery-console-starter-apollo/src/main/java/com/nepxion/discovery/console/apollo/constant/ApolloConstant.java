@@ -12,7 +12,6 @@ package com.nepxion.discovery.console.apollo.constant;
 import com.ctrip.framework.apollo.openapi.client.constant.ApolloOpenApiConstants;
 
 public class ApolloConstant implements ApolloOpenApiConstants {
-    public static final String APOLLO_TYPE = "Apollo";
     public static final String APOLLO_PORTAL_URL = "apollo.portal-url";
     public static final String APOLLO_TOKEN = "apollo.token";
     public static final String APOLLO_OPERATOR = "apollo.operator";

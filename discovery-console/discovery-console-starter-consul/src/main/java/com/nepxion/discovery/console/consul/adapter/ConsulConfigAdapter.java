@@ -11,8 +11,8 @@ package com.nepxion.discovery.console.consul.adapter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.common.consul.constant.ConsulConstant;
 import com.nepxion.discovery.common.consul.operation.ConsulOperation;
+import com.nepxion.discovery.common.entity.ConfigType;
 import com.nepxion.discovery.console.adapter.ConfigAdapter;
 
 public class ConsulConfigAdapter implements ConfigAdapter {
@@ -35,7 +35,7 @@ public class ConsulConfigAdapter implements ConfigAdapter {
     }
 
     @Override
-    public String getConfigType() {
-        return ConsulConstant.CONSUL_TYPE;
+    public ConfigType getConfigType() {
+        return ConfigType.CONSUL;
     }
 }

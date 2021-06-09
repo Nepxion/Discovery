@@ -11,7 +11,7 @@ package com.nepxion.discovery.console.nacos.adapter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.common.nacos.constant.NacosConstant;
+import com.nepxion.discovery.common.entity.ConfigType;
 import com.nepxion.discovery.common.nacos.operation.NacosOperation;
 import com.nepxion.discovery.console.adapter.ConfigAdapter;
 
@@ -35,7 +35,7 @@ public class NacosConfigAdapter implements ConfigAdapter {
     }
 
     @Override
-    public String getConfigType() {
-        return NacosConstant.NACOS_TYPE;
+    public ConfigType getConfigType() {
+        return ConfigType.NACOS;
     }
 }

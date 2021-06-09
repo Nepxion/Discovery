@@ -11,7 +11,7 @@ package com.nepxion.discovery.console.zookeeper.adapter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.common.zookeeper.constant.ZookeeperConstant;
+import com.nepxion.discovery.common.entity.ConfigType;
 import com.nepxion.discovery.common.zookeeper.operation.ZookeeperOperation;
 import com.nepxion.discovery.console.adapter.ConfigAdapter;
 
@@ -35,7 +35,7 @@ public class ZookeeperConfigAdapter implements ConfigAdapter {
     }
 
     @Override
-    public String getConfigType() {
-        return ZookeeperConstant.ZOOKEEPER_TYPE;
+    public ConfigType getConfigType() {
+        return ConfigType.ZOOKEEPER;
     }
 }
