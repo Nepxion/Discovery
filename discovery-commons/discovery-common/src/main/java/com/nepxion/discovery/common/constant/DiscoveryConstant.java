@@ -183,6 +183,10 @@ public class DiscoveryConstant {
     public static final String EMPTY_JSON_RULE_SINGLE = "{}";
     public static final String EMPTY_JSON_RULE_MULTIPLE = "[]";
 
+    public static final String SPRING_CLOUD_GATEWAY_TYPE = "spring-cloud-gateway";
+    public static final String ZUUL_TYPE = "zuul";
+    public static final String SPRING_CLOUD_GATEWAY = "Spring Cloud Gateway";
+    public static final String ZUUL = "Zuul";
     public static final String NACOS = "Nacos";
     public static final String APOLLO = "Apollo";
     public static final String REDIS = "Redis";

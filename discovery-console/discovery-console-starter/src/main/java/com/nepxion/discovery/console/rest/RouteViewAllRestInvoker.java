@@ -11,7 +11,7 @@ package com.nepxion.discovery.console.rest;
 
 import org.springframework.web.client.RestTemplate;
 
-import com.nepxion.discovery.console.entity.GatewayType;
+import com.nepxion.discovery.common.entity.GatewayType;
 import com.nepxion.discovery.console.resource.ServiceResource;
 
 public class RouteViewAllRestInvoker extends AbstractRestInvoker {

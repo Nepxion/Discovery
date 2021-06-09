@@ -15,6 +15,7 @@ import java.util.Map;
 import org.springframework.cloud.client.ServiceInstance;
 
 import com.nepxion.discovery.common.entity.DiscoveryType;
+import com.nepxion.discovery.common.entity.GatewayType;
 import com.nepxion.discovery.common.entity.InstanceEntity;
 
 public interface ServiceResource {
@@ -27,6 +28,8 @@ public interface ServiceResource {
     List<String> getServices();
 
     List<String> getGateways();
+
+    List<String> getGatewayList(GatewayType gatewayType);
 
     List<ServiceInstance> getInstances(String serviceId);
 

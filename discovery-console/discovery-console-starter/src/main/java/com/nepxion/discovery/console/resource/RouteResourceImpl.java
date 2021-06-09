@@ -14,8 +14,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 
+import com.nepxion.discovery.common.entity.GatewayType;
 import com.nepxion.discovery.common.entity.ResultEntity;
-import com.nepxion.discovery.console.entity.GatewayType;
 import com.nepxion.discovery.console.rest.RouteAddRestInvoker;
 import com.nepxion.discovery.console.rest.RouteDeleteRestInvoker;
 import com.nepxion.discovery.console.rest.RouteModifyRestInvoker;
