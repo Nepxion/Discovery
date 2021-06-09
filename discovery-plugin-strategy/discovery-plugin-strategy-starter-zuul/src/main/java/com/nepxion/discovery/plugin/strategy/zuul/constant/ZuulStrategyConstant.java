@@ -19,6 +19,4 @@ public class ZuulStrategyConstant {
 
     public static final String ZUUL_DYNAMIC_ROUTE = "dynamic-route";
     public static final String ZUUL_DYNAMIC_ROUTE_DESCRIPTION = "Zuul dynamic route";
-
-    public static final String ZUUL = "zuul";
 }

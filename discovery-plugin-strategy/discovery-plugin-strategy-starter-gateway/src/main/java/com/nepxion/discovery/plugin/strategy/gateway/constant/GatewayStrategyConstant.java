@@ -19,6 +19,4 @@ public class GatewayStrategyConstant {
 
     public static final String GATEWAY_DYNAMIC_ROUTE = "dynamic-route";
     public static final String GATEWAY_DYNAMIC_ROUTE_DESCRIPTION = "Gateway dynamic route";
-
-    public static final String SPRING_CLOUD_GATEWAY = "spring-cloud-gateway";
 }
