@@ -14,8 +14,8 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 
+import com.nepxion.discovery.common.entity.ConfigType;
 import com.nepxion.discovery.common.processor.DiscoveryConfigProcessor;
-import com.nepxion.discovery.common.redis.constant.RedisConstant;
 import com.nepxion.discovery.common.redis.operation.RedisOperation;
 import com.nepxion.discovery.common.redis.operation.RedisSubscribeCallback;
 
@@ -88,12 +88,7 @@ public abstract class RedisProcessor extends DiscoveryConfigProcessor {
     }
 
     @Override
-    public String getConfigType() {
-        return RedisConstant.REDIS_TYPE;
-    }
-
-    @Override
-    public boolean isConfigSingleKey() {
-        return false;
+    public ConfigType getConfigType() {
+        return ConfigType.REDIS;
     }
 }

@@ -15,10 +15,10 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.common.consul.constant.ConsulConstant;
 import com.nepxion.discovery.common.consul.operation.ConsulListener;
 import com.nepxion.discovery.common.consul.operation.ConsulOperation;
 import com.nepxion.discovery.common.consul.operation.ConsulSubscribeCallback;
+import com.nepxion.discovery.common.entity.ConfigType;
 import com.nepxion.discovery.common.processor.DiscoveryConfigProcessor;
 import com.nepxion.discovery.common.thread.DiscoveryThreadPoolFactory;
 
@@ -91,12 +91,7 @@ public abstract class ConsulProcessor extends DiscoveryConfigProcessor {
     }
 
     @Override
-    public String getConfigType() {
-        return ConsulConstant.CONSUL_TYPE;
-    }
-
-    @Override
-    public boolean isConfigSingleKey() {
-        return true;
+    public ConfigType getConfigType() {
+        return ConfigType.CONSUL;
     }
 }

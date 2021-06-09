@@ -182,4 +182,17 @@ public class DiscoveryConstant {
     public static final String EMPTY_XML_RULE = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<rule>\n</rule>";
     public static final String EMPTY_JSON_RULE_SINGLE = "{}";
     public static final String EMPTY_JSON_RULE_MULTIPLE = "[]";
+
+    public static final String NACOS = "Nacos";
+    public static final String APOLLO = "Apollo";
+    public static final String REDIS = "Redis";
+    public static final String ZOOKEEPER = "Zookeeper";
+    public static final String CONSUL = "Consul";
+    public static final String ETCD = "Etcd";
+    public static final String EUREKA = "Eureka";
+    public static final String HYSTRIX = "Hystrix";
+    public static final String SENTINEL = "Sentinel";
+    public static final String OPENTELEMETRY = "OpenTelemetry";
+    public static final String OPENTRACING = "OpenTracing";
+    public static final String SKYWALKING = "SkyWalking";
 }
