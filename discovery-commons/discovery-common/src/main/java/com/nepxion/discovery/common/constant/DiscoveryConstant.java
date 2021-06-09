@@ -207,4 +207,16 @@ public class DiscoveryConstant {
     public static final String SENTINEL_AUTHORITY = "authority";
     public static final String SENTINEL_SYSTEM = "system";
     public static final String SENTINEL_PARAM_FLOW = "param-flow";
+
+    public static final String SENTINEL_FLOW_KEY = "sentinel-flow";
+    public static final String SENTINEL_DEGRADE_KEY = "sentinel-degrade";
+    public static final String SENTINEL_AUTHORITY_KEY = "sentinel-authority";
+    public static final String SENTINEL_SYSTEM_KEY = "sentinel-system";
+    public static final String SENTINEL_PARAM_FLOW_KEY = "sentinel-param-flow";
+
+    public static final String SENTINEL_FLOW_DESCRIPTION = "Sentinel flow rules";
+    public static final String SENTINEL_DEGRADE_DESCRIPTION = "Sentinel degrade rules";
+    public static final String SENTINEL_AUTHORITY_DESCRIPTION = "Sentinel authority rules";
+    public static final String SENTINEL_SYSTEM_DESCRIPTION = "Sentinel system rules";
+    public static final String SENTINEL_PARAM_FLOW_DESCRIPTION = "Sentinel param flow rules";
 }

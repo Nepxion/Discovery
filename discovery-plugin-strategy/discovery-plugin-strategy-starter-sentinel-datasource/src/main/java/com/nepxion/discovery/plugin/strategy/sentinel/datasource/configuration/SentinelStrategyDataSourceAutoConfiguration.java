@@ -22,12 +22,12 @@ import com.nepxion.banner.NepxionBanner;
 import com.nepxion.discovery.common.apollo.proccessor.ApolloProcessor;
 import com.nepxion.discovery.common.consul.proccessor.ConsulProcessor;
 import com.nepxion.discovery.common.entity.ProtectorType;
+import com.nepxion.discovery.common.entity.SentinelRuleType;
 import com.nepxion.discovery.common.etcd.proccessor.EtcdProcessor;
 import com.nepxion.discovery.common.nacos.proccessor.NacosProcessor;
 import com.nepxion.discovery.common.redis.proccessor.RedisProcessor;
 import com.nepxion.discovery.common.zookeeper.proccessor.ZookeeperProcessor;
 import com.nepxion.discovery.plugin.strategy.sentinel.datasource.constant.SentinelStrategyDataSourceConstant;
-import com.nepxion.discovery.plugin.strategy.sentinel.datasource.entity.SentinelStrategyRuleType;
 import com.nepxion.discovery.plugin.strategy.sentinel.datasource.loader.SentinelStrategyRuleLoader;
 import com.nepxion.discovery.plugin.strategy.sentinel.datasource.parser.SentinelStrategyAuthorityRuleParser;
 import com.nepxion.discovery.plugin.strategy.sentinel.datasource.parser.SentinelStrategyDegradeRuleParser;
@@ -85,27 +85,27 @@ public class SentinelStrategyDataSourceAutoConfiguration {
     protected static class SentinelStrategyNacosConfiguration {
         @Bean
         public NacosProcessor sentinelStrategyFlowRuleNacosProcessor() {
-            return new SentinelStrategyRuleNacosProcessor(SentinelStrategyRuleType.FLOW);
+            return new SentinelStrategyRuleNacosProcessor(SentinelRuleType.FLOW);
         }
 
         @Bean
         public NacosProcessor sentinelStrategyDegradeRuleNacosProcessor() {
-            return new SentinelStrategyRuleNacosProcessor(SentinelStrategyRuleType.DEGRADE);
+            return new SentinelStrategyRuleNacosProcessor(SentinelRuleType.DEGRADE);
         }
 
         @Bean
         public NacosProcessor sentinelStrategyAuthorityRuleNacosProcessor() {
-            return new SentinelStrategyRuleNacosProcessor(SentinelStrategyRuleType.AUTHORITY);
+            return new SentinelStrategyRuleNacosProcessor(SentinelRuleType.AUTHORITY);
         }
 
         @Bean
         public NacosProcessor sentinelStrategySystemRuleNacosProcessor() {
-            return new SentinelStrategyRuleNacosProcessor(SentinelStrategyRuleType.SYSTEM);
+            return new SentinelStrategyRuleNacosProcessor(SentinelRuleType.SYSTEM);
         }
 
         @Bean
         public NacosProcessor sentinelStrategyParamFlowRuleNacosProcessor() {
-            return new SentinelStrategyRuleNacosProcessor(SentinelStrategyRuleType.PARAM_FLOW);
+            return new SentinelStrategyRuleNacosProcessor(SentinelRuleType.PARAM_FLOW);
         }
     }
 
@@ -113,27 +113,27 @@ public class SentinelStrategyDataSourceAutoConfiguration {
     protected static class SentinelStrategyApolloConfiguration {
         @Bean
         public ApolloProcessor sentinelStrategyFlowRuleApolloProcessor() {
-            return new SentinelStrategyRuleApolloProcessor(SentinelStrategyRuleType.FLOW);
+            return new SentinelStrategyRuleApolloProcessor(SentinelRuleType.FLOW);
         }
 
         @Bean
         public ApolloProcessor sentinelStrategyDegradeRuleApolloProcessor() {
-            return new SentinelStrategyRuleApolloProcessor(SentinelStrategyRuleType.DEGRADE);
+            return new SentinelStrategyRuleApolloProcessor(SentinelRuleType.DEGRADE);
         }
 
         @Bean
         public ApolloProcessor sentinelStrategyAuthorityRuleApolloProcessor() {
-            return new SentinelStrategyRuleApolloProcessor(SentinelStrategyRuleType.AUTHORITY);
+            return new SentinelStrategyRuleApolloProcessor(SentinelRuleType.AUTHORITY);
         }
 
         @Bean
         public ApolloProcessor sentinelStrategySystemRuleApolloProcessor() {
-            return new SentinelStrategyRuleApolloProcessor(SentinelStrategyRuleType.SYSTEM);
+            return new SentinelStrategyRuleApolloProcessor(SentinelRuleType.SYSTEM);
         }
 
         @Bean
         public ApolloProcessor sentinelStrategyParamFlowRuleApolloProcessor() {
-            return new SentinelStrategyRuleApolloProcessor(SentinelStrategyRuleType.PARAM_FLOW);
+            return new SentinelStrategyRuleApolloProcessor(SentinelRuleType.PARAM_FLOW);
         }
     }
 
@@ -141,27 +141,27 @@ public class SentinelStrategyDataSourceAutoConfiguration {
     protected static class SentinelStrategyRedisConfiguration {
         @Bean
         public RedisProcessor sentinelStrategyFlowRuleRedisProcessor() {
-            return new SentinelStrategyRuleRedisProcessor(SentinelStrategyRuleType.FLOW);
+            return new SentinelStrategyRuleRedisProcessor(SentinelRuleType.FLOW);
         }
 
         @Bean
         public RedisProcessor sentinelStrategyDegradeRuleRedisProcessor() {
-            return new SentinelStrategyRuleRedisProcessor(SentinelStrategyRuleType.DEGRADE);
+            return new SentinelStrategyRuleRedisProcessor(SentinelRuleType.DEGRADE);
         }
 
         @Bean
         public RedisProcessor sentinelStrategyAuthorityRuleRedisProcessor() {
-            return new SentinelStrategyRuleRedisProcessor(SentinelStrategyRuleType.AUTHORITY);
+            return new SentinelStrategyRuleRedisProcessor(SentinelRuleType.AUTHORITY);
         }
 
         @Bean
         public RedisProcessor sentinelStrategySystemRuleRedisProcessor() {
-            return new SentinelStrategyRuleRedisProcessor(SentinelStrategyRuleType.SYSTEM);
+            return new SentinelStrategyRuleRedisProcessor(SentinelRuleType.SYSTEM);
         }
 
         @Bean
         public RedisProcessor sentinelStrategyParamFlowRuleRedisProcessor() {
-            return new SentinelStrategyRuleRedisProcessor(SentinelStrategyRuleType.PARAM_FLOW);
+            return new SentinelStrategyRuleRedisProcessor(SentinelRuleType.PARAM_FLOW);
         }
     }
 
@@ -169,27 +169,27 @@ public class SentinelStrategyDataSourceAutoConfiguration {
     protected static class SentinelStrategyZookeeperConfiguration {
         @Bean
         public ZookeeperProcessor sentinelStrategyFlowRuleZookeeperProcessor() {
-            return new SentinelStrategyRuleZookeeperProcessor(SentinelStrategyRuleType.FLOW);
+            return new SentinelStrategyRuleZookeeperProcessor(SentinelRuleType.FLOW);
         }
 
         @Bean
         public ZookeeperProcessor sentinelStrategyDegradeRuleZookeeperProcessor() {
-            return new SentinelStrategyRuleZookeeperProcessor(SentinelStrategyRuleType.DEGRADE);
+            return new SentinelStrategyRuleZookeeperProcessor(SentinelRuleType.DEGRADE);
         }
 
         @Bean
         public ZookeeperProcessor sentinelStrategyAuthorityRuleZookeeperProcessor() {
-            return new SentinelStrategyRuleZookeeperProcessor(SentinelStrategyRuleType.AUTHORITY);
+            return new SentinelStrategyRuleZookeeperProcessor(SentinelRuleType.AUTHORITY);
         }
 
         @Bean
         public ZookeeperProcessor sentinelStrategySystemRuleZookeeperProcessor() {
-            return new SentinelStrategyRuleZookeeperProcessor(SentinelStrategyRuleType.SYSTEM);
+            return new SentinelStrategyRuleZookeeperProcessor(SentinelRuleType.SYSTEM);
         }
 
         @Bean
         public ZookeeperProcessor sentinelStrategyParamFlowRuleZookeeperProcessor() {
-            return new SentinelStrategyRuleZookeeperProcessor(SentinelStrategyRuleType.PARAM_FLOW);
+            return new SentinelStrategyRuleZookeeperProcessor(SentinelRuleType.PARAM_FLOW);
         }
     }
 
@@ -197,27 +197,27 @@ public class SentinelStrategyDataSourceAutoConfiguration {
     protected static class SentinelStrategyConsulConfiguration {
         @Bean
         public ConsulProcessor sentinelStrategyFlowRuleConsulProcessor() {
-            return new SentinelStrategyRuleConsulProcessor(SentinelStrategyRuleType.FLOW);
+            return new SentinelStrategyRuleConsulProcessor(SentinelRuleType.FLOW);
         }
 
         @Bean
         public ConsulProcessor sentinelStrategyDegradeRuleConsulProcessor() {
-            return new SentinelStrategyRuleConsulProcessor(SentinelStrategyRuleType.DEGRADE);
+            return new SentinelStrategyRuleConsulProcessor(SentinelRuleType.DEGRADE);
         }
 
         @Bean
         public ConsulProcessor sentinelStrategyAuthorityRuleConsulProcessor() {
-            return new SentinelStrategyRuleConsulProcessor(SentinelStrategyRuleType.AUTHORITY);
+            return new SentinelStrategyRuleConsulProcessor(SentinelRuleType.AUTHORITY);
         }
 
         @Bean
         public ConsulProcessor sentinelStrategySystemRuleConsulProcessor() {
-            return new SentinelStrategyRuleConsulProcessor(SentinelStrategyRuleType.SYSTEM);
+            return new SentinelStrategyRuleConsulProcessor(SentinelRuleType.SYSTEM);
         }
 
         @Bean
         public ConsulProcessor sentinelStrategyParamFlowRuleConsulProcessor() {
-            return new SentinelStrategyRuleConsulProcessor(SentinelStrategyRuleType.PARAM_FLOW);
+            return new SentinelStrategyRuleConsulProcessor(SentinelRuleType.PARAM_FLOW);
         }
     }
 
@@ -225,27 +225,27 @@ public class SentinelStrategyDataSourceAutoConfiguration {
     protected static class SentinelStrategyEtcdConfiguration {
         @Bean
         public EtcdProcessor sentinelStrategyFlowRuleEtcdProcessor() {
-            return new SentinelStrategyRuleEtcdProcessor(SentinelStrategyRuleType.FLOW);
+            return new SentinelStrategyRuleEtcdProcessor(SentinelRuleType.FLOW);
         }
 
         @Bean
         public EtcdProcessor sentinelStrategyDegradeRuleEtcdProcessor() {
-            return new SentinelStrategyRuleEtcdProcessor(SentinelStrategyRuleType.DEGRADE);
+            return new SentinelStrategyRuleEtcdProcessor(SentinelRuleType.DEGRADE);
         }
 
         @Bean
         public EtcdProcessor sentinelStrategyAuthorityRuleEtcdProcessor() {
-            return new SentinelStrategyRuleEtcdProcessor(SentinelStrategyRuleType.AUTHORITY);
+            return new SentinelStrategyRuleEtcdProcessor(SentinelRuleType.AUTHORITY);
         }
 
         @Bean
         public EtcdProcessor sentinelStrategySystemRuleEtcdProcessor() {
-            return new SentinelStrategyRuleEtcdProcessor(SentinelStrategyRuleType.SYSTEM);
+            return new SentinelStrategyRuleEtcdProcessor(SentinelRuleType.SYSTEM);
         }
 
         @Bean
         public EtcdProcessor sentinelStrategyParamFlowRuleEtcdProcessor() {
-            return new SentinelStrategyRuleEtcdProcessor(SentinelStrategyRuleType.PARAM_FLOW);
+            return new SentinelStrategyRuleEtcdProcessor(SentinelRuleType.PARAM_FLOW);
         }
     }
 }

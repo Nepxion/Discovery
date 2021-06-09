@@ -12,8 +12,8 @@ package com.nepxion.discovery.plugin.strategy.sentinel.datasource.processor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.common.consul.proccessor.ConsulProcessor;
+import com.nepxion.discovery.common.entity.SentinelRuleType;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.strategy.sentinel.datasource.entity.SentinelStrategyRuleType;
 import com.nepxion.discovery.plugin.strategy.sentinel.datasource.loader.SentinelStrategyRuleLoader;
 
 public class SentinelStrategyRuleConsulProcessor extends ConsulProcessor {
@@ -23,15 +23,15 @@ public class SentinelStrategyRuleConsulProcessor extends ConsulProcessor {
     @Autowired
     private SentinelStrategyRuleLoader sentinelStrategyRuleLoader;
 
-    private SentinelStrategyRuleType sentinelStrategyRuleType;
+    private SentinelRuleType sentinelRuleType;
 
-    public SentinelStrategyRuleConsulProcessor(SentinelStrategyRuleType sentinelStrategyRuleType) {
-        this.sentinelStrategyRuleType = sentinelStrategyRuleType;
+    public SentinelStrategyRuleConsulProcessor(SentinelRuleType sentinelRuleType) {
+        this.sentinelRuleType = sentinelRuleType;
     }
 
     @Override
     public void afterInitialization() {
-        sentinelStrategyRuleLoader.loadFileRules(sentinelStrategyRuleType);
+        sentinelStrategyRuleLoader.loadFileRules(sentinelRuleType);
     }
 
     @Override
@@ -41,16 +41,16 @@ public class SentinelStrategyRuleConsulProcessor extends ConsulProcessor {
 
     @Override
     public String getDataId() {
-        return pluginAdapter.getServiceId() + "-" + sentinelStrategyRuleType.getValue();
+        return pluginAdapter.getServiceId() + "-" + sentinelRuleType.getKey();
     }
 
     @Override
     public String getDescription() {
-        return sentinelStrategyRuleType.getDescription();
+        return sentinelRuleType.getDescription();
     }
 
     @Override
     public void callbackConfig(String config) {
-        sentinelStrategyRuleLoader.loadRules(sentinelStrategyRuleType, config);
+        sentinelStrategyRuleLoader.loadRules(sentinelRuleType, config);
     }
 }
