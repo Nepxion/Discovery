@@ -5506,6 +5506,19 @@ spring.application.strategy.tracer.sentinel.args.output.enabled=true
 # 开启Spring Cloud Gateway网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
 spring.application.strategy.hystrix.threadlocal.supported=true
 
+# 启动和关闭Sentinel限流降级熔断权限等原生功能的数据来源扩展。缺失则默认为false
+spring.application.strategy.sentinel.datasource.enabled=true
+# 流控规则文件路径。缺失则默认为classpath:sentinel-flow.json
+spring.application.strategy.sentinel.flow.path=classpath:sentinel-flow.json
+# 降级规则文件路径。缺失则默认为classpath:sentinel-degrade.json
+spring.application.strategy.sentinel.degrade.path=classpath:sentinel-degrade.json
+# 授权规则文件路径。缺失则默认为classpath:sentinel-authority.json
+spring.application.strategy.sentinel.authority.path=classpath:sentinel-authority.json
+# 系统规则文件路径。缺失则默认为classpath:sentinel-system.json
+spring.application.strategy.sentinel.system.path=classpath:sentinel-system.json
+# 热点参数流控规则文件路径。缺失则默认为classpath:sentinel-param-flow.json
+spring.application.strategy.sentinel.param.flow.path=classpath:sentinel-param-flow.json
+
 # 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
 spring.application.strategy.environment.route=common
 
@@ -5671,6 +5684,19 @@ spring.application.strategy.tracer.sentinel.args.output.enabled=true
 
 # 开启Zuul网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
 spring.application.strategy.hystrix.threadlocal.supported=true
+
+# 启动和关闭Sentinel限流降级熔断权限等原生功能的数据来源扩展。缺失则默认为false
+spring.application.strategy.sentinel.datasource.enabled=true
+# 流控规则文件路径。缺失则默认为classpath:sentinel-flow.json
+spring.application.strategy.sentinel.flow.path=classpath:sentinel-flow.json
+# 降级规则文件路径。缺失则默认为classpath:sentinel-degrade.json
+spring.application.strategy.sentinel.degrade.path=classpath:sentinel-degrade.json
+# 授权规则文件路径。缺失则默认为classpath:sentinel-authority.json
+spring.application.strategy.sentinel.authority.path=classpath:sentinel-authority.json
+# 系统规则文件路径。缺失则默认为classpath:sentinel-system.json
+spring.application.strategy.sentinel.system.path=classpath:sentinel-system.json
+# 热点参数流控规则文件路径。缺失则默认为classpath:sentinel-param-flow.json
+spring.application.strategy.sentinel.param.flow.path=classpath:sentinel-param-flow.json
 
 # 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
 spring.application.strategy.environment.route=common
