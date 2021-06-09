@@ -11,10 +11,11 @@ package com.nepxion.discovery.console.resource;
 
 import java.util.List;
 
+import com.nepxion.discovery.common.entity.ConfigType;
 import com.nepxion.discovery.common.entity.ResultEntity;
 
 public interface ConfigResource {
-    String getConfigType();
+    ConfigType getConfigType();
 
     boolean updateRemoteConfig(String group, String serviceId, String config) throws Exception;
 

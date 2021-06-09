@@ -10,8 +10,6 @@ package com.nepxion.discovery.console.constant;
  */
 
 public class ConsoleConstant {
-    public static final String[] DISCOVERY_TYPES = { "Eureka", "Consul", "Zookeeper", "Nacos" };
-    
     public static final String SPRING_CLOUD_GATEWAY = "spring-cloud-gateway";
     public static final String ZUUL = "zuul";
 

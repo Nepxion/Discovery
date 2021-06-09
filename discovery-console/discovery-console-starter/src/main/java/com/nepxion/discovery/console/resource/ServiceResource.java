@@ -14,11 +14,12 @@ import java.util.Map;
 
 import org.springframework.cloud.client.ServiceInstance;
 
+import com.nepxion.discovery.common.entity.DiscoveryType;
 import com.nepxion.discovery.common.entity.InstanceEntity;
 import com.nepxion.discovery.console.entity.GatewayType;
 
 public interface ServiceResource {
-    String getDiscoveryType();
+    DiscoveryType getDiscoveryType();
 
     List<String> getGroups();
 
