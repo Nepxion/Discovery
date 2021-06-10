@@ -18,11 +18,12 @@ import com.nepxion.discovery.common.entity.SubscriptionType;
 import com.nepxion.discovery.plugin.configcenter.loader.RemoteConfigLoader;
 import com.nepxion.discovery.plugin.configcenter.logger.ConfigLogger;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
+import com.nepxion.discovery.plugin.framework.adapter.PluginConfigAdapter;
 import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
 import com.nepxion.discovery.plugin.framework.event.RuleClearedEvent;
 import com.nepxion.discovery.plugin.framework.event.RuleUpdatedEvent;
 
-public abstract class ConfigAdapter extends RemoteConfigLoader {
+public abstract class ConfigAdapter extends RemoteConfigLoader implements PluginConfigAdapter {
     @Autowired
     private PluginAdapter pluginAdapter;
 
@@ -161,6 +162,4 @@ public abstract class ConfigAdapter extends RemoteConfigLoader {
     }
 
     public abstract String getConfig(String group, String dataId) throws Exception;
-
-    public abstract ConfigType getConfigType();
 }
