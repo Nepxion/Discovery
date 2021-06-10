@@ -4426,21 +4426,21 @@ public SentinelStrategyRequestOriginAdapter sentinelStrategyRequestOriginAdapter
 
 | 操作 | 路径 | 参数 | 方式 |
 | --- | --- | --- | --- |
-| 更新流控规则列表 | `http://`[IP:PORT]/sentinel-core/update-flow-rules | 多个规则配置 | POST |
-| 清除流控规则列表 | `http://`[IP:PORT]/sentinel-core/clear-flow-rules | 无 | POST |
-| 查看流控规则列表 | `http://`[IP:PORT]/sentinel-core/view-flow-rules | 无 | GET |
-| 更新降级规则列表 | `http://`[IP:PORT]/sentinel-core/update-degrade-rules | 多个规则配置 | POST |
-| 清除降级规则列表 | `http://`[IP:PORT]/sentinel-core/clear-degrade-rules | 无 | POST |
-| 查看降级规则列表 | `http://`[IP:PORT]/sentinel-core/view-degrade-rules | 无 | GET |
-| 更新授权规则列表 | `http://`[IP:PORT]/sentinel-core/update-authority-rules | 多个规则配置 | POST |
-| 清除授权规则列表 | `http://`[IP:PORT]/sentinel-core/clear-authority-rules | 无 | POST |
-| 查看授权规则列表 | `http://`[IP:PORT]/sentinel-core/view-authority-rules | 无 | GET |
-| 更新系统规则列表 | `http://`[IP:PORT]/sentinel-core/update-system-rules | 多个规则配置 | POST |
-| 清除系统规则列表 | `http://`[IP:PORT]/sentinel-core/clear-system-rules | 无 | POST |
-| 查看系统规则列表 | `http://`[IP:PORT]/sentinel-core/view-system-rules | 无 | GET |
-| 更新热点参数流控规则列表 | `http://`[IP:PORT]/sentinel-param/update-param-flow-rules | 多个规则配置 | POST |
-| 清除热点参数流控规则列表 | `http://`[IP:PORT]/sentinel-param/clear-param-flow-rules | 无 | POST |
-| 查看热点参数流控规则列表 | `http://`[IP:PORT]/sentinel-param/view-param-flow-rules | 无 | GET |
+| 更新流控规则列表 | `http://`[服务IP:PORT]/sentinel-core/update-flow-rules | 多个规则配置 | POST |
+| 清除流控规则列表 | `http://`[服务IP:PORT]/sentinel-core/clear-flow-rules | 无 | POST |
+| 查看流控规则列表 | `http://`[服务IP:PORT]/sentinel-core/view-flow-rules | 无 | GET |
+| 更新降级规则列表 | `http://`[服务IP:PORT]/sentinel-core/update-degrade-rules | 多个规则配置 | POST |
+| 清除降级规则列表 | `http://`[服务IP:PORT]/sentinel-core/clear-degrade-rules | 无 | POST |
+| 查看降级规则列表 | `http://`[服务IP:PORT]/sentinel-core/view-degrade-rules | 无 | GET |
+| 更新授权规则列表 | `http://`[服务IP:PORT]/sentinel-core/update-authority-rules | 多个规则配置 | POST |
+| 清除授权规则列表 | `http://`[服务IP:PORT]/sentinel-core/clear-authority-rules | 无 | POST |
+| 查看授权规则列表 | `http://`[服务IP:PORT]/sentinel-core/view-authority-rules | 无 | GET |
+| 更新系统规则列表 | `http://`[服务IP:PORT]/sentinel-core/update-system-rules | 多个规则配置 | POST |
+| 清除系统规则列表 | `http://`[服务IP:PORT]/sentinel-core/clear-system-rules | 无 | POST |
+| 查看系统规则列表 | `http://`[服务IP:PORT]/sentinel-core/view-system-rules | 无 | GET |
+| 更新热点参数流控规则列表 | `http://`[服务IP:PORT]/sentinel-param/update-param-flow-rules | 多个规则配置 | POST |
+| 清除热点参数流控规则列表 | `http://`[服务IP:PORT]/sentinel-param/clear-param-flow-rules | 无 | POST |
+| 查看热点参数流控规则列表 | `http://`[服务IP:PORT]/sentinel-param/view-param-flow-rules | 无 | GET |
 
 ② 控制台的Rest Endpoint接口
 
