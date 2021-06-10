@@ -43,14 +43,14 @@ public class ConfigEndpoint {
     @RequestMapping(path = "/update-async", method = RequestMethod.POST)
     @ApiOperation(value = "异步更新规则配置", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> updateAsync(@RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
+    public ResponseEntity<?> updateAsync(@RequestBody @ApiParam(value = "规则配置内容", required = true) String config) {
         return doUpdate(config, true);
     }
 
     @RequestMapping(path = "/update-sync", method = RequestMethod.POST)
     @ApiOperation(value = "同步更新规则配置", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> updateSync(@RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
+    public ResponseEntity<?> updateSync(@RequestBody @ApiParam(value = "规则配置内容", required = true) String config) {
         return doUpdate(config, false);
     }
 

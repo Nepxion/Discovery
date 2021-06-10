@@ -152,7 +152,7 @@ public class ConsoleEndpoint {
     @RequestMapping(path = "/remote-config/update/{group}/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "更新规则配置到远程配置中心", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> remoteConfigUpdate(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名。当全局推送模式下，服务名必须由组名来代替", required = true) String serviceId, @RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
+    public ResponseEntity<?> remoteConfigUpdate(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名。当全局推送模式下，服务名必须由组名来代替", required = true) String serviceId, @RequestBody @ApiParam(value = "规则配置内容", required = true) String config) {
         return doRemoteConfigUpdate(group, serviceId, config);
     }
 
@@ -173,14 +173,14 @@ public class ConsoleEndpoint {
     @RequestMapping(path = "/config/update-async/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "批量异步更新规则配置", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> configUpdateAsync(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
+    public ResponseEntity<?> configUpdateAsync(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "规则配置内容", required = true) String config) {
         return doConfigUpdate(serviceId, config, true);
     }
 
     @RequestMapping(path = "/config/update-sync/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "批量同步更新规则配置", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> configUpdateSync(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
+    public ResponseEntity<?> configUpdateSync(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "规则配置内容", required = true) String config) {
         return doConfigUpdate(serviceId, config, false);
     }
 
@@ -206,14 +206,14 @@ public class ConsoleEndpoint {
     }
 
     @RequestMapping(path = "/config/parse", method = RequestMethod.POST)
-    @ApiOperation(value = "解析规则配置内容（XML）成对象（RuleEntity）", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "解析规则配置内容成对象", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> configParse(@RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
+    public ResponseEntity<?> configParse(@RequestBody @ApiParam(value = "规则配置内容", required = true) String config) {
         return doConfigParse(config);
     }
 
     @RequestMapping(path = "/config/deparse", method = RequestMethod.POST)
-    @ApiOperation(value = "反解析规则配置对象（RuleEntity）成内容（XML）", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "反解析规则配置对象成内容", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> configDeparse(@RequestBody @ApiParam(value = "规则配置对象，RuleEntity格式", required = true) RuleEntity ruleEntity) {
         return doConfigDeparse(ruleEntity);
