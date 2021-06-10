@@ -19,6 +19,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.ConfigFormatType;
 import com.nepxion.discovery.common.entity.ConfigType;
 import com.nepxion.discovery.common.entity.ResultEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
@@ -149,10 +150,12 @@ public class ConfigResourceImpl implements ConfigResource {
         }
 
         String configFormat = environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_CONFIG_FORMAT, String.class, DiscoveryConstant.XML_FORMAT);
-        if (StringUtils.equals(configFormat, DiscoveryConstant.XML_FORMAT)) {
-            return DiscoveryConstant.EMPTY_XML_RULE;
-        } else if (StringUtils.equals(configFormat, DiscoveryConstant.JSON_FORMAT)) {
-            return DiscoveryConstant.EMPTY_JSON_RULE_SINGLE;
+        ConfigFormatType configFormatType = ConfigFormatType.fromString(configFormat);
+        switch (configFormatType) {
+            case XML_FORMAT:
+                return DiscoveryConstant.EMPTY_XML_RULE;
+            case JSON_FORMAT:
+                return DiscoveryConstant.EMPTY_JSON_RULE_SINGLE;
         }
 
         return StringUtils.EMPTY;
