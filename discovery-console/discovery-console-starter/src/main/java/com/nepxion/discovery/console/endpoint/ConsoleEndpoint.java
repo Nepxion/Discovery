@@ -31,12 +31,14 @@ import com.nepxion.discovery.common.entity.AuthenticationEntity;
 import com.nepxion.discovery.common.entity.GatewayType;
 import com.nepxion.discovery.common.entity.InstanceEntity;
 import com.nepxion.discovery.common.entity.ResultEntity;
+import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.SentinelRuleType;
 import com.nepxion.discovery.common.entity.UserEntity;
 import com.nepxion.discovery.common.util.ResponseUtil;
 import com.nepxion.discovery.console.resource.AuthenticationResource;
 import com.nepxion.discovery.console.resource.ConfigResource;
 import com.nepxion.discovery.console.resource.RouteResource;
+import com.nepxion.discovery.console.resource.RuleResource;
 import com.nepxion.discovery.console.resource.SentinelResource;
 import com.nepxion.discovery.console.resource.ServiceResource;
 import com.nepxion.discovery.console.resource.StrategyResource;
@@ -66,6 +68,9 @@ public class ConsoleEndpoint {
 
     @Autowired
     private StrategyResource strategyResource;
+
+    @Autowired
+    private RuleResource ruleResource;
 
     @RequestMapping(path = "/authenticate", method = RequestMethod.POST)
     @ApiOperation(value = "登录认证", notes = "", response = ResponseEntity.class, httpMethod = "POST")
@@ -198,6 +203,20 @@ public class ConsoleEndpoint {
     @ResponseBody
     public ResponseEntity<?> configView(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
         return doConfigView(serviceId);
+    }
+
+    @RequestMapping(path = "/config/parse", method = RequestMethod.POST)
+    @ApiOperation(value = "解析规则配置内容（XML）成对象（RuleEntity）", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    public ResponseEntity<?> configParse(@RequestBody @ApiParam(value = "规则配置内容，XML格式", required = true) String config) {
+        return doConfigParse(config);
+    }
+
+    @RequestMapping(path = "/config/deparse", method = RequestMethod.POST)
+    @ApiOperation(value = "反解析规则配置对象（RuleEntity）成内容（XML）", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    public ResponseEntity<?> configDeparse(@RequestBody @ApiParam(value = "规则配置对象，RuleEntity格式", required = true) RuleEntity ruleEntity) {
+        return doConfigDeparse(ruleEntity);
     }
 
     @RequestMapping(path = "/version/update-async/{serviceId}", method = RequestMethod.POST)
@@ -463,6 +482,26 @@ public class ConsoleEndpoint {
             List<ResultEntity> resultEntityList = configResource.viewConfig(serviceId);
 
             return ResponseUtil.getSuccessResponse(resultEntityList);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
+    }
+
+    private ResponseEntity<?> doConfigParse(String config) {
+        try {
+            RuleEntity ruleEntity = ruleResource.toRuleEntity(config);
+
+            return ResponseUtil.getSuccessResponse(ruleEntity);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
+    }
+
+    private ResponseEntity<?> doConfigDeparse(RuleEntity ruleEntity) {
+        try {
+            String config = ruleResource.fromRuleEntity(ruleEntity);
+
+            return ResponseUtil.getSuccessResponse(config);
         } catch (Exception e) {
             return ResponseUtil.getFailureResponse(e);
         }
