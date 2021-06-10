@@ -24,7 +24,6 @@ import com.nepxion.discovery.common.handler.DiscoveryResponseErrorHandler;
 import com.nepxion.discovery.console.endpoint.AuthenticationEndpoint;
 import com.nepxion.discovery.console.endpoint.ConfigEndpoint;
 import com.nepxion.discovery.console.endpoint.RouteEndpoint;
-import com.nepxion.discovery.console.endpoint.RuleEndpoint;
 import com.nepxion.discovery.console.endpoint.SentinelEndpoint;
 import com.nepxion.discovery.console.endpoint.ServiceEndpoint;
 import com.nepxion.discovery.console.endpoint.StrategyEndpoint;
@@ -35,8 +34,6 @@ import com.nepxion.discovery.console.resource.ConfigResource;
 import com.nepxion.discovery.console.resource.ConfigResourceImpl;
 import com.nepxion.discovery.console.resource.RouteResource;
 import com.nepxion.discovery.console.resource.RouteResourceImpl;
-import com.nepxion.discovery.console.resource.RuleResource;
-import com.nepxion.discovery.console.resource.RuleResourceImpl;
 import com.nepxion.discovery.console.resource.SentinelResource;
 import com.nepxion.discovery.console.resource.SentinelResourceImpl;
 import com.nepxion.discovery.console.resource.ServiceResource;
@@ -88,16 +85,6 @@ public class ConsoleAutoConfiguration {
         @Bean
         public ConfigEndpoint configEndpoint() {
             return new ConfigEndpoint();
-        }
-
-        @Bean
-        public RuleResource ruleResource() {
-            return new RuleResourceImpl();
-        }
-
-        @Bean
-        public RuleEndpoint ruleEndpoint() {
-            return new RuleEndpoint();
         }
 
         @Bean
