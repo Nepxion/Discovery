@@ -183,10 +183,6 @@ public class DiscoveryConstant {
     public static final String EMPTY_JSON_RULE_SINGLE = "{}";
     public static final String EMPTY_JSON_RULE_MULTIPLE = "[]";
 
-    public static final String SPRING_CLOUD_GATEWAY_TYPE = "spring-cloud-gateway";
-    public static final String ZUUL_TYPE = "zuul";
-    public static final String SPRING_CLOUD_GATEWAY = "Spring Cloud Gateway";
-    public static final String ZUUL = "Zuul";
     public static final String NACOS = "Nacos";
     public static final String APOLLO = "Apollo";
     public static final String REDIS = "Redis";
@@ -201,6 +197,16 @@ public class DiscoveryConstant {
     public static final String OPENTELEMETRY = "OpenTelemetry";
     public static final String OPENTRACING = "OpenTracing";
     public static final String SKYWALKING = "SkyWalking";
+
+    public static final String SPRING_CLOUD_GATEWAY = "Spring Cloud Gateway";
+    public static final String SPRING_CLOUD_GATEWAY_TYPE = "spring-cloud-gateway";
+    public static final String SPRING_CLOUD_GATEWAY_DYNAMIC_ROUTE_DESCRIPTION = "Gateway dynamic route";
+
+    public static final String ZUUL = "Zuul";
+    public static final String ZUUL_TYPE = "zuul";
+    public static final String ZUUL_DYNAMIC_ROUTE_DESCRIPTION = "Zuul dynamic route";
+
+    public static final String DYNAMIC_ROUTE_KEY = "dynamic-route";
 
     public static final String SENTINEL_FLOW = "flow";
     public static final String SENTINEL_DEGRADE = "degrade";

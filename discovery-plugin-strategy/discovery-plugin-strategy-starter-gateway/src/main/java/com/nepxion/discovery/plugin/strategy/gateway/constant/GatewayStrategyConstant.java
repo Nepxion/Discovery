@@ -16,7 +16,4 @@ public class GatewayStrategyConstant {
     public static final String SPRING_APPLICATION_STRATEGY_GATEWAY_CORE_HEADER_TRANSMISSION_ENABLED = "spring.application.strategy.gateway.core.header.transmission.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_GATEWAY_DYNAMIC_ROUTE_ENABLED = "spring.application.strategy.gateway.dynamic.route.enabled";
     public static final int SPRING_APPLICATION_STRATEGY_GATEWAY_ROUTE_FILTER_ORDER_VALUE = 9000;
-
-    public static final String GATEWAY_DYNAMIC_ROUTE = "dynamic-route";
-    public static final String GATEWAY_DYNAMIC_ROUTE_DESCRIPTION = "Gateway dynamic route";
 }

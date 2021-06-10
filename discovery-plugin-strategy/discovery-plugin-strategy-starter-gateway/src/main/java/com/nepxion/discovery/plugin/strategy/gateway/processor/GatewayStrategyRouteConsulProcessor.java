@@ -11,9 +11,9 @@ package com.nepxion.discovery.plugin.strategy.gateway.processor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.consul.proccessor.ConsulProcessor;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.strategy.gateway.constant.GatewayStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.gateway.route.GatewayStrategyRoute;
 
 public class GatewayStrategyRouteConsulProcessor extends ConsulProcessor {
@@ -30,12 +30,12 @@ public class GatewayStrategyRouteConsulProcessor extends ConsulProcessor {
 
     @Override
     public String getDataId() {
-        return pluginAdapter.getServiceId() + "-" + GatewayStrategyConstant.GATEWAY_DYNAMIC_ROUTE;
+        return pluginAdapter.getServiceId() + "-" + DiscoveryConstant.DYNAMIC_ROUTE_KEY;
     }
 
     @Override
     public String getDescription() {
-        return GatewayStrategyConstant.GATEWAY_DYNAMIC_ROUTE_DESCRIPTION;
+        return DiscoveryConstant.SPRING_CLOUD_GATEWAY_DYNAMIC_ROUTE_DESCRIPTION;
     }
 
     @Override
