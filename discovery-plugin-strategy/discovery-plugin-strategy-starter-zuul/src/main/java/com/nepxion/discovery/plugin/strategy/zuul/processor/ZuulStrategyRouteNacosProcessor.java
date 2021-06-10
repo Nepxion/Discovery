@@ -11,9 +11,9 @@ package com.nepxion.discovery.plugin.strategy.zuul.processor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.nacos.proccessor.NacosProcessor;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.strategy.zuul.constant.ZuulStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.zuul.route.ZuulStrategyRoute;
 
 public class ZuulStrategyRouteNacosProcessor extends NacosProcessor {
@@ -30,12 +30,12 @@ public class ZuulStrategyRouteNacosProcessor extends NacosProcessor {
 
     @Override
     public String getDataId() {
-        return pluginAdapter.getServiceId() + "-" + ZuulStrategyConstant.ZUUL_DYNAMIC_ROUTE;
+        return pluginAdapter.getServiceId() + "-" + DiscoveryConstant.DYNAMIC_ROUTE_KEY;
     }
 
     @Override
     public String getDescription() {
-        return ZuulStrategyConstant.ZUUL_DYNAMIC_ROUTE_DESCRIPTION;
+        return DiscoveryConstant.ZUUL_DYNAMIC_ROUTE_DESCRIPTION;
     }
 
     @Override

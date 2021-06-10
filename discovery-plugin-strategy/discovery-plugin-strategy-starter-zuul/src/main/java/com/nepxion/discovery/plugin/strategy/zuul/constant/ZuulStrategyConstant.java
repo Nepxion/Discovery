@@ -16,7 +16,4 @@ public class ZuulStrategyConstant {
     public static final String SPRING_APPLICATION_STRATEGY_ZUUL_CORE_HEADER_TRANSMISSION_ENABLED = "spring.application.strategy.zuul.core.header.transmission.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_ZUUL_DYNAMIC_ROUTE_ENABLED = "spring.application.strategy.zuul.dynamic.route.enabled";
     public static final int SPRING_APPLICATION_STRATEGY_ZUUL_ROUTE_FILTER_ORDER_VALUE = 0;
-
-    public static final String ZUUL_DYNAMIC_ROUTE = "dynamic-route";
-    public static final String ZUUL_DYNAMIC_ROUTE_DESCRIPTION = "Zuul dynamic route";
 }
