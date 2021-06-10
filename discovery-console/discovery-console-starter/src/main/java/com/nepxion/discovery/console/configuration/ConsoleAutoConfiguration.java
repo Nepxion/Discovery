@@ -9,7 +9,6 @@ package com.nepxion.discovery.console.configuration;
  * @version 1.0
  */
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +18,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.ConfigFormatType;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.handler.DiscoveryResponseErrorHandler;
 import com.nepxion.discovery.console.endpoint.AuthenticationEndpoint;
@@ -138,10 +138,12 @@ public class ConsoleAutoConfiguration {
         @Bean
         public PluginConfigParser pluginConfigParser() {
             String configFormat = environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_CONFIG_FORMAT, String.class, DiscoveryConstant.XML_FORMAT);
-            if (StringUtils.equals(configFormat, DiscoveryConstant.XML_FORMAT)) {
-                return new XmlConfigParser();
-            } else if (StringUtils.equals(configFormat, DiscoveryConstant.JSON_FORMAT)) {
-                return new JsonConfigParser();
+            ConfigFormatType configFormatType = ConfigFormatType.fromString(configFormat);
+            switch (configFormatType) {
+                case XML_FORMAT:
+                    return new XmlConfigParser();
+                case JSON_FORMAT:
+                    return new JsonConfigParser();
             }
 
             throw new DiscoveryException("Invalid config format for '" + configFormat + "'");
@@ -150,10 +152,12 @@ public class ConsoleAutoConfiguration {
         @Bean
         public PluginConfigDeparser pluginDeconfigParser() {
             String configFormat = environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_CONFIG_FORMAT, String.class, DiscoveryConstant.XML_FORMAT);
-            if (StringUtils.equals(configFormat, DiscoveryConstant.XML_FORMAT)) {
-                return new XmlConfigDeparser();
-            } else if (StringUtils.equals(configFormat, DiscoveryConstant.JSON_FORMAT)) {
-                return new JsonConfigDeparser();
+            ConfigFormatType configFormatType = ConfigFormatType.fromString(configFormat);
+            switch (configFormatType) {
+                case XML_FORMAT:
+                    return new XmlConfigDeparser();
+                case JSON_FORMAT:
+                    return new JsonConfigDeparser();
             }
 
             throw new DiscoveryException("Invalid config format for '" + configFormat + "'");
