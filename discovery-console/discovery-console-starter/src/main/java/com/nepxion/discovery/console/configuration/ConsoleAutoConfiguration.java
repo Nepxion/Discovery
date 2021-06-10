@@ -56,6 +56,9 @@ import com.nepxion.discovery.plugin.framework.parser.xml.XmlConfigParser;
 @Import({ SwaggerConfiguration.class, CorsRegistryConfiguration.class })
 public class ConsoleAutoConfiguration {
     protected static class ConsoleEndpointConfiguration {
+        @Autowired
+        private Environment environment;
+
         @Bean
         @ConditionalOnMissingBean
         public AuthenticationResource authenticationResource() {
@@ -144,9 +147,6 @@ public class ConsoleAutoConfiguration {
 
             return consoleRestTemplate;
         }
-
-        @Autowired
-        private Environment environment;
 
         @Bean
         public PluginConfigParser pluginConfigParser() {

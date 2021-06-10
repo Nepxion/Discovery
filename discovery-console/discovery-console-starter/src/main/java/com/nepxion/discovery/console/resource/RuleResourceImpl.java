@@ -11,7 +11,9 @@ package com.nepxion.discovery.console.resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.parser.PluginConfigDeparser;
 import com.nepxion.discovery.plugin.framework.parser.PluginConfigParser;
@@ -28,6 +30,9 @@ public class RuleResourceImpl implements RuleResource {
 
     @Autowired
     private PluginConfigDeparser pluginConfigDeparser;
+
+    @Autowired
+    private Environment environment;
 
     @Override
     public void updateRemoteRuleEntity(String serviceId, RuleEntity ruleEntity) throws Exception {
@@ -76,7 +81,18 @@ public class RuleResourceImpl implements RuleResource {
 
     @Override
     public String fromRuleEntity(RuleEntity ruleEntity) {
-        return ruleEntity != null ? deparse(ruleEntity) : StringUtils.EMPTY;
+        if (ruleEntity != null) {
+            return deparse(ruleEntity);
+        }
+
+        String configFormat = environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_CONFIG_FORMAT, String.class, DiscoveryConstant.XML_FORMAT);
+        if (StringUtils.equals(configFormat, DiscoveryConstant.XML_FORMAT)) {
+            return DiscoveryConstant.EMPTY_XML_RULE;
+        } else if (StringUtils.equals(configFormat, DiscoveryConstant.JSON_FORMAT)) {
+            return DiscoveryConstant.EMPTY_JSON_RULE_SINGLE;
+        }
+
+        return StringUtils.EMPTY;
     }
 
     @Override
