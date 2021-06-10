@@ -15,6 +15,6 @@ public class TestConstant {
     public static final String SPRING_APPLICATION_TEST_CONFIG_OPERATION_AWAIT_TIME = "spring.application.test.config.operation.await.time";
     public static final String SPRING_APPLICATION_TEST_CONSOLE_URL = "spring.application.test.console.url";
 
-    public static final String REMOTE_UPDATE_URL = "console/remote-config/update";
-    public static final String REMOTE_CLEAR_URL = "console/remote-config/clear";
+    public static final String REMOTE_UPDATE_URL = "config/remote/update";
+    public static final String REMOTE_CLEAR_URL = "config/remote/clear";
 }

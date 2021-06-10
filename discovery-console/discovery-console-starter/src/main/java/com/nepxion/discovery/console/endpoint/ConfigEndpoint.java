@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nepxion.discovery.common.entity.ResultEntity;
+import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.util.ResponseUtil;
 import com.nepxion.discovery.console.resource.ConfigResource;
 
@@ -98,6 +99,20 @@ public class ConfigEndpoint {
         return doConfigView(serviceId);
     }
 
+    @RequestMapping(path = "/parse", method = RequestMethod.POST)
+    @ApiOperation(value = "解析规则配置内容成对象", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    public ResponseEntity<?> configParse(@RequestBody @ApiParam(value = "规则配置内容", required = true) String config) {
+        return doConfigParse(config);
+    }
+
+    @RequestMapping(path = "/deparse", method = RequestMethod.POST)
+    @ApiOperation(value = "反解析规则配置对象成内容", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    public ResponseEntity<?> configDeparse(@RequestBody @ApiParam(value = "规则配置对象，RuleEntity格式", required = true) RuleEntity ruleEntity) {
+        return doConfigDeparse(ruleEntity);
+    }
+
     private ResponseEntity<?> doConfigType() {
         try {
             String configType = configResource.getConfigType().toString();
@@ -163,6 +178,26 @@ public class ConfigEndpoint {
             List<ResultEntity> resultEntityList = configResource.viewConfig(serviceId);
 
             return ResponseUtil.getSuccessResponse(resultEntityList);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
+    }
+
+    private ResponseEntity<?> doConfigParse(String config) {
+        try {
+            RuleEntity ruleEntity = configResource.toRuleEntity(config);
+
+            return ResponseUtil.getSuccessResponse(ruleEntity);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
+    }
+
+    private ResponseEntity<?> doConfigDeparse(RuleEntity ruleEntity) {
+        try {
+            String config = configResource.fromRuleEntity(ruleEntity);
+
+            return ResponseUtil.getSuccessResponse(config);
         } catch (Exception e) {
             return ResponseUtil.getFailureResponse(e);
         }
