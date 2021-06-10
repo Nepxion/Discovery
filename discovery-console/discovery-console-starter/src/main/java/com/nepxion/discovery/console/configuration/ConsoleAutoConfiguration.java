@@ -21,7 +21,14 @@ import org.springframework.web.client.RestTemplate;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.handler.DiscoveryResponseErrorHandler;
-import com.nepxion.discovery.console.endpoint.ConsoleEndpoint;
+import com.nepxion.discovery.console.endpoint.AuthenticationEndpoint;
+import com.nepxion.discovery.console.endpoint.ConfigEndpoint;
+import com.nepxion.discovery.console.endpoint.RouteEndpoint;
+import com.nepxion.discovery.console.endpoint.RuleEndpoint;
+import com.nepxion.discovery.console.endpoint.SentinelEndpoint;
+import com.nepxion.discovery.console.endpoint.ServiceEndpoint;
+import com.nepxion.discovery.console.endpoint.StrategyEndpoint;
+import com.nepxion.discovery.console.endpoint.VersionEndpoint;
 import com.nepxion.discovery.console.resource.AuthenticationResource;
 import com.nepxion.discovery.console.resource.AuthenticationResourceImpl;
 import com.nepxion.discovery.console.resource.ConfigResource;
@@ -56,8 +63,18 @@ public class ConsoleAutoConfiguration {
         }
 
         @Bean
+        public AuthenticationEndpoint authenticationEndpoint() {
+            return new AuthenticationEndpoint();
+        }
+
+        @Bean
         public ServiceResource serviceResource() {
             return new ServiceResourceImpl();
+        }
+
+        @Bean
+        public ServiceEndpoint serviceEndpoint() {
+            return new ServiceEndpoint();
         }
 
         @Bean
@@ -66,23 +83,8 @@ public class ConsoleAutoConfiguration {
         }
 
         @Bean
-        public VersionResource versionResource() {
-            return new VersionResourceImpl();
-        }
-
-        @Bean
-        public SentinelResource sentinelResource() {
-            return new SentinelResourceImpl();
-        }
-
-        @Bean
-        public RouteResource routeResource() {
-            return new RouteResourceImpl();
-        }
-
-        @Bean
-        public StrategyResource strategyResource() {
-            return new StrategyResourceImpl();
+        public ConfigEndpoint configEndpoint() {
+            return new ConfigEndpoint();
         }
 
         @Bean
@@ -91,16 +93,56 @@ public class ConsoleAutoConfiguration {
         }
 
         @Bean
+        public RuleEndpoint ruleEndpoint() {
+            return new RuleEndpoint();
+        }
+
+        @Bean
+        public VersionResource versionResource() {
+            return new VersionResourceImpl();
+        }
+
+        @Bean
+        public VersionEndpoint versionEndpoint() {
+            return new VersionEndpoint();
+        }
+
+        @Bean
+        public SentinelResource sentinelResource() {
+            return new SentinelResourceImpl();
+        }
+
+        @Bean
+        public SentinelEndpoint sentinelEndpoint() {
+            return new SentinelEndpoint();
+        }
+
+        @Bean
+        public RouteResource routeResource() {
+            return new RouteResourceImpl();
+        }
+
+        @Bean
+        public RouteEndpoint routeEndpoint() {
+            return new RouteEndpoint();
+        }
+
+        @Bean
+        public StrategyResource strategyResource() {
+            return new StrategyResourceImpl();
+        }
+
+        @Bean
+        public StrategyEndpoint strategyEndpoint() {
+            return new StrategyEndpoint();
+        }
+
+        @Bean
         public RestTemplate consoleRestTemplate() {
             RestTemplate consoleRestTemplate = new RestTemplate();
             consoleRestTemplate.setErrorHandler(new DiscoveryResponseErrorHandler());
 
             return consoleRestTemplate;
-        }
-
-        @Bean
-        public ConsoleEndpoint consoleEndpoint() {
-            return new ConsoleEndpoint();
         }
 
         @Autowired
