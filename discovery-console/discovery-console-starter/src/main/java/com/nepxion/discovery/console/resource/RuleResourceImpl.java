@@ -12,7 +12,6 @@ package com.nepxion.discovery.console.resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.plugin.framework.parser.PluginConfigDeparser;
 import com.nepxion.discovery.plugin.framework.parser.PluginConfigParser;
@@ -77,7 +76,7 @@ public class RuleResourceImpl implements RuleResource {
 
     @Override
     public String fromRuleEntity(RuleEntity ruleEntity) {
-        return ruleEntity != null ? deparse(ruleEntity) : DiscoveryConstant.EMPTY_XML_RULE;
+        return ruleEntity != null ? deparse(ruleEntity) : StringUtils.EMPTY;
     }
 
     @Override
