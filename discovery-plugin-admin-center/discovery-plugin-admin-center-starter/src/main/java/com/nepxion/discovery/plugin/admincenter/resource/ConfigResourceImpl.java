@@ -13,26 +13,46 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.nepxion.discovery.common.entity.ConfigType;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.SubscriptionType;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
+import com.nepxion.discovery.plugin.framework.adapter.PluginConfigAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
 import com.nepxion.discovery.plugin.framework.event.RuleClearedEvent;
 import com.nepxion.discovery.plugin.framework.event.RuleUpdatedEvent;
 
 public class ConfigResourceImpl implements ConfigResource {
+    private static final Logger LOG = LoggerFactory.getLogger(ConfigResourceImpl.class);
+
     @Autowired
     private PluginContextAware pluginContextAware;
 
     @Autowired
     private PluginAdapter pluginAdapter;
 
+    @Autowired(required = false)
+    private PluginConfigAdapter pluginConfigAdapter;
+
     @Autowired
     private PluginEventWapper pluginEventWapper;
+
+    @Override
+    public ConfigType getConfigType() {
+        if (pluginConfigAdapter == null) {
+            LOG.error("Remote config adapter isn't provided");
+
+            throw new DiscoveryException("Remote config adapter isn't provided");
+        }
+
+        return pluginConfigAdapter.getConfigType();
+    }
 
     @Override
     public void update(String config, boolean async) {

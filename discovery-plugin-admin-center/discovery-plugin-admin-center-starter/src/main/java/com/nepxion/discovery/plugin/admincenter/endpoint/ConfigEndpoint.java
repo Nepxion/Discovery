@@ -33,6 +33,13 @@ public class ConfigEndpoint {
     @Autowired
     private ConfigResource configResource;
 
+    @RequestMapping(path = "/config-type", method = RequestMethod.GET)
+    @ApiOperation(value = "获取配置中心类型", notes = "", response = ResponseEntity.class, httpMethod = "GET")
+    @ResponseBody
+    public ResponseEntity<?> configType() {
+        return doConfigType();
+    }
+
     @RequestMapping(path = "/update-async", method = RequestMethod.POST)
     @ApiOperation(value = "异步更新规则配置", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
@@ -66,6 +73,16 @@ public class ConfigEndpoint {
     @ResponseBody
     public ResponseEntity<?> view() {
         return doView();
+    }
+
+    private ResponseEntity<?> doConfigType() {
+        try {
+            String configType = configResource.getConfigType().toString();
+
+            return ResponseUtil.getSuccessResponse(configType);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
     }
 
     private ResponseEntity<?> doUpdate(String config, boolean async) {
