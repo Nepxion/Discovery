@@ -11,23 +11,15 @@ package com.nepxion.discovery.common.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 
 public class UuidUtil {
-    public static final Map<Integer, Integer> RANDOM_MAP = new HashMap<Integer, Integer>() {
-        private static final long serialVersionUID = 9074559847984842939L;
-        {
-            put(999, 3);
-            put(9999, 4);
-            put(99999, 5);
-        }
-    };
-
+    public static final String DATE_FORMAT = "yyyyMMdd-HHmmss-SSS";
+    public static final String SEPARATOR = "-";
+    public static final String RANDOMS_EPARATOR = "-";
     public static final int[] RANDOM_ARRAY = { 9999, 999, 999 };
 
     public static String getTimeUUID() {
@@ -39,14 +31,14 @@ public class UuidUtil {
     }
 
     public static String getTimeUUID(String prefix, int[] randomArray) {
-        return getTimeUUID(prefix, "yyyyMMdd-HHmmss-SSS", randomArray);
+        return getTimeUUID(prefix, DATE_FORMAT, randomArray, SEPARATOR, RANDOMS_EPARATOR);
     }
 
     public static String getTimeUUID(String prefix, String dataFormat) {
-        return getTimeUUID(prefix, dataFormat, RANDOM_ARRAY);
+        return getTimeUUID(prefix, dataFormat, RANDOM_ARRAY, SEPARATOR, RANDOMS_EPARATOR);
     }
 
-    public static String getTimeUUID(String prefix, String dataFormat, int[] randomArray) {
+    public static String getTimeUUID(String prefix, String dataFormat, int[] randomArray, String separator, String randomSeparator) {
         if (dataFormat == null) {
             throw new IllegalArgumentException("dataFormat can't be null");
         }
@@ -57,15 +49,15 @@ public class UuidUtil {
 
         StringBuilder stringBuilder = new StringBuilder();
         if (StringUtils.isNotEmpty(prefix)) {
-            stringBuilder.append(prefix).append("-");
+            stringBuilder.append(prefix).append(separator);
         }
 
-        stringBuilder.append(new SimpleDateFormat(dataFormat).format(new Date())).append("-");
+        stringBuilder.append(new SimpleDateFormat(dataFormat).format(new Date())).append(separator);
 
         for (int random : randomArray) {
             String result = random(random, String.valueOf(random).length());
 
-            stringBuilder.append(result).append("-");
+            stringBuilder.append(result).append(randomSeparator);
         }
 
         if (stringBuilder.length() > 0) {
