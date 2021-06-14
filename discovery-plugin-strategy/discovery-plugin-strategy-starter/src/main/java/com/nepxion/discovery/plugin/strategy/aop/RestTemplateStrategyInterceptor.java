@@ -27,6 +27,7 @@ import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.InterceptorType;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.util.StrategyUtil;
@@ -215,7 +216,7 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
     }
 
     @Override
-    protected String getInterceptorName() {
-        return "RestTemplate";
+    protected InterceptorType getInterceptorType() {
+        return InterceptorType.REST_TEMPLATE;
     }
 }

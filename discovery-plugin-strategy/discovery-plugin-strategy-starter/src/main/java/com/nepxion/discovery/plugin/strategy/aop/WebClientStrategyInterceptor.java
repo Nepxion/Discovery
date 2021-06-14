@@ -28,6 +28,7 @@ import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.ExchangeFunction;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.InterceptorType;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.util.StrategyUtil;
@@ -62,7 +63,7 @@ public class WebClientStrategyInterceptor extends AbstractStrategyInterceptor im
         applyOuterHeader(request, requestBuilder);
 
         ClientRequest newRequest = requestBuilder.build();
-        
+
         interceptOutputHeader(newRequest);
 
         return next.exchange(newRequest);
@@ -177,7 +178,7 @@ public class WebClientStrategyInterceptor extends AbstractStrategyInterceptor im
     }
 
     @Override
-    protected String getInterceptorName() {
-        return "WebClient";
+    protected InterceptorType getInterceptorType() {
+        return InterceptorType.WEB_CLIENT;
     }
 }
