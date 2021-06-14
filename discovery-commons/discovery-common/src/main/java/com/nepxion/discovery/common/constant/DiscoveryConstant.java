@@ -143,7 +143,9 @@ public class DiscoveryConstant {
     public static final String ERROR = "error";
     public static final String ERROR_OBJECT = "error.object";
 
-    public static final String COOKIE = "Cookie";
+    public static final String HEADER_TYPE = "Header";
+    public static final String PARAMETER_TYPE = "Parameter";
+    public static final String COOKIE_TYPE = "Cookie";
 
     public static final String XML_FORMAT = "xml";
     public static final String JSON_FORMAT = "json";

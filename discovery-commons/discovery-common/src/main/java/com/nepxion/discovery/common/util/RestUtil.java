@@ -72,7 +72,7 @@ public class RestUtil {
                 cookieList.add(key + DiscoveryConstant.EQUALS + value);
             }
 
-            httpHeaders.put(DiscoveryConstant.COOKIE, cookieList);
+            httpHeaders.put(DiscoveryConstant.COOKIE_TYPE, cookieList);
         }
 
         return httpHeaders;
