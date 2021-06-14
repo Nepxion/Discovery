@@ -46,16 +46,6 @@ public class ExpressionStrategyCondition extends AbstractStrategyCondition {
             String name = StringUtils.substringBetween(group, DiscoveryConstant.EXPRESSION_SUB_PREFIX, DiscoveryConstant.EXPRESSION_SUB_SUFFIX);
             String value = null;
 
-            // 从外置Header获取
-            if (StringUtils.isBlank(value)) {
-                value = strategyContextHolder.getHeader(name);
-            }
-
-            // 从内置Header获取
-            if (StringUtils.isBlank(value)) {
-                value = strategyWrapper.getHeader(name);
-            }
-
             // 从外置Parameter获取
             if (StringUtils.isBlank(value)) {
                 value = strategyContextHolder.getParameter(name);
@@ -64,6 +54,16 @@ public class ExpressionStrategyCondition extends AbstractStrategyCondition {
             // 从外置Cookie获取
             if (StringUtils.isBlank(value)) {
                 value = strategyContextHolder.getCookie(name);
+            }
+
+            // 从外置Header获取
+            if (StringUtils.isBlank(value)) {
+                value = strategyContextHolder.getHeader(name);
+            }
+
+            // 从内置Header获取
+            if (StringUtils.isBlank(value)) {
+                value = strategyWrapper.getHeader(name);
             }
 
             if (StringUtils.isNotBlank(value)) {
