@@ -64,7 +64,7 @@ public class WebClientStrategyInterceptor extends AbstractStrategyInterceptor im
         applyInnerHeader(requestBuilder);
 
         // 处理外部Header的转发
-        applyOuterHeader(request, requestBuilder);
+        applyOuterHeader(requestBuilder);
 
         ClientRequest newRequest = requestBuilder.build();
 
@@ -108,7 +108,7 @@ public class WebClientStrategyInterceptor extends AbstractStrategyInterceptor im
     }
 
     // 处理外部Header的转发，即外部服务传递过来的Header，中继转发到下游服务去
-    private void applyOuterHeader(ClientRequest request, ClientRequest.Builder requestBuilder) {
+    private void applyOuterHeader(ClientRequest.Builder requestBuilder) {
         Enumeration<String> headerNames = strategyContextHolder.getHeaderNames();
         if (headerNames != null) {
             while (headerNames.hasMoreElements()) {
@@ -129,6 +129,7 @@ public class WebClientStrategyInterceptor extends AbstractStrategyInterceptor im
         }
 
         if (webClientCoreHeaderTransmissionEnabled) {
+            ClientRequest request = requestBuilder.build();
             HttpHeaders headers = request.headers();
 
             // 设置版本匹配路由的配置到Header中
