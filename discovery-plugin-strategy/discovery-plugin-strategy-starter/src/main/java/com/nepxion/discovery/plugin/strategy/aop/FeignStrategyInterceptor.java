@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.InterceptorType;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.util.StrategyUtil;
@@ -205,7 +206,7 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
     }
 
     @Override
-    protected String getInterceptorName() {
-        return "Feign";
+    protected InterceptorType getInterceptorType() {
+        return InterceptorType.FEIGN;
     }
 }

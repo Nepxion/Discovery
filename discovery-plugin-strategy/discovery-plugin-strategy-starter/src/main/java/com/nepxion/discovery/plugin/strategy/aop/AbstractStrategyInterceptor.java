@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.InterceptorType;
 import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
@@ -52,10 +53,10 @@ public abstract class AbstractStrategyInterceptor {
             requestHeaderList.addAll(StringUtil.splitToList(businessRequestHeaders.toLowerCase()));
         }
 
-        String interceptorName = getInterceptorName();
+        InterceptorType interceptorType = getInterceptorType();
 
         LOG.info("--------- Strategy Intercept Information ---------");
-        LOG.info("{} desires to intercept customer headers are {}", interceptorName, requestHeaderList);
+        LOG.info("{} desires to intercept customer headers are {}", interceptorType, requestHeaderList);
         LOG.info("--------------------------------------------------");
     }
 
@@ -66,13 +67,17 @@ public abstract class AbstractStrategyInterceptor {
 
         Enumeration<String> headerNames = strategyContextHolder.getHeaderNames();
         if (headerNames != null) {
-            String interceptorName = getInterceptorName();
-            if (StringUtils.equals(interceptorName, "Feign")) {
-                System.out.println("--------- Feign Intercept Input Header Information ---------");              
-            } else if (StringUtils.equals(interceptorName, "RestTemplate")) {
-                System.out.println("----- RestTemplate Intercept Input Header Information ------");
-            } else if (StringUtils.equals(interceptorName, "WebClient")) {
-                System.out.println("------- WebClient Intercept Input Header Information -------");
+            InterceptorType interceptorType = getInterceptorType();
+            switch (interceptorType) {
+                case FEIGN:
+                    System.out.println("--------- Feign Intercept Input Header Information ---------");
+                    break;
+                case REST_TEMPLATE:
+                    System.out.println("----- RestTemplate Intercept Input Header Information ------");
+                    break;
+                case WEB_CLIENT:
+                    System.out.println("------- WebClient Intercept Input Header Information -------");
+                    break;
             }
             while (headerNames.hasMoreElements()) {
                 String headerName = headerNames.nextElement();
@@ -97,5 +102,5 @@ public abstract class AbstractStrategyInterceptor {
         // return isHeaderContains(headerName) && !headerName.startsWith(DiscoveryConstant.N_D_SERVICE_PREFIX);
     }
 
-    protected abstract String getInterceptorName();
+    protected abstract InterceptorType getInterceptorType();
 }
