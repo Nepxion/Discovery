@@ -1276,7 +1276,7 @@ IP地址和端口匹配蓝绿发布架构图
 
 ① Header、Parameter、Cookie参数传递。对于要驱动发布的参数，例如，业务参数user，可以选择Header、Parameter、Cookie其中任意一个传递，都是等效的
 
-② Header、Parameter、Cookie参数优先级。对于要驱动发布的参数，例如，业务参数user，如果在这三者中都存在，且值不相同，那么取值优先级Header > Parameter > Cookie
+② Header、Parameter、Cookie参数优先级。对于要驱动发布的参数，例如，业务参数user，如果在这三者中都存在，且值不相同，那么取值优先级Parameter > Cookie > Header > 内置Header
 
 ③ Header、Parameter、Cookie参数混合。对于要驱动发布的参数，如果不止一个，例如，业务参数user、age、address，可以全部是Header或者Parameter或者Cookie，也可以是这三者混合传递：user通过Header传递，age通过Parameter传递，address通过Cookie传递
 
