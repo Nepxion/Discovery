@@ -484,7 +484,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/滨江集团.png"></td>
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/海豚科技.png"></td>
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/ClickPaaS.png"></td>
-      <td width="20%"></td>
+      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/Ping++.png"></td>
     </tr>
   </tbody>
 </table>
@@ -3857,7 +3857,7 @@ XML最全的示例如下，Json示例见源码discovery-springcloud-example-serv
         </conditions>
 
         <!-- 全链路灰度发布：条件命中的随机权重（第二优先级），支持版本匹配、区域匹配、IP地址和端口匹配 -->
-        <!-- Expression节点允许缺失，当含Expression和未含Expression的配置并存时，以未含Expression的配置为优先 -->
+        <!-- Expression节点允许缺失，当含Expression和未含Expression的配置并存时，以含Expression的配置为优先 -->
         <conditions type="gray">
             <condition id="1" expression="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="a-1=10;a-2=90" region-id="b-1=20;b-2=80" address-id="c-1=30;c-2=70"/>
             <condition id="2" expression="#H['c'] == '3'" version-id="a-1=90;a-2=10" region-id="b-1=80;b-2=20" address-id="c-1=70;c-2=30"/>
