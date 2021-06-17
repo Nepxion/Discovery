@@ -1344,19 +1344,25 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
+    <!-- 全局缺省路由，当兜底路由存在的时候，全局缺省路由不需要配置 -->
     <strategy>
         <version>{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</version>
     </strategy>
-    
+
     <strategy-customization>
         <conditions type="blue-green">
+            <!-- 蓝路由，条件expression驱动 -->	
             <condition id="blue-condition" expression="#H['a'] == '1'" version-id="blue-version-route"/>
+            <!-- 绿路由，条件expression驱动 -->
             <condition id="green-condition" expression="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="green-version-route"/>
+            <!-- 兜底路由，无expression驱动 -->
+            <condition id="basic-condition" version-id="basic-version-route"/>
         </conditions>
 
         <routes>
             <route id="blue-version-route" type="version">{"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}</route>	
             <route id="green-version-route" type="version">{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</route>
+            <route id="basic-version-route" type="version">{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</route>
         </routes>
     </strategy-customization>
 </rule>
@@ -1371,19 +1377,27 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
 
 ① 当外部调用带有的Header/Parameter/Cookies中的值a=1同时b=2，执行绿路由
 
-`<condition>`节点中 **expression="#H['a'] == '1' &amp;&amp; #H['b'] == '2'"** 对应的 **version-id="green-version-route"** ，找到下面`<route>`节点中 **id="green-version-route" type="version"** 的那项，那么路由即为
+`<condition>`节点（id="blue-condition"）中 **expression="#H['a'] == '1' &amp;&amp; #H['b'] == '2'"** 对应的 **version-id="green-version-route"** ，找到下面`<route>`节点中 **id="green-version-route" type="version"** 的那项，那么路由即为
 ```
 {"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
 ```
 
 ② 当外部调用带有的Header/Parameter/Cookies中的值a=1，执行蓝路由
 
-`<condition>`节点中 **expression="#H['a'] == '1'"** 对应的 **version-id="blue-version-route"** ，找到下面`<route>`节点中 **id="blue-version-route" type="version"** 的那项，那么路由即为
+`<condition>`节点（id="green-condition"）中 **expression="#H['a'] == '1'"** 对应的 **version-id="blue-version-route"** ，找到下面`<route>`节点中 **id="blue-version-route" type="version"** 的那项，那么路由即为
 ```
 {"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}
 ```
 
 ③ 当外部调用带有的Header/Parameter/Cookies中的值都不命中，或者未传值，执行兜底路由
+
+- 执行`<condition>`节点（id="basic-condition"）中的兜底路由，那么路由即为
+
+```
+{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
+```
+
+④ 如果兜底路由未配置
 
 - 执行`<strategy>`节点中的全局缺省路由，那么路由即为
 
@@ -1391,9 +1405,13 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
 {"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
 ```
 
-- 如果全局缺省路由未配置，则执行Spring Cloud Ribbon轮询策略
-   
-④ 假如不愿意从网关外部传入Header/Parameter/Cookies，那么支持策略下内置Header来决策蓝绿发布，可以代替外部传入Header/Parameter/Cookies，参考如下配置
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 特别提醒
+
+> 兜底路由和全局缺省路由配置一个即可
+
+- 如果上述配置都不存在，则执行Spring Cloud Ribbon轮询策略
+
+⑤ 假如不愿意从网关外部传入Header/Parameter/Cookies，那么支持策略下内置Header来决策蓝绿发布，可以代替外部传入Header/Parameter/Cookies，参考如下配置
 ```xml
 <header>{"a":"1", "b":"2", "c":"3"}</header>
 ```
@@ -1401,13 +1419,13 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 需要注意，Spring Cloud Gateway在Finchley版不支持该方式
 
-⑤ 路由类型支持如下
+⑥ 路由类型支持如下
 
 - 蓝 | 绿 | 兜底，即上述提到的路由场景
 - 蓝 | 兜底，即绿路由缺省，那么兜底路由则为绿路由，逻辑更加简单的路由场景
 - 如果蓝路由和路由都缺省，那就只有兜底路由（全局缺省路由），即为[全链路版本匹配蓝绿发布](#全链路版本匹配蓝绿发布)的路由场景
 
-⑥ 策略总共支持5种，可以单独一项使用，也可以多项叠加使用
+⑦ 策略总共支持5种，可以单独一项使用，也可以多项叠加使用
 
 - version 版本
 - region 区域
@@ -1415,9 +1433,9 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
 - version-weight 版本权重
 - region-weight 区域权重
 
-⑦ 策略支持Spring Spel的条件表达式方式
+⑧ 策略支持Spring Spel的条件表达式方式
 
-⑧ 策略支持Spring Matcher的通配方式
+⑨ 策略支持Spring Matcher的通配方式
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 上述方式，可以通过[全链路蓝绿发布编排建模](#全链路蓝绿发布编排建模)方式执行，并通过[全链路蓝绿发布流量侦测](#全链路蓝绿发布流量侦测)进行验证
 
@@ -1521,18 +1539,20 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
-    <!-- 无参驱动方式下，不需要兜底路由（全局缺省路由） -->
+    <!-- 全局缺省路由，当兜底路由存在的时候，全局缺省路由不需要配置 -->
+    <!-- 兜底路由如果把全局缺省路由的流量配比设置成100%，其它流量配比设置成0%，那么它等同于如下全局缺省路由 -->
     <strategy>
         <version>{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</version>
     </strategy>
 
     <strategy-customization>
         <conditions type="gray">
-            <!-- 有参驱动方式，有expression节点 -->
-            <!-- <condition id="gray-condition" expression="#H['a'] == '1'" version-id="gray-version-route=10;stable-version-route=90"/> -->
-            <!-- <condition id="gray-condition" expression="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="gray-version-route=85;stable-version-route=15"/> -->
-            <!-- 无参驱动方式，无expression节点 -->
-            <condition id="gray-condition" version-id="gray-version-route=95;stable-version-route=5"/>
+            <!-- 灰度路由1，条件expression驱动 -->
+            <!-- <condition id="gray-condition1" expression="#H['a'] == '1'" version-id="gray-version-route=10;stable-version-route=90"/> -->
+            <!-- 灰度路由2，条件expression驱动 -->
+            <!-- <condition id="gray-condition2" expression="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="gray-version-route=85;stable-version-route=15"/> -->
+            <!-- 兜底路由，无expression驱动 -->
+            <condition id="basic-condition" version-id="gray-version-route=0;stable-version-route=100"/>
         </conditions>
 
         <routes>
@@ -1560,8 +1580,6 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 - version 版本
 - region 区域
 - address IP地址和端口
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：条件权重灰度发布支持参数驱动，但建议使用无参驱动方式，同时兜底路由（全局缺省路由）也不需要
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 上述方式，可以通过[全链路灰度发布编排建模](#全链路灰度发布编排建模)方式执行，并通过[全链路灰度发布流量侦测](#全链路灰度发布流量侦测)进行验证
 
@@ -3850,10 +3868,11 @@ XML最全的示例如下，Json示例见源码discovery-springcloud-example-serv
         <!-- 单引号 ' 转义为 &apos; -->
 
         <!-- 全链路蓝绿部署：条件命中的匹配方式（第一优先级），支持版本匹配、区域匹配、IP地址和端口匹配、版本权重匹配、区域权重匹配 -->
-        <!-- Expression节点不允许缺失 -->
+        <!-- Expression节点允许缺失，当含Expression和未含Expression的配置并存时，以含Expression的配置为优先 -->
         <conditions type="blue-green">
             <condition id="1" expression="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="a-1" region-id="b-1" address-id="c-1" version-weight-id="d-1" region-weight-id="e-1"/>
             <condition id="2" expression="#H['c'] == '3'" version-id="a-2" region-id="b-2" address-id="c-2" version-weight-id="d-2" region-weight-id="e-2"/>
+            <condition id="2" version-id="a-2" region-id="b-2" address-id="c-2" version-weight-id="d-2" region-weight-id="e-2"/>
         </conditions>
 
         <!-- 全链路灰度发布：条件命中的随机权重（第二优先级），支持版本匹配、区域匹配、IP地址和端口匹配 -->
