@@ -388,6 +388,11 @@ public class StrategyWrapper {
                     StrategyConditionBlueGreenEntity expressionStrategyConditionBlueGreenEntity = getTriggeredExpressionStrategyConditionBlueGreenEntity(strategyConditionBlueGreenEntityList, strategyRouteType, map);
                     if (expressionStrategyConditionBlueGreenEntity != null) {
                         return expressionStrategyConditionBlueGreenEntity;
+                    } else {
+                        StrategyConditionBlueGreenEntity globalStrategyConditionBlueGreenEntity = getTriggeredGlobalStrategyConditionBlueGreenyEntity(strategyConditionBlueGreenEntityList, strategyRouteType);
+                        if (globalStrategyConditionBlueGreenEntity != null) {
+                            return globalStrategyConditionBlueGreenEntity;
+                        }
                     }
                 }
             }
@@ -412,6 +417,22 @@ public class StrategyWrapper {
                     isTriggered = strategyCondition.isTriggered(strategyConditionBlueGreenEntity, map);
                 }
                 if (isTriggered) {
+                    return strategyConditionBlueGreenEntity;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    // 获取不带有条件设置的蓝绿条件对象
+    // 在蓝绿条件驱动允许缺省
+    private StrategyConditionBlueGreenEntity getTriggeredGlobalStrategyConditionBlueGreenyEntity(List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList, StrategyRouteType strategyRouteType) {
+        for (StrategyConditionBlueGreenEntity strategyConditionBlueGreenEntity : strategyConditionBlueGreenEntityList) {
+            boolean isValidated = validateBlueGreenStrategyType(strategyConditionBlueGreenEntity, strategyRouteType);
+            if (isValidated) {
+                String expression = strategyConditionBlueGreenEntity.getExpression();
+                if (StringUtils.isEmpty(expression)) {
                     return strategyConditionBlueGreenEntity;
                 }
             }
@@ -542,8 +563,8 @@ public class StrategyWrapper {
         return null;
     }
 
-    // 获取带有条件设置的灰度条件对象
-    // 在灰度条件驱动允许缺省，实际上，大多数情况都是缺省的
+    // 获取不带有条件设置的灰度条件对象
+    // 在灰度条件驱动允许缺省
     private StrategyConditionGrayEntity getTriggeredGlobalStrategyConditionGrayEntity(List<StrategyConditionGrayEntity> strategyConditionGrayEntityList) {
         for (StrategyConditionGrayEntity strategyConditionGrayEntity : strategyConditionGrayEntityList) {
             String expression = strategyConditionGrayEntity.getExpression();

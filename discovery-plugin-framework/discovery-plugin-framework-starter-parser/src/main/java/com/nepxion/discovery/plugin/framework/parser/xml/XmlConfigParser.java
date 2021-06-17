@@ -666,9 +666,6 @@ public class XmlConfigParser implements PluginConfigParser {
 
                 Attribute expressionAttribute = childElement.attribute(XmlConfigConstant.EXPRESSION_ATTRIBUTE_NAME);
                 Attribute headerAttribute = childElement.attribute(XmlConfigConstant.HEADER_ATTRIBUTE_NAME);
-                if (expressionAttribute == null && headerAttribute == null) {
-                    throw new DiscoveryException("Attribute[" + XmlConfigConstant.EXPRESSION_ATTRIBUTE_NAME + "] and [" + XmlConfigConstant.HEADER_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] are all missing, at least one of them exists");
-                }
                 if (expressionAttribute != null && headerAttribute != null) {
                     throw new DiscoveryException("Attribute[" + XmlConfigConstant.EXPRESSION_ATTRIBUTE_NAME + "] and [" + XmlConfigConstant.HEADER_ATTRIBUTE_NAME + "] in element[" + childElement.getName() + "] are all configed, only one of them exists");
                 }
