@@ -37,6 +37,9 @@ public class ExpressionStrategyCondition extends AbstractStrategyCondition {
 
     private Map<String, String> createMap(StrategyConditionEntity strategyConditionEntity) {
         String expression = strategyConditionEntity.getExpression();
+        if (StringUtils.isEmpty(expression)) {
+            return null;
+        }
 
         Map<String, String> map = new HashMap<String, String>();
 

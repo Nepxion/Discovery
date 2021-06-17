@@ -505,29 +505,16 @@ public class StrategyWrapper {
             if (strategyCustomizationEntity != null) {
                 List<StrategyConditionGrayEntity> strategyConditionGrayEntityList = strategyCustomizationEntity.getStrategyConditionGrayEntityList();
                 if (CollectionUtils.isNotEmpty(strategyConditionGrayEntityList)) {
-                    StrategyConditionGrayEntity globalStrategyConditionGrayEntity = getTriggeredGlobalStrategyConditionGrayEntity(strategyConditionGrayEntityList);
-                    if (globalStrategyConditionGrayEntity != null) {
-                        return globalStrategyConditionGrayEntity;
+                    StrategyConditionGrayEntity expressionStrategyConditionGrayEntity = getTriggeredExpressionStrategyConditionGrayEntity(strategyConditionGrayEntityList, map);
+                    if (expressionStrategyConditionGrayEntity != null) {
+                        return expressionStrategyConditionGrayEntity;
                     } else {
-                        StrategyConditionGrayEntity expressionStrategyConditionGrayEntity = getTriggeredExpressionStrategyConditionGrayEntity(strategyConditionGrayEntityList, map);
-                        if (expressionStrategyConditionGrayEntity != null) {
-                            return expressionStrategyConditionGrayEntity;
+                        StrategyConditionGrayEntity globalStrategyConditionGrayEntity = getTriggeredGlobalStrategyConditionGrayEntity(strategyConditionGrayEntityList);
+                        if (globalStrategyConditionGrayEntity != null) {
+                            return globalStrategyConditionGrayEntity;
                         }
                     }
                 }
-            }
-        }
-
-        return null;
-    }
-
-    // 获取带有条件设置的灰度条件对象
-    // 在灰度条件驱动允许缺省，实际上，大多数情况都是缺省的
-    private StrategyConditionGrayEntity getTriggeredGlobalStrategyConditionGrayEntity(List<StrategyConditionGrayEntity> strategyConditionGrayEntityList) {
-        for (StrategyConditionGrayEntity strategyConditionGrayEntity : strategyConditionGrayEntityList) {
-            String expression = strategyConditionGrayEntity.getExpression();
-            if (StringUtils.isEmpty(expression)) {
-                return strategyConditionGrayEntity;
             }
         }
 
@@ -548,6 +535,19 @@ public class StrategyWrapper {
                 isTriggered = strategyCondition.isTriggered(strategyConditionGrayEntity, map);
             }
             if (isTriggered) {
+                return strategyConditionGrayEntity;
+            }
+        }
+
+        return null;
+    }
+
+    // 获取带有条件设置的灰度条件对象
+    // 在灰度条件驱动允许缺省，实际上，大多数情况都是缺省的
+    private StrategyConditionGrayEntity getTriggeredGlobalStrategyConditionGrayEntity(List<StrategyConditionGrayEntity> strategyConditionGrayEntityList) {
+        for (StrategyConditionGrayEntity strategyConditionGrayEntity : strategyConditionGrayEntityList) {
+            String expression = strategyConditionGrayEntity.getExpression();
+            if (StringUtils.isEmpty(expression)) {
                 return strategyConditionGrayEntity;
             }
         }
