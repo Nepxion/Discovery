@@ -4512,7 +4512,6 @@ ruleType为哨兵规则类型。取值： flow | degrade | authority | system | 
 - 集成OpenTracing + Jaeger蓝绿灰度全链路监控
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Jaeger2.jpg)
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Jaeger3.jpg)
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/JaegerPremium1.jpg)
 
 - 集成OpenTracing + SkyWalking蓝绿灰度全链路监控
