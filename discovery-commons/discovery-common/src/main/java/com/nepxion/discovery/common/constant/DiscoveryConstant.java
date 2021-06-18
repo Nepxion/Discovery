@@ -151,6 +151,7 @@ public class DiscoveryConstant {
     public static final String JSON_FORMAT = "json";
     public static final String YAML_FORMAT = "yaml";
     public static final String PROPERTIES_FORMAT = "properties";
+    public static final String HTML_FORMAT = "html";
     public static final String TEXT_FORMAT = "text";
     public static final String PREFIX_CLASSPATH = "classpath:";
     public static final String PREFIX_FILE = "file:";

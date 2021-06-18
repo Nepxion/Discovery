@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.FormatType;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.property.DiscoveryContent;
 import com.nepxion.discovery.common.util.UrlUtil;
@@ -35,7 +36,7 @@ public class TestOperation {
     @Autowired
     private TestRestTemplate testRestTemplate;
 
-    public String update(String group, String serviceId, String path) {
+    public String update(String group, String serviceId, FormatType formatType, String path) {
         String content = null;
         try {
             DiscoveryContent discoveryContent = new DiscoveryContent(path, DiscoveryConstant.ENCODING_UTF_8);
@@ -45,10 +46,10 @@ public class TestOperation {
         }
 
         if (configPrintEnabled) {
-            LOG.info("Update config, group={}, serviceId={}, path={}, content=\n{}", group, serviceId, path, content);
+            LOG.info("Update config, group={}, serviceId={}, formatType={}, path={}, content=\n{}", group, serviceId, formatType, path, content);
         }
 
-        String url = consoleUrl + UrlUtil.formatContextPath(TestConstant.REMOTE_UPDATE_URL) + group + "/" + serviceId;
+        String url = consoleUrl + UrlUtil.formatContextPath(TestConstant.REMOTE_UPDATE_URL) + group + "/" + serviceId + "/" + formatType;
 
         return testRestTemplate.postForEntity(url, content, String.class).getBody();
     }

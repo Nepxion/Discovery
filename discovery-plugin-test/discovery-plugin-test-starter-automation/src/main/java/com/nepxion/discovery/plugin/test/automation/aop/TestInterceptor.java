@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import com.nepxion.discovery.common.entity.FormatType;
 import com.nepxion.discovery.plugin.test.automation.annotation.DTest;
 import com.nepxion.discovery.plugin.test.automation.annotation.DTestConfig;
 import com.nepxion.discovery.plugin.test.automation.constant.TestConstant;
@@ -49,10 +50,20 @@ public class TestInterceptor extends AbstractInterceptor {
                 DTestConfig testConfigAnnotation = method.getAnnotation(DTestConfig.class);
                 String group = convertSpel(invocation, testConfigAnnotation.group());
                 String serviceId = convertSpel(invocation, testConfigAnnotation.serviceId());
+                FormatType formatType = testConfigAnnotation.formatType();
                 String prefix = convertSpel(invocation, testConfigAnnotation.prefix());
                 String suffix = convertSpel(invocation, testConfigAnnotation.suffix());
                 String executePath = convertSpel(invocation, testConfigAnnotation.executePath());
                 String resetPath = convertSpel(invocation, testConfigAnnotation.resetPath());
+
+                if (formatType == FormatType.TEXT_FORMAT) {
+                    try {
+                        String type = executePath.substring(executePath.lastIndexOf(".") + 1);
+                        formatType = FormatType.fromString(type);
+                    } catch (Exception e) {
+
+                    }
+                }
 
                 if (StringUtils.isNotEmpty(prefix)) {
                     group = prefix + "-" + group;
@@ -61,7 +72,7 @@ public class TestInterceptor extends AbstractInterceptor {
                     serviceId = serviceId + "-" + suffix;
                 }
 
-                testOperation.update(group, serviceId, executePath);
+                testOperation.update(group, serviceId, formatType, executePath);
 
                 Thread.sleep(configOperationAwaitTime);
 
@@ -69,7 +80,7 @@ public class TestInterceptor extends AbstractInterceptor {
                     object = invocation.proceed();
                 } finally {
                     if (StringUtils.isNotEmpty(resetPath)) {
-                        testOperation.update(group, serviceId, resetPath);
+                        testOperation.update(group, serviceId, formatType, resetPath);
                     } else {
                         testOperation.clear(group, serviceId);
                     }

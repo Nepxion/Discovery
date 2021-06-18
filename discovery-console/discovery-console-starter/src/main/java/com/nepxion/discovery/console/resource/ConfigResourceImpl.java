@@ -21,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.ConfigFormatType;
 import com.nepxion.discovery.common.entity.ConfigType;
+import com.nepxion.discovery.common.entity.FormatType;
 import com.nepxion.discovery.common.entity.ResultEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
@@ -75,10 +76,23 @@ public class ConfigResourceImpl implements ConfigResource {
     }
 
     @Override
+    public boolean updateRemoteConfig(String group, String serviceId, String config, FormatType formatType) throws Exception {
+        if (configAdapter == null) {
+            LOG.error("Remote config adapter isn't provided");
+
+            throw new DiscoveryException("Remote config adapter isn't provided");
+        }
+
+        return configAdapter.updateConfig(group, serviceId, config, formatType);
+    }
+
+    @Override
     public boolean updateRemoteRuleEntity(String group, String serviceId, RuleEntity ruleEntity) throws Exception {
         String config = fromRuleEntity(ruleEntity);
+        String configFormat = environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_CONFIG_FORMAT, String.class, DiscoveryConstant.XML_FORMAT);
+        FormatType formatType = FormatType.fromString(configFormat);
 
-        return updateRemoteConfig(group, serviceId, config);
+        return updateRemoteConfig(group, serviceId, config, formatType);
     }
 
     @Override

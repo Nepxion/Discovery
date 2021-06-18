@@ -16,6 +16,7 @@ public enum FormatType {
     JSON_FORMAT(DiscoveryConstant.JSON_FORMAT),
     YAML_FORMAT(DiscoveryConstant.YAML_FORMAT),
     PROPERTIES_FORMAT(DiscoveryConstant.PROPERTIES_FORMAT),
+    HTML_FORMAT(DiscoveryConstant.HTML_FORMAT),
     TEXT_FORMAT(DiscoveryConstant.TEXT_FORMAT);
 
     private String value;

@@ -12,6 +12,7 @@ package com.nepxion.discovery.console.resource;
 import java.util.List;
 
 import com.nepxion.discovery.common.entity.ConfigType;
+import com.nepxion.discovery.common.entity.FormatType;
 import com.nepxion.discovery.common.entity.ResultEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
 
@@ -19,6 +20,8 @@ public interface ConfigResource {
     ConfigType getConfigType();
 
     boolean updateRemoteConfig(String group, String serviceId, String config) throws Exception;
+
+    boolean updateRemoteConfig(String group, String serviceId, String config, FormatType formatType) throws Exception;
 
     boolean updateRemoteRuleEntity(String group, String serviceId, RuleEntity ruleEntity) throws Exception;
 
