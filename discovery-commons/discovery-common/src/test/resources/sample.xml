@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy>
+        <version>{"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.0", "discovery-springcloud-example-c":"1.0;1.2"}</version>
+    </strategy>
+</rule>

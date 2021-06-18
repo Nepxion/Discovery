@@ -98,6 +98,20 @@ public class JsonUtil {
         }
     }
 
+    public static boolean isJsonFormat(String json) {
+        if (StringUtils.isBlank(json)) {
+            return false;
+        }
+
+        try {
+            objectMapper.readTree(json);
+
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public static ObjectMapper getObjectMapper() {
         return objectMapper;
     }

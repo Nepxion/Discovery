@@ -9,16 +9,21 @@ package com.nepxion.discovery.common.util;
  * @version 1.0
  */
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Map;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 
 import com.alibaba.spring.util.PropertySourcesUtils;
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
 // Copy from Spring Cloud Alibaba project
 public class PropertiesUtil {
@@ -71,5 +76,32 @@ public class PropertiesUtil {
         matcher.appendTail(stringBuffer);
 
         return stringBuffer.toString();
+    }
+
+    public static boolean isPropertiesFormat(String properties) {
+        if (StringUtils.isBlank(properties)) {
+            return false;
+        }
+
+        InputStream inputStream = null;
+        Reader reader = null;
+        try {
+            inputStream = IOUtils.toInputStream(properties, DiscoveryConstant.ENCODING_UTF_8);
+            reader = new InputStreamReader(inputStream, DiscoveryConstant.ENCODING_UTF_8);
+
+            new Properties().load(reader);
+
+            return true;
+        } catch (Exception e) {
+            return false;
+        } finally {
+            if (reader != null) {
+                IOUtils.closeQuietly(reader);
+            }
+
+            if (inputStream != null) {
+                IOUtils.closeQuietly(inputStream);
+            }
+        }
     }
 }
