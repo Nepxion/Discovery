@@ -3872,7 +3872,7 @@ XML最全的示例如下，Json示例见源码discovery-springcloud-example-serv
         <conditions type="blue-green">
             <condition id="1" expression="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="a-1" region-id="b-1" address-id="c-1" version-weight-id="d-1" region-weight-id="e-1"/>
             <condition id="2" expression="#H['c'] == '3'" version-id="a-2" region-id="b-2" address-id="c-2" version-weight-id="d-2" region-weight-id="e-2"/>
-            <condition id="2" version-id="a-2" region-id="b-2" address-id="c-2" version-weight-id="d-2" region-weight-id="e-2"/>
+            <condition id="3" version-id="a-2" region-id="b-2" address-id="c-2" version-weight-id="d-2" region-weight-id="e-2"/>
         </conditions>
 
         <!-- 全链路灰度发布：条件命中的随机权重（第二优先级），支持版本匹配、区域匹配、IP地址和端口匹配 -->
