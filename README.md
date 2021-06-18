@@ -130,6 +130,8 @@ Polaris为Discovery高级定制版，特色功能
 ![](http://nepxion.gitee.io/discovery/docs/polaris-doc/Config.jpg)
 
 ## 简介
+
+### 功能概述
 Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba，Discovery服务注册发现、Ribbon & Spring Cloud LoadBalancer负载均衡、Feign & RestTemplate & WebClient调用、Spring Cloud Gateway & Zuul过滤等组件全方位增强的企业级微服务开源解决方案，更贴近企业级需求，更具有企业级的插件引入、开箱即用特征
 
 ① 微服务框架支持的基本功能，如下
@@ -241,7 +243,8 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - 执行采用【约定大于配置】的准则，使用者根据不同的使用场景开启和关闭相关功能项或者属性值，达到最佳配置
 - 规则策略文件设置和推送，或者通过业务Header、Parameter、Cookie触发，并通过Json格式的Header路由策略全链路传递
 
-④ 微服务框架版本兼容列表，如下
+### 版本列表
+① 微服务框架版本兼容列表，如下
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：版本号右边， `↑` 表示>=该版本号， `↓` 表示<=该版本号
 
@@ -265,7 +268,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - 2.x.x版本（适用于Dalston）已废弃
 - 1.x.x版本（适用于Camden）已废弃
 
-⑤ 相关中间件版本列表，如下
+② 相关中间件版本列表，如下
 
 | 组件类型 | 组件版本 |
 | --- | --- |
@@ -275,25 +278,17 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | 监控组件 | [![OpenTelemetry](https://img.shields.io/maven-central/v/io.opentelemetry/opentelemetry-api.svg?label=OpenTelemetry)](https://search.maven.org/artifact/io.opentelemetry/opentelemetry-api)<br>[![OpenTracing](https://img.shields.io/maven-central/v/io.opentracing/opentracing-api.svg?label=OpenTracing)](https://search.maven.org/artifact/io.opentracing/opentracing-api)<br>[![OpenTracing%20Sping%20Cloud](https://img.shields.io/maven-central/v/io.opentracing.contrib/opentracing-spring-cloud-starter.svg?label=OpenTracing%20Sping%20Cloud)](https://search.maven.org/artifact/io.opentracing.contrib/opentracing-spring-cloud-starter)<br>[![OpenTracing%20Jaeger](https://img.shields.io/maven-central/v/io.opentracing.contrib/opentracing-spring-jaeger-starter.svg?label=OpenTracing%20Jaeger)](https://search.maven.org/artifact/io.opentracing.contrib/opentracing-spring-jaeger-starter)<br>[![OpenTracing%20Concurrent](https://img.shields.io/maven-central/v/io.opentracing.contrib/opentracing-concurrent.svg?label=OpenTracing%20Concurrent)](https://search.maven.org/artifact/io.opentracing.contrib/opentracing-concurrent)<br>[![SkyWalking](https://img.shields.io/maven-central/v/org.apache.skywalking/apm-toolkit-opentracing.svg?label=SkyWalking)](https://search.maven.org/artifact/org.apache.skywalking/apm-toolkit-opentracing)<br>[![Spring Boot](https://img.shields.io/maven-central/v/de.codecentric/spring-boot-admin-dependencies.svg?label=Spring%20Boot%20Admin)](https://search.maven.org/artifact/de.codecentric/spring-boot-admin-dependencies) |
 | Spring组件 | [![Alibaba Spring](https://img.shields.io/maven-central/v/com.alibaba.spring/spring-context-support.svg?label=Alibaba%20Spring)](https://search.maven.org/artifact/com.alibaba.spring/spring-context-support)<br>[![Spring Cloud](https://img.shields.io/maven-central/v/org.springframework.cloud/spring-cloud-dependencies.svg?label=Spring%20Cloud)](https://search.maven.org/artifact/org.springframework.cloud/spring-cloud-dependencies)<br>[![Spring Cloud Alibaba](https://img.shields.io/maven-central/v/com.alibaba.cloud/spring-cloud-alibaba-dependencies.svg?label=Spring%20Cloud%20Alibaba)](https://search.maven.org/artifact/com.alibaba.cloud/spring-cloud-alibaba-dependencies)<br>[![Spring Boot](https://img.shields.io/maven-central/v/org.springframework.boot/spring-boot-dependencies.svg?label=Spring%20Boot)](https://search.maven.org/artifact/org.springframework.boot/spring-boot-dependencies) |
 
-⑥ 相关仓库代码行数列表，如下
-
-| 仓库 | 代码行数 |
-| --- | --- |
-| Discovery | [![Total lines](https://tokei.rs/b1/github/Nepxion/Discovery?category=lines)](https://tokei.rs/b1/github/Nepxion/Discovery?category=lines) |
-| DiscoveryGuide | [![Total lines](https://tokei.rs/b1/github/Nepxion/DiscoveryGuide?category=lines)](https://tokei.rs/b1/github/Nepxion/DiscoveryGuide?category=lines) |
-| DiscoveryPlatform | [![Total lines](https://tokei.rs/b1/github/Nepxion/DiscoveryPlatform?category=lines)](https://tokei.rs/b1/github/Nepxion/DiscoveryPlatform?category=lines) |
-| DiscoveryAgent | [![Total lines](https://tokei.rs/b1/github/Nepxion/DiscoveryAgent?category=lines)](https://tokei.rs/b1/github/Nepxion/DiscoveryAgent?category=lines) |
-| DiscoveryUI | [![Total lines](https://tokei.rs/b1/github/Nepxion/DiscoveryUI?category=lines)](https://tokei.rs/b1/github/Nepxion/DiscoveryUI?category=lines) |
-| DiscoveryContrib | [![Total lines](https://tokei.rs/b1/github/Nepxion/DiscoveryContrib?category=lines)](https://tokei.rs/b1/github/Nepxion/DiscoveryContrib?category=lines) |
-
-## 鸣谢
+### 郑重致谢
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/star2.png) 郑重致谢
 - 感谢阿里巴巴中间件Nacos、Sentinel和Spring Cloud Alibaba团队，尤其是Nacos负责人@彦林、@于怀，Sentinel负责人@宿何、@子衿，Spring Cloud Alibaba负责人@良名、@小马哥、@洛夜、@亦盏的技术支持
 - 感谢携程Apollo团队，尤其是@宋顺的技术支持
 - 感谢所有Committers和Contributors
 - 感谢所有帮忙分析和定位问题的同学
 - 感谢所有提出宝贵建议和意见的同学
-- 感谢支持和使用本框架的公司和企业。不完全统计，目前社区开源项目（包括本框架以及关联框架或组件）已经被如下公司使用或者调研
+- 感谢支持和使用本框架的公司和企业
+
+### 企业用户
+不完全统计，目前社区开源项目（包括本框架以及关联框架或组件）已经被如下公司使用或者调研
 
 <table>
   <tbody>
@@ -497,11 +492,19 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 
 <img src="http://nepxion.gitee.io/discovery/docs/discovery-doc/Result.jpg"/>
 
+### 请联系我
+微信、钉钉、公众号和文档
+
+![](http://nepxion.gitee.io/discovery/docs/zxing-doc/微信-1.jpg)![](http://nepxion.gitee.io/discovery/docs/zxing-doc/钉钉-1.jpg)![](http://nepxion.gitee.io/discovery/docs/zxing-doc/公众号-1.jpg)![](http://nepxion.gitee.io/discovery/docs/zxing-doc/文档-1.jpg)
+
 ## 目录
 - [简介](#简介)
-- [鸣谢](#鸣谢)
-- [请联系我](#请联系我)
-- [相关链接](#相关链接)
+    - [功能概述](#功能概述)
+    - [版本列表](#版本列表)
+    - [郑重致谢](#郑重致谢)
+    - [企业用户](#企业用户)
+    - [请联系我](#请联系我)
+- [主页链接](#主页链接)
     - [源码主页](#源码主页)
     - [发布主页](#发布主页)
     - [指南主页](#指南主页)
@@ -510,6 +513,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [博客主页](#博客主页)
 - [工程架构](#工程架构)
     - [工程清单](#工程清单)
+    - [代码清单](#代码清单)
     - [架构核心](#架构核心)
     - [依赖引入](#依赖引入)
 - [准备工作](#准备工作)
@@ -675,12 +679,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [中间件服务器下载地址](#中间件服务器下载地址)	
 - [Star走势图](#Star走势图)
 
-## 请联系我
-微信、钉钉、公众号和文档
-
-![](http://nepxion.gitee.io/discovery/docs/zxing-doc/微信-1.jpg)![](http://nepxion.gitee.io/discovery/docs/zxing-doc/钉钉-1.jpg)![](http://nepxion.gitee.io/discovery/docs/zxing-doc/公众号-1.jpg)![](http://nepxion.gitee.io/discovery/docs/zxing-doc/文档-1.jpg)
-
-## 相关链接
+## 主页链接
 
 ### 源码主页
 [Discovery源码主页](https://github.com/Nepxion/Discovery)
@@ -816,6 +815,17 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-contrib-plugin-starter-rocketmq | RocketMQ的蓝绿灰度发布Contrib Plugin Starter |
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-contrib-plugin-starter-shardingsphere | ShardingSphere日志的蓝绿灰度发布Contrib Plugin Starter |
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-contrib-example | 第三方非微服务范畴中间件的蓝绿灰度发布示例 |
+
+### 代码清单
+
+| 仓库 | 代码行数 |
+| --- | --- |
+| Discovery | [![Total lines](https://tokei.rs/b1/github/Nepxion/Discovery?category=lines)](https://tokei.rs/b1/github/Nepxion/Discovery?category=lines) |
+| DiscoveryGuide | [![Total lines](https://tokei.rs/b1/github/Nepxion/DiscoveryGuide?category=lines)](https://tokei.rs/b1/github/Nepxion/DiscoveryGuide?category=lines) |
+| DiscoveryPlatform | [![Total lines](https://tokei.rs/b1/github/Nepxion/DiscoveryPlatform?category=lines)](https://tokei.rs/b1/github/Nepxion/DiscoveryPlatform?category=lines) |
+| DiscoveryAgent | [![Total lines](https://tokei.rs/b1/github/Nepxion/DiscoveryAgent?category=lines)](https://tokei.rs/b1/github/Nepxion/DiscoveryAgent?category=lines) |
+| DiscoveryUI | [![Total lines](https://tokei.rs/b1/github/Nepxion/DiscoveryUI?category=lines)](https://tokei.rs/b1/github/Nepxion/DiscoveryUI?category=lines) |
+| DiscoveryContrib | [![Total lines](https://tokei.rs/b1/github/Nepxion/DiscoveryContrib?category=lines)](https://tokei.rs/b1/github/Nepxion/DiscoveryContrib?category=lines) |
 
 ### 架构核心
 - 服务治理架构图
