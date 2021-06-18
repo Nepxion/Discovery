@@ -19,15 +19,5 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>discovery-common</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.dom4j</groupId>
-            <artifactId>dom4j</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-        </dependency>
     </dependencies>
 </project>

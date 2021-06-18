@@ -21,7 +21,9 @@ import org.springframework.core.env.Environment;
 import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.config.listener.Listener;
 import com.alibaba.nacos.api.exception.NacosException;
+import com.nepxion.discovery.common.entity.FormatType;
 import com.nepxion.discovery.common.nacos.constant.NacosConstant;
+import com.nepxion.discovery.common.util.FormatUtil;
 
 public class NacosOperation implements DisposableBean {
     private static final Logger LOG = LoggerFactory.getLogger(NacosOperation.class);
@@ -46,7 +48,9 @@ public class NacosOperation implements DisposableBean {
     }
 
     public boolean publishConfig(String group, String serviceId, String config) throws NacosException {
-        return nacosConfigService.publishConfig(serviceId, group, config);
+        FormatType formatType = FormatUtil.getFormatType(config);
+
+        return nacosConfigService.publishConfig(serviceId, group, config, formatType.toString());
     }
 
     public Listener subscribeConfig(String group, String serviceId, Executor executor, NacosSubscribeCallback nacosSubscribeCallback) throws NacosException {
