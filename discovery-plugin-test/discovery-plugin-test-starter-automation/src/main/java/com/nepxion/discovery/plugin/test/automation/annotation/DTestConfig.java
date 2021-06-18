@@ -18,6 +18,8 @@ import java.lang.annotation.Target;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.nepxion.discovery.common.entity.FormatType;
+
 @Target({ ElementType.METHOD, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
@@ -28,6 +30,9 @@ public @interface DTestConfig {
 
     // 服务名
     String serviceId();
+
+    // 配置类型
+    FormatType formatType() default FormatType.TEXT_FORMAT;
 
     // 组名-服务名组合键值的前缀
     String prefix() default StringUtils.EMPTY;

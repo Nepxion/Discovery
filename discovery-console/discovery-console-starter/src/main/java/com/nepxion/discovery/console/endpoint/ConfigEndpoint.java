@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nepxion.discovery.common.entity.FormatType;
 import com.nepxion.discovery.common.entity.ResultEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.util.ResponseUtil;
@@ -48,6 +49,13 @@ public class ConfigEndpoint {
     @ResponseBody
     public ResponseEntity<?> remoteConfigUpdate(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名。当全局推送模式下，服务名必须由组名来代替", required = true) String serviceId, @RequestBody @ApiParam(value = "规则配置内容", required = true) String config) {
         return doRemoteConfigUpdate(group, serviceId, config);
+    }
+
+    @RequestMapping(path = "/remote/update/{group}/{serviceId}/{formatType}", method = RequestMethod.POST)
+    @ApiOperation(value = "更新规则配置到远程配置中心", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    public ResponseEntity<?> remoteConfigUpdate(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名。当全局推送模式下，服务名必须由组名来代替", required = true) String serviceId, @PathVariable(value = "formatType") @ApiParam(value = "配置类型（Nacos专用）。取值： xml | json | yaml | properties | html | text", defaultValue = "text", required = true) String formatType, @RequestBody @ApiParam(value = "规则配置内容", required = true) String config) {
+        return doRemoteConfigUpdate(group, serviceId, config, formatType);
     }
 
     @RequestMapping(path = "/remote/clear/{group}/{serviceId}", method = RequestMethod.POST)
@@ -126,6 +134,16 @@ public class ConfigEndpoint {
     private ResponseEntity<?> doRemoteConfigUpdate(String group, String serviceId, String config) {
         try {
             boolean result = configResource.updateRemoteConfig(group, serviceId, config);
+
+            return ResponseUtil.getSuccessResponse(result);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
+    }
+
+    private ResponseEntity<?> doRemoteConfigUpdate(String group, String serviceId, String config, String formatType) {
+        try {
+            boolean result = configResource.updateRemoteConfig(group, serviceId, config, FormatType.fromString(formatType));
 
             return ResponseUtil.getSuccessResponse(result);
         } catch (Exception e) {

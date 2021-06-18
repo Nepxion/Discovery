@@ -10,9 +10,15 @@ package com.nepxion.discovery.console.adapter;
  */
 
 import com.nepxion.discovery.common.entity.ConfigType;
+import com.nepxion.discovery.common.entity.FormatType;
 
 public interface ConfigAdapter {
     boolean updateConfig(String group, String serviceId, String config) throws Exception;
+
+    // 除了Nacos，其它配置中心不需要FormatType
+    default boolean updateConfig(String group, String serviceId, String config, FormatType formatType) throws Exception {
+        return updateConfig(group, serviceId, config);
+    }
 
     boolean clearConfig(String group, String serviceId) throws Exception;
 
