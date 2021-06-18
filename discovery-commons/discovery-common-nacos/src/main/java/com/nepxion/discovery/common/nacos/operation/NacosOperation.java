@@ -51,7 +51,7 @@ public class NacosOperation implements DisposableBean {
     }
 
     public boolean publishConfig(String group, String serviceId, String config, FormatType formatType) throws NacosException {
-        return nacosConfigService.publishConfig(serviceId, group, config, formatType.toString());
+        return nacosConfigService.publishConfig(serviceId, group, config);
     }
 
     public Listener subscribeConfig(String group, String serviceId, Executor executor, NacosSubscribeCallback nacosSubscribeCallback) throws NacosException {
