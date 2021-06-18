@@ -9,12 +9,12 @@ package com.nepxion.discovery.common.util;
  * @version 1.0
  */
 
-import org.dom4j.DocumentHelper;
+import com.nepxion.discovery.common.dom4j.Dom4JReader;
 
 public class XmlUtil {
     public static boolean isXmlFormat(String xml) {
         try {
-            DocumentHelper.parseText(xml);
+            Dom4JReader.getDocument(xml);
 
             return true;
         } catch (Exception e) {

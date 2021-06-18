@@ -23,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.dom4j.Dom4JReader;
 import com.nepxion.discovery.common.entity.AddressWeightEntity;
 import com.nepxion.discovery.common.entity.ConditionType;
 import com.nepxion.discovery.common.entity.CountFilterEntity;
@@ -56,7 +57,6 @@ import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.framework.parser.PluginConfigParser;
-import com.nepxion.discovery.plugin.framework.parser.xml.dom4j.Dom4JReader;
 
 public class XmlConfigParser implements PluginConfigParser {
     private static final Logger LOG = LoggerFactory.getLogger(XmlConfigParser.class);
