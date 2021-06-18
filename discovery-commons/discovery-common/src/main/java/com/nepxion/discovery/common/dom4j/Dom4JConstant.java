@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.parser.xml.dom4j;
+package com.nepxion.discovery.common.dom4j;
 
 /**
  * <p>Title: Nepxion Discovery</p>
