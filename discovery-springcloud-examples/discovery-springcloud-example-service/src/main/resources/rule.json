@@ -218,6 +218,15 @@
         "addressId": "c-2",
         "versionWeightId": "d-2",
         "regionWeightId": "e-2"
+      },
+      {
+        "id": "3",
+        "expression": null,
+        "versionId": "a-2",
+        "regionId": "b-2",
+        "addressId": "c-2",
+        "versionWeightId": "d-2",
+        "regionWeightId": "e-2"
       }
     ],
     "strategyConditionGrayEntityList": [
