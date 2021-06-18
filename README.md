@@ -1,5 +1,3 @@
-[^_^]: ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Cover.jpg)
-
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Banner.png)
 
 # Discovery【探索】微服务企业级解决方案
@@ -279,8 +277,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | Spring组件 | [![Alibaba Spring](https://img.shields.io/maven-central/v/com.alibaba.spring/spring-context-support.svg?label=Alibaba%20Spring)](https://search.maven.org/artifact/com.alibaba.spring/spring-context-support)<br>[![Spring Cloud](https://img.shields.io/maven-central/v/org.springframework.cloud/spring-cloud-dependencies.svg?label=Spring%20Cloud)](https://search.maven.org/artifact/org.springframework.cloud/spring-cloud-dependencies)<br>[![Spring Cloud Alibaba](https://img.shields.io/maven-central/v/com.alibaba.cloud/spring-cloud-alibaba-dependencies.svg?label=Spring%20Cloud%20Alibaba)](https://search.maven.org/artifact/com.alibaba.cloud/spring-cloud-alibaba-dependencies)<br>[![Spring Boot](https://img.shields.io/maven-central/v/org.springframework.boot/spring-boot-dependencies.svg?label=Spring%20Boot)](https://search.maven.org/artifact/org.springframework.boot/spring-boot-dependencies) |
 
 ### 郑重致谢
-[^_^]: ![](http://nepxion.gitee.io/discovery/docs/icon-doc/star2.png) 郑重致谢
-
 - 感谢阿里巴巴中间件Nacos、Sentinel和Spring Cloud Alibaba团队，尤其是Nacos负责人@彦林、@于怀，Sentinel负责人@宿何、@子衿，Spring Cloud Alibaba负责人@良名、@小马哥、@洛夜、@亦盏的技术支持
 - 感谢携程Apollo团队，尤其是@宋顺的技术支持
 - 感谢所有Committers和Contributors
