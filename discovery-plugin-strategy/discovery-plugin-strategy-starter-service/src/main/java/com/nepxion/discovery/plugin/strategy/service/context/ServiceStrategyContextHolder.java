@@ -10,20 +10,29 @@ package com.nepxion.discovery.plugin.strategy.service.context;
  * @version 1.0
  */
 
+import java.util.Collections;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.nepxion.discovery.plugin.strategy.context.AbstractStrategyContextHolder;
+import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 
 public class ServiceStrategyContextHolder extends AbstractStrategyContextHolder {
+    // 如果外界也传了相同的Header，例如，从Postman传递过来的Header，当下面的变量为true，以服务设置为优先，否则以外界传值为优先
+    @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SERVICE_HEADER_PRIORITY + ":true}")
+    protected Boolean serviceHeaderPriority;
+
     public ServletRequestAttributes getRestAttributes() {
         RequestAttributes requestAttributes = RestStrategyContext.getCurrentContext().getRequestAttributes();
         if (requestAttributes == null) {
@@ -62,17 +71,50 @@ public class ServiceStrategyContextHolder extends AbstractStrategyContextHolder 
             return null;
         }
 
-        return request.getHeaderNames();
+        Enumeration<String> headerNames = request.getHeaderNames();
+
+        Map<String, String> headerMap = strategyWrapper.getHeaderMap();
+        if (MapUtils.isNotEmpty(headerMap)) {
+            List<String> headerNameList = Collections.list(headerNames);
+
+            for (Map.Entry<String, String> entry : headerMap.entrySet()) {
+                String headerName = entry.getKey();
+                if (!headerNameList.contains(headerName)) {
+                    headerNameList.add(headerName);
+                }
+            }
+
+            return Collections.enumeration(headerNameList);
+        }
+
+        return headerNames;
     }
 
     @Override
     public String getHeader(String name) {
-        HttpServletRequest request = getHttpServletRequest();
-        if (request == null) {
-            return null;
-        }
+        if (serviceHeaderPriority) {
+            String header = strategyWrapper.getHeader(name);
+            if (StringUtils.isEmpty(header)) {
+                HttpServletRequest request = getHttpServletRequest();
+                if (request != null) {
+                    header = request.getHeader(name);
+                }
+            }
 
-        return request.getHeader(name);
+            return header;
+        } else {
+            String header = null;
+            HttpServletRequest request = getHttpServletRequest();
+            if (request != null) {
+                header = request.getHeader(name);
+            }
+
+            if (StringUtils.isEmpty(header)) {
+                header = strategyWrapper.getHeader(name);
+            }
+
+            return header;
+        }
     }
 
     @Override
