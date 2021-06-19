@@ -1184,7 +1184,7 @@ n-d-version={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
     <strategy>
-        <version>{"discovery-guide-service-a":"dev", "discovery-guide-service-b":"qa"}</version>
+        <region>{"discovery-guide-service-a":"dev", "discovery-guide-service-b":"qa"}</region>
     </strategy>
 </rule>
 ```
