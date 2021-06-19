@@ -9,8 +9,10 @@ package com.nepxion.discovery.plugin.strategy.service.filter;
  * @version 1.0
  */
 
+import org.springframework.boot.web.servlet.filter.OrderedFilter;
+
 import com.nepxion.discovery.plugin.strategy.filter.StrategyRouteFilter;
 
-public abstract class ServiceStrategyRouteFilter extends ServiceStrategyFilter implements StrategyRouteFilter {
+public abstract class ServiceStrategyRouteFilter extends ServiceStrategyFilter implements StrategyRouteFilter, OrderedFilter {
 
 }

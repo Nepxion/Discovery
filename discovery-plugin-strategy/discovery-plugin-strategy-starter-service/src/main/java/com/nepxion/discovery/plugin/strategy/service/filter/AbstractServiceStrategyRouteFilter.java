@@ -57,6 +57,14 @@ public abstract class AbstractServiceStrategyRouteFilter extends ServiceStrategy
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_REST_TEMPLATE_CORE_HEADER_TRANSMISSION_ENABLED + ":true}")
     protected Boolean restTemplateCoreHeaderTransmissionEnabled;
 
+    @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SERVICE_ROUTE_FILTER_ORDER + ":" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SERVICE_ROUTE_FILTER_ORDER_VALUE + "}")
+    protected Integer filterOrder;
+
+    @Override
+    public int getOrder() {
+        return filterOrder;
+    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         boolean isExclusion = serviceStrategyFilterExclusion.isExclusion(request, response);
