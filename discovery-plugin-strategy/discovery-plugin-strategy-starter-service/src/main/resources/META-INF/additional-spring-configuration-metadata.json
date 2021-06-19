@@ -1,6 +1,12 @@
 {
 	"properties": [
 		{
+			"name": "spring.application.strategy.service.route.filter.order",
+			"type": "java.lang.Integer",
+			"defaultValue": 0,
+			"description": "Strategy service route filter order."
+		},
+		{
 			"name": "spring.application.strategy.rpc.intercept.enabled",
 			"type": "java.lang.String",
 			"defaultValue": false,
