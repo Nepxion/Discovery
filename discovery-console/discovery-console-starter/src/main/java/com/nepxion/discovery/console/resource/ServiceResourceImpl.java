@@ -10,6 +10,7 @@ package com.nepxion.discovery.console.resource;
  */
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,7 +65,7 @@ public class ServiceResourceImpl implements ServiceResource {
 
     @Override
     public List<String> getGroups() {
-        List<String> groups = new ArrayList<String>();
+        List<String> groupList = new ArrayList<String>();
 
         List<String> services = getServices();
         for (String service : services) {
@@ -72,13 +73,15 @@ public class ServiceResourceImpl implements ServiceResource {
             for (InstanceEntity instance : instanceEntityList) {
                 String plugin = InstanceEntityWrapper.getPlugin(instance);
                 String group = InstanceEntityWrapper.getGroup(instance);
-                if (StringUtils.isNotEmpty(plugin) && !groups.contains(group)) {
-                    groups.add(group);
+                if (StringUtils.isNotEmpty(plugin) && !groupList.contains(group)) {
+                    groupList.add(group);
                 }
             }
         }
 
-        return groups;
+        groupList.sort(String::compareTo);
+
+        return groupList;
     }
 
     @Override
@@ -96,7 +99,11 @@ public class ServiceResourceImpl implements ServiceResource {
 
     @Override
     public List<String> getServices() {
-        return discoveryClient.getServices();
+        List<String> serviceList = discoveryClient.getServices();
+
+        serviceList.sort(String::compareTo);
+
+        return serviceList;
     }
 
     @Override
@@ -171,7 +178,12 @@ public class ServiceResourceImpl implements ServiceResource {
 
     @Override
     public List<ServiceInstance> getInstances(String serviceId) {
-        return discoveryClient.getInstances(serviceId);
+        List<ServiceInstance> instanceList = discoveryClient.getInstances(serviceId);
+
+        // instanceList.sort(Comparator.comparing(ServiceInstance::getHost).thenComparing(ServiceInstance::getPort));
+        instanceList.sort(Comparator.nullsLast(Comparator.comparing(ServiceInstance::getHost, Comparator.nullsLast(String::compareTo))).thenComparing(ServiceInstance::getPort));
+
+        return instanceList;
     }
 
     @Override
