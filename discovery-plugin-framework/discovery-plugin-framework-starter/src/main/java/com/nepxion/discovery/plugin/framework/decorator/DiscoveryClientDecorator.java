@@ -17,10 +17,11 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
+import com.nepxion.discovery.common.delegate.DiscoveryClientDelegate;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.listener.discovery.DiscoveryListenerExecutor;
 
-public class DiscoveryClientDecorator implements DiscoveryClient {
+public class DiscoveryClientDecorator implements DiscoveryClient, DiscoveryClientDelegate<DiscoveryClient> {
     // private static final Logger LOG = LoggerFactory.getLogger(DiscoveryClientDecorator.class);
 
     private DiscoveryClient discoveryClient;
@@ -33,7 +34,7 @@ public class DiscoveryClientDecorator implements DiscoveryClient {
         this.environment = applicationContext.getEnvironment();
     }
 
-    public DiscoveryClient getRealDiscoveryClient() {
+    public DiscoveryClient getDelegate() {
         return discoveryClient;
     }
 
