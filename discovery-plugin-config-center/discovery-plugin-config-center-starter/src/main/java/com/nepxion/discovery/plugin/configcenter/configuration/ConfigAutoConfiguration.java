@@ -13,34 +13,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.nepxion.discovery.common.entity.ConfigFormatType;
-import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.configcenter.initializer.ConfigInitializer;
 import com.nepxion.discovery.plugin.configcenter.loader.LocalConfigLoader;
 import com.nepxion.discovery.plugin.configcenter.logger.ConfigLogger;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
-import com.nepxion.discovery.plugin.framework.parser.PluginConfigParser;
-import com.nepxion.discovery.plugin.framework.parser.json.JsonConfigParser;
-import com.nepxion.discovery.plugin.framework.parser.xml.XmlConfigParser;
 
 @Configuration
 public class ConfigAutoConfiguration {
     @Autowired
     private PluginContextAware pluginContextAware;
-
-    @Bean
-    public PluginConfigParser pluginConfigParser() {
-        String configFormat = pluginContextAware.getConfigFormat();
-        ConfigFormatType configFormatType = ConfigFormatType.fromString(configFormat);
-        switch (configFormatType) {
-            case XML_FORMAT:
-                return new XmlConfigParser();
-            case JSON_FORMAT:
-                return new JsonConfigParser();
-        }
-
-        throw new DiscoveryException("Invalid config format for '" + configFormat + "'");
-    }
 
     @Bean
     public LocalConfigLoader localConfigLoader() {
