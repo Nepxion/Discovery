@@ -12,6 +12,7 @@ package com.nepxion.discovery.common.entity;
 import java.io.Serializable;
 import java.util.Map;
 
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -29,7 +30,10 @@ public class StrategyHeaderEntity implements Serializable {
 
     public void setHeaderMap(Map<String, String> headerMap) {
         this.headerMap.clear();
-        this.headerMap.putAll(headerMap);
+
+        if (MapUtils.isNotEmpty(headerMap)) {
+            this.headerMap.putAll(headerMap);
+        }
     }
 
     @Override
