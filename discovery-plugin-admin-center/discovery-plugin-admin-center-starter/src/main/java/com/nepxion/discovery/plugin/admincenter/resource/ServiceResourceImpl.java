@@ -108,13 +108,31 @@ public class ServiceResourceImpl implements ServiceResource {
     }
 
     @Override
-    public List<ServiceInstance> getInstances(String serviceId) {
-        return discoveryClient.getInstances(serviceId);
+    public List<String> getServiceList(List<ServiceType> types) {
+        List<String> serviceList = new ArrayList<String>();
+        List<String> services = getServices();
+        for (String service : services) {
+            List<ServiceInstance> instances = getInstances(service);
+            for (ServiceInstance instance : instances) {
+                Map<String, String> metadata = instance.getMetadata();
+                String serviceId = instance.getServiceId().toLowerCase();
+                String serviceType = metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_TYPE);
+                for (ServiceType type : types) {
+                    if (StringUtils.equals(serviceType, type.toString())) {
+                        if (!serviceList.contains(serviceId)) {
+                            serviceList.add(serviceId);
+                        }
+                    }
+                }
+            }
+        }
+
+        return serviceList;
     }
 
     @Override
     public List<String> getGateways() {
-        List<String> gateways = new ArrayList<String>();
+        List<String> gatewayList = new ArrayList<String>();
         List<String> services = getServices();
         for (String service : services) {
             List<ServiceInstance> instances = getInstances(service);
@@ -123,19 +141,19 @@ public class ServiceResourceImpl implements ServiceResource {
                 String serviceId = instance.getServiceId().toLowerCase();
                 String serviceType = metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_TYPE);
                 if (StringUtils.equals(serviceType, ServiceType.GATEWAY.toString())) {
-                    if (!gateways.contains(serviceId)) {
-                        gateways.add(serviceId);
+                    if (!gatewayList.contains(serviceId)) {
+                        gatewayList.add(serviceId);
                     }
                 }
             }
         }
 
-        return gateways;
+        return gatewayList;
     }
 
     @Override
-    public List<String> getGatewayList(GatewayType type) {
-        List<String> gateways = new ArrayList<String>();
+    public List<String> getGatewayList(List<GatewayType> types) {
+        List<String> gatewayList = new ArrayList<String>();
         List<String> services = getServices();
         for (String service : services) {
             List<ServiceInstance> instances = getInstances(service);
@@ -144,15 +162,24 @@ public class ServiceResourceImpl implements ServiceResource {
                 String serviceId = instance.getServiceId().toLowerCase();
                 String serviceType = metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_TYPE);
                 String gatewayType = metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_GATEWAY_TYPE);
-                if (StringUtils.equals(serviceType, ServiceType.GATEWAY.toString()) && StringUtils.equals(gatewayType, type.toString())) {
-                    if (!gateways.contains(serviceId)) {
-                        gateways.add(serviceId);
+                if (StringUtils.equals(serviceType, ServiceType.GATEWAY.toString())) {
+                    for (GatewayType type : types) {
+                        if (StringUtils.equals(gatewayType, type.toString())) {
+                            if (!gatewayList.contains(serviceId)) {
+                                gatewayList.add(serviceId);
+                            }
+                        }
                     }
                 }
             }
         }
 
-        return gateways;
+        return gatewayList;
+    }
+
+    @Override
+    public List<ServiceInstance> getInstances(String serviceId) {
+        return discoveryClient.getInstances(serviceId);
     }
 
     @Override

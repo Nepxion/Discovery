@@ -13,6 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nepxion.discovery.common.entity.GatewayType;
 import com.nepxion.discovery.common.entity.InstanceEntity;
+import com.nepxion.discovery.common.entity.ServiceType;
 import com.nepxion.discovery.common.util.ResponseUtil;
 import com.nepxion.discovery.plugin.admincenter.resource.ServiceResource;
 
@@ -66,6 +68,13 @@ public class ServiceEndpoint {
         return doServices();
     }
 
+    @RequestMapping(path = "/service-list", method = RequestMethod.POST)
+    @ApiOperation(value = "获取注册中心的服务名列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    public ResponseEntity<?> serviceList(@RequestBody @ApiParam(value = "服务类型列表。取值： service | gateway", required = true) List<String> serviceTypes) {
+        return doServiceList(serviceTypes);
+    }
+
     @RequestMapping(path = "/gateways", method = RequestMethod.GET)
     @ApiOperation(value = "获取注册中心的网关名列表", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
@@ -73,11 +82,11 @@ public class ServiceEndpoint {
         return doGateways();
     }
 
-    @RequestMapping(path = "/gateway-list/{gatewayType}", method = RequestMethod.GET)
-    @ApiOperation(value = "获取服务注册中心的网关名列表（根据网关类型）", notes = "", response = ResponseEntity.class, httpMethod = "GET")
+    @RequestMapping(path = "/gateway-list", method = RequestMethod.POST)
+    @ApiOperation(value = "获取注册中心的网关名列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> gatewayList(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： spring-cloud-gateway | zuul", defaultValue = "spring-cloud-gateway", required = true) String gatewayType) {
-        return doGatewayList(gatewayType);
+    public ResponseEntity<?> gatewayList(@RequestBody @ApiParam(value = "网关类型列表。取值： spring-cloud-gateway | zuul", required = true) List<String> gatewayTypes) {
+        return doGatewayList(gatewayTypes);
     }
 
     @RequestMapping(path = "/instances/{serviceId}", method = RequestMethod.GET)
@@ -95,7 +104,7 @@ public class ServiceEndpoint {
     }
 
     @RequestMapping(path = "/instance-map", method = RequestMethod.POST)
-    @ApiOperation(value = "获取注册中心的服务实例的Map（精简数据）", notes = "服务组名列表", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "获取注册中心的服务实例的Map（精简数据）", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> instanceMap(@RequestBody @ApiParam(value = "服务组名列表，传入空列则可以获取全部服务实例数据", required = true) List<String> groups) {
         return doInstanceMap(groups);
@@ -141,6 +150,21 @@ public class ServiceEndpoint {
         }
     }
 
+    private ResponseEntity<?> doServiceList(List<String> serviceTypes) {
+        try {
+            List<ServiceType> types = new ArrayList<ServiceType>();
+            for (String serviceType : serviceTypes) {
+                types.add(ServiceType.fromString(serviceType));
+            }
+
+            List<String> services = serviceResource.getServiceList(types);
+
+            return ResponseUtil.getSuccessResponse(services);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
+    }
+
     private ResponseEntity<?> doGateways() {
         try {
             List<String> gateways = serviceResource.getGateways();
@@ -151,9 +175,14 @@ public class ServiceEndpoint {
         }
     }
 
-    private ResponseEntity<?> doGatewayList(String gatewayType) {
+    private ResponseEntity<?> doGatewayList(List<String> gatewayTypes) {
         try {
-            List<String> gatewayList = serviceResource.getGatewayList(GatewayType.fromString(gatewayType));
+            List<GatewayType> types = new ArrayList<GatewayType>();
+            for (String gatewayType : gatewayTypes) {
+                types.add(GatewayType.fromString(gatewayType));
+            }
+
+            List<String> gatewayList = serviceResource.getGatewayList(types);
 
             return ResponseUtil.getSuccessResponse(gatewayList);
         } catch (Exception e) {
