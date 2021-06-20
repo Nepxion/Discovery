@@ -24,6 +24,7 @@ import org.springframework.cloud.client.discovery.composite.CompositeDiscoveryCl
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.constant.DiscoveryMetaDataConstant;
+import com.nepxion.discovery.common.delegate.DiscoveryClientDelegate;
 import com.nepxion.discovery.common.entity.DiscoveryType;
 import com.nepxion.discovery.common.entity.GatewayType;
 import com.nepxion.discovery.common.entity.InstanceEntity;
@@ -34,10 +35,18 @@ public class ServiceResourceImpl implements ServiceResource {
     @Autowired
     private DiscoveryClient discoveryClient;
 
+    @SuppressWarnings("unchecked")
     @Override
     public DiscoveryType getDiscoveryType() {
-        if (discoveryClient instanceof CompositeDiscoveryClient) {
-            CompositeDiscoveryClient compositeDiscoveryClient = (CompositeDiscoveryClient) discoveryClient;
+        DiscoveryClient delegatedDiscoveryClient = null;
+        if (discoveryClient instanceof DiscoveryClientDelegate) {
+            delegatedDiscoveryClient = ((DiscoveryClientDelegate<DiscoveryClient>) discoveryClient).getDelegate();
+        } else {
+            delegatedDiscoveryClient = discoveryClient;
+        }
+
+        if (delegatedDiscoveryClient instanceof CompositeDiscoveryClient) {
+            CompositeDiscoveryClient compositeDiscoveryClient = (CompositeDiscoveryClient) delegatedDiscoveryClient;
             List<DiscoveryClient> discoveryClients = compositeDiscoveryClient.getDiscoveryClients();
             for (DiscoveryClient client : discoveryClients) {
                 String discoveryDescription = client.description();
@@ -50,7 +59,7 @@ public class ServiceResourceImpl implements ServiceResource {
                 }
             }
         } else {
-            String discoveryDescription = discoveryClient.description();
+            String discoveryDescription = delegatedDiscoveryClient.description();
             DiscoveryType[] discoveryTypes = DiscoveryType.values();
             for (int i = 0; i < discoveryTypes.length; i++) {
                 DiscoveryType discoveryType = discoveryTypes[i];

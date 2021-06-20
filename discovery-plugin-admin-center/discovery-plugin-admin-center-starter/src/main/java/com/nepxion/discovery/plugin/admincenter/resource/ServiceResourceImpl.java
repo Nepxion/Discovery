@@ -24,28 +24,29 @@ import org.springframework.cloud.client.discovery.composite.CompositeDiscoveryCl
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.constant.DiscoveryMetaDataConstant;
+import com.nepxion.discovery.common.delegate.DiscoveryClientDelegate;
 import com.nepxion.discovery.common.entity.DiscoveryType;
 import com.nepxion.discovery.common.entity.GatewayType;
 import com.nepxion.discovery.common.entity.InstanceEntity;
 import com.nepxion.discovery.common.entity.InstanceEntityWrapper;
 import com.nepxion.discovery.common.entity.ServiceType;
-import com.nepxion.discovery.plugin.framework.decorator.DiscoveryClientDecorator;
 
 public class ServiceResourceImpl implements ServiceResource {
     @Autowired
     private DiscoveryClient discoveryClient;
 
+    @SuppressWarnings("unchecked")
     @Override
     public DiscoveryType getDiscoveryType() {
-        DiscoveryClient realDiscoveryClient = null;
-        if (discoveryClient instanceof DiscoveryClientDecorator) {
-            realDiscoveryClient = ((DiscoveryClientDecorator) discoveryClient).getRealDiscoveryClient();
+        DiscoveryClient delegatedDiscoveryClient = null;
+        if (discoveryClient instanceof DiscoveryClientDelegate) {
+            delegatedDiscoveryClient = ((DiscoveryClientDelegate<DiscoveryClient>) discoveryClient).getDelegate();
         } else {
-            realDiscoveryClient = discoveryClient;
+            delegatedDiscoveryClient = discoveryClient;
         }
 
-        if (realDiscoveryClient instanceof CompositeDiscoveryClient) {
-            CompositeDiscoveryClient compositeDiscoveryClient = (CompositeDiscoveryClient) realDiscoveryClient;
+        if (delegatedDiscoveryClient instanceof CompositeDiscoveryClient) {
+            CompositeDiscoveryClient compositeDiscoveryClient = (CompositeDiscoveryClient) delegatedDiscoveryClient;
             List<DiscoveryClient> discoveryClients = compositeDiscoveryClient.getDiscoveryClients();
             for (DiscoveryClient client : discoveryClients) {
                 String discoveryDescription = client.description();
@@ -58,7 +59,7 @@ public class ServiceResourceImpl implements ServiceResource {
                 }
             }
         } else {
-            String discoveryDescription = realDiscoveryClient.description();
+            String discoveryDescription = delegatedDiscoveryClient.description();
             DiscoveryType[] discoveryTypes = DiscoveryType.values();
             for (int i = 0; i < discoveryTypes.length; i++) {
                 DiscoveryType discoveryType = discoveryTypes[i];
