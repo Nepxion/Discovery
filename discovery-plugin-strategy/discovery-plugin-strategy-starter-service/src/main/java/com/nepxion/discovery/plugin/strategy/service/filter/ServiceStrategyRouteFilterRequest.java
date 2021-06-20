@@ -32,7 +32,7 @@ public class ServiceStrategyRouteFilterRequest extends HttpServletRequestWrapper
         this.originalRequest = request;
 
         // 不区分大小写Key的Map用于适配不同的Web容器对于大小写Header的不同处理逻辑
-        headers = new LinkedCaseInsensitiveMap<>();
+        headers = new LinkedCaseInsensitiveMap<String>();
     }
 
     public void addHeader(String name, String value) {

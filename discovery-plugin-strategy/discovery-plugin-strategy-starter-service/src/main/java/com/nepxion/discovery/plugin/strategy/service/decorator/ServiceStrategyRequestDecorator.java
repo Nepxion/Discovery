@@ -35,7 +35,7 @@ public class ServiceStrategyRequestDecorator extends HttpServletRequestWrapper {
 
     private Map<String, List<String>> initializeHeaders(HttpServletRequest request) {
         // 不区分大小写Key的Map用于适配不同的Web容器对于大小写Header的不同处理逻辑
-        Map<String, List<String>> headers = new LinkedCaseInsensitiveMap<>();
+        Map<String, List<String>> headers = new LinkedCaseInsensitiveMap<List<String>>();
         Enumeration<String> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
             String headerName = headerNames.nextElement();
