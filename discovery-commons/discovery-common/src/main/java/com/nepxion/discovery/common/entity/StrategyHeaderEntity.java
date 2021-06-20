@@ -10,25 +10,26 @@ package com.nepxion.discovery.common.entity;
  */
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.springframework.util.LinkedCaseInsensitiveMap;
 
 public class StrategyHeaderEntity implements Serializable {
     private static final long serialVersionUID = 7784567539151885177L;
 
-    private Map<String, String> headerMap = new HashMap<String, String>();
+    private Map<String, String> headerMap = new LinkedCaseInsensitiveMap<String>();
 
     public Map<String, String> getHeaderMap() {
         return headerMap;
     }
 
     public void setHeaderMap(Map<String, String> headerMap) {
-        this.headerMap = headerMap;
+        this.headerMap.clear();
+        this.headerMap.putAll(headerMap);
     }
 
     @Override
