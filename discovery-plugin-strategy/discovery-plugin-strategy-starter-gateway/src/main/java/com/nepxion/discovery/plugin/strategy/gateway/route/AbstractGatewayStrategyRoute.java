@@ -318,7 +318,7 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
         gatewayStrategyRouteEntity.setId(routeDefinition.getId());
         gatewayStrategyRouteEntity.setUri(routeDefinition.getUri().toString());
         gatewayStrategyRouteEntity.setOrder(routeDefinition.getOrder());
-        // Not Support Finchley and Greenwich		
+        // Not Support Finchley and Greenwich
         // gatewayStrategyRouteEntity.setMetadata(routeDefinition.getMetadata());
 
         convertPredicates(routeDefinition.getPredicates(), gatewayStrategyRouteEntity.getPredicates(), gatewayStrategyRouteEntity.getUserPredicates());
