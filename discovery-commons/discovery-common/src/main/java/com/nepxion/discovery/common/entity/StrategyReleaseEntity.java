@@ -23,7 +23,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.util.StringUtil;
 
-public class StrategyCustomizationEntity implements Serializable {
+public class StrategyReleaseEntity implements Serializable {
     private static final long serialVersionUID = 4903833660194433964L;
 
     private List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList;

@@ -41,7 +41,7 @@ import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.StrategyBlacklistEntity;
 import com.nepxion.discovery.common.entity.StrategyConditionBlueGreenEntity;
 import com.nepxion.discovery.common.entity.StrategyConditionGrayEntity;
-import com.nepxion.discovery.common.entity.StrategyCustomizationEntity;
+import com.nepxion.discovery.common.entity.StrategyReleaseEntity;
 import com.nepxion.discovery.common.entity.StrategyEntity;
 import com.nepxion.discovery.common.entity.StrategyHeaderEntity;
 import com.nepxion.discovery.common.entity.StrategyRouteEntity;
@@ -96,9 +96,18 @@ public class XmlConfigParser implements PluginConfigParser {
             throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.STRATEGY_ELEMENT_NAME + "] to be configed");
         }
 
+        int strategyReleaseElementCount = element.elements(XmlConfigConstant.STRATEGY_RELEASE_ELEMENT_NAME).size();
+        if (strategyReleaseElementCount > 1) {
+            throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.STRATEGY_RELEASE_ELEMENT_NAME + "] to be configed");
+        }
+
         int strategyCustomizationElementCount = element.elements(XmlConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME).size();
         if (strategyCustomizationElementCount > 1) {
             throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME + "] to be configed");
+        }
+
+        if (strategyReleaseElementCount > 0 && strategyCustomizationElementCount > 0) {
+            throw new DiscoveryException("Attribute[" + XmlConfigConstant.STRATEGY_RELEASE_ELEMENT_NAME + "] and [" + XmlConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME + "] are all configed, only one of them exists");
         }
 
         int strategyBlacklistElementCount = element.elements(XmlConfigConstant.STRATEGY_BLACKLIST_ELEMENT_NAME).size();
@@ -114,7 +123,7 @@ public class XmlConfigParser implements PluginConfigParser {
         RegisterEntity registerEntity = null;
         DiscoveryEntity discoveryEntity = null;
         StrategyEntity strategyEntity = null;
-        StrategyCustomizationEntity strategyCustomizationEntity = null;
+        StrategyReleaseEntity strategyReleaseEntity = null;
         StrategyBlacklistEntity strategyBlacklistEntity = null;
         ParameterEntity parameterEntity = null;
         for (Iterator<Element> elementIterator = element.elementIterator(); elementIterator.hasNext();) {
@@ -129,9 +138,12 @@ public class XmlConfigParser implements PluginConfigParser {
             } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.STRATEGY_ELEMENT_NAME)) {
                 strategyEntity = new StrategyEntity();
                 parseStrategy(childElement, strategyEntity);
+            } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.STRATEGY_RELEASE_ELEMENT_NAME)) {
+                strategyReleaseEntity = new StrategyReleaseEntity();
+                parseStrategyRelease(childElement, strategyReleaseEntity);
             } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME)) {
-                strategyCustomizationEntity = new StrategyCustomizationEntity();
-                parseStrategyCustomization(childElement, strategyCustomizationEntity);
+                strategyReleaseEntity = new StrategyReleaseEntity();
+                parseStrategyRelease(childElement, strategyReleaseEntity);
             } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.STRATEGY_BLACKLIST_ELEMENT_NAME)) {
                 strategyBlacklistEntity = new StrategyBlacklistEntity();
                 parseStrategyBlacklist(childElement, strategyBlacklistEntity);
@@ -145,7 +157,7 @@ public class XmlConfigParser implements PluginConfigParser {
         ruleEntity.setRegisterEntity(registerEntity);
         ruleEntity.setDiscoveryEntity(discoveryEntity);
         ruleEntity.setStrategyEntity(strategyEntity);
-        ruleEntity.setStrategyCustomizationEntity(strategyCustomizationEntity);
+        ruleEntity.setStrategyReleaseEntity(strategyReleaseEntity);
         ruleEntity.setStrategyBlacklistEntity(strategyBlacklistEntity);
         ruleEntity.setParameterEntity(parameterEntity);
         ruleEntity.setContent(config);
@@ -235,7 +247,7 @@ public class XmlConfigParser implements PluginConfigParser {
         }
     }
 
-    private void parseStrategyCustomization(Element element, StrategyCustomizationEntity strategyCustomizationEntity) {
+    private void parseStrategyRelease(Element element, StrategyReleaseEntity strategyReleaseEntity) {
         for (Iterator<Element> elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Element childElement = elementIterator.next();
 
@@ -248,16 +260,16 @@ public class XmlConfigParser implements PluginConfigParser {
                 ConditionType conditionType = ConditionType.fromString(type);
                 switch (conditionType) {
                     case BLUE_GREEN:
-                        parseStrategyConditionBlueGreen(childElement, strategyCustomizationEntity);
+                        parseStrategyConditionBlueGreen(childElement, strategyReleaseEntity);
                         break;
                     case GRAY:
-                        parseStrategyConditionGray(childElement, strategyCustomizationEntity);
+                        parseStrategyConditionGray(childElement, strategyReleaseEntity);
                         break;
                 }
             } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.ROUTES_ELEMENT_NAME)) {
-                parseStrategyRoute(childElement, strategyCustomizationEntity);
+                parseStrategyRoute(childElement, strategyReleaseEntity);
             } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.HEADER_ELEMENT_NAME)) {
-                parseStrategyHeader(childElement, strategyCustomizationEntity);
+                parseStrategyHeader(childElement, strategyReleaseEntity);
             }
         }
     }
@@ -642,14 +654,14 @@ public class XmlConfigParser implements PluginConfigParser {
         discoveryEntity.setWeightFilterEntity(weightFilterEntity);
     }
 
-    private void parseStrategyConditionBlueGreen(Element element, StrategyCustomizationEntity strategyCustomizationEntity) {
-        List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList = strategyCustomizationEntity.getStrategyConditionBlueGreenEntityList();
+    private void parseStrategyConditionBlueGreen(Element element, StrategyReleaseEntity strategyReleaseEntity) {
+        List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList = strategyReleaseEntity.getStrategyConditionBlueGreenEntityList();
         if (strategyConditionBlueGreenEntityList != null) {
             throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.CONDITIONS_ELEMENT_NAME + "] for attribute[" + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "]'s value with '" + ConditionType.BLUE_GREEN + "' to be configed");
         }
 
         strategyConditionBlueGreenEntityList = new ArrayList<StrategyConditionBlueGreenEntity>();
-        strategyCustomizationEntity.setStrategyConditionBlueGreenEntityList(strategyConditionBlueGreenEntityList);
+        strategyReleaseEntity.setStrategyConditionBlueGreenEntityList(strategyConditionBlueGreenEntityList);
 
         for (Iterator<Element> elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Element childElement = elementIterator.next();
@@ -715,14 +727,14 @@ public class XmlConfigParser implements PluginConfigParser {
         }
     }
 
-    private void parseStrategyConditionGray(Element element, StrategyCustomizationEntity strategyCustomizationEntity) {
-        List<StrategyConditionGrayEntity> strategyConditionGrayEntityList = strategyCustomizationEntity.getStrategyConditionGrayEntityList();
+    private void parseStrategyConditionGray(Element element, StrategyReleaseEntity strategyReleaseEntity) {
+        List<StrategyConditionGrayEntity> strategyConditionGrayEntityList = strategyReleaseEntity.getStrategyConditionGrayEntityList();
         if (strategyConditionGrayEntityList != null) {
             throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.CONDITIONS_ELEMENT_NAME + "] for attribute[" + XmlConfigConstant.TYPE_ATTRIBUTE_NAME + "]'s value with '" + ConditionType.GRAY + "' to be configed");
         }
 
         strategyConditionGrayEntityList = new ArrayList<StrategyConditionGrayEntity>();
-        strategyCustomizationEntity.setStrategyConditionGrayEntityList(strategyConditionGrayEntityList);
+        strategyReleaseEntity.setStrategyConditionGrayEntityList(strategyConditionGrayEntityList);
 
         for (Iterator<Element> elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Element childElement = elementIterator.next();
@@ -782,14 +794,14 @@ public class XmlConfigParser implements PluginConfigParser {
         }
     }
 
-    private void parseStrategyRoute(Element element, StrategyCustomizationEntity strategyCustomizationEntity) {
-        List<StrategyRouteEntity> strategyRouteEntityList = strategyCustomizationEntity.getStrategyRouteEntityList();
+    private void parseStrategyRoute(Element element, StrategyReleaseEntity strategyReleaseEntity) {
+        List<StrategyRouteEntity> strategyRouteEntityList = strategyReleaseEntity.getStrategyRouteEntityList();
         if (strategyRouteEntityList != null) {
             throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.ROUTES_ELEMENT_NAME + "] to be configed");
         }
 
         strategyRouteEntityList = new ArrayList<StrategyRouteEntity>();
-        strategyCustomizationEntity.setStrategyRouteEntityList(strategyRouteEntityList);
+        strategyReleaseEntity.setStrategyRouteEntityList(strategyRouteEntityList);
 
         for (Iterator<Element> elementIterator = element.elementIterator(); elementIterator.hasNext();) {
             Element childElement = elementIterator.next();
@@ -821,14 +833,14 @@ public class XmlConfigParser implements PluginConfigParser {
     }
 
     @SuppressWarnings("unchecked")
-    private void parseStrategyHeader(Element element, StrategyCustomizationEntity strategyCustomizationEntity) {
-        StrategyHeaderEntity strategyHeaderEntity = strategyCustomizationEntity.getStrategyHeaderEntity();
+    private void parseStrategyHeader(Element element, StrategyReleaseEntity strategyReleaseEntity) {
+        StrategyHeaderEntity strategyHeaderEntity = strategyReleaseEntity.getStrategyHeaderEntity();
         if (strategyHeaderEntity != null) {
             throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.HEADER_ELEMENT_NAME + "] to be configed");
         }
 
         strategyHeaderEntity = new StrategyHeaderEntity();
-        strategyCustomizationEntity.setStrategyHeaderEntity(strategyHeaderEntity);
+        strategyReleaseEntity.setStrategyHeaderEntity(strategyHeaderEntity);
 
         String headerValue = element.getTextTrim();
 

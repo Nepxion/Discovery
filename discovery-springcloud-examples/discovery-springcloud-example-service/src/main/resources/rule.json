@@ -199,7 +199,7 @@
     "versionWeightValue": "{\"discovery-springcloud-example-a\":\"1.0=90;1.1=10\", \"discovery-springcloud-example-b\":\"1.0=90;1.1=10\", \"discovery-springcloud-example-c\":\"1.0=90;1.1=10\"}",
     "regionWeightValue": "{\"discovery-springcloud-example-a\":\"dev=85;qa=15\", \"discovery-springcloud-example-b\":\"dev=85;qa=15\", \"discovery-springcloud-example-c\":\"dev=85;qa=15\"}"
   },
-  "strategyCustomizationEntity": {
+  "strategyReleaseEntity": {
     "strategyConditionBlueGreenEntityList": [
       {
         "id": "1",

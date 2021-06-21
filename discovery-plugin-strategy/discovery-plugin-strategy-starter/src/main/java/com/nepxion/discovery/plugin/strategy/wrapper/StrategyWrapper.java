@@ -27,7 +27,7 @@ import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.StrategyBlacklistEntity;
 import com.nepxion.discovery.common.entity.StrategyConditionBlueGreenEntity;
 import com.nepxion.discovery.common.entity.StrategyConditionGrayEntity;
-import com.nepxion.discovery.common.entity.StrategyCustomizationEntity;
+import com.nepxion.discovery.common.entity.StrategyReleaseEntity;
 import com.nepxion.discovery.common.entity.StrategyEntity;
 import com.nepxion.discovery.common.entity.StrategyHeaderEntity;
 import com.nepxion.discovery.common.entity.StrategyRouteEntity;
@@ -381,9 +381,9 @@ public class StrategyWrapper {
     private StrategyConditionBlueGreenEntity getTriggeredStrategyConditionBlueGreenEntity(StrategyRouteType strategyRouteType, Map<String, String> map) {
         RuleEntity ruleEntity = pluginAdapter.getRule();
         if (ruleEntity != null) {
-            StrategyCustomizationEntity strategyCustomizationEntity = ruleEntity.getStrategyCustomizationEntity();
-            if (strategyCustomizationEntity != null) {
-                List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList = strategyCustomizationEntity.getStrategyConditionBlueGreenEntityList();
+            StrategyReleaseEntity strategyReleaseEntity = ruleEntity.getStrategyReleaseEntity();
+            if (strategyReleaseEntity != null) {
+                List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList = strategyReleaseEntity.getStrategyConditionBlueGreenEntityList();
                 if (CollectionUtils.isNotEmpty(strategyConditionBlueGreenEntityList)) {
                     StrategyConditionBlueGreenEntity expressionStrategyConditionBlueGreenEntity = getTriggeredExpressionStrategyConditionBlueGreenEntity(strategyConditionBlueGreenEntityList, strategyRouteType, map);
                     if (expressionStrategyConditionBlueGreenEntity != null) {
@@ -522,9 +522,9 @@ public class StrategyWrapper {
     private StrategyConditionGrayEntity getTriggeredStrategyConditionGrayEntity(Map<String, String> map) {
         RuleEntity ruleEntity = pluginAdapter.getRule();
         if (ruleEntity != null) {
-            StrategyCustomizationEntity strategyCustomizationEntity = ruleEntity.getStrategyCustomizationEntity();
-            if (strategyCustomizationEntity != null) {
-                List<StrategyConditionGrayEntity> strategyConditionGrayEntityList = strategyCustomizationEntity.getStrategyConditionGrayEntityList();
+            StrategyReleaseEntity strategyReleaseEntity = ruleEntity.getStrategyReleaseEntity();
+            if (strategyReleaseEntity != null) {
+                List<StrategyConditionGrayEntity> strategyConditionGrayEntityList = strategyReleaseEntity.getStrategyConditionGrayEntityList();
                 if (CollectionUtils.isNotEmpty(strategyConditionGrayEntityList)) {
                     StrategyConditionGrayEntity expressionStrategyConditionGrayEntity = getTriggeredExpressionStrategyConditionGrayEntity(strategyConditionGrayEntityList, map);
                     if (expressionStrategyConditionGrayEntity != null) {
@@ -606,9 +606,9 @@ public class StrategyWrapper {
 
         RuleEntity ruleEntity = pluginAdapter.getRule();
         if (ruleEntity != null) {
-            StrategyCustomizationEntity strategyCustomizationEntity = ruleEntity.getStrategyCustomizationEntity();
-            if (strategyCustomizationEntity != null) {
-                List<StrategyRouteEntity> strategyRouteEntityList = strategyCustomizationEntity.getStrategyRouteEntityList();
+            StrategyReleaseEntity strategyReleaseEntity = ruleEntity.getStrategyReleaseEntity();
+            if (strategyReleaseEntity != null) {
+                List<StrategyRouteEntity> strategyRouteEntityList = strategyReleaseEntity.getStrategyRouteEntityList();
                 if (CollectionUtils.isNotEmpty(strategyRouteEntityList)) {
                     for (StrategyRouteEntity strategyRouteEntity : strategyRouteEntityList) {
                         if (StringUtils.equals(strategyRouteEntity.getId(), id) && strategyRouteEntity.getType() == strategyRouteType) {
@@ -626,9 +626,9 @@ public class StrategyWrapper {
     public Map<String, String> getHeaderMap() {
         RuleEntity ruleEntity = pluginAdapter.getRule();
         if (ruleEntity != null) {
-            StrategyCustomizationEntity strategyCustomizationEntity = ruleEntity.getStrategyCustomizationEntity();
-            if (strategyCustomizationEntity != null) {
-                StrategyHeaderEntity strategyHeaderEntity = strategyCustomizationEntity.getStrategyHeaderEntity();
+            StrategyReleaseEntity strategyReleaseEntity = ruleEntity.getStrategyReleaseEntity();
+            if (strategyReleaseEntity != null) {
+                StrategyHeaderEntity strategyHeaderEntity = strategyReleaseEntity.getStrategyHeaderEntity();
                 if (strategyHeaderEntity != null) {
                     return strategyHeaderEntity.getHeaderMap();
                 }

@@ -38,13 +38,13 @@ public class RuleEntityWrapper {
         }
         ruleEntity.setStrategyEntity(strategyEntity);
 
-        StrategyCustomizationEntity strategyCustomizationEntity = null;
-        if (partialRuleEntity != null && partialRuleEntity.getStrategyCustomizationEntity() != null) {
-            strategyCustomizationEntity = partialRuleEntity.getStrategyCustomizationEntity();
-        } else if (globalRuleEntity != null && globalRuleEntity.getStrategyCustomizationEntity() != null) {
-            strategyCustomizationEntity = globalRuleEntity.getStrategyCustomizationEntity();
+        StrategyReleaseEntity strategyReleaseEntity = null;
+        if (partialRuleEntity != null && partialRuleEntity.getStrategyReleaseEntity() != null) {
+            strategyReleaseEntity = partialRuleEntity.getStrategyReleaseEntity();
+        } else if (globalRuleEntity != null && globalRuleEntity.getStrategyReleaseEntity() != null) {
+            strategyReleaseEntity = globalRuleEntity.getStrategyReleaseEntity();
         }
-        ruleEntity.setStrategyCustomizationEntity(strategyCustomizationEntity);
+        ruleEntity.setStrategyReleaseEntity(strategyReleaseEntity);
 
         StrategyBlacklistEntity strategyBlacklistEntity = null;
         if (partialRuleEntity != null && partialRuleEntity.getStrategyBlacklistEntity() != null) {
