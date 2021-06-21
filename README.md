@@ -3865,7 +3865,7 @@ XML最全的示例如下，Json示例见源码discovery-springcloud-example-serv
         <!-- <region-weight>dev=85;qa=15</region-weight> -->
     </strategy>
 
-    <!-- 基于Http Header传递的定制化策略路由，支持蓝绿部署和灰度发布两种模式。如果都不命中，则执行上面的全局缺省路由 -->
+    <!-- 基于Http Header传递的策略路由，支持蓝绿发布和灰度发布两种模式。如果都不命中，则执行上面的全局缺省路由 -->
     <strategy-customization>
         <!-- Spel表达式在XML中的转义符：-->
         <!-- 和符号 & 转义为 &amp; 必须转义 -->
@@ -3874,7 +3874,7 @@ XML最全的示例如下，Json示例见源码discovery-springcloud-example-serv
         <!-- 大于号 > 转义为 &gt; -->
         <!-- 单引号 ' 转义为 &apos; -->
 
-        <!-- 全链路蓝绿部署：条件命中的匹配方式（第一优先级），支持版本匹配、区域匹配、IP地址和端口匹配、版本权重匹配、区域权重匹配 -->
+        <!-- 全链路蓝绿发布：条件命中的匹配方式（第一优先级），支持版本匹配、区域匹配、IP地址和端口匹配、版本权重匹配、区域权重匹配 -->
         <!-- Expression节点允许缺失，当含Expression和未含Expression的配置并存时，以含Expression的配置为优先 -->
         <conditions type="blue-green">
             <condition id="1" expression="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="a-1" region-id="b-1" address-id="c-1" version-weight-id="d-1" region-weight-id="e-1"/>
