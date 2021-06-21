@@ -540,6 +540,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [全链路端到端混合实施蓝绿灰度发布](#全链路端到端混合实施蓝绿灰度发布)
         - [全链路端到端实施蓝绿灰度发布](#全链路端到端实施蓝绿灰度发布)
         - [全链路混合实施蓝绿灰度发布](#全链路混合实施蓝绿灰度发布)
+        - [单节点混合实施蓝绿灰度发布](#单节点混合实施蓝绿灰度发布)
     - [全链路域网关和非域网关部署](#全链路域网关和非域网关部署)
         - [全链路域网关部署](#全链路域网关部署)
         - [全链路非域网关部署](#全链路非域网关部署)
@@ -1320,6 +1321,10 @@ IP地址和端口匹配蓝绿发布架构图
 
 `#`H['a'] == '1' && `#`H['b'] <= '2' && `#`H['c'] != '3'
 
+或者
+
+`#`H['a'] == '1' and `#`H['b'] <= '2' and `#`H['c'] != '3'
+
 其中，`#`H['a']，Spring Spel表达式用来表述驱动参数a的专有格式
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 小贴士
@@ -1331,17 +1336,42 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
 - 任何值都大于null。当某个参数未传值，但又指定了该参数大于的表达逻辑，那么表达式结果为false。例如，#H['a'] > '2'，但a未传递进来，a即null，则null > 2，表达式结果为false
 - null满足不等于。当某个参数未传值，但又指定了该该参数不等于的表达逻辑，那么表达式结果为true。例如，#H['a'] != '2'，但a未传递进来，a即null，则null != 2，表达式结果为true
 
-④ Spring Spel的符号转义，对XML格式的规则策略文件，保存在配置中心的时候，需要对表达式中的特殊符号进行转义
+④ Spring Spel的符号
+
+符号和等价符号作用相同，任选一个，等价符号不区分大小写
+
+| 符号 | 等价符号 | 含义 | 备注 |
+| --- | --- | --- | --- |
+| + | | 加 | |
+| - | | 减 | |
+| * | | 乘 | |
+| / | div | 除 | |
+| % | mod | 求余 | |
+| == | eq | 等于 | equal缩写 |
+| != | ne | 不等于 | not equal缩写 |
+| > | gt | 大于 | greater than缩写 |
+| >= | ge | 大于等于 | greater than equal缩写 |
+| < | lt | 小于 | less than缩写 |
+| <= | le | 小于等于 | less than equal缩写 |
+| && | and | 且 | |
+| &#124;&#124; | or | 或 | |
+| ! | not | 非 | |
+| matches | | 正则表达式 | #H['a'] matches '[a-z]{3}2' |
+| contains | | 包含 | #H['a'].contains('123') |
+| between | | 区间 | #H['a'] between {1, 2} |
+| instanceof | | 实例表达式 | #H['a'] instanceof 'T(String)' |
+
+⑤ Spring Spel的符号转义，对XML格式的规则策略文件，保存在配置中心的时候，需要对表达式中的特殊符号进行转义
 
 | 符号 | 转义符 | 含义 | 备注 |
 | --- | --- | --- | --- |
-| `&` | `&amp;` | 和符号 | 必须转义 |
-| `<` | `&lt;` | 小于号 | 必须转义 |
-| `"` | `&quot;` | 双引号 | 必须转义 |
-| `>` | `&gt;` | 大于号 | |
-| `'` | `&apos;` | 单引号 | |
+| & | `&amp;` | 和符号 | 必须转义 |
+| < | `&lt;` | 小于号 | 必须转义 |
+| " | `&quot;` | 双引号 | 必须转义 |
+| > | `&gt;` | 大于号 | |
+| ' | `&apos;` | 单引号 | |
 
-对于上面示例，表达式必须改成如下
+表达式如果包含跟XML格式冲突的字符，就必须转义，例如
 
 `#`H['a'] == '1' `&amp;&amp;` `#`H['b'] `&lt;`= '2' `&amp;&amp;` `#`H['c'] != '3'
 
@@ -1361,7 +1391,7 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
             <!-- 蓝路由，条件expression驱动 -->	
             <condition id="blue-condition" expression="#H['a'] == '1'" version-id="blue-version-route"/>
             <!-- 绿路由，条件expression驱动 -->
-            <condition id="green-condition" expression="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="green-version-route"/>
+            <condition id="green-condition" expression="#H['a'] == '1' and #H['b'] == '2'" version-id="green-version-route"/>
             <!-- 兜底路由，无条件expression驱动 -->
             <condition id="basic-condition" version-id="basic-version-route"/>
         </conditions>
@@ -1384,7 +1414,7 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
 
 ① 当外部调用带有的Header/Parameter/Cookies中的值a=1同时b=2，执行绿路由
 
-`<condition>`节点（id="blue-condition"）中 **expression="#H['a'] == '1' &amp;&amp; #H['b'] == '2'"** 对应的 **version-id="green-version-route"** ，找到下面`<route>`节点中 **id="green-version-route" type="version"** 的那项，那么路由即为
+`<condition>`节点（id="blue-condition"）中 **expression="#H['a'] == '1' and #H['b'] == '2'"** 对应的 **version-id="green-version-route"** ，找到下面`<route>`节点中 **id="green-version-route" type="version"** 的那项，那么路由即为
 ```
 {"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
 ```
@@ -1557,7 +1587,7 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
             <!-- 灰度路由1，条件expression驱动 -->
             <!-- <condition id="gray-condition1" expression="#H['a'] == '1'" version-id="gray-version-route=10;stable-version-route=90"/> -->
             <!-- 灰度路由2，条件expression驱动 -->
-            <!-- <condition id="gray-condition2" expression="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="gray-version-route=85;stable-version-route=15"/> -->
+            <!-- <condition id="gray-condition2" expression="#H['a'] == '1' and #H['b'] == '2'" version-id="gray-version-route=85;stable-version-route=15"/> -->
             <!-- 兜底路由，无条件expression驱动 -->
             <condition id="basic-condition" version-id="gray-version-route=0;stable-version-route=100"/>
         </conditions>
@@ -1642,6 +1672,56 @@ spring.application.strategy.zuul.original.header.ignored=true
 ② 网关上实施灰度发布，服务上实施蓝绿发布
 
 上述两个发布场景，可以独立实施，互不影响，前提条件，需要控制服务上`header.priority`的开关
+
+#### 单节点混合实施蓝绿灰度发布
+网关或者服务上的规则同时含有蓝绿灰度发布策略
+
+本着蓝绿发布优先于灰度发布的原则，当前端传入参数a（Header、Parameter、Cookie其中一种）
+- 当a等于1，执行蓝绿发布，即a服务调用1.1版本，b服务调用1.1版本
+- 当a的值不命中，或者未传值，执行灰度发布，即服务a和b 1.1版本的链路流量分配为5%，服务a和b 1.0版本的链路流量分配为95%
+
+分为如下两种方式，都可以达到相同的预期效果
+
+① 通过蓝绿灰度混合方式
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy-release>
+        <conditions type="blue-green"> 
+            <condition id="blue-condition" expression="#H['a'] == '1'" version-id="version-route2"/>
+        </conditions>
+
+        <conditions type="gray">
+            <condition id="gray-condition" version-id="version-route1=95;version-route2=5"/>
+        </conditions>
+
+        <routes>
+            <route id="version-route1" type="version">{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</route>
+            <route id="version-route2" type="version">{"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}</route>
+        </routes>
+    </strategy-release>
+</rule>
+```
+
+② 通过纯灰度方式
+
+把其中一个链路的流量分配为0%，达到蓝绿发布的效果
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy-release>
+        <conditions type="gray">
+            <condition id="gray-condition1" expression="#H['a'] == '1'" version-id="version-route1=0;version-route2=100"/>
+            <condition id="gray-condition2" version-id="version-route1=95;version-route2=5"/>
+        </conditions>
+
+        <routes>
+            <route id="version-route1" type="version">{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</route>
+            <route id="version-route2" type="version">{"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}</route>
+        </routes>
+    </strategy-release>
+</rule>
+```
 
 ### 全链路域网关和非域网关部署
 
@@ -3877,7 +3957,7 @@ XML最全的示例如下，Json示例见源码discovery-springcloud-example-serv
         <!-- 全链路蓝绿发布：条件命中的匹配方式（第一优先级），支持版本匹配、区域匹配、IP地址和端口匹配、版本权重匹配、区域权重匹配 -->
         <!-- Expression节点允许缺失，当含Expression和未含Expression的配置并存时，以含Expression的配置为优先 -->
         <conditions type="blue-green">
-            <condition id="1" expression="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="a-1" region-id="b-1" address-id="c-1" version-weight-id="d-1" region-weight-id="e-1"/>
+            <condition id="1" expression="#H['a'] == '1' and #H['b'] == '2'" version-id="a-1" region-id="b-1" address-id="c-1" version-weight-id="d-1" region-weight-id="e-1"/>
             <condition id="2" expression="#H['c'] == '3'" version-id="a-2" region-id="b-2" address-id="c-2" version-weight-id="d-2" region-weight-id="e-2"/>
             <condition id="3" version-id="a-2" region-id="b-2" address-id="c-2" version-weight-id="d-2" region-weight-id="e-2"/>
         </conditions>
@@ -3885,7 +3965,7 @@ XML最全的示例如下，Json示例见源码discovery-springcloud-example-serv
         <!-- 全链路灰度发布：条件命中的随机权重（第二优先级），支持版本匹配、区域匹配、IP地址和端口匹配 -->
         <!-- Expression节点允许缺失，当含Expression和未含Expression的配置并存时，以含Expression的配置为优先 -->
         <conditions type="gray">
-            <condition id="1" expression="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="a-1=10;a-2=90" region-id="b-1=20;b-2=80" address-id="c-1=30;c-2=70"/>
+            <condition id="1" expression="#H['a'] == '1' and #H['b'] == '2'" version-id="a-1=10;a-2=90" region-id="b-1=20;b-2=80" address-id="c-1=30;c-2=70"/>
             <condition id="2" expression="#H['c'] == '3'" version-id="a-1=90;a-2=10" region-id="b-1=80;b-2=20" address-id="c-1=70;c-2=30"/>
             <condition id="3" version-id="a-1=5;a-2=95" region-id="b-1=5;b-2=95" address-id="c-1=5;c-2=95"/>
         </conditions>
@@ -5879,14 +5959,6 @@ spring.application.strategy.business.request.headers=user;mobile;location
 - Docker Desktop
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Docker.jpg)
-
-- Docker Windows
-
-![](http://nepxion.gitee.io/discovery/docs/polaris-doc/DockerWindows.jpg)
-
-- Docker Linux
-
-![](http://nepxion.gitee.io/discovery/docs/polaris-doc/DockerLinux.jpg)
 
 ### Kubernetes平台支持
 请自行研究
