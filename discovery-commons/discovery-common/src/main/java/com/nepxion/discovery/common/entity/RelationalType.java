@@ -10,8 +10,8 @@ package com.nepxion.discovery.common.entity;
  */
 
 public enum RelationalType {
-    AND("&&"),
-    OR("||");
+    AND("and"),
+    OR("or");
 
     private String value;
 
