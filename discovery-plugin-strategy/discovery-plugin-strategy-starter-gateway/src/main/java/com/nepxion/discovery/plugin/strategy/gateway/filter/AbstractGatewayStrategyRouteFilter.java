@@ -246,7 +246,7 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
             // 忽略区域匹配路由Header
             GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_REGION);
 
-            // 忽略IP地址和端口匹配匹配路由Header
+            // 忽略IP地址和端口匹配路由Header
             GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_ADDRESS);
 
             // 忽略版本权重路由Header
