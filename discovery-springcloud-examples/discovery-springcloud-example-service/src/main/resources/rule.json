@@ -203,7 +203,7 @@
     "strategyConditionBlueGreenEntityList": [
       {
         "id": "1",
-        "expression": "#H['a'] == '1' && #H['b'] == '2'",
+        "expression": "#H['a'] == '1' and #H['b'] == '2'",
         "versionId": "a-1",
         "regionId": "b-1",
         "addressId": "c-1",
@@ -232,7 +232,7 @@
     "strategyConditionGrayEntityList": [
       {
         "id": "1",
-        "expression": "#H['a'] == '1' && #H['b'] == '2'",
+        "expression": "#H['a'] == '1' and #H['b'] == '2'",
         "versionWeightEntity": {
           "weightMap": {
             "a-1": 10,
