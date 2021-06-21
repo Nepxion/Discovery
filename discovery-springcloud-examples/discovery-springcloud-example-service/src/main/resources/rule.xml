@@ -156,7 +156,7 @@
     </strategy>
 
     <!-- 基于Http Header传递的策略路由，支持蓝绿发布和灰度发布两种模式。如果都不命中，则执行上面的全局缺省路由 -->
-    <strategy-customization>
+    <strategy-release>
         <!-- Spel表达式在XML中的转义符：-->
         <!-- 和符号 & 转义为 &amp; 必须转义 -->
         <!-- 小于号 < 转义为 &lt; 必须转义 -->
@@ -195,7 +195,7 @@
 
         <!-- 策略中配置条件表达式中的Header来决策蓝绿和灰度，可以代替外部传入Header -->
         <header>{"a":"1", "b":"2", "c":"3"}</header>
-    </strategy-customization>
+    </strategy-release>
 
     <!-- 策略路由上服务屏蔽黑名单。一般适用于服务下线场景，流量实现实时性的绝对无损：下线之前，把服务实例添加到下面屏蔽名单中，负载均衡不会去寻址该服务实例。下线之后，清除该名单-->
     <strategy-blacklist>

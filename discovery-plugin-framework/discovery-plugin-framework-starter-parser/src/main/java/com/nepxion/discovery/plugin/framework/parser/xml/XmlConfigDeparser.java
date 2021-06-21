@@ -36,7 +36,7 @@ import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.StrategyBlacklistEntity;
 import com.nepxion.discovery.common.entity.StrategyConditionBlueGreenEntity;
 import com.nepxion.discovery.common.entity.StrategyConditionGrayEntity;
-import com.nepxion.discovery.common.entity.StrategyCustomizationEntity;
+import com.nepxion.discovery.common.entity.StrategyReleaseEntity;
 import com.nepxion.discovery.common.entity.StrategyEntity;
 import com.nepxion.discovery.common.entity.StrategyHeaderEntity;
 import com.nepxion.discovery.common.entity.StrategyRouteEntity;
@@ -80,7 +80,7 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
         RegisterEntity registerEntity = ruleEntity.getRegisterEntity();
         DiscoveryEntity discoveryEntity = ruleEntity.getDiscoveryEntity();
         StrategyEntity strategyEntity = ruleEntity.getStrategyEntity();
-        StrategyCustomizationEntity strategyCustomizationEntity = ruleEntity.getStrategyCustomizationEntity();
+        StrategyReleaseEntity strategyReleaseEntity = ruleEntity.getStrategyReleaseEntity();
         StrategyBlacklistEntity strategyBlacklistEntity = ruleEntity.getStrategyBlacklistEntity();
         ParameterEntity parameterEntity = ruleEntity.getParameterEntity();
 
@@ -95,8 +95,8 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
         if (strategyEntity != null) {
             deparseStrategy(stringBuilder, strategyEntity);
         }
-        if (strategyCustomizationEntity != null) {
-            deparseStrategyCustomization(stringBuilder, strategyCustomizationEntity);
+        if (strategyReleaseEntity != null) {
+            deparseStrategyRelease(stringBuilder, strategyReleaseEntity);
         }
         if (strategyBlacklistEntity != null) {
             deparseStrategyBlacklist(stringBuilder, strategyBlacklistEntity);
@@ -181,14 +181,14 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
         }
     }
 
-    private void deparseStrategyCustomization(StringBuilder stringBuilder, StrategyCustomizationEntity strategyCustomizationEntity) {
-        List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList = strategyCustomizationEntity.getStrategyConditionBlueGreenEntityList();
-        List<StrategyConditionGrayEntity> strategyConditionGrayEntityList = strategyCustomizationEntity.getStrategyConditionGrayEntityList();
-        List<StrategyRouteEntity> strategyRouteEntityList = strategyCustomizationEntity.getStrategyRouteEntityList();
-        StrategyHeaderEntity strategyHeaderEntity = strategyCustomizationEntity.getStrategyHeaderEntity();
+    private void deparseStrategyRelease(StringBuilder stringBuilder, StrategyReleaseEntity strategyReleaseEntity) {
+        List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList = strategyReleaseEntity.getStrategyConditionBlueGreenEntityList();
+        List<StrategyConditionGrayEntity> strategyConditionGrayEntityList = strategyReleaseEntity.getStrategyConditionGrayEntityList();
+        List<StrategyRouteEntity> strategyRouteEntityList = strategyReleaseEntity.getStrategyRouteEntityList();
+        StrategyHeaderEntity strategyHeaderEntity = strategyReleaseEntity.getStrategyHeaderEntity();
 
         if (CollectionUtils.isNotEmpty(strategyConditionBlueGreenEntityList) || CollectionUtils.isNotEmpty(strategyConditionGrayEntityList) || CollectionUtils.isNotEmpty(strategyRouteEntityList) || strategyHeaderEntity != null) {
-            stringBuilder.append(INDENT + "<" + XmlConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME + ">\n");
+            stringBuilder.append(INDENT + "<" + XmlConfigConstant.STRATEGY_RELEASE_ELEMENT_NAME + ">\n");
         }
         if (CollectionUtils.isNotEmpty(strategyConditionBlueGreenEntityList)) {
             deparseStrategyConditionBlueGreen(stringBuilder, strategyConditionBlueGreenEntityList);
@@ -203,7 +203,7 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
             deparseStrategyHeader(stringBuilder, strategyHeaderEntity);
         }
         if (CollectionUtils.isNotEmpty(strategyConditionBlueGreenEntityList) || CollectionUtils.isNotEmpty(strategyConditionGrayEntityList) || CollectionUtils.isNotEmpty(strategyRouteEntityList) || strategyHeaderEntity != null) {
-            stringBuilder.append(INDENT + "</" + XmlConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME + ">\n");
+            stringBuilder.append(INDENT + "</" + XmlConfigConstant.STRATEGY_RELEASE_ELEMENT_NAME + ">\n");
         }
     }
 
