@@ -307,7 +307,8 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
         routeDefinition.setFilters(filterDefinitionList);
 
         routeDefinition.setOrder(gatewayStrategyRouteEntity.getOrder());
-        routeDefinition.setMetadata(gatewayStrategyRouteEntity.getMetadata());
+        // Not Support Finchley and Greenwich
+        // routeDefinition.setMetadata(gatewayStrategyRouteEntity.getMetadata());
 
         return routeDefinition;
     }
@@ -317,7 +318,8 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
         gatewayStrategyRouteEntity.setId(routeDefinition.getId());
         gatewayStrategyRouteEntity.setUri(routeDefinition.getUri().toString());
         gatewayStrategyRouteEntity.setOrder(routeDefinition.getOrder());
-        gatewayStrategyRouteEntity.setMetadata(routeDefinition.getMetadata());
+        // Not Support Finchley and Greenwich		
+        // gatewayStrategyRouteEntity.setMetadata(routeDefinition.getMetadata());
 
         convertPredicates(routeDefinition.getPredicates(), gatewayStrategyRouteEntity.getPredicates(), gatewayStrategyRouteEntity.getUserPredicates());
         convertFilters(routeDefinition.getFilters(), gatewayStrategyRouteEntity.getFilters(), gatewayStrategyRouteEntity.getUserFilters());
