@@ -1356,7 +1356,7 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
         <version>{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</version>
     </strategy>
 
-    <strategy-customization>
+    <strategy-release>
         <conditions type="blue-green">
             <!-- 蓝路由，条件expression驱动 -->	
             <condition id="blue-condition" expression="#H['a'] == '1'" version-id="blue-version-route"/>
@@ -1371,7 +1371,7 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
             <route id="green-version-route" type="version">{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</route>
             <route id="basic-version-route" type="version">{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</route>
         </routes>
-    </strategy-customization>
+    </strategy-release>
 </rule>
 ```
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide2-8.jpg)
@@ -1552,7 +1552,7 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
         <version>{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</version>
     </strategy>
 
-    <strategy-customization>
+    <strategy-release>
         <conditions type="gray">
             <!-- 灰度路由1，条件expression驱动 -->
             <!-- <condition id="gray-condition1" expression="#H['a'] == '1'" version-id="gray-version-route=10;stable-version-route=90"/> -->
@@ -1566,7 +1566,7 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
             <route id="gray-version-route" type="version">{"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}</route>
             <route id="stable-version-route" type="version">{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</route>
         </routes>
-    </strategy-customization>
+    </strategy-release>
 </rule>
 ```
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide2-9.jpg)
@@ -3866,7 +3866,7 @@ XML最全的示例如下，Json示例见源码discovery-springcloud-example-serv
     </strategy>
 
     <!-- 基于Http Header传递的策略路由，支持蓝绿发布和灰度发布两种模式。如果都不命中，则执行上面的全局缺省路由 -->
-    <strategy-customization>
+    <strategy-release>
         <!-- Spel表达式在XML中的转义符：-->
         <!-- 和符号 & 转义为 &amp; 必须转义 -->
         <!-- 小于号 < 转义为 &lt; 必须转义 -->
@@ -3905,7 +3905,7 @@ XML最全的示例如下，Json示例见源码discovery-springcloud-example-serv
 
         <!-- 策略中配置条件表达式中的Header来决策蓝绿和灰度，可以代替外部传入Header -->
         <header>{"a":"1", "b":"2", "c":"3"}</header>
-    </strategy-customization>
+    </strategy-release>
 
     <!-- 策略路由上服务屏蔽黑名单。一般适用于服务下线场景，流量实现实时性的绝对无损：下线之前，把服务实例添加到下面屏蔽名单中，负载均衡不会去寻址该服务实例。下线之后，清除该名单-->
     <strategy-blacklist>
@@ -6240,7 +6240,7 @@ Result : A service qa region weight=16.2333%
 Result : B service dev region weight=86.2%
 Result : B service qa region weight=13.8%
 * Passed
----------- Run automation testcase :: testStrategyCustomizationGray() ----------
+---------- Run automation testcase :: testStrategyGray() ----------
 Header : [a:"1", b:"2"]
 Result1 : gateway -> discovery-guide-service-a[192.168.0.107:3002][V=1.1][R=qa][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4002][V=1.1][R=dev][G=discovery-guide-group]
 Result2 : gateway -> discovery-guide-service-a[192.168.0.107:3002][V=1.1][R=qa][G=discovery-guide-group] -> discovery-guide-service-b[192.168.0.107:4002][V=1.1][R=dev][G=discovery-guide-group]
