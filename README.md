@@ -1362,7 +1362,7 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
             <condition id="blue-condition" expression="#H['a'] == '1'" version-id="blue-version-route"/>
             <!-- 绿路由，条件expression驱动 -->
             <condition id="green-condition" expression="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="green-version-route"/>
-            <!-- 兜底路由，无expression驱动 -->
+            <!-- 兜底路由，无条件expression驱动 -->
             <condition id="basic-condition" version-id="basic-version-route"/>
         </conditions>
 
@@ -1558,7 +1558,7 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
             <!-- <condition id="gray-condition1" expression="#H['a'] == '1'" version-id="gray-version-route=10;stable-version-route=90"/> -->
             <!-- 灰度路由2，条件expression驱动 -->
             <!-- <condition id="gray-condition2" expression="#H['a'] == '1' &amp;&amp; #H['b'] == '2'" version-id="gray-version-route=85;stable-version-route=15"/> -->
-            <!-- 兜底路由，无expression驱动 -->
+            <!-- 兜底路由，无条件expression驱动 -->
             <condition id="basic-condition" version-id="gray-version-route=0;stable-version-route=100"/>
         </conditions>
 
