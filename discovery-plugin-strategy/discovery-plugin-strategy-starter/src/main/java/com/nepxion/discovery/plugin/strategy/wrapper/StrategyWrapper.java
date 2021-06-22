@@ -145,7 +145,7 @@ public class StrategyWrapper {
     // 执行优先级为
     // 1. 蓝绿路由配置
     // 2. 灰度路由配置
-    // 3. 全局兜底路由配置
+    // 3. 全局缺省路由配置
     public String getRouteRegion(Map<String, String> map) {
         String routeRegion = getConditionBlueGreenRouteRegion(map);
         if (StringUtils.isEmpty(routeRegion)) {
@@ -166,7 +166,7 @@ public class StrategyWrapper {
     // 执行优先级为
     // 1. 蓝绿路由配置
     // 2. 灰度路由配置
-    // 3. 全局兜底路由配置
+    // 3. 全局缺省路由配置
     public String getRouteAddress(Map<String, String> map) {
         String routeAddress = getConditionBlueGreenRouteAddress(map);
         if (StringUtils.isEmpty(routeAddress)) {
@@ -186,7 +186,7 @@ public class StrategyWrapper {
     // 3. Cookie
     // 执行优先级为
     // 1. 蓝绿路由配置
-    // 2. 全局兜底路由配置
+    // 2. 全局缺省路由配置
     public String getRouteVersionWeight(Map<String, String> map) {
         String routeVersionWeight = getConditionBlueGreenRouteVersionWeight(map);
         if (StringUtils.isEmpty(routeVersionWeight)) {
@@ -203,7 +203,7 @@ public class StrategyWrapper {
     // 3. Cookie
     // 执行优先级为
     // 1. 蓝绿路由配置
-    // 2. 全局兜底路由配置
+    // 2. 全局缺省路由配置
     public String getRouteRegionWeight(Map<String, String> map) {
         String routeRegionWeight = getConditionBlueGreenRouteRegionWeight(map);
         if (StringUtils.isEmpty(routeRegionWeight)) {
@@ -214,7 +214,6 @@ public class StrategyWrapper {
     }
 
     // 获取全局版本匹配路由配置
-    // 全局版本匹配路由，即兜底路由
     public String getGlobalRouteVersion() {
         RuleEntity ruleEntity = pluginAdapter.getRule();
         if (ruleEntity != null) {
@@ -228,7 +227,6 @@ public class StrategyWrapper {
     }
 
     // 获取全局区域匹配路由配置
-    // 全局区域匹配路由，即兜底路由
     public String getGlobalRouteRegion() {
         RuleEntity ruleEntity = pluginAdapter.getRule();
         if (ruleEntity != null) {
@@ -242,7 +240,6 @@ public class StrategyWrapper {
     }
 
     // 获取全局IP地址和端口匹配路由配置
-    // 全局IP地址和端口匹配路由，即兜底路由
     public String getGlobalRouteAddress() {
         RuleEntity ruleEntity = pluginAdapter.getRule();
         if (ruleEntity != null) {
@@ -256,7 +253,6 @@ public class StrategyWrapper {
     }
 
     // 获取全局版本权重路由配置
-    // 全局版本权重路由，即兜底路由
     public String getGlobalRouteVersionWeight() {
         RuleEntity ruleEntity = pluginAdapter.getRule();
         if (ruleEntity != null) {
@@ -270,7 +266,6 @@ public class StrategyWrapper {
     }
 
     // 获取全局区域权重路由配置
-    // 全局区域权重路由，即兜底路由
     public String getGlobalRouteRegionWeight() {
         RuleEntity ruleEntity = pluginAdapter.getRule();
         if (ruleEntity != null) {
@@ -284,10 +279,6 @@ public class StrategyWrapper {
     }
 
     // 获取条件驱动下，版本匹配路由的蓝绿配置
-    // Map值为如下一种
-    // 1. Header
-    // 2. Parameter
-    // 3. Cookie
     public String getConditionBlueGreenRouteVersion(Map<String, String> map) {
         StrategyConditionBlueGreenEntity strategyConditionBlueGreenEntity = getTriggeredStrategyConditionBlueGreenEntity(StrategyRouteType.VERSION, map);
         if (strategyConditionBlueGreenEntity != null) {
@@ -302,10 +293,6 @@ public class StrategyWrapper {
     }
 
     // 获取条件驱动下，区域匹配路由的蓝绿配置
-    // Map值为如下一种
-    // 1. Header
-    // 2. Parameter
-    // 3. Cookie
     public String getConditionBlueGreenRouteRegion(Map<String, String> map) {
         StrategyConditionBlueGreenEntity strategyConditionBlueGreenEntity = getTriggeredStrategyConditionBlueGreenEntity(StrategyRouteType.REGION, map);
         if (strategyConditionBlueGreenEntity != null) {
@@ -320,10 +307,6 @@ public class StrategyWrapper {
     }
 
     // 获取条件驱动下，IP地址和端口匹配路由的蓝绿配置
-    // Map值为如下一种
-    // 1. Header
-    // 2. Parameter
-    // 3. Cookie
     public String getConditionBlueGreenRouteAddress(Map<String, String> map) {
         StrategyConditionBlueGreenEntity strategyConditionBlueGreenEntity = getTriggeredStrategyConditionBlueGreenEntity(StrategyRouteType.ADDRESS, map);
         if (strategyConditionBlueGreenEntity != null) {
@@ -338,10 +321,6 @@ public class StrategyWrapper {
     }
 
     // 获取条件驱动下，版本权重路由的蓝绿配置
-    // Map值为如下一种
-    // 1. Header
-    // 2. Parameter
-    // 3. Cookie
     public String getConditionBlueGreenRouteVersionWeight(Map<String, String> map) {
         StrategyConditionBlueGreenEntity strategyConditionBlueGreenEntity = getTriggeredStrategyConditionBlueGreenEntity(StrategyRouteType.VERSION_WEIGHT, map);
         if (strategyConditionBlueGreenEntity != null) {
@@ -356,10 +335,6 @@ public class StrategyWrapper {
     }
 
     // 获取条件驱动下，区域权重路由的蓝绿配置
-    // Map值为如下一种
-    // 1. Header
-    // 2. Parameter
-    // 3. Cookie
     public String getConditionBlueGreenRouteRegionWeight(Map<String, String> map) {
         StrategyConditionBlueGreenEntity strategyConditionBlueGreenEntity = getTriggeredStrategyConditionBlueGreenEntity(StrategyRouteType.REGION_WEIGHT, map);
         if (strategyConditionBlueGreenEntity != null) {
@@ -374,10 +349,6 @@ public class StrategyWrapper {
     }
 
     // 获取被条件命中的蓝绿条件对象
-    // Map值为如下一种
-    // 1. Header
-    // 2. Parameter
-    // 3. Cookie
     private StrategyConditionBlueGreenEntity getTriggeredStrategyConditionBlueGreenEntity(StrategyRouteType strategyRouteType, Map<String, String> map) {
         RuleEntity ruleEntity = pluginAdapter.getRule();
         if (ruleEntity != null) {
@@ -402,10 +373,6 @@ public class StrategyWrapper {
     }
 
     // 获取被条件命中的蓝绿条件对象
-    // Map值为如下一种
-    // 1. Header
-    // 2. Parameter
-    // 3. Cookie
     private StrategyConditionBlueGreenEntity getTriggeredExpressionStrategyConditionBlueGreenEntity(List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList, StrategyRouteType strategyRouteType, Map<String, String> map) {
         for (StrategyConditionBlueGreenEntity strategyConditionBlueGreenEntity : strategyConditionBlueGreenEntityList) {
             boolean isValidated = validateBlueGreenStrategyType(strategyConditionBlueGreenEntity, strategyRouteType);
@@ -426,7 +393,7 @@ public class StrategyWrapper {
     }
 
     // 获取不带有条件设置的蓝绿条件对象
-    // 在蓝绿条件驱动允许缺省
+    // 蓝绿条件驱动允许缺省
     private StrategyConditionBlueGreenEntity getTriggeredGlobalStrategyConditionBlueGreenyEntity(List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList, StrategyRouteType strategyRouteType) {
         for (StrategyConditionBlueGreenEntity strategyConditionBlueGreenEntity : strategyConditionBlueGreenEntityList) {
             boolean isValidated = validateBlueGreenStrategyType(strategyConditionBlueGreenEntity, strategyRouteType);
@@ -464,10 +431,6 @@ public class StrategyWrapper {
     }
 
     // 获取条件驱动下，版本权重路由的灰度配置
-    // Map值为如下一种
-    // 1. Header
-    // 2. Parameter
-    // 3. Cookie
     public String getConditionGrayRouteVersion(Map<String, String> map) {
         StrategyConditionGrayEntity strategyConditionGrayEntity = getTriggeredStrategyConditionGrayEntity(map);
         if (strategyConditionGrayEntity != null) {
@@ -481,10 +444,6 @@ public class StrategyWrapper {
     }
 
     // 获取条件驱动下，区域权重路由的灰度配置
-    // Map值为如下一种
-    // 1. Header
-    // 2. Parameter
-    // 3. Cookie
     public String getConditionGrayRouteRegion(Map<String, String> map) {
         StrategyConditionGrayEntity strategyConditionGrayEntity = getTriggeredStrategyConditionGrayEntity(map);
         if (strategyConditionGrayEntity != null) {
@@ -498,10 +457,6 @@ public class StrategyWrapper {
     }
 
     // 获取条件驱动下，IP地址和端口权重路由的灰度配置
-    // Map值为如下一种
-    // 1. Header
-    // 2. Parameter
-    // 3. Cookie
     public String getConditionGrayRouteAddress(Map<String, String> map) {
         StrategyConditionGrayEntity strategyConditionGrayEntity = getTriggeredStrategyConditionGrayEntity(map);
         if (strategyConditionGrayEntity != null) {
@@ -515,10 +470,6 @@ public class StrategyWrapper {
     }
 
     // 命中灰度条件
-    // Map值为如下一种
-    // 1. Header
-    // 2. Parameter
-    // 3. Cookie
     private StrategyConditionGrayEntity getTriggeredStrategyConditionGrayEntity(Map<String, String> map) {
         RuleEntity ruleEntity = pluginAdapter.getRule();
         if (ruleEntity != null) {
@@ -543,10 +494,6 @@ public class StrategyWrapper {
     }
 
     // 获取被条件命中的灰度条件对象
-    // Map值为如下一种
-    // 1. Header
-    // 2. Parameter
-    // 3. Cookie
     private StrategyConditionGrayEntity getTriggeredExpressionStrategyConditionGrayEntity(List<StrategyConditionGrayEntity> strategyConditionGrayEntityList, Map<String, String> map) {
         for (StrategyConditionGrayEntity strategyConditionGrayEntity : strategyConditionGrayEntityList) {
             boolean isTriggered = false;
@@ -564,7 +511,7 @@ public class StrategyWrapper {
     }
 
     // 获取不带有条件设置的灰度条件对象
-    // 在灰度条件驱动允许缺省
+    // 灰度条件驱动允许缺省
     private StrategyConditionGrayEntity getTriggeredGlobalStrategyConditionGrayEntity(List<StrategyConditionGrayEntity> strategyConditionGrayEntityList) {
         for (StrategyConditionGrayEntity strategyConditionGrayEntity : strategyConditionGrayEntityList) {
             String expression = strategyConditionGrayEntity.getExpression();
