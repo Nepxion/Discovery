@@ -110,41 +110,22 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
         GatewayStrategyFilterResolver.setHeader(request, requestBuilder, DiscoveryConstant.N_D_SERVICE_GROUP, pluginAdapter.getGroup(), gatewayHeaderPriority);
 
         // 网关只负责传递上游服务A的相关参数（例如：serviceId），不传递自身的参数，实现基于相关参数的熔断限流等功能。即gatewayHeaderPriority为false
-
-        // 设置本地服务类型到Header中，并全链路传递
         GatewayStrategyFilterResolver.setHeader(request, requestBuilder, DiscoveryConstant.N_D_SERVICE_TYPE, pluginAdapter.getServiceType(), false);
-
-        // 设置本地服务APPID到Header中，并全链路传递
         String serviceAppId = pluginAdapter.getServiceAppId();
         if (StringUtils.isNotEmpty(serviceAppId)) {
             GatewayStrategyFilterResolver.setHeader(request, requestBuilder, DiscoveryConstant.N_D_SERVICE_APP_ID, serviceAppId, false);
         }
-
-        // 设置本地服务名到Header中，并全链路传递
         GatewayStrategyFilterResolver.setHeader(request, requestBuilder, DiscoveryConstant.N_D_SERVICE_ID, pluginAdapter.getServiceId(), false);
-
-        // 设置本地服务IP地址和端口到Header中，并全链路传递
         GatewayStrategyFilterResolver.setHeader(request, requestBuilder, DiscoveryConstant.N_D_SERVICE_ADDRESS, pluginAdapter.getHost() + ":" + pluginAdapter.getPort(), false);
-
-        // 设置本地服务版本号到Header中，并全链路传递
         GatewayStrategyFilterResolver.setHeader(request, requestBuilder, DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion(), false);
-
-        // 设置本地服务区域值到Header中，并全链路传递
         GatewayStrategyFilterResolver.setHeader(request, requestBuilder, DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion(), false);
-
-        // 设置本地服务环境值到Header中，并全链路传递
         GatewayStrategyFilterResolver.setHeader(request, requestBuilder, DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, pluginAdapter.getEnvironment(), false);
-
-        // 设置本地服务可用区到Header中，并全链路传递
         GatewayStrategyFilterResolver.setHeader(request, requestBuilder, DiscoveryConstant.N_D_SERVICE_ZONE, pluginAdapter.getZone(), false);
     }
 
     // 处理外部Header的转发，即外部服务传递过来的Header，中继转发到下游服务去
     private void applyOuterHeader(ServerHttpRequest request, ServerHttpRequest.Builder requestBuilder) {
-        // 获取环境匹配路由的配置
         String routeEnvironment = getRouteEnvironment();
-
-        // 设置环境匹配路由的配置到Header中
         if (StringUtils.isNotEmpty(routeEnvironment)) {
             GatewayStrategyFilterResolver.setHeader(request, requestBuilder, DiscoveryConstant.N_D_ENVIRONMENT, routeEnvironment, false);
         }
@@ -161,77 +142,44 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
                 }
             }
 
-            // 获取版本匹配路由的配置
             String routeVersion = getRouteVersion();
-
-            // 获取区域匹配路由的配置
             String routeRegion = getRouteRegion();
-
-            // 获取IP地址和端口匹配路由的配置
             String routeAddress = getRouteAddress();
-
-            // 获取版本权重路由的配置
             String routeVersionWeight = getRouteVersionWeight();
-
-            // 获取区域权重路由的配置
             String routeRegionWeight = getRouteRegionWeight();
-
-            // 获取全局唯一ID黑名单屏蔽的配置
             String routeIdBlacklist = getRouteIdBlacklist();
-
-            // 获取IP地址和端口黑名单屏蔽的配置
             String routeAddressBlacklist = getRouteAddressBlacklist();
 
-            // 设置版本匹配路由的配置到Header中
-            // 如果配置为空，根据网关设置优先级，执行忽略Header设置的相关逻辑
             if (StringUtils.isNotEmpty(routeVersion)) {
                 GatewayStrategyFilterResolver.setHeader(request, requestBuilder, DiscoveryConstant.N_D_VERSION, routeVersion, gatewayHeaderPriority);
             } else {
                 GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_VERSION, gatewayHeaderPriority, gatewayOriginalHeaderIgnored);
             }
-
-            // 设置区域匹配路由的配置到Header中
-            // 如果配置为空，根据网关设置优先级，执行忽略Header设置的相关逻辑
             if (StringUtils.isNotEmpty(routeRegion)) {
                 GatewayStrategyFilterResolver.setHeader(request, requestBuilder, DiscoveryConstant.N_D_REGION, routeRegion, gatewayHeaderPriority);
             } else {
                 GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_REGION, gatewayHeaderPriority, gatewayOriginalHeaderIgnored);
             }
-
-            // 设置IP地址和端口匹配路由的配置到Header中
-            // 如果配置为空，根据网关设置优先级，执行忽略Header设置的相关逻辑
             if (StringUtils.isNotEmpty(routeAddress)) {
                 GatewayStrategyFilterResolver.setHeader(request, requestBuilder, DiscoveryConstant.N_D_ADDRESS, routeAddress, gatewayHeaderPriority);
             } else {
                 GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_ADDRESS, gatewayHeaderPriority, gatewayOriginalHeaderIgnored);
             }
-
-            // 设置版本权重路由的配置到Header中
-            // 如果配置为空，根据网关设置优先级，执行忽略Header设置的相关逻辑
             if (StringUtils.isNotEmpty(routeVersionWeight)) {
                 GatewayStrategyFilterResolver.setHeader(request, requestBuilder, DiscoveryConstant.N_D_VERSION_WEIGHT, routeVersionWeight, gatewayHeaderPriority);
             } else {
                 GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_VERSION_WEIGHT, gatewayHeaderPriority, gatewayOriginalHeaderIgnored);
             }
-
-            // 设置区域权重路由的配置到Header中
-            // 如果配置为空，根据网关设置优先级，执行忽略Header设置的相关逻辑
             if (StringUtils.isNotEmpty(routeRegionWeight)) {
                 GatewayStrategyFilterResolver.setHeader(request, requestBuilder, DiscoveryConstant.N_D_REGION_WEIGHT, routeRegionWeight, gatewayHeaderPriority);
             } else {
                 GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_REGION_WEIGHT, gatewayHeaderPriority, gatewayOriginalHeaderIgnored);
             }
-
-            // 设置全局唯一ID黑名单屏蔽的配置到Header中
-            // 如果配置为空，根据网关设置优先级，执行忽略Header设置的相关逻辑
             if (StringUtils.isNotEmpty(routeIdBlacklist)) {
                 GatewayStrategyFilterResolver.setHeader(request, requestBuilder, DiscoveryConstant.N_D_ID_BLACKLIST, routeIdBlacklist, gatewayHeaderPriority);
             } else {
                 GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_ID_BLACKLIST, gatewayHeaderPriority, gatewayOriginalHeaderIgnored);
             }
-
-            // 设置IP地址和端口黑名单屏蔽的配置到Header中
-            // 如果配置为空，根据网关设置优先级，执行忽略Header设置的相关逻辑
             if (StringUtils.isNotEmpty(routeAddressBlacklist)) {
                 GatewayStrategyFilterResolver.setHeader(request, requestBuilder, DiscoveryConstant.N_D_ADDRESS_BLACKLIST, routeAddressBlacklist, gatewayHeaderPriority);
             } else {
@@ -239,26 +187,12 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
             }
         } else {
             // 当核心Header传值开关关闭的时候，执行忽略Header设置的相关逻辑
-
-            // 忽略版本匹配路由Header
             GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_VERSION);
-
-            // 忽略区域匹配路由Header
             GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_REGION);
-
-            // 忽略IP地址和端口匹配路由Header
             GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_ADDRESS);
-
-            // 忽略版本权重路由Header
             GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_VERSION_WEIGHT);
-
-            // 忽略区域权重路由Header
             GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_REGION_WEIGHT);
-
-            // 忽略全局唯一ID黑名单屏蔽Header
             GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_ID_BLACKLIST);
-
-            // 忽略IP地址和端口黑名单屏蔽Header
             GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_ADDRESS_BLACKLIST);
         }
     }
