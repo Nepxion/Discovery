@@ -9,6 +9,7 @@ package com.nepxion.discovery.plugin.strategy.gateway.filter;
  * @version 1.0
  */
 
+import org.apache.skywalking.apm.agent.core.context.trace.AbstractSpan;
 import reactor.core.publisher.Mono;
 
 import org.apache.skywalking.apm.agent.core.context.TracingContext;
@@ -34,8 +35,12 @@ public class SkyWalkingGatewayStrategyFilter implements GatewayStrategyFilter {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        EntrySpan entrySpan = exchange.getAttribute(SKYWALING_SPAN);
-
+        AbstractSpan span =  exchange.getAttribute(SKYWALING_SPAN);
+        //只处理获取到EntrySpan的情况
+        if(!(span instanceof EntrySpan)){
+            return chain.filter(exchange);
+        }
+        EntrySpan entrySpan = (EntrySpan) span;
         String traceId = getTraceId(entrySpan);
 
         StrategySpan strategySpan = new StrategySpan();
