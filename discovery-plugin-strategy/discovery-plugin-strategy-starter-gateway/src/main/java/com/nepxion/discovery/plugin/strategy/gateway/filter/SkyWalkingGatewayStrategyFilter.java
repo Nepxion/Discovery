@@ -35,16 +35,18 @@ public class SkyWalkingGatewayStrategyFilter implements GatewayStrategyFilter {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        AbstractSpan span =  exchange.getAttribute(SKYWALING_SPAN);
-        //只处理获取到EntrySpan的情况
-        if(!(span instanceof EntrySpan)){
-            return chain.filter(exchange);
+        String traceId = null;
+
+        try {
+            EntrySpan entrySpan = exchange.getAttribute(SKYWALING_SPAN);
+
+            traceId = getTraceId(entrySpan);
+        } catch (Exception e) {
+
         }
-        EntrySpan entrySpan = (EntrySpan) span;
-        String traceId = getTraceId(entrySpan);
 
         StrategySpan strategySpan = new StrategySpan();
-        strategySpan.setTraceId(traceId);
+        strategySpan.setTraceId(traceId != null ? traceId : DiscoveryConstant.IGNORED);
         strategySpan.setSpanId(DiscoveryConstant.IGNORED);
 
         StrategyTracerContext.getCurrentContext().setSpan(strategySpan);
