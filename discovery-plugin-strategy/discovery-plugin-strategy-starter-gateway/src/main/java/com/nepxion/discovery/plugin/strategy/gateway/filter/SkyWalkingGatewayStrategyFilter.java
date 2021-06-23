@@ -9,7 +9,6 @@ package com.nepxion.discovery.plugin.strategy.gateway.filter;
  * @version 1.0
  */
 
-import org.apache.skywalking.apm.agent.core.context.trace.AbstractSpan;
 import reactor.core.publisher.Mono;
 
 import org.apache.skywalking.apm.agent.core.context.TracingContext;
@@ -54,20 +53,16 @@ public class SkyWalkingGatewayStrategyFilter implements GatewayStrategyFilter {
         return chain.filter(exchange);
     }
 
-    private String getTraceId(AbstractTracingSpan tracingSpan) {
+    private String getTraceId(AbstractTracingSpan tracingSpan) throws Exception {
         if (tracingSpan == null) {
             return null;
         }
 
-        try {
-            Object owner = ReflectionUtil.getValue(AbstractTracingSpan.class, tracingSpan, OWNER);
-            if (owner instanceof TracingContext) {
-                TracingContext tracingContext = (TracingContext) owner;
+        Object owner = ReflectionUtil.getValue(AbstractTracingSpan.class, tracingSpan, OWNER);
+        if (owner instanceof TracingContext) {
+            TracingContext tracingContext = (TracingContext) owner;
 
-                return tracingContext.getReadablePrimaryTraceId();
-            }
-        } catch (Exception e) {
-
+            return tracingContext.getReadablePrimaryTraceId();
         }
 
         return null;
