@@ -5666,6 +5666,9 @@ spring.application.git.generator.path=classpath:git.properties
 spring.application.git.version.key={git.commit.id.abbrev}-{git.commit.time}
 # spring.application.git.version.key={git.build.version}-{git.commit.time}
 
+# 开启和关闭从SkyWalking apm-agent-core里反射获取TraceId并复制。由于SkyWalking对WebFlux上下文Threadlocal处理机制不恰当，导致产生的TraceId在全链路中并不一致，打开这个开关可以保证全链路TraceId都是一致的。缺失则默认为true
+spring.application.strategy.gateway.skywalking.traceid.enabled=true
+
 # 下面配置只适用于网关里直接进行Feign、RestTemplate或者WebClient调用场景
 # 启动和关闭路由策略的时候，对REST方式的调用拦截。缺失则默认为true
 spring.application.strategy.rest.intercept.enabled=true
