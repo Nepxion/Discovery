@@ -29,6 +29,12 @@
 			"type": "java.lang.Boolean",
 			"defaultValue": false,
 			"description": "Whether strategy gateway dynamic route is enabled."
+		},
+		{
+			"name": "spring.application.strategy.gateway.skywalking.traceid.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether strategy gateway skywalking traceid is enabled."
 		}
 	]
 }

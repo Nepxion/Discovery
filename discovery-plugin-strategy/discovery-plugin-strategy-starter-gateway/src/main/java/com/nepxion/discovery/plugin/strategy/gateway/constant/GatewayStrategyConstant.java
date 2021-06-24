@@ -15,5 +15,6 @@ public class GatewayStrategyConstant {
     public static final String SPRING_APPLICATION_STRATEGY_GATEWAY_ORIGINAL_HEADER_IGNORED = "spring.application.strategy.gateway.original.header.ignored";
     public static final String SPRING_APPLICATION_STRATEGY_GATEWAY_CORE_HEADER_TRANSMISSION_ENABLED = "spring.application.strategy.gateway.core.header.transmission.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_GATEWAY_DYNAMIC_ROUTE_ENABLED = "spring.application.strategy.gateway.dynamic.route.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_GATEWAY_SKYWALKING_TRACEID_ENABLED = "spring.application.strategy.gateway.skywalking.traceid.enabled";
     public static final int SPRING_APPLICATION_STRATEGY_GATEWAY_ROUTE_FILTER_ORDER_VALUE = 9000;
 }

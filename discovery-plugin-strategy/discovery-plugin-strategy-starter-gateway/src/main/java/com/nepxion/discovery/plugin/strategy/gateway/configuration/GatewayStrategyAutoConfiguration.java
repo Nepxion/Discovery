@@ -11,6 +11,7 @@ package com.nepxion.discovery.plugin.strategy.gateway.configuration;
  */
 
 import org.apache.skywalking.apm.agent.core.context.TracingContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -18,6 +19,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.netflix.ribbon.RibbonClientConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.common.apollo.proccessor.ApolloProcessor;
 import com.nepxion.discovery.common.consul.proccessor.ConsulProcessor;
@@ -142,10 +144,19 @@ public class GatewayStrategyAutoConfiguration {
 
     @ConditionalOnClass(TracingContext.class)
     protected static class SkywalkingStrategyConfiguration {
+        @Autowired
+        private ConfigurableEnvironment environment;
+
         @Bean
         @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_MONITOR_ENABLED, matchIfMissing = false)
         public SkyWalkingGatewayStrategyFilter skyWalkingGatewayStrategyFilter() {
-            return new SkyWalkingGatewayStrategyFilter();
+            Boolean skywalkingTraceIdEnabled = environment.getProperty(GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_SKYWALKING_TRACEID_ENABLED, Boolean.class, Boolean.TRUE);
+
+            if (skywalkingTraceIdEnabled) {
+                return new SkyWalkingGatewayStrategyFilter();
+            } else {
+                return null;
+            }
         }
     }
 }
