@@ -684,7 +684,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 ### 源码主页
 [Discovery源码主页](https://github.com/Nepxion/Discovery)
 
-[Polaris源码主页](https://github.com/Nepxion/Polaris)
+[Polaris源码主页](https://github.com/polaris-paas/polaris-sdk)
 
 ### 发布主页
 [DiscoveryAgent](https://github.com/Nepxion/DiscoveryAgent/releases)
@@ -694,7 +694,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 ### 指南主页
 [Discovery指南主页](https://github.com/Nepxion/DiscoveryGuide)
 
-[Polaris指南主页](https://github.com/Nepxion/PolarisGuide)
+[Polaris指南主页](https://github.com/polaris-paas/polaris-guide)
 
 ### 入门主页
 [Gitee Wiki](https://gitee.com/nepxion/Discovery/wikis/pages)
