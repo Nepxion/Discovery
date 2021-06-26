@@ -107,6 +107,77 @@
 			"type": "java.lang.Boolean",
 			"defaultValue": true,
 			"description": "Whether parameter event onstart is enabled."
+		},
+		{
+			"name": "swagger.service.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether swagger service is enabled."
+		},
+		{
+			"name": "swagger.service.base.group",
+			"type": "java.lang.String",
+			"defaultValue": "Nepxion Discovery",
+			"description": "Swagger service base group."
+		},
+		{
+			"name": "swagger.service.scan.group",
+			"type": "java.lang.String",
+			"defaultValue": "",
+			"description": "Swagger service scan group defined outside."
+		},
+		{
+			"name": "swagger.service.scan.packages",
+			"type": "java.lang.String",
+			"defaultValue": "",
+			"description": "Swagger service scan packages defined outside."
+		},
+		{
+			"name": "swagger.service.description",
+			"type": "java.lang.String",
+			"description": "Swagger service description."
+		},
+		{
+			"name": "swagger.service.version",
+			"type": "java.lang.String",
+			"defaultValue": "discovery framework version value",
+			"description": "Swagger service version."
+		},
+		{
+			"name": "swagger.service.license.name",
+			"type": "java.lang.String",
+			"defaultValue": "Apache License 2.0",
+			"description": "Swagger service license name."
+		},
+		{
+			"name": "swagger.service.license.url",
+			"type": "java.lang.String",
+			"defaultValue": "http://www.apache.org/licenses/LICENSE-2.0",
+			"description": "Swagger service license url."
+		},
+		{
+			"name": "swagger.service.contact.name",
+			"type": "java.lang.String",
+			"defaultValue": "Nepxion",
+			"description": "Swagger service contact."
+		},
+		{
+			"name": "swagger.service.contact.url",
+			"type": "java.lang.String",
+			"defaultValue": "https://github.com/Nepxion/Discovery",
+			"description": "Swagger service contact url."
+		},
+		{
+			"name": "swagger.service.contact.email",
+			"type": "java.lang.String",
+			"defaultValue": "1394997@qq.com",
+			"description": "Swagger service contact email."
+		},
+		{
+			"name": "swagger.service.termsOfService.url",
+			"type": "java.lang.String",
+			"defaultValue": "http://www.nepxion.com",
+			"description": "Swagger service termsOfService url."
 		}
 	]
 }
