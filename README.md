@@ -640,10 +640,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [蓝绿灰度埋点日志监控](#蓝绿灰度埋点日志监控)
     - [全链路告警监控](#全链路告警监控)
         - [蓝绿灰度告警监控](#蓝绿灰度告警监控)
-    - [全链路指标监控](#全链路指标监控)
-        - [Prometheus监控](#Prometheus监控)
-        - [Grafana监控](#Grafana监控)
-        - [Spring-Boot-Admin监控](#Spring-Boot-Admin监控)
 - [全链路服务侧注解](#全链路服务侧注解)
 - [全链路服务侧API权限](#全链路服务侧API权限)
 - [元数据流量染色](#元数据流量染色)
@@ -4922,17 +4918,6 @@ com.nepxion.discovery.plugin.strategy.monitor.DefaultStrategyAlarm
 {n-d-service-group=discovery-guide-group, n-d-version={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}, n-d-service-type=service, n-d-service-id=discovery-guide-service-b, n-d-service-env=env1, mobile=, n-d-service-region=qa, span-id=c37b54d7fec6bd07, n-d-service-zone=zone1, n-d-service-address=192.168.0.107:4001, trace-id=64c79e1ef68eecf3, n-d-service-version=1.0}
 ```
 
-### 全链路指标监控
-
-#### Prometheus监控
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Prometheus.jpg)
-
-#### Grafana监控
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Grafana.jpg)
-
-#### Spring-Boot-Admin监控
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Admin7.jpg)
-
 ## 全链路服务侧注解
 服务侧对于RPC方式的调用拦截、消费端的服务隔离和调用链三项功能，默认映射到RestController类（含有@RestController注解），并配合如下的扫描路径才能工作
 ```
@@ -5528,6 +5513,31 @@ spring.application.git.generator.path=classpath:git.properties
 # 使用Git信息中的字段单个或者多个组合来作为服务版本号。缺失则默认为{git.commit.time}-{git.total.commit.count}
 spring.application.git.version.key={git.commit.id.abbrev}-{git.commit.time}
 # spring.application.git.version.key={git.build.version}-{git.commit.time}
+
+# 启动和关闭Swagger。缺失则默认为true
+swagger.service.enabled=true
+# Swagger基准Docket组名
+swagger.service.base.group=Nepxion Discovery
+# Swagger自定义Docket组名
+swagger.service.scan.group=Admin Center Restful APIs
+# Swagger自定义扫描目录
+swagger.service.scan.packages=your-scan-packages
+# Swagger描述
+swagger.service.description=your-description
+# Swagger版本
+swagger.service.version=6.11.0
+# Swagger License名称
+swagger.service.license.name=Apache License 2.0
+# Swagger License链接
+swagger.service.license.url=http://www.apache.org/licenses/LICENSE-2.0
+# Swagger联系人名称
+swagger.service.contact.name=Nepxion
+# Swagger联系人网址
+swagger.service.contact.url=https://github.com/Nepxion/Discovery
+# Swagger联系人邮件
+swagger.service.contact.email=1394997@qq.com
+# Swagger服务条件网址
+swagger.service.termsOfService.url=http://www.nepxion.com
 ```
 
 ② Spring Cloud Gateway端配置
