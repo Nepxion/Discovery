@@ -1387,17 +1387,17 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
     <strategy-release>
         <conditions type="blue-green">
             <!-- 蓝路由，条件expression驱动 -->	
-            <condition id="blue-condition" expression="#H['a'] == '1'" version-id="blue-version-route"/>
+            <condition id="blue-condition" expression="#H['a'] == '1'" version-id="blue-route"/>
             <!-- 绿路由，条件expression驱动 -->
-            <condition id="green-condition" expression="#H['a'] == '1' and #H['b'] == '2'" version-id="green-version-route"/>
+            <condition id="green-condition" expression="#H['a'] == '1' and #H['b'] == '2'" version-id="green-route"/>
             <!-- 兜底路由，无条件expression驱动 -->
-            <condition id="basic-condition" version-id="basic-version-route"/>
+            <condition id="basic-condition" version-id="basic-route"/>
         </conditions>
 
         <routes>
-            <route id="blue-version-route" type="version">{"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}</route>	
-            <route id="green-version-route" type="version">{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</route>
-            <route id="basic-version-route" type="version">{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</route>
+            <route id="blue-route" type="version">{"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}</route>	
+            <route id="green-route" type="version">{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</route>
+            <route id="basic-route" type="version">{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</route>
         </routes>
     </strategy-release>
 </rule>
@@ -1412,14 +1412,14 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
 
 ① 当外部调用带有的Header/Parameter/Cookies中的值a=1同时b=2，执行绿路由
 
-`<condition>`节点（id="blue-condition"）中 **expression="#H['a'] == '1' and #H['b'] == '2'"** 对应的 **version-id="green-version-route"** ，找到下面`<route>`节点中 **id="green-version-route" type="version"** 的那项，那么路由即为
+`<condition>`节点（id="blue-condition"）中 **expression="#H['a'] == '1' and #H['b'] == '2'"** 对应的 **version-id="green-route"** ，找到下面`<route>`节点中 **id="green-route" type="version"** 的那项，那么路由即为
 ```
 {"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
 ```
 
 ② 当外部调用带有的Header/Parameter/Cookies中的值a=1，执行蓝路由
 
-`<condition>`节点（id="green-condition"）中 **expression="#H['a'] == '1'"** 对应的 **version-id="blue-version-route"** ，找到下面`<route>`节点中 **id="blue-version-route" type="version"** 的那项，那么路由即为
+`<condition>`节点（id="green-condition"）中 **expression="#H['a'] == '1'"** 对应的 **version-id="blue-route"** ，找到下面`<route>`节点中 **id="blue-route" type="version"** 的那项，那么路由即为
 ```
 {"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}
 ```
@@ -1583,16 +1583,16 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
     <strategy-release>
         <conditions type="gray">
             <!-- 灰度路由1，条件expression驱动 -->
-            <!-- <condition id="gray-condition1" expression="#H['a'] == '1'" version-id="gray-version-route=10;stable-version-route=90"/> -->
+            <!-- <condition id="gray-condition-1" expression="#H['a'] == '1'" version-id="gray-route=10;stable-route=90"/> -->
             <!-- 灰度路由2，条件expression驱动 -->
-            <!-- <condition id="gray-condition2" expression="#H['a'] == '1' and #H['b'] == '2'" version-id="gray-version-route=85;stable-version-route=15"/> -->
+            <!-- <condition id="gray-condition-2" expression="#H['a'] == '1' and #H['b'] == '2'" version-id="gray-route=85;stable-route=15"/> -->
             <!-- 兜底路由，无条件expression驱动 -->
-            <condition id="basic-condition" version-id="gray-version-route=0;stable-version-route=100"/>
+            <condition id="basic-condition" version-id="gray-route=0;stable-route=100"/>
         </conditions>
 
         <routes>
-            <route id="gray-version-route" type="version">{"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}</route>
-            <route id="stable-version-route" type="version">{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</route>
+            <route id="gray-route" type="version">{"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}</route>
+            <route id="stable-route" type="version">{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</route>
         </routes>
     </strategy-release>
 </rule>
@@ -1608,7 +1608,7 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 - 稳定版本路由：a服务1.0版本向网关提供90%的流量，a服务1.0版本只能访问b服务1.0版本
 - 灰度版本路由：a服务1.1版本向网关提供10%的流量，a服务1.1版本只能访问b服务1.1版本
 
-② gray-version-route链路配比10%的流量，stable-version-route链路配比90%的流量
+② gray-route链路配比10%的流量，stable-route链路配比90%的流量
 
 ③ 策略总共支持3种，可以单独一项使用，也可以多项叠加使用
 
@@ -1686,16 +1686,16 @@ spring.application.strategy.zuul.original.header.ignored=true
 <rule>
     <strategy-release>
         <conditions type="blue-green"> 
-            <condition id="blue-condition" expression="#H['a'] == '1'" version-id="version-route2"/>
+            <condition id="blue-condition" expression="#H['a'] == '1'" version-id="route-2"/>
         </conditions>
 
         <conditions type="gray">
-            <condition id="gray-condition" version-id="version-route1=95;version-route2=5"/>
+            <condition id="gray-condition" version-id="route-1=95;route-2=5"/>
         </conditions>
 
         <routes>
-            <route id="version-route1" type="version">{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</route>
-            <route id="version-route2" type="version">{"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}</route>
+            <route id="route-1" type="version">{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</route>
+            <route id="route-2" type="version">{"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}</route>
         </routes>
     </strategy-release>
 </rule>
@@ -1709,13 +1709,13 @@ spring.application.strategy.zuul.original.header.ignored=true
 <rule>
     <strategy-release>
         <conditions type="gray">
-            <condition id="gray-condition1" expression="#H['a'] == '1'" version-id="version-route1=0;version-route2=100"/>
-            <condition id="gray-condition2" version-id="version-route1=95;version-route2=5"/>
+            <condition id="gray-condition-1" expression="#H['a'] == '1'" version-id="route-1=0;route-2=100"/>
+            <condition id="gray-condition-2" version-id="route-1=95;route-2=5"/>
         </conditions>
 
         <routes>
-            <route id="version-route1" type="version">{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</route>
-            <route id="version-route2" type="version">{"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}</route>
+            <route id="route-1" type="version">{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</route>
+            <route id="route-2" type="version">{"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}</route>
         </routes>
     </strategy-release>
 </rule>
