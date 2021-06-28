@@ -22,7 +22,6 @@ public class AuthenticationEntity implements Serializable {
     private boolean passed = false;
     private String error;
     private String token;
-    private long expired = -1;
 
     public boolean isPassed() {
         return passed;
@@ -46,14 +45,6 @@ public class AuthenticationEntity implements Serializable {
 
     public void setToken(String token) {
         this.token = token;
-    }
-
-    public long getExpired() {
-        return expired;
-    }
-
-    public void setExpired(long expired) {
-        this.expired = expired;
     }
 
     @Override
