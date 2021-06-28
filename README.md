@@ -73,7 +73,7 @@ Polaris为Discovery高级定制版，特色功能
 - 上述指南实例分支是针对Spring Cloud旧版本。对于Spring Cloud 202x版本，参考[202x版指南示例精进版](https://github.com/Nepxion/DiscoveryGuide/tree/master)，分支为master
 
 ⑤ Discovery【探索】微服务企业级解决方案快速入门文档
-- [Gitee Wiki](https://gitee.com/nepxion/Discovery/wikis/pages)
+- [Gitee Wiki](https://gitee.com/Nepxion/Discovery/wikis/pages)
 - [Github Wiki](https://github.com/Nepxion/Discovery/wiki)
 
 ![](http://nepxion.gitee.io/discovery/docs/polaris-doc/Logo64.png) Polaris【北极星】企业级云原生微服务框架
@@ -693,7 +693,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 [Polaris指南主页](https://github.com/polaris-paas/polaris-guide)
 
 ### 入门主页
-[Gitee Wiki](https://gitee.com/nepxion/Discovery/wikis/pages)
+[Gitee Wiki](https://gitee.com/Nepxion/Discovery/wikis/pages)
 
 [Github Wiki](https://github.com/Nepxion/Discovery/wiki)
 
