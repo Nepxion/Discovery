@@ -545,7 +545,7 @@ public class StrategyWrapper {
         return weightRandom.random();
     }
 
-    // 根据ID查询相关的路由对象
+    // 根据路由ID和路由类型查询相关的路由对象
     private StrategyRouteEntity getTriggeredStrategyRouteEntity(String id, StrategyRouteType strategyRouteType) {
         if (StringUtils.isEmpty(id)) {
             return null;
