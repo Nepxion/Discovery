@@ -13,12 +13,15 @@ import springfox.documentation.RequestHandler;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.ApiKey;
 import springfox.documentation.service.Contact;
 import springfox.documentation.service.Parameter;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +85,12 @@ public class SwaggerConfiguration {
     @Autowired(required = false)
     private List<Parameter> swaggerHeaderParameters;
 
+    @Autowired(required = false)
+    private List<ApiKey> swaggerSecuritySchemes;
+
+    @Autowired(required = false)
+    private List<SecurityContext> swaggerSecurityContexts;
+
     @Bean("discoveryDocket")
     public Docket discoveryDocket() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -91,7 +100,9 @@ public class SwaggerConfiguration {
                 .apis(SwaggerConfiguration.basePackage(BASE_PACKAGE)) // 扫描该包下的所有需要在Swagger中展示的API，@ApiIgnore注解标注的除外
                 .paths(PathSelectors.any())
                 .build()
-                .globalOperationParameters(swaggerHeaderParameters);
+                .globalOperationParameters(swaggerHeaderParameters)
+                .securitySchemes(swaggerSecuritySchemes)
+                .securityContexts(swaggerSecurityContexts != null ? swaggerSecurityContexts : Collections.emptyList());
     }
 
     @Bean("scanDocket")
@@ -104,7 +115,9 @@ public class SwaggerConfiguration {
                 .apis(SwaggerConfiguration.basePackage(scanPackages)) // 扫描该包下的所有需要在Swagger中展示的API，@ApiIgnore注解标注的除外
                 .paths(PathSelectors.any())
                 .build()
-                .globalOperationParameters(swaggerHeaderParameters);
+                .globalOperationParameters(swaggerHeaderParameters)
+                .securitySchemes(swaggerSecuritySchemes)
+                .securityContexts(swaggerSecurityContexts != null ? swaggerSecurityContexts : Collections.emptyList());
     }
 
     private ApiInfo apiInfo() {
