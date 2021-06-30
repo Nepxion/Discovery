@@ -13,9 +13,9 @@ import springfox.documentation.RequestHandler;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.ApiKey;
 import springfox.documentation.service.Contact;
 import springfox.documentation.service.Parameter;
+import springfox.documentation.service.SecurityScheme;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -83,7 +83,7 @@ public class SwaggerConfiguration {
     private List<Parameter> swaggerHeaderParameters;
 
     @Autowired(required = false)
-    private List<ApiKey> swaggerSecuritySchemes;
+    private List<SecurityScheme> swaggerSecuritySchemes;
 
     @Autowired(required = false)
     private List<SecurityContext> swaggerSecurityContexts;
