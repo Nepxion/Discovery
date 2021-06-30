@@ -47,6 +47,7 @@ import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.GatewayStrategyRouteEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.util.JsonUtil;
+import com.nepxion.discovery.common.util.ReflectionUtil;
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
 import com.nepxion.discovery.plugin.strategy.gateway.event.GatewayStrategyRouteAddedEvent;
 import com.nepxion.discovery.plugin.strategy.gateway.event.GatewayStrategyRouteDeletedEvent;
@@ -310,9 +311,16 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
         // Not Support Finchley and Greenwich
         // routeDefinition.setMetadata(gatewayStrategyRouteEntity.getMetadata());
 
+        try {
+            ReflectionUtil.invoke(RouteDefinition.class, routeDefinition, "setMetadata", new Class[] { Map.class }, new Object[] { gatewayStrategyRouteEntity.getMetadata() });
+        } catch (Exception e) {
+
+        }
+
         return routeDefinition;
     }
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public GatewayStrategyRouteEntity convertRoute(RouteDefinition routeDefinition) {
         GatewayStrategyRouteEntity gatewayStrategyRouteEntity = new GatewayStrategyRouteEntity();
         gatewayStrategyRouteEntity.setId(routeDefinition.getId());
@@ -320,6 +328,12 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
         gatewayStrategyRouteEntity.setOrder(routeDefinition.getOrder());
         // Not Support Finchley and Greenwich
         // gatewayStrategyRouteEntity.setMetadata(routeDefinition.getMetadata());
+
+        try {
+            gatewayStrategyRouteEntity.setMetadata((Map) ReflectionUtil.invoke(RouteDefinition.class, routeDefinition, "getMetadata", new Class[] {}, new Object[] {}));
+        } catch (Exception e) {
+
+        }
 
         convertPredicates(routeDefinition.getPredicates(), gatewayStrategyRouteEntity.getPredicates(), gatewayStrategyRouteEntity.getUserPredicates());
         convertFilters(routeDefinition.getFilters(), gatewayStrategyRouteEntity.getFilters(), gatewayStrategyRouteEntity.getUserFilters());
