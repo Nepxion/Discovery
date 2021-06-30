@@ -4189,7 +4189,7 @@ swagger.service.termsOfService.url=http://www.nepxion.com
 public class SwaggerAutoConfiguration {
     // Access Token Header全局授权
     @Bean
-    public List<ApiKey> swaggerSecuritySchemes() {
+    public List<SecurityScheme> swaggerSecuritySchemes() {
         return Collections.singletonList(new ApiKey(DiscoveryConstant.N_D_ACCESS_TOKEN, DiscoveryConstant.N_D_ACCESS_TOKEN, "header"));
     }
 
