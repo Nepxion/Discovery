@@ -59,7 +59,7 @@ Polaris为Discovery高级定制版，特色功能
 - [Discovery【探索】微服务企业级解决方案(HTML版)](http://nepxion.gitee.io/discovery/docs/link-doc/discovery-html.html)
 
 ② Discovery【探索】微服务企业级解决方案平台操作手册
-- [Discovery【探索】微服务企业级解决方案平台操作手册(WIKI版)](http://nepxion.com/discovery-platform)
+- [Discovery【探索】微服务企业级解决方案平台操作手册](http://nepxion.com/discovery-platform)
 
 ③ Discovery【探索】微服务企业级解决方案源码。请访问Gitee镜像获得最佳体验
 - [源码Gitee同步镜像](https://gitee.com/Nepxion/Discovery)
