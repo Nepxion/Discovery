@@ -22,9 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -49,6 +47,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.GatewayStrategyRouteEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
+import com.nepxion.discovery.common.thread.DiscoveryBlockFuture;
 import com.nepxion.discovery.common.thread.DiscoveryThreadPoolFactory;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
@@ -281,20 +280,18 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
         */
 
         Flux<RouteDefinition> routeDefinitions = routeDefinitionLocator.getRouteDefinitions();
-        Future<Map<String, RouteDefinition>> future = executorService.submit(new Callable<Map<String, RouteDefinition>>() {
-            @Override
-            public Map<String, RouteDefinition> call() throws Exception {
-                List<RouteDefinition> routeDefinitionList = routeDefinitions.collectList().block();
-
-                return routeDefinitionList.stream().collect(Collectors.toMap(RouteDefinition::getId, RouteDefinition -> RouteDefinition));
-            }
-        });
-
         try {
-            return future.get();
+            return new DiscoveryBlockFuture<Map<String, RouteDefinition>>(executorService) {
+                @Override
+                public Map<String, RouteDefinition> onCall() {
+                    List<RouteDefinition> routeDefinitionList = routeDefinitions.collectList().block();
+
+                    return routeDefinitionList.stream().collect(Collectors.toMap(RouteDefinition::getId, RouteDefinition -> RouteDefinition));
+                }
+            }.call();
         } catch (Exception e) {
             return new HashMap<String, RouteDefinition>();
-        } 
+        }
     }
 
     private boolean isIdDuplicated(List<GatewayStrategyRouteEntity> gatewayStrategyRouteEntityList) {
