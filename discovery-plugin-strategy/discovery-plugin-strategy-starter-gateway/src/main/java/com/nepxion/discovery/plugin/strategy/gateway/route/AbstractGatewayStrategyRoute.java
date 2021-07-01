@@ -308,9 +308,8 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
         routeDefinition.setFilters(filterDefinitionList);
 
         routeDefinition.setOrder(gatewayStrategyRouteEntity.getOrder());
-        // Not Support Finchley and Greenwich
+        // Metadata isn't supported in Finchley and Greenwich
         // routeDefinition.setMetadata(gatewayStrategyRouteEntity.getMetadata());
-
         try {
             ReflectionUtil.invoke(RouteDefinition.class, routeDefinition, "setMetadata", new Class[] { Map.class }, new Object[] { gatewayStrategyRouteEntity.getMetadata() });
         } catch (Exception e) {
@@ -326,9 +325,9 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
         gatewayStrategyRouteEntity.setId(routeDefinition.getId());
         gatewayStrategyRouteEntity.setUri(routeDefinition.getUri().toString());
         gatewayStrategyRouteEntity.setOrder(routeDefinition.getOrder());
-        // Not Support Finchley and Greenwich
-        // gatewayStrategyRouteEntity.setMetadata(routeDefinition.getMetadata());
 
+        // Metadata isn't supported in Finchley and Greenwich
+        // gatewayStrategyRouteEntity.setMetadata(routeDefinition.getMetadata());
         try {
             gatewayStrategyRouteEntity.setMetadata((Map) ReflectionUtil.invoke(RouteDefinition.class, routeDefinition, "getMetadata", new Class[] {}, new Object[] {}));
         } catch (Exception e) {
