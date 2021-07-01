@@ -151,12 +151,11 @@ public class GatewayStrategyAutoConfiguration {
         @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_MONITOR_ENABLED, matchIfMissing = false)
         public SkyWalkingGatewayStrategyFilter skyWalkingGatewayStrategyFilter() {
             Boolean skywalkingTraceIdEnabled = environment.getProperty(GatewayStrategyConstant.SPRING_APPLICATION_STRATEGY_GATEWAY_SKYWALKING_TRACEID_ENABLED, Boolean.class, Boolean.TRUE);
-
             if (skywalkingTraceIdEnabled) {
                 return new SkyWalkingGatewayStrategyFilter();
-            } else {
-                return null;
             }
+
+            return null;
         }
     }
 }
