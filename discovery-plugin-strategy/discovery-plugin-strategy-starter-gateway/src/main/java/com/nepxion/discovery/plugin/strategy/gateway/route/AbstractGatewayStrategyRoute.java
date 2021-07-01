@@ -22,6 +22,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -46,6 +49,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.GatewayStrategyRouteEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
+import com.nepxion.discovery.common.thread.DiscoveryThreadPoolFactory;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
 import com.nepxion.discovery.plugin.strategy.gateway.event.GatewayStrategyRouteAddedEvent;
@@ -55,6 +59,8 @@ import com.nepxion.discovery.plugin.strategy.gateway.event.GatewayStrategyRouteU
 
 public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRoute, ApplicationEventPublisherAware {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractGatewayStrategyRoute.class);
+
+    private ExecutorService executorService = DiscoveryThreadPoolFactory.getExecutorService("gateway-route");
 
     @Autowired
     private RouteDefinitionLocator routeDefinitionLocator;
@@ -255,11 +261,40 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
     }
 
     public Map<String, RouteDefinition> locateRoutes() {
+        /*
         Map<String, RouteDefinition> routeDefinitionMap = new HashMap<String, RouteDefinition>();
         Flux<RouteDefinition> routeDefinitions = routeDefinitionLocator.getRouteDefinitions();
-        routeDefinitions.subscribe(routeDefinition -> routeDefinitionMap.put(routeDefinition.getId(), routeDefinition));
+        Disposable disposable = null;
+        try {
+            disposable = routeDefinitions.subscribe(routeDefinition -> routeDefinitionMap.put(routeDefinition.getId(), routeDefinition));
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+            }
+        } finally {
+            if (disposable != null) {
+                disposable.dispose();
+            }
+        }
 
         return routeDefinitionMap;
+        */
+
+        Flux<RouteDefinition> routeDefinitions = routeDefinitionLocator.getRouteDefinitions();
+        Future<Map<String, RouteDefinition>> future = executorService.submit(new Callable<Map<String, RouteDefinition>>() {
+            @Override
+            public Map<String, RouteDefinition> call() throws Exception {
+                List<RouteDefinition> routeDefinitionList = routeDefinitions.collectList().block();
+
+                return routeDefinitionList.stream().collect(Collectors.toMap(RouteDefinition::getId, RouteDefinition -> RouteDefinition));
+            }
+        });
+
+        try {
+            return future.get();
+        } catch (Exception e) {
+            return new HashMap<String, RouteDefinition>();
+        } 
     }
 
     private boolean isIdDuplicated(List<GatewayStrategyRouteEntity> gatewayStrategyRouteEntityList) {
