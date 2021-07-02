@@ -1,4 +1,4 @@
-package com.nepxion.discovery.common.thread;
+package com.nepxion.discovery.common.future;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -14,23 +14,15 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
-public abstract class DiscoveryBlockFuture<T> {
-    private ExecutorService executorService;
-
-    public DiscoveryBlockFuture(ExecutorService executorService) {
-        this.executorService = executorService;
-    }
-
-    public T call() throws InterruptedException, ExecutionException {
+public class DiscoveryFutureResolver {
+    public static <T> T call(ExecutorService executorService, DiscoveryFutureCallback<T> discoveryFutureCallback) throws InterruptedException, ExecutionException {
         Future<T> future = executorService.submit(new Callable<T>() {
             @Override
             public T call() throws Exception {
-                return onCall();
+                return discoveryFutureCallback.callback();
             }
         });
 
         return future.get();
     }
-
-    public abstract T onCall();
 }
