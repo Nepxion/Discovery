@@ -47,7 +47,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.GatewayStrategyRouteEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
-import com.nepxion.discovery.common.thread.DiscoveryBlockFuture;
+import com.nepxion.discovery.common.future.DiscoveryFutureCallback;
+import com.nepxion.discovery.common.future.DiscoveryFutureResolver;
 import com.nepxion.discovery.common.thread.DiscoveryThreadPoolFactory;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.plugin.framework.event.PluginPublisher;
@@ -281,14 +282,14 @@ public abstract class AbstractGatewayStrategyRoute implements GatewayStrategyRou
 
         Flux<RouteDefinition> routeDefinitions = routeDefinitionLocator.getRouteDefinitions();
         try {
-            return new DiscoveryBlockFuture<Map<String, RouteDefinition>>(executorService) {
+            return DiscoveryFutureResolver.call(executorService, new DiscoveryFutureCallback<Map<String, RouteDefinition>>() {
                 @Override
-                public Map<String, RouteDefinition> onCall() {
+                public Map<String, RouteDefinition> callback() {
                     List<RouteDefinition> routeDefinitionList = routeDefinitions.collectList().block();
 
                     return routeDefinitionList.stream().collect(Collectors.toMap(RouteDefinition::getId, RouteDefinition -> RouteDefinition));
                 }
-            }.call();
+            });
         } catch (Exception e) {
             return new HashMap<String, RouteDefinition>();
         }
