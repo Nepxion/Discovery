@@ -5087,7 +5087,9 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 ## 元数据流量染色
 
 ### 基于Git插件自动创建版本号
-通过集成插件git-commit-id-plugin，通过产生git信息文件的方式，获取git.commit.id（最后一次代码的提交ID）或者git.build.version（对应到Maven工程的版本）来自动创建版本号，这样就可以避免使用者手工维护版本号。当两者都启用的时候，Git插件方式的版本号优先级要高于手工配置的版本号
+通过集成插件git-commit-id-plugin，通过产生git信息文件的方式，获取git.commit.id（最后一次代码的提交ID）或者git.build.version（对应到Maven工程的版本）来自动创建版本号，这样就可以避免使用者手工维护版本号
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：当两者都启用的时候，手工配置的版本号优先级要高于Git插件方式的版本号
 
 - 增加Git编译插件
 
@@ -5212,7 +5214,9 @@ spring.application.git.generator.path=file:git.json
 | 获取Git信息的文本格式 | `http://`[IP:PORT]/git/text | 无 | GET |
 
 ### 基于服务名前缀自动创建组名
-通过指定长度截断或者标志截断服务名的前缀来自动创建组名，这样就可以避免使用者手工维护组名。当两者都启用的时候，截断方式的组名优先级要高于手工配置的组名
+通过指定长度截断或者标志截断服务名的前缀来自动创建组名，这样就可以避免使用者手工维护组名
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：当两者都启用的时候，手工配置的组名优先级要高于截断方式的组名
 
 - 增加配置项
 
