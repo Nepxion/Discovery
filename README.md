@@ -11,7 +11,7 @@
 
 如果您觉得本框架具有一定的参考价值和借鉴意义，请帮忙在页面右上角 [**Star**]
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/star1.png) 首席作者简介 
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/star1.png) 首席作者简介
 - Nepxion开源社区创始人
 - 2020年阿里巴巴中国云原生峰会出品人
 - 2020年被Nacos和Spring Cloud Alibaba纳入相关开源项目
