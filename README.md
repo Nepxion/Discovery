@@ -1,6 +1,6 @@
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Banner.png)
 
-# Discovery【探索】微服务企业级解决方案
+# Discovery【探索】云原生微服务解决方案
 ![Total visits](https://visitor-badge.laobi.icu/badge?page_id=Nepxion&title=total%20visits)  [![Total lines](https://tokei.rs/b1/github/Nepxion/Discovery?category=lines)](https://tokei.rs/b1/github/Nepxion/Discovery?category=lines)  [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?label=license)](https://github.com/Nepxion/Discovery/blob/6.x.x/LICENSE)  [![Maven Central](https://img.shields.io/maven-central/v/com.nepxion/discovery.svg?label=maven)](https://search.maven.org/artifact/com.nepxion/discovery)  [![Javadocs](http://www.javadoc.io/badge/com.nepxion/discovery-plugin-framework-starter.svg)](http://www.javadoc.io/doc/com.nepxion/discovery-plugin-framework-starter)  [![Build Status](https://travis-ci.org/Nepxion/Discovery.svg?branch=6.x.x)](https://travis-ci.org/Nepxion/Discovery)  [![Codacy Badge](https://app.codacy.com/project/badge/Grade/5c42eb719ef64def9cad773abd877e8b)](https://www.codacy.com/gh/Nepxion/Discovery/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nepxion/Discovery&amp;utm_campaign=Badge_Grade)  [![Stars](https://img.shields.io/github/stars/Nepxion/Discovery.svg?label=Stars&tyle=flat&logo=GitHub)](https://github.com/Nepxion/Discovery/stargazers)  [![Stars](https://gitee.com/Nepxion/Discovery/badge/star.svg?theme=gvp)](https://gitee.com/Nepxion/Discovery/stargazers)
 
 [![Spring Boot](https://img.shields.io/maven-central/v/org.springframework.boot/spring-boot-dependencies.svg?label=Spring%20Boot&logo=Spring)](https://search.maven.org/artifact/org.springframework.boot/spring-boot-dependencies)  [![Spring Cloud](https://img.shields.io/maven-central/v/org.springframework.cloud/spring-cloud-dependencies.svg?label=Spring%20Cloud&logo=Spring)](https://search.maven.org/artifact/org.springframework.cloud/spring-cloud-dependencies)  [![Spring Cloud Alibaba](https://img.shields.io/maven-central/v/com.alibaba.cloud/spring-cloud-alibaba-dependencies.svg?label=Spring%20Cloud%20Alibaba&logo=Spring)](https://search.maven.org/artifact/com.alibaba.cloud/spring-cloud-alibaba-dependencies)  [![Nepxion Discovery](https://img.shields.io/maven-central/v/com.nepxion/discovery.svg?label=Nepxion%20Discovery&logo=Anaconda)](https://search.maven.org/artifact/com.nepxion/discovery)
@@ -50,51 +50,47 @@ Polaris为Discovery高级定制版，特色功能
 
 有商业版需求的企业和用户，请添加微信1394997，联系作者，洽谈合作事宜
 
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Logo64.png) Discovery【探索】微服务企业级解决方案
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Logo64.png) Discovery【探索】企业级云原生微服务开源解决方案
 
-① Discovery【探索】微服务企业级解决方案文档
-- [Discovery【探索】微服务企业级解决方案(WIKI版)](http://nepxion.com/discovery)
-- [Discovery【探索】微服务企业级解决方案(PPT版)](http://nepxion.gitee.io/discovery/docs/link-doc/discovery-ppt.html)
-- [Discovery【探索】微服务企业级解决方案(PDF版)](http://nepxion.gitee.io/discovery/docs/link-doc/discovery-pdf.html)
-- [Discovery【探索】微服务企业级解决方案(HTML版)](http://nepxion.gitee.io/discovery/docs/link-doc/discovery-html.html)
+① 解决方案
+- [解决方案WIKI版](http://nepxion.com/discovery)
+- [解决方案PPT版](http://nepxion.gitee.io/discovery/docs/link-doc/discovery-ppt.html)
 
-② Discovery【探索】微服务企业级解决方案平台操作手册
-- [Discovery【探索】微服务企业级解决方案平台操作手册](http://nepxion.com/discovery-platform)
+② 平台界面
+- [平台界面WIKI版](http://nepxion.com/discovery-platform)
 
-③ Discovery【探索】微服务企业级解决方案源码。请访问Gitee镜像获得最佳体验
-- [源码Gitee同步镜像](https://gitee.com/Nepxion/Discovery)
-- [源码Github原镜像](https://github.com/Nepxion/Discovery)
+③ 快速入门
+- [快速入门Github版](https://github.com/Nepxion/Discovery/wiki)
+- [快速入门Gitee版](https://gitee.com/Nepxion/Discovery/wikis/pages)
 
-④ Discovery【探索】微服务企业级解决方案指南示例源码。请访问Gitee镜像获得最佳体验
-- [指南Gitee同步镜像](https://gitee.com/Nepxion/DiscoveryGuide)
-- [指南Github原镜像](https://github.com/Nepxion/DiscoveryGuide)
+④ 框架源码
+- [框架源码Github版](https://github.com/Nepxion/Discovery)
+- [框架源码Gitee版](https://gitee.com/Nepxion/Discovery)
 
-⑤ Discovery【探索】微服务企业级解决方案指南示例说明
+⑤ 指南示例源码
+- [指南示例源码Github版](https://github.com/Nepxion/DiscoveryGuide)
+- [指南示例源码Gitee版](https://gitee.com/Nepxion/DiscoveryGuide)
+
+⑥ 指南示例说明
 - 对于入门级玩家，参考[6.x.x指南示例极简版](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simple)，分支为6.x.x-simple
 - 对于熟练级玩家，参考[6.x.x指南示例精进版](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x)，分支为6.x.x。除上述《极简版》功能外，涉及到指南篇里的绝大多数高级功能
 - 对于骨灰级玩家，参考[6.x.x指南示例高级版](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-complex)，分支为6.x.x-complex。除上述《精进版》功能外，涉及到指南篇里的ActiveMQ、MongoDB、RabbitMQ、Redis、RocketMQ、MySQL等高级调用链和蓝绿灰度调用链的整合
-- 上述指南实例分支是针对Spring Cloud旧版本。对于Spring Cloud 202x版本，参考[202x版指南示例精进版](https://github.com/Nepxion/DiscoveryGuide/tree/master)，分支为master
+- 上述指南实例分支是针对Spring Cloud旧版本。对于Spring Cloud 202x版本，参考[7.x.x指南示例精进版](https://github.com/Nepxion/DiscoveryGuide/tree/master)，分支为master
 
-⑥ Discovery【探索】微服务企业级解决方案快速入门文档
-- [Gitee Wiki](https://gitee.com/Nepxion/Discovery/wikis/pages)
-- [Github Wiki](https://github.com/Nepxion/Discovery/wiki)
+![](http://nepxion.gitee.io/discovery/docs/polaris-doc/Logo64.png) Polaris【北极星】企业级云原生微服务商业解决方案
 
-![](http://nepxion.gitee.io/discovery/docs/polaris-doc/Logo64.png) Polaris【北极星】企业级云原生微服务框架
+① 解决方案
+- [解决方案WIKI版](http://nepxion.com/polaris)
 
-① Polaris【北极星】企业级云原生微服务框架文档
-- [Polaris【北极星】企业级云原生微服务框架(WIKI版)](http://nepxion.com/polaris)
-- [Polaris【北极星】企业级云原生微服务框架(PDF版)](http://nepxion.gitee.io/discovery/docs/link-doc/polaris-pdf.html)
-- [Polaris【北极星】企业级云原生微服务框架(HTML版)](http://nepxion.gitee.io/discovery/docs/link-doc/polaris-html.html)
+② 框架源码
+- [框架源码Github版](https://github.com/polaris-paas/polaris-sdk)
+- [框架源码Gitee版](https://gitee.com/polaris-paas/polaris-sdk)
 
-② Polaris【北极星】企业级云原生微服务框架源码。请访问Gitee镜像获得最佳体验
-- [源码Gitee同步镜像](https://gitee.com/polaris-paas/polaris-sdk)
-- [源码Github原镜像](https://github.com/polaris-paas/polaris-sdk)
+③ 指南示例源码
+- [指南示例源码Github版](https://github.com/polaris-paas/polaris-guide)
+- [指南示例源码Gitee版](https://gitee.com/polaris-paas/polaris-guide)
 
-③ Polaris【北极星】企业级云原生微服务框架指南示例源码。请访问Gitee镜像获得最佳体验
-- [指南Gitee同步镜像](https://gitee.com/polaris-paas/polaris-guide)
-- [指南Github原镜像](https://github.com/polaris-paas/polaris-guide)
-
-④ Polaris【北极星】企业级云原生微服务框架指南示例说明
+④ 指南示例说明
 - Spring Cloud旧版本，参考[1.x.x指南示例](https://github.com/polaris-paas/polaris-guide/tree/1.x.x)，分支为1.x.x
 - Spring Cloud新版本，参考[2.x.x指南示例](https://github.com/polaris-paas/polaris-guide/tree/master)，分支为master
 
@@ -512,7 +508,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [发布主页](#发布主页)
     - [指南主页](#指南主页)
     - [入门主页](#入门主页)
-    - [文档主页](#文档主页)
     - [博客主页](#博客主页)
 - [工程架构](#工程架构)
     - [工程清单](#工程清单)
@@ -698,9 +693,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 [Gitee Wiki](https://gitee.com/Nepxion/Discovery/wikis/pages)
 
 [Github Wiki](https://github.com/Nepxion/Discovery/wiki)
-
-### 文档主页
-[文档主页](https://gitee.com/Nepxion/Discovery/tree/wiki/docs/web-doc)
 
 ### 博客主页
 [博客主页](https://blog.csdn.net/u012410733/category_10633202.html?spm=1001.2014.3001.5482)
