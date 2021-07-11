@@ -1268,7 +1268,7 @@ n-d-region={"discovery-guide-service-a":"dev", "discovery-guide-service-b":"dev"
 ```
 "discovery-guide-service-b":"3*;400?"
 ```
-表示discovery-guide-service-b服务的调用范围是3开头的所有端口，或者调用范围是4开头的所有端口（末尾必须是1个字符），多个用分号隔开
+表示discovery-guide-service-b服务的调用范围是3开头的所有端口，或者调用范围是400开头的所有端口（末尾必须是1个字符），多个用分号隔开
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：非条件驱动下的全链路蓝绿发布跟Header驱动下的全链路蓝绿发布等效，例如
 ```
@@ -2898,7 +2898,7 @@ spring.application.strategy.version.prefer.enabled=true
 ```
 "discovery-guide-service-b":"3*;400?"
 ```
-表示discovery-guide-service-b服务的屏蔽范围是3开头的所有端口，或者屏蔽范围是4开头的所有端口（末尾必须是1个字符），多个用分号隔开
+表示discovery-guide-service-b服务的屏蔽范围是3开头的所有端口，或者屏蔽范围是400开头的所有端口（末尾必须是1个字符），多个用分号隔开
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：跟Header驱动下的IP地址和端口屏蔽策略等效，例如
 ```
