@@ -1840,10 +1840,10 @@ A部门服务直接访问B部门服务
 - 服务下线实时性的流量绝对无损，IP地址和端口屏蔽策略，Header格式如下任选一个
 
 ```
-1. n-d-address=3001;4002
-2. n-d-address={"discovery-guide-service-a":"127.0.0.1:3001", "discovery-guide-service-b":"127.0.0.1:4002"}
-3. n-d-address={"discovery-guide-service-a":"127.0.0.1", "discovery-guide-service-b":"127.0.0.1"}
-4. n-d-address={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"4002"}
+1. n-d-address-blacklist=3001;4002
+2. n-d-address-blacklist={"discovery-guide-service-a":"127.0.0.1:3001", "discovery-guide-service-b":"127.0.0.1:4002"}
+3. n-d-address-blacklist={"discovery-guide-service-a":"127.0.0.1", "discovery-guide-service-b":"127.0.0.1"}
+4. n-d-address-blacklist={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"4002"}
 ```
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 全链路前端触发后端蓝绿灰度发布全景功能
