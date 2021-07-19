@@ -1,9 +1,14 @@
 package com.nepxion.discovery.plugin.strategy.sentinel.prometheus.tag;
 
 /**
+ * <p>Title: Nepxion Discovery</p >
+ * <p>Description: Nepxion Discovery</p >
+ * <p>Copyright: Copyright (c) 2017-2050</p >
+ * <p>Company: Nepxion</p >
  * @author Tank
- * @version 1.0.0
+ * @version 1.0
  */
+
 public enum SentinelToPrometheusMetricEnum {
     PASS_QPS("discovery_sentinel_metric_statistics_pass_qps"),
     BLOCK_QPS("discovery_sentinel_metric_statistics_block_qps"),

@@ -8,9 +8,14 @@ import org.springframework.beans.factory.annotation.Configurable;
 import javax.annotation.PostConstruct;
 
 /**
+ * <p>Title: Nepxion Discovery</p >
+ * <p>Description: Nepxion Discovery</p >
+ * <p>Copyright: Copyright (c) 2017-2050</p >
+ * <p>Company: Nepxion</p >
  * @author Tank
- * @version 1.0.0
+ * @version 1.0
  */
+
 @Configurable
 public class SentinelToPrometheusMetricConfig {
     private final MeterRegistry registry;
