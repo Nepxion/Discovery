@@ -5489,6 +5489,8 @@ spring.application.register.control.enabled=true
 spring.application.discovery.control.enabled=true
 # 开启和关闭通过Rest方式对规则配置的控制和推送。一旦关闭，只能通过远程配置中心来控制和推送。缺失则默认为true
 spring.application.config.rest.control.enabled=true
+# 随机权重算法。缺失则默认为MapWeightRandom
+spring.application.weight.random.type=MapWeightRandom
 # 规则文件的格式，支持xml和json。缺失则默认为xml
 spring.application.config.format=xml
 # spring.application.config.format=json
@@ -5705,6 +5707,8 @@ spring.application.register.control.enabled=true
 spring.application.discovery.control.enabled=true
 # 开启和关闭通过Rest方式对规则配置的控制和推送。一旦关闭，只能通过远程配置中心来控制和推送。缺失则默认为true
 spring.application.config.rest.control.enabled=true
+# 随机权重算法。缺失则默认为MapWeightRandom
+spring.application.weight.random.type=MapWeightRandom
 # 规则文件的格式，支持xml和json。缺失则默认为xml
 spring.application.config.format=xml
 # spring.application.config.format=json
@@ -5887,6 +5891,8 @@ spring.application.register.control.enabled=true
 spring.application.discovery.control.enabled=true
 # 开启和关闭通过Rest方式对规则配置的控制和推送。一旦关闭，只能通过远程配置中心来控制和推送。缺失则默认为true
 spring.application.config.rest.control.enabled=true
+# 随机权重算法。缺失则默认为MapWeightRandom
+spring.application.weight.random.type=MapWeightRandom
 # 规则文件的格式，支持xml和json。缺失则默认为xml
 spring.application.config.format=xml
 # spring.application.config.format=json
