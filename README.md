@@ -746,6 +746,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-opentelemetry | 策略的Sentinel OpenTelemetry调用链的Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-opentracing | 策略的Sentinel OpenTracing调用链的Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-skywalking | 策略的Sentinel SkyWalking调用链的Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-prometheus | 策略的Sentinel Prometheus指标的Starter |
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_south.png"> discovery-plugin-test | 测试模块目录 |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-test-starter-automation| 自动化测试的Starter |
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_south.png"> discovery-console | 控制平台目录 |
@@ -2075,10 +2076,10 @@ public class MyGatewayStrategyRouteFilter extends DefaultGatewayStrategyRouteFil
     public String getRouteVersion() {
         LOG.info("自定义全链路版本权重路由");
 
-        List<Pair<String, Double>> weightList = new ArrayList<Pair<String, Double>>();
-        weightList.add(new ImmutablePair<String, Double>(aRouteVersion, 30D));
-        weightList.add(new ImmutablePair<String, Double>(bRouteVersion, 70D));
-        MapWeightRandom<String, Double> weightRandom = new MapWeightRandom<String, Double>(weightList);
+        List<Pair<String, Integer>> weightList = new ArrayList<Pair<String, Integer>>();
+        weightList.add(new ImmutablePair<String, Integer>(aRouteVersion, 30));
+        weightList.add(new ImmutablePair<String, Integer>(bRouteVersion, 70));
+        MapWeightRandom<String, Integer> weightRandom = new MapWeightRandom<String, Integer>(weightList);
 
         return weightRandom.random();
     }*/
@@ -2210,10 +2211,10 @@ public class MyZuulStrategyRouteFilter extends DefaultZuulStrategyRouteFilter {
     public String getRouteVersion() {
         LOG.info("自定义全链路版本权重路由");
 
-        List<Pair<String, Double>> weightList = new ArrayList<Pair<String, Double>>();
-        weightList.add(new ImmutablePair<String, Double>(aRouteVersion, 30D));
-        weightList.add(new ImmutablePair<String, Double>(bRouteVersion, 70D));
-        MapWeightRandom<String, Double> weightRandom = new MapWeightRandom<String, Double>(weightList);
+        List<Pair<String, Integer>> weightList = new ArrayList<Pair<String, Integer>>();
+        weightList.add(new ImmutablePair<String, Integer>(aRouteVersion, 30));
+        weightList.add(new ImmutablePair<String, Integer>(bRouteVersion, 70));
+        MapWeightRandom<String, Integer> weightRandom = new MapWeightRandom<String, Integer>(weightList);
 
         return weightRandom.random();
     }*/
@@ -2345,10 +2346,10 @@ public class MyServiceStrategyRouteFilter extends DefaultServiceStrategyRouteFil
     public String getRouteVersion() {
         LOG.info("自定义全链路版本权重路由");
 
-        List<Pair<String, Double>> weightList = new ArrayList<Pair<String, Double>>();
-        weightList.add(new ImmutablePair<String, Double>(aRouteVersion, 30D));
-        weightList.add(new ImmutablePair<String, Double>(bRouteVersion, 70D));
-        MapWeightRandom<String, Double> weightRandom = new MapWeightRandom<String, Double>(weightList);
+        List<Pair<String, Integer>> weightList = new ArrayList<Pair<String, Integer>>();
+        weightList.add(new ImmutablePair<String, Integer>(aRouteVersion, 30));
+        weightList.add(new ImmutablePair<String, Integer>(bRouteVersion, 70));
+        MapWeightRandom<String, Integer> weightRandom = new MapWeightRandom<String, Integer>(weightList);
 
         return weightRandom.random();
     }*/
