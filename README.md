@@ -637,6 +637,8 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [自定义埋点调用链监控](#自定义埋点调用链监控)
     - [全链路日志监控](#全链路日志监控)
         - [蓝绿灰度埋点日志监控](#蓝绿灰度埋点日志监控)
+    - [全链路指标监控](#全链路指标监控)
+        - [Sentinel熔断指标监控](#Sentinel熔断指标监控)
     - [全链路告警监控](#全链路告警监控)
         - [蓝绿灰度告警监控](#蓝绿灰度告警监控)
 - [全链路服务侧注解](#全链路服务侧注解)
@@ -5008,6 +5010,17 @@ spring.application.strategy.tracer.sentinel.args.output.enabled=true
     </root>
 </configuration>
 ```
+
+### 全链路指标监控
+
+#### Sentinel熔断指标监控
+全链路调用过程中，在实施端到端Sentinel熔断在不同场景下会触发如下四个事件
+- Pass
+- Block
+- Success
+- Exception
+
+通过Prometheus Micrometer对上述事件进行计数统计，可输出Grafana看板上
 
 ### 全链路告警监控
 
