@@ -270,6 +270,12 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>discovery-plugin-strategy-starter-sentinel-prometheus</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>discovery-plugin-test-starter-automation</artifactId>
                 <version>${project.version}</version>
             </dependency>

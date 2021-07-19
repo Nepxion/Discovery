@@ -234,4 +234,9 @@ public class DiscoveryConstant {
     public static final String SENTINEL_AUTHORITY_DESCRIPTION = "Sentinel authority rules";
     public static final String SENTINEL_SYSTEM_DESCRIPTION = "Sentinel system rules";
     public static final String SENTINEL_PARAM_FLOW_DESCRIPTION = "Sentinel param flow rules";
+
+    public static final String SENTINEL_PASS_QPS_KEY = "sentinel-pass-qps";
+    public static final String SENTINEL_BLOCK_QPS_KEY = "sentinel-block-qps";
+    public static final String SENTINEL_SUCCESS_QPS_KEY = "sentinel-success-qps";
+    public static final String SENTINEL_EXCEPTION_QPS_KEY = "sentinel-exception-qps";
 }
