@@ -17,7 +17,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>discovery-common</artifactId>
+            <artifactId>discovery-plugin-strategy-starter</artifactId>
         </dependency>
 
         <dependency>

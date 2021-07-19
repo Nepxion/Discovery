@@ -9,12 +9,15 @@ package com.nepxion.discovery.plugin.strategy.sentinel.prometheus.monitor.config
  * @version 1.0
  */
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.nepxion.discovery.plugin.strategy.sentinel.prometheus.monitor.constant.SentinelPrometheusMetricConstant;
 import com.nepxion.discovery.plugin.strategy.sentinel.prometheus.monitor.metric.SentinelPrometheusMetricInitializer;
 
 @Configuration
+@ConditionalOnProperty(value = SentinelPrometheusMetricConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_PROMETHEUS_ENABLED, matchIfMissing = false)
 public class SentinelPrometheusAutoConfiguration {
     @Bean
     public SentinelPrometheusMetricInitializer sentinelPrometheusMetricInitializer() {
