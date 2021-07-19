@@ -24,7 +24,7 @@ public class DivisorWeightRandom<K> {
      */
     private int currentWeight = 0;
 
-    public K choose(List<Pair<K, Integer>> pairs) {
+    public K random(List<Pair<K, Integer>> pairs) {
         int size = pairs != null ? pairs.size() : 0;
         if (size <= 0) {
             return null;
