@@ -10,6 +10,7 @@ package com.nepxion.discovery.plugin.framework.configuration;
  */
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -23,6 +24,8 @@ import com.nepxion.banner.LogoBanner;
 import com.nepxion.banner.NepxionBanner;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.LoadBalancerType;
+import com.nepxion.discovery.common.entity.WeightFilterEntity;
+import com.nepxion.discovery.common.entity.WeightRandomType;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.cache.PluginCache;
 import com.nepxion.discovery.plugin.framework.cache.RuleCache;
@@ -45,8 +48,17 @@ import com.nepxion.discovery.plugin.framework.listener.loadbalance.VersionFilter
 import com.nepxion.discovery.plugin.framework.listener.register.CountFilterRegisterListener;
 import com.nepxion.discovery.plugin.framework.listener.register.HostFilterRegisterListener;
 import com.nepxion.discovery.plugin.framework.listener.register.RegisterListenerExecutor;
+import com.nepxion.discovery.plugin.framework.loadbalance.WeightRandomLoadBalance;
+import com.nepxion.discovery.plugin.framework.loadbalance.weight.ArrayWeightRandomProcessor;
+import com.nepxion.discovery.plugin.framework.loadbalance.weight.DivisorWeightRandomProcessor;
+import com.nepxion.discovery.plugin.framework.loadbalance.weight.MapWeightRandomProcessor;
+import com.nepxion.discovery.plugin.framework.loadbalance.weight.RuleArrayWeightRandomLoadBalance;
+import com.nepxion.discovery.plugin.framework.loadbalance.weight.RuleDivisorWeightRandomLoadBalance;
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.RuleMapWeightRandomLoadBalance;
+import com.nepxion.discovery.plugin.framework.loadbalance.weight.StrategyArrayWeightRandomLoadBalance;
+import com.nepxion.discovery.plugin.framework.loadbalance.weight.StrategyDivisorWeightRandomLoadBalance;
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.StrategyMapWeightRandomLoadBalance;
+import com.nepxion.discovery.plugin.framework.loadbalance.weight.WeightRandomProcessor;
 import com.nepxion.eventbus.annotation.EnableEventBus;
 import com.taobao.text.Color;
 
@@ -58,6 +70,9 @@ public class PluginAutoConfiguration {
 
         NepxionBanner.show(logoBanner, new Description("LoadBalancer:", LoadBalancerType.RIBBON.toString(), 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
     }
+
+    @Value("${" + DiscoveryConstant.SPRING_APPLICATION_WEIGHT_RANDOM_TYPE + ":" + DiscoveryConstant.MAP_WEIGHT_RANDOM + "}")
+    private String weightRandomType;
 
     @Bean
     @LoadBalanced
@@ -96,13 +111,51 @@ public class PluginAutoConfiguration {
     }
 
     @Bean
-    public RuleMapWeightRandomLoadBalance ruleMapWeightRandomLoadBalance(PluginAdapter pluginAdapter) {
-        return new RuleMapWeightRandomLoadBalance(pluginAdapter);
+    public WeightRandomLoadBalance<WeightFilterEntity> ruleWeightRandomLoadBalance(PluginAdapter pluginAdapter) {
+        WeightRandomType type = WeightRandomType.fromString(weightRandomType);
+
+        switch (type) {
+            case MAP_WEIGHT_RANDOM:
+                return new RuleMapWeightRandomLoadBalance(pluginAdapter);
+            case ARRAY_WEIGHT_RANDOM:
+                return new RuleArrayWeightRandomLoadBalance(pluginAdapter);
+            case DIVISOR_WEIGHT_RANDOM:
+                return new RuleDivisorWeightRandomLoadBalance(pluginAdapter);
+        }
+
+        return null;
     }
 
     @Bean
-    public StrategyMapWeightRandomLoadBalance strategyMapWeightRandomLoadBalance(PluginAdapter pluginAdapter, @Autowired(required = false) PluginContextHolder pluginContextHolder) {
-        return new StrategyMapWeightRandomLoadBalance(pluginAdapter, pluginContextHolder);
+    public WeightRandomLoadBalance<WeightFilterEntity> strategyWeightRandomLoadBalance(PluginAdapter pluginAdapter, @Autowired(required = false) PluginContextHolder pluginContextHolder) {
+        WeightRandomType type = WeightRandomType.fromString(weightRandomType);
+
+        switch (type) {
+            case MAP_WEIGHT_RANDOM:
+                return new StrategyMapWeightRandomLoadBalance(pluginAdapter, pluginContextHolder);
+            case ARRAY_WEIGHT_RANDOM:
+                return new StrategyArrayWeightRandomLoadBalance(pluginAdapter, pluginContextHolder);
+            case DIVISOR_WEIGHT_RANDOM:
+                return new StrategyDivisorWeightRandomLoadBalance(pluginAdapter, pluginContextHolder);
+        }
+
+        return null;
+    }
+
+    @Bean
+    public WeightRandomProcessor<String> strategyWeightRandomProcessor() {
+        WeightRandomType type = WeightRandomType.fromString(weightRandomType);
+
+        switch (type) {
+            case MAP_WEIGHT_RANDOM:
+                return new MapWeightRandomProcessor<String>();
+            case ARRAY_WEIGHT_RANDOM:
+                return new ArrayWeightRandomProcessor<String>();
+            case DIVISOR_WEIGHT_RANDOM:
+                return new DivisorWeightRandomProcessor<String>();
+        }
+
+        return null;
     }
 
     @Bean

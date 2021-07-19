@@ -20,8 +20,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
-import com.nepxion.discovery.plugin.framework.loadbalance.weight.RuleMapWeightRandomLoadBalance;
-import com.nepxion.discovery.plugin.framework.loadbalance.weight.StrategyMapWeightRandomLoadBalance;
+import com.nepxion.discovery.plugin.framework.loadbalance.WeightRandomLoadBalance;
 import com.netflix.loadbalancer.PredicateBasedRule;
 import com.netflix.loadbalancer.Server;
 
@@ -38,10 +37,10 @@ public abstract class PredicateBasedRuleDecorator extends PredicateBasedRule {
     private Integer retryAwaitTime;
 
     @Autowired
-    private StrategyMapWeightRandomLoadBalance strategyMapWeightRandomLoadBalance;
+    private WeightRandomLoadBalance<WeightFilterEntity> strategyWeightRandomLoadBalance;
 
     @Autowired
-    private RuleMapWeightRandomLoadBalance ruleMapWeightRandomLoadBalance;
+    private WeightRandomLoadBalance<WeightFilterEntity> ruleWeightRandomLoadBalance;
 
     // 必须执行getEligibleServers，否则叠加执行权重规则和版本区域策略会失效
     private List<Server> getServerList(Object key) {
@@ -73,15 +72,15 @@ public abstract class PredicateBasedRuleDecorator extends PredicateBasedRule {
     public Server choose(Object key) {
         boolean isTriggered = false;
 
-        WeightFilterEntity strategyWeightFilterEntity = strategyMapWeightRandomLoadBalance.getT();
+        WeightFilterEntity strategyWeightFilterEntity = strategyWeightRandomLoadBalance.getT();
         if (strategyWeightFilterEntity != null && strategyWeightFilterEntity.hasWeight()) {
             isTriggered = true;
 
             List<Server> serverList = retryEnabled ? getRetryableServerList(key) : getServerList(key);
-            boolean isWeightChecked = strategyMapWeightRandomLoadBalance.checkWeight(serverList, strategyWeightFilterEntity);
+            boolean isWeightChecked = strategyWeightRandomLoadBalance.checkWeight(serverList, strategyWeightFilterEntity);
             if (isWeightChecked) {
                 try {
-                    return strategyMapWeightRandomLoadBalance.choose(serverList, strategyWeightFilterEntity);
+                    return strategyWeightRandomLoadBalance.choose(serverList, strategyWeightFilterEntity);
                 } catch (Exception e) {
                     return super.choose(key);
                 }
@@ -91,13 +90,13 @@ public abstract class PredicateBasedRuleDecorator extends PredicateBasedRule {
         }
 
         if (!isTriggered) {
-            WeightFilterEntity ruleWeightFilterEntity = ruleMapWeightRandomLoadBalance.getT();
+            WeightFilterEntity ruleWeightFilterEntity = ruleWeightRandomLoadBalance.getT();
             if (ruleWeightFilterEntity != null && ruleWeightFilterEntity.hasWeight()) {
                 List<Server> serverList = retryEnabled ? getRetryableServerList(key) : getServerList(key);
-                boolean isWeightChecked = ruleMapWeightRandomLoadBalance.checkWeight(serverList, ruleWeightFilterEntity);
+                boolean isWeightChecked = ruleWeightRandomLoadBalance.checkWeight(serverList, ruleWeightFilterEntity);
                 if (isWeightChecked) {
                     try {
-                        return ruleMapWeightRandomLoadBalance.choose(serverList, ruleWeightFilterEntity);
+                        return ruleWeightRandomLoadBalance.choose(serverList, ruleWeightFilterEntity);
                     } catch (Exception e) {
                         return super.choose(key);
                     }
