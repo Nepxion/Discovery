@@ -19,6 +19,12 @@
 			"description": "Whether config rest control is enabled."
 		},
 		{
+			"name": "spring.application.weight.random.type",
+			"type": "java.lang.String",
+			"defaultValue": "MapWeightRandom",
+			"description": "Weight random type, it can be MapWeightRandom, ArrayWeightRandom or DivisorWeightRandom."
+		},
+		{
 			"name": "spring.application.config.format",
 			"type": "java.lang.String",
 			"defaultValue": "xml",

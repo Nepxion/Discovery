@@ -23,6 +23,7 @@ public class DiscoveryConstant {
     public static final String SPRING_APPLICATION_REGISTER_CONTROL_ENABLED = "spring.application.register.control.enabled";
     public static final String SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED = "spring.application.discovery.control.enabled";
     public static final String SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED = "spring.application.config.rest.control.enabled";
+    public static final String SPRING_APPLICATION_WEIGHT_RANDOM_TYPE = "spring.application.weight.random.type";
     public static final String SPRING_APPLICATION_CONFIG_FORMAT = "spring.application.config.format";
     public static final String SPRING_APPLICATION_CONFIG_PATH = "spring.application.config.path";
     public static final String SPRING_APPLICATION_GROUP_KEY = "spring.application.group.key";
@@ -34,6 +35,10 @@ public class DiscoveryConstant {
     public static final String SPRING_APPLICATION_NO_SERVERS_RETRY_AWAIT_TIME = "spring.application.no.servers.retry.await.time";
     public static final String SPRING_APPLICATION_NO_SERVERS_NOTIFY_ENABLED = "spring.application.no.servers.notify.enabled";
     public static final String SPRING_APPLICATION_PARAMETER_EVENT_ONSTART_ENABLED = "spring.application.parameter.event.onstart.enabled";
+
+    public static final String MAP_WEIGHT_RANDOM = "MapWeightRandom";
+    public static final String ARRAY_WEIGHT_RANDOM = "ArrayWeightRandom";
+    public static final String DIVISOR_WEIGHT_RANDOM = "DivisorWeightRandom";
 
     public static final String CONTEXT_PATH = "server.servlet.context-path";
 
