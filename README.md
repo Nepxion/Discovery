@@ -5620,6 +5620,17 @@ spring.application.strategy.sentinel.limit.app.enabled=true
 # 执行Sentinel LimitApp高级限流熔断时候，以Http请求中的Header值作为关键Key。缺失则默认为n-d-service-id，即以服务名作为关键Key
 spring.application.strategy.sentinel.request.origin.key=n-d-service-id
 
+# 启动和关闭Sentinel Prometheus限流熔断次数统计功能。缺失则默认为false
+spring.application.strategy.sentinel.prometheus.enabled=true
+# 启动和关闭Sentinel Prometheus通过次数统计功能。缺失则默认为true
+spring.application.strategy.sentinel.prometheus.pass.qps.enabled=true
+# 启动和关闭Sentinel Prometheus阻塞次数统计功能。缺失则默认为true
+spring.application.strategy.sentinel.prometheus.block.qps.enabled=true
+# 启动和关闭Sentinel Prometheus成功次数统计功能。缺失则默认为true
+spring.application.strategy.sentinel.prometheus.success.qps.enabled=true
+# 启动和关闭Sentinel Prometheus异常次数统计功能。缺失则默认为true
+spring.application.strategy.sentinel.prometheus.exception.qps.enabled=true
+
 # 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
 spring.application.strategy.environment.route=common
 
