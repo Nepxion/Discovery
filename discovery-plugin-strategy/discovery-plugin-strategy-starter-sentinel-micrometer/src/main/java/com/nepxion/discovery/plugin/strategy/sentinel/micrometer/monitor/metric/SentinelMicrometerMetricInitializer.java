@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.sentinel.prometheus.monitor.metric;
+package com.nepxion.discovery.plugin.strategy.sentinel.micrometer.monitor.metric;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -18,16 +18,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.common.entity.SentinelMetricType;
-import com.nepxion.discovery.plugin.strategy.sentinel.prometheus.monitor.constant.SentinelPrometheusMetricConstant;
+import com.nepxion.discovery.plugin.strategy.sentinel.micrometer.monitor.constant.SentinelMicrometerMetricConstant;
 
-public class SentinelPrometheusMetricInitializer {
+public class SentinelMicrometerMetricInitializer {
     @Autowired
     private MeterRegistry registry;
 
     @PostConstruct
     public void initialize() {
         for (SentinelMetricType sentinelMetricType : SentinelMetricType.values()) {
-            Counter.builder(sentinelMetricType.toString()).tag(SentinelPrometheusMetricConstant.RESOURCE, StringUtils.EMPTY).register(registry);
+            Counter.builder(sentinelMetricType.toString()).tag(SentinelMicrometerMetricConstant.RESOURCE, StringUtils.EMPTY).register(registry);
         }
     }
 }

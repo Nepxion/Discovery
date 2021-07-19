@@ -270,7 +270,7 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>discovery-plugin-strategy-starter-sentinel-prometheus</artifactId>
+                <artifactId>discovery-plugin-strategy-starter-sentinel-micrometer</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
