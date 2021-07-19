@@ -5800,6 +5800,17 @@ spring.application.strategy.sentinel.system.path=classpath:sentinel-system.json
 # 热点参数流控规则文件路径。缺失则默认为classpath:sentinel-param-flow.json
 spring.application.strategy.sentinel.param.flow.path=classpath:sentinel-param-flow.json
 
+# 启动和关闭Sentinel Micrometer限流熔断次数统计功能。缺失则默认为false
+spring.application.strategy.sentinel.micrometer.enabled=true
+# 启动和关闭Sentinel Micrometer通过次数统计功能。缺失则默认为true
+spring.application.strategy.sentinel.micrometer.pass.qps.enabled=true
+# 启动和关闭Sentinel Micrometer阻塞次数统计功能。缺失则默认为true
+spring.application.strategy.sentinel.micrometer.block.qps.enabled=true
+# 启动和关闭Sentinel Micrometer成功次数统计功能。缺失则默认为true
+spring.application.strategy.sentinel.micrometer.success.qps.enabled=true
+# 启动和关闭Sentinel Micrometer异常次数统计功能。缺失则默认为true
+spring.application.strategy.sentinel.micrometer.exception.qps.enabled=true
+
 # 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
 spring.application.strategy.environment.route=common
 
@@ -5981,6 +5992,17 @@ spring.application.strategy.sentinel.authority.path=classpath:sentinel-authority
 spring.application.strategy.sentinel.system.path=classpath:sentinel-system.json
 # 热点参数流控规则文件路径。缺失则默认为classpath:sentinel-param-flow.json
 spring.application.strategy.sentinel.param.flow.path=classpath:sentinel-param-flow.json
+
+# 启动和关闭Sentinel Micrometer限流熔断次数统计功能。缺失则默认为false
+spring.application.strategy.sentinel.micrometer.enabled=true
+# 启动和关闭Sentinel Micrometer通过次数统计功能。缺失则默认为true
+spring.application.strategy.sentinel.micrometer.pass.qps.enabled=true
+# 启动和关闭Sentinel Micrometer阻塞次数统计功能。缺失则默认为true
+spring.application.strategy.sentinel.micrometer.block.qps.enabled=true
+# 启动和关闭Sentinel Micrometer成功次数统计功能。缺失则默认为true
+spring.application.strategy.sentinel.micrometer.success.qps.enabled=true
+# 启动和关闭Sentinel Micrometer异常次数统计功能。缺失则默认为true
+spring.application.strategy.sentinel.micrometer.exception.qps.enabled=true
 
 # 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
 spring.application.strategy.environment.route=common
