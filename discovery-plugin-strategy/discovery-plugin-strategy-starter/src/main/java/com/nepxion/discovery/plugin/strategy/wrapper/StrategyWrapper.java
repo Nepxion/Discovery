@@ -34,7 +34,7 @@ import com.nepxion.discovery.common.entity.StrategyRouteEntity;
 import com.nepxion.discovery.common.entity.StrategyRouteType;
 import com.nepxion.discovery.common.entity.VersionWeightEntity;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.framework.loadbalance.weight.MapWeightRandom;
+import com.nepxion.discovery.plugin.framework.loadbalance.weight.WeightRandomProcessor;
 import com.nepxion.discovery.plugin.strategy.condition.StrategyCondition;
 
 public class StrategyWrapper {
@@ -43,6 +43,9 @@ public class StrategyWrapper {
 
     @Autowired
     protected StrategyCondition strategyCondition;
+
+    @Autowired
+    protected WeightRandomProcessor<String> strategyWeightRandomProcessor;
 
     // 从远程配置中心或者本地配置文件获取版本匹配路由配置。如果是远程配置中心，则值会动态改变
     // 返回格式允许如下一种
@@ -530,19 +533,18 @@ public class StrategyWrapper {
             return null;
         }
 
-        List<Pair<String, Double>> weightList = new ArrayList<Pair<String, Double>>();
+        List<Pair<String, Integer>> weightList = new ArrayList<Pair<String, Integer>>();
         for (Map.Entry<String, Integer> entry : weightMap.entrySet()) {
             String id = entry.getKey();
             StrategyRouteEntity strategyRouteEntity = getTriggeredStrategyRouteEntity(id, strategyRouteType);
             if (strategyRouteEntity != null) {
                 String strategyRoute = strategyRouteEntity.getValue();
-                Double weight = Double.valueOf(entry.getValue());
-                weightList.add(new ImmutablePair<String, Double>(strategyRoute, weight));
+                Integer weight = Integer.valueOf(entry.getValue());
+                weightList.add(new ImmutablePair<String, Integer>(strategyRoute, weight));
             }
         }
-        MapWeightRandom<String, Double> weightRandom = new MapWeightRandom<String, Double>(weightList);
 
-        return weightRandom.random();
+        return strategyWeightRandomProcessor.random(weightList);
     }
 
     // 根据路由ID和路由类型查询相关的路由对象
