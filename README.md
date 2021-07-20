@@ -672,6 +672,8 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [测试环境](#测试环境)
     - [测试介绍](#测试介绍)
     - [测试步骤](#测试步骤)
+- [附录](#附录)
+    - [中间件服务器下载地址](#中间件服务器下载地址)
 - [Star走势图](#Star走势图)
 
 ## 主页链接
@@ -4342,7 +4344,13 @@ Reject to invoke because of isolation with different service group
 
 ## 全链路服务限流熔断降级权限
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 由于如下功能早于Spring Cloud Alibaba Sentinel而产生，下述功能也可以通过Spring Cloud Alibaba Sentinel功能来实现
+集成Sentinel熔断隔离限流降级平台
+
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Sentinel3.jpg)
+
+通过集成Sentinel，在服务端实现该功能
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 由于本功能早于Spring Cloud Alibaba Sentinel而产生，下述功能也可以通过Spring Cloud Alibaba Sentinel功能来实现
 
 Sentinel订阅配置中心的使用方式，如下
 
@@ -6173,6 +6181,14 @@ spring.application.strategy.business.request.headers=user;mobile;location
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Docker.jpg)
 
+- Docker Windows
+
+![](http://nepxion.gitee.io/discovery/docs/polaris-doc/DockerWindows.jpg)
+
+- Docker Linux
+
+![](http://nepxion.gitee.io/discovery/docs/polaris-doc/DockerLinux.jpg)
+
 ### Kubernetes平台支持
 请自行研究
 
@@ -6636,6 +6652,99 @@ zuul.semaphore.max-semaphores=5000
 | Spring Cloud Gateway为起始的调用链 | 本框架 | 5000 | 20000 | 27800左右 | CPU占用率42.3% |
 | Zuul 1.x为起始的调用链 | 原生框架 | 5000 | 20000 | 24050左右 | CPU占用率56% |
 | Zuul 1.x为起始的调用链 | 本框架 | 5000 | 20000 | 23500左右 | CPU占用率56.5% |
+
+## 附录
+
+### 中间件服务器下载地址
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 注册中心
+
+① Nacos
+
+- Nacos服务器版本，推荐用最新版本，从[https://github.com/alibaba/nacos/releases](https://github.com/alibaba/nacos/releases)获取
+- 功能界面主页，[http://localhost:8848/nacos/index.html](http://localhost:8848/nacos/index.html)
+
+② Consul
+
+- Consul服务器版本不限制，推荐用最新版本，从[https://releases.hashicorp.com/consul/](https://releases.hashicorp.com/consul/)获取
+- 功能界面主页，[http://localhost:8500](http://localhost:8500)
+
+③ Eureka
+
+- 跟Spring Cloud版本保持一致，自行搭建服务器
+- 功能界面主页，[http://localhost:9528](http://localhost:9528)
+
+④ Zookeeper
+
+- Spring Cloud F版或以上，必须采用Zookeeper服务器的3.5.x服务器版本（或者更高），从[http://zookeeper.apache.org/releases.html#download](http://zookeeper.apache.org/releases.html#download)获取
+- Spring Cloud E版，Zookeeper服务器版本不限制
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 配置中心
+
+① Nacos
+
+- Nacos服务器版本，推荐用最新版本，从[https://github.com/alibaba/nacos/releases](https://github.com/alibaba/nacos/releases)获取
+- 功能界面主页，[http://localhost:8848/nacos/index.html](http://localhost:8848/nacos/index.html)
+
+② Apollo
+
+- Apollo服务器版本，推荐用最新版本，从[https://github.com/ctripcorp/apollo/releases](https://github.com/ctripcorp/apollo/releases)获取
+- 功能界面主页，[http://localhost:8088](http://localhost:8088)
+
+③ Redis
+
+- Redis服务器版本，推荐用最新版本，从[https://redis.io](https://redis.io)获取
+
+④ Etcd
+
+- Etcd服务器版本，推荐用最新版本，从[https://github.com/etcd-io/etcd/releases](https://github.com/etcd-io/etcd/releases)获取
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 限流熔断
+
+① Sentinel
+
+- Sentinel服务器版本，推荐用最新版本，从[https://github.com/alibaba/Sentinel/releases](https://github.com/alibaba/Sentinel/releases)获取
+- 功能界面主页，[http://localhost:8075/#/dashboard](http://localhost:8075/#/dashboard)
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 调用链监控
+
+① Jaeger
+
+- Jaeger服务器版本，推荐用最新版本，从[https://github.com/jaegertracing/jaeger/releases](https://github.com/jaegertracing/jaeger/releases)获取
+- 功能界面主页，[http://localhost:16686](http://localhost:16686)
+
+② SkyWalking
+
+- SkyWalking服务器版本，推荐用最新版本，从[http://skywalking.apache.org/downloads](http://skywalking.apache.org/downloads)获取
+- 功能界面主页，[http://127.0.0.1:8080/](http://127.0.0.1:8080/)
+
+③ Zipkin
+
+- Zipkin服务器版本，推荐用最新版本，从[https://search.maven.org/remote_content?g=io.zipkin&a=zipkin-server&v=LATEST&c=exec](https://search.maven.org/remote_content?g=io.zipkin&a=zipkin-server&v=LATEST&c=exec)获取
+- 功能界面主页，[http://localhost:9411/zipkin](http://localhost:9411/zipkin)
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 指标监控
+
+① Prometheus
+
+- Prometheus服务器版本，推荐用最新版本，从[https://github.com/prometheus/prometheus/releases](https://github.com/prometheus/prometheus/releases)获取
+- 功能界面主页，[http://localhost:9090](http://localhost:9090)
+
+② Grafana
+
+- Grafana服务器版本，推荐用最新版本，从[https://grafana.com/grafana/download?platform=windows](https://grafana.com/grafana/download?platform=windows)获取
+- 功能界面主页，[http://localhost:3000](http://localhost:3000)
+
+③ Spring Boot Admin
+
+- 跟Spring Boot版本保持一致，自行搭建服务器。从[https://github.com/codecentric/spring-boot-admin](https://github.com/codecentric/spring-boot-admin)获取
+- 功能界面主页，[http://localhost:6002](http://localhost:6002)
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 数据库
+
+① H2内存数据库
+
+- H2内存数据库服务器版本，推荐用最新版本，从[http://h2database.com/html/download.html](http://h2database.com/html/download.html)获取
+- 功能界面主页，[http://localhost:16686](http://localhost:16686)
 
 ## Star走势图
 [![Stargazers over time](https://starchart.cc/Nepxion/Discovery.svg)](https://starchart.cc/Nepxion/Discovery)
