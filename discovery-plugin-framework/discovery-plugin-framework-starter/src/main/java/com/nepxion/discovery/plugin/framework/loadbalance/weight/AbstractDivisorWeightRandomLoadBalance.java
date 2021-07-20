@@ -28,12 +28,12 @@ public abstract class AbstractDivisorWeightRandomLoadBalance<T> implements Weigh
             return null;
         }
 
-        List<Pair<Server, Integer>> weightPairList = new ArrayList<Pair<Server, Integer>>();
+        List<Pair<Server, Integer>> weightList = new ArrayList<Pair<Server, Integer>>();
         for (Server server : serverList) {
             int weight = getWeight(server, t);
-            weightPairList.add(new ImmutablePair<Server, Integer>(server, weight));
+            weightList.add(new ImmutablePair<Server, Integer>(server, weight));
         }
 
-        return weightRandom.random(weightPairList);
+        return weightRandom.random(weightList);
     }
 }
