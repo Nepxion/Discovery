@@ -63,7 +63,7 @@ public abstract class SentinelTracerProcessorSlotEntryCallback<S> implements Pro
         outputSpan(span, SentinelStrategyMonitorConstant.ENTRY_TYPE, resourceWrapper.getEntryType().toString());
         outputSpan(span, SentinelStrategyMonitorConstant.RULE_LIMIT_APP, e.getRuleLimitApp());
         if (tracerSentinelRuleOutputEnabled) {
-            outputSpan(span, SentinelStrategyMonitorConstant.RULE, e.getRule().toString());
+            outputSpan(span, SentinelStrategyMonitorConstant.RULE, e.getRule() != null ? e.getRule().toString() : StringUtils.EMPTY);
         }
         outputSpan(span, SentinelStrategyMonitorConstant.CAUSE, e.getClass().getName());
         outputSpan(span, SentinelStrategyMonitorConstant.BLOCK_EXCEPTION, e.getMessage());
