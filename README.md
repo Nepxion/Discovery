@@ -6744,7 +6744,7 @@ zuul.semaphore.max-semaphores=5000
 ① H2内存数据库
 
 - H2内存数据库服务器版本，推荐用最新版本，从[http://h2database.com/html/download.html](http://h2database.com/html/download.html)获取
-- 功能界面主页，[http://localhost:16686](http://localhost:16686)
+- 功能界面主页，[http://localhost:8082](http://localhost:8082)
 
 ## Star走势图
 [![Stargazers over time](https://starchart.cc/Nepxion/Discovery.svg)](https://starchart.cc/Nepxion/Discovery)
