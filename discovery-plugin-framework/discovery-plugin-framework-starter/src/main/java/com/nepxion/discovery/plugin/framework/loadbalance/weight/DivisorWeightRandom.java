@@ -31,7 +31,7 @@ public class DivisorWeightRandom<K> {
         }
 
         if (size == 1) {
-            return pairs.iterator().next().getKey();
+            return pairs.get(0).getKey();
         }
 
         // 获取最大权重
@@ -39,12 +39,11 @@ public class DivisorWeightRandom<K> {
         // 最大公约数
         int gcdWeight = 0;
 
-        for (Pair<K, Integer> p : pairs) {
-            maxWeight = Math.max(maxWeight, p.getValue());
-            gcdWeight = (gcdWeight == 0) ? p.getValue() : gcd(gcdWeight, p.getValue());
+        for (Pair<K, Integer> pair : pairs) {
+            maxWeight = Math.max(maxWeight, pair.getValue());
+            gcdWeight = (gcdWeight == 0) ? pair.getValue() : gcd(gcdWeight, pair.getValue());
         }
 
-        // lock
         synchronized (this) {
             while (true) {
                 lastIndex = (lastIndex + 1) % size;
@@ -55,14 +54,12 @@ public class DivisorWeightRandom<K> {
                     }
                 }
                 if (size <= lastIndex) {
-                    // 安全检查，重置
                     lastIndex = -1;
                     continue;
                 }
-                Pair<K, Integer> p = pairs.get(lastIndex);
-                if (p.getValue() >= currentWeight) {
-                    // 命中
-                    return p.getKey();
+                Pair<K, Integer> pair = pairs.get(lastIndex);
+                if (pair.getValue() >= currentWeight) {
+                    return pair.getKey();
                 }
             }
         }
