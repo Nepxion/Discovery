@@ -5051,6 +5051,18 @@ spring.application.strategy.tracer.sentinel.args.output.enabled=true
 
 通过Prometheus Micrometer对上述事件进行计数统计，可输出Grafana看板上
 
+使用者可以通过如下开关打开或者关闭输出功能项
+```
+# 启动和关闭Sentinel Metric通过次数统计输出功能。缺失则默认为true
+spring.application.strategy.metric.sentinel.pass.qps.output.enabled=true
+# 启动和关闭Sentinel Metric阻塞次数统计输出功能。缺失则默认为true
+spring.application.strategy.metric.sentinel.block.qps.output.enabled=true
+# 启动和关闭Sentinel Metric成功次数统计输出功能。缺失则默认为true
+spring.application.strategy.metric.sentinel.success.qps.output.enabled=true
+# 启动和关闭Sentinel Metric异常次数统计输出功能。缺失则默认为true
+spring.application.strategy.metric.sentinel.exception.qps.output.enabled=true
+```
+
 ### 全链路告警监控
 
 #### 蓝绿灰度告警监控
@@ -5644,6 +5656,15 @@ spring.application.strategy.tracer.sentinel.rule.output.enabled=true
 # 启动和关闭Sentinel调用链上方法入参在Span上的输出。缺失则默认为false
 spring.application.strategy.tracer.sentinel.args.output.enabled=true
 
+# 启动和关闭Sentinel Metric通过次数统计输出功能。缺失则默认为true
+spring.application.strategy.metric.sentinel.pass.qps.output.enabled=true
+# 启动和关闭Sentinel Metric阻塞次数统计输出功能。缺失则默认为true
+spring.application.strategy.metric.sentinel.block.qps.output.enabled=true
+# 启动和关闭Sentinel Metric成功次数统计输出功能。缺失则默认为true
+spring.application.strategy.metric.sentinel.success.qps.output.enabled=true
+# 启动和关闭Sentinel Metric异常次数统计输出功能。缺失则默认为true
+spring.application.strategy.metric.sentinel.exception.qps.output.enabled=true
+
 # 开启服务端实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
 spring.application.strategy.hystrix.threadlocal.supported=true
 
@@ -5664,17 +5685,6 @@ spring.application.strategy.sentinel.param.flow.path=classpath:sentinel-param-fl
 spring.application.strategy.sentinel.limit.app.enabled=true
 # 执行Sentinel LimitApp高级限流熔断时候，以Http请求中的Header值作为关键Key。缺失则默认为n-d-service-id，即以服务名作为关键Key
 spring.application.strategy.sentinel.request.origin.key=n-d-service-id
-
-# 启动和关闭Sentinel Micrometer限流熔断次数统计功能。缺失则默认为false
-spring.application.strategy.sentinel.micrometer.enabled=true
-# 启动和关闭Sentinel Micrometer通过次数统计功能。缺失则默认为true
-spring.application.strategy.sentinel.micrometer.pass.qps.enabled=true
-# 启动和关闭Sentinel Micrometer阻塞次数统计功能。缺失则默认为true
-spring.application.strategy.sentinel.micrometer.block.qps.enabled=true
-# 启动和关闭Sentinel Micrometer成功次数统计功能。缺失则默认为true
-spring.application.strategy.sentinel.micrometer.success.qps.enabled=true
-# 启动和关闭Sentinel Micrometer异常次数统计功能。缺失则默认为true
-spring.application.strategy.sentinel.micrometer.exception.qps.enabled=true
 
 # 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
 spring.application.strategy.environment.route=common
@@ -5826,6 +5836,15 @@ spring.application.strategy.tracer.sentinel.rule.output.enabled=true
 # 启动和关闭Sentinel调用链上方法入参在Span上的输出。缺失则默认为false
 spring.application.strategy.tracer.sentinel.args.output.enabled=true
 
+# 启动和关闭Sentinel Metric通过次数统计输出功能。缺失则默认为true
+spring.application.strategy.metric.sentinel.pass.qps.output.enabled=true
+# 启动和关闭Sentinel Metric阻塞次数统计输出功能。缺失则默认为true
+spring.application.strategy.metric.sentinel.block.qps.output.enabled=true
+# 启动和关闭Sentinel Metric成功次数统计输出功能。缺失则默认为true
+spring.application.strategy.metric.sentinel.success.qps.output.enabled=true
+# 启动和关闭Sentinel Metric异常次数统计输出功能。缺失则默认为true
+spring.application.strategy.metric.sentinel.exception.qps.output.enabled=true
+
 # 开启Spring Cloud Gateway网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
 spring.application.strategy.hystrix.threadlocal.supported=true
 
@@ -5841,17 +5860,6 @@ spring.application.strategy.sentinel.authority.path=classpath:sentinel-authority
 spring.application.strategy.sentinel.system.path=classpath:sentinel-system.json
 # 热点参数流控规则文件路径。缺失则默认为classpath:sentinel-param-flow.json
 spring.application.strategy.sentinel.param.flow.path=classpath:sentinel-param-flow.json
-
-# 启动和关闭Sentinel Micrometer限流熔断次数统计功能。缺失则默认为false
-spring.application.strategy.sentinel.micrometer.enabled=true
-# 启动和关闭Sentinel Micrometer通过次数统计功能。缺失则默认为true
-spring.application.strategy.sentinel.micrometer.pass.qps.enabled=true
-# 启动和关闭Sentinel Micrometer阻塞次数统计功能。缺失则默认为true
-spring.application.strategy.sentinel.micrometer.block.qps.enabled=true
-# 启动和关闭Sentinel Micrometer成功次数统计功能。缺失则默认为true
-spring.application.strategy.sentinel.micrometer.success.qps.enabled=true
-# 启动和关闭Sentinel Micrometer异常次数统计功能。缺失则默认为true
-spring.application.strategy.sentinel.micrometer.exception.qps.enabled=true
 
 # 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
 spring.application.strategy.environment.route=common
@@ -6019,6 +6027,15 @@ spring.application.strategy.tracer.sentinel.rule.output.enabled=true
 # 启动和关闭Sentinel调用链上方法入参在Span上的输出。缺失则默认为false
 spring.application.strategy.tracer.sentinel.args.output.enabled=true
 
+# 启动和关闭Sentinel Metric通过次数统计输出功能。缺失则默认为true
+spring.application.strategy.metric.sentinel.pass.qps.output.enabled=true
+# 启动和关闭Sentinel Metric阻塞次数统计输出功能。缺失则默认为true
+spring.application.strategy.metric.sentinel.block.qps.output.enabled=true
+# 启动和关闭Sentinel Metric成功次数统计输出功能。缺失则默认为true
+spring.application.strategy.metric.sentinel.success.qps.output.enabled=true
+# 启动和关闭Sentinel Metric异常次数统计输出功能。缺失则默认为true
+spring.application.strategy.metric.sentinel.exception.qps.output.enabled=true
+
 # 开启Zuul网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
 spring.application.strategy.hystrix.threadlocal.supported=true
 
@@ -6035,16 +6052,6 @@ spring.application.strategy.sentinel.system.path=classpath:sentinel-system.json
 # 热点参数流控规则文件路径。缺失则默认为classpath:sentinel-param-flow.json
 spring.application.strategy.sentinel.param.flow.path=classpath:sentinel-param-flow.json
 
-# 启动和关闭Sentinel Micrometer限流熔断次数统计功能。缺失则默认为false
-spring.application.strategy.sentinel.micrometer.enabled=true
-# 启动和关闭Sentinel Micrometer通过次数统计功能。缺失则默认为true
-spring.application.strategy.sentinel.micrometer.pass.qps.enabled=true
-# 启动和关闭Sentinel Micrometer阻塞次数统计功能。缺失则默认为true
-spring.application.strategy.sentinel.micrometer.block.qps.enabled=true
-# 启动和关闭Sentinel Micrometer成功次数统计功能。缺失则默认为true
-spring.application.strategy.sentinel.micrometer.success.qps.enabled=true
-# 启动和关闭Sentinel Micrometer异常次数统计功能。缺失则默认为true
-spring.application.strategy.sentinel.micrometer.exception.qps.enabled=true
 
 # 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
 spring.application.strategy.environment.route=common
