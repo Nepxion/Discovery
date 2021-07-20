@@ -130,6 +130,18 @@ Polaris为Discovery高级定制版，特色功能
 
 ## 简介
 
+### 诞生故事
+- 2017年12月开始筹划
+- 2018年03月开始编码
+- 2018年06月在GitHub开源
+- 2018年06月发布v1.0.0，支持Camden版
+- 2018年06月发布v2.0.0，支持Dalston版
+- 2018年07月发布v3.0.0，支持Edgware版
+- 2018年07月发布v4.0.0，支持Finchley版
+- 2019年04月发布v5.0.0，支持Greenwich版
+- 2020年04月发布v6.0.0，支持Hoxton版
+- 2021年04月完成v7.0.0，支持202x版
+
 ### 功能概述
 Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba，Discovery服务注册发现、Ribbon & Spring Cloud LoadBalancer负载均衡、Feign & RestTemplate & WebClient调用、Spring Cloud Gateway & Zuul过滤等组件全方位增强的企业级微服务开源解决方案，更贴近企业级需求，更具有企业级的插件引入、开箱即用特征
 
@@ -506,6 +518,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 
 ## 目录
 - [简介](#简介)
+    - [诞生故事](#诞生故事)
     - [功能概述](#功能概述)
     - [版本列表](#版本列表)
     - [郑重致谢](#郑重致谢)
