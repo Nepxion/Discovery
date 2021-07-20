@@ -5665,9 +5665,6 @@ spring.application.strategy.metric.sentinel.success.qps.output.enabled=true
 # 启动和关闭Sentinel Metric异常次数统计输出功能。缺失则默认为true
 spring.application.strategy.metric.sentinel.exception.qps.output.enabled=true
 
-# 开启服务端实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
-spring.application.strategy.hystrix.threadlocal.supported=true
-
 # 启动和关闭Sentinel限流降级熔断权限等原生功能的数据来源扩展。缺失则默认为false
 spring.application.strategy.sentinel.datasource.enabled=true
 # 流控规则文件路径。缺失则默认为classpath:sentinel-flow.json
@@ -5724,6 +5721,9 @@ spring.application.git.generator.path=classpath:git.properties
 # 使用Git信息中的字段单个或者多个组合来作为服务版本号。缺失则默认为{git.commit.time}-{git.total.commit.count}
 spring.application.git.version.key={git.commit.id.abbrev}-{git.commit.time}
 # spring.application.git.version.key={git.build.version}-{git.commit.time}
+
+# 开启服务端实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
+spring.application.strategy.hystrix.threadlocal.supported=true
 
 # 启动和关闭Swagger。缺失则默认为true
 swagger.service.enabled=true
@@ -5845,9 +5845,6 @@ spring.application.strategy.metric.sentinel.success.qps.output.enabled=true
 # 启动和关闭Sentinel Metric异常次数统计输出功能。缺失则默认为true
 spring.application.strategy.metric.sentinel.exception.qps.output.enabled=true
 
-# 开启Spring Cloud Gateway网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
-spring.application.strategy.hystrix.threadlocal.supported=true
-
 # 启动和关闭Sentinel限流降级熔断权限等原生功能的数据来源扩展。缺失则默认为false
 spring.application.strategy.sentinel.datasource.enabled=true
 # 流控规则文件路径。缺失则默认为classpath:sentinel-flow.json
@@ -5942,6 +5939,9 @@ spring.application.strategy.web.client.core.header.transmission.enabled=true
 spring.application.strategy.context.request.headers=trace-id;span-id
 # 路由策略的时候，对REST方式调用拦截的时候（支持Feign、RestTemplate或者WebClient调用），希望把来自外部自定义的Header参数（用于业务系统自定义Header，例如：mobile）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
 spring.application.strategy.business.request.headers=user;mobile;location
+
+# 开启Spring Cloud Gateway网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
+spring.application.strategy.hystrix.threadlocal.supported=true
 ```
 
 ③ Zuul端配置
@@ -6036,9 +6036,6 @@ spring.application.strategy.metric.sentinel.success.qps.output.enabled=true
 # 启动和关闭Sentinel Metric异常次数统计输出功能。缺失则默认为true
 spring.application.strategy.metric.sentinel.exception.qps.output.enabled=true
 
-# 开启Zuul网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
-spring.application.strategy.hystrix.threadlocal.supported=true
-
 # 启动和关闭Sentinel限流降级熔断权限等原生功能的数据来源扩展。缺失则默认为false
 spring.application.strategy.sentinel.datasource.enabled=true
 # 流控规则文件路径。缺失则默认为classpath:sentinel-flow.json
@@ -6131,6 +6128,9 @@ spring.application.strategy.web.client.core.header.transmission.enabled=true
 spring.application.strategy.context.request.headers=trace-id;span-id
 # 路由策略的时候，对REST方式调用拦截的时候（支持Feign、RestTemplate或者WebClient调用），希望把来自外部自定义的Header参数（用于业务系统自定义Header，例如：mobile）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
 spring.application.strategy.business.request.headers=user;mobile;location
+
+# 开启Zuul网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
+spring.application.strategy.hystrix.threadlocal.supported=true
 ```
 
 ### 内置文件配置
