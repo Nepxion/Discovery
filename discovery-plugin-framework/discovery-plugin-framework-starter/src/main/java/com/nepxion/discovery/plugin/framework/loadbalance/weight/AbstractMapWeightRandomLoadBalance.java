@@ -26,13 +26,13 @@ public abstract class AbstractMapWeightRandomLoadBalance<T> implements WeightRan
             return null;
         }
 
-        List<Pair<Server, Integer>> weightPairList = new ArrayList<Pair<Server, Integer>>();
+        List<Pair<Server, Integer>> weightList = new ArrayList<Pair<Server, Integer>>();
         for (Server server : serverList) {
             int weight = getWeight(server, t);
-            weightPairList.add(new ImmutablePair<Server, Integer>(server, weight));
+            weightList.add(new ImmutablePair<Server, Integer>(server, weight));
         }
 
-        MapWeightRandom<Server, Integer> weightRandom = new MapWeightRandom<Server, Integer>(weightPairList);
+        MapWeightRandom<Server, Integer> weightRandom = new MapWeightRandom<Server, Integer>(weightList);
 
         return weightRandom.random();
     }
