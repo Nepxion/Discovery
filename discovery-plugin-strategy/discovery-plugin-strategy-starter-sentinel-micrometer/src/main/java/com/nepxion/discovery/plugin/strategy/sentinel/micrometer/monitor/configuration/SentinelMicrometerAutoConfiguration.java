@@ -9,15 +9,12 @@ package com.nepxion.discovery.plugin.strategy.sentinel.micrometer.monitor.config
  * @version 1.0
  */
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.nepxion.discovery.plugin.strategy.sentinel.micrometer.monitor.constant.SentinelMicrometerMetricConstant;
 import com.nepxion.discovery.plugin.strategy.sentinel.micrometer.monitor.metric.SentinelMicrometerMetricInitializer;
 
 @Configuration
-@ConditionalOnProperty(value = SentinelMicrometerMetricConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_MICROMETER_ENABLED, matchIfMissing = false)
 public class SentinelMicrometerAutoConfiguration {
     @Bean
     public SentinelMicrometerMetricInitializer sentinelMicrometerMetricInitializer() {

@@ -23,8 +23,8 @@ public class SentinelMicrometerMetricExtension implements MetricExtension {
     @Override
     public void addPass(String resource, int n, Object... args) {
         Environment environment = PluginContextAware.getStaticEnvironment();
-        Boolean passQpsEnabled = environment.getProperty(SentinelMicrometerMetricConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_MICROMETER_PASS_QPS_ENABLED, Boolean.class, Boolean.TRUE);
-        if (passQpsEnabled) {
+        Boolean metricSentinelPassQpsOutputEnabled = environment.getProperty(SentinelMicrometerMetricConstant.SPRING_APPLICATION_STRATEGY_METRIC_SENTINEL_PASS_QPS_OUTPUT_ENABLED, Boolean.class, Boolean.TRUE);
+        if (metricSentinelPassQpsOutputEnabled) {
             Metrics.counter(SentinelMetricType.PASS_QPS.toString(), SentinelMicrometerMetricConstant.RESOURCE, resource).increment(n);
         }
     }
@@ -32,8 +32,8 @@ public class SentinelMicrometerMetricExtension implements MetricExtension {
     @Override
     public void addBlock(String resource, int n, String origin, BlockException blockException, Object... args) {
         Environment environment = PluginContextAware.getStaticEnvironment();
-        Boolean blockQpsEnabled = environment.getProperty(SentinelMicrometerMetricConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_MICROMETER_BLOCK_QPS_ENABLED, Boolean.class, Boolean.TRUE);
-        if (blockQpsEnabled) {
+        Boolean metricSentinelBlockQpsOutputEnabled = environment.getProperty(SentinelMicrometerMetricConstant.SPRING_APPLICATION_STRATEGY_METRIC_SENTINEL_BLOCK_QPS_OUTPUT_ENABLED, Boolean.class, Boolean.TRUE);
+        if (metricSentinelBlockQpsOutputEnabled) {
             Metrics.counter(SentinelMetricType.BLOCK_QPS.toString(), SentinelMicrometerMetricConstant.RESOURCE, resource).increment(n);
         }
     }
@@ -41,8 +41,8 @@ public class SentinelMicrometerMetricExtension implements MetricExtension {
     @Override
     public void addSuccess(String resource, int n, Object... args) {
         Environment environment = PluginContextAware.getStaticEnvironment();
-        Boolean successQpsEnabled = environment.getProperty(SentinelMicrometerMetricConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_MICROMETER_SUCCESS_QPS_ENABLED, Boolean.class, Boolean.TRUE);
-        if (successQpsEnabled) {
+        Boolean metricSentinelSuccessQpsOutputEnabled = environment.getProperty(SentinelMicrometerMetricConstant.SPRING_APPLICATION_STRATEGY_METRIC_SENTINEL_SUCCESS_QPS_OUTPUT_ENABLED, Boolean.class, Boolean.TRUE);
+        if (metricSentinelSuccessQpsOutputEnabled) {
             Metrics.counter(SentinelMetricType.SUCCESS_QPS.toString(), SentinelMicrometerMetricConstant.RESOURCE, resource).increment(n);
         }
     }
@@ -50,8 +50,8 @@ public class SentinelMicrometerMetricExtension implements MetricExtension {
     @Override
     public void addException(String resource, int n, Throwable throwable) {
         Environment environment = PluginContextAware.getStaticEnvironment();
-        Boolean exceptionQpsEnabled = environment.getProperty(SentinelMicrometerMetricConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_MICROMETER_EXCEPTION_QPS_ENABLED, Boolean.class, Boolean.TRUE);
-        if (exceptionQpsEnabled) {
+        Boolean metricSentinelExceptionQpsOutputEnabled = environment.getProperty(SentinelMicrometerMetricConstant.SPRING_APPLICATION_STRATEGY_METRIC_SENTINEL_EXCEPTION_QPS_OUTPUT_ENABLED, Boolean.class, Boolean.TRUE);
+        if (metricSentinelExceptionQpsOutputEnabled) {
             Metrics.counter(SentinelMetricType.EXCEPTION_QPS.toString(), SentinelMicrometerMetricConstant.RESOURCE, resource).increment(n);
         }
     }

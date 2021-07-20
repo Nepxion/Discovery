@@ -10,11 +10,10 @@ package com.nepxion.discovery.plugin.strategy.sentinel.micrometer.monitor.consta
  */
 
 public class SentinelMicrometerMetricConstant {
-    public static final String SPRING_APPLICATION_STRATEGY_SENTINEL_MICROMETER_ENABLED = "spring.application.strategy.sentinel.micrometer.enabled";
-    public static final String SPRING_APPLICATION_STRATEGY_SENTINEL_MICROMETER_PASS_QPS_ENABLED = "spring.application.strategy.sentinel.micrometer.pass.qps.enabled";
-    public static final String SPRING_APPLICATION_STRATEGY_SENTINEL_MICROMETER_BLOCK_QPS_ENABLED = "spring.application.strategy.sentinel.micrometer.block.qps.enabled";
-    public static final String SPRING_APPLICATION_STRATEGY_SENTINEL_MICROMETER_SUCCESS_QPS_ENABLED = "spring.application.strategy.sentinel.micrometer.success.qps.enabled";
-    public static final String SPRING_APPLICATION_STRATEGY_SENTINEL_MICROMETER_EXCEPTION_QPS_ENABLED = "spring.application.strategy.sentinel.micrometer.exception.qps.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_METRIC_SENTINEL_PASS_QPS_OUTPUT_ENABLED = "spring.application.strategy.metric.sentinel.pass.qps.output.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_METRIC_SENTINEL_BLOCK_QPS_OUTPUT_ENABLED = "spring.application.strategy.metric.sentinel.block.qps.output.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_METRIC_SENTINEL_SUCCESS_QPS_OUTPUT_ENABLED = "spring.application.strategy.metric.sentinel.success.qps.output.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_METRIC_SENTINEL_EXCEPTION_QPS_OUTPUT_ENABLED = "spring.application.strategy.metric.sentinel.exception.qps.output.enabled";
 
     public static final String RESOURCE = "resource";
 }

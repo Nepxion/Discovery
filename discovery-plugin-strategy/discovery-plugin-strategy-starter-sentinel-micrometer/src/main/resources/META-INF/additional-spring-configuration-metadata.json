@@ -1,34 +1,28 @@
 {
 	"properties": [
 		{
-			"name": "spring.application.strategy.sentinel.micrometer.enabled",
-			"type": "java.lang.Boolean",
-			"defaultValue": false,
-			"description": "Whether strategy sentinel micrometer is enabled."
-		},
-		{
-			"name": "spring.application.strategy.sentinel.micrometer.pass.qps.enabled",
+			"name": "spring.application.strategy.metric.sentinel.pass.qps.output.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": true,
-			"description": "Whether strategy sentinel micrometer pass qps is enabled."
+			"description": "Whether strategy metric sentinel pass qps output is enabled."
 		},
 		{
-			"name": "spring.application.strategy.sentinel.micrometer.block.qps.enabled",
+			"name": "spring.application.strategy.metric.sentinel.block.qps.output.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": true,
-			"description": "Whether strategy sentinel micrometer block qps is enabled."
+			"description": "Whether strategy metric sentinel block qps output is enabled."
 		},
 		{
-			"name": "spring.application.strategy.sentinel.micrometer.success.qps.enabled",
+			"name": "spring.application.strategy.metric.sentinel.success.qps.output.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": true,
-			"description": "Whether strategy sentinel micrometer success qps is enabled."
+			"description": "Whether strategy metric sentinel success qps output is enabled."
 		},
 		{
-			"name": "spring.application.strategy.sentinel.micrometer.exception.qps.enabled",
+			"name": "spring.application.strategy.metric.sentinel.exception.qps.output.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": true,
-			"description": "Whether strategy sentinel micrometer exception qps is enabled."
+			"description": "Whether strategy metric sentinel exception qps output is enabled."
 		}
 	]
 }
