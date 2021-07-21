@@ -2598,7 +2598,7 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 
 ## 全链路蓝绿灰度发布编排建模和流量侦测
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) Web版请访问[Discovery Platform WIKI](http://nepxion.gitee.io/discoveryplatform)
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 下面文档只介绍桌面版，Web版请访问[Discovery Platform WIKI](http://nepxion.gitee.io/discoveryplatform)
 
 ① 获取图形化桌面端
 
