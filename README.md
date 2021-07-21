@@ -1150,16 +1150,16 @@ n-d-的含义：n为Nepxion首字母，d为Discovery首字母
 </rule>
 ```
 
-当所有服务都选同一版本的时候，下面第1条和第2条是等效的
+当所有服务都选同一版本的时候，下面两条是等效的
 ```
-1. <version>1.0</version>
-2. <version>{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</version>
+<version>1.0</version>
+<version>{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</version>
 ```
 
-如果希望可调用的版本是多个，也可以表示成如下方式，即1.0版本和1.1版本的a服务和b服务都可以被调用到，下面第1条和第2条是等效的
+如果希望可调用的版本是多个，也可以表示成如下方式，即1.0版本和1.1版本的a服务和b服务都可以被调用到，下面两条是等效的
 ```
-1. <version>1.0;1.1</version>
-2. <version>{"discovery-guide-service-a":"1.0;1.1", "discovery-guide-service-b":"1.0;1.1"}</version>
+<version>1.0;1.1</version>
+<version>{"discovery-guide-service-a":"1.0;1.1", "discovery-guide-service-b":"1.0;1.1"}</version>
 ```
 
 如果上述表达式还未满足需求，也可以采用通配表达式方式（具体详细用法，参考Spring AntPathMatcher），通过Spring Matcher的通配表达式，支持多个通配*、单个通配?等全部标准表达式用法
@@ -1206,16 +1206,16 @@ n-d-version={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0
 </rule>
 ```
 
-当所有服务都选同一区域的时候，下面第1条和第2条是等效的
+当所有服务都选同一区域的时候，下面两条是等效的
 ```
-1. <region>dev</region>
-2. <region>{"discovery-guide-service-a":"dev", "discovery-guide-service-b":"dev"}</region>
+<region>dev</region>
+<region>{"discovery-guide-service-a":"dev", "discovery-guide-service-b":"dev"}</region>
 ```
 
-如果希望可调用区域是多个，也可以表示成如下方式，即dev区域和qa区域的a服务和b服务都可以被调用到，下面第1条和第2条是等效的
+如果希望可调用区域是多个，也可以表示成如下方式，即dev区域和qa区域的a服务和b服务都可以被调用到，下面两条是等效的
 ```
-1. <region>dev;qa</region>
-2. <region>{"discovery-guide-service-a":"dev;qa", "discovery-guide-service-b":"dev;aq"}</region>
+<region>dev;qa</region>
+<region>{"discovery-guide-service-a":"dev;qa", "discovery-guide-service-b":"dev;aq"}</region>
 ```
 
 如果上述表达式还未满足需求，也可以采用通配表达式方式（具体详细用法，参考Spring AntPathMatcher），通过Spring Matcher的通配表达式，支持多个通配*、单个通配?等全部标准表达式用法
@@ -1264,16 +1264,16 @@ n-d-region={"discovery-guide-service-a":"dev", "discovery-guide-service-b":"dev"
 </rule>
 ```
 
-当所有服务都选同一端口的时候，下面第1条和第2条是等效的
+当所有服务都选同一端口的时候，下面两条是等效的
 ```
-1. <address>3001</address>
-2. <address>{"discovery-guide-service-a":"3001", "discovery-guide-service-b":"3001"}</address>
+<address>3001</address>
+<address>{"discovery-guide-service-a":"3001", "discovery-guide-service-b":"3001"}</address>
 ```
 
-如果希望可调用端口是多个，也可以表示成如下方式，即3001端口和4001端口的a服务和b服务都可以被调用到，下面第1条和第2条是等效的
+如果希望可调用端口是多个，也可以表示成如下方式，即3001端口和4001端口的a服务和b服务都可以被调用到，下面两条是等效的
 ```
-1. <address>3001;4001</address>
-2. <address>{"discovery-guide-service-a":"3001;4001", "discovery-guide-service-b":"3001;4001"}</address>
+<address>3001;4001</address>
+<address>{"discovery-guide-service-a":"3001;4001", "discovery-guide-service-b":"3001;4001"}</address>
 ```
 
 如果上述表达式还未满足需求，也可以采用通配表达式方式（具体详细用法，参考Spring AntPathMatcher），通过Spring Matcher的通配表达式，支持多个通配*、单个通配?等全部标准表达式用法
@@ -1537,10 +1537,10 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
 </rule>
 ```
 
-当所有服务都选相同版本流量权重分配的时候，下面第1条和第2条是等效的
+当所有服务都选相同版本流量权重分配的时候，下面两条是等效的
 ```
-1. <version-weight>1.0=90;1.1=10</version-weight>
-2. <version-weight>{"discovery-guide-service-a":"1.0=90;1.1=10", "discovery-guide-service-b":"1.0=90;1.1=10"}</version-weight>
+<version-weight>1.0=90;1.1=10</version-weight>
+<version-weight>{"discovery-guide-service-a":"1.0=90;1.1=10", "discovery-guide-service-b":"1.0=90;1.1=10"}</version-weight>
 ```
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：非条件驱动下的全链路灰度发布跟Header驱动下的全链路灰度发布等效，例如
@@ -1571,10 +1571,10 @@ n-d-version-weight={"discovery-guide-service-a":"1.0=90;1.1=10", "discovery-guid
 </rule>
 ```
 
-当所有服务都选相同区域流量权重分配的时候，下面第1条和第2条是等效的
+当所有服务都选相同区域流量权重分配的时候，下面两条是等效的
 ```
-1. <region-weight>dev=85;qa=15</region-weight>
-2. <region-weight>{"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-service-b":"dev=85;qa=15"}</region-weight>
+<region-weight>dev=85;qa=15</region-weight>
+<region-weight>{"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-service-b":"dev=85;qa=15"}</region-weight>
 ```
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：非条件驱动下的全链路灰度发布跟Header驱动下的全链路灰度发布等效，例如
@@ -1816,60 +1816,60 @@ A部门服务直接访问B部门服务
 - 版本匹配策略，Header格式如下任选一个
 
 ```
-1. n-d-version=1.0
-2. n-d-version={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
+n-d-version=1.0
+n-d-version={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
 ```
 
 - 版本权重策略，Header格式如下任选一个
 
 ```
-1. n-d-version-weight=1.0=90;1.1=10
-2. n-d-version-weight={"discovery-guide-service-a":"1.0=90;1.1=10", "discovery-guide-service-b":"1.0=90;1.1=10"}
+n-d-version-weight=1.0=90;1.1=10
+n-d-version-weight={"discovery-guide-service-a":"1.0=90;1.1=10", "discovery-guide-service-b":"1.0=90;1.1=10"}
 ```
 
 - 区域匹配策略，Header格式如下任选一个
 
 ```
-1. n-d-region=qa
-2. n-d-region={"discovery-guide-service-a":"qa", "discovery-guide-service-b":"qa"}
+n-d-region=qa
+n-d-region={"discovery-guide-service-a":"qa", "discovery-guide-service-b":"qa"}
 ```
 
 - 区域权重策略，Header格式如下任选一个
 
 ```
-1. n-d-region-weight=dev=99;qa=1
-2. n-d-region-weight={"discovery-guide-service-a":"dev=99;qa=1", "discovery-guide-service-b":"dev=99;qa=1"}
+n-d-region-weight=dev=99;qa=1
+n-d-region-weight={"discovery-guide-service-a":"dev=99;qa=1", "discovery-guide-service-b":"dev=99;qa=1"}
 ```
 
 - IP地址和端口匹配策略，Header格式如下任选一个
 
 ```
-1. n-d-address=3001;4002
-2. n-d-address={"discovery-guide-service-a":"127.0.0.1:3001", "discovery-guide-service-b":"127.0.0.1:4002"}
-3. n-d-address={"discovery-guide-service-a":"127.0.0.1", "discovery-guide-service-b":"127.0.0.1"}
-4. n-d-address={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"4002"}
+n-d-address=3001;4002
+n-d-address={"discovery-guide-service-a":"127.0.0.1:3001", "discovery-guide-service-b":"127.0.0.1:4002"}
+n-d-address={"discovery-guide-service-a":"127.0.0.1", "discovery-guide-service-b":"127.0.0.1"}
+n-d-address={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"4002"}
 ```
 
 - 环境隔离下动态环境匹配策略
 
 ```
-1. n-d-env=env1
+n-d-env=env1
 ```
 
 - 服务下线实时性的流量绝对无损，全局唯一ID屏蔽策略，Header格式如下任选一个
 
 ```
-1. n-d-id-blacklist=20210601-222214-909-1146-372-698;20210601-222623-277-4978-633-279
-2. n-d-id-blacklist={"discovery-guide-service-a":"20210601-222214-909-1146-372-698", "discovery-guide-service-b":"20210601-222623-277-4978-633-279"}
+n-d-id-blacklist=20210601-222214-909-1146-372-698;20210601-222623-277-4978-633-279
+n-d-id-blacklist={"discovery-guide-service-a":"20210601-222214-909-1146-372-698", "discovery-guide-service-b":"20210601-222623-277-4978-633-279"}
 ```
 
 - 服务下线实时性的流量绝对无损，IP地址和端口屏蔽策略，Header格式如下任选一个
 
 ```
-1. n-d-address-blacklist=3001;4002
-2. n-d-address-blacklist={"discovery-guide-service-a":"127.0.0.1:3001", "discovery-guide-service-b":"127.0.0.1:4002"}
-3. n-d-address-blacklist={"discovery-guide-service-a":"127.0.0.1", "discovery-guide-service-b":"127.0.0.1"}
-4. n-d-address-blacklist={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"4002"}
+n-d-address-blacklist=3001;4002
+n-d-address-blacklist={"discovery-guide-service-a":"127.0.0.1:3001", "discovery-guide-service-b":"127.0.0.1:4002"}
+n-d-address-blacklist={"discovery-guide-service-a":"127.0.0.1", "discovery-guide-service-b":"127.0.0.1"}
+n-d-address-blacklist={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"4002"}
 ```
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 全链路前端触发后端蓝绿灰度发布全景功能
@@ -2598,6 +2598,8 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 
 ## 全链路蓝绿灰度发布编排建模和流量侦测
 
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) Web版请访问[Discovery Platform WIKI](http://nepxion.gitee.io/discoveryplatform)
+
 ① 获取图形化桌面端
 
 桌面端获取方式有两种方式
@@ -2853,8 +2855,8 @@ spring.application.strategy.version.prefer.enabled=true
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：跟Header驱动下的IP地址和端口屏蔽策略等效，例如
 ```
-1. n-d-id-blacklist=20210601-222214-909-1146-372-698;20210601-222623-277-4978-633-279
-2. n-d-id-blacklist={"discovery-guide-service-a":"20210601-222214-909-1146-372-698", "discovery-guide-service-b":"20210601-222623-277-4978-633-279"}
+n-d-id-blacklist=20210601-222214-909-1146-372-698;20210601-222623-277-4978-633-279
+n-d-id-blacklist={"discovery-guide-service-a":"20210601-222214-909-1146-372-698", "discovery-guide-service-b":"20210601-222623-277-4978-633-279"}
 ```
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 小贴士
@@ -2900,10 +2902,10 @@ spring.application.strategy.version.prefer.enabled=true
 <address>3001;4001</address>
 ```
 
-当所有服务都选同一端口的时候，下面第1条和第2条是等效的
+当所有服务都选同一端口的时候，下面两条是等效的
 ```
-1. <address>3001</address>
-2. <address>{"discovery-guide-service-a":"3001", "discovery-guide-service-b":"3001"}</address>
+<address>3001</address>
+<address>{"discovery-guide-service-a":"3001", "discovery-guide-service-b":"3001"}</address>
 ```
 
 如果上述表达式还未满足需求，也可以采用通配表达式方式（具体详细用法，参考Spring AntPathMatcher），通过Spring Matcher的通配表达式，支持多个通配*、单个通配?等全部标准表达式用法
@@ -2920,8 +2922,8 @@ spring.application.strategy.version.prefer.enabled=true
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：跟Header驱动下的IP地址和端口屏蔽策略等效，例如
 ```
-1. n-d-address-blacklist=3001
-2. n-d-address-blacklist={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"3001"}
+n-d-address-blacklist=3001
+n-d-address-blacklist={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"3001"}
 ```
 
 ## 异步场景下全链路蓝绿灰度发布
@@ -4742,21 +4744,21 @@ ruleType为哨兵规则类型。取值： flow | degrade | authority | system | 
 
 内置蓝绿灰度埋点，包括如下
 ```
-1. n-d-service-group - 服务所属组或者应用
-2. n-d-service-type - 服务类型，分为网关端 | 服务端 | 控制台端 | 测试端，使用者只需要关注前两个即可
-3. n-d-service-id - 服务ID
-4. n-d-service-address - 服务地址，包括Host和Port
-5. n-d-service-version - 服务版本
-6. n-d-service-region - 服务所属区域
-7. n-d-service-env - 服务所属环境
-8. n-d-version - 版本路由值
-9. n-d-region - 区域路由值
-10. n-d-env - 环境路由值
-11. n-d-address - 地址路由值
-12. n-d-version-weight - 版本权重路由值
-13. n-d-region-weight - 区域权重路由值
-14. n-d-id-blacklist - 全局唯一ID屏蔽值
-15. n-d-address-blacklist - IP地址和端口屏蔽值
+n-d-service-group - 服务所属组或者应用
+n-d-service-type - 服务类型，分为网关端 | 服务端 | 控制台端 | 测试端，使用者只需要关注前两个即可
+n-d-service-id - 服务ID
+n-d-service-address - 服务地址，包括Host和Port
+n-d-service-version - 服务版本
+n-d-service-region - 服务所属区域
+n-d-service-env - 服务所属环境
+n-d-version - 版本路由值
+n-d-region - 区域路由值
+n-d-env - 环境路由值
+n-d-address - 地址路由值
+n-d-version-weight - 版本权重路由值
+n-d-region-weight - 区域权重路由值
+n-d-id-blacklist - 全局唯一ID屏蔽值
+n-d-address-blacklist - IP地址和端口屏蔽值
 ```
 - n-d-service开头的埋点代表是服务自身的属性
 - n-d-开头的埋点是蓝绿灰度传递的策略路由值
