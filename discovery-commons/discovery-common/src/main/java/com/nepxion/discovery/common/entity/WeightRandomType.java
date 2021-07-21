@@ -13,8 +13,7 @@ import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
 public enum WeightRandomType {
     MAP_WEIGHT_RANDOM(DiscoveryConstant.MAP_WEIGHT_RANDOM),
-    ARRAY_WEIGHT_RANDOM(DiscoveryConstant.ARRAY_WEIGHT_RANDOM),
-    DIVISOR_WEIGHT_RANDOM(DiscoveryConstant.DIVISOR_WEIGHT_RANDOM);
+    ARRAY_WEIGHT_RANDOM(DiscoveryConstant.ARRAY_WEIGHT_RANDOM);
 
     private String value;
 

@@ -50,13 +50,10 @@ import com.nepxion.discovery.plugin.framework.listener.register.HostFilterRegist
 import com.nepxion.discovery.plugin.framework.listener.register.RegisterListenerExecutor;
 import com.nepxion.discovery.plugin.framework.loadbalance.WeightRandomLoadBalance;
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.ArrayWeightRandomProcessor;
-import com.nepxion.discovery.plugin.framework.loadbalance.weight.DivisorWeightRandomProcessor;
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.MapWeightRandomProcessor;
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.RuleArrayWeightRandomLoadBalance;
-import com.nepxion.discovery.plugin.framework.loadbalance.weight.RuleDivisorWeightRandomLoadBalance;
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.RuleMapWeightRandomLoadBalance;
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.StrategyArrayWeightRandomLoadBalance;
-import com.nepxion.discovery.plugin.framework.loadbalance.weight.StrategyDivisorWeightRandomLoadBalance;
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.StrategyMapWeightRandomLoadBalance;
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.WeightRandomProcessor;
 import com.nepxion.eventbus.annotation.EnableEventBus;
@@ -119,8 +116,6 @@ public class PluginAutoConfiguration {
                 return new RuleMapWeightRandomLoadBalance(pluginAdapter);
             case ARRAY_WEIGHT_RANDOM:
                 return new RuleArrayWeightRandomLoadBalance(pluginAdapter);
-            case DIVISOR_WEIGHT_RANDOM:
-                return new RuleDivisorWeightRandomLoadBalance(pluginAdapter);
         }
 
         return null;
@@ -135,8 +130,6 @@ public class PluginAutoConfiguration {
                 return new StrategyMapWeightRandomLoadBalance(pluginAdapter, pluginContextHolder);
             case ARRAY_WEIGHT_RANDOM:
                 return new StrategyArrayWeightRandomLoadBalance(pluginAdapter, pluginContextHolder);
-            case DIVISOR_WEIGHT_RANDOM:
-                return new StrategyDivisorWeightRandomLoadBalance(pluginAdapter, pluginContextHolder);
         }
 
         return null;
@@ -151,8 +144,6 @@ public class PluginAutoConfiguration {
                 return new MapWeightRandomProcessor<String>();
             case ARRAY_WEIGHT_RANDOM:
                 return new ArrayWeightRandomProcessor<String>();
-            case DIVISOR_WEIGHT_RANDOM:
-                return new DivisorWeightRandomProcessor<String>();
         }
 
         return null;

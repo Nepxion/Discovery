@@ -22,7 +22,7 @@
 			"name": "spring.application.weight.random.type",
 			"type": "java.lang.String",
 			"defaultValue": "MapWeightRandom",
-			"description": "Weight random type, it can be MapWeightRandom, ArrayWeightRandom or DivisorWeightRandom."
+			"description": "Weight random type, it can be MapWeightRandom or ArrayWeightRandom."
 		},
 		{
 			"name": "spring.application.config.format",
