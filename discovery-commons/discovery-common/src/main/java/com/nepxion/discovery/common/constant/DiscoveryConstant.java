@@ -38,7 +38,6 @@ public class DiscoveryConstant {
 
     public static final String MAP_WEIGHT_RANDOM = "MapWeightRandom";
     public static final String ARRAY_WEIGHT_RANDOM = "ArrayWeightRandom";
-    public static final String DIVISOR_WEIGHT_RANDOM = "DivisorWeightRandom";
 
     public static final String CONTEXT_PATH = "server.contextPath";
 
