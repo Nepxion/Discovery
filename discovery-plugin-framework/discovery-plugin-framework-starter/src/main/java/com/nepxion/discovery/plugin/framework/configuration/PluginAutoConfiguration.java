@@ -108,7 +108,6 @@ public class PluginAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean
     public WeightRandomLoadBalance<WeightFilterEntity> ruleWeightRandomLoadBalance(PluginAdapter pluginAdapter) {
         WeightRandomType type = WeightRandomType.fromString(weightRandomType);
 
@@ -123,7 +122,6 @@ public class PluginAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean
     public WeightRandomLoadBalance<WeightFilterEntity> strategyWeightRandomLoadBalance(PluginAdapter pluginAdapter, @Autowired(required = false) PluginContextHolder pluginContextHolder) {
         WeightRandomType type = WeightRandomType.fromString(weightRandomType);
 
@@ -138,7 +136,6 @@ public class PluginAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean
     public WeightRandomProcessor<String> strategyWeightRandomProcessor() {
         WeightRandomType type = WeightRandomType.fromString(weightRandomType);
 
