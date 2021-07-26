@@ -16,7 +16,7 @@ import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginContextHolder;
 import com.netflix.loadbalancer.Server;
 
-public class StrategyArrayWeightRandomLoadBalance extends AbstractArrayWeightRandomLoadBalance<WeightFilterEntity> {
+public class StrategyArrayWeightRandomLoadBalance extends AbstractArrayWeightRandomLoadBalance<WeightFilterEntity> implements StrategyWeightRandomLoadBalance<WeightFilterEntity> {
     private StrategyWeightRandomLoadBalanceAdapter strategyWeightRandomLoadBalanceAdapter;
 
     public StrategyArrayWeightRandomLoadBalance(PluginAdapter pluginAdapter, PluginContextHolder pluginContextHolder) {

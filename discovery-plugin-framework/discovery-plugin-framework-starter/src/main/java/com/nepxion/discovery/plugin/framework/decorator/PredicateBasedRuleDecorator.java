@@ -20,7 +20,8 @@ import org.springframework.beans.factory.annotation.Value;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
-import com.nepxion.discovery.plugin.framework.loadbalance.WeightRandomLoadBalance;
+import com.nepxion.discovery.plugin.framework.loadbalance.weight.RuleWeightRandomLoadBalance;
+import com.nepxion.discovery.plugin.framework.loadbalance.weight.StrategyWeightRandomLoadBalance;
 import com.netflix.loadbalancer.PredicateBasedRule;
 import com.netflix.loadbalancer.Server;
 
@@ -37,10 +38,10 @@ public abstract class PredicateBasedRuleDecorator extends PredicateBasedRule {
     private Integer retryAwaitTime;
 
     @Autowired
-    private WeightRandomLoadBalance<WeightFilterEntity> strategyWeightRandomLoadBalance;
+    private StrategyWeightRandomLoadBalance<WeightFilterEntity> strategyWeightRandomLoadBalance;
 
     @Autowired
-    private WeightRandomLoadBalance<WeightFilterEntity> ruleWeightRandomLoadBalance;
+    private RuleWeightRandomLoadBalance<WeightFilterEntity> ruleWeightRandomLoadBalance;
 
     // 必须执行getEligibleServers，否则叠加执行权重规则和版本区域策略会失效
     private List<Server> getServerList(Object key) {

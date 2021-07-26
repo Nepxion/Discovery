@@ -48,13 +48,14 @@ import com.nepxion.discovery.plugin.framework.listener.loadbalance.VersionFilter
 import com.nepxion.discovery.plugin.framework.listener.register.CountFilterRegisterListener;
 import com.nepxion.discovery.plugin.framework.listener.register.HostFilterRegisterListener;
 import com.nepxion.discovery.plugin.framework.listener.register.RegisterListenerExecutor;
-import com.nepxion.discovery.plugin.framework.loadbalance.WeightRandomLoadBalance;
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.ArrayWeightRandomProcessor;
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.MapWeightRandomProcessor;
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.RuleArrayWeightRandomLoadBalance;
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.RuleMapWeightRandomLoadBalance;
+import com.nepxion.discovery.plugin.framework.loadbalance.weight.RuleWeightRandomLoadBalance;
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.StrategyArrayWeightRandomLoadBalance;
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.StrategyMapWeightRandomLoadBalance;
+import com.nepxion.discovery.plugin.framework.loadbalance.weight.StrategyWeightRandomLoadBalance;
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.WeightRandomProcessor;
 import com.nepxion.eventbus.annotation.EnableEventBus;
 import com.taobao.text.Color;
@@ -108,7 +109,8 @@ public class PluginAutoConfiguration {
     }
 
     @Bean
-    public WeightRandomLoadBalance<WeightFilterEntity> ruleWeightRandomLoadBalance(PluginAdapter pluginAdapter) {
+    @ConditionalOnMissingBean
+    public RuleWeightRandomLoadBalance<WeightFilterEntity> ruleWeightRandomLoadBalance(PluginAdapter pluginAdapter) {
         WeightRandomType type = WeightRandomType.fromString(weightRandomType);
 
         switch (type) {
@@ -122,7 +124,8 @@ public class PluginAutoConfiguration {
     }
 
     @Bean
-    public WeightRandomLoadBalance<WeightFilterEntity> strategyWeightRandomLoadBalance(PluginAdapter pluginAdapter, @Autowired(required = false) PluginContextHolder pluginContextHolder) {
+    @ConditionalOnMissingBean
+    public StrategyWeightRandomLoadBalance<WeightFilterEntity> strategyWeightRandomLoadBalance(PluginAdapter pluginAdapter, @Autowired(required = false) PluginContextHolder pluginContextHolder) {
         WeightRandomType type = WeightRandomType.fromString(weightRandomType);
 
         switch (type) {
@@ -136,6 +139,7 @@ public class PluginAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public WeightRandomProcessor<String> strategyWeightRandomProcessor() {
         WeightRandomType type = WeightRandomType.fromString(weightRandomType);
 
