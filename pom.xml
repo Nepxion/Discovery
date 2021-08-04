@@ -41,7 +41,7 @@
         <jetcd.version>0.5.8</jetcd.version>
         <opentelemetry.version>1.4.1</opentelemetry.version>
         <opentracing.version>0.33.0</opentracing.version>
-        <skywalking.version>8.6.0</skywalking.version>
+        <skywalking.version>8.7.0</skywalking.version>
         <alibaba.spring.version>1.0.11</alibaba.spring.version>
         <spring.cloud.version>Hoxton.SR12</spring.cloud.version>
         <spring.cloud.alibaba.version>2.2.6.RELEASE</spring.cloud.alibaba.version>
