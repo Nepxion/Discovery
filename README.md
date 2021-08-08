@@ -1811,6 +1811,8 @@ if (a == 1) {
 }
 ```
 
+蓝绿灰度混合发布执行逻辑图
+
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Strategy.jpg)
 
 ### 全链路域网关和非域网关部署
