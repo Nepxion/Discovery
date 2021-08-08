@@ -1744,23 +1744,23 @@ spring.application.strategy.zuul.original.header.ignored=true
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
+    <strategy>
+        <version>{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</version>
+    </strategy>
     <strategy-release>
         <conditions type="blue-green">
-            <condition id="condition-0" expression="#H['a'] == '0'" version-id="route-0"/>
-            <condition id="condition-1" expression="#H['a'] == '1'" version-id="route-1"/>
-            <condition id="basic-condition" version-id="basic-route"/> <!-- 可以删除掉蓝绿发布的兜底策略 -->
+            <condition id="condition-0" expression="#H['a'] == '1'" version-id="route-0"/>
+            <condition id="condition-1" expression="#H['a'] == '2'" version-id="route-1"/>
+            <condition id="basic-condition" version-id="route-0"/>
         </conditions>
-
         <conditions type="gray">
-            <condition id="condition-0" expression="#H['a'] == '2'" version-id="route-0=10;route-1=90"/>
-            <condition id="condition-1" expression="#H['a'] == '3'" version-id="route-0=85;route-1=15"/>
+            <condition id="condition-0" expression="#H['a'] == '3'" version-id="route-0=10;route-1=90"/>
+            <condition id="condition-1" expression="#H['a'] == '4'" version-id="route-0=40;route-1=60"/>
             <condition id="basic-condition" version-id="route-0=0;route-1=100"/>
         </conditions>
-
         <routes>
-            <route id="route-0" type="version">{"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}</route>
+            <route id="route-0" type="version">{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</route>
             <route id="route-1" type="version">{"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}</route>
-            <route id="basic-route" type="version">{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</route>
         </routes>
     </strategy-release>
 </rule>
@@ -1770,31 +1770,48 @@ spring.application.strategy.zuul.original.header.ignored=true
 
 原则：蓝绿规则优先于灰度规则
 ```java
-if (a == 0) {
+if (a == 1) {
     执行蓝绿发布blue-green的route-0下的路由
-} else if (a == 1) {
+} else if (a == 2) {
     执行蓝绿发布blue-green的route-1下的路由
 } else {
-    执行蓝绿发布blue-green的basic-route下的兜底路由
+    执行蓝绿发布blue-green的route-0下的兜底路由
 }
 ```
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：当蓝绿发布存在兜底策略（`basic-condition`），灰度发布永远不会被执行
 
 如果删除掉蓝绿发布的兜底策略，那么执行逻辑则变为
 ```java
-if (a == 0) {
+if (a == 1) {
     执行蓝绿发布route-0下的路由
-} else if (a == 1) {
-    执行蓝绿发布route-1下的路由
 } else if (a == 2) {
-    执行灰度发布route-0=10;route-1=90下的流量百分比分配路由
+    执行蓝绿发布route-1下的路由
 } else if (a == 3) {
-    执行灰度发布route-0=85;route-1=15下的流量百分比分配路由	
+    执行灰度发布route-0=10;route-1=90下的流量百分比分配路由
+} else if (a == 4) {
+    执行灰度发布route-0=40;route-1=60下的流量百分比分配路由
 } else {
     执行灰度发布route-0=0;route-1=100下的兜底路由
     由于赋予了route-0=0，那么流量会全部打到route-1上，相当于变种的蓝绿发布
 }
 ```
+
+如果删除掉蓝绿发布和灰度发布的兜底策略，那么执行逻辑则变为
+```java
+if (a == 1) {
+    执行蓝绿发布route-0下的路由
+} else if (a == 2) {
+    执行蓝绿发布route-1下的路由
+} else if (a == 3) {
+    执行灰度发布route-0=10;route-1=90下的流量百分比分配路由
+} else if (a == 4) {
+    执行灰度发布route-0=40;route-1=60下的流量百分比分配路由
+} else {
+    执行<strategy>下的全局兜底路由
+}
+```
+
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Strategy.jpg)
 
 ### 全链路域网关和非域网关部署
 
