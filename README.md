@@ -2619,6 +2619,8 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 下面文档只介绍桌面版，Web版请访问[Discovery Platform WIKI](http://nepxion.gitee.io/discoveryplatform)
 
+![](http://nepxion.gitee.io/discoveryplatform/docs/discovery-doc/BlueGreenGray-5.jpg)
+
 ① 获取图形化桌面端
 
 桌面端获取方式有两种方式
