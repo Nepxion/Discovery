@@ -207,7 +207,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - 全链路规则策略推送
     - 基于远程配置中心的规则策略订阅推送
     - 基于Swagger和Rest的规则策略推送
-    - 基于图形化桌面端和Web端的规则策略推送
+    - 基于平台端和桌面端的规则策略推送
 - 全链路环境隔离和路由
     - 全链路环境隔离
     - 全链路环境路由
@@ -574,7 +574,8 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [全链路自定义过滤器触发蓝绿灰度发布](#全链路自定义过滤器触发蓝绿灰度发布)
         - [全链路自定义负载均衡策略类触发蓝绿灰度发布](#全链路自定义负载均衡策略类触发蓝绿灰度发布)
     - [全链路动态变更元数据的蓝绿灰度发布](#全链路动态变更元数据的蓝绿灰度发布)
-- [全链路蓝绿灰度发布编排建模和流量侦测](#全链路蓝绿灰度发布编排建模和流量侦测)
+- [全链路蓝绿灰度发布平台界面](#全链路蓝绿灰度发布平台界面)
+- [全链路蓝绿灰度发布图形化桌面](#全链路蓝绿灰度发布图形化桌面)
     - [全链路编排建模](#全链路编排建模)
         - [全链路蓝绿发布编排建模](#全链路蓝绿发布编排建模)
         - [全链路灰度发布编排建模](#全链路灰度发布编排建模)
@@ -615,7 +616,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - [规则策略推送](#规则策略推送)
     - [基于远程配置中心的规则策略订阅推送](#基于远程配置中心的规则策略订阅推送)
     - [基于Swagger和Rest的规则策略推送](#基于Swagger和Rest的规则策略推送)
-    - [基于图形化桌面端和Web端的规则策略推送](#基于图形化桌面端和Web端的规则策略推送)
+    - [基于平台端和桌面端的规则策略推送](#基于平台端和桌面端的规则策略推送)
 - [全链路环境隔离和路由](#全链路环境隔离和路由)
     - [全链路环境隔离](#全链路环境隔离)
     - [全链路环境路由](#全链路环境路由)
@@ -2615,11 +2616,13 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 
 ③ 动态元数据变更方式只是让新的元数据驻留在内存里，并不持久化。当服务重启后，服务的元数据仍旧会以初始值为准
 
-## 全链路蓝绿灰度发布编排建模和流量侦测
+## 全链路蓝绿灰度发布平台界面
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 下面文档只介绍桌面版，Web版请访问[Discovery Platform WIKI](http://nepxion.gitee.io/discoveryplatform)
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 请访问[Discovery Platform WIKI](http://nepxion.gitee.io/discoveryplatform)
 
 ![](http://nepxion.gitee.io/discoveryplatform/docs/discovery-doc/BlueGreenGray-5.jpg)
+
+## 全链路蓝绿灰度发布图形化桌面
 
 ① 获取图形化桌面端
 
@@ -4268,9 +4271,11 @@ public class SwaggerAutoConfiguration {
 
 把SwaggerAutoConfiguration加入到src/main/resources/META-INF/spring.factories进行自动装配
 
-### 基于图形化桌面端和Web端的规则策略推送
+### 基于平台端和桌面端的规则策略推送
 
-参考[全链路蓝绿灰度发布编排建模和流量侦测](#全链路蓝绿灰度发布编排建模和流量侦测)
+参考[全链路蓝绿灰度发布平台界面](#全链路蓝绿灰度发布平台界面)
+
+参考[全链路蓝绿灰度发布图形化桌面](#全链路蓝绿灰度发布图形化桌面)
 
 ## 全链路环境隔离和路由
 基于服务实例的元数据Metadata的env参数和全链路传递的环境Header值进行对比实现隔离，当从网关传递来的环境Header（n-d-env）值和提供端实例的元数据Metadata环境配置值相等才能调用。环境隔离下，调用端实例找不到符合条件的提供端实例，把流量路由到一个通用或者备份环境
