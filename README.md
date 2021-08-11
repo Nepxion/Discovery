@@ -6077,7 +6077,6 @@ spring.application.strategy.sentinel.system.path=classpath:sentinel-system.json
 # 热点参数流控规则文件路径。缺失则默认为classpath:sentinel-param-flow.json
 spring.application.strategy.sentinel.param.flow.path=classpath:sentinel-param-flow.json
 
-
 # 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
 spring.application.strategy.environment.route=common
 
