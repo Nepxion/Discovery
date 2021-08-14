@@ -5071,7 +5071,7 @@ spring.application.strategy.tracer.sentinel.args.output.enabled=true
 ### 全链路指标监控
 
 #### Sentinel熔断指标监控
-全链路调用过程中，在实施端到端Sentinel熔断在不同场景下会触发如下四个事件
+全链路调用过程中，实施端到端Sentinel熔断时，在不同场景下会触发如下四个事件
 - Pass
 - Block
 - Success
