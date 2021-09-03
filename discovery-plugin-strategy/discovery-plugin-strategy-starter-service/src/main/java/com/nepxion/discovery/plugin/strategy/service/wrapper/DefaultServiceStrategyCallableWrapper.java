@@ -31,7 +31,9 @@ public class DefaultServiceStrategyCallableWrapper implements ServiceStrategyCal
     public <T> Callable<T> wrapCallable(Callable<T> callable) {
         RequestAttributes originRequestAttributes = RequestContextHolder.getRequestAttributes();
         if (requestDecoratorEnabled) {
-            originRequestAttributes = ServiceStrategyRequestDecoratorFactory.decorateRequestAttributes(originRequestAttributes);
+            if (originRequestAttributes != null) {
+                originRequestAttributes = ServiceStrategyRequestDecoratorFactory.decorateRequestAttributes(originRequestAttributes);
+            }
         }
 
         RequestAttributes requestAttributes = originRequestAttributes;
