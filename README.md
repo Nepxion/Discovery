@@ -1431,14 +1431,14 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
 
 ① 当外部调用带有的Header/Parameter/Cookies中的值a=1同时b=2，执行绿路由
 
-`<condition>`节点（id="blue-condition"）中 **expression="#H['a'] == '1' and #H['b'] == '2'"** 对应的 **version-id="green-route"** ，找到下面`<route>`节点中 **id="green-route" type="version"** 的那项，那么路由即为
+`<condition>`节点（id="green-condition"）中 **expression="#H['a'] == '1' and #H['b'] == '2'"** 对应的 **version-id="green-route"** ，找到下面`<route>`节点中 **id="green-route" type="version"** 的那项，那么路由即为
 ```
 {"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
 ```
 
 ② 当外部调用带有的Header/Parameter/Cookies中的值a=1，执行蓝路由
 
-`<condition>`节点（id="green-condition"）中 **expression="#H['a'] == '1'"** 对应的 **version-id="blue-route"** ，找到下面`<route>`节点中 **id="blue-route" type="version"** 的那项，那么路由即为
+`<condition>`节点（id="blue-condition"）中 **expression="#H['a'] == '1'"** 对应的 **version-id="blue-route"** ，找到下面`<route>`节点中 **id="blue-route" type="version"** 的那项，那么路由即为
 ```
 {"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}
 ```
