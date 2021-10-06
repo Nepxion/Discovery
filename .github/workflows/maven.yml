@@ -13,13 +13,16 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java-version: [ 8.0.192, 8 ]
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up JDK 8
+    - name: Set up JDK ${{ matrix.java-version }} 
       uses: actions/setup-java@v2
       with:
-        java-version: '8'
-        distribution: 'adopt'
+        java-version: ${{ matrix.java-version }} 
+        distribution: 'zulu'
     - name: Build with Maven
       run: mvn -B package --file pom.xml
