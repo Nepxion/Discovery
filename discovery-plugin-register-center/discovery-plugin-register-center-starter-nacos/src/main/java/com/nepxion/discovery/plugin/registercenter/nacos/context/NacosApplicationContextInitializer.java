@@ -18,6 +18,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
+import com.alibaba.cloud.nacos.NacosServiceManager;
 import com.alibaba.cloud.nacos.registry.NacosServiceRegistry;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.constant.DiscoveryMetaDataConstant;
@@ -34,9 +35,10 @@ public class NacosApplicationContextInitializer extends PluginApplicationContext
         if (bean instanceof NacosServiceRegistry) {
             NacosServiceRegistry nacosServiceRegistry = (NacosServiceRegistry) bean;
 
+            NacosServiceManager nacosServiceManager = applicationContext.getBean(NacosServiceManager.class);
             NacosDiscoveryProperties nacosDiscoveryProperties = applicationContext.getBean(NacosDiscoveryProperties.class);
 
-            return new NacosServiceRegistryDecorator(nacosDiscoveryProperties, nacosServiceRegistry, applicationContext);
+            return new NacosServiceRegistryDecorator(nacosServiceManager, nacosDiscoveryProperties, nacosServiceRegistry, applicationContext);
         } else if (bean instanceof NacosDiscoveryProperties) {
             ConfigurableEnvironment environment = applicationContext.getEnvironment();
 
