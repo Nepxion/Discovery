@@ -29,6 +29,7 @@ import com.nepxion.discovery.common.redis.proccessor.RedisProcessor;
 import com.nepxion.discovery.common.zookeeper.proccessor.ZookeeperProcessor;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.gateway.constant.GatewayStrategyConstant;
+import com.nepxion.discovery.plugin.strategy.gateway.context.GatewayStrategyContextListener;
 import com.nepxion.discovery.plugin.strategy.gateway.filter.DefaultGatewayStrategyClearFilter;
 import com.nepxion.discovery.plugin.strategy.gateway.filter.DefaultGatewayStrategyRouteFilter;
 import com.nepxion.discovery.plugin.strategy.gateway.filter.GatewayStrategyClearFilter;
@@ -80,6 +81,11 @@ public class GatewayStrategyAutoConfiguration {
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_HYSTRIX_THREADLOCAL_SUPPORTED, matchIfMissing = false)
     public GatewayStrategyCallableWrapper gatewayStrategyCallableWrapper() {
         return new DefaultGatewayStrategyCallableWrapper();
+    }
+
+    @Bean
+    public GatewayStrategyContextListener gatewayStrategyContextListener() {
+        return new GatewayStrategyContextListener();
     }
 
     @ConditionalOnClass(NacosProcessor.class)

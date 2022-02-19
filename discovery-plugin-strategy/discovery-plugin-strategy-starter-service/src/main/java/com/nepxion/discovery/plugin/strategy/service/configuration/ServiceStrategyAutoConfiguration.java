@@ -24,6 +24,7 @@ import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.extractor.StrategyPackagesExtractor;
 import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
+import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyContextListener;
 import com.nepxion.discovery.plugin.strategy.service.filter.DefaultServiceStrategyFilterExclusion;
 import com.nepxion.discovery.plugin.strategy.service.filter.DefaultServiceStrategyRouteFilter;
 import com.nepxion.discovery.plugin.strategy.service.filter.ServiceStrategyFilterExclusion;
@@ -190,5 +191,10 @@ public class ServiceStrategyAutoConfiguration {
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_HYSTRIX_THREADLOCAL_SUPPORTED, matchIfMissing = false)
     public ServiceStrategyCallableWrapper serviceStrategyCallableWrapper() {
         return new DefaultServiceStrategyCallableWrapper();
+    }
+
+    @Bean
+    public ServiceStrategyContextListener serviceStrategyContextListener() {
+        return new ServiceStrategyContextListener();
     }
 }
