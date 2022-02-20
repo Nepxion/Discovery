@@ -30,7 +30,7 @@
 | 框架名称 | 框架版本 | 支持Spring Cloud版本 | 使用许可 |
 | --- | --- | --- | --- |
 | Discovery | 1.x.x ~ 6.x.x | Camden ~ Hoxton | 开源，永久免费 |
-| DiscoveryX | 7.x.x | 202x | 闭源，商业许可 |
+| DiscoveryX | 7.x.x `↑` | 202x `↑` | 闭源，商业许可 |
 
 ② Polaris系列
 
@@ -46,7 +46,7 @@ Polaris为Discovery高级定制版，特色功能
 | 框架名称 | 框架版本 | 支持Discovery版本 | 支持Spring Cloud版本 | 使用许可 |
 | --- | --- | --- | --- | --- |
 | Polaris | 1.x.x | 6.x.x | Finchley ~ Hoxton | 闭源，商业许可 |
-| Polaris | 2.x.x | 7.x.x | 202x | 闭源，商业许可 |
+| Polaris | 2.x.x | 7.x.x `↑` | 202x `↑` | 闭源，商业许可 |
 
 有商业版需求的企业和用户，请添加微信1394997，联系作者，洽谈合作事宜
 
@@ -263,14 +263,15 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 
 | 框架版本 | 框架分支 | 框架状态 | Spring Cloud版本 | Spring Boot版本 | Spring Cloud Alibaba版本 |
 | --- | --- | --- | --- | --- | --- |
-| 7.0.0<br>商业版 | master | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_24.png) | 202x.x.x | 2.5.x<br>2.4.1 `↑` | 202x.x |
-| 6.13.0 `↑` | 6.x.x | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_24.png) | Hoxton.SR5 `↑`<br>Hoxton<br>Greenwich<br>Finchley | 2.3.x.RELEASE<br>2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.7.RELEASE `↑` |
-| 6.12.1 `↓` | 6.x.x | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_24.png) | Hoxton.SR5 `↑`<br>Hoxton<br>Greenwich<br>Finchley | 2.3.x.RELEASE<br>2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.6.RELEASE `↓`<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
-| ~~5.6.0~~ | ~~5.x.x~~ | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/delete_24.png) | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
-| ~~4.15.0~~ | ~~4.x.x~~ | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/delete_24.png) | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
-| 3.29.0 | 3.x.x | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/arrow_up_24.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
-| ~~2.0.x~~ | ~~2.x.x~~ | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/delete_24.png) | Dalston | 1.x.x.RELEASE | 1.5.x.RELEASE |
-| ~~1.0.x~~ | ~~1.x.x~~ | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/delete_24.png) | Camden | 1.x.x.RELEASE | 1.5.x.RELEASE |
+| 8.0.0<br>商业版 | DiscoveryX/master | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_24.png) | 2021.x.x | 2.6.x<br>2.7.x | 2022.x |
+| 7.0.0<br>商业版 | DiscoveryX/7.x.x | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_24.png) | 2020.x.x | 2.5.x<br>2.4.1 `↑` | 2021.x |
+| 6.13.1 `↑` | Discovery/6.x.x | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_24.png) | Hoxton.SR5 `↑`<br>Hoxton<br>Greenwich<br>Finchley | 2.3.x.RELEASE<br>2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.7.RELEASE `↑` |
+| 6.12.1 `↓` | Discovery/6.x.x | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_24.png) | Hoxton.SR5 `↑`<br>Hoxton<br>Greenwich<br>Finchley | 2.3.x.RELEASE<br>2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.6.RELEASE `↓`<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
+| ~~5.6.0~~ | ~~Discovery/5.x.x~~ | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/delete_24.png) | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
+| ~~4.15.0~~ | ~~Discovery/4.x.x~~ | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/delete_24.png) | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
+| 3.30.0 | Discovery/3.x.x | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/arrow_up_24.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
+| ~~2.0.x~~ | ~~Discovery/2.x.x~~ | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/delete_24.png) | Dalston | 1.x.x.RELEASE | 1.5.x.RELEASE |
+| ~~1.0.x~~ | ~~Discovery/1.x.x~~ | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/delete_24.png) | Camden | 1.x.x.RELEASE | 1.5.x.RELEASE |
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_24.png) 表示维护中 | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/arrow_up_24.png) 表示不维护，但可用，强烈建议升级 | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/delete_24.png) 表示不维护，不可用，已废弃
 
