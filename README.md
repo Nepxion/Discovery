@@ -30,7 +30,7 @@
 | 框架名称 | 框架版本 | 支持Spring Cloud版本 | 使用许可 |
 | --- | --- | --- | --- |
 | Discovery | 1.x.x ~ 6.x.x | Camden ~ Hoxton | 开源，永久免费 |
-| DiscoveryX | 7.x.x | 202x | 闭源，商业许可 |
+| DiscoveryX | 7.x.x `↑` | 202x `↑` | 闭源，商业许可 |
 
 ② Polaris系列
 
@@ -46,7 +46,7 @@ Polaris为Discovery高级定制版，特色功能
 | 框架名称 | 框架版本 | 支持Discovery版本 | 支持Spring Cloud版本 | 使用许可 |
 | --- | --- | --- | --- | --- |
 | Polaris | 1.x.x | 6.x.x | Finchley ~ Hoxton | 闭源，商业许可 |
-| Polaris | 2.x.x | 7.x.x | 202x | 闭源，商业许可 |
+| Polaris | 2.x.x | 7.x.x `↑` | 202x `↑` | 闭源，商业许可 |
 
 有商业版需求的企业和用户，请添加微信1394997，联系作者，洽谈合作事宜
 
