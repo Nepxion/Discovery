@@ -266,7 +266,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 
 | 框架版本 | 框架分支 | 框架状态 | Spring Cloud版本 | Spring Boot版本 | Spring Cloud Alibaba版本 |
 | --- | --- | --- | --- | --- | --- |
-| 8.0.0<br>商业版 | DiscoveryX/master | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_24.png) | 2021.x.x | 2.7.x<br>2.6.x | 2022.x |
+| 8.0.0<br>商业版 | DiscoveryX/master | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_24.png) | 2021.x.x | 2.7.x<br>2.6.x | 2021.x.x.x |
 | 7.0.0<br>商业版 | DiscoveryX/7.x.x | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_24.png) | 2020.x.x | 2.5.x<br>2.4.1 `↑` | 2021.x |
 | 6.13.1 `↑` | Discovery/6.x.x | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_24.png) | Hoxton.SR5 `↑`<br>Hoxton<br>Greenwich<br>Finchley | 2.3.x.RELEASE<br>2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.7.RELEASE `↑` |
 | 6.12.1 `↓` | Discovery/6.x.x | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_24.png) | Hoxton.SR5 `↑`<br>Hoxton<br>Greenwich<br>Finchley | 2.3.x.RELEASE<br>2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.6.RELEASE `↓`<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
