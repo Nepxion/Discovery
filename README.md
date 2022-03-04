@@ -18,6 +18,7 @@
 - 2021年阿里巴巴技术峰会上海站演讲嘉宾
 - 2021年荣获陆奇博士主持的奇绩资本，进行风险投资的关注和调研
 - 2021年入选Gitee最有价值开源项目
+- 阿里巴巴官方书籍《Nacos架构与原理》作者之一
 - Nacos Group Member、Spring Cloud Alibaba Member
 - Spring Cloud Alibaba、Nacos、Sentinel、OpenTracing Committer & Contributor
 
