@@ -21,6 +21,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.ServiceType;
+import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
@@ -60,6 +61,12 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
 
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_ZONE_ROUTE_ENABLED + ":true}")
     protected Boolean zoneRouteEnabled;
+
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_REGION_ROUTE_ENABLED + ":false}")
+    protected Boolean regionRouteEnabled;
+
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_REGION_ROUTE + ":}")
+    protected String regionRoute;
 
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_VERSION_FAILOVER_ENABLED + ":false}")
     protected Boolean versionFailoverEnabled;
@@ -198,12 +205,26 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     public boolean applyRegion(Server server) {
         String serviceId = pluginAdapter.getServerServiceId(server);
 
-        String regions = getRegions(serviceId);
-        if (StringUtils.isEmpty(regions)) {
-            return true;
-        }
-
         String region = pluginAdapter.getServerRegion(server);
+
+        String regions = getRegions(serviceId);
+        // 流量路由到指定的区域下。当未对服务指定访问区域的时候，路由到事先指定的区域
+        // 使用场景示例：
+        // 开发环境（个人电脑环境）在测试环境（线上环境）进行联调
+        // 访问路径为A服务 -> B服务 -> C服务，A服务和B服务在开发环境上，C服务在测试环境上
+        // 调用时候，在最前端传入的Header（n-d-region）指定为B的开发环境区域（用来保证A服务和B服务只在开发环境调用），而B服务会自动路由调用到测试环境上的C服务实例，但不会路由到其它个人电脑的C服务实例
+        // 该功能的意义，个人电脑环境可以接入到测试环境联调，当多套个人环境接入时候，可以保护不同的个人环境间不会彼此调用
+        if (StringUtils.isEmpty(regions)) {
+            if (regionRouteEnabled) {
+                if (StringUtils.isEmpty(regionRoute)) {
+                    throw new DiscoveryException("The Region Route value is missing");
+                }
+
+                return StringUtils.equals(region, regionRoute);
+            } else {
+                return true;
+            }
+        }
 
         // 如果精确匹配不满足，尝试用通配符匹配
         List<String> regionList = StringUtil.splitToList(regions);
