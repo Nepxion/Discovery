@@ -18,6 +18,8 @@ public class StrategyConstant {
     public static final String SPRING_APPLICATION_STRATEGY_ENVIRONMENT_ROUTE_VALUE = "common";
     public static final String SPRING_APPLICATION_STRATEGY_ZONE_AFFINITY_ENABLED = "spring.application.strategy.zone.affinity.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_ZONE_ROUTE_ENABLED = "spring.application.strategy.zone.route.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_REGION_ROUTE_ENABLED = "spring.application.strategy.region.route.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_REGION_ROUTE = "spring.application.strategy.region.route";
     public static final String SPRING_APPLICATION_STRATEGY_VERSION_FAILOVER_ENABLED = "spring.application.strategy.version.failover.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_VERSION_PREFER_ENABLED = "spring.application.strategy.version.prefer.enabled";
 
