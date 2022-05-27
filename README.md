@@ -4315,35 +4315,52 @@ spring.application.strategy.environment.route=common
 ## 全链路区域调试路由
 在区域调试路由执行的时候，当未对服务指定访问区域的时候，路由到事先指定的区域。该功能适用于开发环境（个人电脑环境）在测试环境（线上环境）进行联调，同时当多套个人环境接入时候，可以保护不同的个人环境间不会彼此调用
 
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/IsolationRegion.jpg)
+
 在下面的全链路调用路径中
 ```
-A服务 -> B服务 -> C服务
+A服务 -> B服务 -> C服务 -> D服务
 ```
-其中，A服务和B服务在开发环境上，C服务在测试环境上，希望A服务调用B服务的时候，只会走本地电脑，不会去访问测试环境的B服务，也不会去访问其它本地电脑的B服务；B服务调用C服务的时候，只会去访问测试环境的C服务
+其中，A服务和B服务在开发环境上，C服务和D服务在测试环境上，希望A服务调用B服务的时候，只会走本地电脑，不会去访问测试环境的B服务，也不会去访问其它本地电脑的B服务；B服务调用C服务的时候，只会去访问测试环境的C服务，C服务调用D服务的时候，也只是在测试环境的区域内
 
 只需要通过如下步骤：
 
-- A服务和B服务的区域（Region）元数据配置为MyComputer（本地电脑的名称或者可以区别其它电脑的特征值），如下
+- A服务和B服务的区域（Region）元数据配置为MyDEV（本地电脑的名称或者可以区别其它电脑的特征值），如下
 ```
-spring.cloud.nacos.discovery.metadata.region=MyComputer
+spring.cloud.nacos.discovery.metadata.region=MyDEV
 ```
-- C服务的区域（Region）元数据配置为FAT（测试环境），如下
+- C服务和D服务的区域（Region）元数据配置为FAT（测试环境），如下
 ```
 spring.cloud.nacos.discovery.metadata.region=FAT
 ```
-- B服务跨区域调用C服务，需要在B服务端加上如下配置
+- B服务和C服务，加上如下配置，保证B服务只访问测试环境上的C服务，C服务只访问测试环境上的D服务
 ```
 # 开启和关闭跨区域路由
 spring.application.strategy.region.route.enabled=true
 # 路由的目标区域
 spring.application.strategy.region.route=FAT
 ```
-- 前端传入B服务的区域Header。由于A服务是调用起点，所以不需要配置A服务的值（如果A服务前面还有网关，那么则需要把A服务也配置上去）
+- 前端传入B服务的区域Header。由于A服务是调用起点，所以不需要配置A服务的值
 ```
-n-d-region={"discovery-guide-service-b":"MyComputer"}
+n-d-region={"service-b":"MyDEV"}
 ```
 
-全链路区域调试路由和全链路环境路由的区别在于，前者不管存在多少个区域，目标路由直接指向指定区域，后者是在找不到相应环境后，转而路由到指定环境
+扩展场景：
+
+如果希望C服务访问的是开发环境上的D服务，那么变成
+```
+A服务（本地环境） -> B服务（本地环境） -> C服务（测试环境） -> D服务（本地环境）
+```
+
+前端传入区域Header改为
+
+```
+n-d-region={"service-b":"MyDEV", "service-d":"MyDEV"}
+```
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 需要注意
+
+全链路区域调试路由和全链路环境路由的区别在于，前者不管存在多少个区域，目标路由直接指向指定区域，后者是在找不到相应环境后，目标路由才指向指定环境
 
 ## 全链路可用区亲和性隔离和路由
 
