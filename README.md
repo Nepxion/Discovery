@@ -24,7 +24,7 @@
 
 <img src="http://nepxion.gitee.io/discovery/docs/discovery-doc/CertificateGVP.jpg" width="43%"><img src="http://nepxion.gitee.io/discovery/docs/discovery-doc/AwardNacos1.jpg" width="28%"><img src="http://nepxion.gitee.io/discovery/docs/discovery-doc/AwardSCA1.jpg" width="28%">
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/star4.png) 商业化合作 
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/star4.png) 商业化合作
 
 ① Discovery系列
 
