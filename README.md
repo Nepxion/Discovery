@@ -2994,6 +2994,8 @@ ThreadLocal的作用是提供线程内的局部变量，在多线程环境下访
 - Thread Pool
 - SLF4J MDC
 
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 需要注意，DiscoveryAgent不支持含有Lambda语法的异步代码。使用Lambda去实现的Runnable类会生成一个匿名内部类，这个匿名内部类和DiscoveryAgent使用的是不同的类加载器，导致DiscoveryAgent无法去修改Lambda表达式生成的Runnable的实现类
+
 #### 异步跨线程DiscoveryAgent获取
 插件获取方式有两种方式
 - 通过[https://github.com/Nepxion/DiscoveryAgent/releases](https://github.com/Nepxion/DiscoveryAgent/releases)下载最新版本的Discovery Agent
