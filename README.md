@@ -2924,9 +2924,9 @@ n-d-id-blacklist={"discovery-guide-service-a":"20210601-222214-909-1146-372-698"
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
-    <strategy>
+    <strategy-blacklist>
         <address>{"discovery-guide-service-a":"3001", "discovery-guide-service-b":"4001"}</address>
-    </strategy>
+    </strategy-blacklist>
 </rule>
 ```
 
