@@ -336,8 +336,15 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/恒大.png"></td>
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/碧桂园.png"></td>
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/华住会.png"></td>
-      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/东风汽车.png"></td>
+      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/城家.png"></td>
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/南瑞.png"></td>
+    </tr>
+    <tr align="center">
+      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/蔚来汽车.png"></td>
+      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/东风汽车.png"></td>
+      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/吉利汽车.png"></td>
+      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/海纳新思.png"></td>
+      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/路特斯科技.png"></td>
     </tr>
     <tr align="center">
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/宇信.png"></td>
@@ -347,11 +354,11 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/瑞幸.png"></td>
     </tr>
     <tr align="center">
-      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/城家.png"></td>
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/海尔.png"></td>
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/三七互娱.png"></td>
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/诺亚财富.png"></td>
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/快盈.png"></td>
+      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/链上科技.png"></td>
      </tr>
     <tr align="center">
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/喜马拉雅.png"></td>
