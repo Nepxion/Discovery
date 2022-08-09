@@ -11,7 +11,9 @@
 
 如果您觉得本框架具有一定的参考价值和借鉴意义，请帮忙在页面右上角 [**Star**]
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/star1.png) 首席作者简介
+## 简介
+
+### 作者简介
 - Nepxion开源社区创始人
 - 2020年阿里巴巴中国云原生峰会出品人
 - 2020年被Nacos和Spring Cloud Alibaba纳入相关开源项目
@@ -24,7 +26,7 @@
 
 <img src="http://nepxion.gitee.io/discovery/docs/discovery-doc/CertificateGVP.jpg" width="43%"><img src="http://nepxion.gitee.io/discovery/docs/discovery-doc/AwardNacos1.jpg" width="28%"><img src="http://nepxion.gitee.io/discovery/docs/discovery-doc/AwardSCA1.jpg" width="28%">
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/star4.png) 商业化合作
+### 商业合作
 
 ① Discovery系列
 
@@ -53,18 +55,20 @@ Polaris为Discovery高级定制版，特色功能
 
 有商业版需求的企业和用户，请添加微信1394997，联系作者，洽谈合作事宜
 
+### 入门资料
+
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Logo64.png) Discovery【探索】企业级云原生微服务开源解决方案
 
-① 解决方案
+① 快速入门
+- [快速入门Github版](https://github.com/Nepxion/Discovery/wiki)
+- [快速入门Gitee版](https://gitee.com/Nepxion/Discovery/wikis/pages)
+
+② 解决方案
 - [解决方案WIKI版](http://nepxion.com/discovery)
 - [解决方案PPT版](http://nepxion.gitee.io/discovery/docs/link-doc/discovery-ppt.html)
 
-② 平台界面
+③ 平台界面
 - [平台界面WIKI版](http://nepxion.com/discovery-platform)
-
-③ 快速入门
-- [快速入门Github版](https://github.com/Nepxion/Discovery/wiki)
-- [快速入门Gitee版](https://gitee.com/Nepxion/Discovery/wikis/pages)
 
 ④ 框架源码
 - [框架源码Github版](https://github.com/Nepxion/Discovery)
@@ -130,8 +134,6 @@ Polaris为Discovery高级定制版，特色功能
 ⑧ Discovery【探索】配置中心发布订阅图
 
 ![](http://nepxion.gitee.io/discovery/docs/polaris-doc/Config.jpg)
-
-## 简介
 
 ### 诞生故事
 - 2017年12月开始筹划
@@ -510,11 +512,11 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
   </tbody>
 </table>
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/edit_32.png) 为提供更好的专业级服务，请更多已经使用本框架的公司和企业联系我，并希望在[Github Issues](https://github.com/Nepxion/Discovery/issues/56)上登记
+为提供更好的专业级服务，请更多已经使用本框架的公司和企业联系我，并希望在[Github Issues](https://github.com/Nepxion/Discovery/issues/56)上登记
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/chart_bar_32.png) 某大型银行信用卡新核心系统在生产环境接入Nepxion Discovery框架的服务实例数（包括异地双活，同城双活，多机房全部汇总）将近10000个
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/chart_bar_32.png) 某大型互联网教育公司在生产环境接入Nepxion Discovery框架的服务实例数截至到2021年2月已达到2600多个，基本接入完毕
+### 落地案例
+- 某大型银行信用卡新核心系统在生产环境接入Nepxion Discovery框架的服务实例数（包括异地双活，同城双活，多机房全部汇总）将近10000个
+- 某大型互联网教育公司在生产环境接入Nepxion Discovery框架的服务实例数截至到2021年2月已达到2600多个，基本接入完毕
 
 <img src="http://nepxion.gitee.io/discovery/docs/discovery-doc/Result.jpg"/>
 
@@ -533,10 +535,14 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 
 ## 目录
 - [简介](#简介)
+    - [作者简介](#作者简介)
+    - [商业合作](#商业合作)
+    - [入门资料](#入门资料)
     - [诞生故事](#诞生故事)
     - [功能概述](#功能概述)
     - [版本列表](#版本列表)
     - [企业用户](#企业用户)
+    - [落地案例](#落地案例)
     - [郑重致谢](#郑重致谢)
     - [请联系我](#请联系我)
 - [主页链接](#主页链接)
