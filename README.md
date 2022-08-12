@@ -4946,6 +4946,18 @@ n-d-version=[{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.
 ------------------------------------------------------------
 ```
 
+蓝绿灰度埋点失效问题的解决办法
+
+排除引用配置不正确的因素之外，蓝绿灰度埋点失效问题一般都是服务中带有异步调用的场景引起的
+
+网关 -> A服务 -> B服务的调用链，假设A服务的日志中，`Input Header Information`中`n-d-version`带有Json值，而`Output Header Information`不带有Json值，说明A服务收到了网关传递过来的Header，但是在转发中丢失了，可能的原因和解决方案总结如下：
+
+① Spring Cloud H版（或者以下）引入了Hystrix插件，并且启用了线程池隔离模式，转发过程中，因为线程切换，导致Header转发丢失。通过[异步场景下DiscoveryAgent解决方案](#异步场景下DiscoveryAgent解决方案)或者[异步场景下Hystrix线程池隔离解决方案](#异步场景下Hystrix线程池隔离解决方案)来解决
+
+② Spring Cloud 2020版（或者以上）的负载均衡器是基于WebFlux技术的，响应式方式也会触发线程切换，导致Header转发丢失。通过[异步场景下DiscoveryAgent解决方案](#异步场景下DiscoveryAgent解决方案)来解决
+
+③ 业务代码里，Feign或者RestTemplate调用代码放在异步场景中，因为线程切换，导致Header转发丢失。通过[异步场景下DiscoveryAgent解决方案](#异步场景下DiscoveryAgent解决方案)来解决
+
 #### Sentinel熔断埋点调用链监控
 
 - 集成OpenTracing + Jaeger + Sentinel限流熔断降级权限埋点全链路监控
