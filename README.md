@@ -2972,15 +2972,17 @@ n-d-address-blacklist=3001
 n-d-address-blacklist={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"3001"}
 ```
 
-推荐一种自动化无损下线的思路
-
-① 运维平台下线某个服务实例的时候，通过运维平台内置程序自动从注册中心获取到那个服务实例对应元数据spring.application.uuid
-
-② 运维平台把该UUID通过Nepxion Discovery Console相关API追加到（非覆盖）下线实例的黑名单中
-
-③ 为避免堆积在配置中心XML中的UUId过多，需要依托运维平台定时扫描，例如，一天扫描一次，去掉过期的黑名单（UUID上面带有时间戳，可以进行日期对比）
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 需要注意，UUId全局唯一，同样的服务实例重启注册后，UUId会重新产生，不会重复，但追加过多的UUId，虽然不会影响功能，但UUId堆积过多，可能会影响配置订阅的响应效率
+最佳实践：
+- 运维平台下线某个服务实例之前，调用Nepxion Discovery Console平台BlacklistEndpoint如下API，把需要下线的服务实例根据IP地址和端口添加进黑名单，返回全局唯一的该服务实例的UUId，即可实现实时无损下线
+```java
+String addBlacklist(String serviceId, String host, int port);
+```
+- 运维平台每添加一个黑名单后，把返回的服务实例的UUId存储下来（推荐用高可用方案来存储）
+- 运维平台下线某个服务实例一段时间之后（大于负载均衡`3`个时钟周期，推荐`5`分钟），调用Nepxion Discovery Console平台BlacklistEndpoint如下API，把过期的服务实例根据UUId从黑名单里删除掉
+```java
+boolean deleteBlacklist(String serviceId, String serviceUUId);
+```
+需要注意，UUId全局唯一，同样的服务实例重启注册后，UUId会重新产生，不会重复，但追加过多的UUId，虽然不会影响功能，但UUId堆积过多，可能会影响配置订阅的响应效率
 
 ## 异步场景下全链路蓝绿灰度发布
 Discovery框架存在着如下全链路传递上下文的场景，包括
