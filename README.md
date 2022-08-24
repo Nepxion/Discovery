@@ -2972,7 +2972,7 @@ n-d-address-blacklist=3001
 n-d-address-blacklist={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"3001"}
 ```
 
-最佳实践：
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 最佳实践：
 - 运维平台下线某个服务实例之前，调用Nepxion Discovery Console平台BlacklistEndpoint如下API，把需要下线的服务实例根据IP地址和端口添加进黑名单，返回全局唯一的该服务实例的UUId，即可实现实时无损下线
 ```java
 String addBlacklist(String serviceId, String host, int port);
