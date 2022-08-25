@@ -16,26 +16,26 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class UserEntity implements Serializable {
-    private static final long serialVersionUID = 7873578695343188087L;
+public class AddressEntity implements Serializable {
+    private static final long serialVersionUID = -7878358363389123165L;
 
-    private String userId;
-    private String password;
+    private String host;
+    private int port;
 
-    public String getUserId() {
-        return userId;
+    public String getHost() {
+        return host;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setHost(String host) {
+        this.host = host;
     }
 
-    public String getPassword() {
-        return password;
+    public int getPort() {
+        return port;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPort(int port) {
+        this.port = port;
     }
 
     @Override

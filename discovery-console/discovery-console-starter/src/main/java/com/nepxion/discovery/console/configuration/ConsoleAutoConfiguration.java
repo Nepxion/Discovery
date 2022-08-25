@@ -17,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.common.handler.DiscoveryResponseErrorHandler;
 import com.nepxion.discovery.console.endpoint.AuthenticationEndpoint;
+import com.nepxion.discovery.console.endpoint.BlacklistEndpoint;
 import com.nepxion.discovery.console.endpoint.ConfigEndpoint;
 import com.nepxion.discovery.console.endpoint.RouteEndpoint;
 import com.nepxion.discovery.console.endpoint.SentinelEndpoint;
@@ -25,6 +26,8 @@ import com.nepxion.discovery.console.endpoint.StrategyEndpoint;
 import com.nepxion.discovery.console.endpoint.VersionEndpoint;
 import com.nepxion.discovery.console.resource.AuthenticationResource;
 import com.nepxion.discovery.console.resource.AuthenticationResourceImpl;
+import com.nepxion.discovery.console.resource.BlacklistResource;
+import com.nepxion.discovery.console.resource.BlacklistResourceImpl;
 import com.nepxion.discovery.console.resource.ConfigResource;
 import com.nepxion.discovery.console.resource.ConfigResourceImpl;
 import com.nepxion.discovery.console.resource.RouteResource;
@@ -111,6 +114,16 @@ public class ConsoleAutoConfiguration {
         @Bean
         public StrategyEndpoint strategyEndpoint() {
             return new StrategyEndpoint();
+        }
+
+        @Bean
+        public BlacklistResource blacklistResource() {
+            return new BlacklistResourceImpl();
+        }
+
+        @Bean
+        public BlacklistEndpoint blacklistEndpoint() {
+            return new BlacklistEndpoint();
         }
 
         @Bean
