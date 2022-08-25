@@ -22,6 +22,7 @@ public class InstanceEntity implements Serializable {
 
     private String serviceType;
     private String serviceId;
+    private String serviceUUId;
     private String version;
     private String region;
     private String environment;
@@ -44,6 +45,14 @@ public class InstanceEntity implements Serializable {
 
     public void setServiceId(String serviceId) {
         this.serviceId = serviceId;
+    }
+
+    public String getServiceUUId() {
+        return serviceUUId;
+    }
+
+    public void setServiceUUId(String serviceUUId) {
+        this.serviceUUId = serviceUUId;
     }
 
     public String getVersion() {
