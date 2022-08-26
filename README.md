@@ -163,7 +163,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - 支持Spring Matcher解决元数据匹配的通配逻辑
 - 支持Spring Cloud Gateway、Zuul网关和微服务三大模块的蓝绿灰度发布等一系列功能
 - 支持和兼容Spring Cloud Edgware版、Finchley版、Greenwich版、Hoxton版和202x版以及更高的Spring Cloud版本
-- 支持和兼容Java8～Java16以及更高的SDK版本
+- 支持和兼容Java8～Java17以及更高的SDK版本
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Diagram.jpg)
 
