@@ -2846,7 +2846,7 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 spring.application.strategy.version.failover.enabled=true
 ```
 
-在开启版本故障转移的开关前提下，如果配置了目标路由版本，直接路由到该版本实例；如果未配置，则通过版本列表排序的规则，取最老的稳定版本的实例
+版本故障转移支持写死目标路由版本、版本列表排序下取最老版本两种策略。两种策略，第一种适合版本无序的落地场景，需要在配置文件里手工写死；第二种适合版本有序的落地场景，不需要人工干预
 
 需要配置如下值
 ```
@@ -2865,7 +2865,7 @@ spring.application.strategy.version.failover.enabled=true
 spring.application.strategy.version.prefer.enabled=true
 ```
 
-在开启或者版本偏好的开关前提下，如果配置了目标路由版本，直接路由到该版本实例；如果未配置，则通过版本列表排序的规则，取最老的稳定版本的实例
+版本偏好支持写死目标路由版本、版本列表排序下取最老版本两种策略。两种策略，第一种适合版本无序的落地场景，需要在配置文件里手工写死；第二种适合版本有序的落地场景，不需要人工干预
 
 需要配置如下值
 ```
