@@ -2846,6 +2846,14 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 spring.application.strategy.version.failover.enabled=true
 ```
 
+在开启版本故障转移的开关前提下，如果配置了目标路由版本，直接路由到该版本实例；如果未配置，则通过版本列表排序的规则，取最老的稳定版本的实例
+
+需要配置如下值
+```
+# 在开启版本故障转移或者版本偏好的开关前提下，如果配置了目标路由版本，直接路由到该版本实例；如果未配置，则通过版本列表排序的规则，取最老的稳定版本的实例
+# spring.application.strategy.version.route=1.0
+```
+
 ### 并行发布下的版本偏好
 版本偏好，即非蓝绿灰度发布场景下，路由到老的稳定版本的实例。其作用是防止多个网关上并行实施蓝绿灰度版本发布产生混乱，对处于非蓝绿灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；蓝绿灰度状态的服务，还是根据传递的Header版本号进行匹配
 
@@ -2857,8 +2865,7 @@ spring.application.strategy.version.failover.enabled=true
 spring.application.strategy.version.prefer.enabled=true
 ```
 
-### 版本路由
-在开启版本故障转移或者版本偏好的开关前提下，如果配置了目标路由版本，直接路由到该版本实例；如果未配置，则通过版本列表排序的规则，取最老的稳定版本的实例
+在开启或者版本偏好的开关前提下，如果配置了目标路由版本，直接路由到该版本实例；如果未配置，则通过版本列表排序的规则，取最老的稳定版本的实例
 
 需要配置如下值
 ```
