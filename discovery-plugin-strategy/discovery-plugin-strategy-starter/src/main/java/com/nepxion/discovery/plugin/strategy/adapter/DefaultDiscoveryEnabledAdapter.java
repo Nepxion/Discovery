@@ -74,6 +74,9 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_VERSION_PREFER_ENABLED + ":false}")
     protected Boolean versionPreferEnabled;
 
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_VERSION_ROUTE + ":}")
+    protected String versionRoute;
+
     @Override
     public boolean apply(Server server) {
         boolean enabled = applyGroup(server);
@@ -391,11 +394,18 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     public boolean applyVersion(Server server) {
         String serviceId = pluginAdapter.getServerServiceId(server);
 
+        String version = pluginAdapter.getServerVersion(server);
+
         String versions = getVersions(serviceId);
         if (StringUtils.isEmpty(versions)) {
             // 版本偏好，即非蓝绿灰度发布场景下，路由到老的稳定版本的实例
             if (versionPreferEnabled) {
-                return strategyVersionFilter.apply(server);
+                // 如果配置了目标路由版本，直接路由到该版本实例；如果未配置，则通过版本列表排序的规则，取最老的稳定版本的实例
+                if (StringUtils.isEmpty(versionRoute)) {
+                    return strategyVersionFilter.apply(server);
+                } else {
+                    return StringUtils.equals(version, versionRoute);
+                }
             } else {
                 return true;
             }
@@ -414,12 +424,15 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
                 }
 
                 if (!matched) {
-                    return strategyVersionFilter.apply(server);
+                    // 如果配置了目标路由版本，直接路由到该版本实例；如果未配置，则通过版本列表排序的规则，取最老的稳定版本的实例
+                    if (StringUtils.isEmpty(versionRoute)) {
+                        return strategyVersionFilter.apply(server);
+                    } else {
+                        return StringUtils.equals(version, versionRoute);
+                    }
                 }
             }
         }
-
-        String version = pluginAdapter.getServerVersion(server);
 
         // 如果精确匹配不满足，尝试用通配符匹配
         List<String> versionList = StringUtil.splitToList(versions);

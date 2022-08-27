@@ -22,6 +22,7 @@ public class StrategyConstant {
     public static final String SPRING_APPLICATION_STRATEGY_REGION_ROUTE = "spring.application.strategy.region.route";
     public static final String SPRING_APPLICATION_STRATEGY_VERSION_FAILOVER_ENABLED = "spring.application.strategy.version.failover.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_VERSION_PREFER_ENABLED = "spring.application.strategy.version.prefer.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_VERSION_ROUTE = "spring.application.strategy.version.route";
 
     public static final String SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_ENABLED = "spring.application.strategy.rest.intercept.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_DEBUG_ENABLED = "spring.application.strategy.rest.intercept.debug.enabled";
