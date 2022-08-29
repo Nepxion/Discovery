@@ -43,16 +43,43 @@
 			"description": "Whether strategy zone route is enabled."
 		},
 		{
+			"name": "spring.application.strategy.region.route.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": false,
+			"description": "Whether strategy region route is enabled."
+		},
+		{
+			"name": "spring.application.strategy.region.route",
+			"type": "java.lang.String",
+			"description": "The strategy region will be routed to."
+		},
+		{
 			"name": "spring.application.strategy.version.failover.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": false,
 			"description": "Whether strategy version failover is enabled."
 		},
 		{
+			"name": "spring.application.strategy.version.failover.loadbalance.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": false,
+			"description": "Whether strategy version failover for loadbalance is enabled."
+		},
+		{
+			"name": "spring.application.strategy.version.failover.route",
+			"type": "java.lang.String",
+			"description": "The strategy version for failover will be routed to."
+		},
+		{
 			"name": "spring.application.strategy.version.prefer.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": false,
 			"description": "Whether strategy version prefer is enabled."
+		},
+		{
+			"name": "spring.application.strategy.version.prefer.route",
+			"type": "java.lang.String",
+			"description": "The strategy version for prefer will be routed to."
 		},
 		{
 			"name": "spring.application.strategy.rest.intercept.enabled",
