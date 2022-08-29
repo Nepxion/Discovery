@@ -22,6 +22,7 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.ServiceType;
+import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
@@ -58,6 +59,12 @@ public class StrategyVersionFilter {
 
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_ZONE_ROUTE_ENABLED + ":true}")
     protected Boolean zoneRouteEnabled;
+
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_REGION_ROUTE_ENABLED + ":false}")
+    protected Boolean regionRouteEnabled;
+
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_REGION_ROUTE + ":}")
+    protected String regionRoute;
 
     public boolean apply(Server server) {
         // 获取对端服务的版本号
@@ -190,12 +197,26 @@ public class StrategyVersionFilter {
     public boolean applyRegion(ServiceInstance instance) {
         String serviceId = pluginAdapter.getInstanceServiceId(instance);
 
-        String regions = getRegions(serviceId);
-        if (StringUtils.isEmpty(regions)) {
-            return true;
-        }
-
         String region = pluginAdapter.getInstanceRegion(instance);
+
+        String regions = getRegions(serviceId);
+        // 流量路由到指定的区域下。当未对服务指定访问区域的时候，路由到事先指定的区域
+        // 使用场景示例：
+        // 开发环境（个人电脑环境）在测试环境（线上环境）进行联调
+        // 访问路径为A服务 -> B服务 -> C服务，A服务和B服务在开发环境上，C服务在测试环境上
+        // 调用时候，在最前端传入的Header（n-d-region）指定为B的开发环境区域（用来保证A服务和B服务只在开发环境调用），而B服务会自动路由调用到测试环境上的C服务实例，但不会路由到其它个人电脑的C服务实例
+        // 该功能的意义，个人电脑环境可以接入到测试环境联调，当多套个人环境接入时候，可以保护不同的个人环境间不会彼此调用
+        if (StringUtils.isEmpty(regions)) {
+            if (regionRouteEnabled) {
+                if (StringUtils.isEmpty(regionRoute)) {
+                    throw new DiscoveryException("The Region Route value is missing");
+                }
+
+                return StringUtils.equals(region, regionRoute);
+            } else {
+                return true;
+            }
+        }
 
         // 如果精确匹配不满足，尝试用通配符匹配
         List<String> regionList = StringUtil.splitToList(regions);
@@ -274,23 +295,53 @@ public class StrategyVersionFilter {
     }
 
     public boolean applyIdBlacklist(ServiceInstance instance) {
-        String ids = pluginContextHolder.getContextRouteIdBlacklist();
+        String serviceId = pluginAdapter.getInstanceServiceId(instance);
+
+        String ids = getIdBlacklists(serviceId);
         if (StringUtils.isEmpty(ids)) {
             return true;
         }
 
-        String serviceUUId = pluginAdapter.getInstanceServiceUUId(instance);
+        String id = pluginAdapter.getInstanceServiceUUId(instance);
 
+        // 如果精确匹配不满足，尝试用通配符匹配
         List<String> idList = StringUtil.splitToList(ids);
-        if (idList.contains(serviceUUId)) {
+        if (idList.contains(id)) {
             return false;
+        }
+
+        // 通配符匹配。前者是通配表达式，后者是具体值
+        for (String idPattern : idList) {
+            if (discoveryMatcherStrategy.match(idPattern, id)) {
+                return false;
+            }
         }
 
         return true;
     }
 
+    @SuppressWarnings("unchecked")
+    public String getIdBlacklists(String serviceId) {
+        String idValue = pluginContextHolder.getContextRouteIdBlacklist();
+        if (StringUtils.isEmpty(idValue)) {
+            return null;
+        }
+
+        String ids = null;
+        try {
+            Map<String, String> idMap = JsonUtil.fromJson(idValue, Map.class);
+            ids = idMap.get(serviceId);
+        } catch (Exception e) {
+            ids = idValue;
+        }
+
+        return ids;
+    }
+
     public boolean applyAddressBlacklist(ServiceInstance instance) {
-        String addresses = pluginContextHolder.getContextRouteAddressBlacklist();
+        String serviceId = pluginAdapter.getInstanceServiceId(instance);
+
+        String addresses = getAddressBlacklists(serviceId);
         if (StringUtils.isEmpty(addresses)) {
             return true;
         }
@@ -309,6 +360,24 @@ public class StrategyVersionFilter {
         }
 
         return true;
+    }
+
+    @SuppressWarnings("unchecked")
+    public String getAddressBlacklists(String serviceId) {
+        String addressValue = pluginContextHolder.getContextRouteAddressBlacklist();
+        if (StringUtils.isEmpty(addressValue)) {
+            return null;
+        }
+
+        String addresses = null;
+        try {
+            Map<String, String> addressMap = JsonUtil.fromJson(addressValue, Map.class);
+            addresses = addressMap.get(serviceId);
+        } catch (Exception e) {
+            addresses = addressValue;
+        }
+
+        return addresses;
     }
 
     public boolean applyVersion(ServiceInstance instance) {
