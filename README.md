@@ -2848,7 +2848,7 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 # 启动和关闭版本故障转移。缺失则默认为false
 spring.application.strategy.version.failover.enabled=true
 spring.application.strategy.version.failover.loadbalance.enabled=true
-spring.application.strategy.version.failover.route=1.0
+spring.application.strategy.version.failover.route=1.0;1.1
 ```
 
 三种策略的区别：
@@ -2856,23 +2856,81 @@ spring.application.strategy.version.failover.route=1.0
 - 版本列表排序策略，对版本号进行排序，此解决方案的前置条件是版本号必须是规律的有次序，例如，以时间戳的方式。如果所有服务实例的版本号未设置，那么将转移到未设置版本号的实例上。适合版本有序的落地场景，不需要人工干预
 - 指定版本策略，需要在配置文件里手工写死目标路由版本，适合版本无序的落地场景
 
+对于配置项
+```
+spring.application.strategy.version.failover.route=1.0
+```
+
+当所有服务都选同一版本的时候，下面两条是等效的
+```
+spring.application.strategy.version.failover.route=1.0
+spring.application.strategy.version.failover.route={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
+```
+
+如果希望可调用的版本是多个，也可以表示成如下方式，即1.0版本和1.1版本的a服务和b服务都可以被调用到，下面两条是等效的
+```
+<version>1.0;1.1</version>
+<version>{"discovery-guide-service-a":"1.0;1.1", "discovery-guide-service-b":"1.0;1.1"}</version>
+```
+
+如果上述表达式还未满足需求，也可以采用通配表达式方式（具体详细用法，参考Spring AntPathMatcher），通过Spring Matcher的通配表达式，支持多个通配*、单个通配?等全部标准表达式用法
+```
+* - 表示调用范围为所有版本
+1.* - 表示调用范围为1开头的所有版本
+```
+
+例如
+```
+"discovery-guide-service-b":"1.*;1.2.?"
+```
+表示discovery-guide-service-b服务的调用范围是1开头的所有版本，或者调用范围是1.2开头的所有版本（末尾必须是1个字符），多个用分号隔开
+
 ### 并行发布下的版本偏好
 版本偏好，即非蓝绿灰度发布场景下，路由到老的稳定版本的实例。其作用是防止多个网关上并行实施蓝绿灰度版本发布产生混乱，对处于非蓝绿灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；蓝绿灰度状态的服务，还是根据传递的Header版本号进行匹配
 
 版本偏好有两种策略：
 - 如果“prefer.route”值未配置，版本列表排序策略的（取最老的稳定版本的实例）偏好，即不管存在多少版本，直接路由到最老的稳定版本的实例
-= 如果“prefer.route”值已配置，指定版本的偏好，即不管存在多少版本，直接路由到该版本实例
+- 如果“prefer.route”值已配置，指定版本的偏好，即不管存在多少版本，直接路由到该版本实例
 
 需要通过如下开关开启该功能
 ```
 # 启动和关闭版本偏好。缺失则默认为false
 spring.application.strategy.version.prefer.enabled=true
-spring.application.strategy.version.prefer.route=1.0
+spring.application.strategy.version.prefer.route=1.0;1.1
 ```
 
 两种策略的区别：
 - 版本列表排序策略，对版本号进行排序，此解决方案的前置条件是版本号必须是规律的有次序，例如，以时间戳的方式。如果所有服务实例的版本号未设置，那么将转移到未设置版本号的实例上。适合版本有序的落地场景，不需要人工干预
 - 指定版本策略，需要在配置文件里手工写死目标路由版本，适合版本无序的落地场景
+
+对于配置项
+```
+spring.application.strategy.version.prefer.route=1.0
+```
+
+当所有服务都选同一版本的时候，下面两条是等效的
+```
+spring.application.strategy.version.prefer.route=1.0
+spring.application.strategy.version.prefer.route={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
+```
+
+如果希望可调用的版本是多个，也可以表示成如下方式，即1.0版本和1.1版本的a服务和b服务都可以被调用到，下面两条是等效的
+```
+<version>1.0;1.1</version>
+<version>{"discovery-guide-service-a":"1.0;1.1", "discovery-guide-service-b":"1.0;1.1"}</version>
+```
+
+如果上述表达式还未满足需求，也可以采用通配表达式方式（具体详细用法，参考Spring AntPathMatcher），通过Spring Matcher的通配表达式，支持多个通配*、单个通配?等全部标准表达式用法
+```
+* - 表示调用范围为所有版本
+1.* - 表示调用范围为1开头的所有版本
+```
+
+例如
+```
+"discovery-guide-service-b":"1.*;1.2.?"
+```
+表示discovery-guide-service-b服务的调用范围是1开头的所有版本，或者调用范围是1.2开头的所有版本（末尾必须是1个字符），多个用分号隔开
 
 ## 服务无损下线
 服务下线场景下，由于Ribbon负载均衡组件存在着缓存机制，当被提供端服务实例已经下线，而消费端服务实例还暂时缓存着它，直到下个心跳周期才会把已下线的服务实例剔除，在此期间，如果发生调用，会造成流量有损
