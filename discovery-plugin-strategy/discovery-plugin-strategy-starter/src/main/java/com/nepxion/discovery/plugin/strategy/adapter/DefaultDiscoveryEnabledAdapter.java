@@ -411,7 +411,24 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
                     return strategyVersionFilter.apply(server);
                 } else {
                     // 指定版本的偏好，即不管存在多少版本，直接路由到该版本实例
-                    return StringUtils.equals(version, versionPreferRoute);
+                    // return StringUtils.equals(version, versionPreferRoute);
+
+                    String versionRoutes = getPreferVersions(serviceId);
+
+                    // 如果精确匹配不满足，尝试用通配符匹配
+                    List<String> versionList = StringUtil.splitToList(versionRoutes);
+                    if (versionList.contains(version)) {
+                        return true;
+                    }
+
+                    // 通配符匹配。前者是通配表达式，后者是具体值
+                    for (String versionPattern : versionList) {
+                        if (discoveryMatcherStrategy.match(versionPattern, version)) {
+                            return true;
+                        }
+                    }
+
+                    return false;
                 }
             } else {
                 return true;
@@ -440,7 +457,24 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
                             return strategyVersionFilter.apply(server);
                         } else {
                             // 指定版本的故障转移，即找不到实例的时候，直接路由到该版本实例
-                            return StringUtils.equals(version, versionFailoverRoute);
+                            // return StringUtils.equals(version, versionFailoverRoute);
+
+                            String versionRoutes = getFailoverVersions(serviceId);
+
+                            // 如果精确匹配不满足，尝试用通配符匹配
+                            List<String> versionList = StringUtil.splitToList(versionRoutes);
+                            if (versionList.contains(version)) {
+                                return true;
+                            }
+
+                            // 通配符匹配。前者是通配表达式，后者是具体值
+                            for (String versionPattern : versionList) {
+                                if (discoveryMatcherStrategy.match(versionPattern, version)) {
+                                    return true;
+                                }
+                            }
+
+                            return false;
                         }
                     }
                 }
@@ -466,6 +500,42 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     @SuppressWarnings("unchecked")
     public String getVersions(String serviceId) {
         String versionValue = pluginContextHolder.getContextRouteVersion();
+        if (StringUtils.isEmpty(versionValue)) {
+            return null;
+        }
+
+        String versions = null;
+        try {
+            Map<String, String> versionMap = JsonUtil.fromJson(versionValue, Map.class);
+            versions = versionMap.get(serviceId);
+        } catch (Exception e) {
+            versions = versionValue;
+        }
+
+        return versions;
+    }
+
+    @SuppressWarnings("unchecked")
+    public String getFailoverVersions(String serviceId) {
+        String versionValue = versionFailoverRoute;
+        if (StringUtils.isEmpty(versionValue)) {
+            return null;
+        }
+
+        String versions = null;
+        try {
+            Map<String, String> versionMap = JsonUtil.fromJson(versionValue, Map.class);
+            versions = versionMap.get(serviceId);
+        } catch (Exception e) {
+            versions = versionValue;
+        }
+
+        return versions;
+    }
+
+    @SuppressWarnings("unchecked")
+    public String getPreferVersions(String serviceId) {
+        String versionValue = versionPreferRoute;
         if (StringUtils.isEmpty(versionValue)) {
             return null;
         }
