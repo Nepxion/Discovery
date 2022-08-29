@@ -257,7 +257,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | 维度 | 概念 | 应用场景 | 功能侧重点 |
 | --- | --- | --- | --- |
 | 组 | 系统ID或者系统逻辑分组<br>同一个业务系统下的服务归为一个组 | 服务隔离 | ① 组负载均衡隔离，即基于调用端实例和提供端实例的元数据Metadata的group配置值进行对比实现隔离<br>② 组Header传值策略隔离，即基于Header（n-d-service-group）值和提供端实例的元数据Metadata环境Group值进行对比实现隔离 |
-| 版本 | 服务实例的版本 | 蓝绿灰度发布<br>路由转移 | ① 版本条件匹配蓝绿发布<br>② 版本权重灰度发布<br>③ 版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例，支持写死目标路由版本、版本列表排序下取最老版本两种策略<br>④ 版本偏好，即非蓝绿灰度发布场景下，路由到老的稳定版本的实例，支持写死目标路由版本、版本列表排序下取最老版本两种策略 |
+| 版本 | 服务实例的版本 | 蓝绿灰度发布<br>路由转移 | ① 版本条件匹配蓝绿发布<br>② 版本权重灰度发布<br>③ 版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例，支持负载均衡策略、版本列表排序下取最老版本、指定版本三种策略<br>④ 版本偏好，即非蓝绿灰度发布场景下，路由到老的稳定版本的实例，支持版本列表排序下取最老版本、指定版本两种策略 |
 | 区域 | 服务实例的区域，适用于多机房或者多环境 | 蓝绿灰度发布<br>路由转移 | ① 区域条件匹配蓝绿发布<br>② 区域权重灰度发布<br>③ 区域调试路由，即既支持多区域服务路由隔离，也支持特殊场景下不同区域间的服务相互调用（一般视作调试手段）。不支持区域故障转移，即找不到目标服务实例直接报错 |
 | 环境 | 服务实例的环境，适用于测试环境 | 路由隔离 | ① 环境隔离，即基于Header（n-d-env）值和提供端实例的元数据Metadata的env配置值进行对比实现隔离<br>② 环境路由，即调用端实例找不到符合条件的提供端实例，把流量路由到一个通用或者备份环境（元数据env=common） |
 | 可用区 | 服务实例的可用区，适用于多机房 | 路由隔离 | ① 可用区亲和性隔离，即基于调用端实例和提供端实例的元数据Metadata的zone配置值进行对比实现隔离<br>② 可用区亲和性路由，即调用端实例找不到同一可用区的提供端实例，把流量路由到其它可用区或者不归属任何可用区 |
@@ -2838,40 +2838,41 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 ### 发布失败下的版本故障转移
 版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例。其作用是防止蓝绿灰度版本发布人为设置错误，或者对应的版本实例发生灾难性的全部下线，导致流量有损
 
-故障转移方式，对版本号进行排序，此解决方案的前置条件是版本号必须是规律的有次序，例如，以时间戳的方式。如果所有服务实例的版本号未设置，那么将转移到未设置版本号的实例上
+故障转移有三种策略：
+- 开启“failover.loadbalance.enabled”开关，负载均衡策略的故障转移，即找不到实例的时候，执行负载均衡策略
+- 关闭“failover.loadbalance.enabled”开关，如果“failover.route”值未配置，版本列表排序策略的（取最老的稳定版本的实例）故障转移，即找不到实例的时候，直接路由到最老的稳定版本的实例
+- 关闭“failover.loadbalance.enabled”开关，如果“failover.route”值已配置，指定版本的故障转移，即找不到实例的时候，直接路由到该版本实例
 
 需要通过如下开关开启该功能
 ```
 # 启动和关闭版本故障转移。缺失则默认为false
 spring.application.strategy.version.failover.enabled=true
+spring.application.strategy.version.failover.loadbalance.enabled=true
+spring.application.strategy.version.failover.route=1.0
 ```
 
-版本故障转移支持写死目标路由版本、版本列表排序下取最老版本两种策略。两种策略，第一种适合版本无序的落地场景，需要在配置文件里手工写死；第二种适合版本有序的落地场景，不需要人工干预
-
-需要配置如下值
-```
-# 在开启版本故障转移或者版本偏好的开关前提下，如果配置了目标路由版本，直接路由到该版本实例；如果未配置，则通过版本列表排序的规则，取最老的稳定版本的实例
-# spring.application.strategy.version.route=1.0
-```
+三种策略的区别：
+- 负载均衡策略，找不到指定版本后，在其它的版本列表里进行负载均衡轮询调用
+- 版本列表排序策略，对版本号进行排序，此解决方案的前置条件是版本号必须是规律的有次序，例如，以时间戳的方式。如果所有服务实例的版本号未设置，那么将转移到未设置版本号的实例上。适合版本有序的落地场景，不需要人工干预
+- 指定版本策略，需要在配置文件里手工写死目标路由版本，适合版本无序的落地场景
 
 ### 并行发布下的版本偏好
 版本偏好，即非蓝绿灰度发布场景下，路由到老的稳定版本的实例。其作用是防止多个网关上并行实施蓝绿灰度版本发布产生混乱，对处于非蓝绿灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；蓝绿灰度状态的服务，还是根据传递的Header版本号进行匹配
 
-偏好方式，对版本号进行排序，此解决方案的前置条件是版本号必须是规律的有次序，例如，以时间戳的方式。如果所有服务实例的版本号未设置，那么将转移到未设置版本号的实例上
+版本偏好有两种策略：
+- 如果“prefer.route”值未配置，版本列表排序策略的（取最老的稳定版本的实例）偏好，即不管存在多少版本，直接路由到最老的稳定版本的实例
+= 如果“prefer.route”值已配置，指定版本的偏好，即不管存在多少版本，直接路由到该版本实例
 
 需要通过如下开关开启该功能
 ```
 # 启动和关闭版本偏好。缺失则默认为false
 spring.application.strategy.version.prefer.enabled=true
+spring.application.strategy.version.prefer.route=1.0
 ```
 
-版本偏好支持写死目标路由版本、版本列表排序下取最老版本两种策略。两种策略，第一种适合版本无序的落地场景，需要在配置文件里手工写死；第二种适合版本有序的落地场景，不需要人工干预
-
-需要配置如下值
-```
-# 在开启版本故障转移或者版本偏好的开关前提下，如果配置了目标路由版本，直接路由到该版本实例；如果未配置，则通过版本列表排序的规则，取最老的稳定版本的实例
-# spring.application.strategy.version.route=1.0
-```
+两种策略的区别：
+- 版本列表排序策略，对版本号进行排序，此解决方案的前置条件是版本号必须是规律的有次序，例如，以时间戳的方式。如果所有服务实例的版本号未设置，那么将转移到未设置版本号的实例上。适合版本有序的落地场景，不需要人工干预
+- 指定版本策略，需要在配置文件里手工写死目标路由版本，适合版本无序的落地场景
 
 ## 服务无损下线
 服务下线场景下，由于Ribbon负载均衡组件存在着缓存机制，当被提供端服务实例已经下线，而消费端服务实例还暂时缓存着它，直到下个心跳周期才会把已下线的服务实例剔除，在此期间，如果发生调用，会造成流量有损
@@ -5840,11 +5841,21 @@ spring.application.strategy.sentinel.request.origin.key=n-d-service-id
 # 版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例。其作用是防止蓝绿灰度版本发布人为设置错误，或者对应的版本实例发生灾难性的全部下线，导致流量有损
 # 启动和关闭版本故障转移。缺失则默认为false
 spring.application.strategy.version.failover.enabled=true
+# 在开启版本故障转移的开关前提下，故障转移有三种策略：
+# 1. 开启“failover.loadbalance.enabled”开关，负载均衡策略的故障转移，即找不到实例的时候，执行负载均衡策略
+# 2. 关闭“failover.loadbalance.enabled”开关，如果“failover.route”值未配置，版本列表排序策略的（取最老的稳定版本的实例）故障转移，即找不到实例的时候，直接路由到最老的稳定版本的实例
+# 3. 关闭“failover.loadbalance.enabled”开关，如果“failover.route”值已配置，指定版本的故障转移，即找不到实例的时候，直接路由到该版本实例
+# 开启和关闭负载均衡策略的版本故障转移。缺失则默认为false
+spring.application.strategy.version.failover.loadbalance.enabled=true
+spring.application.strategy.version.failover.route=1.0
+
 # 版本偏好，即非蓝绿灰度发布场景下，路由到老的稳定版本的实例。其作用是防止多个网关上并行实施蓝绿灰度版本发布产生混乱，对处于非蓝绿灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；蓝绿灰度状态的服务，还是根据传递的Header版本号进行匹配
 # 启动和关闭版本偏好。缺失则默认为false
 spring.application.strategy.version.prefer.enabled=true
-# 在开启版本故障转移或者版本偏好的开关前提下，如果配置了目标路由版本，直接路由到该版本实例；如果未配置，则通过版本列表排序的规则，取最老的稳定版本的实例
-spring.application.strategy.version.route=1.0
+# 在开启版本偏好的开关前提下，偏好有两种策略：
+# 1. 如果“prefer.route”值未配置，版本列表排序策略的（取最老的稳定版本的实例）偏好，即不管存在多少版本，直接路由到最老的稳定版本的实例
+# 2. 如果“prefer.route”值已配置，指定版本的偏好，即不管存在多少版本，直接路由到该版本实例
+spring.application.strategy.version.prefer.route=1.0
 
 # 启动和关闭区域调试路由。当未对服务指定访问区域的时候，路由到事先指定的区域。缺失则默认为false
 # 使用场景示例：
@@ -6027,11 +6038,21 @@ spring.application.strategy.sentinel.param.flow.path=classpath:sentinel-param-fl
 # 版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例。其作用是防止蓝绿灰度版本发布人为设置错误，或者对应的版本实例发生灾难性的全部下线，导致流量有损
 # 启动和关闭版本故障转移。缺失则默认为false
 spring.application.strategy.version.failover.enabled=true
+# 在开启版本故障转移的开关前提下，故障转移有三种策略：
+# 1. 开启“failover.loadbalance.enabled”开关，负载均衡策略的故障转移，即找不到实例的时候，执行负载均衡策略
+# 2. 关闭“failover.loadbalance.enabled”开关，如果“failover.route”值未配置，版本列表排序策略的（取最老的稳定版本的实例）故障转移，即找不到实例的时候，直接路由到最老的稳定版本的实例
+# 3. 关闭“failover.loadbalance.enabled”开关，如果“failover.route”值已配置，指定版本的故障转移，即找不到实例的时候，直接路由到该版本实例
+# 开启和关闭负载均衡策略的版本故障转移。缺失则默认为false
+spring.application.strategy.version.failover.loadbalance.enabled=true
+spring.application.strategy.version.failover.route=1.0
+
 # 版本偏好，即非蓝绿灰度发布场景下，路由到老的稳定版本的实例。其作用是防止多个网关上并行实施蓝绿灰度版本发布产生混乱，对处于非蓝绿灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；蓝绿灰度状态的服务，还是根据传递的Header版本号进行匹配
 # 启动和关闭版本偏好。缺失则默认为false
 spring.application.strategy.version.prefer.enabled=true
-# 在开启版本故障转移或者版本偏好的开关前提下，如果配置了目标路由版本，直接路由到该版本实例；如果未配置，则通过版本列表排序的规则，取最老的稳定版本的实例
-spring.application.strategy.version.route=1.0
+# 在开启版本偏好的开关前提下，偏好有两种策略：
+# 1. 如果“prefer.route”值未配置，版本列表排序策略的（取最老的稳定版本的实例）偏好，即不管存在多少版本，直接路由到最老的稳定版本的实例
+# 2. 如果“prefer.route”值已配置，指定版本的偏好，即不管存在多少版本，直接路由到该版本实例
+spring.application.strategy.version.prefer.route=1.0
 
 # 启动和关闭区域调试路由。当未对服务指定访问区域的时候，路由到事先指定的区域。缺失则默认为false
 # 使用场景示例：
@@ -6230,11 +6251,21 @@ spring.application.strategy.sentinel.param.flow.path=classpath:sentinel-param-fl
 # 版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例。其作用是防止蓝绿灰度版本发布人为设置错误，或者对应的版本实例发生灾难性的全部下线，导致流量有损
 # 启动和关闭版本故障转移。缺失则默认为false
 spring.application.strategy.version.failover.enabled=true
+# 在开启版本故障转移的开关前提下，故障转移有三种策略：
+# 1. 开启“failover.loadbalance.enabled”开关，负载均衡策略的故障转移，即找不到实例的时候，执行负载均衡策略
+# 2. 关闭“failover.loadbalance.enabled”开关，如果“failover.route”值未配置，版本列表排序策略的（取最老的稳定版本的实例）故障转移，即找不到实例的时候，直接路由到最老的稳定版本的实例
+# 3. 关闭“failover.loadbalance.enabled”开关，如果“failover.route”值已配置，指定版本的故障转移，即找不到实例的时候，直接路由到该版本实例
+# 开启和关闭负载均衡策略的版本故障转移。缺失则默认为false
+spring.application.strategy.version.failover.loadbalance.enabled=true
+spring.application.strategy.version.failover.route=1.0
+
 # 版本偏好，即非蓝绿灰度发布场景下，路由到老的稳定版本的实例。其作用是防止多个网关上并行实施蓝绿灰度版本发布产生混乱，对处于非蓝绿灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；蓝绿灰度状态的服务，还是根据传递的Header版本号进行匹配
 # 启动和关闭版本偏好。缺失则默认为false
 spring.application.strategy.version.prefer.enabled=true
-# 在开启版本故障转移或者版本偏好的开关前提下，如果配置了目标路由版本，直接路由到该版本实例；如果未配置，则通过版本列表排序的规则，取最老的稳定版本的实例
-spring.application.strategy.version.route=1.0
+# 在开启版本偏好的开关前提下，偏好有两种策略：
+# 1. 如果“prefer.route”值未配置，版本列表排序策略的（取最老的稳定版本的实例）偏好，即不管存在多少版本，直接路由到最老的稳定版本的实例
+# 2. 如果“prefer.route”值已配置，指定版本的偏好，即不管存在多少版本，直接路由到该版本实例
+spring.application.strategy.version.prefer.route=1.0
 
 # 启动和关闭区域调试路由。当未对服务指定访问区域的时候，路由到事先指定的区域。缺失则默认为false
 # 使用场景示例：
