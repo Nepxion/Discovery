@@ -10,6 +10,7 @@ package com.nepxion.discovery.common.util;
  */
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -110,6 +111,23 @@ public class JsonUtil {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    public static String fromJsonMap(String json, String key) {
+        if (StringUtils.isEmpty(json)) {
+            return null;
+        }
+
+        String value = null;
+        try {
+            Map<String, String> map = fromJson(json, Map.class);
+            value = map.get(key);
+        } catch (Exception e) {
+            value = json;
+        }
+
+        return value;
     }
 
     public static ObjectMapper getObjectMapper() {
