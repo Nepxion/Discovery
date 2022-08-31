@@ -9,6 +9,7 @@ package com.nepxion.discovery.plugin.framework.decorator;
  * @version 1.0
  */
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -18,10 +19,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import com.google.common.base.Optional;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
+import com.nepxion.discovery.plugin.framework.loadbalance.DiscoveryEnabledLoadBalance;
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.RuleWeightRandomLoadBalance;
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.StrategyWeightRandomLoadBalance;
+import com.netflix.loadbalancer.ILoadBalancer;
 import com.netflix.loadbalancer.PredicateBasedRule;
 import com.netflix.loadbalancer.Server;
 
@@ -42,6 +46,9 @@ public abstract class PredicateBasedRuleDecorator extends PredicateBasedRule {
 
     @Autowired
     private RuleWeightRandomLoadBalance<WeightFilterEntity> ruleWeightRandomLoadBalance;
+
+    @Autowired(required = false)
+    private DiscoveryEnabledLoadBalance discoveryEnabledLoadBalance;
 
     // 必须执行getEligibleServers，否则叠加执行权重规则和版本区域策略会失效
     private List<Server> getServerList(Object key) {
@@ -83,10 +90,10 @@ public abstract class PredicateBasedRuleDecorator extends PredicateBasedRule {
                 try {
                     return strategyWeightRandomLoadBalance.choose(serverList, strategyWeightFilterEntity);
                 } catch (Exception e) {
-                    return super.choose(key);
+                    return filterChoose(key);
                 }
             } else {
-                return super.choose(key);
+                return filterChoose(key);
             }
         }
 
@@ -99,14 +106,32 @@ public abstract class PredicateBasedRuleDecorator extends PredicateBasedRule {
                     try {
                         return ruleWeightRandomLoadBalance.choose(serverList, ruleWeightFilterEntity);
                     } catch (Exception e) {
-                        return super.choose(key);
+                        return filterChoose(key);
                     }
                 } else {
-                    return super.choose(key);
+                    return filterChoose(key);
                 }
             }
         }
 
-        return super.choose(key);
+        return filterChoose(key);
+    }
+
+    public Server filterChoose(Object key) {
+        ILoadBalancer lb = getLoadBalancer();
+
+        List<Server> serverList = new ArrayList<Server>();
+        serverList.addAll(lb.getAllServers());
+
+        if (discoveryEnabledLoadBalance != null) {
+            discoveryEnabledLoadBalance.filter(serverList);
+        }
+
+        Optional<Server> server = getPredicate().chooseRoundRobinAfterFiltering(serverList, key);
+        if (server.isPresent()) {
+            return server.get();
+        } else {
+            return null;
+        }
     }
 }
