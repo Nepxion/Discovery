@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.loadbalance;
+package com.nepxion.discovery.plugin.strategy.filter;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -11,10 +11,12 @@ package com.nepxion.discovery.plugin.framework.loadbalance;
 
 import java.util.List;
 
+import org.springframework.core.Ordered;
+
 import com.netflix.loadbalancer.Server;
 
-public interface DiscoveryEnabledLoadBalance {
+public interface StrategyEnabledFilter extends Ordered {
     void filter(List<? extends Server> servers);
 
-    boolean apply(Server server);
+    boolean apply(List<? extends Server> servers, Server server);
 }

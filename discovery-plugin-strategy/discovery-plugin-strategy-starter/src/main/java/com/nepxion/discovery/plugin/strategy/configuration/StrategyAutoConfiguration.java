@@ -38,8 +38,16 @@ import com.nepxion.discovery.plugin.strategy.condition.ExpressionStrategyConditi
 import com.nepxion.discovery.plugin.strategy.condition.StrategyCondition;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.extractor.StrategyPackagesExtractor;
-import com.nepxion.discovery.plugin.strategy.filter.StrategyVersionFilter;
+import com.nepxion.discovery.plugin.strategy.filter.StrategyAddressBlacklistEnabledFilter;
+import com.nepxion.discovery.plugin.strategy.filter.StrategyAddressEnabledFilter;
+import com.nepxion.discovery.plugin.strategy.filter.StrategyEnvironmentEnabledFilter;
+import com.nepxion.discovery.plugin.strategy.filter.StrategyGroupEnabledFilter;
+import com.nepxion.discovery.plugin.strategy.filter.StrategyIdBlacklistEnabledFilter;
+import com.nepxion.discovery.plugin.strategy.filter.StrategyRegionEnabledFilter;
+import com.nepxion.discovery.plugin.strategy.filter.StrategyVersionEnabledFilter;
+import com.nepxion.discovery.plugin.strategy.filter.StrategyZoneEnabledFilter;
 import com.nepxion.discovery.plugin.strategy.matcher.DiscoveryAntPathMatcherStrategy;
+import com.nepxion.discovery.plugin.strategy.matcher.DiscoveryMatcher;
 import com.nepxion.discovery.plugin.strategy.matcher.DiscoveryMatcherStrategy;
 import com.nepxion.discovery.plugin.strategy.monitor.DefaultStrategyAlarm;
 import com.nepxion.discovery.plugin.strategy.monitor.DefaultStrategyLogger;
@@ -54,6 +62,54 @@ import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
 public class StrategyAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
+    public StrategyIdBlacklistEnabledFilter strategyIdBlacklistEnabledFilter() {
+        return new StrategyIdBlacklistEnabledFilter();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public StrategyAddressBlacklistEnabledFilter strategyAddressBlacklistEnabledFilter() {
+        return new StrategyAddressBlacklistEnabledFilter();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public StrategyGroupEnabledFilter strategyGroupEnabledFilter() {
+        return new StrategyGroupEnabledFilter();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public StrategyEnvironmentEnabledFilter strategyEnvironmentEnabledFilter() {
+        return new StrategyEnvironmentEnabledFilter();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public StrategyZoneEnabledFilter strategyZoneEnabledFilter() {
+        return new StrategyZoneEnabledFilter();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public StrategyAddressEnabledFilter strategyAddressEnabledFilter() {
+        return new StrategyAddressEnabledFilter();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public StrategyRegionEnabledFilter strategyRegionEnabledFilter() {
+        return new StrategyRegionEnabledFilter();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public StrategyVersionEnabledFilter strategyVersionEnabledFilter() {
+        return new StrategyVersionEnabledFilter();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
     public DiscoveryEnabledAdapter discoveryEnabledAdapter() {
         return new DefaultDiscoveryEnabledAdapter();
     }
@@ -66,8 +122,8 @@ public class StrategyAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public StrategyVersionFilter strategyVersionFilter() {
-        return new StrategyVersionFilter();
+    public DiscoveryMatcher discoveryMatcher() {
+        return new DiscoveryMatcher();
     }
 
     @Bean
