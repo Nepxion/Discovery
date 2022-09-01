@@ -18,6 +18,7 @@ public class XmlConfigConstant {
     public static final String STRATEGY_ELEMENT_NAME = "strategy";
     public static final String STRATEGY_RELEASE_ELEMENT_NAME = "strategy-release";
     public static final String STRATEGY_CUSTOMIZATION_ELEMENT_NAME = "strategy-customization";
+    public static final String STRATEGY_FAILOVER_ELEMENT_NAME = "strategy-failover";
     public static final String STRATEGY_BLACKLIST_ELEMENT_NAME = "strategy-blacklist";
     public static final String PARAMETER_ELEMENT_NAME = "parameter";
     public static final String CONDITIONS_ELEMENT_NAME = "conditions";
@@ -25,6 +26,13 @@ public class XmlConfigConstant {
     public static final String ROUTES_ELEMENT_NAME = "routes";
     public static final String ROUTE_ELEMENT_NAME = "route";
     public static final String HEADER_ELEMENT_NAME = "header";
+    public static final String VERSION_PREFER_ELEMENT_NAME = "version-prefer";
+    public static final String VERSION_FAILOVER_ELEMENT_NAME = "version-failover";
+    public static final String REGION_TRANSFER_ELEMENT_NAME = "region-transfer";
+    public static final String REGION_FAILOVER_ELEMENT_NAME = "region-failover";
+    public static final String ENVIRONMENT_FAILOVER_ELEMENT_NAME = "env-failover";
+    public static final String ZONE_FAILOVER_ELEMENT_NAME = "zone-failover";
+    public static final String ADDRESS_FAILOVER_ELEMENT_NAME = "address-failover";
     public static final String ID_ELEMENT_NAME = "id";
     public static final String SERVICE_ELEMENT_NAME = "service";
     public static final String BLACKLIST_ELEMENT_NAME = "blacklist";

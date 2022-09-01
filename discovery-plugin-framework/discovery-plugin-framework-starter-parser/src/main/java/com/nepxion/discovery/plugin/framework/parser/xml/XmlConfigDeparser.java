@@ -36,9 +36,10 @@ import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.StrategyBlacklistEntity;
 import com.nepxion.discovery.common.entity.StrategyConditionBlueGreenEntity;
 import com.nepxion.discovery.common.entity.StrategyConditionGrayEntity;
-import com.nepxion.discovery.common.entity.StrategyReleaseEntity;
 import com.nepxion.discovery.common.entity.StrategyEntity;
+import com.nepxion.discovery.common.entity.StrategyFailoverEntity;
 import com.nepxion.discovery.common.entity.StrategyHeaderEntity;
+import com.nepxion.discovery.common.entity.StrategyReleaseEntity;
 import com.nepxion.discovery.common.entity.StrategyRouteEntity;
 import com.nepxion.discovery.common.entity.StrategyRouteType;
 import com.nepxion.discovery.common.entity.VersionEntity;
@@ -81,6 +82,7 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
         DiscoveryEntity discoveryEntity = ruleEntity.getDiscoveryEntity();
         StrategyEntity strategyEntity = ruleEntity.getStrategyEntity();
         StrategyReleaseEntity strategyReleaseEntity = ruleEntity.getStrategyReleaseEntity();
+        StrategyFailoverEntity strategyFailoverEntity = ruleEntity.getStrategyFailoverEntity();
         StrategyBlacklistEntity strategyBlacklistEntity = ruleEntity.getStrategyBlacklistEntity();
         ParameterEntity parameterEntity = ruleEntity.getParameterEntity();
 
@@ -97,6 +99,9 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
         }
         if (strategyReleaseEntity != null) {
             deparseStrategyRelease(stringBuilder, strategyReleaseEntity);
+        }
+        if (strategyFailoverEntity != null) {
+            deparseStrategyFailover(stringBuilder, strategyFailoverEntity);
         }
         if (strategyBlacklistEntity != null) {
             deparseStrategyBlacklist(stringBuilder, strategyBlacklistEntity);
@@ -204,6 +209,43 @@ public class XmlConfigDeparser implements PluginConfigDeparser {
         }
         if (CollectionUtils.isNotEmpty(strategyConditionBlueGreenEntityList) || CollectionUtils.isNotEmpty(strategyConditionGrayEntityList) || CollectionUtils.isNotEmpty(strategyRouteEntityList) || strategyHeaderEntity != null) {
             stringBuilder.append(INDENT + "</" + XmlConfigConstant.STRATEGY_RELEASE_ELEMENT_NAME + ">\n");
+        }
+    }
+
+    private void deparseStrategyFailover(StringBuilder stringBuilder, StrategyFailoverEntity strategyFailoverEntity) {
+        String versionPreferValue = strategyFailoverEntity.getVersionPreferValue();
+        String versionFailoverValue = strategyFailoverEntity.getVersionFailoverValue();
+        String regionTransferValue = strategyFailoverEntity.getRegionTransferValue();
+        String regionFailoverValue = strategyFailoverEntity.getRegionFailoverValue();
+        String environmentFailoverValue = strategyFailoverEntity.getEnvironmentFailoverValue();
+        String zoneFailoverValue = strategyFailoverEntity.getZoneFailoverValue();
+        String addressFailoverValue = strategyFailoverEntity.getAddressFailoverValue();
+        if (versionPreferValue != null || versionFailoverValue != null || regionTransferValue != null || regionFailoverValue != null || environmentFailoverValue != null || zoneFailoverValue != null || addressFailoverValue != null) {
+            stringBuilder.append(INDENT + "<" + XmlConfigConstant.STRATEGY_FAILOVER_ELEMENT_NAME + ">\n");
+        }
+        if (versionPreferValue != null) {
+            stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.VERSION_PREFER_ELEMENT_NAME + ">" + versionPreferValue + "</" + XmlConfigConstant.VERSION_PREFER_ELEMENT_NAME + ">\n");
+        }
+        if (versionFailoverValue != null) {
+            stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.VERSION_FAILOVER_ELEMENT_NAME + ">" + versionFailoverValue + "</" + XmlConfigConstant.VERSION_FAILOVER_ELEMENT_NAME + ">\n");
+        }
+        if (regionTransferValue != null) {
+            stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.REGION_TRANSFER_ELEMENT_NAME + ">" + regionTransferValue + "</" + XmlConfigConstant.REGION_TRANSFER_ELEMENT_NAME + ">\n");
+        }
+        if (regionFailoverValue != null) {
+            stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.REGION_FAILOVER_ELEMENT_NAME + ">" + regionFailoverValue + "</" + XmlConfigConstant.REGION_FAILOVER_ELEMENT_NAME + ">\n");
+        }
+        if (environmentFailoverValue != null) {
+            stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.ENVIRONMENT_FAILOVER_ELEMENT_NAME + ">" + environmentFailoverValue + "</" + XmlConfigConstant.ENVIRONMENT_FAILOVER_ELEMENT_NAME + ">\n");
+        }
+        if (zoneFailoverValue != null) {
+            stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.ZONE_FAILOVER_ELEMENT_NAME + ">" + zoneFailoverValue + "</" + XmlConfigConstant.ZONE_FAILOVER_ELEMENT_NAME + ">\n");
+        }
+        if (addressFailoverValue != null) {
+            stringBuilder.append(INDENT + INDENT + "<" + XmlConfigConstant.ADDRESS_FAILOVER_ELEMENT_NAME + ">" + addressFailoverValue + "</" + XmlConfigConstant.ADDRESS_FAILOVER_ELEMENT_NAME + ">\n");
+        }
+        if (versionPreferValue != null || versionFailoverValue != null || regionTransferValue != null || regionFailoverValue != null || environmentFailoverValue != null || zoneFailoverValue != null || addressFailoverValue != null) {
+            stringBuilder.append(INDENT + "</" + XmlConfigConstant.STRATEGY_FAILOVER_ELEMENT_NAME + ">\n");
         }
     }
 

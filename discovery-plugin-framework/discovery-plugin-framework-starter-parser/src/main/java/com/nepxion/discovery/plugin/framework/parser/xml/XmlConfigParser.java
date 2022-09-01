@@ -41,9 +41,10 @@ import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.StrategyBlacklistEntity;
 import com.nepxion.discovery.common.entity.StrategyConditionBlueGreenEntity;
 import com.nepxion.discovery.common.entity.StrategyConditionGrayEntity;
-import com.nepxion.discovery.common.entity.StrategyReleaseEntity;
 import com.nepxion.discovery.common.entity.StrategyEntity;
+import com.nepxion.discovery.common.entity.StrategyFailoverEntity;
 import com.nepxion.discovery.common.entity.StrategyHeaderEntity;
+import com.nepxion.discovery.common.entity.StrategyReleaseEntity;
 import com.nepxion.discovery.common.entity.StrategyRouteEntity;
 import com.nepxion.discovery.common.entity.StrategyRouteType;
 import com.nepxion.discovery.common.entity.VersionEntity;
@@ -110,6 +111,11 @@ public class XmlConfigParser implements PluginConfigParser {
             throw new DiscoveryException("Attribute[" + XmlConfigConstant.STRATEGY_RELEASE_ELEMENT_NAME + "] and [" + XmlConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME + "] are all configed, only one of them exists");
         }
 
+        int strategyFailoverElementCount = element.elements(XmlConfigConstant.STRATEGY_FAILOVER_ELEMENT_NAME).size();
+        if (strategyFailoverElementCount > 1) {
+            throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.STRATEGY_FAILOVER_ELEMENT_NAME + "] to be configed");
+        }
+
         int strategyBlacklistElementCount = element.elements(XmlConfigConstant.STRATEGY_BLACKLIST_ELEMENT_NAME).size();
         if (strategyBlacklistElementCount > 1) {
             throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.STRATEGY_BLACKLIST_ELEMENT_NAME + "] to be configed");
@@ -124,6 +130,7 @@ public class XmlConfigParser implements PluginConfigParser {
         DiscoveryEntity discoveryEntity = null;
         StrategyEntity strategyEntity = null;
         StrategyReleaseEntity strategyReleaseEntity = null;
+        StrategyFailoverEntity strategyFailoverEntity = null;
         StrategyBlacklistEntity strategyBlacklistEntity = null;
         ParameterEntity parameterEntity = null;
         for (Iterator<Element> elementIterator = element.elementIterator(); elementIterator.hasNext();) {
@@ -144,6 +151,9 @@ public class XmlConfigParser implements PluginConfigParser {
             } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME)) {
                 strategyReleaseEntity = new StrategyReleaseEntity();
                 parseStrategyRelease(childElement, strategyReleaseEntity);
+            } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.STRATEGY_FAILOVER_ELEMENT_NAME)) {
+                strategyFailoverEntity = new StrategyFailoverEntity();
+                parseStrategyFailover(childElement, strategyFailoverEntity);
             } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.STRATEGY_BLACKLIST_ELEMENT_NAME)) {
                 strategyBlacklistEntity = new StrategyBlacklistEntity();
                 parseStrategyBlacklist(childElement, strategyBlacklistEntity);
@@ -158,6 +168,7 @@ public class XmlConfigParser implements PluginConfigParser {
         ruleEntity.setDiscoveryEntity(discoveryEntity);
         ruleEntity.setStrategyEntity(strategyEntity);
         ruleEntity.setStrategyReleaseEntity(strategyReleaseEntity);
+        ruleEntity.setStrategyFailoverEntity(strategyFailoverEntity);
         ruleEntity.setStrategyBlacklistEntity(strategyBlacklistEntity);
         ruleEntity.setParameterEntity(parameterEntity);
         ruleEntity.setContent(config);
@@ -270,6 +281,70 @@ public class XmlConfigParser implements PluginConfigParser {
                 parseStrategyRoute(childElement, strategyReleaseEntity);
             } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.HEADER_ELEMENT_NAME)) {
                 parseStrategyHeader(childElement, strategyReleaseEntity);
+            }
+        }
+    }
+
+    private void parseStrategyFailover(Element element, StrategyFailoverEntity strategyFailoverEntity) {
+        int versionPreferElementCount = element.elements(XmlConfigConstant.VERSION_PREFER_ELEMENT_NAME).size();
+        if (versionPreferElementCount > 1) {
+            throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.VERSION_PREFER_ELEMENT_NAME + "] to be configed");
+        }
+
+        int versionFailoverElementCount = element.elements(XmlConfigConstant.VERSION_FAILOVER_ELEMENT_NAME).size();
+        if (versionFailoverElementCount > 1) {
+            throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.VERSION_FAILOVER_ELEMENT_NAME + "] to be configed");
+        }
+
+        int regionTransferElementCount = element.elements(XmlConfigConstant.REGION_TRANSFER_ELEMENT_NAME).size();
+        if (regionTransferElementCount > 1) {
+            throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.REGION_TRANSFER_ELEMENT_NAME + "] to be configed");
+        }
+
+        int regionFailoverElementCount = element.elements(XmlConfigConstant.REGION_FAILOVER_ELEMENT_NAME).size();
+        if (regionFailoverElementCount > 1) {
+            throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.REGION_FAILOVER_ELEMENT_NAME + "] to be configed");
+        }
+
+        int environmentFailoverElementCount = element.elements(XmlConfigConstant.ENVIRONMENT_FAILOVER_ELEMENT_NAME).size();
+        if (environmentFailoverElementCount > 1) {
+            throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.ENVIRONMENT_FAILOVER_ELEMENT_NAME + "] to be configed");
+        }
+
+        int zoneFailoverElementCount = element.elements(XmlConfigConstant.ZONE_FAILOVER_ELEMENT_NAME).size();
+        if (zoneFailoverElementCount > 1) {
+            throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.ZONE_FAILOVER_ELEMENT_NAME + "] to be configed");
+        }
+
+        int addressFailoverElementCount = element.elements(XmlConfigConstant.ADDRESS_FAILOVER_ELEMENT_NAME).size();
+        if (addressFailoverElementCount > 1) {
+            throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.ADDRESS_FAILOVER_ELEMENT_NAME + "] to be configed");
+        }
+
+        for (Iterator<Element> elementIterator = element.elementIterator(); elementIterator.hasNext();) {
+            Element childElement = elementIterator.next();
+
+            if (StringUtils.equals(childElement.getName(), XmlConfigConstant.VERSION_PREFER_ELEMENT_NAME)) {
+                String versionPreferValue = childElement.getTextTrim();
+                strategyFailoverEntity.setVersionPreferValue(versionPreferValue);
+            } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.VERSION_FAILOVER_ELEMENT_NAME)) {
+                String versionFailoverValue = childElement.getTextTrim();
+                strategyFailoverEntity.setVersionFailoverValue(versionFailoverValue);
+            } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.REGION_TRANSFER_ELEMENT_NAME)) {
+                String regionTransferValue = childElement.getTextTrim();
+                strategyFailoverEntity.setRegionTransferValue(regionTransferValue);
+            } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.REGION_FAILOVER_ELEMENT_NAME)) {
+                String regionFailoverValue = childElement.getTextTrim();
+                strategyFailoverEntity.setRegionFailoverValue(regionFailoverValue);
+            } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.ENVIRONMENT_FAILOVER_ELEMENT_NAME)) {
+                String environmentFailoverValue = childElement.getTextTrim();
+                strategyFailoverEntity.setEnvironmentFailoverValue(environmentFailoverValue);
+            } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.ZONE_FAILOVER_ELEMENT_NAME)) {
+                String zoneFailoverValue = childElement.getTextTrim();
+                strategyFailoverEntity.setZoneFailoverValue(zoneFailoverValue);
+            } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.ADDRESS_FAILOVER_ELEMENT_NAME)) {
+                String addressFailoverValue = childElement.getTextTrim();
+                strategyFailoverEntity.setAddressFailoverValue(addressFailoverValue);
             }
         }
     }
