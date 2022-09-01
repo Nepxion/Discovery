@@ -150,6 +150,48 @@ public class WebClientStrategyInterceptor extends AbstractStrategyInterceptor im
                     requestBuilder.header(DiscoveryConstant.N_D_REGION_WEIGHT, routeRegionWeight);
                 }
             }
+            if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_VERSION_PREFER))) {
+                String routeVersionPrefer = strategyContextHolder.getRouteVersionPrefer();
+                if (StringUtils.isNotEmpty(routeVersionPrefer)) {
+                    requestBuilder.header(DiscoveryConstant.N_D_VERSION_PREFER, routeVersionPrefer);
+                }
+            }
+            if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_VERSION_FAILOVER))) {
+                String routeVersionFailover = strategyContextHolder.getRouteVersionFailover();
+                if (StringUtils.isNotEmpty(routeVersionFailover)) {
+                    requestBuilder.header(DiscoveryConstant.N_D_VERSION_FAILOVER, routeVersionFailover);
+                }
+            }
+            if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_REGION_TRANSFER))) {
+                String routeRegionTransfer = strategyContextHolder.getRouteRegionTransfer();
+                if (StringUtils.isNotEmpty(routeRegionTransfer)) {
+                    requestBuilder.header(DiscoveryConstant.N_D_REGION_TRANSFER, routeRegionTransfer);
+                }
+            }
+            if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_REGION_FAILOVER))) {
+                String routeRegionFailover = strategyContextHolder.getRouteRegionFailover();
+                if (StringUtils.isNotEmpty(routeRegionFailover)) {
+                    requestBuilder.header(DiscoveryConstant.N_D_REGION_FAILOVER, routeRegionFailover);
+                }
+            }
+            if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_ENVIRONMENT_FAILOVER))) {
+                String routeEnvironmentFailover = strategyContextHolder.getRouteEnvironmentFailover();
+                if (StringUtils.isNotEmpty(routeEnvironmentFailover)) {
+                    requestBuilder.header(DiscoveryConstant.N_D_ENVIRONMENT_FAILOVER, routeEnvironmentFailover);
+                }
+            }
+            if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_ZONE_FAILOVER))) {
+                String routeZoneFailover = strategyContextHolder.getRouteZoneFailover();
+                if (StringUtils.isNotEmpty(routeZoneFailover)) {
+                    requestBuilder.header(DiscoveryConstant.N_D_ZONE_FAILOVER, routeZoneFailover);
+                }
+            }
+            if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_ADDRESS_FAILOVER))) {
+                String routeAddressFailover = strategyContextHolder.getRouteAddressFailover();
+                if (StringUtils.isNotEmpty(routeAddressFailover)) {
+                    requestBuilder.header(DiscoveryConstant.N_D_ADDRESS_FAILOVER, routeAddressFailover);
+                }
+            }
             if (CollectionUtils.isEmpty(headers.get(DiscoveryConstant.N_D_ID_BLACKLIST))) {
                 String routeIdBlacklist = strategyContextHolder.getRouteIdBlacklist();
                 if (StringUtils.isNotEmpty(routeIdBlacklist)) {

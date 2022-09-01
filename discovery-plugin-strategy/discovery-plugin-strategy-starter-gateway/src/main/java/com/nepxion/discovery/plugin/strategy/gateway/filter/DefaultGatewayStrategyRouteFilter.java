@@ -49,6 +49,41 @@ public class DefaultGatewayStrategyRouteFilter extends AbstractGatewayStrategyRo
     }
 
     @Override
+    public String getRouteVersionPrefer() {
+        return strategyContextHolder.getRouteVersionPrefer();
+    }
+
+    @Override
+    public String getRouteVersionFailover() {
+        return strategyContextHolder.getRouteVersionFailover();
+    }
+
+    @Override
+    public String getRouteRegionTransfer() {
+        return strategyContextHolder.getRouteRegionTransfer();
+    }
+
+    @Override
+    public String getRouteRegionFailover() {
+        return strategyContextHolder.getRouteRegionFailover();
+    }
+
+    @Override
+    public String getRouteEnvironmentFailover() {
+        return strategyContextHolder.getRouteEnvironmentFailover();
+    }
+
+    @Override
+    public String getRouteZoneFailover() {
+        return strategyContextHolder.getRouteZoneFailover();
+    }
+
+    @Override
+    public String getRouteAddressFailover() {
+        return strategyContextHolder.getRouteAddressFailover();
+    }
+
+    @Override
     public String getRouteIdBlacklist() {
         return strategyContextHolder.getRouteIdBlacklist();
     }

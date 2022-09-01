@@ -14,17 +14,16 @@ public class StrategyConstant {
     public static final String SPRING_APPLICATION_STRATEGY_HYSTRIX_THREADLOCAL_SUPPORTED = "spring.application.strategy.hystrix.threadlocal.supported";
     public static final String SPRING_APPLICATION_STRATEGY_CONSUMER_ISOLATION_ENABLED = "spring.application.strategy.consumer.isolation.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_PROVIDER_ISOLATION_ENABLED = "spring.application.strategy.provider.isolation.enabled";
-    public static final String SPRING_APPLICATION_STRATEGY_ENVIRONMENT_ROUTE = "spring.application.strategy.environment.route";
-    public static final String SPRING_APPLICATION_STRATEGY_ENVIRONMENT_ROUTE_VALUE = "common";
+    public static final String SPRING_APPLICATION_STRATEGY_ADDRESS_FAILOVER_ENABLED = "spring.application.strategy.address.failover.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_ENVIRONMENT_FAILOVER_ENABLED = "spring.application.strategy.environment.failover.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_ENVIRONMENT_FAILOVER_VALUE = "common";
     public static final String SPRING_APPLICATION_STRATEGY_ZONE_AFFINITY_ENABLED = "spring.application.strategy.zone.affinity.enabled";
-    public static final String SPRING_APPLICATION_STRATEGY_ZONE_ROUTE_ENABLED = "spring.application.strategy.zone.route.enabled";
-    public static final String SPRING_APPLICATION_STRATEGY_REGION_ROUTE_ENABLED = "spring.application.strategy.region.route.enabled";
-    public static final String SPRING_APPLICATION_STRATEGY_REGION_ROUTE = "spring.application.strategy.region.route";
+    public static final String SPRING_APPLICATION_STRATEGY_ZONE_FAILOVER_ENABLED = "spring.application.strategy.zone.failover.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_REGION_TRANSFER_ENABLED = "spring.application.strategy.region.transfer.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_REGION_FAILOVER_ENABLED = "spring.application.strategy.region.failover.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_VERSION_FAILOVER_ENABLED = "spring.application.strategy.version.failover.enabled";
-    public static final String SPRING_APPLICATION_STRATEGY_VERSION_FAILOVER_LOADBALANCE_ENABLED = "spring.application.strategy.version.failover.loadbalance.enabled";
-    public static final String SPRING_APPLICATION_STRATEGY_VERSION_FAILOVER_ROUTE = "spring.application.strategy.version.failover.route";
+    public static final String SPRING_APPLICATION_STRATEGY_VERSION_FAILOVER_STABLE_ENABLED = "spring.application.strategy.version.failover.stable.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_VERSION_PREFER_ENABLED = "spring.application.strategy.version.prefer.enabled";
-    public static final String SPRING_APPLICATION_STRATEGY_VERSION_PREFER_ROUTE = "spring.application.strategy.version.prefer.route";
 
     public static final String SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_ENABLED = "spring.application.strategy.rest.intercept.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_DEBUG_ENABLED = "spring.application.strategy.rest.intercept.debug.enabled";

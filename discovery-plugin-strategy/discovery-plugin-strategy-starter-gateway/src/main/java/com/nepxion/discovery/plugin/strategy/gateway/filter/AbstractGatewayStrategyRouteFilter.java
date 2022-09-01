@@ -147,6 +147,13 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
             String routeAddress = getRouteAddress();
             String routeVersionWeight = getRouteVersionWeight();
             String routeRegionWeight = getRouteRegionWeight();
+            String routeVersionPrefer = getRouteVersionPrefer();
+            String routeVersionFailover = getRouteVersionFailover();
+            String routeRegionTransfer = getRouteRegionTransfer();
+            String routeRegionFailover = getRouteRegionFailover();
+            String routeEnvironmentFailover = getRouteEnvironmentFailover();
+            String routeZoneFailover = getRouteZoneFailover();
+            String routeAddressFailover = getRouteAddressFailover();
             String routeIdBlacklist = getRouteIdBlacklist();
             String routeAddressBlacklist = getRouteAddressBlacklist();
 
@@ -175,6 +182,41 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
             } else {
                 GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_REGION_WEIGHT, gatewayHeaderPriority, gatewayOriginalHeaderIgnored);
             }
+            if (StringUtils.isNotEmpty(routeVersionPrefer)) {
+                GatewayStrategyFilterResolver.setHeader(request, requestBuilder, DiscoveryConstant.N_D_VERSION_PREFER, routeVersionPrefer, gatewayHeaderPriority);
+            } else {
+                GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_VERSION_PREFER, gatewayHeaderPriority, gatewayOriginalHeaderIgnored);
+            }
+            if (StringUtils.isNotEmpty(routeVersionFailover)) {
+                GatewayStrategyFilterResolver.setHeader(request, requestBuilder, DiscoveryConstant.N_D_VERSION_FAILOVER, routeVersionFailover, gatewayHeaderPriority);
+            } else {
+                GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_VERSION_FAILOVER, gatewayHeaderPriority, gatewayOriginalHeaderIgnored);
+            }
+            if (StringUtils.isNotEmpty(routeRegionTransfer)) {
+                GatewayStrategyFilterResolver.setHeader(request, requestBuilder, DiscoveryConstant.N_D_REGION_TRANSFER, routeRegionTransfer, gatewayHeaderPriority);
+            } else {
+                GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_REGION_TRANSFER, gatewayHeaderPriority, gatewayOriginalHeaderIgnored);
+            }
+            if (StringUtils.isNotEmpty(routeRegionFailover)) {
+                GatewayStrategyFilterResolver.setHeader(request, requestBuilder, DiscoveryConstant.N_D_REGION_FAILOVER, routeRegionFailover, gatewayHeaderPriority);
+            } else {
+                GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_REGION_FAILOVER, gatewayHeaderPriority, gatewayOriginalHeaderIgnored);
+            }
+            if (StringUtils.isNotEmpty(routeEnvironmentFailover)) {
+                GatewayStrategyFilterResolver.setHeader(request, requestBuilder, DiscoveryConstant.N_D_ENVIRONMENT_FAILOVER, routeEnvironmentFailover, gatewayHeaderPriority);
+            } else {
+                GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_ENVIRONMENT_FAILOVER, gatewayHeaderPriority, gatewayOriginalHeaderIgnored);
+            }
+            if (StringUtils.isNotEmpty(routeZoneFailover)) {
+                GatewayStrategyFilterResolver.setHeader(request, requestBuilder, DiscoveryConstant.N_D_ZONE_FAILOVER, routeZoneFailover, gatewayHeaderPriority);
+            } else {
+                GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_ZONE_FAILOVER, gatewayHeaderPriority, gatewayOriginalHeaderIgnored);
+            }
+            if (StringUtils.isNotEmpty(routeAddressFailover)) {
+                GatewayStrategyFilterResolver.setHeader(request, requestBuilder, DiscoveryConstant.N_D_ADDRESS_FAILOVER, routeAddressFailover, gatewayHeaderPriority);
+            } else {
+                GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_ADDRESS_FAILOVER, gatewayHeaderPriority, gatewayOriginalHeaderIgnored);
+            }
             if (StringUtils.isNotEmpty(routeIdBlacklist)) {
                 GatewayStrategyFilterResolver.setHeader(request, requestBuilder, DiscoveryConstant.N_D_ID_BLACKLIST, routeIdBlacklist, gatewayHeaderPriority);
             } else {
@@ -192,6 +234,13 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
             GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_ADDRESS);
             GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_VERSION_WEIGHT);
             GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_REGION_WEIGHT);
+            GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_VERSION_PREFER);
+            GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_VERSION_FAILOVER);
+            GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_REGION_TRANSFER);
+            GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_REGION_FAILOVER);
+            GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_ENVIRONMENT_FAILOVER);
+            GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_ZONE_FAILOVER);
+            GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_ADDRESS_FAILOVER);
             GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_ID_BLACKLIST);
             GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_ADDRESS_BLACKLIST);
         }

@@ -115,6 +115,13 @@ public abstract class AbstractServiceStrategyRouteFilter extends ServiceStrategy
             String routeAddress = getRouteAddress();
             String routeVersionWeight = getRouteVersionWeight();
             String routeRegionWeight = getRouteRegionWeight();
+            String routeVersionPrefer = getRouteVersionPrefer();
+            String routeVersionFailover = getRouteVersionFailover();
+            String routeRegionTransfer = getRouteRegionTransfer();
+            String routeRegionFailover = getRouteRegionFailover();
+            String routeEnvironmentFailover = getRouteEnvironmentFailover();
+            String routeZoneFailover = getRouteZoneFailover();
+            String routeAddressFailover = getRouteAddressFailover();
             String routeIdBlacklist = getRouteIdBlacklist();
             String routeAddressBlacklist = getRouteAddressBlacklist();
 
@@ -132,6 +139,27 @@ public abstract class AbstractServiceStrategyRouteFilter extends ServiceStrategy
             }
             if (StringUtils.isNotEmpty(routeRegionWeight)) {
                 ServiceStrategyFilterResolver.setHeader(serviceStrategyRouteFilterRequest, DiscoveryConstant.N_D_REGION_WEIGHT, routeRegionWeight, serviceHeaderPriority);
+            }
+            if (StringUtils.isNotEmpty(routeVersionPrefer)) {
+                ServiceStrategyFilterResolver.setHeader(serviceStrategyRouteFilterRequest, DiscoveryConstant.N_D_VERSION_PREFER, routeVersionPrefer, serviceHeaderPriority);
+            }
+            if (StringUtils.isNotEmpty(routeVersionFailover)) {
+                ServiceStrategyFilterResolver.setHeader(serviceStrategyRouteFilterRequest, DiscoveryConstant.N_D_VERSION_FAILOVER, routeVersionFailover, serviceHeaderPriority);
+            }
+            if (StringUtils.isNotEmpty(routeRegionTransfer)) {
+                ServiceStrategyFilterResolver.setHeader(serviceStrategyRouteFilterRequest, DiscoveryConstant.N_D_REGION_TRANSFER, routeRegionTransfer, serviceHeaderPriority);
+            }
+            if (StringUtils.isNotEmpty(routeRegionFailover)) {
+                ServiceStrategyFilterResolver.setHeader(serviceStrategyRouteFilterRequest, DiscoveryConstant.N_D_REGION_FAILOVER, routeRegionFailover, serviceHeaderPriority);
+            }
+            if (StringUtils.isNotEmpty(routeEnvironmentFailover)) {
+                ServiceStrategyFilterResolver.setHeader(serviceStrategyRouteFilterRequest, DiscoveryConstant.N_D_ENVIRONMENT_FAILOVER, routeEnvironmentFailover, serviceHeaderPriority);
+            }
+            if (StringUtils.isNotEmpty(routeZoneFailover)) {
+                ServiceStrategyFilterResolver.setHeader(serviceStrategyRouteFilterRequest, DiscoveryConstant.N_D_ZONE_FAILOVER, routeZoneFailover, serviceHeaderPriority);
+            }
+            if (StringUtils.isNotEmpty(routeAddressFailover)) {
+                ServiceStrategyFilterResolver.setHeader(serviceStrategyRouteFilterRequest, DiscoveryConstant.N_D_ADDRESS_FAILOVER, routeAddressFailover, serviceHeaderPriority);
             }
             if (StringUtils.isNotEmpty(routeIdBlacklist)) {
                 ServiceStrategyFilterResolver.setHeader(serviceStrategyRouteFilterRequest, DiscoveryConstant.N_D_ID_BLACKLIST, routeIdBlacklist, serviceHeaderPriority);
