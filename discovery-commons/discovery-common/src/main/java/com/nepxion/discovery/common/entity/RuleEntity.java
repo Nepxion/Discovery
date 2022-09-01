@@ -23,6 +23,7 @@ public class RuleEntity implements Serializable {
     private DiscoveryEntity discoveryEntity;
     private StrategyEntity strategyEntity;
     private StrategyReleaseEntity strategyReleaseEntity;
+    private StrategyFailoverEntity strategyFailoverEntity;
     private StrategyBlacklistEntity strategyBlacklistEntity;
     private ParameterEntity parameterEntity;
     private String content;
@@ -57,6 +58,14 @@ public class RuleEntity implements Serializable {
 
     public void setStrategyReleaseEntity(StrategyReleaseEntity strategyReleaseEntity) {
         this.strategyReleaseEntity = strategyReleaseEntity;
+    }
+
+    public StrategyFailoverEntity getStrategyFailoverEntity() {
+        return strategyFailoverEntity;
+    }
+
+    public void setStrategyFailoverEntity(StrategyFailoverEntity strategyFailoverEntity) {
+        this.strategyFailoverEntity = strategyFailoverEntity;
     }
 
     public StrategyBlacklistEntity getStrategyBlacklistEntity() {
