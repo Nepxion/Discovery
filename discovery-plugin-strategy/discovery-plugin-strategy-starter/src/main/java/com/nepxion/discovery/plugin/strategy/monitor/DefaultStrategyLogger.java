@@ -87,7 +87,7 @@ public class DefaultStrategyLogger implements StrategyLogger {
             return;
         }
 
-        System.out.println("----------------------- Logger Debug -----------------------");      
+        System.out.println("----------------------- Logger Debug -----------------------");
         String traceId = strategyMonitorContext.getTraceId();
         String spanId = strategyMonitorContext.getSpanId();
         System.out.println(DiscoveryConstant.TRACE_ID + "=" + (StringUtils.isNotEmpty(traceId) ? traceId : StringUtils.EMPTY));
@@ -103,7 +103,7 @@ public class DefaultStrategyLogger implements StrategyLogger {
         System.out.println(DiscoveryConstant.N_D_SERVICE_VERSION + "=" + pluginAdapter.getVersion());
         System.out.println(DiscoveryConstant.N_D_SERVICE_REGION + "=" + pluginAdapter.getRegion());
         System.out.println(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT + "=" + pluginAdapter.getEnvironment());
-        System.out.println(DiscoveryConstant.N_D_SERVICE_ZONE + "=" + pluginAdapter.getZone()); 
+        System.out.println(DiscoveryConstant.N_D_SERVICE_ZONE + "=" + pluginAdapter.getZone());
 
         String routeVersion = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION);
         if (StringUtils.isNotEmpty(routeVersion)) {
@@ -129,13 +129,41 @@ public class DefaultStrategyLogger implements StrategyLogger {
         if (StringUtils.isNotEmpty(routeRegionWeight)) {
             System.out.println(DiscoveryConstant.N_D_REGION_WEIGHT + "=" + routeRegionWeight);
         }
-        String idBlacklist = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ID_BLACKLIST);
-        if (StringUtils.isNotEmpty(idBlacklist)) {
-            System.out.println(DiscoveryConstant.N_D_ID_BLACKLIST + "=" + idBlacklist);
+        String routeVersionPrefer = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION_PREFER);
+        if (StringUtils.isNotEmpty(routeVersionPrefer)) {
+            System.out.println(DiscoveryConstant.N_D_VERSION_PREFER + "=" + routeVersionPrefer);
         }
-        String addressBlacklist = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ADDRESS_BLACKLIST);
-        if (StringUtils.isNotEmpty(addressBlacklist)) {
-            System.out.println(DiscoveryConstant.N_D_ADDRESS_BLACKLIST + "=" + addressBlacklist);
+        String routeVersionFailover = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION_FAILOVER);
+        if (StringUtils.isNotEmpty(routeVersionFailover)) {
+            System.out.println(DiscoveryConstant.N_D_VERSION_FAILOVER + "=" + routeVersionFailover);
+        }
+        String routeRegionTransfer = strategyContextHolder.getHeader(DiscoveryConstant.N_D_REGION_TRANSFER);
+        if (StringUtils.isNotEmpty(routeRegionTransfer)) {
+            System.out.println(DiscoveryConstant.N_D_REGION_TRANSFER + "=" + routeRegionTransfer);
+        }
+        String routeRegionFailover = strategyContextHolder.getHeader(DiscoveryConstant.N_D_REGION_FAILOVER);
+        if (StringUtils.isNotEmpty(routeRegionFailover)) {
+            System.out.println(DiscoveryConstant.N_D_REGION_FAILOVER + "=" + routeRegionFailover);
+        }
+        String routeEnvironmentFailover = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ENVIRONMENT_FAILOVER);
+        if (StringUtils.isNotEmpty(routeEnvironmentFailover)) {
+            System.out.println(DiscoveryConstant.N_D_ENVIRONMENT_FAILOVER + "=" + routeEnvironmentFailover);
+        }
+        String routeZoneFailover = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ZONE_FAILOVER);
+        if (StringUtils.isNotEmpty(routeZoneFailover)) {
+            System.out.println(DiscoveryConstant.N_D_ZONE_FAILOVER + "=" + routeZoneFailover);
+        }
+        String routeAddressFailover = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ADDRESS_FAILOVER);
+        if (StringUtils.isNotEmpty(routeAddressFailover)) {
+            System.out.println(DiscoveryConstant.N_D_ADDRESS_FAILOVER + "=" + routeAddressFailover);
+        }
+        String routeIdBlacklist = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ID_BLACKLIST);
+        if (StringUtils.isNotEmpty(routeIdBlacklist)) {
+            System.out.println(DiscoveryConstant.N_D_ID_BLACKLIST + "=" + routeIdBlacklist);
+        }
+        String routeAddressBlacklist = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ADDRESS_BLACKLIST);
+        if (StringUtils.isNotEmpty(routeAddressBlacklist)) {
+            System.out.println(DiscoveryConstant.N_D_ADDRESS_BLACKLIST + "=" + routeAddressBlacklist);
         }
 
         Map<String, String> customizationMap = strategyMonitorContext.getCustomizationMap();

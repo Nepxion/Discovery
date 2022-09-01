@@ -20,6 +20,13 @@ public class StrategyUtil {
                 StringUtils.equals(headerName, DiscoveryConstant.N_D_ADDRESS) ||
                 StringUtils.equals(headerName, DiscoveryConstant.N_D_VERSION_WEIGHT) ||
                 StringUtils.equals(headerName, DiscoveryConstant.N_D_REGION_WEIGHT) ||
+                StringUtils.equals(headerName, DiscoveryConstant.N_D_VERSION_PREFER) ||
+                StringUtils.equals(headerName, DiscoveryConstant.N_D_VERSION_FAILOVER) ||
+                StringUtils.equals(headerName, DiscoveryConstant.N_D_REGION_TRANSFER) ||
+                StringUtils.equals(headerName, DiscoveryConstant.N_D_REGION_FAILOVER) ||
+                StringUtils.equals(headerName, DiscoveryConstant.N_D_ENVIRONMENT_FAILOVER) ||
+                StringUtils.equals(headerName, DiscoveryConstant.N_D_ZONE_FAILOVER) ||
+                StringUtils.equals(headerName, DiscoveryConstant.N_D_ADDRESS_FAILOVER) ||
                 StringUtils.equals(headerName, DiscoveryConstant.N_D_ID_BLACKLIST) ||
                 StringUtils.equals(headerName, DiscoveryConstant.N_D_ADDRESS_BLACKLIST);
     }

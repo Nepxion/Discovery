@@ -28,6 +28,7 @@ import com.nepxion.discovery.common.entity.StrategyBlacklistEntity;
 import com.nepxion.discovery.common.entity.StrategyConditionBlueGreenEntity;
 import com.nepxion.discovery.common.entity.StrategyConditionGrayEntity;
 import com.nepxion.discovery.common.entity.StrategyEntity;
+import com.nepxion.discovery.common.entity.StrategyFailoverEntity;
 import com.nepxion.discovery.common.entity.StrategyHeaderEntity;
 import com.nepxion.discovery.common.entity.StrategyReleaseEntity;
 import com.nepxion.discovery.common.entity.StrategyRouteEntity;
@@ -85,6 +86,118 @@ public class StrategyWrapper {
     // 2. 纯字符串格式，内容：单个或者逗号分隔多个区域百分比（例如：dev=85;qa=15）
     public String getRouteRegionWeight() {
         return getRouteRegionWeight(null);
+    }
+
+    // 从远程配置中心或者本地配置文件获取版本偏好配置。如果是远程配置中心，则值会动态改变
+    // 返回格式允许如下一种
+    // 1. Json格式，内容：服务名 -> 单个或者逗号分隔多个版本
+    // 2. 纯字符串格式，内容：单个或者逗号分隔多个版本
+    public String getRouteVersionPrefer() {
+        RuleEntity ruleEntity = pluginAdapter.getRule();
+        if (ruleEntity != null) {
+            StrategyFailoverEntity strategyFailoverEntity = ruleEntity.getStrategyFailoverEntity();
+            if (strategyFailoverEntity != null) {
+                return strategyFailoverEntity.getVersionPreferValue();
+            }
+        }
+
+        return null;
+    }
+
+    // 从远程配置中心或者本地配置文件获取版本故障转移配置。如果是远程配置中心，则值会动态改变
+    // 返回格式允许如下一种
+    // 1. Json格式，内容：服务名 -> 单个或者逗号分隔多个版本
+    // 2. 纯字符串格式，内容：单个或者逗号分隔多个版本
+    public String getRouteVersionFailover() {
+        RuleEntity ruleEntity = pluginAdapter.getRule();
+        if (ruleEntity != null) {
+            StrategyFailoverEntity strategyFailoverEntity = ruleEntity.getStrategyFailoverEntity();
+            if (strategyFailoverEntity != null) {
+                return strategyFailoverEntity.getVersionFailoverValue();
+            }
+        }
+
+        return null;
+    }
+
+    // 从远程配置中心或者本地配置文件获取区域调试转移配置。如果是远程配置中心，则值会动态改变
+    // 返回格式允许如下一种
+    // 1. Json格式，内容：服务名 -> 单个或者逗号分隔多个区域
+    // 2. 纯字符串格式，内容：单个或者逗号分隔多个区域
+    public String getRouteRegionTransfer() {
+        RuleEntity ruleEntity = pluginAdapter.getRule();
+        if (ruleEntity != null) {
+            StrategyFailoverEntity strategyFailoverEntity = ruleEntity.getStrategyFailoverEntity();
+            if (strategyFailoverEntity != null) {
+                return strategyFailoverEntity.getRegionTransferValue();
+            }
+        }
+
+        return null;
+    }
+
+    // 从远程配置中心或者本地配置文件获取区域故障转移配置。如果是远程配置中心，则值会动态改变
+    // 返回格式允许如下一种
+    // 1. Json格式，内容：服务名 -> 单个或者逗号分隔多个区域
+    // 2. 纯字符串格式，内容：单个或者逗号分隔多个区域
+    public String getRouteRegionFailover() {
+        RuleEntity ruleEntity = pluginAdapter.getRule();
+        if (ruleEntity != null) {
+            StrategyFailoverEntity strategyFailoverEntity = ruleEntity.getStrategyFailoverEntity();
+            if (strategyFailoverEntity != null) {
+                return strategyFailoverEntity.getRegionFailoverValue();
+            }
+        }
+
+        return null;
+    }
+
+    // 从远程配置中心或者本地配置文件获取环境故障转移配置。如果是远程配置中心，则值会动态改变
+    // 返回格式允许如下一种
+    // 1. Json格式，内容：服务名 -> 单个或者逗号分隔多个环境
+    // 2. 纯字符串格式，内容：单个或者逗号分隔多个环境
+    public String getRouteEnvironmentFailover() {
+        RuleEntity ruleEntity = pluginAdapter.getRule();
+        if (ruleEntity != null) {
+            StrategyFailoverEntity strategyFailoverEntity = ruleEntity.getStrategyFailoverEntity();
+            if (strategyFailoverEntity != null) {
+                return strategyFailoverEntity.getEnvironmentFailoverValue();
+            }
+        }
+
+        return null;
+    }
+
+    // 从远程配置中心或者本地配置文件获取可用区故障转移配置。如果是远程配置中心，则值会动态改变
+    // 返回格式允许如下一种
+    // 1. Json格式，内容：服务名 -> 单个或者逗号分隔多个可用区
+    // 2. 纯字符串格式，内容：单个或者逗号分隔多个可用区
+    public String getRouteZoneFailover() {
+        RuleEntity ruleEntity = pluginAdapter.getRule();
+        if (ruleEntity != null) {
+            StrategyFailoverEntity strategyFailoverEntity = ruleEntity.getStrategyFailoverEntity();
+            if (strategyFailoverEntity != null) {
+                return strategyFailoverEntity.getZoneFailoverValue();
+            }
+        }
+
+        return null;
+    }
+
+    // 从远程配置中心或者本地配置文件获取IP地址和端口故障转移配置。如果是远程配置中心，则值会动态改变
+    // 返回格式允许如下一种
+    // 1. Json格式，内容：服务名 -> 单个或者逗号分隔多个IP地址和端口（例如：{"a-service":"127.0.0.1:3001", "b-service":"4002"}）
+    // 2. 纯字符串格式，内容：单个或者逗号分隔多个IP地址和端口（例如：127.0.0.1:3001;4002）
+    public String getRouteAddressFailover() {
+        RuleEntity ruleEntity = pluginAdapter.getRule();
+        if (ruleEntity != null) {
+            StrategyFailoverEntity strategyFailoverEntity = ruleEntity.getStrategyFailoverEntity();
+            if (strategyFailoverEntity != null) {
+                return strategyFailoverEntity.getAddressFailoverValue();
+            }
+        }
+
+        return null;
     }
 
     // 从远程配置中心或者本地配置文件获取全局唯一ID黑名单屏蔽配置。如果是远程配置中心，则值会动态改变

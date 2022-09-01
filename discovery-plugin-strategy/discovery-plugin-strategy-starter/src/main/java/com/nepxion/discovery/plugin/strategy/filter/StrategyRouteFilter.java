@@ -22,6 +22,20 @@ public interface StrategyRouteFilter {
 
     String getRouteRegionWeight();
 
+    String getRouteVersionPrefer();
+
+    String getRouteVersionFailover();
+
+    String getRouteRegionTransfer();
+
+    String getRouteRegionFailover();
+
+    String getRouteEnvironmentFailover();
+
+    String getRouteZoneFailover();
+
+    String getRouteAddressFailover();
+
     String getRouteIdBlacklist();
 
     String getRouteAddressBlacklist();
