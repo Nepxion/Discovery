@@ -94,6 +94,76 @@ public abstract class AbstractStrategyContextHolder implements PluginContextHold
     }
 
     @Override
+    public String getContextRouteVersionPrefer() {
+        String versionPreferValue = getContext(DiscoveryConstant.N_D_VERSION_PREFER);
+        if (StringUtils.isEmpty(versionPreferValue)) {
+            versionPreferValue = getRouteVersionPrefer();
+        }
+
+        return versionPreferValue;
+    }
+
+    @Override
+    public String getContextRouteVersionFailover() {
+        String versionFailoverValue = getContext(DiscoveryConstant.N_D_VERSION_FAILOVER);
+        if (StringUtils.isEmpty(versionFailoverValue)) {
+            versionFailoverValue = getRouteVersionFailover();
+        }
+
+        return versionFailoverValue;
+    }
+
+    @Override
+    public String getContextRouteRegionTransfer() {
+        String regionTransferValue = getContext(DiscoveryConstant.N_D_REGION_TRANSFER);
+        if (StringUtils.isEmpty(regionTransferValue)) {
+            regionTransferValue = getRouteRegionTransfer();
+        }
+
+        return regionTransferValue;
+    }
+
+    @Override
+    public String getContextRouteRegionFailover() {
+        String regionFailoverValue = getContext(DiscoveryConstant.N_D_REGION_FAILOVER);
+        if (StringUtils.isEmpty(regionFailoverValue)) {
+            regionFailoverValue = getRouteRegionFailover();
+        }
+
+        return regionFailoverValue;
+    }
+
+    @Override
+    public String getContextRouteEnvironmentFailover() {
+        String environmentFailoverValue = getContext(DiscoveryConstant.N_D_ENVIRONMENT_FAILOVER);
+        if (StringUtils.isEmpty(environmentFailoverValue)) {
+            environmentFailoverValue = getRouteEnvironmentFailover();
+        }
+
+        return environmentFailoverValue;
+    }
+
+    @Override
+    public String getContextRouteZoneFailover() {
+        String zoneFailoverValue = getContext(DiscoveryConstant.N_D_ZONE_FAILOVER);
+        if (StringUtils.isEmpty(zoneFailoverValue)) {
+            zoneFailoverValue = getRouteZoneFailover();
+        }
+
+        return zoneFailoverValue;
+    }
+
+    @Override
+    public String getContextRouteAddressFailover() {
+        String addressFailoverValue = getContext(DiscoveryConstant.N_D_ADDRESS_FAILOVER);
+        if (StringUtils.isEmpty(addressFailoverValue)) {
+            addressFailoverValue = getRouteAddressFailover();
+        }
+
+        return addressFailoverValue;
+    }
+
+    @Override
     public String getContextRouteIdBlacklist() {
         String idBlacklistValue = getContext(DiscoveryConstant.N_D_ID_BLACKLIST);
         if (StringUtils.isEmpty(idBlacklistValue)) {
@@ -141,6 +211,41 @@ public abstract class AbstractStrategyContextHolder implements PluginContextHold
     @Override
     public String getRouteRegionWeight() {
         return strategyWrapper.getRouteRegionWeight();
+    }
+
+    @Override
+    public String getRouteVersionPrefer() {
+        return strategyWrapper.getRouteVersionPrefer();
+    }
+
+    @Override
+    public String getRouteVersionFailover() {
+        return strategyWrapper.getRouteVersionFailover();
+    }
+
+    @Override
+    public String getRouteRegionTransfer() {
+        return strategyWrapper.getRouteRegionTransfer();
+    }
+
+    @Override
+    public String getRouteRegionFailover() {
+        return strategyWrapper.getRouteRegionFailover();
+    }
+
+    @Override
+    public String getRouteEnvironmentFailover() {
+        return strategyWrapper.getRouteEnvironmentFailover();
+    }
+
+    @Override
+    public String getRouteZoneFailover() {
+        return strategyWrapper.getRouteZoneFailover();
+    }
+    
+    @Override
+    public String getRouteAddressFailover() {
+        return strategyWrapper.getRouteAddressFailover();
     }
 
     @Override

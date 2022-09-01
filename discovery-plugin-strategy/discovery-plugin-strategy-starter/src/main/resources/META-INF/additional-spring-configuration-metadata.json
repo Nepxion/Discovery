@@ -25,10 +25,16 @@
 			"description": "Whether strategy provider isolation is enabled."
 		},
 		{
-			"name": "spring.application.strategy.environment.route",
-			"type": "java.lang.String",
-			"defaultValue": "common",
-			"description": "The strategy environment will be routed to."
+			"name": "spring.application.strategy.address.failover.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": false,
+			"description": "Whether strategy address failover is enabled."
+		},
+		{
+			"name": "spring.application.strategy.environment.failover.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": false,
+			"description": "Whether strategy environment failover is enabled."
 		},
 		{
 			"name": "spring.application.strategy.zone.affinity.enabled",
@@ -37,21 +43,22 @@
 			"description": "Whether strategy zone affinity is enabled."
 		},
 		{
-			"name": "spring.application.strategy.zone.route.enabled",
-			"type": "java.lang.Boolean",
-			"defaultValue": true,
-			"description": "Whether strategy zone route is enabled."
-		},
-		{
-			"name": "spring.application.strategy.region.route.enabled",
+			"name": "spring.application.strategy.zone.failover.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": false,
-			"description": "Whether strategy region route is enabled."
+			"description": "Whether strategy zone failover is enabled."
 		},
 		{
-			"name": "spring.application.strategy.region.route",
-			"type": "java.lang.String",
-			"description": "The strategy region will be routed to."
+			"name": "spring.application.strategy.region.transfer.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": false,
+			"description": "Whether strategy region transfer is enabled."
+		},
+		{
+			"name": "spring.application.strategy.region.failover.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": false,
+			"description": "Whether strategy region failover is enabled."
 		},
 		{
 			"name": "spring.application.strategy.version.failover.enabled",
@@ -60,26 +67,16 @@
 			"description": "Whether strategy version failover is enabled."
 		},
 		{
-			"name": "spring.application.strategy.version.failover.loadbalance.enabled",
+			"name": "spring.application.strategy.version.failover.stable.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": false,
-			"description": "Whether strategy version failover for loadbalance is enabled."
-		},
-		{
-			"name": "spring.application.strategy.version.failover.route",
-			"type": "java.lang.String",
-			"description": "The strategy version for failover will be routed to."
+			"description": "Whether strategy version failover for stable instances is enabled."
 		},
 		{
 			"name": "spring.application.strategy.version.prefer.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": false,
 			"description": "Whether strategy version prefer is enabled."
-		},
-		{
-			"name": "spring.application.strategy.version.prefer.route",
-			"type": "java.lang.String",
-			"description": "The strategy version for prefer will be routed to."
 		},
 		{
 			"name": "spring.application.strategy.rest.intercept.enabled",
