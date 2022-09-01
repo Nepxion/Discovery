@@ -111,6 +111,13 @@ public class DiscoveryConstant {
     public static final String N_D_ADDRESS = "n-d-address";
     public static final String N_D_VERSION_WEIGHT = "n-d-version-weight";
     public static final String N_D_REGION_WEIGHT = "n-d-region-weight";
+    public static final String N_D_VERSION_PREFER = "n-d-version-prefer";
+    public static final String N_D_VERSION_FAILOVER = "n-d-version-failover";
+    public static final String N_D_REGION_TRANSFER = "n-d-region-transfer";
+    public static final String N_D_REGION_FAILOVER = "n-d-region-failover";
+    public static final String N_D_ENVIRONMENT_FAILOVER = "n-d-env-failover";
+    public static final String N_D_ZONE_FAILOVER = "n-d-zone-failover";
+    public static final String N_D_ADDRESS_FAILOVER = "n-d-address-failover";
     public static final String N_D_ID_BLACKLIST = "n-d-id-blacklist";
     public static final String N_D_ADDRESS_BLACKLIST = "n-d-address-blacklist";
 
