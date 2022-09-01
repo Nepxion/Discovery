@@ -20,11 +20,11 @@ import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.netflix.loadbalancer.Server;
 
 public class StrategyRegionEnabledFilter extends AbstractStrategyEnabledFilter {
-    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_REGION_ROUTE_ENABLED + ":false}")
-    protected Boolean regionRouteEnabled;
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_REGION_TRANSFER_ENABLED + ":false}")
+    protected Boolean regionTransferEnabled;
 
-    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_REGION_ROUTE + ":}")
-    protected String regionRoute;
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_REGION_FAILOVER_ENABLED + ":false}")
+    protected Boolean regionFailoverEnabled;
 
     @Override
     public boolean apply(List<? extends Server> servers, Server server) {
@@ -40,14 +40,27 @@ public class StrategyRegionEnabledFilter extends AbstractStrategyEnabledFilter {
         // 调用时候，在最前端传入的Header（n-d-region）指定为B的开发环境区域（用来保证A服务和B服务只在开发环境调用），而B服务会自动路由调用到测试环境上的C服务实例，但不会路由到其它个人电脑的C服务实例
         // 该功能的意义，个人电脑环境可以接入到测试环境联调，当多套个人环境接入时候，可以保护不同的个人环境间不会彼此调用
         if (StringUtils.isEmpty(regions)) {
-            if (regionRouteEnabled) {
-                if (StringUtils.isEmpty(regionRoute)) {
-                    throw new DiscoveryException("The Region Route value is missing");
+            if (regionTransferEnabled) {
+                String regionTransfers = JsonUtil.fromJsonMap(pluginContextHolder.getContextRouteRegionTransfer(), serviceId);
+                if (StringUtils.isEmpty(regionTransfers)) {
+                    throw new DiscoveryException("The Region Transfer value is missing");
                 }
 
-                return StringUtils.equals(region, regionRoute);
+                return discoveryMatcher.match(regionTransfers, region, true);
             } else {
                 return true;
+            }
+        }
+
+        if (regionFailoverEnabled) {
+            boolean matched = matchByRegion(servers, regions);
+            if (!matched) {
+                String regionFailovers = JsonUtil.fromJsonMap(pluginContextHolder.getContextRouteRegionFailover(), serviceId);
+                if (StringUtils.isEmpty(regionFailovers)) {
+                    return true;
+                } else {
+                    return discoveryMatcher.match(regionFailovers, region, true);
+                }
             }
         }
 

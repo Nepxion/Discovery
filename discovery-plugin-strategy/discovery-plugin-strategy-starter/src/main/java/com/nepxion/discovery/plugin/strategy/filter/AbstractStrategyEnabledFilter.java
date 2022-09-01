@@ -100,6 +100,40 @@ public abstract class AbstractStrategyEnabledFilter implements StrategyEnabledFi
         return false;
     }
 
+    public boolean matchByVersion(List<? extends Server> servers, String versions) {
+        for (Server server : servers) {
+            String serverVersion = pluginAdapter.getServerVersion(server);
+            if (discoveryMatcher.match(versions, serverVersion, true)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean matchByRegion(List<? extends Server> servers, String regions) {
+        for (Server server : servers) {
+            String serverRegion = pluginAdapter.getServerRegion(server);
+            if (discoveryMatcher.match(regions, serverRegion, true)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean matchByAddress(List<? extends Server> servers, String addresses) {
+        for (Server server : servers) {
+            String serverHost = server.getHost();
+            int serverPort = server.getPort();
+            if (discoveryMatcher.matchAddress(addresses, serverHost, serverPort, true)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public List<String> assembleVersionList(List<? extends Server> servers) {
         List<String> versionList = new ArrayList<String>();
         for (Server server : servers) {

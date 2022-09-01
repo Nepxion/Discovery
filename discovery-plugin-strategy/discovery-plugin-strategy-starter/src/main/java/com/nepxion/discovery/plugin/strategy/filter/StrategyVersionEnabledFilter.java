@@ -15,7 +15,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.plugin.strategy.adapter.StrategyVersionFilterAdapter;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
@@ -28,17 +27,11 @@ public class StrategyVersionEnabledFilter extends AbstractStrategyEnabledFilter 
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_VERSION_FAILOVER_ENABLED + ":false}")
     protected Boolean versionFailoverEnabled;
 
-    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_VERSION_FAILOVER_LOADBALANCE_ENABLED + ":false}")
-    protected Boolean versionFailoverLoadbalanceEnabled;
-
-    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_VERSION_FAILOVER_ROUTE + ":}")
-    protected String versionFailoverRoute;
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_VERSION_FAILOVER_STABLE_ENABLED + ":false}")
+    protected Boolean versionFailoverStableEnabled;
 
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_VERSION_PREFER_ENABLED + ":false}")
     protected Boolean versionPreferEnabled;
-
-    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_VERSION_PREFER_ROUTE + ":}")
-    protected String versionPreferRoute;
 
     @Override
     public boolean apply(List<? extends Server> servers, Server server) {
@@ -51,13 +44,12 @@ public class StrategyVersionEnabledFilter extends AbstractStrategyEnabledFilter 
             // 版本偏好，即非蓝绿灰度发布场景下，路由到老的稳定版本的实例，或者指定版本的实例
             if (versionPreferEnabled) {
                 // 版本列表排序策略的（取最老的稳定版本的实例）偏好，即不管存在多少版本，直接路由到最老的稳定版本的实例
-                if (StringUtils.isEmpty(versionPreferRoute)) {
+                String versionPrefers = JsonUtil.fromJsonMap(pluginContextHolder.getContextRouteVersionPrefer(), serviceId);
+                if (StringUtils.isEmpty(versionPrefers)) {
                     return containVersion(servers, server);
                 } else {
                     // 指定版本的偏好，即不管存在多少版本，直接路由到该版本实例
-                    String versionPreferRoutes = JsonUtil.fromJsonMap(versionPreferRoute, serviceId);
-
-                    return discoveryMatcher.match(versionPreferRoutes, version, true);
+                    return discoveryMatcher.match(versionPrefers, version, true);
                 }
             } else {
                 return true;
@@ -65,18 +57,20 @@ public class StrategyVersionEnabledFilter extends AbstractStrategyEnabledFilter 
         } else {
             // 版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例，或者指定版本的实例，或者执行负载均衡
             if (versionFailoverEnabled) {
-                // 负载均衡策略的故障转移，即找不到实例的时候，执行负载均衡策略
-                if (versionFailoverLoadbalanceEnabled) {
-                    return true;
-                } else {
-                    // 版本列表排序策略的（取最老的稳定版本的实例）故障转移，即找不到实例的时候，直接路由到最老的稳定版本的实例
-                    if (StringUtils.isEmpty(versionFailoverRoute)) {
-                        return containVersion(servers, server);
+                boolean matched = matchByVersion(servers, versions);
+                if (!matched) {
+                    String versionFailovers = JsonUtil.fromJsonMap(pluginContextHolder.getContextRouteVersionFailover(), serviceId);
+                    if (StringUtils.isEmpty(versionFailovers)) {
+                        if (versionFailoverStableEnabled) {
+                            // 版本列表排序策略的（取最老的稳定版本的实例）故障转移，即找不到实例的时候，直接路由到最老的稳定版本的实例
+                            return containVersion(servers, server);
+                        } else {
+                            // 负载均衡策略的故障转移，即找不到实例的时候，执行负载均衡策略
+                            return true;
+                        }
                     } else {
                         // 指定版本的故障转移，即找不到实例的时候，直接路由到该版本实例
-                        String versionFailoverRoutes = JsonUtil.fromJsonMap(versionFailoverRoute, serviceId);
-
-                        return discoveryMatcher.match(versionFailoverRoutes, version, true);
+                        return discoveryMatcher.match(versionFailovers, version, true);
                     }
                 }
             }
