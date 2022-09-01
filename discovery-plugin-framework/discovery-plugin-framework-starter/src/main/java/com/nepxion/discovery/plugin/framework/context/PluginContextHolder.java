@@ -24,6 +24,20 @@ public interface PluginContextHolder {
 
     String getContextRouteRegionWeight();
 
+    String getContextRouteVersionPrefer();
+
+    String getContextRouteVersionFailover();
+
+    String getContextRouteRegionTransfer();
+
+    String getContextRouteRegionFailover();
+
+    String getContextRouteEnvironmentFailover();
+
+    String getContextRouteZoneFailover();
+
+    String getContextRouteAddressFailover();
+
     String getContextRouteIdBlacklist();
 
     String getContextRouteAddressBlacklist();
