@@ -357,6 +357,15 @@
       }
     }
   },
+  "strategyFailoverEntity": {
+    "versionPreferValue": "{\"discovery-springcloud-example-a\":\"1.0\", \"discovery-springcloud-example-b\":\"1.0\", \"discovery-springcloud-example-c\":\"1.0\"}",
+    "versionFailoverValue": "{\"discovery-springcloud-example-a\":\"1.1\", \"discovery-springcloud-example-b\":\"1.1\", \"discovery-springcloud-example-c\":\"1.1\"}",
+    "regionTransferValue": "qa",
+    "regionFailoverValue": "dev",
+    "environmentFailoverValue": "env1;default",
+    "zoneFailoverValue": "zone1;default",
+    "addressFailoverValue": "*1"
+  },
   "strategyBlacklistEntity": {
     "idValue": "{\"discovery-springcloud-example-a\":\"20210601-222214-909-1146-372-698\", \"discovery-springcloud-example-b\":\"20210601-222623-277-4978-633-279\", \"discovery-springcloud-example-c\":\"20210601-222728-133-2597-222-609\"}",
     "addressValue": "{\"discovery-springcloud-example-a\":\"192.168.43.101:1100\", \"discovery-springcloud-example-b\":\"192.168.43.101:1201\", \"discovery-springcloud-example-c\":\"192.168.43.101:1300\"}"
