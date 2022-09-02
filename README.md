@@ -2816,22 +2816,20 @@ Reject to invoke because of isolation with different service group
 
 ## 全链路隔离准入
 
-### 注册发现隔离和准入
-
-#### 基于IP地址黑白名单注册准入
+### 基于IP地址黑白名单注册准入
 微服务启动的时候，禁止指定的IP地址注册到注册中心。支持黑/白名单，白名单表示只允许指定IP地址前缀注册，黑名单表示不允许指定IP地址前缀注册
 - 全局过滤，指注册到服务注册发现中心的所有微服务，只有IP地址包含在全局过滤字段的前缀中，都允许注册（对于白名单而言），或者不允许注册（对于黑名单而言）
 - 局部过滤，指专门针对某个微服务而言，那么真正的过滤条件是全局过滤 + 局部过滤结合在一起
 
-#### 基于最大注册数限制注册准入
+### 基于最大注册数限制注册准入
 微服务启动的时候，一旦微服务集群下注册的实例数目已经达到上限（可配置），将禁止后续的微服务进行注册
 - 全局配置值，只下面配置所有的微服务集群，最多能注册多少个
 - 局部配置值，指专门针对某个微服务而言，如果该值如存在，全局配置值失效
 
-#### 基于IP地址黑白名单发现准入
+### 基于IP地址黑白名单发现准入
 微服务启动的时候，禁止指定的IP地址被服务发现。它使用的方式和[基于IP地址黑白名单注册准入](#基于IP地址黑白名单注册准入)一致
 
-#### 自定义注册发现准入
+### 自定义注册发现准入
 - 集成AbstractRegisterListener，实现自定义禁止注册
 - 集成AbstractDiscoveryListener，实现自定义禁止被发现。需要注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断
 - 集成AbstractLoadBalanceListener，实现自定义禁止被负载均衡
@@ -3091,6 +3089,18 @@ n-d-id-blacklist={"discovery-guide-service-a":"20210601-222214-909-1146-372-698"
     </strategy-blacklist>
 </rule>
 ```
+
+对接运维平台的最佳实践：
+- 运维平台下线某个服务实例之前，调用`Nepxion Discovery Console`平台的BlacklistEndpoint如下API，把需要下线的服务实例根据IP地址和端口添加进黑名单，返回全局唯一的该服务实例的UUId，即可实现实时无损下线
+```java
+String addBlacklist(String serviceId, String host, int port);
+```
+- 运维平台每添加一个黑名单后，把返回的服务实例的UUId存储下来（推荐用高可用方案来存储）
+- 运维平台下线某个服务实例一段时间之后（大于负载均衡`3`个时钟周期，推荐`5`分钟），调用`Nepxion Discovery Console`平台的BlacklistEndpoint如下API，把过期的服务实例根据UUId从黑名单里删除掉
+```java
+boolean deleteBlacklist(String serviceId, String serviceUUId);
+```
+需要注意，UUId全局唯一，同样的服务实例重启注册后，UUId会重新产生，不会重复，但追加过多的UUId，虽然不会影响功能，但UUId堆积过多，使规则文本变得臃肿，可能会影响配置订阅的响应效率
 
 ### IP地址和端口屏蔽
 通过IP地址或者端口或者IP地址+端口进行屏蔽，支持通配表达式方式
