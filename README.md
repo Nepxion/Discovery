@@ -185,14 +185,14 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - 全链路条件表达式、通配表达式支持
     - 全链路内置Header，支持定时Job的服务调用蓝绿灰度发布
 - 全链路隔离路由
+    - 全链路组隔离路由
+        = 组负载均衡的消费端隔离
+        - 组Header传值的提供端隔离
     - 全链路版本偏好路由
     - 全链路区域调试路由
     - 全链路环境隔离路由
     - 全链路可用区亲和性隔离路由
     - 全链路IP地址和端口隔离路由
-    - 全链路组隔离路由
-        = 组负载均衡的消费端隔离
-        - 组Header传值的提供端隔离
 - 全链路隔离准入
     - 基于IP地址黑白名单注册准入
     - 基于最大注册数限制注册准入
@@ -601,14 +601,14 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [全链路自定义负载均衡策略类触发蓝绿灰度发布](#全链路自定义负载均衡策略类触发蓝绿灰度发布)
     - [全链路动态变更元数据的蓝绿灰度发布](#全链路动态变更元数据的蓝绿灰度发布)
 - [全链路隔离路由](#全链路隔离路由)
+    - [全链路组隔离路由](#全链路组隔离路由)
+        - [组负载均衡的消费端隔离](#组负载均衡的消费端隔离)
+        - [组Header传值的提供端隔离](#组Header传值的提供端隔离)
     - [全链路版本偏好路由](#全链路版本偏好路由)
     - [全链路区域调试路由](#全链路区域调试路由)
     - [全链路环境隔离路由](#全链路环境隔离路由)
     - [全链路可用区亲和性隔离路由](#全链路可用区亲和性隔离路由)
     - [全链路IP地址和端口隔离路由](#全链路IP地址和端口隔离路由)
-    - [全链路组隔离路由](#全链路组隔离路由)
-        - [组负载均衡的消费端隔离](#组负载均衡的消费端隔离)
-        - [组Header传值的提供端隔离](#组Header传值的提供端隔离)
 - [全链路隔离准入](#全链路隔离准入)
     - [基于IP地址黑白名单注册准入](#基于IP地址黑白名单注册准入)
     - [基于最大注册数限制注册准入](#基于最大注册数限制注册准入)
@@ -2645,6 +2645,42 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 
 ## 全链路隔离路由
 
+### 全链路组隔离路由
+
+#### 组负载均衡的消费端隔离
+
+元数据中的Group在一定意义上代表着系统ID或者系统逻辑分组，基于Group策略意味着只有同一个系统中的服务才能调用
+
+基于Group是否相同的策略，即消费端拿到的提供端列表，两者的Group必须相同。只需要在网关或者服务端，开启如下配置即可
+```
+# 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
+spring.application.strategy.consumer.isolation.enabled=true
+```
+通过修改discovery-guide-service-b的Group名为其它名称，执行Postman调用，将发现从discovery-guide-service-a无法拿到discovery-guide-service-b的任何实例，意味着在discovery-guide-service-a消费端进行了隔离
+
+#### 组Header传值的提供端隔离
+
+元数据中的Group在一定意义上代表着系统ID或者系统逻辑分组，基于Group策略意味着只有同一个系统中的服务才能调用
+
+基于Group是否相同的策略，即服务端被消费端调用，两者的Group必须相同，否则拒绝调用，异构系统可以通过Header方式传递n-d-service-group值进行匹配。只需要在服务端（不适用网关），开启如下配置即可
+```
+# 启动和关闭提供端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
+spring.application.strategy.provider.isolation.enabled=true
+
+# 路由策略的时候，需要指定对业务RestController类的扫描路径。此项配置作用于RPC方式的调用拦截和消费端的服务隔离两项工作
+spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.feign
+```
+
+在Postman调用，执行[http://localhost:4001/invoke/abc](http://localhost:4001/invoke/abc)，去调用discovery-guide-service-b服务，将出现如下异常。意味着在discovery-guide-service-b提供端进行了隔离
+```
+Reject to invoke because of isolation with different service group
+```
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide6-1.jpg)
+
+如果加上n-d-service-group=discovery-guide-group的Header，那么两者保持Group相同，则调用通过。这是解决异构系统调用微服务被隔离的一种手段
+
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide6-2.jpg)
+
 ### 全链路版本偏好路由
 版本偏好，即非蓝绿灰度发布场景下，路由到老的稳定版本的实例。其作用是防止多个网关上并行实施蓝绿灰度版本发布产生混乱，对处于非蓝绿灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；蓝绿灰度状态的服务，还是根据传递的Header版本号进行匹配
 
@@ -2777,42 +2813,6 @@ spring.application.strategy.zone.affinity.enabled=true
 基于服务实例的IP地址或者端口参数和全链路传递的环境Header值进行对比实现隔离，当从网关传递来的环境Header（n-d-address）值和提供端实例的IP地址或者端口值相等才能调用
 
 该方案是一种细粒度隔离路由方案，需要注意，容器化下的服务实例在重启后IP地址变化的情况
-
-### 全链路组隔离路由
-
-#### 组负载均衡的消费端隔离
-
-元数据中的Group在一定意义上代表着系统ID或者系统逻辑分组，基于Group策略意味着只有同一个系统中的服务才能调用
-
-基于Group是否相同的策略，即消费端拿到的提供端列表，两者的Group必须相同。只需要在网关或者服务端，开启如下配置即可
-```
-# 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
-spring.application.strategy.consumer.isolation.enabled=true
-```
-通过修改discovery-guide-service-b的Group名为其它名称，执行Postman调用，将发现从discovery-guide-service-a无法拿到discovery-guide-service-b的任何实例，意味着在discovery-guide-service-a消费端进行了隔离
-
-#### 组Header传值的提供端隔离
-
-元数据中的Group在一定意义上代表着系统ID或者系统逻辑分组，基于Group策略意味着只有同一个系统中的服务才能调用
-
-基于Group是否相同的策略，即服务端被消费端调用，两者的Group必须相同，否则拒绝调用，异构系统可以通过Header方式传递n-d-service-group值进行匹配。只需要在服务端（不适用网关），开启如下配置即可
-```
-# 启动和关闭提供端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
-spring.application.strategy.provider.isolation.enabled=true
-
-# 路由策略的时候，需要指定对业务RestController类的扫描路径。此项配置作用于RPC方式的调用拦截和消费端的服务隔离两项工作
-spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.feign
-```
-
-在Postman调用，执行[http://localhost:4001/invoke/abc](http://localhost:4001/invoke/abc)，去调用discovery-guide-service-b服务，将出现如下异常。意味着在discovery-guide-service-b提供端进行了隔离
-```
-Reject to invoke because of isolation with different service group
-```
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide6-1.jpg)
-
-如果加上n-d-service-group=discovery-guide-group的Header，那么两者保持Group相同，则调用通过。这是解决异构系统调用微服务被隔离的一种手段
-
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide6-2.jpg)
 
 ## 全链路隔离准入
 
