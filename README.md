@@ -2837,7 +2837,8 @@ Reject to invoke because of isolation with different service group
 ## 全全链路故障转移
 故障转移，即在实施蓝绿灰度发布或者路由时候，消费端调用提供端，无法在提供端找到相应条件的服务实例，转移到指定的服务实例。支持版本、区域、环境、可用区、IP地址和端口五个维度的故障转移
 
-通过在配置中心修改添加如下规则，可以达到动态故障转移的效果。五大维度的故障转移逻辑是并行叠加的。
+五大维度的故障转移逻辑是可以并行叠加的，有两种实施方式：
+- 通过在配置中心修改添加如下规则
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
@@ -2853,12 +2854,24 @@ Reject to invoke because of isolation with different service group
         <!-- 环境故障转移，无法找到相应环境的服务实例，路由到指定环境的实例 -->
         <env-failover>common</env-failover>
         <!-- 可用区故障转移，无法找到相应可用区的服务实例，路由到指定可用区的实例 -->
-        <zone-failover>zone1;default</zone-failover>
+        <zone-failover>zone1</zone-failover>
         <!-- IP地址和端口故障转移，无法找到相应IP地址和端口的服务实例，路由到指定IP地址和端口的实例 -->
-        <address-failover>*1</address-failover>        
+        <address-failover>*1</address-failover>
     </strategy-failover>
 </rule>
 ```
+- 通过如下Header传递
+```
+n-d-version-prefer={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
+n-d-version-failover={"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}
+n-d-region-transfer=qa
+n-d-region-failover=dev
+n-d-env-failover=common
+n-d-zone-failover=zone1
+n-d-address-failover=*1
+```
+
+动态改变上述值，可以达到动态故障转移的效果
 
 上述规则配置跟蓝绿灰度发布的链路配置用法相似，以版本为例
 
