@@ -184,24 +184,32 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - 全链路本地和远程、局部和全局无参数化规则策略驱动
     - 全链路条件表达式、通配表达式支持
     - 全链路内置Header，支持定时Job的服务调用蓝绿灰度发布
-- 全链路蓝绿灰度发布编排建模和流量侦测
-    - 全链路蓝绿发布编排建模
-    - 全链路灰度发布编排建模
-    - 全链路蓝绿发布流量侦测
-    - 全链路灰度发布流量侦测
-    - 全链路蓝绿灰度发布混合流量侦测
-- 全链路蓝绿灰度发布容灾
-    - 发布失败下的版本故障转移
-    - 并行发布下的版本偏好
-- 服务无损下线，实时性的流量绝对无损
+- 全链路隔离路由
+    - 全链路版本偏好路由
+    - 全链路区域调试路由
+    - 全链路环境隔离路由
+    - 全链路可用区亲和性隔离路由
+    - 全链路IP地址和端口隔离路由
+    - 全链路组隔离路由
+        = 组负载均衡的消费端隔离
+        - 组Header传值的提供端隔离
+- 全链路隔离准入
+    - 基于IP地址黑白名单注册准入
+    - 基于最大注册数限制注册准入
+    - 基于IP地址黑白名单发现准入
+    - 自定义注册发现准入
+- 全链路故障转移
+    - 全链路版本故障转移
+    - 全链路区域故障转移
+    - 全链路环境故障转移
+    - 全链路可用区故障转移
+    - 全链路IP地址和端口故障转移
+- 全链路服务无损下线，实时性的流量绝对无损
     - 全局唯一ID屏蔽
     - IP地址和端口屏蔽
 - 异步场景下全链路蓝绿灰度发布
     - 异步跨线程Agent插件
     - Hystrix线程池隔离插件
-- 全链路数据库和消息队列蓝绿发布
-    - 基于多DataSource的数据库蓝绿发布
-    - 基于多Queue的消息队列蓝绿发布
 - 网关动态路由
     - 路由动态添加
     - 路由动态修改
@@ -209,22 +217,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - 路由动态批量更新
     - 路由查询
     - 路由动态变更后的事件通知
-- 统一配置订阅执行器
-- 全链路规则策略推送
-    - 基于远程配置中心的规则策略订阅推送
-    - 基于Swagger和Rest的规则策略推送
-    - 基于平台端和桌面端的规则策略推送
-- 全链路环境隔离和路由
-    - 全链路环境隔离
-    - 全链路环境路由
-- 全链路区域调试路由
-- 全链路可用区亲和性隔离和路由
-    - 全链路可用区亲和性隔离
-    - 全链路可用区亲和性路由
-- 全链路服务隔离和准入
-    - 消费端服务隔离
-    - 提供端服务隔离
-    - 注册发现隔离和准入
 - 全链路服务限流熔断降级权限
     - Sentinel基于服务名的防护
     - Sentinel基于组的防护
@@ -240,6 +232,15 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - 蓝绿灰度埋点和熔断埋点的调用链监控
     - 蓝绿灰度埋点和熔断埋点的日志监控
     - 熔断埋点的指标监控
+- 全链路蓝绿灰度发布编排建模和流量侦测
+    - 全链路蓝绿发布编排建模
+    - 全链路灰度发布编排建模
+    - 全链路蓝绿发布流量侦测
+    - 全链路灰度发布流量侦测
+    - 全链路蓝绿灰度发布混合流量侦测
+- 全链路数据库和消息队列蓝绿发布
+    - 基于多DataSource的数据库蓝绿发布
+    - 基于多Queue的消息队列蓝绿发布
 - 全链路服务侧注解
 - 全链路服务侧API权限
 - 元数据流量染色
@@ -248,31 +249,24 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - 运维平台参数化的元数据流量染色
     - 注册中心动态化的元数据流量染色
     - 用户自定义的元数据流量染色
-- 多活、多云、多机房流量切换
+- 全链路规则策略推送
+    - 基于远程配置中心的规则策略订阅推送
+    - 基于Swagger和Rest的规则策略推送
+    - 基于平台端和桌面端的规则策略推送
+- 统一配置订阅执行器
 - Docker容器化和Kubernetes平台无缝支持部署
 - 自动化测试、压力测试
 
-③ Discovery【探索】微服务框架支持组（Group）、版本（Version）、区域（Region）、环境（Env）、可用区（Zone）、IP地址和端口（Address）六大经典维度实施流量管控的方式，通过“并集”方式叠加作用在流量控制上。上述5个维度在功能上各有各的侧重点，如下表格主要讲述各自的区别
+③ Discovery【探索】微服务框架支持组（Group）、版本（Version）、区域（Region）、环境（Env）、可用区（Zone）、IP地址和端口（Address）六大经典维度实施流量管控的方式，通过“并集”方式叠加作用在流量控制上。上述6个维度在功能上各有各的侧重点，如下表格主要讲述各自的区别
 
-| 维度 | 概念 | 应用场景 | 功能侧重点 |
+| 维度 | 概念 | 场景 | 功能侧重点 |
 | --- | --- | --- | --- |
-| 组 | 系统ID或者系统逻辑分组<br>同一个业务系统下的服务归为一个组 | 服务隔离 | ① 组负载均衡隔离，即基于调用端实例和提供端实例的元数据Metadata的group配置值进行对比实现隔离<br>② 组Header传值策略隔离，即基于Header（n-d-service-group）值和提供端实例的元数据Metadata环境Group值进行对比实现隔离 |
-| 版本 | 服务实例的版本 | 蓝绿灰度发布<br>路由转移 | ① 版本条件匹配蓝绿发布<br>② 版本权重灰度发布<br>③ 版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例，支持负载均衡策略、版本列表排序下取最老版本、指定版本三种策略<br>④ 版本偏好，即非蓝绿灰度发布场景下，路由到老的稳定版本的实例，支持版本列表排序下取最老版本、指定版本两种策略 |
-| 区域 | 服务实例的区域，适用于多机房或者多环境 | 蓝绿灰度发布<br>路由转移 | ① 区域条件匹配蓝绿发布<br>② 区域权重灰度发布<br>③ 区域调试路由，即既支持多区域服务路由隔离，也支持特殊场景下不同区域间的服务相互调用（一般视作调试手段）。不支持区域故障转移，即找不到目标服务实例直接报错 |
-| 环境 | 服务实例的环境，适用于测试环境 | 路由隔离 | ① 环境隔离，即基于Header（n-d-env）值和提供端实例的元数据Metadata的env配置值进行对比实现隔离<br>② 环境路由，即调用端实例找不到符合条件的提供端实例，把流量路由到一个通用或者备份环境（元数据env=common） |
-| 可用区 | 服务实例的可用区，适用于多机房 | 路由隔离 | ① 可用区亲和性隔离，即基于调用端实例和提供端实例的元数据Metadata的zone配置值进行对比实现隔离<br>② 可用区亲和性路由，即调用端实例找不到同一可用区的提供端实例，把流量路由到其它可用区或者不归属任何可用区 |
-| IP地址和端口 |服务实例所在的机器 | 蓝绿灰度发布 | ① IP地址和端口匹配蓝绿发布<br>② IP地址和端口权重灰度发布 |
-
-④ Discovery【探索】微服务框架易用性表现，如下
-- 引入相关依赖到pom.xml
-- 元数据Metadata流量染色。5大元数据根据不同的使用场景按需设置
-    - 定义所属组名 - metadata.group，也可以通过服务名前缀来自动产生服务组名
-    - 定义版本号 - metadata.version，也可以通过Git插件方式自动产生版本号
-    - 定义所属区域名 - metadata.region
-    - 定义所属环境 - metadata.env
-    - 定义所属可用区 - metadata.zone
-- 执行采用【约定大于配置】的准则，使用者根据不同的使用场景开启和关闭相关功能项或者属性值，达到最佳配置
-- 规则策略文件设置和推送，或者通过业务Header、Parameter、Cookie触发，并通过Json格式的Header路由策略全链路传递
+| 组 | 系统ID或者系统逻辑分组<br>同一个业务系统下的服务归为一个组 | 服务隔离 | ① 组负载均衡隔离，即基于调用端实例和提供端实例的元数据Metadata的group配置值进行对比实现隔离<br>② 组Header传值策略隔离，即基于Header（n-d-service-group）值和提供端实例的元数据Metadata环境group配置值进行对比实现隔离<br>③ 不支持故障转移 |
+| 版本 | 服务实例的版本 | 蓝绿灰度发布<br>路由转移 | ① 版本条件匹配蓝绿发布<br>② 版本权重灰度发布<br>③ 版本偏好，即非蓝绿灰度发布场景下，路由到相应版本的实例，支持版本列表排序下取最老版本、指定版本两种策略<br>④ 版本故障转移，即无法找到相应版本的服务实例路由到其它版本，支持负载均衡策略、版本列表排序下取最老版本、指定版本三种策略 |
+| 区域 | 服务实例的区域，适用于多机房或者多环境 | 蓝绿灰度发布<br>路由转移 | ① 区域条件匹配蓝绿发布<br>② 区域权重灰度发布<br>③ 区域调试路由，即既支持多区域服务路由隔离，也支持特殊场景下不同区域间的服务相互调用（一般视作调试手段）<br>④ 区域故障转移，即无法找到相应区域的服务实例路由到其它区域，支持负载均衡策略、指定区域两种策略 |
+| 环境 | 服务实例的环境，适用于测试环境 | 路由隔离 | ① 环境隔离路由，即基于Header（n-d-env）值和提供端实例的元数据Metadata的env配置值进行对比实现隔离<br>② 环境故障转移，即无法找到相应环境的服务实例路由到其它环境，支持指定环境（未配置，默认为common）一种策略 |
+| 可用区 | 服务实例的可用区，适用于多机房 | 路由隔离 | ① 可用区亲和性隔离路由，即基于调用端实例和提供端实例的元数据Metadata的zone配置值进行对比实现隔离<br>② 可用区故障转移，即无法找到相应可用区的服务实例路由到其它可用区，支持负载均衡策略、指定区可用区两种策略 |
+| IP地址和端口 |服务实例所在的机器 | 蓝绿灰度发布 | ① IP地址和端口匹配蓝绿发布<br>② IP地址和端口权重灰度发布<br>③  IP地址和端口故障转移，即无法找到相应IP地址和端口的服务实例路由到其它地址，支持负载均衡策略、指定区IP地址和端口两种策略 |
 
 ### 版本列表
 ① 微服务框架版本兼容列表，如下
@@ -606,19 +600,27 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [全链路自定义过滤器触发蓝绿灰度发布](#全链路自定义过滤器触发蓝绿灰度发布)
         - [全链路自定义负载均衡策略类触发蓝绿灰度发布](#全链路自定义负载均衡策略类触发蓝绿灰度发布)
     - [全链路动态变更元数据的蓝绿灰度发布](#全链路动态变更元数据的蓝绿灰度发布)
-- [全链路蓝绿灰度发布平台界面](#全链路蓝绿灰度发布平台界面)
-- [全链路蓝绿灰度发布图形化桌面](#全链路蓝绿灰度发布图形化桌面)
-    - [全链路编排建模](#全链路编排建模)
-        - [全链路蓝绿发布编排建模](#全链路蓝绿发布编排建模)
-        - [全链路灰度发布编排建模](#全链路灰度发布编排建模)
-    - [全链路流量侦测](#全链路流量侦测)
-        - [全链路蓝绿发布流量侦测](#全链路蓝绿发布流量侦测)
-        - [全链路灰度发布流量侦测](#全链路灰度发布流量侦测)
-        - [全链路蓝绿灰度发布混合流量侦测](#全链路蓝绿灰度发布混合流量侦测)
-- [全链路蓝绿灰度发布容灾](#全链路蓝绿灰度发布容灾)
-    - [发布失败下的版本故障转移](#发布失败下的版本故障转移)
-    - [并行发布下的版本偏好](#并行发布下的版本偏好)
-- [服务无损下线](#服务无损下线)
+- [全链路隔离路由](#全链路隔离路由)
+    - [全链路版本偏好路由](#全链路版本偏好路由)
+    - [全链路区域调试路由](#全链路区域调试路由)
+    - [全链路环境隔离路由](#全链路环境隔离路由)
+    - [全链路可用区亲和性隔离路由](#全链路可用区亲和性隔离路由)
+    - [全链路IP地址和端口隔离路由](#全链路IP地址和端口隔离路由)
+    - [全链路组隔离路由](#全链路组隔离路由)
+        - [组负载均衡的消费端隔离](#组负载均衡的消费端隔离)
+        - [组Header传值的提供端隔离](#组Header传值的提供端隔离)
+- [全链路隔离准入](#全链路隔离准入)
+    - [基于IP地址黑白名单注册准入](#基于IP地址黑白名单注册准入)
+    - [基于最大注册数限制注册准入](#基于最大注册数限制注册准入)
+    - [基于IP地址黑白名单发现准入](#基于IP地址黑白名单发现准入)
+    - [自定义注册发现准入](#自定义注册发现准入)
+- [全链路故障转移](#全全链路故障转移)
+    - [全链路版本故障转移](#全链路版本故障转移])
+    - [全链路区域故障转移](#全链路区域故障转移])
+    - [全链路环境故障转移](#全链路环境故障转移])
+    - [全链路可用区故障转移](#全链路可用区故障转移])
+    - [全链路IP地址和端口故障转移](#全链路IP地址和端口故障转移])
+- [全链路服务无损下线](#全链路服务无损下线)
     - [全局唯一ID屏蔽](#全局唯一ID屏蔽)
     - [IP地址和端口屏蔽](#IP地址和端口屏蔽)
 - [异步场景下全链路蓝绿灰度发布](#异步场景下全链路蓝绿灰度发布)
@@ -627,7 +629,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [异步跨线程DiscoveryAgent使用](#异步跨线程DiscoveryAgent使用)
         - [异步跨线程DiscoveryAgent扩展](#异步跨线程DiscoveryAgent扩展)
     - [异步场景下Hystrix线程池隔离解决方案](#异步场景下Hystrix线程池隔离解决方案)
-- [全链路数据库和消息队列蓝绿发布](#全链路数据库和消息队列蓝绿发布)
 - [网关动态路由](#网关动态路由)
     - [Spring-Cloud-Gateway网关动态路由](#Spring-Cloud-Gateway网关动态路由)
         - [Spring-Cloud-Gateway网关动态路由配置](#Spring-Cloud-Gateway网关动态路由配置)
@@ -640,23 +641,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [Zuul网关Rest-Endpoint](#Zuul网关Rest-Endpoint)
         - [Zuul网关订阅配置中心](#Zuul网关订阅配置中心)
         - [Zuul网关事件总线通知的订阅](#Zuul网关事件总线通知的订阅)
-- [全链路环境隔离和路由](#全链路环境隔离和路由)
-    - [全链路环境隔离](#全链路环境隔离)
-    - [全链路环境路由](#全链路环境路由)
-- [全链路区域调试路由](#全链路区域调试路由)
-- [全链路可用区亲和性隔离和路由](#全链路可用区亲和性隔离和路由)
-    - [全链路可用区亲和性隔离](#全链路可用区亲和性隔离)
-    - [全链路可用区亲和性路由](#全链路可用区亲和性路由)
-- [全链路服务隔离和准入](#全链路服务隔离和准入)
-    - [消费端服务隔离](#消费端服务隔离)
-        - [基于组负载均衡隔离](#基于组负载均衡隔离)
-    - [提供端服务隔离](#提供端服务隔离)
-        - [基于组Header传值策略隔离](#基于组Header传值策略隔离)
-    - [注册发现隔离和准入](#注册发现隔离和准入)
-        - [基于IP地址黑白名单注册准入](#基于IP地址黑白名单注册准入)
-        - [基于最大注册数限制注册准入](#基于最大注册数限制注册准入)
-        - [基于IP地址黑白名单发现准入](#基于IP地址黑白名单发现准入)
-        - [自定义注册发现准入](#自定义注册发现准入)
 - [全链路服务限流熔断降级权限](#全链路服务限流熔断降级权限)
     - [原生Sentinel注解](#原生Sentinel注解)
     - [原生Sentinel规则](#原生Sentinel规则)
@@ -687,6 +671,16 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [Sentinel熔断指标监控](#Sentinel熔断指标监控)
     - [全链路告警监控](#全链路告警监控)
         - [蓝绿灰度告警监控](#蓝绿灰度告警监控)
+- [全链路蓝绿灰度发布平台界面](#全链路蓝绿灰度发布平台界面)
+- [全链路蓝绿灰度发布图形化桌面](#全链路蓝绿灰度发布图形化桌面)
+    - [全链路编排建模](#全链路编排建模)
+        - [全链路蓝绿发布编排建模](#全链路蓝绿发布编排建模)
+        - [全链路灰度发布编排建模](#全链路灰度发布编排建模)
+    - [全链路流量侦测](#全链路流量侦测)
+        - [全链路蓝绿发布流量侦测](#全链路蓝绿发布流量侦测)
+        - [全链路灰度发布流量侦测](#全链路灰度发布流量侦测)
+        - [全链路蓝绿灰度发布混合流量侦测](#全链路蓝绿灰度发布混合流量侦测)
+- [全链路数据库和消息队列蓝绿发布](#全链路数据库和消息队列蓝绿发布)		
 - [全链路服务侧注解](#全链路服务侧注解)
 - [全链路服务侧API权限](#全链路服务侧API权限)
 - [元数据流量染色](#元数据流量染色)
@@ -2649,206 +2643,284 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 
 ③ 动态元数据变更方式只是让新的元数据驻留在内存里，并不持久化。当服务重启后，服务的元数据仍旧会以初始值为准
 
-## 全链路蓝绿灰度发布平台界面
+## 全链路隔离路由
+
+### 全链路版本偏好路由
+版本偏好，即非蓝绿灰度发布场景下，路由到老的稳定版本的实例。其作用是防止多个网关上并行实施蓝绿灰度版本发布产生混乱，对处于非蓝绿灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；蓝绿灰度状态的服务，还是根据传递的Header版本号进行匹配
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 请访问[Discovery Platform WIKI](http://nepxion.gitee.io/discoveryplatform)
+版本偏好有两种策略：
+- 如果“version-prefer”值已配置，指定版本的偏好，即不管存在多少版本，直接路由到该版本实例
+- 如果“version-prefer”值未配置，版本列表排序策略的（取最老的稳定版本的实例）偏好，即不管存在多少版本，直接路由到最老的稳定版本的实例
 
-![](http://nepxion.gitee.io/discoveryplatform/docs/discovery-doc/BlueGreenGray-5.jpg)
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy-failover>
+        <!-- 版本偏好，非蓝绿灰度发布场景下，路由到指定版本的实例 -->
+        <version-prefer>{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</version-prefer>     
+    </strategy-failover>
+</rule>
+```
 
-## 全链路蓝绿灰度发布图形化桌面
+通过在配置中心修改版本偏好值，可以达到动态版本偏好的效果
 
-① 获取图形化桌面端
+需要通过如下开关开启该功能
+```
+# 启动和关闭版本偏好。缺失则默认为false
+spring.application.strategy.version.prefer.enabled=true
+```
 
-桌面端获取方式有两种方式
-- 通过[https://github.com/Nepxion/DiscoveryUI/releases](https://github.com/Nepxion/DiscoveryUI/releases)下载最新版本的discovery-desktop-release
-- 编译[https://github.com/Nepxion/DiscoveryUI](https://github.com/Nepxion/DiscoveryUI)下的desktop，在target目录下产生discovery-desktop-release
+两种策略的区别：
+- 指定版本策略，需要在配置文件里手工写死目标路由版本，适合版本无序的落地场景
+- 版本列表排序策略，对版本号进行排序，此解决方案的前置条件是版本号必须是规律的有次序，例如，以时间戳的方式。如果所有服务实例的版本号未设置，那么将转移到未设置版本号的实例上。适合版本有序的落地场景，不需要人工干预
 
-② 启动控制台
-- 通过[https://github.com/Nepxion/DiscoveryPlatform](https://github.com/Nepxion/DiscoveryPlatform)下载最新版本的控制台
-- 导入IDE或者编译成Spring Boot程序运行
-- 运行之前，先修改src/main/resources/bootstrap.properties的相关配置，包括注册中心和配置中心的地址等
+### 全链路区域调试路由
+在区域调试路由执行的时候，当未对服务指定访问区域的时候，路由到事先指定的区域。该功能属于静态隔离和动态路由结合在一起的灵活方案，适用于开发环境（个人电脑环境）在测试环境（线上环境）进行联调，同时当多套个人环境接入时候，可以保护不同的个人环境间不会彼此调用
 
-③ 启动图形化桌面端
-- 修改config/console.properties中的url，指向控制台的地址
-- 在Windows操作系统下，运行startup.bat，在Mac或者Linux操作系统下，运行startup.sh
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/IsolationRegion.jpg)
 
-④ 登录图形化桌面端
+在下面的全链路调用路径中
+```
+A服务 -> B服务 -> C服务 -> D服务
+```
+其中，A服务和B服务在开发环境上，C服务和D服务在测试环境上，希望A服务调用B服务的时候，只会走本地电脑，不会去访问测试环境的B服务，也不会去访问其它本地电脑的B服务；B服务调用C服务的时候，只会去访问测试环境的C服务，C服务调用D服务的时候，也只是在测试环境的区域内
 
-登录认证，用户名和密码为admin/admin或者nepxion/nepxion。控制台支持简单的认证，用户名和密码配置在上述控制台的bootstrap.properties中，使用者可以自己扩展AuthenticationResource并注入，实现更专业的认证功能
+服务实例的元数据设置如下：
 
- ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop8.jpg)
+① A服务和B服务的区域（Region）元数据配置为MyDEV（本地电脑的名称或者可以区别其它电脑的特征值），如下
+```
+spring.cloud.discovery.metadata.region=MyDEV
+```
 
-### 全链路编排建模
+② C服务和D服务的区域（Region）元数据配置为FAT（测试环境），如下
+```
+spring.cloud.discovery.metadata.region=FAT
+```
 
-全链路编排建模工具，只提供最经典和最常用的蓝绿灰度发布场景功能，并不覆盖框架所有的功能
+只需要通过如下步骤：
 
-#### 全链路蓝绿发布编排建模
+① 打开`启动和关闭区域调试转移`开关
+```
+# 启动和关闭区域调试转移。缺失则默认为false
+# spring.application.strategy.region.transfer.enabled=true
+```
 
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop9.jpg)
+② 设置`区域调试转移值`
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy-failover>
+        <!-- 区域调试转移，跨区调试路由到指定区域的实例 -->
+        <region-transfer>FAT</region-transfer> 
+    </strategy-failover>
+</rule>
+```
+通过在配置中心修改版本偏好值，可以达到动态区域调试路由的效果
 
-① 导航栏上选择〔全链路服务蓝绿发布〕
+③ 前端传入B服务的区域Header。由于A服务是调用起点，所以不需要配置A服务的值
+```
+n-d-region={"service-b":"MyDEV"}
+```
 
-② 〔全链路服务蓝绿发布〕界面的工具栏上，点击【新建】按钮，弹出【新建配置】对话框。确认下面选项后，点击【确定】按钮后，进行全链路蓝绿发布编排建模
+扩展场景：
 
-- 〔订阅参数〕项。选择〔局部订阅〕或者〔全局订阅〕，通过下拉菜单〔订阅组名〕和〔订阅服务名〕，〔订阅服务名〕可以选择网关（以网关为发布入口）或者服务（以服务为发布入口）。如果是〔全局订阅〕，则不需要选择〔订阅服务名〕
-- 〔部署参数〕项。选择〔域网关模式〕（发布界面上提供只属于〔订阅组〕下的服务列表）或者〔非域网模式〕（发布界面上提供所有服务列表）
-- 〔发布策略〕项。选择〔版本策略〕或者〔区域策略〕
-- 〔路由类型〕项。选择〔蓝 | 绿 | 兜底〕或者〔蓝 | 兜底〕
+如果希望C服务访问的是开发环境上的D服务，那么变成
+```
+A服务（本地环境） -> B服务（本地环境） -> C服务（测试环境） -> D服务（本地环境）
+```
 
-根据[全链路版本条件匹配蓝绿发布](#全链路版本条件匹配蓝绿发布)示例中的场景
+前端传入区域Header改为
 
-③ 在〔蓝绿条件〕中，分别输入〔蓝条件〕和〔绿条件〕
+```
+n-d-region={"service-b":"MyDEV", "service-d":"MyDEV"}
+```
 
-- 〔蓝条件〕输入a==1
-- 〔绿条件〕输入a==1&&b==2
+总结
 
-使用者可以通过〔条件校验〕来判断条件是否正确。例如，在〔绿条件〕区的校验文本框里，输入a=1，执行校验，将提示〔校验结果:false〕，输入a=1;b=2，将提示〔校验结果:true〕
+- 要调用测试环境中的服务，包括开发环境调用测试环境和测试环境中的服务间调用，必须打开`启动和关闭区域调试转移`开关和设置`区域调试转移值`
+- 要调用开发环境中的服务，包括测试环境回调开发环境和开发环境中的服务间调用，必须加上`n-d-region`的Header进行动态路由
 
-④ 在〔蓝绿编排〕中，分别选择如下服务以及其版本，并点击【添加】按钮，把路由链路添加到拓扑图上
+### 全链路环境隔离路由
 
-- 服务discovery-guide-service-a，〔蓝版本〕=1.1，〔绿版本〕=1.0，〔兜底版本〕=1.0
-- 服务discovery-guide-service-b，〔蓝版本〕=1.1，〔绿版本〕=1.0，〔兜底版本〕=1.0
+基于服务实例的元数据Metadata的env参数和全链路传递的环境Header值进行对比实现隔离，当从网关传递来的环境Header（n-d-env）值和提供端实例的元数据Metadata环境配置值相等才能调用
 
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop10.jpg)
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/IsolationEnvironment.jpg)
 
-⑤ 如果希望内置Header参数，可以〔蓝绿参数〕的文本框中输入
+在网关或者服务端，配置环境元数据，在同一套环境下，env值必须是一样的，这样才能达到在同一个注册中心下，环境隔离的目的
+```
+spring.cloud.discovery.metadata.env=env1
+```
 
-⑥ 全链路编排建模完毕，点击工具栏上【保存】按钮进行保存，也可以先点击【预览】按钮，在弹出的【预览配置】对话框中，确认规则策略无误后再保存。使用者可以访问Nacos界面查看相关的规则策略是否已经存在
+通过环境Header（n-d-env）值的传递实现全链路环境隔离路由
 
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop11.jpg)
+### 全链路可用区亲和性隔离路由
 
-⑦ 对于已经存在的策略配置，可以通过点击工具栏上【打开】按钮，在弹出的【打开配置】对话框中，根据上述逻辑相似，确定〔订阅参数〕项后，选择〔打开远程配置〕（载入Nacos上对应的规则策略）或者〔打开本地配置〕（载入本地硬盘上规则策略文件rule.xml）
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/IsolationZone.jpg)
 
-⑧ 对于已经存在的策略配置，如果想重置清除掉，点击工具栏上【重置】按钮进行重置清除
+基于调用端实例和提供端实例的元数据Metadata的zone配置值进行对比实现隔离
+```
+spring.cloud.discovery.metadata.zone=zone1
+```
+通过如下开关进行开启和关闭
+```
+# 启动和关闭可用区亲和性，即同一个可用区的服务才能调用，同一个可用区的条件是调用端实例和提供端实例的元数据Metadata的zone配置值必须相等。缺失则默认为false
+spring.application.strategy.zone.affinity.enabled=true
+```
 
-#### 全链路灰度发布编排建模
+需要注意
+
+- 不归属任何可用区，含义是服务实例未设置任何zone元数据值。可用区亲和性路由功能，是为了尽量保证流量不损失
+- 本框架提供的可用区亲和性功能适用于一切注册中心
+- 如果采用Eureka注册中心，Ribbon在Eureka Client上会自动开启可用区亲和性功能，跟本框架提供的功能相似。它不提供禁止“可用区亲和性失败后的路由”，如果使用者希望实现“找不到相同可用区，直接调用失败”的功能，可以结合本框架上述两个开关来实现
+
+### 全链路IP地址和端口隔离路由
+基于服务实例的IP地址或者端口参数和全链路传递的环境Header值进行对比实现隔离，当从网关传递来的环境Header（n-d-address）值和提供端实例的IP地址或者端口值相等才能调用
 
-① 导航栏上选择〔全链路服务灰度发布〕
-
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop13.jpg)
-
-根据[全链路版本条件权重灰度发布](#全链路版本条件权重灰度发布)示例中的场景
-
-② 在〔灰度条件〕中，〔灰度条件〕（灰度流量占比）选择95%，〔稳定条件〕（稳定流量占比）会自动切换成5%
-
-其它步骤跟[全链路蓝绿发布编排建模](#全链路蓝绿发布编排建模)相似，但比其简单
-
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop14.jpg)
-
-### 全链路流量侦测
-
-#### 全链路蓝绿发布流量侦测
-
-① 导航栏上选择〔全链路服务流量侦测〕
-
-② 在〔侦测入口〕中，操作如下
-
-- 〔类型〕项。选择〔网关〕或者〔服务〕，本示例的规则策略是配置在网关上，所以选择〔网关〕
-- 〔协议〕项。选择〔http://〕或者〔https://〕，视网关或者服务暴露出来的协议类型而定，本示例暴露出来的是http协议，所以选择〔http://〕
-- 〔服务〕项。选择一个网关名或者服务名，下拉菜单列表随着〔类型〕项的改变而改变，蓝绿发布规则策略是配置在discovery-guide-gateway上，所以选择它
-- 〔实例〕项。选择一个网关实例或者服务实例的IP地址和端口，下拉菜单列表随着〔服务〕的改变而改变
-
-③ 在〔侦测参数〕中，操作如下
-
-添加〔Header〕项和〔Parameter〕项，也可以〔Cookie〕项，使用者可以任意选择2个
-
-- 〔Header〕项。输入a=1
-- 〔Parameter〕项。输入b=2
-
-④ 在〔侦测链路〕中，操作如下
-
-- 增加服务discovery-guide-service-a
-- 增加服务discovery-guide-service-b
-
-⑤ 在〔侦测执行〕中，操作如下
-
-- 〔维护〕项。选择〔版本〕、〔区域〕、〔环境〕、〔可用区〕、〔地址〕或者〔组〕，维护表示在拓扑图上聚合调用场景的维度，本示例的规则策略是是基于版本维度进行发布，所以选择〔版本〕
-- 〔次数〕项。选择执行侦测的次数，基于网关和服务的性能压力，使用者需要酌情考虑调用次数
-- 〔次数〕项。选择执行侦测的同一时刻线程并发数，并发数是对于图形化桌面端而言的
-- 〔成功〕项。用来显示侦测成功的百分比
-- 〔失败〕项。用来显示侦测失败的百分比
-- 〔耗时〕项。用来显示侦测执行的消耗时间
-
-⑥ 点击工具栏上【开始】按钮开始侦测，在侦测执行过程中，可以点击工具栏上【停止】按钮停止侦测
-
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop15.jpg)
-
-从上述截图中，可以看到
-
-- 在条件a==1&&b==2的〔绿条件〕下，执行〔网关〕->〔a服务1.0版本〕->〔b服务1.0版本〕的〔绿路由〕
-
-⑦ 点击工具栏上【查看】按钮查看拓扑图上所有节点配置的规则策略，包括局部配置和全局配置
-
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop16.jpg)
-
-⑧ 支持直接n-d-version策略路由Header驱动的蓝绿发布流量侦测
-
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop7.jpg)
-
-#### 全链路灰度发布流量侦测
-
-① 导航栏上选择〔全链路服务流量侦测〕
-
-② 在〔侦测入口〕中，操作如下
-
-- 〔服务〕项。灰度发布规则策略是配置在discovery-guide-zuul上，所以选择它
-
-③ 在〔侦测参数〕中，不需要输入任何值
-
-④ 在〔侦测执行〕中，〔次数〕项的值越大，灰度权重百分比越准确
-
-其它步骤跟[全链路蓝绿发布流量侦测](#全链路蓝绿发布流量侦测)相似，但比其简单
-
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop17.jpg)
-
-从上述截图中，可以看到
-
-- 执行〔网关〕->〔a服务1.1版本〕->〔b服务1.1版本〕的〔灰度路由〕权重百分比95%左右
-- 执行〔网关〕->〔a服务1.0版本〕->〔b服务1.0版本〕的〔稳定路由〕权重百分比5%左右
-
-#### 全链路蓝绿灰度发布混合流量侦测
-
-① 全链路蓝绿发布 + 灰度发布混合模式下流量侦测
-
-在网关上配置了蓝绿发布规则策略，在a服务上配置了灰度发布规则策略
-
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop5.jpg)
-
-② 全链路灰度发布 + 蓝绿发布混合模式下流量侦测
-
-在网关上配置了灰度发布规则策略，在a服务上配置了蓝绿发布规则策略
-
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop6.jpg)
-
-③ 全链路流量侦测接口
-
-通过discovery-plugin-admin-center-starter内置基于LoadBalanced RestTemplate的接口方法，实现全链路侦测，用于查看全链路中调用的各个服务的版本、区域、环境、可用区、IP地址和端口等是否符合和满足蓝绿灰度条件。使用方式，如下
-
-服务的Rest Endpoint接口
-
-| 操作 | 路径 | 参数 | 方式 |
-| --- | --- | --- | --- |
-| 网关为入口 | `http://`[网关IP:PORT]/[A服务名]/inspector/inspect | {"serviceIdList":["B服务名", "C服务名", ...]} | POST |
-| 服务为入口 | `http://`[A服务IP:PORT]/inspector/inspect | {"serviceIdList":["B服务名", "C服务名", ...]} | POST |
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：内容项中服务名列表不分前后次序
-
-## 全链路蓝绿灰度发布容灾
-
-### 发布失败下的版本故障转移
-版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例。其作用是防止蓝绿灰度版本发布人为设置错误，或者对应的版本实例发生灾难性的全部下线，导致流量有损
+该方案是一种细粒度隔离路由方案，需要注意，容器化下的服务实例在重启后IP地址变化的情况
+
+### 全链路组隔离路由
+
+#### 组负载均衡的消费端隔离
+
+元数据中的Group在一定意义上代表着系统ID或者系统逻辑分组，基于Group策略意味着只有同一个系统中的服务才能调用
+
+基于Group是否相同的策略，即消费端拿到的提供端列表，两者的Group必须相同。只需要在网关或者服务端，开启如下配置即可
+```
+# 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
+spring.application.strategy.consumer.isolation.enabled=true
+```
+通过修改discovery-guide-service-b的Group名为其它名称，执行Postman调用，将发现从discovery-guide-service-a无法拿到discovery-guide-service-b的任何实例，意味着在discovery-guide-service-a消费端进行了隔离
+
+#### 组Header传值的提供端隔离
+
+元数据中的Group在一定意义上代表着系统ID或者系统逻辑分组，基于Group策略意味着只有同一个系统中的服务才能调用
+
+基于Group是否相同的策略，即服务端被消费端调用，两者的Group必须相同，否则拒绝调用，异构系统可以通过Header方式传递n-d-service-group值进行匹配。只需要在服务端（不适用网关），开启如下配置即可
+```
+# 启动和关闭提供端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
+spring.application.strategy.provider.isolation.enabled=true
+
+# 路由策略的时候，需要指定对业务RestController类的扫描路径。此项配置作用于RPC方式的调用拦截和消费端的服务隔离两项工作
+spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.feign
+```
+
+在Postman调用，执行[http://localhost:4001/invoke/abc](http://localhost:4001/invoke/abc)，去调用discovery-guide-service-b服务，将出现如下异常。意味着在discovery-guide-service-b提供端进行了隔离
+```
+Reject to invoke because of isolation with different service group
+```
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide6-1.jpg)
+
+如果加上n-d-service-group=discovery-guide-group的Header，那么两者保持Group相同，则调用通过。这是解决异构系统调用微服务被隔离的一种手段
+
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide6-2.jpg)
+
+## 全链路隔离准入
+
+### 注册发现隔离和准入
+
+#### 基于IP地址黑白名单注册准入
+微服务启动的时候，禁止指定的IP地址注册到注册中心。支持黑/白名单，白名单表示只允许指定IP地址前缀注册，黑名单表示不允许指定IP地址前缀注册
+- 全局过滤，指注册到服务注册发现中心的所有微服务，只有IP地址包含在全局过滤字段的前缀中，都允许注册（对于白名单而言），或者不允许注册（对于黑名单而言）
+- 局部过滤，指专门针对某个微服务而言，那么真正的过滤条件是全局过滤 + 局部过滤结合在一起
+
+#### 基于最大注册数限制注册准入
+微服务启动的时候，一旦微服务集群下注册的实例数目已经达到上限（可配置），将禁止后续的微服务进行注册
+- 全局配置值，只下面配置所有的微服务集群，最多能注册多少个
+- 局部配置值，指专门针对某个微服务而言，如果该值如存在，全局配置值失效
+
+#### 基于IP地址黑白名单发现准入
+微服务启动的时候，禁止指定的IP地址被服务发现。它使用的方式和[基于IP地址黑白名单注册准入](#基于IP地址黑白名单注册准入)一致
+
+#### 自定义注册发现准入
+- 集成AbstractRegisterListener，实现自定义禁止注册
+- 集成AbstractDiscoveryListener，实现自定义禁止被发现。需要注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断
+- 集成AbstractLoadBalanceListener，实现自定义禁止被负载均衡
+
+## 全全链路故障转移
+故障转移，即在实施蓝绿灰度发布或者路由时候，消费端调用提供端，无法在提供端找到相应条件的服务实例，转移到指定的服务实例。支持版本、区域、环境、可用区、IP地址和端口五个维度的故障转移
+
+通过在配置中心修改添加如下规则，可以达到动态故障转移的效果。五大维度的故障转移逻辑是并行叠加的。
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy-failover>
+        <!-- 版本偏好，非蓝绿灰度发布场景下，路由到指定版本的实例 -->
+        <version-prefer>{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</version-prefer>
+        <!-- 版本故障转移，无法找到相应版本的服务实例，路由到指定版本的实例 -->
+        <version-failover>{"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}</version-failover>
+        <!-- 区域调试转移，跨区调试路由到指定区域的实例 -->
+        <region-transfer>qa</region-transfer>
+        <!-- 区域故障转移，无法找到相应区域的服务实例，路由到指定区域的实例 -->
+        <region-failover>dev</region-failover>
+        <!-- 环境故障转移，无法找到相应环境的服务实例，路由到指定环境的实例 -->
+        <env-failover>common</env-failover>
+        <!-- 可用区故障转移，无法找到相应可用区的服务实例，路由到指定可用区的实例 -->
+        <zone-failover>zone1;default</zone-failover>
+        <!-- IP地址和端口故障转移，无法找到相应IP地址和端口的服务实例，路由到指定IP地址和端口的实例 -->
+        <address-failover>*1</address-failover>        
+    </strategy-failover>
+</rule>
+```
+
+上述规则配置跟蓝绿灰度发布的链路配置用法相似，以版本为例
+
+对于配置项
+```
+<version-prefer>{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</version-prefer>
+```
+
+当所有服务都选同一版本的时候，下面两条是等效的
+```
+<version-prefer>1.0</version-prefer>
+<version-prefer>{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</version-prefer>
+```
+
+如果希望可调用的版本是多个，也可以表示成如下方式，即1.0版本和1.1版本的a服务和b服务都可以被调用到，下面两条是等效的
+```
+<version-prefer>1.0;1.1</version-prefer>
+<version-prefer>{"discovery-guide-service-a":"1.0;1.1", "discovery-guide-service-b":"1.0;1.1"}</version-prefer>
+```
+
+如果上述表达式还未满足需求，也可以采用通配表达式方式（具体详细用法，参考Spring AntPathMatcher），通过Spring Matcher的通配表达式，支持多个通配*、单个通配?等全部标准表达式用法
+```
+* - 表示调用范围为所有版本
+1.* - 表示调用范围为1开头的所有版本
+```
+
+例如
+```
+"discovery-guide-service-b":"1.*;1.2.?"
+```
+表示discovery-guide-service-b服务的调用范围是1开头的所有版本，或者调用范围是1.2开头的所有版本（末尾必须是1个字符），多个用分号隔开
+
+五大维度故障转移的逻辑，有相同点和不同点。下面进行细化阐述
+
+### 全链路版本故障转移
+版本故障转移，即无法找到相应版本的服务实例，转移到指定版本的服务实例。其作用是防止蓝绿灰度版本发布人为设置错误，或者对应版本的服务实例发生灾难性的全部下线，导致流量有损
 
 故障转移有三种策略：
-- 开启“failover.loadbalance.enabled”开关，负载均衡策略的故障转移，即找不到实例的时候，执行负载均衡策略
-- 关闭“failover.loadbalance.enabled”开关，如果“failover.route”值未配置，版本列表排序策略的（取最老的稳定版本的实例）故障转移，即找不到实例的时候，直接路由到最老的稳定版本的实例
-- 关闭“failover.loadbalance.enabled”开关，如果“failover.route”值已配置，指定版本的故障转移，即找不到实例的时候，直接路由到该版本实例
+- 如果“version-failover”值已配置，指定版本的故障转移，即找不到实例的时候，直接路由到该版本实例
+- 如果“version-failover”值未配置
+  - 开启“version.failover.stable.enabled”开关，版本列表排序策略的（取最老的稳定版本的实例）故障转移，即找不到实例的时候，直接路由到最老的稳定版本的实例
+  - 关闭“version.failover.stable.enabled”开关，负载均衡策略的故障转移，即找不到实例的时候，执行负载均衡策略
+
+通过在配置中心修改版本偏好值，可以达到动态版本故障转移的效果
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy-failover>
+        <!-- 版本故障转移，无法找到相应版本的服务实例，路由到指定版本的实例 -->
+        <version-failover>{"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}</version-failover>
+    </strategy-failover>
+</rule>
+```
 
 需要通过如下开关开启该功能
 ```
 # 启动和关闭版本故障转移。缺失则默认为false
-spring.application.strategy.version.failover.enabled=true
-spring.application.strategy.version.failover.loadbalance.enabled=true
-spring.application.strategy.version.failover.route=1.0;1.1
+# spring.application.strategy.version.failover.enabled=true
+# 开启和关闭版本列表排序策略下取稳定版本的版本故障转移。缺失则默认为false
+# spring.application.strategy.version.failover.stable.enabled=true
 ```
 
 三种策略的区别：
@@ -2856,83 +2928,100 @@ spring.application.strategy.version.failover.route=1.0;1.1
 - 版本列表排序策略，对版本号进行排序，此解决方案的前置条件是版本号必须是规律的有次序，例如，以时间戳的方式。如果所有服务实例的版本号未设置，那么将转移到未设置版本号的实例上。适合版本有序的落地场景，不需要人工干预
 - 指定版本策略，需要在配置文件里手工写死目标路由版本，适合版本无序的落地场景
 
-对于配置项
-```
-spring.application.strategy.version.failover.route=1.0
-```
+### 全链路区域故障转移
+区域故障转移，即无法找到相应区域的服务实例，转移到指定区域的服务实例。其作用是防止路由时候区域人为设置错误，或者对应区域的服务实例发生灾难性的全部下线，导致流量有损
 
-当所有服务都选同一版本的时候，下面两条是等效的
-```
-spring.application.strategy.version.failover.route=1.0
-spring.application.strategy.version.failover.route={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
-```
+故障转移有两种策略：
+- 如果“region-failover”值已配置，指定区域的故障转移，即找不到实例的时候，直接路由到该区域实例
+- 如果“region-failover”值未配置，负载均衡策略的故障转移，即找不到实例的时候，执行负载均衡策略
 
-如果希望可调用的版本是多个，也可以表示成如下方式，即1.0版本和1.1版本的a服务和b服务都可以被调用到，下面两条是等效的
+通过在配置中心修改区域故障转移值，可以达到动态区域故障转移的效果
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy-failover>
+        <!-- 区域故障转移，无法找到相应区域的服务实例，路由到指定区域的实例 -->
+        <region-failover>dev</region-failover>
+    </strategy-failover>
+</rule>
 ```
-<version>1.0;1.1</version>
-<version>{"discovery-guide-service-a":"1.0;1.1", "discovery-guide-service-b":"1.0;1.1"}</version>
-```
-
-如果上述表达式还未满足需求，也可以采用通配表达式方式（具体详细用法，参考Spring AntPathMatcher），通过Spring Matcher的通配表达式，支持多个通配*、单个通配?等全部标准表达式用法
-```
-* - 表示调用范围为所有版本
-1.* - 表示调用范围为1开头的所有版本
-```
-
-例如
-```
-"discovery-guide-service-b":"1.*;1.2.?"
-```
-表示discovery-guide-service-b服务的调用范围是1开头的所有版本，或者调用范围是1.2开头的所有版本（末尾必须是1个字符），多个用分号隔开
-
-### 并行发布下的版本偏好
-版本偏好，即非蓝绿灰度发布场景下，路由到老的稳定版本的实例。其作用是防止多个网关上并行实施蓝绿灰度版本发布产生混乱，对处于非蓝绿灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；蓝绿灰度状态的服务，还是根据传递的Header版本号进行匹配
-
-版本偏好有两种策略：
-- 如果“prefer.route”值未配置，版本列表排序策略的（取最老的稳定版本的实例）偏好，即不管存在多少版本，直接路由到最老的稳定版本的实例
-- 如果“prefer.route”值已配置，指定版本的偏好，即不管存在多少版本，直接路由到该版本实例
 
 需要通过如下开关开启该功能
 ```
-# 启动和关闭版本偏好。缺失则默认为false
-spring.application.strategy.version.prefer.enabled=true
-spring.application.strategy.version.prefer.route=1.0;1.1
+# 启动和关闭区域故障转移。缺失则默认为false
+# spring.application.strategy.region.failover.enabled=true
 ```
 
-两种策略的区别：
-- 版本列表排序策略，对版本号进行排序，此解决方案的前置条件是版本号必须是规律的有次序，例如，以时间戳的方式。如果所有服务实例的版本号未设置，那么将转移到未设置版本号的实例上。适合版本有序的落地场景，不需要人工干预
-- 指定版本策略，需要在配置文件里手工写死目标路由版本，适合版本无序的落地场景
+### 全链路环境故障转移
+环境故障转移，即无法找到相应环境的服务实例，转移到指定环境的实例（未指定，默认路由到common环境）。其作用是防止路由时候环境人为设置错误，或者对应环境的服务实例发生灾难性的全部下线，导致流量有损
 
-对于配置项
-```
-spring.application.strategy.version.prefer.route=1.0
-```
-
-当所有服务都选同一版本的时候，下面两条是等效的
-```
-spring.application.strategy.version.prefer.route=1.0
-spring.application.strategy.version.prefer.route={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
-```
-
-如果希望可调用的版本是多个，也可以表示成如下方式，即1.0版本和1.1版本的a服务和b服务都可以被调用到，下面两条是等效的
-```
-<version>1.0;1.1</version>
-<version>{"discovery-guide-service-a":"1.0;1.1", "discovery-guide-service-b":"1.0;1.1"}</version>
+通过在配置中心修改环境故障转移值，可以达到动态环境故障转移的效果
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy-failover>
+        <!-- 环境故障转移，无法找到相应环境的服务实例，路由到指定环境的实例 -->
+        <env-failover>common</env-failover>
+    </strategy-failover>
+</rule>
 ```
 
-如果上述表达式还未满足需求，也可以采用通配表达式方式（具体详细用法，参考Spring AntPathMatcher），通过Spring Matcher的通配表达式，支持多个通配*、单个通配?等全部标准表达式用法
+需要通过如下开关开启该功能
 ```
-* - 表示调用范围为所有版本
-1.* - 表示调用范围为1开头的所有版本
+# 启动和关闭环境故障转移。缺失则默认为false
+# 如果“env-failover”值未配置，则默认为common
+# spring.application.strategy.environment.failover.enabled=true
 ```
 
-例如
-```
-"discovery-guide-service-b":"1.*;1.2.?"
-```
-表示discovery-guide-service-b服务的调用范围是1开头的所有版本，或者调用范围是1.2开头的所有版本（末尾必须是1个字符），多个用分号隔开
+### 全链路可用区故障转移
+可用区故障转移，即无法找到相应可用区的服务实例，转移到指定可用区的服务实例。其作用是防止路由时候可用区人为设置错误，或者对应可用区的服务实例发生灾难性的全部下线，导致流量有损
 
-## 服务无损下线
+故障转移有两种策略：
+- 如果“zone-failover”值已配置，指定可用区的故障转移，即找不到实例的时候，直接路由到该可用区实例
+- 如果“zone-failover”值未配置，负载均衡策略的故障转移，即找不到实例的时候，执行负载均衡策略
+
+通过在配置中心修改可用区故障转移值，可以达到动态可用区故障转移的效果
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy-failover>
+        <!-- 可用区故障转移，无法找到相应可用区的服务实例，路由到指定可用区的实例 -->
+        <zone-failover>zone1</zone-failover>
+    </strategy-failover>
+</rule>
+```
+
+需要通过如下开关开启该功能
+```
+# 启动和关闭可用区故障转移。缺失则默认为false
+# spring.application.strategy.zone.failover.enabled=true
+```
+
+### 全链路IP地址和端口故障转移
+IP地址和端口转移，即无法找到相应IP地址和端口的服务实例，转移到指定IP地址和端口的服务实例。其作用是防止路由时候IP地址和端口人为设置错误，或者对应IP地址和端口的服务实例发生灾难性的全部下线，导致流量有损
+
+故障转移有两种策略：
+- 如果“address-failover”值已配置，指定IP地址或者端口的故障转移，即找不到实例的时候，直接路由到该IP地址或者端口实例
+- 如果“address-failover”值未配置，负载均衡策略的故障转移，即找不到实例的时候，执行负载均衡策略
+
+通过在配置中心修改IP地址和端口故障转移值，可以达到动态IP地址和端口故障转移的效果
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy-failover>
+        <!-- IP地址和端口故障转移，无法找到相应IP地址和端口的服务实例，路由到指定IP地址和端口的实例 -->
+        <address-failover>3*2</address-failover>   
+    </strategy-failover>
+</rule>
+```
+
+需要通过如下开关开启该功能
+```
+# 启动和关闭IP地址和端口故障转移。缺失则默认为false
+spring.application.strategy.address.failover.enabled=true
+```
+
+## 全链路服务无损下线
 服务下线场景下，由于Ribbon负载均衡组件存在着缓存机制，当被提供端服务实例已经下线，而消费端服务实例还暂时缓存着它，直到下个心跳周期才会把已下线的服务实例剔除，在此期间，如果发生调用，会造成流量有损
 
 框架提供流量的实时性绝对无损策略。采用下线之前，把服务实例添加到屏蔽名单中，负载均衡不会去寻址该服务实例。下线之后，清除该名单。实现该方式，需要通过DevOps调用配置中心的Open API推送或者在配置中心界面手工修改
@@ -3422,69 +3511,6 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 
 该方案也可以通过[异步场景下DiscoveryAgent解决方案](#异步场景下DiscoveryAgent解决方案)解决
 
-## 全链路数据库和消息队列蓝绿发布
-通过订阅相关参数的变化，实现参数化蓝绿发布，可用于如下场景
-
-① 基于多DataSource的数据库蓝绿发布
-
-② 基于多Queue的消息队列蓝绿发布
-
-增加参数化蓝绿发布规则，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名），规则内容如下，实现功能
-
-① 服务a在版本为1.0的时候，数据库的数据源指向db1；服务a在版本为1.1的时候，数据库的数据源指向db2
-
-② 服务b在区域为dev的时候，消息队列指向queue1；服务b在区域为qa的时候，消息队列指向queue2
-
-③ 服务c在环境为env1的时候，数据库的数据源指向db1；服务c在环境为env2的时候，数据库的数据源指向db2
-
-④ 服务d在可用区为zone1的时候，消息队列指向queue1；服务d在可用区为zone2的时候，消息队列指向queue2
-
-⑤ 服务c在IP地址和端口为192.168.43.101:1201的时候，数据库的数据源指向db1；服务c在IP地址和端口为192.168.43.102:1201的时候，数据库的数据源指向db2
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-    <parameter>
-        <service service-name="discovery-guide-service-a" tag-key="version" tag-value="1.0" key="ShardingSphere" value="db1"/>
-        <service service-name="discovery-guide-service-a" tag-key="version" tag-value="1.1" key="ShardingSphere" value="db2"/>
-        <service service-name="discovery-guide-service-b" tag-key="region" tag-value="dev" key="RocketMQ" value="queue1"/>
-        <service service-name="discovery-guide-service-b" tag-key="region" tag-value="qa" key="RocketMQ" value="queue2"/>
-        <service service-name="discovery-guide-service-c" tag-key="env" tag-value="env1" key="ShardingSphere" value="db1"/>
-        <service service-name="discovery-guide-service-c" tag-key="env" tag-value="env2" key="ShardingSphere" value="db2"/>
-        <service service-name="discovery-guide-service-d" tag-key="zone" tag-value="zone1" key="RocketMQ" value="queue1"/>
-        <service service-name="discovery-guide-service-d" tag-key="zone" tag-value="zone2" key="RocketMQ" value="queue2"/>
-        <service service-name="discovery-guide-service-e" tag-key="address" tag-value="192.168.43.101:1201" key="ShardingSphere" value="db1"/>
-        <service service-name="discovery-guide-service-e" tag-key="address" tag-value="192.168.43.102:1201" key="ShardingSphere" value="db2"/>
-    </parameter>
-</rule>
-```
-通过事件总线方式，对参数改变动态实现监听，并在此类里自行对接相关的数据库和消息队列中间件的切换和驱动
-```java
-@EventBus
-public class MySubscriber {
-    @Autowired
-    private PluginAdapter pluginAdapter;
-
-    @Subscribe
-    public void onParameterChanged(ParameterChangedEvent parameterChangedEvent) {
-        ParameterEntity parameterEntity = parameterChangedEvent.getParameterEntity();
-        String serviceId = pluginAdapter.getServiceId();
-        List<ParameterServiceEntity> parameterServiceEntityList = null;
-        if (parameterEntity != null) {
-            Map<String, List<ParameterServiceEntity>> parameterServiceMap = parameterEntity.getParameterServiceMap();
-            parameterServiceEntityList = parameterServiceMap.get(serviceId);
-        }
-        // parameterServiceEntityList为动态参数列表
-    }
-}
-```
-使用者可以通过如下开关，决定在服务启动过程中，读到参数配置的时候，是否要发送一个事件触发数据库和消息队列中间件的切换
-```
-# 启动和关闭在服务启动的时候参数订阅事件发送。缺失则默认为true
-spring.application.parameter.event.onstart.enabled=true
-```
-参考[https://github.com/Nepxion/DiscoveryContrib](https://github.com/Nepxion/DiscoveryContrib)里的实现方式
-
 ## 网关动态路由
 网关动态路由功能，主要包括
 
@@ -3900,171 +3926,6 @@ public class MySubscriber {
     }
 }
 ```
-
-## 全链路环境隔离和路由
-基于服务实例的元数据Metadata的env参数和全链路传递的环境Header值进行对比实现隔离，当从网关传递来的环境Header（n-d-env）值和提供端实例的元数据Metadata环境配置值相等才能调用。环境隔离下，调用端实例找不到符合条件的提供端实例，把流量路由到一个通用或者备份环境
-
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/IsolationEnvironment.jpg)
-
-### 全链路环境隔离
-在网关或者服务端，配置环境元数据，在同一套环境下，env值必须是一样的，这样才能达到在同一个注册中心下，环境隔离的目的
-```
-spring.cloud.nacos.discovery.metadata.env=env1
-```
-
-### 全链路环境路由
-在环境隔离执行的时候，如果无法找到对应的环境，则会路由到一个通用或者备份环境，默认为env为common的环境，可以通过如下参数进行更改
-```
-# 流量路由到指定的环境下。不允许为保留值default，缺失则默认为common
-spring.application.strategy.environment.route=common
-```
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 需要注意
-
-- 如果存在环境，优先寻址环境的服务实例
-- 如果不存在环境，则寻址Common环境的服务实例（未设置元数据Metadata的env参数的服务实例也归为Common环境）
-- 如果Common环境也不存在，则调用失败
-- 如果没有传递环境Header（n-d-env）值，则执行Spring Cloud Ribbon轮询策略
-- 环境隔离和路由适用于测试环境，性能压测等场景
-
-## 全链路区域调试路由
-在区域调试路由执行的时候，当未对服务指定访问区域的时候，路由到事先指定的区域。该功能属于静态隔离和动态路由结合在一起的灵活方案，适用于开发环境（个人电脑环境）在测试环境（线上环境）进行联调，同时当多套个人环境接入时候，可以保护不同的个人环境间不会彼此调用
-
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/IsolationRegion.jpg)
-
-在下面的全链路调用路径中
-```
-A服务 -> B服务 -> C服务 -> D服务
-```
-其中，A服务和B服务在开发环境上，C服务和D服务在测试环境上，希望A服务调用B服务的时候，只会走本地电脑，不会去访问测试环境的B服务，也不会去访问其它本地电脑的B服务；B服务调用C服务的时候，只会去访问测试环境的C服务，C服务调用D服务的时候，也只是在测试环境的区域内
-
-只需要通过如下步骤：
-
-- A服务和B服务的区域（Region）元数据配置为MyDEV（本地电脑的名称或者可以区别其它电脑的特征值），如下
-```
-spring.cloud.nacos.discovery.metadata.region=MyDEV
-```
-- C服务和D服务的区域（Region）元数据配置为FAT（测试环境），如下
-```
-spring.cloud.nacos.discovery.metadata.region=FAT
-```
-- B服务和C服务，加上如下配置，保证B服务只访问测试环境上的C服务，C服务只访问测试环境上的D服务
-```
-# 开启和关闭跨区域路由
-spring.application.strategy.region.route.enabled=true
-# 路由的目标区域
-spring.application.strategy.region.route=FAT
-```
-- 前端传入B服务的区域Header。由于A服务是调用起点，所以不需要配置A服务的值
-```
-n-d-region={"service-b":"MyDEV"}
-```
-
-扩展场景：
-
-如果希望C服务访问的是开发环境上的D服务，那么变成
-```
-A服务（本地环境） -> B服务（本地环境） -> C服务（测试环境） -> D服务（本地环境）
-```
-
-前端传入区域Header改为
-
-```
-n-d-region={"service-b":"MyDEV", "service-d":"MyDEV"}
-```
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 总结
-
-- 要调用测试环境中的服务，包括开发环境调用测试环境和测试环境中的服务间调用，必须加上`开启和关闭跨区域路由`和`路由的目标区域`的两个配置
-- 要调用开发环境中的服务，包括测试环境回调开发环境和开发环境中的服务间调用，必须加上`n-d-region`的Header进行动态路由
-
-## 全链路可用区亲和性隔离和路由
-
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/IsolationZone.jpg)
-
-### 全链路可用区亲和性隔离
-基于调用端实例和提供端实例的元数据Metadata的zone配置值进行对比实现隔离
-```
-spring.cloud.nacos.discovery.metadata.zone=zone
-```
-通过如下开关进行开启和关闭
-```
-# 启动和关闭可用区亲和性，即同一个可用区的服务才能调用，同一个可用区的条件是调用端实例和提供端实例的元数据Metadata的zone配置值必须相等。缺失则默认为false
-spring.application.strategy.zone.affinity.enabled=false
-```
-
-### 全链路可用区亲和性路由
-在可用区亲和性隔离执行的时候，调用端实例找不到同一可用区的提供端实例，把流量路由到其它可用区或者不归属任何可用区
-
-通过如下开关进行开启和关闭
-```
-# 启动和关闭可用区亲和性失败后的路由，即调用端实例没有找到同一个可用区的提供端实例的时候，当开关打开，可路由到其它可用区或者不归属任何可用区，当开关关闭，则直接调用失败。缺失则默认为true
-spring.application.strategy.zone.route.enabled=true
-```
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 需要注意
-
-- 不归属任何可用区，含义是服务实例未设置任何zone元数据值。可用区亲和性路由功能，是为了尽量保证流量不损失
-- 本框架提供的可用区亲和性功能适用于一切注册中心
-- 如果采用Eureka注册中心，Ribbon在Eureka Client上会自动开启可用区亲和性功能，跟本框架提供的功能相似。它不提供禁止“可用区亲和性失败后的路由”，如果使用者希望实现“找不到相同可用区，直接调用失败”的功能，可以结合本框架上述两个开关来实现
-
-## 全链路服务隔离和准入
-
-### 消费端服务隔离
-
-#### 基于组负载均衡隔离
-元数据中的Group在一定意义上代表着系统ID或者系统逻辑分组，基于Group策略意味着只有同一个系统中的服务才能调用
-
-基于Group是否相同的策略，即消费端拿到的提供端列表，两者的Group必须相同。只需要在网关或者服务端，开启如下配置即可
-```
-# 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
-spring.application.strategy.consumer.isolation.enabled=true
-```
-通过修改discovery-guide-service-b的Group名为其它名称，执行Postman调用，将发现从discovery-guide-service-a无法拿到discovery-guide-service-b的任何实例。意味着在discovery-guide-service-a消费端进行了隔离
-
-### 提供端服务隔离
-
-#### 基于组Header传值策略隔离
-元数据中的Group在一定意义上代表着系统ID或者系统逻辑分组，基于Group策略意味着只有同一个系统中的服务才能调用
-
-基于Group是否相同的策略，即服务端被消费端调用，两者的Group必须相同，否则拒绝调用，异构系统可以通过Header方式传递n-d-service-group值进行匹配。只需要在服务端（不适用网关），开启如下配置即可
-```
-# 启动和关闭提供端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
-spring.application.strategy.provider.isolation.enabled=true
-
-# 路由策略的时候，需要指定对业务RestController类的扫描路径。此项配置作用于RPC方式的调用拦截和消费端的服务隔离两项工作
-spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.feign
-```
-
-在Postman调用，执行[http://localhost:4001/invoke/abc](http://localhost:4001/invoke/abc)，去调用discovery-guide-service-b服务，将出现如下异常。意味着在discovery-guide-service-b提供端进行了隔离
-```
-Reject to invoke because of isolation with different service group
-```
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide6-1.jpg)
-
-如果加上n-d-service-group=discovery-guide-group的Header，那么两者保持Group相同，则调用通过。这是解决异构系统调用微服务被隔离的一种手段
-
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide6-2.jpg)
-
-### 注册发现隔离和准入
-
-#### 基于IP地址黑白名单注册准入
-微服务启动的时候，禁止指定的IP地址注册到注册中心。支持黑/白名单，白名单表示只允许指定IP地址前缀注册，黑名单表示不允许指定IP地址前缀注册
-- 全局过滤，指注册到服务注册发现中心的所有微服务，只有IP地址包含在全局过滤字段的前缀中，都允许注册（对于白名单而言），或者不允许注册（对于黑名单而言）
-- 局部过滤，指专门针对某个微服务而言，那么真正的过滤条件是全局过滤 + 局部过滤结合在一起
-
-#### 基于最大注册数限制注册准入
-微服务启动的时候，一旦微服务集群下注册的实例数目已经达到上限（可配置），将禁止后续的微服务进行注册
-- 全局配置值，只下面配置所有的微服务集群，最多能注册多少个
-- 局部配置值，指专门针对某个微服务而言，如果该值如存在，全局配置值失效
-
-#### 基于IP地址黑白名单发现准入
-微服务启动的时候，禁止指定的IP地址被服务发现。它使用的方式和[基于IP地址黑白名单注册准入](#基于IP地址黑白名单注册准入)一致
-
-#### 自定义注册发现准入
-- 集成AbstractRegisterListener，实现自定义禁止注册
-- 集成AbstractDiscoveryListener，实现自定义禁止被发现。需要注意，在Consul下，同时会触发service和management两个实例的事件，需要区别判断
-- 集成AbstractLoadBalanceListener，实现自定义禁止被负载均衡
 
 ## 全链路服务限流熔断降级权限
 
@@ -4828,6 +4689,253 @@ com.nepxion.discovery.plugin.strategy.monitor.DefaultStrategyAlarm
 ```
 {n-d-service-group=discovery-guide-group, n-d-version={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}, n-d-service-type=service, n-d-service-id=discovery-guide-service-b, n-d-service-env=env1, mobile=, n-d-service-region=qa, span-id=c37b54d7fec6bd07, n-d-service-zone=zone1, n-d-service-address=192.168.0.107:4001, trace-id=64c79e1ef68eecf3, n-d-service-version=1.0}
 ```
+
+## 全链路蓝绿灰度发布平台界面
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 请访问[Discovery Platform WIKI](http://nepxion.gitee.io/discoveryplatform)
+
+![](http://nepxion.gitee.io/discoveryplatform/docs/discovery-doc/BlueGreenGray-5.jpg)
+
+## 全链路蓝绿灰度发布图形化桌面
+
+① 获取图形化桌面端
+
+桌面端获取方式有两种方式
+- 通过[https://github.com/Nepxion/DiscoveryUI/releases](https://github.com/Nepxion/DiscoveryUI/releases)下载最新版本的discovery-desktop-release
+- 编译[https://github.com/Nepxion/DiscoveryUI](https://github.com/Nepxion/DiscoveryUI)下的desktop，在target目录下产生discovery-desktop-release
+
+② 启动控制台
+- 通过[https://github.com/Nepxion/DiscoveryPlatform](https://github.com/Nepxion/DiscoveryPlatform)下载最新版本的控制台
+- 导入IDE或者编译成Spring Boot程序运行
+- 运行之前，先修改src/main/resources/bootstrap.properties的相关配置，包括注册中心和配置中心的地址等
+
+③ 启动图形化桌面端
+- 修改config/console.properties中的url，指向控制台的地址
+- 在Windows操作系统下，运行startup.bat，在Mac或者Linux操作系统下，运行startup.sh
+
+④ 登录图形化桌面端
+
+登录认证，用户名和密码为admin/admin或者nepxion/nepxion。控制台支持简单的认证，用户名和密码配置在上述控制台的bootstrap.properties中，使用者可以自己扩展AuthenticationResource并注入，实现更专业的认证功能
+
+ ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop8.jpg)
+
+### 全链路编排建模
+
+全链路编排建模工具，只提供最经典和最常用的蓝绿灰度发布场景功能，并不覆盖框架所有的功能
+
+#### 全链路蓝绿发布编排建模
+
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop9.jpg)
+
+① 导航栏上选择〔全链路服务蓝绿发布〕
+
+② 〔全链路服务蓝绿发布〕界面的工具栏上，点击【新建】按钮，弹出【新建配置】对话框。确认下面选项后，点击【确定】按钮后，进行全链路蓝绿发布编排建模
+
+- 〔订阅参数〕项。选择〔局部订阅〕或者〔全局订阅〕，通过下拉菜单〔订阅组名〕和〔订阅服务名〕，〔订阅服务名〕可以选择网关（以网关为发布入口）或者服务（以服务为发布入口）。如果是〔全局订阅〕，则不需要选择〔订阅服务名〕
+- 〔部署参数〕项。选择〔域网关模式〕（发布界面上提供只属于〔订阅组〕下的服务列表）或者〔非域网模式〕（发布界面上提供所有服务列表）
+- 〔发布策略〕项。选择〔版本策略〕或者〔区域策略〕
+- 〔路由类型〕项。选择〔蓝 | 绿 | 兜底〕或者〔蓝 | 兜底〕
+
+根据[全链路版本条件匹配蓝绿发布](#全链路版本条件匹配蓝绿发布)示例中的场景
+
+③ 在〔蓝绿条件〕中，分别输入〔蓝条件〕和〔绿条件〕
+
+- 〔蓝条件〕输入a==1
+- 〔绿条件〕输入a==1&&b==2
+
+使用者可以通过〔条件校验〕来判断条件是否正确。例如，在〔绿条件〕区的校验文本框里，输入a=1，执行校验，将提示〔校验结果:false〕，输入a=1;b=2，将提示〔校验结果:true〕
+
+④ 在〔蓝绿编排〕中，分别选择如下服务以及其版本，并点击【添加】按钮，把路由链路添加到拓扑图上
+
+- 服务discovery-guide-service-a，〔蓝版本〕=1.1，〔绿版本〕=1.0，〔兜底版本〕=1.0
+- 服务discovery-guide-service-b，〔蓝版本〕=1.1，〔绿版本〕=1.0，〔兜底版本〕=1.0
+
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop10.jpg)
+
+⑤ 如果希望内置Header参数，可以〔蓝绿参数〕的文本框中输入
+
+⑥ 全链路编排建模完毕，点击工具栏上【保存】按钮进行保存，也可以先点击【预览】按钮，在弹出的【预览配置】对话框中，确认规则策略无误后再保存。使用者可以访问Nacos界面查看相关的规则策略是否已经存在
+
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop11.jpg)
+
+⑦ 对于已经存在的策略配置，可以通过点击工具栏上【打开】按钮，在弹出的【打开配置】对话框中，根据上述逻辑相似，确定〔订阅参数〕项后，选择〔打开远程配置〕（载入Nacos上对应的规则策略）或者〔打开本地配置〕（载入本地硬盘上规则策略文件rule.xml）
+
+⑧ 对于已经存在的策略配置，如果想重置清除掉，点击工具栏上【重置】按钮进行重置清除
+
+#### 全链路灰度发布编排建模
+
+① 导航栏上选择〔全链路服务灰度发布〕
+
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop13.jpg)
+
+根据[全链路版本条件权重灰度发布](#全链路版本条件权重灰度发布)示例中的场景
+
+② 在〔灰度条件〕中，〔灰度条件〕（灰度流量占比）选择95%，〔稳定条件〕（稳定流量占比）会自动切换成5%
+
+其它步骤跟[全链路蓝绿发布编排建模](#全链路蓝绿发布编排建模)相似，但比其简单
+
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop14.jpg)
+
+### 全链路流量侦测
+
+#### 全链路蓝绿发布流量侦测
+
+① 导航栏上选择〔全链路服务流量侦测〕
+
+② 在〔侦测入口〕中，操作如下
+
+- 〔类型〕项。选择〔网关〕或者〔服务〕，本示例的规则策略是配置在网关上，所以选择〔网关〕
+- 〔协议〕项。选择〔http://〕或者〔https://〕，视网关或者服务暴露出来的协议类型而定，本示例暴露出来的是http协议，所以选择〔http://〕
+- 〔服务〕项。选择一个网关名或者服务名，下拉菜单列表随着〔类型〕项的改变而改变，蓝绿发布规则策略是配置在discovery-guide-gateway上，所以选择它
+- 〔实例〕项。选择一个网关实例或者服务实例的IP地址和端口，下拉菜单列表随着〔服务〕的改变而改变
+
+③ 在〔侦测参数〕中，操作如下
+
+添加〔Header〕项和〔Parameter〕项，也可以〔Cookie〕项，使用者可以任意选择2个
+
+- 〔Header〕项。输入a=1
+- 〔Parameter〕项。输入b=2
+
+④ 在〔侦测链路〕中，操作如下
+
+- 增加服务discovery-guide-service-a
+- 增加服务discovery-guide-service-b
+
+⑤ 在〔侦测执行〕中，操作如下
+
+- 〔维护〕项。选择〔版本〕、〔区域〕、〔环境〕、〔可用区〕、〔地址〕或者〔组〕，维护表示在拓扑图上聚合调用场景的维度，本示例的规则策略是是基于版本维度进行发布，所以选择〔版本〕
+- 〔次数〕项。选择执行侦测的次数，基于网关和服务的性能压力，使用者需要酌情考虑调用次数
+- 〔次数〕项。选择执行侦测的同一时刻线程并发数，并发数是对于图形化桌面端而言的
+- 〔成功〕项。用来显示侦测成功的百分比
+- 〔失败〕项。用来显示侦测失败的百分比
+- 〔耗时〕项。用来显示侦测执行的消耗时间
+
+⑥ 点击工具栏上【开始】按钮开始侦测，在侦测执行过程中，可以点击工具栏上【停止】按钮停止侦测
+
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop15.jpg)
+
+从上述截图中，可以看到
+
+- 在条件a==1&&b==2的〔绿条件〕下，执行〔网关〕->〔a服务1.0版本〕->〔b服务1.0版本〕的〔绿路由〕
+
+⑦ 点击工具栏上【查看】按钮查看拓扑图上所有节点配置的规则策略，包括局部配置和全局配置
+
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop16.jpg)
+
+⑧ 支持直接n-d-version策略路由Header驱动的蓝绿发布流量侦测
+
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop7.jpg)
+
+#### 全链路灰度发布流量侦测
+
+① 导航栏上选择〔全链路服务流量侦测〕
+
+② 在〔侦测入口〕中，操作如下
+
+- 〔服务〕项。灰度发布规则策略是配置在discovery-guide-zuul上，所以选择它
+
+③ 在〔侦测参数〕中，不需要输入任何值
+
+④ 在〔侦测执行〕中，〔次数〕项的值越大，灰度权重百分比越准确
+
+其它步骤跟[全链路蓝绿发布流量侦测](#全链路蓝绿发布流量侦测)相似，但比其简单
+
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop17.jpg)
+
+从上述截图中，可以看到
+
+- 执行〔网关〕->〔a服务1.1版本〕->〔b服务1.1版本〕的〔灰度路由〕权重百分比95%左右
+- 执行〔网关〕->〔a服务1.0版本〕->〔b服务1.0版本〕的〔稳定路由〕权重百分比5%左右
+
+#### 全链路蓝绿灰度发布混合流量侦测
+
+① 全链路蓝绿发布 + 灰度发布混合模式下流量侦测
+
+在网关上配置了蓝绿发布规则策略，在a服务上配置了灰度发布规则策略
+
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop5.jpg)
+
+② 全链路灰度发布 + 蓝绿发布混合模式下流量侦测
+
+在网关上配置了灰度发布规则策略，在a服务上配置了蓝绿发布规则策略
+
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop6.jpg)
+
+③ 全链路流量侦测接口
+
+通过discovery-plugin-admin-center-starter内置基于LoadBalanced RestTemplate的接口方法，实现全链路侦测，用于查看全链路中调用的各个服务的版本、区域、环境、可用区、IP地址和端口等是否符合和满足蓝绿灰度条件。使用方式，如下
+
+服务的Rest Endpoint接口
+
+| 操作 | 路径 | 参数 | 方式 |
+| --- | --- | --- | --- |
+| 网关为入口 | `http://`[网关IP:PORT]/[A服务名]/inspector/inspect | {"serviceIdList":["B服务名", "C服务名", ...]} | POST |
+| 服务为入口 | `http://`[A服务IP:PORT]/inspector/inspect | {"serviceIdList":["B服务名", "C服务名", ...]} | POST |
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：内容项中服务名列表不分前后次序
+
+## 全链路数据库和消息队列蓝绿发布
+通过订阅相关参数的变化，实现参数化蓝绿发布，可用于如下场景
+
+① 基于多DataSource的数据库蓝绿发布
+
+② 基于多Queue的消息队列蓝绿发布
+
+增加参数化蓝绿发布规则，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名），规则内容如下，实现功能
+
+① 服务a在版本为1.0的时候，数据库的数据源指向db1；服务a在版本为1.1的时候，数据库的数据源指向db2
+
+② 服务b在区域为dev的时候，消息队列指向queue1；服务b在区域为qa的时候，消息队列指向queue2
+
+③ 服务c在环境为env1的时候，数据库的数据源指向db1；服务c在环境为env2的时候，数据库的数据源指向db2
+
+④ 服务d在可用区为zone1的时候，消息队列指向queue1；服务d在可用区为zone2的时候，消息队列指向queue2
+
+⑤ 服务c在IP地址和端口为192.168.43.101:1201的时候，数据库的数据源指向db1；服务c在IP地址和端口为192.168.43.102:1201的时候，数据库的数据源指向db2
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <parameter>
+        <service service-name="discovery-guide-service-a" tag-key="version" tag-value="1.0" key="ShardingSphere" value="db1"/>
+        <service service-name="discovery-guide-service-a" tag-key="version" tag-value="1.1" key="ShardingSphere" value="db2"/>
+        <service service-name="discovery-guide-service-b" tag-key="region" tag-value="dev" key="RocketMQ" value="queue1"/>
+        <service service-name="discovery-guide-service-b" tag-key="region" tag-value="qa" key="RocketMQ" value="queue2"/>
+        <service service-name="discovery-guide-service-c" tag-key="env" tag-value="env1" key="ShardingSphere" value="db1"/>
+        <service service-name="discovery-guide-service-c" tag-key="env" tag-value="env2" key="ShardingSphere" value="db2"/>
+        <service service-name="discovery-guide-service-d" tag-key="zone" tag-value="zone1" key="RocketMQ" value="queue1"/>
+        <service service-name="discovery-guide-service-d" tag-key="zone" tag-value="zone2" key="RocketMQ" value="queue2"/>
+        <service service-name="discovery-guide-service-e" tag-key="address" tag-value="192.168.43.101:1201" key="ShardingSphere" value="db1"/>
+        <service service-name="discovery-guide-service-e" tag-key="address" tag-value="192.168.43.102:1201" key="ShardingSphere" value="db2"/>
+    </parameter>
+</rule>
+```
+通过事件总线方式，对参数改变动态实现监听，并在此类里自行对接相关的数据库和消息队列中间件的切换和驱动
+```java
+@EventBus
+public class MySubscriber {
+    @Autowired
+    private PluginAdapter pluginAdapter;
+
+    @Subscribe
+    public void onParameterChanged(ParameterChangedEvent parameterChangedEvent) {
+        ParameterEntity parameterEntity = parameterChangedEvent.getParameterEntity();
+        String serviceId = pluginAdapter.getServiceId();
+        List<ParameterServiceEntity> parameterServiceEntityList = null;
+        if (parameterEntity != null) {
+            Map<String, List<ParameterServiceEntity>> parameterServiceMap = parameterEntity.getParameterServiceMap();
+            parameterServiceEntityList = parameterServiceMap.get(serviceId);
+        }
+        // parameterServiceEntityList为动态参数列表
+    }
+}
+```
+使用者可以通过如下开关，决定在服务启动过程中，读到参数配置的时候，是否要发送一个事件触发数据库和消息队列中间件的切换
+```
+# 启动和关闭在服务启动的时候参数订阅事件发送。缺失则默认为true
+spring.application.parameter.event.onstart.enabled=true
+```
+参考[https://github.com/Nepxion/DiscoveryContrib](https://github.com/Nepxion/DiscoveryContrib)里的实现方式
 
 ## 全链路服务侧注解
 服务侧对于RPC方式的调用拦截、消费端的服务隔离和调用链三项功能，默认映射到RestController类（含有@RestController注解），并配合如下的扫描路径才能工作
