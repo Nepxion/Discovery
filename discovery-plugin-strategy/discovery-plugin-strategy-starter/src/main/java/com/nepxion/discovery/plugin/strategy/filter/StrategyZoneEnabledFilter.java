@@ -14,7 +14,6 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.netflix.loadbalancer.Server;
@@ -33,10 +32,6 @@ public class StrategyZoneEnabledFilter extends AbstractStrategyEnabledFilter {
         }
 
         String zone = pluginAdapter.getZone();
-        // 当服务未接入本框架或者版本号未设置（表现出来的值为DiscoveryConstant.DEFAULT），则不过滤，返回
-        if (StringUtils.equals(zone, DiscoveryConstant.DEFAULT)) {
-            return true;
-        }
 
         String serverZone = pluginAdapter.getServerZone(server);
 
