@@ -3062,9 +3062,9 @@ spring.application.strategy.address.failover.enabled=true
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
-    <strategy>
+    <strategy-blacklist>
         <id>{"discovery-guide-service-a":"20210601-222214-909-1146-372-698", "discovery-guide-service-b":"20210601-222623-277-4978-633-279"}</id>
-    </strategy>
+    </strategy-blacklist>
 </rule>
 ```
 
