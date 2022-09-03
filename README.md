@@ -27,7 +27,6 @@
 <img src="http://nepxion.gitee.io/discovery/docs/discovery-doc/CertificateGVP.jpg" width="43%"><img src="http://nepxion.gitee.io/discovery/docs/discovery-doc/AwardNacos1.jpg" width="28%"><img src="http://nepxion.gitee.io/discovery/docs/discovery-doc/AwardSCA1.jpg" width="28%">
 
 ### 商业合作
-
 ① Discovery系列
 
 | 框架名称 | 框架版本 | 支持Spring Cloud版本 | 使用许可 |
@@ -56,7 +55,6 @@ Polaris为Discovery高级定制版，特色功能
 有商业版需求的企业和用户，请添加微信1394997，联系作者，洽谈合作事宜
 
 ### 入门资料
-
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Logo64.png) Discovery【探索】企业级云原生微服务开源解决方案
 
 ① 快速入门
@@ -577,7 +575,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [全链路条件蓝绿发布](#全链路条件蓝绿发布)
         - [全链路版本条件匹配蓝绿发布](#全链路版本条件匹配蓝绿发布)
         - [全链路区域条件匹配蓝绿发布](#全链路区域条件匹配蓝绿发布)
-        - [全链路IP地址和端口条件匹配蓝绿发布](#全链路IP地址和端口条件匹配蓝绿发布)	
+        - [全链路IP地址和端口条件匹配蓝绿发布](#全链路IP地址和端口条件匹配蓝绿发布)
     - [全链路灰度发布](#全链路灰度发布)
         - [全链路版本权重灰度发布](#全链路版本权重灰度发布)
         - [全链路区域权重灰度发布](#全链路区域权重灰度发布)
@@ -680,7 +678,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [全链路蓝绿发布流量侦测](#全链路蓝绿发布流量侦测)
         - [全链路灰度发布流量侦测](#全链路灰度发布流量侦测)
         - [全链路蓝绿灰度发布混合流量侦测](#全链路蓝绿灰度发布混合流量侦测)
-- [全链路数据库和消息队列蓝绿发布](#全链路数据库和消息队列蓝绿发布)		
+- [全链路数据库和消息队列蓝绿发布](#全链路数据库和消息队列蓝绿发布)
 - [全链路服务侧注解](#全链路服务侧注解)
 - [全链路服务侧API权限](#全链路服务侧API权限)
 - [元数据流量染色](#元数据流量染色)
@@ -861,7 +859,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-contrib-example | 第三方非微服务范畴中间件的蓝绿灰度发布示例 |
 
 ### 代码清单
-
 | 仓库主分支 | 代码行数 |
 | --- | --- |
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> Discovery | [![Total lines](https://tokei.rs/b1/github/Nepxion/Discovery?category=lines)](https://tokei.rs/b1/github/Nepxion/Discovery?category=lines) |
@@ -881,7 +878,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Module.jpg)
 
 ### 依赖引入
-
 ① 服务注册发现依赖引入
 
 服务注册发现中间件的四个插件，必须引入其中一个
@@ -1090,7 +1086,6 @@ zuul
 ## 蓝绿灰度发布概念
 
 ### 蓝绿发布
-
 蓝绿发布 Blue-Green Deployment
 
 ① 概念
@@ -1108,7 +1103,6 @@ zuul
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/BlueGreenConcept.jpg)
 
 ### 灰度发布
-
 灰度发布 Gray Release（又名金丝雀发布 Canary Release）
 
 ① 概念
@@ -1126,7 +1120,6 @@ zuul
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/GrayConcept.jpg)
 
 ### 滚动发布
-
 滚动发布 Rolling Release
 
 ① 概念
@@ -1166,6 +1159,7 @@ n-d-的含义：n为Nepxion首字母，d为Discovery首字母
     </strategy>
 </rule>
 ```
+
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide2-1.jpg)
 
 如果希望每个服务的版本分别指定，那么策略内容如下，实现从Spring Cloud Gateway发起的调用走1.0版本的a服务，走1.1版本的b服务
@@ -1222,6 +1216,7 @@ n-d-version={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0
     </strategy>
 </rule>
 ```
+
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide2-3.jpg)
 
 如果希望每个服务的版本分别指定，那么策略内容如下，实现从Zuul发起的调用走dev区域的a服务，走qa区域的b服务
@@ -1553,6 +1548,7 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
     </strategy>
 </rule>
 ```
+
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide2-2.jpg)
 
 如果希望每个服务的版本权重分别指定，那么策略内容如下，实现从Spring Cloud Gateway发起的调用a服务1.0版本流量权重为90%，1.1版本流量权重为10%，b服务1.0版本流量权重为80%，1.1版本流量权重为20%
@@ -1587,6 +1583,7 @@ n-d-version-weight={"discovery-guide-service-a":"1.0=90;1.1=10", "discovery-guid
     </strategy>
 </rule>
 ```
+
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide2-4.jpg)
 
 如果希望每个服务的区域权重分别指定，那么策略内容如下，实现从Zuul发起的调用a服务dev区域流量权重为85%，qa区域流量权重为15%，b服务dev区域流量权重为75%，qa区域流量权重为25%
@@ -1643,6 +1640,7 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
     </strategy-release>
 </rule>
 ```
+
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide2-9.jpg)
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 规则策略解释
@@ -1705,7 +1703,7 @@ spring.application.strategy.zuul.original.header.ignored=true
 当网关传值Header的时候，服务也设置并传递同名的Header，需要决定哪个Header传递到后边的服务去。需要通过如下开关做控制
 ```
 # 当外界传值Header的时候，服务也设置并传递同名的Header，需要决定哪个Header传递到后边的服务去。如果下面开关为true，以服务设置为优先，否则以外界传值为优先。缺失则默认为true
-# spring.application.strategy.service.header.priority=true
+spring.application.strategy.service.header.priority=true
 ```
 
 #### 全链路混合实施蓝绿灰度发布
@@ -1856,7 +1854,6 @@ A部门服务直接访问B部门服务
 该部署模式下，会发生本部门服务的蓝绿灰度发布会由其它部门的网关或者服务来触发，当本部门服务和其它部门服务在同一时刻实施蓝绿灰度发布的时候，会产生混乱。解决方案，参考[并行发布下的版本偏好](#并行发布下的版本偏好)
 
 ### 全链路前端触发后端蓝绿灰度发布
-
 前端可以直接触发后端蓝绿灰度发布，前提条件，需要控制网关和服务上`header.priority`的开关
 
 #### 全链路驱动方式
@@ -1989,6 +1986,7 @@ spring.application.strategy.business.request.headers=user;mobile;location
     </strategy>
 </rule>
 ```
+
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide2-10.jpg)
 
 如果采用上述方式，可以考虑关闭下面的开关
@@ -2157,6 +2155,7 @@ public class MyGatewayStrategyRouteFilter extends DefaultGatewayStrategyRouteFil
     }*/
 }
 ```
+
 在配置类里@Bean方式进行过滤类创建，覆盖框架内置的过滤类
 ```java
 @Bean
@@ -2292,6 +2291,7 @@ public class MyZuulStrategyRouteFilter extends DefaultZuulStrategyRouteFilter {
     }*/
 }
 ```
+
 在配置类里@Bean方式进行过滤类创建，覆盖框架内置的过滤类
 ```java
 @Bean
@@ -2427,6 +2427,7 @@ public class MyServiceStrategyRouteFilter extends DefaultServiceStrategyRouteFil
     }*/
 }
 ```
+
 在配置类里@Bean方式进行过滤类创建，覆盖框架内置的过滤类
 ```java
 @Bean
@@ -2476,6 +2477,7 @@ public class MyDiscoveryEnabledStrategy extends DefaultDiscoveryEnabledStrategy 
     }
 }
 ```
+
 在配置类里@Bean方式进行策略类创建
 ```java
 @Bean
@@ -2483,6 +2485,7 @@ public DiscoveryEnabledStrategy discoveryEnabledStrategy() {
     return new MyDiscoveryEnabledStrategy();
 }
 ```
+
 服务除了支持网关那种基于Rest参数的方式之外，还支持基于Rpc方法参数的方式，它包括接口名、方法名、参数名或参数值等多种形式
 ```java
 // 实现了组合策略，版本路由策略+区域路由策略+IP地址和端口路由策略+自定义策略
@@ -2566,6 +2569,7 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
     }
 }
 ```
+
 需要通过如下开关开启该功能
 ```
 # 启动和关闭路由策略的时候，对RPC方式的调用拦截。缺失则默认为false
@@ -2648,7 +2652,6 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 ### 全链路组隔离路由
 
 #### 组负载均衡的消费端隔离
-
 元数据中的Group在一定意义上代表着系统ID或者系统逻辑分组，基于Group策略意味着只有同一个系统中的服务才能调用
 
 基于Group是否相同的策略，即消费端拿到的提供端列表，两者的Group必须相同。只需要在网关或者服务端，开启如下配置即可
@@ -2659,7 +2662,6 @@ spring.application.strategy.consumer.isolation.enabled=true
 通过修改discovery-guide-service-b的Group名为其它名称，执行Postman调用，将发现从discovery-guide-service-a无法拿到discovery-guide-service-b的任何实例，意味着在discovery-guide-service-a消费端进行了隔离
 
 #### 组Header传值的提供端隔离
-
 元数据中的Group在一定意义上代表着系统ID或者系统逻辑分组，基于Group策略意味着只有同一个系统中的服务才能调用
 
 基于Group是否相同的策略，即服务端被消费端调用，两者的Group必须相同，否则拒绝调用，异构系统可以通过Header方式传递n-d-service-group值进行匹配。只需要在服务端（不适用网关），开启如下配置即可
@@ -2688,6 +2690,12 @@ Reject to invoke because of isolation with different service group
 - 如果“version-prefer”值已配置，指定版本的偏好，即不管存在多少版本，直接路由到该版本实例
 - 如果“version-prefer”值未配置，版本列表排序策略的（取最老的稳定版本的实例）偏好，即不管存在多少版本，直接路由到最老的稳定版本的实例
 
+两种策略的区别：
+- 指定版本策略，需要在配置文件里手工写死目标路由版本，适合版本无序的落地场景
+- 版本列表排序策略，对版本号进行排序，此解决方案的前置条件是版本号必须是规律的有次序，例如，以时间戳的方式。如果所有服务实例的版本号未设置，那么将转移到未设置版本号的实例上。适合版本有序的落地场景，不需要人工干预
+
+通过在配置中心修改版本偏好值，可以达到动态版本偏好的效果
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
@@ -2698,17 +2706,11 @@ Reject to invoke because of isolation with different service group
 </rule>
 ```
 
-通过在配置中心修改版本偏好值，可以达到动态版本偏好的效果
-
 需要通过如下开关开启该功能
 ```
 # 启动和关闭版本偏好。缺失则默认为false
 spring.application.strategy.version.prefer.enabled=true
 ```
-
-两种策略的区别：
-- 指定版本策略，需要在配置文件里手工写死目标路由版本，适合版本无序的落地场景
-- 版本列表排序策略，对版本号进行排序，此解决方案的前置条件是版本号必须是规律的有次序，例如，以时间戳的方式。如果所有服务实例的版本号未设置，那么将转移到未设置版本号的实例上。适合版本有序的落地场景，不需要人工干预
 
 ### 全链路区域调试路由
 在区域调试路由执行的时候，当未对服务指定访问区域的时候，路由到事先指定的区域。该功能属于静态隔离和动态路由结合在一起的灵活方案，适用于开发环境（个人电脑环境）在测试环境（线上环境）进行联调，同时当多套个人环境接入时候，可以保护不同的个人环境间不会彼此调用
@@ -2738,7 +2740,7 @@ spring.cloud.discovery.metadata.region=FAT
 ① 打开`启动和关闭区域调试转移`开关
 ```
 # 启动和关闭区域调试转移。缺失则默认为false
-# spring.application.strategy.region.transfer.enabled=true
+spring.application.strategy.region.transfer.enabled=true
 ```
 
 ② 设置`区域调试转移值`
@@ -2777,7 +2779,6 @@ n-d-region={"service-b":"MyDEV", "service-d":"MyDEV"}
 - 要调用开发环境中的服务，包括测试环境回调开发环境和开发环境中的服务间调用，必须加上`n-d-region`的Header进行动态路由
 
 ### 全链路环境隔离路由
-
 基于服务实例的元数据Metadata的env参数和全链路传递的环境Header值进行对比实现隔离，当从网关传递来的环境Header（n-d-env）值和提供端实例的元数据Metadata环境配置值相等才能调用
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/IsolationEnvironment.jpg)
@@ -2915,6 +2916,11 @@ n-d-address-failover=*1
   - 开启“version.failover.stable.enabled”开关，版本列表排序策略的（取最老的稳定版本的实例）故障转移，即找不到实例的时候，直接路由到最老的稳定版本的实例
   - 关闭“version.failover.stable.enabled”开关，负载均衡策略的故障转移，即找不到实例的时候，执行负载均衡策略
 
+三种策略的区别：
+- 负载均衡策略，找不到指定版本后，在其它的版本列表里进行负载均衡轮询调用
+- 版本列表排序策略，对版本号进行排序，此解决方案的前置条件是版本号必须是规律的有次序，例如，以时间戳的方式。如果所有服务实例的版本号未设置，那么将转移到未设置版本号的实例上。适合版本有序的落地场景，不需要人工干预
+- 指定版本策略，需要在配置文件里手工写死目标路由版本，适合版本无序的落地场景
+
 通过在配置中心修改版本偏好值，可以达到动态版本故障转移的效果
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -2929,15 +2935,10 @@ n-d-address-failover=*1
 需要通过如下开关开启该功能
 ```
 # 启动和关闭版本故障转移。缺失则默认为false
-# spring.application.strategy.version.failover.enabled=true
+spring.application.strategy.version.failover.enabled=true
 # 开启和关闭版本列表排序策略下取稳定版本的版本故障转移。缺失则默认为false
-# spring.application.strategy.version.failover.stable.enabled=true
+spring.application.strategy.version.failover.stable.enabled=true
 ```
-
-三种策略的区别：
-- 负载均衡策略，找不到指定版本后，在其它的版本列表里进行负载均衡轮询调用
-- 版本列表排序策略，对版本号进行排序，此解决方案的前置条件是版本号必须是规律的有次序，例如，以时间戳的方式。如果所有服务实例的版本号未设置，那么将转移到未设置版本号的实例上。适合版本有序的落地场景，不需要人工干预
-- 指定版本策略，需要在配置文件里手工写死目标路由版本，适合版本无序的落地场景
 
 ### 全链路区域故障转移
 区域故障转移，即无法找到相应区域的服务实例，转移到指定区域的服务实例。其作用是防止路由时候区域人为设置错误，或者对应区域的服务实例发生灾难性的全部下线，导致流量有损
@@ -2960,7 +2961,7 @@ n-d-address-failover=*1
 需要通过如下开关开启该功能
 ```
 # 启动和关闭区域故障转移。缺失则默认为false
-# spring.application.strategy.region.failover.enabled=true
+spring.application.strategy.region.failover.enabled=true
 ```
 
 ### 全链路环境故障转移
@@ -2981,7 +2982,7 @@ n-d-address-failover=*1
 ```
 # 启动和关闭环境故障转移。缺失则默认为false
 # 如果“env-failover”值未配置，则默认为common
-# spring.application.strategy.environment.failover.enabled=true
+spring.application.strategy.environment.failover.enabled=true
 ```
 
 ### 全链路可用区故障转移
@@ -3005,7 +3006,7 @@ n-d-address-failover=*1
 需要通过如下开关开启该功能
 ```
 # 启动和关闭可用区故障转移。缺失则默认为false
-# spring.application.strategy.zone.failover.enabled=true
+spring.application.strategy.zone.failover.enabled=true
 ```
 
 ### 全链路IP地址和端口故障转移
@@ -3056,6 +3057,7 @@ spring.application.strategy.address.failover.enabled=true
     </strategy-blacklist>
 </rule>
 ```
+
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide2-11.jpg)
 
 如果希望每个服务的全局唯一ID分别指定，那么策略内容如下，实现从Spring Cloud Gateway发起的调用屏蔽ID为20210601-222214-909-1146-372-698的a服务，屏蔽ID为20210601-222623-277-4978-633-279的b服务
@@ -3129,6 +3131,7 @@ boolean deleteBlacklist(String serviceId, String serviceUUId);
     </strategy-blacklist>
 </rule>
 ```
+
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide2-12.jpg)
 
 如果希望每个服务的IP地址或者端口分别指定，那么策略内容如下，实现从Zuul发起的屏蔽屏蔽3001端口的a服务，屏蔽4001端口的b服务
@@ -4289,7 +4292,6 @@ public SentinelStrategyRequestOriginAdapter sentinelStrategyRequestOriginAdapter
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide7-8.jpg)
 
 ### Sentinel-Rest-Endpoint
-
 ① 服务的Rest Endpoint接口
 
 | 操作 | 路径 | 参数 | 方式 |
@@ -4443,7 +4445,6 @@ n-d-version=[{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.
 ③ 业务代码里，Feign或者RestTemplate调用代码放在异步场景中，因为线程切换，导致Header转发丢失。通过[异步场景下DiscoveryAgent解决方案](#异步场景下DiscoveryAgent解决方案)来解决
 
 #### Sentinel熔断埋点调用链监控
-
 - 集成OpenTracing + Jaeger + Sentinel限流熔断降级权限埋点全链路监控
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Jaeger6.jpg)
@@ -4714,13 +4715,11 @@ com.nepxion.discovery.plugin.strategy.monitor.DefaultStrategyAlarm
 ```
 
 ## 全链路蓝绿灰度发布平台界面
-
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 请访问[Discovery Platform WIKI](http://nepxion.gitee.io/discoveryplatform)
 
 ![](http://nepxion.gitee.io/discoveryplatform/docs/discovery-doc/BlueGreenGray-5.jpg)
 
 ## 全链路蓝绿灰度发布图形化桌面
-
 ① 获取图形化桌面端
 
 桌面端获取方式有两种方式
@@ -4743,11 +4742,9 @@ com.nepxion.discovery.plugin.strategy.monitor.DefaultStrategyAlarm
  ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop8.jpg)
 
 ### 全链路编排建模
-
 全链路编排建模工具，只提供最经典和最常用的蓝绿灰度发布场景功能，并不覆盖框架所有的功能
 
 #### 全链路蓝绿发布编排建模
-
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop9.jpg)
 
 ① 导航栏上选择〔全链路服务蓝绿发布〕
@@ -4786,7 +4783,6 @@ com.nepxion.discovery.plugin.strategy.monitor.DefaultStrategyAlarm
 ⑧ 对于已经存在的策略配置，如果想重置清除掉，点击工具栏上【重置】按钮进行重置清除
 
 #### 全链路灰度发布编排建模
-
 ① 导航栏上选择〔全链路服务灰度发布〕
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop13.jpg)
@@ -4802,7 +4798,6 @@ com.nepxion.discovery.plugin.strategy.monitor.DefaultStrategyAlarm
 ### 全链路流量侦测
 
 #### 全链路蓝绿发布流量侦测
-
 ① 导航栏上选择〔全链路服务流量侦测〕
 
 ② 在〔侦测入口〕中，操作如下
@@ -4850,7 +4845,6 @@ com.nepxion.discovery.plugin.strategy.monitor.DefaultStrategyAlarm
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop7.jpg)
 
 #### 全链路灰度发布流量侦测
-
 ① 导航栏上选择〔全链路服务流量侦测〕
 
 ② 在〔侦测入口〕中，操作如下
@@ -4871,7 +4865,6 @@ com.nepxion.discovery.plugin.strategy.monitor.DefaultStrategyAlarm
 - 执行〔网关〕->〔a服务1.0版本〕->〔b服务1.0版本〕的〔稳定路由〕权重百分比5%左右
 
 #### 全链路蓝绿灰度发布混合流量侦测
-
 ① 全链路蓝绿发布 + 灰度发布混合模式下流量侦测
 
 在网关上配置了蓝绿发布规则策略，在a服务上配置了灰度发布规则策略
@@ -5681,7 +5674,6 @@ public class SwaggerAutoConfiguration {
 把SwaggerAutoConfiguration加入到src/main/resources/META-INF/spring.factories进行自动装配
 
 ### 基于平台端和桌面端的规则策略推送
-
 参考[全链路蓝绿灰度发布平台界面](#全链路蓝绿灰度发布平台界面)
 
 参考[全链路蓝绿灰度发布图形化桌面](#全链路蓝绿灰度发布图形化桌面)
@@ -6731,7 +6723,6 @@ gray.weight.testcase.result.offset=5
 ```
 
 ### 测试用例
-
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 需要注意，当使用Eureka注册中心的时候，因为Spring Cloud内嵌了Eureka可用区亲和性功能，会自动开启该策略，则导致某些自动化测试用例失败。需要把所有服务实例的元数据zone值改成相同或者也可以把该行元数据删除，然后进行自动化测试
 
 #### 测试包引入
@@ -6887,7 +6878,6 @@ public @interface DTestConfig {
 ```
 
 代码如下
-
 ```java
 public class DiscoveryGuideTestCases {
     @Autowired
