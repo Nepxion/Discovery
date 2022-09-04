@@ -1445,6 +1445,8 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
 ```
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide2-8.jpg)
 
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/RouteExpressionVersion.jpg)
+
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 规则策略解释
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 特别提醒
@@ -1649,12 +1651,14 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 
 ① 稳定版本路由和灰度版本路由流量权重分配
 
-- 稳定版本路由：a服务1.0版本向网关提供90%的流量，a服务1.0版本只能访问b服务1.0版本
-- 灰度版本路由：a服务1.1版本向网关提供10%的流量，a服务1.1版本只能访问b服务1.1版本
+- 稳定版本路由：a服务1.0版本向网关提供100%的流量，a服务1.0版本只能访问b服务1.0版本
+- 灰度版本路由：a服务1.1版本向网关提供0%的流量，a服务1.1版本只能访问b服务1.1版本
 
-② gray-route链路配比10%的流量，stable-route链路配比90%的流量
+② gray-route链路配比0%的流量，stable-route链路配比100%的流量
 
-③ 策略总共支持3种，可以单独一项使用，也可以多项叠加使用
+③ 如果带上条件驱动，可以设置在不同的条件下，给予不同的流量配比
+
+④ 策略总共支持3种，可以单独一项使用，也可以多项叠加使用
 
 - version 版本
 - region 区域
@@ -2679,6 +2683,8 @@ Reject to invoke because of isolation with different service group
 ### 全链路版本偏好路由
 版本偏好，即非蓝绿灰度发布场景下，路由到老的稳定版本的实例。其作用是防止多个网关上并行实施蓝绿灰度版本发布产生混乱，对处于非蓝绿灰度状态的服务，调用它的时候，只取它的老的稳定版本的实例；蓝绿灰度状态的服务，还是根据传递的Header版本号进行匹配
 
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/RoutePreferVersion.jpg)
+
 版本偏好有两种策略：
 - 如果“version-prefer”值已配置，指定版本的偏好，即不管存在多少版本，直接路由到该版本实例
 - 如果“version-prefer”值未配置，版本列表排序策略的（取最老的稳定版本的实例）偏好，即不管存在多少版本，直接路由到最老的稳定版本的实例
@@ -2807,6 +2813,8 @@ spring.application.strategy.zone.affinity.enabled=true
 基于服务实例的IP地址或者端口参数和全链路传递的环境Header值进行对比实现隔离，当从网关传递来的环境Header（n-d-address）值和提供端实例的IP地址或者端口值相等才能调用
 
 该方案是一种细粒度隔离路由方案，需要注意，容器化下的服务实例在重启后IP地址变化的情况
+
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/RouteAddress.jpg)
 
 ## 全链路隔离准入
 
