@@ -2648,6 +2648,8 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 
 ### 全链路组隔离路由
 
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/IsolationGroup.jpg)
+
 #### 组负载均衡的消费端隔离
 元数据中的Group在一定意义上代表着系统ID或者系统逻辑分组，基于Group策略意味着只有同一个系统中的服务才能调用
 
