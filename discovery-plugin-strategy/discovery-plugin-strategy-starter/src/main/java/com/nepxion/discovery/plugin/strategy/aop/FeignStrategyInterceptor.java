@@ -32,15 +32,8 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
     @Autowired
     protected StrategyContextHolder strategyContextHolder;
 
-    // Feign上核心策略Header是否传递。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
-    // 1. n-d-version
-    // 2. n-d-region
-    // 3. n-d-address
-    // 4. n-d-version-weight
-    // 5. n-d-region-weight
-    // 6. n-d-id-blacklist
-    // 7. n-d-address-blacklist
-    // 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
+    // Feign上核心策略Header是否传递。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能
+    // 核心策略Header指n-d-开头的Header（不包括n-d-env，因为环境路由隔离，必须传递该Header），不包括n-d-service开头的Header
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_FEIGN_CORE_HEADER_TRANSMISSION_ENABLED + ":true}")
     protected Boolean feignCoreHeaderTransmissionEnabled;
 
