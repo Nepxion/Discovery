@@ -19,11 +19,13 @@ import org.springframework.beans.factory.annotation.Value;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.RuleEntity;
+import com.nepxion.discovery.common.entity.SubscriptionType;
 import com.nepxion.discovery.plugin.configcenter.loader.LocalConfigLoader;
 import com.nepxion.discovery.plugin.configcenter.loader.RemoteConfigLoader;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
+import com.nepxion.discovery.plugin.framework.event.RuleFailureEvent;
 import com.nepxion.discovery.plugin.framework.parser.PluginConfigParser;
 
 public class ConfigInitializer {
@@ -74,6 +76,8 @@ public class ConfigInitializer {
                     pluginAdapter.setDynamicPartialRule(ruleEntity);
                 } catch (Exception e) {
                     LOG.error("Initialize partial remote config failed", e);
+
+                    pluginEventWapper.fireRuleFailure(new RuleFailureEvent(SubscriptionType.PARTIAL, partialRemoteConfig, e));
                 }
             }
 
@@ -86,6 +90,8 @@ public class ConfigInitializer {
                     pluginAdapter.setDynamicGlobalRule(ruleEntity);
                 } catch (Exception e) {
                     LOG.error("Initialize global remote config failed", e);
+
+                    pluginEventWapper.fireRuleFailure(new RuleFailureEvent(SubscriptionType.GLOBAL, globalRemoteConfig, e));
                 }
             }
         }
