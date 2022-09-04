@@ -1202,8 +1202,6 @@ n-d-version=1.0
 n-d-version={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
 ```
 
-版本匹配蓝绿发布架构图
-
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/RouteVersion.jpg)
 
 #### 全链路区域匹配蓝绿发布
@@ -1258,8 +1256,6 @@ d* - 表示调用范围为d开头的所有区域
 n-d-region=dev
 n-d-region={"discovery-guide-service-a":"dev", "discovery-guide-service-b":"dev"}
 ```
-
-区域匹配蓝绿发布架构图
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/RouteRegion.jpg)
 
@@ -1316,8 +1312,6 @@ n-d-region={"discovery-guide-service-a":"dev", "discovery-guide-service-b":"dev"
 n-d-address=3001
 n-d-address={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"3001"}
 ```
-
-IP地址和端口匹配蓝绿发布架构图
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/RouteAddress.jpg)
 
@@ -1553,6 +1547,8 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide2-2.jpg)
 
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/RouteWeightVersion.jpg)
+
 如果希望每个服务的版本权重分别指定，那么策略内容如下，实现从Spring Cloud Gateway发起的调用a服务1.0版本流量权重为90%，1.1版本流量权重为10%，b服务1.0版本流量权重为80%，1.1版本流量权重为20%
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -1587,6 +1583,8 @@ n-d-version-weight={"discovery-guide-service-a":"1.0=90;1.1=10", "discovery-guid
 ```
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide2-4.jpg)
+
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/RouteWeightRegion.jpg)
 
 如果希望每个服务的区域权重分别指定，那么策略内容如下，实现从Zuul发起的调用a服务dev区域流量权重为85%，qa区域流量权重为15%，b服务dev区域流量权重为75%，qa区域流量权重为25%
 ```xml
@@ -1644,6 +1642,8 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 ```
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide2-9.jpg)
+
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/RouteExpressionWeightVersion.jpg)
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 规则策略解释
 
