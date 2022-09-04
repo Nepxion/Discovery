@@ -1991,15 +1991,8 @@ spring.application.strategy.business.request.headers=user;mobile;location
 
 如果采用上述方式，可以考虑关闭下面的开关
 ```
-# 启动和关闭核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
-# 1. n-d-version
-# 2. n-d-region
-# 3. n-d-address
-# 4. n-d-version-weight
-# 5. n-d-region-weight
-# 6. n-d-id-blacklist
-# 7. n-d-address-blacklist
-# 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
+# 启动和关闭核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能
+# 核心策略Header指n-d-开头的Header（不包括n-d-env，因为环境路由隔离，必须传递该Header），不包括n-d-service开头的Header
 spring.application.strategy.gateway.core.header.transmission.enabled=true
 spring.application.strategy.zuul.core.header.transmission.enabled=true
 spring.application.strategy.feign.core.header.transmission.enabled=true
@@ -3531,7 +3524,8 @@ public class MyApplication {
 
 ② 配置开启
 ```
-# 开启服务端实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
+# 开启和关闭Hystrix线程隔离模式做服务隔离时，对线程切换上下文传递的功能。缺失则默认为false
+# Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失
 spring.application.strategy.hystrix.threadlocal.supported=true
 ```
 
@@ -5904,6 +5898,8 @@ spring.application.no.servers.retry.await.time=2000
 spring.application.no.servers.notify.enabled=false
 # 由于Nacos注册中心会自动把服务名处理成GROUP@@SERVICE_ID的格式，导致根据服务名去获取元数据的时候会找不到。通过如下开关开启是否要过滤掉GROUP前缀。缺失则默认为true
 spring.application.nacos.service.id.filter.enabled=true
+# 启动和关闭在服务启动的时候参数订阅事件发送。缺失则默认为true
+spring.application.parameter.event.onstart.enabled=true
 
 # Plugin strategy config
 # 开启和关闭Ribbon默认的ZoneAvoidanceRule负载均衡策略。一旦关闭，则使用RoundRobin简单轮询负载均衡策略。缺失则默认为true
@@ -5918,35 +5914,14 @@ spring.application.strategy.rest.intercept.debug.enabled=true
 spring.application.strategy.service.route.filter.order=0
 # 当外界传值Header的时候，服务也设置并传递同名的Header，需要决定哪个Header传递到后边的服务去。如果下面开关为true，以服务设置为优先，否则以外界传值为优先。缺失则默认为true
 spring.application.strategy.service.header.priority=true
-# 启动和关闭Feign上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
-# 1. n-d-version
-# 2. n-d-region
-# 3. n-d-address
-# 4. n-d-version-weight
-# 5. n-d-region-weight
-# 6. n-d-id-blacklist
-# 7. n-d-address-blacklist
-# 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
+# 启动和关闭Feign上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能
+# 核心策略Header指n-d-开头的Header（不包括n-d-env，因为环境路由隔离，必须传递该Header），不包括n-d-service开头的Heade
 spring.application.strategy.feign.core.header.transmission.enabled=true
-# 启动和关闭RestTemplate上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
-# 1. n-d-version
-# 2. n-d-region
-# 3. n-d-address
-# 4. n-d-version-weight
-# 5. n-d-region-weight
-# 6. n-d-id-blacklist
-# 7. n-d-address-blacklist
-# 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
+# 启动和关闭RestTemplate上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能
+# 核心策略Header指n-d-开头的Header（不包括n-d-env，因为环境路由隔离，必须传递该Header），不包括n-d-service开头的Header
 spring.application.strategy.rest.template.core.header.transmission.enabled=true
-# 启动和关闭WebClient上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
-# 1. n-d-version
-# 2. n-d-region
-# 3. n-d-address
-# 4. n-d-version-weight
-# 5. n-d-region-weight
-# 6. n-d-id-blacklist
-# 7. n-d-address-blacklist
-# 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
+# 启动和关闭WebClient上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能
+# 核心策略Header指n-d-开头的Header（不包括n-d-env，因为环境路由隔离，必须传递该Header），不包括n-d-service开头的Header
 spring.application.strategy.web.client.core.header.transmission.enabled=true
 # 路由策略的时候，对REST方式调用拦截的时候（支持Feign、RestTemplate或者WebClient调用），希望把来自外部自定义的Header参数（用于框架内置上下文Header，例如：trace-id, span-id等）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
 spring.application.strategy.context.request.headers=trace-id;span-id
@@ -5958,10 +5933,6 @@ spring.application.strategy.uri.filter.exclusion=/actuator/
 spring.application.strategy.rpc.intercept.enabled=true
 # 路由策略的时候，需要指定对业务RestController类的扫描路径。此项配置作用于RPC方式的调用拦截、消费端的服务隔离和调用链三项功能
 spring.application.strategy.scan.packages=com.nepxion.discovery.plugin.example.service.feign
-# 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
-spring.application.strategy.consumer.isolation.enabled=true
-# 启动和关闭提供端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
-spring.application.strategy.provider.isolation.enabled=true
 
 # 启动和关闭监控，一旦关闭，调用链和日志输出都将关闭。缺失则默认为false
 spring.application.strategy.monitor.enabled=true
@@ -5980,9 +5951,9 @@ spring.application.strategy.tracer.separate.span.enabled=true
 # 启动和关闭调用链的蓝绿灰度规则策略信息输出。缺失则默认为true
 spring.application.strategy.tracer.rule.output.enabled=true
 # 启动和关闭调用链的异常信息是否以详细格式输出。缺失则默认为false
-spring.application.strategy.tracer.exception.detail.output.enabled=true
+spring.application.strategy.tracer.exception.detail.output.enabled=false
 # 启动和关闭类方法上入参和出参输出到调用链。缺失则默认为false
-spring.application.strategy.tracer.method.context.output.enabled=true
+spring.application.strategy.tracer.method.context.output.enabled=false
 # 显示在调用链界面上蓝绿灰度Span的名称，建议改成具有公司特色的框架产品名称。缺失则默认为NEPXION
 spring.application.strategy.tracer.span.value=NEPXION
 # 显示在调用链界面上蓝绿灰度Span Tag的插件名称，建议改成具有公司特色的框架产品的描述。缺失则默认为Nepxion Discovery
@@ -5990,7 +5961,7 @@ spring.application.strategy.tracer.span.tag.plugin.value=Nepxion Discovery
 # 启动和关闭Sentinel调用链上规则在Span上的输出。缺失则默认为true
 spring.application.strategy.tracer.sentinel.rule.output.enabled=true
 # 启动和关闭Sentinel调用链上方法入参在Span上的输出。缺失则默认为false
-spring.application.strategy.tracer.sentinel.args.output.enabled=true
+spring.application.strategy.tracer.sentinel.args.output.enabled=false
 
 # 启动和关闭Sentinel Metric通过次数统计输出功能。缺失则默认为true
 spring.application.strategy.metric.sentinel.pass.qps.output.enabled=true
@@ -6015,7 +5986,7 @@ spring.application.strategy.sentinel.system.path=classpath:sentinel-system.json
 spring.application.strategy.sentinel.param.flow.path=classpath:sentinel-param-flow.json
 
 # 启动和关闭Sentinel LimitApp高级限流熔断功能。缺失则默认为false
-spring.application.strategy.sentinel.limit.app.enabled=true
+spring.application.strategy.sentinel.limit.app.enabled=false
 # 执行Sentinel LimitApp高级限流熔断时候，以Http请求中的Header值作为关键Key。缺失则默认为n-d-service-id，即以服务名作为关键Key
 spring.application.strategy.sentinel.request.origin.key=n-d-service-id
 
@@ -6023,7 +5994,7 @@ spring.application.strategy.sentinel.request.origin.key=n-d-service-id
 # 在开启版本故障转移的开关前提下，故障转移有三种策略：
 # 1. 如果“version-failover”值已配置，指定版本的故障转移，即找不到实例的时候，直接路由到该版本实例
 # 2. 如果“version-failover”值未配置
-#    2.1 开启“version.failover.stable.enabled”开关， 版本列表排序策略的（取最老的稳定版本的实例）故障转移，即找不到实例的时候，直接路由到最老的稳定版本的实例
+#    2.1 开启“version.failover.stable.enabled”开关，版本列表排序策略的（取最老的稳定版本的实例）故障转移，即找不到实例的时候，直接路由到最老的稳定版本的实例
 #    2.2 关闭“version.failover.stable.enabled”开关，负载均衡策略的故障转移，即找不到实例的时候，执行负载均衡策略
 # 启动和关闭版本故障转移。缺失则默认为false
 spring.application.strategy.version.failover.enabled=true
@@ -6046,6 +6017,12 @@ spring.application.strategy.version.prefer.enabled=true
 # 通过“region-transfer”值进行区域转移值配置，如果缺失，则报错
 # 启动和关闭区域调试转移。缺失则默认为false
 spring.application.strategy.region.transfer.enabled=true
+
+# 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
+spring.application.strategy.consumer.isolation.enabled=true
+
+# 启动和关闭提供端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
+spring.application.strategy.provider.isolation.enabled=true
 
 # 在开启区域故障转移的开关前提下，故障转移有两种策略：
 # 1. 如果“region-failover”值已配置，指定区域的故障转移，即找不到实例的时候，直接路由到该区域实例
@@ -6072,9 +6049,6 @@ spring.application.strategy.zone.failover.enabled=true
 # 启动和关闭IP地址和端口故障转移。缺失则默认为false
 spring.application.strategy.address.failover.enabled=true
 
-# 启动和关闭在服务启动的时候参数订阅事件发送。缺失则默认为true
-spring.application.parameter.event.onstart.enabled=true
-
 # 启动和关闭自动扫描目录，当扫描目录未人工配置的时候，可以通过自动扫描方式决定扫描目录。缺失则默认为true
 spring.application.strategy.auto.scan.packages.enabled=true
 # 启动和关闭嵌套扫描，嵌套扫描指扫描非本工程下外部包的目录，可以支持多层嵌套。缺失则默认为false
@@ -6096,7 +6070,8 @@ spring.application.git.generator.path=classpath:git.properties
 spring.application.git.version.key={git.commit.id.abbrev}-{git.commit.time}
 # spring.application.git.version.key={git.build.version}-{git.commit.time}
 
-# 开启服务端实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
+# 开启和关闭Hystrix线程隔离模式做服务隔离时，对线程切换上下文传递的功能。缺失则默认为false
+# Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失
 spring.application.strategy.hystrix.threadlocal.supported=true
 
 # 启动和关闭Swagger。缺失则默认为true
@@ -6158,6 +6133,8 @@ spring.application.no.servers.retry.await.time=2000
 spring.application.no.servers.notify.enabled=false
 # 由于Nacos注册中心会自动把服务名处理成GROUP@@SERVICE_ID的格式，导致根据服务名去获取元数据的时候会找不到。通过如下开关开启是否要过滤掉GROUP前缀。缺失则默认为true
 spring.application.nacos.service.id.filter.enabled=true
+# 启动和关闭在服务启动的时候参数订阅事件发送。缺失则默认为true
+spring.application.parameter.event.onstart.enabled=true
 
 # Plugin strategy config
 # 开启和关闭Ribbon默认的ZoneAvoidanceRule负载均衡策略。一旦关闭，则使用RoundRobin简单轮询负载均衡策略。缺失则默认为true
@@ -6171,17 +6148,8 @@ spring.application.strategy.gateway.original.header.ignored=true
 # 开启和关闭网关订阅配置中心的动态路由策略。缺失则默认为false
 spring.application.strategy.gateway.dynamic.route.enabled=true
 # 启动和关闭网关上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
-# 1. n-d-version
-# 2. n-d-region
-# 3. n-d-address
-# 4. n-d-version-weight
-# 5. n-d-region-weight
-# 6. n-d-id-blacklist
-# 7. n-d-address-blacklist
-# 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
+# 核心策略Header指n-d-开头的Header（不包括n-d-env，因为环境路由隔离，必须传递该Header），不包括n-d-service开头的Header
 spring.application.strategy.gateway.core.header.transmission.enabled=true
-# 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
-spring.application.strategy.consumer.isolation.enabled=true
 
 # 启动和关闭监控，一旦关闭，调用链和日志输出都将关闭。缺失则默认为false
 spring.application.strategy.monitor.enabled=true
@@ -6200,7 +6168,7 @@ spring.application.strategy.tracer.separate.span.enabled=true
 # 启动和关闭调用链的蓝绿灰度规则策略信息输出。缺失则默认为true
 spring.application.strategy.tracer.rule.output.enabled=true
 # 启动和关闭调用链的异常信息是否以详细格式输出。缺失则默认为false
-spring.application.strategy.tracer.exception.detail.output.enabled=true
+spring.application.strategy.tracer.exception.detail.output.enabled=false
 # 显示在调用链界面上蓝绿灰度Span的名称，建议改成具有公司特色的框架产品名称。缺失则默认为NEPXION
 spring.application.strategy.tracer.span.value=NEPXION
 # 显示在调用链界面上蓝绿灰度Span Tag的插件名称，建议改成具有公司特色的框架产品的描述。缺失则默认为Nepxion Discovery
@@ -6208,7 +6176,7 @@ spring.application.strategy.tracer.span.tag.plugin.value=Nepxion Discovery
 # 启动和关闭Sentinel调用链上规则在Span上的输出。缺失则默认为true
 spring.application.strategy.tracer.sentinel.rule.output.enabled=true
 # 启动和关闭Sentinel调用链上方法入参在Span上的输出。缺失则默认为false
-spring.application.strategy.tracer.sentinel.args.output.enabled=true
+spring.application.strategy.tracer.sentinel.args.output.enabled=false
 
 # 启动和关闭Sentinel Metric通过次数统计输出功能。缺失则默认为true
 spring.application.strategy.metric.sentinel.pass.qps.output.enabled=true
@@ -6232,11 +6200,15 @@ spring.application.strategy.sentinel.system.path=classpath:sentinel-system.json
 # 热点参数流控规则文件路径。缺失则默认为classpath:sentinel-param-flow.json
 spring.application.strategy.sentinel.param.flow.path=classpath:sentinel-param-flow.json
 
+# spring.application.strategy.gateway.core.header.transmission.enabled=true
+# 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
+spring.application.strategy.consumer.isolation.enabled=true
+
 # 版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例。其作用是防止蓝绿灰度版本发布人为设置错误，或者对应的版本实例发生灾难性的全部下线，导致流量有损
 # 在开启版本故障转移的开关前提下，故障转移有三种策略：
 # 1. 如果“version-failover”值已配置，指定版本的故障转移，即找不到实例的时候，直接路由到该版本实例
 # 2. 如果“version-failover”值未配置
-#    2.1 开启“version.failover.stable.enabled”开关， 版本列表排序策略的（取最老的稳定版本的实例）故障转移，即找不到实例的时候，直接路由到最老的稳定版本的实例
+#    2.1 开启“version.failover.stable.enabled”开关，版本列表排序策略的（取最老的稳定版本的实例）故障转移，即找不到实例的时候，直接路由到最老的稳定版本的实例
 #    2.2 关闭“version.failover.stable.enabled”开关，负载均衡策略的故障转移，即找不到实例的时候，执行负载均衡策略
 # 启动和关闭版本故障转移。缺失则默认为false
 spring.application.strategy.version.failover.enabled=true
@@ -6285,9 +6257,6 @@ spring.application.strategy.zone.failover.enabled=true
 # 启动和关闭IP地址和端口故障转移。缺失则默认为false
 spring.application.strategy.address.failover.enabled=true
 
-# 启动和关闭在服务启动的时候参数订阅事件发送。缺失则默认为true
-spring.application.parameter.event.onstart.enabled=true
-
 # 启动和关闭自动扫描目录，当扫描目录未人工配置的时候，可以通过自动扫描方式决定扫描目录。缺失则默认为true
 spring.application.strategy.auto.scan.packages.enabled=true
 # 启动和关闭嵌套扫描，嵌套扫描指扫描非本工程下外部包的目录，可以支持多层嵌套。缺失则默认为false
@@ -6317,42 +6286,22 @@ spring.application.strategy.gateway.skywalking.traceid.enabled=true
 spring.application.strategy.rest.intercept.enabled=true
 # 启动和关闭Header传递的Debug日志打印，注意：每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
 spring.application.strategy.rest.intercept.debug.enabled=true
-# 启动和关闭Feign上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
-# 1. n-d-version
-# 2. n-d-region
-# 3. n-d-address
-# 4. n-d-version-weight
-# 5. n-d-region-weight
-# 6. n-d-id-blacklist
-# 7. n-d-address-blacklist
-# 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
+# 启动和关闭Feign上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能
+# 核心策略Header指n-d-开头的Header（不包括n-d-env，因为环境路由隔离，必须传递该Header），不包括n-d-service开头的Header
 spring.application.strategy.feign.core.header.transmission.enabled=true
-# 启动和关闭RestTemplate上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
-# 1. n-d-version
-# 2. n-d-region
-# 3. n-d-address
-# 4. n-d-version-weight
-# 5. n-d-region-weight
-# 6. n-d-id-blacklist
-# 7. n-d-address-blacklist
-# 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
+# 启动和关闭RestTemplate上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能
+# 核心策略Header指n-d-开头的Header（不包括n-d-env，因为环境路由隔离，必须传递该Header），不包括n-d-service开头的Header
 spring.application.strategy.rest.template.core.header.transmission.enabled=true
 # 启动和关闭WebClient上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
-# 1. n-d-version
-# 2. n-d-region
-# 3. n-d-address
-# 4. n-d-version-weight
-# 5. n-d-region-weight
-# 6. n-d-id-blacklist
-# 7. n-d-address-blacklist
-# 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
+# 核心策略Header指n-d-开头的Header（不包括n-d-env，因为环境路由隔离，必须传递该Header），不包括n-d-service开头的Header
 spring.application.strategy.web.client.core.header.transmission.enabled=true
 # 路由策略的时候，对REST方式调用拦截的时候（支持Feign、RestTemplate或者WebClient调用），希望把来自外部自定义的Header参数（用于框架内置上下文Header，例如：trace-id, span-id等）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
 spring.application.strategy.context.request.headers=trace-id;span-id
 # 路由策略的时候，对REST方式调用拦截的时候（支持Feign、RestTemplate或者WebClient调用），希望把来自外部自定义的Header参数（用于业务系统自定义Header，例如：mobile）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
 spring.application.strategy.business.request.headers=user;mobile;location
 
-# 开启Spring Cloud Gateway网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
+# 开启和关闭Hystrix线程隔离模式做服务隔离时，对线程切换上下文传递的功能。缺失则默认为false
+# Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失
 spring.application.strategy.hystrix.threadlocal.supported=true
 ```
 
@@ -6389,6 +6338,8 @@ spring.application.no.servers.retry.await.time=2000
 spring.application.no.servers.notify.enabled=false
 # 由于Nacos注册中心会自动把服务名处理成GROUP@@SERVICE_ID的格式，导致根据服务名去获取元数据的时候会找不到。通过如下开关开启是否要过滤掉GROUP前缀。缺失则默认为true
 spring.application.nacos.service.id.filter.enabled=true
+# 启动和关闭在服务启动的时候参数订阅事件发送。缺失则默认为true
+spring.application.parameter.event.onstart.enabled=true
 
 # Plugin strategy config
 # 开启和关闭Ribbon默认的ZoneAvoidanceRule负载均衡策略。一旦关闭，则使用RoundRobin简单轮询负载均衡策略。缺失则默认为true
@@ -6401,21 +6352,14 @@ spring.application.strategy.zuul.header.priority=false
 spring.application.strategy.zuul.original.header.ignored=true
 # 开启和关闭网关订阅配置中心的动态路由策略。缺失则默认为false
 spring.application.strategy.zuul.dynamic.route.enabled=true
-# 启动和关闭网关上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
-# 1. n-d-version
-# 2. n-d-region
-# 3. n-d-address
-# 4. n-d-version-weight
-# 5. n-d-region-weight
-# 6. n-d-id-blacklist
-# 7. n-d-address-blacklist
-# 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
+# 启动和关闭网关上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能
+# 核心策略Header指n-d-开头的Header（不包括n-d-env，因为环境路由隔离，必须传递该Header），不包括n-d-service开头的Header
 spring.application.strategy.zuul.core.header.transmission.enabled=true
-# 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
-spring.application.strategy.consumer.isolation.enabled=true
 
 # 启动和关闭监控，一旦关闭，调用链和日志输出都将关闭。缺失则默认为false
 spring.application.strategy.monitor.enabled=true
+# 启动和关闭告警，一旦关闭，蓝绿灰度上下文输出都将关闭。缺失则默认为false
+spring.application.strategy.alarm.enabled=true
 # 启动和关闭日志输出。缺失则默认为false
 spring.application.strategy.logger.enabled=true
 # 日志输出中，是否显示MDC前面的Key。缺失则默认为true
@@ -6429,7 +6373,7 @@ spring.application.strategy.tracer.separate.span.enabled=true
 # 启动和关闭调用链的蓝绿灰度规则策略信息输出。缺失则默认为true
 spring.application.strategy.tracer.rule.output.enabled=true
 # 启动和关闭调用链的异常信息是否以详细格式输出。缺失则默认为false
-spring.application.strategy.tracer.exception.detail.output.enabled=true
+spring.application.strategy.tracer.exception.detail.output.enabled=false
 # 显示在调用链界面上蓝绿灰度Span的名称，建议改成具有公司特色的框架产品名称。缺失则默认为NEPXION
 spring.application.strategy.tracer.span.value=NEPXION
 # 显示在调用链界面上蓝绿灰度Span Tag的插件名称，建议改成具有公司特色的框架产品的描述。缺失则默认为Nepxion Discovery
@@ -6437,7 +6381,7 @@ spring.application.strategy.tracer.span.tag.plugin.value=Nepxion Discovery
 # 启动和关闭Sentinel调用链上规则在Span上的输出。缺失则默认为true
 spring.application.strategy.tracer.sentinel.rule.output.enabled=true
 # 启动和关闭Sentinel调用链上方法入参在Span上的输出。缺失则默认为false
-spring.application.strategy.tracer.sentinel.args.output.enabled=true
+spring.application.strategy.tracer.sentinel.args.output.enabled=false
 
 # 启动和关闭Sentinel Metric通过次数统计输出功能。缺失则默认为true
 spring.application.strategy.metric.sentinel.pass.qps.output.enabled=true
@@ -6461,11 +6405,14 @@ spring.application.strategy.sentinel.system.path=classpath:sentinel-system.json
 # 热点参数流控规则文件路径。缺失则默认为classpath:sentinel-param-flow.json
 spring.application.strategy.sentinel.param.flow.path=classpath:sentinel-param-flow.json
 
+# 启动和关闭消费端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
+spring.application.strategy.consumer.isolation.enabled=true
+
 # 版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例。其作用是防止蓝绿灰度版本发布人为设置错误，或者对应的版本实例发生灾难性的全部下线，导致流量有损
 # 在开启版本故障转移的开关前提下，故障转移有三种策略：
 # 1. 如果“version-failover”值已配置，指定版本的故障转移，即找不到实例的时候，直接路由到该版本实例
 # 2. 如果“version-failover”值未配置
-#    2.1 开启“version.failover.stable.enabled”开关， 版本列表排序策略的（取最老的稳定版本的实例）故障转移，即找不到实例的时候，直接路由到最老的稳定版本的实例
+#    2.1 开启“version.failover.stable.enabled”开关，版本列表排序策略的（取最老的稳定版本的实例）故障转移，即找不到实例的时候，直接路由到最老的稳定版本的实例
 #    2.2 关闭“version.failover.stable.enabled”开关，负载均衡策略的故障转移，即找不到实例的时候，执行负载均衡策略
 # 启动和关闭版本故障转移。缺失则默认为false
 spring.application.strategy.version.failover.enabled=true
@@ -6514,9 +6461,6 @@ spring.application.strategy.zone.failover.enabled=true
 # 启动和关闭IP地址和端口故障转移。缺失则默认为false
 spring.application.strategy.address.failover.enabled=true
 
-# 启动和关闭在服务启动的时候参数订阅事件发送。缺失则默认为true
-spring.application.parameter.event.onstart.enabled=true
-
 # 启动和关闭自动扫描目录，当扫描目录未人工配置的时候，可以通过自动扫描方式决定扫描目录。缺失则默认为true
 spring.application.strategy.auto.scan.packages.enabled=true
 # 启动和关闭嵌套扫描，嵌套扫描指扫描非本工程下外部包的目录，可以支持多层嵌套。缺失则默认为false
@@ -6543,43 +6487,48 @@ spring.application.git.generator.path=classpath:git.properties
 spring.application.strategy.rest.intercept.enabled=true
 # 启动和关闭Header传递的Debug日志打印，注意：每调用一次都会打印一次，会对性能有所影响，建议压测环境和生产环境关闭。缺失则默认为false
 spring.application.strategy.rest.intercept.debug.enabled=true
-# 启动和关闭Feign上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
-# 1. n-d-version
-# 2. n-d-region
-# 3. n-d-address
-# 4. n-d-version-weight
-# 5. n-d-region-weight
-# 6. n-d-id-blacklist
-# 7. n-d-address-blacklist
-# 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
+# 启动和关闭Feign上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能
+# 核心策略Header指n-d-开头的Header（不包括n-d-env，因为环境路由隔离，必须传递该Header），不包括n-d-service开头的Header
 spring.application.strategy.feign.core.header.transmission.enabled=true
-# 启动和关闭RestTemplate上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
-# 1. n-d-version
-# 2. n-d-region
-# 3. n-d-address
-# 4. n-d-version-weight
-# 5. n-d-region-weight
-# 6. n-d-id-blacklist
-# 7. n-d-address-blacklist
-# 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
+# 启动和关闭RestTemplate上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能
+# 核心策略Header指n-d-开头的Header（不包括n-d-env，因为环境路由隔离，必须传递该Header），不包括n-d-service开头的Header
 spring.application.strategy.rest.template.core.header.transmission.enabled=true
-# 启动和关闭WebClient上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能。核心策略Header，包含如下
-# 1. n-d-version
-# 2. n-d-region
-# 3. n-d-address
-# 4. n-d-version-weight
-# 5. n-d-region-weight
-# 6. n-d-id-blacklist
-# 7. n-d-address-blacklist
-# 8. n-d-env (不属于蓝绿灰度范畴的Header，只要外部传入就会全程传递)
+# 启动和关闭WebClient上核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能
+# 核心策略Header指n-d-开头的Header（不包括n-d-env，因为环境路由隔离，必须传递该Header），不包括n-d-service开头的Header
 spring.application.strategy.web.client.core.header.transmission.enabled=true
 # 路由策略的时候，对REST方式调用拦截的时候（支持Feign、RestTemplate或者WebClient调用），希望把来自外部自定义的Header参数（用于框架内置上下文Header，例如：trace-id, span-id等）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
 spring.application.strategy.context.request.headers=trace-id;span-id
 # 路由策略的时候，对REST方式调用拦截的时候（支持Feign、RestTemplate或者WebClient调用），希望把来自外部自定义的Header参数（用于业务系统自定义Header，例如：mobile）传递到服务里，那么配置如下值。如果多个用“;”分隔，不允许出现空格
 spring.application.strategy.business.request.headers=user;mobile;location
 
-# 开启Zuul网关上实现Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失。缺失则默认为false
+# 开启和关闭Hystrix线程隔离模式做服务隔离时，对线程切换上下文传递的功能。缺失则默认为false
+# Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失
 spring.application.strategy.hystrix.threadlocal.supported=true
+
+# 启动和关闭Swagger。缺失则默认为true
+swagger.service.enabled=true
+# Swagger基准Docket组名
+swagger.service.base.group=Nepxion Discovery
+# Swagger自定义Docket组名
+swagger.service.scan.group=Admin Center Restful APIs
+# Swagger自定义扫描目录
+swagger.service.scan.packages=your-scan-packages
+# Swagger描述
+swagger.service.description=your-description
+# Swagger版本
+swagger.service.version=6.11.0
+# Swagger License名称
+swagger.service.license.name=Apache License 2.0
+# Swagger License链接
+swagger.service.license.url=http://www.apache.org/licenses/LICENSE-2.0
+# Swagger联系人名称
+swagger.service.contact.name=Nepxion
+# Swagger联系人网址
+swagger.service.contact.url=https://github.com/Nepxion/Discovery
+# Swagger联系人邮件
+swagger.service.contact.email=1394997@qq.com
+# Swagger服务条件网址
+swagger.service.termsOfService.url=http://www.nepxion.com
 ```
 
 ### 内置文件配置
