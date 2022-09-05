@@ -5545,7 +5545,7 @@ Apollo订阅推送界面
 ② 根据上图，做如下步骤操作
 
 - 设置页面中AppId和配置文件里面app.id一致
-- 设置页面中Namespace和配置文件里面apollo.plugin.namespace一致，如果配置文件里不设置，那么页面默认采用内置的application
+- 设置页面中Namespace和配置文件里面apollo.namespace一致，如果配置文件里不设置，那么页面默认采用内置的application
 - 在页面中添加配置
     - 局部配置方式：一个服务集群（eureka.instance.metadataMap.group和spring.application.name都相同的服务）对应一个配置文件，通过group+serviceId方式添加，Key为group-serviceId，Value为Xml或者Json格式的规则策略内容。group取值于配置文件里的eureka.instance.metadataMap.group配置项，serviceId取值于spring.application.name配置项目
     - 全局配置方式：一组服务集群（eureka.instance.metadataMap.group相同，但spring.application.name可以不相同的服务）对应一个配置文件，通过group方式添加，Key为group-group，Value为Xml或者Json格式的规则内容。group取值于配置文件里的eureka.instance.metadataMap.group配置项
@@ -5554,8 +5554,8 @@ Apollo订阅推送界面
 ③ 需要注意
 
 - 局部配置方式建议使用Apollo的私有（private）配置方式，全局配置方式必须采用Apollo的共享（public）配置方式
-- 如果业务配置和蓝绿灰度配置在同一个namespace里且namespace只有一个，蓝绿灰度配置可以通过apollo.bootstrap.namespaces或者apollo.plugin.namespace来指定（如果namespace为application则都不需要配置）
-- 如果业务配置和蓝绿灰度配置不在同一个namespace里或者业务配置横跨几个namespace，蓝绿灰度配置必须通过apollo.plugin.namespace来指定唯一的namespace
+- 如果业务配置和蓝绿灰度配置在同一个namespace里且namespace只有一个，蓝绿灰度配置可以通过apollo.bootstrap.namespaces或者apollo.namespace来指定（如果namespace为application则都不需要配置）
+- 如果业务配置和蓝绿灰度配置不在同一个namespace里或者业务配置横跨几个namespace，蓝绿灰度配置必须通过apollo.namespace来指定唯一的namespace
 
 Nacos订阅推送界面
 
@@ -5795,7 +5795,7 @@ spring.cloud.zookeeper.discovery.preferIpAddress=true
 # Apollo config for rule
 app.id=discovery
 apollo.meta=http://localhost:8080
-# apollo.plugin.namespace=application
+# apollo.namespace=application
 ```
 
 - Nacos配置中心配置
@@ -5804,6 +5804,12 @@ apollo.meta=http://localhost:8080
 # Nacos config for rule
 spring.cloud.nacos.config.server-addr=localhost:8848
 # spring.cloud.nacos.config.namespace=application
+```
+或者
+```
+# Nacos config for rule
+nacos.server-addr=localhost:8848
+# nacos.namespace=application
 ```
 
 - Redis配置中心配置
