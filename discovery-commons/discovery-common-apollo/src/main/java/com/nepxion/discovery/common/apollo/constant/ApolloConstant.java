@@ -13,6 +13,6 @@ import com.ctrip.framework.apollo.core.ConfigConsts;
 
 public class ApolloConstant implements ConfigConsts {
     public static final String APOLLO_BOOTSTRAP_NAMESPACES = "apollo.bootstrap.namespaces";
-    public static final String APOLLO_PLUGIN_NAMESPACE = "apollo.plugin.namespace";
+    public static final String APOLLO_NAMESPACE = "apollo.namespace";
     public static final String SEPARATE = ",";
 }

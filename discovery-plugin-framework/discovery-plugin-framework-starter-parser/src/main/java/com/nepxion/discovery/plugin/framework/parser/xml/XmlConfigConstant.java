@@ -17,7 +17,6 @@ public class XmlConfigConstant {
     public static final String DISCOVERY_ELEMENT_NAME = "discovery";
     public static final String STRATEGY_ELEMENT_NAME = "strategy";
     public static final String STRATEGY_RELEASE_ELEMENT_NAME = "strategy-release";
-    public static final String STRATEGY_CUSTOMIZATION_ELEMENT_NAME = "strategy-customization";
     public static final String STRATEGY_FAILOVER_ELEMENT_NAME = "strategy-failover";
     public static final String STRATEGY_BLACKLIST_ELEMENT_NAME = "strategy-blacklist";
     public static final String PARAMETER_ELEMENT_NAME = "parameter";

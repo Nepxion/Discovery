@@ -102,15 +102,6 @@ public class XmlConfigParser implements PluginConfigParser {
             throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.STRATEGY_RELEASE_ELEMENT_NAME + "] to be configed");
         }
 
-        int strategyCustomizationElementCount = element.elements(XmlConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME).size();
-        if (strategyCustomizationElementCount > 1) {
-            throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME + "] to be configed");
-        }
-
-        if (strategyReleaseElementCount > 0 && strategyCustomizationElementCount > 0) {
-            throw new DiscoveryException("Attribute[" + XmlConfigConstant.STRATEGY_RELEASE_ELEMENT_NAME + "] and [" + XmlConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME + "] are all configed, only one of them exists");
-        }
-
         int strategyFailoverElementCount = element.elements(XmlConfigConstant.STRATEGY_FAILOVER_ELEMENT_NAME).size();
         if (strategyFailoverElementCount > 1) {
             throw new DiscoveryException("Allow only one element[" + XmlConfigConstant.STRATEGY_FAILOVER_ELEMENT_NAME + "] to be configed");
@@ -146,9 +137,6 @@ public class XmlConfigParser implements PluginConfigParser {
                 strategyEntity = new StrategyEntity();
                 parseStrategy(childElement, strategyEntity);
             } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.STRATEGY_RELEASE_ELEMENT_NAME)) {
-                strategyReleaseEntity = new StrategyReleaseEntity();
-                parseStrategyRelease(childElement, strategyReleaseEntity);
-            } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.STRATEGY_CUSTOMIZATION_ELEMENT_NAME)) {
                 strategyReleaseEntity = new StrategyReleaseEntity();
                 parseStrategyRelease(childElement, strategyReleaseEntity);
             } else if (StringUtils.equals(childElement.getName(), XmlConfigConstant.STRATEGY_FAILOVER_ELEMENT_NAME)) {
