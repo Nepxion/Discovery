@@ -17,10 +17,10 @@ public class ApolloConstant implements ApolloOpenApiConstants {
     public static final String APOLLO_OPERATOR = "apollo.operator";
     public static final String APOLLO_READ_TIMEOUT = "apollo.read-timeout";
     public static final String APOLLO_CONNECT_TIMEOUT = "apollo.connect-timeout";
-    public static final String APOLLO_PLUGIN_APP_ID = "apollo.plugin.app.id";
-    public static final String APOLLO_PLUGIN_ENV = "apollo.plugin.env";
-    public static final String APOLLO_PLUGIN_CLUSTER = "apollo.plugin.cluster";
-    public static final String APOLLO_PLUGIN_NAMESPACE = "apollo.plugin.namespace";
+    public static final String APOLLO_APP_ID = "apollo.app.id";
+    public static final String APOLLO_ENV = "apollo.env";
+    public static final String APOLLO_CLUSTER = "apollo.cluster";
+    public static final String APOLLO_NAMESPACE = "apollo.namespace";
     public static final String APOLLO_DEFAULT_CLUSTER = "default";
     public static final String APOLLO_DEFAULT_NAMESPACE = "application";
 }

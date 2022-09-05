@@ -1,0 +1,10 @@
+{
+	"properties": [
+		{
+			"name": "apollo.namespace",
+			"type": "java.lang.String",
+			"defaultValue": "application",
+			"description": "Apollo namespace."
+		}
+	]
+}

@@ -33,14 +33,14 @@ public class ApolloConfigAdapter implements ConfigAdapter {
 
     @Override
     public boolean updateConfig(String group, String serviceId, String config) throws Exception {
-        String appId = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_APP_ID);
+        String appId = environment.getProperty(ApolloConstant.APOLLO_APP_ID);
         if (StringUtils.isEmpty(appId)) {
-            throw new DiscoveryException(ApolloConstant.APOLLO_PLUGIN_APP_ID + " can't be null or empty");
+            throw new DiscoveryException(ApolloConstant.APOLLO_APP_ID + " can't be null or empty");
         }
 
-        String env = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_ENV);
+        String env = environment.getProperty(ApolloConstant.APOLLO_ENV);
         if (StringUtils.isEmpty(env)) {
-            throw new DiscoveryException(ApolloConstant.APOLLO_PLUGIN_ENV + " can't be null or empty");
+            throw new DiscoveryException(ApolloConstant.APOLLO_ENV + " can't be null or empty");
         }
 
         String operator = environment.getProperty(ApolloConstant.APOLLO_OPERATOR);
@@ -48,8 +48,8 @@ public class ApolloConfigAdapter implements ConfigAdapter {
             throw new DiscoveryException(ApolloConstant.APOLLO_OPERATOR + " can't be null or empty");
         }
 
-        String cluster = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_CLUSTER, String.class, ApolloConstant.APOLLO_DEFAULT_CLUSTER);
-        String namespace = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_NAMESPACE, String.class, ApolloConstant.APOLLO_DEFAULT_NAMESPACE);
+        String cluster = environment.getProperty(ApolloConstant.APOLLO_CLUSTER, String.class, ApolloConstant.APOLLO_DEFAULT_CLUSTER);
+        String namespace = environment.getProperty(ApolloConstant.APOLLO_NAMESPACE, String.class, ApolloConstant.APOLLO_DEFAULT_NAMESPACE);
 
         Date now = new Date();
 
@@ -77,14 +77,14 @@ public class ApolloConfigAdapter implements ConfigAdapter {
 
     @Override
     public boolean clearConfig(String group, String serviceId) throws Exception {
-        String appId = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_APP_ID);
+        String appId = environment.getProperty(ApolloConstant.APOLLO_APP_ID);
         if (StringUtils.isEmpty(appId)) {
-            throw new DiscoveryException(ApolloConstant.APOLLO_PLUGIN_APP_ID + " can't be null or empty");
+            throw new DiscoveryException(ApolloConstant.APOLLO_APP_ID + " can't be null or empty");
         }
 
-        String env = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_ENV);
+        String env = environment.getProperty(ApolloConstant.APOLLO_ENV);
         if (StringUtils.isEmpty(env)) {
-            throw new DiscoveryException(ApolloConstant.APOLLO_PLUGIN_ENV + " can't be null or empty");
+            throw new DiscoveryException(ApolloConstant.APOLLO_ENV + " can't be null or empty");
         }
 
         String operator = environment.getProperty(ApolloConstant.APOLLO_OPERATOR);
@@ -92,8 +92,8 @@ public class ApolloConfigAdapter implements ConfigAdapter {
             throw new DiscoveryException(ApolloConstant.APOLLO_OPERATOR + " can't be null or empty");
         }
 
-        String cluster = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_CLUSTER, String.class, ApolloConstant.APOLLO_DEFAULT_CLUSTER);
-        String namespace = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_NAMESPACE, String.class, ApolloConstant.APOLLO_DEFAULT_NAMESPACE);
+        String cluster = environment.getProperty(ApolloConstant.APOLLO_CLUSTER, String.class, ApolloConstant.APOLLO_DEFAULT_CLUSTER);
+        String namespace = environment.getProperty(ApolloConstant.APOLLO_NAMESPACE, String.class, ApolloConstant.APOLLO_DEFAULT_NAMESPACE);
 
         apolloOpenApiClient.removeItem(appId, env, cluster, namespace, group + "-" + serviceId, operator);
 
@@ -112,18 +112,18 @@ public class ApolloConfigAdapter implements ConfigAdapter {
 
     @Override
     public String getConfig(String group, String serviceId) throws Exception {
-        String appId = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_APP_ID);
+        String appId = environment.getProperty(ApolloConstant.APOLLO_APP_ID);
         if (StringUtils.isEmpty(appId)) {
-            throw new DiscoveryException(ApolloConstant.APOLLO_PLUGIN_APP_ID + " can't be null or empty");
+            throw new DiscoveryException(ApolloConstant.APOLLO_APP_ID + " can't be null or empty");
         }
 
-        String env = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_ENV);
+        String env = environment.getProperty(ApolloConstant.APOLLO_ENV);
         if (StringUtils.isEmpty(env)) {
-            throw new DiscoveryException(ApolloConstant.APOLLO_PLUGIN_ENV + " can't be null or empty");
+            throw new DiscoveryException(ApolloConstant.APOLLO_ENV + " can't be null or empty");
         }
 
-        String cluster = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_CLUSTER, String.class, ApolloConstant.APOLLO_DEFAULT_CLUSTER);
-        String namespace = environment.getProperty(ApolloConstant.APOLLO_PLUGIN_NAMESPACE, String.class, ApolloConstant.APOLLO_DEFAULT_NAMESPACE);
+        String cluster = environment.getProperty(ApolloConstant.APOLLO_CLUSTER, String.class, ApolloConstant.APOLLO_DEFAULT_CLUSTER);
+        String namespace = environment.getProperty(ApolloConstant.APOLLO_NAMESPACE, String.class, ApolloConstant.APOLLO_DEFAULT_NAMESPACE);
 
         return apolloOpenApiClient.getLatestActiveRelease(appId, env, cluster, namespace).getConfigurations().get(group + "-" + serviceId);
     }

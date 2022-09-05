@@ -1,125 +1,16 @@
 {
 	"properties": [
 		{
-			"name": "nacos.server-addr",
-			"type": "java.lang.String",
-			"description": "Nacos server address."
-		},
-		{
-			"name": "nacos.access-key",
-			"type": "java.lang.String",
-			"description": "Nacos access key."
-		},
-		{
-			"name": "nacos.secret-key",
-			"type": "java.lang.String",
-			"description": "Nacos secret key."
-		},
-		{
-			"name": "nacos.username",
-			"type": "java.lang.String",
-			"description": "Nacos username."
-		},
-		{
-			"name": "nacos.password",
-			"type": "java.lang.String",
-			"description": "Nacos password."
-		},
-		{
-			"name": "nacos.plugin.namespace",
-			"type": "java.lang.String",
-			"description": "Nacos plugin namespace."
-		},
-		{
-			"name": "nacos.plugin.cluster-name",
-			"type": "java.lang.String",
-			"description": "Nacos plugin cluster name."
-		},
-		{
-			"name": "nacos.plugin.context-path",
-			"type": "java.lang.String",
-			"description": "Nacos plugin context path."
-		},
-		{
-			"name": "nacos.plugin.config-long-poll-timeout",
-			"type": "java.lang.Integer",
-			"description": "Nacos plugin config long poll timeout."
-		},
-		{
-			"name": "nacos.plugin.config-retry-time",
-			"type": "java.lang.Integer",
-			"description": "Nacos plugin config retry time."
-		},
-		{
-			"name": "nacos.plugin.max-retry",
-			"type": "java.lang.Integer",
-			"description": "Nacos plugin max retry."
-		},
-		{
-			"name": "nacos.plugin.endpoint",
-			"type": "java.lang.String",
-			"description": "Nacos plugin endpoint."
-		},
-		{
-			"name": "nacos.plugin.endpoint-port",
-			"type": "java.lang.Integer",
-			"description": "Nacos plugin endpoint port."
-		},
-		{
-			"name": "nacos.plugin.is-use-endpoint-parsing-rule",
-			"type": "java.lang.Boolean",
-			"description": "Nacos plugin is use endpoint parsing rule."
-		},
-		{
-			"name": "nacos.plugin.is-use-cloud-namespace-parsing",
-			"type": "java.lang.Boolean",
-			"description": "Nacos plugin is use cloud namespace parsing."
-		},
-		{
-			"name": "nacos.plugin.encode",
-			"type": "java.lang.String",
-			"description": "Nacos plugin encode."
-		},
-		{
-			"name": "nacos.plugin.naming-load-cache-at-start",
-			"type": "java.lang.Boolean",
-			"description": "Nacos plugin naming load cache at start."
-		},
-		{
-			"name": "nacos.plugin.naming-client-beat-thread-count",
-			"type": "java.lang.Integer",
-			"description": "Nacos plugin naming client beat thread count."
-		},
-		{
-			"name": "nacos.plugin.naming-polling-thread-count",
-			"type": "java.lang.Integer",
-			"description": "Nacos plugin naming polling thread count."
-		},
-		{
-			"name": "nacos.plugin.naming-request-domain-max-retry-count",
-			"type": "java.lang.Integer",
-			"description": "Nacos plugin naming request domain max retry count."
-		},
-		{
-			"name": "nacos.plugin.naming-push-empty-protection",
-			"type": "java.lang.Boolean",
-			"description": "Nacos plugin naming push empty protection."
-		},
-		{
-			"name": "nacos.plugin.ram-role-name",
-			"type": "java.lang.String",
-			"description": "Nacos plugin ram role name."
-		},
-		{
-			"name": "nacos.plugin.enable-remote-sync-config",
-			"type": "java.lang.Boolean",
-			"description": "Nacos plugin enable remote sync config."
-		},
-		{
-			"name": "nacos.plugin.timout",
+			"name": "nacos.timout",
 			"type": "java.lang.Integer",
 			"defaultValue": 30000,
-			"description": "Nacos plugin timout."
+			"description": "Nacos timout."
+		},
+		{
+			"name": "spring.cloud.nacos.config.timout",
+			"type": "java.lang.Integer",
+			"defaultValue": 30000,
+			"description": "Spring Cloud Nacos config timout."
 		}
 	]
 }

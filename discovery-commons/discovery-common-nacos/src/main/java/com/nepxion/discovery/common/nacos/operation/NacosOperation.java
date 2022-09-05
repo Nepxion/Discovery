@@ -34,7 +34,7 @@ public class NacosOperation implements DisposableBean {
     private Environment environment;
 
     public String getConfig(String group, String serviceId) throws NacosException {
-        String timeout = environment.getProperty(NacosConstant.NACOS_PLUGIN_TIMEOUT);
+        String timeout = environment.getProperty(NacosConstant.NACOS_TIMEOUT);
         if (StringUtils.isEmpty(timeout)) {
             timeout = environment.getProperty(NacosConstant.SPRING_CLOUD_NACOS_CONFIG_TIMEOUT);
         }

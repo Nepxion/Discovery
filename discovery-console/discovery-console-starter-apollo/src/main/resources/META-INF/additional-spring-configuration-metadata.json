@@ -28,26 +28,26 @@
 			"description": "Apollo connect timeout."
 		},
 		{
-			"name": "apollo.plugin.app.id",
+			"name": "apollo.app.id",
 			"type": "java.lang.String",
-			"description": "Apollo plugin app id."
+			"description": "Apollo app id."
 		},
 		{
-			"name": "apollo.plugin.env",
+			"name": "apollo.env",
 			"type": "java.lang.String",
-			"description": "Apollo plugin env."
+			"description": "Apollo env."
 		},
 		{
-			"name": "apollo.plugin.cluster",
+			"name": "apollo.cluster",
 			"type": "java.lang.String",
 			"defaultValue": "default",
-			"description": "Apollo plugin cluster."
+			"description": "Apollo cluster."
 		},
 		{
-			"name": "apollo.plugin.namespace",
+			"name": "apollo.namespace",
 			"type": "java.lang.String",
 			"defaultValue": "application",
-			"description": "Apollo plugin namespace."
+			"description": "Apollo namespace."
 		}
 	]
 }
