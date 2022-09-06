@@ -112,6 +112,7 @@ public class DiscoveryConstant {
     public static final String N_D_SERVICE_ENVIRONMENT = "n-d-service-env";
     public static final String N_D_SERVICE_ZONE = "n-d-service-zone";
 
+    public static final String N_D_GROUP = "n-d-group";
     public static final String N_D_VERSION = "n-d-version";
     public static final String N_D_REGION = "n-d-region";
     public static final String N_D_ENVIRONMENT = "n-d-env";
