@@ -89,6 +89,13 @@ public class DiscoveryConstant {
     public static final String ADDRESS = "address";
     public static final String VERSION_WEIGHT = "version-weight";
     public static final String REGION_WEIGHT = "region-weight";
+    public static final String VERSION_PREFER = "version-prefer";
+    public static final String VERSION_FAILOVER = "version-failover";
+    public static final String REGION_TRANSFER = "region-transfer";
+    public static final String REGION_FAILOVER = "region-failover";
+    public static final String ENVIRONMENT_FAILOVER = "env-failover";
+    public static final String ZONE_FAILOVER = "zone-failover";
+    public static final String ADDRESS_FAILOVER = "address-failover";
     public static final String ID_BLACKLIST = "id-blacklist";
     public static final String ADDRESS_BLACKLIST = "address-blacklist";
 
