@@ -34,11 +34,16 @@ public class ServiceProviderIsolationStrategyInterceptor extends AbstractInterce
             return invocation.proceed();
         }
 
+        // N_D_SERVICE_GROUP的Header属于上游服务传入
         String groupHeader = serviceStrategyContextHolder.getHeader(DiscoveryConstant.N_D_SERVICE_GROUP);
+        if (StringUtils.isEmpty(groupHeader)) {
+            // N_D_GROUP的Header属于外部URL调用传入
+            groupHeader = serviceStrategyContextHolder.getHeader(DiscoveryConstant.N_D_GROUP);
+        }
         String group = pluginAdapter.getGroup();
         String serviceId = pluginAdapter.getServiceId();
         if (!StringUtils.equals(groupHeader, group)) {
-            throw new DiscoveryException("Reject to invoke because of isolation with different service group for serviceId=" + serviceId);
+            throw new DiscoveryException("Reject to invoke because of isolation with different group for serviceId=" + serviceId);
         }
 
         return invocation.proceed();
