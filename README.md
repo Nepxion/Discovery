@@ -255,16 +255,17 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - Docker容器化和Kubernetes平台无缝支持部署
 - 自动化测试、压力测试
 
-③ Discovery【探索】微服务框架支持组（Group）、版本（Version）、区域（Region）、环境（Env）、可用区（Zone）、IP地址和端口（Address）六大经典维度实施流量管控的方式，通过“并集”方式叠加作用在流量控制上。上述6个维度在功能上各有各的侧重点，如下表格主要讲述各自的区别
+③ Discovery【探索】微服务框架支持组（Group）、版本（Version）、区域（Region）、环境（Env）、可用区（Zone）、IP地址和端口（Address）、全局唯一ID七大经典维度实施流量管控的方式，通过“并集”方式叠加作用在流量控制上。上述七个维度在功能上各有各的侧重点，如下表格主要讲述各自的区别
 
-| 维度 | 概念 | 场景 | 功能侧重点 |
-| --- | --- | --- | --- |
-| 组 | 系统ID或者系统逻辑分组<br>同一个业务系统下的服务归为一个组 | 服务隔离 | ① 组负载均衡隔离，即基于调用端实例和提供端实例的元数据Metadata的group配置值进行对比实现隔离<br>② 组Header传值策略隔离，即基于Header（n-d-service-group）值和提供端实例的元数据Metadata环境group配置值进行对比实现隔离<br>③ 不支持故障转移 |
-| 版本 | 服务实例的版本 | 蓝绿灰度发布<br>路由转移 | ① 版本条件匹配蓝绿发布<br>② 版本权重灰度发布<br>③ 版本偏好，即非蓝绿灰度发布场景下，路由到相应版本的实例，支持版本列表排序下取最老版本、指定版本两种策略<br>④ 版本故障转移，即无法找到相应版本的服务实例路由到其它版本，支持负载均衡策略、版本列表排序下取最老版本、指定版本三种策略 |
-| 区域 | 服务实例的区域，适用于多机房或者多环境 | 蓝绿灰度发布<br>路由转移 | ① 区域条件匹配蓝绿发布<br>② 区域权重灰度发布<br>③ 区域调试路由，即既支持多区域服务路由隔离，也支持特殊场景下不同区域间的服务相互调用（一般视作调试手段）<br>④ 区域故障转移，即无法找到相应区域的服务实例路由到其它区域，支持负载均衡策略、指定区域两种策略 |
-| 环境 | 服务实例的环境，适用于测试环境 | 路由隔离 | ① 环境隔离路由，即基于Header（n-d-env）值和提供端实例的元数据Metadata的env配置值进行对比实现隔离<br>② 环境故障转移，即无法找到相应环境的服务实例路由到其它环境，支持指定环境（未配置，默认为common）一种策略 |
-| 可用区 | 服务实例的可用区，适用于多机房 | 路由隔离 | ① 可用区亲和性隔离路由，即基于调用端实例和提供端实例的元数据Metadata的zone配置值进行对比实现隔离<br>② 可用区故障转移，即无法找到相应可用区的服务实例路由到其它可用区，支持负载均衡策略、指定区可用区两种策略 |
-| IP地址和端口 |服务实例所在的机器 | 蓝绿灰度发布 | ① IP地址和端口匹配蓝绿发布<br>② IP地址和端口权重灰度发布<br>③  IP地址和端口故障转移，即无法找到相应IP地址和端口的服务实例路由到其它地址，支持负载均衡策略、指定区IP地址和端口两种策略 |
+| 维度 | 概念 | 场景 | 功能侧重点 | 关键头 
+| --- | --- | --- | --- | --- |
+| 组 | 系统ID或者系统逻辑分组<br>同一个业务系统下的服务归为一个组 | 服务隔离 | ① 组负载均衡隔离，即基于调用端实例和提供端实例的元数据Metadata的group配置值进行对比实现隔离<br>② 组Header传值策略隔离，即基于Header（n-d-group）值和提供端实例的元数据Metadata环境group配置值进行对比实现隔离<br>③ 不支持故障转移 | n-d-group |
+| 版本 | 服务实例的版本 | 蓝绿灰度发布<br>路由转移 | ① 版本条件匹配蓝绿发布<br>② 版本权重灰度发布<br>③ 版本偏好，即非蓝绿灰度发布场景下，路由到相应版本的实例，支持版本列表排序下取最老版本、指定版本两种策略<br>④ 版本故障转移，即无法找到相应版本的服务实例路由到其它版本，支持负载均衡策略、版本列表排序下取最老版本、指定版本三种策略 | n-d-version<br>n-d-version-weight<br>n-d-version-prefer<br>n-d-version-failover |
+| 区域 | 服务实例的区域，适用于多机房或者多环境 | 蓝绿灰度发布<br>路由转移 | ① 区域条件匹配蓝绿发布<br>② 区域权重灰度发布<br>③ 区域调试路由，即既支持多区域服务路由隔离，也支持特殊场景下不同区域间的服务相互调用（一般视作调试手段）<br>④ 区域故障转移，即无法找到相应区域的服务实例路由到其它区域，支持负载均衡策略、指定区域两种策略 | n-d-region<br>n-d-region-weight<br>n-d-region-transfer<br>n-d-region-failover |
+| 环境 | 服务实例的环境，适用于测试环境 | 路由隔离 | ① 环境隔离路由，即基于Header（n-d-env）值和提供端实例的元数据Metadata的env配置值进行对比实现隔离<br>② 环境故障转移，即无法找到相应环境的服务实例路由到其它环境，支持指定环境（未配置，默认为common）一种策略 | n-d-env<br>n-d-env-failover |
+| 可用区 | 服务实例的可用区，适用于多机房 | 路由隔离 | ① 可用区亲和性隔离路由，即基于调用端实例和提供端实例的元数据Metadata的zone配置值进行对比实现隔离<br>② 可用区故障转移，即无法找到相应可用区的服务实例路由到其它可用区，支持负载均衡策略、指定区可用区两种策略 | n-d-zone-failover |
+| IP地址和端口 |服务实例所在的机器 | 蓝绿灰度发布<br>路由隔离<br>无损下线 | ① IP地址和端口匹配蓝绿发布<br>② IP地址和端口权重灰度发布<br>③ IP地址和端口故障转移，即无法找到相应IP地址和端口的服务实例路由到其它地址，支持负载均衡策略、指定区IP地址和端口两种策略<br>④ IP地址和端口无损下线黑名单屏蔽 | n-d-address<br>n-d-address-failover<br>n-d-address-blacklist |
+| 全局唯一ID |服务实例所在的机器ID | 无损下线 | ① 全局唯一ID无损下线黑名单屏蔽 | n-d-id-blacklist |
 
 ### 版本列表
 ① 微服务框架版本兼容列表，如下
@@ -2663,7 +2664,7 @@ spring.application.strategy.consumer.isolation.enabled=true
 #### 组Header传值的提供端隔离
 元数据中的Group在一定意义上代表着系统ID或者系统逻辑分组，基于Group策略意味着只有同一个系统中的服务才能调用
 
-基于Group是否相同的策略，即服务端被消费端调用，两者的Group必须相同，否则拒绝调用，异构系统可以通过Header方式传递n-d-service-group值进行匹配。只需要在服务端（不适用网关），开启如下配置即可
+基于Group是否相同的策略，即服务端被消费端调用，两者的Group必须相同，否则拒绝调用，异构系统可以通过Header方式传递n-d-group值进行匹配。只需要在服务端（不适用网关），开启如下配置即可
 ```
 # 启动和关闭提供端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
 spring.application.strategy.provider.isolation.enabled=true
@@ -2674,11 +2675,11 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 
 在Postman调用，执行[http://localhost:4001/invoke/abc](http://localhost:4001/invoke/abc)，去调用discovery-guide-service-b服务，将出现如下异常。意味着在discovery-guide-service-b提供端进行了隔离
 ```
-Reject to invoke because of isolation with different service group
+Reject to invoke because of isolation with different group
 ```
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide6-1.jpg)
 
-如果加上n-d-service-group=discovery-guide-group的Header，那么两者保持Group相同，则调用通过。这是解决异构系统调用微服务被隔离的一种手段
+如果加上n-d-group=discovery-guide-group的Header，那么两者保持Group相同，则调用通过。这是解决异构系统调用微服务被隔离的一种手段
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide6-2.jpg)
 
@@ -4337,17 +4338,26 @@ ruleType为哨兵规则类型。取值： flow | degrade | authority | system | 
 ```
 n-d-service-group - 服务所属组或者应用
 n-d-service-type - 服务类型，分为网关端 | 服务端 | 控制台端 | 测试端，使用者只需要关注前两个即可
+n-d-service-app-id - 应用ID，当接入Apollo配置中心才有该属性
 n-d-service-id - 服务ID
 n-d-service-address - 服务地址，包括Host和Port
 n-d-service-version - 服务版本
 n-d-service-region - 服务所属区域
 n-d-service-env - 服务所属环境
+n-d-service-zone - 服务所属可用区
 n-d-version - 版本路由值
 n-d-region - 区域路由值
 n-d-env - 环境路由值
 n-d-address - 地址路由值
 n-d-version-weight - 版本权重路由值
 n-d-region-weight - 区域权重路由值
+n-d-version-prefer - 版本偏好路由值
+n-d-version-failover - 版本故障转移路由值
+n-d-region-transfer - 区域调试路由值
+n-d-region-failover - 区域故障转移路由值
+n-d-env-failover - 环境故障转移路由值
+n-d-zone-failover - 可用区故障转移路由值
+n-d-address-failover - IP地址和端口故障转移路由值
 n-d-id-blacklist - 全局唯一ID屏蔽值
 n-d-address-blacklist - IP地址和端口屏蔽值
 ```
