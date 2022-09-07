@@ -1163,6 +1163,8 @@ n-d-的含义：n为Nepxion首字母，d为Discovery首字母
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide2-1.jpg)
 
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/RouteVersion.jpg)
+
 如果希望每个服务的版本分别指定，那么策略内容如下，实现从Spring Cloud Gateway发起的调用走1.0版本的a服务，走1.1版本的b服务
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -1203,8 +1205,6 @@ n-d-version=1.0
 n-d-version={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
 ```
 
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/RouteVersion.jpg)
-
 #### 全链路区域匹配蓝绿发布
 增加Zuul的区域匹配蓝绿发布策略，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现从Zuul发起的调用全链路都走区域为dev的服务
 ```xml
@@ -1217,6 +1217,8 @@ n-d-version={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0
 ```
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide2-3.jpg)
+
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/RouteRegion.jpg)
 
 如果希望每个服务的版本分别指定，那么策略内容如下，实现从Zuul发起的调用走dev区域的a服务，走qa区域的b服务
 ```xml
@@ -1258,8 +1260,6 @@ n-d-region=dev
 n-d-region={"discovery-guide-service-a":"dev", "discovery-guide-service-b":"dev"}
 ```
 
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/RouteRegion.jpg)
-
 #### 全链路IP地址和端口匹配蓝绿发布
 增加Zuul的IP地址和端口匹配蓝绿发布策略，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现从Zuul发起的调用走指定IP地址和端口，或者指定IP地址，或者指定端口（下面策略以端口为例）的服务
 ```xml
@@ -1273,6 +1273,8 @@ n-d-region={"discovery-guide-service-a":"dev", "discovery-guide-service-b":"dev"
 </rule>
 ```
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide2-5.jpg)
+
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/RouteAddress.jpg)
 
 如果希望每个服务的IP地址或者端口分别指定，那么策略内容如下，实现从Zuul发起的调用走3001端口的a服务，走4001端口的b服务
 ```xml
@@ -1313,8 +1315,6 @@ n-d-region={"discovery-guide-service-a":"dev", "discovery-guide-service-b":"dev"
 n-d-address=3001
 n-d-address={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"3001"}
 ```
-
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/RouteAddress.jpg)
 
 ### 全链路条件蓝绿发布
 
@@ -1899,10 +1899,65 @@ n-d-address={"discovery-guide-service-a":"127.0.0.1", "discovery-guide-service-b
 n-d-address={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"4002"}
 ```
 
-- 环境隔离下动态环境匹配策略
+- 组提供端隔离策略
+
+```
+n-d-group=group1
+```
+
+- 版本偏好路由策略，Header格式如下任选一个
+
+```
+n-d-version-prefer=1.0
+n-d-version-prefer={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
+```
+
+- 区域调试路由策略，Header格式如下任选一个
+
+```
+n-d-region-transfer=qa
+n-d-region-transfer={"discovery-guide-service-a":"qa", "discovery-guide-service-b":"qa"}
+```
+
+- 环境隔离路由策略
 
 ```
 n-d-env=env1
+```
+
+- 版本故障转移策略，Header格式如下任选一个
+
+```
+n-d-version-failover=1.0
+n-d-version-failover={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
+```
+
+- 区域故障转移策略，Header格式如下任选一个
+
+```
+n-d-region-failover=dev
+n-d-region-failover={"discovery-guide-service-a":"dev", "discovery-guide-service-b":"dev"}
+```
+
+- 环境故障转移策略，Header格式如下任选一个
+
+```
+n-d-env-failover=common
+n-d-env-failover={"discovery-guide-service-a":"common", "discovery-guide-service-b":"common"}
+```
+
+- 可用区故障转移策略，Header格式如下任选一个
+
+```
+n-d-zone-failover=zone1
+n-d-zone-failover={"discovery-guide-service-a":"zone1", "discovery-guide-service-b":"zone1"}
+```
+
+- 环境故障转移策略，Header格式如下任选一个
+
+```
+n-d-address-failover=*1
+n-d-address-failover={"discovery-guide-service-a":"*1", "discovery-guide-service-b":"*1"}
 ```
 
 - 服务下线实时性的流量绝对无损，全局唯一ID屏蔽策略，Header格式如下任选一个
@@ -2794,12 +2849,12 @@ spring.cloud.discovery.metadata.env=env1
 
 ### 全链路可用区亲和性隔离路由
 
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/IsolationZone.jpg)
-
 基于调用端实例和提供端实例的元数据Metadata的zone配置值进行对比实现隔离
 ```
 spring.cloud.discovery.metadata.zone=zone1
 ```
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/IsolationZone.jpg)
+
 通过如下开关进行开启和关闭
 ```
 # 启动和关闭可用区亲和性，即同一个可用区的服务才能调用，同一个可用区的条件是调用端实例和提供端实例的元数据Metadata的zone配置值必须相等。缺失则默认为false
