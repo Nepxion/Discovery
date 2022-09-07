@@ -1146,10 +1146,6 @@ zuul
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/BlueGreen.jpg)
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 小贴士
-
-n-d-的含义：n为Nepxion首字母，d为Discovery首字母
-
 #### 全链路版本匹配蓝绿发布
 增加Spring Cloud Gateway的版本匹配蓝绿发布策略，Group为discovery-guide-group，Data Id为discovery-guide-gateway，策略内容如下，实现从Spring Cloud Gateway发起的调用全链路都走版本为1.0的服务
 ```xml
@@ -1856,12 +1852,16 @@ A部门服务访问B部门服务必须通过B部门网关
 #### 全链路非域网关部署
 A部门服务直接访问B部门服务
 
-该部署模式下，会发生本部门服务的蓝绿灰度发布会由其它部门的网关或者服务来触发，当本部门服务和其它部门服务在同一时刻实施蓝绿灰度发布的时候，会产生混乱。解决方案，参考[并行发布下的版本偏好](#并行发布下的版本偏好)
+该部署模式下，会发生本部门服务的蓝绿灰度发布会由其它部门的网关或者服务来触发，当本部门服务和其它部门服务在同一时刻实施蓝绿灰度发布的时候，会产生混乱。解决方案，参考[全链路版本偏好路由](#全链路版本偏好路由)
 
 ### 全链路前端触发后端蓝绿灰度发布
 前端可以直接触发后端蓝绿灰度发布，前提条件，需要控制网关和服务上`header.priority`的开关
 
 #### 全链路驱动方式
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 小贴士
+
+n-d-的含义：n为Nepxion首字母，d为Discovery首字母
+
 - 版本匹配策略，Header格式如下任选一个
 
 ```
