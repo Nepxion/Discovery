@@ -1099,7 +1099,7 @@ zuul
 
 ③ 缺点
 
-成本较高，需要部署两套环境（蓝/绿）。新版本出现问题，切换不及时，会造成大面积故障
+成本较高，需要部署两套环境（蓝/绿）
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/BlueGreenConcept.jpg)
 
@@ -1116,7 +1116,7 @@ zuul
 
 ③ 缺点
 
-流量配比递增的配置修改，带来额外的操作成本。用户覆盖狭窄，低比例流量未必能发现所有问题
+流量配比递增的配置修改，具有一定的操作成本
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/GrayConcept.jpg)
 
@@ -1478,7 +1478,7 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
 
 > 兜底路由和全局缺省路由配置一个即可
 
-- 如果上述配置都不存在，则执行Spring Cloud Ribbon轮询策略
+- 如果上述配置都不存在，则执行Spring Cloud Ribbon/Spring Cloud LoadBalancer轮询策略
 
 ⑤ 假如不愿意从网关外部传入Header/Parameter/Cookies，那么支持策略下内置Header来决策蓝绿发布，可以代替外部传入Header/Parameter/Cookies，参考如下配置
 ```xml
@@ -3093,7 +3093,7 @@ spring.application.strategy.address.failover.enabled=true
 ```
 
 ## 全链路服务无损下线
-服务下线场景下，由于Ribbon负载均衡组件存在着缓存机制，当被提供端服务实例已经下线，而消费端服务实例还暂时缓存着它，直到下个心跳周期才会把已下线的服务实例剔除，在此期间，如果发生调用，会造成流量有损
+服务下线场景下，由于Ribbon/Spring Cloud LoadBalancer负载均衡组件存在着缓存机制，当被提供端服务实例已经下线，而消费端服务实例还暂时缓存着它，直到下个心跳周期才会把已下线的服务实例剔除，在此期间，如果发生调用，会造成流量有损
 
 框架提供流量的实时性绝对无损策略。采用下线之前，把服务实例添加到屏蔽名单中，负载均衡不会去寻址该服务实例。下线之后，清除该名单。实现该方式，需要通过DevOps调用配置中心的Open API推送或者在配置中心界面手工修改
 
