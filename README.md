@@ -2865,7 +2865,7 @@ A服务（本地环境） -> B服务（本地环境） -> C服务（测试环境
 n-d-region={"service-b":"MyDEV", "service-d":"MyDEV"}
 ```
 
-总结
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
 
 - 要调用测试环境中的服务，包括开发环境调用测试环境和测试环境中的服务间调用，必须打开`启动和关闭区域调试转移`开关和设置`区域调试转移值`
 - 要调用开发环境中的服务，包括测试环境回调开发环境和开发环境中的服务间调用，必须加上`n-d-region`的Header进行动态路由
@@ -2896,7 +2896,7 @@ spring.cloud.discovery.metadata.zone=zone1
 spring.application.strategy.zone.affinity.enabled=true
 ```
 
-需要注意
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
 
 - 不归属任何可用区，含义是服务实例未设置任何zone元数据值。可用区亲和性路由功能，是为了尽量保证流量不损失
 - 本框架提供的可用区亲和性功能适用于一切注册中心
