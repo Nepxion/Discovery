@@ -133,7 +133,7 @@ Polaris为Discovery高级定制版，特色功能
 
 ![](http://nepxion.gitee.io/discovery/docs/polaris-doc/Config.jpg)
 
-### 诞生故事
+### 发展历程
 - 2017年12月开始筹划
 - 2018年03月开始编码
 - 2018年06月在GitHub开源
@@ -149,7 +149,7 @@ Polaris为Discovery高级定制版，特色功能
 ### 功能概述
 Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba，Discovery服务注册发现、Ribbon & Spring Cloud LoadBalancer负载均衡、Feign & RestTemplate & WebClient调用、Spring Cloud Gateway & Zuul过滤等组件全方位增强的企业级微服务开源解决方案，更贴近企业级需求，更具有企业级的插件引入、开箱即用特征
 
-① 微服务框架支持的基本功能，如下
+① 微服务框架支持的技术栈，如下
 - 支持阿里巴巴Spring Cloud Alibaba中间件生态圈
 - 支持阿里巴巴Nacos、Eureka、Consul和Zookeeper四个服务注册发现中心
 - 支持阿里巴巴Nacos、携程Apollo、Redis、Zookeeper、Consul和Etcd六个远程配置中心
@@ -255,7 +255,9 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - Docker容器化和Kubernetes平台无缝支持部署
 - 自动化测试、压力测试
 
-③ Discovery【探索】微服务框架支持组（Group）、版本（Version）、区域（Region）、环境（Env）、可用区（Zone）、IP地址和端口（Address）、全局唯一ID七大经典维度实施流量管控的方式，通过“并集”方式叠加作用在流量控制上。上述七个维度在功能上各有各的侧重点，如下表格主要讲述各自的区别
+③ Discovery【探索】微服务框架支持的功能维度，如下
+
+微服务框架支持组（Group）、版本（Version）、区域（Region）、环境（Env）、可用区（Zone）、IP地址和端口（Address）、全局唯一ID七大经典维度实施流量管控的方式，通过“并集”方式叠加作用在流量控制上。上述七个维度在功能上各有各的侧重点，如下表格主要讲述各自的区别
 
 | 维度 | 概念 | 场景 | 功能侧重点 | 关键头 
 | --- | --- | --- | --- | --- |
@@ -542,7 +544,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [作者简介](#作者简介)
     - [商业合作](#商业合作)
     - [入门资料](#入门资料)
-    - [诞生故事](#诞生故事)
+    - [发展历程](#发展历程)
     - [功能概述](#功能概述)
     - [版本列表](#版本列表)
     - [企业用户](#企业用户)
@@ -981,9 +983,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 
 ⑦ 调用链插件依赖引入
 
-支持微服务端、网关Zuul端和网关Spring Cloud Gateway端，选择引入其中一个
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 需要注意，该模块支持F版或更高版本
+支持微服务端、网关Zuul端和网关Spring Cloud Gateway端，选择引入其中一个。如下，该模块只支持F版或更高版本
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -1069,11 +1069,13 @@ zuul
 
 - 在Postman中多种同步和异步的调用方式，异步方式需要增加DiscoveryAgent，才能保证蓝绿发布路由调用的成功
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 〔Spring Cloud 202x版〕特别提醒
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
 
-> 对于Spring Cloud 202x版，由于它采用的负载均衡Spring Cloud LoadBalancer是基于异步的WebFlux，所以必须加上DiscoveryAgent，如下方式
+对于Spring Cloud 202x版，由于它采用的负载均衡Spring Cloud LoadBalancer是基于异步的WebFlux，所以必须加上DiscoveryAgent，如下
 
-> -javaagent:C:/opt/discovery-agent/discovery-agent-starter-${discovery.agent.version}.jar
+```
+-javaagent:C:/opt/discovery-agent/discovery-agent-starter-${discovery.agent.version}.jar
+```
 
 | URL | 调用方式 |
 | --- | --- |
@@ -1195,7 +1197,9 @@ zuul
 ```
 表示discovery-guide-service-b服务的调用范围是1开头的所有版本，或者调用范围是1.2开头的所有版本（末尾必须是1个字符），多个用分号隔开
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：非条件驱动下的全链路蓝绿发布跟Header驱动下的全链路蓝绿发布等效，例如
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+非条件驱动下的全链路蓝绿发布跟Header驱动下的全链路蓝绿发布等效，例如
 ```
 n-d-version=1.0
 n-d-version={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
@@ -1250,7 +1254,9 @@ d* - 表示调用范围为d开头的所有区域
 ```
 表示discovery-guide-service-b服务的调用范围是d开头的所有区域，或者调用范围是q开头的所有区域（末尾必须是1个字符），多个用分号隔开
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：非条件驱动下的全链路蓝绿发布跟Header驱动下的全链路蓝绿发布等效，例如
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+非条件驱动下的全链路蓝绿发布跟Header驱动下的全链路蓝绿发布等效，例如
 ```
 n-d-region=dev
 n-d-region={"discovery-guide-service-a":"dev", "discovery-guide-service-b":"dev"}
@@ -1306,7 +1312,9 @@ n-d-region={"discovery-guide-service-a":"dev", "discovery-guide-service-b":"dev"
 ```
 表示discovery-guide-service-b服务的调用范围是3开头的所有端口，或者调用范围是400开头的所有端口（末尾必须是1个字符），多个用分号隔开
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：非条件驱动下的全链路蓝绿发布跟Header驱动下的全链路蓝绿发布等效，例如
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+非条件驱动下的全链路蓝绿发布跟Header驱动下的全链路蓝绿发布等效，例如
 ```
 n-d-address=3001
 n-d-address={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"3001"}
