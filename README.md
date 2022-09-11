@@ -133,7 +133,7 @@ Polaris为Discovery高级定制版，特色功能
 
 ![](http://nepxion.gitee.io/discovery/docs/polaris-doc/Config.jpg)
 
-### 诞生故事
+### 发展历程
 - 2017年12月开始筹划
 - 2018年03月开始编码
 - 2018年06月在GitHub开源
@@ -149,7 +149,7 @@ Polaris为Discovery高级定制版，特色功能
 ### 功能概述
 Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba，Discovery服务注册发现、Ribbon & Spring Cloud LoadBalancer负载均衡、Feign & RestTemplate & WebClient调用、Spring Cloud Gateway & Zuul过滤等组件全方位增强的企业级微服务开源解决方案，更贴近企业级需求，更具有企业级的插件引入、开箱即用特征
 
-① 微服务框架支持的基本功能，如下
+① 微服务框架支持的技术栈，如下
 - 支持阿里巴巴Spring Cloud Alibaba中间件生态圈
 - 支持阿里巴巴Nacos、Eureka、Consul和Zookeeper四个服务注册发现中心
 - 支持阿里巴巴Nacos、携程Apollo、Redis、Zookeeper、Consul和Etcd六个远程配置中心
@@ -255,7 +255,9 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - Docker容器化和Kubernetes平台无缝支持部署
 - 自动化测试、压力测试
 
-③ Discovery【探索】微服务框架支持组（Group）、版本（Version）、区域（Region）、环境（Env）、可用区（Zone）、IP地址和端口（Address）、全局唯一ID七大经典维度实施流量管控的方式，通过“并集”方式叠加作用在流量控制上。上述七个维度在功能上各有各的侧重点，如下表格主要讲述各自的区别
+③ Discovery【探索】微服务框架支持的功能维度，如下
+
+微服务框架支持组（Group）、版本（Version）、区域（Region）、环境（Env）、可用区（Zone）、IP地址和端口（Address）、全局唯一ID七大经典维度实施流量管控的方式，通过“并集”方式叠加作用在流量控制上。上述七个维度在功能上各有各的侧重点，如下表格主要讲述各自的区别
 
 | 维度 | 概念 | 场景 | 功能侧重点 | 关键头 
 | --- | --- | --- | --- | --- |
@@ -542,7 +544,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [作者简介](#作者简介)
     - [商业合作](#商业合作)
     - [入门资料](#入门资料)
-    - [诞生故事](#诞生故事)
+    - [发展历程](#发展历程)
     - [功能概述](#功能概述)
     - [版本列表](#版本列表)
     - [企业用户](#企业用户)
@@ -981,9 +983,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 
 ⑦ 调用链插件依赖引入
 
-支持微服务端、网关Zuul端和网关Spring Cloud Gateway端，选择引入其中一个
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 需要注意，该模块支持F版或更高版本
+支持微服务端、网关Zuul端和网关Spring Cloud Gateway端，选择引入其中一个。如下，该模块只支持F版或更高版本
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -1069,11 +1069,13 @@ zuul
 
 - 在Postman中多种同步和异步的调用方式，异步方式需要增加DiscoveryAgent，才能保证蓝绿发布路由调用的成功
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 〔Spring Cloud 202x版〕特别提醒
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
 
-> 对于Spring Cloud 202x版，由于它采用的负载均衡Spring Cloud LoadBalancer是基于异步的WebFlux，所以必须加上DiscoveryAgent，如下方式
+对于Spring Cloud 202x版，由于它采用的负载均衡Spring Cloud LoadBalancer是基于异步的WebFlux，所以必须加上DiscoveryAgent，如下
 
-> -javaagent:C:/opt/discovery-agent/discovery-agent-starter-${discovery.agent.version}.jar
+```
+-javaagent:C:/opt/discovery-agent/discovery-agent-starter-${discovery.agent.version}.jar
+```
 
 | URL | 调用方式 |
 | --- | --- |
@@ -1195,7 +1197,9 @@ zuul
 ```
 表示discovery-guide-service-b服务的调用范围是1开头的所有版本，或者调用范围是1.2开头的所有版本（末尾必须是1个字符），多个用分号隔开
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：非条件驱动下的全链路蓝绿发布跟Header驱动下的全链路蓝绿发布等效，例如
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+非条件驱动下的全链路蓝绿发布跟Header驱动下的全链路蓝绿发布等效，例如
 ```
 n-d-version=1.0
 n-d-version={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
@@ -1250,7 +1254,9 @@ d* - 表示调用范围为d开头的所有区域
 ```
 表示discovery-guide-service-b服务的调用范围是d开头的所有区域，或者调用范围是q开头的所有区域（末尾必须是1个字符），多个用分号隔开
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：非条件驱动下的全链路蓝绿发布跟Header驱动下的全链路蓝绿发布等效，例如
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+非条件驱动下的全链路蓝绿发布跟Header驱动下的全链路蓝绿发布等效，例如
 ```
 n-d-region=dev
 n-d-region={"discovery-guide-service-a":"dev", "discovery-guide-service-b":"dev"}
@@ -1306,7 +1312,9 @@ n-d-region={"discovery-guide-service-a":"dev", "discovery-guide-service-b":"dev"
 ```
 表示discovery-guide-service-b服务的调用范围是3开头的所有端口，或者调用范围是400开头的所有端口（末尾必须是1个字符），多个用分号隔开
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：非条件驱动下的全链路蓝绿发布跟Header驱动下的全链路蓝绿发布等效，例如
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+非条件驱动下的全链路蓝绿发布跟Header驱动下的全链路蓝绿发布等效，例如
 ```
 n-d-address=3001
 n-d-address={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"3001"}
@@ -1440,9 +1448,9 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 规则策略解释
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 特别提醒
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
 
-> 为准确体现相关变量（例如上文中的 **a** ）支持Header、Parameter、Cookie中的任意一个，表达式格式为 **expression="#H['a'] == '1'"**
+为准确体现相关变量（例如上文中的 **a** ）支持Header、Parameter、Cookie中的任意一个，表达式格式为 **expression="#H['a'] == '1'"**
 
 ① 当外部调用带有的Header/Parameter/Cookies中的值a=1同时b=2，执行绿路由
 
@@ -1474,9 +1482,9 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
 {"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
 ```
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 特别提醒
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
 
-> 兜底路由和全局缺省路由配置一个即可
+兜底路由和全局缺省路由配置一个即可
 
 - 如果上述配置都不存在，则执行Spring Cloud Ribbon/Spring Cloud LoadBalancer轮询策略
 
@@ -1486,7 +1494,9 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
 ```
 内置Header一般使用场景为定时Job的服务定时去调用其它服务，希望实施蓝绿灰度发布。当服务侧配置了内置Header，而网关也传递给对应Header给该服务，通过开关来决定，网关传递的Header为优先还是服务侧内置的Header优先
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 需要注意，Spring Cloud Gateway在Finchley版不支持该方式
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+Spring Cloud Gateway在Finchley版不支持该方式
 
 ⑥ 路由类型支持如下
 
@@ -1506,7 +1516,9 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
 
 ⑨ 策略支持Spring Matcher的通配方式
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 上述方式，可以通过[全链路蓝绿发布编排建模](#全链路蓝绿发布编排建模)方式执行，并通过[全链路蓝绿发布流量侦测](#全链路蓝绿发布流量侦测)进行验证
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+上述方式，可以通过[全链路蓝绿发布编排建模](#全链路蓝绿发布编排建模)方式执行，并通过[全链路蓝绿发布流量侦测](#全链路蓝绿发布流量侦测)进行验证
 
 #### 全链路区域条件匹配蓝绿发布
 参考[全链路版本条件匹配蓝绿发布](#全链路版本条件匹配蓝绿发布)
@@ -1562,7 +1574,9 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
 <version-weight>{"discovery-guide-service-a":"1.0=90;1.1=10", "discovery-guide-service-b":"1.0=90;1.1=10"}</version-weight>
 ```
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：非条件驱动下的全链路灰度发布跟Header驱动下的全链路灰度发布等效，例如
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+非条件驱动下的全链路灰度发布跟Header驱动下的全链路灰度发布等效，例如
 ```
 n-d-version-weight=1.0=90;1.1=10
 n-d-version-weight={"discovery-guide-service-a":"1.0=90;1.1=10", "discovery-guide-service-b":"1.0=90;1.1=10"}
@@ -1599,7 +1613,9 @@ n-d-version-weight={"discovery-guide-service-a":"1.0=90;1.1=10", "discovery-guid
 <region-weight>{"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-service-b":"dev=85;qa=15"}</region-weight>
 ```
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：非条件驱动下的全链路灰度发布跟Header驱动下的全链路灰度发布等效，例如
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+非条件驱动下的全链路灰度发布跟Header驱动下的全链路灰度发布等效，例如
 ```
 n-d-region-weight=dev=85;qa=15
 n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-service-b":"dev=85;qa=15"}
@@ -1661,7 +1677,9 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 - region 区域
 - address IP地址和端口
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 上述方式，可以通过[全链路灰度发布编排建模](#全链路灰度发布编排建模)方式执行，并通过[全链路灰度发布流量侦测](#全链路灰度发布流量侦测)进行验证
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+上述方式，可以通过[全链路灰度发布编排建模](#全链路灰度发布编排建模)方式执行，并通过[全链路灰度发布流量侦测](#全链路灰度发布流量侦测)进行验证
 
 #### 全链路区域条件权重灰度发布
 参考[全链路版本条件权重灰度发布](#全链路版本条件权重灰度发布)
@@ -1793,6 +1811,8 @@ spring.application.strategy.service.header.priority=true
 </rule>
 ```
 
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Strategy.jpg)
+
 规则解读
 
 原则：蓝绿规则优先于灰度规则
@@ -1805,7 +1825,6 @@ if (a == 1) {
     执行蓝绿发布blue-green的route-0下的兜底路由
 }
 ```
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：当蓝绿发布存在兜底策略（`basic-condition`），灰度发布永远不会被执行
 
 如果删除掉蓝绿发布的兜底策略，那么执行逻辑则变为
 ```java
@@ -1838,9 +1857,9 @@ if (a == 1) {
 }
 ```
 
-蓝绿灰度混合发布执行逻辑图
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
 
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Strategy.jpg)
+当蓝绿发布存在兜底策略（`basic-condition`），灰度发布永远不会被执行
 
 ### 全链路域网关和非域网关部署
 
@@ -1976,7 +1995,7 @@ n-d-address-blacklist={"discovery-guide-service-a":"127.0.0.1", "discovery-guide
 n-d-address-blacklist={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"4002"}
 ```
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 全链路前端触发后端蓝绿灰度发布全景功能
+全链路前端触发后端蓝绿灰度发布全景功能
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Introduction.jpg)
 
@@ -2005,11 +2024,23 @@ spring.application.strategy.business.request.headers=user;mobile;location
 
 [http://localhost:5001/discovery-guide-service-a/invoke/gateway?a=2](http://localhost:5001/discovery-guide-service-a/invoke/gateway?a=2)
 
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+Parameter不会全链路传递，只会发生在第一层传递
+
 ③ Cookie参数策略
+
 基于标准Http传值方式
 
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+Cookie不会全链路传递，只会发生在第一层传递
+
 ④ 域名参数策略
-基于取值域名前缀等方式，即可实现既定功能
+
+基于取值域名前缀等方式
+
+参考如下示例
 
 本地测试，为验证结果，请事先在hosts文件中配置如下
 ```
@@ -2030,7 +2061,7 @@ spring.application.strategy.business.request.headers=user;mobile;location
 
 ⑤ RPC-Method参数策略
 
-基于取值RPC调用中的方法入参等方式，即可实现既定功能，该方式只适用于服务侧
+基于取值RPC调用中的方法入参等方式，只适用于服务侧
 
 参考[全链路自定义负载均衡策略类触发蓝绿灰度发布](#全链路自定义负载均衡策略类触发蓝绿灰度发布)示例
 
@@ -2491,9 +2522,9 @@ public ServiceStrategyRouteFilter serviceStrategyRouteFilter() {
 
 #### 全链路自定义负载均衡策略类触发蓝绿灰度发布
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 〔Spring Cloud 202x版〕特别提醒
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
 
-> 对于Spring Cloud 202x版，由于它已经移除了Ribbon，所以apply(Server server)方法上的入参，com.netflix.loadbalancer.Server需要改成org.springframework.cloud.client.ServiceInstance
+对于Spring Cloud 202x版，由于它已经移除了Ribbon，所以apply(Server server)方法上的入参，com.netflix.loadbalancer.Server需要改成org.springframework.cloud.client.ServiceInstance
 
 下面代码既适用于Zuul和Spring Cloud Gateway网关，也适用于微服务。继承DefaultDiscoveryEnabledStrategy，可以有多个，通过@Bean方式注入
 ```java
@@ -2686,13 +2717,17 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 
 - Consul Open API变更元数据
 
+```
 自行研究
+```
 
 - Zookeeper Open API变更元数据
 
+```
 自行研究
+```
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 需要注意
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
 
 ① 并非所有的注册中心都支持动态元数据变更方式，需要使用者自行研究
 
@@ -3146,7 +3181,9 @@ spring.application.strategy.address.failover.enabled=true
 ```
 表示discovery-guide-service-b服务的屏蔽范围是2021年06月01日注册的实例，或者屏蔽范围是20210601-222214-909-1146-372-69开头ID的服务（末尾必须是1个字符），多个用分号隔开
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：跟Header驱动下的IP地址和端口屏蔽策略等效，例如
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+跟Header驱动下的IP地址和端口屏蔽策略等效，例如
 ```
 n-d-id-blacklist=20210601-222214-909-1146-372-698;20210601-222623-277-4978-633-279
 n-d-id-blacklist={"discovery-guide-service-a":"20210601-222214-909-1146-372-698", "discovery-guide-service-b":"20210601-222623-277-4978-633-279"}
@@ -3226,13 +3263,16 @@ boolean deleteBlacklist(String serviceId, String serviceUUId);
 ```
 表示discovery-guide-service-b服务的屏蔽范围是3开头的所有端口，或者屏蔽范围是400开头的所有端口（末尾必须是1个字符），多个用分号隔开
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：跟Header驱动下的IP地址和端口屏蔽策略等效，例如
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+跟Header驱动下的IP地址和端口屏蔽策略等效，例如
 ```
 n-d-address-blacklist=3001
 n-d-address-blacklist={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"3001"}
 ```
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 最佳实践：
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 最佳实践
+
 - 运维平台下线某个服务实例之前，调用Nepxion Discovery Console平台BlacklistEndpoint如下API，把需要下线的服务实例根据IP地址和端口添加进黑名单，返回全局唯一的该服务实例的UUId，即可实现实时无损下线
 ```java
 String addBlacklist(String serviceId, String host, int port);
@@ -3279,7 +3319,9 @@ ThreadLocal的作用是提供线程内的局部变量，在多线程环境下访
 - Thread Pool
 - SLF4J MDC
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 需要注意，DiscoveryAgent不支持含有Lambda语法的异步代码。使用Lambda去实现的Runnable类会生成一个匿名内部类，这个匿名内部类和DiscoveryAgent使用的是不同的类加载器，导致DiscoveryAgent无法去修改Lambda表达式生成的Runnable的实现类
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+DiscoveryAgent不支持含有Lambda语法的异步代码。使用Lambda去实现的Runnable类会生成一个匿名内部类，这个匿名内部类和DiscoveryAgent使用的是不同的类加载器，导致DiscoveryAgent无法去修改Lambda表达式生成的Runnable的实现类
 
 #### 异步跨线程DiscoveryAgent获取
 插件获取方式有两种方式
@@ -3614,7 +3656,9 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 - 网关订阅配置中心（包括Nacos、Apollo、Consul、Etcd、Redis、Zookeeper）批量实施
 
 ### Spring-Cloud-Gateway网关动态路由
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：Spring Cloud Gateway网关在自动路由模式下，动态路由不能工作
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+Spring Cloud Gateway网关在自动路由模式下，动态路由不能工作
 
 支持Spring Cloud Gateway网关官方断言器和过滤器，也支持用户自定义断言器和过滤器
 
@@ -3658,7 +3702,9 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 #### Spring-Cloud-Gateway网关自定义动态路由配置
 ① 自定义方式描述网关内置断言器和过滤器
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：自定义方式描述网关内置断言器和过滤器的Key必须遵循如下规则
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+自定义方式描述网关内置断言器和过滤器的Key必须遵循如下规则
 
 - 对于没有显式args定义的配置，类似Path、StripPrefix这种配置，args名称必须是`_genkey_序号`格式。例如，"_genkey_0": "/discovery-guide-service-a/**"
 - 对于显式args定义的配置，类似Header、Cookie、Query这种配置，args名称遵照Spring Cloud Gateway内置格式，请查看相关文档或者源码。例如，Header的KV格式为header -> regexp，Cookie的KV格式为name->regexp，Query的KV格式为param->regexp
@@ -3748,7 +3794,9 @@ Query={"param":"f","regexp":"6"}
 
 ② 自定义方式描述用户扩展的断言器和过滤器
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：自定义方式描述用户扩展的断言器和过滤器的Key必须遵循如下规则
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+自定义方式描述用户扩展的断言器和过滤器的Key必须遵循如下规则
 
 - List<String>结构，args名称必须是`list的变量名.序号`格式。例如，"whiteList.0": "* swagger-ui.html"
 - Map<String, String>结构，args名称必须是`map的变量名.map的key`格式。例如，"userMap.name": "jason"
@@ -3865,7 +3913,9 @@ public class MySubscriber {
 ```
 
 ### Zuul网关动态路由
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：Zuul网关在自动路由模式下，动态路由可以工作
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+Zuul网关在自动路由模式下，动态路由可以工作
 
 #### Zuul网关动态路由配置
 ① 精简配置
@@ -4021,7 +4071,9 @@ public class MySubscriber {
 
 通过集成Sentinel，在服务端实现该功能
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 由于本功能早于Spring Cloud Alibaba Sentinel而产生，下述功能也可以通过Spring Cloud Alibaba Sentinel功能来实现
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+由于本功能早于Spring Cloud Alibaba Sentinel而产生，下述功能也可以通过Spring Cloud Alibaba Sentinel功能来实现
 
 Sentinel订阅配置中心的使用方式，如下
 
@@ -4630,7 +4682,9 @@ spring.application.strategy.tracer.sentinel.rule.output.enabled=true
 spring.application.strategy.tracer.sentinel.args.output.enabled=true
 ```
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 需要注意，OpenTracing对Finchley版的Spring Cloud Gateway的reactor-core包存在版本兼容性问题，如果使用者希望Finchley版的Spring Cloud Gateway上使用OpenTracing，需要做如下改造
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+OpenTracing对Finchley版的Spring Cloud Gateway的reactor-core包存在版本兼容性问题，如果使用者希望Finchley版的Spring Cloud Gateway上使用OpenTracing，需要做如下改造
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
@@ -4957,7 +5011,9 @@ com.nepxion.discovery.plugin.strategy.monitor.DefaultStrategyAlarm
 | 网关为入口 | `http://`[网关IP:PORT]/[A服务名]/inspector/inspect | {"serviceIdList":["B服务名", "C服务名", ...]} | POST |
 | 服务为入口 | `http://`[A服务IP:PORT]/inspector/inspect | {"serviceIdList":["B服务名", "C服务名", ...]} | POST |
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：内容项中服务名列表不分前后次序
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+内容项中服务名列表不分前后次序
 
 ## 全链路数据库和消息队列蓝绿发布
 通过订阅相关参数的变化，实现参数化蓝绿发布，可用于如下场景
@@ -5043,7 +5099,9 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 ### 基于Git插件自动创建版本号
 通过集成插件git-commit-id-plugin，通过产生git信息文件的方式，获取git.commit.id（最后一次代码的提交ID）或者git.build.version（对应到Maven工程的版本）来自动创建版本号，这样就可以避免使用者手工维护版本号
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：当两者都启用的时候，手工配置的版本号优先级要高于Git插件方式的版本号
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+当两者都启用的时候，手工配置的版本号优先级要高于Git插件方式的版本号
 
 - 增加Git编译插件
 
@@ -5147,7 +5205,9 @@ git.tags=
 git.total.commit.count=765
 ```
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 需要注意，一般情况下，上述两个地方的配置都同时保持默认即可。对于一些特殊的用法，两个地方的配置项用法必须保持一致，例如
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+一般情况下，上述两个地方的配置都同时保持默认即可。对于一些特殊的用法，两个地方的配置项用法必须保持一致，例如
 ```
 # 输出到工程根目录下
 <generateGitPropertiesFilename>${project.basedir}/git.json</generateGitPropertiesFilename>
@@ -5170,7 +5230,9 @@ spring.application.git.generator.path=file:git.json
 ### 基于服务名前缀自动创建组名
 通过指定长度截断或者标志截断服务名的前缀来自动创建组名，这样就可以避免使用者手工维护组名
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/tip.png) 提醒：当两者都启用的时候，手工配置的组名优先级要高于截断方式的组名
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+当两者都启用的时候，手工配置的组名优先级要高于截断方式的组名
 
 - 增加配置项
 
@@ -5350,7 +5412,9 @@ public class MyConfigProcessor extends NacosProcessor {
 ## 规则策略定义
 
 ### 规则策略格式定义
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 需要注意，服务名大小写规则
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+服务名大小写规则
 - 在配置文件（application.properties、application.yaml等）里，定义服务名（spring.application.name）不区分大小写
 - 在规则文件（XML、Json）里，引用的服务名必须小写
 - 在Nacos、Apollo、Redis等远程配置中心的Key，包含的服务名必须小写
@@ -5787,9 +5851,9 @@ spring.cloud.nacos.discovery.metadata.env=env1
 spring.cloud.nacos.discovery.metadata.zone=zone1
 ```
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 〔Spring Cloud 202x版〕特别提醒
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
 
-> 对于Spring Cloud 202x版，由于它重构了Consul元数据的方式，需要通过如下方式配置
+对于Spring Cloud 202x版，由于它重构了Consul元数据的方式，需要通过如下方式配置
 
 ```
 # Consul config for discovery
@@ -5800,7 +5864,7 @@ spring.cloud.consul.discovery.metadata.env=env1
 spring.cloud.consul.discovery.metadata.zone=zone1
 ```
 
-> 对于用户自定义的Consul元数据的Key，不能带有包含“.”，“@”等字符，否则服务无法启动，但允许包含“_”，“-”等字符，参考如下配置
+对于用户自定义的Consul元数据的Key，不能带有包含“.”，“@”等字符，否则服务无法启动，但允许包含“_”，“-”等字符，参考如下配置
 
 ```
 # 合法格式
@@ -6614,7 +6678,9 @@ swagger.service.termsOfService.url=http://www.nepxion.com
 ### 内置文件配置
 框架提供内置文件方式的配置spring-application-default.properties。如果使用者希望对框架做封装，并提供相应的默认配置，可以在src/main/resources目录下放置spring-application-default.properties
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 需要注意，该文件在整个服务目录和包中只能出现一次
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项 
+
+该文件在整个服务目录和包中只能出现一次
 
 ## Docker容器化和Kubernetes平台支持
 
@@ -6752,7 +6818,9 @@ gray.weight.testcase.result.offset=5
 ```
 
 ### 测试用例
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 需要注意，当使用Eureka注册中心的时候，因为Spring Cloud内嵌了Eureka可用区亲和性功能，会自动开启该策略，则导致某些自动化测试用例失败。需要把所有服务实例的元数据zone值改成相同或者也可以把该行元数据删除，然后进行自动化测试
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+当使用Eureka注册中心的时候，因为Spring Cloud内嵌了Eureka可用区亲和性功能，会自动开启该策略，则导致某些自动化测试用例失败。需要把所有服务实例的元数据zone值改成相同或者也可以把该行元数据删除，然后进行自动化测试
 
 #### 测试包引入
 ```xml
@@ -6763,7 +6831,9 @@ gray.weight.testcase.result.offset=5
 </dependency>
 ```
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 需要注意，对于带有注解@DTestConfig的测试用例，要用到Spring的Spel语法格式（即group = "#group", serviceId = "#serviceId"），需要引入Java8的带"-parameters"编译方式，见上面的<compilerArgs>参数设置
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+对于带有注解@DTestConfig的测试用例，要用到Spring的Spel语法格式（即group = "#group", serviceId = "#serviceId"），需要引入Java8的带"-parameters"编译方式，见上面的<compilerArgs>参数设置
 
 在IDE环境里需要设置"-parameters"的Compiler Argument
 
