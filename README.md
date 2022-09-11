@@ -182,6 +182,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - 全链路本地和远程、局部和全局无参数化规则策略驱动
     - 全链路条件表达式、通配表达式支持
     - 全链路内置Header，支持定时Job的服务调用蓝绿灰度发布
+    - 全链路蓝绿灰度发布对接DevOps运维平台最佳企业级实践
 - 全链路隔离路由
     - 全链路组隔离路由
         - 组负载均衡的消费端隔离
@@ -244,7 +245,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - 元数据流量染色
     - Git插件自动化的元数据流量染色
     - 服务名前缀的元数据流量染色
-    - 运维平台参数化的元数据流量染色
+    - 启动参数化的元数据流量染色
     - 注册中心动态化的元数据流量染色
     - 用户自定义的元数据流量染色
 - 全链路规则策略推送
@@ -603,6 +604,9 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [全链路自定义过滤器触发蓝绿灰度发布](#全链路自定义过滤器触发蓝绿灰度发布)
         - [全链路自定义负载均衡策略类触发蓝绿灰度发布](#全链路自定义负载均衡策略类触发蓝绿灰度发布)
     - [全链路动态变更元数据的蓝绿灰度发布](#全链路动态变更元数据的蓝绿灰度发布)
+    - [全链路蓝绿灰度发布对接DevOps运维平台最佳企业级实践](#全链路蓝绿灰度发布对接DevOps运维平台最佳企业级实践)
+        - [最佳实践](#最佳实践)
+        - [步骤详解](#步骤详解)	
 - [全链路隔离路由](#全链路隔离路由)
     - [全链路组隔离路由](#全链路组隔离路由)
         - [组负载均衡的消费端隔离](#组负载均衡的消费端隔离)
@@ -689,7 +693,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - [元数据流量染色](#元数据流量染色)
     - [基于Git插件自动创建版本号](#基于Git插件自动创建版本号)
     - [基于服务名前缀自动创建组名](#基于服务名前缀自动创建组名)
-    - [基于运维平台运行参数自动创建版本号](#基于运维平台运行参数自动创建版本号)
+    - [基于启动参数自动创建版本号](#基于启动参数自动创建版本号)
     - [基于用户自定义创建版本号](#基于用户自定义创建版本号)
 - [自动扫描目录](#自动扫描目录)
 - [统一配置订阅执行器](#统一配置订阅执行器)
@@ -2737,6 +2741,143 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 
 ③ 动态元数据变更方式只是让新的元数据驻留在内存里，并不持久化。当服务重启后，服务的元数据仍旧会以初始值为准
 
+### 全链路蓝绿灰度发布对接DevOps运维平台最佳企业级实践
+
+#### 最佳实践
+最佳实践采用举例说明，使用者需要依据实际情况来确认版本号、业务参数名和值等
+
+生产环境上，全链路调用路径，如下
+```
+API网关 -> 服务A -> 服务B
+```
+2021年6月1日，DevOps运维平台已经上线了服务A和服务B各1个实例，它们的版本号通过`流量染色`步骤，都赋予为20210601-0001
+
+① 启动故障转移（可选）
+
+在新版本服务上线之前，通过`故障转移`步骤实施，启动故障转移功能
+
+② 启动蓝绿灰度兜底策略
+
+在API网关上，通过`蓝绿灰度发布`步骤，配置蓝绿灰度发布兜底规则策略，避免流量进入新服务
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy-release>
+        <conditions type="blue-green">
+            <condition id="basic-condition" version-id="basic-route"/>
+        </conditions>
+
+        <routes>
+            <route id="basic-route" type="version">{"a":"20210601-0001", "b":"20210601-0001"}</route>
+        </routes>
+    </strategy-release>
+</rule>
+```
+
+③ 上线新服务
+
+2021年7月1日，DevOps运维平台上线新的服务A和服务B各1个实例，它们的版本号通过`流量染色`步骤，都赋予为20210701-0001，两个新服务实例都启动成功
+
+④ 启动蓝绿灰度发布
+
+在API网关上，通过`蓝绿灰度发布`步骤，配置蓝绿灰度发布规则策略
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy-release>
+        <conditions type="blue-green">
+            <condition id="blue-condition" expression="#H['xyz'] == '1'" version-id="blue-route"/>
+            <condition id="green-condition" expression="#H['xyz'] == '2'" version-id="green-route"/>
+            <condition id="basic-condition" version-id="basic-route"/>
+        </conditions>
+
+        <routes>
+            <route id="blue-route" type="version">{"a":"20210601-0001", "b":"20210601-0001"}</route>	
+            <route id="green-route" type="version">{"a":"20210701-0001", "b":"20210701-0001"}</route>
+            <route id="basic-route" type="version">{"a":"20210601-0001", "b":"20210601-0001"}</route>
+        </routes>
+    </strategy-release>
+</rule>
+```
+通过在调用API网关的URL上增加基于Header/Parameter/Cookie的业务参数`xyz`
+- `xyz`为`1`，切换到蓝路由
+- `xyz`为`2`，切换到绿路由
+- `xyz`缺失，切换到兜底路由
+
+蓝绿灰度执行结果处理
+- 蓝绿灰度发布成功，新版本实例测试通过，流量全部切到新版本实例，下线老版本服务实例
+- 蓝绿灰度发布失败，新版本实例测试未通过，流量全部切到旧版本实例，下线新版本服务实例，待问题解决后重新上线新服务
+
+⑤ 启动无损下线（可选）
+
+在旧版本服务实例下线之前，在API网关上，执行`无损下线`的`添加黑名单`步骤，保证流量不会进入要下线的老版本实例
+
+⑥ 下线旧服务
+
+DevOps运维平台停止旧版本的服务实例
+
+⑦ 停止无损下线（可选）
+
+等待一段时间后，待旧服务实例彻底下线，在API网关上，执行`无损下线`的`删除黑名单`步骤
+
+⑧ 停止蓝绿灰度发布
+
+在API网关上，通过`蓝绿灰度发布`步骤，清空蓝绿灰度发布规则策略
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 如果通过配置中心操作规则策略，那么第⑦和⑧步骤可以同时进行，即直接赋予空规则策略
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+</rule>
+```
+
+整个流程过程，示意如下，`故障转移`和`无损下线`步骤可以省略
+
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DevOps.jpg)
+
+#### 步骤详解
+
+① 流量染色
+
+运维平台通过命令行java -jar启动应用，加入启动参数-Dmetadata.version=xyz，表示给当前应用进行版本维度的流量染色
+
+如果使用者希望运维侧去决定版本号，那么推荐一种可行性方案，版本号可以表示为日期戳-序号
+- 日期戳表示为当天的日期
+- 序号表示为当天的发布次数，一般定义为四位，即从0001-9999。序号由运维平台来维护，当天每发布一个版本，序号自加1
+
+这种表示方式具有很强的可读性意义，例如，20210601-0003，表示某一组服务实例蓝绿灰度的版本为2021年6月1日发布的第三个版本
+
+② 故障转移
+
+为避免发生突发情况，需要做一定的故障转移措施
+
+在网关和服务上开启如下开关
+```
+# 启动和关闭版本故障转移。缺失则默认为false
+spring.application.strategy.version.failover.enabled=true
+# 开启和关闭版本列表排序策略下取稳定版本的版本故障转移。缺失则默认为false
+spring.application.strategy.version.failover.stable.enabled=true
+```
+
+③ 蓝绿灰度发布
+
+运维平台对接`Nepxion Discovery Console`平台，在网关上实施蓝绿灰度发布，通过`Nepxion Discovery Console`的相关API写入的XML
+
+④ 无损下线
+
+运维平台通对接`Nepxion Discovery Console`平台，在服务实例实施下线的时候，为达到无损下线的目的，通过`Nepxion Discovery Console`的相关API写入下线实例黑名单的XML，在下线一段后，再清除相关的黑名单
+
+- 运维平台下线某个服务实例之前，调用`Nepxion Discovery Console`平台的BlacklistEndpoint如下API，把需要下线的服务实例根据IP地址和端口添加进黑名单，返回全局唯一的该服务实例的UUId，即可实现实时无损下线
+```java
+String addBlacklist(String serviceId, String host, int port);
+```
+- 运维平台每添加一个黑名单后，把返回的服务实例的UUId存储下来（推荐用高可用方案来存储）
+- 运维平台下线某个服务实例一段时间之后（大于负载均衡`3`个时钟周期，推荐`5`分钟），调用`Nepxion Discovery Console`平台的BlacklistEndpoint如下API，把过期的服务实例根据UUId从黑名单里删除掉
+```java
+boolean deleteBlacklist(String serviceId, String serviceUUId);
+```
+需要注意，UUId全局唯一，同样的服务实例重启注册后，UUId会重新产生，不会重复，但追加过多的UUId，虽然不会影响功能，但UUId堆积过多，使规则文本变得臃肿，可能会影响配置订阅的响应效率
+
 ## 全链路隔离路由
 
 ### 全链路组隔离路由
@@ -3203,18 +3344,6 @@ n-d-id-blacklist={"discovery-guide-service-a":"20210601-222214-909-1146-372-698"
 </rule>
 ```
 
-对接运维平台的最佳实践：
-- 运维平台下线某个服务实例之前，调用`Nepxion Discovery Console`平台的BlacklistEndpoint如下API，把需要下线的服务实例根据IP地址和端口添加进黑名单，返回全局唯一的该服务实例的UUId，即可实现实时无损下线
-```java
-String addBlacklist(String serviceId, String host, int port);
-```
-- 运维平台每添加一个黑名单后，把返回的服务实例的UUId存储下来（推荐用高可用方案来存储）
-- 运维平台下线某个服务实例一段时间之后（大于负载均衡`3`个时钟周期，推荐`5`分钟），调用`Nepxion Discovery Console`平台的BlacklistEndpoint如下API，把过期的服务实例根据UUId从黑名单里删除掉
-```java
-boolean deleteBlacklist(String serviceId, String serviceUUId);
-```
-需要注意，UUId全局唯一，同样的服务实例重启注册后，UUId会重新产生，不会重复，但追加过多的UUId，虽然不会影响功能，但UUId堆积过多，使规则文本变得臃肿，可能会影响配置订阅的响应效率
-
 ### IP地址和端口屏蔽
 通过IP地址或者端口或者IP地址+端口进行屏蔽，支持通配表达式方式
 
@@ -3272,19 +3401,6 @@ boolean deleteBlacklist(String serviceId, String serviceUUId);
 n-d-address-blacklist=3001
 n-d-address-blacklist={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"3001"}
 ```
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 最佳实践
-
-- 运维平台下线某个服务实例之前，调用Nepxion Discovery Console平台BlacklistEndpoint如下API，把需要下线的服务实例根据IP地址和端口添加进黑名单，返回全局唯一的该服务实例的UUId，即可实现实时无损下线
-```java
-String addBlacklist(String serviceId, String host, int port);
-```
-- 运维平台每添加一个黑名单后，把返回的服务实例的UUId存储下来（推荐用高可用方案来存储）
-- 运维平台下线某个服务实例一段时间之后（大于负载均衡`3`个时钟周期，推荐`5`分钟），调用Nepxion Discovery Console平台BlacklistEndpoint如下API，把过期的服务实例根据UUId从黑名单里删除掉
-```java
-boolean deleteBlacklist(String serviceId, String serviceUUId);
-```
-需要注意，UUId全局唯一，同样的服务实例重启注册后，UUId会重新产生，不会重复，但追加过多的UUId，虽然不会影响功能，但UUId堆积过多，可能会影响配置订阅的响应效率
 
 ## 异步场景下全链路蓝绿灰度发布
 Discovery框架存在着如下全链路传递上下文的场景，包括
@@ -5247,17 +5363,11 @@ spring.application.group.generator.length=15
 spring.application.group.generator.character=-
 ```
 
-### 基于运维平台运行参数自动创建版本号
-运维平台在启动微服务的时候，可以通过参数方式初始化元数据，框架会自动把它注册到远程注册中心。有如下两种方式
+### 基于启动参数自动创建版本号
+在启动微服务的时候，可以通过参数方式初始化元数据，框架会自动把它注册到远程注册中心。有如下两种方式
 - 通过VM arguments来传递，它的用法是前面加-D。支持上述所有的注册组件，它的限制是变量前面必须要加metadata.，推荐使用该方式。例如：-Dmetadata.version=1.0
 - 通过Program arguments来传递，它的用法是前面加--。支持Eureka、Zookeeper和Nacos的增量覆盖，Consul由于使用了全量覆盖的tag方式，不适用改变单个元数据的方式。例如：--spring.cloud.nacos.discovery.metadata.version=1.0
 - 两种方式尽量避免同时用
-
-如果使用者希望运维侧去决定版本号，那么推荐一种可行性方案，版本号可以表示为日期戳-序号
-- 日期戳表示为当天的日期
-- 序号表示为当天的发布次数，一般定义为四位，即从0001-9999。序号由运维平台来维护，当天每发布一个版本，序号自加1
-
-这种表示方式具有很强的可读性意义，例如，20210601-0003，表示某一组服务实例蓝绿灰度的版本为2021年6月1日发布的第三个版本
 
 ### 基于用户自定义创建版本号
 参考[流量染色配置](#流量染色配置)
