@@ -255,6 +255,8 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - Docker容器化和Kubernetes平台无缝支持部署
 - 自动化测试、压力测试
 
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Ability.jpg)
+
 ③ Discovery【探索】微服务框架支持的功能维度，如下
 
 微服务框架支持组（Group）、版本（Version）、区域（Region）、环境（Env）、可用区（Zone）、IP地址和端口（Address）、全局唯一ID七大经典维度实施流量管控的方式，通过“并集”方式叠加作用在流量控制上。上述七个维度在功能上各有各的侧重点，如下表格主要讲述各自的区别
