@@ -36,28 +36,28 @@ public class BlacklistEndpoint {
     @RequestMapping(path = "/add/{group}/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "全局组订阅方式，根据服务实例IP地址和端口，添加下线的服务实例UUId到黑名单", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> addBlacklist(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "下线的服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "下线的IP地址和端口", required = true) AddressEntity addressEntity) {
+    public ResponseEntity<?> addBlacklist(@PathVariable(value = "group") @ApiParam(value = "订阅的组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "待下线实例的服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "待下线实例的IP地址和端口", required = true) AddressEntity addressEntity) {
         return doAddBlacklist(group, serviceId, addressEntity);
     }
 
     @RequestMapping(path = "/add/{group}/{gatewayId}/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "局部网关订阅方式，根据服务实例IP地址和端口，添加下线的服务实例UUId到黑名单", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> addBlacklist(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "gatewayId") @ApiParam(value = "网关名", required = true) String gatewayId, @PathVariable(value = "serviceId") @ApiParam(value = "下线的服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "下线的IP地址和端口", required = true) AddressEntity addressEntity) {
+    public ResponseEntity<?> addBlacklist(@PathVariable(value = "group") @ApiParam(value = "订阅的组名", required = true) String group, @PathVariable(value = "gatewayId") @ApiParam(value = "订阅的网关名", required = true) String gatewayId, @PathVariable(value = "serviceId") @ApiParam(value = "待下线实例的服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "待下线实例的IP地址和端口", required = true) AddressEntity addressEntity) {
         return doAddBlacklist(group, gatewayId, serviceId, addressEntity);
     }
 
     @RequestMapping(path = "/delete/{group}/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "全局组订阅方式，根据服务实例UUId，从黑名单删除过期的服务实例", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> deleteBlacklist(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "下线的服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "下线的服务实例UUId", required = true) String serviceUUId) {
+    public ResponseEntity<?> deleteBlacklist(@PathVariable(value = "group") @ApiParam(value = "订阅的组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "已下线实例的服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "已下线实例的UUId", required = true) String serviceUUId) {
         return doDeleteBlacklist(group, serviceId, serviceUUId);
     }
 
     @RequestMapping(path = "/delete/{group}/{gatewayId}/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "局部网关订阅方式，根据服务实例UUId，从黑名单删除过期的服务实例", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> deleteBlacklist(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "gatewayId") @ApiParam(value = "网关名", required = true) String gatewayId, @PathVariable(value = "serviceId") @ApiParam(value = "下线的服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "下线的服务实例UUId", required = true) String serviceUUId) {
+    public ResponseEntity<?> deleteBlacklist(@PathVariable(value = "group") @ApiParam(value = "订阅的组名", required = true) String group, @PathVariable(value = "gatewayId") @ApiParam(value = "订阅的网关名", required = true) String gatewayId, @PathVariable(value = "serviceId") @ApiParam(value = "已下线实例的服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "已下线实例的UUId", required = true) String serviceUUId) {
         return doDeleteBlacklist(group, gatewayId, serviceId, serviceUUId);
     }
 
