@@ -2753,7 +2753,7 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 API网关 -> 服务A -> 服务B
 ```
 2021年6月1日，运维平台已经上线了服务A和服务B各1个实例，进行如下染色
-- 通过它们的组通过`流量染色`步骤，都赋予为my-group
+- 通过它们的组通过`流量染色`步骤，都赋予为nepxion
 - 通过它们的版本号通过`流量染色`步骤，都赋予为20210601-0001
 
 ① 启动故障转移（可选）
@@ -2781,7 +2781,7 @@ API网关 -> 服务A -> 服务B
 ③ 上线新服务
 
 2021年7月1日，运维平台上线新的服务A和服务B各1个实例，进行如下染色，两个新服务实例都启动成功
-- 通过它们的组通过`流量染色`步骤，都赋予为my-group
+- 通过它们的组通过`流量染色`步骤，都赋予为nepxion
 - 通过它们的版本号通过`流量染色`步骤，都赋予为20210701-0001
 
 ④ 启动蓝绿灰度发布
@@ -2812,7 +2812,7 @@ API网关 -> 服务A -> 服务B
 
 蓝绿灰度执行结果处理
 - 蓝绿灰度发布成功，新版本实例测试通过，流量全部切到新版本实例，下线老版本服务实例
-- 蓝绿灰度发布失败，新版本实例测试未通过，流量全部切到旧版本实例，下线新版本服务实例，待问题解决后重新上线新服务
+- 蓝绿灰度发布失败，新版本实例测试失败，流量全部切到旧版本实例，下线新版本服务实例，待问题解决后重新上线新服务
 
 ⑤ 启动无损下线（可选）
 
@@ -2842,8 +2842,6 @@ API网关 -> 服务A -> 服务B
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DevOps.jpg)
 
 #### 步骤详解
-> 强烈建议运维平台维护一套`组名 -> 服务名 -> 版本号 -> IP地址和端口`关联的数据仓库，以备关联查询，实现更好的自动化驱动能力
-
 ① 流量染色
 
 运维平台通过命令行java -jar启动应用，加入启动参数`-Dmetadata.group=abc`和`-Dmetadata.version=xyz`，表示给服务实例进行组维度和版本维度的流量染色，即
@@ -2851,9 +2849,9 @@ API网关 -> 服务A -> 服务B
 java -jar -Dmetadata.group=abc -Dmetadata.version=xyz xxx.jar
 ```
 
-如果使用者希望运维侧去决定版本号，那么推荐一种可行性方案，版本号可以表示为日期戳-序号
-- 日期戳表示为当天的日期
-- 序号表示为当天的发布次数，一般定义为四位，即从0001-9999。序号由运维平台来维护，当天每发布一个版本，序号自加1
+如果使用者希望运维侧去决定版本号，那么推荐一种可行性方案，版本号用日期戳-序号的格式
+- 日期戳表示当天的日期
+- 序号表示当天的发布次数，一般定义为四位，即从0001-9999。序号由运维平台来维护，当天每发布一个版本，序号自加1
 
 这种表示方式具有很强的可读性意义，例如，20210601-0003，表示某一组服务实例蓝绿灰度的版本为2021年6月1日发布的第三个版本
 
@@ -2904,6 +2902,28 @@ String addBlacklist(String group, String gatewayId, String serviceId, String hos
 boolean deleteBlacklist(String group, String gatewayId, String serviceId, String serviceUUId);
 ```
 需要注意，UUId全局唯一，同样的服务实例重启注册后，UUId会重新产生，不会重复，但追加过多的UUId，虽然不会影响功能，但UUId堆积过多，使规则文本变得臃肿，可能会影响配置订阅的响应效率
+
+④ 对接Open API
+
+配置操作Config Endpoint
+| 操作 | 路径 | 参数 | 方式 |
+| --- | --- | --- | --- |
+| 更新规则配置 | `http://`[控制台IP:PORT]/remote/update/{group}/{serviceId}/xml | 规则配置内容 | POST |
+| 清除规则配置 | `http://`[控制台IP:PORT]/remote/clear/{group}/{serviceId} | 无 | POST |
+| 查看规则配置 | `http://`[控制台IP:PORT]/remote/view/{group}/{serviceId} | 无 | GET |
+| 解析规则配置内容成对象 | `http://`[控制台IP:PORT]/parse | XML内容 | POST |
+| 反解析规则配置对象成内容| `http://`[控制台IP:PORT]/deparse | RuleEntity | POST |
+
+服务操作Service Endpoint
+| 操作 | 路径 | 参数 | 方式 |
+| --- | --- | --- | --- |
+| 获取服务组名列表 | `http://`[控制台IP:PORT]/groups | 无 | GET |
+| 根据服务名获取组名 | `http://`[控制台IP:PORT]/group/{serviceId} | 无 | GET |
+| 获取服务名列表 | `http://`[控制台IP:PORT]/services | 无 | GET |
+| 根据类型（网关/服务）获取服务名列表 | `http://`[控制台IP:PORT]/service-list | service或者gateway | POST |
+| 获取网关名列表 | `http://`[控制台IP:PORT]/gateways | 无 | GET |
+| 根据服务名获取实例列表 | `http://`[控制台IP:PORT]/instance-list/{serviceId}| 无 | GET |
+| 根据组名列表获取服务名->实例列表结构的Map | `http://`[控制台IP:PORT]/instance-map | 组名列表 | POST |
 
 ## 全链路隔离路由
 
@@ -4395,12 +4415,12 @@ spring.application.strategy.sentinel.request.origin.key=n-d-service-id
 spring.application.strategy.sentinel.request.origin.key=n-d-service-group
 ```
 
-增加服务discovery-guide-service-b的规则，Group为discovery-guide-group，Data Id为discovery-guide-service-b-sentinel-authority，规则内容如下，表示隶属my-group组的所有服务都允许访问服务discovery-guide-service-b
+增加服务discovery-guide-service-b的规则，Group为discovery-guide-group，Data Id为discovery-guide-service-b-sentinel-authority，规则内容如下，表示隶属nepxion组的所有服务都允许访问服务discovery-guide-service-b
 ```
 [
     {
         "resource": "sentinel-resource",
-        "limitApp": "my-group",
+        "limitApp": "nepxion",
         "strategy": 0
     }
 ]
