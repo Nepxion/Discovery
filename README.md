@@ -2903,7 +2903,7 @@ boolean deleteBlacklist(String group, String gatewayId, String serviceId, String
 ```
 需要注意，UUId全局唯一，同样的服务实例重启注册后，UUId会重新产生，不会重复，但追加过多的UUId，虽然不会影响功能，但UUId堆积过多，使规则文本变得臃肿，可能会影响配置订阅的响应效率
 
-④ 对接Open API
+⑤ 对接Open API
 
 配置操作Config Endpoint
 | 操作 | 路径 | 参数 | 方式 |
