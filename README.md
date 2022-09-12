@@ -2752,7 +2752,9 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 ```
 API网关 -> 服务A -> 服务B
 ```
-2021年6月1日，DevOps运维平台已经上线了服务A和服务B各1个实例，它们的版本号通过`流量染色`步骤，都赋予为20210601-0001
+2021年6月1日，运维平台已经上线了服务A和服务B各1个实例，进行如下染色
+- 通过它们的组通过`流量染色`步骤，都赋予为my-group
+- 通过它们的版本号通过`流量染色`步骤，都赋予为20210601-0001
 
 ① 启动故障转移（可选）
 
@@ -2778,7 +2780,9 @@ API网关 -> 服务A -> 服务B
 
 ③ 上线新服务
 
-2021年7月1日，DevOps运维平台上线新的服务A和服务B各1个实例，它们的版本号通过`流量染色`步骤，都赋予为20210701-0001，两个新服务实例都启动成功
+2021年7月1日，运维平台上线新的服务A和服务B各1个实例，进行如下染色，两个新服务实例都启动成功
+- 通过它们的组通过`流量染色`步骤，都赋予为my-group
+- 通过它们的版本号通过`流量染色`步骤，都赋予为20210701-0001
 
 ④ 启动蓝绿灰度发布
 
@@ -2816,7 +2820,7 @@ API网关 -> 服务A -> 服务B
 
 ⑥ 下线旧服务
 
-DevOps运维平台停止旧版本的服务实例
+运维平台停止旧版本的服务实例
 
 ⑦ 停止无损下线（可选）
 
@@ -2838,10 +2842,14 @@ DevOps运维平台停止旧版本的服务实例
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DevOps.jpg)
 
 #### 步骤详解
+> 强烈建议运维平台维护一套“组名 -> 服务名 -> 版本号”关联的数据仓库，以备关联查询，实现更好的自动化驱动能力
 
 ① 流量染色
 
-运维平台通过命令行java -jar启动应用，加入启动参数-Dmetadata.version=xyz，表示给当前应用进行版本维度的流量染色
+运维平台通过命令行java -jar启动应用，加入启动参数`-Dmetadata.group=abc`和`-Dmetadata.version=xyz`，表示给服务实例进行组维度和版本维度的流量染色，即
+```
+java -jar -Dmetadata.group=abc -Dmetadata.version=xyz xxx.jar
+```
 
 如果使用者希望运维侧去决定版本号，那么推荐一种可行性方案，版本号可以表示为日期戳-序号
 - 日期戳表示为当天的日期
@@ -2871,12 +2879,29 @@ spring.application.strategy.version.failover.stable.enabled=true
 
 - 运维平台下线某个服务实例之前，调用`Nepxion Discovery Console`平台的BlacklistEndpoint如下API，把需要下线的服务实例根据IP地址和端口添加进黑名单，返回全局唯一的该服务实例的UUId，即可实现实时无损下线
 ```java
-String addBlacklist(String serviceId, String host, int port);
+/**
+  * 局部网关订阅方式，根据服务实例IP地址和端口，添加下线的服务实例UUId到黑名单
+  * @param group 订阅的组名
+  * @param gatewayId 订阅的网关名
+  * @param serviceId 待下线实例的服务名
+  * @param host 待下线实例的IP地址
+  * @param port 待下线实例的端口
+  * @return 待下线实例的UUId
+*/
+String addBlacklist(String group, String gatewayId, String serviceId, String host, int port);
 ```
 - 运维平台每添加一个黑名单后，把返回的服务实例的UUId存储下来（推荐用高可用方案来存储）
 - 运维平台下线某个服务实例一段时间之后（大于负载均衡`3`个时钟周期，推荐`5`分钟），调用`Nepxion Discovery Console`平台的BlacklistEndpoint如下API，把过期的服务实例根据UUId从黑名单里删除掉
 ```java
-boolean deleteBlacklist(String serviceId, String serviceUUId);
+/**
+  * 局部网关订阅方式，根据服务实例UUId，从黑名单删除过期的服务实例
+  * @param group 订阅的组名
+  * @param gatewayId 订阅的网关名
+  * @param serviceId 已下线实例的服务名
+  * @param serviceUUId 已下线实例的UUId
+  * @return 操作成功或者失败
+*/
+boolean deleteBlacklist(String group, String gatewayId, String serviceId, String serviceUUId);
 ```
 需要注意，UUId全局唯一，同样的服务实例重启注册后，UUId会重新产生，不会重复，但追加过多的UUId，虽然不会影响功能，但UUId堆积过多，使规则文本变得臃肿，可能会影响配置订阅的响应效率
 
