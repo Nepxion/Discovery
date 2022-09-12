@@ -33,42 +33,32 @@ public class BlacklistEndpoint {
     @Autowired
     private BlacklistResource blacklistResource;
 
-    @RequestMapping(path = "/add/{serviceId}", method = RequestMethod.POST)
-    @ApiOperation(value = "根据服务实例IP地址和端口，添加下线的服务实例UUId到黑名单", notes = "", response = ResponseEntity.class, httpMethod = "POST")
-    @ResponseBody
-    public ResponseEntity<?> addBlacklist(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "IP地址和端口对象", required = true) AddressEntity addressEntity) {
-        return doAddBlacklist(serviceId, addressEntity);
-    }
-
     @RequestMapping(path = "/add/{group}/{serviceId}", method = RequestMethod.POST)
-    @ApiOperation(value = "根据服务实例IP地址和端口，添加下线的服务实例UUId到黑名单", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "全局组订阅方式，根据服务实例IP地址和端口，添加下线的服务实例UUId到黑名单", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> addBlacklist(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "IP地址和端口对象", required = true) AddressEntity addressEntity) {
+    public ResponseEntity<?> addBlacklist(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "下线的服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "下线的IP地址和端口", required = true) AddressEntity addressEntity) {
         return doAddBlacklist(group, serviceId, addressEntity);
     }
 
-    @RequestMapping(path = "/delete/{serviceId}", method = RequestMethod.POST)
-    @ApiOperation(value = "根据服务实例UUId，从黑名单删除过期的服务实例", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @RequestMapping(path = "/add/{group}/{gatewayId}/{serviceId}", method = RequestMethod.POST)
+    @ApiOperation(value = "局部网关订阅方式，根据服务实例IP地址和端口，添加下线的服务实例UUId到黑名单", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> deleteBlacklist(@PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "服务实例UUId", required = true) String serviceUUId) {
-        return doDeleteBlacklist(serviceId, serviceUUId);
+    public ResponseEntity<?> addBlacklist(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "gatewayId") @ApiParam(value = "网关名", required = true) String gatewayId, @PathVariable(value = "serviceId") @ApiParam(value = "下线的服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "下线的IP地址和端口", required = true) AddressEntity addressEntity) {
+        return doAddBlacklist(group, gatewayId, serviceId, addressEntity);
     }
 
     @RequestMapping(path = "/delete/{group}/{serviceId}", method = RequestMethod.POST)
-    @ApiOperation(value = "根据服务实例UUId，从黑名单删除过期的服务实例", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "全局组订阅方式，根据服务实例UUId，从黑名单删除过期的服务实例", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> deleteBlacklist(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "服务实例UUId", required = true) String serviceUUId) {
+    public ResponseEntity<?> deleteBlacklist(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "下线的服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "下线的服务实例UUId", required = true) String serviceUUId) {
         return doDeleteBlacklist(group, serviceId, serviceUUId);
     }
 
-    private ResponseEntity<?> doAddBlacklist(String serviceId, AddressEntity addressEntity) {
-        try {
-            String result = blacklistResource.addBlacklist(serviceId, addressEntity.getHost(), addressEntity.getPort());
-
-            return ResponseUtil.getSuccessResponse(result);
-        } catch (Exception e) {
-            return ResponseUtil.getFailureResponse(e);
-        }
+    @RequestMapping(path = "/delete/{group}/{gatewayId}/{serviceId}", method = RequestMethod.POST)
+    @ApiOperation(value = "局部网关订阅方式，根据服务实例UUId，从黑名单删除过期的服务实例", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    public ResponseEntity<?> deleteBlacklist(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "gatewayId") @ApiParam(value = "网关名", required = true) String gatewayId, @PathVariable(value = "serviceId") @ApiParam(value = "下线的服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "下线的服务实例UUId", required = true) String serviceUUId) {
+        return doDeleteBlacklist(group, gatewayId, serviceId, serviceUUId);
     }
 
     private ResponseEntity<?> doAddBlacklist(String group, String serviceId, AddressEntity addressEntity) {
@@ -81,9 +71,9 @@ public class BlacklistEndpoint {
         }
     }
 
-    private ResponseEntity<?> doDeleteBlacklist(String serviceId, String serviceUUId) {
+    private ResponseEntity<?> doAddBlacklist(String group, String gatewayId, String serviceId, AddressEntity addressEntity) {
         try {
-            boolean result = blacklistResource.deleteBlacklist(serviceId, serviceUUId);
+            String result = blacklistResource.addBlacklist(group, gatewayId, serviceId, addressEntity.getHost(), addressEntity.getPort());
 
             return ResponseUtil.getSuccessResponse(result);
         } catch (Exception e) {
@@ -94,6 +84,16 @@ public class BlacklistEndpoint {
     private ResponseEntity<?> doDeleteBlacklist(String group, String serviceId, String serviceUUId) {
         try {
             boolean result = blacklistResource.deleteBlacklist(group, serviceId, serviceUUId);
+
+            return ResponseUtil.getSuccessResponse(result);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
+    }
+
+    private ResponseEntity<?> doDeleteBlacklist(String group, String gatewayId, String serviceId, String serviceUUId) {
+        try {
+            boolean result = blacklistResource.deleteBlacklist(group, gatewayId, serviceId, serviceUUId);
 
             return ResponseUtil.getSuccessResponse(result);
         } catch (Exception e) {
