@@ -20,7 +20,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.common.entity.InstanceEntity;
-import com.nepxion.discovery.common.entity.InstanceEntityWrapper;
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.StrategyBlacklistEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
@@ -34,14 +33,17 @@ public class BlacklistResourceImpl implements BlacklistResource {
     private ConfigResource configResource;
 
     @Override
-    public String addBlacklist(String serviceId, String host, int port) {
-        String group = getGroup(serviceId);
-
-        return addBlacklist(group, serviceId, host, port);
+    public String addBlacklist(String group, String serviceId, String host, int port) {
+        return addBlacklist(group, null, serviceId, host, port);
     }
 
     @Override
-    public String addBlacklist(String group, String serviceId, String host, int port) {
+    public boolean deleteBlacklist(String group, String serviceId, String serviceUUId) {
+        return deleteBlacklist(group, null, serviceId, serviceUUId);
+    }
+
+    @Override
+    public String addBlacklist(String group, String gatewayId, String serviceId, String host, int port) {
         InstanceEntity instanceEntity = getInstanceEntity(serviceId, host, port);
         if (instanceEntity == null) {
             throw new DiscoveryException("Not found the instance with serviceId=" + serviceId + " host=" + host + ", port=" + port);
@@ -54,44 +56,37 @@ public class BlacklistResourceImpl implements BlacklistResource {
 
         RuleEntity ruleEntity = null;
         try {
-            ruleEntity = configResource.getRemoteRuleEntity(group, group);
+            ruleEntity = configResource.getRemoteRuleEntity(group, getSubscriptionServiceId(group, gatewayId));
         } catch (Exception e) {
-            throw new DiscoveryException("Get remote RuleEntity failed, group=" + group, e);
+            throw new DiscoveryException("Get remote RuleEntity failed, group=" + group + ", serviceId=" + getSubscriptionServiceId(group, gatewayId), e);
         }
 
         addBlacklistId(ruleEntity, serviceId, serviceUUId);
 
         try {
-            configResource.updateRemoteRuleEntity(group, group, ruleEntity);
+            configResource.updateRemoteRuleEntity(group, getSubscriptionServiceId(group, gatewayId), ruleEntity);
         } catch (Exception e) {
-            throw new DiscoveryException("Update remote RuleEntity failed, group=" + group, e);
+            throw new DiscoveryException("Update remote RuleEntity failed, group=" + group + ", serviceId=" + getSubscriptionServiceId(group, gatewayId), e);
         }
 
         return serviceUUId;
     }
 
     @Override
-    public boolean deleteBlacklist(String serviceId, String serviceUUId) {
-        String group = getGroup(serviceId);
-
-        return deleteBlacklist(group, serviceId, serviceUUId);
-    }
-
-    @Override
-    public boolean deleteBlacklist(String group, String serviceId, String serviceUUId) {
+    public boolean deleteBlacklist(String group, String gatewayId, String serviceId, String serviceUUId) {
         RuleEntity ruleEntity = null;
         try {
-            ruleEntity = configResource.getRemoteRuleEntity(group, group);
+            ruleEntity = configResource.getRemoteRuleEntity(group, getSubscriptionServiceId(group, gatewayId));
         } catch (Exception e) {
-            throw new DiscoveryException("Get remote RuleEntity failed, group=" + group, e);
+            throw new DiscoveryException("Get remote RuleEntity failed, group=" + group + ", serviceId=" + getSubscriptionServiceId(group, gatewayId), e);
         }
 
         deleteBlacklistId(ruleEntity, serviceId, serviceUUId);
 
         try {
-            return configResource.updateRemoteRuleEntity(group, group, ruleEntity);
+            return configResource.updateRemoteRuleEntity(group, getSubscriptionServiceId(group, gatewayId), ruleEntity);
         } catch (Exception e) {
-            throw new DiscoveryException("Update remote RuleEntity failed, group=" + group, e);
+            throw new DiscoveryException("Update remote RuleEntity failed, group=" + group + ", serviceId=" + getSubscriptionServiceId(group, gatewayId), e);
         }
     }
 
@@ -196,10 +191,7 @@ public class BlacklistResourceImpl implements BlacklistResource {
         return null;
     }
 
-    private String getGroup(String serviceId) {
-        List<InstanceEntity> instanceEntityList = serviceResource.getInstanceList(serviceId);
-        InstanceEntity instanceEntity = instanceEntityList.get(0);
-
-        return InstanceEntityWrapper.getGroup(instanceEntity);
+    private String getSubscriptionServiceId(String group, String serviceId) {
+        return StringUtils.isEmpty(serviceId) ? group : serviceId;
     }
 }

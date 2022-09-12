@@ -10,11 +10,11 @@ package com.nepxion.discovery.console.resource;
  */
 
 public interface BlacklistResource {
-    String addBlacklist(String serviceId, String host, int port);
-
     String addBlacklist(String group, String serviceId, String host, int port);
 
-    boolean deleteBlacklist(String serviceId, String serviceUUId);
-
     boolean deleteBlacklist(String group, String serviceId, String serviceUUId);
+
+    String addBlacklist(String group, String gatewayId, String serviceId, String host, int port);
+
+    boolean deleteBlacklist(String group, String gatewayId, String serviceId, String serviceUUId);
 }
