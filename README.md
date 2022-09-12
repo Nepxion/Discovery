@@ -99,6 +99,7 @@ Polaris为Discovery高级定制版，特色功能
 - Spring Cloud Finchley ~ Hoxton版本，参考[1.x.x指南示例](https://github.com/polaris-paas/polaris-guide/tree/1.x.x)，分支为1.x.x
 - Spring Cloud 202x版本，参考[2.x.x ~ 3.x.x指南示例](https://github.com/polaris-paas/polaris-guide/tree/master)，分支为master
 
+### 架构拓扑
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/Logo64.png) Discovery【探索】和Polaris【北极星】架构体系
 
 ① Discovery【探索】和Polaris【北极星】联合架构图
@@ -547,6 +548,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [作者简介](#作者简介)
     - [商业合作](#商业合作)
     - [入门资料](#入门资料)
+    - [架构拓扑](#架构拓扑)
     - [发展历程](#发展历程)
     - [功能概述](#功能概述)
     - [版本列表](#版本列表)
