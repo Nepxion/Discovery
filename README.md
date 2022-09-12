@@ -2876,6 +2876,7 @@ spring.application.strategy.version.failover.stable.enabled=true
 运维平台通对接`Nepxion Discovery Console`平台，在服务实例实施下线的时候，为达到无损下线的目的，通过`Nepxion Discovery Console`的相关API写入下线实例黑名单的XML，在下线一段后，再清除相关的黑名单
 
 - 运维平台下线某个服务实例之前，调用`Nepxion Discovery Console`平台的BlacklistEndpoint如下API，把需要下线的服务实例根据IP地址和端口添加进黑名单，返回全局唯一的该服务实例的UUId，即可实现实时无损下线
+
 ```java
 /**
   * 局部网关订阅方式，根据服务实例IP地址和端口，添加下线的服务实例UUId到黑名单
@@ -2888,8 +2889,10 @@ spring.application.strategy.version.failover.stable.enabled=true
 */
 String addBlacklist(String group, String gatewayId, String serviceId, String host, int port);
 ```
+
 - 运维平台每添加一个黑名单后，把返回的服务实例的UUId存储下来（推荐用高可用方案来存储）
 - 运维平台下线某个服务实例一段时间之后（大于负载均衡`3`个时钟周期，推荐`5`分钟），调用`Nepxion Discovery Console`平台的BlacklistEndpoint如下API，把过期的服务实例根据UUId从黑名单里删除掉
+
 ```java
 /**
   * 局部网关订阅方式，根据服务实例UUId，从黑名单删除过期的服务实例
@@ -2901,11 +2904,13 @@ String addBlacklist(String group, String gatewayId, String serviceId, String hos
 */
 boolean deleteBlacklist(String group, String gatewayId, String serviceId, String serviceUUId);
 ```
+
 需要注意，UUId全局唯一，同样的服务实例重启注册后，UUId会重新产生，不会重复，但追加过多的UUId，虽然不会影响功能，但UUId堆积过多，使规则文本变得臃肿，可能会影响配置订阅的响应效率
 
 ⑤ 对接Open API
 
 配置操作Config Endpoint
+
 | 操作 | 路径 | 参数 | 方式 |
 | --- | --- | --- | --- |
 | 更新规则配置 | `http://`[控制台IP:PORT]/remote/update/{group}/{serviceId}/xml | 规则配置内容 | POST |
@@ -2915,6 +2920,7 @@ boolean deleteBlacklist(String group, String gatewayId, String serviceId, String
 | 反解析规则配置对象成内容| `http://`[控制台IP:PORT]/deparse | RuleEntity | POST |
 
 服务操作Service Endpoint
+
 | 操作 | 路径 | 参数 | 方式 |
 | --- | --- | --- | --- |
 | 获取服务组名列表 | `http://`[控制台IP:PORT]/groups | 无 | GET |
