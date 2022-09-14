@@ -53,6 +53,12 @@ public class ConsulApplicationContextInitializer extends PluginApplicationContex
             if (!MetadataUtil.containsKey(metadata, DiscoveryConstant.REGION)) {
                 metadata.add(DiscoveryConstant.REGION + "=" + DiscoveryConstant.DEFAULT);
             }
+            if (!MetadataUtil.containsKey(metadata, DiscoveryConstant.ENVIRONMENT)) {
+                metadata.add(DiscoveryConstant.ENVIRONMENT + "=" + DiscoveryConstant.DEFAULT);
+            }
+            if (!MetadataUtil.containsKey(metadata, DiscoveryConstant.ZONE)) {
+                metadata.add(DiscoveryConstant.ZONE + "=" + DiscoveryConstant.DEFAULT);
+            }
             String prefixGroup = getPrefixGroup(applicationContext);
             if (StringUtils.isNotEmpty(prefixGroup)) {
                 metadata.set(MetadataUtil.getIndex(metadata, groupKey), groupKey + "=" + prefixGroup);
