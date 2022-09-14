@@ -56,6 +56,12 @@ public class NacosApplicationContextInitializer extends PluginApplicationContext
             if (!metadata.containsKey(DiscoveryConstant.REGION)) {
                 metadata.put(DiscoveryConstant.REGION, DiscoveryConstant.DEFAULT);
             }
+            if (!metadata.containsKey(DiscoveryConstant.ENVIRONMENT)) {
+                metadata.put(DiscoveryConstant.ENVIRONMENT, DiscoveryConstant.DEFAULT);
+            }
+            if (!metadata.containsKey(DiscoveryConstant.ZONE)) {
+                metadata.put(DiscoveryConstant.ZONE, DiscoveryConstant.DEFAULT);
+            }
             String prefixGroup = getPrefixGroup(applicationContext);
             if (StringUtils.isNotEmpty(prefixGroup)) {
                 metadata.put(groupKey, prefixGroup);
