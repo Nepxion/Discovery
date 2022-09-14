@@ -3385,6 +3385,8 @@ spring.application.strategy.address.failover.enabled=true
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide2-11.jpg)
 
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/BlacklistId.jpg)
+
 如果希望每个服务的全局唯一ID分别指定，那么策略内容如下，实现从Spring Cloud Gateway发起的调用屏蔽ID为20210601-222214-909-1146-372-698的a服务，屏蔽ID为20210601-222623-277-4978-633-279的b服务
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -3448,6 +3450,8 @@ n-d-id-blacklist={"discovery-guide-service-a":"20210601-222214-909-1146-372-698"
 ```
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide2-12.jpg)
+
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/BlacklistAddress.jpg)
 
 如果希望每个服务的IP地址或者端口分别指定，那么策略内容如下，实现从Zuul发起的屏蔽屏蔽3001端口的a服务，屏蔽4001端口的b服务
 ```xml
