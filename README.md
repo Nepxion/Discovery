@@ -579,6 +579,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [蓝绿发布](#蓝绿发布)
     - [灰度发布](#灰度发布)
     - [滚动发布](#滚动发布)
+- [全链路和单链路概念](#全链路和单链路概念)
 - [全链路蓝绿灰度发布](#全链路蓝绿灰度发布)
     - [全链路蓝绿发布](#全链路蓝绿发布)
         - [全链路版本匹配蓝绿发布](#全链路版本匹配蓝绿发布)
@@ -1151,6 +1152,10 @@ zuul
 停止旧版本的过程中，无法精确计算旧版本是否已经完成它正在执行的工作，需要靠业务自身去判断。旧版本不保留，一旦全部升级完毕后才发现问题，无法快速回滚，必须重新降级部署。发布和回滚需要较长的时间周期
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/RollingConcept.jpg)
+
+## 全链路和单链路概念
+
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/FullLinkConcept.jpg)
 
 ## 全链路蓝绿灰度发布
 
