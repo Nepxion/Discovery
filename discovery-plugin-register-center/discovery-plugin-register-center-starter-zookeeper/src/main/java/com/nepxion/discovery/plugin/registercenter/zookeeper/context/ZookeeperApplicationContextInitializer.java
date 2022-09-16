@@ -59,6 +59,9 @@ public class ZookeeperApplicationContextInitializer extends PluginApplicationCon
             if (!metadata.containsKey(DiscoveryConstant.ZONE)) {
                 metadata.put(DiscoveryConstant.ZONE, DiscoveryConstant.DEFAULT);
             }
+            if (!metadata.containsKey(DiscoveryConstant.ACTIVE)) {
+                metadata.put(DiscoveryConstant.ACTIVE, "false");
+            }
             String prefixGroup = getPrefixGroup(applicationContext);
             if (StringUtils.isNotEmpty(prefixGroup)) {
                 metadata.put(groupKey, prefixGroup);

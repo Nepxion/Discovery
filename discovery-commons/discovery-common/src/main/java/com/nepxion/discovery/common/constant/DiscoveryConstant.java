@@ -98,6 +98,7 @@ public class DiscoveryConstant {
     public static final String ADDRESS_FAILOVER = "address-failover";
     public static final String ID_BLACKLIST = "id-blacklist";
     public static final String ADDRESS_BLACKLIST = "address-blacklist";
+    public static final String ACTIVE = "active";
 
     public static final String N_D_PREFIX = "n-d-";
     public static final String N_D_SERVICE_PREFIX = "n-d-service";
