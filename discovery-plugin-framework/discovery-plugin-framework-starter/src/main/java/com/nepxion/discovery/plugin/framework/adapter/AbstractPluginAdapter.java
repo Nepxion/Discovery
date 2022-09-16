@@ -288,6 +288,16 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
+    public boolean isActive() {
+        String active = getMetadata().get(DiscoveryConstant.ACTIVE);
+        if (StringUtils.isEmpty(active)) {
+            return false;
+        }
+
+        return Boolean.valueOf(active);
+    }
+
+    @Override
     public String getServerPlugin(Server server) {
         String plugin = getServerMetadata(server).get(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN);
         if (StringUtils.isEmpty(plugin)) {
@@ -412,6 +422,16 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
+    public boolean isServerActive(Server server) {
+        String active = getServerMetadata(server).get(DiscoveryConstant.ACTIVE);
+        if (StringUtils.isEmpty(active)) {
+            return false;
+        }
+
+        return Boolean.valueOf(active);
+    }
+
+    @Override
     public Map<String, String> getInstanceMetadata(ServiceInstance instance) {
         return instance.getMetadata();
     }
@@ -532,6 +552,16 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
+    public boolean isInstanceActive(ServiceInstance instance) {
+        String active = getInstanceMetadata(instance).get(DiscoveryConstant.ACTIVE);
+        if (StringUtils.isEmpty(active)) {
+            return false;
+        }
+
+        return Boolean.valueOf(active);
+    }
+
+    @Override
     public String getPluginInfo(String previousPluginInfo) {
         String plugin = getPlugin();
         String serviceId = getServiceId();
@@ -543,6 +573,7 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
         String environment = getEnvironment();
         String zone = getZone();
         String group = getGroup();
+        boolean active = isActive();
 
         StringBuilder stringBuilder = new StringBuilder();
         if (StringUtils.isNotEmpty(previousPluginInfo)) {
@@ -568,6 +599,7 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
         if (StringUtils.isNotEmpty(group)) {
             stringBuilder.append("[G=" + group + "]");
         }
+        stringBuilder.append("[A=" + active + "]");
 
         if (pluginContextHolder != null) {
             String traceId = pluginContextHolder.getTraceId();

@@ -79,6 +79,8 @@ public interface PluginAdapter {
 
     String getFormatContextPath();
 
+    boolean isActive();
+
     Map<String, String> getServerMetadata(Server server);
 
     String getServerPlugin(Server server);
@@ -107,6 +109,8 @@ public interface PluginAdapter {
 
     String getServerFormatContextPath(Server server);
 
+    boolean isServerActive(Server server);
+
     Map<String, String> getInstanceMetadata(ServiceInstance instance);
 
     String getInstancePlugin(ServiceInstance instance);
@@ -134,6 +138,8 @@ public interface PluginAdapter {
     String getInstanceContextPath(ServiceInstance instance);
 
     String getInstanceFormatContextPath(ServiceInstance instance);
+
+    boolean isInstanceActive(ServiceInstance instance);
 
     String getPluginInfo(String previousPluginInfo);
 }
