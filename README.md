@@ -211,6 +211,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - 全链路服务无损下线，实时性的流量绝对无损
     - 全局唯一ID屏蔽
     - IP地址和端口屏蔽
+- 多活单元化
 - 异步场景下全链路蓝绿灰度发布
     - 异步跨线程Agent插件
     - Hystrix线程池隔离插件
@@ -271,7 +272,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | --- | --- | --- | --- | --- |
 | 组 | 服务实例的系统ID<br>系统逻辑分组 | 路由隔离 | ① 组负载均衡隔离<br>- 调用端和提供端的元数据group是否相同<br>② 组Header传值策略隔离<br>- Header（n-d-group）和提供端的元数据group是否相同<br>③ 不支持故障转移 | n-d-group |
 | 版本 | 服务实例的版本<br>适用于生产环境 | 蓝绿灰度发布<br>路由转移<br>故障转移 | ① 版本条件匹配蓝绿发布<br>② 版本权重灰度发布<br>③ 版本偏好<br>- 非蓝绿灰度发布场景下，路由到相应版本的实例<br>- 稳定版本策略、指定版本策略<br>④ 版本故障转移<br>- 未找到相应版本的服务实例，路由到其它版本<br>- 负载均衡策略、稳定版本策略、指定版本策略 | n-d-version<br>n-d-version-weight<br>n-d-version-prefer<br>n-d-version-failover |
-| 区域 | 服务实例的区域<br>适用于多机房<br>适用于多环境 | 蓝绿灰度发布<br>路由转移<br>故障转移 | ① 区域条件匹配蓝绿发布<br>② 区域权重灰度发布<br>③ 区域调试路由<br>- 多区域路由隔离下跨区服务调用的调试手段<br>④ 区域故障转移<br>- 未找到相应区域的服务实例，路由到其它区域<br>- 负载均衡策略、指定区域策略 | n-d-region<br>n-d-region-weight<br>n-d-region-transfer<br>n-d-region-failover |
+| 区域 | 服务实例的区域<br>适用于多活单元化<br>适用于多机房<br>适用于多环境 | 蓝绿灰度发布<br>同城双活/异地多活<br>路由转移<br>故障转移 | ① 区域条件匹配蓝绿发布<br>② 区域权重灰度发布<br>③ 区域多活单元化<br>④ 区域调试路由<br>- 多区域路由隔离下跨区服务调用的调试手段<br>⑤ 区域故障转移<br>- 未找到相应区域的服务实例，路由到其它区域<br>- 负载均衡策略、指定区域策略 | n-d-region<br>n-d-region-weight<br>n-d-region-transfer<br>n-d-region-failover |
 | 环境 | 服务实例的环境<br>适用于测试环境 | 路由隔离<br>故障转移 | ① 环境隔离路由<br>- Header（n-d-env）和提供端的元数据env是否相同<br>② 环境故障转移<br>- 未找到相应环境的服务实例，路由到其它环境<br>- 指定环境（未配置，默认为common）策略 | n-d-env<br>n-d-env-failover |
 | 可用区 | 服务实例的可用区<br>适用于多机房 | 路由隔离<br>故障转移 | ① 可用区亲和性隔离路由<br>- 调用端和提供端的元数据zone是否相同<br>② 可用区故障转移<br>- 未找到相应可用区的服务实例，路由到其它可用区<br>- 支持负载均衡策略、指定区可用区策略 | n-d-zone-failover |
 | IP地址和端口 |服务实例机器地址 | 蓝绿灰度发布<br>路由隔离<br>故障转移<br>无损下线 | ① IP地址和端口匹配蓝绿发布<br>② IP地址和端口权重灰度发布<br>③ IP地址和端口故障转移<br>- 未找到相应IP地址和端口的服务实例，路由到其它地址<br>- 负载均衡策略、指定区IP地址和端口策略<br>④ IP地址和端口无损下线黑名单屏蔽 | n-d-address<br>n-d-address-failover<br>n-d-address-blacklist |
@@ -638,6 +639,10 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - [全链路服务无损下线](#全链路服务无损下线)
     - [全局唯一ID屏蔽](#全局唯一ID屏蔽)
     - [IP地址和端口屏蔽](#IP地址和端口屏蔽)
+- [多活单元化](#多活单元化)
+    - [区域维度的多活单元化概念](#区域维度的多活单元化概念)
+    - [区域维度的多活单元化方案](#区域维度的多活单元化方案)
+    - [区域维度的多活单元化用法](#区域维度的多活单元化用法)
 - [异步场景下全链路蓝绿灰度发布](#异步场景下全链路蓝绿灰度发布)
     - [异步场景下DiscoveryAgent解决方案](#异步场景下DiscoveryAgent解决方案)
         - [异步跨线程DiscoveryAgent获取](#异步跨线程DiscoveryAgent获取)
@@ -3499,6 +3504,74 @@ n-d-address-blacklist=3001
 n-d-address-blacklist={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"3001"}
 ```
 
+## 多活单元化
+
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Active.jpg)
+
+### 区域维度的多活单元化概念
+服务分为三种类型
+
+① 核心服务，特点
+- 多活单元化的主体和核心
+- 动态多活切换
+
+② 全局服务，特点
+- 具有强一致性
+- 对数据一致性的实时性要求很高
+- 多活单元化拆分存在很大的难度
+
+③ 普通服务，特点
+- 非核心链路
+- 对数据一致性的实时性要求较低
+- 出于成本不考虑单元化拆分
+
+区域分为两种类型
+
+① 核心区域
+- 部署核心服务
+
+② 非核心区域
+- 部署全局服务和普通服务
+
+### 区域维度的多活单元化方案
+① 核心区属于多镜像对等部署方式，非核心区域只有一个，在就近原则下，一般部署在和常用的核心区同一个物理空间内
+
+② 所有API网关、核心区服务、非核心区服务都注册到同一个物理空间下的注册中心，不同物理空间下的注册中心需要双向同步
+
+③ API网关属于核心区的范畴，一个核心区需要部署一个API网关的集群。API网关具有跨区域路由的功能，即核心一区的API网关可以路由到核心二区的服务，也可以路由到任何非核心区的服务
+
+④ 核心区之间服务调用是隔离的，两个核心区的服务不能跨区域调用
+
+⑤ 非核心区有回溯功能，当调用链为`核心区 -> 非核心区 -> 核心区`，非核心区再调回核心区的时候，仍旧选择发起调用的那个核心区，即不会出现类似`核心区1 -> 非核心区 -> 核心区2`的情况，从哪里来往哪里去
+
+⑥ 核心一区因为灾难性的事故导致崩溃，通过前置的SLB通过改变Header`n-d-region`切换到核心二区
+
+⑦ 路由（故障）转移逻辑
+- 核心区内服务相互调用，如果找不到匹配`n-d-region`的服务实例，直接失败，达到屏蔽其它核心区的目的
+- 非核心区内服务相互调用，由于不存在匹配`n-d-region`的服务实例，路由转移到自己区的服务
+- 核心区服务调用非核心区服务，由于非核心区不存在匹配`n-d-region`的服务实例，路由转移到非核心区的服务
+- 非核心区服务调用核心区服务，按照匹配`n-d-region`的服务实例的原则，路由转移匹配`n-d-region`的核心区，达到`从哪里来往哪里去`的目的
+
+### 区域维度的多活单元化用法
+① 核心区应用，包括服务和网关
+- 开启故障转移开关
+```
+# 启动和关闭区域故障转移。缺失则默认为false
+spring.application.strategy.region.failover.enabled=true
+```
+- 标记元数据为多活属性，两种方式如下任选一个
+```
+spring.cloud.discovery.metadata.active=true
+-Dmetadata..active=true
+```
+
+② 非核心区应用
+- 开启故障转移开关
+```
+# 启动和关闭区域故障转移。缺失则默认为false
+spring.application.strategy.region.failover.enabled=true
+```
+
 ## 异步场景下全链路蓝绿灰度发布
 Discovery框架存在着如下全链路传递上下文的场景，包括
 - 策略路由Header全链路从网关传递到服务
@@ -6030,6 +6103,7 @@ spring.cloud.discovery.metadata.version=1.0
 spring.cloud.discovery.metadata.region=dev
 spring.cloud.discovery.metadata.env=env1
 spring.cloud.discovery.metadata.zone=zone1
+spring.cloud.discovery.metadata.active=true
 ```
 
 不同注册中心原生配置方式
@@ -6040,10 +6114,11 @@ eureka.instance.metadataMap.version=1.0
 eureka.instance.metadataMap.region=dev
 eureka.instance.metadataMap.env=env1
 eureka.instance.metadataMap.zone=zone1
+eureka.instance.metadataMap.active=true
 
 # Consul config for discovery
 # 参考https://springcloud.cc/spring-cloud-consul.html - 元数据和Consul标签
-spring.cloud.consul.discovery.tags=group=xxx-service-group,version=1.0,region=dev,env=env1,zone=zone1
+spring.cloud.consul.discovery.tags=group=xxx-service-group,version=1.0,region=dev,env=env1,zone=zone1,active=true
 
 # Zookeeper config for discovery
 spring.cloud.zookeeper.discovery.metadata.group=xxx-service-group
@@ -6051,6 +6126,7 @@ spring.cloud.zookeeper.discovery.metadata.version=1.0
 spring.cloud.zookeeper.discovery.metadata.region=dev
 spring.cloud.zookeeper.discovery.metadata.env=env1
 spring.cloud.zookeeper.discovery.metadata.zone=zone1
+spring.cloud.zookeeper.discovery.metadata.active=true
 
 # Nacos config for discovery
 spring.cloud.nacos.discovery.metadata.group=xxx-service-group
@@ -6058,6 +6134,7 @@ spring.cloud.nacos.discovery.metadata.version=1.0
 spring.cloud.nacos.discovery.metadata.region=dev
 spring.cloud.nacos.discovery.metadata.env=env1
 spring.cloud.nacos.discovery.metadata.zone=zone1
+spring.cloud.nacos.discovery.metadata.active=true
 ```
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
@@ -6071,6 +6148,7 @@ spring.cloud.consul.discovery.metadata.version=1.0
 spring.cloud.consul.discovery.metadata.region=dev
 spring.cloud.consul.discovery.metadata.env=env1
 spring.cloud.consul.discovery.metadata.zone=zone1
+spring.cloud.consul.discovery.metadata.active=true
 ```
 
 对于用户自定义的Consul元数据的Key，不能带有包含“.”，“@”等字符，否则服务无法启动，但允许包含“_”，“-”等字符，参考如下配置
