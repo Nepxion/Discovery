@@ -3595,7 +3595,7 @@ spring.cloud.discovery.metadata.active=true
 -Dmetadata.active=true
 ```
 
-② 全局服务如果在调用链中部，全局服务执行如下操作
+② 全局服务如果在调用链中部（例如，全局服务回溯调用核心服务），全局服务执行如下操作
 - 开启故障转移开关
 
 ```
@@ -3603,7 +3603,7 @@ spring.cloud.discovery.metadata.active=true
 spring.application.strategy.region.failover.enabled=true
 ```
 
-③ 全局服务如果在调用链头部，API网关执行如下操作
+③ 全局服务如果在调用链头部（例如，API网关直接调用全局服务），API网关执行如下操作
 - 开启故障转移开关
 
 ```
