@@ -546,7 +546,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - [工程架构](#工程架构)
     - [工程清单](#工程清单)
     - [代码清单](#代码清单)
-    - [架构核心](#架构核心)
     - [依赖引入](#依赖引入)
 - [准备工作](#准备工作)
     - [环境搭建](#环境搭建)
@@ -867,15 +866,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> DiscoveryAgent | [![Total lines](https://tokei.rs/b1/github/Nepxion/DiscoveryAgent?category=lines)](https://tokei.rs/b1/github/Nepxion/DiscoveryAgent?category=lines) |
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> DiscoveryUI | [![Total lines](https://tokei.rs/b1/github/Nepxion/DiscoveryUI?category=lines)](https://tokei.rs/b1/github/Nepxion/DiscoveryUI?category=lines) |
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> DiscoveryContrib | [![Total lines](https://tokei.rs/b1/github/Nepxion/DiscoveryContrib?category=lines)](https://tokei.rs/b1/github/Nepxion/DiscoveryContrib?category=lines) |
-
-### 架构核心
-- 服务治理架构图
-
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Govern.jpg)
-
-- 模块结构图
-
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Module.jpg)
 
 ### 依赖引入
 ① 服务注册发现依赖引入
