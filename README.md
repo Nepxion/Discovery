@@ -114,30 +114,6 @@ Polaris为Discovery高级定制版，特色功能
 
 ![](http://nepxion.gitee.io/discovery/docs/polaris-doc/Layer.jpg)
 
-④ Discovery【探索】实施方案图
-
-![](http://nepxion.gitee.io/discovery/docs/polaris-doc/All.jpg)
-
-⑤ Discovery【探索】单网关实施图
-
-![](http://nepxion.gitee.io/discovery/docs/polaris-doc/Single.jpg)
-
-⑤ Discovery【探索】域网关实施图
-
-![](http://nepxion.gitee.io/discovery/docs/polaris-doc/DomainEnable.jpg)
-
-⑥ Discovery【探索】非域网关实施图
-
-![](http://nepxion.gitee.io/discovery/docs/polaris-doc/DomainDisable.jpg)
-
-⑦ Discovery【探索】全局订阅实施图
-
-![](http://nepxion.gitee.io/discovery/docs/polaris-doc/GlobalSub.jpg)
-
-⑧ Discovery【探索】配置中心发布订阅图
-
-![](http://nepxion.gitee.io/discovery/docs/polaris-doc/Config.jpg)
-
 ### 发展历程
 - 2017年12月开始筹划
 - 2018年03月开始编码
@@ -597,18 +573,18 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [全链路版本条件权重灰度发布](#全链路版本条件权重灰度发布)
         - [全链路区域条件权重灰度发布](#全链路区域条件权重灰度发布)
         - [全链路IP地址和端口权重条件灰度发布](#全链路IP地址和端口条件权重灰度发布)
+    - [全链路蓝绿灰度部署](#全链路蓝绿灰度部署)
+        - [全链路单网关部署](#全链路单网关部署)
+        - [全链路域网关部署](#全链路域网关部署)
+        - [全链路非域网关部署](#全链路非域网关部署)
+        - [全局订阅式部署](#全局订阅式部署)
     - [全链路端到端混合实施蓝绿灰度发布](#全链路端到端混合实施蓝绿灰度发布)
         - [全链路端到端实施蓝绿灰度发布](#全链路端到端实施蓝绿灰度发布)
         - [全链路混合实施蓝绿灰度发布](#全链路混合实施蓝绿灰度发布)
         - [单节点混合实施蓝绿灰度发布](#单节点混合实施蓝绿灰度发布)
-    - [全链路网关部署](#全链路网关部署)
-        - [全链路单网关部署](#全链路单网关部署)
-        - [全链路域网关部署](#全链路域网关部署)
-        - [全链路非域网关部署](#全链路非域网关部署)
     - [全链路前端触发后端蓝绿灰度发布](#全链路前端触发后端蓝绿灰度发布)
         - [全链路驱动方式](#全链路驱动方式)
         - [全链路参数策略](#全链路参数策略)
-    - [全局订阅式蓝绿灰度发布](#全局订阅式蓝绿灰度发布)
     - [全链路自定义蓝绿灰度发布](#全链路自定义蓝绿灰度发布)
         - [全链路自定义过滤器触发蓝绿灰度发布](#全链路自定义过滤器触发蓝绿灰度发布)
         - [全链路自定义负载均衡策略类触发蓝绿灰度发布](#全链路自定义负载均衡策略类触发蓝绿灰度发布)
@@ -1722,6 +1698,77 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 - 属性`type="version"`替换成`type="address"`
 - 节点`route`对应的Json中版本替换成IP地址和端口
 
+### 全链路蓝绿灰度部署
+
+![](http://nepxion.gitee.io/discovery/docs/polaris-doc/All.jpg)
+
+#### 全链路单网关部署
+① 场景
+- 所有部门共享一个大网关
+
+② 思路
+- 参数化动态的简单蓝绿灰度发布方式
+
+③ 方案
+- 按原生的蓝绿灰度发布来实施
+
+![](http://nepxion.gitee.io/discovery/docs/polaris-doc/Single.jpg)
+
+#### 全链路域网关部署
+① 场景
+- A部门和B部门都有各自的网关
+- A部门服务访问B部门服务，必须通过B部门网关
+
+② 思路
+- 当本部门服务和其它部门服务在同一时刻实施蓝绿灰度发布的时候，会产生混乱
+- 本部门服务的蓝绿灰度发布只由本部门的网关来实施，其它部门无权对本部门服务实施
+
+③ 方案
+- 域网关拒绝接受外部传入的蓝绿灰度策略。需要控制网关上`header.priority`的开关
+- 域网关配置兜底策略
+
+![](http://nepxion.gitee.io/discovery/docs/polaris-doc/DomainEnable.jpg)
+
+#### 全链路非域网关部署
+① 场景
+- A部门和B部门都有各自的网关
+- A部门服务直接访问B部门服务
+
+② 思路
+- 当本部门服务和其它部门服务在同一时刻实施蓝绿灰度发布的时候，会产生混乱
+- 本部门服务的蓝绿灰度发布只由本部门的网关来实施，其它部门无权对本部门服务实施
+
+③ 方案
+- 本部门的网关不得配置其它部门服务的蓝绿灰度策略
+- 所有服务开启全链路版本偏好路由的稳定版本开关
+
+![](http://nepxion.gitee.io/discovery/docs/polaris-doc/DomainDisable.jpg)
+
+### 全局订阅式部署
+① 场景
+- A部门和B部门是否有各自的网关，服务之间如何调用都不做要求
+
+② 思路
+- 非参数化动态的简单蓝绿灰度发布方式，无法动态参数化驱动
+- 无需Header和外部参数传递，可以规避异步下丢失Header上下文的问题
+
+③ 方案
+- 不同部门的网关和服务订阅同一个配置
+- 订阅的Group和Data Id必须配置为所有网关和服务的元数据Group值
+
+![](http://nepxion.gitee.io/discovery/docs/polaris-doc/GlobalSub.jpg)
+
+基于性能考虑，可以考虑关闭下面的开关
+```
+# 启动和关闭核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能
+# 核心策略Header指n-d-开头的Header（不包括n-d-env，因为环境路由隔离，必须传递该Header），不包括n-d-service开头的Header
+spring.application.strategy.gateway.core.header.transmission.enabled=true
+spring.application.strategy.zuul.core.header.transmission.enabled=true
+spring.application.strategy.feign.core.header.transmission.enabled=true
+spring.application.strategy.rest.template.core.header.transmission.enabled=true
+spring.application.strategy.web.client.core.header.transmission.enabled=true
+```
+
 ### 全链路端到端混合实施蓝绿灰度发布
 
 #### 全链路端到端实施蓝绿灰度发布
@@ -1885,44 +1932,6 @@ if (a == 1) {
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
 
 当蓝绿发布存在兜底策略（`basic-condition`），灰度发布永远不会被执行
-
-### 全链路网关部署
-
-#### 全链路单网关部署
-① 场景
-- 所有部门共享一个大网关
-
-② 思路
-- 参数化动态的简单蓝绿灰度发布方式
-
-③ 方案
-- 按原生的蓝绿灰度发布来实施
-
-#### 全链路域网关部署
-① 场景
-- A部门和B部门都有各自的网关
-- A部门服务访问B部门服务，必须通过B部门网关
-
-② 思路
-- 当本部门服务和其它部门服务在同一时刻实施蓝绿灰度发布的时候，会产生混乱
-- 本部门服务的蓝绿灰度发布只由本部门的网关来实施，其它部门无权对本部门服务实施
-
-③ 方案
-- 域网关拒绝接受外部传入的蓝绿灰度策略。需要控制网关上`header.priority`的开关
-- 域网关配置兜底策略
-
-#### 全链路非域网关部署
-① 场景
-- A部门和B部门都有各自的网关
-- A部门服务直接访问B部门服务
-
-② 思路
-- 当本部门服务和其它部门服务在同一时刻实施蓝绿灰度发布的时候，会产生混乱
-- 本部门服务的蓝绿灰度发布只由本部门的网关来实施，其它部门无权对本部门服务实施
-
-③ 方案
-- 本部门的网关不得配置其它部门服务的蓝绿灰度策略
-- 所有服务开启全链路版本偏好路由的稳定版本开关
 
 ### 全链路前端触发后端蓝绿灰度发布
 前端可以直接触发后端蓝绿灰度发布，前提条件，需要控制网关和服务上`header.priority`的开关
@@ -2115,32 +2124,6 @@ Cookie不会全链路传递，只会发生在第一层传递
 基于取值RPC调用中的方法入参等方式，只适用于服务侧
 
 参考[全链路自定义负载均衡策略类触发蓝绿灰度发布](#全链路自定义负载均衡策略类触发蓝绿灰度发布)示例
-
-### 全局订阅式蓝绿灰度发布
-如果使用者不希望通过全链路传递Header实现蓝绿灰度发布，框架提供另外一种规避Header传递的方式，即全局订阅式蓝绿灰度发布，也能达到Header传递一样的效果。以全链路版本匹配蓝绿发布为例
-
-增加版本匹配的蓝绿发布策略，Group为discovery-guide-group，Data Id为discovery-guide-group（全局发布，两者都是组名），策略内容如下，实现a服务走1.0版本，b服务走1.1版本
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-    <strategy>
-        <version>{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.1"}</version>
-    </strategy>
-</rule>
-```
-
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide2-10.jpg)
-
-如果采用上述方式，可以考虑关闭下面的开关
-```
-# 启动和关闭核心策略Header传递，缺失则默认为true。当全局订阅启动时，可以关闭核心策略Header传递，这样可以节省传递数据的大小，一定程度上可以提升性能
-# 核心策略Header指n-d-开头的Header（不包括n-d-env，因为环境路由隔离，必须传递该Header），不包括n-d-service开头的Header
-spring.application.strategy.gateway.core.header.transmission.enabled=true
-spring.application.strategy.zuul.core.header.transmission.enabled=true
-spring.application.strategy.feign.core.header.transmission.enabled=true
-spring.application.strategy.rest.template.core.header.transmission.enabled=true
-spring.application.strategy.web.client.core.header.transmission.enabled=true
-```
 
 ### 全链路自定义蓝绿灰度发布
 
@@ -6048,6 +6031,8 @@ XML最全的示例如下，Json示例见源码discovery-springcloud-example-serv
 ## 规则策略推送
 
 ### 基于远程配置中心的规则策略订阅推送
+![](http://nepxion.gitee.io/discovery/docs/polaris-doc/Config.jpg)
+
 Apollo订阅推送界面
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Apollo1.jpg)
