@@ -3565,7 +3565,7 @@ n-d-address-blacklist={"discovery-guide-service-a":"3001", "discovery-guide-serv
 > 一般来说，回溯功能很少被用到，从多活架构上，全局服务是调用链最后一个环节，全局服务基本上不会出现在调用链头部和中部（不存在全局服务再去调用其它服务的情形）。本方案，为了考虑特殊性，支持回溯功能
 
 ⑥ 切流方案
- - 中心单元区域因为灾难性的事故导致崩溃，通过前置的SLB通过改变Header`n-d-region`驱动API网关切换到普通单元区域，也可以通过配置中心修改`<region>center</region>`切换
+ - 中心单元区域因为灾难性的事故导致崩溃，通过前置的SLB改变Header`n-d-region`驱动API网关切换到普通单元区域，也可以通过配置中心修改`<region>center</region>`切换
  - 普通单元区域的服务如果要调用全局服务，通过路由（故障）转移方式调回中心单元区域
 
 ### 多活单元化用法
@@ -3604,12 +3604,32 @@ spring.application.strategy.region.failover.enabled=true
 
 单元切换上的操作
 
-① 通过前置的SLB通过改变Header`n-d-region`驱动API网关切换
+① 通过前置的SLB改变Header`n-d-region`驱动API网关切换
 ```
 n-d-region=center
 ```
 
-② 通过配置中心修改`<region>center</region>`切换
+② 通过编程方式解析不同的外部参数驱动API网关切换
+以自定义根据Parameter切换单元区域为例，如下
+- 从前置SLB进来的请求为[https://slb/invoke/xyz?user=zhangsan](https://slb/invoke/xyz?user=zhangsan)，即请求来自张三用户，切换到中心单元区域
+- 从前置SLB进来的请求为[https://slb/invoke/xyz?user=lisi](https://slb/invoke/xyz?user=lisi)，即请求来自李四用户，切换到普通单元1区域
+```java
+public class MyGatewayStrategyRouteFilter extends DefaultGatewayStrategyRouteFilter {
+    @Override
+    public String getRouteRegion() {
+        String user = strategyContextHolder.getParameter("user");
+        if (StringUtils.equals(user, "zhangsan")) {
+            return "center";
+        } else if (StringUtils.equals(user, "lisi")) {
+            return "normal1";
+        }
+
+        return super.getRouteRegion();
+    }
+}
+```
+
+③ 通过配置中心修改`<region>center</region>`切换
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
@@ -3622,7 +3642,7 @@ n-d-region=center
 ### 多活单元化场景下实施蓝绿灰度发布
 多活切换可以通过前置的SLB通过改变Header`n-d-region`来实施，其实，也可以通过配置中心配置`region`向API网关推送方式来实施
 
-假如我们要对核心区的服务实施蓝绿灰度发布，假设核心区有A和B两个服务，分别有1.0和1.1两个版本，则可以通过如下规则策略实施
+例如，我们要对核心区的服务实施蓝绿灰度发布，假设核心区有A和B两个服务，分别有1.0和1.1两个版本，则可以通过如下规则策略实施
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
