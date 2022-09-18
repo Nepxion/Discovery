@@ -644,6 +644,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [多活单元化梳理](#多活单元化梳理)
     - [多活单元化方案](#多活单元化方案)
     - [多活单元化用法](#多活单元化用法)
+    - [多活单元化场景下实施蓝绿灰度发布](#多活单元化场景下实施蓝绿灰度发布)
 - [异步场景下全链路蓝绿灰度发布](#异步场景下全链路蓝绿灰度发布)
     - [异步场景下DiscoveryAgent解决方案](#异步场景下DiscoveryAgent解决方案)
         - [异步跨线程DiscoveryAgent获取](#异步跨线程DiscoveryAgent获取)
@@ -3561,25 +3562,32 @@ n-d-address-blacklist={"discovery-guide-service-a":"3001", "discovery-guide-serv
 
 > 最古典的多活方案，不建议出现全局服务的单机房部署。受制于历史包袱或者企业现状，全局服务无法进行多活单元化拆分，或者对数据一致性和实时性要求很高，故而出现全局服务的单机房架构。所以，需要保持中心单元机房内全局服务集群的高可用性是非常必要的
 
-② 注册方案
+② 注册中心方案
 - 所有API网关、全局服务、核心服务和共享服务都注册到同一个物理空间下的注册中心
 - 不同物理空间下的注册中心需要双向同步
 
-③ 网关方案
-- API网关属于单元区域的范畴，一个单元区域需要部署一个API网关的集群
-- API网关具有跨区域路由的功能，即中心单元区域的API网关通过Header`n-d-region`的切换可以路由到普通单元区域的服务，反之亦然
+③ 配置中心方案
+- 一个单元区域配置一个配置中心，不同的单元区域的配置中心上是隔离的。每增/删/改一条配置数据，需要在不同单元区域的配置中心上重复操作一遍
+- 一个单元区域配置一个配置中心，不同的配置中心跟注册中心一样双向同步。在遇到重复数据时候，同步的原则是时间更新的数据覆盖时间更老的数据
+- 所有API网关、全局服务、核心服务和共享服务都订阅同一个物理空间下的配置中心
 
-④ 调用方案
+④ 网关方案
+- API网关属于单元区域的范畴，一个单元区域需要部署一个API网关的集群
+- API网关具有跨区域路由的功能
+
+⑤ 调用方案
 - 不同单元区域之间服务调用是隔离的，两个单元区域的服务不能跨区域调用，除了全局服务
 - 全局服务有回溯功能，例如，当调用链为`核心服务 -> 全局服务 -> 核心服务`，全局服务再调回核心服务的时候，仍旧选择发起调用的那个单元区域，即不会出现类似`中心单元核心服务 -> 中心单元全局服务 -> 普通单元核心服务`的情况，原则是`从哪里来回哪里去`
 
 > 一般来说，回溯功能很少被用到，从多活架构上，全局服务是调用链最后一个环节，全局服务基本上不会出现在调用链头部和中部（不存在全局服务再去调用其它服务的情形）。本方案，为了考虑特殊性，支持回溯功能
 
-⑤ 切流方案
- - 中心单元区域因为灾难性的事故导致崩溃，通过前置的SLB通过改变Header`n-d-region`切换到普通单元区域
+⑥ 切流方案
+ - 中心单元区域因为灾难性的事故导致崩溃，通过前置的SLB通过改变Header`n-d-region`驱动API网关切换到普通单元区域，也可以通过配置中心修改`<region>center</region>`切换
  - 普通单元区域的服务如果要调用全局服务，通过路由（故障）转移方式调回中心单元区域
 
 ### 多活单元化用法
+服务配置上操作
+
 ① 多活服务（主要是核心服务和共享服务），执行如下操作
 - 开启故障转移开关
 
@@ -3610,6 +3618,60 @@ spring.application.strategy.region.failover.enabled=true
 # 启动和关闭区域故障转移。缺失则默认为false
 spring.application.strategy.region.failover.enabled=true
 ```
+
+单元切换上的操作
+
+① 通过前置的SLB通过改变Header`n-d-region`驱动API网关切换
+```
+n-d-region=center
+```
+
+② 通过配置中心修改`<region>center</region>`切换
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy>
+        <region>center</region>
+    </strategy>
+</rule>
+```
+
+### 多活单元化场景下实施蓝绿灰度发布
+多活切换可以通过前置的SLB通过改变Header`n-d-region`来实施，其实，也可以通过配置中心配置`region`向API网关推送方式来实施
+
+假如我们要对核心区的服务实施蓝绿灰度发布，假设核心区有A和B两个服务，分别有1.0和1.1两个版本，则可以通过如下规则策略实施
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <!-- 多活单元区域切换 -->
+    <strategy>
+        <region>center</region>
+    </strategy>
+
+    <!-- 核心区服务蓝绿灰度发布 -->
+    <strategy-release>
+        <conditions type="blue-green">
+            <!-- 蓝路由，条件expression驱动 -->
+            <condition id="blue-condition" expression="#H['a'] == '1'" version-id="blue-route"/>
+            <!-- 绿路由，条件expression驱动 -->
+            <condition id="green-condition" expression="#H['a'] == '2'" version-id="green-route"/>
+            <!-- 兜底路由，无条件expression驱动 -->
+            <condition id="basic-condition" version-id="basic-route"/>
+        </conditions>
+
+        <routes>
+            <route id="blue-route" type="version">{"core-service-a":"1.1", "core-service-b":"1.1"}</route>    
+            <route id="green-route" type="version">{"core-service-a":"1.0", "core-service-b":"1.0"}</route>
+            <route id="basic-route" type="version">{"core-service-a":"1.0", "core-b":"1.0"}</route>
+        </routes>
+    </strategy-release>
+</rule>
+```
+
+一般来说，一个单元区域在执行蓝绿灰度发布的时候，另外一个单元区域不会同步执行，所以两个单元区域在某一个时刻，服务镜像是不对等的（例如，中心单元区域的核心服务里有核心区有A和B两个服务，分别有1.0和1.1两个版本，而普通单元区域里的核心服务，只有A和B服务的1.0版本，没有1.1版本）
+
+基于上述情况，当实施单元区域切换的时候
+> 改变区域值的时候，清掉蓝绿灰度规则策略
 
 ## 异步场景下全链路蓝绿灰度发布
 Discovery框架存在着如下全链路传递上下文的场景，包括
