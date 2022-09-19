@@ -38,6 +38,11 @@ public class BlacklistResourceImpl implements BlacklistResource {
     }
 
     @Override
+    public String addBlacklist(String group, String serviceId, String serviceUUId) {
+        return addBlacklist(group, null, serviceId, serviceUUId);
+    }
+
+    @Override
     public boolean deleteBlacklist(String group, String serviceId, String serviceUUId) {
         return deleteBlacklist(group, null, serviceId, serviceUUId);
     }
@@ -54,6 +59,11 @@ public class BlacklistResourceImpl implements BlacklistResource {
             throw new DiscoveryException("Not found UUID in the instance with serviceId=" + serviceId + " host=" + host + ", port=" + port);
         }
 
+        return addBlacklist(group, gatewayId, serviceId, serviceUUId);
+    }
+
+    @Override
+    public String addBlacklist(String group, String gatewayId, String serviceId, String serviceUUId) {
         RuleEntity ruleEntity = null;
         try {
             ruleEntity = configResource.getRemoteRuleEntity(group, getSubscriptionServiceId(group, gatewayId));
