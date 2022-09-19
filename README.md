@@ -1542,6 +1542,8 @@ Spring Cloud Gateway在Finchley版不支持该方式
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Gray.jpg)
 
 #### 全链路版本权重灰度发布
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/navigator.png) 采用服务列表随机权重算法
+
 增加Spring Cloud Gateway的版本权重灰度发布策略，Group为discovery-guide-group，Data Id为discovery-guide-gateway，策略内容如下，实现从Spring Cloud Gateway发起的调用全链路1.0版本流量权重为90%，1.1版本流量权重为10%
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -1581,6 +1583,8 @@ n-d-version-weight={"discovery-guide-service-a":"1.0=90;1.1=10", "discovery-guid
 ```
 
 #### 全链路区域权重灰度发布
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/navigator.png) 采用服务列表随机权重算法
+
 增加Zuul的区域权重灰度发布策略，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现从Zuul发起的调用全链路dev区域流量权重为85%，qa区域流量权重为15%
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -1622,6 +1626,8 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 ### 全链路条件灰度发布
 
 #### 全链路版本条件权重灰度发布
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/navigator.png) 采用路由（Header）列表随机权重算法
+
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 规则策略配置
 
 增加Zuul的版本条件权重灰度发布策略，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下
