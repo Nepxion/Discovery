@@ -565,6 +565,8 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     public String getPluginInfo(String previousPluginInfo) {
         String plugin = getPlugin();
         String serviceId = getServiceId();
+        String serviceUUId = getServiceUUId();
+        String serviceAppId = getServiceAppId();
         String serviceType = getServiceType();
         String host = getHost();
         int port = getPort();
@@ -581,6 +583,12 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
         }
 
         stringBuilder.append("[ID=" + serviceId + "]");
+        if (StringUtils.isNotEmpty(serviceUUId)) {
+            stringBuilder.append("[UID=" + serviceUUId + "]");
+        }
+        if (StringUtils.isNotEmpty(serviceAppId)) {
+            stringBuilder.append("[AID=" + serviceAppId + "]");
+        }
         stringBuilder.append("[T=" + serviceType + "]");
         stringBuilder.append("[P=" + plugin + "]");
         stringBuilder.append("[H=" + host + ":" + port + "]");
