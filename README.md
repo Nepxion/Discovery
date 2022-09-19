@@ -2910,6 +2910,24 @@ spring.application.strategy.version.failover.stable.enabled=true
 String addBlacklist(String group, String gatewayId, String serviceId, String host, int port);
 ```
 
+也可以通过通配方式，把批量需要下线的服务实例根据IP地址和端口添加进黑名单。例如：
+
+① A服务有两个实例，实例1的UUId为`20220920-113301-033-4289-533-056`，实例2的UUId为`20220920-113259-190-5762-550-884`，代表它们同一天`2022年09月20日`上线
+
+② 通过`20220920*`通配符的方式，表示屏蔽`2022年09月20日`上线的指定服务的所有实例，如果希望更精确，`20220920-11*`，表示屏蔽`2022年09月20日11点`上线的指定服务的所有实例
+
+```java
+/**
+  * 局部网关订阅方式，根据服务实例IP地址和端口，添加下线的服务实例UUId到黑名单
+  * @param group 订阅的组名
+  * @param gatewayId 订阅的网关名
+  * @param serviceId 待下线实例的服务名
+  * @param serviceUUId 待下线实例的UUId，支持通配符
+  * @return 待下线实例的UUId
+*/
+String addBlacklist(String group, String gatewayId, String serviceId, String serviceUUId);
+```
+
 - 运维平台每添加一个黑名单后，把返回的服务实例的UUId存储下来（推荐用高可用方案来存储）
 - 运维平台下线某个服务实例一段时间之后（大于负载均衡`3`个时钟周期，推荐`5`分钟），调用`Nepxion Discovery Console`平台的BlacklistEndpoint如下API，把过期的服务实例根据UUId从黑名单里删除掉
 
