@@ -3163,7 +3163,7 @@ active.strategy.userId={"active.unit.shanghai":"0~1999", "active.unit.hangzhou":
 
 使用者只需要继承实现`DefaultGatewayStrategyRouteFilter`的`public String getRouteRegion()`方法，并结合配置中心的配置，可扩展出更多映射区域的策略
 
-# 多活单元化场景下实施蓝绿灰度发布
+### 多活单元化场景下实施蓝绿灰度发布
 例如，我们要对核心区的服务实施蓝绿灰度发布，假设核心区有A和B两个服务，分别有1.0和1.1两个版本，则可以通过如下规则策略实施
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
