@@ -164,6 +164,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - 全链路条件表达式、通配表达式支持
     - 全链路内置Header，支持定时Job的服务调用蓝绿灰度发布
     - 全链路蓝绿灰度发布对接DevOps运维平台最佳企业级实践
+- 全链路多活单元化
 - 全链路隔离路由
     - 全链路组隔离路由
         - 组负载均衡的消费端隔离
@@ -187,7 +188,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - 全链路服务无损下线，实时性的流量绝对无损
     - 全局唯一ID屏蔽
     - IP地址和端口屏蔽
-- 多活单元化
 - 异步场景下全链路蓝绿灰度发布
     - 异步跨线程Agent插件
     - Hystrix线程池隔离插件
@@ -597,7 +597,13 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [全链路动态变更元数据的蓝绿灰度发布](#全链路动态变更元数据的蓝绿灰度发布)
     - [全链路蓝绿灰度发布对接DevOps运维平台最佳企业级实践](#全链路蓝绿灰度发布对接DevOps运维平台最佳企业级实践)
         - [对接DevOps运维平台最佳实践](#对接DevOps运维平台最佳实践)
-        - [对接DevOps运维平台步骤详解](#对接DevOps运维平台步骤详解)	
+        - [对接DevOps运维平台步骤详解](#对接DevOps运维平台步骤详解)
+- [全链路多活单元化](#多活单元化)
+    - [多活单元化概念](#多活单元化概念)
+    - [多活单元化梳理](#多活单元化梳理)
+    - [多活单元化方案](#多活单元化方案)
+    - [多活单元化用法](#多活单元化用法)
+    - [多活单元化场景下实施蓝绿灰度发布](#多活单元化场景下实施蓝绿灰度发布)
 - [全链路隔离路由](#全链路隔离路由)
     - [全链路组隔离路由](#全链路组隔离路由)
         - [组负载均衡的消费端隔离](#组负载均衡的消费端隔离)
@@ -621,12 +627,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - [全链路服务无损下线](#全链路服务无损下线)
     - [全局唯一ID屏蔽](#全局唯一ID屏蔽)
     - [IP地址和端口屏蔽](#IP地址和端口屏蔽)
-- [多活单元化](#多活单元化)
-    - [多活单元化概念](#多活单元化概念)
-    - [多活单元化梳理](#多活单元化梳理)
-    - [多活单元化方案](#多活单元化方案)
-    - [多活单元化用法](#多活单元化用法)
-    - [多活单元化场景下实施蓝绿灰度发布](#多活单元化场景下实施蓝绿灰度发布)
 - [异步场景下全链路蓝绿灰度发布](#异步场景下全链路蓝绿灰度发布)
     - [异步场景下DiscoveryAgent解决方案](#异步场景下DiscoveryAgent解决方案)
         - [异步跨线程DiscoveryAgent获取](#异步跨线程DiscoveryAgent获取)
@@ -2982,6 +2982,215 @@ boolean deleteBlacklist(String group, String gatewayId, String serviceId, String
 | 根据服务名获取实例列表 | `http://`[控制台IP:PORT]/instance-list/{serviceId}| 无 | GET |
 | 根据组名列表获取服务名->实例列表结构的Map | `http://`[控制台IP:PORT]/instance-map | 组名列表 | POST |
 
+## 全链路多活单元化
+
+### 多活单元化概念
+异地多活，主要是为了提升系统的容灾能力，比如，单机房遭遇地震、火灾、网络故障、断电等不可抗因素，都有可能造成整个机房瘫痪
+
+基于向外提供数据和服务实时性和连续性的要求，需要在不同城市建立独立的数据中心，并搭建配套的网关和服务集群，消息队列，数据库等，当某个城市的机房崩溃，则通过SLB等最高层的设施执行流量调拨，从一个城市切换到另一个城市，让外界感知服务永远处于有效状态
+
+### 多活单元化梳理
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Active1.jpg)
+
+要进行多活建设，需要梳理企业内的服务
+
+下文提到的，单元和区域，一般来说等同于机房概念
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 服务所属的区域从多活的角度，一般分为两种类型
+
+① 中心单元
+- 部署在核心机房，机器性能，承载能力高
+- 中心单元部署全局服务、核心服务和共享服务
+- 中心单元是普通单元的特殊形式，限制一个
+
+② 普通单元
+- 部署在一般机房，机器性能，承载能力一般
+- 中心单元部署核心服务和共享服务
+- 普通单元可以水平扩容为N个
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 服务从多活的角度，一般分为三种类型
+
+① 全局服务
+- 具有数据强一致性和实时性高要求
+- 多活单元化拆分存在很大的难度
+- 数据在中心单元写，中心单元读
+
+② 核心服务
+- 多活单元化分片，按地域划分，就近原则访问
+- 数据在各自单元写，各自单元读
+
+③ 共享服务
+- 全局服务的代理服务，读服务
+- 共享服务和全局服务实现读写分离。数据由核心服务调用全局服务在中心单元写，共享服务向外暴露读接口，在各自单元被核心服务读
+
+### 多活单元化方案
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Active2.jpg)
+
+① 部署方案
+- 中心单元区域只有一个，部署在机器性能，网络性能较好的机房内
+- 普通单元区域可以有很多个，进行对等镜像部署方式，部署在机器性能，网络性能一般的机房内
+
+> 最古典的多活方案，不建议出现全局服务的单机房部署。受制于历史包袱或者企业现状，全局服务无法进行多活单元化拆分，或者对数据一致性和实时性要求很高，故而出现全局服务的单机房架构。所以，需要保持中心单元机房内全局服务集群的高可用性是非常必要的
+
+② 注册中心方案
+- 所有API网关、全局服务、核心服务和共享服务都注册到同一个物理空间下的注册中心
+- 不同物理空间下的注册中心需要双向同步
+
+③ 配置中心方案
+- 一个单元区域配置一个配置中心，不同的单元区域的配置中心上是隔离的。每增/删/改一条配置数据，需要在不同单元区域的配置中心上重复操作一遍
+- 一个单元区域配置一个配置中心，不同的配置中心跟注册中心一样双向同步。在遇到重复数据时候，同步的原则是时间更新的数据覆盖时间更老的数据
+- 所有API网关、全局服务、核心服务和共享服务都订阅同一个物理空间下的配置中心
+
+④ 数据库方案
+- 中心单元区域拥有全局数据库，它具有强一致性，被全局服务写，被所有单元区域的共享服务读
+- 每个单元区域都拥有有各自的分片数据库，它们之间双向同步，每个分片数据库被各自单元区域的核心服务读/写
+
+⑤ 网关方案
+- API网关属于单元区域的范畴，一个单元区域需要部署一个API网关的集群
+- API网关具有跨区域路由的功能
+
+⑥ 调用方案
+- 不同单元区域之间服务调用是隔离的，两个单元区域的服务不能跨区域调用
+- 普通单元区域的服务调用全局服务，通过路由（故障）转移方式访问中心单元区域
+- 全局服务有回溯功能，例如，当调用链为`核心服务 -> 全局服务 -> 核心服务`，全局服务再调回核心服务的时候，仍旧选择发起调用的那个单元区域，即不会出现类似`中心单元核心服务 -> 中心单元全局服务 -> 普通单元核心服务`的情况，原则是`从哪里来回哪里去`
+
+> 一般来说，回溯功能很少被用到，从多活架构上，全局服务是调用链最后一个环节，全局服务基本上不会出现在调用链头部和中部（不存在全局服务再去调用其它服务的情形）。本方案，为了考虑特殊性，支持回溯功能
+
+⑦ 分流方案
+- 前置的SLB或者下级Nginx根据请求IP进行二级域名分发 
+- API网关配置多活切换的路由配置，映射出区域，并赋值给Header`n-d-region`全链路传递，实现区域隔离路由
+
+⑧ 切换方案
+
+配置多活切换的路由配置
+- 域名前缀映射区域策略
+- 用户Id范围映射区域策略
+
+### 多活单元化用法
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 服务配置操作
+
+① 多活服务（主要是核心服务和共享服务），执行如下操作
+- 开启故障转移开关
+
+```
+# 启动和关闭区域故障转移。缺失则默认为false
+spring.application.strategy.region.failover.enabled=true
+```
+
+- 标记元数据为多活属性，两种方式如下任选一个
+
+```
+spring.cloud.discovery.metadata.active=true
+-Dmetadata.active=true
+```
+
+② 全局服务如果在调用链中部（例如，全局服务回溯调用核心服务），全局服务执行如下操作
+- 开启故障转移开关
+
+```
+# 启动和关闭区域故障转移。缺失则默认为false
+spring.application.strategy.region.failover.enabled=true
+```
+
+③ 全局服务如果在调用链头部（例如，API网关直接调用全局服务），API网关执行如下操作
+- 开启故障转移开关
+
+```
+# 启动和关闭区域故障转移。缺失则默认为false
+spring.application.strategy.region.failover.enabled=true
+```
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 流量分拨和多活切换的操作
+
+① 域名前缀映射区域策略
+
+API网关过滤器实现域名前缀和区域映射逻辑
+```java
+public class MyGatewayStrategyRouteFilter extends DefaultGatewayStrategyRouteFilter {
+    @Autowired
+    private GatewayStrategyContextHolder gatewayStrategyContextHolder;
+
+    @Value("${active.strategy.domain}")
+    private String activeStrategyDomain;
+
+    @Override
+    public String getRouteRegion() {
+        String host = gatewayStrategyContextHolder.getURI().getHost();
+        String region = host.substring(0, host.indexOf("."));        
+        Map<String, String> map = JsonUtil.fromJson(activeStrategyDomain, Map.class);
+
+        return map.get("active.unit." + region);
+    }
+}
+```
+
+通过配置中心添加如下Json格式的配置
+```
+active.strategy.domain={"active.unit.shanghai":"shanghai", "active.unit.hangzhou":"hangzhou"}
+```
+表示域名前缀为shanghai的请求路由到shanghai单元区域，域名前缀为hangzhou的请求路由到hangzhou单元区域。如果hangzhou单元区域遭遇故障，转移到shanghai，修改`"active.unit.hangzhou":"shanghai"`，完成多活切换
+
+② 用户Id范围映射区域策略
+
+API网关过滤器实现用户ID范围和区域映射逻辑（伪代码）
+```java
+public class MyGatewayStrategyRouteFilter extends DefaultGatewayStrategyRouteFilter {
+    @Autowired
+    private GatewayStrategyContextHolder gatewayStrategyContextHolder;
+
+    @Value("${active.strategy.userId}")
+    private String activeStrategyUserId;
+
+    @Override
+    public String getRouteRegion() {
+        String userId = strategyContextHolder.getHeader("userId");
+
+        Map<String, String> map = JsonUtil.fromJson(activeStrategyUserId, Map.class);
+        String region = 轮询map，搜索userId是否落在map的value配置用户Id范围区间里
+
+        return region;
+    }
+}
+```
+
+通过配置中心添加如下Json格式的配置
+```
+active.strategy.userId={"active.unit.shanghai":"0~1999", "active.unit.hangzhou":"2000~9999"}
+```
+表示用户Id范围为`0~1999`的请求路由到shanghai单元区域，用户Id范围为`2000~9999`的请求路由到hangzhou单元区域。如果hangzhou单元区域遭遇故障，转移到shanghai，修改`"active.unit.shanghai":"0~9999"`，并删除`"active.unit.hangzhou":"2000~9999"`，完成多活切换
+
+③ 自定义映射区域策略
+
+使用者只需要继承实现`DefaultGatewayStrategyRouteFilter`的`public String getRouteRegion()`方法，并结合配置中心的配置，可扩展出更多映射区域的策略
+
+# 多活单元化场景下实施蓝绿灰度发布
+例如，我们要对核心区的服务实施蓝绿灰度发布，假设核心区有A和B两个服务，分别有1.0和1.1两个版本，则可以通过如下规则策略实施
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy-release>
+        <conditions type="blue-green">
+            <!-- 蓝路由，条件expression驱动 -->
+            <condition id="blue-condition" expression="#H['a'] == '1'" version-id="blue-route"/>
+            <!-- 绿路由，条件expression驱动 -->
+            <condition id="green-condition" expression="#H['a'] == '2'" version-id="green-route"/>
+            <!-- 兜底路由，无条件expression驱动 -->
+            <condition id="basic-condition" version-id="basic-route"/>
+        </conditions>
+
+        <routes>
+            <route id="blue-route" type="version">{"core-service-a":"1.1", "core-service-b":"1.1"}</route>    
+            <route id="green-route" type="version">{"core-service-a":"1.0", "core-service-b":"1.0"}</route>
+            <route id="basic-route" type="version">{"core-service-a":"1.0", "core-b":"1.0"}</route>
+        </routes>
+    </strategy-release>
+</rule>
+```
+
+一般来说，一个单元区域在执行蓝绿灰度发布的时候，另外一个单元区域不会同步执行，所以两个单元区域在某一个时刻，服务镜像是不对等的（例如，中心单元区域的核心服务里有核心区有A和B两个服务，分别有1.0和1.1两个版本，而普通单元区域里的核心服务，只有A和B服务的1.0版本，没有1.1版本）
+
+基于上述情况，当实施单元区域切换的时候，需要清掉蓝绿灰度规则策略
+
 ## 全链路隔离路由
 
 ### 全链路组隔离路由
@@ -3509,215 +3718,6 @@ n-d-id-blacklist={"discovery-guide-service-a":"20210601-222214-909-1146-372-698"
 n-d-address-blacklist=3001
 n-d-address-blacklist={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"3001"}
 ```
-
-## 多活单元化
-
-### 多活单元化概念
-异地多活，主要是为了提升系统的容灾能力，比如，单机房遭遇地震、火灾、网络故障、断电等不可抗因素，都有可能造成整个机房瘫痪
-
-基于向外提供数据和服务实时性和连续性的要求，需要在不同城市建立独立的数据中心，并搭建配套的网关和服务集群，消息队列，数据库等，当某个城市的机房崩溃，则通过SLB等最高层的设施执行流量调拨，从一个城市切换到另一个城市，让外界感知服务永远处于有效状态
-
-### 多活单元化梳理
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Active1.jpg)
-
-要进行多活建设，需要梳理企业内的服务
-
-下文提到的，单元和区域，一般来说等同于机房概念
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 服务所属的区域从多活的角度，一般分为两种类型
-
-① 中心单元
-- 部署在核心机房，机器性能，承载能力高
-- 中心单元部署全局服务、核心服务和共享服务
-- 中心单元是普通单元的特殊形式，限制一个
-
-② 普通单元
-- 部署在一般机房，机器性能，承载能力一般
-- 中心单元部署核心服务和共享服务
-- 普通单元可以水平扩容为N个
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 服务从多活的角度，一般分为三种类型
-
-① 全局服务
-- 具有数据强一致性和实时性高要求
-- 多活单元化拆分存在很大的难度
-- 数据在中心单元写，中心单元读
-
-② 核心服务
-- 多活单元化分片，按地域划分，就近原则访问
-- 数据在各自单元写，各自单元读
-
-③ 共享服务
-- 全局服务的代理服务，读服务
-- 共享服务和全局服务实现读写分离。数据由核心服务调用全局服务在中心单元写，共享服务向外暴露读接口，在各自单元被核心服务读
-
-### 多活单元化方案
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Active2.jpg)
-
-① 部署方案
-- 中心单元区域只有一个，部署在机器性能，网络性能较好的机房内
-- 普通单元区域可以有很多个，进行对等镜像部署方式，部署在机器性能，网络性能一般的机房内
-
-> 最古典的多活方案，不建议出现全局服务的单机房部署。受制于历史包袱或者企业现状，全局服务无法进行多活单元化拆分，或者对数据一致性和实时性要求很高，故而出现全局服务的单机房架构。所以，需要保持中心单元机房内全局服务集群的高可用性是非常必要的
-
-② 注册中心方案
-- 所有API网关、全局服务、核心服务和共享服务都注册到同一个物理空间下的注册中心
-- 不同物理空间下的注册中心需要双向同步
-
-③ 配置中心方案
-- 一个单元区域配置一个配置中心，不同的单元区域的配置中心上是隔离的。每增/删/改一条配置数据，需要在不同单元区域的配置中心上重复操作一遍
-- 一个单元区域配置一个配置中心，不同的配置中心跟注册中心一样双向同步。在遇到重复数据时候，同步的原则是时间更新的数据覆盖时间更老的数据
-- 所有API网关、全局服务、核心服务和共享服务都订阅同一个物理空间下的配置中心
-
-④ 数据库方案
-- 中心单元区域拥有全局数据库，它具有强一致性，被全局服务写，被所有单元区域的共享服务读
-- 每个单元区域都拥有有各自的分片数据库，它们之间双向同步，每个分片数据库被各自单元区域的核心服务读/写
-
-⑤ 网关方案
-- API网关属于单元区域的范畴，一个单元区域需要部署一个API网关的集群
-- API网关具有跨区域路由的功能
-
-⑥ 调用方案
-- 不同单元区域之间服务调用是隔离的，两个单元区域的服务不能跨区域调用
-- 普通单元区域的服务调用全局服务，通过路由（故障）转移方式访问中心单元区域
-- 全局服务有回溯功能，例如，当调用链为`核心服务 -> 全局服务 -> 核心服务`，全局服务再调回核心服务的时候，仍旧选择发起调用的那个单元区域，即不会出现类似`中心单元核心服务 -> 中心单元全局服务 -> 普通单元核心服务`的情况，原则是`从哪里来回哪里去`
-
-> 一般来说，回溯功能很少被用到，从多活架构上，全局服务是调用链最后一个环节，全局服务基本上不会出现在调用链头部和中部（不存在全局服务再去调用其它服务的情形）。本方案，为了考虑特殊性，支持回溯功能
-
-⑦ 分流方案
-- 前置的SLB或者下级Nginx根据请求IP进行二级域名分发 
-- API网关配置多活切换的路由配置，映射出区域，并赋值给Header`n-d-region`全链路传递，实现区域隔离路由
-
-⑧ 切换方案
-
-配置多活切换的路由配置
-- 域名前缀映射区域策略
-- 用户Id范围映射区域策略
-
-### 多活单元化用法
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 服务配置操作
-
-① 多活服务（主要是核心服务和共享服务），执行如下操作
-- 开启故障转移开关
-
-```
-# 启动和关闭区域故障转移。缺失则默认为false
-spring.application.strategy.region.failover.enabled=true
-```
-
-- 标记元数据为多活属性，两种方式如下任选一个
-
-```
-spring.cloud.discovery.metadata.active=true
--Dmetadata.active=true
-```
-
-② 全局服务如果在调用链中部（例如，全局服务回溯调用核心服务），全局服务执行如下操作
-- 开启故障转移开关
-
-```
-# 启动和关闭区域故障转移。缺失则默认为false
-spring.application.strategy.region.failover.enabled=true
-```
-
-③ 全局服务如果在调用链头部（例如，API网关直接调用全局服务），API网关执行如下操作
-- 开启故障转移开关
-
-```
-# 启动和关闭区域故障转移。缺失则默认为false
-spring.application.strategy.region.failover.enabled=true
-```
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 流量分拨和多活切换的操作
-
-① 域名前缀映射区域策略
-
-API网关过滤器实现域名前缀和区域映射逻辑
-```java
-public class MyGatewayStrategyRouteFilter extends DefaultGatewayStrategyRouteFilter {
-    @Autowired
-    private GatewayStrategyContextHolder gatewayStrategyContextHolder;
-
-    @Value("${active.strategy.domain}")
-    private String activeStrategyDomain;
-
-    @Override
-    public String getRouteRegion() {
-        String host = gatewayStrategyContextHolder.getURI().getHost();
-        String region = host.substring(0, host.indexOf("."));        
-        Map<String, String> map = JsonUtil.fromJson(activeStrategyDomain, Map.class);
-
-        return map.get("active.unit." + region);
-    }
-}
-```
-
-通过配置中心添加如下Json格式的配置
-```
-active.strategy.domain={"active.unit.shanghai":"shanghai", "active.unit.hangzhou":"hangzhou"}
-```
-表示域名前缀为shanghai的请求路由到shanghai单元区域，域名前缀为hangzhou的请求路由到hangzhou单元区域。如果hangzhou单元区域遭遇故障，转移到shanghai，修改`"active.unit.hangzhou":"shanghai"`，完成多活切换
-
-② 用户Id范围映射区域策略
-
-API网关过滤器实现用户ID范围和区域映射逻辑（伪代码）
-```java
-public class MyGatewayStrategyRouteFilter extends DefaultGatewayStrategyRouteFilter {
-    @Autowired
-    private GatewayStrategyContextHolder gatewayStrategyContextHolder;
-
-    @Value("${active.strategy.userId}")
-    private String activeStrategyUserId;
-
-    @Override
-    public String getRouteRegion() {
-        String userId = strategyContextHolder.getHeader("userId");
-
-        Map<String, String> map = JsonUtil.fromJson(activeStrategyUserId, Map.class);
-        String region = 轮询map，搜索userId是否落在map的value配置用户Id范围区间里
-
-        return region;
-    }
-}
-```
-
-通过配置中心添加如下Json格式的配置
-```
-active.strategy.userId={"active.unit.shanghai":"0~1999", "active.unit.hangzhou":"2000~9999"}
-```
-表示用户Id范围为`0~1999`的请求路由到shanghai单元区域，用户Id范围为`2000~9999`的请求路由到hangzhou单元区域。如果hangzhou单元区域遭遇故障，转移到shanghai，修改`"active.unit.shanghai":"0~9999"`，并删除`"active.unit.hangzhou":"2000~9999"`，完成多活切换
-
-③ 自定义映射区域策略
-
-使用者只需要继承实现`DefaultGatewayStrategyRouteFilter`的`public String getRouteRegion()`方法，并结合配置中心的配置，可扩展出更多映射区域的策略
-
-# 多活单元化场景下实施蓝绿灰度发布
-例如，我们要对核心区的服务实施蓝绿灰度发布，假设核心区有A和B两个服务，分别有1.0和1.1两个版本，则可以通过如下规则策略实施
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-    <strategy-release>
-        <conditions type="blue-green">
-            <!-- 蓝路由，条件expression驱动 -->
-            <condition id="blue-condition" expression="#H['a'] == '1'" version-id="blue-route"/>
-            <!-- 绿路由，条件expression驱动 -->
-            <condition id="green-condition" expression="#H['a'] == '2'" version-id="green-route"/>
-            <!-- 兜底路由，无条件expression驱动 -->
-            <condition id="basic-condition" version-id="basic-route"/>
-        </conditions>
-
-        <routes>
-            <route id="blue-route" type="version">{"core-service-a":"1.1", "core-service-b":"1.1"}</route>    
-            <route id="green-route" type="version">{"core-service-a":"1.0", "core-service-b":"1.0"}</route>
-            <route id="basic-route" type="version">{"core-service-a":"1.0", "core-b":"1.0"}</route>
-        </routes>
-    </strategy-release>
-</rule>
-```
-
-一般来说，一个单元区域在执行蓝绿灰度发布的时候，另外一个单元区域不会同步执行，所以两个单元区域在某一个时刻，服务镜像是不对等的（例如，中心单元区域的核心服务里有核心区有A和B两个服务，分别有1.0和1.1两个版本，而普通单元区域里的核心服务，只有A和B服务的1.0版本，没有1.1版本）
-
-基于上述情况，当实施单元区域切换的时候，需要清掉蓝绿灰度规则策略
 
 ## 异步场景下全链路蓝绿灰度发布
 Discovery框架存在着如下全链路传递上下文的场景，包括
