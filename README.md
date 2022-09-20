@@ -263,11 +263,11 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | --- | --- | --- | --- | --- | --- |
 | 8.0.0<br>商业版 | DiscoveryX/master | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_24.png) | 2021.x.x | 2.7.x<br>2.6.x | 2021.x.x.x |
 | 7.0.0<br>商业版 | DiscoveryX/7.x.x | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_24.png) | 2020.x.x | 2.5.x<br>2.4.1 `↑` | 2021.x |
-| 6.16.1 | Discovery/6.x.x | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_24.png) | Hoxton.SR5 `↑`<br>Hoxton<br>Greenwich<br>Finchley | 2.3.x.RELEASE<br>2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.7.RELEASE `↑` |
-| 6.12.5 `↓` | Discovery/6.x.x | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_24.png) | Hoxton.SR5 `↑`<br>Hoxton<br>Greenwich<br>Finchley | 2.3.x.RELEASE<br>2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.6.RELEASE `↓`<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
+| 6.16.2 | Discovery/6.x.x | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_24.png) | Hoxton.SR5 `↑`<br>Hoxton<br>Greenwich<br>Finchley | 2.3.x.RELEASE<br>2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.7.RELEASE `↑` |
+| 6.12.6 `↓` | Discovery/6.x.x | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_24.png) | Hoxton.SR5 `↑`<br>Hoxton<br>Greenwich<br>Finchley | 2.3.x.RELEASE<br>2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.6.RELEASE `↓`<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
 | ~~5.6.0~~ | ~~Discovery/5.x.x~~ | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/delete_24.png) | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
 | ~~4.15.0~~ | ~~Discovery/4.x.x~~ | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/delete_24.png) | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
-| 3.33.1 | Discovery/3.x.x | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/arrow_up_24.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
+| 3.33.2 | Discovery/3.x.x | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/arrow_up_24.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
 | ~~2.0.x~~ | ~~Discovery/2.x.x~~ | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/delete_24.png) | Dalston | 1.x.x.RELEASE | 1.5.x.RELEASE |
 | ~~1.0.x~~ | ~~Discovery/1.x.x~~ | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/delete_24.png) | Camden | 1.x.x.RELEASE | 1.5.x.RELEASE |
 
@@ -1049,16 +1049,16 @@ API网关 -> 服务A（两个实例） -> 服务B（两个实例）
 
 ```
 gateway 
--> [ID=discovery-guide-service-a][T=service][P=Nacos][H=192.168.0.107:3001][V=1.0][R=dev][E=env1][Z=zone1][G=discovery-guide-group][TID=48682.7508.15870951148324081][SID=49570.77.15870951148480000] 
--> [ID=discovery-guide-service-b][T=service][P=Nacos][H=192.168.0.107:4001][V=1.0][R=qa][E=env1][Z=zone2][G=discovery-guide-group][TID=48682.7508.15870951148324081][SID=49571.85.15870951189970000]
+-> [ID=discovery-guide-service-a][UID=20220920-195533-038-9409-313-357][T=service][P=Nacos][H=192.168.0.107:3001][V=1.0][R=dev][E=env1][Z=zone1][G=discovery-guide-group][A=false][TID=48682.7508.15870951148324081][SID=49570.77.15870951148480000] 
+-> [ID=discovery-guide-service-b][UID=20220920-195533-209-3098-823-558][T=service][P=Nacos][H=192.168.0.107:4001][V=1.0][R=qa][E=env1][Z=zone2][G=discovery-guide-group][A=false][TID=48682.7508.15870951148324081][SID=49571.85.15870951189970000]
 ```
 
 - 在Postman中执行目录结构下〔Nepxion〕->〔Discovery指南网关接口〕->〔Zuul网关调用示例〕，调用地址为[http://localhost:5002/discovery-guide-service-a/invoke/zuul](http://localhost:5002/discovery-guide-service-a/invoke/zuul)，相关的Header值已经预设，供开发者修改。执行通过Zuul网关发起的调用，结果为如下格式
 
 ```
 zuul 
--> [ID=discovery-guide-service-a][T=service][P=Nacos][H=192.168.0.107:3001][V=1.0][R=dev][E=env1][Z=zone1][G=discovery-guide-group][TID=48682.7508.15870951148324081][SID=49570.77.15870951148480000] 
--> [ID=discovery-guide-service-b][T=service][P=Nacos][H=192.168.0.107:4001][V=1.0][R=qa][E=env1][Z=zone2][G=discovery-guide-group][TID=48682.7508.15870951148324081][SID=49571.85.15870951189970000]
+-> [ID=discovery-guide-service-a][UID=20220920-195533-038-9409-313-357][T=service][P=Nacos][H=192.168.0.107:3001][V=1.0][R=dev][E=env1][Z=zone1][G=discovery-guide-group][A=false][TID=48682.7508.15870951148324081][SID=49570.77.15870951148480000] 
+-> [ID=discovery-guide-service-b][UID=20220920-195533-209-3098-823-558][T=service][P=Nacos][H=192.168.0.107:4001][V=1.0][R=qa][E=env1][Z=zone2][G=discovery-guide-group][A=false][TID=48682.7508.15870951148324081][SID=49571.85.15870951189970000]
 ```
 
 - 在Postman中多种同步和异步的调用方式，异步方式需要增加DiscoveryAgent，才能保证蓝绿发布路由调用的成功
