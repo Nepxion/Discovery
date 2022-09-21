@@ -2793,7 +2793,7 @@ API网关 -> 服务A -> 服务B
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 启动蓝绿灰度兜底策略
 
-在API网关上，通过`蓝绿灰度发布`步骤，配置蓝绿灰度发布兜底规则策略，避免流量进入新服务
+在API网关上，通过`蓝绿灰度发布`步骤，配置蓝绿灰度发布兜底规则策略，避免流量进入新服务实例
 
 以Nacos和Apollo配置中心为例，举例配置方式。下同
 
@@ -2813,7 +2813,7 @@ API网关 -> 服务A -> 服务B
 
 在API网关上，通过`蓝绿灰度发布`步骤，配置蓝绿灰度发布规则策略
 
-通过在调用API网关的URL上增加基于Header/Parameter/Cookie的业务参数`xyz`
+通过在调用API网关的URL上增加基于`Header/Parameter/Cookie`的业务参数`xyz`
 
 ① 蓝绿发布
 - `xyz`为`1`，切换到蓝路由（旧版本链路）
@@ -2853,17 +2853,21 @@ API网关 -> 服务A -> 服务B
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 流量染色
 
-运维平台通过命令行java -jar启动应用，加入启动参数`-Dmetadata.group=abc`和`-Dmetadata.version=xyz`，表示给服务实例进行组维度和版本维度的流量染色，即
+① 运维平台创建版本号
+
+运维平台通过命令行java -jar启动应用，加入启动参数`-Dmetadata.group=xxx`和`-Dmetadata.version=yyy`，表示给服务实例进行组维度和版本维度的流量染色，即
 ```
-java -jar -Dmetadata.group=abc -Dmetadata.version=xyz xxx.jar
+java -jar -Dmetadata.group=xxx -Dmetadata.version=yyy abc.jar
 ```
 如果使用者希望运维侧去决定版本号，那么推荐一种可行性方案，版本号用日期戳-序号的格式
-
-① 日期戳表示当天的日期
-
-② 序号表示当天的发布次数，一般定义为四位，即从0001-9999。序号由运维平台来维护，当天每发布一个版本，序号自加1
+- 日期戳表示当天的日期
+- 序号表示当天的发布次数，一般定义为四位，即从0001-9999。序号由运维平台来维护，当天每发布一个版本，序号自加1
 
 这种表示方式具有很强的可读性意义，例如，`20210601-0003`，表示某一组服务实例蓝绿灰度的版本为2021年6月1日发布的第三个版本
+
+② Git插件创建版本号
+
+参考WIKI`如何基于Git插件自动创建版本号`，如果采用该方式，则不需要加启动参数`-Dmetadata.version=yyy`
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 故障转移
 
@@ -2923,14 +2927,14 @@ String createVersionRelease(String group, String gatewayId, ConditionStrategy co
 - 蓝绿规则策略
 ```
 {
-  "service": ["discovery-guide-service-a", "discovery-guide-service-b"],
+  "service": ["a", "b"],
   "gray": [
     {
-      "expression": "#H['a'] == '3'",
+      "expression": "#H['xyz'] == '3'",
       "weight": [90, 10]
     },
     {
-      "expression": "#H['a'] == '4'",
+      "expression": "#H['xyz'] == '4'",
       "weight": [70, 30]
     },
     {
@@ -2942,34 +2946,34 @@ String createVersionRelease(String group, String gatewayId, ConditionStrategy co
 - 混合蓝绿灰度+内置Header规则策略
 ```
 {
-  "service": ["discovery-guide-service-a", "discovery-guide-service-b"],
+  "service": ["a", "b"],
   "blueGreen": [
     {
-      "expression": "#H['a'] == '1'",
+      "expression": "#H['xyz'] == '1'",
       // 绿（旧版本）路由链路
       "route": "green"
     }, 
     {
-      "expression": "#H['a'] == '2'",
+      "expression": "#H['xyz'] == '2'",
       // 蓝（新版本）路由链路
       "route": "blue"
     }
   ],
   "gray": [
     {
-      "expression": "#H['a'] == '3'",
+      "expression": "#H['xyz'] == '3'",
       // 稳定（旧版本）路由链路权重，灰度（新版本）路由链路权重
       "weight": [10, 90]
     },
     {
-      "expression": "#H['a'] == '4'",
+      "expression": "#H['xyz'] == '4'",
       "weight": [40, 60]
     },
     {
       "weight": [0, 100]
     }
   ],
-  "header": {"a": "1", "b": "2"}
+  "header": {"xyz": "1"}
 }
 ```
 
