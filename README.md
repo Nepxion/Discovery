@@ -595,6 +595,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [全链路自定义过滤器触发蓝绿灰度发布](#全链路自定义过滤器触发蓝绿灰度发布)
         - [全链路自定义负载均衡策略类触发蓝绿灰度发布](#全链路自定义负载均衡策略类触发蓝绿灰度发布)
     - [全链路动态变更元数据的蓝绿灰度发布](#全链路动态变更元数据的蓝绿灰度发布)
+    - [全链路蓝绿灰度发布Rest-Endpoint](#全链路蓝绿灰度发布Rest-Endpoint)
     - [全链路蓝绿灰度发布对接DevOps运维平台最佳企业级实践](#全链路蓝绿灰度发布对接DevOps运维平台最佳企业级实践)
         - [对接DevOps运维平台最佳实践](#对接DevOps运维平台最佳实践)
         - [对接DevOps运维平台步骤详解](#对接DevOps运维平台步骤详解)
@@ -627,6 +628,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - [全链路服务无损下线](#全链路服务无损下线)
     - [全局唯一ID屏蔽](#全局唯一ID屏蔽)
     - [IP地址和端口屏蔽](#IP地址和端口屏蔽)
+    - [无损下线黑名单Rest-Endpoint](#无损下线黑名单Rest-Endpoint)
 - [异步场景下全链路蓝绿灰度发布](#异步场景下全链路蓝绿灰度发布)
     - [异步场景下DiscoveryAgent解决方案](#异步场景下DiscoveryAgent解决方案)
         - [异步跨线程DiscoveryAgent获取](#异步跨线程DiscoveryAgent获取)
@@ -2772,6 +2774,17 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 
 ③ 动态元数据变更方式只是让新的元数据驻留在内存里，并不持久化。当服务重启后，服务的元数据仍旧会以初始值为准
 
+### 全链路蓝绿灰度发布Rest-Endpoint
+控制台的Rest Endpoint接口
+
+| 操作 | 路径 | 参数 | 方式 |
+| --- | --- | --- | --- |
+| 解析版本蓝绿灰度发布 | `http://`[控制台IP:PORT]/strategy/parse-version-release | 蓝绿灰度策略对象 | POST |
+| 全局方式，创建版本蓝绿灰度发布 | `http://`[控制台IP:PORT]/strategy/create-version-release/{group} | 蓝绿灰度策略对象 | POST |
+| 全局方式，清除蓝绿灰度发布 | `http://`[控制台IP:PORT]/strategy/clear-release/{group} | 无 | POST |
+| 局部方式，创建版本蓝绿灰度发布 | `http://`[控制台IP:PORT]/strategy/create-version-release/{group}/{gatewayId} | 蓝绿灰度策略对象 | POST |
+| 局部方式，清除蓝绿灰度发布 | `http://`[控制台IP:PORT]/strategy/clear-release/{group}/{gatewayId} | 无 | POST |
+
 ### 全链路蓝绿灰度发布对接DevOps运维平台最佳企业级实践
 
 #### 对接DevOps运维平台最佳实践
@@ -3807,6 +3820,20 @@ n-d-id-blacklist={"discovery-guide-service-a":"20210601-222214-909-1146-372-698"
 n-d-address-blacklist=3001
 n-d-address-blacklist={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"3001"}
 ```
+
+### 无损下线黑名单Rest-Endpoint
+控制台的Rest Endpoint接口
+
+| 操作 | 路径 | 参数 | 方式 |
+| --- | --- | --- | --- |
+| 全局方式，添加下线的服务实例UUId到黑名单<br>根据IP地址和端口 | `http://`[控制台IP:PORT]/blacklist/add-address/{group}/{serviceId} | IP地址和端口 | POST |
+| 全局方式，添加下线的服务实例UUId到黑名单 | `http://`[控制台IP:PORT]/blacklist/add-uuid/{group}/{serviceId} | UUId | POST |
+| 全局方式，从黑名单删除过期的服务实例 | `http://`[控制台IP:PORT]/blacklist/delete/{group}/{serviceId} | UUId | POST |
+| 全局方式，从黑名单清除所有过期的服务实例 | `http://`[控制台IP:PORT]/blacklist/clear/{group} | 无 | POST |
+| 局部方式，添加下线的服务实例UUId到黑名单<br>根据IP地址和端口 | `http://`[控制台IP:PORT]/blacklist/add-address/{group}/{gatewayId}/{serviceId} | IP地址和端口 | POST |
+| 局部方式，添加下线的服务实例UUId到黑名单 | `http://`[控制台IP:PORT]/blacklist/add-uuid/{group}/{gatewayId}/{serviceId} | UUId | POST |
+| 局部方式，从黑名单删除过期的服务实例 | `http://`[控制台IP:PORT]/blacklist/delete/{group}/{gatewayId}/{serviceId} | UUId | POST |
+| 局部方式，从黑名单清除所有过期的服务实例 | `http://`[控制台IP:PORT]/blacklist/clear/{group}/{gatewayId} | 无 | POST |
 
 ## 异步场景下全链路蓝绿灰度发布
 Discovery框架存在着如下全链路传递上下文的场景，包括
