@@ -16,9 +16,13 @@ public interface BlacklistResource {
 
     boolean deleteBlacklist(String group, String serviceId, String serviceUUId);
 
+    boolean clearBlacklist(String group);
+
     String addBlacklist(String group, String gatewayId, String serviceId, String host, int port);
 
     String addBlacklist(String group, String gatewayId, String serviceId, String serviceUUId);
 
     boolean deleteBlacklist(String group, String gatewayId, String serviceId, String serviceUUId);
+
+    boolean clearBlacklist(String group, String gatewayId);
 }

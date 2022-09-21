@@ -9,6 +9,18 @@ package com.nepxion.discovery.console.resource;
  * @version 1.0
  */
 
+import com.nepxion.discovery.common.entity.ConditionStrategy;
+
 public interface StrategyResource {
+    String parseVersionRelease(ConditionStrategy conditionStrategy);
+
+    String createVersionRelease(String group, ConditionStrategy conditionStrategy);
+
+    String clearRelease(String group);
+
+    String createVersionRelease(String group, String gatewayId, ConditionStrategy conditionStrategy);
+
+    String clearRelease(String group, String gatewayId);
+
     boolean validateExpression(String expression, String validation);
 }
