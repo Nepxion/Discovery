@@ -1323,7 +1323,7 @@ n-d-address={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"30
 #### 全链路版本条件匹配蓝绿发布
 通过Header、Parameter、Cookie驱动参数和条件表达式结合，把业务定义的这三个驱动参数转化成全链路传递的策略路由Header，执行基于版本匹配的蓝、绿、兜底三条路由驱动，实现全链路版本条件匹配蓝绿发布
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 驱动参数
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 驱动参数
 
 ① Header、Parameter、Cookie参数传递。对于要驱动发布的参数，例如，业务参数user，可以选择Header、Parameter、Cookie其中任意一个传递，都是等效的
 
@@ -1331,7 +1331,7 @@ n-d-address={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"30
 
 ③ Header、Parameter、Cookie参数混合。对于要驱动发布的参数，如果不止一个，例如，业务参数user、age、address，可以全部是Header或者Parameter或者Cookie，也可以是这三者混合传递：user通过Header传递，age通过Parameter传递，address通过Cookie传递
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 条件表达式
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 条件表达式
 
 ① Spring Spel的条件表达式，支持等于=、不等于!=、大于>、小于<、与&&、或||、匹配matches，以及加减乘除取模等全部标准表达式用法
 
@@ -1411,7 +1411,7 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
 
 `#`H['a'] == '1' `&amp;&amp;` `#`H['b'] `&lt;`= '2' `&amp;&amp;` `#`H['c'] != '3'
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 规则策略配置
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 规则策略配置
 
 增加Spring Cloud Gateway的版本条件匹配蓝绿发布策略，Group为discovery-guide-group，Data Id为discovery-guide-gateway，策略内容如下
 ```xml
@@ -1444,7 +1444,7 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/RouteExpressionVersion.jpg)
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 规则策略解释
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 规则策略解释
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
 
@@ -1628,7 +1628,7 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 #### 全链路版本条件权重灰度发布
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/navigator.png) 采用路由（Header）列表随机权重算法
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 规则策略配置
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 规则策略配置
 
 增加Zuul的版本条件权重灰度发布策略，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下
 ```xml
@@ -1662,7 +1662,7 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/RouteExpressionWeightVersion.jpg)
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 规则策略解释
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 规则策略解释
 
 网关随机权重调用服务，服务链路按照版本匹配方式调用
 
@@ -2782,113 +2782,90 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 API网关 -> 服务A -> 服务B
 ```
 2021年6月1日，运维平台已经上线了服务A和服务B各1个实例，进行如下染色
-- 通过它们的组通过`流量染色`步骤，都赋予为`nepxion`（如果整个企业只有一个网关，可以不设置组，缺省为`default`）
-- 通过它们的版本号通过`流量染色`步骤，都赋予为`20210601-0001`
 
-① 启动故障转移（可选）
+① 它们的组通过`流量染色`步骤，都赋予为`nepxion`（如果整个企业只有一个网关，可以不设置组，缺省为`default`）
+
+② 它们的版本号通过`流量染色`步骤，都赋予为`20210601-0001`
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 启动故障转移（可选）
 
 在新版本服务上线之前，通过`故障转移`步骤实施，启动故障转移功能
 
-② 启动蓝绿灰度兜底策略
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 启动蓝绿灰度兜底策略
 
 在API网关上，通过`蓝绿灰度发布`步骤，配置蓝绿灰度发布兜底规则策略，避免流量进入新服务
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-    <strategy-release>
-        <conditions type="blue-green">
-            <condition id="basic-condition" version-id="basic-route"/>
-        </conditions>
-
-        <routes>
-            <route id="basic-route" type="version">{"a":"20210601-0001", "b":"20210601-0001"}</route>
-        </routes>
-    </strategy-release>
-</rule>
-```
 
 以Nacos和Apollo配置中心为例，举例配置方式。下同
-- Nacos配置中心Group为`nepxion`或者`default`，Data Id为`API网关的服务名`
-- Apollo配置中心Key为`API网关的服务名-nepxion`或者`API网关的服务名-default`
 
-③ 上线新服务
+① Nacos配置中心Group为`nepxion`或者`default`，Data Id为`API网关的服务名`
+
+② Apollo配置中心Key为`API网关的服务名-nepxion`或者`API网关的服务名-default`
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 上线新服务
 
 2021年7月1日，运维平台上线新的服务A和服务B各1个实例，进行如下染色，两个新服务实例都启动成功
-- 通过它们的组通过`流量染色`步骤，都赋予为`nepxion`（如果整个企业只有一个网关，可以不设置组，缺省为`default`）
-- 通过它们的版本号通过`流量染色`步骤，都赋予为`20210701-0001`
 
-④ 启动蓝绿灰度发布
+① 它们的组通过`流量染色`步骤，都赋予为`nepxion`（如果整个企业只有一个网关，可以不设置组，缺省为`default`）
+
+② 它们的版本号通过`流量染色`步骤，都赋予为`20210701-0001`
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 启动蓝绿灰度发布
 
 在API网关上，通过`蓝绿灰度发布`步骤，配置蓝绿灰度发布规则策略
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-    <strategy-release>
-        <conditions type="blue-green">
-            <condition id="blue-condition" expression="#H['xyz'] == '1'" version-id="blue-route"/>
-            <condition id="green-condition" expression="#H['xyz'] == '2'" version-id="green-route"/>
-            <condition id="basic-condition" version-id="basic-route"/>
-        </conditions>
 
-        <routes>
-            <route id="blue-route" type="version">{"a":"20210601-0001", "b":"20210601-0001"}</route>	
-            <route id="green-route" type="version">{"a":"20210701-0001", "b":"20210701-0001"}</route>
-            <route id="basic-route" type="version">{"a":"20210601-0001", "b":"20210601-0001"}</route>
-        </routes>
-    </strategy-release>
-</rule>
-```
 通过在调用API网关的URL上增加基于Header/Parameter/Cookie的业务参数`xyz`
-- `xyz`为`1`，切换到蓝路由
-- `xyz`为`2`，切换到绿路由
-- `xyz`缺失，切换到兜底路由
+
+① 蓝绿发布
+- `xyz`为`1`，切换到蓝路由（旧版本链路）
+- `xyz`为`2`，切换到绿路由（新版本链路）
+- `xyz`缺失，切换到兜底路由（旧版本链路）
+
+② 灰度发布
+- `xyz`为`3`，稳定路由（旧版本链路）和灰度路由（新版本链路）的流量配比是90:10
+- `xyz`为`4`，稳定路由（旧版本链路）和灰度路由（新版本链路）的流量配比是70:30
+- `xyz`缺失，稳定路由（旧版本链路）和灰度路由（新版本链路）的流量配比是100:0，即流量不会进行新版本服务的链路
 
 蓝绿灰度执行结果处理
 - 蓝绿灰度发布成功，新版本实例测试通过，流量全部切到新版本实例，下线老版本服务实例
 - 蓝绿灰度发布失败，新版本实例测试失败，流量全部切到旧版本实例，下线新版本服务实例，待问题解决后重新上线新服务
 
-⑤ 启动无损下线（可选）
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 启动无损下线（可选）
 
 在旧版本服务实例下线之前，在API网关上，执行`无损下线`的`添加黑名单`步骤，保证流量不会进入要下线的老版本实例
 
-⑥ 下线旧服务
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 下线旧服务
 
 运维平台停止旧版本的服务实例
 
-⑦ 停止无损下线（可选）
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 停止无损下线（可选）
 
-等待一段时间后，待旧服务实例彻底下线，在API网关上，执行`无损下线`的`删除黑名单`步骤
+等待一段时间后，待旧服务实例彻底下线，在API网关上，执行`无损下线`的`清除黑名单`步骤
 
-⑧ 停止蓝绿灰度发布
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 停止蓝绿灰度发布
 
 在API网关上，通过`蓝绿灰度发布`步骤，清空蓝绿灰度发布规则策略
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 如果通过配置中心操作规则策略，那么第⑦和⑧步骤可以同时进行，即直接赋予空规则策略
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-</rule>
-```
 
 整个流程过程，示意如下，`故障转移`和`无损下线`步骤可以省略
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DevOps.jpg)
 
 #### 对接DevOps运维平台步骤详解
-① 流量染色
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 流量染色
 
 运维平台通过命令行java -jar启动应用，加入启动参数`-Dmetadata.group=abc`和`-Dmetadata.version=xyz`，表示给服务实例进行组维度和版本维度的流量染色，即
 ```
 java -jar -Dmetadata.group=abc -Dmetadata.version=xyz xxx.jar
 ```
-
 如果使用者希望运维侧去决定版本号，那么推荐一种可行性方案，版本号用日期戳-序号的格式
-- 日期戳表示当天的日期
-- 序号表示当天的发布次数，一般定义为四位，即从0001-9999。序号由运维平台来维护，当天每发布一个版本，序号自加1
+
+① 日期戳表示当天的日期
+
+② 序号表示当天的发布次数，一般定义为四位，即从0001-9999。序号由运维平台来维护，当天每发布一个版本，序号自加1
 
 这种表示方式具有很强的可读性意义，例如，`20210601-0003`，表示某一组服务实例蓝绿灰度的版本为2021年6月1日发布的第三个版本
 
-② 故障转移
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 故障转移
 
 为避免发生突发情况，需要做一定的故障转移措施
 
@@ -2900,16 +2877,130 @@ spring.application.strategy.version.failover.enabled=true
 spring.application.strategy.version.failover.stable.enabled=true
 ```
 
-③ 蓝绿灰度发布
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 蓝绿灰度发布
 
-运维平台对接`Nepxion Discovery Console`平台，在网关上实施蓝绿灰度发布，通过`Nepxion Discovery Console`的相关API写入的XML
+运维平台对接`Nepxion Discovery Console`平台，通过链路在后台智能编排的方式，在网关上实施蓝绿灰度发布
 
-④ 无损下线
+链路智能编排的功能，需要有两个前提
+- 线上所有的服务，每个服务最多只能有两个版本
+- 线上所有的服务，每个服务实例版本号支持排序，时间戳方式或者数字递增方式都可以
+
+① 创建兜底、蓝绿、灰度规则策略，统一调用`Nepxion Discovery Console`平台的StrategyEndpoint如下API
+```java
+/**
+  * 局部网关订阅方式，创建兜底、蓝绿、灰度规则策略
+  * @param group 订阅的组名
+  * @param gatewayId 订阅的网关名
+  * @param conditionStrategy 蓝绿灰度策略对象
+  * @return XML格式的规则策略
+*/
+String createVersionRelease(String group, String gatewayId, ConditionStrategy conditionStrategy);
+```
+`ConditionStrategy`的Json数据结构
+
+- 兜底规则策略
+```
+{
+  "service": ["a", "b"]
+}
+```
+- 蓝绿规则策略
+```
+{
+  "service": ["a", "b"],
+  "blueGreen": [
+    {
+      "expression": "#H['xyz'] == '1'",
+      "route": "green"
+    }, 
+    {
+      "expression": "#H['xyz'] == '2'",
+      "route": "blue"
+    }
+  ]
+}
+```
+- 蓝绿规则策略
+```
+{
+  "service": ["discovery-guide-service-a", "discovery-guide-service-b"],
+  "gray": [
+    {
+      "expression": "#H['a'] == '3'",
+      "weight": [90, 10]
+    },
+    {
+      "expression": "#H['a'] == '4'",
+      "weight": [70, 30]
+    },
+    {
+      "weight": [100, 0]
+    }
+  ]
+}
+```
+- 混合蓝绿灰度+内置Header规则策略
+```
+{
+  "service": ["discovery-guide-service-a", "discovery-guide-service-b"],
+  "blueGreen": [
+    {
+      "expression": "#H['a'] == '1'",
+      // 绿（旧版本）路由链路
+      "route": "green"
+    }, 
+    {
+      "expression": "#H['a'] == '2'",
+      // 蓝（新版本）路由链路
+      "route": "blue"
+    }
+  ],
+  "gray": [
+    {
+      "expression": "#H['a'] == '3'",
+      // 稳定（旧版本）路由链路权重，灰度（新版本）路由链路权重
+      "weight": [10, 90]
+    },
+    {
+      "expression": "#H['a'] == '4'",
+      "weight": [40, 60]
+    },
+    {
+      "weight": [0, 100]
+    }
+  ],
+  "header": {"a": "1", "b": "2"}
+}
+```
+
+② 验证兜底、蓝绿、灰度规则策略，统一调用`Nepxion Discovery Console`平台的StrategyEndpoint如下API
+
+如果用户对输入的Json准确性无法判断，可以通过调用该API观察最终XML结果
+```java
+/**
+  * 局部网关订阅方式，清除兜底、蓝绿、灰度规则策略
+  * @param conditionStrategy 蓝绿灰度策略对象
+  * @return XML格式的规则策略
+*/
+String parseVersionRelease(ConditionStrategy conditionStrategy);
+```
+
+③ 清除兜底、蓝绿、灰度规则策略，统一调用`Nepxion Discovery Console`平台的StrategyEndpoint如下API
+```java
+/**
+  * 局部网关订阅方式，清除兜底、蓝绿、灰度规则策略
+  * @param group 订阅的组名
+  * @param gatewayId 订阅的网关名
+  * @return XML格式的规则策略
+*/
+String clearRelease(String group, String gatewayId);
+```
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 无损下线
 
 运维平台通对接`Nepxion Discovery Console`平台，在服务实例实施下线的时候，为达到无损下线的目的，通过`Nepxion Discovery Console`的相关API写入下线实例黑名单的XML，在下线一段后，再清除相关的黑名单
 
-- 运维平台下线某个服务实例之前，调用`Nepxion Discovery Console`平台的BlacklistEndpoint如下API，把需要下线的服务实例根据IP地址和端口添加进黑名单，返回全局唯一的该服务实例的UUId，即可实现实时无损下线
-
+① 运维平台下线某个服务实例之前，调用`Nepxion Discovery Console`平台的BlacklistEndpoint如下API，把需要下线的服务实例根据IP地址和端口添加进黑名单，返回全局唯一的该服务实例的UUId，即可实现实时无损下线
 ```java
 /**
   * 局部网关订阅方式，根据服务实例IP地址和端口，添加下线的服务实例UUId到黑名单
@@ -2922,12 +3013,9 @@ spring.application.strategy.version.failover.stable.enabled=true
 */
 String addBlacklist(String group, String gatewayId, String serviceId, String host, int port);
 ```
-
-也可以通过通配方式，把批量需要下线的服务实例根据IP地址和端口添加进黑名单。例如：
-
-A服务有两个实例，实例1的UUId为`20220920-113301-033-4289-533-056`，实例2的UUId为`20220920-113259-190-5762-550-884`，代表它们同一天`2022年09月20日`上线
-
-通过`20220920*`通配符的方式，表示屏蔽`2022年09月20日`上线的指定服务的所有实例，如果希望更精确，`20220920-11*`，表示屏蔽`2022年09月20日11点`上线的指定服务的所有实例
+也可以通过通配方式，把批量需要下线的服务实例根据日期或者时间通配符方式加入黑名单。例如：
+- A服务有两个实例，实例1的UUId为`20220920-113301-033-4289-533-056`，实例2的UUId为`20220920-113259-190-5762-550-884`，代表它们同一天`2022年09月20日`上线
+- 通过`20220920*`通配符的方式，表示屏蔽`2022年09月20日`上线的指定服务的所有实例，如果希望更精确，`20220920-11*`，表示屏蔽`2022年09月20日11点`上线的指定服务的所有实例
 
 ```java
 /**
@@ -2941,26 +3029,23 @@ A服务有两个实例，实例1的UUId为`20220920-113301-033-4289-533-056`，�
 String addBlacklist(String group, String gatewayId, String serviceId, String serviceUUId);
 ```
 
-- 运维平台每添加一个黑名单后，把返回的服务实例的UUId存储下来（推荐用高可用方案来存储）
-- 运维平台下线某个服务实例一段时间之后（大于负载均衡`3`个时钟周期，推荐`5`分钟），调用`Nepxion Discovery Console`平台的BlacklistEndpoint如下API，把过期的服务实例根据UUId从黑名单里删除掉
+② 运维平台每添加一个黑名单后，把返回的服务实例的UUId存储下来（推荐用高可用方案来存储）
 
+③ 运维平台下线某个服务实例一段时间之后（大于负载均衡`3`个时钟周期，推荐`5`分钟），调用`Nepxion Discovery Console`平台的BlacklistEndpoint如下API，从黑名单清除所有过期的服务实例
 ```java
 /**
-  * 局部网关订阅方式，根据服务实例UUId，从黑名单删除过期的服务实例
+  * 局部网关订阅方式，从黑名单清除所有过期的服务实例
   * @param group 订阅的组名
   * @param gatewayId 订阅的网关名
-  * @param serviceId 已下线实例的服务名
-  * @param serviceUUId 已下线实例的UUId
   * @return 操作成功或者失败
 */
-boolean deleteBlacklist(String group, String gatewayId, String serviceId, String serviceUUId);
+boolean clearBlacklist(String group, String gatewayId);
 ```
-
 需要注意，UUId全局唯一，同样的服务实例重启注册后，UUId会重新产生，不会重复，但追加过多的UUId，虽然不会影响功能，但UUId堆积过多，使规则文本变得臃肿，可能会影响配置订阅的响应效率
 
-⑤ 对接Open API
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 对接Open API
 
-配置操作Config Endpoint
+① 配置操作Config Endpoint
 
 | 操作 | 路径 | 参数 | 方式 |
 | --- | --- | --- | --- |
@@ -2970,7 +3055,7 @@ boolean deleteBlacklist(String group, String gatewayId, String serviceId, String
 | 解析规则配置内容成对象 | `http://`[控制台IP:PORT]/parse | XML内容 | POST |
 | 反解析规则配置对象成内容| `http://`[控制台IP:PORT]/deparse | RuleEntity | POST |
 
-服务操作Service Endpoint
+② 服务操作Service Endpoint
 
 | 操作 | 路径 | 参数 | 方式 |
 | --- | --- | --- | --- |
@@ -2996,7 +3081,7 @@ boolean deleteBlacklist(String group, String gatewayId, String serviceId, String
 
 下文提到的，单元和区域，一般来说等同于机房概念
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 服务所属的区域从多活的角度，一般分为两种类型
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 服务所属的区域从多活的角度，一般分为两种类型
 
 ① 中心单元
 - 部署在核心机房，机器性能，承载能力高
@@ -3008,7 +3093,7 @@ boolean deleteBlacklist(String group, String gatewayId, String serviceId, String
 - 中心单元部署核心服务和共享服务
 - 普通单元可以水平扩容为N个
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 服务从多活的角度，一般分为三种类型
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 服务从多活的角度，一般分为三种类型
 
 ① 全局服务
 - 具有数据强一致性和实时性高要求
@@ -3067,7 +3152,7 @@ boolean deleteBlacklist(String group, String gatewayId, String serviceId, String
 - 用户Id范围映射区域策略
 
 ### 多活单元化用法
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 服务配置操作
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 服务配置操作
 
 ① 多活服务（主要是核心服务和共享服务），执行如下操作
 - 开启故障转移开关
@@ -3100,7 +3185,7 @@ spring.application.strategy.region.failover.enabled=true
 spring.application.strategy.region.failover.enabled=true
 ```
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 流量分拨和多活切换的操作
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 流量分拨和多活切换的操作
 
 ① 域名前缀映射区域策略
 
