@@ -48,6 +48,11 @@ public class BlacklistResourceImpl implements BlacklistResource {
     }
 
     @Override
+    public boolean clearBlacklist(String group) {
+        return clearBlacklist(group, null);
+    }
+
+    @Override
     public String addBlacklist(String group, String gatewayId, String serviceId, String host, int port) {
         InstanceEntity instanceEntity = getInstanceEntity(serviceId, host, port);
         if (instanceEntity == null) {
@@ -100,12 +105,33 @@ public class BlacklistResourceImpl implements BlacklistResource {
         }
     }
 
+    @Override
+    public boolean clearBlacklist(String group, String gatewayId) {
+        RuleEntity ruleEntity = null;
+        try {
+            ruleEntity = configResource.getRemoteRuleEntity(group, getSubscriptionServiceId(group, gatewayId));
+        } catch (Exception e) {
+            throw new DiscoveryException("Get remote RuleEntity failed, group=" + group + ", serviceId=" + getSubscriptionServiceId(group, gatewayId), e);
+        }
+
+        clearBlacklistId(ruleEntity);
+
+        try {
+            return configResource.updateRemoteRuleEntity(group, getSubscriptionServiceId(group, gatewayId), ruleEntity);
+        } catch (Exception e) {
+            throw new DiscoveryException("Update remote RuleEntity failed, group=" + group + ", serviceId=" + getSubscriptionServiceId(group, gatewayId), e);
+        }
+    }
+
     public void addBlacklistId(RuleEntity ruleEntity, String serviceId, String serviceUUId) {
         StrategyBlacklistEntity strategyBlacklistEntity = ruleEntity.getStrategyBlacklistEntity();
         if (strategyBlacklistEntity != null) {
             String idValue = strategyBlacklistEntity.getIdValue();
             if (StringUtils.isNotEmpty(idValue)) {
                 String addIdValue = addBlacklistId(idValue, serviceId, serviceUUId);
+                strategyBlacklistEntity.setIdValue(addIdValue);
+            } else {
+                String addIdValue = addBlacklistId((String) null, serviceId, serviceUUId);
                 strategyBlacklistEntity.setIdValue(addIdValue);
             }
         } else {
@@ -188,6 +214,16 @@ public class BlacklistResourceImpl implements BlacklistResource {
         }
 
         return null;
+    }
+
+    private void clearBlacklistId(RuleEntity ruleEntity) {
+        StrategyBlacklistEntity strategyBlacklistEntity = ruleEntity.getStrategyBlacklistEntity();
+        if (strategyBlacklistEntity != null) {
+            String idValue = strategyBlacklistEntity.getIdValue();
+            if (StringUtils.isNotEmpty(idValue)) {
+                strategyBlacklistEntity.setIdValue(null);
+            }
+        }
     }
 
     private InstanceEntity getInstanceEntity(String serviceId, String host, int port) {
