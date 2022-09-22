@@ -19,6 +19,7 @@ import com.nepxion.discovery.common.handler.DiscoveryResponseErrorHandler;
 import com.nepxion.discovery.console.endpoint.AuthenticationEndpoint;
 import com.nepxion.discovery.console.endpoint.BlacklistEndpoint;
 import com.nepxion.discovery.console.endpoint.ConfigEndpoint;
+import com.nepxion.discovery.console.endpoint.FailoverEndpoint;
 import com.nepxion.discovery.console.endpoint.RouteEndpoint;
 import com.nepxion.discovery.console.endpoint.SentinelEndpoint;
 import com.nepxion.discovery.console.endpoint.ServiceEndpoint;
@@ -30,6 +31,8 @@ import com.nepxion.discovery.console.resource.BlacklistResource;
 import com.nepxion.discovery.console.resource.BlacklistResourceImpl;
 import com.nepxion.discovery.console.resource.ConfigResource;
 import com.nepxion.discovery.console.resource.ConfigResourceImpl;
+import com.nepxion.discovery.console.resource.FailoverResource;
+import com.nepxion.discovery.console.resource.FailoverResourceImpl;
 import com.nepxion.discovery.console.resource.RouteResource;
 import com.nepxion.discovery.console.resource.RouteResourceImpl;
 import com.nepxion.discovery.console.resource.SentinelResource;
@@ -114,6 +117,16 @@ public class ConsoleAutoConfiguration {
         @Bean
         public StrategyEndpoint strategyEndpoint() {
             return new StrategyEndpoint();
+        }
+
+        @Bean
+        public FailoverResource failoverResource() {
+            return new FailoverResourceImpl();
+        }
+
+        @Bean
+        public FailoverEndpoint failoverEndpoint() {
+            return new FailoverEndpoint();
         }
 
         @Bean
