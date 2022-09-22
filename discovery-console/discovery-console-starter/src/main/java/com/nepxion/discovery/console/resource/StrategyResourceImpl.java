@@ -40,8 +40,9 @@ import com.nepxion.discovery.common.expression.DiscoveryExpressionResolver;
 import com.nepxion.discovery.common.expression.DiscoveryTypeComparor;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.common.util.StringUtil;
+import com.nepxion.discovery.console.delegate.ConsoleResourceDelegateImpl;
 
-public class StrategyResourceImpl implements StrategyResource {
+public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements StrategyResource {
     public static final String CONDITION = "condition";
     public static final String ROUTE = "route";
 
@@ -74,40 +75,22 @@ public class StrategyResourceImpl implements StrategyResource {
 
     @Override
     public String createVersionRelease(String group, String gatewayId, ConditionStrategy conditionStrategy) {
-        RuleEntity ruleEntity = null;
-        try {
-            ruleEntity = configResource.getRemoteRuleEntity(group, getSubscriptionServiceId(group, gatewayId));
-        } catch (Exception e) {
-            throw new DiscoveryException("Get remote RuleEntity failed, group=" + group + ", serviceId=" + getSubscriptionServiceId(group, gatewayId), e);
-        }
+        RuleEntity ruleEntity = getRemoteRuleEntity(group, gatewayId);
 
         createVersionStrategyRelease(ruleEntity, conditionStrategy);
 
-        try {
-            configResource.updateRemoteRuleEntity(group, getSubscriptionServiceId(group, gatewayId), ruleEntity);
-        } catch (Exception e) {
-            throw new DiscoveryException("Update remote RuleEntity failed, group=" + group + ", serviceId=" + getSubscriptionServiceId(group, gatewayId), e);
-        }
+        updateRemoteRuleEntity(group, gatewayId, ruleEntity);
 
         return configResource.deparse(ruleEntity);
     }
 
     @Override
     public String clearRelease(String group, String gatewayId) {
-        RuleEntity ruleEntity = null;
-        try {
-            ruleEntity = configResource.getRemoteRuleEntity(group, getSubscriptionServiceId(group, gatewayId));
-        } catch (Exception e) {
-            throw new DiscoveryException("Get remote RuleEntity failed, group=" + group + ", serviceId=" + getSubscriptionServiceId(group, gatewayId), e);
-        }
+        RuleEntity ruleEntity = getRemoteRuleEntity(group, gatewayId);
 
         clearStrategyRelease(ruleEntity);
 
-        try {
-            configResource.updateRemoteRuleEntity(group, getSubscriptionServiceId(group, gatewayId), ruleEntity);
-        } catch (Exception e) {
-            throw new DiscoveryException("Update remote RuleEntity failed, group=" + group + ", serviceId=" + getSubscriptionServiceId(group, gatewayId), e);
-        }
+        updateRemoteRuleEntity(group, gatewayId, ruleEntity);
 
         return configResource.deparse(ruleEntity);
     }
@@ -280,9 +263,5 @@ public class StrategyResourceImpl implements StrategyResource {
         }
 
         return versionList;
-    }
-
-    private String getSubscriptionServiceId(String group, String serviceId) {
-        return StringUtils.isEmpty(serviceId) ? group : serviceId;
     }
 }
