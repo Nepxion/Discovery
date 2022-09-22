@@ -40,18 +40,18 @@ public class FailoverEndpoint {
         return doCreateFailover(group, failoverType, failoverValue);
     }
 
-    @RequestMapping(path = "/create-failover/{group}/{gatewayId}/{failoverType}", method = RequestMethod.POST)
-    @ApiOperation(value = "全局组订阅方式，创建故障转移", notes = "", response = ResponseEntity.class, httpMethod = "POST")
-    @ResponseBody
-    public ResponseEntity<?> createVersionRelease(@PathVariable(value = "group") @ApiParam(value = "订阅的组名", required = true) String group, @PathVariable(value = "gatewayId") @ApiParam(value = "订阅的网关名", required = true) String gatewayId, @PathVariable(value = "failoverType") @ApiParam(value = "故障转移类型。取值：version-prefer | version-failover | region-transfer | region-failover | env-failover | zone-failover | address-failover", required = true) String failoverType, @RequestBody @ApiParam(value = "故障转移值，JSON格式或者非JSON格式", required = true) String failoverValue) {
-        return doCreateFailover(group, gatewayId, failoverType, failoverValue);
-    }
-
     @RequestMapping(path = "/clear-failover/{group}/{failoverType}", method = RequestMethod.POST)
-    @ApiOperation(value = "局部网关订阅方式，清除故障转移", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "全局组订阅方式，清除故障转移", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> clearRelease(@PathVariable(value = "group") @ApiParam(value = "订阅的组名", required = true) String group, @PathVariable(value = "failoverType") @ApiParam(value = "故障转移类型。取值：version-prefer | version-failover | region-transfer | region-failover | env-failover | zone-failover | address-failover", required = true) String failoverType) {
         return doClearFailover(group, failoverType);
+    }
+
+    @RequestMapping(path = "/create-failover/{group}/{gatewayId}/{failoverType}", method = RequestMethod.POST)
+    @ApiOperation(value = "局部网关订阅方式，创建故障转移", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    public ResponseEntity<?> createVersionRelease(@PathVariable(value = "group") @ApiParam(value = "订阅的组名", required = true) String group, @PathVariable(value = "gatewayId") @ApiParam(value = "订阅的网关名", required = true) String gatewayId, @PathVariable(value = "failoverType") @ApiParam(value = "故障转移类型。取值：version-prefer | version-failover | region-transfer | region-failover | env-failover | zone-failover | address-failover", required = true) String failoverType, @RequestBody @ApiParam(value = "故障转移值，JSON格式或者非JSON格式", required = true) String failoverValue) {
+        return doCreateFailover(group, gatewayId, failoverType, failoverValue);
     }
 
     @RequestMapping(path = "/clear-failover/{group}/{gatewayId}/{failoverType}", method = RequestMethod.POST)
