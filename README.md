@@ -620,11 +620,12 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [基于IP地址黑白名单发现准入](#基于IP地址黑白名单发现准入)
     - [自定义注册发现准入](#自定义注册发现准入)
 - [全链路故障转移](#全链路故障转移)
-    - [全链路版本故障转移](#全链路版本故障转移])
-    - [全链路区域故障转移](#全链路区域故障转移])
-    - [全链路环境故障转移](#全链路环境故障转移])
-    - [全链路可用区故障转移](#全链路可用区故障转移])
-    - [全链路IP地址和端口故障转移](#全链路IP地址和端口故障转移])
+    - [全链路版本故障转移](#全链路版本故障转移)
+    - [全链路区域故障转移](#全链路区域故障转移)
+    - [全链路环境故障转移](#全链路环境故障转移)
+    - [全链路可用区故障转移](#全链路可用区故障转移)
+    - [全链路IP地址和端口故障转移](#全链路IP地址和端口故障转移)
+    - [全链路故障转移Rest-Endpoint](#全链路故障转移Rest-Endpoint)
 - [全链路服务无损下线](#全链路服务无损下线)
     - [全局唯一ID屏蔽](#全局唯一ID屏蔽)
     - [IP地址和端口屏蔽](#IP地址和端口屏蔽)
@@ -3684,6 +3685,16 @@ IP地址和端口转移，即无法找到相应IP地址和端口的服务实例�
 # 启动和关闭IP地址和端口故障转移。缺失则默认为false
 spring.application.strategy.address.failover.enabled=true
 ```
+
+### 全链路故障转移Rest-Endpoint
+控制台的Rest Endpoint接口
+
+| 操作 | 路径 | 参数 | 方式 |
+| --- | --- | --- | --- |
+| 全局方式，创建故障转移 | `http://`[控制台IP:PORT]/failover/create-failover/{group}/{failoverType} | 故障转移值 | POST |
+| 全局方式，清除故障转移 | `http://`[控制台IP:PORT]/failover/clear-failover/{group}/{failoverType} | 无 | POST |
+| 局部方式，创建故障转移 | `http://`[控制台IP:PORT]/failover/create-failover/{group}/{gatewayId}/{failoverType} | 故障转移值 | POST |
+| 局部方式，清除故障转移 | `http://`[控制台IP:PORT]/failover/clear-failover/{group}/{gatewayId}/{failoverType} | 无 | POST |
 
 ## 全链路服务无损下线
 服务下线场景下，由于Ribbon/Spring Cloud LoadBalancer负载均衡组件存在着缓存机制，当被提供端服务实例已经下线，而消费端服务实例还暂时缓存着它，直到下个心跳周期才会把已下线的服务实例剔除，在此期间，如果发生调用，会造成流量有损
