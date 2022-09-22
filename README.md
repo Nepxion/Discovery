@@ -2155,8 +2155,6 @@ public String getRouteAddressBlacklist();
 
 GatewayStrategyRouteFilter示例
 ```java
-// 适用于A/B Testing或者更根据某业务参数决定蓝绿灰度路由路径。可以结合配置中心分别配置A/B两条路径，可以动态改变并通知
-// 当Header中传来的用户为张三，执行一条路由路径；为李四，执行另一条路由路径
 public class MyGatewayStrategyRouteFilter extends DefaultGatewayStrategyRouteFilter {
     private static final Logger LOG = LoggerFactory.getLogger(MyGatewayStrategyRouteFilter.class);
 
@@ -2290,8 +2288,6 @@ public GatewayStrategyRouteFilter gatewayStrategyRouteFilter() {
 
 ZuulStrategyRouteFilter示例
 ```java
-// 适用于A/B Testing或者更根据某业务参数决定蓝绿灰度路由路径。可以结合配置中心分别配置A/B两条路径，可以动态改变并通知
-// 当Header中传来的用户为张三，执行一条路由路径；为李四，执行另一条路由路径
 public class MyZuulStrategyRouteFilter extends DefaultZuulStrategyRouteFilter {
     private static final Logger LOG = LoggerFactory.getLogger(MyZuulStrategyRouteFilter.class);
 
@@ -2426,8 +2422,6 @@ public ZuulStrategyRouteFilter zuulStrategyRouteFilter() {
 
 ServiceStrategyRouteFilter示例
 ```java
-// 适用于A/B Testing或者更根据某业务参数决定蓝绿灰度路由路径。可以结合配置中心分别配置A/B两条路径，可以动态改变并通知
-// 当Header中传来的用户为张三，执行一条路由路径；为李四，执行另一条路由路径
 public class MyServiceStrategyRouteFilter extends DefaultServiceStrategyRouteFilter {
     private static final Logger LOG = LoggerFactory.getLogger(MyServiceStrategyRouteFilter.class);
 
@@ -2568,7 +2562,6 @@ public ServiceStrategyRouteFilter serviceStrategyRouteFilter() {
 
 下面代码既适用于Zuul和Spring Cloud Gateway网关，也适用于微服务。继承DefaultDiscoveryEnabledStrategy，可以有多个，通过@Bean方式注入
 ```java
-// 实现了组合策略，版本路由策略+区域路由策略+IP地址和端口路由策略+自定义策略
 public class MyDiscoveryEnabledStrategy extends DefaultDiscoveryEnabledStrategy {
     private static final Logger LOG = LoggerFactory.getLogger(MyDiscoveryEnabledStrategy.class);
 
@@ -2612,7 +2605,6 @@ public DiscoveryEnabledStrategy discoveryEnabledStrategy() {
 
 服务除了支持网关那种基于Rest参数的方式之外，还支持基于Rpc方法参数的方式，它包括接口名、方法名、参数名或参数值等多种形式
 ```java
-// 实现了组合策略，版本路由策略+区域路由策略+IP地址和端口路由策略+自定义策略
 public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
     private static final Logger LOG = LoggerFactory.getLogger(MyDiscoveryEnabledStrategy.class);
 
