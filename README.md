@@ -3084,6 +3084,15 @@ boolean clearBlacklist(String group, String gatewayId);
 | 根据服务名获取实例列表 | `http://`[控制台IP:PORT]/instance-list/{serviceId}| 无 | GET |
 | 根据组名列表获取服务名->实例列表结构的Map | `http://`[控制台IP:PORT]/instance-map | 组名列表 | POST |
 
+③ 故障转移操作Rest Endpoint
+
+| 操作 | 路径 | 参数 | 方式 |
+| --- | --- | --- | --- |
+| 全局方式，创建故障转移 | `http://`[控制台IP:PORT]/failover/create-failover/{group}/{failoverType} | 故障转移值 | POST |
+| 全局方式，清除故障转移 | `http://`[控制台IP:PORT]/failover/clear-failover/{group}/{failoverType} | 无 | POST |
+| 局部方式，创建故障转移 | `http://`[控制台IP:PORT]/failover/create-failover/{group}/{gatewayId}/{failoverType} | 故障转移值 | POST |
+| 局部方式，清除故障转移 | `http://`[控制台IP:PORT]/failover/clear-failover/{group}/{gatewayId}/{failoverType} | 无 | POST |
+
 ## 全链路多活单元化
 
 ### 多活单元化概念
