@@ -2936,7 +2936,7 @@ String createVersionRelease(String group, String gatewayId, ConditionStrategy co
   ]
 }
 ```
-- 蓝绿规则策略
+- 灰度规则策略
 ```
 {
   "service": ["a", "b"],
