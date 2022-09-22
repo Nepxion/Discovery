@@ -2863,7 +2863,6 @@ API网关 -> 服务A -> 服务B
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DevOps.jpg)
 
 #### 对接DevOps运维平台步骤详解
-
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 流量染色
 
 ① 运维平台创建版本号
