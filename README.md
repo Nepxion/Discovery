@@ -157,6 +157,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - 全链路条件驱动、非条件驱动
     - 全链路前端触发后端蓝绿灰度发布
     - 全局订阅式蓝绿灰度发布
+    - 全链路智能编排的蓝绿灰度发布
     - 全链路自定义网关、服务的过滤器、负载均衡策略类触发蓝绿灰度发布
     - 全链路动态变更元数据的蓝绿灰度发布
     - 全链路Header、Parameter、Cookie、域名、RPC Method等参数化规则策略驱动
@@ -588,6 +589,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [全链路端到端实施蓝绿灰度发布](#全链路端到端实施蓝绿灰度发布)
         - [全链路混合实施蓝绿灰度发布](#全链路混合实施蓝绿灰度发布)
         - [单节点混合实施蓝绿灰度发布](#单节点混合实施蓝绿灰度发布)
+    - [全链路智能编排的蓝绿灰度发布](#全链路智能编排的蓝绿灰度发布)
     - [全链路前端触发后端蓝绿灰度发布](#全链路前端触发后端蓝绿灰度发布)
         - [全链路驱动方式](#全链路驱动方式)
         - [全链路参数策略](#全链路参数策略)
@@ -1400,7 +1402,7 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
 | between | | 区间 | #H['a'] between {1, 2} |
 | instanceof | | 实例表达式 | #H['a'] instanceof 'T(String)' |
 
-⑤ Spring Spel的符号转义，对XML格式的规则策略文件，保存在配置中心的时候，需要对表达式中的特殊符号进行转义
+⑤ Spring Spel的符号转义，对Xml格式的规则策略文件，保存在配置中心的时候，需要对表达式中的特殊符号进行转义
 
 | 符号 | 转义符 | 含义 | 备注 |
 | --- | --- | --- | --- |
@@ -1410,7 +1412,7 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
 | > | `&gt;` | 大于号 | |
 | ' | `&apos;` | 单引号 | |
 
-表达式如果包含跟XML格式冲突的字符，就必须转义，例如
+表达式如果包含跟Xml格式冲突的字符，就必须转义，例如
 
 `#`H['a'] == '1' `&amp;&amp;` `#`H['b'] `&lt;`= '2' `&amp;&amp;` `#`H['c'] != '3'
 
@@ -1938,6 +1940,138 @@ if (a == 1) {
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
 
 当蓝绿发布存在兜底策略（`basic-condition`），灰度发布永远不会被执行
+
+### 全链路智能编排的蓝绿灰度发布
+链路智能编排的方式，即路由链路在后台会智能化编排，用户不再需要关心服务实例的版本情况而进行手工编排，只需要配置跟业务参数有关的条件表达式即可，让蓝绿灰度发布变的更简单更易用
+
+链路智能编排的功能，需要有两个前提
+- 线上所有的服务，每个服务最多只能有两个版本
+- 线上所有的服务，每个服务实例版本号支持排序，时间戳方式或者数字递增方式都可以
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 运行控制台
+
+① 下载代码，Git clone [https://github.com/Nepxion/DiscoveryGuide.git](https://github.com/Nepxion/DiscoveryGuide.git)，分支为6.x.x-simple
+
+② 运行`discovery-guide-console`下面的`DiscoveryGuideConsole.java`
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 执行蓝绿灰度发布
+
+通过向控制台发送请求，控制台根据Json格式规则策略，根据新旧版本的判断，智能编排出两条新旧路由链路，并给它们赋予不同的条件表达式，最终创建出完整的Xml格式规则策略，保存到配置中心
+
+① 请求地址
+
+访问如下POST请求
+
+[http://localhost:6001/strategy/create-version-release/discovery-guide-group/discovery-guide-gateway](http://localhost:6001/strategy/create-version-release/discovery-guide-group/discovery-guide-gateway)
+
+链接中，`discovery-guide-group`为订阅的组名，`discovery-guide-gateway`为订阅的网关名
+
+② 请求内容
+
+POST请求不同的内容会产生不同的规则策略
+
+- 兜底规则策略
+```
+{
+  "service": ["a", "b"]
+}
+```
+- 蓝绿规则策略
+```
+{
+  "service": ["a", "b"],
+  "blueGreen": [
+    {
+      "expression": "#H['xyz'] == '1'",
+      "route": "green"
+    }, 
+    {
+      "expression": "#H['xyz'] == '2'",
+      "route": "blue"
+    }
+  ]
+}
+```
+- 灰度规则策略
+```
+{
+  "service": ["a", "b"],
+  "gray": [
+    {
+      "expression": "#H['xyz'] == '3'",
+      "weight": [90, 10]
+    },
+    {
+      "expression": "#H['xyz'] == '4'",
+      "weight": [70, 30]
+    },
+    {
+      "weight": [100, 0]
+    }
+  ]
+}
+```
+- 混合蓝绿灰度+内置Header规则策略
+```
+{
+  "service": ["a", "b"],
+  "blueGreen": [
+    {
+      "expression": "#H['xyz'] == '1'",
+      // 绿（旧版本）路由链路
+      "route": "green"
+    }, 
+    {
+      "expression": "#H['xyz'] == '2'",
+      // 蓝（新版本）路由链路
+      "route": "blue"
+    }
+  ],
+  "gray": [
+    {
+      "expression": "#H['xyz'] == '3'",
+      // 稳定（旧版本）路由链路权重，灰度（新版本）路由链路权重
+      "weight": [10, 90]
+    },
+    {
+      "expression": "#H['xyz'] == '4'",
+      "weight": [40, 60]
+    },
+    {
+      "weight": [0, 100]
+    }
+  ],
+  "header": {"xyz": "1"}
+}
+```
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 验证蓝绿灰度发布
+
+通过向控制台发送请求，控制台根据Json格式规则策略，解析出完整的Xml格式规则策略，用来验证是否达到预期效果
+
+① 请求地址
+
+访问如下POST请求
+
+ [http://localhost:6001/strategy/parse-version-release](http://localhost:6001/strategy/parse-version-release)
+
+② 请求内容
+
+跟`执行蓝绿灰度发布`一致
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 清除蓝绿灰度发布
+
+① 请求地址
+
+访问如下POST请求
+
+[http://localhost:6001/strategy/clear-release/discovery-guide-group/discovery-guide-gateway](http://localhost:6001/strategy/clear-release/discovery-guide-group/discovery-guide-gateway)
+
+链接中，`discovery-guide-group`为订阅的组名，`discovery-guide-gateway`为订阅的网关名
+
+② 请求内容
+
+无
 
 ### 全链路前端触发后端蓝绿灰度发布
 前端可以直接触发后端蓝绿灰度发布，前提条件，需要控制网关和服务上`header.priority`的开关
@@ -2901,7 +3035,7 @@ spring.application.strategy.version.failover.stable.enabled=true
   * @param group 订阅的组名
   * @param gatewayId 订阅的网关名
   * @param conditionStrategy 蓝绿灰度策略对象
-  * @return XML格式的规则策略
+  * @return Xml格式的规则策略
 */
 String createVersionRelease(String group, String gatewayId, ConditionStrategy conditionStrategy);
 ```
@@ -2984,12 +3118,12 @@ String createVersionRelease(String group, String gatewayId, ConditionStrategy co
 
 ② 验证兜底、蓝绿、灰度规则策略，统一调用`Nepxion Discovery Console`平台的StrategyEndpoint如下API
 
-如果用户对输入的Json准确性无法判断，可以通过调用该API观察最终XML结果
+如果用户对输入的Json准确性无法判断，可以通过调用该API观察最终Xml结果
 ```java
 /**
   * 局部网关订阅方式，清除兜底、蓝绿、灰度规则策略
   * @param conditionStrategy 蓝绿灰度策略对象
-  * @return XML格式的规则策略
+  * @return Xml格式的规则策略
 */
 String parseVersionRelease(ConditionStrategy conditionStrategy);
 ```
@@ -3000,14 +3134,14 @@ String parseVersionRelease(ConditionStrategy conditionStrategy);
   * 局部网关订阅方式，清除兜底、蓝绿、灰度规则策略
   * @param group 订阅的组名
   * @param gatewayId 订阅的网关名
-  * @return XML格式的规则策略
+  * @return Xml格式的规则策略
 */
 String clearRelease(String group, String gatewayId);
 ```
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 无损下线
 
-运维平台通对接`Nepxion Discovery Console`平台，在服务实例实施下线的时候，为达到无损下线的目的，通过`Nepxion Discovery Console`的相关API写入下线实例黑名单的XML，在下线一段后，再清除相关的黑名单
+运维平台通对接`Nepxion Discovery Console`平台，在服务实例实施下线的时候，为达到无损下线的目的，通过`Nepxion Discovery Console`的相关API写入下线实例黑名单的Xml，在下线一段后，再清除相关的黑名单
 
 ① 运维平台下线某个服务实例之前，调用`Nepxion Discovery Console`平台的BlacklistEndpoint如下API，把需要下线的服务实例根据IP地址和端口添加进黑名单，返回全局唯一的该服务实例的UUId，即可实现实时无损下线
 ```java
@@ -3061,7 +3195,7 @@ boolean clearBlacklist(String group, String gatewayId);
 | 更新规则配置 | `http://`[控制台IP:PORT]/remote/update/{group}/{serviceId}/xml | 规则配置内容 | POST |
 | 清除规则配置 | `http://`[控制台IP:PORT]/remote/clear/{group}/{serviceId} | 无 | POST |
 | 查看规则配置 | `http://`[控制台IP:PORT]/remote/view/{group}/{serviceId} | 无 | GET |
-| 解析规则配置内容成对象 | `http://`[控制台IP:PORT]/parse | XML内容 | POST |
+| 解析规则配置内容成对象 | `http://`[控制台IP:PORT]/parse | Xml内容 | POST |
 | 反解析规则配置对象成内容| `http://`[控制台IP:PORT]/deparse | RuleEntity | POST |
 
 ② 服务操作Service Endpoint
@@ -5973,14 +6107,14 @@ public class MyConfigProcessor extends NacosProcessor {
 
 服务名大小写规则
 - 在配置文件（application.properties、application.yaml等）里，定义服务名（spring.application.name）不区分大小写
-- 在规则文件（XML、Json）里，引用的服务名必须小写
+- 在规则文件（Xml、Json）里，引用的服务名必须小写
 - 在Nacos、Apollo、Redis等远程配置中心的Key，包含的服务名必须小写
 
 ### 规则策略内容定义
-规则策略的格式是XML或者Json，存储于本地文件或者远程配置中心，可以通过远程配置中心修改的方式达到规则策略动态化。其核心代码参考discovery-plugin-framework以及它的扩展、discovery-plugin-config-center以及它的扩展和discovery-plugin-admin-center等
+规则策略的格式是Xml或者Json，存储于本地文件或者远程配置中心，可以通过远程配置中心修改的方式达到规则策略动态化。其核心代码参考discovery-plugin-framework以及它的扩展、discovery-plugin-config-center以及它的扩展和discovery-plugin-admin-center等
 
 ### 规则策略示例
-XML最全的示例如下，Json示例见源码discovery-springcloud-example-service工程下的rule.json
+Xml最全的示例如下，Json示例见源码discovery-springcloud-example-service工程下的rule.json
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
