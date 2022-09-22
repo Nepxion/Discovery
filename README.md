@@ -6177,6 +6177,24 @@ XML最全的示例如下，Json示例见源码discovery-springcloud-example-serv
         <header>{"a":"1", "b":"2", "c":"3"}</header>
     </strategy-release>
 
+    <!-- 策略路由上服务容灾名单 -->
+    <strategy-failover>
+        <!-- 版本偏好，非蓝绿灰度发布场景下，路由到指定版本的实例 -->
+        <version-prefer>{"discovery-springcloud-example-a":"1.0", "discovery-springcloud-example-b":"1.0", "discovery-springcloud-example-c":"1.0"}</version-prefer>
+        <!-- 版本故障转移，无法找到相应版本的服务实例，路由到指定版本的实例 -->
+        <version-failover>{"discovery-springcloud-example-a":"1.1", "discovery-springcloud-example-b":"1.1", "discovery-springcloud-example-c":"1.1"}</version-failover>
+        <!-- 区域调试转移，跨区调试路由到指定区域的实例 -->
+        <region-transfer>qa</region-transfer>
+        <!-- 区域故障转移，无法找到相应区域的服务实例，路由到指定区域的实例 -->
+        <region-failover>dev</region-failover>
+        <!-- 环境故障转移，无法找到相应环境的服务实例，路由到指定环境的实例 -->
+        <env-failover>env1;default</env-failover>
+        <!-- 可用区故障转移，无法找到相应可用区的服务实例，路由到指定可用区的实例 -->
+        <zone-failover>zone1;default</zone-failover>
+        <!-- IP地址和端口故障转移，无法找到相应IP地址和端口的服务实例，路由到指定IP地址和端口的实例 -->
+        <address-failover>*1</address-failover>
+    </strategy-failover>
+
     <!-- 策略路由上服务屏蔽黑名单。一般适用于服务下线场景，流量实现实时性的绝对无损：下线之前，把服务实例添加到下面屏蔽名单中，负载均衡不会去寻址该服务实例。下线之后，清除该名单 -->
     <strategy-blacklist>
         <!-- 通过全局唯一ID进行屏蔽，ID对应于元数据spring.application.uuid字段 -->
