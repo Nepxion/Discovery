@@ -203,6 +203,7 @@ public class ServiceResourceImpl implements ServiceResource {
             Map<String, String> metadata = instance.getMetadata();
             String serviceId = instance.getServiceId().toLowerCase();
             String serviceType = metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_TYPE);
+            String serviceUUId = metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_UUID);
             String version = metadata.get(DiscoveryConstant.VERSION);
             String region = metadata.get(DiscoveryConstant.REGION);
             String environment = metadata.get(DiscoveryConstant.ENVIRONMENT);
@@ -213,6 +214,7 @@ public class ServiceResourceImpl implements ServiceResource {
             InstanceEntity instanceEntity = new InstanceEntity();
             instanceEntity.setServiceType(serviceType);
             instanceEntity.setServiceId(serviceId);
+            instanceEntity.setServiceUUId(serviceUUId);
             instanceEntity.setVersion(version);
             instanceEntity.setRegion(region);
             instanceEntity.setEnvironment(environment);
