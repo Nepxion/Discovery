@@ -109,6 +109,7 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
 
     private void createVersionStrategyRelease(RuleEntity ruleEntity, ConditionStrategy conditionStrategy) {
         List<String> serviceList = conditionStrategy.getService();
+        // 输入的服务列表为空，不允许执行蓝绿灰度发布，抛出异常
         if (CollectionUtils.isEmpty(serviceList)) {
             throw new DiscoveryException("Services are empty");
         }
@@ -117,26 +118,34 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
         Map<String, String> unstableVersionMap = new LinkedHashMap<String, String>();
         for (String service : serviceList) {
             List<String> versionList = assembleVersionList(service);
+            // 如果线上版本为0个，不允许执行蓝绿灰度发布，抛出异常
             if (CollectionUtils.isEmpty(versionList)) {
-                throw new DiscoveryException("Register Centery - Service[" + service + "] has no versions");
+                throw new DiscoveryException("Service[" + service + "] has no versions");
             }
 
+            // 旧版本，取值第1个
             String stableVersion = versionList.get(0);
             stableVersionMap.put(service, stableVersion);
 
-            if (versionList.size() > 1) {
-                String unstableVersion = versionList.get(1);
-                unstableVersionMap.put(service, unstableVersion);
+            String unstableVersion = null;
+            // 如果线上版本只有1个（属于用户误把非蓝绿灰度发布的服务添加入名单），新/旧版本相同，取值第1个
+            if (versionList.size() == 1) {
+                unstableVersion = versionList.get(0);
+                // 如果线上版本只有2个（标准蓝绿灰度发布），取值第2个
+            } else if (versionList.size() == 2) {
+                unstableVersion = versionList.get(1);
+                // 如果线上版本多于2个，取值第2个到最后1个，用逗号分隔
+                // 例如，3个版本为1.0, 2.0, 3.0，新版本为“2.0;3.0”
+            } else {
+                versionList.remove(0);
+
+                unstableVersion = StringUtil.convertToString(versionList);
             }
+            unstableVersionMap.put(service, unstableVersion);
         }
 
         List<ConditionBlueGreenEntity> blueGreenList = conditionStrategy.getBlueGreen();
         List<ConditionGrayEntity> grayList = conditionStrategy.getGray();
-        if (CollectionUtils.isNotEmpty(blueGreenList) || CollectionUtils.isNotEmpty(grayList)) {
-            if (stableVersionMap.size() != unstableVersionMap.size()) {
-                throw new DiscoveryException("Register Centery - all services must have two versions while BlueGreen or Gray Release");
-            }
-        }
 
         StrategyEntity strategyEntity = new StrategyEntity();
         strategyEntity.setVersionValue(JsonUtil.toJson(stableVersionMap));
