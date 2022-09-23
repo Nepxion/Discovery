@@ -599,6 +599,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [全链路动态变更元数据的蓝绿灰度发布](#全链路动态变更元数据的蓝绿灰度发布)
     - [全链路蓝绿灰度发布Rest-Endpoint](#全链路蓝绿灰度发布Rest-Endpoint)
     - [全链路蓝绿灰度发布对接DevOps运维平台最佳企业级实践](#全链路蓝绿灰度发布对接DevOps运维平台最佳企业级实践)
+        - [对接DevOps运维平台架构方案](#对接DevOps运维平台架构方案)
         - [对接DevOps运维平台最佳实践](#对接DevOps运维平台最佳实践)
         - [对接DevOps运维平台步骤详解](#对接DevOps运维平台步骤详解)
 - [全链路多活单元化](#多活单元化)
@@ -2916,6 +2917,21 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 | 局部方式，清除蓝绿灰度发布 | `http://`[控制台IP:PORT]/strategy/clear-release/{group}/{gatewayId} | 无 | POST |
 
 ### 全链路蓝绿灰度发布对接DevOps运维平台最佳企业级实践
+
+#### 对接DevOps运维平台架构方案
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 架构
+
+① 控制台需要连接注册中心和配置中心
+
+② 控制台建议实现高可用架构，控制台前面部署API网关和运维平台对接
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 方案
+
+① 运维平台调用控制台的Open API，控制台进行链路智能编排
+
+② 控制台把最终蓝绿灰度规则策略推送到配置中心
+
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/ConsoleArchitecture.jpg)
 
 #### 对接DevOps运维平台最佳实践
 > 最佳实践采用举例说明，使用者需要依据实际情况来确认版本号、业务参数名和值等
