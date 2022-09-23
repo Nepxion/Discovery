@@ -1752,7 +1752,7 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 
 ![](http://nepxion.gitee.io/discovery/docs/polaris-doc/DomainDisable.jpg)
 
-### 全局订阅式部署
+#### 全局订阅式部署
 ① 场景
 - A部门和B部门是否有各自的网关，服务之间如何调用都不做要求
 
