@@ -1,8 +1,0 @@
-org.springframework.boot.env.EnvironmentPostProcessor=\
-com.nepxion.discovery.console.context.ConsoleEnvironmentPostProcessor
-
-org.springframework.context.ApplicationContextInitializer=\
-com.nepxion.discovery.console.context.ConsoleApplicationContextInitializer
-
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.nepxion.discovery.console.configuration.ConsoleAutoConfiguration
