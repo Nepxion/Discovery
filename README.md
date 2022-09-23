@@ -2996,21 +2996,51 @@ API网关 -> 服务A -> 服务B
 #### 对接DevOps运维平台步骤详解
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 流量染色
 
-① 运维平台创建版本号
-
 运维平台通过命令行java -jar启动应用，加入启动参数`-Dmetadata.group=xxx`和`-Dmetadata.version=yyy`，表示给服务实例进行组维度和版本维度的流量染色，即
 ```
 java -jar -Dmetadata.group=xxx -Dmetadata.version=yyy abc.jar
 ```
-如果使用者希望运维侧去决定版本号，那么推荐一种可行性方案，版本号用日期戳-序号的格式
+
+基于时间戳格式的全局唯一版本号流量染色，有如下两种最佳实践，使用者根据企业现状，选择一种
+
+① Git插件创建版本号（把版本号创建权力下放给基础架构）
+
+服务通过集成插件git-commit-id-plugin产生git信息文件的方式，获取git.commit.time（最后一次代码提交日期）加{git.total.commit.count}（总提交次数）来自动创建版本号，例如，20210601-567。运维平台不再需要加入启动参数`-Dmetadata.version=yyy`
+
+- 增加Git编译插件
+```xml
+<plugin>
+    <groupId>pl.project13.maven</groupId>
+    <artifactId>git-commit-id-plugin</artifactId>
+    <executions>
+        <execution>
+            <goals>
+                <goal>revision</goal>
+            </goals>
+        </execution>
+    </executions>
+    <configuration>
+        <!-- 必须配置，并指定为true -->
+        <generateGitPropertiesFile>true</generateGitPropertiesFile>
+        <!-- 指定日期格式 -->
+        <dateFormat>yyyyMMdd</dateFormat>
+        <!-- <dateFormat>yyyy-MM-dd-HH:mm:ss</dateFormat> -->
+    </configuration>
+</plugin>
+```
+- 开启Git插件产生版本号的开关
+```
+# 开启和关闭使用Git信息中的字段单个或者多个组合来作为服务版本号。缺失则默认为false
+spring.application.git.generator.enabled=true
+```
+
+② 运维平台创建版本号（把版本号创建权力下放给运维平台）
+
+运维平台决定版本号可以采用日期戳-序号的格式
 - 日期戳表示当天的日期
 - 序号表示当天的发布次数，一般定义为四位，即从0001-9999。序号由运维平台来维护，当天每发布一个版本，序号自加1
 
 这种表示方式具有很强的可读性意义，例如，`20210601-0003`，表示某一组服务实例蓝绿灰度的版本为2021年6月1日发布的第三个版本
-
-② Git插件创建版本号
-
-参考WIKI`如何基于Git插件自动创建版本号`，如果采用该方式，则不需要加启动参数`-Dmetadata.version=yyy`
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 故障转移
 
