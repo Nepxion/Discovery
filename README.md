@@ -1707,7 +1707,6 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 - 节点`route`对应的Json中版本替换成IP地址和端口
 
 ### 全链路蓝绿灰度部署
-
 ![](http://nepxion.gitee.io/discovery/docs/polaris-doc/All.jpg)
 
 #### 全链路单网关部署
