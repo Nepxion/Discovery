@@ -91,6 +91,8 @@ public interface PluginAdapter {
 
     String getServerServiceId(Server server);
 
+    String getServerServiceAppId(Server server);
+
     String getServerServiceUUId(Server server);
 
     String getServerVersion(Server server);
@@ -120,6 +122,8 @@ public interface PluginAdapter {
     String getInstanceServiceType(ServiceInstance instance);
 
     String getInstanceServiceId(ServiceInstance instance);
+
+    String getInstanceServiceAppId(ServiceInstance instance);
 
     String getInstanceServiceUUId(ServiceInstance instance);
 

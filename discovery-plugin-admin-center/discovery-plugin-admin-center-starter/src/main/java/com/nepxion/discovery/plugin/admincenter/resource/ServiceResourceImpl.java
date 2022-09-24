@@ -203,6 +203,7 @@ public class ServiceResourceImpl implements ServiceResource {
             String group = InstanceEntityWrapper.getGroup(metadata);
             String serviceType = InstanceEntityWrapper.getServiceType(metadata);
             String serviceId = instance.getServiceId().toLowerCase();
+            String serviceAppId = InstanceEntityWrapper.getServiceAppId(metadata);
             String serviceUUId = InstanceEntityWrapper.getServiceUUId(metadata);
             String version = InstanceEntityWrapper.getVersion(metadata);
             String region = InstanceEntityWrapper.getRegion(metadata);
@@ -220,6 +221,7 @@ public class ServiceResourceImpl implements ServiceResource {
             instanceEntity.setGroup(group);
             instanceEntity.setServiceType(serviceType);
             instanceEntity.setServiceId(serviceId);
+            instanceEntity.setServiceAppId(serviceAppId);
             instanceEntity.setServiceUUId(serviceUUId);
             instanceEntity.setVersion(version);
             instanceEntity.setRegion(region);
