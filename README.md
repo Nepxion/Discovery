@@ -1329,7 +1329,7 @@ n-d-address={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"30
 #### 全链路版本条件匹配蓝绿发布
 通过Header、Parameter、Cookie驱动参数和条件表达式结合，把业务定义的这三个驱动参数转化成全链路传递的策略路由Header，执行基于版本匹配的蓝、绿、兜底三条路由驱动，实现全链路版本条件匹配蓝绿发布
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 驱动参数
+<font size=5>**驱动参数**</font>
 
 ① Header、Parameter、Cookie参数传递。对于要驱动发布的参数，例如，业务参数user，可以选择Header、Parameter、Cookie其中任意一个传递，都是等效的
 
@@ -1337,7 +1337,7 @@ n-d-address={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"30
 
 ③ Header、Parameter、Cookie参数混合。对于要驱动发布的参数，如果不止一个，例如，业务参数user、age、address，可以全部是Header或者Parameter或者Cookie，也可以是这三者混合传递：user通过Header传递，age通过Parameter传递，address通过Cookie传递
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 条件表达式
+<font size=5>**条件表达式**</font>
 
 ① Spring Spel的条件表达式，支持等于=、不等于!=、大于>、小于<、与&&、或||、匹配matches，以及加减乘除取模等全部标准表达式用法
 
@@ -1417,7 +1417,7 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
 
 `#`H['a'] == '1' `&amp;&amp;` `#`H['b'] `&lt;`= '2' `&amp;&amp;` `#`H['c'] != '3'
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 规则策略配置
+<font size=5>**规则策略配置**</font>
 
 增加Spring Cloud Gateway的版本条件匹配蓝绿发布策略，Group为discovery-guide-group，Data Id为discovery-guide-gateway，策略内容如下
 ```xml
@@ -1450,7 +1450,7 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/RouteExpressionVersion.jpg)
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 规则策略解释
+<font size=5>**规则策略解释**</font>
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
 
