@@ -20,9 +20,9 @@ public class DiscoveryMetaDataConstant {
     public static final String SPRING_APPLICATION_GROUP_KEY = "spring_application_group_key";
     public static final String SPRING_APPLICATION_CONTEXT_PATH = "spring_application_context-path";
 
-    public static final String APP_ID = "app_id";
     public static final String SPRING_BOOT_VERSION = "spring_boot_version";
     public static final String SPRING_APPLICATION_UUID = "spring_application_uuid";
+    public static final String SPRING_APPLICATION_APP_ID = "spring_application_app_id";
     public static final String SPRING_APPLICATION_NAME = "spring_application_name";
     public static final String SPRING_APPLICATION_TYPE = "spring_application_type";
     public static final String SPRING_APPLICATION_GATEWAY_TYPE = "spring_application_gateway_type";

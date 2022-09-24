@@ -42,9 +42,6 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     @Autowired
     protected RuleCache ruleCache;
 
-    @Autowired(required = false)
-    protected ApplicationInfoAdapter applicationInfoAdapter;
-
     @Value("${" + DiscoveryConstant.SPRING_APPLICATION_GROUP_KEY + ":" + DiscoveryConstant.GROUP + "}")
     private String groupKey;
 
@@ -168,11 +165,7 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Override
     public String getServiceAppId() {
-        if (applicationInfoAdapter != null) {
-            return applicationInfoAdapter.getAppId();
-        }
-
-        return null;
+        return getMetadata().get(DiscoveryMetaDataConstant.SPRING_APPLICATION_APP_ID);
     }
 
     @Override
@@ -350,6 +343,11 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     @Override
+    public String getServerServiceAppId(Server server) {
+        return getServerMetadata(server).get(DiscoveryMetaDataConstant.SPRING_APPLICATION_APP_ID);
+    }
+
+    @Override
     public String getServerServiceUUId(Server server) {
         return getServerMetadata(server).get(DiscoveryMetaDataConstant.SPRING_APPLICATION_UUID);
     }
@@ -472,6 +470,11 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     @Override
     public String getInstanceServiceId(ServiceInstance instance) {
         return instance.getServiceId().toLowerCase();
+    }
+
+    @Override
+    public String getInstanceServiceAppId(ServiceInstance instance) {
+        return getInstanceMetadata(instance).get(DiscoveryMetaDataConstant.SPRING_APPLICATION_APP_ID);
     }
 
     @Override

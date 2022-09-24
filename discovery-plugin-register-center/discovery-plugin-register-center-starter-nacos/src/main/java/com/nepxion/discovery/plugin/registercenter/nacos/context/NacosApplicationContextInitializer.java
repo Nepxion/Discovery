@@ -96,7 +96,7 @@ public class NacosApplicationContextInitializer extends PluginApplicationContext
             try {
                 ApplicationInfoAdapter applicationInfoAdapter = applicationContext.getBean(ApplicationInfoAdapter.class);
                 if (applicationInfoAdapter != null) {
-                    metadata.put(DiscoveryMetaDataConstant.APP_ID, applicationInfoAdapter.getAppId());
+                    metadata.put(DiscoveryMetaDataConstant.SPRING_APPLICATION_APP_ID, applicationInfoAdapter.getAppId());
                 }
             } catch (Exception e) {
 

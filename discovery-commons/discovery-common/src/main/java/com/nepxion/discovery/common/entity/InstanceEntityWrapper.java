@@ -42,6 +42,12 @@ public class InstanceEntityWrapper {
         return getGatewayType(metadata);
     }
 
+    public static String getServiceAppId(InstanceEntity instanceEntity) {
+        Map<String, String> metadata = instanceEntity.getMetadata();
+
+        return getServiceAppId(metadata);
+    }
+
     public static String getServiceUUId(InstanceEntity instanceEntity) {
         Map<String, String> metadata = instanceEntity.getMetadata();
 
@@ -143,6 +149,10 @@ public class InstanceEntityWrapper {
 
     public static String getGatewayType(Map<String, String> metadata) {
         return metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_GATEWAY_TYPE);
+    }
+
+    public static String getServiceAppId(Map<String, String> metadata) {
+        return metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_APP_ID);
     }
 
     public static String getServiceUUId(Map<String, String> metadata) {

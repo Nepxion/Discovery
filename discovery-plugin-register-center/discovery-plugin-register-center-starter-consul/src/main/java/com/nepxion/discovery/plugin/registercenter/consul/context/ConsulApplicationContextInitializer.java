@@ -93,7 +93,7 @@ public class ConsulApplicationContextInitializer extends PluginApplicationContex
             try {
                 ApplicationInfoAdapter applicationInfoAdapter = applicationContext.getBean(ApplicationInfoAdapter.class);
                 if (applicationInfoAdapter != null) {
-                    metadata.add(DiscoveryMetaDataConstant.APP_ID + "=" + applicationInfoAdapter.getAppId());
+                    metadata.add(DiscoveryMetaDataConstant.SPRING_APPLICATION_APP_ID + "=" + applicationInfoAdapter.getAppId());
                 }
             } catch (Exception e) {
 
