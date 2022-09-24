@@ -38,7 +38,7 @@ public class FailoverResourceImpl extends ConsoleResourceDelegateImpl implements
 
         updateRemoteRuleEntity(group, gatewayId, ruleEntity);
 
-        return configResource.deparse(ruleEntity);
+        return configResource.fromRuleEntity(ruleEntity);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class FailoverResourceImpl extends ConsoleResourceDelegateImpl implements
 
         updateRemoteRuleEntity(group, gatewayId, ruleEntity);
 
-        return configResource.deparse(ruleEntity);
+        return configResource.fromRuleEntity(ruleEntity);
     }
 
     private void createFailover(RuleEntity ruleEntity, FailoverType failoverType, String failoverValue) {
