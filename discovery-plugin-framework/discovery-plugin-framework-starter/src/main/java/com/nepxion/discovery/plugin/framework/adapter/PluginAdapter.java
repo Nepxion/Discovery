@@ -17,36 +17,6 @@ import com.nepxion.discovery.common.entity.RuleEntity;
 import com.netflix.loadbalancer.Server;
 
 public interface PluginAdapter {
-    String getPlugin();
-
-    String getGroupKey();
-
-    String getGroup();
-
-    String getServiceType();
-
-    String getServiceId();
-
-    String getServiceAppId();
-
-    String getServiceUUId();
-
-    String getHost();
-
-    int getPort();
-
-    Map<String, String> getMetadata();
-
-    String getVersion();
-
-    String getLocalVersion();
-
-    String getDynamicVersion();
-
-    void setDynamicVersion(String version);
-
-    void clearDynamicVersion();
-
     RuleEntity getRule();
 
     RuleEntity getLocalRule();
@@ -67,11 +37,37 @@ public interface PluginAdapter {
 
     void clearDynamicGlobalRule();
 
+    String getPlugin();
+
+    String getGroupKey();
+
+    String getGroup();
+
+    String getServiceType();
+
+    String getServiceId();
+
+    String getServiceAppId();
+
+    String getServiceUUId();
+
+    String getVersion();
+
+    String getLocalVersion();
+
+    String getDynamicVersion();
+
+    void setDynamicVersion(String version);
+
+    void clearDynamicVersion();
+
     String getRegion();
 
     String getEnvironment();
 
     String getZone();
+
+    boolean isActive();
 
     String getProtocol();
 
@@ -79,9 +75,11 @@ public interface PluginAdapter {
 
     String getFormatContextPath();
 
-    boolean isActive();
+    String getHost();
 
-    Map<String, String> getServerMetadata(Server server);
+    int getPort();
+
+    Map<String, String> getMetadata();
 
     String getServerPlugin(Server server);
 
@@ -103,15 +101,15 @@ public interface PluginAdapter {
 
     String getServerZone(Server server);
 
+    boolean isServerActive(Server server);
+
     String getServerProtocol(Server server);
 
     String getServerContextPath(Server server);
 
     String getServerFormatContextPath(Server server);
 
-    boolean isServerActive(Server server);
-
-    Map<String, String> getInstanceMetadata(ServiceInstance instance);
+    Map<String, String> getServerMetadata(Server server);
 
     String getInstancePlugin(ServiceInstance instance);
 
@@ -133,13 +131,15 @@ public interface PluginAdapter {
 
     String getInstanceZone(ServiceInstance instance);
 
+    boolean isInstanceActive(ServiceInstance instance);
+
     String getInstanceProtocol(ServiceInstance instance);
 
     String getInstanceContextPath(ServiceInstance instance);
 
     String getInstanceFormatContextPath(ServiceInstance instance);
 
-    boolean isInstanceActive(ServiceInstance instance);
+    Map<String, String> getInstanceMetadata(ServiceInstance instance);
 
     String getPluginInfo(String previousPluginInfo);
 }
