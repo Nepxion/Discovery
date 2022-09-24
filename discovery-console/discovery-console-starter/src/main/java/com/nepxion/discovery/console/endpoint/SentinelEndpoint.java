@@ -39,7 +39,7 @@ public class SentinelEndpoint {
     @RequestMapping(path = "/update/{ruleType}/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "批量更新哨兵规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> sentinelUpdate(@PathVariable(value = "ruleType") @ApiParam(value = "哨兵规则类型。取值： flow | degrade | authority | system | param-flow", defaultValue = "flow", required = true) String ruleType, @PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "哨兵规则内容，JSON格式", required = true) String rule) {
+    public ResponseEntity<?> sentinelUpdate(@PathVariable(value = "ruleType") @ApiParam(value = "哨兵规则类型。取值： flow | degrade | authority | system | param-flow", defaultValue = "flow", required = true) String ruleType, @PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "哨兵规则内容，Json格式", required = true) String rule) {
         return doSentinelUpdate(ruleType, serviceId, rule);
     }
 

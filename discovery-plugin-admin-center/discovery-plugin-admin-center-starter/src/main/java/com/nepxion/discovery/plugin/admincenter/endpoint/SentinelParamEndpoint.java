@@ -37,7 +37,7 @@ public class SentinelParamEndpoint {
     @RequestMapping(path = "/update-param-flow-rules", method = RequestMethod.POST)
     @ApiOperation(value = "更新热点参数流控规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> updateParamFlowRules(@RequestBody @ApiParam(value = "热点参数流控规则内容，JSON格式", required = true) String rule) {
+    public ResponseEntity<?> updateParamFlowRules(@RequestBody @ApiParam(value = "热点参数流控规则内容，Json格式", required = true) String rule) {
         return doUpdateParamFlowRules(rule);
     }
 
