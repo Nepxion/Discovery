@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>Nepxion Discovery</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="keywords" content="Nepxion Discovery" />
+  <meta name="description" content="Nepxion Discovery" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css" title="vue" />
+  <link rel="stylesheet" href="./vendor/docsify/lib/themes/vue.css">
+  <link rel="stylesheet" href="./vendor/mermaid/dist/mermaid.min.css">
+  <script src="./vendor/mermaid/dist/mermaid.min.js"></script>
+  <link rel="icon" href="_media/Logo32.png" />
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?07fb594e42a71f84528d48242ada976d";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+</head>
+<body>
+  <div id="app">Loading ...</div>
+  <script>
+    window.$docsify = {
+      name: 'Nepxion Discovery',
+      // homepage: 'https://gitee.com/Nepxion/Discovery/blob/wiki/README.md',
+      nameLink: 'https://github.com/Nepxion/Discovery',
+      repo: 'https://github.com/Nepxion/Discovery',
+      markdown: {
+        renderer: {
+          code: function (code, lang) {
+            if (lang === "mermaid") {
+              return (
+                '<div class="mermaid">' + mermaid.render('mermaid-svg-' + num++, code) + "</div>"
+              );
+            }
+            return this.origin.code.apply(this, arguments);
+          }
+        }
+      },
+      search: {
+        noData: {
+          '/zh/': '没有结果',
+          '/en/': 'No results',
+          '/': '没有结果',
+        },
+        paths: 'auto',
+        placeholder: {
+          '/zh/': '搜索',
+          '/en/': 'Search',
+          '/': '搜索',
+        },
+      },
+      copyCode: {
+        buttonText: {
+          '/zh/': '点击复制',
+          '/en/': 'Copy to clipboard',
+          '/': '点击复制',
+        },
+        errorText: {
+          '/zh/': '错误',
+          '/en/': 'Error',
+          '/': '错误',
+        },
+        successText: {
+          '/zh/': '复制成功',
+          '/en': 'Copied',
+          '/': '复制成功',
+        },
+      },
+      disqus: 'shortname',
+      coverpage: true,
+      auto2top: true
+   }
+  </script>
+  <script src="./vendor/docsify/lib/docsify.min.js"></script>
+  <!-- plugins -->
+  <!-- support search -->
+  <script src="./vendor/docsify/lib/plugins/search.js"></script>
+  <!-- medium's image zoom -->
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
+  <!-- add a simple Click to copy button to all preformatted code blocks to effortlessly allow users to copy example code from your docs -->
+  <script src="//cdn.jsdelivr.net/npm/docsify-copy-code"></script>
+  <!--emoji-->
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/emoji.min.js"></script>
+  <script src="//unpkg.com/docsify-count/dist/countable.js"></script>
+  <!-- code highlight -->
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-csharp.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-java.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-json.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-markdown.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-nginx.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-properties.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-sql.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-xml-doc.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-yaml.min.js"></script>
+</body>
+</html>
