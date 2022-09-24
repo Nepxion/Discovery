@@ -60,7 +60,7 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
 
         createVersionStrategyRelease(ruleEntity, conditionStrategy);
 
-        return configResource.deparse(ruleEntity);
+        return configResource.fromRuleEntity(ruleEntity);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
 
         updateRemoteRuleEntity(group, gatewayId, ruleEntity);
 
-        return configResource.deparse(ruleEntity);
+        return configResource.fromRuleEntity(ruleEntity);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
 
         updateRemoteRuleEntity(group, gatewayId, ruleEntity);
 
-        return configResource.deparse(ruleEntity);
+        return configResource.fromRuleEntity(ruleEntity);
     }
 
     @Override
