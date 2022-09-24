@@ -3023,6 +3023,7 @@ java -jar -Dmetadata.group=xxx -Dmetadata.version=yyy abc.jar
 服务通过集成插件git-commit-id-plugin产生git信息文件的方式，获取git.commit.time（最后一次代码提交日期）加{git.total.commit.count}（总提交次数）来自动创建版本号，例如，20210601-567。运维平台不再需要加入启动参数`-Dmetadata.version=yyy`
 
 - 增加Git编译插件
+
 ```xml
 <plugin>
     <groupId>pl.project13.maven</groupId>
@@ -3043,7 +3044,9 @@ java -jar -Dmetadata.group=xxx -Dmetadata.version=yyy abc.jar
     </configuration>
 </plugin>
 ```
+
 - 开启Git插件产生版本号的开关
+
 ```
 # 开启和关闭使用Git信息中的字段单个或者多个组合来作为服务版本号。缺失则默认为false
 spring.application.git.generator.enabled=true
@@ -3092,9 +3095,10 @@ String createFailover(String group, String gatewayId, FailoverType failoverType,
 String clearFailover(String group, String gatewayId, FailoverType failoverType);
 ```
 
-③ 查询故障转移规则策略，统一调用`Nepxion Discovery Console`平台的FailoverEndpoint如下API
+③ 查询故障转移规则策略，统一调用`Nepxion Discovery Console`平台的ConfigEndpoint如下API
 
-查询配置中心的Xml格式的规则策略
+- 查询配置中心的Xml格式的规则策略
+
 ```java
 /**
   * 查询规则策略
@@ -3105,7 +3109,8 @@ String clearFailover(String group, String gatewayId, FailoverType failoverType);
 String getRemoteConfig(String group, String serviceId) throws Exception;
 ```
 
-把Xml格式的规则策略，转化成RuleEntity对象的Json格式
+- 把Xml格式的规则策略，转化成RuleEntity对象的Json格式
+
 ```java
 /**
   * 查询规则策略
@@ -3117,6 +3122,7 @@ RuleEntity parse(String config);
 ```
 
 - 获取故障转移规则策略
+
 ```java
 StrategyFailoverEntity strategyFailoverEntity = ruleEntity.getStrategyBlacklistEntity();
 // 版本偏好
@@ -3153,12 +3159,15 @@ String createVersionRelease(String group, String gatewayId, ConditionStrategy co
 `ConditionStrategy`的Json数据结构
 
 - 兜底规则策略
+
 ```
 {
   "service": ["a", "b"]
 }
 ```
+
 - 蓝绿规则策略
+
 ```
 {
   "service": ["a", "b"],
@@ -3174,7 +3183,9 @@ String createVersionRelease(String group, String gatewayId, ConditionStrategy co
   ]
 }
 ```
+
 - 灰度规则策略
+
 ```
 {
   "service": ["a", "b"],
@@ -3193,7 +3204,9 @@ String createVersionRelease(String group, String gatewayId, ConditionStrategy co
   ]
 }
 ```
+
 - 混合蓝绿灰度+内置Header规则策略
+
 ```
 {
   "service": ["a", "b"],
@@ -3252,9 +3265,8 @@ String clearRelease(String group, String gatewayId);
 
 ④ 查询兜底、蓝绿、灰度规则策略，统一调用`Nepxion Discovery Console`平台的ConfigEndpoint如下API
 
-- 查询规则策略
+- 查询配置中心的Xml格式的规则策略
 
-查询配置中心的Xml格式的规则策略
 ```java
 /**
   * 查询规则策略
@@ -3265,7 +3277,8 @@ String clearRelease(String group, String gatewayId);
 String getRemoteConfig(String group, String serviceId) throws Exception;
 ```
 
-把Xml格式的规则策略，转化成RuleEntity对象的Json格式
+- 把Xml格式的规则策略，转化成RuleEntity对象的Json格式
+
 ```java
 /**
   * 查询规则策略
@@ -3277,6 +3290,7 @@ RuleEntity parse(String config);
 ```
 
 - 获取兜底规则策略
+
 ```java
 StrategyEntity strategyEntity = ruleEntity.StrategyEntity();
 // 兜底路由
@@ -3284,6 +3298,7 @@ String versionValue = strategyEntity.getVersionValue();
 ```
 
 - 获取蓝绿灰度规则策略
+
 ```java
 StrategyReleaseEntity strategyReleaseEntity = ruleEntity.getStrategyReleaseEntity();
 // 蓝绿条件列表
@@ -3343,11 +3358,10 @@ boolean clearBlacklist(String group, String gatewayId);
 ```
 需要注意，UUId全局唯一，同样的服务实例重启注册后，UUId会重新产生，不会重复，但追加过多的UUId，虽然不会影响功能，但UUId堆积过多，使规则文本变得臃肿，可能会影响配置订阅的响应效率
 
-④ 查询黑名单规则策略
+④ 查询黑名单规则策略，统一调用`Nepxion Discovery Console`平台的ConfigEndpoint如下API
 
-- 查询规则策略
+- 查询配置中心的Xml格式的规则策略
 
-查询配置中心的Xml格式的规则策略
 ```java
 /**
   * 查询规则策略
@@ -3358,7 +3372,8 @@ boolean clearBlacklist(String group, String gatewayId);
 String getRemoteConfig(String group, String serviceId) throws Exception;
 ```
 
-把Xml格式的规则策略，转化成RuleEntity对象的Json格式
+- 把Xml格式的规则策略，转化成RuleEntity对象的Json格式
+
 ```java
 /**
   * 查询规则策略
@@ -3370,6 +3385,7 @@ RuleEntity parse(String config);
 ```
 
 - 获取黑名单规则策略
+
 ```java
 StrategyBlacklistEntity strategyBlacklistEntity = ruleEntity.getStrategyBlacklistEntity();
 // Id黑名单
