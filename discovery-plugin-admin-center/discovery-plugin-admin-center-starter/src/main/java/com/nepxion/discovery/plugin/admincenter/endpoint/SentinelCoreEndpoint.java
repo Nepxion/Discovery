@@ -40,7 +40,7 @@ public class SentinelCoreEndpoint {
     @RequestMapping(path = "/update-flow-rules", method = RequestMethod.POST)
     @ApiOperation(value = "更新流控规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> updateFlowRules(@RequestBody @ApiParam(value = "流控规则内容，JSON格式", required = true) String rule) {
+    public ResponseEntity<?> updateFlowRules(@RequestBody @ApiParam(value = "流控规则内容，Json格式", required = true) String rule) {
         return doUpdateFlowRules(rule);
     }
 
@@ -61,7 +61,7 @@ public class SentinelCoreEndpoint {
     @RequestMapping(path = "/update-degrade-rules", method = RequestMethod.POST)
     @ApiOperation(value = "更新降级规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> updateDegradeRules(@RequestBody @ApiParam(value = "降级规则内容，JSON格式", required = true) String rule) {
+    public ResponseEntity<?> updateDegradeRules(@RequestBody @ApiParam(value = "降级规则内容，Json格式", required = true) String rule) {
         return doUpdateDegradeRules(rule);
     }
 
@@ -82,7 +82,7 @@ public class SentinelCoreEndpoint {
     @RequestMapping(path = "/update-authority-rules", method = RequestMethod.POST)
     @ApiOperation(value = "更新授权规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> updateAuthorityRules(@RequestBody @ApiParam(value = "授权规则内容，JSON格式", required = true) String rule) {
+    public ResponseEntity<?> updateAuthorityRules(@RequestBody @ApiParam(value = "授权规则内容，Json格式", required = true) String rule) {
         return doUpdateAuthorityRules(rule);
     }
 
@@ -103,7 +103,7 @@ public class SentinelCoreEndpoint {
     @RequestMapping(path = "/update-system-rules", method = RequestMethod.POST)
     @ApiOperation(value = "更新系统规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> updateSystemRules(@RequestBody @ApiParam(value = "系统规则内容，JSON格式", required = true) String rule) {
+    public ResponseEntity<?> updateSystemRules(@RequestBody @ApiParam(value = "系统规则内容，Json格式", required = true) String rule) {
         return doUpdateSystemRules(rule);
     }
 
