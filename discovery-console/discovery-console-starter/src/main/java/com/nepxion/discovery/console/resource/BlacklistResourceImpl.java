@@ -153,7 +153,11 @@ public class BlacklistResourceImpl extends ConsoleResourceDelegateImpl implement
             if (StringUtils.isNotEmpty(idValue)) {
                 String deletedIdValue = deleteBlacklistId(idValue, serviceId, serviceUUId);
                 strategyBlacklistEntity.setIdValue(deletedIdValue);
+            } else {
+                throw new DiscoveryException("Not found UUId=" + serviceUUId + " with serviceId=" + serviceId + " in blacklist");
             }
+        } else {
+            throw new DiscoveryException("Not found UUId=" + serviceUUId + " with serviceId=" + serviceId + " in blacklist");
         }
     }
 
@@ -164,7 +168,7 @@ public class BlacklistResourceImpl extends ConsoleResourceDelegateImpl implement
         if (MapUtils.isNotEmpty(idMap)) {
             List<String> idList = idMap.get(serviceId);
             if (CollectionUtils.isEmpty(idList)) {
-                throw new DiscoveryException("Not found UUID in the instance with serviceId=" + serviceId);
+                throw new DiscoveryException("Not found UUId=" + serviceUUId + " with serviceId=" + serviceId + " in blacklist");
             }
 
             if (idList.contains(serviceUUId)) {
@@ -178,7 +182,7 @@ public class BlacklistResourceImpl extends ConsoleResourceDelegateImpl implement
                     idMap.put(serviceId, newIdList);
                 }
             } else {
-                throw new DiscoveryException("Not found UUID=" + serviceUUId + " with serviceId=" + serviceId + " in blacklist");
+                throw new DiscoveryException("Not found UUId=" + serviceUUId + " with serviceId=" + serviceId + " in blacklist");
             }
 
             return StringUtil.convertToComplexString(idMap);
@@ -193,7 +197,11 @@ public class BlacklistResourceImpl extends ConsoleResourceDelegateImpl implement
             String idValue = strategyBlacklistEntity.getIdValue();
             if (StringUtils.isNotEmpty(idValue)) {
                 strategyBlacklistEntity.setIdValue(null);
+            } else {
+                throw new DiscoveryException("No UUId blacklist found");
             }
+        } else {
+            throw new DiscoveryException("No UUId blacklist found");
         }
     }
 
