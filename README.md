@@ -638,10 +638,10 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [异步场景下Hystrix线程池隔离解决方案](#异步场景下Hystrix线程池隔离解决方案)
 - [网关动态路由](#网关动态路由)
     - [Spring-Cloud-Gateway网关动态路由](#Spring-Cloud-Gateway网关动态路由)
-        - [Spring-Cloud-Gateway网关动态路由配置](#Spring-Cloud-Gateway网关动态路由配置)
-        - [Spring-Cloud-Gateway网关自定义动态路由配置](#Spring-Cloud-Gateway网关自定义动态路由配置)
-        - [Spring-Cloud-Gateway网关订阅配置中心](#Spring-Cloud-Gateway网关订阅配置中心)
-        - [Spring-Cloud-Gateway网关事件总线通知的订阅](#Spring-Cloud-Gateway网关事件总线通知的订阅)
+        - [Gateway网关动态路由配置](#Gateway网关动态路由配置)
+        - [Gateway网关自定义动态路由配置](#Gateway网关自定义动态路由配置)
+        - [Gateway网关订阅配置中心](#Gateway网关订阅配置中心)
+        - [Gateway网关事件总线通知的订阅](#Gateway网关事件总线通知的订阅)
     - [Zuul网关动态路由](#Zuul网关动态路由)
         - [Zuul网关动态路由配置](#Zuul网关动态路由配置)
         - [Zuul网关订阅配置中心](#Zuul网关订阅配置中心)
@@ -4522,7 +4522,7 @@ Spring Cloud Gateway网关在自动路由模式下，动态路由不能工作
 
 支持Spring Cloud Gateway网关官方断言器和过滤器，也支持用户自定义断言器和过滤器
 
-#### Spring-Cloud-Gateway网关动态路由配置
+#### Gateway网关动态路由配置
 ① 精简配置
 
 ```
@@ -4559,7 +4559,7 @@ Spring Cloud Gateway网关在自动路由模式下，动态路由不能工作
 ]
 ```
 
-#### Spring-Cloud-Gateway网关自定义动态路由配置
+#### Gateway网关自定义动态路由配置
 ① 自定义方式描述网关内置断言器和过滤器
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
@@ -4697,14 +4697,14 @@ Query={"param":"f","regexp":"6"}
 Authentication={"secretKey":"abc", "whiteList.0":"* swagger-ui.html", "whiteList.1":"* /swagger-resources/**", "whiteList.2":"* /doc.html", "userMap.name":"jason", "userMap.age":"20", "authInfoCarryStrategy":"AuthWriteToHeader"}
 ```
 
-#### Spring-Cloud-Gateway网关订阅配置中心
+#### Gateway网关订阅配置中心
 网关订阅配置中心的使用方式，如下
 
 - Key为
     - Nacos、Redis、Zookeeper配置中心，Group为{group}，DataId为{网关serviceId}-dynamic-route
     - Apollo、Consul、Etcd配置中心，Key的格式为{group}-{网关serviceId}-dynamic-route
     - {group}为注册中心元数据group值
-- Value参考[Spring-Cloud-Gateway网关动态路由配置](#Spring-Cloud-Gateway网关动态路由配置)
+- Value参考[Gateway网关动态路由配置](#Gateway网关动态路由配置)
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide7-9.jpg)
 
@@ -4724,7 +4724,7 @@ Deleted count=1
 --------------------------------------------------
 ```
 
-#### Spring-Cloud-Gateway网关事件总线通知的订阅
+#### Gateway网关事件总线通知的订阅
 ```java
 @EventBus
 public class MySubscriber {
