@@ -226,6 +226,8 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - Docker容器化和Kubernetes平台无缝支持部署
 - 自动化测试、压力测试
 
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Ability.jpg)
+
 ③ Discovery【探索】微服务框架支持的功能维度，如下
 
 微服务框架支持组（Group）、版本（Version）、区域（Region）、环境（Env）、可用区（Zone）、IP地址和端口（Address）、全局唯一ID七大经典维度实施流量管控的方式，通过“并集”方式叠加作用在流量控制上。上述七个维度在功能上各有各的侧重点，如下表格主要讲述各自的区别
@@ -239,8 +241,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | 可用区 | 服务实例的可用区<br>适用于多机房 | 路由隔离<br>故障转移 | ① 可用区亲和性隔离路由<br>- 调用端和提供端的元数据zone是否相同<br>② 可用区故障转移<br>- 未找到相应可用区的服务实例，路由到其它可用区<br>- 支持负载均衡策略、指定区可用区策略 | n-d-zone-failover |
 | IP地址和端口 |服务实例机器地址 | 蓝绿灰度发布<br>路由隔离<br>故障转移<br>无损下线 | ① IP地址和端口匹配蓝绿发布<br>② IP地址和端口权重灰度发布<br>③ IP地址和端口故障转移<br>- 未找到相应IP地址和端口的服务实例，路由到其它地址<br>- 负载均衡策略、指定区IP地址和端口策略<br>④ IP地址和端口无损下线黑名单屏蔽 | n-d-address<br>n-d-address-failover<br>n-d-address-blacklist |
 | 全局唯一ID | 服务实例机器ID | 无损下线 | ① 全局唯一ID无损下线黑名单屏蔽 | n-d-id-blacklist |
-
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Ability.jpg)
 
 ### 发展历程
 - 2017年12月开始筹划
