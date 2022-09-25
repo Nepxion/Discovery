@@ -36,6 +36,27 @@ public class SentinelEndpoint {
     @Autowired
     private SentinelResource sentinelResource;
 
+    @RequestMapping(path = "/remote/update/{ruleType}/{group}/{serviceId}", method = RequestMethod.POST)
+    @ApiOperation(value = "更新哨兵规则到远程配置中心", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    public ResponseEntity<?> remoteSentinelUpdate(@PathVariable(value = "ruleType") @ApiParam(value = "哨兵规则类型。取值： flow | degrade | authority | system | param-flow", defaultValue = "flow", required = true) String ruleType, @PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "哨兵规则内容，Json格式", required = true) String rule) {
+        return doRemoteSentinelUpdate(ruleType, group, serviceId, rule);
+    }
+
+    @RequestMapping(path = "/remote/clear/{ruleType}/{group}/{serviceId}", method = RequestMethod.POST)
+    @ApiOperation(value = "清除哨兵规则到远程配置中心", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    public ResponseEntity<?> remoteSentinelClear(@PathVariable(value = "ruleType") @ApiParam(value = "哨兵规则类型。取值： flow | degrade | authority | system | param-flow", defaultValue = "flow", required = true) String ruleType, @PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
+        return doRemoteSentinelClear(ruleType, group, serviceId);
+    }
+
+    @RequestMapping(path = "/remote/view/{ruleType}/{group}/{serviceId}", method = RequestMethod.GET)
+    @ApiOperation(value = "查看远程配置中心的哨兵规则", notes = "", response = ResponseEntity.class, httpMethod = "GET")
+    @ResponseBody
+    public ResponseEntity<?> remoteSentinelView(@PathVariable(value = "ruleType") @ApiParam(value = "哨兵规则类型。取值： flow | degrade | authority | system | param-flow", defaultValue = "flow", required = true) String ruleType, @PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
+        return doRemoteSentinelView(ruleType, group, serviceId);
+    }
+
     @RequestMapping(path = "/update/{ruleType}/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "批量更新哨兵规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
@@ -55,6 +76,36 @@ public class SentinelEndpoint {
     @ResponseBody
     public ResponseEntity<?> sentinelView(@PathVariable(value = "ruleType") @ApiParam(value = "哨兵规则类型。取值： flow | degrade | authority | system | param-flow", defaultValue = "flow", required = true) String ruleType, @PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
         return doSentinelView(ruleType, serviceId);
+    }
+
+    private ResponseEntity<?> doRemoteSentinelUpdate(String ruleType, String group, String serviceId, String rule) {
+        try {
+            boolean result = sentinelResource.updateRemoteSentinel(SentinelRuleType.fromString(ruleType), group, serviceId, rule);
+
+            return ResponseUtil.getSuccessResponse(result);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
+    }
+
+    private ResponseEntity<?> doRemoteSentinelClear(String ruleType, String group, String serviceId) {
+        try {
+            boolean result = sentinelResource.clearRemoteSentinel(SentinelRuleType.fromString(ruleType), group, serviceId);
+
+            return ResponseUtil.getSuccessResponse(result);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
+    }
+
+    private ResponseEntity<?> doRemoteSentinelView(String ruleType, String group, String serviceId) {
+        try {
+            String result = sentinelResource.getRemoteSentinel(SentinelRuleType.fromString(ruleType), group, serviceId);
+
+            return ResponseUtil.getSuccessResponse(result);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
     }
 
     private ResponseEntity<?> doSentinelUpdate(String ruleType, String serviceId, String rule) {

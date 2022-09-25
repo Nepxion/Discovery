@@ -14,8 +14,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.FormatType;
 import com.nepxion.discovery.common.entity.GatewayType;
 import com.nepxion.discovery.common.entity.ResultEntity;
+import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.console.rest.RouteAddRestInvoker;
 import com.nepxion.discovery.console.rest.RouteDeleteRestInvoker;
 import com.nepxion.discovery.console.rest.RouteModifyRestInvoker;
@@ -27,7 +30,37 @@ public class RouteResourceImpl implements RouteResource {
     private ServiceResource serviceResource;
 
     @Autowired
+    private ConfigResource configResource;
+
+    @Autowired
     private RestTemplate consoleRestTemplate;
+
+    @Override
+    public boolean updateRemoteRoute(GatewayType gatewayType, String group, String serviceId, String route) {
+        try {
+            return configResource.updateRemoteConfig(group, serviceId + "-" + DiscoveryConstant.DYNAMIC_ROUTE_KEY, route, FormatType.JSON_FORMAT);
+        } catch (Exception e) {
+            throw new DiscoveryException("Update remote " + gatewayType.getName() + " dynamic route failed, group={}, serviceId={}", e);
+        }
+    }
+
+    @Override
+    public boolean clearRemoteRoute(GatewayType gatewayType, String group, String serviceId) {
+        try {
+            return configResource.updateRemoteConfig(group, serviceId + "-" + DiscoveryConstant.DYNAMIC_ROUTE_KEY, DiscoveryConstant.EMPTY_JSON_RULE_MULTIPLE, FormatType.JSON_FORMAT);
+        } catch (Exception e) {
+            throw new DiscoveryException("Clear remote " + gatewayType.getName() + " dynamic route failed, group={}, serviceId={}", e);
+        }
+    }
+
+    @Override
+    public String getRemoteRoute(GatewayType gatewayType, String group, String serviceId) {
+        try {
+            return configResource.getRemoteConfig(group, serviceId + "-" + DiscoveryConstant.DYNAMIC_ROUTE_KEY);
+        } catch (Exception e) {
+            throw new DiscoveryException("Get remote " + gatewayType.getName() + " dynamic route failed, group={}, serviceId={}", e);
+        }
+    }
 
     @Override
     public List<ResultEntity> addRoute(GatewayType gatewayType, String serviceId, String route) {

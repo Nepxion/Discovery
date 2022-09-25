@@ -14,8 +14,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.FormatType;
 import com.nepxion.discovery.common.entity.ResultEntity;
 import com.nepxion.discovery.common.entity.SentinelRuleType;
+import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.console.rest.SentinelClearRestInvoker;
 import com.nepxion.discovery.console.rest.SentinelUpdateRestInvoker;
 import com.nepxion.discovery.console.rest.SentinelViewRestInvoker;
@@ -25,7 +28,37 @@ public class SentinelResourceImpl implements SentinelResource {
     private ServiceResource serviceResource;
 
     @Autowired
+    private ConfigResource configResource;
+
+    @Autowired
     private RestTemplate consoleRestTemplate;
+
+    @Override
+    public boolean updateRemoteSentinel(SentinelRuleType ruleType, String group, String serviceId, String rule) {
+        try {
+            return configResource.updateRemoteConfig(group, serviceId + "-" + ruleType.getKey(), rule, FormatType.JSON_FORMAT);
+        } catch (Exception e) {
+            throw new DiscoveryException("Update remote " + ruleType.getDescription() + " failed, group={}, serviceId={}", e);
+        }
+    }
+
+    @Override
+    public boolean clearRemoteSentinel(SentinelRuleType ruleType, String group, String serviceId) {
+        try {
+            return configResource.updateRemoteConfig(group, serviceId + "-" + ruleType.getKey(), DiscoveryConstant.EMPTY_JSON_RULE_MULTIPLE, FormatType.JSON_FORMAT);
+        } catch (Exception e) {
+            throw new DiscoveryException("Clear remote " + ruleType.getDescription() + " failed, group={}, serviceId={}", e);
+        }
+    }
+
+    @Override
+    public String getRemoteSentinel(SentinelRuleType ruleType, String group, String serviceId) {
+        try {
+            return configResource.getRemoteConfig(group, serviceId + "-" + ruleType.getKey());
+        } catch (Exception e) {
+            throw new DiscoveryException("Get remote " + ruleType.getDescription() + " failed, group={}, serviceId={}", e);
+        }
+    }
 
     @Override
     public List<ResultEntity> updateSentinel(SentinelRuleType ruleType, String serviceId, String rule) {

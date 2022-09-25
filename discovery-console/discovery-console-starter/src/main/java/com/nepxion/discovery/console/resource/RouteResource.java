@@ -15,6 +15,12 @@ import com.nepxion.discovery.common.entity.GatewayType;
 import com.nepxion.discovery.common.entity.ResultEntity;
 
 public interface RouteResource {
+    boolean updateRemoteRoute(GatewayType gatewayType, String group, String serviceId, String route);
+
+    boolean clearRemoteRoute(GatewayType gatewayType, String group, String serviceId);
+
+    String getRemoteRoute(GatewayType gatewayType, String group, String serviceId);
+
     List<ResultEntity> addRoute(GatewayType gatewayType, String serviceId, String route);
 
     List<ResultEntity> modifyRoute(GatewayType gatewayType, String serviceId, String route);
