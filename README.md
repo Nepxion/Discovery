@@ -1140,8 +1140,21 @@ zuul
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/RollingConcept.jpg)
 
 ## 全链路和单链路概念
+① 全链路
+
+- 越级管控
+- 链路隔离
+- 规则策略统一编排
+- 推送一次
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/FullLinkConcept.jpg)
+
+② 全链路
+
+- 管控下一级
+- 链路不隔离
+- 规则策略分散编排
+- 推送多次
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/SingleLinkConcept.jpg)
 
