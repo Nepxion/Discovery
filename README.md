@@ -597,7 +597,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [全链路自定义过滤器触发蓝绿灰度发布](#全链路自定义过滤器触发蓝绿灰度发布)
         - [全链路自定义负载均衡策略类触发蓝绿灰度发布](#全链路自定义负载均衡策略类触发蓝绿灰度发布)
     - [全链路动态变更元数据的蓝绿灰度发布](#全链路动态变更元数据的蓝绿灰度发布)
-    - [全链路蓝绿灰度发布Rest-Endpoint](#全链路蓝绿灰度发布Rest-Endpoint)
     - [全链路蓝绿灰度发布对接DevOps运维平台最佳企业级实践](#全链路蓝绿灰度发布对接DevOps运维平台最佳企业级实践)
         - [对接DevOps运维平台架构方案](#对接DevOps运维平台架构方案)
         - [对接DevOps运维平台最佳实践](#对接DevOps运维平台最佳实践)
@@ -628,11 +627,9 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [全链路环境故障转移](#全链路环境故障转移)
     - [全链路可用区故障转移](#全链路可用区故障转移)
     - [全链路IP地址和端口故障转移](#全链路IP地址和端口故障转移)
-    - [全链路故障转移Rest-Endpoint](#全链路故障转移Rest-Endpoint)
 - [全链路服务无损下线](#全链路服务无损下线)
     - [全局唯一ID屏蔽](#全局唯一ID屏蔽)
     - [IP地址和端口屏蔽](#IP地址和端口屏蔽)
-    - [无损下线黑名单Rest-Endpoint](#无损下线黑名单Rest-Endpoint)
 - [异步场景下全链路蓝绿灰度发布](#异步场景下全链路蓝绿灰度发布)
     - [异步场景下DiscoveryAgent解决方案](#异步场景下DiscoveryAgent解决方案)
         - [异步跨线程DiscoveryAgent获取](#异步跨线程DiscoveryAgent获取)
@@ -643,12 +640,10 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [Spring-Cloud-Gateway网关动态路由](#Spring-Cloud-Gateway网关动态路由)
         - [Spring-Cloud-Gateway网关动态路由配置](#Spring-Cloud-Gateway网关动态路由配置)
         - [Spring-Cloud-Gateway网关自定义动态路由配置](#Spring-Cloud-Gateway网关自定义动态路由配置)
-        - [Spring-Cloud-Gateway网关Rest-Endpoint](#Spring-Cloud-Gateway网关Rest-Endpoint)
         - [Spring-Cloud-Gateway网关订阅配置中心](#Spring-Cloud-Gateway网关订阅配置中心)
         - [Spring-Cloud-Gateway网关事件总线通知的订阅](#Spring-Cloud-Gateway网关事件总线通知的订阅)
     - [Zuul网关动态路由](#Zuul网关动态路由)
         - [Zuul网关动态路由配置](#Zuul网关动态路由配置)
-        - [Zuul网关Rest-Endpoint](#Zuul网关Rest-Endpoint)
         - [Zuul网关订阅配置中心](#Zuul网关订阅配置中心)
         - [Zuul网关事件总线通知的订阅](#Zuul网关事件总线通知的订阅)
 - [全链路服务限流熔断降级权限](#全链路服务限流熔断降级权限)
@@ -668,7 +663,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [基于可用区的防护](#基于可用区的防护)
         - [基于IP地址和端口的防护](#基于IP地址和端口的防护)	
         - [自定义组合式的防护](#自定义组合式的防护)
-    - [Sentinel-Rest-Endpoint](#Sentinel-Rest-Endpoint)
 - [全链路监控](#全链路监控)
     - [全链路调用链监控](#全链路调用链监控)
         - [蓝绿灰度埋点调用链监控](#蓝绿灰度埋点调用链监控)
@@ -2905,17 +2899,6 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 
 ③ 动态元数据变更方式只是让新的元数据驻留在内存里，并不持久化。当服务重启后，服务的元数据仍旧会以初始值为准
 
-### 全链路蓝绿灰度发布Rest-Endpoint
-控制台的Rest Endpoint接口
-
-| 操作 | 路径 | 参数 | 方式 |
-| --- | --- | --- | --- |
-| 解析版本蓝绿灰度发布 | `http://`[控制台IP:PORT]/strategy/parse-version-release | 蓝绿灰度策略对象 | POST |
-| 全局方式，创建版本蓝绿灰度发布 | `http://`[控制台IP:PORT]/strategy/create-version-release/{group} | 蓝绿灰度策略对象 | POST |
-| 全局方式，清除蓝绿灰度发布 | `http://`[控制台IP:PORT]/strategy/clear-release/{group} | 无 | POST |
-| 局部方式，创建版本蓝绿灰度发布 | `http://`[控制台IP:PORT]/strategy/create-version-release/{group}/{gatewayId} | 蓝绿灰度策略对象 | POST |
-| 局部方式，清除蓝绿灰度发布 | `http://`[控制台IP:PORT]/strategy/clear-release/{group}/{gatewayId} | 无 | POST |
-
 ### 全链路蓝绿灰度发布对接DevOps运维平台最佳企业级实践
 
 #### 对接DevOps运维平台架构方案
@@ -4020,16 +4003,6 @@ IP地址和端口转移，即无法找到相应IP地址和端口的服务实例�
 spring.application.strategy.address.failover.enabled=true
 ```
 
-### 全链路故障转移Rest-Endpoint
-控制台的Rest Endpoint接口
-
-| 操作 | 路径 | 参数 | 方式 |
-| --- | --- | --- | --- |
-| 全局方式，创建故障转移 | `http://`[控制台IP:PORT]/failover/create-failover/{group}/{failoverType} | 故障转移值 | POST |
-| 全局方式，清除故障转移 | `http://`[控制台IP:PORT]/failover/clear-failover/{group}/{failoverType} | 无 | POST |
-| 局部方式，创建故障转移 | `http://`[控制台IP:PORT]/failover/create-failover/{group}/{gatewayId}/{failoverType} | 故障转移值 | POST |
-| 局部方式，清除故障转移 | `http://`[控制台IP:PORT]/failover/clear-failover/{group}/{gatewayId}/{failoverType} | 无 | POST |
-
 ## 全链路服务无损下线
 服务下线场景下，由于Ribbon/Spring Cloud LoadBalancer负载均衡组件存在着缓存机制，当被提供端服务实例已经下线，而消费端服务实例还暂时缓存着它，直到下个心跳周期才会把已下线的服务实例剔除，在此期间，如果发生调用，会造成流量有损
 
@@ -4165,20 +4138,6 @@ n-d-id-blacklist={"discovery-guide-service-a":"20210601-222214-909-1146-372-698"
 n-d-address-blacklist=3001
 n-d-address-blacklist={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"3001"}
 ```
-
-### 无损下线黑名单Rest-Endpoint
-控制台的Rest Endpoint接口
-
-| 操作 | 路径 | 参数 | 方式 |
-| --- | --- | --- | --- |
-| 全局方式，添加下线的服务实例UUId到黑名单<br>根据IP地址和端口 | `http://`[控制台IP:PORT]/blacklist/add-address/{group}/{serviceId} | IP地址和端口 | POST |
-| 全局方式，添加下线的服务实例UUId到黑名单 | `http://`[控制台IP:PORT]/blacklist/add-uuid/{group}/{serviceId} | UUId | POST |
-| 全局方式，从黑名单删除过期的服务实例 | `http://`[控制台IP:PORT]/blacklist/delete/{group}/{serviceId} | UUId | POST |
-| 全局方式，从黑名单清除所有过期的服务实例 | `http://`[控制台IP:PORT]/blacklist/clear/{group} | 无 | POST |
-| 局部方式，添加下线的服务实例UUId到黑名单<br>根据IP地址和端口 | `http://`[控制台IP:PORT]/blacklist/add-address/{group}/{gatewayId}/{serviceId} | IP地址和端口 | POST |
-| 局部方式，添加下线的服务实例UUId到黑名单 | `http://`[控制台IP:PORT]/blacklist/add-uuid/{group}/{gatewayId}/{serviceId} | UUId | POST |
-| 局部方式，从黑名单删除过期的服务实例 | `http://`[控制台IP:PORT]/blacklist/delete/{group}/{gatewayId}/{serviceId} | UUId | POST |
-| 局部方式，从黑名单清除所有过期的服务实例 | `http://`[控制台IP:PORT]/blacklist/clear/{group}/{gatewayId} | 无 | POST |
 
 ## 异步场景下全链路蓝绿灰度发布
 Discovery框架存在着如下全链路传递上下文的场景，包括
@@ -4733,28 +4692,6 @@ Query={"param":"f","regexp":"6"}
 Authentication={"secretKey":"abc", "whiteList.0":"* swagger-ui.html", "whiteList.1":"* /swagger-resources/**", "whiteList.2":"* /doc.html", "userMap.name":"jason", "userMap.age":"20", "authInfoCarryStrategy":"AuthWriteToHeader"}
 ```
 
-#### Spring-Cloud-Gateway网关Rest-Endpoint
-① Spring Cloud Gateway网关的Rest Endpoint接口
-
-| 操作 | 路径 | 参数 | 方式 |
-| --- | --- | --- | --- |
-| 增加网关路由 | `http://`[网关IP:PORT]/spring-cloud-gateway-route/add | 单个动态路由配置 | POST |
-| 修改网关路由 | `http://`[网关IP:PORT]/spring-cloud-gateway-route/modify | 单个动态路由配置 | POST |
-| 删除网关路由 | `http://`[网关IP:PORT]/spring-cloud-gateway-route/delete/{routeId} | 无 | DELETE |
-| 更新全部网关路由 | `http://`[网关IP:PORT]/spring-cloud-gateway-route/update-all | 多个动态路由配置 | POST |
-| 根据路由Id查看网关路由 | `http://`[网关IP:PORT]/spring-cloud-gateway-route/view/{routeId} | 无 | GET |
-| 查看全部网关路由| `http://`[网关IP:PORT]/spring-cloud-gateway-route/view-all | 无 | GET |
-
-② 控制台的Rest Endpoint接口
-
-| 操作 | 路径 | 参数 | 方式 |
-| --- | --- | --- | --- |
-| 增加网关路由 | `http://`[控制台IP:PORT]/route/add/spring-cloud-gateway/{serviceId} | 单个动态路由配置 | POST |
-| 修改网关路由 | `http://`[控制台IP:PORT]/route/modify/spring-cloud-gateway/{serviceId} | 单个动态路由配置 | POST |
-| 删除网关路由 | `http://`[控制台IP:PORT]/route/delete/spring-cloud-gateway/{serviceId}/{routeId} | 无 | DELETE |
-| 更新全部网关路由 | `http://`[控制台IP:PORT]/route/update-all/spring-cloud-gateway/{serviceId} | 多个动态路由配置 | GET |
-| 查看全部网关路由| `http://`[控制台IP:PORT]/route/view-all/spring-cloud-gateway/{serviceId} | 无 | GET |
-
 #### Spring-Cloud-Gateway网关订阅配置中心
 网关订阅配置中心的使用方式，如下
 
@@ -4883,28 +4820,6 @@ Zuul网关在自动路由模式下，动态路由可以工作
     }
 ]
 ```
-
-#### Zuul网关Rest-Endpoint
-① Zuul网关的Rest Endpoint接口
-
-| 操作 | 路径 | 参数 | 方式 |
-| --- | --- | --- | --- |
-| 增加网关路由 | `http://`[网关IP:PORT]/zuul-route/add | 单个动态路由配置 | POST |
-| 修改网关路由 | `http://`[网关IP:PORT]/zuul-route/modify | 单个动态路由配置 | POST |
-| 删除网关路由 | `http://`[网关IP:PORT]/zuul-route/delete/{routeId} | 无 | DELETE |
-| 更新全部网关路由 | `http://`[网关IP:PORT]/zuul-route/update-all | 多个动态路由配置 | POST |
-| 根据路由Id查看网关路由 | `http://`[网关IP:PORT]/zuul-route/view/{routeId} | 无 | GET |
-| 查看全部网关路由| `http://`[网关IP:PORT]/zuul-route/view-all | 无 | GET |
-
-② 控制台的Rest Endpoint接口
-
-| 操作 | 路径 | 参数 | 方式 |
-| --- | --- | --- | --- |
-| 增加网关路由 | `http://`[控制台IP:PORT]/route/add/zuul/{serviceId} | 单个动态路由配置 | POST |
-| 修改网关路由 | `http://`[控制台IP:PORT]/route/modify/zuul/{serviceId} | 单个动态路由配置 | POST |
-| 删除网关路由 | `http://`[控制台IP:PORT]/route/delete/zuul/{serviceId}/{routeId} | 无 | DELETE |
-| 更新全部网关路由 | `http://`[控制台IP:PORT]/route/zuul/update-all/{serviceId} | 多个动态路由配置 | GET |
-| 查看全部网关路由| `http://`[控制台IP:PORT]/route/zuul/view-all/{serviceId} | 无 | GET |
 
 #### Zuul网关订阅配置中心
 网关订阅配置中心的使用方式，如下
@@ -5298,37 +5213,6 @@ public SentinelStrategyRequestOriginAdapter sentinelStrategyRequestOriginAdapter
 - 当传递的Header中location=shanghai，满足条件之一，当全链路调用中，API网关负载均衡discovery-guide-service-a服务到1.1版本后再去调用discovery-guide-service-b服务，不满足version=1.0的条件，最终调用在discovery-guide-service-b服务端被拒绝掉
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide7-8.jpg)
-
-### Sentinel-Rest-Endpoint
-① 服务的Rest Endpoint接口
-
-| 操作 | 路径 | 参数 | 方式 |
-| --- | --- | --- | --- |
-| 更新流控规则列表 | `http://`[服务IP:PORT]/sentinel-core/update-flow-rules | 多个规则配置 | POST |
-| 清除流控规则列表 | `http://`[服务IP:PORT]/sentinel-core/clear-flow-rules | 无 | POST |
-| 查看流控规则列表 | `http://`[服务IP:PORT]/sentinel-core/view-flow-rules | 无 | GET |
-| 更新降级规则列表 | `http://`[服务IP:PORT]/sentinel-core/update-degrade-rules | 多个规则配置 | POST |
-| 清除降级规则列表 | `http://`[服务IP:PORT]/sentinel-core/clear-degrade-rules | 无 | POST |
-| 查看降级规则列表 | `http://`[服务IP:PORT]/sentinel-core/view-degrade-rules | 无 | GET |
-| 更新授权规则列表 | `http://`[服务IP:PORT]/sentinel-core/update-authority-rules | 多个规则配置 | POST |
-| 清除授权规则列表 | `http://`[服务IP:PORT]/sentinel-core/clear-authority-rules | 无 | POST |
-| 查看授权规则列表 | `http://`[服务IP:PORT]/sentinel-core/view-authority-rules | 无 | GET |
-| 更新系统规则列表 | `http://`[服务IP:PORT]/sentinel-core/update-system-rules | 多个规则配置 | POST |
-| 清除系统规则列表 | `http://`[服务IP:PORT]/sentinel-core/clear-system-rules | 无 | POST |
-| 查看系统规则列表 | `http://`[服务IP:PORT]/sentinel-core/view-system-rules | 无 | GET |
-| 更新热点参数流控规则列表 | `http://`[服务IP:PORT]/sentinel-param/update-param-flow-rules | 多个规则配置 | POST |
-| 清除热点参数流控规则列表 | `http://`[服务IP:PORT]/sentinel-param/clear-param-flow-rules | 无 | POST |
-| 查看热点参数流控规则列表 | `http://`[服务IP:PORT]/sentinel-param/view-param-flow-rules | 无 | GET |
-
-② 控制台的Rest Endpoint接口
-
-| 操作 | 路径 | 参数 | 方式 |
-| --- | --- | --- | --- |
-| 批量更新哨兵规则列表 | `http://`[控制台IP:PORT]/sentinel/update/{ruleType}/{serviceId} | 多个规则配置 | POST |
-| 批量清除哨兵规则列表 | `http://`[控制台IP:PORT]/sentinel/clear/{ruleType}/{serviceId} | 无 | POST |
-| 批量查看哨兵规则列表 | `http://`[控制台IP:PORT]/sentinel/view/{ruleType}/{serviceId} | 无 | GET |
-
-ruleType为哨兵规则类型。取值： flow | degrade | authority | system | param-flow
 
 ## 全链路监控
 
@@ -5899,8 +5783,6 @@ com.nepxion.discovery.plugin.strategy.monitor.DefaultStrategyAlarm
 ③ 全链路流量侦测接口
 
 通过discovery-plugin-admin-center-starter内置基于LoadBalanced RestTemplate的接口方法，实现全链路侦测，用于查看全链路中调用的各个服务的版本、区域、环境、可用区、IP地址和端口等是否符合和满足蓝绿灰度条件。使用方式，如下
-
-服务的Rest Endpoint接口
 
 | 操作 | 路径 | 参数 | 方式 |
 | --- | --- | --- | --- |
