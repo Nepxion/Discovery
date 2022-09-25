@@ -1149,7 +1149,7 @@ zuul
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/FullLinkConcept.jpg)
 
-② 全链路
+② 单链路
 
 - 管控下一级
 - 链路不隔离
