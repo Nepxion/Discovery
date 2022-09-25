@@ -1143,6 +1143,8 @@ zuul
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/FullLinkConcept.jpg)
 
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/SingleLinkConcept.jpg)
+
 ## 全链路蓝绿灰度发布
 
 ### 全链路蓝绿发布
