@@ -2883,7 +2883,7 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 </rule>
 ```
 
-- 混合蓝绿灰度+内置Header规则策略
+- 混合蓝绿灰度 + 内置Header规则策略
 
 使用时候，请删除中文注释，否则会报错
 ```
