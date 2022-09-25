@@ -3112,355 +3112,73 @@ spring.application.git.generator.enabled=true
 spring.application.strategy.version.failover.enabled=true
 ```
 
-运维平台对接`Nepxion Discovery Console`平台，在网关上实施故障转移配置
+运维平台对接控制台，在网关上实施故障转移
 
-① 创建故障转移规则策略，统一调用`Nepxion Discovery Console`平台的FailoverEndpoint如下API
-```java
-/**
-  * 局部网关订阅方式，创建故障转移规则策略
-  * @param group 订阅的组名
-  * @param gatewayId 订阅的网关名
-  * @param failoverType 故障转移的七种类型
-  * @param failoverType 故障转移值
-  * @return Xml格式的规则策略
-*/
-String createFailover(String group, String gatewayId, FailoverType failoverType, String failoverValue);
-```
+① 创建故障转移
 
-② 清除故障转移规则策略，统一调用`Nepxion Discovery Console`平台的FailoverEndpoint如下API
-```java
-/**
-  * 局部网关订阅方式，清除故障转移规则策略
-  * @param group 订阅的组名
-  * @param gatewayId 订阅的网关名
-  * @param failoverType 故障转移的七种类型
-  * @return Xml格式的规则策略
-*/
-String clearFailover(String group, String gatewayId, FailoverType failoverType);
-```
+网关和服务上有默认故障转移方式，如果通过运维平台来实施管控，则默认故障转移方式失效
 
-③ 查询故障转移规则策略，统一调用`Nepxion Discovery Console`平台的ConfigEndpoint如下API
+② 清除故障转移
 
-- 查询配置中心的Xml格式的规则策略
-
-```java
-/**
-  * 查询规则策略
-  * @param group 订阅的组名
-  * @param serviceId 订阅的服务名
-  * @return Xml格式的规则策略
-*/
-String getRemoteConfig(String group, String serviceId) throws Exception;
-```
-
-- 把Xml格式的规则策略，转化成RuleEntity对象的Json格式
-
-```java
-/**
-  * 查询规则策略
-  * @param group 订阅的组名
-  * @param serviceId 订阅的服务名
-  * @return Xml格式的规则策略
-*/
-RuleEntity parse(String config);
-```
-
-- 获取故障转移规则策略
-
-```java
-StrategyFailoverEntity strategyFailoverEntity = ruleEntity.getStrategyBlacklistEntity();
-// 版本偏好
-String versionPreferValue = strategyFailoverEntity.getVersionPreferValue();
-// 版本故障转移
-String versionFailoverValue = strategyFailoverEntity.getVersionFailoverValue();
-// 区域调试转移
-String regionTransferValue = strategyFailoverEntity.getRegionTransferValue();
-// 区域故障转移
-String regionFailoverValue = strategyFailoverEntity.getRegionFailoverValue();
-// 环境故障转移
-String environmentFailoverValue = strategyFailoverEntity.getEnvironmentFailoverValue();
-// 可用区故障转移
-String zoneFailoverValue = strategyFailoverEntity.getZoneFailoverValue();
-// IP地址和端口故障转移
-String addressFailoverValue = strategyFailoverEntity.getAddressFailoverValue();
-```
+运维平台取消实施故障转移方式的管控
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 蓝绿灰度发布
 
-运维平台对接`Nepxion Discovery Console`平台，通过链路在后台智能编排的方式，在网关上实施蓝绿灰度发布
+运维平台对接控制台，通过链路在后台智能编排的方式，在网关上实施蓝绿灰度发布
 
-① 创建兜底、蓝绿、灰度规则策略，统一调用`Nepxion Discovery Console`平台的StrategyEndpoint如下API
-```java
-/**
-  * 局部网关订阅方式，创建兜底、蓝绿、灰度规则策略
-  * @param group 订阅的组名
-  * @param gatewayId 订阅的网关名
-  * @param conditionStrategy 蓝绿灰度策略对象
-  * @return Xml格式的规则策略
-*/
-String createVersionRelease(String group, String gatewayId, ConditionStrategy conditionStrategy);
-```
-`ConditionStrategy`的Json数据结构
+① 创建版本蓝绿灰度发布
 
-- 兜底规则策略
+运维平台通过创建兜底、蓝绿、灰度、混合蓝绿灰度等四种方式实施流量管控
 
-```
-{
-  "service": ["a", "b"]
-}
-```
+② 清除蓝绿灰度发布
 
-- 蓝绿规则策略
+运维平台完成蓝绿灰度发布
 
-```
-{
-  "service": ["a", "b"],
-  "blueGreen": [
-    {
-      "expression": "#H['xyz'] == '1'",
-      "route": "green"
-    }, 
-    {
-      "expression": "#H['xyz'] == '2'",
-      "route": "blue"
-    }
-  ]
-}
-```
+③ 校验版本蓝绿灰度发布
 
-- 灰度规则策略
+运维平台预验证蓝绿灰度对象是否合法，链路智能编排接过是否正确
 
-```
-{
-  "service": ["a", "b"],
-  "gray": [
-    {
-      "expression": "#H['xyz'] == '3'",
-      "weight": [90, 10]
-    },
-    {
-      "expression": "#H['xyz'] == '4'",
-      "weight": [70, 30]
-    },
-    {
-      "weight": [100, 0]
-    }
-  ]
-}
-```
+④ 校验条件表达式
 
-- 混合蓝绿灰度+内置Header规则策略
+运维平台预验证条件表达式是否正确
 
-```
-{
-  "service": ["a", "b"],
-  "blueGreen": [
-    {
-      "expression": "#H['xyz'] == '1'",
-      // 绿（旧版本）路由链路
-      "route": "green"
-    }, 
-    {
-      "expression": "#H['xyz'] == '2'",
-      // 蓝（新版本）路由链路
-      "route": "blue"
-    }
-  ],
-  "gray": [
-    {
-      "expression": "#H['xyz'] == '3'",
-      // 稳定（旧版本）路由链路权重，灰度（新版本）路由链路权重
-      "weight": [10, 90]
-    },
-    {
-      "expression": "#H['xyz'] == '4'",
-      "weight": [40, 60]
-    },
-    {
-      "weight": [0, 100]
-    }
-  ],
-  "header": {"xyz": "1"}
-}
-```
+⑤ 获取蓝绿灰度发布
 
-② 验证兜底、蓝绿、灰度规则策略，统一调用`Nepxion Discovery Console`平台的StrategyEndpoint如下API
+运维平台调用`配置接口`的`获取规则配置对象`步骤，获取其中的蓝绿灰度发布规则策略
 
-如果用户对输入的Json准确性无法判断，可以通过调用该API观察最终Xml结果
-```java
-/**
-  * 局部网关订阅方式，清除兜底、蓝绿、灰度规则策略
-  * @param conditionStrategy 蓝绿灰度策略对象
-  * @return Xml格式的规则策略
-*/
-String parseVersionRelease(ConditionStrategy conditionStrategy);
-```
-
-③ 清除兜底、蓝绿、灰度规则策略，统一调用`Nepxion Discovery Console`平台的StrategyEndpoint如下API
-```java
-/**
-  * 局部网关订阅方式，清除兜底、蓝绿、灰度规则策略
-  * @param group 订阅的组名
-  * @param gatewayId 订阅的网关名
-  * @return Xml格式的规则策略
-*/
-String clearRelease(String group, String gatewayId);
-```
-
-④ 查询兜底、蓝绿、灰度规则策略，统一调用`Nepxion Discovery Console`平台的ConfigEndpoint如下API
-
-- 查询配置中心的Xml格式的规则策略
-
-```java
-/**
-  * 查询规则策略
-  * @param group 订阅的组名
-  * @param serviceId 订阅的服务名
-  * @return Xml格式的规则策略
-*/
-String getRemoteConfig(String group, String serviceId) throws Exception;
-```
-
-- 把Xml格式的规则策略，转化成RuleEntity对象的Json格式
-
-```java
-/**
-  * 查询规则策略
-  * @param group 订阅的组名
-  * @param serviceId 订阅的服务名
-  * @return Xml格式的规则策略
-*/
-RuleEntity parse(String config);
-```
-
-- 获取兜底规则策略
-
-```java
-StrategyEntity strategyEntity = ruleEntity.StrategyEntity();
-// 兜底路由
-String versionValue = strategyEntity.getVersionValue();
-```
-
-- 获取蓝绿灰度规则策略
-
-```java
-StrategyReleaseEntity strategyReleaseEntity = ruleEntity.getStrategyReleaseEntity();
-// 蓝绿条件列表
-List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList = strategyReleaseEntity.getStrategyConditionBlueGreenEntityList();
-// 灰度条件列表
-List<StrategyConditionGrayEntity> strategyConditionGrayEntityList = strategyReleaseEntity.getStrategyConditionGrayEntityList();
-// 路由列表
-List<StrategyRouteEntity> strategyRouteEntityList = strategyReleaseEntity.getStrategyRouteEntityList();
-// 内置Header
-StrategyHeaderEntity strategyHeaderEntity = strategyReleaseEntity.getStrategyHeaderEntity();
-```
+具体用法，请参考
+- Github Wiki ：[如何使用DevOps运维平台对接的公共接口](https://github.com/Nepxion/Discovery/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AF%B9%E6%8E%A5%E7%9A%84%E5%85%AC%E5%85%B1%E6%8E%A5%E5%8F%A3)
+- Gitee Wiki ： [如何使用DevOps运维平台对接的公共接口](https://gitee.com/nepxion/Discovery/wikis/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AF%B9%E6%8E%A5%E7%9A%84%E5%85%AC%E5%85%B1%E6%8E%A5%E5%8F%A3)
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 无损下线
 
-运维平台通对接`Nepxion Discovery Console`平台，在服务实例实施下线的时候，为达到无损下线的目的，通过`Nepxion Discovery Console`的相关API写入下线实例黑名单的Xml，在下线一段后，再清除相关的黑名单
+运维平台对接控制台，在服务实例下线之前，在网关上实施服务实例的黑名单屏蔽，在服务实例下线一段时间后，再解除黑名单屏蔽
 
-① 运维平台下线某个服务实例之前，调用`Nepxion Discovery Console`平台的BlacklistEndpoint如下API，把需要下线的服务实例根据IP地址和端口添加进黑名单，返回全局唯一的该服务实例的UUId，即可实现实时无损下线
-```java
-/**
-  * 局部网关订阅方式，根据服务实例IP地址和端口，添加下线的服务实例UUId到黑名单
-  * @param group 订阅的组名
-  * @param gatewayId 订阅的网关名
-  * @param serviceId 待下线实例的服务名
-  * @param host 待下线实例的IP地址
-  * @param port 待下线实例的端口
-  * @return 待下线实例的UUId
-*/
-String addBlacklist(String group, String gatewayId, String serviceId, String host, int port);
-```
-也可以通过通配方式，把批量需要下线的服务实例根据日期或者时间通配符方式加入黑名单。例如：
+① 添加下线的服务实例到黑名单
+
+运维平台下线服务实例之前，通过IP地址和端口添加入黑名单（转化成UUId存储）进行单个屏蔽，返回全局唯一的该服务实例的UUId，即可实现实时无损下线
+
+② 通配添加下线的服务实例到黑名单
+
+运维平台下线服务实例之前，通过UUId前缀的日期或者时间（UUId前缀的日期和时间标识服务实例上线的时间戳）以通配符方式加入黑名单进行批量屏蔽，即可实现实时无损下线
+
+例如：
 - A服务有两个实例，实例1的UUId为`20220920-113301-033-4289-533-056`，实例2的UUId为`20220920-113259-190-5762-550-884`，代表它们同一天`2022年09月20日`上线
 - 通过`20220920*`通配符的方式，表示屏蔽`2022年09月20日`上线的指定服务的所有实例，如果希望更精确，`20220920-11*`，表示屏蔽`2022年09月20日11点`上线的指定服务的所有实例
 
-```java
-/**
-  * 局部网关订阅方式，根据服务实例IP地址和端口，添加下线的服务实例UUId到黑名单
-  * @param group 订阅的组名
-  * @param gatewayId 订阅的网关名
-  * @param serviceId 待下线实例的服务名
-  * @param serviceUUId 待下线实例的UUId，支持通配符
-  * @return 待下线实例的UUId
-*/
-String addBlacklist(String group, String gatewayId, String serviceId, String serviceUUId);
-```
+③ 从黑名单清除所有过期的服务实例
 
-② 运维平台每添加一个黑名单后，把返回的服务实例的UUId存储下来（推荐用高可用方案来存储）
+运维平台下线服务实例一段时间之后（大于负载均衡`3`个时钟周期，推荐`5`分钟），从黑名单清除所有过期的服务实例
 
-③ 运维平台下线某个服务实例一段时间之后（大于负载均衡`3`个时钟周期，推荐`5`分钟），调用`Nepxion Discovery Console`平台的BlacklistEndpoint如下API，从黑名单清除所有过期的服务实例
-```java
-/**
-  * 局部网关订阅方式，从黑名单清除所有过期的服务实例
-  * @param group 订阅的组名
-  * @param gatewayId 订阅的网关名
-  * @return 操作成功或者失败
-*/
-boolean clearBlacklist(String group, String gatewayId);
-```
-需要注意，UUId全局唯一，同样的服务实例重启注册后，UUId会重新产生，不会重复，但追加过多的UUId，虽然不会影响功能，但UUId堆积过多，使规则文本变得臃肿，可能会影响配置订阅的响应效率
+需要注意，UUId全局唯一，同样的服务实例重启注册后，UUId会重新产生，不会重复。添加过多的UUId，虽然不会影响功能，但UUId堆积过多，使规则配置文本变得臃肿，可能会影响配置订阅的响应效率
 
-④ 查询黑名单规则策略，统一调用`Nepxion Discovery Console`平台的ConfigEndpoint如下API
+④ 获取下线的服务实例的黑名单
 
-- 查询配置中心的Xml格式的规则策略
+运维平台调用`配置接口`的`获取规则配置对象`步骤，获取其中的黑名单规则策略
 
-```java
-/**
-  * 查询规则策略
-  * @param group 订阅的组名
-  * @param serviceId 订阅的服务名
-  * @return Xml格式的规则策略
-*/
-String getRemoteConfig(String group, String serviceId) throws Exception;
-```
-
-- 把Xml格式的规则策略，转化成RuleEntity对象的Json格式
-
-```java
-/**
-  * 查询规则策略
-  * @param group 订阅的组名
-  * @param serviceId 订阅的服务名
-  * @return Xml格式的规则策略
-*/
-RuleEntity parse(String config);
-```
-
-- 获取黑名单规则策略
-
-```java
-StrategyBlacklistEntity strategyBlacklistEntity = ruleEntity.getStrategyBlacklistEntity();
-// Id黑名单
-String idValue = strategyBlacklistEntity.getIdValue();
-// IP地址和端口黑名单
-String addressValue = strategyBlacklistEntity.getAddressValue();
-```
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 更多Open API
-
-① 配置操作Config Endpoint
-
-| 操作 | 路径 | 参数 | 方式 |
-| --- | --- | --- | --- |
-| 更新规则配置 | `http://`[控制台IP:PORT]/remote/update/{group}/{serviceId}/xml | 规则配置内容 | POST |
-| 清除规则配置 | `http://`[控制台IP:PORT]/remote/clear/{group}/{serviceId} | 无 | POST |
-| 查看规则配置 | `http://`[控制台IP:PORT]/remote/view/{group}/{serviceId} | 无 | GET |
-| 解析规则配置内容成对象 | `http://`[控制台IP:PORT]/parse | Xml内容 | POST |
-| 反解析规则配置对象成内容| `http://`[控制台IP:PORT]/deparse | RuleEntity | POST |
-
-② 服务操作Service Endpoint
-
-| 操作 | 路径 | 参数 | 方式 |
-| --- | --- | --- | --- |
-| 获取服务组名列表 | `http://`[控制台IP:PORT]/groups | 无 | GET |
-| 根据服务名获取组名 | `http://`[控制台IP:PORT]/group/{serviceId} | 无 | GET |
-| 获取服务名列表 | `http://`[控制台IP:PORT]/services | 无 | GET |
-| 根据类型（网关/服务）获取服务名列表 | `http://`[控制台IP:PORT]/service-list | service或者gateway | POST |
-| 获取网关名列表 | `http://`[控制台IP:PORT]/gateways | 无 | GET |
-| 根据服务名获取实例列表 | `http://`[控制台IP:PORT]/instance-list/{serviceId}| 无 | GET |
-| 根据组名列表获取服务名->实例列表结构的Map | `http://`[控制台IP:PORT]/instance-map | 组名列表 | POST |
+具体用法，请参考
+- Github Wiki ：[如何使用DevOps运维平台对接的公共接口](https://github.com/Nepxion/Discovery/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AF%B9%E6%8E%A5%E7%9A%84%E5%85%AC%E5%85%B1%E6%8E%A5%E5%8F%A3)
+- Gitee Wiki ： [如何使用DevOps运维平台对接的公共接口](https://gitee.com/nepxion/Discovery/wikis/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AF%B9%E6%8E%A5%E7%9A%84%E5%85%AC%E5%85%B1%E6%8E%A5%E5%8F%A3)
 
 ## 全链路多活单元化
 
