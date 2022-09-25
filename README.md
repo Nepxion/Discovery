@@ -599,6 +599,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [全链路智能编排蓝绿灰度发布](#全链路智能编排蓝绿灰度发布)
 - [全链路流量管控对接DevOps运维平台](#全链路流量管控对接DevOps运维平台)
     - [对接DevOps运维平台架构方案](#对接DevOps运维平台架构方案)
+    - [对接DevOps运维平台环境搭建](#对接DevOps运维平台环境搭建)
     - [对接DevOps运维平台最佳实践](#对接DevOps运维平台最佳实践)
     - [对接DevOps运维平台步骤详解](#对接DevOps运维平台步骤详解)
 - [全链路多活单元化](#多活单元化)
@@ -2771,46 +2772,42 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 ### 全链路智能编排蓝绿灰度发布
 链路智能编排的方式，即路由链路在后台会智能化编排，用户不再需要关心服务实例的版本情况而进行手工编排，只需要配置跟业务参数有关的条件表达式即可，让蓝绿灰度发布变的更简单更易用
 
-链路智能编排功能的版本前提
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 链路智能编排功能的版本前提
 - 线上所有的服务，每个服务实例版本号支持排序，时间戳方式或者数字递增方式都可以
 
-链路智能编排功能的版本逻辑
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 链路智能编排功能的版本逻辑
 - 线上所有的服务，每个服务至少有一个版本
 - 线上所有的服务，每个服务如果有两个版本，第一个划归为旧版本，第二个划归为新版本
 - 线上所有的服务，每个服务如果有三个及以上版本，第一个划归为旧版本，第二个到最后划归为新版本。通过逗号分隔的方式放入，例如，2.0;3.0;4.0
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 运行控制台
-
-① 下载代码，Git clone [https://github.com/Nepxion/DiscoveryGuide.git](https://github.com/Nepxion/DiscoveryGuide.git)，分支为6.x.x-simple
-
-② 运行`discovery-guide-console`下面的`DiscoveryGuideConsole.java`
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 执行蓝绿灰度发布
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 链路智能编排功能的实现原理
 
 通过向控制台发送请求，控制台根据Json格式规则策略，根据新旧版本的判断，智能编排出两条新旧路由链路，并给它们赋予不同的条件表达式，最终创建出完整的Xml格式规则策略，保存到配置中心
 
-① 请求地址
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 链路智能编排功能的使用方式
 
-访问如下POST请求
-
-[http://localhost:6001/strategy/create-version-release/discovery-guide-group/discovery-guide-gateway](http://localhost:6001/strategy/create-version-release/discovery-guide-group/discovery-guide-gateway)
-
-链接中，`discovery-guide-group`为订阅的组名，`discovery-guide-gateway`为订阅的网关名
-
-② 请求内容
-
-POST请求不同的内容会产生不同的规则策略
+①  创建版本蓝绿灰度发布
 
 - 兜底规则策略
 ```
 {
-  "service": ["a", "b"]
+  "service": ["discovery-guide-service-a", "discovery-guide-service-b"]
 }
 ```
+经过链路智能编排，等效于
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy>
+        <version>{"discovery-guide-service-a":"1.0","discovery-guide-service-b":"1.0"}</version>
+    </strategy>
+</rule>
+```
+
 - 蓝绿规则策略
 ```
 {
-  "service": ["a", "b"],
+  "service": ["discovery-guide-service-a", "discovery-guide-service-b"],
   "blueGreen": [
     {
       "expression": "#H['xyz'] == '1'",
@@ -2823,10 +2820,30 @@ POST请求不同的内容会产生不同的规则策略
   ]
 }
 ```
+经过链路智能编排，等效于
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy>
+        <version>{"discovery-guide-service-a":"1.0","discovery-guide-service-b":"1.0"}</version>
+    </strategy>
+    <strategy-release>
+        <conditions type="blue-green">
+            <condition id="condition-0" expression="#H['xyz'] == '1'" version-id="route-0"/>
+            <condition id="condition-1" expression="#H['xyz'] == '2'" version-id="route-1"/>
+        </conditions>
+        <routes>
+            <route id="route-0" type="version">{"discovery-guide-service-a":"1.0","discovery-guide-service-b":"1.0"}</route>
+            <route id="route-1" type="version">{"discovery-guide-service-a":"1.1","discovery-guide-service-b":"1.1"}</route>
+        </routes>
+    </strategy-release>
+</rule>
+```
+
 - 灰度规则策略
 ```
 {
-  "service": ["a", "b"],
+  "service": ["discovery-guide-service-a", "discovery-guide-service-b"],
   "gray": [
     {
       "expression": "#H['xyz'] == '3'",
@@ -2842,10 +2859,33 @@ POST请求不同的内容会产生不同的规则策略
   ]
 }
 ```
+经过链路智能编排，等效于
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy>
+        <version>{"discovery-guide-service-a":"1.0","discovery-guide-service-b":"1.0"}</version>
+    </strategy>
+    <strategy-release>
+        <conditions type="gray">
+            <condition id="condition-0" expression="#H['xyz'] == '3'" version-id="route-0=90;route-1=10"/>
+            <condition id="condition-1" expression="#H['xyz'] == '4'" version-id="route-0=70;route-1=30"/>
+            <condition id="condition-2" version-id="route-0=100;route-1=0"/>
+        </conditions>
+        <routes>
+            <route id="route-0" type="version">{"discovery-guide-service-a":"1.0","discovery-guide-service-b":"1.0"}</route>
+            <route id="route-1" type="version">{"discovery-guide-service-a":"1.1","discovery-guide-service-b":"1.1"}</route>
+        </routes>
+    </strategy-release>
+</rule>
+```
+
 - 混合蓝绿灰度+内置Header规则策略
+
+使用时候，请删除中文注释，否则会报错
 ```
 {
-  "service": ["a", "b"],
+  "service": ["discovery-guide-service-a", "discovery-guide-service-b"],
   "blueGreen": [
     {
       "expression": "#H['xyz'] == '1'",
@@ -2875,34 +2915,41 @@ POST请求不同的内容会产生不同的规则策略
   "header": {"xyz": "1"}
 }
 ```
+经过链路智能编排，等效于
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy>
+        <version>{"discovery-guide-service-a":"1.0","discovery-guide-service-b":"1.0"}</version>
+    </strategy>
+    <strategy-release>
+        <conditions type="blue-green">
+            <condition id="condition-0" expression="#H['xyz'] == '1'" version-id="route-0"/>
+            <condition id="condition-1" expression="#H['xyz'] == '2'" version-id="route-1"/>
+        </conditions>
+        <conditions type="gray">
+            <condition id="condition-0" expression="#H['xyz'] == '3'" version-id="route-0=10;route-1=90"/>
+            <condition id="condition-1" expression="#H['xyz'] == '4'" version-id="route-0=40;route-1=60"/>
+            <condition id="condition-2" version-id="route-0=0;route-1=100"/>
+        </conditions>
+        <routes>
+            <route id="route-0" type="version">{"discovery-guide-service-a":"1.0","discovery-guide-service-b":"1.0"}</route>
+            <route id="route-1" type="version">{"discovery-guide-service-a":"1.1","discovery-guide-service-b":"1.1"}</route>
+        </routes>
+        <header>{"xyz":"1"}</header>
+    </strategy-release>
+</rule>
+```
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 验证蓝绿灰度发布
+② 清除蓝绿灰度发布
 
-通过向控制台发送请求，控制台根据Json格式规则策略，解析出完整的Xml格式规则策略，用来验证是否达到预期效果
+③ 校验版本蓝绿灰度发布
 
-① 请求地址
+④ 校验条件表达式
 
-访问如下POST请求
-
- [http://localhost:6001/strategy/parse-version-release](http://localhost:6001/strategy/parse-version-release)
-
-② 请求内容
-
-跟`执行蓝绿灰度发布`一致
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 清除蓝绿灰度发布
-
-① 请求地址
-
-访问如下POST请求
-
-[http://localhost:6001/strategy/clear-release/discovery-guide-group/discovery-guide-gateway](http://localhost:6001/strategy/clear-release/discovery-guide-group/discovery-guide-gateway)
-
-链接中，`discovery-guide-group`为订阅的组名，`discovery-guide-gateway`为订阅的网关名
-
-② 请求内容
-
-无
+具体用法，请参考
+- Github Wiki ：[如何使用DevOps运维平台对接的公共接口](https://github.com/Nepxion/Discovery/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AF%B9%E6%8E%A5%E7%9A%84%E5%85%AC%E5%85%B1%E6%8E%A5%E5%8F%A3)
+- Gitee Wiki ： [如何使用DevOps运维平台对接的公共接口](https://gitee.com/nepxion/Discovery/wikis/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AF%B9%E6%8E%A5%E7%9A%84%E5%85%AC%E5%85%B1%E6%8E%A5%E5%8F%A3)
 
 ## 全链路流量管控对接DevOps运维平台
 
@@ -2920,6 +2967,13 @@ POST请求不同的内容会产生不同的规则策略
 ② 控制台把最终蓝绿灰度规则策略推送到配置中心
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/ConsoleArchitecture.jpg)
+
+### 对接DevOps运维平台环境搭建
+① 下载代码，Git clone [https://github.com/Nepxion/DiscoveryGuide.git](https://github.com/Nepxion/DiscoveryGuide.git)，分支为6.x.x-simple。代码很简洁，建议复制出来形成独立工程进行部署
+
+② 运行`discovery-guide-console`下面的`DiscoveryGuideConsole.java`
+
+③ 控制台需要实现高可用，做集群部署，可以前置API网关或者Nginx
 
 ### 对接DevOps运维平台最佳实践
 > 最佳实践采用举例说明，使用者需要依据实际情况来确认版本号、业务参数名和值等
