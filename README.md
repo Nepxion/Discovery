@@ -114,19 +114,6 @@ Polaris为Discovery高级定制版，特色功能
 
 ![](http://nepxion.gitee.io/discovery/docs/polaris-doc/Layer.jpg)
 
-### 发展历程
-- 2017年12月开始筹划
-- 2018年03月开始编码
-- 2018年06月在GitHub开源
-- 2018年06月发布v1.0.0，支持Camden版
-- 2018年06月发布v2.0.0，支持Dalston版
-- 2018年07月发布v3.0.0，支持Edgware版
-- 2018年07月发布v4.0.0，支持Finchley版
-- 2019年04月发布v5.0.0，支持Greenwich版
-- 2020年04月发布v6.0.0，支持Hoxton版
-- 2021年04月完成v7.0.0，支持2020版
-- 2022年04月完成v8.0.0，支持2021版
-
 ### 功能概述
 Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba，Discovery服务注册发现、Ribbon & Spring Cloud LoadBalancer负载均衡、Feign & RestTemplate & WebClient调用、Spring Cloud Gateway & Zuul过滤等组件全方位增强的企业级微服务开源解决方案，更贴近企业级需求，更具有企业级的插件引入、开箱即用特征
 
@@ -157,14 +144,14 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - 全链路条件驱动、非条件驱动
     - 全链路前端触发后端蓝绿灰度发布
     - 全局订阅式蓝绿灰度发布
-    - 全链路智能编排的蓝绿灰度发布
     - 全链路自定义网关、服务的过滤器、负载均衡策略类触发蓝绿灰度发布
     - 全链路动态变更元数据的蓝绿灰度发布
     - 全链路Header、Parameter、Cookie、域名、RPC Method等参数化规则策略驱动
     - 全链路本地和远程、局部和全局无参数化规则策略驱动
     - 全链路条件表达式、通配表达式支持
     - 全链路内置Header，支持定时Job的服务调用蓝绿灰度发布
-    - 全链路蓝绿灰度发布对接DevOps运维平台最佳企业级实践
+    - 全链路智能编排蓝绿灰度发布
+- 全链路流量管控对接DevOps运维平台
 - 全链路多活单元化
 - 全链路隔离路由
     - 全链路组隔离路由
@@ -254,6 +241,19 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | 可用区 | 服务实例的可用区<br>适用于多机房 | 路由隔离<br>故障转移 | ① 可用区亲和性隔离路由<br>- 调用端和提供端的元数据zone是否相同<br>② 可用区故障转移<br>- 未找到相应可用区的服务实例，路由到其它可用区<br>- 支持负载均衡策略、指定区可用区策略 | n-d-zone-failover |
 | IP地址和端口 |服务实例机器地址 | 蓝绿灰度发布<br>路由隔离<br>故障转移<br>无损下线 | ① IP地址和端口匹配蓝绿发布<br>② IP地址和端口权重灰度发布<br>③ IP地址和端口故障转移<br>- 未找到相应IP地址和端口的服务实例，路由到其它地址<br>- 负载均衡策略、指定区IP地址和端口策略<br>④ IP地址和端口无损下线黑名单屏蔽 | n-d-address<br>n-d-address-failover<br>n-d-address-blacklist |
 | 全局唯一ID | 服务实例机器ID | 无损下线 | ① 全局唯一ID无损下线黑名单屏蔽 | n-d-id-blacklist |
+
+### 发展历程
+- 2017年12月开始筹划
+- 2018年03月开始编码
+- 2018年06月在GitHub开源
+- 2018年06月发布v1.0.0，支持Camden版
+- 2018年06月发布v2.0.0，支持Dalston版
+- 2018年07月发布v3.0.0，支持Edgware版
+- 2018年07月发布v4.0.0，支持Finchley版
+- 2019年04月发布v5.0.0，支持Greenwich版
+- 2020年04月发布v6.0.0，支持Hoxton版
+- 2021年04月完成v7.0.0，支持2020版
+- 2022年04月完成v8.0.0，支持2021版
 
 ### 版本列表
 ① 微服务框架版本兼容列表，如下
@@ -538,8 +538,8 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [商业合作](#商业合作)
     - [入门资料](#入门资料)
     - [架构拓扑](#架构拓扑)
-    - [发展历程](#发展历程)
     - [功能概述](#功能概述)
+    - [发展历程](#发展历程)
     - [版本列表](#版本列表)
     - [企业用户](#企业用户)
     - [落地案例](#落地案例)
@@ -568,18 +568,18 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [全链路蓝绿发布](#全链路蓝绿发布)
         - [全链路版本匹配蓝绿发布](#全链路版本匹配蓝绿发布)
         - [全链路区域匹配蓝绿发布](#全链路区域匹配蓝绿发布)
-        - [全链路IP地址和端口匹配蓝绿发布](#全链路IP地址和端口匹配蓝绿发布)
+        - [全链路地址匹配蓝绿发布](#全链路地址匹配蓝绿发布)
     - [全链路条件蓝绿发布](#全链路条件蓝绿发布)
         - [全链路版本条件匹配蓝绿发布](#全链路版本条件匹配蓝绿发布)
         - [全链路区域条件匹配蓝绿发布](#全链路区域条件匹配蓝绿发布)
-        - [全链路IP地址和端口条件匹配蓝绿发布](#全链路IP地址和端口条件匹配蓝绿发布)
+        - [全链路地址条件匹配蓝绿发布](#全链路地址条件匹配蓝绿发布)
     - [全链路灰度发布](#全链路灰度发布)
         - [全链路版本权重灰度发布](#全链路版本权重灰度发布)
         - [全链路区域权重灰度发布](#全链路区域权重灰度发布)
     - [全链路条件灰度发布](#全链路条件灰度发布)
         - [全链路版本条件权重灰度发布](#全链路版本条件权重灰度发布)
         - [全链路区域条件权重灰度发布](#全链路区域条件权重灰度发布)
-        - [全链路IP地址和端口权重条件灰度发布](#全链路IP地址和端口条件权重灰度发布)
+        - [全链路地址条件权重灰度发布](#全链路地址条件权重灰度发布)
     - [全链路蓝绿灰度部署](#全链路蓝绿灰度部署)
         - [全链路单网关部署](#全链路单网关部署)
         - [全链路域网关部署](#全链路域网关部署)
@@ -589,19 +589,24 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [全链路端到端实施蓝绿灰度发布](#全链路端到端实施蓝绿灰度发布)
         - [全链路混合实施蓝绿灰度发布](#全链路混合实施蓝绿灰度发布)
         - [单节点混合实施蓝绿灰度发布](#单节点混合实施蓝绿灰度发布)
-    - [全链路智能编排的蓝绿灰度发布](#全链路智能编排的蓝绿灰度发布)
     - [全链路前端触发后端蓝绿灰度发布](#全链路前端触发后端蓝绿灰度发布)
         - [全链路驱动方式](#全链路驱动方式)
         - [全链路参数策略](#全链路参数策略)
     - [全链路自定义蓝绿灰度发布](#全链路自定义蓝绿灰度发布)
-        - [全链路自定义过滤器触发蓝绿灰度发布](#全链路自定义过滤器触发蓝绿灰度发布)
-        - [全链路自定义负载均衡策略类触发蓝绿灰度发布](#全链路自定义负载均衡策略类触发蓝绿灰度发布)
+        - [全链路过滤器触发蓝绿灰度发布](#全链路过滤器触发蓝绿灰度发布)
+        - [全链路负载均衡策略类触发蓝绿灰度发布](#全链路负载均衡策略类触发蓝绿灰度发布)
     - [全链路动态变更元数据的蓝绿灰度发布](#全链路动态变更元数据的蓝绿灰度发布)
-    - [全链路蓝绿灰度发布Rest-Endpoint](#全链路蓝绿灰度发布Rest-Endpoint)
-    - [全链路蓝绿灰度发布对接DevOps运维平台最佳企业级实践](#全链路蓝绿灰度发布对接DevOps运维平台最佳企业级实践)
-        - [对接DevOps运维平台架构方案](#对接DevOps运维平台架构方案)
-        - [对接DevOps运维平台最佳实践](#对接DevOps运维平台最佳实践)
-        - [对接DevOps运维平台步骤详解](#对接DevOps运维平台步骤详解)
+    - [全链路智能编排蓝绿灰度发布](#全链路智能编排蓝绿灰度发布)
+        - [全链路智能编排版本前提](#全链路智能编排版本前提)
+        - [全链路智能编排版本逻辑](#全链路智能编排版本逻辑)
+        - [全链路智能编排实现原理](#全链路智能编排实现原理)
+        - [全链路智能编排使用方式](#全链路智能编排使用方式)
+- [全链路流量管控对接DevOps运维平台](#全链路流量管控对接DevOps运维平台)
+    - [对接DevOps运维平台架构方案](#对接DevOps运维平台架构方案)
+    - [对接DevOps运维平台环境搭建](#对接DevOps运维平台环境搭建)
+    - [对接DevOps运维平台最佳实践](#对接DevOps运维平台最佳实践)
+    - [对接DevOps运维平台步骤详解](#对接DevOps运维平台步骤详解)
+    - [对接DevOps运维平台公共接口](#对接DevOps运维平台公共接口)
 - [全链路多活单元化](#多活单元化)
     - [多活单元化概念](#多活单元化概念)
     - [多活单元化梳理](#多活单元化梳理)
@@ -628,11 +633,9 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [全链路环境故障转移](#全链路环境故障转移)
     - [全链路可用区故障转移](#全链路可用区故障转移)
     - [全链路IP地址和端口故障转移](#全链路IP地址和端口故障转移)
-    - [全链路故障转移Rest-Endpoint](#全链路故障转移Rest-Endpoint)
 - [全链路服务无损下线](#全链路服务无损下线)
     - [全局唯一ID屏蔽](#全局唯一ID屏蔽)
     - [IP地址和端口屏蔽](#IP地址和端口屏蔽)
-    - [无损下线黑名单Rest-Endpoint](#无损下线黑名单Rest-Endpoint)
 - [异步场景下全链路蓝绿灰度发布](#异步场景下全链路蓝绿灰度发布)
     - [异步场景下DiscoveryAgent解决方案](#异步场景下DiscoveryAgent解决方案)
         - [异步跨线程DiscoveryAgent获取](#异步跨线程DiscoveryAgent获取)
@@ -641,14 +644,12 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [异步场景下Hystrix线程池隔离解决方案](#异步场景下Hystrix线程池隔离解决方案)
 - [网关动态路由](#网关动态路由)
     - [Spring-Cloud-Gateway网关动态路由](#Spring-Cloud-Gateway网关动态路由)
-        - [Spring-Cloud-Gateway网关动态路由配置](#Spring-Cloud-Gateway网关动态路由配置)
-        - [Spring-Cloud-Gateway网关自定义动态路由配置](#Spring-Cloud-Gateway网关自定义动态路由配置)
-        - [Spring-Cloud-Gateway网关Rest-Endpoint](#Spring-Cloud-Gateway网关Rest-Endpoint)
-        - [Spring-Cloud-Gateway网关订阅配置中心](#Spring-Cloud-Gateway网关订阅配置中心)
-        - [Spring-Cloud-Gateway网关事件总线通知的订阅](#Spring-Cloud-Gateway网关事件总线通知的订阅)
+        - [Gateway网关动态路由配置](#Gateway网关动态路由配置)
+        - [Gateway网关自定义动态路由配置](#Gateway网关自定义动态路由配置)
+        - [Gateway网关订阅配置中心](#Gateway网关订阅配置中心)
+        - [Gateway网关事件总线通知的订阅](#Gateway网关事件总线通知的订阅)
     - [Zuul网关动态路由](#Zuul网关动态路由)
         - [Zuul网关动态路由配置](#Zuul网关动态路由配置)
-        - [Zuul网关Rest-Endpoint](#Zuul网关Rest-Endpoint)
         - [Zuul网关订阅配置中心](#Zuul网关订阅配置中心)
         - [Zuul网关事件总线通知的订阅](#Zuul网关事件总线通知的订阅)
 - [全链路服务限流熔断降级权限](#全链路服务限流熔断降级权限)
@@ -668,7 +669,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [基于可用区的防护](#基于可用区的防护)
         - [基于IP地址和端口的防护](#基于IP地址和端口的防护)	
         - [自定义组合式的防护](#自定义组合式的防护)
-    - [Sentinel-Rest-Endpoint](#Sentinel-Rest-Endpoint)
 - [全链路监控](#全链路监控)
     - [全链路调用链监控](#全链路调用链监控)
         - [蓝绿灰度埋点调用链监控](#蓝绿灰度埋点调用链监控)
@@ -1266,7 +1266,9 @@ n-d-region=dev
 n-d-region={"discovery-guide-service-a":"dev", "discovery-guide-service-b":"dev"}
 ```
 
-#### 全链路IP地址和端口匹配蓝绿发布
+#### 全链路地址匹配蓝绿发布
+地址匹配，即IP地址和端口匹配
+
 增加Zuul的IP地址和端口匹配蓝绿发布策略，Group为discovery-guide-group，Data Id为discovery-guide-zuul，策略内容如下，实现从Zuul发起的调用走指定IP地址和端口，或者指定IP地址，或者指定端口（下面策略以端口为例）的服务
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -1532,7 +1534,9 @@ Spring Cloud Gateway在Finchley版不支持该方式
 - 属性`type="version"`替换成`type="region"`
 - 节点`route`对应的Json中版本替换成区域
 
-#### 全链路IP地址和端口条件匹配蓝绿发布
+#### 全链路地址条件匹配蓝绿发布
+地址条件匹配，即IP地址和端口条件匹配
+
 参考[全链路版本条件匹配蓝绿发布](#全链路版本条件匹配蓝绿发布)
 
 用法相似，只需要把规则策略中
@@ -1699,7 +1703,9 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 - 属性`type="version"`替换成`type="region"`
 - 节点`route`对应的Json中版本替换成区域
 
-#### 全链路IP地址和端口条件权重灰度发布
+#### 全链路地址条件权重灰度发布
+地址条件权重，即IP地址和端口条件权重
+
 参考[全链路版本条件权重灰度发布](#全链路版本条件权重灰度发布)
 
 用法相似，只需要把规则策略中
@@ -1941,142 +1947,6 @@ if (a == 1) {
 
 当蓝绿发布存在兜底策略（`basic-condition`），灰度发布永远不会被执行
 
-### 全链路智能编排的蓝绿灰度发布
-链路智能编排的方式，即路由链路在后台会智能化编排，用户不再需要关心服务实例的版本情况而进行手工编排，只需要配置跟业务参数有关的条件表达式即可，让蓝绿灰度发布变的更简单更易用
-
-链路智能编排功能的版本前提
-- 线上所有的服务，每个服务实例版本号支持排序，时间戳方式或者数字递增方式都可以
-
-链路智能编排功能的版本逻辑
-- 线上所有的服务，每个服务至少有一个版本
-- 线上所有的服务，每个服务如果有两个版本，第一个划归为旧版本，第二个划归为新版本
-- 线上所有的服务，每个服务如果有三个及以上版本，第一个划归为旧版本，第二个到最后划归为新版本。通过逗号分隔的方式放入，例如，2.0;3.0;4.0
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 运行控制台
-
-① 下载代码，Git clone [https://github.com/Nepxion/DiscoveryGuide.git](https://github.com/Nepxion/DiscoveryGuide.git)，分支为6.x.x-simple
-
-② 运行`discovery-guide-console`下面的`DiscoveryGuideConsole.java`
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 执行蓝绿灰度发布
-
-通过向控制台发送请求，控制台根据Json格式规则策略，根据新旧版本的判断，智能编排出两条新旧路由链路，并给它们赋予不同的条件表达式，最终创建出完整的Xml格式规则策略，保存到配置中心
-
-① 请求地址
-
-访问如下POST请求
-
-[http://localhost:6001/strategy/create-version-release/discovery-guide-group/discovery-guide-gateway](http://localhost:6001/strategy/create-version-release/discovery-guide-group/discovery-guide-gateway)
-
-链接中，`discovery-guide-group`为订阅的组名，`discovery-guide-gateway`为订阅的网关名
-
-② 请求内容
-
-POST请求不同的内容会产生不同的规则策略
-
-- 兜底规则策略
-```
-{
-  "service": ["a", "b"]
-}
-```
-- 蓝绿规则策略
-```
-{
-  "service": ["a", "b"],
-  "blueGreen": [
-    {
-      "expression": "#H['xyz'] == '1'",
-      "route": "green"
-    }, 
-    {
-      "expression": "#H['xyz'] == '2'",
-      "route": "blue"
-    }
-  ]
-}
-```
-- 灰度规则策略
-```
-{
-  "service": ["a", "b"],
-  "gray": [
-    {
-      "expression": "#H['xyz'] == '3'",
-      "weight": [90, 10]
-    },
-    {
-      "expression": "#H['xyz'] == '4'",
-      "weight": [70, 30]
-    },
-    {
-      "weight": [100, 0]
-    }
-  ]
-}
-```
-- 混合蓝绿灰度+内置Header规则策略
-```
-{
-  "service": ["a", "b"],
-  "blueGreen": [
-    {
-      "expression": "#H['xyz'] == '1'",
-      // 绿（旧版本）路由链路
-      "route": "green"
-    }, 
-    {
-      "expression": "#H['xyz'] == '2'",
-      // 蓝（新版本）路由链路
-      "route": "blue"
-    }
-  ],
-  "gray": [
-    {
-      "expression": "#H['xyz'] == '3'",
-      // 稳定（旧版本）路由链路权重，灰度（新版本）路由链路权重
-      "weight": [10, 90]
-    },
-    {
-      "expression": "#H['xyz'] == '4'",
-      "weight": [40, 60]
-    },
-    {
-      "weight": [0, 100]
-    }
-  ],
-  "header": {"xyz": "1"}
-}
-```
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 验证蓝绿灰度发布
-
-通过向控制台发送请求，控制台根据Json格式规则策略，解析出完整的Xml格式规则策略，用来验证是否达到预期效果
-
-① 请求地址
-
-访问如下POST请求
-
- [http://localhost:6001/strategy/parse-version-release](http://localhost:6001/strategy/parse-version-release)
-
-② 请求内容
-
-跟`执行蓝绿灰度发布`一致
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 清除蓝绿灰度发布
-
-① 请求地址
-
-访问如下POST请求
-
-[http://localhost:6001/strategy/clear-release/discovery-guide-group/discovery-guide-gateway](http://localhost:6001/strategy/clear-release/discovery-guide-group/discovery-guide-gateway)
-
-链接中，`discovery-guide-group`为订阅的组名，`discovery-guide-gateway`为订阅的网关名
-
-② 请求内容
-
-无
-
 ### 全链路前端触发后端蓝绿灰度发布
 前端可以直接触发后端蓝绿灰度发布，前提条件，需要控制网关和服务上`header.priority`的开关
 
@@ -2261,17 +2131,17 @@ Cookie不会全链路传递，只会发生在第一层传递
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide2-16.jpg)
 
-参考[全链路自定义过滤器触发蓝绿灰度发布](#全链路自定义过滤器触发蓝绿灰度发布)示例，以根据域名全链路环境隔离为例，根据域名前缀中的环境名路由到相应的全链路环境中
+参考[全链路过滤器触发蓝绿灰度发布](#全链路过滤器触发蓝绿灰度发布)示例，以根据域名全链路环境隔离为例，根据域名前缀中的环境名路由到相应的全链路环境中
 
 ⑤ RPC-Method参数策略
 
 基于取值RPC调用中的方法入参等方式，只适用于服务侧
 
-参考[全链路自定义负载均衡策略类触发蓝绿灰度发布](#全链路自定义负载均衡策略类触发蓝绿灰度发布)示例
+参考[全链路负载均衡策略类触发蓝绿灰度发布](#全链路负载均衡策略类触发蓝绿灰度发布)示例
 
 ### 全链路自定义蓝绿灰度发布
 
-#### 全链路自定义过滤器触发蓝绿灰度发布
+#### 全链路过滤器触发蓝绿灰度发布
 下面代码既适用于Zuul和Spring Cloud Gateway网关，也适用于微服务。继承DefaultGatewayStrategyRouteFilter、DefaultZuulStrategyRouteFilter和DefaultServiceStrategyRouteFilter，覆盖掉如下方法中的一个或者多个，通过@Bean方式覆盖框架内置的过滤类
 ```java
 public String getRouteVersion();
@@ -2692,8 +2562,7 @@ public ServiceStrategyRouteFilter serviceStrategyRouteFilter() {
 }
 ```
 
-#### 全链路自定义负载均衡策略类触发蓝绿灰度发布
-
+#### 全链路负载均衡策略类触发蓝绿灰度发布
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
 
 对于Spring Cloud 202x版，由于它已经移除了Ribbon，所以apply(Server server)方法上的入参，com.netflix.loadbalancer.Server需要改成org.springframework.cloud.client.ServiceInstance
@@ -2905,20 +2774,187 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 
 ③ 动态元数据变更方式只是让新的元数据驻留在内存里，并不持久化。当服务重启后，服务的元数据仍旧会以初始值为准
 
-### 全链路蓝绿灰度发布Rest-Endpoint
-控制台的Rest Endpoint接口
+### 全链路智能编排蓝绿灰度发布
+链路智能编排的方式，即路由链路在后台会智能化编排，用户不再需要关心服务实例的版本情况而进行手工编排，只需要配置跟业务参数有关的条件表达式即可，让蓝绿灰度发布变的更简单更易用
 
-| 操作 | 路径 | 参数 | 方式 |
-| --- | --- | --- | --- |
-| 解析版本蓝绿灰度发布 | `http://`[控制台IP:PORT]/strategy/parse-version-release | 蓝绿灰度策略对象 | POST |
-| 全局方式，创建版本蓝绿灰度发布 | `http://`[控制台IP:PORT]/strategy/create-version-release/{group} | 蓝绿灰度策略对象 | POST |
-| 全局方式，清除蓝绿灰度发布 | `http://`[控制台IP:PORT]/strategy/clear-release/{group} | 无 | POST |
-| 局部方式，创建版本蓝绿灰度发布 | `http://`[控制台IP:PORT]/strategy/create-version-release/{group}/{gatewayId} | 蓝绿灰度策略对象 | POST |
-| 局部方式，清除蓝绿灰度发布 | `http://`[控制台IP:PORT]/strategy/clear-release/{group}/{gatewayId} | 无 | POST |
+#### 全链路智能编排版本前提
+- 线上所有的服务，每个服务实例版本号支持排序，时间戳方式或者数字递增方式都可以
 
-### 全链路蓝绿灰度发布对接DevOps运维平台最佳企业级实践
+#### 全链路智能编排版本逻辑
+- 线上所有的服务，每个服务至少有一个版本
+- 线上所有的服务，每个服务如果有两个版本，第一个划归为旧版本，第二个划归为新版本
+- 线上所有的服务，每个服务如果有三个及以上版本，第一个划归为旧版本，第二个到最后划归为新版本。通过逗号分隔的方式放入，例如，2.0;3.0;4.0
 
-#### 对接DevOps运维平台架构方案
+#### 全链路智能编排实现原理
+通过向控制台发送请求，控制台根据Json格式规则策略，根据新旧版本的判断，智能编排出两条新旧路由链路，并给它们赋予不同的条件表达式，最终创建出完整的Xml格式规则策略，保存到配置中心
+
+#### 全链路智能编排使用方式
+①  创建版本蓝绿灰度发布
+
+- 兜底规则策略
+```
+{
+  "service": ["discovery-guide-service-a", "discovery-guide-service-b"]
+}
+```
+经过链路智能编排，等效于
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy>
+        <version>{"discovery-guide-service-a":"1.0","discovery-guide-service-b":"1.0"}</version>
+    </strategy>
+</rule>
+```
+
+- 蓝绿规则策略
+```
+{
+  "service": ["discovery-guide-service-a", "discovery-guide-service-b"],
+  "blueGreen": [
+    {
+      "expression": "#H['xyz'] == '1'",
+      "route": "green"
+    }, 
+    {
+      "expression": "#H['xyz'] == '2'",
+      "route": "blue"
+    }
+  ]
+}
+```
+经过链路智能编排，等效于
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy>
+        <version>{"discovery-guide-service-a":"1.0","discovery-guide-service-b":"1.0"}</version>
+    </strategy>
+    <strategy-release>
+        <conditions type="blue-green">
+            <condition id="condition-0" expression="#H['xyz'] == '1'" version-id="route-0"/>
+            <condition id="condition-1" expression="#H['xyz'] == '2'" version-id="route-1"/>
+        </conditions>
+        <routes>
+            <route id="route-0" type="version">{"discovery-guide-service-a":"1.0","discovery-guide-service-b":"1.0"}</route>
+            <route id="route-1" type="version">{"discovery-guide-service-a":"1.1","discovery-guide-service-b":"1.1"}</route>
+        </routes>
+    </strategy-release>
+</rule>
+```
+
+- 灰度规则策略
+```
+{
+  "service": ["discovery-guide-service-a", "discovery-guide-service-b"],
+  "gray": [
+    {
+      "expression": "#H['xyz'] == '3'",
+      "weight": [90, 10]
+    },
+    {
+      "expression": "#H['xyz'] == '4'",
+      "weight": [70, 30]
+    },
+    {
+      "weight": [100, 0]
+    }
+  ]
+}
+```
+经过链路智能编排，等效于
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy>
+        <version>{"discovery-guide-service-a":"1.0","discovery-guide-service-b":"1.0"}</version>
+    </strategy>
+    <strategy-release>
+        <conditions type="gray">
+            <condition id="condition-0" expression="#H['xyz'] == '3'" version-id="route-0=90;route-1=10"/>
+            <condition id="condition-1" expression="#H['xyz'] == '4'" version-id="route-0=70;route-1=30"/>
+            <condition id="condition-2" version-id="route-0=100;route-1=0"/>
+        </conditions>
+        <routes>
+            <route id="route-0" type="version">{"discovery-guide-service-a":"1.0","discovery-guide-service-b":"1.0"}</route>
+            <route id="route-1" type="version">{"discovery-guide-service-a":"1.1","discovery-guide-service-b":"1.1"}</route>
+        </routes>
+    </strategy-release>
+</rule>
+```
+
+- 混合蓝绿灰度+内置Header规则策略
+
+使用时候，请删除中文注释，否则会报错
+```
+{
+  "service": ["discovery-guide-service-a", "discovery-guide-service-b"],
+  "blueGreen": [
+    {
+      "expression": "#H['xyz'] == '1'",
+      // 绿（旧版本）路由链路
+      "route": "green"
+    }, 
+    {
+      "expression": "#H['xyz'] == '2'",
+      // 蓝（新版本）路由链路
+      "route": "blue"
+    }
+  ],
+  "gray": [
+    {
+      "expression": "#H['xyz'] == '3'",
+      // 稳定（旧版本）路由链路权重，灰度（新版本）路由链路权重
+      "weight": [10, 90]
+    },
+    {
+      "expression": "#H['xyz'] == '4'",
+      "weight": [40, 60]
+    },
+    {
+      "weight": [0, 100]
+    }
+  ],
+  "header": {"xyz": "1"}
+}
+```
+经过链路智能编排，等效于
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy>
+        <version>{"discovery-guide-service-a":"1.0","discovery-guide-service-b":"1.0"}</version>
+    </strategy>
+    <strategy-release>
+        <conditions type="blue-green">
+            <condition id="condition-0" expression="#H['xyz'] == '1'" version-id="route-0"/>
+            <condition id="condition-1" expression="#H['xyz'] == '2'" version-id="route-1"/>
+        </conditions>
+        <conditions type="gray">
+            <condition id="condition-0" expression="#H['xyz'] == '3'" version-id="route-0=10;route-1=90"/>
+            <condition id="condition-1" expression="#H['xyz'] == '4'" version-id="route-0=40;route-1=60"/>
+            <condition id="condition-2" version-id="route-0=0;route-1=100"/>
+        </conditions>
+        <routes>
+            <route id="route-0" type="version">{"discovery-guide-service-a":"1.0","discovery-guide-service-b":"1.0"}</route>
+            <route id="route-1" type="version">{"discovery-guide-service-a":"1.1","discovery-guide-service-b":"1.1"}</route>
+        </routes>
+        <header>{"xyz":"1"}</header>
+    </strategy-release>
+</rule>
+```
+
+② 清除蓝绿灰度发布
+
+③ 校验版本蓝绿灰度发布
+
+④ 校验条件表达式
+
+具体用法，请参考[对接DevOps运维平台公共接口](#对接DevOps运维平台公共接口)
+
+## 全链路流量管控对接DevOps运维平台
+
+### 对接DevOps运维平台架构方案
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 架构
 
 ① 控制台需要连接注册中心和配置中心
@@ -2933,7 +2969,14 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/ConsoleArchitecture.jpg)
 
-#### 对接DevOps运维平台最佳实践
+### 对接DevOps运维平台环境搭建
+① 下载代码，Git clone [https://github.com/Nepxion/DiscoveryGuide.git](https://github.com/Nepxion/DiscoveryGuide.git)，分支为6.x.x-simple。代码很简洁，建议复制出来形成独立工程进行部署
+
+② 运行`discovery-guide-console`下面的`DiscoveryGuideConsole.java`
+
+③ 控制台需要实现高可用，做集群部署，可以前置API网关或者Nginx
+
+### 对接DevOps运维平台最佳实践
 > 最佳实践采用举例说明，使用者需要依据实际情况来确认版本号、业务参数名和值等
 
 生产环境上，全链路调用路径，如下
@@ -2950,9 +2993,18 @@ API网关 -> 服务A -> 服务B
 
 在新版本服务上线之前，通过`故障转移`步骤实施，启动故障转移功能
 
+可以通过运维平台实施故障转移的管控
+
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 启动蓝绿灰度兜底策略
 
-在API网关上，通过`蓝绿灰度发布`步骤，配置蓝绿灰度发布兜底规则策略，避免流量进入新服务实例
+在API网关上，通过`蓝绿灰度发布`的`创建版本蓝绿灰度发布`步骤，创建兜底规则策略，避免流量进入新服务实例
+
+```
+{
+"service": ["a", "b"]
+}``
+
+```
 
 以Nacos和Apollo配置中心为例，举例配置方式。下同
 
@@ -2970,7 +3022,7 @@ API网关 -> 服务A -> 服务B
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 启动蓝绿灰度发布
 
-在API网关上，通过`蓝绿灰度发布`步骤，配置蓝绿灰度发布规则策略
+在API网关上，通过`蓝绿灰度发布`的`创建版本蓝绿灰度发布`步骤，创建蓝绿灰度发布规则策略
 
 通过在调用API网关的URL上增加基于`Header/Parameter/Cookie`的业务参数`xyz`
 
@@ -2979,10 +3031,45 @@ API网关 -> 服务A -> 服务B
 - `xyz`为`2`，切换到绿路由（新版本链路）
 - `xyz`缺失，切换到兜底路由（旧版本链路）
 
+```
+{
+"service": ["a", "b"],
+"blueGreen": [
+  {
+    "expression": "#H['xyz'] == '1'",
+    "route": "green"
+  }, 
+  {
+    "expression": "#H['xyz'] == '2'",
+    "route": "blue"
+  }
+]
+}
+```
+
 ② 灰度发布
 - `xyz`为`3`，稳定路由（旧版本链路）和灰度路由（新版本链路）的流量配比是90:10
 - `xyz`为`4`，稳定路由（旧版本链路）和灰度路由（新版本链路）的流量配比是70:30
 - `xyz`缺失，稳定路由（旧版本链路）和灰度路由（新版本链路）的流量配比是100:0，即流量不会进行新版本服务的链路
+
+```
+{
+"service": ["discovery-guide-service-a", "discovery-guide-service-b"],
+"gray": [
+  {
+    "expression": "#H['xyz'] == '3'",
+    "weight": [90, 10]
+  },
+  {
+    "expression": "#H['xyz'] == '4'",
+    "weight": [70, 30]
+  },
+  {
+    "weight": [100, 0]
+  }
+]
+}
+```
 
 蓝绿灰度执行结果处理
 - 蓝绿灰度发布成功，新版本实例测试通过，流量全部切到新版本实例，下线老版本服务实例
@@ -2990,7 +3077,7 @@ API网关 -> 服务A -> 服务B
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 启动无损下线（可选）
 
-在旧版本服务实例下线之前，在API网关上，执行`无损下线`的`添加黑名单`步骤，保证流量不会进入要下线的老版本实例
+在旧版本服务实例下线之前，在API网关上，执行`无损下线`的`添加下线的服务实例到黑名单`步骤，保证流量不会进入要下线的老版本实例
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 下线旧服务
 
@@ -2998,17 +3085,17 @@ API网关 -> 服务A -> 服务B
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 停止无损下线（可选）
 
-等待一段时间后，待旧服务实例彻底下线，在API网关上，执行`无损下线`的`清除黑名单`步骤
+等待一段时间后，待旧服务实例彻底下线，在API网关上，执行`无损下线`的`从黑名单清除所有过期的服务实例`步骤
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 停止蓝绿灰度发布
 
-在API网关上，通过`蓝绿灰度发布`步骤，清空蓝绿灰度发布规则策略
+在API网关上，通过`蓝绿灰度发布`的`清除蓝绿灰度发布`步骤，清除蓝绿灰度发布规则策略
 
 整个流程过程，示意如下，`故障转移`和`无损下线`步骤可以省略
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DevOps.jpg)
 
-#### 对接DevOps运维平台步骤详解
+### 对接DevOps运维平台步骤详解
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 流量染色
 
 运维平台通过命令行java -jar启动应用，加入启动参数`-Dmetadata.group=xxx`和`-Dmetadata.version=yyy`，表示给服务实例进行组维度和版本维度的流量染色，即
@@ -3068,355 +3155,77 @@ spring.application.git.generator.enabled=true
 spring.application.strategy.version.failover.enabled=true
 ```
 
-运维平台对接`Nepxion Discovery Console`平台，在网关上实施故障转移配置
+运维平台对接控制台，在网关上实施故障转移
 
-① 创建故障转移规则策略，统一调用`Nepxion Discovery Console`平台的FailoverEndpoint如下API
-```java
-/**
-  * 局部网关订阅方式，创建故障转移规则策略
-  * @param group 订阅的组名
-  * @param gatewayId 订阅的网关名
-  * @param failoverType 故障转移的七种类型
-  * @param failoverType 故障转移值
-  * @return Xml格式的规则策略
-*/
-String createFailover(String group, String gatewayId, FailoverType failoverType, String failoverValue);
-```
+① 创建故障转移
 
-② 清除故障转移规则策略，统一调用`Nepxion Discovery Console`平台的FailoverEndpoint如下API
-```java
-/**
-  * 局部网关订阅方式，清除故障转移规则策略
-  * @param group 订阅的组名
-  * @param gatewayId 订阅的网关名
-  * @param failoverType 故障转移的七种类型
-  * @return Xml格式的规则策略
-*/
-String clearFailover(String group, String gatewayId, FailoverType failoverType);
-```
+网关和服务上有默认故障转移方式，如果通过运维平台来实施管控，则默认故障转移方式失效
 
-③ 查询故障转移规则策略，统一调用`Nepxion Discovery Console`平台的ConfigEndpoint如下API
+② 清除故障转移
 
-- 查询配置中心的Xml格式的规则策略
+运维平台取消实施故障转移方式的管控
 
-```java
-/**
-  * 查询规则策略
-  * @param group 订阅的组名
-  * @param serviceId 订阅的服务名
-  * @return Xml格式的规则策略
-*/
-String getRemoteConfig(String group, String serviceId) throws Exception;
-```
-
-- 把Xml格式的规则策略，转化成RuleEntity对象的Json格式
-
-```java
-/**
-  * 查询规则策略
-  * @param group 订阅的组名
-  * @param serviceId 订阅的服务名
-  * @return Xml格式的规则策略
-*/
-RuleEntity parse(String config);
-```
-
-- 获取故障转移规则策略
-
-```java
-StrategyFailoverEntity strategyFailoverEntity = ruleEntity.getStrategyBlacklistEntity();
-// 版本偏好
-String versionPreferValue = strategyFailoverEntity.getVersionPreferValue();
-// 版本故障转移
-String versionFailoverValue = strategyFailoverEntity.getVersionFailoverValue();
-// 区域调试转移
-String regionTransferValue = strategyFailoverEntity.getRegionTransferValue();
-// 区域故障转移
-String regionFailoverValue = strategyFailoverEntity.getRegionFailoverValue();
-// 环境故障转移
-String environmentFailoverValue = strategyFailoverEntity.getEnvironmentFailoverValue();
-// 可用区故障转移
-String zoneFailoverValue = strategyFailoverEntity.getZoneFailoverValue();
-// IP地址和端口故障转移
-String addressFailoverValue = strategyFailoverEntity.getAddressFailoverValue();
-```
+具体用法，请参考[对接DevOps运维平台公共接口](#对接DevOps运维平台公共接口)
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 蓝绿灰度发布
 
-运维平台对接`Nepxion Discovery Console`平台，通过链路在后台智能编排的方式，在网关上实施蓝绿灰度发布
+运维平台对接控制台，通过链路在后台智能编排的方式，在网关上实施蓝绿灰度发布
 
-① 创建兜底、蓝绿、灰度规则策略，统一调用`Nepxion Discovery Console`平台的StrategyEndpoint如下API
-```java
-/**
-  * 局部网关订阅方式，创建兜底、蓝绿、灰度规则策略
-  * @param group 订阅的组名
-  * @param gatewayId 订阅的网关名
-  * @param conditionStrategy 蓝绿灰度策略对象
-  * @return Xml格式的规则策略
-*/
-String createVersionRelease(String group, String gatewayId, ConditionStrategy conditionStrategy);
-```
-`ConditionStrategy`的Json数据结构
+① 创建版本蓝绿灰度发布
 
-- 兜底规则策略
+运维平台通过创建兜底、蓝绿、灰度、混合蓝绿灰度等四种方式实施流量管控
 
-```
-{
-  "service": ["a", "b"]
-}
-```
+② 清除蓝绿灰度发布
 
-- 蓝绿规则策略
+运维平台完成蓝绿灰度发布
 
-```
-{
-  "service": ["a", "b"],
-  "blueGreen": [
-    {
-      "expression": "#H['xyz'] == '1'",
-      "route": "green"
-    }, 
-    {
-      "expression": "#H['xyz'] == '2'",
-      "route": "blue"
-    }
-  ]
-}
-```
+③ 校验版本蓝绿灰度发布
 
-- 灰度规则策略
+运维平台预验证蓝绿灰度对象是否合法，链路智能编排结果是否正确
 
-```
-{
-  "service": ["a", "b"],
-  "gray": [
-    {
-      "expression": "#H['xyz'] == '3'",
-      "weight": [90, 10]
-    },
-    {
-      "expression": "#H['xyz'] == '4'",
-      "weight": [70, 30]
-    },
-    {
-      "weight": [100, 0]
-    }
-  ]
-}
-```
+④ 校验条件表达式
 
-- 混合蓝绿灰度+内置Header规则策略
+运维平台预验证条件表达式是否正确
 
-```
-{
-  "service": ["a", "b"],
-  "blueGreen": [
-    {
-      "expression": "#H['xyz'] == '1'",
-      // 绿（旧版本）路由链路
-      "route": "green"
-    }, 
-    {
-      "expression": "#H['xyz'] == '2'",
-      // 蓝（新版本）路由链路
-      "route": "blue"
-    }
-  ],
-  "gray": [
-    {
-      "expression": "#H['xyz'] == '3'",
-      // 稳定（旧版本）路由链路权重，灰度（新版本）路由链路权重
-      "weight": [10, 90]
-    },
-    {
-      "expression": "#H['xyz'] == '4'",
-      "weight": [40, 60]
-    },
-    {
-      "weight": [0, 100]
-    }
-  ],
-  "header": {"xyz": "1"}
-}
-```
+⑤ 获取蓝绿灰度发布
 
-② 验证兜底、蓝绿、灰度规则策略，统一调用`Nepxion Discovery Console`平台的StrategyEndpoint如下API
+运维平台调用`配置接口`的`获取规则配置对象`步骤，获取其中的蓝绿灰度发布规则策略
 
-如果用户对输入的Json准确性无法判断，可以通过调用该API观察最终Xml结果
-```java
-/**
-  * 局部网关订阅方式，清除兜底、蓝绿、灰度规则策略
-  * @param conditionStrategy 蓝绿灰度策略对象
-  * @return Xml格式的规则策略
-*/
-String parseVersionRelease(ConditionStrategy conditionStrategy);
-```
-
-③ 清除兜底、蓝绿、灰度规则策略，统一调用`Nepxion Discovery Console`平台的StrategyEndpoint如下API
-```java
-/**
-  * 局部网关订阅方式，清除兜底、蓝绿、灰度规则策略
-  * @param group 订阅的组名
-  * @param gatewayId 订阅的网关名
-  * @return Xml格式的规则策略
-*/
-String clearRelease(String group, String gatewayId);
-```
-
-④ 查询兜底、蓝绿、灰度规则策略，统一调用`Nepxion Discovery Console`平台的ConfigEndpoint如下API
-
-- 查询配置中心的Xml格式的规则策略
-
-```java
-/**
-  * 查询规则策略
-  * @param group 订阅的组名
-  * @param serviceId 订阅的服务名
-  * @return Xml格式的规则策略
-*/
-String getRemoteConfig(String group, String serviceId) throws Exception;
-```
-
-- 把Xml格式的规则策略，转化成RuleEntity对象的Json格式
-
-```java
-/**
-  * 查询规则策略
-  * @param group 订阅的组名
-  * @param serviceId 订阅的服务名
-  * @return Xml格式的规则策略
-*/
-RuleEntity parse(String config);
-```
-
-- 获取兜底规则策略
-
-```java
-StrategyEntity strategyEntity = ruleEntity.StrategyEntity();
-// 兜底路由
-String versionValue = strategyEntity.getVersionValue();
-```
-
-- 获取蓝绿灰度规则策略
-
-```java
-StrategyReleaseEntity strategyReleaseEntity = ruleEntity.getStrategyReleaseEntity();
-// 蓝绿条件列表
-List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList = strategyReleaseEntity.getStrategyConditionBlueGreenEntityList();
-// 灰度条件列表
-List<StrategyConditionGrayEntity> strategyConditionGrayEntityList = strategyReleaseEntity.getStrategyConditionGrayEntityList();
-// 路由列表
-List<StrategyRouteEntity> strategyRouteEntityList = strategyReleaseEntity.getStrategyRouteEntityList();
-// 内置Header
-StrategyHeaderEntity strategyHeaderEntity = strategyReleaseEntity.getStrategyHeaderEntity();
-```
+具体用法，请参考[对接DevOps运维平台公共接口](#对接DevOps运维平台公共接口)
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 无损下线
 
-运维平台通对接`Nepxion Discovery Console`平台，在服务实例实施下线的时候，为达到无损下线的目的，通过`Nepxion Discovery Console`的相关API写入下线实例黑名单的Xml，在下线一段后，再清除相关的黑名单
+运维平台对接控制台，在服务实例下线之前，在网关上实施服务实例的黑名单屏蔽，在服务实例下线一段时间后，再解除黑名单屏蔽
 
-① 运维平台下线某个服务实例之前，调用`Nepxion Discovery Console`平台的BlacklistEndpoint如下API，把需要下线的服务实例根据IP地址和端口添加进黑名单，返回全局唯一的该服务实例的UUId，即可实现实时无损下线
-```java
-/**
-  * 局部网关订阅方式，根据服务实例IP地址和端口，添加下线的服务实例UUId到黑名单
-  * @param group 订阅的组名
-  * @param gatewayId 订阅的网关名
-  * @param serviceId 待下线实例的服务名
-  * @param host 待下线实例的IP地址
-  * @param port 待下线实例的端口
-  * @return 待下线实例的UUId
-*/
-String addBlacklist(String group, String gatewayId, String serviceId, String host, int port);
-```
-也可以通过通配方式，把批量需要下线的服务实例根据日期或者时间通配符方式加入黑名单。例如：
+① 添加下线的服务实例到黑名单
+
+运维平台下线服务实例之前，通过IP地址和端口添加入黑名单（转化成UUId存储）进行单个屏蔽，返回全局唯一的该服务实例的UUId，即可实现实时无损下线
+
+② 通配添加下线的服务实例到黑名单
+
+运维平台下线服务实例之前，通过UUId前缀的日期或者时间（标识服务实例上线的时间戳）以通配符方式加入黑名单进行批量屏蔽，即可实现实时无损下线
+
+例如：
 - A服务有两个实例，实例1的UUId为`20220920-113301-033-4289-533-056`，实例2的UUId为`20220920-113259-190-5762-550-884`，代表它们同一天`2022年09月20日`上线
-- 通过`20220920*`通配符的方式，表示屏蔽`2022年09月20日`上线的指定服务的所有实例，如果希望更精确，`20220920-11*`，表示屏蔽`2022年09月20日11点`上线的指定服务的所有实例
+- 通过`20220920*`通配符的方式，表示屏蔽`2022年09月20日`上线的A服务的所有实例，如果希望更精确，`20220920-11*`，表示屏蔽`2022年09月20日11点`上线的A服务的所有实例
 
-```java
-/**
-  * 局部网关订阅方式，根据服务实例IP地址和端口，添加下线的服务实例UUId到黑名单
-  * @param group 订阅的组名
-  * @param gatewayId 订阅的网关名
-  * @param serviceId 待下线实例的服务名
-  * @param serviceUUId 待下线实例的UUId，支持通配符
-  * @return 待下线实例的UUId
-*/
-String addBlacklist(String group, String gatewayId, String serviceId, String serviceUUId);
-```
+③ 从黑名单清除所有过期的服务实例
 
-② 运维平台每添加一个黑名单后，把返回的服务实例的UUId存储下来（推荐用高可用方案来存储）
+运维平台下线服务实例一段时间之后（大于负载均衡`3`个时钟周期，推荐`5`分钟），从黑名单清除所有过期的服务实例
 
-③ 运维平台下线某个服务实例一段时间之后（大于负载均衡`3`个时钟周期，推荐`5`分钟），调用`Nepxion Discovery Console`平台的BlacklistEndpoint如下API，从黑名单清除所有过期的服务实例
-```java
-/**
-  * 局部网关订阅方式，从黑名单清除所有过期的服务实例
-  * @param group 订阅的组名
-  * @param gatewayId 订阅的网关名
-  * @return 操作成功或者失败
-*/
-boolean clearBlacklist(String group, String gatewayId);
-```
-需要注意，UUId全局唯一，同样的服务实例重启注册后，UUId会重新产生，不会重复，但追加过多的UUId，虽然不会影响功能，但UUId堆积过多，使规则文本变得臃肿，可能会影响配置订阅的响应效率
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
 
-④ 查询黑名单规则策略，统一调用`Nepxion Discovery Console`平台的ConfigEndpoint如下API
+UUId全局唯一，同样的服务实例重启注册后，UUId会重新产生，不会重复。添加过多的UUId，虽然不会影响功能，但UUId堆积过多，使规则配置文本变得臃肿，可能会影响配置订阅的响应效率
 
-- 查询配置中心的Xml格式的规则策略
+④ 获取下线的服务实例的黑名单
 
-```java
-/**
-  * 查询规则策略
-  * @param group 订阅的组名
-  * @param serviceId 订阅的服务名
-  * @return Xml格式的规则策略
-*/
-String getRemoteConfig(String group, String serviceId) throws Exception;
-```
+运维平台调用`配置接口`的`获取规则配置对象`步骤，获取其中的黑名单规则策略
 
-- 把Xml格式的规则策略，转化成RuleEntity对象的Json格式
+具体用法，请参考[对接DevOps运维平台公共接口](#对接DevOps运维平台公共接口)
 
-```java
-/**
-  * 查询规则策略
-  * @param group 订阅的组名
-  * @param serviceId 订阅的服务名
-  * @return Xml格式的规则策略
-*/
-RuleEntity parse(String config);
-```
-
-- 获取黑名单规则策略
-
-```java
-StrategyBlacklistEntity strategyBlacklistEntity = ruleEntity.getStrategyBlacklistEntity();
-// Id黑名单
-String idValue = strategyBlacklistEntity.getIdValue();
-// IP地址和端口黑名单
-String addressValue = strategyBlacklistEntity.getAddressValue();
-```
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 更多Open API
-
-① 配置操作Config Endpoint
-
-| 操作 | 路径 | 参数 | 方式 |
-| --- | --- | --- | --- |
-| 更新规则配置 | `http://`[控制台IP:PORT]/remote/update/{group}/{serviceId}/xml | 规则配置内容 | POST |
-| 清除规则配置 | `http://`[控制台IP:PORT]/remote/clear/{group}/{serviceId} | 无 | POST |
-| 查看规则配置 | `http://`[控制台IP:PORT]/remote/view/{group}/{serviceId} | 无 | GET |
-| 解析规则配置内容成对象 | `http://`[控制台IP:PORT]/parse | Xml内容 | POST |
-| 反解析规则配置对象成内容| `http://`[控制台IP:PORT]/deparse | RuleEntity | POST |
-
-② 服务操作Service Endpoint
-
-| 操作 | 路径 | 参数 | 方式 |
-| --- | --- | --- | --- |
-| 获取服务组名列表 | `http://`[控制台IP:PORT]/groups | 无 | GET |
-| 根据服务名获取组名 | `http://`[控制台IP:PORT]/group/{serviceId} | 无 | GET |
-| 获取服务名列表 | `http://`[控制台IP:PORT]/services | 无 | GET |
-| 根据类型（网关/服务）获取服务名列表 | `http://`[控制台IP:PORT]/service-list | service或者gateway | POST |
-| 获取网关名列表 | `http://`[控制台IP:PORT]/gateways | 无 | GET |
-| 根据服务名获取实例列表 | `http://`[控制台IP:PORT]/instance-list/{serviceId}| 无 | GET |
-| 根据组名列表获取服务名->实例列表结构的Map | `http://`[控制台IP:PORT]/instance-map | 组名列表 | POST |
+### 对接DevOps运维平台公共接口
+- Github Wiki ：[如何使用DevOps运维平台对接的公共接口](https://github.com/Nepxion/Discovery/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AF%B9%E6%8E%A5%E7%9A%84%E5%85%AC%E5%85%B1%E6%8E%A5%E5%8F%A3)
+- Gitee Wiki ：[如何使用DevOps运维平台对接的公共接口](https://gitee.com/nepxion/Discovery/wikis/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AF%B9%E6%8E%A5%E7%9A%84%E5%85%AC%E5%85%B1%E6%8E%A5%E5%8F%A3)
 
 ## 全链路多活单元化
 
@@ -4020,16 +3829,6 @@ IP地址和端口转移，即无法找到相应IP地址和端口的服务实例�
 spring.application.strategy.address.failover.enabled=true
 ```
 
-### 全链路故障转移Rest-Endpoint
-控制台的Rest Endpoint接口
-
-| 操作 | 路径 | 参数 | 方式 |
-| --- | --- | --- | --- |
-| 全局方式，创建故障转移 | `http://`[控制台IP:PORT]/failover/create-failover/{group}/{failoverType} | 故障转移值 | POST |
-| 全局方式，清除故障转移 | `http://`[控制台IP:PORT]/failover/clear-failover/{group}/{failoverType} | 无 | POST |
-| 局部方式，创建故障转移 | `http://`[控制台IP:PORT]/failover/create-failover/{group}/{gatewayId}/{failoverType} | 故障转移值 | POST |
-| 局部方式，清除故障转移 | `http://`[控制台IP:PORT]/failover/clear-failover/{group}/{gatewayId}/{failoverType} | 无 | POST |
-
 ## 全链路服务无损下线
 服务下线场景下，由于Ribbon/Spring Cloud LoadBalancer负载均衡组件存在着缓存机制，当被提供端服务实例已经下线，而消费端服务实例还暂时缓存着它，直到下个心跳周期才会把已下线的服务实例剔除，在此期间，如果发生调用，会造成流量有损
 
@@ -4165,20 +3964,6 @@ n-d-id-blacklist={"discovery-guide-service-a":"20210601-222214-909-1146-372-698"
 n-d-address-blacklist=3001
 n-d-address-blacklist={"discovery-guide-service-a":"3001", "discovery-guide-service-b":"3001"}
 ```
-
-### 无损下线黑名单Rest-Endpoint
-控制台的Rest Endpoint接口
-
-| 操作 | 路径 | 参数 | 方式 |
-| --- | --- | --- | --- |
-| 全局方式，添加下线的服务实例UUId到黑名单<br>根据IP地址和端口 | `http://`[控制台IP:PORT]/blacklist/add-address/{group}/{serviceId} | IP地址和端口 | POST |
-| 全局方式，添加下线的服务实例UUId到黑名单 | `http://`[控制台IP:PORT]/blacklist/add-uuid/{group}/{serviceId} | UUId | POST |
-| 全局方式，从黑名单删除过期的服务实例 | `http://`[控制台IP:PORT]/blacklist/delete/{group}/{serviceId} | UUId | POST |
-| 全局方式，从黑名单清除所有过期的服务实例 | `http://`[控制台IP:PORT]/blacklist/clear/{group} | 无 | POST |
-| 局部方式，添加下线的服务实例UUId到黑名单<br>根据IP地址和端口 | `http://`[控制台IP:PORT]/blacklist/add-address/{group}/{gatewayId}/{serviceId} | IP地址和端口 | POST |
-| 局部方式，添加下线的服务实例UUId到黑名单 | `http://`[控制台IP:PORT]/blacklist/add-uuid/{group}/{gatewayId}/{serviceId} | UUId | POST |
-| 局部方式，从黑名单删除过期的服务实例 | `http://`[控制台IP:PORT]/blacklist/delete/{group}/{gatewayId}/{serviceId} | UUId | POST |
-| 局部方式，从黑名单清除所有过期的服务实例 | `http://`[控制台IP:PORT]/blacklist/clear/{group}/{gatewayId} | 无 | POST |
 
 ## 异步场景下全链路蓝绿灰度发布
 Discovery框架存在着如下全链路传递上下文的场景，包括
@@ -4558,7 +4343,7 @@ Spring Cloud Gateway网关在自动路由模式下，动态路由不能工作
 
 支持Spring Cloud Gateway网关官方断言器和过滤器，也支持用户自定义断言器和过滤器
 
-#### Spring-Cloud-Gateway网关动态路由配置
+#### Gateway网关动态路由配置
 ① 精简配置
 
 ```
@@ -4595,7 +4380,7 @@ Spring Cloud Gateway网关在自动路由模式下，动态路由不能工作
 ]
 ```
 
-#### Spring-Cloud-Gateway网关自定义动态路由配置
+#### Gateway网关自定义动态路由配置
 ① 自定义方式描述网关内置断言器和过滤器
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
@@ -4733,36 +4518,14 @@ Query={"param":"f","regexp":"6"}
 Authentication={"secretKey":"abc", "whiteList.0":"* swagger-ui.html", "whiteList.1":"* /swagger-resources/**", "whiteList.2":"* /doc.html", "userMap.name":"jason", "userMap.age":"20", "authInfoCarryStrategy":"AuthWriteToHeader"}
 ```
 
-#### Spring-Cloud-Gateway网关Rest-Endpoint
-① Spring Cloud Gateway网关的Rest Endpoint接口
-
-| 操作 | 路径 | 参数 | 方式 |
-| --- | --- | --- | --- |
-| 增加网关路由 | `http://`[网关IP:PORT]/spring-cloud-gateway-route/add | 单个动态路由配置 | POST |
-| 修改网关路由 | `http://`[网关IP:PORT]/spring-cloud-gateway-route/modify | 单个动态路由配置 | POST |
-| 删除网关路由 | `http://`[网关IP:PORT]/spring-cloud-gateway-route/delete/{routeId} | 无 | DELETE |
-| 更新全部网关路由 | `http://`[网关IP:PORT]/spring-cloud-gateway-route/update-all | 多个动态路由配置 | POST |
-| 根据路由Id查看网关路由 | `http://`[网关IP:PORT]/spring-cloud-gateway-route/view/{routeId} | 无 | GET |
-| 查看全部网关路由| `http://`[网关IP:PORT]/spring-cloud-gateway-route/view-all | 无 | GET |
-
-② 控制台的Rest Endpoint接口
-
-| 操作 | 路径 | 参数 | 方式 |
-| --- | --- | --- | --- |
-| 增加网关路由 | `http://`[控制台IP:PORT]/route/add/spring-cloud-gateway/{serviceId} | 单个动态路由配置 | POST |
-| 修改网关路由 | `http://`[控制台IP:PORT]/route/modify/spring-cloud-gateway/{serviceId} | 单个动态路由配置 | POST |
-| 删除网关路由 | `http://`[控制台IP:PORT]/route/delete/spring-cloud-gateway/{serviceId}/{routeId} | 无 | DELETE |
-| 更新全部网关路由 | `http://`[控制台IP:PORT]/route/update-all/spring-cloud-gateway/{serviceId} | 多个动态路由配置 | GET |
-| 查看全部网关路由| `http://`[控制台IP:PORT]/route/view-all/spring-cloud-gateway/{serviceId} | 无 | GET |
-
-#### Spring-Cloud-Gateway网关订阅配置中心
+#### Gateway网关订阅配置中心
 网关订阅配置中心的使用方式，如下
 
 - Key为
     - Nacos、Redis、Zookeeper配置中心，Group为{group}，DataId为{网关serviceId}-dynamic-route
     - Apollo、Consul、Etcd配置中心，Key的格式为{group}-{网关serviceId}-dynamic-route
     - {group}为注册中心元数据group值
-- Value参考[Spring-Cloud-Gateway网关动态路由配置](#Spring-Cloud-Gateway网关动态路由配置)
+- Value参考[Gateway网关动态路由配置](#Gateway网关动态路由配置)
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide7-9.jpg)
 
@@ -4782,7 +4545,7 @@ Deleted count=1
 --------------------------------------------------
 ```
 
-#### Spring-Cloud-Gateway网关事件总线通知的订阅
+#### Gateway网关事件总线通知的订阅
 ```java
 @EventBus
 public class MySubscriber {
@@ -4883,28 +4646,6 @@ Zuul网关在自动路由模式下，动态路由可以工作
     }
 ]
 ```
-
-#### Zuul网关Rest-Endpoint
-① Zuul网关的Rest Endpoint接口
-
-| 操作 | 路径 | 参数 | 方式 |
-| --- | --- | --- | --- |
-| 增加网关路由 | `http://`[网关IP:PORT]/zuul-route/add | 单个动态路由配置 | POST |
-| 修改网关路由 | `http://`[网关IP:PORT]/zuul-route/modify | 单个动态路由配置 | POST |
-| 删除网关路由 | `http://`[网关IP:PORT]/zuul-route/delete/{routeId} | 无 | DELETE |
-| 更新全部网关路由 | `http://`[网关IP:PORT]/zuul-route/update-all | 多个动态路由配置 | POST |
-| 根据路由Id查看网关路由 | `http://`[网关IP:PORT]/zuul-route/view/{routeId} | 无 | GET |
-| 查看全部网关路由| `http://`[网关IP:PORT]/zuul-route/view-all | 无 | GET |
-
-② 控制台的Rest Endpoint接口
-
-| 操作 | 路径 | 参数 | 方式 |
-| --- | --- | --- | --- |
-| 增加网关路由 | `http://`[控制台IP:PORT]/route/add/zuul/{serviceId} | 单个动态路由配置 | POST |
-| 修改网关路由 | `http://`[控制台IP:PORT]/route/modify/zuul/{serviceId} | 单个动态路由配置 | POST |
-| 删除网关路由 | `http://`[控制台IP:PORT]/route/delete/zuul/{serviceId}/{routeId} | 无 | DELETE |
-| 更新全部网关路由 | `http://`[控制台IP:PORT]/route/zuul/update-all/{serviceId} | 多个动态路由配置 | GET |
-| 查看全部网关路由| `http://`[控制台IP:PORT]/route/zuul/view-all/{serviceId} | 无 | GET |
 
 #### Zuul网关订阅配置中心
 网关订阅配置中心的使用方式，如下
@@ -5298,37 +5039,6 @@ public SentinelStrategyRequestOriginAdapter sentinelStrategyRequestOriginAdapter
 - 当传递的Header中location=shanghai，满足条件之一，当全链路调用中，API网关负载均衡discovery-guide-service-a服务到1.1版本后再去调用discovery-guide-service-b服务，不满足version=1.0的条件，最终调用在discovery-guide-service-b服务端被拒绝掉
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide7-8.jpg)
-
-### Sentinel-Rest-Endpoint
-① 服务的Rest Endpoint接口
-
-| 操作 | 路径 | 参数 | 方式 |
-| --- | --- | --- | --- |
-| 更新流控规则列表 | `http://`[服务IP:PORT]/sentinel-core/update-flow-rules | 多个规则配置 | POST |
-| 清除流控规则列表 | `http://`[服务IP:PORT]/sentinel-core/clear-flow-rules | 无 | POST |
-| 查看流控规则列表 | `http://`[服务IP:PORT]/sentinel-core/view-flow-rules | 无 | GET |
-| 更新降级规则列表 | `http://`[服务IP:PORT]/sentinel-core/update-degrade-rules | 多个规则配置 | POST |
-| 清除降级规则列表 | `http://`[服务IP:PORT]/sentinel-core/clear-degrade-rules | 无 | POST |
-| 查看降级规则列表 | `http://`[服务IP:PORT]/sentinel-core/view-degrade-rules | 无 | GET |
-| 更新授权规则列表 | `http://`[服务IP:PORT]/sentinel-core/update-authority-rules | 多个规则配置 | POST |
-| 清除授权规则列表 | `http://`[服务IP:PORT]/sentinel-core/clear-authority-rules | 无 | POST |
-| 查看授权规则列表 | `http://`[服务IP:PORT]/sentinel-core/view-authority-rules | 无 | GET |
-| 更新系统规则列表 | `http://`[服务IP:PORT]/sentinel-core/update-system-rules | 多个规则配置 | POST |
-| 清除系统规则列表 | `http://`[服务IP:PORT]/sentinel-core/clear-system-rules | 无 | POST |
-| 查看系统规则列表 | `http://`[服务IP:PORT]/sentinel-core/view-system-rules | 无 | GET |
-| 更新热点参数流控规则列表 | `http://`[服务IP:PORT]/sentinel-param/update-param-flow-rules | 多个规则配置 | POST |
-| 清除热点参数流控规则列表 | `http://`[服务IP:PORT]/sentinel-param/clear-param-flow-rules | 无 | POST |
-| 查看热点参数流控规则列表 | `http://`[服务IP:PORT]/sentinel-param/view-param-flow-rules | 无 | GET |
-
-② 控制台的Rest Endpoint接口
-
-| 操作 | 路径 | 参数 | 方式 |
-| --- | --- | --- | --- |
-| 批量更新哨兵规则列表 | `http://`[控制台IP:PORT]/sentinel/update/{ruleType}/{serviceId} | 多个规则配置 | POST |
-| 批量清除哨兵规则列表 | `http://`[控制台IP:PORT]/sentinel/clear/{ruleType}/{serviceId} | 无 | POST |
-| 批量查看哨兵规则列表 | `http://`[控制台IP:PORT]/sentinel/view/{ruleType}/{serviceId} | 无 | GET |
-
-ruleType为哨兵规则类型。取值： flow | degrade | authority | system | param-flow
 
 ## 全链路监控
 
@@ -5899,8 +5609,6 @@ com.nepxion.discovery.plugin.strategy.monitor.DefaultStrategyAlarm
 ③ 全链路流量侦测接口
 
 通过discovery-plugin-admin-center-starter内置基于LoadBalanced RestTemplate的接口方法，实现全链路侦测，用于查看全链路中调用的各个服务的版本、区域、环境、可用区、IP地址和端口等是否符合和满足蓝绿灰度条件。使用方式，如下
-
-服务的Rest Endpoint接口
 
 | 操作 | 路径 | 参数 | 方式 |
 | --- | --- | --- | --- |
