@@ -114,19 +114,6 @@ Polaris为Discovery高级定制版，特色功能
 
 ![](http://nepxion.gitee.io/discovery/docs/polaris-doc/Layer.jpg)
 
-### 发展历程
-- 2017年12月开始筹划
-- 2018年03月开始编码
-- 2018年06月在GitHub开源
-- 2018年06月发布v1.0.0，支持Camden版
-- 2018年06月发布v2.0.0，支持Dalston版
-- 2018年07月发布v3.0.0，支持Edgware版
-- 2018年07月发布v4.0.0，支持Finchley版
-- 2019年04月发布v5.0.0，支持Greenwich版
-- 2020年04月发布v6.0.0，支持Hoxton版
-- 2021年04月完成v7.0.0，支持2020版
-- 2022年04月完成v8.0.0，支持2021版
-
 ### 功能概述
 Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba，Discovery服务注册发现、Ribbon & Spring Cloud LoadBalancer负载均衡、Feign & RestTemplate & WebClient调用、Spring Cloud Gateway & Zuul过滤等组件全方位增强的企业级微服务开源解决方案，更贴近企业级需求，更具有企业级的插件引入、开箱即用特征
 
@@ -239,8 +226,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - Docker容器化和Kubernetes平台无缝支持部署
 - 自动化测试、压力测试
 
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Ability.jpg)
-
 ③ Discovery【探索】微服务框架支持的功能维度，如下
 
 微服务框架支持组（Group）、版本（Version）、区域（Region）、环境（Env）、可用区（Zone）、IP地址和端口（Address）、全局唯一ID七大经典维度实施流量管控的方式，通过“并集”方式叠加作用在流量控制上。上述七个维度在功能上各有各的侧重点，如下表格主要讲述各自的区别
@@ -254,6 +239,21 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | 可用区 | 服务实例的可用区<br>适用于多机房 | 路由隔离<br>故障转移 | ① 可用区亲和性隔离路由<br>- 调用端和提供端的元数据zone是否相同<br>② 可用区故障转移<br>- 未找到相应可用区的服务实例，路由到其它可用区<br>- 支持负载均衡策略、指定区可用区策略 | n-d-zone-failover |
 | IP地址和端口 |服务实例机器地址 | 蓝绿灰度发布<br>路由隔离<br>故障转移<br>无损下线 | ① IP地址和端口匹配蓝绿发布<br>② IP地址和端口权重灰度发布<br>③ IP地址和端口故障转移<br>- 未找到相应IP地址和端口的服务实例，路由到其它地址<br>- 负载均衡策略、指定区IP地址和端口策略<br>④ IP地址和端口无损下线黑名单屏蔽 | n-d-address<br>n-d-address-failover<br>n-d-address-blacklist |
 | 全局唯一ID | 服务实例机器ID | 无损下线 | ① 全局唯一ID无损下线黑名单屏蔽 | n-d-id-blacklist |
+
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Ability.jpg)
+
+### 发展历程
+- 2017年12月开始筹划
+- 2018年03月开始编码
+- 2018年06月在GitHub开源
+- 2018年06月发布v1.0.0，支持Camden版
+- 2018年06月发布v2.0.0，支持Dalston版
+- 2018年07月发布v3.0.0，支持Edgware版
+- 2018年07月发布v4.0.0，支持Finchley版
+- 2019年04月发布v5.0.0，支持Greenwich版
+- 2020年04月发布v6.0.0，支持Hoxton版
+- 2021年04月完成v7.0.0，支持2020版
+- 2022年04月完成v8.0.0，支持2021版
 
 ### 版本列表
 ① 微服务框架版本兼容列表，如下
@@ -538,8 +538,8 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [商业合作](#商业合作)
     - [入门资料](#入门资料)
     - [架构拓扑](#架构拓扑)
-    - [发展历程](#发展历程)
     - [功能概述](#功能概述)
+    - [发展历程](#发展历程)
     - [版本列表](#版本列表)
     - [企业用户](#企业用户)
     - [落地案例](#落地案例)
