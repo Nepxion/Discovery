@@ -37,6 +37,27 @@ public class RouteEndpoint {
     @Autowired
     private RouteResource routeResource;
 
+    @RequestMapping(path = "/remote/update/{gatewayType}/{group}/{serviceId}", method = RequestMethod.POST)
+    @ApiOperation(value = "更新网关路由到远程配置中心", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    public ResponseEntity<?> remoteRouteUpdate(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： spring-cloud-gateway | zuul。spring-cloud-gateway指Spring Cloud Gateway, zuul指Netflix Zuul", defaultValue = "spring-cloud-gateway", required = true) String gatewayType, @PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "网关路由对象内容，Json格式", required = true) String route) {
+        return doRemoteRouteUpdate(gatewayType, group, serviceId, route);
+    }
+
+    @RequestMapping(path = "/remote/clear/{gatewayType}/{group}/{serviceId}", method = RequestMethod.POST)
+    @ApiOperation(value = "清除网关路由到远程配置中心", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    public ResponseEntity<?> remoteRouteClear(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： spring-cloud-gateway | zuul。spring-cloud-gateway指Spring Cloud Gateway, zuul指Netflix Zuul", defaultValue = "spring-cloud-gateway", required = true) String gatewayType, @PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId) {
+        return doRemoteRouteClear(gatewayType, group, serviceId);
+    }
+
+    @RequestMapping(path = "/remote/view/{gatewayType}/{group}/{serviceId}", method = RequestMethod.GET)
+    @ApiOperation(value = "查看远程配置中心的网关路由", notes = "", response = ResponseEntity.class, httpMethod = "GET")
+    @ResponseBody
+    public ResponseEntity<?> remoteSentinelView(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： spring-cloud-gateway | zuul。spring-cloud-gateway指Spring Cloud Gateway, zuul指Netflix Zuul", defaultValue = "spring-cloud-gateway", required = true) String gatewayType, @PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId) {
+        return doRemoteRouteView(gatewayType, group, serviceId);
+    }
+
     @RequestMapping(path = "/add/{gatewayType}/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "批量增加网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
@@ -70,6 +91,36 @@ public class RouteEndpoint {
     @ResponseBody
     public ResponseEntity<?> routeViewAll(@PathVariable(value = "gatewayType") @ApiParam(value = "网关类型。取值： spring-cloud-gateway | zuul。spring-cloud-gateway指Spring Cloud Gateway, zuul指Netflix Zuul", defaultValue = "spring-cloud-gateway", required = true) String gatewayType, @PathVariable(value = "serviceId") @ApiParam(value = "网关服务名", required = true) String serviceId) {
         return doRouteViewAll(gatewayType, serviceId);
+    }
+
+    private ResponseEntity<?> doRemoteRouteUpdate(String gatewayType, String group, String serviceId, String rule) {
+        try {
+            boolean result = routeResource.updateRemoteRoute(GatewayType.fromString(gatewayType), group, serviceId, rule);
+
+            return ResponseUtil.getSuccessResponse(result);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
+    }
+
+    private ResponseEntity<?> doRemoteRouteClear(String gatewayType, String group, String serviceId) {
+        try {
+            boolean result = routeResource.clearRemoteRoute(GatewayType.fromString(gatewayType), group, serviceId);
+
+            return ResponseUtil.getSuccessResponse(result);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
+    }
+
+    private ResponseEntity<?> doRemoteRouteView(String gatewayType, String group, String serviceId) {
+        try {
+            String result = routeResource.getRemoteRoute(GatewayType.fromString(gatewayType), group, serviceId);
+
+            return ResponseUtil.getSuccessResponse(result);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
     }
 
     private ResponseEntity<?> doRouteAdd(String gatewayType, String serviceId, String route) {

@@ -15,6 +15,12 @@ import com.nepxion.discovery.common.entity.ResultEntity;
 import com.nepxion.discovery.common.entity.SentinelRuleType;
 
 public interface SentinelResource {
+    boolean updateRemoteSentinel(SentinelRuleType ruleType, String group, String serviceId, String rule);
+
+    boolean clearRemoteSentinel(SentinelRuleType ruleType, String group, String serviceId);
+
+    String getRemoteSentinel(SentinelRuleType ruleType, String group, String serviceId);
+
     List<ResultEntity> updateSentinel(SentinelRuleType ruleType, String serviceId, String rule);
 
     List<ResultEntity> clearSentinel(SentinelRuleType ruleType, String serviceId);
