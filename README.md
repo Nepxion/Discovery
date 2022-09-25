@@ -589,18 +589,18 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [全链路端到端实施蓝绿灰度发布](#全链路端到端实施蓝绿灰度发布)
         - [全链路混合实施蓝绿灰度发布](#全链路混合实施蓝绿灰度发布)
         - [单节点混合实施蓝绿灰度发布](#单节点混合实施蓝绿灰度发布)
-    - [全链路智能编排的蓝绿灰度发布](#全链路智能编排的蓝绿灰度发布)
     - [全链路前端触发后端蓝绿灰度发布](#全链路前端触发后端蓝绿灰度发布)
         - [全链路驱动方式](#全链路驱动方式)
         - [全链路参数策略](#全链路参数策略)
     - [全链路自定义蓝绿灰度发布](#全链路自定义蓝绿灰度发布)
-        - [全链路自定义过滤器触发蓝绿灰度发布](#全链路自定义过滤器触发蓝绿灰度发布)
-        - [全链路自定义负载均衡策略类触发蓝绿灰度发布](#全链路自定义负载均衡策略类触发蓝绿灰度发布)
+        - [全链路过滤器触发蓝绿灰度发布](#全链路过滤器触发蓝绿灰度发布)
+        - [全链路负载均衡策略类触发蓝绿灰度发布](#全链路负载均衡策略类触发蓝绿灰度发布)
     - [全链路动态变更元数据的蓝绿灰度发布](#全链路动态变更元数据的蓝绿灰度发布)
-    - [全链路蓝绿灰度发布对接DevOps运维平台最佳企业级实践](#全链路蓝绿灰度发布对接DevOps运维平台最佳企业级实践)
-        - [对接DevOps运维平台架构方案](#对接DevOps运维平台架构方案)
-        - [对接DevOps运维平台最佳实践](#对接DevOps运维平台最佳实践)
-        - [对接DevOps运维平台步骤详解](#对接DevOps运维平台步骤详解)
+    - [全链路智能编排的蓝绿灰度发布](#全链路智能编排的蓝绿灰度发布)
+- [全链路蓝绿灰度发布对接DevOps运维平台最佳企业级实践](#全链路蓝绿灰度发布对接DevOps运维平台最佳企业级实践)
+    - [对接DevOps运维平台架构方案](#对接DevOps运维平台架构方案)
+    - [对接DevOps运维平台最佳实践](#对接DevOps运维平台最佳实践)
+    - [对接DevOps运维平台步骤详解](#对接DevOps运维平台步骤详解)
 - [全链路多活单元化](#多活单元化)
     - [多活单元化概念](#多活单元化概念)
     - [多活单元化梳理](#多活单元化梳理)
@@ -1941,142 +1941,6 @@ if (a == 1) {
 
 当蓝绿发布存在兜底策略（`basic-condition`），灰度发布永远不会被执行
 
-### 全链路智能编排的蓝绿灰度发布
-链路智能编排的方式，即路由链路在后台会智能化编排，用户不再需要关心服务实例的版本情况而进行手工编排，只需要配置跟业务参数有关的条件表达式即可，让蓝绿灰度发布变的更简单更易用
-
-链路智能编排功能的版本前提
-- 线上所有的服务，每个服务实例版本号支持排序，时间戳方式或者数字递增方式都可以
-
-链路智能编排功能的版本逻辑
-- 线上所有的服务，每个服务至少有一个版本
-- 线上所有的服务，每个服务如果有两个版本，第一个划归为旧版本，第二个划归为新版本
-- 线上所有的服务，每个服务如果有三个及以上版本，第一个划归为旧版本，第二个到最后划归为新版本。通过逗号分隔的方式放入，例如，2.0;3.0;4.0
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 运行控制台
-
-① 下载代码，Git clone [https://github.com/Nepxion/DiscoveryGuide.git](https://github.com/Nepxion/DiscoveryGuide.git)，分支为6.x.x-simple
-
-② 运行`discovery-guide-console`下面的`DiscoveryGuideConsole.java`
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 执行蓝绿灰度发布
-
-通过向控制台发送请求，控制台根据Json格式规则策略，根据新旧版本的判断，智能编排出两条新旧路由链路，并给它们赋予不同的条件表达式，最终创建出完整的Xml格式规则策略，保存到配置中心
-
-① 请求地址
-
-访问如下POST请求
-
-[http://localhost:6001/strategy/create-version-release/discovery-guide-group/discovery-guide-gateway](http://localhost:6001/strategy/create-version-release/discovery-guide-group/discovery-guide-gateway)
-
-链接中，`discovery-guide-group`为订阅的组名，`discovery-guide-gateway`为订阅的网关名
-
-② 请求内容
-
-POST请求不同的内容会产生不同的规则策略
-
-- 兜底规则策略
-```
-{
-  "service": ["a", "b"]
-}
-```
-- 蓝绿规则策略
-```
-{
-  "service": ["a", "b"],
-  "blueGreen": [
-    {
-      "expression": "#H['xyz'] == '1'",
-      "route": "green"
-    }, 
-    {
-      "expression": "#H['xyz'] == '2'",
-      "route": "blue"
-    }
-  ]
-}
-```
-- 灰度规则策略
-```
-{
-  "service": ["a", "b"],
-  "gray": [
-    {
-      "expression": "#H['xyz'] == '3'",
-      "weight": [90, 10]
-    },
-    {
-      "expression": "#H['xyz'] == '4'",
-      "weight": [70, 30]
-    },
-    {
-      "weight": [100, 0]
-    }
-  ]
-}
-```
-- 混合蓝绿灰度+内置Header规则策略
-```
-{
-  "service": ["a", "b"],
-  "blueGreen": [
-    {
-      "expression": "#H['xyz'] == '1'",
-      // 绿（旧版本）路由链路
-      "route": "green"
-    }, 
-    {
-      "expression": "#H['xyz'] == '2'",
-      // 蓝（新版本）路由链路
-      "route": "blue"
-    }
-  ],
-  "gray": [
-    {
-      "expression": "#H['xyz'] == '3'",
-      // 稳定（旧版本）路由链路权重，灰度（新版本）路由链路权重
-      "weight": [10, 90]
-    },
-    {
-      "expression": "#H['xyz'] == '4'",
-      "weight": [40, 60]
-    },
-    {
-      "weight": [0, 100]
-    }
-  ],
-  "header": {"xyz": "1"}
-}
-```
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 验证蓝绿灰度发布
-
-通过向控制台发送请求，控制台根据Json格式规则策略，解析出完整的Xml格式规则策略，用来验证是否达到预期效果
-
-① 请求地址
-
-访问如下POST请求
-
- [http://localhost:6001/strategy/parse-version-release](http://localhost:6001/strategy/parse-version-release)
-
-② 请求内容
-
-跟`执行蓝绿灰度发布`一致
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 清除蓝绿灰度发布
-
-① 请求地址
-
-访问如下POST请求
-
-[http://localhost:6001/strategy/clear-release/discovery-guide-group/discovery-guide-gateway](http://localhost:6001/strategy/clear-release/discovery-guide-group/discovery-guide-gateway)
-
-链接中，`discovery-guide-group`为订阅的组名，`discovery-guide-gateway`为订阅的网关名
-
-② 请求内容
-
-无
-
 ### 全链路前端触发后端蓝绿灰度发布
 前端可以直接触发后端蓝绿灰度发布，前提条件，需要控制网关和服务上`header.priority`的开关
 
@@ -2261,17 +2125,17 @@ Cookie不会全链路传递，只会发生在第一层传递
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide2-16.jpg)
 
-参考[全链路自定义过滤器触发蓝绿灰度发布](#全链路自定义过滤器触发蓝绿灰度发布)示例，以根据域名全链路环境隔离为例，根据域名前缀中的环境名路由到相应的全链路环境中
+参考[全链路过滤器触发蓝绿灰度发布](#全链路过滤器触发蓝绿灰度发布)示例，以根据域名全链路环境隔离为例，根据域名前缀中的环境名路由到相应的全链路环境中
 
 ⑤ RPC-Method参数策略
 
 基于取值RPC调用中的方法入参等方式，只适用于服务侧
 
-参考[全链路自定义负载均衡策略类触发蓝绿灰度发布](#全链路自定义负载均衡策略类触发蓝绿灰度发布)示例
+参考[全链路负载均衡策略类触发蓝绿灰度发布](#全链路负载均衡策略类触发蓝绿灰度发布)示例
 
 ### 全链路自定义蓝绿灰度发布
 
-#### 全链路自定义过滤器触发蓝绿灰度发布
+#### 全链路过滤器触发蓝绿灰度发布
 下面代码既适用于Zuul和Spring Cloud Gateway网关，也适用于微服务。继承DefaultGatewayStrategyRouteFilter、DefaultZuulStrategyRouteFilter和DefaultServiceStrategyRouteFilter，覆盖掉如下方法中的一个或者多个，通过@Bean方式覆盖框架内置的过滤类
 ```java
 public String getRouteVersion();
@@ -2692,8 +2556,7 @@ public ServiceStrategyRouteFilter serviceStrategyRouteFilter() {
 }
 ```
 
-#### 全链路自定义负载均衡策略类触发蓝绿灰度发布
-
+#### 全链路负载均衡策略类触发蓝绿灰度发布
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
 
 对于Spring Cloud 202x版，由于它已经移除了Ribbon，所以apply(Server server)方法上的入参，com.netflix.loadbalancer.Server需要改成org.springframework.cloud.client.ServiceInstance
@@ -2905,9 +2768,145 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 
 ③ 动态元数据变更方式只是让新的元数据驻留在内存里，并不持久化。当服务重启后，服务的元数据仍旧会以初始值为准
 
-### 全链路蓝绿灰度发布对接DevOps运维平台最佳企业级实践
+### 全链路智能编排的蓝绿灰度发布
+链路智能编排的方式，即路由链路在后台会智能化编排，用户不再需要关心服务实例的版本情况而进行手工编排，只需要配置跟业务参数有关的条件表达式即可，让蓝绿灰度发布变的更简单更易用
 
-#### 对接DevOps运维平台架构方案
+链路智能编排功能的版本前提
+- 线上所有的服务，每个服务实例版本号支持排序，时间戳方式或者数字递增方式都可以
+
+链路智能编排功能的版本逻辑
+- 线上所有的服务，每个服务至少有一个版本
+- 线上所有的服务，每个服务如果有两个版本，第一个划归为旧版本，第二个划归为新版本
+- 线上所有的服务，每个服务如果有三个及以上版本，第一个划归为旧版本，第二个到最后划归为新版本。通过逗号分隔的方式放入，例如，2.0;3.0;4.0
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 运行控制台
+
+① 下载代码，Git clone [https://github.com/Nepxion/DiscoveryGuide.git](https://github.com/Nepxion/DiscoveryGuide.git)，分支为6.x.x-simple
+
+② 运行`discovery-guide-console`下面的`DiscoveryGuideConsole.java`
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 执行蓝绿灰度发布
+
+通过向控制台发送请求，控制台根据Json格式规则策略，根据新旧版本的判断，智能编排出两条新旧路由链路，并给它们赋予不同的条件表达式，最终创建出完整的Xml格式规则策略，保存到配置中心
+
+① 请求地址
+
+访问如下POST请求
+
+[http://localhost:6001/strategy/create-version-release/discovery-guide-group/discovery-guide-gateway](http://localhost:6001/strategy/create-version-release/discovery-guide-group/discovery-guide-gateway)
+
+链接中，`discovery-guide-group`为订阅的组名，`discovery-guide-gateway`为订阅的网关名
+
+② 请求内容
+
+POST请求不同的内容会产生不同的规则策略
+
+- 兜底规则策略
+```
+{
+  "service": ["a", "b"]
+}
+```
+- 蓝绿规则策略
+```
+{
+  "service": ["a", "b"],
+  "blueGreen": [
+    {
+      "expression": "#H['xyz'] == '1'",
+      "route": "green"
+    }, 
+    {
+      "expression": "#H['xyz'] == '2'",
+      "route": "blue"
+    }
+  ]
+}
+```
+- 灰度规则策略
+```
+{
+  "service": ["a", "b"],
+  "gray": [
+    {
+      "expression": "#H['xyz'] == '3'",
+      "weight": [90, 10]
+    },
+    {
+      "expression": "#H['xyz'] == '4'",
+      "weight": [70, 30]
+    },
+    {
+      "weight": [100, 0]
+    }
+  ]
+}
+```
+- 混合蓝绿灰度+内置Header规则策略
+```
+{
+  "service": ["a", "b"],
+  "blueGreen": [
+    {
+      "expression": "#H['xyz'] == '1'",
+      // 绿（旧版本）路由链路
+      "route": "green"
+    }, 
+    {
+      "expression": "#H['xyz'] == '2'",
+      // 蓝（新版本）路由链路
+      "route": "blue"
+    }
+  ],
+  "gray": [
+    {
+      "expression": "#H['xyz'] == '3'",
+      // 稳定（旧版本）路由链路权重，灰度（新版本）路由链路权重
+      "weight": [10, 90]
+    },
+    {
+      "expression": "#H['xyz'] == '4'",
+      "weight": [40, 60]
+    },
+    {
+      "weight": [0, 100]
+    }
+  ],
+  "header": {"xyz": "1"}
+}
+```
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 验证蓝绿灰度发布
+
+通过向控制台发送请求，控制台根据Json格式规则策略，解析出完整的Xml格式规则策略，用来验证是否达到预期效果
+
+① 请求地址
+
+访问如下POST请求
+
+ [http://localhost:6001/strategy/parse-version-release](http://localhost:6001/strategy/parse-version-release)
+
+② 请求内容
+
+跟`执行蓝绿灰度发布`一致
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 清除蓝绿灰度发布
+
+① 请求地址
+
+访问如下POST请求
+
+[http://localhost:6001/strategy/clear-release/discovery-guide-group/discovery-guide-gateway](http://localhost:6001/strategy/clear-release/discovery-guide-group/discovery-guide-gateway)
+
+链接中，`discovery-guide-group`为订阅的组名，`discovery-guide-gateway`为订阅的网关名
+
+② 请求内容
+
+无
+
+## 全链路蓝绿灰度发布对接DevOps运维平台最佳企业级实践
+
+### 对接DevOps运维平台架构方案
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 架构
 
 ① 控制台需要连接注册中心和配置中心
@@ -2922,7 +2921,7 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/ConsoleArchitecture.jpg)
 
-#### 对接DevOps运维平台最佳实践
+### 对接DevOps运维平台最佳实践
 > 最佳实践采用举例说明，使用者需要依据实际情况来确认版本号、业务参数名和值等
 
 生产环境上，全链路调用路径，如下
@@ -2997,7 +2996,7 @@ API网关 -> 服务A -> 服务B
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DevOps.jpg)
 
-#### 对接DevOps运维平台步骤详解
+### 对接DevOps运维平台步骤详解
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 流量染色
 
 运维平台通过命令行java -jar启动应用，加入启动参数`-Dmetadata.group=xxx`和`-Dmetadata.version=yyy`，表示给服务实例进行组维度和版本维度的流量染色，即
