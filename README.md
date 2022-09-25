@@ -2996,7 +2996,14 @@ API网关 -> 服务A -> 服务B
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 启动蓝绿灰度兜底策略
 
-在API网关上，通过`蓝绿灰度发布`步骤，配置蓝绿灰度发布兜底规则策略，避免流量进入新服务实例
+在API网关上，通过`蓝绿灰度发布`的`创建版本蓝绿灰度发布`步骤，创建兜底规则策略，避免流量进入新服务实例
+
+```
+{
+"service": ["a", "b"]
+}``
+
+```
 
 以Nacos和Apollo配置中心为例，举例配置方式。下同
 
@@ -3014,7 +3021,7 @@ API网关 -> 服务A -> 服务B
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 启动蓝绿灰度发布
 
-在API网关上，通过`蓝绿灰度发布`步骤，配置蓝绿灰度发布规则策略
+在API网关上，通过`蓝绿灰度发布`的`创建版本蓝绿灰度发布`步骤，创建蓝绿灰度发布规则策略
 
 通过在调用API网关的URL上增加基于`Header/Parameter/Cookie`的业务参数`xyz`
 
@@ -3023,10 +3030,46 @@ API网关 -> 服务A -> 服务B
 - `xyz`为`2`，切换到绿路由（新版本链路）
 - `xyz`缺失，切换到兜底路由（旧版本链路）
 
+```
+{
+"service": ["a", "b"],
+"blueGreen": [
+  {
+    "expression": "#H['xyz'] == '1'",
+    "route": "green"
+  }, 
+  {
+    "expression": "#H['xyz'] == '2'",
+    "route": "blue"
+  }
+]
+}
+```
+
 ② 灰度发布
 - `xyz`为`3`，稳定路由（旧版本链路）和灰度路由（新版本链路）的流量配比是90:10
 - `xyz`为`4`，稳定路由（旧版本链路）和灰度路由（新版本链路）的流量配比是70:30
 - `xyz`缺失，稳定路由（旧版本链路）和灰度路由（新版本链路）的流量配比是100:0，即流量不会进行新版本服务的链路
+
+```
+{
+{
+"service": ["discovery-guide-service-a", "discovery-guide-service-b"],
+"gray": [
+  {
+    "expression": "#H['xyz'] == '3'",
+    "weight": [90, 10]
+  },
+  {
+    "expression": "#H['xyz'] == '4'",
+    "weight": [70, 30]
+  },
+  {
+    "weight": [100, 0]
+  }
+]
+}
+```
 
 蓝绿灰度执行结果处理
 - 蓝绿灰度发布成功，新版本实例测试通过，流量全部切到新版本实例，下线老版本服务实例
@@ -3034,7 +3077,7 @@ API网关 -> 服务A -> 服务B
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 启动无损下线（可选）
 
-在旧版本服务实例下线之前，在API网关上，执行`无损下线`的`添加黑名单`步骤，保证流量不会进入要下线的老版本实例
+在旧版本服务实例下线之前，在API网关上，执行`无损下线`的`添加下线的服务实例到黑名单`步骤，保证流量不会进入要下线的老版本实例
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 下线旧服务
 
@@ -3042,11 +3085,11 @@ API网关 -> 服务A -> 服务B
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 停止无损下线（可选）
 
-等待一段时间后，待旧服务实例彻底下线，在API网关上，执行`无损下线`的`清除黑名单`步骤
+等待一段时间后，待旧服务实例彻底下线，在API网关上，执行`无损下线`的`从黑名单清除所有过期的服务实例`步骤
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 停止蓝绿灰度发布
 
-在API网关上，通过`蓝绿灰度发布`步骤，清空蓝绿灰度发布规则策略
+在API网关上，通过`蓝绿灰度发布`步骤的`清除蓝绿灰度发布`，清除蓝绿灰度发布规则策略
 
 整个流程过程，示意如下，`故障转移`和`无损下线`步骤可以省略
 
