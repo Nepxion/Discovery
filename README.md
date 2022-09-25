@@ -606,6 +606,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [对接DevOps运维平台环境搭建](#对接DevOps运维平台环境搭建)
     - [对接DevOps运维平台最佳实践](#对接DevOps运维平台最佳实践)
     - [对接DevOps运维平台步骤详解](#对接DevOps运维平台步骤详解)
+    - [对接DevOps运维平台公共接口](#对接DevOps运维平台公共接口)
 - [全链路多活单元化](#多活单元化)
     - [多活单元化概念](#多活单元化概念)
     - [多活单元化梳理](#多活单元化梳理)
@@ -2949,9 +2950,7 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 
 ④ 校验条件表达式
 
-具体用法，请参考
-- Github Wiki ：[如何使用DevOps运维平台对接的公共接口](https://github.com/Nepxion/Discovery/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AF%B9%E6%8E%A5%E7%9A%84%E5%85%AC%E5%85%B1%E6%8E%A5%E5%8F%A3)
-- Gitee Wiki ： [如何使用DevOps运维平台对接的公共接口](https://gitee.com/nepxion/Discovery/wikis/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AF%B9%E6%8E%A5%E7%9A%84%E5%85%AC%E5%85%B1%E6%8E%A5%E5%8F%A3)
+具体用法，请参考[对接DevOps运维平台公共接口](#对接DevOps运维平台公共接口)
 
 ## 全链路流量管控对接DevOps运维平台
 
@@ -3090,7 +3089,7 @@ API网关 -> 服务A -> 服务B
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 停止蓝绿灰度发布
 
-在API网关上，通过`蓝绿灰度发布`步骤的`清除蓝绿灰度发布`，清除蓝绿灰度发布规则策略
+在API网关上，通过`蓝绿灰度发布`的`清除蓝绿灰度发布`步骤，清除蓝绿灰度发布规则策略
 
 整个流程过程，示意如下，`故障转移`和`无损下线`步骤可以省略
 
@@ -3166,6 +3165,8 @@ spring.application.strategy.version.failover.enabled=true
 
 运维平台取消实施故障转移方式的管控
 
+具体用法，请参考[对接DevOps运维平台公共接口](#对接DevOps运维平台公共接口)
+
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 蓝绿灰度发布
 
 运维平台对接控制台，通过链路在后台智能编排的方式，在网关上实施蓝绿灰度发布
@@ -3190,9 +3191,7 @@ spring.application.strategy.version.failover.enabled=true
 
 运维平台调用`配置接口`的`获取规则配置对象`步骤，获取其中的蓝绿灰度发布规则策略
 
-具体用法，请参考
-- Github Wiki ：[如何使用DevOps运维平台对接的公共接口](https://github.com/Nepxion/Discovery/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AF%B9%E6%8E%A5%E7%9A%84%E5%85%AC%E5%85%B1%E6%8E%A5%E5%8F%A3)
-- Gitee Wiki ： [如何使用DevOps运维平台对接的公共接口](https://gitee.com/nepxion/Discovery/wikis/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AF%B9%E6%8E%A5%E7%9A%84%E5%85%AC%E5%85%B1%E6%8E%A5%E5%8F%A3)
+具体用法，请参考[对接DevOps运维平台公共接口](#对接DevOps运维平台公共接口)
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 无损下线
 
@@ -3222,9 +3221,11 @@ UUId全局唯一，同样的服务实例重启注册后，UUId会重新产生，
 
 运维平台调用`配置接口`的`获取规则配置对象`步骤，获取其中的黑名单规则策略
 
-具体用法，请参考
+具体用法，请参考[对接DevOps运维平台公共接口](#对接DevOps运维平台公共接口)
+
+### 对接DevOps运维平台公共接口
 - Github Wiki ：[如何使用DevOps运维平台对接的公共接口](https://github.com/Nepxion/Discovery/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AF%B9%E6%8E%A5%E7%9A%84%E5%85%AC%E5%85%B1%E6%8E%A5%E5%8F%A3)
-- Gitee Wiki ： [如何使用DevOps运维平台对接的公共接口](https://gitee.com/nepxion/Discovery/wikis/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AF%B9%E6%8E%A5%E7%9A%84%E5%85%AC%E5%85%B1%E6%8E%A5%E5%8F%A3)
+- Gitee Wiki ：[如何使用DevOps运维平台对接的公共接口](https://gitee.com/nepxion/Discovery/wikis/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AF%B9%E6%8E%A5%E7%9A%84%E5%85%AC%E5%85%B1%E6%8E%A5%E5%8F%A3)
 
 ## 全链路多活单元化
 
