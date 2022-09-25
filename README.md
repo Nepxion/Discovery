@@ -2994,6 +2994,8 @@ API网关 -> 服务A -> 服务B
 
 在新版本服务上线之前，通过`故障转移`步骤实施，启动故障转移功能
 
+可以通过运维平台实施故障转移的管控
+
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 启动蓝绿灰度兜底策略
 
 在API网关上，通过`蓝绿灰度发布`的`创建版本蓝绿灰度发布`步骤，创建兜底规则策略，避免流量进入新服务实例
@@ -3052,7 +3054,6 @@ API网关 -> 服务A -> 服务B
 - `xyz`缺失，稳定路由（旧版本链路）和灰度路由（新版本链路）的流量配比是100:0，即流量不会进行新版本服务的链路
 
 ```
-{
 {
 "service": ["discovery-guide-service-a", "discovery-guide-service-b"],
 "gray": [
@@ -3213,7 +3214,9 @@ spring.application.strategy.version.failover.enabled=true
 
 运维平台下线服务实例一段时间之后（大于负载均衡`3`个时钟周期，推荐`5`分钟），从黑名单清除所有过期的服务实例
 
-需要注意，UUId全局唯一，同样的服务实例重启注册后，UUId会重新产生，不会重复。添加过多的UUId，虽然不会影响功能，但UUId堆积过多，使规则配置文本变得臃肿，可能会影响配置订阅的响应效率
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+UUId全局唯一，同样的服务实例重启注册后，UUId会重新产生，不会重复。添加过多的UUId，虽然不会影响功能，但UUId堆积过多，使规则配置文本变得臃肿，可能会影响配置订阅的响应效率
 
 ④ 获取下线的服务实例的黑名单
 
