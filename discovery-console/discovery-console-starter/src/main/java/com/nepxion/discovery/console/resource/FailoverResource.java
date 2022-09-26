@@ -16,7 +16,7 @@ public interface FailoverResource {
 
     String clearFailover(FailoverType failoverType, String group);
 
-    String createFailover(FailoverType failoverType, String group, String gatewayId, String failoverValue);
+    String createFailover(FailoverType failoverType, String group, String serviceId, String failoverValue);
 
-    String clearFailover(FailoverType failoverType, String group, String gatewayId);
+    String clearFailover(FailoverType failoverType, String group, String serviceId);
 }

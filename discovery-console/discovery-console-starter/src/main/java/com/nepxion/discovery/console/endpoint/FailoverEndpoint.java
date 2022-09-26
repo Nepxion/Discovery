@@ -34,31 +34,31 @@ public class FailoverEndpoint {
     private FailoverResource failoverResource;
 
     @RequestMapping(path = "/create/{failoverType}/{group}", method = RequestMethod.POST)
-    @ApiOperation(value = "全局组订阅方式，创建故障转移", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "全局订阅方式，创建故障转移", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> createFailover(@PathVariable(value = "failoverType") @ApiParam(value = "故障转移类型。取值：version-prefer | version-failover | region-transfer | region-failover | env-failover | zone-failover | address-failover", defaultValue = "version-failover", required = true) String failoverType, @PathVariable(value = "group") @ApiParam(value = "订阅的组名", required = true) String group, @RequestBody @ApiParam(value = "故障转移值，Json格式或者非Json格式", required = true) String failoverValue) {
+    public ResponseEntity<?> createFailover(@PathVariable(value = "failoverType") @ApiParam(value = "故障转移类型。取值：version-prefer | version-failover | region-transfer | region-failover | env-failover | zone-failover | address-failover", defaultValue = "version-failover", required = true) String failoverType, @PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @RequestBody @ApiParam(value = "故障转移值，Json格式或者非Json格式", required = true) String failoverValue) {
         return doCreateFailover(failoverType, group, failoverValue);
     }
 
     @RequestMapping(path = "/clear/{failoverType}/{group}", method = RequestMethod.POST)
-    @ApiOperation(value = "全局组订阅方式，清除故障转移", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "全局订阅方式，清除故障转移", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> clearFailover(@PathVariable(value = "failoverType") @ApiParam(value = "故障转移类型。取值：version-prefer | version-failover | region-transfer | region-failover | env-failover | zone-failover | address-failover", defaultValue = "version-failover", required = true) String failoverType, @PathVariable(value = "group") @ApiParam(value = "订阅的组名", required = true) String group) {
+    public ResponseEntity<?> clearFailover(@PathVariable(value = "failoverType") @ApiParam(value = "故障转移类型。取值：version-prefer | version-failover | region-transfer | region-failover | env-failover | zone-failover | address-failover", defaultValue = "version-failover", required = true) String failoverType, @PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group) {
         return doClearFailover(failoverType, group);
     }
 
-    @RequestMapping(path = "/create/{failoverType}/{group}/{gatewayId}", method = RequestMethod.POST)
-    @ApiOperation(value = "局部网关订阅方式，创建故障转移", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @RequestMapping(path = "/create/{failoverType}/{group}/{serviceId}", method = RequestMethod.POST)
+    @ApiOperation(value = "局部订阅方式，创建故障转移", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> createFailover(@PathVariable(value = "failoverType") @ApiParam(value = "故障转移类型。取值：version-prefer | version-failover | region-transfer | region-failover | env-failover | zone-failover | address-failover", defaultValue = "version-failover", required = true) String failoverType, @PathVariable(value = "group") @ApiParam(value = "订阅的组名", required = true) String group, @PathVariable(value = "gatewayId") @ApiParam(value = "订阅的网关名", required = true) String gatewayId, @RequestBody @ApiParam(value = "故障转移值，Json格式或者非Json格式", required = true) String failoverValue) {
-        return doCreateFailover(failoverType, group, gatewayId, failoverValue);
+    public ResponseEntity<?> createFailover(@PathVariable(value = "failoverType") @ApiParam(value = "故障转移类型。取值：version-prefer | version-failover | region-transfer | region-failover | env-failover | zone-failover | address-failover", defaultValue = "version-failover", required = true) String failoverType, @PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "故障转移值，Json格式或者非Json格式", required = true) String failoverValue) {
+        return doCreateFailover(failoverType, group, serviceId, failoverValue);
     }
 
-    @RequestMapping(path = "/clear/{failoverType}/{group}/{gatewayId}", method = RequestMethod.POST)
-    @ApiOperation(value = "局部网关订阅方式，清除故障转移", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @RequestMapping(path = "/clear/{failoverType}/{group}/{serviceId}", method = RequestMethod.POST)
+    @ApiOperation(value = "局部订阅方式，清除故障转移", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> clearFailover(@PathVariable(value = "failoverType") @ApiParam(value = "故障转移类型。取值：version-prefer | version-failover | region-transfer | region-failover | env-failover | zone-failover | address-failover", defaultValue = "version-failover", required = true) String failoverType, @PathVariable(value = "group") @ApiParam(value = "订阅的组名", required = true) String group, @PathVariable(value = "gatewayId") @ApiParam(value = "订阅的网关名", required = true) String gatewayId) {
-        return doClearFailover(failoverType, group, gatewayId);
+    public ResponseEntity<?> clearFailover(@PathVariable(value = "failoverType") @ApiParam(value = "故障转移类型。取值：version-prefer | version-failover | region-transfer | region-failover | env-failover | zone-failover | address-failover", defaultValue = "version-failover", required = true) String failoverType, @PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
+        return doClearFailover(failoverType, group, serviceId);
     }
 
     private ResponseEntity<?> doCreateFailover(String failoverType, String group, String failoverValue) {
@@ -81,9 +81,9 @@ public class FailoverEndpoint {
         }
     }
 
-    private ResponseEntity<?> doCreateFailover(String failoverType, String group, String gatewayId, String failoverValue) {
+    private ResponseEntity<?> doCreateFailover(String failoverType, String group, String serviceId, String failoverValue) {
         try {
-            String result = failoverResource.createFailover(FailoverType.fromString(failoverType), group, gatewayId, failoverValue);
+            String result = failoverResource.createFailover(FailoverType.fromString(failoverType), group, serviceId, failoverValue);
 
             return ResponseUtil.getSuccessResponse(result);
         } catch (Exception e) {
@@ -91,9 +91,9 @@ public class FailoverEndpoint {
         }
     }
 
-    private ResponseEntity<?> doClearFailover(String failoverType, String group, String gatewayId) {
+    private ResponseEntity<?> doClearFailover(String failoverType, String group, String serviceId) {
         try {
-            String result = failoverResource.clearFailover(FailoverType.fromString(failoverType), group, gatewayId);
+            String result = failoverResource.clearFailover(FailoverType.fromString(failoverType), group, serviceId);
 
             return ResponseUtil.getSuccessResponse(result);
         } catch (Exception e) {
