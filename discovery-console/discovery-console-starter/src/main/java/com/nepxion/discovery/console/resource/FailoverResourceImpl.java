@@ -21,20 +21,20 @@ public class FailoverResourceImpl extends ConsoleResourceDelegateImpl implements
     private ConfigResource configResource;
 
     @Override
-    public String createFailover(String group, FailoverType failoverType, String failoverValue) {
-        return createFailover(group, null, failoverType, failoverValue);
+    public String createFailover(FailoverType failoverType, String group, String failoverValue) {
+        return createFailover(failoverType, group, null, failoverValue);
     }
 
     @Override
-    public String clearFailover(String group, FailoverType failoverType) {
-        return clearFailover(group, null, failoverType);
+    public String clearFailover(FailoverType failoverType, String group) {
+        return clearFailover(failoverType, group, null);
     }
 
     @Override
-    public String createFailover(String group, String gatewayId, FailoverType failoverType, String failoverValue) {
+    public String createFailover(FailoverType failoverType, String group, String gatewayId, String failoverValue) {
         RuleEntity ruleEntity = getRemoteRuleEntity(group, gatewayId);
 
-        createFailover(ruleEntity, failoverType, failoverValue);
+        createFailover(failoverType, ruleEntity, failoverValue);
 
         updateRemoteRuleEntity(group, gatewayId, ruleEntity);
 
@@ -42,34 +42,34 @@ public class FailoverResourceImpl extends ConsoleResourceDelegateImpl implements
     }
 
     @Override
-    public String clearFailover(String group, String gatewayId, FailoverType failoverType) {
+    public String clearFailover(FailoverType failoverType, String group, String gatewayId) {
         RuleEntity ruleEntity = getRemoteRuleEntity(group, gatewayId);
 
-        clearFailover(ruleEntity, failoverType);
+        clearFailover(failoverType, ruleEntity);
 
         updateRemoteRuleEntity(group, gatewayId, ruleEntity);
 
         return configResource.fromRuleEntity(ruleEntity);
     }
 
-    private void createFailover(RuleEntity ruleEntity, FailoverType failoverType, String failoverValue) {
+    private void createFailover(FailoverType failoverType, RuleEntity ruleEntity, String failoverValue) {
         StrategyFailoverEntity strategyFailoverEntity = ruleEntity.getStrategyFailoverEntity();
         if (strategyFailoverEntity == null) {
             strategyFailoverEntity = new StrategyFailoverEntity();
             ruleEntity.setStrategyFailoverEntity(strategyFailoverEntity);
         }
 
-        setFailover(strategyFailoverEntity, failoverType, failoverValue);
+        setFailover(failoverType, strategyFailoverEntity, failoverValue);
     }
 
-    private void clearFailover(RuleEntity ruleEntity, FailoverType failoverType) {
+    private void clearFailover(FailoverType failoverType, RuleEntity ruleEntity) {
         StrategyFailoverEntity strategyFailoverEntity = ruleEntity.getStrategyFailoverEntity();
         if (strategyFailoverEntity != null) {
-            setFailover(strategyFailoverEntity, failoverType, null);
+            setFailover(failoverType, strategyFailoverEntity, null);
         }
     }
 
-    private void setFailover(StrategyFailoverEntity strategyFailoverEntity, FailoverType failoverType, String failoverValue) {
+    private void setFailover(FailoverType failoverType, StrategyFailoverEntity strategyFailoverEntity, String failoverValue) {
         switch (failoverType) {
             case VERSION_PREFER:
                 strategyFailoverEntity.setVersionPreferValue(failoverValue);

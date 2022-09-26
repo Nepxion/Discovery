@@ -12,11 +12,11 @@ package com.nepxion.discovery.console.resource;
 import com.nepxion.discovery.common.entity.FailoverType;
 
 public interface FailoverResource {
-    String createFailover(String group, FailoverType failoverType, String failoverValue);
+    String createFailover(FailoverType failoverType, String group, String failoverValue);
 
-    String clearFailover(String group, FailoverType failoverType);
+    String clearFailover(FailoverType failoverType, String group);
 
-    String createFailover(String group, String gatewayId, FailoverType failoverType, String failoverValue);
+    String createFailover(FailoverType failoverType, String group, String gatewayId, String failoverValue);
 
-    String clearFailover(String group, String gatewayId, FailoverType failoverType);
+    String clearFailover(FailoverType failoverType, String group, String gatewayId);
 }
