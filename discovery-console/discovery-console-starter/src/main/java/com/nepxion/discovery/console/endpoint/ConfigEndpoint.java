@@ -58,6 +58,13 @@ public class ConfigEndpoint {
         return doRemoteConfigUpdate(group, serviceId, config, formatType);
     }
 
+    @RequestMapping(path = "/remote/update-rule-entity/{group}/{serviceId}", method = RequestMethod.POST)
+    @ApiOperation(value = "更新规则配置对象到远程配置中心", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    public ResponseEntity<?> remoteRuleEntityUpdate(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名。当全局推送模式下，服务名必须由组名来代替", required = true) String serviceId, @RequestBody @ApiParam(value = "规则配置对象", required = true) RuleEntity ruleEntity) {
+        return doRemoteRuleEntityUpdate(group, serviceId, ruleEntity);
+    }
+
     @RequestMapping(path = "/remote/clear/{group}/{serviceId}", method = RequestMethod.POST)
     @ApiOperation(value = "清除规则配置到远程配置中心", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
@@ -70,6 +77,13 @@ public class ConfigEndpoint {
     @ResponseBody
     public ResponseEntity<?> remoteConfigView(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名。当全局推送模式下，服务名必须由组名来代替", required = true) String serviceId) {
         return doRemoteConfigView(group, serviceId);
+    }
+
+    @RequestMapping(path = "/remote/view-rule-entity/{group}/{serviceId}", method = RequestMethod.GET)
+    @ApiOperation(value = "查看远程配置中心的规则配置对象", notes = "", response = ResponseEntity.class, httpMethod = "GET")
+    @ResponseBody
+    public ResponseEntity<?> remoteRuleEntityView(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名。当全局推送模式下，服务名必须由组名来代替", required = true) String serviceId) {
+        return doRemoteRuleEntityView(group, serviceId);
     }
 
     @RequestMapping(path = "/update-async/{serviceId}", method = RequestMethod.POST)
@@ -151,6 +165,16 @@ public class ConfigEndpoint {
         }
     }
 
+    private ResponseEntity<?> doRemoteRuleEntityUpdate(String group, String serviceId, RuleEntity ruleEntity) {
+        try {
+            boolean result = configResource.updateRemoteRuleEntity(group, serviceId, ruleEntity);
+
+            return ResponseUtil.getSuccessResponse(result);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
+    }
+
     private ResponseEntity<?> doRemoteConfigClear(String group, String serviceId) {
         try {
             boolean result = configResource.clearRemoteConfig(group, serviceId);
@@ -166,6 +190,16 @@ public class ConfigEndpoint {
             String config = configResource.getRemoteConfig(group, serviceId);
 
             return ResponseUtil.getSuccessResponse(config);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
+    }
+
+    private ResponseEntity<?> doRemoteRuleEntityView(String group, String serviceId) {
+        try {
+            RuleEntity ruleEntity = configResource.getRemoteRuleEntity(group, serviceId);
+
+            return ResponseUtil.getSuccessResponse(ruleEntity);
         } catch (Exception e) {
             return ResponseUtil.getFailureResponse(e);
         }
