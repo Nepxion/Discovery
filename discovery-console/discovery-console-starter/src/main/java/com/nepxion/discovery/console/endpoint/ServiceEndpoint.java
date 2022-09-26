@@ -85,7 +85,7 @@ public class ServiceEndpoint {
     @RequestMapping(path = "/gateway-list", method = RequestMethod.POST)
     @ApiOperation(value = "获取注册中心的网关名列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> gatewayList(@RequestBody @ApiParam(value = "网关类型列表。取值： spring-cloud-gateway | zuul", required = true) List<String> gatewayTypes) {
+    public ResponseEntity<?> gatewayList(@RequestBody @ApiParam(value = "网关类型列表。取值： spring-cloud-gateway | zuul。spring-cloud-gateway指Spring Cloud Gateway, zuul指Netflix Zuul", required = true) List<String> gatewayTypes) {
         return doGatewayList(gatewayTypes);
     }
 
