@@ -5623,16 +5623,61 @@ com.nepxion.discovery.plugin.strategy.monitor.DefaultStrategyAlarm
 
 ③ 全链路流量侦测接口
 
-通过discovery-plugin-admin-center-starter内置基于LoadBalanced RestTemplate的接口方法，实现全链路侦测，用于查看全链路中调用的各个服务的版本、区域、环境、可用区、IP地址和端口等是否符合和满足蓝绿灰度条件。使用方式，如下
+通过discovery-plugin-admin-center-starter内置基于LoadBalanced RestTemplate的接口方法，实现全链路侦测，用于查看全链路中调用的各个服务的版本、区域、环境、可用区、IP地址和端口等是否符合和满足蓝绿灰度条件
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+- 使用蓝绿灰度侦测功能必须引入discovery-plugin-admin-center-starter依赖
+- 参数项中服务名列表不分前后次序
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 侦测方式
 
 | 操作 | 路径 | 参数 | 方式 |
 | --- | --- | --- | --- |
 | 网关为入口 | `http://`[网关IP:PORT]/[A服务名]/inspector/inspect | {"serviceIdList":["B服务名", "C服务名", ...]} | POST |
 | 服务为入口 | `http://`[A服务IP:PORT]/inspector/inspect | {"serviceIdList":["B服务名", "C服务名", ...]} | POST |
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 侦测示例
 
-内容项中服务名列表不分前后次序
+- 从网关入口侦测
+URL如下
+```
+http://localhost:5001/discovery-guide-service-a/inspector/inspect
+```
+>5001为网关的端口
+
+POST Body如下
+```
+{"serviceIdList":["discovery-guide-service-b"]}
+```
+
+Result如下
+```
+{
+    "result": "[ID=discovery-guide-gateway][UID=20220925-201023-572-6244-638-480][T=gateway][P=Nacos][H=192.168.31.237:5001][V=1.0][R=default][E=default][Z=default][G=discovery-guide-group][A=false][TID=933a28490043ede4][SID=59cd21c8884bb2d9]
+            -> [ID=discovery-guide-service-a][UID=20220925-171047-019-6279-464-032][T=service][P=Nacos][H=192.168.31.237:3001][V=1.0][R=dev][E=env1][Z=zone1][G=discovery-guide-group][A=true][TID=933a28490043ede4][SID=b1610f47a028ebf7] 
+            -> [ID=discovery-guide-service-b][UID=20220925-163629-172-9971-486-200][T=service][P=Nacos][H=192.168.31.237:4001][V=1.0][R=qa][E=env1][Z=zone1][G=discovery-guide-group][A=false][TID=933a28490043ede4][SID=b8dea61eba31174d]"
+}
+```
+
+- 从服务入口侦测
+URL如下
+```
+http://localhost:3001/inspector/inspect
+```
+>3001为服务A的端口
+
+POST Body如下
+```
+{"serviceIdList":["discovery-guide-service-b"]}
+```
+
+Result如下
+```
+{
+    "result": "[ID=discovery-guide-service-a][UID=20220925-171047-019-6279-464-032][T=service][P=Nacos][H=192.168.31.237:3001][V=1.0][R=dev][E=env1][Z=zone1][G=discovery-guide-group][A=true][TID=56f34adc18391ca4][SID=9fe45f8b30c22f6b] 
+            -> [ID=discovery-guide-service-b][UID=20220925-163629-172-9971-486-200][T=service][P=Nacos][H=192.168.31.237:4001][V=1.0][R=qa][E=env1][Z=zone1][G=discovery-guide-group][A=false][TID=56f34adc18391ca4][SID=2cd244f79330a889]"
+}
+```
 
 ## 全链路数据库和消息队列蓝绿发布
 通过订阅相关参数的变化，实现参数化蓝绿发布，可用于如下场景
