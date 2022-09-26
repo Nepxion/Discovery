@@ -18,9 +18,9 @@ public interface StrategyResource {
 
     String clearRelease(String group);
 
-    String createVersionRelease(String group, String gatewayId, ConditionStrategy conditionStrategy);
+    String createVersionRelease(String group, String serviceId, ConditionStrategy conditionStrategy);
 
-    String clearRelease(String group, String gatewayId);
+    String clearRelease(String group, String serviceId);
 
     boolean validateExpression(String expression, String validation);
 }

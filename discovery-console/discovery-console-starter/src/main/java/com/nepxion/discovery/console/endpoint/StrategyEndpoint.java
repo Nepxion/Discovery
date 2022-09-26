@@ -42,31 +42,31 @@ public class StrategyEndpoint {
     }
 
     @RequestMapping(path = "/create-version-release/{group}", method = RequestMethod.POST)
-    @ApiOperation(value = "全局组订阅方式，创建版本蓝绿灰度发布", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "全局订阅方式，创建版本蓝绿灰度发布", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> createVersionRelease(@PathVariable(value = "group") @ApiParam(value = "订阅的组名", required = true) String group, @RequestBody @ApiParam(value = "蓝绿灰度策略对象", required = true) ConditionStrategy conditionStrategy) {
+    public ResponseEntity<?> createVersionRelease(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @RequestBody @ApiParam(value = "蓝绿灰度策略对象", required = true) ConditionStrategy conditionStrategy) {
         return doCreateVersionRelease(group, conditionStrategy);
     }
 
     @RequestMapping(path = "/clear-release/{group}", method = RequestMethod.POST)
-    @ApiOperation(value = "全局组订阅方式，清除蓝绿灰度发布", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "全局订阅方式，清除蓝绿灰度发布", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> clearRelease(@PathVariable(value = "group") @ApiParam(value = "订阅的组名", required = true) String group) {
+    public ResponseEntity<?> clearRelease(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group) {
         return doClearRelease(group);
     }
 
-    @RequestMapping(path = "/create-version-release/{group}/{gatewayId}", method = RequestMethod.POST)
-    @ApiOperation(value = "局部网关订阅方式，创建版本蓝绿灰度发布", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @RequestMapping(path = "/create-version-release/{group}/{serviceId}", method = RequestMethod.POST)
+    @ApiOperation(value = "局部订阅方式，创建版本蓝绿灰度发布", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> createVersionRelease(@PathVariable(value = "group") @ApiParam(value = "订阅的组名", required = true) String group, @PathVariable(value = "gatewayId") @ApiParam(value = "订阅的网关名", required = true) String gatewayId, @RequestBody @ApiParam(value = "蓝绿灰度策略对象", required = true) ConditionStrategy conditionStrategy) {
-        return doCreateVersionRelease(group, gatewayId, conditionStrategy);
+    public ResponseEntity<?> createVersionRelease(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "蓝绿灰度策略对象", required = true) ConditionStrategy conditionStrategy) {
+        return doCreateVersionRelease(group, serviceId, conditionStrategy);
     }
 
-    @RequestMapping(path = "/clear-release/{group}/{gatewayId}", method = RequestMethod.POST)
-    @ApiOperation(value = "局部网关订阅方式，清除蓝绿灰度发布", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @RequestMapping(path = "/clear-release/{group}/{serviceId}", method = RequestMethod.POST)
+    @ApiOperation(value = "局部订阅方式，清除蓝绿灰度发布", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> clearRelease(@PathVariable(value = "group") @ApiParam(value = "订阅的组名", required = true) String group, @PathVariable(value = "gatewayId") @ApiParam(value = "订阅的网关名", required = true) String gatewayId) {
-        return doClearRelease(group, gatewayId);
+    public ResponseEntity<?> clearRelease(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
+        return doClearRelease(group, serviceId);
     }
 
     @RequestMapping(path = "/validate-expression", method = RequestMethod.GET)
@@ -106,9 +106,9 @@ public class StrategyEndpoint {
         }
     }
 
-    private ResponseEntity<?> doCreateVersionRelease(String group, String gatewayId, ConditionStrategy conditionStrategy) {
+    private ResponseEntity<?> doCreateVersionRelease(String group, String serviceId, ConditionStrategy conditionStrategy) {
         try {
-            String result = strategyResource.createVersionRelease(group, gatewayId, conditionStrategy);
+            String result = strategyResource.createVersionRelease(group, serviceId, conditionStrategy);
 
             return ResponseUtil.getSuccessResponse(result);
         } catch (Exception e) {
@@ -116,9 +116,9 @@ public class StrategyEndpoint {
         }
     }
 
-    private ResponseEntity<?> doClearRelease(String group, String gatewayId) {
+    private ResponseEntity<?> doClearRelease(String group, String serviceId) {
         try {
-            String result = strategyResource.clearRelease(group, gatewayId);
+            String result = strategyResource.clearRelease(group, serviceId);
 
             return ResponseUtil.getSuccessResponse(result);
         } catch (Exception e) {

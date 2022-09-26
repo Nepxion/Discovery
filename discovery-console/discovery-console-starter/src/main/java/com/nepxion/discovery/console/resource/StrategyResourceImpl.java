@@ -74,23 +74,23 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
     }
 
     @Override
-    public String createVersionRelease(String group, String gatewayId, ConditionStrategy conditionStrategy) {
-        RuleEntity ruleEntity = getRemoteRuleEntity(group, gatewayId);
+    public String createVersionRelease(String group, String serviceId, ConditionStrategy conditionStrategy) {
+        RuleEntity ruleEntity = getRemoteRuleEntity(group, serviceId);
 
         createVersionStrategyRelease(ruleEntity, conditionStrategy);
 
-        updateRemoteRuleEntity(group, gatewayId, ruleEntity);
+        updateRemoteRuleEntity(group, serviceId, ruleEntity);
 
         return configResource.fromRuleEntity(ruleEntity);
     }
 
     @Override
-    public String clearRelease(String group, String gatewayId) {
-        RuleEntity ruleEntity = getRemoteRuleEntity(group, gatewayId);
+    public String clearRelease(String group, String serviceId) {
+        RuleEntity ruleEntity = getRemoteRuleEntity(group, serviceId);
 
         clearStrategyRelease(ruleEntity);
 
-        updateRemoteRuleEntity(group, gatewayId, ruleEntity);
+        updateRemoteRuleEntity(group, serviceId, ruleEntity);
 
         return configResource.fromRuleEntity(ruleEntity);
     }

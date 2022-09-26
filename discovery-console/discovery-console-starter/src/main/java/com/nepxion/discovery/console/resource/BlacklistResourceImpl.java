@@ -31,18 +31,18 @@ public class BlacklistResourceImpl extends ConsoleResourceDelegateImpl implement
     private ServiceResource serviceResource;
 
     @Override
-    public String addBlacklist(String group, String serviceId, String host, int port) {
-        return addBlacklist(group, null, serviceId, host, port);
+    public String addBlacklist(String group, String targetServiceId, String targetHost, int targetPort) {
+        return addBlacklist(group, null, targetServiceId, targetHost, targetPort);
     }
 
     @Override
-    public String addBlacklist(String group, String serviceId, String serviceUUId) {
-        return addBlacklist(group, null, serviceId, serviceUUId);
+    public String addBlacklist(String group, String targetServiceId, String targetServiceUUId) {
+        return addBlacklist(group, null, targetServiceId, targetServiceUUId);
     }
 
     @Override
-    public boolean deleteBlacklist(String group, String serviceId, String serviceUUId) {
-        return deleteBlacklist(group, null, serviceId, serviceUUId);
+    public boolean deleteBlacklist(String group, String targetServiceId, String targetServiceUUId) {
+        return deleteBlacklist(group, null, targetServiceId, targetServiceUUId);
     }
 
     @Override
@@ -51,50 +51,50 @@ public class BlacklistResourceImpl extends ConsoleResourceDelegateImpl implement
     }
 
     @Override
-    public String addBlacklist(String group, String gatewayId, String serviceId, String host, int port) {
-        InstanceEntity instanceEntity = getInstanceEntity(serviceId, host, port);
+    public String addBlacklist(String group, String serviceId, String targetServiceId, String targetHost, int targetPort) {
+        InstanceEntity instanceEntity = getInstanceEntity(targetServiceId, targetHost, targetPort);
         if (instanceEntity == null) {
-            throw new DiscoveryException("Not found the instance with serviceId=" + serviceId + " host=" + host + ", port=" + port);
+            throw new DiscoveryException("Not found the instance with serviceId=" + targetServiceId + " host=" + targetHost + ", port=" + targetPort);
         }
 
-        String serviceUUId = instanceEntity.getServiceUUId();
-        if (StringUtils.isEmpty(serviceUUId)) {
-            throw new DiscoveryException("Not found UUID in the instance with serviceId=" + serviceId + " host=" + host + ", port=" + port);
+        String targetServiceUUId = instanceEntity.getServiceUUId();
+        if (StringUtils.isEmpty(targetServiceUUId)) {
+            throw new DiscoveryException("Not found UUID in the instance with serviceId=" + targetServiceId + " host=" + targetHost + ", port=" + targetPort);
         }
 
-        return addBlacklist(group, gatewayId, serviceId, serviceUUId);
+        return addBlacklist(group, serviceId, targetServiceId, targetServiceUUId);
     }
 
     @Override
-    public String addBlacklist(String group, String gatewayId, String serviceId, String serviceUUId) {
-        RuleEntity ruleEntity = getRemoteRuleEntity(group, gatewayId);
+    public String addBlacklist(String group, String serviceId, String targetServiceId, String targetServiceUUId) {
+        RuleEntity ruleEntity = getRemoteRuleEntity(group, serviceId);
 
-        addBlacklistId(ruleEntity, serviceId, serviceUUId);
+        addBlacklistId(ruleEntity, targetServiceId, targetServiceUUId);
 
-        updateRemoteRuleEntity(group, gatewayId, ruleEntity);
+        updateRemoteRuleEntity(group, serviceId, ruleEntity);
 
-        return serviceUUId;
+        return targetServiceUUId;
     }
 
     @Override
-    public boolean deleteBlacklist(String group, String gatewayId, String serviceId, String serviceUUId) {
-        RuleEntity ruleEntity = getRemoteRuleEntity(group, gatewayId);
+    public boolean deleteBlacklist(String group, String serviceId, String targetServiceId, String targetServiceUUId) {
+        RuleEntity ruleEntity = getRemoteRuleEntity(group, serviceId);
 
-        deleteBlacklistId(ruleEntity, serviceId, serviceUUId);
+        deleteBlacklistId(ruleEntity, targetServiceId, targetServiceUUId);
 
-        return updateRemoteRuleEntity(group, gatewayId, ruleEntity);
+        return updateRemoteRuleEntity(group, serviceId, ruleEntity);
     }
 
     @Override
-    public boolean clearBlacklist(String group, String gatewayId) {
-        RuleEntity ruleEntity = getRemoteRuleEntity(group, gatewayId);
+    public boolean clearBlacklist(String group, String serviceId) {
+        RuleEntity ruleEntity = getRemoteRuleEntity(group, serviceId);
 
         clearBlacklistId(ruleEntity);
 
-        return updateRemoteRuleEntity(group, gatewayId, ruleEntity);
+        return updateRemoteRuleEntity(group, serviceId, ruleEntity);
     }
 
-    public void addBlacklistId(RuleEntity ruleEntity, String serviceId, String serviceUUId) {
+    private void addBlacklistId(RuleEntity ruleEntity, String serviceId, String serviceUUId) {
         StrategyBlacklistEntity strategyBlacklistEntity = ruleEntity.getStrategyBlacklistEntity();
         if (strategyBlacklistEntity != null) {
             String idValue = strategyBlacklistEntity.getIdValue();

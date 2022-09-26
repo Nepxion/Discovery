@@ -31,23 +31,23 @@ public class FailoverResourceImpl extends ConsoleResourceDelegateImpl implements
     }
 
     @Override
-    public String createFailover(FailoverType failoverType, String group, String gatewayId, String failoverValue) {
-        RuleEntity ruleEntity = getRemoteRuleEntity(group, gatewayId);
+    public String createFailover(FailoverType failoverType, String group, String serviceId, String failoverValue) {
+        RuleEntity ruleEntity = getRemoteRuleEntity(group, serviceId);
 
         createFailover(failoverType, ruleEntity, failoverValue);
 
-        updateRemoteRuleEntity(group, gatewayId, ruleEntity);
+        updateRemoteRuleEntity(group, serviceId, ruleEntity);
 
         return configResource.fromRuleEntity(ruleEntity);
     }
 
     @Override
-    public String clearFailover(FailoverType failoverType, String group, String gatewayId) {
-        RuleEntity ruleEntity = getRemoteRuleEntity(group, gatewayId);
+    public String clearFailover(FailoverType failoverType, String group, String serviceId) {
+        RuleEntity ruleEntity = getRemoteRuleEntity(group, serviceId);
 
         clearFailover(failoverType, ruleEntity);
 
-        updateRemoteRuleEntity(group, gatewayId, ruleEntity);
+        updateRemoteRuleEntity(group, serviceId, ruleEntity);
 
         return configResource.fromRuleEntity(ruleEntity);
     }
