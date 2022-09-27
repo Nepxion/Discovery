@@ -690,6 +690,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [全链路蓝绿发布流量侦测](#全链路蓝绿发布流量侦测)
         - [全链路灰度发布流量侦测](#全链路灰度发布流量侦测)
         - [全链路蓝绿灰度发布混合流量侦测](#全链路蓝绿灰度发布混合流量侦测)
+    - [全链路流量侦测接口](#全链路流量侦测接口)
 - [全链路数据库和消息队列蓝绿发布](#全链路数据库和消息队列蓝绿发布)
 - [全链路服务侧注解](#全链路服务侧注解)
 - [全链路服务侧API权限](#全链路服务侧API权限)
@@ -5621,15 +5622,14 @@ com.nepxion.discovery.plugin.strategy.monitor.DefaultStrategyAlarm
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop6.jpg)
 
-③ 全链路流量侦测接口
-
+#### 全链路流量侦测接口
 全链路侦测，用来侦测调试蓝绿灰度发布、路由隔离等一系列流量管控手段是否符合预期
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
 
-- 使用侦测功能，服务必须引入discovery-plugin-admin-center-starter依赖
+使用侦测功能，服务必须引入discovery-plugin-admin-center-starter依赖
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 侦测方式
+① 侦测方式
 
 请求URL
 ```
@@ -5658,7 +5658,7 @@ POST
     - 当以网关为入口时，`services`可以留空。如果多个，用分号“;”分隔
     - 当以服务为入口时，`services`至少一个。如果多个，用分号“;”分隔
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 侦测示例
+② 侦测示例
 
 - 以网关为入口进行侦测调试
 
