@@ -690,6 +690,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [全链路蓝绿发布流量侦测](#全链路蓝绿发布流量侦测)
         - [全链路灰度发布流量侦测](#全链路灰度发布流量侦测)
         - [全链路蓝绿灰度发布混合流量侦测](#全链路蓝绿灰度发布混合流量侦测)
+    - [全链路流量侦测接口](#全链路流量侦测接口)
 - [全链路数据库和消息队列蓝绿发布](#全链路数据库和消息队列蓝绿发布)
 - [全链路服务侧注解](#全链路服务侧注解)
 - [全链路服务侧API权限](#全链路服务侧API权限)
@@ -5621,63 +5622,82 @@ com.nepxion.discovery.plugin.strategy.monitor.DefaultStrategyAlarm
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop6.jpg)
 
-③ 全链路流量侦测接口
-
-通过discovery-plugin-admin-center-starter内置基于LoadBalanced RestTemplate的接口方法，实现全链路侦测，用于查看全链路中调用的各个服务的版本、区域、环境、可用区、IP地址和端口等是否符合和满足蓝绿灰度条件
+#### 全链路流量侦测接口
+全链路侦测，用来侦测调试蓝绿灰度发布、路由隔离等一系列流量管控手段是否符合预期
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
-- 使用蓝绿灰度侦测功能必须引入discovery-plugin-admin-center-starter依赖
-- 参数项中服务名列表不分前后次序
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 侦测方式
+使用侦测功能，服务必须引入discovery-plugin-admin-center-starter依赖
 
-| 操作 | 路径 | 参数 | 方式 |
-| --- | --- | --- | --- |
-| 网关为入口 | `http://`[网关IP:PORT]/[A服务名]/inspector/inspect | {"serviceIdList":["B服务名", "C服务名", ...]} | POST |
-| 服务为入口 | `http://`[A服务IP:PORT]/inspector/inspect | {"serviceIdList":["B服务名", "C服务名", ...]} | POST |
+① 侦测方式
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 侦测示例
-
-- 从网关入口侦测
-URL如下
+请求URL
 ```
-http://localhost:5001/discovery-guide-service-a/inspector/inspect
+http://localhost:6001/inspector/inspect
 ```
->5001为网关的端口
-
-POST Body如下
+请求类型
 ```
-{"serviceIdList":["discovery-guide-service-b"]}
+POST
 ```
-
-Result如下
+请求参数
+`InspectorDebugEntity`格式
 ```
 {
-    "result": "[ID=discovery-guide-gateway][UID=20220925-201023-572-6244-638-480][T=gateway][P=Nacos][H=192.168.31.237:5001][V=1.0][R=default][E=default][Z=default][G=discovery-guide-group][A=false][TID=933a28490043ede4][SID=59cd21c8884bb2d9]
-            -> [ID=discovery-guide-service-a][UID=20220925-171047-019-6279-464-032][T=service][P=Nacos][H=192.168.31.237:3001][V=1.0][R=dev][E=env1][Z=zone1][G=discovery-guide-group][A=true][TID=933a28490043ede4][SID=b1610f47a028ebf7] 
-            -> [ID=discovery-guide-service-b][UID=20220925-163629-172-9971-486-200][T=service][P=Nacos][H=192.168.31.237:4001][V=1.0][R=qa][E=env1][Z=zone1][G=discovery-guide-group][A=false][TID=933a28490043ede4][SID=b8dea61eba31174d]"
+  "protocol": "http",
+  "portalId": "",
+  "contextPath": "",
+  "services": ""
 }
 ```
+- `protocol`协议类型，取值`http`或者`https`
+- `portalId`入口服务名，支持网关和服务两种入口方式
+- `contextPath`上下文路径
+    - 当以网关为入口时，`contextPath`为网关路由转发路径。如果未对`/inspector/inspect`配置网关路由转发路径，则由网关后第一个服务名来代替
+    - 当以服务为入口时，`contextPath`为服务调用上下文路径。如果为对其进行配置，则留空
+- `services`路由服务列表
+    - 当以网关为入口时，`services`可以留空。如果多个，用分号“;”分隔
+    - 当以服务为入口时，`services`至少一个。如果多个，用分号“;”分隔
 
-- 从服务入口侦测
-URL如下
-```
-http://localhost:3001/inspector/inspect
-```
->3001为服务A的端口
+② 侦测示例
 
-POST Body如下
-```
-{"serviceIdList":["discovery-guide-service-b"]}
-```
+- 以网关为入口进行侦测调试
 
-Result如下
+输入`InspectorDebugEntity`对象内容
 ```
 {
-    "result": "[ID=discovery-guide-service-a][UID=20220925-171047-019-6279-464-032][T=service][P=Nacos][H=192.168.31.237:3001][V=1.0][R=dev][E=env1][Z=zone1][G=discovery-guide-group][A=true][TID=56f34adc18391ca4][SID=9fe45f8b30c22f6b] 
-            -> [ID=discovery-guide-service-b][UID=20220925-163629-172-9971-486-200][T=service][P=Nacos][H=192.168.31.237:4001][V=1.0][R=qa][E=env1][Z=zone1][G=discovery-guide-group][A=false][TID=56f34adc18391ca4][SID=2cd244f79330a889]"
+  "protocol": "http",
+  "portalId": "discovery-guide-gateway",
+  "contextPath": "discovery-guide-service-a",
+  "services": "discovery-guide-service-b"
 }
 ```
+返回
+```
+[ID=discovery-guide-gateway][UID=20220927-111127-875-1354-367-132][T=gateway][P=Nacos][H=192.168.31.237:5001][V=1.0][R=default][E=default][Z=default][G=discovery-guide-group][A=false][TID=30186d59ee6e0633][SID=5c2094901666a0ee] 
+-> [ID=discovery-guide-service-a][UID=20220927-111127-898-7896-282-453][T=service][P=Nacos][H=192.168.31.237:3001][V=1.0][R=dev][E=env1][Z=zone1][G=discovery-guide-group][A=true][TID=30186d59ee6e0633][SID=65bcb084e10fe9d0] 
+-> [ID=discovery-guide-service-b][UID=20220927-111127-603-9037-746-402][T=service][P=Nacos][H=192.168.31.237:4001][V=1.0][R=qa][E=env1][Z=zone1][G=discovery-guide-group][A=false][TID=30186d59ee6e0633][SID=d032cb9f094bf411]
+```
+
+从返回结果查看，在入口服务`discovery-guide-gateway`上侦测调试服务`discovery-guide-service-a`和服务`discovery-guide-service-b`的蓝绿灰度发布、路由隔离等一系列流量管控手段是否符合预期
+
+- 以服务为入口进行侦测调试
+
+输入`InspectorDebugEntity`对象内容
+```
+{
+  "protocol": "http",
+  "portalId": "discovery-guide-service-a",
+  "contextPath": "",
+  "services": "discovery-guide-service-b"
+}
+```
+返回
+```
+[ID=discovery-guide-service-a][UID=20220927-111127-898-7896-282-453][T=service][P=Nacos][H=192.168.31.237:3001][V=1.0][R=dev][E=env1][Z=zone1][G=discovery-guide-group][A=true][TID=f953d0cb282ce160][SID=cb45020a6275e68d] 
+-> [ID=discovery-guide-service-b][UID=20220927-111127-603-9037-746-402][T=service][P=Nacos][H=192.168.31.237:4001][V=1.0][R=qa][E=env1][Z=zone1][G=discovery-guide-group][A=false][TID=f953d0cb282ce160][SID=ee2ae1d457cd8c98]
+```
+
+从返回结果查看，在入口服务`discovery-guide-service-a`上侦测调试服务`discovery-guide-service-b`的蓝绿灰度发布、路由隔离等一系列流量管控手段是否符合预期
 
 ## 全链路数据库和消息队列蓝绿发布
 通过订阅相关参数的变化，实现参数化蓝绿发布，可用于如下场景
