@@ -41,7 +41,7 @@ public class InspectorEndpoint {
 
     private ResponseEntity<?> doInspect(InspectorDebugEntity inspectorDebugEntity) {
         try {
-            String result = inspectorResource.inspect(inspectorDebugEntity.getProtocol(), inspectorDebugEntity.getPortalId(), inspectorDebugEntity.getContextPath(), inspectorDebugEntity.getServices());
+            String result = inspectorResource.inspect(inspectorDebugEntity.getProtocol(), inspectorDebugEntity.getPortal(), inspectorDebugEntity.getPath(), inspectorDebugEntity.getService(), inspectorDebugEntity.getHeader());
 
             return ResponseUtil.getSuccessResponse(result);
         } catch (Exception e) {

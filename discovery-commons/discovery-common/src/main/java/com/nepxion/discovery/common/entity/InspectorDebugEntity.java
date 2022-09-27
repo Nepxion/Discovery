@@ -10,6 +10,8 @@ package com.nepxion.discovery.common.entity;
  */
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -20,9 +22,10 @@ public class InspectorDebugEntity implements Serializable {
     private static final long serialVersionUID = 1251618912673295400L;
 
     private String protocol = "http";
-    private String portalId;
-    private String contextPath;
-    private String services;
+    private String portal;
+    private String path;
+    private List<String> service;
+    private Map<String, String> header;
 
     public String getProtocol() {
         return protocol;
@@ -32,28 +35,36 @@ public class InspectorDebugEntity implements Serializable {
         this.protocol = protocol;
     }
 
-    public String getPortalId() {
-        return portalId;
+    public String getPortal() {
+        return portal;
     }
 
-    public void setPortalId(String portalId) {
-        this.portalId = portalId;
+    public void setPortal(String portal) {
+        this.portal = portal;
     }
 
-    public String getContextPath() {
-        return contextPath;
+    public String getPath() {
+        return path;
     }
 
-    public void setContextPath(String contextPath) {
-        this.contextPath = contextPath;
+    public void setPath(String path) {
+        this.path = path;
     }
 
-    public String getServices() {
-        return services;
+    public List<String> getService() {
+        return service;
     }
 
-    public void setServices(String services) {
-        this.services = services;
+    public void setService(List<String> service) {
+        this.service = service;
+    }
+
+    public Map<String, String> getHeader() {
+        return header;
+    }
+
+    public void setHeader(Map<String, String> header) {
+        this.header = header;
     }
 
     @Override

@@ -9,6 +9,9 @@ package com.nepxion.discovery.console.resource;
  * @version 1.0
  */
 
+import java.util.List;
+import java.util.Map;
+
 public interface InspectorResource {
-    String inspect(String protocol, String portalId, String contextPath, String services);
+    String inspect(String protocol, String portal, String path, List<String> service, Map<String, String> header);
 }

@@ -9,14 +9,19 @@ package com.nepxion.discovery.console.resource;
  * @version 1.0
  */
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.InspectorEntity;
-import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.common.util.UrlUtil;
 
 public class InspectorResourceImpl implements InspectorResource {
@@ -24,13 +29,22 @@ public class InspectorResourceImpl implements InspectorResource {
     private RestTemplate loadBalancedRestTemplate;
 
     @Override
-    public String inspect(String protocol, String portalId, String contextPath, String services) {
-        List<String> serviceList = StringUtil.splitToList(services);
-
-        String url = protocol + "://" + portalId + UrlUtil.formatContextPath(contextPath) + DiscoveryConstant.INSPECTOR_ENDPOINT_URL;
+    public String inspect(String protocol, String portal, String path, List<String> service, Map<String, String> header) {
+        String url = protocol + "://" + portal + UrlUtil.formatContextPath(path) + DiscoveryConstant.INSPECTOR_ENDPOINT_URL;
 
         InspectorEntity inspectorEntity = new InspectorEntity();
-        inspectorEntity.setServiceIdList(serviceList);
+        inspectorEntity.setServiceIdList(service);
+
+        if (MapUtils.isNotEmpty(header)) {
+            HttpHeaders headers = new HttpHeaders();
+            for (Map.Entry<String, String> entry : header.entrySet()) {
+                headers.add(entry.getKey(), entry.getValue());
+            }
+
+            HttpEntity<InspectorEntity> requestEntity = new HttpEntity<InspectorEntity>(inspectorEntity, headers);
+
+            return loadBalancedRestTemplate.exchange(url, HttpMethod.POST, requestEntity, InspectorEntity.class, new HashMap<String, String>()).getBody().getResult();
+        }
 
         return loadBalancedRestTemplate.postForEntity(url, inspectorEntity, InspectorEntity.class).getBody().getResult();
     }
