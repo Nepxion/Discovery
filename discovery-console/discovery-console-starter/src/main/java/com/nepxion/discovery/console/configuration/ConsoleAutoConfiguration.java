@@ -10,6 +10,7 @@ package com.nepxion.discovery.console.configuration;
  */
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -20,6 +21,7 @@ import com.nepxion.discovery.console.endpoint.AuthenticationEndpoint;
 import com.nepxion.discovery.console.endpoint.BlacklistEndpoint;
 import com.nepxion.discovery.console.endpoint.ConfigEndpoint;
 import com.nepxion.discovery.console.endpoint.FailoverEndpoint;
+import com.nepxion.discovery.console.endpoint.InspectorEndpoint;
 import com.nepxion.discovery.console.endpoint.RouteEndpoint;
 import com.nepxion.discovery.console.endpoint.SentinelEndpoint;
 import com.nepxion.discovery.console.endpoint.ServiceEndpoint;
@@ -33,6 +35,8 @@ import com.nepxion.discovery.console.resource.ConfigResource;
 import com.nepxion.discovery.console.resource.ConfigResourceImpl;
 import com.nepxion.discovery.console.resource.FailoverResource;
 import com.nepxion.discovery.console.resource.FailoverResourceImpl;
+import com.nepxion.discovery.console.resource.InspectorResource;
+import com.nepxion.discovery.console.resource.InspectorResourceImpl;
 import com.nepxion.discovery.console.resource.RouteResource;
 import com.nepxion.discovery.console.resource.RouteResourceImpl;
 import com.nepxion.discovery.console.resource.SentinelResource;
@@ -140,11 +144,27 @@ public class ConsoleAutoConfiguration {
         }
 
         @Bean
+        public InspectorResource inspectorResource() {
+            return new InspectorResourceImpl();
+        }
+
+        @Bean
+        public InspectorEndpoint inspectorEndpoint() {
+            return new InspectorEndpoint();
+        }
+
+        @Bean
         public RestTemplate consoleRestTemplate() {
             RestTemplate consoleRestTemplate = new RestTemplate();
             consoleRestTemplate.setErrorHandler(new DiscoveryResponseErrorHandler());
 
             return consoleRestTemplate;
+        }
+
+        @Bean
+        @LoadBalanced
+        public RestTemplate loadBalancedRestTemplate() {
+            return new RestTemplate();
         }
     }
 }

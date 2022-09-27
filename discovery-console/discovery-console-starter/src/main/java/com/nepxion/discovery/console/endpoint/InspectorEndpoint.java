@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.admincenter.endpoint;
+package com.nepxion.discovery.console.endpoint;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nepxion.discovery.common.entity.InspectorEntity;
+import com.nepxion.discovery.common.entity.InspectorDebugEntity;
 import com.nepxion.discovery.common.util.ResponseUtil;
-import com.nepxion.discovery.plugin.admincenter.resource.InspectorResource;
+import com.nepxion.discovery.console.resource.InspectorResource;
 
 @RestController
 @RequestMapping(path = "/inspector")
@@ -33,15 +33,15 @@ public class InspectorEndpoint {
     private InspectorResource inspectorResource;
 
     @RequestMapping(path = "/inspect", method = RequestMethod.POST)
-    @ApiOperation(value = "侦测全链路路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "侦测调试全链路路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> inspect(@RequestBody @ApiParam(value = "侦测对象", required = true) InspectorEntity inspectorEntity) {
-        return doInspect(inspectorEntity);
+    public ResponseEntity<?> inspect(@RequestBody @ApiParam(value = "侦测调试对象", required = true) InspectorDebugEntity inspectorDebugEntity) {
+        return doInspect(inspectorDebugEntity);
     }
 
-    private ResponseEntity<?> doInspect(InspectorEntity inspectorEntity) {
+    private ResponseEntity<?> doInspect(InspectorDebugEntity inspectorDebugEntity) {
         try {
-            InspectorEntity result = inspectorResource.inspect(inspectorEntity);
+            String result = inspectorResource.inspect(inspectorDebugEntity.getProtocol(), inspectorDebugEntity.getPortalId(), inspectorDebugEntity.getContextPath(), inspectorDebugEntity.getServices());
 
             return ResponseUtil.getSuccessResponse(result);
         } catch (Exception e) {
