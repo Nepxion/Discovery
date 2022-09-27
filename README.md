@@ -2738,30 +2738,33 @@ POST
 ```
 {
   "protocol": "http",
-  "portalId": "",
-  "contextPath": "",
-  "services": ""
+  "portal": "",
+  "path": "",
+  "service": [],
+  "header": {}
 }
 ```
 - `protocol`协议类型，取值`http`或者`https`
-- `portalId`入口服务名，支持网关和服务两种入口方式
-- `contextPath`上下文路径
-    - 当以网关为入口时，`contextPath`为网关路由转发路径。如果未对`/inspector/inspect`配置网关路由转发路径，则由网关后第一个服务名来代替
-    - 当以服务为入口时，`contextPath`为服务调用上下文路径。如果为对其进行配置，则留空
-- `services`路由服务列表
-    - 当以网关为入口时，`services`可以留空。如果多个，用分号“;”分隔
-    - 当以服务为入口时，`services`至少一个。如果多个，用分号“;”分隔
+- `portal`入口服务名，支持网关和服务两种入口方式
+- `path`网关路由转发路径或者服务调用上下文路径
+    - 当以网关为入口时，`path`为网关路由转发路径。如果网关未对它后面的第一个服务配置网关路由转发路径，则`path`由该服务名来代替
+    - 当以服务为入口时，`path`为服务调用上下文路径`ContextPath`。如果服务未配置调用上下文路径，则`path`留空
+- `service`路由服务的列表，可以留空或者删除
+- `header`Http头的哈希表，可以留空或者删除
 
 #### 全链路侦测示例
 - 以网关为入口进行侦测调试
 
 输入`InspectorDebugEntity`对象内容
+
+如果网关对服务`discovery-guide-service-a`的路由转发路径配置为`/discovery-guide-service-a/**`
 ```
 {
   "protocol": "http",
-  "portalId": "discovery-guide-gateway",
-  "contextPath": "discovery-guide-service-a",
-  "services": "discovery-guide-service-b"
+  "portal": "discovery-guide-gateway",
+  "path": "discovery-guide-service-a",
+  "service": ["discovery-guide-service-b"],
+  "header": {"xyz": "1"}
 }
 ```
 返回
@@ -2779,9 +2782,10 @@ POST
 ```
 {
   "protocol": "http",
-  "portalId": "discovery-guide-service-a",
-  "contextPath": "",
-  "services": "discovery-guide-service-b"
+  "portal": "discovery-guide-service-a",
+  "path": "",
+  "service": ["discovery-guide-service-b"],
+  "header": {"xyz": "1"}
 }
 ```
 返回
