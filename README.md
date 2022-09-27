@@ -2790,7 +2790,7 @@ curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=st
 
 ③ 动态元数据变更方式只是让新的元数据驻留在内存里，并不持久化。当服务重启后，服务的元数据仍旧会以初始值为准
 
-### 全链路流量侦测接口
+### 全链路蓝绿灰度发布流量侦测
 全链路侦测，用来侦测调试蓝绿灰度发布、路由隔离等一系列流量管控手段是否符合预期
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Inspector.jpg)
