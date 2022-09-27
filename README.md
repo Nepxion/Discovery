@@ -145,7 +145,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - 全链路前端触发后端蓝绿灰度发布
     - 全局订阅式蓝绿灰度发布
     - 全链路自定义网关、服务的过滤器、负载均衡策略类触发蓝绿灰度发布
-    - 全链路动态变更元数据的蓝绿灰度发布
     - 全链路Header、Parameter、Cookie、域名、RPC Method等参数化规则策略驱动
     - 全链路本地和远程、局部和全局无参数化规则策略驱动
     - 全链路条件表达式、通配表达式支持
@@ -595,7 +594,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [全链路自定义蓝绿灰度发布](#全链路自定义蓝绿灰度发布)
         - [全链路过滤器触发蓝绿灰度发布](#全链路过滤器触发蓝绿灰度发布)
         - [全链路负载均衡策略类触发蓝绿灰度发布](#全链路负载均衡策略类触发蓝绿灰度发布)
-    - [全链路动态变更元数据的蓝绿灰度发布](#全链路动态变更元数据的蓝绿灰度发布)
+    - [全链路蓝绿灰度发布流量侦测](#全链路蓝绿灰度发布流量侦测)
     - [全链路智能编排蓝绿灰度发布](#全链路智能编排蓝绿灰度发布)
         - [全链路智能编排版本前提](#全链路智能编排版本前提)
         - [全链路智能编排版本逻辑](#全链路智能编排版本逻辑)
@@ -690,7 +689,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [全链路蓝绿发布流量侦测](#全链路蓝绿发布流量侦测)
         - [全链路灰度发布流量侦测](#全链路灰度发布流量侦测)
         - [全链路蓝绿灰度发布混合流量侦测](#全链路蓝绿灰度发布混合流量侦测)
-    - [全链路流量侦测接口](#全链路流量侦测接口)
 - [全链路数据库和消息队列蓝绿发布](#全链路数据库和消息队列蓝绿发布)
 - [全链路服务侧注解](#全链路服务侧注解)
 - [全链路服务侧API权限](#全链路服务侧API权限)
@@ -2715,80 +2713,84 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
 spring.application.strategy.rpc.intercept.enabled=true
 ```
 
-### 全链路动态变更元数据的蓝绿灰度发布
-利用注册中心的Open API接口动态变更服务实例的元数据，达到稳定版本和灰度版本流量灰度控制的目的
+### 全链路蓝绿灰度发布流量侦测
+全链路侦测，用来侦测调试蓝绿灰度发布、路由隔离等一系列流量管控手段是否符合预期
 
-以Nacos注册中心的版本匹配路由为例
-
-老的稳定版本的服务实例配置版本元数据，如下
-```
-spring.cloud.nacos.discovery.metadata.version=stable
-```
-新的稳定版本的服务实例配置版本元数据，如下
-```
-spring.cloud.nacos.discovery.metadata.version=gray
-```
-
-路由策略，如下
-
-表示所有的服务流量走灰度版本
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-    <strategy>
-        <version>gray</version>
-    </strategy>
-</rule>
-```
-表示a服务流量走灰度版本，b服务流量走稳定版本
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<rule>
-    <strategy>
-        <version>{"discovery-guide-service-a":"gray", "discovery-guide-service-b":"stable"}</version>
-    </strategy>
-</rule>
-```
-也可以通过全链路传递Header方式实现
-```
-n-d-version=gray
-n-d-version={"discovery-guide-service-a":"gray", "discovery-guide-service-b":"stable"}
-```
-
-新上线的服务实例版本为gray，即默认是灰度版本。等灰度成功后，通过注册中心的Open API接口变更服务版本为stable，或者在注册中心界面手工修改
-
-- Nacos Open API变更元数据
-
-```
-curl -X PUT 'http://ip:port/nacos/v1/ns/instance?serviceName={appId}&ip={ip}&port={port}&metadata={"version", "stable"}'
-```
-Nacos Open API使用手册，参考[https://nacos.io/zh-cn/docs/open-api.html](https://nacos.io/zh-cn/docs/open-api.html)
-
-- Eureka Open API变更元数据
-
-```
-curl -X PUT 'http://ip:port/eureka/apps/{appId}/{instanceId}/metadata?version=stable'
-```
-
-- Consul Open API变更元数据
-
-```
-自行研究
-```
-
-- Zookeeper Open API变更元数据
-
-```
-自行研究
-```
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Inspector.jpg)
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
 
-① 并非所有的注册中心都支持动态元数据变更方式，需要使用者自行研究
+使用侦测功能，服务必须引入discovery-plugin-admin-center-starter依赖
 
-② 动态元数据变更方式利用第三方注册中心的Open API达到最终目的，其可能具有一定的延迟性，不如本框架那样具有蓝绿灰度发布实时生效的特征，但比本框架动态变更蓝绿灰度发布简单了一些
+① 侦测方式
 
-③ 动态元数据变更方式只是让新的元数据驻留在内存里，并不持久化。当服务重启后，服务的元数据仍旧会以初始值为准
+请求URL
+```
+http://localhost:6001/inspector/inspect
+```
+请求类型
+```
+POST
+```
+请求参数
+`InspectorDebugEntity`格式
+```
+{
+  "protocol": "http",
+  "portalId": "",
+  "contextPath": "",
+  "services": ""
+}
+```
+- `protocol`协议类型，取值`http`或者`https`
+- `portalId`入口服务名，支持网关和服务两种入口方式
+- `contextPath`上下文路径
+    - 当以网关为入口时，`contextPath`为网关路由转发路径。如果未对`/inspector/inspect`配置网关路由转发路径，则由网关后第一个服务名来代替
+    - 当以服务为入口时，`contextPath`为服务调用上下文路径。如果为对其进行配置，则留空
+- `services`路由服务列表
+    - 当以网关为入口时，`services`可以留空。如果多个，用分号“;”分隔
+    - 当以服务为入口时，`services`至少一个。如果多个，用分号“;”分隔
+
+② 侦测示例
+
+- 以网关为入口进行侦测调试
+
+输入`InspectorDebugEntity`对象内容
+```
+{
+  "protocol": "http",
+  "portalId": "discovery-guide-gateway",
+  "contextPath": "discovery-guide-service-a",
+  "services": "discovery-guide-service-b"
+}
+```
+返回
+```
+[ID=discovery-guide-gateway][UID=20220927-111127-875-1354-367-132][T=gateway][P=Nacos][H=192.168.31.237:5001][V=1.0][R=default][E=default][Z=default][G=discovery-guide-group][A=false][TID=30186d59ee6e0633][SID=5c2094901666a0ee] 
+-> [ID=discovery-guide-service-a][UID=20220927-111127-898-7896-282-453][T=service][P=Nacos][H=192.168.31.237:3001][V=1.0][R=dev][E=env1][Z=zone1][G=discovery-guide-group][A=true][TID=30186d59ee6e0633][SID=65bcb084e10fe9d0] 
+-> [ID=discovery-guide-service-b][UID=20220927-111127-603-9037-746-402][T=service][P=Nacos][H=192.168.31.237:4001][V=1.0][R=qa][E=env1][Z=zone1][G=discovery-guide-group][A=false][TID=30186d59ee6e0633][SID=d032cb9f094bf411]
+```
+
+从返回结果查看，在入口服务`discovery-guide-gateway`上侦测调试服务`discovery-guide-service-a`和服务`discovery-guide-service-b`的蓝绿灰度发布、路由隔离等一系列流量管控手段是否符合预期
+
+- 以服务为入口进行侦测调试
+
+输入`InspectorDebugEntity`对象内容
+```
+{
+  "protocol": "http",
+  "portalId": "discovery-guide-service-a",
+  "contextPath": "",
+  "services": "discovery-guide-service-b"
+}
+```
+返回
+```
+[ID=discovery-guide-service-a][UID=20220927-111127-898-7896-282-453][T=service][P=Nacos][H=192.168.31.237:3001][V=1.0][R=dev][E=env1][Z=zone1][G=discovery-guide-group][A=true][TID=f953d0cb282ce160][SID=cb45020a6275e68d] 
+-> [ID=discovery-guide-service-b][UID=20220927-111127-603-9037-746-402][T=service][P=Nacos][H=192.168.31.237:4001][V=1.0][R=qa][E=env1][Z=zone1][G=discovery-guide-group][A=false][TID=f953d0cb282ce160][SID=ee2ae1d457cd8c98]
+```
+
+从返回结果查看，在入口服务`discovery-guide-service-a`上侦测调试服务`discovery-guide-service-b`的蓝绿灰度发布、路由隔离等一系列流量管控手段是否符合预期
 
 ### 全链路智能编排蓝绿灰度发布
 链路智能编排的方式，即路由链路在后台会智能化编排，用户不再需要关心服务实例的版本情况而进行手工编排，只需要配置跟业务参数有关的条件表达式即可，让蓝绿灰度发布变的更简单更易用
@@ -5621,83 +5623,6 @@ com.nepxion.discovery.plugin.strategy.monitor.DefaultStrategyAlarm
 在网关上配置了灰度发布规则策略，在a服务上配置了蓝绿发布规则策略
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryDesktop6.jpg)
-
-#### 全链路流量侦测接口
-全链路侦测，用来侦测调试蓝绿灰度发布、路由隔离等一系列流量管控手段是否符合预期
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
-
-使用侦测功能，服务必须引入discovery-plugin-admin-center-starter依赖
-
-① 侦测方式
-
-请求URL
-```
-http://localhost:6001/inspector/inspect
-```
-请求类型
-```
-POST
-```
-请求参数
-`InspectorDebugEntity`格式
-```
-{
-  "protocol": "http",
-  "portalId": "",
-  "contextPath": "",
-  "services": ""
-}
-```
-- `protocol`协议类型，取值`http`或者`https`
-- `portalId`入口服务名，支持网关和服务两种入口方式
-- `contextPath`上下文路径
-    - 当以网关为入口时，`contextPath`为网关路由转发路径。如果未对`/inspector/inspect`配置网关路由转发路径，则由网关后第一个服务名来代替
-    - 当以服务为入口时，`contextPath`为服务调用上下文路径。如果为对其进行配置，则留空
-- `services`路由服务列表
-    - 当以网关为入口时，`services`可以留空。如果多个，用分号“;”分隔
-    - 当以服务为入口时，`services`至少一个。如果多个，用分号“;”分隔
-
-② 侦测示例
-
-- 以网关为入口进行侦测调试
-
-输入`InspectorDebugEntity`对象内容
-```
-{
-  "protocol": "http",
-  "portalId": "discovery-guide-gateway",
-  "contextPath": "discovery-guide-service-a",
-  "services": "discovery-guide-service-b"
-}
-```
-返回
-```
-[ID=discovery-guide-gateway][UID=20220927-111127-875-1354-367-132][T=gateway][P=Nacos][H=192.168.31.237:5001][V=1.0][R=default][E=default][Z=default][G=discovery-guide-group][A=false][TID=30186d59ee6e0633][SID=5c2094901666a0ee] 
--> [ID=discovery-guide-service-a][UID=20220927-111127-898-7896-282-453][T=service][P=Nacos][H=192.168.31.237:3001][V=1.0][R=dev][E=env1][Z=zone1][G=discovery-guide-group][A=true][TID=30186d59ee6e0633][SID=65bcb084e10fe9d0] 
--> [ID=discovery-guide-service-b][UID=20220927-111127-603-9037-746-402][T=service][P=Nacos][H=192.168.31.237:4001][V=1.0][R=qa][E=env1][Z=zone1][G=discovery-guide-group][A=false][TID=30186d59ee6e0633][SID=d032cb9f094bf411]
-```
-
-从返回结果查看，在入口服务`discovery-guide-gateway`上侦测调试服务`discovery-guide-service-a`和服务`discovery-guide-service-b`的蓝绿灰度发布、路由隔离等一系列流量管控手段是否符合预期
-
-- 以服务为入口进行侦测调试
-
-输入`InspectorDebugEntity`对象内容
-```
-{
-  "protocol": "http",
-  "portalId": "discovery-guide-service-a",
-  "contextPath": "",
-  "services": "discovery-guide-service-b"
-}
-```
-返回
-```
-[ID=discovery-guide-service-a][UID=20220927-111127-898-7896-282-453][T=service][P=Nacos][H=192.168.31.237:3001][V=1.0][R=dev][E=env1][Z=zone1][G=discovery-guide-group][A=true][TID=f953d0cb282ce160][SID=cb45020a6275e68d] 
--> [ID=discovery-guide-service-b][UID=20220927-111127-603-9037-746-402][T=service][P=Nacos][H=192.168.31.237:4001][V=1.0][R=qa][E=env1][Z=zone1][G=discovery-guide-group][A=false][TID=f953d0cb282ce160][SID=ee2ae1d457cd8c98]
-```
-
-从返回结果查看，在入口服务`discovery-guide-service-a`上侦测调试服务`discovery-guide-service-b`的蓝绿灰度发布、路由隔离等一系列流量管控手段是否符合预期
 
 ## 全链路数据库和消息队列蓝绿发布
 通过订阅相关参数的变化，实现参数化蓝绿发布，可用于如下场景
