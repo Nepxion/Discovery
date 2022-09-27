@@ -84,6 +84,14 @@ public class InspectorResourceImpl implements InspectorResource {
         }
     }
 
+    @Override
+    public String inspect(List<String> service) {
+        InspectorEntity inspectorEntity = new InspectorEntity();
+        inspectorEntity.setServiceIdList(service);
+
+        return inspect(inspectorEntity).getResult();
+    }
+
     private ServiceInstance getInstance(String serviceId) {
         List<ServiceInstance> instances = null;
 
