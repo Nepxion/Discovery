@@ -2806,11 +2806,13 @@ POST
 请求URL
 
 - 网关为入口
+
 ```
 http://网关地址:网关端口/网关路由转发路径/inspector/inspect-service
 ```
 
 - 服务为入口
+
 ```
 http://服务地址:服务端口/服务调用上下文路径/inspector/inspect-service
 ```
