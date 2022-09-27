@@ -9,8 +9,12 @@ package com.nepxion.discovery.plugin.admincenter.resource;
  * @version 1.0
  */
 
+import java.util.List;
+
 import com.nepxion.discovery.common.entity.InspectorEntity;
 
 public interface InspectorResource {
     InspectorEntity inspect(InspectorEntity inspectorEntity);
+
+    String inspect(List<String> service);
 }
