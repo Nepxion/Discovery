@@ -5625,6 +5625,8 @@ com.nepxion.discovery.plugin.strategy.monitor.DefaultStrategyAlarm
 #### 全链路流量侦测接口
 全链路侦测，用来侦测调试蓝绿灰度发布、路由隔离等一系列流量管控手段是否符合预期
 
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Inspector.jpg)
+
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
 
 使用侦测功能，服务必须引入discovery-plugin-admin-center-starter依赖
