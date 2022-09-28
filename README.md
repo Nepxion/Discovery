@@ -6678,12 +6678,6 @@ spring.boot.admin.client.url=http://localhost:9728
 ① 服务端配置
 ```
 # Plugin core config
-# 开启和关闭服务注册层面的控制。一旦关闭，服务注册的黑/白名单过滤功能将失效，最大注册数的限制过滤功能将失效。缺失则默认为true
-spring.application.register.control.enabled=true
-# 开启和关闭服务发现层面的控制。一旦关闭，服务多版本调用的控制功能将失效，动态屏蔽指定IP地址的服务实例被发现的功能将失效。缺失则默认为true
-spring.application.discovery.control.enabled=true
-# 开启和关闭通过Rest方式对规则配置的控制和推送。一旦关闭，只能通过远程配置中心来控制和推送。缺失则默认为true
-spring.application.config.rest.control.enabled=true
 # 随机权重算法。缺失则默认为MapWeightRandom
 spring.application.weight.random.type=MapWeightRandom
 # 规则文件的格式，支持xml和json。缺失则默认为xml
@@ -6698,12 +6692,6 @@ spring.application.group.key=group
 # 业务系统希望大多数时候Spring、SpringBoot或者SpringCloud的基本配置、调优参数（非业务系统配置参数），不配置在业务端，集成到基础框架里。但特殊情况下，业务系统有时候也希望能把基础框架里配置的参数给覆盖掉，用他们自己的配置
 # 对于此类型的配置需求，可以配置在下面的配置文件里。该文件一般放在resource目录下。缺失则默认为spring-application-default.properties
 spring.application.default.properties.path=spring-application-default.properties
-# 负载均衡下，消费端尝试获取对应提供端初始服务实例列表为空的时候，进行重试。缺失则默认为false
-spring.application.no.servers.retry.enabled=false
-# 负载均衡下，消费端尝试获取对应提供端初始服务实例列表为空的时候，进行重试的次数。缺失则默认为5
-spring.application.no.servers.retry.times=5
-# 负载均衡下，消费端尝试获取对应提供端初始服务实例列表为空的时候，进行重试的时间间隔。缺失则默认为2000
-spring.application.no.servers.retry.await.time=2000
 # 负载均衡下，消费端尝试获取对应提供端服务实例列表为空的时候，通过日志方式通知。缺失则默认为false
 spring.application.no.servers.notify.enabled=false
 # 由于Nacos注册中心会自动把服务名处理成GROUP@@SERVICE_ID的格式，导致根据服务名去获取元数据的时候会找不到。通过如下开关开启是否要过滤掉GROUP前缀。缺失则默认为true
@@ -6913,12 +6901,6 @@ swagger.service.termsOfService.url=http://www.nepxion.com
 ② Spring Cloud Gateway端配置
 ```
 # Plugin core config
-# 开启和关闭服务注册层面的控制。一旦关闭，服务注册的黑/白名单过滤功能将失效，最大注册数的限制过滤功能将失效。缺失则默认为true
-spring.application.register.control.enabled=true
-# 开启和关闭服务发现层面的控制。一旦关闭，服务多版本调用的控制功能将失效，动态屏蔽指定IP地址的服务实例被发现的功能将失效。缺失则默认为true
-spring.application.discovery.control.enabled=true
-# 开启和关闭通过Rest方式对规则配置的控制和推送。一旦关闭，只能通过远程配置中心来控制和推送。缺失则默认为true
-spring.application.config.rest.control.enabled=true
 # 随机权重算法。缺失则默认为MapWeightRandom
 spring.application.weight.random.type=MapWeightRandom
 # 规则文件的格式，支持xml和json。缺失则默认为xml
@@ -6933,12 +6915,6 @@ spring.application.group.key=group
 # 业务系统希望大多数时候Spring、SpringBoot或者SpringCloud的基本配置、调优参数（非业务系统配置参数），不配置在业务端，集成到基础框架里。但特殊情况下，业务系统有时候也希望能把基础框架里配置的参数给覆盖掉，用他们自己的配置
 # 对于此类型的配置需求，可以配置在下面的配置文件里。该文件一般放在resource目录下。缺失则默认为spring-application-default.properties
 spring.application.default.properties.path=spring-application-default.properties
-# 负载均衡下，消费端尝试获取对应提供端初始服务实例列表为空的时候，进行重试。缺失则默认为false
-spring.application.no.servers.retry.enabled=false
-# 负载均衡下，消费端尝试获取对应提供端初始服务实例列表为空的时候，进行重试的次数。缺失则默认为5
-spring.application.no.servers.retry.times=5
-# 负载均衡下，消费端尝试获取对应提供端初始服务实例列表为空的时候，进行重试的时间间隔。缺失则默认为2000
-spring.application.no.servers.retry.await.time=2000
 # 负载均衡下，消费端尝试获取对应提供端服务实例列表为空的时候，通过日志方式通知。缺失则默认为false
 spring.application.no.servers.notify.enabled=false
 # 由于Nacos注册中心会自动把服务名处理成GROUP@@SERVICE_ID的格式，导致根据服务名去获取元数据的时候会找不到。通过如下开关开启是否要过滤掉GROUP前缀。缺失则默认为true
@@ -7117,12 +7093,6 @@ spring.application.strategy.hystrix.threadlocal.supported=true
 ③ Zuul端配置
 ```
 # Plugin core config
-# 开启和关闭服务注册层面的控制。一旦关闭，服务注册的黑/白名单过滤功能将失效，最大注册数的限制过滤功能将失效。缺失则默认为true
-spring.application.register.control.enabled=true
-# 开启和关闭服务发现层面的控制。一旦关闭，服务多版本调用的控制功能将失效，动态屏蔽指定IP地址的服务实例被发现的功能将失效。缺失则默认为true
-spring.application.discovery.control.enabled=true
-# 开启和关闭通过Rest方式对规则配置的控制和推送。一旦关闭，只能通过远程配置中心来控制和推送。缺失则默认为true
-spring.application.config.rest.control.enabled=true
 # 随机权重算法。缺失则默认为MapWeightRandom
 spring.application.weight.random.type=MapWeightRandom
 # 规则文件的格式，支持xml和json。缺失则默认为xml
@@ -7137,12 +7107,6 @@ spring.application.group.key=group
 # 业务系统希望大多数时候Spring、SpringBoot或者SpringCloud的基本配置、调优参数（非业务系统配置参数），不配置在业务端，集成到基础框架里。但特殊情况下，业务系统有时候也希望能把基础框架里配置的参数给覆盖掉，用他们自己的配置
 # 对于此类型的配置需求，可以配置在下面的配置文件里。该文件一般放在resource目录下。缺失则默认为spring-application-default.properties
 spring.application.default.properties.path=spring-application-default.properties
-# 负载均衡下，消费端尝试获取对应提供端初始服务实例列表为空的时候，进行重试。缺失则默认为false
-spring.application.no.servers.retry.enabled=false
-# 负载均衡下，消费端尝试获取对应提供端初始服务实例列表为空的时候，进行重试的次数。缺失则默认为5
-spring.application.no.servers.retry.times=5
-# 负载均衡下，消费端尝试获取对应提供端初始服务实例列表为空的时候，进行重试的时间间隔。缺失则默认为2000
-spring.application.no.servers.retry.await.time=2000
 # 负载均衡下，消费端尝试获取对应提供端服务实例列表为空的时候，通过日志方式通知。缺失则默认为false
 spring.application.no.servers.notify.enabled=false
 # 由于Nacos注册中心会自动把服务名处理成GROUP@@SERVICE_ID的格式，导致根据服务名去获取元数据的时候会找不到。通过如下开关开启是否要过滤掉GROUP前缀。缺失则默认为true
