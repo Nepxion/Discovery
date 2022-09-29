@@ -22,6 +22,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRule;
+import com.nepxion.discovery.plugin.admincenter.constant.AdminConstant;
 import com.nepxion.discovery.plugin.admincenter.endpoint.ConfigEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.GatewayStrategyRouteEndpoint;
 import com.nepxion.discovery.plugin.admincenter.endpoint.GitEndpoint;
@@ -64,7 +65,8 @@ import com.nepxion.discovery.plugin.strategy.zuul.route.ZuulStrategyRoute;
 @Import(SwaggerConfiguration.class)
 @AutoConfigureOrder(Ordered.LOWEST_PRECEDENCE)
 public class AdminAutoConfiguration {
-    protected static class AdminEndpointConfiguration {
+    @ConditionalOnProperty(value = AdminConstant.SPRING_APPLICATION_ADMIN_SERVICE_ENDPOINT_ENABLED, matchIfMissing = true)
+    protected static class ServiceEndpointConfiguration {
         @Bean
         public ServiceResource serviceResource() {
             return new ServiceResourceImpl();
@@ -74,7 +76,10 @@ public class AdminAutoConfiguration {
         public ServiceEndpoint serviceEndpoint() {
             return new ServiceEndpoint();
         }
+    }
 
+    @ConditionalOnProperty(value = AdminConstant.SPRING_APPLICATION_ADMIN_CONFIG_ENDPOINT_ENABLED, matchIfMissing = true)
+    protected static class ConfigEndpointConfiguration {
         @Bean
         public ConfigResource configResource() {
             return new ConfigResourceImpl();
@@ -84,7 +89,10 @@ public class AdminAutoConfiguration {
         public ConfigEndpoint configEndpoint() {
             return new ConfigEndpoint();
         }
+    }
 
+    @ConditionalOnProperty(value = AdminConstant.SPRING_APPLICATION_ADMIN_VERSION_ENDPOINT_ENABLED, matchIfMissing = true)
+    protected static class VersionEndpointConfiguration {
         @Bean
         public VersionResource versionResource() {
             return new VersionResourceImpl();
@@ -94,7 +102,10 @@ public class AdminAutoConfiguration {
         public VersionEndpoint versionEndpoint() {
             return new VersionEndpoint();
         }
+    }
 
+    @ConditionalOnProperty(value = AdminConstant.SPRING_APPLICATION_ADMIN_INSPECTOR_ENDPOINT_ENABLED, matchIfMissing = true)
+    protected static class InspectorEndpointConfiguration {
         @Bean
         public InspectorResource inspectorResource() {
             return new InspectorResourceImpl();
@@ -104,7 +115,10 @@ public class AdminAutoConfiguration {
         public InspectorEndpoint inspectorEndpoint() {
             return new InspectorEndpoint();
         }
+    }
 
+    @ConditionalOnProperty(value = AdminConstant.SPRING_APPLICATION_ADMIN_ROUTER_ENDPOINT_ENABLED, matchIfMissing = true)
+    protected static class RouterEndpointConfiguration {
         @Bean
         public RouterResource routerResource() {
             return new RouterResourceImpl();
@@ -117,6 +131,7 @@ public class AdminAutoConfiguration {
     }
 
     @ConditionalOnClass(StrategyWrapper.class)
+    @ConditionalOnProperty(value = AdminConstant.SPRING_APPLICATION_ADMIN_STRATEGY_ENDPOINT_ENABLED, matchIfMissing = true)
     protected static class StrategyEndpointConfiguration {
         @Bean
         public StrategyResource strategyResource() {
@@ -130,6 +145,7 @@ public class AdminAutoConfiguration {
     }
 
     @ConditionalOnClass(FlowRule.class)
+    @ConditionalOnProperty(value = AdminConstant.SPRING_APPLICATION_ADMIN_SENTINEL_ENDPOINT_ENABLED, matchIfMissing = true)
     protected static class SentinelCoreEndpointConfiguration {
         @Bean
         public SentinelCoreResource sentinelCoreResource() {
@@ -143,6 +159,7 @@ public class AdminAutoConfiguration {
     }
 
     @ConditionalOnClass(ParamFlowRule.class)
+    @ConditionalOnProperty(value = AdminConstant.SPRING_APPLICATION_ADMIN_SENTINEL_ENDPOINT_ENABLED, matchIfMissing = true)
     protected static class SentinelParamEndpointConfiguration {
         @Bean
         public SentinelParamResource sentinelParamResource() {
@@ -156,6 +173,7 @@ public class AdminAutoConfiguration {
     }
 
     @ConditionalOnBean(GitGenerator.class)
+    @ConditionalOnProperty(value = AdminConstant.SPRING_APPLICATION_ADMIN_GIT_ENDPOINT_ENABLED, matchIfMissing = true)
     protected static class GitEndpointConfiguration {
         @Bean
         public GitResource gitResource() {
@@ -169,6 +187,7 @@ public class AdminAutoConfiguration {
     }
 
     @ConditionalOnBean(GatewayStrategyRoute.class)
+    @ConditionalOnProperty(value = AdminConstant.SPRING_APPLICATION_ADMIN_GATEWAY_ENDPOINT_ENABLED, matchIfMissing = true)
     protected static class GatewayStrategyRouteEndpointConfiguration {
         @Bean
         @ConditionalOnProperty(value = "spring.cloud.gateway.discovery.locator.enabled", havingValue = "false", matchIfMissing = true)
@@ -184,6 +203,7 @@ public class AdminAutoConfiguration {
     }
 
     @ConditionalOnBean(ZuulStrategyRoute.class)
+    @ConditionalOnProperty(value = AdminConstant.SPRING_APPLICATION_ADMIN_ZUUL_ENDPOINT_ENABLED, matchIfMissing = true)
     protected static class ZuulStrategyRouteEndpointConfiguration {
         @Bean
         public ZuulStrategyRouteResource zuulStrategyRouteResource() {
