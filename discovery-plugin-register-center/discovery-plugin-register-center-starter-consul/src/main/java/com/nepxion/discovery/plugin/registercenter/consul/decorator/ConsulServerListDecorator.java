@@ -14,15 +14,11 @@ import java.util.List;
 import org.springframework.cloud.consul.discovery.ConsulDiscoveryProperties;
 import org.springframework.cloud.consul.discovery.ConsulServer;
 import org.springframework.cloud.consul.discovery.ConsulServerList;
-import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.ecwid.consul.v1.ConsulClient;
-import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.LoadBalanceListenerExecutor;
 
 public class ConsulServerListDecorator extends ConsulServerList {
-    private ConfigurableEnvironment environment;
-
     private LoadBalanceListenerExecutor loadBalanceListenerExecutor;
 
     public ConsulServerListDecorator(ConsulClient client, ConsulDiscoveryProperties properties) {
@@ -48,15 +44,9 @@ public class ConsulServerListDecorator extends ConsulServerList {
     }
 
     private void filter(List<ConsulServer> servers) {
-        Boolean discoveryControlEnabled = PluginContextAware.isDiscoveryControlEnabled(environment);
-        if (discoveryControlEnabled) {
-            String serviceId = getServiceId();
-            loadBalanceListenerExecutor.onGetServers(serviceId, servers);
-        }
-    }
+        String serviceId = getServiceId();
 
-    public void setEnvironment(ConfigurableEnvironment environment) {
-        this.environment = environment;
+        loadBalanceListenerExecutor.onGetServers(serviceId, servers);
     }
 
     public void setLoadBalanceListenerExecutor(LoadBalanceListenerExecutor loadBalanceListenerExecutor) {
