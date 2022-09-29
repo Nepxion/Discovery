@@ -38,46 +38,51 @@ import com.nepxion.discovery.common.constant.DiscoverySwaggerConstant;
 
 @Configuration
 @EnableSwagger2
-@ConditionalOnProperty(value = DiscoverySwaggerConstant.SWAGGER_SERVICE_ENABLED, matchIfMissing = true)
+@ConditionalOnProperty(value = DiscoverySwaggerConstant.SWAGGER_ENABLED, matchIfMissing = true)
 public class SwaggerConfiguration {
-    public static final String BASE_PACKAGE = "com.nepxion.discovery.console.endpoint";
-    public static final String DESCRIPTION = "Console Restful APIs";
+    private String discoveryGroup = DiscoverySwaggerConstant.SWAGGER_DEFAULT_GROUP_VALUE;
+    private String discoveryPackages = "com.nepxion.discovery.console.endpoint";
+    private String discoveryDescription = "Console Restful APIs";
+    private String discoveryVersion = DiscoverySwaggerConstant.SWAGGER_DEFAULT_VERSION_VALUE;
+    private String discoveryLicenseName = DiscoverySwaggerConstant.SWAGGER_DEFAULT_LICENSE_NAME_VALUE;
+    private String discoveryLicenseUrl = DiscoverySwaggerConstant.SWAGGER_DEFAULT_LICENSE_URL_VALUE;
+    private String discoveryContactName = DiscoverySwaggerConstant.SWAGGER_DEFAULT_CONTACT_NAME_VALUE;
+    private String discoveryContactUrl = DiscoverySwaggerConstant.SWAGGER_DEFAULT_CONTACT_URL_VALUE;
+    private String discoveryContactEmail = DiscoverySwaggerConstant.SWAGGER_DEFAULT_CONTACT_EMAIL_VALUE;
+    private String discoveryTermsOfServiceUrl = DiscoverySwaggerConstant.SWAGGER_DEFAULT_TERMSOFSERVICE_URL_VALUE;
 
-    @Value("${" + DiscoverySwaggerConstant.SWAGGER_SERVICE_BASE_GROUP + ":" + DiscoveryConstant.NEPXION_DISCOVERY + "}")
-    private String baseGroup;
+    @Value("${" + DiscoverySwaggerConstant.SWAGGER_SERVICE_GROUP + ":}")
+    private String serviceGroup;
 
-    @Value("${" + DiscoverySwaggerConstant.SWAGGER_SERVICE_SCAN_GROUP + ":}")
-    private String scanGroup;
+    @Value("${" + DiscoverySwaggerConstant.SWAGGER_SERVICE_PACKAGES + ":}")
+    private String servicePackages;
 
-    @Value("${" + DiscoverySwaggerConstant.SWAGGER_SERVICE_SCAN_PACKAGES + ":}")
-    private String scanPackages;
+    @Value("${" + DiscoverySwaggerConstant.SWAGGER_SERVICE_DESCRIPTION + ":}")
+    private String serviceDescription;
+
+    @Value("${" + DiscoverySwaggerConstant.SWAGGER_SERVICE_VERSION + ":}")
+    private String serviceVersion;
+
+    @Value("${" + DiscoverySwaggerConstant.SWAGGER_SERVICE_LICENSE_NAME + ":" + DiscoverySwaggerConstant.SWAGGER_DEFAULT_LICENSE_NAME_VALUE + "}")
+    private String serviceLicenseName;
+
+    @Value("${" + DiscoverySwaggerConstant.SWAGGER_SERVICE_LICENSE_URL + ":" + DiscoverySwaggerConstant.SWAGGER_DEFAULT_LICENSE_URL_VALUE + "}")
+    private String serviceLicenseUrl;
+
+    @Value("${" + DiscoverySwaggerConstant.SWAGGER_SERVICE_CONTACT_NAME + ":" + DiscoverySwaggerConstant.SWAGGER_DEFAULT_CONTACT_NAME_VALUE + "}")
+    private String serviceContactName;
+
+    @Value("${" + DiscoverySwaggerConstant.SWAGGER_SERVICE_CONTACT_URL + ":" + DiscoverySwaggerConstant.SWAGGER_DEFAULT_CONTACT_URL_VALUE + "}")
+    private String serviceContactUrl;
+
+    @Value("${" + DiscoverySwaggerConstant.SWAGGER_SERVICE_CONTACT_EMAIL + ":" + DiscoverySwaggerConstant.SWAGGER_DEFAULT_CONTACT_EMAIL_VALUE + "}")
+    private String serviceContactEmail;
+
+    @Value("${" + DiscoverySwaggerConstant.SWAGGER_SERVICE_TERMSOFSERVICE_URL + ":" + DiscoverySwaggerConstant.SWAGGER_DEFAULT_TERMSOFSERVICE_URL_VALUE + "}")
+    private String serviceTermsOfServiceUrl;
 
     @Value("${" + DiscoveryConstant.SPRING_APPLICATION_NAME + "}")
     private String serviceName;
-
-    @Value("${" + DiscoverySwaggerConstant.SWAGGER_SERVICE_DESCRIPTION + ":" + DESCRIPTION + "}")
-    private String description;
-
-    @Value("${" + DiscoverySwaggerConstant.SWAGGER_SERVICE_VERSION + ":" + DiscoveryConstant.DISCOVERY_VERSION + "}")
-    private String version;
-
-    @Value("${" + DiscoverySwaggerConstant.SWAGGER_SERVICE_LICENSE_NAME + ":" + DiscoverySwaggerConstant.SWAGGER_SERVICE_LICENSE_NAME_VALUE + "}")
-    private String licenseName;
-
-    @Value("${" + DiscoverySwaggerConstant.SWAGGER_SERVICE_LICENSE_URL + ":" + DiscoverySwaggerConstant.SWAGGER_SERVICE_LICENSE_URL_VALUE + "}")
-    private String licenseUrl;
-
-    @Value("${" + DiscoverySwaggerConstant.SWAGGER_SERVICE_CONTACT_NAME + ":" + DiscoveryConstant.NEPXION_FIRST_UPPERCASE + "}")
-    private String contactName;
-
-    @Value("${" + DiscoverySwaggerConstant.SWAGGER_SERVICE_CONTACT_URL + ":" + DiscoverySwaggerConstant.SWAGGER_SERVICE_CONTACT_URL_VALUE + "}")
-    private String contactUrl;
-
-    @Value("${" + DiscoverySwaggerConstant.SWAGGER_SERVICE_CONTACT_EMAIL + ":" + DiscoverySwaggerConstant.SWAGGER_SERVICE_CONTACT_EMAIL_VALUE + "}")
-    private String contactEmail;
-
-    @Value("${" + DiscoverySwaggerConstant.SWAGGER_SERVICE_TERMSOFSERVICE_URL + ":" + DiscoverySwaggerConstant.SWAGGER_SERVICE_TERMSOFSERVICE_URL_VALUE + "}")
-    private String termsOfServiceUrl;
 
     @Autowired(required = false)
     private List<Parameter> swaggerHeaderParameters;
@@ -91,10 +96,17 @@ public class SwaggerConfiguration {
     @Bean("discoveryDocket")
     public Docket discoveryDocket() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName(baseGroup)
-                .apiInfo(apiInfo())
+                .groupName(discoveryGroup)
+                .apiInfo(apiInfo(discoveryDescription,
+                        discoveryVersion,
+                        discoveryLicenseName,
+                        discoveryLicenseUrl,
+                        discoveryContactName,
+                        discoveryContactUrl,
+                        discoveryContactEmail,
+                        discoveryTermsOfServiceUrl))
                 .select()
-                .apis(SwaggerConfiguration.basePackage(BASE_PACKAGE)) // 扫描该包下的所有需要在Swagger中展示的API，@ApiIgnore注解标注的除外
+                .apis(SwaggerConfiguration.basePackage(discoveryPackages)) // 扫描该包下的所有需要在Swagger中展示的API，@ApiIgnore注解标注的除外
                 .paths(PathSelectors.any())
                 .build()
                 .globalOperationParameters(swaggerHeaderParameters)
@@ -102,14 +114,21 @@ public class SwaggerConfiguration {
                 .securityContexts(swaggerSecurityContexts != null ? swaggerSecurityContexts : Collections.emptyList());
     }
 
-    @Bean("scanDocket")
-    @ConditionalOnProperty(name = DiscoverySwaggerConstant.SWAGGER_SERVICE_SCAN_GROUP)
-    public Docket scanDocket() {
+    @Bean("serviceDocket")
+    @ConditionalOnProperty(name = DiscoverySwaggerConstant.SWAGGER_SERVICE_GROUP)
+    public Docket serviceDocket() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName(scanGroup)
-                .apiInfo(apiInfo())
+                .groupName(serviceGroup)
+                .apiInfo(apiInfo(serviceDescription,
+                        serviceVersion,
+                        serviceLicenseName,
+                        serviceLicenseUrl,
+                        serviceContactName,
+                        serviceContactUrl,
+                        serviceContactEmail,
+                        serviceTermsOfServiceUrl))
                 .select()
-                .apis(SwaggerConfiguration.basePackage(scanPackages)) // 扫描该包下的所有需要在Swagger中展示的API，@ApiIgnore注解标注的除外
+                .apis(SwaggerConfiguration.basePackage(servicePackages)) // 扫描该包下的所有需要在Swagger中展示的API，@ApiIgnore注解标注的除外
                 .paths(PathSelectors.any())
                 .build()
                 .globalOperationParameters(swaggerHeaderParameters)
@@ -117,7 +136,14 @@ public class SwaggerConfiguration {
                 .securityContexts(swaggerSecurityContexts != null ? swaggerSecurityContexts : Collections.emptyList());
     }
 
-    private ApiInfo apiInfo() {
+    private ApiInfo apiInfo(String description,
+            String version,
+            String licenseName,
+            String licenseUrl,
+            String contactName,
+            String contactUrl,
+            String contactEmail,
+            String termsOfServiceUrl) {
         return new ApiInfoBuilder()
                 .title(serviceName)
                 .description(description)
