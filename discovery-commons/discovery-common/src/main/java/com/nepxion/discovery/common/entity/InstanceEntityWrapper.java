@@ -102,24 +102,6 @@ public class InstanceEntityWrapper {
         return getFormatContextPath(metadata);
     }
 
-    public static boolean isRegisterControlEnabled(InstanceEntity instanceEntity) {
-        Map<String, String> metadata = instanceEntity.getMetadata();
-
-        return isRegisterControlEnabled(metadata);
-    }
-
-    public static boolean isDiscoveryControlEnabled(InstanceEntity instanceEntity) {
-        Map<String, String> metadata = instanceEntity.getMetadata();
-
-        return isDiscoveryControlEnabled(metadata);
-    }
-
-    public static boolean isConfigRestControlEnabled(InstanceEntity instanceEntity) {
-        Map<String, String> metadata = instanceEntity.getMetadata();
-
-        return isConfigRestControlEnabled(metadata);
-    }
-
     public static String getPlugin(Map<String, String> metadata) {
         String plugin = metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN);
         if (StringUtils.isEmpty(plugin)) {
@@ -226,32 +208,5 @@ public class InstanceEntityWrapper {
         String contextPath = getContextPath(metadata);
 
         return UrlUtil.formatContextPath(contextPath);
-    }
-
-    public static boolean isRegisterControlEnabled(Map<String, String> metadata) {
-        String flag = metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED);
-        if (StringUtils.isEmpty(flag)) {
-            return true;
-        }
-
-        return Boolean.valueOf(flag);
-    }
-
-    public static boolean isDiscoveryControlEnabled(Map<String, String> metadata) {
-        String flag = metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED);
-        if (StringUtils.isEmpty(flag)) {
-            return true;
-        }
-
-        return Boolean.valueOf(flag);
-    }
-
-    public static boolean isConfigRestControlEnabled(Map<String, String> metadata) {
-        String flag = metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED);
-        if (StringUtils.isEmpty(flag)) {
-            return true;
-        }
-
-        return Boolean.valueOf(flag);
     }
 }

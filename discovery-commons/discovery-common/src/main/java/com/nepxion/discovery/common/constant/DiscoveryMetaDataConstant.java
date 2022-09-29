@@ -13,9 +13,6 @@ public class DiscoveryMetaDataConstant {
     public static final String SPRING_APPLICATION_DISCOVERY_PLUGIN = "spring_application_discovery_plugin";
     public static final String SPRING_APPLICATION_DISCOVERY_VERSION = "spring_application_discovery_version";
     public static final String SPRING_APPLICATION_DISCOVERY_AGENT_VERSION = "spring_application_discovery_agent_version";
-    public static final String SPRING_APPLICATION_REGISTER_CONTROL_ENABLED = "spring_application_register_control_enabled";
-    public static final String SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED = "spring_application_discovery_control_enabled";
-    public static final String SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED = "spring_application_config_rest_control_enabled";
 
     public static final String SPRING_APPLICATION_GROUP_KEY = "spring_application_group_key";
     public static final String SPRING_APPLICATION_CONTEXT_PATH = "spring_application_context-path";
