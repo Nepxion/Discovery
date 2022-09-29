@@ -15,7 +15,6 @@ import org.springframework.cloud.consul.discovery.ConsulDiscoveryProperties;
 import org.springframework.cloud.consul.discovery.ConsulRibbonClientConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.ecwid.consul.v1.ConsulClient;
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.LoadBalanceListenerExecutor;
@@ -30,16 +29,12 @@ public class ConsulLoadBalanceConfiguration {
     private ConsulClient client;
 
     @Autowired
-    private ConfigurableEnvironment environment;
-
-    @Autowired
     private LoadBalanceListenerExecutor loadBalanceListenerExecutor;
 
     @Bean
     public ServerList<?> ribbonServerList(IClientConfig config, ConsulDiscoveryProperties properties) {
         ConsulServerListDecorator serverList = new ConsulServerListDecorator(client, properties);
         serverList.initWithNiwsConfig(config);
-        serverList.setEnvironment(environment);
         serverList.setLoadBalanceListenerExecutor(loadBalanceListenerExecutor);
 
         return serverList;
