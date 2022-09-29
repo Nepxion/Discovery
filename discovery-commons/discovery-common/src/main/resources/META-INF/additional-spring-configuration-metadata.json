@@ -79,28 +79,22 @@
 			"description": "Whether parameter event onstart is enabled."
 		},
 		{
-			"name": "swagger.service.enabled",
+			"name": "swagger.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": true,
-			"description": "Whether swagger service is enabled."
+			"description": "Whether swagger is enabled."
 		},
 		{
-			"name": "swagger.service.base.group",
-			"type": "java.lang.String",
-			"defaultValue": "Nepxion Discovery",
-			"description": "Swagger service base group."
-		},
-		{
-			"name": "swagger.service.scan.group",
+			"name": "swagger.service.group",
 			"type": "java.lang.String",
 			"defaultValue": "",
-			"description": "Swagger service scan group defined outside."
+			"description": "Swagger service group defined outside."
 		},
 		{
-			"name": "swagger.service.scan.packages",
+			"name": "swagger.service.packages",
 			"type": "java.lang.String",
 			"defaultValue": "",
-			"description": "Swagger service scan packages defined outside."
+			"description": "Swagger service packages defined outside."
 		},
 		{
 			"name": "swagger.service.description",
@@ -110,7 +104,6 @@
 		{
 			"name": "swagger.service.version",
 			"type": "java.lang.String",
-			"defaultValue": "discovery framework version value",
 			"description": "Swagger service version."
 		},
 		{
@@ -146,7 +139,7 @@
 		{
 			"name": "swagger.service.termsOfService.url",
 			"type": "java.lang.String",
-			"defaultValue": "http://www.nepxion.com",
+			"defaultValue": "http://nepxion.com/discovery",
 			"description": "Swagger service termsOfService url."
 		}
 	]

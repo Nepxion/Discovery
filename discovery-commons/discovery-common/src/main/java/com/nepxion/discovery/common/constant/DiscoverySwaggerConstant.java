@@ -10,10 +10,10 @@ package com.nepxion.discovery.common.constant;
  */
 
 public class DiscoverySwaggerConstant {
-    public static final String SWAGGER_SERVICE_ENABLED = "swagger.service.enabled";
-    public static final String SWAGGER_SERVICE_BASE_GROUP = "swagger.service.base.group";
-    public static final String SWAGGER_SERVICE_SCAN_GROUP = "swagger.service.scan.group";
-    public static final String SWAGGER_SERVICE_SCAN_PACKAGES = "swagger.service.scan.packages";
+    public static final String SWAGGER_ENABLED = "swagger.enabled";
+
+    public static final String SWAGGER_SERVICE_GROUP = "swagger.service.group";
+    public static final String SWAGGER_SERVICE_PACKAGES = "swagger.service.packages";
     public static final String SWAGGER_SERVICE_DESCRIPTION = "swagger.service.description";
     public static final String SWAGGER_SERVICE_VERSION = "swagger.service.version";
     public static final String SWAGGER_SERVICE_LICENSE_NAME = "swagger.service.license.name";
@@ -23,9 +23,12 @@ public class DiscoverySwaggerConstant {
     public static final String SWAGGER_SERVICE_CONTACT_EMAIL = "swagger.service.contact.email";
     public static final String SWAGGER_SERVICE_TERMSOFSERVICE_URL = "swagger.service.termsOfService.url";
 
-    public static final String SWAGGER_SERVICE_LICENSE_NAME_VALUE = "Apache License 2.0";
-    public static final String SWAGGER_SERVICE_LICENSE_URL_VALUE = "http://www.apache.org/licenses/LICENSE-2.0";
-    public static final String SWAGGER_SERVICE_CONTACT_URL_VALUE = "https://github.com/Nepxion/Discovery";
-    public static final String SWAGGER_SERVICE_CONTACT_EMAIL_VALUE = "1394997@qq.com";
-    public static final String SWAGGER_SERVICE_TERMSOFSERVICE_URL_VALUE = "http://www.nepxion.com";
+    public static final String SWAGGER_DEFAULT_GROUP_VALUE = DiscoveryConstant.NEPXION_DISCOVERY;
+    public static final String SWAGGER_DEFAULT_VERSION_VALUE = DiscoveryConstant.DISCOVERY_VERSION;
+    public static final String SWAGGER_DEFAULT_LICENSE_NAME_VALUE = "Apache License 2.0";
+    public static final String SWAGGER_DEFAULT_LICENSE_URL_VALUE = "http://www.apache.org/licenses/LICENSE-2.0";
+    public static final String SWAGGER_DEFAULT_CONTACT_NAME_VALUE = DiscoveryConstant.NEPXION_FIRST_UPPERCASE;
+    public static final String SWAGGER_DEFAULT_CONTACT_URL_VALUE = "https://github.com/Nepxion/Discovery";
+    public static final String SWAGGER_DEFAULT_CONTACT_EMAIL_VALUE = "1394997@qq.com";
+    public static final String SWAGGER_DEFAULT_TERMSOFSERVICE_URL_VALUE = "http://nepxion.com/discovery";
 }
