@@ -19,7 +19,6 @@ import org.springframework.cloud.zookeeper.discovery.dependency.ConditionalOnDep
 import org.springframework.cloud.zookeeper.discovery.dependency.ZookeeperDependencies;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.LoadBalanceListenerExecutor;
 import com.nepxion.discovery.plugin.registercenter.zookeeper.decorator.ZookeeperServerListDecorator;
@@ -30,9 +29,6 @@ import com.netflix.loadbalancer.ServerList;
 @AutoConfigureAfter(ZookeeperRibbonClientConfiguration.class)
 public class ZookeeperLoadBalanceConfiguration {
     @Autowired
-    private ConfigurableEnvironment environment;
-
-    @Autowired
     private LoadBalanceListenerExecutor loadBalanceListenerExecutor;
 
     @Bean
@@ -40,7 +36,6 @@ public class ZookeeperLoadBalanceConfiguration {
     public ServerList<?> ribbonServerListFromDependencies(IClientConfig config, ZookeeperDependencies zookeeperDependencies, ServiceDiscovery<ZookeeperInstance> serviceDiscovery) {
         ZookeeperServerListDecorator serverList = new ZookeeperServerListDecorator(serviceDiscovery);
         serverList.initFromDependencies(config, zookeeperDependencies);
-        serverList.setEnvironment(environment);
         serverList.setLoadBalanceListenerExecutor(loadBalanceListenerExecutor);
         serverList.setServiceId(config.getClientName());
 
@@ -52,7 +47,6 @@ public class ZookeeperLoadBalanceConfiguration {
     public ServerList<?> ribbonServerList(IClientConfig config, ServiceDiscovery<ZookeeperInstance> serviceDiscovery) {
         ZookeeperServerListDecorator serverList = new ZookeeperServerListDecorator(serviceDiscovery);
         serverList.initWithNiwsConfig(config);
-        serverList.setEnvironment(environment);
         serverList.setLoadBalanceListenerExecutor(loadBalanceListenerExecutor);
         serverList.setServiceId(config.getClientName());
 
