@@ -12,17 +12,13 @@ package com.nepxion.discovery.plugin.registercenter.eureka.decorator;
 import java.util.List;
 
 import org.springframework.cloud.netflix.ribbon.eureka.DomainExtractingServerList;
-import org.springframework.core.env.ConfigurableEnvironment;
 
-import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.LoadBalanceListenerExecutor;
 import com.netflix.client.config.IClientConfig;
 import com.netflix.loadbalancer.ServerList;
 import com.netflix.niws.loadbalancer.DiscoveryEnabledServer;
 
 public class EurekaServerListDecorator extends DomainExtractingServerList {
-    private ConfigurableEnvironment environment;
-
     private LoadBalanceListenerExecutor loadBalanceListenerExecutor;
 
     private String serviceId;
@@ -50,14 +46,7 @@ public class EurekaServerListDecorator extends DomainExtractingServerList {
     }
 
     private void filter(List<DiscoveryEnabledServer> servers) {
-        Boolean discoveryControlEnabled = PluginContextAware.isDiscoveryControlEnabled(environment);
-        if (discoveryControlEnabled) {
-            loadBalanceListenerExecutor.onGetServers(serviceId, servers);
-        }
-    }
-
-    public void setEnvironment(ConfigurableEnvironment environment) {
-        this.environment = environment;
+        loadBalanceListenerExecutor.onGetServers(serviceId, servers);
     }
 
     public void setLoadBalanceListenerExecutor(LoadBalanceListenerExecutor loadBalanceListenerExecutor) {
