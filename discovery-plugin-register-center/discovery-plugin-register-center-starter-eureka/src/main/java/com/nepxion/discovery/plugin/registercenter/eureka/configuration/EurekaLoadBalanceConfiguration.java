@@ -18,7 +18,6 @@ import org.springframework.cloud.netflix.ribbon.PropertiesFactory;
 import org.springframework.cloud.netflix.ribbon.eureka.EurekaRibbonClientConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.LoadBalanceListenerExecutor;
 import com.nepxion.discovery.plugin.registercenter.eureka.decorator.EurekaServerListDecorator;
@@ -40,9 +39,6 @@ public class EurekaLoadBalanceConfiguration {
     private PropertiesFactory propertiesFactory;
 
     @Autowired
-    private ConfigurableEnvironment environment;
-
-    @Autowired
     private LoadBalanceListenerExecutor loadBalanceListenerExecutor;
 
     @Bean
@@ -54,7 +50,6 @@ public class EurekaLoadBalanceConfiguration {
         DiscoveryEnabledNIWSServerList discoveryServerList = new DiscoveryEnabledNIWSServerList(config, eurekaClientProvider);
 
         EurekaServerListDecorator serverList = new EurekaServerListDecorator(discoveryServerList, config, this.approximateZoneFromHostname);
-        serverList.setEnvironment(environment);
         serverList.setLoadBalanceListenerExecutor(loadBalanceListenerExecutor);
         serverList.setServiceId(config.getClientName());
 
