@@ -269,6 +269,13 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
 
         if (versionList.size() > 1) {
             Collections.sort(versionList);
+
+            // 当服务未接入本框架或者版本号未设置（表现出来的值为DiscoveryConstant.DEFAULT），被认为是老版本
+            String defaultVersion = DiscoveryConstant.DEFAULT;
+            if (versionList.contains(defaultVersion)) {
+                versionList.remove(defaultVersion);
+                versionList.add(0, defaultVersion);
+            }
         }
 
         return versionList;
