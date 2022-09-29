@@ -9,7 +9,6 @@ package com.nepxion.discovery.console.rest;
  * @version 1.0
  */
 
-import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.console.resource.ServiceResource;
@@ -36,11 +35,5 @@ public class ConfigUpdateRestInvoker extends AbstractRestInvoker {
     @Override
     protected String doRest(String url) {
         return restTemplate.postForEntity(url, getInvokeEntity(config), String.class).getBody();
-    }
-
-    @Override
-    protected void checkPermission(ServiceInstance instance) throws Exception {
-        checkDiscoveryControlPermission(instance);
-        checkConfigRestControlPermission(instance);
     }
 }

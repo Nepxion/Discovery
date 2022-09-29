@@ -24,7 +24,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.common.constant.DiscoveryMetaDataConstant;
 import com.nepxion.discovery.common.entity.InstanceEntityWrapper;
 import com.nepxion.discovery.common.entity.ResultEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
@@ -72,8 +71,6 @@ public abstract class AbstractRestInvoker {
 
             String result = null;
             try {
-                checkPermission(instance);
-
                 result = doRest(url);
                 String error = RestUtil.getError(restTemplate);
                 if (StringUtils.isNotEmpty(error)) {
@@ -115,36 +112,6 @@ public abstract class AbstractRestInvoker {
         HttpHeaders headers = getInvokeHeaders();
 
         return new HttpEntity<String>(content, headers);
-    }
-
-    protected void checkDiscoveryControlPermission(ServiceInstance instance) {
-        Map<String, String> metadata = instance.getMetadata();
-
-        String discoveryControlEnabled = metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED);
-        if (StringUtils.isEmpty(discoveryControlEnabled)) {
-            throw new DiscoveryException("No metadata for key=" + DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED);
-        }
-
-        if (!Boolean.valueOf(discoveryControlEnabled)) {
-            throw new DiscoveryException("Discovery control is disabled");
-        }
-    }
-
-    protected void checkConfigRestControlPermission(ServiceInstance instance) {
-        Map<String, String> metadata = instance.getMetadata();
-
-        String configRestControlEnabled = metadata.get(DiscoveryMetaDataConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED);
-        if (StringUtils.isEmpty(configRestControlEnabled)) {
-            throw new DiscoveryException("No metadata for key=" + DiscoveryMetaDataConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED);
-        }
-
-        if (!Boolean.valueOf(configRestControlEnabled)) {
-            throw new DiscoveryException("Config rest control is disabled");
-        }
-    }
-
-    protected void checkPermission(ServiceInstance instance) throws Exception {
-
     }
 
     protected abstract String getDescription();
