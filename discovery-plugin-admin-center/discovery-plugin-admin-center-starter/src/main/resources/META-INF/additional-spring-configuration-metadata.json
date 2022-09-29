@@ -1,4 +1,4 @@
-   {
+{
 	"properties": [
 		{
 			"name": "spring.application.admin.service.endpoint.enabled"",
