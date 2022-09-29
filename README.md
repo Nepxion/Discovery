@@ -6374,6 +6374,30 @@ Zookeeper订阅推送界面
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Swagger1.jpg)
 
+所有的操作端点都可以独立被关闭或者开启
+```
+# 启动和关闭服务相关操作端点。缺失则默认为true
+spring.application.admin.service.endpoint.enabled=true
+# 启动和关闭配置相关操作端点。缺失则默认为true
+spring.application.admin.config.endpoint.enabled=true
+# 启动和关闭版本相关操作端点。缺失则默认为true
+spring.application.admin.version.endpoint.enabled=true
+# 启动和关闭侦测相关操作端点。缺失则默认为true
+spring.application.admin.inspector.endpoint.enabled=true
+# 启动和关闭路由相关操作端点。缺失则默认为true
+spring.application.admin.router.endpoint.enabled=true
+# 启动和关闭策略相关操作端点。缺失则默认为true
+spring.application.admin.strategy.endpoint.enabled=true
+# 启动和关闭Sentinel相关操作端点。缺失则默认为true
+spring.application.admin.sentinel.endpoint.enabled=true
+# 启动和关闭Git相关操作端点。缺失则默认为true
+spring.application.admin.git.endpoint.enabled=true
+# 启动和关闭Spring Cloud Gateway相关操作端点。缺失则默认为true
+spring.application.admin.gateway.endpoint.enabled=true
+# 启动和关闭Zuul相关操作端点。缺失则默认为true
+spring.application.admin.zuul.endpoint.enabled=true
+```
+
 控制平台批量推送界面
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Swagger2.jpg)
@@ -6872,6 +6896,27 @@ spring.application.git.version.key={git.commit.id.abbrev}-{git.commit.time}
 # Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失
 spring.application.strategy.hystrix.threadlocal.supported=true
 
+# 启动和关闭服务相关操作端点。缺失则默认为true
+spring.application.admin.service.endpoint.enabled=true
+# 启动和关闭配置相关操作端点。缺失则默认为true
+spring.application.admin.config.endpoint.enabled=true
+# 启动和关闭版本相关操作端点。缺失则默认为true
+spring.application.admin.version.endpoint.enabled=true
+# 启动和关闭侦测相关操作端点。缺失则默认为true
+spring.application.admin.inspector.endpoint.enabled=true
+# 启动和关闭路由相关操作端点。缺失则默认为true
+spring.application.admin.router.endpoint.enabled=true
+# 启动和关闭策略相关操作端点。缺失则默认为true
+spring.application.admin.strategy.endpoint.enabled=true
+# 启动和关闭Sentinel相关操作端点。缺失则默认为true
+spring.application.admin.sentinel.endpoint.enabled=true
+# 启动和关闭Git相关操作端点。缺失则默认为true
+spring.application.admin.git.endpoint.enabled=true
+# 启动和关闭Spring Cloud Gateway相关操作端点。缺失则默认为true
+spring.application.admin.gateway.endpoint.enabled=true
+# 启动和关闭Zuul相关操作端点。缺失则默认为true
+spring.application.admin.zuul.endpoint.enabled=true
+
 # 启动和关闭Swagger。缺失则默认为true
 swagger.service.enabled=true
 # Swagger基准Docket组名
@@ -7088,6 +7133,27 @@ spring.application.strategy.business.request.headers=user;mobile;location
 # 开启和关闭Hystrix线程隔离模式做服务隔离时，对线程切换上下文传递的功能。缺失则默认为false
 # Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失
 spring.application.strategy.hystrix.threadlocal.supported=true
+
+# 启动和关闭服务相关操作端点。缺失则默认为true
+spring.application.admin.service.endpoint.enabled=true
+# 启动和关闭配置相关操作端点。缺失则默认为true
+spring.application.admin.config.endpoint.enabled=true
+# 启动和关闭版本相关操作端点。缺失则默认为true
+spring.application.admin.version.endpoint.enabled=true
+# 启动和关闭侦测相关操作端点。缺失则默认为true
+spring.application.admin.inspector.endpoint.enabled=true
+# 启动和关闭路由相关操作端点。缺失则默认为true
+spring.application.admin.router.endpoint.enabled=true
+# 启动和关闭策略相关操作端点。缺失则默认为true
+spring.application.admin.strategy.endpoint.enabled=true
+# 启动和关闭Sentinel相关操作端点。缺失则默认为true
+spring.application.admin.sentinel.endpoint.enabled=true
+# 启动和关闭Git相关操作端点。缺失则默认为true
+spring.application.admin.git.endpoint.enabled=true
+# 启动和关闭Spring Cloud Gateway相关操作端点。缺失则默认为true
+spring.application.admin.gateway.endpoint.enabled=true
+# 启动和关闭Zuul相关操作端点。缺失则默认为true
+spring.application.admin.zuul.endpoint.enabled=true
 ```
 
 ③ Zuul端配置
@@ -7277,6 +7343,27 @@ spring.application.strategy.business.request.headers=user;mobile;location
 # 开启和关闭Hystrix线程隔离模式做服务隔离时，对线程切换上下文传递的功能。缺失则默认为false
 # Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失
 spring.application.strategy.hystrix.threadlocal.supported=true
+
+# 启动和关闭服务相关操作端点。缺失则默认为true
+spring.application.admin.service.endpoint.enabled=true
+# 启动和关闭配置相关操作端点。缺失则默认为true
+spring.application.admin.config.endpoint.enabled=true
+# 启动和关闭版本相关操作端点。缺失则默认为true
+spring.application.admin.version.endpoint.enabled=true
+# 启动和关闭侦测相关操作端点。缺失则默认为true
+spring.application.admin.inspector.endpoint.enabled=true
+# 启动和关闭路由相关操作端点。缺失则默认为true
+spring.application.admin.router.endpoint.enabled=true
+# 启动和关闭策略相关操作端点。缺失则默认为true
+spring.application.admin.strategy.endpoint.enabled=true
+# 启动和关闭Sentinel相关操作端点。缺失则默认为true
+spring.application.admin.sentinel.endpoint.enabled=true
+# 启动和关闭Git相关操作端点。缺失则默认为true
+spring.application.admin.git.endpoint.enabled=true
+# 启动和关闭Spring Cloud Gateway相关操作端点。缺失则默认为true
+spring.application.admin.gateway.endpoint.enabled=true
+# 启动和关闭Zuul相关操作端点。缺失则默认为true
+spring.application.admin.zuul.endpoint.enabled=true
 
 # 启动和关闭Swagger。缺失则默认为true
 swagger.service.enabled=true
