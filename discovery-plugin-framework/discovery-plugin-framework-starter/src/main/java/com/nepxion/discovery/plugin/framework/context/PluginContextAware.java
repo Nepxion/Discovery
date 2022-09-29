@@ -100,18 +100,6 @@ public class PluginContextAware implements ApplicationContextAware {
         return staticEnvironment;
     }
 
-    public Boolean isRegisterControlEnabled() {
-        return isRegisterControlEnabled(environment);
-    }
-
-    public Boolean isDiscoveryControlEnabled() {
-        return isDiscoveryControlEnabled(environment);
-    }
-
-    public Boolean isConfigRestControlEnabled() {
-        return isConfigRestControlEnabled(environment);
-    }
-
     public String getConfigFormat() {
         return getConfigFormat(environment);
     }
@@ -166,18 +154,6 @@ public class PluginContextAware implements ApplicationContextAware {
 
     public String getContextPath() {
         return getContextPath(environment);
-    }
-
-    public static Boolean isRegisterControlEnabled(Environment environment) {
-        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_REGISTER_CONTROL_ENABLED, Boolean.class, Boolean.TRUE);
-    }
-
-    public static Boolean isDiscoveryControlEnabled(Environment environment) {
-        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED, Boolean.class, Boolean.TRUE);
-    }
-
-    public static Boolean isConfigRestControlEnabled(Environment environment) {
-        return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED, Boolean.class, Boolean.TRUE);
     }
 
     public static String getConfigFormat(Environment environment) {

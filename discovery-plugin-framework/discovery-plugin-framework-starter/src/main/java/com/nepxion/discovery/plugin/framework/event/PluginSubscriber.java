@@ -19,7 +19,6 @@ import com.nepxion.discovery.common.entity.RuleEntity;
 import com.nepxion.discovery.common.entity.SubscriptionType;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.LoadBalanceListenerExecutor;
 import com.nepxion.discovery.plugin.framework.parser.PluginConfigParser;
 import com.nepxion.eventbus.annotation.EventBus;
@@ -28,9 +27,6 @@ import com.netflix.loadbalancer.ZoneAwareLoadBalancer;
 @EventBus
 public class PluginSubscriber {
     private static final Logger LOG = LoggerFactory.getLogger(PluginSubscriber.class);
-
-    @Autowired
-    private PluginContextAware pluginContextAware;
 
     @Autowired
     private PluginAdapter pluginAdapter;
@@ -46,13 +42,6 @@ public class PluginSubscriber {
 
     @Subscribe
     public void onRuleUpdated(RuleUpdatedEvent ruleUpdatedEvent) {
-        Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
-        if (!discoveryControlEnabled) {
-            LOG.info("Discovery control is disabled, ignore to subscribe");
-
-            return;
-        }
-
         LOG.info("Rule updating has been triggered");
 
         if (ruleUpdatedEvent == null) {
@@ -86,13 +75,6 @@ public class PluginSubscriber {
 
     @Subscribe
     public void onRuleCleared(RuleClearedEvent ruleClearedEvent) {
-        Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
-        if (!discoveryControlEnabled) {
-            LOG.info("Discovery control is disabled, ignore to subscribe");
-
-            return;
-        }
-
         LOG.info("Rule clearing has been triggered");
 
         if (ruleClearedEvent == null) {
@@ -116,13 +98,6 @@ public class PluginSubscriber {
 
     @Subscribe
     public void onVersionUpdated(VersionUpdatedEvent versionUpdatedEvent) {
-        Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
-        if (!discoveryControlEnabled) {
-            LOG.info("Discovery control is disabled, ignore to subscribe");
-
-            return;
-        }
-
         LOG.info("Version updating has been triggered");
 
         if (versionUpdatedEvent == null) {
@@ -153,13 +128,6 @@ public class PluginSubscriber {
 
     @Subscribe
     public void onVersionCleared(VersionClearedEvent versionClearedEvent) {
-        Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
-        if (!discoveryControlEnabled) {
-            LOG.info("Discovery control is disabled, ignore to subscribe");
-
-            return;
-        }
-
         LOG.info("Version clearing has been triggered");
 
         if (versionClearedEvent == null) {
