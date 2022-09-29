@@ -23,16 +23,12 @@ import com.nepxion.discovery.common.entity.SubscriptionType;
 import com.nepxion.discovery.plugin.configcenter.loader.LocalConfigLoader;
 import com.nepxion.discovery.plugin.configcenter.loader.RemoteConfigLoader;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
 import com.nepxion.discovery.plugin.framework.event.RuleFailureEvent;
 import com.nepxion.discovery.plugin.framework.parser.PluginConfigParser;
 
 public class ConfigInitializer {
     private static final Logger LOG = LoggerFactory.getLogger(ConfigInitializer.class);
-
-    @Autowired
-    private PluginContextAware pluginContextAware;
 
     @Autowired
     private PluginAdapter pluginAdapter;
@@ -54,15 +50,6 @@ public class ConfigInitializer {
 
     @PostConstruct
     public void initialize() {
-        Boolean registerControlEnabled = pluginContextAware.isRegisterControlEnabled();
-        Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
-
-        if (!registerControlEnabled && !discoveryControlEnabled) {
-            LOG.info("Register and Discovery controls are all disabled, ignore to initialize");
-
-            return;
-        }
-
         LOG.info("------------- Load Discovery Config --------------");
 
         String[] remoteConfigList = getRemoteConfigList();
