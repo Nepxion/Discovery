@@ -6407,43 +6407,28 @@ spring.application.admin.zuul.endpoint.enabled=true
 - 自定义Swagger接口利用内置的SwaggerConfiguration来初始化，这样使用者可以不需要定义自己的SwaggerConfiguration。通过如下配置实现
 
 ```
-swagger.service.scan.group=your-scan-group
-swagger.service.scan.packages=your-scan-packages
-```
-
-- 自定义内置的基准Docket组名。通过如下配置实现
-
-```
-swagger.service.base.group=your-base-group
-```
-
-- 自定义覆盖内置的Swagger配置。通过如下配置实现
-
-```
 # 启动和关闭Swagger。缺失则默认为true
-swagger.service.enabled=true
-# Swagger基准Docket组名
-swagger.service.base.group=Nepxion Discovery
-# Swagger自定义Docket组名
-swagger.service.scan.group=Admin Center Restful APIs
-# Swagger自定义扫描目录
-swagger.service.scan.packages=your-scan-packages
-# Swagger描述
-swagger.service.description=your-description
-# Swagger版本
-swagger.service.version=6.11.0
-# Swagger License名称
+swagger.enabled=true
+# 业务服务Swagger Docket组名
+swagger.service.group=Your group
+# 业务服务Swagger扫描目录
+swagger.service.packages=your-package1;your-package2
+# 业务服务Swagger描述
+swagger.service.description=Your service Restful APIs
+# 业务服务Swagger版本
+swagger.service.version=1.0.0
+# 业务服务Swagger License名称
 swagger.service.license.name=Apache License 2.0
-# Swagger License链接
+# 业务服务Swagger License链接
 swagger.service.license.url=http://www.apache.org/licenses/LICENSE-2.0
-# Swagger联系人名称
+# 业务服务Swagger联系人名称
 swagger.service.contact.name=Nepxion
-# Swagger联系人网址
+# 业务服务Swagger联系人网址
 swagger.service.contact.url=https://github.com/Nepxion/Discovery
-# Swagger联系人邮件
+# 业务服务Swagger联系人邮件
 swagger.service.contact.email=1394997@qq.com
-# Swagger服务条件网址
-swagger.service.termsOfService.url=http://www.nepxion.com
+# 业务服务Swagger服务条件网址
+swagger.service.termsOfService.url=http://nepxion.com/discovery
 ```
 
 - 自定义基于Access Token Header的Swagger授权，包括全局授权和接口级授权。使用者通过如下方式进行扩展支持，可以选择其中一种，也可以两种并存。当两种并存的时候，全局授权优先于接口级授权
@@ -6918,29 +6903,27 @@ spring.application.admin.gateway.endpoint.enabled=true
 spring.application.admin.zuul.endpoint.enabled=true
 
 # 启动和关闭Swagger。缺失则默认为true
-swagger.service.enabled=true
-# Swagger基准Docket组名
-swagger.service.base.group=Nepxion Discovery
-# Swagger自定义Docket组名
-swagger.service.scan.group=Admin Center Restful APIs
-# Swagger自定义扫描目录
-swagger.service.scan.packages=your-scan-packages
-# Swagger描述
-swagger.service.description=your-description
-# Swagger版本
-swagger.service.version=6.11.0
-# Swagger License名称
+swagger.enabled=true
+# 业务服务Swagger Docket组名
+swagger.service.group=Your group
+# 业务服务Swagger扫描目录
+swagger.service.packages=your-package1;your-package2
+# 业务服务Swagger描述
+swagger.service.description=Your service Restful APIs
+# 业务服务Swagger版本
+swagger.service.version=1.0.0
+# 业务服务Swagger License名称
 swagger.service.license.name=Apache License 2.0
-# Swagger License链接
+# 业务服务Swagger License链接
 swagger.service.license.url=http://www.apache.org/licenses/LICENSE-2.0
-# Swagger联系人名称
+# 业务服务Swagger联系人名称
 swagger.service.contact.name=Nepxion
-# Swagger联系人网址
+# 业务服务Swagger联系人网址
 swagger.service.contact.url=https://github.com/Nepxion/Discovery
-# Swagger联系人邮件
+# 业务服务Swagger联系人邮件
 swagger.service.contact.email=1394997@qq.com
-# Swagger服务条件网址
-swagger.service.termsOfService.url=http://www.nepxion.com
+# 业务服务Swagger服务条件网址
+swagger.service.termsOfService.url=http://nepxion.com/discovery
 ```
 
 ② Spring Cloud Gateway端配置
@@ -7366,29 +7349,27 @@ spring.application.admin.gateway.endpoint.enabled=true
 spring.application.admin.zuul.endpoint.enabled=true
 
 # 启动和关闭Swagger。缺失则默认为true
-swagger.service.enabled=true
-# Swagger基准Docket组名
-swagger.service.base.group=Nepxion Discovery
-# Swagger自定义Docket组名
-swagger.service.scan.group=Admin Center Restful APIs
-# Swagger自定义扫描目录
-swagger.service.scan.packages=your-scan-packages
-# Swagger描述
-swagger.service.description=your-description
-# Swagger版本
-swagger.service.version=6.11.0
-# Swagger License名称
+swagger.enabled=true
+# 业务服务Swagger Docket组名
+swagger.service.group=Your group
+# 业务服务Swagger扫描目录
+swagger.service.packages=your-package1;your-package2
+# 业务服务Swagger描述
+swagger.service.description=Your service Restful APIs
+# 业务服务Swagger版本
+swagger.service.version=1.0.0
+# 业务服务Swagger License名称
 swagger.service.license.name=Apache License 2.0
-# Swagger License链接
+# 业务服务Swagger License链接
 swagger.service.license.url=http://www.apache.org/licenses/LICENSE-2.0
-# Swagger联系人名称
+# 业务服务Swagger联系人名称
 swagger.service.contact.name=Nepxion
-# Swagger联系人网址
+# 业务服务Swagger联系人网址
 swagger.service.contact.url=https://github.com/Nepxion/Discovery
-# Swagger联系人邮件
+# 业务服务Swagger联系人邮件
 swagger.service.contact.email=1394997@qq.com
-# Swagger服务条件网址
-swagger.service.termsOfService.url=http://www.nepxion.com
+# 业务服务Swagger服务条件网址
+swagger.service.termsOfService.url=http://nepxion.com/discovery
 ```
 
 ### 内置文件配置
