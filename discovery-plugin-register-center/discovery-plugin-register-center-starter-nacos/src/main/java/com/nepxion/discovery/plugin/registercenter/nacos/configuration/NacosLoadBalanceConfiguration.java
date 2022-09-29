@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
 import com.alibaba.cloud.nacos.ribbon.NacosRibbonClientConfiguration;
@@ -25,10 +24,6 @@ import com.netflix.loadbalancer.ServerList;
 @Configuration
 @AutoConfigureAfter(NacosRibbonClientConfiguration.class)
 public class NacosLoadBalanceConfiguration {
-
-    @Autowired
-    private ConfigurableEnvironment environment;
-
     @Autowired
     private LoadBalanceListenerExecutor loadBalanceListenerExecutor;
 
@@ -36,7 +31,6 @@ public class NacosLoadBalanceConfiguration {
     public ServerList<?> ribbonServerList(IClientConfig config, NacosDiscoveryProperties nacosDiscoveryProperties) {
         NacosServerListDecorator serverList = new NacosServerListDecorator(nacosDiscoveryProperties);
         serverList.initWithNiwsConfig(config);
-        serverList.setEnvironment(environment);
         serverList.setLoadBalanceListenerExecutor(loadBalanceListenerExecutor);
 
         return serverList;
