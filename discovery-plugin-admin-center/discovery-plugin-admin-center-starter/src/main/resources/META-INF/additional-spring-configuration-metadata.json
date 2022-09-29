@@ -1,61 +1,61 @@
 {
 	"properties": [
 		{
-			"name": "spring.application.admin.service.endpoint.enabled"",
+			"name": "spring.application.admin.service.endpoint.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": true,
 			"description": "Whether admin service endpoint is enabled."
 		},
 		{
-			"name": "spring.application.admin.config.endpoint.enabled"",
+			"name": "spring.application.admin.config.endpoint.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": true,
 			"description": "Whether admin config endpoint is enabled."
 		},
 		{
-			"name": "spring.application.admin.version.endpoint.enabled"",
+			"name": "spring.application.admin.version.endpoint.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": true,
 			"description": "Whether admin version endpoint is enabled."
 		},
 		{
-			"name": "spring.application.admin.inspector.endpoint.enabled"",
+			"name": "spring.application.admin.inspector.endpoint.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": true,
 			"description": "Whether admin inspector endpoint is enabled."
 		},
 		{
-			"name": "spring.application.admin.router.endpoint.enabled"",
+			"name": "spring.application.admin.router.endpoint.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": true,
 			"description": "Whether admin router endpoint is enabled."
 		},
 		{
-			"name": "spring.application.admin.strategy.endpoint.enabled"",
+			"name": "spring.application.admin.strategy.endpoint.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": true,
 			"description": "Whether admin strategy endpoint is enabled."
 		},
 		{
-			"name": "spring.application.admin.sentinel.endpoint.enabled"",
+			"name": "spring.application.admin.sentinel.endpoint.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": true,
 			"description": "Whether admin sentinel endpoint is enabled."
 		},
 		{
-			"name": "spring.application.admin.git.endpoint.enabled"",
+			"name": "spring.application.admin.git.endpoint.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": true,
 			"description": "Whether admin git endpoint is enabled."
 		},
 		{
-			"name": "spring.application.admin.gateway.endpoint.enabled"",
+			"name": "spring.application.admin.gateway.endpoint.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": true,
 			"description": "Whether admin gateway endpoint is enabled."
 		},
 		{
-			"name": "spring.application.admin.zuul.endpoint.enabled"",
+			"name": "spring.application.admin.zuul.endpoint.enabled",
 			"type": "java.lang.Boolean",
 			"defaultValue": true,
 			"description": "Whether admin zuul endpoint is enabled."
