@@ -1,24 +1,6 @@
 {
 	"properties": [
 		{
-			"name": "spring.application.register.control.enabled",
-			"type": "java.lang.Boolean",
-			"defaultValue": true,
-			"description": "Whether register control is enabled."
-		},
-		{
-			"name": "spring.application.discovery.control.enabled",
-			"type": "java.lang.Boolean",
-			"defaultValue": true,
-			"description": "Whether discovery control is enabled."
-		},
-		{
-			"name": "spring.application.config.rest.control.enabled",
-			"type": "java.lang.Boolean",
-			"defaultValue": true,
-			"description": "Whether config rest control is enabled."
-		},
-		{
 			"name": "spring.application.weight.random.type",
 			"type": "java.lang.String",
 			"defaultValue": "MapWeightRandom",
@@ -83,24 +65,6 @@
 			"type": "java.lang.String",
 			"defaultValue": "git.commit.id",
 			"description": "Git version key, it can be git.commit.id or git.build.version or another."
-		},
-		{
-			"name": "spring.application.no.servers.retry.enabled",
-			"type": "java.lang.Boolean",
-			"defaultValue": false,
-			"description": "Whether no server retry is enabled."
-		},
-		{
-			"name": "spring.application.no.servers.retry.times",
-			"type": "java.lang.Integer",
-			"defaultValue": 5,
-			"description": "No servers for retry times."
-		},
-		{
-			"name": "spring.application.no.servers.retry.await.time",
-			"type": "java.lang.Integer",
-			"defaultValue": 2000,
-			"description": "No servers for retry await time."
 		},
 		{
 			"name": "spring.application.no.servers.notify.enabled",

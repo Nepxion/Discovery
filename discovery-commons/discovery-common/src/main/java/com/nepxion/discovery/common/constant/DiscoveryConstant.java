@@ -20,9 +20,6 @@ public class DiscoveryConstant {
     public static final String SPRING_APPLICATION_DISCOVERY_PLUGIN = "spring.application.discovery.plugin";
     public static final String SPRING_APPLICATION_DISCOVERY_VERSION = "spring.application.discovery.version";
     public static final String SPRING_APPLICATION_DISCOVERY_AGENT_VERSION = "spring.application.discovery.agent.version";
-    public static final String SPRING_APPLICATION_REGISTER_CONTROL_ENABLED = "spring.application.register.control.enabled";
-    public static final String SPRING_APPLICATION_DISCOVERY_CONTROL_ENABLED = "spring.application.discovery.control.enabled";
-    public static final String SPRING_APPLICATION_CONFIG_REST_CONTROL_ENABLED = "spring.application.config.rest.control.enabled";
     public static final String SPRING_APPLICATION_WEIGHT_RANDOM_TYPE = "spring.application.weight.random.type";
     public static final String SPRING_APPLICATION_CONFIG_FORMAT = "spring.application.config.format";
     public static final String SPRING_APPLICATION_CONFIG_PATH = "spring.application.config.path";
@@ -30,9 +27,6 @@ public class DiscoveryConstant {
     public static final String SPRING_APPLICATION_CONTEXT_PATH = "spring.application.context-path";
     public static final String SPRING_APPLICATION_DEFAULT_PROPERTIES_PATH = "spring.application.default.properties.path";
     public static final String SPRING_APPLICATION_DEFAULT_PROPERTIES_PATH_VALUE = "spring-application-default";
-    public static final String SPRING_APPLICATION_NO_SERVERS_RETRY_ENABLED = "spring.application.no.servers.retry.enabled";
-    public static final String SPRING_APPLICATION_NO_SERVERS_RETRY_TIMES = "spring.application.no.servers.retry.times";
-    public static final String SPRING_APPLICATION_NO_SERVERS_RETRY_AWAIT_TIME = "spring.application.no.servers.retry.await.time";
     public static final String SPRING_APPLICATION_NO_SERVERS_NOTIFY_ENABLED = "spring.application.no.servers.notify.enabled";
     public static final String SPRING_APPLICATION_PARAMETER_EVENT_ONSTART_ENABLED = "spring.application.parameter.event.onstart.enabled";
 
