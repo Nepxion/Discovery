@@ -18,15 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
 import com.nepxion.discovery.plugin.framework.event.VersionClearedEvent;
 import com.nepxion.discovery.plugin.framework.event.VersionUpdatedEvent;
 
 public class VersionResourceImpl implements VersionResource {
-    @Autowired
-    private PluginContextAware pluginContextAware;
-
     @Autowired
     private PluginAdapter pluginAdapter;
 
@@ -35,16 +31,6 @@ public class VersionResourceImpl implements VersionResource {
 
     @Override
     public void update(String version, boolean async) {
-        Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
-        if (!discoveryControlEnabled) {
-            throw new DiscoveryException("Discovery control is disabled");
-        }
-
-        Boolean isConfigRestControlEnabled = pluginContextAware.isConfigRestControlEnabled();
-        if (!isConfigRestControlEnabled) {
-            throw new DiscoveryException("Config rest control is disabled");
-        }
-
         if (StringUtils.isEmpty(version)) {
             throw new DiscoveryException("Version can't be null or empty");
         }
@@ -66,16 +52,6 @@ public class VersionResourceImpl implements VersionResource {
 
     @Override
     public void clear(String version, boolean async) {
-        Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
-        if (!discoveryControlEnabled) {
-            throw new DiscoveryException("Discovery control is disabled");
-        }
-
-        Boolean isConfigRestControlEnabled = pluginContextAware.isConfigRestControlEnabled();
-        if (!isConfigRestControlEnabled) {
-            throw new DiscoveryException("Config rest control is disabled");
-        }
-
         // 修复Swagger的一个Bug，当在Swagger界面不输入版本号的时候，传到后端变成了“{}”
         if (StringUtils.isNotEmpty(version) && StringUtils.equals(version.trim(), "{}")) {
             version = null;

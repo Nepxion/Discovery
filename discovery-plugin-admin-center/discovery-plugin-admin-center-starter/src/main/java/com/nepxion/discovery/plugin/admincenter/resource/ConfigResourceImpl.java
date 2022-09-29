@@ -23,16 +23,12 @@ import com.nepxion.discovery.common.entity.SubscriptionType;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.adapter.PluginConfigAdapter;
-import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
 import com.nepxion.discovery.plugin.framework.event.RuleClearedEvent;
 import com.nepxion.discovery.plugin.framework.event.RuleUpdatedEvent;
 
 public class ConfigResourceImpl implements ConfigResource {
     private static final Logger LOG = LoggerFactory.getLogger(ConfigResourceImpl.class);
-
-    @Autowired
-    private PluginContextAware pluginContextAware;
 
     @Autowired
     private PluginAdapter pluginAdapter;
@@ -56,31 +52,11 @@ public class ConfigResourceImpl implements ConfigResource {
 
     @Override
     public void update(String config, boolean async) {
-        Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
-        if (!discoveryControlEnabled) {
-            throw new DiscoveryException("Discovery control is disabled");
-        }
-
-        Boolean isConfigRestControlEnabled = pluginContextAware.isConfigRestControlEnabled();
-        if (!isConfigRestControlEnabled) {
-            throw new DiscoveryException("Config rest control is disabled");
-        }
-
         pluginEventWapper.fireRuleUpdated(new RuleUpdatedEvent(SubscriptionType.PARTIAL, config), async);
     }
 
     @Override
     public void clear(boolean async) {
-        Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
-        if (!discoveryControlEnabled) {
-            throw new DiscoveryException("Discovery control is disabled");
-        }
-
-        Boolean isConfigRestControlEnabled = pluginContextAware.isConfigRestControlEnabled();
-        if (!isConfigRestControlEnabled) {
-            throw new DiscoveryException("Config rest control is disabled");
-        }
-
         pluginEventWapper.fireRuleCleared(new RuleClearedEvent(SubscriptionType.PARTIAL), async);
     }
 
