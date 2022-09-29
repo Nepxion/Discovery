@@ -18,7 +18,6 @@ import org.springframework.cloud.zookeeper.discovery.dependency.ZookeeperDepende
 import org.springframework.cloud.zookeeper.serviceregistry.ZookeeperServiceRegistry;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.LoadBalanceListenerExecutor;
 import com.nepxion.discovery.plugin.registercenter.zookeeper.decorator.ZookeeperServerListDecorator;
@@ -32,9 +31,6 @@ public class ZookeeperLoadBalanceConfiguration {
     private ZookeeperServiceRegistry registry;
 
     @Autowired
-    private ConfigurableEnvironment environment;
-
-    @Autowired
     private LoadBalanceListenerExecutor loadBalanceListenerExecutor;
 
     @Bean
@@ -43,7 +39,6 @@ public class ZookeeperLoadBalanceConfiguration {
         @SuppressWarnings("deprecation")
         ZookeeperServerListDecorator serverList = new ZookeeperServerListDecorator(this.registry.getServiceDiscoveryRef().get());
         serverList.initFromDependencies(config, zookeeperDependencies);
-        serverList.setEnvironment(environment);
         serverList.setLoadBalanceListenerExecutor(loadBalanceListenerExecutor);
         serverList.setServiceId(config.getClientName());
 
@@ -56,7 +51,6 @@ public class ZookeeperLoadBalanceConfiguration {
         @SuppressWarnings("deprecation")
         ZookeeperServerListDecorator serverList = new ZookeeperServerListDecorator(this.registry.getServiceDiscoveryRef().get());
         serverList.initWithNiwsConfig(config);
-        serverList.setEnvironment(environment);
         serverList.setLoadBalanceListenerExecutor(loadBalanceListenerExecutor);
         serverList.setServiceId(config.getClientName());
 

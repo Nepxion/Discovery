@@ -15,14 +15,10 @@ import org.apache.curator.x.discovery.ServiceDiscovery;
 import org.springframework.cloud.zookeeper.discovery.ZookeeperInstance;
 import org.springframework.cloud.zookeeper.discovery.ZookeeperServer;
 import org.springframework.cloud.zookeeper.discovery.ZookeeperServerList;
-import org.springframework.core.env.ConfigurableEnvironment;
 
-import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.LoadBalanceListenerExecutor;
 
 public class ZookeeperServerListDecorator extends ZookeeperServerList {
-    private ConfigurableEnvironment environment;
-
     private LoadBalanceListenerExecutor loadBalanceListenerExecutor;
 
     private String serviceId;
@@ -50,14 +46,7 @@ public class ZookeeperServerListDecorator extends ZookeeperServerList {
     }
 
     private void filter(List<ZookeeperServer> servers) {
-        Boolean discoveryControlEnabled = PluginContextAware.isDiscoveryControlEnabled(environment);
-        if (discoveryControlEnabled) {
-            loadBalanceListenerExecutor.onGetServers(serviceId, servers);
-        }
-    }
-
-    public void setEnvironment(ConfigurableEnvironment environment) {
-        this.environment = environment;
+        loadBalanceListenerExecutor.onGetServers(serviceId, servers);
     }
 
     public void setLoadBalanceListenerExecutor(LoadBalanceListenerExecutor loadBalanceListenerExecutor) {
