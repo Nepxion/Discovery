@@ -44,7 +44,7 @@ public class ConsulApplicationContextInitializer extends PluginApplicationContex
             List<String> metadata = consulDiscoveryProperties.getTags();
 
             String groupKey = PluginContextAware.getGroupKey(environment);
-            if (!MetadataUtil.containsKey(metadata, groupKey)) {
+            /*if (!MetadataUtil.containsKey(metadata, groupKey)) {
                 metadata.add(groupKey + "=" + DiscoveryConstant.DEFAULT);
             }
             if (!MetadataUtil.containsKey(metadata, DiscoveryConstant.VERSION)) {
@@ -61,7 +61,7 @@ public class ConsulApplicationContextInitializer extends PluginApplicationContex
             }
             if (!MetadataUtil.containsKey(metadata, DiscoveryConstant.ACTIVE)) {
                 metadata.add(DiscoveryConstant.ACTIVE + "=" + "false");
-            }
+            }*/
             String prefixGroup = getPrefixGroup(applicationContext);
             if (StringUtils.isNotEmpty(prefixGroup)) {
                 metadata.set(MetadataUtil.getIndex(metadata, groupKey), groupKey + "=" + prefixGroup);

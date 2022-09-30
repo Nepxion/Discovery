@@ -44,7 +44,7 @@ public class ZookeeperApplicationContextInitializer extends PluginApplicationCon
             Map<String, String> metadata = zookeeperDiscoveryProperties.getMetadata();
 
             String groupKey = PluginContextAware.getGroupKey(environment);
-            if (!metadata.containsKey(groupKey)) {
+            /*if (!metadata.containsKey(groupKey)) {
                 metadata.put(groupKey, DiscoveryConstant.DEFAULT);
             }
             if (!metadata.containsKey(DiscoveryConstant.VERSION)) {
@@ -61,7 +61,7 @@ public class ZookeeperApplicationContextInitializer extends PluginApplicationCon
             }
             if (!metadata.containsKey(DiscoveryConstant.ACTIVE)) {
                 metadata.put(DiscoveryConstant.ACTIVE, "false");
-            }
+            }*/
             String prefixGroup = getPrefixGroup(applicationContext);
             if (StringUtils.isNotEmpty(prefixGroup)) {
                 metadata.put(groupKey, prefixGroup);
