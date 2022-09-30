@@ -1,6 +1,6 @@
 ![logo](_media/Logo64.png)
 
-# Nepxion Discovery <small>6.16.2</small>
+# Nepxion Discovery <small>6.17.0</small>
 
 > 专注于企业级云原生微服务开源解决方案
 - 集成阿里巴巴中间件、Spring Cloud Alibaba等技术栈
