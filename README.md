@@ -3006,7 +3006,13 @@ POST
 
 ④ 校验条件表达式
 
-具体用法，请参考[对接DevOps运维平台公共接口](#对接DevOps运维平台公共接口)
+环境搭建，请参考
+- Github Wiki ：[如何对接DevOps运维平台实施流量管控 - 对接DevOps运维平台环境搭建](https://github.com/Nepxion/Discovery/wiki/%E5%A6%82%E4%BD%95%E5%AF%B9%E6%8E%A5DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AE%9E%E6%96%BD%E6%B5%81%E9%87%8F%E7%AE%A1%E6%8E%A7#%E5%AF%B9%E6%8E%A5DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA)
+- Gitee Wiki ：[如何对接DevOps运维平台实施流量管控 - 对接DevOps运维平台环境搭建](https://gitee.com/nepxion/Discovery/wikis/%E5%A6%82%E4%BD%95%E5%AF%B9%E6%8E%A5DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AE%9E%E6%96%BD%E6%B5%81%E9%87%8F%E7%AE%A1%E6%8E%A7#%E5%AF%B9%E6%8E%A5DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA)
+
+具体用法，请参考
+- Github Wiki ：[如何使用DevOps运维平台对接的公共接口 - 创建版本蓝绿灰度发布](https://github.com/Nepxion/Discovery/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AF%B9%E6%8E%A5%E7%9A%84%E5%85%AC%E5%85%B1%E6%8E%A5%E5%8F%A3#%E5%88%9B%E5%BB%BA%E7%89%88%E6%9C%AC%E8%93%9D%E7%BB%BF%E7%81%B0%E5%BA%A6%E5%8F%91%E5%B8%83)
+- Gitee Wiki ：[如何使用DevOps运维平台对接的公共接口 - 创建版本蓝绿灰度发布](https://gitee.com/nepxion/Discovery/wikis/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AF%B9%E6%8E%A5%E7%9A%84%E5%85%AC%E5%85%B1%E6%8E%A5%E5%8F%A3#%E5%88%9B%E5%BB%BA%E7%89%88%E6%9C%AC%E8%93%9D%E7%BB%BF%E7%81%B0%E5%BA%A6%E5%8F%91%E5%B8%83)
 
 ## 全链路流量管控对接DevOps运维平台
 
@@ -3221,7 +3227,9 @@ spring.application.strategy.version.failover.enabled=true
 
 运维平台取消实施故障转移方式的管控
 
-具体用法，请参考[对接DevOps运维平台公共接口](#对接DevOps运维平台公共接口)
+具体用法，请参考
+- Github Wiki ：[如何使用DevOps运维平台对接的公共接口 - 故障转移接口](https://github.com/Nepxion/Discovery/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AF%B9%E6%8E%A5%E7%9A%84%E5%85%AC%E5%85%B1%E6%8E%A5%E5%8F%A3#%E6%95%85%E9%9A%9C%E8%BD%AC%E7%A7%BB%E6%8E%A5%E5%8F%A3)
+- Gitee Wiki ：[如何使用DevOps运维平台对接的公共接口 - 故障转移接口](https://gitee.com/nepxion/Discovery/wikis/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AF%B9%E6%8E%A5%E7%9A%84%E5%85%AC%E5%85%B1%E6%8E%A5%E5%8F%A3#%E6%95%85%E9%9A%9C%E8%BD%AC%E7%A7%BB%E6%8E%A5%E5%8F%A3)
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 蓝绿灰度发布
 
@@ -3247,7 +3255,9 @@ spring.application.strategy.version.failover.enabled=true
 
 运维平台调用`配置接口`的`获取规则配置对象`步骤，获取其中的蓝绿灰度发布规则策略
 
-具体用法，请参考[对接DevOps运维平台公共接口](#对接DevOps运维平台公共接口)
+具体用法，请参考
+- Github Wiki ：[如何使用DevOps运维平台对接的公共接口 - 策略接口](https://github.com/Nepxion/Discovery/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AF%B9%E6%8E%A5%E7%9A%84%E5%85%AC%E5%85%B1%E6%8E%A5%E5%8F%A3#%E7%AD%96%E7%95%A5%E6%8E%A5%E5%8F%A3)
+- Gitee Wiki ：[如何使用DevOps运维平台对接的公共接口 - 策略接口](https://gitee.com/nepxion/Discovery/wikis/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AF%B9%E6%8E%A5%E7%9A%84%E5%85%AC%E5%85%B1%E6%8E%A5%E5%8F%A3#%E7%AD%96%E7%95%A5%E6%8E%A5%E5%8F%A3)
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 无损下线
 
@@ -3277,7 +3287,9 @@ UUId全局唯一，同样的服务实例重启注册后，UUId会重新产生，
 
 运维平台调用`配置接口`的`获取规则配置对象`步骤，获取其中的黑名单规则策略
 
-具体用法，请参考[对接DevOps运维平台公共接口](#对接DevOps运维平台公共接口)
+具体用法，请参考
+- Github Wiki ：[如何使用DevOps运维平台对接的公共接口 - 无损下线黑名单接口](https://github.com/Nepxion/Discovery/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AF%B9%E6%8E%A5%E7%9A%84%E5%85%AC%E5%85%B1%E6%8E%A5%E5%8F%A3#%E6%97%A0%E6%8D%9F%E4%B8%8B%E7%BA%BF%E9%BB%91%E5%90%8D%E5%8D%95%E6%8E%A5%E5%8F%A3)
+- Gitee Wiki ：[如何使用DevOps运维平台对接的公共接口 - 无损下线黑名单接口](https://gitee.com/nepxion/Discovery/wikis/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AF%B9%E6%8E%A5%E7%9A%84%E5%85%AC%E5%85%B1%E6%8E%A5%E5%8F%A3#%E6%97%A0%E6%8D%9F%E4%B8%8B%E7%BA%BF%E9%BB%91%E5%90%8D%E5%8D%95%E6%8E%A5%E5%8F%A3)
 
 ### 对接DevOps运维平台公共接口
 - Github Wiki ：[如何使用DevOps运维平台对接的公共接口](https://github.com/Nepxion/Discovery/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AF%B9%E6%8E%A5%E7%9A%84%E5%85%AC%E5%85%B1%E6%8E%A5%E5%8F%A3)
