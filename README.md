@@ -3017,13 +3017,13 @@ POST
 ## 全链路流量管控对接DevOps运维平台
 
 ### 对接DevOps运维平台架构方案
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 架构
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 对接DevOps运维平台架构
 
 ① 控制台需要连接注册中心和配置中心
 
 ② 控制台建议实现高可用架构，控制台前面部署API网关和运维平台对接
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 方案
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 对接DevOps运维平台方案
 
 ① 运维平台调用控制台的Open API，控制台进行链路智能编排
 
