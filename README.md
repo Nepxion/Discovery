@@ -2961,14 +2961,14 @@ POST
     {
       "expression": "#H['xyz'] == '3'",
       // 稳定（旧版本）路由链路权重，灰度（新版本）路由链路权重
-      "weight": [10, 90]
+      "weight": [90, 10]
     },
     {
       "expression": "#H['xyz'] == '4'",
-      "weight": [40, 60]
+      "weight": [70, 30]
     },
     {
-      "weight": [0, 100]
+      "weight": [100, 0]
     }
   ],
   "header": {"xyz": "1"}
@@ -2987,9 +2987,9 @@ POST
             <condition id="condition-1" expression="#H['xyz'] == '2'" version-id="route-1"/>
         </conditions>
         <conditions type="gray">
-            <condition id="condition-0" expression="#H['xyz'] == '3'" version-id="route-0=10;route-1=90"/>
-            <condition id="condition-1" expression="#H['xyz'] == '4'" version-id="route-0=40;route-1=60"/>
-            <condition id="condition-2" version-id="route-0=0;route-1=100"/>
+            <condition id="condition-0" expression="#H['xyz'] == '3'" version-id="route-0=90;route-1=10"/>
+            <condition id="condition-1" expression="#H['xyz'] == '4'" version-id="route-0=70;route-1=30"/>
+            <condition id="condition-2" version-id="route-0=100;route-1=0"/>
         </conditions>
         <routes>
             <route id="route-0" type="version">{"discovery-guide-service-a":"1.0","discovery-guide-service-b":"1.0"}</route>
