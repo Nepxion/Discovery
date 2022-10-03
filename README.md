@@ -2845,7 +2845,7 @@ POST
 通过向控制台发送请求，控制台根据Json格式规则策略，根据新旧版本的判断，智能编排出两条新旧路由链路，并给它们赋予不同的条件表达式，最终创建出完整的Xml格式规则策略，保存到配置中心
 
 #### 全链路智能编排使用方式
-①  创建版本蓝绿灰度发布
+① 创建版本蓝绿灰度发布
 
 - 兜底规则策略
 ```
@@ -3002,17 +3002,24 @@ POST
 
 ② 清除蓝绿灰度发布
 
+通过向控制台发送请求，清除蓝绿灰度发布
+
 ③ 校验版本蓝绿灰度发布
 
+通过向控制台发送请求，校验版本蓝绿灰度发布。“创建版本蓝绿灰度发布”会直接把智能编排后蓝绿灰度发布规则策略写入到配置中心，用户可以预先调用“校验版本蓝绿灰度发布”的接口进行智能编排结果的判断，进行检查，确认无误后，才执行“创建版本蓝绿灰度发布”
+
 ④ 校验条件表达式
+
+通过向控制台发送请求，校验条件表达式。简单的条件表达式（例如，#H['xyz'] == '1'），用户一般不会出现输入的问题，但复杂的条件表达式，会存在出错的概率，通过“校验条件表达式”可以判断条件表达式是否撰写正确
 
 环境搭建，请参考
 - Github Wiki ：[如何对接DevOps运维平台实施流量管控 - 对接DevOps运维平台环境搭建](https://github.com/Nepxion/Discovery/wiki/%E5%A6%82%E4%BD%95%E5%AF%B9%E6%8E%A5DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AE%9E%E6%96%BD%E6%B5%81%E9%87%8F%E7%AE%A1%E6%8E%A7#%E5%AF%B9%E6%8E%A5DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA)
 - Gitee Wiki ：[如何对接DevOps运维平台实施流量管控 - 对接DevOps运维平台环境搭建](https://gitee.com/nepxion/Discovery/wikis/pages?sort_id=6428159&doc_id=1124387#%E5%AF%B9%E6%8E%A5DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA)
 
 具体用法，请参考
-- Github Wiki ：[如何使用DevOps运维平台对接的公共接口 - 创建版本蓝绿灰度发布](https://github.com/Nepxion/Discovery/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AF%B9%E6%8E%A5%E7%9A%84%E5%85%AC%E5%85%B1%E6%8E%A5%E5%8F%A3#%E5%88%9B%E5%BB%BA%E7%89%88%E6%9C%AC%E8%93%9D%E7%BB%BF%E7%81%B0%E5%BA%A6%E5%8F%91%E5%B8%83)
-- Gitee Wiki ：[如何使用DevOps运维平台对接的公共接口 - 创建版本蓝绿灰度发布](https://gitee.com/nepxion/Discovery/wikis/pages?sort_id=6428158&doc_id=1124387#%E5%88%9B%E5%BB%BA%E7%89%88%E6%9C%AC%E8%93%9D%E7%BB%BF%E7%81%B0%E5%BA%A6%E5%8F%91%E5%B8%83)
+具体用法，请参考
+- Github Wiki ：[如何使用DevOps运维平台对接的公共接口 - 策略接口](https://github.com/Nepxion/Discovery/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AF%B9%E6%8E%A5%E7%9A%84%E5%85%AC%E5%85%B1%E6%8E%A5%E5%8F%A3#%E7%AD%96%E7%95%A5%E6%8E%A5%E5%8F%A3)
+- Gitee Wiki ：[如何使用DevOps运维平台对接的公共接口 - 策略接口](https://gitee.com/nepxion/Discovery/wikis/pages?sort_id=6428158&doc_id=1124387#%E7%AD%96%E7%95%A5%E6%8E%A5%E5%8F%A3)
 
 ## 全链路流量管控对接DevOps运维平台
 
