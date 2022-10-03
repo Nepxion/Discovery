@@ -222,7 +222,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - 基于Swagger和Rest的规则策略推送
     - 基于平台端和桌面端的规则策略推送
 - 统一配置订阅执行器
-- Docker容器化和Kubernetes平台无缝支持部署
 - 自动化测试、压力测试
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Ability.jpg)
@@ -714,9 +713,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [中间件属性配置](#中间件属性配置)
     - [功能开关配置](#功能开关配置)
     - [内置文件配置](#内置文件配置)
-- [Docker容器化和Kubernetes平台支持](#Docker容器化和Kubernetes平台支持)
-    - [Docker容器化](#Docker容器化)
-    - [Kubernetes平台支持](#Kubernetes平台支持)
 - [自动化测试](#自动化测试)
     - [架构设计](#架构设计)
     - [启动控制台](#启动控制台)
@@ -7397,88 +7393,6 @@ swagger.service.termsOfService.url=http://nepxion.com/discovery
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项 
 
 该文件在整个服务目录和包中只能出现一次
-
-## Docker容器化和Kubernetes平台支持
-
-### Docker容器化
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) Spring 2.3.x支持Docker分层部署，步骤也更简单，请参考Polaris【北极星】企业级云原生微服务框架里的介绍
-
-① 搭建Windows10操作系统或者Linux操作系统下的Docker环境
-
-- Windows10环境下，具体步骤参考[Docker安装步骤](https://github.com/Nepxion/Thunder/blob/master/thunder-spring-boot-docker-example/README.md)
-- Linux环境请自行研究
-
-② 需要在4个工程下的pom.xml里增加spring-boot-maven-plugin和docker-maven-plugin
-```xml
-<plugin>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-maven-plugin</artifactId>
-    <configuration>
-        <executable>true</executable>
-        <mainClass>com.nepxion.discovery.guide.gateway.DiscoveryGuideGateway</mainClass>
-        <layout>JAR</layout>
-    </configuration>
-    <executions>
-        <execution>
-            <goals>
-                <goal>repackage</goal>
-            </goals>
-            <configuration>
-                <attach>false</attach>
-            </configuration>
-        </execution>
-    </executions>
-</plugin>
-<plugin>
-    <groupId>com.spotify</groupId>
-    <artifactId>docker-maven-plugin</artifactId>
-    <configuration>
-        <imageName>${ImageName}</imageName>
-        <baseImage>openjdk:8-jre-alpine</baseImage>
-        <entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
-        <exposes>
-            <expose>${ExposePort}</expose>
-        </exposes>
-        <resources>
-            <resource>
-                <targetPath>/</targetPath>
-                <directory>${project.build.directory}</directory>
-                <include>${project.build.finalName}.jar</include>
-            </resource>
-        </resources>
-    </configuration>
-</plugin>
-```
-③ 拷贝discovery-guide-docker目录下的所有脚本文件到根目录下
-
-④ 所有脚本文件下的MIDDLEWARE_HOST=10.0.75.1改成使用者本地物理IP地址（Docker是不能去连接容器外地址为localhost的中间件服务器）
-
-⑤ 全自动部署和运行Docker化的服务。在根目录下
-
-- 一键运行install-docker-gateway.bat或者.sh，把Spring Cloud Gateway网关全自动部署且运行起来
-- 一键运行install-docker-zuul.bat或者.sh，把Zuul网关全自动部署且运行起来
-- 一键运行install-docker-service-xx.bat或者.sh，把微服务全自动部署且运行起来。需要注意，必须依次运行，即等上一个部署完毕后才能执行下一个
-- 一键运行install-docker-console.bat或者.sh，把控制平台全自动部署且运行起来
-- 一键运行install-docker-admin.bat或者.sh，把监控平台全自动部署且运行起来	
-
-上述步骤为演示步骤，和DevOps平台结合在一起，更为完美
-
-⑥ Docker运行效果
-
-- Docker Desktop
-
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Docker.jpg)
-
-- Docker Windows
-
-![](http://nepxion.gitee.io/discovery/docs/polaris-doc/DockerWindows.jpg)
-
-- Docker Linux
-
-![](http://nepxion.gitee.io/discovery/docs/polaris-doc/DockerLinux.jpg)
-
-### Kubernetes平台支持
-请自行研究
 
 ## 自动化测试
 自动化测试，基于Spring Boot/Spring Cloud的自动化测试框架，包括普通调用测试、蓝绿灰度调用测试和扩展调用测试（例如：支持阿里巴巴的Sentinel，FF4j的功能开关等）。通过注解形式，跟Spring Boot内置的测试机制集成，使用简单方便。该自动化测试框架的现实意义，可以把服务注册发现中心、远程配置中心、负载均衡、蓝绿灰度发布、熔断降级限流、功能开关、Feign、RestTemplate或者WebClient调用等中间件或者组件，一条龙组合起来进行自动化测试
