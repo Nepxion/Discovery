@@ -3102,17 +3102,17 @@ API网关 -> 服务A -> 服务B
 
 ```
 {
-"service": ["a", "b"],
-"blueGreen": [
-  {
-    "expression": "#H['xyz'] == '1'",
-    "route": "green"
-  }, 
-  {
-    "expression": "#H['xyz'] == '2'",
-    "route": "blue"
-  }
-]
+  "service": ["a", "b"],
+  "blueGreen": [
+    {
+      "expression": "#H['xyz'] == '1'",
+      "route": "green"
+    }, 
+    {
+      "expression": "#H['xyz'] == '2'",
+      "route": "blue"
+    }
+  ]
 }
 ```
 
@@ -3123,20 +3123,20 @@ API网关 -> 服务A -> 服务B
 
 ```
 {
-"service": ["discovery-guide-service-a", "discovery-guide-service-b"],
-"gray": [
-  {
-    "expression": "#H['xyz'] == '3'",
-    "weight": [90, 10]
-  },
-  {
-    "expression": "#H['xyz'] == '4'",
-    "weight": [70, 30]
-  },
-  {
-    "weight": [100, 0]
-  }
-]
+  "service": ["a", "b"],
+  "gray": [
+    {
+      "expression": "#H['xyz'] == '3'",
+      "weight": [90, 10]
+    },
+    {
+      "expression": "#H['xyz'] == '4'",
+      "weight": [70, 30]
+    },
+    {
+      "weight": [100, 0]
+    }
+  ]
 }
 ```
 
