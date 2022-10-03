@@ -3017,7 +3017,6 @@ POST
 - Gitee Wiki ：[如何对接DevOps运维平台实施流量管控 - 对接DevOps运维平台环境搭建](https://gitee.com/nepxion/Discovery/wikis/pages?sort_id=6428159&doc_id=1124387#%E5%AF%B9%E6%8E%A5DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA)
 
 具体用法，请参考
-具体用法，请参考
 - Github Wiki ：[如何使用DevOps运维平台对接的公共接口 - 策略接口](https://github.com/Nepxion/Discovery/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AF%B9%E6%8E%A5%E7%9A%84%E5%85%AC%E5%85%B1%E6%8E%A5%E5%8F%A3#%E7%AD%96%E7%95%A5%E6%8E%A5%E5%8F%A3)
 - Gitee Wiki ：[如何使用DevOps运维平台对接的公共接口 - 策略接口](https://gitee.com/nepxion/Discovery/wikis/pages?sort_id=6428158&doc_id=1124387#%E7%AD%96%E7%95%A5%E6%8E%A5%E5%8F%A3)
 
