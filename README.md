@@ -240,6 +240,8 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | IP地址和端口 |服务实例机器地址 | 蓝绿灰度发布<br>路由隔离<br>故障转移<br>无损下线 | ① IP地址和端口匹配蓝绿发布<br>② IP地址和端口权重灰度发布<br>③ IP地址和端口故障转移<br>- 未找到相应IP地址和端口的服务实例，路由到其它地址<br>- 负载均衡策略、指定区IP地址和端口策略<br>④ IP地址和端口无损下线黑名单屏蔽 | n-d-address<br>n-d-address-failover<br>n-d-address-blacklist |
 | 全局唯一ID | 服务实例机器ID | 无损下线 | ① 全局唯一ID无损下线黑名单屏蔽 | n-d-id-blacklist |
 
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Filter.jpg)
+
 ### 发展历程
 - 2017年12月开始筹划
 - 2018年03月开始编码
