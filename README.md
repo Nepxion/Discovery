@@ -215,7 +215,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - 基于多DataSource的数据库蓝绿发布
     - 基于多Queue的消息队列蓝绿发布
 - 全链路服务侧注解
-- 全链路服务侧API权限
 - 元数据流量染色
     - Git插件自动化的元数据流量染色
     - 服务名前缀的元数据流量染色
@@ -699,7 +698,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [全链路蓝绿灰度发布混合流量侦测](#全链路蓝绿灰度发布混合流量侦测)
 - [全链路数据库和消息队列蓝绿发布](#全链路数据库和消息队列蓝绿发布)
 - [全链路服务侧注解](#全链路服务侧注解)
-- [全链路服务侧API权限](#全链路服务侧API权限)
 - [元数据流量染色](#元数据流量染色)
     - [基于Git插件自动创建版本号](#基于Git插件自动创建版本号)
     - [基于服务名前缀自动创建组名](#基于服务名前缀自动创建组名)
@@ -4780,7 +4778,6 @@ public class MySubscriber {
 ```
 
 ## 全链路服务限流熔断降级权限
-
 集成Sentinel熔断隔离限流降级平台
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Sentinel3.jpg)
@@ -5755,14 +5752,6 @@ spring.application.parameter.event.onstart.enabled=true
 spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.feign
 ```
 当使用者不希望只局限于RestController类（含有@RestController注解）方式，而要求在任何类中实现上述功能，那么框架提供@ServiceStrategy注解，使用者把它加在类头部即可，可以达到和@RestController注解同样的效果
-
-## 全链路服务侧API权限
-服务侧对于RPC方式的调用，可以加入API权限控制，通过在接口或者类名上加@Permission注解，或者在接口或者类的方法名上加@Permission注解，实现API权限控制。如果两者都加，以前者为优先
-- 实现权限自动扫描入库
-- 实现提供显式基于注解的权限验证，参数通过注解传递；实现提供基于Rest请求的权限验证，参数通过Header传递
-- 实现提供入库方法和权限判断方法的扩展，这两者需要自行实现
-
-请参考[权限代码](https://github.com/Nepxion/DiscoveryGuide/blob/master/discovery-guide-service/src/main/java/com/nepxion/discovery/guide/service/permission)
 
 ## 元数据流量染色
 
