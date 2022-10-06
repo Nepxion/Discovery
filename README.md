@@ -77,10 +77,13 @@ Polaris为Discovery高级定制版，特色功能
 - [指南示例源码Gitee版](https://gitee.com/Nepxion/DiscoveryGuide)
 
 ⑥ 指南示例说明
-- 对于入门级玩家，参考[6.x.x指南示例极简版](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simple)，分支为6.x.x-simple
-- 对于熟练级玩家，参考[6.x.x指南示例精进版](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x)，分支为6.x.x。除上述《极简版》功能外，涉及到指南篇里的绝大多数高级功能
-- 对于骨灰级玩家，参考[6.x.x指南示例高级版](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-complex)，分支为6.x.x-complex。除上述《精进版》功能外，涉及到指南篇里的ActiveMQ、MongoDB、RabbitMQ、Redis、RocketMQ、MySQL等高级调用链和蓝绿灰度调用链的整合
-- 上述指南实例分支是针对Spring Cloud Finchley ~ Hoxton版本。对于Spring Cloud 202x版本，参考[7.x.x ~ 8.x.x指南示例精进版](https://github.com/Nepxion/DiscoveryGuide/tree/master)，分支为master
+- Spring Cloud Finchley ~ Hoxton版本
+    - [极简版指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simple)，分支为6.x.x-simple。最简单功能的使用指南
+    - [集成版指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x)，分支为6.x.x。除上述《极简版》功能外，涉及到指南篇里的绝大多数组件集成、高级功能、自动化测试等使用指南
+    - [高级版指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-complex)，分支为6.x.x-complex。除上述《集成版》功能外，涉及到指南篇里的ActiveMQ、MongoDB、RabbitMQ、Redis、RocketMQ、MySQL等高级调用链和蓝绿灰度调用链整合的使用指南
+- Spring Cloud 202x版本
+    - [极简版指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/master-simple)，分支为master-simple
+    - [集成版指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/master)，分支为master
 
 ![](http://nepxion.gitee.io/discovery/docs/polaris-doc/Logo64.png) Polaris【北极星】企业级云原生微服务商业解决方案
 
@@ -96,8 +99,10 @@ Polaris为Discovery高级定制版，特色功能
 - [指南示例源码Gitee版](https://gitee.com/polaris-paas/polaris-guide)
 
 ④ 指南示例说明
-- Spring Cloud Finchley ~ Hoxton版本，参考[1.x.x指南示例](https://github.com/polaris-paas/polaris-guide/tree/1.x.x)，分支为1.x.x
-- Spring Cloud 202x版本，参考[2.x.x ~ 3.x.x指南示例](https://github.com/polaris-paas/polaris-guide/tree/master)，分支为master
+- Spring Cloud Finchley ~ Hoxton版本
+    - [指南示例](https://github.com/polaris-paas/polaris-guide/tree/1.x.x)，分支为1.x.x
+- Spring Cloud 202x版本
+    - [指南示例](https://github.com/polaris-paas/polaris-guide/tree/master)，分支为master
 
 ### 架构拓扑
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/Logo64.png) Discovery【探索】和Polaris【北极星】架构体系
