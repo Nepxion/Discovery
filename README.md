@@ -1802,6 +1802,8 @@ spring.application.strategy.web.client.core.header.transmission.enabled=true
 #### 全链路端到端实施蓝绿灰度发布
 前端 -> 网关 -> 服务全链路调用中，可以实施端到端蓝绿灰度发布
 
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Priority.jpg)
+
 ① 前端 -> 网关并行实施蓝绿灰度发布
 
 当外界传值Header的时候，网关也设置并传递同名的Header，需要决定哪个Header传递到后边的服务去。需要通过如下开关做控制
