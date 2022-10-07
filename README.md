@@ -2843,7 +2843,7 @@ POST
 > 所谓固化式，即蓝绿灰度规则策略只配置一次后永远不变更
 
 #### 固化流量染色
-给服务实例分别打`蓝`和`绿`的版本标签，不需要通过时间戳或者版本迭代的方式
+给服务实例分别打`蓝`和`绿`的版本标签，不需要通过时间戳方式或者数字递增方式
 ```
 -Dmetadata.version=blue
 -Dmetadata.version=green
@@ -2875,6 +2875,8 @@ POST
 </rule>
 ```
 
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Solidify1.jpg)
+
 ② 灰度发布规则策略
 
 当业务参数`a`等于`3`的时候，执行蓝路由占比90%，绿路由占比10%；当业务参数`a`等于`4`的时候，执行蓝路由占比70%，绿路由占比30%
@@ -2883,8 +2885,8 @@ POST
 <rule>
     <strategy-release>
         <conditions type="gray">
-            <condition id="condition-0" expression="#H['a'] == '3'" version-id="route-0=90;route-1=10"/>
-            <condition id="condition-1" expression="#H['a'] == '4'" version-id="route-0=70;route-1=30"/>
+            <condition id="condition-0" expression="#H['a'] == '3'" version-id="route-0=10;route-1=90"/>
+            <condition id="condition-1" expression="#H['a'] == '4'" version-id="route-0=90;route-1=10"/>
         </conditions>
 
         <routes>
@@ -2895,10 +2897,12 @@ POST
 </rule>
 ```
 
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Solidify2.jpg)
+
 技巧点之二
-- 蓝绿发布中`a`的值需要根据每次发布的而改变
-- 这次发布`a`等于`1`执行的是新服务链路，下次发布`a`等于`1`执行的是旧服务链路，再下次发布`a`等于`1`执行的是新服务链路...
-- 灰度发布亦是如此
+- 蓝绿发布中`a`的值需要根据每次发布的而改变。这次发布`a`等于`1`执行的是新服务链路，下次发布`a`等于`2`执行的是新服务链路，再下次发布`a`等于`1`执行的是新服务链路...
+- 灰度发布中需要具备两条百分比相互颠倒的权重，例如，route-0=10;route-1=90和route-0=90;route-1=10。这次发布`a`等于`3`执行的是新服务链路10%权重，下次发布`a`等于`4`执行的是新服务链路10%权重，再发布`a`等于`3`执行的是新服务链路10%权重...
+- 每次发布通过`a`值交替改变锚定正确的链路路由
 
 #### 固化故障转移
 全链路网关和所有服务必须打开故障转移
@@ -2914,7 +2918,7 @@ spring.application.strategy.version.failover.enabled=true
 #### 固化式蓝绿灰度发布优缺点
 
 ① 优点
-- 不需要通过时间戳或者版本迭代的方式去打标签
+- 不需要通过时间戳方式或者数字递增方式去打标签
 - 不需要每次发布都要去修改规则策略
 - 不需要指定具体要发布的服务列表
 
