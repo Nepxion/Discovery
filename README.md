@@ -2616,11 +2616,12 @@ public class MyDiscoveryEnabledStrategy extends DefaultDiscoveryEnabledStrategy 
             } else if (mobile.startsWith("133") && StringUtils.equals(version, "1.1")) {
                 return true;
             } else {
-                // 其它情况，直接拒绝请求
+                // 其它情况，实例被过滤掉
                 return false;
             }
         }
 
+        // 无手机号，实例不被过滤掉
         return true;
     }
 }
