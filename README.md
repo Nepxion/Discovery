@@ -1742,6 +1742,8 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 ![](http://nepxion.gitee.io/discovery/docs/polaris-doc/All.jpg)
 
 #### 全链路单网关部署
+单网关部署概要
+
 ① 场景
 - 所有部门共享一个大网关
 
@@ -1754,6 +1756,8 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 ![](http://nepxion.gitee.io/discovery/docs/polaris-doc/Single.jpg)
 
 #### 全链路域网关部署
+域网关部署概要
+
 ① 场景
 - A部门和B部门都有各自的网关
 - A部门服务访问B部门服务，必须通过B部门网关
@@ -1768,7 +1772,117 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 
 ![](http://nepxion.gitee.io/discovery/docs/polaris-doc/DomainEnable.jpg)
 
+域网关部署示例
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 架构拓扑
+
+① 部门1，包括API网关1，A和B服务各两个版本；部门2，包括API网关2，C和D服务各两个版本
+
+② 本部门服务访问必须链路新旧隔离，即部门1的A服务和B服务，必须A v1.0 -> B v1.0，A v1.1 -> B v1.1，不能出现A v1.0 -> B v1.1，A v1.1 -> B v1.0
+
+③ 本部门无权对其它部门服务实施蓝绿灰度，即部门1的API网关1不能配置部门2服务的蓝绿灰度规则策略，部门2的API网关2亦如此
+
+![](http://nepxion.gitee.io/discovery/docs/polaris-doc/DomainEnableExample.jpg)
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 执行过程
+
+① 两个部门，所有的服务都在并行执行蓝绿灰度
+
+- 增加Spring Cloud Gateway1的版本匹配蓝绿发布策略，Group为discovery-guide-group1，Data Id为discovery-guide-gateway1，策略内容如下
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy-release>
+        <conditions type="blue-green">
+            <condition id="condition-0" expression="#H['a'] == '1'" version-id="route-0"/>
+            <condition id="condition-1" expression="#H['a'] == '2'" version-id="route-1"/>
+            <condition id="condition-2" version-id="route-1"/>
+        </conditions>
+
+        <routes>
+            <route id="route-0" type="version">{"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}</route>
+            <route id="route-1" type="version">{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</route>
+        </routes>
+    </strategy-release>
+</rule>
+```
+
+- 增加Spring Cloud Gateway2的版本权重灰度发布策略，Group为discovery-guide-group2，Data Id为discovery-guide-gateway2，策略内容如下
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy-release>
+        <conditions type="gray">
+            <condition id="condition-0" expression="#H['a'] == '1'" version-id="route-0=20;route-1=80"/>        
+            <condition id="condition-1" version-id="route-0=0;route-1=100"/>
+        </conditions>
+
+        <routes>
+            <route id="route-0" type="version">{"discovery-guide-service-d":"1.1", "discovery-guide-service-c":"1.1"}</route>
+            <route id="route-1" type="version">{"discovery-guide-service-d":"1.0", "discovery-guide-service-c":"1.0"}</route>
+        </routes>
+    </strategy-release>
+</rule>
+```
+② API网关2配置兜底路由，即灰度兜底路由
+
+③ API网关2拒绝API网关1传递进来的蓝绿灰度规则（默认设置）
+
+④ 测试结果
+
+- 从API网关1进行访问
+
+请求URL
+```
+http://localhost:5001/discovery-guide-service-a/invoke/gateway
+```
+请求类型
+```
+GET
+```
+请求参数（Header）
+```
+a=1
+```
+返回结果
+```
+gateway 
+-> [ID=discovery-guide-service-a][UID=20221012-192103-136-5920-333-865][T=service][P=Nacos][H=192.168.31.237:3002][V=1.1][R=default][E=default][Z=default][G=discovery-guide-group1][A=false] 
+-> [ID=discovery-guide-service-b][UID=20221012-192110-302-6048-973-128][T=service][P=Nacos][H=192.168.31.237:4002][V=1.1][R=default][E=default][Z=default][G=discovery-guide-group1][A=false] 
+-> [ID=discovery-guide-service-d][UID=20221012-192123-450-0729-561-734][T=service][P=Nacos][H=192.168.31.237:8001][V=1.0][R=default][E=default][Z=default][G=discovery-guide-group2][A=false] 
+-> [ID=discovery-guide-service-c][UID=20221012-192114-430-4393-896-177][T=service][P=Nacos][H=192.168.31.237:7001][V=1.0][R=default][E=default][Z=default][G=discovery-guide-group2][A=false]
+```
+`a`等于`1`，A服务和B服务都走1.1版本，C服务和D服务属于跨部门调用，执行它们的兜底路由（1.0版本），结果符合预期
+
+- 从API网关2进行访问
+
+请求URL
+```
+http://localhost:5002/discovery-guide-service-d/invoke/gateway
+```
+请求类型
+```
+GET
+```
+请求参数（Header）
+```
+a=1
+```
+返回结果
+```
+gateway 
+-> [ID=discovery-guide-service-d][UID=20221012-192123-450-0729-561-734][T=service][P=Nacos][H=192.168.31.237:8001][V=1.0][R=default][E=default][Z=default][G=discovery-guide-group2][A=false] 
+-> [ID=discovery-guide-service-c][UID=20221012-192114-430-4393-896-177][T=service][P=Nacos][H=192.168.31.237:7001][V=1.0][R=default][E=default][Z=default][G=discovery-guide-group2][A=false]
+```
+`a`等于`1`，C服务和D服务新旧路由链路的流量配比是20:80，经过若干次调用测试，结果符合预期。对于C服务和D服务来说，它们在API网关2上流量管控不受API网关1的蓝绿灰度规则策略影响
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 示例代码
+
+[域网关部署模式指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simple-domain-gateway)，分支为6.x.x-simple-domain-gateway
+
 #### 全链路非域网关部署
+非域网关部署概要
+
 ① 场景
 - A部门和B部门都有各自的网关
 - A部门服务直接访问B部门服务
@@ -1783,7 +1897,120 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 
 ![](http://nepxion.gitee.io/discovery/docs/polaris-doc/DomainDisable.jpg)
 
+非域网关部署示例
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 架构拓扑
+
+① 部门1，包括API网关1，A和B服务各两个版本；部门2，包括API网关2，C和D服务各两个版本
+
+② 服务的版本流量染色必须可排序，时间戳方式或者数字递增方式都可以
+
+③ 本部门服务访问必须链路新旧隔离，即部门1的A服务和B服务，必须A v1.0 -> B v1.0，A v1.1 -> B v1.1，不能出现A v1.0 -> B v1.1，A v1.1 -> B v1.0
+
+④ 本部门无权对其它部门服务实施蓝绿灰度，即部门1的API网关1不能配置部门2服务的蓝绿灰度规则策略，部门2的API网关2亦如此
+
+![](http://nepxion.gitee.io/discovery/docs/polaris-doc/DomainDisableExample.jpg)
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 执行过程
+
+① 两个部门，所有的服务都在并行执行蓝绿灰度
+
+- 增加Spring Cloud Gateway1的版本匹配蓝绿发布策略，Group为discovery-guide-group1，Data Id为discovery-guide-gateway1，策略内容如下
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy-release>
+        <conditions type="blue-green">
+            <condition id="condition-0" expression="#H['a'] == '1'" version-id="route-0"/>
+            <condition id="condition-1" expression="#H['a'] == '2'" version-id="route-1"/>
+            <condition id="condition-2" version-id="route-1"/>
+        </conditions>
+
+        <routes>
+            <route id="route-0" type="version">{"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}</route>
+            <route id="route-1" type="version">{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}</route>
+        </routes>
+    </strategy-release>
+</rule>
+```
+
+- 增加Spring Cloud Gateway2的版本权重灰度发布策略，Group为discovery-guide-group2，Data Id为discovery-guide-gateway2，策略内容如下
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rule>
+    <strategy-release>
+        <conditions type="gray">
+            <condition id="condition-0" expression="#H['a'] == '1'" version-id="route-0=20;route-1=80"/>        
+            <condition id="condition-1" version-id="route-0=0;route-1=100"/>
+        </conditions>
+
+        <routes>
+            <route id="route-0" type="version">{"discovery-guide-service-d":"1.1", "discovery-guide-service-c":"1.1"}</route>
+            <route id="route-1" type="version">{"discovery-guide-service-d":"1.0", "discovery-guide-service-c":"1.0"}</route>
+        </routes>
+    </strategy-release>
+</rule>
+```
+③ 调用链路 服务A -> 服务B -> 服务C，B服务不能访问未经流量验证的C服务的新版本（1.1版本）
+
+④ 所有服务开启版本偏好。配置如下
+```
+spring.application.strategy.version.prefer.enabled=true
+```
+⑤ 测试结果
+
+- 从API网关1进行访问
+
+请求URL
+```
+http://localhost:5001/discovery-guide-service-a/invoke/gateway
+```
+请求类型
+```
+GET
+```
+请求参数（Header）
+```
+a=1
+```
+返回结果
+```
+gateway 
+-> [ID=discovery-guide-service-a][UID=20221012-182445-539-6534-332-892][T=service][P=Nacos][H=192.168.31.237:3002][V=1.1][R=default][E=default][Z=default][G=discovery-guide-group1][A=false] 
+-> [ID=discovery-guide-service-b][UID=20221012-182453-414-6112-714-743][T=service][P=Nacos][H=192.168.31.237:4002][V=1.1][R=default][E=default][Z=default][G=discovery-guide-group1][A=false] 
+-> [ID=discovery-guide-service-c][UID=20221012-182457-337-0612-194-528][T=service][P=Nacos][H=192.168.31.237:7001][V=1.0][R=default][E=default][Z=default][G=discovery-guide-group2][A=false]
+```
+`a`等于`1`，A服务和B服务都走1.1版本，C服务属于跨部门调用，B服务调用C服务执行版本偏好，只调用C的旧版本（1.0版本），结果符合预期
+
+- 从API网关2进行访问
+
+请求URL
+```
+http://localhost:5002/discovery-guide-service-d/invoke/gateway
+```
+请求类型
+```
+GET
+```
+请求参数（Header）
+```
+a=1
+```
+返回结果
+```
+gateway 
+-> [ID=discovery-guide-service-d][UID=20221012-182508-456-2659-939-559][T=service][P=Nacos][H=192.168.31.237:8001][V=1.0][R=default][E=default][Z=default][G=discovery-guide-group2][A=false] 
+-> [ID=discovery-guide-service-c][UID=20221012-182457-337-0612-194-528][T=service][P=Nacos][H=192.168.31.237:7001][V=1.0][R=default][E=default][Z=default][G=discovery-guide-group2][A=false]
+```
+`a`等于`1`，C服务和D服务新旧路由链路的流量配比是20:80，经过若干次调用测试，结果符合预期。对于C服务来说，它在API网关2上流量管控不受API网关1的蓝绿灰度规则策略影响
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 示例代码
+
+[非域网关部署模式指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simple-non-domain-gateway)，分支为6.x.x-simple-non-domain-gateway
+
 #### 全局订阅式部署
+全局订阅式部署概要
+
 ① 场景
 - A部门和B部门是否有各自的网关，服务之间如何调用都不做要求
 
