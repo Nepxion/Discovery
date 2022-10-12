@@ -106,21 +106,6 @@ Polaris为Discovery高级定制版，特色功能
 - Spring Cloud 202x版本
     - [指南示例](https://github.com/polaris-paas/polaris-guide/tree/master)，分支为master
 
-### 架构拓扑
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/Logo64.png) Discovery【探索】和Polaris【北极星】架构体系
-
-① Discovery【探索】和Polaris【北极星】联合架构图
-
-![](http://nepxion.gitee.io/discovery/docs/polaris-doc/Architecture.jpg)
-
-② Discovery【探索】和Polaris【北极星】联合拓扑图
-
-![](http://nepxion.gitee.io/discovery/docs/polaris-doc/Topology.jpg)
-
-③ Polaris【北极星】分层架构图
-
-![](http://nepxion.gitee.io/discovery/docs/polaris-doc/Layer.jpg)
-
 ### 功能概述
 Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba，Discovery服务注册发现、Ribbon & Spring Cloud LoadBalancer负载均衡、Feign & RestTemplate & WebClient调用、Spring Cloud Gateway & Zuul过滤等组件全方位增强的企业级微服务开源解决方案，更贴近企业级需求，更具有企业级的插件引入、开箱即用特征
 
@@ -514,6 +499,13 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/万米.png"></td>
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/花西子.png"></td>
     </tr>
+    <tr align="center">
+      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/本田.png"></td>
+      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/东软睿驰.png"></td>
+      <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/林氏家居.png"></td>
+      <td width="20%"></td>
+      <td width="20%"></td>
+    </tr>
   </tbody>
 </table>
 
@@ -543,7 +535,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [作者简介](#作者简介)
     - [商业合作](#商业合作)
     - [入门资料](#入门资料)
-    - [架构拓扑](#架构拓扑)
     - [功能概述](#功能概述)
     - [发展历程](#发展历程)
     - [版本列表](#版本列表)
