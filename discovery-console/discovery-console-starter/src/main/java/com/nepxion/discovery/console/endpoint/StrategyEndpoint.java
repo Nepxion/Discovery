@@ -34,11 +34,25 @@ public class StrategyEndpoint {
     @Autowired
     private StrategyResource strategyResource;
 
+    @RequestMapping(path = "/parse-version-release-yaml", method = RequestMethod.POST)
+    @ApiOperation(value = "解析版本蓝绿灰度发布", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    public ResponseEntity<?> parseVersionRelease(@RequestBody @ApiParam(value = "蓝绿灰度策略Yaml", required = true) String conditionStrategyYaml) {
+        return doParseVersionRelease(conditionStrategyYaml);
+    }
+
     @RequestMapping(path = "/parse-version-release", method = RequestMethod.POST)
     @ApiOperation(value = "解析版本蓝绿灰度发布", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> parseVersionRelease(@RequestBody @ApiParam(value = "蓝绿灰度策略对象", required = true) ConditionStrategy conditionStrategy) {
         return doParseVersionRelease(conditionStrategy);
+    }
+
+    @RequestMapping(path = "/create-version-release-yaml/{group}", method = RequestMethod.POST)
+    @ApiOperation(value = "全局订阅方式，创建版本蓝绿灰度发布", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    public ResponseEntity<?> createVersionRelease(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @RequestBody @ApiParam(value = "蓝绿灰度策略Yaml", required = true) String conditionStrategyYaml) {
+        return doCreateVersionRelease(group, conditionStrategyYaml);
     }
 
     @RequestMapping(path = "/create-version-release/{group}", method = RequestMethod.POST)
@@ -53,6 +67,13 @@ public class StrategyEndpoint {
     @ResponseBody
     public ResponseEntity<?> clearRelease(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group) {
         return doClearRelease(group);
+    }
+
+    @RequestMapping(path = "/create-version-release-yaml/{group}/{serviceId}", method = RequestMethod.POST)
+    @ApiOperation(value = "局部订阅方式，创建版本蓝绿灰度发布", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    public ResponseEntity<?> createVersionRelease(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "蓝绿灰度策略Yaml", required = true) String conditionStrategyYaml) {
+        return doCreateVersionRelease(group, serviceId, conditionStrategyYaml);
     }
 
     @RequestMapping(path = "/create-version-release/{group}/{serviceId}", method = RequestMethod.POST)
@@ -76,9 +97,29 @@ public class StrategyEndpoint {
         return doValidateExpression(expression, validation);
     }
 
+    private ResponseEntity<?> doParseVersionRelease(String conditionStrategyYaml) {
+        try {
+            String result = strategyResource.parseVersionRelease(conditionStrategyYaml);
+
+            return ResponseUtil.getSuccessResponse(result);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
+    }
+
     private ResponseEntity<?> doParseVersionRelease(ConditionStrategy conditionStrategy) {
         try {
             String result = strategyResource.parseVersionRelease(conditionStrategy);
+
+            return ResponseUtil.getSuccessResponse(result);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
+    }
+
+    private ResponseEntity<?> doCreateVersionRelease(String group, String conditionStrategyYaml) {
+        try {
+            String result = strategyResource.createVersionRelease(group, conditionStrategyYaml);
 
             return ResponseUtil.getSuccessResponse(result);
         } catch (Exception e) {
@@ -99,6 +140,16 @@ public class StrategyEndpoint {
     private ResponseEntity<?> doClearRelease(String group) {
         try {
             String result = strategyResource.clearRelease(group);
+
+            return ResponseUtil.getSuccessResponse(result);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
+    }
+
+    private ResponseEntity<?> doCreateVersionRelease(String group, String serviceId, String conditionStrategyYaml) {
+        try {
+            String result = strategyResource.createVersionRelease(group, serviceId, conditionStrategyYaml);
 
             return ResponseUtil.getSuccessResponse(result);
         } catch (Exception e) {

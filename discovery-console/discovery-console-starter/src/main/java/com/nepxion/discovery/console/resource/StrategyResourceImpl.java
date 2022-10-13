@@ -19,6 +19,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.TypeComparator;
+import org.yaml.snakeyaml.Yaml;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.ConditionBlueGreenEntity;
@@ -55,12 +56,26 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
     private ConfigResource configResource;
 
     @Override
+    public String parseVersionRelease(String conditionStrategyYaml) {
+        ConditionStrategy conditionStrategy = createConditionStrategy(conditionStrategyYaml);
+
+        return parseVersionRelease(conditionStrategy);
+    }
+
+    @Override
     public String parseVersionRelease(ConditionStrategy conditionStrategy) {
         RuleEntity ruleEntity = new RuleEntity();
 
         createVersionStrategyRelease(ruleEntity, conditionStrategy);
 
         return configResource.fromRuleEntity(ruleEntity);
+    }
+
+    @Override
+    public String createVersionRelease(String group, String conditionStrategyYaml) {
+        ConditionStrategy conditionStrategy = createConditionStrategy(conditionStrategyYaml);
+
+        return createVersionRelease(group, conditionStrategy);
     }
 
     @Override
@@ -71,6 +86,13 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
     @Override
     public String clearRelease(String group) {
         return clearRelease(group, null);
+    }
+
+    @Override
+    public String createVersionRelease(String group, String serviceId, String conditionStrategyYaml) {
+        ConditionStrategy conditionStrategy = createConditionStrategy(conditionStrategyYaml);
+
+        return createVersionRelease(group, serviceId, conditionStrategy);
     }
 
     @Override
@@ -105,6 +127,13 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
         }
 
         return DiscoveryExpressionResolver.eval(expression, DiscoveryConstant.EXPRESSION_PREFIX, map, typeComparator);
+    }
+
+    public ConditionStrategy createConditionStrategy(String conditionStrategyYaml) {
+        // 非线程安全
+        Yaml yaml = new Yaml();
+
+        return yaml.loadAs(conditionStrategyYaml, ConditionStrategy.class);
     }
 
     private void createVersionStrategyRelease(RuleEntity ruleEntity, ConditionStrategy conditionStrategy) {
