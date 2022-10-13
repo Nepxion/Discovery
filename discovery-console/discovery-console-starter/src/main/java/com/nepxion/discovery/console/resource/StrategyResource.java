@@ -12,10 +12,6 @@ package com.nepxion.discovery.console.resource;
 import com.nepxion.discovery.common.entity.ConditionStrategy;
 
 public interface StrategyResource {
-    String parseVersionRelease(String conditionStrategyYaml);
-
-    String parseVersionRelease(ConditionStrategy conditionStrategy);
-
     String createVersionRelease(String group, String conditionStrategyYaml);
 
     String createVersionRelease(String group, ConditionStrategy conditionStrategy);
@@ -27,6 +23,10 @@ public interface StrategyResource {
     String createVersionRelease(String group, String serviceId, ConditionStrategy conditionStrategy);
 
     String clearRelease(String group, String serviceId);
+
+    String parseVersionRelease(String conditionStrategyYaml);
+
+    String parseVersionRelease(ConditionStrategy conditionStrategy);
 
     boolean validateExpression(String expression, String validation);
 }

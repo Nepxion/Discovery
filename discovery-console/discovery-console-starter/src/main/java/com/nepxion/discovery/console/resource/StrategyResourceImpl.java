@@ -56,22 +56,6 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
     private ConfigResource configResource;
 
     @Override
-    public String parseVersionRelease(String conditionStrategyYaml) {
-        ConditionStrategy conditionStrategy = createConditionStrategy(conditionStrategyYaml);
-
-        return parseVersionRelease(conditionStrategy);
-    }
-
-    @Override
-    public String parseVersionRelease(ConditionStrategy conditionStrategy) {
-        RuleEntity ruleEntity = new RuleEntity();
-
-        createVersionStrategyRelease(ruleEntity, conditionStrategy);
-
-        return configResource.fromRuleEntity(ruleEntity);
-    }
-
-    @Override
     public String createVersionRelease(String group, String conditionStrategyYaml) {
         ConditionStrategy conditionStrategy = createConditionStrategy(conditionStrategyYaml);
 
@@ -113,6 +97,22 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
         clearStrategyRelease(ruleEntity);
 
         updateRemoteRuleEntity(group, serviceId, ruleEntity);
+
+        return configResource.fromRuleEntity(ruleEntity);
+    }
+
+    @Override
+    public String parseVersionRelease(String conditionStrategyYaml) {
+        ConditionStrategy conditionStrategy = createConditionStrategy(conditionStrategyYaml);
+
+        return parseVersionRelease(conditionStrategy);
+    }
+
+    @Override
+    public String parseVersionRelease(ConditionStrategy conditionStrategy) {
+        RuleEntity ruleEntity = new RuleEntity();
+
+        createVersionStrategyRelease(ruleEntity, conditionStrategy);
 
         return configResource.fromRuleEntity(ruleEntity);
     }
