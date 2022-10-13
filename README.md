@@ -3080,6 +3080,7 @@ POST
 ① 创建版本蓝绿灰度发布
 
 - 兜底规则策略
+
 ```
 {
   "service": ["discovery-guide-service-a", "discovery-guide-service-b"]
@@ -3096,6 +3097,7 @@ POST
 ```
 
 - 蓝绿规则策略
+
 ```
 {
   "service": ["discovery-guide-service-a", "discovery-guide-service-b"],
@@ -3132,6 +3134,7 @@ POST
 ```
 
 - 灰度规则策略
+
 ```
 {
   "service": ["discovery-guide-service-a", "discovery-guide-service-b"],
