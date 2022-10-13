@@ -1,8 +1,22 @@
-spring:
-  cloud:
-    gateway:
-      routes:
-      - id: after_route
-        uri: https://example.org
-        predicates:
-        - Cookie=mycookie,mycookievalue
+service:
+  - discovery-guide-service-a
+  - discovery-guide-service-b
+blueGreen:
+  - expression: "#H['xyz'] == '1'"
+    route: green
+  - expression: "#H['xyz'] == '2'"
+    route: blue
+gray:
+  - expression: "#H['xyz'] == '3'"
+    weight:
+      - 90
+      - 10
+  - expression: "#H['xyz'] == '4'"
+    weight:
+      - 70
+      - 30
+  - weight:
+      - 100
+      - 0
+header:
+  xyz: 1
