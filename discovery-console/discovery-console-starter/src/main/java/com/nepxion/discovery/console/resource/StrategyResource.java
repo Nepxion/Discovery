@@ -57,10 +57,10 @@ public interface StrategyResource {
     String parseVersionRelease(ConditionStrategy conditionStrategy);
 
     // 根据Xml格式，反解析版本蓝绿灰度发布策略为Json格式
-    ConditionStrategy deparseVersionRelease(String ruleXml);
+    ConditionStrategy deparseVersionReleaseXml(String ruleXml);
 
-    // 根据Yaml格式，转化版本蓝绿灰度发布策略为Json格式
-    ConditionStrategy convertVersionRelease(String conditionStrategyYaml);
+    // 根据Yaml格式，反解析版本蓝绿灰度发布策略为Json格式
+    ConditionStrategy deparseVersionReleaseYaml(String conditionStrategyYaml);
 
     // 校验策略的条件表达式
     boolean validateExpression(String expression, String validation);

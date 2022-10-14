@@ -65,7 +65,7 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
 
     @Override
     public String createVersionRelease(String group, String conditionStrategyYaml) {
-        ConditionStrategy conditionStrategy = convertVersionRelease(conditionStrategyYaml);
+        ConditionStrategy conditionStrategy = deparseVersionReleaseYaml(conditionStrategyYaml);
 
         return createVersionRelease(group, conditionStrategy);
     }
@@ -99,7 +99,7 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
 
     @Override
     public String createVersionRelease(String group, String serviceId, String conditionStrategyYaml) {
-        ConditionStrategy conditionStrategy = convertVersionRelease(conditionStrategyYaml);
+        ConditionStrategy conditionStrategy = deparseVersionReleaseYaml(conditionStrategyYaml);
 
         return createVersionRelease(group, serviceId, conditionStrategy);
     }
@@ -153,7 +153,7 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
 
     @Override
     public String parseVersionRelease(String conditionStrategyYaml) {
-        ConditionStrategy conditionStrategy = convertVersionRelease(conditionStrategyYaml);
+        ConditionStrategy conditionStrategy = deparseVersionReleaseYaml(conditionStrategyYaml);
 
         return parseVersionRelease(conditionStrategy);
     }
@@ -168,14 +168,14 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
     }
 
     @Override
-    public ConditionStrategy deparseVersionRelease(String ruleXml) {
+    public ConditionStrategy deparseVersionReleaseXml(String ruleXml) {
         RuleEntity ruleEntity = configResource.toRuleEntity(ruleXml);
 
         return deparseVersionStrategyRelease(ruleEntity);
     }
 
     @Override
-    public ConditionStrategy convertVersionRelease(String conditionStrategyYaml) {
+    public ConditionStrategy deparseVersionReleaseYaml(String conditionStrategyYaml) {
         // 非线程安全
         Yaml yaml = new Yaml();
 
