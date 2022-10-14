@@ -36,6 +36,13 @@ public class StrategyEndpoint {
     @Autowired
     private StrategyResource strategyResource;
 
+    @RequestMapping(path = "/get-version-release/{group}", method = RequestMethod.GET)
+    @ApiOperation(value = "全局订阅方式，获取Json格式的蓝绿灰度发布", notes = "", response = ResponseEntity.class, httpMethod = "GET")
+    @ResponseBody
+    public ResponseEntity<?> getVersionRelease(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group) {
+        return doGetVersionRelease(group);
+    }
+
     @RequestMapping(path = "/create-version-release-yaml/{group}", method = RequestMethod.POST)
     @ApiOperation(value = "全局订阅方式，根据Yaml格式，创建版本蓝绿灰度发布", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
@@ -50,11 +57,32 @@ public class StrategyEndpoint {
         return doCreateVersionRelease(group, conditionStrategy);
     }
 
+    @RequestMapping(path = "/recreate-version-release/{group}", method = RequestMethod.POST)
+    @ApiOperation(value = "全局订阅方式，重新创建版本蓝绿灰度发布（创建链路智能编排，不创建条件表达式）", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    public ResponseEntity<?> recreateVersionRelease(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @RequestBody @ApiParam(value = "蓝绿灰度服务列表", required = true) List<String> service) {
+        return doRecreateVersionRelease(group, service);
+    }
+
+    @RequestMapping(path = "/reset-release/{group}", method = RequestMethod.POST)
+    @ApiOperation(value = "全局订阅方式，重置蓝绿灰度发布（清除链路智能编排，不清除条件表达式）", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    public ResponseEntity<?> resetRelease(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group) {
+        return doResetRelease(group);
+    }
+
     @RequestMapping(path = "/clear-release/{group}", method = RequestMethod.POST)
     @ApiOperation(value = "全局订阅方式，清除蓝绿灰度发布", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> clearRelease(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group) {
         return doClearRelease(group);
+    }
+
+    @RequestMapping(path = "/get-version-release/{group}/{serviceId}", method = RequestMethod.GET)
+    @ApiOperation(value = "局部订阅方式，获取Json格式的蓝绿灰度发布", notes = "", response = ResponseEntity.class, httpMethod = "GET")
+    @ResponseBody
+    public ResponseEntity<?> getVersionRelease(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
+        return doGetVersionRelease(group, serviceId);
     }
 
     @RequestMapping(path = "/create-version-release-yaml/{group}/{serviceId}", method = RequestMethod.POST)
@@ -71,29 +99,8 @@ public class StrategyEndpoint {
         return doCreateVersionRelease(group, serviceId, conditionStrategy);
     }
 
-    @RequestMapping(path = "/clear-release/{group}/{serviceId}", method = RequestMethod.POST)
-    @ApiOperation(value = "局部订阅方式，清除蓝绿灰度发布", notes = "", response = ResponseEntity.class, httpMethod = "POST")
-    @ResponseBody
-    public ResponseEntity<?> clearRelease(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
-        return doClearRelease(group, serviceId);
-    }
-
-    @RequestMapping(path = "/recreate-version-release/{group}", method = RequestMethod.POST)
-    @ApiOperation(value = "全局订阅方式，重新创建版本发布（创建链路智能编排，不创建条件表达式）", notes = "", response = ResponseEntity.class, httpMethod = "POST")
-    @ResponseBody
-    public ResponseEntity<?> recreateVersionRelease(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @RequestBody @ApiParam(value = "蓝绿灰度服务列表", required = true) List<String> service) {
-        return doRecreateVersionRelease(group, service);
-    }
-
-    @RequestMapping(path = "/reset-release/{group}", method = RequestMethod.POST)
-    @ApiOperation(value = "全局订阅方式，重置蓝绿灰度发布（清除链路智能编排，不清除条件表达式）", notes = "", response = ResponseEntity.class, httpMethod = "POST")
-    @ResponseBody
-    public ResponseEntity<?> resetRelease(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group) {
-        return doResetRelease(group);
-    }
-
     @RequestMapping(path = "/recreate-version-release/{group}/{serviceId}", method = RequestMethod.POST)
-    @ApiOperation(value = "局部订阅方式，重新创建版本发布（创建链路智能编排，不创建条件表达式）", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "局部订阅方式，重新创建版本蓝绿灰度发布（创建链路智能编排，不创建条件表达式）", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> recreateVersionRelease(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId, @RequestBody @ApiParam(value = "蓝绿灰度服务列表", required = true) List<String> service) {
         return doRecreateVersionRelease(group, serviceId, service);
@@ -104,6 +111,13 @@ public class StrategyEndpoint {
     @ResponseBody
     public ResponseEntity<?> resetRelease(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
         return doResetRelease(group, serviceId);
+    }
+
+    @RequestMapping(path = "/clear-release/{group}/{serviceId}", method = RequestMethod.POST)
+    @ApiOperation(value = "局部订阅方式，清除蓝绿灰度发布", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    public ResponseEntity<?> clearRelease(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @PathVariable(value = "serviceId") @ApiParam(value = "服务名", required = true) String serviceId) {
+        return doClearRelease(group, serviceId);
     }
 
     @RequestMapping(path = "/parse-version-release-yaml", method = RequestMethod.POST)
@@ -141,6 +155,16 @@ public class StrategyEndpoint {
         return doValidateExpression(expression, validation);
     }
 
+    private ResponseEntity<?> doGetVersionRelease(String group) {
+        try {
+            ConditionStrategy result = strategyResource.getVersionRelease(group);
+
+            return ResponseUtil.getSuccessResponse(result);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
+    }
+
     private ResponseEntity<?> doCreateVersionRelease(String group, String conditionStrategyYaml) {
         try {
             String result = strategyResource.createVersionRelease(group, conditionStrategyYaml);
@@ -164,6 +188,16 @@ public class StrategyEndpoint {
     private ResponseEntity<?> doClearRelease(String group) {
         try {
             String result = strategyResource.clearRelease(group);
+
+            return ResponseUtil.getSuccessResponse(result);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
+    }
+
+    private ResponseEntity<?> doGetVersionRelease(String group, String serviceId) {
+        try {
+            ConditionStrategy result = strategyResource.getVersionRelease(group, serviceId);
 
             return ResponseUtil.getSuccessResponse(result);
         } catch (Exception e) {
