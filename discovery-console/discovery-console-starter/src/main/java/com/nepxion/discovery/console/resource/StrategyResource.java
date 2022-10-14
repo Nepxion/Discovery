@@ -9,8 +9,7 @@ package com.nepxion.discovery.console.resource;
  * @version 1.0
  */
 
-import java.util.List;
-
+import com.nepxion.discovery.common.entity.ConditionRouteStrategy;
 import com.nepxion.discovery.common.entity.ConditionStrategy;
 
 public interface StrategyResource {
@@ -23,8 +22,11 @@ public interface StrategyResource {
     // 全局订阅方式，根据Json格式，创建版本蓝绿灰度发布
     String createVersionRelease(String group, ConditionStrategy conditionStrategy);
 
-    // 全局订阅方式，重新创建版本蓝绿灰度发布（创建链路智能编排，不创建条件表达式）
-    String recreateVersionRelease(String group, List<String> service);
+    // 全局订阅方式，根据Yaml格式，重新创建版本蓝绿灰度发布（创建链路智能编排，不创建条件表达式）
+    String recreateVersionRelease(String group, String conditionRouteStrategyYaml);
+
+    // 全局订阅方式，根据Json格式，重新创建版本蓝绿灰度发布（创建链路智能编排，不创建条件表达式）
+    String recreateVersionRelease(String group, ConditionRouteStrategy conditionRouteStrategy);
 
     // 全局订阅方式，重置蓝绿灰度发布（清除链路智能编排，不清除条件表达式）
     String resetRelease(String group);
@@ -41,8 +43,11 @@ public interface StrategyResource {
     // 局部订阅方式，根据Json格式，创建版本蓝绿灰度发布
     String createVersionRelease(String group, String serviceId, ConditionStrategy conditionStrategy);
 
-    // 局部订阅方式，重新创建版本蓝绿灰度发布（创建链路智能编排，不创建条件表达式）
-    String recreateVersionRelease(String group, String serviceId, List<String> service);
+    // 局部订阅方式，根据Yaml格式，重新创建版本蓝绿灰度发布（创建链路智能编排，不创建条件表达式）
+    String recreateVersionRelease(String group, String serviceId, String conditionRouteStrategyYaml);
+
+    // 局部订阅方式，根据Json格式，重新创建版本蓝绿灰度发布（创建链路智能编排，不创建条件表达式）
+    String recreateVersionRelease(String group, String serviceId, ConditionRouteStrategy conditionRouteStrategy);
 
     // 局部订阅方式，重置蓝绿灰度发布（清除链路智能编排，不清除条件表达式）
     String resetRelease(String group, String serviceId);

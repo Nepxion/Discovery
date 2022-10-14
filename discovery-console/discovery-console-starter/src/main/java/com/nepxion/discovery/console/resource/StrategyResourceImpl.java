@@ -28,6 +28,7 @@ import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.ConditionBlueGreenEntity;
 import com.nepxion.discovery.common.entity.ConditionBlueGreenRoute;
 import com.nepxion.discovery.common.entity.ConditionGrayEntity;
+import com.nepxion.discovery.common.entity.ConditionRouteStrategy;
 import com.nepxion.discovery.common.entity.ConditionStrategy;
 import com.nepxion.discovery.common.entity.InstanceEntity;
 import com.nepxion.discovery.common.entity.RuleEntity;
@@ -76,8 +77,13 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
     }
 
     @Override
-    public String recreateVersionRelease(String group, List<String> service) {
-        return recreateVersionRelease(group, null, service);
+    public String recreateVersionRelease(String group, String conditionRouteStrategyYaml) {
+        return recreateVersionRelease(group, null, conditionRouteStrategyYaml);
+    }
+
+    @Override
+    public String recreateVersionRelease(String group, ConditionRouteStrategy conditionRouteStrategy) {
+        return recreateVersionRelease(group, null, conditionRouteStrategy);
     }
 
     @Override
@@ -116,13 +122,26 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
     }
 
     @Override
-    public String recreateVersionRelease(String group, String serviceId, List<String> service) {
+    public String recreateVersionRelease(String group, String serviceId, String conditionRouteStrategyYaml) {
+        // 非线程安全
+        Yaml yaml = new Yaml();
+
+        ConditionRouteStrategy conditionRouteStrategy = yaml.loadAs(conditionRouteStrategyYaml, ConditionRouteStrategy.class);
+
+        return recreateVersionRelease(group, serviceId, conditionRouteStrategy);
+    }
+
+    @Override
+    public String recreateVersionRelease(String group, String serviceId, ConditionRouteStrategy conditionRouteStrategy) {
         RuleEntity ruleEntity = getRemoteRuleEntity(group, serviceId);
+
+        List<String> service = conditionRouteStrategy.getService();
+        boolean condition = conditionRouteStrategy.isCondition(); // 是否创建条件路由
 
         ConditionStrategy conditionStrategy = deparseVersionStrategyRelease(ruleEntity);
         conditionStrategy.setService(service);
 
-        createVersionStrategyRelease(ruleEntity, conditionStrategy);
+        createVersionStrategyRelease(ruleEntity, conditionStrategy, condition);
 
         updateRemoteRuleEntity(group, serviceId, ruleEntity);
 
@@ -195,6 +214,10 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
     }
 
     private void createVersionStrategyRelease(RuleEntity ruleEntity, ConditionStrategy conditionStrategy) {
+        createVersionStrategyRelease(ruleEntity, conditionStrategy, true);
+    }
+
+    private void createVersionStrategyRelease(RuleEntity ruleEntity, ConditionStrategy conditionStrategy, boolean createConditionRoute) {
         List<String> serviceList = conditionStrategy.getService();
         // 输入的服务列表为空，不允许执行蓝绿灰度发布，抛出异常
         if (CollectionUtils.isEmpty(serviceList)) {
@@ -318,26 +341,29 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
                 strategyReleaseEntity.setStrategyConditionGrayEntityList(strategyConditionGrayEntityList);
             }
 
-            StrategyRouteEntity strategyRouteEntity0 = new StrategyRouteEntity();
-            strategyRouteEntity0.setId(ROUTE + "-0");
-            strategyRouteEntity0.setType(StrategyRouteType.VERSION);
-            strategyRouteEntity0.setValue(JsonUtil.toJson(stableVersionMap));
+            if (createConditionRoute) {
+                StrategyRouteEntity strategyRouteEntity0 = new StrategyRouteEntity();
+                strategyRouteEntity0.setId(ROUTE + "-0");
+                strategyRouteEntity0.setType(StrategyRouteType.VERSION);
+                strategyRouteEntity0.setValue(JsonUtil.toJson(stableVersionMap));
 
-            StrategyRouteEntity strategyRouteEntity1 = new StrategyRouteEntity();
-            strategyRouteEntity1.setId(ROUTE + "-1");
-            strategyRouteEntity1.setType(StrategyRouteType.VERSION);
-            strategyRouteEntity1.setValue(JsonUtil.toJson(unstableVersionMap));
+                StrategyRouteEntity strategyRouteEntity1 = new StrategyRouteEntity();
+                strategyRouteEntity1.setId(ROUTE + "-1");
+                strategyRouteEntity1.setType(StrategyRouteType.VERSION);
+                strategyRouteEntity1.setValue(JsonUtil.toJson(unstableVersionMap));
 
-            List<StrategyRouteEntity> strategyRouteEntityList = new ArrayList<StrategyRouteEntity>();
-            strategyRouteEntityList.add(strategyRouteEntity0);
-            strategyRouteEntityList.add(strategyRouteEntity1);
-            strategyReleaseEntity.setStrategyRouteEntityList(strategyRouteEntityList);
+                List<StrategyRouteEntity> strategyRouteEntityList = new ArrayList<StrategyRouteEntity>();
+                strategyRouteEntityList.add(strategyRouteEntity0);
+                strategyRouteEntityList.add(strategyRouteEntity1);
+                strategyReleaseEntity.setStrategyRouteEntityList(strategyRouteEntityList);
+            }
 
             Map<String, String> headerMap = conditionStrategy.getHeader();
             StrategyHeaderEntity strategyHeaderEntity = new StrategyHeaderEntity();
             strategyHeaderEntity.setHeaderMap(headerMap);
             strategyReleaseEntity.setStrategyHeaderEntity(strategyHeaderEntity);
         }
+
     }
 
     @SuppressWarnings("unchecked")
