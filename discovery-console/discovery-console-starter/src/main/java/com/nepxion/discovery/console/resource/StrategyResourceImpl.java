@@ -10,12 +10,15 @@ package com.nepxion.discovery.console.resource;
  */
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.TypeComparator;
@@ -57,7 +60,7 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
 
     @Override
     public String createVersionRelease(String group, String conditionStrategyYaml) {
-        ConditionStrategy conditionStrategy = createConditionStrategy(conditionStrategyYaml);
+        ConditionStrategy conditionStrategy = convertVersionRelease(conditionStrategyYaml);
 
         return createVersionRelease(group, conditionStrategy);
     }
@@ -74,7 +77,7 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
 
     @Override
     public String createVersionRelease(String group, String serviceId, String conditionStrategyYaml) {
-        ConditionStrategy conditionStrategy = createConditionStrategy(conditionStrategyYaml);
+        ConditionStrategy conditionStrategy = convertVersionRelease(conditionStrategyYaml);
 
         return createVersionRelease(group, serviceId, conditionStrategy);
     }
@@ -102,8 +105,43 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
     }
 
     @Override
+    public String recreateVersionRelease(String group, List<String> service) {
+        return recreateVersionRelease(group, null, service);
+    }
+
+    @Override
+    public String resetRelease(String group) {
+        return resetRelease(group, null);
+    }
+
+    @Override
+    public String recreateVersionRelease(String group, String serviceId, List<String> service) {
+        RuleEntity ruleEntity = getRemoteRuleEntity(group, serviceId);
+
+        ConditionStrategy conditionStrategy = deparseVersionStrategyRelease(ruleEntity);
+        conditionStrategy.setService(service);
+
+        createVersionStrategyRelease(ruleEntity, conditionStrategy);
+
+        updateRemoteRuleEntity(group, serviceId, ruleEntity);
+
+        return configResource.fromRuleEntity(ruleEntity);
+    }
+
+    @Override
+    public String resetRelease(String group, String serviceId) {
+        RuleEntity ruleEntity = getRemoteRuleEntity(group, serviceId);
+
+        resetStrategyRelease(ruleEntity);
+
+        updateRemoteRuleEntity(group, serviceId, ruleEntity);
+
+        return configResource.fromRuleEntity(ruleEntity);
+    }
+
+    @Override
     public String parseVersionRelease(String conditionStrategyYaml) {
-        ConditionStrategy conditionStrategy = createConditionStrategy(conditionStrategyYaml);
+        ConditionStrategy conditionStrategy = convertVersionRelease(conditionStrategyYaml);
 
         return parseVersionRelease(conditionStrategy);
     }
@@ -118,6 +156,21 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
     }
 
     @Override
+    public ConditionStrategy deparseVersionRelease(String ruleXml) {
+        RuleEntity ruleEntity = configResource.toRuleEntity(ruleXml);
+
+        return deparseVersionStrategyRelease(ruleEntity);
+    }
+
+    @Override
+    public ConditionStrategy convertVersionRelease(String conditionStrategyYaml) {
+        // 非线程安全
+        Yaml yaml = new Yaml();
+
+        return yaml.loadAs(conditionStrategyYaml, ConditionStrategy.class);
+    }
+
+    @Override
     public boolean validateExpression(String expression, String validation) {
         Map<String, String> map = null;
         try {
@@ -127,13 +180,6 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
         }
 
         return DiscoveryExpressionResolver.eval(expression, DiscoveryConstant.EXPRESSION_PREFIX, map, typeComparator);
-    }
-
-    public ConditionStrategy createConditionStrategy(String conditionStrategyYaml) {
-        // 非线程安全
-        Yaml yaml = new Yaml();
-
-        return yaml.loadAs(conditionStrategyYaml, ConditionStrategy.class);
     }
 
     private void createVersionStrategyRelease(RuleEntity ruleEntity, ConditionStrategy conditionStrategy) {
@@ -282,9 +328,79 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
         }
     }
 
+    @SuppressWarnings("unchecked")
+    private ConditionStrategy deparseVersionStrategyRelease(RuleEntity ruleEntity) {
+        ConditionStrategy conditionStrategy = new ConditionStrategy();
+
+        StrategyEntity strategyEntity = ruleEntity.getStrategyEntity();
+        if (strategyEntity != null) {
+            String versionValue = strategyEntity.getVersionValue();
+            if (StringUtils.isNotEmpty(versionValue)) {
+                Map<String, String> serviceMap = JsonUtil.fromJson(versionValue, Map.class);
+                conditionStrategy.setService(serviceMap.entrySet().stream().map(entry -> entry.getKey()).collect(Collectors.toList()));
+            }
+        }
+
+        StrategyReleaseEntity strategyReleaseEntity = ruleEntity.getStrategyReleaseEntity();
+        if (strategyReleaseEntity != null) {
+            List<StrategyConditionBlueGreenEntity> strategyConditionBlueGreenEntityList = strategyReleaseEntity.getStrategyConditionBlueGreenEntityList();
+            if (CollectionUtils.isNotEmpty(strategyConditionBlueGreenEntityList)) {
+                List<ConditionBlueGreenEntity> blueGreen = new ArrayList<ConditionBlueGreenEntity>();
+                for (StrategyConditionBlueGreenEntity strategyConditionBlueGreenEntity : strategyConditionBlueGreenEntityList) {
+                    String id = strategyConditionBlueGreenEntity.getId();
+                    String expression = strategyConditionBlueGreenEntity.getExpression();
+
+                    ConditionBlueGreenEntity conditionBlueGreenEntity = new ConditionBlueGreenEntity();
+                    conditionBlueGreenEntity.setExpression(expression);
+                    if (StringUtils.equals(id, CONDITION + "-0")) {
+                        conditionBlueGreenEntity.setRoute(ConditionBlueGreenRoute.GREEN.toString());
+                    } else if (StringUtils.equals(id, CONDITION + "-1")) {
+                        conditionBlueGreenEntity.setRoute(ConditionBlueGreenRoute.BLUE.toString());
+                    }
+                    blueGreen.add(conditionBlueGreenEntity);
+                }
+                conditionStrategy.setBlueGreen(blueGreen);
+            }
+
+            List<StrategyConditionGrayEntity> strategyConditionGrayEntityList = strategyReleaseEntity.getStrategyConditionGrayEntityList();
+            if (CollectionUtils.isNotEmpty(strategyConditionGrayEntityList)) {
+                List<ConditionGrayEntity> gray = new ArrayList<ConditionGrayEntity>();
+                for (StrategyConditionGrayEntity strategyConditionGrayEntity : strategyConditionGrayEntityList) {
+                    String expression = strategyConditionGrayEntity.getExpression();
+
+                    ConditionGrayEntity conditionGrayEntity = new ConditionGrayEntity();
+                    conditionGrayEntity.setExpression(expression);
+                    VersionWeightEntity versionWeightEntity = strategyConditionGrayEntity.getVersionWeightEntity();
+                    if (versionWeightEntity != null) {
+                        Map<String, Integer> weightMap = versionWeightEntity.getWeightMap();
+                        if (MapUtils.isNotEmpty(weightMap)) {
+                            int weight0 = weightMap.get(ROUTE + "-0");
+                            int weight1 = weightMap.get(ROUTE + "-1");
+                            conditionGrayEntity.setWeight(Arrays.asList(weight0, weight1));
+                        }
+                    }
+                    gray.add(conditionGrayEntity);
+                }
+                conditionStrategy.setGray(gray);
+            }
+
+            StrategyHeaderEntity strategyHeaderEntity = strategyReleaseEntity.getStrategyHeaderEntity();
+            if (strategyHeaderEntity != null) {
+                conditionStrategy.setHeader(strategyHeaderEntity.getHeaderMap());
+            }
+        }
+
+        return conditionStrategy;
+    }
+
     private void clearStrategyRelease(RuleEntity ruleEntity) {
         ruleEntity.setStrategyEntity(null);
         ruleEntity.setStrategyReleaseEntity(null);
+    }
+
+    private void resetStrategyRelease(RuleEntity ruleEntity) {
+        ruleEntity.setStrategyEntity(null);
+        ruleEntity.getStrategyReleaseEntity().setStrategyRouteEntityList(null);
     }
 
     private List<String> assembleVersionList(String serviceId) {
