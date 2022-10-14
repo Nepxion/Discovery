@@ -141,7 +141,7 @@ public class StrategyEndpoint {
         return doDeparseVersionReleaseXml(ruleXml);
     }
 
-    @RequestMapping(path = "/convert-version-release-yaml", method = RequestMethod.POST)
+    @RequestMapping(path = "/deparse-version-release-yaml", method = RequestMethod.POST)
     @ApiOperation(value = "根据Yaml格式，反解析版本蓝绿灰度发布策略为Json格式", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> convertVersionRelease(@RequestBody @ApiParam(value = "蓝绿灰度策略Yaml", required = true) String conditionStrategyYaml) {
