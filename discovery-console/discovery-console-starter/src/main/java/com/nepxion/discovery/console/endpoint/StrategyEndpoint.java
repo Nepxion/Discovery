@@ -134,18 +134,18 @@ public class StrategyEndpoint {
         return doParseVersionRelease(conditionStrategy);
     }
 
-    @RequestMapping(path = "/deparse-version-release", method = RequestMethod.POST)
+    @RequestMapping(path = "/deparse-version-release-xml", method = RequestMethod.POST)
     @ApiOperation(value = "根据Xml格式，反解析版本蓝绿灰度发布策略为Json格式", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> deparseVersionRelease(@RequestBody @ApiParam(value = "蓝绿灰度策略Xml", required = true) String ruleXml) {
-        return doDeparseVersionRelease(ruleXml);
+        return doDeparseVersionReleaseXml(ruleXml);
     }
 
-    @RequestMapping(path = "/convert-version-release", method = RequestMethod.POST)
-    @ApiOperation(value = "根据Yaml格式，转化版本蓝绿灰度发布策略为Json格式", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @RequestMapping(path = "/convert-version-release-yaml", method = RequestMethod.POST)
+    @ApiOperation(value = "根据Yaml格式，反解析版本蓝绿灰度发布策略为Json格式", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> convertVersionRelease(@RequestBody @ApiParam(value = "蓝绿灰度策略Yaml", required = true) String conditionStrategyYaml) {
-        return doConvertVersionRelease(conditionStrategyYaml);
+        return doDeparseVersionReleaseYaml(conditionStrategyYaml);
     }
 
     @RequestMapping(path = "/validate-expression", method = RequestMethod.GET)
@@ -295,9 +295,9 @@ public class StrategyEndpoint {
         }
     }
 
-    private ResponseEntity<?> doDeparseVersionRelease(String ruleXml) {
+    private ResponseEntity<?> doDeparseVersionReleaseXml(String ruleXml) {
         try {
-            ConditionStrategy conditionStrategy = strategyResource.deparseVersionRelease(ruleXml);
+            ConditionStrategy conditionStrategy = strategyResource.deparseVersionReleaseXml(ruleXml);
 
             return ResponseUtil.getSuccessResponse(conditionStrategy);
         } catch (Exception e) {
@@ -305,9 +305,9 @@ public class StrategyEndpoint {
         }
     }
 
-    private ResponseEntity<?> doConvertVersionRelease(String conditionStrategyYaml) {
+    private ResponseEntity<?> doDeparseVersionReleaseYaml(String conditionStrategyYaml) {
         try {
-            ConditionStrategy result = strategyResource.convertVersionRelease(conditionStrategyYaml);
+            ConditionStrategy result = strategyResource.deparseVersionReleaseYaml(conditionStrategyYaml);
 
             return ResponseUtil.getSuccessResponse(result);
         } catch (Exception e) {
