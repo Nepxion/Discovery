@@ -612,6 +612,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [对接DevOps运维平台环境搭建](#对接DevOps运维平台环境搭建)
     - [对接DevOps运维平台最佳实践](#对接DevOps运维平台最佳实践)
     - [对接DevOps运维平台步骤详解](#对接DevOps运维平台步骤详解)
+    - [对接DevOps运维平台实施半自动化流量管控](#对接DevOps运维平台实施半自动化流量管控)
     - [对接DevOps运维平台公共接口](#对接DevOps运维平台公共接口)
 - [全链路多活单元化](#多活单元化)
     - [多活单元化概念](#多活单元化概念)
@@ -3077,10 +3078,15 @@ POST
 通过向控制台发送请求，控制台根据Json格式规则策略，根据新旧版本的判断，智能编排出两条新旧路由链路，并给它们赋予不同的条件表达式，最终创建出完整的Xml格式规则策略，保存到配置中心
 
 #### 全链路智能编排使用方式
-① 创建版本蓝绿灰度发布
+- 创建版本兜底规则策略
 
-- 兜底规则策略
-
+`Yaml`格式
+```
+service:
+  - discovery-guide-service-a
+  - discovery-guide-service-b
+```
+`Json`格式
 ```
 {
   "service": ["discovery-guide-service-a", "discovery-guide-service-b"]
@@ -3096,8 +3102,20 @@ POST
 </rule>
 ```
 
-- 蓝绿规则策略
+- 创建版本蓝绿规则策略
 
+`Yaml`格式
+```
+service:
+  - discovery-guide-service-a
+  - discovery-guide-service-b
+blueGreen:
+  - expression: "#H['xyz'] == '1'"
+    route: green
+  - expression: "#H['xyz'] == '2'"
+    route: blue
+```
+`Json`格式
 ```
 {
   "service": ["discovery-guide-service-a", "discovery-guide-service-b"],
@@ -3133,8 +3151,27 @@ POST
 </rule>
 ```
 
-- 灰度规则策略
+- 创建版本灰度规则策略
 
+`Yaml`格式
+```
+service:
+  - discovery-guide-service-a
+  - discovery-guide-service-b
+gray:
+  - expression: "#H['xyz'] == '3'"
+    weight:
+      - 90
+      - 10
+  - expression: "#H['xyz'] == '4'"
+    weight:
+      - 70
+      - 30
+  - weight:
+      - 100
+      - 0
+```
+`Json`格式
 ```
 {
   "service": ["discovery-guide-service-a", "discovery-guide-service-b"],
@@ -3174,7 +3211,34 @@ POST
 </rule>
 ```
 
-- 混合蓝绿灰度 + 内置Header规则策略
+- 创建版本混合蓝绿灰度 + 内置Header规则策略
+
+`Yaml`格式
+```
+service:
+  - discovery-guide-service-a
+  - discovery-guide-service-b
+blueGreen:
+  - expression: "#H['xyz'] == '1'"
+    route: green
+  - expression: "#H['xyz'] == '2'"
+    route: blue
+gray:
+  - expression: "#H['xyz'] == '3'"
+    weight:
+      - 90
+      - 10
+  - expression: "#H['xyz'] == '4'"
+    weight:
+      - 70
+      - 30
+  - weight:
+      - 100
+      - 0
+header:
+  xyz: 1
+```
+`Json`格式
 
 使用时候，请删除中文注释，否则会报错
 ```
@@ -3222,9 +3286,9 @@ POST
             <condition id="condition-1" expression="#H['xyz'] == '2'" version-id="route-1"/>
         </conditions>
         <conditions type="gray">
-            <condition id="condition-0" expression="#H['xyz'] == '3'" version-id="route-0=90;route-1=10"/>
-            <condition id="condition-1" expression="#H['xyz'] == '4'" version-id="route-0=70;route-1=30"/>
-            <condition id="condition-2" version-id="route-0=100;route-1=0"/>
+            <condition id="condition-0" expression="#H['xyz'] == '3'" version-id="route-0=10;route-1=90"/>
+            <condition id="condition-1" expression="#H['xyz'] == '4'" version-id="route-0=40;route-1=60"/>
+            <condition id="condition-2" version-id="route-0=0;route-1=100"/>
         </conditions>
         <routes>
             <route id="route-0" type="version">{"discovery-guide-service-a":"1.0","discovery-guide-service-b":"1.0"}</route>
@@ -3234,18 +3298,6 @@ POST
     </strategy-release>
 </rule>
 ```
-
-② 清除蓝绿灰度发布
-
-通过向控制台发送请求，清除蓝绿灰度发布
-
-③ 校验版本蓝绿灰度发布
-
-通过向控制台发送请求，校验版本蓝绿灰度发布。“创建版本蓝绿灰度发布”会直接把智能编排后蓝绿灰度发布规则策略写入到配置中心，用户可以预先调用“校验版本蓝绿灰度发布”的接口进行智能编排结果的判断，进行检查，确认无误后，才执行“创建版本蓝绿灰度发布”
-
-④ 校验条件表达式
-
-通过向控制台发送请求，校验条件表达式。简单的条件表达式（例如，#H['xyz'] == '1'），用户一般不会出现输入的问题，但复杂的条件表达式，会存在出错的概率，通过“校验条件表达式”可以判断条件表达式是否撰写正确
 
 环境搭建，请参考
 - Github Wiki ：[如何对接DevOps运维平台实施流量管控 - 对接DevOps运维平台环境搭建](https://github.com/Nepxion/Discovery/wiki/%E5%A6%82%E4%BD%95%E5%AF%B9%E6%8E%A5DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AE%9E%E6%96%BD%E6%B5%81%E9%87%8F%E7%AE%A1%E6%8E%A7#%E5%AF%B9%E6%8E%A5DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA)
@@ -3391,9 +3443,16 @@ API网关 -> 服务A -> 服务B
 
 在API网关上，通过`蓝绿灰度发布`的`创建版本蓝绿灰度发布`步骤，创建兜底规则策略，避免流量进入新服务实例
 
+`Yaml`格式
+```
+service:
+  - a
+  - b
+```
+`Json`格式
 ```
 {
-"service": ["a", "b"]
+  "service": ["a", "b"]
 }
 ```
 
@@ -3422,6 +3481,18 @@ API网关 -> 服务A -> 服务B
 - `xyz`为`2`，切换到绿路由（新版本链路）
 - `xyz`缺失，切换到兜底路由（旧版本链路）
 
+`Yaml`格式
+```
+service:
+  - a
+  - b
+blueGreen:
+  - expression: "#H['xyz'] == '1'"
+    route: green
+  - expression: "#H['xyz'] == '2'"
+    route: blue
+```
+`Json`格式
 ```
 {
   "service": ["a", "b"],
@@ -3443,6 +3514,25 @@ API网关 -> 服务A -> 服务B
 - `xyz`为`4`，稳定路由（旧版本链路）和灰度路由（新版本链路）的流量配比是70:30
 - `xyz`缺失，稳定路由（旧版本链路）和灰度路由（新版本链路）的流量配比是100:0，即流量不会进行新版本服务的链路
 
+`Yaml`格式
+```
+service:
+  - a
+  - b
+gray:
+  - expression: "#H['xyz'] == '3'"
+    weight:
+      - 90
+      - 10
+  - expression: "#H['xyz'] == '4'"
+    weight:
+      - 70
+      - 30
+  - weight:
+      - 100
+      - 0
+```
+`Json`格式
 ```
 {
   "service": ["a", "b"],
@@ -3574,7 +3664,7 @@ spring.application.strategy.version.failover.enabled=true
 
 ③ 校验版本蓝绿灰度发布
 
-运维平台预验证蓝绿灰度对象是否合法，链路智能编排结果是否正确
+运维平台预验证蓝绿灰度是否合法，链路智能编排结果是否正确
 
 ④ 校验条件表达式
 
@@ -3619,6 +3709,30 @@ UUId全局唯一，同样的服务实例重启注册后，UUId会重新产生，
 具体用法，请参考
 - Github Wiki ：[如何使用DevOps运维平台对接的公共接口 - 无损下线黑名单接口](https://github.com/Nepxion/Discovery/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AF%B9%E6%8E%A5%E7%9A%84%E5%85%AC%E5%85%B1%E6%8E%A5%E5%8F%A3#%E6%97%A0%E6%8D%9F%E4%B8%8B%E7%BA%BF%E9%BB%91%E5%90%8D%E5%8D%95%E6%8E%A5%E5%8F%A3)
 - Gitee Wiki ：[如何使用DevOps运维平台对接的公共接口 - 无损下线黑名单接口](https://gitee.com/nepxion/Discovery/wikis/pages?sort_id=6428158&doc_id=1124387#%E6%97%A0%E6%8D%9F%E4%B8%8B%E7%BA%BF%E9%BB%91%E5%90%8D%E5%8D%95%E6%8E%A5%E5%8F%A3)
+
+### 对接DevOps运维平台实施半自动化流量管控
+① 第一次蓝绿灰度发布
+
+- 创建蓝绿灰度发布
+通过`根据Yaml格式创建版本蓝绿灰度发布`或者`根据Json格式创建版本蓝绿灰度发布`，手工输入条件表达式，后端链路智能编排
+- 停止蓝绿灰度发布
+通过`重置蓝绿灰度发布`，保留条件表达式，清除链路路由，以便下一次蓝绿灰度发布不再输入条件表达式
+
+② 第二次以及未来N次蓝绿灰度发布
+
+-  重新创建蓝绿灰度发布
+通过`重新创建版本蓝绿灰度发布`，把需要重新执行蓝绿灰度发布的服务列表加入，重用上次的保留条件表达式，进行蓝绿灰度发布
+- 停止蓝绿灰度发布
+跟第一次蓝绿灰度发布一样
+
+③ 定时更新灰度发布
+
+- 定时灰度发布
+DevOps运维平台每隔一段时间，调整灰度权重比例（减少旧版本流量，增加新版本流量），平稳达到流量从旧版本到新版本的迁移
+
+上面提到的步骤，请参考
+- Github Wiki ：[如何使用DevOps运维平台对接的公共接口 - 策略接口](https://github.com/Nepxion/Discovery/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AF%B9%E6%8E%A5%E7%9A%84%E5%85%AC%E5%85%B1%E6%8E%A5%E5%8F%A3#%E7%AD%96%E7%95%A5%E6%8E%A5%E5%8F%A3)
+- Gitee Wiki ：[如何使用DevOps运维平台对接的公共接口 - 策略接口](https://gitee.com/nepxion/Discovery/wikis/pages?sort_id=6428158&doc_id=1124387#%E7%AD%96%E7%95%A5%E6%8E%A5%E5%8F%A3)
 
 ### 对接DevOps运维平台公共接口
 - Github Wiki ：[如何使用DevOps运维平台对接的公共接口](https://github.com/Nepxion/Discovery/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8DevOps%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0%E5%AF%B9%E6%8E%A5%E7%9A%84%E5%85%AC%E5%85%B1%E6%8E%A5%E5%8F%A3)
