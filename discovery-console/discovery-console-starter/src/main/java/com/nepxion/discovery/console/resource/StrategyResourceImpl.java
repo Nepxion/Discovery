@@ -59,6 +59,11 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
     private ConfigResource configResource;
 
     @Override
+    public ConditionStrategy getVersionRelease(String group) {
+        return getVersionRelease(group, null);
+    }
+
+    @Override
     public String createVersionRelease(String group, String conditionStrategyYaml) {
         ConditionStrategy conditionStrategy = convertVersionRelease(conditionStrategyYaml);
 
@@ -71,8 +76,25 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
     }
 
     @Override
+    public String recreateVersionRelease(String group, List<String> service) {
+        return recreateVersionRelease(group, null, service);
+    }
+
+    @Override
+    public String resetRelease(String group) {
+        return resetRelease(group, null);
+    }
+
+    @Override
     public String clearRelease(String group) {
         return clearRelease(group, null);
+    }
+
+    @Override
+    public ConditionStrategy getVersionRelease(String group, String serviceId) {
+        RuleEntity ruleEntity = getRemoteRuleEntity(group, serviceId);
+
+        return deparseVersionStrategyRelease(ruleEntity);
     }
 
     @Override
@@ -94,27 +116,6 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
     }
 
     @Override
-    public String clearRelease(String group, String serviceId) {
-        RuleEntity ruleEntity = getRemoteRuleEntity(group, serviceId);
-
-        clearStrategyRelease(ruleEntity);
-
-        updateRemoteRuleEntity(group, serviceId, ruleEntity);
-
-        return configResource.fromRuleEntity(ruleEntity);
-    }
-
-    @Override
-    public String recreateVersionRelease(String group, List<String> service) {
-        return recreateVersionRelease(group, null, service);
-    }
-
-    @Override
-    public String resetRelease(String group) {
-        return resetRelease(group, null);
-    }
-
-    @Override
     public String recreateVersionRelease(String group, String serviceId, List<String> service) {
         RuleEntity ruleEntity = getRemoteRuleEntity(group, serviceId);
 
@@ -133,6 +134,17 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
         RuleEntity ruleEntity = getRemoteRuleEntity(group, serviceId);
 
         resetStrategyRelease(ruleEntity);
+
+        updateRemoteRuleEntity(group, serviceId, ruleEntity);
+
+        return configResource.fromRuleEntity(ruleEntity);
+    }
+
+    @Override
+    public String clearRelease(String group, String serviceId) {
+        RuleEntity ruleEntity = getRemoteRuleEntity(group, serviceId);
+
+        clearStrategyRelease(ruleEntity);
 
         updateRemoteRuleEntity(group, serviceId, ruleEntity);
 
