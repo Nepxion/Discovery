@@ -612,7 +612,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [对接DevOps运维平台环境搭建](#对接DevOps运维平台环境搭建)
     - [对接DevOps运维平台最佳实践](#对接DevOps运维平台最佳实践)
     - [对接DevOps运维平台步骤详解](#对接DevOps运维平台步骤详解)
-    - [对接DevOps运维平台半自动化流量管控](#对接DevOps运维平台半自动化流量管控)
+    - [对接DevOps运维平台半自动化发布](#对接DevOps运维平台半自动化发布)
     - [对接DevOps运维平台公共接口](#对接DevOps运维平台公共接口)
 - [全链路多活单元化](#多活单元化)
     - [多活单元化概念](#多活单元化概念)
@@ -3710,7 +3710,7 @@ UUId全局唯一，同样的服务实例重启注册后，UUId会重新产生，
 - Github Wiki ：[如何使用DevOps运维平台对接的公共接口 - 无损下线黑名单接口](https://github.com/Nepxion/Discovery/wiki/如何使用DevOps运维平台对接的公共接口#无损下线黑名单接口)
 - Gitee Wiki ：[如何使用DevOps运维平台对接的公共接口 - 无损下线黑名单接口](https://gitee.com/nepxion/Discovery/wikis/pages?sort_id=6428158&doc_id=1124387#无损下线黑名单接口)
 
-### 对接DevOps运维平台半自动化流量管控
+### 对接DevOps运维平台半自动化发布
 ① 第一次蓝绿灰度发布
 
 - 创建蓝绿灰度发布
