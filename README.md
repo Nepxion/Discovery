@@ -83,6 +83,8 @@ Polaris为Discovery高级定制版，特色功能
     - [极简版非域网关部署指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simple-non-domain-gateway)，分支为6.x.x-simple-non-domain-gateway
     - [集成版指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x)，分支为6.x.x
     - [高级版指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-complex)，分支为6.x.x-complex
+    - [半自动化蓝绿灰度发布模拟器指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simulator)，分支为6.x.x-simulator
+    - [统一配置订阅执行器指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-config)，分支为6.x.x-config
 - Spring Cloud 202x版本
     - [极简版指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/master-simple)，分支为master-simple
     - [集成版指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/master)，分支为master
@@ -3732,6 +3734,8 @@ DevOps运维平台每隔一段时间，调整灰度权重比例（减少旧版�
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/AutomationRelease.jpg)
 
+框架通过自动化测试方式提供一个半自动化蓝绿灰度发布模拟的运行流程，请参考[半自动化蓝绿灰度发布模拟器指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simulator)，分支为6.x.x-simulator
+
 上面提到的步骤，请参考
 - Github Wiki ：[如何使用DevOps运维平台对接的公共接口 - 策略接口](https://github.com/Nepxion/Discovery/wiki/如何使用DevOps运维平台对接的公共接口#策略接口)
 - Gitee Wiki ：[如何使用DevOps运维平台对接的公共接口 - 策略接口](https://gitee.com/nepxion/Discovery/wikis/pages?sort_id=6428158&doc_id=1124387#策略接口)
@@ -6496,7 +6500,7 @@ public class MyConfigProcessor extends NacosProcessor {
 </dependency>
 ```
 
-具体用法和配置，请参考[6.x.x指南示例配置版](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-config)，分支为6.x.x-config
+具体用法和配置，请参考[统一配置订阅执行器指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-config)，分支为6.x.x-config
 
 ## 规则策略定义
 
