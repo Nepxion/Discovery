@@ -100,10 +100,22 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
         }
         outputSpan(span, DiscoveryConstant.N_D_SERVICE_ID, pluginAdapter.getServiceId());
         outputSpan(span, DiscoveryConstant.N_D_SERVICE_ADDRESS, pluginAdapter.getHost() + ":" + pluginAdapter.getPort());
-        outputSpan(span, DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion());
-        outputSpan(span, DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion());
-        outputSpan(span, DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, pluginAdapter.getEnvironment());
-        outputSpan(span, DiscoveryConstant.N_D_SERVICE_ZONE, pluginAdapter.getZone());
+        String version = pluginAdapter.getVersion();
+        if (StringUtils.isNotEmpty(version) && !StringUtils.equals(version, DiscoveryConstant.DEFAULT)) {
+            outputSpan(span, DiscoveryConstant.N_D_SERVICE_VERSION, version);
+        }
+        String region = pluginAdapter.getRegion();
+        if (StringUtils.isNotEmpty(region) && !StringUtils.equals(region, DiscoveryConstant.DEFAULT)) {
+            outputSpan(span, DiscoveryConstant.N_D_SERVICE_REGION, region);
+        }
+        String environment = pluginAdapter.getEnvironment();
+        if (StringUtils.isNotEmpty(environment) && !StringUtils.equals(environment, DiscoveryConstant.DEFAULT)) {
+            outputSpan(span, DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, environment);
+        }
+        String zone = pluginAdapter.getZone();
+        if (StringUtils.isNotEmpty(zone) && !StringUtils.equals(zone, DiscoveryConstant.DEFAULT)) {
+            outputSpan(span, DiscoveryConstant.N_D_SERVICE_ZONE, zone);
+        }
 
         if (tracerRuleOutputEnabled) {
             String routeVersion = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION);

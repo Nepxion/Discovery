@@ -73,10 +73,22 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
         }
         headers.add(DiscoveryConstant.N_D_SERVICE_ID, pluginAdapter.getServiceId());
         headers.add(DiscoveryConstant.N_D_SERVICE_ADDRESS, pluginAdapter.getHost() + ":" + pluginAdapter.getPort());
-        headers.add(DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion());
-        headers.add(DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion());
-        headers.add(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, pluginAdapter.getEnvironment());
-        headers.add(DiscoveryConstant.N_D_SERVICE_ZONE, pluginAdapter.getZone());
+        String version = pluginAdapter.getVersion();
+        if (StringUtils.isNotEmpty(version) && !StringUtils.equals(version, DiscoveryConstant.DEFAULT)) {
+            headers.add(DiscoveryConstant.N_D_SERVICE_VERSION, version);
+        }
+        String region = pluginAdapter.getRegion();
+        if (StringUtils.isNotEmpty(region) && !StringUtils.equals(region, DiscoveryConstant.DEFAULT)) {
+            headers.add(DiscoveryConstant.N_D_SERVICE_REGION, region);
+        }
+        String environment = pluginAdapter.getEnvironment();
+        if (StringUtils.isNotEmpty(environment) && !StringUtils.equals(environment, DiscoveryConstant.DEFAULT)) {
+            headers.add(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, environment);
+        }
+        String zone = pluginAdapter.getZone();
+        if (StringUtils.isNotEmpty(zone) && !StringUtils.equals(zone, DiscoveryConstant.DEFAULT)) {
+            headers.add(DiscoveryConstant.N_D_SERVICE_ZONE, zone);
+        }
     }
 
     // 处理外部Header的转发，即外部服务传递过来的Header，中继转发到下游服务去

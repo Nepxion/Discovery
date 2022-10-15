@@ -37,10 +37,10 @@ public abstract class SentinelTracerProcessorSlotEntryCallback<S> implements Pro
         ApplicationContext applicationContext = PluginContextAware.getStaticApplicationContext();
         PluginAdapter pluginAdapter = applicationContext.getBean(PluginAdapter.class);
 
-        Environment environment = PluginContextAware.getStaticEnvironment();
-        Boolean tracerSentinelRuleOutputEnabled = environment.getProperty(SentinelStrategyMonitorConstant.SPRING_APPLICATION_STRATEGY_TRACER_SENTINEL_RULE_OUTPUT_ENABLED, Boolean.class, Boolean.TRUE);
-        Boolean tracerSentinelArgsOutputEnabled = environment.getProperty(SentinelStrategyMonitorConstant.SPRING_APPLICATION_STRATEGY_TRACER_SENTINEL_ARGS_OUTPUT_ENABLED, Boolean.class, Boolean.FALSE);
-      
+        Environment staticEnvironment = PluginContextAware.getStaticEnvironment();
+        Boolean tracerSentinelRuleOutputEnabled = staticEnvironment.getProperty(SentinelStrategyMonitorConstant.SPRING_APPLICATION_STRATEGY_TRACER_SENTINEL_RULE_OUTPUT_ENABLED, Boolean.class, Boolean.TRUE);
+        Boolean tracerSentinelArgsOutputEnabled = staticEnvironment.getProperty(SentinelStrategyMonitorConstant.SPRING_APPLICATION_STRATEGY_TRACER_SENTINEL_ARGS_OUTPUT_ENABLED, Boolean.class, Boolean.FALSE);
+
         outputSpan(span, DiscoveryConstant.SPAN_TAG_PLUGIN_NAME, context.getName());
         outputSpan(span, DiscoveryConstant.N_D_SERVICE_GROUP, pluginAdapter.getGroup());
         outputSpan(span, DiscoveryConstant.N_D_SERVICE_TYPE, pluginAdapter.getServiceType());
@@ -50,10 +50,22 @@ public abstract class SentinelTracerProcessorSlotEntryCallback<S> implements Pro
         }
         outputSpan(span, DiscoveryConstant.N_D_SERVICE_ID, pluginAdapter.getServiceId());
         outputSpan(span, DiscoveryConstant.N_D_SERVICE_ADDRESS, pluginAdapter.getHost() + ":" + pluginAdapter.getPort());
-        outputSpan(span, DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion());
-        outputSpan(span, DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion());
-        outputSpan(span, DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, pluginAdapter.getEnvironment());
-        outputSpan(span, DiscoveryConstant.N_D_SERVICE_ZONE, pluginAdapter.getZone());
+        String version = pluginAdapter.getVersion();
+        if (StringUtils.isNotEmpty(version) && !StringUtils.equals(version, DiscoveryConstant.DEFAULT)) {
+            outputSpan(span, DiscoveryConstant.N_D_SERVICE_VERSION, version);
+        }
+        String region = pluginAdapter.getRegion();
+        if (StringUtils.isNotEmpty(region) && !StringUtils.equals(region, DiscoveryConstant.DEFAULT)) {
+            outputSpan(span, DiscoveryConstant.N_D_SERVICE_REGION, region);
+        }
+        String environment = pluginAdapter.getEnvironment();
+        if (StringUtils.isNotEmpty(environment) && !StringUtils.equals(environment, DiscoveryConstant.DEFAULT)) {
+            outputSpan(span, DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, environment);
+        }
+        String zone = pluginAdapter.getZone();
+        if (StringUtils.isNotEmpty(zone) && !StringUtils.equals(zone, DiscoveryConstant.DEFAULT)) {
+            outputSpan(span, DiscoveryConstant.N_D_SERVICE_ZONE, zone);
+        }
 
         outputSpan(span, SentinelStrategyMonitorConstant.ORIGIN, context.getOrigin());
         outputSpan(span, SentinelStrategyMonitorConstant.ASYNC, String.valueOf(context.isAsync()));

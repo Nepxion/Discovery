@@ -59,10 +59,22 @@ public class DefaultStrategyAlarm implements StrategyAlarm {
         }
         contextMap.put(DiscoveryConstant.N_D_SERVICE_ID, pluginAdapter.getServiceId());
         contextMap.put(DiscoveryConstant.N_D_SERVICE_ADDRESS, pluginAdapter.getHost() + ":" + pluginAdapter.getPort());
-        contextMap.put(DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion());
-        contextMap.put(DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion());
-        contextMap.put(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, pluginAdapter.getEnvironment());
-        contextMap.put(DiscoveryConstant.N_D_SERVICE_ZONE, pluginAdapter.getZone());
+        String version = pluginAdapter.getVersion();
+        if (StringUtils.isNotEmpty(version) && !StringUtils.equals(version, DiscoveryConstant.DEFAULT)) {
+            contextMap.put(DiscoveryConstant.N_D_SERVICE_VERSION, version);
+        }
+        String region = pluginAdapter.getRegion();
+        if (StringUtils.isNotEmpty(region) && !StringUtils.equals(region, DiscoveryConstant.DEFAULT)) {
+            contextMap.put(DiscoveryConstant.N_D_SERVICE_REGION, region);
+        }
+        String environment = pluginAdapter.getEnvironment();
+        if (StringUtils.isNotEmpty(environment) && !StringUtils.equals(environment, DiscoveryConstant.DEFAULT)) {
+            contextMap.put(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, environment);
+        }
+        String zone = pluginAdapter.getZone();
+        if (StringUtils.isNotEmpty(zone) && !StringUtils.equals(zone, DiscoveryConstant.DEFAULT)) {
+            contextMap.put(DiscoveryConstant.N_D_SERVICE_ZONE, zone);
+        }
 
         String routeVersion = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION);
         if (StringUtils.isNotEmpty(routeVersion)) {

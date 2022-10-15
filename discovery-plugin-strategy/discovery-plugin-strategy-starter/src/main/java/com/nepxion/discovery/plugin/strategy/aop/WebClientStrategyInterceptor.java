@@ -77,10 +77,22 @@ public class WebClientStrategyInterceptor extends AbstractStrategyInterceptor im
         }
         requestBuilder.header(DiscoveryConstant.N_D_SERVICE_ID, pluginAdapter.getServiceId());
         requestBuilder.header(DiscoveryConstant.N_D_SERVICE_ADDRESS, pluginAdapter.getHost() + ":" + pluginAdapter.getPort());
-        requestBuilder.header(DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion());
-        requestBuilder.header(DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion());
-        requestBuilder.header(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, pluginAdapter.getEnvironment());
-        requestBuilder.header(DiscoveryConstant.N_D_SERVICE_ZONE, pluginAdapter.getZone());
+        String version = pluginAdapter.getVersion();
+        if (StringUtils.isNotEmpty(version) && !StringUtils.equals(version, DiscoveryConstant.DEFAULT)) {
+            requestBuilder.header(DiscoveryConstant.N_D_SERVICE_VERSION, version);
+        }
+        String region = pluginAdapter.getRegion();
+        if (StringUtils.isNotEmpty(region) && !StringUtils.equals(region, DiscoveryConstant.DEFAULT)) {
+            requestBuilder.header(DiscoveryConstant.N_D_SERVICE_REGION, region);
+        }
+        String environment = pluginAdapter.getEnvironment();
+        if (StringUtils.isNotEmpty(environment) && !StringUtils.equals(environment, DiscoveryConstant.DEFAULT)) {
+            requestBuilder.header(DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, environment);
+        }
+        String zone = pluginAdapter.getZone();
+        if (StringUtils.isNotEmpty(zone) && !StringUtils.equals(zone, DiscoveryConstant.DEFAULT)) {
+            requestBuilder.header(DiscoveryConstant.N_D_SERVICE_ZONE, zone);
+        }
     }
 
     // 处理外部Header的转发，即外部服务传递过来的Header，中继转发到下游服务去
