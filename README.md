@@ -3755,13 +3755,11 @@ http://localhost:6001/strategy/reset-release/{group}/{serviceId}
 
 ③ 定时更新灰度发布
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 定时灰度发布
-
 - DevOps运维平台每隔一段时间，调整灰度权重比例（减少旧版本流量，增加新版本流量），平稳达到流量从旧版本到新版本的迁移
 
 ④ 半自动化蓝绿灰度发布模拟流程
 
-框架通过自动化测试方式提供一个半自动化蓝绿灰度发布的模拟流程，请参考[半自动化蓝绿灰度发布模拟器指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simulator)，分支为6.x.x-simulator
+- 框架通过自动化测试方式提供一个半自动化蓝绿灰度发布的模拟流程，请参考[半自动化蓝绿灰度发布模拟器指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simulator)，分支为6.x.x-simulator
 
 上面提到的步骤，请参考
 - Github Wiki ：[如何使用DevOps运维平台对接的公共接口 - 策略接口](https://github.com/Nepxion/Discovery/wiki/如何使用DevOps运维平台对接的公共接口#策略接口)
