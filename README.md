@@ -3713,28 +3713,55 @@ UUId全局唯一，同样的服务实例重启注册后，UUId会重新产生，
 - Gitee Wiki ：[如何使用DevOps运维平台对接的公共接口 - 无损下线黑名单接口](https://gitee.com/nepxion/Discovery/wikis/pages?sort_id=6428158&doc_id=1124387#无损下线黑名单接口)
 
 ### 对接DevOps运维平台半自动化发布
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/AutomationRelease.jpg)
+
 ① 第一次蓝绿灰度发布
 
-- 创建蓝绿灰度发布
-通过`根据Yaml格式创建版本蓝绿灰度发布`或者`根据Json格式创建版本蓝绿灰度发布`，手工输入条件表达式，后端链路智能编排
-- 停止蓝绿灰度发布
-通过`重置蓝绿灰度发布`，保留条件表达式，清除链路路由，以便下一次蓝绿灰度发布不再输入条件表达式
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png)  创建蓝绿灰度发布
+
+- 通过`创建版本蓝绿灰度发布`，手工输入条件表达式，后端链路智能编排
+- `重置蓝绿灰度发布`Open API，包括Yaml和Json格式两种，任选一个
+```
+http://localhost:6001/strategy/create-version-release-yaml/{group}/{serviceId}
+http://localhost:6001/strategy/create-version-release-json/{group}/{serviceId}
+```
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png)  停止蓝绿灰度发布
+
+- 通过`重置蓝绿灰度发布`，保留条件表达式，清除链路路由，以便下一次蓝绿灰度发布不再输入条件表达式
+- `重置蓝绿灰度发布`Open API
+```
+http://localhost:6001/strategy/reset-release/{group}/{serviceId}
+```
 
 ② 第二次以及未来N次蓝绿灰度发布
 
--  重新创建蓝绿灰度发布
-通过`重新创建版本蓝绿灰度发布`，把需要重新执行蓝绿灰度发布的服务列表加入，重用上次的保留条件表达式，进行蓝绿灰度发布
-- 停止蓝绿灰度发布
-跟第一次蓝绿灰度发布一样
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png)   重新创建蓝绿灰度发布
+
+- 通过`重新创建版本蓝绿灰度发布`，把需要重新执行蓝绿灰度发布的服务列表加入，重用上次的保留条件表达式，进行蓝绿灰度发布
+- `重新创建版本蓝绿灰度发布`Open API，包括Yaml和Json格式两种，任选一个
+```
+http://localhost:6001/strategy/recreate-version-release-yaml/{group}/{serviceId}
+http://localhost:6001/strategy/recreate-version-release-json/{group}/{serviceId}
+```
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png)  停止蓝绿灰度发布
+
+- 通过`重置蓝绿灰度发布`，保留条件表达式，清除链路路由，以便下一次蓝绿灰度发布不再输入条件表达式
+- `重置蓝绿灰度发布`Open API
+```
+http://localhost:6001/strategy/reset-release/{group}/{serviceId}
+```
 
 ③ 定时更新灰度发布
 
-- 定时灰度发布
-DevOps运维平台每隔一段时间，调整灰度权重比例（减少旧版本流量，增加新版本流量），平稳达到流量从旧版本到新版本的迁移
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 定时灰度发布
 
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/AutomationRelease.jpg)
+- DevOps运维平台每隔一段时间，调整灰度权重比例（减少旧版本流量，增加新版本流量），平稳达到流量从旧版本到新版本的迁移
 
-框架通过自动化测试方式提供一个半自动化蓝绿灰度发布模拟的运行流程，请参考[半自动化蓝绿灰度发布模拟器指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simulator)，分支为6.x.x-simulator
+④ 半自动化蓝绿灰度发布模拟流程
+
+框架通过自动化测试方式提供一个半自动化蓝绿灰度发布的模拟流程，请参考[半自动化蓝绿灰度发布模拟器指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simulator)，分支为6.x.x-simulator
 
 上面提到的步骤，请参考
 - Github Wiki ：[如何使用DevOps运维平台对接的公共接口 - 策略接口](https://github.com/Nepxion/Discovery/wiki/如何使用DevOps运维平台对接的公共接口#策略接口)
