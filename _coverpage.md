@@ -1,6 +1,6 @@
 ![logo](_media/Logo64.png)
 
-# Nepxion Discovery <small>[![Version](https://img.shields.io/maven-central/v/com.nepxion/discovery.svg?label=maven)](https://search.maven.org/artifact/com.nepxion/discovery)</small>
+# Nepxion Discovery <small> [![Maven Central](https://img.shields.io/maven-central/v/com.nepxion/discovery.svg?label=maven)](https://search.maven.org/artifact/com.nepxion/discovery) </small>
 
 > 专注于企业级云原生微服务开源解决方案
 - 蓝绿灰度发布、同城异地多活、链路路由智能编排
