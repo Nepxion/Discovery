@@ -2362,7 +2362,7 @@ Cookie不会全链路传递，只会发生在第一层传递
 
 ④ 域名参数策略
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 基于域名前缀的环境路由隔离
+基于取值域名前缀等方式
 
 参考如下示例
 
@@ -2382,10 +2382,6 @@ Cookie不会全链路传递，只会发生在第一层传递
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/DiscoveryGuide2-16.jpg)
 
 参考[全链路过滤器触发蓝绿灰度发布](#全链路过滤器触发蓝绿灰度发布)示例，以根据域名全链路环境隔离为例，根据域名前缀中的环境名路由到相应的全链路环境中
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 基于域名前缀的蓝绿灰度发布
-
-参考[全链路过滤器触发蓝绿灰度发布](#全链路过滤器触发蓝绿灰度发布)示例，把域名前缀转化成蓝绿灰度条件表达式中的驱动参数，通过外置Header预先塞入
 
 ⑤ RPC-Method参数策略
 
@@ -2525,18 +2521,6 @@ public class MyGatewayStrategyRouteFilter extends DefaultGatewayStrategyRouteFil
         return super.getRouteEnvironment();
     }
 
-    // 把域名前缀转化成蓝绿灰度条件表达式中的驱动参数
-    /*@Override
-    public Map<String, String> getExternalHeaderMap() {
-        String host = gatewayStrategyContextHolder.getURI().getHost();
-        String domain = host.substring(0, host.indexOf("."));
-
-        Map<String, String> externalHeaderMap = new HashMap<String, String>();
-        externalHeaderMap.put("domain", domain);
-
-        return externalHeaderMap;
-    }*/
-
     // 自定义全链路版本权重路由
     /*@Override
     public String getRouteVersion() {
@@ -2671,19 +2655,6 @@ public class MyZuulStrategyRouteFilter extends DefaultZuulStrategyRouteFilter {
         return super.getRouteEnvironment();
     }
 
-    // 把域名前缀转化成蓝绿灰度条件表达式中的驱动参数
-    /*@Override
-    public Map<String, String> getExternalHeaderMap() {
-        String requestURL = zuulStrategyContextHolder.getRequestURL();
-        String host = requestURL.substring("http://".length(), requestURL.length());
-        String domain = host.substring(0, host.indexOf("."));
-
-        Map<String, String> externalHeaderMap = new HashMap<String, String>();
-        externalHeaderMap.put("domain", domain);
-
-        return externalHeaderMap;
-    }*/
-
     // 自定义全链路版本权重路由
     /*@Override
     public String getRouteVersion() {
@@ -2817,19 +2788,6 @@ public class MyServiceStrategyRouteFilter extends DefaultServiceStrategyRouteFil
 
         return super.getRouteEnvironment();
     }
-
-    // 把域名前缀转化成蓝绿灰度条件表达式中的驱动参数
-    /*@Override
-    public Map<String, String> getExternalHeaderMap() {
-        String requestURL = serviceStrategyContextHolder.getRequestURL();
-        String host = requestURL.substring("http://".length(), requestURL.length());
-        String domain = host.substring(0, host.indexOf("."));
-
-        Map<String, String> externalHeaderMap = new HashMap<String, String>();
-        externalHeaderMap.put("domain", domain);
-
-        return externalHeaderMap;
-    }*/
 
     // 自定义全链路版本权重路由
     /*@Override
