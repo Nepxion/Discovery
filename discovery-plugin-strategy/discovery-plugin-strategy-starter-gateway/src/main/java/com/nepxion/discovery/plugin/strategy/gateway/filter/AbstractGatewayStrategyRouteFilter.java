@@ -135,11 +135,22 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
             GatewayStrategyFilterResolver.setHeader(request, requestBuilder, DiscoveryConstant.N_D_ENVIRONMENT, routeEnvironment, false);
         }
 
+        // 外置Header预先塞入
+        Map<String, String> externalHeaderMap = getExternalHeaderMap();
+        if (MapUtils.isNotEmpty(externalHeaderMap)) {
+            for (Map.Entry<String, String> entry : externalHeaderMap.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+
+                GatewayStrategyFilterResolver.setHeader(request, requestBuilder, key, value, false);
+            }
+        }
+
         if (gatewayCoreHeaderTransmissionEnabled) {
             // 内置Header预先塞入
-            Map<String, String> headerMap = strategyWrapper.getHeaderMap();
-            if (MapUtils.isNotEmpty(headerMap)) {
-                for (Map.Entry<String, String> entry : headerMap.entrySet()) {
+            Map<String, String> internalHeaderMap = strategyWrapper.getHeaderMap();
+            if (MapUtils.isNotEmpty(internalHeaderMap)) {
+                for (Map.Entry<String, String> entry : internalHeaderMap.entrySet()) {
                     String key = entry.getKey();
                     String value = entry.getValue();
 
@@ -249,6 +260,10 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
             GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_ID_BLACKLIST);
             GatewayStrategyFilterResolver.ignoreHeader(requestBuilder, DiscoveryConstant.N_D_ADDRESS_BLACKLIST);
         }
+    }
+
+    public Map<String, String> getExternalHeaderMap() {
+        return null;
     }
 
     public PluginAdapter getPluginAdapter() {
