@@ -2396,7 +2396,7 @@ Cookie不会全链路传递，只会发生在第一层传递
 ### 全链路自定义蓝绿灰度发布
 
 #### 全链路过滤器触发蓝绿灰度发布
-下面代码既适用于Zuul和Spring Cloud Gateway网关，也适用于微服务。继承DefaultGatewayStrategyRouteFilter、DefaultZuulStrategyRouteFilter和DefaultServiceStrategyRouteFilter，覆盖掉如下方法中的一个或者多个，通过@Bean方式覆盖框架内置的过滤类
+下面代码既适用于Spring Cloud Gateway和Zuul网关，也适用于微服务，继承DefaultGatewayStrategyRouteFilter、DefaultZuulStrategyRouteFilter和DefaultServiceStrategyRouteFilter，覆盖掉如下方法中的一个或者多个，通过@Bean方式覆盖框架内置的过滤类
 ```java
 public String getRouteVersion();
 
@@ -2846,7 +2846,7 @@ public ServiceStrategyRouteFilter serviceStrategyRouteFilter() {
 
 对于Spring Cloud 202x版，由于它已经移除了Ribbon，所以apply(Server server)方法上的入参，com.netflix.loadbalancer.Server需要改成org.springframework.cloud.client.ServiceInstance
 
-下面代码既适用于Zuul和Spring Cloud Gateway网关，也适用于微服务。继承DefaultDiscoveryEnabledStrategy，可以有多个，通过@Bean方式注入
+下面代码既适用于Spring Cloud Gateway和Zuul网关，也适用于微服务，继承DefaultDiscoveryEnabledStrategy，可以有多个，通过@Bean方式注入
 ```java
 public class MyDiscoveryEnabledStrategy extends DefaultDiscoveryEnabledStrategy {
     private static final Logger LOG = LoggerFactory.getLogger(MyDiscoveryEnabledStrategy.class);
