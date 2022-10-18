@@ -98,7 +98,7 @@ public abstract class AbstractServiceStrategyRouteFilter extends ServiceStrategy
                 String key = entry.getKey();
                 String value = entry.getValue();
 
-                ServiceStrategyFilterResolver.setHeader(serviceStrategyRouteFilterRequest, key, value, false);
+                ServiceStrategyFilterResolver.setHeader(serviceStrategyRouteFilterRequest, key, value, serviceHeaderPriority);
             }
         }
 

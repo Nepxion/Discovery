@@ -142,7 +142,7 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
                 String key = entry.getKey();
                 String value = entry.getValue();
 
-                GatewayStrategyFilterResolver.setHeader(request, requestBuilder, key, value, false);
+                GatewayStrategyFilterResolver.setHeader(request, requestBuilder, key, value, gatewayHeaderPriority);
             }
         }
 
