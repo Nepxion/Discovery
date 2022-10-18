@@ -138,7 +138,7 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulStrategyRouteF
                 String key = entry.getKey();
                 String value = entry.getValue();
 
-                ZuulStrategyFilterResolver.setHeader(context, key, value, false);
+                ZuulStrategyFilterResolver.setHeader(context, key, value, zuulHeaderPriority);
             }
         }
 
