@@ -133,9 +133,9 @@ public abstract class AbstractZuulStrategyRouteFilter extends ZuulStrategyRouteF
 
         if (zuulCoreHeaderTransmissionEnabled) {
             // 内置Header预先塞入
-            Map<String, String> internalHeaderMap = strategyWrapper.getHeaderMap();
-            if (MapUtils.isNotEmpty(internalHeaderMap)) {
-                for (Map.Entry<String, String> entry : internalHeaderMap.entrySet()) {
+            Map<String, String> headerMap = strategyWrapper.getHeaderMap();
+            if (MapUtils.isNotEmpty(headerMap)) {
+                for (Map.Entry<String, String> entry : headerMap.entrySet()) {
                     String key = entry.getKey();
                     String value = entry.getValue();
 
