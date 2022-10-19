@@ -291,7 +291,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 
 <table>
   <tbody>
-      <tr align="center">
+    <tr align="center">
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/华为.png"></td>
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/腾讯.png"></td>
       <td width="20%"><img style="max-height:75%;max-width:75%;" src="http://nepxion.gitee.io/discovery/docs/logo-doc/京东.png"></td>
@@ -518,6 +518,14 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - 某大型互联网教育公司在生产环境接入Nepxion Discovery框架的服务实例数截至到2021年2月已达到2600多个，基本接入完毕
 
 <img src="http://nepxion.gitee.io/discovery/docs/discovery-doc/Result.jpg"/>
+
+[企业级落地：阿里巴巴 Nacos 企业级落地上篇](https://mp.weixin.qq.com/s?__biz=MzU4NzU0MDIzOQ==&mid=2247490123&idx=1&sn=10d7cd89bf43f07152513718c08dd80c&chksm=fdeb282bca9ca13d2ffb2128c2b5e1acfa5743c0cf835e266835cd5e0233bef5adbca896c8bd&mpshare=1&scene=1&srcid=0724z4xF3FAu0ky75IQ5kexf&sharer_sharetime=1595589366762&sharer_shareid=45ec30ab664def961bd5a4f87aafb0f2&key=ef51a5b0b69d9d3093d17fcab26ddf2c201b696670a1736109d481338e2a980b0c9a82df17369c8796381093f405f0a7cb21c9e467871948960c8890753de7c3f0346a03314d993c33e16817f805c42e&ascene=1&uin=MjczOTY4MzIw&devicetype=Windows+10+x64&version=62090529&lang=zh_CN&exportkey=AfxA6ifl0AcuT4OYhZcXm7k%3D&pass_ticket=c2pshxbFqNmjiwpp%2FUl%2FCP77XI63HuMtvWrO9d2Egrv7y16EseCu1CRLBih3O2MM)
+
+[企业级落地：阿里巴巴 Nacos 企业级落地中篇](https://mp.weixin.qq.com/s?__biz=MzU4NzU0MDIzOQ==&mid=2247490179&idx=2&sn=6d14417c9770729c89e0ace90f689338&chksm=fdeb28e3ca9ca1f53495cbfeba4bcc0692ff802c034f2e4290f37735428ac0138be050638d46&mpshare=1&scene=1&srcid=0730GwwgWoI8MciSSaATpowp&sharer_sharetime=1596108490727&sharer_shareid=45ec30ab664def961bd5a4f87aafb0f2&key=56c1a4d5743468c93969185004d8e48519dcd2f967bba6978f4e1be13ce7b50d42a51670394473104091352b0fd51e8baed4a72591c511a123166888fd1ff6cc5d54a9326947ef8ebec5f813817669ee&ascene=1&uin=MjczOTY4MzIw&devicetype=Windows+10+x64&version=62090529&lang=zh_CN&exportkey=Ade%2FPtqCCcfAHZQ%2F3vyVCuI%3D&pass_ticket=JDwi8tQ2jPpAhhIOjlvLIetXOdV%2FpqfV3xJ%2B0vfu4O2n10K5qhVh8aZz8bjlwA%2B8)
+
+[企业级落地：阿里巴巴 Nacos 企业级落地下篇](https://mp.weixin.qq.com/s?__biz=MzU4NzU0MDIzOQ==&mid=2247490231&idx=2&sn=d77c78dfaa244c8c2d95c70fdfa5638a&chksm=fdeb28d7ca9ca1c144bd38e8622af472dbbb7bbe328dcabeddac757130431d354cc75f788196&mpshare=1&scene=1&srcid=0806bN7XW61MNRzsq6IFoZbr&sharer_sharetime=1596716100660&sharer_shareid=45ec30ab664def961bd5a4f87aafb0f2&key=9255e861c291e6d5033faa3da87c4e627d0272caaf2dbd7f01f573ad886ede89da90cff052cb800b029ebfbbe146348d65533fc11db0256cdcaa17edb0752b46d61deb6de3f883413e9fa4e8394f3544&ascene=1&uin=MjczOTY4MzIw&devicetype=Windows+10+x64&version=62090529&lang=zh_CN&exportkey=AZqS6bHMqvgI%2B36YHV%2FRudU%3D&pass_ticket=0wm6xz%2FLhV%2FSxdCvwyJulMHDWW60%2BLZb6hInajgK9oW%2FE9IOemST8NPOOc4mEX7s)
+
+[企业级落地：全链路蓝绿灰度发布智能化实践](https://mp.weixin.qq.com/s?__biz=MzU1NTgxNDM0Nw==&mid=2247484172&idx=1&sn=41ba2fed39d468f7ee4913e9c305f1b3&chksm=fbcfdfa8ccb856be2280e9484e5e5c091645f98b78dd36e4caf9e3c580a58654d3057e0b4ab0&mpshare=1&scene=1&srcid=04239tBo6ikZqGBMEJwg0h57&sharer_sharetime=1591065506571&sharer_shareid=45ec30ab664def961bd5a4f87aafb0f2&key=1712c1d3e731e2888f16059008c5350eadd5f936fdb5e86d01f61ebf46041db0dbe926e940ae2fa24731e4e0a27412840aaed72f2159f6aaddf87489b5e7a181fe77b4962c39b5a5565dd4c93773b8ad&ascene=1&uin=MjczOTY4MzIw&devicetype=Windows+10+x64&version=62090070&lang=zh_CN&exportkey=AZwuvPfR%2BRhkKms5F7xjmXY%3D&pass_ticket=MQsjBxWL55r6TkZZPKDk9MzUlNhSMI7BVZtQPMwSXWNJ8YsqsiWz41EqXEfYqTUD)
 
 ### 郑重致谢
 - 感谢阿里巴巴中间件Nacos、Sentinel和Spring Cloud Alibaba团队，尤其是Nacos负责人@彦林、@于怀，Sentinel负责人@宿何、@子衿，Spring Cloud Alibaba负责人@铖朴、@良名、@小马哥、@洛夜、@亦盏的技术支持
