@@ -3864,6 +3864,78 @@ service:
   - discovery-guide-service-b
 ```
 
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 模拟流程部分结果
+
+```
+【模拟场景3】蓝绿策略，测试全链路调用，Header xyz缺失...
+抽样次数 : 100
+调用结果 : discovery-guide-service-a@1.1命中次数=0
+调用结果 : discovery-guide-service-a@1.0命中次数=100
+调用结果 : discovery-guide-service-b@1.1命中次数=0
+调用结果 : discovery-guide-service-b@1.0命中次数=100
+测试结果 : 通过
+【模拟场景3】蓝绿策略，测试全链路调用，Header xyz等于1...
+抽样次数 : 100
+调用结果 : discovery-guide-service-a@1.1命中次数=0
+调用结果 : discovery-guide-service-a@1.0命中次数=100
+调用结果 : discovery-guide-service-b@1.1命中次数=0
+调用结果 : discovery-guide-service-b@1.0命中次数=100
+测试结果 : 通过
+【模拟场景3】蓝绿策略，测试全链路调用，Header xyz等于2...
+抽样次数 : 100
+调用结果 : discovery-guide-service-a@1.1命中次数=100
+调用结果 : discovery-guide-service-a@1.0命中次数=0
+调用结果 : discovery-guide-service-b@1.1命中次数=100
+调用结果 : discovery-guide-service-b@1.0命中次数=0
+测试结果 : 通过
+【模拟场景3】灰度策略，测试全链路调用，Header xyz缺失...
+抽样次数 : 500
+抽样进度 : 第100次...
+抽样进度 : 第200次...
+抽样进度 : 第300次...
+抽样进度 : 第400次...
+抽样进度 : 第500次...
+调用结果 : discovery-guide-service-a@1.1命中次数=0
+调用结果 : discovery-guide-service-a@1.0命中次数=500
+调用结果 : discovery-guide-service-b@1.1命中次数=0
+调用结果 : discovery-guide-service-b@1.0命中次数=500
+权重结果偏差值=5%
+期望结果 : 旧版本路由权重=100%, 新版本路由权重=0%
+最终结果 : 旧版本路由权重=100.0%, 新版本路由权重=0.0%
+测试结果 : 通过
+【模拟场景3】灰度策略，测试全链路调用，Header xyz等于3...
+抽样次数 : 500
+抽样进度 : 第100次...
+抽样进度 : 第200次...
+抽样进度 : 第300次...
+抽样进度 : 第400次...
+抽样进度 : 第500次...
+调用结果 : discovery-guide-service-a@1.1命中次数=52
+调用结果 : discovery-guide-service-a@1.0命中次数=448
+调用结果 : discovery-guide-service-b@1.1命中次数=52
+调用结果 : discovery-guide-service-b@1.0命中次数=448
+权重结果偏差值=5%
+期望结果 : 旧版本路由权重=90%, 新版本路由权重=10%
+最终结果 : 旧版本路由权重=89.6%, 新版本路由权重=10.4%
+测试结果 : 通过
+【模拟场景3】灰度策略，测试全链路调用，Header xyz等于4...
+抽样次数 : 500
+抽样进度 : 第100次...
+抽样进度 : 第200次...
+抽样进度 : 第300次...
+抽样进度 : 第400次...
+抽样进度 : 第500次...
+调用结果 : discovery-guide-service-a@1.1命中次数=147
+调用结果 : discovery-guide-service-a@1.0命中次数=353
+调用结果 : discovery-guide-service-b@1.1命中次数=147
+调用结果 : discovery-guide-service-b@1.0命中次数=353
+权重结果偏差值=5%
+期望结果 : 旧版本路由权重=70%, 新版本路由权重=30%
+最终结果 : 旧版本路由权重=70.6%, 新版本路由权重=29.4%
+测试结果 : 通过
+【模拟场景3】* 测试通过...
+```
+
 上面提到的步骤，请参考
 - Github Wiki ：[如何使用DevOps运维平台对接的公共接口 - 策略接口](https://github.com/Nepxion/Discovery/wiki/如何使用DevOps运维平台对接的公共接口#策略接口)
 - Gitee Wiki ：[如何使用DevOps运维平台对接的公共接口 - 策略接口](https://gitee.com/nepxion/Discovery/wikis/pages?sort_id=6428158&doc_id=1124387#策略接口)
