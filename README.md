@@ -3807,16 +3807,18 @@ DevOps运维平台每隔一段时间，调整灰度权重比例（减少旧版�
 
 采用全链路智能编排 + 流量侦测相结合的做法，支持网关和服务为侦测入口两种方式，用于测试环境或者开发环境通过自动化测试手段验证全链路蓝绿灰度方式的准确性
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 获取代码
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 执行过程，有两种方式
 
-下载代码，Git clone [(https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simulator](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simulator)，分支为6.x.x-simulator。执行如下命令行
-```
-mvn clean install
-```
+- 通过[https://github.com/Nepxion/DiscoveryGuide/releases](https://github.com/Nepxion/DiscoveryGuide/releases)下载最新版本的Discovery Simulator
+    - 解压后，根据下文提示做相应修改
+    - 运行startup.cmd或者startup.sh
+- 编译[https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simulator](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simulator)，分支为6.x.x-simulator
+    - 下载后，根据下文提示做相应修改
+    - 执行mvn clean install，运行打包过程中的自动化测试，或者执行mvn clean install -DskipTests，产生第一种方式的包，再运行startup.cmd或者startup.sh
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 修改application.properties配置文件
 
-- spring.application.test.console.url替换成相应的地址
+- console.url替换成相应的地址
 - testcase.group和testcase.service替换成相应的订阅的组名和服务名
 - 网关侦测入口或者服务侦测入口任选一种，把testcase.inspect.url替换成相应的网关地址或者服务地址
     - 当选择网关作为侦测入口，testcase.inspect.context.service替换成网关后第一跳的服务名
@@ -3824,15 +3826,11 @@ mvn clean install
 - 其它参数可以遵照默认设置，也可以视具体使用场景做改动
 
 ```
-# 自动化测试框架内置配置
-# 测试用例类的扫描路径
-spring.application.test.scan.packages=com.nepxion.discovery.simulator
-# 测试用例的配置内容推送后，等待生效的时间。推送远程配置中心后，再通知各服务更新自身的配置缓存，需要一定的时间，缺失则默认为3000
-spring.application.test.config.operation.await.time=5000
-# 测试用例的配置内容推送的控制台地址。控制台是连接服务注册发现中心、远程配置中心和服务的纽带
-spring.application.test.console.url=http://localhost:6001/
+# 测试用例的配置内容推送的控制台地址
+console.url=http://localhost:6001
+# 测试用例的配置内容推送后，等待生效的时间。推送远程配置中心后，再通知各服务更新自身的配置缓存，需要一定的时间。缺失则默认为5000
+console.operation.await.time=5000
 
-# 业务测试配置
 # 订阅的组名
 testcase.group=discovery-guide-group
 # 订阅的服务名
@@ -3854,19 +3852,18 @@ testcase.loop.times=1
 testcase.bluegreen.sample.count=100
 
 # 测试用例的灰度权重采样总数。采样总数越大，灰度权重准确率越高，但耗费时间越长
-testcase.gray.sample.count=500
+testcase.gray.sample.count=1000
 # 测试用例的灰度权重准确率偏离值。采样总数越大，灰度权重准确率偏离值越小
 testcase.gray.weight.offset=5
 ```
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 修改规则策略文件
 
-在如下四个文件
+在如下三个文件
 
-- discovery-first-version-basic-release.yaml
-- discovery-first-version-bluegreen-gray-release.yaml
-- discovery-second-version-basic-release.yaml
-- discovery-second-version-bluegreen-gray-release.yaml
+- version-release-basic.yaml
+- version-release-1.yaml
+- version-release-2.yaml
 
 如下服务列表替换成测试环境要模拟蓝绿灰度发布的服务列表
 ```
@@ -3880,24 +3877,24 @@ service:
 ```
 【模拟场景3】蓝绿策略，测试全链路调用，Header xyz缺失...
 抽样次数 : 100
-调用结果 : discovery-guide-service-a@1.1命中次数=0
-调用结果 : discovery-guide-service-a@1.0命中次数=100
-调用结果 : discovery-guide-service-b@1.1命中次数=0
-调用结果 : discovery-guide-service-b@1.0命中次数=100
+调用结果 : discovery-guide-service-a@1.1 命中次数=0
+调用结果 : discovery-guide-service-a@1.0 命中次数=100
+调用结果 : discovery-guide-service-b@1.1 命中次数=0
+调用结果 : discovery-guide-service-b@1.0 命中次数=100
 测试结果 : 通过
 【模拟场景3】蓝绿策略，测试全链路调用，Header xyz等于1...
 抽样次数 : 100
-调用结果 : discovery-guide-service-a@1.1命中次数=0
-调用结果 : discovery-guide-service-a@1.0命中次数=100
-调用结果 : discovery-guide-service-b@1.1命中次数=0
-调用结果 : discovery-guide-service-b@1.0命中次数=100
+调用结果 : discovery-guide-service-a@1.1 命中次数=0
+调用结果 : discovery-guide-service-a@1.0 命中次数=100
+调用结果 : discovery-guide-service-b@1.1 命中次数=0
+调用结果 : discovery-guide-service-b@1.0 命中次数=100
 测试结果 : 通过
 【模拟场景3】蓝绿策略，测试全链路调用，Header xyz等于2...
 抽样次数 : 100
-调用结果 : discovery-guide-service-a@1.1命中次数=100
-调用结果 : discovery-guide-service-a@1.0命中次数=0
-调用结果 : discovery-guide-service-b@1.1命中次数=100
-调用结果 : discovery-guide-service-b@1.0命中次数=0
+调用结果 : discovery-guide-service-a@1.1 命中次数=100
+调用结果 : discovery-guide-service-a@1.0 命中次数=0
+调用结果 : discovery-guide-service-b@1.1 命中次数=100
+调用结果 : discovery-guide-service-b@1.0 命中次数=0
 测试结果 : 通过
 【模拟场景3】灰度策略，测试全链路调用，Header xyz缺失...
 抽样次数 : 500
@@ -3906,10 +3903,10 @@ service:
 抽样进度 : 第300次...
 抽样进度 : 第400次...
 抽样进度 : 第500次...
-调用结果 : discovery-guide-service-a@1.1命中次数=0
-调用结果 : discovery-guide-service-a@1.0命中次数=500
-调用结果 : discovery-guide-service-b@1.1命中次数=0
-调用结果 : discovery-guide-service-b@1.0命中次数=500
+调用结果 : discovery-guide-service-a@1.1 命中次数=0
+调用结果 : discovery-guide-service-a@1.0 命中次数=500
+调用结果 : discovery-guide-service-b@1.1 命中次数=0
+调用结果 : discovery-guide-service-b@1.0 命中次数=500
 权重结果偏差值=5%
 期望结果 : 旧版本路由权重=100%, 新版本路由权重=0%
 最终结果 : 旧版本路由权重=100.0%, 新版本路由权重=0.0%
@@ -3921,10 +3918,10 @@ service:
 抽样进度 : 第300次...
 抽样进度 : 第400次...
 抽样进度 : 第500次...
-调用结果 : discovery-guide-service-a@1.1命中次数=52
-调用结果 : discovery-guide-service-a@1.0命中次数=448
-调用结果 : discovery-guide-service-b@1.1命中次数=52
-调用结果 : discovery-guide-service-b@1.0命中次数=448
+调用结果 : discovery-guide-service-a@1.1 命中次数=52
+调用结果 : discovery-guide-service-a@1.0 命中次数=448
+调用结果 : discovery-guide-service-b@1.1 命中次数=52
+调用结果 : discovery-guide-service-b@1.0 命中次数=448
 权重结果偏差值=5%
 期望结果 : 旧版本路由权重=90%, 新版本路由权重=10%
 最终结果 : 旧版本路由权重=89.6%, 新版本路由权重=10.4%
@@ -3936,10 +3933,10 @@ service:
 抽样进度 : 第300次...
 抽样进度 : 第400次...
 抽样进度 : 第500次...
-调用结果 : discovery-guide-service-a@1.1命中次数=147
-调用结果 : discovery-guide-service-a@1.0命中次数=353
-调用结果 : discovery-guide-service-b@1.1命中次数=147
-调用结果 : discovery-guide-service-b@1.0命中次数=353
+调用结果 : discovery-guide-service-a@1.1 命中次数=147
+调用结果 : discovery-guide-service-a@1.0 命中次数=353
+调用结果 : discovery-guide-service-b@1.1 命中次数=147
+调用结果 : discovery-guide-service-b@1.0 命中次数=353
 权重结果偏差值=5%
 期望结果 : 旧版本路由权重=70%, 新版本路由权重=30%
 最终结果 : 旧版本路由权重=70.6%, 新版本路由权重=29.4%
