@@ -83,8 +83,9 @@ Polaris为Discovery高级定制版，特色功能
     - [极简版非域网关部署指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simple-non-domain-gateway)，分支为6.x.x-simple-non-domain-gateway
     - [集成版指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x)，分支为6.x.x
     - [高级版指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-complex)，分支为6.x.x-complex
-    - [半自动化蓝绿灰度发布模拟器指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simulator)，分支为6.x.x-simulator
     - [统一配置订阅执行器指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-config)，分支为6.x.x-config
+    - [统一控制台](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-console)，分支为6.x.x-console
+    - [自动化蓝绿灰度发布模拟测试](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simulator)，分支为6.x.x-simulator
 - Spring Cloud 202x版本
     - [极简版指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/master-simple)，分支为master-simple
     - [集成版指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/master)，分支为master
@@ -3451,9 +3452,14 @@ spring.application.strategy.version.failover.enabled=true
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/ConsoleArchitecture.jpg)
 
 ### 对接DevOps运维平台环境搭建
-① 下载代码，Git clone [https://github.com/Nepxion/DiscoveryGuide.git](https://github.com/Nepxion/DiscoveryGuide.git)，分支为6.x.x-simple。代码很简洁，建议复制出来形成独立工程进行部署
+① 部署控制台，有两种方式
+- 通过[https://github.com/Nepxion/DiscoveryGuide/releases](https://github.com/Nepxion/DiscoveryGuide/releases)下载最新版本的Discovery Console
+- 编译[https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-console](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-console)，分支为6.x.x-console
 
-② 运行`discovery-guide-console`下面的`DiscoveryGuideConsole.java`
+② 运行控制台，以Nacos注册中心和配置中心为例
+```java
+java -jar discovery-console-1.0.0.jar --spring.cloud.nacos.discovery.server-addr=192.168.0.1:8848 --spring.cloud.nacos.config.server-addr=192.168.0.1:8848
+```
 
 ③ 控制台需要实现高可用，做集群部署，可以前置API网关或者Nginx
 
@@ -3795,9 +3801,9 @@ http://localhost:6001/strategy/reset-release/{group}/{serviceId}
 
 DevOps运维平台每隔一段时间，调整灰度权重比例（减少旧版本流量，增加新版本流量），平稳达到流量从旧版本到新版本的迁移
 
-⑤ 半自动化蓝绿灰度发布模拟流程测试
+⑤ 自动化蓝绿灰度发布模拟流程测试
 
-框架通过自动化测试方式提供一个半自动化蓝绿灰度发布的模拟流程，请参考[半自动化蓝绿灰度发布模拟器指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simulator)，分支为6.x.x-simulator
+框架通过自动化测试方式提供一个自动化蓝绿灰度发布的模拟流程，请参考[自动化蓝绿灰度发布模拟测试](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simulator)，分支为6.x.x-simulator
 
 采用全链路智能编排 + 流量侦测相结合的做法，支持网关和服务为侦测入口两种方式，用于测试环境或者开发环境通过自动化测试手段验证全链路蓝绿灰度方式的准确性
 
