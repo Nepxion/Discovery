@@ -3803,9 +3803,14 @@ DevOps运维平台每隔一段时间，调整灰度权重比例（减少旧版�
 
 ⑤ 自动化蓝绿灰度发布模拟流程测试
 
-框架通过自动化测试方式提供一个自动化蓝绿灰度发布的模拟流程，请参考[自动化蓝绿灰度发布模拟测试](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simulator)，分支为6.x.x-simulator
-
 采用全链路智能编排 + 流量侦测相结合的做法，支持网关和服务为侦测入口两种方式，用于测试环境或者开发环境通过自动化测试手段验证全链路蓝绿灰度方式的准确性
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 获取代码
+
+下载代码，Git clone [(https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simulator]((https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simulator)，分支为6.x.x-simulator。执行如下命令行
+```
+mvn clean install
+```
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/error.png) 注意事项
 
