@@ -3816,11 +3816,11 @@ mvn clean install
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 修改application.properties配置文件
 
-- `spring.application.test.console.url`替换成相应的地址
-- `testcase.group`和`testcase.service`替换成相应的订阅的组名和服务名
-- 网关侦测入口或者服务侦测入口任选一种，把`testcase.inspect.url`替换成相应的网关地址或者服务地址
-    - 当选择网关作为侦测入口，`testcase.inspect.context.service`替换成网关后第一跳的服务名
-    - 当选择服务作为侦测入口，`testcase.inspect.context.service`不能配置
+- spring.application.test.console.url替换成相应的地址
+- testcase.group和testcase.service替换成相应的订阅的组名和服务名
+- 网关侦测入口或者服务侦测入口任选一种，把testcase.inspect.url替换成相应的网关地址或者服务地址
+    - 当选择网关作为侦测入口，testcase.inspect.context.service替换成网关后第一跳的服务名
+    - 当选择服务作为侦测入口，testcase.inspect.context.service禁止配置
 - 其它参数可以遵照默认设置，也可以视具体使用场景做改动
 
 ```
