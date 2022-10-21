@@ -3812,9 +3812,9 @@ DevOps运维平台每隔一段时间，调整灰度权重比例（减少旧版�
 - 通过[https://github.com/Nepxion/DiscoveryGuide/releases](https://github.com/Nepxion/DiscoveryGuide/releases)下载最新版本的Discovery Simulator
     - 解压后，根据下文提示做相应修改
     - 运行startup.cmd或者startup.sh
-- 编译(https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simulator](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simulator)，分支为6.x.x-simulator
+- 编译[https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simulator](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simulator)，分支为6.x.x-simulator
     - 下载后，根据下文提示做相应修改
-    - 执行mvn clean install，运行打包过程中的自动化测试，或者执行mvn clean install -DskipTests，产生第一种方式的包，再运行startup.cmd或者startup.sh	
+    - 执行mvn clean install，运行打包过程中的自动化测试，或者执行mvn clean install -DskipTests，产生第一种方式的包，再运行startup.cmd或者startup.sh
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 修改application.properties配置文件
 
