@@ -3803,20 +3803,18 @@ DevOps运维平台每隔一段时间，调整灰度权重比例（减少旧版�
 
 ⑤ 自动化蓝绿灰度发布模拟流程测试
 
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/error.png) 禁止在生产环境使用
+
 采用全链路智能编排 + 流量侦测相结合的做法，支持网关和服务为侦测入口两种方式，用于测试环境或者开发环境通过自动化测试手段验证全链路蓝绿灰度方式的准确性
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 获取代码
 
-下载代码，Git clone [(https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simulator]((https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simulator)，分支为6.x.x-simulator。执行如下命令行
+下载代码，Git clone [(https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simulator](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simulator)，分支为6.x.x-simulator。执行如下命令行
 ```
 mvn clean install
 ```
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/error.png) 注意事项
-
-禁止在生产环境使用
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) application.properties配置文件
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 修改application.properties配置文件
 
 - “spring.application.test.console.url”替换成部署在测试环境控制台的地址
 - “testcase.group”和“testcase.service”替换成相应的订阅的组名和服务名
@@ -3859,7 +3857,7 @@ testcase.gray.sample.count=500
 testcase.gray.weight.offset=5
 ```
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 规则策略文件
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 修改规则策略文件
 
 在如下四个文件
 
@@ -3875,7 +3873,7 @@ service:
   - discovery-guide-service-b
 ```
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 模拟流程部分结果
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 参考模拟流程部分结果
 
 ```
 【模拟场景3】蓝绿策略，测试全链路调用，Header xyz缺失...
