@@ -9,10 +9,6 @@ package com.nepxion.discovery.plugin.admincenter.endpoint;
  * @version 1.0
  */
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,48 +24,41 @@ import com.nepxion.discovery.plugin.admincenter.resource.ConfigResource;
 
 @RestController
 @RequestMapping(path = "/config")
-@Api(tags = { "配置接口" })
 public class ConfigEndpoint {
     @Autowired
     private ConfigResource configResource;
 
     @RequestMapping(path = "/config-type", method = RequestMethod.GET)
-    @ApiOperation(value = "获取配置中心类型", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     public ResponseEntity<?> configType() {
         return doConfigType();
     }
 
     @RequestMapping(path = "/update-async", method = RequestMethod.POST)
-    @ApiOperation(value = "异步更新规则配置", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> updateAsync(@RequestBody @ApiParam(value = "规则配置内容", required = true) String config) {
+    public ResponseEntity<?> updateAsync(@RequestBody String config) {
         return doUpdate(config, true);
     }
 
     @RequestMapping(path = "/update-sync", method = RequestMethod.POST)
-    @ApiOperation(value = "同步更新规则配置", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> updateSync(@RequestBody @ApiParam(value = "规则配置内容", required = true) String config) {
+    public ResponseEntity<?> updateSync(@RequestBody String config) {
         return doUpdate(config, false);
     }
 
     @RequestMapping(path = "/clear-async", method = RequestMethod.POST)
-    @ApiOperation(value = "异步清除规则配置", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> clearAsync() {
         return doClear(true);
     }
 
     @RequestMapping(path = "/clear-sync", method = RequestMethod.POST)
-    @ApiOperation(value = "同步清除规则配置", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> clearSync() {
         return doClear(false);
     }
 
     @RequestMapping(path = "/view", method = RequestMethod.GET)
-    @ApiOperation(value = "查看本地和更新的规则配置", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     public ResponseEntity<?> view() {
         return doView();
