@@ -3452,16 +3452,15 @@ spring.application.strategy.version.failover.enabled=true
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/ConsoleArchitecture.jpg)
 
 ### 对接DevOps运维平台环境搭建
-① 部署控制台，有两种方式
+① 控制台执行过程，有两种方式
 - 通过[https://github.com/Nepxion/DiscoveryGuide/releases](https://github.com/Nepxion/DiscoveryGuide/releases)下载最新版本的Discovery Console
+    - 解压后，修改startup.cmd或者startup.sh中注册中心和配置中心的地址
+    - 运行startup.cmd或者startup.sh
 - 编译[https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-console](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-console)，分支为6.x.x-console
+    - 下载后，修改application.properties中相关地址
+    - 执行mvn clean install，运行java -jar discovery-console--${discovery.console.version}.jar
 
-② 运行控制台，以Nacos注册中心和配置中心为例
-```java
-java -jar discovery-console-1.0.0.jar --spring.cloud.nacos.discovery.server-addr=192.168.0.1:8848 --spring.cloud.nacos.config.server-addr=192.168.0.1:8848
-```
-
-③ 控制台需要实现高可用，做集群部署，可以前置API网关或者Nginx
+② 控制台需要实现高可用，做集群部署，可以前置API网关或者Nginx
 
 ### 对接DevOps运维平台最佳实践
 > 最佳实践采用举例说明，使用者需要依据实际情况来确认版本号、业务参数名和值等
