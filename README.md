@@ -3862,6 +3862,9 @@ testcase.bluegreen.sample.count=100
 testcase.gray.sample.count=1000
 # 测试用例的灰度权重准确率偏离值。采样总数越大，灰度权重准确率偏离值越小
 testcase.gray.weight.offset=5
+
+# 测试用例抛错，通过debug日志定位问题
+# logging.level.com.nepxion.discovery.simulator=debug
 ```
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 修改规则策略文件
