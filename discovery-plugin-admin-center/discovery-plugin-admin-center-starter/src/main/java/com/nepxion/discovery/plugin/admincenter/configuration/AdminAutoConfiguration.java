@@ -57,7 +57,7 @@ import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
 import com.nepxion.discovery.plugin.strategy.zuul.route.ZuulStrategyRoute;
 
 @Configuration
-@Import({ SwaggerConfiguration.class, CorsRegistryConfiguration.class })
+@Import({ CorsRegistryConfiguration.class })
 @AutoConfigureOrder(Ordered.LOWEST_PRECEDENCE)
 public class AdminAutoConfiguration {
     @ConditionalOnProperty(value = AdminConstant.SPRING_APPLICATION_ADMIN_SERVICE_ENDPOINT_ENABLED, matchIfMissing = true)
