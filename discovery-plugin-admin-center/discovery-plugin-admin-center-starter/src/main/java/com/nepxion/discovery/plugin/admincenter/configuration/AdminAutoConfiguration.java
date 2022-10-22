@@ -16,7 +16,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -62,7 +61,6 @@ import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
 import com.nepxion.discovery.plugin.strategy.zuul.route.ZuulStrategyRoute;
 
 @Configuration
-@Import(SwaggerConfiguration.class)
 @AutoConfigureOrder(Ordered.LOWEST_PRECEDENCE)
 public class AdminAutoConfiguration {
     @ConditionalOnProperty(value = AdminConstant.SPRING_APPLICATION_ADMIN_SERVICE_ENDPOINT_ENABLED, matchIfMissing = true)

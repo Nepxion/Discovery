@@ -9,10 +9,6 @@ package com.nepxion.discovery.plugin.admincenter.endpoint;
  * @version 1.0
  */
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,27 +25,23 @@ import com.nepxion.discovery.plugin.admincenter.resource.SentinelParamResource;
 
 @RestController
 @RequestMapping(path = "/sentinel-param")
-@Api(tags = { "哨兵参数接口" })
 public class SentinelParamEndpoint {
     @Autowired
     private SentinelParamResource sentinelParamResource;
 
     @RequestMapping(path = "/update-param-flow-rules", method = RequestMethod.POST)
-    @ApiOperation(value = "更新热点参数流控规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> updateParamFlowRules(@RequestBody @ApiParam(value = "热点参数流控规则内容，Json格式", required = true) String rule) {
+    public ResponseEntity<?> updateParamFlowRules(@RequestBody String rule) {
         return doUpdateParamFlowRules(rule);
     }
 
     @RequestMapping(path = "/clear-param-flow-rules", method = RequestMethod.POST)
-    @ApiOperation(value = "清除热点参数流控规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> clearParamFlowRules() {
         return doClearParamFlowRules();
     }
 
     @RequestMapping(path = "/view-param-flow-rules", method = RequestMethod.GET)
-    @ApiOperation(value = "查看热点参数流控规则列表", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     public ResponseEntity<?> viewParamFlowRules() {
         return doViewParamFlowRules();

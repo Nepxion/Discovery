@@ -9,10 +9,6 @@ package com.nepxion.discovery.plugin.admincenter.endpoint;
  * @version 1.0
  */
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,22 +25,19 @@ import com.nepxion.discovery.plugin.admincenter.resource.InspectorResource;
 
 @RestController
 @RequestMapping(path = "/inspector")
-@Api(tags = { "侦测接口" })
 public class InspectorEndpoint {
     @Autowired
     private InspectorResource inspectorResource;
 
     @RequestMapping(path = "/inspect", method = RequestMethod.POST)
-    @ApiOperation(value = "侦测全链路路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> inspect(@RequestBody @ApiParam(value = "侦测对象", required = true) InspectorEntity inspectorEntity) {
+    public ResponseEntity<?> inspect(@RequestBody InspectorEntity inspectorEntity) {
         return doInspect(inspectorEntity);
     }
 
     @RequestMapping(path = "/inspect-service", method = RequestMethod.POST)
-    @ApiOperation(value = "侦测全链路路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> inspect(@RequestBody @ApiParam(value = "侦测服务列表", required = true) List<String> service) {
+    public ResponseEntity<?> inspect(@RequestBody List<String> service) {
         return doInspect(service);
     }
 

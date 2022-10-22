@@ -9,10 +9,6 @@ package com.nepxion.discovery.plugin.admincenter.endpoint;
  * @version 1.0
  */
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,90 +28,77 @@ import com.nepxion.discovery.plugin.admincenter.resource.SentinelCoreResource;
 
 @RestController
 @RequestMapping(path = "/sentinel-core")
-@Api(tags = { "哨兵核心接口" })
 public class SentinelCoreEndpoint {
     @Autowired
     private SentinelCoreResource sentinelCoreResource;
 
     @RequestMapping(path = "/update-flow-rules", method = RequestMethod.POST)
-    @ApiOperation(value = "更新流控规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> updateFlowRules(@RequestBody @ApiParam(value = "流控规则内容，Json格式", required = true) String rule) {
+    public ResponseEntity<?> updateFlowRules(@RequestBody String rule) {
         return doUpdateFlowRules(rule);
     }
 
     @RequestMapping(path = "/clear-flow-rules", method = RequestMethod.POST)
-    @ApiOperation(value = "清除流控规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> clearFlowRules() {
         return doClearFlowRules();
     }
 
     @RequestMapping(path = "/view-flow-rules", method = RequestMethod.GET)
-    @ApiOperation(value = "查看流控规则列表", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     public ResponseEntity<?> viewFlowRules() {
         return doViewFlowRules();
     }
 
     @RequestMapping(path = "/update-degrade-rules", method = RequestMethod.POST)
-    @ApiOperation(value = "更新降级规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> updateDegradeRules(@RequestBody @ApiParam(value = "降级规则内容，Json格式", required = true) String rule) {
+    public ResponseEntity<?> updateDegradeRules(@RequestBody String rule) {
         return doUpdateDegradeRules(rule);
     }
 
     @RequestMapping(path = "/clear-degrade-rules", method = RequestMethod.POST)
-    @ApiOperation(value = "清除降级规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> clearDegradeRules() {
         return doClearDegradeRules();
     }
 
     @RequestMapping(path = "/view-degrade-rules", method = RequestMethod.GET)
-    @ApiOperation(value = "查看降级规则列表", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     public ResponseEntity<?> viewDegradeRules() {
         return doViewDegradeRules();
     }
 
     @RequestMapping(path = "/update-authority-rules", method = RequestMethod.POST)
-    @ApiOperation(value = "更新授权规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> updateAuthorityRules(@RequestBody @ApiParam(value = "授权规则内容，Json格式", required = true) String rule) {
+    public ResponseEntity<?> updateAuthorityRules(@RequestBody String rule) {
         return doUpdateAuthorityRules(rule);
     }
 
     @RequestMapping(path = "/clear-authority-rules", method = RequestMethod.POST)
-    @ApiOperation(value = "清除授权规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> clearAuthorityRules() {
         return doClearAuthorityRules();
     }
 
     @RequestMapping(path = "/view-authority-rules", method = RequestMethod.GET)
-    @ApiOperation(value = "查看授权规则列表", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     public ResponseEntity<?> viewAuthorityRules() {
         return doViewAuthorityRules();
     }
 
     @RequestMapping(path = "/update-system-rules", method = RequestMethod.POST)
-    @ApiOperation(value = "更新系统规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> updateSystemRules(@RequestBody @ApiParam(value = "系统规则内容，Json格式", required = true) String rule) {
+    public ResponseEntity<?> updateSystemRules(@RequestBody String rule) {
         return doUpdateSystemRules(rule);
     }
 
     @RequestMapping(path = "/clear-system-rules", method = RequestMethod.POST)
-    @ApiOperation(value = "清除系统规则列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> clearSystemRules() {
         return doClearSystemRules();
     }
 
     @RequestMapping(path = "/view-system-rules", method = RequestMethod.GET)
-    @ApiOperation(value = "查看系统规则列表", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     public ResponseEntity<?> viewSystemRules() {
         return doViewSystemRules();

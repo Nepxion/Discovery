@@ -9,10 +9,6 @@ package com.nepxion.discovery.plugin.admincenter.endpoint;
  * @version 1.0
  */
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,36 +26,31 @@ import com.nepxion.discovery.plugin.admincenter.resource.RouterResource;
 
 @RestController
 @RequestMapping(path = "/router")
-@Api(tags = { "路由接口" })
 public class RouterEndpoint {
     @Autowired
     private RouterResource routerResource;
 
     @RequestMapping(path = "/info", method = RequestMethod.GET)
-    @ApiOperation(value = "获取本地节点信息", notes = "获取当前节点的简单信息", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     public ResponseEntity<?> info() {
         return doInfo();
     }
 
     @RequestMapping(path = "/route/{routeServiceId}", method = RequestMethod.GET)
-    @ApiOperation(value = "获取本地节点可访问其他节点的路由信息列表", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
-    public ResponseEntity<?> route(@PathVariable(value = "routeServiceId") @ApiParam(value = "目标服务名", required = true) String routeServiceId) {
+    public ResponseEntity<?> route(@PathVariable(value = "routeServiceId") String routeServiceId) {
         return doNativeRoute(routeServiceId);
     }
 
     @RequestMapping(path = "/route/{routeServiceId}/{routeProtocol}/{routeHost}/{routePort}/{routeContextPath}", method = RequestMethod.GET)
-    @ApiOperation(value = "获取指定节点可访问其他节点的路由信息列表", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
-    public ResponseEntity<?> route(@PathVariable(value = "routeServiceId") @ApiParam(value = "目标服务名", required = true) String routeServiceId, @PathVariable(value = "routeProtocol") @ApiParam(value = "目标服务采用的协议。取值： http | https", defaultValue = "http", required = true) String routeProtocol, @PathVariable(value = "routeHost") @ApiParam(value = "目标服务所在机器的IP地址", required = true) String routeHost, @PathVariable(value = "routePort") @ApiParam(value = "目标服务所在机器的端口号", required = true) int routePort, @PathVariable(value = "routeContextPath") @ApiParam(value = "目标服务的调用路径前缀", defaultValue = "/", required = true) String routeContextPath) {
+    public ResponseEntity<?> route(@PathVariable(value = "routeServiceId") String routeServiceId, @PathVariable(value = "routeProtocol") String routeProtocol, @PathVariable(value = "routeHost") String routeHost, @PathVariable(value = "routePort") int routePort, @PathVariable(value = "routeContextPath") String routeContextPath) {
         return doRemoteRoute(routeServiceId, routeProtocol, routeHost, routePort, routeContextPath);
     }
 
     @RequestMapping(path = "/routes", method = RequestMethod.POST)
-    @ApiOperation(value = "获取全路径的路由信息树", notes = "参数按调用服务名的前后次序排列，起始节点的服务名不能加上去。如果多个用“;”分隔，不允许出现空格", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> routes(@RequestBody @ApiParam(value = "格式示例：service-a;service-b", required = true) String routeServiceIds) {
+    public ResponseEntity<?> routes(@RequestBody String routeServiceIds) {
         return doRoutes(routeServiceIds);
     }
 

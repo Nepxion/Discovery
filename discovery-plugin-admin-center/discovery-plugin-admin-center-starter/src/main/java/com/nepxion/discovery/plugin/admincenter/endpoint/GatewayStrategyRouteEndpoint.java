@@ -10,10 +10,6 @@ package com.nepxion.discovery.plugin.admincenter.endpoint;
  * @version 1.0
  */
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,48 +27,41 @@ import com.nepxion.discovery.plugin.admincenter.resource.GatewayStrategyRouteRes
 
 @RestController
 @RequestMapping(path = "/spring-cloud-gateway-route")
-@Api(tags = { "网关动态路由接口" })
 public class GatewayStrategyRouteEndpoint {
     @Autowired
     private GatewayStrategyRouteResource gatewayStrategyRouteResource;
 
     @RequestMapping(path = "/add", method = RequestMethod.POST)
-    @ApiOperation(value = "增加网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> add(@RequestBody @ApiParam(value = "网关路由对象", required = true) GatewayStrategyRouteEntity gatewayStrategyRouteEntity) {
+    public ResponseEntity<?> add(@RequestBody GatewayStrategyRouteEntity gatewayStrategyRouteEntity) {
         return doAdd(gatewayStrategyRouteEntity);
     }
 
     @RequestMapping(path = "/modify", method = RequestMethod.POST)
-    @ApiOperation(value = "修改网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> modify(@RequestBody @ApiParam(value = "网关路由对象", required = true) GatewayStrategyRouteEntity gatewayStrategyRouteEntity) {
+    public ResponseEntity<?> modify(@RequestBody GatewayStrategyRouteEntity gatewayStrategyRouteEntity) {
         return doModify(gatewayStrategyRouteEntity);
     }
 
     @RequestMapping(path = "/delete/{routeId}", method = RequestMethod.DELETE)
-    @ApiOperation(value = "删除网关路由", notes = "", response = ResponseEntity.class, httpMethod = "DELETE")
     @ResponseBody
-    public ResponseEntity<?> delete(@PathVariable(value = "routeId") @ApiParam(value = "路由Id", required = true) String routeId) {
+    public ResponseEntity<?> delete(@PathVariable(value = "routeId") String routeId) {
         return doDelete(routeId);
     }
 
     @RequestMapping(path = "/update-all", method = RequestMethod.POST)
-    @ApiOperation(value = "更新全部网关路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> updateAll(@RequestBody @ApiParam(value = "网关路由对象列表", required = true) List<GatewayStrategyRouteEntity> gatewayStrategyRouteEntityList) {
+    public ResponseEntity<?> updateAll(@RequestBody List<GatewayStrategyRouteEntity> gatewayStrategyRouteEntityList) {
         return doUpdateAll(gatewayStrategyRouteEntityList);
     }
 
     @RequestMapping(path = "/view/{routeId}", method = RequestMethod.GET)
-    @ApiOperation(value = "根据路由Id查看网关路由", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
-    public ResponseEntity<?> view(@PathVariable(value = "routeId") @ApiParam(value = "路由Id", required = true) String routeId) {
+    public ResponseEntity<?> view(@PathVariable(value = "routeId") String routeId) {
         return doView(routeId);
     }
 
     @RequestMapping(path = "/view-all", method = RequestMethod.GET)
-    @ApiOperation(value = "查看全部网关路由", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     public ResponseEntity<?> viewAll() {
         return doViewAll();

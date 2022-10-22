@@ -9,9 +9,6 @@ package com.nepxion.discovery.plugin.admincenter.endpoint;
  * @version 1.0
  */
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,20 +23,17 @@ import com.nepxion.discovery.plugin.admincenter.resource.GitResource;
 
 @RestController
 @RequestMapping(path = "/git")
-@Api(tags = { "Git信息接口" })
 public class GitEndpoint {
     @Autowired
     private GitResource gitResource;
 
     @RequestMapping(path = "/map", method = RequestMethod.GET)
-    @ApiOperation(value = "获取Git信息的Map格式", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     public ResponseEntity<?> map() {
         return doMap();
     }
 
     @RequestMapping(path = "/text", method = RequestMethod.GET)
-    @ApiOperation(value = "获取Git信息的文本格式", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     public ResponseEntity<?> text() {
         return doText();
