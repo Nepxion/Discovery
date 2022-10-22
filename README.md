@@ -3802,9 +3802,17 @@ DevOps运维平台每隔一段时间，调整灰度权重比例（减少旧版�
 
 ⑤ 自动化蓝绿灰度发布模拟流程测试
 
+使用者集成Nepxion Discovery后，需要通过Postman调用一下去验证是否成功集成，该方式比较繁琐。使用者可以通过“自动化蓝绿灰度发布模拟流程测试”方式进行验证
+
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/error.png) 禁止在生产环境使用
 
 采用全链路智能编排 + 流量侦测相结合的做法，支持网关和服务为侦测入口两种方式，用于测试环境或者开发环境通过自动化测试手段验证全链路蓝绿灰度方式的准确性
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 启动控制台
+
+执行之前，需要先启动控制台，请参考
+- Github Wiki ：[如何部署对接DevOps运维平台的控制台](https://github.com/Nepxion/Discovery/wiki/如何部署对接DevOps运维平台的控制台)
+- Gitee Wiki ：[如何部署对接DevOps运维平台的控制台](https://gitee.com/nepxion/Discovery/wikis/pages?sort_id=6465803&doc_id=1124387)
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 执行过程，有两种方式
 
