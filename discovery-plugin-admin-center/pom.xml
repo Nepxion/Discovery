@@ -16,5 +16,6 @@
 
     <modules>
         <module>discovery-plugin-admin-center-starter</module>
+        <module>discovery-plugin-admin-center-starter-swagger</module>
     </modules>
 </project>
