@@ -805,7 +805,8 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-config-center-starter-consul | 配置中心的Consul Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-config-center-starter-etcd | 配置中心的Etcd Starter |
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_south.png"> discovery-plugin-admin-center | 管理中心目录 |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-admin-center-starter | 管理中心的Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-admin-center-starter | 不带Swagger组件的管理中心的Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-admin-center-starter-swagger | 带Swagger组件的管理中心的Starter |
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_south.png"> discovery-plugin-strategy | 策略目录 |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter | 策略的Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-service | 策略在微服务端的Starter |
@@ -926,10 +927,21 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 ③ 管理中心依赖引入
 
 选择引入
+
+不带Swagger组件的管理中心
 ```xml
 <dependency>
     <groupId>${project.groupId}</groupId>
     <artifactId>discovery-plugin-admin-center-starter</artifactId>
+    <version>${discovery.version}</version>
+</dependency>
+```
+
+带Swagger组件的管理中心
+```xml
+<dependency>
+    <groupId>${project.groupId}</groupId>
+    <artifactId>discovery-plugin-admin-center-starter-swagger</artifactId>
     <version>${discovery.version}</version>
 </dependency>
 ```
@@ -3852,16 +3864,19 @@ testcase.inspect.context.service=discovery-guide-service-a
 # 服务侦测入口地址
 # testcase.inspect.url=http://localhost:3001/inspector/inspect
 
-# 每个测试用例执行循环次数
+# 每个测试用例执行循环次数。缺失则默认为1
 testcase.loop.times=1
 
-# 测试用例的灰度权重采样总数。采样总数越大，灰度权重准确率越高，但耗费时间越长
+# 测试用例的灰度权重采样总数。采样总数越大，灰度权重准确率越高，但耗费时间越长。缺失则默认为100
 testcase.bluegreen.sample.count=100
 
-# 测试用例的灰度权重采样总数。采样总数越大，灰度权重准确率越高，但耗费时间越长
+# 测试用例的灰度权重采样总数。采样总数越大，灰度权重准确率越高，但耗费时间越长。缺失则默认为1000
 testcase.gray.sample.count=1000
-# 测试用例的灰度权重准确率偏离值。采样总数越大，灰度权重准确率偏离值越小
+# 测试用例的灰度权重准确率偏离值。采样总数越大，灰度权重准确率偏离值越小。缺失则默认为5
 testcase.gray.weight.offset=5
+
+# 测试用例中第二次蓝绿灰度发布跳过。一般情况下，第一次蓝绿灰度发布测试通过，第二次发生问题的概率较低。缺失则默认为false
+# testcase.second.release.skip=true
 
 # 测试用例抛错，通过debug日志定位问题
 # logging.level.com.nepxion.discovery.simulator=debug
