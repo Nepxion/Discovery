@@ -805,8 +805,8 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-config-center-starter-consul | 配置中心的Consul Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-config-center-starter-etcd | 配置中心的Etcd Starter |
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_south.png"> discovery-plugin-admin-center | 管理中心目录 |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-admin-center-starter | 不带Swagger组件的管理中心的Starter |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-admin-center-starter-swagger | 带Swagger组件的管理中心的Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-admin-center-starter | 不集成Swagger组件的管理中心的Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-admin-center-starter-swagger | 集成Swagger组件的管理中心的Starter |
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_south.png"> discovery-plugin-strategy | 策略目录 |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter | 策略的Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-service | 策略在微服务端的Starter |
@@ -926,23 +926,15 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 
 ③ 管理中心依赖引入
 
-选择引入
+选择引入集成或者不集成Swagger组件的管理中心
 
-不带Swagger组件的管理中心
 ```xml
 <dependency>
-    <groupId>${project.groupId}</groupId>
+    <groupId>com.nepxion</groupId>
+    <!-- 不集成Swagger组件的管理中心 -->
     <artifactId>discovery-plugin-admin-center-starter</artifactId>
-    <version>${discovery.version}</version>
-</dependency>
-```
-
-带Swagger组件的管理中心
-```xml
-<dependency>
-    <groupId>${project.groupId}</groupId>
+    <!-- 集成Swagger组件的管理中心 -->
     <artifactId>discovery-plugin-admin-center-starter-swagger</artifactId>
-    <version>${discovery.version}</version>
 </dependency>
 ```
 
