@@ -1030,6 +1030,11 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 ### 环境搭建
 ① 下载代码，Git clone [https://github.com/Nepxion/DiscoveryGuide.git](https://github.com/Nepxion/DiscoveryGuide.git)，分支为6.x.x-simple
 
+上述为单网关指南示例，如果使用者想了解多网关指南示例，请下载如下代码
+
+- 域网关 [https://github.com/Nepxion/DiscoveryGuide.git](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simple-domain-gateway)，分支为6.x.x-simple-domain-gateway
+- 非域网关 [https://github.com/Nepxion/DiscoveryGuide.git](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simple-non-domain-gateway)，分支为6.x.x-simple-non-domain-gateway
+
 ② 代码导入IDE
 
 ③ 下载Nacos服务器
