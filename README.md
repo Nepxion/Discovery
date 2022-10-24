@@ -83,9 +83,6 @@ Polaris为Discovery高级定制版，特色功能
     - [极简版非域网关部署指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simple-non-domain-gateway)，分支为6.x.x-simple-non-domain-gateway
     - [集成版指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x)，分支为6.x.x
     - [高级版指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-complex)，分支为6.x.x-complex
-    - [统一配置订阅执行器指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-config)，分支为6.x.x-config
-    - [统一控制台](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-console)，分支为6.x.x-console
-    - [自动化蓝绿灰度发布模拟测试](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simulator)，分支为6.x.x-simulator
 - Spring Cloud 202x版本
     - [极简版指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/master-simple)，分支为master-simple
     - [集成版指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/master)，分支为master
@@ -3462,10 +3459,10 @@ spring.application.strategy.version.failover.enabled=true
 
 ### 对接DevOps运维平台环境搭建
 ① 控制台执行过程，有两种方式
-- 通过[https://github.com/Nepxion/DiscoveryGuide/releases](https://github.com/Nepxion/DiscoveryGuide/releases)下载最新版本的Discovery Console
+- 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Console
     - 解压后，修改startup.cmd或者startup.sh中注册中心和配置中心的地址
     - 运行startup.cmd或者startup.sh
-- 编译[https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-console](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-console)，分支为6.x.x-console
+- 编译[https://github.com/Nepxion/DiscoveryTool/tree/console](https://github.com/Nepxion/DiscoveryTool/tree/console)，分支为console
     - 下载后，修改application.properties中相关地址
     - 执行mvn clean install，运行java -jar discovery-console--${discovery.console.version}.jar
 
@@ -3825,10 +3822,10 @@ DevOps运维平台每隔一段时间，调整灰度权重比例（减少旧版�
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 执行过程，有两种方式
 
-- 通过[https://github.com/Nepxion/DiscoveryGuide/releases](https://github.com/Nepxion/DiscoveryGuide/releases)下载最新版本的Discovery Simulator
+- 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Simulator
     - 解压后，根据下文提示做相应修改
     - 运行startup.cmd或者startup.sh
-- 编译[https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simulator](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simulator)，分支为6.x.x-simulator
+- 编译[https://github.com/Nepxion/DiscoveryTool/tree/simulator](https://github.com/Nepxion/DiscoveryTool/tree/simulator)，分支为simulator
     - 下载后，根据下文提示做相应修改
     - 执行mvn clean install，运行打包过程中的自动化测试，或者执行mvn clean install -DskipTests，产生第一种方式的包，再运行startup.cmd或者startup.sh
 
