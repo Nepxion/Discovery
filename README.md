@@ -864,14 +864,21 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-agent-starter-plugin-mdc | MDC日志的异步跨线程Agent Plugin Starter |
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-agent-example | 异步跨线程示例 |
 
-④ DiscoveryUI工程清单
+④ DiscoveryTool工程清单
+
+| 工程名 | 描述 |
+| --- | --- |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> console | Nepxion Discovery 控制平台应用 |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> simulator | Nepxion Discovery 自动化模拟测试应用 |
+
+⑤ DiscoveryUI工程清单
 
 | 工程名 | 描述 |
 | --- | --- |
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> desktop | Nepxion Discovery 服务治理平台前端桌面版 |
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> web | Nepxion Discovery 服务治理平台前端Web版 |
 
-⑤ DiscoveryContrib工程清单
+⑥ DiscoveryContrib工程清单
 
 | 工程名 | 描述 |
 | --- | --- |
@@ -887,6 +894,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> DiscoveryPlatform | [![Total lines](https://tokei.rs/b1/github/Nepxion/DiscoveryPlatform?category=lines)](https://tokei.rs/b1/github/Nepxion/DiscoveryPlatform?category=lines) |
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> DiscoveryGuide | [![Total lines](https://tokei.rs/b1/github/Nepxion/DiscoveryGuide?category=lines)](https://tokei.rs/b1/github/Nepxion/DiscoveryGuide?category=lines) |
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> DiscoveryAgent | [![Total lines](https://tokei.rs/b1/github/Nepxion/DiscoveryAgent?category=lines)](https://tokei.rs/b1/github/Nepxion/DiscoveryAgent?category=lines) |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> DiscoveryTool | [![Total lines](https://tokei.rs/b1/github/Nepxion/DiscoveryTool?category=lines)](https://tokei.rs/b1/github/Nepxion/DiscoveryTool?category=lines) |
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> DiscoveryUI | [![Total lines](https://tokei.rs/b1/github/Nepxion/DiscoveryUI?category=lines)](https://tokei.rs/b1/github/Nepxion/DiscoveryUI?category=lines) |
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> DiscoveryContrib | [![Total lines](https://tokei.rs/b1/github/Nepxion/DiscoveryContrib?category=lines)](https://tokei.rs/b1/github/Nepxion/DiscoveryContrib?category=lines) |
 
