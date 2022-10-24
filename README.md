@@ -3862,7 +3862,7 @@ testcase.inspect.context.service=discovery-guide-service-a
 # testcase.inspect.url=http://localhost:3001/inspector/inspect
 
 # 每个测试用例执行循环次数。缺失则默认为1
-testcase.loop.times=1
+testcase.loop.count=1
 
 # 测试用例的灰度权重采样总数。采样总数越大，灰度权重准确率越高，但耗费时间越长。缺失则默认为100
 testcase.bluegreen.sample.count=100
@@ -8105,7 +8105,7 @@ zuul.route2.test.url=http://localhost:5002/z/invoke/zuul
 zuul.inspect.url=http://localhost:5002/discovery-guide-service-a/inspector/inspect
 
 # 每个测试用例执行循环次数
-testcase.loop.times=1
+testcase.loop.count=1
 
 # 测试用例的灰度权重测试开关。由于权重测试需要大量采样调用，会造成整个自动化测试时间很长，可以通过下面开关开启和关闭。缺失则默认为true
 gray.weight.testcases.enabled=true
