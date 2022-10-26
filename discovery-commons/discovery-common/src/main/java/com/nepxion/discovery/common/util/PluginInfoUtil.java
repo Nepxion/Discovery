@@ -51,7 +51,7 @@ public class PluginInfoUtil {
     }
 
     public static String extractAll(String text, String keywords) {
-        List<String> keywordList = StringUtil.splitToList(text, ",");
+        List<String> keywordList = StringUtil.splitToList(keywords, ",");
 
         return extractAll(text, keywordList);
     }
