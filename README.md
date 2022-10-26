@@ -3877,8 +3877,11 @@ testcase.gray.sample.count=1000
 # 测试用例的灰度权重准确率偏离值。采样总数越大，灰度权重准确率偏离值越小。缺失则默认为5
 testcase.gray.weight.offset=5
 
-# 测试用例中第二次蓝绿灰度发布跳过。一般情况下，第一次蓝绿灰度发布测试通过，第二次发生问题的概率较低。缺失则默认为false
-# testcase.second.release.skip=true
+# 开启和关闭版本偏好部署模式下的测试用例。网关和服务基于非域网关模式的部署，存在这多个网关并行发布的场景。缺失则默认为false
+# testcase.version.prefer.enabled=true
+
+# 开启和关闭测试用例中第二次蓝绿灰度发布的自动化测试。一般情况下，第一次蓝绿灰度发布测试通过，第二次发生问题的概率较低。缺失则默认为false
+# testcase.second.release.enabled=true
 
 # 测试用例抛错，通过debug日志定位问题
 # logging.level.com.nepxion.discovery.simulator=debug
