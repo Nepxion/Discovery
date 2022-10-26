@@ -50,6 +50,12 @@ public class PluginInfoUtil {
         return map;
     }
 
+    public static String extractAll(String text, String keywords) {
+        List<String> keywordList = StringUtil.splitToList(keywords, ",");
+
+        return extractAll(text, keywordList);
+    }
+
     public static String extractAll(String text, List<String> keywordList) {
         if (CollectionUtils.isEmpty(keywordList)) {
             return null;
