@@ -51,7 +51,7 @@ public class InspectorEndpoint {
 
     private ResponseEntity<?> doInspect(InspectorDebugEntity inspectorDebugEntity) {
         try {
-            String result = inspectorResource.inspect(inspectorDebugEntity.getProtocol(), inspectorDebugEntity.getPortal(), inspectorDebugEntity.getPath(), inspectorDebugEntity.getService(), inspectorDebugEntity.getHeader(), inspectorDebugEntity.getFormat());
+            String result = inspectorResource.inspect(inspectorDebugEntity.getProtocol(), inspectorDebugEntity.getPortal(), inspectorDebugEntity.getPath(), inspectorDebugEntity.getService(), inspectorDebugEntity.getHeader(), inspectorDebugEntity.getFilter());
 
             return ResponseUtil.getSuccessResponse(result);
         } catch (Exception e) {
@@ -61,7 +61,7 @@ public class InspectorEndpoint {
 
     private ResponseEntity<?> doInspectToList(InspectorDebugEntity inspectorDebugEntity) {
         try {
-            List<Map<String, String>> result = inspectorResource.inspectToList(inspectorDebugEntity.getProtocol(), inspectorDebugEntity.getPortal(), inspectorDebugEntity.getPath(), inspectorDebugEntity.getService(), inspectorDebugEntity.getHeader(), inspectorDebugEntity.getFormat());
+            List<Map<String, String>> result = inspectorResource.inspectToList(inspectorDebugEntity.getProtocol(), inspectorDebugEntity.getPortal(), inspectorDebugEntity.getPath(), inspectorDebugEntity.getService(), inspectorDebugEntity.getHeader(), inspectorDebugEntity.getFilter());
 
             return ResponseUtil.getSuccessResponse(result);
         } catch (Exception e) {

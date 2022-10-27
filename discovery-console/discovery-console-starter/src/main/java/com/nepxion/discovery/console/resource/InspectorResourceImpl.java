@@ -30,7 +30,7 @@ public class InspectorResourceImpl implements InspectorResource {
     private RestTemplate loadBalancedRestTemplate;
 
     @Override
-    public String inspect(String protocol, String portal, String path, List<String> service, Map<String, String> header, List<String> format) {
+    public String inspect(String protocol, String portal, String path, List<String> service, Map<String, String> header, List<String> filter) {
         String url = protocol + "://" + portal + UrlUtil.formatContextPath(path) + DiscoveryConstant.INSPECTOR_ENDPOINT_URL;
 
         InspectorEntity inspectorEntity = new InspectorEntity();
@@ -46,18 +46,18 @@ public class InspectorResourceImpl implements InspectorResource {
 
             String result = loadBalancedRestTemplate.exchange(url, HttpMethod.POST, requestEntity, InspectorEntity.class, new HashMap<String, String>()).getBody().getResult();
 
-            return PluginInfoUtil.extractAll(result, format);
+            return PluginInfoUtil.extractAll(result, filter);
         }
 
         String result = loadBalancedRestTemplate.postForEntity(url, inspectorEntity, InspectorEntity.class).getBody().getResult();
 
-        return PluginInfoUtil.extractAll(result, format);
+        return PluginInfoUtil.extractAll(result, filter);
     }
 
     @Override
-    public List<Map<String, String>> inspectToList(String protocol, String portal, String path, List<String> service, Map<String, String> header, List<String> format) {
-        String result = inspect(protocol, portal, path, service, header, format);
+    public List<Map<String, String>> inspectToList(String protocol, String portal, String path, List<String> service, Map<String, String> header, List<String> filter) {
+        String result = inspect(protocol, portal, path, service, header, filter);
 
-        return PluginInfoUtil.assembleAll(result, format);
+        return PluginInfoUtil.assembleAll(result, filter);
     }
 }

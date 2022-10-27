@@ -22,18 +22,18 @@ import org.apache.commons.lang3.StringUtils;
 public class PluginInfoUtil {
     private static Pattern pattern = Pattern.compile("\\[\\S+\\]");
 
-    public static List<Map<String, String>> assembleAll(String text, String keywords) {
-        List<String> keywordList = StringUtil.splitToList(keywords, ",");
+    public static List<Map<String, String>> assembleAll(String text, String filters) {
+        List<String> filterList = StringUtil.splitToList(filters, ",");
 
-        return assembleAll(text, keywordList);
+        return assembleAll(text, filterList);
     }
 
-    public static List<Map<String, String>> assembleAll(String text, List<String> keywordList) {
+    public static List<Map<String, String>> assembleAll(String text, List<String> filterList) {
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
 
         List<String> singleList = StringUtil.splitToList(text, " -> ");
         for (String value : singleList) {
-            Map<String, String> map = assembleSingle(value, keywordList);
+            Map<String, String> map = assembleSingle(value, filterList);
 
             list.add(map);
         }
@@ -41,13 +41,13 @@ public class PluginInfoUtil {
         return list;
     }
 
-    public static Map<String, String> assembleSingle(String text, String keywords) {
-        List<String> keywordList = StringUtil.splitToList(keywords, ",");
+    public static Map<String, String> assembleSingle(String text, String filters) {
+        List<String> filterList = StringUtil.splitToList(filters, ",");
 
-        return assembleSingle(text, keywordList);
+        return assembleSingle(text, filterList);
     }
 
-    public static Map<String, String> assembleSingle(String text, List<String> keywordList) {
+    public static Map<String, String> assembleSingle(String text, List<String> filterList) {
         text = StringUtils.replace(text, "][", "] [");
         Matcher matcher = pattern.matcher(text);
 
@@ -56,7 +56,7 @@ public class PluginInfoUtil {
             String group = matcher.group();
             String value = StringUtils.substringBetween(group, "[", "]");
             String[] array = StringUtils.split(value, "=");
-            if (CollectionUtils.isEmpty(keywordList) || keywordList.contains(array[0])) {
+            if (CollectionUtils.isEmpty(filterList) || filterList.contains(array[0])) {
                 map.put(array[0], array[1]);
             }
         }
@@ -64,20 +64,20 @@ public class PluginInfoUtil {
         return map;
     }
 
-    public static String extractAll(String text, String keywords) {
-        List<String> keywordList = StringUtil.splitToList(keywords, ",");
+    public static String extractAll(String text, String filters) {
+        List<String> filterList = StringUtil.splitToList(filters, ",");
 
-        return extractAll(text, keywordList);
+        return extractAll(text, filterList);
     }
 
-    public static String extractAll(String text, List<String> keywordList) {
-        if (CollectionUtils.isEmpty(keywordList)) {
+    public static String extractAll(String text, List<String> filterList) {
+        if (CollectionUtils.isEmpty(filterList)) {
             return text;
         }
 
         StringBuilder stringBuilder = new StringBuilder();
 
-        List<Map<String, String>> list = assembleAll(text, keywordList);
+        List<Map<String, String>> list = assembleAll(text, filterList);
         for (Map<String, String> map : list) {
             for (Map.Entry<String, String> entry : map.entrySet()) {
                 String key = entry.getKey();
