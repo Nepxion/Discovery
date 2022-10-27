@@ -22,12 +22,18 @@ import org.apache.commons.lang3.StringUtils;
 public class PluginInfoUtil {
     private static Pattern pattern = Pattern.compile("\\[\\S+\\]");
 
-    public static List<Map<String, String>> assembleAll(String text) {
+    public static List<Map<String, String>> assembleAll(String text, String keywords) {
+        List<String> keywordList = StringUtil.splitToList(keywords, ",");
+
+        return assembleAll(text, keywordList);
+    }
+
+    public static List<Map<String, String>> assembleAll(String text, List<String> keywordList) {
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
 
         List<String> singleList = StringUtil.splitToList(text, " -> ");
         for (String value : singleList) {
-            Map<String, String> map = assembleSingle(value);
+            Map<String, String> map = assembleSingle(value, keywordList);
 
             list.add(map);
         }
@@ -35,7 +41,13 @@ public class PluginInfoUtil {
         return list;
     }
 
-    public static Map<String, String> assembleSingle(String text) {
+    public static Map<String, String> assembleSingle(String text, String keywords) {
+        List<String> keywordList = StringUtil.splitToList(keywords, ",");
+
+        return assembleSingle(text, keywordList);
+    }
+
+    public static Map<String, String> assembleSingle(String text, List<String> keywordList) {
         text = StringUtils.replace(text, "][", "] [");
         Matcher matcher = pattern.matcher(text);
 
@@ -44,7 +56,9 @@ public class PluginInfoUtil {
             String group = matcher.group();
             String value = StringUtils.substringBetween(group, "[", "]");
             String[] array = StringUtils.split(value, "=");
-            map.put(array[0], array[1]);
+            if (CollectionUtils.isEmpty(keywordList) || keywordList.contains(array[0])) {
+                map.put(array[0], array[1]);
+            }
         }
 
         return map;
@@ -58,19 +72,17 @@ public class PluginInfoUtil {
 
     public static String extractAll(String text, List<String> keywordList) {
         if (CollectionUtils.isEmpty(keywordList)) {
-            return null;
+            return text;
         }
 
         StringBuilder stringBuilder = new StringBuilder();
 
-        List<Map<String, String>> list = assembleAll(text);
+        List<Map<String, String>> list = assembleAll(text, keywordList);
         for (Map<String, String> map : list) {
             for (Map.Entry<String, String> entry : map.entrySet()) {
                 String key = entry.getKey();
                 String value = entry.getValue();
-                if (keywordList.contains(key)) {
-                    stringBuilder.append("[").append(key).append("=").append(value).append("]");
-                }
+                stringBuilder.append("[").append(key).append("=").append(value).append("]");
             }
             stringBuilder.append(" -> ");
         }
@@ -80,7 +92,7 @@ public class PluginInfoUtil {
         return stringBuilder.toString();
     }
 
-    public static String extractSingle(String text, String keyword) {
+    public static String substringSingle(String text, String keyword) {
         if (text.contains("[" + keyword + "=")) {
             String value = text.substring(text.indexOf("[" + keyword + "=") + keyword.length() + 2);
 
