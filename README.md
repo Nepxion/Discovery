@@ -610,6 +610,9 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [全链路无编排的蓝绿灰度规则策略](#全链路无编排的蓝绿灰度规则策略)
         - [全链路无编排的故障转移](#全链路无编排的故障转移)
         - [全链路无编排蓝绿灰度发布的总结](#全链路无编排蓝绿灰度发布的总结)
+- [全链路蓝绿灰度发布自动化测试](#全链路蓝绿灰度发布自动化测试)
+    - [全链路蓝绿灰度发布自动化模拟流程测试](#全链路蓝绿灰度发布自动化模拟流程测试)
+    - [全链路蓝绿灰度发布自动化流量侦测测试](#全链路蓝绿灰度发布自动化流量侦测测试)
 - [全链路流量管控对接DevOps运维平台](#全链路流量管控对接DevOps运维平台)
     - [对接DevOps运维平台架构方案](#对接DevOps运维平台架构方案)
     - [对接DevOps运维平台环境搭建](#对接DevOps运维平台环境搭建)
@@ -617,9 +620,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [对接DevOps运维平台步骤详解](#对接DevOps运维平台步骤详解)
     - [对接DevOps运维平台半自动化发布](#对接DevOps运维平台半自动化发布)
     - [对接DevOps运维平台公共接口](#对接DevOps运维平台公共接口)
-- [全链路蓝绿灰度发布自动化测试](#全链路蓝绿灰度发布自动化测试)
-    - [全链路自动化蓝绿灰度发布模拟流程测试](#全链路自动化蓝绿灰度发布模拟流程测试)
-    - [全链路自动化蓝绿灰度发布流量侦测测试](#全链路自动化蓝绿灰度发布流量侦测测试)
 - [全链路多活单元化](#多活单元化)
     - [多活单元化概念](#多活单元化概念)
     - [多活单元化梳理](#多活单元化梳理)
@@ -3334,6 +3334,241 @@ spring.application.strategy.version.failover.enabled=true
 - 要牢记业务参数在每次发布驱动链路的情况，即发布中，业务参数不能缺失且必须命中，发布后，业务参数必须缺失
 - 要牢记打开故障转移
 
+## 全链路蓝绿灰度发布自动化测试
+
+### 全链路蓝绿灰度发布自动化模拟流程测试
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Inspector.jpg)
+
+使用者集成Nepxion Discovery后，需要通过Postman调用一下去验证是否成功集成，该方式比较繁琐，可以通过“自动化蓝绿灰度发布模拟流程测试”方式进行验证
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/error.png) 禁止在生产环境使用
+
+采用全链路智能编排 + 流量侦测相结合的做法，支持网关和服务为侦测入口两种方式，用于测试环境或者开发环境通过自动化测试手段验证全链路蓝绿灰度方式的准确性
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+使用侦测功能，服务必须引入discovery-plugin-admin-center-starter依赖
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 启动控制台
+
+执行之前，需要先启动控制台，请参考
+- Github Wiki ：[如何部署对接DevOps运维平台的控制台](https://github.com/Nepxion/Discovery/wiki/如何部署对接DevOps运维平台的控制台)
+- Gitee Wiki ：[如何部署对接DevOps运维平台的控制台](https://gitee.com/nepxion/Discovery/wikis/pages?sort_id=6465803&doc_id=1124387)
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 执行过程，有两种方式
+
+- 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Simulator
+    - 解压后，根据下文提示做相应修改
+    - 运行startup.cmd或者startup.sh
+- 编译[https://github.com/Nepxion/DiscoveryTool/tree/simulator](https://github.com/Nepxion/DiscoveryTool/tree/simulator)，分支为simulator
+    - 下载后，根据下文提示做相应修改
+    - 执行mvn clean install，运行打包过程中的自动化测试，或者执行mvn clean install -DskipTests，产生第一种方式的包，再运行startup.cmd或者startup.sh
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 修改application.properties配置文件
+
+- console.url替换成相应的地址
+- testcase.group和testcase.service替换成相应的订阅的组名和服务名
+- 网关侦测入口或者服务侦测入口任选一种，把testcase.inspect.url替换成相应的网关地址或者服务地址
+    - 当选择网关作为侦测入口，testcase.inspect.context.service替换成网关后第一跳的服务名
+    - 当选择服务作为侦测入口，testcase.inspect.context.service禁止配置
+- 其它参数可以遵照默认设置，也可以视具体使用场景做改动
+
+```
+# 测试用例的配置内容推送的控制台地址
+console.url=http://localhost:6001
+# 测试用例的配置内容推送后，等待生效的时间。推送远程配置中心后，再通知各服务更新自身的配置缓存，需要一定的时间。缺失则默认为5000
+# console.operation.await.time=5000
+
+# 订阅的组名
+testcase.group=discovery-guide-group
+# 订阅的服务名
+testcase.service=discovery-guide-gateway
+# testcase.service=discovery-guide-service-a
+
+# 网关侦测入口地址
+testcase.inspect.url=http://localhost:5001/discovery-guide-service-a/inspector/inspect
+# 网关侦测入口转发服务
+testcase.inspect.context.service=discovery-guide-service-a
+
+# 服务侦测入口地址
+# testcase.inspect.url=http://localhost:3001/inspector/inspect
+
+# 每个测试用例执行循环次数。缺失则默认为1
+# testcase.loop.count=1
+
+# 测试用例的蓝绿采样总数。采样总数越大，准确率越高，但耗费时间越长。缺失则默认为100
+# testcase.bluegreen.sample.count=100
+
+# 测试用例的灰度权重采样总数。采样总数越大，灰度权重准确率越高，但耗费时间越长。缺失则默认为1000
+# testcase.gray.sample.count=1000
+# 测试用例的灰度权重准确率偏离值。采样总数越大，灰度权重准确率偏离值越小。缺失则默认为5
+# testcase.gray.weight.offset=5
+
+# 开启和关闭版本偏好部署模式下的测试用例。网关和服务基于非域网关模式的部署，存在这多个网关并行发布的场景。缺失则默认为false
+# testcase.version.prefer.enabled=true
+
+# 开启和关闭测试用例中第二次蓝绿灰度发布的自动化测试。一般情况下，第一次蓝绿灰度发布测试通过，第二次发生问题的概率较低。缺失则默认为true
+# testcase.second.release.enabled=false
+
+# 测试用例抛错，通过debug日志定位问题
+# logging.level.com.nepxion.discovery.simulator=debug
+```
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 修改规则策略文件
+
+在如下三个文件
+
+- version-release-basic.yaml
+- version-release-1.yaml
+- version-release-2.yaml
+
+如下服务列表替换成测试环境要模拟蓝绿灰度发布的服务列表
+```
+service:
+  - discovery-guide-service-a
+  - discovery-guide-service-b
+```
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 参考模拟流程部分结果
+
+```
+【模拟场景3】蓝绿策略，测试全链路调用，Header xyz缺失...
+抽样次数 : 100
+调用结果 : discovery-guide-service-a@1.1 命中次数=0
+调用结果 : discovery-guide-service-a@1.0 命中次数=100
+调用结果 : discovery-guide-service-b@1.1 命中次数=0
+调用结果 : discovery-guide-service-b@1.0 命中次数=100
+测试结果 : 通过
+【模拟场景3】蓝绿策略，测试全链路调用，Header xyz等于1...
+抽样次数 : 100
+调用结果 : discovery-guide-service-a@1.1 命中次数=0
+调用结果 : discovery-guide-service-a@1.0 命中次数=100
+调用结果 : discovery-guide-service-b@1.1 命中次数=0
+调用结果 : discovery-guide-service-b@1.0 命中次数=100
+测试结果 : 通过
+【模拟场景3】蓝绿策略，测试全链路调用，Header xyz等于2...
+抽样次数 : 100
+调用结果 : discovery-guide-service-a@1.1 命中次数=100
+调用结果 : discovery-guide-service-a@1.0 命中次数=0
+调用结果 : discovery-guide-service-b@1.1 命中次数=100
+调用结果 : discovery-guide-service-b@1.0 命中次数=0
+测试结果 : 通过
+【模拟场景3】灰度策略，测试全链路调用，Header xyz缺失...
+抽样次数 : 500
+抽样进度 : 第100次...
+抽样进度 : 第200次...
+抽样进度 : 第300次...
+抽样进度 : 第400次...
+抽样进度 : 第500次...
+调用结果 : discovery-guide-service-a@1.1 命中次数=0
+调用结果 : discovery-guide-service-a@1.0 命中次数=500
+调用结果 : discovery-guide-service-b@1.1 命中次数=0
+调用结果 : discovery-guide-service-b@1.0 命中次数=500
+权重结果偏差值=5%
+期望结果 : 旧版本路由权重=100%, 新版本路由权重=0%
+最终结果 : 旧版本路由权重=100.0%, 新版本路由权重=0.0%
+测试结果 : 通过
+【模拟场景3】灰度策略，测试全链路调用，Header xyz等于3...
+抽样次数 : 500
+抽样进度 : 第100次...
+抽样进度 : 第200次...
+抽样进度 : 第300次...
+抽样进度 : 第400次...
+抽样进度 : 第500次...
+调用结果 : discovery-guide-service-a@1.1 命中次数=52
+调用结果 : discovery-guide-service-a@1.0 命中次数=448
+调用结果 : discovery-guide-service-b@1.1 命中次数=52
+调用结果 : discovery-guide-service-b@1.0 命中次数=448
+权重结果偏差值=5%
+期望结果 : 旧版本路由权重=90%, 新版本路由权重=10%
+最终结果 : 旧版本路由权重=89.6%, 新版本路由权重=10.4%
+测试结果 : 通过
+【模拟场景3】灰度策略，测试全链路调用，Header xyz等于4...
+抽样次数 : 500
+抽样进度 : 第100次...
+抽样进度 : 第200次...
+抽样进度 : 第300次...
+抽样进度 : 第400次...
+抽样进度 : 第500次...
+调用结果 : discovery-guide-service-a@1.1 命中次数=147
+调用结果 : discovery-guide-service-a@1.0 命中次数=353
+调用结果 : discovery-guide-service-b@1.1 命中次数=147
+调用结果 : discovery-guide-service-b@1.0 命中次数=353
+权重结果偏差值=5%
+期望结果 : 旧版本路由权重=70%, 新版本路由权重=30%
+最终结果 : 旧版本路由权重=70.6%, 新版本路由权重=29.4%
+测试结果 : 通过
+【模拟场景3】* 测试通过...
+```
+
+## 全链路蓝绿灰度发布自动化流量侦测测试
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Inspector.jpg)
+
+使用者集成Nepxion Discovery后，需要通过Postman调用一下去验证是否成功集成，该方式比较繁琐，可以通过“全链路流量侦测”方式进行验证
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_32.png) 适合在生产环境使用
+
+支持网关和服务为侦测入口两种方式，通过自动化测试手段验证全链路蓝绿灰度方式的准确性，由于不能通过大规模模拟调用来冲击生产环境的稳定性，需要通过人工判断来确定结果的准确性
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+使用侦测功能，服务必须引入discovery-plugin-admin-center-starter依赖
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 执行过程，有两种方式
+
+- 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Inspector
+    - 解压后，根据下文提示做相应修改
+    - 运行startup.cmd或者startup.sh
+- 编译[https://github.com/Nepxion/DiscoveryTool/tree/inspector](https://github.com/Nepxion/DiscoveryTool/tree/inspector)，分支为inspector
+    - 下载后，根据下文提示做相应修改
+    - 执行mvn clean install，运行打包过程中的自动化测试，或者执行mvn clean install -DskipTests，产生第一种方式的包，再运行startup.cmd或者startup.sh
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 修改application.properties配置文件
+
+- 网关侦测入口或者服务侦测入口任选一种，把testcase.inspect.url替换成相应的网关地址或者服务地址
+    - 当选择网关作为侦测入口，testcase.inspect.context.service替换成网关后第一跳的服务名
+    - 当选择服务作为侦测入口，testcase.inspect.context.service禁止配置
+- 其它参数可以遵照默认设置，也可以视具体使用场景做改动
+
+```
+# 网关侦测入口地址
+testcase.inspect.url=http://localhost:5001/discovery-guide-service-a/inspector/inspect
+# 网关侦测入口转发服务
+testcase.inspect.context.service=discovery-guide-service-a
+
+# 服务侦测入口地址
+# testcase.inspect.url=http://localhost:3001/inspector/inspect
+
+# 测试用例的总数。采样总数越大，准确率越高，但耗费时间越长。缺失则默认为10
+# testcase.sample.count=10
+
+# 测试用例结果的过滤，不允许出现空格。缺失则默认为ID,V，即显示服务名和版本号
+# 候选项包括
+# ID,UID,AID,T,P,H,V,R,E,Z,G,A,TID,SID
+# ID=ServiceId,UID=UUID,AID=ApplicationId,T=ServiceType,P=Plugin,H=host:port,V=Version,R=Region,E=Environment,Z=Zone,G=Group,A=Active,TID=TraceId,SID=SpanId
+# testcase.result.filter=ID,V
+
+# 测试用例抛错，通过debug日志定位问题
+# logging.level.com.nepxion.discovery.inspector=debug
+```
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 修改规则策略文件
+
+在inspector.yaml里，服务列表替换成要侦测的服务列表，header替换成要侦测的参数
+```
+service:
+  - discovery-guide-service-a
+  - discovery-guide-service-b
+header:
+  xyz: 1
+```
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 参考侦测部分结果
+
+```
+[ID=discovery-guide-gateway][V=1.0] -> [ID=discovery-guide-service-a][V=1.0] -> [ID=discovery-guide-service-b][V=1.0]
+```
+
 ## 全链路流量管控对接DevOps运维平台
 
 ### 对接DevOps运维平台架构方案
@@ -3707,241 +3942,6 @@ DevOps运维平台每隔一段时间，调整灰度权重比例（减少旧版�
 ### 对接DevOps运维平台公共接口
 - Github Wiki ：[如何使用DevOps运维平台对接的公共接口](https://github.com/Nepxion/Discovery/wiki/如何使用DevOps运维平台对接的公共接口)
 - Gitee Wiki ：[如何使用DevOps运维平台对接的公共接口](https://gitee.com/nepxion/Discovery/wikis/pages?sort_id=6428158&doc_id=1124387)
-
-## 全链路蓝绿灰度发布自动化测试
-
-### 全链路自动化蓝绿灰度发布模拟流程测试
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Inspector.jpg)
-
-使用者集成Nepxion Discovery后，需要通过Postman调用一下去验证是否成功集成，该方式比较繁琐，可以通过“自动化蓝绿灰度发布模拟流程测试”方式进行验证
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/error.png) 禁止在生产环境使用
-
-采用全链路智能编排 + 流量侦测相结合的做法，支持网关和服务为侦测入口两种方式，用于测试环境或者开发环境通过自动化测试手段验证全链路蓝绿灰度方式的准确性
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
-
-使用侦测功能，服务必须引入discovery-plugin-admin-center-starter依赖
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 启动控制台
-
-执行之前，需要先启动控制台，请参考
-- Github Wiki ：[如何部署对接DevOps运维平台的控制台](https://github.com/Nepxion/Discovery/wiki/如何部署对接DevOps运维平台的控制台)
-- Gitee Wiki ：[如何部署对接DevOps运维平台的控制台](https://gitee.com/nepxion/Discovery/wikis/pages?sort_id=6465803&doc_id=1124387)
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 执行过程，有两种方式
-
-- 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Simulator
-    - 解压后，根据下文提示做相应修改
-    - 运行startup.cmd或者startup.sh
-- 编译[https://github.com/Nepxion/DiscoveryTool/tree/simulator](https://github.com/Nepxion/DiscoveryTool/tree/simulator)，分支为simulator
-    - 下载后，根据下文提示做相应修改
-    - 执行mvn clean install，运行打包过程中的自动化测试，或者执行mvn clean install -DskipTests，产生第一种方式的包，再运行startup.cmd或者startup.sh
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 修改application.properties配置文件
-
-- console.url替换成相应的地址
-- testcase.group和testcase.service替换成相应的订阅的组名和服务名
-- 网关侦测入口或者服务侦测入口任选一种，把testcase.inspect.url替换成相应的网关地址或者服务地址
-    - 当选择网关作为侦测入口，testcase.inspect.context.service替换成网关后第一跳的服务名
-    - 当选择服务作为侦测入口，testcase.inspect.context.service禁止配置
-- 其它参数可以遵照默认设置，也可以视具体使用场景做改动
-
-```
-# 测试用例的配置内容推送的控制台地址
-console.url=http://localhost:6001
-# 测试用例的配置内容推送后，等待生效的时间。推送远程配置中心后，再通知各服务更新自身的配置缓存，需要一定的时间。缺失则默认为5000
-# console.operation.await.time=5000
-
-# 订阅的组名
-testcase.group=discovery-guide-group
-# 订阅的服务名
-testcase.service=discovery-guide-gateway
-# testcase.service=discovery-guide-service-a
-
-# 网关侦测入口地址
-testcase.inspect.url=http://localhost:5001/discovery-guide-service-a/inspector/inspect
-# 网关侦测入口转发服务
-testcase.inspect.context.service=discovery-guide-service-a
-
-# 服务侦测入口地址
-# testcase.inspect.url=http://localhost:3001/inspector/inspect
-
-# 每个测试用例执行循环次数。缺失则默认为1
-# testcase.loop.count=1
-
-# 测试用例的蓝绿采样总数。采样总数越大，准确率越高，但耗费时间越长。缺失则默认为100
-# testcase.bluegreen.sample.count=100
-
-# 测试用例的灰度权重采样总数。采样总数越大，灰度权重准确率越高，但耗费时间越长。缺失则默认为1000
-# testcase.gray.sample.count=1000
-# 测试用例的灰度权重准确率偏离值。采样总数越大，灰度权重准确率偏离值越小。缺失则默认为5
-# testcase.gray.weight.offset=5
-
-# 开启和关闭版本偏好部署模式下的测试用例。网关和服务基于非域网关模式的部署，存在这多个网关并行发布的场景。缺失则默认为false
-# testcase.version.prefer.enabled=true
-
-# 开启和关闭测试用例中第二次蓝绿灰度发布的自动化测试。一般情况下，第一次蓝绿灰度发布测试通过，第二次发生问题的概率较低。缺失则默认为true
-# testcase.second.release.enabled=false
-
-# 测试用例抛错，通过debug日志定位问题
-# logging.level.com.nepxion.discovery.simulator=debug
-```
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 修改规则策略文件
-
-在如下三个文件
-
-- version-release-basic.yaml
-- version-release-1.yaml
-- version-release-2.yaml
-
-如下服务列表替换成测试环境要模拟蓝绿灰度发布的服务列表
-```
-service:
-  - discovery-guide-service-a
-  - discovery-guide-service-b
-```
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 参考模拟流程部分结果
-
-```
-【模拟场景3】蓝绿策略，测试全链路调用，Header xyz缺失...
-抽样次数 : 100
-调用结果 : discovery-guide-service-a@1.1 命中次数=0
-调用结果 : discovery-guide-service-a@1.0 命中次数=100
-调用结果 : discovery-guide-service-b@1.1 命中次数=0
-调用结果 : discovery-guide-service-b@1.0 命中次数=100
-测试结果 : 通过
-【模拟场景3】蓝绿策略，测试全链路调用，Header xyz等于1...
-抽样次数 : 100
-调用结果 : discovery-guide-service-a@1.1 命中次数=0
-调用结果 : discovery-guide-service-a@1.0 命中次数=100
-调用结果 : discovery-guide-service-b@1.1 命中次数=0
-调用结果 : discovery-guide-service-b@1.0 命中次数=100
-测试结果 : 通过
-【模拟场景3】蓝绿策略，测试全链路调用，Header xyz等于2...
-抽样次数 : 100
-调用结果 : discovery-guide-service-a@1.1 命中次数=100
-调用结果 : discovery-guide-service-a@1.0 命中次数=0
-调用结果 : discovery-guide-service-b@1.1 命中次数=100
-调用结果 : discovery-guide-service-b@1.0 命中次数=0
-测试结果 : 通过
-【模拟场景3】灰度策略，测试全链路调用，Header xyz缺失...
-抽样次数 : 500
-抽样进度 : 第100次...
-抽样进度 : 第200次...
-抽样进度 : 第300次...
-抽样进度 : 第400次...
-抽样进度 : 第500次...
-调用结果 : discovery-guide-service-a@1.1 命中次数=0
-调用结果 : discovery-guide-service-a@1.0 命中次数=500
-调用结果 : discovery-guide-service-b@1.1 命中次数=0
-调用结果 : discovery-guide-service-b@1.0 命中次数=500
-权重结果偏差值=5%
-期望结果 : 旧版本路由权重=100%, 新版本路由权重=0%
-最终结果 : 旧版本路由权重=100.0%, 新版本路由权重=0.0%
-测试结果 : 通过
-【模拟场景3】灰度策略，测试全链路调用，Header xyz等于3...
-抽样次数 : 500
-抽样进度 : 第100次...
-抽样进度 : 第200次...
-抽样进度 : 第300次...
-抽样进度 : 第400次...
-抽样进度 : 第500次...
-调用结果 : discovery-guide-service-a@1.1 命中次数=52
-调用结果 : discovery-guide-service-a@1.0 命中次数=448
-调用结果 : discovery-guide-service-b@1.1 命中次数=52
-调用结果 : discovery-guide-service-b@1.0 命中次数=448
-权重结果偏差值=5%
-期望结果 : 旧版本路由权重=90%, 新版本路由权重=10%
-最终结果 : 旧版本路由权重=89.6%, 新版本路由权重=10.4%
-测试结果 : 通过
-【模拟场景3】灰度策略，测试全链路调用，Header xyz等于4...
-抽样次数 : 500
-抽样进度 : 第100次...
-抽样进度 : 第200次...
-抽样进度 : 第300次...
-抽样进度 : 第400次...
-抽样进度 : 第500次...
-调用结果 : discovery-guide-service-a@1.1 命中次数=147
-调用结果 : discovery-guide-service-a@1.0 命中次数=353
-调用结果 : discovery-guide-service-b@1.1 命中次数=147
-调用结果 : discovery-guide-service-b@1.0 命中次数=353
-权重结果偏差值=5%
-期望结果 : 旧版本路由权重=70%, 新版本路由权重=30%
-最终结果 : 旧版本路由权重=70.6%, 新版本路由权重=29.4%
-测试结果 : 通过
-【模拟场景3】* 测试通过...
-```
-
-## 全链路自动化蓝绿灰度发布流量侦测测试
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Inspector.jpg)
-
-使用者集成Nepxion Discovery后，需要通过Postman调用一下去验证是否成功集成，该方式比较繁琐，可以通过“全链路流量侦测”方式进行验证
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_32.png) 适合在生产环境使用
-
-支持网关和服务为侦测入口两种方式，通过自动化测试手段验证全链路蓝绿灰度方式的准确性，由于不能通过大规模模拟调用来冲击生产环境的稳定性，需要通过人工判断来确定结果的准确性
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
-
-使用侦测功能，服务必须引入discovery-plugin-admin-center-starter依赖
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 执行过程，有两种方式
-
-- 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Inspector
-    - 解压后，根据下文提示做相应修改
-    - 运行startup.cmd或者startup.sh
-- 编译[https://github.com/Nepxion/DiscoveryTool/tree/inspector](https://github.com/Nepxion/DiscoveryTool/tree/inspector)，分支为inspector
-    - 下载后，根据下文提示做相应修改
-    - 执行mvn clean install，运行打包过程中的自动化测试，或者执行mvn clean install -DskipTests，产生第一种方式的包，再运行startup.cmd或者startup.sh
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 修改application.properties配置文件
-
-- 网关侦测入口或者服务侦测入口任选一种，把testcase.inspect.url替换成相应的网关地址或者服务地址
-    - 当选择网关作为侦测入口，testcase.inspect.context.service替换成网关后第一跳的服务名
-    - 当选择服务作为侦测入口，testcase.inspect.context.service禁止配置
-- 其它参数可以遵照默认设置，也可以视具体使用场景做改动
-
-```
-# 网关侦测入口地址
-testcase.inspect.url=http://localhost:5001/discovery-guide-service-a/inspector/inspect
-# 网关侦测入口转发服务
-testcase.inspect.context.service=discovery-guide-service-a
-
-# 服务侦测入口地址
-# testcase.inspect.url=http://localhost:3001/inspector/inspect
-
-# 测试用例的总数。采样总数越大，准确率越高，但耗费时间越长。缺失则默认为10
-# testcase.sample.count=10
-
-# 测试用例结果的过滤，不允许出现空格。缺失则默认为ID,V，即显示服务名和版本号
-# 候选项包括
-# ID,UID,AID,T,P,H,V,R,E,Z,G,A,TID,SID
-# ID=ServiceId,UID=UUID,AID=ApplicationId,T=ServiceType,P=Plugin,H=host:port,V=Version,R=Region,E=Environment,Z=Zone,G=Group,A=Active,TID=TraceId,SID=SpanId
-# testcase.result.filter=ID,V
-
-# 测试用例抛错，通过debug日志定位问题
-# logging.level.com.nepxion.discovery.inspector=debug
-```
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 修改规则策略文件
-
-在inspector.yaml里，服务列表替换成要侦测的服务列表，header替换成要侦测的参数
-```
-service:
-  - discovery-guide-service-a
-  - discovery-guide-service-b
-header:
-  xyz: 1
-```
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 参考侦测部分结果
-
-```
-[ID=discovery-guide-gateway][V=1.0] -> [ID=discovery-guide-service-a][V=1.0] -> [ID=discovery-guide-service-b][V=1.0]
-```
 
 ## 全链路多活单元化
 
