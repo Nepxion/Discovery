@@ -3001,20 +3001,19 @@ spring.application.strategy.rpc.intercept.enabled=true
 ```
 
 ### 全链路蓝绿灰度发布流量侦测
-全链路侦测，用来侦测调试蓝绿灰度发布、路由隔离等一系列流量管控手段是否符合预期
-
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Inspector.jpg)
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
-
-使用侦测功能，服务必须引入discovery-plugin-admin-center-starter依赖
 
 #### 全链路自动化流量侦测
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Inspector.jpg)
+
 使用者集成Nepxion Discovery后，需要通过Postman调用一下去验证是否成功集成，该方式比较繁琐，可以通过“全链路流量侦测”方式进行验证
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_32.png) 适合在生产环境使用
 
 支持网关和服务为侦测入口两种方式，通过自动化测试手段验证全链路蓝绿灰度方式的准确性，由于不能通过大规模模拟调用来冲击生产环境的稳定性，需要通过人工判断来确定结果的准确性
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+使用侦测功能，服务必须引入discovery-plugin-admin-center-starter依赖
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 执行过程，有两种方式
 
@@ -3780,11 +3779,17 @@ DevOps运维平台每隔一段时间，调整灰度权重比例（减少旧版�
 
 ⑤ 自动化蓝绿灰度发布模拟流程测试
 
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Inspector.jpg)
+
 使用者集成Nepxion Discovery后，需要通过Postman调用一下去验证是否成功集成，该方式比较繁琐，可以通过“自动化蓝绿灰度发布模拟流程测试”方式进行验证
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/error.png) 禁止在生产环境使用
 
 采用全链路智能编排 + 流量侦测相结合的做法，支持网关和服务为侦测入口两种方式，用于测试环境或者开发环境通过自动化测试手段验证全链路蓝绿灰度方式的准确性
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+使用侦测功能，服务必须引入discovery-plugin-admin-center-starter依赖
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 启动控制台
 
