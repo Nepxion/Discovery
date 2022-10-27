@@ -10,7 +10,7 @@
 - 网关动态路由、断言器和过滤器
 - 调用链埋点、日志、指标监控
 - 限流熔断降级授权防护扩展
-- 自动化流量模拟侦测测试
+- 全链路自动化侦测测试
 
 [GitHub](https://github.com/Nepxion/Discovery/)
 [Get Started](#Discovery【探索】云原生微服务解决方案)
