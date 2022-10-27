@@ -600,9 +600,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [全链路自定义蓝绿灰度发布](#全链路自定义蓝绿灰度发布)
         - [全链路过滤器触发蓝绿灰度发布](#全链路过滤器触发蓝绿灰度发布)
         - [全链路负载均衡策略类触发蓝绿灰度发布](#全链路负载均衡策略类触发蓝绿灰度发布)
-    - [全链路蓝绿灰度发布流量侦测](#全链路蓝绿灰度发布流量侦测)
-        - [全链路控制台为起点的流量侦测](#全链路控制台为起点的流量侦测)
-        - [全链路服务为起点的流量侦测](#全链路服务为起点的流量侦测)
     - [全链路智能编排蓝绿灰度发布](#全链路智能编排蓝绿灰度发布)
         - [全链路智能编排版本前提](#全链路智能编排版本前提)
         - [全链路智能编排版本逻辑](#全链路智能编排版本逻辑)
@@ -620,6 +617,9 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [对接DevOps运维平台步骤详解](#对接DevOps运维平台步骤详解)
     - [对接DevOps运维平台半自动化发布](#对接DevOps运维平台半自动化发布)
     - [对接DevOps运维平台公共接口](#对接DevOps运维平台公共接口)
+- [全链路蓝绿灰度发布自动化测试](#全链路蓝绿灰度发布自动化测试)
+    - [全链路自动化蓝绿灰度发布模拟流程测试](#全链路自动化蓝绿灰度发布模拟流程测试)
+    - [全链路自动化蓝绿灰度发布流量侦测测试](#全链路自动化蓝绿灰度发布流量侦测测试)
 - [全链路多活单元化](#多活单元化)
     - [多活单元化概念](#多活单元化概念)
     - [多活单元化梳理](#多活单元化梳理)
@@ -3000,120 +3000,6 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
 spring.application.strategy.rpc.intercept.enabled=true
 ```
 
-### 全链路蓝绿灰度发布流量侦测
-全链路侦测，用来侦测调试蓝绿灰度发布、路由隔离等一系列流量管控手段是否符合预期
-
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Inspector.jpg)
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
-
-使用侦测功能，服务必须引入discovery-plugin-admin-center-starter依赖
-
-#### 全链路控制台为起点的流量侦测
-① 全链路侦测方式
-
-请求URL
-```
-http://localhost:6001/inspector/inspect
-```
-请求类型
-```
-POST
-```
-请求参数
-
-`InspectorDebugEntity`格式
-```
-{
-  "protocol": "http",
-  "portal": "",
-  "path": "",
-  "service": [],
-  "header": {}
-}
-```
-- `protocol`协议类型，取值`http`或者`https`
-- `portal`入口服务名，支持网关和服务两种入口方式
-- `path`网关路由转发路径或者服务调用上下文路径
-    - 当以网关为入口时，`path`为网关路由转发路径。如果网关未对它后面的第一个服务配置网关路由转发路径，则`path`由该服务名来代替
-    - 当以服务为入口时，`path`为服务调用上下文路径`ContextPath`。如果服务未配置调用上下文路径，则`path`留空
-- `service`侦测服务列表，可以留空或者删除。网关为入口，例如，想侦测服务A和服务B的链路，侦测服务列表只需要包含服务B，网关路由转发路径已经包含服务A
-- `header`Http头的哈希表，可以留空或者删除
-
-② 全链路侦测示例
-
-- 以网关为入口进行侦测调试
-
-输入`InspectorDebugEntity`对象内容
-
-如果网关对服务`discovery-guide-service-a`的路由转发路径配置为`/discovery-guide-service-a/**`
-```
-{
-  "protocol": "http",
-  "portal": "discovery-guide-gateway",
-  "path": "discovery-guide-service-a",
-  "service": ["discovery-guide-service-b"],
-  "header": {"xyz": "1"}
-}
-```
-返回
-```
-[ID=discovery-guide-gateway][UID=20220927-111127-875-1354-367-132][T=gateway][P=Nacos][H=192.168.31.237:5001][V=1.0][R=default][E=default][Z=default][G=discovery-guide-group][A=false][TID=30186d59ee6e0633][SID=5c2094901666a0ee] 
--> [ID=discovery-guide-service-a][UID=20220927-111127-898-7896-282-453][T=service][P=Nacos][H=192.168.31.237:3001][V=1.0][R=dev][E=env1][Z=zone1][G=discovery-guide-group][A=true][TID=30186d59ee6e0633][SID=65bcb084e10fe9d0] 
--> [ID=discovery-guide-service-b][UID=20220927-111127-603-9037-746-402][T=service][P=Nacos][H=192.168.31.237:4001][V=1.0][R=qa][E=env1][Z=zone1][G=discovery-guide-group][A=false][TID=30186d59ee6e0633][SID=d032cb9f094bf411]
-```
-
-从返回结果查看，在入口服务`discovery-guide-gateway`上侦测调试服务`discovery-guide-service-a`和服务`discovery-guide-service-b`的蓝绿灰度发布、路由隔离等一系列流量管控手段是否符合预期
-
-- 以服务为入口进行侦测调试
-
-输入`InspectorDebugEntity`对象内容
-```
-{
-  "protocol": "http",
-  "portal": "discovery-guide-service-a",
-  "path": "",
-  "service": ["discovery-guide-service-b"],
-  "header": {"xyz": "1"}
-}
-```
-返回
-```
-[ID=discovery-guide-service-a][UID=20220927-111127-898-7896-282-453][T=service][P=Nacos][H=192.168.31.237:3001][V=1.0][R=dev][E=env1][Z=zone1][G=discovery-guide-group][A=true][TID=f953d0cb282ce160][SID=cb45020a6275e68d] 
--> [ID=discovery-guide-service-b][UID=20220927-111127-603-9037-746-402][T=service][P=Nacos][H=192.168.31.237:4001][V=1.0][R=qa][E=env1][Z=zone1][G=discovery-guide-group][A=false][TID=f953d0cb282ce160][SID=ee2ae1d457cd8c98]
-```
-
-从返回结果查看，在入口服务`discovery-guide-service-a`上侦测调试服务`discovery-guide-service-b`的蓝绿灰度发布、路由隔离等一系列流量管控手段是否符合预期
-
-#### 全链路服务为起点的流量侦测
-① 全链路侦测方式
-
-请求URL
-
-- 网关为入口
-
-```
-http://网关地址:网关端口/网关路由转发路径/inspector/inspect-service
-```
-
-- 服务为入口
-
-```
-http://服务地址:服务端口/服务调用上下文路径/inspector/inspect-service
-```
-
-请求类型
-```
-POST
-```
-请求参数
-
-侦测服务列表，参考[全链路控制台为起点的流量侦测](#全链路控制台为起点的流量侦测)
-
-② 全链路侦测示例
-
-示例，参考[全链路控制台为起点的流量侦测](#全链路控制台为起点的流量侦测)
-
 ### 全链路智能编排蓝绿灰度发布
 链路智能编排的方式，即路由链路在后台会智能化编排，用户不再需要关心服务实例的版本情况而进行手工编排，只需要配置跟业务参数有关的条件表达式即可，让蓝绿灰度发布变的更简单更易用
 
@@ -3814,13 +3700,28 @@ http://localhost:6001/strategy/reset-release/{group}/{serviceId}
 
 DevOps运维平台每隔一段时间，调整灰度权重比例（减少旧版本流量，增加新版本流量），平稳达到流量从旧版本到新版本的迁移
 
-⑤ 自动化蓝绿灰度发布模拟流程测试
+上面提到的步骤，请参考
+- Github Wiki ：[如何使用DevOps运维平台对接的公共接口 - 策略接口](https://github.com/Nepxion/Discovery/wiki/如何使用DevOps运维平台对接的公共接口#策略接口)
+- Gitee Wiki ：[如何使用DevOps运维平台对接的公共接口 - 策略接口](https://gitee.com/nepxion/Discovery/wikis/pages?sort_id=6428158&doc_id=1124387#策略接口)
+
+### 对接DevOps运维平台公共接口
+- Github Wiki ：[如何使用DevOps运维平台对接的公共接口](https://github.com/Nepxion/Discovery/wiki/如何使用DevOps运维平台对接的公共接口)
+- Gitee Wiki ：[如何使用DevOps运维平台对接的公共接口](https://gitee.com/nepxion/Discovery/wikis/pages?sort_id=6428158&doc_id=1124387)
+
+## 全链路蓝绿灰度发布自动化测试
+
+### 全链路自动化蓝绿灰度发布模拟流程测试
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Inspector.jpg)
 
 使用者集成Nepxion Discovery后，需要通过Postman调用一下去验证是否成功集成，该方式比较繁琐，可以通过“自动化蓝绿灰度发布模拟流程测试”方式进行验证
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/error.png) 禁止在生产环境使用
 
 采用全链路智能编排 + 流量侦测相结合的做法，支持网关和服务为侦测入口两种方式，用于测试环境或者开发环境通过自动化测试手段验证全链路蓝绿灰度方式的准确性
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+使用侦测功能，服务必须引入discovery-plugin-admin-center-starter依赖
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 启动控制台
 
@@ -3974,13 +3875,73 @@ service:
 【模拟场景3】* 测试通过...
 ```
 
-上面提到的步骤，请参考
-- Github Wiki ：[如何使用DevOps运维平台对接的公共接口 - 策略接口](https://github.com/Nepxion/Discovery/wiki/如何使用DevOps运维平台对接的公共接口#策略接口)
-- Gitee Wiki ：[如何使用DevOps运维平台对接的公共接口 - 策略接口](https://gitee.com/nepxion/Discovery/wikis/pages?sort_id=6428158&doc_id=1124387#策略接口)
+## 全链路自动化蓝绿灰度发布流量侦测测试
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Inspector.jpg)
 
-### 对接DevOps运维平台公共接口
-- Github Wiki ：[如何使用DevOps运维平台对接的公共接口](https://github.com/Nepxion/Discovery/wiki/如何使用DevOps运维平台对接的公共接口)
-- Gitee Wiki ：[如何使用DevOps运维平台对接的公共接口](https://gitee.com/nepxion/Discovery/wikis/pages?sort_id=6428158&doc_id=1124387)
+使用者集成Nepxion Discovery后，需要通过Postman调用一下去验证是否成功集成，该方式比较繁琐，可以通过“全链路流量侦测”方式进行验证
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_32.png) 适合在生产环境使用
+
+支持网关和服务为侦测入口两种方式，通过自动化测试手段验证全链路蓝绿灰度方式的准确性，由于不能通过大规模模拟调用来冲击生产环境的稳定性，需要通过人工判断来确定结果的准确性
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+使用侦测功能，服务必须引入discovery-plugin-admin-center-starter依赖
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 执行过程，有两种方式
+
+- 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Inspector
+    - 解压后，根据下文提示做相应修改
+    - 运行startup.cmd或者startup.sh
+- 编译[https://github.com/Nepxion/DiscoveryTool/tree/inspector](https://github.com/Nepxion/DiscoveryTool/tree/inspector)，分支为inspector
+    - 下载后，根据下文提示做相应修改
+    - 执行mvn clean install，运行打包过程中的自动化测试，或者执行mvn clean install -DskipTests，产生第一种方式的包，再运行startup.cmd或者startup.sh
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 修改application.properties配置文件
+
+- 网关侦测入口或者服务侦测入口任选一种，把testcase.inspect.url替换成相应的网关地址或者服务地址
+    - 当选择网关作为侦测入口，testcase.inspect.context.service替换成网关后第一跳的服务名
+    - 当选择服务作为侦测入口，testcase.inspect.context.service禁止配置
+- 其它参数可以遵照默认设置，也可以视具体使用场景做改动
+
+```
+# 网关侦测入口地址
+testcase.inspect.url=http://localhost:5001/discovery-guide-service-a/inspector/inspect
+# 网关侦测入口转发服务
+testcase.inspect.context.service=discovery-guide-service-a
+
+# 服务侦测入口地址
+# testcase.inspect.url=http://localhost:3001/inspector/inspect
+
+# 测试用例的总数。采样总数越大，准确率越高，但耗费时间越长。缺失则默认为10
+# testcase.sample.count=10
+
+# 测试用例结果的过滤，不允许出现空格。缺失则默认为ID,V，即显示服务名和版本号
+# 候选项包括
+# ID,UID,AID,T,P,H,V,R,E,Z,G,A,TID,SID
+# ID=ServiceId,UID=UUID,AID=ApplicationId,T=ServiceType,P=Plugin,H=host:port,V=Version,R=Region,E=Environment,Z=Zone,G=Group,A=Active,TID=TraceId,SID=SpanId
+# testcase.result.filter=ID,V
+
+# 测试用例抛错，通过debug日志定位问题
+# logging.level.com.nepxion.discovery.inspector=debug
+```
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 修改规则策略文件
+
+在inspector.yaml里，服务列表替换成要侦测的服务列表，header替换成要侦测的参数
+```
+service:
+  - discovery-guide-service-a
+  - discovery-guide-service-b
+header:
+  xyz: 1
+```
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 参考侦测部分结果
+
+```
+[ID=discovery-guide-gateway][V=1.0] -> [ID=discovery-guide-service-a][V=1.0] -> [ID=discovery-guide-service-b][V=1.0]
+```
 
 ## 全链路多活单元化
 
