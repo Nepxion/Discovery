@@ -22,6 +22,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.InspectorEntity;
+import com.nepxion.discovery.common.util.PluginInfoUtil;
 import com.nepxion.discovery.common.util.UrlUtil;
 
 public class InspectorResourceImpl implements InspectorResource {
@@ -29,7 +30,7 @@ public class InspectorResourceImpl implements InspectorResource {
     private RestTemplate loadBalancedRestTemplate;
 
     @Override
-    public String inspect(String protocol, String portal, String path, List<String> service, Map<String, String> header) {
+    public String inspect(String protocol, String portal, String path, List<String> service, Map<String, String> header, List<String> format) {
         String url = protocol + "://" + portal + UrlUtil.formatContextPath(path) + DiscoveryConstant.INSPECTOR_ENDPOINT_URL;
 
         InspectorEntity inspectorEntity = new InspectorEntity();
@@ -43,9 +44,20 @@ public class InspectorResourceImpl implements InspectorResource {
 
             HttpEntity<InspectorEntity> requestEntity = new HttpEntity<InspectorEntity>(inspectorEntity, headers);
 
-            return loadBalancedRestTemplate.exchange(url, HttpMethod.POST, requestEntity, InspectorEntity.class, new HashMap<String, String>()).getBody().getResult();
+            String result = loadBalancedRestTemplate.exchange(url, HttpMethod.POST, requestEntity, InspectorEntity.class, new HashMap<String, String>()).getBody().getResult();
+
+            return PluginInfoUtil.extractAll(result, format);
         }
 
-        return loadBalancedRestTemplate.postForEntity(url, inspectorEntity, InspectorEntity.class).getBody().getResult();
+        String result = loadBalancedRestTemplate.postForEntity(url, inspectorEntity, InspectorEntity.class).getBody().getResult();
+
+        return PluginInfoUtil.extractAll(result, format);
+    }
+
+    @Override
+    public List<Map<String, String>> inspectToList(String protocol, String portal, String path, List<String> service, Map<String, String> header, List<String> format) {
+        String result = inspect(protocol, portal, path, service, header, format);
+
+        return PluginInfoUtil.assembleAll(result, format);
     }
 }
