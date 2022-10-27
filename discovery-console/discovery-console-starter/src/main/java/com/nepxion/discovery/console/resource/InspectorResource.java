@@ -13,5 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface InspectorResource {
-    String inspect(String protocol, String portal, String path, List<String> service, Map<String, String> header);
+    String inspect(String protocol, String portal, String path, List<String> service, Map<String, String> header, List<String> format);
+
+    List<Map<String, String>> inspectToList(String protocol, String portal, String path, List<String> service, Map<String, String> header, List<String> format);
 }

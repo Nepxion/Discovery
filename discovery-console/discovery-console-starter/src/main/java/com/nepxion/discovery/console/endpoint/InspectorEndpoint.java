@@ -13,6 +13,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,15 +36,32 @@ public class InspectorEndpoint {
     private InspectorResource inspectorResource;
 
     @RequestMapping(path = "/inspect", method = RequestMethod.POST)
-    @ApiOperation(value = "侦测调试全链路路由", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ApiOperation(value = "侦测调试全链路路由，返回字符串格式", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
     public ResponseEntity<?> inspect(@RequestBody @ApiParam(value = "侦测调试对象", required = true) InspectorDebugEntity inspectorDebugEntity) {
         return doInspect(inspectorDebugEntity);
     }
 
+    @RequestMapping(path = "/inspect-to-list", method = RequestMethod.POST)
+    @ApiOperation(value = "侦测调试全链路路由，返回结构化格式", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    public ResponseEntity<?> inspectToList(@RequestBody @ApiParam(value = "侦测调试对象", required = true) InspectorDebugEntity inspectorDebugEntity) {
+        return doInspectToList(inspectorDebugEntity);
+    }
+
     private ResponseEntity<?> doInspect(InspectorDebugEntity inspectorDebugEntity) {
         try {
-            String result = inspectorResource.inspect(inspectorDebugEntity.getProtocol(), inspectorDebugEntity.getPortal(), inspectorDebugEntity.getPath(), inspectorDebugEntity.getService(), inspectorDebugEntity.getHeader());
+            String result = inspectorResource.inspect(inspectorDebugEntity.getProtocol(), inspectorDebugEntity.getPortal(), inspectorDebugEntity.getPath(), inspectorDebugEntity.getService(), inspectorDebugEntity.getHeader(), inspectorDebugEntity.getFormat());
+
+            return ResponseUtil.getSuccessResponse(result);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
+    }
+
+    private ResponseEntity<?> doInspectToList(InspectorDebugEntity inspectorDebugEntity) {
+        try {
+            List<Map<String, String>> result = inspectorResource.inspectToList(inspectorDebugEntity.getProtocol(), inspectorDebugEntity.getPortal(), inspectorDebugEntity.getPath(), inspectorDebugEntity.getService(), inspectorDebugEntity.getHeader(), inspectorDebugEntity.getFormat());
 
             return ResponseUtil.getSuccessResponse(result);
         } catch (Exception e) {
