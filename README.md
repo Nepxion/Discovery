@@ -3335,11 +3335,10 @@ spring.application.strategy.version.failover.enabled=true
 - 要牢记打开故障转移
 
 ### 全链路自动化测试
-
-#### 全链路自动化模拟流程测试
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Inspector.jpg)
 
-使用者集成Nepxion Discovery后，需要通过Postman调用一下去验证是否成功集成，该方式比较繁琐，可以通过“自动化蓝绿灰度发布模拟流程测试”方式进行验证
+#### 全链路自动化模拟流程测试
+使用者集成框架后，需要通过Postman调用一下去验证是否成功集成，该方式比较繁琐，可以通过“自动化蓝绿灰度发布模拟流程测试”方式进行验证
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/error.png) 禁止在生产环境使用
 
@@ -3502,9 +3501,7 @@ service:
 ```
 
 #### 全链路自动化流量侦测测试
-![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Inspector.jpg)
-
-使用者集成Nepxion Discovery后，需要通过Postman调用一下去验证是否成功集成，该方式比较繁琐，可以通过“全链路流量侦测”方式进行验证
+使用者集成框架后，需要通过Postman调用一下去验证是否成功集成，该方式比较繁琐，可以通过“全链路流量侦测”方式进行验证
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_32.png) 适合在生产环境使用
 
