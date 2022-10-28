@@ -8498,12 +8498,12 @@ zuul.semaphore.max-semaphores=5000
 
 ### 其它网关流量管控的二次开发
 具体用法，请参考
-- Github Wiki ：[如何遵循Nepxion Discovery网关标准实现对其它网关全链路流量管控的二次开发](https://github.com/Nepxion/Discovery/wiki/如何遵循Nepxion Discovery网关标准实现对其它网关全链路流量管控的二次开发)
+- Github Wiki ：[如何遵循Nepxion Discovery网关标准实现对其它网关全链路流量管控的二次开发](https://github.com/Nepxion/Discovery/wiki/如何遵循Nepxion-Discovery网关标准实现对其它网关全链路流量管控的二次开发)
 - Gitee Wiki ：[如何遵循Nepxion Discovery网关标准实现对其它网关全链路流量管控的二次开发](https://gitee.com/nepxion/Discovery/wikis/pages?sort_id=6481455&doc_id=1124387)
 
 ### 其它中间件流量管控的二次开发
 具体用法，请参考
-- Github Wiki ：[如何遵循Nepxion Discovery服务标准实现对消息队列等其它中间件全链路流量管控的二次开发](https://github.com/Nepxion/Discovery/wiki/如何遵循Nepxion Discovery服务标准实现对消息队列等其它中间件全链路流量管控的二次开发)
+- Github Wiki ：[如何遵循Nepxion Discovery服务标准实现对消息队列等其它中间件全链路流量管控的二次开发](https://github.com/Nepxion/Discovery/wiki/如何遵循Nepxion-Discovery服务标准实现对消息队列等其它中间件全链路流量管控的二次开发)
 - Gitee Wiki ：[如何遵循Nepxion Discovery服务标准实现对消息队列等其它中间件全链路流量管控的二次开发](https://gitee.com/nepxion/Discovery/wikis/pages?sort_id=6481454&doc_id=1124387)
 
 ## 附录
