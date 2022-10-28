@@ -728,6 +728,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [中间件属性配置](#中间件属性配置)
     - [功能开关配置](#功能开关配置)
     - [内置文件配置](#内置文件配置)
+    - [配置中心的合并和分离](#配置中心的合并和分离)
 - [自动化测试](#自动化测试)
     - [架构设计](#架构设计)
     - [启动控制台](#启动控制台)
@@ -8048,6 +8049,63 @@ swagger.service.termsOfService.url=http://nepxion.com/discovery
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项 
 
 该文件在整个服务目录和包中只能出现一次
+
+### 配置中心的合并和分离
+Nepxion Discovery框架支持策略配置和业务配置在配置中心合并，但支持Nacos和Apollo两种配置中心的分离
+
+① Nacos配置中心
+
+- 同一个Nacos服务器，同一个Namespace的配置方式
+```
+spring.cloud.nacos.config.server-addr=192.168.0.1:8848
+# spring.cloud.nacos.config.namespace=application
+```
+表示，业务配置和规则策略配置在同一个Nacos服务器同一个Namespace下。如果Namespace为application，可以缺省不配置
+
+- 同一个Nacos服务器，不同Namespace的配置方式
+```
+spring.cloud.nacos.config.server-addr=192.168.0.1:8848
+# spring.cloud.nacos.config.namespace=application
+
+nacos.namespace=nepxion
+```
+表示，同一个Nacos服务器，业务配置在application的Namespace下，规则策略配置在nepxion的Namespace下。如果Namespace为application，可以缺省不配置
+
+- 不同Nacos服务器的配置方式
+```
+spring.cloud.nacos.config.server-addr=192.168.0.1:8848
+
+nacos.server-addr=localhost:192.168.0.2:8848
+```
+表示，业务配置在192.168.0.1:8848的Nacos服务器下，规则策略配置在192.168.0.2:8848的Nacos服务器下。如果Namespace为application，可以缺省不配置
+
+- 逻辑解释
+
+在Nepxion Discovery层面上看，先去寻址`nacos`为前缀的配置，如果找不到，再去寻址`spring.cloud.nacos.config`为前缀的配置，如果都找不到，取缺省值`application`。所以，在取值方式上，`nacos.x.y.z`优先于`spring.cloud.nacos.config.x.y.z`
+
+② Apollo配置中心
+
+- 同一个Apollo服务器，同一个Namespace的配置方式
+```
+app.id=discovery
+apollo.meta=http://192.168.0.1:8080
+# apollo.bootstrap.namespaces=application
+```
+表示，业务配置和规则策略配置在同一个Apollo服务器同一个Namespace下。如果Namespace为application，可以缺省不配置
+
+- 同一个Apollo服务器，不同Namespace的配置方式
+```
+app.id=discovery
+apollo.meta=http://192.168.0.1:8080
+# apollo.bootstrap.namespaces=application
+
+apollo.namespace=nepxion
+```
+表示，同一个Apollo服务器，业务配置在application的Namespace下，规则策略配置在nepxion的Namespace下。如果Namespace为application，可以缺省不配置
+
+- 逻辑解释
+
+在Nepxion Discovery层面上看，先去寻址`apollo.namespace`配置，如果找不到，再去寻址`apollo.bootstrap.namespaces`配置，如果都找不到，取缺省值`application`。所以，在取值方式上，`apollo.namespace`优先于`apollo.bootstrap.namespaces`
 
 ## 自动化测试
 自动化测试，基于Spring Boot/Spring Cloud的自动化测试框架，包括普通调用测试、蓝绿灰度调用测试和扩展调用测试（例如：支持阿里巴巴的Sentinel，FF4j的功能开关等）。通过注解形式，跟Spring Boot内置的测试机制集成，使用简单方便。该自动化测试框架的现实意义，可以把服务注册发现中心、远程配置中心、负载均衡、蓝绿灰度发布、熔断降级限流、功能开关、Feign、RestTemplate或者WebClient调用等中间件或者组件，一条龙组合起来进行自动化测试
