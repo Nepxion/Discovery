@@ -10,16 +10,23 @@ package com.nepxion.discovery.common.util;
  */
 
 import org.apache.commons.lang3.StringUtils;
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.Yaml;
 
 public class YamlUtil {
-    private static Yaml snakeYaml = new Yaml();
+    private static DumperOptions dumperOptions = new DumperOptions();
+    static {
+        dumperOptions.setDefaultFlowStyle(FlowStyle.BLOCK);
+    }
 
     public static boolean isYamlFormat(String yaml) {
         if (StringUtils.isBlank(yaml)) {
             return false;
         }
 
+        // 非线程安全
+        Yaml snakeYaml = new Yaml();
         try {
             snakeYaml.load(yaml);
 
@@ -29,7 +36,17 @@ public class YamlUtil {
         }
     }
 
-    public static Yaml getYaml() {
-        return snakeYaml;
+    public static <T> String toYaml(T object) {
+        // 非线程安全
+        Yaml snakeYaml = new Yaml(dumperOptions);
+
+        return snakeYaml.dump(object);
+    }
+
+    public static <T> T fromYaml(String yaml, Class<T> clazz) {
+        // 非线程安全
+        Yaml snakeYaml = new Yaml();
+
+        return snakeYaml.loadAs(yaml, clazz);
     }
 }

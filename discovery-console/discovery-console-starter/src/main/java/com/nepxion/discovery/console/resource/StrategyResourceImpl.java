@@ -22,7 +22,6 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.TypeComparator;
-import org.yaml.snakeyaml.Yaml;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.ConditionBlueGreenEntity;
@@ -45,6 +44,7 @@ import com.nepxion.discovery.common.expression.DiscoveryExpressionResolver;
 import com.nepxion.discovery.common.expression.DiscoveryTypeComparor;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.common.util.StringUtil;
+import com.nepxion.discovery.common.util.YamlUtil;
 import com.nepxion.discovery.console.delegate.ConsoleResourceDelegateImpl;
 
 public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements StrategyResource {
@@ -123,10 +123,7 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
 
     @Override
     public String recreateVersionRelease(String group, String serviceId, String conditionRouteStrategyYaml) {
-        // 非线程安全
-        Yaml yaml = new Yaml();
-
-        ConditionRouteStrategy conditionRouteStrategy = yaml.loadAs(conditionRouteStrategyYaml, ConditionRouteStrategy.class);
+        ConditionRouteStrategy conditionRouteStrategy = YamlUtil.fromYaml(conditionRouteStrategyYaml, ConditionRouteStrategy.class);
 
         return recreateVersionRelease(group, serviceId, conditionRouteStrategy);
     }
@@ -195,10 +192,7 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
 
     @Override
     public ConditionStrategy deparseVersionReleaseYaml(String conditionStrategyYaml) {
-        // 非线程安全
-        Yaml yaml = new Yaml();
-
-        return yaml.loadAs(conditionStrategyYaml, ConditionStrategy.class);
+        return YamlUtil.fromYaml(conditionStrategyYaml, ConditionStrategy.class);
     }
 
     @Override

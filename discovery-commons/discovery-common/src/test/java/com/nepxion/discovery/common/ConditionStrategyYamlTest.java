@@ -16,17 +16,24 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.commons.io.IOUtils;
-import org.yaml.snakeyaml.Yaml;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.ConditionStrategy;
+import com.nepxion.discovery.common.util.YamlUtil;
 
 public class ConditionStrategyYamlTest {
     public static void main(String[] args) {
-        Yaml yaml = new Yaml();
-        ConditionStrategy conditionStrategy = yaml.loadAs(testFile("sample.yaml"), ConditionStrategy.class);
+        String yml = testFile("sample.yaml");
+        
+        System.out.println("Yaml:\n" + yml);
 
-        System.out.println(conditionStrategy);
+        ConditionStrategy conditionStrategy = YamlUtil.fromYaml(yml, ConditionStrategy.class);
+
+        System.out.println("To object:\n" + conditionStrategy);
+
+        String yaml = YamlUtil.toYaml(conditionStrategy);
+
+        System.out.println("To yaml:\n" + yaml);
     }
 
     public static String testFile(String fileName) {
