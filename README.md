@@ -8056,27 +8056,33 @@ Nepxion Discovery框架支持策略配置和业务配置在配置中心合并，
 ① Nacos配置中心
 
 - 同一个Nacos服务器，同一个Namespace的配置方式
+
 ```
 spring.cloud.nacos.config.server-addr=192.168.0.1:8848
 # spring.cloud.nacos.config.namespace=application
 ```
+
 表示，业务配置和规则策略配置在同一个Nacos服务器同一个Namespace下。如果Namespace为application，可以缺省不配置
 
 - 同一个Nacos服务器，不同Namespace的配置方式
+
 ```
 spring.cloud.nacos.config.server-addr=192.168.0.1:8848
 # spring.cloud.nacos.config.namespace=application
 
 nacos.namespace=nepxion
 ```
+
 表示，同一个Nacos服务器，业务配置在application的Namespace下，规则策略配置在nepxion的Namespace下。如果Namespace为application，可以缺省不配置
 
 - 不同Nacos服务器的配置方式
+
 ```
 spring.cloud.nacos.config.server-addr=192.168.0.1:8848
 
 nacos.server-addr=localhost:192.168.0.2:8848
 ```
+
 表示，业务配置在192.168.0.1:8848的Nacos服务器下，规则策略配置在192.168.0.2:8848的Nacos服务器下。如果Namespace为application，可以缺省不配置
 
 - 逻辑解释
@@ -8086,14 +8092,17 @@ nacos.server-addr=localhost:192.168.0.2:8848
 ② Apollo配置中心
 
 - 同一个Apollo服务器，同一个Namespace的配置方式
+
 ```
 app.id=discovery
 apollo.meta=http://192.168.0.1:8080
 # apollo.bootstrap.namespaces=application
 ```
+
 表示，业务配置和规则策略配置在同一个Apollo服务器同一个Namespace下。如果Namespace为application，可以缺省不配置
 
 - 同一个Apollo服务器，不同Namespace的配置方式
+
 ```
 app.id=discovery
 apollo.meta=http://192.168.0.1:8080
@@ -8101,6 +8110,7 @@ apollo.meta=http://192.168.0.1:8080
 
 apollo.namespace=nepxion
 ```
+
 表示，同一个Apollo服务器，业务配置在application的Namespace下，规则策略配置在nepxion的Namespace下。如果Namespace为application，可以缺省不配置
 
 - 逻辑解释
