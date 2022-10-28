@@ -600,6 +600,9 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [全链路自定义蓝绿灰度发布](#全链路自定义蓝绿灰度发布)
         - [全链路过滤器触发蓝绿灰度发布](#全链路过滤器触发蓝绿灰度发布)
         - [全链路负载均衡策略类触发蓝绿灰度发布](#全链路负载均衡策略类触发蓝绿灰度发布)
+    - [全链路自定义Header传递](#全链路自定义Header传递)
+        - [全链路服务通过配置来定义](#全链路服务通过配置来定义)
+        - [全链路服务通过前缀来定义](#全链路服务通过前缀来定义)
     - [全链路智能编排蓝绿灰度发布](#全链路智能编排蓝绿灰度发布)
         - [全链路智能编排版本前提](#全链路智能编排版本前提)
         - [全链路智能编排版本逻辑](#全链路智能编排版本逻辑)
@@ -3002,6 +3005,21 @@ public class MyDiscoveryEnabledStrategy implements DiscoveryEnabledStrategy {
 # 启动和关闭路由策略的时候，对RPC方式的调用拦截。缺失则默认为false
 spring.application.strategy.rpc.intercept.enabled=true
 ```
+
+### 全链路自定义Header传递
+
+#### 全链路服务通过配置来定义
+```
+# 一般用于定义上下文Header全链路传递。如果多个用“;”分隔，不允许出现空格
+spring.application.strategy.context.request.headers=trace-id;span-id
+# 一般用于定义业务Header全链路传递。如果多个用“;”分隔，不允许出现空格
+spring.application.strategy.business.request.headers=token
+```
+
+#### 全链路服务通过前缀来定义
+所有前缀为`n-d-`的Header，框架都会自动全链路传递
+
+需要避开框架内置`n-d-`的Header，例如，`n-d-version`
 
 ### 全链路智能编排蓝绿灰度发布
 链路智能编排的方式，即路由链路在后台会智能化编排，用户不再需要关心服务实例的版本情况而进行手工编排，只需要配置跟业务参数有关的条件表达式即可，让蓝绿灰度发布变的更简单更易用
