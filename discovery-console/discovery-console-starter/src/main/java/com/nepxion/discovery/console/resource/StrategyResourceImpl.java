@@ -432,7 +432,10 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
 
     private void resetStrategyRelease(RuleEntity ruleEntity) {
         ruleEntity.setStrategyEntity(null);
-        ruleEntity.getStrategyReleaseEntity().setStrategyRouteEntityList(null);
+        StrategyReleaseEntity strategyReleaseEntity = ruleEntity.getStrategyReleaseEntity();
+        if (strategyReleaseEntity != null) {
+            strategyReleaseEntity.setStrategyRouteEntityList(null);
+        }
     }
 
     private List<String> assembleVersionList(String serviceId) {
