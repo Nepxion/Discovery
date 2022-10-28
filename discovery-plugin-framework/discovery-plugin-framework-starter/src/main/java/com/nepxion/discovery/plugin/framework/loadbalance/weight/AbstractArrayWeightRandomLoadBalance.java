@@ -9,30 +9,31 @@ package com.nepxion.discovery.plugin.framework.loadbalance.weight;
  * @version 1.0
  */
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import com.nepxion.discovery.plugin.framework.loadbalance.WeightRandomLoadBalance;
 import com.netflix.loadbalancer.Server;
 
 public abstract class AbstractArrayWeightRandomLoadBalance<T> implements WeightRandomLoadBalance<T> {
-    private ArrayWeightRandom arrayWeightRandom = new ArrayWeightRandom();
-
     @Override
     public Server choose(List<Server> serverList, T t) {
         if (CollectionUtils.isEmpty(serverList)) {
             return null;
         }
 
-        int[] weights = new int[serverList.size()];
-        for (int i = 0; i < serverList.size(); i++) {
-            Server server = serverList.get(i);
-            weights[i] = getWeight(server, t);
+        List<Pair<Server, Integer>> weightList = new ArrayList<Pair<Server, Integer>>();
+        for (Server server : serverList) {
+            int weight = getWeight(server, t);
+            weightList.add(new ImmutablePair<Server, Integer>(server, weight));
         }
 
-        int index = arrayWeightRandom.getIndex(weights);
+        ArrayWeightRandom<Server, Integer> weightRandom = new ArrayWeightRandom<Server, Integer>(weightList);
 
-        return serverList.get(index);
+        return weightRandom.random();
     }
 }
