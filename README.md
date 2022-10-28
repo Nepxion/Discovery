@@ -740,6 +740,9 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [测试环境](#测试环境)
     - [测试介绍](#测试介绍)
     - [测试步骤](#测试步骤)
+- [二次开发](#二次开发)
+    - [其它网关流量管控的二次开发](#其它网关流量管控的二次开发)
+    - [其它中间件流量管控的二次开发](#其它中间件流量管控的二次开发)
 - [附录](#附录)
     - [中间件服务器下载地址](#中间件服务器下载地址)
 - [Star走势图](#Star走势图)
@@ -8490,6 +8493,18 @@ zuul.semaphore.max-semaphores=5000
 | Spring Cloud Gateway为起始的调用链 | 本框架 | 5000 | 20000 | 27800左右 | CPU占用率42.3% |
 | Zuul 1.x为起始的调用链 | 原生框架 | 5000 | 20000 | 24050左右 | CPU占用率56% |
 | Zuul 1.x为起始的调用链 | 本框架 | 5000 | 20000 | 23500左右 | CPU占用率56.5% |
+
+## 二次开发
+
+### 其它网关流量管控的二次开发
+具体用法，请参考
+- Github Wiki ：[如何遵循Nepxion Discovery网关标准实现对其它网关全链路流量管控的二次开发]https://github.com/Nepxion/Discovery/wiki/如何遵循Nepxion Discovery网关标准实现对其它网关全链路流量管控的二次开发)
+- Gitee Wiki ：[如何遵循Nepxion Discovery网关标准实现对其它网关全链路流量管控的二次开发](https://gitee.com/nepxion/Discovery/wikis/pages?sort_id=6481455&doc_id=1124387)
+
+### 其它中间件流量管控的二次开发
+具体用法，请参考
+- Github Wiki ：[如何遵循Nepxion Discovery服务标准实现对消息队列等其它中间件全链路流量管控的二次开发](https://github.com/Nepxion/Discovery/wiki/如何遵循Nepxion Discovery服务标准实现对消息队列等其它中间件全链路流量管控的二次开发)
+- Gitee Wiki ：[如何遵循Nepxion Discovery服务标准实现对消息队列等其它中间件全链路流量管控的二次开发](https://gitee.com/nepxion/Discovery/wikis/pages?sort_id=6481454&doc_id=1124387)
 
 ## 附录
 
