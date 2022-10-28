@@ -19,7 +19,7 @@ public class WeightRandomLoadBalanceTest {
         System.out.println("5.0版本服务随机权重=15%");
         System.out.println("");
 
-        int[] totalCounts = new int[] { 1000000, 2000000, 5000000, 10000000, 50000000, 100000000 };
+        int[] totalCounts = new int[] { 100, 1000, 10000, 100000,1000000, 2000000, 5000000, 10000000, 50000000, 100000000 };
         for (int i = 0; i < totalCounts.length; i++) {
             test(i + 1, totalCounts[i]);
         }

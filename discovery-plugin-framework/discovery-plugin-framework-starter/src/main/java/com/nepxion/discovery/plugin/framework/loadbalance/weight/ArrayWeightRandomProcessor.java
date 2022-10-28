@@ -15,22 +15,14 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class ArrayWeightRandomProcessor<T> implements WeightRandomProcessor<T> {
-    private ArrayWeightRandom arrayWeightRandom = new ArrayWeightRandom();
-
     @Override
     public T random(List<Pair<T, Integer>> weightList) {
         if (CollectionUtils.isEmpty(weightList)) {
             return null;
         }
 
-        int[] weights = new int[weightList.size()];
-        for (int i = 0; i < weightList.size(); i++) {
-            Pair<T, Integer> pair = weightList.get(i);
-            weights[i] = pair.getValue();
-        }
+        ArrayWeightRandom<T, Integer> weightRandom = new ArrayWeightRandom<T, Integer>(weightList);
 
-        int index = arrayWeightRandom.getIndex(weights);
-
-        return weightList.get(index).getKey();
+        return weightRandom.random();
     }
 }

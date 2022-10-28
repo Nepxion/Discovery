@@ -9,34 +9,80 @@ package com.nepxion.discovery.plugin.framework.loadbalance.weight;
  * @version 1.0
  */
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class ArrayWeightRandom {
-    public int getIndex(int[] weights) {
-        // 次序号/权重区间值
-        int[][] weightHolder = new int[weights.length][2];
-        // 总权重
-        int totalWeight = 0;
-        // 赋值次序号和区间值累加的数组值，从小到大排列
-        // 例如，对于权重分别为20，40， 60的三个服务，将形成[0, 20)，[20, 60)，[60, 120]三个区间
-        for (int i = 0; i < weights.length; i++) {
-            if (weights[i] <= 0) {
+import org.apache.commons.lang3.tuple.Pair;
+
+// Refactory with code from https://zhuanlan.zhihu.com/p/389788435
+public class ArrayWeightRandom<K, V extends Number> {
+    private List<K> items = new ArrayList<>();
+    private double[] weights;
+
+    public ArrayWeightRandom(List<Pair<K, V>> pairlist) {
+        calculateWeightS(pairlist);
+    }
+
+    // 计算权重，初始化或者重新定义权重时使用
+    public void calculateWeightS(List<Pair<K, V>> pairlist) {
+        items.clear();
+
+        // 计算权重总和
+        double originWeightSum = 0;
+        for (Pair<K, V> pair : pairlist) {
+            double weight = pair.getValue().doubleValue();
+            if (weight <= 0) {
                 continue;
             }
 
-            totalWeight += weights[i];
-            weightHolder[i][0] = i;
-            weightHolder[i][1] = totalWeight;
-        }
-
-        // 获取介于0(含)和n(不含)伪随机，均匀分布的int值
-        int hitWeight = ThreadLocalRandom.current().nextInt(totalWeight) + 1; // [1, totalWeight)
-        for (int i = 0; i < weightHolder.length; i++) {
-            if (hitWeight <= weightHolder[i][1]) {
-                return weightHolder[i][0];
+            items.add(pair.getKey());
+            if (Double.isInfinite(weight)) {
+                weight = 10000.0D;
             }
+            if (Double.isNaN(weight)) {
+                weight = 1.0D;
+            }
+            originWeightSum += weight;
         }
 
-        return weightHolder[0][0];
+        // 计算每个Item的实际权重比例
+        double[] actualWeightRatios = new double[items.size()];
+        int index = 0;
+        for (Pair<K, V> pair : pairlist) {
+            double weight = pair.getValue().doubleValue();
+            if (weight <= 0) {
+                continue;
+            }
+            actualWeightRatios[index++] = weight / originWeightSum;
+        }
+
+        // 计算每个Item的权重范围
+        // 权重范围起始位置
+        weights = new double[items.size()];
+        double weightRangeStartPos = 0;
+        for (int i = 0; i < index; i++) {
+            weights[i] = weightRangeStartPos + actualWeightRatios[i];
+            weightRangeStartPos += actualWeightRatios[i];
+        }
+    }
+
+    // 基于权重随机算法选择
+    public K random() {
+        double random = ThreadLocalRandom.current().nextDouble();
+        int index = Arrays.binarySearch(weights, random);
+        if (index < 0) {
+            index = -index - 1;
+        } else {
+            return items.get(index);
+        }
+
+        if (index < weights.length && random < weights[index]) {
+            return items.get(index);
+        }
+
+        // 通常不会走到这里，为了保证能得到正确的返回，这里返回第一个
+        return items.get(0);
     }
 }
