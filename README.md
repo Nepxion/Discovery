@@ -3453,72 +3453,78 @@ service:
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 参考模拟流程部分结果
 
 ```
-【模拟场景3】蓝绿策略，测试全链路调用，Header xyz缺失...
-抽样次数 : 100
-调用结果 : discovery-guide-service-a@1.1 命中次数=0
-调用结果 : discovery-guide-service-a@1.0 命中次数=100
-调用结果 : discovery-guide-service-b@1.1 命中次数=0
-调用结果 : discovery-guide-service-b@1.0 命中次数=100
+【模拟场景3】蓝绿策略，测试全链路侦测，Header xyz缺失...
+侦测次数 : 100
+侦测结果 : discovery-guide-service-a@1.1 命中次数=0
+侦测结果 : discovery-guide-service-a@1.0 命中次数=100
+侦测结果 : discovery-guide-service-b@1.1 命中次数=0
+侦测结果 : discovery-guide-service-b@1.0 命中次数=100
 测试结果 : 通过
-【模拟场景3】蓝绿策略，测试全链路调用，Header xyz等于1...
-抽样次数 : 100
-调用结果 : discovery-guide-service-a@1.1 命中次数=0
-调用结果 : discovery-guide-service-a@1.0 命中次数=100
-调用结果 : discovery-guide-service-b@1.1 命中次数=0
-调用结果 : discovery-guide-service-b@1.0 命中次数=100
+测试耗时 : 3 秒
+【模拟场景3】蓝绿策略，测试全链路侦测，Header xyz等于1...
+侦测次数 : 100
+侦测结果 : discovery-guide-service-a@1.1 命中次数=0
+侦测结果 : discovery-guide-service-a@1.0 命中次数=100
+侦测结果 : discovery-guide-service-b@1.1 命中次数=0
+侦测结果 : discovery-guide-service-b@1.0 命中次数=100
 测试结果 : 通过
-【模拟场景3】蓝绿策略，测试全链路调用，Header xyz等于2...
-抽样次数 : 100
-调用结果 : discovery-guide-service-a@1.1 命中次数=100
-调用结果 : discovery-guide-service-a@1.0 命中次数=0
-调用结果 : discovery-guide-service-b@1.1 命中次数=100
-调用结果 : discovery-guide-service-b@1.0 命中次数=0
+测试耗时 : 3 秒
+【模拟场景3】蓝绿策略，测试全链路侦测，Header xyz等于2...
+侦测次数 : 100
+侦测结果 : discovery-guide-service-a@1.1 命中次数=100
+侦测结果 : discovery-guide-service-a@1.0 命中次数=0
+侦测结果 : discovery-guide-service-b@1.1 命中次数=100
+侦测结果 : discovery-guide-service-b@1.0 命中次数=0
 测试结果 : 通过
-【模拟场景3】灰度策略，测试全链路调用，Header xyz缺失...
-抽样次数 : 500
-抽样进度 : 第100次...
-抽样进度 : 第200次...
-抽样进度 : 第300次...
-抽样进度 : 第400次...
-抽样进度 : 第500次...
-调用结果 : discovery-guide-service-a@1.1 命中次数=0
-调用结果 : discovery-guide-service-a@1.0 命中次数=500
-调用结果 : discovery-guide-service-b@1.1 命中次数=0
-调用结果 : discovery-guide-service-b@1.0 命中次数=500
+测试耗时 : 3 秒
+【模拟场景3】灰度策略，测试全链路侦测，Header xyz缺失...
+侦测次数 : 500
+侦测进度 : 第100次...
+侦测进度 : 第200次...
+侦测进度 : 第300次...
+侦测进度 : 第400次...
+侦测进度 : 第500次...
+侦测结果 : discovery-guide-service-a@1.1 命中次数=0
+侦测结果 : discovery-guide-service-a@1.0 命中次数=500
+侦测结果 : discovery-guide-service-b@1.1 命中次数=0
+侦测结果 : discovery-guide-service-b@1.0 命中次数=500
 权重结果偏差值=5%
 期望结果 : 旧版本路由权重=100%, 新版本路由权重=0%
 最终结果 : 旧版本路由权重=100.0%, 新版本路由权重=0.0%
 测试结果 : 通过
-【模拟场景3】灰度策略，测试全链路调用，Header xyz等于3...
-抽样次数 : 500
-抽样进度 : 第100次...
-抽样进度 : 第200次...
-抽样进度 : 第300次...
-抽样进度 : 第400次...
-抽样进度 : 第500次...
-调用结果 : discovery-guide-service-a@1.1 命中次数=52
-调用结果 : discovery-guide-service-a@1.0 命中次数=448
-调用结果 : discovery-guide-service-b@1.1 命中次数=52
-调用结果 : discovery-guide-service-b@1.0 命中次数=448
+测试耗时 : 13 秒
+【模拟场景3】灰度策略，测试全链路侦测，Header xyz等于3...
+侦测次数 : 500
+侦测进度 : 第100次...
+侦测进度 : 第200次...
+侦测进度 : 第300次...
+侦测进度 : 第400次...
+侦测进度 : 第500次...
+侦测结果 : discovery-guide-service-a@1.1 命中次数=52
+侦测结果 : discovery-guide-service-a@1.0 命中次数=448
+侦测结果 : discovery-guide-service-b@1.1 命中次数=52
+侦测结果 : discovery-guide-service-b@1.0 命中次数=448
 权重结果偏差值=5%
 期望结果 : 旧版本路由权重=90%, 新版本路由权重=10%
 最终结果 : 旧版本路由权重=89.6%, 新版本路由权重=10.4%
 测试结果 : 通过
-【模拟场景3】灰度策略，测试全链路调用，Header xyz等于4...
-抽样次数 : 500
-抽样进度 : 第100次...
-抽样进度 : 第200次...
-抽样进度 : 第300次...
-抽样进度 : 第400次...
-抽样进度 : 第500次...
-调用结果 : discovery-guide-service-a@1.1 命中次数=147
-调用结果 : discovery-guide-service-a@1.0 命中次数=353
-调用结果 : discovery-guide-service-b@1.1 命中次数=147
-调用结果 : discovery-guide-service-b@1.0 命中次数=353
+测试耗时 : 12 秒
+【模拟场景3】灰度策略，测试全链路侦测，Header xyz等于4...
+侦测次数 : 500
+侦测进度 : 第100次...
+侦测进度 : 第200次...
+侦测进度 : 第300次...
+侦测进度 : 第400次...
+侦测进度 : 第500次...
+侦测结果 : discovery-guide-service-a@1.1 命中次数=147
+侦测结果 : discovery-guide-service-a@1.0 命中次数=353
+侦测结果 : discovery-guide-service-b@1.1 命中次数=147
+侦测结果 : discovery-guide-service-b@1.0 命中次数=353
 权重结果偏差值=5%
 期望结果 : 旧版本路由权重=70%, 新版本路由权重=30%
 最终结果 : 旧版本路由权重=70.6%, 新版本路由权重=29.4%
 测试结果 : 通过
+测试耗时 : 10 秒
 【模拟场景3】* 测试通过...
 ```
 
@@ -3585,8 +3591,19 @@ header:
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 参考侦测部分结果
 
 ```
+【侦测场景1】测试全链路侦测...
+侦测次数 : 10
 侦测结果 : [ID=discovery-guide-gateway][V=1.0] -> [ID=discovery-guide-service-a][V=1.0] -> [ID=discovery-guide-service-b][V=1.0]
 侦测结果 : [ID=discovery-guide-gateway][V=1.0] -> [ID=discovery-guide-service-a][V=1.1] -> [ID=discovery-guide-service-b][V=1.1]
+侦测结果 : [ID=discovery-guide-gateway][V=1.1] -> [ID=discovery-guide-service-a][V=1.0] -> [ID=discovery-guide-service-b][V=1.0]
+侦测结果 : [ID=discovery-guide-gateway][V=1.1] -> [ID=discovery-guide-service-a][V=1.1] -> [ID=discovery-guide-service-b][V=1.1]
+侦测结果 : [ID=discovery-guide-gateway][V=1.0] -> [ID=discovery-guide-service-a][V=1.0] -> [ID=discovery-guide-service-b][V=1.0]
+侦测结果 : [ID=discovery-guide-gateway][V=1.0] -> [ID=discovery-guide-service-a][V=1.1] -> [ID=discovery-guide-service-b][V=1.1]
+侦测结果 : [ID=discovery-guide-gateway][V=1.1] -> [ID=discovery-guide-service-a][V=1.0] -> [ID=discovery-guide-service-b][V=1.0]
+侦测结果 : [ID=discovery-guide-gateway][V=1.1] -> [ID=discovery-guide-service-a][V=1.1] -> [ID=discovery-guide-service-b][V=1.1]
+侦测结果 : [ID=discovery-guide-gateway][V=1.0] -> [ID=discovery-guide-service-a][V=1.0] -> [ID=discovery-guide-service-b][V=1.0]
+侦测结果 : [ID=discovery-guide-gateway][V=1.0] -> [ID=discovery-guide-service-a][V=1.1] -> [ID=discovery-guide-service-b][V=1.1]
+测试耗时 : 0 秒
 ```
 
 ## 全链路流量管控对接DevOps运维平台
@@ -3927,6 +3944,15 @@ blueGreen:
      route: green
   - expression: "#H['xyz'] == '2'"
      route: blue
+gray:
+  - expression: "#H['xyz'] == '3'"
+    weight:
+      - 90
+      - 10
+  - expression: "#H['xyz'] == '4'"
+    weight:
+      - 70
+      - 30
 ```
 
 ② 第二次以及未来N次蓝绿灰度发布
