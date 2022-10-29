@@ -3585,7 +3585,8 @@ header:
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 参考侦测部分结果
 
 ```
-[ID=discovery-guide-gateway][V=1.0] -> [ID=discovery-guide-service-a][V=1.0] -> [ID=discovery-guide-service-b][V=1.0]
+侦测结果 : [ID=discovery-guide-gateway][V=1.0] -> [ID=discovery-guide-service-a][V=1.0] -> [ID=discovery-guide-service-b][V=1.0]
+侦测结果 : [ID=discovery-guide-gateway][V=1.0] -> [ID=discovery-guide-service-a][V=1.1] -> [ID=discovery-guide-service-b][V=1.1]
 ```
 
 ## 全链路流量管控对接DevOps运维平台
