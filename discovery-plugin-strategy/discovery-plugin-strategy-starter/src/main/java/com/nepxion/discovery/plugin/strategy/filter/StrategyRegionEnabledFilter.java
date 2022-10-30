@@ -62,11 +62,14 @@ public class StrategyRegionEnabledFilter extends AbstractStrategyEnabledFilter {
                     return false;
                 }
 
-                String regionFailovers = JsonUtil.fromJsonMap(pluginContextHolder.getContextRouteRegionFailover(), serviceId);
-                if (StringUtils.isEmpty(regionFailovers)) {
-                    return true;
-                } else {
-                    return discoveryMatcher.match(regionFailovers, region, true);
+                boolean middlewareRequestFailoverEnabled = isMiddlewareRequestFailoverEnabled();
+                if (middlewareRequestFailoverEnabled) {
+                    String regionFailovers = JsonUtil.fromJsonMap(pluginContextHolder.getContextRouteRegionFailover(), serviceId);
+                    if (StringUtils.isEmpty(regionFailovers)) {
+                        return true;
+                    } else {
+                        return discoveryMatcher.match(regionFailovers, region, true);
+                    }
                 }
             }
         }

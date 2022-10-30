@@ -36,7 +36,8 @@ public class StrategyEnvironmentEnabledFilter extends AbstractStrategyEnabledFil
             // 匹配到传递过来的环境Header的服务实例，返回匹配的环境的服务实例
             return StringUtils.equals(serverEnvironment, environment);
         } else {
-            if (environmentFailoverEnabled) {
+            boolean middlewareRequestFailoverEnabled = isMiddlewareRequestFailoverEnabled();
+            if (environmentFailoverEnabled && middlewareRequestFailoverEnabled) {
                 String serviceId = pluginAdapter.getServerServiceId(server);
 
                 // 没有匹配上，则寻址Common环境，返回Common环境的服务实例

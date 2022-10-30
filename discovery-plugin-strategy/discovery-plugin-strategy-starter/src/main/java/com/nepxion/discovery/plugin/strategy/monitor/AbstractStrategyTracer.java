@@ -178,6 +178,10 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
             if (StringUtils.isNotEmpty(routeAddressBlacklist)) {
                 outputSpan(span, DiscoveryConstant.N_D_ADDRESS_BLACKLIST, routeAddressBlacklist);
             }
+            String middlewareRequestType = strategyContextHolder.getHeader(DiscoveryConstant.N_DW_REQUEST_TYPE);
+            if (StringUtils.isNotEmpty(middlewareRequestType)) {
+                outputSpan(span, DiscoveryConstant.N_DW_REQUEST_TYPE, middlewareRequestType);
+            }
         }
     }
 
