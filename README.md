@@ -255,11 +255,11 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | --- | --- | --- | --- | --- | --- |
 | 8.0.0<br>商业版 | DiscoveryX/master | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_24.png) | 2021.x.x | 2.7.x<br>2.6.x | 2021.x.x.x |
 | 7.0.0<br>商业版 | DiscoveryX/7.x.x | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_24.png) | 2020.x.x | 2.5.x<br>2.4.1 `↑` | 2021.x |
-| 6.17.0 | Discovery/6.x.x | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_24.png) | Hoxton.SR5 `↑`<br>Hoxton<br>Greenwich<br>Finchley | 2.3.x.RELEASE<br>2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.7.RELEASE `↑` |
-| 6.12.7 `↓` | Discovery/6.x.x | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_24.png) | Hoxton.SR5 `↑`<br>Hoxton<br>Greenwich<br>Finchley | 2.3.x.RELEASE<br>2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.6.RELEASE `↓`<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
+| 6.18.0 | Discovery/6.x.x | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_24.png) | Hoxton.SR5 `↑`<br>Hoxton<br>Greenwich<br>Finchley | 2.3.x.RELEASE<br>2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.7.RELEASE `↑` |
+| 6.12.8 `↓` | Discovery/6.x.x | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_24.png) | Hoxton.SR5 `↑`<br>Hoxton<br>Greenwich<br>Finchley | 2.3.x.RELEASE<br>2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.6.RELEASE `↓`<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
 | ~~5.6.0~~ | ~~Discovery/5.x.x~~ | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/delete_24.png) | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
 | ~~4.15.0~~ | ~~Discovery/4.x.x~~ | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/delete_24.png) | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
-| 3.34.0 | Discovery/3.x.x | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/arrow_up_24.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
+| 3.35.0 | Discovery/3.x.x | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/arrow_up_24.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
 | ~~2.0.x~~ | ~~Discovery/2.x.x~~ | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/delete_24.png) | Dalston | 1.x.x.RELEASE | 1.5.x.RELEASE |
 | ~~1.0.x~~ | ~~Discovery/1.x.x~~ | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/delete_24.png) | Camden | 1.x.x.RELEASE | 1.5.x.RELEASE |
 
@@ -758,15 +758,17 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 
 [Polaris源码主页](https://github.com/polaris-paas/polaris-sdk)
 
-### 发布主页
-[DiscoveryAgent](https://github.com/Nepxion/DiscoveryAgent/releases)
-
-[DiscoveryDesktop](https://github.com/Nepxion/DiscoveryUI/releases)
-
 ### 指南主页
 [Discovery指南主页](https://github.com/Nepxion/DiscoveryGuide)
 
 [Polaris指南主页](https://github.com/polaris-paas/polaris-guide)
+
+### 发布主页
+[DiscoveryTool](https://github.com/Nepxion/DiscoveryTool/releases)
+
+[DiscoveryAgent](https://github.com/Nepxion/DiscoveryAgent/releases)
+
+[DiscoveryDesktop](https://github.com/Nepxion/DiscoveryDesktop/releases)
 
 ### 入门主页
 [Gitee Wiki](https://gitee.com/Nepxion/Discovery/wikis/pages)
@@ -862,7 +864,15 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-platform-starter-common-mail | 封装邮件通用操作逻辑的Starter |
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-platform-application | 平台服务端可执行应用 |
 
-③ DiscoveryAgent工程清单
+③ DiscoveryTool工程清单
+
+| 工程名 | 描述 |
+| --- | --- |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> console | Nepxion Discovery 控制平台应用 |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> simulator | Nepxion Discovery 自动化模拟器应用 |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> inspector | Nepxion Discovery 自动化侦测器应用 |
+
+④ DiscoveryAgent工程清单
 
 | 工程名 | 描述 |
 | --- | --- |
@@ -871,28 +881,11 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-agent-starter-plugin-mdc | MDC日志的异步跨线程Agent Plugin Starter |
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-agent-example | 异步跨线程示例 |
 
-④ DiscoveryTool工程清单
-
-| 工程名 | 描述 |
-| --- | --- |
-| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> console | Nepxion Discovery 控制平台应用 |
-| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> simulator | Nepxion Discovery 自动化模拟测试应用 |
-
-⑤ DiscoveryUI工程清单
+⑤ DiscoveryDesktop工程清单
 
 | 工程名 | 描述 |
 | --- | --- |
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> desktop | Nepxion Discovery 服务治理平台前端桌面版 |
-| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> web | Nepxion Discovery 服务治理平台前端Web版 |
-
-⑥ DiscoveryContrib工程清单
-
-| 工程名 | 描述 |
-| --- | --- |
-| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-contrib-plugin-starter | 第三方非微服务范畴中间件的蓝绿灰度发布Contrib Plugin Starter |
-| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-contrib-plugin-starter-rocketmq | RocketMQ的蓝绿灰度发布Contrib Plugin Starter |
-| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-contrib-plugin-starter-shardingsphere | ShardingSphere日志的蓝绿灰度发布Contrib Plugin Starter |
-| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-contrib-example | 第三方非微服务范畴中间件的蓝绿灰度发布示例 |
 
 ### 代码清单
 | 仓库主分支 | 代码行数 |
@@ -900,10 +893,9 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> Discovery | [![Total lines](https://tokei.rs/b1/github/Nepxion/Discovery?category=lines)](https://tokei.rs/b1/github/Nepxion/Discovery?category=lines) |
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> DiscoveryPlatform | [![Total lines](https://tokei.rs/b1/github/Nepxion/DiscoveryPlatform?category=lines)](https://tokei.rs/b1/github/Nepxion/DiscoveryPlatform?category=lines) |
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> DiscoveryGuide | [![Total lines](https://tokei.rs/b1/github/Nepxion/DiscoveryGuide?category=lines)](https://tokei.rs/b1/github/Nepxion/DiscoveryGuide?category=lines) |
-| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> DiscoveryAgent | [![Total lines](https://tokei.rs/b1/github/Nepxion/DiscoveryAgent?category=lines)](https://tokei.rs/b1/github/Nepxion/DiscoveryAgent?category=lines) |
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> DiscoveryTool | [![Total lines](https://tokei.rs/b1/github/Nepxion/DiscoveryTool?category=lines)](https://tokei.rs/b1/github/Nepxion/DiscoveryTool?category=lines) |
-| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> DiscoveryUI | [![Total lines](https://tokei.rs/b1/github/Nepxion/DiscoveryUI?category=lines)](https://tokei.rs/b1/github/Nepxion/DiscoveryUI?category=lines) |
-| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> DiscoveryContrib | [![Total lines](https://tokei.rs/b1/github/Nepxion/DiscoveryContrib?category=lines)](https://tokei.rs/b1/github/Nepxion/DiscoveryContrib?category=lines) |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> DiscoveryAgent | [![Total lines](https://tokei.rs/b1/github/Nepxion/DiscoveryAgent?category=lines)](https://tokei.rs/b1/github/Nepxion/DiscoveryAgent?category=lines) |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> DiscoveryDesktop | [![Total lines](https://tokei.rs/b1/github/Nepxion/DiscoveryDesktop?category=lines)](https://tokei.rs/b1/github/Nepxion/DiscoveryDesktop?category=lines) |
 
 ### 依赖引入
 ① 服务注册发现依赖引入
@@ -3031,7 +3023,7 @@ spring.application.strategy.business.request.headers=token
 #### 全链路智能编排版本逻辑
 - 线上所有的服务，每个服务至少有一个版本
 - 线上所有的服务，每个服务如果有两个版本，第一个划归为旧版本，第二个划归为新版本
-- 线上所有的服务，每个服务如果有三个及以上版本，第一个划归为旧版本，第二个到最后划归为新版本。通过逗号分隔的方式放入，例如，`2.0;3.0;4.0`
+- 线上所有的服务，每个服务如果有三个及以上版本，第一个划归为旧版本，第二个到最后划归为新版本。通过分号分隔的方式放入，例如，`2.0;3.0;4.0`
 - 线上所有的服务，如果有未接入Nepxion Discovery框架，或者接入了却未设置版本，拉取实例列表的时候，版本默认视作为`default`值，并划归为旧版本
 
 #### 全链路智能编排实现原理
@@ -6213,11 +6205,11 @@ com.nepxion.discovery.plugin.strategy.monitor.DefaultStrategyAlarm
 ① 获取图形化桌面端
 
 桌面端获取方式有两种方式
-- 通过[https://github.com/Nepxion/DiscoveryUI/releases](https://github.com/Nepxion/DiscoveryUI/releases)下载最新版本的discovery-desktop-release
-- 编译[https://github.com/Nepxion/DiscoveryUI](https://github.com/Nepxion/DiscoveryUI)下的desktop，在target目录下产生discovery-desktop-release
+- 通过[https://github.com/Nepxion/DiscoveryDesktop/releases](https://github.com/Nepxion/DiscoveryDesktop/releases)下载最新版本的discovery-desktop-release
+- 编译[https://github.com/Nepxion/DiscoveryDesktop](https://github.com/Nepxion/DiscoveryDesktop)，在target目录下产生discovery-desktop-release
 
 ② 启动控制台
-- 通过[https://github.com/Nepxion/DiscoveryPlatform](https://github.com/Nepxion/DiscoveryPlatform)下载最新版本的控制台
+- 通过[https://github.com/Nepxion/DiscoveryTool](https://github.com/Nepxion/DiscoveryTool)下载最新版本的控制台
 - 导入IDE或者编译成Spring Boot程序运行
 - 运行之前，先修改src/main/resources/bootstrap.properties的相关配置，包括注册中心和配置中心的地址等
 
