@@ -238,7 +238,7 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
                 // 如果线上版本只有2个（标准蓝绿灰度发布），取值第2个
             } else if (versionList.size() == 2) {
                 unstableVersion = versionList.get(1);
-                // 如果线上版本多于2个，取值第2个到最后1个，用逗号分隔
+                // 如果线上版本多于2个，取值第2个到最后1个，用分号分隔
                 // 例如，3个版本为1.0, 2.0, 3.0，新版本为“2.0;3.0”
             } else {
                 versionList.remove(0);
