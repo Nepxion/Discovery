@@ -36,16 +36,20 @@ public class StrategyEnvironmentEnabledFilter extends AbstractStrategyEnabledFil
             // 匹配到传递过来的环境Header的服务实例，返回匹配的环境的服务实例
             return StringUtils.equals(serverEnvironment, environment);
         } else {
-            String serviceId = pluginAdapter.getServerServiceId(server);
+            if (environmentFailoverEnabled) {
+                String serviceId = pluginAdapter.getServerServiceId(server);
 
-            // 没有匹配上，则寻址Common环境，返回Common环境的服务实例
-            String environmentFailovers = JsonUtil.fromJsonMap(pluginContextHolder.getContextRouteEnvironmentFailover(), serviceId);
-            if (StringUtils.isEmpty(environmentFailovers)) {
-                environmentFailovers = StrategyConstant.SPRING_APPLICATION_STRATEGY_ENVIRONMENT_FAILOVER_VALUE;
+                // 没有匹配上，则寻址Common环境，返回Common环境的服务实例
+                String environmentFailovers = JsonUtil.fromJsonMap(pluginContextHolder.getContextRouteEnvironmentFailover(), serviceId);
+                if (StringUtils.isEmpty(environmentFailovers)) {
+                    environmentFailovers = StrategyConstant.SPRING_APPLICATION_STRATEGY_ENVIRONMENT_FAILOVER_VALUE;
+                }
+
+                return discoveryMatcher.match(environmentFailovers, serverEnvironment, true);
             }
-
-            return discoveryMatcher.match(environmentFailovers, serverEnvironment, true);
         }
+
+        return StringUtils.equals(serverEnvironment, environment);
     }
 
     @Override
