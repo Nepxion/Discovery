@@ -50,10 +50,10 @@ public class StrategyZoneEnabledFilter extends AbstractStrategyEnabledFilter {
                 } else {
                     return discoveryMatcher.match(zoneFailovers, serverZone, true);
                 }
-            } else {
-                return StringUtils.equals(serverZone, zone);
             }
         }
+
+        return StringUtils.equals(serverZone, zone);
     }
 
     @Override
