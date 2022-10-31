@@ -9,6 +9,9 @@ package com.nepxion.discovery.plugin.strategy.service.configuration;
  * @version 1.0
  */
 
+import java.util.List;
+
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
@@ -23,6 +26,7 @@ import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.extractor.StrategyPackagesExtractor;
+import com.nepxion.discovery.plugin.strategy.injector.StrategyPackagesInjector;
 import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyContextListener;
 import com.nepxion.discovery.plugin.strategy.service.filter.DefaultServiceStrategyFilterExclusion;
@@ -39,6 +43,7 @@ import com.nepxion.discovery.plugin.strategy.service.rpc.ServiceRpcStrategyAutoS
 import com.nepxion.discovery.plugin.strategy.service.rpc.ServiceRpcStrategyInterceptor;
 import com.nepxion.discovery.plugin.strategy.service.wrapper.DefaultServiceStrategyCallableWrapper;
 import com.nepxion.discovery.plugin.strategy.service.wrapper.ServiceStrategyCallableWrapper;
+import com.nepxion.matrix.proxy.constant.ProxyConstant;
 
 @Configuration
 @AutoConfigureBefore(RibbonClientConfiguration.class)
@@ -48,6 +53,9 @@ public class ServiceStrategyAutoConfiguration {
 
     @Autowired
     private StrategyPackagesExtractor strategyPackagesExtractor;
+
+    @Autowired(required = false)
+    private List<StrategyPackagesInjector> strategyPackagesInjectorList;
 
     @Bean
     @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_RPC_INTERCEPT_ENABLED, matchIfMissing = false)
@@ -157,6 +165,21 @@ public class ServiceStrategyAutoConfiguration {
 
         if (StringUtils.isEmpty(scanPackages)) {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
+        }
+
+        if (CollectionUtils.isNotEmpty(strategyPackagesInjectorList)) {
+            for (StrategyPackagesInjector strategyPackagesInjector : strategyPackagesInjectorList) {
+                List<String> packages = strategyPackagesInjector.getScanPackages();
+                if (CollectionUtils.isNotEmpty(packages)) {
+                    for (String pkg : packages) {
+                        if (scanPackages.endsWith(ProxyConstant.SEPARATOR)) {
+                            scanPackages += pkg;
+                        } else {
+                            scanPackages += ProxyConstant.SEPARATOR + pkg;
+                        }
+                    }
+                }
+            }
         }
 
         if (scanPackages.contains(DiscoveryConstant.ENDPOINT_SCAN_PACKAGES)) {
