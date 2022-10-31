@@ -3372,10 +3372,10 @@ spring.application.strategy.version.failover.enabled=true
 
 - 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Simulator
     - 解压后，根据下文提示做相应修改
-    - 运行startup.cmd或者startup.sh
+    - 运行startup.bat或者startup.sh
 - 编译[https://github.com/Nepxion/DiscoveryTool/tree/simulator](https://github.com/Nepxion/DiscoveryTool/tree/simulator)，分支为simulator
     - 下载后，根据下文提示做相应修改
-    - 执行mvn clean install，运行打包过程中的自动化测试，或者执行mvn clean install -DskipTests，产生第一种方式的包，再运行startup.cmd或者startup.sh
+    - 执行mvn clean install，运行打包过程中的自动化测试，或者执行mvn clean install -DskipTests，产生第一种方式的包，再运行startup.bat或者startup.sh
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 修改application.properties配置文件
 
@@ -3535,10 +3535,10 @@ service:
 
 - 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Inspector
     - 解压后，根据下文提示做相应修改
-    - 运行startup.cmd或者startup.sh
+    - 运行startup.bat或者startup.sh
 - 编译[https://github.com/Nepxion/DiscoveryTool/tree/inspector](https://github.com/Nepxion/DiscoveryTool/tree/inspector)，分支为inspector
     - 下载后，根据下文提示做相应修改
-    - 执行mvn clean install，运行打包过程中的自动化测试，或者执行mvn clean install -DskipTests，产生第一种方式的包，再运行startup.cmd或者startup.sh
+    - 执行mvn clean install，运行打包过程中的自动化测试，或者执行mvn clean install -DskipTests，产生第一种方式的包，再运行startup.bat或者startup.sh
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 修改application.properties配置文件
 
@@ -3618,8 +3618,8 @@ header:
 ### 对接DevOps运维平台环境搭建
 ① 控制台执行过程，有两种方式
 - 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Console
-    - 解压后，修改startup.cmd或者startup.sh中注册中心和配置中心的地址
-    - 运行startup.cmd或者startup.sh
+    - 解压后，修改startup.bat或者startup.sh中注册中心和配置中心的地址
+    - 运行startup.bat或者startup.sh
 - 编译[https://github.com/Nepxion/DiscoveryTool/tree/console](https://github.com/Nepxion/DiscoveryTool/tree/console)，分支为console
     - 下载后，修改application.properties中相关地址
     - 执行mvn clean install，运行java -jar discovery-console--${discovery.console.version}.jar
