@@ -62,8 +62,8 @@ public class StrategyRegionEnabledFilter extends AbstractStrategyEnabledFilter {
                     return false;
                 }
 
-                boolean middlewareRequestFailoverEnabled = isMiddlewareRequestFailoverEnabled();
-                if (middlewareRequestFailoverEnabled) {
+                boolean wareRequestFailoverEnabled = isWareRequestFailoverEnabled();
+                if (wareRequestFailoverEnabled) {
                     String regionFailovers = JsonUtil.fromJsonMap(pluginContextHolder.getContextRouteRegionFailover(), serviceId);
                     if (StringUtils.isEmpty(regionFailovers)) {
                         return true;

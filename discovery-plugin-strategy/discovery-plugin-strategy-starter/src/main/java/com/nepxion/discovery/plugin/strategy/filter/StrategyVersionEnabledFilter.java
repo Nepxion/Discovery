@@ -56,9 +56,9 @@ public class StrategyVersionEnabledFilter extends AbstractStrategyEnabledFilter 
                 return true;
             }
         } else {
-            boolean middlewareRequestFailoverEnabled = isMiddlewareRequestFailoverEnabled();
+            boolean wareRequestFailoverEnabled = isWareRequestFailoverEnabled();
             // 版本故障转移，即无法找到相应版本的服务实例，路由到老的稳定版本的实例，或者指定版本的实例，或者执行负载均衡
-            if (versionFailoverEnabled && middlewareRequestFailoverEnabled) {
+            if (versionFailoverEnabled && wareRequestFailoverEnabled) {
                 boolean matched = matchByVersion(servers, versions);
                 if (!matched) {
                     String versionFailovers = JsonUtil.fromJsonMap(pluginContextHolder.getContextRouteVersionFailover(), serviceId);

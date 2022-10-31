@@ -18,7 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.common.entity.MiddlewareRequestSource;
+import com.nepxion.discovery.common.entity.WareRequestSource;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginContextHolder;
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
@@ -154,20 +154,20 @@ public abstract class AbstractStrategyEnabledFilter implements StrategyEnabledFi
         return versionList;
     }
 
-    public boolean isMiddlewareRequestFailoverEnabled() {
+    public boolean isWareRequestFailoverEnabled() {
         String requestSource = strategyContextHolder.getHeader(DiscoveryConstant.N_DW_REQUEST_SOURCE);
         if (StringUtils.isEmpty(requestSource)) {
             return true;
         }
 
-        MiddlewareRequestSource middlewareRequestSource = null;
+        WareRequestSource wareRequestSource = null;
         try {
-            middlewareRequestSource = MiddlewareRequestSource.fromString(requestSource);
+            wareRequestSource = WareRequestSource.fromString(requestSource);
         } catch (Exception e) {
             return true;
         }
 
-        switch (middlewareRequestSource) {
+        switch (wareRequestSource) {
             case ROCKETMQ:
                 return false;
         }
