@@ -136,9 +136,9 @@ public class DefaultStrategyAlarm implements StrategyAlarm {
         if (StringUtils.isNotEmpty(routeAddressBlacklist)) {
             contextMap.put(DiscoveryConstant.N_D_ADDRESS_BLACKLIST, routeAddressBlacklist);
         }
-        String middlewareRequestType = strategyContextHolder.getHeader(DiscoveryConstant.N_DW_REQUEST_TYPE);
-        if (StringUtils.isNotEmpty(middlewareRequestType)) {
-            contextMap.put(DiscoveryConstant.N_DW_REQUEST_TYPE, middlewareRequestType);
+        String middlewareRequestSource = strategyContextHolder.getHeader(DiscoveryConstant.N_DW_REQUEST_SOURCE);
+        if (StringUtils.isNotEmpty(middlewareRequestSource)) {
+            contextMap.put(DiscoveryConstant.N_DW_REQUEST_SOURCE, middlewareRequestSource);
         }
 
         Map<String, String> customizationMap = strategyMonitorContext.getCustomizationMap();

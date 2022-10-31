@@ -127,8 +127,8 @@ public class DiscoveryConstant {
     public static final String N_D_ACCESS_TOKEN = "n-d-access-token";
     public static final String BEARER = "Bearer";
 
-    public static final String N_DW_REQUEST_TYPE = "n-dw-request-type";
-    public static final String MESSAGE_QUEUE_REQUEST_TYPE = "message-queue";
+    public static final String N_DW_REQUEST_SOURCE = "n-dw-request-source";
+    public static final String ROCKETMQ = "RocketMQ";
 
     public static final String BLUE_GREEN = "blue-green";
     public static final String BLUE_GREEN_BASIC = "blue-green-basic";

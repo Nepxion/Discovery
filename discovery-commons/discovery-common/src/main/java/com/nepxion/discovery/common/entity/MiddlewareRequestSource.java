@@ -11,12 +11,12 @@ package com.nepxion.discovery.common.entity;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
-public enum MiddlewareRequestType {
-    MESSAGE_QUEUE_REQUEST_TYPE(DiscoveryConstant.MESSAGE_QUEUE_REQUEST_TYPE);
+public enum MiddlewareRequestSource {
+    ROCKETMQ(DiscoveryConstant.ROCKETMQ);
 
     private String value;
 
-    private MiddlewareRequestType(String value) {
+    private MiddlewareRequestSource(String value) {
         this.value = value;
     }
 
@@ -24,8 +24,8 @@ public enum MiddlewareRequestType {
         return value;
     }
 
-    public static MiddlewareRequestType fromString(String value) {
-        for (MiddlewareRequestType type : MiddlewareRequestType.values()) {
+    public static MiddlewareRequestSource fromString(String value) {
+        for (MiddlewareRequestSource type : MiddlewareRequestSource.values()) {
             if (type.getValue().equalsIgnoreCase(value)) {
                 return type;
             }

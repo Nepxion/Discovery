@@ -189,9 +189,9 @@ public class DefaultStrategyLogger implements StrategyLogger {
         if (StringUtils.isNotEmpty(routeAddressBlacklist)) {
             System.out.println(DiscoveryConstant.N_D_ADDRESS_BLACKLIST + "=" + routeAddressBlacklist);
         }
-        String middlewareRequestType = strategyContextHolder.getHeader(DiscoveryConstant.N_DW_REQUEST_TYPE);
-        if (StringUtils.isNotEmpty(middlewareRequestType)) {
-            System.out.println(DiscoveryConstant.N_DW_REQUEST_TYPE + "=" + middlewareRequestType);
+        String middlewareRequestSource = strategyContextHolder.getHeader(DiscoveryConstant.N_DW_REQUEST_SOURCE);
+        if (StringUtils.isNotEmpty(middlewareRequestSource)) {
+            System.out.println(DiscoveryConstant.N_DW_REQUEST_SOURCE + "=" + middlewareRequestSource);
         }
 
         Map<String, String> customizationMap = strategyMonitorContext.getCustomizationMap();
