@@ -9,8 +9,10 @@ package com.nepxion.discovery.plugin.strategy.monitor;
  * @version 1.0
  */
 
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
@@ -189,9 +191,15 @@ public class DefaultStrategyLogger implements StrategyLogger {
         if (StringUtils.isNotEmpty(routeAddressBlacklist)) {
             System.out.println(DiscoveryConstant.N_D_ADDRESS_BLACKLIST + "=" + routeAddressBlacklist);
         }
-        String wareRequestSource = strategyContextHolder.getHeader(DiscoveryConstant.N_DW_REQUEST_SOURCE);
-        if (StringUtils.isNotEmpty(wareRequestSource)) {
-            System.out.println(DiscoveryConstant.N_DW_REQUEST_SOURCE + "=" + wareRequestSource);
+
+        List<String> tracerHeaderNameList = strategyMonitorContext.getTracerHeaderNameList();
+        if (CollectionUtils.isNotEmpty(tracerHeaderNameList)) {
+            for (String tracerHeaderName : tracerHeaderNameList) {
+                String tracerHeaderValue = strategyContextHolder.getHeader(tracerHeaderName);
+                if (StringUtils.isNotEmpty(tracerHeaderValue)) {
+                    System.out.println(tracerHeaderName + "=" + tracerHeaderValue);
+                }
+            }
         }
 
         Map<String, String> customizationMap = strategyMonitorContext.getCustomizationMap();

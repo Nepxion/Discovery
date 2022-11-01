@@ -175,7 +175,9 @@ public class ServiceStrategyAutoConfiguration {
                 List<String> monitorScanPackages = strategyMonitorPackagesInjector.getScanPackages();
                 if (CollectionUtils.isNotEmpty(monitorScanPackages)) {
                     for (String monitorScanPackage : monitorScanPackages) {
-                        scanPackages += scanPackages.endsWith(DiscoveryConstant.SEPARATE) ? monitorScanPackage : DiscoveryConstant.SEPARATE + monitorScanPackage;
+                        if (!scanPackages.contains(monitorScanPackage)) {
+                            scanPackages += scanPackages.endsWith(DiscoveryConstant.SEPARATE) ? monitorScanPackage : DiscoveryConstant.SEPARATE + monitorScanPackage;
+                        }
                     }
                 }
             }

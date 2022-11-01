@@ -9,8 +9,13 @@ package com.nepxion.discovery.plugin.strategy.monitor;
  * @version 1.0
  */
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.plugin.strategy.adapter.StrategyTracerAdapter;
@@ -21,6 +26,28 @@ public class StrategyMonitorContext {
 
     @Autowired(required = false)
     protected StrategyTracerAdapter strategyTracerAdapter;
+
+    @Autowired(required = false)
+    protected List<StrategyTracerHeadersInjector> strategyTracerHeadersInjectorList;
+
+    protected List<String> tracerHeaderNameList;
+
+    @PostConstruct
+    public void initialize() {
+        if (CollectionUtils.isNotEmpty(strategyTracerHeadersInjectorList)) {
+            tracerHeaderNameList = new ArrayList<String>();
+            for (StrategyTracerHeadersInjector strategyTracerHeadersInjector : strategyTracerHeadersInjectorList) {
+                List<String> tracerHeaderNames = strategyTracerHeadersInjector.getHeaderNames();
+                if (CollectionUtils.isNotEmpty(tracerHeaderNames)) {
+                    for (String tracerHeaderName : tracerHeaderNames) {
+                        if (!tracerHeaderNameList.contains(tracerHeaderName)) {
+                            tracerHeaderNameList.add(tracerHeaderName);
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     public String getTraceId() {
         if (strategyTracer != null) {
@@ -34,7 +61,6 @@ public class StrategyMonitorContext {
         return null;
     }
 
-
     public String getSpanId() {
         if (strategyTracer != null) {
             return strategyTracer.getSpanId();
@@ -45,6 +71,10 @@ public class StrategyMonitorContext {
         }
 
         return null;
+    }
+
+    public List<String> getTracerHeaderNameList() {
+        return tracerHeaderNameList;
     }
 
     public Map<String, String> getCustomizationMap() {
