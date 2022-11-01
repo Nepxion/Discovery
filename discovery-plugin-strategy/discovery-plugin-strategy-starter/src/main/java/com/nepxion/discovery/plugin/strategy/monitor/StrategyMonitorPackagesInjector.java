@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.injector;
+package com.nepxion.discovery.plugin.strategy.monitor;
 
 /**
  * <p>Title: Nepxion Discovery</p>
