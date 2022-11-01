@@ -12,6 +12,6 @@ package com.nepxion.discovery.plugin.strategy.injector;
 
 import java.util.List;
 
-public interface StrategyPackagesInjector {
+public interface StrategyMonitorPackagesInjector {
     List<String> getScanPackages();
 }

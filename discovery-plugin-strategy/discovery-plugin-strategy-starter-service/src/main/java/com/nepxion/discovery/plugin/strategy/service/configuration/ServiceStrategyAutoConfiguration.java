@@ -26,7 +26,7 @@ import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.extractor.StrategyPackagesExtractor;
-import com.nepxion.discovery.plugin.strategy.injector.StrategyPackagesInjector;
+import com.nepxion.discovery.plugin.strategy.injector.StrategyMonitorPackagesInjector;
 import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyContextListener;
 import com.nepxion.discovery.plugin.strategy.service.filter.DefaultServiceStrategyFilterExclusion;
@@ -43,7 +43,6 @@ import com.nepxion.discovery.plugin.strategy.service.rpc.ServiceRpcStrategyAutoS
 import com.nepxion.discovery.plugin.strategy.service.rpc.ServiceRpcStrategyInterceptor;
 import com.nepxion.discovery.plugin.strategy.service.wrapper.DefaultServiceStrategyCallableWrapper;
 import com.nepxion.discovery.plugin.strategy.service.wrapper.ServiceStrategyCallableWrapper;
-import com.nepxion.matrix.proxy.constant.ProxyConstant;
 
 @Configuration
 @AutoConfigureBefore(RibbonClientConfiguration.class)
@@ -55,7 +54,7 @@ public class ServiceStrategyAutoConfiguration {
     private StrategyPackagesExtractor strategyPackagesExtractor;
 
     @Autowired(required = false)
-    private List<StrategyPackagesInjector> strategyPackagesInjectorList;
+    private List<StrategyMonitorPackagesInjector> strategyMonitorPackagesInjectorList;
 
     @Bean
     @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_RPC_INTERCEPT_ENABLED, matchIfMissing = false)
@@ -167,26 +166,24 @@ public class ServiceStrategyAutoConfiguration {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
         }
 
-        if (CollectionUtils.isNotEmpty(strategyPackagesInjectorList)) {
-            for (StrategyPackagesInjector strategyPackagesInjector : strategyPackagesInjectorList) {
-                List<String> packages = strategyPackagesInjector.getScanPackages();
-                if (CollectionUtils.isNotEmpty(packages)) {
-                    for (String pkg : packages) {
-                        if (scanPackages.endsWith(ProxyConstant.SEPARATOR)) {
-                            scanPackages += pkg;
-                        } else {
-                            scanPackages += ProxyConstant.SEPARATOR + pkg;
-                        }
+        if (scanPackages.contains(DiscoveryConstant.ENDPOINT_SCAN_PACKAGES)) {
+            throw new DiscoveryException("It can't scan packages for '" + DiscoveryConstant.ENDPOINT_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
+        }
+
+        if (CollectionUtils.isNotEmpty(strategyMonitorPackagesInjectorList)) {
+            for (StrategyMonitorPackagesInjector strategyMonitorPackagesInjector : strategyMonitorPackagesInjectorList) {
+                List<String> monitorScanPackages = strategyMonitorPackagesInjector.getScanPackages();
+                if (CollectionUtils.isNotEmpty(monitorScanPackages)) {
+                    for (String monitorScanPackage : monitorScanPackages) {
+                        scanPackages += scanPackages.endsWith(DiscoveryConstant.SEPARATE) ? monitorScanPackage : DiscoveryConstant.SEPARATE + monitorScanPackage;
                     }
                 }
             }
         }
 
-        if (scanPackages.contains(DiscoveryConstant.ENDPOINT_SCAN_PACKAGES)) {
-            throw new DiscoveryException("It can't scan packages for '" + DiscoveryConstant.ENDPOINT_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
-        }
+        scanPackages += scanPackages.endsWith(DiscoveryConstant.SEPARATE) ? DiscoveryConstant.ENDPOINT_SCAN_PACKAGES : DiscoveryConstant.SEPARATE + DiscoveryConstant.ENDPOINT_SCAN_PACKAGES;
 
-        return new ServiceStrategyMonitorAutoScanProxy(scanPackages.endsWith(DiscoveryConstant.SEPARATE) ? (scanPackages + DiscoveryConstant.ENDPOINT_SCAN_PACKAGES) : (scanPackages + DiscoveryConstant.SEPARATE + DiscoveryConstant.ENDPOINT_SCAN_PACKAGES));
+        return new ServiceStrategyMonitorAutoScanProxy(scanPackages);
     }
 
     @Bean
