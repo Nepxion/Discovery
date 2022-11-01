@@ -63,6 +63,10 @@ public class ServiceStrategyAutoConfiguration {
 
         scanPackages = assembleInjectorScanPackages(scanPackages);
 
+        if (StringUtils.isEmpty(scanPackages)) {
+            throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
+        }
+
         return new ServiceRpcStrategyAutoScanProxy(scanPackages);
     }
 
@@ -77,6 +81,10 @@ public class ServiceStrategyAutoConfiguration {
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_PROVIDER_ISOLATION_ENABLED, matchIfMissing = false)
     public ServiceProviderIsolationStrategyAutoScanProxy serviceProviderIsolationStrategyAutoScanProxy() {
         String scanPackages = getScanPackages();
+
+        if (StringUtils.isEmpty(scanPackages)) {
+            throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
+        }
 
         return new ServiceProviderIsolationStrategyAutoScanProxy(scanPackages);
     }
@@ -117,6 +125,10 @@ public class ServiceStrategyAutoConfiguration {
 
         scanPackages = assembleEndpointScanPackages(scanPackages);
 
+        if (StringUtils.isEmpty(scanPackages)) {
+            throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
+        }
+
         return new ServiceStrategyMonitorAutoScanProxy(scanPackages);
     }
 
@@ -145,14 +157,6 @@ public class ServiceStrategyAutoConfiguration {
             scanPackages = strategyPackagesExtractor.getAllPackages();
         }
 
-        if (StringUtils.isEmpty(scanPackages)) {
-            throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
-        }
-
-        if (scanPackages.contains(DiscoveryConstant.ENDPOINT_SCAN_PACKAGES)) {
-            throw new DiscoveryException("It can't set scan packages for '" + DiscoveryConstant.ENDPOINT_SCAN_PACKAGES + "', please check '" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'");
-        }
-
         return scanPackages;
     }
 
@@ -174,7 +178,9 @@ public class ServiceStrategyAutoConfiguration {
     }
 
     public String assembleEndpointScanPackages(String scanPackages) {
-        scanPackages += scanPackages.endsWith(DiscoveryConstant.SEPARATE) ? DiscoveryConstant.ENDPOINT_SCAN_PACKAGES : DiscoveryConstant.SEPARATE + DiscoveryConstant.ENDPOINT_SCAN_PACKAGES;
+        if (!scanPackages.contains(DiscoveryConstant.ENDPOINT_SCAN_PACKAGES)) {
+            scanPackages += scanPackages.endsWith(DiscoveryConstant.SEPARATE) ? DiscoveryConstant.ENDPOINT_SCAN_PACKAGES : DiscoveryConstant.SEPARATE + DiscoveryConstant.ENDPOINT_SCAN_PACKAGES;
+        }
 
         return scanPackages;
     }
