@@ -87,6 +87,8 @@ public class NacosApplicationContextInitializer extends PluginApplicationContext
             metadata.put(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_VERSION, DiscoveryConstant.DISCOVERY_VERSION);
             String agentVersion = System.getProperty(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_AGENT_VERSION);
             metadata.put(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_AGENT_VERSION, StringUtils.isEmpty(agentVersion) ? DiscoveryConstant.UNKNOWN : agentVersion);
+            String wareVersion = System.getProperty(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_WARE_VERSION);
+            metadata.put(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_WARE_VERSION, StringUtils.isEmpty(wareVersion) ? DiscoveryConstant.UNKNOWN : wareVersion);
             metadata.put(DiscoveryMetaDataConstant.SPRING_APPLICATION_GROUP_KEY, groupKey);
             metadata.put(DiscoveryMetaDataConstant.SPRING_APPLICATION_CONTEXT_PATH, PluginContextAware.getContextPath(environment));
 

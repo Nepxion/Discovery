@@ -13,6 +13,7 @@ public class DiscoveryMetaDataConstant {
     public static final String SPRING_APPLICATION_DISCOVERY_PLUGIN = "spring_application_discovery_plugin";
     public static final String SPRING_APPLICATION_DISCOVERY_VERSION = "spring_application_discovery_version";
     public static final String SPRING_APPLICATION_DISCOVERY_AGENT_VERSION = "spring_application_discovery_agent_version";
+    public static final String SPRING_APPLICATION_DISCOVERY_WARE_VERSION = "spring_application_discovery_ware_version";
 
     public static final String SPRING_APPLICATION_GROUP_KEY = "spring_application_group_key";
     public static final String SPRING_APPLICATION_CONTEXT_PATH = "spring_application_context-path";
