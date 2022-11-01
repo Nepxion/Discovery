@@ -31,8 +31,7 @@ public class StrategyAddressEnabledFilter extends AbstractStrategyEnabledFilter 
             return true;
         }
 
-        boolean wareRequestFailoverEnabled = isWareRequestFailoverEnabled();
-        if (addressFailoverEnabled && wareRequestFailoverEnabled) {
+        if (addressFailoverEnabled) {
             boolean matched = matchByAddress(servers, addresses);
             if (!matched) {
                 String addressFailovers = JsonUtil.fromJsonMap(pluginContextHolder.getContextRouteAddressFailover(), serviceId);

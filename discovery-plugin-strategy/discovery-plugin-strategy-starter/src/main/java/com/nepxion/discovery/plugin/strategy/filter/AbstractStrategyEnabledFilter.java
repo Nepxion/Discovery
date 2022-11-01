@@ -17,11 +17,8 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.common.entity.WareRequestSource;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginContextHolder;
-import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.matcher.DiscoveryMatcher;
 import com.netflix.loadbalancer.Server;
 
@@ -34,9 +31,6 @@ public abstract class AbstractStrategyEnabledFilter implements StrategyEnabledFi
 
     @Autowired
     protected PluginContextHolder pluginContextHolder;
-
-    @Autowired
-    protected StrategyContextHolder strategyContextHolder;
 
     @Override
     public void filter(List<? extends Server> servers) {
@@ -152,27 +146,6 @@ public abstract class AbstractStrategyEnabledFilter implements StrategyEnabledFi
         }
 
         return versionList;
-    }
-
-    public boolean isWareRequestFailoverEnabled() {
-        String requestSource = strategyContextHolder.getHeader(DiscoveryConstant.N_DW_REQUEST_SOURCE);
-        if (StringUtils.isEmpty(requestSource)) {
-            return true;
-        }
-
-        WareRequestSource wareRequestSource = null;
-        try {
-            wareRequestSource = WareRequestSource.fromString(requestSource);
-        } catch (Exception e) {
-            return true;
-        }
-
-        switch (wareRequestSource) {
-            case ROCKETMQ:
-                return false;
-        }
-
-        return true;
     }
 
     public DiscoveryMatcher getDiscoveryMatcher() {

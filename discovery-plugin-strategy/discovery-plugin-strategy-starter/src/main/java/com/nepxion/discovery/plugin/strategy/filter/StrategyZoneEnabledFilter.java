@@ -40,9 +40,8 @@ public class StrategyZoneEnabledFilter extends AbstractStrategyEnabledFilter {
             // 可用区存在：执行可用区亲和性，即调用端实例和提供端实例的元数据Metadata的zone配置值相等才能调用
             return StringUtils.equals(serverZone, zone);
         } else {
-            boolean wareRequestFailoverEnabled = isWareRequestFailoverEnabled();
             // 可用区不存在：路由开关打开，可路由到其它指定可用区；路由开关关闭，不可路由到其它可用区或者不归属任何可用区
-            if (zoneFailoverEnabled && wareRequestFailoverEnabled) {
+            if (zoneFailoverEnabled) {
                 String serviceId = pluginAdapter.getServerServiceId(server);
 
                 String zoneFailovers = JsonUtil.fromJsonMap(pluginContextHolder.getContextRouteZoneFailover(), serviceId);
