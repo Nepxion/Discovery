@@ -61,8 +61,6 @@ public class ServiceStrategyAutoConfiguration {
     public ServiceRpcStrategyAutoScanProxy serviceRpcStrategyAutoScanProxy() {
         String scanPackages = getScanPackages();
 
-        scanPackages = assembleInjectorScanPackages(scanPackages);
-
         if (StringUtils.isEmpty(scanPackages)) {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
         }
