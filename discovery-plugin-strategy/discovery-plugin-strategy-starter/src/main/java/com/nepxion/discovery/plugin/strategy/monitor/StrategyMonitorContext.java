@@ -19,6 +19,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.plugin.strategy.adapter.StrategyTracerAdapter;
+import com.nepxion.discovery.plugin.strategy.injector.StrategyTracerHeadersInjector;
 
 public class StrategyMonitorContext {
     @Autowired(required = false)
