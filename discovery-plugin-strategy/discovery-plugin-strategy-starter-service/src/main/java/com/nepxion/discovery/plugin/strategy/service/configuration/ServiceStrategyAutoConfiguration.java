@@ -26,6 +26,8 @@ import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.extractor.StrategyPackagesExtractor;
+import com.nepxion.discovery.plugin.strategy.injector.StrategyProviderIsolationPackagesInjector;
+import com.nepxion.discovery.plugin.strategy.injector.StrategyRpcPackagesInjector;
 import com.nepxion.discovery.plugin.strategy.injector.StrategyTracerPackagesInjector;
 import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyContextListener;
@@ -54,12 +56,20 @@ public class ServiceStrategyAutoConfiguration {
     private StrategyPackagesExtractor strategyPackagesExtractor;
 
     @Autowired(required = false)
+    private List<StrategyRpcPackagesInjector> strategyRpcPackagesInjectorList;
+
+    @Autowired(required = false)
+    private List<StrategyProviderIsolationPackagesInjector> strategyProviderIsolationPackagesInjectorList;
+
+    @Autowired(required = false)
     private List<StrategyTracerPackagesInjector> strategyTracerPackagesInjectorList;
 
     @Bean
     @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_RPC_INTERCEPT_ENABLED, matchIfMissing = false)
     public ServiceRpcStrategyAutoScanProxy serviceRpcStrategyAutoScanProxy() {
         String scanPackages = getScanPackages();
+
+        scanPackages = assembleRpcScanPackages(scanPackages);
 
         if (StringUtils.isEmpty(scanPackages)) {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
@@ -79,6 +89,8 @@ public class ServiceStrategyAutoConfiguration {
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_PROVIDER_ISOLATION_ENABLED, matchIfMissing = false)
     public ServiceProviderIsolationStrategyAutoScanProxy serviceProviderIsolationStrategyAutoScanProxy() {
         String scanPackages = getScanPackages();
+
+        scanPackages = assembleProviderIsolationScanPackages(scanPackages);
 
         if (StringUtils.isEmpty(scanPackages)) {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
@@ -153,6 +165,40 @@ public class ServiceStrategyAutoConfiguration {
         String scanPackages = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES, StringUtils.EMPTY);
         if (StringUtils.isEmpty(scanPackages)) {
             scanPackages = strategyPackagesExtractor.getAllPackages();
+        }
+
+        return scanPackages;
+    }
+
+    public String assembleRpcScanPackages(String scanPackages) {
+        if (CollectionUtils.isNotEmpty(strategyRpcPackagesInjectorList)) {
+            for (StrategyRpcPackagesInjector strategyRpcPackagesInjector : strategyRpcPackagesInjectorList) {
+                List<String> rpcPackages = strategyRpcPackagesInjector.getScanPackages();
+                if (CollectionUtils.isNotEmpty(rpcPackages)) {
+                    for (String rpcPackage : rpcPackages) {
+                        if (!scanPackages.contains(rpcPackage)) {
+                            scanPackages += scanPackages.endsWith(DiscoveryConstant.SEPARATE) ? rpcPackage : DiscoveryConstant.SEPARATE + rpcPackage;
+                        }
+                    }
+                }
+            }
+        }
+
+        return scanPackages;
+    }
+
+    public String assembleProviderIsolationScanPackages(String scanPackages) {
+        if (CollectionUtils.isNotEmpty(strategyProviderIsolationPackagesInjectorList)) {
+            for (StrategyProviderIsolationPackagesInjector strategyProviderIsolationPackagesInjector : strategyProviderIsolationPackagesInjectorList) {
+                List<String> providerIsolationPackages = strategyProviderIsolationPackagesInjector.getScanPackages();
+                if (CollectionUtils.isNotEmpty(providerIsolationPackages)) {
+                    for (String providerIsolationPackage : providerIsolationPackages) {
+                        if (!scanPackages.contains(providerIsolationPackage)) {
+                            scanPackages += scanPackages.endsWith(DiscoveryConstant.SEPARATE) ? providerIsolationPackage : DiscoveryConstant.SEPARATE + providerIsolationPackage;
+                        }
+                    }
+                }
+            }
         }
 
         return scanPackages;
