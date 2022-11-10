@@ -26,7 +26,7 @@ import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.extractor.StrategyPackagesExtractor;
-import com.nepxion.discovery.plugin.strategy.injector.StrategyPackagesInjector;
+import com.nepxion.discovery.plugin.strategy.injector.StrategyTracerPackagesInjector;
 import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyContextListener;
 import com.nepxion.discovery.plugin.strategy.service.filter.DefaultServiceStrategyFilterExclusion;
@@ -54,7 +54,7 @@ public class ServiceStrategyAutoConfiguration {
     private StrategyPackagesExtractor strategyPackagesExtractor;
 
     @Autowired(required = false)
-    private List<StrategyPackagesInjector> strategyPackagesInjectorList;
+    private List<StrategyTracerPackagesInjector> strategyTracerPackagesInjectorList;
 
     @Bean
     @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_RPC_INTERCEPT_ENABLED, matchIfMissing = false)
@@ -119,7 +119,7 @@ public class ServiceStrategyAutoConfiguration {
     public ServiceStrategyMonitorAutoScanProxy serviceStrategyMonitorAutoScanProxy() {
         String scanPackages = getScanPackages();
 
-        scanPackages = assembleInjectorScanPackages(scanPackages);
+        scanPackages = assembleTracerScanPackages(scanPackages);
 
         scanPackages = assembleEndpointScanPackages(scanPackages);
 
@@ -158,14 +158,14 @@ public class ServiceStrategyAutoConfiguration {
         return scanPackages;
     }
 
-    public String assembleInjectorScanPackages(String scanPackages) {
-        if (CollectionUtils.isNotEmpty(strategyPackagesInjectorList)) {
-            for (StrategyPackagesInjector strategyPackagesInjector : strategyPackagesInjectorList) {
-                List<String> packages = strategyPackagesInjector.getScanPackages();
-                if (CollectionUtils.isNotEmpty(packages)) {
-                    for (String pkg : packages) {
-                        if (!scanPackages.contains(pkg)) {
-                            scanPackages += scanPackages.endsWith(DiscoveryConstant.SEPARATE) ? pkg : DiscoveryConstant.SEPARATE + pkg;
+    public String assembleTracerScanPackages(String scanPackages) {
+        if (CollectionUtils.isNotEmpty(strategyTracerPackagesInjectorList)) {
+            for (StrategyTracerPackagesInjector strategyTracerPackagesInjector : strategyTracerPackagesInjectorList) {
+                List<String> tracerPackages = strategyTracerPackagesInjector.getScanPackages();
+                if (CollectionUtils.isNotEmpty(tracerPackages)) {
+                    for (String tracerPackage : tracerPackages) {
+                        if (!scanPackages.contains(tracerPackage)) {
+                            scanPackages += scanPackages.endsWith(DiscoveryConstant.SEPARATE) ? tracerPackage : DiscoveryConstant.SEPARATE + tracerPackage;
                         }
                     }
                 }
