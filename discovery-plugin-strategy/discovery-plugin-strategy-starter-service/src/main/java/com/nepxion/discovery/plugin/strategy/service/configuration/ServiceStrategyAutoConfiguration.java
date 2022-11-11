@@ -67,9 +67,9 @@ public class ServiceStrategyAutoConfiguration {
     @Bean
     @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_RPC_INTERCEPT_ENABLED, matchIfMissing = false)
     public ServiceRpcStrategyAutoScanProxy serviceRpcStrategyAutoScanProxy() {
-        String scanPackages = getScanPackages();
+        String scanPackages = getConfigScanPackages();
 
-        scanPackages = assembleRpcScanPackages(scanPackages);
+        scanPackages = getRpcScanPackages(scanPackages);
 
         if (StringUtils.isEmpty(scanPackages)) {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
@@ -88,9 +88,9 @@ public class ServiceStrategyAutoConfiguration {
     @ConditionalOnMissingBean
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_PROVIDER_ISOLATION_ENABLED, matchIfMissing = false)
     public ServiceProviderIsolationStrategyAutoScanProxy serviceProviderIsolationStrategyAutoScanProxy() {
-        String scanPackages = getScanPackages();
+        String scanPackages = getConfigScanPackages();
 
-        scanPackages = assembleProviderIsolationScanPackages(scanPackages);
+        scanPackages = getProviderIsolationScanPackages(scanPackages);
 
         if (StringUtils.isEmpty(scanPackages)) {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
@@ -129,11 +129,11 @@ public class ServiceStrategyAutoConfiguration {
     @ConditionalOnMissingBean
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_MONITOR_ENABLED, matchIfMissing = false)
     public ServiceStrategyMonitorAutoScanProxy serviceStrategyMonitorAutoScanProxy() {
-        String scanPackages = getScanPackages();
+        String scanPackages = getConfigScanPackages();
 
-        scanPackages = assembleTracerScanPackages(scanPackages);
+        scanPackages = getTracerScanPackages(scanPackages);
 
-        scanPackages = assembleEndpointScanPackages(scanPackages);
+        scanPackages = getEndpointScanPackages(scanPackages);
 
         if (StringUtils.isEmpty(scanPackages)) {
             throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't be empty");
@@ -161,7 +161,7 @@ public class ServiceStrategyAutoConfiguration {
         return new ServiceStrategyContextListener();
     }
 
-    public String getScanPackages() {
+    public String getConfigScanPackages() {
         String scanPackages = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES, StringUtils.EMPTY);
         if (StringUtils.isEmpty(scanPackages)) {
             scanPackages = strategyPackagesExtractor.getAllPackages();
@@ -170,7 +170,7 @@ public class ServiceStrategyAutoConfiguration {
         return scanPackages;
     }
 
-    public String assembleRpcScanPackages(String scanPackages) {
+    public String getRpcScanPackages(String scanPackages) {
         if (CollectionUtils.isNotEmpty(strategyRpcPackagesInjectorList)) {
             for (StrategyRpcPackagesInjector strategyRpcPackagesInjector : strategyRpcPackagesInjectorList) {
                 List<String> rpcPackages = strategyRpcPackagesInjector.getScanPackages();
@@ -187,7 +187,7 @@ public class ServiceStrategyAutoConfiguration {
         return scanPackages;
     }
 
-    public String assembleProviderIsolationScanPackages(String scanPackages) {
+    public String getProviderIsolationScanPackages(String scanPackages) {
         if (CollectionUtils.isNotEmpty(strategyProviderIsolationPackagesInjectorList)) {
             for (StrategyProviderIsolationPackagesInjector strategyProviderIsolationPackagesInjector : strategyProviderIsolationPackagesInjectorList) {
                 List<String> providerIsolationPackages = strategyProviderIsolationPackagesInjector.getScanPackages();
@@ -204,7 +204,7 @@ public class ServiceStrategyAutoConfiguration {
         return scanPackages;
     }
 
-    public String assembleTracerScanPackages(String scanPackages) {
+    public String getTracerScanPackages(String scanPackages) {
         if (CollectionUtils.isNotEmpty(strategyTracerPackagesInjectorList)) {
             for (StrategyTracerPackagesInjector strategyTracerPackagesInjector : strategyTracerPackagesInjectorList) {
                 List<String> tracerPackages = strategyTracerPackagesInjector.getScanPackages();
@@ -221,7 +221,7 @@ public class ServiceStrategyAutoConfiguration {
         return scanPackages;
     }
 
-    public String assembleEndpointScanPackages(String scanPackages) {
+    public String getEndpointScanPackages(String scanPackages) {
         if (!scanPackages.contains(DiscoveryConstant.ENDPOINT_SCAN_PACKAGES)) {
             scanPackages += scanPackages.endsWith(DiscoveryConstant.SEPARATE) ? DiscoveryConstant.ENDPOINT_SCAN_PACKAGES : DiscoveryConstant.SEPARATE + DiscoveryConstant.ENDPOINT_SCAN_PACKAGES;
         }
