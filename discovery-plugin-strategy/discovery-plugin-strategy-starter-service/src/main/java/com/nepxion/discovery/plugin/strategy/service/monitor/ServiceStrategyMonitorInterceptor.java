@@ -23,7 +23,7 @@ public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACER_METHOD_CONTEXT_OUTPUT_ENABLED + ":false}")
     protected Boolean tracerMethodContextOutputEnabled;
 
-    @Autowired(required = false)
+    @Autowired
     protected ServiceStrategyMonitor serviceStrategyMonitor;
 
     @Override
@@ -35,76 +35,74 @@ public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
 
         String className = getMethod(invocation).getDeclaringClass().getName();
         String methodName = getMethodName(invocation);
+        boolean isIntercepted = true;
         boolean isMonitored = false;
         boolean isMethodContextMonitored = false;
         try {
             // 拦截侦测请求  
             if (StringUtils.equals(className, DiscoveryConstant.INSPECTOR_ENDPOINT_CLASS_NAME) && StringUtils.equals(methodName, DiscoveryConstant.INSPECTOR_ENDPOINT_METHOD_NAME)) {
-                // 调用链监控
-                if (serviceStrategyMonitor != null) {
-                    // 通用输出
-                    serviceStrategyMonitor.monitor(this, invocation);
-                    isMonitored = true;
+                // 埋点创建
+                serviceStrategyMonitor.monitor(this, invocation);
+                isMonitored = true;
 
-                    // 方法上下文输出
-                    serviceStrategyMonitor.monitor(this, invocation, "* " + DiscoveryConstant.IGNORED);
-                    isMethodContextMonitored = true;
-                }
+                // 埋点方法上下文输出
+                serviceStrategyMonitor.monitor(this, invocation, "* " + DiscoveryConstant.IGNORED);
+                isMethodContextMonitored = true;
 
                 return invocation.proceed();
             } else {
-                // 调用链监控
-                if (serviceStrategyMonitor != null) {
-                    // 通用输出
+                isIntercepted = isIntercepted(className, methodName);
+                if (!isIntercepted) {
+                    return invocation.proceed();
+                }
+
+                // 埋点创建
+                serviceStrategyMonitor.monitor(this, invocation);
+                isMonitored = true;
+
+                if (tracerMethodContextOutputEnabled) {
+                    // 先执行调用，根据调用结果再输出返回值的埋点
+                    Object returnValue = invocation.proceed();
+
+                    // 埋点方法上下文输出
+                    serviceStrategyMonitor.monitor(this, invocation, returnValue);
+                    isMethodContextMonitored = true;
+
+                    return returnValue;
+                } else {
+                    // 埋点方法上下文输出
+                    serviceStrategyMonitor.monitor(this, invocation, null);
+                    isMethodContextMonitored = true;
+
+                    return invocation.proceed();
+                }
+            }
+        } catch (Throwable e) {
+            if (isIntercepted) {
+                if (!isMonitored) {
+                    // 埋点创建
                     serviceStrategyMonitor.monitor(this, invocation);
                     isMonitored = true;
                 }
-
-                Object returnValue = null;
-                if (tracerMethodContextOutputEnabled) {
-                    // 先执行调用，根据调用结果再输出监控结果
-                    returnValue = invocation.proceed();
-
-                    // 调用链监控
-                    if (serviceStrategyMonitor != null) {
-                        // 方法上下文输出
-                        serviceStrategyMonitor.monitor(this, invocation, returnValue);
-                        isMethodContextMonitored = true;
-                    }
-                } else {
-                    // 调用链监控
-                    if (serviceStrategyMonitor != null) {
-                        // 方法上下文输出
-                        serviceStrategyMonitor.monitor(this, invocation, returnValue);
-                        isMethodContextMonitored = true;
-                    }
-
-                    // 后执行调用
-                    returnValue = invocation.proceed();
-                }
-
-                return returnValue;
-            }
-        } catch (Throwable e) {
-            // 调用链异常监控
-            if (serviceStrategyMonitor != null) {
-                if (!isMonitored) {
-                    // 通用输出
-                    serviceStrategyMonitor.monitor(this, invocation);
-                }
                 if (!isMethodContextMonitored) {
-                    // 方法上下文输出
+                    // 埋点方法上下文输出
                     serviceStrategyMonitor.monitor(this, invocation, null);
+                    isMethodContextMonitored = true;
                 }
+                // 埋点异常上下文输出
                 serviceStrategyMonitor.error(this, invocation, e);
             }
 
             throw e;
         } finally {
-            // 调用链释放
-            if (serviceStrategyMonitor != null) {
+            if (isIntercepted && isMonitored && isMethodContextMonitored) {
+                // 埋点提交
                 serviceStrategyMonitor.release(this, invocation);
             }
         }
+    }
+
+    protected boolean isIntercepted(String className, String methodName) {
+        return true;
     }
 }
