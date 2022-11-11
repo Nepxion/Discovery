@@ -26,6 +26,9 @@ public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
     @Autowired
     protected ServiceStrategyMonitor serviceStrategyMonitor;
 
+    @Autowired(required = false)
+    protected ServiceStrategyMonitorInterceptorAdapter serviceStrategyMonitorInterceptorAdapter;
+
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         boolean hasInitBinderAnnotation = getMethod(invocation).isAnnotationPresent(InitBinder.class);
@@ -35,7 +38,7 @@ public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
 
         String className = getMethod(invocation).getDeclaringClass().getName();
         String methodName = getMethodName(invocation);
-        boolean isIntercepted = true;
+        boolean isInterceptionAllowed = true;
         boolean isMonitored = false;
         boolean isMethodContextMonitored = false;
         try {
@@ -51,8 +54,8 @@ public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
 
                 return invocation.proceed();
             } else {
-                isIntercepted = isIntercepted(className, methodName);
-                if (!isIntercepted) {
+                isInterceptionAllowed = allowInterception(className, methodName);
+                if (!isInterceptionAllowed) {
                     return invocation.proceed();
                 }
 
@@ -78,7 +81,7 @@ public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
                 }
             }
         } catch (Throwable e) {
-            if (isIntercepted) {
+            if (isInterceptionAllowed) {
                 if (!isMonitored) {
                     // 埋点创建
                     serviceStrategyMonitor.monitor(this, invocation);
@@ -95,14 +98,18 @@ public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
 
             throw e;
         } finally {
-            if (isIntercepted && isMonitored && isMethodContextMonitored) {
+            if (isInterceptionAllowed && isMonitored && isMethodContextMonitored) {
                 // 埋点提交
                 serviceStrategyMonitor.release(this, invocation);
             }
         }
     }
 
-    protected boolean isIntercepted(String className, String methodName) {
+    protected boolean allowInterception(String className, String methodName) {
+        if (serviceStrategyMonitorInterceptorAdapter != null) {
+            return serviceStrategyMonitorInterceptorAdapter.allowInterception(className, methodName);
+        }
+
         return true;
     }
 }
