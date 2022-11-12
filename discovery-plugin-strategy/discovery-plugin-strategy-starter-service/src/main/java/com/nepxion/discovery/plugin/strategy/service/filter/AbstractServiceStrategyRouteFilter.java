@@ -50,6 +50,9 @@ public abstract class AbstractServiceStrategyRouteFilter extends ServiceStrategy
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_REST_TEMPLATE_CORE_HEADER_TRANSMISSION_ENABLED + ":true}")
     protected Boolean restTemplateCoreHeaderTransmissionEnabled;
 
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_WEB_CLIENT_CORE_HEADER_TRANSMISSION_ENABLED + ":true}")
+    protected Boolean webClientCoreHeaderTransmissionEnabled;
+
     @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SERVICE_ROUTE_FILTER_ORDER + ":" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SERVICE_ROUTE_FILTER_ORDER_VALUE + "}")
     protected Integer filterOrder;
 
@@ -91,7 +94,7 @@ public abstract class AbstractServiceStrategyRouteFilter extends ServiceStrategy
             ServiceStrategyFilterResolver.setHeader(serviceStrategyRouteFilterRequest, DiscoveryConstant.N_D_ENVIRONMENT, routeEnvironment, false);
         }
 
-        if (feignCoreHeaderTransmissionEnabled || restTemplateCoreHeaderTransmissionEnabled) {
+        if (feignCoreHeaderTransmissionEnabled || restTemplateCoreHeaderTransmissionEnabled || webClientCoreHeaderTransmissionEnabled) {
             // 内置Header预先塞入
             Map<String, String> headerMap = strategyWrapper.getHeaderMap();
             if (MapUtils.isNotEmpty(headerMap)) {
