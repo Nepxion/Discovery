@@ -10,8 +10,10 @@ package com.nepxion.discovery.plugin.strategy.monitor;
  */
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,6 +137,16 @@ public class DefaultStrategyAlarm implements StrategyAlarm {
         String routeAddressBlacklist = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ADDRESS_BLACKLIST);
         if (StringUtils.isNotEmpty(routeAddressBlacklist)) {
             contextMap.put(DiscoveryConstant.N_D_ADDRESS_BLACKLIST, routeAddressBlacklist);
+        }
+
+        List<String> tracerHeaderNameList = strategyMonitorContext.getTracerHeaderNameList();
+        if (CollectionUtils.isNotEmpty(tracerHeaderNameList)) {
+            for (String tracerHeaderName : tracerHeaderNameList) {
+                String tracerHeaderValue = strategyContextHolder.getHeader(tracerHeaderName);
+                if (StringUtils.isNotEmpty(tracerHeaderValue)) {
+                    contextMap.put(tracerHeaderName, tracerHeaderValue);
+                }
+            }
         }
 
         Map<String, String> customizationMap = strategyMonitorContext.getCustomizationMap();
