@@ -20,6 +20,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
 import com.alibaba.cloud.nacos.registry.NacosServiceRegistry;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.constant.DiscoveryExtensionConstant;
 import com.nepxion.discovery.common.constant.DiscoveryMetaDataConstant;
 import com.nepxion.discovery.common.entity.DiscoveryType;
 import com.nepxion.discovery.plugin.framework.adapter.ApplicationInfoAdapter;
@@ -83,8 +84,6 @@ public class NacosApplicationContextInitializer extends PluginApplicationContext
             metadata.put(DiscoveryMetaDataConstant.SPRING_APPLICATION_UUID, PluginContextAware.getApplicationUUId(environment));
             metadata.put(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN, DiscoveryType.NACOS.toString());
             metadata.put(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_VERSION, DiscoveryConstant.DISCOVERY_VERSION);
-            String agentVersion = System.getProperty(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_AGENT_VERSION);
-            metadata.put(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_AGENT_VERSION, StringUtils.isEmpty(agentVersion) ? DiscoveryConstant.UNKNOWN : agentVersion);
             metadata.put(DiscoveryMetaDataConstant.SPRING_APPLICATION_GROUP_KEY, groupKey);
             metadata.put(DiscoveryMetaDataConstant.SPRING_APPLICATION_CONTEXT_PATH, PluginContextAware.getContextPath(environment));
 
@@ -95,6 +94,14 @@ public class NacosApplicationContextInitializer extends PluginApplicationContext
                 }
             } catch (Exception e) {
 
+            }
+
+            for (int i = 0; i < DiscoveryExtensionConstant.EXTENSION_VERSION_KEYS.length; i++) {
+                String[] extensionVersionKeys = DiscoveryExtensionConstant.EXTENSION_VERSION_KEYS[i];
+                String extensionVersion = System.getProperty(extensionVersionKeys[0]);
+                if (StringUtils.isNotEmpty(extensionVersion)) {
+                    metadata.put(extensionVersionKeys[1], extensionVersion);
+                }
             }
 
             MetadataUtil.filter(metadata, environment);
