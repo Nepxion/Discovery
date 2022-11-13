@@ -6588,11 +6588,13 @@ spring.application.group.generator.character=-
 ① 统一设置
 
 - 通过VM arguments设置，用法是参数前面加`-Dmetadata.`，适用于所有注册中心。例如：
+
 ```
 -Dmetadata.version=x.y.z
 ```
 
 - 通过Program arguments设置，用法是参数前面加`--`，适用于所有注册中心。例如：
+
 ```
 --spring.cloud.discovery.metadata.version=x.y.z
 ```
@@ -6600,6 +6602,7 @@ spring.application.group.generator.character=-
 ② 不同注册中心原生设置
 
 通过Program arguments设置，用法是参数前面加`--`。例如：
+
 ```
 --spring.cloud.nacos.discovery.metadata.version=x.y.z
 ```
@@ -6614,6 +6617,7 @@ Program arguments方式，支持Eureka、Zookeeper、Nacos和Spring Cloud 202x�
 适用于所有注册中心
 
 例如：
+
 ```
 spring.cloud.discovery.metadata.version=x.y.z
 ```
@@ -6621,6 +6625,7 @@ spring.cloud.discovery.metadata.version=x.y.z
 ② 不同注册中心原生设置
 
 例如：
+
 ```
 spring.cloud.nacos.discovery.metadata.version=x.y.z
 ```
@@ -6634,6 +6639,7 @@ spring.cloud.nacos.discovery.metadata.version=x.y.z
 适用于所有注册中心
 
 例如：
+
 ```java
 System.setProperty("spring.cloud.discovery.metadata.version", "x.y.z");
 ```
@@ -6641,6 +6647,7 @@ System.setProperty("spring.cloud.discovery.metadata.version", "x.y.z");
 ② 不同注册中心原生设置
 
 例如：
+
 ```java
 System.setProperty("spring.cloud.nacos.discovery.metadata.version", "x.y.z");
 ```
@@ -6661,7 +6668,9 @@ public class MyEnvironmentPostProcessor implements EnvironmentPostProcessor, Ord
     }
 }
 ```
+
 在src/main/resources/META-INF/spring.factories加上
+
 ```
 org.springframework.boot.env.EnvironmentPostProcessor=\
 com.xxx.yyy.zzz.MyEnvironmentPostProcessor
