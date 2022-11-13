@@ -203,11 +203,11 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - 基于多Queue的消息队列蓝绿发布
 - 全链路服务侧注解
 - 元数据流量染色
-    - Git插件自动化的元数据流量染色
-    - 服务名前缀的元数据流量染色
-    - 启动参数化的元数据流量染色
-    - 注册中心动态化的元数据流量染色
-    - 用户自定义的元数据流量染色
+    - 基于Git插件的元数据流量染色
+    - 基于服务名前缀的元数据流量染色
+    - 基于启动参数的元数据流量染色
+    - 基于配置文件的元数据流量染色
+    - 基于环境装载的元数据流量染色
 - 全链路规则策略推送
     - 基于配置中心的规则策略订阅推送
     - 基于Swagger和Rest的规则策略推送
@@ -711,8 +711,9 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - [元数据流量染色](#元数据流量染色)
     - [基于Git插件自动创建版本号](#基于Git插件自动创建版本号)
     - [基于服务名前缀自动创建组名](#基于服务名前缀自动创建组名)
-    - [基于启动参数自动创建版本号](#基于启动参数自动创建版本号)
-    - [基于用户自定义创建版本号](#基于用户自定义创建版本号)
+    - [基于启动参数创建版本号](#基于启动参数创建版本号)
+    - [基于配置文件创建版本号](#基于配置文件创建版本号)
+    - [基于环境装载创建版本号](#基于环境装载创建版本号)
 - [自动扫描目录](#自动扫描目录)
 - [统一配置订阅执行器](#统一配置订阅执行器)
 - [规则策略定义](#规则策略定义)
@@ -6581,14 +6582,32 @@ spring.application.group.generator.length=15
 spring.application.group.generator.character=-
 ```
 
-### 基于启动参数自动创建版本号
+### 基于启动参数创建版本号
 在启动微服务的时候，可以通过参数方式初始化元数据，框架会自动把它注册到远程注册中心。有如下两种方式
-- 通过VM arguments来传递，它的用法是前面加-D。支持上述所有的注册组件，它的限制是变量前面必须要加metadata.，推荐使用该方式。例如：-Dmetadata.version=1.0
-- 通过Program arguments来传递，它的用法是前面加--。支持Eureka、Zookeeper和Nacos的增量覆盖，Consul由于使用了全量覆盖的tag方式，不适用改变单个元数据的方式。例如：--spring.cloud.nacos.discovery.metadata.version=1.0
+- 通过VM arguments设置，用法是参数前面加`-Dmetadata.`。支持上述所有的注册组件，推荐使用该方式。例如：-Dmetadata.version=1.0
+- 通过Program arguments设置，用法是参数前面加`--`。支持Eureka、Zookeeper和Nacos的增量覆盖，Consul由于使用了全量覆盖的tag方式，不适用改变单个元数据的方式。例如：--spring.cloud.nacos.discovery.metadata.version=1.0
 - 两种方式尽量避免同时用
 
-### 基于用户自定义创建版本号
+### 基于配置文件创建版本号
 参考[流量染色配置](#流量染色配置)
+
+### 基于环境装载创建版本号
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 该方式只适用于Discovery 6.20.0及以上版本的集成方式
+```java
+public class MyEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
+    @Override
+    public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
+        if (EnvironmentUtil.isStandardEnvironment(environment)) {
+            PluginMetaDataPreInstallation.getMetadata().put("version", "1.0");
+        }
+    }
+
+    @Override
+    public int getOrder() {
+        return Ordered.HIGHEST_PRECEDENCE;
+    }
+}
+```
 
 ## 自动扫描目录
 自动扫描目录功能为省掉手工配置扫描目录而设定的，当使用者手工配置了扫描目录，则采用使用者配置的目录，如果没配置，则采用自动扫描目录的方式
