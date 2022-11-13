@@ -20,12 +20,12 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.common.constant.DiscoveryExtensionConstant;
 import com.nepxion.discovery.common.constant.DiscoveryMetaDataConstant;
 import com.nepxion.discovery.common.entity.DiscoveryType;
 import com.nepxion.discovery.plugin.framework.adapter.ApplicationInfoAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginApplicationContextInitializer;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
+import com.nepxion.discovery.plugin.framework.context.PluginMetaDataPreInstallation;
 import com.nepxion.discovery.plugin.framework.util.MetadataUtil;
 import com.nepxion.discovery.plugin.registercenter.zookeeper.decorator.ZookeeperServiceRegistryDecorator;
 
@@ -83,6 +83,10 @@ public class ZookeeperApplicationContextInitializer extends PluginApplicationCon
             metadata.put(DiscoveryMetaDataConstant.SPRING_APPLICATION_UUID, PluginContextAware.getApplicationUUId(environment));
             metadata.put(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN, DiscoveryType.ZOOKEEPER.toString());
             metadata.put(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_VERSION, DiscoveryConstant.DISCOVERY_VERSION);
+            String agentVersion = System.getProperty(DiscoveryConstant.SPRING_APPLICATION_DISCOVERY_AGENT_VERSION);
+            if (StringUtils.isNotEmpty(agentVersion)) {
+                metadata.put(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_AGENT_VERSION, agentVersion);
+            }
             metadata.put(DiscoveryMetaDataConstant.SPRING_APPLICATION_GROUP_KEY, groupKey);
             metadata.put(DiscoveryMetaDataConstant.SPRING_APPLICATION_CONTEXT_PATH, PluginContextAware.getContextPath(environment));
 
@@ -95,11 +99,12 @@ public class ZookeeperApplicationContextInitializer extends PluginApplicationCon
 
             }
 
-            for (int i = 0; i < DiscoveryExtensionConstant.EXTENSION_VERSION_KEYS.length; i++) {
-                String[] extensionVersionKeys = DiscoveryExtensionConstant.EXTENSION_VERSION_KEYS[i];
-                String extensionVersion = System.getProperty(extensionVersionKeys[0]);
-                if (StringUtils.isNotEmpty(extensionVersion)) {
-                    metadata.put(extensionVersionKeys[1], extensionVersion);
+            for (Map.Entry<String, String> entry : PluginMetaDataPreInstallation.getMetadata().entrySet()) {
+                String versionKey = entry.getKey();
+                String metadataVersionKey = entry.getValue();
+                String versionValue = System.getProperty(versionKey);
+                if (StringUtils.isNotEmpty(versionValue)) {
+                    metadata.put(metadataVersionKey, versionValue);
                 }
             }
 
