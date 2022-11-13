@@ -100,10 +100,10 @@ public class EurekaApplicationContextInitializer extends PluginApplicationContex
             }
 
             for (Map.Entry<String, String> entry : PluginMetaDataPreInstallation.getMetadata().entrySet()) {
-                String versionKey = entry.getKey();
-                String versionValue = entry.getValue();
-                if (StringUtils.isNotEmpty(versionValue)) {
-                    metadata.put(versionKey, versionValue);
+                String key = entry.getKey();
+                String value = entry.getValue();
+                if (StringUtils.isNotEmpty(value)) {
+                    metadata.put(key, value);
                 }
             }
 
