@@ -104,10 +104,9 @@ public class NacosApplicationContextInitializer extends PluginApplicationContext
 
             for (Map.Entry<String, String> entry : PluginMetaDataPreInstallation.getMetadata().entrySet()) {
                 String versionKey = entry.getKey();
-                String metadataVersionKey = entry.getValue();
-                String versionValue = System.getProperty(versionKey);
+                String versionValue = entry.getValue();
                 if (StringUtils.isNotEmpty(versionValue)) {
-                    metadata.put(metadataVersionKey, versionValue);
+                    metadata.put(versionKey, versionValue);
                 }
             }
 
