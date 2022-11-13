@@ -207,6 +207,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - 基于服务名前缀的元数据流量染色
     - 基于启动参数的元数据流量染色
     - 基于配置文件的元数据流量染色
+    - 基于系统参数的元数据流量染色
     - 基于环境装载的元数据流量染色
 - 全链路规则策略推送
     - 基于配置中心的规则策略订阅推送
@@ -713,6 +714,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [基于服务名前缀自动创建组名](#基于服务名前缀自动创建组名)
     - [基于启动参数创建版本号](#基于启动参数创建版本号)
     - [基于配置文件创建版本号](#基于配置文件创建版本号)
+    - [基于系统参数创建版本号](#基于系统参数创建版本号)
     - [基于环境装载创建版本号](#基于环境装载创建版本号)
 - [自动扫描目录](#自动扫描目录)
 - [统一配置订阅执行器](#统一配置订阅执行器)
@@ -6583,22 +6585,73 @@ spring.application.group.generator.character=-
 ```
 
 ### 基于启动参数创建版本号
-在启动微服务的时候，可以通过参数方式初始化元数据，框架会自动把它注册到远程注册中心。有如下两种方式
-- 通过VM arguments设置，用法是参数前面加`-Dmetadata.`。支持上述所有的注册组件，推荐使用该方式。例如：-Dmetadata.version=1.0
-- 通过Program arguments设置，用法是参数前面加`--`。支持Eureka、Zookeeper和Nacos的增量覆盖，Consul由于使用了全量覆盖的tag方式，不适用改变单个元数据的方式。例如：--spring.cloud.nacos.discovery.metadata.version=1.0
-- 两种方式尽量避免同时用
+① 统一设置
+
+- 通过VM arguments设置，用法是参数前面加`-Dmetadata.`，适用于所有注册中心。例如：
+```
+-Dmetadata.version=x.y.z
+```
+
+- 通过Program arguments设置，用法是参数前面加`--`，适用于所有注册中心。例如：
+```
+--spring.cloud.discovery.metadata.version=x.y.z
+```
+
+② 不同注册中心原生设置
+
+通过Program arguments设置，用法是参数前面加`--`。例如：
+```
+--spring.cloud.nacos.discovery.metadata.version=x.y.z
+```
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+Program arguments方式，支持Eureka、Zookeeper、Nacos和Spring Cloud 202x版的Consul增量覆盖模式，而Spring Cloud Hoxton版的Consul采用全量覆盖的Tag方式，故不适用改变单个元数据的方式进行设置
 
 ### 基于配置文件创建版本号
-参考[流量染色配置](#流量染色配置)
+① 统一设置
+
+适用于所有注册中心
+
+例如：
+```
+spring.cloud.discovery.metadata.version=x.y.z
+```
+
+② 不同注册中心原生设置
+
+例如：
+```
+spring.cloud.nacos.discovery.metadata.version=x.y.z
+```
+
+更多详细内容，参考[流量染色配置](#流量染色配置)
+
+### 基于系统参数创建版本号
+
+① 统一设置
+
+适用于所有注册中心
+
+例如：
+```java
+System.setProperty("spring.cloud.discovery.metadata.version", "x.y.z");
+```
+
+② 不同注册中心原生设置
+
+例如：
+```java
+System.setProperty("spring.cloud.nacos.discovery.metadata.version", "x.y.z");
+```
 
 ### 基于环境装载创建版本号
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information.png) 该方式只适用于Discovery 6.20.0及以上版本的集成方式
 ```java
 public class MyEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
         if (EnvironmentUtil.isStandardEnvironment(environment)) {
-            PluginMetaDataPreInstallation.getMetadata().put("version", "1.0");
+            PluginMetaDataPreInstallation.getMetadata().put("version", "x.y.z");
         }
     }
 
@@ -6607,6 +6660,11 @@ public class MyEnvironmentPostProcessor implements EnvironmentPostProcessor, Ord
         return Ordered.HIGHEST_PRECEDENCE;
     }
 }
+```
+在src/main/resources/META-INF/spring.factories加上
+```
+org.springframework.boot.env.EnvironmentPostProcessor=\
+com.xxx.yyy.zzz.MyEnvironmentPostProcessor
 ```
 
 ## 自动扫描目录
