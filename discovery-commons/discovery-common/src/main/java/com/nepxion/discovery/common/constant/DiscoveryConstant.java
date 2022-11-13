@@ -20,7 +20,6 @@ public class DiscoveryConstant {
     public static final String SPRING_APPLICATION_DISCOVERY_PLUGIN = "spring.application.discovery.plugin";
     public static final String SPRING_APPLICATION_DISCOVERY_VERSION = "spring.application.discovery.version";
     public static final String SPRING_APPLICATION_DISCOVERY_AGENT_VERSION = "spring.application.discovery.agent.version";
-    public static final String SPRING_APPLICATION_DISCOVERY_WARE_VERSION = "spring.application.discovery.ware.version";
     public static final String SPRING_APPLICATION_WEIGHT_RANDOM_TYPE = "spring.application.weight.random.type";
     public static final String SPRING_APPLICATION_CONFIG_FORMAT = "spring.application.config.format";
     public static final String SPRING_APPLICATION_CONFIG_PATH = "spring.application.config.path";
