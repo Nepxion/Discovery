@@ -1808,6 +1808,7 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 ① 两个部门，所有的服务都在并行执行蓝绿灰度
 
 - 增加Spring Cloud Gateway1的版本匹配蓝绿发布策略，Group为discovery-guide-group1，Data Id为discovery-guide-gateway1，策略内容如下
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
@@ -1827,6 +1828,7 @@ n-d-region-weight={"discovery-guide-service-a":"dev=85;qa=15", "discovery-guide-
 ```
 
 - 增加Spring Cloud Gateway2的版本权重灰度发布策略，Group为discovery-guide-group2，Data Id为discovery-guide-gateway2，策略内容如下
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
@@ -1935,6 +1937,7 @@ gateway
 ① 两个部门，所有的服务都在并行执行蓝绿灰度
 
 - 增加Spring Cloud Gateway1的版本匹配蓝绿发布策略，Group为discovery-guide-group1，Data Id为discovery-guide-gateway1，策略内容如下
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
@@ -1954,6 +1957,7 @@ gateway
 ```
 
 - 增加Spring Cloud Gateway2的版本权重灰度发布策略，Group为discovery-guide-group2，Data Id为discovery-guide-gateway2，策略内容如下
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
@@ -4393,6 +4397,7 @@ spring.application.strategy.zone.affinity.enabled=true
 
 五大维度的故障转移逻辑是可以并行叠加的，有两种实施方式：
 - 通过在配置中心修改添加如下规则
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rule>
@@ -4414,7 +4419,9 @@ spring.application.strategy.zone.affinity.enabled=true
     </strategy-failover>
 </rule>
 ```
+
 - 通过如下Header传递
+
 ```
 n-d-version-prefer={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}
 n-d-version-failover={"discovery-guide-service-a":"1.1", "discovery-guide-service-b":"1.1"}
