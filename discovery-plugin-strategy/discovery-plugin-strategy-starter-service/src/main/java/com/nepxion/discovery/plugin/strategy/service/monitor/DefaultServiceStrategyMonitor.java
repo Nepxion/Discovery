@@ -31,7 +31,7 @@ public class DefaultServiceStrategyMonitor extends StrategyMonitor implements Se
     protected Boolean tracerMethodContextOutputEnabled;
 
     @Autowired(required = false)
-    private List<ServiceStrategyMonitorAdapter> serviceStrategyMonitorAdapterList;
+    protected List<ServiceStrategyMonitorAdapter> serviceStrategyMonitorAdapterList;
 
     @Override
     public void monitor(ServiceStrategyMonitorInterceptor interceptor, MethodInvocation invocation) {
