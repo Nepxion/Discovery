@@ -19,7 +19,7 @@ import com.netflix.loadbalancer.Server;
 
 public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     @Autowired
-    private List<StrategyEnabledFilter> strategyEnabledFilterList;
+    protected List<StrategyEnabledFilter> strategyEnabledFilterList;
 
     @Autowired(required = false)
     protected List<DiscoveryEnabledStrategy> discoveryEnabledStrategyList;

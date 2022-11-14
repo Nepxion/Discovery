@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
+import com.nepxion.discovery.plugin.strategy.service.annotation.ServiceMonitorIgnore;
 import com.nepxion.matrix.proxy.aop.AbstractInterceptor;
 
 public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
@@ -25,9 +26,6 @@ public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
 
     @Autowired
     protected ServiceStrategyMonitor serviceStrategyMonitor;
-
-    @Autowired(required = false)
-    protected ServiceStrategyMonitorInterceptorAdapter serviceStrategyMonitorInterceptorAdapter;
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
@@ -38,13 +36,13 @@ public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
 
         String className = getMethod(invocation).getDeclaringClass().getName();
         String methodName = getMethodName(invocation);
-        boolean isInterceptionAllowed = true;
+        boolean isMonitorIgnored = false;
         boolean isMonitored = false;
         boolean isMethodContextMonitored = false;
         try {
             // 拦截侦测请求  
             if (StringUtils.equals(className, DiscoveryConstant.INSPECTOR_ENDPOINT_CLASS_NAME) && StringUtils.equals(methodName, DiscoveryConstant.INSPECTOR_ENDPOINT_METHOD_NAME)) {
-                // 埋点创建
+                // 埋点创建、MDC上下文输出、告警输出
                 serviceStrategyMonitor.monitor(this, invocation);
                 isMonitored = true;
 
@@ -54,12 +52,12 @@ public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
 
                 return invocation.proceed();
             } else {
-                isInterceptionAllowed = allowInterception(className, methodName);
-                if (!isInterceptionAllowed) {
+                isMonitorIgnored = getMethod(invocation).isAnnotationPresent(ServiceMonitorIgnore.class);
+                if (isMonitorIgnored) {
                     return invocation.proceed();
                 }
 
-                // 埋点创建
+                // 埋点创建、MDC上下文输出、告警输出
                 serviceStrategyMonitor.monitor(this, invocation);
                 isMonitored = true;
 
@@ -81,9 +79,9 @@ public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
                 }
             }
         } catch (Throwable e) {
-            if (isInterceptionAllowed) {
+            if (!isMonitorIgnored) {
                 if (!isMonitored) {
-                    // 埋点创建
+                    // 埋点创建、MDC上下文输出、告警输出
                     serviceStrategyMonitor.monitor(this, invocation);
                     isMonitored = true;
                 }
@@ -98,18 +96,10 @@ public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
 
             throw e;
         } finally {
-            if (isInterceptionAllowed && isMonitored && isMethodContextMonitored) {
-                // 埋点提交
+            if (!isMonitorIgnored && isMonitored && isMethodContextMonitored) {
+                // 埋点提交、MDC上下文清除
                 serviceStrategyMonitor.release(this, invocation);
             }
         }
-    }
-
-    protected boolean allowInterception(String className, String methodName) {
-        if (serviceStrategyMonitorInterceptorAdapter != null) {
-            return serviceStrategyMonitorInterceptorAdapter.allowInterception(className, methodName);
-        }
-
-        return true;
     }
 }
