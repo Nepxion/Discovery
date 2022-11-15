@@ -5956,7 +5956,7 @@ n-d-version=[{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.
 ```java
 public class MyStrategyTracerHeadersInjector implements StrategyTracerHeadersInjector {
     @Override
-    public List<String> getHeaderNames() {
+    public List<String> getHeaderNameList() {
         return Arrays.asList("n-d-xyz");
     }
 }
