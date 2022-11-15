@@ -12,5 +12,5 @@ package com.nepxion.discovery.plugin.strategy.injector;
 import java.util.List;
 
 public interface StrategyTracerHeadersInjector {
-    List<String> getHeaderNames();
+    List<String> getHeaderNameList();
 }
