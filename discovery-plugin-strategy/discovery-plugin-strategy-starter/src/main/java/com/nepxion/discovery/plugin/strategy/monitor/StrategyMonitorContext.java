@@ -38,7 +38,7 @@ public class StrategyMonitorContext {
         if (CollectionUtils.isNotEmpty(strategyTracerHeadersInjectorList)) {
             tracerHeaderNameList = new ArrayList<String>();
             for (StrategyTracerHeadersInjector strategyTracerHeadersInjector : strategyTracerHeadersInjectorList) {
-                List<String> tracerHeaderNames = strategyTracerHeadersInjector.getHeaderNames();
+                List<String> tracerHeaderNames = strategyTracerHeadersInjector.getHeaderNameList();
                 if (CollectionUtils.isNotEmpty(tracerHeaderNames)) {
                     for (String tracerHeaderName : tracerHeaderNames) {
                         if (!tracerHeaderNameList.contains(tracerHeaderName)) {
