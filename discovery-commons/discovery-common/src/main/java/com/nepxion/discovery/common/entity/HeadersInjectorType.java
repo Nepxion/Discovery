@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.strategy.monitor;
+package com.nepxion.discovery.common.entity;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -9,8 +9,8 @@ package com.nepxion.discovery.plugin.strategy.monitor;
  * @version 1.0
  */
 
-import java.util.Map;
-
-public interface StrategyAlarm {
-    void alarm(Map<String, String> contextMap);
+public enum HeadersInjectorType {
+    TRANSMISSION,
+    TRACER,
+    ALL;
 }

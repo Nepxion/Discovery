@@ -41,10 +41,6 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_REST_TEMPLATE_CORE_HEADER_TRANSMISSION_ENABLED + ":true}")
     protected Boolean restTemplateCoreHeaderTransmissionEnabled;
 
-    public RestTemplateStrategyInterceptor(String contextRequestHeaders, String businessRequestHeaders) {
-        super(contextRequestHeaders, businessRequestHeaders);
-    }
-
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
         // 拦截打印输入的Header

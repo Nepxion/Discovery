@@ -21,7 +21,7 @@ public class DefaultGatewayStrategyMonitor extends StrategyMonitor implements Ga
         loggerOutput();
         loggerDebug();
 
-        alarm();
+        alarm(null);
 
         spanOutput(null);
     }

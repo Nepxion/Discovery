@@ -20,7 +20,7 @@ public class DefaultZuulStrategyMonitor extends StrategyMonitor implements ZuulS
         loggerOutput();
         loggerDebug();
 
-        alarm();
+        alarm(null);
 
         spanOutput(null);
     }

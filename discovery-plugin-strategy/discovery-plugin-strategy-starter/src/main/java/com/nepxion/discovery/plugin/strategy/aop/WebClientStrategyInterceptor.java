@@ -42,10 +42,6 @@ public class WebClientStrategyInterceptor extends AbstractStrategyInterceptor im
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_WEB_CLIENT_CORE_HEADER_TRANSMISSION_ENABLED + ":true}")
     protected Boolean webClientCoreHeaderTransmissionEnabled;
 
-    public WebClientStrategyInterceptor(String contextRequestHeaders, String businessRequestHeaders) {
-        super(contextRequestHeaders, businessRequestHeaders);
-    }
-
     @Override
     public Mono<ClientResponse> filter(ClientRequest request, ExchangeFunction next) {
         ClientRequest.Builder requestBuilder = ClientRequest.from(request);

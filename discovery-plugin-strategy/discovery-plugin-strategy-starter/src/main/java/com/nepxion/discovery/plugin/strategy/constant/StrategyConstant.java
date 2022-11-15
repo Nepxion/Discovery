@@ -38,13 +38,13 @@ public class StrategyConstant {
     public static final String SPRING_APPLICATION_STRATEGY_LOGGER_MDC_KEY_SHOWN = "spring.application.strategy.logger.mdc.key.shown";
     public static final String SPRING_APPLICATION_STRATEGY_LOGGER_DEBUG_ENABLED = "spring.application.strategy.logger.debug.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_TRACER_ENABLED = "spring.application.strategy.tracer.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_ALARM_ENABLED = "spring.application.strategy.alarm.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_TRACER_SEPARATE_SPAN_ENABLED = "spring.application.strategy.tracer.separate.span.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_TRACER_RULE_OUTPUT_ENABLED = "spring.application.strategy.tracer.rule.output.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_TRACER_EXCEPTION_DETAIL_OUTPUT_ENABLED = "spring.application.strategy.tracer.exception.detail.output.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_TRACER_METHOD_CONTEXT_OUTPUT_ENABLED = "spring.application.strategy.tracer.method.context.output.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_TRACER_SPAN_VALUE = "spring.application.strategy.tracer.span.value";
     public static final String SPRING_APPLICATION_STRATEGY_TRACER_SPAN_TAG_PLUGIN_VALUE = "spring.application.strategy.tracer.span.tag.plugin.value";
-    public static final String SPRING_APPLICATION_STRATEGY_ALARM_ENABLED = "spring.application.strategy.alarm.enabled";
 
     public static final String SPRING_APPLICATION_STRATEGY_AUTO_SCAN_PACKAGES_ENABLED = "spring.application.strategy.auto.scan.packages.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_AUTO_SCAN_RECURSION_ENABLED = "spring.application.strategy.auto.scan.recursion.enabled";

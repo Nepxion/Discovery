@@ -9,30 +9,26 @@ package com.nepxion.discovery.plugin.strategy.aop;
  * @version 1.0
  */
 
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.InterceptorType;
-import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
+import com.nepxion.discovery.plugin.strategy.context.StrategyHeaderContext;
 import com.nepxion.discovery.plugin.strategy.util.StrategyUtil;
 
 public abstract class AbstractStrategyInterceptor {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractStrategyInterceptor.class);
-
-    @Autowired
-    protected ConfigurableEnvironment environment;
 
     @Autowired
     protected PluginAdapter pluginAdapter;
@@ -40,23 +36,22 @@ public abstract class AbstractStrategyInterceptor {
     @Autowired
     protected StrategyContextHolder strategyContextHolder;
 
+    @Autowired
+    protected StrategyHeaderContext strategyHeaderContext;
+
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_DEBUG_ENABLED + ":false}")
     protected Boolean interceptDebugEnabled;
 
-    protected List<String> requestHeaderList = new ArrayList<String>();
+    protected List<String> requestHeaderNameList;
 
-    public AbstractStrategyInterceptor(String contextRequestHeaders, String businessRequestHeaders) {
-        if (StringUtils.isNotEmpty(contextRequestHeaders)) {
-            requestHeaderList.addAll(StringUtil.splitToList(contextRequestHeaders.toLowerCase()));
-        }
-        if (StringUtils.isNotEmpty(businessRequestHeaders)) {
-            requestHeaderList.addAll(StringUtil.splitToList(businessRequestHeaders.toLowerCase()));
-        }
+    @PostConstruct
+    public void initialize() {
+        requestHeaderNameList = strategyHeaderContext.getRequestHeaderNameList();
 
         InterceptorType interceptorType = getInterceptorType();
 
         LOG.info("--------- Strategy Intercept Information ---------");
-        LOG.info("{} desires to intercept customer headers are {}", interceptorType, requestHeaderList);
+        LOG.info("{} desires to intercept customer headers are {}", interceptorType, requestHeaderNameList);
         LOG.info("--------------------------------------------------");
     }
 
@@ -93,7 +88,7 @@ public abstract class AbstractStrategyInterceptor {
     }
 
     protected boolean isHeaderContains(String headerName) {
-        return headerName.startsWith(DiscoveryConstant.N_D_PREFIX) || requestHeaderList.contains(headerName);
+        return headerName.startsWith(DiscoveryConstant.N_D_PREFIX) || requestHeaderNameList.contains(headerName);
     }
 
     protected boolean isHeaderContainsExcludeInner(String headerName) {

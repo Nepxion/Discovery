@@ -37,10 +37,6 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_FEIGN_CORE_HEADER_TRANSMISSION_ENABLED + ":true}")
     protected Boolean feignCoreHeaderTransmissionEnabled;
 
-    public FeignStrategyInterceptor(String contextRequestHeaders, String businessRequestHeaders) {
-        super(contextRequestHeaders, businessRequestHeaders);
-    }
-
     @Override
     public void apply(RequestTemplate requestTemplate) {
         // 拦截打印输入的Header
