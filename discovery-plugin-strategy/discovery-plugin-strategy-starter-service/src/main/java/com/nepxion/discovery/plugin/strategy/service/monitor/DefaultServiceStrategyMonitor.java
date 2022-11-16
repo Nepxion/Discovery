@@ -63,6 +63,21 @@ public class DefaultServiceStrategyMonitor extends StrategyMonitor implements Se
         spanFinish();
     }
 
+    private Map<String, String> createContextMap(ServiceStrategyMonitorInterceptor interceptor, MethodInvocation invocation) {
+        if (!alarmEnabled) {
+            return null;
+        }
+
+        Map<String, String> contextMap = new LinkedHashMap<String, String>();
+
+        String className = interceptor.getMethod(invocation).getDeclaringClass().getName();
+        String methodName = interceptor.getMethodName(invocation);
+        contextMap.put(DiscoveryConstant.CLASS, className);
+        contextMap.put(DiscoveryConstant.METHOD, methodName);
+
+        return contextMap;
+    }
+
     private Map<String, String> createContextMap(ServiceStrategyMonitorInterceptor interceptor, MethodInvocation invocation, Object returnValue) {
         if (!tracerEnabled) {
             return null;
@@ -88,21 +103,6 @@ public class DefaultServiceStrategyMonitor extends StrategyMonitor implements Se
                 }
             }
         }
-
-        return contextMap;
-    }
-
-    private Map<String, String> createContextMap(ServiceStrategyMonitorInterceptor interceptor, MethodInvocation invocation) {
-        if (!alarmEnabled) {
-            return null;
-        }
-
-        Map<String, String> contextMap = new LinkedHashMap<String, String>();
-
-        String className = interceptor.getMethod(invocation).getDeclaringClass().getName();
-        String methodName = interceptor.getMethodName(invocation);
-        contextMap.put(DiscoveryConstant.CLASS, className);
-        contextMap.put(DiscoveryConstant.METHOD, methodName);
 
         return contextMap;
     }
