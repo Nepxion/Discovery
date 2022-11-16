@@ -78,7 +78,7 @@ public class StrategyMonitorContext {
         return tracerHeaderNameList;
     }
 
-    public Map<String, String> getCustomizationMap() {
+    public Map<String, String> getTracerCustomizationMap() {
         if (strategyTracerAdapter != null) {
             return strategyTracerAdapter.getCustomizationMap();
         }

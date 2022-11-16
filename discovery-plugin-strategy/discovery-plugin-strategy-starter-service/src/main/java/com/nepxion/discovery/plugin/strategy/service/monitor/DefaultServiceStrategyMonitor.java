@@ -30,6 +30,9 @@ public class DefaultServiceStrategyMonitor extends StrategyMonitor implements Se
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACER_METHOD_CONTEXT_OUTPUT_ENABLED + ":false}")
     protected Boolean tracerMethodContextOutputEnabled;
 
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_ALARM_ENABLED + ":false}")
+    protected Boolean alarmEnabled;
+
     @Autowired(required = false)
     protected List<ServiceStrategyMonitorAdapter> serviceStrategyMonitorAdapterList;
 
@@ -40,7 +43,7 @@ public class DefaultServiceStrategyMonitor extends StrategyMonitor implements Se
         loggerOutput();
         loggerDebug();
 
-        alarm();
+        alarm(createContextMap(interceptor, invocation));
     }
 
     @Override
@@ -58,6 +61,21 @@ public class DefaultServiceStrategyMonitor extends StrategyMonitor implements Se
         loggerClear();
 
         spanFinish();
+    }
+
+    private Map<String, String> createContextMap(ServiceStrategyMonitorInterceptor interceptor, MethodInvocation invocation) {
+        if (!alarmEnabled) {
+            return null;
+        }
+
+        Map<String, String> contextMap = new LinkedHashMap<String, String>();
+
+        String className = interceptor.getMethod(invocation).getDeclaringClass().getName();
+        String methodName = interceptor.getMethodName(invocation);
+        contextMap.put(DiscoveryConstant.CLASS, className);
+        contextMap.put(DiscoveryConstant.METHOD, methodName);
+
+        return contextMap;
     }
 
     private Map<String, String> createContextMap(ServiceStrategyMonitorInterceptor interceptor, MethodInvocation invocation, Object returnValue) {
