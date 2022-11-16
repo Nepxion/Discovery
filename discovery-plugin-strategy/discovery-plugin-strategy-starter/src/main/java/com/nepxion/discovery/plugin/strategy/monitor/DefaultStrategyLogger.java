@@ -10,10 +10,8 @@ package com.nepxion.discovery.plugin.strategy.monitor;
  */
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +21,7 @@ import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
+import com.nepxion.discovery.plugin.strategy.context.StrategyHeaderContext;
 
 public class DefaultStrategyLogger implements StrategyLogger {
     @Autowired
@@ -33,6 +32,9 @@ public class DefaultStrategyLogger implements StrategyLogger {
 
     @Autowired
     protected StrategyMonitorContext strategyMonitorContext;
+    
+    @Autowired
+    protected StrategyHeaderContext strategyHeaderContext;
 
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_LOGGER_ENABLED + ":false}")
     protected Boolean loggerEnabled;
@@ -49,17 +51,14 @@ public class DefaultStrategyLogger implements StrategyLogger {
             return;
         }
 
-        Map<String, String> customizationMap = strategyMonitorContext.getCustomizationMap();
-        if (MapUtils.isNotEmpty(customizationMap)) {
-            for (Map.Entry<String, String> entry : customizationMap.entrySet()) {
-                MDC.put(entry.getKey(), (loggerMdcKeyShown ? entry.getKey() + "=" : StringUtils.EMPTY) + entry.getValue());
-            }
-        }
-
         String traceId = strategyMonitorContext.getTraceId();
         String spanId = strategyMonitorContext.getSpanId();
-        MDC.put(DiscoveryConstant.TRACE_ID, (loggerMdcKeyShown ? DiscoveryConstant.TRACE_ID + "=" : StringUtils.EMPTY) + (StringUtils.isNotEmpty(traceId) ? traceId : StringUtils.EMPTY));
-        MDC.put(DiscoveryConstant.SPAN_ID, (loggerMdcKeyShown ? DiscoveryConstant.SPAN_ID + "=" : StringUtils.EMPTY) + (StringUtils.isNotEmpty(spanId) ? spanId : StringUtils.EMPTY));
+        if (StringUtils.isNotEmpty(traceId)) {
+            MDC.put(DiscoveryConstant.TRACE_ID, (loggerMdcKeyShown ? DiscoveryConstant.TRACE_ID + "=" : StringUtils.EMPTY) + traceId);
+        }
+        if (StringUtils.isNotEmpty(spanId)) {
+            MDC.put(DiscoveryConstant.SPAN_ID, (loggerMdcKeyShown ? DiscoveryConstant.SPAN_ID + "=" : StringUtils.EMPTY) + spanId);
+        }
         MDC.put(DiscoveryConstant.N_D_SERVICE_GROUP, (loggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_GROUP + "=" : StringUtils.EMPTY) + pluginAdapter.getGroup());
         MDC.put(DiscoveryConstant.N_D_SERVICE_TYPE, (loggerMdcKeyShown ? DiscoveryConstant.N_D_SERVICE_TYPE + "=" : StringUtils.EMPTY) + pluginAdapter.getServiceType());
         String serviceAppId = pluginAdapter.getServiceAppId();
@@ -104,8 +103,12 @@ public class DefaultStrategyLogger implements StrategyLogger {
         System.out.println("----------------------- Logger Debug -----------------------");
         String traceId = strategyMonitorContext.getTraceId();
         String spanId = strategyMonitorContext.getSpanId();
-        System.out.println(DiscoveryConstant.TRACE_ID + "=" + (StringUtils.isNotEmpty(traceId) ? traceId : StringUtils.EMPTY));
-        System.out.println(DiscoveryConstant.SPAN_ID + "=" + (StringUtils.isNotEmpty(spanId) ? spanId : StringUtils.EMPTY));
+        if (StringUtils.isNotEmpty(traceId)) {
+            System.out.println(DiscoveryConstant.TRACE_ID + "=" + traceId);
+        }
+        if (StringUtils.isNotEmpty(spanId)) {
+            System.out.println(DiscoveryConstant.SPAN_ID + "=" + spanId);
+        }
         System.out.println(DiscoveryConstant.N_D_SERVICE_GROUP + "=" + pluginAdapter.getGroup());
         System.out.println(DiscoveryConstant.N_D_SERVICE_TYPE + "=" + pluginAdapter.getServiceType());
         String serviceAppId = pluginAdapter.getServiceAppId();
@@ -192,20 +195,13 @@ public class DefaultStrategyLogger implements StrategyLogger {
             System.out.println(DiscoveryConstant.N_D_ADDRESS_BLACKLIST + "=" + routeAddressBlacklist);
         }
 
-        List<String> tracerHeaderNameList = strategyMonitorContext.getTracerHeaderNameList();
-        if (CollectionUtils.isNotEmpty(tracerHeaderNameList)) {
-            for (String tracerHeaderName : tracerHeaderNameList) {
-                String tracerHeaderValue = strategyContextHolder.getHeader(tracerHeaderName);
-                if (StringUtils.isNotEmpty(tracerHeaderValue)) {
-                    System.out.println(tracerHeaderName + "=" + tracerHeaderValue);
+        List<String> requestHeaderNameList = strategyHeaderContext.getRequestHeaderNameList();
+        if (CollectionUtils.isNotEmpty(requestHeaderNameList)) {
+            for (String requestHeaderName : requestHeaderNameList) {
+                String requestHeaderValue = strategyContextHolder.getHeader(requestHeaderName);
+                if (StringUtils.isNotEmpty(requestHeaderValue)) {
+                    System.out.println(requestHeaderName + "=" + requestHeaderValue);
                 }
-            }
-        }
-
-        Map<String, String> customizationMap = strategyMonitorContext.getCustomizationMap();
-        if (MapUtils.isNotEmpty(customizationMap)) {
-            for (Map.Entry<String, String> entry : customizationMap.entrySet()) {
-                System.out.println(entry.getKey() + "=" + entry.getValue());
             }
         }
         System.out.println("------------------------------------------------------------");
