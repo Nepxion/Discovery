@@ -65,9 +65,9 @@ public class StrategyMonitor {
         }
     }
 
-    public void alarm() {
+    public void alarm(Map<String, String> contextMap) {
         if (strategyAlarm != null) {
-            strategyAlarm.alarm();
+            strategyAlarm.alarm(contextMap);
         }
     }
 

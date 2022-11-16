@@ -9,6 +9,8 @@ package com.nepxion.discovery.plugin.strategy.monitor;
  * @version 1.0
  */
 
+import java.util.Map;
+
 public interface StrategyAlarm {
-    void alarm();
+    void alarm(Map<String, String> contextMap);
 }
