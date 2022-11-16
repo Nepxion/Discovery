@@ -38,7 +38,10 @@ public class ZuulStrategyFilterResolver {
     }
 
     public static void ignoreHeader(RequestContext context, String headerName) {
-        // 通过Zuul Filter的Header直接把外界的Header替换成空字符串
-        context.addZuulRequestHeader(headerName, StringUtils.EMPTY);
+        String header = context.getRequest().getHeader(headerName);
+        if (StringUtils.isNotEmpty(header)) {
+            // 通过Zuul Filter的Header直接把外界的Header替换成空字符串
+            context.addZuulRequestHeader(headerName, StringUtils.EMPTY);
+        }
     }
 }
