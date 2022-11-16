@@ -179,12 +179,12 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
             }
         }
 
-        List<String> tracerHeaderNameList = strategyMonitorContext.getTracerHeaderNameList();
-        if (CollectionUtils.isNotEmpty(tracerHeaderNameList)) {
-            for (String tracerHeaderName : tracerHeaderNameList) {
-                String tracerHeaderValue = strategyContextHolder.getHeader(tracerHeaderName);
-                if (StringUtils.isNotEmpty(tracerHeaderValue)) {
-                    outputSpan(span, tracerHeaderName, tracerHeaderValue);
+        List<String> tracerInjectorHeaderNameList = strategyMonitorContext.getTracerInjectorHeaderNameList();
+        if (CollectionUtils.isNotEmpty(tracerInjectorHeaderNameList)) {
+            for (String tracerInjectorHeaderName : tracerInjectorHeaderNameList) {
+                String tracerInjectorHeaderValue = strategyContextHolder.getHeader(tracerInjectorHeaderName);
+                if (StringUtils.isNotEmpty(tracerInjectorHeaderValue)) {
+                    outputSpan(span, tracerInjectorHeaderName, tracerInjectorHeaderValue);
                 }
             }
         }

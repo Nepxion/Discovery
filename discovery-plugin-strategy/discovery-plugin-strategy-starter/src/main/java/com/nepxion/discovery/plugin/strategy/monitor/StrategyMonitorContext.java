@@ -31,11 +31,11 @@ public class StrategyMonitorContext {
     @Autowired(required = false)
     protected List<StrategyHeadersInjector> strategyHeadersInjectorList;
 
-    protected List<String> tracerHeaderNameList;
+    protected List<String> tracerInjectorHeaderNameList;
 
     @PostConstruct
     public void initialize() {
-        tracerHeaderNameList = StrategyHeadersResolver.getInjectedHeaders(strategyHeadersInjectorList, HeadersInjectorType.TRACER);
+        tracerInjectorHeaderNameList = StrategyHeadersResolver.getInjectedHeaders(strategyHeadersInjectorList, HeadersInjectorType.TRACER);
     }
 
     public String getTraceId() {
@@ -62,8 +62,8 @@ public class StrategyMonitorContext {
         return null;
     }
 
-    public List<String> getTracerHeaderNameList() {
-        return tracerHeaderNameList;
+    public List<String> getTracerInjectorHeaderNameList() {
+        return tracerInjectorHeaderNameList;
     }
 
     public Map<String, String> getTracerCustomizationMap() {
