@@ -27,11 +27,11 @@ public class DefaultServiceStrategyMonitor extends StrategyMonitor implements Se
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACER_ENABLED + ":false}")
     protected Boolean tracerEnabled;
 
-    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_ALARM_ENABLED + ":false}")
-    protected Boolean alarmEnabled;
-
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACER_METHOD_CONTEXT_OUTPUT_ENABLED + ":false}")
     protected Boolean tracerMethodContextOutputEnabled;
+
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_ALARM_ENABLED + ":false}")
+    protected Boolean alarmEnabled;
 
     @Autowired(required = false)
     protected List<ServiceStrategyMonitorAdapter> serviceStrategyMonitorAdapterList;
