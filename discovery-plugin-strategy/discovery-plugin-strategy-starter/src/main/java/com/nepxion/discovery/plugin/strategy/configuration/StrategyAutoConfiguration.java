@@ -11,7 +11,6 @@ package com.nepxion.discovery.plugin.strategy.configuration;
 
 import feign.Feign;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -19,7 +18,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.netflix.ribbon.RibbonClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.expression.TypeComparator;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -37,6 +35,7 @@ import com.nepxion.discovery.plugin.strategy.condition.DefaultStrategyTypeCompar
 import com.nepxion.discovery.plugin.strategy.condition.ExpressionStrategyCondition;
 import com.nepxion.discovery.plugin.strategy.condition.StrategyCondition;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
+import com.nepxion.discovery.plugin.strategy.context.StrategyHeaderContext;
 import com.nepxion.discovery.plugin.strategy.extractor.StrategyPackagesExtractor;
 import com.nepxion.discovery.plugin.strategy.filter.StrategyAddressBlacklistEnabledFilter;
 import com.nepxion.discovery.plugin.strategy.filter.StrategyAddressEnabledFilter;
@@ -133,6 +132,11 @@ public class StrategyAutoConfiguration {
     }
 
     @Bean
+    public StrategyHeaderContext strategyHeaderContext() {
+        return new StrategyHeaderContext();
+    }
+
+    @Bean
     public StrategyPackagesExtractor strategyPackagesExtractor() {
         return new StrategyPackagesExtractor();
     }
@@ -184,31 +188,19 @@ public class StrategyAutoConfiguration {
 
     @ConditionalOnClass(Feign.class)
     protected static class FeignStrategyConfiguration {
-        @Autowired
-        private ConfigurableEnvironment environment;
-
         @Bean
         @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_ENABLED, matchIfMissing = true)
         public FeignStrategyInterceptor feignStrategyInterceptor() {
-            String contextRequestHeaders = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTEXT_REQUEST_HEADERS);
-            String businessRequestHeaders = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_BUSINESS_REQUEST_HEADERS);
-
-            return new FeignStrategyInterceptor(contextRequestHeaders, businessRequestHeaders);
+            return new FeignStrategyInterceptor();
         }
     }
 
     @ConditionalOnClass(RestTemplate.class)
     protected static class RestTemplateStrategyConfiguration {
-        @Autowired
-        private ConfigurableEnvironment environment;
-
         @Bean
         @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_ENABLED, matchIfMissing = true)
         public RestTemplateStrategyInterceptor restTemplateStrategyInterceptor() {
-            String contextRequestHeaders = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTEXT_REQUEST_HEADERS);
-            String businessRequestHeaders = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_BUSINESS_REQUEST_HEADERS);
-
-            return new RestTemplateStrategyInterceptor(contextRequestHeaders, businessRequestHeaders);
+            return new RestTemplateStrategyInterceptor();
         }
 
         @Bean
@@ -222,16 +214,10 @@ public class StrategyAutoConfiguration {
     @ConditionalOnClass(WebClient.class)
     @ConditionalOnBean(WebClient.Builder.class)
     protected static class WebClientStrategyConfiguration {
-        @Autowired
-        private ConfigurableEnvironment environment;
-
         @Bean
         @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_ENABLED, matchIfMissing = true)
         public WebClientStrategyInterceptor webClientStrategyInterceptor() {
-            String contextRequestHeaders = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTEXT_REQUEST_HEADERS);
-            String businessRequestHeaders = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_BUSINESS_REQUEST_HEADERS);
-
-            return new WebClientStrategyInterceptor(contextRequestHeaders, businessRequestHeaders);
+            return new WebClientStrategyInterceptor();
         }
 
         @Bean
