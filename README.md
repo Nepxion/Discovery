@@ -4229,7 +4229,7 @@ spring.application.strategy.consumer.isolation.enabled=true
 # 启动和关闭提供端的服务隔离（基于Group是否相同的策略）。缺失则默认为false
 spring.application.strategy.provider.isolation.enabled=true
 
-# 路由策略的时候，需要指定对带有@RestController或者@ServiceStrategy注解的类的扫描路径。此项配置作用于RPC方式的调用拦截、提供端的服务隔离和调用链三项功能
+# 路由策略的时候，需要指定对带有@RestController或者@ServiceStrategy注解的类的扫描路径。此项配置作用于RPC方式的调用拦截、提供端的服务隔离、调用链和告警三项功能
 spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.feign
 ```
 
@@ -5952,20 +5952,28 @@ n-d-version=[{"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/SkyWalking4.jpg)
 
 #### 自定义埋点调用链监控
-① 自定义注入Header输出到调用链，实现StrategyTracerHeadersInjector，允许多个注入类，每个类里允许多个Header
+① 自定义注入Header，实现StrategyHeadersInjector，允许同时注入多个，每个类里允许多个Header
 ```java
-public class MyStrategyTracerHeadersInjector implements StrategyTracerHeadersInjector {
+public class MyStrategyHeadersInjector implements StrategyHeadersInjector {
     @Override
-    public List<String> getHeaderNameList() {
-        return Arrays.asList("n-d-xyz");
+    public List<HeadersInjectorEntity> getHeadersInjectorEntityList() {
+        return Arrays.asList(
+                new HeadersInjectorEntity(HeadersInjectorType.TRANSMISSION, Arrays.asList("test1")),
+                new HeadersInjectorEntity(HeadersInjectorType.TRACER, Arrays.asList("test2")),
+                new HeadersInjectorEntity(HeadersInjectorType.ALL, Arrays.asList("test3")));
     }
 }
 ```
+参数含义
+- HeadersInjectorType.TRANSMISSION表示作用于传递，上面的代码表示对名称为“test1”的Header将自动传递到下游服务
+- HeadersInjectorType.TRACER表示作用于调用链，上面的代码表示对名称为“test2”的Header将自动输出埋点到调用链和告警
+- HeadersInjectorType.ALL表示同时作用于上述量项，不需要一一设定
+
 在配置类里@Bean方式进行Header注入类创建
 ```java
 @Bean
-public StrategyTracerHeadersInjector strategyTracerHeadersInjector() {
-    return new MyStrategyTracerHeadersInjector();
+public StrategyHeadersInjector strategyHeadersInjector() {
+    return new MyStrategyHeadersInjector();
 }
 ```
 
@@ -6034,7 +6042,7 @@ public ServiceStrategyMonitorAdapter serviceStrategyMonitorAdapter() {
 }
 ```
 
-④ 自定义方法输出到调用链，通过在带有@RestController或者@ServiceStrategy注解的类的方法头部上增加如下注解，即排除该方法输出埋点到调用链上
+④ 自定义方法输出到调用链，通过在带有@RestController或者@ServiceStrategy注解的类的方法头部上增加如下注解，即忽略该方法埋点输出、日志输出、告警输出
 ```java
 @ServiceMonitorIgnore
 ```
@@ -6121,7 +6129,7 @@ OpenTracing对Finchley版的Spring Cloud Gateway的reactor-core包存在版本�
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- encoder defaults to ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
         <encoder>
-            <pattern>discovery %date %level [%thread] [%X{trace-id}] [%X{span-id}] [%X{n-d-service-group}] [%X{n-d-service-type}] [%X{n-d-service-app-id}] [%X{n-d-service-id}] [%X{n-d-service-address}] [%X{n-d-service-version}] [%X{n-d-service-region}] [%X{n-d-service-env}] [%X{n-d-service-zone}] [%X{mobile}] [%X{user}] %logger{10} [%file:%line] - %msg%n</pattern>
+            <pattern>discovery %date %level [%thread] [%X{trace-id}] [%X{span-id}] [%X{n-d-service-group}] [%X{n-d-service-type}] [%X{n-d-service-app-id}] [%X{n-d-service-id}] [%X{n-d-service-address}] [%X{n-d-service-version}] [%X{n-d-service-region}] [%X{n-d-service-env}] [%X{n-d-service-zone}] %logger{10} [%file:%line] - %msg%n</pattern>
             <charset>UTF-8</charset>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
@@ -6145,7 +6153,7 @@ OpenTracing对Finchley版的Spring Cloud Gateway的reactor-core包存在版本�
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <!-- encoder defaults to ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
         <encoder>
-            <pattern>discovery %date %level [%thread] [%X{trace-id}] [%X{span-id}] [%X{n-d-service-group}] [%X{n-d-service-type}] [%X{n-d-service-app-id}] [%X{n-d-service-id}] [%X{n-d-service-address}] [%X{n-d-service-version}] [%X{n-d-service-region}] [%X{n-d-service-env}] [%X{n-d-service-zone}] [%X{mobile}] [%X{user}] %logger{10} [%file:%line] - %msg%n</pattern>
+            <pattern>discovery %date %level [%thread] [%X{trace-id}] [%X{span-id}] [%X{n-d-service-group}] [%X{n-d-service-type}] [%X{n-d-service-app-id}] [%X{n-d-service-id}] [%X{n-d-service-address}] [%X{n-d-service-version}] [%X{n-d-service-region}] [%X{n-d-service-env}] [%X{n-d-service-zone}] %logger{10} [%file:%line] - %msg%n</pattern>
             <charset>UTF-8</charset>
         </encoder>
         <!-- Only log level WARN and above -->
@@ -6237,7 +6245,7 @@ com.nepxion.discovery.plugin.strategy.monitor.DefaultStrategyAlarm
 ```
 示例如下：
 ```
-{n-d-service-group=discovery-guide-group, n-d-version={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}, n-d-service-type=service, n-d-service-id=discovery-guide-service-b, n-d-service-env=env1, mobile=, n-d-service-region=qa, span-id=c37b54d7fec6bd07, n-d-service-zone=zone1, n-d-service-address=192.168.0.107:4001, trace-id=64c79e1ef68eecf3, n-d-service-version=1.0}
+{trace-id=9ae10a3c0a67766e, span-id=84ed85ef34a859a9, n-d-service-group=discovery-guide-group, n-d-service-type=service, n-d-service-id=discovery-guide-service-a, n-d-service-address=192.168.31.237:3001, n-d-service-version=1.0, n-d-service-region=dev, n-d-service-env=env1, n-d-service-zone=zone1, n-d-version={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}, class=com.nepxion.discovery.guide.service.feign.AFeignImpl, method=invoke}
 ```
 
 ## 全链路蓝绿灰度发布平台界面
@@ -6469,7 +6477,7 @@ spring.application.parameter.event.onstart.enabled=true
 ## 全链路服务侧注解
 服务侧对于RPC方式的调用拦截、消费端的服务隔离和调用链三项功能，默认映射到RestController类（含有@RestController注解），并配合如下的扫描路径才能工作
 ```
-# 路由策略的时候，需要指定对带有@RestController或者@ServiceStrategy注解的类的扫描路径。此项配置作用于RPC方式的调用拦截、提供端的服务隔离和调用链三项功能
+# 路由策略的时候，需要指定对带有@RestController或者@ServiceStrategy注解的类的扫描路径。此项配置作用于RPC方式的调用拦截、提供端的服务隔离、调用链和告警三项功能
 spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.feign
 ```
 当使用者不希望只局限于RestController类（含有@RestController注解）方式，而要求在任何类中实现上述功能，那么框架提供@ServiceStrategy注解，使用者把它加在类头部即可，可以达到和@RestController注解同样的效果
@@ -6724,7 +6732,7 @@ com.xxx.yyy.zzz.MyEnvironmentPostProcessor
 
 如下配置是手工配置扫描目录的样例
 ```
-# 路由策略的时候，需要指定对带有@RestController或者@ServiceStrategy注解的类的扫描路径。此项配置作用于RPC方式的调用拦截、提供端的服务隔离和调用链三项功能
+# 路由策略的时候，需要指定对带有@RestController或者@ServiceStrategy注解的类的扫描路径。此项配置作用于RPC方式的调用拦截、提供端的服务隔离、调用链和告警三项功能
 spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service
 ```
 
@@ -6774,37 +6782,30 @@ public class MyService {
 ### 手工扫描目录
 手工配置如下目录
 ```
-# 路由策略的时候，需要指定对带有@RestController或者@ServiceStrategy注解的类的扫描路径。此项配置作用于RPC方式的调用拦截、提供端的服务隔离和调用链三项功能
+# 路由策略的时候，需要指定对带有@RestController或者@ServiceStrategy注解的类的扫描路径。此项配置作用于RPC方式的调用拦截、提供端的服务隔离、调用链和告警三项功能
 spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service
 ```
 
 ### 注入扫描目录
-内置注入扫描目录，允许同时注入多个，PackagesInjectorType.TRACER表示作用于调用链，下面的代码表示对目录“com.nepxion.discovery.guide.test.test1”下带有@RestController或者@ServiceStrategy注解的类方法将自动进行调用链埋点输出
+自定义注入扫描目录，实现StrategyPackagesInjector，允许同时注入多个，每个类里允许多个扫描目录
 ```java
 public class MyStrategyPackagesInjector implements StrategyPackagesInjector {
     @Override
     public List<PackagesInjectorEntity> getPackagesInjectorEntityList() {
         return Arrays.asList(
-                new PackagesInjectorEntity(PackagesInjectorType.TRACER, Arrays.asList("com.nepxion.discovery.guide.test.test1"))
+                new PackagesInjectorEntity(PackagesInjectorType.RPC, Arrays.asList("com.nepxion.discovery.guide.test.test1")),
+                new PackagesInjectorEntity(PackagesInjectorType.PROVIDER_ISOLATION, Arrays.asList("com.nepxion.discovery.guide.test.test2")),
+                new PackagesInjectorEntity(PackagesInjectorType.TRACER, Arrays.asList("com.nepxion.discovery.guide.test.test3")),
+                new PackagesInjectorEntity(PackagesInjectorType.ALL, Arrays.asList("com.nepxion.discovery.guide.test.test4"))
         );
     }
 }
 ```
-
-除此之外，可以同时设定PackagesInjectorType.RPC作用于RPC方式的调用拦截，PackagesInjectorType.PROVIDER_ISOLATION作用于提供端的服务隔离，如果一个目录同时作用于上述三项，则用PackagesInjectorType.ALL表示即可，不需要一一配置
-```java
-public class MyStrategyPackagesInjector implements StrategyPackagesInjector {
-    @Override
-    public List<PackagesInjectorEntity> getPackagesInjectorEntityList() {
-        return Arrays.asList(
-                new PackagesInjectorEntity(PackagesInjectorType.RPC, Arrays.asList("com.nepxion.discovery.guide.test.test2")),
-                new PackagesInjectorEntity(PackagesInjectorType.PROVIDER_ISOLATION, Arrays.asList("com.nepxion.discovery.guide.test.test3")),
-                new PackagesInjectorEntity(PackagesInjectorType.TRACER, Arrays.asList("com.nepxion.discovery.guide.test.test4")),
-                new PackagesInjectorEntity(PackagesInjectorType.ALL, Arrays.asList("com.nepxion.discovery.guide.test.test1"))
-        );
-    }
-}
-```
+参数含义
+- PackagesInjectorType.RPC表示作用于RPC方式的调用拦截，上面的代码表示对名称为“com.nepxion.discovery.guide.test.test1”的目录下带有@RestController或者@ServiceStrategy注解的类方法将自动执行RPC方式的调用拦截，调用上下文输出到ThreadLocal
+- PackagesInjectorType.PROVIDER_ISOLATION作用于提供端的服务隔离，上面的代码表示对名称为“com.nepxion.discovery.guide.test.test2”的目录下带有@RestController或者@ServiceStrategy注解的类方法将自动执行提供端的服务隔离
+- PackagesInjectorType.TRACER表示作用于调用链，上面的代码表示对名称为“com.nepxion.discovery.guide.test.test3”的目录下带有@RestController或者@ServiceStrategy注解的类方法将自动输出埋点到调用链和告警
+- PackagesInjectorType.ALL表示同时作用于上述三项，不需要一一设定
 
 在配置类里@Bean方式进行扫描目录注入类创建
 ```java
@@ -7600,7 +7601,7 @@ spring.application.strategy.business.request.headers=token
 spring.application.strategy.uri.filter.exclusion=/actuator/
 # 启动和关闭路由策略的时候，对RPC方式的调用拦截。缺失则默认为false
 spring.application.strategy.rpc.intercept.enabled=true
-# 路由策略的时候，需要指定对带有@RestController或者@ServiceStrategy注解的类的扫描路径。此项配置作用于RPC方式的调用拦截、提供端的服务隔离和调用链三项功能
+# 路由策略的时候，需要指定对带有@RestController或者@ServiceStrategy注解的类的扫描路径。此项配置作用于RPC方式的调用拦截、提供端的服务隔离、调用链和告警三项功能
 spring.application.strategy.scan.packages=com.nepxion.discovery.plugin.example.service.feign
 
 # 启动和关闭监控，一旦关闭，调用链和日志输出都将关闭。缺失则默认为false
