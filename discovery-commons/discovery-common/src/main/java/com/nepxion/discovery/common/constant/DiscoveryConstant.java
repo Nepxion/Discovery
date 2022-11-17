@@ -142,6 +142,9 @@ public class DiscoveryConstant {
     public static final String DOMAIN_GATEWAY = "domain-gateway";
     public static final String NON_DOMAIN_GATEWAY = "non-domain-gateway";
 
+    public static final String SORT_BY_VERSION = "version";
+    public static final String SORT_BY_TIME = "time";
+
     public static final String BLACKLIST = "blacklist";
     public static final String WHITELIST = "whitelist";
 
