@@ -9,17 +9,17 @@ package com.nepxion.discovery.plugin.strategy.monitor;
  * @version 1.0
  */
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.nepxion.discovery.common.entity.HeadersInjectorType;
 import com.nepxion.discovery.plugin.strategy.adapter.StrategyTracerAdapter;
-import com.nepxion.discovery.plugin.strategy.injector.StrategyTracerHeadersInjector;
+import com.nepxion.discovery.plugin.strategy.injector.StrategyHeadersResolver;
+import com.nepxion.discovery.plugin.strategy.injector.StrategyHeadersInjector;
 
 public class StrategyMonitorContext {
     @Autowired(required = false)
@@ -29,25 +29,13 @@ public class StrategyMonitorContext {
     protected StrategyTracerAdapter strategyTracerAdapter;
 
     @Autowired(required = false)
-    protected List<StrategyTracerHeadersInjector> strategyTracerHeadersInjectorList;
+    protected List<StrategyHeadersInjector> strategyHeadersInjectorList;
 
-    protected List<String> tracerHeaderNameList;
+    protected List<String> tracerInjectorHeaderNameList;
 
     @PostConstruct
     public void initialize() {
-        if (CollectionUtils.isNotEmpty(strategyTracerHeadersInjectorList)) {
-            tracerHeaderNameList = new ArrayList<String>();
-            for (StrategyTracerHeadersInjector strategyTracerHeadersInjector : strategyTracerHeadersInjectorList) {
-                List<String> tracerHeaderNames = strategyTracerHeadersInjector.getHeaderNameList();
-                if (CollectionUtils.isNotEmpty(tracerHeaderNames)) {
-                    for (String tracerHeaderName : tracerHeaderNames) {
-                        if (!tracerHeaderNameList.contains(tracerHeaderName)) {
-                            tracerHeaderNameList.add(tracerHeaderName);
-                        }
-                    }
-                }
-            }
-        }
+        tracerInjectorHeaderNameList = StrategyHeadersResolver.getInjectedHeaders(strategyHeadersInjectorList, HeadersInjectorType.TRACER);
     }
 
     public String getTraceId() {
@@ -74,8 +62,8 @@ public class StrategyMonitorContext {
         return null;
     }
 
-    public List<String> getTracerHeaderNameList() {
-        return tracerHeaderNameList;
+    public List<String> getTracerInjectorHeaderNameList() {
+        return tracerInjectorHeaderNameList;
     }
 
     public Map<String, String> getTracerCustomizationMap() {

@@ -76,19 +76,6 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
             return;
         }
 
-        if (MapUtils.isNotEmpty(contextMap)) {
-            for (Map.Entry<String, String> entry : contextMap.entrySet()) {
-                outputSpan(span, entry.getKey(), entry.getValue());
-            }
-        }
-
-        Map<String, String> customizationMap = strategyMonitorContext.getCustomizationMap();
-        if (MapUtils.isNotEmpty(customizationMap)) {
-            for (Map.Entry<String, String> entry : customizationMap.entrySet()) {
-                outputSpan(span, entry.getKey(), entry.getValue());
-            }
-        }
-
         if (tracerSeparateSpanEnabled) {
             outputSpan(span, DiscoveryConstant.SPAN_TAG_PLUGIN_NAME, tracerSpanPluginValue);
         }
@@ -180,14 +167,35 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
             if (StringUtils.isNotEmpty(routeAddressBlacklist)) {
                 outputSpan(span, DiscoveryConstant.N_D_ADDRESS_BLACKLIST, routeAddressBlacklist);
             }
+        }
 
-            List<String> tracerHeaderNameList = strategyMonitorContext.getTracerHeaderNameList();
-            if (CollectionUtils.isNotEmpty(tracerHeaderNameList)) {
-                for (String tracerHeaderName : tracerHeaderNameList) {
-                    String tracerHeaderValue = strategyContextHolder.getHeader(tracerHeaderName);
-                    if (StringUtils.isNotEmpty(tracerHeaderValue)) {
-                        outputSpan(span, tracerHeaderName, tracerHeaderValue);
-                    }
+        if (MapUtils.isNotEmpty(contextMap)) {
+            for (Map.Entry<String, String> entry : contextMap.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+                if (StringUtils.isNotEmpty(value)) {
+                    outputSpan(span, key, value);
+                }
+            }
+        }
+
+        List<String> tracerInjectorHeaderNameList = strategyMonitorContext.getTracerInjectorHeaderNameList();
+        if (CollectionUtils.isNotEmpty(tracerInjectorHeaderNameList)) {
+            for (String tracerInjectorHeaderName : tracerInjectorHeaderNameList) {
+                String tracerInjectorHeaderValue = strategyContextHolder.getHeader(tracerInjectorHeaderName);
+                if (StringUtils.isNotEmpty(tracerInjectorHeaderValue)) {
+                    outputSpan(span, tracerInjectorHeaderName, tracerInjectorHeaderValue);
+                }
+            }
+        }
+
+        Map<String, String> tracerCustomizationMap = strategyMonitorContext.getTracerCustomizationMap();
+        if (MapUtils.isNotEmpty(tracerCustomizationMap)) {
+            for (Map.Entry<String, String> entry : tracerCustomizationMap.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+                if (StringUtils.isNotEmpty(value)) {
+                    outputSpan(span, key, value);
                 }
             }
         }

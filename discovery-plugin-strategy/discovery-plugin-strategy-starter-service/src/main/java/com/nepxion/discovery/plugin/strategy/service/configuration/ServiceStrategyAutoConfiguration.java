@@ -9,6 +9,7 @@ package com.nepxion.discovery.plugin.strategy.service.configuration;
  * @version 1.0
  */
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -23,12 +24,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.common.entity.PackagesInjectorEntity;
 import com.nepxion.discovery.common.entity.PackagesInjectorType;
 import com.nepxion.discovery.common.exception.DiscoveryException;
+import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.extractor.StrategyPackagesExtractor;
 import com.nepxion.discovery.plugin.strategy.injector.StrategyPackagesInjector;
+import com.nepxion.discovery.plugin.strategy.injector.StrategyPackagesResolver;
 import com.nepxion.discovery.plugin.strategy.service.constant.ServiceStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyContextListener;
 import com.nepxion.discovery.plugin.strategy.service.filter.DefaultServiceStrategyFilterExclusion;
@@ -56,7 +58,7 @@ public class ServiceStrategyAutoConfiguration {
     private StrategyPackagesExtractor strategyPackagesExtractor;
 
     @Autowired(required = false)
-    private List<StrategyPackagesInjector> strategyPackagesInjectors;
+    private List<StrategyPackagesInjector> strategyPackagesInjectorList;
 
     @Bean
     @ConditionalOnProperty(value = ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_RPC_INTERCEPT_ENABLED, matchIfMissing = false)
@@ -157,7 +159,11 @@ public class ServiceStrategyAutoConfiguration {
 
     public String getConfigScanPackages() {
         String scanPackages = environment.getProperty(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES, StringUtils.EMPTY);
-        if (StringUtils.isEmpty(scanPackages)) {
+        if (StringUtils.isNotEmpty(scanPackages)) {
+            if (scanPackages.endsWith(DiscoveryConstant.SEPARATE)) {
+                throw new DiscoveryException(ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SCAN_PACKAGES + "'s value can't end with '" + DiscoveryConstant.SEPARATE + "'");
+            }
+        } else {
             scanPackages = strategyPackagesExtractor.getAllPackages();
         }
 
@@ -165,35 +171,27 @@ public class ServiceStrategyAutoConfiguration {
     }
 
     public String getInjectorScanPackages(String scanPackages, PackagesInjectorType packagesInjectorType) {
-        if (CollectionUtils.isNotEmpty(strategyPackagesInjectors)) {
-            for (StrategyPackagesInjector strategyPackagesInjector : strategyPackagesInjectors) {
-                List<PackagesInjectorEntity> packagesInjectorEntityList = strategyPackagesInjector.getPackagesInjectorEntityList();
-                if (CollectionUtils.isNotEmpty(packagesInjectorEntityList)) {
-                    for (PackagesInjectorEntity packagesInjectorEntity : packagesInjectorEntityList) {
-                        PackagesInjectorType injectorType = packagesInjectorEntity.getPackagesInjectorType();
-                        List<String> packages = packagesInjectorEntity.getPackages();
-                        if (injectorType == packagesInjectorType || injectorType == PackagesInjectorType.ALL) {
-                            if (CollectionUtils.isNotEmpty(packages)) {
-                                for (String pkg : packages) {
-                                    if (!scanPackages.contains(pkg)) {
-                                        scanPackages += scanPackages.endsWith(DiscoveryConstant.SEPARATE) ? pkg : DiscoveryConstant.SEPARATE + pkg;
-                                    }
-                                }
-                            }
-                        }
-                    }
+        List<String> scanPackageList = new ArrayList<String>(StringUtil.splitToList(scanPackages));
+
+        List<String> packageList = StrategyPackagesResolver.getInjectedPackages(strategyPackagesInjectorList, packagesInjectorType);
+        if (CollectionUtils.isNotEmpty(packageList)) {
+            for (String pkg : packageList) {
+                if (!scanPackageList.contains(pkg)) {
+                    scanPackageList.add(pkg);
                 }
             }
         }
 
-        return scanPackages;
+        return StringUtil.convertToString(scanPackageList);
     }
 
     public String getEndpointScanPackages(String scanPackages) {
-        if (!scanPackages.contains(DiscoveryConstant.ENDPOINT_SCAN_PACKAGES)) {
-            scanPackages += scanPackages.endsWith(DiscoveryConstant.SEPARATE) ? DiscoveryConstant.ENDPOINT_SCAN_PACKAGES : DiscoveryConstant.SEPARATE + DiscoveryConstant.ENDPOINT_SCAN_PACKAGES;
+        List<String> scanPackageList = new ArrayList<String>(StringUtil.splitToList(scanPackages));
+
+        if (!scanPackageList.contains(DiscoveryConstant.ENDPOINT_SCAN_PACKAGES)) {
+            scanPackageList.add(DiscoveryConstant.ENDPOINT_SCAN_PACKAGES);
         }
 
-        return scanPackages;
+        return StringUtil.convertToString(scanPackageList);
     }
 }

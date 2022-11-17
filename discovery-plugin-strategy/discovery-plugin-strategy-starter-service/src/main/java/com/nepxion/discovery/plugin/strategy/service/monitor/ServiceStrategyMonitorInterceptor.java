@@ -42,11 +42,11 @@ public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
         try {
             // 拦截侦测请求  
             if (StringUtils.equals(className, DiscoveryConstant.INSPECTOR_ENDPOINT_CLASS_NAME) && StringUtils.equals(methodName, DiscoveryConstant.INSPECTOR_ENDPOINT_METHOD_NAME)) {
-                // 埋点创建、MDC上下文输出、告警输出
+                // 埋点创建、日志输出、告警输出
                 serviceStrategyMonitor.monitor(this, invocation);
                 isMonitored = true;
 
-                // 埋点方法上下文输出
+                // 埋点输出
                 serviceStrategyMonitor.monitor(this, invocation, "* " + DiscoveryConstant.IGNORED);
                 isMethodContextMonitored = true;
 
@@ -57,7 +57,7 @@ public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
                     return invocation.proceed();
                 }
 
-                // 埋点创建、MDC上下文输出、告警输出
+                // 埋点创建、日志输出、告警输出
                 serviceStrategyMonitor.monitor(this, invocation);
                 isMonitored = true;
 
@@ -65,7 +65,7 @@ public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
                     // 先执行调用，根据调用结果再输出返回值的埋点
                     Object returnValue = invocation.proceed();
 
-                    // 埋点方法上下文输出
+                    // 埋点输出
                     serviceStrategyMonitor.monitor(this, invocation, returnValue);
                     isMethodContextMonitored = true;
 
@@ -81,23 +81,23 @@ public class ServiceStrategyMonitorInterceptor extends AbstractInterceptor {
         } catch (Throwable e) {
             if (!isMonitorIgnored) {
                 if (!isMonitored) {
-                    // 埋点创建、MDC上下文输出、告警输出
+                    // 埋点创建、日志输出、告警输出
                     serviceStrategyMonitor.monitor(this, invocation);
                     isMonitored = true;
                 }
                 if (!isMethodContextMonitored) {
-                    // 埋点方法上下文输出
+                    // 埋点输出
                     serviceStrategyMonitor.monitor(this, invocation, null);
                     isMethodContextMonitored = true;
                 }
-                // 埋点异常上下文输出
+                // 埋点异常输出
                 serviceStrategyMonitor.error(this, invocation, e);
             }
 
             throw e;
         } finally {
             if (!isMonitorIgnored && isMonitored && isMethodContextMonitored) {
-                // 埋点提交、MDC上下文清除
+                // 埋点提交、日志清除
                 serviceStrategyMonitor.release(this, invocation);
             }
         }

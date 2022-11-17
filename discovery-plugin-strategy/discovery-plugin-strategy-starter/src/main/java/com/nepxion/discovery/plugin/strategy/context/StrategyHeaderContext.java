@@ -32,10 +32,12 @@ public class StrategyHeaderContext {
     @Autowired(required = false)
     private List<StrategyHeadersInjector> strategyHeadersInjectorList;
 
-    private List<String> requestHeaderNameList = new ArrayList<String>();
+    private List<String> requestHeaderNameList;
 
     @PostConstruct
     public void initialize() {
+        requestHeaderNameList = new ArrayList<String>();
+
         String contextRequestHeaders = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTEXT_REQUEST_HEADERS);
         String businessRequestHeaders = environment.getProperty(StrategyConstant.SPRING_APPLICATION_STRATEGY_BUSINESS_REQUEST_HEADERS);
         List<String> injectorRequestHeaders = StrategyHeadersResolver.getInjectedHeaders(strategyHeadersInjectorList, HeadersInjectorType.TRANSMISSION);
