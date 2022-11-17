@@ -24,6 +24,7 @@ public class StrategyConstant {
     public static final String SPRING_APPLICATION_STRATEGY_VERSION_FAILOVER_ENABLED = "spring.application.strategy.version.failover.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_VERSION_FAILOVER_STABLE_ENABLED = "spring.application.strategy.version.failover.stable.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_VERSION_PREFER_ENABLED = "spring.application.strategy.version.prefer.enabled";
+    public static final String SPRING_APPLICATION_STRATEGY_VERSION_SORTABLE = "spring.application.strategy.version.sortable";
 
     public static final String SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_ENABLED = "spring.application.strategy.rest.intercept.enabled";
     public static final String SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_DEBUG_ENABLED = "spring.application.strategy.rest.intercept.debug.enabled";

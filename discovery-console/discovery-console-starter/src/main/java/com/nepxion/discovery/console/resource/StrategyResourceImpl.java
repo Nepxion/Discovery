@@ -11,7 +11,6 @@ package com.nepxion.discovery.console.resource;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +43,7 @@ import com.nepxion.discovery.common.expression.DiscoveryExpressionResolver;
 import com.nepxion.discovery.common.expression.DiscoveryTypeComparor;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.common.util.StringUtil;
+import com.nepxion.discovery.common.util.VersionSortUtil;
 import com.nepxion.discovery.common.util.YamlUtil;
 import com.nepxion.discovery.console.delegate.ConsoleResourceDelegateImpl;
 
@@ -134,9 +134,11 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
 
         List<String> service = conditionRouteStrategy.getService();
         boolean condition = conditionRouteStrategy.isCondition(); // 是否创建条件路由
+        boolean sortable = conditionRouteStrategy.isSortable();
 
         ConditionStrategy conditionStrategy = deparseVersionStrategyRelease(ruleEntity);
         conditionStrategy.setService(service);
+        conditionStrategy.setSortable(sortable);
 
         createVersionStrategyRelease(ruleEntity, conditionStrategy, condition);
 
@@ -218,10 +220,11 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
             throw new DiscoveryException("Services are empty");
         }
 
+        boolean sortable = conditionStrategy.isSortable();
         Map<String, String> stableVersionMap = new LinkedHashMap<String, String>();
         Map<String, String> unstableVersionMap = new LinkedHashMap<String, String>();
         for (String service : serviceList) {
-            List<String> versionList = assembleVersionList(service);
+            List<String> versionList = assembleVersionList(service, sortable);
             // 如果线上版本为0个，不允许执行蓝绿灰度发布，抛出异常
             if (CollectionUtils.isEmpty(versionList)) {
                 throw new DiscoveryException("Service[" + service + "] has no versions");
@@ -438,26 +441,9 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
         }
     }
 
-    private List<String> assembleVersionList(String serviceId) {
+    private List<String> assembleVersionList(String serviceId, boolean sortable) {
         List<InstanceEntity> instanceEntityList = serviceResource.getInstanceList(serviceId);
 
-        List<String> versionList = new ArrayList<String>();
-        for (InstanceEntity instanceEntity : instanceEntityList) {
-            String version = instanceEntity.getVersion();
-            versionList.add(version);
-        }
-
-        if (versionList.size() > 1) {
-            Collections.sort(versionList);
-
-            // 当服务未接入本框架或者版本号未设置（表现出来的值为DiscoveryConstant.DEFAULT），被认为是老版本
-            String defaultVersion = DiscoveryConstant.DEFAULT;
-            if (versionList.contains(defaultVersion)) {
-                versionList.remove(defaultVersion);
-                versionList.add(0, defaultVersion);
-            }
-        }
-
-        return versionList;
+        return VersionSortUtil.assembleVersionList(instanceEntityList, sortable);
     }
 }

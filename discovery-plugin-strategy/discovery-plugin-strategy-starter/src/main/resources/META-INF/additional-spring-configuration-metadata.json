@@ -79,6 +79,12 @@
 			"description": "Whether strategy version prefer is enabled."
 		},
 		{
+			"name": "spring.application.strategy.version.sortable",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether strategy version is sortable."
+		},
+		{
 			"name": "spring.application.strategy.rest.intercept.enabled",
 			"type": "java.lang.String",
 			"defaultValue": true,
