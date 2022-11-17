@@ -7719,6 +7719,12 @@ spring.application.strategy.zone.failover.enabled=true
 # 启动和关闭IP地址和端口故障转移。缺失则默认为false
 spring.application.strategy.address.failover.enabled=true
 
+# 版本号是否可排序。缺失则默认为true
+# 版本故障转移或者版本偏好启动时，需要寻址旧的稳定版本：
+# 1. 当版本号采用时间戳或者数字递增的方式，认为版本号是可排序的，将排序后版本号列表的第一个值作为旧的稳定版本。下面的开关不设置或者设置为true
+# 2. 当版本号采用非时间戳或者非数字递增的方式，认为版本号是不可排序的，将根据服务实例全局唯一ID的时间戳前缀进行排序，把上线时间最早的服务实例的版本号作为旧的稳定版本。下面的开关设置为false
+spring.application.strategy.version.sortable=true
+
 # 启动和关闭自动扫描目录，当扫描目录未人工配置的时候，可以通过自动扫描方式决定扫描目录。缺失则默认为true
 spring.application.strategy.auto.scan.packages.enabled=true
 # 启动和关闭嵌套扫描，嵌套扫描指扫描非本工程下外部包的目录，可以支持多层嵌套。缺失则默认为false
@@ -7933,6 +7939,12 @@ spring.application.strategy.zone.failover.enabled=true
 # 启动和关闭IP地址和端口故障转移。缺失则默认为false
 spring.application.strategy.address.failover.enabled=true
 
+# 版本号是否可排序。缺失则默认为true
+# 版本故障转移或者版本偏好启动时，需要寻址旧的稳定版本：
+# 1. 当版本号采用时间戳或者数字递增的方式，认为版本号是可排序的，将排序后版本号列表的第一个值作为旧的稳定版本。下面的开关不设置或者设置为true
+# 2. 当版本号采用非时间戳或者非数字递增的方式，认为版本号是不可排序的，将根据服务实例全局唯一ID的时间戳前缀进行排序，把上线时间最早的服务实例的版本号作为旧的稳定版本。下面的开关设置为false
+spring.application.strategy.version.sortable=true
+
 # 启动和关闭自动扫描目录，当扫描目录未人工配置的时候，可以通过自动扫描方式决定扫描目录。缺失则默认为true
 spring.application.strategy.auto.scan.packages.enabled=true
 # 启动和关闭嵌套扫描，嵌套扫描指扫描非本工程下外部包的目录，可以支持多层嵌套。缺失则默认为false
@@ -8145,6 +8157,12 @@ spring.application.strategy.zone.failover.enabled=true
 # 2. 如果“address-failover”值未配置，负载均衡策略的故障转移，即找不到实例的时候，执行负载均衡策略
 # 启动和关闭IP地址和端口故障转移。缺失则默认为false
 spring.application.strategy.address.failover.enabled=true
+
+# 版本号是否可排序。缺失则默认为true
+# 版本故障转移或者版本偏好启动时，需要寻址旧的稳定版本：
+# 1. 当版本号采用时间戳或者数字递增的方式，认为版本号是可排序的，将排序后版本号列表的第一个值作为旧的稳定版本。下面的开关不设置或者设置为true
+# 2. 当版本号采用非时间戳或者非数字递增的方式，认为版本号是不可排序的，将根据服务实例全局唯一ID的时间戳前缀进行排序，把上线时间最早的服务实例的版本号作为旧的稳定版本。下面的开关设置为false
+spring.application.strategy.version.sortable=true
 
 # 启动和关闭自动扫描目录，当扫描目录未人工配置的时候，可以通过自动扫描方式决定扫描目录。缺失则默认为true
 spring.application.strategy.auto.scan.packages.enabled=true
