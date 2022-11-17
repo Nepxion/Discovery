@@ -37,6 +37,7 @@ import com.nepxion.discovery.common.entity.StrategyHeaderEntity;
 import com.nepxion.discovery.common.entity.StrategyReleaseEntity;
 import com.nepxion.discovery.common.entity.StrategyRouteEntity;
 import com.nepxion.discovery.common.entity.StrategyRouteType;
+import com.nepxion.discovery.common.entity.VersionSortType;
 import com.nepxion.discovery.common.entity.VersionWeightEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.expression.DiscoveryExpressionResolver;
@@ -134,11 +135,11 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
 
         List<String> service = conditionRouteStrategy.getService();
         boolean condition = conditionRouteStrategy.isCondition(); // 是否创建条件路由
-        boolean sortable = conditionRouteStrategy.isSortable();
+        String sort = conditionRouteStrategy.getSort();
 
         ConditionStrategy conditionStrategy = deparseVersionStrategyRelease(ruleEntity);
         conditionStrategy.setService(service);
-        conditionStrategy.setSortable(sortable);
+        conditionStrategy.setSort(sort);
 
         createVersionStrategyRelease(ruleEntity, conditionStrategy, condition);
 
@@ -220,11 +221,12 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
             throw new DiscoveryException("Services are empty");
         }
 
-        boolean sortable = conditionStrategy.isSortable();
+        String sort = conditionStrategy.getSort();
+        VersionSortType versionSortType = VersionSortType.fromString(sort);
         Map<String, String> stableVersionMap = new LinkedHashMap<String, String>();
         Map<String, String> unstableVersionMap = new LinkedHashMap<String, String>();
         for (String service : serviceList) {
-            List<String> versionList = assembleVersionList(service, sortable);
+            List<String> versionList = assembleVersionList(service, versionSortType);
             // 如果线上版本为0个，不允许执行蓝绿灰度发布，抛出异常
             if (CollectionUtils.isEmpty(versionList)) {
                 throw new DiscoveryException("Service[" + service + "] has no versions");
@@ -441,9 +443,9 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
         }
     }
 
-    private List<String> assembleVersionList(String serviceId, boolean sortable) {
+    private List<String> assembleVersionList(String serviceId, VersionSortType versionSortType) {
         List<InstanceEntity> instanceEntityList = serviceResource.getInstanceList(serviceId);
 
-        return VersionSortUtil.assembleVersionList(instanceEntityList, sortable);
+        return VersionSortUtil.assembleVersionList(instanceEntityList, versionSortType);
     }
 }
