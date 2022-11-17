@@ -25,6 +25,7 @@ public class ConditionStrategy implements Serializable {
     private List<ConditionBlueGreenEntity> blueGreen;
     private List<ConditionGrayEntity> gray;
     private Map<String, String> header;
+    private boolean sortable = true;
 
     public List<String> getService() {
         return service;
@@ -49,13 +50,21 @@ public class ConditionStrategy implements Serializable {
     public void setGray(List<ConditionGrayEntity> gray) {
         this.gray = gray;
     }
-    
+
     public Map<String, String> getHeader() {
         return header;
     }
 
     public void setHeader(Map<String, String> header) {
         this.header = header;
+    }
+
+    public boolean isSortable() {
+        return sortable;
+    }
+
+    public void setSortable(boolean sortable) {
+        this.sortable = sortable;
     }
 
     @Override
