@@ -10,42 +10,32 @@ package com.nepxion.discovery.common.entity;
  */
 
 import java.io.Serializable;
-import java.util.List;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class ConditionRouteStrategy implements Serializable {
-    private static final long serialVersionUID = -6036447421562945200L;
+public class VersionSortEntity implements Serializable {
+    private static final long serialVersionUID = -6333633245983610222L;
 
-    private List<String> service;
-    private boolean condition = false;
-    private boolean sortable = true;
+    private String version;
+    private String serviceUUId;
 
-    public List<String> getService() {
-        return service;
+    public String getVersion() {
+        return version;
     }
 
-    public void setService(List<String> service) {
-        this.service = service;
+    public void setVersion(String version) {
+        this.version = version;
     }
 
-    public boolean isCondition() {
-        return condition;
+    public String getServiceUUId() {
+        return serviceUUId;
     }
 
-    public void setCondition(boolean condition) {
-        this.condition = condition;
-    }
-
-    public boolean isSortable() {
-        return sortable;
-    }
-
-    public void setSortable(boolean sortable) {
-        this.sortable = sortable;
+    public void setServiceUUId(String serviceUUId) {
+        this.serviceUUId = serviceUUId;
     }
 
     @Override
