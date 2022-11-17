@@ -17,12 +17,14 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
+
 public class ConditionRouteStrategy implements Serializable {
     private static final long serialVersionUID = -6036447421562945200L;
 
     private List<String> service;
     private boolean condition = false;
-    private boolean sortable = true;
+    private String sort = DiscoveryConstant.SORT_BY_VERSION;
 
     public List<String> getService() {
         return service;
@@ -40,12 +42,12 @@ public class ConditionRouteStrategy implements Serializable {
         this.condition = condition;
     }
 
-    public boolean isSortable() {
-        return sortable;
+    public String getSort() {
+        return sort;
     }
 
-    public void setSortable(boolean sortable) {
-        this.sortable = sortable;
+    public void setSort(String sort) {
+        this.sort = sort;
     }
 
     @Override

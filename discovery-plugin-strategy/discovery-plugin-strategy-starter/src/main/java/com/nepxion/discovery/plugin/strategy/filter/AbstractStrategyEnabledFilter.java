@@ -17,7 +17,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.VersionSortEntity;
+import com.nepxion.discovery.common.entity.VersionSortType;
 import com.nepxion.discovery.common.util.VersionSortUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginContextHolder;
@@ -35,8 +37,8 @@ public abstract class AbstractStrategyEnabledFilter implements StrategyEnabledFi
     @Autowired
     protected PluginContextHolder pluginContextHolder;
 
-    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_VERSION_SORTABLE + ":true}")
-    protected Boolean versionSortable;
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_VERSION_SORT_TYPE + ":" + DiscoveryConstant.SORT_BY_VERSION + "}")
+    protected String sortType;
 
     @Override
     public void filter(List<? extends Server> servers) {
@@ -153,7 +155,9 @@ public abstract class AbstractStrategyEnabledFilter implements StrategyEnabledFi
             versionSortEntityList.add(versionSortEntity);
         }
 
-        return VersionSortUtil.getVersionList(versionSortEntityList, versionSortable);
+        VersionSortType versionSortType = VersionSortType.fromString(sortType);
+
+        return VersionSortUtil.getVersionList(versionSortEntityList, versionSortType);
     }
 
     public DiscoveryMatcher getDiscoveryMatcher() {

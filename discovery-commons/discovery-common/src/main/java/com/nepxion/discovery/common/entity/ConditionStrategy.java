@@ -18,6 +18,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
+
 public class ConditionStrategy implements Serializable {
     private static final long serialVersionUID = 2137809071409890088L;
 
@@ -25,7 +27,7 @@ public class ConditionStrategy implements Serializable {
     private List<ConditionBlueGreenEntity> blueGreen;
     private List<ConditionGrayEntity> gray;
     private Map<String, String> header;
-    private boolean sortable = true;
+    private String sort = DiscoveryConstant.SORT_BY_VERSION;
 
     public List<String> getService() {
         return service;
@@ -59,12 +61,12 @@ public class ConditionStrategy implements Serializable {
         this.header = header;
     }
 
-    public boolean isSortable() {
-        return sortable;
+    public String getSort() {
+        return sort;
     }
 
-    public void setSortable(boolean sortable) {
-        this.sortable = sortable;
+    public void setSort(String sort) {
+        this.sort = sort;
     }
 
     @Override

@@ -19,9 +19,10 @@ import org.apache.commons.collections4.CollectionUtils;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.InstanceEntity;
 import com.nepxion.discovery.common.entity.VersionSortEntity;
+import com.nepxion.discovery.common.entity.VersionSortType;
 
 public class VersionSortUtil {
-    public static List<String> assembleVersionList(List<InstanceEntity> instanceEntityList, boolean sortable) {
+    public static List<String> assembleVersionList(List<InstanceEntity> instanceEntityList, VersionSortType versionSortType) {
         if (CollectionUtils.isEmpty(instanceEntityList)) {
             return null;
         }
@@ -38,7 +39,7 @@ public class VersionSortUtil {
             versionSortEntityList.add(versionSortEntity);
         }
 
-        List<String> versionList = VersionSortUtil.getVersionList(versionSortEntityList, sortable);
+        List<String> versionList = VersionSortUtil.getVersionList(versionSortEntityList, versionSortType);
 
         // 当服务未接入本框架或者版本号未设置（表现出来的值为DiscoveryConstant.DEFAULT），被认为是老版本
         String defaultVersion = DiscoveryConstant.DEFAULT;
@@ -50,12 +51,12 @@ public class VersionSortUtil {
         return versionList;
     }
 
-    public static List<String> getVersionList(List<VersionSortEntity> versionSortEntityList, boolean sortable) {
+    public static List<String> getVersionList(List<VersionSortEntity> versionSortEntityList, VersionSortType versionSortType) {
         List<String> versionList = new ArrayList<String>();
 
         Collections.sort(versionSortEntityList, new Comparator<VersionSortEntity>() {
             public int compare(VersionSortEntity versionSortEntity1, VersionSortEntity versionSortEntity2) {
-                if (sortable) {
+                if (versionSortType == VersionSortType.VERSION) {
                     String version1 = versionSortEntity1.getVersion();
                     String version2 = versionSortEntity2.getVersion();
 
