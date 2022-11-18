@@ -208,7 +208,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - 基于启动参数的元数据流量染色
     - 基于配置文件的元数据流量染色
     - 基于系统参数的元数据流量染色
-    - 基于环境装载的元数据流量染色
+    - 基于POM版本号的元数据流量染色
 - 扫描目录
     - 自动扫描目录
     - 手工扫描目录
@@ -719,7 +719,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [基于启动参数创建版本号](#基于启动参数创建版本号)
     - [基于配置文件创建版本号](#基于配置文件创建版本号)
     - [基于系统参数创建版本号](#基于系统参数创建版本号)
-    - [基于环境装载创建版本号](#基于环境装载创建版本号)
+    - [基于POM版本号创建版本号](#基于POM版本号创建版本号)
 - [扫描目录](#扫描目录)
     - [自动扫描目录](#自动扫描目录)
     - [手工扫描目录](#手工扫描目录)
@@ -6786,7 +6786,6 @@ spring.cloud.nacos.discovery.metadata.version=x.y.z
 更多详细内容，参考[流量染色配置](#流量染色配置)
 
 ### 基于系统参数创建版本号
-
 ① 统一设置
 
 适用于所有注册中心
@@ -6805,13 +6804,15 @@ System.setProperty("spring.cloud.discovery.metadata.version", "x.y.z");
 System.setProperty("spring.cloud.nacos.discovery.metadata.version", "x.y.z");
 ```
 
-### 基于环境装载创建版本号
+### 基于POM版本号创建版本号
+基于环境装载EnvironmentPostProcessor设置
 ```java
 public class MyEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
         if (EnvironmentUtil.isStandardEnvironment(environment)) {
-            PluginMetaDataPreInstallation.getMetadata().put("version", "x.y.z");
+            // 获取业务服务的POM版本号pomVersion
+            PluginMetaDataPreInstallation.getMetadata().put(DiscoveryConstant.VERSION, pomVersion);
         }
     }
 
