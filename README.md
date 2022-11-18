@@ -608,8 +608,8 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [全链路自定义Header传递](#全链路自定义Header传递)
         - [全链路服务通过配置来定义](#全链路服务通过配置来定义)
         - [全链路服务通过前缀来定义](#全链路服务通过前缀来定义)
+        - [全链路服务通过注入来定义](#全链路服务通过注入来定义)
     - [全链路智能编排蓝绿灰度发布](#全链路智能编排蓝绿灰度发布)
-        - [全链路智能编排版本前提](#全链路智能编排版本前提)
         - [全链路智能编排版本逻辑](#全链路智能编排版本逻辑)
         - [全链路智能编排实现原理](#全链路智能编排实现原理)
         - [全链路智能编排使用方式](#全链路智能编排使用方式)
@@ -3028,11 +3028,27 @@ spring.application.strategy.business.request.headers=token
 
 需要避开框架内置`n-d-`的Header，例如，`n-d-version`
 
+#### 全链路服务通过注入来定义
+自定义注入Header，实现StrategyHeadersInjector，允许同时注入多个，每个类里允许多个Header
+```java
+public class MyStrategyHeadersInjector implements StrategyHeadersInjector {
+    @Override
+    public List<HeadersInjectorEntity> getHeadersInjectorEntityList() {
+        return Arrays.asList(new HeadersInjectorEntity(HeadersInjectorType.TRANSMISSION, Arrays.asList("test1"));
+    }
+}
+```
+
+在配置类里@Bean方式进行Header注入类创建
+```java
+@Bean
+public StrategyHeadersInjector strategyHeadersInjector() {
+    return new MyStrategyHeadersInjector();
+}
+```
+
 ### 全链路智能编排蓝绿灰度发布
 链路智能编排的方式，即路由链路在后台会智能化编排，用户不再需要关心服务实例的版本情况而进行手工编排，只需要配置跟业务参数有关的条件表达式即可，让蓝绿灰度发布变的更简单更易用
-
-#### 全链路智能编排版本前提
-- 线上所有的服务，每个服务实例版本号支持排序，时间戳方式或者数字递增方式都可以
 
 #### 全链路智能编排版本逻辑
 - 线上所有的服务，每个服务至少有一个版本
@@ -3044,6 +3060,10 @@ spring.application.strategy.business.request.headers=token
 通过向控制台发送请求，控制台根据Json格式规则策略，根据新旧版本的判断，智能编排出两条新旧路由链路，并给它们赋予不同的条件表达式，最终创建出完整的Xml格式规则策略，保存到配置中心
 
 #### 全链路智能编排使用方式
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 版本可排序场景下的全链路智能编排
+
+版本可排序，指服务实例的版本号采用时间戳或者数字递增的方式，将排序后版本号列表的第一个值作为旧的稳定版本
+
 - 创建版本兜底规则策略
 
 `Yaml`格式
@@ -3263,6 +3283,90 @@ header:
         <header>{"xyz":"1"}</header>
     </strategy-release>
 </rule>
+```
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 版本不可排序场景下的全链路智能编排
+
+版本不可排序，指服务实例的版本号采用非时间戳或者非数字递增的方式（例如，旧版本的版本号为`basic`，新版本的版本号为`gray`），将根据服务实例全局唯一ID的时间戳前缀进行排序，把上线时间最早的服务实例的版本号作为旧的稳定版本
+
+在规则策略上加入版本号排序类型`sort: time`（Yaml）或者`"sort": "time"`（Json）即可
+
+`Yaml`格式
+```
+service:
+  - discovery-guide-service-a
+  - discovery-guide-service-b
+blueGreen:
+  - expression: "#H['xyz'] == '1'"
+    route: green
+  - expression: "#H['xyz'] == '2'"
+    route: blue
+gray:
+  - expression: "#H['xyz'] == '3'"
+    weight:
+      - 90
+      - 10
+  - expression: "#H['xyz'] == '4'"
+    weight:
+      - 70
+      - 30
+  - weight:
+      - 100
+      - 0
+header:
+  xyz: 1
+sort: time
+```
+
+`Json`格式
+
+使用时候，请删除中文注释，否则会报错
+```
+{
+  "service": ["discovery-guide-service-a", "discovery-guide-service-b"],
+  "blueGreen": [
+    {
+      "expression": "#H['xyz'] == '1'",
+      // 绿（旧版本）路由链路
+      "route": "green"
+    }, 
+    {
+      "expression": "#H['xyz'] == '2'",
+      // 蓝（新版本）路由链路
+      "route": "blue"
+    }
+  ],
+  "gray": [
+    {
+      "expression": "#H['xyz'] == '3'",
+      // 稳定（旧版本）路由链路权重，灰度（新版本）路由链路权重
+      "weight": [90, 10]
+    },
+    {
+      "expression": "#H['xyz'] == '4'",
+      "weight": [70, 30]
+    },
+    {
+      "weight": [100, 0]
+    }
+  ],
+  "header": {"xyz": "1"},
+  "sort": "time"
+}
+```
+
+版本号排序类型（sort），可选值为version和time，缺省为version（不需要配置sort: version）
+- 当排序类型为version时，适用于版本号采用时间戳或者数字递增的方式。处理逻辑为将排序后版本号列表的第一个值作为旧的稳定版本
+- 当排序类型为time时，不限于版本号的格式。处理逻辑为将根据服务实例全局唯一ID的时间戳前缀进行排序，把上线时间最早的服务实例的版本号作为旧的稳定版本
+
+另外，如果采用服务实例上线的时间戳作为版本排序依据，那么服务端版本故障转移或者版本偏好的功能使用时，需要把版本号排序类型设置为`time`。同时适用于业务服务，Spring Cloud Gateway和Zuul网关
+```
+# 版本号排序类型。缺失则默认为version
+# 版本故障转移或者版本偏好启动时，需要寻址旧的稳定版本
+# 1. 当排序类型为version时，适用于版本号采用时间戳或者数字递增的方式。处理逻辑为将排序后版本号列表的第一个值作为旧的稳定版本
+# 2. 当排序类型为time时，不限于版本号的格式。处理逻辑为将根据服务实例全局唯一ID的时间戳前缀进行排序，把上线时间最早的服务实例的版本号作为旧的稳定版本
+# spring.application.strategy.version.sort.type=version
+spring.application.strategy.version.sort.type=time
 ```
 
 环境搭建，请参考
