@@ -6822,7 +6822,7 @@ public class MyEnvironmentPostProcessor implements EnvironmentPostProcessor, Ord
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
         if (EnvironmentUtil.isStandardEnvironment(environment)) {
             // 获取业务服务的POM版本号pomVersion
-            PluginMetaDataPreInstallation.getMetadata().put(DiscoveryConstant.VERSION, pomVersion);
+            DiscoveryMetaDataPreInstallation.getMetadata().put(DiscoveryConstant.VERSION, pomVersion);
         }
     }
 
