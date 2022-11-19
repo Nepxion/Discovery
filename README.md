@@ -3912,7 +3912,7 @@ java -jar -Dmetadata.group=xxx -Dmetadata.version=yyy abc.jar
 
 ① Git插件创建版本号（把版本号创建权力下放给基础架构）
 
-服务通过集成插件git-commit-id-plugin产生git信息文件的方式，获取git.commit.time（最后一次代码提交日期）加{git.total.commit.count}（总提交次数）来自动创建版本号，例如，20210601-567。运维平台不再需要加入启动参数`-Dmetadata.version=yyy`
+服务通过集成插件git-commit-id-plugin产生git信息文件的方式，获取{git.commit.time}-{git.total.commit.count}（日期 + Git提交次数）或者{git.build.version}（对应到Maven工程的版本）来自动创建版本号。运维平台不再需要加入启动参数`-Dmetadata.version`
 
 - 增加Git编译插件
 
@@ -3942,6 +3942,13 @@ java -jar -Dmetadata.group=xxx -Dmetadata.version=yyy abc.jar
 ```
 # 开启和关闭使用Git信息中的字段单个或者多个组合来作为服务版本号。缺失则默认为false
 spring.application.git.generator.enabled=true
+```
+有两种格式
+```
+# 日期 + Git提交次数的版本号格式
+spring.application.git.version.key={git.commit.time}-{git.total.commit.count}
+# POM版本号格式
+# spring.application.git.version.key={git.build.version}
 ```
 
 ② 运维平台创建版本号（把版本号创建权力下放给运维平台）
@@ -6589,7 +6596,7 @@ spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.fe
 ## 元数据流量染色
 
 ### 基于Git插件自动创建版本号
-通过集成插件git-commit-id-plugin，通过产生git信息文件的方式，获取git.commit.id（最后一次代码的提交ID）或者git.build.version（对应到Maven工程的版本）来自动创建版本号，这样就可以避免使用者手工维护版本号
+通过集成插件git-commit-id-plugin，通过产生git信息文件的方式，获取{git.commit.time}-{git.total.commit.count}（日期 + Git提交次数）或者{git.build.version}（对应到Maven工程的版本）来自动创建版本号，这样就可以避免使用者手工维护版本号
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
 
@@ -6666,11 +6673,13 @@ spring.application.git.generator.enabled=true
 spring.application.git.generator.path=classpath:git.properties
 # spring.application.git.generator.path=classpath:git.json
 # 使用Git信息中的字段单个或者多个组合来作为服务版本号。缺失则默认为{git.commit.time}-{git.total.commit.count}
-spring.application.git.version.key={git.commit.id.abbrev}-{git.commit.time}
-# spring.application.git.version.key={git.build.version}-{git.commit.time}
+# 日期 + Git提交次数的版本号格式
+spring.application.git.version.key={git.commit.time}-{git.total.commit.count}
+# POM版本号格式
+# spring.application.git.version.key={git.build.version}
 ```
 
-下面是可供选择的Git字段，比较实际意义的字段为git.commit.id，git.commit.id.abbrev，git.build.version，git.total.commit.count
+下面是可供选择的Git字段，比较实际意义的字段为git.commit.id，git.commit.id.abbrev，git.build.version，git.commit.time，git.total.commit.count
 ```
 git.branch=master
 git.build.host=Nepxion
@@ -7849,8 +7858,10 @@ spring.application.git.generator.enabled=true
 spring.application.git.generator.path=classpath:git.properties
 # spring.application.git.generator.path=classpath:git.json
 # 使用Git信息中的字段单个或者多个组合来作为服务版本号。缺失则默认为{git.commit.time}-{git.total.commit.count}
-spring.application.git.version.key={git.commit.id.abbrev}-{git.commit.time}
-# spring.application.git.version.key={git.build.version}-{git.commit.time}
+# 日期 + Git提交次数的版本号格式
+spring.application.git.version.key={git.commit.time}-{git.total.commit.count}
+# POM版本号格式
+# spring.application.git.version.key={git.build.version}
 
 # 开启和关闭Hystrix线程隔离模式做服务隔离时，对线程切换上下文传递的功能。缺失则默认为false
 # Hystrix线程隔离模式做服务隔离时，必须把spring.application.strategy.hystrix.threadlocal.supported设置为true，同时要引入discovery-plugin-strategy-starter-hystrix包，否则线程切换时会发生ThreadLocal上下文对象丢失
@@ -8070,8 +8081,10 @@ spring.application.git.generator.enabled=true
 spring.application.git.generator.path=classpath:git.properties
 # spring.application.git.generator.path=classpath:git.json
 # 使用Git信息中的字段单个或者多个组合来作为服务版本号。缺失则默认为{git.commit.time}-{git.total.commit.count}
-spring.application.git.version.key={git.commit.id.abbrev}-{git.commit.time}
-# spring.application.git.version.key={git.build.version}-{git.commit.time}
+# 日期 + Git提交次数的版本号格式
+spring.application.git.version.key={git.commit.time}-{git.total.commit.count}
+# POM版本号格式
+# spring.application.git.version.key={git.build.version}
 
 # 开启和关闭从SkyWalking apm-agent-core里反射获取TraceId并复制。由于SkyWalking对WebFlux上下文Threadlocal处理机制不恰当，导致产生的TraceId在全链路中并不一致，打开这个开关可以保证全链路TraceId都是一致的。缺失则默认为true
 spring.application.strategy.gateway.skywalking.traceid.enabled=true
@@ -8290,8 +8303,10 @@ spring.application.git.generator.enabled=true
 spring.application.git.generator.path=classpath:git.properties
 # spring.application.git.generator.path=classpath:git.json
 # 使用Git信息中的字段单个或者多个组合来作为服务版本号。缺失则默认为{git.commit.time}-{git.total.commit.count}
-# spring.application.git.version.key={git.commit.id.abbrev}-{git.commit.time}
-# spring.application.git.version.key={git.build.version}-{git.commit.time}
+# 日期 + Git提交次数的版本号格式
+spring.application.git.version.key={git.commit.time}-{git.total.commit.count}
+# POM版本号格式
+# spring.application.git.version.key={git.build.version}
 
 # 下面配置只适用于网关里直接进行Feign、RestTemplate或者WebClient调用场景
 # 启动和关闭路由策略的时候，对REST方式的调用拦截。缺失则默认为true
