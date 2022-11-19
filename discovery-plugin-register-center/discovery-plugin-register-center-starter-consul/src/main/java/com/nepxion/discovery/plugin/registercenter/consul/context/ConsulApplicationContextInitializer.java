@@ -22,11 +22,11 @@ import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.constant.DiscoveryMetaDataConstant;
+import com.nepxion.discovery.common.context.DiscoveryMetaDataPreInstallation;
 import com.nepxion.discovery.common.entity.DiscoveryType;
 import com.nepxion.discovery.plugin.framework.adapter.ApplicationInfoAdapter;
 import com.nepxion.discovery.plugin.framework.context.PluginApplicationContextInitializer;
 import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
-import com.nepxion.discovery.plugin.framework.context.PluginMetaDataPreInstallation;
 import com.nepxion.discovery.plugin.framework.util.MetadataUtil;
 import com.nepxion.discovery.plugin.registercenter.consul.decorator.ConsulServiceRegistryDecorator;
 
@@ -100,7 +100,7 @@ public class ConsulApplicationContextInitializer extends PluginApplicationContex
 
             }
 
-            for (Map.Entry<String, String> entry : PluginMetaDataPreInstallation.getMetadata().entrySet()) {
+            for (Map.Entry<String, String> entry : DiscoveryMetaDataPreInstallation.getMetadata().entrySet()) {
                 String key = entry.getKey();
                 String value = entry.getValue();
                 if (StringUtils.isNotEmpty(value)) {
