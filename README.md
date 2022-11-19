@@ -6844,6 +6844,11 @@ com.xxx.yyy.zzz.MyEnvironmentPostProcessor
 
 上述方式也可以通过[基于Git插件自动创建版本号](#基于Git插件自动创建版本号)的POM版本号格式进行创建
 
+```
+# POM版本号格式
+# spring.application.git.version.key={git.build.version}
+```
+
 ### 版本号装载优先级顺序
 以Nacos注册中心的版本号元数据为例，装载元数据的优先级顺序由高到底为
 - VM arguments方式的启动参数-Dmetadata.version
@@ -6853,11 +6858,6 @@ com.xxx.yyy.zzz.MyEnvironmentPostProcessor
 - 配置文件spring.cloud.nacos.discovery.metadata.version（Spring Cloud Alibaba原生方式）
 - Program arguments方式的启动参数--spring.cloud.discovery.metadata.version（Nepxion Discovery统一方式）
 - 配置文件spring.cloud.discovery.metadata.version（Nepxion Discovery统一方式）
-
-```
-# POM版本号格式
-# spring.application.git.version.key={git.build.version}
-```
 
 ## 扫描目录
 
