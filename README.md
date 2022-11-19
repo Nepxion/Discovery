@@ -6839,6 +6839,15 @@ org.springframework.boot.env.EnvironmentPostProcessor=\
 com.xxx.yyy.zzz.MyEnvironmentPostProcessor
 ```
 
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
+
+上述方式也可以通过[基于Git插件自动创建版本号](#基于Git插件自动创建版本号)的POM版本号格式进行创建
+
+```
+# POM版本号格式
+# spring.application.git.version.key={git.build.version}
+```
+
 ## 扫描目录
 
 ### 自动扫描目录
