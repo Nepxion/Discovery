@@ -719,7 +719,8 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - [基于启动参数创建版本号](#基于启动参数创建版本号)
     - [基于配置文件创建版本号](#基于配置文件创建版本号)
     - [基于系统参数创建版本号](#基于系统参数创建版本号)
-    - [基于POM版本号创建版本号](#基于POM版本号创建版本号)
+    - [基于环境装载创建版本号](#基于环境装载创建版本号)
+    - [版本号装载优先级顺序](#版本号装载优先级顺序)
 - [扫描目录](#扫描目录)
     - [自动扫描目录](#自动扫描目录)
     - [手工扫描目录](#手工扫描目录)
@@ -6813,7 +6814,7 @@ System.setProperty("spring.cloud.discovery.metadata.version", "x.y.z");
 System.setProperty("spring.cloud.nacos.discovery.metadata.version", "x.y.z");
 ```
 
-### 基于POM版本号创建版本号
+### 基于环境装载创建版本号
 基于环境装载EnvironmentPostProcessor设置
 ```java
 public class MyEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
@@ -6842,6 +6843,16 @@ com.xxx.yyy.zzz.MyEnvironmentPostProcessor
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
 
 上述方式也可以通过[基于Git插件自动创建版本号](#基于Git插件自动创建版本号)的POM版本号格式进行创建
+
+### 版本号装载优先级顺序
+以Nacos注册中心的版本号元数据为例，装载元数据的优先级顺序由高到底为
+- VM arguments方式的启动参数-Dmetadata.version
+- 环境装载EnvironmentPostProcessor
+- Git编译插件git-commit-id-plugin
+- Program arguments方式的启动参数--spring.cloud.nacos.discovery.metadata.version（Spring Cloud Alibaba原生方式）
+- 配置文件spring.cloud.nacos.discovery.metadata.version（Spring Cloud Alibaba原生方式）
+- Program arguments方式的启动参数--spring.cloud.discovery.metadata.version（Nepxion Discovery统一方式）
+- 配置文件spring.cloud.discovery.metadata.version（Nepxion Discovery统一方式）
 
 ```
 # POM版本号格式
