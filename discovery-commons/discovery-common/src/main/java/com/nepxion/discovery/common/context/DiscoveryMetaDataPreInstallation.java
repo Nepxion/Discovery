@@ -1,4 +1,4 @@
-package com.nepxion.discovery.plugin.framework.context;
+package com.nepxion.discovery.common.context;
 
 /**
  * <p>Title: Nepxion Discovery</p>
@@ -12,7 +12,7 @@ package com.nepxion.discovery.plugin.framework.context;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class PluginMetaDataPreInstallation {
+public class DiscoveryMetaDataPreInstallation {
     private static Map<String, String> metadata = new LinkedHashMap<String, String>();
 
     public static Map<String, String> getMetadata() {
