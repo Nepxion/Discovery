@@ -3566,26 +3566,26 @@ service:
 ```
 【模拟场景3】蓝绿策略，测试全链路侦测，Header xyz缺失...
 侦测次数 : 100
-侦测结果 : discovery-guide-service-a@1.1 命中次数=0
 侦测结果 : discovery-guide-service-a@1.0 命中次数=100
-侦测结果 : discovery-guide-service-b@1.1 命中次数=0
+侦测结果 : discovery-guide-service-a@1.1 命中次数=0
 侦测结果 : discovery-guide-service-b@1.0 命中次数=100
+侦测结果 : discovery-guide-service-b@1.1 命中次数=0
 测试结果 : 通过
 测试耗时 : 3 秒
 【模拟场景3】蓝绿策略，测试全链路侦测，Header xyz等于1...
 侦测次数 : 100
-侦测结果 : discovery-guide-service-a@1.1 命中次数=0
 侦测结果 : discovery-guide-service-a@1.0 命中次数=100
-侦测结果 : discovery-guide-service-b@1.1 命中次数=0
+侦测结果 : discovery-guide-service-a@1.1 命中次数=0
 侦测结果 : discovery-guide-service-b@1.0 命中次数=100
+侦测结果 : discovery-guide-service-b@1.1 命中次数=0
 测试结果 : 通过
 测试耗时 : 3 秒
 【模拟场景3】蓝绿策略，测试全链路侦测，Header xyz等于2...
 侦测次数 : 100
-侦测结果 : discovery-guide-service-a@1.1 命中次数=100
 侦测结果 : discovery-guide-service-a@1.0 命中次数=0
-侦测结果 : discovery-guide-service-b@1.1 命中次数=100
+侦测结果 : discovery-guide-service-a@1.1 命中次数=100
 侦测结果 : discovery-guide-service-b@1.0 命中次数=0
+侦测结果 : discovery-guide-service-b@1.1 命中次数=100
 测试结果 : 通过
 测试耗时 : 3 秒
 【模拟场景3】灰度策略，测试全链路侦测，Header xyz缺失...
@@ -3595,10 +3595,10 @@ service:
 侦测进度 : 第300次...
 侦测进度 : 第400次...
 侦测进度 : 第500次...
-侦测结果 : discovery-guide-service-a@1.1 命中次数=0
 侦测结果 : discovery-guide-service-a@1.0 命中次数=500
-侦测结果 : discovery-guide-service-b@1.1 命中次数=0
+侦测结果 : discovery-guide-service-a@1.1 命中次数=0
 侦测结果 : discovery-guide-service-b@1.0 命中次数=500
+侦测结果 : discovery-guide-service-b@1.1 命中次数=0
 权重结果偏差值=5%
 期望结果 : 旧版本路由权重=100%, 新版本路由权重=0%
 最终结果 : 旧版本路由权重=100.0%, 新版本路由权重=0.0%
@@ -3611,10 +3611,10 @@ service:
 侦测进度 : 第300次...
 侦测进度 : 第400次...
 侦测进度 : 第500次...
-侦测结果 : discovery-guide-service-a@1.1 命中次数=52
 侦测结果 : discovery-guide-service-a@1.0 命中次数=448
-侦测结果 : discovery-guide-service-b@1.1 命中次数=52
+侦测结果 : discovery-guide-service-a@1.1 命中次数=52
 侦测结果 : discovery-guide-service-b@1.0 命中次数=448
+侦测结果 : discovery-guide-service-b@1.1 命中次数=52
 权重结果偏差值=5%
 期望结果 : 旧版本路由权重=90%, 新版本路由权重=10%
 最终结果 : 旧版本路由权重=89.6%, 新版本路由权重=10.4%
@@ -3627,10 +3627,10 @@ service:
 侦测进度 : 第300次...
 侦测进度 : 第400次...
 侦测进度 : 第500次...
-侦测结果 : discovery-guide-service-a@1.1 命中次数=147
 侦测结果 : discovery-guide-service-a@1.0 命中次数=353
-侦测结果 : discovery-guide-service-b@1.1 命中次数=147
+侦测结果 : discovery-guide-service-a@1.1 命中次数=147
 侦测结果 : discovery-guide-service-b@1.0 命中次数=353
+侦测结果 : discovery-guide-service-b@1.1 命中次数=147
 权重结果偏差值=5%
 期望结果 : 旧版本路由权重=70%, 新版本路由权重=30%
 最终结果 : 旧版本路由权重=70.6%, 新版本路由权重=29.4%
