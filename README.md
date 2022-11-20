@@ -3063,7 +3063,7 @@ public StrategyHeadersInjector strategyHeadersInjector() {
 #### 全链路智能编排使用方式
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 动态版本场景下的全链路智能编排
 
-动态版本指版本可排序，指服务实例的版本号采用时间戳或者数字递增的方式，将排序后版本号列表的第一个值作为旧的稳定版本
+动态版本指版本可排序，服务实例的版本号采用时间戳或者数字递增的方式，将排序后版本号列表的第一个值作为旧的稳定版本
 
 - 创建版本兜底规则策略
 
@@ -3288,7 +3288,7 @@ header:
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 静态版本场景下的全链路智能编排
 
-静态版本指版本不可排序，指服务实例的版本号采用非时间戳或者非数字递增的方式（例如，旧版本的版本号为`base`，新版本的版本号为`gray`），将根据服务实例全局唯一ID的时间戳前缀进行排序，把上线时间最早的服务实例的版本号作为旧的稳定版本
+静态版本指版本不可排序，服务实例的版本号采用非时间戳或者非数字递增的方式（例如，旧版本的版本号为`base`，新版本的版本号为`gray`），将根据服务实例全局唯一ID的时间戳前缀进行排序，把上线时间最早的服务实例的版本号作为旧的稳定版本
 
 在规则策略上加入版本号排序类型`sort: time`（Yaml）或者`"sort": "time"`（Json）即可
 
