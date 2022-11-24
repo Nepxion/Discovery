@@ -142,6 +142,9 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - 全链路条件表达式、通配表达式支持
     - 全链路内置Header，支持定时Job的服务调用蓝绿灰度发布
     - 全链路手工编排、智能编排、无编排蓝绿灰度发布
+- 全链路自动化测试
+    - 全链路自动化模拟流程测试
+    - 全链路自动化流量侦测测试
 - 全链路流量管控对接DevOps运维平台
 - 全链路多活单元化
 - 全链路隔离路由
@@ -218,7 +221,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - 基于Swagger和Rest的规则策略推送
     - 基于平台端和桌面端的规则策略推送
 - 统一配置订阅执行器
-- 自动化测试、压力测试
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Ability.jpg)
 
@@ -618,9 +620,13 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [全链路无编排的蓝绿灰度规则策略](#全链路无编排的蓝绿灰度规则策略)
         - [全链路无编排的故障转移](#全链路无编排的故障转移)
         - [全链路无编排蓝绿灰度发布的总结](#全链路无编排蓝绿灰度发布的总结)
-    - [全链路自动化测试](#全链路自动化测试)
-        - [全链路自动化模拟流程测试](#全链路自动化模拟流程测试)
-        - [全链路自动化流量侦测测试](#全链路自动化流量侦测测试)
+- [全链路自动化测试](#全链路自动化测试)
+    - [全链路自动化模拟流程测试](#全链路自动化模拟流程测试)
+        - [全链路自动化模拟流程本地测试](#全链路自动化模拟流程本地测试)
+        - [全链路自动化模拟流程云上测试](#全链路自动化模拟流程云上测试)
+    - [全链路自动化流量侦测测试](#全链路自动化流量侦测测试)
+        - [全链路自动化流量侦测测试本地测试](#全链路自动化流量侦测测试本地测试)
+        - [全链路自动化流量侦测测试云上测试](#全链路自动化流量侦测测试云上测试)
 - [全链路流量管控对接DevOps运维平台](#全链路流量管控对接DevOps运维平台)
     - [对接DevOps运维平台架构方案](#对接DevOps运维平台架构方案)
     - [对接DevOps运维平台环境搭建](#对接DevOps运维平台环境搭建)
@@ -3483,36 +3489,31 @@ spring.application.strategy.version.failover.enabled=true
 - 要牢记业务参数在每次发布驱动链路的情况，即发布中，业务参数不能缺失且必须命中，发布后，业务参数必须缺失
 - 要牢记打开故障转移
 
-### 全链路自动化测试
+## 全链路自动化测试
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Inspector.jpg)
 
-#### 全链路自动化模拟流程测试
+### 全链路自动化模拟流程测试
 使用者集成框架后，需要通过Postman调用一下去验证是否成功集成，该方式比较繁琐，可以通过“全链路自动化模拟流程测试”方式进行验证
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/error.png) 禁止在生产环境使用
 
 采用全链路智能编排 + 流量侦测相结合的做法，支持网关和服务为侦测入口两种方式，用于测试环境或者开发环境通过自动化测试手段验证全链路蓝绿灰度方式的准确性
 
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/error.png) 禁止事项
+
+禁止在生产环境使用
+
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
 
-使用侦测功能，服务必须引入discovery-plugin-admin-center-starter依赖
+服务必须引入discovery-plugin-admin-center-starter依赖
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 启动控制台
+执行步骤
+
+① 启动控制台
 
 执行之前，需要先启动控制台，请参考
 - Github Wiki ：[如何部署对接DevOps运维平台的控制台](https://github.com/Nepxion/Discovery/wiki/如何部署对接DevOps运维平台的控制台)
 - Gitee Wiki ：[如何部署对接DevOps运维平台的控制台](https://gitee.com/nepxion/Discovery/wikis/pages?sort_id=6465803&doc_id=1124387)
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 执行过程，有两种方式
-
-- 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Automation Simulator
-    - 解压后，根据下文提示做相应修改
-    - 运行startup.bat或者startup.sh
-- 编译[https://github.com/Nepxion/DiscoveryTool/tree/automation](https://github.com/Nepxion/DiscoveryTool/tree/automation)，分支为automation
-    - 下载后，根据下文提示做相应修改
-    - 执行mvn clean install，运行打包过程中的自动化测试，或者执行mvn clean install -DskipTests，在discovery-automation-simulator-application/target/discovery-automation-simulator-${version}-release目录下产生第一种方式的包，运行startup.bat或者startup.sh
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 修改application.properties配置文件
+② 修改application.properties配置文件
 
 - console.url替换成相应的地址
 - testcase.group和testcase.service替换成相应的订阅的组名和服务名
@@ -3562,13 +3563,13 @@ testcase.inspect.context.service=discovery-guide-service-a
 # testcase.debug.enabled=false
 ```
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 修改规则策略文件
+③ 修改规则策略文件
 
 在如下三个文件
 
-- version-release-basic.yaml
-- version-release-1.yaml
-- version-release-2.yaml
+- mock-version-release-basic.yaml
+- mock-version-release-1.yaml
+- mock-version-release-2.yaml
 
 如下服务列表替换成测试环境要模拟蓝绿灰度发布的服务列表
 ```
@@ -3577,7 +3578,7 @@ service:
   - discovery-guide-service-b
 ```
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 参考模拟流程部分结果
+④ 参考模拟流程部分结果
 
 ```
 【模拟场景3】蓝绿策略，测试全链路侦测，Header : 无...
@@ -3655,27 +3656,40 @@ service:
 【模拟场景3】* 测试通过...
 ```
 
-#### 全链路自动化流量侦测测试
-使用者集成框架后，需要通过Postman调用一下去验证是否成功集成，该方式比较繁琐，可以通过“全链路自动化流量侦测测试”方式进行验证
+全链路自动化模拟流程测试，包括[全链路自动化模拟流程本地测试](#全链路自动化模拟流程本地测试)和[全链路自动化模拟流程云上测试](#全链路自动化模拟流程云上测试)两种模式
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_32.png) 适合在生产环境使用
+#### 全链路自动化模拟流程本地测试
+执行过程，有两种方式
+
+① 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Automation Simulator
+
+- 解压后，根据下文提示做相应修改
+- 运行startup.bat或者startup.sh
+
+② 编译[https://github.com/Nepxion/DiscoveryTool/tree/automation](https://github.com/Nepxion/DiscoveryTool/tree/automation)，分支为automation
+
+- 下载后，根据下文提示做相应修改
+- 执行mvn clean install，运行打包过程中的自动化测试，或者执行mvn clean install -DskipTests，在discovery-automation-simulator-application/target/discovery-automation-simulator-${version}-release目录下产生第一种方式的包，运行startup.bat或者startup.sh
+
+#### 全链路自动化模拟流程云上测试
+
+
+### 全链路自动化流量侦测测试
+使用者集成框架后，需要通过Postman调用一下去验证是否成功集成，该方式比较繁琐，可以通过“全链路自动化流量侦测测试”方式进行验证
 
 支持网关和服务为侦测入口两种方式，通过自动化测试手段验证全链路蓝绿灰度方式的准确性，由于不能通过大规模模拟调用来冲击生产环境的稳定性，需要通过人工判断来确定结果的准确性
 
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_32.png) 适合事项
+
+适合在生产环境使用
+
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
 
-使用侦测功能，服务必须引入discovery-plugin-admin-center-starter依赖
+服务必须引入discovery-plugin-admin-center-starter依赖
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 执行过程，有两种方式
+执行步骤
 
-- 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Automation Inspector
-    - 解压后，根据下文提示做相应修改
-    - 运行startup.bat或者startup.sh
-- 编译[https://github.com/Nepxion/DiscoveryTool/tree/automation](https://github.com/Nepxion/DiscoveryTool/tree/automation)，分支为automation
-    - 下载后，根据下文提示做相应修改
-    - 执行mvn clean install，运行打包过程中的自动化测试，或者执行mvn clean install -DskipTests，在discovery-automation-inspector-application/target/discovery-automation-inspector-${version}-release目录下产生第一种方式的包，运行startup.bat或者startup.sh
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 修改application.properties配置文件
+① 修改application.properties配置文件
 
 - 网关侦测入口或者服务侦测入口任选一种，把testcase.inspect.url替换成相应的网关地址或者服务地址
     - 当选择网关作为侦测入口，testcase.inspect.context.service替换成网关后第一跳的服务名
@@ -3704,9 +3718,9 @@ testcase.inspect.context.service=discovery-guide-service-a
 # testcase.debug.enabled=false
 ```
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 修改规则策略文件
+② 修改规则策略文件
 
-在inspector.yaml里，服务列表替换成要侦测的服务列表，header替换成要侦测的参数
+在mock-inspector.yaml里，服务列表替换成要侦测的服务列表，header替换成要侦测的参数
 ```
 service:
   - discovery-guide-service-a
@@ -3715,7 +3729,7 @@ header:
   xyz: 1
 ```
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 参考侦测部分结果
+③ 参考侦测部分结果
 
 ```
 【侦测场景1】测试全链路侦测...
@@ -3732,6 +3746,24 @@ header:
 侦测结果 : [ID=discovery-guide-gateway][V=1.0] -> [ID=discovery-guide-service-a][V=1.1] -> [ID=discovery-guide-service-b][V=1.1]
 测试耗时 : 0 秒
 ```
+
+全链路自动化流量侦测测试，包括[全链路自动化流量侦测测试本地测试](#全链路自动化流量侦测测试本地测试)和[全链路自动化流量侦测测试云上测试](#全链路自动化流量侦测测试云上测试)两种模式
+
+#### 全链路自动化流量侦测测试本地测试
+执行过程，有两种方式
+
+① 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Automation Inspector
+
+- 解压后，根据下文提示做相应修改
+- 运行startup.bat或者startup.sh
+
+② 编译[https://github.com/Nepxion/DiscoveryTool/tree/automation](https://github.com/Nepxion/DiscoveryTool/tree/automation)，分支为automation
+
+- 下载后，根据下文提示做相应修改
+- 执行mvn clean install，运行打包过程中的自动化测试，或者执行mvn clean install -DskipTests，在discovery-automation-inspector-application/target/discovery-automation-inspector-${version}-release目录下产生第一种方式的包，运行startup.bat或者startup.sh
+
+#### 全链路自动化流量侦测测试云上测试
+
 
 ## 全链路流量管控对接DevOps运维平台
 
