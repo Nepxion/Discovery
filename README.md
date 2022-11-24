@@ -877,11 +877,27 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 
 ③ DiscoveryTool工程清单
 
+Nepxion Discovery 控制平台
+
 | 工程名 | 描述 |
 | --- | --- |
-| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> console | Nepxion Discovery 控制平台应用 |
-| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> simulator | Nepxion Discovery 自动化模拟器应用 |
-| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> inspector | Nepxion Discovery 自动化侦测器应用 |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> console | 控制平台可执行应用 |
+
+自动化模拟流程测试和流量侦测测试
+
+| 工程名 | 描述 |
+| --- | --- |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_south.png"> discovery-automation-commons | 自动化测试通用模块目录 |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-common | 自动化测试通用模块 |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-common-console | 自动化测试通用测试平台模块 |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_south.png"> discovery-automation-inspector | 自动化流量侦测测试目录 |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-inspector-starter | 自动化流量侦测测试的Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-inspector-starter-console | 自动化流量侦测测试平台的Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-inspector-application | 自动化流量侦测测试可执行应用 |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_south.png"> discovery-automation-simulator | 自动化模拟流程测试目录 |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-simulator-starter | 自动化模拟流程测试的Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-simulator-starter-console | 自动化模拟流程测试平台的Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-simulator-application | 自动化模拟流程测试可执行应用 |
 
 ④ DiscoveryAgent工程清单
 
@@ -3489,12 +3505,12 @@ spring.application.strategy.version.failover.enabled=true
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 执行过程，有两种方式
 
-- 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Simulator
+- 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Automation Simulator
     - 解压后，根据下文提示做相应修改
     - 运行startup.bat或者startup.sh
-- 编译[https://github.com/Nepxion/DiscoveryTool/tree/simulator](https://github.com/Nepxion/DiscoveryTool/tree/simulator)，分支为simulator
+- 编译[https://github.com/Nepxion/DiscoveryTool/tree/automation](https://github.com/Nepxion/DiscoveryTool/tree/automation)，分支为automation
     - 下载后，根据下文提示做相应修改
-    - 执行mvn clean install，运行打包过程中的自动化测试，或者执行mvn clean install -DskipTests，产生第一种方式的包，再运行startup.bat或者startup.sh
+    - 执行mvn clean install，运行打包过程中的自动化测试，或者执行mvn clean install -DskipTests，在discovery-automation-simulator-application/target/discovery-automation-simulator-${version}-release目录下产生第一种方式的包，运行startup.bat或者startup.sh
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 修改application.properties配置文件
 
@@ -3542,8 +3558,8 @@ testcase.inspect.context.service=discovery-guide-service-a
 # 开启和关闭测试用例中第二次蓝绿灰度发布的自动化测试。一般情况下，第一次蓝绿灰度发布测试通过，第二次发生问题的概率较低。缺失则默认为true
 # testcase.second.release.enabled=false
 
-# 测试用例抛错，通过debug日志定位问题
-# logging.level.com.nepxion.discovery.simulator=debug
+# 测试用例抛错，通过Debug方式定位问题
+# testcase.debug.enabled=false
 ```
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 修改规则策略文件
@@ -3652,12 +3668,12 @@ service:
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 执行过程，有两种方式
 
-- 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Inspector
+- 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Automation Inspector
     - 解压后，根据下文提示做相应修改
     - 运行startup.bat或者startup.sh
-- 编译[https://github.com/Nepxion/DiscoveryTool/tree/inspector](https://github.com/Nepxion/DiscoveryTool/tree/inspector)，分支为inspector
+- 编译[https://github.com/Nepxion/DiscoveryTool/tree/automation](https://github.com/Nepxion/DiscoveryTool/tree/automation)，分支为automation
     - 下载后，根据下文提示做相应修改
-    - 执行mvn clean install，运行打包过程中的自动化测试，或者执行mvn clean install -DskipTests，产生第一种方式的包，再运行startup.bat或者startup.sh
+    - 执行mvn clean install，运行打包过程中的自动化测试，或者执行mvn clean install -DskipTests，在discovery-automation-inspector-application/target/discovery-automation-inspector-${version}-release目录下产生第一种方式的包，运行startup.bat或者startup.sh
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 修改application.properties配置文件
 
@@ -3684,8 +3700,8 @@ testcase.inspect.context.service=discovery-guide-service-a
 # ID=ServiceId,UID=UUID,AID=ApplicationId,T=ServiceType,P=Plugin,H=host:port,V=Version,R=Region,E=Environment,Z=Zone,G=Group,A=Active,TID=TraceId,SID=SpanId
 # testcase.result.filter=ID,V
 
-# 测试用例抛错，通过debug日志定位问题
-# logging.level.com.nepxion.discovery.inspector=debug
+# 测试用例抛错，通过Debug方式定位问题
+# testcase.debug.enabled=false
 ```
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 修改规则策略文件
