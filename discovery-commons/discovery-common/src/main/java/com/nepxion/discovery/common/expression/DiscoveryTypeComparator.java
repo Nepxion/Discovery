@@ -15,7 +15,7 @@ import org.springframework.expression.spel.SpelEvaluationException;
 import org.springframework.expression.spel.support.StandardTypeComparator;
 import org.springframework.lang.Nullable;
 
-public class DiscoveryTypeComparor extends StandardTypeComparator {
+public class DiscoveryTypeComparator extends StandardTypeComparator {
     @Override
     public int compare(@Nullable Object left, @Nullable Object right) throws SpelEvaluationException {
         if (left == null) {

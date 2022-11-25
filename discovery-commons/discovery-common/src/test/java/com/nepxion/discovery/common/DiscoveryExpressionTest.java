@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 
 import com.nepxion.discovery.common.expression.DiscoveryExpressionResolver;
-import com.nepxion.discovery.common.expression.DiscoveryTypeComparor;
+import com.nepxion.discovery.common.expression.DiscoveryTypeComparator;
 import com.nepxion.discovery.common.util.StringUtil;
 
 public class DiscoveryExpressionTest {
@@ -45,7 +45,7 @@ public class DiscoveryExpressionTest {
         map.put("a", "1.2333");
         map.put("b", "y");
 
-        return DiscoveryExpressionResolver.eval(expression, "H", map, new DiscoveryTypeComparor());
+        return DiscoveryExpressionResolver.eval(expression, "H", map, new DiscoveryTypeComparator());
     }
 
     private static List<String> test2() {

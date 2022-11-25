@@ -41,7 +41,7 @@ import com.nepxion.discovery.common.entity.VersionSortType;
 import com.nepxion.discovery.common.entity.VersionWeightEntity;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.expression.DiscoveryExpressionResolver;
-import com.nepxion.discovery.common.expression.DiscoveryTypeComparor;
+import com.nepxion.discovery.common.expression.DiscoveryTypeComparator;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.common.util.VersionSortUtil;
@@ -52,7 +52,7 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
     public static final String CONDITION = "condition";
     public static final String ROUTE = "route";
 
-    private TypeComparator typeComparator = new DiscoveryTypeComparor();
+    private TypeComparator typeComparator = new DiscoveryTypeComparator();
 
     @Autowired
     private ServiceResource serviceResource;
