@@ -202,6 +202,9 @@ public class DiscoveryConstant {
     public static final String EXPRESSION_SUB_PREFIX = "#" + EXPRESSION_PREFIX + "['";
     public static final String EXPRESSION_SUB_SUFFIX = "']";
 
+    public static final String EXPRESSION_SINGLE_QUOTES_REGEX = "[^\\S\"']+|\"[^\"]*\"|'[^']*'";
+    public static final String EXPRESSION_SINGLE_QUOTES = "'";
+
     public static final String EMPTY_XML_RULE = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<rule>\n</rule>";
     public static final String EMPTY_JSON_RULE_SINGLE = "{}";
     public static final String EMPTY_JSON_RULE_MULTIPLE = "[]";
