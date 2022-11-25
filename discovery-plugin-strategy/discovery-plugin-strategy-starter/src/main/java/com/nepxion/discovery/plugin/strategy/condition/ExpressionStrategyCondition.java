@@ -10,9 +10,8 @@ package com.nepxion.discovery.plugin.strategy.condition;
  */
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +22,6 @@ import com.nepxion.discovery.common.expression.DiscoveryExpressionResolver;
 import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
 
 public class ExpressionStrategyCondition extends AbstractStrategyCondition {
-    private Pattern pattern = Pattern.compile(DiscoveryConstant.EXPRESSION_REGEX);
-
     @Autowired
     private StrategyWrapper strategyWrapper;
 
@@ -43,10 +40,8 @@ public class ExpressionStrategyCondition extends AbstractStrategyCondition {
 
         Map<String, String> map = new HashMap<String, String>();
 
-        Matcher matcher = pattern.matcher(expression);
-        while (matcher.find()) {
-            String group = matcher.group();
-            String name = StringUtils.substringBetween(group, DiscoveryConstant.EXPRESSION_SUB_PREFIX, DiscoveryConstant.EXPRESSION_SUB_SUFFIX);
+        List<String> list = DiscoveryExpressionResolver.extractList(expression);
+        for (String name : list) {
             String value = null;
 
             // 从外置Parameter获取
