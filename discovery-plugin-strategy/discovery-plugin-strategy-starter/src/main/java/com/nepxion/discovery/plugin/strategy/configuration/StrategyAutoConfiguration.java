@@ -27,7 +27,7 @@ import com.nepxion.discovery.plugin.strategy.adapter.StrategyVersionFilterAdapte
 import com.nepxion.discovery.plugin.strategy.aop.FeignStrategyInterceptor;
 import com.nepxion.discovery.plugin.strategy.aop.RestTemplateStrategyBeanPostProcessor;
 import com.nepxion.discovery.plugin.strategy.aop.RestTemplateStrategyInterceptor;
-import com.nepxion.discovery.plugin.strategy.condition.DefaultStrategyTypeComparor;
+import com.nepxion.discovery.plugin.strategy.condition.DefaultStrategyTypeComparator;
 import com.nepxion.discovery.plugin.strategy.condition.ExpressionStrategyCondition;
 import com.nepxion.discovery.plugin.strategy.condition.StrategyCondition;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
@@ -173,7 +173,7 @@ public class StrategyAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public TypeComparator strategyTypeComparator() {
-        return new DefaultStrategyTypeComparor();
+        return new DefaultStrategyTypeComparator();
     }
 
     @Bean

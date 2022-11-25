@@ -9,8 +9,8 @@ package com.nepxion.discovery.plugin.strategy.condition;
  * @version 1.0
  */
 
-import com.nepxion.discovery.common.expression.DiscoveryTypeComparor;
+import com.nepxion.discovery.common.expression.DiscoveryTypeComparator;
 
-public class DefaultStrategyTypeComparor extends DiscoveryTypeComparor {
+public class DefaultStrategyTypeComparator extends DiscoveryTypeComparator {
 
 }

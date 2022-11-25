@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 import org.springframework.expression.spel.SpelEvaluationException;
 import org.springframework.expression.spel.support.StandardTypeComparator;
 
-public class DiscoveryTypeComparor extends StandardTypeComparator {
+public class DiscoveryTypeComparator extends StandardTypeComparator {
     @Override
     public int compare(Object left, Object right) throws SpelEvaluationException {
         if (left == null) {
