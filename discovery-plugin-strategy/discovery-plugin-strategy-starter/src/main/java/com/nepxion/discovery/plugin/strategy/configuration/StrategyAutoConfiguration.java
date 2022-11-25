@@ -31,7 +31,7 @@ import com.nepxion.discovery.plugin.strategy.aop.RestTemplateStrategyBeanPostPro
 import com.nepxion.discovery.plugin.strategy.aop.RestTemplateStrategyInterceptor;
 import com.nepxion.discovery.plugin.strategy.aop.WebClientStrategyBeanPostProcessor;
 import com.nepxion.discovery.plugin.strategy.aop.WebClientStrategyInterceptor;
-import com.nepxion.discovery.plugin.strategy.condition.DefaultStrategyTypeComparor;
+import com.nepxion.discovery.plugin.strategy.condition.DefaultStrategyTypeComparator;
 import com.nepxion.discovery.plugin.strategy.condition.ExpressionStrategyCondition;
 import com.nepxion.discovery.plugin.strategy.condition.StrategyCondition;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
@@ -177,7 +177,7 @@ public class StrategyAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public TypeComparator strategyTypeComparator() {
-        return new DefaultStrategyTypeComparor();
+        return new DefaultStrategyTypeComparator();
     }
 
     @Bean
