@@ -259,4 +259,7 @@ public class DiscoveryConstant {
     public static final String SENTINEL_BLOCK_QPS_KEY = "sentinel-block-qps";
     public static final String SENTINEL_SUCCESS_QPS_KEY = "sentinel-success-qps";
     public static final String SENTINEL_EXCEPTION_QPS_KEY = "sentinel-exception-qps";
+
+    public static final String DISTRIBUTION = "distribution";
+    public static final String LOCAL = "local";
 }

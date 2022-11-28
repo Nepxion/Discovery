@@ -9,8 +9,18 @@ package com.nepxion.discovery.common.lock;
  * @version 1.0
  */
 
+import java.util.List;
+
 public interface DiscoveryLock {
+    // 尝试获取锁
     boolean tryLock(String key);
 
+    // 释放锁
     void unlock(String key);
+
+    // 获取被持有的所有锁名称列表
+    List<String> getHeldLocks(DiscoveryLockHeldType lockHeldType);
+
+    // 进程结束时销毁锁
+    void destroy() throws Exception;
 }
