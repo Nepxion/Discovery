@@ -285,7 +285,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 
 | 组件类型 | 组件版本 |
 | --- | --- |
-| 基础组件 | [![Guava](https://img.shields.io/maven-central/v/com.google.guava/guava.svg?label=Guava)](https://search.maven.org/artifact/com.google.guava/guava)<br>[![Caffeine](https://img.shields.io/maven-central/v/com.github.ben-manes.caffeine/caffeine.svg?label=Caffeine)](https://search.maven.org/artifact/com.github.ben-manes.caffeine/caffeine)<br>[![Dom4J](https://img.shields.io/maven-central/v/org.dom4j/dom4j.svg?label=Dom4J)](https://search.maven.org/artifact/org.dom4j/dom4j)<br>[![Swagger](https://img.shields.io/maven-central/v/io.swagger/swagger-models?label=Swagger)](https://search.maven.org/artifact/io.swagger/swagger-models)<br>[![Swagger](https://img.shields.io/maven-central/v/io.springfox/springfox-swagger2?label=SpringFox%20Swagger)](https://search.maven.org/artifact/io.springfox/springfox-swagger2) |
+| 基础组件 | [![Guava](https://img.shields.io/maven-central/v/com.google.guava/guava.svg?label=Guava)](https://search.maven.org/artifact/com.google.guava/guava)<br>[![Caffeine](https://img.shields.io/maven-central/v/com.github.ben-manes.caffeine/caffeine.svg?label=Caffeine)](https://search.maven.org/artifact/com.github.ben-manes.caffeine/caffeine)<br>[![Redisson](https://img.shields.io/maven-central/v/org.redisson/redisson-spring-boot-starter.svg?label=Redisson)](https://search.maven.org/artifact/org.redisson/redisson-spring-boot-starter)<br>[![Dom4J](https://img.shields.io/maven-central/v/org.dom4j/dom4j.svg?label=Dom4J)](https://search.maven.org/artifact/org.dom4j/dom4j)<br>[![Swagger](https://img.shields.io/maven-central/v/io.swagger/swagger-models?label=Swagger)](https://search.maven.org/artifact/io.swagger/swagger-models)<br>[![Swagger](https://img.shields.io/maven-central/v/io.springfox/springfox-swagger2?label=SpringFox%20Swagger)](https://search.maven.org/artifact/io.springfox/springfox-swagger2) |
 | 注册配置组件 | [![Apollo](https://img.shields.io/maven-central/v/com.ctrip.framework.apollo/apollo-client.svg?label=Apollo)](https://search.maven.org/artifact/com.ctrip.framework.apollo/apollo-client)<br>[![Zookeeper Curator](https://img.shields.io/maven-central/v/org.apache.curator/curator-framework.svg?label=Zookeeper%20Curator)](https://search.maven.org/artifact/org.apache.curator/curator-framework)<br>[![Consul](https://img.shields.io/maven-central/v/com.ecwid.consul/consul-api.svg?label=Consul)](https://search.maven.org/artifact/com.ecwid.consul/consul-api)<br>[![JEtcd](https://img.shields.io/maven-central/v/io.etcd/jetcd-core.svg?label=JEtcd)](https://search.maven.org/artifact/io.etcd/jetcd-core)<br>[![Nacos](https://img.shields.io/maven-central/v/com.alibaba.nacos/nacos-client.svg?label=Nacos)](https://search.maven.org/artifact/com.alibaba.nacos/nacos-client)<br>[![Eureka](https://img.shields.io/maven-central/v/com.netflix.eureka/eureka-client.svg?label=Eureka)](https://search.maven.org/artifact/com.netflix.eureka/eureka-client)<br>[![Redis](https://img.shields.io/maven-central/v/org.springframework.data/spring-data-redis.svg?label=Redis)](https://search.maven.org/artifact/org.springframework.data/spring-data-redis) |
 | 防护组件 | [![Sentinel](https://img.shields.io/maven-central/v/com.alibaba.csp/sentinel-core.svg?label=Sentinel)](https://search.maven.org/artifact/com.alibaba.csp/sentinel-core)<br>[![Hystrix](https://img.shields.io/maven-central/v/com.netflix.hystrix/hystrix-core.svg?label=Hystrix)](https://search.maven.org/artifact/com.netflix.hystrix/hystrix-core) |
 | 监控组件 | [![OpenTelemetry](https://img.shields.io/maven-central/v/io.opentelemetry/opentelemetry-api.svg?label=OpenTelemetry)](https://search.maven.org/artifact/io.opentelemetry/opentelemetry-api)<br>[![OpenTracing](https://img.shields.io/maven-central/v/io.opentracing/opentracing-api.svg?label=OpenTracing)](https://search.maven.org/artifact/io.opentracing/opentracing-api)<br>[![OpenTracing%20Spring%20Cloud](https://img.shields.io/maven-central/v/io.opentracing.contrib/opentracing-spring-cloud-starter.svg?label=OpenTracing%20Spring%20Cloud)](https://search.maven.org/artifact/io.opentracing.contrib/opentracing-spring-cloud-starter)<br>[![OpenTracing%20Jaeger](https://img.shields.io/maven-central/v/io.opentracing.contrib/opentracing-spring-jaeger-starter.svg?label=OpenTracing%20Jaeger)](https://search.maven.org/artifact/io.opentracing.contrib/opentracing-spring-jaeger-starter)<br>[![OpenTracing%20Concurrent](https://img.shields.io/maven-central/v/io.opentracing.contrib/opentracing-concurrent.svg?label=OpenTracing%20Concurrent)](https://search.maven.org/artifact/io.opentracing.contrib/opentracing-concurrent)<br>[![SkyWalking](https://img.shields.io/maven-central/v/org.apache.skywalking/apm-toolkit-opentracing.svg?label=SkyWalking)](https://search.maven.org/artifact/org.apache.skywalking/apm-toolkit-opentracing)<br>[![Spring Boot](https://img.shields.io/maven-central/v/de.codecentric/spring-boot-admin-dependencies.svg?label=Spring%20Boot%20Admin)](https://search.maven.org/artifact/de.codecentric/spring-boot-admin-dependencies) |
@@ -864,7 +864,45 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-springcloud-example-zuul | Zuul网关示例 |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-springcloud-example-gateway | Spring Cloud Gateway网关示例 |
 
-② DiscoveryPlatform工程清单
+② DiscoveryTool工程清单
+
+统一控制平台
+
+| 工程名 | 描述 |
+| --- | --- |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> console | 控制平台可执行应用 |
+
+自动化测试平台
+
+| 工程名 | 描述 |
+| --- | --- |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_south.png"> discovery-automation-commons | 自动化测试通用模块目录 |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-common | 自动化测试通用模块 |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-common-console | 自动化测试通用测试平台模块 |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_south.png"> discovery-automation-concurrent | 自动化测试并发相关模块目录 |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-concurrent-starter-caffeine | 自动化测试Caffeine本地锁的Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-concurrent-starter-redisson | 自动化测试Redisson本地锁的Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-concurrent-starter-thread | 自动化测试Thread Pool的Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-console | 自动化测试平台可执行应用 |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_south.png"> discovery-automation-inspector | 自动化流量侦测测试目录 |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-inspector-starter | 自动化流量侦测测试的Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-inspector-starter-console | 自动化流量侦测测试平台的Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-inspector-application | 自动化流量侦测测试可执行应用 |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_south.png"> discovery-automation-simulator | 自动化模拟流程测试目录 |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-simulator-starter | 自动化模拟流程测试的Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-simulator-starter-console | 自动化模拟流程测试平台的Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-simulator-application | 自动化模拟流程测试可执行应用 |
+
+③ DiscoveryAgent工程清单
+
+| 工程名 | 描述 |
+| --- | --- |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-agent-starter | 异步跨线程Agent Starter |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-agent-starter-plugin-strategy | 路由策略的异步跨线程Agent Plugin Starter |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-agent-starter-plugin-mdc | MDC日志的异步跨线程Agent Plugin Starter |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-agent-example | 异步跨线程示例 |
+
+④ DiscoveryPlatform工程清单
 
 | 工程名 | 描述 |
 | --- | --- |
@@ -880,39 +918,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-platform-starter-common-dingding | 封装钉钉通用操作逻辑的Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-platform-starter-common-mail | 封装邮件通用操作逻辑的Starter |
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-platform-application | 平台服务端可执行应用 |
-
-③ DiscoveryTool工程清单
-
-Nepxion Discovery 控制平台
-
-| 工程名 | 描述 |
-| --- | --- |
-| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> console | 控制平台可执行应用 |
-
-自动化模拟流程测试和流量侦测测试
-
-| 工程名 | 描述 |
-| --- | --- |
-| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_south.png"> discovery-automation-commons | 自动化测试通用模块目录 |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-common | 自动化测试通用模块 |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-common-console | 自动化测试通用测试平台模块 |
-| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_south.png"> discovery-automation-inspector | 自动化流量侦测测试目录 |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-inspector-starter | 自动化流量侦测测试的Starter |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-inspector-starter-console | 自动化流量侦测测试平台的Starter |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-inspector-application | 自动化流量侦测测试可执行应用 |
-| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_south.png"> discovery-automation-simulator | 自动化模拟流程测试目录 |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-simulator-starter | 自动化模拟流程测试的Starter |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-simulator-starter-console | 自动化模拟流程测试平台的Starter |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-simulator-application | 自动化模拟流程测试可执行应用 |
-
-④ DiscoveryAgent工程清单
-
-| 工程名 | 描述 |
-| --- | --- |
-| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-agent-starter | 异步跨线程Agent Starter |
-| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-agent-starter-plugin-strategy | 路由策略的异步跨线程Agent Plugin Starter |
-| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-agent-starter-plugin-mdc | MDC日志的异步跨线程Agent Plugin Starter |
-| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-agent-example | 异步跨线程示例 |
 
 ⑤ DiscoveryDesktop工程清单
 
@@ -1451,7 +1456,7 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
 
 ③ Spring Spel的逻辑表达，需要注意
 
-- 任何值都大于null。当某个参数未传值，但又指定了该参数大于的表达逻辑，那么表达式结果为false。例如，#H['a'] > '2'，但a未传递进来，a即null，则null > 2，表达式结果为false
+- null小于任何值。当某个参数未传值，但又指定了该参数小于的表达逻辑，那么表达式结果为true。例如，#H['a'] < '2'，但a未传递进来，a即null，则null < 2，表达式结果为true
 - null满足不等于。当某个参数未传值，但又指定了该该参数不等于的表达逻辑，那么表达式结果为true。例如，#H['a'] != '2'，但a未传递进来，a即null，则null != 2，表达式结果为true
 
 ④ Spring Spel的符号
@@ -3583,26 +3588,26 @@ service:
 ```
 【模拟场景3】蓝绿策略，测试全链路侦测，Header : 无...
 侦测次数 : 100
-侦测结果 : discovery-guide-service-a@1.0 命中次数=100
-侦测结果 : discovery-guide-service-a@1.1 命中次数=0
-侦测结果 : discovery-guide-service-b@1.0 命中次数=100
-侦测结果 : discovery-guide-service-b@1.1 命中次数=0
+侦测结果 : discovery-guide-service-a@@1.0 命中次数=100
+侦测结果 : discovery-guide-service-a@@1.1 命中次数=0
+侦测结果 : discovery-guide-service-b@@1.0 命中次数=100
+侦测结果 : discovery-guide-service-b@@1.1 命中次数=0
 测试结果 : 通过
 测试耗时 : 3 秒
 【模拟场景3】蓝绿策略，测试全链路侦测，Header : xyz=1...
 侦测次数 : 100
-侦测结果 : discovery-guide-service-a@1.0 命中次数=100
-侦测结果 : discovery-guide-service-a@1.1 命中次数=0
-侦测结果 : discovery-guide-service-b@1.0 命中次数=100
-侦测结果 : discovery-guide-service-b@1.1 命中次数=0
+侦测结果 : discovery-guide-service-a@@1.0 命中次数=100
+侦测结果 : discovery-guide-service-a@@1.1 命中次数=0
+侦测结果 : discovery-guide-service-b@@1.0 命中次数=100
+侦测结果 : discovery-guide-service-b@@1.1 命中次数=0
 测试结果 : 通过
 测试耗时 : 3 秒
 【模拟场景3】蓝绿策略，测试全链路侦测，Header : xyz=2...
 侦测次数 : 100
-侦测结果 : discovery-guide-service-a@1.0 命中次数=0
-侦测结果 : discovery-guide-service-a@1.1 命中次数=100
-侦测结果 : discovery-guide-service-b@1.0 命中次数=0
-侦测结果 : discovery-guide-service-b@1.1 命中次数=100
+侦测结果 : discovery-guide-service-a@@1.0 命中次数=0
+侦测结果 : discovery-guide-service-a@@1.1 命中次数=100
+侦测结果 : discovery-guide-service-b@@1.0 命中次数=0
+侦测结果 : discovery-guide-service-b@@1.1 命中次数=100
 测试结果 : 通过
 测试耗时 : 3 秒
 【模拟场景3】灰度策略，测试全链路侦测，Header : 无...
@@ -3612,10 +3617,10 @@ service:
 侦测进度 : 第300次...
 侦测进度 : 第400次...
 侦测进度 : 第500次...
-侦测结果 : discovery-guide-service-a@1.0 命中次数=500
-侦测结果 : discovery-guide-service-a@1.1 命中次数=0
-侦测结果 : discovery-guide-service-b@1.0 命中次数=500
-侦测结果 : discovery-guide-service-b@1.1 命中次数=0
+侦测结果 : discovery-guide-service-a@@1.0 命中次数=500
+侦测结果 : discovery-guide-service-a@@1.1 命中次数=0
+侦测结果 : discovery-guide-service-b@@1.0 命中次数=500
+侦测结果 : discovery-guide-service-b@@1.1 命中次数=0
 权重结果偏差值=5%
 期望结果 : 旧版本路由权重=100%, 新版本路由权重=0%
 最终结果 : 旧版本路由权重=100.0%, 新版本路由权重=0.0%
@@ -3628,10 +3633,10 @@ service:
 侦测进度 : 第300次...
 侦测进度 : 第400次...
 侦测进度 : 第500次...
-侦测结果 : discovery-guide-service-a@1.0 命中次数=448
-侦测结果 : discovery-guide-service-a@1.1 命中次数=52
-侦测结果 : discovery-guide-service-b@1.0 命中次数=448
-侦测结果 : discovery-guide-service-b@1.1 命中次数=52
+侦测结果 : discovery-guide-service-a@@1.0 命中次数=448
+侦测结果 : discovery-guide-service-a@@1.1 命中次数=52
+侦测结果 : discovery-guide-service-b@@1.0 命中次数=448
+侦测结果 : discovery-guide-service-b@@1.1 命中次数=52
 权重结果偏差值=5%
 期望结果 : 旧版本路由权重=90%, 新版本路由权重=10%
 最终结果 : 旧版本路由权重=89.6%, 新版本路由权重=10.4%
@@ -3644,10 +3649,10 @@ service:
 侦测进度 : 第300次...
 侦测进度 : 第400次...
 侦测进度 : 第500次...
-侦测结果 : discovery-guide-service-a@1.0 命中次数=353
-侦测结果 : discovery-guide-service-a@1.1 命中次数=147
-侦测结果 : discovery-guide-service-b@1.0 命中次数=353
-侦测结果 : discovery-guide-service-b@1.1 命中次数=147
+侦测结果 : discovery-guide-service-a@@1.0 命中次数=353
+侦测结果 : discovery-guide-service-a@@1.1 命中次数=147
+侦测结果 : discovery-guide-service-b@@1.0 命中次数=353
+侦测结果 : discovery-guide-service-b@@1.1 命中次数=147
 权重结果偏差值=5%
 期望结果 : 旧版本路由权重=70%, 新版本路由权重=30%
 最终结果 : 旧版本路由权重=70.6%, 新版本路由权重=29.4%
