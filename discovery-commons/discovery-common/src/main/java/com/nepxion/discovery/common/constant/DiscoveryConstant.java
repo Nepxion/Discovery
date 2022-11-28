@@ -191,6 +191,9 @@ public class DiscoveryConstant {
     public static final String UNKNOWN = "unknown";
     public static final String IGNORED = "ignored";
 
+    public static final String DISTRIBUTION = "distribution";
+    public static final String LOCAL = "local";
+
     public static final String ENDPOINT_SCAN_PACKAGES = "com.nepxion.discovery.plugin.admincenter.endpoint";
     public static final String INSPECTOR_ENDPOINT_CLASS_NAME = "com.nepxion.discovery.plugin.admincenter.endpoint.InspectorEndpoint";
     public static final String INSPECTOR_ENDPOINT_METHOD_NAME = "inspect";
@@ -259,7 +262,4 @@ public class DiscoveryConstant {
     public static final String SENTINEL_BLOCK_QPS_KEY = "sentinel-block-qps";
     public static final String SENTINEL_SUCCESS_QPS_KEY = "sentinel-success-qps";
     public static final String SENTINEL_EXCEPTION_QPS_KEY = "sentinel-exception-qps";
-
-    public static final String DISTRIBUTION = "distribution";
-    public static final String LOCAL = "local";
 }
