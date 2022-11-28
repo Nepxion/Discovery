@@ -3668,16 +3668,48 @@ service:
 
 ① 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Automation Simulator
 
-- 解压后，根据下文提示做相应修改
+- 解压后，根据上文提示做相应修改
 - 运行startup.bat或者startup.sh
 
 ② 编译[https://github.com/Nepxion/DiscoveryTool/tree/automation](https://github.com/Nepxion/DiscoveryTool/tree/automation)，分支为automation
 
-- 下载后，根据下文提示做相应修改
-- 执行mvn clean install，运行打包过程中的自动化测试，或者执行mvn clean install -DskipTests，在discovery-automation-simulator-application/target/discovery-automation-simulator-${version}-release目录下产生第一种方式的包，运行startup.bat或者startup.sh
+- 下载后，根据上文提示做相应修改
+- 执行mvn clean install -DskipTests，在discovery-automation-simulator-application/target/discovery-automation-simulator-${version}-release目录下，运行startup.bat或者startup.sh
 
 #### 全链路自动化模拟流程云上测试
+云上测试，即把原来本地测试的过程部署到云上Web服务器，执行逻辑和过程不变。具体功能包括
 
+① 并行控制测试用例，通过线程安全的锁组件（本地锁或者分布式锁）并行控制测试用例，根据Key（group@@serviceId）进行判断，不允许有多个Key相同的测试用例同时运行
+
+- 单服务器模式下，通过基于StampedLock的Caffeine实现本地锁，并提供锁过期释放机制
+- 集群服务器模式下，通过基于Redis的Redisson实现分布式锁，并提供锁过期释放机制
+
+② 测试用例执行过程中，每一步成功和失败，都提供日志输出，使用者可以实现基于Web界面的测试操作
+
+- 测试控制台提供两种方式的Rest接口，返回为全局唯一的`testcase-id`
+- 测试控制台需要通过Logback输入带有`testcase-id`的日志，参考discovery-automation-console/src/main/resouces下的logback.xml和logback-all.xml
+- 整合日志服务器，采集和输出测试日志到指定的分布式存储上
+- 通过`testcase-id`获取和显示属于指定Web界面终端的日志
+
+执行过程，有两种方式
+
+① 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Automation Console
+
+- 解压后，运行startup.bat或者startup.sh
+
+② 编译[https://github.com/Nepxion/DiscoveryTool/tree/automation](https://github.com/Nepxion/DiscoveryTool/tree/automation)，分支为automation
+
+- 下载后，执行mvn clean install -DskipTests，在discovery-automation-console/target/discovery-automation-console-${version}-release目录下产生第一种方式的包，运行startup.bat或者startup.sh
+
+Discovery Automation Console默认把Simulator和Inspector集成在一起，使用者可以视具体场景把它们分开部署
+
+执行步骤
+
+① 访问Swagger
+
+② 启动测试
+
+并行控制，返回如下错误
 
 ### 全链路自动化流量侦测测试
 使用者集成框架后，需要通过Postman调用一下去验证是否成功集成，该方式比较繁琐，可以通过“全链路自动化流量侦测测试”方式进行验证
@@ -3759,13 +3791,13 @@ header:
 
 ① 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Automation Inspector
 
-- 解压后，根据下文提示做相应修改
+- 解压后，根据上文提示做相应修改
 - 运行startup.bat或者startup.sh
 
 ② 编译[https://github.com/Nepxion/DiscoveryTool/tree/automation](https://github.com/Nepxion/DiscoveryTool/tree/automation)，分支为automation
 
-- 下载后，根据下文提示做相应修改
-- 执行mvn clean install，运行打包过程中的自动化测试，或者执行mvn clean install -DskipTests，在discovery-automation-inspector-application/target/discovery-automation-inspector-${version}-release目录下产生第一种方式的包，运行startup.bat或者startup.sh
+- 下载后，根据上文提示做相应修改
+- 执行mvn clean install -DskipTests，在discovery-automation-inspector-application/target/discovery-automation-inspector-${version}-release目录下，运行startup.bat或者startup.sh
 
 #### 全链路自动化流量侦测测试云上测试
 
