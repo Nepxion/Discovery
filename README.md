@@ -3691,7 +3691,7 @@ service:
 - 整合日志服务器，采集和输出测试日志到指定的分布式存储上
 - 通过`testcase-id`获取和显示属于指定Web界面终端的日志
 
-执行过程，有两种方式
+启动测试控制台，有两种方式
 
 ① 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Automation Console
 
@@ -3707,9 +3707,126 @@ Discovery Automation Console默认把Simulator和Inspector集成在一起，使�
 
 ① 访问Swagger
 
+使用者可以自研自动化测试平台界面来代替Swagger界面，下面以Swagger界面为例，介绍如何操作
+
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Swagger3.jpg)
+
 ② 启动测试
 
-并行控制，返回如下错误
+全链路自动化模拟流程测试，有两种接口
+
+- 配置文件为Properties格式
+
+访问接口
+```
+http://localhost:6002/simulator-test/test-config-properties
+```
+
+传输内容，按照次序，由application.properties、mock-version-release-basic.yaml、mock-version-release-1.yaml、mock-version-release-2.yaml组成，中间用10个"-"组成换行分隔。例如：
+```
+testcase.console.url=http://localhost:6001
+testcase.group=discovery-guide-group
+testcase.service=discovery-guide-gateway
+testcase.inspect.url=http://localhost:5001/discovery-guide-service-a/inspector/inspect
+testcase.inspect.context.service=discovery-guide-service-a
+----------
+service:
+  - discovery-guide-service-a
+  - discovery-guide-service-b
+sort: version
+----------
+service:
+  - discovery-guide-service-a
+  - discovery-guide-service-b
+blueGreen:
+  - expression: "#H['xyz'] == '1'"
+    route: green
+  - expression: "#H['xyz'] == '2'"
+    route: blue
+gray:
+  - expression: "#H['xyz'] == '3'"
+    weight:
+      - 90
+      - 10
+  - expression: "#H['xyz'] == '4'"
+    weight:
+      - 70
+      - 30
+sort: version
+----------
+service:
+  - discovery-guide-service-a
+  - discovery-guide-service-b
+condition: true
+sort: version
+```
+
+- 配置文件为Yaml格式
+
+访问接口
+```
+http://localhost:6002/simulator-test/test-config-yaml
+```
+
+传输内容，按照次序，由application.yaml、mock-version-release-basic.yaml、mock-version-release-1.yaml、mock-version-release-2.yaml组成，中间用10个"-"组成换行分隔。例如：
+```
+testcase:
+    console:
+        url: http://localhost:6001
+    group: discovery-guide-group
+    service: discovery-guide-gateway
+    inspect:
+        url: http://localhost:5001/discovery-guide-service-a/inspector/inspect
+        context:
+            service: discovery-guide-service-a
+----------
+service:
+  - discovery-guide-service-a
+  - discovery-guide-service-b
+sort: version
+----------
+service:
+  - discovery-guide-service-a
+  - discovery-guide-service-b
+blueGreen:
+  - expression: "#H['xyz'] == '1'"
+    route: green
+  - expression: "#H['xyz'] == '2'"
+    route: blue
+gray:
+  - expression: "#H['xyz'] == '3'"
+    weight:
+      - 90
+      - 10
+  - expression: "#H['xyz'] == '4'"
+    weight:
+      - 70
+      - 30
+sort: version
+----------
+service:
+  - discovery-guide-service-a
+  - discovery-guide-service-b
+condition: true
+sort: version
+```
+
+传输内容，自上而下，分别是基本配置属性、兜底规则策略、第一次蓝绿灰度发布规则策略、第二次蓝绿灰度发布规则策略。使用者可以直接使用上述示例规则策略（只需要改动服务列表），也可以把实际规则策略填入进去
+
+自动化测试模式下的规则策略有两个限制
+```
+- 蓝绿灰度混合发布模式下，灰度兜底策略不允许配置
+- 尽量使用“等于”表达式
+```
+
+③ 获取当前正在运行的测试用例列表
+
+访问接口
+```
+http://localhost:6002/simulator-test/testcases-running
+```
+
+查看测试平台目前正在运行哪些测试用例，用例名称的格式为group@@serviceId
 
 ### 全链路自动化流量侦测测试
 使用者集成框架后，需要通过Postman调用一下去验证是否成功集成，该方式比较繁琐，可以通过“全链路自动化流量侦测测试”方式进行验证
