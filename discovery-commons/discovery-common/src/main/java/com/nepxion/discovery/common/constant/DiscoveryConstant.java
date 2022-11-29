@@ -191,9 +191,6 @@ public class DiscoveryConstant {
     public static final String UNKNOWN = "unknown";
     public static final String IGNORED = "ignored";
 
-    public static final String DISTRIBUTION = "distribution";
-    public static final String LOCAL = "local";
-
     public static final String ENDPOINT_SCAN_PACKAGES = "com.nepxion.discovery.plugin.admincenter.endpoint";
     public static final String INSPECTOR_ENDPOINT_CLASS_NAME = "com.nepxion.discovery.plugin.admincenter.endpoint.InspectorEndpoint";
     public static final String INSPECTOR_ENDPOINT_METHOD_NAME = "inspect";
