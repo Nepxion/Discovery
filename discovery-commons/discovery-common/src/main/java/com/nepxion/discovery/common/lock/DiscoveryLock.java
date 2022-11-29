@@ -19,7 +19,7 @@ public interface DiscoveryLock {
     void unlock(String key);
 
     // 获取被持有的所有锁名称列表
-    List<String> getHeldLocks(DiscoveryLockHeldType lockHeldType);
+    List<String> getHeldLocks();
 
     // 进程结束时销毁锁
     void destroy() throws Exception;
