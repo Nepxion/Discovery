@@ -16,7 +16,7 @@ import ch.qos.logback.core.pattern.color.ForegroundCompositeConverterBase;
 
 // Refer to color definition with https://logback.qos.ch/manual/layouts.html#coloring
 // Windows终端默认不能显示ANSI颜色，需要在注册表HKEY_CURRENT_USER\Console中新建一个DWORD类型的值VirtualTerminalLevel，数值为1
-public class LogbackLevelColor extends ForegroundCompositeConverterBase<ILoggingEvent> {
+public class LevelColorConverter extends ForegroundCompositeConverterBase<ILoggingEvent> {
     @Override
     protected String getForegroundColorCode(ILoggingEvent event) {
         Level level = event.getLevel();
