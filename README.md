@@ -3680,6 +3680,21 @@ service:
 执行过程，支持输出彩色日志，帮助分辨和定位失败的测试用例
 
 - 彩色日志配色方案，参考：[https://logback.qos.ch/manual/layouts.html#coloring](https://logback.qos.ch/manual/layouts.html#coloring)
+- 彩色日志logback.xml的配置方式，参考如下
+```xml
+<configuration>
+    <conversionRule conversionWord="levelColor" converterClass="com.nepxion.discovery.common.logback.LevelColorConverter" />
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %levelColor(%5p) %magenta(${PID:- }) --- [%15.15t] %cyan(%-40.40logger{39}) : %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>
+```
 - Windows终端默认不能显示ANSI颜色，需要在注册表HKEY_CURRENT_USER\Console中新建一个DWORD类型的值VirtualTerminalLevel，数值为1
 
 #### 全链路自动化模拟流程云上测试
@@ -3943,6 +3958,21 @@ header:
 执行过程，支持输出彩色日志，帮助分辨和定位失败的测试用例
 
 - 彩色日志配色方案，参考：[https://logback.qos.ch/manual/layouts.html#coloring](https://logback.qos.ch/manual/layouts.html#coloring)
+- 彩色日志logback.xml的配置方式，参考如下
+```xml
+<configuration>
+    <conversionRule conversionWord="levelColor" converterClass="com.nepxion.discovery.common.logback.LevelColorConverter" />
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %levelColor(%5p) %magenta(${PID:- }) --- [%15.15t] %cyan(%-40.40logger{39}) : %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>
+```
 - Windows终端默认不能显示ANSI颜色，需要在注册表HKEY_CURRENT_USER\Console中新建一个DWORD类型的值VirtualTerminalLevel，数值为1
 
 #### 全链路自动化流量侦测云上测试
