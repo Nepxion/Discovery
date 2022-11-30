@@ -144,7 +144,11 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - 全链路手工编排、智能编排、无编排蓝绿灰度发布
 - 全链路自动化测试
     - 全链路自动化模拟流程测试
+        - 全链路自动化模拟流程本地测试
+        - 全链路自动化模拟流程云上测试
     - 全链路自动化流量侦测测试
+        - 全链路自动化流量侦测本地测试
+        - 全链路自动化流量侦测云上测试
 - 全链路流量管控对接DevOps运维平台
 - 全链路多活单元化
 - 全链路隔离路由
@@ -625,8 +629,8 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [全链路自动化模拟流程本地测试](#全链路自动化模拟流程本地测试)
         - [全链路自动化模拟流程云上测试](#全链路自动化模拟流程云上测试)
     - [全链路自动化流量侦测测试](#全链路自动化流量侦测测试)
-        - [全链路自动化流量侦测测试本地测试](#全链路自动化流量侦测测试本地测试)
-        - [全链路自动化流量侦测测试云上测试](#全链路自动化流量侦测测试云上测试)
+        - [全链路自动化流量侦测本地测试](#全链路自动化流量侦测本地测试)
+        - [全链路自动化流量侦测云上测试](#全链路自动化流量侦测云上测试)
 - [全链路流量管控对接DevOps运维平台](#全链路流量管控对接DevOps运维平台)
     - [对接DevOps运维平台架构方案](#对接DevOps运维平台架构方案)
     - [对接DevOps运维平台环境搭建](#对接DevOps运维平台环境搭建)
@@ -3684,6 +3688,7 @@ service:
     - 测试控制台需要通过Logback输入带有`testcase-id`的日志，参考discovery-automation-console/src/main/resouces下的logback.xml和logback-all.xml
     - 整合日志服务器，采集和输出测试日志到指定的分布式存储上
     - 通过`testcase-id`获取和显示属于指定Web界面终端的日志
+- 支持Properties和Yaml格式的两种调用接口
 
 ① 启动测试控制台
 
@@ -3918,9 +3923,9 @@ header:
 测试耗时 : 0 秒
 ```
 
-全链路自动化流量侦测测试，包括[全链路自动化流量侦测测试本地测试](#全链路自动化流量侦测测试本地测试)和[全链路自动化流量侦测测试云上测试](#全链路自动化流量侦测测试云上测试)两种模式
+全链路自动化流量侦测测试，包括[全链路自动化流量侦测本地测试](#全链路自动化流量侦测本地测试)和[全链路自动化流量侦测云上测试](#全链路自动化流量侦测云上测试)两种模式
 
-#### 全链路自动化流量侦测测试本地测试
+#### 全链路自动化流量侦测本地测试
 执行过程，有两种方式
 
 - 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Automation Inspector
@@ -3930,7 +3935,7 @@ header:
     - 下载后，根据上文提示做相应修改
     - 执行mvn clean install -DskipTests，在discovery-automation-inspector-application/target/discovery-automation-inspector-${version}-release目录下，运行startup.bat或者startup.sh
 
-#### 全链路自动化流量侦测测试云上测试
+#### 全链路自动化流量侦测云上测试
 云上测试，即把原来本地测试的过程部署到云上Web服务器，执行逻辑和过程不变。具体功能包括
 
 - 测试用例执行过程中，每一步成功和失败，都提供日志输出，使用者可以实现基于Web界面的测试操作
@@ -3938,6 +3943,7 @@ header:
     - 测试控制台需要通过Logback输入带有`testcase-id`的日志，参考discovery-automation-console/src/main/resouces下的logback.xml和logback-all.xml
     - 整合日志服务器，采集和输出测试日志到指定的分布式存储上
     - 通过`testcase-id`获取和显示属于指定Web界面终端的日志
+- 支持Properties和Yaml格式的两种调用接口
 
 ① 启动测试控制台
 
