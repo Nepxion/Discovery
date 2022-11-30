@@ -3677,6 +3677,11 @@ service:
     - 下载后，根据上文提示做相应修改
     - 执行mvn clean install -DskipTests，在discovery-automation-simulator-application/target/discovery-automation-simulator-${version}-release目录下，运行startup.bat或者startup.sh
 
+执行过程，支持输出彩色日志，帮助分辨和定位失败的测试用例
+
+- 彩色日志配色方案，参考：[https://logback.qos.ch/manual/layouts.html#coloring](https://logback.qos.ch/manual/layouts.html#coloring)
+- Windows终端默认不能显示ANSI颜色，需要在注册表HKEY_CURRENT_USER\Console中新建一个DWORD类型的值VirtualTerminalLevel，数值为1
+
 #### 全链路自动化模拟流程云上测试
 云上测试，即把原来本地测试的过程部署到云上Web服务器，执行逻辑和过程不变。具体功能包括
 
@@ -3934,6 +3939,11 @@ header:
 - 编译[https://github.com/Nepxion/DiscoveryTool/tree/automation](https://github.com/Nepxion/DiscoveryTool/tree/automation)，分支为automation
     - 下载后，根据上文提示做相应修改
     - 执行mvn clean install -DskipTests，在discovery-automation-inspector-application/target/discovery-automation-inspector-${version}-release目录下，运行startup.bat或者startup.sh
+
+执行过程，支持输出彩色日志，帮助分辨和定位失败的测试用例
+
+- 彩色日志配色方案，参考：[https://logback.qos.ch/manual/layouts.html#coloring](https://logback.qos.ch/manual/layouts.html#coloring)
+- Windows终端默认不能显示ANSI颜色，需要在注册表HKEY_CURRENT_USER\Console中新建一个DWORD类型的值VirtualTerminalLevel，数值为1
 
 #### 全链路自动化流量侦测云上测试
 云上测试，即把原来本地测试的过程部署到云上Web服务器，执行逻辑和过程不变。具体功能包括
