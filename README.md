@@ -3666,56 +3666,74 @@ service:
 #### 全链路自动化模拟流程本地测试
 执行过程，有两种方式
 
-① 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Automation Simulator
-
-- 解压后，根据上文提示做相应修改
-- 运行startup.bat或者startup.sh
-
-② 编译[https://github.com/Nepxion/DiscoveryTool/tree/automation](https://github.com/Nepxion/DiscoveryTool/tree/automation)，分支为automation
-
-- 下载后，根据上文提示做相应修改
-- 执行mvn clean install -DskipTests，在discovery-automation-simulator-application/target/discovery-automation-simulator-${version}-release目录下，运行startup.bat或者startup.sh
+- 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Automation Simulator
+    - 解压后，根据上文提示做相应修改
+    - 运行startup.bat或者startup.sh
+- 编译[https://github.com/Nepxion/DiscoveryTool/tree/automation](https://github.com/Nepxion/DiscoveryTool/tree/automation)，分支为automation
+    - 下载后，根据上文提示做相应修改
+    - 执行mvn clean install -DskipTests，在discovery-automation-simulator-application/target/discovery-automation-simulator-${version}-release目录下，运行startup.bat或者startup.sh
 
 #### 全链路自动化模拟流程云上测试
 云上测试，即把原来本地测试的过程部署到云上Web服务器，执行逻辑和过程不变。具体功能包括
 
-① 并行控制测试用例，通过线程安全的锁组件（本地锁或者分布式锁）并行控制测试用例，根据Key（group@@serviceId）进行判断，不允许有多个Key相同的测试用例同时运行
+- 并行控制测试用例，通过线程安全的锁组件（本地锁或者分布式锁）并行控制测试用例，根据Key（group@@serviceId）进行判断，不允许有多个Key相同的测试用例同时运行
+    - 单服务器模式下，通过基于StampedLock的Caffeine实现本地锁，并提供锁过期释放机制
+    - 集群服务器模式下，通过基于Redis的Redisson实现分布式锁，并提供锁过期释放机制
+- 测试用例执行过程中，每一步成功和失败，都提供日志输出，使用者可以实现基于Web界面的测试操作
+    - 测试控制台提供两种方式的Rest接口，返回为全局唯一的`testcase-id`
+    - 测试控制台需要通过Logback输入带有`testcase-id`的日志，参考discovery-automation-console/src/main/resouces下的logback.xml和logback-all.xml
+    - 整合日志服务器，采集和输出测试日志到指定的分布式存储上
+    - 通过`testcase-id`获取和显示属于指定Web界面终端的日志
 
-- 单服务器模式下，通过基于StampedLock的Caffeine实现本地锁，并提供锁过期释放机制
-- 集群服务器模式下，通过基于Redis的Redisson实现分布式锁，并提供锁过期释放机制
+① 启动测试控制台
 
-② 测试用例执行过程中，每一步成功和失败，都提供日志输出，使用者可以实现基于Web界面的测试操作
+默认把Simulator和Inspector集成在一起，使用者可以视具体场景把它们分开部署
 
-- 测试控制台提供两种方式的Rest接口，返回为全局唯一的`testcase-id`
-- 测试控制台需要通过Logback输入带有`testcase-id`的日志，参考discovery-automation-console/src/main/resouces下的logback.xml和logback-all.xml
-- 整合日志服务器，采集和输出测试日志到指定的分布式存储上
-- 通过`testcase-id`获取和显示属于指定Web界面终端的日志
+执行过程，有两种方式
 
-启动测试控制台，有两种方式
+- 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Automation Console
+    - 解压后，运行startup.bat或者startup.sh
+- 编译[https://github.com/Nepxion/DiscoveryTool/tree/automation](https://github.com/Nepxion/DiscoveryTool/tree/automation)，分支为automation
+    - 下载后，执行mvn clean install -DskipTests，在discovery-automation-console/target/discovery-automation-console-${version}-release目录下产生第一种方式的包，运行startup.bat或者startup.sh
 
-① 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Automation Console
+② 修改application.properties配置文件
 
-- 解压后，运行startup.bat或者startup.sh
+```
+# Spring boot config
+spring.application.name=automation-console
+server.port=6002
 
-② 编译[https://github.com/Nepxion/DiscoveryTool/tree/automation](https://github.com/Nepxion/DiscoveryTool/tree/automation)，分支为automation
+# Console automation thread config for inspector and simulator
+# spring.application.thread.core-pool-size=
+# spring.application.thread.max-pool-size=
+# spring.application.thread.queue-capacity=
+# spring.application.thread.keep-alive-seconds=
+# spring.application.thread.await-termination-seconds=
 
-- 下载后，执行mvn clean install -DskipTests，在discovery-automation-console/target/discovery-automation-console-${version}-release目录下产生第一种方式的包，运行startup.bat或者startup.sh
+# Console automation caffeine config for simulator
+# spring.application.caffeine.initial-capacity=10
+# spring.application.caffeine.maximum-size=100
+# spring.application.caffeine.expire-seconds=900
 
-Discovery Automation Console默认把Simulator和Inspector集成在一起，使用者可以视具体场景把它们分开部署
+# Console automation redisson config for simulator
+# spring.application.redisson.wait-seconds=0
+# spring.application.redisson.expire-seconds=900
 
-执行步骤
+# Refer to https://github.com/redisson/redisson/blob/master/redisson-spring-boot-starter/README.md
+singleServerConfig.address=redis://127.0.0.1:6379
 
-① 访问Swagger
+# spring.application.logger.mdc.key.shown=true
+```
+
+③ 启动测试
 
 使用者可以自研自动化测试平台界面来代替Swagger界面，下面以Swagger界面为例，介绍如何操作
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Swagger3.jpg)
 
-② 启动测试
-
 全链路自动化模拟流程测试，有两种接口
 
-- 配置文件为Properties格式
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 配置文件为Properties格式
 
 访问接口
 ```
@@ -3761,7 +3779,7 @@ condition: true
 sort: version
 ```
 
-- 配置文件为Yaml格式
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 配置文件为Yaml格式
 
 访问接口
 ```
@@ -3814,12 +3832,11 @@ sort: version
 传输内容，自上而下，分别是基本配置属性、兜底规则策略、第一次蓝绿灰度发布规则策略、第二次蓝绿灰度发布规则策略。使用者可以直接使用上述示例规则策略（只需要改动服务列表），也可以把实际规则策略填入进去
 
 自动化测试模式下的规则策略有两个限制
-```
+
 - 蓝绿灰度混合发布模式下，灰度兜底策略不允许配置
 - 尽量使用“等于”表达式
-```
 
-③ 获取当前正在运行的测试用例列表
+④ 获取当前正在运行的测试用例列表
 
 访问接口
 ```
@@ -3906,18 +3923,100 @@ header:
 #### 全链路自动化流量侦测测试本地测试
 执行过程，有两种方式
 
-① 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Automation Inspector
-
-- 解压后，根据上文提示做相应修改
-- 运行startup.bat或者startup.sh
-
-② 编译[https://github.com/Nepxion/DiscoveryTool/tree/automation](https://github.com/Nepxion/DiscoveryTool/tree/automation)，分支为automation
-
-- 下载后，根据上文提示做相应修改
-- 执行mvn clean install -DskipTests，在discovery-automation-inspector-application/target/discovery-automation-inspector-${version}-release目录下，运行startup.bat或者startup.sh
+- 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Automation Inspector
+    - 解压后，根据上文提示做相应修改
+    - 运行startup.bat或者startup.sh
+- 编译[https://github.com/Nepxion/DiscoveryTool/tree/automation](https://github.com/Nepxion/DiscoveryTool/tree/automation)，分支为automation
+    - 下载后，根据上文提示做相应修改
+    - 执行mvn clean install -DskipTests，在discovery-automation-inspector-application/target/discovery-automation-inspector-${version}-release目录下，运行startup.bat或者startup.sh
 
 #### 全链路自动化流量侦测测试云上测试
+云上测试，即把原来本地测试的过程部署到云上Web服务器，执行逻辑和过程不变。具体功能包括
 
+- 测试用例执行过程中，每一步成功和失败，都提供日志输出，使用者可以实现基于Web界面的测试操作
+    - 测试控制台提供两种方式的Rest接口，返回为全局唯一的`testcase-id`
+    - 测试控制台需要通过Logback输入带有`testcase-id`的日志，参考discovery-automation-console/src/main/resouces下的logback.xml和logback-all.xml
+    - 整合日志服务器，采集和输出测试日志到指定的分布式存储上
+    - 通过`testcase-id`获取和显示属于指定Web界面终端的日志
+
+① 启动测试控制台
+
+默认把Simulator和Inspector集成在一起，使用者可以视具体场景把它们分开部署
+
+执行过程，有两种方式
+
+- 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Automation Console
+    - 解压后，运行startup.bat或者startup.sh
+- 编译[https://github.com/Nepxion/DiscoveryTool/tree/automation](https://github.com/Nepxion/DiscoveryTool/tree/automation)，分支为automation
+    - 下载后，执行mvn clean install -DskipTests，在discovery-automation-console/target/discovery-automation-console-${version}-release目录下产生第一种方式的包，运行startup.bat或者startup.sh
+
+② 修改application.properties配置文件
+
+```
+# Spring boot config
+spring.application.name=automation-console
+server.port=6002
+
+# Console automation thread config for inspector and simulator
+# spring.application.thread.core-pool-size=
+# spring.application.thread.max-pool-size=
+# spring.application.thread.queue-capacity=
+# spring.application.thread.keep-alive-seconds=
+# spring.application.thread.await-termination-seconds=
+
+# spring.application.logger.mdc.key.shown=true
+```
+
+③ 启动测试
+
+使用者可以自研自动化测试平台界面来代替Swagger界面，下面以Swagger界面为例，介绍如何操作
+
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Swagger4.jpg)
+
+全链路自动化流量侦测测试，有两种接口
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 配置文件为Properties格式
+
+访问接口
+```
+http://localhost:6002/inspector-test/test-config-properties
+```
+
+传输内容，按照次序，由application.properties、mock-inspector.yaml组成，中间用10个"-"组成换行分隔。例如：
+```
+testcase.inspect.url=http://localhost:5001/discovery-guide-service-a/inspector/inspect
+testcase.inspect.context.service=discovery-guide-service-a
+----------
+service:
+  - discovery-guide-service-a
+  - discovery-guide-service-b
+header:
+  xyz: 1
+```
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 配置文件为Yaml格式
+
+访问接口
+```
+http://localhost:6002/inspector-test/test-config-yaml
+```
+
+传输内容，按照次序，由application.yaml、mock-inspector.yaml组成，中间用10个"-"组成换行分隔。例如：
+```
+testcase:
+    inspect:
+        url: http://localhost:5001/discovery-guide-service-a/inspector/inspect
+        context:
+            service: discovery-guide-service-a
+----------
+service:
+  - discovery-guide-service-a
+  - discovery-guide-service-b
+header:
+  xyz: 1
+```
+
+传输内容，自上而下，分别是基本配置属性、侦测规则策略。使用者配置的服务列表和侦测参数，建议和蓝绿灰度发布的参数保持一致
 
 ## 全链路流量管控对接DevOps运维平台
 
