@@ -142,6 +142,9 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - 全链路条件表达式、通配表达式支持
     - 全链路内置Header，支持定时Job的服务调用蓝绿灰度发布
     - 全链路手工编排、智能编排、无编排蓝绿灰度发布
+- 全链路自动化测试
+    - 全链路自动化模拟流程测试
+    - 全链路自动化流量侦测测试
 - 全链路流量管控对接DevOps运维平台
 - 全链路多活单元化
 - 全链路隔离路由
@@ -218,7 +221,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
     - 基于Swagger和Rest的规则策略推送
     - 基于平台端和桌面端的规则策略推送
 - 统一配置订阅执行器
-- 自动化测试、压力测试
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Ability.jpg)
 
@@ -283,7 +285,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 
 | 组件类型 | 组件版本 |
 | --- | --- |
-| 基础组件 | [![Guava](https://img.shields.io/maven-central/v/com.google.guava/guava.svg?label=Guava)](https://search.maven.org/artifact/com.google.guava/guava)<br>[![Caffeine](https://img.shields.io/maven-central/v/com.github.ben-manes.caffeine/caffeine.svg?label=Caffeine)](https://search.maven.org/artifact/com.github.ben-manes.caffeine/caffeine)<br>[![Dom4J](https://img.shields.io/maven-central/v/org.dom4j/dom4j.svg?label=Dom4J)](https://search.maven.org/artifact/org.dom4j/dom4j)<br>[![Swagger](https://img.shields.io/maven-central/v/io.swagger/swagger-models?label=Swagger)](https://search.maven.org/artifact/io.swagger/swagger-models)<br>[![Swagger](https://img.shields.io/maven-central/v/io.springfox/springfox-swagger2?label=SpringFox%20Swagger)](https://search.maven.org/artifact/io.springfox/springfox-swagger2) |
+| 基础组件 | [![Guava](https://img.shields.io/maven-central/v/com.google.guava/guava.svg?label=Guava)](https://search.maven.org/artifact/com.google.guava/guava)<br>[![Caffeine](https://img.shields.io/maven-central/v/com.github.ben-manes.caffeine/caffeine.svg?label=Caffeine)](https://search.maven.org/artifact/com.github.ben-manes.caffeine/caffeine)<br>[![Redisson](https://img.shields.io/maven-central/v/org.redisson/redisson-spring-boot-starter.svg?label=Redisson)](https://search.maven.org/artifact/org.redisson/redisson-spring-boot-starter)<br>[![Dom4J](https://img.shields.io/maven-central/v/org.dom4j/dom4j.svg?label=Dom4J)](https://search.maven.org/artifact/org.dom4j/dom4j)<br>[![Swagger](https://img.shields.io/maven-central/v/io.swagger/swagger-models?label=Swagger)](https://search.maven.org/artifact/io.swagger/swagger-models)<br>[![Swagger](https://img.shields.io/maven-central/v/io.springfox/springfox-swagger2?label=SpringFox%20Swagger)](https://search.maven.org/artifact/io.springfox/springfox-swagger2) |
 | 注册配置组件 | [![Apollo](https://img.shields.io/maven-central/v/com.ctrip.framework.apollo/apollo-client.svg?label=Apollo)](https://search.maven.org/artifact/com.ctrip.framework.apollo/apollo-client)<br>[![Zookeeper Curator](https://img.shields.io/maven-central/v/org.apache.curator/curator-framework.svg?label=Zookeeper%20Curator)](https://search.maven.org/artifact/org.apache.curator/curator-framework)<br>[![Consul](https://img.shields.io/maven-central/v/com.ecwid.consul/consul-api.svg?label=Consul)](https://search.maven.org/artifact/com.ecwid.consul/consul-api)<br>[![JEtcd](https://img.shields.io/maven-central/v/io.etcd/jetcd-core.svg?label=JEtcd)](https://search.maven.org/artifact/io.etcd/jetcd-core)<br>[![Nacos](https://img.shields.io/maven-central/v/com.alibaba.nacos/nacos-client.svg?label=Nacos)](https://search.maven.org/artifact/com.alibaba.nacos/nacos-client)<br>[![Eureka](https://img.shields.io/maven-central/v/com.netflix.eureka/eureka-client.svg?label=Eureka)](https://search.maven.org/artifact/com.netflix.eureka/eureka-client)<br>[![Redis](https://img.shields.io/maven-central/v/org.springframework.data/spring-data-redis.svg?label=Redis)](https://search.maven.org/artifact/org.springframework.data/spring-data-redis) |
 | 防护组件 | [![Sentinel](https://img.shields.io/maven-central/v/com.alibaba.csp/sentinel-core.svg?label=Sentinel)](https://search.maven.org/artifact/com.alibaba.csp/sentinel-core)<br>[![Hystrix](https://img.shields.io/maven-central/v/com.netflix.hystrix/hystrix-core.svg?label=Hystrix)](https://search.maven.org/artifact/com.netflix.hystrix/hystrix-core) |
 | 监控组件 | [![OpenTelemetry](https://img.shields.io/maven-central/v/io.opentelemetry/opentelemetry-api.svg?label=OpenTelemetry)](https://search.maven.org/artifact/io.opentelemetry/opentelemetry-api)<br>[![OpenTracing](https://img.shields.io/maven-central/v/io.opentracing/opentracing-api.svg?label=OpenTracing)](https://search.maven.org/artifact/io.opentracing/opentracing-api)<br>[![OpenTracing%20Spring%20Cloud](https://img.shields.io/maven-central/v/io.opentracing.contrib/opentracing-spring-cloud-starter.svg?label=OpenTracing%20Spring%20Cloud)](https://search.maven.org/artifact/io.opentracing.contrib/opentracing-spring-cloud-starter)<br>[![OpenTracing%20Jaeger](https://img.shields.io/maven-central/v/io.opentracing.contrib/opentracing-spring-jaeger-starter.svg?label=OpenTracing%20Jaeger)](https://search.maven.org/artifact/io.opentracing.contrib/opentracing-spring-jaeger-starter)<br>[![OpenTracing%20Concurrent](https://img.shields.io/maven-central/v/io.opentracing.contrib/opentracing-concurrent.svg?label=OpenTracing%20Concurrent)](https://search.maven.org/artifact/io.opentracing.contrib/opentracing-concurrent)<br>[![SkyWalking](https://img.shields.io/maven-central/v/org.apache.skywalking/apm-toolkit-opentracing.svg?label=SkyWalking)](https://search.maven.org/artifact/org.apache.skywalking/apm-toolkit-opentracing)<br>[![Spring Boot](https://img.shields.io/maven-central/v/de.codecentric/spring-boot-admin-dependencies.svg?label=Spring%20Boot%20Admin)](https://search.maven.org/artifact/de.codecentric/spring-boot-admin-dependencies) |
@@ -618,9 +620,13 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [全链路无编排的蓝绿灰度规则策略](#全链路无编排的蓝绿灰度规则策略)
         - [全链路无编排的故障转移](#全链路无编排的故障转移)
         - [全链路无编排蓝绿灰度发布的总结](#全链路无编排蓝绿灰度发布的总结)
-    - [全链路自动化测试](#全链路自动化测试)
-        - [全链路自动化模拟流程测试](#全链路自动化模拟流程测试)
-        - [全链路自动化流量侦测测试](#全链路自动化流量侦测测试)
+- [全链路自动化测试](#全链路自动化测试)
+    - [全链路自动化模拟流程测试](#全链路自动化模拟流程测试)
+        - [全链路自动化模拟流程本地测试](#全链路自动化模拟流程本地测试)
+        - [全链路自动化模拟流程云上测试](#全链路自动化模拟流程云上测试)
+    - [全链路自动化流量侦测测试](#全链路自动化流量侦测测试)
+        - [全链路自动化流量侦测测试本地测试](#全链路自动化流量侦测测试本地测试)
+        - [全链路自动化流量侦测测试云上测试](#全链路自动化流量侦测测试云上测试)
 - [全链路流量管控对接DevOps运维平台](#全链路流量管控对接DevOps运维平台)
     - [对接DevOps运维平台架构方案](#对接DevOps运维平台架构方案)
     - [对接DevOps运维平台环境搭建](#对接DevOps运维平台环境搭建)
@@ -858,7 +864,45 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-springcloud-example-zuul | Zuul网关示例 |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-springcloud-example-gateway | Spring Cloud Gateway网关示例 |
 
-② DiscoveryPlatform工程清单
+② DiscoveryTool工程清单
+
+统一控制平台
+
+| 工程名 | 描述 |
+| --- | --- |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> console | 控制平台可执行应用 |
+
+自动化测试平台
+
+| 工程名 | 描述 |
+| --- | --- |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_south.png"> discovery-automation-commons | 自动化测试通用模块目录 |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-common | 自动化测试通用模块 |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-common-console | 自动化测试通用测试平台模块 |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_south.png"> discovery-automation-concurrent | 自动化测试并发相关模块目录 |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-concurrent-starter-caffeine | 自动化测试Caffeine本地锁的Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-concurrent-starter-redisson | 自动化测试Redisson本地锁的Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-concurrent-starter-thread | 自动化测试Thread Pool的Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-console | 自动化测试平台可执行应用 |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_south.png"> discovery-automation-inspector | 自动化流量侦测测试目录 |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-inspector-starter | 自动化流量侦测测试的Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-inspector-starter-console | 自动化流量侦测测试平台的Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-inspector-application | 自动化流量侦测测试可执行应用 |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_south.png"> discovery-automation-simulator | 自动化模拟流程测试目录 |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-simulator-starter | 自动化模拟流程测试的Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-simulator-starter-console | 自动化模拟流程测试平台的Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-automation-simulator-application | 自动化模拟流程测试可执行应用 |
+
+③ DiscoveryAgent工程清单
+
+| 工程名 | 描述 |
+| --- | --- |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-agent-starter | 异步跨线程Agent Starter |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-agent-starter-plugin-strategy | 路由策略的异步跨线程Agent Plugin Starter |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-agent-starter-plugin-mdc | MDC日志的异步跨线程Agent Plugin Starter |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-agent-example | 异步跨线程示例 |
+
+④ DiscoveryPlatform工程清单
 
 | 工程名 | 描述 |
 | --- | --- |
@@ -874,23 +918,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-platform-starter-common-dingding | 封装钉钉通用操作逻辑的Starter |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-platform-starter-common-mail | 封装邮件通用操作逻辑的Starter |
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-platform-application | 平台服务端可执行应用 |
-
-③ DiscoveryTool工程清单
-
-| 工程名 | 描述 |
-| --- | --- |
-| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> console | Nepxion Discovery 控制平台应用 |
-| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> simulator | Nepxion Discovery 自动化模拟器应用 |
-| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> inspector | Nepxion Discovery 自动化侦测器应用 |
-
-④ DiscoveryAgent工程清单
-
-| 工程名 | 描述 |
-| --- | --- |
-| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-agent-starter | 异步跨线程Agent Starter |
-| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-agent-starter-plugin-strategy | 路由策略的异步跨线程Agent Plugin Starter |
-| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-agent-starter-plugin-mdc | MDC日志的异步跨线程Agent Plugin Starter |
-| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-agent-example | 异步跨线程示例 |
 
 ⑤ DiscoveryDesktop工程清单
 
@@ -1429,7 +1456,7 @@ H的含义：H为Http首字母，即取值Http类型的参数，包括Header、P
 
 ③ Spring Spel的逻辑表达，需要注意
 
-- 任何值都大于null。当某个参数未传值，但又指定了该参数大于的表达逻辑，那么表达式结果为false。例如，#H['a'] > '2'，但a未传递进来，a即null，则null > 2，表达式结果为false
+- null小于任何值。当某个参数未传值，但又指定了该参数小于的表达逻辑，那么表达式结果为true。例如，#H['a'] < '2'，但a未传递进来，a即null，则null < 2，表达式结果为true
 - null满足不等于。当某个参数未传值，但又指定了该该参数不等于的表达逻辑，那么表达式结果为true。例如，#H['a'] != '2'，但a未传递进来，a即null，则null != 2，表达式结果为true
 
 ④ Spring Spel的符号
@@ -3467,36 +3494,31 @@ spring.application.strategy.version.failover.enabled=true
 - 要牢记业务参数在每次发布驱动链路的情况，即发布中，业务参数不能缺失且必须命中，发布后，业务参数必须缺失
 - 要牢记打开故障转移
 
-### 全链路自动化测试
+## 全链路自动化测试
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Inspector.jpg)
 
-#### 全链路自动化模拟流程测试
+### 全链路自动化模拟流程测试
 使用者集成框架后，需要通过Postman调用一下去验证是否成功集成，该方式比较繁琐，可以通过“全链路自动化模拟流程测试”方式进行验证
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/error.png) 禁止在生产环境使用
 
 采用全链路智能编排 + 流量侦测相结合的做法，支持网关和服务为侦测入口两种方式，用于测试环境或者开发环境通过自动化测试手段验证全链路蓝绿灰度方式的准确性
 
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/error.png) 禁止事项
+
+禁止在生产环境使用
+
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
 
-使用侦测功能，服务必须引入discovery-plugin-admin-center-starter依赖
+服务必须引入discovery-plugin-admin-center-starter依赖
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 启动控制台
+执行步骤
+
+① 启动控制台
 
 执行之前，需要先启动控制台，请参考
 - Github Wiki ：[如何部署对接DevOps运维平台的控制台](https://github.com/Nepxion/Discovery/wiki/如何部署对接DevOps运维平台的控制台)
 - Gitee Wiki ：[如何部署对接DevOps运维平台的控制台](https://gitee.com/nepxion/Discovery/wikis/pages?sort_id=6465803&doc_id=1124387)
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 执行过程，有两种方式
-
-- 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Simulator
-    - 解压后，根据下文提示做相应修改
-    - 运行startup.bat或者startup.sh
-- 编译[https://github.com/Nepxion/DiscoveryTool/tree/simulator](https://github.com/Nepxion/DiscoveryTool/tree/simulator)，分支为simulator
-    - 下载后，根据下文提示做相应修改
-    - 执行mvn clean install，运行打包过程中的自动化测试，或者执行mvn clean install -DskipTests，产生第一种方式的包，再运行startup.bat或者startup.sh
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 修改application.properties配置文件
+② 修改application.properties配置文件
 
 - console.url替换成相应的地址
 - testcase.group和testcase.service替换成相应的订阅的组名和服务名
@@ -3542,17 +3564,17 @@ testcase.inspect.context.service=discovery-guide-service-a
 # 开启和关闭测试用例中第二次蓝绿灰度发布的自动化测试。一般情况下，第一次蓝绿灰度发布测试通过，第二次发生问题的概率较低。缺失则默认为true
 # testcase.second.release.enabled=false
 
-# 测试用例抛错，通过debug日志定位问题
-# logging.level.com.nepxion.discovery.simulator=debug
+# 测试用例抛错，通过Debug方式定位问题
+# testcase.debug.enabled=false
 ```
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 修改规则策略文件
+③ 修改规则策略文件
 
 在如下三个文件
 
-- version-release-basic.yaml
-- version-release-1.yaml
-- version-release-2.yaml
+- mock-version-release-basic.yaml
+- mock-version-release-1.yaml
+- mock-version-release-2.yaml
 
 如下服务列表替换成测试环境要模拟蓝绿灰度发布的服务列表
 ```
@@ -3561,31 +3583,31 @@ service:
   - discovery-guide-service-b
 ```
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 参考模拟流程部分结果
+④ 参考模拟流程部分结果
 
 ```
 【模拟场景3】蓝绿策略，测试全链路侦测，Header : 无...
 侦测次数 : 100
-侦测结果 : discovery-guide-service-a@1.0 命中次数=100
-侦测结果 : discovery-guide-service-a@1.1 命中次数=0
-侦测结果 : discovery-guide-service-b@1.0 命中次数=100
-侦测结果 : discovery-guide-service-b@1.1 命中次数=0
+侦测结果 : discovery-guide-service-a@@1.0 命中次数=100
+侦测结果 : discovery-guide-service-a@@1.1 命中次数=0
+侦测结果 : discovery-guide-service-b@@1.0 命中次数=100
+侦测结果 : discovery-guide-service-b@@1.1 命中次数=0
 测试结果 : 通过
 测试耗时 : 3 秒
 【模拟场景3】蓝绿策略，测试全链路侦测，Header : xyz=1...
 侦测次数 : 100
-侦测结果 : discovery-guide-service-a@1.0 命中次数=100
-侦测结果 : discovery-guide-service-a@1.1 命中次数=0
-侦测结果 : discovery-guide-service-b@1.0 命中次数=100
-侦测结果 : discovery-guide-service-b@1.1 命中次数=0
+侦测结果 : discovery-guide-service-a@@1.0 命中次数=100
+侦测结果 : discovery-guide-service-a@@1.1 命中次数=0
+侦测结果 : discovery-guide-service-b@@1.0 命中次数=100
+侦测结果 : discovery-guide-service-b@@1.1 命中次数=0
 测试结果 : 通过
 测试耗时 : 3 秒
 【模拟场景3】蓝绿策略，测试全链路侦测，Header : xyz=2...
 侦测次数 : 100
-侦测结果 : discovery-guide-service-a@1.0 命中次数=0
-侦测结果 : discovery-guide-service-a@1.1 命中次数=100
-侦测结果 : discovery-guide-service-b@1.0 命中次数=0
-侦测结果 : discovery-guide-service-b@1.1 命中次数=100
+侦测结果 : discovery-guide-service-a@@1.0 命中次数=0
+侦测结果 : discovery-guide-service-a@@1.1 命中次数=100
+侦测结果 : discovery-guide-service-b@@1.0 命中次数=0
+侦测结果 : discovery-guide-service-b@@1.1 命中次数=100
 测试结果 : 通过
 测试耗时 : 3 秒
 【模拟场景3】灰度策略，测试全链路侦测，Header : 无...
@@ -3595,10 +3617,10 @@ service:
 侦测进度 : 第300次...
 侦测进度 : 第400次...
 侦测进度 : 第500次...
-侦测结果 : discovery-guide-service-a@1.0 命中次数=500
-侦测结果 : discovery-guide-service-a@1.1 命中次数=0
-侦测结果 : discovery-guide-service-b@1.0 命中次数=500
-侦测结果 : discovery-guide-service-b@1.1 命中次数=0
+侦测结果 : discovery-guide-service-a@@1.0 命中次数=500
+侦测结果 : discovery-guide-service-a@@1.1 命中次数=0
+侦测结果 : discovery-guide-service-b@@1.0 命中次数=500
+侦测结果 : discovery-guide-service-b@@1.1 命中次数=0
 权重结果偏差值=5%
 期望结果 : 旧版本路由权重=100%, 新版本路由权重=0%
 最终结果 : 旧版本路由权重=100.0%, 新版本路由权重=0.0%
@@ -3611,10 +3633,10 @@ service:
 侦测进度 : 第300次...
 侦测进度 : 第400次...
 侦测进度 : 第500次...
-侦测结果 : discovery-guide-service-a@1.0 命中次数=448
-侦测结果 : discovery-guide-service-a@1.1 命中次数=52
-侦测结果 : discovery-guide-service-b@1.0 命中次数=448
-侦测结果 : discovery-guide-service-b@1.1 命中次数=52
+侦测结果 : discovery-guide-service-a@@1.0 命中次数=448
+侦测结果 : discovery-guide-service-a@@1.1 命中次数=52
+侦测结果 : discovery-guide-service-b@@1.0 命中次数=448
+侦测结果 : discovery-guide-service-b@@1.1 命中次数=52
 权重结果偏差值=5%
 期望结果 : 旧版本路由权重=90%, 新版本路由权重=10%
 最终结果 : 旧版本路由权重=89.6%, 新版本路由权重=10.4%
@@ -3627,10 +3649,10 @@ service:
 侦测进度 : 第300次...
 侦测进度 : 第400次...
 侦测进度 : 第500次...
-侦测结果 : discovery-guide-service-a@1.0 命中次数=353
-侦测结果 : discovery-guide-service-a@1.1 命中次数=147
-侦测结果 : discovery-guide-service-b@1.0 命中次数=353
-侦测结果 : discovery-guide-service-b@1.1 命中次数=147
+侦测结果 : discovery-guide-service-a@@1.0 命中次数=353
+侦测结果 : discovery-guide-service-a@@1.1 命中次数=147
+侦测结果 : discovery-guide-service-b@@1.0 命中次数=353
+侦测结果 : discovery-guide-service-b@@1.1 命中次数=147
 权重结果偏差值=5%
 期望结果 : 旧版本路由权重=70%, 新版本路由权重=30%
 最终结果 : 旧版本路由权重=70.6%, 新版本路由权重=29.4%
@@ -3639,27 +3661,206 @@ service:
 【模拟场景3】* 测试通过...
 ```
 
-#### 全链路自动化流量侦测测试
-使用者集成框架后，需要通过Postman调用一下去验证是否成功集成，该方式比较繁琐，可以通过“全链路自动化流量侦测测试”方式进行验证
+全链路自动化模拟流程测试，包括[全链路自动化模拟流程本地测试](#全链路自动化模拟流程本地测试)和[全链路自动化模拟流程云上测试](#全链路自动化模拟流程云上测试)两种模式
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_32.png) 适合在生产环境使用
+#### 全链路自动化模拟流程本地测试
+执行过程，有两种方式
+
+- 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Automation Simulator
+    - 解压后，根据上文提示做相应修改
+    - 运行startup.bat或者startup.sh
+- 编译[https://github.com/Nepxion/DiscoveryTool/tree/automation](https://github.com/Nepxion/DiscoveryTool/tree/automation)，分支为automation
+    - 下载后，根据上文提示做相应修改
+    - 执行mvn clean install -DskipTests，在discovery-automation-simulator-application/target/discovery-automation-simulator-${version}-release目录下，运行startup.bat或者startup.sh
+
+#### 全链路自动化模拟流程云上测试
+云上测试，即把原来本地测试的过程部署到云上Web服务器，执行逻辑和过程不变。具体功能包括
+
+- 并行控制测试用例，通过线程安全的锁组件（本地锁或者分布式锁）并行控制测试用例，根据Key（group@@serviceId）进行判断，不允许有多个Key相同的测试用例同时运行
+    - 单服务器模式下，通过基于StampedLock的Caffeine实现本地锁，并提供锁过期释放机制
+    - 集群服务器模式下，通过基于Redis的Redisson实现分布式锁，并提供锁过期释放机制
+- 测试用例执行过程中，每一步成功和失败，都提供日志输出，使用者可以实现基于Web界面的测试操作
+    - 测试控制台提供两种方式的Rest接口，返回为全局唯一的`testcase-id`
+    - 测试控制台需要通过Logback输入带有`testcase-id`的日志，参考discovery-automation-console/src/main/resouces下的logback.xml和logback-all.xml
+    - 整合日志服务器，采集和输出测试日志到指定的分布式存储上
+    - 通过`testcase-id`获取和显示属于指定Web界面终端的日志
+
+① 启动测试控制台
+
+默认把Simulator和Inspector集成在一起，使用者可以视具体场景把它们分开部署
+
+执行过程，有两种方式
+
+- 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Automation Console
+    - 解压后，运行startup.bat或者startup.sh
+- 编译[https://github.com/Nepxion/DiscoveryTool/tree/automation](https://github.com/Nepxion/DiscoveryTool/tree/automation)，分支为automation
+    - 下载后，执行mvn clean install -DskipTests，在discovery-automation-console/target/discovery-automation-console-${version}-release目录下产生第一种方式的包，运行startup.bat或者startup.sh
+
+② 修改application.properties配置文件
+
+```
+# Spring boot config
+spring.application.name=automation-console
+server.port=6002
+
+# Console automation thread config for inspector and simulator
+# spring.application.thread.core-pool-size=
+# spring.application.thread.max-pool-size=
+# spring.application.thread.queue-capacity=
+# spring.application.thread.keep-alive-seconds=
+# spring.application.thread.await-termination-seconds=
+
+# Console automation caffeine config for simulator
+# spring.application.caffeine.initial-capacity=10
+# spring.application.caffeine.maximum-size=100
+# spring.application.caffeine.expire-seconds=900
+
+# Console automation redisson config for simulator
+# spring.application.redisson.wait-seconds=0
+# spring.application.redisson.expire-seconds=900
+
+# Refer to https://github.com/redisson/redisson/blob/master/redisson-spring-boot-starter/README.md
+singleServerConfig.address=redis://127.0.0.1:6379
+
+# spring.application.logger.mdc.key.shown=true
+```
+
+③ 启动测试
+
+使用者可以自研自动化测试平台界面来代替Swagger界面，下面以Swagger界面为例，介绍如何操作
+
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Swagger3.jpg)
+
+全链路自动化模拟流程测试，有两种接口
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 配置文件为Properties格式
+
+访问接口
+```
+http://localhost:6002/simulator-test/test-config-properties
+```
+
+传输内容，按照次序，由application.properties、mock-version-release-basic.yaml、mock-version-release-1.yaml、mock-version-release-2.yaml组成，中间用10个"-"组成换行分隔。例如：
+```
+testcase.console.url=http://localhost:6001
+testcase.group=discovery-guide-group
+testcase.service=discovery-guide-gateway
+testcase.inspect.url=http://localhost:5001/discovery-guide-service-a/inspector/inspect
+testcase.inspect.context.service=discovery-guide-service-a
+----------
+service:
+  - discovery-guide-service-a
+  - discovery-guide-service-b
+sort: version
+----------
+service:
+  - discovery-guide-service-a
+  - discovery-guide-service-b
+blueGreen:
+  - expression: "#H['xyz'] == '1'"
+    route: green
+  - expression: "#H['xyz'] == '2'"
+    route: blue
+gray:
+  - expression: "#H['xyz'] == '3'"
+    weight:
+      - 90
+      - 10
+  - expression: "#H['xyz'] == '4'"
+    weight:
+      - 70
+      - 30
+sort: version
+----------
+service:
+  - discovery-guide-service-a
+  - discovery-guide-service-b
+condition: true
+sort: version
+```
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 配置文件为Yaml格式
+
+访问接口
+```
+http://localhost:6002/simulator-test/test-config-yaml
+```
+
+传输内容，按照次序，由application.yaml、mock-version-release-basic.yaml、mock-version-release-1.yaml、mock-version-release-2.yaml组成，中间用10个"-"组成换行分隔。例如：
+```
+testcase:
+    console:
+        url: http://localhost:6001
+    group: discovery-guide-group
+    service: discovery-guide-gateway
+    inspect:
+        url: http://localhost:5001/discovery-guide-service-a/inspector/inspect
+        context:
+            service: discovery-guide-service-a
+----------
+service:
+  - discovery-guide-service-a
+  - discovery-guide-service-b
+sort: version
+----------
+service:
+  - discovery-guide-service-a
+  - discovery-guide-service-b
+blueGreen:
+  - expression: "#H['xyz'] == '1'"
+    route: green
+  - expression: "#H['xyz'] == '2'"
+    route: blue
+gray:
+  - expression: "#H['xyz'] == '3'"
+    weight:
+      - 90
+      - 10
+  - expression: "#H['xyz'] == '4'"
+    weight:
+      - 70
+      - 30
+sort: version
+----------
+service:
+  - discovery-guide-service-a
+  - discovery-guide-service-b
+condition: true
+sort: version
+```
+
+传输内容，自上而下，分别是基本配置属性、兜底规则策略、第一次蓝绿灰度发布规则策略、第二次蓝绿灰度发布规则策略。使用者可以直接使用上述示例规则策略（只需要改动服务列表），也可以把实际规则策略填入进去
+
+自动化测试模式下的规则策略有两个限制
+
+- 蓝绿灰度混合发布模式下，灰度兜底策略不允许配置
+- 尽量使用“等于”表达式
+
+④ 获取当前正在运行的测试用例列表
+
+访问接口
+```
+http://localhost:6002/simulator-test/testcases-running
+```
+
+查看测试平台目前正在运行哪些测试用例，用例名称的格式为group@@serviceId
+
+### 全链路自动化流量侦测测试
+使用者集成框架后，需要通过Postman调用一下去验证是否成功集成，该方式比较繁琐，可以通过“全链路自动化流量侦测测试”方式进行验证
 
 支持网关和服务为侦测入口两种方式，通过自动化测试手段验证全链路蓝绿灰度方式的准确性，由于不能通过大规模模拟调用来冲击生产环境的稳定性，需要通过人工判断来确定结果的准确性
 
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_32.png) 适合事项
+
+适合在生产环境使用
+
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/warning.png) 注意事项
 
-使用侦测功能，服务必须引入discovery-plugin-admin-center-starter依赖
+服务必须引入discovery-plugin-admin-center-starter依赖
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 执行过程，有两种方式
+执行步骤
 
-- 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Inspector
-    - 解压后，根据下文提示做相应修改
-    - 运行startup.bat或者startup.sh
-- 编译[https://github.com/Nepxion/DiscoveryTool/tree/inspector](https://github.com/Nepxion/DiscoveryTool/tree/inspector)，分支为inspector
-    - 下载后，根据下文提示做相应修改
-    - 执行mvn clean install，运行打包过程中的自动化测试，或者执行mvn clean install -DskipTests，产生第一种方式的包，再运行startup.bat或者startup.sh
-
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 修改application.properties配置文件
+① 修改application.properties配置文件
 
 - 网关侦测入口或者服务侦测入口任选一种，把testcase.inspect.url替换成相应的网关地址或者服务地址
     - 当选择网关作为侦测入口，testcase.inspect.context.service替换成网关后第一跳的服务名
@@ -3684,13 +3885,13 @@ testcase.inspect.context.service=discovery-guide-service-a
 # ID=ServiceId,UID=UUID,AID=ApplicationId,T=ServiceType,P=Plugin,H=host:port,V=Version,R=Region,E=Environment,Z=Zone,G=Group,A=Active,TID=TraceId,SID=SpanId
 # testcase.result.filter=ID,V
 
-# 测试用例抛错，通过debug日志定位问题
-# logging.level.com.nepxion.discovery.inspector=debug
+# 测试用例抛错，通过Debug方式定位问题
+# testcase.debug.enabled=false
 ```
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 修改规则策略文件
+② 修改规则策略文件
 
-在inspector.yaml里，服务列表替换成要侦测的服务列表，header替换成要侦测的参数
+在mock-inspector.yaml里，服务列表替换成要侦测的服务列表，header替换成要侦测的参数
 ```
 service:
   - discovery-guide-service-a
@@ -3699,7 +3900,7 @@ header:
   xyz: 1
 ```
 
-![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 参考侦测部分结果
+③ 参考侦测部分结果
 
 ```
 【侦测场景1】测试全链路侦测...
@@ -3716,6 +3917,106 @@ header:
 侦测结果 : [ID=discovery-guide-gateway][V=1.0] -> [ID=discovery-guide-service-a][V=1.1] -> [ID=discovery-guide-service-b][V=1.1]
 测试耗时 : 0 秒
 ```
+
+全链路自动化流量侦测测试，包括[全链路自动化流量侦测测试本地测试](#全链路自动化流量侦测测试本地测试)和[全链路自动化流量侦测测试云上测试](#全链路自动化流量侦测测试云上测试)两种模式
+
+#### 全链路自动化流量侦测测试本地测试
+执行过程，有两种方式
+
+- 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Automation Inspector
+    - 解压后，根据上文提示做相应修改
+    - 运行startup.bat或者startup.sh
+- 编译[https://github.com/Nepxion/DiscoveryTool/tree/automation](https://github.com/Nepxion/DiscoveryTool/tree/automation)，分支为automation
+    - 下载后，根据上文提示做相应修改
+    - 执行mvn clean install -DskipTests，在discovery-automation-inspector-application/target/discovery-automation-inspector-${version}-release目录下，运行startup.bat或者startup.sh
+
+#### 全链路自动化流量侦测测试云上测试
+云上测试，即把原来本地测试的过程部署到云上Web服务器，执行逻辑和过程不变。具体功能包括
+
+- 测试用例执行过程中，每一步成功和失败，都提供日志输出，使用者可以实现基于Web界面的测试操作
+    - 测试控制台提供两种方式的Rest接口，返回为全局唯一的`testcase-id`
+    - 测试控制台需要通过Logback输入带有`testcase-id`的日志，参考discovery-automation-console/src/main/resouces下的logback.xml和logback-all.xml
+    - 整合日志服务器，采集和输出测试日志到指定的分布式存储上
+    - 通过`testcase-id`获取和显示属于指定Web界面终端的日志
+
+① 启动测试控制台
+
+默认把Simulator和Inspector集成在一起，使用者可以视具体场景把它们分开部署
+
+执行过程，有两种方式
+
+- 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Automation Console
+    - 解压后，运行startup.bat或者startup.sh
+- 编译[https://github.com/Nepxion/DiscoveryTool/tree/automation](https://github.com/Nepxion/DiscoveryTool/tree/automation)，分支为automation
+    - 下载后，执行mvn clean install -DskipTests，在discovery-automation-console/target/discovery-automation-console-${version}-release目录下产生第一种方式的包，运行startup.bat或者startup.sh
+
+② 修改application.properties配置文件
+
+```
+# Spring boot config
+spring.application.name=automation-console
+server.port=6002
+
+# Console automation thread config for inspector and simulator
+# spring.application.thread.core-pool-size=
+# spring.application.thread.max-pool-size=
+# spring.application.thread.queue-capacity=
+# spring.application.thread.keep-alive-seconds=
+# spring.application.thread.await-termination-seconds=
+
+# spring.application.logger.mdc.key.shown=true
+```
+
+③ 启动测试
+
+使用者可以自研自动化测试平台界面来代替Swagger界面，下面以Swagger界面为例，介绍如何操作
+
+![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Swagger4.jpg)
+
+全链路自动化流量侦测测试，有两种接口
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 配置文件为Properties格式
+
+访问接口
+```
+http://localhost:6002/inspector-test/test-config-properties
+```
+
+传输内容，按照次序，由application.properties、mock-inspector.yaml组成，中间用10个"-"组成换行分隔。例如：
+```
+testcase.inspect.url=http://localhost:5001/discovery-guide-service-a/inspector/inspect
+testcase.inspect.context.service=discovery-guide-service-a
+----------
+service:
+  - discovery-guide-service-a
+  - discovery-guide-service-b
+header:
+  xyz: 1
+```
+
+![](http://nepxion.gitee.io/discovery/docs/icon-doc/information_message.png) 配置文件为Yaml格式
+
+访问接口
+```
+http://localhost:6002/inspector-test/test-config-yaml
+```
+
+传输内容，按照次序，由application.yaml、mock-inspector.yaml组成，中间用10个"-"组成换行分隔。例如：
+```
+testcase:
+    inspect:
+        url: http://localhost:5001/discovery-guide-service-a/inspector/inspect
+        context:
+            service: discovery-guide-service-a
+----------
+service:
+  - discovery-guide-service-a
+  - discovery-guide-service-b
+header:
+  xyz: 1
+```
+
+传输内容，自上而下，分别是基本配置属性、侦测规则策略。使用者配置的服务列表和侦测参数，建议和蓝绿灰度发布的参数保持一致
 
 ## 全链路流量管控对接DevOps运维平台
 
