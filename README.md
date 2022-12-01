@@ -3677,26 +3677,6 @@ service:
     - 下载后，根据上文提示做相应修改
     - 执行mvn clean install -DskipTests，在discovery-automation-simulator-application/target/discovery-automation-simulator-${version}-release目录下，运行startup.bat或者startup.sh
 
-执行过程，支持输出彩色日志，帮助分辨和定位失败的测试用例
-
-- 彩色日志配色方案，参考：[https://logback.qos.ch/manual/layouts.html#coloring](https://logback.qos.ch/manual/layouts.html#coloring)
-- 彩色日志logback.xml的配置方式，参考如下
-```xml
-<configuration>
-    <conversionRule conversionWord="levelColor" converterClass="com.nepxion.discovery.common.logback.LevelColorConverter" />
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %levelColor(%5p) %magenta(${PID:- }) --- [%15.15t] %cyan(%-40.40logger{39}) : %msg%n</pattern>
-        </encoder>
-    </appender>
-
-    <root level="INFO">
-        <appender-ref ref="STDOUT" />
-    </root>
-</configuration>
-```
-- Windows终端默认不能显示ANSI颜色，需要在注册表HKEY_CURRENT_USER\Console中新建一个DWORD类型的值VirtualTerminalLevel，数值为1
-
 #### 全链路自动化模拟流程云上测试
 云上测试，即把原来本地测试的过程部署到云上Web服务器，执行逻辑和过程不变。具体功能包括
 
@@ -3713,6 +3693,30 @@ service:
 ① 启动测试控制台
 
 默认把Simulator和Inspector集成在一起，使用者可以视具体场景把它们分开部署
+```xml
+<dependency>
+    <groupId>${project.groupId}</groupId>
+    <artifactId>discovery-automation-inspector-starter-console</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>${project.groupId}</groupId>
+    <artifactId>discovery-automation-simulator-starter-console</artifactId>
+</dependency>
+```
+
+使用者可以视具体场景选择Caffeine本地锁或者Redisson分布式锁
+```xml
+<dependency>
+    <groupId>${project.groupId}</groupId>
+    <artifactId>discovery-automation-concurrent-starter-caffeine</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>${project.groupId}</groupId>
+    <artifactId>discovery-automation-concurrent-starter-redisson</artifactId>
+</dependency>
+```
 
 执行过程，有两种方式
 
@@ -3955,26 +3959,6 @@ header:
     - 下载后，根据上文提示做相应修改
     - 执行mvn clean install -DskipTests，在discovery-automation-inspector-application/target/discovery-automation-inspector-${version}-release目录下，运行startup.bat或者startup.sh
 
-执行过程，支持输出彩色日志，帮助分辨和定位失败的测试用例
-
-- 彩色日志配色方案，参考：[https://logback.qos.ch/manual/layouts.html#coloring](https://logback.qos.ch/manual/layouts.html#coloring)
-- 彩色日志logback.xml的配置方式，参考如下
-```xml
-<configuration>
-    <conversionRule conversionWord="levelColor" converterClass="com.nepxion.discovery.common.logback.LevelColorConverter" />
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %levelColor(%5p) %magenta(${PID:- }) --- [%15.15t] %cyan(%-40.40logger{39}) : %msg%n</pattern>
-        </encoder>
-    </appender>
-
-    <root level="INFO">
-        <appender-ref ref="STDOUT" />
-    </root>
-</configuration>
-```
-- Windows终端默认不能显示ANSI颜色，需要在注册表HKEY_CURRENT_USER\Console中新建一个DWORD类型的值VirtualTerminalLevel，数值为1
-
 #### 全链路自动化流量侦测云上测试
 云上测试，即把原来本地测试的过程部署到云上Web服务器，执行逻辑和过程不变。具体功能包括
 
@@ -3988,6 +3972,17 @@ header:
 ① 启动测试控制台
 
 默认把Simulator和Inspector集成在一起，使用者可以视具体场景把它们分开部署
+```xml
+<dependency>
+    <groupId>${project.groupId}</groupId>
+    <artifactId>discovery-automation-inspector-starter-console</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>${project.groupId}</groupId>
+    <artifactId>discovery-automation-simulator-starter-console</artifactId>
+</dependency>
+```
 
 执行过程，有两种方式
 
@@ -6579,16 +6574,16 @@ OpenTracing对Finchley版的Spring Cloud Gateway的reactor-core包存在版本�
 ### 全链路日志监控
 
 #### 蓝绿灰度埋点日志监控
-
-蓝绿灰度埋点日志输出，需要使用者配置logback.xml或者log4j.xml日志格式，参考如下
+蓝绿灰度埋点日志，通过MDC的%X{n-d-service-xyz}方式输出，目前支持11个参数，使用者可以根据实际使用场景进行裁剪，具体参考如下logback.xml配置
 ```xml
 <!-- Logback configuration. See http://logback.qos.ch/manual/index.html -->
 <configuration scan="true" scanPeriod="10 seconds">
     <!-- Simple file output -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!-- encoder defaults to ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
+        <!-- Encoder defaults to ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
         <encoder>
-            <pattern>discovery %date %level [%thread] [%X{trace-id}] [%X{span-id}] [%X{n-d-service-group}] [%X{n-d-service-type}] [%X{n-d-service-app-id}] [%X{n-d-service-id}] [%X{n-d-service-address}] [%X{n-d-service-version}] [%X{n-d-service-region}] [%X{n-d-service-env}] [%X{n-d-service-zone}] %logger{10} [%file:%line] - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${PID:- } --- [%15.15t] %X{trace-id} %X{span-id} %X{n-d-service-group} %X{n-d-service-type} %X{n-d-service-app-id} %X{n-d-service-id} %X{n-d-service-address} %X{n-d-service-version} %X{n-d-service-region} %X{n-d-service-env} %X{n-d-service-zone} %-40.40logger{39} : %msg%n</pattern>
+            <!-- <pattern>discovery %d{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread] %X{trace-id} %X{span-id} %X{n-d-service-group} %X{n-d-service-type} %X{n-d-service-app-id} %X{n-d-service-id} %X{n-d-service-address} %X{n-d-service-version} %X{n-d-service-region} %X{n-d-service-env} %X{n-d-service-zone} %logger{10} [%file:%line] - %msg%n</pattern> -->
             <charset>UTF-8</charset>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
@@ -6609,11 +6604,11 @@ OpenTracing对Finchley版的Spring Cloud Gateway的reactor-core包存在版本�
     </appender>
 
     <!-- Console output -->
+    <conversionRule conversionWord="levelColor" converterClass="com.nepxion.discovery.common.logback.LevelColorConverter" />
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <!-- encoder defaults to ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
+        <!-- Encoder defaults to ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
         <encoder>
-            <pattern>discovery %date %level [%thread] [%X{trace-id}] [%X{span-id}] [%X{n-d-service-group}] [%X{n-d-service-type}] [%X{n-d-service-app-id}] [%X{n-d-service-id}] [%X{n-d-service-address}] [%X{n-d-service-version}] [%X{n-d-service-region}] [%X{n-d-service-env}] [%X{n-d-service-zone}] %logger{10} [%file:%line] - %msg%n</pattern>
-            <charset>UTF-8</charset>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %levelColor(%5p) %magenta(${PID:- }) --- [%15.15t] %levelColor(%X{trace-id}) %levelColor(%X{span-id}) %levelColor(%X{n-d-service-group}) %levelColor(%X{n-d-service-type}) %levelColor(%X{n-d-service-app-id}) %levelColor(%X{n-d-service-id}) %levelColor(%X{n-d-service-address}) %levelColor(%X{n-d-service-version}) %levelColor(%X{n-d-service-region}) %levelColor(%X{n-d-service-env}) %levelColor(%X{n-d-service-zone}) %cyan(%-40.40logger{39}) : %msg%n</pattern>
         </encoder>
         <!-- Only log level WARN and above -->
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
@@ -6627,11 +6622,20 @@ OpenTracing对Finchley版的Spring Cloud Gateway的reactor-core包存在版本�
     <logger name="user" level="ALL" />
 
     <root level="INFO">
-        <!-- <appender-ref ref="FILE_ASYNC" /> -->
+        <appender-ref ref="FILE_ASYNC" />
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>
 ```
+
+上述格式支持输出彩色日志，帮助分辨和定位失败的测试用例
+
+- 彩色日志配色方案，参考：[https://logback.qos.ch/manual/layouts.html#coloring](https://logback.qos.ch/manual/layouts.html#coloring)
+  - 编辑器需要打开相关开启ANSI颜色渲染的开关
+  - Windows终端默认不能显示ANSI颜色，需要在注册表HKEY_CURRENT_USER\Console中新建一个DWORD类型的值VirtualTerminalLevel，数值为1
+- 彩色Logo显示方案
+  - 编辑器通过System.setProperty("nepxion.banner.shown.ansi.mode", "true")进行开启
+  - 命令行通过java -jar -Dnepxion.banner.shown.ansi.mode=true进行开启
 
 ### 全链路指标监控
 
