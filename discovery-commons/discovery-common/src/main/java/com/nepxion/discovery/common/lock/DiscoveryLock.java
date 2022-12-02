@@ -15,6 +15,9 @@ public interface DiscoveryLock {
     // 尝试获取锁
     boolean tryLock(String key);
 
+    // 持有锁
+    void lock(String key);
+
     // 释放锁
     void unlock(String key);
 
