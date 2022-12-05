@@ -6334,7 +6334,7 @@ spring.application.strategy.logger.debug.enabled=true
 
 ① 网关端和服务端自身蓝绿灰度埋点Debug辅助监控
 ```
------------------------ Logger Debug -----------------------
+--------------- Strategy Logger Information ----------------
 trace-id=dade3982ae65e9e1
 span-id=997e31021e9fce20
 n-d-service-group=discovery-guide-group
