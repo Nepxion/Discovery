@@ -19,6 +19,8 @@ import java.util.Map.Entry;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -34,6 +36,8 @@ import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.util.StrategyUtil;
 
 public class WebClientStrategyInterceptor extends AbstractStrategyInterceptor implements ExchangeFilterFunction {
+    private static final Logger LOG = LoggerFactory.getLogger(WebClientStrategyInterceptor.class);
+
     @Autowired
     protected StrategyContextHolder strategyContextHolder;
 
@@ -213,7 +217,9 @@ public class WebClientStrategyInterceptor extends AbstractStrategyInterceptor im
             return;
         }
 
-        System.out.println("------ WebClient Intercept Output Header Information -------");
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("\n");
+        stringBuilder.append("------ WebClient Intercept Output Header Information -------").append("\n");
         HttpHeaders headers = request.headers();
         for (Iterator<Entry<String, List<String>>> iterator = headers.entrySet().iterator(); iterator.hasNext();) {
             Entry<String, List<String>> header = iterator.next();
@@ -222,14 +228,20 @@ public class WebClientStrategyInterceptor extends AbstractStrategyInterceptor im
             if (isHeaderContains) {
                 List<String> headerValue = header.getValue();
 
-                System.out.println(headerName + "=" + headerValue);
+                stringBuilder.append(headerName + "=" + headerValue).append("\n");
             }
         }
-        System.out.println("------------------------------------------------------------");
+        stringBuilder.append("------------------------------------------------------------");
+        LOG.info(stringBuilder.toString());
     }
 
     @Override
     protected InterceptorType getInterceptorType() {
         return InterceptorType.WEB_CLIENT;
+    }
+
+    @Override
+    protected Logger getInterceptorLogger() {
+        return LOG;
     }
 }

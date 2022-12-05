@@ -19,6 +19,8 @@ import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -29,6 +31,8 @@ import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.util.StrategyUtil;
 
 public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implements RequestInterceptor {
+    private static final Logger LOG = LoggerFactory.getLogger(FeignStrategyInterceptor.class);
+
     @Autowired
     protected StrategyContextHolder strategyContextHolder;
 
@@ -201,7 +205,9 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
             return;
         }
 
-        System.out.println("-------- Feign Intercept Output Header Information ---------");
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("\n");
+        stringBuilder.append("-------- Feign Intercept Output Header Information ---------").append("\n");
         Map<String, Collection<String>> headers = requestTemplate.headers();
         for (Map.Entry<String, Collection<String>> entry : headers.entrySet()) {
             String headerName = entry.getKey();
@@ -209,14 +215,20 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
             if (isHeaderContains) {
                 Collection<String> headerValue = entry.getValue();
 
-                System.out.println(headerName + "=" + headerValue);
+                stringBuilder.append(headerName + "=" + headerValue).append("\n");
             }
         }
-        System.out.println("------------------------------------------------------------");
+        stringBuilder.append("------------------------------------------------------------");
+        LOG.info(stringBuilder.toString());
     }
 
     @Override
     protected InterceptorType getInterceptorType() {
         return InterceptorType.FEIGN;
+    }
+
+    @Override
+    protected Logger getInterceptorLogger() {
+        return LOG;
     }
 }

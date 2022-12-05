@@ -18,6 +18,8 @@ import java.util.Map.Entry;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -33,6 +35,8 @@ import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.util.StrategyUtil;
 
 public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor implements ClientHttpRequestInterceptor {
+    private static final Logger LOG = LoggerFactory.getLogger(RestTemplateStrategyInterceptor.class);
+
     @Autowired
     protected StrategyContextHolder strategyContextHolder;
 
@@ -209,7 +213,9 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
             return;
         }
 
-        System.out.println("----- RestTemplate Intercept Output Header Information -----");
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("\n");
+        stringBuilder.append("----- RestTemplate Intercept Output Header Information -----").append("\n");
         HttpHeaders headers = request.getHeaders();
         for (Iterator<Entry<String, List<String>>> iterator = headers.entrySet().iterator(); iterator.hasNext();) {
             Entry<String, List<String>> header = iterator.next();
@@ -218,14 +224,20 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
             if (isHeaderContains) {
                 List<String> headerValue = header.getValue();
 
-                System.out.println(headerName + "=" + headerValue);
+                stringBuilder.append(headerName + "=" + headerValue).append("\n");
             }
         }
-        System.out.println("------------------------------------------------------------");
+        stringBuilder.append("------------------------------------------------------------");
+        LOG.info(stringBuilder.toString());
     }
 
     @Override
     protected InterceptorType getInterceptorType() {
         return InterceptorType.REST_TEMPLATE;
+    }
+
+    @Override
+    protected Logger getInterceptorLogger() {
+        return LOG;
     }
 }
