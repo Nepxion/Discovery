@@ -44,7 +44,7 @@
     <logger name="user" level="ALL" />
 
     <root level="INFO">
-        <appender-ref ref="FILE_ASYNC" />
+        <!-- <appender-ref ref="FILE_ASYNC" /> -->
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>
