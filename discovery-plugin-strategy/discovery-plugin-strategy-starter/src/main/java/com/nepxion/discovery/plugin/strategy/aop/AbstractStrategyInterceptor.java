@@ -63,15 +63,18 @@ public abstract class AbstractStrategyInterceptor {
         Enumeration<String> headerNames = strategyContextHolder.getHeaderNames();
         if (headerNames != null) {
             InterceptorType interceptorType = getInterceptorType();
+            Logger log = getInterceptorLogger();
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("\n");
             switch (interceptorType) {
                 case FEIGN:
-                    System.out.println("--------- Feign Intercept Input Header Information ---------");
+                    stringBuilder.append("--------- Feign Intercept Input Header Information ---------").append("\n");
                     break;
                 case REST_TEMPLATE:
-                    System.out.println("----- RestTemplate Intercept Input Header Information ------");
+                    stringBuilder.append("----- RestTemplate Intercept Input Header Information ------").append("\n");
                     break;
                 case WEB_CLIENT:
-                    System.out.println("------- WebClient Intercept Input Header Information -------");
+                    stringBuilder.append("------- WebClient Intercept Input Header Information -------").append("\n");
                     break;
             }
             while (headerNames.hasMoreElements()) {
@@ -80,10 +83,11 @@ public abstract class AbstractStrategyInterceptor {
                 if (isHeaderContains) {
                     String headerValue = strategyContextHolder.getHeader(headerName);
 
-                    System.out.println(headerName + "=" + headerValue);
+                    stringBuilder.append(headerName + "=" + headerValue).append("\n");
                 }
             }
-            System.out.println("------------------------------------------------------------");
+            stringBuilder.append("------------------------------------------------------------");
+            log.info(stringBuilder.toString());
         }
     }
 
@@ -98,4 +102,6 @@ public abstract class AbstractStrategyInterceptor {
     }
 
     protected abstract InterceptorType getInterceptorType();
+
+    protected abstract Logger getInterceptorLogger();
 }
