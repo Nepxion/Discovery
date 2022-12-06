@@ -3596,24 +3596,21 @@ service:
 侦测结果 : discovery-guide-service-a@@1.1 命中次数=0
 侦测结果 : discovery-guide-service-b@@1.0 命中次数=100
 侦测结果 : discovery-guide-service-b@@1.1 命中次数=0
-测试结果 : 通过
-测试耗时 : 3 秒
-【模拟场景3】蓝绿策略，测试全链路侦测，Header : xyz=1...
+测试耗时 : 1 秒
+【模拟场景3】蓝绿策略，测试全链路侦测，Header : {xyz=1}...
 侦测次数 : 100
 侦测结果 : discovery-guide-service-a@@1.0 命中次数=100
 侦测结果 : discovery-guide-service-a@@1.1 命中次数=0
 侦测结果 : discovery-guide-service-b@@1.0 命中次数=100
 侦测结果 : discovery-guide-service-b@@1.1 命中次数=0
-测试结果 : 通过
-测试耗时 : 3 秒
-【模拟场景3】蓝绿策略，测试全链路侦测，Header : xyz=2...
+测试耗时 : 1 秒
+【模拟场景3】蓝绿策略，测试全链路侦测，Header : {xyz=2}...
 侦测次数 : 100
 侦测结果 : discovery-guide-service-a@@1.0 命中次数=0
 侦测结果 : discovery-guide-service-a@@1.1 命中次数=100
 侦测结果 : discovery-guide-service-b@@1.0 命中次数=0
 侦测结果 : discovery-guide-service-b@@1.1 命中次数=100
-测试结果 : 通过
-测试耗时 : 3 秒
+测试耗时 : 1 秒
 【模拟场景3】灰度策略，测试全链路侦测，Header : 无...
 侦测次数 : 500
 侦测进度 : 第100次...
@@ -3625,12 +3622,10 @@ service:
 侦测结果 : discovery-guide-service-a@@1.1 命中次数=0
 侦测结果 : discovery-guide-service-b@@1.0 命中次数=500
 侦测结果 : discovery-guide-service-b@@1.1 命中次数=0
-权重结果偏差值=5%
 期望结果 : 旧版本路由权重=100%, 新版本路由权重=0%
 最终结果 : 旧版本路由权重=100.0%, 新版本路由权重=0.0%
-测试结果 : 通过
-测试耗时 : 13 秒
-【模拟场景3】灰度策略，测试全链路侦测，Header : xyz=3...
+测试耗时 : 9 秒
+【模拟场景3】灰度策略，测试全链路侦测，Header : {xyz=3}...
 侦测次数 : 500
 侦测进度 : 第100次...
 侦测进度 : 第200次...
@@ -3641,12 +3636,10 @@ service:
 侦测结果 : discovery-guide-service-a@@1.1 命中次数=52
 侦测结果 : discovery-guide-service-b@@1.0 命中次数=448
 侦测结果 : discovery-guide-service-b@@1.1 命中次数=52
-权重结果偏差值=5%
 期望结果 : 旧版本路由权重=90%, 新版本路由权重=10%
 最终结果 : 旧版本路由权重=89.6%, 新版本路由权重=10.4%
-测试结果 : 通过
-测试耗时 : 12 秒
-【模拟场景3】灰度策略，测试全链路侦测，Header : xyz=4...
+测试耗时 : 7 秒
+【模拟场景3】灰度策略，测试全链路侦测，Header : {xyz=4}...
 侦测次数 : 500
 侦测进度 : 第100次...
 侦测进度 : 第200次...
@@ -3657,12 +3650,11 @@ service:
 侦测结果 : discovery-guide-service-a@@1.1 命中次数=147
 侦测结果 : discovery-guide-service-b@@1.0 命中次数=353
 侦测结果 : discovery-guide-service-b@@1.1 命中次数=147
-权重结果偏差值=5%
 期望结果 : 旧版本路由权重=70%, 新版本路由权重=30%
 最终结果 : 旧版本路由权重=70.6%, 新版本路由权重=29.4%
-测试结果 : 通过
-测试耗时 : 10 秒
-【模拟场景3】* 测试通过...
+测试耗时 : 8 秒
+测试结果 : * 通过
+【模拟场景3】结束
 ```
 
 全链路自动化模拟流程测试，包括[全链路自动化模拟流程本地测试](#全链路自动化模拟流程本地测试)和[全链路自动化模拟流程云上测试](#全链路自动化模拟流程云上测试)两种模式
@@ -3945,6 +3937,7 @@ header:
 侦测结果 : [ID=discovery-guide-gateway][V=1.0] -> [ID=discovery-guide-service-a][V=1.0] -> [ID=discovery-guide-service-b][V=1.0]
 侦测结果 : [ID=discovery-guide-gateway][V=1.0] -> [ID=discovery-guide-service-a][V=1.1] -> [ID=discovery-guide-service-b][V=1.1]
 测试耗时 : 0 秒
+【侦测场景1】结束
 ```
 
 全链路自动化流量侦测测试，包括[全链路自动化流量侦测本地测试](#全链路自动化流量侦测本地测试)和[全链路自动化流量侦测云上测试](#全链路自动化流量侦测云上测试)两种模式
