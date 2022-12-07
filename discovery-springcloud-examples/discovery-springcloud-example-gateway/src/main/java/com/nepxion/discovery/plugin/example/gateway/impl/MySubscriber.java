@@ -12,6 +12,8 @@ package com.nepxion.discovery.plugin.example.gateway.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.eventbus.Subscribe;
@@ -28,22 +30,24 @@ import com.nepxion.eventbus.annotation.EventBus;
 
 @EventBus
 public class MySubscriber {
+    private static final Logger LOG = LoggerFactory.getLogger(MySubscriber.class);
+
     @Autowired
     private PluginAdapter pluginAdapter;
 
     @Subscribe
     public void onRuleUpdated(RuleUpdatedEvent ruleUpdatedEvent) {
-        System.out.println("========== 规则执行更新, rule=" + ruleUpdatedEvent.getRule());
+        LOG.info("规则执行更新, rule=" + ruleUpdatedEvent.getRule());
     }
 
     @Subscribe
     public void onRuleCleared(RuleClearedEvent ruleClearedEvent) {
-        System.out.println("========== 规则执行清空");
+        LOG.info("规则执行清空");
     }
 
     @Subscribe
     public void onRuleRuleFailure(RuleFailureEvent ruleFailureEvent) {
-        System.out.println("========== 规则更新失败, rule=" + ruleFailureEvent.getRule() + ", exception=" + ruleFailureEvent.getException());
+        LOG.info("规则更新失败, rule=" + ruleFailureEvent.getRule() + ", exception=" + ruleFailureEvent.getException());
     }
 
     @Subscribe
@@ -55,17 +59,17 @@ public class MySubscriber {
             Map<String, List<ParameterServiceEntity>> parameterServiceMap = parameterEntity.getParameterServiceMap();
             parameterServiceEntityList = parameterServiceMap.get(serviceId);
         }
-        System.out.println("========== 获取动态参数, serviceId=" + serviceId + ", parameterServiceEntityList=" + parameterServiceEntityList);
+        LOG.info("获取动态参数, serviceId=" + serviceId + ", parameterServiceEntityList=" + parameterServiceEntityList);
     }
 
     @Subscribe
     public void onRegisterFailure(RegisterFailureEvent registerFailureEvent) {
-        System.out.println("========== 注册失败, eventType=" + registerFailureEvent.getEventType() + ", eventDescription=" + registerFailureEvent.getEventDescription() + ", serviceId=" + registerFailureEvent.getServiceId() + ", host=" + registerFailureEvent.getHost() + ", port=" + registerFailureEvent.getPort());
+        LOG.info("注册失败, eventType=" + registerFailureEvent.getEventType() + ", eventDescription=" + registerFailureEvent.getEventDescription() + ", serviceId=" + registerFailureEvent.getServiceId() + ", host=" + registerFailureEvent.getHost() + ", port=" + registerFailureEvent.getPort());
     }
 
     @Subscribe
     public void onAlarm(StrategyAlarmEvent strategyAlarmEvent) {
-        System.out.println("========== 告警类型=" + strategyAlarmEvent.getAlarmType());
-        System.out.println("========== 告警内容=" + strategyAlarmEvent.getAlarmMap());
+        LOG.info("告警类型=" + strategyAlarmEvent.getAlarmType());
+        LOG.info("告警内容=" + strategyAlarmEvent.getAlarmMap());
     }
 }

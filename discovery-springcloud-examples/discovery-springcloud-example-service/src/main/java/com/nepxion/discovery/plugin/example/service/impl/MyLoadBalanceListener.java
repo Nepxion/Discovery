@@ -13,12 +13,16 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.nepxion.discovery.plugin.framework.listener.loadbalance.AbstractLoadBalanceListener;
 import com.netflix.loadbalancer.Server;
 
 // 当目标服务的元数据中的Group为mygroup2，禁止被本服务负载均衡
 public class MyLoadBalanceListener extends AbstractLoadBalanceListener {
+    private static final Logger LOG = LoggerFactory.getLogger(MyLoadBalanceListener.class);
+
     @Override
     public void onGetServers(String serviceId, List<? extends Server> servers) {
         Iterator<? extends Server> iterator = servers.iterator();
@@ -28,7 +32,7 @@ public class MyLoadBalanceListener extends AbstractLoadBalanceListener {
             if (StringUtils.equals(group, "mygroup3")) {
                 iterator.remove();
 
-                System.out.println("********** 服务名=" + serviceId + "，组名=" + group + "的服务禁止被本服务负载均衡");
+                LOG.info("服务名=" + serviceId + "，组名=" + group + "的服务禁止被本服务负载均衡");
             }
         }
     }
