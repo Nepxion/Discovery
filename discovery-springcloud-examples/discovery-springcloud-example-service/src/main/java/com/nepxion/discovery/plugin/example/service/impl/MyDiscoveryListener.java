@@ -13,12 +13,16 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cloud.client.ServiceInstance;
 
 import com.nepxion.discovery.plugin.framework.listener.discovery.AbstractDiscoveryListener;
 
 // 当目标服务的元数据中的Group为mygroup2，禁止被本服务发现（只用于DiscoveryClient.getInstances接口方法用）
 public class MyDiscoveryListener extends AbstractDiscoveryListener {
+    private static final Logger LOG = LoggerFactory.getLogger(MyDiscoveryListener.class);
+
     @Override
     public void onGetInstances(String serviceId, List<ServiceInstance> instances) {
         Iterator<ServiceInstance> iterator = instances.iterator();
@@ -28,7 +32,7 @@ public class MyDiscoveryListener extends AbstractDiscoveryListener {
             if (StringUtils.equals(group, "mygroup2")) {
                 iterator.remove();
 
-                System.out.println("********** 服务名=" + serviceId + "，组名=" + group + "的服务禁止被本服务发现");
+                LOG.info("服务名=" + serviceId + "，组名=" + group + "的服务禁止被本服务发现");
             }
         }
     }
