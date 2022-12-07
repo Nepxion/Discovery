@@ -43,14 +43,14 @@ public class CRestImpl extends AbstractRestImpl {
         ServletRequestAttributes attributes = serviceStrategyContextHolder.getRestAttributes();
         Enumeration<String> headerNames = attributes.getRequest().getHeaderNames();
 
-        System.out.println("Header name list:");
+        LOG.info("Header name list:");
         while (headerNames.hasMoreElements()) {
             String headerName = headerNames.nextElement();
-            System.out.println("* " + headerName);
+            LOG.info("* " + headerName);
         }
 
         String token = attributes.getRequest().getHeader("token");
-        System.out.println("Token=" + token);
+        LOG.info("Token=" + token);
 
         LOG.info("调用路径：{}", value);
 
