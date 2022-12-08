@@ -12,7 +12,6 @@ package com.nepxion.discovery.common.thread;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
-// Copy from Alibaba Sentinel project
 public class DiscoveryNamedThreadFactory implements ThreadFactory {
     private AtomicInteger count = new AtomicInteger(1);
     private ThreadGroup group;
