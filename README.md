@@ -547,3 +547,6 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 微信、钉钉、公众号和文档
 
 ![](http://nepxion.gitee.io/discovery/docs/contact-doc/wechat-1.jpg)![](http://nepxion.gitee.io/discovery/docs/contact-doc/dingding-1.jpg)![](http://nepxion.gitee.io/discovery/docs/contact-doc/gongzhonghao-1.jpg)![](http://nepxion.gitee.io/discovery/docs/contact-doc/document-1.jpg)
+
+## Star走势图
+[![Stargazers over time](https://starchart.cc/Nepxion/Discovery.svg)](https://starchart.cc/Nepxion/Discovery)
