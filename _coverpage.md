@@ -1,6 +1,6 @@
 ![logo](_media/Logo64.png)
 
-# Nepxion Discovery <small>6.19.0</small>
+# Nepxion Discovery <small>6.20.0</small>
 
 > 专注于企业级云原生微服务开源解决方案
 - 蓝绿灰度发布、同城异地多活、链路路由智能编排
