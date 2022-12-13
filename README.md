@@ -5768,24 +5768,26 @@ Deleted count=1
 ```java
 @EventBus
 public class MySubscriber {
+    private static final Logger LOG = LoggerFactory.getLogger(MySubscriber.class);
+
     @Subscribe
     public void onGatewayStrategyRouteAdded(GatewayStrategyRouteAddedEvent gatewayStrategyRouteAddedEvent) {
-        System.out.println("增加网关路由=" + gatewayStrategyRouteAddedEvent.getGatewayStrategyRouteEntity());
+        LOG.info("增加网关路由=" + gatewayStrategyRouteAddedEvent.getGatewayStrategyRouteEntity());
     }
 
     @Subscribe
     public void onGatewayStrategyRouteModified(GatewayStrategyRouteModifiedEvent gatewayStrategyRouteModifiedEvent) {
-        System.out.println("修改网关路由=" + gatewayStrategyRouteModifiedEvent.getGatewayStrategyRouteEntity());
+        LOG.info("修改网关路由=" + gatewayStrategyRouteModifiedEvent.getGatewayStrategyRouteEntity());
     }
 
     @Subscribe
     public void onGatewayStrategyRouteDeleted(GatewayStrategyRouteDeletedEvent gatewayStrategyRouteDeletedEvent) {
-        System.out.println("删除网关路由=" + gatewayStrategyRouteDeletedEvent.getRouteId());
+        LOG.info("删除网关路由=" + gatewayStrategyRouteDeletedEvent.getRouteId());
     }
 
     @Subscribe
     public void onGatewayStrategyRouteUpdatedAll(GatewayStrategyRouteUpdatedAllEvent gatewayStrategyRouteUpdatedAllEvent) {
-        System.out.println("更新全部网关路由=" + gatewayStrategyRouteUpdatedAllEvent.getGatewayStrategyRouteEntityList());
+        LOG.info("更新全部网关路由=" + gatewayStrategyRouteUpdatedAllEvent.getGatewayStrategyRouteEntityList());
     }
 }
 ```
@@ -5897,24 +5899,26 @@ Deleted count=1
 ```java
 @EventBus
 public class MySubscriber {
+    private static final Logger LOG = LoggerFactory.getLogger(MySubscriber.class);
+
     @Subscribe
     public void onZuulStrategyRouteAdded(ZuulStrategyRouteAddedEvent zuulStrategyRouteAddedEvent) {
-        System.out.println("增加网关路由=" + zuulStrategyRouteAddedEvent.getZuulStrategyRouteEntity());
+        LOG.info("增加网关路由=" + zuulStrategyRouteAddedEvent.getZuulStrategyRouteEntity());
     }
 
     @Subscribe
     public void onZuulStrategyRouteModified(ZuulStrategyRouteModifiedEvent zuulStrategyRouteModifiedEvent) {
-        System.out.println("修改网关路由=" + zuulStrategyRouteModifiedEvent.getZuulStrategyRouteEntity());
+        LOG.info("修改网关路由=" + zuulStrategyRouteModifiedEvent.getZuulStrategyRouteEntity());
     }
 
     @Subscribe
     public void onZuulStrategyRouteDeleted(ZuulStrategyRouteDeletedEvent zuulStrategyRouteDeletedEvent) {
-        System.out.println("删除网关路由=" + zuulStrategyRouteDeletedEvent.getRouteId());
+        LOG.info("删除网关路由=" + zuulStrategyRouteDeletedEvent.getRouteId());
     }
 
     @Subscribe
     public void onZuulStrategyRouteUpdatedAll(ZuulStrategyRouteUpdatedAllEvent zuulStrategyRouteUpdatedAllEvent) {
-        System.out.println("更新全部网关路由=" + zuulStrategyRouteUpdatedAllEvent.getZuulStrategyRouteEntityList());
+        LOG.info("更新全部网关路由=" + zuulStrategyRouteUpdatedAllEvent.getZuulStrategyRouteEntityList());
     }
 }
 ```
@@ -6314,7 +6318,7 @@ n-d-address-blacklist - IP地址和端口屏蔽值
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/SkyWalking2.jpg)
 
 #### 蓝绿灰度埋点Debug辅助监控
-Debug辅助监控只是通过普通的System.out.println方式输出，便于开发人员在IDE上调试，在生产环境下不建议开启
+Debug辅助监控只是通过日志方式输出，便于开发人员在IDE上调试，在生产环境下不建议开启
 
 对于Debug辅助监控功能的开启和关闭，需要通过如下开关做控制
 ```
@@ -7313,14 +7317,16 @@ Spring Cloud配置动态刷新机制固化在一个比较单一的场景（例�
 // 2. 对于Apollo、Consul、Etcd配置中心，Key的格式为Group-DataId
 // 可以同时支持多个配置中心的订阅，需要同时创建多个不同的Processor，同时@Bean方式进入到Spring容器
 public class MyConfigProcessor extends NacosProcessor {
+    private static final Logger LOG = LoggerFactory.getLogger(MyConfigProcessor.class);
+
     @Override
     public void beforeInitialization() {
-        System.out.println("订阅器初始化之前，可以做一些工作");
+        LOG.info("订阅器初始化之前，可以做一些工作");
     }
 
     @Override
     public void afterInitialization() {
-        System.out.println("订阅器初始化之后，可以做一些工作");
+        LOG.info("订阅器初始化之后，可以做一些工作");
     }
 
     @Override
@@ -7342,7 +7348,7 @@ public class MyConfigProcessor extends NacosProcessor {
     @Override
     public void callbackConfig(String config) {
         // config为配置中心对应键值的内容变更，使用者可以根据此变更对业务模块做回调处理
-        System.out.println("监听配置改变：config=" + config);
+        LOG.info("监听配置改变：config=" + config);
     }
 }
 ```
