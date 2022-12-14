@@ -3668,7 +3668,7 @@ service:
 - 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Automation Simulator
     - 解压后，根据上文提示做相应修改
     - 运行startup.bat或者startup.sh
-- 编译[https://github.com/Nepxion/DiscoveryTool/tree/automation](https://github.com/Nepxion/DiscoveryTool/tree/automation)，分支为automation
+- 编译[https://github.com/Nepxion/DiscoveryTool/tree/automation-springboot-2.x.x](https://github.com/Nepxion/DiscoveryTool/tree/automation-springboot-2.x.x)，分支为automation-springboot-2.x.x，或者[https://github.com/Nepxion/DiscoveryTool/tree/automation-springboot-3.x.x](https://github.com/Nepxion/DiscoveryTool/tree/automation-springboot-3.x.x)，分支为automation-springboot-3.x.x
     - 下载后，根据上文提示做相应修改
     - 执行mvn clean install -DskipTests，在discovery-automation-simulator-application/target/discovery-automation-simulator-${version}-release目录下，运行startup.bat或者startup.sh
 
@@ -3717,7 +3717,7 @@ service:
 
 - 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Automation Console
     - 解压后，运行startup.bat或者startup.sh
-- 编译[https://github.com/Nepxion/DiscoveryTool/tree/automation](https://github.com/Nepxion/DiscoveryTool/tree/automation)，分支为automation
+- 编译[https://github.com/Nepxion/DiscoveryTool/tree/automation-springboot-2.x.x](https://github.com/Nepxion/DiscoveryTool/tree/automation-springboot-2.x.x)，分支为automation-springboot-2.x.x，或者[https://github.com/Nepxion/DiscoveryTool/tree/automation-springboot-3.x.x](https://github.com/Nepxion/DiscoveryTool/tree/automation-springboot-3.x.x)，分支为automation-springboot-3.x.x
     - 下载后，执行mvn clean install -DskipTests，在discovery-automation-console/target/discovery-automation-console-${version}-release目录下产生第一种方式的包，运行startup.bat或者startup.sh
 
 ② 修改application.properties配置文件
@@ -3951,7 +3951,7 @@ header:
 - 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Automation Inspector
     - 解压后，根据上文提示做相应修改
     - 运行startup.bat或者startup.sh
-- 编译[https://github.com/Nepxion/DiscoveryTool/tree/automation](https://github.com/Nepxion/DiscoveryTool/tree/automation)，分支为automation
+- 编译[https://github.com/Nepxion/DiscoveryTool/tree/automation-springboot-2.x.x](https://github.com/Nepxion/DiscoveryTool/tree/automation-springboot-2.x.x)，分支为automation-springboot-2.x.x，或者[https://github.com/Nepxion/DiscoveryTool/tree/automation-springboot-3.x.x](https://github.com/Nepxion/DiscoveryTool/tree/automation-springboot-3.x.x)，分支为automation-springboot-3.x.x
     - 下载后，根据上文提示做相应修改
     - 执行mvn clean install -DskipTests，在discovery-automation-inspector-application/target/discovery-automation-inspector-${version}-release目录下，运行startup.bat或者startup.sh
 
@@ -3984,7 +3984,7 @@ header:
 
 - 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Automation Console
     - 解压后，运行startup.bat或者startup.sh
-- 编译[https://github.com/Nepxion/DiscoveryTool/tree/automation](https://github.com/Nepxion/DiscoveryTool/tree/automation)，分支为automation
+- 编译[https://github.com/Nepxion/DiscoveryTool/tree/automation-springboot-2.x.x](https://github.com/Nepxion/DiscoveryTool/tree/automation-springboot-2.x.x)，分支为automation-springboot-2.x.x，或者[https://github.com/Nepxion/DiscoveryTool/tree/automation-springboot-3.x.x](https://github.com/Nepxion/DiscoveryTool/tree/automation-springboot-3.x.x)，分支为automation-springboot-3.x.x
     - 下载后，执行mvn clean install -DskipTests，在discovery-automation-console/target/discovery-automation-console-${version}-release目录下产生第一种方式的包，运行startup.bat或者startup.sh
 
 ② 修改application.properties配置文件
@@ -4077,7 +4077,7 @@ header:
 - 通过[https://github.com/Nepxion/DiscoveryTool/releases](https://github.com/Nepxion/DiscoveryTool/releases)下载最新版本的Discovery Console
     - 解压后，修改startup.bat或者startup.sh中注册中心和配置中心的地址
     - 运行startup.bat或者startup.sh
-- 编译[https://github.com/Nepxion/DiscoveryTool/tree/console](https://github.com/Nepxion/DiscoveryTool/tree/console)，分支为console
+- 编译[https://github.com/Nepxion/DiscoveryTool/tree/console-springboot-2.x.x](https://github.com/Nepxion/DiscoveryTool/tree/console-springboot-2.x.x)，分支为console-springboot-2.x.x，或者[https://github.com/Nepxion/DiscoveryTool/tree/console-springboot-3.x.x](https://github.com/Nepxion/DiscoveryTool/tree/console-springboot-3.x.x)，分支为console-springboot-3.x.x
     - 下载后，修改application.properties中相关地址
     - 执行mvn clean install，运行java -jar discovery-console--${discovery.console.version}.jar
 
