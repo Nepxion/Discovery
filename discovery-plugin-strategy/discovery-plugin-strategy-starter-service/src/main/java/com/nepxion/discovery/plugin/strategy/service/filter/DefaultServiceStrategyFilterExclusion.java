@@ -29,7 +29,7 @@ public class DefaultServiceStrategyFilterExclusion implements ServiceStrategyFil
     protected List<String> uriFilterExclusionList = new ArrayList<String>();
 
     @PostConstruct
-    private void initialize() {
+    public void initialize() {
         if (StringUtils.isNotEmpty(uriFilterExclusion)) {
             uriFilterExclusionList = StringUtil.splitToList(uriFilterExclusion);
         }
