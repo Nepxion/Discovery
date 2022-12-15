@@ -23,7 +23,7 @@ import com.netflix.loadbalancer.Server;
 public class ZookeeperAdapter extends AbstractPluginAdapter {
     // Zookeeper比较特殊，getServiceInstance是Lazy Initialize模式
     @PostConstruct
-    private void initialize() {
+    public void initialize() {
         if (registration instanceof ZookeeperRegistration) {
             ZookeeperRegistration zookeeperRegistration = (ZookeeperRegistration) registration;
 
