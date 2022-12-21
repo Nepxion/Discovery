@@ -35,7 +35,7 @@ public class StrategyEndpoint {
     @RequestMapping(path = "/validate-route", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> validateRoute(@RequestParam String routeType, @RequestParam(defaultValue = "", required = false) String validation) {
-        return doValidateVersionRoute(routeType, validation);
+        return doValidateRoute(routeType, validation);
     }
 
     private ResponseEntity<?> doValidateExpression(String expression, String validation) {
@@ -48,7 +48,7 @@ public class StrategyEndpoint {
         }
     }
 
-    private ResponseEntity<?> doValidateVersionRoute(String routeType, String validation) {
+    private ResponseEntity<?> doValidateRoute(String routeType, String validation) {
         try {
             String route = strategyResource.validateRoute(routeType, validation);
 
