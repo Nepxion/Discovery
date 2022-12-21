@@ -855,17 +855,17 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-strategy-starter-sentinel-micrometer | 策略的Sentinel Micrometer指标的Starter |
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_south.png"> discovery-plugin-test | 测试模块目录 |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-plugin-test-starter-automation| 自动化测试的Starter |
-| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_south.png"> discovery-console | 控制平台目录 |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-console-starter | 控制平台的starter |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-console-starter-apollo | 控制平台的Apollo Starter |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-console-starter-nacos | 控制平台的Nacos Starter |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-console-starter-redis | 控制平台的Redis Starter |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-console-starter-zookeeper | 控制平台的Zookeeper Starter |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-console-starter-consul | 控制平台的Consul Starter |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-console-starter-etcd | 控制平台的Etcd Starter |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_south.png"> discovery-console | 控制台目录 |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-console-starter | 控制台的starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-console-starter-apollo | 控制台的Apollo Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-console-starter-nacos | 控制台的Nacos Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-console-starter-redis | 控制台的Redis Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-console-starter-zookeeper | 控制台的Zookeeper Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-console-starter-consul | 控制台的Consul Starter |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-console-starter-etcd | 控制台的Etcd Starter |
 | <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_south.png"> discovery-springcloud-examples | 示例目录 |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-springcloud-example-admin | Spring Boot Admin服务台示例 |
-| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-springcloud-example-console | 控制平台示例 |
+| &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-springcloud-example-console | 控制台示例 |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-springcloud-example-eureka | Eureka服务器示例 |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-springcloud-example-service | 微服务示例 |
 | &nbsp;&nbsp;<img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> discovery-springcloud-example-zuul | Zuul网关示例 |
@@ -873,11 +873,11 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 
 ② DiscoveryTool工程清单
 
-统一控制平台
+统一控制台
 
 | 工程名 | 描述 |
 | --- | --- |
-| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> console | 控制平台可执行应用 |
+| <img src="http://nepxion.gitee.io/discovery/docs/icon-doc/direction_west.png"> console | 控制台可执行应用 |
 
 自动化测试平台
 
@@ -7746,11 +7746,43 @@ spring.application.admin.git.endpoint.enabled=true
 spring.application.admin.gateway.endpoint.enabled=true
 # 启动和关闭Zuul相关操作端点。缺失则默认为true
 spring.application.admin.zuul.endpoint.enabled=true
+# 启动和关闭策略操作端点的验证SPEL表达式方法。缺失则默认为true
+# 该端点方法使用Spring StandardEvaluationContext类，StandardEvaluationContext支持全部的Spel语法且功能齐全，但GitHub Security报告其存在一定的注入风险，推荐使用SimpleEvaluationContext，而SimpleEvaluationContext并不能满足当前框架的需求
+# 如果未使用验证SPEL表达式方法，可以通过下面开关关闭在方法在策略端点上的暴露，规避风险
+spring.application.admin.strategy.endpoint.validate-expression.enabled=true
 ```
 
-控制平台批量推送界面
+控制台批量推送界面
 
 ![](http://nepxion.gitee.io/discovery/docs/discovery-doc/Swagger2.jpg)
+
+所有的操作端点都可以独立被关闭或者开启
+```
+# 启动和关闭服务相关操作端点。缺失则默认为true
+spring.application.console.service.endpoint.enabled=true
+# 启动和关闭配置相关操作端点。缺失则默认为true
+spring.application.console.config.endpoint.enabled=true
+# 启动和关闭版本相关操作端点。缺失则默认为true
+spring.application.console.version.endpoint.enabled=true
+# 启动和关闭侦测相关操作端点。缺失则默认为true
+spring.application.console.inspector.endpoint.enabled=true
+# 启动和关闭网关路由相关操作端点。缺失则默认为true
+spring.application.console.route.endpoint.enabled=true
+# 启动和关闭策略相关操作端点。缺失则默认为true
+spring.application.console.strategy.endpoint.enabled=true
+# 启动和关闭Sentinel相关操作端点。缺失则默认为true
+spring.application.console.sentinel.endpoint.enabled=true
+# 启动和关闭无损下线黑名单相关操作端点。缺失则默认为true
+spring.application.console.blacklist.endpoint.enabled=true
+# 启动和关闭故障转移相关操作端点。缺失则默认为true
+spring.application.console.failover.endpoint.enabled=true
+# 启动和关闭认证相关操作端点。缺失则默认为true
+spring.application.console.authentication.endpoint.enabled=true
+# 启动和关闭策略操作端点的验证SPEL表达式方法。缺失则默认为true
+# 该端点方法使用Spring StandardEvaluationContext类，StandardEvaluationContext支持全部的Spel语法且功能齐全，但GitHub Security报告其存在一定的注入风险，推荐使用SimpleEvaluationContext，而SimpleEvaluationContext并不能满足当前框架的需求
+# 如果未使用验证SPEL表达式方法，可以通过下面开关关闭在方法在策略端点上的暴露，规避风险
+spring.application.console.strategy.endpoint.validate-expression.enabled=true
+```
 
 除了提供基本的Swagger功能之外，内置模块还对使用者提供扩展
 
@@ -8260,6 +8292,10 @@ spring.application.admin.git.endpoint.enabled=true
 spring.application.admin.gateway.endpoint.enabled=true
 # 启动和关闭Zuul相关操作端点。缺失则默认为true
 spring.application.admin.zuul.endpoint.enabled=true
+# 启动和关闭策略操作端点的验证SPEL表达式方法。缺失则默认为true
+# 该端点方法使用Spring StandardEvaluationContext类，StandardEvaluationContext支持全部的Spel语法且功能齐全，但GitHub Security报告其存在一定的注入风险，推荐使用SimpleEvaluationContext，而SimpleEvaluationContext并不能满足当前框架的需求
+# 如果未使用验证SPEL表达式方法，可以通过下面开关关闭在方法在策略端点上的暴露，规避风险
+spring.application.admin.strategy.endpoint.validate-expression.enabled=true
 
 # 启动和关闭Swagger。缺失则默认为true
 swagger.enabled=true
@@ -8505,6 +8541,10 @@ spring.application.admin.git.endpoint.enabled=true
 spring.application.admin.gateway.endpoint.enabled=true
 # 启动和关闭Zuul相关操作端点。缺失则默认为true
 spring.application.admin.zuul.endpoint.enabled=true
+# 启动和关闭策略操作端点的验证SPEL表达式方法。缺失则默认为true
+# 该端点方法使用Spring StandardEvaluationContext类，StandardEvaluationContext支持全部的Spel语法且功能齐全，但GitHub Security报告其存在一定的注入风险，推荐使用SimpleEvaluationContext，而SimpleEvaluationContext并不能满足当前框架的需求
+# 如果未使用验证SPEL表达式方法，可以通过下面开关关闭在方法在策略端点上的暴露，规避风险
+spring.application.admin.strategy.endpoint.validate-expression.enabled=true
 ```
 
 ③ Zuul端配置
@@ -8724,6 +8764,10 @@ spring.application.admin.git.endpoint.enabled=true
 spring.application.admin.gateway.endpoint.enabled=true
 # 启动和关闭Zuul相关操作端点。缺失则默认为true
 spring.application.admin.zuul.endpoint.enabled=true
+# 启动和关闭策略操作端点的验证SPEL表达式方法。缺失则默认为true
+# 该端点方法使用Spring StandardEvaluationContext类，StandardEvaluationContext支持全部的Spel语法且功能齐全，但GitHub Security报告其存在一定的注入风险，推荐使用SimpleEvaluationContext，而SimpleEvaluationContext并不能满足当前框架的需求
+# 如果未使用验证SPEL表达式方法，可以通过下面开关关闭在方法在策略端点上的暴露，规避风险
+spring.application.admin.strategy.endpoint.validate-expression.enabled=true
 
 # 启动和关闭Swagger。缺失则默认为true
 swagger.enabled=true
