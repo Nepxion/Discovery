@@ -59,6 +59,12 @@
 			"type": "java.lang.Boolean",
 			"defaultValue": true,
 			"description": "Whether admin zuul endpoint is enabled."
+		},
+		{
+			"name": "spring.application.admin.strategy.endpoint.validate-expression.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether admin strategy endpoint for validate-expression is enabled."
 		}
 	]
 }
