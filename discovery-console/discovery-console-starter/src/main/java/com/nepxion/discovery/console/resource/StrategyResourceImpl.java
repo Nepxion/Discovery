@@ -20,6 +20,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.expression.TypeComparator;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
@@ -46,6 +47,7 @@ import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.common.util.VersionSortUtil;
 import com.nepxion.discovery.common.util.YamlUtil;
+import com.nepxion.discovery.console.constant.ConsoleConstant;
 import com.nepxion.discovery.console.delegate.ConsoleResourceDelegateImpl;
 
 public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements StrategyResource {
@@ -59,6 +61,9 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
 
     @Autowired
     private ConfigResource configResource;
+
+    @Value("${" + ConsoleConstant.SPRING_APPLICATION_CONSOLE_STRATEGY_ENDPOINT_VALIDATE_EXPRESSION_ENABLED + ":true}")
+    private Boolean validateExpressionEnabled;
 
     @Override
     public ConditionStrategy getVersionRelease(String group) {
@@ -200,6 +205,10 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
 
     @Override
     public boolean validateExpression(String expression, String validation) {
+        if (!validateExpressionEnabled) {
+            throw new DiscoveryException("Strategy endpoint for validate-expression is disabled");
+        }
+
         Map<String, String> map = null;
         try {
             map = StringUtil.splitToMap(validation);
