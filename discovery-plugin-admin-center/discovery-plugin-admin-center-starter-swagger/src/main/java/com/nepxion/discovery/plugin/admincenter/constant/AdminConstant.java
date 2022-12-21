@@ -20,4 +20,6 @@ public class AdminConstant {
     public static final String SPRING_APPLICATION_ADMIN_GIT_ENDPOINT_ENABLED = "spring.application.admin.git.endpoint.enabled";
     public static final String SPRING_APPLICATION_ADMIN_GATEWAY_ENDPOINT_ENABLED = "spring.application.admin.gateway.endpoint.enabled";
     public static final String SPRING_APPLICATION_ADMIN_ZUUL_ENDPOINT_ENABLED = "spring.application.admin.zuul.endpoint.enabled";
+
+    public static final String SPRING_APPLICATION_ADMIN_STRATEGY_ENDPOINT_VALIDATE_EXPRESSION_ENABLED = "spring.application.admin.strategy.endpoint.validate-expression.enabled";
 }

@@ -13,11 +13,13 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.nepxion.discovery.common.entity.StrategyConditionEntity;
 import com.nepxion.discovery.common.entity.StrategyRouteType;
 import com.nepxion.discovery.common.exception.DiscoveryException;
 import com.nepxion.discovery.common.util.StringUtil;
+import com.nepxion.discovery.plugin.admincenter.constant.AdminConstant;
 import com.nepxion.discovery.plugin.strategy.condition.StrategyCondition;
 import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
 
@@ -28,8 +30,15 @@ public class StrategyResourceImpl implements StrategyResource {
     @Autowired
     private StrategyWrapper strategyWrapper;
 
+    @Value("${" + AdminConstant.SPRING_APPLICATION_ADMIN_STRATEGY_ENDPOINT_VALIDATE_EXPRESSION_ENABLED + ":true}")
+    private Boolean validateExpressionEnabled;
+
     @Override
     public boolean validateExpression(String expression, String validation) {
+        if (!validateExpressionEnabled) {
+            throw new DiscoveryException("Strategy endpoint for validate-expression is disabled");
+        }
+
         StrategyConditionEntity strategyConditionEntity = new StrategyConditionEntity();
         strategyConditionEntity.setExpression(expression);
 

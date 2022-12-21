@@ -42,7 +42,7 @@ public class StrategyEndpoint {
     @ApiOperation(value = "校验策略的全链路路由", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
     public ResponseEntity<?> validateRoute(@RequestParam @ApiParam(value = "路由策略类型。取值：version | region | address | version-weight | region-weight | id-blacklist | address-blacklist", defaultValue = "version", required = true) String routeType, @RequestParam(defaultValue = "", required = false) @ApiParam(value = "校验参数，格式示例：a=1;b=1。如果多个用“;”分隔，不允许出现空格，允许为空。如果选择最后两项策略类型，则不需要校验参数", defaultValue = "a=1;b=1") String validation) {
-        return doValidateVersionRoute(routeType, validation);
+        return doValidateRoute(routeType, validation);
     }
 
     private ResponseEntity<?> doValidateExpression(String expression, String validation) {
@@ -55,7 +55,7 @@ public class StrategyEndpoint {
         }
     }
 
-    private ResponseEntity<?> doValidateVersionRoute(String routeType, String validation) {
+    private ResponseEntity<?> doValidateRoute(String routeType, String validation) {
         try {
             String route = strategyResource.validateRoute(routeType, validation);
 
