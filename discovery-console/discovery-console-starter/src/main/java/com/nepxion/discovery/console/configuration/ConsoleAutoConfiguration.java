@@ -10,6 +10,7 @@ package com.nepxion.discovery.console.configuration;
  */
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.discovery.common.handler.DiscoveryResponseErrorHandler;
+import com.nepxion.discovery.console.constant.ConsoleConstant;
 import com.nepxion.discovery.console.endpoint.AuthenticationEndpoint;
 import com.nepxion.discovery.console.endpoint.BlacklistEndpoint;
 import com.nepxion.discovery.console.endpoint.ConfigEndpoint;
@@ -51,7 +53,8 @@ import com.nepxion.discovery.console.resource.VersionResourceImpl;
 @Configuration
 @Import({ SwaggerConfiguration.class, CorsRegistryConfiguration.class })
 public class ConsoleAutoConfiguration {
-    protected static class ConsoleEndpointConfiguration {
+    @ConditionalOnProperty(value = ConsoleConstant.SPRING_APPLICATION_CONSOLE_AUTHENTICATION_ENDPOINT_ENABLED, matchIfMissing = true)
+    protected static class AuthenticationEndpointConfiguration {
         @Bean
         @ConditionalOnMissingBean
         public AuthenticationResource authenticationResource() {
@@ -62,7 +65,10 @@ public class ConsoleAutoConfiguration {
         public AuthenticationEndpoint authenticationEndpoint() {
             return new AuthenticationEndpoint();
         }
+    }
 
+    @ConditionalOnProperty(value = ConsoleConstant.SPRING_APPLICATION_CONSOLE_SERVICE_ENDPOINT_ENABLED, matchIfMissing = true)
+    protected static class ServiceEndpointConfiguration {
         @Bean
         public ServiceResource serviceResource() {
             return new ServiceResourceImpl();
@@ -72,7 +78,10 @@ public class ConsoleAutoConfiguration {
         public ServiceEndpoint serviceEndpoint() {
             return new ServiceEndpoint();
         }
+    }
 
+    @ConditionalOnProperty(value = ConsoleConstant.SPRING_APPLICATION_CONSOLE_CONFIG_ENDPOINT_ENABLED, matchIfMissing = true)
+    protected static class ConfigEndpointConfiguration {
         @Bean
         public ConfigResource configResource() {
             return new ConfigResourceImpl();
@@ -82,7 +91,10 @@ public class ConsoleAutoConfiguration {
         public ConfigEndpoint configEndpoint() {
             return new ConfigEndpoint();
         }
+    }
 
+    @ConditionalOnProperty(value = ConsoleConstant.SPRING_APPLICATION_CONSOLE_VERSION_ENDPOINT_ENABLED, matchIfMissing = true)
+    protected static class VersionEndpointConfiguration {
         @Bean
         public VersionResource versionResource() {
             return new VersionResourceImpl();
@@ -92,7 +104,10 @@ public class ConsoleAutoConfiguration {
         public VersionEndpoint versionEndpoint() {
             return new VersionEndpoint();
         }
+    }
 
+    @ConditionalOnProperty(value = ConsoleConstant.SPRING_APPLICATION_CONSOLE_SENTINEL_ENDPOINT_ENABLED, matchIfMissing = true)
+    protected static class SentinelEndpointConfiguration {
         @Bean
         public SentinelResource sentinelResource() {
             return new SentinelResourceImpl();
@@ -102,7 +117,10 @@ public class ConsoleAutoConfiguration {
         public SentinelEndpoint sentinelEndpoint() {
             return new SentinelEndpoint();
         }
+    }
 
+    @ConditionalOnProperty(value = ConsoleConstant.SPRING_APPLICATION_CONSOLE_ROUTE_ENDPOINT_ENABLED, matchIfMissing = true)
+    protected static class RouteEndpointConfiguration {
         @Bean
         public RouteResource routeResource() {
             return new RouteResourceImpl();
@@ -112,7 +130,10 @@ public class ConsoleAutoConfiguration {
         public RouteEndpoint routeEndpoint() {
             return new RouteEndpoint();
         }
+    }
 
+    @ConditionalOnProperty(value = ConsoleConstant.SPRING_APPLICATION_CONSOLE_STRATEGY_ENDPOINT_ENABLED, matchIfMissing = true)
+    protected static class StrategyEndpointConfiguration {
         @Bean
         public StrategyResource strategyResource() {
             return new StrategyResourceImpl();
@@ -122,7 +143,10 @@ public class ConsoleAutoConfiguration {
         public StrategyEndpoint strategyEndpoint() {
             return new StrategyEndpoint();
         }
+    }
 
+    @ConditionalOnProperty(value = ConsoleConstant.SPRING_APPLICATION_CONSOLE_FAILOVER_ENDPOINT_ENABLED, matchIfMissing = true)
+    protected static class FailoverEndpointConfiguration {
         @Bean
         public FailoverResource failoverResource() {
             return new FailoverResourceImpl();
@@ -132,7 +156,10 @@ public class ConsoleAutoConfiguration {
         public FailoverEndpoint failoverEndpoint() {
             return new FailoverEndpoint();
         }
+    }
 
+    @ConditionalOnProperty(value = ConsoleConstant.SPRING_APPLICATION_CONSOLE_BLACKLIST_ENDPOINT_ENABLED, matchIfMissing = true)
+    protected static class BlacklistEndpointConfiguration {
         @Bean
         public BlacklistResource blacklistResource() {
             return new BlacklistResourceImpl();
@@ -142,7 +169,10 @@ public class ConsoleAutoConfiguration {
         public BlacklistEndpoint blacklistEndpoint() {
             return new BlacklistEndpoint();
         }
+    }
 
+    @ConditionalOnProperty(value = ConsoleConstant.SPRING_APPLICATION_CONSOLE_INSPECTOR_ENDPOINT_ENABLED, matchIfMissing = true)
+    protected static class InspectorEndpointConfiguration {
         @Bean
         public InspectorResource inspectorResource() {
             return new InspectorResourceImpl();
@@ -152,7 +182,9 @@ public class ConsoleAutoConfiguration {
         public InspectorEndpoint inspectorEndpoint() {
             return new InspectorEndpoint();
         }
+    }
 
+    protected static class RestTemplateEndpointConfiguration {
         @Bean
         public RestTemplate consoleRestTemplate() {
             RestTemplate consoleRestTemplate = new RestTemplate();

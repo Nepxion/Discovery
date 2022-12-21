@@ -1,0 +1,70 @@
+{
+	"properties": [
+		{
+			"name": "spring.application.console.service.endpoint.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether console service endpoint is enabled."
+		},
+		{
+			"name": "spring.application.console.config.endpoint.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether console config endpoint is enabled."
+		},
+		{
+			"name": "spring.application.console.version.endpoint.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether console version endpoint is enabled."
+		},
+		{
+			"name": "spring.application.console.inspector.endpoint.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether console inspector endpoint is enabled."
+		},
+		{
+			"name": "spring.application.console.route.endpoint.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether console route endpoint is enabled."
+		},
+		{
+			"name": "spring.application.console.strategy.endpoint.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether console strategy endpoint is enabled."
+		},
+		{
+			"name": "spring.application.console.sentinel.endpoint.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether console sentinel endpoint is enabled."
+		},
+		{
+			"name": "spring.application.console.blacklist.endpoint.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether console blacklist endpoint is enabled."
+		},
+		{
+			"name": "spring.application.console.failover.endpoint.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether console failover endpoint is enabled."
+		},
+		{
+			"name": "spring.application.console.authentication.endpoint.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether console authentication endpoint is enabled."
+		},
+		{
+			"name": "spring.application.console.strategy.endpoint.validate-expression.enabled",
+			"type": "java.lang.Boolean",
+			"defaultValue": true,
+			"description": "Whether console strategy endpoint for validate-expression is enabled."
+		}
+	]
+}
