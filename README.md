@@ -8793,6 +8793,57 @@ swagger.service.contact.email=1394997@qq.com
 swagger.service.termsOfService.url=http://nepxion.com/discovery
 ```
 
+④ 控制台端配置
+```
+# 启动和关闭服务相关操作端点。缺失则默认为true
+spring.application.console.service.endpoint.enabled=true
+# 启动和关闭配置相关操作端点。缺失则默认为true
+spring.application.console.config.endpoint.enabled=true
+# 启动和关闭版本相关操作端点。缺失则默认为true
+spring.application.console.version.endpoint.enabled=true
+# 启动和关闭侦测相关操作端点。缺失则默认为true
+spring.application.console.inspector.endpoint.enabled=true
+# 启动和关闭网关路由相关操作端点。缺失则默认为true
+spring.application.console.route.endpoint.enabled=true
+# 启动和关闭策略相关操作端点。缺失则默认为true
+spring.application.console.strategy.endpoint.enabled=true
+# 启动和关闭Sentinel相关操作端点。缺失则默认为true
+spring.application.console.sentinel.endpoint.enabled=true
+# 启动和关闭无损下线黑名单相关操作端点。缺失则默认为true
+spring.application.console.blacklist.endpoint.enabled=true
+# 启动和关闭故障转移相关操作端点。缺失则默认为true
+spring.application.console.failover.endpoint.enabled=true
+# 启动和关闭认证相关操作端点。缺失则默认为true
+spring.application.console.authentication.endpoint.enabled=true
+# 启动和关闭策略操作端点的验证SPEL表达式方法。缺失则默认为true
+# 该端点方法使用Spring StandardEvaluationContext类，StandardEvaluationContext支持全部的Spel语法且功能齐全，但GitHub Security报告其存在一定的注入风险，推荐使用SimpleEvaluationContext，而SimpleEvaluationContext并不能满足当前框架的需求
+# 如果未使用验证SPEL表达式方法，可以通过下面开关关闭在方法在策略端点上的暴露，规避风险
+spring.application.console.strategy.endpoint.validate-expression.enabled=true
+
+# 启动和关闭Swagger。缺失则默认为true
+swagger.enabled=true
+# 业务服务Swagger Docket组名
+swagger.service.group=Your group
+# 业务服务Swagger扫描目录
+swagger.service.packages=your-package1;your-package2
+# 业务服务Swagger描述
+swagger.service.description=Your service Restful APIs
+# 业务服务Swagger版本
+swagger.service.version=1.0.0
+# 业务服务Swagger License名称
+swagger.service.license.name=Apache License 2.0
+# 业务服务Swagger License链接
+swagger.service.license.url=http://www.apache.org/licenses/LICENSE-2.0
+# 业务服务Swagger联系人名称
+swagger.service.contact.name=Nepxion
+# 业务服务Swagger联系人网址
+swagger.service.contact.url=https://github.com/Nepxion/Discovery
+# 业务服务Swagger联系人邮件
+swagger.service.contact.email=1394997@qq.com
+# 业务服务Swagger服务条件网址
+swagger.service.termsOfService.url=http://nepxion.com/discovery
+```
+
 ### 内置文件配置
 框架提供内置文件方式的配置spring-application-default.properties。如果使用者希望对框架做封装，并提供相应的默认配置，可以在src/main/resources目录下放置spring-application-default.properties
 
