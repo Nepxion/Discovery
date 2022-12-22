@@ -12,6 +12,7 @@ package com.nepxion.discovery.console.resource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -47,6 +48,7 @@ import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.common.util.VersionSortUtil;
 import com.nepxion.discovery.common.util.YamlUtil;
+import com.nepxion.discovery.common.yaml.YamlSafeConstructor;
 import com.nepxion.discovery.console.constant.ConsoleConstant;
 import com.nepxion.discovery.console.delegate.ConsoleResourceDelegateImpl;
 
@@ -55,6 +57,10 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
     public static final String ROUTE = "route";
 
     private TypeComparator typeComparator = new DiscoveryTypeComparator();
+
+    private YamlSafeConstructor conditionStrategyYamlSafeConstructor = new YamlSafeConstructor(new LinkedHashSet<Class<?>>(Arrays.asList(ConditionStrategy.class)));
+
+    private YamlSafeConstructor conditionRouteStrategyYamlSafeConstructor = new YamlSafeConstructor(new LinkedHashSet<Class<?>>(Arrays.asList(ConditionRouteStrategy.class)));
 
     @Autowired
     private ServiceResource serviceResource;
@@ -129,7 +135,7 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
 
     @Override
     public String recreateVersionRelease(String group, String serviceId, String conditionRouteStrategyYaml) {
-        ConditionRouteStrategy conditionRouteStrategy = YamlUtil.fromYaml(conditionRouteStrategyYaml, ConditionRouteStrategy.class);
+        ConditionRouteStrategy conditionRouteStrategy = YamlUtil.fromYaml(conditionRouteStrategyYamlSafeConstructor, conditionRouteStrategyYaml, ConditionRouteStrategy.class);
 
         return recreateVersionRelease(group, serviceId, conditionRouteStrategy);
     }
@@ -200,7 +206,7 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
 
     @Override
     public ConditionStrategy deparseVersionReleaseYaml(String conditionStrategyYaml) {
-        return YamlUtil.fromYaml(conditionStrategyYaml, ConditionStrategy.class);
+        return YamlUtil.fromYaml(conditionStrategyYamlSafeConstructor, conditionStrategyYaml, ConditionStrategy.class);
     }
 
     @Override
