@@ -13,6 +13,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.SafeConstructor;
+import org.yaml.snakeyaml.representer.Representer;
 
 public class YamlUtil {
     private static DumperOptions dumperOptions = new DumperOptions();
@@ -46,6 +48,36 @@ public class YamlUtil {
     public static <T> T fromYaml(String yaml, Class<T> clazz) {
         // 非线程安全
         Yaml snakeYaml = new Yaml();
+
+        return snakeYaml.loadAs(yaml, clazz);
+    }
+
+    public static boolean isYamlFormat(SafeConstructor safeConstructor, String yaml) {
+        if (StringUtils.isBlank(yaml)) {
+            return false;
+        }
+
+        // 非线程安全
+        Yaml snakeYaml = new Yaml(safeConstructor);
+        try {
+            snakeYaml.load(yaml);
+
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public static <T> String toYaml(SafeConstructor safeConstructor, T object) {
+        // 非线程安全
+        Yaml snakeYaml = new Yaml(safeConstructor, new Representer(), dumperOptions);
+
+        return snakeYaml.dump(object);
+    }
+
+    public static <T> T fromYaml(SafeConstructor safeConstructor, String yaml, Class<T> clazz) {
+        // 非线程安全
+        Yaml snakeYaml = new Yaml(safeConstructor);
 
         return snakeYaml.loadAs(yaml, clazz);
     }
