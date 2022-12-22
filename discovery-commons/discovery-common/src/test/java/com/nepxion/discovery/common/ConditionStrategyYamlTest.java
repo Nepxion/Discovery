@@ -14,24 +14,32 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.ConditionStrategy;
 import com.nepxion.discovery.common.util.YamlUtil;
+import com.nepxion.discovery.common.yaml.YamlSafeConstructor;
 
 public class ConditionStrategyYamlTest {
     public static void main(String[] args) {
+        Set<Class<?>> supportedClasses = new LinkedHashSet<>();
+        supportedClasses.add(ConditionStrategy.class);
+
+        YamlSafeConstructor yamlSafeConstructor = new YamlSafeConstructor(supportedClasses);
+
         String yml = testFile("sample.yaml");
-        
+
         System.out.println("Yaml:\n" + yml);
 
-        ConditionStrategy conditionStrategy = YamlUtil.fromYaml(yml, ConditionStrategy.class);
+        ConditionStrategy conditionStrategy = YamlUtil.fromYaml(yamlSafeConstructor, yml, ConditionStrategy.class);
 
         System.out.println("To object:\n" + conditionStrategy);
 
-        String yaml = YamlUtil.toYaml(conditionStrategy);
+        String yaml = YamlUtil.toYaml(yamlSafeConstructor, conditionStrategy);
 
         System.out.println("To yaml:\n" + yaml);
     }
