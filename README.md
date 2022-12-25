@@ -5273,6 +5273,14 @@ agent.plugin.thread.scan.packages=reactor.core.publisher;org.springframework.aop
 - `-D`thread.mdc.enabled：SLF4J MDC日志输出到异步子线程。默认开启
 - `-D`thread.request.decorator.enabled：异步调用场景下在服务端的Request请求的装饰，当主线程先于子线程执行完的时候，Request会被Destory，导致Header仍旧拿不到，开启装饰，就可以确保拿到。默认为开启，根据实践经验，大多数场景下，需要开启该开关
 
+③ 安装校验
+
+Spring Cloud 202x版的应用上支持如下配置，一般通过-Dspring.application.strategy.agent.validation.enabled=true或者false来启动和关闭
+```
+# 启动和关闭DiscoveryAgent安装校验，一旦启动，如果未安装DiscoveryAgent，则抛错退出应用，该配置只适用于Spring Cloud 202x版。缺失则默认为true
+# spring.application.strategy.agent.validation.enabled=true
+```
+
 #### 异步跨线程DiscoveryAgent扩展
 - 根据规范开发一个插件，插件提供了钩子函数，在某个类被加载的时候，可以注册一个事件到线程上下文切换事件当中，实现业务自定义ThreadLocal的跨线程传递
 - plugin目录为放置需要在线程切换时进行ThreadLocal传递的自定义插件。业务自定义插件开发完后，放入到plugin目录下即可
@@ -8250,6 +8258,9 @@ spring.application.strategy.auto.scan.packages.enabled=true
 # 启动和关闭嵌套扫描，嵌套扫描指扫描非本工程下外部包的目录，可以支持多层嵌套。缺失则默认为false
 spring.application.strategy.auto.scan.recursion.enabled=false
 
+# 启动和关闭DiscoveryAgent安装校验，一旦启动，如果未安装DiscoveryAgent，则抛错退出应用，该配置只适用于Spring Cloud 202x版。缺失则默认为true
+spring.application.strategy.agent.validation.enabled=true
+
 # 开启和关闭使用服务名前缀来作为服务组名。缺失则默认为false
 spring.application.group.generator.enabled=true
 # 服务名前缀的截断长度，必须大于0
@@ -8476,6 +8487,9 @@ spring.application.strategy.version.sort.type=version
 spring.application.strategy.auto.scan.packages.enabled=true
 # 启动和关闭嵌套扫描，嵌套扫描指扫描非本工程下外部包的目录，可以支持多层嵌套。缺失则默认为false
 spring.application.strategy.auto.scan.recursion.enabled=false
+
+# 启动和关闭DiscoveryAgent安装校验，一旦启动，如果未安装DiscoveryAgent，则抛错退出应用，该配置只适用于Spring Cloud 202x版。缺失则默认为true
+spring.application.strategy.agent.validation.enabled=true
 
 # 开启和关闭使用服务名前缀来作为服务组名。缺失则默认为false
 spring.application.group.generator.enabled=true
