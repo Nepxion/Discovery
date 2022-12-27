@@ -18,12 +18,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
-import com.nepxion.banner.BannerConstant;
-import com.nepxion.banner.Description;
-import com.nepxion.banner.LogoBanner;
-import com.nepxion.banner.NepxionBanner;
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.common.entity.LoadBalancerType;
 import com.nepxion.discovery.common.entity.WeightFilterEntity;
 import com.nepxion.discovery.common.entity.WeightRandomType;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
@@ -58,17 +53,10 @@ import com.nepxion.discovery.plugin.framework.loadbalance.weight.StrategyMapWeig
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.StrategyWeightRandomLoadBalance;
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.WeightRandomProcessor;
 import com.nepxion.eventbus.annotation.EnableEventBus;
-import com.taobao.text.Color;
 
 @Configuration
 @EnableEventBus
 public class PluginAutoConfiguration {
-    static {
-        LogoBanner logoBanner = new LogoBanner(PluginAutoConfiguration.class, "/com/nepxion/ribbon/resource/logo.txt", "Welcome to Nepxion", 6, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta }, true);
-
-        NepxionBanner.show(logoBanner, new Description("LoadBalancer:", LoadBalancerType.RIBBON.toString(), 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
-    }
-
     @Value("${" + DiscoveryConstant.SPRING_APPLICATION_WEIGHT_RANDOM_TYPE + ":" + DiscoveryConstant.MAP_WEIGHT_RANDOM + "}")
     private String weightRandomType;
 
