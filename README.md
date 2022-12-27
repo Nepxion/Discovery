@@ -7415,9 +7415,9 @@ public class MyConfigProcessor extends NacosProcessor {
 
 服务名大小写规则
 - 在配置文件（application.properties、application.yaml等）里，定义服务名（spring.application.name）不区分大小写，但强烈建议小写
-- 在规则文件（Xml、Json）里，引用的服务名必须小写
-- 在传递的n-d-开头的参数（Header、Parameter和Cookie）里，引用的服务名必须小写
-- 在Nacos、Apollo、Consul、Etcd、Redis、Zookeeper等远程配置中心的Key，包含的服务名必须小写
+- 在规则文件（Xml、Json）里，涉及的服务名必须小写
+- 在传递的n-d-开头的参数（Header、Parameter和Cookie）里，涉及的服务名必须小写
+- 在Nacos、Apollo、Consul、Etcd、Redis、Zookeeper等远程配置中心的Key，涉及的服务名必须小写
 
 ### 规则策略内容定义
 规则策略的格式是Xml或者Json，存储于本地文件或者远程配置中心，可以通过远程配置中心修改的方式达到规则策略动态化。其核心代码参考discovery-plugin-framework以及它的扩展、discovery-plugin-config-center以及它的扩展和discovery-plugin-admin-center等
