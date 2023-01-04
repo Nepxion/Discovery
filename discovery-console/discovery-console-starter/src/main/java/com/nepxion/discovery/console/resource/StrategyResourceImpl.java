@@ -377,7 +377,6 @@ public class StrategyResourceImpl extends ConsoleResourceDelegateImpl implements
             strategyHeaderEntity.setHeaderMap(headerMap);
             strategyReleaseEntity.setStrategyHeaderEntity(strategyHeaderEntity);
         }
-
     }
 
     @SuppressWarnings("unchecked")
