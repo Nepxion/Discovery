@@ -30,6 +30,8 @@ public interface ServiceResource {
 
     List<String> getServiceList(List<ServiceType> serviceTypes);
 
+    List<String> getServiceList(String group, List<ServiceType> serviceTypes);
+
     List<String> getGateways();
 
     List<String> getGatewayList(List<GatewayType> gatewayTypes);

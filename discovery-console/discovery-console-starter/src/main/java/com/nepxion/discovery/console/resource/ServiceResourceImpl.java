@@ -137,6 +137,32 @@ public class ServiceResourceImpl implements ServiceResource {
     }
 
     @Override
+    public List<String> getServiceList(String group, List<ServiceType> types) {
+        List<String> serviceList = new ArrayList<String>();
+        List<String> services = getServices();
+        for (String service : services) {
+            List<ServiceInstance> instances = getInstances(service);
+            for (ServiceInstance instance : instances) {
+                Map<String, String> metadata = instance.getMetadata();
+                String serviceGroup = InstanceEntityWrapper.getGroup(metadata);
+                if (StringUtils.equals(serviceGroup, group)) {
+                    String serviceId = instance.getServiceId().toLowerCase();
+                    String serviceType = InstanceEntityWrapper.getServiceType(metadata);
+                    for (ServiceType type : types) {
+                        if (StringUtils.equals(serviceType, type.toString())) {
+                            if (!serviceList.contains(serviceId)) {
+                                serviceList.add(serviceId);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return serviceList;
+    }
+
+    @Override
     public List<String> getGateways() {
         List<String> gatewayList = new ArrayList<String>();
         List<String> services = getServices();
