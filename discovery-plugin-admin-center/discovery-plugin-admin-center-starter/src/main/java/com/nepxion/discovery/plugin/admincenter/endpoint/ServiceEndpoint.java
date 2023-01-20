@@ -65,6 +65,12 @@ public class ServiceEndpoint {
         return doServiceList(serviceTypes);
     }
 
+    @RequestMapping(path = "/service-list/{group}", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<?> serviceListByGroup(@PathVariable(value = "group") String group, @RequestBody List<String> serviceTypes) {
+        return doServiceList(group, serviceTypes);
+    }
+
     @RequestMapping(path = "/gateways", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> gateways() {
@@ -143,6 +149,21 @@ public class ServiceEndpoint {
             }
 
             List<String> services = serviceResource.getServiceList(types);
+
+            return ResponseUtil.getSuccessResponse(services);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
+    }
+
+    private ResponseEntity<?> doServiceList(String group, List<String> serviceTypes) {
+        try {
+            List<ServiceType> types = new ArrayList<ServiceType>();
+            for (String serviceType : serviceTypes) {
+                types.add(ServiceType.fromString(serviceType));
+            }
+
+            List<String> services = serviceResource.getServiceList(group, types);
 
             return ResponseUtil.getSuccessResponse(services);
         } catch (Exception e) {

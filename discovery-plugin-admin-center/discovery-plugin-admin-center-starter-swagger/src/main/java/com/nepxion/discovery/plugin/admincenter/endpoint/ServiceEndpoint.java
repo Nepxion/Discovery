@@ -75,6 +75,13 @@ public class ServiceEndpoint {
         return doServiceList(serviceTypes);
     }
 
+    @RequestMapping(path = "/service-list/{group}", method = RequestMethod.POST)
+    @ApiOperation(value = "获取注册中心的组下服务名列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    public ResponseEntity<?> serviceListByGroup(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @RequestBody @ApiParam(value = "服务类型列表。取值： service | gateway", required = true) List<String> serviceTypes) {
+        return doServiceList(group, serviceTypes);
+    }
+
     @RequestMapping(path = "/gateways", method = RequestMethod.GET)
     @ApiOperation(value = "获取注册中心的网关名列表", notes = "", response = ResponseEntity.class, httpMethod = "GET")
     @ResponseBody
@@ -85,7 +92,7 @@ public class ServiceEndpoint {
     @RequestMapping(path = "/gateway-list", method = RequestMethod.POST)
     @ApiOperation(value = "获取注册中心的网关名列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> gatewayList(@RequestBody @ApiParam(value = "网关类型列表。取值： spring-cloud-gateway | zuul", required = true) List<String> gatewayTypes) {
+    public ResponseEntity<?> gatewayList(@RequestBody @ApiParam(value = "网关类型列表。取值： spring-cloud-gateway | zuul。spring-cloud-gateway指Spring Cloud Gateway, zuul指Netflix Zuul", required = true) List<String> gatewayTypes) {
         return doGatewayList(gatewayTypes);
     }
 
@@ -158,6 +165,21 @@ public class ServiceEndpoint {
             }
 
             List<String> services = serviceResource.getServiceList(types);
+
+            return ResponseUtil.getSuccessResponse(services);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
+    }
+
+    private ResponseEntity<?> doServiceList(String group, List<String> serviceTypes) {
+        try {
+            List<ServiceType> types = new ArrayList<ServiceType>();
+            for (String serviceType : serviceTypes) {
+                types.add(ServiceType.fromString(serviceType));
+            }
+
+            List<String> services = serviceResource.getServiceList(group, types);
 
             return ResponseUtil.getSuccessResponse(services);
         } catch (Exception e) {
