@@ -78,7 +78,7 @@ public class ServiceEndpoint {
     @RequestMapping(path = "/service-list/{group}", method = RequestMethod.POST)
     @ApiOperation(value = "获取注册中心的组下服务名列表", notes = "", response = ResponseEntity.class, httpMethod = "POST")
     @ResponseBody
-    public ResponseEntity<?> serviceListByGroup(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @RequestBody @ApiParam(value = "服务类型列表。取值： service | gateway", required = true) List<String> serviceTypes) {
+    public ResponseEntity<?> serviceList(@PathVariable(value = "group") @ApiParam(value = "组名", required = true) String group, @RequestBody @ApiParam(value = "服务类型列表。取值： service | gateway", required = true) List<String> serviceTypes) {
         return doServiceList(group, serviceTypes);
     }
 
