@@ -67,7 +67,7 @@ public class ServiceEndpoint {
 
     @RequestMapping(path = "/service-list/{group}", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<?> serviceListByGroup(@PathVariable(value = "group") String group, @RequestBody List<String> serviceTypes) {
+    public ResponseEntity<?> serviceList(@PathVariable(value = "group") String group, @RequestBody List<String> serviceTypes) {
         return doServiceList(group, serviceTypes);
     }
 
