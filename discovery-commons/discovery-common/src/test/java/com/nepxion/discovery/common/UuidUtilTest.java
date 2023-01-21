@@ -30,7 +30,8 @@ public class UuidUtilTest {
         System.out.println("--------------------");
 
         System.out.println("Random:");
-        System.out.println(UuidUtil.random(999, 3));
+        System.out.println(UuidUtil.random(999));
+        System.out.println(UuidUtil.random(999, 5));
         System.out.println("--------------------");
 
         System.out.println("UUID:");
