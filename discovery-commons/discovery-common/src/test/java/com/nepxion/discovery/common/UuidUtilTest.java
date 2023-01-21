@@ -13,16 +13,27 @@ import com.nepxion.discovery.common.util.UuidUtil;
 
 public class UuidUtilTest {
     public static void main(String[] args) {
+        System.out.println("Time UUID with default:");
         System.out.println(UuidUtil.getTimeUUID());
+        System.out.println("--------------------");
 
+        System.out.println("Time UUID with prefix:");
         System.out.println(UuidUtil.getTimeUUID("nepxion"));
+        System.out.println("--------------------");
 
+        System.out.println("Time UUID with prefix and randomArray:");
         System.out.println(UuidUtil.getTimeUUID("nepxion", new int[] { 10, 100, 1000, 10000 }));
+        System.out.println("--------------------");
 
+        System.out.println("Time UUID with all:");
         System.out.println(UuidUtil.getTimeUUID("nepxion", "yyyyMMdd-HHmmss", new int[] { 10, 100, 1000, 10000 }, "-", "@"));
+        System.out.println("--------------------");
 
+        System.out.println("Random:");
         System.out.println(UuidUtil.random(999, 3));
+        System.out.println("--------------------");
 
+        System.out.println("UUID:");
         System.out.println(UuidUtil.getUUID());
     }
 }
