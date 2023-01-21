@@ -797,7 +797,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 [DiscoveryDesktop](https://github.com/Nepxion/DiscoveryDesktop/releases)
 
 ### 入门主页
-[Gitee Wiki](https://gitee.com/Nepxion/Discovery/wikis/pages)
+[Gitee Wiki](https://gitee.com/nepxion/Discovery/wikis/pages?sort_id=3993615&doc_id=1124387)
 
 [Github Wiki](https://github.com/Nepxion/Discovery/wiki)
 
