@@ -22,11 +22,11 @@ public class UuidUtilTest {
         System.out.println("--------------------");
 
         System.out.println("Time UUID with prefix and randomArray:");
-        System.out.println(UuidUtil.getTimeUUID("nepxion", new int[] { 10, 100, 1000, 10000 }));
+        System.out.println(UuidUtil.getTimeUUID("nepxion", new int[] { 9, 99, 999, 9999 }));
         System.out.println("--------------------");
 
         System.out.println("Time UUID with all:");
-        System.out.println(UuidUtil.getTimeUUID("nepxion", "yyyyMMdd-HHmmss", new int[] { 10, 100, 1000, 10000 }, "-", "@"));
+        System.out.println(UuidUtil.getTimeUUID("nepxion", "yyyyMMdd-HHmmss", new int[] { 9, 99, 999, 9999 }, "-", "@"));
         System.out.println("--------------------");
 
         System.out.println("Random:");
