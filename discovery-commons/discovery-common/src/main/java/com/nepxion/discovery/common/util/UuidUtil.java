@@ -38,6 +38,15 @@ public class UuidUtil {
         return getTimeUUID(prefix, dataFormat, RANDOM_ARRAY, SEPARATOR, RANDOMS_EPARATOR);
     }
 
+    /**
+     * 获取日期时间戳和随机数混合的全局唯一ID
+     * @param prefix 前缀
+     * @param dataFormat 日期时间戳格式
+     * @param randomArray 随机数数组，数组元素个数即随机数个数。例如，{ 9, 99, 999 }，第一个随机数是0 ~ 9，第二个随机数是0 ~ 99，第三个随机数是0 ~ 999
+     * @param separator 日期时间戳和随机数分隔符
+     * @param randomSeparator 随机数之间的分隔符号
+     * @return 字符串格式的全局唯一ID
+     */
     public static String getTimeUUID(String prefix, String dataFormat, int[] randomArray, String separator, String randomSeparator) {
         if (dataFormat == null) {
             throw new IllegalArgumentException("dataFormat can't be null");
@@ -55,7 +64,7 @@ public class UuidUtil {
         stringBuilder.append(new SimpleDateFormat(dataFormat).format(new Date())).append(separator);
 
         for (int random : randomArray) {
-            String result = random(random, String.valueOf(random).length());
+            String result = random(random);
 
             stringBuilder.append(result).append(randomSeparator);
         }
@@ -67,6 +76,16 @@ public class UuidUtil {
         return stringBuilder.toString();
     }
 
+    public static String random(int random) {
+        return random(random, String.valueOf(random).length());
+    }
+
+    /**
+     * 获取随机数。例如，输入999, 5, 在0 ~ 999产生随机数，由于要求是随机数位数为5，那么产生的值前面由0补齐
+     * @param random 随机数最大值
+     * @param padSize 随机数位数
+     * @return 随机数
+     */
     public static String random(int random, int padSize) {
         return StringUtils.leftPad(String.valueOf(RandomUtils.nextInt(0, random)), padSize, "0");
     }
