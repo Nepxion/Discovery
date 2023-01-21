@@ -64,7 +64,7 @@ public class UuidUtil {
         stringBuilder.append(new SimpleDateFormat(dataFormat).format(new Date())).append(separator);
 
         for (int random : randomArray) {
-            String result = random(random, String.valueOf(random).length());
+            String result = random(random);
 
             stringBuilder.append(result).append(randomSeparator);
         }
@@ -74,6 +74,10 @@ public class UuidUtil {
         }
 
         return stringBuilder.toString();
+    }
+
+    public static String random(int random) {
+        return random(random, String.valueOf(random).length());
     }
 
     /**
