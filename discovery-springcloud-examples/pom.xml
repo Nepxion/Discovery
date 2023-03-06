@@ -21,4 +21,20 @@
         <module>discovery-springcloud-example-service</module>
         <module>discovery-springcloud-example-zuul</module>
     </modules>
+
+    <properties>
+        <spring.boot.admin.version>1.5.7</spring.boot.admin.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-dependencies</artifactId>
+                <version>${spring.boot.admin.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>
