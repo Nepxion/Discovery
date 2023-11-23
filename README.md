@@ -5219,6 +5219,7 @@ ThreadLocal的作用是提供线程内的局部变量，在多线程环境下访
 - Hystrix Thread Pool Isolation
 - Runnable
 - Callable
+- Supplier
 - Single Thread
 - Thread Pool
 - SLF4J MDC
