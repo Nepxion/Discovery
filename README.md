@@ -677,6 +677,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [异步跨线程DiscoveryAgent获取](#异步跨线程DiscoveryAgent获取)
         - [异步跨线程DiscoveryAgent使用](#异步跨线程DiscoveryAgent使用)
         - [异步跨线程DiscoveryAgent扩展](#异步跨线程DiscoveryAgent扩展)
+        - [异步跨线程DiscoveryAgent冲突](#异步跨线程DiscoveryAgent冲突)
     - [异步场景下Hystrix线程池隔离解决方案](#异步场景下Hystrix线程池隔离解决方案)
 - [网关动态路由](#网关动态路由)
     - [Spring-Cloud-Gateway网关动态路由](#Spring-Cloud-Gateway网关动态路由)
@@ -5283,6 +5284,9 @@ Spring Cloud 202x版的应用上支持如下配置，一般通过-Dspring.applic
 # 启动和关闭DiscoveryAgent安装校验，一旦启动，如果未安装DiscoveryAgent，则抛错退出应用，该配置只适用于Spring Cloud 202x版。缺失则默认为true
 # spring.application.strategy.agent.validation.enabled=true
 ```
+
+#### 异步跨线程DiscoveryAgent冲突
+IDEA DebugAgent支持Reactive Streams的Reactor调试，如果开启会使DiscoveryAgent的Reactor模块失效，所以必须关闭IDEA的Reactor调试模式
 
 #### 异步跨线程DiscoveryAgent扩展
 - 根据规范开发一个插件，插件提供了钩子函数，在某个类被加载的时候，可以注册一个事件到线程上下文切换事件当中，实现业务自定义ThreadLocal的跨线程传递
