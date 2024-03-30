@@ -282,6 +282,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 
 ![](http://nepxion.gitee.io/discovery/docs/icon-doc/confirm_24.png) 表示维护中 | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/arrow_up_24.png) 表示不维护，但可用，强烈建议升级 | ![](http://nepxion.gitee.io/discovery/docs/icon-doc/delete_24.png) 表示不维护，不可用，已废弃
 
+- 10.x.x版本（适用于2023.x.x）将继续维护
 - 9.x.x版本（适用于2022.x.x）将继续维护
 - 8.x.x版本（适用于2021.x.x）将继续维护
 - 7.x.x版本（适用于2020.x.x）将继续维护
