@@ -1,7 +1,7 @@
 ![](https://nepxion.github.io/Discovery/docs/discovery-doc/Banner.png)
 
 # Discovery【探索】云原生微服务解决方案
-![Total visits](https://visitor-badge.laobi.icu/badge?page_id=Nepxion&title=total%20visits)  [![Total lines](https://tokei.rs/b1/github/Nepxion/Discovery?category=lines)](https://tokei.rs/b1/github/Nepxion/Discovery?category=lines)  [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?label=license)](https://github.com/Nepxion/Discovery/blob/6.x.x/LICENSE)  [![Maven Central](https://img.shields.io/maven-central/v/com.nepxion/discovery.svg?label=maven)](https://search.maven.org/artifact/com.nepxion/discovery)  [![Javadocs](http://www.javadoc.io/badge/com.nepxion/discovery-plugin-framework-starter.svg)](http://www.javadoc.io/doc/com.nepxion/discovery-plugin-framework-starter)  [![Build Status](https://github.com/Nepxion/Discovery/workflows/build/badge.svg)](https://github.com/Nepxion/Discovery/actions)  [![Codacy Badge](https://app.codacy.com/project/badge/Grade/5c42eb719ef64def9cad773abd877e8b)](https://www.codacy.com/gh/Nepxion/Discovery/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nepxion/Discovery&amp;utm_campaign=Badge_Grade)  [![Stars](https://img.shields.io/github/stars/Nepxion/Discovery.svg?label=Stars&style=flat&logo=GitHub)](https://github.com/Nepxion/Discovery/stargazers)  [![Stars](https://gitee.com/Nepxion/Discovery/badge/star.svg?theme=gvp)](https://gitee.com/Nepxion/Discovery/stargazers)
+![Total visits](https://visitor-badge.laobi.icu/badge?page_id=Nepxion&title=total%20visits)  [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?label=license)](https://github.com/Nepxion/Discovery/blob/6.x.x/LICENSE)  [![Maven Central](https://img.shields.io/maven-central/v/com.nepxion/discovery.svg?label=maven)](https://search.maven.org/artifact/com.nepxion/discovery)  [![Javadocs](http://www.javadoc.io/badge/com.nepxion/discovery-plugin-framework-starter.svg)](http://www.javadoc.io/doc/com.nepxion/discovery-plugin-framework-starter)  [![Build Status](https://github.com/Nepxion/Discovery/workflows/build/badge.svg)](https://github.com/Nepxion/Discovery/actions)  [![Codacy Badge](https://app.codacy.com/project/badge/Grade/5c42eb719ef64def9cad773abd877e8b)](https://www.codacy.com/gh/Nepxion/Discovery/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nepxion/Discovery&amp;utm_campaign=Badge_Grade)  [![Stars](https://img.shields.io/github/stars/Nepxion/Discovery.svg?label=Stars&style=flat&logo=GitHub)](https://github.com/Nepxion/Discovery/stargazers)  [![Stars](https://gitee.com/Nepxion/Discovery/badge/star.svg?theme=gvp)](https://gitee.com/Nepxion/Discovery/stargazers)
 
 <!-- [![Spring Boot](https://img.shields.io/maven-central/v/org.springframework.boot/spring-boot-dependencies.svg?label=Spring%20Boot&logo=Spring)](https://search.maven.org/artifact/org.springframework.boot/spring-boot-dependencies)  [![Spring Cloud](https://img.shields.io/maven-central/v/org.springframework.cloud/spring-cloud-dependencies.svg?label=Spring%20Cloud&logo=Spring)](https://search.maven.org/artifact/org.springframework.cloud/spring-cloud-dependencies)  [![Spring Cloud Alibaba](https://img.shields.io/maven-central/v/com.alibaba.cloud/spring-cloud-alibaba-dependencies.svg?label=Spring%20Cloud%20Alibaba&logo=Spring)](https://search.maven.org/artifact/com.alibaba.cloud/spring-cloud-alibaba-dependencies)  [![Nepxion Discovery](https://img.shields.io/maven-central/v/com.nepxion/discovery.svg?label=Nepxion%20Discovery&logo=Anaconda)](https://search.maven.org/artifact/com.nepxion/discovery) -->
 
@@ -32,7 +32,7 @@
 | 框架名称 | 框架版本 | 支持Spring Cloud版本 | 使用许可 |
 | --- | --- | --- | --- |
 | Discovery | 1.x.x ~ 6.x.x | Camden ~ Hoxton | 开源，永久免费 |
-| DiscoveryX | 7.x.x ~ 10.x.x | 2020 ~ 2023 | 闭源，商业许可 |
+| DiscoveryX | 7.x.x + | 2020 + | 闭源，商业许可 |
 
 ② Polaris系列
 
@@ -48,7 +48,7 @@ Polaris为Discovery高级定制版，特色功能
 | 框架名称 | 框架版本 | 支持Discovery版本 | 支持Spring Cloud版本 | 使用许可 |
 | --- | --- | --- | --- | --- |
 | Polaris | 1.x.x | 6.x.x | Finchley ~ Hoxton | 闭源，商业许可 |
-| Polaris | 2.x.x | 7.x.x ~ 10.x.x | 2020 ~ 2023 | 闭源，商业许可 |
+| Polaris | 2.x.x | 7.x.x + | 2020 + | 闭源，商业许可 |
 
 有商业版需求的企业和用户，请添加微信1394997，联系作者，洽谈合作事宜
 
@@ -84,7 +84,7 @@ Polaris为Discovery高级定制版，特色功能
     - [极简版非域网关部署指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-simple-non-domain-gateway)，分支为6.x.x-simple-non-domain-gateway
     - [集成版指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x)，分支为6.x.x
     - [高级版指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/6.x.x-complex)，分支为6.x.x-complex
-- Spring Cloud 202x版本
+- Spring Cloud 20xx版本
     - [极简版指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/master-simple)，分支为master-simple
     - [极简版本地化指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/master-simple-native)，分支为master-simple-native
     - [集成版指南示例](https://github.com/Nepxion/DiscoveryGuide/tree/master)，分支为master
@@ -105,7 +105,7 @@ Polaris为Discovery高级定制版，特色功能
 ④ 指南示例说明
 - Spring Cloud Finchley ~ Hoxton版本
     - [指南示例](https://github.com/polaris-paas/polaris-guide/tree/1.x.x)，分支为1.x.x
-- Spring Cloud 202x版本
+- Spring Cloud 20xx版本
     - [指南示例](https://github.com/polaris-paas/polaris-guide/tree/master)，分支为master
 
 ### 功能概述
@@ -122,7 +122,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 - 支持Spring Spel解决蓝绿灰度参数的驱动逻辑
 - 支持Spring Matcher解决元数据匹配的通配逻辑
 - 支持Spring Cloud Gateway、Zuul网关和微服务三大模块的蓝绿灰度发布等一系列功能
-- 支持和兼容Spring Cloud Edgware版、Finchley版、Greenwich版、Hoxton版和202x版以及更高的Spring Cloud版本
+- 支持和兼容Spring Cloud Edgware版、Finchley版、Greenwich版、Hoxton版和20xx版以及更高的Spring Cloud版本
 - 支持和兼容Java8～Java17以及更高的SDK版本
 
 ![](https://nepxion.github.io/Discovery/docs/discovery-doc/Diagram.jpg)
@@ -272,11 +272,11 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | 9.0.0<br>商业版 | DiscoveryX/9.x.x | ![](https://nepxion.github.io/Discovery/docs/icon-doc/confirm_24.png) | 2022.x.x | 3.1.x<br>3.0.x | 2022.x.x.x |
 | 8.0.0<br>商业版 | DiscoveryX/8.x.x | ![](https://nepxion.github.io/Discovery/docs/icon-doc/confirm_24.png) | 2021.x.x | 2.7.x<br>2.6.x | 2021.x.x.x |
 | 7.0.0<br>商业版 | DiscoveryX/7.x.x | ![](https://nepxion.github.io/Discovery/docs/icon-doc/confirm_24.png) | 2020.x.x | 2.5.x<br>2.4.1 `↑` | 2021.x |
-| 6.21.0 | Discovery/6.x.x | ![](https://nepxion.github.io/Discovery/docs/icon-doc/confirm_24.png) | Hoxton.SR5 `↑`<br>Hoxton<br>Greenwich<br>Finchley | 2.3.x.RELEASE<br>2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.7.RELEASE `↑` |
-| 6.12.11 `↓` | Discovery/6.x.x | ![](https://nepxion.github.io/Discovery/docs/icon-doc/confirm_24.png) | Hoxton.SR5 `↑`<br>Hoxton<br>Greenwich<br>Finchley | 2.3.x.RELEASE<br>2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.6.RELEASE `↓`<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
+| 6.22.0 | Discovery/6.x.x | ![](https://nepxion.github.io/Discovery/docs/icon-doc/confirm_24.png) | Hoxton.SR5 `↑`<br>Hoxton<br>Greenwich<br>Finchley | 2.3.x.RELEASE<br>2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.7.RELEASE `↑` |
+| 6.12.12 `↓` | Discovery/6.x.x | ![](https://nepxion.github.io/Discovery/docs/icon-doc/confirm_24.png) | Hoxton.SR5 `↑`<br>Hoxton<br>Greenwich<br>Finchley | 2.3.x.RELEASE<br>2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.6.RELEASE `↓`<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
 | ~~5.6.0~~ | ~~Discovery/5.x.x~~ | ![](https://nepxion.github.io/Discovery/docs/icon-doc/delete_24.png) | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
 | ~~4.15.0~~ | ~~Discovery/4.x.x~~ | ![](https://nepxion.github.io/Discovery/docs/icon-doc/delete_24.png) | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
-| 3.38.0 | Discovery/3.x.x | ![](https://nepxion.github.io/Discovery/docs/icon-doc/arrow_up_24.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
+| 3.39.0 | Discovery/3.x.x | ![](https://nepxion.github.io/Discovery/docs/icon-doc/arrow_up_24.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
 | ~~2.0.x~~ | ~~Discovery/2.x.x~~ | ![](https://nepxion.github.io/Discovery/docs/icon-doc/delete_24.png) | Dalston | 1.x.x.RELEASE | 1.5.x.RELEASE |
 | ~~1.0.x~~ | ~~Discovery/1.x.x~~ | ![](https://nepxion.github.io/Discovery/docs/icon-doc/delete_24.png) | Camden | 1.x.x.RELEASE | 1.5.x.RELEASE |
 
@@ -1147,7 +1147,7 @@ zuul
 
 ![](https://nepxion.github.io/Discovery/docs/icon-doc/warning.png) 注意事项
 
-对于Spring Cloud 202x版，由于它采用的负载均衡Spring Cloud LoadBalancer是基于异步的WebFlux，所以必须加上DiscoveryAgent，如下
+对于Spring Cloud 20xx版，由于它采用的负载均衡Spring Cloud LoadBalancer是基于异步的WebFlux，所以必须加上DiscoveryAgent，如下
 
 ```
 -javaagent:C:/opt/discovery-agent/discovery-agent-starter-${discovery.agent.version}.jar
@@ -2919,7 +2919,7 @@ public ServiceStrategyRouteFilter serviceStrategyRouteFilter() {
 #### 全链路负载均衡策略类触发蓝绿灰度发布
 ![](https://nepxion.github.io/Discovery/docs/icon-doc/warning.png) 注意事项
 
-对于Spring Cloud 202x版，由于它已经移除了Ribbon，所以apply(Server server)方法上的入参，com.netflix.loadbalancer.Server需要改成org.springframework.cloud.client.ServiceInstance
+对于Spring Cloud 20xx版，由于它已经移除了Ribbon，所以apply(Server server)方法上的入参，com.netflix.loadbalancer.Server需要改成org.springframework.cloud.client.ServiceInstance
 
 下面代码既适用于Spring Cloud Gateway和Zuul网关，也适用于微服务，继承DefaultDiscoveryEnabledStrategy，可以有多个，通过@Bean方式注入
 ```java
@@ -5282,7 +5282,7 @@ agent.plugin.thread.scan.packages=reactor.core.publisher;org.springframework.aop
 
 ③ 安装校验
 
-Spring Cloud 202x版的应用上支持如下配置，一般通过-Dspring.application.strategy.agent.validation.enabled=true或者false来启动和关闭
+Spring Cloud 20xx版的应用上支持如下配置，一般通过-Dspring.application.strategy.agent.validation.enabled=true或者false来启动和关闭
 ```
 # 启动和关闭DiscoveryAgent安装校验，一旦启动，如果未安装DiscoveryAgent，则抛错退出应用，该配置只适用于Spring Cloud 202x版。缺失则默认为true
 # spring.application.strategy.agent.validation.enabled=true
@@ -7141,7 +7141,7 @@ spring.application.group.generator.character=-
 
 ![](https://nepxion.github.io/Discovery/docs/icon-doc/warning.png) 注意事项
 
-Program arguments方式，支持Eureka、Zookeeper、Nacos和Spring Cloud 202x版的Consul增量覆盖模式，而Spring Cloud Hoxton版的Consul采用全量覆盖的Tag方式，故不适用改变单个元数据的方式进行设置
+Program arguments方式，支持Eureka、Zookeeper、Nacos和Spring Cloud 20xx版的Consul增量覆盖模式，而Spring Cloud Hoxton版的Consul采用全量覆盖的Tag方式，故不适用改变单个元数据的方式进行设置
 
 ### 基于配置文件创建版本号
 ① 统一设置
@@ -7927,7 +7927,7 @@ spring.cloud.nacos.discovery.metadata.active=true
 
 ![](https://nepxion.github.io/Discovery/docs/icon-doc/warning.png) 注意事项
 
-对于Spring Cloud 202x版，由于它重构了Consul元数据的方式，需要通过如下方式配置
+对于Spring Cloud 20xx版，由于它重构了Consul元数据的方式，需要通过如下方式配置
 
 ```
 # Consul config for discovery
