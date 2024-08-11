@@ -6,7 +6,7 @@
     <name>Nepxion Discovery</name>
     <packaging>pom</packaging>
     <modelVersion>4.0.0</modelVersion>
-    <version>3.38.0</version>
+    <version>3.39.0</version>
     <description>Nepxion Discovery is a solution for Spring Cloud with blue green, gray, weight, limitation, circuit breaker, degrade, isolation, monitor, tracing, dye, failover, async agent</description>
     <url>http://www.nepxion.com</url>
 
