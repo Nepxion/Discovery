@@ -19,7 +19,6 @@ import com.nepxion.discovery.common.entity.WeightFilterEntity;
 import com.nepxion.discovery.plugin.framework.loadbalance.DiscoveryEnabledLoadBalance;
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.RuleWeightRandomLoadBalance;
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.StrategyWeightRandomLoadBalance;
-import com.netflix.loadbalancer.ILoadBalancer;
 import com.netflix.loadbalancer.PredicateBasedRule;
 import com.netflix.loadbalancer.Server;
 
@@ -40,54 +39,62 @@ public abstract class PredicateBasedRuleDecorator extends PredicateBasedRule {
 
     @Override
     public Server choose(Object key) {
+        List<Server> serverList = getServerList(key);
+
         boolean isTriggered = false;
 
         WeightFilterEntity strategyWeightFilterEntity = strategyWeightRandomLoadBalance.getT();
         if (strategyWeightFilterEntity != null && strategyWeightFilterEntity.hasWeight()) {
             isTriggered = true;
 
-            List<Server> serverList = getServerList(key);
             boolean isWeightChecked = strategyWeightRandomLoadBalance.checkWeight(serverList, strategyWeightFilterEntity);
             if (isWeightChecked) {
                 try {
-                    return strategyWeightRandomLoadBalance.choose(serverList, strategyWeightFilterEntity);
+                    List<Server> filterServerList = filterEnabledServers(serverList);
+
+                    return strategyWeightRandomLoadBalance.choose(filterServerList, strategyWeightFilterEntity);
                 } catch (Exception e) {
-                    return filterChoose(key);
+                    return filterChoose(serverList, key);
                 }
             } else {
-                return filterChoose(key);
+                return filterChoose(serverList, key);
             }
         }
 
         if (!isTriggered) {
             WeightFilterEntity ruleWeightFilterEntity = ruleWeightRandomLoadBalance.getT();
             if (ruleWeightFilterEntity != null && ruleWeightFilterEntity.hasWeight()) {
-                List<Server> serverList = getServerList(key);
                 boolean isWeightChecked = ruleWeightRandomLoadBalance.checkWeight(serverList, ruleWeightFilterEntity);
                 if (isWeightChecked) {
                     try {
-                        return ruleWeightRandomLoadBalance.choose(serverList, ruleWeightFilterEntity);
+                        List<Server> filterServerList = filterEnabledServers(serverList);
+
+                        return ruleWeightRandomLoadBalance.choose(filterServerList, ruleWeightFilterEntity);
                     } catch (Exception e) {
-                        return filterChoose(key);
+                        return filterChoose(serverList, key);
                     }
                 } else {
-                    return filterChoose(key);
+                    return filterChoose(serverList, key);
                 }
             }
         }
 
-        return filterChoose(key);
+        return filterChoose(serverList, key);
     }
 
-    public Server filterChoose(Object key) {
-        ILoadBalancer lb = getLoadBalancer();
-
+    public List<Server> filterEnabledServers(List<Server> servers) {
         List<Server> serverList = new ArrayList<Server>();
-        serverList.addAll(lb.getAllServers());
+        serverList.addAll(servers);
 
         if (discoveryEnabledLoadBalance != null) {
             discoveryEnabledLoadBalance.filter(serverList);
         }
+
+        return serverList;
+    }
+
+    public Server filterChoose(List<Server> servers, Object key) {
+        List<Server> serverList = filterEnabledServers(servers);
 
         Optional<Server> server = getPredicate().chooseRoundRobinAfterFiltering(serverList, key);
         if (server.isPresent()) {
