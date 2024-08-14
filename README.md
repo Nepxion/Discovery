@@ -6338,7 +6338,12 @@ n-d-address-blacklist - IP地址和端口屏蔽值
 ![](https://nepxion.github.io/Discovery/docs/discovery-doc/SkyWalking2.jpg)
 
 #### 蓝绿灰度埋点Debug辅助监控
-Debug辅助监控只是通过日志方式输出，便于开发人员在IDE上调试，在生产环境下不建议开启
+Debug辅助监控只是通过日志方式输出，便于开发人员在IDE上调试，在生产环境下不建议开启。有如下两种方式，效果等同，如果两种方式都配置且值互斥，以第一种方式为准
+
+对于Debug辅助监控功能的开启和关闭，需要通过如下参数做控制
+```
+-Dstrategy.debug=true
+```
 
 对于Debug辅助监控功能的开启和关闭，需要通过如下开关做控制
 ```
