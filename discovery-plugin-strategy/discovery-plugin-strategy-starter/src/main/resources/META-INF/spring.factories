@@ -1,2 +1,5 @@
+org.springframework.boot.env.EnvironmentPostProcessor=\
+com.nepxion.discovery.plugin.strategy.context.StrategyEnvironmentPostProcessor
+
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.nepxion.discovery.plugin.strategy.configuration.StrategyAutoConfiguration
