@@ -721,10 +721,10 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
         - [Sentinel熔断指标监控](#Sentinel熔断指标监控)
     - [全链路告警监控](#全链路告警监控)
         - [蓝绿灰度告警监控](#蓝绿灰度告警监控)
-- [全链路蓝绿灰度发布平台界面](#全链路蓝绿灰度发布平台界面)
-- [全链路蓝绿灰度发布图形化桌面](#全链路蓝绿灰度发布图形化桌面)
 - [全链路数据库和消息队列蓝绿发布](#全链路数据库和消息队列蓝绿发布)
 - [全链路服务侧注解](#全链路服务侧注解)
+- [全链路蓝绿灰度发布平台界面](#全链路蓝绿灰度发布平台界面)
+- [全链路蓝绿灰度发布图形化桌面](#全链路蓝绿灰度发布图形化桌面)
 - [元数据流量染色](#元数据流量染色)
     - [基于Git插件自动创建版本号](#基于Git插件自动创建版本号)
     - [基于服务名前缀自动创建组名](#基于服务名前缀自动创建组名)
@@ -6746,20 +6746,6 @@ com.nepxion.discovery.plugin.strategy.monitor.DefaultStrategyAlarm
 {trace-id=9ae10a3c0a67766e, span-id=84ed85ef34a859a9, n-d-service-group=discovery-guide-group, n-d-service-type=service, n-d-service-id=discovery-guide-service-a, n-d-service-address=192.168.31.237:3001, n-d-service-version=1.0, n-d-service-region=dev, n-d-service-env=env1, n-d-service-zone=zone1, n-d-version={"discovery-guide-service-a":"1.0", "discovery-guide-service-b":"1.0"}, class=com.nepxion.discovery.guide.service.feign.AFeignImpl, method=invoke}
 ```
 
-## 全链路蓝绿灰度发布平台界面
-![](https://nepxion.github.io/Discovery/docs/icon-doc/information.png) 请访问[Discovery Platform WIKI](https://nepxion.github.io/DiscoveryPlatform)
-
-![](https://nepxion.github.io/DiscoveryPlatform/docs/discovery-doc/BlueGreenGray-5.jpg)
-
-## 全链路蓝绿灰度发布图形化桌面
-![](https://nepxion.github.io/Discovery/docs/icon-doc/information.png) 请访问[Discovery Desktop WIKI](https://nepxion.github.io/DiscoveryDesktop)
-
-![](https://nepxion.github.io/DiscoveryDesktop/docs/discovery-doc/DiscoveryDesktop10.jpg)
-
-![](https://nepxion.github.io/DiscoveryDesktop/docs/discovery-doc/DiscoveryDesktop14.jpg)
-
-![](https://nepxion.github.io/DiscoveryDesktop/docs/discovery-doc/DiscoveryDesktop17.jpg)
-
 ## 全链路数据库和消息队列蓝绿发布
 通过订阅相关参数的变化，实现参数化蓝绿发布，可用于如下场景
 
@@ -6830,6 +6816,20 @@ spring.application.parameter.event.onstart.enabled=true
 spring.application.strategy.scan.packages=com.nepxion.discovery.guide.service.feign
 ```
 当使用者不希望只局限于RestController类（含有@RestController注解）方式，而要求在任何类中实现上述功能，那么框架提供@ServiceStrategy注解，使用者把它加在类头部即可，可以达到和@RestController注解同样的效果
+
+## 全链路蓝绿灰度发布平台界面
+![](https://nepxion.github.io/Discovery/docs/icon-doc/information.png) 请访问[Discovery Platform WIKI](https://nepxion.github.io/DiscoveryPlatform)
+
+![](https://nepxion.github.io/DiscoveryPlatform/docs/discovery-doc/BlueGreenGray-5.jpg)
+
+## 全链路蓝绿灰度发布图形化桌面
+![](https://nepxion.github.io/Discovery/docs/icon-doc/information.png) 请访问[Discovery Desktop WIKI](https://nepxion.github.io/DiscoveryDesktop)
+
+![](https://nepxion.github.io/DiscoveryDesktop/docs/discovery-doc/DiscoveryDesktop10.jpg)
+
+![](https://nepxion.github.io/DiscoveryDesktop/docs/discovery-doc/DiscoveryDesktop14.jpg)
+
+![](https://nepxion.github.io/DiscoveryDesktop/docs/discovery-doc/DiscoveryDesktop17.jpg)
 
 ## 元数据流量染色
 
