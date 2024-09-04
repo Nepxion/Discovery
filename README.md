@@ -66,8 +66,9 @@ Polaris为Discovery高级定制版，特色功能
 ③ 最佳实践
 - [最佳实践PPT版](https://nepxion.github.io/Discovery/docs/link-doc/discovery-ppt-1.html)
 
-④ 平台界面
+④ 平台桌面
 - [平台界面WIKI版](http://nepxion.com/discovery-platform)
+- [图形桌面WIKI版](http://nepxion.com/discovery-desktop)
 
 ⑤ 框架源码
 - [框架源码Github版](https://github.com/Nepxion/Discovery)
