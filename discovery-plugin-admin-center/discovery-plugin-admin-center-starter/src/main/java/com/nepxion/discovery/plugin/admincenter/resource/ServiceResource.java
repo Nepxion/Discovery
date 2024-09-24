@@ -17,6 +17,7 @@ import org.springframework.cloud.client.ServiceInstance;
 import com.nepxion.discovery.common.entity.DiscoveryType;
 import com.nepxion.discovery.common.entity.GatewayType;
 import com.nepxion.discovery.common.entity.InstanceEntity;
+import com.nepxion.discovery.common.entity.MetadataParameter;
 import com.nepxion.discovery.common.entity.ServiceType;
 
 public interface ServiceResource {
@@ -41,4 +42,8 @@ public interface ServiceResource {
     List<InstanceEntity> getInstanceList(String serviceId);
 
     Map<String, List<InstanceEntity>> getInstanceMap(List<String> groups);
+
+    Map<String, List<String>> getMetadataMap(String metadataKey, List<String> serviceIds);
+
+    Map<String, List<String>> getMetadataMap(MetadataParameter metadataParameter);
 }

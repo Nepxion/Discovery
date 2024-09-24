@@ -22,11 +22,13 @@ import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.discovery.composite.CompositeDiscoveryClient;
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.delegate.DiscoveryClientDelegate;
 import com.nepxion.discovery.common.entity.DiscoveryType;
 import com.nepxion.discovery.common.entity.GatewayType;
 import com.nepxion.discovery.common.entity.InstanceEntity;
 import com.nepxion.discovery.common.entity.InstanceEntityWrapper;
+import com.nepxion.discovery.common.entity.MetadataParameter;
 import com.nepxion.discovery.common.entity.ServiceType;
 
 public class ServiceResourceImpl implements ServiceResource {
@@ -78,9 +80,8 @@ public class ServiceResourceImpl implements ServiceResource {
         for (String service : services) {
             List<InstanceEntity> instanceEntityList = getInstanceList(service);
             for (InstanceEntity instance : instanceEntityList) {
-                String plugin = instance.getPlugin();
                 String group = instance.getGroup();
-                if (StringUtils.isNotEmpty(plugin) && !groupList.contains(group)) {
+                if (!groupList.contains(group)) {
                     groupList.add(group);
                 }
             }
@@ -275,9 +276,8 @@ public class ServiceResourceImpl implements ServiceResource {
             List<InstanceEntity> instanceEntityList = getInstanceList(service);
             if (CollectionUtils.isNotEmpty(groups)) {
                 for (InstanceEntity instance : instanceEntityList) {
-                    String plugin = instance.getPlugin();
                     String group = instance.getGroup();
-                    if (StringUtils.isNotEmpty(plugin) && groups.contains(group)) {
+                    if (groups.contains(group)) {
                         List<InstanceEntity> instanceList = instanceMap.get(service);
                         if (instanceList == null) {
                             instanceList = new ArrayList<InstanceEntity>();
@@ -292,5 +292,82 @@ public class ServiceResourceImpl implements ServiceResource {
         }
 
         return instanceMap;
+    }
+
+    @Override
+    public Map<String, List<String>> getMetadataMap(String metadataKey, List<String> serviceIds) {
+        Map<String, List<String>> metadataMap = new LinkedHashMap<String, List<String>>(serviceIds.size());
+        for (String serviceId : serviceIds) {
+            List<InstanceEntity> instanceEntityList = getInstanceList(serviceId);
+            for (InstanceEntity instance : instanceEntityList) {
+                List<String> metadataList = metadataMap.get(serviceId);
+                if (metadataList == null) {
+                    metadataList = new ArrayList<String>();
+                    metadataMap.put(serviceId, metadataList);
+                }
+                String metadataValue = null;
+                if (StringUtils.equals(metadataKey, DiscoveryConstant.HOST + ":" + DiscoveryConstant.PORT)) {
+                    metadataValue = instance.getHost() + ":" + instance.getPort();
+                } else if (StringUtils.equals(metadataKey, DiscoveryConstant.HOST)) {
+                    metadataValue = instance.getHost();
+                } else if (StringUtils.equals(metadataKey, DiscoveryConstant.PORT)) {
+                    metadataValue = String.valueOf(instance.getPort());
+                } else {
+                    metadataValue = instance.getMetadata().get(metadataKey);
+                }
+                if (!metadataList.contains(metadataValue)) {
+                    if (StringUtils.isNotEmpty(metadataValue)) {
+                        metadataList.add(metadataValue);
+                    }
+                }
+            }
+        }
+
+        return metadataMap;
+    }
+
+    @Override
+    public Map<String, List<String>> getMetadataMap(MetadataParameter metadataParameter) {
+        List<String> metadataKeys = metadataParameter.getMetadataKeys();
+        List<String> serviceIds = metadataParameter.getServiceIds();
+        String separate = metadataParameter.getSeparate();
+        Map<String, List<String>> metadataMap = new LinkedHashMap<String, List<String>>(serviceIds.size());
+        for (String serviceId : serviceIds) {
+            List<InstanceEntity> instanceEntityList = getInstanceList(serviceId);
+            for (InstanceEntity instance : instanceEntityList) {
+                List<String> metadataList = metadataMap.get(serviceId);
+                if (metadataList == null) {
+                    metadataList = new ArrayList<String>();
+                    metadataMap.put(serviceId, metadataList);
+                }
+                StringBuilder stringBuilder = new StringBuilder();
+                int index = 0;
+                for (String metadataKey : metadataKeys) {
+                    if (StringUtils.equals(metadataKey, DiscoveryConstant.HOST + ":" + DiscoveryConstant.PORT)) {
+                        stringBuilder.append(instance.getHost() + ":" + instance.getPort());
+                    } else if (StringUtils.equals(metadataKey, DiscoveryConstant.HOST)) {
+                        stringBuilder.append(instance.getHost());
+                    } else if (StringUtils.equals(metadataKey, DiscoveryConstant.PORT)) {
+                        stringBuilder.append(instance.getPort());
+                    } else {
+                        stringBuilder.append(instance.getMetadata().get(metadataKey));
+                    }
+                    if (index < metadataKeys.size() - 1) {
+                        stringBuilder.append(separate);
+                    }
+
+                    index++;
+                }
+
+                String metadataValues = stringBuilder.toString();
+                if (!metadataList.contains(metadataValues)) {
+                    if (StringUtils.isNotEmpty(metadataValues)) {
+                        metadataList.add(metadataValues);
+                    }
+                }
+            }
+        }
+
+        return metadataMap;
     }
 }
