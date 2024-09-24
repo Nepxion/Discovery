@@ -10,7 +10,7 @@ package com.nepxion.discovery.common.constant;
  */
 
 public class DiscoveryConstant {
-    public static final String DISCOVERY_VERSION = "3.40.0";
+    public static final String DISCOVERY_VERSION = "3.41.0-SNAPSHOT";
 
     public static final String NEPXION = "nepxion";
     public static final String NEPXION_UPPERCASE = "NEPXION";
