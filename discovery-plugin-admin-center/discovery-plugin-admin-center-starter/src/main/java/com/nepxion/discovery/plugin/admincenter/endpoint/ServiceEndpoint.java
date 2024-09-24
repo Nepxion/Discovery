@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nepxion.discovery.common.entity.GatewayType;
 import com.nepxion.discovery.common.entity.InstanceEntity;
+import com.nepxion.discovery.common.entity.MetadataParameter;
 import com.nepxion.discovery.common.entity.ServiceType;
 import com.nepxion.discovery.common.util.ResponseUtil;
 import com.nepxion.discovery.plugin.admincenter.resource.ServiceResource;
@@ -99,6 +100,18 @@ public class ServiceEndpoint {
     @ResponseBody
     public ResponseEntity<?> instanceMap(@RequestBody List<String> groups) {
         return doInstanceMap(groups);
+    }
+
+    @RequestMapping(path = "/metadata-map/{metadataKey}", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<?> metadataMap(@PathVariable(value = "metadataKey") String metadataKey, @RequestBody List<String> serviceIds) {
+        return doMetadataMap(metadataKey, serviceIds);
+    }
+
+    @RequestMapping(path = "/metadata-map", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<?> metadataMap(@RequestBody MetadataParameter metadataParameter) {
+        return doMetadataMap(metadataParameter);
     }
 
     private ResponseEntity<?> doDiscoveryType() {
@@ -221,6 +234,26 @@ public class ServiceEndpoint {
             Map<String, List<InstanceEntity>> instanceMaps = serviceResource.getInstanceMap(groups);
 
             return ResponseUtil.getSuccessResponse(instanceMaps);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
+    }
+
+    private ResponseEntity<?> doMetadataMap(String metadataKey, List<String> serviceIds) {
+        try {
+            Map<String, List<String>> metadataMap = serviceResource.getMetadataMap(metadataKey, serviceIds);
+
+            return ResponseUtil.getSuccessResponse(metadataMap);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
+    }
+
+    private ResponseEntity<?> doMetadataMap(MetadataParameter metadataParameter) {
+        try {
+            Map<String, List<String>> metadataMap = serviceResource.getMetadataMap(metadataParameter);
+
+            return ResponseUtil.getSuccessResponse(metadataMap);
         } catch (Exception e) {
             return ResponseUtil.getFailureResponse(e);
         }

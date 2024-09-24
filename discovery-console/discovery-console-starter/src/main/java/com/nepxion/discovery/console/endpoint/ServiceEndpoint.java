@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nepxion.discovery.common.entity.GatewayType;
 import com.nepxion.discovery.common.entity.InstanceEntity;
+import com.nepxion.discovery.common.entity.MetadataParameter;
 import com.nepxion.discovery.common.entity.ServiceType;
 import com.nepxion.discovery.common.util.ResponseUtil;
 import com.nepxion.discovery.console.resource.ServiceResource;
@@ -115,6 +116,20 @@ public class ServiceEndpoint {
     @ResponseBody
     public ResponseEntity<?> instanceMap(@RequestBody @ApiParam(value = "服务组名列表，传入空列则可以获取全部服务实例数据", required = true) List<String> groups) {
         return doInstanceMap(groups);
+    }
+
+    @RequestMapping(path = "/metadata-map/{metadataKey}", method = RequestMethod.POST)
+    @ApiOperation(value = "获取注册中心的服务实例元数据值列表的Map（值包含单个元数据）", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    public ResponseEntity<?> metadataMap(@PathVariable(value = "metadataKey") @ApiParam(value = "元数据键名", required = true) String metadataKey, @RequestBody @ApiParam(value = "服务名列表", required = true) List<String> serviceIds) {
+        return doMetadataMap(metadataKey, serviceIds);
+    }
+
+    @RequestMapping(path = "/metadata-map", method = RequestMethod.POST)
+    @ApiOperation(value = "获取注册中心的服务实例元数据值列表的Map（值包含多个元数据，通过分隔符分隔）", notes = "", response = ResponseEntity.class, httpMethod = "POST")
+    @ResponseBody
+    public ResponseEntity<?> metadataMap(@RequestBody @ApiParam(value = "元数据查询参数对象", required = true) MetadataParameter metadataParameter) {
+        return doMetadataMap(metadataParameter);
     }
 
     private ResponseEntity<?> doDiscoveryType() {
@@ -237,6 +252,26 @@ public class ServiceEndpoint {
             Map<String, List<InstanceEntity>> instanceMaps = serviceResource.getInstanceMap(groups);
 
             return ResponseUtil.getSuccessResponse(instanceMaps);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
+    }
+
+    private ResponseEntity<?> doMetadataMap(String metadataKey, List<String> serviceIds) {
+        try {
+            Map<String, List<String>> metadataMap = serviceResource.getMetadataMap(metadataKey, serviceIds);
+
+            return ResponseUtil.getSuccessResponse(metadataMap);
+        } catch (Exception e) {
+            return ResponseUtil.getFailureResponse(e);
+        }
+    }
+
+    private ResponseEntity<?> doMetadataMap(MetadataParameter metadataParameter) {
+        try {
+            Map<String, List<String>> metadataMap = serviceResource.getMetadataMap(metadataParameter);
+
+            return ResponseUtil.getSuccessResponse(metadataMap);
         } catch (Exception e) {
             return ResponseUtil.getFailureResponse(e);
         }
