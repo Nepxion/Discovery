@@ -4786,6 +4786,11 @@ spring.application.strategy.region.transfer.enabled=true
 ```
 通过在配置中心修改版本偏好值，可以达到动态区域调试路由的效果
 
+或者也可以通过前端传入区域调试转移Header
+```
+n-d-region-transfer=FAT
+```
+
 ③ 前端传入B服务的区域Header。由于A服务是调用起点，所以不需要配置A服务的值
 ```
 n-d-region={"service-b":"MyDEV"}
