@@ -20,6 +20,7 @@
 - 2021年阿里巴巴技术峰会上海站演讲嘉宾
 - 2021年荣获陆奇博士主持的奇绩资本，进行风险投资的关注和调研
 - 2021年入选Gitee最有价值开源项目
+- 2024年入围中国开源创新榜候选项目
 - 阿里巴巴官方书籍《Nacos架构与原理》作者之一
 - Spring Cloud Alibaba Steering Committer、Nacos Group Member
 - Spring Cloud Alibaba、Nacos、Sentinel、OpenTracing Committer & Contributor
@@ -273,11 +274,11 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
 | 9.0.0<br>商业版 | DiscoveryX/9.x.x | ![](https://nepxion.github.io/Discovery/docs/icon-doc/confirm_24.png) | 2022.x.x | 3.1.x<br>3.0.x | 2022.x.x.x |
 | 8.0.0<br>商业版 | DiscoveryX/8.x.x | ![](https://nepxion.github.io/Discovery/docs/icon-doc/confirm_24.png) | 2021.x.x | 2.7.x<br>2.6.x | 2021.x.x.x |
 | 7.0.0<br>商业版 | DiscoveryX/7.x.x | ![](https://nepxion.github.io/Discovery/docs/icon-doc/confirm_24.png) | 2020.x.x | 2.5.x<br>2.4.1 `↑` | 2021.x |
-| 6.22.0 | Discovery/6.x.x | ![](https://nepxion.github.io/Discovery/docs/icon-doc/confirm_24.png) | Hoxton.SR5 `↑`<br>Hoxton<br>Greenwich<br>Finchley | 2.3.x.RELEASE<br>2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.7.RELEASE `↑` |
-| 6.12.12 `↓` | Discovery/6.x.x | ![](https://nepxion.github.io/Discovery/docs/icon-doc/confirm_24.png) | Hoxton.SR5 `↑`<br>Hoxton<br>Greenwich<br>Finchley | 2.3.x.RELEASE<br>2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.6.RELEASE `↓`<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
+| 6.23.0 | Discovery/6.x.x | ![](https://nepxion.github.io/Discovery/docs/icon-doc/confirm_24.png) | Hoxton.SR5 `↑`<br>Hoxton<br>Greenwich<br>Finchley | 2.3.x.RELEASE<br>2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.7.RELEASE `↑` |
+| 6.12.13 `↓` | Discovery/6.x.x | ![](https://nepxion.github.io/Discovery/docs/icon-doc/confirm_24.png) | Hoxton.SR5 `↑`<br>Hoxton<br>Greenwich<br>Finchley | 2.3.x.RELEASE<br>2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.6.RELEASE `↓`<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
 | ~~5.6.0~~ | ~~Discovery/5.x.x~~ | ![](https://nepxion.github.io/Discovery/docs/icon-doc/delete_24.png) | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
 | ~~4.15.0~~ | ~~Discovery/4.x.x~~ | ![](https://nepxion.github.io/Discovery/docs/icon-doc/delete_24.png) | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
-| 3.40.0 | Discovery/3.x.x | ![](https://nepxion.github.io/Discovery/docs/icon-doc/arrow_up_24.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
+| 3.41.0 | Discovery/3.x.x | ![](https://nepxion.github.io/Discovery/docs/icon-doc/arrow_up_24.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
 | ~~2.0.x~~ | ~~Discovery/2.x.x~~ | ![](https://nepxion.github.io/Discovery/docs/icon-doc/delete_24.png) | Dalston | 1.x.x.RELEASE | 1.5.x.RELEASE |
 | ~~1.0.x~~ | ~~Discovery/1.x.x~~ | ![](https://nepxion.github.io/Discovery/docs/icon-doc/delete_24.png) | Camden | 1.x.x.RELEASE | 1.5.x.RELEASE |
 
