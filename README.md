@@ -530,7 +530,7 @@ Discovery【探索】微服务框架，基于Spring Cloud & Spring Cloud Alibaba
   </tbody>
 </table>
 
-为提供更好的专业级服务，请更多已经使用本框架的公司和企业联系我，并希望在[Github Issues](https://github.com/Nepxion/Discovery/issues/56)上登记
+为提供更好的专业级服务，请更多已经使用本框架的公司和企业联系我们，并希望在[Github Issues](https://github.com/Nepxion/Discovery/issues/56)上登记
 
 ### 落地案例
 ① 某大型银行信用卡新核心系统在生产环境接入Nepxion Discovery框架的服务实例数（包括异地双活，同城双活，多机房全部汇总）将近10000个
