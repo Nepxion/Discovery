@@ -5236,7 +5236,7 @@ Discovery框架存在着如下全链路传递上下文的场景，包括
 
 ThreadLocal的作用是提供线程内的局部变量，在多线程环境下访问时能保证各个线程内的ThreadLocal变量各自独立。在异步场景下，由于出现线程切换的问题，例如，主线程切换到子线程，会导致线程ThreadLocal上下文丢失。DiscoveryAgent通过Java Agent方式解决这些痛点
 
-涵盖所有Java框架的异步场景，解决如下9个异步场景下丢失线程ThreadLocal上下文的问题
+涵盖所有Java框架的异步场景，解决如下9个异步场景下丢失线程ThreadLocal上下文的问题，支持Java高版本的虚拟线程（Virtual Threads）
 - WebFlux Reactor
 - `@`Async
 - Hystrix Thread Pool Isolation
