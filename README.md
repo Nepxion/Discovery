@@ -5236,7 +5236,7 @@ Discovery框架存在着如下全链路传递上下文的场景，包括
 
 ThreadLocal的作用是提供线程内的局部变量，在多线程环境下访问时能保证各个线程内的ThreadLocal变量各自独立。在异步场景下，由于出现线程切换的问题，例如，主线程切换到子线程，会导致线程ThreadLocal上下文丢失。DiscoveryAgent通过Java Agent方式解决这些痛点
 
-涵盖所有Java框架的异步场景，解决如下9个异步场景下丢失线程ThreadLocal上下文的问题，支持Java高版本的虚拟线程（Virtual Threads）
+涵盖所有Java框架的异步场景，解决如下10个异步场景下丢失线程ThreadLocal上下文的问题
 - WebFlux Reactor
 - `@`Async
 - Hystrix Thread Pool Isolation
@@ -5245,6 +5245,7 @@ ThreadLocal的作用是提供线程内的局部变量，在多线程环境下访
 - Supplier
 - Single Thread
 - Thread Pool
+- Virtual Thread
 - SLF4J MDC
 
 ![](https://nepxion.github.io/Discovery/docs/icon-doc/warning.png) 注意事项
@@ -5266,6 +5267,7 @@ DiscoveryAgent不支持含有Lambda语法的异步代码。使用Lambda去实现
 # Base thread scan packages
 agent.plugin.thread.scan.packages=reactor.core.publisher;org.springframework.aop.interceptor;com.netflix.hystrix
 ```
+对于未引入Hystrix包的场景，建议删除`com.netflix.hystrix`
 
 基准扫描目录，含义如下
 - WebFlux Reactor异步场景下的扫描目录对应为reactor.core.publisher
@@ -5288,7 +5290,7 @@ agent.plugin.thread.scan.packages=reactor.core.publisher;org.springframework.aop
 
 ② 参数说明
 - C:/opt/discovery-agent：Agent所在的目录，需要对应到实际的目录上
-- `-D`thread.scan.packages：Runnable/Callable/Thread/ThreadPool等异步类所在的扫描目录，该目录下的异步类都会被装饰
+- `-D`thread.scan.packages：Runnable/Callable/Thread/ThreadPool/Virtual Thread等异步类所在的扫描目录，该目录下的异步类都会被装饰
     - 扫描目录最好精细和准确，目录越详细，越可以减少被装饰的对象数，从一定程度上可以提高性能
     - 扫描目录如果有多个，用“;”分隔
     - 扫描目录如果含有“;”，可能会在某些操作系统中无法被识别，请用`""`进行引入，例如，-Dthread.scan.packages="com.abc;com.xyz"
