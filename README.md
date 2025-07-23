@@ -5267,7 +5267,6 @@ DiscoveryAgent不支持含有Lambda语法的异步代码。使用Lambda去实现
 # Base thread scan packages
 agent.plugin.thread.scan.packages=reactor.core.publisher;org.springframework.aop.interceptor;com.netflix.hystrix
 ```
-对于未引入Hystrix包的场景，建议删除`com.netflix.hystrix`
 
 基准扫描目录，含义如下
 - WebFlux Reactor异步场景下的扫描目录对应为reactor.core.publisher
