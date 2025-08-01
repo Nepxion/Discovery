@@ -5250,7 +5250,36 @@ ThreadLocal的作用是提供线程内的局部变量，在多线程环境下访
 
 ![](https://nepxion.github.io/Discovery/docs/icon-doc/warning.png) 注意事项
 
-DiscoveryAgent不支持含有Lambda语法的异步代码。使用Lambda去实现的Runnable类会生成一个匿名内部类，这个匿名内部类和DiscoveryAgent使用的是不同的类加载器，导致DiscoveryAgent无法去修改Lambda表达式生成的Runnable的实现类
+DiscoveryAgent不支持含有Lambda语法的异步代码。使用Lambda去实现的Runnable/Callable类会生成一个匿名内部类，这个匿名内部类和DiscoveryAgent使用的是不同的类加载器，导致DiscoveryAgent无法去修改Lambda表达式生成的Runnable/Callable的实现类。具体原因如下：
+- 字节码生成时机问题
+  Lambda表达式在编译时不会生成完整的字节码，而是在运行时由JVM动态生成。Java Agent通常是在类加载时进行字节码转换，而此时Lambda表达式对应的实现类尚未生成
+
+- 匿名类的特殊处理
+  Lambda表达式在底层被编译为使用invokedynamic指令和匿名类实现。这些匿名类的生成发生在JVM运行时，而不是编译时，因此Java Agent无法在类加载阶段捕获和修改这些类
+
+- 方法句柄的复杂性
+  Lambda表达式依赖于方法句柄（MethodHandle）机制，这使得它们在字节码层面比普通方法调用更加复杂，难以被传统的字节码操作工具（如ASM）正确处理
+
+- 类加载顺序问题
+  Lambda表达式相关的类（如LambdaMetafactory）是由引导类加载器加载的，而Java Agent通常无法修改这些由引导类加载器加载的类
+
+某些JDK新特性的写法，可以改成如下形式，来规避Lambda表达式
+```java
+CompletableFuture.runAsync(new Runnable() {
+    @Override
+    public void run() {
+
+    }
+});
+
+CompletableFuture<String> completableFuture = CompletableFuture.supplyAsync(new Supplier<String>() {
+    @Override
+    public String get() {
+        return "";
+    }
+});	
+
+```
 
 #### 异步跨线程DiscoveryAgent获取
 插件获取方式有两种方式
